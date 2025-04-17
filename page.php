@@ -17,7 +17,7 @@
 
 			<?php
 
-			brk_breadcrumbs();
+			codeweber_breadcrumbs();
 
 			// Get this page slug
 			$slug = $post->post_name;

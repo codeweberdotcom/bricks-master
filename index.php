@@ -4,7 +4,7 @@
 
 	<div class="container">
 
-		<?php brk_breadcrumbs(); ?>
+		<?php codeweber_breadcrumbs(); ?>
 
 		<div class="row py-5">
 

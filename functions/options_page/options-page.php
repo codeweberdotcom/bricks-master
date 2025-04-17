@@ -185,7 +185,7 @@ function run_gulp_task()
    }
 
    // Команда для запуска Gulp
-   $command = 'cd ' . ABSPATH . 'wp-content/themes/bricks-master/src/ && gulp build:dist 2>&1';
+   $command = 'cd ' . ABSPATH . 'wp-content/themes/codeweber-main/src/ && gulp build:dist 2>&1';
 
    // Переменные для вывода и кода завершения
    $output = [];

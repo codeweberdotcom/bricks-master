@@ -2,11 +2,9 @@
 
 function cptui_register_my_cpts_staff()
 {
-
 	/**
 	 * Post Type: Staff.
 	 */
-
 	$labels = [
 		"name" => esc_html__("Staff", "codeweber"),
 		"singular_name" => esc_html__("Staff", "codeweber"),

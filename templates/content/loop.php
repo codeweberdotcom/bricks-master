@@ -7,7 +7,7 @@
 	<a href="<?php the_permalink(); ?>">
 		<?php
 		the_post_thumbnail(
-			'brk_single',
+			'codeweber_single',
 			array(
 				'class' => 'img-fluid mb-3',
 				'alt' => get_the_title(),

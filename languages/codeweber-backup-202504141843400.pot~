@@ -1,0 +1,2675 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Codeweber\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-03 11:46+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.14; wp-6.7.1\n"
+"X-Domain: codeweber"
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:413
+#, php-format
+msgid "%s Archive Footer Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:292
+#, php-format
+msgid "%s Archive Header Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:354
+#, php-format
+msgid "%s Archive Page Header Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:235
+#, php-format
+msgid "%s Archive Sidebar Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:386
+#, php-format
+msgid "%s Settings Footer"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:263
+#, php-format
+msgid "%s Settings Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:325
+#, php-format
+msgid "%s Settings Page Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:209
+#, php-format
+msgid "%s Settings Sidebar"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:389
+#, php-format
+msgid "%s Single Footer Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:266
+#, php-format
+msgid "%s Single Header Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:328
+#, php-format
+msgid "%s Single Page Header Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:212
+#, php-format
+msgid "%s Single Sidebar Settings"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:21
+msgid "(e.g. No Service found in Trash)"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:20
+msgid "(e.g. No Service found)"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:21
+msgid "(e.g. No Staff found in Trash)"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:20
+msgid "(e.g. No Staff found)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/contacts.php:23
+#: redux-framework/sample/sections/codeweber/contacts.php:31
+#: redux-framework/sample/sections/codeweber/contacts.php:38
+#: redux-framework/sample/sections/codeweber/contacts.php:45
+#: redux-framework/sample/sections/codeweber/contacts.php:52
+msgid "+7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:30
+msgid "A custom post type for managing office locations"
+msgstr ""
+
+#. Description of the theme
+msgid "A modular WordPress starter theme powered by Bootstrap 5 and Gulp"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:323
+msgid "About"
+msgstr ""
+
+#: functions/lib/class-wp-bootstrap-navwalker.php:431
+#: functions/lib/class-wp-bootstrap-navwalker_original.php:426
+#: functions/lib/class-wp-bootstrap-navwalker_original.php:426
+msgid "Add a menu"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:15
+msgid "Add Client"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:15
+msgid "Add Html Block"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:14
+msgid "Add New"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:63
+msgid "Add New Category Doc"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:14
+msgid "Add New Client"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:9 functions/cpt/cpt-docs.php:10
+msgid "Add New Doc"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:12 functions/cpt/cpt-faq.php:13
+msgid "Add New FAQ"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:57
+msgid "Add New FAQ Category"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:91
+msgid "Add New FAQ Tag"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:13 functions/cpt/cpt-footer.php:14
+msgid "Add New Footer"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:13 functions/cpt/cpt-header.php:14
+msgid "Add New Header"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:14
+msgid "Add New Html Block"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:15 functions/cpt/cpt-modals.php:16
+msgid "Add New Modal"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:15 functions/cpt/cpt-offices.php:16
+msgid "Add New Office"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:13 functions/cpt/cpt-page-header.php:14
+msgid "Add New Page Header"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:15
+msgid "Add New Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:15
+#: functions/cpt/cpt-price_package.php:16
+msgid "Add New Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:14
+msgid "Add New Project"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:14
+msgid "Add New Service"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:14
+msgid "Add New Staff"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:13
+msgid "Add Project"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:13
+msgid "Add Service"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:13
+msgid "Add Staff"
+msgstr ""
+
+#: redux-framework/sample-config.php:467
+#: redux-framework/sample/theme-config.php:499
+msgid "Additional Types"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:117
+msgid "Address"
+msgstr ""
+
+#: redux-framework/sample-config.php:481
+#: redux-framework/sample/theme-config.php:513
+msgid "Advanced Features"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:58
+msgid "All Category Docs"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:13
+msgid "All Clients"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:18
+msgid "All Docs"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:54
+msgid "All FAQ Categories"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:87
+msgid "All FAQ Tags"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:21
+msgid "All FAQs"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:13
+msgid "All Html Blocks"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:14
+msgid "All Modals"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:14
+msgid "All Offices"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:13
+msgid "All Price Lists"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:14
+msgid "All Price Packages"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:12
+msgid "All Projects"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:12
+msgid "All Staff"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:6
+msgid "API"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:220
+#: redux-framework/sample/sections/codeweber/header.php:287
+msgid "Background Color"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:77
+#: redux-framework/sample/sections/codeweber/page-header.php:90
+msgid "Base"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:165
+msgid "Base Header Models"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:118
+msgid "Base Page Header Models"
+msgstr ""
+
+#: redux-framework/sample-config.php:319
+#: redux-framework/sample/theme-config.php:351
+msgid "Basic Fields"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:136
+#: redux-framework/sample/metaboxes.php:147
+#: redux-framework/sample/metaboxes.php:199
+#: redux-framework/sample/metaboxes.php:210
+msgid "Basic media uploader with disabled URL input field."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:117
+msgid "Behance"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:263
+msgid "Breadcrumb Background Color"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:249
+msgid "Breadcrumb Color"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:230
+#: redux-framework/sample/sections/codeweber/page-header.php:238
+msgid "Breadcrumbs"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:56
+msgid "Category Doc"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:55 functions/cpt/cpt-docs.php:65
+#: functions/cpt/cpt-docs.php:69
+msgid "Category Docs"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:243
+msgid "Choose a custom Page Header for this page."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:20
+msgid "Choose a point on the map"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:307
+msgid "Choose a widget area to display on this page."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:75
+#: redux-framework/sample/sections/codeweber/page-header.php:88
+msgid "Choose between Base and Custom."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:88
+msgid "Choose from all custom headers."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:101
+msgid "Choose from all custom page headers."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:154
+#: redux-framework/sample/sections/codeweber/page-header.php:221
+msgid "Choose or upload an image for the header background."
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:11 functions/cpt/cpt-clients.php:23
+msgid "Client"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:24
+msgid "Client published"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:25
+msgid "Client updated"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:10 functions/cpt/cpt-clients.php:12
+#: functions/cpt/cpt-clients.php:29
+msgid "Clients"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:22
+msgid "Clients list"
+msgstr ""
+
+#. Name of the theme
+msgid "Codeweber"
+msgstr ""
+
+#: redux-framework/sample-config.php:353
+#: redux-framework/sample/theme-config.php:385
+msgid "Color Selection"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/contacts.php:6
+msgid "Contacts"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:85
+msgid "Container"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:103
+msgid "Coordinates"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:50
+#: redux-framework/sample/sections/codeweber/cpt-type.php:160
+msgid "Create Custom Footer"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:40
+#: redux-framework/sample/sections/codeweber/cpt-type.php:150
+#: redux-framework/sample/sections/codeweber/header.php:41
+msgid "Create Custom Header"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:61
+msgid "Create Custom Page Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:41
+msgid "Create Custom Page-header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:170
+msgid "Create Custom Page_header"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:332
+msgid "Cross Box Required"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:123
+msgid "Current File:"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:109
+#: redux-framework/sample/metaboxes.php:173
+#: redux-framework/sample/metaboxes.php:232
+#: redux-framework/sample/metaboxes.php:280
+#: redux-framework/sample/sections/codeweber/header.php:78
+#: redux-framework/sample/sections/codeweber/page-header.php:91
+msgid "Custom"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:100
+msgid "Custom Page-Header"
+msgstr ""
+
+#: redux-framework/sample/theme-config.php:319
+msgid "Custom Post Type"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:32
+#: redux-framework/sample/sections/codeweber/cpt-type.php:119
+msgid "Custom Post Types"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:80
+msgid "Custom slug for the post type"
+msgstr ""
+
+#: redux-framework/sample-config.php:566
+#: redux-framework/sample/theme-config.php:598
+msgid "Customizer Only"
+msgstr ""
+
+#: redux-framework/sample-config.php:573
+#: redux-framework/sample/theme-config.php:605
+msgid "Customizer Only Option"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:16
+msgid "DaDaTa Settings"
+msgstr ""
+
+#: functions/setup.php:73
+msgid "Dark Logo"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:108
+#: redux-framework/sample/metaboxes.php:172
+#: redux-framework/sample/metaboxes.php:231
+#: redux-framework/sample/metaboxes.php:279
+msgid "Default"
+msgstr ""
+
+#: redux-framework/sample-config.php:370
+msgid "Design Fields"
+msgstr ""
+
+#. Panel opt_name.
+#: redux-framework/sample-config.php:271
+#: redux-framework/sample/theme-config.php:271
+#, php-format
+msgid ""
+"Did you know that Redux sets a global variable for you? To access any of "
+"your saved options from within your code you can use your global variable: "
+"$%1$s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:294
+#: redux-framework/sample/sections/codeweber/cpt-type.php:226
+#: redux-framework/sample/sections/codeweber/cpt-type.php:248
+msgid "Disable Sidebar"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:50
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:74
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:90
+#: redux-framework/sample/sections/codeweber/cpt-type.php:83
+msgid "Disabled"
+msgstr ""
+
+#: redux-framework/sample-config.php:503
+#: redux-framework/sample/theme-config.php:535
+msgid "Disabling"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:141
+msgid "Discord"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:8
+msgid "Doc"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:7 functions/cpt/cpt-docs.php:23
+msgid "Docs"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:19
+msgid "Docs Archives"
+msgstr ""
+
+#: redux-framework/sample-config.php:229 redux-framework/sample-config.php:548
+#: redux-framework/sample/theme-config.php:229
+#: redux-framework/sample/theme-config.php:580
+msgid "Documentation"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/contacts.php:15
+msgid "E-Mail"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:61
+msgid "Edit Category Doc"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:16
+msgid "Edit Client"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:11
+msgid "Edit Doc"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:14
+msgid "Edit FAQ"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:55
+msgid "Edit FAQ Category"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:88
+msgid "Edit FAQ Tag"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:15
+msgid "Edit Footer"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:15
+msgid "Edit Header"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:16
+msgid "Edit Html Block"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:17
+msgid "Edit Modal"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:17
+msgid "Edit Office"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:15
+msgid "Edit Page Header"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:16
+msgid "Edit Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:17
+msgid "Edit Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:15
+msgid "Edit Project"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:15
+msgid "Edit Service"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:15
+msgid "Edit Staff"
+msgstr ""
+
+#: redux-framework/sample-config.php:339
+#: redux-framework/sample/theme-config.php:371
+msgid "Editors"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:70
+#, php-format
+msgid "Enable %s"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:86
+#, php-format
+msgid "Enable archive for %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:239
+msgid "Enable breadcrumbs"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:86
+msgid "Enable container for content"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:87
+msgid "Enable or disable the archive page for this custom post type."
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:71
+msgid "Enable or disable this custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:277
+msgid "Enable Right Menu"
+msgstr ""
+
+#: functions/admin/admin_menu.php:14
+msgid "Enable Smooth Scroll"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:47
+#: redux-framework/sample/sections/codeweber/cpt-type.php:80
+msgid "Enable/disable this post type"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:49
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:73
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:89
+#: redux-framework/sample/sections/codeweber/cpt-type.php:82
+msgid "Enabled"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:51
+msgid "Facebook"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:63
+msgid "Facebook Pixel"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:70
+msgid "Facebook Pixel Settings"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:10 functions/cpt/cpt-faq.php:28
+msgid "FAQ"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:11
+msgid "Faq"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:22
+msgid "FAQ Archives"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:51 functions/cpt/cpt-faq.php:53
+#: functions/cpt/cpt-faq.php:64
+msgid "FAQ Categories"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:52
+msgid "FAQ Category"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:85
+msgid "FAQ Tag"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:84 functions/cpt/cpt-faq.php:86
+#: functions/cpt/cpt-faq.php:98
+msgid "FAQ Tags"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:9
+msgid "FAQs"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:24
+msgid "Featured image for this Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:25
+msgid "Featured image for this Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:23
+msgid "Featured Image for this service"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:23
+msgid "Featured Image for this staff"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:31
+msgid "Filter Price Lists"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:32
+msgid "Filter Price Packages"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:10 functions/cpt/cpt-footer.php:11
+#: functions/cpt/cpt-footer.php:12 functions/cpt/cpt-footer.php:26
+#: redux-framework/sample/sections/codeweber/footer.php:6
+msgid "Footer"
+msgstr ""
+
+#: functions/navmenus.php:15
+msgid "Footer Menu"
+msgstr ""
+
+#: functions/navmenus.php:16
+msgid "Footer Menu 1"
+msgstr ""
+
+#: functions/navmenus.php:17
+msgid "Footer Menu 2"
+msgstr ""
+
+#: functions/navmenus.php:18
+msgid "Footer Menu 3"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:157
+msgid "Footer Settings"
+msgstr ""
+
+#: redux-framework/sample-config.php:519
+#: redux-framework/sample/theme-config.php:551
+#: redux-framework/sample/sections/codeweber/repeater.php:15
+msgid "For full documentation on this field, visit: "
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:9
+msgid "Geo && Map"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:153
+msgid "GitHub"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:159
+msgid "GitLab"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:31
+msgid "Google Analytics"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:38
+msgid "Google Analytics Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:47
+msgid "Google Tag Manager"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:54
+msgid "Google Tag Manager Settings"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:10 functions/cpt/cpt-header.php:11
+#: functions/cpt/cpt-header.php:12 functions/cpt/cpt-header.php:26
+#: redux-framework/sample/sections/codeweber/header.php:49
+#: redux-framework/sample/sections/codeweber/header.php:65
+msgid "Header"
+msgstr ""
+
+#: functions/navmenus.php:13
+msgid "Header Menu"
+msgstr ""
+
+#: functions/navmenus.php:14
+msgid "Header Menu 1"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:94
+msgid "Header Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:169
+msgid "Header Type 1"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:174
+msgid "Header Type 2"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:179
+msgid "Header Type 3"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:184
+msgid "Header Type 4"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:189
+msgid "Header Type 5"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:194
+msgid "Header Type 6"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:199
+msgid "Header Type 7"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:203
+#, php-format
+msgid "Here you can make settings for the custom post type %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:79
+msgid "Hotjar"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:86
+msgid "Hotjar Settings"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:11 functions/cpt/cpt-html_blocks.php:23
+msgid "Html Block"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:24
+msgid "Html Block published"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:25
+msgid "Html Block updated"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:10 functions/cpt/cpt-html_blocks.php:12
+#: functions/cpt/cpt-html_blocks.php:29
+msgid "Html Blocks"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:22
+msgid "Html Blocks list"
+msgstr ""
+
+#. URI of the theme
+#. Author URI of the theme
+msgid "https://codeweber.ru"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:109
+#: redux-framework/sample/sections/codeweber/page-header.php:178
+msgid "Image"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:23
+msgid "Insert into FAQ"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:29
+msgid "Insert into Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:30
+msgid "Insert into Price Package"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:45
+msgid "Instagram"
+msgstr ""
+
+#. Author of the theme
+msgid "Korablev Denis"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:293
+#: redux-framework/sample/sections/codeweber/cpt-type.php:225
+#: redux-framework/sample/sections/codeweber/cpt-type.php:247
+msgid "Left Sidebar"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:26
+msgid "Link to Yandex Developer Console"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:75
+msgid "LinkedIn"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:251
+#: redux-framework/sample/sections/codeweber/header.php:322
+msgid "Logo"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:208
+msgid "Logo Dark Footer w/ URL"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:145
+msgid "Logo Dark Header w/ URL"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:197
+msgid "Logo Light Footer w/ URL"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:134
+msgid "Logo Light Header w/ URL"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:16
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:32
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:48
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:64
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:80
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:96
+msgid "Look, it's on!"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:77
+msgid "Main Options"
+msgstr ""
+
+#: functions/sidebars.php:68 functions/sidebars.php:70
+msgid "Main Sidebar"
+msgstr ""
+
+#: redux-framework/sample-config.php:386
+#: redux-framework/sample/theme-config.php:418
+msgid "Media Uploads"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:252
+msgid "Menu"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:210
+msgid "Mobile Menu"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:12 functions/cpt/cpt-modals.php:25
+msgid "Modal"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:26
+msgid "Modal published"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:27
+msgid "Modal updated"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:11 functions/cpt/cpt-modals.php:13
+#: functions/cpt/cpt-modals.php:31
+msgid "Modals"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:24
+msgid "Modals list"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:12
+msgid "My Price Lists"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:64
+msgid "New Category Doc Name"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:17
+msgid "New Client"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:12
+msgid "New Doc"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:15
+msgid "New FAQ"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:58
+msgid "New FAQ Category Name"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:92
+msgid "New FAQ Tag Name"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:16
+msgid "New Footer"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:16
+msgid "New Header"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:17
+msgid "New Html Block"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:18
+msgid "New Modal"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:18
+msgid "New Office"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:16
+msgid "New Page Header"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:17
+msgid "New Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:18
+msgid "New Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:16
+msgid "New Project"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:16
+msgid "New Service"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:16
+msgid "New Staff"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:13
+msgid "New Testimonial"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:21
+msgid "No Client"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:49
+#: redux-framework/sample/sections/codeweber/cpt-type.php:159
+#, php-format
+msgid ""
+"No custom footers found. You can create one by visiting the following link: "
+"%s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:39
+#: redux-framework/sample/sections/codeweber/cpt-type.php:149
+#: redux-framework/sample/sections/codeweber/header.php:40
+#, php-format
+msgid ""
+"No custom headers found. You can create one by visiting the following link: "
+"%s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:60
+#, php-format
+msgid ""
+"No custom Page Header found. You can create one by visiting the following "
+"link: %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:169
+#, php-format
+msgid ""
+"No custom page-header found. You can create one by visiting the following "
+"link: %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:40
+#, php-format
+msgid ""
+"No custom pageheaders found. You can create one by visiting the following "
+"link: %s"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:16
+msgid "No Docs found"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:17
+msgid "No Docs found in Trash"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:60
+msgid "No FAQ Categories Found"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:94
+msgid "No FAQ Tags Found"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:19
+msgid "No FAQs found"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:20
+msgid "No FAQs found in Trash"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:20
+msgid "No footers found"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:21
+msgid "No footers found in Trash"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:20
+msgid "No headers found"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:21
+msgid "No headers found in Trash"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:21
+msgid "No Html Blocks found"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:22
+msgid "No Modals Found"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:23
+msgid "No Modals Found in Trash"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:22
+msgid "No offices found"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:23
+msgid "No offices found in Trash"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:20
+msgid "No Page Headers found"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:21
+msgid "No Page Headers found in Trash"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:21
+msgid "No Price Lists found"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:22
+msgid "No Price Lists found in Trash"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:22
+msgid "No Price Packages found"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:23
+msgid "No Price Packages found in Trash"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:103
+msgid "No validation can be done on this field type"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:110
+#: redux-framework/sample/sections/codeweber/page-header.php:179
+msgid "None"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:39
+msgid "Odnoklassniki"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:338
+msgid "Off"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:267
+#: redux-framework/sample/sections/codeweber/header.php:276
+msgid "Offcanvas Right Menu"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:12
+msgid "Office"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:11 functions/cpt/cpt-offices.php:13
+#: functions/cpt/cpt-offices.php:28
+msgid "Offices"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:337
+msgid "On"
+msgstr ""
+
+#: redux-framework/sample-config.php:578
+#: redux-framework/sample/theme-config.php:610
+msgid "Opt 1"
+msgstr ""
+
+#: redux-framework/sample-config.php:579
+#: redux-framework/sample/theme-config.php:611
+msgid "Opt 2"
+msgstr ""
+
+#: redux-framework/sample-config.php:580
+#: redux-framework/sample/theme-config.php:612
+msgid "Opt 3"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:243
+#: redux-framework/sample/sections/codeweber/header.php:313
+msgid "Order items in menu"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:244
+msgid "Organize how you want the layout to appear on the homepage"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:95
+msgid "Other Analytics"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:102
+msgid "Other Analytics Services"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:11 functions/cpt/cpt-page-header.php:26
+#: redux-framework/sample/sections/codeweber/page-header.php:50
+msgid "Page Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:164
+msgid "Page Header Background"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:172
+msgid "Page Header Background Type"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:218
+msgid "Page Header Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:76
+msgid "Page Header Type"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:122
+msgid "Page Header Type 1"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:127
+msgid "Page Header Type 2"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:132
+msgid "Page Header Type 3"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:137
+msgid "Page Header Type 4"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:142
+msgid "Page Header Type 5"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:147
+msgid "Page Header Type 6"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:152
+msgid "Page Header Type 7"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:10 functions/cpt/cpt-page-header.php:12
+msgid "Page Headers"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:59
+msgid "Parent Category Doc"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:60
+msgid "Parent Category Doc:"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:22
+msgid "Parent Footer"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:22
+msgid "Parent Header"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:24
+msgid "Parent Office:"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:22
+msgid "Parent Page Header"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:23 functions/cpt/cpt-price_list.php:41
+msgid "Parent Price List:"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:24
+#: functions/cpt/cpt-price_package.php:42
+msgid "Parent Price Package:"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:22
+msgid "Parent Project"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:25
+msgid "Parent Project:"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:22 functions/cpt/cpt-services.php:34
+msgid "Parent Service"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:22 functions/cpt/cpt-staff.php:34
+msgid "Parent Staff"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/repeater.php:14
+#: redux-framework/sample/sections/codeweber/repeater.php:21
+#: redux-framework/sample/sections/codeweber/repeater.php:23
+msgid "Phone"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/contacts.php:21
+msgid "Phone 01"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/contacts.php:29
+#: redux-framework/sample/sections/codeweber/contacts.php:36
+msgid "Phone 02"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/contacts.php:43
+msgid "Phone 03"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/contacts.php:50
+msgid "Phone 04"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:253
+#: redux-framework/sample/sections/codeweber/header.php:324
+msgid "Phones"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:81
+msgid "Pinterest"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:363
+#: redux-framework/sample/sections/codeweber/page-header.php:63
+msgid ""
+"Please select the sidebar you would like to display on this page. Note: You "
+"must first create the sidebar under Appearance > Widgets."
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:33
+msgid "Post type for modals"
+msgstr ""
+
+#: redux-framework/sample-config.php:401
+#: redux-framework/sample/theme-config.php:433
+msgid "Presentation Fields"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:11 functions/cpt/cpt-price_list.php:35
+msgid "Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:28
+msgid "Price List Archives"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:34
+msgid "Price List Attributes"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:36
+msgid "Price List Published"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:37
+msgid "Price List Published Privately"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:38
+msgid "Price List Reverted to Draft"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:39
+msgid "Price List Scheduled"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:40
+msgid "Price List Updated"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:10 functions/cpt/cpt-price_list.php:45
+msgid "Price Lists"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:33
+msgid "Price Lists List"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:32
+msgid "Price Lists Navigation"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:12
+#: functions/cpt/cpt-price_package.php:36
+msgid "Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:29
+msgid "Price Package Archives"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:35
+msgid "Price Package Attributes"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:37
+msgid "Price Package Published"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:38
+msgid "Price Package Published Privately"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:39
+msgid "Price Package Reverted to Draft"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:40
+msgid "Price Package Scheduled"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:41
+msgid "Price Package Updated"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:11
+#: functions/cpt/cpt-price_package.php:13
+#: functions/cpt/cpt-price_package.php:46
+msgid "Price Packages"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:34
+msgid "Price Packages List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:33
+msgid "Price Packages Navigation"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:42
+msgid "Product"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:10
+msgid "Project"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:70 functions/cpt/cpt-projects.php:75
+msgid "Project Categories"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:71
+msgid "Project Category"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:24
+msgid "Project Updated"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:9 functions/cpt/cpt-projects.php:11
+#: functions/cpt/cpt-projects.php:29
+msgid "Projects"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:23
+msgid "Projects Archives"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:20
+msgid "Projects Not Found"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:21
+msgid "Projects Not Found in Trash"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:17
+msgid "Put DaDaTa API key"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:71
+msgid "Put Facebook Pixel Code"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:39
+msgid "Put Google Analytics Code"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:55
+msgid "Put Google Tag Manager Container ID"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:87
+msgid "Put Hotjar Code"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:103
+msgid "Put Other Analytics Code"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:25
+msgid "Put Yandex API Map key"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:23
+msgid "Put Yandex Metric Code"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:99
+msgid "QQ"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:111
+msgid "Reddit"
+msgstr ""
+
+#: redux-framework/sample-config.php:515
+#: redux-framework/sample/theme-config.php:547
+msgid "Redux Extensions"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:26
+msgid "Remove Featured Image for this Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:27
+msgid "Remove Featured Image for this Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:25
+msgid "Remove featured Image for this service"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:25
+msgid "Remove featured Image for this staff"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:333
+msgid ""
+"Required arguments work across metaboxes! Click on Color Field under Metabox "
+"Options then adjust this field to see the fields within show or hide."
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:295
+#: redux-framework/sample/sections/codeweber/cpt-type.php:227
+#: redux-framework/sample/sections/codeweber/cpt-type.php:249
+msgid "Right Sidebar"
+msgstr ""
+
+#: redux-framework/sample-config.php:89 redux-framework/sample-config.php:92
+msgid "Sample Options"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:57
+msgid "Search Category Docs"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:20
+msgid "Search Client"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:15
+msgid "Search Docs"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:59
+msgid "Search FAQ Categories"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:93
+msgid "Search FAQ Tags"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:18
+msgid "Search FAQs"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:19
+msgid "Search Footers"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:19
+msgid "Search Headers"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:20
+msgid "Search Html Blocks"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:21
+msgid "Search Modals"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:21
+msgid "Search Offices"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:19
+msgid "Search Page Headers"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:20
+msgid "Search Price Lists"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:21
+msgid "Search Price Packages"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:19
+msgid "Search Projects"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:19
+msgid "Search Service"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:19
+msgid "Search Staff"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:66
+#: redux-framework/sample/sections/codeweber/header.php:211
+#: redux-framework/sample/sections/codeweber/header.php:268
+#: redux-framework/sample/sections/codeweber/page-header.php:77
+#: redux-framework/sample/sections/codeweber/page-header.php:165
+#: redux-framework/sample/sections/codeweber/page-header.php:231
+#: redux-framework/sample/sections/codeweber/page-header.php:276
+msgid "Section one with subtitle"
+msgstr ""
+
+#: redux-framework/sample-config.php:690
+#: redux-framework/sample/theme-config.php:722
+msgid "Section via hook"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:166
+msgid "Select a predefined header model."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:119
+msgid "Select a predefined page header model."
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:308
+msgid "Select a sidebar widget area for customization."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:87
+msgid "Select Custom Header"
+msgstr ""
+
+#: redux-framework/sample-config.php:437
+#: redux-framework/sample/theme-config.php:469
+msgid "Select Fields"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:119
+msgid "Select File"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:182
+msgid "Select Footer"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:422
+#, php-format
+msgid "Select Footer for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:399
+#, php-format
+msgid "Select Footer for Single %s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:53
+#: redux-framework/sample/sections/codeweber/cpt-type.php:163
+msgid "Select Footer from Custom Headers"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:169
+#: redux-framework/sample/metaboxes.php:170
+msgid "Select Footer type for This Page"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:118
+msgid "Select Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:301
+#, php-format
+msgid "Select Header for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:276
+#: redux-framework/sample/sections/codeweber/cpt-type.php:338
+#, php-format
+msgid "Select Header for Single %s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:43
+#: redux-framework/sample/sections/codeweber/cpt-type.php:153
+msgid "Select Header from Custom Headers"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:74
+msgid "Select Header Type"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:105
+#: redux-framework/sample/metaboxes.php:106
+msgid "Select Header type for This Page"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:139
+msgid "Select or Upload a Document"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:242
+msgid "Select Page Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:363
+#, php-format
+msgid "Select Page Header for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:64
+msgid "Select Page Header from Custom Page Headers"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:228
+#: redux-framework/sample/metaboxes.php:229
+msgid "Select Page Header type for This Page"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:173
+msgid "Select Page-header from Custom Headers"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:87
+msgid "Select Page-Header Type"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:244
+#, php-format
+msgid "Select Sidebar position for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:222
+#, php-format
+msgid "Select Sidebar position for Single %s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:290
+#: redux-framework/sample/metaboxes.php:291
+msgid "Select Sidebar position for This Page"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:276
+#: redux-framework/sample/metaboxes.php:277
+msgid "Select Sidebar type for This Page"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:135
+#: redux-framework/sample/sections/codeweber/page-header.php:202
+msgid "Select Soft Color"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:120
+#: redux-framework/sample/sections/codeweber/page-header.php:189
+msgid "Select Solid Color"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:102
+msgid "Select type Header background"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:306
+msgid "Select Widget Area"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:118
+msgid "Selected point address"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:104
+msgid "Selected point coordinates"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:10 functions/cpt/cpt-services.php:29
+msgid "Service"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:27
+msgid "Service archive"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:74 functions/cpt/cpt-services.php:79
+msgid "Service Categories"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:75
+msgid "Service Category"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:28
+msgid "Service list"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:30
+msgid "Service published"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:31
+msgid "Service reverted to draft"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:32
+msgid "Service scheduled"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:33
+msgid "Service updated"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:9 functions/cpt/cpt-services.php:11
+#: functions/cpt/cpt-services.php:12 functions/cpt/cpt-services.php:38
+msgid "Services"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:25
+msgid "Set Featured Image for this Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:26
+msgid "Set Featured Image for this Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:24
+msgid "Set featured Image for this service"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:24
+msgid "Set featured Image for this staff"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:8
+msgid "Settings API"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/contacts.php:8
+msgid "Settings Contacts"
+msgstr ""
+
+#: redux-framework/sample/theme-config.php:321
+msgid "Settings CPT posts"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/footer.php:8
+msgid "Settings Footer"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:34
+#: redux-framework/sample/sections/codeweber/cpt-type.php:122
+msgid "Settings for custom post types."
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:65
+#, php-format
+msgid "Settings for the %s custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:416
+#, php-format
+msgid "Settings for the Archive Footer %s custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:295
+#, php-format
+msgid "Settings for the Archive Header %s custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:357
+#, php-format
+msgid "Settings for the Archive Page Header %s custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:238
+#, php-format
+msgid "Settings for the Archive Sidebar %s custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:392
+#, php-format
+msgid "Settings for the Single Footer %s custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:269
+#, php-format
+msgid "Settings for the Single Header %s custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:331
+#, php-format
+msgid "Settings for the Single Page Header %s custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:215
+#, php-format
+msgid "Settings for the Single Sidebar %s custom post type."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:11
+msgid "Settings Geo && Map"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:51
+msgid "Settings Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:52
+msgid "Settings Page Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:8
+msgid "Settings Socials"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:8
+msgid "Settings Tracking && Metrics"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:8
+msgid "Settings Сompany details"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:43
+msgid "Shop"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:362
+#: redux-framework/sample/sections/codeweber/page-header.php:62
+msgid "Sidebar"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:265
+msgid "Sidebar Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:129
+msgid "Signal"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:123
+msgid "Skype"
+msgstr ""
+
+#: redux-framework/sample-config.php:451
+#: redux-framework/sample/theme-config.php:483
+msgid "Slider / Spinner"
+msgstr ""
+
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:79
+#, php-format
+msgid "Slug for %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:87
+msgid "Snapchat"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:254
+#: redux-framework/sample/sections/codeweber/header.php:325
+#: redux-framework/sample/sections/codeweber/socials.php:6
+msgid "Socials"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:138
+#: redux-framework/sample/sections/codeweber/page-header.php:205
+msgid "Soft Blue"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:139
+#: redux-framework/sample/sections/codeweber/page-header.php:206
+msgid "Soft Green"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:137
+#: redux-framework/sample/sections/codeweber/page-header.php:204
+msgid "Soft Red"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:140
+#: redux-framework/sample/sections/codeweber/page-header.php:207
+msgid "Soft Yellow"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:107
+#: redux-framework/sample/sections/codeweber/page-header.php:177
+msgid "Soft-Color"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:106
+#: redux-framework/sample/sections/codeweber/page-header.php:176
+msgid "Solid-Color"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:9 functions/cpt/cpt-staff.php:10
+#: functions/cpt/cpt-staff.php:11 functions/cpt/cpt-staff.php:29
+#: functions/cpt/cpt-staff.php:38
+msgid "Staff"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:27
+msgid "Staff archive"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:28
+msgid "Staff list"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:30
+msgid "Staff published"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:31
+msgid "Staff reverted to draft"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:32
+msgid "Staff scheduled"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:33
+msgid "Staff updated"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:147
+msgid "Steam"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:16
+#: redux-framework/sample/sections/codeweber/company-details.php:30
+#: redux-framework/sample/sections/codeweber/company-details.php:48
+#: redux-framework/sample/sections/codeweber/company-details.php:65
+#: redux-framework/sample/sections/codeweber/contacts.php:16
+#: redux-framework/sample/sections/codeweber/contacts.php:22
+#: redux-framework/sample/sections/codeweber/contacts.php:30
+#: redux-framework/sample/sections/codeweber/contacts.php:37
+#: redux-framework/sample/sections/codeweber/contacts.php:44
+#: redux-framework/sample/sections/codeweber/contacts.php:51
+#: redux-framework/sample/sections/codeweber/socials.php:16
+#: redux-framework/sample/sections/codeweber/socials.php:22
+#: redux-framework/sample/sections/codeweber/socials.php:28
+#: redux-framework/sample/sections/codeweber/socials.php:34
+#: redux-framework/sample/sections/codeweber/socials.php:40
+#: redux-framework/sample/sections/codeweber/socials.php:46
+#: redux-framework/sample/sections/codeweber/socials.php:52
+#: redux-framework/sample/sections/codeweber/socials.php:58
+#: redux-framework/sample/sections/codeweber/socials.php:64
+#: redux-framework/sample/sections/codeweber/socials.php:70
+#: redux-framework/sample/sections/codeweber/socials.php:76
+#: redux-framework/sample/sections/codeweber/socials.php:82
+#: redux-framework/sample/sections/codeweber/socials.php:88
+#: redux-framework/sample/sections/codeweber/socials.php:94
+#: redux-framework/sample/sections/codeweber/socials.php:100
+#: redux-framework/sample/sections/codeweber/socials.php:106
+#: redux-framework/sample/sections/codeweber/socials.php:112
+#: redux-framework/sample/sections/codeweber/socials.php:118
+#: redux-framework/sample/sections/codeweber/socials.php:124
+#: redux-framework/sample/sections/codeweber/socials.php:130
+#: redux-framework/sample/sections/codeweber/socials.php:136
+#: redux-framework/sample/sections/codeweber/socials.php:142
+#: redux-framework/sample/sections/codeweber/socials.php:148
+#: redux-framework/sample/sections/codeweber/socials.php:154
+#: redux-framework/sample/sections/codeweber/socials.php:160
+#: redux-framework/sample/sections/codeweber/socials.php:166
+msgid "Subtitle"
+msgstr ""
+
+#: functions/roles.php:8
+msgid "Super Admin"
+msgstr ""
+
+#: redux-framework/sample-config.php:235
+#: redux-framework/sample/theme-config.php:235
+msgid "Support"
+msgstr ""
+
+#: redux-framework/sample-config.php:424
+#: redux-framework/sample/theme-config.php:456
+msgid "Switch / Button Set"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:15
+msgid "Telegram"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:11
+msgid "Testimonial"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:10 functions/cpt/cpt-testimonials.php:12
+#: functions/cpt/cpt-testimonials.php:17
+msgid "Testimonials"
+msgstr ""
+
+#: redux-framework/sample-config.php:728
+#: redux-framework/sample/theme-config.php:760
+msgid "Testing filter hook!"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:232
+#: redux-framework/sample/sections/codeweber/header.php:300
+msgid "Text Color"
+msgstr ""
+
+#: redux-framework/sample-config.php:575
+#: redux-framework/sample/theme-config.php:607
+msgid "The field desc is NOT visible in customizer."
+msgstr ""
+
+#: redux-framework/sample-config.php:574
+#: redux-framework/sample/theme-config.php:606
+msgid "The subtitle is NOT visible in customizer"
+msgstr ""
+
+#: redux-framework/sample-config.php:291
+#: redux-framework/sample/theme-config.php:291
+msgid "Theme Information 1"
+msgstr ""
+
+#: redux-framework/sample-config.php:296
+#: redux-framework/sample/theme-config.php:296
+msgid "Theme Information 2"
+msgstr ""
+
+#: redux-framework/sample/theme-config.php:89
+#: redux-framework/sample/theme-config.php:92
+msgid "Theme Options"
+msgstr ""
+
+#: redux-framework/sample-config.php:321
+#: redux-framework/sample/theme-config.php:353
+msgid "These are really basic fields!"
+msgstr ""
+
+#: redux-framework/sample-config.php:691
+#: redux-framework/sample/theme-config.php:723
+msgid ""
+"This is a section created by adding a filter to the sections array. Can be "
+"used by child themes to add/remove sections from the options."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:104
+#: redux-framework/sample/sections/codeweber/page-header.php:174
+msgid "This is the description field, again good for additional info."
+msgstr ""
+
+#: redux-framework/sample-config.php:303
+#: redux-framework/sample/theme-config.php:303
+msgid "This is the sidebar content, HTML is allowed."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:245
+#, php-format
+msgid "This is the Sidebar position for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:223
+#, php-format
+msgid "This is the Sidebar position for Single %s"
+msgstr ""
+
+#: redux-framework/sample-config.php:292 redux-framework/sample-config.php:297
+#: redux-framework/sample/theme-config.php:292
+#: redux-framework/sample/theme-config.php:297
+msgid "This is the tab content, HTML is allowed."
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:31
+msgid "This module allows you to display your work or cases on the website."
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:71
+msgid "This Post Settings"
+msgstr ""
+
+#: redux-framework/sample-config.php:567
+#: redux-framework/sample/theme-config.php:599
+msgid "This Section should be visible only in Customizer"
+msgstr ""
+
+#: redux-framework/sample-config.php:273
+#: redux-framework/sample/theme-config.php:273
+msgid ""
+"This text is displayed above the options panel. It isn't required, but more "
+"info is always better! The intro_text field accepts all HTML."
+msgstr ""
+
+#: redux-framework/sample-config.php:277
+#: redux-framework/sample/theme-config.php:277
+msgid ""
+"This text is displayed below the options panel. It isn't required, but more "
+"info is always better! The footer_text field accepts all HTML."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:57
+msgid "Tik-Tok"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:275
+#: redux-framework/sample/sections/codeweber/repeater.php:32
+msgid "Title"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:284
+msgid "Title Color"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:67
+msgid "Town"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:66 functions/cpt/cpt-offices.php:71
+msgid "Towns"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:6
+msgid "Tracking & Metrics"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:108
+msgid "Transparent"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:105
+msgid "Tumblr"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:135
+msgid "Twitch"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:69
+msgid "Twitter"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:111
+msgid "Type"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:110 functions/cpt/cpt-services.php:115
+msgid "Types"
+msgstr ""
+
+#: functions/sidebars.php:43 functions/cpt/redux_cpt.php:14
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:41
+#: redux-framework/theme-settings/Menu_item_4/cpt_redux.php:59
+#: redux-framework/sample/sections/codeweber/cpt-type.php:70
+#: redux-framework/sample/sections/codeweber/cpt-type.php:184
+msgid "Unnamed"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:62
+msgid "Update Category Doc"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:90
+msgid "Update FAQ Tag"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:118
+msgid "Upload a file:"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:137
+#: redux-framework/sample/metaboxes.php:148
+#: redux-framework/sample/metaboxes.php:200
+#: redux-framework/sample/metaboxes.php:211
+msgid "Upload any media using the WordPress native uploader"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:164
+msgid "Upload File"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:153
+#: redux-framework/sample/sections/codeweber/page-header.php:220
+msgid "Upload Header Background Image"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:30
+msgid "Upload to this Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:31
+msgid "Upload to this Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:24
+msgid "Uploaded to this FAQ"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:26 functions/cpt/cpt-staff.php:26
+msgid "Use as featured image"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:27
+msgid "Use as Featured Image for this Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:28
+msgid "Use as Featured Image for this Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:141
+msgid "Use this file"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:27
+msgid "Viber"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:18
+msgid "View Client"
+msgstr ""
+
+#: functions/cpt/cpt-clients.php:19
+msgid "View Clients"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:13
+msgid "View Doc"
+msgstr ""
+
+#: functions/cpt/cpt-docs.php:14
+msgid "View Docs"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:16
+msgid "View FAQ"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:56
+msgid "View FAQ Category"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:89
+msgid "View FAQ Tag"
+msgstr ""
+
+#: functions/cpt/cpt-faq.php:17
+msgid "View FAQs"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:17
+msgid "View Footer"
+msgstr ""
+
+#: functions/cpt/cpt-footer.php:18
+msgid "View Footers"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:17
+msgid "View Header"
+msgstr ""
+
+#: functions/cpt/cpt-header.php:18
+msgid "View Headers"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:18
+msgid "View Html Block"
+msgstr ""
+
+#: functions/cpt/cpt-html_blocks.php:19
+msgid "View Html Blocks"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:19
+msgid "View Modal"
+msgstr ""
+
+#: functions/cpt/cpt-modals.php:20
+msgid "View Modals"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:19
+msgid "View Office"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:20
+msgid "View Offices"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:17
+msgid "View Page Header"
+msgstr ""
+
+#: functions/cpt/cpt-page-header.php:18
+msgid "View Page Headers"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:18
+msgid "View Price List"
+msgstr ""
+
+#: functions/cpt/cpt-price_list.php:19
+msgid "View Price Lists"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:19
+msgid "View Price Package"
+msgstr ""
+
+#: functions/cpt/cpt-price_package.php:20
+msgid "View Price Packages"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:17
+msgid "View Project"
+msgstr ""
+
+#: functions/cpt/cpt-projects.php:18
+msgid "View Projects"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:17
+msgid "View Service"
+msgstr ""
+
+#: functions/cpt/cpt-services.php:18
+msgid "View Services"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:17 functions/cpt/cpt-staff.php:18
+msgid "View Staff"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:33
+msgid "Vkontakte"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:93
+msgid "WeChat"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:21
+msgid "Whatsapp"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:257
+#: redux-framework/sample/sections/codeweber/header.php:328
+msgid "Widget 1"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:258
+#: redux-framework/sample/sections/codeweber/header.php:329
+msgid "Widget 2"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:259
+#: redux-framework/sample/sections/codeweber/header.php:330
+msgid "Widget 3"
+msgstr ""
+
+#: functions/sidebars.php:58
+#, php-format
+msgid "Widget area for %s"
+msgstr ""
+
+#: functions/sidebars.php:78 functions/sidebars.php:80
+msgid "Woo Sidebar"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:15
+msgid "Yandex"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:24
+msgid "Yandex API Map Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:19
+msgid "Yandex Map"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/tracking-metrics.php:22
+msgid "Yandex Metric Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:165
+msgid "Yandex.Dzen"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/socials.php:63
+msgid "YouTube"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:110
+msgid "Zoom Level"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/map_geo.php:111
+msgid "Zoom level of the map"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:75
+msgid "Адрес банка"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:70
+msgid "БИК"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:36
+#: redux-framework/sample/sections/codeweber/company-details.php:54
+msgid "Город"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:67
+msgid "ИНН Компании"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:73
+msgid "ИНН банка"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:74
+msgid "КПП банка"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:71
+msgid "Кор. счет"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:23
+msgid "Краткое название"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:69
+msgid "Название банка"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:15
+msgid "Название компании"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:38
+#: redux-framework/sample/sections/codeweber/company-details.php:56
+msgid "Номер дома"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:68
+msgid "ОГРН Компании"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:39
+#: redux-framework/sample/sections/codeweber/company-details.php:57
+msgid "Офис/Квартира"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:22
+msgid "Полное название"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:40
+#: redux-framework/sample/sections/codeweber/company-details.php:58
+msgid "Почтовый индекс"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:72
+msgid "Расчетный счет"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:35
+#: redux-framework/sample/sections/codeweber/company-details.php:53
+msgid "Регион"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:64
+msgid "Реквизиты банковского счета"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:6
+msgid "Сompany Details"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:34
+#: redux-framework/sample/sections/codeweber/company-details.php:52
+msgid "Страна"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:37
+#: redux-framework/sample/sections/codeweber/company-details.php:55
+msgid "Улица"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:47
+msgid "Фактический адрес"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:29
+msgid "Юридический адрес"
+msgstr ""

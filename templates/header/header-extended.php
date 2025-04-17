@@ -1,0 +1,333 @@
+<?php
+
+/**
+ * Шаблон для навигационного меню сайта.
+ * 
+ * Этот шаблон создает Header сайта, включая логотипы, меню, контактную информацию и социальные ссылки. 
+ * Он динамически наполняется данными, переданными через массив $config.
+ *
+ * Массив $config должен содержать следующие ключи:
+ * - 'homeLink' (string): Ссылка на главную страницу.
+ * - 'logo' (string): HTML код логотипа для десктопной версии.
+ * - 'mobileLogo' (string): HTML код логотипа для мобильной версии.
+ * - 'mainMenu' (string): HTML код для основного меню.
+ * - 'contactInfo' (string): Контактная информация, отображаемая на мобильных устройствах.
+ * - 'socialLinks' (string): HTML код иконок социальных сетей.
+ * - 'languageSelector' (string): HTML код для отображения переключателя языков.
+ * - 'contactLink' (string): Ссылка на страницу контактов.
+ * - 'contactButtonText' (string): Текст кнопки для перехода на страницу контактов. *
+ * @package YourPackage
+ * @version 1.0.0
+ */
+
+
+
+$config = [
+    'homeLink' => '/',
+    'mobileLogo' => 'light',
+    'navbar-color' => 'light',
+    'navbar-transparent' => false,
+    'navbar-center-nav' => true,
+    'header-bg-color' => 'soft-red',
+    'navbar-carret' => false,
+    'navbar-rounded' => false,
+    'mainMenuName' => 'header_1',
+    'mainMenuClass' => 'navbar-nav',
+    'social-type' => 'type1', //type1, type2, type3, type4, type5
+    'social-size' => 'sm', //sm, md, lg
+
+    'languageSelector' => '<li class="nav-item dropdown language-select text-uppercase">
+                                <a class="nav-link dropdown-item dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">En</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="dropdown-item" href="#">En</a></li>
+                                    <li class="nav-item"><a class="dropdown-item" href="#">De</a></li>
+                                    <li class="nav-item"><a class="dropdown-item" href="#">Es</a></li>
+                                </ul>
+                            </li>',
+    'buttonCTA' => NULL,
+];
+
+global $opt_name;
+$global_header_model = Redux::get_option($opt_name, 'global-header-model');
+$header_color_text = Redux::get_option($opt_name, 'header-color-text');
+$solid_color_header = Redux::get_option($opt_name, 'solid-color-header');
+$soft_color_header = Redux::get_option($opt_name, 'soft-color-header');
+$header_background = Redux::get_option($opt_name, 'header-background');
+$header_rounded = Redux::get_option($opt_name, 'header-rounded');
+$sort_offcanvas_right = Redux::get_option($opt_name, 'sort-offcanvas-right');
+$social_icon_type = Redux::get_option($opt_name, 'social-icon-type');
+$config['social-type'] = 'type' . $social_icon_type;
+$global_header_offcanvas_right =  Redux::get_option($opt_name, 'global-header-offcanvas-right');
+$company_description =  Redux::get_option($opt_name, 'company-description');
+
+$yandex_api_key   = Redux::get_option($opt_name, 'yandexapi');
+$coordinates      = Redux::get_option($opt_name, 'yandex_coordinates'); // строка типа "55.76, 37.64"
+$zoom_level       = Redux::get_option($opt_name, 'yandex_zoom'); // например, "12"
+
+$address_data = Redux::get_option($opt_name, 'fact-company-adress');
+$country      = $address_data['box1'] ?? '';
+$region       = $address_data['box2'] ?? '';
+$city         = $address_data['box3'] ?? '';
+$street       = $address_data['box4'] ?? '';
+$house_number = $address_data['box5'] ?? '';
+$office       = $address_data['box6'] ?? '';
+$postal_code  = $address_data['box7'] ?? '';
+$full_address = trim("{$country},<br> {$region},<br> {$city}, {$street},<br> д. {$house_number}, оф. {$office},<br> {$postal_code}", ' ,');
+
+$phone1 = Redux::get_option($opt_name, 'phone_01') . '<br>';
+$phone2 = Redux::get_option($opt_name, 'phone_02') . '<br>';
+$email = Redux::get_option($opt_name, 'e-mail') . '<br>';
+
+$header_navbar_class = array();
+$header_navbar_wrapper_class = array();
+$navbar_collapse_class = array();
+$logo = 'light';
+
+if ($header_background === '3') {
+    $config['navbar-transparent'] = true;
+} elseif ($header_background === '1') {
+    $config['header-bg-color'] = $solid_color_header;
+} elseif ($header_background === '2') {
+    $config['header-bg-color'] = $soft_color_header;
+}
+
+if ($header_rounded === '2') {
+    $header_navbar_wrapper_class[] = 'rounded-pill';
+} elseif ($header_rounded === '3') {
+    $header_navbar_wrapper_class[] = 'rounded-0';
+}
+
+if ($header_color_text === '1') {
+    $logo = 'light';
+} elseif ($header_color_text === '2') {
+
+    $logo = 'dark';
+}
+
+$header_navbar_wrapper_class[] = 'bg-white';
+
+if (isset($config['header-bg-color']) && $config['navbar-transparent'] !== true && ($config['navbar-color'] === 'dark' || $config['navbar-color'] === 'light')) {
+    $header_class = 'bg-' . $config['header-bg-color'];
+    $header_navbar_class[] = 'bg-' . $config['header-bg-color'];
+}
+?>
+
+<header class="wrapper <?= $header_class; ?>">
+    <nav class="navbar navbar-expand-lg extended <?php implode(" ", $header_navbar_class); ?>">
+        <div class="container flex-lg-column">
+            <div class="topbar d-flex flex-row w-100 justify-content-between align-items-center">
+                <div class="navbar-brand">
+                    <a href="<?php htmlspecialchars($config['homeLink']); ?>">
+                        <?= get_custom_logo_type($logo); ?>
+                    </a>
+                </div>
+                <div class="navbar-other ms-auto">
+                    <?php if (is_active_sidebar('header-right')) { ?>
+                        <ul class="navbar-nav flex-row align-items-center">
+                            <?php dynamic_sidebar('header-right'); ?>
+                            <li class="nav-item d-lg-none">
+                                <button class="hamburger offcanvas-nav-btn"><span></span></button>
+                            </li>
+                        </ul>
+                        <!-- /.navbar-nav -->
+                    <?php } else {; ?>
+
+                        <ul class="navbar-nav flex-row align-items-center">
+                            <?php if ($global_header_offcanvas_right === '1') { ?>
+                                <li class="nav-item"><a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info"><i class="uil uil-info-circle"></i></a></li>
+                            <?php } ?>
+                            <?= $config['languageSelector']; ?>
+                            <li class="nav-item d-lg-none">
+                                <button class="hamburger offcanvas-nav-btn"><span></span></button>
+                            </li>
+                        </ul>
+                        <!-- /.navbar-nav -->
+                    <?php } ?>
+                </div>
+                <!-- /.navbar-other -->
+            </div>
+            <!-- /.d-flex -->
+
+            <div class="navbar-collapse-wrapper d-flex flex-row align-items-center <?= implode(" ", $header_navbar_wrapper_class); ?>">
+                <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start <?= implode(" ", $navbar_collapse_class); ?>">
+                    <div class="offcanvas-header d-lg-none">
+                        <a href="<?php htmlspecialchars($config['homeLink']); ?>"><?= get_custom_logo_type($config['mobileLogo']); ?></a>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body d-flex flex-column h-100">
+                        <?php
+                        wp_nav_menu(
+                            array(
+                                'theme_location'    => $config['mainMenuName'],
+                                'depth'             => 4,
+                                'container'         => '',
+                                'container_class'   => '',
+                                'container_id'      => '',
+                                'menu_class'        => $config['mainMenuClass'],
+                                'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
+                                'walker'            => new WP_Bootstrap_Navwalker(),
+                            )
+                        )
+                        ?>
+                        <!-- /.navbar-nav -->
+                        <div class="d-lg-none mt-auto pt-6 pb-6 order-4">
+                            <a href="mailto:<?php $email; ?>"><?php $email; ?></a>
+                            <a href="tel:<?php cleanNumber($phone1); ?>"><?php $phone1; ?></a>
+                            <a href="tel:<?php cleanNumber($phone2); ?>"><?php $phone2; ?></a>
+                            <?php social_links($config['social-type'], $config['social-size'], NULL); ?>
+                        </div>
+                        <!-- /offcanvas-nav-other -->
+                    </div>
+                    <!-- /.offcanvas-body -->
+                </div>
+                <!-- /.navbar-collapse -->
+                <div class="navbar-other ms-auto w-100 d-none d-lg-block">
+                    <?php if (is_active_sidebar('header-right-1')) { ?>
+                        <?php dynamic_sidebar('header-right-1'); ?>
+                    <?php } else {; ?>
+                        <?php social_links('justify-content-end text-end', $config['social-type'], $config['social-size'],); ?>
+                    <?php } ?>
+                </div>
+                <!-- /.navbar-other -->
+            </div>
+            <!-- /.navbar-collapse-wrapper -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- /.navbar -->
+
+
+    <?php
+    if ($global_header_offcanvas_right === '1') { ?>
+        <div class="offcanvas offcanvas-end bg-light" id="offcanvas-info" data-bs-scroll="true">
+            <div class="offcanvas-header">
+                <?= get_custom_logo_type('light'); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+
+            <div class="offcanvas-body pb-6">
+
+                <?php
+                if (
+                    isset($sort_offcanvas_right['enabled']) &&
+                    is_array($sort_offcanvas_right['enabled'])
+                ) {
+                    foreach ($sort_offcanvas_right['enabled'] as $key => $value) {
+                        if ($key === 'placebo') continue;
+                        switch ($key) {
+                            case 'description':
+                                echo '<div class="widget mb-5">
+                                  <p class="lead">' . $company_description . '</p>
+                                  </div>
+                                  <!-- /.widget -->';
+                                break;
+                            case 'phones':
+                                echo '<div class="widget mb-5">
+                   <div class="d-flex flex-row">
+                      <div>
+                        <div class="icon text-primary fs-28 me-4 mt-n1"> <i class="uil uil-phone-volume"></i> </div>
+                      </div>
+                      <div>
+                        <div class="mb-1 h5">' . esc_html__('Phone', 'codeweber') . '</div>
+                       <a href="tel:' . cleanNumber($phone1) . '">' . $phone1 . '</a>
+                       <a href="tel:' . cleanNumber($phone2) . '">' . $phone2 . '</a>
+                      </div>
+                    </div>
+                </div>
+                <!-- /.widget -->
+                
+                <div class="widget mb-5">
+                <div class="d-flex flex-row">
+                      <div>
+                        <div class="icon text-primary fs-28 me-4 mt-n1"> <i class="uil uil-envelope"></i> </div>
+                      </div>
+                      <div>
+                        <div class="mb-1 h5">' . esc_html__('E-mail', 'codeweber') . '</div>
+                        <a href="mailto:' . $email . '">' . $email . ' </a>
+                      </div>
+                    </div>
+                    </div>
+                <!-- /.widget -->';
+                                break;
+
+                            case 'address':
+                                echo ' <div class="widget mb-5">
+                            <div class="d-flex flex-row">
+                             <div>
+                             <div class="icon text-primary fs-28 me-4 mt-n1"> <i class="uil uil-location-pin-alt"></i> </div>
+                            </div>
+                             <div class="align-self-start justify-content-start">
+                              <div class="mb-1 h5">' . esc_html__('Address', 'codeweber') . '</div>
+                            <address>' . $full_address . '</address>
+                            </div>
+                           </div></div>
+                <!-- /.widget -->';
+                                break;
+
+                            case 'menu':
+                                echo '<div class="widget mb-5">';
+                                $locations = get_nav_menu_locations();
+                                if (isset($locations['offcanvas'])) {
+                                    $menu = wp_get_nav_menu_object($locations['offcanvas']);
+                                    echo '<div class="widget-title mb-3 h4">' . esc_html__($menu->name, 'codeweber') . '</div>';
+                                }
+                                wp_nav_menu(
+                                    array(
+                                        'theme_location'    => 'offcanvas',
+                                        'depth'             => 1,
+                                        'container'         => 'ul',
+                                        'container_class'   => '',
+                                        'container_id'      => '',
+                                        'menu_class'        => 'list-unstyled',
+                                    )
+                                );
+                                echo '</div>';
+                                break;
+
+                            case 'map':
+
+                                
+
+                                if (!empty($coordinates)) : ?>
+                                    <div class="widget mb-5">
+                                        <div class="widget-title mb-3 h4"><?= esc_html__('On Map', 'codeweber'); ?></div>
+                                        <div id="frontend-yandex-map" style="width: 100%; height: 200px;"></div>
+                                    </div>
+                                    <script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr($yandex_api_key); ?>&lang=ru_RU"></script>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            ymaps.ready(function() {
+                                                var coords = "<?php echo esc_js($coordinates); ?>".split(",").map(function(coord) {
+                                                    return parseFloat(coord.trim());
+                                                });
+                                                var zoom = parseInt("<?php echo esc_js($zoom_level); ?>") || 10;
+
+                                                var map = new ymaps.Map("frontend-yandex-map", {
+                                                    center: coords,
+                                                    zoom: zoom
+                                                });
+
+                                                var placemark = new ymaps.Placemark(coords);
+                                                map.geoObjects.add(placemark);
+                                            });
+                                        });
+                                    </script>
+                <?php endif;
+                                break;
+
+                            case 'socials':
+                                echo social_links('', $config['social-type'], $config['social-size'],);
+                                break;
+
+                            default:
+                                echo "<!-- Блок {$key} не найден -->";
+                        }
+                    }
+                }
+
+                ?>
+            </div>
+        </div>
+        <!-- /.offcanvas -->
+    <?php } ?>
+</header>

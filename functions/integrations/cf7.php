@@ -8,7 +8,7 @@
 // https://contactform7.com/loading-javascript-and-stylesheet-only-when-it-is-necessary/
 // https://orbitingweb.com/blog/prevent-cf7-from-loading-css-js/
 
-function brk_cf7_styles_scripts() {
+function codeweber_cf7_styles_scripts() {
 
 	wp_dequeue_script( 'contact-form-7' );
 	wp_dequeue_style( 'contact-form-7' );
@@ -24,4 +24,4 @@ function brk_cf7_styles_scripts() {
 
 }
 
-add_action( 'wp_enqueue_scripts', 'brk_cf7_styles_scripts' );
+add_action( 'wp_enqueue_scripts', 'codeweber_cf7_styles_scripts' );

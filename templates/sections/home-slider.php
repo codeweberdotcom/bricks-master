@@ -4,27 +4,27 @@
 
 		<?php
 
-		$brk_slidecount = 0;
+		$codeweber_slidecount = 0;
 
 		// WP Query
-		$brk_slider_query = new WP_Query( $args );
+		$codeweber_slider_query = new WP_Query( $args );
 
 		// WP Loop
-		while ( $brk_slider_query->have_posts() ) :
-			$brk_slider_query->the_post();
+		while ( $codeweber_slider_query->have_posts() ) :
+			$codeweber_slider_query->the_post();
 
-			$brk_slidecount++;
+			$codeweber_slidecount++;
 
 			?>
 
 		<div class="carousel-item 
 			<?php
-			if ( 1 == $brk_slidecount ) {
+			if ( 1 == $codeweber_slidecount ) {
 				echo 'active'; }
 			?>
 		">
 
-			<img class="d-block w-100" src="<?php the_post_thumbnail_url( 'brk_big' ); ?>" alt="<?php brk_thumbnail_alt(); ?>" loading="lazy">
+			<img class="d-block w-100" src="<?php the_post_thumbnail_url( 'codeweber_big' ); ?>" alt="<?php codeweber_thumbnail_alt(); ?>" loading="lazy">
 
 			<div class="carousel-caption">
 				<h2><?php the_title(); ?></h2>

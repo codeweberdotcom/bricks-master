@@ -1,0 +1,8 @@
+ul.redux-image-select .frame_viewport {
+    text-align: center;
+    height: 150px!important;
+}
+.redux-container-image_select ul.redux-image-select li span {
+    margin-top: 10px !important;
+    display: block;
+}

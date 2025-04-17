@@ -1,1 +1,137 @@
 // Use this to write your custom SCSS
+
+
+.z-index10 {
+  z-index: 10!important;
+}
+
+.z-index20 {
+  z-index: 20!important;
+}
+
+.z-index30 {
+  z-index: 30!important;
+}
+
+.z-index40 {
+  z-index: 40!important;
+}
+
+.z-index50 {
+  z-index: 50!important;
+}
+
+
+
+.uil-spinner-alt, .uil-spinner, .uil-spin, .uil-fidget-spinner, .uil-process {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.uil-envelope-send, .uil-envelope-upload {
+  animation: spinner 1s linear infinite, wobble 0.5s ease-in-out infinite;
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wobble {
+  0%, 100% {
+    transform: translateX(0); /* Исходное положение */
+  }
+  50% {
+    transform: translateX(2px); /* Смещение вправо */
+  }
+  75% {
+    transform: translateX(-2px); /* Смещение влево */
+  }
+}
+
+
+/* Стандартный стиль кнопки */
+.btn-login {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Скрываем текст "Отправить" при отправке */
+.btn-login.sending::after {
+  content: "Отправка...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Линия из точек */
+.btn-login.sending::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #000,
+    #000 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Письмо */
+.btn-login.sending .letter {
+  position: absolute;
+  width: 20px;
+  height: 14px;
+  background: #f0f0f0;
+  border: 1px solid #000;
+  border-radius: 2px;
+  bottom: 6px;
+  animation: letterMove 2s linear infinite;
+}
+
+/* Анимация письма */
+@keyframes letterMove {
+  0% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}
+
+.menu-item-has-children.dropdown.parent-link {
+    padding-right: 1rem;
+}
+
+.navbar.navbar-bg-light a.nav-link, .navbar.navbar-bg-light a.nav-link:active, .navbar.navbar-bg-light a.nav-link:hover, .navbar.navbar-bg-light .dropdown-item, .navbar.navbar-bg-light .dropdown-item:hover, .navbar.navbar-bg-light .dropdown-item:active, .navbar.navbar-bg-light .offcanvas-body>div>a {
+    color: #343f52 !important;
+}
+
+.navbar.transparent .logo-dark {
+     display: inline-block!important; 
+}
+
+// .navbar-bg-light .offcanvas{
+//     background-color: #fff!important;
+// }

@@ -7,15 +7,15 @@
  * https://kinsta.com/knowledge_categories/general-wordpress/
  */
 
-add_action( 'init', 'brk_disable_emojis' );           // https://wordpress.stackexchange.com/q/185577/
-add_action( 'init', 'brk_disable_oembed' );           // https://wordpress.stackexchange.com/q/211467/
-// add_action('init', 'brk_disable_query_strings');    // https://stackoverflow.com/q/38288476/
-add_action( 'wp_enqueue_scripts', 'brk_jquery_footer' );    // https://wordpress.stackexchange.com/a/173605/
-add_action( 'init', 'brk_disable_head_links' );
+add_action( 'init', 'codeweber_disable_emojis' );           // https://wordpress.stackexchange.com/q/185577/
+add_action( 'init', 'codeweber_disable_oembed' );           // https://wordpress.stackexchange.com/q/211467/
+// add_action('init', 'codeweber_disable_query_strings');    // https://stackoverflow.com/q/38288476/
+add_action( 'wp_enqueue_scripts', 'codeweber_jquery_footer' );    // https://wordpress.stackexchange.com/a/173605/
+add_action( 'init', 'codeweber_disable_head_links' );
 
 
 
-function brk_disable_emojis() {
+function codeweber_disable_emojis() {
 	remove_action( 'admin_print_styles', 'print_emoji_styles' );
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
@@ -34,7 +34,7 @@ function brk_disable_emojis() {
 	}
 }
 
-function brk_disable_oembed() {
+function codeweber_disable_oembed() {
 	remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
 	remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 );
 	remove_action( 'rest_api_init', 'wp_oembed_register_route' );
@@ -53,7 +53,7 @@ function brk_disable_oembed() {
 	}
 }
 
-function brk_disable_query_strings() {
+function codeweber_disable_query_strings() {
 	function rm_query_string( $src ) {
 		$parts = explode( '?ver', $src );
 		return $parts[0];
@@ -64,14 +64,14 @@ function brk_disable_query_strings() {
 	}
 }
 
-function brk_jquery_footer() {
+function codeweber_jquery_footer() {
 	$theme_version = wp_get_theme()->get( 'Version' );
 	wp_deregister_script( 'jquery' );
 	wp_enqueue_script( 'jquery', includes_url( '/js/jquery/jquery.js' ), false, $theme_version, true );
 }
 
 
-function brk_disable_head_links() {
+function codeweber_disable_head_links() {
 	// Disable XML-RPC, RSD, WLW links // https://wordpress.stackexchange.com/q/219181/
 	remove_action( 'wp_head', 'rsd_link' );
 	remove_action( 'wp_head', 'wlwmanifest_link' );

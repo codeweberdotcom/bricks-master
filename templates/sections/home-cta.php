@@ -1,17 +1,17 @@
 <?php
 
 // WP Query
-$brk_cta_query = new WP_Query( $args );
+$codeweber_cta_query = new WP_Query( $args );
 
 // WP Loop
-while ( $brk_cta_query->have_posts() ) :
-	$brk_cta_query->the_post();
+while ( $codeweber_cta_query->have_posts() ) :
+	$codeweber_cta_query->the_post();
 
 	?>
 
 <div class="has-img-background py-5">
 
-	<img class="is-background" src="<?php the_post_thumbnail_url( 'brk_big' ); ?>" alt="<?php the_title(); ?>">
+	<img class="is-background" src="<?php the_post_thumbnail_url( 'codeweber_big' ); ?>" alt="<?php the_title(); ?>">
 
 	<div class="container py-5 text-center text-light">
 		

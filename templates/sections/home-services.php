@@ -11,17 +11,17 @@
 		<?php
 
 		// WP Query
-		$brk_services_query = new WP_Query( $args );
+		$codeweber_services_query = new WP_Query( $args );
 
 		// WP Loop
-		while ( $brk_services_query->have_posts() ) :
-			$brk_services_query->the_post();
+		while ( $codeweber_services_query->have_posts() ) :
+			$codeweber_services_query->the_post();
 
 			?>
 	
 		<div class="col-sm text-center pb-5">
 	
-			<img class="img-fluid rounded-circle w-50 mb-4" src="<?php the_post_thumbnail_url( 'brk_square' ); ?>" alt="<?php brk_thumbnail_alt(); ?>" loading="lazy">
+			<img class="img-fluid rounded-circle w-50 mb-4" src="<?php the_post_thumbnail_url( 'codeweber_square' ); ?>" alt="<?php codeweber_thumbnail_alt(); ?>" loading="lazy">
 	
 			<h3><?php the_title(); ?></h3>
 	

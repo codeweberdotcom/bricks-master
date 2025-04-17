@@ -150,7 +150,7 @@ $blogger: #e86733 !default;
 $bitcoin: #f38633 !default;
 $css3: #006db6 !default;
 $dropbox: #007bdf !default;
-$dribbble: #e94d88 !default;
+$dripple: #e94d88 !default;
 $github: #4073a6 !default;
 $google: #e44134 !default;
 $googleplay: #24b6be !default;
@@ -183,8 +183,36 @@ $vk: #4f7db3 !default;
 $whatsapp: #00a859 !default;
 $tiktok: #202020 !default;
 $x-twitter: #202020 !default;
+$vkontakte: #202020 !default;
+$odnoklassniki: #EE8208 !default;
+$pinterest: #E60023 !default;
+$viber: #7360f2 !default;
+$rutube: #110944 !default;
+$x-twitter: #202020 !default;
+$vimeo: #19B7EA !default;
+$yandex-dzen: #060702 !default;
+$patreon: #E64413 !default;
+$meetup: #ED1C40 !default;
+$itunes: #FF4E6B !default;
+$figma: #a259ff !default;
+$snapchat: #FFFC00 !default;
+$signal: #3b76f0 !default;
+$twitch: #9146FF !default;
+$wechat: #7bb32e !default;
+$qq: #F9AE08 !default;
+$reddit: #FF4500 !default;
+$airbnb: #FF5A5F !default;
+$discord: #738ADB !default;
+$steam: #00adee !default;
+$gitlab:  #fca326 !default;
+$codepen: #000000 !default;
+
+
+
+
+
 $brand-colors: ("dropbox": $dropbox,
-  "dribbble": $dribbble,
+  "dripple": $dripple,
   "google-drive-alt": $googledrive,
   "facebook-f": $facebook,
   "instagram": $instagram,
@@ -248,11 +276,34 @@ $brand-colors: ("dropbox": $dropbox,
   "telegram": $telegram,
   "vk-alt": $vk,
   "vk": $vk,
+  "vkontakte": $vk,
   "skype": $skype,
   "skype-alt": $skype,
   "telegram-alt": $telegram,
   "tiktok": $tiktok,
   "x-twitter": $x-twitter,
+  "viber": $viber,
+  "pinterest": $pinterest,
+  "odnoklassniki": $odnoklassniki,
+  "rutube": $rutube,
+  "vimeo": $vimeo,
+  "yandex-dzen": $yandex-dzen,
+  "patreon": $patreon,
+  "meetup": $meetup,
+  "itunes": $itunes,
+  "figma": $figma,
+  "snapchat": $snapchat,
+  "signal": $signal,
+  "twitch": $twitch,
+  "wechat": $wechat,
+  "qq": $qq,
+  "reddit": $reddit,
+  "airbnb": $airbnb,
+  "discord": $discord,
+  "steam": $steam,
+  "gitlab": $gitlab,
+  "codepen": $codepen,
+  
 ) !default;
 
 //Text Emphasis

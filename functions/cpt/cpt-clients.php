@@ -2,7 +2,6 @@
 
 function cptui_register_my_cpts_clients()
 {
-
 	/**
 	 * Post Type: Clients.
 	 */
@@ -22,7 +21,7 @@ function cptui_register_my_cpts_clients()
 		"not_found" => esc_html__("No Client", "codeweber"),
 		"items_list" => esc_html__("Clients list", "codeweber"),
 		"name_admin_bar" => esc_html__("Client", "codeweber"),
-		"item_published" => esc_html__("Client puplished", "codeweber"),
+		"item_published" => esc_html__("Client published", "codeweber"),
 		"item_updated" => esc_html__("Client updated", "codeweber"),
 	];
 

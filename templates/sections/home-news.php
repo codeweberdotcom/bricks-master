@@ -11,11 +11,11 @@
 		<?php
 
 		// WP Query
-		$brk_cards_query = new WP_Query( $args );
+		$codeweber_cards_query = new WP_Query( $args );
 
 		// WP Loop
-		while ( $brk_cards_query->have_posts() ) :
-			$brk_cards_query->the_post();
+		while ( $codeweber_cards_query->have_posts() ) :
+			$codeweber_cards_query->the_post();
 
 			?>
 	
@@ -32,7 +32,7 @@
 					</a>
 		
 					<a href="<?php the_permalink(); ?>">
-						<img class="img-fluid pb-3" src="<?php the_post_thumbnail_url( 'brk_single' ); ?>" alt="<?php brk_thumbnail_alt(); ?>" loading="lazy">
+						<img class="img-fluid pb-3" src="<?php the_post_thumbnail_url( 'codeweber_single' ); ?>" alt="<?php codeweber_thumbnail_alt(); ?>" loading="lazy">
 					</a>
 		
 					<p class="card-text"><small class="text-muted">

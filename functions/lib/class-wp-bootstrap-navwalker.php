@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * WP Bootstrap Navwalker for Sandbox theme
  *
@@ -188,6 +187,11 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 				$atts['title'] = $item->attr_title;
 			}
 
+
+			$custom_class = !empty($item->classes) ? esc_attr($item->classes[0]) : '';
+
+
+
 			$atts['target'] = !empty($item->target) ? $item->target : '';
 			$atts['rel']    = !empty($item->xfn) ? $item->xfn : '';
 			// If item has_children add atts to <a>.
@@ -204,7 +208,7 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 				if ($depth > 0) {
 					$atts['class'] = 'dropdown-item';
 				} else {
-					$atts['class'] = 'nav-link';
+					$atts['class'] = 'nav-link ' . $custom_class;
 				}
 			}
 
@@ -256,26 +260,20 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 				$title = apply_filters('the_title', esc_html($item->title), $item->ID);
 
 				if (isset($args->has_children) && $args->has_children && 0 === $depth) {
-					$item_output .= '<a class="nav-link dropdown-toggle" href="' . $item->url . '">' . $title . '</a>';
+					$item_output .= '<a class="nav-link" href="' . $item->url . '">' . $title . '</a>';
 				} elseif (isset($args->has_children) && $args->has_children && 1 === $depth) {
 					$item_output .= '<a class="dropdown-item" href="' . $item->url . '">' . $title . '</a>';
 				} elseif (isset($args->has_children) && $args->has_children && 2 === $depth) {
 					$item_output .= '<a class="dropdown-item" href="' . $item->url . '">' . $title . '</a>';
 				} elseif (isset($args->has_children) && $args->has_children && 3 === $depth) {
-					$item_output .= '<a class="dropdown-item" href="' . $item->url . '">' . $title . '</a>';
-				} elseif (isset($args->has_children) && $args->has_children && 4 === $depth) {
 					$item_output .= '<a class="dropdown-item" href="' . $item->url . '">' . $title . '</a>';
 				}
 
 				if (isset($args->has_children) && $args->has_children && 0 === $depth) {
-					//$item_output .= '<a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">';
+					$item_output .= '<a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">';
 				} elseif (isset($args->has_children) && $args->has_children && 1 === $depth) {
 					$item_output .= '<a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">';
 				} elseif (isset($args->has_children) && $args->has_children && 2 === $depth) {
-					$item_output .= '<a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">';
-				} elseif (isset($args->has_children) && $args->has_children && 3 === $depth) {
-					$item_output .= '<a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">';
-				} elseif (isset($args->has_children) && $args->has_children && 4 === $depth) {
 					$item_output .= '<a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">';
 				} else {
 					$item_output .= '<a' . $attributes . '>';
@@ -308,13 +306,11 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			 */
 
 			if (isset($args->has_children) && $args->has_children && 0 === $depth) {
-				$title = '';
+				$title = '<span class="visually-hidden">' . apply_filters('nav_menu_item_title', $title, $item, $args, $depth) . '</span>';
 			} elseif (isset($args->has_children) && $args->has_children && 1 === $depth) {
-				$title = '';
+				$title = '<span class="visually-hidden">' . apply_filters('nav_menu_item_title', $title, $item, $args, $depth) . '</span>';
 			} elseif (isset($args->has_children) && $args->has_children && 2 === $depth) {
-				$title = '';
-			} elseif (isset($args->has_children) && $args->has_children && 3 === $depth) {
-				$title = '';
+				$title = '<span class="visually-hidden">' . apply_filters('nav_menu_item_title', $title, $item, $args, $depth) . '</span>';
 			} else {
 				$title = apply_filters('nav_menu_item_title', $title, $item, $args, $depth);
 			}

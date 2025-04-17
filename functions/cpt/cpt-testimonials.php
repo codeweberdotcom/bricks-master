@@ -7,14 +7,14 @@ function cptui_register_my_cpts_testimonials()
      */
 
     $labels = [
-        "name" => __("Testimonials", "codeweber"),
-        "singular_name" => __("Testimonial", "codeweber"),
-        "menu_name" => __("Testimonials", "codeweber"),
-        "new_item" => __("New Testimonial", "codeweber"),
+        "name" => esc_html__("Testimonials", "codeweber"),
+        "singular_name" => esc_html__("Testimonial", "codeweber"),
+        "menu_name" => esc_html__("Testimonials", "codeweber"),
+        "new_item" => esc_html__("New Testimonial", "codeweber"),
     ];
 
     $args = [
-        "label" => __("Testimonials", "codeweber"),
+        "label" => esc_html__("Testimonials", "codeweber"),
         "labels" => $labels,
         "description" => "",
         "public" => true,
