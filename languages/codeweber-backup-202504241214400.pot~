@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-14 18:43+0000\n"
+"POT-Creation-Date: 2025-04-18 22:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,62 +16,62 @@ msgstr ""
 "X-Loco-Version: 2.6.14; wp-6.7.1\n"
 "X-Domain: codeweber"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:419
+#: redux-framework/sample/sections/codeweber/cpt-type.php:450
 #, php-format
 msgid "%s Archive Footer Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:298
+#: redux-framework/sample/sections/codeweber/cpt-type.php:329
 #, php-format
 msgid "%s Archive Header Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:360
+#: redux-framework/sample/sections/codeweber/cpt-type.php:391
 #, php-format
 msgid "%s Archive Page Header Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:241
+#: redux-framework/sample/sections/codeweber/cpt-type.php:272
 #, php-format
 msgid "%s Archive Sidebar Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:392
+#: redux-framework/sample/sections/codeweber/cpt-type.php:423
 #, php-format
 msgid "%s Settings Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:269
+#: redux-framework/sample/sections/codeweber/cpt-type.php:300
 #, php-format
 msgid "%s Settings Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:331
+#: redux-framework/sample/sections/codeweber/cpt-type.php:362
 #, php-format
 msgid "%s Settings Page Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:215
+#: redux-framework/sample/sections/codeweber/cpt-type.php:246
 #, php-format
 msgid "%s Settings Sidebar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:395
+#: redux-framework/sample/sections/codeweber/cpt-type.php:426
 #, php-format
 msgid "%s Single Footer Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:272
+#: redux-framework/sample/sections/codeweber/cpt-type.php:303
 #, php-format
 msgid "%s Single Header Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:334
+#: redux-framework/sample/sections/codeweber/cpt-type.php:365
 #, php-format
 msgid "%s Single Page Header Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:218
+#: redux-framework/sample/sections/codeweber/cpt-type.php:249
 #, php-format
 msgid "%s Single Sidebar Settings"
 msgstr ""
@@ -106,6 +106,10 @@ msgstr ""
 
 #. Description of the theme
 msgid "A modular WordPress starter theme powered by Bootstrap 5 and Gulp"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:47
+msgid "Actual Address"
 msgstr ""
 
 #: functions/lib/class-wp-bootstrap-navwalker.php:431
@@ -212,6 +216,11 @@ msgstr ""
 msgid "Additional Types"
 msgstr ""
 
+#: templates/header/header-classic.php:298
+#: templates/header/header-extended-center-logo.php:274
+#: templates/header/header-extended.php:263
+#: templates/header/header-fancy.php:272
+#: redux-framework/sample/sections/codeweber/header.php:312
 #: redux-framework/sample/sections/codeweber/map_geo.php:117
 msgid "Address"
 msgstr ""
@@ -281,16 +290,32 @@ msgstr ""
 msgid "API"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:214
-msgid "Background Color"
+#: redux-framework/sample/sections/codeweber/company-details.php:61
+msgid "Bank Account Details"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:71
+#: redux-framework/sample/sections/codeweber/company-details.php:71
+msgid "Bank Address"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:70
+msgid "Bank KPP"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:65
+msgid "Bank Name"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:69
+msgid "Bank TIN"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:72
 #: redux-framework/sample/sections/codeweber/page-header.php:90
 msgid "Base"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:159
+#: redux-framework/sample/sections/codeweber/header.php:173
 msgid "Base Header Models"
 msgstr ""
 
@@ -302,15 +327,26 @@ msgstr ""
 msgid "Basic Fields"
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:136
+#: redux-framework/sample/metaboxes.php:147
+#: redux-framework/sample/metaboxes.php:199
+#: redux-framework/sample/metaboxes.php:210
+msgid "Basic media uploader with disabled URL input field."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/socials.php:141
 msgid "Behance"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:263
+#: redux-framework/sample/sections/codeweber/company-details.php:66
+msgid "BIC"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:265
 msgid "Breadcrumb Background Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:249
+#: redux-framework/sample/sections/codeweber/page-header.php:251
 msgid "Breadcrumb Color"
 msgstr ""
 
@@ -328,26 +364,33 @@ msgstr ""
 msgid "Category Docs"
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:243
+msgid "Choose a custom Page Header for this page."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/map_geo.php:20
 msgid "Choose a point on the map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:69
-#: redux-framework/sample/sections/codeweber/page-header.php:88
-msgid "Choose between Base and Custom."
+#: redux-framework/sample/metaboxes.php:307
+msgid "Choose a widget area to display on this page."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:82
-msgid "Choose from all custom headers."
+#: redux-framework/sample/sections/codeweber/page-header.php:88
+msgid "Choose between Base and Custom."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:101
 msgid "Choose from all custom page headers."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:148
 #: redux-framework/sample/sections/codeweber/page-header.php:221
 msgid "Choose or upload an image for the header background."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:37
+#: redux-framework/sample/sections/codeweber/company-details.php:51
+msgid "City"
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:11 functions/cpt/cpt-clients.php:23
@@ -383,21 +426,60 @@ msgstr ""
 msgid "Color Selection"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/company-details.php:27
+msgid "Company Description"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:6
+msgid "Company Details"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:14
+msgid "Company Name"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:64
+msgid "Company PSRN"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:63
+msgid "Company TIN"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/contacts.php:6
 msgid "Contacts"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:85
+msgid "Container"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:103
 msgid "Coordinates"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/company-details.php:67
+msgid "Corr. Account"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:35
+#: redux-framework/sample/sections/codeweber/company-details.php:49
+msgid "Country"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:50
 #: redux-framework/sample/sections/codeweber/cpt-type.php:160
 msgid "Create Custom Footer"
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:40
 #: redux-framework/sample/sections/codeweber/cpt-type.php:150
-#: redux-framework/sample/sections/codeweber/header.php:41
+#: redux-framework/sample/sections/codeweber/header.php:45
 msgid "Create Custom Header"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:61
+msgid "Create Custom Page Header"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:41
@@ -416,7 +498,11 @@ msgstr ""
 msgid "Current File:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:72
+#: redux-framework/sample/metaboxes.php:109
+#: redux-framework/sample/metaboxes.php:173
+#: redux-framework/sample/metaboxes.php:232
+#: redux-framework/sample/metaboxes.php:280
+#: redux-framework/sample/sections/codeweber/header.php:73
 #: redux-framework/sample/sections/codeweber/page-header.php:91
 msgid "Custom"
 msgstr ""
@@ -433,7 +519,7 @@ msgstr ""
 msgid "Custom Post Types"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:209
+#: redux-framework/sample/sections/codeweber/cpt-type.php:240
 #, php-format
 msgid "Custom Title for %s"
 msgstr ""
@@ -451,11 +537,27 @@ msgstr ""
 msgid "DaDaTa Settings"
 msgstr ""
 
-#: functions/setup.php:75
+#: redux-framework/sample/sections/codeweber/header.php:117
+#: redux-framework/sample/sections/codeweber/header.php:252
+msgid "Dark"
+msgstr ""
+
+#: functions/setup.php:77
 msgid "Dark Logo"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:286
+#: redux-framework/sample/metaboxes.php:108
+#: redux-framework/sample/metaboxes.php:172
+#: redux-framework/sample/metaboxes.php:231
+#: redux-framework/sample/metaboxes.php:279
+msgid "Default"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:28
+msgid "Default text"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:305
 msgid "Description"
 msgstr ""
 
@@ -468,8 +570,9 @@ msgid ""
 "$%1$s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:232
-#: redux-framework/sample/sections/codeweber/cpt-type.php:254
+#: redux-framework/sample/metaboxes.php:294
+#: redux-framework/sample/sections/codeweber/cpt-type.php:263
+#: redux-framework/sample/sections/codeweber/cpt-type.php:285
 msgid "Disable Sidebar"
 msgstr ""
 
@@ -512,6 +615,13 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/contacts.php:15
 msgid "E-Mail"
+msgstr ""
+
+#: templates/header/header-classic.php:288
+#: templates/header/header-extended-center-logo.php:264
+#: templates/header/header-extended.php:253
+#: templates/header/header-fancy.php:262
+msgid "E-mail"
 msgstr ""
 
 #: functions/cpt/cpt-docs.php:61
@@ -590,7 +700,11 @@ msgstr ""
 msgid "Enable breadcrumbs"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:271
+#: redux-framework/sample/metaboxes.php:86
+msgid "Enable container for content"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:272
 msgid "Enable Right Menu"
 msgstr ""
 
@@ -686,25 +800,37 @@ msgstr ""
 msgid "Footer"
 msgstr ""
 
-#: functions/navmenus.php:15
+#: functions/navmenus.php:16
 msgid "Footer Menu"
 msgstr ""
 
-#: functions/navmenus.php:16
+#: functions/navmenus.php:17
 msgid "Footer Menu 1"
 msgstr ""
 
-#: functions/navmenus.php:17
+#: functions/navmenus.php:18
 msgid "Footer Menu 2"
 msgstr ""
 
-#: functions/navmenus.php:18
+#: functions/navmenus.php:19
 msgid "Footer Menu 3"
+msgstr ""
+
+#: functions/navmenus.php:20
+msgid "Footer Menu 4"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:157
+msgid "Footer Settings"
 msgstr ""
 
 #: redux-framework/sample/theme-config.php:554
 #: redux-framework/sample/sections/codeweber/repeater.php:15
 msgid "For full documentation on this field, visit: "
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:20
+msgid "Full Name"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:9
@@ -745,8 +871,7 @@ msgstr ""
 
 #: functions/cpt/cpt-header.php:10 functions/cpt/cpt-header.php:11
 #: functions/cpt/cpt-header.php:12 functions/cpt/cpt-header.php:26
-#: redux-framework/sample/sections/codeweber/header.php:49
-#: redux-framework/sample/sections/codeweber/header.php:59
+#: redux-framework/sample/sections/codeweber/header.php:62
 msgid "Header"
 msgstr ""
 
@@ -758,39 +883,71 @@ msgstr ""
 msgid "Header Menu 1"
 msgstr ""
 
-#: functions/sidebars.php:87
+#: functions/sidebars.php:61
 msgid "Header Right"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:163
+#: functions/sidebars.php:71
+msgid "Header Right 1"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:81
+msgid "Header rounded"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:94
+msgid "Header Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:114
+msgid "Header text color"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:177
 msgid "Header Type 1"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:168
+#: redux-framework/sample/sections/codeweber/header.php:182
 msgid "Header Type 2"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:173
+#: redux-framework/sample/sections/codeweber/header.php:187
 msgid "Header Type 3"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:178
+#: redux-framework/sample/sections/codeweber/header.php:192
 msgid "Header Type 4"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:183
+#: redux-framework/sample/sections/codeweber/header.php:197
 msgid "Header Type 5"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:188
+#: redux-framework/sample/sections/codeweber/header.php:202
 msgid "Header Type 6"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:193
+#: redux-framework/sample/sections/codeweber/header.php:207
 msgid "Header Type 7"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:203
+#: redux-framework/sample/sections/codeweber/header.php:212
+msgid "Header Type 8"
+msgstr ""
+
+#: functions/sidebars.php:91
+msgid "Header Widget 1"
+msgstr ""
+
+#: functions/sidebars.php:100
+msgid "Header Widget 2"
+msgstr ""
+
+#: functions/sidebars.php:109
+msgid "Header Widget 3"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:225
 #, php-format
 msgid "Here you can make settings for the custom post type %s"
 msgstr ""
@@ -801,6 +958,11 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:86
 msgid "Hotjar Settings"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:39
+#: redux-framework/sample/sections/codeweber/company-details.php:53
+msgid "House Number"
 msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:11 functions/cpt/cpt-html_blocks.php:23
@@ -829,7 +991,6 @@ msgstr ""
 msgid "https://codeweber.ru"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:103
 #: redux-framework/sample/sections/codeweber/page-header.php:178
 msgid "Image"
 msgstr ""
@@ -858,9 +1019,19 @@ msgstr ""
 msgid "Korablev Denis"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:231
-#: redux-framework/sample/sections/codeweber/cpt-type.php:253
+#: redux-framework/sample/metaboxes.php:293
+#: redux-framework/sample/sections/codeweber/cpt-type.php:262
+#: redux-framework/sample/sections/codeweber/cpt-type.php:284
 msgid "Left Sidebar"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:33
+msgid "Legal Address"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:118
+#: redux-framework/sample/sections/codeweber/header.php:253
+msgid "Light"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:26
@@ -871,9 +1042,20 @@ msgstr ""
 msgid "LinkedIn"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:245
-#: redux-framework/sample/sections/codeweber/header.php:285
-msgid "Logo"
+#: redux-framework/sample/metaboxes.php:208
+msgid "Logo Dark Footer w/ URL"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:145
+msgid "Logo Dark Header w/ URL"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:197
+msgid "Logo Light Footer w/ URL"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:134
+msgid "Logo Light Header w/ URL"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:16
@@ -885,11 +1067,15 @@ msgstr ""
 msgid "Look, it's on!"
 msgstr ""
 
-#: functions/sidebars.php:63 functions/sidebars.php:65
+#: redux-framework/sample/metaboxes.php:77
+msgid "Main Options"
+msgstr ""
+
+#: functions/sidebars.php:29 functions/sidebars.php:31
 msgid "Main Sidebar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:288
+#: redux-framework/sample/sections/codeweber/header.php:307
 msgid "Map"
 msgstr ""
 
@@ -901,13 +1087,20 @@ msgstr ""
 msgid "Meetup"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:246
-#: redux-framework/sample/sections/codeweber/header.php:292
+#: redux-framework/sample/sections/codeweber/header.php:311
 msgid "Menu"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:204
+#: redux-framework/sample/sections/codeweber/header.php:223
 msgid "Mobile Menu"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:250
+msgid "Mobile Menu Background"
+msgstr ""
+
+#: functions/sidebars.php:81
+msgid "Mobile Menu Footer"
 msgstr ""
 
 #: functions/cpt/cpt-modals.php:12 functions/cpt/cpt-modals.php:25
@@ -1011,6 +1204,7 @@ msgstr ""
 msgid "No Client"
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:49
 #: redux-framework/sample/sections/codeweber/cpt-type.php:159
 #, php-format
 msgid ""
@@ -1018,12 +1212,20 @@ msgid ""
 "%s"
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:39
 #: redux-framework/sample/sections/codeweber/cpt-type.php:149
-#: redux-framework/sample/sections/codeweber/header.php:40
+#: redux-framework/sample/sections/codeweber/header.php:44
 #, php-format
 msgid ""
 "No custom headers found. You can create one by visiting the following link: "
 "%s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:60
+#, php-format
+msgid ""
+"No custom Page Header found. You can create one by visiting the following "
+"link: %s"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:169
@@ -1124,13 +1326,16 @@ msgstr ""
 msgid "No Price Packages found in Trash"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:97
+#: redux-framework/sample/sections/codeweber/header.php:129
 msgid "No validation can be done on this field type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:104
 #: redux-framework/sample/sections/codeweber/page-header.php:179
 msgid "None"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:87
+msgid "none"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:39
@@ -1138,16 +1343,26 @@ msgid "Odnoklassniki"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:338
+#: redux-framework/sample/sections/codeweber/page-header.php:243
 msgid "Off"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:261
-#: redux-framework/sample/sections/codeweber/header.php:270
+#: functions/navmenus.php:15
+msgid "Offcanvas Menu"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:263
+#: redux-framework/sample/sections/codeweber/header.php:271
 msgid "Offcanvas Right Menu"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:12
 msgid "Office"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:40
+#: redux-framework/sample/sections/codeweber/company-details.php:54
+msgid "Office/Apartment"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:11 functions/cpt/cpt-offices.php:13
@@ -1156,7 +1371,15 @@ msgid "Offices"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:337
+#: redux-framework/sample/sections/codeweber/page-header.php:242
 msgid "On"
+msgstr ""
+
+#: templates/header/header-classic.php:329
+#: templates/header/header-extended-center-logo.php:305
+#: templates/header/header-extended.php:294
+#: templates/header/header-fancy.php:303
+msgid "On Map"
 msgstr ""
 
 #: redux-framework/sample-config.php:578
@@ -1174,19 +1397,11 @@ msgstr ""
 msgid "Opt 3"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:237
-msgid "Order items in menu"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/header.php:279
+#: redux-framework/sample/sections/codeweber/header.php:298
 msgid "Order items in side menu"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:238
-msgid "Organize how you want the layout to appear on the homepage"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/header.php:280
+#: redux-framework/sample/sections/codeweber/header.php:299
 msgid "Organize how you want the layout to appear on the side menu"
 msgstr ""
 
@@ -1209,6 +1424,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:172
 msgid "Page Header Background Type"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:218
+msgid "Page Header Settings"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:76
@@ -1300,6 +1519,10 @@ msgstr ""
 msgid "Patreon"
 msgstr ""
 
+#: templates/header/header-classic.php:279
+#: templates/header/header-extended-center-logo.php:255
+#: templates/header/header-extended.php:244
+#: templates/header/header-fancy.php:253
 #: redux-framework/sample/sections/codeweber/repeater.php:14
 #: redux-framework/sample/sections/codeweber/repeater.php:21
 #: redux-framework/sample/sections/codeweber/repeater.php:23
@@ -1326,8 +1549,7 @@ msgstr ""
 msgid "Phone 05"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:247
-#: redux-framework/sample/sections/codeweber/header.php:287
+#: redux-framework/sample/sections/codeweber/header.php:306
 msgid "Phones"
 msgstr ""
 
@@ -1344,6 +1566,11 @@ msgstr ""
 
 #: functions/cpt/cpt-modals.php:33
 msgid "Post type for modals"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:41
+#: redux-framework/sample/sections/codeweber/company-details.php:55
+msgid "Postal Code"
 msgstr ""
 
 #: redux-framework/sample/theme-config.php:436
@@ -1522,6 +1749,11 @@ msgstr ""
 msgid "Redux Extensions"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/company-details.php:36
+#: redux-framework/sample/sections/codeweber/company-details.php:50
+msgid "Region"
+msgstr ""
+
 #: functions/cpt/cpt-price_list.php:26
 msgid "Remove Featured Image for this Price List"
 msgstr ""
@@ -1544,9 +1776,18 @@ msgid ""
 "Options then adjust this field to see the fields within show or hide."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:233
-#: redux-framework/sample/sections/codeweber/cpt-type.php:255
+#: redux-framework/sample/metaboxes.php:295
+#: redux-framework/sample/sections/codeweber/cpt-type.php:264
+#: redux-framework/sample/sections/codeweber/cpt-type.php:286
 msgid "Right Sidebar"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:85
+msgid "rounded"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:86
+msgid "rounded-pill"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:45
@@ -1621,13 +1862,10 @@ msgstr ""
 msgid "Search Staff"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:60
-#: redux-framework/sample/sections/codeweber/header.php:205
-#: redux-framework/sample/sections/codeweber/header.php:262
 #: redux-framework/sample/sections/codeweber/page-header.php:77
 #: redux-framework/sample/sections/codeweber/page-header.php:165
 #: redux-framework/sample/sections/codeweber/page-header.php:231
-#: redux-framework/sample/sections/codeweber/page-header.php:276
+#: redux-framework/sample/sections/codeweber/page-header.php:278
 msgid "Section one with subtitle"
 msgstr ""
 
@@ -1636,7 +1874,7 @@ msgstr ""
 msgid "Section via hook"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:160
+#: redux-framework/sample/sections/codeweber/header.php:174
 msgid "Select a predefined header model."
 msgstr ""
 
@@ -1644,7 +1882,11 @@ msgstr ""
 msgid "Select a predefined page header model."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:81
+#: redux-framework/sample/metaboxes.php:308
+msgid "Select a sidebar widget area for customization."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:99
 msgid "Select Custom Header"
 msgstr ""
 
@@ -1656,46 +1898,87 @@ msgstr ""
 msgid "Select File"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:428
+#: redux-framework/sample/metaboxes.php:182
+msgid "Select Footer"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:459
 #, php-format
 msgid "Select Footer for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:405
+#: redux-framework/sample/sections/codeweber/cpt-type.php:436
 #, php-format
 msgid "Select Footer for Single %s"
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:53
 #: redux-framework/sample/sections/codeweber/cpt-type.php:163
 msgid "Select Footer from Custom Headers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:307
+#: redux-framework/sample/metaboxes.php:169
+#: redux-framework/sample/metaboxes.php:170
+msgid "Select Footer type for This Page"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:118
+msgid "Select Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:159
+msgid "Select Header Background Soft Color"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:144
+msgid "Select Header Background Solid Color"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:338
 #, php-format
 msgid "Select Header for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:282
-#: redux-framework/sample/sections/codeweber/cpt-type.php:344
+#: redux-framework/sample/sections/codeweber/cpt-type.php:313
+#: redux-framework/sample/sections/codeweber/cpt-type.php:375
 #, php-format
 msgid "Select Header for Single %s"
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:43
 #: redux-framework/sample/sections/codeweber/cpt-type.php:153
 msgid "Select Header from Custom Headers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:68
+#: redux-framework/sample/sections/codeweber/header.php:70
 msgid "Select Header Type"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:105
+#: redux-framework/sample/metaboxes.php:106
+msgid "Select Header type for This Page"
 msgstr ""
 
 #: functions/cpt/cpt-docs.php:139
 msgid "Select or Upload a Document"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:369
+#: redux-framework/sample/metaboxes.php:242
+msgid "Select Page Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:400
 #, php-format
 msgid "Select Page Header for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:64
+msgid "Select Page Header from Custom Page Headers"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:228
+#: redux-framework/sample/metaboxes.php:229
+msgid "Select Page Header type for This Page"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:173
@@ -1706,28 +1989,40 @@ msgstr ""
 msgid "Select Page-Header Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:250
+#: redux-framework/sample/sections/codeweber/cpt-type.php:281
 #, php-format
 msgid "Select Sidebar position for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:228
+#: redux-framework/sample/sections/codeweber/cpt-type.php:259
 #, php-format
 msgid "Select Sidebar position for Single %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:129
+#: redux-framework/sample/metaboxes.php:290
+#: redux-framework/sample/metaboxes.php:291
+msgid "Select Sidebar position for This Page"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:276
+#: redux-framework/sample/metaboxes.php:277
+msgid "Select Sidebar type for This Page"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/page-header.php:202
 msgid "Select Soft Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:114
 #: redux-framework/sample/sections/codeweber/page-header.php:189
 msgid "Select Solid Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:96
+#: redux-framework/sample/sections/codeweber/header.php:128
 msgid "Select type Header background"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:306
+msgid "Select Widget Area"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:118
@@ -1815,42 +2110,42 @@ msgstr ""
 msgid "Settings for custom post types."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:422
+#: redux-framework/sample/sections/codeweber/cpt-type.php:453
 #, php-format
 msgid "Settings for the Archive Footer %s custom post type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:301
+#: redux-framework/sample/sections/codeweber/cpt-type.php:332
 #, php-format
 msgid "Settings for the Archive Header %s custom post type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:363
+#: redux-framework/sample/sections/codeweber/cpt-type.php:394
 #, php-format
 msgid "Settings for the Archive Page Header %s custom post type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:244
+#: redux-framework/sample/sections/codeweber/cpt-type.php:275
 #, php-format
 msgid "Settings for the Archive Sidebar %s custom post type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:398
+#: redux-framework/sample/sections/codeweber/cpt-type.php:429
 #, php-format
 msgid "Settings for the Single Footer %s custom post type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:275
+#: redux-framework/sample/sections/codeweber/cpt-type.php:306
 #, php-format
 msgid "Settings for the Single Header %s custom post type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:337
+#: redux-framework/sample/sections/codeweber/cpt-type.php:368
 #, php-format
 msgid "Settings for the Single Page Header %s custom post type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:221
+#: redux-framework/sample/sections/codeweber/cpt-type.php:252
 #, php-format
 msgid "Settings for the Single Sidebar %s custom post type."
 msgstr ""
@@ -1859,7 +2154,7 @@ msgstr ""
 msgid "Settings Geo && Map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:51
+#: redux-framework/sample/sections/codeweber/header.php:53
 msgid "Settings Header"
 msgstr ""
 
@@ -1875,17 +2170,25 @@ msgstr ""
 msgid "Settings Tracking && Metrics"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:8
-msgid "Settings Сompany details"
+#: redux-framework/sample/sections/codeweber/company-details.php:68
+msgid "Settlement Account"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:43
 msgid "Shop"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/company-details.php:21
+msgid "Short Name"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:362
 #: redux-framework/sample/sections/codeweber/page-header.php:62
 msgid "Sidebar"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:265
+msgid "Sidebar Settings"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:178
@@ -1905,38 +2208,48 @@ msgstr ""
 msgid "Snapchat"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:248
-#: redux-framework/sample/sections/codeweber/header.php:289
+#: redux-framework/sample/sections/codeweber/header.php:281
+msgid "Social Icon Type"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:231
+msgid "Social Icon Type Mobile Menu"
+msgstr ""
+
+#: templates/header/header-classic.php:356
+#: templates/header/header-extended-center-logo.php:332
+#: templates/header/header-extended.php:321
+#: templates/header/header-fancy.php:330
+msgid "Social Media"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:308
 #: redux-framework/sample/sections/codeweber/socials.php:6
 msgid "Socials"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:132
 #: redux-framework/sample/sections/codeweber/page-header.php:205
 msgid "Soft Blue"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:133
 #: redux-framework/sample/sections/codeweber/page-header.php:206
 msgid "Soft Green"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:131
 #: redux-framework/sample/sections/codeweber/page-header.php:204
 msgid "Soft Red"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:134
 #: redux-framework/sample/sections/codeweber/page-header.php:207
 msgid "Soft Yellow"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:101
+#: redux-framework/sample/sections/codeweber/header.php:133
 #: redux-framework/sample/sections/codeweber/page-header.php:177
 msgid "Soft-Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:100
+#: redux-framework/sample/sections/codeweber/header.php:132
 #: redux-framework/sample/sections/codeweber/page-header.php:176
 msgid "Solid-Color"
 msgstr ""
@@ -1975,10 +2288,11 @@ msgstr ""
 msgid "Steam"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:16
-#: redux-framework/sample/sections/codeweber/company-details.php:30
-#: redux-framework/sample/sections/codeweber/company-details.php:48
-#: redux-framework/sample/sections/codeweber/company-details.php:65
+#: redux-framework/sample/sections/codeweber/company-details.php:38
+#: redux-framework/sample/sections/codeweber/company-details.php:52
+msgid "Street"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/contacts.php:16
 #: redux-framework/sample/sections/codeweber/contacts.php:22
 #: redux-framework/sample/sections/codeweber/contacts.php:30
@@ -2058,10 +2372,6 @@ msgstr ""
 msgid "Testing filter hook!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:226
-msgid "Text Color"
-msgstr ""
-
 #: redux-framework/sample-config.php:575
 #: redux-framework/sample/theme-config.php:610
 msgid "The field desc is NOT visible in customizer."
@@ -2096,7 +2406,7 @@ msgid ""
 "used by child themes to add/remove sections from the options."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:98
+#: redux-framework/sample/sections/codeweber/header.php:130
 #: redux-framework/sample/sections/codeweber/page-header.php:174
 msgid "This is the description field, again good for additional info."
 msgstr ""
@@ -2105,12 +2415,12 @@ msgstr ""
 msgid "This is the sidebar content, HTML is allowed."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:251
+#: redux-framework/sample/sections/codeweber/cpt-type.php:282
 #, php-format
 msgid "This is the Sidebar position for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:229
+#: redux-framework/sample/sections/codeweber/cpt-type.php:260
 #, php-format
 msgid "This is the Sidebar position for Single %s"
 msgstr ""
@@ -2122,6 +2432,10 @@ msgstr ""
 
 #: functions/cpt/cpt-projects.php:31
 msgid "This module allows you to display your work or cases on the website."
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:71
+msgid "This Post Settings"
 msgstr ""
 
 #: redux-framework/sample/theme-config.php:602
@@ -2144,12 +2458,12 @@ msgstr ""
 msgid "Tik-Tok"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:275
+#: redux-framework/sample/sections/codeweber/page-header.php:277
 #: redux-framework/sample/sections/codeweber/repeater.php:32
 msgid "Title"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:284
+#: redux-framework/sample/sections/codeweber/page-header.php:286
 msgid "Title Color"
 msgstr ""
 
@@ -2165,7 +2479,7 @@ msgstr ""
 msgid "Tracking & Metrics"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:102
+#: redux-framework/sample/sections/codeweber/header.php:134
 msgid "Transparent"
 msgstr ""
 
@@ -2185,11 +2499,50 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/header.php:233
+#: redux-framework/sample/sections/codeweber/header.php:283
+msgid "Type 1"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:234
+#: redux-framework/sample/sections/codeweber/header.php:284
+msgid "Type 2"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:235
+#: redux-framework/sample/sections/codeweber/header.php:285
+msgid "Type 3"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:236
+#: redux-framework/sample/sections/codeweber/header.php:286
+msgid "Type 4"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:237
+#: redux-framework/sample/sections/codeweber/header.php:287
+msgid "Type 5"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:238
+#: redux-framework/sample/sections/codeweber/header.php:288
+msgid "Type 6"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/header.php:239
+#: redux-framework/sample/sections/codeweber/header.php:289
+msgid "Type 7"
+msgstr ""
+
+#: templates/header/header-extended-center-logo.php:221
+msgid "Type keyword and hit enter"
+msgstr ""
+
 #: functions/cpt/cpt-services.php:110 functions/cpt/cpt-services.php:115
 msgid "Types"
 msgstr ""
 
-#: functions/sidebars.php:38 functions/cpt/redux_cpt.php:14
+#: functions/sidebars-redux.php:17 functions/cpt/redux_cpt.php:14
 #: redux-framework/sample/sections/codeweber/cpt-type.php:70
 #: redux-framework/sample/sections/codeweber/cpt-type.php:184
 msgid "Unnamed"
@@ -2207,11 +2560,17 @@ msgstr ""
 msgid "Upload a file:"
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:137
+#: redux-framework/sample/metaboxes.php:148
+#: redux-framework/sample/metaboxes.php:200
+#: redux-framework/sample/metaboxes.php:211
+msgid "Upload any media using the WordPress native uploader"
+msgstr ""
+
 #: functions/cpt/cpt-docs.php:164
 msgid "Upload File"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:147
 #: redux-framework/sample/sections/codeweber/page-header.php:220
 msgid "Upload Header Background Image"
 msgstr ""
@@ -2388,31 +2747,29 @@ msgstr ""
 msgid "Whatsapp"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:251
-#: redux-framework/sample/sections/codeweber/header.php:293
+#: redux-framework/sample/sections/codeweber/header.php:313
 msgid "Widget 1"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:252
-#: redux-framework/sample/sections/codeweber/header.php:294
+#: redux-framework/sample/sections/codeweber/header.php:314
 msgid "Widget 2"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:253
-#: redux-framework/sample/sections/codeweber/header.php:295
+#: redux-framework/sample/sections/codeweber/header.php:315
 msgid "Widget 3"
 msgstr ""
 
-#: functions/sidebars.php:53
+#: functions/sidebars-redux.php:28
 #, php-format
 msgid "Widget area for %s"
 msgstr ""
 
-#: functions/sidebars.php:89
-msgid "Widget area on the right side of the Header}"
+#: functions/sidebars.php:63 functions/sidebars.php:73
+#: functions/sidebars.php:83
+msgid "Widget area on the right side of the Header"
 msgstr ""
 
-#: functions/sidebars.php:73 functions/sidebars.php:75
+#: functions/sidebars.php:45 functions/sidebars.php:47
 msgid "Woo Sidebar"
 msgstr ""
 
@@ -2446,103 +2803,4 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:111
 msgid "Zoom level of the map"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:75
-msgid "Адрес банка"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:70
-msgid "БИК"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:36
-#: redux-framework/sample/sections/codeweber/company-details.php:54
-msgid "Город"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:67
-msgid "ИНН Компании"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:73
-msgid "ИНН банка"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:74
-msgid "КПП банка"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:71
-msgid "Кор. счет"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:23
-msgid "Краткое название"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:69
-msgid "Название банка"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:15
-msgid "Название компании"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:38
-#: redux-framework/sample/sections/codeweber/company-details.php:56
-msgid "Номер дома"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:68
-msgid "ОГРН Компании"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:39
-#: redux-framework/sample/sections/codeweber/company-details.php:57
-msgid "Офис/Квартира"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:22
-msgid "Полное название"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:40
-#: redux-framework/sample/sections/codeweber/company-details.php:58
-msgid "Почтовый индекс"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:72
-msgid "Расчетный счет"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:35
-#: redux-framework/sample/sections/codeweber/company-details.php:53
-msgid "Регион"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:64
-msgid "Реквизиты банковского счета"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:6
-msgid "Сompany Details"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:34
-#: redux-framework/sample/sections/codeweber/company-details.php:52
-msgid "Страна"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:37
-#: redux-framework/sample/sections/codeweber/company-details.php:55
-msgid "Улица"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:47
-msgid "Фактический адрес"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:29
-msgid "Юридический адрес"
 msgstr ""

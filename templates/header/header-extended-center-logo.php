@@ -106,6 +106,7 @@ if ($header_rounded === '2') {
     $header_navbar_wrapper_class[] = 'rounded-0';
 }
 
+
 if ($config['navbar-transparent']) {
     $header_navbar_class[] = 'transparent position-absolute';
     if ($header_color_text === '1') {
@@ -117,7 +118,7 @@ if ($config['navbar-transparent']) {
         $header_navbar_class[] = 'navbar-dark';
         $header_navbar_wrapper_class[] = 'bg-dark';
     }
-} else {
+}else{
     if ($header_color_text === '1') {
         $logo = 'light';
         $header_navbar_class[] = 'navbar-light navbar-bg-light';
@@ -127,7 +128,10 @@ if ($config['navbar-transparent']) {
         $header_navbar_class[] = 'navbar-dark navbar-bg-dark';
         $header_navbar_wrapper_class[] = 'bg-dark';
     }
+
 }
+
+
 
 if ($mobile_menu_background === '1') {
     $navbar_collapse_class[] = 'offcanvas-light';
@@ -139,14 +143,10 @@ if ($mobile_menu_background === '1') {
     $config['btn-close-mobile'] = 'btn-close-white';
 }
 
-$header_navbar_wrapper_class[] = 'bg-white';
-
 if (isset($config['header-bg-color']) && $config['navbar-transparent'] !== true && ($config['navbar-color'] === 'dark' || $config['navbar-color'] === 'light')) {
     $header_class[] = 'bg-' . $config['header-bg-color'];
 }
-if ($config['navbar-transparent']) {
-    $header_navbar_class[] = 'transparent position-absolute';
-}
+
 
 ?>
 
@@ -154,41 +154,23 @@ if ($config['navbar-transparent']) {
     <?php if ($topbar_enable === '1') { ?>
         <?php get_template_part('templates/header/header', 'topbar'); ?>
     <?php }; ?>
-    <nav class="navbar navbar-expand-lg extended <?= implode(" ", $header_navbar_class); ?>">
+    <nav class="navbar navbar-expand-lg extended extended-alt <?= implode(" ", $header_navbar_class); ?>">
         <div class="container flex-lg-column">
-            <div class="topbar d-flex flex-row w-100 justify-content-between align-items-center">
-                <div class="navbar-brand">
-                    <a href="<?php htmlspecialchars($config['homeLink']); ?>">
-                        <?= get_custom_logo_type($logo); ?>
-                    </a>
-                </div>
-                <div class="navbar-other ms-auto">
-                    <?php if (is_active_sidebar('header-right')) { ?>
-                        <ul class="navbar-nav flex-row align-items-center">
-                            <?php dynamic_sidebar('header-right'); ?>
-                            <li class="nav-item d-lg-none">
-                                <button class="hamburger offcanvas-nav-btn"><span></span></button>
-                            </li>
-                        </ul>
-                        <!-- /.navbar-nav -->
+            <div class="topbar d-flex flex-row justify-content-lg-center align-items-center">
+                <div class="navbar-brand"><a href="<?php htmlspecialchars($config['homeLink']); ?>"><?= get_custom_logo_type($logo); ?></a></div>
+            </div>
+            <!-- /.d-flex -->
+            <div class="navbar-collapse-wrapper d-flex flex-row align-items-center justify-content-between <?= implode(" ", $header_navbar_wrapper_class); ?>">
+
+                <div class="navbar-other w-100 d-none d-lg-block">
+                    <?php if (is_active_sidebar('header-right-1')) { ?>
+                        <?php dynamic_sidebar('header-right-1'); ?>
                     <?php } else {; ?>
-                        <ul class="navbar-nav flex-row align-items-center">
-                            <?php if ($global_header_offcanvas_right === '1') { ?>
-                                <li class="nav-item"><a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info"><i class="uil uil-info-circle"></i></a></li>
-                            <?php } ?>
-                            <?= $config['languageSelector']; ?>
-                            <li class="nav-item d-lg-none">
-                                <button class="hamburger offcanvas-nav-btn"><span></span></button>
-                            </li>
-                        </ul>
-                        <!-- /.navbar-nav -->
+                        <?= social_links('', $config['social-type'], $config['social-size']); ?>
                     <?php } ?>
                 </div>
                 <!-- /.navbar-other -->
-            </div>
-            <!-- /.d-flex -->
 
-            <div class="navbar-collapse-wrapper d-flex flex-row align-items-center <?= implode(" ", $header_navbar_wrapper_class); ?>">
                 <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start <?= implode(" ", $navbar_collapse_class); ?>">
                     <div class="offcanvas-header d-lg-none">
                         <a href="<?php htmlspecialchars($config['homeLink']); ?>"><?= get_custom_logo_type($config['mobileLogo']); ?></a>
@@ -227,11 +209,31 @@ if ($config['navbar-transparent']) {
                     <!-- /.offcanvas-body -->
                 </div>
                 <!-- /.navbar-collapse -->
-                <div class="navbar-other ms-auto w-100 d-none d-lg-block">
-                    <?php if (is_active_sidebar('header-right-1')) { ?>
-                        <?php dynamic_sidebar('header-right-1'); ?>
-                    <?php } else {; ?>
-                        <?= social_links('justify-content-end text-end', $config['social-type'], $config['social-size']); ?>
+
+                <div class="navbar-other w-100 d-flex">
+                    <?php if (is_active_sidebar('header-right')) { ?>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <?php dynamic_sidebar('header-right'); ?>
+                            <li class="nav-item d-lg-none">
+                                <button class="hamburger offcanvas-nav-btn"><span></span></button>
+                            </li>
+                        </ul>
+                        <!-- /.navbar-nav -->
+                    <?php } else { ?>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <?php if ($global_header_offcanvas_right === '1') { ?>
+                                <li class="nav-item"><a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info"><i class="uil uil-info-circle"></i></a></li>
+                            <?php } ?>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-search"><i class="uil uil-search"></i></a>
+                            </li>
+                            <?= $config['languageSelector']; ?>
+                            <?= $config['buttonCTA']; ?>
+                            <li class="nav-item d-lg-none">
+                                <button class="hamburger offcanvas-nav-btn"><span></span></button>
+                            </li>
+                        </ul>
+                        <!-- /.navbar-nav -->
                     <?php } ?>
                 </div>
                 <!-- /.navbar-other -->
@@ -254,7 +256,6 @@ if ($config['navbar-transparent']) {
     </div>
     <!-- /.offcanvas -->
 
-
     <?php
     if ($global_header_offcanvas_right === '1') { ?>
         <div class="offcanvas offcanvas-end bg-light" id="offcanvas-info" data-bs-scroll="true">
@@ -273,7 +274,7 @@ if ($config['navbar-transparent']) {
                         switch ($key) {
                             case 'description':
                                 echo '<div class="widget mb-5">
-                                      <p>' . $company_description . '</p>
+                                      <p class="lead text-dark">' . $company_description . '</p>
                                       </div>
                                       <!-- /.widget -->';
                                 break;

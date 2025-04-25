@@ -1,12 +1,13 @@
 <?php get_header(); ?>
+<?php get_pageheader(); ?>
 
 <main id="content-wrapper">
 
-	<section id="section-hero" class="has-img-background" >
+	<section id="section-hero" class="has-img-background">
 
 		<?php
 
-		get_template_part( 'templates/sections/home', 'hero' );
+		get_template_part('templates/sections/home', 'hero');
 
 		?>
 
@@ -21,7 +22,7 @@
 			'posts_per_page'    => 3,
 		);
 
-		get_template_part( 'templates/sections/home', 'services', $args );
+		get_template_part('templates/sections/home', 'services', $args);
 
 		?>
 
@@ -36,12 +37,12 @@
 			'posts_per_page'    => 3,
 		);
 
-		get_template_part( 'templates/sections/home', 'slider', $args );
+		get_template_part('templates/sections/home', 'slider', $args);
 
 		?>
 
 	</section> <!-- #section-slider -->
- 
+
 	<section id="section-news">
 
 		<?php
@@ -51,7 +52,7 @@
 			'posts_per_page'    => 3,
 		);
 
-		get_template_part( 'templates/sections/home', 'news', $args );
+		get_template_part('templates/sections/home', 'news', $args);
 
 		?>
 
@@ -66,12 +67,12 @@
 			'posts_per_page'    => 1,
 		);
 
-		get_template_part( 'templates/sections/home', 'cta', $args );
+		get_template_part('templates/sections/home', 'cta', $args);
 
 		?>
 
 	</section> <!-- #section-cta -->
- 
+
 </main> <!-- #content-wrapper -->
 
 <?php

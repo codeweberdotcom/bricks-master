@@ -4,6 +4,7 @@
  *  https://developer.wordpress.org/themes/basics/theme-functions/
  */
 
+ 
 // Подключение файлов CPT
 require_once get_template_directory() . '/functions/cpt/cpt-header.php';
 require_once get_template_directory() . '/functions/cpt/cpt-footer.php';
@@ -16,8 +17,8 @@ require_once get_template_directory() . '/functions/images.php';
 require_once get_template_directory() . '/functions/navmenus.php';
 require_once get_template_directory() . '/functions/sidebars.php';
 require_once get_template_directory() . '/functions/lib/class-wp-bootstrap-navwalker.php';
-require_once get_template_directory() . '/functions/page-header-class.php';
 require_once get_template_directory() . '/functions/global.php';
+require_once get_template_directory() . '/functions/breadcrumbs.php';
 require_once get_template_directory() . '/functions/cleanup.php';
 require_once get_template_directory() . '/functions/custom.php';
 require_once get_template_directory() . '/functions/admin/admin_settings.php';
@@ -42,3 +43,21 @@ function codeweber_initialize_redux()
 	require_once get_template_directory() . '/functions/sidebars-redux.php';
 }
 add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
+
+
+
+/**
+ * Change the WooCommerce "Shop" page title to "Shop By Brand".
+ * Add this code to your site by following this guide - https://yoohooplugins.com/customize-wordpress/
+ */
+ 
+function my_woo_shop_page_title( $page_title ) {
+	if ( is_shop() ) {
+		$page_title = "Shop By Brand";
+	}
+
+	return $page_title;
+}
+add_filter( 'woocommerce_page_title', 'my_woo_shop_page_title');
+
+

@@ -1041,7 +1041,7 @@ var custom = {
   },
 
   rippleEffect: () => {
-    document.querySelectorAll(".has-ripple").forEach((button) => {
+    document.querySelectorAll(".btn").forEach((button) => {
       // Проверяем, была ли кнопка уже инициализирована
       if (button.dataset.rippleInitialized) {
         return;

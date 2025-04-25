@@ -75,7 +75,8 @@ $dropdown-dark-bg: #2e353e !default;
 $feedback-success: #198754;
 $feedback-danger: #dc3545;
 $primary: $blue !default;
-$colors: ("blue": $blue,
+$colors: (
+  "blue": $blue,
   "sky": $sky,
   "purple": $purple,
   "grape": $grape,
@@ -94,8 +95,26 @@ $colors: ("blue": $blue,
   "light": $light,
   "gray": $gray,
   "dark": $dark,
-  "primary": $primary,
+  "telegram": $telegram,
+  "whatsapp": $whatsapp,
+  "vk": $vk,
+  "vkvideo": $vkvideo,
+  "vkmusic": $vkmusic,
+  "google": $google,
+  "facebook": $facebook,
+  "snapchat": $snapchat,
+  "odnoklassniki": $odnoklassniki,
+  "pinterest": $pinterest,
+  "viber": $viber,
+  "rutube": $rutube,
+  "youtube": $youtube,
+  "yandex-dzen": $yandex-dzen,
+  "skype": $skype,
+  "tiktok": $tiktok,
+   "instagram": $instagram,
+  "primary": $primary
 ) !default;
+
 $secondary: $gray-400 !default;
 $success: $green !default;
 $info: $aqua !default;
@@ -180,10 +199,12 @@ $youtube: #c8312b !default;
 $visualstudio: #6b61be !default;
 $vuejs: #3fb37f !default;
 $vk: #4f7db3 !default;
+$vkvideo: #ff2b42 !default;
+$vkmusic: #f55fff !default;
 $whatsapp: #00a859 !default;
-$tiktok: #202020 !default;
+$tiktok: #000000 !default;
 $x-twitter: #202020 !default;
-$vkontakte: #202020 !default;
+$vkontakte: #4f7db3 !default;
 $odnoklassniki: #EE8208 !default;
 $pinterest: #E60023 !default;
 $viber: #7360f2 !default;
@@ -277,6 +298,8 @@ $brand-colors: ("dropbox": $dropbox,
   "vk-alt": $vk,
   "vk": $vk,
   "vkontakte": $vk,
+  "vkvideo": $vkvideo,
+  "vkmusic" :$vkmusic,
   "skype": $skype,
   "skype-alt": $skype,
   "telegram-alt": $telegram,
@@ -303,7 +326,6 @@ $brand-colors: ("dropbox": $dropbox,
   "steam": $steam,
   "gitlab": $gitlab,
   "codepen": $codepen,
-  
 ) !default;
 
 //Text Emphasis

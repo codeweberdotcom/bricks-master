@@ -1,45 +1,42 @@
 <?php get_header(); ?>
+<?php
+while (have_posts()) :
+	the_post();
+	get_pageheader();
+?>
+	<main id="content-wrapper">
+		<div class="container">
 
-<main id="content-wrapper">
+			<div class="row py-5">
 
-	<?php
-	while ( have_posts() ) :
-		the_post();
-		?>
-	
-	<div class="container">
+				<div id="article-wrapper" class="col">
 
-		<?php codeweber_breadcrumbs(); ?>
+					<?php get_template_part('templates/content/single', ''); ?>
 
-		<div class="row py-5">
+					<nav class="nav">
+						<?php
+						previous_post_link('<span class="nav-link me-auto">&laquo; %link</span>');
+						next_post_link('<span class="nav-link ms-auto">%link &raquo;</span>');
+						?>
+					</nav>
 
-			<div id="article-wrapper" class="col">       
-
-				<?php get_template_part( 'templates/content/single', '' ); ?>
-
-				<nav class="nav">
 					<?php
-					previous_post_link( '<span class="nav-link me-auto">&laquo; %link</span>' );
-						next_post_link( '<span class="nav-link ms-auto">%link &raquo;</span>' );
+					if (comments_open() || get_comments_number()) {
+						comments_template();
+					}
 					?>
-				</nav>
-					
-				<?php
-				if ( comments_open() || get_comments_number() ) {
-					comments_template(); }
-				?>
-			
-			</div> <!-- #article-wrapper -->
 
-			<?php get_sidebar(); ?>
+				</div> <!-- #article-wrapper -->
+
+				<?php get_sidebar(); ?>
+
+			</div>
 
 		</div>
 
-	</div>
-  
 	<?php endwhile ?>
 
-</main> <!-- #content-wrapper -->
+	</main> <!-- #content-wrapper -->
 
-<?php
-get_footer();
+	<?php
+	get_footer();

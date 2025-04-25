@@ -251,19 +251,30 @@ function cleanNumber($text)
 }
 
 /**
- * Функция для генерации социальных ссылок в зависимости от типа верстки и размера иконок.
+ * Выводит список ссылок на социальные сети в разных стилях.
  *
- * @param string $type Тип верстки. Может быть:
- *                    - 'type1' - цветные кнопки с белыми круглыми иконками.
- *                    - 'type2' - иконки без кнопок, в более сдержанном стиле.
- *                    - 'type3' - иконки без кнопок (аналогично 'type2').
- *                    - 'type4' - иконки без кнопок белого цвета.
- *                    - 'type5' - черные кнопки с круглыми белыми иконками.
- * @param string $size Размер иконок и кнопок. Допустимые значения:
- *                    - 'lg' (fs-40, btn-lg)
- *                    - 'md' (fs-35, btn-md)
- *                    - 'sm' (fs-30, btn-sm)
- * @return string Возвращает HTML верстку социальных ссылок.
+ * Функция берет ссылки из настроек WordPress (`get_option('socials_urls')`)
+ * и отображает их в виде иконок, кнопок или комбинированных блоков.
+ *
+ * Доступные типы отображения:
+ * - `type1`: круглые кнопки с фоном, каждая соцсеть — свой стиль
+ * - `type2`: иконки в muted-стиле (серые)
+ * - `type3`: обычные цветные иконки без кнопок
+ * - `type4`: белые иконки
+ * - `type5`: тёмные круглые кнопки
+ * - `type6`: кнопки с иконками и названиями соцсетей (широкие)
+ * - `type7`: кнопки с кастомным фоном соцсети (например, `btn-telegram`)
+ *
+ * Размеры:
+ * - `lg`: большие кнопки
+ * - `md`: средние (по умолчанию)
+ * - `sm`: маленькие
+ *
+ * @param string $class Дополнительные CSS-классы для обёртки `<nav>`.
+ * @param string $type Тип отображения (например, `type1`, `type6`, и т.д.).
+ * @param string $size Размер иконок или кнопок (`lg`, `md`, `sm`). По умолчанию `'md'`.
+ *
+ * @return string HTML-код со ссылками на соцсети.
  */
 function social_links($class, $type, $size = 'md')
 {
@@ -272,64 +283,82 @@ function social_links($class, $type, $size = 'md')
 		return '';
 	}
 
-	// Фиксированные размеры
 	$size_classes = [
 		'lg' => ['fs-60', 'btn-lg'],
 		'md' => ['fs-45', 'btn-md'],
 		'sm' => ['', 'btn-sm'],
 	];
 
-	// Определение классов по переданному размеру
 	$size_class = isset($size_classes[$size]) ? $size_classes[$size][0] : 'fs-35';
 	$btn_size_class = isset($size_classes[$size]) ? $size_classes[$size][1] : 'btn-md';
 
-
-	$nav_class = 'nav social';
+	$nav_class = 'nav social gap-1';
 	if ($type === 'type2') {
 		$nav_class .= ' social-muted';
-	}elseif($type === 'type4'){
+	} elseif ($type === 'type4') {
 		$nav_class .= ' social-white';
+	} elseif ($type === 'type7') {
+		$nav_class = '';
 	}
 
-	if(isset($class) && $class !== NULL){
-      $nav_class .= ' '. $class;
+	if (isset($class) && $class !== NULL) {
+		$nav_class .= ' ' . $class;
 	}
 
 	$output = '<nav class="' . esc_attr($nav_class) . '">';
 	foreach ($socials as $social => $url) {
 		if (!empty($url)) {
-			if(esc_attr($social) === 'telegram'){
-				$social = 'telegram-alt';
-			}elseif(esc_attr($social) === 'rutube'){
-				$social = 'rutube-1';
-			} elseif (esc_attr($social) === 'github') {
-				$social = 'github-alt';
-			} elseif (esc_attr($social) === 'ok') {
-				$social = 'ok-1';
-			} elseif (esc_attr($social) === 'vkmusic') {
-				$social = 'vk-music';
-			} elseif (esc_attr($social) === 'tik-tok') {
-				$social = 'tiktok';
-			} elseif (esc_attr($social) === 'googledrive') {
-				$social = 'google-drive';
-			} elseif (esc_attr($social) === 'googleplay') {
-				$social = 'google-play';
-			} elseif (esc_attr($social) === 'odnoklassniki') {
-				$social = 'square-odnoklassniki';
+			$original_social = $social;
+
+			switch ($social) {
+				case 'telegram':
+					$social = 'telegram-alt';
+					break;
+				case 'rutube':
+					$social = 'rutube-1';
+					break;
+				case 'github':
+					$social = 'github-alt';
+					break;
+				case 'ok':
+					$social = 'ok-1';
+					break;
+				case 'vkmusic':
+					$social = 'vk-music';
+					break;
+				case 'tik-tok':
+					$social = 'tiktok';
+					break;
+				case 'googledrive':
+					$social = 'google-drive';
+					break;
+				case 'googleplay':
+					$social = 'google-play';
+					break;
+				case 'odnoklassniki':
+					$social = 'square-odnoklassniki';
+					break;
 			}
 
+			$icon_class = 'uil uil-' . esc_attr($social);
+			$label = $original_social; // Можно заменить на перевод, если нужно
 
-			if($type === 'type1'){
-				$icon_class = 'uil uil-' . esc_attr($social);
-			}else{
-				$icon_class = 'uil uil-' . esc_attr($social) . ' ' . esc_attr($size_class);
+			if (stripos($label, 'vk') === 0) {
+				$btnlabel = strtoupper(substr($label, 0, 2)) . substr($label, 2);
+			} else {
+				$btnlabel = ucfirst($label);
 			}
-			if ($type === 'type1' ) {
+
+			if ($type === 'type1') {
 				$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle ' . esc_attr($btn_size_class) . ' btn-' . esc_attr($social) . '" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			} elseif ($type === 'type5') {
 				$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle ' . esc_attr($btn_size_class) . ' btn-dark" target="_blank"><i class="' . $icon_class . '"></i></a>';
-			} elseif ($type === 'type2' || $type === 'type3' || $type = 'type4') {
-				$output .= '<a href="' . esc_url($url) . '" target="_blank"><i class="' . $icon_class . '"></i></a>';
+			} elseif ($type === 'type2' || $type === 'type3' || $type === 'type4') {
+				$output .= '<a href="' . esc_url($url) . '" target="_blank"><i class="' . $icon_class . ' ' . esc_attr($size_class) . '"></i></a>';
+			} elseif ($type === 'type6') {
+				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 mb-2 me-2 fs-16"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
+			} elseif ($type === 'type7') {
+				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . $label . ' justify-content-between w-100 mb-2 me-2"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
 			} else {
 				$output .= '<a href="' . esc_url($url) . '" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			}
@@ -337,4 +366,199 @@ function social_links($class, $type, $size = 'md')
 	}
 	$output .= '</nav>';
 	return $output;
+}
+
+
+/**
+ * Подключает файл шаблона pageheader.
+ *
+ * Работает аналогично функции get_header(), но ищет шаблоны pageheader.php или pageheader-{name}.php.
+ * Используется для подключения альтернативного хедера на страницах, где это необходимо.
+ *
+ * Пример использования:
+ *     get_pageheader();              // Подключит pageheader.php
+ *     get_pageheader('custom');      // Подключит pageheader-custom.php, если он существует
+ *
+ * @param string|null $name Имя подшаблона (опционально).
+ */
+function get_pageheader($name = null)
+{
+	/**
+	 * Хук, аналогичный get_header. Позволяет разработчикам добавить функциональность перед загрузкой pageheader.
+	 *
+	 * @param string|null $name Имя подшаблона.
+	 */
+	do_action('get_pageheader', $name);
+
+	$templates = array();
+	if (isset($name)) {
+		$templates[] = "pageheader-{$name}.php";
+	}
+	$templates[] = 'pageheader.php';
+
+	locate_template($templates, true);
+}
+
+
+/**
+ * Удобная обёртка для вывода отформатированных данных с помощью print_r.
+ *
+ * Используется для отладки, позволяет красиво вывести массивы и объекты.
+ *
+ * @param mixed $data Данные для вывода (массив, объект, строка и т.д.).
+ * @param bool $return Если true — функция вернёт строку, вместо вывода её на экран.
+ * @return string|null Возвращает отформатированную строку, если $return = true, иначе null.
+ */
+function printr($data, $return = false)
+{
+	$output = '<pre>' . print_r($data, true) . '</pre>';
+	if ($return) {
+		return $output;
+	} else {
+		echo $output;
+	}
+}
+
+
+
+
+/**
+ * Получает универсальный заголовок текущей страницы WordPress.
+ *
+ * Эта функция автоматически определяет тип текущей страницы и возвращает
+ * соответствующий заголовок:
+ * - Для одиночных записей и страниц — заголовок записи.
+ * - Для архивов категорий, тегов, авторов, дат, таксономий и других архивов — заголовок архива.
+ * - Для главной страницы и страницы блога — название сайта.
+ * - Для страницы поиска — строка поиска.
+ * - Для 404 страницы — сообщение об ошибке.
+ * - Для архива магазина WooCommerce — заголовок, заданный WooCommerce.
+ *
+ * @return string Заголовок текущей страницы.
+ */
+function universal_title()
+{
+	// Получаем текущую страницу/запись и тип
+	if (is_singular()) {
+		// Для одиночных записей и страниц
+		$post_id = get_the_ID();
+		$post_type = get_post_type($post_id);
+
+		// Проверяем, какой тип записи и выводим соответствующий заголовок
+		if ('post' === $post_type) {
+			$title = get_the_title($post_id);
+		} elseif ('page' === $post_type) {
+			$title = get_the_title($post_id);
+		} elseif ('product' === $post_type) {
+			$title = get_the_title($post_id);
+		} else {
+			$title = get_the_title($post_id);
+		}
+	} elseif (is_archive()) {
+		// Для архивов
+		if (is_category()) {
+			$title = single_cat_title('', false);
+		} elseif (is_tag()) {
+			$title = single_tag_title('', false);
+		} elseif (is_author()) {
+			$title = get_the_author_meta('display_name');
+		} elseif (is_date()) {
+			$title = get_the_date();
+		} elseif (is_tax()) {
+			$title = single_term_title('', false);
+		} elseif (is_shop() && class_exists('WooCommerce')) {
+			// Для страницы архива магазина WooCommerce
+			$title = woocommerce_page_title(false); // Используем функцию WooCommerce для вывода правильного заголовка
+		} else {
+			$title = get_the_archive_title();
+		}
+
+		// Убираем тег <span>, если он есть, для архивных страниц
+		$title = strip_tags($title);
+	} elseif (is_home()) {
+		$title = get_bloginfo('name');
+	} elseif (is_front_page()) {
+		$title = get_bloginfo('name');
+	} elseif (is_search()) {
+		$title = sprintf(__('Search Results for: %s', 'codeweber'), get_search_query());
+	} elseif (is_404()) {
+		$title = __('Page Not Found', 'codeweber');
+	} else {
+		$title = get_bloginfo('name');
+	}
+
+	return esc_html($title);
+}
+
+
+
+/**
+ * Изменяет заголовок архивной страницы для произвольных типов записей.
+ * Заголовок берется из настроек Redux по ключу 'cpt-custom-title{PostType}'.
+ *
+ * Пример ключа: 'cpt-custom-titleFaq' для CPT с именем 'faq'.
+ * Удаляет префикс "Архивы:" или "Archives:" из стандартного заголовка.
+ *
+ * @param string $title Стандартный заголовок архива.
+ * @return string Новый заголовок архива.
+ */
+add_filter('get_the_archive_title', function ($title) {
+	if (is_post_type_archive() && !is_admin()) {
+		$post_type = get_post_type() ?: get_query_var('post_type');
+
+		if ($post_type) {
+			global $opt_name;
+
+			$custom_title_id = 'cpt-custom-title' . ucwords($post_type);
+			$custom_title = Redux::get_option($opt_name, $custom_title_id);
+
+			if (!empty($custom_title)) {
+				return $custom_title;
+			}
+		}
+
+		$title = preg_replace('/^(Архивы|Archives):\s*/u', '', $title);
+	}
+
+	return $title;
+});
+
+
+
+
+/**
+ * Возвращает подзаголовок для архивных страниц в зависимости от типа записи.
+ * Подзаголовок берется из настроек Redux и выводится в заданной HTML-структуре.
+ *
+ * @global string $opt_name Имя настроек Redux.
+ * @param string $html_structure Строка с HTML-разметкой, в которую будет вставлен подзаголовок.
+ * 
+ * @return string HTML-структура с подзаголовком.
+ */
+function the_subtitle($html_structure = '<p class="lead">%s</p>')
+{
+	// Проверяем, что это архивная страница и не админка
+	if (is_archive() && !is_admin()) {
+		// Получаем тип записи для текущего архива
+		$post_type = get_post_type() ?: get_query_var('post_type');
+
+		// Если тип записи определён
+		if ($post_type) {
+			global $opt_name;
+
+			// Формируем ID для поля custom subtitle в зависимости от типа записи
+			$custom_subtitle_id = 'cpt-custom-sub-title' . ucwords($post_type);
+
+			// Получаем подзаголовок из настроек Redux
+			$custom_subtitle = Redux::get_option($opt_name, $custom_subtitle_id);
+
+			// Если подзаголовок найден, возвращаем его в указанной HTML-структуре
+			if (!empty($custom_subtitle)) {
+				return sprintf($html_structure, esc_html($custom_subtitle));
+			}
+		}
+	}
+
+	// Если подзаголовок не найден, возвращаем пустую строку в HTML-структуре
+	return '';
 }

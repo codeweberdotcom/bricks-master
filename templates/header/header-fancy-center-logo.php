@@ -24,9 +24,9 @@
 
 $config = [
     'homeLink' => '/',
-    'mobileLogo' => 'both',
+    'mobileLogo' => 'light',
     'navbar-color' => 'dark',
-    'navbar-transparent' => true,
+    'navbar-transparent' => false,
     'navbar-center-nav' => NULL,
     'header-bg-color' => 'bg-red',
     'navbar-carret' => false,
@@ -45,11 +45,19 @@ $config = [
 
 <?php
 global $opt_name;
+$global_header_model = Redux::get_option($opt_name, 'global-header-model');
 $header_color_text = Redux::get_option($opt_name, 'header-color-text');
 $solid_color_header = Redux::get_option($opt_name, 'solid-color-header');
 $soft_color_header = Redux::get_option($opt_name, 'soft-color-header');
 $header_background = Redux::get_option($opt_name, 'header-background');
 $header_rounded = Redux::get_option($opt_name, 'header-rounded');
+$sort_offcanvas_right = Redux::get_option($opt_name, 'sort-offcanvas-right');
+$social_icon_type = Redux::get_option($opt_name, 'social-icon-type');
+$social_icon_type_mobile = Redux::get_option($opt_name, 'social-icon-type-mobile-menu');
+$config['social-type'] = 'type' . $social_icon_type;
+$config['social-type-mobile-menu'] = 'type' . $social_icon_type_mobile;
+$mobile_menu_background = Redux::get_option($opt_name, 'mobile-menu-background');
+$topbar_enable = Redux::get_option($opt_name, 'header-topbar-enable');
 
 
 
@@ -67,30 +75,56 @@ if ($header_rounded === '2') {
     $header_navbar_wrapper_class[] = 'rounded-0';
 }
 
-    $header_navbar_class[] = 'navbar-bg-light';
-    $navbar_collapse_class[] = 'bg-white';
-    $logo = 'light';
-    $header_navbar_wrapper_class[] = 'bg-white';
 
-if($header_background === '1'){
-    $config['header-bg-color'] = 'bg-' . $solid_color_header;
+$logo = 'light';
+$header_navbar_wrapper_class[] = 'bg-white';
+
+if ($header_color_text === '2') {
+    $logo = 'light';
+    $header_navbar_class[] = 'navbar-bg-light';
+    $header_navbar_class[] = 'navbar-light';
+} elseif ($header_color_text === '1') {
+    $logo = 'dark';
+    $header_navbar_class[] = 'navbar-bg-dark';
+    $header_navbar_class[] = 'navbar-dark';
+}
+
+if ($mobile_menu_background === '1') {
+    $navbar_collapse_class[] = 'offcanvas-dark';
+    $config['mobileLogo'] = 'light';
+    $config['btn-close-mobile'] = '';
+} elseif ($mobile_menu_background === '2') {
+    $navbar_collapse_class[] = 'offcanvas-light';
+    $config['mobileLogo'] = 'dark';
+    $config['btn-close-mobile'] = 'btn-close-white';
+}
+
+if ($header_background === '3') {
+    $config['navbar-transparent'] = true;
+} elseif ($header_background === '1') {
+    $config['header-bg-color'] = $solid_color_header;
 } elseif ($header_background === '2') {
-    $config['header-bg-color'] = 'bg-' . $soft_color_header;
-}else{
-    $config['header-bg-color'] = '';
+    $config['header-bg-color'] = $soft_color_header;
+}
+
+if ($config['navbar-transparent'] === true) {
+    $header_navbar_class[] = 'transparent position-absolute';
 }
 
 
 ?>
 
 <header class="wrapper <?= $config['header-bg-color']; ?>">
+    <?php if ($topbar_enable === '1') { ?>
+        <?php get_template_part('templates/header/header', 'topbar'); ?>
+    <?php }; ?>
     <nav class="navbar navbar-expand-lg fancy center-logo <?= implode(" ", $header_navbar_class); ?>">
         <div class="container">
             <div class="navbar-collapse-wrapper d-lg-flex flex-row flex-nowrap w-100 justify-content-between align-items-center <?= implode(" ", $header_navbar_wrapper_class); ?>">
                 <div class="d-flex flex-row w-100 justify-content-between align-items-center d-lg-none">
                     <div class="navbar-brand">
                         <a href="<?= htmlspecialchars($config['homeLink']); ?>">
-                            <?= get_custom_logo_type($config['mobileLogo']); ?>
+                            <?= get_custom_logo_type($logo); ?>
                         </a>
                     </div>
                     <div class="navbar-other ms-auto">
@@ -106,12 +140,12 @@ if($header_background === '1'){
                 <!-- /.d-flex -->
 
                 <div class="navbar-collapse-inner d-flex flex-row align-items-center w-100 mt-0">
-                    <div class="navbar-collapse bg-light offcanvas offcanvas-nav offcanvas-start <?= implode(" ", $navbar_collapse_class); ?>">
+                    <div class="navbar-collapse offcanvas offcanvas-nav offcanvas-start <?= implode(" ", $navbar_collapse_class); ?>">
                         <div class="offcanvas-header mx-lg-auto order-0 order-lg-1 d-lg-flex px-lg-15">
                             <a href="<?= htmlspecialchars($config['homeLink']); ?>">
                                 <?= get_custom_logo_type($logo); ?>
                             </a>
-                            <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            <button type="button" class="btn-close d-lg-none <?= $config['btn-close-mobile']; ?>" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="w-100 order-1 order-lg-0 d-lg-flex offcanvas-body">
                             <?php
@@ -150,14 +184,19 @@ if($header_background === '1'){
                         </div>
 
                         <div class="offcanvas-body order-4 mt-auto">
-                            <div class="d-lg-none mt-auto pt-6 pb-6 order-4">
-                                <a href="mailto:<?= $email; ?>"><?= $email; ?></a>
-                                <a href="tel:<?= cleanNumber($phone1); ?>"><?= $phone1; ?></a>
-                                <a href="tel:<?= cleanNumber($phone2); ?>"><?= $phone2; ?></a>
-                                <?= social_links($config['social-type'], $config['social-size'], NULL); ?>
-                                <!-- /.social -->
-                            </div>
-                            <!-- /offcanvas-nav-other -->
+                            <?php if (is_active_sidebar('mobile-menu-footer')) { ?>
+                                <div class="d-lg-none mt-auto pt-6 pb-6 order-4">
+                                    <?php dynamic_sidebar('mobile-menu-footer'); ?>
+                                </div>
+                            <?php } else {; ?>
+                                <div class="d-lg-none mt-auto pt-6 pb-6 order-4">
+                                    <a href="mailto:<?php $email; ?>"><?php $email; ?></a>
+                                    <a href="tel:<?php cleanNumber($phone1); ?>"><?= $phone1; ?></a>
+                                    <a href="tel:<?php cleanNumber($phone2); ?>"><?= $phone2; ?></a>
+                                    <?= social_links('mt-2', $config['social-type-mobile-menu'], $config['social-size']); ?>
+                                </div>
+                                <!-- /offcanvas-nav-other -->
+                            <?php } ?>
                         </div>
                     </div>
                     <!-- /.navbar-collapse -->

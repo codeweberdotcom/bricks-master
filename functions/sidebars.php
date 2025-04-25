@@ -55,7 +55,7 @@ add_action('widgets_init', 'codeweber_register_woo_sidebar');
 /**
  * Регистрация сайдбара в правой части заголовка
  */
-function theme_register_header_right_widget()
+function theme_register_header_widget()
 {
     register_sidebar([
         'name'          => __('Header Right', 'codeweber'),
@@ -76,6 +76,43 @@ function theme_register_header_right_widget()
         'before_title'  => '<h3 class="widget-title">',
         'after_title'   => '</h3>',
     ]);
-    
+
+    register_sidebar([
+        'name'          => __('Mobile Menu Footer', 'codeweber'),
+        'id'            => 'mobile-menu-footer',
+        'description'   => __('Widget area on the right side of the Header', 'codeweber'),
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Header Widget 1', 'codeweber'),
+        'id'            => 'header-widget-1',
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Header Widget 2', 'codeweber'),
+        'id'            => 'header-widget-2',
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Header Widget 3', 'codeweber'),
+        'id'            => 'header-widget-3',
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ]);
+
 }
-add_action('widgets_init', 'theme_register_header_right_widget');
+add_action('widgets_init', 'theme_register_header_widget');

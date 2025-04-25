@@ -493,7 +493,7 @@ require_once Redux_Core::$dir . '../sample/sections/slider-spinner/slider.php';
 require_once Redux_Core::$dir . '../sample/sections/slider-spinner/spinner.php';
 
 // -> START Typography.
-require_once Redux_Core::$dir . '../sample/sections/typography/typography.php';
+//require_once Redux_Core::$dir . '../sample/sections/typography/typography.php';
 
 // -> START Additional Types.
 Redux::set_section(

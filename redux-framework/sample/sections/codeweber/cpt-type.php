@@ -9,7 +9,18 @@
 
 defined('ABSPATH') || exit;
 
-// Проверяем, существует ли уже функция get_cpt_files_list
+/**
+ * Возвращает список файлов пользовательских типов записей (CPT),
+ * находящихся в директории `/functions/cpt` текущей темы.
+ *
+ * Функция ищет файлы, имена которых начинаются с `cpt-` и заканчиваются на `.php`.
+ * Это полезно для автоматического подключения CPT-файлов по шаблону.
+ *
+ * Пример имени файла: `cpt-faq.php`, `cpt-portfolio.php`.
+ *
+ * @return array Массив имён файлов (без путей), соответствующих критериям.
+ *               Возвращает пустой массив, если директория не существует или нет подходящих файлов.
+ */
 if (! function_exists('get_cpt_files_list')) {
 	function get_cpt_files_list()
 	{
@@ -34,18 +45,29 @@ if (! function_exists('get_cpt_files_list')) {
 }
 
 
-// Функция для получения записей типа 'product' и 'shop'
-function get_woocommerce_post_types()
-{
-	// Массив для типов записей WooCommerce
-	return [
-		'product' => __('Product', 'codeweber'),
-		'shop'    => __('Shop', 'codeweber'),
-	];
-}
 
-
-// Функция для генерации переключателей для всех CPT
+/**
+ * Генерирует массив переключателей (switches) для всех пользовательских типов записей (CPT),
+ * основанных на переданном списке файлов. Используется для создания интерфейса
+ * управления включением/отключением CPT в настройках (например, через Redux Framework).
+ *
+ * Исключает из генерации файлы, содержащие определённые слова (например, "header", "footer").
+ *
+ * @param array $cpt_files Массив имён файлов (например, полученный из get_cpt_files_list()).
+ *
+ * @return array Массив конфигураций переключателей, подходящих для использования в Redux или других UI-фреймворках.
+ *
+ * Пример возвращаемого элемента:
+ * [
+ *   'id'       => 'cpt_switch_Faq',
+ *   'type'     => 'switch',
+ *   'title'    => 'Faq',
+ *   'subtitle' => 'Enable/disable this post type',
+ *   'default'  => false,
+ *   'on'       => 'Enabled',
+ *   'off'      => 'Disabled'
+ * ]
+ */
 function generate_cpt_switches($cpt_files)
 {
 	$cpt_switches = [];
@@ -53,59 +75,73 @@ function generate_cpt_switches($cpt_files)
 	// Список слов для исключения
 	$excluded_words = ['header', 'footer', 'html', 'modal', 'docs', 'price', 'page-header'];
 
-
-
 	foreach ($cpt_files as $file) {
-		// Проверяем, содержит ли файл слова из списка исключений
+		// Пропускаем файлы, содержащие исключённые слова
 		foreach ($excluded_words as $word) {
 			if (stripos($file, $word) !== false) {
-				continue 2; // Пропускаем текущий файл и переходим к следующему
+				continue 2;
 			}
 		}
 
-		// Преобразуем имя файла в читаемый формат
-		$label = ucwords(str_replace(array('cpt-', '.php'), '', $file));
+		// Преобразуем имя файла в человекочитаемый формат
+		$label = ucwords(str_replace(['cpt-', '.php'], '', $file));
+		$label = $label ?: __('Unnamed', 'codeweber');
 
-		// Убедимся, что у нас есть заголовок
-		$label = $label ?: __('Unnamed', 'codeweber'); // Если метка пуста, то используем "Unnamed"
+		// Переводим метку
+		$translated_label = __($label, 'codeweber');
 
-		// Переводим $label перед использованием в интерфейсе
-		$translated_label = __(ucwords(str_replace(array('cpt-', '.php'), '', $file)), 'codeweber');
-
-		// Добавляем переключатель для каждого CPT
-		$cpt_switches[] = array(
-			'id'       => 'cpt_switch_' . $translated_label, // Уникальный ID для переключателя
-			'type'     => 'switch', // Тип поля: переключатель
-			'title'    => $translated_label, // Переводим метку
-			'subtitle' => __('Enable/disable this post type', 'codeweber'), // Описание переключателя
-			'default'  => false, // По умолчанию выключено
-			'on'       => __('Enabled', 'codeweber'), // Переведённая строка для включения
-			'off'      => __('Disabled', 'codeweber'), // Переведённая строка для выключения
-		);
+		// Добавляем элемент переключателя
+		$cpt_switches[] = [
+			'id'       => 'cpt_switch_' . $translated_label,
+			'type'     => 'switch',
+			'title'    => $translated_label,
+			'subtitle' => __('Enable/disable this post type', 'codeweber'),
+			'default'  => false,
+			'on'       => __('Enabled', 'codeweber'),
+			'off'      => __('Disabled', 'codeweber'),
+		];
 	}
 
 	return $cpt_switches;
 }
 
 
-// Функция для получения записей типа 'header'
+
+/**
+ * Получает все опубликованные записи пользовательского типа 'header'
+ * и возвращает их в виде ассоциативного массива, где ключом является ID записи,
+ * а значением — её заголовок.
+ *
+ * Эта функция может быть полезна, например, для генерации выпадающего списка
+ * в настройках темы или плагина (Redux, ACF и др.).
+ *
+ * @return array Ассоциативный массив вида [ ID => 'Название записи' ].
+ *
+ * Пример возвращаемого результата:
+ * [
+ *     42 => 'Главный хедер',
+ *     56 => 'Второстепенный хедер',
+ *     ...
+ * ]
+ */
 function get_header_posts()
 {
 	$args = array(
-		'post_type'      => 'header', // Тип записи
-		'posts_per_page' => -1, // Получить все записи
-		'post_status'    => 'publish', // Только опубликованные записи
+		'post_type'      => 'header',       // Пользовательский тип записи
+		'posts_per_page' => -1,             // Получить все записи без ограничения
+		'post_status'    => 'publish',      // Только опубликованные записи
 	);
 
 	$posts = get_posts($args);
 
 	$options = [];
 	foreach ($posts as $post) {
-		$options[$post->ID] = $post->post_title; // Добавляем ID и название записи в массив
+		$options[$post->ID] = $post->post_title; // ID и заголовок каждой записи
 	}
 
 	return $options;
 }
+
 
 // Получаем список файлов с кастомными типами записей
 $cpt_list = get_cpt_files_list();
@@ -220,44 +256,52 @@ if (!empty($cpt_list)) {
 	Redux::set_section(
 	$opt_name,
 	array(
-		'title'      => esc_html__($translated_label, 'codeweber' ),
-		'id'         => 'additional-tabbed' . $translated_label,
-		'desc'       => sprintf(esc_html__('Here you can make settings for the custom post type %s', 'codeweber'), $translated_label), // Переводим метку в заголовке
+		'title'      => esc_html__($label, 'codeweber' ),
+		'id'         => 'additional-tabbed' . $label,
+		'desc'       => sprintf(esc_html__('Here you can make settings for the custom post type %s', 'codeweber'), $label), // Переводим метку в заголовке
 		'subsection' => true,
 		'fields'     => array(
 						array(
-							'id'       => 'opt-select' . $translated_label,
+							'id'       => 'opt-select' . $label,
 							'type'     => 'select',
-							'title'    => esc_html__('Select Archive Template ' . $translated_label, 'codeweber'),
+							'title'    => esc_html__('Select Archive Template ' . $label, 'codeweber'),
 							'subtitle' => esc_html__('Выберите шаблон из templates/archives/' . $label, 'codeweber'),
 							'desc'     => esc_html__('Список файлов из директории archives/' . $label, 'codeweber'),
 							'options'  => $options,
 							'default'  => array_key_first($options),
 						),
 			array(
-				'id'       => 'cpt-custom-title' . $translated_label,
+				'id'       => 'cpt-custom-title' . $label,
 				'type'     => 'text',
-				'title'    => sprintf(esc_html__('Custom Title for %s', 'codeweber'), $translated_label),
+				'title'    => sprintf(esc_html__('Custom Title for %s', 'codeweber'), $label),
 				'default'  => '',
 				),
+
 			array(
-				'id'    => 'cpt-sidebar-settings-' . $translated_label,
+				'id'       => 'cpt-custom-sub-title' . $label,
+				'type'     => 'textarea',
+				'title'    =>  sprintf(esc_html__('Custom SubTitle for %s', 'codeweber'), $label),
+				'default'  => '',
+			),
+
+			array(
+				'id'    => 'cpt-sidebar-settings-' . $label,
 				'type'  => 'tabbed',
-				'title' => sprintf(esc_html__('%s Settings Sidebar', 'codeweber'), $translated_label), // Переводим метку в заголовке
+				'title' => sprintf(esc_html__('%s Settings Sidebar', 'codeweber'), $label), // Переводим метку в заголовке
 				'tabs'  => array(
 								array(
-					'title'            => sprintf(esc_html__('%s Single Sidebar Settings', 'codeweber'), $translated_label), // Переводим метку в заголовке
-					'id'               => 'cpt-single-sidebar-settings-' . $translated_label,
+					'title'            => sprintf(esc_html__('%s Single Sidebar Settings', 'codeweber'), $label), // Переводим метку в заголовке
+					'id'               => 'cpt-single-sidebar-settings-' . $label,
 					'subsection'       => true, // Устанавливаем как субсекцию
-					'desc'             => sprintf(esc_html__('Settings for the Single Sidebar %s custom post type.', 'codeweber'), $translated_label),
+					'desc'             => sprintf(esc_html__('Settings for the Single Sidebar %s custom post type.', 'codeweber'), $label),
 					'fields'           => array(
 
 						// Управление сайдбаром
 						array(
-							'id'       => 'sidebar-position-single-' . $translated_label,
+							'id'       => 'sidebar-position-single-' . $label,
 							'type'     => 'button_set',
-							'title'    => sprintf(esc_html__('Select Sidebar position for Single %s', 'codeweber'), $translated_label),
-							'desc' => sprintf(esc_html__('This is the Sidebar position for Single %s', 'codeweber'), $translated_label),
+							'title'    => sprintf(esc_html__('Select Sidebar position for Single %s', 'codeweber'), $label),
+							'desc' => sprintf(esc_html__('This is the Sidebar position for Single %s', 'codeweber'), $label),
 							'options'  => array(
 								'1' => esc_html__('Left Sidebar', 'codeweber'),
 								'2' => esc_html__('Disable Sidebar', 'codeweber'),
@@ -269,17 +313,17 @@ if (!empty($cpt_list)) {
 				),
 
 								array(
-									'title'            => sprintf(esc_html__('%s Archive Sidebar Settings', 'codeweber'), $translated_label), // Переводим метку в заголовке
-									'id'               => 'cpt-archive-sidebar-settings-' . $translated_label,
+									'title'            => sprintf(esc_html__('%s Archive Sidebar Settings', 'codeweber'), $label), // Переводим метку в заголовке
+									'id'               => 'cpt-archive-sidebar-settings-' . $label,
 									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Archive Sidebar %s custom post type.', 'codeweber'), $translated_label),
+									'desc'             => sprintf(esc_html__('Settings for the Archive Sidebar %s custom post type.', 'codeweber'), $label),
 									'fields'           => array(
 
 										array(
-											'id'       => 'sidebar-position-archive-' . $translated_label,
+											'id'       => 'sidebar-position-archive-' . $label,
 											'type'     => 'button_set',
-											'title'    => sprintf(esc_html__('Select Sidebar position for Archive %s', 'codeweber'), $translated_label),
-											'desc' => sprintf(esc_html__('This is the Sidebar position for Archive %s', 'codeweber'), $translated_label),
+											'title'    => sprintf(esc_html__('Select Sidebar position for Archive %s', 'codeweber'), $label),
+											'desc' => sprintf(esc_html__('This is the Sidebar position for Archive %s', 'codeweber'), $label),
 											'options'  => array(
 												'1' => esc_html__('Left Sidebar', 'codeweber'),
 												'2' => esc_html__('Disable Sidebar', 'codeweber'),
@@ -295,22 +339,22 @@ if (!empty($cpt_list)) {
 
 
 						array(
-							'id'    => 'cpt-header-settings-' . $translated_label,
+							'id'    => 'cpt-header-settings-' . $label,
 							'type'  => 'tabbed',
-							'title' => sprintf(esc_html__('%s Settings Header', 'codeweber'), $translated_label), // Переводим метку в заголовке
+							'title' => sprintf(esc_html__('%s Settings Header', 'codeweber'), $label), // Переводим метку в заголовке
 							'tabs'  => array(
 								array(
-									'title'            => sprintf(esc_html__('%s Single Header Settings', 'codeweber'), $translated_label), // Переводим метку в заголовке
-									'id'               => 'cpt-single-header-settings-' . $translated_label,
+									'title'            => sprintf(esc_html__('%s Single Header Settings', 'codeweber'), $label), // Переводим метку в заголовке
+									'id'               => 'cpt-single-header-settings-' . $label,
 									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Single Header %s custom post type.', 'codeweber'), $translated_label),
+									'desc'             => sprintf(esc_html__('Settings for the Single Header %s custom post type.', 'codeweber'), $label),
 									'fields'           => array(
 
 										// Добавляем выпадающий список для выбора записей типа header
 										array(
-											'id'       => 'cpt-single-post-header-' . $translated_label,
+											'id'       => 'cpt-single-post-header-' . $label,
 											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Header for Single %s', 'codeweber'), $translated_label),
+											'title'    => sprintf(esc_html__('Select Header for Single %s', 'codeweber'), $label),
 											'desc'     => $no_headers_message, // Выводим сообщение, если записей нет
 											'data'     => 'posts',
 											'args'     => array(
@@ -326,16 +370,16 @@ if (!empty($cpt_list)) {
 								),
 
 								array(
-									'title'            => sprintf(esc_html__('%s Archive Header Settings', 'codeweber'), $translated_label), // Переводим метку в заголовке
-									'id'               => 'cpt-archive-header-settings-' . $translated_label,
+									'title'            => sprintf(esc_html__('%s Archive Header Settings', 'codeweber'), $label), // Переводим метку в заголовке
+									'id'               => 'cpt-archive-header-settings-' . $label,
 									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Archive Header %s custom post type.', 'codeweber'), $translated_label),
+									'desc'             => sprintf(esc_html__('Settings for the Archive Header %s custom post type.', 'codeweber'), $label),
 									'fields'           => array(
 
 										array(
-											'id'       => 'cpt-archive-post-header-' . $translated_label,
+											'id'       => 'cpt-archive-post-header-' . $label,
 											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Header for Archive %s', 'codeweber'), $translated_label),
+											'title'    => sprintf(esc_html__('Select Header for Archive %s', 'codeweber'), $label),
 											'desc'     => $no_headers_message,
 											'data'     => 'posts',
 											'args'     => array(
@@ -357,22 +401,22 @@ if (!empty($cpt_list)) {
 
 
 						array(
-							'id'    => 'cpt-page-header-settings-' . $translated_label,
+							'id'    => 'cpt-page-header-settings-' . $label,
 							'type'  => 'tabbed',
-							'title' => sprintf(esc_html__('%s Settings Page Header', 'codeweber'), $translated_label), // Переводим метку в заголовке
+							'title' => sprintf(esc_html__('%s Settings Page Header', 'codeweber'), $label), // Переводим метку в заголовке
 							'tabs'  => array(
 								array(
-									'title'            => sprintf(esc_html__('%s Single Page Header Settings', 'codeweber'), $translated_label), // Переводим метку в заголовке
-									'id'               => 'cpt-single-page-header-settings-' . $translated_label,
+									'title'            => sprintf(esc_html__('%s Single Page Header Settings', 'codeweber'), $label), // Переводим метку в заголовке
+									'id'               => 'cpt-single-page-header-settings-' . $label,
 									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Single Page Header %s custom post type.', 'codeweber'), $translated_label),
+									'desc'             => sprintf(esc_html__('Settings for the Single Page Header %s custom post type.', 'codeweber'), $label),
 									'fields'           => array(
 
 										// Добавляем выпадающий список для выбора записей типа header
 										array(
-											'id'       => 'cpt-single-post-page-header-' . $translated_label,
+											'id'       => 'cpt-single-post-page-header-' . $label,
 											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Header for Single %s', 'codeweber'), $translated_label),
+											'title'    => sprintf(esc_html__('Select Header for Single %s', 'codeweber'), $label),
 											'desc'     => $no_page_header_message, // Выводим сообщение, если записей нет
 											'data'     => 'posts',
 											'args'     => array(
@@ -388,16 +432,16 @@ if (!empty($cpt_list)) {
 								),
 
 								array(
-									'title'            => sprintf(esc_html__('%s Archive Page Header Settings', 'codeweber'), $translated_label), // Переводим метку в заголовке
-									'id'               => 'cpt-archive-page-header-settings-' . $translated_label,
+									'title'            => sprintf(esc_html__('%s Archive Page Header Settings', 'codeweber'), $label), // Переводим метку в заголовке
+									'id'               => 'cpt-archive-page-header-settings-' . $label,
 									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Archive Page Header %s custom post type.', 'codeweber'), $translated_label),
+									'desc'             => sprintf(esc_html__('Settings for the Archive Page Header %s custom post type.', 'codeweber'), $label),
 									'fields'           => array(
 
 										array(
-											'id'       => 'cpt-archive-post-page-header-' . $translated_label,
+											'id'       => 'cpt-archive-post-page-header-' . $label,
 											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Page Header for Archive %s', 'codeweber'), $translated_label),
+											'title'    => sprintf(esc_html__('Select Page Header for Archive %s', 'codeweber'), $label),
 											'desc'     => $no_page_header_message,
 											'data'     => 'posts',
 											'args'     => array(
@@ -418,22 +462,22 @@ if (!empty($cpt_list)) {
 
 
 						array(
-							'id'    => 'cpt-footer-settings-' . $translated_label,
+							'id'    => 'cpt-footer-settings-' . $label,
 							'type'  => 'tabbed',
-							'title' => sprintf(esc_html__('%s Settings Footer', 'codeweber'), $translated_label), // Переводим метку в заголовке
+							'title' => sprintf(esc_html__('%s Settings Footer', 'codeweber'), $label), // Переводим метку в заголовке
 							'tabs'  => array(
 								array(
-									'title'            => sprintf(esc_html__('%s Single Footer Settings', 'codeweber'), $translated_label), // Переводим метку в заголовке
-									'id'               => 'cpt-single-footer-settings-' . $translated_label,
+									'title'            => sprintf(esc_html__('%s Single Footer Settings', 'codeweber'), $label), // Переводим метку в заголовке
+									'id'               => 'cpt-single-footer-settings-' . $label,
 									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Single Footer %s custom post type.', 'codeweber'), $translated_label),
+									'desc'             => sprintf(esc_html__('Settings for the Single Footer %s custom post type.', 'codeweber'), $label),
 									'fields'           => array(
 
 										// Добавляем выпадающий список для выбора записей типа header
 										array(
-											'id'       => 'cpt-single-post-footer-' . $translated_label,
+											'id'       => 'cpt-single-post-footer-' . $label,
 											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Footer for Single %s', 'codeweber'), $translated_label),
+											'title'    => sprintf(esc_html__('Select Footer for Single %s', 'codeweber'), $label),
 											'desc'     => $no_footers_message, // Выводим сообщение, если записей нет
 											'data'     => 'posts',
 											'args'     => array(
@@ -447,16 +491,16 @@ if (!empty($cpt_list)) {
 								),
 
 								array(
-									'title'            => sprintf(esc_html__('%s Archive Footer Settings', 'codeweber'), $translated_label), // Переводим метку в заголовке
-									'id'               => 'cpt-archive-footer-settings-' . $translated_label,
+									'title'            => sprintf(esc_html__('%s Archive Footer Settings', 'codeweber'), $label), // Переводим метку в заголовке
+									'id'               => 'cpt-archive-footer-settings-' . $label,
 									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Archive Footer %s custom post type.', 'codeweber'), $translated_label),
+									'desc'             => sprintf(esc_html__('Settings for the Archive Footer %s custom post type.', 'codeweber'), $label),
 									'fields'           => array(
 
 										array(
-											'id'       => 'cpt-archive-post-footer-' . $translated_label,
+											'id'       => 'cpt-archive-post-footer-' . $label,
 											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Footer for Archive %s', 'codeweber'), $translated_label),
+											'title'    => sprintf(esc_html__('Select Footer for Archive %s', 'codeweber'), $label),
 											'desc'     => $no_footers_message,
 											'data'     => 'posts',
 											'args'     => array(

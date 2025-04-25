@@ -106,21 +106,7 @@ Redux::set_section(
 				'desc'     => $no_headers_message, // Выводим сообщение, если записей нет
 			),
 
-			// Выбор типа фона
-			array(
-				'id'       => 'social-icon-type',
-				'type'     => 'button_set',
-				'title'    => esc_html__('Social Icon Type', 'codeweber'),
-				'options'  => array(
-					'1' => esc_html__('Type 1', 'codeweber'),
-					'2' => esc_html__('Type 2', 'codeweber'),
-					'3' => esc_html__('Type 3', 'codeweber'),
-					'4' => esc_html__('Type 4', 'codeweber'),
-					'5' => esc_html__('Type 5', 'codeweber'),
-				),
-				'default'  => '1',
-				'required' => array('global-header-type', '=', '1'),
-			),
+
 
 			array(
 				'id'       => 'header-color-text',
@@ -140,13 +126,10 @@ Redux::set_section(
 				'id'       => 'header-background',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Select type Header background', 'codeweber'),
-				'subtitle' => esc_html__('No validation can be done on this field type', 'codeweber'),
-				'desc'     => esc_html__('This is the description field, again good for additional info.', 'codeweber'),
 				'options'  => array(
 					'1' => esc_html__('Solid-Color', 'codeweber'),
 					'2' => esc_html__('Soft-Color', 'codeweber'),
 					'3' => esc_html__('Transparent', 'codeweber'),
-					'4' => esc_html__('None', 'codeweber'),
 				),
 				'default'  => '1',
 				'required' => array('global-header-type', '=', '1'),
@@ -186,7 +169,6 @@ Redux::set_section(
 				'id'       => 'global-header-model',
 				'type'     => 'image_select',
 				'title'    => esc_html__('Base Header Models', 'codeweber'),
-				'subtitle' => esc_html__('Select a predefined header model.', 'codeweber'),
 				'options'  => array(
 					'1' => array(
 						'title' => esc_html__('Header Type 1', 'codeweber'),
@@ -239,55 +221,36 @@ Redux::set_section(
 				'position' => 'start',
 			),
 
-
-			// Выбор Solid-Color с динамическими цветами
+			// Выбор типа фона
 			array(
-				'id'       => 'global-background-offcanvas-left',
-				'type'     => 'select',
-				'title'    => esc_html__('Background Color', 'codeweber'),
-				'options'  => $color_options, // Используем динамически полученные цвета
-				'default'  => 'dark',  // Можно выбрать дефолтный цвет
-				'required' => array(
-					array('global-header-type', '=', '1')
-				),
-			),
-
-			// Выбор Solid-Color с динамическими цветами
-			array(
-				'id'       => 'global-color-offcanvas-left',
-				'type'     => 'select',
-				'title'    => esc_html__('Text Color', 'codeweber'),
-				'options'  => $color_options, // Используем динамически полученные цвета
-				'default'  => 'light',  // Можно выбрать дефолтный цвет
-				'required' => array(
-					array('global-header-type', '=', '1')
-				),
-			),
-
-			array(
-				'id'       => 'sort-offcanvas-left',
-				'type'     => 'sorter',
-				'title'    => esc_html__('Order items in menu', 'codeweber'),
-				'desc'     => esc_html__('Organize how you want the layout to appear on the homepage', 'codeweber'),
-				'compiler' => true,
-				'required' => array(
-					array('global-header-type', '=', '1'),
-				),
+				'id'       => 'social-icon-type-mobile-menu',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Icon Type Mobile Menu', 'codeweber'),
 				'options'  => array(
-					'enabled'  => array(
-						'logo'   => esc_html__('Logo', 'codeweber'),
-						'menu'   => esc_html__('Menu', 'codeweber'),
-						'phones' => esc_html__('Phones', 'codeweber'),
-						'socials' => esc_html__('Socials', 'codeweber'),
-					),
-					'disabled' => array(
-						'widget_offcanvas_left'   => esc_html__('Widget 1', 'codeweber'),
-						'widget_offcanvas_center' => esc_html__('Widget 2', 'codeweber'),
-						'widget_offcanvas_right'  => esc_html__('Widget 3', 'codeweber'),
-					),
+					'1' => esc_html__('Type 1', 'codeweber'),
+					'2' => esc_html__('Type 2', 'codeweber'),
+					'3' => esc_html__('Type 3', 'codeweber'),
+					'4' => esc_html__('Type 4', 'codeweber'),
+					'5' => esc_html__('Type 5', 'codeweber'),
+					'6' => esc_html__('Type 6', 'codeweber'),
+					'7' => esc_html__('Type 7', 'codeweber'),
 				),
-				'on'       => esc_html__('Enabled', 'codeweber'),
-				'off'      => esc_html__('Disabled', 'codeweber'),
+				'default'  => '1',
+				'required' => array('global-header-type', '=', '1'),
+			),
+
+
+			// Выбор типа фона
+			array(
+				'id'       => 'mobile-menu-background',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Mobile Menu Background', 'codeweber'),
+				'options'  => array(
+					'1' => esc_html__('Dark', 'codeweber'),
+					'2' => esc_html__('Light', 'codeweber'),
+				),
+				'default'  => '1',
+				'required' => array('global-header-type', '=', '1'),
 			),
 
 
@@ -303,18 +266,34 @@ Redux::set_section(
 				'id'       => 'global-header-offcanvas-right',
 				'type'     => 'switch',
 				'title'    => esc_html__('Offcanvas Right Menu', 'codeweber'),
-				'subtitle' => esc_html__('Enable Right Menu', 'codeweber'),
 				'default'  => 1,
 				'required' => array('global-header-type', '=', '1'),
+			),
+
+			// Выбор типа фона
+			array(
+				'id'       => 'social-icon-type',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Icon Type', 'codeweber'),
+				'options'  => array(
+					'1' => esc_html__('Type 1', 'codeweber'),
+					'2' => esc_html__('Type 2', 'codeweber'),
+					'3' => esc_html__('Type 3', 'codeweber'),
+					'4' => esc_html__('Type 4', 'codeweber'),
+					'5' => esc_html__('Type 5', 'codeweber'),
+					'6' => esc_html__('Type 6', 'codeweber'),
+					'7' => esc_html__('Type 7', 'codeweber'),
+				),
+				'default'  => '1',
+				'required' => array('global-header-offcanvas-right', '=', '1'),
 			),
 
 			array(
 				'id'       => 'sort-offcanvas-right',
 				'type'     => 'sorter',
 				'title'    => esc_html__('Order items in side menu', 'codeweber'),
-				'desc'     => esc_html__('Organize how you want the layout to appear on the side menu', 'codeweber'),
-				'Organize how you want the layout to appear on the side menu',
 				'compiler' => 'true',
+				'required' => array('global-header-offcanvas-right', '=', '1'),
 				'options'  => array(
 					'enabled'  => array(
 						'description'             => esc_html__('Description', 'codeweber'),
@@ -325,11 +304,27 @@ Redux::set_section(
 					'disabled' => array(
 						'menu'                    => esc_html__('Menu', 'codeweber'),
 						'address'                    => esc_html__('Address', 'codeweber'),
-						'widget_offcanvas_left'   => esc_html__('Widget 1', 'codeweber'),
-						'widget_offcanvas_center' => esc_html__('Widget 2', 'codeweber'),
-						'widget_offcanvas_right'  => esc_html__('Widget 3', 'codeweber'),
+						'widget_offcanvas_1'   => esc_html__('Widget 1', 'codeweber'),
+						'widget_offcanvas_2' => esc_html__('Widget 2', 'codeweber'),
+						'widget_offcanvas_3'  => esc_html__('Widget 3', 'codeweber'),
 					),
 				),
+			),
+
+			array(
+				'id'       => 'header-accordeon-topbar',
+				'type'     => 'accordion',
+				'title'    => esc_html__('Topbar', 'codeweber'),
+				'position' => 'start',
+			),
+
+			// Активация Breadcrumbs
+			array(
+				'id'       => 'header-topbar-enable',
+				'type'     => 'switch',
+				'title'    => esc_html__('Header Topbar', 'codeweber'),
+				'default'  => 1,
+				'required' => array('global-header-type', '=', '1'),
 			),
 		),
 	)
