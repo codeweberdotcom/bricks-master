@@ -59,8 +59,6 @@ $config['social-type-mobile-menu'] = 'type' . $social_icon_type_mobile;
 $mobile_menu_background = Redux::get_option($opt_name, 'mobile-menu-background');
 $topbar_enable = Redux::get_option($opt_name, 'header-topbar-enable');
 
-
-
 $phone1 = Redux::get_option($opt_name, 'phone_01') . '<br>';
 $phone2 = Redux::get_option($opt_name, 'phone_02') . '<br>';
 $email = Redux::get_option($opt_name, 'e-mail') . '<br>';

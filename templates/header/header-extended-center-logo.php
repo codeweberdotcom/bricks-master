@@ -71,14 +71,25 @@ $coordinates      = Redux::get_option($opt_name, 'yandex_coordinates'); // ст�
 $zoom_level       = Redux::get_option($opt_name, 'yandex_zoom'); // например, "12"
 
 $address_data = Redux::get_option($opt_name, 'fact-company-adress');
-$country      = $address_data['box1'] ?? '';
-$region       = $address_data['box2'] ?? '';
-$city         = $address_data['box3'] ?? '';
-$street       = $address_data['box4'] ?? '';
-$house_number = $address_data['box5'] ?? '';
-$office       = $address_data['box6'] ?? '';
-$postal_code  = $address_data['box7'] ?? '';
-$full_address = trim("{$country},<br> {$region},<br> {$city}, {$street},<br> д. {$house_number}, оф. {$office},<br> {$postal_code}", ' ,');
+$parts = [];
+
+if (!empty($address_data['box1'])) $parts[] = $address_data['box1'];
+if (!empty($address_data['box2'])) $parts[] = $address_data['box2'];
+
+if (!empty($address_data['box3']) || !empty($address_data['box4'])) {
+  $city_street = trim("{$address_data['box3']} {$address_data['box4']}");
+  $parts[] = $city_street;
+}
+
+if (!empty($address_data['box5']) || !empty($address_data['box6'])) {
+  $house = !empty($address_data['box5']) ? "д. {$address_data['box5']}" : '';
+  $office = !empty($address_data['box6']) ? "оф. {$address_data['box6']}" : '';
+  $house_office = trim("{$house}, {$office}", ', ');
+  $parts[] = $house_office;
+}
+
+if (!empty($address_data['box7'])) $parts[] = $address_data['box7'];
+$full_address = implode('<br> ', $parts);
 
 $phone1 = Redux::get_option($opt_name, 'phone_01') . '<br>';
 $phone2 = Redux::get_option($opt_name, 'phone_02') . '<br>';
