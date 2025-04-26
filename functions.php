@@ -11,8 +11,8 @@ require_once get_template_directory() . '/functions/cpt/cpt-page-header.php';
 
 require_once get_template_directory() . '/functions/setup.php';
 
-require_once get_template_directory() . '/components/plugins/tgm/class-tgm-plugin-activation.php';
-require_once get_template_directory() . '/components/plugins_autoinstall.php';
+require_once get_template_directory() . '/plugins/tgm/class-tgm-plugin-activation.php';
+require_once get_template_directory() . '/plugins/tgm/plugins_autoinstall.php';
 
 require_once get_template_directory() . '/functions/enqueues.php';
 require_once get_template_directory() . '/functions/images.php';
@@ -43,6 +43,10 @@ function codeweber_initialize_redux()
 	require_once get_template_directory() . '/functions/sidebars-redux.php';
 }
 add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
+
+
+
+
 
 add_filter('pre_set_site_transient_update_themes', 'bricks_master_github_updater');
 
