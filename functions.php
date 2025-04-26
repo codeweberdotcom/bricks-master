@@ -11,8 +11,8 @@ require_once get_template_directory() . '/functions/cpt/cpt-page-header.php';
 
 require_once get_template_directory() . '/functions/setup.php';
 
-require_once get_template_directory() . '/plugins/tgm/class-tgm-plugin-activation.php';
-require_once get_template_directory() . '/plugins/tgm/plugins_autoinstall.php';
+require_once get_template_directory() . '/components/plugins/tgm/class-tgm-plugin-activation.php';
+require_once get_template_directory() . '/components/plugins_autoinstall.php';
 
 require_once get_template_directory() . '/functions/enqueues.php';
 require_once get_template_directory() . '/functions/images.php';
@@ -46,8 +46,7 @@ add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
 
 
 
-
-
+// Фильтр: проверка обновления темы
 add_filter('pre_set_site_transient_update_themes', 'bricks_master_github_updater');
 
 function bricks_master_github_updater($transient)
@@ -56,13 +55,14 @@ function bricks_master_github_updater($transient)
 		return $transient;
 	}
 
+	$theme_slug = 'bricks-master';
+	$current_version = wp_get_theme($theme_slug)->get('Version');
 	$github_api_url = 'https://api.github.com/repos/codeweberdotcom/bricks-master/releases/latest';
 
-	// Получаем данные с GitHub
 	$response = wp_remote_get($github_api_url, [
 		'headers' => [
-			'Accept'        => 'application/vnd.github.v3+json',
-			'User-Agent'    => 'WordPress Theme Updater'
+			'Accept' => 'application/vnd.github.v3+json',
+			'User-Agent' => 'WordPress Theme Updater'
 		]
 	]);
 
@@ -71,71 +71,25 @@ function bricks_master_github_updater($transient)
 	}
 
 	$release = json_decode(wp_remote_retrieve_body($response));
-	if (empty($release->tag_name)) {
+	if (empty($release->tag_name) || empty($release->zipball_url)) {
 		return $transient;
 	}
 
-	$theme_slug = 'bricks-master'; // Это папка темы!
-	$current_version = wp_get_theme($theme_slug)->get('Version');
-	$new_version     = ltrim($release->tag_name, 'v'); // v1.0.1 → 1.0.1
+	$new_version = ltrim($release->tag_name, 'v');
 
 	if (version_compare($new_version, $current_version, '>')) {
-		$transient->response[$theme_slug] = array(
+		$transient->response[$theme_slug] = [
 			'theme'       => $theme_slug,
 			'new_version' => $new_version,
 			'url'         => $release->html_url,
 			'package'     => $release->zipball_url
-		);
+		];
 	}
 
 	return $transient;
 }
 
-
-add_filter('pre_set_site_transient_update_themes', 'bricks_master_github_updater');
-
-function bricks_master_github_updater($transient)
-{
-	if (empty($transient->checked)) {
-		return $transient;
-	}
-
-	$github_api_url = 'https://api.github.com/repos/codeweberdotcom/bricks-master/releases/latest';
-
-	// Получаем данные с GitHub
-	$response = wp_remote_get($github_api_url, [
-		'headers' => [
-			'Accept'        => 'application/vnd.github.v3+json',
-			'User-Agent'    => 'WordPress Theme Updater'
-		]
-	]);
-
-	if (is_wp_error($response)) {
-		return $transient;
-	}
-
-	$release = json_decode(wp_remote_retrieve_body($response));
-	if (empty($release->tag_name)) {
-		return $transient;
-	}
-
-	$theme_slug = 'bricks-master'; // Это папка темы!
-	$current_version = wp_get_theme($theme_slug)->get('Version');
-	$new_version     = ltrim($release->tag_name, 'v'); // v1.0.1 → 1.0.1
-
-	if (version_compare($new_version, $current_version, '>')) {
-		$transient->response[$theme_slug] = array(
-			'theme'       => $theme_slug,
-			'new_version' => $new_version,
-			'url'         => $release->html_url,
-			'package'     => $release->zipball_url
-		);
-	}
-
-	return $transient;
-}
-
-
+// Ручное обновление по ?update_bricks=true
 add_action('admin_init', 'custom_update_theme_from_github');
 
 function custom_update_theme_from_github()
@@ -144,10 +98,8 @@ function custom_update_theme_from_github()
 		return;
 	}
 
-	// Проверка параметра update_bricks в URL
 	if (isset($_GET['update_bricks']) && $_GET['update_bricks'] === 'true') {
 
-		// Получение данных последнего релиза с GitHub
 		$github_api_url = 'https://api.github.com/repos/codeweberdotcom/bricks-master/releases/latest';
 		$response = wp_remote_get($github_api_url, [
 			'headers' => [
@@ -167,7 +119,6 @@ function custom_update_theme_from_github()
 
 		$zip_url = $release->zipball_url;
 
-		// Пути для скачивания и распаковки
 		$upload_dir = wp_upload_dir();
 		$temp_dir = trailingslashit($upload_dir['basedir']) . 'bricks-updater/';
 		$temp_zip = $temp_dir . 'bricks-master.zip';
@@ -176,13 +127,11 @@ function custom_update_theme_from_github()
 			wp_mkdir_p($temp_dir);
 		}
 
-		// Скачиваем архив
 		$zip_response = wp_remote_get($zip_url, ['timeout' => 60]);
 		if (is_wp_error($zip_response)) {
 			wp_die('Ошибка при загрузке архива: ' . $zip_response->get_error_message());
 		}
 
-		// Сохраняем файл
 		$file_body = wp_remote_retrieve_body($zip_response);
 		if (strlen($file_body) < 100) {
 			wp_die('Ошибка: файл архива слишком маленький.');
@@ -190,7 +139,6 @@ function custom_update_theme_from_github()
 
 		file_put_contents($temp_zip, $file_body);
 
-		// Распаковка
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
@@ -200,7 +148,6 @@ function custom_update_theme_from_github()
 			wp_die('Ошибка при распаковке архива: ' . $unzip->get_error_message());
 		}
 
-		// Поиск распакованной директории
 		$extracted_dirs = glob($temp_dir . 'codeweberdotcom-bricks-master-*');
 		if (empty($extracted_dirs)) {
 			wp_die('Не удалось найти распакованную тему.');
@@ -208,23 +155,28 @@ function custom_update_theme_from_github()
 
 		$source = $extracted_dirs[0];
 
-		// Проверка наличия style.css и functions.php
 		if (!file_exists($source . '/style.css') || !file_exists($source . '/functions.php')) {
 			wp_die('Папка с темой повреждена или неполная.');
 		}
 
 		$dest = get_theme_root() . '/bricks-master';
 
-		$filesystem = new WP_Filesystem_Direct(false);
+		global $wp_filesystem;
+		WP_Filesystem();
 
-		// Удаляем старую тему после успешной загрузки и распаковки
-		$filesystem->rmdir($dest, true);
+		// Удаляем содержимое папки темы, не саму папку
+		$items = $wp_filesystem->dirlist($dest);
+		if ($items) {
+			foreach ($items as $item_name => $item) {
+				$wp_filesystem->delete($dest . '/' . $item_name, true);
+			}
+		}
 
-		// Копируем новую
+		// Копируем файлы из новой темы
 		copy_dir($source, $dest);
 
 		// Удаляем временные файлы
-		$filesystem->delete($temp_dir, true);
+		$wp_filesystem->delete($temp_dir, true);
 
 		echo '🎉 Тема обновлена до последней версии GitHub!';
 		exit;
@@ -232,6 +184,7 @@ function custom_update_theme_from_github()
 }
 
 
+// Уведомление в админке о доступном обновлении
 add_action('admin_notices', 'bricks_master_update_notice');
 function bricks_master_update_notice()
 {
