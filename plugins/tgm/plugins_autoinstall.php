@@ -42,3 +42,24 @@ function my_theme_register_required_plugins()
 
    tgmpa($plugins, $config);
 }
+
+
+add_action('tgmpa_register', 'run_after_cf7_activation', 10, 0);
+
+function run_after_cf7_activation()
+{
+   if (is_plugin_active('contact-form-7/wp-contact-form-7.php')) {
+      // Проверяем, существуют ли функции, и вызываем их только если они определены
+      if (function_exists('create_custom_cf7_form')) {
+         create_custom_cf7_form();
+      }
+
+      if (function_exists('create_custom_cf7_form_with_name_and_email')) {
+         create_custom_cf7_form_with_name_and_email();
+      }
+
+      if (function_exists('create_custom_cf7_form_with_name_comment_and_email')) {
+         create_custom_cf7_form_with_name_comment_and_email();
+      }
+   }
+}

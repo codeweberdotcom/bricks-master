@@ -1,0 +1,72 @@
+@font-face {
+    font-family: 'Gill Sans Pro Cyrillic';
+    src: url('GillSansProCyrillic-Bold.eot');
+    src: local('Gill Sans Pro Cyrillic Bold'), local('GillSansProCyrillic-Bold'),
+        url('GillSansProCyrillic-Bold.eot?#iefix') format('embedded-opentype'),
+        url('GillSansProCyrillic-Bold.woff2') format('woff2'),
+        url('GillSansProCyrillic-Bold.woff') format('woff'),
+        url('GillSansProCyrillic-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gill Sans Pro Cyrillic';
+    src: url('GillSansProCyrillic-MediumItali.eot');
+    src: local('Gill Sans Pro Cyrillic Medium Italic'), local('GillSansProCyrillic-MediumItali'),
+        url('GillSansProCyrillic-MediumItali.eot?#iefix') format('embedded-opentype'),
+        url('GillSansProCyrillic-MediumItali.woff2') format('woff2'),
+        url('GillSansProCyrillic-MediumItali.woff') format('woff'),
+        url('GillSansProCyrillic-MediumItali.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Gill Sans Pro Cyrillic';
+    src: url('GillSansProCyrillic-Medium.eot');
+    src: local('Gill Sans Pro Cyrillic Medium'), local('GillSansProCyrillic-Medium'),
+        url('GillSansProCyrillic-Medium.eot?#iefix') format('embedded-opentype'),
+        url('GillSansProCyrillic-Medium.woff2') format('woff2'),
+        url('GillSansProCyrillic-Medium.woff') format('woff'),
+        url('GillSansProCyrillic-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gill Sans Pro Cyrillic';
+    src: url('GillSansProCyrillic-BoldItalic.eot');
+    src: local('Gill Sans Pro Cyrillic Bold Italic'), local('GillSansProCyrillic-BoldItalic'),
+        url('GillSansProCyrillic-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('GillSansProCyrillic-BoldItalic.woff2') format('woff2'),
+        url('GillSansProCyrillic-BoldItalic.woff') format('woff'),
+        url('GillSansProCyrillic-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Gill Sans Pro Cyrillic';
+    src: url('GillSansProCyrillic-LightItalic.eot');
+    src: local('Gill Sans Pro Cyrillic Light Italic'), local('GillSansProCyrillic-LightItalic'),
+        url('GillSansProCyrillic-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('GillSansProCyrillic-LightItalic.woff2') format('woff2'),
+        url('GillSansProCyrillic-LightItalic.woff') format('woff'),
+        url('GillSansProCyrillic-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Gill Sans Pro Cyrillic';
+    src: url('GillSansProCyrillic-Light.eot');
+    src: local('Gill Sans Pro Cyrillic Light'), local('GillSansProCyrillic-Light'),
+        url('GillSansProCyrillic-Light.eot?#iefix') format('embedded-opentype'),
+        url('GillSansProCyrillic-Light.woff2') format('woff2'),
+        url('GillSansProCyrillic-Light.woff') format('woff'),
+        url('GillSansProCyrillic-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+

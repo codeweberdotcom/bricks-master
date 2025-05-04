@@ -37,7 +37,7 @@ $config = [
     'social-size' => 'sm', //sm, md, lg
 
     'languageSelector' => ' <li class="nav-item dropdown language-select text-uppercase"><a class="nav-link dropdown-item dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">En</a><ul class="dropdown-menu"><li class="nav-item"><a class="dropdown-item" href="#">En</a></li><li class="nav-item"><a class="dropdown-item" href="#">Es</a></li></ul></li>',
-    'buttonCTA' => ' <li class="nav-item d-none d-md-block"><a href="#" class="btn btn-sm btn-primary rounded-pill">Get Touch</a></li>',
+    'buttonCTA' => ' <li class="nav-item d-none d-md-block"><a href="#" data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-sm btn-primary rounded-pill">Get Touch</a></li>',
 ];
 
 global $opt_name;
@@ -167,7 +167,7 @@ if ($config['navbar-center-nav'] === true) {
 
 <header class="wrapper <?= $header_class; ?>">
     <?php if ($topbar_enable === '1') { ?>
-    <?php get_template_part('templates/header/header', 'topbar'); ?>
+        <?php get_template_part('templates/header/header', 'topbar'); ?>
     <?php }; ?>
     <nav class="navbar navbar-expand-lg <?= implode(" ", $header_navbar_class); ?>">
         <div class="container flex-lg-row flex-nowrap align-items-center">
@@ -400,9 +400,8 @@ if ($config['navbar-center-nav'] === true) {
     <?php } ?>
 
 
-</header>
 
-<?php
-/**
- * Пример конфигурации массива $config:
- */
+   
+
+
+</header>
