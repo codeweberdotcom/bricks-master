@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Константа для включения/отключения кэширования
   const ENABLE_CACHE = false;
   const modalButtons = document.querySelectorAll('a[data-bs-toggle="modal"]');
   const modalElement = document.getElementById("modal");
@@ -9,6 +8,63 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const modalInstance = new bootstrap.Modal(modalElement);
+
+  // ✅ Предзагрузка формы в кэш при появлении кнопки в viewport
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const button = entry.target;
+          const dataValue = button
+            .getAttribute("data-value")
+            ?.replace("modal-", "");
+          if (!dataValue) return;
+
+          const cachedContent = localStorage.getItem(dataValue);
+          const cachedTime = localStorage.getItem(`${dataValue}_time`);
+
+          if (
+            ENABLE_CACHE &&
+            cachedContent &&
+            cachedTime &&
+            Date.now() - cachedTime < 60000
+          ) {
+            // Уже в кеше — пропускаем
+            obs.unobserve(button);
+            return;
+          }
+
+          // Подгружаем в кэш
+          fetch(`${wpApiSettings.root}wp/v2/modal/${dataValue}`)
+            .then((response) => {
+              if (!response.ok) throw new Error("Ошибка при загрузке данных");
+              return response.json();
+            })
+            .then((data) => {
+              if (data && data.content && data.content.rendered) {
+                localStorage.setItem(dataValue, data.content.rendered);
+                localStorage.setItem(
+                  `${dataValue}_time`,
+                  Date.now().toString()
+                );
+              }
+            })
+            .catch((err) => {
+              console.error("Ошибка предзагрузки:", err);
+            });
+
+          // Убираем наблюдение за этой кнопкой после загрузки
+          obs.unobserve(button);
+        }
+      });
+    });
+
+    modalButtons.forEach((button) => {
+      observer.observe(button);
+    });
+  }
+
+  // ✅ Стандартный обработчик клика по кнопке
   modalButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const dataValue = button
@@ -29,12 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
         modalInstance.show();
       } else {
         modalContent.innerHTML = '<div class="modal-loader"></div>';
-
         fetch(`${wpApiSettings.root}wp/v2/modal/${dataValue}`)
           .then((response) => {
-            if (!response.ok) {
+            if (!response.ok)
               throw new Error("Ошибка при загрузке данных с сервера");
-            }
             return response.json();
           })
           .then((data) => {
@@ -50,35 +104,11 @@ document.addEventListener("DOMContentLoaded", () => {
               const formElement = modalContent.querySelector("form.wpcf7-form");
               if (formElement && typeof wpcf7 !== "undefined") {
                 wpcf7.init(formElement);
-                theme.cf7BlockDoubleClick();
-                theme.formValidation();
-                theme.addTelMask();
-
-                // Обработка нажатия на кнопку отправки
-                const submitButton = formElement.querySelector(
-                  'button[type="submit"], input[type="submit"]'
-                );
-                if (submitButton) {
-                  const originalText = submitButton.innerHTML;
-
-                  formElement.addEventListener("submit", () => {
-                    submitButton.disabled = true;
-                    submitButton.innerHTML = `
-                       Отправка... <i class="uil uil-envelope-upload ms-2"></i>
-                    `;
-                  });
-
-                  // Восстановление текста кнопки после отправки
-                  const resetButton = () => {
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = originalText;
-                  };
-
-                  formElement.addEventListener("wpcf7mailsent", resetButton);
-                  formElement.addEventListener("wpcf7invalid", resetButton);
-                  formElement.addEventListener("wpcf7spam", resetButton);
-                  formElement.addEventListener("wpcf7error", resetButton);
-                }
+                custom.cf7BlockDoubleClick();
+                custom.formValidation();
+                custom.addTelMask();
+                custom.rippleEffect();
+                custom.formSubmittingWatcher();
               }
               modalInstance.show();
             } else {

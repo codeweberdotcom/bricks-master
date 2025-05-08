@@ -957,7 +957,7 @@ var custom = {
         const modalContent = document.getElementById("modal-content");
         if (modalContent) {
           modalContent.innerHTML = `
-          <div class="container">
+          <div class="container" data-cue="fadeIn">
             <div class="row">
               <div class="col-12 text-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 395.7" class="mb-3 svg-inject icon-svg icon-svg-lg text-primary">

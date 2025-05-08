@@ -17,6 +17,14 @@ Redux::setArgs($opt_name, array(
 	'menu_slug'   => 'theme-options',
 ));
 
+// 👉 Сюда добавь этот блок 👇
+add_action('redux/options/my_redux_options/enqueue', 'theme_settings_custom_styles');
+
+function theme_settings_custom_styles()
+{
+	wp_enqueue_style('theme-settings-css', get_template_directory_uri() . '/redux-framework/theme-settings/theme-settings.css', false, wp_get_theme()->get('Version'), 'all');
+}
+
 // Функция для автоматического подключения всех файлов и добавления секций
 function add_redux_sections_from_files($path, $opt_name)
 {

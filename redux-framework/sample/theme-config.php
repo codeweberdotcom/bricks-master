@@ -327,6 +327,7 @@ Redux::set_section(
 	)
 );
 
+
 require_once Redux_Core::$dir . '../sample/sections/codeweber/cpt-type.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/header.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/page-header.php';
@@ -338,6 +339,7 @@ require_once Redux_Core::$dir . '../sample/sections/codeweber/tracking-metrics.p
 
 require_once Redux_Core::$dir . '../sample/sections/codeweber/map_geo.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/api.php';
+require_once Redux_Core::$dir . '../sample/sections/codeweber/style.php';
 
 
 /*

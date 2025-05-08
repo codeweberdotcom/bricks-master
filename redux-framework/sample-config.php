@@ -219,7 +219,6 @@ $args = array(
 	'search'                    => true,
 );
 
-
 // ADMIN BAR LINKS → Set up custom links in the admin bar menu as external items.
 // PLEASE CHANGE THESE SETTINGS IN YOUR THEME BEFORE RELEASING YOUR PRODUCT!!
 // If these are left unchanged, they will not display in your panel!

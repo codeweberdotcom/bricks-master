@@ -18,16 +18,16 @@ $full_address = trim("{$city}, {$street}, {$house_number}", ' ,');
 <div class="bg-primary text-white fw-bold fs-15">
 	<div class="container d-flex flex-row justify-content-between">
 		<div class="d-flex flex-row align-items-center">
-			<div class="icon text-white fs-22 mt-1 me-2"> <i class="uil uil-location-pin-alt"></i></div>
+			<div class="icon text-white  mt-1 me-2"> <i class="uil uil-location-pin-alt"></i></div>
 			<address class="mb-0 d-flex"><?= $city; ?> <span class="d-none d-md-block"><?= $street; ?></span> <span class="d-none d-md-block"><?= $house_number; ?></span></address>
 		</div>
 		<div class="d-none d-md-flex flex-row align-items-center me-6 ms-auto">
-			<div class="icon text-white fs-22 mt-1 me-2"> <i class="uil uil-message"></i></div>
+			<div class="icon text-white mt-1 me-2"> <i class="uil uil-message"></i></div>
 			<p class="mb-0"><a href="mailto:<?= $email; ?>" class="link-white hover"><?= $email; ?></a></p>
 		</div>
 		<div class="d-flex flex-row align-items-center">
-			<div class="icon text-white fs-22 mt-1 me-2"> <i class="uil uil-phone-volume"></i></div>
-			<a href="tel:<?php cleanNumber($phone1); ?>" class="mb-0"><?= $phone1; ?></a>
+			<div class="icon text-white  mt-1 me-2"> <i class="uil uil-phone-volume"></i></div>
+			<a href="tel:<?php cleanNumber($phone1); ?>" class="mb-0 link-white hover"><?= $phone1; ?></a>
 		</div>
 	</div>
 	<!-- /.container -->
