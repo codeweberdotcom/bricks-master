@@ -3,63 +3,79 @@
 /* Paths */
 var path = {
   dev: {
-    html: 'dev/',
-    js: 'dev/assets/js/',
-    css: 'dev/assets/css/',
-    style: 'dev/assets/css/',
-    fontcss: 'dev/assets/css/fonts/',
-    colorcss: 'dev/assets/css/colors/',
-    img: 'dev/assets/img/',
-    fonts: 'dev/assets/fonts/',
-    media: 'dev/assets/media/',
-    php: 'dev/assets/php/'
+    html: "dev/",
+    js: "dev/assets/js/",
+    css: "dev/assets/css/",
+    style: "dev/assets/css/",
+    fontcss: "dev/assets/css/fonts/",
+    colorcss: "dev/assets/css/colors/",
+    img: "dev/assets/img/",
+    fonts: "dev/assets/fonts/",
+    media: "dev/assets/media/",
+    php: "dev/assets/php/",
   },
   dist: {
-    html: 'dist/',
-    js: 'dist/assets/js/',
-    css: 'dist/assets/css/',
-    style: 'dist/assets/css/',
-    fontcss: 'dist/assets/css/fonts/',
-    colorcss: 'dist/assets/css/colors/',
-    img: 'dist/assets/img/',
-    fonts: 'dist/assets/fonts/',
-    media: 'dist/assets/media/',
-    php: 'dist/assets/php/'
+    html: "dist/",
+    js: "dist/assets/js/",
+    css: "dist/assets/css/",
+    style: "dist/assets/css/",
+    fontcss: "dist/assets/css/fonts/",
+    colorcss: "dist/assets/css/colors/",
+    img: "dist/assets/img/",
+    fonts: "dist/assets/fonts/",
+    media: "dist/assets/media/",
+    php: "dist/assets/php/",
   },
   src: {
-    html: ['src/**/*.html', '!src/partials/**/*.html', '!src/assets/php/**/*.html'],
-    partials: 'src/partials/',
-    js: 'src/assets/js/',
-    vendorjs: 'src/assets/js/vendor/*.*',
-    themejs: 'src/assets/js/theme.js',
-    style: 'src/assets/scss/style.scss',
-    fontcss: 'src/assets/scss/fonts/*.*',
-    colorcss: ['src/assets/scss/colors/*.scss', 'src/assets/scss/theme/_colors.scss'],
-    vendorcss: 'src/assets/css/vendor/*.*',
-    img: 'src/assets/img/**/*.*',
-    fonts: 'src/assets/fonts/**/*.*',
-    media: 'src/assets/media/**/*.*',
-    php: 'src/assets/php/**/*.*'
+    html: [
+      "src/**/*.html",
+      "!src/partials/**/*.html",
+      "!src/assets/php/**/*.html",
+    ],
+    partials: "src/partials/",
+    js: "src/assets/js/",
+    vendorjs: "src/assets/js/vendor/*.*",
+    themejs: "src/assets/js/theme.js",
+    restapijs: "src/assets/js/restapi.js",
+    style: "src/assets/scss/style.scss",
+    fontcss: "src/assets/scss/fonts/*.*",
+    colorcss: [
+      "src/assets/scss/colors/*.scss",
+      "src/assets/scss/theme/_colors.scss",
+    ],
+    vendorcss: "src/assets/css/vendor/*.*",
+    img: "src/assets/img/**/*.*",
+    fonts: "src/assets/fonts/**/*.*",
+    media: "src/assets/media/**/*.*",
+    php: "src/assets/php/**/*.*",
   },
   watch: {
-    html: ['src/**/*.html', '!src/assets/php/**/*.html'],
-    partials: 'src/partials/**/*.*',
-    themejs: 'src/assets/js/theme.js',
-    vendorjs: 'src/assets/js/vendor/*.*',
-    css: ['src/assets/scss/**/*.scss', '!src/assets/scss/fonts/*.scss', '!src/assets/scss/colors/*.scss', '!src/assets/scss/theme/_colors.scss'],
-    fontcss: 'src/assets/scss/fonts/*.scss',
-    colorcss: ['src/assets/scss/colors/*.scss', 'src/assets/scss/theme/_colors.scss'],
-    vendorcss: 'src/assets/css/vendor/*.*',
-    img: 'src/assets/img/**/*.*',
-    fonts: 'src/assets/fonts/**/*.*',
-    media: 'src/assets/media/**/*.*',
-    php: 'src/assets/php/',
-    user: 'src/assets/scss/_user-variables.scss'
+    html: ["src/**/*.html", "!src/assets/php/**/*.html"],
+    partials: "src/partials/**/*.*",
+    themejs: "src/assets/js/theme.js",
+    vendorjs: "src/assets/js/vendor/*.*",
+    css: [
+      "src/assets/scss/**/*.scss",
+      "!src/assets/scss/fonts/*.scss",
+      "!src/assets/scss/colors/*.scss",
+      "!src/assets/scss/theme/_colors.scss",
+    ],
+    fontcss: "src/assets/scss/fonts/*.scss",
+    colorcss: [
+      "src/assets/scss/colors/*.scss",
+      "src/assets/scss/theme/_colors.scss",
+    ],
+    vendorcss: "src/assets/css/vendor/*.*",
+    img: "src/assets/img/**/*.*",
+    fonts: "src/assets/fonts/**/*.*",
+    media: "src/assets/media/**/*.*",
+    php: "src/assets/php/",
+    user: "src/assets/scss/_user-variables.scss",
   },
   clean: {
-    dev: 'dev/*',
-    dist: 'dist/*',
-  }
+    dev: "dev/*",
+    dist: "dist/*",
+  },
 };
 
 /* Include gulp and plugins */
@@ -101,6 +117,29 @@ var config = {
 // Start the server
 gulp.task('webserver', function () {
     webserver(config);
+});
+
+gulp.task("restapijs:dev", function () {
+  return gulp
+    .src(path.src.restapijs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("restapijs:dist", function () {
+  return (
+    gulp
+      .src(path.src.restapijs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      //.pipe(uglify()) // если нужно минифицировать — раскомментируй
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
 });
 
 // Compile html
@@ -370,41 +409,47 @@ gulp.task('cache:clear', function () {
 });
 
 // Assembly Dev
-gulp.task('build:dev',
-    gulp.series('clean:dev',
-      gulp.parallel(
-      'html:dev',
-      'css:dev',
-      'fontcss:dev',
-      'colorcss:dev',
-      'vendorcss:dev',
-      'pluginsjs:dev',
-      'themejs:dev',
-      'fonts:dev',
-      'media:dev',
-      'php:dev',
-      'image:dev'
-      )
+gulp.task(
+  "build:dev",
+  gulp.series(
+    "clean:dev",
+    gulp.parallel(
+      "html:dev",
+      "css:dev",
+      "fontcss:dev",
+      "colorcss:dev",
+      "vendorcss:dev",
+      "pluginsjs:dev",
+      "restapijs:dev",
+      "themejs:dev",
+      "fonts:dev",
+      "media:dev",
+      "php:dev",
+      "image:dev"
     )
+  )
 );
 
 // Assembly Dist
-gulp.task('build:dist',
-    gulp.series('clean:dist',
-      gulp.parallel(
-      'html:dist',
-      'css:dist',
-      'fontcss:dist',
-      'colorcss:dist',
-      'vendorcss:dist',
-      'pluginsjs:dist',
-      'themejs:dist',
-      'fonts:dist',
-      'media:dist',
-      'php:dist',
-      'image:dist'
-      )
+gulp.task(
+  "build:dist",
+  gulp.series(
+    "clean:dist",
+    gulp.parallel(
+      "html:dist",
+      "css:dist",
+      "fontcss:dist",
+      "colorcss:dist",
+      "vendorcss:dist",
+      "pluginsjs:dist",
+      "restapijs:dist",
+      "themejs:dist",
+      "fonts:dist",
+      "media:dist",
+      "php:dist",
+      "image:dist"
     )
+  )
 );
 
 
