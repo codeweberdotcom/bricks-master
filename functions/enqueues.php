@@ -39,7 +39,6 @@ if (!function_exists('brk_styles_scripts')) {
 		/*dist add codeweber theme scripts */
 		wp_enqueue_script('plugins-scripts', get_template_directory_uri() . '/dist/assets/js/plugins.js', false, $theme_version, true);
 		wp_enqueue_script('theme-scripts', get_template_directory_uri() . '/dist/assets/js/theme.js', false, $theme_version, true);
-		//wp_enqueue_script('phone-scripts', get_template_directory_uri() . '/dist/assets/js/phone-mask.js', false, $theme_version, false);
 	}
 }
 add_action('wp_enqueue_scripts', 'brk_styles_scripts');
@@ -62,9 +61,6 @@ if (! function_exists('brk_styles_scripts_gutenberg')) {
 	}
 }
 add_action('enqueue_block_editor_assets', 'brk_styles_scripts_gutenberg');
-
-
-
 
 
 function enqueue_my_custom_script()

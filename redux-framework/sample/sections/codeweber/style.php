@@ -4,7 +4,7 @@ $color_theme_files = array(
 	'default' => 'default'
 );
 
-$directory = get_template_directory() . '/dist/css/colors';
+$directory = get_template_directory() . '/dist/assets/css/colors';
 
 if (file_exists($directory)) {
 	$files = scandir($directory);
@@ -16,8 +16,10 @@ if (file_exists($directory)) {
 	}
 }
 
-
-$sample_html = '<button  class="button button-primary">Запустить сборщик GULP</button>';
+$sample_html = '<div class="wrap">
+    <button id="run-gulp-build" class="button button-primary">Собрать CSS и JS</button>
+    <pre id="gulp-build-log" style="margin-top:10px; padding:10px; background:#f1f1f1; display:none;"></pre>
+</div>';
 
 Redux::set_section(
 	$opt_name,
@@ -37,19 +39,27 @@ Redux::set_section(
 				'id'       => 'opt-select-color-theme',
 				'type'     => 'select',
 				'title'    => esc_html__('Theme color', 'codeweber'),
-
-
-				// Must provide key => value pairs for select options.
 				'options'  => $color_theme_files,
 				'default'  => 'default',
 			),
-
+			array(
+				'id'       => 'opt-dark-logo',
+				'type'     => 'media',
+				'title'    => esc_html__('Dark Logo', 'codeweber'),
+				'desc'     => esc_html__('Upload your dark logo', 'codeweber'),
+				'default'  => '',
+			),
+			array(
+				'id'       => 'opt-light-logo',
+				'type'     => 'media',
+				'title'    => esc_html__('Light Logo', 'codeweber'),
+				'desc'     => esc_html__('Upload your light logo', 'codeweber'),
+				'default'  => '',
+			),
 			array(
 				'id'       => 'opt-button-select-style',
 				'type'     => 'image_select',
 				'title'    => esc_html__('Button Style', 'codeweber'),
-
-				// Must provide key => value(array:title|img) pairs for radio options.
 				'options'  => array(
 					'1' => array(
 						'alt' => 'Pill',
@@ -67,7 +77,6 @@ Redux::set_section(
 						'alt' => 'Square',
 						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/square.jpg',
 					),
-
 				),
 				'default'  => '1',
 			),
@@ -90,13 +99,13 @@ Redux::set_section(
 				'position' => 'start',
 			),
 			array(
-				'id'       => 'opt-gulp-variation',
+				'id'       => 'opt-gulp-sass-variation',
 				'type'     => 'textarea',
 				'title'    => esc_html__('Gulp Sass Variables', 'codeweber'),
 				'default'  => '',
 			),
 			array(
-				'id'       => 'opt-gulp-variation',
+				'id'       => 'opt-gulp-js-variation',
 				'type'     => 'textarea',
 				'title'    => esc_html__('Gulp JS Variables', 'codeweber'),
 				'default'  => '',
@@ -104,8 +113,8 @@ Redux::set_section(
 			array(
 				'id'       => 'opt-raw_info_4333',
 				'type'     => 'raw',
-				'title'    => esc_html__('Standard Raw Field', 'codeweber'),
-
+				'title'    => esc_html__('Gulp Run', 'codeweber'),
+				'desc'     => esc_html__('Before starting the build Gulp, save the Redux settings.', 'codeweber'),
 				'content'  => $sample_html,
 			),
 			array(

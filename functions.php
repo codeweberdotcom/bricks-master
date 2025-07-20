@@ -12,6 +12,7 @@ require_once get_template_directory() . '/functions/cpt/cpt-modals.php';
 require_once get_template_directory() . '/functions/cpt/cpt-html_blocks.php';
 
 require_once get_template_directory() . '/functions/setup.php';
+require_once get_template_directory() . '/functions/gulp.php';
 
 require_once get_template_directory() . '/plugins/tgm/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/plugins/tgm/plugins_autoinstall.php';

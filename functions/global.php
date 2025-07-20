@@ -179,9 +179,8 @@ function codeweber_remove_active_class_from_li($classes, $item, $args)
 add_filter('nav_menu_css_class', 'codeweber_remove_active_class_from_li', 10, 3);
 
 
-
 /**
- * Получает пользовательские логотипы.
+ * Получает пользовательские логотипы из Redux Framework.
  * 
  * Функция возвращает логотип в светлом, темном варианте или оба сразу.
  * Если пользовательские логотипы не заданы, используются стандартные изображения.
@@ -189,40 +188,44 @@ add_filter('nav_menu_css_class', 'codeweber_remove_active_class_from_li', 10, 3)
  * @param string $type Тип логотипа: 'light' (светлый), 'dark' (тёмный) или 'both' (оба).
  * @return string HTML-код с логотипом (или логотипами).
  */
-
 function get_custom_logo_type($type = 'both')
 {
-	$default_logos = array(
-		'light' => get_template_directory_uri() . '/dist/img/logo-light.png',
-		'dark'  => get_template_directory_uri() . '/dist/img/logo-dark.png',
-	);
+	// тут название твоей опции, укажи актуальное значение
+	 global $opt_name;
+    $options = get_option($opt_name);
 
-	$custom_logos = array(
-		'light' => has_custom_logo() ? wp_get_attachment_image_src(get_theme_mod('custom_logo'), 'full')[0] : $default_logos['light'],
-		'dark'  => ($dark_logo_id = get_theme_mod('custom_dark_logo')) ? wp_get_attachment_image_src($dark_logo_id, 'full')[0] : $default_logos['dark'],
-	);
+    $default_logos = array(
+        'light' => get_template_directory_uri() . '/dist/img/logo-light.png',
+        'dark'  => get_template_directory_uri() . '/dist/img/logo-dark.png',
+    );
 
-	$light_logo_html = sprintf(
-		'<img class="logo-dark" src="%s" alt="">',
-		esc_url($custom_logos['light'])
-	);
+    // определяем кастомные лого или дефолтные
+   $light_logo  = !empty($options['opt-dark-logo']['url'])  ? $options['opt-dark-logo']['url']  : $default_logos['dark'];
+	$dark_logo = !empty($options['opt-light-logo']['url']) ? $options['opt-light-logo']['url'] : $default_logos['light'];
 
-	$dark_logo_html = sprintf(
-		'<img class="logo-light" src="%s" alt="">',
-		esc_url($custom_logos['dark'])
-	);
+    // HTML код логотипов
+    $dark_logo_html = sprintf(
+        '<img class="logo-dark" src="%s" alt="">',
+        esc_url($dark_logo)
+    );
 
-	// Возвращаем в зависимости от типа
-	if ($type === 'light') {
-		return $light_logo_html;
-	} elseif ($type === 'dark') {
-		return $dark_logo_html;
-	} elseif ($type === 'both') {
-		return $light_logo_html . "\n" . $dark_logo_html;
-	}
+    $light_logo_html = sprintf(
+        '<img class="logo-light" src="%s" alt="">',
+        esc_url($light_logo)
+    );
 
-	return '';
+    // Возвращаем в зависимости от типа
+    if ($type === 'light') {
+        return $light_logo_html;
+    } elseif ($type === 'dark') {
+        return $dark_logo_html;
+    } elseif ($type === 'both') {
+        return $dark_logo_html . "\n" . $light_logo_html;
+    }
+
+    return '';
 }
+
 
 /**
  * Форматирует номер телефона, оставляя только цифры.
@@ -370,34 +373,36 @@ function social_links($class, $type, $size = 'md')
 
 
 /**
- * Подключает файл шаблона pageheader.
+ * Подключает файл шаблона pageheader из каталога /templates/pageheader/ темы.
  *
- * Работает аналогично функции get_header(), но ищет шаблоны pageheader.php или pageheader-{name}.php.
- * Используется для подключения альтернативного хедера на страницах, где это необходимо.
- *
- * Пример использования:
- *     get_pageheader();              // Подключит pageheader.php
- *     get_pageheader('custom');      // Подключит pageheader-custom.php, если он существует
+ * Работает аналогично get_header(), но подключает:
+ * - templates/pageheader/pageheader-{name}.php
+ * - или templates/pageheader/pageheader.php
  *
  * @param string|null $name Имя подшаблона (опционально).
  */
 function get_pageheader($name = null)
 {
-	/**
-	 * Хук, аналогичный get_header. Позволяет разработчикам добавить функциональность перед загрузкой pageheader.
-	 *
-	 * @param string|null $name Имя подшаблона.
-	 */
 	do_action('get_pageheader', $name);
 
-	$templates = array();
-	if (isset($name)) {
-		$templates[] = "pageheader-{$name}.php";
-	}
-	$templates[] = 'pageheader.php';
+	$base_dir = get_theme_file_path('templates/pageheader/');
 
-	locate_template($templates, true);
+	$templates = [];
+
+	if (!empty($name)) {
+		$templates[] = $base_dir . "pageheader-{$name}.php";
+	}
+
+	$templates[] = $base_dir . 'pageheader.php';
+
+	foreach ($templates as $template) {
+		if (file_exists($template)) {
+			require $template;
+			return;
+		}
+	}
 }
+
 
 
 /**
