@@ -9,7 +9,8 @@
   letter-spacing: $letter-spacing;
   position: relative;
   &:not(.btn-link):hover {
-    transform: translateY(-0.15rem);
+    //transform: translateY(-0.15rem);
+    transform: translateY(0rem);
     @include box-shadow($btn-active-box-shadow);
   }
   &.btn-white:hover,
@@ -346,6 +347,84 @@ $value in $gradients {
     }
   }
 }
+
+
+//----------------------------------------------------------//
+//  BUTTON DISABLED STATES
+//----------------------------------------------------------//
+
+.btn {
+  &:disabled,
+  &.disabled,
+  fieldset:disabled & {
+    color:  $gray-300;
+    background-color: #ffffff;
+    border-color:  $gray-300;
+    opacity: 1;
+    pointer-events: none;
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+// Soft buttons disabled
+@each $color, $value in $colors {
+  .btn-soft-#{$color}:disabled,
+  .btn-soft-#{$color}.disabled {
+    color: var(--bs-btn-disabled-color, $value);
+    background-color: var(--#{$prefix}pale-#{$color});
+    border-color: var(--#{$prefix}pale-#{$color});
+    opacity: var(--bs-btn-disabled-opacity, 0.65);
+    pointer-events: none;
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+// Outline buttons disabled
+@each $color, $value in $colors {
+  .btn-outline-#{$color}:disabled,
+  .btn-outline-#{$color}.disabled {
+    color: var(--bs-btn-disabled-color, $value);
+    border-color: var(--#{$prefix}#{$color});
+    opacity: var(--bs-btn-disabled-opacity, 0.65);
+    pointer-events: none;
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+// Gradient buttons disabled
+.btn-gradient:disabled,
+.btn-gradient.disabled {
+  color: var(--#{$prefix}white) !important;
+  opacity: var(--bs-btn-disabled-opacity, 0.65);
+  pointer-events: none;
+  background-image: none !important;
+  background-color: var(--bs-btn-disabled-bg, #e9ecef);
+  border-color: var(--bs-btn-disabled-border-color, #e9ecef);
+  box-shadow: none;
+  transform: none;
+}
+
+// Outline-gradient buttons disabled
+.btn-outline-gradient:disabled,
+.btn-outline-gradient.disabled {
+  opacity: var(--bs-btn-disabled-opacity, 0.65);
+  pointer-events: none;
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  transform: none;
+  span {
+    color: $main-dark !important;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+  }
+}
+
+
+
 //----------------------------------------------------------//
 //	BUTTON SIZES
 //----------------------------------------------------------//

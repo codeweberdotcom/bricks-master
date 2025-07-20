@@ -1,176 +1,553 @@
-// Use this to write your custom SCSS
+//----------------------------------------------------------//
+//  ACCORDION VARIABLES
+//----------------------------------------------------------//
+
+$accordion-margin-bottom: 1.25rem !default;
+$accordion-card-body-padding: 0 0 0 1.1rem !default;
+$accordion-card-header-padding: 0 0 0.8rem 0 !default;
+$accordion-card-header-padding-default: 0.9rem 1.3rem 0.85rem !default;
+
+// 👉 две переменные для разных положений кнопки
+$accordion-button-padding-left: 0 0 0 1rem !default;
+$accordion-button-padding-right: 0 1rem 0 0 !default;
+
+// 👉 две переменные для body padding
+$accordion-body-padding-left: 0 1.25rem 0.25rem 2.35rem !default;
+$accordion-body-padding-right: 0 2.35rem 0.25rem 1.25rem !default;
+
+// 👉 переменная позиции иконки
+$accordion-icon-position: left !default; // left | right
+
+// 👉 финальные переменные
+$accordion-button-padding: if($accordion-icon-position == left, $accordion-button-padding-left, $accordion-button-padding-right) !default;
+$accordion-body-padding-default: if($accordion-icon-position == left, $accordion-body-padding-left, $accordion-body-padding-right) !default;
+
+$accordion-button-font-size: 0.85rem !default;
+$accordion-button-font-weight: $font-weight-bold !default;
+$accordion-icon-font-size: 1.15rem !default;
+$accordion-icon-color: var(--#{$prefix}primary) !default;
+$accordion-icon-margin-top: -0.25rem !default;
+$accordion-icon-margin-left: -0.3rem !default;
+
+$accordion-body-padding-icon: 0 1.25rem 0.25rem 2.8rem !default;
+$accordion-button-icon-span: 1.3rem !default;
+$accordion-button-icon-font-size: 1rem !default;
+
+// Иконки
+$accordion-icon-one: $icon-caret-down !default;
+$accordion-icon-open: $icon-caret-up !default;
+$accordion-icon-close: $icon-caret-down !default;
+$accordion-icon-type: "two" !default;
+
+// Повороты
+$accordion-icon-closed-rotate: 0deg !default;
+$accordion-icon-opened-rotate: 0deg !default;
+
+// Hover эффекты
+$accordion-card-hover-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !default;
+$accordion-card-hover-transition: background ease 0.3s, box-shadow ease 0.3s !default;
+
+// Hover цвета
+$accordion-button-hover-color: var(--#{$prefix}primary) !default;
+$accordion-icon-hover-color: var(--#{$prefix}primary) !default;
+
+// Цвет текста в открытом состоянии
+$accordion-button-active-color: var(--#{$prefix}primary) !default;
 
 
-.z-index10 {
-  z-index: 10!important;
-}
+//----------------------------------------------------------//
+//  MIXIN
+//----------------------------------------------------------//
 
-.z-index20 {
-  z-index: 20!important;
-}
-
-.z-index30 {
-  z-index: 30!important;
-}
-
-.z-index40 {
-  z-index: 40!important;
-}
-
-.z-index50 {
-  z-index: 50!important;
-}
-
-
-
-.uil-spinner-alt, .uil-spinner, .uil-spin, .uil-fidget-spinner, .uil-process {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.uil-envelope-send, .uil-envelope-upload {
-  animation: spinner 1s linear infinite, wobble 0.5s ease-in-out infinite;
-}
-
-@keyframes spinner {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes wobble {
-  0%, 100% {
-    transform: translateX(0); /* Исходное положение */
-  }
-  50% {
-    transform: translateX(2px); /* Смещение вправо */
-  }
-  75% {
-    transform: translateX(-2px); /* Смещение влево */
-  }
-}
-
-
-/* Стандартный стиль кнопки */
-.btn-login {
-  position: relative;
-  overflow: hidden;
-}
-
-/* Скрываем текст "Отправить" при отправке */
-.btn-login.sending::after {
-  content: "Отправка...";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 14px;
-  font-weight: bold;
-  white-space: nowrap;
-}
-
-/* Линия из точек */
-.btn-login.sending::before {
-  content: "";
-  position: absolute;
-  width: 100px;
-  height: 2px;
-  background: repeating-linear-gradient(
-    90deg,
-    #000,
-    #000 2px,
-    transparent 2px,
-    transparent 4px
-  );
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Письмо */
-.btn-login.sending .letter {
-  position: absolute;
-  width: 20px;
-  height: 14px;
-  background: #f0f0f0;
-  border: 1px solid #000;
-  border-radius: 2px;
-  bottom: 6px;
-  animation: letterMove 2s linear infinite;
-}
-
-/* Анимация письма */
-@keyframes letterMove {
-  0% {
-    transform: translateX(-20px);
-  }
-  100% {
-    transform: translateX(100px);
+@mixin accordion-icon-position($position) {
+  @if $position == left {
+    left: $accordion-button-icon-span;
+    right: auto;
+  } @else if $position == right {
+    right: $accordion-button-icon-span;
+    left: auto;
   }
 }
 
-.menu-item-has-children.dropdown.parent-link {
-    padding-right: 1rem;
-}
 
-.offcanvas-light {
-  background-color: #ffffff!important;
-  color: #1e2228!important;
-}
+//----------------------------------------------------------//
+//  ACCORDION STYLES
+//----------------------------------------------------------//
 
-.offcanvas-light .logo-dark {
-    display: block !important;
-}
+.accordion-wrapper {
+  .card {
+    margin-bottom: $accordion-margin-bottom;
 
+    &.plain {
+      background: none;
+      border: 0;
+      margin-bottom: 0;
+      box-shadow: none;
 
-.navbar.transparent.navbar-light .logo-dark {
-    display: block!important; 
-}
+      .card-body {
+        padding: $accordion-card-body-padding;
+      }
 
-.breadcrumb.text-dark .breadcrumb-item a {
-    color: var(--bs-dark);
-}
+      .card-header {
+        padding: $accordion-card-header-padding;
 
-.breadcrumb.text-dark .breadcrumb-item.active, .breadcrumb.text-dark .breadcrumb-item:hover {
-    color: var(--bs-black);
-}
+        button {
+          padding: $accordion-button-padding;
 
-.breadcrumb.text-white .breadcrumb-item+.breadcrumb-item::before {
-    color: rgba(var(--bs-black), .5);
-}
-
-@media (max-width: 991.98px) {
-    .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link, .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link.active, .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link:focus, .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link:hover, .navbar-expand-lg .navbar-collapse.offcanvas-light .show>.nav-link, .navbar-expand-lg .navbar-collapse.offcanvas-light .dropdown-menu .dropdown-item {
-        color: #343f52 !important;
+          &:before {
+            @include accordion-icon-position($accordion-icon-position);
+          }
+        }
+      }
     }
+  }
+
+  .card-header {
+    position: relative;
+    margin-bottom: 0;
+    background: none;
+    border: 0;
+    padding: $accordion-card-header-padding-default;
+
+    button {
+      cursor: pointer;
+      width: 100%;
+      padding: $accordion-button-padding;
+      text-align: left;
+      margin: 0;
+      border: 0;
+      @include font-size($accordion-button-font-size);
+      font-weight: $accordion-button-font-weight;
+      color: var(--#{$prefix}primary);
+      @include transition(all 150ms ease-in-out);
+      background: none;
+
+      &:before {
+        font-family: $font-family-unicons;
+        position: absolute;
+        @include font-size($accordion-icon-font-size);
+        font-weight: normal;
+        width: 1rem;
+        margin-top: $accordion-icon-margin-top;
+        margin-left: $accordion-icon-margin-left;
+        display: inline-block;
+        color: $accordion-icon-color;
+        @include transition(transform 0.25s ease, color 0.2s ease);
+        @include accordion-icon-position($accordion-icon-position);
+
+        @if $accordion-icon-type == "one" {
+          content: $accordion-icon-one;
+          transform: rotate($accordion-icon-closed-rotate);
+        }
+      }
+
+      &.collapsed {
+        color: $main-dark;
+
+        &:before {
+          @if $accordion-icon-type == "one" {
+            content: $accordion-icon-one;
+            transform: rotate($accordion-icon-closed-rotate);
+          }
+        }
+      }
+
+      &:not(.collapsed) {
+        color: $accordion-button-active-color;
+
+        &:before {
+          @if $accordion-icon-type == "one" {
+            content: $accordion-icon-one;
+            transform: rotate($accordion-icon-opened-rotate);
+          }
+        }
+      }
+
+      &:hover {
+        color: $accordion-button-hover-color;
+
+        &:before {
+          color: $accordion-icon-hover-color;
+        }
+      }
+    }
+  }
+
+  .card.accordion-item {
+    @include transition($accordion-card-hover-transition);
+
+    &:hover {
+      box-shadow: $accordion-card-hover-shadow;
+      z-index: 1;
+    }
+  }
 }
 
-.screen-reader-response, .wpcf7-response-output {
-    display: none!important;
+.accordion-item {
+  .card-body {
+    padding: $accordion-body-padding-default;
+  }
+
+  &.icon {
+    .card-body {
+      padding: $accordion-body-padding-icon;
+    }
+
+    button {
+      padding: 0 0 0 1.5rem;
+      display: flex;
+      align-items: center;
+
+      &:before {
+        display: none;
+      }
+
+      > span {
+        position: absolute;
+        @include accordion-icon-position($accordion-icon-position);
+
+        i {
+          @include font-size($accordion-button-icon-font-size);
+        }
+      }
+    }
+  }
 }
 
-.small-chekbox .form-check-input {
-    width: 0.8rem;
-    height: 0.8rem;
+
+
+
+
+//----------------------------------------------------------//
+//  NAV TABS VARIABLES
+//----------------------------------------------------------//
+
+// BASIC TABS
+$nav-tabs-basic-font-size:              0.85rem !default;
+$nav-tabs-basic-font-weight:            600 !default;
+$nav-tabs-basic-border-width:           2px !default;
+$nav-tabs-basic-border-style:           solid !default;
+$nav-tabs-basic-border-color:           rgba($border, 0.25) !default;
+
+$nav-tabs-basic-border-top:             none !default;
+$nav-tabs-basic-border-right:           none !default;
+$nav-tabs-basic-border-bottom:          #{$nav-tabs-basic-border-width} #{$nav-tabs-basic-border-style} #{$nav-tabs-basic-border-color} !default;
+$nav-tabs-basic-border-left:            none !default;
+
+$nav-tabs-basic-bg:                     transparent !default;
+$nav-tabs-basic-active-bg:              transparent !default;
+$nav-tabs-basic-margin-right:           1rem !default;
+$nav-tabs-basic-padding:                0.6rem 0 !default;
+$nav-tabs-basic-border-radius:          0rem !default;
+
+$nav-tabs-basic-color:                  var(--#{$prefix}body-color) !default;
+$nav-tabs-basic-hover-color:            var(--#{$prefix}primary) !default;
+$nav-tabs-basic-active-color:           $nav-tabs-link-active-color !default;
+
+$nav-tabs-basic-hover-border-color:     $nav-tabs-link-active-color !default;
+$nav-tabs-basic-active-border-color:    $nav-tabs-link-active-color !default;
+$nav-tabs-basic-hover-bg:               transparent !default;
+
+$nav-tabs-basic-icon-size:              1rem !default;
+
+
+// PILLS TABS
+$nav-pills-font-size:                   0.85rem !default;
+$nav-pills-font-weight:                 600 !default;
+$nav-pills-border-width:                0px !default;
+$nav-pills-border-style:                solid !default;
+$nav-pills-border-color:                transparent !default;
+
+$nav-pills-border-top:                  #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color} !default;
+$nav-pills-border-right:                #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color} !default;
+$nav-pills-border-bottom:               #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color} !default;
+$nav-pills-border-left:                 #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color} !default;
+
+$nav-pills-bg:                          transparent !default;
+$nav-pills-active-bg:                   $nav-tabs-link-active-bg !default;
+$nav-pills-margin-right:                0.5rem !default;
+$nav-pills-padding:                     0.55rem 1.25rem !default;
+$nav-pills-border-radius:               0.4rem !default;
+
+$nav-pills-color:                       var(--#{$prefix}body-color) !default;
+$nav-pills-hover-color:                 var(--#{$prefix}primary) !default;
+$nav-pills-active-color:                var(--#{$prefix}primary) !default;
+
+$nav-pills-hover-border-color:          $nav-tabs-link-active-color !default;
+$nav-pills-hover-bg:                    $nav-tabs-link-active-bg !default;
+$nav-pills-active-border-color:         transparent !default;
+$nav-pills-active-box-shadow:           $box-shadow-with-border !default;
+
+$nav-pills-box-shadow:                  none !default; // ← добавили дефолтную тень
+$nav-pills-icon-size:                   1rem !default;
+
+
+//----------------------------------------------------------//
+//  NAV TABS STYLES
+//----------------------------------------------------------//
+
+.nav-tabs {
+
+  // BASIC TABS
+  &.nav-tabs-basic {
+    border-color: transparent;
+
+    .nav-link {
+      @include font-size($nav-tabs-basic-font-size);
+      font-weight: $nav-tabs-basic-font-weight;
+      color: $nav-tabs-basic-color;
+      border-top:    $nav-tabs-basic-border-top;
+      border-right:  $nav-tabs-basic-border-right;
+      border-bottom: $nav-tabs-basic-border-bottom;
+      border-left:   $nav-tabs-basic-border-left;
+      background: $nav-tabs-basic-bg;
+      margin-right: $nav-tabs-basic-margin-right;
+      padding: $nav-tabs-basic-padding;
+      border-radius: $nav-tabs-basic-border-radius;
+      transition: $link-transition;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i, svg {
+        font-size: $nav-tabs-basic-icon-size;
+        width: $nav-tabs-basic-icon-size;
+        height: $nav-tabs-basic-icon-size;
+        line-height: 1;
+      }
+
+      &:hover,
+      &:focus {
+        border-color: $nav-tabs-basic-hover-border-color;
+        color: $nav-tabs-basic-hover-color;
+        background: $nav-tabs-basic-hover-bg;
+      }
+    }
+
+    .nav-link.active,
+    .nav-item.show .nav-link {
+      color: $nav-tabs-basic-active-color;
+      border-color: $nav-tabs-basic-active-border-color;
+      background: $nav-tabs-basic-active-bg;
+    }
+  }
+
+
+  // PILLS TABS
+  &.nav-pills {
+    border-color: transparent;
+
+    .nav-link {
+      @include font-size($nav-pills-font-size);
+      font-weight: $nav-pills-font-weight;
+      color: $nav-pills-color;
+      border-top:    $nav-pills-border-top;
+      border-right:  $nav-pills-border-right;
+      border-bottom: $nav-pills-border-bottom;
+      border-left:   $nav-pills-border-left;
+      background: $nav-pills-bg;
+      margin-right: $nav-pills-margin-right;
+      padding: $nav-pills-padding;
+      border-radius: $nav-pills-border-radius;
+      display: flex;
+      align-items: center;
+      transition: $link-transition;
+      gap: 0.5rem;
+      box-shadow: $nav-pills-box-shadow; // ← применили дефолтную тень
+
+      i, svg {
+        font-size: $nav-pills-icon-size;
+        width: $nav-pills-icon-size;
+        height: $nav-pills-icon-size;
+        line-height: 1;
+      }
+
+      &:hover,
+      &:focus {
+        border-color: $nav-pills-hover-border-color;
+        background: $nav-pills-hover-bg;
+        color: $nav-pills-hover-color;
+      }
+    }
+
+    .nav-link.active,
+    .nav-item.show .nav-link {
+      border-color: $nav-pills-active-border-color;
+      background: $nav-pills-active-bg;
+      color: $nav-pills-active-color;
+      box-shadow: $nav-pills-active-box-shadow;
+    }
+  }
+
 }
 
-.form-check-input.is-invalid ~ .form-check-label,
-.was-validated .form-check-input:invalid ~ .form-check-label, 
-.was-validated .form-check-input:invalid ~ .form-check-label a {
-  color: #dc3545!important;
+
+//----------------------------------------------------------//
+//  UNORDERED LIST VARIABLES
+//----------------------------------------------------------//
+
+$unordered-list-padding-left:           1rem !default;
+$unordered-list-dot-font-family:        sans-serif !default;
+$unordered-list-dot-font-size:          1rem !default;
+$unordered-list-dot-font-weight:        normal !default; // ← новая переменная для font-weight
+$unordered-list-dot-top:               -0.15rem !default;
+$unordered-list-dot-left:               0 !default;
+$unordered-list-dot-content:            $icon-dot !default;
+
+
+//----------------------------------------------------------//
+//  UNORDERED LIST STYLES
+//----------------------------------------------------------//
+
+.unordered-list {
+  @include list-unstyled();
+
+  li {
+    position: relative;
+    padding-left: $unordered-list-padding-left;
+    @include font-size($unordered-list-dot-font-size);
+    font-family: $unordered-list-dot-font-family;
+    font-weight: $unordered-list-dot-font-weight;
+
+  }
+
+  
+
+  > li:before {
+    
+    position: absolute;
+    top: $unordered-list-dot-top;
+    left: $unordered-list-dot-left;
+    content: $unordered-list-dot-content;
+  }
+  
+
+  // Цветные маркеры через классы bullet-{color}
+  @each $color, $value in $colors {
+    &.bullet-#{$color} li:before {
+      color: var(--#{$prefix}#{$color});
+    }
+  }
 }
 
-textarea[rows="10"] {
-  min-height: 200px!important;
+
+//----------------------------------------------------------//
+//  BUTTONS — PADDING, FONT SIZE, RADIUS, FONT WEIGHT
+//----------------------------------------------------------//
+
+// Default (без модификатора)
+$btn-padding-y:        0.5rem !default;
+$btn-padding-x:        1.2rem !default;
+$btn-font-size:        $font-size-base !default;
+$btn-border-radius:    $border-radius !default;
+$btn-font-weight:      $font-weight-bold !default;
+
+// Extra Small (XS)
+$btn-padding-y-xs:        0.25rem !default;
+$btn-padding-x-xs:        0.75rem !default;
+$btn-font-size-xs:        0.6rem !default;
+$btn-border-radius-xs:    $border-radius-sm !default;
+$btn-font-weight-xs:      $font-weight-normal !default;
+
+// Small (SM)
+$btn-padding-y-sm:        0.4rem !default;
+$btn-padding-x-sm:        1rem !default;
+$btn-font-size-sm:        0.7rem !default;
+$btn-border-radius-sm:    $border-radius !default;
+$btn-font-weight-sm:      $font-weight-bold !default;
+
+// Medium (MD)
+$btn-padding-y-md:        0.45rem !default;
+$btn-padding-x-md:        1.1rem !default;
+$btn-font-size-md:        0.8rem !default;
+$btn-border-radius-md:    $border-radius !default;
+$btn-font-weight-md:      $font-weight-bold !default;
+
+// Large (LG)
+$btn-padding-y-lg:        0.65rem !default;
+$btn-padding-x-lg:        1.4rem !default;
+$btn-font-size-lg:        0.85rem !default;
+$btn-border-radius-lg:    $border-radius-lg !default;
+$btn-font-weight-lg:      $font-weight-bold !default;
+
+// Extra Large (ELG)
+$btn-padding-y-elg:        0.8rem !default;
+$btn-padding-x-elg:        1.75rem !default;
+$btn-font-size-elg:        1rem !default;
+$btn-border-radius-elg:    $border-radius-lg !default;
+$btn-font-weight-elg:      $font-weight-bold !default;
+
+
+//----------------------------------------------------------//
+//  BUTTON SIZE CLASSES
+//----------------------------------------------------------//
+
+.btn-xs {
+  @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $btn-font-size-xs, $btn-border-radius-xs);
+  font-weight: $btn-font-weight-xs;
+  line-height: $input-btn-line-height;
 }
+
+.btn-sm {
+  @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm);
+  font-weight: $btn-font-weight-sm;
+  line-height: $input-btn-line-height;
+}
+
+.btn-md {
+  @include button-size($btn-padding-y-md, $btn-padding-x-md, $btn-font-size-md, $btn-border-radius-md);
+  font-weight: $btn-font-weight-md;
+  line-height: $input-btn-line-height;
+}
+
+.btn-lg {
+  @include button-size($btn-padding-y-lg, $btn-padding-x-lg, $btn-font-size-lg, $btn-border-radius-lg);
+  font-weight: $btn-font-weight-lg;
+  line-height: $input-btn-line-height;
+}
+
+.btn-elg {
+  @include button-size($btn-padding-y-elg, $btn-padding-x-elg, $btn-font-size-elg, $btn-border-radius-elg);
+  font-weight: $btn-font-weight-elg;
+  line-height: $input-btn-line-height;
+}
+
+
+
+//----------------------------------------------------------//
+//  NAV
+//----------------------------------------------------------//
+
+// Верхний уровень навигации
+$nav-link-uppercase: uppercase !default;
+$nav-link-letter-spacing: $letter-spacing !default;
+
+$nav-link-padding-y-lg: 1.25rem !default;
+$nav-link-padding-x-lg: 1.25rem !default;
+
+$navbar-expand-lg-margin-top: 2.25rem !default;
+
+@media (min-width: 992px) {
+  .navbar-expand-lg.fancy:not(.fixed) .navbar-collapse .nav-link {
+    padding: $nav-link-padding-y-lg $nav-link-padding-x-lg;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-expand-lg.fancy:not(.fixed) .navbar-collapse-wrapper {
+      padding: 0 1.5rem 0 1.5rem;
+      margin-top: $navbar-expand-lg-margin-top;
+  }
+}
+
+
+.navbar-nav > .nav-item > .nav-link {
+  text-transform: $nav-link-uppercase;
+  letter-spacing: $nav-link-letter-spacing;
+}
+
+//----------------------------------------------------------//
+//  DROPDOWN
+//----------------------------------------------------------//
+
+$dropdown-font-weight: 700 !default;

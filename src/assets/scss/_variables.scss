@@ -119,7 +119,7 @@ $secondary: $gray-400 !default;
 $success: $green !default;
 $info: $aqua !default;
 $warning: $yellow !default;
-$danger: $red !default;
+$danger: $pinterest !default;
 $theme-colors: map-merge($colors,
   ("secondary": $secondary,
     "success": $success,
@@ -227,9 +227,6 @@ $discord: #738ADB !default;
 $steam: #00adee !default;
 $gitlab:  #fca326 !default;
 $codepen: #000000 !default;
-
-
-
 
 
 $brand-colors: ("dropbox": $dropbox,
