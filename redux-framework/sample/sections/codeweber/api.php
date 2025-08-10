@@ -27,6 +27,15 @@ Redux::set_section(
 				//'default'  => 'Default Text',
 			),
 
+			array(
+				'id'       => 'smsruapi',
+				'type'     => 'password',
+				'title'    => esc_html__('SMS RU Settings', 'codeweber'),
+				'subtitle' => esc_html__('Put SMS RU API Map key', 'codeweber'),
+				'desc'     => '<a href="https://sms.ru/?panel=api" target="_blank" >' . esc_html__('Link to SMS RU Documentation', 'codeweber') . '</a>',
+				//'default'  => 'Default Text',
+			),
+
 		),
 	)
 );

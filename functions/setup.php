@@ -24,6 +24,8 @@ if (! function_exists('codeweber_setup_theme')) {
 		// Включаем обновление виджетов через кастомизатор
 		add_theme_support('customize-selective-refresh-widgets');
 
+		add_theme_support('woocommerce');
+
 		// Устанавливаем максимальную ширину контента (встраиваемое содержимое)
 		if (! isset($content_width)) {
 			$content_width = 1400;

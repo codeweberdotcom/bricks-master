@@ -335,464 +335,471 @@ require_once Redux_Core::$dir . '../sample/sections/codeweber/footer.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/socials.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/contacts.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/company-details.php';
+require_once Redux_Core::$dir . '../sample/sections/codeweber/legal.php';
+require_once Redux_Core::$dir . '../sample/sections/codeweber/smtp.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/tracking-metrics.php';
+
+
+if (class_exists('WooCommerce')) {
+require_once Redux_Core::$dir . '../sample/sections/codeweber/woocommerce.php';
+}
 
 require_once Redux_Core::$dir . '../sample/sections/codeweber/map_geo.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/api.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/style.php';
 
 
-/*
- * ---> END CODEWEBER SECTIONS
- */
-/*
- * ---> START SECTIONS
- */
+// // /*
+// //  * ---> END CODEWEBER SECTIONS
+// //  */
+// // /*
+// //  * ---> START SECTIONS
+// //  */
 
-// -> START Basic Fields
-Redux::set_section(
-	$opt_name,
-	array(
-		'title'            => esc_html__( 'Basic Fields', 'codeweber' ),
-		'id'               => 'basic',
-		'desc'             => esc_html__( 'These are really basic fields!', 'codeweber' ),
-		'customizer_width' => '400px',
-		'icon'             => 'el el-home',
-	)
-);
+// // // -> START Basic Fields
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title'            => esc_html__( 'Basic Fields', 'codeweber' ),
+// // 		'id'               => 'basic',
+// // 		'desc'             => esc_html__( 'These are really basic fields!', 'codeweber' ),
+// // 		'customizer_width' => '400px',
+// // 		'icon'             => 'el el-home',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/basic-fields/checkbox.php';
-require_once Redux_Core::$dir . '../sample/sections/basic-fields/radio.php';
-require_once Redux_Core::$dir . '../sample/sections/basic-fields/sortable.php';
-require_once Redux_Core::$dir . '../sample/sections/basic-fields/text.php';
-require_once Redux_Core::$dir . '../sample/sections/basic-fields/multi-text.php';
-require_once Redux_Core::$dir . '../sample/sections/basic-fields/password.php';
-require_once Redux_Core::$dir . '../sample/sections/basic-fields/textarea.php';
+// // require_once Redux_Core::$dir . '../sample/sections/basic-fields/checkbox.php';
+// // require_once Redux_Core::$dir . '../sample/sections/basic-fields/radio.php';
+// // require_once Redux_Core::$dir . '../sample/sections/basic-fields/sortable.php';
+// // require_once Redux_Core::$dir . '../sample/sections/basic-fields/text.php';
+// // require_once Redux_Core::$dir . '../sample/sections/basic-fields/multi-text.php';
+// // require_once Redux_Core::$dir . '../sample/sections/basic-fields/password.php';
+// // require_once Redux_Core::$dir . '../sample/sections/basic-fields/textarea.php';
 
-// -> START Editors.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title'            => esc_html__( 'Editors', 'codeweber' ),
-		'id'               => 'editor',
-		'customizer_width' => '500px',
-		'icon'             => 'el el-edit',
-	)
-);
+// // // -> START Editors.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title'            => esc_html__( 'Editors', 'codeweber' ),
+// // 		'id'               => 'editor',
+// // 		'customizer_width' => '500px',
+// // 		'icon'             => 'el el-edit',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/editors/wordpress-editor.php';
-require_once Redux_Core::$dir . '../sample/sections/editors/ace-editor.php';
+// // require_once Redux_Core::$dir . '../sample/sections/editors/wordpress-editor.php';
+// // require_once Redux_Core::$dir . '../sample/sections/editors/ace-editor.php';
 
-// -> START Color Selection.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Color Selection', 'codeweber' ),
-		'id'    => 'color',
-		'icon'  => 'el el-brush',
-	)
-);
+// // // -> START Color Selection.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Color Selection', 'codeweber' ),
+// // 		'id'    => 'color',
+// // 		'icon'  => 'el el-brush',
+// // 	)
+// // );
 
-//require_once Redux_Core::$dir . '../sample/sections/color-selection/color.php';
-//require_once Redux_Core::$dir . '../sample/sections/color-selection/color-gradient.php';
-//require_once Redux_Core::$dir . '../sample/sections/color-selection/color-rgba.php';
-//require_once Redux_Core::$dir . '../sample/sections/color-selection/link-color.php';
-//require_once Redux_Core::$dir . '../sample/sections/color-selection/palette.php';
-//require_once Redux_Core::$dir . '../sample/sections/color-selection/color-palette.php';
+// // //require_once Redux_Core::$dir . '../sample/sections/color-selection/color.php';
+// // //require_once Redux_Core::$dir . '../sample/sections/color-selection/color-gradient.php';
+// // //require_once Redux_Core::$dir . '../sample/sections/color-selection/color-rgba.php';
+// // //require_once Redux_Core::$dir . '../sample/sections/color-selection/link-color.php';
+// // //require_once Redux_Core::$dir . '../sample/sections/color-selection/palette.php';
+// // //require_once Redux_Core::$dir . '../sample/sections/color-selection/color-palette.php';
 
-// -> START Design Fields.
-// Redux::set_section(
-// 	$opt_name,
-// 	array(
-// 		'title' => esc_html__( 'Design Fields', 'codeweber' ),
-// 		'id'    => 'design',
-// 		'icon'  => 'el el-wrench',
-// 	)
-// );
+// // // -> START Design Fields.
+// // // Redux::set_section(
+// // // 	$opt_name,
+// // // 	array(
+// // // 		'title' => esc_html__( 'Design Fields', 'codeweber' ),
+// // // 		'id'    => 'design',
+// // // 		'icon'  => 'el el-wrench',
+// // // 	)
+// // // );
 
-// require_once Redux_Core::$dir . '../sample/sections/design-fields/background.php';
-// require_once Redux_Core::$dir . '../sample/sections/design-fields/box-shadow.php';
-// require_once Redux_Core::$dir . '../sample/sections/design-fields/border.php';
-// require_once Redux_Core::$dir . '../sample/sections/design-fields/dimensions.php';
-// require_once Redux_Core::$dir . '../sample/sections/design-fields/spacing.php';
+// // // require_once Redux_Core::$dir . '../sample/sections/design-fields/background.php';
+// // // require_once Redux_Core::$dir . '../sample/sections/design-fields/box-shadow.php';
+// // // require_once Redux_Core::$dir . '../sample/sections/design-fields/border.php';
+// // // require_once Redux_Core::$dir . '../sample/sections/design-fields/dimensions.php';
+// // // require_once Redux_Core::$dir . '../sample/sections/design-fields/spacing.php';
 
-// -> START Media Uploads.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Media Uploads', 'codeweber' ),
-		'id'    => 'media',
-		'icon'  => 'el el-picture',
-	)
-);
+// // // -> START Media Uploads.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Media Uploads', 'codeweber' ),
+// // 		'id'    => 'media',
+// // 		'icon'  => 'el el-picture',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/media-uploads/gallery.php';
-require_once Redux_Core::$dir . '../sample/sections/media-uploads/media.php';
-require_once Redux_Core::$dir . '../sample/sections/media-uploads/multi-media.php';
-require_once Redux_Core::$dir . '../sample/sections/media-uploads/slides.php';
+// // require_once Redux_Core::$dir . '../sample/sections/media-uploads/gallery.php';
+// // require_once Redux_Core::$dir . '../sample/sections/media-uploads/media.php';
+// // require_once Redux_Core::$dir . '../sample/sections/media-uploads/multi-media.php';
+// // require_once Redux_Core::$dir . '../sample/sections/media-uploads/slides.php';
 
-// -> START Presentation Fields.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Presentation Fields', 'codeweber' ),
-		'id'    => 'presentation',
-		'icon'  => 'el el-screen',
-	)
-);
+// // // -> START Presentation Fields.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Presentation Fields', 'codeweber' ),
+// // 		'id'    => 'presentation',
+// // 		'icon'  => 'el el-screen',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/presentation-fields/divide.php';
-require_once Redux_Core::$dir . '../sample/sections/presentation-fields/content.php';
-require_once Redux_Core::$dir . '../sample/sections/presentation-fields/info.php';
-require_once Redux_Core::$dir . '../sample/sections/presentation-fields/section.php';
+// // require_once Redux_Core::$dir . '../sample/sections/presentation-fields/divide.php';
+// // require_once Redux_Core::$dir . '../sample/sections/presentation-fields/content.php';
+// // require_once Redux_Core::$dir . '../sample/sections/presentation-fields/info.php';
+// // require_once Redux_Core::$dir . '../sample/sections/presentation-fields/section.php';
 
-Redux::set_section(
-	$opt_name,
-	array(
-		'id'   => 'presentation-divide-sample',
-		'type' => 'divide',
-	)
-);
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'id'   => 'presentation-divide-sample',
+// // 		'type' => 'divide',
+// // 	)
+// // );
 
-// → START Switch & Button Set.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Switch / Button Set', 'codeweber' ),
-		'id'    => 'switch_buttonset',
-		'icon'  => 'el el-cogs',
-	)
-);
+// // // → START Switch & Button Set.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Switch / Button Set', 'codeweber' ),
+// // 		'id'    => 'switch_buttonset',
+// // 		'icon'  => 'el el-cogs',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/switch-button/button-set.php';
-require_once Redux_Core::$dir . '../sample/sections/switch-button/switch.php';
+// // require_once Redux_Core::$dir . '../sample/sections/switch-button/button-set.php';
+// // require_once Redux_Core::$dir . '../sample/sections/switch-button/switch.php';
 
-// -> START Select Fields.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Select Fields', 'codeweber' ),
-		'id'    => 'select',
-		'icon'  => 'el el-list-alt',
-	)
-);
+// // // -> START Select Fields.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Select Fields', 'codeweber' ),
+// // 		'id'    => 'select',
+// // 		'icon'  => 'el el-list-alt',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/select-fields/select.php';
-require_once Redux_Core::$dir . '../sample/sections/select-fields/image-select.php';
-require_once Redux_Core::$dir . '../sample/sections/select-fields/select-image.php';
+// // require_once Redux_Core::$dir . '../sample/sections/select-fields/select.php';
+// // require_once Redux_Core::$dir . '../sample/sections/select-fields/image-select.php';
+// // require_once Redux_Core::$dir . '../sample/sections/select-fields/select-image.php';
 
-// -> START Slider / Spinner.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Slider / Spinner', 'codeweber' ),
-		'id'    => 'slider_spinner',
-		'icon'  => 'el el-adjust-alt',
-	)
-);
+// // // -> START Slider / Spinner.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Slider / Spinner', 'codeweber' ),
+// // 		'id'    => 'slider_spinner',
+// // 		'icon'  => 'el el-adjust-alt',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/slider-spinner/slider.php';
-require_once Redux_Core::$dir . '../sample/sections/slider-spinner/spinner.php';
+// // require_once Redux_Core::$dir . '../sample/sections/slider-spinner/slider.php';
+// // require_once Redux_Core::$dir . '../sample/sections/slider-spinner/spinner.php';
 
-// -> START Typography.
-//require_once Redux_Core::$dir . '../sample/sections/typography/typography.php';
+// // // -> START Typography.
+// // //require_once Redux_Core::$dir . '../sample/sections/typography/typography.php';
 
-// -> START Additional Types.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Additional Types', 'codeweber' ),
-		'id'    => 'additional',
-		'icon'  => 'el el-magic',
-	)
-);
+// // // -> START Additional Types.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Additional Types', 'codeweber' ),
+// // 		'id'    => 'additional',
+// // 		'icon'  => 'el el-magic',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/additional-types/date.php';
-require_once Redux_Core::$dir . '../sample/sections/additional-types/date-time-picker.php';
-require_once Redux_Core::$dir . '../sample/sections/additional-types/sorter.php';
-require_once Redux_Core::$dir . '../sample/sections/additional-types/raw.php';
+// // require_once Redux_Core::$dir . '../sample/sections/additional-types/date.php';
+// // require_once Redux_Core::$dir . '../sample/sections/additional-types/date-time-picker.php';
+// // require_once Redux_Core::$dir . '../sample/sections/additional-types/sorter.php';
+// // require_once Redux_Core::$dir . '../sample/sections/additional-types/raw.php';
 
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Advanced Features', 'codeweber' ),
-		'icon'  => 'el el-thumbs-up',
-	)
-);
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Advanced Features', 'codeweber' ),
+// // 		'icon'  => 'el el-thumbs-up',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/advanced-features/callback.php';
+// // require_once Redux_Core::$dir . '../sample/sections/advanced-features/callback.php';
 
-// -> START Validation.
-require_once Redux_Core::$dir . '../sample/sections/advanced-features/field-validation.php';
+// // // -> START Validation.
+// // require_once Redux_Core::$dir . '../sample/sections/advanced-features/field-validation.php';
 
-// -> START Sanitizing.
-require_once Redux_Core::$dir . '../sample/sections/advanced-features/field-sanitizing.php';
+// // // -> START Sanitizing.
+// // require_once Redux_Core::$dir . '../sample/sections/advanced-features/field-sanitizing.php';
 
-// -> START Required.
-require_once Redux_Core::$dir . '../sample/sections/advanced-features/field-required-linking.php';
+// // // -> START Required.
+// // require_once Redux_Core::$dir . '../sample/sections/advanced-features/field-required-linking.php';
 
-require_once Redux_Core::$dir . '../sample/sections/advanced-features/wpml-integration.php';
+// // require_once Redux_Core::$dir . '../sample/sections/advanced-features/wpml-integration.php';
 
-// -> START Disabling.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Disabling', 'codeweber' ),
-		'icon'  => 'el el-lock',
-	)
-);
+// // // -> START Disabling.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Disabling', 'codeweber' ),
+// // 		'icon'  => 'el el-lock',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/disabling/disable-field.php';
-require_once Redux_Core::$dir . '../sample/sections/disabling/disable-section.php';
+// // require_once Redux_Core::$dir . '../sample/sections/disabling/disable-field.php';
+// // require_once Redux_Core::$dir . '../sample/sections/disabling/disable-section.php';
 
-// -> START Extensions.
-Redux::set_section(
-	$opt_name,
-	array(
-		'title' => esc_html__( 'Redux Extensions', 'codeweber' ),
-		'id'    => 'redux-extensions',
-		'icon'  => 'el el-redux',
-		'class' => 'pro_highlight',
-		'desc'  => esc_html__( 'For full documentation on this field, visit: ', 'codeweber' ) . '<a href="https://devs.redux.io/core-extensions/" target="_blank">https://devs.redux.io/core-extensions/</a>',
-	)
-);
+// // // -> START Extensions.
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'title' => esc_html__( 'Redux Extensions', 'codeweber' ),
+// // 		'id'    => 'redux-extensions',
+// // 		'icon'  => 'el el-redux',
+// // 		'class' => 'pro_highlight',
+// // 		'desc'  => esc_html__( 'For full documentation on this field, visit: ', 'codeweber' ) . '<a href="https://devs.redux.io/core-extensions/" target="_blank">https://devs.redux.io/core-extensions/</a>',
+// // 	)
+// // );
 
-require_once Redux_Core::$dir . '../sample/sections/extensions/accordion.php';
-//require_once Redux_Core::$dir . '../sample/sections/extensions/color-scheme.php';
-require_once Redux_Core::$dir . '../sample/sections/extensions/custom-fonts.php';
-//require_once Redux_Core::$dir . '../sample/sections/extensions/google-maps.php';
-require_once Redux_Core::$dir . '../sample/sections/extensions/icon-select.php';
-//require_once Redux_Core::$dir . '../sample/sections/extensions/js-button.php';
-require_once Redux_Core::$dir . '../sample/sections/extensions/repeater.php';
-require_once Redux_Core::$dir . '../sample/sections/extensions/shortcodes.php';
-require_once Redux_Core::$dir . '../sample/sections/extensions/social-profiles.php';
-require_once Redux_Core::$dir . '../sample/sections/extensions/tabbed.php';
-require_once Redux_Core::$dir . '../sample/sections/extensions/widget-areas.php';
-require_once Redux_Core::$dir . '../sample/sections/extensions/taxonomy.php';
-require_once Redux_Core::$dir . '../sample/sections/extensions/users.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/accordion.php';
+// // //require_once Redux_Core::$dir . '../sample/sections/extensions/color-scheme.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/custom-fonts.php';
+// // //require_once Redux_Core::$dir . '../sample/sections/extensions/google-maps.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/icon-select.php';
+// // //require_once Redux_Core::$dir . '../sample/sections/extensions/js-button.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/repeater.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/shortcodes.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/social-profiles.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/tabbed.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/widget-areas.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/taxonomy.php';
+// // require_once Redux_Core::$dir . '../sample/sections/extensions/users.php';
 
-/**
- * Metaboxes
- */
-require_once Redux_Core::$dir . '../sample/metaboxes.php';
+// // /**
+// //  * Metaboxes
+// //  */
+// // require_once Redux_Core::$dir . '../sample/metaboxes.php';
 
-/**
- * Raw README
- */
-if ( file_exists( $dir . '/../README.md' ) ) {
-	$section = array(
-		'icon'   => 'el el-list-alt',
-		'title'  => esc_html__( 'Documentation', 'codeweber' ),
-		'fields' => array(
-			array(
-				'id'           => 'opt-raw-documentation',
-				'type'         => 'raw',
-				'markdown'     => true,
-				'content_path' => __DIR__ . '/../README.md', // FULL PATH, not relative, please.
-			),
-		),
-	);
+// // /**
+// //  * Raw README
+// //  */
+// // if ( file_exists( $dir . '/../README.md' ) ) {
+// // 	$section = array(
+// // 		'icon'   => 'el el-list-alt',
+// // 		'title'  => esc_html__( 'Documentation', 'codeweber' ),
+// // 		'fields' => array(
+// // 			array(
+// // 				'id'           => 'opt-raw-documentation',
+// // 				'type'         => 'raw',
+// // 				'markdown'     => true,
+// // 				'content_path' => __DIR__ . '/../README.md', // FULL PATH, not relative, please.
+// // 			),
+// // 		),
+// // 	);
 
-	Redux::set_section( $opt_name, $section );
-}
+// // 	Redux::set_section( $opt_name, $section );
+// // }
 
-Redux::set_section(
-	$opt_name,
-	array(
-		'icon'            => 'el el-list-alt',
-		'title'           => esc_html__( 'Customizer Only', 'codeweber' ),
-		'desc'            => '<p class="description">' . esc_html__( 'This Section should be visible only in Customizer', 'codeweber' ) . '</p>',
-		'customizer_only' => true,
-		'fields'          => array(
-			array(
-				'id'              => 'opt-customizer-only',
-				'type'            => 'select',
-				'title'           => esc_html__( 'Customizer Only Option', 'codeweber' ),
-				'subtitle'        => esc_html__( 'The subtitle is NOT visible in customizer', 'codeweber' ),
-				'desc'            => esc_html__( 'The field desc is NOT visible in customizer.', 'codeweber' ),
-				'customizer_only' => true,
-				'options'         => array(
-					'1' => esc_html__( 'Opt 1', 'codeweber' ),
-					'2' => esc_html__( 'Opt 2', 'codeweber' ),
-					'3' => esc_html__( 'Opt 3', 'codeweber' ),
-				),
-				'default'         => '2',
-			),
-		),
-	)
-);
+// // Redux::set_section(
+// // 	$opt_name,
+// // 	array(
+// // 		'icon'            => 'el el-list-alt',
+// // 		'title'           => esc_html__( 'Customizer Only', 'codeweber' ),
+// // 		'desc'            => '<p class="description">' . esc_html__( 'This Section should be visible only in Customizer', 'codeweber' ) . '</p>',
+// // 		'customizer_only' => true,
+// // 		'fields'          => array(
+// // 			array(
+// // 				'id'              => 'opt-customizer-only',
+// // 				'type'            => 'select',
+// // 				'title'           => esc_html__( 'Customizer Only Option', 'codeweber' ),
+// // 				'subtitle'        => esc_html__( 'The subtitle is NOT visible in customizer', 'codeweber' ),
+// // 				'desc'            => esc_html__( 'The field desc is NOT visible in customizer.', 'codeweber' ),
+// // 				'customizer_only' => true,
+// // 				'options'         => array(
+// // 					'1' => esc_html__( 'Opt 1', 'codeweber' ),
+// // 					'2' => esc_html__( 'Opt 2', 'codeweber' ),
+// // 					'3' => esc_html__( 'Opt 3', 'codeweber' ),
+// // 				),
+// // 				'default'         => '2',
+// // 			),
+// // 		),
+// // 	)
+// // );
 
-/*
- * <--- END SECTIONS
- */
+// // /*
+// //  * <--- END SECTIONS
+// //  */
 
-/*
- * YOU MUST PREFIX THE FUNCTIONS BELOW AND ACTION FUNCTION CALLS OR OTHER CONFIGS MAY OVERRIDE YOUR CODE.
- */
+// // /*
+// //  * YOU MUST PREFIX THE FUNCTIONS BELOW AND ACTION FUNCTION CALLS OR OTHER CONFIGS MAY OVERRIDE YOUR CODE.
+// //  */
 
-/*
- * --> Action hook examples.
- */
+// // /*
+// //  * --> Action hook examples.
+// //  */
 
-// Function to test the compiler hook and demo CSS output.
-// Above 10 is a priority, but 2 is necessary to include the dynamically generated CSS to be sent to the function.
-// add_filter('redux/options/' . $opt_name . '/compiler', 'compiler_action', 10, 3);
-//
-// Change the arguments after they've been declared, but before the panel is created.
-// add_filter('redux/options/' . $opt_name . '/args', 'change_arguments' );
-//
-// Change the default value of a field after it's been set, but before it's been used.
-// add_filter('redux/options/' . $opt_name . '/defaults', 'change_defaults' );
-//
-// Dynamically add a section.
-// It can be also used to modify sections/fields.
-// add_filter('redux/options/' . $opt_name . '/sections', 'dynamic_section');
-// .
-if ( ! function_exists( 'compiler_action' ) ) {
-	/**
-	 * This is a test function that will let you see when the compiler hook occurs.
-	 * It only runs if a field's value has changed and compiler => true is set.
-	 *
-	 * @param array  $options        Options values.
-	 * @param string $css            Compiler selector CSS values  compiler => array( CSS SELECTORS ).
-	 * @param array  $changed_values Any values that have changed since last save.
-	 */
-	function compiler_action( array $options, string $css, array $changed_values ) {
-		echo '<h1>The compiler hook has run!</h1>';
-		echo '<pre>';
-		// phpcs:ignore WordPress.PHP.DevelopmentFunctions
-		print_r( $changed_values ); // Values that have changed since the last save.
-		// echo '<br/>';
-		// print_r($options); //Option values.
-		// echo '<br/>';
-		// print_r($css); // Compiler selector CSS values compiler => array( CSS SELECTORS ).
-		echo '</pre>';
-	}
-}
+// // // Function to test the compiler hook and demo CSS output.
+// // // Above 10 is a priority, but 2 is necessary to include the dynamically generated CSS to be sent to the function.
+// // // add_filter('redux/options/' . $opt_name . '/compiler', 'compiler_action', 10, 3);
+// // //
+// // // Change the arguments after they've been declared, but before the panel is created.
+// // // add_filter('redux/options/' . $opt_name . '/args', 'change_arguments' );
+// // //
+// // // Change the default value of a field after it's been set, but before it's been used.
+// // // add_filter('redux/options/' . $opt_name . '/defaults', 'change_defaults' );
+// // //
+// // // Dynamically add a section.
+// // // It can be also used to modify sections/fields.
+// // // add_filter('redux/options/' . $opt_name . '/sections', 'dynamic_section');
+// // // .
+// // if ( ! function_exists( 'compiler_action' ) ) {
+// // 	/**
+// // 	 * This is a test function that will let you see when the compiler hook occurs.
+// // 	 * It only runs if a field's value has changed and compiler => true is set.
+// // 	 *
+// // 	 * @param array  $options        Options values.
+// // 	 * @param string $css            Compiler selector CSS values  compiler => array( CSS SELECTORS ).
+// // 	 * @param array  $changed_values Any values that have changed since last save.
+// // 	 */
+// // 	function compiler_action( array $options, string $css, array $changed_values ) {
+// // 		echo '<h1>The compiler hook has run!</h1>';
+// // 		echo '<pre>';
+// // 		// phpcs:ignore WordPress.PHP.DevelopmentFunctions
+// // 		print_r( $changed_values ); // Values that have changed since the last save.
+// // 		// echo '<br/>';
+// // 		// print_r($options); //Option values.
+// // 		// echo '<br/>';
+// // 		// print_r($css); // Compiler selector CSS values compiler => array( CSS SELECTORS ).
+// // 		echo '</pre>';
+// // 	}
+// // }
 
-if ( ! function_exists( 'redux_validate_callback_function' ) ) {
-	/**
-	 * Custom function for the callback validation referenced above
-	 *
-	 * @param array $field          Field array.
-	 * @param mixed $value          New value.
-	 * @param mixed $existing_value Existing value.
-	 *
-	 * @return array
-	 */
-	function redux_validate_callback_function( array $field, $value, $existing_value ): array {
-		$error   = false;
-		$warning = false;
+// // if ( ! function_exists( 'redux_validate_callback_function' ) ) {
+// // 	/**
+// // 	 * Custom function for the callback validation referenced above
+// // 	 *
+// // 	 * @param array $field          Field array.
+// // 	 * @param mixed $value          New value.
+// // 	 * @param mixed $existing_value Existing value.
+// // 	 *
+// // 	 * @return array
+// // 	 */
+// // 	function redux_validate_callback_function( array $field, $value, $existing_value ): array {
+// // 		$error   = false;
+// // 		$warning = false;
 
-		// Do your validation.
-		if ( 1 === (int) $value ) {
-			$error = true;
-			$value = $existing_value;
-		} elseif ( 2 === (int) $value ) {
-			$warning = true;
-			$value   = $existing_value;
-		}
+// // 		// Do your validation.
+// // 		if ( 1 === (int) $value ) {
+// // 			$error = true;
+// // 			$value = $existing_value;
+// // 		} elseif ( 2 === (int) $value ) {
+// // 			$warning = true;
+// // 			$value   = $existing_value;
+// // 		}
 
-		$return['value'] = $value;
+// // 		$return['value'] = $value;
 
-		if ( true === $error ) {
-			$field['msg']    = 'your custom error message';
-			$return['error'] = $field;
-		}
+// // 		if ( true === $error ) {
+// // 			$field['msg']    = 'your custom error message';
+// // 			$return['error'] = $field;
+// // 		}
 
-		if ( true === $warning ) {
-			$field['msg']      = 'your custom warning message';
-			$return['warning'] = $field;
-		}
+// // 		if ( true === $warning ) {
+// // 			$field['msg']      = 'your custom warning message';
+// // 			$return['warning'] = $field;
+// // 		}
 
-		return $return;
-	}
-}
+// // 		return $return;
+// // 	}
+// // }
 
 
-if ( ! function_exists( 'dynamic_section' ) ) {
-	/**
-	 * Custom function for filtering the section array.
-	 * Good for child themes to override or add to the sections.
-	 * Simply include this function in the child themes functions.php file.
-	 * NOTE: the defined constants for URLs and directories will NOT be available at this point in a child theme,
-	 * so you must use get_template_directory_uri() if you want to use any of the built-in icons.
-	 *
-	 * @param array $sections Section array.
-	 *
-	 * @return array
-	 */
-	function dynamic_section( array $sections ): array {
-		$sections[] = array(
-			'title'  => esc_html__( 'Section via hook', 'codeweber' ),
-			'desc'   => '<p class="description">' . esc_html__( 'This is a section created by adding a filter to the sections array. Can be used by child themes to add/remove sections from the options.', 'codeweber' ) . '</p>',
-			'icon'   => 'el el-paper-clip',
+// // if ( ! function_exists( 'dynamic_section' ) ) {
+// // 	/**
+// // 	 * Custom function for filtering the section array.
+// // 	 * Good for child themes to override or add to the sections.
+// // 	 * Simply include this function in the child themes functions.php file.
+// // 	 * NOTE: the defined constants for URLs and directories will NOT be available at this point in a child theme,
+// // 	 * so you must use get_template_directory_uri() if you want to use any of the built-in icons.
+// // 	 *
+// // 	 * @param array $sections Section array.
+// // 	 *
+// // 	 * @return array
+// // 	 */
+// // 	function dynamic_section( array $sections ): array {
+// // 		$sections[] = array(
+// // 			'title'  => esc_html__( 'Section via hook', 'codeweber' ),
+// // 			'desc'   => '<p class="description">' . esc_html__( 'This is a section created by adding a filter to the sections array. Can be used by child themes to add/remove sections from the options.', 'codeweber' ) . '</p>',
+// // 			'icon'   => 'el el-paper-clip',
 
-			// Leave this as a blank section, no options just some intro text set above.
-			'fields' => array(),
-		);
+// // 			// Leave this as a blank section, no options just some intro text set above.
+// // 			'fields' => array(),
+// // 		);
 
-		return $sections;
-	}
-}
+// // 		return $sections;
+// // 	}
+// // }
 
-if ( ! function_exists( 'change_arguments' ) ) {
-	/**
-	 * Filter hook for filtering the args.
-	 * Good for child themes to override or add to the args array.
-	 * It can also be used in other functions.
-	 *
-	 * @param array $args Global arguments array.
-	 *
-	 * @return array
-	 */
-	function change_arguments( array $args ): array {
-		$args['dev_mode'] = true;
+//  if ( ! function_exists( 'change_arguments' ) ) {
+// // 	/**
+// // 	 * Filter hook for filtering the args.
+// // 	 * Good for child themes to override or add to the args array.
+// // 	 * It can also be used in other functions.
+// // 	 *
+// // 	 * @param array $args Global arguments array.
+// // 	 *
+// // 	 * @return array
+// // 	 */
+//  	function change_arguments( array $args ): array {
+//  		$args['dev_mode'] = true;
 
-		return $args;
-	}
-}
+// 		return $args;
+// 	}
+//  }
 
-if ( ! function_exists( 'change_defaults' ) ) {
-	/**
-	 * Filter hook for filtering the default value of any given field. Very useful in development mode.
-	 *
-	 * @param array $defaults Default value array.
-	 *
-	 * @return array
-	 */
-	function change_defaults( array $defaults ): array {
-		$defaults['str_replace'] = esc_html__( 'Testing filter hook!', 'codeweber' );
+// // if ( ! function_exists( 'change_defaults' ) ) {
+// // 	/**
+// // 	 * Filter hook for filtering the default value of any given field. Very useful in development mode.
+// // 	 *
+// // 	 * @param array $defaults Default value array.
+// // 	 *
+// // 	 * @return array
+// // 	 */
+// // 	function change_defaults( array $defaults ): array {
+// // 		$defaults['str_replace'] = esc_html__( 'Testing filter hook!', 'codeweber' );
 
-		return $defaults;
-	}
-}
+// // 		return $defaults;
+// // 	}
+// // }
 
-if ( ! function_exists( 'redux_custom_sanitize' ) ) {
-	/**
-	 * Function to be used if the field sanitizes argument.
-	 * Return value MUST be formatted or cleaned text to display.
-	 *
-	 * @param string $value Value to evaluate or clean.  Required.
-	 *
-	 * @return string
-	 */
-	function redux_custom_sanitize( string $value ): string {
-		$return = '';
+// // if ( ! function_exists( 'redux_custom_sanitize' ) ) {
+// // 	/**
+// // 	 * Function to be used if the field sanitizes argument.
+// // 	 * Return value MUST be formatted or cleaned text to display.
+// // 	 *
+// // 	 * @param string $value Value to evaluate or clean.  Required.
+// // 	 *
+// // 	 * @return string
+// // 	 */
+// // 	function redux_custom_sanitize( string $value ): string {
+// // 		$return = '';
 
-		foreach ( explode( ' ', $value ) as $w ) {
-			foreach ( str_split( $w ) as $k => $v ) {
-				if ( ( $k + 1 ) % 2 !== 0 && ctype_alpha( $v ) ) {
-					$return .= mb_strtoupper( $v );
-				} else {
-					$return .= $v;
-				}
-			}
+// // 		foreach ( explode( ' ', $value ) as $w ) {
+// // 			foreach ( str_split( $w ) as $k => $v ) {
+// // 				if ( ( $k + 1 ) % 2 !== 0 && ctype_alpha( $v ) ) {
+// // 					$return .= mb_strtoupper( $v );
+// // 				} else {
+// // 					$return .= $v;
+// // 				}
+// // 			}
 
-			$return .= ' ';
-		}
+// // 			$return .= ' ';
+// // 		}
 
-		return $return;
-	}
-}
+// // 		return $return;
+// // 	}
+// // }
 

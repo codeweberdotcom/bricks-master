@@ -81,7 +81,7 @@ Redux::set_section(
 
 
 
-			// Выбор типа Header
+			// Выбор типа Page Header
 			array(
 				'id'       => 'global-page-header-type',
 				'type'     => 'button_set',

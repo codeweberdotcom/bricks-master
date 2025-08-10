@@ -27,7 +27,6 @@ $full_address = trim("{$city}, {$street}, {$house_number}", ' ,');
 		</div>
 		<div class="d-flex flex-row align-items-center">
 			<div class="icon text-white  mt-1 me-2"> <i class="uil uil-phone-volume"></i></div>
-			<a href="tel:<?php cleanNumber($phone1); ?>" class="mb-0 link-white hover"><?= $phone1; ?></a>
 		</div>
 	</div>
 	<!-- /.container -->

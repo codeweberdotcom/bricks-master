@@ -226,10 +226,8 @@ if (!empty($cpt_list)) {
 		$option_id = 'cpt_switch_' . $translated_label;
 		$is_enabled = Redux::get_option($opt_name, $option_id); // Получаем значение опции для этого CPT
 
-
 		// Если включено, создаем субсекцию для этого CPT
 		if ($is_enabled || $file === 'cpt-woocommerce.php') {
-
 
 			$path = get_template_directory() . "/templates/archives/{$label}";
 			$options = [];
@@ -397,9 +395,6 @@ if (!empty($cpt_list)) {
 							),
 						),
 
-
-
-
 						array(
 							'id'    => 'cpt-page-header-settings-' . $label,
 							'type'  => 'tabbed',
@@ -458,8 +453,6 @@ if (!empty($cpt_list)) {
 
 							),
 						),
-
-
 
 						array(
 							'id'    => 'cpt-footer-settings-' . $label,

@@ -30,6 +30,18 @@ require_once get_template_directory() . '/functions/integrations/cf7.php';
 require_once get_template_directory() . '/functions/admin/admin_settings.php';
 require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
 
+if (class_exists('WooCommerce')) {
+	require_once get_template_directory() . '/functions/woocommerce.php';
+}
+
+require_once get_template_directory() . '/functions/cyr-to-lat.php';
+
+require_once get_template_directory() . '/functions/lib/comments-helper.php'; // --- Comments Helper ---
+require_once get_template_directory() . '/functions/comments-reply.php'; // --- Comments Reply Functions ---
+
+
+
+require_once get_template_directory() . '/functions/after-install-theme/create-legal-page.php'; // --- Create Legal Page After Install Functions ---
 
 
 /**
@@ -51,15 +63,18 @@ function codeweber_initialize_redux()
 add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
 
 
-// Хук для создания демоформ при активации плагина CF7
-add_action('activated_plugin', 'create_cf7_forms_on_activation', 10, 2);
 
-function create_cf7_forms_on_activation($plugin, $network_wide)
-{
-	// Проверяем, что активирован плагин Contact Form 7
-	if ($plugin === 'contact-form-7/wp-contact-form-7.php') {
-		create_custom_cf7_form();
-		create_custom_cf7_form_with_name_and_email();
-		create_custom_cf7_form_with_name_comment_and_email();
+add_shortcode('list_sidebars', function () {
+	global $wp_registered_sidebars;
+	if (empty($wp_registered_sidebars)) {
+		return 'Сайдбаров нет';
 	}
-}
+
+	$output = '<ul>';
+	foreach ($wp_registered_sidebars as $sidebar) {
+		$output .= '<li>' . esc_html($sidebar['id']) . '</li>';
+	}
+	$output .= '</ul>';
+
+	return $output;
+});

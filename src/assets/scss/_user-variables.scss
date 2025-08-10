@@ -187,6 +187,10 @@ $nav-tabs-basic-icon-size:              0.7rem !default;
     position: relative;
 }
 
+.list-unstyled li.is-active a {
+  color: $primary !important;
+}
+
 // PILLS TABS
 $nav-pills-font-size:                   0.7rem !default;
 $nav-pills-font-weight:                 400 !default;

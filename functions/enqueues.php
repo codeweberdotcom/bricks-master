@@ -81,3 +81,28 @@ function enqueue_my_custom_script()
 	}
 }
 add_action('wp_enqueue_scripts', 'enqueue_my_custom_script');
+
+
+
+function theme_enqueue_fetch_assets()
+{
+	$script_path = get_template_directory() . '/functions/fetch/assets/js/fetch-handler.js';
+	$script_url  = get_template_directory_uri() . '/functions/fetch/assets/js/fetch-handler.js';
+
+	// Если файл существует, подключаем его
+	if (file_exists($script_path)) {
+		wp_enqueue_script(
+			'fetch-handler',
+			$script_url,
+			['wp-util'], // или ['jquery'] если нужно
+			filemtime($script_path),
+			true // загрузка в футере
+		);
+
+		// Передаем переменные JS
+		wp_localize_script('fetch-handler', 'fetch_vars', [
+			'ajaxurl' => admin_url('admin-ajax.php'),
+		]);
+	}
+}
+add_action('wp_enqueue_scripts', 'theme_enqueue_fetch_assets');

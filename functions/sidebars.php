@@ -12,8 +12,8 @@ if (!function_exists('codeweber_sidebars')) {
             'name'          => esc_html__($sidebar_name, 'codeweber'),
             'id'            => $sidebar_id,
             'description'   => esc_html__($sidebar_description, 'codeweber'),
-            'before_widget' => '<div class="widget mb-4 %2$s clearfix">',
-            'after_widget'  => '</div>',
+            'before_widget' => '<aside class="col-xl-3 sidebar sticky-sidebar mt-md-0 py-12 d-none d-xl-block"><div class="widget mb-4 %2$s clearfix">',
+            'after_widget'  => '</div></aside>',
             'before_title'  => "<{$title_tag} class=\"{$title_class}\">",
             'after_title'   => "</{$title_tag}>",
         ]);
@@ -116,3 +116,45 @@ function theme_register_header_widget()
 
 }
 add_action('widgets_init', 'theme_register_header_widget');
+
+
+
+add_action('codeweber_after_widget', function ($sidebar_id) {
+    if ($sidebar_id === 'legal') {
+        $legal_posts = get_posts([
+            'post_type'      => 'legal',
+            'posts_per_page' => -1,
+            'post_status'    => 'publish',
+            'orderby'        => 'menu_order',
+            'order'          => 'ASC',
+        ]);
+
+        if ($legal_posts) {
+            echo '<aside class="col-xl-3 sidebar sticky-sidebar mt-md-0 py-12 d-none d-xl-block">
+                <div class="widget">
+                    <nav id="sidebar-nav">
+                        <ul class="list-unstyled text-reset">';
+
+            $index = 1;
+            $current_id = get_queried_object_id();
+
+            foreach ($legal_posts as $post) {
+                // Проверяем мета _hide_from_archive
+                $hide = get_post_meta($post->ID, '_hide_from_archive', true);
+                if ($hide === '1') {
+                    continue; // пропускаем скрытую запись
+                }
+
+                $permalink = get_permalink($post);
+                $active_class = ($current_id === $post->ID) ? ' active' : '';
+                echo '<li><a class="nav-link' . $active_class . '" href="' . esc_url($permalink) . '">' . $index . '. ' . esc_html(get_the_title($post)) . '</a></li>';
+                $index++;
+            }
+
+            echo '          </ul>
+                    </nav>
+                </div>
+            </aside>';
+        }
+    }
+});

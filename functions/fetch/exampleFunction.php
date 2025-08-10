@@ -9,8 +9,6 @@ function exampleFunction($params)
 
    return [
       'status' => 'success',
-      'data' => [
-         'message' => "Привет, $name! Тебе $age лет.",
-      ],
+      'data' => "Привет, $name! Тебе $age лет.",
    ];
 }

@@ -21,10 +21,12 @@ function codeweber_register_cpt_redux_sidebars()
          $option_id = 'cpt_switch_' . $translated_label;
          $is_enabled = Redux::get_option($opt_name, $option_id);
 
+         $sidebar_id = str_replace(['cpt-', '.php'], '', $file);
+
          if ($is_enabled) {
             codeweber_sidebars(
                $translated_label,
-               $option_id,
+               $sidebar_id,
                sprintf(esc_html__('Widget area for %s', 'codeweber'), $translated_label),
                'h3',
                'custom-title-class'

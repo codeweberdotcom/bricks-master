@@ -4,6 +4,34 @@
  * Custom global functions.
  */
 
+/**
+ *  Bootstrap Integration
+ */
+require 'bootstrap/bootstrap_pagination.php';
+require 'bootstrap/bootstrap_post-nav.php';
+require 'bootstrap/bootstrap_share-page.php';
+require 'bootstrap/bootstrap_nav-menu.php';
+
+/**
+ *  Shortcodes
+ */
+require 'shortcodes.php';
+
+/**
+ *  SEO Integration
+ */
+require 'integrations/yoast_rankmath.php';
+
+/**
+ *  Redux Integration
+ */
+require 'integrations/redux-framework.php';
+
+/**
+ *  Personal Data Integration - Registration Form WP
+ */
+require 'personal-data.php';
+
 
 
 /**
@@ -92,142 +120,6 @@ function codeweber_thumbnail_alt()
 
 
 /**
- * Отображает хлебные крошки с использованием Yoast SEO или Rank Math.
- *
- * Функция проверяет, установлен ли плагин Yoast SEO или Rank Math, и отображает соответствующие хлебные крошки.
- * Если установлен Yoast SEO, используются его стандартные функции для вывода навигации.
- * Если установлен Rank Math, применяется фильтр для настройки отображения хлебных крошек.
- */
-function codeweber_breadcrumbs()
-{
-
-	if (function_exists('yoast_breadcrumb')) {
-		// <!-- Yoast Breadcrumbs -->
-		yoast_breadcrumb('<nav class="breadcrumb mt-3">', '</nav>');
-	} elseif (function_exists('rank_math_the_breadcrumbs')) {
-		// <!-- Rank Math Breadcrumbs -->
-		add_filter(
-			'rank_math/frontend/breadcrumb/args',
-			function ($args) {
-				$args = array(
-					'delimiter'   => '&nbsp;&#47;&nbsp;',
-					'wrap_before' => '<nav class="breadcrumb mt-3"><span>',
-					'wrap_after'  => '</span></nav>',
-					'before'      => '',
-					'after'       => '',
-				);
-				return $args;
-			}
-		);
-
-		rank_math_the_breadcrumbs();
-	}
-}
-
-/**
- * Исправляет атрибуты переключения Bootstrap 5 в навигационном меню.
- * 
- * В Bootstrap 5 атрибут `data-toggle` был заменён на `data-bs-toggle`.
- * Эта функция удаляет устаревший атрибут `data-toggle` и заменяет его на `data-bs-toggle`.
- *
- * @param array $atts Атрибуты ссылки в меню.
- * @return array Изменённые атрибуты ссылки.
- */
-function codeweber_bs5_toggle_fix($atts)
-{
-	if (array_key_exists('data-toggle', $atts)) {
-		unset($atts['data-toggle']);
-		$atts['data-bs-toggle'] = 'dropdown';
-	}
-	return $atts;
-}
-add_filter('nav_menu_link_attributes', 'codeweber_bs5_toggle_fix');
-
-
-/**
- * Добавляет класс 'active' к активным ссылкам навигации.
- * 
- * Эта функция проверяет, является ли текущий пункт меню активным или содержит активный пункт в качестве потомка.
- * Если да, то добавляется класс 'active' к тегу <a> в меню.
- *
- * @param array    $atts Атрибуты ссылки.
- * @param WP_Post  $item Объект пункта меню.
- * @param stdClass $args Аргументы меню.
- * @return array Изменённые атрибуты ссылки.
- */
-
-function codeweber_add_active_class_to_anchor($atts, $item, $args)
-{
-	if (! property_exists($args, 'walker') || ! is_a($args->walker, 'WP_Bootstrap_Navwalker')) {
-		return $atts;
-	}
-	if ($item->current || $item->current_item_ancestor) {
-		$atts['class'] = isset($atts['class']) ? $atts['class'] . ' active' : 'active';
-	}
-	return $atts;
-}
-add_filter('nav_menu_link_attributes', 'codeweber_add_active_class_to_anchor', 10, 3);
-
-// <!-- Remove 'active' class from nav item <li> -->
-function codeweber_remove_active_class_from_li($classes, $item, $args)
-{
-	if (property_exists($args, 'walker') && is_a($args->walker, 'WP_Bootstrap_Navwalker')) {
-		return array_diff($classes, array('active'));
-	}
-	return $classes;
-}
-add_filter('nav_menu_css_class', 'codeweber_remove_active_class_from_li', 10, 3);
-
-
-/**
- * Получает пользовательские логотипы из Redux Framework.
- * 
- * Функция возвращает логотип в светлом, темном варианте или оба сразу.
- * Если пользовательские логотипы не заданы, используются стандартные изображения.
- *
- * @param string $type Тип логотипа: 'light' (светлый), 'dark' (тёмный) или 'both' (оба).
- * @return string HTML-код с логотипом (или логотипами).
- */
-function get_custom_logo_type($type = 'both')
-{
-	// тут название твоей опции, укажи актуальное значение
-	 global $opt_name;
-    $options = get_option($opt_name);
-
-    $default_logos = array(
-        'light' => get_template_directory_uri() . '/dist/img/logo-light.png',
-        'dark'  => get_template_directory_uri() . '/dist/img/logo-dark.png',
-    );
-
-    // определяем кастомные лого или дефолтные
-   $light_logo  = !empty($options['opt-dark-logo']['url'])  ? $options['opt-dark-logo']['url']  : $default_logos['dark'];
-	$dark_logo = !empty($options['opt-light-logo']['url']) ? $options['opt-light-logo']['url'] : $default_logos['light'];
-
-    // HTML код логотипов
-    $dark_logo_html = sprintf(
-        '<img class="logo-dark" src="%s" alt="">',
-        esc_url($dark_logo)
-    );
-
-    $light_logo_html = sprintf(
-        '<img class="logo-light" src="%s" alt="">',
-        esc_url($light_logo)
-    );
-
-    // Возвращаем в зависимости от типа
-    if ($type === 'light') {
-        return $light_logo_html;
-    } elseif ($type === 'dark') {
-        return $dark_logo_html;
-    } elseif ($type === 'both') {
-        return $dark_logo_html . "\n" . $light_logo_html;
-    }
-
-    return '';
-}
-
-
-/**
  * Форматирует номер телефона, оставляя только цифры.
  * - Если цифр больше трёх, добавляет в начале `+`.
  * - Если первая цифра `8` и номер длиннее трёх цифр, заменяет `8` на `7`.
@@ -236,10 +128,10 @@ function get_custom_logo_type($type = 'both')
  * @param string $text Входной текст, содержащий номер телефона.
  * @return string Отформатированный номер.
  */
-function cleanNumber($text)
+function cleanNumber($digits)
 {
 	// Удаляем все символы, кроме цифр
-	$digits = preg_replace('/\D/', '', $text);
+	$digits = preg_replace('/\D/', '', $digits);
 
 	// Если цифр больше трёх, обрабатываем номер
 	if (strlen($digits) > 3) {
@@ -379,14 +271,22 @@ function social_links($class, $type, $size = 'md')
  * - templates/pageheader/pageheader-{name}.php
  * - или templates/pageheader/pageheader.php
  *
+ * Шорткод [pageheader name="название"] подключает шаблон pageheader.
+ *
+ * Пример использования: [pageheader name="main"]
  * @param string|null $name Имя подшаблона (опционально).
  */
 function get_pageheader($name = null)
 {
 	do_action('get_pageheader', $name);
 
-	$base_dir = get_theme_file_path('templates/pageheader/');
+	// Если имя не передано — берем из Redux Framework
+	if (empty($name) && class_exists('Redux')) {
+		global $opt_name;
+		$name = Redux::get_option($opt_name, 'global-page-header-model');
+	}
 
+	$base_dir = get_theme_file_path('templates/pageheader/');
 	$templates = [];
 
 	if (!empty($name)) {
@@ -567,3 +467,177 @@ function the_subtitle($html_structure = '<p class="lead">%s</p>')
 	// Если подзаголовок не найден, возвращаем пустую строку в HTML-структуре
 	return '';
 }
+
+
+
+/**
+ * Получение стиля формы кнопки из Redux Framework с поддержкой класса по умолчанию
+ * Также доступно как шорткод: [getthemebutton default=" rounded-pill"]
+ *
+ * @param string $default_class Класс по умолчанию
+ * @return string CSS-класс формы кнопки
+ */
+if (! function_exists('getThemeButton')) {
+	function getThemeButton($default_class = ' rounded-pill')
+	{
+		global $opt_name;
+
+		// Карта соответствий опций Redux → CSS классы
+		$style_map = [
+			'1' => ' rounded-pill',
+			'2' => '',
+			'3' => ' rounded-xl',
+			'4' => ' rounded-0',
+		];
+
+		// Получаем значение из Redux (по умолчанию '1')
+		$style_key = Redux::get_option($opt_name, 'opt-button-select-style', '1');
+
+		// Возвращаем класс из карты или переданный по умолчанию
+		return isset($style_map[$style_key]) ? $style_map[$style_key] : $default_class;
+	}
+}
+
+// Регистрируем шорткод [getthemebutton default=" ... "]
+add_shortcode('getthemebutton', function ($atts) {
+	$atts = shortcode_atts([
+		'default' => ' rounded-pill',
+	], $atts);
+
+	return getThemeButton($atts['default']);
+});
+
+
+add_action('wp_footer', function () {
+	global $opt_name;
+
+	// Включен ли баннер
+	$cookieBool = Redux::get_option($opt_name, 'enable_cookie_banner');
+
+	// Текст из редактора
+	$cookietext = do_shortcode(wp_kses_post(Redux::get_option($opt_name, 'welcome_text_cookie_banneer') ?? ''));
+
+	// Кол-во дней хранения куки
+	$cookie_days = (int) Redux::get_option($opt_name, 'cookie_expiration_date');
+	if ($cookie_days <= 0) $cookie_days = 180;
+
+	// Уникальное имя куки (на основе домена)
+	$host = parse_url(home_url(), PHP_URL_HOST);
+	$cookie_name = 'user_cookie_consent_' . md5($host);
+
+	// Текущий URL
+	$current_url = home_url(add_query_arg([], $_SERVER['REQUEST_URI']));
+	// URL политики
+	$cookie_policy_url = trim(do_shortcode('[url_cookie-policy]'));
+
+	// 🧠 Проверка на поискового робота
+	$user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+	$is_bot = preg_match('/bot|crawl|slurp|spider|yandex|google|bing|baidu|duckduckgo/i', $user_agent);
+
+	// Условия показа баннера
+	if ($cookieBool && !$is_bot && !isset($_COOKIE[$cookie_name]) && $current_url !== $cookie_policy_url) {
+?>
+		<!-- Cookie Modal -->
+		<div class="modal fade modal-popup modal-bottom-center" id="cookieModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-body p-6">
+						<div class="row">
+							<div class="col-md-12 col-lg-10 mb-4 mb-lg-0 my-auto align-items-center">
+								<div class="mb-2 h4"><?php _e('Cookie Usage Policy', 'codeweber'); ?></div>
+								<div class="cookie-modal-text fs-14"><?php echo $cookietext; ?></div>
+							</div>
+							<div class="col-md-5 col-lg-2 text-lg-end my-auto">
+								<a href="#" class="btn btn-primary <?php getThemeButton(); ?>" id="acceptCookie" data-bs-dismiss="modal" aria-label="<?php esc_attr_e('Close', 'codeweber'); ?>">
+									<?php _e('Accept', 'codeweber'); ?>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- JS логика -->
+		<script>
+			document.getElementById('acceptCookie')?.addEventListener('click', function() {
+				const days = <?php echo (int) $cookie_days; ?>;
+				const now = new Date();
+				const fd = now.toISOString().replace('T', ' ').substring(0, 19); // Дата согласия
+				const ep = location.href; // Страница согласия
+				const rf = document.referrer; // Откуда пришёл
+				const value = `fd=${fd}|||ep=${ep}|||rf=${rf}`;
+				const expires = new Date(Date.now() + days * 864e5).toUTCString();
+				document.cookie = "<?php echo $cookie_name; ?>=" + encodeURIComponent(value) + "; expires=" + expires + "; path=/";
+			});
+		</script>
+<?php
+	}
+});
+
+
+/**
+ * Подключение настроек SMTP из Redux к отправке почты WordPress.
+ *
+ * Этот код использует хук 'phpmailer_init', чтобы настроить PHPMailer
+ * для отправки писем через SMTP сервер, параметры которого берутся
+ * из Redux Framework опций.
+ *
+ * @global string $opt_name Имя опций Redux.
+ *
+ * Работает только если в настройках включен SMTP (smtp_enabled = true).
+ *
+ * Использует следующие поля из Redux:
+ * - smtp_enabled    (bool)   — Включить SMTP или нет.
+ * - smtp_host       (string) — Адрес SMTP сервера.
+ * - smtp_port       (int)    — Порт SMTP.
+ * - smtp_encryption (string) — Тип шифрования: 'none', 'ssl', 'tls'.
+ * - smtp_username   (string) — Логин для SMTP.
+ * - smtp_password   (string) — Пароль для SMTP.
+ * - smtp_from_email (string) — Email отправителя.
+ * - smtp_from_name  (string) — Имя отправителя.
+ *
+ * @param PHPMailer $phpmailer Объект PHPMailer, инициализируемый WP.
+ */
+add_action('phpmailer_init', function ($phpmailer) {
+	global $opt_name;
+
+	$settings = [
+		'enabled'    => Redux::get_option($opt_name, 'smtp_enabled'),
+		'host'       => Redux::get_option($opt_name, 'smtp_host'),
+		'port'       => Redux::get_option($opt_name, 'smtp_port'),
+		'encryption' => Redux::get_option($opt_name, 'smtp_encryption'),
+		'username'   => Redux::get_option($opt_name, 'smtp_username'),
+		'password'   => Redux::get_option($opt_name, 'smtp_password'),
+		'from_email' => Redux::get_option($opt_name, 'smtp_from_email'),
+		'from_name'  => Redux::get_option($opt_name, 'smtp_from_name'),
+	];
+
+	if (!$settings['enabled']) {
+		// SMTP не включен — ничего не меняем
+		return;
+	}
+
+	$phpmailer->isSMTP();
+	$phpmailer->Host       = $settings['host'];
+	$phpmailer->Port       = $settings['port'];
+	$phpmailer->SMTPAuth   = true;
+	$phpmailer->Username   = $settings['username'];
+	$phpmailer->Password   = $settings['password'];
+
+	if ($settings['encryption'] === 'ssl') {
+		$phpmailer->SMTPSecure = 'ssl';
+	} elseif ($settings['encryption'] === 'tls') {
+		$phpmailer->SMTPSecure = 'tls';
+	} else {
+		$phpmailer->SMTPSecure = false;
+	}
+
+	// Устанавливаем от кого письмо
+	if (!empty($settings['from_email'])) {
+		$phpmailer->From = $settings['from_email'];
+	}
+	if (!empty($settings['from_name'])) {
+		$phpmailer->FromName = $settings['from_name'];
+	}
+});

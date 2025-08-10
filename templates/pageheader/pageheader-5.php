@@ -3,14 +3,16 @@ global $opt_name;
 $breadcrumbs_color = Redux::get_option($opt_name, 'global-page-header-breadcrumb-color');
 $breadcrumbs_enable  =  Redux::get_option($opt_name, 'global-page-header-breadcrumb-enable');
 $breadcrumbs_bg  =  Redux::get_option($opt_name, 'global-page-header-breadcrumb-bg-color');
-$bredcrumbs_align =  Redux::get_option($opt_name, 'global-bredcrumbs-aligns');
+$breadcrumbs_align =  Redux::get_option($opt_name, 'global-bredcrumbs-aligns');
 
-if ($bredcrumbs_align === '1') {
+if ($breadcrumbs_align === '1') {
    $breadcrumbs_align = 'left';
-} elseif ($bredcrumbs_align === '2') {
+} elseif ($breadcrumbs_align === '2') {
    $breadcrumbs_align = 'center';
-} elseif ($bredcrumbs_align === '3') {
+} elseif ($breadcrumbs_align === '3') {
    $breadcrumbs_align = 'right';
+} else {
+   $breadcrumbs_align = 'left';
 }
 
 if ($breadcrumbs_bg) {
@@ -100,7 +102,7 @@ if ($page_header_title_color === '2') {
 if ($page_header_align === '1') {
    $container_class[] = 'text-start';
    $col_class[] = 'col-lg-10 col-xxl-8';
-   $subtitle = the_subtitle('<p class="lead col-lg-10 col-xxl-8 mb-0' . implode(" ", $title_class) . '">%s</p>');
+   $subtitle = the_subtitle('<p class="lead col-lg-10 col-xxl-8  text-dark' . implode(" ", $title_class) . '">%s</p>');
 } elseif ($page_header_align === '2') {
    $container_class[] = 'text-center';
    $col_class[] = 'col-md-7 col-lg-6 col-xl-5 mx-auto';
@@ -109,11 +111,11 @@ if ($page_header_align === '1') {
    $container_class[] = 'text-right';
    $col_class[] = '';
    $title_class[] = 'text-end';
-   $subtitle = the_subtitle('<p class="lead col-lg-10 col-xxl-8 mb-0' . implode(" ", $title_class) . '">%s</p>');
+   $subtitle = the_subtitle('<p class="lead col-lg-10 col-xxl-8  text-dark' . implode(" ", $title_class) . '">%s</p>');
 }
 ?>
 
-<section class="wrapper <?= implode(" ", $section_class); ?>" <?= implode(" ", $data_section); ?>>
+<section class="wrapper pageheader-5 <?= implode(" ", $section_class); ?>" <?= implode(" ", $data_section); ?>>
    <div class="container <?= implode(" ", $container_class); ?>">
       <div class="row">
          <div class="<?= implode(" ", $col_class); ?>">

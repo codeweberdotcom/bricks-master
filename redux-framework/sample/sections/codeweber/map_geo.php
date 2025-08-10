@@ -18,84 +18,91 @@ Redux::set_section(
 				'type'     => 'raw',
 				'title'    => esc_html__('Yandex Map', 'codeweber'),
 				'subtitle' => esc_html__('Choose a point on the map', 'codeweber'),
-				'content'  => '<div id="yandex-map" style="width: 100%; height: 400px;"></div>
-                               <script src="https://api-maps.yandex.ru/2.1/?apikey=' . esc_attr($yandex_api_key) . '&lang=ru_RU"></script>
-                               <script>
-                                   document.addEventListener("DOMContentLoaded", function () {
-                                       ymaps.ready(init);
+				'content' => "<div id=\"yandex-map\" style=\"width: 100%; height: 400px;\"></div>
+<script src=\"https://api-maps.yandex.ru/2.1/?apikey=" . esc_attr($yandex_api_key) . "&lang=ru_RU\"></script>
+<script>
+document.addEventListener(\"DOMContentLoaded\", function () {
+    ymaps.ready(function () {
+        var coordinatesField = document.querySelector(\"input[name='redux_demo[yandex_coordinates]']\");
+        var zoomField = document.querySelector(\"input[name='redux_demo[yandex_zoom]']\");
+        var addressField = document.querySelector(\"input[name='redux_demo[yandex_address]']\");
 
-                                       function init() {
-                                           var coordinatesField = document.querySelector("input[name=\'redux_demo[yandex_coordinates]\']");
-                                           var zoomField = document.querySelector("input[name=\'redux_demo[yandex_zoom]\']");
-                                           var addressField = document.querySelector("input[name=\'redux_demo[yandex_address]\']");
+        var coords = coordinatesField?.value.split(',').map(parseFloat);
+        if (!coords || coords.length !== 2 || coords.some(isNaN)) coords = [55.76, 37.64];
+        var zoom = parseInt(zoomField?.value || \"10\");
 
-                                           var coordsString = coordinatesField ? coordinatesField.value : "55.76, 37.64";
-                                           var coords = coordsString.split(", ").map(function(coord) { return parseFloat(coord); });
+        var map = new ymaps.Map(\"yandex-map\", {
+            center: coords,
+            zoom: zoom,
+            controls: [\"zoomControl\", \"searchControl\"]
+        });
 
-                                           if (coords.length !== 2 || isNaN(coords[0]) || isNaN(coords[1])) {
-                                               coords = [55.76, 37.64];
-                                           }
+        var placemark = new ymaps.Placemark(coords, {}, { draggable: true });
+        map.geoObjects.add(placemark);
 
-                                           var zoom = zoomField ? parseInt(zoomField.value) : 10;
+        function updateFields(coords, addressText = null) {
+            var coordString = coords.join(\", \");
+            if (coordinatesField) {
+                coordinatesField.value = coordString;
+                coordinatesField.dispatchEvent(new Event(\"input\", { bubbles: true }));
+            }
+            if (zoomField) {
+                zoomField.value = map.getZoom();
+                zoomField.dispatchEvent(new Event(\"input\", { bubbles: true }));
+            }
+            if (addressField) {
+                if (addressText) {
+                    addressField.value = addressText;
+                    addressField.dispatchEvent(new Event(\"input\", { bubbles: true }));
+                } else {
+                    ymaps.geocode(coords).then(function (res) {
+                        var first = res.geoObjects.get(0);
+                        if (first) {
+                            addressField.value = first.getAddressLine();
+                            addressField.dispatchEvent(new Event(\"input\", { bubbles: true }));
+                        }
+                    });
+                }
+            }
+        }
 
-                                           var map = new ymaps.Map("yandex-map", {
-                                               center: coords,
-                                               zoom: zoom,
-                                           });
+        placemark.events.add(\"dragend\", function () {
+            var newCoords = placemark.geometry.getCoordinates();
+            updateFields(newCoords);
+        });
 
-                                           var placemark = new ymaps.Placemark(coords, {}, { draggable: true });
-                                           map.geoObjects.add(placemark);
+        map.events.add(\"click\", function (e) {
+            var coords = e.get(\"coords\");
+            placemark.geometry.setCoordinates(coords);
+            updateFields(coords);
+        });
 
-                                           function geocodeCoordinates(coords) {
-                                               ymaps.geocode(coords).then(function (result) {
-                                                   var firstGeoObject = result.geoObjects.get(0);
-                                                   var address = firstGeoObject ? firstGeoObject.getAddressLine() : "Адрес не найден";
+        map.events.add(\"boundschange\", function () {
+            if (zoomField) {
+                zoomField.value = map.getZoom();
+                zoomField.dispatchEvent(new Event(\"input\", { bubbles: true }));
+            }
+        });
 
-                                                   if (addressField) {
-                                                       addressField.value = address;
-                                                       var event = new Event("input", { bubbles: true });
-                                                       addressField.dispatchEvent(event);
-                                                   }
-                                               });
-                                           }
+        var searchControl = map.controls.get(\"searchControl\");
+        searchControl.events.add(\"resultselect\", function (e) {
+            var results = searchControl.getResultsArray();
+            var selectedIndex = e.get(\"index\");
+            var selectedResult = results[selectedIndex];
 
-                                           function updateCoordinates(newCoords) {
-                                               var coordsString = newCoords.join(", ");
-                                               if (coordinatesField) {
-                                                   coordinatesField.value = coordsString;
-                                                   var event = new Event("input", { bubbles: true });
-                                                   coordinatesField.dispatchEvent(event);
-                                               }
-                                               geocodeCoordinates(newCoords);
-                                           }
+            if (selectedResult) {
+                var coords = selectedResult.geometry.getCoordinates();
+                placemark.geometry.setCoordinates(coords);
+                map.setCenter(coords, 16);
+                updateFields(coords, selectedResult.properties.get(\"name\"));
+            }
+        });
 
-                                           function updateZoom(newZoom) {
-                                               if (zoomField) {
-                                                   zoomField.value = newZoom;
-                                                   var event = new Event("input", { bubbles: true });
-                                                   zoomField.dispatchEvent(event);
-                                               }
-                                           }
+        updateFields(coords);
+    });
+});
+</script>",
 
-                                           placemark.events.add("dragend", function () {
-                                               var newCoords = placemark.geometry.getCoordinates();
-                                               updateCoordinates(newCoords);
-                                           });
-
-                                           map.events.add("click", function (e) {
-                                               var coords = e.get("coords");
-                                               placemark.geometry.setCoordinates(coords);
-                                               updateCoordinates(coords);
-                                           });
-
-                                           map.events.add("boundschange", function (e) {
-                                               updateZoom(map.getZoom());
-                                           });
-
-                                           geocodeCoordinates(coords);
-                                       }
-                                   });
-                               </script>',
 			),
 			array(
 				'id'       => 'yandex_coordinates',

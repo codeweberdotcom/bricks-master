@@ -25,6 +25,7 @@ Redux::set_section(
 				'sortable'    => true,
 				'active'      => false,
 				'collapsible' => false,
+				'group_values' => true,
 				'fields'      => array(
 					array(
 						'id'          => 'title_field',

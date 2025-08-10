@@ -1,61 +1,66 @@
 <?php get_header(); ?>
 <?php get_pageheader(); ?>
-<main id="content-wrapper">
+<?php
+$post_type = get_post_type();
+$post_type_lc = strtolower($post_type);
+$sidebar_position = Redux::get_option($opt_name, 'sidebar-position-archive-' . ucwords($post_type));
+$pageheader_name = Redux::get_option($opt_name, 'global-page-header-model');
+
+// Определяем класс колонки для контента
+$content_class = ($sidebar_position === '2') ? 'col-12' : 'col-8';
+?>
+
+<section id="content-wrapper" class="wrapper bg-light">
 	<div class="container">
+		<div class="row gx-lg-8 gx-xl-12">
 
-		<div class="row py-5">
+			<?php get_sidebar('left'); ?>
+			<!-- #sidebar-left -->
 
-			<div id="loop-wrapper" class="col">
-
-				<h1 class="mb-5 border-bottom">
+			<div id="loop-wrapper" class="<?php echo $content_class; ?> py-12">
+				<div class="blog classic-view row">
+					<?php if ($pageheader_name === '1') { ?>
+						<h1 class="display-4 mb-10"><?php echo universal_title(); ?></h1>
+					<?php } ?>
+					<!-- #title -->
 					<?php
-					if (is_home()) {
+					$templateloop = Redux::get_option($opt_name, 'opt-select' . ucwords($post_type));
+					$template_file = "templates/archives/{$post_type_lc}/{$templateloop}.php";
 
-						echo esc_html(get_the_title(get_option('page_for_posts', true)));
-					} elseif (is_search()) {
+					if (have_posts()) :
 
-						esc_html_e('Results for: ', 'bricks');
-						the_search_query();
-					} else {
+						while (have_posts()) :
+							the_post();
 
-						the_archive_title();
-					}
-					?>
-				</h1>
+							if (!empty($templateloop) && locate_template($template_file)) {
+								get_template_part("templates/archives/{$post_type_lc}/{$templateloop}");
+							} else {
+								if (locate_template("templates/content/loop-{$post_type_lc}.php")) {
+									get_template_part("templates/content/loop", $post_type_lc);
+								} else {
+									get_template_part("templates/content/loop", '');
+								}
+							}
+						endwhile;
 
-				<?php
-				if (have_posts()) :
-					while (have_posts()) :
-						the_post();
-
-						get_template_part('templates/content/loop', '');
-
-					endwhile;
-
-					the_posts_pagination(
-						array(
+						the_posts_pagination(array(
 							'mid_size'  => 2,
 							'prev_text' => esc_html__('&laquo; Previous', 'bricks'),
 							'next_text' => esc_html__('Next &raquo;', 'bricks'),
-						)
-					);
+						));
 
-				else :
+					else :
+						get_template_part('templates/content/loop', 'none');
+					endif;
+					?>
 
-					get_template_part('templates/content/loop', 'none');
-
-				endif;
-				?>
-
+				</div>
 			</div> <!-- #loop-wrapper -->
 
-			<?php get_sidebar(); ?>
-
+			<?php get_sidebar('right'); ?>
+			<!-- #sidebar-right -->
 		</div>
-
 	</div>
+</section> <!-- #content-wrapper -->
 
-</main> <!-- #content-wrapper -->
-
-<?php
-get_footer();
+<?php get_footer(); ?>

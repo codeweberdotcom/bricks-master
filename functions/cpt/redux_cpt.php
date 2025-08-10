@@ -27,8 +27,16 @@ if (!empty($cpt_files)) {
          // Проверяем, существует ли файл
          if (file_exists($file_path)) {
             // Подключаем файл
+            // Подключаем файл с отладкой вывода
+            ob_start(); // начать буферизацию вывода
+
             require_once $file_path;
-            //error_log('CPT file ' . $file . ' included successfully.');
+
+            $output = ob_get_clean(); // забрать, что файл вывел
+
+            if (!empty($output)) {
+               error_log("Файл $file вывел: " . $output);
+            }            //error_log('CPT file ' . $file . ' included successfully.');
          } else {
           //  error_log('CPT file ' . $file . ' not found.');
          }

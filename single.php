@@ -1,36 +1,46 @@
 <?php get_header(); ?>
+<?php $global_page_header_model = Redux::get_option($opt_name, 'global-page-header-model'); ?>
 <?php
 while (have_posts()) :
 	the_post();
 	get_pageheader();
 ?>
-	<main id="content-wrapper">
-		<div class="container">
+	<?php $post_type = get_post_type();
+	$post_type_lc = strtolower($post_type);
+	$sidebar_position = Redux::get_option($opt_name, 'sidebar-position-archive-' . ucwords($post_type));
+	$pageheader_name = Redux::get_option($opt_name, 'global-page-header-model');
+	?>
 
-			<div class="row py-5">
+	<section id="content-wrapper" class="wrapper bg-light">
 
-				<div id="article-wrapper" class="col">
 
-					<?php get_template_part('templates/content/single', ''); ?>
+			<div class="container">
+				<div class="row gx-lg-8 gx-xl-12">
 
-					<nav class="nav">
-						<?php
-						previous_post_link('<span class="nav-link me-auto">&laquo; %link</span>');
-						next_post_link('<span class="nav-link ms-auto">%link &raquo;</span>');
-						?>
-					</nav>
+					<?php get_sidebar('left'); ?>
+					<!-- #sidebar-left -->
 
-					<?php
-					if (comments_open() || get_comments_number()) {
-						comments_template();
-					}
-					?>
+					<div id="article-wrapper" class="col-8 py-12">
 
-				</div> <!-- #article-wrapper -->
+						<?php if ($pageheader_name === '1') { ?>
+								<h1 class="display-4 mb-10"><?php echo universal_title(); ?></h1>
+						<?php } ?>
+						<!-- #title -->
 
-				<?php get_sidebar(); ?>
 
-			</div>
+						<?php get_template_part('templates/content/single', ''); ?>
+						<nav class="nav">
+							<?php
+							previous_post_link('<span class="nav-link me-auto">&laquo; %link</span>');
+							next_post_link('<span class="nav-link ms-auto">%link &raquo;</span>');
+							?>
+						</nav>
+					</div> <!-- #article-wrapper -->
+
+					<?php get_sidebar('right'); ?>
+					<!-- #sidebar-right -->
+				</div>
+
 
 		</div>
 

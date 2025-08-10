@@ -1,0 +1,27 @@
+{
+  "sbjs_migrations": {
+    "owner": "Woocommerce",
+    "storage_duration": "Сессия",
+    "type": "Аналитические"
+  },
+  "sbjs_current_add": {
+    "owner": "Woocommerce",
+    "storage_duration": "Сессия",
+    "type": "Аналитические"
+  },
+  "sbjs_first_add": {
+    "owner": "Woocommerce",
+    "storage_duration": "Session",
+    "type": "Аналитические"
+  },
+  "sbjs_current": {
+    "owner": "Woocommerce",
+    "storage_duration": "Сессия",
+    "type": "Аналитические"
+  },
+  "woocommerce_items_in_cart": {
+    "owner": "Woocommerce",
+    "storage_duration": "Сессия",
+    "type": "Необходимые"
+  }
+}

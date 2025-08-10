@@ -285,15 +285,15 @@ Redux::set_section(
 			array(
 				'id'       => 'footer-accordeon-topbar',
 				'type'     => 'accordion',
-				'title'    => esc_html__('Bottompbar', 'codeweber'),
+				'title'    => esc_html__('Bottombar', 'codeweber'),
 				'position' => 'start',
 			),
 
 			// Активация Breadcrumbs
 			array(
-				'id'       => 'footer-bottomopbar-enable',
+				'id'       => 'footer-bottomobar-enable',
 				'type'     => 'switch',
-				'title'    => esc_html__('Footer Bootompbar', 'codeweber'),
+				'title'    => esc_html__('Footer Bootombar', 'codeweber'),
 				'default'  => 1,
 				'required' => array('global-footer-type', '=', '1'),
 			),

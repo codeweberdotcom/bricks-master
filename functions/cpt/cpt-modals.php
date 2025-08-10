@@ -2,30 +2,29 @@
 
 function cptui_register_my_cpts_modal()
 {
-
 	/**
-	 * Post Type: modals.
+	 * Post Type: Modals.
 	 */
 
 	$labels = [
-		"name" => esc_html__("Модальные окна", "codeweber"), // Переведено на русский
-		"singular_name" => esc_html__("Модальное окно", "codeweber"), // Переведено на русский
-		"menu_name" => esc_html__("Модальные окна", "codeweber"), // Переведено на русский
-		"all_items" => esc_html__("Все модальные окна", "codeweber"), // Переведено на русский
-		"add_new" => esc_html__("Добавить новое", "codeweber"), // Переведено на русский
-		"add_new_item" => esc_html__("Добавить новое модальное окно", "codeweber"), // Переведено на русский
-		"edit_item" => esc_html__("Редактировать модальное окно", "codeweber"), // Переведено на русский
-		"new_item" => esc_html__("Новое модальное окно", "codeweber"), // Переведено на русский
-		"view_item" => esc_html__("Просмотреть модальное окно", "codeweber"), // Переведено на русский
-		"search_items" => esc_html__("Поиск модальных окон", "codeweber"), // Переведено на русский
-		"not_found" => esc_html__("Модальные окна не найдены", "codeweber"), // Переведено на русский
-		"not_found_in_trash" => esc_html__("Модальные окна в корзине не найдены", "codeweber"), // Переведено на русский
+		"name" => esc_html__("Modals", "codeweber"),
+		"singular_name" => esc_html__("Modal", "codeweber"),
+		"menu_name" => esc_html__("Modals", "codeweber"),
+		"all_items" => esc_html__("All Modals", "codeweber"),
+		"add_new" => esc_html__("Add New", "codeweber"),
+		"add_new_item" => esc_html__("Add New Modal", "codeweber"),
+		"edit_item" => esc_html__("Edit Modal", "codeweber"),
+		"new_item" => esc_html__("New Modal", "codeweber"),
+		"view_item" => esc_html__("View Modal", "codeweber"),
+		"search_items" => esc_html__("Search Modals", "codeweber"),
+		"not_found" => esc_html__("No modals found", "codeweber"),
+		"not_found_in_trash" => esc_html__("No modals found in Trash", "codeweber"),
 	];
 
 	$args = [
-		"label" => esc_html__("Модальные окна", "codeweber"), // Переведено на русский
+		"label" => esc_html__("Modals", "codeweber"),
 		"labels" => $labels,
-		"description" => esc_html__("Тип записи для модальных окон", "codeweber"), // Переведено на русский
+		"description" => esc_html__("Post type for modal windows", "codeweber"),
 		"public" => false,
 		"publicly_queryable" => true,
 		"show_ui" => true,
