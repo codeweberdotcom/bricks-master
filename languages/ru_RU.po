@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-08-10 10:02+0000\n"
+"PO-Revision-Date: 2025-08-10 18:29+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -35,7 +35,7 @@ msgstr "Хедер Архива %s"
 #: redux-framework/sample/sections/codeweber/cpt-type.php:430
 #, php-format
 msgid "%s Archive Page Header Settings"
-msgstr ""
+msgstr "%s Настройки Заголовка Архива"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:314
 #, php-format
@@ -55,7 +55,7 @@ msgstr "%s Настройки Хедер"
 #: redux-framework/sample/sections/codeweber/cpt-type.php:401
 #, php-format
 msgid "%s Settings Page Header"
-msgstr ""
+msgstr "%s Настройки Заголова Страницы"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:288
 #, php-format
@@ -75,7 +75,7 @@ msgstr "Хедер Записи %s"
 #: redux-framework/sample/sections/codeweber/cpt-type.php:404
 #, php-format
 msgid "%s Single Page Header Settings"
-msgstr ""
+msgstr "%s Настройки Заголовка Одиночной страницы"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:291
 #, php-format
@@ -426,7 +426,7 @@ msgstr "Базовые Типы Заголовков"
 #: redux-framework/sample/metaboxes.php:199
 #: redux-framework/sample/metaboxes.php:210
 msgid "Basic media uploader with disabled URL input field."
-msgstr ""
+msgstr "Обычный загрузчик мультимедиа с отключенным полем ввода URL-адреса."
 
 #: redux-framework/sample/sections/codeweber/style.php:117
 msgid "Before starting the build Gulp, save the Redux settings."
@@ -850,7 +850,7 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:231
 #: redux-framework/sample/metaboxes.php:279
 msgid "Default"
-msgstr ""
+msgstr "Стандартный"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:28
 msgid "Default text"
@@ -1083,7 +1083,7 @@ msgstr "Согласие на получение информационной и
 
 #: redux-framework/sample/metaboxes.php:86
 msgid "Enable container for content"
-msgstr ""
+msgstr "Включить Контейнер для контента"
 
 #: redux-framework/sample/sections/codeweber/legal.php:710
 msgid "Enable Cookie Banner"
@@ -1264,7 +1264,7 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:157
 msgid "Footer Settings"
-msgstr ""
+msgstr "Настройки Футера"
 
 #: redux-framework/sample/sections/codeweber/footer.php:99
 msgid "Footer text color"
@@ -1443,7 +1443,7 @@ msgstr "Скругление Хедер"
 
 #: redux-framework/sample/metaboxes.php:94
 msgid "Header Settings"
-msgstr ""
+msgstr "Настройки Хедера"
 
 #: redux-framework/sample/sections/codeweber/header.php:114
 msgid "Header text color"
@@ -1732,7 +1732,7 @@ msgstr "Светлый"
 
 #: redux-framework/sample/sections/codeweber/style.php:55
 msgid "Light Logo"
-msgstr ""
+msgstr "Светлый Логотип"
 
 #: redux-framework/sample/sections/codeweber/api.php:35
 msgid "Link to SMS RU Documentation"
@@ -1764,19 +1764,19 @@ msgstr "Перечень обрабатываемых персональных �
 
 #: redux-framework/sample/metaboxes.php:208
 msgid "Logo Dark Footer w/ URL"
-msgstr ""
+msgstr "Темный Логотип Футер"
 
 #: redux-framework/sample/metaboxes.php:145
 msgid "Logo Dark Header w/ URL"
-msgstr ""
+msgstr "Темный Логотип Хедер"
 
 #: redux-framework/sample/metaboxes.php:197
 msgid "Logo Light Footer w/ URL"
-msgstr ""
+msgstr "Светлый Логотип Футер"
 
 #: redux-framework/sample/metaboxes.php:134
 msgid "Logo Light Header w/ URL"
-msgstr ""
+msgstr "Светлый Логотип Хедер"
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:16
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:32
@@ -1810,7 +1810,7 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:77
 msgid "Main Options"
-msgstr ""
+msgstr "Главные Настройки"
 
 #: functions/sidebars.php:29 functions/sidebars.php:31
 msgid "Main Sidebar"
@@ -2276,7 +2276,7 @@ msgstr "Тип фона Заголовка"
 
 #: redux-framework/sample/metaboxes.php:218
 msgid "Page Header Settings"
-msgstr ""
+msgstr "Настройки Заголовка"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:78
 msgid "Page Header Type"
@@ -2981,12 +2981,12 @@ msgstr "Выбрать Футер из Пользовательских Хеде
 
 #: redux-framework/sample/sections/codeweber/footer.php:70
 msgid "Select Footer Type"
-msgstr ""
+msgstr "Выберите тип Футера"
 
 #: redux-framework/sample/metaboxes.php:169
 #: redux-framework/sample/metaboxes.php:170
 msgid "Select Footer type for This Page"
-msgstr ""
+msgstr "Выберите тип Футера для этой страницы"
 
 #: redux-framework/sample/metaboxes.php:118
 msgid "Select Header"
@@ -3023,7 +3023,7 @@ msgstr "Тип Хедера"
 #: redux-framework/sample/metaboxes.php:105
 #: redux-framework/sample/metaboxes.php:106
 msgid "Select Header type for This Page"
-msgstr ""
+msgstr "Выберите тип Заголовка для этой страницы"
 
 #: functions/integrations/cf7.php:811
 msgid "Select Legal Documents for This contact form:"
@@ -3040,25 +3040,25 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:242
 msgid "Select Page Header"
-msgstr ""
+msgstr "Выберите тип Заголовка"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:439
 #, php-format
 msgid "Select Page Header for Archive %s"
-msgstr ""
+msgstr "Выберите тип Заголовка для Архива %s"
 
 #: redux-framework/sample/metaboxes.php:64
 msgid "Select Page Header from Custom Page Headers"
-msgstr ""
+msgstr "Выберите тип Заголовка из Пользовательских"
 
 #: redux-framework/sample/metaboxes.php:228
 #: redux-framework/sample/metaboxes.php:229
 msgid "Select Page Header type for This Page"
-msgstr ""
+msgstr "Выбрать тип Заголовка для этой Страницы"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:209
 msgid "Select Page-header from Custom Headers"
-msgstr ""
+msgstr "Выберите тип Заголовка из пользовательских Заголовков"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:88
 msgid "Select Page-Header Type"
@@ -3082,7 +3082,7 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:276
 #: redux-framework/sample/metaboxes.php:277
 msgid "Select Sidebar type for This Page"
-msgstr ""
+msgstr "Выбрать тип Сайдбара для этой страницы"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:230
 msgid "Select Soft Color"
@@ -3094,7 +3094,7 @@ msgstr "Выберите Solid цвет"
 
 #: redux-framework/sample/sections/codeweber/footer.php:113
 msgid "Select type Footer background"
-msgstr ""
+msgstr "Выберите тип Бэкграунда Футера"
 
 #: redux-framework/sample/sections/codeweber/header.php:128
 msgid "Select type Header background"
@@ -3224,7 +3224,7 @@ msgstr "Настройки Хедера для Архива %s"
 #: redux-framework/sample/sections/codeweber/cpt-type.php:433
 #, php-format
 msgid "Settings for the Archive Page Header %s custom post type."
-msgstr ""
+msgstr "Настройки Заголовка Архива %s ."
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:317
 #, php-format
@@ -3244,7 +3244,7 @@ msgstr "Настройки Хедер для Записи %s"
 #: redux-framework/sample/sections/codeweber/cpt-type.php:407
 #, php-format
 msgid "Settings for the Single Page Header %s custom post type."
-msgstr ""
+msgstr "Настройки Заголовка Одиночной страницы %s ."
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:294
 #, php-format
@@ -3853,6 +3853,8 @@ msgstr "уточнение (обновление, изменение)"
 #: redux-framework/sample/metaboxes.php:211
 msgid "Upload any media using the WordPress native uploader"
 msgstr ""
+"Загружайте любые мультимедийные файлы с помощью встроенного загрузчика "
+"WordPress"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:243
 msgid "Upload Header Background Image"
@@ -3872,11 +3874,11 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:49
 msgid "Upload your dark logo"
-msgstr ""
+msgstr "Загрузить Темный Логотип"
 
 #: redux-framework/sample/sections/codeweber/style.php:56
 msgid "Upload your light logo"
-msgstr ""
+msgstr "Загрузить Светлый Логотип"
 
 #: functions/cpt/cpt-faq.php:24
 msgid "Uploaded to this FAQ"

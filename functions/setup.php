@@ -55,36 +55,3 @@ function load_codeweber_translations()
 	load_theme_textdomain('codeweber', get_template_directory() . '/languages');
 }
 add_action('after_setup_theme', 'load_codeweber_translations', 10);
-
-
-
-
-/**
- * Настройки кастомизатора для добавления логотипа темной темы и удаления чекбокса "Отображать название и описание"
- */
-function my_customizer_settings($wp_customize)
-{
-
-	// Удаляем чекбокс "Отображать название и описание"
-	$wp_customize->remove_control('display_header_text'); // Убираем чекбокс "Отображать название и описание"
-
-	// Добавление поля для логотипа темной темы
-	$wp_customize->add_setting('custom_dark_logo', array(
-		'default'   => '',
-		'transport' => 'refresh',
-	));
-
-	// Добавляем контрол для логотипа темной темы
-	$wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'custom_dark_logo_control', array(
-		'label'      => __('Dark Logo', 'codeweber'),
-		'section'    => 'title_tagline', // Секция для логотипа
-		'settings'   => 'custom_dark_logo',
-		'mime_type'  => 'image',
-		'priority'   => 15, // Устанавливаем приоритет, чтобы это поле шло сразу после custom-logo
-	)));
-
-	// Изменяем приоритет для иконки сайта, чтобы она шла после краткого описания
-	$wp_customize->get_control('site_icon')->priority = 40;
-}
-
-add_action('customize_register', 'my_customizer_settings');

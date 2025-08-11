@@ -286,22 +286,26 @@ function get_pageheader($name = null)
 		$name = Redux::get_option($opt_name, 'global-page-header-model');
 	}
 
-	$base_dir = get_theme_file_path('templates/pageheader/');
-	$templates = [];
+	// Путь к шаблону в корне темы
+	$template = get_theme_file_path('pageheader.php');
 
-	if (!empty($name)) {
-		$templates[] = $base_dir . "pageheader-{$name}.php";
-	}
+	if (file_exists($template)) {
 
-	$templates[] = $base_dir . 'pageheader.php';
+		// Подготавливаем переменные, которые хотим передать
+		$pageheader_vars = [
+			'name' => $name,
+			// Здесь можно добавить любые другие переменные,
+			// например, из Redux
+		];
 
-	foreach ($templates as $template) {
-		if (file_exists($template)) {
-			require $template;
-			return;
-		}
+		// Распаковываем переменные в локальную область видимости шаблона
+		extract($pageheader_vars);
+
+		// Подключаем шаблон
+		require $template;
 	}
 }
+
 
 
 

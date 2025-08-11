@@ -43,9 +43,8 @@ add_action( 'after_setup_theme', 'codeweber_image_settings' );
 
 
 /**
- * Фильтрует созданные размеры изображений по типу родительской записи (CPT или стандартного типа).
+ * Фильтрует созданные размеры изображений по типу родительской записи.
  * Оставляет только разрешённые размеры для каждого типа записи.
- * Если тип записи не указан в списке — все размеры сохраняются.
  *
  * @param array $metadata      Метаданные вложения (изображения).
  * @param int   $attachment_id ID вложения.
@@ -53,35 +52,52 @@ add_action( 'after_setup_theme', 'codeweber_image_settings' );
  */
 function codeweber_filter_attachment_sizes_by_post_type($metadata, $attachment_id)
 {
-	// Массив CPT и разрешённых для них размеров изображений
-	$allowed_sizes_by_post_type = [
-		'projects' => ['codeweber_project_900-900', 'codeweber_project_900-718', 'codeweber_project_900-800'],
-		//'product'  => ['woocommerce_thumbnail', 'woocommerce_single'], // WooCommerce
-		//'post'     => ['thumbnail', 'medium', 'large'], // пример для постов
-		//'page'     => ['thumbnail', 'medium'],         // пример для страниц
-		// Добавьте другие типы и размеры по необходимости
-	];
-
+	// Получаем ID и тип родительской записи
 	$parent_id = get_post_field('post_parent', $attachment_id);
-	$parent_type = $parent_id ? get_post_type($parent_id) : '';
 
-	// Если родитель не найден — можно пробовать получить attachment post type (для загруженных напрямую в библиотеку)
-	if (!$parent_type) {
-		$parent_type = get_post_type($attachment_id);
+	// Проверяем разные способы определения родителя
+	if (!$parent_id && !empty($_REQUEST['post_id'])) {
+		$parent_id = intval($_REQUEST['post_id']);
+		wp_update_post([
+			'ID' => $attachment_id,
+			'post_parent' => $parent_id
+		]);
 	}
 
-	if (isset($allowed_sizes_by_post_type[$parent_type]) && !empty($metadata['sizes'])) {
+	// Определяем тип записи
+	$parent_type = $parent_id ? get_post_type($parent_id) : '';
+
+	// Специальная обработка для WooCommerce
+	if (!$parent_type && $parent_id && function_exists('wc_get_product')) {
+		$product = wc_get_product($parent_id);
+		if ($product) {
+			$parent_type = 'product';
+		}
+	}
+
+	// Массив разрешённых размеров изображений
+	$allowed_sizes_by_post_type = [
+		'projects' => ['codeweber_project_900-900', 'codeweber_project_900-718', 'codeweber_project_900-800'],
+		// Раскомментируйте при необходимости:
+		// 'product' => ['woocommerce_thumbnail', 'woocommerce_single'],
+		// 'post' => ['thumbnail', 'medium', 'large'],
+		// 'page' => ['thumbnail', 'medium'],
+	];
+
+	// Фильтрация размеров изображений
+	if ($parent_type && isset($allowed_sizes_by_post_type[$parent_type]) && !empty($metadata['sizes'])) {
 		$allowed_sizes = $allowed_sizes_by_post_type[$parent_type];
 		$upload_dir = wp_upload_dir();
 
 		foreach ($metadata['sizes'] as $size_name => $size_info) {
 			if (!in_array($size_name, $allowed_sizes, true)) {
-				// Удаляем файл с диска
 				$file_path = path_join($upload_dir['basedir'], dirname($metadata['file']) . '/' . $size_info['file']);
-				if (file_exists($file_path)) {
-					@unlink($file_path);
+
+				// Безопасное удаление файла
+				if (file_exists($file_path) && is_writable($file_path)) {
+					unlink($file_path);
 				}
-				// Удаляем размер из массива метаданных
+
 				unset($metadata['sizes'][$size_name]);
 			}
 		}
@@ -92,12 +108,26 @@ function codeweber_filter_attachment_sizes_by_post_type($metadata, $attachment_i
 add_filter('wp_generate_attachment_metadata', 'codeweber_filter_attachment_sizes_by_post_type', 10, 2);
 
 
-/**
- * Убирает слово "Archive" из заголовков архивов в Rank Math SEO.
- */
-add_filter('rank_math/frontend/title', function ($title) {
-	if (is_archive()) {
-		$title = preg_replace('/^\s*Archive\s*:?\s*/i', '', $title);
+
+add_filter('redux/metaboxes/upload/prefilter', 'codeweber_set_parent_for_redux_uploads', 10, 3);
+function codeweber_set_parent_for_redux_uploads($file, $field_id, $redux)
+{
+	// Получаем ID текущего поста из глобальной переменной
+	global $post;
+	if (!empty($post->ID)) {
+		$_POST['post_id'] = $post->ID; // Передаём post_id в обработчик
 	}
-	return $title;
-});
+	return $file;
+}
+
+
+
+add_filter('wp_insert_attachment_data', 'codeweber_force_attachment_parent_before_upload', 10, 2);
+function codeweber_force_attachment_parent_before_upload($data, $postarr)
+{
+	// Если загружается через Redux и есть post_id
+	if (!empty($_POST['post_id'])) {
+		$data['post_parent'] = intval($_POST['post_id']);
+	}
+	return $data;
+}

@@ -64,12 +64,15 @@ if (empty($pageheader_posts)) {
 	$no_pageheader_message = esc_html__('Select Page Header from Custom Page Headers', 'codeweber');
 }
 
+
+
+
 Redux_Metaboxes::set_box(
 	$opt_name,
 	array(
 		'id'         => 'opt-metaboxes',
 		'title'      => esc_html__( 'This Post Settings', 'codeweber' ),
-		'post_types' => array( 'page', 'post', 'faq', 'projects', 'services', 'staff', 'clients', 'offices' ),
+		'post_types' => array( 'page', 'post', 'faq', 'projects', 'services', 'staff', 'clients', 'offices', 'legal', 'product' ),
 		'position'   => 'normal', // normal, advanced, side.
 		'priority'   => 'high', // high, core, default, low.
 		'sections'   => array(
@@ -128,7 +131,7 @@ Redux_Metaboxes::set_box(
 					),
 
 					array(
-						'id'       => 'this-logo-light-header',
+						'id'       => 'custom-logo-light-header',
 						'type'     => 'media',
 						'url'      => true,
 						'title'    => esc_html__('Logo Light Header w/ URL', 'codeweber'),
@@ -139,7 +142,7 @@ Redux_Metaboxes::set_box(
 					),
 
 					array(
-						'id'       => 'this-logo-dark-header',
+						'id'       => 'custom-logo-dark-header',
 						'type'     => 'media',
 						'url'      => true,
 						'title'    => esc_html__('Logo Dark Header w/ URL', 'codeweber'),
@@ -249,19 +252,63 @@ Redux_Metaboxes::set_box(
 						),
 						'default'  => '',
 						'required' => array('this-page-header-type', '=', '2'),
+					),
+				),
+			),
+
+			array(
+				'title'  => esc_html__('Sidebar Settings', 'codeweber'),
+				'desc'   => '',
+				'icon'   => 'el-icon-pencil',
+				'id'     => 'page-sidebar-settings',
+				'fields'           => array(
 
 
-
-
+					// Управление сайдбаром
+					array(
+						'id'       => 'custom-page-sidebar-type',
+						'type'     => 'button_set',
+						'title'    => esc_html__('Select Sidebar type for This Page', 'codeweber'),
+						'desc' => esc_html__('Select Sidebar type for This Page', 'codeweber'),
+						'options'  => array(
+							'1' => esc_html__('Default', 'codeweber'),
+							'2' => esc_html__('Custom', 'codeweber'),
+						),
+						'default'  => '1',
 					),
 
+
+					// Управление сайдбаром
+					array(
+						'id'       => 'custom-page-sidebar-position',
+						'type'     => 'button_set',
+						'title'    => esc_html__('Select Sidebar position for This Page', 'codeweber'),
+						'desc' => esc_html__('Select Sidebar position for This Page', 'codeweber'),
+						'options'  => array(
+							'1' => esc_html__('Left Sidebar', 'codeweber'),
+							'2' => esc_html__('Disable Sidebar', 'codeweber'),
+							'3' => esc_html__('Right Sidebar', 'codeweber'),
+						),
+						'default'  => '1',
+						'required' => array('custom-page-sidebar-type', '=', '2'),
+					),
+
+					// Выбор области виджета
+					array(
+						'id'       => 'custom-page-sidebar-widget',
+						'type'     => 'select',
+						'data'     => 'sidebars', // Используем доступные сайдбары
+						'title'    => esc_html__('Select Widget Area', 'codeweber'),
+						'subtitle' => esc_html__('Choose a widget area to display on this page.', 'codeweber'),
+						'desc'     => esc_html__('Select a sidebar widget area for customization.', 'codeweber'),
+						'required' => array('custom-page-sidebar-type', '=', '2'),
+					),
 
 				),
 			),
 
 
-
-			array(
+						array(
 				'title'  => esc_html__('Sidebar Settings', 'codeweber'),
 				'desc'   => '',
 				'icon'   => 'el-icon-pencil',
@@ -316,28 +363,35 @@ Redux_Metaboxes::set_box(
 );
 
 
+// Настройка Redux Metabox
 Redux_Metaboxes::set_box(
 	$opt_name,
 	array(
 		'id'         => 'opt-metaboxes-2',
-		'post_types' => array( 'page', 'post' ),
-		'position'   => 'side', // normal, advanced, side.
-		'priority'   => 'high', // high, core, default, low.
+		'post_types' => array( 'projects'), // Используем тот же массив
+		'position'   => 'side',
+		'priority'   => 'high',
 		'sections'   => array(
 			array(
 				'icon_class' => 'icon-large',
 				'icon'       => 'el-icon-home',
 				'fields'     => array(
 					array(
-						'title'   => esc_html__( 'Cross Box Required', 'codeweber' ),
-						'desc'    => esc_html__( 'Required arguments work across metaboxes! Click on Color Field under Metabox Options then adjust this field to see the fields within show or hide.', 'codeweber' ),
-						'id'      => 'opt-layout',
-						'type'    => 'radio',
-						'options' => array(
-							'on'  => esc_html__( 'On', 'codeweber' ),
-							'off' => esc_html__( 'Off', 'codeweber' ),
+						'id'          => 'opt-slides',
+						'type'        => 'slides',
+						'title'       => esc_html__('Project Gallery', 'codeweber'),
+						'subtitle'    => esc_html__('Unlimited slides with drag and drop sorting.', 'codeweber'),
+						'desc'        => esc_html__('This field will store all slides values into a multidimensional array to use into a foreach loop.', 'codeweber'),
+						'show' => array(
+							'url' => false,
+							'title' => true,
+							'description' => true,
+							'attachment_id' => true, // Ключевое изменение
 						),
-						'default' => 'on',
+						'placeholder' => array(
+							'title'       => esc_html__('This is a title', 'codeweber'),
+							'description' => esc_html__('Description Here', 'codeweber'),
+						),
 					),
 				),
 			),
@@ -349,7 +403,7 @@ Redux_Metaboxes::set_box(
 	$opt_name,
 	array(
 		'id'         => 'opt-metaboxes-3',
-		'post_types' => array( 'page', 'post' ),
+		'post_types' => array('page', 'post', 'faq', 'projects', 'services', 'staff', 'clients', 'offices', 'legal', 'product'),
 		'position'   => 'side', // normal, advanced, side.
 		'priority'   => 'high', // high, core, default, low.
 		'sections'   => array(

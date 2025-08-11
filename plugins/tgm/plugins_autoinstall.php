@@ -8,16 +8,11 @@ function my_theme_register_required_plugins()
       array(
          'name'     => 'Contact Form 7',
          'slug'     => 'contact-form-7',
-         'required' => true,
+         'required' => false,
       ),
       array(
          'name'     => 'Rank Math SEO',
          'slug'     => 'seo-by-rank-math',
-         'required' => true,
-      ),
-      array(
-         'name'     => 'WP Mail SMTP',
-         'slug'     => 'wp-mail-smtp',
          'required' => false,
       ),
       array(
@@ -29,6 +24,11 @@ function my_theme_register_required_plugins()
          'name'     => 'Yoast Duplicate Post',
          'slug'     => 'duplicate-post',
          'required' => false,
+      ),
+      array(
+         'name'      => 'Matomo Analytics',
+         'slug'      => 'matomo',
+         'required'  => false, // Сделать обязательным
       ),
    );
 

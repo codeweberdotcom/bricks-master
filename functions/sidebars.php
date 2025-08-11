@@ -121,6 +121,11 @@ add_action('widgets_init', 'theme_register_header_widget');
 
 add_action('codeweber_after_widget', function ($sidebar_id) {
     if ($sidebar_id === 'legal') {
+        // Проверяем, существует ли тип записи 'legal'
+        if (!post_type_exists('legal')) {
+            return; // Прекращаем выполнение, если тип записи не существует
+        }
+
         $legal_posts = get_posts([
             'post_type'      => 'legal',
             'posts_per_page' => -1,

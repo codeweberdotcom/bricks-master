@@ -26,7 +26,11 @@ require_once get_template_directory() . '/functions/global.php';
 require_once get_template_directory() . '/functions/breadcrumbs.php';
 require_once get_template_directory() . '/functions/cleanup.php';
 require_once get_template_directory() . '/functions/custom.php';
+
+if (class_exists('WPCF7')) {
 require_once get_template_directory() . '/functions/integrations/cf7.php';
+};
+
 require_once get_template_directory() . '/functions/admin/admin_settings.php';
 require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
 
@@ -78,3 +82,5 @@ add_shortcode('list_sidebars', function () {
 
 	return $output;
 });
+
+
