@@ -3,11 +3,11 @@
 <?php
 $post_type = get_post_type();
 $post_type_lc = strtolower($post_type);
-$sidebar_position = Redux::get_option($opt_name, 'sidebar-position-archive-' . ucwords($post_type));
+$sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
 $pageheader_name = Redux::get_option($opt_name, 'global-page-header-model');
 
 // Определяем класс колонки для контента
-$content_class = ($sidebar_position === '2') ? 'col-12' : 'col-8';
+$content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-8';
 ?>
 
 <section id="content-wrapper" class="wrapper bg-light">
@@ -24,7 +24,7 @@ $content_class = ($sidebar_position === '2') ? 'col-12' : 'col-8';
 					<?php } ?>
 					<!-- #title -->
 					<?php
-					$templateloop = Redux::get_option($opt_name, 'opt-select' . ucwords($post_type));
+					$templateloop = Redux::get_option($opt_name, 'archive_template_select_' . $post_type);
 					$template_file = "templates/archives/{$post_type_lc}/{$templateloop}.php";
 
 					if (have_posts()) :

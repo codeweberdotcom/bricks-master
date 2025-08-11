@@ -44,8 +44,6 @@ if (! function_exists('get_cpt_files_list')) {
 	}
 }
 
-
-
 /**
  * Генерирует массив переключателей (switches) для всех пользовательских типов записей (CPT),
  * основанных на переданном списке файлов. Используется для создания интерфейса
@@ -56,49 +54,48 @@ if (! function_exists('get_cpt_files_list')) {
  * @param array $cpt_files Массив имён файлов (например, полученный из get_cpt_files_list()).
  *
  * @return array Массив конфигураций переключателей, подходящих для использования в Redux или других UI-фреймворках.
- *
- * Пример возвращаемого элемента:
- * [
- *   'id'       => 'cpt_switch_Faq',
- *   'type'     => 'switch',
- *   'title'    => 'Faq',
- *   'subtitle' => 'Enable/disable this post type',
- *   'default'  => false,
- *   'on'       => 'Enabled',
- *   'off'      => 'Disabled'
- * ]
  */
 function generate_cpt_switches($cpt_files)
 {
 	$cpt_switches = [];
-
-	// Список слов для исключения
 	$excluded_words = ['header', 'footer', 'html', 'modal', 'docs', 'price', 'page-header'];
 
 	foreach ($cpt_files as $file) {
-		// Пропускаем файлы, содержащие исключённые слова
+		// 1. Проверка на исключения
+		$file_lower = strtolower($file);
 		foreach ($excluded_words as $word) {
-			if (stripos($file, $word) !== false) {
+			if (str_contains($file_lower, $word)) {
 				continue 2;
 			}
 		}
 
-		// Преобразуем имя файла в человекочитаемый формат
-		$label = ucwords(str_replace(['cpt-', '.php'], '', $file));
-		$label = $label ?: __('Unnamed', 'codeweber');
+		// 2. Безопасное извлечение и форматирование имени
+		$base_name = str_replace(['cpt-', '.php'], '', $file);
+		if (empty($base_name)) {
+			$base_name = 'unnamed';
+		}
 
-		// Переводим метку
-		$translated_label = __($label, 'codeweber');
+		// 3. Форматирование отображаемого названия
+		$display_name = str_replace(['-', '_'], ' ', $base_name);
+		$display_name = mb_convert_case($display_name, MB_CASE_TITLE, "UTF-8");
 
-		// Добавляем элемент переключателя
+		// 4. Перевод с сохранением заглавной буквы
+		$translated_label = __($display_name, 'codeweber');
+
+		// 5. Формирование ID с санитизацией
+		$option_id = 'cpt_switch_' . sanitize_key($base_name);
+
 		$cpt_switches[] = [
-			'id'       => 'cpt_switch_' . $translated_label,
+			'id'       => $option_id,
 			'type'     => 'switch',
-			'title'    => $translated_label,
+			'title'    => $translated_label, // Уже с заглавной буквы
 			'subtitle' => __('Enable/disable this post type', 'codeweber'),
 			'default'  => false,
 			'on'       => __('Enabled', 'codeweber'),
 			'off'      => __('Disabled', 'codeweber'),
+			'hint'     => [
+				'content' => sprintf(__('File: %s', 'codeweber'), $file),
+			]
 		];
 	}
 
@@ -143,376 +140,362 @@ function get_header_posts()
 }
 
 
-// Получаем список файлов с кастомными типами записей
-$cpt_list = get_cpt_files_list();
 
-// Проверяем, есть ли файлы CPT
-if (!empty($cpt_list)) {
-	// Добавляем основную секцию для настройки CPT
-	Redux::set_section(
-		$opt_name,
-		array(
-			'title'            => esc_html__('Custom Post Types', 'codeweber'),
-			'id'               => 'cpt_section',
-			'subsection'       => true, // Не создаем субсекцию для этой секции
-			'desc'             => esc_html__('Settings for custom post types.', 'codeweber'),
-			'fields'           => generate_cpt_switches($cpt_list), // Добавляем все переключатели для CPT
-		)
-	);
+/**
+ * Регистрация настроек для пользовательских типов записей через Redux Framework
+ *
+ * Этот код создает секции настроек для каждого кастомного типа записи,
+ * позволяя управлять их отображением и поведением через панель администратора.
+ */
 
+// Получаем список всех файлов с кастомными типами записей
+$custom_post_type_files = get_cpt_files_list();
 
-	// Проверка наличия записей типа "header"
-	$header_posts = get_posts(array(
-		'post_type'      => 'header',
-		'posts_per_page' => -1, // Проверяем только наличие хотя бы одной записи
-	));
+// Проверяем, есть ли файлы с кастомными типами записей
+if (!empty($custom_post_type_files)) {
+    // Добавляем основную секцию для настройки кастомных типов записей
+    Redux::set_section(
+        $opt_name,
+        array(
+            'title'      => esc_html__('Custom Post Types', 'codeweber'),
+            'id'         => 'custom_post_types_section',
+            'subsection' => true,
+            'desc'       => esc_html__('Settings for custom post types.', 'codeweber'),
+            'fields'     => generate_cpt_switches($custom_post_type_files),
+        )
+    );
 
-	// Проверка наличия записей типа "header"
-	$footer_posts = get_posts(array(
-		'post_type'      => 'footer',
-		'posts_per_page' => -1, // Проверяем только наличие хотя бы одной записи
-	));
+    // Проверяем наличие записей для стандартных типов
+    $header_posts = get_posts(array(
+        'post_type'      => 'header',
+        'posts_per_page' => 1,
+        'fields'         => 'ids',
+        'post_status'    => 'publish'
+    ));
 
-	// Проверка наличия записей типа "header"
-	$page_header_posts = get_posts(array(
-		'post_type'      => 'page-header',
-		'posts_per_page' => -1, // Проверяем только наличие хотя бы одной записи
-	));
+    $footer_posts = get_posts(array(
+        'post_type'      => 'footer',
+        'posts_per_page' => 1,
+        'fields'         => 'ids',
+        'post_status'    => 'publish'
+    ));
 
-	$no_headers_message = '';
-	if (empty($header_posts)) {
-		$no_headers_message = sprintf(
-			esc_html__('No custom headers found. You can create one by visiting the following link: %s', 'codeweber'),
-			'<a href="' . esc_url(admin_url('edit.php?post_type=header')) . '" target="_blank">' . esc_html__('Create Custom Header', 'codeweber') . '</a>'
-		);
-	}else{
-		$no_headers_message = esc_html__('Select Header from Custom Headers', 'codeweber');
-	}
+    $page_header_posts = get_posts(array(
+        'post_type'      => 'page-header',
+        'posts_per_page' => 1,
+        'fields'         => 'ids',
+        'post_status'    => 'publish'
+    ));
 
-	$no_footers_message = '';
-	if (empty($footer_posts)) {
-		$no_footers_message = sprintf(
-			esc_html__('No custom footers found. You can create one by visiting the following link: %s', 'codeweber'),
-			'<a href="' . esc_url(admin_url('edit.php?post_type=footer')) . '" target="_blank">' . esc_html__('Create Custom Footer', 'codeweber') . '</a>'
-		);
-	} else {
-		$no_footers_message = esc_html__('Select Footer from Custom Headers', 'codeweber');
-	}
+    // Формируем сообщения о наличии записей
+    $header_message = empty($header_posts)
+        ? sprintf(
+            esc_html__('No custom headers found. You can create one here: %s', 'codeweber'),
+            '<a href="' . esc_url(admin_url('edit.php?post_type=header')) . '" target="_blank">' . esc_html__('Create Header', 'codeweber') . '</a>'
+          )
+        : esc_html__('Select header from available options', 'codeweber');
 
-	$no_page_header_message = '';
-	if (empty($page_header_posts)) {
-		$no_page_header_message = sprintf(
-			esc_html__('No custom page-header found. You can create one by visiting the following link: %s', 'codeweber'),
-			'<a href="' . esc_url(admin_url('edit.php?post_type=page-header')) . '" target="_blank">' . esc_html__('Create Custom Page_header', 'codeweber') . '</a>'
-		);
-	} else {
-		$no_page_header_message = esc_html__('Select Page-header from Custom Headers', 'codeweber');
-	}
+    $footer_message = empty($footer_posts)
+        ? sprintf(
+            esc_html__('No custom footers found. You can create one here: %s', 'codeweber'),
+            '<a href="' . esc_url(admin_url('edit.php?post_type=footer')) . '" target="_blank">' . esc_html__('Create Footer', 'codeweber') . '</a>'
+          )
+        : esc_html__('Select footer from available options', 'codeweber');
 
+    $page_header_message = empty($page_header_posts)
+        ? sprintf(
+            esc_html__('No custom page headers found. You can create one here: %s', 'codeweber'),
+            '<a href="' . esc_url(admin_url('edit.php?post_type=page-header')) . '" target="_blank">' . esc_html__('Create Page Header', 'codeweber') . '</a>'
+          )
+        : esc_html__('Select page header from available options', 'codeweber');
 
-	if (class_exists('WooCommerce')) {
-		array_push($cpt_list, 'cpt-woocommerce.php');
-	}
+    // Добавляем WooCommerce, если плагин активен
+    if (class_exists('WooCommerce')) {
+        $custom_post_type_files[] = 'cpt-woocommerce.php';
+    }
 
-	// Пройдемся по всем CPT и создадим субсекции для включенных
-	foreach ($cpt_list as $file) {
-		$label = ucwords(str_replace(array('cpt-', '.php'), '', $file)); // Преобразуем имя файла в читаемый формат
-		$label = $label ?: __('Unnamed', 'codeweber'); // Убедимся, что есть метка
+    // Создаем настройки для каждого кастомного типа записи
+    foreach ($custom_post_type_files as $file) {
+        // Получаем базовое имя типа записи из имени файла
+        $base_name = str_replace(array('cpt-', '.php'), '', $file);
+        if (empty($base_name)) {
+            continue;
+        }
 
-		// Переводим $label
-		$translated_label = __(ucwords(str_replace(array('cpt-', '.php'), '', $file)), 'codeweber');
+        // Формируем ID опции для Redux
+        $option_id = 'cpt_switch_' . sanitize_key($base_name);
 
-		// Проверяем, включен ли CPT (переключатель с заданным ID)
-		$option_id = 'cpt_switch_' . $translated_label;
-		$is_enabled = Redux::get_option($opt_name, $option_id); // Получаем значение опции для этого CPT
+        // Проверяем, включен ли этот тип записи
+        $is_enabled = Redux::get_option($opt_name, $option_id);
 
-		// Если включено, создаем субсекцию для этого CPT
-		if ($is_enabled || $file === 'cpt-woocommerce.php') {
+        // Пропускаем если тип записи отключен и это не WooCommerce
+        if (!$is_enabled && $file !== 'cpt-woocommerce.php') {
+            continue;
+        }
 
-			$path = get_template_directory() . "/templates/archives/{$label}";
-			$options = [];
+        // Форматируем имя для отображения в интерфейсе
+        $display_name = str_replace(array('-', '_'), ' ', $base_name);
+        $display_name = mb_convert_case($display_name, MB_CASE_TITLE, 'UTF-8');
+        $translated_label = __($display_name, 'codeweber');
+        $sanitized_id = sanitize_key($base_name);
 
-			if (is_dir($path)) {
-				$files = scandir($path);
+        // Получаем список доступных шаблонов
+        $archive_template_options = array('default' => esc_html__('Default Template', 'codeweber'));
+        $archive_template_directory = get_template_directory() . "/templates/archives/{$display_name}";
 
-				foreach ($files as $file) {
-					if ($file === '.' || $file === '..') {
-						continue;
-					}
+        if (is_dir($archive_template_directory)) {
+            $archive_template_files = scandir($archive_template_directory);
+            foreach ($archive_template_files as $template_file) {
+                if ($template_file === '.' || $template_file === '..') {
+                    continue;
+                }
 
-					if (is_file("$path/$file") && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
-						$filename = pathinfo($file, PATHINFO_FILENAME); // без .php
-						$options[$filename] = $filename;
-					}
+                if (is_file($archive_template_directory . '/' . $template_file) && pathinfo($template_file, PATHINFO_EXTENSION) === 'php') {
+                    $template_name = pathinfo($template_file, PATHINFO_FILENAME);
+                    $archive_template_options[$template_name] = $template_name;
+                }
+            }
+        }
+
+		// Получаем список доступных шаблонов для single
+		$single_template_options = array('default' => esc_html__('Default Template', 'codeweber'));
+		$single_template_directory = get_template_directory() . "/templates/singles/{$display_name}";
+
+		if (is_dir($single_template_directory)) {
+			$single_template_files = scandir($single_template_directory);
+			foreach ($single_template_files as $template_file) {
+				// Пропускаем текущую и родительскую директории
+				if ($template_file === '.' || $template_file === '..') {
+					continue;
 				}
-			} else {
-				$options['none'] = 'Папка не найдена';
+
+				// Проверяем, что это PHP-файл
+				$template_path = $single_template_directory . '/' . $template_file;
+				if (is_file($template_path) && pathinfo($template_file, PATHINFO_EXTENSION) === 'php') {
+					$template_name = pathinfo($template_file, PATHINFO_FILENAME);
+					$single_template_options[$template_name] = $template_name;
+				}
 			}
-
-
-
-	Redux::set_section(
-	$opt_name,
-	array(
-		'title'      => esc_html__($label, 'codeweber' ),
-		'id'         => 'additional-tabbed' . $label,
-		'desc'       => sprintf(esc_html__('Here you can make settings for the custom post type %s', 'codeweber'), $label), // Переводим метку в заголовке
-		'subsection' => true,
-		'fields'     => array(
-						array(
-							'id'       => 'opt-select' . $label,
-							'type'     => 'select',
-							'title'    => esc_html__('Select Archive Template ' . $label, 'codeweber'),
-							'subtitle' => esc_html__('Выберите шаблон из templates/archives/' . $label, 'codeweber'),
-							'desc'     => esc_html__('Список файлов из директории archives/' . $label, 'codeweber'),
-							'options'  => $options,
-							'default'  => array_key_first($options),
-						),
-			array(
-				'id'       => 'cpt-custom-title' . $label,
-				'type'     => 'text',
-				'title'    => sprintf(esc_html__('Custom Title for %s', 'codeweber'), $label),
-				'default'  => '',
-				),
-
-			array(
-				'id'       => 'cpt-custom-sub-title' . $label,
-				'type'     => 'textarea',
-				'title'    =>  sprintf(esc_html__('Custom SubTitle for %s', 'codeweber'), $label),
-				'default'  => '',
-			),
-
-			array(
-				'id'    => 'cpt-sidebar-settings-' . $label,
-				'type'  => 'tabbed',
-				'title' => sprintf(esc_html__('%s Settings Sidebar', 'codeweber'), $label), // Переводим метку в заголовке
-				'tabs'  => array(
-								array(
-					'title'            => sprintf(esc_html__('%s Single Sidebar Settings', 'codeweber'), $label), // Переводим метку в заголовке
-					'id'               => 'cpt-single-sidebar-settings-' . $label,
-					'subsection'       => true, // Устанавливаем как субсекцию
-					'desc'             => sprintf(esc_html__('Settings for the Single Sidebar %s custom post type.', 'codeweber'), $label),
-					'fields'           => array(
-
-						// Управление сайдбаром
-						array(
-							'id'       => 'sidebar-position-single-' . $label,
-							'type'     => 'button_set',
-							'title'    => sprintf(esc_html__('Select Sidebar position for Single %s', 'codeweber'), $label),
-							'desc' => sprintf(esc_html__('This is the Sidebar position for Single %s', 'codeweber'), $label),
-							'options'  => array(
-								'1' => esc_html__('Left Sidebar', 'codeweber'),
-								'2' => esc_html__('Disable Sidebar', 'codeweber'),
-								'3' => esc_html__('Right Sidebar', 'codeweber'),
-							),
-							'default'  => '1',
-						),
-					),
-				),
-
-								array(
-									'title'            => sprintf(esc_html__('%s Archive Sidebar Settings', 'codeweber'), $label), // Переводим метку в заголовке
-									'id'               => 'cpt-archive-sidebar-settings-' . $label,
-									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Archive Sidebar %s custom post type.', 'codeweber'), $label),
-									'fields'           => array(
-
-										array(
-											'id'       => 'sidebar-position-archive-' . $label,
-											'type'     => 'button_set',
-											'title'    => sprintf(esc_html__('Select Sidebar position for Archive %s', 'codeweber'), $label),
-											'desc' => sprintf(esc_html__('This is the Sidebar position for Archive %s', 'codeweber'), $label),
-											'options'  => array(
-												'1' => esc_html__('Left Sidebar', 'codeweber'),
-												'2' => esc_html__('Disable Sidebar', 'codeweber'),
-												'3' => esc_html__('Right Sidebar', 'codeweber'),
-											),
-											'default'  => '1',
-										),
-									),
-								),
-
-				),
-			),
-
-
-						array(
-							'id'    => 'cpt-header-settings-' . $label,
-							'type'  => 'tabbed',
-							'title' => sprintf(esc_html__('%s Settings Header', 'codeweber'), $label), // Переводим метку в заголовке
-							'tabs'  => array(
-								array(
-									'title'            => sprintf(esc_html__('%s Single Header Settings', 'codeweber'), $label), // Переводим метку в заголовке
-									'id'               => 'cpt-single-header-settings-' . $label,
-									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Single Header %s custom post type.', 'codeweber'), $label),
-									'fields'           => array(
-
-										// Добавляем выпадающий список для выбора записей типа header
-										array(
-											'id'       => 'cpt-single-post-header-' . $label,
-											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Header for Single %s', 'codeweber'), $label),
-											'desc'     => $no_headers_message, // Выводим сообщение, если записей нет
-											'data'     => 'posts',
-											'args'     => array(
-												'post_type' => 'header',
-												'posts_per_page' => -1,
-											),
-											'default'  => '',
-
-										),
-
-
-									),
-								),
-
-								array(
-									'title'            => sprintf(esc_html__('%s Archive Header Settings', 'codeweber'), $label), // Переводим метку в заголовке
-									'id'               => 'cpt-archive-header-settings-' . $label,
-									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Archive Header %s custom post type.', 'codeweber'), $label),
-									'fields'           => array(
-
-										array(
-											'id'       => 'cpt-archive-post-header-' . $label,
-											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Header for Archive %s', 'codeweber'), $label),
-											'desc'     => $no_headers_message,
-											'data'     => 'posts',
-											'args'     => array(
-												'post_type' => 'header',
-												'posts_per_page' => -1,
-											),
-											'default'  => '',
-
-										),
-
-
-									),
-								),
-
-							),
-						),
-
-						array(
-							'id'    => 'cpt-page-header-settings-' . $label,
-							'type'  => 'tabbed',
-							'title' => sprintf(esc_html__('%s Settings Page Header', 'codeweber'), $label), // Переводим метку в заголовке
-							'tabs'  => array(
-								array(
-									'title'            => sprintf(esc_html__('%s Single Page Header Settings', 'codeweber'), $label), // Переводим метку в заголовке
-									'id'               => 'cpt-single-page-header-settings-' . $label,
-									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Single Page Header %s custom post type.', 'codeweber'), $label),
-									'fields'           => array(
-
-										// Добавляем выпадающий список для выбора записей типа header
-										array(
-											'id'       => 'cpt-single-post-page-header-' . $label,
-											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Header for Single %s', 'codeweber'), $label),
-											'desc'     => $no_page_header_message, // Выводим сообщение, если записей нет
-											'data'     => 'posts',
-											'args'     => array(
-												'post_type' => 'page-header',
-												'posts_per_page' => -1,
-											),
-											'default'  => '',
-
-										),
-
-
-									),
-								),
-
-								array(
-									'title'            => sprintf(esc_html__('%s Archive Page Header Settings', 'codeweber'), $label), // Переводим метку в заголовке
-									'id'               => 'cpt-archive-page-header-settings-' . $label,
-									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Archive Page Header %s custom post type.', 'codeweber'), $label),
-									'fields'           => array(
-
-										array(
-											'id'       => 'cpt-archive-post-page-header-' . $label,
-											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Page Header for Archive %s', 'codeweber'), $label),
-											'desc'     => $no_page_header_message,
-											'data'     => 'posts',
-											'args'     => array(
-												'post_type' => 'page-header',
-												'posts_per_page' => -1,
-											),
-											'default'  => '',
-
-										),
-
-
-									),
-								),
-
-							),
-						),
-
-						array(
-							'id'    => 'cpt-footer-settings-' . $label,
-							'type'  => 'tabbed',
-							'title' => sprintf(esc_html__('%s Settings Footer', 'codeweber'), $label), // Переводим метку в заголовке
-							'tabs'  => array(
-								array(
-									'title'            => sprintf(esc_html__('%s Single Footer Settings', 'codeweber'), $label), // Переводим метку в заголовке
-									'id'               => 'cpt-single-footer-settings-' . $label,
-									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Single Footer %s custom post type.', 'codeweber'), $label),
-									'fields'           => array(
-
-										// Добавляем выпадающий список для выбора записей типа header
-										array(
-											'id'       => 'cpt-single-post-footer-' . $label,
-											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Footer for Single %s', 'codeweber'), $label),
-											'desc'     => $no_footers_message, // Выводим сообщение, если записей нет
-											'data'     => 'posts',
-											'args'     => array(
-												'post_type' => 'footer',
-												'posts_per_page' => -1,
-											),
-											'default'  => '',
-
-										),
-									),
-								),
-
-								array(
-									'title'            => sprintf(esc_html__('%s Archive Footer Settings', 'codeweber'), $label), // Переводим метку в заголовке
-									'id'               => 'cpt-archive-footer-settings-' . $label,
-									'subsection'       => true, // Устанавливаем как субсекцию
-									'desc'             => sprintf(esc_html__('Settings for the Archive Footer %s custom post type.', 'codeweber'), $label),
-									'fields'           => array(
-
-										array(
-											'id'       => 'cpt-archive-post-footer-' . $label,
-											'type'     => 'select',
-											'title'    => sprintf(esc_html__('Select Footer for Archive %s', 'codeweber'), $label),
-											'desc'     => $no_footers_message,
-											'data'     => 'posts',
-											'args'     => array(
-												'post_type' => 'footer',
-												'posts_per_page' => -1,
-											),
-											'default'  => '',
-
-										),
-									),
-								),
-
-							),
-						),
-		),
-	)
-);
 		}
-	}
+
+        // Основные поля секции
+        $section_fields = array(
+            // Выбор шаблона архива
+            array(
+                'id'       => 'archive_template_select_' . $sanitized_id,
+                'type'     => 'select',
+                'title'    => sprintf(esc_html__('Archive Template for %s', 'codeweber'), $translated_label),
+                'subtitle' => esc_html__('Select template for archive page', 'codeweber'),
+                'options'  => $archive_template_options,
+                'default'  => 'default',
+            ),
+
+			array(
+				'id'       => 'single_template_select_' . $sanitized_id,
+				'type'     => 'select',
+				'title'    => sprintf(esc_html__('Single Template for %s', 'codeweber'), $translated_label),
+				'subtitle' => esc_html__('Select template for single page', 'codeweber'),
+				'options'  => $single_template_options,
+				'default'  => 'default',
+			),
+
+            // Пользовательский заголовок
+            array(
+                'id'       => 'custom_title_' . $sanitized_id,
+                'type'     => 'text',
+                'title'    => sprintf(esc_html__('Custom Title for %s', 'codeweber'), $translated_label),
+                'default'  => '',
+            ),
+
+            // Пользовательский подзаголовок
+            array(
+                'id'       => 'custom_subtitle_' . $sanitized_id,
+                'type'     => 'textarea',
+                'title'    => sprintf(esc_html__('Custom Subtitle for %s', 'codeweber'), $translated_label),
+                'default'  => '',
+            ),
+        );
+
+        // Настройки сайдбара
+        $sidebar_settings = array(
+            array(
+                'id'       => 'sidebar_position_single_' . $sanitized_id,
+                'type'     => 'button_set',
+                'title'    => sprintf(esc_html__('Sidebar Position for Single %s', 'codeweber'), $translated_label),
+                'options'  => array(
+                    'left'   => esc_html__('Left', 'codeweber'),
+                    'none'   => esc_html__('Disabled', 'codeweber'),
+                    'right'  => esc_html__('Right', 'codeweber'),
+                ),
+                'default'  => 'right',
+            ),
+            array(
+                'id'       => 'sidebar_position_archive_' . $sanitized_id,
+                'type'     => 'button_set',
+                'title'    => sprintf(esc_html__('Sidebar Position for Archive %s', 'codeweber'), $translated_label),
+                'options'  => array(
+                    'left'   => esc_html__('Left', 'codeweber'),
+                    'none'   => esc_html__('Disabled', 'codeweber'),
+                    'right'  => esc_html__('Right', 'codeweber'),
+                ),
+                'default'  => 'right',
+            ),
+        );
+
+        // Настройки хедера
+        $header_settings = array(
+            array(
+                'id'       => 'single_header_select_' . $sanitized_id,
+                'type'     => 'select',
+                'title'    => sprintf(esc_html__('Header for Single %s', 'codeweber'), $translated_label),
+                'desc'     => $header_message,
+                'data'     => 'posts',
+                'args'     => array(
+                    'post_type' => 'header',
+                    'posts_per_page' => -1,
+                ),
+            ),
+            array(
+                'id'       => 'archive_header_select_' . $sanitized_id,
+                'type'     => 'select',
+                'title'    => sprintf(esc_html__('Header for Archive %s', 'codeweber'), $translated_label),
+                'desc'     => $header_message,
+                'data'     => 'posts',
+                'args'     => array(
+                    'post_type' => 'header',
+                    'posts_per_page' => -1,
+                ),
+            ),
+        );
+
+        // Настройки футера
+        $footer_settings = array(
+            array(
+                'id'       => 'single_footer_select_' . $sanitized_id,
+                'type'     => 'select',
+                'title'    => sprintf(esc_html__('Footer for Single %s', 'codeweber'), $translated_label),
+                'desc'     => $footer_message,
+                'data'     => 'posts',
+                'args'     => array(
+                    'post_type' => 'footer',
+                    'posts_per_page' => -1,
+                ),
+            ),
+            array(
+                'id'       => 'archive_footer_select_' . $sanitized_id,
+                'type'     => 'select',
+                'title'    => sprintf(esc_html__('Footer for Archive %s', 'codeweber'), $translated_label),
+                'desc'     => $footer_message,
+                'data'     => 'posts',
+                'args'     => array(
+                    'post_type' => 'footer',
+                    'posts_per_page' => -1,
+                ),
+            ),
+        );
+
+        // Настройки заголовка страницы
+        $page_header_settings = array(
+            array(
+                'id'       => 'single_page_header_select_' . $sanitized_id,
+                'type'     => 'select',
+                'title'    => sprintf(esc_html__('Page Header for Single %s', 'codeweber'), $translated_label),
+                'desc'     => $page_header_message,
+                'data'     => 'posts',
+                'args'     => array(
+                    'post_type' => 'page-header',
+                    'posts_per_page' => -1,
+                ),
+            ),
+            array(
+                'id'       => 'archive_page_header_select_' . $sanitized_id,
+                'type'     => 'select',
+                'title'    => sprintf(esc_html__('Page Header for Archive %s', 'codeweber'), $translated_label),
+                'desc'     => $page_header_message,
+                'data'     => 'posts',
+                'args'     => array(
+                    'post_type' => 'page-header',
+                    'posts_per_page' => -1,
+                ),
+            ),
+        );
+
+        // Добавляем все настройки в виде табов
+        $section_fields[] = array(
+            'id'     => 'sidebar_settings_' . $sanitized_id,
+            'type'   => 'tabbed',
+            'title'  => sprintf(esc_html__('%s Sidebar Settings', 'codeweber'), $translated_label),
+            'tabs'   => array(
+                array(
+                    'title'  => esc_html__('Single', 'codeweber'),
+                    'fields' => array($sidebar_settings[0]),
+                ),
+                array(
+                    'title'  => esc_html__('Archive', 'codeweber'),
+                    'fields' => array($sidebar_settings[1]),
+                ),
+            ),
+        );
+
+        $section_fields[] = array(
+            'id'     => 'header_settings_' . $sanitized_id,
+            'type'   => 'tabbed',
+            'title'  => sprintf(esc_html__('%s Header Settings', 'codeweber'), $translated_label),
+            'tabs'   => array(
+                array(
+                    'title'  => esc_html__('Single', 'codeweber'),
+                    'fields' => array($header_settings[0]),
+                ),
+                array(
+                    'title'  => esc_html__('Archive', 'codeweber'),
+                    'fields' => array($header_settings[1]),
+                ),
+            ),
+        );
+
+        $section_fields[] = array(
+            'id'     => 'footer_settings_' . $sanitized_id,
+            'type'   => 'tabbed',
+            'title'  => sprintf(esc_html__('%s Footer Settings', 'codeweber'), $translated_label),
+            'tabs'   => array(
+                array(
+                    'title'  => esc_html__('Single', 'codeweber'),
+                    'fields' => array($footer_settings[0]),
+                ),
+                array(
+                    'title'  => esc_html__('Archive', 'codeweber'),
+                    'fields' => array($footer_settings[1]),
+                ),
+            ),
+        );
+
+        $section_fields[] = array(
+            'id'     => 'page_header_settings_' . $sanitized_id,
+            'type'   => 'tabbed',
+            'title'  => sprintf(esc_html__('%s Page Header Settings', 'codeweber'), $translated_label),
+            'tabs'   => array(
+                array(
+                    'title'  => esc_html__('Single', 'codeweber'),
+                    'fields' => array($page_header_settings[0]),
+                ),
+                array(
+                    'title'  => esc_html__('Archive', 'codeweber'),
+                    'fields' => array($page_header_settings[1]),
+                ),
+            ),
+        );
+
+        // Регистрируем секцию настроек для этого типа записи
+        Redux::set_section(
+            $opt_name,
+            array(
+                'title'      => $translated_label,
+                'id'         => 'custom_post_type_section_' . $sanitized_id,
+                'subsection' => true,
+                'fields'     => $section_fields,
+            )
+        );
+    }
 } else {
-	error_log('No CPT files found.');
+    error_log('No custom post type files found in the cpt directory.');
 }

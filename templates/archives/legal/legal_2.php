@@ -1,4 +1,4 @@
-<a href="<?php the_permalink(); ?>" id="post-<?php the_ID(); ?>" <?php post_class('post mb-3'); ?>>
+<a href="<?= $post->post_name; ?>" id="<?php $post->post_name; ?>" <?php post_class('post mb-3'); ?>>
    <div class="card lift">
       <div class="card-body">
          <div class="post-header">

@@ -418,7 +418,7 @@ add_filter('get_the_archive_title', function ($title) {
 		if ($post_type) {
 			global $opt_name;
 
-			$custom_title_id = 'cpt-custom-title' . ucwords($post_type);
+			$custom_title_id = 'custom_title_' . $post_type;
 			$custom_title = Redux::get_option($opt_name, $custom_title_id);
 
 			if (!empty($custom_title)) {
@@ -456,7 +456,7 @@ function the_subtitle($html_structure = '<p class="lead">%s</p>')
 			global $opt_name;
 
 			// Формируем ID для поля custom subtitle в зависимости от типа записи
-			$custom_subtitle_id = 'cpt-custom-sub-title' . ucwords($post_type);
+			$custom_subtitle_id = 'custom_subtitle_' . ucwords($post_type);
 
 			// Получаем подзаголовок из настроек Redux
 			$custom_subtitle = Redux::get_option($opt_name, $custom_subtitle_id);
@@ -495,7 +495,7 @@ if (! function_exists('getThemeButton')) {
 		];
 
 		// Получаем значение из Redux (по умолчанию '1')
-		$style_key = Redux::get_option($opt_name, 'opt-button-select-style', '1');
+		$style_key = Redux::get_option($opt_name, 'opt_button_select_style', '1');
 
 		// Возвращаем класс из карты или переданный по умолчанию
 		return isset($style_map[$style_key]) ? $style_map[$style_key] : $default_class;

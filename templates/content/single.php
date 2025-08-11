@@ -130,7 +130,7 @@
 			<!-- /.social -->
 
 			<hr />
-			<?php get_template_part('templates/components/lastpostslider'); ?>
+			<?php get_template_part('templates/components/lastpostslider-blog'); ?>
 			<hr />
 			<?php
 			if (comments_open() || get_comments_number()) {

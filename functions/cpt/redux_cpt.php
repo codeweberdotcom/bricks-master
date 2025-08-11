@@ -1,5 +1,4 @@
 <?php
-
 global $opt_name;
 
 // Получаем список всех файлов CPT
@@ -9,48 +8,39 @@ $cpt_status = [];
 // Проверяем, есть ли файлы CPT
 if (!empty($cpt_files)) {
    foreach ($cpt_files as $file) {
-      // Преобразуем имя файла в читаемый формат
-      $label = ucwords(str_replace(array('cpt-', '.php'), '', $file));
-      $label = $label ?: __('Unnamed', 'codeweber');
-      $translated_label = __(ucwords(str_replace(array('cpt-', '.php'), '', $file)), 'codeweber');
+      // Базовое имя файла без расширения и префикса
+      $base_name = str_replace(['cpt-', '.php'], '', $file);
 
-      // Получаем состояние переключателя для этого CPT из Redux
-      $option_id = 'cpt_switch_' . $translated_label; // Убираем sanitize
+      // Читаемое имя (без форматирования)
+      $label = $base_name ?: __('Unnamed', 'codeweber');
+      $translated_label = __($base_name, 'codeweber');
+
+      // Безопасный ID для Redux
+      $option_id = 'cpt_switch_' . sanitize_key($base_name);
       $is_enabled = Redux::get_option($opt_name, $option_id);
 
-
-      // Добавляем результат в список, если CPT включен
       if ($is_enabled) {
-         // Путь к файлу CPT
          $file_path = get_template_directory() . '/functions/cpt/' . $file;
 
-         // Проверяем, существует ли файл
          if (file_exists($file_path)) {
-            // Подключаем файл
-            // Подключаем файл с отладкой вывода
-            ob_start(); // начать буферизацию вывода
-
+            // Подключаем с буферизацией для отладки
+            ob_start();
             require_once $file_path;
 
-            $output = ob_get_clean(); // забрать, что файл вывел
+            if ($output = ob_get_clean()) {
+               error_log("CPT file output detected: {$file} - " . substr($output, 0, 100));
+            }
 
-            if (!empty($output)) {
-               error_log("Файл $file вывел: " . $output);
-            }            //error_log('CPT file ' . $file . ' included successfully.');
+            $cpt_status[] = [
+               'label'  => $translated_label,
+               'status' => 'Enabled',
+               'file'   => $file
+            ];
          } else {
-          //  error_log('CPT file ' . $file . ' not found.');
+            error_log("CPT file not found: {$file_path}");
          }
-
-         // Добавляем результат в список
-         $cpt_status[] = [
-            'label'  => $translated_label,
-            'status' => 'Enabled'
-         ];
-      } else {
-         // Логируем, если CPT отключён
-         //error_log('CPT ' . $file . ' is disabled.');
       }
    }
 } else {
-  // error_log('No CPT files found.');
+   error_log('No CPT files found in directory: ' . get_template_directory() . '/functions/cpt/');
 }

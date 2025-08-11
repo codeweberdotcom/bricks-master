@@ -1,4 +1,4 @@
-<article id="post-<?php the_ID(); ?>" <?php post_class('post'); ?>>
+<article id="<?= $post->post_name; ?>" <?php post_class('post'); ?>>
    <div class="card">
       <figure class="card-img-top overlay overlay-1 hover-scale">
          <a href="<?php the_permalink(); ?>">

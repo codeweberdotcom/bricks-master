@@ -57,7 +57,7 @@ Redux::set_section(
 				'default'  => '',
 			),
 			array(
-				'id'       => 'opt-button-select-style',
+				'id'       => 'opt_button_select_style',
 				'type'     => 'image_select',
 				'title'    => esc_html__('Button Style', 'codeweber'),
 				'options'  => array(
