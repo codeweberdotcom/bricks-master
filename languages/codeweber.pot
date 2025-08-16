@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-10 18:16+0000\n"
+"POT-Creation-Date: 2025-08-14 17:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -21,64 +21,24 @@ msgstr ""
 msgid "%1$s "
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:487
+#: redux-framework/sample/sections/codeweber/cpt-type.php:477
 #, php-format
-msgid "%s Archive Footer Settings"
+msgid "%s Footer Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:371
+#: redux-framework/sample/sections/codeweber/cpt-type.php:461
 #, php-format
-msgid "%s Archive Header Settings"
+msgid "%s Header Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:430
+#: redux-framework/sample/sections/codeweber/cpt-type.php:493
 #, php-format
-msgid "%s Archive Page Header Settings"
+msgid "%s Page Header Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:314
+#: redux-framework/sample/sections/codeweber/cpt-type.php:445
 #, php-format
-msgid "%s Archive Sidebar Settings"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:460
-#, php-format
-msgid "%s Settings Footer"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:342
-#, php-format
-msgid "%s Settings Header"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:401
-#, php-format
-msgid "%s Settings Page Header"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:288
-#, php-format
-msgid "%s Settings Sidebar"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:463
-#, php-format
-msgid "%s Single Footer Settings"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:345
-#, php-format
-msgid "%s Single Header Settings"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:404
-#, php-format
-msgid "%s Single Page Header Settings"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:291
-#, php-format
-msgid "%s Single Sidebar Settings"
+msgid "%s Sidebar Settings"
 msgstr ""
 
 #: functions/cpt/cpt-services.php:21
@@ -97,41 +57,45 @@ msgstr ""
 msgid "(e.g. No Staff found)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/contacts.php:23
-#: redux-framework/sample/sections/codeweber/contacts.php:31
-#: redux-framework/sample/sections/codeweber/contacts.php:38
-#: redux-framework/sample/sections/codeweber/contacts.php:45
-#: redux-framework/sample/sections/codeweber/contacts.php:52
+#: redux-framework/sample/sections/codeweber/contacts.php:24
+#: redux-framework/sample/sections/codeweber/contacts.php:33
+#: redux-framework/sample/sections/codeweber/contacts.php:40
+#: redux-framework/sample/sections/codeweber/contacts.php:47
+#: redux-framework/sample/sections/codeweber/contacts.php:54
 msgid "+7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:718
+#: redux-framework/sample/sections/codeweber/legal.php:726
 msgid "365"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:183
+#: redux-framework/sample/sections/codeweber/legal.php:191
 msgid "5.3. The Operator processes personal data for the following purposes:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:209
+#: redux-framework/sample/sections/codeweber/legal.php:217
 msgid "7.2. The operator processes the following personal data:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:135
+#: redux-framework/sample/sections/codeweber/legal.php:143
 msgid ""
 "[redux_option key=\"consent_purpose\" list=\"inline\"]<br>[redux_option "
 "key=\"consent_purpose\" list=\"ul\"]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:57
-msgid "[redux_option key=\"lega_ogrnip\"]"
+#: redux-framework/sample/sections/codeweber/legal.php:65
+msgid "[redux_option key=\"legal_kpp\"]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:125
+#: redux-framework/sample/sections/codeweber/legal.php:57
+msgid "[redux_option key=\"legal_ogrnip\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/legal.php:133
 msgid "[redux_option key=\"list_of_personal_data\"]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:73
+#: redux-framework/sample/sections/codeweber/legal.php:81
 msgid "[redux_option key=\"taxpayer_identification_number\"]"
 msgstr ""
 
@@ -143,16 +107,21 @@ msgstr ""
 msgid "A modular WordPress starter theme powered by Bootstrap 5 and Gulp"
 msgstr ""
 
-#: functions/global.php:556
+#: redux-framework/sample/sections/codeweber/company-details.php:16
+#: redux-framework/sample/sections/codeweber/company-details.php:24
+msgid "About Company"
+msgstr ""
+
+#: functions/integrations/redux_framework/redux_cookie.php:43
 msgid "Accept"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:95
-#: redux-framework/sample/sections/codeweber/legal.php:140
+#: functions/integrations/redux_framework/redux_framework.php:87
+#: redux-framework/sample/sections/codeweber/legal.php:148
 msgid "Accumulation Data"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:47
+#: redux-framework/sample/sections/codeweber/company-details.php:88
 msgid "Actual Address"
 msgstr ""
 
@@ -166,7 +135,7 @@ msgstr ""
 msgid "Add Client"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:10
+#: functions/cpt/cpt-documents.php:10
 msgid "Add Document"
 msgstr ""
 
@@ -186,7 +155,7 @@ msgstr ""
 msgid "Add New Client"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:11
+#: functions/cpt/cpt-documents.php:11
 msgid "Add New Document"
 msgstr ""
 
@@ -309,7 +278,7 @@ msgstr ""
 msgid "All Clients"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:9
+#: functions/cpt/cpt-documents.php:9
 msgid "All Documents"
 msgstr ""
 
@@ -341,7 +310,7 @@ msgstr ""
 msgid "All Offices"
 msgstr ""
 
-#: templates/content/single.php:110
+#: templates/content/single-legal.php:109 templates/content/single.php:110
 msgid "All Posts"
 msgstr ""
 
@@ -369,28 +338,40 @@ msgstr ""
 msgid "API"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/cpt-type.php:452
+#: redux-framework/sample/sections/codeweber/cpt-type.php:468
+#: redux-framework/sample/sections/codeweber/cpt-type.php:484
+#: redux-framework/sample/sections/codeweber/cpt-type.php:500
+msgid "Archive"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:305
+#, php-format
+msgid "Archive Template for %s"
+msgstr ""
+
 #: templates/content/loop.php:44
 #, php-format
 msgid "Author %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:61
+#: redux-framework/sample/sections/codeweber/company-details.php:143
 msgid "Bank Account Details"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:71
+#: redux-framework/sample/sections/codeweber/company-details.php:186
 msgid "Bank Address"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:70
+#: redux-framework/sample/sections/codeweber/company-details.php:180
 msgid "Bank KPP"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:65
+#: redux-framework/sample/sections/codeweber/company-details.php:150
 msgid "Bank Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:69
+#: redux-framework/sample/sections/codeweber/company-details.php:174
 msgid "Bank TIN"
 msgstr ""
 
@@ -416,14 +397,14 @@ msgstr ""
 msgid "Basic Fields"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:136
-#: redux-framework/sample/metaboxes.php:147
-#: redux-framework/sample/metaboxes.php:199
-#: redux-framework/sample/metaboxes.php:210
+#: redux-framework/sample/metaboxes.php:139
+#: redux-framework/sample/metaboxes.php:150
+#: redux-framework/sample/metaboxes.php:202
+#: redux-framework/sample/metaboxes.php:213
 msgid "Basic media uploader with disabled URL input field."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:117
+#: redux-framework/sample/sections/codeweber/style.php:151
 msgid "Before starting the build Gulp, save the Redux settings."
 msgstr ""
 
@@ -436,12 +417,12 @@ msgstr ""
 msgid "Behance"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:66
+#: redux-framework/sample/sections/codeweber/company-details.php:156
 msgid "BIC"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:101
-#: redux-framework/sample/sections/codeweber/legal.php:146
+#: functions/integrations/redux_framework/redux_framework.php:93
+#: redux-framework/sample/sections/codeweber/legal.php:154
 msgid "Blocking Data"
 msgstr ""
 
@@ -475,25 +456,25 @@ msgstr ""
 msgid "By using this comment form you agree with our Privacy Policy"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:248
-#: redux-framework/sample/sections/codeweber/legal.php:309
-#: redux-framework/sample/sections/codeweber/legal.php:369
-#: redux-framework/sample/sections/codeweber/legal.php:429
-#: redux-framework/sample/sections/codeweber/legal.php:489
-#: redux-framework/sample/sections/codeweber/legal.php:549
-#: redux-framework/sample/sections/codeweber/legal.php:609
-#: redux-framework/sample/sections/codeweber/legal.php:669
+#: redux-framework/sample/sections/codeweber/legal.php:256
+#: redux-framework/sample/sections/codeweber/legal.php:317
+#: redux-framework/sample/sections/codeweber/legal.php:377
+#: redux-framework/sample/sections/codeweber/legal.php:437
+#: redux-framework/sample/sections/codeweber/legal.php:497
+#: redux-framework/sample/sections/codeweber/legal.php:557
+#: redux-framework/sample/sections/codeweber/legal.php:617
+#: redux-framework/sample/sections/codeweber/legal.php:677
 msgid "Category of personal data processed:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:232
-#: redux-framework/sample/sections/codeweber/legal.php:293
-#: redux-framework/sample/sections/codeweber/legal.php:353
-#: redux-framework/sample/sections/codeweber/legal.php:413
-#: redux-framework/sample/sections/codeweber/legal.php:473
-#: redux-framework/sample/sections/codeweber/legal.php:533
-#: redux-framework/sample/sections/codeweber/legal.php:593
-#: redux-framework/sample/sections/codeweber/legal.php:653
+#: redux-framework/sample/sections/codeweber/legal.php:240
+#: redux-framework/sample/sections/codeweber/legal.php:301
+#: redux-framework/sample/sections/codeweber/legal.php:361
+#: redux-framework/sample/sections/codeweber/legal.php:421
+#: redux-framework/sample/sections/codeweber/legal.php:481
+#: redux-framework/sample/sections/codeweber/legal.php:541
+#: redux-framework/sample/sections/codeweber/legal.php:601
+#: redux-framework/sample/sections/codeweber/legal.php:661
 msgid "Category of personal data subjects:"
 msgstr ""
 
@@ -506,15 +487,15 @@ msgstr ""
 msgid "Check SMTP Connection"
 msgstr ""
 
-#: functions/integrations/cf7.php:1165
+#: functions/integrations/cf7.php:1158
 msgid "Checkbox for Consent"
 msgstr ""
 
-#: functions/integrations/cf7.php:1166
+#: functions/integrations/cf7.php:1159
 msgid "Checkbox for Newsletter"
 msgstr ""
 
-#: functions/integrations/cf7.php:1164
+#: functions/integrations/cf7.php:1157
 msgid "Checkbox for Privacy Policy"
 msgstr ""
 
@@ -522,7 +503,7 @@ msgstr ""
 msgid "Checking..."
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:243
+#: redux-framework/sample/metaboxes.php:246
 msgid "Choose a custom Page Header for this page."
 msgstr ""
 
@@ -530,12 +511,8 @@ msgstr ""
 msgid "Choose a point on the map"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:307
-msgid "Choose a widget area to display on this page."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:37
 #: redux-framework/sample/sections/codeweber/company-details.php:51
+#: redux-framework/sample/sections/codeweber/company-details.php:106
 msgid "City"
 msgstr ""
 
@@ -560,7 +537,7 @@ msgstr ""
 msgid "Clients list"
 msgstr ""
 
-#: functions/global.php:555
+#: functions/integrations/redux_framework/redux_cookie.php:42
 msgid "Close"
 msgstr ""
 
@@ -577,8 +554,8 @@ msgstr ""
 msgid "Codeweber"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:92
-#: redux-framework/sample/sections/codeweber/legal.php:137
+#: functions/integrations/redux_framework/redux_framework.php:84
+#: redux-framework/sample/sections/codeweber/legal.php:145
 msgid "Collection Data"
 msgstr ""
 
@@ -616,24 +593,8 @@ msgctxt "comments title"
 msgid "One reply on &ldquo;%s&rdquo;"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:27
-msgid "Company Description"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:6
+#: redux-framework/sample/sections/codeweber/company-details.php:5
 msgid "Company Details"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:14
-msgid "Company Name"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:64
-msgid "Company PSRN"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:63
-msgid "Company TIN"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:16
@@ -656,23 +617,23 @@ msgstr ""
 msgid "Connection successful!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:114
+#: redux-framework/sample/sections/codeweber/legal.php:122
 msgid "Consent Data"
 msgstr ""
 
-#: functions/integrations/cf7.php:816
+#: functions/integrations/cf7.php:809
 msgid "Consent Document - Legal:"
 msgstr ""
 
-#: functions/integrations/cf7.php:832
+#: functions/integrations/cf7.php:825
 msgid "Consent Document - Mailing:"
 msgstr ""
 
-#: functions/integrations/cf7.php:908
+#: functions/integrations/cf7.php:901
 msgid "Consent document shortcode not found in the form."
 msgstr ""
 
-#: functions/integrations/cf7.php:895
+#: functions/integrations/cf7.php:888
 #, php-format
 msgid "Consent Document: %s"
 msgstr ""
@@ -685,7 +646,7 @@ msgstr ""
 msgid "Consent Label"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1261
+#: functions/admin/admin_privacy.php:1602
 msgid "Consent to Data Processing"
 msgstr ""
 
@@ -693,31 +654,27 @@ msgstr ""
 msgid "Contacts"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:85
+#: redux-framework/sample/metaboxes.php:88
 msgid "Container"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:702
+#: redux-framework/sample/sections/codeweber/legal.php:710
 msgid "Cookie Data"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:997
+#: functions/admin/admin_privacy.php:1338
 msgid "Cookie Policy"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:761
+#: redux-framework/sample/sections/codeweber/legal.php:769
 msgid "Cookie Scanner"
-msgstr ""
-
-#: functions/global.php:551
-msgid "Cookie Usage Policy"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:110
 msgid "Coordinates"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:67
+#: redux-framework/sample/sections/codeweber/company-details.php:162
 msgid "Corr. Account"
 msgstr ""
 
@@ -725,8 +682,8 @@ msgstr ""
 msgid "Could not connect to SMTP server."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:35
-#: redux-framework/sample/sections/codeweber/company-details.php:49
+#: redux-framework/sample/sections/codeweber/company-details.php:39
+#: redux-framework/sample/sections/codeweber/company-details.php:94
 msgid "Country"
 msgstr ""
 
@@ -735,13 +692,11 @@ msgid "Create"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:50
-#: redux-framework/sample/sections/codeweber/cpt-type.php:196
 #: redux-framework/sample/sections/codeweber/footer.php:45
 msgid "Create Custom Footer"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:40
-#: redux-framework/sample/sections/codeweber/cpt-type.php:186
 #: redux-framework/sample/sections/codeweber/header.php:45
 msgid "Create Custom Header"
 msgstr ""
@@ -754,18 +709,22 @@ msgstr ""
 msgid "Create Custom Page-header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:206
-msgid "Create Custom Page_header"
+#: redux-framework/sample/sections/codeweber/cpt-type.php:214
+msgid "Create Footer"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:332
-msgid "Cross Box Required"
+#: redux-framework/sample/sections/codeweber/cpt-type.php:207
+msgid "Create Header"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:109
-#: redux-framework/sample/metaboxes.php:173
-#: redux-framework/sample/metaboxes.php:232
-#: redux-framework/sample/metaboxes.php:280
+#: redux-framework/sample/sections/codeweber/cpt-type.php:221
+msgid "Create Page Header"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:112
+#: redux-framework/sample/metaboxes.php:176
+#: redux-framework/sample/metaboxes.php:235
+#: redux-framework/sample/metaboxes.php:278
 #: redux-framework/sample/sections/codeweber/footer.php:73
 #: redux-framework/sample/sections/codeweber/header.php:73
 #: redux-framework/sample/sections/codeweber/page-header.php:91
@@ -780,16 +739,16 @@ msgstr ""
 msgid "Custom Post Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:155
+#: redux-framework/sample/sections/codeweber/cpt-type.php:173
 msgid "Custom Post Types"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:281
+#: redux-framework/sample/sections/codeweber/cpt-type.php:332
 #, php-format
-msgid "Custom SubTitle for %s"
+msgid "Custom Subtitle for %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:274
+#: redux-framework/sample/sections/codeweber/cpt-type.php:324
 #, php-format
 msgid "Custom Title for %s"
 msgstr ""
@@ -815,7 +774,6 @@ msgstr ""
 msgid "Dark"
 msgstr ""
 
-#: functions/setup.php:79
 #: redux-framework/sample/sections/codeweber/style.php:48
 msgid "Dark Logo"
 msgstr ""
@@ -825,7 +783,7 @@ msgid ""
 "Data is formatted with HTML support for line breaks and clickable links."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:105
+#: redux-framework/sample/sections/codeweber/legal.php:113
 msgid "Data Storage Address"
 msgstr ""
 
@@ -833,29 +791,30 @@ msgstr ""
 msgid "Data User profil"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:65
+#: redux-framework/sample/sections/codeweber/legal.php:73
 msgid ""
-"Date of state registration. <br>[redux_option key=\"lega_ogrnip_date\"  "
+"Date of state registration. <br>[redux_option key=\"legal_ogrnip_date\"  "
 "format=\"d.m.Y\"]"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:108
-#: redux-framework/sample/metaboxes.php:172
-#: redux-framework/sample/metaboxes.php:231
-#: redux-framework/sample/metaboxes.php:279
+#: redux-framework/sample/metaboxes.php:111
+#: redux-framework/sample/metaboxes.php:175
+#: redux-framework/sample/metaboxes.php:234
+#: redux-framework/sample/metaboxes.php:277
 msgid "Default"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:28
-msgid "Default text"
+#: redux-framework/sample/sections/codeweber/cpt-type.php:261
+#: redux-framework/sample/sections/codeweber/cpt-type.php:279
+msgid "Default Template"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:102
-#: redux-framework/sample/sections/codeweber/legal.php:147
+#: functions/integrations/redux_framework/redux_framework.php:94
+#: redux-framework/sample/sections/codeweber/legal.php:155
 msgid "Deletion Data"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1335
+#: functions/admin/admin_privacy.php:1676
 msgid "Delivery Terms"
 msgstr ""
 
@@ -864,8 +823,12 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:103
-#: redux-framework/sample/sections/codeweber/legal.php:148
+#: redux-framework/sample/metaboxes.php:335
+msgid "Description Here"
+msgstr ""
+
+#: functions/integrations/redux_framework/redux_framework.php:95
+#: redux-framework/sample/sections/codeweber/legal.php:156
 msgid "Destruction Data"
 msgstr ""
 
@@ -878,13 +841,13 @@ msgid ""
 "$%1$s"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:294
-#: redux-framework/sample/sections/codeweber/cpt-type.php:305
-#: redux-framework/sample/sections/codeweber/cpt-type.php:327
+#: redux-framework/sample/metaboxes.php:292
 msgid "Disable Sidebar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:101
+#: redux-framework/sample/sections/codeweber/cpt-type.php:98
+#: redux-framework/sample/sections/codeweber/cpt-type.php:345
+#: redux-framework/sample/sections/codeweber/cpt-type.php:356
 msgid "Disabled"
 msgstr ""
 
@@ -897,20 +860,20 @@ msgstr ""
 msgid "Discord"
 msgstr ""
 
-#: functions/personal-data.php:248 functions/cpt/cpt-docs.php:7
-#: functions/cpt/cpt-docs.php:26
+#: functions/personal-data.php:248 functions/cpt/cpt-documents.php:7
+#: functions/cpt/cpt-documents.php:26
 msgid "Document"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:24
+#: functions/cpt/cpt-documents.php:24
 msgid "Document Archives"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:64 functions/cpt/cpt-docs.php:69
+#: functions/cpt/cpt-documents.php:64 functions/cpt/cpt-documents.php:69
 msgid "Document Categories"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:65
+#: functions/cpt/cpt-documents.php:65
 msgid "Document Category"
 msgstr ""
 
@@ -918,27 +881,27 @@ msgstr ""
 msgid "Document Link"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:27
+#: functions/cpt/cpt-documents.php:27
 msgid "Document Published"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:28
+#: functions/cpt/cpt-documents.php:28
 msgid "Document Reverted to Draft"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:29
+#: functions/cpt/cpt-documents.php:29
 msgid "Document Scheduled"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:94
+#: functions/cpt/cpt-documents.php:94
 msgid "Document Type"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:93 functions/cpt/cpt-docs.php:98
+#: functions/cpt/cpt-documents.php:93 functions/cpt/cpt-documents.php:98
 msgid "Document Types"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:30
+#: functions/cpt/cpt-documents.php:30
 msgid "Document Updated"
 msgstr ""
 
@@ -947,12 +910,12 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:6 functions/cpt/cpt-docs.php:8
-#: functions/cpt/cpt-docs.php:34
+#: functions/cpt/cpt-documents.php:6 functions/cpt/cpt-documents.php:8
+#: functions/cpt/cpt-documents.php:34
 msgid "Documents"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:25
+#: functions/cpt/cpt-documents.php:25
 msgid "Documents List"
 msgstr ""
 
@@ -974,20 +937,20 @@ msgstr ""
 msgid "E-Mail"
 msgstr ""
 
-#: functions/integrations/cf7.php:1163 templates/header/header-classic.php:321
+#: functions/integrations/cf7.php:1156 templates/header/header-classic.php:321
 #: templates/header/header-extended-center-logo.php:304
 #: templates/header/header-extended.php:304
 #: templates/header/header-fancy.php:293
 msgid "E-mail"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:97
+#: redux-framework/sample/sections/codeweber/legal.php:105
 msgid ""
 "E-Mail of the person responsible for personal data processing. <br>"
 "[redux_option key=\"email_responsible_person\"]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:96
+#: redux-framework/sample/sections/codeweber/legal.php:104
 msgid "E-mail Responsible Person"
 msgstr ""
 
@@ -999,7 +962,7 @@ msgstr ""
 msgid "Edit Client"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:12
+#: functions/cpt/cpt-documents.php:12
 msgid "Edit Document"
 msgstr ""
 
@@ -1079,15 +1042,15 @@ msgstr ""
 msgid "Email is required."
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1347
+#: functions/admin/admin_privacy.php:1688
 msgid "Email Marketing Consent"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:86
+#: redux-framework/sample/metaboxes.php:89
 msgid "Enable container for content"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:710
+#: redux-framework/sample/sections/codeweber/legal.php:718
 msgid "Enable Cookie Banner"
 msgstr ""
 
@@ -1103,11 +1066,11 @@ msgstr ""
 msgid "Enable SMTP"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:98
+#: redux-framework/sample/sections/codeweber/cpt-type.php:95
 msgid "Enable/disable this post type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:100
+#: redux-framework/sample/sections/codeweber/cpt-type.php:97
 msgid "Enabled"
 msgstr ""
 
@@ -1123,8 +1086,8 @@ msgstr ""
 msgid "Error: "
 msgstr ""
 
-#: functions/integrations/redux-framework.php:98
-#: redux-framework/sample/sections/codeweber/legal.php:143
+#: functions/integrations/redux_framework/redux_framework.php:90
+#: redux-framework/sample/sections/codeweber/legal.php:151
 msgid "Extraction Data"
 msgstr ""
 
@@ -1175,7 +1138,7 @@ msgstr ""
 msgid "FAQs"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:20
+#: functions/cpt/cpt-documents.php:20
 msgid "Featured Image"
 msgstr ""
 
@@ -1195,17 +1158,22 @@ msgstr ""
 msgid "Featured Image for this staff"
 msgstr ""
 
-#: functions/integrations/cf7.php:1127
+#: functions/integrations/cf7.php:1120
 msgid "Field Mapping"
 msgstr ""
 
-#: functions/integrations/cf7.php:1169
+#: functions/integrations/cf7.php:1162
 msgid "Field Mapping:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:135
 #: redux-framework/sample/sections/extensions/users.php:151
 msgid "Figma"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:100
+#, php-format
+msgid "File: %s"
 msgstr ""
 
 #: woocommerce/myaccount/form-login.php:38
@@ -1220,11 +1188,11 @@ msgstr ""
 msgid "Filter Price Packages"
 msgstr ""
 
-#: functions/integrations/cf7.php:1159
+#: functions/integrations/cf7.php:1152
 msgid "First Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:123
+#: redux-framework/sample/sections/codeweber/style.php:157
 msgid "Fonts"
 msgstr ""
 
@@ -1236,6 +1204,16 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:296
 msgid "Footer Bootombar"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:405
+#, php-format
+msgid "Footer for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:394
+#, php-format
+msgid "Footer for Single %s"
 msgstr ""
 
 #: functions/navmenus.php:16
@@ -1258,7 +1236,7 @@ msgstr ""
 msgid "Footer Menu 4"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:157
+#: redux-framework/sample/metaboxes.php:160
 msgid "Footer Settings"
 msgstr ""
 
@@ -1298,8 +1276,8 @@ msgstr ""
 msgid "Footer Type 8"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:124
-#: redux-framework/sample/sections/codeweber/legal.php:134
+#: redux-framework/sample/sections/codeweber/legal.php:132
+#: redux-framework/sample/sections/codeweber/legal.php:142
 msgid "For consent to the processing of personal data"
 msgstr ""
 
@@ -1308,7 +1286,7 @@ msgstr ""
 msgid "For full documentation on this field, visit: "
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:192
+#: redux-framework/sample/sections/codeweber/legal.php:200
 msgid "For the policy on the processing of personal data"
 msgstr ""
 
@@ -1330,14 +1308,10 @@ msgstr ""
 msgid "From Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:20
-msgid "Full Name"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/legal.php:50
 msgid ""
 "Full name of the legal entity responsible for data processing Dative. <br> "
-"[redux_option key=\"lega_entity_dative\"]"
+"[redux_option key=\"legal_entity_dative\"]"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:32
@@ -1346,7 +1320,7 @@ msgid ""
 "[redux_option key=\"legal_entity\"]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:81
+#: redux-framework/sample/sections/codeweber/legal.php:89
 msgid ""
 "Full name of the person responsible for personal data processing. <br>"
 "[redux_option key=\"responsible_person\"]"
@@ -1396,19 +1370,19 @@ msgstr ""
 msgid "Google Tag Manager Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:98
+#: redux-framework/sample/sections/codeweber/style.php:132
 msgid "Gulp"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:110
+#: redux-framework/sample/sections/codeweber/style.php:144
 msgid "Gulp JS Variables"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:116
+#: redux-framework/sample/sections/codeweber/style.php:150
 msgid "Gulp Run"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:104
+#: redux-framework/sample/sections/codeweber/style.php:138
 msgid "Gulp Sass Variables"
 msgstr ""
 
@@ -1416,6 +1390,16 @@ msgstr ""
 #: functions/cpt/cpt-header.php:12 functions/cpt/cpt-header.php:26
 #: redux-framework/sample/sections/codeweber/header.php:62
 msgid "Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:379
+#, php-format
+msgid "Header for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:368
+#, php-format
+msgid "Header for Single %s"
 msgstr ""
 
 #: functions/navmenus.php:13
@@ -1438,7 +1422,7 @@ msgstr ""
 msgid "Header rounded"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:94
+#: redux-framework/sample/metaboxes.php:97
 msgid "Header Settings"
 msgstr ""
 
@@ -1494,17 +1478,20 @@ msgstr ""
 msgid "Header Widget 3"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:259
-#, php-format
-msgid "Here you can make settings for the custom post type %s"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/woocommerce.php:40
 msgid "Hide Download Menu"
 msgstr ""
 
+#: functions/admin/admin_privacy.php:2013
+msgid "Hide from Archive"
+msgstr ""
+
 #: functions/admin/admin_privacy.php:127
 msgid "Hide from archive"
+msgstr ""
+
+#: functions/admin/admin_privacy.php:2029
+msgid "Hide this document from archive"
 msgstr ""
 
 #: functions/breadcrumbs.php:117
@@ -1519,12 +1506,12 @@ msgstr ""
 msgid "Hotjar Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:39
-#: redux-framework/sample/sections/codeweber/company-details.php:53
+#: redux-framework/sample/sections/codeweber/company-details.php:63
+#: redux-framework/sample/sections/codeweber/company-details.php:118
 msgid "House Number"
 msgstr ""
 
-#: functions/integrations/cf7.php:1171
+#: functions/integrations/cf7.php:1164
 msgid ""
 "How is data saved to the log?\n"
 "When a user submits a form, we search the database for the user's email, and "
@@ -1632,11 +1619,15 @@ msgstr ""
 msgid "Korablev Denis"
 msgstr ""
 
-#: functions/integrations/cf7.php:1160
+#: redux-framework/sample/sections/codeweber/legal.php:64
+msgid "KPP"
+msgstr ""
+
+#: functions/integrations/cf7.php:1153
 msgid "Last Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:126
+#: redux-framework/sample/sections/codeweber/legal.php:134
 msgid ""
 "Last name, first name, patronymic, email address, age, driving experience, "
 "telephone number, driver's license details."
@@ -1646,14 +1637,14 @@ msgstr ""
 msgid "Leave a comment"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/cpt-type.php:344
+#: redux-framework/sample/sections/codeweber/cpt-type.php:355
 #: redux-framework/sample/sections/codeweber/page-header.php:103
 #: redux-framework/sample/sections/codeweber/page-header.php:285
 msgid "Left"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:293
-#: redux-framework/sample/sections/codeweber/cpt-type.php:304
-#: redux-framework/sample/sections/codeweber/cpt-type.php:326
+#: redux-framework/sample/metaboxes.php:291
 msgid "Left Sidebar"
 msgstr ""
 
@@ -1691,7 +1682,7 @@ msgid "Legal Published"
 msgstr ""
 
 #: functions/admin/admin_privacy.php:55 functions/admin/admin_privacy.php:56
-#: functions/admin/admin_privacy.php:424
+#: functions/admin/admin_privacy.php:495
 msgid "Legal Settings"
 msgstr ""
 
@@ -1699,7 +1690,7 @@ msgstr ""
 msgid "Legal Updated"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1382
+#: functions/admin/admin_privacy.php:1723
 msgid "License Agreement"
 msgstr ""
 
@@ -1728,34 +1719,34 @@ msgstr ""
 msgid "LinkedIn"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:123
+#: redux-framework/sample/sections/codeweber/legal.php:131
 msgid "List of collected personal data"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:240
-#: redux-framework/sample/sections/codeweber/legal.php:301
-#: redux-framework/sample/sections/codeweber/legal.php:361
-#: redux-framework/sample/sections/codeweber/legal.php:421
-#: redux-framework/sample/sections/codeweber/legal.php:481
-#: redux-framework/sample/sections/codeweber/legal.php:541
-#: redux-framework/sample/sections/codeweber/legal.php:601
-#: redux-framework/sample/sections/codeweber/legal.php:661
+#: redux-framework/sample/sections/codeweber/legal.php:248
+#: redux-framework/sample/sections/codeweber/legal.php:309
+#: redux-framework/sample/sections/codeweber/legal.php:369
+#: redux-framework/sample/sections/codeweber/legal.php:429
+#: redux-framework/sample/sections/codeweber/legal.php:489
+#: redux-framework/sample/sections/codeweber/legal.php:549
+#: redux-framework/sample/sections/codeweber/legal.php:609
+#: redux-framework/sample/sections/codeweber/legal.php:669
 msgid "List of personal data processed:"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:208
+#: redux-framework/sample/metaboxes.php:211
 msgid "Logo Dark Footer w/ URL"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:145
+#: redux-framework/sample/metaboxes.php:148
 msgid "Logo Dark Header w/ URL"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:197
+#: redux-framework/sample/metaboxes.php:200
 msgid "Logo Light Footer w/ URL"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:134
+#: redux-framework/sample/metaboxes.php:137
 msgid "Logo Light Header w/ URL"
 msgstr ""
 
@@ -1780,16 +1771,16 @@ msgstr ""
 msgid "Mailer Error: "
 msgstr ""
 
-#: functions/integrations/cf7.php:931
+#: functions/integrations/cf7.php:924
 msgid "Mailing consent shortcode not found in the form."
 msgstr ""
 
-#: functions/integrations/cf7.php:918
+#: functions/integrations/cf7.php:911
 #, php-format
 msgid "Mailing Consent: %s"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:77
+#: redux-framework/sample/metaboxes.php:80
 msgid "Main Options"
 msgstr ""
 
@@ -1802,7 +1793,7 @@ msgstr ""
 msgid "Map"
 msgstr ""
 
-#: functions/integrations/cf7.php:1170
+#: functions/integrations/cf7.php:1163
 msgid ""
 "Mapping form fields to module fields for storing user consent logs with the "
 "site's legal documents."
@@ -1822,29 +1813,29 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:269
-#: redux-framework/sample/sections/codeweber/legal.php:330
-#: redux-framework/sample/sections/codeweber/legal.php:390
-#: redux-framework/sample/sections/codeweber/legal.php:450
-#: redux-framework/sample/sections/codeweber/legal.php:510
-#: redux-framework/sample/sections/codeweber/legal.php:570
-#: redux-framework/sample/sections/codeweber/legal.php:630
-#: redux-framework/sample/sections/codeweber/legal.php:690
+#: redux-framework/sample/sections/codeweber/legal.php:277
+#: redux-framework/sample/sections/codeweber/legal.php:338
+#: redux-framework/sample/sections/codeweber/legal.php:398
+#: redux-framework/sample/sections/codeweber/legal.php:458
+#: redux-framework/sample/sections/codeweber/legal.php:518
+#: redux-framework/sample/sections/codeweber/legal.php:578
+#: redux-framework/sample/sections/codeweber/legal.php:638
+#: redux-framework/sample/sections/codeweber/legal.php:698
 msgid "Method of destruction:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:255
-#: redux-framework/sample/sections/codeweber/legal.php:316
-#: redux-framework/sample/sections/codeweber/legal.php:376
-#: redux-framework/sample/sections/codeweber/legal.php:436
-#: redux-framework/sample/sections/codeweber/legal.php:496
-#: redux-framework/sample/sections/codeweber/legal.php:556
-#: redux-framework/sample/sections/codeweber/legal.php:616
-#: redux-framework/sample/sections/codeweber/legal.php:676
+#: redux-framework/sample/sections/codeweber/legal.php:263
+#: redux-framework/sample/sections/codeweber/legal.php:324
+#: redux-framework/sample/sections/codeweber/legal.php:384
+#: redux-framework/sample/sections/codeweber/legal.php:444
+#: redux-framework/sample/sections/codeweber/legal.php:504
+#: redux-framework/sample/sections/codeweber/legal.php:564
+#: redux-framework/sample/sections/codeweber/legal.php:624
+#: redux-framework/sample/sections/codeweber/legal.php:684
 msgid "Method of processing personal data:"
 msgstr ""
 
-#: functions/integrations/cf7.php:1161
+#: functions/integrations/cf7.php:1154
 msgid "Middle Name"
 msgstr ""
 
@@ -1889,7 +1880,7 @@ msgstr ""
 msgid "New Client"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:13
+#: functions/cpt/cpt-documents.php:13
 msgid "New Document"
 msgstr ""
 
@@ -1973,13 +1964,12 @@ msgstr ""
 msgid "No consent document selected by administrator"
 msgstr ""
 
-#: functions/integrations/cf7.php:904
+#: functions/integrations/cf7.php:897
 msgid ""
 "No consent document selected. Please select a document in the form settings."
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:49
-#: redux-framework/sample/sections/codeweber/cpt-type.php:195
 #: redux-framework/sample/sections/codeweber/footer.php:44
 #, php-format
 msgid ""
@@ -1987,13 +1977,22 @@ msgid ""
 "%s"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/cpt-type.php:213
+#, php-format
+msgid "No custom footers found. You can create one here: %s"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:39
-#: redux-framework/sample/sections/codeweber/cpt-type.php:185
 #: redux-framework/sample/sections/codeweber/header.php:44
 #, php-format
 msgid ""
 "No custom headers found. You can create one by visiting the following link: "
 "%s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:206
+#, php-format
+msgid "No custom headers found. You can create one here: %s"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:60
@@ -2003,11 +2002,9 @@ msgid ""
 "link: %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:205
+#: redux-framework/sample/sections/codeweber/cpt-type.php:220
 #, php-format
-msgid ""
-"No custom page-header found. You can create one by visiting the following "
-"link: %s"
+msgid "No custom page headers found. You can create one here: %s"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:44
@@ -2017,11 +2014,11 @@ msgid ""
 "link: %s"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:17
+#: functions/cpt/cpt-documents.php:17
 msgid "No documents found"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:18
+#: functions/cpt/cpt-documents.php:18
 msgid "No documents found in Trash"
 msgstr ""
 
@@ -2069,7 +2066,7 @@ msgstr ""
 msgid "No Legal documents in Trash"
 msgstr ""
 
-#: functions/integrations/cf7.php:927
+#: functions/integrations/cf7.php:920
 msgid ""
 "No mailing consent document selected. Please select a document in the form "
 "settings."
@@ -2115,7 +2112,7 @@ msgstr ""
 msgid "No Price Packages found in Trash"
 msgstr ""
 
-#: functions/integrations/cf7.php:881
+#: functions/integrations/cf7.php:874
 msgid ""
 "No privacy policy document selected. Please select a document in the form "
 "settings."
@@ -2152,7 +2149,6 @@ msgstr ""
 msgid "Odnoklassniki"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:338
 #: redux-framework/sample/sections/codeweber/page-header.php:276
 msgid "Off"
 msgstr ""
@@ -2175,8 +2171,8 @@ msgstr ""
 msgid "Office"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:40
-#: redux-framework/sample/sections/codeweber/company-details.php:54
+#: redux-framework/sample/sections/codeweber/company-details.php:69
+#: redux-framework/sample/sections/codeweber/company-details.php:124
 msgid "Office/Apartment"
 msgstr ""
 
@@ -2189,11 +2185,10 @@ msgstr ""
 msgid "OGRN/OGRNIP"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:64
+#: redux-framework/sample/sections/codeweber/legal.php:72
 msgid "OGRN/OGRNIP Date registration"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:337
 #: redux-framework/sample/sections/codeweber/page-header.php:275
 msgid "On"
 msgstr ""
@@ -2233,12 +2228,17 @@ msgstr ""
 msgid "Other Analytics Services"
 msgstr ""
 
+#: templates/components/lastpostslider-legal.php:13
+msgid "Other documents"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:29
 msgid "Outlook"
 msgstr ""
 
 #: functions/cpt/cpt-page-header.php:11 functions/cpt/cpt-page-header.php:26
 #: redux-framework/sample/sections/codeweber/page-header.php:54
+#: redux-framework/sample/sections/codeweber/style.php:99
 msgid "Page Header"
 msgstr ""
 
@@ -2251,7 +2251,17 @@ msgstr ""
 msgid "Page Header Background Type"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:218
+#: redux-framework/sample/sections/codeweber/cpt-type.php:431
+#, php-format
+msgid "Page Header for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:420
+#, php-format
+msgid "Page Header for Single %s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:221
 msgid "Page Header Settings"
 msgstr ""
 
@@ -2291,7 +2301,7 @@ msgstr ""
 msgid "Page Headers"
 msgstr ""
 
-#: functions/global.php:394
+#: functions/global.php:354
 msgid "Page Not Found"
 msgstr ""
 
@@ -2307,7 +2317,7 @@ msgstr ""
 msgid "Page-loader"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:19
+#: functions/cpt/cpt-documents.php:19
 msgid "Parent Document"
 msgstr ""
 
@@ -2352,7 +2362,7 @@ msgstr ""
 msgid "Parent Staff"
 msgstr ""
 
-#: templates/content/single.php:61
+#: templates/content/single-legal.php:60 templates/content/single.php:61
 msgid "Part:"
 msgstr ""
 
@@ -2382,23 +2392,23 @@ msgstr ""
 msgid "Personal Data & Privacy"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:133
+#: redux-framework/sample/sections/codeweber/legal.php:141
 msgid "Personal Data Processing Actions"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:262
-#: redux-framework/sample/sections/codeweber/legal.php:323
-#: redux-framework/sample/sections/codeweber/legal.php:383
-#: redux-framework/sample/sections/codeweber/legal.php:443
-#: redux-framework/sample/sections/codeweber/legal.php:503
-#: redux-framework/sample/sections/codeweber/legal.php:563
-#: redux-framework/sample/sections/codeweber/legal.php:623
-#: redux-framework/sample/sections/codeweber/legal.php:683
+#: redux-framework/sample/sections/codeweber/legal.php:270
+#: redux-framework/sample/sections/codeweber/legal.php:331
+#: redux-framework/sample/sections/codeweber/legal.php:391
+#: redux-framework/sample/sections/codeweber/legal.php:451
+#: redux-framework/sample/sections/codeweber/legal.php:511
+#: redux-framework/sample/sections/codeweber/legal.php:571
+#: redux-framework/sample/sections/codeweber/legal.php:631
+#: redux-framework/sample/sections/codeweber/legal.php:691
 msgid "Personal data processing period:"
 msgstr ""
 
 #: functions/personal-data.php:264 functions/admin/admin_user_profil.php:24
-#: functions/admin/admin_user_profil.php:76 functions/integrations/cf7.php:1162
+#: functions/admin/admin_user_profil.php:76 functions/integrations/cf7.php:1155
 #: templates/header/header-classic.php:312
 #: templates/header/header-extended-center-logo.php:295
 #: templates/header/header-extended.php:295
@@ -2410,23 +2420,23 @@ msgstr ""
 msgid "Phone"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/contacts.php:21
+#: redux-framework/sample/sections/codeweber/contacts.php:22
 msgid "Phone 01"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/contacts.php:29
+#: redux-framework/sample/sections/codeweber/contacts.php:31
 msgid "Phone 02"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/contacts.php:36
+#: redux-framework/sample/sections/codeweber/contacts.php:38
 msgid "Phone 03"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/contacts.php:43
+#: redux-framework/sample/sections/codeweber/contacts.php:45
 msgid "Phone 04"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/contacts.php:50
+#: redux-framework/sample/sections/codeweber/contacts.php:52
 msgid "Phone 05"
 msgstr ""
 
@@ -2446,13 +2456,13 @@ msgstr ""
 msgid "Phone number is verified"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:89
+#: redux-framework/sample/sections/codeweber/legal.php:97
 msgid ""
 "Phone of the person responsible for personal data processing. <br>"
 "[redux_option key=\"phone_responsible_person\"]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:88
+#: redux-framework/sample/sections/codeweber/legal.php:96
 msgid "Phone Responsible Person"
 msgstr ""
 
@@ -2461,7 +2471,7 @@ msgstr ""
 msgid "Phones"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:106
+#: redux-framework/sample/sections/codeweber/legal.php:114
 msgid ""
 "Physical or legal address where personal data is stored. <br>[redux_option "
 "key=\"storage_address\"]"
@@ -2488,7 +2498,7 @@ msgstr ""
 msgid "Please fill in all required SMTP fields."
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:363
+#: redux-framework/sample/metaboxes.php:359
 msgid ""
 "Please select the sidebar you would like to display on this page. Note: You "
 "must first create the sidebar under Appearance > Widgets."
@@ -2502,8 +2512,8 @@ msgstr ""
 msgid "Post type for modal windows"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:41
-#: redux-framework/sample/sections/codeweber/company-details.php:55
+#: redux-framework/sample/sections/codeweber/company-details.php:75
+#: redux-framework/sample/sections/codeweber/company-details.php:130
 msgid "Postal Code"
 msgstr ""
 
@@ -2610,23 +2620,23 @@ msgstr ""
 msgid "Price Packages Navigation"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:174
+#: redux-framework/sample/sections/codeweber/legal.php:182
 msgid "Privacy Data"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:441
+#: functions/admin/admin_privacy.php:512
 msgid "Privacy Policy"
 msgstr ""
 
-#: functions/integrations/cf7.php:848
+#: functions/integrations/cf7.php:841
 msgid "Privacy Policy - Page:"
 msgstr ""
 
-#: functions/integrations/cf7.php:885
+#: functions/integrations/cf7.php:878
 msgid "Privacy policy shortcode not found in the form."
 msgstr ""
 
-#: functions/integrations/cf7.php:872
+#: functions/integrations/cf7.php:865
 #, php-format
 msgid "Privacy Policy: %s"
 msgstr ""
@@ -2641,6 +2651,10 @@ msgstr ""
 
 #: functions/cpt/cpt-projects.php:71
 msgid "Project Category"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:324
+msgid "Project Gallery"
 msgstr ""
 
 #: functions/cpt/cpt-projects.php:24
@@ -2664,18 +2678,18 @@ msgstr ""
 msgid "Projects Not Found in Trash"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1323
+#: functions/admin/admin_privacy.php:1664
 msgid "Public Offer Agreement"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:216
-#: redux-framework/sample/sections/codeweber/legal.php:277
-#: redux-framework/sample/sections/codeweber/legal.php:337
-#: redux-framework/sample/sections/codeweber/legal.php:397
-#: redux-framework/sample/sections/codeweber/legal.php:457
-#: redux-framework/sample/sections/codeweber/legal.php:517
-#: redux-framework/sample/sections/codeweber/legal.php:577
-#: redux-framework/sample/sections/codeweber/legal.php:637
+#: redux-framework/sample/sections/codeweber/legal.php:224
+#: redux-framework/sample/sections/codeweber/legal.php:285
+#: redux-framework/sample/sections/codeweber/legal.php:345
+#: redux-framework/sample/sections/codeweber/legal.php:405
+#: redux-framework/sample/sections/codeweber/legal.php:465
+#: redux-framework/sample/sections/codeweber/legal.php:525
+#: redux-framework/sample/sections/codeweber/legal.php:585
+#: redux-framework/sample/sections/codeweber/legal.php:645
 msgid "Purpose of processing"
 msgstr ""
 
@@ -2720,14 +2734,14 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: templates/components/lastpostslider.php:28
+#: templates/components/lastpostslider-blog.php:28
 #: templates/content/loop-legal.php:15 templates/content/loop.php:15
 #: templates/archives/legal/legal_1.php:15
 msgid "Read More"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:93
-#: redux-framework/sample/sections/codeweber/legal.php:138
+#: functions/integrations/redux_framework/redux_framework.php:85
+#: redux-framework/sample/sections/codeweber/legal.php:146
 msgid "Recording Data"
 msgstr ""
 
@@ -2744,8 +2758,8 @@ msgstr ""
 msgid "Reg.ru"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:36
-#: redux-framework/sample/sections/codeweber/company-details.php:50
+#: redux-framework/sample/sections/codeweber/company-details.php:45
+#: redux-framework/sample/sections/codeweber/company-details.php:100
 msgid "Region"
 msgstr ""
 
@@ -2753,7 +2767,7 @@ msgstr ""
 msgid "Registration takes less than a minute."
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:22
+#: functions/cpt/cpt-documents.php:22
 msgid "Remove featured image"
 msgstr ""
 
@@ -2773,17 +2787,11 @@ msgstr ""
 msgid "Remove featured Image for this staff"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:333
-msgid ""
-"Required arguments work across metaboxes! Click on Color Field under Metabox "
-"Options then adjust this field to see the fields within show or hide."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:80
+#: redux-framework/sample/sections/codeweber/legal.php:88
 msgid "Responsible Person (Full Name)"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1341
+#: functions/admin/admin_privacy.php:1682
 msgid "Return Policy"
 msgstr ""
 
@@ -2791,14 +2799,14 @@ msgstr ""
 msgid "Revision"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/cpt-type.php:346
+#: redux-framework/sample/sections/codeweber/cpt-type.php:357
 #: redux-framework/sample/sections/codeweber/page-header.php:105
 #: redux-framework/sample/sections/codeweber/page-header.php:287
 msgid "Right"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:295
-#: redux-framework/sample/sections/codeweber/cpt-type.php:306
-#: redux-framework/sample/sections/codeweber/cpt-type.php:328
+#: redux-framework/sample/metaboxes.php:293
 msgid "Right Sidebar"
 msgstr ""
 
@@ -2819,12 +2827,12 @@ msgstr ""
 msgid "says:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:763
+#: redux-framework/sample/sections/codeweber/legal.php:771
 msgid "Scan and display browser cookies."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:769
-#: redux-framework/sample/sections/codeweber/legal.php:772
+#: redux-framework/sample/sections/codeweber/legal.php:777
+#: redux-framework/sample/sections/codeweber/legal.php:780
 msgid "Scan Frontend Cookies"
 msgstr ""
 
@@ -2836,7 +2844,7 @@ msgstr ""
 msgid "Search Client"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:16
+#: functions/cpt/cpt-documents.php:16
 msgid "Search Document"
 msgstr ""
 
@@ -2897,7 +2905,7 @@ msgstr ""
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: functions/global.php:392
+#: functions/global.php:352
 #, php-format
 msgid "Search Results for: %s"
 msgstr ""
@@ -2915,10 +2923,6 @@ msgstr ""
 msgid "Section via hook"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:308
-msgid "Select a sidebar widget area for customization."
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/footer.php:84
 msgid "Select Custom Footer"
 msgstr ""
@@ -2931,7 +2935,7 @@ msgstr ""
 msgid "Select Fields"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:182
+#: redux-framework/sample/metaboxes.php:185
 msgid "Select Footer"
 msgstr ""
 
@@ -2943,18 +2947,11 @@ msgstr ""
 msgid "Select Footer Background Solid Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:496
-#, php-format
-msgid "Select Footer for Archive %s"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:473
-#, php-format
-msgid "Select Footer for Single %s"
+#: redux-framework/sample/sections/codeweber/cpt-type.php:216
+msgid "Select footer from available options"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:53
-#: redux-framework/sample/sections/codeweber/cpt-type.php:199
 msgid "Select Footer from Custom Headers"
 msgstr ""
 
@@ -2962,12 +2959,12 @@ msgstr ""
 msgid "Select Footer Type"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:169
-#: redux-framework/sample/metaboxes.php:170
+#: redux-framework/sample/metaboxes.php:172
+#: redux-framework/sample/metaboxes.php:173
 msgid "Select Footer type for This Page"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:118
+#: redux-framework/sample/metaboxes.php:121
 msgid "Select Header"
 msgstr ""
 
@@ -2979,19 +2976,11 @@ msgstr ""
 msgid "Select Header Background Solid Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:380
-#, php-format
-msgid "Select Header for Archive %s"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:355
-#: redux-framework/sample/sections/codeweber/cpt-type.php:414
-#, php-format
-msgid "Select Header for Single %s"
+#: redux-framework/sample/sections/codeweber/cpt-type.php:209
+msgid "Select header from available options"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:43
-#: redux-framework/sample/sections/codeweber/cpt-type.php:189
 msgid "Select Header from Custom Headers"
 msgstr ""
 
@@ -2999,12 +2988,12 @@ msgstr ""
 msgid "Select Header Type"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:105
-#: redux-framework/sample/metaboxes.php:106
+#: redux-framework/sample/metaboxes.php:108
+#: redux-framework/sample/metaboxes.php:109
 msgid "Select Header type for This Page"
 msgstr ""
 
-#: functions/integrations/cf7.php:811
+#: functions/integrations/cf7.php:804
 msgid "Select Legal Documents for This contact form:"
 msgstr ""
 
@@ -3017,49 +3006,34 @@ msgid ""
 "Documents archive page."
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:242
+#: redux-framework/sample/metaboxes.php:245
 msgid "Select Page Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:439
-#, php-format
-msgid "Select Page Header for Archive %s"
+#: redux-framework/sample/sections/codeweber/cpt-type.php:223
+msgid "Select page header from available options"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:64
 msgid "Select Page Header from Custom Page Headers"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:228
-#: redux-framework/sample/metaboxes.php:229
+#: redux-framework/sample/metaboxes.php:231
+#: redux-framework/sample/metaboxes.php:232
 msgid "Select Page Header type for This Page"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:209
-msgid "Select Page-header from Custom Headers"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:88
 msgid "Select Page-Header Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:323
-#, php-format
-msgid "Select Sidebar position for Archive %s"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:301
-#, php-format
-msgid "Select Sidebar position for Single %s"
-msgstr ""
-
-#: redux-framework/sample/metaboxes.php:290
-#: redux-framework/sample/metaboxes.php:291
+#: redux-framework/sample/metaboxes.php:288
+#: redux-framework/sample/metaboxes.php:289
 msgid "Select Sidebar position for This Page"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:276
-#: redux-framework/sample/metaboxes.php:277
+#: redux-framework/sample/metaboxes.php:274
+#: redux-framework/sample/metaboxes.php:275
 msgid "Select Sidebar type for This Page"
 msgstr ""
 
@@ -3071,16 +3045,20 @@ msgstr ""
 msgid "Select Solid Color"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/cpt-type.php:306
+msgid "Select template for archive page"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:315
+msgid "Select template for single page"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/footer.php:113
 msgid "Select type Footer background"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/header.php:128
 msgid "Select type Header background"
-msgstr ""
-
-#: redux-framework/sample/metaboxes.php:306
-msgid "Select Widget Area"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:125
@@ -3091,7 +3069,7 @@ msgstr ""
 msgid "Selected point coordinates"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1388
+#: functions/admin/admin_privacy.php:1729
 msgid "Seller Information"
 msgstr ""
 
@@ -3149,7 +3127,7 @@ msgstr ""
 msgid "Session ID"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:21
+#: functions/cpt/cpt-documents.php:21
 msgid "Set featured image"
 msgstr ""
 
@@ -3185,48 +3163,8 @@ msgstr ""
 msgid "Settings Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:158
+#: redux-framework/sample/sections/codeweber/cpt-type.php:176
 msgid "Settings for custom post types."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:490
-#, php-format
-msgid "Settings for the Archive Footer %s custom post type."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:374
-#, php-format
-msgid "Settings for the Archive Header %s custom post type."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:433
-#, php-format
-msgid "Settings for the Archive Page Header %s custom post type."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:317
-#, php-format
-msgid "Settings for the Archive Sidebar %s custom post type."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:466
-#, php-format
-msgid "Settings for the Single Footer %s custom post type."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:348
-#, php-format
-msgid "Settings for the Single Header %s custom post type."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:407
-#, php-format
-msgid "Settings for the Single Page Header %s custom post type."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:294
-#, php-format
-msgid "Settings for the Single Sidebar %s custom post type."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:11
@@ -3252,16 +3190,12 @@ msgstr ""
 msgid "Settings Tracking && Metrics"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:68
+#: redux-framework/sample/sections/codeweber/company-details.php:168
 msgid "Settlement Account"
 msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:12
 msgid "Share"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:21
-msgid "Short Name"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:41
@@ -3270,19 +3204,19 @@ msgid ""
 "[redux_option key=\"legal_entity_short\"]"
 msgstr ""
 
-#: functions/integrations/cf7.php:817
+#: functions/integrations/cf7.php:810
 msgid ""
 "Shortcode for displaying a document link in the form code: "
 "[cf7_legal_consent_link]"
 msgstr ""
 
-#: functions/integrations/cf7.php:833
+#: functions/integrations/cf7.php:826
 msgid ""
 "Shortcode for displaying a document link in the form code: "
 "[cf7_mailing_consent_link]"
 msgstr ""
 
-#: functions/integrations/cf7.php:849
+#: functions/integrations/cf7.php:842
 msgid ""
 "Shortcode for displaying a document link in the form code: "
 "[cf7_privacy_policy]"
@@ -3292,12 +3226,22 @@ msgstr ""
 msgid "Shortcode:"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:362
+#: redux-framework/sample/metaboxes.php:358
 #: redux-framework/sample/sections/codeweber/page-header.php:65
 msgid "Sidebar"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:265
+#: redux-framework/sample/sections/codeweber/cpt-type.php:353
+#, php-format
+msgid "Sidebar Position for Archive %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:342
+#, php-format
+msgid "Sidebar Position for Single %s"
+msgstr ""
+
+#: redux-framework/sample/metaboxes.php:263
 msgid "Sidebar Settings"
 msgstr ""
 
@@ -3308,6 +3252,18 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/socials.php:178
 #: redux-framework/sample/sections/extensions/users.php:194
 msgid "Signal"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:448
+#: redux-framework/sample/sections/codeweber/cpt-type.php:464
+#: redux-framework/sample/sections/codeweber/cpt-type.php:480
+#: redux-framework/sample/sections/codeweber/cpt-type.php:496
+msgid "Single"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:314
+#, php-format
+msgid "Single Template for %s"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:172
@@ -3425,13 +3381,13 @@ msgstr ""
 msgid "Steam"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:96
-#: redux-framework/sample/sections/codeweber/legal.php:141
+#: functions/integrations/redux_framework/redux_framework.php:88
+#: redux-framework/sample/sections/codeweber/legal.php:149
 msgid "Storage Data"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:38
-#: redux-framework/sample/sections/codeweber/company-details.php:52
+#: redux-framework/sample/sections/codeweber/company-details.php:57
+#: redux-framework/sample/sections/codeweber/company-details.php:112
 msgid "Street"
 msgstr ""
 
@@ -3440,11 +3396,11 @@ msgid "Submit"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/contacts.php:16
-#: redux-framework/sample/sections/codeweber/contacts.php:22
-#: redux-framework/sample/sections/codeweber/contacts.php:30
-#: redux-framework/sample/sections/codeweber/contacts.php:37
-#: redux-framework/sample/sections/codeweber/contacts.php:44
-#: redux-framework/sample/sections/codeweber/contacts.php:51
+#: redux-framework/sample/sections/codeweber/contacts.php:23
+#: redux-framework/sample/sections/codeweber/contacts.php:32
+#: redux-framework/sample/sections/codeweber/contacts.php:39
+#: redux-framework/sample/sections/codeweber/contacts.php:46
+#: redux-framework/sample/sections/codeweber/contacts.php:53
 #: redux-framework/sample/sections/codeweber/socials.php:16
 #: redux-framework/sample/sections/codeweber/socials.php:22
 #: redux-framework/sample/sections/codeweber/socials.php:28
@@ -3532,12 +3488,12 @@ msgstr ""
 msgid "Switch / Button Set"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:94
-#: redux-framework/sample/sections/codeweber/legal.php:139
+#: functions/integrations/redux_framework/redux_framework.php:86
+#: redux-framework/sample/sections/codeweber/legal.php:147
 msgid "Systematization Data"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:72
+#: redux-framework/sample/sections/codeweber/legal.php:80
 msgid "Taxpayer identification number Person (INN)"
 msgstr ""
 
@@ -3547,7 +3503,7 @@ msgstr ""
 msgid "Telegram"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:991
+#: functions/admin/admin_privacy.php:1062
 msgid "Terms of Use"
 msgstr ""
 
@@ -3576,11 +3532,11 @@ msgstr ""
 msgid "Testing filter hook!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:191
+#: redux-framework/sample/sections/codeweber/legal.php:199
 msgid "Text for paragraph 5.3 of the personal data processing policy"
 msgstr ""
 
-#: functions/integrations/cf7.php:899
+#: functions/integrations/cf7.php:892
 msgid ""
 "The consent document is selected but not published. Please publish the "
 "document."
@@ -3591,13 +3547,13 @@ msgstr ""
 msgid "The field desc is NOT visible in customizer."
 msgstr ""
 
-#: functions/integrations/cf7.php:922
+#: functions/integrations/cf7.php:915
 msgid ""
 "The mailing consent document is selected but not published. Please publish "
 "the document."
 msgstr ""
 
-#: functions/integrations/cf7.php:876
+#: functions/integrations/cf7.php:869
 msgid ""
 "The privacy policy document is selected but not published. Please publish "
 "the document."
@@ -3634,6 +3590,12 @@ msgstr ""
 msgid "These are really basic fields!"
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:326
+msgid ""
+"This field will store all slides values into a multidimensional array to use "
+"into a foreach loop."
+msgstr ""
+
 #: redux-framework/sample-config.php:690
 #: redux-framework/sample/theme-config.php:737
 msgid ""
@@ -3645,18 +3607,12 @@ msgstr ""
 msgid "This is a test email sent to confirm SMTP settings are correct."
 msgstr ""
 
+#: redux-framework/sample/metaboxes.php:334
+msgid "This is a title"
+msgstr ""
+
 #: redux-framework/sample/theme-config.php:306
 msgid "This is the sidebar content, HTML is allowed."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:324
-#, php-format
-msgid "This is the Sidebar position for Archive %s"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/cpt-type.php:302
-#, php-format
-msgid "This is the Sidebar position for Single %s"
 msgstr ""
 
 #: redux-framework/sample/theme-config.php:295
@@ -3668,7 +3624,7 @@ msgstr ""
 msgid "This module allows you to display your work or cases on the website."
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:71
+#: redux-framework/sample/metaboxes.php:74
 msgid "This Post Settings"
 msgstr ""
 
@@ -3698,15 +3654,19 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:224
-#: redux-framework/sample/sections/codeweber/legal.php:285
-#: redux-framework/sample/sections/codeweber/legal.php:345
-#: redux-framework/sample/sections/codeweber/legal.php:405
-#: redux-framework/sample/sections/codeweber/legal.php:465
-#: redux-framework/sample/sections/codeweber/legal.php:525
-#: redux-framework/sample/sections/codeweber/legal.php:585
-#: redux-framework/sample/sections/codeweber/legal.php:645
+#: redux-framework/sample/sections/codeweber/legal.php:232
+#: redux-framework/sample/sections/codeweber/legal.php:293
+#: redux-framework/sample/sections/codeweber/legal.php:353
+#: redux-framework/sample/sections/codeweber/legal.php:413
+#: redux-framework/sample/sections/codeweber/legal.php:473
+#: redux-framework/sample/sections/codeweber/legal.php:533
+#: redux-framework/sample/sections/codeweber/legal.php:593
+#: redux-framework/sample/sections/codeweber/legal.php:653
 msgid "Title Purpose of processing"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:106
+msgid "Title size"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/header.php:317
@@ -3725,8 +3685,8 @@ msgstr ""
 msgid "Tracking & Metrics"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:100
-#: redux-framework/sample/sections/codeweber/legal.php:145
+#: functions/integrations/redux_framework/redux_framework.php:92
+#: redux-framework/sample/sections/codeweber/legal.php:153
 msgid "Transfer (distribution, provision, access) Data"
 msgstr ""
 
@@ -3813,9 +3773,11 @@ msgstr ""
 msgid "Types"
 msgstr ""
 
-#: functions/sidebars-redux.php:17 functions/cpt/redux_cpt.php:14
-#: redux-framework/sample/sections/codeweber/cpt-type.php:88
-#: redux-framework/sample/sections/codeweber/cpt-type.php:220
+#: redux-framework/sample/metaboxes.php:325
+msgid "Unlimited slides with drag and drop sorting."
+msgstr ""
+
+#: functions/cpt/redux_cpt.php:15
 msgid "Unnamed"
 msgstr ""
 
@@ -3823,15 +3785,15 @@ msgstr ""
 msgid "Update FAQ Tag"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:97
-#: redux-framework/sample/sections/codeweber/legal.php:142
+#: functions/integrations/redux_framework/redux_framework.php:89
+#: redux-framework/sample/sections/codeweber/legal.php:150
 msgid "Updating (clarification, modification) Data"
 msgstr ""
 
-#: redux-framework/sample/metaboxes.php:137
-#: redux-framework/sample/metaboxes.php:148
-#: redux-framework/sample/metaboxes.php:200
-#: redux-framework/sample/metaboxes.php:211
+#: redux-framework/sample/metaboxes.php:140
+#: redux-framework/sample/metaboxes.php:151
+#: redux-framework/sample/metaboxes.php:203
+#: redux-framework/sample/metaboxes.php:214
 msgid "Upload any media using the WordPress native uploader"
 msgstr ""
 
@@ -3863,12 +3825,12 @@ msgstr ""
 msgid "Uploaded to this FAQ"
 msgstr ""
 
-#: functions/integrations/redux-framework.php:99
-#: redux-framework/sample/sections/codeweber/legal.php:144
+#: functions/integrations/redux_framework/redux_framework.php:91
+#: redux-framework/sample/sections/codeweber/legal.php:152
 msgid "Usage Data"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:23 functions/cpt/cpt-services.php:26
+#: functions/cpt/cpt-documents.php:23 functions/cpt/cpt-services.php:26
 #: functions/cpt/cpt-staff.php:26
 msgid "Use as featured image"
 msgstr ""
@@ -3929,11 +3891,11 @@ msgstr ""
 msgid "View Clients"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:14
+#: functions/cpt/cpt-documents.php:14
 msgid "View Document"
 msgstr ""
 
-#: functions/cpt/cpt-docs.php:15
+#: functions/cpt/cpt-documents.php:15
 msgid "View Documents"
 msgstr ""
 
@@ -4061,7 +4023,7 @@ msgstr ""
 msgid "Vkontakte"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1329
+#: functions/admin/admin_privacy.php:1670
 msgid "Website Usage Rules"
 msgstr ""
 
@@ -4070,7 +4032,7 @@ msgstr ""
 msgid "WeChat"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:729
+#: redux-framework/sample/sections/codeweber/legal.php:737
 msgid "Welcome Text Cookie Banner"
 msgstr ""
 
@@ -4098,7 +4060,7 @@ msgstr ""
 msgid "Widget 3"
 msgstr ""
 
-#: functions/sidebars-redux.php:30
+#: functions/sidebars-redux.php:51
 #, php-format
 msgid "Widget area for %s"
 msgstr ""
@@ -4128,7 +4090,7 @@ msgstr ""
 msgid "Would you like to share your thoughts?"
 msgstr ""
 
-#: templates/content/single.php:101
+#: templates/content/single-legal.php:100 templates/content/single.php:101
 msgid "Writer"
 msgstr ""
 
@@ -4162,7 +4124,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: templates/components/lastpostslider.php:13
+#: templates/components/lastpostslider-blog.php:13
 msgid "You Might Also Like"
 msgstr ""
 
@@ -4197,7 +4159,7 @@ msgstr ""
 msgid "Zoom level of the map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:730
+#: redux-framework/sample/sections/codeweber/legal.php:738
 msgid ""
 "На данном сайте используются файлы «cookies» для обеспечения его "
 "бесперебойной работы и для запоминания выбранных настроек, а также "
@@ -4211,15 +4173,15 @@ msgstr ""
 msgid "Основные данные"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:717
+#: redux-framework/sample/sections/codeweber/legal.php:725
 msgid "Сookie Expiration Date"
 msgstr ""
 
-#: functions/integrations/cf7.php:1180
+#: functions/integrations/cf7.php:1173
 msgid "— Not selected —"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:38 functions/integrations/cf7.php:819
-#: functions/integrations/cf7.php:835 functions/integrations/cf7.php:851
+#: functions/admin/admin_privacy.php:38 functions/integrations/cf7.php:812
+#: functions/integrations/cf7.php:828 functions/integrations/cf7.php:844
 msgid "— Select —"
 msgstr ""

@@ -124,7 +124,7 @@ msgid ""
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:57
-msgid "[redux_option key=\"lega_ogrnip\"]"
+msgid "[redux_option key=\"legal_ogrnip\"]"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:125
@@ -820,7 +820,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:65
 msgid ""
-"Date of state registration. <br>[redux_option key=\"lega_ogrnip_date\"  "
+"Date of state registration. <br>[redux_option key=\"legal_ogrnip_date\"  "
 "format=\"d.m.Y\"]"
 msgstr ""
 
@@ -1312,7 +1312,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/legal.php:50
 msgid ""
 "Full name of the legal entity responsible for data processing Dative. <br> "
-"[redux_option key=\"lega_entity_dative\"]"
+"[redux_option key=\"legal_entity_dative\"]"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:32
