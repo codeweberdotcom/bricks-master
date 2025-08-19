@@ -1,18 +1,19 @@
-<?php get_header(); ?>
-<?php $global_page_header_model = Redux::get_option($opt_name, 'global-page-header-model'); ?>
-<?php
+<?php get_header();
+
 while (have_posts()) :
 	the_post();
 	get_pageheader();
-?>
-	<?php $post_type = get_post_type();
-	$post_type_lc = strtolower($post_type);
-	$sidebar_position = Redux::get_option($opt_name, 'sidebar_position_single_' . $post_type);
-	$pageheader_name = Redux::get_option($opt_name, 'global-page-header-model');
 
-	// Определяем класс колонки для контента
-	$content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-8';
-	?>
+	$post_type = get_post_type();
+	$post_type_lc = strtolower($post_type);
+	$sidebar_position = get_sidebar_position($opt_name);
+
+	// Определяем класс контента
+	$content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-md-8';
+
+	$pageheader_name = Redux::get_option($opt_name, 'global_page_header_model');
+
+?>
 
 	<section id="content-wrapper" class="wrapper bg-light">
 		<div class="container">
@@ -29,15 +30,15 @@ while (have_posts()) :
 					<?php
 					$templatesingle = Redux::get_option($opt_name, 'single_template_select_' . $post_type);
 					$template_file = "templates/singles/{$post_type_lc}/{$templatesingle}.php";
-							if (!empty($templateloop) && locate_template($template_file)) {
-								get_template_part("templates/content/single/{$post_type_lc}/{$templatesingle}");
-							} else {
-								if (locate_template("templates/content/single-{$post_type_lc}.php")) {
-									get_template_part("templates/content/single", $post_type_lc);
-								} else {
-									get_template_part("templates/content/single", '');
-								}
-							}
+					if (!empty($templateloop) && locate_template($template_file)) {
+						get_template_part("templates/content/single/{$post_type_lc}/{$templatesingle}");
+					} else {
+						if (locate_template("templates/content/single-{$post_type_lc}.php")) {
+							get_template_part("templates/content/single", $post_type_lc);
+						} else {
+							get_template_part("templates/content/single", '');
+						}
+					}
 					?>
 
 					<nav class="nav">

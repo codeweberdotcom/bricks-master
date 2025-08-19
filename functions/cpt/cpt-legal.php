@@ -40,7 +40,7 @@ function register_my_cpt_legal()
       "can_export" => true,
       "rewrite" => ["slug" => "legal", "with_front" => true],
       "query_var" => true,
-      "supports" => ["title", "editor", "excerpt", "revisions"],
+      "supports" => ["title", "editor", "excerpt", "revisions", "comments"],
    ];
 
    register_post_type("legal", $args);

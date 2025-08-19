@@ -1,71 +1,69 @@
 <?php
+
 /**
- * Получает пользовательские логотипы из Redux Framework.
- * 
- * Функция возвращает логотип в светлом, темном варианте или оба сразу.
- * Если пользовательские логотипы не заданы, используются стандартные изображения.
- *
- * @param string $type Тип логотипа: 'light' (светлый), 'dark' (тёмный) или 'both' (оба).
- * @return string HTML-код с логотипом (или логотипами).
+ *  Redux Cookie Banner
  */
-function get_custom_logo_type($type = 'both')
-{
-   global $opt_name;
-   $options = get_option($opt_name);
-
-   $post_id = get_the_ID(); // ID текущего поста или страницы
-   $custom_dark_logo = get_post_meta($post_id, 'custom-logo-dark-header', true);
-   $custom_light_logo = get_post_meta($post_id, 'custom-logo-light-header', true);
-
-   $default_logos = array(
-      'light' => get_template_directory_uri() . '/dist/assets/img/logo-light.png',
-      'dark'  => get_template_directory_uri() . '/dist/assets/img/logo-dark.png',
-   );
-
-   // Если кастомные лого заданы, используем их, иначе берем из Redux или дефолт
-   $dark_logo = !empty($custom_dark_logo['url'])
-       ? $custom_dark_logo['url']
-       : (!empty($options['opt-dark-logo']['url']) ? $options['opt-dark-logo']['url'] : $default_logos['dark']);
-
-   $light_logo = !empty($custom_light_logo['url'])
-       ? $custom_light_logo['url']
-       : (!empty($options['opt-light-logo']['url']) ? $options['opt-light-logo']['url'] : $default_logos['light']);
-
-   // Формируем HTML
-   $dark_logo_html = sprintf(
-      '<img class="logo-dark" src="%s" alt="">',
-      esc_url($dark_logo)
-   );
-
-   $light_logo_html = sprintf(
-      '<img class="logo-light" src="%s" alt="">',
-      esc_url($light_logo)
-   );
-
-   if ($type === 'dark') {
-      return $light_logo_html;
-   } elseif ($type === 'light') {
-      return $dark_logo_html;
-   } elseif ($type === 'both') {
-      return $dark_logo_html . "\n" . $light_logo_html;
-   }
-
-   return '';
-}
+require 'redux_cookie.php';
 
 
+/**
+ *  Redux Custom Logos
+ */
+require 'redux_custom_logos.php';
+
+
+/**
+ *  Redux Scanner Cookie
+ */
+require 'redux_scanner_cookie.php';
+
+
+/**
+ *  Redux Scanner Cookie
+ */
+require 'redux_pageheader.php';
+
+
+/**
+ *  Redux Style
+ */
+require 'redux_style.php';
+
+
+/**
+ *  Redux Style
+ */
+require 'redux_cf7.php';
+
+
+/**
+ *  Redux Contacts
+ */
+require 'redux_contacts.php';
+
+/**
+ *  Redux Another Function
+ */
 
 
 /**
  * Шорткод [redux_option]
+ * Создан для удобства, дает возможность вывести любые значения из Redux Framework
  * Возвращает значение из Redux Framework с возможностью вывода массива (checkbox) как строки или списка.
+ * Позволяет выводить любые значения, сохраненные в Redux Framework, включая одиночные значения,
+ * массивы, даты (с форматированием) и специальные поля вроде чекбоксов.
  *
  * Атрибуты:
- * - key     — ключ поля Redux.
+ * - key     — ключ поля Redux (обязательный параметр).
  * - default — значение по умолчанию, если ключ не найден или пуст.
  * - format  — формат для даты, если значение является датой.
  * - list    — если указано "inline", значения массива объединяются через запятую;
  *             если указано "ul", выводятся как <ul><li>…</li></ul>.
+ * 
+ * Примеры использования:
+ * [redux_option key="your_field_key"] - вывод простого значения
+ * [redux_option key="checkbox_field" list="ul"] - вывод массива как списка
+ * [redux_option key="date_field" format="d.m.Y"] - форматирование даты
  */
 add_shortcode('redux_option', function ($atts) {
    global $opt_name;
@@ -145,29 +143,4 @@ add_shortcode('redux_option', function ($atts) {
 
    // Обычное значение
    return $value;
-});
-
-
-
-/**
- * Добавляет скрипт на фронтенд (только на главную страницу),
- * который после полной загрузки страницы отправляет cookies текущего пользователя
- * в окно-родитель (если оно открыто) через postMessage.
- * 
- * Используется для получения cookies с фронтенда в админке через окно popup.
- */
-add_action('wp_footer', function () {
-   if (is_front_page()) : ?>
-      <script>
-         window.addEventListener('load', function() {
-            if (window.opener) {
-               window.opener.postMessage({
-                  type: "frontend_cookies",
-                  cookies: document.cookie
-               }, "*");
-            }
-         });
-      </script>
-<?php
-   endif;
 });

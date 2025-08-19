@@ -92,6 +92,40 @@ Redux::set_section(
 				'title'    => esc_html__('Page-loader', 'codeweber'),
 				'default'  => false,
 			),
+
+			array(
+				'id'       => 'themepageheader',
+				'type'     => 'accordion',
+				'title'    => esc_html__('Page Header', 'codeweber'),
+				'position' => 'start',
+			),
+
+			array(
+				'id'       => 'opt-select-title-size',
+				'type'     => 'select',
+				'title'    => esc_html__('Title size', 'codeweber'),
+				'options'  => array(
+					// Display classes
+					'display-1' => 'Display 1',
+					'display-2' => 'Display 2',
+					'display-3' => 'Display 3',
+					'display-4' => 'Display 4',
+					'display-5' => 'Display 5',
+					'display-6' => 'Display 6',
+
+					// HTML headings
+					'h1' => 'Heading 1',
+					'h2' => 'Heading 2',
+					'h3' => 'Heading 3',
+					'h4' => 'Heading 4',
+					'h5' => 'Heading 5',
+					'h6' => 'Heading 6',
+				),
+				'default'  => 'display-1',
+			),
+
+
+
 			array(
 				'id'       => 'themegulp',
 				'type'     => 'accordion',

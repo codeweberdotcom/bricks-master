@@ -14,8 +14,12 @@ if (!function_exists('brk_styles_scripts')) {
 		wp_enqueue_style('plugin-styles', get_template_directory_uri() . '/dist/assets/css/plugins.css', false, $theme_version, 'all');
 		wp_enqueue_style('theme-styles', get_template_directory_uri() . '/dist/assets/css/style.css', false, $theme_version, 'all');
 
+		if (class_exists('Redux')) {
 		global $opt_name;
-		$theme_color = Redux::get_option($opt_name, 'opt-select-color-theme');
+		   $theme_color = Redux::get_option($opt_name, 'opt-select-color-theme');
+		}else{
+			$theme_color = 'default';
+		}
 
 		// --- Подключаем основной style.css ---
 		wp_enqueue_style('root-styles', get_template_directory_uri() . '/style.css', false, $theme_version, 'all');
@@ -80,7 +84,7 @@ function enqueue_my_custom_script()
 		));
 	}
 }
-add_action('wp_enqueue_scripts', 'enqueue_my_custom_script');
+add_action('wp_enqueue_scripts', 'enqueue_my_custom_script', 20);
 
 
 
@@ -106,3 +110,4 @@ function theme_enqueue_fetch_assets()
 	}
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_fetch_assets');
+

@@ -19,6 +19,11 @@ if (!empty($cpt_files)) {
       $option_id = 'cpt_switch_' . sanitize_key($base_name);
       $is_enabled = Redux::get_option($opt_name, $option_id);
 
+      // Для legal CPT принудительно включаем без проверки переключателя
+      if ($file === 'cpt-legal.php') {
+         $is_enabled = true;
+      }
+
       if ($is_enabled) {
          $file_path = get_template_directory() . '/functions/cpt/' . $file;
 

@@ -122,7 +122,7 @@ if ($page_header_align === '1') {
    <div class="container <?= implode(" ", $container_class); ?>">
       <div class="row">
          <div class="<?= implode(" ", $col_class); ?>">
-            <h1 class="display-1 <?= implode(" ", $title_class); ?>"><?= universal_title(); ?></h1>
+            <h1 class="mb-2 <?= implode(" ", $title_class); ?>"><?= universal_title(); ?></h1>
             <?= $subtitle; ?>
             <?php get_breadcrumbs($breadcrumbs_align, $breadcrumbs_color, 'mb-0'); ?>
          </div>

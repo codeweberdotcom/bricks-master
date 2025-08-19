@@ -256,56 +256,7 @@ Redux_Metaboxes::set_box(
 				),
 			),
 
-			array(
-				'title'  => esc_html__('Sidebar Settings', 'codeweber'),
-				'desc'   => '',
-				'icon'   => 'el-icon-pencil',
-				'id'     => 'page-sidebar-settings',
-				'fields'           => array(
 
-
-					// Управление сайдбаром
-					array(
-						'id'       => 'custom-page-sidebar-type',
-						'type'     => 'button_set',
-						'title'    => esc_html__('Select Sidebar type for This Page', 'codeweber'),
-						'desc' => esc_html__('Select Sidebar type for This Page', 'codeweber'),
-						'options'  => array(
-							'1' => esc_html__('Default', 'codeweber'),
-							'2' => esc_html__('Custom', 'codeweber'),
-						),
-						'default'  => '1',
-					),
-
-
-					// Управление сайдбаром
-					array(
-						'id'       => 'custom-page-sidebar-position',
-						'type'     => 'button_set',
-						'title'    => esc_html__('Select Sidebar position for This Page', 'codeweber'),
-						'desc' => esc_html__('Select Sidebar position for This Page', 'codeweber'),
-						'options'  => array(
-							'1' => esc_html__('Left Sidebar', 'codeweber'),
-							'2' => esc_html__('Disable Sidebar', 'codeweber'),
-							'3' => esc_html__('Right Sidebar', 'codeweber'),
-						),
-						'default'  => '1',
-						'required' => array('custom-page-sidebar-type', '=', '2'),
-					),
-
-					// Выбор области виджета
-					array(
-						'id'       => 'custom-page-sidebar-widget',
-						'type'     => 'select',
-						'data'     => 'sidebars', // Используем доступные сайдбары
-						'title'    => esc_html__('Select Widget Area', 'codeweber'),
-						'subtitle' => esc_html__('Choose a widget area to display on this page.', 'codeweber'),
-						'desc'     => esc_html__('Select a sidebar widget area for customization.', 'codeweber'),
-						'required' => array('custom-page-sidebar-type', '=', '2'),
-					),
-
-				),
-			),
 
 
 						array(
@@ -337,24 +288,15 @@ Redux_Metaboxes::set_box(
 						'title'    => esc_html__('Select Sidebar position for This Page', 'codeweber'),
 						'desc' => esc_html__('Select Sidebar position for This Page', 'codeweber'),
 						'options'  => array(
-							'1' => esc_html__('Left Sidebar', 'codeweber'),
-							'2' => esc_html__('Disable Sidebar', 'codeweber'),
-							'3' => esc_html__('Right Sidebar', 'codeweber'),
+							'left' => esc_html__('Left Sidebar', 'codeweber'),
+							'none' => esc_html__('Disable Sidebar', 'codeweber'),
+							'right' => esc_html__('Right Sidebar', 'codeweber'),
 						),
-						'default'  => '1',
+						'default'  => 'left',
 						'required' => array('custom-page-sidebar-type', '=', '2'),
 					),
 
-					// Выбор области виджета
-					array(
-						'id'       => 'custom-page-sidebar-widget',
-						'type'     => 'select',
-						'data'     => 'sidebars', // Используем доступные сайдбары
-						'title'    => esc_html__('Select Widget Area', 'codeweber'),
-						'subtitle' => esc_html__('Choose a widget area to display on this page.', 'codeweber'),
-						'desc'     => esc_html__('Select a sidebar widget area for customization.', 'codeweber'),
-						'required' => array('custom-page-sidebar-type', '=', '2'),
-					),
+
 
 				),
 			),

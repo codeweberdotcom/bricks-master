@@ -64,7 +64,7 @@ $mobile_menu_background = Redux::get_option($opt_name, 'mobile-menu-background')
 $topbar_enable = Redux::get_option($opt_name, 'header-topbar-enable');
 
 $global_header_offcanvas_right =  Redux::get_option($opt_name, 'global-header-offcanvas-right');
-$company_description =  Redux::get_option($opt_name, 'company-description');
+$company_description =  Redux::get_option($opt_name, 'text-about-company');
 
 $yandex_api_key   = Redux::get_option($opt_name, 'yandexapi');
 $coordinates      = Redux::get_option($opt_name, 'yandex_coordinates'); // строка типа "55.76, 37.64"

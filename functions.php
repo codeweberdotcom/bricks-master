@@ -1,5 +1,8 @@
 <?php
 
+
+
+
 /**
  *  https://developer.wordpress.org/themes/basics/theme-functions/
  */
@@ -45,9 +48,6 @@ require_once get_template_directory() . '/functions/comments-reply.php'; // --- 
 
 
 
-require_once get_template_directory() . '/functions/after-install-theme/create-legal-page.php'; // --- Create Legal Page After Install Functions ---
-
-
 /**
  * Инициализация Redux Framework
  */
@@ -84,3 +84,43 @@ add_shortcode('list_sidebars', function () {
 });
 
 
+/**
+ * Шорткод для вывода списка файлов CPT
+ * Использование: [cpt_files_list] или [cpt_files_list format="ul"]
+ * 
+ * @param array $atts Атрибуты шорткода
+ * @return string HTML-код списка файлов
+ */
+function cpt_files_list_shortcode($atts)
+{
+	// Получаем список файлов
+	$files = get_cpt_files_list();
+
+	// Обрабатываем атрибуты
+	$atts = shortcode_atts(array(
+		'format' => 'ul', // Возможные значения: ul, ol, comma
+	), $atts);
+
+	// Если файлов нет
+	if (empty($files)) {
+		return '<p>No CPT files found.</p>';
+	}
+
+	// Формируем вывод в зависимости от формата
+	switch ($atts['format']) {
+		case 'ol':
+			$output = '<ol><li>' . implode('</li><li>', $files) . '</li></ol>';
+			break;
+
+		case 'comma':
+			$output = implode(', ', $files);
+			break;
+
+		case 'ul':
+		default:
+			$output = '<ul><li>' . implode('</li><li>', $files) . '</li></ul>';
+	}
+
+	return $output;
+}
+add_shortcode('cpt_files_list', 'cpt_files_list_shortcode');

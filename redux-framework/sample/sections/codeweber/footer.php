@@ -65,7 +65,7 @@ Redux::set_section(
 
 			// Выбор типа Footer
 			array(
-				'id'       => 'global-footer-type',
+				'id'       => 'global_footer_type',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Select Footer Type', 'codeweber'),
 				'options'  => array(
@@ -87,48 +87,48 @@ Redux::set_section(
 					'post_type' => 'footer',
 					'posts_per_page' => -1,
 				),
-				'required' => array('global-footer-type', '=', '2'),
+				'required' => array('global_footer_type', '=', '2'),
 				'desc'     => $no_footers_message, // Выводим сообщение, если записей нет
 			),
 
 
 
 			array(
-				'id'       => 'footer-color-text',
+				'id'       => 'footer_color_text',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Footer text color', 'codeweber'),
 				// Must provide key => value pairs for radio options.
 				'options'  => array(
-					'1' =>  esc_html__('Dark', 'codeweber'),
-					'2' =>  esc_html__('Light', 'codeweber'),
+					'light' =>  esc_html__('Dark', 'codeweber'),
+					'dark' =>  esc_html__('Light', 'codeweber'),
 				),
-				'default'  => '1',
-				'required' => array('global-footer-type', '=', '1'),
+				'default'  => 'light',
+				'required' => array('global_footer_type', '=', '1'),
 			),
 
 			// Выбор типа фона
 			array(
-				'id'       => 'footer-background',
+				'id'       => 'footer_background',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Select type Footer background', 'codeweber'),
 				'options'  => array(
-					'1' => esc_html__('Solid-Color', 'codeweber'),
-					'2' => esc_html__('Soft-Color', 'codeweber'),
+					'solid' => esc_html__('Solid-Color', 'codeweber'),
+					'soft' => esc_html__('Soft-Color', 'codeweber'),
 				),
-				'default'  => '1',
-				'required' => array('global-footer-type', '=', '1'),
+				'default'  => 'solid',
+				'required' => array('global_footer_type', '=', '1'),
 			),
 
 			// Выбор Solid-Color с динамическими цветами
 			array(
-				'id'       => 'solid-color-footer',
+				'id'       => 'footer_solid_color',
 				'type'     => 'select',
 				'title'    => esc_html__('Select Footer Background Solid Color', 'codeweber'),
 				'options'  => $color_options, // Используем динамически полученные цвета
 				'default'  => 'light',  // Можно выбрать дефолтный цвет
 				'required' => array(
-					array('footer-background', '=', '1'),
-					array('global-footer-type', '=', '1')
+					array('footer_background', '=', 'solid'),
+					array('global_footer_type', '=', '1')
 				),
 			),
 
@@ -136,14 +136,14 @@ Redux::set_section(
 
 			// Выбор Soft-Color
 			array(
-				'id'       => 'soft-color-footer',
+				'id'       => 'footer_soft_color',
 				'type'     => 'select',
 				'title'    => esc_html__('Select Footer Background Soft Color', 'codeweber'),
 				'options'  => $soft_color_options,
 				'default'  => 'soft-red',
 				'required' => array(
-					array('footer-background', '=', '2'),
-					array('global-footer-type', '=', '1')
+					array('footer_background', '=', 'soft'),
+					array('global_footer_type', '=', '1')
 				),
 			),
 
@@ -196,7 +196,7 @@ Redux::set_section(
 					),
 				),
 				'default'  => '1',
-				'required' => array('global-footer-type', '=', '1'),
+				'required' => array('global_footer_type', '=', '1'),
 			),
 			array(
 				'id'       => 'footer-accordeon-offcanvas-left',
@@ -220,7 +220,7 @@ Redux::set_section(
 					'7' => esc_html__('Type 7', 'codeweber'),
 				),
 				'default'  => '1',
-				'required' => array('global-footer-type', '=', '1'),
+				'required' => array('global_footer_type', '=', '1'),
 			),
 
 
@@ -234,11 +234,11 @@ Redux::set_section(
 
 			// Активация Breadcrumbs
 			array(
-				'id'       => 'global-footer-offcanvas-right',
+				'id'       => 'global_footer_offcanvas_right',
 				'type'     => 'switch',
 				'title'    => esc_html__('Offcanvas Right Menu footer', 'codeweber'),
 				'default'  => 1,
-				'required' => array('global-footer-type', '=', '1'),
+				'required' => array('global_footer_type', '=', '1'),
 			),
 
 			// Выбор типа фона
@@ -256,15 +256,15 @@ Redux::set_section(
 					'7' => esc_html__('Type 7', 'codeweber'),
 				),
 				'default'  => '1',
-				'required' => array('global-footer-offcanvas-right', '=', '1'),
+				'required' => array('global_footer_offcanvas_right', '=', '1'),
 			),
 
 			array(
-				'id'       => 'sort-offcanvas-footer',
+				'id'       => 'sort_offcanvas_footer',
 				'type'     => 'sorter',
 				'title'    => esc_html__('Order items in side menu', 'codeweber'),
 				'compiler' => 'true',
-				'required' => array('global-footer-offcanvas-right', '=', '1'),
+				'required' => array('global_footer_offcanvas_right', '=', '1'),
 				'options'  => array(
 					'enabled'  => array(
 						'description'             => esc_html__('Description', 'codeweber'),
@@ -283,7 +283,7 @@ Redux::set_section(
 			),
 
 			array(
-				'id'       => 'footer-accordeon-topbar',
+				'id'       => 'footer_accordeon_topbar',
 				'type'     => 'accordion',
 				'title'    => esc_html__('Bottombar', 'codeweber'),
 				'position' => 'start',
@@ -291,11 +291,11 @@ Redux::set_section(
 
 			// Активация Breadcrumbs
 			array(
-				'id'       => 'footer-bottomobar-enable',
+				'id'       => 'footer_bottomobar_enable',
 				'type'     => 'switch',
 				'title'    => esc_html__('Footer Bootombar', 'codeweber'),
 				'default'  => 1,
-				'required' => array('global-footer-type', '=', '1'),
+				'required' => array('global_footer_type', '=', '1'),
 			),
 		),
 	)

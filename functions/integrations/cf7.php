@@ -382,9 +382,6 @@ function create_newsletter_cf7_form()
   <button type="submit" class="wpcf7-submit has-ripple btn btn-primary">
     Отправить
   </button>
-  <div class="invalid-feedback">
-    Введите корректный email.
-  </div>
 </div>
 
 <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
@@ -770,6 +767,15 @@ function codeweber_cf7_legal_consent_panel($contact_form)
 {
    $form_id = $contact_form->id();
 
+   $legal_posts = get_posts([
+      'post_type'      => 'legal',
+      'posts_per_page' => -1,
+      'post_status'    => 'publish',
+      'orderby'        => 'title',
+      'order'          => 'ASC',
+   ]);
+
+
    // Legal consent
    $selected_legal_id = get_post_meta($form_id, '_legal_consent_doc', true);
    if (empty($selected_legal_id)) {
@@ -784,28 +790,12 @@ function codeweber_cf7_legal_consent_panel($contact_form)
       if ($mailing_post) $selected_mailing_id = $mailing_post->ID;
    }
 
-   $legal_post_type = post_type_exists('legal') ? 'legal' : 'page';
-
-   $legal_posts = get_posts([
-      'post_type'      => $legal_post_type,
-      'posts_per_page' => -1,
-      'post_status'    => 'publish',
-      'orderby'        => 'title',
-      'order'          => 'ASC',
-   ]);
-
    $selected_privacy_id = get_post_meta($form_id, '_privacy_policy_page', true);
    if (empty($selected_privacy_id)) {
       $default_privacy_page_id = (int) get_option('wp_page_for_privacy_policy');
       if ($default_privacy_page_id) $selected_privacy_id = $default_privacy_page_id;
    }
 
-   $privacy_pages = get_pages([
-      'post_type'   => 'page',
-      'post_status' => 'publish',
-      'sort_column' => 'post_title',
-      'sort_order'  => 'asc',
-   ]);
 ?>
    <fieldset>
       <h2><?php _e('Select Legal Documents for This contact form:', 'codeweber'); ?></h2>
@@ -849,7 +839,7 @@ function codeweber_cf7_legal_consent_panel($contact_form)
             <p><?php _e('Shortcode for displaying a document link in the form code: [cf7_privacy_policy]', 'codeweber'); ?></p>
             <select name="privacy_policy_page">
                <option value=""><?php _e('— Select —', 'codeweber'); ?></option>
-               <?php foreach ($privacy_pages as $page): ?>
+               <?php foreach ($legal_posts as $page): ?>
                   <option value="<?php echo esc_attr($page->ID); ?>" <?php selected($selected_privacy_id, $page->ID); ?>>
                      <?php echo esc_html($page->post_title); ?>
                   </option>

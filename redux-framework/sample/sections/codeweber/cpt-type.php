@@ -21,7 +21,7 @@ defined('ABSPATH') || exit;
  * @return array Массив имён файлов (без путей), соответствующих критериям.
  *               Возвращает пустой массив, если директория не существует или нет подходящих файлов.
  */
-if (! function_exists('get_cpt_files_list')) {
+if (!function_exists('get_cpt_files_list')) {
 	function get_cpt_files_list()
 	{
 		$directory = get_template_directory() . '/functions/cpt';
@@ -29,7 +29,6 @@ if (! function_exists('get_cpt_files_list')) {
 		if (is_dir($directory)) {
 			$files = scandir($directory);
 
-			// Фильтруем только те, что начинаются с "cpt-" и имеют расширение ".php"
 			$cpt_files = array_filter($files, function ($file) use ($directory) {
 				$is_valid = is_file($directory . '/' . $file)
 					&& strpos($file, 'cpt-') === 0
@@ -37,7 +36,7 @@ if (! function_exists('get_cpt_files_list')) {
 				return $is_valid;
 			});
 
-			return array_values($cpt_files); // Возвращаем отфильтрованный список
+			return array_values($cpt_files);
 		}
 
 		return [];
@@ -55,40 +54,44 @@ if (! function_exists('get_cpt_files_list')) {
  *
  * @return array Массив конфигураций переключателей, подходящих для использования в Redux или других UI-фреймворках.
  */
+
+$excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal'];
+
+
 function generate_cpt_switches($cpt_files)
 {
 	$cpt_switches = [];
-	$excluded_words = ['header', 'footer', 'html', 'modal', 'docs', 'price', 'page-header'];
+	$excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal'];
 
 	foreach ($cpt_files as $file) {
-		// 1. Проверка на исключения
 		$file_lower = strtolower($file);
-		foreach ($excluded_words as $word) {
+		$is_excluded = false;
+
+		foreach ($excluded_cpt as $word) {
 			if (str_contains($file_lower, $word)) {
-				continue 2;
+				$is_excluded = true;
+				break;
 			}
 		}
 
-		// 2. Безопасное извлечение и форматирование имени
+		if ($is_excluded) {
+			continue;
+		}
+
 		$base_name = str_replace(['cpt-', '.php'], '', $file);
 		if (empty($base_name)) {
 			$base_name = 'unnamed';
 		}
 
-		// 3. Форматирование отображаемого названия
 		$display_name = str_replace(['-', '_'], ' ', $base_name);
 		$display_name = mb_convert_case($display_name, MB_CASE_TITLE, "UTF-8");
-
-		// 4. Перевод с сохранением заглавной буквы
 		$translated_label = __($display_name, 'codeweber');
-
-		// 5. Формирование ID с санитизацией
 		$option_id = 'cpt_switch_' . sanitize_key($base_name);
 
 		$cpt_switches[] = [
 			'id'       => $option_id,
 			'type'     => 'switch',
-			'title'    => $translated_label, // Уже с заглавной буквы
+			'title'    => $translated_label,
 			'subtitle' => __('Enable/disable this post type', 'codeweber'),
 			'default'  => false,
 			'on'       => __('Enabled', 'codeweber'),
@@ -123,17 +126,17 @@ function generate_cpt_switches($cpt_files)
  */
 function get_header_posts()
 {
-	$args = array(
-		'post_type'      => 'header',       // Пользовательский тип записи
-		'posts_per_page' => -1,             // Получить все записи без ограничения
-		'post_status'    => 'publish',      // Только опубликованные записи
-	);
+	$args = [
+		'post_type'      => 'header',
+		'posts_per_page' => -1,
+		'post_status'    => 'publish',
+	];
 
 	$posts = get_posts($args);
-
 	$options = [];
+
 	foreach ($posts as $post) {
-		$options[$post->ID] = $post->post_title; // ID и заголовок каждой записи
+		$options[$post->ID] = $post->post_title;
 	}
 
 	return $options;
@@ -148,22 +151,32 @@ function get_header_posts()
  * позволяя управлять их отображением и поведением через панель администратора.
  */
 
-// Получаем список всех файлов с кастомными типами записей
+// Основной код
 $custom_post_type_files = get_cpt_files_list();
+$excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal'];
 
-// Проверяем, есть ли файлы с кастомными типами записей
 if (!empty($custom_post_type_files)) {
-    // Добавляем основную секцию для настройки кастомных типов записей
-    Redux::set_section(
-        $opt_name,
-        array(
-            'title'      => esc_html__('Custom Post Types', 'codeweber'),
-            'id'         => 'custom_post_types_section',
-            'subsection' => true,
-            'desc'       => esc_html__('Settings for custom post types.', 'codeweber'),
-            'fields'     => generate_cpt_switches($custom_post_type_files),
-        )
-    );
+	// Фильтруем файлы для генерации переключателей
+	$filtered_for_switches = array_filter($custom_post_type_files, function ($file) use ($excluded_cpt) {
+		foreach ($excluded_cpt as $word) {
+			if (str_contains(strtolower($file), $word)) {
+				return false;
+			}
+		}
+		return true;
+	});
+	// Затем используйте $filtered_cpt_files вместо $custom_post_type_files
+	// для генерации переключателей:
+	Redux::set_section(
+		$opt_name,
+		[
+			'title'      => esc_html__('Custom Post Types', 'codeweber'),
+			'id'         => 'custom_post_types_section',
+			'subsection' => true,
+			'desc'       => esc_html__('Settings for custom post types.', 'codeweber'),
+			'fields'     => generate_cpt_switches($filtered_for_switches),
+		]
+	);
 
     // Проверяем наличие записей для стандартных типов
     $header_posts = get_posts(array(
@@ -228,8 +241,13 @@ if (!empty($custom_post_type_files)) {
         // Проверяем, включен ли этот тип записи
         $is_enabled = Redux::get_option($opt_name, $option_id);
 
-        // Пропускаем если тип записи отключен и это не WooCommerce
-        if (!$is_enabled && $file !== 'cpt-woocommerce.php') {
+		// Для legal CPT принудительно включаем без проверки переключателя
+		if ($file === 'cpt-legal.php') {
+			$is_enabled = true;
+		}
+
+		// Пропускаем если тип записи отключен и это не WooCommerce
+		if (!$is_enabled && $file !== 'cpt-woocommerce.php') {
             continue;
         }
 

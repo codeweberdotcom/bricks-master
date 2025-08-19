@@ -12,8 +12,8 @@ if (!function_exists('codeweber_sidebars')) {
             'name'          => esc_html__($sidebar_name, 'codeweber'),
             'id'            => $sidebar_id,
             'description'   => esc_html__($sidebar_description, 'codeweber'),
-            'before_widget' => '<aside class="col-xl-3 sidebar sticky-sidebar mt-md-0 py-12 d-none d-xl-block"><div class="widget mb-4 %2$s clearfix">',
-            'after_widget'  => '</div></aside>',
+            'before_widget' => '<div class="widget mb-4 %2$s clearfix">',
+            'after_widget'  => '</div>',
             'before_title'  => "<{$title_tag} class=\"{$title_class}\">",
             'after_title'   => "</{$title_tag}>",
         ]);
@@ -135,8 +135,7 @@ add_action('codeweber_after_widget', function ($sidebar_id) {
         ]);
 
         if ($legal_posts) {
-            echo '<aside class="col-xl-3 sidebar sticky-sidebar mt-md-0 py-12 d-none d-xl-block">
-                <div class="widget">
+            echo '<div class="widget">
                     <nav id="sidebar-nav">
                         <ul class="list-unstyled text-reset">';
 
@@ -156,10 +155,42 @@ add_action('codeweber_after_widget', function ($sidebar_id) {
                 $index++;
             }
 
-            echo '          </ul>
-                    </nav>
-                </div>
-            </aside>';
+            echo '</ul>
+                 </nav>
+              </div>';
         }
     }
 });
+
+
+
+/**
+ * Получает позицию сайдбара для текущей страницы/записи
+ * 
+ * @param string $opt_name Имя опции Redux
+ * @return string Позиция сайдбара (left|right|none)
+ */
+function get_sidebar_position($opt_name)
+{
+    $post_type = get_post_type();
+    $post_id = get_the_ID();
+
+    // Для архивов сразу возвращаем глобальную настройку
+    if (!is_singular($post_type)) {
+        return Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
+    }
+
+    // Для одиночных записей
+    $custom_sidebar_enabled = Redux::get_post_meta($opt_name, $post_id, 'custom-page-sidebar-type') === '2';
+
+    // Если кастомный сайдбар включен, получаем его позицию
+    if ($custom_sidebar_enabled) {
+        $custom_position = Redux::get_post_meta($opt_name, $post_id, 'custom-page-sidebar-position');
+        if (!empty($custom_position)) {
+            return $custom_position;
+        }
+    }
+
+    // Возвращаем глобальную настройку по умолчанию
+    return Redux::get_option($opt_name, 'sidebar_position_single_' . $post_type);
+}

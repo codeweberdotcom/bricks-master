@@ -16,10 +16,10 @@
  *
  * @return void
  */
-add_action('admin_menu', function () {
-	remove_submenu_page('options-general.php', 'privacy.php'); // Старые версии WP
-	remove_submenu_page('options-general.php', 'options-privacy.php'); // Новые версии WP
-}, 999);
+// add_action('admin_menu', function () {
+// 	remove_submenu_page('options-general.php', 'privacy.php'); // Старые версии WP
+// 	remove_submenu_page('options-general.php', 'options-privacy.php'); // Новые версии WP
+// }, 999);
 
 
 
@@ -298,7 +298,6 @@ add_action('save_post_legal', function ($post_id) {
 	} else {
 		update_post_meta($post_id, '_hide_from_archive', '0');
 	}
-
 });
 
 /**
@@ -353,7 +352,41 @@ add_action('init', function () {
 		add_shortcode('url_' . $field['slug'], function () use ($field) {
 			$page_id = get_option($field['id']);
 			if ($page_id && get_post_status($page_id) === 'publish') {
-				return esc_url(get_permalink($page_id));
+				return '<a href=' . esc_url(get_permalink($page_id)). ' >' . esc_url(get_permalink($page_id)) . '</a>';
+			}
+			return '';
+		});
+	}
+});
+
+
+/**
+ * Регистрирует динамические шорткоды для вывода ссылок на юридические страницы с заголовками.
+ *
+ * Пример:
+ *   Если поле имеет slug = 'cookie_policy', будет доступен шорткод:
+ *   [link_cookie_policy] → <a href="https://example.com/cookie-policy/" target="_blank" title="политика использования cookie">политика использования cookie</a>
+ *
+ * Условия:
+ * - Использует get_option($field['id']) для получения ID страницы
+ * - Если страница существует и опубликована, возвращает ссылку с заголовком
+ * - Заголовок приводится к нижнему регистру
+ * - Ссылка открывается в новом окне (target="_blank")
+ *
+ * Требует:
+ * - Функция codeweber_get_legal_fields() должна вернуть массив с ключами: id, slug
+ *
+ * @since 1.0.0
+ */
+add_action('init', function () {
+	$fields = codeweber_get_legal_fields();
+	foreach ($fields as $field) {
+		add_shortcode('link_' . $field['slug'], function () use ($field) {
+			$page_id = get_option($field['id']);
+			if ($page_id && get_post_status($page_id) === 'publish') {
+				$url = esc_url(get_permalink($page_id));
+				$title = mb_strtolower(get_the_title($page_id), 'UTF-8');
+				return '<a href="' . $url . '" target="_blank" title="' . esc_attr($title) . '">' . $url . '</a>';
 			}
 			return '';
 		});
@@ -364,40 +397,78 @@ add_action('init', function () {
 
 /**
  * Шорткод [url_privacy_policy]
- *
- * Возвращает URL страницы политики конфиденциальности WordPress, заданной через `Settings → Privacy`.
- *
- * Пример:
- *   [url_privacy_policy] → https://example.com/privacy-policy/
- *
- * Использует функцию WordPress `get_privacy_policy_url()`.
- * Возвращает пустую строку, если страница не задана.
- *
- * @since 1.0.0
+ * 
+ * Возвращает URL выбранной в настройках страницы политики конфиденциальности
+ * Использует ID страницы, сохраненный в базе данных через выпадающий список
+ * 
+ * @return string URL страницы или пустая строка, если страница не выбрана/не существует
  */
 add_shortcode('url_privacy_policy', function () {
-	$url = get_privacy_policy_url();
-	return esc_url($url);
+	// Получаем все legal поля
+	$legal_fields = codeweber_get_legal_fields();
+
+	// Находим поле для privacy policy по точному ID
+	$privacy_field = null;
+	foreach ($legal_fields as $field) {
+		if ($field['id'] === 'codeweber_legal_privacy-policy') { // Точный ID из вашей системы
+			$privacy_field = $field;
+			break;
+		}
+	}
+
+	if (!$privacy_field) return '';
+
+	// Получаем ID сохраненной страницы из настроек
+	$page_id = get_option($privacy_field['id']);
+
+	// Проверяем, что страница существует и опубликована
+	if (!$page_id || get_post_status($page_id) !== 'publish') {
+		return '';
+	}
+
+	// Возвращаем URL с экранированием
+	return esc_url(get_permalink($page_id));
 });
+
+
+
 
 
 /**
  * Шорткод [link_privacy_policy]
- *
- * Возвращает HTML-ссылку на страницу политики конфиденциальности WordPress.
- *
- * Пример:
- *   [link_privacy_policy] → <a href="https://example.com/privacy-policy/">https://example.com/privacy-policy/</a>
- *
- * Использует `get_privacy_policy_url()` и оборачивает результат в <a>.
- * Возвращает пустую строку, если страница не задана.
- *
- * @since 1.0.0
+ * 
+ * Возвращает HTML-ссылку на выбранную в настройках страницу политики конфиденциальности
+ * Использует ID страницы, сохраненный в базе данных через выпадающий список
+ * 
+ * @return string HTML ссылка или пустая строка, если страница не выбрана/не существует
  */
 add_shortcode('link_privacy_policy', function () {
-	$url = get_privacy_policy_url();
-	if (!$url) return '';
-	return sprintf('<a href="%1$s">%1$s</a>', esc_url($url));
+	// Получаем все legal поля
+	$legal_fields = codeweber_get_legal_fields();
+
+	// Находим поле для privacy policy (по id или другому уникальному признаку)
+	$privacy_field = null;
+	foreach ($legal_fields as $field) {
+		if ($field['id'] === 'codeweber_legal_privacy-policy') { // Используем точный ID поля
+			$privacy_field = $field;
+			break;
+		}
+	}
+
+	if (!$privacy_field) return '';
+
+	// Получаем ID сохраненной страницы
+	$page_id = get_option($privacy_field['id']);
+
+	// Проверяем, что страница существует и опубликована
+	if (!$page_id || get_post_status($page_id) !== 'publish') {
+		return '';
+	}
+
+	// Получаем URL страницы
+	$url = get_permalink($page_id);
+
+	return $url ? sprintf('<a href="%s">%s</a>', esc_url($url), esc_url($url)) : '';
 });
 
 
@@ -419,7 +490,7 @@ add_shortcode('link_privacy_policy', function () {
  */
 function codeweber_legal_settings_page()
 {
-	?>
+?>
 	<div class="wrap">
 		<h1><?php _e('Legal Settings', 'codeweber'); ?></h1>
 		<form method="post" action="options.php">
@@ -430,7 +501,7 @@ function codeweber_legal_settings_page()
 			?>
 		</form>
 	</div>
-	<?php
+<?php
 }
 
 function codeweber_get_legal_fields()
@@ -483,7 +554,7 @@ function codeweber_get_legal_fields()
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
-<li><strong>Оператор</strong> – [redux_option key="legal_entity"] (ОГРНИП [redux_option key="lega_ogrnip"] от [redux_option key="lega_ogrnip_date" format="d.m.Y"]);</li>
+<li><strong>Оператор</strong> – [redux_option key="legal_entity"] (ОГРНИП [redux_option key="legal_ogrnip"] от [redux_option key="legal_ogrnip_date" format="d.m.Y"]);</li>
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
@@ -990,7 +1061,277 @@ EOD
 			'id'      => 'codeweber_legal_terms_of_use',
 			'title'   => __('Terms of Use', 'codeweber'),
 			'slug'    => 'terms-of-use',
-			'content' => 'These are the terms of use.',
+			'content' => <<<EOD
+			<!-- wp:paragraph -->
+<p>Редакция от 28.07.2025</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">1. Общие положения</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>1.1. Настоящее Пользовательское соглашение (далее — «Соглашение») заключено между: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li><strong>Администрацией сайта</strong>: [redux_option key="legal_entity"] (ОГРНИП [redux_option key="legal_ogrnip"] от [redux_option key="legal_ogrnip_date" format="d.m.Y"]),<br>Юридический адрес: [redux_option key="storage_address"],<br>Контактный email: [redux_option key="email_responsible_person"];</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><strong>Пользователем</strong>&nbsp;— любым лицом, осуществляющим доступ к сайту [site_domain_link] (далее — «Сайт»).</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>1.2. Начиная использование Сайта, Пользователь:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>Подтверждает, что полностью ознакомился с условиями настоящего Соглашения;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Дает Согласие на обработку персональных данных<strong>&nbsp;</strong>([url_consent-processing]);</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Принимает условия&nbsp;Политики в отношении обработки персональных данных размещенной по адресу (<a target="_blank" rel="noreferrer noopener">[url_privacy-policy]</a>);</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Соглашается с использованием файлов cookie согласно&nbsp;Политики в отношении использования файлов Куки размещенной по адресу ([url_cookie-policy]).</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:separator {"className":"my-5"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity my-5"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">2. Право интеллектуальной собственности на контент сайта</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>2.1.  Весь контент Сайта (тексты, изображения, дизайн, видео, базы данных и иные материалы), за исключением явно обозначенного как пользовательский, является интеллектуальной собственностью [redux_option key="legal_entity"].</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>2.2. Запрещается без письменного разрешения:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>Копирование, воспроизведение или распространение контента;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Публикация материалов Сайта на других ресурсах без активной гиперссылки на источник;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Любое коммерческое использование контента.</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>2.3. Допускается цитирование (статья 1274 ГК РФ) с обязательным указанием автора и гиперссылки на источник в виде активной ссылки.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator {"className":"my-5"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity my-5"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">3. Условия использования</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>3.1. Пользователь обязуется:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>Использовать Сайт только в законных целях;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Не нарушать права интеллектуальной собственности;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Не распространять вредоносное ПО и незаконный контент.</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>3.2. Запрещенный контент и действия:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Пользователю категорически запрещается:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>Размещать, распространять или пропагандировать:<br>• Контент, разжигающий межнациональную, расовую или религиозную вражду (ст. 282 УК РФ);<br>• Материалы экстремистского характера;<br>• Пропаганду насилия и жестокости;<br>• Порнографию и материалы сексуального характера с участием несовершеннолетних;<br>• Информацию о способах изготовления наркотиков;<br>• Призывы к суициду и опасные "челленджи";<br>• Ложную информацию (фейки), порочащую честь и достоинство других лиц;<br>• Персональные данные третьих лиц без их согласия.<br></li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Совершать действия, которые:<br>• Нарушают права интеллектуальной собственности;<br>• Содержат угрозы и оскорбления;<br>• Направлены на обход технических ограничений Сайта;<br>• Нарушают законодательство РФ или международное право.</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>3.3. Особые ограничения на информацию о специальной военной операции:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Пользователям запрещается:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>Распространение ложной информации о действиях Вооруженных Сил РФ;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Призывы к санкциям против России;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Материалы, дискредитирующие российскую армию (ст. 207.3 УК РФ);</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Карты с расположением войск и другой информации, составляющей гостайну;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Использование неутвержденных символов СВО;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Материалы запрещенных организаций (признанных в РФ экстремистскими);</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Материалы иностранных агентов (без соответствующей маркировки);</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Сбор помощи для ВСУ или иных запрещенных структур;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Пропаганда нацистской символики;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Оправдание военных преступлений.</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>3.4. Последствия нарушений:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>При обнаружении запрещенного контента Администрация вправе:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>Удалить материал без предупреждения;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Заблокировать аккаунт пользователя;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Передать информацию в правоохранительные органы (при необходимости);</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Взыскать убытки через суд.</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:separator {"className":"my-5"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity my-5"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">4. Персональные данные</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>4.1. &nbsp;Обработка персональных данных осуществляется согласно:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>Политика в отношении обработки персональных данных размещенная по адресу <a target="_blank" rel="noreferrer noopener">(</a><a target="_blank" rel="noreferrer noopener">[url_privacy-policy]</a>);</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Политика в отношении использования файлов Куки размещенная по адресу ([url_cookie-policy]).</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:separator {"className":"my-5"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity my-5"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">5. Ответственность</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>5.1. Администрация не несет ответственности за:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list"><!-- wp:list-item -->
+<li>Убытки, возникшие при использовании Сайта;</li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li>Работу сторонних ресурсов.</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>5.2. Пользователь возмещает ущерб, причиненный нарушениями.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator {"className":"my-5"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity my-5"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">6. Заключительные положения</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>6.1. Соглашение вступает в силу с момента публикации.<br>6.2. Все споры разрешаются в суде по месту нахождения [redux_option key="legal_entity"].</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator {"className":"my-5"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity my-5"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">7. Контактная информация:</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>[redux_option key="legal_entity_short"]<br><strong>Адрес:</strong> [redux_option key="storage_address"]<br><strong>Тел.</strong> [redux_option key="phone_responsible_person"]<br><strong>E-mail:</strong> [redux_option key="email_responsible_person"]</p>
+<!-- /wp:paragraph -->
+EOD
 		],
 		[
 			'id'      => 'codeweber_legal_cookie_policy',
@@ -1039,7 +1380,7 @@ EOD
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
-<li><strong>Оператор</strong> – [redux_option key="legal_entity"] (ОГРНИП [redux_option key="lega_ogrnip"] от [redux_option key="lega_ogrnip_date" format="d.m.Y"]);</li>
+<li><strong>Оператор</strong> – [redux_option key="legal_entity"] (ОГРНИП [redux_option key="legal_ogrnip"] от [redux_option key="legal_ogrnip_date" format="d.m.Y"]);</li>
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
@@ -1262,7 +1603,7 @@ EOD
 			'slug'    => 'consent-processing',
 			'content' => <<<EOD
 <!-- wp:paragraph -->
-<p>Настоящим, при заполнении контактных форм на сайте, расположенном в информационно-телекоммуникационной сети Интернет по адресу [site_domain_link], в соответствии с Федеральным законом от 27.07.2006 №152-ФЗ «О персональных данных», действуя своей волей и в своем интересе, даю конкретное, информированное и сознательное согласие [redux_option key="lega_entity_dative"] (ОГРНИП [redux_option key="lega_ogrnip"] от [redux_option key="lega_ogrnip_date" format="d.m.Y"])(далее – Оператор)</p>
+<p>Настоящим, при заполнении контактных форм на сайте, расположенном в информационно-телекоммуникационной сети Интернет по адресу [site_domain_link], в соответствии с Федеральным законом от 27.07.2006 №152-ФЗ «О персональных данных», действуя своей волей и в своем интересе, даю конкретное, информированное и сознательное согласие [redux_option key="legal_entity_dative"] (ОГРНИП [redux_option key="legal_ogrnip"] от [redux_option key="legal_ogrnip_date" format="d.m.Y"])(далее – Оператор)</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -1314,7 +1655,7 @@ EOD
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>[redux_option key="legal_entity_short"]<br>Адрес: [redux_option key="storage_address"]<br>ОГРНИП [redux_option key="lega_ogrnip"]<br>ИНН [redux_option key="taxpayer_identification_number"]<br>Тел. [redux_option key="phone_responsible_person"]<br>E-mail: [redux_option key="email_responsible_person"]</p>
+<p>[redux_option key="legal_entity_short"]<br>Адрес: [redux_option key="storage_address"]<br>ОГРНИП [redux_option key="legal_ogrnip"]<br>ИНН [redux_option key="taxpayer_identification_number"]<br>Тел. [redux_option key="phone_responsible_person"]<br>E-mail: [redux_option key="email_responsible_person"]</p>
 <!-- /wp:paragraph -->
 EOD
 		],
@@ -1348,7 +1689,7 @@ EOD
 			'slug'    => 'email-consent',
 			'content' => <<<EOD
 <!-- wp:paragraph -->
-<p>Настоящим, при заполнении контактных форм на сайте, расположенном в информационно-телекоммуникационной сети Интернет по адресу [site_domain_link], действуя своей волей и в своем интересе, даю конкретное, информированное и сознательное согласие [redux_option key="lega_entity_dative"] (ОГРНИП [redux_option key="lega_ogrnip"] от [redux_option key="lega_ogrnip_date" format="d.m.Y"])(далее – Оператор), на получение информационной и рекламной рассылки (рекламной и иной информации) Оператора об услугах (товарах), предложениях, новостях Оператора и его партнерах и (или) акциях посредством отправки электронных писем на указанный мной адрес электронной почты, отправки СМС-сообщений на указанный мной номер телефона.</p>
+<p>Настоящим, при заполнении контактных форм на сайте, расположенном в информационно-телекоммуникационной сети Интернет по адресу [site_domain_link], действуя своей волей и в своем интересе, даю конкретное, информированное и сознательное согласие [redux_option key="legal_entity_dative"] (ОГРНИП [redux_option key="legal_ogrnip"] от [redux_option key="legal_ogrnip_date" format="d.m.Y"])(далее – Оператор), на получение информационной и рекламной рассылки (рекламной и иной информации) Оператора об услугах (товарах), предложениях, новостях Оператора и его партнерах и (или) акциях посредством отправки электронных писем на указанный мной адрес электронной почты, отправки СМС-сообщений на указанный мной номер телефона.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -1372,7 +1713,7 @@ EOD
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>[redux_option key="legal_entity_short"]<br>Адрес: [redux_option key="storage_address"]<br>ОГРНИП [redux_option key="lega_ogrnip"]<br>ИНН [redux_option key="taxpayer_identification_number"]<br>Тел. [redux_option key="phone_responsible_person"]<br>E-mail: [redux_option key="email_responsible_person"]</p>
+<p>[redux_option key="legal_entity_short"]<br>Адрес: [redux_option key="storage_address"]<br>ОГРНИП [redux_option key="legal_ogrnip"]<br>ИНН [redux_option key="taxpayer_identification_number"]<br>Тел. [redux_option key="phone_responsible_person"]<br>E-mail: [redux_option key="email_responsible_person"]</p>
 <!-- /wp:paragraph -->
 EOD
 		],
@@ -1387,7 +1728,107 @@ EOD
 			'id'      => 'codeweber_legal_seller_info',
 			'title'   => __('Seller Information', 'codeweber'),
 			'slug'    => 'seller-information',
-			'content' => 'This is the seller information.',
+			'content' => <<<EOD
+<!-- wp:paragraph -->
+<p>Редакция от 28.07.2025</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">1. <strong>Реквизиты компании</strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table -->
+<figure class="wp-block-table"><table class="has-fixed-layout"><tbody><tr><td><strong>Название организации:</strong></td><td>[redux_option key="legal_entity_short"]</td></tr><tr><td><strong>ИНН:</strong></td><td>[redux_option key="taxpayer_identification_number"]</td></tr><tr><td><strong>ОГРН(ОГРНИП):</strong></td><td>[redux_option key="legal_ogrnip"]</td></tr><tr><td><strong>КПП:</strong></td><td>[redux_option key="legal_kpp"]</td></tr><tr><td><strong>Телефон:</strong></td><td>[redux_option key="phone_responsible_person"]</td></tr><tr><td><strong>E-mail:</strong></td><td>[redux_option key="email_responsible_person"]</td></tr></tbody></table></figure>
+<!-- /wp:table -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">2. <strong>Юридический адрес</strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table -->
+<figure class="wp-block-table"><table class="has-fixed-layout"><tbody><tr><td><strong>Страна:</strong> </td><td>[redux_option key="juri-country"]</td></tr><tr><td><strong>Регион:</strong></td><td>[redux_option key="juri-region"]</td></tr><tr><td><strong>Город:</strong></td><td>[redux_option key="juri-city"]</td></tr><tr><td><strong>Улица:</strong></td><td>[redux_option key="juri-street"]</td></tr><tr><td><strong>Номер дома:</strong></td><td>[redux_option key="juri-house"]</td></tr><tr><td><strong>Офис:</strong></td><td>[redux_option key="juri-office"]</td></tr><tr><td><strong>Индекс:</strong></td><td>[redux_option key="juri-postal"]</td></tr></tbody></table></figure>
+<!-- /wp:table -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">3. <strong>Фактический адрес</strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table -->
+<figure class="wp-block-table"><table class="has-fixed-layout"><tbody><tr><td><strong>Страна:</strong> </td><td>[redux_option key="fact-country"]</td></tr><tr><td><strong>Регион:</strong></td><td>[redux_option key="fact-region"]</td></tr><tr><td><strong>Город:</strong></td><td>[redux_option key="fact-city"]</td></tr><tr><td><strong>Улица:</strong></td><td>[redux_option key="fact-street"]</td></tr><tr><td><strong>Номер дома:</strong></td><td>[redux_option key="fact-house"]</td></tr><tr><td><strong>Офис:</strong></td><td>[redux_option key="fact-office"]</td></tr><tr><td><strong>Индекс:</strong></td><td>[redux_option key="fact-postal"]</td></tr></tbody></table></figure>
+<!-- /wp:table -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">4. <strong><strong>Банковские реквизиты</strong></strong></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table -->
+<figure class="wp-block-table"><table class="has-fixed-layout"><tbody><tr><td><strong>Наименование банка:</strong></td><td>[redux_option key="bank-name"]</td></tr><tr><td><strong>БИК:</strong></td><td>[redux_option key="bank-bic"]</td></tr><tr><td><strong>Корр. счет:</strong></td><td>[redux_option key="bank-corr-account"]</td></tr><tr><td><strong>Расчетный счет:</strong></td><td>[redux_option key="bank-settlement-account"]</td></tr><tr><td><strong>ИНН банка:</strong></td><td>[redux_option key="bank-bank-tin"]</td></tr><tr><td><strong>КПП банка:</strong></td><td>[redux_option key="bank-bank-kpp"]</td></tr><tr><td><strong>Адрес банка:</strong></td><td>[redux_option key="bank-bank-address"]</td></tr></tbody></table></figure>
+<!-- /wp:table -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">5. <strong><strong><strong>Дополнительная информация</strong></strong></strong><br></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><strong>Режим работы:</strong><br>Пн-Пт: 9:00–18:00, Сб-Вс: выходной</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Руководитель:</strong><br>[redux_option key="responsible_person"]</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Лицензии/Свидетельства:</strong><br><em>(если есть, можно оформить списком)</em></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+EOD
 		],
 	];
 }
@@ -1563,3 +2004,29 @@ function shortcode_pdn_sections($atts)
 	return render_personal_data_sections($opt_name, $indexes);
 }
 add_shortcode('pdn_sections', 'shortcode_pdn_sections');
+
+
+// Добавляем метабокс для управления скрытием из архива
+add_action('add_meta_boxes', function () {
+	add_meta_box(
+		'legal_hide_from_archive',
+		__('Hide from Archive', 'codeweber'),
+		'render_hide_from_archive_meta_box',
+		'legal',
+		'normal',
+		'default'
+	);
+});
+
+// Функция отображения метабокса
+function render_hide_from_archive_meta_box($post)
+{
+	$value = get_post_meta($post->ID, '_hide_from_archive', true);
+	wp_nonce_field('save_hide_from_archive', 'hide_from_archive_nonce');
+?>
+	<label>
+		<input type="checkbox" name="hide_from_archive" value="1" <?php checked($value, '1'); ?>>
+		<?php _e('Hide this document from archive', 'codeweber'); ?>
+	</label>
+<?php
+}

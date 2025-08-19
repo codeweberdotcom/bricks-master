@@ -1,6 +1,6 @@
 <?php
 
-function cptui_register_my_cpts()
+function cptui_register_my_offices()
 {
 
    /**
@@ -53,7 +53,7 @@ function cptui_register_my_cpts()
    register_post_type("offices", $args);
 }
 
-add_action('init', 'cptui_register_my_cpts');
+add_action('init', 'cptui_register_my_offices');
 
 function cptui_register_my_taxes_towns()
 {

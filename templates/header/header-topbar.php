@@ -4,14 +4,13 @@ global $opt_name;
 $phone1 = Redux::get_option($opt_name, 'phone_01');
 $email = Redux::get_option($opt_name, 'e-mail');
 
-$address_data = Redux::get_option($opt_name, 'fact-company-adress');
-$country      = $address_data['box1'] ?? '';
-$region       = $address_data['box2'] ?? '';
-$city         = $address_data['box3'] ?? '';
-$street       = ', ' . $address_data['box4'] ?? '';
-$house_number = ', ' . $address_data['box5'] ?? '';
-$office       = $address_data['box6'] ?? '';
-$postal_code  = $address_data['box7'] ?? '';
+$country      = Redux::get_option($opt_name, 'fact-country') ?? '';
+$region       = Redux::get_option($opt_name, 'fact-region') ?? '';
+$city         = Redux::get_option($opt_name, 'fact-city') ?? '';
+$street       = ', ' . Redux::get_option($opt_name, 'fact-street') ?? '';
+$house_number = ', ' . Redux::get_option($opt_name, 'fact-house') ?? '';
+$office       = Redux::get_option($opt_name, 'fact-office') ?? '';
+$postal_code  = Redux::get_option($opt_name, 'fact-postal') ?? '';
 $full_address = trim("{$city}, {$street}, {$house_number}", ' ,');
 ?>
 

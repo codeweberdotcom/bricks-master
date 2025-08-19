@@ -64,7 +64,7 @@ $mobile_menu_background = Redux::get_option($opt_name, 'mobile-menu-background')
 $topbar_enable = Redux::get_option($opt_name, 'header-topbar-enable');
 
 $global_header_offcanvas_right =  Redux::get_option($opt_name, 'global-header-offcanvas-right');
-$company_description =  Redux::get_option($opt_name, 'company-description');
+$company_description =  Redux::get_option($opt_name, 'text-about-company');
 
 $yandex_api_key   = Redux::get_option($opt_name, 'yandexapi');
 $coordinates      = Redux::get_option($opt_name, 'yandex_coordinates'); // строка типа "55.76, 37.64"
@@ -77,15 +77,15 @@ if (!empty($address_data['box1'])) $parts[] = $address_data['box1'];
 if (!empty($address_data['box2'])) $parts[] = $address_data['box2'];
 
 if (!empty($address_data['box3']) || !empty($address_data['box4'])) {
-  $city_street = trim("{$address_data['box3']} {$address_data['box4']}");
-  $parts[] = $city_street;
+    $city_street = trim("{$address_data['box3']} {$address_data['box4']}");
+    $parts[] = $city_street;
 }
 
 if (!empty($address_data['box5']) || !empty($address_data['box6'])) {
-  $house = !empty($address_data['box5']) ? "д. {$address_data['box5']}" : '';
-  $office = !empty($address_data['box6']) ? "оф. {$address_data['box6']}" : '';
-  $house_office = trim("{$house}, {$office}", ', ');
-  $parts[] = $house_office;
+    $house = !empty($address_data['box5']) ? "д. {$address_data['box5']}" : '';
+    $office = !empty($address_data['box6']) ? "оф. {$address_data['box6']}" : '';
+    $house_office = trim("{$house}, {$office}", ', ');
+    $parts[] = $house_office;
 }
 
 if (!empty($address_data['box7'])) $parts[] = $address_data['box7'];
@@ -129,7 +129,7 @@ if ($config['navbar-transparent']) {
         $header_navbar_class[] = 'navbar-dark';
         $header_navbar_wrapper_class[] = 'bg-dark';
     }
-}else{
+} else {
     if ($header_color_text === '1') {
         $logo = 'light';
         $header_navbar_class[] = 'navbar-light navbar-bg-light';
@@ -139,7 +139,6 @@ if ($config['navbar-transparent']) {
         $header_navbar_class[] = 'navbar-dark navbar-bg-dark';
         $header_navbar_wrapper_class[] = 'bg-dark';
     }
-
 }
 
 
@@ -286,6 +285,150 @@ if (isset($config['header-bg-color']) && $config['navbar-transparent'] !== true 
                             case 'description':
                                 echo '<div class="widget mb-5">
                                       <p class="lead text-dark">' . $company_description . '</p>
+                                      </div>
+                                      <!-- /.widget -->';
+                                break;
+                            case 'phones':
+                                echo '<div class="widget mb-5">
+                                      <div>
+                                      <div class="mb-1 h5">' . esc_html__('Phone', 'codeweber') . '</div>
+                                      <a href="tel:' . cleanNumber($phone1) . '">' . $phone1 . '</a>
+                                      <a href="tel:' . cleanNumber($phone2) . '">' . $phone2 . '</a>
+                                      </div>
+                                      </div>
+                                      <!-- /.widget -->
+                
+                                      <div class="widget mb-5">
+                                      <div>
+                                      <div class="mb-1 h5">' . esc_html__('E-mail', 'codeweber') . '</div>
+                                      <a href="mailto:' . $email . '">' . $email . ' </a>
+                                      </div>
+                                       </div>
+                                      <!-- /.widget -->';
+                                break;
+
+                            case 'address':
+                                echo '<div class="widget mb-5">
+                                      <div class="align-self-start justify-content-start">
+                                      <div class="mb-1 h5">' . esc_html__('Address', 'codeweber') . '</div>
+                                      <address>' . $full_address . '</address>
+                                      </div>
+                                      </div>
+                                      <!-- /.widget -->';
+                                break;
+
+                            case 'menu':
+                                echo '<div class="widget mb-5">';
+                                $locations = get_nav_menu_locations();
+                                if (isset($locations['offcanvas'])) {
+                                    $menu = wp_get_nav_menu_object($locations['offcanvas']);
+                                    echo '<div class="widget-title mb-3 h4">' . esc_html__($menu->name, 'codeweber') . '</div>';
+                                }
+                                wp_nav_menu(
+                                    array(
+                                        'theme_location'    => 'offcanvas',
+                                        'depth'             => 1,
+                                        'container'         => 'ul',
+                                        'container_class'   => '',
+                                        'container_id'      => '',
+                                        'menu_class'        => 'list-unstyled',
+                                    )
+                                );
+                                echo '</div>';
+                                break;
+
+                            case 'map':
+
+                                if (!empty($coordinates)) : ?>
+                                    <div class="widget mb-5">
+                                        <div class="widget-title mb-3 h4"><?= esc_html__('On Map', 'codeweber'); ?></div>
+                                        <div id="frontend-yandex-map" style="width: 100%; height: 200px;"></div>
+                                    </div>
+                                    <script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr($yandex_api_key); ?>&lang=ru_RU"></script>
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            ymaps.ready(function() {
+                                                var coords = "<?php echo esc_js($coordinates); ?>".split(",").map(function(coord) {
+                                                    return parseFloat(coord.trim());
+                                                });
+                                                var zoom = parseInt("<?php echo esc_js($zoom_level); ?>") || 10;
+
+                                                var map = new ymaps.Map("frontend-yandex-map", {
+                                                    center: coords,
+                                                    zoom: zoom
+                                                });
+
+                                                var placemark = new ymaps.Placemark(coords);
+                                                map.geoObjects.add(placemark);
+                                            });
+                                        });
+                                    </script>
+                <?php endif;
+                                break;
+
+                            case 'socials':
+                                echo '<div class="widget mb-5">
+                                       <div class="widget-title mb-3 h4">' . esc_html__('Social Media', 'codeweber') . ' </div>';
+                                echo social_links('', $config['social-type'], $config['social-size']);
+                                echo '</div>';
+                                break;
+
+                            default:
+                                echo "<!-- Блок {$key} не найден -->";
+                        }
+                    }
+                }
+
+                ?>
+            </div>
+        </div>
+        <!-- /.offcanvas -->
+    <?php } ?>
+    <?php
+    if ($global_header_offcanvas_right === '1') { ?>
+        <div class="offcanvas offcanvas-end bg-light" id="offcanvas-info" data-bs-scroll="true">
+            <div class="offcanvas-header">
+                <?= get_custom_logo_type('light'); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body pb-6">
+                <?php
+                if (
+                    isset($sort_offcanvas_right['enabled']) &&
+                    is_array($sort_offcanvas_right['enabled'])
+                ) {
+                    foreach ($sort_offcanvas_right['enabled'] as $key => $value) {
+                        if ($key === 'placebo') continue;
+                        switch ($key) {
+
+                            case 'widget_offcanvas_1':
+                                if (is_active_sidebar('header-widget-1')) {
+                                    echo '<div class="widget mb-5">';
+                                    dynamic_sidebar('header-widget-1');
+                                    echo '</div><!-- /.widget -->';
+                                }
+                                break;
+
+                            case 'widget_offcanvas_2':
+                                if (is_active_sidebar('header-widget-2')) {
+                                    echo '<div class="widget mb-5">';
+                                    dynamic_sidebar('header-widget-2');
+                                    echo '</div><!-- /.widget -->';
+                                }
+                                break;
+
+                            case 'widget_offcanvas_3':
+                                if (is_active_sidebar('header-widget-3')) {
+                                    echo '<div class="widget mb-5">';
+                                    dynamic_sidebar('header-widget-3');
+                                    echo '</div><!-- /.widget -->';
+                                }
+                                break;
+
+
+                            case 'description':
+                                echo '<div class="widget mb-5">
+                                      <p>' . $company_description . '</p>
                                       </div>
                                       <!-- /.widget -->';
                                 break;

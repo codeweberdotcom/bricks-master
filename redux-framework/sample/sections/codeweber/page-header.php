@@ -73,7 +73,7 @@ Redux::set_section(
 		'fields'           => array(
 
 			array(
-				'id'       => 'global-page-header-type-section',
+				'id'       => 'global_page_header_type_section',
 				'type'     => 'accordion',
 				'title'    => esc_html__('Page Header Type', 'codeweber'),
 				'position' => 'start',
@@ -83,7 +83,7 @@ Redux::set_section(
 
 			// Выбор типа Page Header
 			array(
-				'id'       => 'global-page-header-type',
+				'id'       => 'global_page_header_type',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Select Page-Header Type', 'codeweber'),
 				'options'  => array(
@@ -105,12 +105,12 @@ Redux::set_section(
 					'3' => esc_html__('Right', 'codeweber'),
 				),
 				'default'  => '1',
-				'required' => array('global-page-header-type', '=', '1'),
+				'required' => array('global_page_header_type', '=', '1'),
 			),
 
 			// Custom Header List
 			array(
-				'id'       => 'custom-page-header',
+				'id'       => 'custom_page_header',
 				'type'     => 'select',
 				'title'    => esc_html__('Custom Page-Header', 'codeweber'),
 				'data'     => 'posts',
@@ -118,13 +118,13 @@ Redux::set_section(
 					'post_type' => 'page-header',
 					'posts_per_page' => -1,
 				),
-				'required' => array('global-page-header-type', '=', '2'),
+				'required' => array('global_page_header_type', '=', '2'),
 				'desc'     => $no_headers_message, // Выводим сообщение, если записей нет
 			),
 
 			// Base Header Models
 			array(
-				'id'       => 'global-page-header-model',
+				'id'       => 'global_page_header_model',
 				'type'     => 'image_select',
 				'title'    => esc_html__('Base Page Header Models', 'codeweber'),
 				'options'  => array(
@@ -165,7 +165,7 @@ Redux::set_section(
 					),
 				),
 				'default'  => '1',
-				'required' => array('global-page-header-type', '=', '1'),
+				'required' => array('global_page_header_type', '=', '1'),
 			),
 
 			array(
@@ -185,7 +185,7 @@ Redux::set_section(
 					'2' => esc_html__('Light', 'codeweber'),
 				),
 				'default'  => '1',
-				'required' => array('global-page-header-type', '=', '1'),
+				'required' => array('global_page_header_type', '=', '1'),
 			),
 
 			array(
@@ -207,7 +207,7 @@ Redux::set_section(
 					'5' => esc_html__('None', 'codeweber'),
 				),
 				'default'  => '1',
-				'required' => array('global-page-header-type', '=', '1'),
+				'required' => array('global_page_header_type', '=', '1'),
 			),
 
 			// Выбор Solid-Color с динамическими цветами
@@ -219,7 +219,7 @@ Redux::set_section(
 				'default'  => 'primary',  // Можно выбрать дефолтный цвет
 				'required' => array(
 					array('global-page-header-background', '=', '1'),
-					array('global-page-header-type', '=', '1')
+					array('global_page_header_type', '=', '1')
 				),
 			),
 
@@ -232,7 +232,7 @@ Redux::set_section(
 				'default'  => 'soft-primary',
 				'required' => array(
 					array('global-page-header-background', '=', '2'),
-					array('global-page-header-type', '=', '1')
+					array('global_page_header_type', '=', '1')
 				),
 			),
 
@@ -243,7 +243,7 @@ Redux::set_section(
 				'title'    => esc_html__('Upload Header Background Image', 'codeweber'),
 				'required' => array(
 					array('global-page-header-background', '=', '3'),
-					array('global-page-header-type', '=', '1')
+					array('global_page_header_type', '=', '1')
 				),
 			),
 
@@ -255,7 +255,7 @@ Redux::set_section(
 				'title'    => esc_html__('Upload Header Pattern Image', 'codeweber'),
 				'required' => array(
 					array('global-page-header-background', '=', '4'),
-					array('global-page-header-type', '=', '1')
+					array('global_page_header_type', '=', '1')
 				),
 			),
 
@@ -271,7 +271,7 @@ Redux::set_section(
 				'type'     => 'switch',
 				'title'    => esc_html__('Breadcrumbs', 'codeweber'),
 				'default'  => 1,
-				'required' => array('global-page-header-type', '=', '1'),
+				'required' => array('global_page_header_type', '=', '1'),
 				'on'       => esc_html__('On', 'codeweber'),
 				'off'      => esc_html__('Off', 'codeweber'),
 			),
@@ -289,7 +289,7 @@ Redux::set_section(
 				'default'  => '1',
 				'required' => array(
 					array('global-page-header-breadcrumb-enable', '=', '1'),
-					array('global-page-header-type', '=', '1')
+					array('global_page_header_type', '=', '1')
 				),
 			),
 
@@ -307,7 +307,7 @@ Redux::set_section(
 				'default'  => '1',
 				'required' => array(
 					array('global-page-header-breadcrumb-enable', '=', '1'),
-					array('global-page-header-type', '=', '1')
+					array('global_page_header_type', '=', '1')
 				),
 			),
 
@@ -321,7 +321,7 @@ Redux::set_section(
 				'default'  => 'primary',  // Можно выбрать дефолтный цвет
 				'required' => array(
 					array('global-page-header-breadcrumb-enable', '=', '1'),
-					array('global-page-header-type', '=', '1')
+					array('global_page_header_type', '=', '1')
 				),
 			),
 

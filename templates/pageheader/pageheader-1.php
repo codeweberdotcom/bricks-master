@@ -7,7 +7,7 @@ $align = $pageheader_vars['breadcrumbs_align'] ?? 'left';
 
 if ($enable):
 ?>
-   <section class="wrapper <?= esc_attr($bg) ?> pageheader-<?= esc_attr($pageheader_name) ?>">
+   <section class="wrapper <?= esc_attr($bg) ?>">
       <div class="container py-4">
          <div class="row">
             <?php get_breadcrumbs($align, $color, 'mb-0'); ?>

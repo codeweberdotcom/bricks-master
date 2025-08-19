@@ -40,7 +40,7 @@ if ($breadcrumbs_enable) { ?>
    <div class="container <?= $container_class_str; ?>">
       <div class="row <?= $row_class_str; ?>">
          <div class="<?= $col_class_str; ?>">
-            <h1 class="display-1 mb-3 <?= $title_class_str; ?>"><?= esc_html(universal_title()); ?></h1>
+            <h1 class="mb-2 <?= $title_class_str; ?>"><?= esc_html(universal_title()); ?></h1>
             <?= $subtitle_html; ?>
          </div>
       </div>

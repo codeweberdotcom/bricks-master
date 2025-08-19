@@ -471,3 +471,6 @@ add_action('woocommerce_before_account_navigation', function () {
 add_action('woocommerce_after_account_navigation', function () {
    echo '</div></aside><!-- .myaccount-nav-wrapper -->';
 }, 10);
+
+
+

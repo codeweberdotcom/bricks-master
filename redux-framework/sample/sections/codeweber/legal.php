@@ -43,26 +43,34 @@ Redux::set_section($opt_name, array(
 		),
 
 		array(
-			'id'      => 'lega_entity_dative',
+			'id'      => 'legal_entity_dative',
 			'type'    => 'textarea',
 			'rows'    => '3',
 			'title'   => __('Legal Entity (Company Name) Dative', 'codeweber'),
-			'desc'    => __('Full name of the legal entity responsible for data processing Dative. <br> [redux_option key="lega_entity_dative"]', 'codeweber'),
+			'desc'    => __('Full name of the legal entity responsible for data processing Dative. <br> [redux_option key="legal_entity_dative"]', 'codeweber'),
 			'default' => 'Индивидуальному предпринимателю Иванову Ивану Ивановичу',
 		),
 		array(
-			'id'      => 'lega_ogrnip',
+			'id'      => 'legal_ogrnip',
 			'type'    => 'text',
 			'title'   => __('OGRN/OGRNIP', 'codeweber'),
-			'desc'    => __('[redux_option key="lega_ogrnip"]', 'codeweber'),
+			'desc'    => __('[redux_option key="legal_ogrnip"]', 'codeweber'),
 			'default' => '325930100000000',
 		),
 
 		array(
-			'id'      => 'lega_ogrnip_date',
+			'id'      => 'legal_kpp',
+			'type'    => 'text',
+			'title'   => __('KPP', 'codeweber'),
+			'desc'    => __('[redux_option key="legal_kpp"]', 'codeweber'),
+			'default' => '771301001',
+		),
+
+		array(
+			'id'      => 'legal_ogrnip_date',
 			'type'    => 'date',
 			'title'   => __('OGRN/OGRNIP Date registration', 'codeweber'),
-			'desc'    => __('Date of state registration. <br>[redux_option key="lega_ogrnip_date"  format="d.m.Y"]', 'codeweber'),
+			'desc'    => __('Date of state registration. <br>[redux_option key="legal_ogrnip_date"  format="d.m.Y"]', 'codeweber'),
 			'default' => '03/02/2025',
 		),
 
@@ -71,7 +79,7 @@ Redux::set_section($opt_name, array(
 			'type'    => 'text',
 			'title'   => __('Taxpayer identification number Person (INN)', 'codeweber'),
 			'desc'    => __('[redux_option key="taxpayer_identification_number"]', 'codeweber'),
-			'default' => '',
+			'default' => '614026792706',
 		),
 
 		array(
@@ -79,7 +87,7 @@ Redux::set_section($opt_name, array(
 			'type'    => 'text',
 			'title'   => __('Responsible Person (Full Name)', 'codeweber'),
 			'desc'    => __('Full name of the person responsible for personal data processing. <br>[redux_option key="responsible_person"]', 'codeweber'),
-			'default' => '',
+			'default' => 'Иванов Иван Иванович',
 		),
 
 		array(
@@ -87,7 +95,7 @@ Redux::set_section($opt_name, array(
 			'type'    => 'text',
 			'title'   => __('Phone Responsible Person', 'codeweber'),
 			'desc'    => __('Phone of the person responsible for personal data processing. <br>[redux_option key="phone_responsible_person"]', 'codeweber'),
-			'default' => '',
+			'default' => '+7 999 999 99 99',
 		),
 
 		array(
@@ -95,7 +103,7 @@ Redux::set_section($opt_name, array(
 			'type'    => 'text',
 			'title'   => __('E-mail Responsible Person', 'codeweber'),
 			'desc'    => __('E-Mail of the person responsible for personal data processing. <br>[redux_option key="email_responsible_person"]', 'codeweber'),
-			'default' => '',
+			'default' => 'test@yandex.com',
 		),
 
 		array(
@@ -104,7 +112,7 @@ Redux::set_section($opt_name, array(
 			'rows'    => '3',
 			'title'   => __('Data Storage Address', 'codeweber'),
 			'desc'    => __('Physical or legal address where personal data is stored. <br>[redux_option key="storage_address"]', 'codeweber'),
-			'default' => '',
+			'default' => '127287, г. Москва, ул. Хуторская 2-я, д. 38А, стр. 26',
 		),
 	),
 ));

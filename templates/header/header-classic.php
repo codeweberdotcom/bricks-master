@@ -59,8 +59,12 @@ $mobile_menu_background = Redux::get_option($opt_name, 'mobile-menu-background')
 $topbar_enable = Redux::get_option($opt_name, 'header-topbar-enable');
 
 
+
+
+
+
 $global_header_offcanvas_right =  Redux::get_option($opt_name, 'global-header-offcanvas-right');
-$company_description =  Redux::get_option($opt_name, 'company-description');
+$company_description =  Redux::get_option($opt_name, 'text-about-company');
 
 $yandex_api_key   = Redux::get_option($opt_name, 'yandexapi');
 $coordinates      = Redux::get_option($opt_name, 'yandex_coordinates'); // строка типа "55.76, 37.64"
@@ -70,24 +74,23 @@ $address_data = Redux::get_option($opt_name, 'fact-company-adress');
 
 $parts = [];
 
-if (!empty($address_data['box1'])) $parts[] = $address_data['box1'];
-if (!empty($address_data['box2'])) $parts[] = $address_data['box2'];
 
-if (!empty($address_data['box3']) || !empty($address_data['box4'])) {
-    $city_street = trim("{$address_data['box3']} {$address_data['box4']}");
-    $parts[] = $city_street;
-}
+$country      = Redux::get_option($opt_name, 'fact-country') ?? '';
+$region       = Redux::get_option($opt_name, 'fact-region') ?? '';
+$city         = Redux::get_option($opt_name, 'fact-city') ?? '';
+$street       = ', ' . Redux::get_option($opt_name, 'fact-street') ?? '';
+$house_number = ', ' . Redux::get_option($opt_name, 'fact-house') ?? '';
+$office       = Redux::get_option($opt_name, 'fact-office') ?? '';
+$postal_code  = Redux::get_option($opt_name, 'fact-postal') ?? '';
+// Формируем строку улицы и номера
+$street_line = trim(implode(' ', array_filter([$street, $house_number])), ' ,');
+// Добавляем офис/квартиру, если есть
+$office_line = $office ?  $office : '';
+// Собираем городскую строку
+$city_line = trim(implode(', ', array_filter([$city, $street_line, $office_line])), ' ,');
+// Составляем полный адрес в международном формате
+$full_address = trim(implode(",\n", array_filter([$country, $region, $city_line, $postal_code])), "\n");
 
-if (!empty($address_data['box5']) || !empty($address_data['box6'])) {
-    $house = !empty($address_data['box5']) ? "д. {$address_data['box5']}" : '';
-    $office = !empty($address_data['box6']) ? "оф. {$address_data['box6']}" : '';
-    $house_office = trim("{$house}, {$office}", ', ');
-    $parts[] = $house_office;
-}
-
-if (!empty($address_data['box7'])) $parts[] = $address_data['box7'];
-
-$full_address = implode('<br> ', $parts);
 
 $phone1 = Redux::get_option($opt_name, 'phone_01') . '<br>';
 $phone2 = Redux::get_option($opt_name, 'phone_02') . '<br>';
@@ -324,7 +327,8 @@ if ($config['navbar-center-nav'] === true) {
                                        </div>
                                       <!-- /.widget -->';
                                 break;
-
+                                // Выводим для проверки
+                               
                             case 'address':
                                 echo '<div class="widget mb-5">
                                       <div class="align-self-start justify-content-start">
