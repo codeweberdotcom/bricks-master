@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 custom.addTelMask();
                 custom.rippleEffect();
                 custom.formSubmittingWatcher();
-
+                window.newsletterSubscription.init();
               }
               modalInstance.show();
             } else {

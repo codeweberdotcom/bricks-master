@@ -35,7 +35,7 @@ require_once get_template_directory() . '/functions/integrations/cf7.php';
 };
 
 require_once get_template_directory() . '/functions/admin/admin_settings.php';
-require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
+//require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
 
 if (class_exists('WooCommerce')) {
 	require_once get_template_directory() . '/functions/woocommerce.php';
@@ -66,61 +66,12 @@ function codeweber_initialize_redux()
 }
 add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
 
-
-
-add_shortcode('list_sidebars', function () {
-	global $wp_registered_sidebars;
-	if (empty($wp_registered_sidebars)) {
-		return 'Сайдбаров нет';
-	}
-
-	$output = '<ul>';
-	foreach ($wp_registered_sidebars as $sidebar) {
-		$output .= '<li>' . esc_html($sidebar['id']) . '</li>';
-	}
-	$output .= '</ul>';
-
-	return $output;
-});
-
-
 /**
- * Шорткод для вывода списка файлов CPT
- * Использование: [cpt_files_list] или [cpt_files_list format="ul"]
- * 
- * @param array $atts Атрибуты шорткода
- * @return string HTML-код списка файлов
+ * Модуль подписки
  */
-function cpt_files_list_shortcode($atts)
-{
-	// Получаем список файлов
-	$files = get_cpt_files_list();
-
-	// Обрабатываем атрибуты
-	$atts = shortcode_atts(array(
-		'format' => 'ul', // Возможные значения: ul, ol, comma
-	), $atts);
-
-	// Если файлов нет
-	if (empty($files)) {
-		return '<p>No CPT files found.</p>';
-	}
-
-	// Формируем вывод в зависимости от формата
-	switch ($atts['format']) {
-		case 'ol':
-			$output = '<ol><li>' . implode('</li><li>', $files) . '</li></ol>';
-			break;
-
-		case 'comma':
-			$output = implode(', ', $files);
-			break;
-
-		case 'ul':
-		default:
-			$output = '<ul><li>' . implode('</li><li>', $files) . '</li></ul>';
-	}
-
-	return $output;
+require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-subscription.php';
+if (is_admin()) {
+	require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-subscription_admin.php';
 }
-add_shortcode('cpt_files_list', 'cpt_files_list_shortcode');
+
+

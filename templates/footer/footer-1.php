@@ -48,8 +48,15 @@ $text_class = implode(' ', $text_class_array);
             <div class="widget">
                <h4 class="widget-title mb-3 <?= $text_class; ?>">Get in Touch</h4>
                <address class="pe-xl-15 pe-xxl-17 <?= $text_class; ?>">Moonshine St. 14/05 Light City, London, United Kingdom</address>
-               <a href="mailto:#" class="link-body <?= $text_class; ?>">info@email.com</a><br />
-               <span class="<?= $text_class; ?>">00 (123) 456 78 90</span>
+               <?php echo do_shortcode('[get_contact field="e-mail" type="link" class="link-body"]
+'); ?><br>
+               <?php echo do_shortcode(' [get_contact field="phone_01" type="link" class="link-body"]
+'); ?><br>
+               <?php echo do_shortcode(' [get_contact field="phone_02" type="link" class="link-body"]
+'); ?><br>
+
+
+
             </div>
             <!-- /.widget -->
          </div>
@@ -73,7 +80,7 @@ $text_class = implode(' ', $text_class_array);
                <h4 class="widget-title  mb-3 <?= $text_class; ?>">Our Newsletter</h4>
                <p class="mb-5 <?= $text_class; ?>">Subscribe to our newsletter to get our news & deals delivered to you.</p>
                <div class="newsletter-wrapper">
-                  <?= do_shortcode('[contact-form-7 id="" title="Подписка на рассылку"]'); ?>
+                  <?= do_shortcode('[newsletter_form]'); ?>
                </div>
                <!-- /.newsletter-wrapper -->
             </div>

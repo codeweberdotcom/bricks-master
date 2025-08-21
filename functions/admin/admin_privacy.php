@@ -363,9 +363,10 @@ add_action('init', function () {
 /**
  * Регистрирует динамические шорткоды для вывода ссылок на юридические страницы с заголовками.
  *
- * Пример:
- *   Если поле имеет slug = 'cookie_policy', будет доступен шорткод:
- *   [link_cookie_policy] → <a href="https://example.com/cookie-policy/" target="_blank" title="политика использования cookie">политика использования cookie</a>
+ * Примеры:
+ *   [link_cookie_policy] → <a href="https://example.com/cookie-policy/" target="_blank" title="политика использования cookie">https://example.com/cookie-policy/</a>
+ *   [link_cookie_policy type_link="title"] → <a href="https://example.com/cookie-policy/" target="_blank" title="политика использования cookie">политика использования cookie</a>
+ *   [link_cookie_policy type_link="url"] → <a href="https://example.com/cookie-policy/" target="_blank" title="политика использования cookie">https://example.com/cookie-policy/</a>
  *
  * Условия:
  * - Использует get_option($field['id']) для получения ID страницы
@@ -381,12 +382,21 @@ add_action('init', function () {
 add_action('init', function () {
 	$fields = codeweber_get_legal_fields();
 	foreach ($fields as $field) {
-		add_shortcode('link_' . $field['slug'], function () use ($field) {
+		add_shortcode('link_' . $field['slug'], function ($atts) use ($field) {
+			// Обрабатываем атрибуты
+			$atts = shortcode_atts(array(
+				'type_link' => 'url' // По умолчанию показываем URL
+			), $atts, 'link_' . $field['slug']);
+
 			$page_id = get_option($field['id']);
 			if ($page_id && get_post_status($page_id) === 'publish') {
 				$url = esc_url(get_permalink($page_id));
 				$title = mb_strtolower(get_the_title($page_id), 'UTF-8');
-				return '<a href="' . $url . '" target="_blank" title="' . esc_attr($title) . '">' . $url . '</a>';
+
+				// Определяем текст ссылки
+				$link_text = ($atts['type_link'] === 'title') ? $title : $url;
+
+				return '<a href="' . $url . '" target="_blank" title="' . esc_attr($title) . '">' . esc_html($link_text) . '</a>';
 			}
 			return '';
 		});

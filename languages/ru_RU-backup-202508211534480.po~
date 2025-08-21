@@ -3,9 +3,9 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-08-14 17:07+0000\n"
+"PO-Revision-Date: 2025-08-21 15:31+0000\n"
 "Last-Translator: Codeweber\n"
-"Language-Team: Русский\n"
+"Language-Team: Russian\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -58,14 +58,6 @@ msgstr ""
 msgid "(e.g. No Staff found)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/contacts.php:24
-#: redux-framework/sample/sections/codeweber/contacts.php:33
-#: redux-framework/sample/sections/codeweber/contacts.php:40
-#: redux-framework/sample/sections/codeweber/contacts.php:47
-#: redux-framework/sample/sections/codeweber/contacts.php:54
-msgid "+7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
-msgstr "+7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
-
 #: redux-framework/sample/sections/codeweber/legal.php:726
 msgid "365"
 msgstr ""
@@ -112,18 +104,35 @@ msgstr ""
 msgid "A modular WordPress starter theme powered by Bootstrap 5 and Gulp"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/company-details.php:15
+#: redux-framework/sample/sections/codeweber/company-details.php:21
+msgid "About Company"
+msgstr "О компании"
+
 #: functions/integrations/redux_framework/redux_cookie.php:43
 msgid "Accept"
 msgstr "Согласен"
 
-#: functions/integrations/redux_framework/redux_framework.php:87
+#: functions/integrations/redux_framework/redux_framework.php:93
 #: redux-framework/sample/sections/codeweber/legal.php:148
 msgid "Accumulation Data"
 msgstr "накопление"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:70
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:197
+msgid "Actions"
+msgstr "Действия"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:381
+msgid "Active only"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:591
+msgid "Active subscribers:"
+msgstr "Активные подписчики"
+
+#: redux-framework/sample/sections/codeweber/company-details.php:92
 msgid "Actual Address"
-msgstr "Физический Адрес"
+msgstr "Фактический Адрес"
 
 #: functions/lib/class-wp-bootstrap-navwalker.php:431
 #: functions/lib/class-wp-bootstrap-navwalker_original.php:426
@@ -234,18 +243,24 @@ msgstr "Добавить Услугу"
 msgid "Add Staff"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:102
+msgid "additional CSS classes"
+msgstr ""
+
 #: functions/admin/admin_user_profil.php:22
 msgid "Additional information"
 msgstr ""
 
 #: redux-framework/sample-config.php:466
-#: redux-framework/sample/theme-config.php:511
 msgid "Additional Types"
 msgstr ""
 
-#: templates/header/header-classic.php:331
-#: templates/header/header-extended-center-logo.php:314
+#: templates/header/header-center-logo.php:273
+#: templates/header/header-classic.php:335
+#: templates/header/header-extended-center-logo.php:313
+#: templates/header/header-extended-center-logo.php:457
 #: templates/header/header-extended.php:314
+#: templates/header/header-fancy-center-logo.php:279
 #: templates/header/header-fancy.php:303
 #: redux-framework/sample/sections/codeweber/footer.php:277
 #: redux-framework/sample/sections/codeweber/header.php:306
@@ -254,7 +269,6 @@ msgid "Address"
 msgstr "Адрес"
 
 #: redux-framework/sample-config.php:480
-#: redux-framework/sample/theme-config.php:525
 msgid "Advanced Features"
 msgstr ""
 
@@ -296,6 +310,11 @@ msgstr ""
 msgid "All FAQs"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:303
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:385
+msgid "All forms"
+msgstr "Все формы"
+
 #: functions/cpt/cpt-html_blocks.php:13
 msgid "All Html Blocks"
 msgstr ""
@@ -332,9 +351,24 @@ msgstr "Все Проекты"
 msgid "All Staff"
 msgstr "Все Сотрудники"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:296
+msgid "All statuses"
+msgstr "Все статусы"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:380
+msgid "All subscriptions"
+msgstr ""
+
 #: woocommerce/myaccount/form-login.php:122
 msgid "Already have an account?"
 msgstr "У вас уже есть аккаунт?"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:512
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:513
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:667
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:835
+msgid "An error occurred. Please try again later."
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:6
 msgid "API"
@@ -352,28 +386,40 @@ msgstr ""
 msgid "Archive Template for %s"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:479
+msgid "Are you sure you want to delete this subscription?"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:468
+msgid "Are you sure you want to unsubscribe this user?"
+msgstr "Вы уверены, что хотите отписать этого пользователя?"
+
 #: templates/content/loop.php:44
 #, php-format
 msgid "Author %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:125
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:535
+msgid "Available variables:"
+msgstr "Доступные переменные:"
+
+#: redux-framework/sample/sections/codeweber/company-details.php:154
 msgid "Bank Account Details"
 msgstr "Реквизиты банковского счета"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:168
+#: redux-framework/sample/sections/codeweber/company-details.php:202
 msgid "Bank Address"
 msgstr "Адрес Банка"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:162
+#: redux-framework/sample/sections/codeweber/company-details.php:195
 msgid "Bank KPP"
 msgstr "КПП Банка"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:132
+#: redux-framework/sample/sections/codeweber/company-details.php:160
 msgid "Bank Name"
 msgstr "Название банка"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:156
+#: redux-framework/sample/sections/codeweber/company-details.php:188
 msgid "Bank TIN"
 msgstr "ИНН Банка"
 
@@ -395,10 +441,6 @@ msgstr "Базовые типы Хедера"
 msgid "Base Page Header Models"
 msgstr "Базовые Типы Заголовков"
 
-#: redux-framework/sample/theme-config.php:363
-msgid "Basic Fields"
-msgstr ""
-
 #: redux-framework/sample/metaboxes.php:139
 #: redux-framework/sample/metaboxes.php:150
 #: redux-framework/sample/metaboxes.php:202
@@ -419,11 +461,16 @@ msgstr ""
 msgid "Behance"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:138
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:401
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1067
+msgid "Best regards,"
+msgstr "С наилучшими пожеланиями,"
+
+#: redux-framework/sample/sections/codeweber/company-details.php:167
 msgid "BIC"
 msgstr "БИК"
 
-#: functions/integrations/redux_framework/redux_framework.php:93
+#: functions/integrations/redux_framework/redux_framework.php:99
 #: redux-framework/sample/sections/codeweber/legal.php:154
 msgid "Blocking Data"
 msgstr "блокирование"
@@ -452,6 +499,10 @@ msgstr "Выравнивание хлебных крошек"
 
 #: redux-framework/sample/sections/codeweber/style.php:62
 msgid "Button Style"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:462
+msgid "Button Text"
 msgstr ""
 
 #: comments.php:136
@@ -492,15 +543,15 @@ msgstr "По центру"
 msgid "Check SMTP Connection"
 msgstr "Проверьте SMTP-соединение"
 
-#: functions/integrations/cf7.php:1158
+#: functions/integrations/cf7.php:1155
 msgid "Checkbox for Consent"
 msgstr "Чекбокс для Согласия"
 
-#: functions/integrations/cf7.php:1159
+#: functions/integrations/cf7.php:1156
 msgid "Checkbox for Newsletter"
 msgstr "Чекбокс для Рассылки"
 
-#: functions/integrations/cf7.php:1157
+#: functions/integrations/cf7.php:1154
 msgid "Checkbox for Privacy Policy"
 msgstr "Чекбокс для Политикой в отношении обработки персональных данных "
 
@@ -516,8 +567,8 @@ msgstr ""
 msgid "Choose a point on the map"
 msgstr "Выберите точку на карте"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:33
-#: redux-framework/sample/sections/codeweber/company-details.php:88
+#: redux-framework/sample/sections/codeweber/company-details.php:50
+#: redux-framework/sample/sections/codeweber/company-details.php:112
 msgid "City"
 msgstr "Город"
 
@@ -544,6 +595,7 @@ msgstr "Клиенты"
 msgid "Clients list"
 msgstr "Список Клиентов"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1121
 #: functions/integrations/redux_framework/redux_cookie.php:42
 msgid "Close"
 msgstr ""
@@ -561,14 +613,19 @@ msgstr ""
 msgid "Codeweber"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:84
+#: functions/integrations/redux_framework/redux_framework.php:90
 #: redux-framework/sample/sections/codeweber/legal.php:145
 msgid "Collection Data"
 msgstr "сбор"
 
-#: redux-framework/sample/theme-config.php:397
-msgid "Color Selection"
-msgstr ""
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:101
+msgid "Column Display Settings"
+msgstr "Настройки отображения колонок"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:41
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:322
+msgid "Column Settings"
+msgstr "Настройки колонок"
 
 #: templates/content/loop.php:54
 #, fuzzy
@@ -609,6 +666,10 @@ msgstr "Один отзыв в &ldquo;%s&rdquo;"
 msgid "Company Details"
 msgstr "Данные Компании"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:140
+msgid "Complete CF7 form example:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:16
 msgid "Configure SMTP settings for sending emails from your website."
 msgstr "Настройте параметры SMTP для отправки писем с вашего сайта."
@@ -617,9 +678,22 @@ msgstr "Настройте параметры SMTP для отправки пи�
 msgid "Confirm"
 msgstr "Отправить"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:334
+msgid "Confirmation Email"
+msgstr "Уведомление по электронной почте"
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:31
 msgid "Confirmation of phone number by SMS"
 msgstr "Подтверждение номера телефона по СМС"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:298
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:608
+msgid "Confirmed"
+msgstr "Подтвержден"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:374
+msgid "Confirming your subscription to the newsletter"
+msgstr "Подтверждение подписки на рассылку"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:245
 msgid "Connection failed: "
@@ -629,23 +703,32 @@ msgstr "Ошибка подключения:"
 msgid "Connection successful!"
 msgstr "Подключение успешно установлено!"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:163
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:169
+msgid "consent"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:137
+msgid "consent checkbox"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:122
 msgid "Consent Data"
 msgstr "Данные для Согласий"
 
-#: functions/integrations/cf7.php:809
+#: functions/integrations/cf7.php:806
 msgid "Consent Document - Legal:"
 msgstr "Документ о согласии —  Юридический:"
 
-#: functions/integrations/cf7.php:825
+#: functions/integrations/cf7.php:822
 msgid "Consent Document - Mailing:"
 msgstr "Согласие на рассылку:"
 
-#: functions/integrations/cf7.php:901
+#: functions/integrations/cf7.php:898
 msgid "Consent document shortcode not found in the form."
 msgstr "Шоткод документа о согласии не найден в форме."
 
-#: functions/integrations/cf7.php:888
+#: functions/integrations/cf7.php:885
 #, php-format
 msgid "Consent Document: %s"
 msgstr "Документ согласия на обработку: %s"
@@ -654,13 +737,44 @@ msgstr "Документ согласия на обработку: %s"
 msgid "Consent Html"
 msgstr "Подпись Согласия"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:838
+msgid "Consent is required to receive information and advertising mailings"
+msgstr ""
+
 #: functions/personal-data.php:224
 msgid "Consent Label"
 msgstr "Код согласия"
 
-#: functions/admin/admin_privacy.php:1602
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:476
+msgid "Consent Text"
+msgstr ""
+
+#: functions/admin/admin_privacy.php:1612
 msgid "Consent to Data Processing"
 msgstr "Согласие на обработку персональных данных"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:118
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:217
+msgid "Consent to data processing"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:481
+msgid "Consent to data processing text"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:665
+msgid ""
+"Consent to receive informational and promotional newsletters is required"
+msgstr "Требуется согласие на получение информационных и рекламных рассылок."
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:130
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:321
+msgid "Contact Form 7 Integration"
+msgstr "Интеграция с Contact Form7"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:619
+msgid "Contact Form 7: Request Callback"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/contacts.php:6
 msgid "Contacts"
@@ -674,7 +788,7 @@ msgstr "Контейнер"
 msgid "Cookie Data"
 msgstr "Cookie Данные"
 
-#: functions/admin/admin_privacy.php:1338
+#: functions/admin/admin_privacy.php:1348
 msgid "Cookie Policy"
 msgstr "Политика в отношении использования файлов Куки(Сookie)"
 
@@ -686,7 +800,7 @@ msgstr "Cookie Сканер"
 msgid "Coordinates"
 msgstr "Координаты"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:144
+#: redux-framework/sample/sections/codeweber/company-details.php:174
 msgid "Corr. Account"
 msgstr "Корреспондентский счёт"
 
@@ -694,8 +808,8 @@ msgstr "Корреспондентский счёт"
 msgid "Could not connect to SMTP server."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:21
-#: redux-framework/sample/sections/codeweber/company-details.php:76
+#: redux-framework/sample/sections/codeweber/company-details.php:36
+#: redux-framework/sample/sections/codeweber/company-details.php:98
 msgid "Country"
 msgstr "Страна"
 
@@ -743,6 +857,10 @@ msgstr ""
 msgid "Custom"
 msgstr "Пользовательский"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:178
+msgid "Custom form fields"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/page-header.php:115
 msgid "Custom Page-Header"
 msgstr ""
@@ -765,12 +883,7 @@ msgstr ""
 msgid "Custom Title for %s"
 msgstr "Свой заголовок для %s"
 
-#: redux-framework/sample/theme-config.php:610
-msgid "Customizer Only"
-msgstr ""
-
 #: redux-framework/sample-config.php:572
-#: redux-framework/sample/theme-config.php:617
 msgid "Customizer Only Option"
 msgstr ""
 
@@ -803,12 +916,16 @@ msgstr "Адрес хранения и обработки данных"
 msgid "Data User profil"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:583
+msgid "Database table:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:73
 msgid ""
 "Date of state registration. <br>[redux_option key=\"legal_ogrnip_date\"  "
 "format=\"d.m.Y\"]"
 msgstr ""
-"Дата регисстрации. <br>[redux_option key=\"legal_ogrnip_date\"  format=\"d.m."
+"Дата регистрации. <br>[redux_option key=\"legal_ogrnip_date\"  format=\"d.m."
 "Y\"]"
 
 #: redux-framework/sample/metaboxes.php:111
@@ -823,15 +940,20 @@ msgstr "Стандартный"
 msgid "Default Template"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:94
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:480
+msgid "Delete"
+msgstr "Удалить"
+
+#: functions/integrations/redux_framework/redux_framework.php:100
 #: redux-framework/sample/sections/codeweber/legal.php:155
 msgid "Deletion Data"
 msgstr "удаление"
 
-#: functions/admin/admin_privacy.php:1676
+#: functions/admin/admin_privacy.php:1686
 msgid "Delivery Terms"
 msgstr "Условия доставки"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:185
 #: redux-framework/sample/sections/codeweber/footer.php:270
 #: redux-framework/sample/sections/codeweber/header.php:299
 msgid "Description"
@@ -841,10 +963,14 @@ msgstr "Описание"
 msgid "Description Here"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:95
+#: functions/integrations/redux_framework/redux_framework.php:101
 #: redux-framework/sample/sections/codeweber/legal.php:156
 msgid "Destruction Data"
 msgstr "уничтожение"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:92
+msgid "Detailed guide for creating and configuring email newsletter forms."
+msgstr ""
 
 #. Panel opt_name.
 #: redux-framework/sample/theme-config.php:274
@@ -864,10 +990,6 @@ msgstr "Выключить Сайдбар"
 #: redux-framework/sample/sections/codeweber/cpt-type.php:356
 msgid "Disabled"
 msgstr "Отключено"
-
-#: redux-framework/sample/theme-config.php:547
-msgid "Disabling"
-msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:229
 #: redux-framework/sample/sections/extensions/users.php:245
@@ -920,7 +1042,6 @@ msgid "Document Updated"
 msgstr "Документ обновлен"
 
 #: redux-framework/sample/theme-config.php:232
-#: redux-framework/sample/theme-config.php:592
 msgid "Documentation"
 msgstr "Документация"
 
@@ -951,9 +1072,13 @@ msgstr ""
 msgid "E-Mail"
 msgstr ""
 
-#: functions/integrations/cf7.php:1156 templates/header/header-classic.php:321
-#: templates/header/header-extended-center-logo.php:304
+#: functions/integrations/cf7.php:1153
+#: templates/header/header-center-logo.php:263
+#: templates/header/header-classic.php:324
+#: templates/header/header-extended-center-logo.php:303
+#: templates/header/header-extended-center-logo.php:447
 #: templates/header/header-extended.php:304
+#: templates/header/header-fancy-center-logo.php:269
 #: templates/header/header-fancy.php:293
 msgid "E-mail"
 msgstr ""
@@ -963,7 +1088,8 @@ msgid ""
 "E-Mail of the person responsible for personal data processing. <br>"
 "[redux_option key=\"email_responsible_person\"]"
 msgstr ""
-"Электронная почта лица, ответственного за обработку персональных данных."
+"Электронная почта лица, ответственного за обработку персональных данных.<br>"
+"[redux_option key=\"email_responsible_person\"]"
 
 #: redux-framework/sample/sections/codeweber/legal.php:104
 msgid "E-mail Responsible Person"
@@ -1041,11 +1167,9 @@ msgstr "Редактировать Услугу"
 msgid "Edit Staff"
 msgstr ""
 
-#: redux-framework/sample/theme-config.php:383
-msgid "Editors"
-msgstr ""
-
 #: functions/bootstrap/bootstrap_share-page.php:16
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:186
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:573
 msgid "Email"
 msgstr ""
 
@@ -1053,13 +1177,39 @@ msgstr ""
 msgid "Email *"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:455
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:456
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:760
+msgid "Email Address"
+msgstr "Email Адрес"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:135
+msgid "email field"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:201
 msgid "Email is required."
 msgstr "Требуется адрес электронной почты."
 
-#: functions/admin/admin_privacy.php:1688
+#: functions/admin/admin_privacy.php:1698
 msgid "Email Marketing Consent"
 msgstr "Согласие на получение информационной и рекламной рассылки"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:448
+msgid "Email Placeholder"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:347
+msgid "Email Subject"
+msgstr "Тема электронного письма"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:362
+msgid "Email Template"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:326
+msgid "Enable automatic subscription from Contact Form 7 forms"
+msgstr "Включить подписку из форм Contact Form 7"
 
 #: redux-framework/sample/metaboxes.php:89
 msgid "Enable container for content"
@@ -1097,11 +1247,27 @@ msgstr "Шифрование"
 msgid "Enter recipient email for test:"
 msgstr "Введите адрес электронной почты получателя для теста:"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:505
+msgid "Error Message"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:209
 msgid "Error: "
 msgstr "Ошибка:"
 
-#: functions/integrations/redux_framework/redux_framework.php:90
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:237
+msgid "Example of showing notification"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:375
+msgid "Export Subscriptions"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:392
+msgid "Export to CSV"
+msgstr ""
+
+#: functions/integrations/redux_framework/redux_framework.php:96
 #: redux-framework/sample/sections/codeweber/legal.php:151
 msgid "Extraction Data"
 msgstr "извлечение"
@@ -1118,6 +1284,11 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:70
 msgid "Facebook Pixel Settings"
 msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1137
+msgid "Failed to unsubscribe from the newsletter. The link may have expired."
+msgstr ""
+"Не удалось отписаться от рассылки. Возможно, срок действия ссылки истёк."
 
 #: functions/cpt/cpt-faq.php:10 functions/cpt/cpt-faq.php:28
 msgid "FAQ"
@@ -1179,13 +1350,17 @@ msgstr ""
 msgid "Featured Image for this staff"
 msgstr ""
 
-#: functions/integrations/cf7.php:1120
+#: functions/integrations/cf7.php:1117
 msgid "Field Mapping"
 msgstr "Сопоставление полей"
 
-#: functions/integrations/cf7.php:1162
+#: functions/integrations/cf7.php:1159
 msgid "Field Mapping:"
 msgstr "Сопоставление полей"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:182
+msgid "Field name"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:135
 #: redux-framework/sample/sections/extensions/users.php:151
@@ -1201,6 +1376,10 @@ msgstr ""
 msgid "Fill your email and password to sign in."
 msgstr "Введите свой логин и пароль для входа."
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:314
+msgid "Filter"
+msgstr "Фильтр"
+
 #: functions/cpt/cpt-price_list.php:31
 msgid "Filter Price Lists"
 msgstr ""
@@ -1209,7 +1388,10 @@ msgstr ""
 msgid "Filter Price Packages"
 msgstr ""
 
-#: functions/integrations/cf7.php:1152
+#: functions/integrations/cf7.php:1149
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:112
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:187
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:574
 msgid "First Name"
 msgstr "Имя"
 
@@ -1297,14 +1479,29 @@ msgstr ""
 msgid "Footer Type 8"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:131
+msgid "For automatic subscription from CF7 forms add a checkbox:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:132
 #: redux-framework/sample/sections/codeweber/legal.php:142
 msgid "For consent to the processing of personal data"
 msgstr "Для согласия на обработку персональных данных"
 
-#: redux-framework/sample/theme-config.php:563
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:108
+msgid "For custom forms use the following HTML structure:"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:225
+msgid "For custom processing you can use events:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/repeater.php:15
 msgid "For full documentation on this field, visit: "
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:163
+msgid "for processing my personal data."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:200
@@ -1317,9 +1514,32 @@ msgid ""
 "must be entered and saved in the API tab"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:190
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:577
+msgid "Form"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:72
+msgid "Form Creation Instructions"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:441
+msgid "Form Texts"
+msgstr ""
+
 #: functions/personal-data.php:232
 msgid "Form Title"
 msgstr "Название формы"
+
+#: redux-framework/sample/sections/codeweber/contacts.php:25
+#: redux-framework/sample/sections/codeweber/contacts.php:34
+#: redux-framework/sample/sections/codeweber/contacts.php:42
+#: redux-framework/sample/sections/codeweber/contacts.php:50
+#: redux-framework/sample/sections/codeweber/contacts.php:58
+#, fuzzy
+#| msgid "+7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
+msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
+msgstr "+7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:168
 msgid "From Email"
@@ -1343,13 +1563,19 @@ msgid ""
 "[redux_option key=\"legal_entity\"]"
 msgstr ""
 "Полное наименование юридического лица, ответственного за обработку данных. "
-"<br>[redux_option key=\"юридическая идентичность\"]"
+"<br>[redux_option key=\"legal_entity\"]"
 
 #: redux-framework/sample/sections/codeweber/legal.php:89
 msgid ""
 "Full name of the person responsible for personal data processing. <br>"
 "[redux_option key=\"responsible_person\"]"
-msgstr "ФИО лица, ответственного за обработку персональных данных."
+msgstr ""
+"ФИО лица, ответственного за обработку персональных данных.<br>[redux_option "
+"key=\"responsible_person\"]"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:314
+msgid "General Module Settings"
+msgstr "Общие настройки модуля"
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:9
 msgid "Geo && Map"
@@ -1503,11 +1729,16 @@ msgstr "Хедер Виджет 2"
 msgid "Header Widget 3"
 msgstr "Хедер Виджет 3"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:391
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1051
+msgid "Hello"
+msgstr "Здравствуйте"
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:40
 msgid "Hide Download Menu"
 msgstr "Скрыть меню Загрузки"
 
-#: functions/admin/admin_privacy.php:2013
+#: functions/admin/admin_privacy.php:2023
 msgid "Hide from Archive"
 msgstr ""
 
@@ -1515,7 +1746,7 @@ msgstr ""
 msgid "Hide from archive"
 msgstr "Скрыть в Архиве"
 
-#: functions/admin/admin_privacy.php:2029
+#: functions/admin/admin_privacy.php:2039
 msgid "Hide this document from archive"
 msgstr "Скрыть этот документ на архивной странице"
 
@@ -1531,12 +1762,12 @@ msgstr ""
 msgid "Hotjar Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:45
-#: redux-framework/sample/sections/codeweber/company-details.php:100
+#: redux-framework/sample/sections/codeweber/company-details.php:64
+#: redux-framework/sample/sections/codeweber/company-details.php:126
 msgid "House Number"
 msgstr "Номер дома"
 
-#: functions/integrations/cf7.php:1164
+#: functions/integrations/cf7.php:1161
 msgid ""
 "How is data saved to the log?\n"
 "When a user submits a form, we search the database for the user's email, and "
@@ -1576,9 +1807,31 @@ msgstr "Html Блоки"
 msgid "Html Blocks list"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:367
+msgid "HTML email confirmation template"
+msgstr "HTML-шаблон подтверждения электронной почты"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:406
+msgid "HTML email template"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:107
+msgid "HTML form structure"
+msgstr ""
+
 #. URI of the theme
 #. Author URI of the theme
 msgid "https://codeweber.ru"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:483
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:484
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:768
+msgid "I agree to receive informational and advertising mailings"
+msgstr "Я даю свое согласие на получение информационной и рекламной рассылки"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:132
+msgid "I agree to receive newsletter"
 msgstr ""
 
 #: functions/personal-data.php:35 functions/woocommerce.php:425
@@ -1593,6 +1846,15 @@ msgstr ""
 #: functions/personal-data.php:39 functions/woocommerce.php:429
 msgid "I agree to the processing of personal data"
 msgstr "Я даю согласие на обработку моих персональных данных"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:163
+msgid "I am familiar with the document"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:163
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:169
+msgid "I give my"
+msgstr ""
 
 #: functions/personal-data.php:19 functions/woocommerce.php:397
 #, php-format
@@ -1611,6 +1873,15 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/smtp.php:30
 msgid "iCloud"
 msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1072
+msgid "If you have any questions, please contact our support team."
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:393
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1054
+msgid "If you want to unsubscribe from the newsletter, click the button below:"
+msgstr "Если вы хотите отписаться от рассылки, нажмите кнопку ниже:"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:205
 msgid "Image"
@@ -1641,17 +1912,43 @@ msgstr ""
 msgid "Instagram"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:73
+msgid "Instructions"
+msgstr "Инструкции"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:542
+msgid "Insufficient permissions for export"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:327
 msgid "Invalid email address."
 msgstr "Неверный адрес электронной почты."
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:538
+msgid "Invalid export link"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:666
+msgid "Invalid form"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:937
+msgid "Invalid unsubscribe link"
+msgstr "Неверная ссылка для отмены подписки"
+
 #: functions/personal-data.php:240
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:191
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:578
 msgid "IP Address"
 msgstr "IP Адрес"
 
 #: redux-framework/sample/sections/codeweber/socials.php:129
 #: redux-framework/sample/sections/extensions/users.php:145
 msgid "Itunes"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:224
+msgid "JavaScript events"
 msgstr ""
 
 #. Author of the theme
@@ -1662,7 +1959,10 @@ msgstr ""
 msgid "KPP"
 msgstr "КПП"
 
-#: functions/integrations/cf7.php:1153
+#: functions/integrations/cf7.php:1150
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:113
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:188
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:575
 msgid "Last Name"
 msgstr "Фамилия"
 
@@ -1671,6 +1971,8 @@ msgid ""
 "Last name, first name, patronymic, email address, age, driving experience, "
 "telephone number, driver's license details."
 msgstr ""
+"Фамилия, имя, отчество, адрес электронной почты, возраст, стаж вождения, "
+"номер телефона, данные водительского удостоверения."
 
 #: comments.php:18
 msgid "Leave a comment"
@@ -1692,7 +1994,7 @@ msgstr "Левый Сайдбар"
 msgid "Legal"
 msgstr "Юридические документы"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:15
+#: redux-framework/sample/sections/codeweber/company-details.php:30
 msgid "Legal Address"
 msgstr "Юридический Адрес"
 
@@ -1700,7 +2002,7 @@ msgstr "Юридический Адрес"
 msgid "Legal Archives"
 msgstr "Юридические документы Архив"
 
-#: functions/integrations/cf7.php:757
+#: functions/integrations/cf7.php:754
 msgid "Legal Consent"
 msgstr "Юридические документы"
 
@@ -1712,7 +2014,7 @@ msgstr "Юридическое название (Компания)"
 
 #: redux-framework/sample/sections/codeweber/legal.php:49
 msgid "Legal Entity (Company Name) Dative"
-msgstr ""
+msgstr "Юридическое лицо (Название компании) в дательном падеже*"
 
 #: redux-framework/sample/sections/codeweber/legal.php:40
 msgid "Legal Entity (Company Name) Short"
@@ -1723,7 +2025,7 @@ msgid "Legal Published"
 msgstr "Юридический документ опубликован"
 
 #: functions/admin/admin_privacy.php:55 functions/admin/admin_privacy.php:56
-#: functions/admin/admin_privacy.php:495
+#: functions/admin/admin_privacy.php:505
 msgid "Legal Settings"
 msgstr "Настройки Юридических документов"
 
@@ -1731,7 +2033,7 @@ msgstr "Настройки Юридических документов"
 msgid "Legal Updated"
 msgstr "Юридические документы обновлены"
 
-#: functions/admin/admin_privacy.php:1723
+#: functions/admin/admin_privacy.php:1733
 msgid "License Agreement"
 msgstr "Лицензионное соглашение"
 
@@ -1812,18 +2114,27 @@ msgstr ""
 msgid "Mailer Error: "
 msgstr "Ошибка почтовой программы:"
 
-#: functions/integrations/cf7.php:924
+#: functions/integrations/cf7.php:921
 msgid "Mailing consent shortcode not found in the form."
 msgstr "Шоткод согласия на рассылку не найден в форме."
 
-#: functions/integrations/cf7.php:911
+#: functions/integrations/cf7.php:908
 #, php-format
 msgid "Mailing Consent: %s"
 msgstr "Документ согласия на рассылку: %s"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:62
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:571
+msgid "Mailing Module Settings"
+msgstr "Настройки модуля Подписки"
+
 #: redux-framework/sample/metaboxes.php:80
 msgid "Main Options"
 msgstr "Главные Настройки"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:540
+msgid "Main settings for the newsletter subscription module."
+msgstr "Основные настройки модуля подписки на рассылку новостей."
 
 #: functions/sidebars.php:29 functions/sidebars.php:31
 msgid "Main Sidebar"
@@ -1834,17 +2145,13 @@ msgstr "Главный сайдбар"
 msgid "Map"
 msgstr ""
 
-#: functions/integrations/cf7.php:1163
+#: functions/integrations/cf7.php:1160
 msgid ""
 "Mapping form fields to module fields for storing user consent logs with the "
 "site's legal documents."
 msgstr ""
 "Сопоставление полей формы с полями модуля для хранения журналов согласия "
 "пользователей с юридическими документами сайта."
-
-#: redux-framework/sample/theme-config.php:430
-msgid "Media Uploads"
-msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:123
 #: redux-framework/sample/sections/extensions/users.php:139
@@ -1855,6 +2162,14 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/header.php:305
 msgid "Menu"
 msgstr "Меню"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:496
+msgid "Message after successful subscription"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:510
+msgid "Message for subscription error"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:277
 #: redux-framework/sample/sections/codeweber/legal.php:338
@@ -1878,7 +2193,7 @@ msgstr "Способ уничтожения:"
 msgid "Method of processing personal data:"
 msgstr "Способ обработки персональных данных:"
 
-#: functions/integrations/cf7.php:1154
+#: functions/integrations/cf7.php:1151
 msgid "Middle Name"
 msgstr "Отчество"
 
@@ -1903,6 +2218,14 @@ msgstr "Модальное окно"
 msgid "Modals"
 msgstr "Модальные окна"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:581
+msgid "Module Information"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:63
+msgid "Module Settings"
+msgstr "Основные настройки"
+
 #: redux-framework/sample/sections/codeweber/page-header.php:305
 msgid "Muted"
 msgstr ""
@@ -1917,6 +2240,10 @@ msgstr ""
 
 #: comments.php:140
 msgid "Name *"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:136
+msgid "name field"
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:17
@@ -1991,10 +2318,22 @@ msgstr "Новый Сотрудник"
 msgid "New Testimonial"
 msgstr "Новый Отзыв"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:89
+msgid "Newsletter Form Creation Instructions"
+msgstr "Инструкции по созданию формы рассылки"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:29
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:285
+msgid "Newsletter Subscriptions"
+msgstr "Подписки на рассылку новостей"
+
 #: functions/bootstrap/bootstrap_post-nav.php:17
 msgid "Next"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:198
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:204
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:210
 #: redux-framework/sample/sections/codeweber/smtp.php:119
 msgid "No"
 msgstr ""
@@ -2007,7 +2346,7 @@ msgstr "Нет Клиента"
 msgid "No consent document selected by administrator"
 msgstr ""
 
-#: functions/integrations/cf7.php:897
+#: functions/integrations/cf7.php:894
 msgid ""
 "No consent document selected. Please select a document in the form settings."
 msgstr ""
@@ -2110,7 +2449,7 @@ msgstr "Не найдены Юридические документы"
 msgid "No Legal documents in Trash"
 msgstr "Нет Юридических документов в корзине"
 
-#: functions/integrations/cf7.php:920
+#: functions/integrations/cf7.php:917
 msgid ""
 "No mailing consent document selected. Please select a document in the form "
 "settings."
@@ -2156,7 +2495,7 @@ msgstr ""
 msgid "No Price Packages found in Trash"
 msgstr ""
 
-#: functions/integrations/cf7.php:874
+#: functions/integrations/cf7.php:871
 msgid ""
 "No privacy policy document selected. Please select a document in the form "
 "settings."
@@ -2174,6 +2513,15 @@ msgstr ""
 msgid "No sizes"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:350
+msgid "No subscriptions found"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:85
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:455
+msgid "No user account"
+msgstr "Нет Аккаунта"
+
 #: redux-framework/sample/sections/codeweber/page-header.php:207
 #: redux-framework/sample/sections/codeweber/smtp.php:143
 msgid "None"
@@ -2190,6 +2538,10 @@ msgstr "Отсутствует"
 #: functions/admin/admin_user_profil.php:17
 msgid "Not verified"
 msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:584
+msgid "Number of subscribers:"
+msgstr "Количество подписчиков:"
 
 #: functions/bootstrap/bootstrap_share-page.php:20
 #: redux-framework/sample/sections/codeweber/socials.php:39
@@ -2219,8 +2571,8 @@ msgstr ""
 msgid "Office"
 msgstr "Офис"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:51
-#: redux-framework/sample/sections/codeweber/company-details.php:106
+#: redux-framework/sample/sections/codeweber/company-details.php:71
+#: redux-framework/sample/sections/codeweber/company-details.php:133
 msgid "Office/Apartment"
 msgstr "Офис/Квартира"
 
@@ -2241,27 +2593,32 @@ msgstr "ОГРН/ОГРНИП Дата регистрации орагнизац
 msgid "On"
 msgstr "Вкл."
 
-#: templates/header/header-classic.php:362
-#: templates/header/header-extended-center-logo.php:345
+#: templates/header/header-center-logo.php:304
+#: templates/header/header-classic.php:366
+#: templates/header/header-extended-center-logo.php:344
+#: templates/header/header-extended-center-logo.php:488
 #: templates/header/header-extended.php:345
+#: templates/header/header-fancy-center-logo.php:310
 #: templates/header/header-fancy.php:334
 msgid "On Map"
 msgstr "На карте"
 
 #: redux-framework/sample-config.php:577
-#: redux-framework/sample/theme-config.php:622
 msgid "Opt 1"
 msgstr ""
 
 #: redux-framework/sample-config.php:578
-#: redux-framework/sample/theme-config.php:623
 msgid "Opt 2"
 msgstr ""
 
 #: redux-framework/sample-config.php:579
-#: redux-framework/sample/theme-config.php:624
 msgid "Opt 3"
 msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:397
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1062
+msgid "Or copy and paste the following link into your browser:"
+msgstr "Или скопируйте и вставьте следующую ссылку в адресную строку браузера:"
 
 #: redux-framework/sample/sections/codeweber/footer.php:265
 #: redux-framework/sample/sections/codeweber/header.php:294
@@ -2367,6 +2724,10 @@ msgstr ""
 msgid "Page-loader"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:99
+msgid "Parameters:"
+msgstr ""
+
 #: functions/cpt/cpt-documents.php:19
 msgid "Parent Document"
 msgstr "Родительский Документ"
@@ -2429,6 +2790,11 @@ msgstr ""
 msgid "Pattern"
 msgstr "Паттерн"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:297
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:607
+msgid "Pending"
+msgstr "Ожидает"
+
 #: redux-framework/sample/sections/codeweber/smtp.php:265
 #: redux-framework/sample/sections/codeweber/smtp.php:322
 msgid "Permission denied."
@@ -2457,12 +2823,22 @@ msgstr "Действия по обработке персональных дан
 msgid "Personal data processing period:"
 msgstr "Срок обработки персональных данных:"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:163
+msgid "personal data processing policy"
+msgstr ""
+
 #: functions/personal-data.php:264 functions/admin/admin_user_profil.php:24
-#: functions/admin/admin_user_profil.php:76 functions/integrations/cf7.php:1155
-#: templates/header/header-classic.php:312
-#: templates/header/header-extended-center-logo.php:295
+#: functions/admin/admin_user_profil.php:76 functions/integrations/cf7.php:1152
+#: templates/header/header-center-logo.php:254
+#: templates/header/header-classic.php:315
+#: templates/header/header-extended-center-logo.php:294
+#: templates/header/header-extended-center-logo.php:438
 #: templates/header/header-extended.php:295
+#: templates/header/header-fancy-center-logo.php:260
 #: templates/header/header-fancy.php:284
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:114
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:189
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:576
 #: redux-framework/sample/sections/codeweber/repeater.php:14
 #: redux-framework/sample/sections/codeweber/repeater.php:21
 #: redux-framework/sample/sections/codeweber/repeater.php:23
@@ -2470,23 +2846,23 @@ msgstr "Срок обработки персональных данных:"
 msgid "Phone"
 msgstr "Телефон"
 
-#: redux-framework/sample/sections/codeweber/contacts.php:22
+#: redux-framework/sample/sections/codeweber/contacts.php:24
 msgid "Phone 01"
 msgstr "Телефон 01"
 
-#: redux-framework/sample/sections/codeweber/contacts.php:31
+#: redux-framework/sample/sections/codeweber/contacts.php:33
 msgid "Phone 02"
 msgstr "Телефон 02"
 
-#: redux-framework/sample/sections/codeweber/contacts.php:38
+#: redux-framework/sample/sections/codeweber/contacts.php:41
 msgid "Phone 03"
 msgstr "Телефон 03"
 
-#: redux-framework/sample/sections/codeweber/contacts.php:45
+#: redux-framework/sample/sections/codeweber/contacts.php:49
 msgid "Phone 04"
 msgstr "Телефон 04"
 
-#: redux-framework/sample/sections/codeweber/contacts.php:52
+#: redux-framework/sample/sections/codeweber/contacts.php:57
 msgid "Phone 05"
 msgstr "Телефон 05"
 
@@ -2510,7 +2886,9 @@ msgstr "Номер телефона подтвержден"
 msgid ""
 "Phone of the person responsible for personal data processing. <br>"
 "[redux_option key=\"phone_responsible_person\"]"
-msgstr "Телефон лица, ответственного за обработку персональных данных."
+msgstr ""
+"Телефон лица, ответственного за обработку персональных данных.<br>"
+"[redux_option key=\"phone_responsible_person\"]"
 
 #: redux-framework/sample/sections/codeweber/legal.php:96
 msgid "Phone Responsible Person"
@@ -2526,13 +2904,25 @@ msgid ""
 "Physical or legal address where personal data is stored. <br>[redux_option "
 "key=\"storage_address\"]"
 msgstr ""
-"Физический или юридический адрес, по которому хранятся и обрабатываются "
-"персональные данные."
+"Фактический или юридический адрес, по которому хранятся и обрабатываются "
+"персональные данные.<br>[redux_option key=\"storage_address\"]"
 
 #: redux-framework/sample/sections/codeweber/socials.php:147
 #: redux-framework/sample/sections/extensions/users.php:163
 msgid "Pinterest"
 msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:453
+msgid "Placeholder text for email field"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:664
+msgid "Please enter a valid email address"
+msgstr "Пожалуйста, введите действительный E-Mail"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:837
+msgid "Please enter a valid email address."
+msgstr "Пожалуйста, введите действительный E-Mail"
 
 #: comments.php:164
 msgid "Please enter your comment."
@@ -2564,14 +2954,10 @@ msgstr "Порт"
 msgid "Post type for modal windows"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:57
-#: redux-framework/sample/sections/codeweber/company-details.php:112
+#: redux-framework/sample/sections/codeweber/company-details.php:78
+#: redux-framework/sample/sections/codeweber/company-details.php:140
 msgid "Postal Code"
 msgstr "Почтовый индекс"
-
-#: redux-framework/sample/theme-config.php:445
-msgid "Presentation Fields"
-msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:23
 msgid "Presets"
@@ -2678,20 +3064,20 @@ msgstr ""
 msgid "Privacy Data"
 msgstr "Данные для Политики"
 
-#: functions/admin/admin_privacy.php:512
+#: functions/admin/admin_privacy.php:522
 msgid "Privacy Policy"
 msgstr "Политика в отношении обработки персональных данных"
 
-#: functions/integrations/cf7.php:841
+#: functions/integrations/cf7.php:838
 msgid "Privacy Policy - Page:"
 msgstr "Страница - Политикой в отношении обработки персональных данных "
 
-#: functions/integrations/cf7.php:878
+#: functions/integrations/cf7.php:875
 msgid "Privacy policy shortcode not found in the form."
 msgstr ""
 "Шоткод Политикой в отношении обработки персональных данных не найден в форме."
 
-#: functions/integrations/cf7.php:865
+#: functions/integrations/cf7.php:862
 #, php-format
 msgid "Privacy Policy: %s"
 msgstr "Политика в отношении обработки персональных данных: %s"
@@ -2737,7 +3123,7 @@ msgstr "Проектов Нет"
 msgid "Projects Not Found in Trash"
 msgstr "Проектов нет в Корзине"
 
-#: functions/admin/admin_privacy.php:1664
+#: functions/admin/admin_privacy.php:1674
 msgid "Public Offer Agreement"
 msgstr "Договор публичной оферты"
 
@@ -2799,7 +3185,7 @@ msgstr ""
 msgid "Read More"
 msgstr "Читать"
 
-#: functions/integrations/redux_framework/redux_framework.php:85
+#: functions/integrations/redux_framework/redux_framework.php:91
 #: redux-framework/sample/sections/codeweber/legal.php:146
 msgid "Recording Data"
 msgstr "запись"
@@ -2809,16 +3195,12 @@ msgstr "запись"
 msgid "Reddit"
 msgstr ""
 
-#: redux-framework/sample/theme-config.php:559
-msgid "Redux Extensions"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/smtp.php:33
 msgid "Reg.ru"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/company-details.php:27
-#: redux-framework/sample/sections/codeweber/company-details.php:82
+#: redux-framework/sample/sections/codeweber/company-details.php:43
+#: redux-framework/sample/sections/codeweber/company-details.php:105
 msgid "Region"
 msgstr "Регион"
 
@@ -2846,11 +3228,27 @@ msgstr ""
 msgid "Remove featured Image for this staff"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:141
+msgid "Request a callback"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:184
+msgid "Required"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:133
+msgid "Required fields in CF7:"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:318
+msgid "Reset"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:88
 msgid "Responsible Person (Full Name)"
 msgstr "Ответственное лицо (ФИО)"
 
-#: functions/admin/admin_privacy.php:1682
+#: functions/admin/admin_privacy.php:1692
 msgid "Return Policy"
 msgstr "Условия возврата"
 
@@ -2898,6 +3296,10 @@ msgstr "Сканирование файлов cookie интерфейса"
 #: searchform.php:3
 msgid "Search"
 msgstr "Поиск"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:312
+msgid "Search by email or name"
+msgstr "Найти по E-Mail или Имени"
 
 #: functions/cpt/cpt-clients.php:20
 msgid "Search Client"
@@ -2980,7 +3382,6 @@ msgid "Search Staff"
 msgstr "Найти Сотрудника"
 
 #: redux-framework/sample-config.php:689
-#: redux-framework/sample/theme-config.php:736
 msgid "Section via hook"
 msgstr ""
 
@@ -2991,10 +3392,6 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/header.php:99
 msgid "Select Custom Header"
 msgstr "Выбрать Пользовательский Хедер"
-
-#: redux-framework/sample/theme-config.php:481
-msgid "Select Fields"
-msgstr ""
 
 #: redux-framework/sample/metaboxes.php:185
 msgid "Select Footer"
@@ -3054,7 +3451,7 @@ msgstr "Тип Хедера"
 msgid "Select Header type for This Page"
 msgstr "Выберите тип Заголовка для этой страницы"
 
-#: functions/integrations/cf7.php:804
+#: functions/integrations/cf7.php:801
 msgid "Select Legal Documents for This contact form:"
 msgstr "Выберите юридические документы для этой контактной формы:"
 
@@ -3122,6 +3519,10 @@ msgstr "Выберите тип Бэкграунда Футера"
 msgid "Select type Header background"
 msgstr "Тип бэкграунда Хедера"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:180
+msgid "Select which columns to display in the subscriptions table:"
+msgstr "Выберите, какие столбцы отображать в таблице подписок:"
+
 #: redux-framework/sample/sections/codeweber/map_geo.php:125
 msgid "Selected point address"
 msgstr "Адрес выбранной на карте точки"
@@ -3130,9 +3531,17 @@ msgstr "Адрес выбранной на карте точки"
 msgid "Selected point coordinates"
 msgstr "Координаты выбранной точки"
 
-#: functions/admin/admin_privacy.php:1729
+#: functions/admin/admin_privacy.php:1739
 msgid "Seller Information"
 msgstr "Информация об организации"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:173
+msgid "Send"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:339
+msgid "Send subscription confirmation email"
+msgstr "Отправить электронное письмо с подтверждением подписки"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:184
 #: redux-framework/sample/sections/codeweber/smtp.php:187
@@ -3140,6 +3549,23 @@ msgid "Send Test Email"
 msgstr ""
 "Отправить Тестовый Email\n"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:413
+msgid "Sender Email"
+msgstr "E-Mail отправителя"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:418
+msgid "Sender email address"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:427
+msgid "Sender Name"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:432
+msgid "Sender name in emails"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:663
 #: redux-framework/sample/sections/codeweber/smtp.php:193
 msgid "Sending..."
 msgstr "Отправка..."
@@ -3229,6 +3655,12 @@ msgstr "Настройки Футера"
 msgid "Settings for custom post types."
 msgstr "Включение/Отключение типов записей"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:520
+msgid ""
+"Settings for subscription form texts. All texts support translation through "
+"WordPress."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/map_geo.php:11
 msgid "Settings Geo && Map"
 msgstr "Настройки Геоданных и карт"
@@ -3256,7 +3688,7 @@ msgstr ""
 msgid "Settings Tracking && Metrics"
 msgstr "Настройки Отслеживания и метрик"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:150
+#: redux-framework/sample/sections/codeweber/company-details.php:181
 msgid "Settlement Account"
 msgstr "Расчетный счет"
 
@@ -3272,7 +3704,7 @@ msgstr ""
 "Сокращенное наименование юридического лица, ответственного за обработку "
 "данных. <br>[redux_option key=\"legal_entity_short\"]"
 
-#: functions/integrations/cf7.php:810
+#: functions/integrations/cf7.php:807
 msgid ""
 "Shortcode for displaying a document link in the form code: "
 "[cf7_legal_consent_link]"
@@ -3280,7 +3712,7 @@ msgstr ""
 "Короткий код для отображения ссылки на документ в коде формы: "
 "[cf7_legal_consent_link]"
 
-#: functions/integrations/cf7.php:826
+#: functions/integrations/cf7.php:823
 msgid ""
 "Shortcode for displaying a document link in the form code: "
 "[cf7_mailing_consent_link]"
@@ -3288,16 +3720,113 @@ msgstr ""
 "Шоткод для отображения ссылки на документ в коде формы: "
 "[cf7_mailing_consent_link]"
 
-#: functions/integrations/cf7.php:842
+#: functions/integrations/cf7.php:839
 msgid ""
 "Shortcode for displaying a document link in the form code: "
 "[cf7_privacy_policy]"
 msgstr ""
 "Шоткод для отображения ссылки на документ в коде формы: [cf7_privacy_policy]"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:96
+msgid "Shortcode form"
+msgstr ""
+
 #: functions/admin/admin_privacy.php:133
 msgid "Shortcode:"
 msgstr "Шоткод:"
+
+#: redux-framework/sample/sections/codeweber/company-details.php:203
+msgid "Shortcode: [redux_option key=\"bank-bank-address\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:196
+msgid "Shortcode: [redux_option key=\"bank-bank-kpp\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:189
+msgid "Shortcode: [redux_option key=\"bank-bank-tin\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:168
+msgid "Shortcode: [redux_option key=\"bank-bic\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:175
+msgid "Shortcode: [redux_option key=\"bank-corr-account\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:161
+msgid "Shortcode: [redux_option key=\"bank-name\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:182
+msgid "Shortcode: [redux_option key=\"bank-settlement-account\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:113
+msgid "Shortcode: [redux_option key=\"fact-city\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:99
+msgid "Shortcode: [redux_option key=\"fact-country\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:127
+msgid "Shortcode: [redux_option key=\"fact-house\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:134
+msgid "Shortcode: [redux_option key=\"fact-office\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:141
+msgid "Shortcode: [redux_option key=\"fact-postal\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:106
+msgid "Shortcode: [redux_option key=\"fact-region\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:120
+msgid "Shortcode: [redux_option key=\"fact-street\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:51
+msgid "Shortcode: [redux_option key=\"juri-city\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:37
+msgid "Shortcode: [redux_option key=\"juri-country\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:65
+msgid "Shortcode: [redux_option key=\"juri-house\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:72
+msgid "Shortcode: [redux_option key=\"juri-office\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:79
+msgid "Shortcode: [redux_option key=\"juri-postal\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:44
+msgid "Shortcode: [redux_option key=\"juri-region\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:58
+msgid "Shortcode: [redux_option key=\"juri-street\"]"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:22
+msgid "Shortcode: [redux_option key=\"text-about-company\"]"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:158
+#, php-format
+msgid "Show \"%s\" column"
+msgstr "Показать колонку \"%s\" "
 
 #: redux-framework/sample/metaboxes.php:358
 #: redux-framework/sample/sections/codeweber/page-header.php:65
@@ -3341,13 +3870,16 @@ msgstr ""
 msgid "Single Template for %s"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:435
+msgid "Site Name"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/socials.php:172
 #: redux-framework/sample/sections/extensions/users.php:188
 msgid "Skype"
 msgstr ""
 
 #: redux-framework/sample-config.php:450
-#: redux-framework/sample/theme-config.php:495
 msgid "Slider / Spinner"
 msgstr ""
 
@@ -3396,9 +3928,12 @@ msgstr ""
 msgid "Social Icon Type Mobile Menu"
 msgstr "Тип Иконок соцсетей Мобильное меню"
 
-#: templates/header/header-classic.php:389
-#: templates/header/header-extended-center-logo.php:372
+#: templates/header/header-center-logo.php:331
+#: templates/header/header-classic.php:393
+#: templates/header/header-extended-center-logo.php:371
+#: templates/header/header-extended-center-logo.php:515
 #: templates/header/header-extended.php:372
+#: templates/header/header-fancy-center-logo.php:337
 #: templates/header/header-fancy.php:361
 msgid "Social Media"
 msgstr "Социальные сети"
@@ -3451,18 +3986,23 @@ msgstr ""
 msgid "Staff updated"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:193
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:580
+msgid "Status"
+msgstr "Статус"
+
 #: redux-framework/sample/sections/codeweber/socials.php:235
 #: redux-framework/sample/sections/extensions/users.php:251
 msgid "Steam"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:88
+#: functions/integrations/redux_framework/redux_framework.php:94
 #: redux-framework/sample/sections/codeweber/legal.php:149
 msgid "Storage Data"
 msgstr "хранение"
 
-#: redux-framework/sample/sections/codeweber/company-details.php:39
-#: redux-framework/sample/sections/codeweber/company-details.php:94
+#: redux-framework/sample/sections/codeweber/company-details.php:57
+#: redux-framework/sample/sections/codeweber/company-details.php:119
 msgid "Street"
 msgstr "Улица"
 
@@ -3470,12 +4010,73 @@ msgstr "Улица"
 msgid "Submit"
 msgstr "Отправить"
 
-#: redux-framework/sample/sections/codeweber/contacts.php:16
-#: redux-framework/sample/sections/codeweber/contacts.php:23
-#: redux-framework/sample/sections/codeweber/contacts.php:32
-#: redux-framework/sample/sections/codeweber/contacts.php:39
-#: redux-framework/sample/sections/codeweber/contacts.php:46
-#: redux-framework/sample/sections/codeweber/contacts.php:53
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:467
+msgid "Submit button text"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:124
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:469
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:470
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:764
+msgid "Subscribe"
+msgstr "Подписаться"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:193
+msgid "Subscriber email address"
+msgstr "E-Mail подписчика"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:199
+msgid "Subscriber first name"
+msgstr "Имя подписчика"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:205
+msgid "Subscriber last name"
+msgstr "Фамилия подписчика"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:211
+msgid "Subscriber phone"
+msgstr "Телефон подписчика"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:40
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:166
+msgid "Subscription Column Settings"
+msgstr "Настройки колонок"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:354
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:355
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:969
+msgid "Subscription Confirmation"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:352
+msgid "Subscription confirmation email subject"
+msgstr "Тема письма с подтверждением подписки"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:194
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:581
+msgid "Subscription Date"
+msgstr "Дата подписки"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:233
+msgid "Subscription error"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:618
+msgid "Subscription Form|Email"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:228
+msgid "Subscription successful"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:527
+msgid "Subscription successfully deleted"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:30
+msgid "Subscriptions"
+msgstr "Подписки"
+
 #: redux-framework/sample/sections/codeweber/socials.php:16
 #: redux-framework/sample/sections/codeweber/socials.php:22
 #: redux-framework/sample/sections/codeweber/socials.php:28
@@ -3551,6 +4152,10 @@ msgstr "Отправить"
 msgid "Subtitle"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:491
+msgid "Success Message"
+msgstr ""
+
 #: functions/roles.php:8
 msgid "Super Admin"
 msgstr ""
@@ -3559,11 +4164,7 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: redux-framework/sample/theme-config.php:468
-msgid "Switch / Button Set"
-msgstr ""
-
-#: functions/integrations/redux_framework/redux_framework.php:86
+#: functions/integrations/redux_framework/redux_framework.php:92
 #: redux-framework/sample/sections/codeweber/legal.php:147
 msgid "Systematization Data"
 msgstr "систематизация"
@@ -3572,13 +4173,18 @@ msgstr "систематизация"
 msgid "Taxpayer identification number Person (INN)"
 msgstr "Идентификационный номер (ИНН)"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:401
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1068
+msgid "Team"
+msgstr "Команда"
+
 #: functions/bootstrap/bootstrap_share-page.php:18
 #: redux-framework/sample/sections/codeweber/socials.php:15
 #: redux-framework/sample/sections/extensions/users.php:39
 msgid "Telegram"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1062
+#: functions/admin/admin_privacy.php:1072
 msgid "Terms of Use"
 msgstr "Пользовательское соглашение"
 
@@ -3612,24 +4218,30 @@ msgid "Text for paragraph 5.3 of the personal data processing policy"
 msgstr ""
 "Текст для пункта 5.3. политики в отношении обработки персональных данных"
 
-#: functions/integrations/cf7.php:892
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:239
+msgid ""
+"Thank you for subscribing! A confirmation email has been sent to your email."
+msgstr ""
+"Спасибо за подписку! На ваш адрес электронной почты отправлено письмо с "
+"подтверждением."
+
+#: functions/integrations/cf7.php:889
 msgid ""
 "The consent document is selected but not published. Please publish the "
 "document."
 msgstr ""
 
 #: redux-framework/sample-config.php:574
-#: redux-framework/sample/theme-config.php:619
 msgid "The field desc is NOT visible in customizer."
 msgstr ""
 
-#: functions/integrations/cf7.php:915
+#: functions/integrations/cf7.php:912
 msgid ""
 "The mailing consent document is selected but not published. Please publish "
 "the document."
 msgstr ""
 
-#: functions/integrations/cf7.php:869
+#: functions/integrations/cf7.php:866
 msgid ""
 "The privacy policy document is selected but not published. Please publish "
 "the document."
@@ -3638,7 +4250,6 @@ msgstr ""
 "опубликован. Пожалуйста, опубликуйте документ."
 
 #: redux-framework/sample-config.php:573
-#: redux-framework/sample/theme-config.php:618
 msgid "The subtitle is NOT visible in customizer"
 msgstr ""
 
@@ -3664,9 +4275,16 @@ msgstr "Настройки Темы"
 msgid "Theme style"
 msgstr "Стилизация Темы"
 
-#: redux-framework/sample/theme-config.php:365
-msgid "These are really basic fields!"
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:839
+msgid "This email is already subscribed to the newsletter."
+msgstr "Этот E-Mail уже подписан на рассылку."
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1071
+msgid ""
+"This email was sent to {email} because you subscribed to our newsletter."
 msgstr ""
+"Это письмо было отправлено на адрес {email}, поскольку вы подписались на "
+"нашу рассылку."
 
 #: redux-framework/sample/metaboxes.php:326
 msgid ""
@@ -3675,7 +4293,6 @@ msgid ""
 msgstr ""
 
 #: redux-framework/sample-config.php:690
-#: redux-framework/sample/theme-config.php:737
 msgid ""
 "This is a section created by adding a filter to the sections array. Can be "
 "used by child themes to add/remove sections from the options."
@@ -3707,10 +4324,6 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:74
 msgid "This Post Settings"
 msgstr "Настройки этой записи"
-
-#: redux-framework/sample/theme-config.php:611
-msgid "This Section should be visible only in Customizer"
-msgstr ""
 
 #: redux-framework/sample/theme-config.php:276
 msgid ""
@@ -3749,6 +4362,10 @@ msgstr "Заголовок Цели обработки"
 msgid "Title size"
 msgstr "Размер заголовка в Page Header"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:169
+msgid "to receive informational and promotional newsletters"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/header.php:317
 msgid "Topbar"
 msgstr "ТопХедер"
@@ -3765,7 +4382,7 @@ msgstr "Города"
 msgid "Tracking & Metrics"
 msgstr "Отслеживание и метрики"
 
-#: functions/integrations/redux_framework/redux_framework.php:92
+#: functions/integrations/redux_framework/redux_framework.php:98
 #: redux-framework/sample/sections/codeweber/legal.php:153
 msgid "Transfer (distribution, provision, access) Data"
 msgstr "передача (распространение, предоставление, доступ)"
@@ -3790,6 +4407,7 @@ msgid "Twitter"
 msgstr ""
 
 #: functions/cpt/cpt-services.php:111
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:183
 msgid "Type"
 msgstr "Тип"
 
@@ -3842,8 +4460,8 @@ msgstr "Тип 6"
 msgid "Type 7"
 msgstr "Тип 7"
 
-#: templates/header/header-classic.php:252
-#: templates/header/header-extended-center-logo.php:261
+#: templates/header/header-classic.php:255
+#: templates/header/header-extended-center-logo.php:260
 #: templates/header/header-extended.php:260
 #: templates/header/header-fancy.php:249
 msgid "Type keyword and hit enter"
@@ -3853,6 +4471,10 @@ msgstr "Поиск по сайту"
 msgid "Types"
 msgstr "Типы"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:101
+msgid "unique form identifier (required)"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:325
 msgid "Unlimited slides with drag and drop sorting."
 msgstr ""
@@ -3861,11 +4483,35 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:395
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1057
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:469
+msgid "Unsubscribe"
+msgstr "Отписаться"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:195
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:582
+msgid "Unsubscribe Date"
+msgstr "Дата отписки"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1133
+msgid "Unsubscribe Error"
+msgstr "Ошибка отписки"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:299
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:609
+msgid "Unsubscribed"
+msgstr "Отменена подписка"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:382
+msgid "Unsubscribed only"
+msgstr "Только отписавшиеся"
+
 #: functions/cpt/cpt-faq.php:90
 msgid "Update FAQ Tag"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:89
+#: functions/integrations/redux_framework/redux_framework.php:95
 #: redux-framework/sample/sections/codeweber/legal.php:150
 msgid "Updating (clarification, modification) Data"
 msgstr "уточнение (обновление, изменение)"
@@ -3907,7 +4553,7 @@ msgstr "Загрузить Светлый Логотип"
 msgid "Uploaded to this FAQ"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:91
+#: functions/integrations/redux_framework/redux_framework.php:97
 #: redux-framework/sample/sections/codeweber/legal.php:152
 msgid "Usage Data"
 msgstr "использование"
@@ -3925,7 +4571,18 @@ msgstr ""
 msgid "Use as Featured Image for this Price Package"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:97
+msgid "Use shortcode for quick form addition:"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:57
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:196
+msgid "User Account"
+msgstr "Аккаунт"
+
 #: functions/personal-data.php:244
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:192
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:579
 msgid "User Agent"
 msgstr "Браузер и устройство"
 
@@ -3941,6 +4598,10 @@ msgstr ""
 #: redux-framework/sample/sections/extensions/users.php:30
 msgid "User Socials"
 msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:514
+msgid "User successfully unsubscribed from newsletter"
+msgstr "Пользователь успешно отписался от рассылки"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:154
 msgid "Username (login)"
@@ -3958,6 +4619,10 @@ msgstr "Проверка"
 #: functions/personal-data.php:87
 #, php-format
 msgid "Version from %s"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:582
+msgid "Version:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:27
@@ -4061,6 +4726,11 @@ msgstr ""
 msgid "View Price Packages"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:82
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:450
+msgid "View Profile"
+msgstr "Профиль"
+
 #: functions/cpt/cpt-projects.php:17
 msgid "View Project"
 msgstr ""
@@ -4105,7 +4775,15 @@ msgstr ""
 msgid "Vkontakte"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1670
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:142
+msgid "We will call back within 15 minutes"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1129
+msgid "We will no longer send you email notifications."
+msgstr ""
+
+#: functions/admin/admin_privacy.php:1680
 msgid "Website Usage Rules"
 msgstr "Правила использования сайта"
 
@@ -4204,9 +4882,33 @@ msgstr "Яндекс Карты"
 msgid "Yandex Metric Settings"
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:192
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:216
 #: redux-framework/sample/sections/codeweber/smtp.php:118
 msgid "Yes"
 msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:85
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:567
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:392
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1052
+msgid "You have successfully subscribed to our newsletter."
+msgstr "Вы успешно подписались на нашу рассылку."
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:498
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:499
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:772
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:842
+msgid "You have successfully subscribed to the newsletter!"
+msgstr "Вы успешно подписались на рассылку!"
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:935
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1125
+msgid "You have successfully unsubscribed from the newsletter"
+msgstr "Вы успешно отписались от рассылки"
 
 #: templates/components/lastpostslider-blog.php:13
 msgid "You Might Also Like"
@@ -4224,8 +4926,31 @@ msgstr ""
 msgid "You must agree to the processing of personal data."
 msgstr ""
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:234
+msgid "Your code for subscription error"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:229
+msgid "Your code for successful subscription"
+msgstr ""
+
 #: functions/lib/comments-helper.php:91
 msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:153
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:154
+msgid "Your Email"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:149
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:150
+msgid "Your Last Name"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:145
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:146
+msgid "Your Name"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:87
@@ -4263,11 +4988,11 @@ msgstr ""
 msgid "Сookie Expiration Date"
 msgstr "Срок действия Cookie-файла*"
 
-#: functions/integrations/cf7.php:1173
+#: functions/integrations/cf7.php:1170
 msgid "— Not selected —"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:38 functions/integrations/cf7.php:812
-#: functions/integrations/cf7.php:828 functions/integrations/cf7.php:844
+#: functions/admin/admin_privacy.php:38 functions/integrations/cf7.php:809
+#: functions/integrations/cf7.php:825 functions/integrations/cf7.php:841
 msgid "— Select —"
 msgstr "— Выбрать —"
