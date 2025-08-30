@@ -64,3 +64,13 @@
       font-size: 11px;
       height: auto;
    }
+
+   /* Стили для кнопок действий */
+  
+
+        table.newsletter-subscriptions-table th:nth-child(12),
+        table.newsletter-subscriptions-table td:nth-child(12) {
+            width: 180px !important;
+            min-width: 180px;
+            max-width: 200px;
+        }

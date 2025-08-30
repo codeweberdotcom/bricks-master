@@ -43,6 +43,14 @@ if (!function_exists('brk_styles_scripts')) {
 		/*dist add codeweber theme scripts */
 		wp_enqueue_script('plugins-scripts', get_template_directory_uri() . '/dist/assets/js/plugins.js', false, $theme_version, true);
 		wp_enqueue_script('theme-scripts', get_template_directory_uri() . '/dist/assets/js/theme.js', false, $theme_version, true);
+
+		wp_localize_script('theme-scripts', 'theme-scripts_ajax', array(
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'nonce' => wp_create_nonce('theme-scripts_nonce'),
+			'translations' => array(
+				'message_sent' => __('Message successfully sent.', 'codeweber'),
+			)
+		));
 	}
 }
 add_action('wp_enqueue_scripts', 'brk_styles_scripts');
@@ -110,4 +118,9 @@ function theme_enqueue_fetch_assets()
 	}
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_fetch_assets');
+
+
+
+
+
 

@@ -295,11 +295,17 @@ function create_custom_cf7_form()
 <div class="form-floating mb-3 text-dark"> 
   [text* text-name id:floatingName class:form-control placeholder "Ваше Имя"]
   <label for="floatingName">Ваше Имя</label>
+  <div class="invalid-feedback">
+        Введите ваше Имя.
+      </div>
 </div>
 
 <div class="form-floating mb-3 text-dark"> 
   [tel* tel-463 id:floatingTel class:phone-mask class:form-control placeholder "+7(000)123-45-67"]
   <label for="floatingTel">+7(000)123-45-67</label>
+  <div class="invalid-feedback">
+        Введите ваш телефон.
+      </div>
 </div>
 
  <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
@@ -450,16 +456,25 @@ function create_custom_cf7_form_with_name_and_email()
 <div class="form-floating mb-3 text-dark"> 
   [text* text-name id:floatingName class:form-control placeholder "Ваше Имя"]
   <label for="floatingName">Ваше Имя</label>
+  <div class="invalid-feedback">
+        Введите ваше Имя.
+      </div>
 </div>
 
 <div class="form-floating mb-3 text-dark"> 
   [email* email-address id:floatingEmail class:form-control placeholder "Ваш Email"]
   <label for="floatingEmail">Ваш Email</label>
+  <div class="invalid-feedback">
+        Введите ваш E-Mail.
+      </div>
 </div>
 
 <div class="form-floating mb-3 text-dark"> 
   [tel* tel-463 id:floatingTel class:phone-mask class:form-control placeholder "+7(000)123-45-67"]
   <label for="floatingTel">+7(000)123-45-67</label>
+  <div class="invalid-feedback">
+        Введите ваш телефон.
+      </div>
 </div>
 
 <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
@@ -539,6 +554,9 @@ function create_custom_cf7_form_with_name_comment_and_email()
         <div class="form-floating mb-4">
             [text* text-name id:floatingName class:form-control placeholder "Ваше Имя"]
             <label for="floatingName">Ваше Имя</label>
+            <div class="invalid-feedback">
+        Введите ваше Имя.
+      </div>
         </div>
     </div>
     <!-- /column -->
@@ -546,6 +564,9 @@ function create_custom_cf7_form_with_name_comment_and_email()
         <div class="form-floating mb-4">
             [text* text-lastname id:floatingLastName class:form-control placeholder "Ваша Фамилия"]
             <label for="floatingLastName">Ваша Фамилия</label>
+            <div class="invalid-feedback">
+        Введите вашу Фамилию.
+      </div>
         </div>
     </div>
     <!-- /column -->
@@ -553,6 +574,9 @@ function create_custom_cf7_form_with_name_comment_and_email()
         <div class="form-floating mb-4">
             [email* email-address id:floatingEmail class:form-control placeholder "Ваш Email"]
             <label for="floatingEmail">Ваш Email</label>
+            <div class="invalid-feedback">
+        Введите ваш E-Mail.
+      </div>
         </div>
     </div>
     <!-- /column -->
@@ -560,6 +584,9 @@ function create_custom_cf7_form_with_name_comment_and_email()
         <div class="form-floating mb-4">
             [tel* tel-463 id:floatingTel class:phone-mask class:form-control placeholder "+7(000)123-45-67"]
             <label for="floatingTel">+7(000)123-45-67</label>
+            <div class="invalid-feedback">
+        Введите ваш телефон.
+      </div>
         </div>
     </div>
     <!-- /column -->
@@ -567,6 +594,9 @@ function create_custom_cf7_form_with_name_comment_and_email()
         <div class="form-floating mb-4">
             [textarea* textarea-937 id:floatingMessage class:form-control placeholder "Ваше сообщение"]
             <label for="floatingMessage">Ваше сообщение</label>
+            <div class="invalid-feedback">
+        Введите ваше Сообщение.
+      </div>
         </div>
     </div>
     <!-- /column -->
@@ -654,6 +684,9 @@ function create_custom_cf7_form_with_name_comment_and_email_2()
         <div class="form-floating mb-4">
             [text* text-name id:floatingName class:form-control placeholder "Ваше Имя"]
             <label for="floatingName">Ваше Имя</label>
+            <div class="invalid-feedback">
+        Введите ваше Имя.
+      </div>
         </div>
     </div>
     <!-- /column -->
@@ -670,6 +703,9 @@ function create_custom_cf7_form_with_name_comment_and_email_2()
         <div class="form-floating mb-4">
             [textarea* textarea-937 id:floatingMessage class:form-control placeholder "Ваше сообщение"]
             <label for="floatingMessage">Ваше сообщение</label>
+             <div class="invalid-feedback">
+        Введите ваше Сообщение.
+      </div>
         </div>
     </div>
     <!-- /column -->
@@ -1212,27 +1248,106 @@ add_action('wpcf7_save_contact_form', function ($contact_form) {
 });
 
 
+
 /**
  * Хук, который срабатывает после успешной отправки формы Contact Form 7
- * 
- * Этот код автоматически создаёт или обновляет пользователя WordPress на основе данных из формы CF7.
- * 
- * Основные шаги:
- * 1. Получение данных, отправленных через форму.
- * 2. Получение сопоставления полей (mapping) из метаданных формы.
- * 3. Извлечение и очистка основных данных пользователя (имя, фамилия, email, телефон).
- * 4. Получение IP-адреса, user-agent и URL страницы, где была отправлена форма.
- * 5. Генерация email на основе телефона, если email не указан.
- * 6. Транслитерация имени для формирования логина и отображаемого имени.
- * 7. Проверка, существует ли уже пользователь с таким email или логином.
- * 8. Создание нового пользователя, если его нет.
- * 9. Сохранение дополнительных данных пользователя (телефон, имя, фамилия, никнейм).
- * 10. Сохранение информации о согласиях пользователя с политикой конфиденциальности и обработкой данных.
- * 
- * @param WPCF7_ContactForm $contact_form Объект отправленной формы Contact Form 7
+ * Умное определение языка с приоритетом выбора пользователя
  */
 
+// Умная функция определения языка с приоритетами
+function get_user_language_auto() {
+    error_log('=== SMART LANGUAGE DETECTION START ===');
+    
+    // 1. 🎯 ВЫСШИЙ ПРИОРИТЕТ: Мультиязычные плагины (WPML, Polylang)
+    if (defined('ICL_LANGUAGE_CODE')) {
+        // WPML
+        $wpml_lang = ICL_LANGUAGE_CODE;
+        $locale = $wpml_lang . '_' . strtoupper($wpml_lang);
+        error_log('WPML language detected: ' . $locale);
+        error_log('=== LANGUAGE DETECTION END ===');
+        return $locale;
+    }
+    
+    if (function_exists('pll_current_language')) {
+        // Polylang
+        $pll_lang = pll_current_language();
+        $locale = $pll_lang . '_' . strtoupper($pll_lang);
+        error_log('Polylang language detected: ' . $locale);
+        error_log('=== LANGUAGE DETECTION END ===');
+        return $locale;
+    }
+    
+    // 2. 🎯 ПРИОРИТЕТ: Язык из URL параметра
+    if (isset($_GET['lang'])) {
+        $url_lang = sanitize_text_field($_GET['lang']);
+        $locale = $url_lang . '_' . strtoupper($url_lang);
+        error_log('URL language parameter: ' . $locale);
+        error_log('=== LANGUAGE DETECTION END ===');
+        return $locale;
+    }
+    
+    // 3. 🎯 ПРИОРИТЕТ: Язык из куки (предыдущий выбор пользователя)
+    if (isset($_COOKIE['site_language'])) {
+        $cookie_lang = sanitize_text_field($_COOKIE['site_language']);
+        error_log('Cookie language: ' . $cookie_lang);
+        error_log('=== LANGUAGE DETECTION END ===');
+        return $cookie_lang;
+    }
+    
+    // 4. 🎯 ПРИОРИТЕТ: Авторизованный пользователь
+    if (is_user_logged_in()) {
+        $user_locale = get_user_locale();
+        error_log('User profile locale: ' . $user_locale);
+        error_log('=== LANGUAGE DETECTION END ===');
+        return $user_locale;
+    }
+    
+    // 5. 🎯 Браузер пользователя
+    if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        $browser_languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        error_log('Browser languages: ' . implode(', ', $browser_languages));
+        
+        $primary_language = trim($browser_languages[0]);
+        $lang_code = substr($primary_language, 0, 2);
+        
+        error_log('Primary browser language: ' . $primary_language);
+        error_log('Extracted language code: ' . $lang_code);
+        
+        $locale = $lang_code . '_' . strtoupper($lang_code);
+        error_log('Using browser language: ' . $locale);
+        error_log('=== LANGUAGE DETECTION END ===');
+        return $locale;
+    }
+    
+    // 6. 🎯 Fallback: Язык сайта по умолчанию
+    $site_lang = get_locale();
+    error_log('Using default site language: ' . $site_lang);
+    error_log('=== LANGUAGE DETECTION END ===');
+    return $site_lang;
+}
+
+// Функция для установки языка в WordPress
+function set_wp_language($language) {
+    error_log('Setting WordPress language to: ' . $language);
+    
+    // Устанавливаем локаль через фильтр
+    add_filter('locale', function() use ($language) {
+        return $language;
+    });
+    
+    // Переключаем локаль
+    switch_to_locale($language);
+    
+    // Перезагружаем текстовый домен
+    load_default_textdomain($language);
+}
+
 add_action('wpcf7_mail_sent', function ($contact_form) {
+   // ⭐⭐⭐ УСТАНАВЛИВАЕМ ЯЗЫК В САМОМ НАЧАЛЕ ⭐⭐⭐
+   $user_language = get_user_language_auto();
+   set_wp_language($user_language);
+   error_log('User language for processing: ' . $user_language);
+
    $submission = WPCF7_Submission::get_instance();
    if (!$submission) return;
 
@@ -1265,40 +1380,13 @@ add_action('wpcf7_mail_sent', function ($contact_form) {
 
    $translit = function ($text) {
       $translit_table = [
-         'а' => 'a',
-         'б' => 'b',
-         'в' => 'v',
-         'г' => 'g',
-         'д' => 'd',
-         'е' => 'e',
-         'ё' => 'e',
-         'ж' => 'zh',
-         'з' => 'z',
-         'и' => 'i',
-         'й' => 'y',
-         'к' => 'k',
-         'л' => 'l',
-         'м' => 'm',
-         'н' => 'n',
-         'о' => 'o',
-         'п' => 'p',
-         'р' => 'r',
-         'с' => 's',
-         'т' => 't',
-         'у' => 'u',
-         'ф' => 'f',
-         'х' => 'h',
-         'ц' => 'c',
-         'ч' => 'ch',
-         'ш' => 'sh',
-         'щ' => 'shch',
-         'ы' => 'y',
-         'э' => 'e',
-         'ю' => 'yu',
-         'я' => 'ya',
-         'ь' => '',
-         'ъ' => '',
-         ' ' => '-'
+         'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd',
+         'е' => 'e', 'ё' => 'e', 'ж' => 'zh', 'з' => 'z', 'и' => 'i',
+         'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n',
+         'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't',
+         'у' => 'u', 'ф' => 'f', 'х' => 'h', 'ц' => 'c', 'ч' => 'ch',
+         'ш' => 'sh', 'щ' => 'shch', 'ы' => 'y', 'э' => 'e', 'ю' => 'yu',
+         'я' => 'ya', 'ь' => '', 'ъ' => '', ' ' => '-'
       ];
       $text = mb_strtolower($text, 'UTF-8');
       return strtr($text, $translit_table);
@@ -1333,11 +1421,15 @@ add_action('wpcf7_mail_sent', function ($contact_form) {
       $user_id = wp_create_user($user_login, $password, $email);
       if (is_wp_error($user_id)) return;
 
+      // ⭐⭐⭐ УСТАНАВЛИВАЕМ ЛОКАЛЬ ПОЛЬЗОВАТЕЛЯ ⭐⭐⭐
+      update_user_meta($user_id, 'locale', $user_language);
+      error_log('Set locale for new user: ' . $user_language);
+
       wp_update_user([
          'ID'           => $user_id,
          'first_name'   => $first_name,
          'last_name'    => $last_name,
-         'middle_name'    => $middle_name,
+         'middle_name'  => $middle_name,
          'nickname'     => $nickname,
          'display_name' => $display_name,
       ]);
@@ -1345,6 +1437,14 @@ add_action('wpcf7_mail_sent', function ($contact_form) {
       update_user_meta($user_id, 'phone', $phone);
    } else {
       $user_id = $user->ID;
+
+      // ⭐⭐⭐ ОБНОВЛЯЕМ ЛОКАЛЬ ПОЛЬЗОВАТЕЛЯ ⭐⭐⭐
+      $current_locale = get_user_meta($user_id, 'locale', true);
+      if (empty($current_locale) || $current_locale !== $user_language) {
+         update_user_meta($user_id, 'locale', $user_language);
+         error_log('Updated user locale from ' . $current_locale . ' to ' . $user_language);
+      }
+
       if (!get_user_meta($user_id, 'phone', true) && !empty($phone)) {
          update_user_meta($user_id, 'phone', $phone);
       }
@@ -1365,9 +1465,7 @@ add_action('wpcf7_mail_sent', function ($contact_form) {
    $mailing_field    = $field_map['checkboxnewsletter'] ?? '';
 
    if (!empty($data[$privacy_field]) && $privacy_page_id && get_post_status($privacy_page_id) === 'publish') {
-
       $checkboxtext = get_acceptance_label_html($processing_field, $form_id);
-
 
       $key = 'privacy_policy';
       $existing_consents[$key . '_' . $session_id] = [
@@ -1387,9 +1485,7 @@ add_action('wpcf7_mail_sent', function ($contact_form) {
    }
 
    if (!empty($data[$mailing_field]) && $mailing_doc_id && get_post_status($mailing_doc_id) === 'publish') {
-
       $checkboxtext = get_acceptance_label_html($processing_field, $form_id);
-
 
       $key = 'mailing_consent';
       $existing_consents[$key . '_' . $session_id] = [
@@ -1409,7 +1505,6 @@ add_action('wpcf7_mail_sent', function ($contact_form) {
    }
 
    if (!empty($data[$processing_field]) && $processing_doc_id && get_post_status($processing_doc_id) === 'publish') {
-
       $checkboxtext = get_acceptance_label_html($processing_field, $form_id);
 
       $key = 'pdn_processing';

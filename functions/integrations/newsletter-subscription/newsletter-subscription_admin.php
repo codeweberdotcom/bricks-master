@@ -44,6 +44,15 @@ class NewsletterSubscriptionAdmin
          array($this, 'render_settings_page')
       );
 
+      add_submenu_page(
+         'newsletter-subscriptions',
+         __('Import Subscribers', 'codeweber'),
+         __('Import', 'codeweber'),
+         'manage_options',
+         'newsletter-subscriptions-import',
+         array($this, 'render_import_page')
+      );
+
       add_filter('manage_newsletter-subscriptions_page_newsletter-subscriptions_columns', array($this, 'add_user_column'));
       add_action('manage_newsletter-subscriptions_page_newsletter-subscriptions_custom_column', array($this, 'display_user_column'), 10, 2);
    }
@@ -117,6 +126,10 @@ class NewsletterSubscriptionAdmin
 
       add_action('admin_post_newsletter_export_csv', array($this, 'handle_export_csv'));
       add_action('admin_post_nopriv_newsletter_export_csv', array($this, 'handle_export_csv'));
+
+      // Добавляем обработчик импорта
+      add_action('admin_post_newsletter_import_csv', array($this, 'handle_import_csv'));
+      add_action('admin_post_nopriv_newsletter_import_csv', array($this, 'handle_import_csv'));
    }
 
    public function sanitize_column_settings($input)
@@ -183,7 +196,7 @@ class NewsletterSubscriptionAdmin
    public function get_available_columns()
    {
       return array(
-         'email' => __('Email', 'codeweber'),
+         'Email' => __('Email', 'codeweber'),
          'first_name' => __('First Name', 'codeweber'),
          'last_name' => __('Last Name', 'codeweber'),
          'phone' => __('Phone', 'codeweber'),
@@ -218,7 +231,7 @@ class NewsletterSubscriptionAdmin
 
    public function enqueue_admin_styles($hook)
    {
-      if ($hook !== 'toplevel_page_newsletter-subscriptions' && $hook !== 'newsletter-subscriptions_page_newsletter-subscriptions-column-settings') {
+      if ($hook !== 'toplevel_page_newsletter-subscriptions' && $hook !== 'newsletter-subscriptions_page_newsletter-subscriptions-column-settings' && $hook !== 'newsletter-subscriptions_page_newsletter-subscriptions-import') {
          return;
       }
 
@@ -296,7 +309,7 @@ class NewsletterSubscriptionAdmin
                         <option value=""><?php _e('All statuses', 'codeweber'); ?></option>
                         <option value="pending" <?php selected($status, 'pending'); ?>><?php _e('Pending', 'codeweber'); ?></option>
                         <option value="confirmed" <?php selected($status, 'confirmed'); ?>><?php _e('Confirmed', 'codeweber'); ?></option>
-                        <option value="unsubscribed" <?php selected($status, 'unsubscribed'); ?>><?php _e('Unsubscribed', 'codeweber'); ?></option>
+                        <option value='unsubscribed' <?php selected($status, 'unsubscribed'); ?>><?php _e('Unsubscribed', 'codeweber'); ?></option>
                      </select>
 
                      <select name="form_id" class="newsletter-form-filter">
@@ -320,6 +333,9 @@ class NewsletterSubscriptionAdmin
 
                      <a href="<?php echo admin_url('admin.php?page=newsletter-subscriptions-column-settings'); ?>"
                         class="button button-secondary"><?php _e('Column Settings', 'codeweber'); ?></a>
+
+                     <a href="<?php echo admin_url('admin.php?page=newsletter-subscriptions-import'); ?>"
+                        class="button button-secondary"><?php _e('Import Subscribers', 'codeweber'); ?></a>
                   </div>
                </div>
             </form>
@@ -481,7 +497,7 @@ class NewsletterSubscriptionAdmin
                   </button>
                </form>
             </div>
-<?php
+      <?php
             return ob_get_clean();
 
          default:
@@ -553,6 +569,8 @@ class NewsletterSubscriptionAdmin
          $where .= " AND status = 'confirmed'";
       } elseif ($status === 'unsubscribed') {
          $where .= " AND status = 'unsubscribed'";
+      } elseif ($status === 'pending') {
+         $where .= " AND status = 'pending'";
       }
 
       if ($form !== 'all') {
@@ -569,17 +587,18 @@ class NewsletterSubscriptionAdmin
       $output = fopen('php://output', 'w');
       fwrite($output, "\xEF\xBB\xBF");
 
+      // Используем английские названия колонок как в импорте
       fputcsv($output, array(
-         __('Email', 'codeweber'),
-         __('First Name', 'codeweber'),
-         __('Last Name', 'codeweber'),
-         __('Phone', 'codeweber'),
-         __('Form', 'codeweber'),
-         __('IP Address', 'codeweber'),
-         __('User Agent', 'codeweber'),
-         __('Status', 'codeweber'),
-         __('Subscription Date', 'codeweber'),
-         __('Unsubscribe Date', 'codeweber')
+         'email',
+         'first_name',
+         'last_name',
+         'phone',
+         'form_id',
+         'ip_address',
+         'user_agent',
+         'status',
+         'created_at',
+         'unsubscribed_at'
       ), ';');
 
       foreach ($subscriptions as $subscription) {
@@ -588,10 +607,10 @@ class NewsletterSubscriptionAdmin
             $subscription->first_name,
             $subscription->last_name,
             $subscription->phone,
-            $this->get_form_label($subscription->form_id),
+            $subscription->form_id,
             $subscription->ip_address,
             $subscription->user_agent,
-            $this->get_status_label($subscription->status),
+            $subscription->status,
             $subscription->created_at,
             $subscription->unsubscribed_at !== '0000-00-00 00:00:00' ? $subscription->unsubscribed_at : ''
          ), ';');
@@ -599,6 +618,401 @@ class NewsletterSubscriptionAdmin
 
       fclose($output);
       exit;
+   }
+
+   public function render_import_page()
+   {
+      $import_results = get_transient('newsletter_import_results');
+      delete_transient('newsletter_import_results');
+      ?>
+      <div class="wrap">
+         <h1><?php _e('Import Subscribers', 'codeweber'); ?></h1>
+
+         <?php if ($import_results): ?>
+            <div class="notice notice-<?php echo $import_results['success'] ? 'success' : 'error'; ?>">
+               <p><?php echo esc_html($import_results['message']); ?></p>
+               <?php if (!empty($import_results['details'])): ?>
+                  <ul>
+                     <?php foreach ($import_results['details'] as $detail): ?>
+                        <li><?php echo esc_html($detail); ?></li>
+                     <?php endforeach; ?>
+                  </ul>
+               <?php endif; ?>
+            </div>
+         <?php endif; ?>
+
+         <div class="card">
+            <h2><?php _e('CSV Import', 'codeweber'); ?></h2>
+            <p><?php _e('Import subscribers from a CSV file. The file should have the following columns (email is required):', 'codeweber'); ?></p>
+
+            <ul>
+               <li><strong>email</strong> - <?php _e('Email address (required)', 'codeweber'); ?></li>
+               <li><strong>first_name</strong> - <?php _e('First name', 'codeweber'); ?></li>
+               <li><strong>last_name</strong> - <?php _e('Last name', 'codeweber'); ?></li>
+               <li><strong>phone</strong> - <?php _e('Phone number', 'codeweber'); ?></li>
+               <li><strong>form_id</strong> - <?php _e('Form identifier', 'codeweber'); ?></li>
+               <li><strong>ip_address</strong> - <?php _e('IP address', 'codeweber'); ?></li>
+               <li><strong>user_agent</strong> - <?php _e('User agent/browser info', 'codeweber'); ?></li>
+               <li><strong>status</strong> - <?php _e('Status (confirmed/unsubscribed/pending)', 'codeweber'); ?></li>
+               <li><strong>created_at</strong> - <?php _e('Subscription date (YYYY-MM-DD HH:MM:SS)', 'codeweber'); ?></li>
+               <li><strong>unsubscribed_at</strong> - <?php _e('Unsubscribe date (YYYY-MM-DD HH:MM:SS)', 'codeweber'); ?></li>
+            </ul>
+
+            <p><strong><?php _e('Supported date formats:', 'codeweber'); ?></strong></p>
+            <ul>
+               <li>YYYY-MM-DD HH:MM:SS (2024-01-15 14:30:00)</li>
+               <li>DD.MM.YYYY HH:MM:SS (15.01.2024 14:30:00)</li>
+               <li>MM/DD/YYYY HH:MM:SS (01/15/2024 14:30:00)</li>
+               <li>DD/MM/YYYY HH:MM:SS (15/01/2024 14:30:00)</li>
+               <li>Unix timestamp (1705332600)</li>
+               <li><?php _e('Any other format recognized by strtotime()', 'codeweber'); ?></li>
+            </ul>
+
+            <p><strong><?php _e('Example CSV structure:', 'codeweber'); ?></strong></p>
+            <pre>email;first_name;last_name;phone;form_id;ip_address;user_agent;status;created_at;unsubscribed_at
+user1@example.com;John;Doe;+123456789;imported;192.168.1.1;Mozilla/5.0;confirmed;2024-01-15 14:30:00;
+user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed;2024-01-10 10:00:00;2024-01-15 16:00:00</pre>
+
+            <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" enctype="multipart/form-data">
+               <input type="hidden" name="action" value="newsletter_import_csv">
+               <?php wp_nonce_field('newsletter_import_csv', 'newsletter_import_nonce'); ?>
+
+               <table class="form-table">
+                  <tr>
+                     <th scope="row">
+                        <label for="csv_file"><?php _e('CSV File', 'codeweber'); ?></label>
+                     </th>
+                     <td>
+                        <input type="file" name="csv_file" id="csv_file" accept=".csv,.txt" required>
+                        <p class="description">
+                           <?php _e('Select a CSV file to import. Maximum file size:', 'codeweber'); ?>
+                           <?php echo size_format(wp_max_upload_size()); ?>
+                        </p>
+                     </td>
+                  </tr>
+                  <tr>
+                     <th scope="row">
+                        <label for="import_status"><?php _e('Default Status', 'codeweber'); ?></label>
+                     </th>
+                     <td>
+                        <select name="import_status" id="import_status">
+                           <option value="confirmed"><?php _e('Confirmed', 'codeweber'); ?></option>
+                           <option value="unsubscribed"><?php _e('Unsubscribed', 'codeweber'); ?></option>
+                           <option value="pending"><?php _e('Pending', 'codeweber'); ?></option>
+                        </select>
+                        <p class="description">
+                           <?php _e('Status for subscribers without status field in CSV', 'codeweber'); ?>
+                        </p>
+                     </td>
+                  </tr>
+                  <tr>
+                     <th scope="row">
+                        <label for="import_form"><?php _e('Form ID', 'codeweber'); ?></label>
+                     </th>
+                     <td>
+                        <input type="text" name="import_form" id="import_form" value="imported" placeholder="imported">
+                        <p class="description">
+                           <?php _e('Form identifier for imported subscribers', 'codeweber'); ?>
+                        </p>
+                     </td>
+                  </tr>
+                  <tr>
+                     <th scope="row">
+                        <label for="skip_duplicates"><?php _e('Duplicate Handling', 'codeweber'); ?></label>
+                     </th>
+                     <td>
+                        <label>
+                           <input type="checkbox" name="skip_duplicates" id="skip_duplicates" value="1" checked>
+                           <?php _e('Skip duplicate emails (keep existing)', 'codeweber'); ?>
+                        </label>
+                        <p class="description">
+                           <?php _e('If unchecked, duplicates will be updated with new data', 'codeweber'); ?>
+                        </p>
+                     </td>
+                  </tr>
+               </table>
+
+               <p class="submit">
+                  <button type="submit" class="button button-primary">
+                     <?php _e('Import Subscribers', 'codeweber'); ?>
+                  </button>
+               </p>
+            </form>
+         </div>
+      </div>
+<?php
+   }
+
+   public function handle_import_csv()
+   {
+      if (!wp_verify_nonce($_POST['newsletter_import_nonce'], 'newsletter_import_csv')) {
+         wp_die(__('Invalid import request', 'codeweber'));
+      }
+
+      if (!current_user_can('manage_options')) {
+         wp_die(__('Insufficient permissions for import', 'codeweber'));
+      }
+
+      if (empty($_FILES['csv_file']['tmp_name'])) {
+         $this->set_import_result(false, __('No file uploaded', 'codeweber'));
+         wp_redirect(admin_url('admin.php?page=newsletter-subscriptions-import'));
+         exit;
+      }
+
+      $file = $_FILES['csv_file']['tmp_name'];
+      $default_status = sanitize_text_field($_POST['import_status']);
+      $default_form = sanitize_text_field($_POST['import_form']);
+      $skip_duplicates = isset($_POST['skip_duplicates']);
+
+      // Проверяем расширение файла
+      $file_ext = strtolower(pathinfo($_FILES['csv_file']['name'], PATHINFO_EXTENSION));
+      if (!in_array($file_ext, ['csv', 'txt'])) {
+         $this->set_import_result(false, __('Invalid file format. Please upload a CSV file.', 'codeweber'));
+         wp_redirect(admin_url('admin.php?page=newsletter-subscriptions-import'));
+         exit;
+      }
+
+      // Читаем CSV файл
+      $handle = fopen($file, 'r');
+      if (!$handle) {
+         $this->set_import_result(false, __('Cannot open uploaded file', 'codeweber'));
+         wp_redirect(admin_url('admin.php?page=newsletter-subscriptions-import'));
+         exit;
+      }
+
+      // Пропускаем заголовок
+      $headers = fgetcsv($handle, 0, ';');
+      if (!$headers) {
+         fclose($handle);
+         $this->set_import_result(false, __('Invalid CSV format', 'codeweber'));
+         wp_redirect(admin_url('admin.php?page=newsletter-subscriptions-import'));
+         exit;
+      }
+
+      // Нормализуем заголовки
+      $headers = array_map('strtolower', $headers);
+      $headers = array_map('trim', $headers);
+      $headers = array_map(function ($header) {
+         // Приводим к правильным именам полей
+         $mapping = [
+            'email' => 'email',
+            'e-mail' => 'email',
+            'mail' => 'email',
+            'first_name' => 'first_name',
+            'firstname' => 'first_name',
+            'name' => 'first_name',
+            'last_name' => 'last_name',
+            'lastname' => 'last_name',
+            'surname' => 'last_name',
+            'phone' => 'phone',
+            'telephone' => 'phone',
+            'mobile' => 'phone',
+            'form_id' => 'form_id',
+            'form' => 'form_id',
+            'ip_address' => 'ip_address',
+            'ip' => 'ip_address',
+            'user_agent' => 'user_agent',
+            'browser' => 'user_agent',
+            'status' => 'status',
+            'created_at' => 'created_at',
+            'date' => 'created_at',
+            'subscription_date' => 'created_at',
+            'unsubscribed_at' => 'unsubscribed_at',
+            'unsubscribe_date' => 'unsubscribed_at'
+         ];
+         return $mapping[$header] ?? $header;
+      }, $headers);
+
+      // Проверяем обязательное поле email
+      if (!in_array('email', $headers)) {
+         fclose($handle);
+         $this->set_import_result(false, __('CSV file must contain "email" column', 'codeweber'));
+         wp_redirect(admin_url('admin.php?page=newsletter-subscriptions-import'));
+         exit;
+      }
+
+      global $wpdb;
+      $imported = 0;
+      $updated = 0;
+      $skipped = 0;
+      $errors = array();
+
+      $row_number = 1;
+      while (($row = fgetcsv($handle, 0, ';')) !== false) {
+         $row_number++;
+
+         if (count($row) !== count($headers)) {
+            $errors[] = sprintf(__('Row %d: incorrect number of columns', 'codeweber'), $row_number);
+            continue;
+         }
+
+         $data = array_combine($headers, $row);
+
+         // Валидация email
+         $email = sanitize_email($data['email']);
+         if (!is_email($email)) {
+            $errors[] = sprintf(__('Row %d: invalid email address: %s', 'codeweber'), $row_number, $data['email']);
+            continue;
+         }
+
+         // Подготовка данных для всех полей
+         $subscription_data = array(
+            'email' => $email,
+            'first_name' => isset($data['first_name']) ? sanitize_text_field($data['first_name']) : '',
+            'last_name' => isset($data['last_name']) ? sanitize_text_field($data['last_name']) : '',
+            'phone' => isset($data['phone']) ? sanitize_text_field($data['phone']) : '',
+            'form_id' => isset($data['form_id']) ? sanitize_text_field($data['form_id']) : $default_form,
+            'ip_address' => isset($data['ip_address']) ? sanitize_text_field($data['ip_address']) : '',
+            'user_agent' => isset($data['user_agent']) ? sanitize_text_field($data['user_agent']) : 'imported',
+            'status' => isset($data['status']) ? $this->validate_status($data['status']) : $default_status,
+            'unsubscribe_token' => $this->generate_unsubscribe_token($email)
+         );
+
+         // Обработка дат
+         if (isset($data['created_at']) && !empty($data['created_at'])) {
+            $created_at = $this->parse_date($data['created_at']);
+            if ($created_at) {
+               $subscription_data['created_at'] = $created_at;
+            }
+         }
+
+         if (isset($data['unsubscribed_at']) && !empty($data['unsubscribed_at'])) {
+            $unsubscribed_at = $this->parse_date($data['unsubscribed_at']);
+            if ($unsubscribed_at) {
+               $subscription_data['unsubscribed_at'] = $unsubscribed_at;
+            }
+         }
+
+         // Проверяем существование подписчика
+         $existing = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM {$this->table_name} WHERE email = %s",
+            $email
+         ));
+
+         if ($existing) {
+            if ($skip_duplicates) {
+               $skipped++;
+               continue;
+            } else {
+               // Обновляем существующую запись
+               $subscription_data['updated_at'] = current_time('mysql');
+
+               // Для обновления сохраняем оригинальные даты если они не указаны в импорте
+               if (!isset($subscription_data['created_at'])) {
+                  $subscription_data['created_at'] = $existing->created_at;
+               }
+               if (!isset($subscription_data['unsubscribed_at']) && $existing->unsubscribed_at !== '0000-00-00 00:00:00') {
+                  $subscription_data['unsubscribed_at'] = $existing->unsubscribed_at;
+               }
+
+               $result = $wpdb->update($this->table_name, $subscription_data, array('email' => $email));
+               if ($result !== false) {
+                  $updated++;
+               } else {
+                  $errors[] = sprintf(__('Row %d: failed to update subscription', 'codeweber'), $row_number);
+               }
+            }
+         } else {
+            // Создаем новую запись
+            if (!isset($subscription_data['created_at'])) {
+               $subscription_data['created_at'] = current_time('mysql');
+            }
+
+            $subscription_data['confirmed_at'] = ($subscription_data['status'] === 'confirmed') ?
+               (isset($subscription_data['created_at']) ? $subscription_data['created_at'] : current_time('mysql')) :
+               null;
+
+            $subscription_data['updated_at'] = current_time('mysql');
+
+            // Убедимся что unsubscribed_at не установлена для confirmed статуса
+            if ($subscription_data['status'] === 'confirmed' && isset($subscription_data['unsubscribed_at'])) {
+               $subscription_data['unsubscribed_at'] = null;
+            }
+
+            $result = $wpdb->insert($this->table_name, $subscription_data);
+            if ($result) {
+               $imported++;
+            } else {
+               $errors[] = sprintf(__('Row %d: failed to create subscription', 'codeweber'), $row_number);
+            }
+         }
+      }
+
+      fclose($handle);
+
+      $message = sprintf(
+         __('Import completed: %d imported, %d updated, %d skipped', 'codeweber'),
+         $imported,
+         $updated,
+         $skipped
+      );
+
+      $this->set_import_result(true, $message, $errors);
+      wp_redirect(admin_url('admin.php?page=newsletter-subscriptions-import'));
+      exit;
+   }
+
+   private function parse_date($date_string)
+   {
+      if (empty($date_string)) {
+         return null;
+      }
+
+      // Пробуем различные форматы дат
+      $formats = [
+         'Y-m-d H:i:s',
+         'Y-m-d H:i',
+         'Y-m-d',
+         'd.m.Y H:i:s',
+         'd.m.Y H:i',
+         'd.m.Y',
+         'm/d/Y H:i:s',
+         'm/d/Y H:i',
+         'm/d/Y',
+         'd/m/Y H:i:s',
+         'd/m/Y H:i',
+         'd/m/Y',
+         'Ymd His',
+         'Ymd',
+         'U' // Unix timestamp
+      ];
+
+      foreach ($formats as $format) {
+         $date = DateTime::createFromFormat($format, $date_string);
+         if ($date !== false) {
+            return $date->format('Y-m-d H:i:s');
+         }
+      }
+
+      // Пробуем strtotime как запасной вариант
+      $timestamp = strtotime($date_string);
+      if ($timestamp !== false) {
+         return date('Y-m-d H:i:s', $timestamp);
+      }
+
+      return null;
+   }
+
+   private function validate_status($status)
+   {
+      $status = strtolower(trim($status));
+      $valid_statuses = array('pending', 'confirmed', 'unsubscribed');
+
+      return in_array($status, $valid_statuses) ? $status : 'confirmed';
+   }
+
+   private function generate_unsubscribe_token($email)
+   {
+      return wp_hash($email . 'unsubscribe_salt' . time() . wp_rand());
+   }
+
+   private function set_import_result($success, $message, $details = array())
+   {
+      set_transient('newsletter_import_results', array(
+         'success' => $success,
+         'message' => $message,
+         'details' => $details
+      ), 30);
    }
 
    private function get_status_label($status)
@@ -616,7 +1030,8 @@ class NewsletterSubscriptionAdmin
    {
       $form_labels = array(
          'default' => __('Subscription Form|Email', 'codeweber'),
-         'cf7_1072' => __('Contact Form 7: Request Callback', 'codeweber')
+         'cf7_1072' => __('Contact Form 7: Request Callback', 'codeweber'),
+         'imported' => __('Imported', 'codeweber')
       );
 
       if (strpos($form_id, 'cf7_') === 0) {

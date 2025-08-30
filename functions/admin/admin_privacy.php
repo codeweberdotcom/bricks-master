@@ -315,15 +315,29 @@ add_action('save_post_legal', function ($post_id) {
  * @return void
  */
 add_action('pre_get_posts', function ($query) {
-	if (!is_admin() && $query->is_main_query() && (is_post_type_archive('legal') || is_tax() || is_home())) {
-		$meta_query = [
-			[
-				'key'     => '_hide_from_archive',
-				'value'   => '1',
-				'compare' => '!=',
-			]
-		];
-		$query->set('meta_query', $meta_query);
+	if (!is_admin() && $query->is_main_query()) {
+		if (is_post_type_archive('legal') || is_tax(get_object_taxonomies('legal'))) {
+
+			$meta_query = $query->get('meta_query');
+			if (!is_array($meta_query)) {
+				$meta_query = [];
+			}
+
+			$meta_query[] = [
+				'relation' => 'OR',
+				[
+					'key'     => '_hide_from_archive',
+					'value'   => '1',
+					'compare' => '!=',
+				],
+				[
+					'key'     => '_hide_from_archive',
+					'compare' => 'NOT EXISTS',
+				]
+			];
+
+			$query->set('meta_query', $meta_query);
+		}
 	}
 });
 

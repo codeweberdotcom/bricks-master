@@ -207,6 +207,10 @@ Author:		elemis
     height: 0.8rem;
 }
 
+.small-chekbox input {
+    margin-top: 6px;
+}
+
 .form-check-input.is-invalid ~ .form-check-label,
 .was-validated .form-check-input:invalid ~ .form-check-label, 
 .was-validated .form-check-input:invalid ~ .form-check-label a {

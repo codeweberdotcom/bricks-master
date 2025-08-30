@@ -24,13 +24,19 @@
             element: $(form),
             id: $(form).attr("id"),
             emailField: $(form).find('input[type="email"]'),
-            consentCheckbox: $(form).find(
+            mailingConsentCheckbox: $(form).find(
+              'input[name="soglasie-na-rassilku"]'
+            ),
+            dataProcessingCheckbox: $(form).find(
               'input[name="soglasie-na-obrabotku"]'
+            ),
+            privacyPolicyCheckbox: $(form).find(
+              'input[name="privacy-policy-read"]'
             ),
             nameField: $(form).find('input[name="text-name"]'),
             surnameField: $(form).find('input[name="text-surname"]'),
             phoneField: $(form).find('input[type="tel"]'),
-            submitButton: $(form).find('button[type="submit"]'), // Изменено на button
+            submitButton: $(form).find('button[type="submit"]'),
             hasOnlyEmail: this.hasOnlyEmailField(form),
           };
 
@@ -42,7 +48,7 @@
       const inputs = $(form).find(
         'input:not([type="hidden"]):not([type="submit"])'
       );
-      return inputs.length === 2; // email + checkbox
+      return inputs.length === 3; // email + 2 checkbox
     }
 
     bindEvents() {
@@ -68,10 +74,10 @@
         return false;
       }
 
-      const submitButton = form.submitButton; // Используем сохраненную кнопку
-      const originalText = submitButton.text(); // Изменено с .val() на .text()
+      const submitButton = form.submitButton;
+      const originalText = submitButton.text();
       submitButton
-        .text(this.translations.sending || "Sending...") // Изменено с .val() на .text()
+        .text(this.translations.sending || "Sending...")
         .prop("disabled", true);
 
       $.ajax({
@@ -87,30 +93,51 @@
               response.message
             );
             form.element[0].reset();
+
+            // Диспатчим кастомное событие для успешной подписки
+            document.dispatchEvent(
+              new CustomEvent("newsletter_subscription_success", {
+                detail: response,
+              })
+            );
           } else {
             this.showError(responseContainer, errorResponse, response.message);
+
+            // Диспатчим кастомное событие для ошибки подписки
+            document.dispatchEvent(
+              new CustomEvent("newsletter_subscription_error", {
+                detail: response,
+              })
+            );
           }
         },
         error: () => {
-          this.showError(
-            responseContainer,
-            errorResponse,
+          const errorMsg =
             this.translations.error_occurred ||
-              "An error occurred. Please try again later."
+            "An error occurred. Please try again later.";
+          this.showError(responseContainer, errorResponse, errorMsg);
+
+          // Диспатчим кастомное событие для ошибки подписки
+          document.dispatchEvent(
+            new CustomEvent("newsletter_subscription_error", {
+              detail: { message: errorMsg },
+            })
           );
         },
         complete: () => {
-          submitButton.text(originalText).prop("disabled", false); // Изменено с .val() на .text()
+          submitButton.text(originalText).prop("disabled", false);
         },
       });
     }
 
     validateForm(form) {
       const email = form.emailField.val().trim();
-      const consent = form.consentCheckbox.is(":checked");
+      const mailingConsent = form.mailingConsentCheckbox.is(":checked");
+      const dataProcessingConsent = form.dataProcessingCheckbox.is(":checked");
       const errorResponse = form.element.find(".newsletter-error-response");
       const responseContainer = form.element.find(".newsletter-responses");
 
+      // Валидация email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!email || !emailRegex.test(email)) {
         this.showError(
@@ -122,15 +149,29 @@
         return false;
       }
 
-      if (!consent) {
+      // Валидация согласия на рассылку
+      if (form.mailingConsentCheckbox.length > 0 && !mailingConsent) {
         this.showError(
           responseContainer,
           errorResponse,
-          this.translations.consent_required || "Consent is required"
+          this.translations.mailing_consent_required ||
+            "Consent to receive mailings is required"
         );
         return false;
       }
 
+      // Валидация согласия на обработку данных
+      if (form.dataProcessingCheckbox.length > 0 && !dataProcessingConsent) {
+        this.showError(
+          responseContainer,
+          errorResponse,
+          this.translations.data_processing_consent_required ||
+            "Consent to process personal data is required"
+        );
+        return false;
+      }
+
+      // Дополнительная валидация для простых форм
       if (form.hasOnlyEmail) {
         const otherFields = form.element.find(
           'input:not([type="email"]):not([type="checkbox"]):not([type="hidden"]):not([type="submit"])'
@@ -149,7 +190,7 @@
     }
 
     showError(container, element, message) {
-      element.text(message).show();
+      element.html(message).show();
       container.show();
 
       setTimeout(() => {
@@ -158,7 +199,7 @@
     }
 
     showSuccess(container, element, message) {
-      element.text(message).show();
+      element.html(message).show();
       container.show();
 
       setTimeout(() => {
