@@ -6,7 +6,6 @@
 
 class GDPR_Export
 {
-
    private static $instance = null;
 
    public static function get_instance()
@@ -44,7 +43,7 @@ class GDPR_Export
    }
 
    /**
-    * Экспорт согласий
+    * Экспорт согласий из CPT
     */
    public function export_consents($email_address)
    {
@@ -53,21 +52,33 @@ class GDPR_Export
          return ['data' => [], 'done' => true];
       }
 
-      $consents = get_user_meta($user->ID, 'codeweber_user_consents', true);
-      if (!is_array($consents)) {
+      // Получаем подписчика из CPT
+      $cpt_manager = Consent_CPT::get_instance();
+      if (!$cpt_manager) {
+         return ['data' => [], 'done' => true];
+      }
+
+      $subscriber = $cpt_manager->get_subscriber_by_email($email_address);
+      if (!$subscriber) {
+         return ['data' => [], 'done' => true];
+      }
+
+      // Получаем согласия из CPT
+      $consents = get_post_meta($subscriber->ID, '_subscriber_consents', true);
+      if (!is_array($consents) || empty($consents)) {
          return ['data' => [], 'done' => true];
       }
 
       $export_items = [];
 
-      foreach ($consents as $key => $data) {
-         $label_key = preg_replace('/_\d+$/', '', $key);
-         $label = ucfirst(str_replace('_', ' ', $label_key));
+      foreach ($consents as $index => $data) {
+         $label = !empty($data['type']) ? ucfirst(str_replace('_', ' ', $data['type'])) : __('Consent', 'codeweber');
 
-         $url = esc_url($data['url'] ?? '');
+         $url = esc_url($data['document_url'] ?? '');
          $url_display = $url;
 
-         if (preg_match('/[?&]page_id=(\d+)/', $url, $matches)) {
+         // Обрабатываем URL документа
+         if (!empty($url) && preg_match('/[?&]page_id=(\d+)/', $url, $matches)) {
             $page_id = (int)$matches[1];
             $permalink = get_permalink($page_id);
 
@@ -76,10 +87,10 @@ class GDPR_Export
                $url_display = $permalink;
             }
 
-            if (empty($data['title'])) {
+            if (empty($data['document_title'])) {
                $page = get_post($page_id);
                if ($page) {
-                  $data['title'] = get_the_title($page_id);
+                  $data['document_title'] = get_the_title($page_id);
                }
             }
          }
@@ -116,7 +127,7 @@ class GDPR_Export
             ],
             [
                'name'  => __('Document', 'codeweber'),
-               'value' => $data['title'] ?? '',
+               'value' => $data['document_title'] ?? '',
             ],
             [
                'name'  => __('Consent Html', 'codeweber'),
@@ -146,11 +157,24 @@ class GDPR_Export
          $export_items[] = [
             'group_id'    => 'user-consents',
             'group_label' => __('User Consents', 'codeweber'),
-            'item_id'     => "user-consent-{$key}",
+            'item_id'     => "user-consent-{$index}",
             'data'        => $entry_data,
          ];
       }
 
       return ['data' => $export_items, 'done' => true];
+   }
+
+   /**
+    * Альтернативный метод: экспорт из CPT по user_id
+    */
+   public function export_consents_by_user_id($user_id)
+   {
+      $user = get_user_by('id', $user_id);
+      if (!$user) {
+         return ['data' => [], 'done' => true];
+      }
+
+      return $this->export_consents($user->user_email);
    }
 }

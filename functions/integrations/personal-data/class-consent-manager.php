@@ -52,7 +52,7 @@ class Consent_Manager
    }
 
    /**
-    * Получить ссылку на последнюю ревизию документа
+    * Получить ссылку на последнюю ревизию документа или текущую версию
     */
    public static function get_latest_revision_link($post_id)
    {
@@ -60,38 +60,58 @@ class Consent_Manager
          return '';
       }
 
+      // Пытаемся получить ревизии
       $revisions = wp_get_post_revisions($post_id, [
          'numberposts' => 1,
          'order' => 'DESC'
       ]);
 
-      if (empty($revisions)) {
-         return '';
+      if (!empty($revisions)) {
+         // Получаем самую последнюю ревизию
+         $last_revision = reset($revisions);
+         $rev_id = $last_revision->ID;
+         $rev_date = date_i18n('Y-m-d H:i', strtotime($last_revision->post_modified));
+         $link = admin_url('revision.php?revision=' . $rev_id);
+
+
+         $result = sprintf(
+            '<a href="%s" target="_blank">%s</a>',
+            esc_url($link),
+            sprintf(
+               __('Version from %s', 'codeweber'),
+               esc_html($rev_date)
+            )
+         );
+      } else {
+         // Если ревизий нет, используем текущую версию документа
+         $post = get_post($post_id);
+         if ($post) {
+            $post_date = date_i18n('Y-m-d H:i', strtotime($post->post_modified));
+            $link = get_permalink($post_id);
+
+
+            $result = sprintf(
+               '<a href="%s" target="_blank">%s</a>',
+               esc_url($link),
+               sprintf(
+                  __('Current version from %s', 'codeweber'),
+                  esc_html($post_date)
+               )
+            );
+         } else {
+            $result = '';
+         }
       }
 
-      // Получаем самую последнюю ревизию
-      $last_revision = reset($revisions);
-      $rev_id = $last_revision->ID;
-      $rev_date = date_i18n('Y-m-d H:i', strtotime($last_revision->post_modified));
-      $link = admin_url('revision.php?revision=' . $rev_id);
-
-      return sprintf(
-         '<a href="%s" target="_blank">%s</a>',
-         esc_url($link),
-         sprintf(
-            __('Version from %s', 'codeweber'),
-            esc_html($rev_date)
-         )
-      );
+      return $result;
    }
 
    /**
-    * Сохранить согласия пользователя
+    * Сохранить согласия пользователя (только в CPT)
     */
    public static function save_user_consents($user_id, $consent_data)
    {
       if (!is_numeric($user_id) || $user_id <= 0) {
-         error_log('Invalid user ID in save_user_consents: ' . $user_id);
          return;
       }
 
@@ -99,14 +119,20 @@ class Consent_Manager
       $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
       $timestamp = current_time('mysql');
 
-      $privacy_doc_id = (int) get_option('codeweber_legal_consent_privacy');
+      $privacy_doc_id = (int) get_option('codeweber_legal_privacy-policy');
       $processing_doc_id = (int) get_option('codeweber_legal_consent_processing');
 
-      $consents = [];
       $session_id = uniqid('wp_', true);
 
       // Согласие на политику конфиденциальности
       if (!empty($consent_data['privacy_policy_consent'])) {
+         // Убедимся что есть ревизия
+         if ($privacy_doc_id) {
+            self::ensure_revision_exists($privacy_doc_id);
+         }
+
+         $revision_link = $privacy_doc_id ? self::get_latest_revision_link($privacy_doc_id) : '';
+
          $consent_entry = [
             'title'      => $privacy_doc_id ? get_the_title($privacy_doc_id) : __('Privacy Policy', 'codeweber'),
             'url'        => $privacy_doc_id ? get_permalink($privacy_doc_id) : '',
@@ -114,22 +140,28 @@ class Consent_Manager
             'user_agent' => $user_agent,
             'date'       => $timestamp,
             'session_id'  => $session_id,
-            'revision'    => $privacy_doc_id ? self::get_latest_revision_link($privacy_doc_id) : '',
+            'revision'    => $revision_link,
             'form_title'  => __('WordPress Register Form', 'codeweber'),
             'page_url'   => esc_url(site_url('/wp-login.php?action=register')),
          ];
 
-         $consents['privacy_policy'] = $consent_entry;
-
          // Сохраняем в CPT
          self::save_consent_to_cpt($user_id, array_merge($consent_entry, [
             'type' => 'privacy_policy',
-            'acceptance_html' => __('I have read and agree to the Privacy Policy', 'codeweber')
+            'acceptance_html' => __('I have read and agree to the Privacy Policy', 'codeweber'),
+            'revision' => $revision_link
          ]));
       }
 
       // Согласие на обработку персональных данных
       if (!empty($consent_data['pdn_consent'])) {
+         // Убедимся что есть ревизия
+         if ($processing_doc_id) {
+            self::ensure_revision_exists($processing_doc_id);
+         }
+
+         $revision_link = $processing_doc_id ? self::get_latest_revision_link($processing_doc_id) : '';
+
          $consent_entry = [
             'title'      => $processing_doc_id ? get_the_title($processing_doc_id) : __('Data Processing Agreement', 'codeweber'),
             'url'        => $processing_doc_id ? get_permalink($processing_doc_id) : '',
@@ -137,23 +169,46 @@ class Consent_Manager
             'user_agent' => $user_agent,
             'date'       => $timestamp,
             'session_id'  => $session_id,
-            'revision'    => $processing_doc_id ? self::get_latest_revision_link($processing_doc_id) : '',
+            'revision'    => $revision_link,
             'form_title'  => __('WordPress Register Form', 'codeweber'),
             'page_url'   => esc_url(site_url('/wp-login.php?action=register')),
          ];
 
-         $consents['pdn_processing'] = $consent_entry;
-
          // Сохраняем в CPT
          self::save_consent_to_cpt($user_id, array_merge($consent_entry, [
             'type' => 'pdn_processing',
-            'acceptance_html' => __('I agree to the processing of personal data', 'codeweber')
+            'acceptance_html' => __('I agree to the processing of personal data', 'codeweber'),
+            'revision' => $revision_link
          ]));
       }
+   }
 
-      if (!empty($consents)) {
-         update_user_meta($user_id, 'codeweber_user_consents', $consents);
+
+   /**
+    * Создать ревизию для документа если ее нет
+    */
+   public static function ensure_revision_exists($post_id)
+   {
+      if (!$post_id) {
+         return false;
       }
+
+      $revisions = wp_get_post_revisions($post_id, ['numberposts' => 1]);
+
+      if (empty($revisions)) {
+         // Создаем ревизию вручную
+         $post = get_post($post_id);
+         if ($post) {
+            $revision_id = wp_save_post_revision($post_id);
+            if ($revision_id) {
+               return true;
+            } else {
+            }
+         }
+      } else {
+      }
+
+      return false;
    }
 
    /**
@@ -184,13 +239,11 @@ class Consent_Manager
    {
       $user = get_user_by('id', $user_id);
       if (!$user) {
-         error_log('User not found in save_consent_to_cpt: ' . $user_id);
          return false;
       }
 
       $cpt_manager = Consent_CPT::get_instance();
       if (!$cpt_manager) {
-         error_log('Consent_CPT instance not available');
          return false;
       }
 
@@ -208,11 +261,10 @@ class Consent_Manager
       );
 
       if (!$subscriber_id || is_wp_error($subscriber_id)) {
-         error_log('Failed to find or create subscriber for user: ' . $user_id);
          return false;
       }
 
-      // Подготавливаем данные для сохранения
+      // Подготавливаем данные для сохранения - УБЕДИМСЯ ЧТО REVISION ПЕРЕДАЕТСЯ
       $consent_data_cpt = [
          'type' => $consent_data['type'] ?? '',
          'document_title' => $consent_data['title'] ?? '',
@@ -231,34 +283,66 @@ class Consent_Manager
       // Добавляем согласие
       $result = $cpt_manager->add_consent($subscriber_id, $consent_data_cpt);
 
-      if (!$result) {
-         error_log('Failed to add consent for subscriber: ' . $subscriber_id);
-      }
-
       return $result;
    }
 
    /**
-    * Получить согласия пользователя
+    * Получить согласия пользователя из CPT
     */
    public static function get_user_consents($user_id)
    {
-      return get_user_meta($user_id, 'codeweber_user_consents', true) ?: [];
+      $cpt_manager = Consent_CPT::get_instance();
+      if (!$cpt_manager) {
+         return [];
+      }
+
+      $subscriber = $cpt_manager->get_subscriber_by_user_id($user_id);
+      if (!$subscriber) {
+         return [];
+      }
+
+      return get_post_meta($subscriber->ID, '_subscriber_consents', true) ?: [];
    }
 
    /**
-    * Удалить согласия пользователя
+    * Удалить согласия пользователя (GDPR compliant)
+    * Удаляет только данные согласий из CPT, но оставляет запись подписчика
     */
    public static function delete_user_consents($user_id)
    {
-      // Удаляем из user meta
-      delete_user_meta($user_id, 'codeweber_user_consents');
+      if (!is_numeric($user_id) || $user_id <= 0) {
+         return false;
+      }
 
-      // Также можно удалить из CPT если нужно
-      // $cpt_manager = Consent_CPT::get_instance();
-      // $subscriber = $cpt_manager->get_subscriber_by_user_id($user_id);
-      // if ($subscriber) {
-      //     wp_delete_post($subscriber->ID, true);
-      // }
+      // Очищаем согласия в CPT (оставляем запись подписчика)
+      $deleted_cpt_consents = false;
+      $cpt_manager = Consent_CPT::get_instance();
+
+      if ($cpt_manager) {
+         $subscriber = $cpt_manager->get_subscriber_by_user_id($user_id);
+         if ($subscriber && $subscriber->ID) {
+            // Удаляем только мета-данные с согласиями, оставляя запись подписчика
+            $deleted_cpt_consents = delete_post_meta($subscriber->ID, '_subscriber_consents');
+         }
+      }
+
+      return $deleted_cpt_consents; // Возвращаем только результат удаления из CPT
    }
 }
+
+add_action('admin_head', function () {
+   global $post_type;
+   if ($post_type === 'consent_subscriber') {
+?>
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            const title = document.getElementById('title');
+            if (title) {
+               title.setAttribute('readonly', 'readonly');
+               title.style.background = '#f9f9f9';
+            }
+         });
+      </script>
+<?php
+   }
+});

@@ -40,32 +40,27 @@ class Consent_CPT
    public function register_post_type()
    {
       $labels = array(
-         'name'                  => __('Subscribers', 'codeweber'),
-         'singular_name'         => __('Subscriber', 'codeweber'),
-         'menu_name'             => __('Consent Subscribers', 'codeweber'),
-         'name_admin_bar'        => __('Subscriber', 'codeweber'),
-         'add_new'               => __('Add New', 'codeweber'),
-         'add_new_item'          => __('Add New Subscriber', 'codeweber'),
-         'new_item'              => __('New Subscriber', 'codeweber'),
-         'edit_item'             => __('Edit Subscriber', 'codeweber'),
-         'view_item'             => __('View Subscriber', 'codeweber'),
-         'all_items'             => __('All Subscribers', 'codeweber'),
-         'search_items'          => __('Search Subscribers', 'codeweber'),
-         'parent_item_colon'     => __('Parent Subscribers:', 'codeweber'),
-         'not_found'             => __('No subscribers found.', 'codeweber'),
-         'not_found_in_trash'    => __('No subscribers found in Trash.', 'codeweber'),
-         'featured_image'        => __('Subscriber Image', 'codeweber'),
-         'set_featured_image'    => __('Set subscriber image', 'codeweber'),
-         'remove_featured_image' => __('Remove subscriber image', 'codeweber'),
-         'use_featured_image'    => __('Use as subscriber image', 'codeweber'),
+         'name'                  => __('Data Subjects', 'codeweber'),
+         'singular_name'         => __('Data Subject', 'codeweber'),
+         'menu_name'             => __('Consent Data Subjects', 'codeweber'),
+         'name_admin_bar'        => __('Data Subject', 'codeweber'),
+         'edit_item'             => __('Edit Data Subject', 'codeweber'),
+         'view_item'             => __('View Data Subject', 'codeweber'),
+         'all_items'             => __('All Data Subjects', 'codeweber'),
+         'search_items'          => __('Search Data Subjects', 'codeweber'),
+         'parent_item_colon'     => __('Parent Data Subjects:', 'codeweber'),
+         'not_found'             => __('No data subjects found.', 'codeweber'),
+         'not_found_in_trash'    => __('No data subjects found in Trash.', 'codeweber'),
       );
+
 
       $args = array(
          'labels'             => $labels,
          'public'             => false,
          'publicly_queryable' => false,
          'show_ui'            => true,
-         'show_in_menu'       => true,
+         // вместо true указываем slug CPT "legal"
+         'show_in_menu'       => 'edit.php?post_type=legal',
          'query_var'          => true,
          'rewrite'            => array('slug' => 'consent-subscriber'),
          'capability_type'    => 'post',
@@ -75,6 +70,10 @@ class Consent_CPT
          'menu_icon'          => 'dashicons-groups',
          'supports'           => array('title'),
          'show_in_rest'       => false,
+         'capabilities'       => array(
+            'create_posts' => 'do_not_allow', // запрет на создание
+         ),
+         'map_meta_cap'       => true,
       );
 
       register_post_type($this->post_type, $args);
@@ -87,7 +86,7 @@ class Consent_CPT
    {
       add_meta_box(
          'consent_subscriber_details',
-         __('Subscriber Details', 'codeweber'),
+         __('Data Subjects Details', 'codeweber'),
          [$this, 'render_subscriber_details_meta_box'],
          $this->post_type,
          'normal',
@@ -118,36 +117,64 @@ class Consent_CPT
 ?>
       <div class="consent-subscriber-details">
          <p>
-            <label for="subscriber_email">
-               <strong><?php _e('Email:', 'codeweber'); ?></strong>
-            </label><br>
-            <input type="email" id="subscriber_email" name="subscriber_email"
-               value="<?php echo esc_attr($email); ?>" class="widefat" required>
+            <strong><?php _e('Email:', 'codeweber'); ?></strong><br>
+            <span class="subscriber-detail-value"><?php echo esc_html($email); ?></span>
+            <input type="hidden" name="subscriber_email" value="<?php echo esc_attr($email); ?>">
          </p>
 
          <p>
-            <label for="subscriber_phone">
-               <strong><?php _e('Phone:', 'codeweber'); ?></strong>
-            </label><br>
-            <input type="tel" id="subscriber_phone" name="subscriber_phone"
-               value="<?php echo esc_attr($phone); ?>" class="widefat">
+            <strong><?php _e('Phone:', 'codeweber'); ?></strong><br>
+            <span class="subscriber-detail-value"><?php echo esc_html($phone); ?></span>
+            <input type="hidden" name="subscriber_phone" value="<?php echo esc_attr($phone); ?>">
          </p>
 
          <p>
-            <label for="subscriber_user_id">
-               <strong><?php _e('User ID (if registered):', 'codeweber'); ?></strong>
-            </label><br>
-            <input type="number" id="subscriber_user_id" name="subscriber_user_id"
-               value="<?php echo esc_attr($user_id); ?>" class="widefat" min="0">
+            <strong><?php _e('User ID (if registered):', 'codeweber'); ?></strong><br>
+            <span class="subscriber-detail-value">
+               <?php if ($user_id) : ?>
+                  <?php $user = get_user_by('id', $user_id); ?>
+                  <?php if ($user) : ?>
+                     <a href="<?php echo esc_url(get_edit_user_link($user_id)); ?>" target="_blank">
+                        <?php echo esc_html($user->display_name); ?>
+                     </a>
+                     (<?php echo esc_html($user_id); ?>)
+                  <?php else : ?>
+                     <?php echo esc_html($user_id); ?>
+                  <?php endif; ?>
+               <?php else : ?>
+                  <?php _e('Not registered', 'codeweber'); ?>
+               <?php endif; ?>
+            </span>
+            <input type="hidden" name="subscriber_user_id" value="<?php echo esc_attr($user_id); ?>">
          </p>
+
 
          <?php if ($registration_date) : ?>
             <p>
                <strong><?php _e('Registration Date:', 'codeweber'); ?></strong><br>
-               <?php echo date_i18n(get_option('date_format') . ' H:i', strtotime($registration_date)); ?>
+               <span class="subscriber-detail-value">
+                  <?php echo date_i18n(get_option('date_format') . ' H:i', strtotime($registration_date)); ?>
+               </span>
             </p>
          <?php endif; ?>
       </div>
+
+      <style>
+         .consent-subscriber-details {
+            line-height: 1.6;
+         }
+
+         .subscriber-detail-value {
+            display: inline-block;
+            padding: 5px 0;
+            font-size: 14px;
+            color: #2c3338;
+         }
+
+         .consent-subscriber-details p {
+            margin-bottom: 15px;
+         }
+      </style>
    <?php
    }
 
@@ -309,6 +336,8 @@ class Consent_CPT
       </div>
 <?php
    }
+
+
    /**
     * Сохранение метабоксов
     */
@@ -332,31 +361,8 @@ class Consent_CPT
          return;
       }
 
-      // Сохраняем email
-      if (isset($_POST['subscriber_email'])) {
-         $email = sanitize_email($_POST['subscriber_email']);
-         update_post_meta($post_id, '_subscriber_email', $email);
-
-         // Обновляем заголовок поста на email
-         if ($email && $post->post_title !== $email) {
-            wp_update_post([
-               'ID' => $post_id,
-               'post_title' => $email
-            ]);
-         }
-      }
-
-      // Сохраняем телефон
-      if (isset($_POST['subscriber_phone'])) {
-         $phone = sanitize_text_field($_POST['subscriber_phone']);
-         update_post_meta($post_id, '_subscriber_phone', $phone);
-      }
-
-      // Сохраняем user_id
-      if (isset($_POST['subscriber_user_id'])) {
-         $user_id = intval($_POST['subscriber_user_id']);
-         update_post_meta($post_id, '_subscriber_user_id', $user_id);
-      }
+      // УБРАЛИ сохранение email, phone и user_id так как они теперь только для чтения
+      // Эти данные должны устанавливаться только при создании подписчика
 
       // Если это новый пост, устанавливаем дату регистрации
       if (empty(get_post_meta($post_id, '_subscriber_registration_date', true))) {
@@ -399,16 +405,22 @@ class Consent_CPT
 
          case 'user_id':
             $user_id = get_post_meta($post_id, '_subscriber_user_id', true);
-            if ($user_id) {
-               echo esc_html($user_id);
+
+            if ($user_id && is_numeric($user_id)) {
                $user = get_user_by('id', $user_id);
-               if ($user) {
-                  echo ' (' . esc_html($user->display_name) . ')';
+
+               if ($user instanceof WP_User) {
+                  // ссылка на профиль в админке
+                  echo '<a href="' . esc_url(get_edit_user_link($user->ID)) . '">'
+                     . esc_html($user->user_login) . '</a>';
+               } else {
+                  echo __('User not found', 'codeweber');
                }
             } else {
-               echo '—';
+               echo __('Not registered', 'codeweber');
             }
             break;
+
 
          case 'consents_count':
             $consents = get_post_meta($post_id, '_subscriber_consents', true);
@@ -481,7 +493,24 @@ class Consent_CPT
       ]);
 
       if (!empty($existing)) {
-         return $existing[0]->ID;
+         $subscriber_id = $existing[0]->ID;
+
+         // Обновляем только если переданы новые данные
+         if ($phone) {
+            $current_phone = get_post_meta($subscriber_id, '_subscriber_phone', true);
+            if (!$current_phone) {
+               update_post_meta($subscriber_id, '_subscriber_phone', sanitize_text_field($phone));
+            }
+         }
+
+         if ($user_id) {
+            $current_user_id = get_post_meta($subscriber_id, '_subscriber_user_id', true);
+            if (!$current_user_id) {
+               update_post_meta($subscriber_id, '_subscriber_user_id', intval($user_id));
+            }
+         }
+
+         return $subscriber_id;
       }
 
       // Создаем нового подписчика
@@ -513,13 +542,15 @@ class Consent_CPT
    /**
     * Добавить согласие подписчику
     */
+
    public function add_consent($subscriber_id, $consent_data)
    {
       $consents = get_post_meta($subscriber_id, '_subscriber_consents', true);
       $consents = is_array($consents) ? $consents : [];
 
+      // Сохраняем HTML-контент ревизии как есть
       $consents[] = [
-         'date' => current_time('mysql'),
+         'date' => $consent_data['date'] ?? current_time('mysql'),
          'type' => $consent_data['type'] ?? '',
          'document_title' => $consent_data['document_title'] ?? '',
          'document_url' => $consent_data['document_url'] ?? '',
@@ -527,7 +558,7 @@ class Consent_CPT
          'user_agent' => $consent_data['user_agent'] ?? '',
          'form_title' => $consent_data['form_title'] ?? '',
          'session_id' => $consent_data['session_id'] ?? '',
-         'revision' => $consent_data['revision'] ?? '',
+         'revision' => $consent_data['revision'] ?? '', // HTML сохраняется как есть
          'acceptance_html' => $consent_data['acceptance_html'] ?? '',
          'page_url' => $consent_data['page_url'] ?? '',
          'phone' => $consent_data['phone'] ?? ''

@@ -6,7 +6,6 @@
 
 class GDPR_Erasure
 {
-
    private static $instance = null;
 
    public static function get_instance()
@@ -40,39 +39,30 @@ class GDPR_Erasure
    }
 
    /**
-    * Удалить согласия
+    * Удалить согласия (GDPR compliant)
     */
    public function erase_consents($email_address, $page = 1)
    {
       $user = get_user_by('email', $email_address);
+
       if (!$user) {
          return [
-            'items_removed'  => [],
-            'items_retained' => [],
+            'items_removed'  => false,
+            'items_retained' => false,
+            'messages'       => [__('User not found', 'codeweber')],
             'done'           => true,
          ];
       }
 
-      $meta = get_user_meta($user->ID, 'codeweber_user_consents', true);
-
-      if (empty($meta)) {
-         return [
-            'items_removed'  => [],
-            'items_retained' => [],
-            'done'           => true,
-         ];
-      }
-
-      $deleted = delete_user_meta($user->ID, 'codeweber_user_consents');
+      // Удаляем согласия через менеджер
+      $result = Consent_Manager::delete_user_consents($user->ID);
 
       return [
-         'items_removed'  => $deleted ? [
-            [
-               'id'    => 'codeweber_user_consents',
-               'name'  => __('User Consents', 'codeweber'),
-            ]
-         ] : [],
-         'items_retained' => [],
+         'items_removed'  => $result,
+         'items_retained' => false,
+         'messages'       => $result ?
+            [__('All user consents have been removed.', 'codeweber')] :
+            [__('No user consents found to remove.', 'codeweber')],
          'done'           => true,
       ];
    }
