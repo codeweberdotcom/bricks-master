@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-08-27 00:02+0000\n"
+"PO-Revision-Date: 2025-08-31 22:36+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -856,7 +856,7 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:645
 msgid "CSV Import"
-msgstr ""
+msgstr "CSV Импорт"
 
 #: redux-framework/sample/metaboxes.php:112
 #: redux-framework/sample/metaboxes.php:176
@@ -1568,7 +1568,7 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:715
 msgid "Form identifier for imported subscribers"
-msgstr ""
+msgstr "Идентификатор формы для импортированных подписчиков"
 
 #: functions/personal-data.php:232
 msgid "Form Title"
@@ -1973,28 +1973,30 @@ msgstr "Размеры Изображений"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:50
 msgid "Import"
-msgstr ""
+msgstr "Импорт"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:944
 msgid "Import completed: %d imported, %d updated, %d skipped"
-msgstr ""
+msgstr "Импорт завершен: %d импортировано, %d обновлено, %d пропущено"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:49
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:338
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:629
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:737
 msgid "Import Subscribers"
-msgstr ""
+msgstr "Импорт подписчиков"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:646
 msgid ""
 "Import subscribers from a CSV file. The file should have the following "
 "columns (email is required):"
 msgstr ""
+"Импорт подписчиков из CSV-файла. Файл должен содержать следующие столбцы "
+"(необходимо указать адрес электронной почты):"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1034
 msgid "Imported"
-msgstr ""
+msgstr "Импортировано"
 
 #: functions/cpt/cpt-faq.php:23
 msgid "Insert into FAQ"
@@ -2351,7 +2353,7 @@ msgstr "Сводная информация модуля"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription.php:63
 msgid "Module Settings"
-msgstr "Основные настройки"
+msgstr "Настройки"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:305
 msgid "Muted"
@@ -2471,7 +2473,7 @@ msgstr "Нет Клиента"
 
 #: functions/personal-data.php:40 functions/woocommerce.php:430
 msgid "No consent document selected by administrator"
-msgstr ""
+msgstr "Документ о согласии не выбран администратором"
 
 #: functions/integrations/cf7.php:930
 msgid ""

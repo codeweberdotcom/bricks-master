@@ -47,6 +47,10 @@ require_once get_template_directory() . '/functions/lib/comments-helper.php'; //
 require_once get_template_directory() . '/functions/comments-reply.php'; // --- Comments Reply Functions ---
 
 
+// functions.php
+
+// Подключаем модуль персональных данных
+require_once get_template_directory() . '/functions/integrations/personal-data/init.php';
 
 /**
  * Инициализация Redux Framework
@@ -73,5 +77,8 @@ require_once get_template_directory() . '/functions/integrations/newsletter-subs
 if (is_admin()) {
 	require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-subscription_admin.php';
 }
+
+
+
 
 

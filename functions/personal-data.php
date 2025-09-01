@@ -4,8 +4,9 @@
  * Добавляет чекбоксы согласий на форму регистрации WordPress
  */
 add_action('register_form', function () {
-	$privacy_page_id = (int) get_option('wp_page_for_privacy_policy');
-	$privacy_url = $privacy_page_id ? get_permalink($privacy_page_id) : '';
+	// Заменяем глобальную политику на вашу кастомную
+	$privacy_doc_id = (int) get_option('codeweber_legal_privacy-policy'); // Ваше кастомное поле для политики
+	$privacy_url = ($privacy_doc_id && get_post_status($privacy_doc_id) === 'publish') ? get_permalink($privacy_doc_id) : '';
 
 	$processing_doc_id = (int) get_option('codeweber_legal_consent_processing');
 	$processing_url = ($processing_doc_id && get_post_status($processing_doc_id) === 'publish') ? get_permalink($processing_doc_id) : '';
@@ -42,7 +43,7 @@ add_action('register_form', function () {
 			?>
 		</label>
 	</p>
-<?php
+	<?php
 });
 
 
@@ -98,7 +99,8 @@ add_action('user_register', function ($user_id) {
 	$user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 	$timestamp = current_time('mysql');
 
-	$privacy_page_id = (int) get_option('wp_page_for_privacy_policy');
+	// Используем ваши кастомные поля для обоих документов
+	$privacy_doc_id = (int) get_option('codeweber_legal_consent_privacy');
 	$processing_doc_id = (int) get_option('codeweber_legal_consent_processing');
 
 	$consents = [];
@@ -108,19 +110,19 @@ add_action('user_register', function ($user_id) {
 	// Согласие на политику конфиденциальности
 	if (!empty($_POST['privacy_policy_consent'])) {
 		$consents['privacy_policy'] = [
-			'title'      => get_the_title($privacy_page_id),
-			'url'        => get_permalink($privacy_page_id),
+			'title'      => get_the_title($privacy_doc_id),
+			'url'        => get_permalink($privacy_doc_id),
 			'ip'         => $ip_address,
 			'user_agent' => $user_agent,
 			'date'       => $timestamp,
 			'session_id'  => $session_id,
-			'revision'    => get_latest_revision_link($privacy_page_id),
+			'revision'    => get_latest_revision_link($privacy_doc_id),
 			'form_title'  => __('Wordpress Register Form', 'codeweber'),
 			'page_url'   => esc_url(site_url('/wp-login.php?action=register')),
 		];
 	}
 
-	// Согласие на обработку персональных данных (пример)
+	// Согласие на обработку персональных данных
 	if (!empty($_POST['pdn_consent'])) {
 		$consents['pdn_processing'] = [
 			'title'      => get_the_title($processing_doc_id),
@@ -139,6 +141,9 @@ add_action('user_register', function ($user_id) {
 		update_user_meta($user_id, 'codeweber_user_consents', $consents);
 	}
 });
+
+// Остальной код остается без изменений...
+// [здесь идет остальной код экспорта и удаления данных]
 
 
 
@@ -340,3 +345,114 @@ function codeweber_user_consents_eraser($email_address, $page = 1)
 		'done'           => true,
 	];
 }
+
+
+
+
+remove_action('woocommerce_register_form', 'wc_registration_privacy_policy_text', 20);
+
+
+add_action('woocommerce_register_form', 'custom_wc_registration_privacy_policy_text', 20);
+
+function custom_wc_registration_privacy_policy_text()
+{
+	if (wc_get_privacy_policy_text('registration')) : ?>
+		<div class="woocommerce-privacy-policy-text custom-privacy-text fs-12">
+			<?php wc_privacy_policy_text('registration'); ?>
+		</div>
+	<?php endif;
+}
+
+
+
+add_action('woocommerce_register_form', function () {
+	$privacy_page_id = (int) get_option('wp_page_for_privacy_policy');
+	$privacy_url = $privacy_page_id ? get_permalink($privacy_page_id) : '';
+
+	$processing_doc_id = (int) get_option('codeweber_legal_consent_processing');
+	$processing_url = ($processing_doc_id && get_post_status($processing_doc_id) === 'publish') ? get_permalink($processing_doc_id) : '';
+
+	// Проверка наличия ошибок Woo
+	$errors = wc_get_notices('error');
+	$has_privacy_error = false;
+	$has_pdn_error = false;
+
+	foreach ($errors as $error) {
+		if (strpos($error['notice'], __('You must agree to the Privacy Policy.', 'codeweber')) !== false) {
+			$has_privacy_error = true;
+		}
+		if (strpos($error['notice'], __('You must agree to the processing of personal data.', 'codeweber')) !== false) {
+			$has_pdn_error = true;
+		}
+	}
+	?>
+
+	<p class="form-row-wide woocommerce-FormRow form-check mb-2 small-chekbox fs-12">
+		<input type="checkbox"
+			class="form-check-input <?php echo $has_privacy_error ? 'is-invalid' : ''; ?>"
+			name="privacy_policy_consent"
+			id="privacy_policy_consent"
+			value="1"
+			<?php checked(!empty($_POST['privacy_policy_consent'])); ?>
+			required>
+		<label for="privacy_policy_consent" class="form-check-label">
+			<?php
+			if ($privacy_url) {
+				printf(
+					__('I have read and agree to the <a href="%s" target="_blank">Privacy Policy</a>', 'codeweber'),
+					esc_url($privacy_url)
+				);
+			} else {
+				echo __('I have read and agree to the Privacy Policy', 'codeweber');
+				echo ' <span style="color:red; font-weight:bold;">(' . __('No Privacy Policy page selected by administrator', 'codeweber') . ')</span>';
+			}
+			?>
+		</label>
+		<?php if ($has_privacy_error) : ?>
+	<div class="invalid-feedback d-block">
+		<?php _e('You must agree to the Privacy Policy.', 'codeweber'); ?>
+	</div>
+<?php endif; ?>
+</p>
+
+<p class="form-row-wide woocommerce-FormRow form-check mb-2 small-chekbox fs-12">
+	<input type="checkbox"
+		class="form-check-input <?php echo $has_pdn_error ? 'is-invalid' : ''; ?>"
+		name="pdn_consent"
+		id="pdn_consent"
+		value="1"
+		<?php checked(!empty($_POST['pdn_consent'])); ?>
+		required>
+	<label for="pdn_consent" class="form-check-label">
+		<?php
+		if ($processing_url) {
+			printf(
+				__('I agree to the <a href="%s" target="_blank">processing of personal data</a>', 'codeweber'),
+				esc_url($processing_url)
+			);
+		} else {
+			echo __('I agree to the processing of personal data', 'codeweber');
+			echo ' <span style="color:red; font-weight:bold;">(' . __('No consent document selected by administrator', 'codeweber') . ')</span>';
+		}
+		?>
+	</label>
+	<?php if ($has_pdn_error) : ?>
+<div class="invalid-feedback d-block">
+	<?php _e('You must agree to the processing of personal data.', 'codeweber'); ?>
+</div>
+<?php endif; ?>
+</p>
+
+<?php
+});
+
+
+add_filter('woocommerce_registration_errors', function ($errors, $username, $email) {
+	if (empty($_POST['privacy_policy_consent'])) {
+		$errors->add('privacy_policy_consent_error', __('You must agree to the Privacy Policy.', 'codeweber'));
+	}
+	if (empty($_POST['pdn_consent'])) {
+		$errors->add('pdn_consent_error', __('You must agree to the processing of personal data.', 'codeweber'));
+	}
+	return $errors;
+}, 10, 3);

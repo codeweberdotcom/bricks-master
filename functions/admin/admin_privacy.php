@@ -49,17 +49,6 @@ function codeweber_dropdown_legal_posts($name, $selected = 0)
 	echo '</select>';
 }
 
-// Регистрируем раздел настроек
-add_action('admin_menu', function () {
-	add_options_page(
-		__('Legal Settings', 'codeweber'),
-		__('Legal Settings', 'codeweber'),
-		'manage_options',
-		'codeweber-legal-settings',
-		'codeweber_legal_settings_page'
-	);
-});
-
 /**
  * Регистрирует административные настройки для выбора юридических страниц (например, политика конфиденциальности, cookie и т.д.).
  *
@@ -92,19 +81,19 @@ add_action('admin_menu', function () {
  *
  * @since 1.0.0
  */
+// Регистрируем поля
 add_action('admin_init', function () {
 	$fields = codeweber_get_legal_fields();
 
-	// Общая секция с текстом
 	add_settings_section(
 		'codeweber_legal_section',
 		'',
 		function () {
 			echo '<p style="margin-bottom:15px; font-weight:500; color:#333;">'
-				. __('Select or create pages for legal documents. These pages will be used in the plugin\'s templates and shortcodes. Some pages have pre-filled templates, and the template is created when the page is created. There is a checkbox to the right of the fields that allows you to hide the document from the Legal Documents archive page.', 'codeweber')
+				. __('Select or create pages for legal documents...', 'codeweber')
 				. '</p>';
 		},
-		'codeweber-legal-settings'
+		'codeweber-legal-settings' // slug страницы (см. ниже)
 	);
 
 	foreach ($fields as $field) {
@@ -117,17 +106,14 @@ add_action('admin_init', function () {
 				$page_id = get_option($field['id'], 0);
 				codeweber_dropdown_legal_posts($field['id'], $page_id);
 
-				// Кнопка создания
 				echo '<button type="submit" name="create_page" value="' . esc_attr($field['id']) . '" class="button" style="margin-left:10px;">' . __('Create', 'codeweber') . '</button>';
 
-				// Чекбокс
 				$hide_checked = ($page_id && get_post_meta($page_id, '_hide_from_archive', true) == '1') ? 'checked' : '';
 				echo '<label style="margin-left:10px;">
-					<input type="checkbox" name="hide_from_archive_' . esc_attr($field['id']) . '" value="1" ' . $hide_checked . '>
-					' . __('Hide from archive', 'codeweber') . '
-				</label>';
+                    <input type="checkbox" name="hide_from_archive_' . esc_attr($field['id']) . '" value="1" ' . $hide_checked . '>
+                    ' . __('Hide from archive', 'codeweber') . '
+                </label>';
 
-				// Шорткод
 				$shortcode = '[url_' . esc_attr($field['slug']) . ']';
 				echo '<p style="margin-top:8px; font-style: italic; color: #555;">'
 					. __('Shortcode:', 'codeweber') . ' <code>' . $shortcode . '</code></p>';
@@ -137,6 +123,32 @@ add_action('admin_init', function () {
 		);
 	}
 });
+
+// Подключаем страницу как подменю CPT "legal"
+add_action('admin_menu', function () {
+	add_submenu_page(
+		'edit.php?post_type=legal',            // <-- родительское меню = твой CPT
+		__('Legal Settings', 'codeweber'),     // Заголовок страницы
+		__('Legal Settings', 'codeweber'),           // Название в подменю
+		'manage_options',
+		'codeweber-legal-settings',            // slug страницы (связан с add_settings_section)
+		function () {
+?>
+		<div class="wrap">
+			<h1><?php _e('Legal Documents Settings', 'codeweber'); ?></h1>
+			<form method="post" action="options.php">
+				<?php
+				settings_fields('codeweber_legal_settings');
+				do_settings_sections('codeweber-legal-settings');
+				submit_button();
+				?>
+			</form>
+		</div>
+	<?php
+		}
+	);
+});
+
 
 /**
  * Обрабатывает создание новой юридической страницы при нажатии кнопки "Create" в настройках.
@@ -366,7 +378,7 @@ add_action('init', function () {
 		add_shortcode('url_' . $field['slug'], function () use ($field) {
 			$page_id = get_option($field['id']);
 			if ($page_id && get_post_status($page_id) === 'publish') {
-				return '<a href=' . esc_url(get_permalink($page_id)). ' >' . esc_url(get_permalink($page_id)) . '</a>';
+				return '<a href=' . esc_url(get_permalink($page_id)) . ' >' . esc_url(get_permalink($page_id)) . '</a>';
 			}
 			return '';
 		});
@@ -514,7 +526,7 @@ add_shortcode('link_privacy_policy', function () {
  */
 function codeweber_legal_settings_page()
 {
-?>
+	?>
 	<div class="wrap">
 		<h1><?php _e('Legal Settings', 'codeweber'); ?></h1>
 		<form method="post" action="options.php">

@@ -30,7 +30,7 @@ require 'integrations/redux_framework/redux_framework.php';
 /**
  *  Personal Data Integration - Registration Form WP
  */
-require 'personal-data.php';
+//require 'personal-data.php';
 
 
 
