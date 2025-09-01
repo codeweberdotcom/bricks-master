@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 18:09+0000\n"
+"POT-Creation-Date: 2025-09-01 18:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -1960,7 +1960,6 @@ msgid ""
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription.php:841
-msgctxt "Я даю свое согласие на получение информационных и рекламных рассылок."
 msgid "I give my consent to receive informational and advertising mailings."
 msgstr ""
 
