@@ -41,6 +41,27 @@ class NewsletterSubscription
          add_action('admin_menu', array($this, 'add_admin_menu'));
          add_action('admin_init', array($this, 'admin_init'));
       }
+
+      // Инициализация менеджера согласий
+      $this->init_consent_manager();
+   }
+
+   /**
+    * Инициализация менеджера согласий
+    */
+   private function init_consent_manager()
+   {
+      // Проверяем, существует ли класс Consent_Manager
+      if (!class_exists('Consent_Manager')) {
+         // Пытаемся найти и подключить файл с менеджером согласий
+         $consent_manager_path = get_template_directory() . '/functions/integrations/consent-manager/consent-manager.php';
+         if (file_exists($consent_manager_path)) {
+            require_once $consent_manager_path;
+         } else {
+            error_log('Consent Manager not found at: ' . $consent_manager_path);
+            return;
+         }
+      }
    }
 
    public function add_admin_menu()
@@ -129,7 +150,6 @@ class NewsletterSubscription
          )
       );
 
-      // В метод admin_init() добавить:
       add_settings_field(
          'email_template',
          __('Email Template', 'codeweber'),
@@ -181,7 +201,6 @@ class NewsletterSubscription
          )
       );
 
-      // Добавляем новые поля для выбора legal документов
       add_settings_field(
          'privacy_policy_legal',
          __('Privacy Policy', 'codeweber'),
@@ -250,8 +269,6 @@ class NewsletterSubscription
       );
    }
 
-
-   // Добавляем метод для выпадающих списков legal документов
    public function legal_dropdown_callback($args)
    {
       $options = get_option($this->options_name, array());
@@ -279,9 +296,6 @@ class NewsletterSubscription
       echo '<p class="description">' . esc_html($args['label']) . '</p>';
    }
 
-
-
-   // Добавить метод для textarea
    public function textarea_field_callback($args)
    {
       $options = get_option($this->options_name, array());
@@ -323,7 +337,6 @@ class NewsletterSubscription
 
    public function render_settings_page()
    {
-      // Проверяем права пользователя
       if (!current_user_can('manage_options')) {
          wp_die(__('You do not have sufficient permissions to access this page.', 'codeweber'));
       }
@@ -360,14 +373,12 @@ class NewsletterSubscription
    <?php
    }
 
-
    public function init()
    {
       $this->create_table();
       $this->register_shortcode();
       add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
    }
-
 
    private function create_table()
    {
@@ -406,7 +417,6 @@ class NewsletterSubscription
       }
    }
 
-
    public function enqueue_scripts()
    {
       wp_enqueue_script(
@@ -430,8 +440,6 @@ class NewsletterSubscription
          )
       ));
    }
-
-
 
    public function handle_cf7_submission($contact_form)
    {
@@ -502,6 +510,9 @@ class NewsletterSubscription
          ));
 
          if ($result) {
+            // Сохраняем согласия в CPT
+            $this->save_subscription_consents($email, $first_name, $last_name, $phone, 'cf7_' . $contact_form->id());
+
             $send_email = isset($options['send_confirmation_email']) ? $options['send_confirmation_email'] : true;
             if ($send_email) {
                $this->send_confirmation_email($email, $first_name, $last_name, $unsubscribe_token);
@@ -509,6 +520,124 @@ class NewsletterSubscription
          }
       }
    }
+
+   /**
+    * Сохраняем согласия подписчика в CPT
+    */
+   private function save_subscription_consents($email, $first_name, $last_name, $phone, $form_id)
+   {
+      if (!class_exists('Consent_Manager')) {
+         error_log('Consent Manager not available for saving consents');
+         return false;
+      }
+
+      $options = get_option($this->options_name, array());
+
+      // Получаем ID документов из настроек
+      $privacy_policy_id = isset($options['privacy_policy_legal']) ? $options['privacy_policy_legal'] : '';
+      $mailing_consent_id = isset($options['mailing_consent_legal']) ? $options['mailing_consent_legal'] : '';
+      $data_processing_id = isset($options['data_processing_consent_legal']) ? $options['data_processing_consent_legal'] : '';
+
+      $ip_address = $this->get_client_ip();
+      $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+      $timestamp = current_time('mysql');
+      $session_id = uniqid('newsletter_', true);
+
+      // Получаем экземпляр менеджера CPT для согласий
+      $cpt_manager = Consent_CPT::get_instance();
+      if (!$cpt_manager) {
+         error_log('Consent CPT manager not available');
+         return false;
+      }
+
+      // Находим или создаем подписчика в CPT
+      $subscriber_id = $cpt_manager->find_or_create_subscriber(
+         $email,
+         $phone,
+         0 // user_id = 0, так как это не пользователь WordPress
+      );
+
+      if (!$subscriber_id || is_wp_error($subscriber_id)) {
+         error_log('Failed to find or create subscriber in CPT: ' . $email);
+         return false;
+      }
+
+      $consent_data = array();
+
+      // Согласие на рассылку
+      if ($mailing_consent_id) {
+         Consent_Manager::ensure_revision_exists($mailing_consent_id);
+         $revision_link = Consent_Manager::get_latest_revision_link($mailing_consent_id);
+
+         $consent_data['mailing_consent'] = array(
+            'type' => 'mailing_consent',
+            'document_title' => get_the_title($mailing_consent_id),
+            'document_url' => get_permalink($mailing_consent_id),
+            'ip' => $ip_address,
+            'user_agent' => $user_agent,
+            'form_title' => __('Newsletter Subscription Form:', 'codeweber') . '' . $form_id,
+            'session_id' => $session_id,
+            'revision' => $revision_link,
+            'acceptance_html' => __('I give my consent to receive informational and advertising mailings', 'codeweber'),
+            'page_url' => esc_url($_SERVER['HTTP_REFERER'] ?? home_url('/')),
+            'phone' => $phone,
+            'date' => $timestamp
+         );
+      }
+
+      // Согласие на обработку данных
+      if ($data_processing_id) {
+         Consent_Manager::ensure_revision_exists($data_processing_id);
+         $revision_link = Consent_Manager::get_latest_revision_link($data_processing_id);
+
+         $consent_data['data_processing'] = array(
+            'type' => 'data_processing',
+            'document_title' => get_the_title($data_processing_id),
+            'document_url' => get_permalink($data_processing_id),
+            'ip' => $ip_address,
+            'user_agent' => $user_agent,
+            'form_title' => __('Newsletter Subscription Form:', 'codeweber') .''. $form_id,
+            'session_id' => $session_id,
+            'revision' => $revision_link,
+            'acceptance_html' => __('I give my consent for processing my personal data', 'codeweber'),
+            'page_url' => esc_url($_SERVER['HTTP_REFERER'] ?? home_url('/')),
+            'phone' => $phone,
+            'date' => $timestamp
+         );
+      }
+
+      // Согласие с политикой конфиденциальности
+      if ($privacy_policy_id) {
+         Consent_Manager::ensure_revision_exists($privacy_policy_id);
+         $revision_link = Consent_Manager::get_latest_revision_link($privacy_policy_id);
+
+         $consent_data['privacy_policy'] = array(
+            'type' => 'privacy_policy',
+            'document_title' => get_the_title($privacy_policy_id),
+            'document_url' => get_permalink($privacy_policy_id),
+            'ip' => $ip_address,
+            'user_agent' => $user_agent,
+            'form_title' => __('Newsletter Subscription Form:', 'codeweber') . '' . $form_id,
+            'session_id' => $session_id,
+            'revision' => $revision_link,
+            'acceptance_html' => __('I am familiar with the personal data processing policy', 'codeweber'),
+            'page_url' => esc_url($_SERVER['HTTP_REFERER'] ?? home_url('/')),
+            'phone' => $phone,
+            'date' => $timestamp
+         );
+      }
+
+      // Сохраняем все согласия напрямую в CPT
+      foreach ($consent_data as $consent) {
+         $result = $cpt_manager->add_consent($subscriber_id, $consent);
+         if (!$result) {
+            error_log('Failed to save consent for subscriber: ' . $subscriber_id);
+         }
+      }
+
+      return true;
+   }
+
 
    private function register_shortcode()
    {
@@ -680,6 +809,7 @@ class NewsletterSubscription
       $email = sanitize_email($_POST['email'] ?? '');
       $mailing_consent = isset($_POST['soglasie-na-rassilku']);
       $data_processing_consent = isset($_POST['soglasie-na-obrabotku']);
+      $privacy_policy_read = isset($_POST['privacy-policy-read']);
       $form_id = sanitize_text_field($_POST['form_id'] ?? 'default');
       $first_name = sanitize_text_field($_POST['text-name'] ?? '');
       $last_name = sanitize_text_field($_POST['text-surname'] ?? '');
@@ -731,6 +861,13 @@ class NewsletterSubscription
       ));
 
       if ($result) {
+         // Сохраняем согласия в CPT
+         $consent_saved = $this->save_subscription_consents($email, $first_name, $last_name, $phone, $form_id);
+
+         if (!$consent_saved) {
+            error_log('Failed to save consents for: ' . $email);
+         }
+
          $this->send_confirmation_email($email, $first_name, $last_name, $unsubscribe_token);
          $response['success'] = true;
          $response['message'] = $success_message;

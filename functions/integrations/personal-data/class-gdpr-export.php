@@ -41,18 +41,11 @@ class GDPR_Export
       ];
       return $exporters;
    }
-
-   /**
-    * Экспорт согласий из CPT
-    */
    public function export_consents($email_address)
    {
       $user = get_user_by('email', $email_address);
-      if (!$user) {
-         return ['data' => [], 'done' => true];
-      }
 
-      // Получаем подписчика из CPT
+      // Получаем подписчика из CPT независимо от наличия пользователя
       $cpt_manager = Consent_CPT::get_instance();
       if (!$cpt_manager) {
          return ['data' => [], 'done' => true];
@@ -60,6 +53,7 @@ class GDPR_Export
 
       $subscriber = $cpt_manager->get_subscriber_by_email($email_address);
       if (!$subscriber) {
+         // Ни WP user, ни подписчика нет
          return ['data' => [], 'done' => true];
       }
 
@@ -77,7 +71,7 @@ class GDPR_Export
          $url = esc_url($data['document_url'] ?? '');
          $url_display = $url;
 
-         // Обрабатываем URL документа
+         // Преобразуем page_id в permalink
          if (!empty($url) && preg_match('/[?&]page_id=(\d+)/', $url, $matches)) {
             $page_id = (int)$matches[1];
             $permalink = get_permalink($page_id);
@@ -101,50 +95,17 @@ class GDPR_Export
             : esc_url(site_url('/wp-login.php?action=register'));
 
          $entry_data = [
-            [
-               'name'  => __('Consent Label', 'codeweber'),
-               'value' => $label,
-            ],
-            [
-               'name'  => __('Session ID', 'codeweber'),
-               'value' => $data['session_id'] ?? '',
-            ],
-            [
-               'name'  => __('Form Title', 'codeweber'),
-               'value' => $data['form_title'] ?? '',
-            ],
-            [
-               'name'  => __('Agreed on', 'codeweber'),
-               'value' => $data['date'] ?? '',
-            ],
-            [
-               'name'  => __('IP Address', 'codeweber'),
-               'value' => $data['ip'] ?? '',
-            ],
-            [
-               'name'  => __('User Agent', 'codeweber'),
-               'value' => $data['user_agent'] ?? __('Not provided', 'codeweber'),
-            ],
-            [
-               'name'  => __('Document', 'codeweber'),
-               'value' => $data['document_title'] ?? '',
-            ],
-            [
-               'name'  => __('Consent Html', 'codeweber'),
-               'value' => $data['acceptance_html'] ?? '',
-            ],
-            [
-               'name'  => __('Document Link', 'codeweber'),
-               'value' => $url_display,
-            ],
-            [
-               'name'  => __('Agreed on Page', 'codeweber'),
-               'value' => $page_url,
-            ],
-            [
-               'name'  => __('Phone', 'codeweber'),
-               'value' => $phone ?: __('Not provided', 'codeweber'),
-            ],
+            ['name' => __('Consent Label', 'codeweber'), 'value' => $label],
+            ['name' => __('Session ID', 'codeweber'), 'value' => $data['session_id'] ?? ''],
+            ['name' => __('Form Title', 'codeweber'), 'value' => $data['form_title'] ?? ''],
+            ['name' => __('Agreed on', 'codeweber'), 'value' => $data['date'] ?? ''],
+            ['name' => __('IP Address', 'codeweber'), 'value' => $data['ip'] ?? ''],
+            ['name' => __('User Agent', 'codeweber'), 'value' => $data['user_agent'] ?? __('Not provided', 'codeweber')],
+            ['name' => __('Document', 'codeweber'), 'value' => $data['document_title'] ?? ''],
+            ['name' => __('Consent Html', 'codeweber'), 'value' => $data['acceptance_html'] ?? ''],
+            ['name' => __('Document Link', 'codeweber'), 'value' => $url_display],
+            ['name' => __('Agreed on Page', 'codeweber'), 'value' => $page_url],
+            ['name' => __('Phone', 'codeweber'), 'value' => $phone ?: __('Not provided', 'codeweber')],
          ];
 
          if (!empty($data['revision'])) {
@@ -164,6 +125,7 @@ class GDPR_Export
 
       return ['data' => $export_items, 'done' => true];
    }
+
 
    /**
     * Альтернативный метод: экспорт из CPT по user_id

@@ -196,7 +196,7 @@ class NewsletterSubscriptionAdmin
    public function get_available_columns()
    {
       return array(
-         'Email' => __('Email', 'codeweber'),
+         'email' => __('Email', 'codeweber'), // Измените 'Email' на 'email'
          'first_name' => __('First Name', 'codeweber'),
          'last_name' => __('Last Name', 'codeweber'),
          'phone' => __('Phone', 'codeweber'),
@@ -459,11 +459,10 @@ class NewsletterSubscriptionAdmin
                ob_start();
       ?>
                <div class="user-info-column">
-                  <strong><?php echo esc_html($user->display_name); ?></strong><br>
+                  <strong><a href="<?php echo admin_url('user-edit.php?user_id=' . $user->ID); ?>"
+                        target="_blank" ><?php echo esc_html($user->display_name); ?></a></strong><br>
                   <small>ID: <?php echo esc_html($user->ID); ?></small><br>
                   <small><?php echo implode(', ', $user->roles); ?></small><br>
-                  <a href="<?php echo admin_url('user-edit.php?user_id=' . $user->ID); ?>"
-                     target="_blank" class="button button-small"><?php _e('View Profile', 'codeweber'); ?></a>
                </div>
             <?php
                return ob_get_clean();

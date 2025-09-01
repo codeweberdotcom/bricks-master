@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 11:33+0000\n"
+"POT-Creation-Date: 2025-09-01 18:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -121,7 +121,7 @@ msgstr ""
 msgid "Active only"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:352
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:354
 msgid "Active subscribers:"
 msgstr ""
 
@@ -152,7 +152,6 @@ msgid "Add Legal"
 msgstr ""
 
 #: functions/cpt/cpt-modals.php:14 functions/cpt/cpt-price_list.php:14
-#: functions/integrations/personal-data/class-consent-cpt.php:47
 msgid "Add New"
 msgstr ""
 
@@ -225,10 +224,6 @@ msgstr ""
 msgid "Add New Staff"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:48
-msgid "Add New Subscriber"
-msgstr ""
-
 #: functions/cpt/cpt-projects.php:13
 msgid "Add Project"
 msgstr ""
@@ -241,7 +236,7 @@ msgstr ""
 msgid "Add Staff"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1084
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1297
 msgid "additional CSS classes"
 msgstr ""
 
@@ -271,14 +266,14 @@ msgid "Advanced Features"
 msgstr ""
 
 #: functions/personal-data.php:241
-#: functions/integrations/personal-data/class-consent-cpt.php:246
-#: functions/integrations/personal-data/class-gdpr-export.php:106
+#: functions/integrations/personal-data/class-consent-cpt.php:273
+#: functions/integrations/personal-data/class-gdpr-export.php:117
 msgid "Agreed on"
 msgstr ""
 
 #: functions/personal-data.php:265
-#: functions/integrations/personal-data/class-consent-cpt.php:284
-#: functions/integrations/personal-data/class-gdpr-export.php:130
+#: functions/integrations/personal-data/class-consent-cpt.php:311
+#: functions/integrations/personal-data/class-gdpr-export.php:141
 msgid "Agreed on Page"
 msgstr ""
 
@@ -294,6 +289,10 @@ msgstr ""
 
 #: functions/cpt/cpt-clients.php:13
 msgid "All Clients"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:49
+msgid "All Data Subjects"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:9
@@ -357,10 +356,6 @@ msgstr ""
 msgid "All statuses"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:52
-msgid "All Subscribers"
-msgstr ""
-
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:396
 msgid "All subscriptions"
 msgstr ""
@@ -373,8 +368,8 @@ msgstr ""
 msgid "Already have an account?"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:429
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:668
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:431
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:712
 msgid "An error occurred. Please try again later."
 msgstr ""
 
@@ -411,8 +406,8 @@ msgstr ""
 msgid "Author %s"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:296
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1321
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:298
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1534
 msgid "Available variables:"
 msgstr ""
 
@@ -474,8 +469,8 @@ msgstr ""
 msgid "Behance"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:174
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:913
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:176
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1126
 msgid "Best regards,"
 msgstr ""
 
@@ -603,7 +598,7 @@ msgstr ""
 msgid "Clients list"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:967
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1180
 #: functions/integrations/redux_framework/redux_cookie.php:42
 msgid "Close"
 msgstr ""
@@ -669,7 +664,7 @@ msgstr ""
 msgid "Company Details"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1128
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1341
 msgid "Complete CF7 form example:"
 msgstr ""
 
@@ -681,7 +676,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:107
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:109
 msgid "Confirmation Email"
 msgstr ""
 
@@ -695,8 +690,8 @@ msgstr ""
 msgid "Confirmed"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:147
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:810
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:149
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1023
 msgid "Confirming your subscription to the newsletter"
 msgstr ""
 
@@ -708,18 +703,26 @@ msgstr ""
 msgid "Connection successful!"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1151
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1157
+#: functions/integrations/personal-data/class-gdpr-export.php:75
+msgid "Consent"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1364
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1370
 msgid "consent"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:226
+#: functions/integrations/personal-data/class-consent-cpt.php:253
 #, php-format
 msgid "Consent #%d - %s"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:122
 msgid "Consent Data"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:45
+msgid "Consent Data Subjects"
 msgstr ""
 
 #: functions/integrations/cf7.php:842
@@ -740,55 +743,51 @@ msgid "Consent Document: %s"
 msgstr ""
 
 #: functions/personal-data.php:257
-#: functions/integrations/personal-data/class-consent-cpt.php:266
-#: functions/integrations/personal-data/class-gdpr-export.php:122
+#: functions/integrations/personal-data/class-consent-cpt.php:293
+#: functions/integrations/personal-data/class-gdpr-export.php:133
 msgid "Consent Html"
 msgstr ""
 
 #: functions/personal-data.php:229
-#: functions/integrations/personal-data/class-consent-cpt.php:231
-#: functions/integrations/personal-data/class-gdpr-export.php:94
+#: functions/integrations/personal-data/class-consent-cpt.php:258
+#: functions/integrations/personal-data/class-gdpr-export.php:105
 msgid "Consent Label"
-msgstr ""
-
-#: functions/integrations/personal-data/class-consent-cpt.php:45
-msgid "Consent Subscribers"
 msgstr ""
 
 #: functions/admin/admin_privacy.php:1638
 msgid "Consent to Data Processing"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1104
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1217
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1317
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1430
 msgid "Consent to data processing"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:427
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:672
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:429
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:716
 msgid "Consent to process personal data is required"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:426
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:671
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:428
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:715
 msgid "Consent to receive information and advertising mailings is required"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1100
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1211
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1313
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1424
 msgid "Consent to receive mailings"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:378
+#: functions/integrations/personal-data/class-consent-cpt.php:384
 msgid "Consents"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:99
+#: functions/integrations/personal-data/class-consent-cpt.php:98
 msgid "Consents History"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:94
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1116
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:96
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1329
 msgid "Contact Form 7 Integration"
 msgstr ""
 
@@ -879,6 +878,11 @@ msgstr ""
 msgid "CSV Import"
 msgstr ""
 
+#: functions/integrations/personal-data/class-consent-manager.php:97
+#, php-format
+msgid "Current version from %s"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:112
 #: redux-framework/sample/metaboxes.php:176
 #: redux-framework/sample/metaboxes.php:235
@@ -889,7 +893,7 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1172
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1385
 msgid "Custom form fields"
 msgstr ""
 
@@ -940,15 +944,15 @@ msgid ""
 "Data is formatted with HTML support for line breaks and clickable links."
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-manager.php:133
+#: functions/integrations/personal-data/class-consent-manager.php:166
 msgid "Data Processing Agreement"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:213
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:215
 msgid "Data Processing Consent"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1125
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1338
 msgid "data processing consent checkbox"
 msgstr ""
 
@@ -956,11 +960,24 @@ msgstr ""
 msgid "Data Storage Address"
 msgstr ""
 
+#: functions/integrations/personal-data/class-consent-cpt.php:44
+#: functions/integrations/personal-data/class-consent-cpt.php:46
+msgid "Data Subject"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:43
+msgid "Data Subjects"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:89
+msgid "Data Subjects Details"
+msgstr ""
+
 #: functions/admin/admin_user_profil.php:84
 msgid "Data User profil"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:344
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:346
 msgid "Database table:"
 msgstr ""
 
@@ -999,7 +1016,7 @@ msgstr ""
 msgid "Delivery Terms"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1179
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1392
 #: redux-framework/sample/sections/codeweber/footer.php:270
 #: redux-framework/sample/sections/codeweber/header.php:299
 msgid "Description"
@@ -1014,7 +1031,7 @@ msgstr ""
 msgid "Destruction Data"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1074
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1287
 msgid "Detailed guide for creating and configuring email newsletter forms."
 msgstr ""
 
@@ -1044,8 +1061,8 @@ msgstr ""
 
 #: functions/personal-data.php:253 functions/cpt/cpt-documents.php:7
 #: functions/cpt/cpt-documents.php:26
-#: functions/integrations/personal-data/class-consent-cpt.php:261
-#: functions/integrations/personal-data/class-gdpr-export.php:118
+#: functions/integrations/personal-data/class-consent-cpt.php:288
+#: functions/integrations/personal-data/class-gdpr-export.php:129
 msgid "Document"
 msgstr ""
 
@@ -1062,8 +1079,8 @@ msgid "Document Category"
 msgstr ""
 
 #: functions/personal-data.php:261
-#: functions/integrations/personal-data/class-consent-cpt.php:271
-#: functions/integrations/personal-data/class-gdpr-export.php:126
+#: functions/integrations/personal-data/class-consent-cpt.php:298
+#: functions/integrations/personal-data/class-gdpr-export.php:137
 msgid "Document Link"
 msgstr ""
 
@@ -1104,7 +1121,7 @@ msgstr ""
 msgid "Documents List"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:571
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:615
 msgid "Documents not selected. Please contact administrator."
 msgstr ""
 
@@ -1157,6 +1174,10 @@ msgstr ""
 
 #: functions/cpt/cpt-clients.php:16
 msgid "Edit Client"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:47
+msgid "Edit Data Subject"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:12
@@ -1223,13 +1244,9 @@ msgstr ""
 msgid "Edit Staff"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:50
-msgid "Edit Subscriber"
-msgstr ""
-
 #: functions/bootstrap/bootstrap_share-page.php:16
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:199
-#: functions/integrations/personal-data/class-consent-cpt.php:375
+#: functions/integrations/personal-data/class-consent-cpt.php:381
 msgid "Email"
 msgstr ""
 
@@ -1241,7 +1258,7 @@ msgstr ""
 msgid "Email address (required)"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1122
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1335
 msgid "email field"
 msgstr ""
 
@@ -1253,24 +1270,24 @@ msgstr ""
 msgid "Email Marketing Consent"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:120
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:122
 msgid "Email Subject"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1323
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1536
 msgid "Email subject"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:135
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1224
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:137
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1437
 msgid "Email Template"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:122
+#: functions/integrations/personal-data/class-consent-cpt.php:120
 msgid "Email:"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:99
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:101
 msgid "Enable automatic subscription from Contact Form 7 forms"
 msgstr ""
 
@@ -1310,7 +1327,7 @@ msgstr ""
 msgid "Enter recipient email for test:"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:536
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:580
 msgid "Error occurred. Please try again."
 msgstr ""
 
@@ -1322,7 +1339,7 @@ msgstr ""
 msgid "Example CSV structure:"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1346
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1559
 msgid "Example of showing notification"
 msgstr ""
 
@@ -1352,7 +1369,7 @@ msgstr ""
 msgid "Facebook Pixel Settings"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:983
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1196
 msgid "Failed to unsubscribe from the newsletter. The link may have expired."
 msgstr ""
 
@@ -1418,7 +1435,7 @@ msgstr ""
 msgid "Field Mapping:"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1176
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1389
 msgid "Field name"
 msgstr ""
 
@@ -1449,7 +1466,7 @@ msgid "Filter Price Packages"
 msgstr ""
 
 #: functions/integrations/cf7.php:1185
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1094
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1307
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:200
 msgid "First Name"
 msgstr ""
@@ -1542,7 +1559,7 @@ msgstr ""
 msgid "Footer Type 8"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1117
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1330
 msgid "For automatic subscription from CF7 forms add checkboxes:"
 msgstr ""
 
@@ -1551,11 +1568,11 @@ msgstr ""
 msgid "For consent to the processing of personal data"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1090
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1303
 msgid "For custom forms use the following HTML structure:"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1334
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1547
 msgid "For custom processing you can use events:"
 msgstr ""
 
@@ -1563,7 +1580,7 @@ msgstr ""
 msgid "For full documentation on this field, visit: "
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1151
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1364
 msgid "for processing my personal data."
 msgstr ""
 
@@ -1581,7 +1598,7 @@ msgstr ""
 msgid "Form"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:72
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:74
 msgid "Form Creation Instructions"
 msgstr ""
 
@@ -1598,8 +1615,8 @@ msgid "Form identifier for imported subscribers"
 msgstr ""
 
 #: functions/personal-data.php:237
-#: functions/integrations/personal-data/class-consent-cpt.php:241
-#: functions/integrations/personal-data/class-gdpr-export.php:102
+#: functions/integrations/personal-data/class-consent-cpt.php:268
+#: functions/integrations/personal-data/class-gdpr-export.php:113
 msgid "Form Title"
 msgstr ""
 
@@ -1637,7 +1654,7 @@ msgid ""
 "[redux_option key=\"responsible_person\"]"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:87
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:89
 msgid "General Module Settings"
 msgstr ""
 
@@ -1793,8 +1810,8 @@ msgstr ""
 msgid "Header Widget 3"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:164
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:897
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:166
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1110
 msgid "Hello"
 msgstr ""
 
@@ -1862,19 +1879,19 @@ msgstr ""
 msgid "Html Blocks list"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:140
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:142
 msgid "HTML email confirmation template"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:179
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:181
 msgid "HTML email template"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1089
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1302
 msgid "HTML form structure"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1225
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1438
 msgid "HTML template for confirmation emails:"
 msgstr ""
 
@@ -1883,11 +1900,11 @@ msgstr ""
 msgid "https://codeweber.ru"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1119
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1332
 msgid "I agree to data processing"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1118
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1331
 msgid "I agree to receive newsletter"
 msgstr ""
 
@@ -1901,40 +1918,50 @@ msgid ""
 msgstr ""
 
 #: functions/personal-data.php:40 functions/personal-data.php:434
-#: functions/integrations/personal-data/class-consent-manager.php:149
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:867
+#: functions/integrations/personal-data/class-consent-manager.php:180
 #: functions/integrations/personal-data/class-register-consent.php:68
 #: functions/integrations/personal-data/class-woocommerce-consent.php:116
 msgid "I agree to the processing of personal data"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1163
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1376
 msgid "I am familiar with the document"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:629
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:673
 #, php-format
 msgid ""
 "I am familiar with the document <a class=\"text-primary\" href=\"%s\" "
 "target=\"_blank\">personal data processing policy</a>."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1151
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1157
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:893
+msgid "I am familiar with the personal data processing policy"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1364
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1370
 msgid "I give my"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:609
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:653
 #, php-format
 msgid ""
 "I give my <a class=\"text-primary\" href=\"%s\" target=\"_blank\">consent</a>"
 " for processing my personal data."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:589
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:633
 #, php-format
 msgid ""
 "I give my <a class=\"text-primary\" href=\"%s\" target=\"_blank\">consent</a>"
 " to receive informational and advertising mailings."
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:841
+msgctxt "Я даю свое согласие на получение информационных и рекламных рассылок."
+msgid "I give my consent to receive informational and advertising mailings."
 msgstr ""
 
 #: functions/personal-data.php:20 functions/personal-data.php:402
@@ -1947,7 +1974,7 @@ msgid ""
 msgstr ""
 
 #: functions/personal-data.php:24 functions/personal-data.php:406
-#: functions/integrations/personal-data/class-consent-manager.php:126
+#: functions/integrations/personal-data/class-consent-manager.php:151
 #: functions/integrations/personal-data/class-register-consent.php:52
 #: functions/integrations/personal-data/class-woocommerce-consent.php:88
 msgid "I have read and agree to the Privacy Policy"
@@ -1961,12 +1988,12 @@ msgstr ""
 msgid "If unchecked, duplicates will be updated with new data"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:918
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1131
 msgid "If you have any questions, please contact our support team."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:166
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:900
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:168
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1113
 msgid "If you want to unsubscribe from the newsletter, click the button below:"
 msgstr ""
 
@@ -2024,7 +2051,7 @@ msgstr ""
 msgid "Instagram"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:73
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:75
 msgid "Instructions"
 msgstr ""
 
@@ -2052,7 +2079,7 @@ msgstr ""
 msgid "Invalid file format. Please upload a CSV file."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:428
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:430
 msgid "Invalid form"
 msgstr ""
 
@@ -2060,14 +2087,14 @@ msgstr ""
 msgid "Invalid import request"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:778
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:991
 msgid "Invalid unsubscribe link"
 msgstr ""
 
 #: functions/personal-data.php:245
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:204
-#: functions/integrations/personal-data/class-consent-cpt.php:251
-#: functions/integrations/personal-data/class-gdpr-export.php:110
+#: functions/integrations/personal-data/class-consent-cpt.php:278
+#: functions/integrations/personal-data/class-gdpr-export.php:121
 msgid "IP Address"
 msgstr ""
 
@@ -2080,7 +2107,7 @@ msgstr ""
 msgid "Itunes"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1333
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1546
 msgid "JavaScript events"
 msgstr ""
 
@@ -2093,7 +2120,7 @@ msgid "KPP"
 msgstr ""
 
 #: functions/integrations/cf7.php:1186
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1095
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1308
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:201
 msgid "Last Name"
 msgstr ""
@@ -2252,11 +2279,11 @@ msgstr ""
 msgid "Mailer Error: "
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:200
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:202
 msgid "Mailing Consent"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1124
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1337
 msgid "mailing consent checkbox"
 msgstr ""
 
@@ -2269,8 +2296,8 @@ msgstr ""
 msgid "Mailing Consent: %s"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:62
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:332
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:64
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:334
 msgid "Mailing Module Settings"
 msgstr ""
 
@@ -2278,7 +2305,7 @@ msgstr ""
 msgid "Main Options"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:301
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:303
 msgid "Main settings for the newsletter subscription module."
 msgstr ""
 
@@ -2358,11 +2385,11 @@ msgstr ""
 msgid "Modals"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:342
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:344
 msgid "Module Information"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:63
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:65
 msgid "Module Settings"
 msgstr ""
 
@@ -2382,7 +2409,7 @@ msgstr ""
 msgid "Name *"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1123
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1336
 msgid "name field"
 msgstr ""
 
@@ -2454,16 +2481,19 @@ msgstr ""
 msgid "New Staff"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:49
-msgid "New Subscriber"
-msgstr ""
-
 #: functions/cpt/cpt-testimonials.php:13
 msgid "New Testimonial"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1071
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1284
 msgid "Newsletter Form Creation Instructions"
+msgstr ""
+
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:838
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:864
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:890
+#, php-format
+msgid "Newsletter Subscription Form: %s"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:29
@@ -2475,9 +2505,9 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1192
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1198
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1204
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1405
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1411
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1417
 #: redux-framework/sample/sections/codeweber/smtp.php:119
 msgid "No"
 msgstr ""
@@ -2497,7 +2527,7 @@ msgid ""
 "No consent document selected. Please select a document in the form settings."
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:164
+#: functions/integrations/personal-data/class-consent-cpt.php:191
 msgid "No consents recorded yet."
 msgstr ""
 
@@ -2544,6 +2574,14 @@ msgstr ""
 msgid ""
 "No custom pageheaders found. You can create one by visiting the following "
 "link: %s"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:53
+msgid "No data subjects found in Trash."
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:52
+msgid "No data subjects found."
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:17
@@ -2664,14 +2702,6 @@ msgstr ""
 msgid "No sizes"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:56
-msgid "No subscribers found in Trash."
-msgstr ""
-
-#: functions/integrations/personal-data/class-consent-cpt.php:55
-msgid "No subscribers found."
-msgstr ""
-
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:366
 msgid "No subscriptions found"
 msgstr ""
@@ -2695,20 +2725,25 @@ msgid "none"
 msgstr ""
 
 #: functions/personal-data.php:250 functions/personal-data.php:270
-#: functions/integrations/personal-data/class-consent-cpt.php:257
-#: functions/integrations/personal-data/class-consent-cpt.php:278
-#: functions/integrations/personal-data/class-consent-cpt.php:291
-#: functions/integrations/personal-data/class-consent-cpt.php:298
-#: functions/integrations/personal-data/class-gdpr-export.php:115
-#: functions/integrations/personal-data/class-gdpr-export.php:135
+#: functions/integrations/personal-data/class-consent-cpt.php:284
+#: functions/integrations/personal-data/class-consent-cpt.php:305
+#: functions/integrations/personal-data/class-consent-cpt.php:318
+#: functions/integrations/personal-data/class-consent-cpt.php:325
+#: functions/integrations/personal-data/class-gdpr-export.php:126
+#: functions/integrations/personal-data/class-gdpr-export.php:146
 msgid "Not provided"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:145
+#: functions/integrations/personal-data/class-consent-cpt.php:420
+msgid "Not registered"
 msgstr ""
 
 #: functions/admin/admin_user_profil.php:17
 msgid "Not verified"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:345
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:347
 msgid "Number of subscribers:"
 msgstr ""
 
@@ -2784,8 +2819,8 @@ msgstr ""
 msgid "Opt 3"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:170
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:908
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:172
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1121
 msgid "Or copy and paste the following link into your browser:"
 msgstr ""
 
@@ -2891,8 +2926,12 @@ msgstr ""
 msgid "Page-loader"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1081
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1294
 msgid "Parameters:"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:51
+msgid "Parent Data Subjects:"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:19
@@ -2938,10 +2977,6 @@ msgstr ""
 
 #: functions/cpt/cpt-staff.php:22 functions/cpt/cpt-staff.php:34
 msgid "Parent Staff"
-msgstr ""
-
-#: functions/integrations/personal-data/class-consent-cpt.php:54
-msgid "Parent Subscribers:"
 msgstr ""
 
 #: templates/content/single-legal.php:60 templates/content/single.php:61
@@ -2995,7 +3030,7 @@ msgstr ""
 msgid "Personal data processing period:"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1163
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1376
 msgid "personal data processing policy"
 msgstr ""
 
@@ -3008,11 +3043,11 @@ msgstr ""
 #: templates/header/header-extended.php:295
 #: templates/header/header-fancy-center-logo.php:260
 #: templates/header/header-fancy.php:284
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1096
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1309
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:202
-#: functions/integrations/personal-data/class-consent-cpt.php:297
-#: functions/integrations/personal-data/class-consent-cpt.php:376
-#: functions/integrations/personal-data/class-gdpr-export.php:134
+#: functions/integrations/personal-data/class-consent-cpt.php:324
+#: functions/integrations/personal-data/class-consent-cpt.php:382
+#: functions/integrations/personal-data/class-gdpr-export.php:145
 #: redux-framework/sample/sections/codeweber/repeater.php:14
 #: redux-framework/sample/sections/codeweber/repeater.php:21
 #: redux-framework/sample/sections/codeweber/repeater.php:23
@@ -3067,7 +3102,7 @@ msgstr ""
 msgid "Phone Responsible Person"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:130
+#: functions/integrations/personal-data/class-consent-cpt.php:126
 msgid "Phone:"
 msgstr ""
 
@@ -3087,11 +3122,11 @@ msgstr ""
 msgid "Pinterest"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:425
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:427
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:670
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:714
 msgid "Please enter a valid email address."
 msgstr ""
 
@@ -3234,8 +3269,8 @@ msgid "Privacy Data"
 msgstr ""
 
 #: functions/admin/admin_privacy.php:548
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:187
-#: functions/integrations/personal-data/class-consent-manager.php:110
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:189
+#: functions/integrations/personal-data/class-consent-manager.php:137
 msgid "Privacy Policy"
 msgstr ""
 
@@ -3370,11 +3405,11 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:379
+#: functions/integrations/personal-data/class-consent-cpt.php:385
 msgid "Registration Date"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:146
+#: functions/integrations/personal-data/class-consent-cpt.php:154
 msgid "Registration Date:"
 msgstr ""
 
@@ -3402,19 +3437,15 @@ msgstr ""
 msgid "Remove featured Image for this staff"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:59
-msgid "Remove subscriber image"
-msgstr ""
-
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1129
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1342
 msgid "Request a callback"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1178
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1391
 msgid "Required"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1120
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1333
 msgid "Required fields in CF7:"
 msgstr ""
 
@@ -3431,8 +3462,8 @@ msgid "Return Policy"
 msgstr ""
 
 #: functions/personal-data.php:276
-#: functions/integrations/personal-data/class-consent-cpt.php:302
-#: functions/integrations/personal-data/class-gdpr-export.php:141
+#: functions/integrations/personal-data/class-consent-cpt.php:329
+#: functions/integrations/personal-data/class-gdpr-export.php:152
 msgid "Revision"
 msgstr ""
 
@@ -3500,6 +3531,10 @@ msgstr ""
 
 #: functions/cpt/cpt-clients.php:20
 msgid "Search Client"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:50
+msgid "Search Data Subjects"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:16
@@ -3576,10 +3611,6 @@ msgstr ""
 msgid "Search Staff"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:53
-msgid "Search Subscribers"
-msgstr ""
-
 #: redux-framework/sample-config.php:689
 msgid "Section via hook"
 msgstr ""
@@ -3596,7 +3627,7 @@ msgstr ""
 msgid "Select Custom Header"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:218
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:220
 msgid "Select data processing consent document"
 msgstr ""
 
@@ -3662,7 +3693,7 @@ msgstr ""
 msgid "Select Legal Documents for This contact form:"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:205
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:207
 msgid "Select mailing consent document"
 msgstr ""
 
@@ -3691,7 +3722,7 @@ msgstr ""
 msgid "Select Page-Header Type"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:192
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:194
 msgid "Select privacy policy document"
 msgstr ""
 
@@ -3745,11 +3776,11 @@ msgstr ""
 msgid "Seller Information"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1167
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1380
 msgid "Send"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:112
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:114
 msgid "Send subscription confirmation email"
 msgstr ""
 
@@ -3758,23 +3789,23 @@ msgstr ""
 msgid "Send Test Email"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:226
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:228
 msgid "Sender Email"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:231
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:233
 msgid "Sender email address"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:240
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:242
 msgid "Sender Name"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:245
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:247
 msgid "Sender name in emails"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:424
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:426
 #: redux-framework/sample/sections/codeweber/smtp.php:193
 msgid "Sending..."
 msgstr ""
@@ -3821,8 +3852,8 @@ msgid "Services"
 msgstr ""
 
 #: functions/personal-data.php:233
-#: functions/integrations/personal-data/class-consent-cpt.php:236
-#: functions/integrations/personal-data/class-gdpr-export.php:98
+#: functions/integrations/personal-data/class-consent-cpt.php:263
+#: functions/integrations/personal-data/class-gdpr-export.php:109
 msgid "Session ID"
 msgstr ""
 
@@ -3844,10 +3875,6 @@ msgstr ""
 
 #: functions/cpt/cpt-staff.php:24
 msgid "Set featured Image for this staff"
-msgstr ""
-
-#: functions/integrations/personal-data/class-consent-cpt.php:58
-msgid "Set subscriber image"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:8
@@ -3925,7 +3952,7 @@ msgid ""
 "[cf7_privacy_policy]"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1078
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1291
 msgid "Shortcode form"
 msgstr ""
 
@@ -4066,7 +4093,7 @@ msgstr ""
 msgid "Single Template for %s"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:248
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:250
 msgid "Site Name"
 msgstr ""
 
@@ -4217,48 +4244,31 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:534
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1110
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:578
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1323
 msgid "Subscribe"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:44
-#: functions/integrations/personal-data/class-consent-cpt.php:46
-msgid "Subscriber"
-msgstr ""
-
-#: functions/integrations/personal-data/class-consent-cpt.php:90
-msgid "Subscriber Details"
-msgstr ""
-
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1326
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1539
 msgid "Subscriber email"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1187
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1400
 msgid "Subscriber email address"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1193
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1324
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1406
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1537
 msgid "Subscriber first name"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:57
-msgid "Subscriber Image"
-msgstr ""
-
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1199
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1325
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1412
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1538
 msgid "Subscriber last name"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1205
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1418
 msgid "Subscriber phone"
-msgstr ""
-
-#: functions/integrations/personal-data/class-consent-cpt.php:43
-msgid "Subscribers"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:40
@@ -4266,12 +4276,12 @@ msgstr ""
 msgid "Subscription Column Settings"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:127
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:128
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:129
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:130
 msgid "Subscription Confirmation"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:125
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:127
 msgid "Subscription confirmation email subject"
 msgstr ""
 
@@ -4283,7 +4293,7 @@ msgstr ""
 msgid "Subscription date (YYYY-MM-DD HH:MM:SS)"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1342
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1555
 msgid "Subscription error"
 msgstr ""
 
@@ -4291,7 +4301,7 @@ msgstr ""
 msgid "Subscription Form|Email"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1337
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1550
 msgid "Subscription successful"
 msgstr ""
 
@@ -4399,8 +4409,8 @@ msgstr ""
 msgid "Taxpayer identification number Person (INN)"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:174
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:914
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:176
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1127
 msgid "Team"
 msgstr ""
 
@@ -4443,11 +4453,11 @@ msgstr ""
 msgid "Text for paragraph 5.3 of the personal data processing policy"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:535
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:579
 msgid "Thank you for subscribing!"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1348
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1561
 msgid ""
 "Thank you for subscribing! A confirmation email has been sent to your email."
 msgstr ""
@@ -4500,11 +4510,11 @@ msgstr ""
 msgid "Theme style"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:673
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:717
 msgid "This email is already subscribed to the newsletter."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:917
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1130
 msgid ""
 "This email was sent to {email} because you subscribed to our newsletter."
 msgstr ""
@@ -4546,7 +4556,7 @@ msgstr ""
 msgid "This Post Settings"
 msgstr ""
 
-#: functions/integrations/personal-data/class-gdpr-export.php:37
+#: functions/integrations/personal-data/class-gdpr-export.php:36
 msgid "This section includes all user consents stored in the system."
 msgstr ""
 
@@ -4587,7 +4597,7 @@ msgstr ""
 msgid "Title size"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1157
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1370
 msgid "to receive informational and promotional newsletters"
 msgstr ""
 
@@ -4632,7 +4642,7 @@ msgid "Twitter"
 msgstr ""
 
 #: functions/cpt/cpt-services.php:111
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1177
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1390
 msgid "Type"
 msgstr ""
 
@@ -4696,7 +4706,7 @@ msgstr ""
 msgid "Types"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1083
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1296
 msgid "unique form identifier (required)"
 msgstr ""
 
@@ -4708,8 +4718,8 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:168
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:903
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:170
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1116
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:485
 msgid "Unsubscribe"
 msgstr ""
@@ -4722,11 +4732,11 @@ msgstr ""
 msgid "Unsubscribe date (YYYY-MM-DD HH:MM:SS)"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:979
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1192
 msgid "Unsubscribe Error"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1327
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1540
 msgid "Unsubscribe link"
 msgstr ""
 
@@ -4802,11 +4812,7 @@ msgstr ""
 msgid "Use as Featured Image for this Price Package"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:60
-msgid "Use as subscriber image"
-msgstr ""
-
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1079
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1292
 msgid "Use shortcode for quick form addition:"
 msgstr ""
 
@@ -4817,8 +4823,8 @@ msgstr ""
 
 #: functions/personal-data.php:249
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:205
-#: functions/integrations/personal-data/class-consent-cpt.php:256
-#: functions/integrations/personal-data/class-gdpr-export.php:114
+#: functions/integrations/personal-data/class-consent-cpt.php:283
+#: functions/integrations/personal-data/class-gdpr-export.php:125
 msgid "User Agent"
 msgstr ""
 
@@ -4829,19 +4835,20 @@ msgstr ""
 #: functions/personal-data.php:168 functions/personal-data.php:283
 #: functions/personal-data.php:298 functions/personal-data.php:341
 #: functions/integrations/personal-data/class-gdpr-erasure.php:35
-#: functions/integrations/personal-data/class-gdpr-export.php:36
-#: functions/integrations/personal-data/class-gdpr-export.php:148
+#: functions/integrations/personal-data/class-gdpr-export.php:35
+#: functions/integrations/personal-data/class-gdpr-export.php:159
 msgid "User Consents"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:377
+#: functions/integrations/personal-data/class-consent-cpt.php:383
 msgid "User ID"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:138
+#: functions/integrations/personal-data/class-consent-cpt.php:132
 msgid "User ID (if registered):"
 msgstr ""
 
+#: functions/integrations/personal-data/class-consent-cpt.php:417
 #: functions/integrations/personal-data/class-gdpr-erasure.php:52
 msgid "User not found"
 msgstr ""
@@ -4877,7 +4884,7 @@ msgstr ""
 msgid "Version from %s"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:343
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:345
 msgid "Version:"
 msgstr ""
 
@@ -4892,6 +4899,10 @@ msgstr ""
 
 #: functions/cpt/cpt-clients.php:19
 msgid "View Clients"
+msgstr ""
+
+#: functions/integrations/personal-data/class-consent-cpt.php:48
+msgid "View Data Subject"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:14
@@ -5007,10 +5018,6 @@ msgstr ""
 msgid "View Staff"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-cpt.php:51
-msgid "View Subscriber"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/socials.php:111
 #: redux-framework/sample/sections/extensions/users.php:127
 msgid "Vimeo"
@@ -5035,15 +5042,15 @@ msgstr ""
 msgid "Vkontakte"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1130
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1343
 msgid "We will call back within 15 minutes"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:975
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1188
 msgid "We will no longer send you email notifications."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1328
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1541
 msgid "Website name"
 msgstr ""
 
@@ -5106,8 +5113,8 @@ msgstr ""
 msgid "Woocommerce Settings"
 msgstr ""
 
-#: functions/integrations/personal-data/class-consent-manager.php:117
-#: functions/integrations/personal-data/class-consent-manager.php:140
+#: functions/integrations/personal-data/class-consent-manager.php:144
+#: functions/integrations/personal-data/class-consent-manager.php:173
 msgid "WordPress Register Form"
 msgstr ""
 
@@ -5149,29 +5156,29 @@ msgstr ""
 msgid "Yandex Metric Settings"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1186
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1210
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1216
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1399
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1423
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1429
 #: redux-framework/sample/sections/codeweber/smtp.php:118
 msgid "Yes"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:328
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1067
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:330
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1280
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:165
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:898
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:167
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1111
 msgid "You have successfully subscribed to our newsletter."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:676
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:720
 msgid "You have successfully subscribed to the newsletter!"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:776
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:971
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:989
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1184
 msgid "You have successfully unsubscribed from the newsletter"
 msgstr ""
 
@@ -5197,11 +5204,11 @@ msgstr ""
 msgid "You must agree to the processing of personal data."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1343
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1556
 msgid "Your code for subscription error"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1338
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1551
 msgid "Your code for successful subscription"
 msgstr ""
 
@@ -5209,19 +5216,19 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:533
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1141
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1142
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:577
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1354
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1355
 msgid "Your Email"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1137
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1138
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1350
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1351
 msgid "Your Last Name"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1133
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1134
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1346
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:1347
 msgid "Your Name"
 msgstr ""
 
@@ -5266,6 +5273,6 @@ msgstr ""
 
 #: functions/admin/admin_privacy.php:38 functions/integrations/cf7.php:845
 #: functions/integrations/cf7.php:861 functions/integrations/cf7.php:877
-#: functions/integrations/newsletter-subscription/newsletter-subscription.php:269
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:271
 msgid "— Select —"
 msgstr ""
