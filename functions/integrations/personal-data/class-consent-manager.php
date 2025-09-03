@@ -25,6 +25,7 @@ class Consent_Manager
    {
       // Подключаем компоненты
       require_once __DIR__ . '/class-consent-cpt.php';
+      require_once __DIR__ . '/class-cf7-consent.php';
       require_once __DIR__ . '/class-register-consent.php';
       require_once __DIR__ . '/class-woocommerce-consent.php';
       require_once __DIR__ . '/class-gdpr-export.php';
