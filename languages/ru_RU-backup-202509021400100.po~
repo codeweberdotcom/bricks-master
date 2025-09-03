@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-01 22:50+0000\n"
+"PO-Revision-Date: 2025-09-02 13:59+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -154,7 +154,7 @@ msgstr "Добавить Html блок"
 
 #: functions/cpt/cpt-legal.php:10
 msgid "Add Legal"
-msgstr "Добавить Юридический документ"
+msgstr "Добавить Документ"
 
 #: functions/cpt/cpt-modals.php:14 functions/cpt/cpt-price_list.php:14
 msgid "Add New"
@@ -194,7 +194,7 @@ msgstr ""
 
 #: functions/cpt/cpt-legal.php:11
 msgid "Add New Legal"
-msgstr "Добавить новый Юридический документ"
+msgstr "Добавить"
 
 #: functions/cpt/cpt-modals.php:15
 msgid "Add New Modal"
@@ -274,13 +274,13 @@ msgstr ""
 
 #: functions/personal-data.php:241
 #: functions/integrations/personal-data/class-consent-cpt.php:273
-#: functions/integrations/personal-data/class-gdpr-export.php:117
+#: functions/integrations/personal-data/class-gdpr-export.php:101
 msgid "Agreed on"
 msgstr "Согласие получено"
 
 #: functions/personal-data.php:265
 #: functions/integrations/personal-data/class-consent-cpt.php:311
-#: functions/integrations/personal-data/class-gdpr-export.php:141
+#: functions/integrations/personal-data/class-gdpr-export.php:107
 msgid "Agreed on Page"
 msgstr "Адрес страницы, на которой было получено согласие"
 
@@ -329,7 +329,7 @@ msgstr ""
 
 #: functions/cpt/cpt-legal.php:9
 msgid "All Legal"
-msgstr "Все Юридические документы"
+msgstr "Все Документы"
 
 #: functions/cpt/cpt-modals.php:13
 msgid "All Modals"
@@ -380,7 +380,7 @@ msgstr "У вас уже есть аккаунт?"
 msgid "An error occurred. Please try again later."
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:668
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:667
 msgid "Any other format recognized by strtotime()"
 msgstr ""
 
@@ -400,11 +400,11 @@ msgstr ""
 msgid "Archive Template for %s"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:495
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:494
 msgid "Are you sure you want to delete this subscription?"
 msgstr "Вы уверены, что хотите удалить эту подписку?"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:484
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:483
 msgid "Are you sure you want to unsubscribe this user?"
 msgstr "Вы уверены, что хотите отписать этого пользователя?"
 
@@ -523,7 +523,7 @@ msgstr ""
 "обработки персональных данных  и даете Согласие на обработку ваших "
 "Персонлаьных данных."
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:778
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:777
 msgid "Cannot open uploaded file"
 msgstr ""
 
@@ -702,8 +702,8 @@ msgid "Confirmation of phone number by SMS"
 msgstr "Подтверждение номера телефона по СМС"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:311
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:699
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1022
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:698
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1021
 msgid "Confirmed"
 msgstr "Подтвержден"
 
@@ -720,7 +720,7 @@ msgstr "Ошибка подключения:"
 msgid "Connection successful!"
 msgstr "Подключение успешно установлено!"
 
-#: functions/integrations/personal-data/class-gdpr-export.php:75
+#: functions/integrations/personal-data/class-gdpr-export.php:69
 msgid "Consent"
 msgstr ""
 
@@ -761,13 +761,13 @@ msgstr "Документ согласия на обработку: %s"
 
 #: functions/personal-data.php:257
 #: functions/integrations/personal-data/class-consent-cpt.php:293
-#: functions/integrations/personal-data/class-gdpr-export.php:133
+#: functions/integrations/personal-data/class-gdpr-export.php:105
 msgid "Consent Html"
 msgstr "Подпись Согласия"
 
 #: functions/personal-data.php:229
 #: functions/integrations/personal-data/class-consent-cpt.php:258
-#: functions/integrations/personal-data/class-gdpr-export.php:105
+#: functions/integrations/personal-data/class-gdpr-export.php:98
 msgid "Consent Label"
 msgstr "Код согласия"
 
@@ -808,7 +808,7 @@ msgstr "История согласий"
 msgid "Contact Form 7 Integration"
 msgstr "Интеграция с Contact Form7"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1033
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1032
 msgid "Contact Form 7: Request Callback"
 msgstr ""
 
@@ -883,15 +883,15 @@ msgstr ""
 msgid "Create Page Header"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:683
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:682
 msgid "CSV File"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:829
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:828
 msgid "CSV file must contain \"email\" column"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:645
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:644
 msgid "CSV Import"
 msgstr "CSV Импорт"
 
@@ -1013,7 +1013,7 @@ msgstr ""
 msgid "Default"
 msgstr "Стандартный"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:695
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:694
 msgid "Default Status"
 msgstr ""
 
@@ -1022,7 +1022,7 @@ msgstr ""
 msgid "Default Template"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:496
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:495
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1081,7 +1081,7 @@ msgstr ""
 #: functions/personal-data.php:253 functions/cpt/cpt-documents.php:7
 #: functions/cpt/cpt-documents.php:26
 #: functions/integrations/personal-data/class-consent-cpt.php:288
-#: functions/integrations/personal-data/class-gdpr-export.php:129
+#: functions/integrations/personal-data/class-gdpr-export.php:104
 msgid "Document"
 msgstr "Документ"
 
@@ -1099,7 +1099,7 @@ msgstr "Категория Документов"
 
 #: functions/personal-data.php:261
 #: functions/integrations/personal-data/class-consent-cpt.php:298
-#: functions/integrations/personal-data/class-gdpr-export.php:137
+#: functions/integrations/personal-data/class-gdpr-export.php:106
 msgid "Document Link"
 msgstr "Ссылка на Документ"
 
@@ -1158,7 +1158,7 @@ msgstr ""
 msgid "Dropbox"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:721
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:720
 msgid "Duplicate Handling"
 msgstr ""
 
@@ -1275,7 +1275,7 @@ msgstr ""
 msgid "Email *"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:649
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:648
 msgid "Email address (required)"
 msgstr ""
 
@@ -1356,7 +1356,7 @@ msgstr ""
 msgid "Error: "
 msgstr "Ошибка:"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:671
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:670
 msgid "Example CSV structure:"
 msgstr ""
 
@@ -1499,7 +1499,7 @@ msgstr ""
 msgid "First Name"
 msgstr "Имя"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:650
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:649
 msgid "First name"
 msgstr ""
 
@@ -1630,21 +1630,21 @@ msgstr "Форма"
 msgid "Form Creation Instructions"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:710
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:709
 msgid "Form ID"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:653
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:652
 msgid "Form identifier"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:715
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:714
 msgid "Form identifier for imported subscribers"
 msgstr "Идентификатор формы для импортированных подписчиков"
 
 #: functions/personal-data.php:237
 #: functions/integrations/personal-data/class-consent-cpt.php:268
-#: functions/integrations/personal-data/class-gdpr-export.php:113
+#: functions/integrations/personal-data/class-gdpr-export.php:100
 msgid "Form Title"
 msgstr "Название формы"
 
@@ -2043,7 +2043,7 @@ msgstr ""
 msgid "iCloud"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:729
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:728
 msgid "If unchecked, duplicates will be updated with new data"
 msgstr ""
 
@@ -2073,18 +2073,18 @@ msgstr "Размеры Изображений"
 msgid "Import"
 msgstr "Импорт"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:944
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:943
 msgid "Import completed: %d imported, %d updated, %d skipped"
 msgstr "Импорт завершен: %d импортировано, %d обновлено, %d пропущено"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:49
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:338
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:629
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:737
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:628
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:736
 msgid "Import Subscribers"
 msgstr "Импорт подписчиков"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:646
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:645
 msgid ""
 "Import subscribers from a CSV file. The file should have the following "
 "columns (email is required):"
@@ -2092,7 +2092,7 @@ msgstr ""
 "Импорт подписчиков из CSV-файла. Файл должен содержать следующие столбцы "
 "(необходимо указать адрес электронной почты):"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1034
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1033
 msgid "Imported"
 msgstr "Импортировано"
 
@@ -2117,15 +2117,15 @@ msgstr ""
 msgid "Instructions"
 msgstr "Инструкции"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:558
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:557
 msgid "Insufficient permissions for export"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:753
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:752
 msgid "Insufficient permissions for import"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:787
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:786
 msgid "Invalid CSV format"
 msgstr ""
 
@@ -2133,11 +2133,11 @@ msgstr ""
 msgid "Invalid email address."
 msgstr "Неверный адрес электронной почты."
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:554
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:553
 msgid "Invalid export link"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:770
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:769
 msgid "Invalid file format. Please upload a CSV file."
 msgstr ""
 
@@ -2145,7 +2145,7 @@ msgstr ""
 msgid "Invalid form"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:749
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:748
 msgid "Invalid import request"
 msgstr ""
 
@@ -2156,11 +2156,11 @@ msgstr "Неверная ссылка для отмены подписки"
 #: functions/personal-data.php:245
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:204
 #: functions/integrations/personal-data/class-consent-cpt.php:278
-#: functions/integrations/personal-data/class-gdpr-export.php:121
+#: functions/integrations/personal-data/class-gdpr-export.php:102
 msgid "IP Address"
 msgstr "IP Адрес"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:654
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:653
 msgid "IP address"
 msgstr ""
 
@@ -2187,7 +2187,7 @@ msgstr "КПП"
 msgid "Last Name"
 msgstr "Фамилия"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:651
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:650
 msgid "Last name"
 msgstr ""
 
@@ -2258,7 +2258,7 @@ msgstr "Юридический документ опубликован"
 #: functions/admin/admin_privacy.php:131 functions/admin/admin_privacy.php:132
 #: functions/admin/admin_privacy.php:531
 msgid "Legal Settings"
-msgstr "Настройки Юридических документов"
+msgstr "Настройки"
 
 #: functions/cpt/cpt-legal.php:20
 msgid "Legal Updated"
@@ -2557,6 +2557,12 @@ msgstr "Новый Отзыв"
 msgid "Newsletter Form Creation Instructions"
 msgstr "Инструкции по созданию формы рассылки"
 
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:578
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:599
+#: functions/integrations/newsletter-subscription/newsletter-subscription.php:620
+msgid "Newsletter Subscription Form:"
+msgstr "Форма подписки на рассылку:"
+
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:29
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:298
 msgid "Newsletter Subscriptions"
@@ -2670,7 +2676,7 @@ msgstr ""
 msgid "No FAQs found in Trash"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:757
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:756
 msgid "No file uploaded"
 msgstr ""
 
@@ -2776,7 +2782,7 @@ msgid "No subscriptions found"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:94
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:471
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:470
 msgid "No user account"
 msgstr "Нет Аккаунта"
 
@@ -2798,8 +2804,8 @@ msgstr "Нет"
 #: functions/integrations/personal-data/class-consent-cpt.php:305
 #: functions/integrations/personal-data/class-consent-cpt.php:318
 #: functions/integrations/personal-data/class-consent-cpt.php:325
-#: functions/integrations/personal-data/class-gdpr-export.php:126
-#: functions/integrations/personal-data/class-gdpr-export.php:146
+#: functions/integrations/personal-data/class-gdpr-export.php:103
+#: functions/integrations/personal-data/class-gdpr-export.php:108
 msgid "Not provided"
 msgstr "Отсутствует"
 
@@ -3068,8 +3074,8 @@ msgid "Pattern"
 msgstr "Паттерн"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:310
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:701
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1021
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:700
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1020
 msgid "Pending"
 msgstr "Ожидает"
 
@@ -3118,7 +3124,7 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:202
 #: functions/integrations/personal-data/class-consent-cpt.php:324
 #: functions/integrations/personal-data/class-consent-cpt.php:382
-#: functions/integrations/personal-data/class-gdpr-export.php:145
+#: functions/integrations/personal-data/class-gdpr-export.php:108
 #: redux-framework/sample/sections/codeweber/repeater.php:14
 #: redux-framework/sample/sections/codeweber/repeater.php:21
 #: redux-framework/sample/sections/codeweber/repeater.php:23
@@ -3147,7 +3153,7 @@ msgid "Phone 05"
 msgstr "Телефон 05"
 
 #: functions/woocommerce.php:30 functions/woocommerce.php:50
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:652
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:651
 msgid "Phone number"
 msgstr "Телефонный номер"
 
@@ -3545,7 +3551,7 @@ msgstr "Условия возврата"
 
 #: functions/personal-data.php:276
 #: functions/integrations/personal-data/class-consent-cpt.php:329
-#: functions/integrations/personal-data/class-gdpr-export.php:152
+#: functions/integrations/personal-data/class-gdpr-export.php:113
 msgid "Revision"
 msgstr "Версия документа"
 
@@ -3568,19 +3574,19 @@ msgstr "Скругление 1"
 msgid "rounded-pill"
 msgstr "Скругление 2"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:936
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:935
 msgid "Row %d: failed to create subscription"
 msgstr "Строка %d: не удалось создать подписку"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:912
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:911
 msgid "Row %d: failed to update subscription"
 msgstr "Строка %d: не удалось обновить подписку"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:845
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:844
 msgid "Row %d: incorrect number of columns"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:854
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:853
 #, php-format
 msgid "Row %d: invalid email address: %s"
 msgstr ""
@@ -3699,7 +3705,7 @@ msgstr "Найти Сотрудника"
 msgid "Section via hook"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:688
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:687
 msgid "Select a CSV file to import. Maximum file size:"
 msgstr ""
 
@@ -3938,7 +3944,7 @@ msgstr "Услуги"
 
 #: functions/personal-data.php:233
 #: functions/integrations/personal-data/class-consent-cpt.php:263
-#: functions/integrations/personal-data/class-gdpr-export.php:109
+#: functions/integrations/personal-data/class-gdpr-export.php:99
 msgid "Session ID"
 msgstr "ID Сессии"
 
@@ -4195,7 +4201,7 @@ msgstr ""
 msgid "Site Name"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:726
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:725
 msgid "Skip duplicate emails (keep existing)"
 msgstr ""
 
@@ -4315,11 +4321,11 @@ msgstr ""
 msgid "Status"
 msgstr "Статус"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:656
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:655
 msgid "Status (confirmed/unsubscribed/pending)"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:704
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:703
 msgid "Status for subscribers without status field in CSV"
 msgstr "Статус для подписчиков без поля статуса в CSV"
 
@@ -4387,7 +4393,7 @@ msgstr "Тема письма с подтверждением подписки"
 msgid "Subscription Date"
 msgstr "Дата подписки"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:657
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:656
 msgid "Subscription date (YYYY-MM-DD HH:MM:SS)"
 msgstr "Дата подписки (Год-Месяц-День Часы:Минуты:Секунды)"
 
@@ -4395,7 +4401,7 @@ msgstr "Дата подписки (Год-Месяц-День Часы:Мину�
 msgid "Subscription error"
 msgstr "Ошибка подписки"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1032
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1031
 msgid "Subscription Form|Email"
 msgstr "Подписчик Форма|E-Mail"
 
@@ -4403,7 +4409,7 @@ msgstr "Подписчик Форма|E-Mail"
 msgid "Subscription successful"
 msgstr "Подписка успешна"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:543
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:542
 msgid "Subscription successfully deleted"
 msgstr "Подписка успешно удалена"
 
@@ -4494,7 +4500,7 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:661
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:660
 msgid "Supported date formats:"
 msgstr ""
 
@@ -4832,7 +4838,7 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription.php:188
 #: functions/integrations/newsletter-subscription/newsletter-subscription.php:1040
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:485
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:484
 msgid "Unsubscribe"
 msgstr "Отписаться"
 
@@ -4840,7 +4846,7 @@ msgstr "Отписаться"
 msgid "Unsubscribe Date"
 msgstr "Дата отписки"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:658
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:657
 msgid "Unsubscribe date (YYYY-MM-DD HH:MM:SS)"
 msgstr ""
 
@@ -4853,8 +4859,8 @@ msgid "Unsubscribe link"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:312
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:700
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1023
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:699
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:1022
 msgid "Unsubscribed"
 msgstr "Отменена подписка"
 
@@ -4938,11 +4944,11 @@ msgstr "Аккаунт"
 #: functions/personal-data.php:249
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:205
 #: functions/integrations/personal-data/class-consent-cpt.php:283
-#: functions/integrations/personal-data/class-gdpr-export.php:125
+#: functions/integrations/personal-data/class-gdpr-export.php:103
 msgid "User Agent"
 msgstr "Браузер и устройство"
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:655
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:654
 msgid "User agent/browser info"
 msgstr ""
 
@@ -4950,7 +4956,7 @@ msgstr ""
 #: functions/personal-data.php:298 functions/personal-data.php:341
 #: functions/integrations/personal-data/class-gdpr-erasure.php:35
 #: functions/integrations/personal-data/class-gdpr-export.php:35
-#: functions/integrations/personal-data/class-gdpr-export.php:159
+#: functions/integrations/personal-data/class-gdpr-export.php:120
 msgid "User Consents"
 msgstr "Пользовательские согласия"
 
@@ -4975,7 +4981,7 @@ msgstr "Телефон Пользователя"
 msgid "User Socials"
 msgstr ""
 
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:530
+#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:529
 msgid "User successfully unsubscribed from newsletter"
 msgstr "Пользователь успешно отписался от рассылки"
 
@@ -5108,7 +5114,6 @@ msgid "View Price Packages"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:91
-#: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:466
 msgid "View Profile"
 msgstr "Профиль"
 

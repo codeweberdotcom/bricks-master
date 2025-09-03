@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-01 22:56+0000\n"
+"PO-Revision-Date: 2025-09-02 13:59+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -154,7 +154,7 @@ msgstr "Добавить Html блок"
 
 #: functions/cpt/cpt-legal.php:10
 msgid "Add Legal"
-msgstr "Добавить Юридический документ"
+msgstr "Добавить Документ"
 
 #: functions/cpt/cpt-modals.php:14 functions/cpt/cpt-price_list.php:14
 msgid "Add New"
@@ -194,7 +194,7 @@ msgstr ""
 
 #: functions/cpt/cpt-legal.php:11
 msgid "Add New Legal"
-msgstr "Добавить новый Юридический документ"
+msgstr "Добавить"
 
 #: functions/cpt/cpt-modals.php:15
 msgid "Add New Modal"
@@ -329,7 +329,7 @@ msgstr ""
 
 #: functions/cpt/cpt-legal.php:9
 msgid "All Legal"
-msgstr "Все Юридические документы"
+msgstr "Все Документы"
 
 #: functions/cpt/cpt-modals.php:13
 msgid "All Modals"
@@ -2561,7 +2561,7 @@ msgstr "Инструкции по созданию формы рассылки"
 #: functions/integrations/newsletter-subscription/newsletter-subscription.php:599
 #: functions/integrations/newsletter-subscription/newsletter-subscription.php:620
 msgid "Newsletter Subscription Form:"
-msgstr ""
+msgstr "Форма подписки на рассылку:"
 
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:29
 #: functions/integrations/newsletter-subscription/newsletter-subscription_admin.php:298
