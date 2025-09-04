@@ -310,7 +310,7 @@ function create_custom_cf7_form()
  <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
   [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
   <label for="flexCheckDefault1" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link]" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy]">политика обработки персональных данных</a> ознакомлен.
+    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link]" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy]" target="_blank">политика обработки персональных данных</a> ознакомлен.
   </label>
 
 </div>
@@ -470,7 +470,7 @@ function create_custom_cf7_form_with_name_and_email()
 <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
   [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
   <label for="flexCheckDefault1" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link]" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy]">политика обработки персональных данных</a> ознакомлен.
+    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link]" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy]" target="_blank">политика обработки персональных данных</a> ознакомлен.
   </label>
 </div>
 
@@ -591,7 +591,7 @@ function create_custom_cf7_form_with_name_comment_and_email()
    <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
   [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
   <label for="flexCheckDefault1" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link]" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy]">политика обработки персональных данных</a> ознакомлен.
+    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link]" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy]" target="_blank">политика обработки персональных данных</a> ознакомлен.
   </label>
 </div>
 
@@ -694,7 +694,7 @@ function create_custom_cf7_form_with_name_comment_and_email_2()
        <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
           [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
           <label for="flexCheckDefault1" class="form-check-label text-start">
-            Я даю свое <a class="text-primary" href="[cf7_legal_consent_link id='1004']" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy id='1004']">политика обработки персональных данных</a> ознакомлен.
+            Я даю свое <a class="text-primary" href="[cf7_legal_consent_link id='1004']" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy id='1004']" target="_blank">политика обработки персональных данных</a> ознакомлен.
           </label>
        </div>
 
