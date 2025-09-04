@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-02 14:01+0000\n"
+"PO-Revision-Date: 2025-09-04 13:42+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -898,7 +898,7 @@ msgstr "CSV Импорт"
 #: functions/integrations/personal-data/class-consent-manager.php:97
 #, php-format
 msgid "Current version from %s"
-msgstr ""
+msgstr "Текущая версия %s"
 
 #: redux-framework/sample/metaboxes.php:112
 #: redux-framework/sample/metaboxes.php:176

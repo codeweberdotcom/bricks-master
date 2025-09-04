@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-02 13:58+0000\n"
+"PO-Revision-Date: 2025-09-02 14:01+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -194,7 +194,7 @@ msgstr ""
 
 #: functions/cpt/cpt-legal.php:11
 msgid "Add New Legal"
-msgstr "Добавить Новый Документ"
+msgstr "Добавить"
 
 #: functions/cpt/cpt-modals.php:15
 msgid "Add New Modal"
@@ -300,7 +300,7 @@ msgstr "Все Клиенты"
 
 #: functions/integrations/personal-data/class-consent-cpt.php:49
 msgid "All Data Subjects"
-msgstr "Все Субъекты данных"
+msgstr "Субъекты данных"
 
 #: functions/cpt/cpt-documents.php:9
 msgid "All Documents"
@@ -1409,16 +1409,14 @@ msgstr ""
 
 #: functions/cpt/cpt-faq.php:51 functions/cpt/cpt-faq.php:53
 #: functions/cpt/cpt-faq.php:64
-#, fuzzy
 #| msgid "Faq Categories"
 msgid "FAQ Categories"
-msgstr "Категории Вопросов и ответов"
+msgstr "Категории"
 
 #: functions/cpt/cpt-faq.php:52
-#, fuzzy
 #| msgid "Faq category"
 msgid "FAQ Category"
-msgstr "Категории вопросов и ответов"
+msgstr "Категории"
 
 #: functions/cpt/cpt-faq.php:85
 msgid "FAQ Tag"
@@ -1427,7 +1425,7 @@ msgstr ""
 #: functions/cpt/cpt-faq.php:84 functions/cpt/cpt-faq.php:86
 #: functions/cpt/cpt-faq.php:98
 msgid "FAQ Tags"
-msgstr "Метки Вопросов и Ответов"
+msgstr "Метки"
 
 #: functions/cpt/cpt-faq.php:9
 #, fuzzy
@@ -2258,7 +2256,7 @@ msgstr "Юридический документ опубликован"
 #: functions/admin/admin_privacy.php:131 functions/admin/admin_privacy.php:132
 #: functions/admin/admin_privacy.php:531
 msgid "Legal Settings"
-msgstr "Настройки Юридических документов"
+msgstr "Настройки"
 
 #: functions/cpt/cpt-legal.php:20
 msgid "Legal Updated"
@@ -2812,7 +2810,7 @@ msgstr "Отсутствует"
 #: functions/integrations/personal-data/class-consent-cpt.php:145
 #: functions/integrations/personal-data/class-consent-cpt.php:420
 msgid "Not registered"
-msgstr ""
+msgstr "Не зарегистрирован"
 
 #: functions/admin/admin_user_profil.php:17
 msgid "Not verified"

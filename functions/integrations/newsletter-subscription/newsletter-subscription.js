@@ -48,7 +48,7 @@
       const inputs = $(form).find(
         'input:not([type="hidden"]):not([type="submit"])'
       );
-      return inputs.length === 3; // email + 2 checkbox
+      return inputs.length === 4; // email + 3 checkbox (все обязательные)
     }
 
     bindEvents() {
@@ -134,6 +134,10 @@
       const email = form.emailField.val().trim();
       const mailingConsent = form.mailingConsentCheckbox.is(":checked");
       const dataProcessingConsent = form.dataProcessingCheckbox.is(":checked");
+      const privacyPolicyConsent =
+        form.privacyPolicyCheckbox.length > 0
+          ? form.privacyPolicyCheckbox.is(":checked")
+          : true;
       const errorResponse = form.element.find(".newsletter-error-response");
       const responseContainer = form.element.find(".newsletter-responses");
 
@@ -149,7 +153,7 @@
         return false;
       }
 
-      // Валидация согласия на рассылку
+      // Валидация согласия на рассылку (только если чекбокс присутствует)
       if (form.mailingConsentCheckbox.length > 0 && !mailingConsent) {
         this.showError(
           responseContainer,
@@ -160,13 +164,24 @@
         return false;
       }
 
-      // Валидация согласия на обработку данных
+      // Валидация согласия на обработку данных (только если чекбокс присутствует)
       if (form.dataProcessingCheckbox.length > 0 && !dataProcessingConsent) {
         this.showError(
           responseContainer,
           errorResponse,
           this.translations.data_processing_consent_required ||
             "Consent to process personal data is required"
+        );
+        return false;
+      }
+
+      // Валидация согласия с политикой конфиденциальности (только если чекбокс присутствует)
+      if (form.privacyPolicyCheckbox.length > 0 && !privacyPolicyConsent) {
+        this.showError(
+          responseContainer,
+          errorResponse,
+          this.translations.privacy_policy_required ||
+            "You must agree to the privacy policy"
         );
         return false;
       }
