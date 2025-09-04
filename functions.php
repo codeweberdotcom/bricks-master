@@ -73,10 +73,14 @@ add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
 /**
  * Модуль подписки
  */
-require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-subscription.php';
-if (is_admin()) {
-	require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-subscription_admin.php';
-}
+// require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-subscription.php';
+// if (is_admin()) {
+// 	require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-subscription_admin.php';
+// }
+
+
+// Подключение модуля newsletter subscription
+require_once get_template_directory() . '/functions/integrations/newsletter-subscription1/newsletter-init.php';
 
 
 
