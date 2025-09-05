@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 
 // Define module constants
 define('NEWSLETTER_SUBSCRIPTION_PATH', __DIR__);
-define('NEWSLETTER_SUBSCRIPTION_URL', get_template_directory_uri() . '/functions/integrations/newsletter-subscription1');
+define('NEWSLETTER_SUBSCRIPTION_URL', get_template_directory_uri() . '/functions/integrations/newsletter-subscription');
 
 // Подключаем основные файлы модуля
 require_once NEWSLETTER_SUBSCRIPTION_PATH . '/newsletter-core.php';

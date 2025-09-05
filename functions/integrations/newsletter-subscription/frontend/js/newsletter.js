@@ -62,7 +62,14 @@
     }
 
     handleSubmit(form) {
-      const formData = form.element.serialize();
+      const formData = form.element.serialize(); // сериализуем форму
+
+      // Добавляем обязательные параметры AJAX с правильными именами
+      const ajaxData =
+        formData +
+        "&action=newsletter_subscription&nonce=" +
+        encodeURIComponent(newsletter_ajax.nonce);
+
       const responseContainer = form.element.find(".newsletter-responses");
       const errorResponse = form.element.find(".newsletter-error-response");
       const successResponse = form.element.find(".newsletter-success-response");
@@ -83,7 +90,7 @@
       $.ajax({
         url: newsletter_ajax.ajax_url,
         type: "POST",
-        data: formData,
+        data: ajaxData, // используем обновленные данные
         dataType: "json",
         success: (response) => {
           if (response.success) {
@@ -111,7 +118,8 @@
             );
           }
         },
-        error: () => {
+        error: (xhr, status, error) => {
+          console.error("AJAX Error:", status, error, xhr.responseText);
           const errorMsg =
             this.translations.error_occurred ||
             "An error occurred. Please try again later.";

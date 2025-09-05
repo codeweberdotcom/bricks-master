@@ -228,7 +228,7 @@ class NewsletterSubscriptionAdmin
 
       wp_enqueue_style(
          'newsletter-subscription-admin',
-         get_template_directory_uri() . '/functions/integrations/newsletter-subscription1/admin/css/admin.css',
+         get_template_directory_uri() . '/functions/integrations/newsletter-subscription/admin/css/admin.css',
          array(),
          '1.0.0'
       );
