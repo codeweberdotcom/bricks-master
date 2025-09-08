@@ -63,11 +63,6 @@ require_once get_template_directory() . '/functions/integrations/newsletter-subs
 
 
 
-
-
-
-
-
 /**
  * Инициализация Redux Framework
  */
@@ -85,11 +80,3 @@ function codeweber_initialize_redux()
 	require_once get_template_directory() . '/functions/sidebars-redux.php';
 }
 add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
-
-
-
-
-
-
-
-

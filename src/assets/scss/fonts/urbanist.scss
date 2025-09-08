@@ -5,9 +5,8 @@
 @import "../../../../node_modules/bootstrap/scss/mixins";
 
 // Font Variables
-$font-family-base: "Urbanist", sans-serif;
+$font-family-base: "urbanist", sans-serif;
 $font-size-base: 0.85rem;
-$headings-font-weight: 600;
 
 // Font Specific Settings
 * {
@@ -17,33 +16,9 @@ body {
   font-family: $font-family-base;
   font-size: $font-size-base;
 }
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6,
-.display-1,
-.display-2,
-.display-3,
-.display-4,
-.display-5,
-.display-6,
 .nav-link,
 .dropdown-item,
-.btn,
-.btn.btn-circle .number,
-.badge,
-.accordion-wrapper .card-header button,
-.collapse-link,
-.more,
-.meta,
-.post-category,
-.filter:not(.basic-filter),
-.filter:not(.basic-filter) ul li a {
-  font-weight: $headings-font-weight;
-}
-.more,
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6,
-.btn,
-.avatar,
-.dropdown-item,
-.nav-link {
+.btn {
   letter-spacing: normal;
 }
 .btn,
@@ -139,25 +114,25 @@ blockquote {
 }
 .display-1 {
   @include font-size(2.5rem);
-  line-height: 1.15
+  line-height: 1.15;
 }
 .display-2 {
   @include font-size(2.3rem);
-  line-height: 1.2
+  line-height: 1.2;
 }
 .display-3 {
   @include font-size(2.1rem);
-  line-height: 1.2
+  line-height: 1.2;
 }
 .display-4 {
   @include font-size(1.9rem);
-  line-height: 1.25
+  line-height: 1.25;
 }
 .display-5 {
   @include font-size(1.7rem);
-  line-height: 1.25
+  line-height: 1.25;
 }
 .display-6 {
   @include font-size(1.5rem);
-  line-height: 1.3
+  line-height: 1.3;
 }

@@ -16,10 +16,10 @@ if (file_exists($directory)) {
 	}
 }
 
-$sample_html = '<div class="wrap">
-    <button id="run-gulp-build" class="button button-primary">Собрать CSS и JS</button>
-    <pre id="gulp-build-log" style="margin-top:10px; padding:10px; background:#f1f1f1; display:none;"></pre>
-</div>';
+$font_fields = require __DIR__ . '/redux-fonts.php';
+$theme_gulp = require __DIR__ . '/theme_gulp.php';
+
+
 
 Redux::set_section(
 	$opt_name,
@@ -123,40 +123,28 @@ Redux::set_section(
 				),
 				'default'  => 'display-1',
 			),
-
-
-
-			array(
-				'id'       => 'themegulp',
-				'type'     => 'accordion',
-				'title'    => esc_html__('Gulp', 'codeweber'),
-				'position' => 'start',
-			),
-			array(
-				'id'       => 'opt-gulp-sass-variation',
-				'type'     => 'textarea',
-				'title'    => esc_html__('Gulp Sass Variables', 'codeweber'),
-				'default'  => '',
-			),
-			array(
-				'id'       => 'opt-gulp-js-variation',
-				'type'     => 'textarea',
-				'title'    => esc_html__('Gulp JS Variables', 'codeweber'),
-				'default'  => '',
-			),
-			array(
-				'id'       => 'opt-raw_info_4333',
-				'type'     => 'raw',
-				'title'    => esc_html__('Gulp Run', 'codeweber'),
-				'desc'     => esc_html__('Before starting the build Gulp, save the Redux settings.', 'codeweber'),
-				'content'  => $sample_html,
-			),
-			array(
-				'id'       => 'themefonts',
-				'type'     => 'accordion',
-				'title'    => esc_html__('Fonts', 'codeweber'),
-				'position' => 'start',
-			),
 		),
 	)
+);
+
+
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'    => esc_html__('Fonts', 'codeweber'),
+		'id'       => 'themefonts',
+		'subsection' => true,   // <-- вот это делает её субсекцией
+		'fields'   => $font_fields,
+	)
+);
+
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'    => esc_html__('Gulp', 'codeweber'),
+		'id'       => 'themegulp',
+		'subsection' => true,   // <-- вот это делает её субсекцией
+		'fields'   => $theme_gulp,
+	),
+
 );

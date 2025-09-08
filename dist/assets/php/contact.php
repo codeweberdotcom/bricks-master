@@ -13,9 +13,9 @@ require 'PHPMailer/src/SMTP.php';
 */
 
 // Recipients
-$fromEmail = 'gigamarket24@yandex.ru'; // Email address that will be in the from field of the message.
+$fromEmail = 'from@example.com'; // Email address that will be in the from field of the message.
 $fromName = 'From Name'; // Name that will be in the from field of the message.
-$sendToEmail = 'gigamarket24@yandex.ru'; // Email address that will receive the message with the output of the form
+$sendToEmail = 'to@example.com'; // Email address that will receive the message with the output of the form
 $sendToName = 'To Name'; // Name that will receive the message with the output of the form
 
 // Subject

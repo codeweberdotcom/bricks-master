@@ -1,4 +1,4 @@
-////----------------------------------------------------------//
+//----------------------------------------------------------//
 //	BREACKPOINTS
 //----------------------------------------------------------//
 $grid-breakpoints: (
@@ -15,7 +15,7 @@ $container-max-widths: (
   md: 720px,
   lg: 960px,
   xl: 1320px,
-  xxl: 1440px
+  xxl: 1400px
 ) !default;
 
 
@@ -41,18 +41,6 @@ $border-radius: 0.2rem !default;
 //Body
 $font-size-base: 0.75rem !default;
 $font-weight-base: 400 !default;
-
-
-//----------------------------------------------------------//
-//	FONTS
-//----------------------------------------------------------//
-// To use a custom font, first add the font files inside folder src/assets/fonts/
-// $path-to-fonts: '../fonts/myfont/myfont.css';
-// $font-family-sans-serif: "My Font Name", sans-serif;
-
-// To use a Google font use the example below.
-$path-to-fonts: 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap';
-$font-family-sans-serif: 'Montserrat', sans-serif;
 
 
 //----------------------------------------------------------//
@@ -291,9 +279,14 @@ $nav-link-font-weight: 700 !default;
 $nav-link-letter-spacing: 0.08em !default;
 $nav-link-padding-y-lg: 2rem !default;
 $nav-link-padding-x-lg: 2rem !default;
+$nav-link-text-transform: uppercase !default;
 
 //----------------------------------------------------------//
 // DROPDOWN
 //----------------------------------------------------------//
 
 $dropdown-font-weight: 400 !default;
+
+//START IMPORT FONTS
+@import "fonts/SourceSansPro";
+//END IMPORT FONTS

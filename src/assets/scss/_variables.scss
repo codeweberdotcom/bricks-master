@@ -747,6 +747,8 @@ $dropdown-padding-y: 1rem !default;
 $dropdown-padding-y-sm: 0.65rem !default;
 $dropdown-spacer: 0.75rem !default;
 $dropdown-font-size: $font-size-base * 0.9375 !default;
+$dropdown-font-weight: $font-weight-bold !default;
+
 $dropdown-color: $main-dark !default;
 $dropdown-bg: var(--#{$prefix}white) !default;
 $dropdown-border-radius: $border-radius !default;

@@ -519,7 +519,7 @@ $btn-font-weight-elg:      $font-weight-bold !default;
 //----------------------------------------------------------//
 
 // Верхний уровень навигации
-$nav-link-uppercase: uppercase !default;
+$nav-link-text-transform: none !default;
 $nav-link-letter-spacing: $letter-spacing !default;
 
 $nav-link-padding-y-lg: 1.25rem !default;
@@ -542,7 +542,7 @@ $navbar-expand-lg-margin-top: 2.25rem !default;
 
 
 .navbar-nav > .nav-item > .nav-link {
-  text-transform: $nav-link-uppercase;
+  text-transform: $nav-link-text-transform;
   letter-spacing: $nav-link-letter-spacing;
 }
 

@@ -72,58 +72,12 @@
   word-spacing: normal !important
 }
 body {
-  font-family: Urbanist, sans-serif;
+  font-family: urbanist, sans-serif;
   font-size: .85rem
 }
-.accordion-wrapper .card-header button,
-.badge,
-.btn,
-.btn.btn-circle .number,
-.collapse-link,
-.display-1,
-.display-2,
-.display-3,
-.display-4,
-.display-5,
-.display-6,
-.dropdown-item,
-.filter:not(.basic-filter),
-.filter:not(.basic-filter) ul li a,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6,
-.meta,
-.more,
-.nav-link,
-.post-category,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 600
-}
-.avatar,
 .btn,
 .dropdown-item,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6,
-.more,
-.nav-link,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.nav-link {
   letter-spacing: normal
 }
 .btn,
