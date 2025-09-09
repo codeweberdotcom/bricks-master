@@ -52,9 +52,13 @@ function redux_save_font_file_on_save($options, $changed_values)
 }
 
 $sample_html = '<div class="wrap">
-    <button id="run-gulp-build" class="button button-primary">Собрать CSS и JS</button>
+    <button id="run-gulp-build" class="button button-primary">' . esc_html__('Start building CSS/JS', 'codeweber') . '</button>
     <pre id="gulp-build-log" style="margin-top:10px; padding:10px; background:#f1f1f1; display:none;"></pre>
-</div>';
+</div><style>button#run-gulp-build {
+    display: flex
+;
+    align-items: center;
+}</style>';
 
 return array(
 	array(

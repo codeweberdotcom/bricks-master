@@ -5,7 +5,12 @@ jQuery(document).ready(function ($) {
     var $btn = $(this);
     var $log = $("#gulp-build-log");
 
-    $btn.prop("disabled", true).text("Собираем…");
+    // Добавляем спиннер
+    $btn
+      .prop("disabled", true)
+      .html(
+        '<span class="spinner" style="visibility: visible; float: none; margin: 0 8px 0 0;"></span> Assembly in progress...'
+      );
 
     $.ajax({
       url: gulpBuildAjax.ajax_url,
@@ -15,17 +20,18 @@ jQuery(document).ready(function ($) {
         _ajax_nonce: gulpBuildAjax.nonce,
       },
       success: function (response) {
-        $btn.prop("disabled", false).text("Собрать CSS и JS");
+        // Возвращаем оригинальный текст
+        $btn.prop("disabled", false).text("Start building CSS/JS");
 
         if (response.success) {
           $log.show().text(response.data.output.join("\n"));
         } else {
-          $log.show().text("Ошибка:\n" + response.data.output.join("\n"));
+          $log.show().text("Error::\n" + response.data.output.join("\n"));
         }
       },
       error: function (xhr, status, error) {
-        $btn.prop("disabled", false).text("Собрать CSS и JS");
-        $log.show().text("Ошибка запроса: " + error);
+        $btn.prop("disabled", false).text("Start building CSS/JS");
+        $log.show().text("Request error: " + error);
       },
     });
   });
