@@ -97,13 +97,30 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'PlayfairDisplay';
+  src: url('../fonts/PlayfairDisplay/PlayfairDisplay-Italic.woff2') format('woff2'),
+    url('../fonts/PlayfairDisplay/PlayfairDisplay-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PlayfairDisplay';
+  src: url('../fonts/PlayfairDisplay/PlayfairDisplay.woff2') format('woff2'),
+    url('../fonts/PlayfairDisplay/PlayfairDisplay.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 // Bootstrap Configuration
 @import "../../../../node_modules/bootstrap/scss/mixins";
 
 // Font Variables
 $font-family-base: "SourceSnasPro", sans-serif;
-$font-family-secondary: "SourceSnasPro", sans-serif;
+$font-family-secondary: "PlayfairDisplay", sans-serif;
 $font-size-base: 0.85rem;
 
 // Font Specific Settings

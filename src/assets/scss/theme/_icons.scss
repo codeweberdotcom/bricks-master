@@ -276,6 +276,21 @@ $value in $icon-solid-fill {
   font-family: "Custom" !important;
 }
 
+.icn-caret-right:before {
+  content: "\e900";
+}
+.icn-comment-line:before {
+  content: "\e904";
+}
+.icn-external:before {
+  content: "\e906";
+}
+.icn-flower:before {
+  content: "\e907";
+}
+.icn-terminal:before {
+  content: "\e905";
+}
 
 .uil-mir:before {
   content: "\edb8";

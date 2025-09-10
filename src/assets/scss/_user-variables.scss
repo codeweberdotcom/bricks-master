@@ -1,0 +1,292 @@
+//----------------------------------------------------------//
+//	BREACKPOINTS
+//----------------------------------------------------------//
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1400px,
+  xxl: 1500px
+) !default;
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1320px,
+  xxl: 1400px
+) !default;
+
+
+
+//----------------------------------------------------------//
+//	GLOBAL
+//----------------------------------------------------------//
+$primary: blue;
+$primary-soft: tint-color($primary, 90.5%);
+$gray-100: #fefefe !default;
+$gray-200: #f6f7f9 !default;
+$gray-300: #cacaca !default;
+$gray-400: #aab0bc !default;
+$gray-500: #959ca9 !default;
+$gray-600: #60697b !default;
+$gray-700: #2f353a !default;
+$gray-800: #21262c !default;
+$gray-900: #1e2228 !default;
+
+$dark: #262b32 !default;
+$border-radius: 0.2rem !default;
+
+//Body
+$font-size-base: 0.75rem !default;
+$font-weight-base: 400 !default;
+
+
+//----------------------------------------------------------//
+//	DROPDOWN
+//----------------------------------------------------------//
+$dropdown-font-size: 0.75rem !default;
+
+
+//----------------------------------------------------------//
+//	BREADCRUMB
+//----------------------------------------------------------//
+li.breadcrumb-item, .breadcrumb-item+.breadcrumb-item::before {
+    font-size: .86667em !important;
+    line-height: .86667em !important;
+}
+
+//----------------------------------------------------------//
+//	CARDS
+//----------------------------------------------------------//
+
+$card-cap-padding-y: 2rem !default;
+$card-cap-padding-x: 3rem !default;
+$card-border-radius: $border-radius !default;
+
+//----------------------------------------------------------//
+//  ACCORDEON
+//----------------------------------------------------------//
+$accordion-margin-bottom: 0rem !default;
+$accordion-card-body-padding: 0 0 0 1.1rem !default;
+
+$accordion-card-header-padding-default: 0 0 0 0 !default;
+
+$accordion-button-font-size: 0.89rem !default;
+$accordion-button-font-weight: 700 !default;
+$accordion-icon-font-size: 1.15rem !default;
+$accordion-icon-color: $dark !default;
+$accordion-button-hover-color: $dark !default;
+$accordion-icon-hover-color: $primary !default;
+$accordion-button-active-color: $dark !default;
+
+$accordion-icon-margin-top: -0.25rem !default;
+$accordion-icon-margin-left: -0.3rem !default;
+
+// две переменные для разных положений кнопки
+$accordion-button-padding-left: 1.37rem 1.5rem 1.37rem 2.7rem !default;
+$accordion-button-padding-right: 1.37rem 2.7rem 1.37rem 1.5rem !default;
+
+// две переменные для body padding
+$accordion-body-padding-left: 0 1.37rem 0.25rem 1.5rem !default;
+$accordion-body-padding-right: 0 1.5rem 0.25rem 1.37rem !default;
+
+$accordion-icon-open: '\ec5d'; // условный код иконки вверх
+$accordion-icon-close: '\ec5d'; // код иконки вниз
+
+$accordion-body-padding-icon: 0 1.25rem 0.25rem 2.8rem !default;
+$accordion-button-icon-font-size: 1rem !default;
+
+//Расположение иконки
+$accordion-button-icon-span: 1.3rem !default;
+$accordion-icon-position: right !default; 
+
+// Переменные для углов поворота
+$accordion-icon-closed-rotate: 0deg !default; // Угол для закрытого состояния
+$accordion-icon-opened-rotate: 135deg !default; // Угол для открытого состояния
+
+//--одна иконка с поворотом
+$accordion-icon-type: "one";
+$accordion-icon-one: "\ec5d";
+$accordion-icon-opened-rotate: 135deg;
+
+//--две иконки без поворота
+//$accordion-icon-type: "two";
+//$accordion-icon-open: "\ec07";
+//$accordion-icon-close: "\ec5d";
+
+//----------------------------------------------------------//
+//  LISTS
+//----------------------------------------------------------//
+
+$unordered-list-dot-font-size:          0.7rem !default;
+$unordered-list-dot-top:         -0.25rem !default;
+
+
+//----------------------------------------------------------//
+//  NAV TABS VARIABLES
+//----------------------------------------------------------//
+
+$nav-tabs-basic-font-size:                  0.7rem !default;
+$nav-tabs-basic-font-weight:             600 !default;
+$nav-tabs-basic-border-width:           1px !default;
+$nav-tabs-basic-border-style:            solid !default;
+$nav-tabs-basic-border-color:           rgba(164,174,198,.25) !default;
+
+$nav-tabs-basic-border-top:             #{$nav-tabs-basic-border-width} #{$nav-tabs-basic-border-style} #{$nav-tabs-basic-border-color} !default;
+$nav-tabs-basic-border-right:           #{$nav-tabs-basic-border-width} #{$nav-tabs-basic-border-style} #{$nav-tabs-basic-border-color} !default;
+$nav-tabs-basic-border-bottom:       #{$nav-tabs-basic-border-width} #{$nav-tabs-basic-border-style} #{$nav-tabs-basic-border-color} !default;
+$nav-tabs-basic-border-left:              #{$nav-tabs-basic-border-width} #{$nav-tabs-basic-border-style} #{$nav-tabs-basic-border-color} !default;
+
+$nav-tabs-basic-bg:                              #fafafa !default;
+$nav-tabs-basic-active-bg:                   #ffffff !default;
+$nav-tabs-basic-margin-right:              0.5rem !default;
+$nav-tabs-basic-padding:                     0.555rem 1.1rem !default;
+$nav-tabs-basic-border-radius:              0.2rem !default;
+$nav-tabs-basic-hover-border-color:     rgba(164,174,198,.25) !default;
+$nav-tabs-basic-active-border-color:    rgba(164,174,198,.25) !default;
+
+$nav-tabs-basic-active-color:                 $primary !default;
+$nav-tabs-basic-color:                      #60697b !default;
+$nav-tabs-basic-hover-color:            #262b32 !default;
+$nav-tabs-basic-hover-bg:               #ffffff !default;
+
+$nav-tabs-basic-icon-size:              0.7rem !default; 
+
+.nav-tabs-basic .nav-item .nav-link.active:after {
+    content: "";
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    top: -1px;
+    z-index: 1;
+    height: 2px;
+    -moz-border-radius-topleft: 3px;
+    -webkit-border-top-left-radius: 3px;
+    border-top-left-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -webkit-border-top-right-radius: 3px;
+    border-top-right-radius: 3px;
+    background: $primary;
+}
+
+.nav-tabs-basic .nav-item a.nav-link {
+    position: relative;
+}
+
+.list-unstyled li.is-active a {
+  color: $primary !important;
+}
+
+// PILLS TABS
+$nav-pills-font-size:                   0.7rem !default;
+$nav-pills-font-weight:                 400 !default;
+$nav-pills-border-width:                0px !default;
+$nav-pills-border-style:                none !default;
+$nav-pills-border-color:                transparent !default;
+
+$nav-pills-border-top:                  #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color} !default;
+$nav-pills-border-right:                #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color} !default;
+$nav-pills-border-bottom:               #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color} !default;
+$nav-pills-border-left:                 #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color} !default;
+
+$nav-pills-bg:                                transparent !default;
+$nav-pills-active-bg:                      $primary !default;
+$nav-pills-margin-right:                 0.5rem !default;
+$nav-pills-padding:                        0.25rem 0.8rem !default;
+$nav-pills-border-radius:                0.2rem !default;
+
+$nav-pills-color:                                $dark !default;
+$nav-pills-hover-color:                     $primary !default;
+$nav-pills-active-color:                     #ffffff !default;
+
+$nav-pills-hover-border-color:          transparent !default;
+$nav-pills-hover-bg:                          $primary-soft !default;
+$nav-pills-active-border-color:         transparent !default;
+$nav-pills-active-box-shadow:          none !default;
+$nav-pills-box-shadow:                     none !default;
+$nav-pills-icon-size:                           0.7rem !default; 
+
+
+//----------------------------------------------------------//
+//  BUTTONS
+//----------------------------------------------------------//
+
+$btn-border-width: 1px !default;
+$input-btn-line-height: 1 !default;
+
+// Small (SM)
+$btn-padding-y-sm:        0.58rem !default;
+$btn-padding-x-sm:        0.8rem !default;
+$btn-font-size-sm:        0.58rem !default;
+
+// Extra Large (ELG)
+$btn-padding-y-elg:        0.92rem !default;
+$btn-padding-x-elg:        1.75rem !default;
+$btn-font-size-elg:        0.8rem !default;
+
+// Medium (MD)
+$btn-padding-y-md:        0.58rem !default;
+$btn-padding-x-md:        1.1rem !default;
+$btn-font-size-md:        0.65rem !default;
+
+// Large (LG)
+$btn-padding-y-lg:        0.78rem !default;
+$btn-padding-x-lg:        1.4rem !default;
+$btn-font-size-lg:        0.75rem !default;
+
+
+// Default (без модификатора)
+$btn-padding-y:        0.63rem !default;
+$btn-padding-x:        1.2rem !default;
+$btn-font-size:        0.7rem !default;
+
+
+// Extra Small (XS)
+$btn-padding-y-xs:        0.45rem !default;
+$btn-padding-x-xs:        0.75rem !default;
+$btn-font-size-xs:        0.55rem !default;
+
+
+//----------------------------------------------------------//
+//  FORMS
+//----------------------------------------------------------//
+
+$input-font-size: 0.70rem !default;
+$form-floating-height: 48px !default;
+$form-floating-line-height: 1.25 !default;
+$form-floating-padding-x: 1rem !default;
+$form-floating-padding-y: 0.6rem !default;
+$form-floating-input-padding-t: 1rem !default;
+$form-floating-input-padding-b: 0.2rem !default;
+
+$input-bg: #f8f8f8;
+$input-focus-border-color: #999;
+$input-focus-bg: #ffffff;
+$input-color: #555;
+//$input-border-color: #ccc;
+//$input-focus-color: #000;
+//$input-focus-box-shadow: 0 0 0 0.2rem rgba(255, 102, 0, 0.25);
+
+//----------------------------------------------------------//
+//  NAV
+//----------------------------------------------------------//
+
+$navbar-expand-lg-margin-top: 1.25rem !default;
+$nav-link-font-size:  0.6rem !default;
+$nav-link-font-weight: 700 !default;
+$nav-link-letter-spacing: 0.08em !default;
+$nav-link-padding-y-lg: 2rem !default;
+$nav-link-padding-x-lg: 2rem !default;
+$nav-link-text-transform: uppercase !default;
+
+//----------------------------------------------------------//
+// DROPDOWN
+//----------------------------------------------------------//
+
+$dropdown-font-weight: 400 !default;
+
+//START IMPORT FONTS
+@import "fonts/SourceSnasPro";
+//END IMPORT FONTS

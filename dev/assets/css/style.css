@@ -45841,13 +45841,3 @@ footer.bg-dark.angled.upper-start:before {
 textarea[rows="10"] {
   min-height: 200px !important;
 }
-
-.icn-caret-right:before {
-  content: "\e900";
-}
-.icn-comment-line:before {
-  content: "\e904";
-}
-.icn-external:before {
-  content: "\e906";
-}
