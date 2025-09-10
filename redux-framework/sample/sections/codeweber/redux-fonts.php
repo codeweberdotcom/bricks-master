@@ -1082,6 +1082,14 @@ $font_content = ob_get_clean();
 
 // Возвращаем массив с настройками поля
 return array(
+	array(
+		'id'       => 'font_css_file',
+		'type'     => 'select',
+		'title'    => esc_html__('Font CSS File', 'codeweber'),
+		'subtitle' => esc_html__('Select a CSS file from /dist/assets/fonts/', 'codeweber'),
+		'options'  => codeweber_get_font_css_files(),
+		'default'  => '',
+	),
 
 	array(
 		'id'       => 'custom_fonts_upload',
@@ -1097,7 +1105,50 @@ return array(
 		'options'  => redux_get_fonts_scss(),
 		'default'  => '',
 	),
+
 );
+
+
+/**
+ * Get all CSS files from child + parent theme fonts folder
+ *
+ * @param string $subdir Relative path inside theme (default: dist/assets/fonts)
+ * @return array Array of [ relative_path => label ]
+ */
+function codeweber_get_font_css_files( $subdir = 'dist/assets/fonts' ) {
+    $font_options = [];
+
+    // Проверяем сначала child theme, потом parent theme
+    $dirs = [ get_stylesheet_directory(), get_template_directory() ];
+
+    foreach ( $dirs as $base_dir ) {
+        $dir = $base_dir . '/' . ltrim( $subdir, '/' );
+
+        if ( is_dir( $dir ) ) {
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator( $dir, RecursiveDirectoryIterator::SKIP_DOTS )
+            );
+
+            foreach ( $iterator as $file ) {
+                if ( $file->isFile() && strtolower( $file->getExtension() ) === 'css' ) {
+                    // Относительный путь с префиксом темы, чтобы не было конфликтов
+                    $theme_prefix  = basename( $base_dir );
+                    $relative_path = $theme_prefix . '/' . str_replace( $base_dir . '/', '', $file->getPathname() );
+
+                    // Метка: ThemeName → FolderName
+                    $parent_dir = basename( dirname( $file->getPathname() ) );
+                    $label      = ucfirst( $theme_prefix ) . ' → ' . ( $parent_dir ?: basename( $file ) );
+
+                    $font_options[ $relative_path ] = $label;
+                }
+            }
+        }
+    }
+
+    return $font_options;
+}
+
+
 
 function redux_get_fonts_scss()
 {

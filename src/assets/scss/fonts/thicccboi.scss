@@ -1,5 +1,28 @@
 // Font Import
-@import "../../fonts/thicccboi/thicccboi.css";
+@font-face {
+  font-family: 'THICCCBOI';
+  src: url('../fonts/thicccboi/THICCCBOI-Regular.woff2') format('woff2'),
+    url('../fonts/thicccboi/THICCCBOI-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;  
+  font-display: block;
+}
+@font-face {
+  font-family: 'THICCCBOI';
+  src: url('../fonts/thicccboi/THICCCBOI-Medium.woff2') format('woff2'),
+    url('../fonts/thicccboi/THICCCBOI-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;  
+  font-display: block;
+}
+@font-face {
+  font-family: 'THICCCBOI';
+  src: url('../fonts/thicccboi/THICCCBOI-Bold.woff2') format('woff2'),
+    url('../fonts/thicccboi/THICCCBOI-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;  
+  font-display: block;
+}
 
 // Bootstrap Configuration
 @import "../../../../node_modules/bootstrap/scss/mixins";

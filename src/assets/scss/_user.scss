@@ -387,7 +387,7 @@ $nav-pills-icon-size:                   1rem !default;
 //----------------------------------------------------------//
 
 $unordered-list-padding-left:           1rem !default;
-$unordered-list-dot-font-family:        sans-serif !default;
+$unordered-list-dot-font-family:        $font-family-sans-serif !default;
 $unordered-list-dot-font-size:          1rem !default;
 $unordered-list-dot-font-weight:        normal !default; // ← новая переменная для font-weight
 $unordered-list-dot-top:               -0.15rem !default;

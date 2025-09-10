@@ -1,69 +1,69 @@
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-BoldItalic.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-BoldItalic.woff) format('woff');
+  src: url(Urbanist-BoldItalic.woff2) format("woff2"), url(Urbanist-BoldItalic.woff) format("woff");
   font-weight: 700;
   font-style: italic;
   font-display: block
 }
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-SemiBoldItalic.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-SemiBoldItalic.woff) format('woff');
+  src: url(Urbanist-SemiBoldItalic.woff2) format("woff2"), url(Urbanist-SemiBoldItalic.woff) format("woff");
   font-weight: 600;
   font-style: italic;
   font-display: block
 }
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-Medium.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-Medium.woff) format('woff');
+  src: url(Urbanist-Medium.woff2) format("woff2"), url(Urbanist-Medium.woff) format("woff");
   font-weight: 500;
   font-style: normal;
   font-display: block
 }
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-MediumItalic.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-MediumItalic.woff) format('woff');
+  src: url(Urbanist-MediumItalic.woff2) format("woff2"), url(Urbanist-MediumItalic.woff) format("woff");
   font-weight: 500;
   font-style: italic;
   font-display: block
 }
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-SemiBold.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-SemiBold.woff) format('woff');
+  src: url(Urbanist-SemiBold.woff2) format("woff2"), url(Urbanist-SemiBold.woff) format("woff");
   font-weight: 600;
   font-style: normal;
   font-display: block
 }
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-Italic.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-Italic.woff) format('woff');
+  src: url(Urbanist-Italic.woff2) format("woff2"), url(Urbanist-Italic.woff) format("woff");
   font-weight: 400;
   font-style: italic;
   font-display: block
 }
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-Regular.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-Regular.woff) format('woff');
+  src: url(Urbanist-Regular.woff2) format("woff2"), url(Urbanist-Regular.woff) format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: block
 }
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-LightItalic.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-LightItalic.woff) format('woff');
+  src: url(Urbanist-LightItalic.woff2) format("woff2"), url(Urbanist-LightItalic.woff) format("woff");
   font-weight: 300;
   font-style: italic;
   font-display: block
 }
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-Light.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-Light.woff) format('woff');
+  src: url(Urbanist-Light.woff2) format("woff2"), url(Urbanist-Light.woff) format("woff");
   font-weight: 300;
   font-style: normal;
   font-display: block
 }
 @font-face {
   font-family: Urbanist;
-  src: url(../../fonts/urbanist/Urbanist-Bold.woff2) format('woff2'), url(../../fonts/urbanist/Urbanist-Bold.woff) format('woff');
+  src: url(Urbanist-Bold.woff2) format("woff2"), url(Urbanist-Bold.woff) format("woff");
   font-weight: 700;
   font-style: normal;
   font-display: block
@@ -72,7 +72,7 @@
   word-spacing: normal !important
 }
 body {
-  font-family: urbanist, sans-serif;
+  font-family: Urbanist, sans-serif;
   font-size: .85rem
 }
 .btn,

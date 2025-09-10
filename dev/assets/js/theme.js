@@ -1034,9 +1034,13 @@ theme.init();
 
 // Custom.js
 
-// Custom.js
-
 var custom = {
+  /**
+   * Theme's custom components/functions list
+   * Comment out or delete the unnecessary component.
+   * Some components have dependencies (plugins).
+   * Do not forget to remove dependency from src/js/vendor/ and recompile.
+   */
   init: function () {
     custom.rippleEffect();
     custom.addTelMask();
@@ -1049,15 +1053,17 @@ var custom = {
     const forms = document.querySelectorAll(".wpcf7-form");
     forms.forEach(function (form) {
       form.addEventListener("submit", function (event) {
+        // Проверка на валидность формы перед отправкой
         if (!form.checkValidity()) {
           event.preventDefault();
           const submitButton = form.querySelector('button[type="submit"]');
           if (submitButton) {
-            submitButton.disabled = false;
+            submitButton.disabled = false; // можно оставить, чтобы кнопка не залипала
           }
           return;
         }
 
+        // Если форма валидна, показываем модальное окно
         const modalContent = document.getElementById("modal-content");
         if (modalContent) {
           modalContent.innerHTML = `
@@ -1073,7 +1079,7 @@ var custom = {
             </div>
             <div class="row">
               <div class="col-12 text-center">
-                <div class="card-title h4">${theme_i18n.message_sent}</div>
+                <div class="card-title h4">Сообщение успешно отправлено.</div>
               </div>
             </div>
           </div>
@@ -1100,19 +1106,20 @@ var custom = {
         const rest = placeholder.slice(prefix.length).replace(/[0-9]/g, "_");
         mask = prefix + rest;
       } else {
-        mask = theme_i18n.phone_placeholder; // Используем перевод
+        mask = "+7 ___ ___-__-__";
       }
 
       const phoneMask = new PhoneMask(input, {
         mask: mask,
       });
 
+      // Функция проверки валидности
       const validatePhone = () => {
         const unmaskedValue = phoneMask.unmask;
         const requiredLength = phoneMask.options.unmaskMaxLength;
 
         if (unmaskedValue.length < requiredLength) {
-          input.setCustomValidity(theme_i18n.enter_full_phone); // Перевод
+          input.setCustomValidity("Введите полный номер телефона");
           input.classList.add("is-invalid");
           input.classList.remove("is-valid");
         } else {
@@ -1122,9 +1129,13 @@ var custom = {
         }
       };
 
+      // Проверка при вводе и стирании
       input.addEventListener("input", validatePhone);
+
+      // Проверка при потере фокуса
       input.addEventListener("blur", validatePhone);
 
+      // Проверка при попытке отправки формы
       const form = input.closest("form");
       if (form) {
         form.addEventListener("submit", (e) => {
@@ -1139,8 +1150,13 @@ var custom = {
     });
   },
 
+  /**
+   * Form Validation
+   * Adds Bootstrap 4/5 form validation behavior
+   */
   formValidation: function () {
     var forms = document.getElementsByClassName("needs-validation");
+
     Array.prototype.forEach.call(forms, function (form) {
       form.addEventListener(
         "submit",
@@ -1156,14 +1172,21 @@ var custom = {
     });
   },
 
+  /**
+   * Form Submit Status Watcher
+   * Listens for 'submitting', 'invalid', 'unaccepted' and 'sent' classes on forms and updates the submit button text
+   */
   formSubmittingWatcher: function () {
     var forms = document.getElementsByClassName("wpcf7-form");
+
     Array.prototype.forEach.call(forms, function (form) {
+      // Найти кнопку отправки внутри формы
       var submitButton = form.querySelector(
         'button[type="submit"], input[type="submit"], div[type="submit"], span[type="submit"]'
       );
 
       if (submitButton) {
+        // Сохраняем оригинальный текст в data-атрибут
         if (submitButton.tagName.toLowerCase() === "input") {
           submitButton.setAttribute("data-original-text", submitButton.value);
         } else {
@@ -1178,10 +1201,12 @@ var custom = {
         mutationsList.forEach(function (mutation) {
           if (mutation.attributeName === "class") {
             if (form.classList.contains("submitting")) {
+              // Если форма отправляется — меняем текст
               if (submitButton) {
-                var loadingText = `${theme_i18n.sending} <i class="uil uil-envelope-upload ms-2"></i>`;
+                var loadingText =
+                  'Отправка... <i class="uil uil-envelope-upload ms-2"></i>';
                 if (submitButton.tagName.toLowerCase() === "input") {
-                  submitButton.value = theme_i18n.sending;
+                  submitButton.value = "Отправка...";
                 } else {
                   submitButton.innerHTML = loadingText;
                 }
@@ -1190,6 +1215,7 @@ var custom = {
               form.classList.contains("invalid") ||
               form.classList.contains("unaccepted")
             ) {
+              // Если форма вернула invalid или unaccepted — возвращаем оригинальный текст
               if (submitButton) {
                 var originalText =
                   submitButton.getAttribute("data-original-text");
@@ -1200,10 +1226,12 @@ var custom = {
                 }
               }
             } else if (form.classList.contains("sent")) {
+              // Если форма успешно отправлена — меняем текст на "Отправлено"
               if (submitButton) {
-                var successText = `${theme_i18n.sent} <i class="uil uil-check-circle ms-2"></i>`;
+                var successText =
+                  'Отправлено <i class="uil uil-check-circle ms-2"></i>';
                 if (submitButton.tagName.toLowerCase() === "input") {
-                  submitButton.value = theme_i18n.sent;
+                  submitButton.value = "Отправлено";
                 } else {
                   submitButton.innerHTML = successText;
                 }
@@ -1212,15 +1240,18 @@ var custom = {
           }
         });
       });
+
       observer.observe(form, { attributes: true });
     });
   },
 
   rippleEffect: () => {
     document.querySelectorAll(".has-ripple").forEach((button) => {
+      // Проверяем, была ли кнопка уже инициализирована
       if (button.dataset.rippleInitialized) {
         return;
       }
+
       const createRipple = (e) => {
         const rect = button.getBoundingClientRect();
         const ripple = document.createElement("span");
@@ -1236,6 +1267,7 @@ var custom = {
           ripple.remove();
         });
       };
+
       button.addEventListener("click", createRipple);
       button.addEventListener("mouseenter", createRipple);
       button.dataset.rippleInitialized = "true";

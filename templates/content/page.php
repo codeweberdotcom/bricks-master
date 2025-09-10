@@ -1,16 +1,15 @@
 <?php get_header(); ?>
 <?php while (have_posts()) {
 	the_post();
-	get_pageheader(); ?>
+	get_pageheader();
+	global $opt_name;
+	$pageheader_name = Redux::get_option($opt_name, 'global_page_header_model');
+	?>
 
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-		<div class="row py-5 justify-content-center">
-			<div class="col-sm-12">
-				<?php
-				if (! has_post_thumbnail()) {
-					the_title('<h1>', '</h1>');
-				}
-				?>
+				<?php if ($pageheader_name === '1' && !is_front_page()) { ?>
+					<h1 class="display-4 mb-10"><?php echo universal_title(); ?></h1>
+				<?php } ?>
 				<div>
 					<?php
 					the_content();
@@ -25,10 +24,7 @@
 					);
 					?>
 				</div>
-			</div>
-		</div>
 	</article> <!-- #post-<?php the_ID(); ?> -->
-
 
 <?php } ?>
 <?php

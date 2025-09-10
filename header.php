@@ -12,7 +12,7 @@
 
 <body>
 
-    <div class="content-wrapper">
+    <main class="content-wrapper">
         <?php 
         // Получаем тип контента и ID
         $post_type = get_post_type();
