@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-Black.woff2') format('woff2'),
     url('SourceSansPro-Black.woff') format('woff');
   font-weight: 900;
@@ -7,7 +7,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-BlackItalic.woff2') format('woff2'),
     url('SourceSansPro-BlackItalic.woff') format('woff');
   font-weight: 900;
@@ -15,7 +15,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-Bold.woff2') format('woff2'),
     url('SourceSansPro-Bold.woff') format('woff');
   font-weight: 700;
@@ -23,7 +23,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-BoldItalic.woff2') format('woff2'),
     url('SourceSansPro-BoldItalic.woff') format('woff');
   font-weight: 700;
@@ -31,7 +31,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-ExtraLight.woff2') format('woff2'),
     url('SourceSansPro-ExtraLight.woff') format('woff');
   font-weight: 200;
@@ -39,7 +39,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-ExtraLightItalic.woff2') format('woff2'),
     url('SourceSansPro-ExtraLightItalic.woff') format('woff');
   font-weight: 200;
@@ -47,7 +47,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-Italic.woff2') format('woff2'),
     url('SourceSansPro-Italic.woff') format('woff');
   font-weight: 400;
@@ -55,7 +55,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-Light.woff2') format('woff2'),
     url('SourceSansPro-Light.woff') format('woff');
   font-weight: 300;
@@ -63,7 +63,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-LightItalic.woff2') format('woff2'),
     url('SourceSansPro-LightItalic.woff') format('woff');
   font-weight: 300;
@@ -71,7 +71,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-Regular.woff2') format('woff2'),
     url('SourceSansPro-Regular.woff') format('woff');
   font-weight: 400;
@@ -79,7 +79,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-SemiBold.woff2') format('woff2'),
     url('SourceSansPro-SemiBold.woff') format('woff');
   font-weight: 600;
@@ -87,7 +87,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'SourceSnasPro';
+  font-family: 'SourceSansPro';
   src: url('SourceSansPro-SemiBoldItalic.woff2') format('woff2'),
     url('SourceSansPro-SemiBoldItalic.woff') format('woff');
   font-weight: 600;

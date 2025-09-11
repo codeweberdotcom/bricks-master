@@ -273,11 +273,11 @@ if ( ! isset( $args['global_variable'] ) || false !== $args['global_variable'] )
 	// translators:  Panel opt_name.
 	$args['intro_text'] = '<p>' . sprintf( esc_html__( 'Did you know that Redux sets a global variable for you? To access any of your saved options from within your code you can use your global variable: $%1$s', 'codeweber' ), '<strong>' . $v . '</strong>' ) . '<p>';
 } else {
-	$args['intro_text'] = '<p>' . esc_html__( 'This text is displayed above the options panel. It isn\'t required, but more info is always better! The intro_text field accepts all HTML.', 'codeweber' ) . '</p>';
+	$args['intro_text'] = '<p>' . __('If you have any difficulties with this topic, contact me via telegram <a href="@codeweber" target="_blank">Codeweber</a>', 'codeweber' ) . '</p>';
 }
 
 // Add content after the form.
-$args['footer_text'] = '<p>' . esc_html__( 'This text is displayed below the options panel. It isn\'t required, but more info is always better! The footer_text field accepts all HTML.', 'codeweber' ) . '</p>';
+$args['footer_text'] = '<p>' . __('If you have any difficulties with this topic, contact me via telegram <a href="@codeweber" target="_blank">Codeweber</a>', 'codeweber' ) . '</p>';
 
 Redux::set_args( $opt_name, $args );
 

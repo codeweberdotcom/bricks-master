@@ -1,0 +1,182 @@
+//----------------------------------------------------------//
+//  FONT FACE
+//----------------------------------------------------------//
+
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-Black.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-BlackItalic.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-BlackItalic.woff') format('woff');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-Bold.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-BoldItalic.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-BoldItalic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-ExtraLight.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-ExtraLight.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-ExtraLightItalic.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-ExtraLightItalic.woff') format('woff');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-Italic.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-Light.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-LightItalic.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-LightItalic.woff') format('woff');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-Regular.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-SemiBold.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../fonts/SourceSansPro/SourceSansPro-SemiBoldItalic.woff2') format('woff2'),
+    url('../fonts/SourceSansPro/SourceSansPro-SemiBoldItalic.woff') format('woff');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+//----------------------------------------------------------//
+//  Bootstrap Configuration
+//----------------------------------------------------------//
+@import "../../../../node_modules/bootstrap/scss/mixins";
+
+//----------------------------------------------------------//
+//	FONT VARIABLES
+//----------------------------------------------------------//
+$font-family-base: "SourceSansPro", sans-serif;
+$font-family-secondary: "SourceSansPro", sans-serif;
+$font-size-base: 0.9rem;
+
+//----------------------------------------------------------//
+//	COLORS
+//----------------------------------------------------------//
+$main-dark: #343f52 !default;
+$secondary: #aab0bc !default;
+
+//----------------------------------------------------------//
+//	TYPOGRAPHY
+//----------------------------------------------------------//
+$font-size-sm: 0.7rem !default;
+$font-size-lg: 1rem !default;
+$font-weight-lighter: lighter !default;
+$font-weight-light: 200 !default;
+$font-weight-normal: 300 !default;
+$font-weight-medium: 400 !default;
+$font-weight-bold: 600 !default;
+$font-weight-bolder: bolder !default;
+$font-weight-base: 300 !default;
+$letter-spacing-xs: -0.035em !default;
+$letter-spacing-sm: -0.03em !default;
+$letter-spacing: -0.01rem !default;
+$letter-spacing-lg: 0.02rem !default;
+$letter-spacing-xl: 0.05rem !default;
+$line-height-base: 1.7 !default;
+$line-height-xxs: 1.05 !default;
+$line-height-xs: 1.35 !default;
+$line-height-sm: 1.5 !default;
+$line-height-lg: 1.9 !default;
+
+// H1-H6
+$h1-font-size: $font-size-base * 1.25 * 1.45 !default; // H1
+$h2-font-size: $font-size-base * 1.25 * 1.3 !default; // H2
+$h3-font-size: $font-size-base * 1.25 * 1.1 !default; // H3
+$h4-font-size: $font-size-base * 1.25 * 0.95 !default; // H4
+$h5-font-size: $font-size-base * 1.25 * 0.9 !default; // H5
+$h6-font-size: $font-size-base * 1.25 * 0.85 !default; // H6
+$h1-line-height: 1.3 !default; // H1
+$h2-line-height: 1.35 !default; // H2
+$h3-line-height: 1.4 !default; // H3
+$h4-line-height: 1.45 !default; // H4
+$h5-line-height: 1.5 !default; // H5
+$h6-line-height: 1.55 !default; // H6
+
+$headings-font-weight: 700 !default;
+$headings-color: $main-dark !default;
+
+//DISPLAY
+$display-font-sizes: (
+  1: 3.2rem,     // ваша база (100%)
+  2: 2.53rem,    // 3.2 × 0.79 = 2.53rem
+  3: 2.02rem,    // 3.2 × 0.63 = 2.02rem
+  4: 1.57rem,    // 3.2 × 0.49 = 1.57rem
+  5: 1.34rem,    // 3.2 × 0.42 = 1.34rem
+  6: 1.12rem     // 3.2 × 0.35 = 1.12rem
+) !default;
+
+$display-font-weight: 400 !default;
+$lead-font-size: $font-size-base * 1.25 * 0.9 !default;
+$lead-font-weight: 500 !default;
+$small-font-size: 0.6rem !default;
+$text-muted: $secondary !default;
+
+//BLOCKQUOTE
+$blockquote-margin-y: 1rem !default;
+$blockquote-font-size: $font-size-base * 1.25 * 0.85 !default;
+$blockquote-font-weight: $font-weight-base !default;
+$blockquote-footer-color: $secondary !default;
+$blockquote-footer-font-size: $small-font-size !default;
+$blockquote-footer-weight: $font-weight-bold !default;

@@ -399,31 +399,25 @@ $unordered-list-dot-content:            $icon-dot !default;
 //  UNORDERED LIST STYLES
 //----------------------------------------------------------//
 
+
+
 .unordered-list {
   @include list-unstyled();
-
   li {
     position: relative;
-    padding-left: $unordered-list-padding-left;
-    @include font-size($unordered-list-dot-font-size);
-    font-family: $unordered-list-dot-font-family;
-    font-weight: $unordered-list-dot-font-weight;
-
+    padding-left: 1rem;
   }
-
-  
-
   > li:before {
-    
+    font-family: sans-serif;
+    @include font-size($unordered-list-dot-font-size);
     position: absolute;
-    top: $unordered-list-dot-top;
-    left: $unordered-list-dot-left;
-    content: $unordered-list-dot-content;
+    top: -0.15rem;
+    left: 0;
+    @include font-size(1rem);
+    content: $icon-dot;
   }
-  
-
-  // Цветные маркеры через классы bullet-{color}
-  @each $color, $value in $colors {
+  @each $color,
+  $value in $colors {
     &.bullet-#{$color} li:before {
       color: var(--#{$prefix}#{$color});
     }
