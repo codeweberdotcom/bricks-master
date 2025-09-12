@@ -115,18 +115,24 @@ $colors: (
   "primary": $primary
 ) !default;
 
+
+$custom-theme-colors: () !default;
+
 $secondary: $gray-400 !default;
 $success: $green !default;
 $info: $aqua !default;
 $warning: $yellow !default;
 $danger: $pinterest !default;
-$theme-colors: map-merge($colors,
+$theme-colors: map-merge($colors, 
   ("secondary": $secondary,
     "success": $success,
     "info": $info,
     "warning": $warning,
     "danger": $danger,
   ));
+
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+
 $text-colors: map-remove($theme-colors, "dark") !default;
 $link-colors: map-remove($theme-colors, "dark") !default;
 $main-color: $primary !default;

@@ -64,7 +64,7 @@
 @font-face {
   font-family: SourceSansPro;
   src: url(SourceSansPro/SourceSansPro-Regular.woff2) format("woff2"), url(SourceSansPro/SourceSansPro-Regular.woff) format("woff");
-  font-weight: 300;
+  font-weight: 400;
   font-style: normal;
   font-display: swap
 }
@@ -81,4 +81,57 @@
   font-weight: 600;
   font-style: italic;
   font-display: swap
+}
+.body-l-l {
+  font-size: 18px;
+  line-height: 1.44;
+  font-weight: 300
+}
+.body-l-r {
+  font-size: 18px;
+  line-height: 1.44;
+  font-weight: 400
+}
+.body-m-l {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 300
+}
+.body-m-r {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400
+}
+.body-s {
+  font-size: 14px;
+  line-height: 1.428;
+  font-weight: 400
+}
+.label-u {
+  font-size: 14px;
+  line-height: 1.285;
+  font-weight: 400;
+  text-transform: uppercase
+}
+.label-s {
+  font-size: 14px;
+  line-height: 1.285;
+  font-weight: 600;
+  text-transform: uppercase
+}
+.text-line-before {
+  position: relative;
+  padding-left: 60px;
+  text-transform: uppercase
+}
+.text-line-before:before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-60%);
+  left: 0;
+  width: 30px;
+  height: .05rem;
+  background: #febe10 !important
 }

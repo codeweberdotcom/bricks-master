@@ -1,3 +1,51 @@
+
+
+//----------------------------------------------------------//
+//  COLORS
+//----------------------------------------------------------//
+
+// Создаем свою map-переменную на основе ваших gray-переменных
+$custom-grays: (
+  "100": $gray-100,
+  "200": $gray-200,
+  "300": $gray-300,
+  "400": $gray-400,
+  "500": $gray-500,
+  "600": $gray-600,
+  "700": $gray-700,
+  "800": $gray-800,
+  "900": $gray-900
+);
+
+// Генерируем utility-классы
+@each $name, $value in $custom-grays {
+  // Фоновые цвета
+  .bg-gray-#{$name} {
+    background-color: $value !important;
+  }
+  
+  // Текстовые цвета
+  .text-gray-#{$name} {
+    color: $value !important;
+  }
+  
+  // Цвета границ
+  .border-gray-#{$name} {
+    border-color: $value !important;
+  }
+}
+
+// Опционально: hover-эффекты
+@each $name, $value in $custom-grays {
+  .hover-bg-gray-#{$name}:hover {
+    background-color: $value !important;
+  }
+  
+  .hover-text-gray-#{$name}:hover {
+    color: $value !important;
+  }
+}
+
 //----------------------------------------------------------//
 //  ACCORDION VARIABLES
 //----------------------------------------------------------//
@@ -53,6 +101,7 @@ $accordion-icon-hover-color: var(--#{$prefix}primary) !default;
 
 // Цвет текста в открытом состоянии
 $accordion-button-active-color: var(--#{$prefix}primary) !default;
+
 
 
 //----------------------------------------------------------//
