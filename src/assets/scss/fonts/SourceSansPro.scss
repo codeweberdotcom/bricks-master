@@ -222,26 +222,6 @@ $display-font-weight: $font-weight-normal;
      text-transform: uppercase;
 }
 
-.text-line-before {
-    position: relative;
-    padding-left: 60px;
-    text-transform: uppercase;
-}
-
-.text-line-before:before {
-    content: "";
-    position: absolute;
-    display: inline-block;
-    top: 50%;
-    transform: translateY(-60%);
-    left: 0;
-    width: 30px;
-    height: .05rem;
-    background: #FEBE10 !important;
-}
-
-
-
 
 $lead-font-size: $font-size-base * 1.25 * 0.9;
 $lead-font-weight: 500;

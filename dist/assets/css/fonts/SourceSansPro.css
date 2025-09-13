@@ -119,19 +119,3 @@
   font-weight: 600;
   text-transform: uppercase
 }
-.text-line-before {
-  position: relative;
-  padding-left: 60px;
-  text-transform: uppercase
-}
-.text-line-before:before {
-  content: "";
-  position: absolute;
-  display: inline-block;
-  top: 50%;
-  transform: translateY(-60%);
-  left: 0;
-  width: 30px;
-  height: .05rem;
-  background: #febe10 !important
-}

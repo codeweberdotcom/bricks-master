@@ -1,23 +1,28 @@
 // Создаем свои цвета
-$my-colors: (
-  "theme-100": #893B41,
-  "theme-200": #47878F
+$custom-colors: (
+"neutral-50": #FFFFFF,
+"neutral-100": #FAFAFA,
+"neutral-200": #F5F5F5,
+"neutral-300": #CCCCCC,
+"neutral-400": #B3B3B3,
+"neutral-500": #999999,
+"neutral-600": #666666,
+"neutral-700": #4D4D4D,
+"neutral-800": #333333,
+"sub-white": #DDE4E6,
+"dusty-navy": #3D5567,
+"charcoal-blue": #303C42,
+"vintage-burgundy": #893B41,
+"vintage-burgundy-soft": #C49DA0,
+"muted-teal": #47878F,
+"muted-teal-soft": #A3C3C7,
+"slate-gray": #86909B,
+"slate-gray-soft": #C3C7CD,
+"olive-green": #738D50,
+"olive-green-soft": #B9C6A7,
 );
 
-// Или просто
-$custom-theme-colors: $my-colors;
-
-$theme-1: #DDE4E6;
-$theme-2: #3D5567;
-$theme-3: #303C42;
-$theme-4: #C49DA0;
-$theme-5: #893B41;
-$theme-6: #A3C3C7;
-$theme-7: #47878F;
-$theme-8: #C3C7CD;
-$theme-9: #86909B;
-$theme-10: #B9C6A7;
-$theme-11: #738D50;
+$custom-theme-colors: $custom-colors;
 
 //----------------------------------------------------------//666
 //	BREACKPOINTS
@@ -362,6 +367,114 @@ a.hover-4:hover:before {
     transition: all .3s ease-in-out;
 }
 
+a.hover-5 {
+    position: relative;
+}
+
+a.hover-5::before {
+    content: "";
+    transform-origin: 100% 50%;
+    transform: scale3d(0, 1, 1);
+    transition: transform .3s 
+cubic-bezier(.7, 0, .2, 1);
+position: absolute;
+    width: 100%;
+    height: 1px;
+    background:$primary;
+    top: 100%;
+    left: 0;
+    pointer-events: none;
+}
+
+a.hover-5:after {
+    line-height: 1;
+    font-family: Unicons;
+    content: "\e931";
+    padding-left: .05rem;
+    font-size: .9rem;
+    font-weight: 400;
+    vertical-align: -3px;
+    margin-right: -.25rem;
+    display: inline-block;
+}
+a.hover-5:hover:before {
+    transform-origin: 0 50%;
+    transform: scale3d(1, 1, 1);
+    transition-timing-function: 
+cubic-bezier(.4, 1, .8, 1);
+}
+
+
+
+a.hover-6 {
+    position: relative;
+}
+
+a.hover-6::before {
+    content: "";
+    transform-origin: 100% 50%;
+    transform: scale3d(0, 1, 1);
+    transition: transform .3s 
+cubic-bezier(.7, 0, .2, 1);
+position: absolute;
+    width: 100%;
+    height: 1px;
+    background:$primary;
+    top: 100%;
+    left: 0;
+    pointer-events: none;
+}
+
+a.hover-6:hover:before {
+    transform-origin: 0 50%;
+    transform: scale3d(1, 1, 1);
+    transition-timing-function: 
+cubic-bezier(.4, 1, .8, 1);
+}
+
+a.hover-7 {
+    position: relative;
+    padding: 0 .2rem .05rem;
+    transition: color 0.3s ease, padding 0.3s ease;
+    z-index: 1;
+}
+
+a.hover-7:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    height: 13px;
+    width: 0;
+    left: 0;
+    bottom: 3px;
+    background-color: $primary;
+    transition: all .3s ease-in-out;
+}
+
+
+a.hover-7:hover.link-body {
+    color: inherit;
+    padding-left: 22px;
+    transition: all .3s ease-in-out;
+}
+a.hover-7 {
+    position: relative;
+    padding-left: 0;
+    transition: all .3s ease-in-out;
+    z-index: 1;
+}
+a.hover-7:hover:before {
+    height: 13px;
+    width: 13px;
+    bottom: 3px;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    background-color: $primary;
+    transition: all .3s ease-in-out;
+}
+
 .glass-effect-before {
   position: relative;
   z-index: 1;
@@ -399,6 +512,103 @@ a.hover-4:hover:before {
   filter: saturate(1); 
 }
 
+.text-line-before {
+    position: relative;
+    padding-left: 60px;
+    text-transform: uppercase;
+}
+
+.text-line-before:before {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    transform: translateY(-60%);
+    left: 0;
+    width: 30px;
+    height: .05rem;
+    background: #FEBE10 !important;
+}
+
+.text-line-before-soft {
+    position: relative;
+    padding-left: 60px;
+    text-transform: uppercase;
+}
+
+.text-line-before-soft:before {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    transform: translateY(-60%);
+    left: 0;
+    width: 30px;
+    height: .05rem;
+    background: #FFDF87 !important;
+}
+
+.text-line-after {
+    display: flex;
+    align-items: center;
+}
+
+.text-line-after:after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #DDE4E6;
+    margin-left: 30px;
+}
+
+.text-line-neutral-after {
+    display: flex;
+    align-items: center;
+}
+
+.text-line-neutral-after:after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #999999;
+    margin-left: 30px;
+}
+
+.brand-square-xs {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: $primary;
+}
+
+.brand-square-sm {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background: $primary;
+}
+
+.brand-square-md {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: $primary;
+}
+
+.brand-square-lg {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background: $primary;
+}
+
+.w-48{
+    width: 48px;
+}
+
+.h-48{
+    height: 48px;
+}
 
 //START IMPORT FONTS
 @import "fonts/SourceSansPro";
