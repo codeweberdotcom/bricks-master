@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-07 14:45+0000\n"
+"POT-Creation-Date: 2025-09-13 20:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "%1$s "
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:697
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:787
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] ""
@@ -121,7 +121,7 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:210
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:204
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:687
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:777
 msgid "Actions"
 msgstr ""
 
@@ -181,6 +181,7 @@ msgid "Add Legal"
 msgstr ""
 
 #: functions/cpt/cpt-modals.php:14 functions/cpt/cpt-price_list.php:14
+#: functions/integrations/image-licenses/image-licenses.php:58
 msgid "Add New"
 msgstr ""
 
@@ -218,6 +219,15 @@ msgstr ""
 
 #: functions/cpt/cpt-legal.php:11
 msgid "Add New Legal"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:57
+#: functions/integrations/image-licenses/image-licenses.php:564
+msgid "Add New License"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:26
+msgid "Add New Licensor Author"
 msgstr ""
 
 #: functions/cpt/cpt-modals.php:15
@@ -295,7 +305,7 @@ msgstr ""
 msgid "Advanced Features"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:34
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:429
 msgid ""
 "After adding a font, this field will display a code for managing the font's "
 "individual properties."
@@ -367,6 +377,14 @@ msgstr ""
 msgid "All Legal"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:56
+msgid "All Licenses"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:21
+msgid "All Licensor Authors"
+msgstr ""
+
 #: functions/cpt/cpt-modals.php:13
 msgid "All Modals"
 msgstr ""
@@ -433,18 +451,18 @@ msgstr ""
 msgid "API"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:872
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:963
 msgid "Applied!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:735
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:878
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:885
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:891
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:826
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:969
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:976
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:982
 msgid "Apply Selected Fonts"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:858
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:949
 msgid "Applying..."
 msgstr ""
 
@@ -460,7 +478,7 @@ msgstr ""
 msgid "Archive Template for %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:950
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1041
 msgid "Are you sure you want to delete this font?"
 msgstr ""
 
@@ -472,6 +490,11 @@ msgstr ""
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:483
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:474
 msgid "Are you sure you want to unsubscribe this user?"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:126
+#: functions/integrations/image-licenses/image-licenses.php:404
+msgid "Attached Images"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:35
@@ -543,7 +566,7 @@ msgstr ""
 msgid "Basic media uploader with disabled URL input field."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:61
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:456
 msgid "Before starting the build Gulp, save the Redux settings."
 msgstr ""
 
@@ -601,6 +624,14 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:61
 msgid "Browser User Agent"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:277
+msgid "Build DEV"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:282
+msgid "Build DIST"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:62
@@ -687,6 +718,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/company-details.php:50
 #: redux-framework/sample/sections/codeweber/company-details.php:112
 msgid "City"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:296
+msgid "Clear LOG"
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:11 functions/cpt/cpt-clients.php:23
@@ -1045,7 +1080,7 @@ msgstr ""
 msgid "Creating..."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:684
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:774
 msgid "CSS"
 msgstr ""
 
@@ -1065,6 +1100,10 @@ msgstr ""
 msgid "CSV Import"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1095
+msgid "Current Fonts"
+msgstr ""
+
 #: functions/integrations/personal-data/class-cf7-consent.php:697
 #: functions/integrations/personal-data/class-consent-manager.php:98
 #, php-format
@@ -1081,7 +1120,7 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:997
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1088
 msgid "Custom Fonts Upload"
 msgstr ""
 
@@ -1102,7 +1141,7 @@ msgstr ""
 msgid "Custom Post Types"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:19
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:414
 msgid "Custom SCSS / Code"
 msgstr ""
 
@@ -1214,7 +1253,7 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:495
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:486
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:715
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:806
 msgid "Delete"
 msgstr ""
 
@@ -1344,6 +1383,10 @@ msgstr ""
 msgid "Don't have an account?"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:280
+msgid "Download date:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/socials.php:153
 #: redux-framework/sample/sections/extensions/users.php:169
 msgid "dripple"
@@ -1382,6 +1425,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:104
 msgid "E-mail Responsible Person"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:233
+msgid "e.g., Royalty-free, Rights-managed, Creative Commons"
 msgstr ""
 
 #: functions/lib/comments-helper.php:49
@@ -1426,6 +1473,15 @@ msgstr ""
 
 #: functions/cpt/cpt-legal.php:12
 msgid "Edit Legal"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:60
+#: functions/integrations/image-licenses/image-licenses.php:491
+msgid "Edit License"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:24
+msgid "Edit Licensor Author"
 msgstr ""
 
 #: functions/cpt/cpt-modals.php:16
@@ -1551,19 +1607,23 @@ msgstr ""
 msgid "Enter recipient email for test:"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:406
+msgid "Enter the font file name (with or without .scss extension)"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/childtheme.php:22
 msgid "Enter the name for your child theme"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:893
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:984
 msgid "Error applying fonts."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:113
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:104
 msgid "Error creating SCSS file: "
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:983
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1074
 msgid "Error deleting font."
 msgstr ""
 
@@ -1572,15 +1632,15 @@ msgstr ""
 msgid "Error occurred. Please try again."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:129
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:143
 msgid "Error saving fonts: "
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:943
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1034
 msgid "Error uploading font."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:558
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:618
 msgid "Error writing SCSS file: "
 msgstr ""
 
@@ -1670,6 +1730,7 @@ msgid "FAQs"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:20
+#: functions/integrations/image-licenses/image-licenses.php:67
 msgid "Featured Image"
 msgstr ""
 
@@ -1712,7 +1773,7 @@ msgstr ""
 msgid "File: %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:683
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:773
 msgid "Files"
 msgstr ""
 
@@ -1723,6 +1784,10 @@ msgstr ""
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:327
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:318
 msgid "Filter"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:75
+msgid "Filter licenses list"
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:31
@@ -1747,23 +1812,27 @@ msgstr ""
 msgid "First name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:192
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:206
 msgid "Font deleted successfully!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:177
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:191
 msgid "Font directory not found"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:664
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:754
 msgid "Font Family Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:33
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:405
+msgid "Font File Name"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:428
 msgid "Font individual / Code"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:682
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:772
 msgid "Font Name"
 msgstr ""
 
@@ -1780,7 +1849,7 @@ msgstr ""
 msgid "Fonts"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:126
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:137
 msgid "Fonts applied successfully! SCSS file: "
 msgstr ""
 
@@ -1893,6 +1962,10 @@ msgstr ""
 msgid "for processing my personal data."
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:270
+msgid "For the item:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:200
 msgid "For the policy on the processing of personal data"
 msgstr ""
@@ -1987,6 +2060,10 @@ msgstr ""
 msgid "GitLab"
 msgstr ""
 
+#. Author of the theme
+msgid "Gladkov Denis"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:27
 msgid "Gmail"
 msgstr ""
@@ -2021,11 +2098,11 @@ msgstr ""
 msgid "Gulp"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:47
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:442
 msgid "Gulp JS Variables / Code"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:60
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:455
 msgid "Gulp Run"
 msgstr ""
 
@@ -2305,9 +2382,21 @@ msgstr ""
 msgid "iCloud"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:324
+#, php-format
+msgid "ID: %s"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:728
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:718
 msgid "If unchecked, duplicates will be updated with new data"
+msgstr ""
+
+#: redux-framework/sample/theme-config.php:276
+#: redux-framework/sample/theme-config.php:280
+msgid ""
+"If you have any difficulties with this topic, contact me via telegram <a "
+"href=\"@codeweber\" target=\"_blank\">Codeweber</a>"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-core.php:592
@@ -2330,6 +2419,16 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:48
 msgid "Image for Login page"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:52
+#: functions/integrations/image-licenses/image-licenses.php:79
+#: functions/integrations/image-licenses/image-licenses.php:532
+msgid "Image License"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:51
+msgid "Image Licenses"
 msgstr ""
 
 #: functions/admin/admin_media.php:21
@@ -2374,7 +2473,7 @@ msgstr ""
 msgid "Imported Subscription"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:20
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:415
 msgid ""
 "In this window, you can add SCSS code that will be written to the GULP _user-"
 "variables.scss file during the build process."
@@ -2382,6 +2481,10 @@ msgstr ""
 
 #: functions/cpt/cpt-faq.php:23
 msgid "Insert into FAQ"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:71
+msgid "Insert into license"
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:29
@@ -2471,6 +2574,10 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:289
+msgid "Item URL:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/socials.php:129
 #: redux-framework/sample/sections/extensions/users.php:145
 msgid "Itunes"
@@ -2479,10 +2586,6 @@ msgstr ""
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1470
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:585
 msgid "JavaScript events"
-msgstr ""
-
-#. Author of the theme
-msgid "Korablev Denis"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:64
@@ -2576,8 +2679,64 @@ msgstr ""
 msgid "Legal Updated"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:467
+msgid "License"
+msgstr ""
+
 #: functions/admin/admin_privacy.php:1759
 msgid "License Agreement"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:53
+msgid "License Archives"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:54
+msgid "License Attributes"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:116
+msgid "License Details"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:543
+msgid "License PDF"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:106
+msgid "License PDF File"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:401
+msgid "License Type"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:229
+msgid "License type:"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:260
+msgid "Licensee:"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:73
+msgid "Licenses list"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:74
+msgid "Licenses list navigation"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:402
+msgid "Licensor Author"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:28
+msgid "Licensor Authors"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:239
+msgid "Licensor's author:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:103
@@ -2698,6 +2857,14 @@ msgstr ""
 
 #: functions/sidebars.php:29 functions/sidebars.php:31
 msgid "Main Sidebar"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:252
+msgid "Manage authors"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:80
+msgid "Manage licenses for images"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:272
@@ -2839,6 +3006,14 @@ msgstr ""
 msgid "New Legal"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:59
+msgid "New License"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:27
+msgid "New Licensor Author Name"
+msgstr ""
+
 #: functions/cpt/cpt-modals.php:17
 msgid "New Modal"
 msgstr ""
@@ -2925,6 +3100,10 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:456
 #: redux-framework/sample/sections/codeweber/smtp.php:119
 msgid "No"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:331
+msgid "No attached images."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:189
@@ -3037,8 +3216,8 @@ msgstr ""
 msgid "No fonts selected"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:676
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:970
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:766
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1061
 msgid "No fonts uploaded yet."
 msgstr ""
 
@@ -3108,6 +3287,10 @@ msgstr ""
 msgid "No parent themes found"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:493
+msgid "no PDF"
+msgstr ""
+
 #: functions/cpt/cpt-price_list.php:21
 msgid "No Price Lists found"
 msgstr ""
@@ -3163,6 +3346,14 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/header.php:87
 msgid "none"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:65
+msgid "Not found"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:66
+msgid "Not found in Trash"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:149
@@ -3256,6 +3447,14 @@ msgstr ""
 #: templates/header/header-fancy-center-logo.php:310
 #: templates/header/header-fancy.php:334
 msgid "On Map"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:287
+msgid "Only CSS"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:292
+msgid "Only JS"
 msgstr ""
 
 #: redux-framework/sample-config.php:577
@@ -3401,6 +3600,18 @@ msgstr ""
 msgid "Parent Header"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:55
+msgid "Parent License:"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:22
+msgid "Parent Licensor Author"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:23
+msgid "Parent Licensor Author:"
+msgstr ""
+
 #: functions/cpt/cpt-offices.php:24
 msgid "Parent Office:"
 msgstr ""
@@ -3468,6 +3679,10 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:403
+msgid "PDF File"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:310
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:700
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:1020
@@ -3484,6 +3699,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/smtp.php:265
 #: redux-framework/sample/sections/codeweber/smtp.php:322
 msgid "Permission denied."
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:264
+msgid "Person or company who obtained the license"
 msgstr ""
 
 #: woocommerce/myaccount/form-edit-account.php:35
@@ -3610,7 +3829,7 @@ msgstr ""
 msgid "Pinterest"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:906
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:997
 msgid "Please enter a font family name"
 msgstr ""
 
@@ -3640,15 +3859,19 @@ msgstr ""
 msgid "Please fill in all required SMTP fields."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:847
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:138
+msgid "Please reload the page to see the changes."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:938
 msgid "Please select a primary font"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:842
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:933
 msgid "Please select at least one font"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:911
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1002
 msgid "Please select font files to upload"
 msgstr ""
 
@@ -3664,6 +3887,16 @@ msgstr ""
 
 #: functions/cpt/cpt-modals.php:27
 msgid "Post type for modal windows"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:49
+msgctxt "Post Type General Name"
+msgid "Image Licenses"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:50
+msgctxt "Post Type Singular Name"
+msgid "Image License"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/company-details.php:78
@@ -3770,11 +4003,11 @@ msgstr ""
 msgid "Price Packages Navigation"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:686
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:776
 msgid "Primary Font"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:853
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:944
 msgid "Primary font must be selected in the first column"
 msgstr ""
 
@@ -3839,13 +4072,13 @@ msgstr ""
 msgid "Projects Not Found in Trash"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:722
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:978
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:813
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1069
 msgid "Protected"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:720
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:978
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:811
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1069
 msgid "Protected font - cannot be deleted"
 msgstr ""
 
@@ -3946,7 +4179,12 @@ msgstr ""
 msgid "Registration takes less than a minute."
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:147
+msgid "Remove"
+msgstr ""
+
 #: functions/cpt/cpt-documents.php:22
+#: functions/integrations/image-licenses/image-licenses.php:69
 msgid "Remove featured image"
 msgstr ""
 
@@ -4062,10 +4300,6 @@ msgstr ""
 msgid "Scan Frontend Cookies"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:320
-msgid "SCSS file already exists and cannot be overwritten: "
-msgstr ""
-
 #: searchform.php:3
 msgid "Search"
 msgstr ""
@@ -4113,6 +4347,14 @@ msgstr ""
 
 #: functions/cpt/cpt-legal.php:15
 msgid "Search Legal"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:64
+msgid "Search Licenses"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:20
+msgid "Search Licensor Authors"
 msgstr ""
 
 #: functions/cpt/cpt-modals.php:19
@@ -4184,8 +4426,13 @@ msgstr ""
 msgid "Select data processing consent document"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:685
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:775
 msgid "Select Font"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1109
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1135
+msgid "Select Font Combination"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:185
@@ -4282,6 +4529,14 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:154
 msgid "Select Parent Theme"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:146
+msgid "Select PDF"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:171
+msgid "Select PDF File"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:211
@@ -4433,6 +4688,7 @@ msgid "Session ID"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:21
+#: functions/integrations/image-licenses/image-licenses.php:68
 msgid "Set featured image"
 msgstr ""
 
@@ -4762,6 +5018,10 @@ msgstr ""
 msgid "Solid-Color"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:274
+msgid "Specific item or project the license is for"
+msgstr ""
+
 #: functions/cpt/cpt-staff.php:9 functions/cpt/cpt-staff.php:10
 #: functions/cpt/cpt-staff.php:11 functions/cpt/cpt-staff.php:29
 #: functions/cpt/cpt-staff.php:38
@@ -5029,6 +5289,16 @@ msgstr ""
 msgid "Systematization Data"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:18
+msgctxt "taxonomy general name"
+msgid "Licensor Authors"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:19
+msgctxt "taxonomy singular name"
+msgid "Licensor Author"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:80
 msgid "Taxpayer identification number Person (INN)"
 msgstr ""
@@ -5099,6 +5369,10 @@ msgstr ""
 
 #: redux-framework/sample-config.php:574
 msgid "The field desc is NOT visible in customizer."
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:309
+msgid "The following images use this license:"
 msgstr ""
 
 #: functions/integrations/personal-data/class-cf7-consent.php:220
@@ -5178,7 +5452,7 @@ msgid ""
 "into a foreach loop."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:171
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:185
 msgid "This font is protected and cannot be deleted."
 msgstr ""
 
@@ -5219,18 +5493,6 @@ msgstr ""
 
 #: functions/integrations/personal-data/class-gdpr-export.php:36
 msgid "This section includes all user consents stored in the system."
-msgstr ""
-
-#: redux-framework/sample/theme-config.php:276
-msgid ""
-"This text is displayed above the options panel. It isn't required, but more "
-"info is always better! The intro_text field accepts all HTML."
-msgstr ""
-
-#: redux-framework/sample/theme-config.php:280
-msgid ""
-"This text is displayed below the options panel. It isn't required, but more "
-"info is always better! The footer_text field accepts all HTML."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:81
@@ -5371,7 +5633,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:14
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:84
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:162
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:176
 msgid "Unauthorized"
 msgstr ""
 
@@ -5442,12 +5704,20 @@ msgstr ""
 msgid "Update FAQ Tag"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:61
+msgid "Update License"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:25
+msgid "Update Licensor Author"
+msgstr ""
+
 #: functions/integrations/redux_framework/redux_framework.php:95
 #: redux-framework/sample/sections/codeweber/legal.php:150
 msgid "Updating (clarification, modification) Data"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:998
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1089
 msgid "Upload and manage custom fonts"
 msgstr ""
 
@@ -5458,7 +5728,7 @@ msgstr ""
 msgid "Upload any media using the WordPress native uploader"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:667
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:757
 msgid "Upload Font"
 msgstr ""
 
@@ -5470,7 +5740,7 @@ msgstr ""
 msgid "Upload Header Pattern Image"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:662
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:752
 msgid "Upload New Font"
 msgstr ""
 
@@ -5490,8 +5760,8 @@ msgstr ""
 msgid "Upload your light logo"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:674
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:970
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:764
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1061
 msgid "Uploaded Fonts"
 msgstr ""
 
@@ -5499,8 +5769,16 @@ msgstr ""
 msgid "Uploaded to this FAQ"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:924
+#: functions/integrations/image-licenses/image-licenses.php:72
+msgid "Uploaded to this license"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1015
 msgid "Uploading..."
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:293
+msgid "URL to the licensed item if available online"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_framework.php:97
@@ -5510,6 +5788,7 @@ msgstr ""
 
 #: functions/cpt/cpt-documents.php:23 functions/cpt/cpt-services.php:26
 #: functions/cpt/cpt-staff.php:26
+#: functions/integrations/image-licenses/image-licenses.php:70
 msgid "Use as featured image"
 msgstr ""
 
@@ -5524,6 +5803,10 @@ msgstr ""
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1216
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:331
 msgid "Use shortcode for quick form addition:"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:173
+msgid "Use this file"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:261
@@ -5683,6 +5966,16 @@ msgstr ""
 msgid "View Legal"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:62
+#: functions/integrations/image-licenses/image-licenses.php:490
+#: functions/integrations/image-licenses/image-licenses.php:545
+msgid "View License"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:63
+msgid "View Licenses"
+msgstr ""
+
 #: functions/cpt/cpt-modals.php:18
 msgid "View Modal"
 msgstr ""
@@ -5701,6 +5994,11 @@ msgstr ""
 
 #: functions/cpt/cpt-page-header.php:18
 msgid "View Page Headers"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:152
+#: functions/integrations/image-licenses/image-licenses.php:436
+msgid "View PDF"
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:18
@@ -5949,7 +6247,7 @@ msgstr ""
 msgid "You must agree to the processing of personal data."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:663
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:753
 msgid ""
 "You need to download the font in two formats woff and woff2 to display in "
 "old browsers"
@@ -6027,8 +6325,16 @@ msgstr ""
 msgid "Сookie Expiration Date"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:526
+msgid "— No License —"
+msgstr ""
+
 #: functions/integrations/personal-data/class-cf7-consent.php:468
 msgid "— Not selected —"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:243
+msgid "— Select Author —"
 msgstr ""
 
 #: functions/admin/admin_privacy.php:38

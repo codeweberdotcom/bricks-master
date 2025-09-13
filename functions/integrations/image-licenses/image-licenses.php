@@ -7,7 +7,7 @@
 // Load text domain for translations
 function image_licenses_load_textdomain()
 {
-   load_plugin_textdomain('image-licenses', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+   load_plugin_textdomain('codeweber', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
 add_action('plugins_loaded', 'image_licenses_load_textdomain');
 
@@ -15,17 +15,17 @@ add_action('plugins_loaded', 'image_licenses_load_textdomain');
 function register_licensor_author_taxonomy()
 {
    $labels = array(
-      'name'              => _x('Licensor Authors', 'taxonomy general name', 'image-licenses'),
-      'singular_name'     => _x('Licensor Author', 'taxonomy singular name', 'image-licenses'),
-      'search_items'      => __('Search Licensor Authors', 'image-licenses'),
-      'all_items'         => __('All Licensor Authors', 'image-licenses'),
-      'parent_item'       => __('Parent Licensor Author', 'image-licenses'),
-      'parent_item_colon' => __('Parent Licensor Author:', 'image-licenses'),
-      'edit_item'         => __('Edit Licensor Author', 'image-licenses'),
-      'update_item'       => __('Update Licensor Author', 'image-licenses'),
-      'add_new_item'      => __('Add New Licensor Author', 'image-licenses'),
-      'new_item_name'     => __('New Licensor Author Name', 'image-licenses'),
-      'menu_name'         => __('Licensor Authors', 'image-licenses'),
+      'name'              => _x('Licensor Authors', 'taxonomy general name', 'codeweber'),
+      'singular_name'     => _x('Licensor Author', 'taxonomy singular name', 'codeweber'),
+      'search_items'      => __('Search Licensor Authors', 'codeweber'),
+      'all_items'         => __('All Licensor Authors', 'codeweber'),
+      'parent_item'       => __('Parent Licensor Author', 'codeweber'),
+      'parent_item_colon' => __('Parent Licensor Author:', 'codeweber'),
+      'edit_item'         => __('Edit Licensor Author', 'codeweber'),
+      'update_item'       => __('Update Licensor Author', 'codeweber'),
+      'add_new_item'      => __('Add New Licensor Author', 'codeweber'),
+      'new_item_name'     => __('New Licensor Author Name', 'codeweber'),
+      'menu_name'         => __('Licensor Authors', 'codeweber'),
    );
 
    $args = array(
@@ -46,38 +46,38 @@ add_action('init', 'register_licensor_author_taxonomy');
 function register_image_license_cpt()
 {
    $labels = array(
-      'name'                  => _x('Image Licenses', 'Post Type General Name', 'image-licenses'),
-      'singular_name'         => _x('Image License', 'Post Type Singular Name', 'image-licenses'),
-      'menu_name'             => __('Image Licenses', 'image-licenses'),
-      'name_admin_bar'        => __('Image License', 'image-licenses'),
-      'archives'              => __('License Archives', 'image-licenses'),
-      'attributes'            => __('License Attributes', 'image-licenses'),
-      'parent_item_colon'     => __('Parent License:', 'image-licenses'),
-      'all_items'             => __('All Licenses', 'image-licenses'),
-      'add_new_item'          => __('Add New License', 'image-licenses'),
-      'add_new'               => __('Add New', 'image-licenses'),
-      'new_item'              => __('New License', 'image-licenses'),
-      'edit_item'             => __('Edit License', 'image-licenses'),
-      'update_item'           => __('Update License', 'image-licenses'),
-      'view_item'             => __('View License', 'image-licenses'),
-      'view_items'            => __('View Licenses', 'image-licenses'),
-      'search_items'          => __('Search Licenses', 'image-licenses'),
-      'not_found'             => __('Not found', 'image-licenses'),
-      'not_found_in_trash'    => __('Not found in Trash', 'image-licenses'),
-      'featured_image'        => __('Featured Image', 'image-licenses'),
-      'set_featured_image'    => __('Set featured image', 'image-licenses'),
-      'remove_featured_image' => __('Remove featured image', 'image-licenses'),
-      'use_featured_image'    => __('Use as featured image', 'image-licenses'),
-      'insert_into_item'      => __('Insert into license', 'image-licenses'),
-      'uploaded_to_this_item' => __('Uploaded to this license', 'image-licenses'),
-      'items_list'            => __('Licenses list', 'image-licenses'),
-      'items_list_navigation' => __('Licenses list navigation', 'image-licenses'),
-      'filter_items_list'     => __('Filter licenses list', 'image-licenses'),
+      'name'                  => _x('Image Licenses', 'Post Type General Name', 'codeweber'),
+      'singular_name'         => _x('Image License', 'Post Type Singular Name', 'codeweber'),
+      'menu_name'             => __('Image Licenses', 'codeweber'),
+      'name_admin_bar'        => __('Image License', 'codeweber'),
+      'archives'              => __('License Archives', 'codeweber'),
+      'attributes'            => __('License Attributes', 'codeweber'),
+      'parent_item_colon'     => __('Parent License:', 'codeweber'),
+      'all_items'             => __('All Licenses', 'codeweber'),
+      'add_new_item'          => __('Add New License', 'codeweber'),
+      'add_new'               => __('Add New', 'codeweber'),
+      'new_item'              => __('New License', 'codeweber'),
+      'edit_item'             => __('Edit License', 'codeweber'),
+      'update_item'           => __('Update License', 'codeweber'),
+      'view_item'             => __('View License', 'codeweber'),
+      'view_items'            => __('View Licenses', 'codeweber'),
+      'search_items'          => __('Search Licenses', 'codeweber'),
+      'not_found'             => __('Not found', 'codeweber'),
+      'not_found_in_trash'    => __('Not found in Trash', 'codeweber'),
+      'featured_image'        => __('Featured Image', 'codeweber'),
+      'set_featured_image'    => __('Set featured image', 'codeweber'),
+      'remove_featured_image' => __('Remove featured image', 'codeweber'),
+      'use_featured_image'    => __('Use as featured image', 'codeweber'),
+      'insert_into_item'      => __('Insert into license', 'codeweber'),
+      'uploaded_to_this_item' => __('Uploaded to this license', 'codeweber'),
+      'items_list'            => __('Licenses list', 'codeweber'),
+      'items_list_navigation' => __('Licenses list navigation', 'codeweber'),
+      'filter_items_list'     => __('Filter licenses list', 'codeweber'),
    );
 
    $args = array(
-      'label'                 => __('Image License', 'image-licenses'),
-      'description'           => __('Manage licenses for images', 'image-licenses'),
+      'label'                 => __('Image License', 'codeweber'),
+      'description'           => __('Manage licenses for images', 'codeweber'),
       'labels'                => $labels,
       'public'                => false,
       'show_ui'               => true,
@@ -103,7 +103,7 @@ function add_license_meta_boxes()
    // PDF meta box
    add_meta_box(
       'license_pdf_meta_box',
-      __('License PDF File', 'image-licenses'),
+      __('License PDF File', 'codeweber'),
       'render_license_pdf_meta_box',
       'image_license',
       'normal',
@@ -113,7 +113,7 @@ function add_license_meta_boxes()
    // License details meta box
    add_meta_box(
       'license_details_meta_box',
-      __('License Details', 'image-licenses'),
+      __('License Details', 'codeweber'),
       'render_license_details_meta_box',
       'image_license',
       'normal',
@@ -123,7 +123,7 @@ function add_license_meta_boxes()
    // Attached images meta box
    add_meta_box(
       'license_attachments_meta_box',
-      __('Attached Images', 'image-licenses'),
+      __('Attached Images', 'codeweber'),
       'render_license_attachments_meta_box',
       'image_license',
       'normal',
@@ -143,13 +143,13 @@ function render_license_pdf_meta_box($post)
    <div class="license-pdf-upload">
       <input type="hidden" id="license_pdf_id" name="license_pdf_id" value="<?php echo esc_attr($pdf_id); ?>">
       <input type="text" id="license_pdf_url" class="regular-text" value="<?php echo esc_url($pdf_url); ?>" readonly>
-      <button type="button" class="button button-secondary" id="upload_license_pdf"><?php _e('Select PDF', 'image-licenses'); ?></button>
-      <button type="button" class="button button-secondary" id="remove_license_pdf" style="<?php echo !$pdf_id ? 'display:none;' : ''; ?>"><?php _e('Remove', 'image-licenses'); ?></button>
+      <button type="button" class="button button-secondary" id="upload_license_pdf"><?php _e('Select PDF', 'codeweber'); ?></button>
+      <button type="button" class="button button-secondary" id="remove_license_pdf" style="<?php echo !$pdf_id ? 'display:none;' : ''; ?>"><?php _e('Remove', 'codeweber'); ?></button>
 
       <?php if ($pdf_id) : ?>
          <div style="margin-top: 10px;">
             <a href="<?php echo esc_url($pdf_url); ?>" target="_blank" class="button">
-               <?php _e('View PDF', 'image-licenses'); ?>
+               <?php _e('View PDF', 'codeweber'); ?>
             </a>
          </div>
       <?php endif; ?>
@@ -168,9 +168,9 @@ function render_license_pdf_meta_box($post)
             }
 
             frame = wp.media({
-               title: '<?php _e('Select PDF File', 'image-licenses'); ?>',
+               title: '<?php _e('Select PDF File', 'codeweber'); ?>',
                button: {
-                  text: '<?php _e('Use this file', 'image-licenses'); ?>'
+                  text: '<?php _e('Use this file', 'codeweber'); ?>'
                },
                multiple: false,
                library: {
@@ -226,21 +226,21 @@ function render_license_details_meta_box($post)
    <table class="form-table">
       <tr>
          <th scope="row">
-            <label for="license_type"><?php _e('License type:', 'image-licenses'); ?></label>
+            <label for="license_type"><?php _e('License type:', 'codeweber'); ?></label>
          </th>
          <td>
             <input type="text" id="license_type" name="license_type" value="<?php echo esc_attr($license_type); ?>" class="regular-text">
-            <p class="description"><?php _e('e.g., Royalty-free, Rights-managed, Creative Commons', 'image-licenses'); ?></p>
+            <p class="description"><?php _e('e.g., Royalty-free, Rights-managed, Creative Commons', 'codeweber'); ?></p>
          </td>
       </tr>
 
       <tr>
          <th scope="row">
-            <label for="licensor_author"><?php _e('Licensor\'s author:', 'image-licenses'); ?></label>
+            <label for="licensor_author"><?php _e('Licensor\'s author:', 'codeweber'); ?></label>
          </th>
          <td>
             <select id="licensor_author" name="licensor_author" class="regular-text">
-               <option value=""><?php _e('— Select Author —', 'image-licenses'); ?></option>
+               <option value=""><?php _e('— Select Author —', 'codeweber'); ?></option>
                <?php foreach ($authors as $author) : ?>
                   <option value="<?php echo esc_attr($author->term_id); ?>" <?php selected($current_author_id, $author->term_id); ?>>
                      <?php echo esc_html($author->name); ?>
@@ -249,7 +249,7 @@ function render_license_details_meta_box($post)
             </select>
             <p class="description">
                <a href="<?php echo admin_url('edit-tags.php?taxonomy=licensor_author&post_type=image_license'); ?>" target="_blank">
-                  <?php _e('Manage authors', 'image-licenses'); ?>
+                  <?php _e('Manage authors', 'codeweber'); ?>
                </a>
             </p>
          </td>
@@ -257,27 +257,27 @@ function render_license_details_meta_box($post)
 
       <tr>
          <th scope="row">
-            <label for="licensee"><?php _e('Licensee:', 'image-licenses'); ?></label>
+            <label for="licensee"><?php _e('Licensee:', 'codeweber'); ?></label>
          </th>
          <td>
             <input type="text" id="licensee" name="licensee" value="<?php echo esc_attr($licensee); ?>" class="regular-text">
-            <p class="description"><?php _e('Person or company who obtained the license', 'image-licenses'); ?></p>
+            <p class="description"><?php _e('Person or company who obtained the license', 'codeweber'); ?></p>
          </td>
       </tr>
 
       <tr>
          <th scope="row">
-            <label for="for_the_item"><?php _e('For the item:', 'image-licenses'); ?></label>
+            <label for="for_the_item"><?php _e('For the item:', 'codeweber'); ?></label>
          </th>
          <td>
             <input type="text" id="for_the_item" name="for_the_item" value="<?php echo esc_attr($for_the_item); ?>" class="regular-text">
-            <p class="description"><?php _e('Specific item or project the license is for', 'image-licenses'); ?></p>
+            <p class="description"><?php _e('Specific item or project the license is for', 'codeweber'); ?></p>
          </td>
       </tr>
 
       <tr>
          <th scope="row">
-            <label for="download_date"><?php _e('Download date:', 'image-licenses'); ?></label>
+            <label for="download_date"><?php _e('Download date:', 'codeweber'); ?></label>
          </th>
          <td>
             <input type="date" id="download_date" name="download_date" value="<?php echo esc_attr($download_date); ?>" class="regular-text">
@@ -286,11 +286,11 @@ function render_license_details_meta_box($post)
 
       <tr>
          <th scope="row">
-            <label for="item_url"><?php _e('Item URL:', 'image-licenses'); ?></label>
+            <label for="item_url"><?php _e('Item URL:', 'codeweber'); ?></label>
          </th>
          <td>
             <input type="url" id="item_url" name="item_url" value="<?php echo esc_url($item_url); ?>" class="regular-text" placeholder="https://">
-            <p class="description"><?php _e('URL to the licensed item if available online', 'image-licenses'); ?></p>
+            <p class="description"><?php _e('URL to the licensed item if available online', 'codeweber'); ?></p>
          </td>
       </tr>
    </table>
@@ -306,7 +306,7 @@ function render_license_attachments_meta_box($post)
    echo '<div class="license-attachments">';
 
    if (!empty($attachments)) {
-      echo '<p>' . __('The following images use this license:', 'image-licenses') . '</p>';
+      echo '<p>' . __('The following images use this license:', 'codeweber') . '</p>';
       echo '<ul style="max-height: 300px; overflow-y: auto;">';
 
       foreach ($attachments as $attachment) {
@@ -321,14 +321,14 @@ function render_license_attachments_meta_box($post)
          echo '</div>';
          echo '<div>';
          echo '<strong><a href="' . esc_url($edit_url) . '" target="_blank">' . esc_html(get_the_title($attachment->ID)) . '</a></strong><br>';
-         echo '<span style="font-size: 12px; color: #666;">' . sprintf(__('ID: %s', 'image-licenses'), $attachment->ID) . '</span>';
+         echo '<span style="font-size: 12px; color: #666;">' . sprintf(__('ID: %s', 'codeweber'), $attachment->ID) . '</span>';
          echo '</div>';
          echo '</li>';
       }
 
       echo '</ul>';
    } else {
-      echo '<p>' . __('No attached images.', 'image-licenses') . '</p>';
+      echo '<p>' . __('No attached images.', 'codeweber') . '</p>';
    }
 
    echo '</div>';
@@ -398,10 +398,10 @@ function add_license_columns($columns)
    foreach ($columns as $key => $value) {
       $new_columns[$key] = $value;
       if ($key === 'title') {
-         $new_columns['license_type'] = __('License Type', 'image-licenses');
-         $new_columns['licensor_author'] = __('Licensor Author', 'image-licenses');
-         $new_columns['pdf_file'] = __('PDF File', 'image-licenses');
-         $new_columns['attachments_count'] = __('Attached Images', 'image-licenses');
+         $new_columns['license_type'] = __('License Type', 'codeweber');
+         $new_columns['licensor_author'] = __('Licensor Author', 'codeweber');
+         $new_columns['pdf_file'] = __('PDF File', 'codeweber');
+         $new_columns['attachments_count'] = __('Attached Images', 'codeweber');
       }
    }
 
@@ -433,7 +433,7 @@ function populate_license_columns($column, $post_id)
       case 'pdf_file':
          $pdf_id = get_post_meta($post_id, '_license_pdf_id', true);
          if ($pdf_id) {
-            echo '<a href="' . wp_get_attachment_url($pdf_id) . '" target="_blank">' . __('View PDF', 'image-licenses') . '</a>';
+            echo '<a href="' . wp_get_attachment_url($pdf_id) . '" target="_blank">' . __('View PDF', 'codeweber') . '</a>';
          } else {
             echo '—';
          }
@@ -464,7 +464,7 @@ function add_media_license_column($columns)
    foreach ($columns as $key => $value) {
       $new_columns[$key] = $value;
       if ($key === 'title') {
-         $new_columns['image_license'] = __('License', 'image-licenses');
+         $new_columns['image_license'] = __('License', 'codeweber');
       }
    }
 
@@ -487,10 +487,10 @@ function populate_media_license_column($column_name, $post_id)
       if ($license && $pdf_id) {
          $pdf_url = wp_get_attachment_url($pdf_id);
          echo '<strong>' . esc_html($license->post_title) . '</strong><br>';
-         echo '<a href="' . esc_url($pdf_url) . '" target="_blank" style="font-size: 12px;">' . __('View License', 'image-licenses') . '</a><br>';
-         echo '<a href="' . get_edit_post_link($license_id) . '" target="_blank" style="font-size: 12px;">' . __('Edit License', 'image-licenses') . '</a>';
+         echo '<a href="' . esc_url($pdf_url) . '" target="_blank" style="font-size: 12px;">' . __('View License', 'codeweber') . '</a><br>';
+         echo '<a href="' . get_edit_post_link($license_id) . '" target="_blank" style="font-size: 12px;">' . __('Edit License', 'codeweber') . '</a>';
       } elseif ($license) {
-         echo esc_html($license->post_title) . ' (' . __('no PDF', 'image-licenses') . ')';
+         echo esc_html($license->post_title) . ' (' . __('no PDF', 'codeweber') . ')';
       }
    } else {
       echo '—';
@@ -523,13 +523,13 @@ function add_media_license_field($form_fields, $post)
 
    $current_license = get_post_meta($post->ID, '_image_license_id', true);
 
-   $options = array('' => __('— No License —', 'image-licenses'));
+   $options = array('' => __('— No License —', 'codeweber'));
    foreach ($licenses as $license) {
       $options[$license->ID] = $license->post_title;
    }
 
    $form_fields['image_license'] = array(
-      'label' => __('Image License', 'image-licenses'),
+      'label' => __('Image License', 'codeweber'),
       'input' => 'html',
       'html' => render_license_select($options, $current_license, $post->ID),
       'value' => $current_license
@@ -540,9 +540,9 @@ function add_media_license_field($form_fields, $post)
       $pdf_id = get_post_meta($current_license, '_license_pdf_id', true);
       if ($pdf_id) {
          $form_fields['license_pdf_link'] = array(
-            'label' => __('License PDF', 'image-licenses'),
+            'label' => __('License PDF', 'codeweber'),
             'input' => 'html',
-            'html' => '<a href="' . wp_get_attachment_url($pdf_id) . '" target="_blank" class="button">' . __('View License', 'image-licenses') . '</a>'
+            'html' => '<a href="' . wp_get_attachment_url($pdf_id) . '" target="_blank" class="button">' . __('View License', 'codeweber') . '</a>'
          );
       }
    }
@@ -561,7 +561,7 @@ function render_license_select($options, $current_value, $attachment_id)
    }
 
    $html .= '</select>';
-   $html .= '<p class="description"><a href="' . admin_url('post-new.php?post_type=image_license') . '" target="_blank">' . __('Add New License', 'image-licenses') . '</a></p>';
+   $html .= '<p class="description"><a href="' . admin_url('post-new.php?post_type=image_license') . '" target="_blank">' . __('Add New License', 'codeweber') . '</a></p>';
 
    return $html;
 }
