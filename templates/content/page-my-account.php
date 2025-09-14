@@ -12,7 +12,7 @@ if (class_exists('WooCommerce')) :
          <div class="container pt-18 pt-md-16 pb-21 pb-md-21">
             <div class="row">
                <div class="col-lg-12">
-                  <h1 class="display-1 text-white mb-3"><?= universal_title(); ?></h1>
+                  <h1 class="display-1 text-white mb-3"><?= universal_title(false, false); ?></h1>
                   <?php get_breadcrumbs('start', 'white', 'mb-0'); ?>
                </div>
             </div>

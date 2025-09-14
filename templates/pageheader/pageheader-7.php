@@ -57,7 +57,7 @@ if (!empty($pageheader_vars) && is_array($pageheader_vars)) {
       <div class="container <?= $container_class_str; ?>">
          <div class="row <?= $row_class_str; ?>">
             <div class="<?= $col_class_str; ?>">
-               <h1 class="mb-2 <?= $title_class_str; ?>"><?= esc_html(universal_title()); ?></h1>
+               <h1 class="mb-2 <?= $title_class_str; ?>"><?= esc_html(universal_title(false, false)); ?></h1>
                <?= $subtitle_html; ?>
                <?php if ($breadcrumbs_enable): ?>
                   <?php get_breadcrumbs($breadcrumbs_align, $breadcrumbs_color, 'mb-0'); ?>

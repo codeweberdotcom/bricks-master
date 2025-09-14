@@ -292,10 +292,10 @@ function printr($data, $return = false)
 
 
 /**
- * Получает универсальный заголовок текущей страницы WordPress.
+ * Получает универсальный заголовок текущей страницы WordPress с возможностью форматирования.
  *
  * Эта функция автоматически определяет тип текущей страницы и возвращает
- * соответствующий заголовок:
+ * соответствующий заголовок в указанном формате:
  * - Для одиночных записей и страниц — заголовок записи.
  * - Для архивов категорий, тегов, авторов, дат, таксономий и других архивов — заголовок архива.
  * - Для главной страницы и страницы блога — название сайта.
@@ -303,11 +303,13 @@ function printr($data, $return = false)
  * - Для 404 страницы — сообщение об ошибке.
  * - Для архива магазина WooCommerce — заголовок, заданный WooCommerce.
  *
- * @return string Заголовок текущей страницы.
+ * @param string|false $tag HTML-тег для обертки заголовка (false - без обертки)
+ * @param string|false $theme Класс для тега или 'theme' для получения из Redux
+ * @return string Заголовок текущей страницы в указанном формате
  */
-function universal_title()
+function universal_title($tag = false, $theme = false)
 {
-	// Получаем текущую страницу/запись и тип
+	// Получаем текст заголовка
 	if (is_singular()) {
 		// Для одиночных записей и страниц
 		$post_id = get_the_ID();
@@ -337,7 +339,7 @@ function universal_title()
 			$title = single_term_title('', false);
 		} elseif (is_shop() && class_exists('WooCommerce')) {
 			// Для страницы архива магазина WooCommerce
-			$title = woocommerce_page_title(false); // Используем функцию WooCommerce для вывода правильного заголовка
+			$title = woocommerce_page_title(false);
 		} else {
 			$title = get_the_archive_title();
 		}
@@ -356,5 +358,30 @@ function universal_title()
 		$title = get_bloginfo('name');
 	}
 
-	return esc_html($title);
+	$title = esc_html($title);
+
+	// Если тег не указан, возвращаем просто текст
+	if ($tag === false) {
+		return $title;
+	}
+
+	// Определяем класс для тега
+	if ($theme === 'theme') {
+		// Получаем класс из Redux
+		global $opt_name;
+		$title_class = Redux::get_option($opt_name, 'opt-select-title-size');
+	} elseif ($theme !== false) {
+		// Используем переданный класс
+		$title_class = $theme;
+	} else {
+		// Класс не указан
+		$title_class = '';
+	}
+
+	// Формируем HTML с тегом и классом
+	if (!empty($title_class)) {
+		return '<' . $tag . ' class="' . esc_attr($title_class) . '">' . $title . '</' . $tag . '>';
+	} else {
+		return '<' . $tag . '>' . $title . '</' . $tag . '>';
+	}
 }
