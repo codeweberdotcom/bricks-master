@@ -76,7 +76,6 @@ function disable_gutenberg_for_projects($current_status, $post_type)
 	return $current_status;
 }
 
-
 /**
  * Add metabox with additional fields for CPT staff
  */
@@ -104,6 +103,7 @@ function codeweber_staff_meta_box_callback($post)
 	// Get existing field values
 	$position = get_post_meta($post->ID, '_staff_position', true);
 	$name = get_post_meta($post->ID, '_staff_name', true);
+	$surname = get_post_meta($post->ID, '_staff_surname', true);
 	$email = get_post_meta($post->ID, '_staff_email', true);
 	$phone = get_post_meta($post->ID, '_staff_phone', true);
 ?>
@@ -114,6 +114,9 @@ function codeweber_staff_meta_box_callback($post)
 
 		<label for="staff_name"><strong>Name:</strong></label>
 		<input type="text" id="staff_name" name="staff_name" value="<?php echo esc_attr($name); ?>" style="width: 100%; padding: 8px;">
+
+		<label for="staff_surname"><strong>Surname:</strong></label>
+		<input type="text" id="staff_surname" name="staff_surname" value="<?php echo esc_attr($surname); ?>" style="width: 100%; padding: 8px;">
 
 		<label for="staff_email"><strong>E-Mail:</strong></label>
 		<input type="email" id="staff_email" name="staff_email" value="<?php echo esc_attr($email); ?>" style="width: 100%; padding: 8px;">
@@ -145,7 +148,7 @@ function codeweber_save_staff_meta($post_id)
 	}
 
 	// Save fields
-	$fields = ['staff_position', 'staff_name', 'staff_email', 'staff_phone'];
+	$fields = ['staff_position', 'staff_name', 'staff_surname', 'staff_email', 'staff_phone'];
 
 	foreach ($fields as $field) {
 		if (isset($_POST[$field])) {
@@ -164,6 +167,8 @@ function codeweber_add_staff_admin_columns($columns)
 		'cb' => $columns['cb'],
 		'title' => $columns['title'],
 		'staff_position' => 'Position',
+		'staff_name' => 'Name',
+		'staff_surname' => 'Surname',
 		'staff_email' => 'E-Mail',
 		'staff_phone' => 'Phone',
 		'date' => $columns['date']
@@ -181,6 +186,12 @@ function codeweber_fill_staff_admin_columns($column, $post_id)
 		case 'staff_position':
 			echo esc_html(get_post_meta($post_id, '_staff_position', true));
 			break;
+		case 'staff_name':
+			echo esc_html(get_post_meta($post_id, '_staff_name', true));
+			break;
+		case 'staff_surname':
+			echo esc_html(get_post_meta($post_id, '_staff_surname', true));
+			break;
 		case 'staff_email':
 			echo esc_html(get_post_meta($post_id, '_staff_email', true));
 			break;
@@ -197,6 +208,8 @@ add_action('manage_staff_posts_custom_column', 'codeweber_fill_staff_admin_colum
 function codeweber_make_staff_columns_sortable($columns)
 {
 	$columns['staff_position'] = 'staff_position';
+	$columns['staff_name'] = 'staff_name';
+	$columns['staff_surname'] = 'staff_surname';
 	$columns['staff_email'] = 'staff_email';
 	return $columns;
 }

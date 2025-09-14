@@ -632,6 +632,19 @@ a.hover-7:hover:before {
 	color: #fff;
 }
 
+.practice-section img {
+    filter: grayscale(100%);
+    transition: filter 0.6s ease-in-out, transform 0.6s ease;
+}
+
+.practice-section a:hover img {
+    filter: grayscale(0%);
+}
+
+.practice-section .swiper-slide {
+    transition: all 0.6s ease;
+}
+
 //START IMPORT FONTS
 @import "fonts/SourceSansPro";
 //END IMPORT FONTS
