@@ -610,6 +610,28 @@ a.hover-7:hover:before {
     height: 48px;
 }
 
+.practice-card{
+    min-height: 284.44px;
+}
+
+.practice-card .brand-square-xs {
+	transition: all 0.8s ease;
+}
+
+.practice-card:hover .brand-square-xs {
+    opacity: 1 !important;
+    transition: all 0.8s ease;
+	width: 100%;
+	height: 100%;
+	transition: all 0.8s ease;
+	z-index: -1;
+}
+
+.practice-card:hover .h4 {
+	transition: all 0.8s ease;
+	color: #fff;
+}
+
 //START IMPORT FONTS
 @import "fonts/SourceSansPro";
 //END IMPORT FONTS

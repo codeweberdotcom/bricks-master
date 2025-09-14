@@ -414,17 +414,17 @@ gulp.task(
   gulp.series(
     "clean:dev",
     gulp.parallel(
-      "html:dev",
+      //"html:dev",
       "css:dev",
       "fontcss:dev",
-      "colorcss:dev",
+      //"colorcss:dev",
       "vendorcss:dev",
       "pluginsjs:dev",
       "restapijs:dev",
       "themejs:dev",
       "fonts:dev",
       "media:dev",
-      "php:dev",
+      //"php:dev",
       "image:dev"
     )
   )
@@ -436,17 +436,17 @@ gulp.task(
   gulp.series(
     "clean:dist",
     gulp.parallel(
-      "html:dist",
+      //"html:dist",
       "css:dist",
       "fontcss:dist",
-      "colorcss:dist",
+      //"colorcss:dist",
       "vendorcss:dist",
       "pluginsjs:dist",
       "restapijs:dist",
       "themejs:dist",
       "fonts:dist",
       "media:dist",
-      "php:dist",
+      //"php:dist",
       "image:dist"
     )
   )

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-14 09:51+0000\n"
+"PO-Revision-Date: 2025-09-14 09:47+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -646,7 +646,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:62
 msgid "Button Style"
-msgstr "Стиль кнопки"
+msgstr ""
 
 #: comments.php:136
 msgid "By using this comment form you agree with our Privacy Policy"
@@ -3648,11 +3648,11 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:86
 msgid "Page-frame"
-msgstr "Страница-рамка"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:92
 msgid "Page-loader"
-msgstr "Загрузчик страниц"
+msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1218
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:333
@@ -5508,7 +5508,7 @@ msgstr "Тема успешно активирована!"
 
 #: redux-framework/sample/sections/codeweber/style.php:41
 msgid "Theme color"
-msgstr "Цвет темы"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:270
 msgid "Theme directory already exists"
@@ -6379,8 +6379,6 @@ msgid ""
 "You need to download the font in two formats woff and woff2 to display in "
 "old browsers"
 msgstr ""
-"Вам необходимо скачать шрифт в двух форматах woff и woff2 для отображения в "
-"старых браузерах."
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1480
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:595
