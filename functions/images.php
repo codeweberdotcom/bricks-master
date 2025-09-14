@@ -15,7 +15,7 @@ if ( ! function_exists( 'codeweber_image_settings' ) ) {
 		add_image_size('codeweber_project_900-718', 900, 718, true);
 		add_image_size('codeweber_project_900-800', 900, 800, true);
 
-
+		add_image_size('codeweber_staff', 400, 400, true );
 
 		//add_image_size('codeweber_big', 1400, 800, true );
 		//add_image_size('codeweber_square', 400, 400, true );
@@ -52,7 +52,6 @@ add_action( 'after_setup_theme', 'codeweber_image_settings' );
  */
 function codeweber_filter_attachment_sizes_by_post_type($metadata, $attachment_id)
 {
-	// Получаем ID и тип родительской записи
 	$parent_id = get_post_field('post_parent', $attachment_id);
 
 	// Проверяем разные способы определения родителя
@@ -77,7 +76,9 @@ function codeweber_filter_attachment_sizes_by_post_type($metadata, $attachment_i
 
 	// Массив разрешённых размеров изображений
 	$allowed_sizes_by_post_type = [
-		'projects' => ['codeweber_project_900-900', 'codeweber_project_900-718', 'codeweber_project_900-800'],
+		'projects' => ['codeweber_project_900-900', 'codeweber_project_900-718', 'codeweber_project_900-800', 'woocommerce_gallery_thumbnail'],
+		'staff' => ['codeweber_staff', 'woocommerce_gallery_thumbnail'],
+
 		// Раскомментируйте при необходимости:
 		// 'product' => ['woocommerce_thumbnail', 'woocommerce_single'],
 		// 'post' => ['thumbnail', 'medium', 'large'],

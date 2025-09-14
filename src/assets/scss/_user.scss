@@ -4,6 +4,19 @@
 //  COLORS
 //----------------------------------------------------------//
 
+
+.bg-matte-color {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1rem) saturate(180%);
+  -webkit-backdrop-filter: blur(1rem) saturate(180%);
+}
+
+.bg-matte {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+}
+
 // Создаем свою map-переменную на основе ваших gray-переменных
 $custom-grays: (
   "100": $gray-100,
@@ -262,9 +275,6 @@ $accordion-button-active-color: var(--#{$prefix}primary) !default;
     }
   }
 }
-
-
-
 
 
 //----------------------------------------------------------//
