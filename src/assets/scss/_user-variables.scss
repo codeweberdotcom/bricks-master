@@ -340,7 +340,7 @@ a.hover-4 {
 a.hover-4:before {
     content: "";
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     width: 100%;
     height: 1px;
     left: 0;
@@ -470,12 +470,53 @@ a.hover-7:hover:before {
     transition: all .3s ease-in-out;
 }
 
+a.card:hover .hover-4 {
+    position: relative;
+    padding: 0 0 0.05rem;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    color: inherit;
+    padding-left: 22px;
+}
+
+a.card:hover .hover-4::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: 13px;
+    height: 13px;
+    left: 0;
+    bottom: 3px;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Базовые стили (без ховера) */
+.hover-4 {
+    position: relative;
+    padding: 0 0 0.05rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-4::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 1px;
+    left: 0;
+    bottom: -3px;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+}
+
+
 .glass-effect-before {
   position: relative;
   z-index: 1;
 }
 
-.glass-effect-before:before {
+.glass-effect-before::before {
   content: '';
   height: 100%;
   width: 200%;
@@ -513,7 +554,7 @@ a.hover-7:hover:before {
     text-transform: uppercase;
 }
 
-.text-line-before:before {
+.text-line-before::before {
     content: "";
     position: absolute;
     display: inline-block;
@@ -531,7 +572,7 @@ a.hover-7:hover:before {
     text-transform: uppercase;
 }
 
-.text-line-before-soft:before {
+.text-line-before-soft::before {
     content: "";
     position: absolute;
     display: inline-block;
@@ -561,7 +602,7 @@ a.hover-7:hover:before {
     align-items: center;
 }
 
-.text-line-neutral-after:after {
+.text-line-neutral-after::after {
     content: "";
     flex: 1;
     height: 1px;

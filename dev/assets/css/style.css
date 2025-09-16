@@ -34,8 +34,8 @@ li.breadcrumb-item,
 }
 a.hover-4 {
   position: relative;
-  padding: 0 0.2rem 0.05rem;
-  transition: color 0.3s ease, padding 0.3s ease;
+  padding: 0 0rem 0.05rem;
+  transition: all 0.3s ease-in-out;
   z-index: 1;
 }
 a.hover-4:before {
@@ -53,12 +53,6 @@ a.hover-4:hover.link-body {
   color: inherit;
   padding-left: 22px;
   transition: all 0.3s ease-in-out;
-}
-a.hover-4 {
-  position: relative;
-  padding: 0 0.2rem 0.05rem;
-  transition: all 0.3s ease-in-out;
-  z-index: 1;
 }
 a.hover-4:hover:before {
   height: 13px;
@@ -279,6 +273,34 @@ a.hover-7:hover:before {
 }
 .practice-card {
   min-height: 284.44px;
+}
+.practice-card .brand-square-xs {
+  transition: all 0.8s ease;
+}
+.practice-card:hover .brand-square-xs {
+  opacity: 1 !important;
+  transition: all 0.8s ease;
+  width: 100%;
+  height: 100%;
+  transition: all 0.8s ease;
+  z-index: -1;
+}
+.practice-card:hover .h4 {
+  transition: all 0.8s ease;
+  color: #fff;
+}
+.practice-section img {
+  filter: grayscale(100%);
+  transition: filter 0.6s ease-in-out, transform 0.6s ease;
+}
+.practice-section a:hover img {
+  filter: grayscale(0%);
+}
+.practice-section .swiper-slide {
+  transition: all 0.6s ease;
+}
+.overlay.primary span.bg {
+  background: #FEBE10;
 }
 @font-face {
   font-family: "SourceSansPro";
@@ -47358,6 +47380,16 @@ footer.bg-dark.angled.upper-start:before {
     margin: 0 auto;
     position: relative;
   }
+}
+.bg-matte-color {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1rem) saturate(180%);
+  -webkit-backdrop-filter: blur(1rem) saturate(180%);
+}
+.bg-matte {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
 }
 .bg-gray-100 {
   background-color: #FAFAFA !important;
