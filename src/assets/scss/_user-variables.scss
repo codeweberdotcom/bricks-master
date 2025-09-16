@@ -333,7 +333,7 @@ $dropdown-font-weight: 400;
 a.hover-4 {
     position: relative;
     padding: 0 0rem .05rem;
-    transition: color 0.3s ease, padding 0.3s ease;
+    transition: all .3s ease-in-out;
     z-index: 1;
 }
 
@@ -354,12 +354,7 @@ a.hover-4:hover.link-body {
     padding-left: 22px;
     transition: all .3s ease-in-out;
 }
-a.hover-4 {
-    position: relative;
-    padding: 0 .2rem .05rem;
-    transition: all .3s ease-in-out;
-    z-index: 1;
-}
+
 a.hover-4:hover:before {
     height: 13px;
     width: 13px;

@@ -8,14 +8,15 @@
  * y_crop_position > top center bottom
  */
 
-if ( ! function_exists( 'codeweber_image_settings' ) ) {
-	function codeweber_image_settings() {
+if (! function_exists('codeweber_image_settings')) {
+	function codeweber_image_settings()
+	{
 		//CPT Projects
-		add_image_size('codeweber_project_900-900', 900, 900, true );
+		add_image_size('codeweber_project_900-900', 900, 900, true);
 		add_image_size('codeweber_project_900-718', 900, 718, true);
 		add_image_size('codeweber_project_900-800', 900, 800, true);
 
-		add_image_size('codeweber_staff', 400, 400, true );
+		add_image_size('codeweber_staff', 400, 400, true);
 
 		//add_image_size('codeweber_big', 1400, 800, true );
 		//add_image_size('codeweber_square', 400, 400, true );
@@ -26,21 +27,49 @@ if ( ! function_exists( 'codeweber_image_settings' ) ) {
 		remove_image_size('thumbnail');
 		remove_image_size('medium');
 		remove_image_size('medium_large');
-		remove_image_size( '1536x1536' );
-		remove_image_size( '2048x2048' );
+		remove_image_size('1536x1536');
+		remove_image_size('2048x2048');
 	}
 }
-add_action( 'after_setup_theme', 'codeweber_image_settings' );
+add_action('after_setup_theme', 'codeweber_image_settings');
 
 
 // --- Set image compression value ---
 // https://developer.wordpress.org/reference/hooks/jpeg_quality/
 
- function codeweber_image_quality() {
- 	return 80;
- }
- add_filter( 'jpeg_quality', 'codeweber_image_quality' );
+function codeweber_image_quality()
+{
+	return 80;
+}
+add_filter('jpeg_quality', 'codeweber_image_quality');
 
+
+/**
+ * Универсальная функция для получения разрешённых размеров изображений
+ * 
+ * @param string $post_type Тип записи
+ * @param int $post_id ID записи (опционально)
+ * @return array Массив разрешённых размеров
+ */
+function codeweber_get_allowed_image_sizes($post_type = '', $post_id = 0)
+{
+	// Базовые настройки размеров по типам записей (сохраняем ваши оригинальные настройки)
+	$default_sizes = [
+		'projects' => ['codeweber_project_900-900', 'codeweber_project_900-718', 'codeweber_project_900-800', 'woocommerce_gallery_thumbnail'],
+		'staff' => ['codeweber_staff', 'woocommerce_gallery_thumbnail'],
+		'default' => [] // По умолчанию пустой массив - не удаляем никакие размеры
+	];
+
+	// Фильтр для изменения базовых настроек
+	$sizes = apply_filters('codeweber_allowed_image_sizes', $default_sizes, $post_type, $post_id);
+
+	// Определяем какие размеры использовать
+	if ($post_type && isset($sizes[$post_type])) {
+		return apply_filters("codeweber_allowed_image_sizes_{$post_type}", $sizes[$post_type], $post_id);
+	}
+
+	return apply_filters("codeweber_allowed_image_sizes_default", $sizes['default'], $post_id);
+}
 
 /**
  * Фильтрует созданные размеры изображений по типу родительской записи.
@@ -63,31 +92,27 @@ function codeweber_filter_attachment_sizes_by_post_type($metadata, $attachment_i
 		]);
 	}
 
+	// Если нет родителя, выходим
+	if (!$parent_id) {
+		return $metadata;
+	}
+
 	// Определяем тип записи
-	$parent_type = $parent_id ? get_post_type($parent_id) : '';
+	$parent_type = get_post_type($parent_id);
 
 	// Специальная обработка для WooCommerce
-	if (!$parent_type && $parent_id && function_exists('wc_get_product')) {
+	if (!$parent_type && function_exists('wc_get_product')) {
 		$product = wc_get_product($parent_id);
 		if ($product) {
 			$parent_type = 'product';
 		}
 	}
 
-	// Массив разрешённых размеров изображений
-	$allowed_sizes_by_post_type = [
-		'projects' => ['codeweber_project_900-900', 'codeweber_project_900-718', 'codeweber_project_900-800', 'woocommerce_gallery_thumbnail'],
-		'staff' => ['codeweber_staff', 'woocommerce_gallery_thumbnail'],
+	// Получаем разрешённые размеры через универсальную функцию
+	$allowed_sizes = codeweber_get_allowed_image_sizes($parent_type, $parent_id);
 
-		// Раскомментируйте при необходимости:
-		// 'product' => ['woocommerce_thumbnail', 'woocommerce_single'],
-		// 'post' => ['thumbnail', 'medium', 'large'],
-		// 'page' => ['thumbnail', 'medium'],
-	];
-
-	// Фильтрация размеров изображений
-	if ($parent_type && isset($allowed_sizes_by_post_type[$parent_type]) && !empty($metadata['sizes'])) {
-		$allowed_sizes = $allowed_sizes_by_post_type[$parent_type];
+	// Фильтрация размеров изображений (только если есть разрешённые размеры)
+	if (!empty($allowed_sizes) && !empty($metadata['sizes'])) {
 		$upload_dir = wp_upload_dir();
 
 		foreach ($metadata['sizes'] as $size_name => $size_info) {
@@ -109,7 +134,6 @@ function codeweber_filter_attachment_sizes_by_post_type($metadata, $attachment_i
 add_filter('wp_generate_attachment_metadata', 'codeweber_filter_attachment_sizes_by_post_type', 10, 2);
 
 
-
 add_filter('redux/metaboxes/upload/prefilter', 'codeweber_set_parent_for_redux_uploads', 10, 3);
 function codeweber_set_parent_for_redux_uploads($file, $field_id, $redux)
 {
@@ -120,8 +144,6 @@ function codeweber_set_parent_for_redux_uploads($file, $field_id, $redux)
 	}
 	return $file;
 }
-
-
 
 add_filter('wp_insert_attachment_data', 'codeweber_force_attachment_parent_before_upload', 10, 2);
 function codeweber_force_attachment_parent_before_upload($data, $postarr)

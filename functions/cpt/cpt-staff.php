@@ -67,8 +67,8 @@ add_action('init', 'cptui_register_my_cpts_staff');
 
 
 
-add_filter('use_block_editor_for_post_type', 'disable_gutenberg_for_projects', 10, 2);
-function disable_gutenberg_for_projects($current_status, $post_type)
+add_filter('use_block_editor_for_post_type', 'disable_gutenberg_for_staff', 10, 2);
+function disable_gutenberg_for_staff($current_status, $post_type)
 {
 	if ($post_type === 'staff') {
 		return false;
