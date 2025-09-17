@@ -373,7 +373,7 @@ a.hover-5 {
     position: relative;
 }
 
-a.hover-5::before {
+a.hover-5.right::before {
     content: "";
     transform-origin: 100% 50%;
     transform: scale3d(0, 1, 1);
@@ -383,23 +383,63 @@ position: absolute;
     width: 100%;
     height: 1px;
     background:$primary;
-    top: 100%;
+    bottom: -3px;
+    right: 0;
+    pointer-events: none;
+}
+
+a.hover-5.left::after {
+    content: "";
+    transform-origin: 100% 50%;
+    transform: scale3d(0, 1, 1);
+    transition: transform .3s 
+cubic-bezier(.7, 0, .2, 1);
+position: absolute;
+    width: 100%;
+    height: 1px;
+    background:$primary;
+    bottom: -3px;
     left: 0;
     pointer-events: none;
 }
 
-a.hover-5:after {
+
+
+a.hover-5.right::after {
     line-height: 1;
     font-family: Unicons;
     content: "\e931";
-    padding-left: .05rem;
+    padding-right: .05rem;
     font-size: .9rem;
     font-weight: 400;
     vertical-align: -3px;
     margin-right: -.25rem;
     display: inline-block;
+    padding-left: 5px;
 }
-a.hover-5:hover:before {
+
+a.hover-5.left::before{
+    line-height: 1;
+    font-family: Unicons;
+    content: "\e92f";
+    padding-left: .05rem;
+    font-size: .9rem;
+    font-weight: 400;
+    vertical-align: -3px;
+    margin-left: -.25rem;
+    display: inline-block;
+    padding-right: 5px;
+}
+
+
+a.hover-5.left:hover:after {
+    transform-origin: 0 50%;
+    transform: scale3d(1, 1, 1);
+    transition-timing-function: 
+cubic-bezier(.4, 1, .8, 1);
+}
+
+a.hover-5.right:hover:before {
     transform-origin: 0 50%;
     transform: scale3d(1, 1, 1);
     transition-timing-function: 
