@@ -15,10 +15,17 @@ if (!is_front_page() && !is_home() && !is_404()) {
    $single_pageheader_id = Redux::get_option($opt_name, 'single_page_header_select_' . $post_type);
    $archive_pageheader_id = Redux::get_option($opt_name, 'archive_page_header_select_' . $post_type);
 
+   // Флаг для определения, нужно ли выводить заголовок
+   $show_page_header = true;
+   $template_pageheader_id = '';
+
    if (is_single() || is_singular($post_type)) {
-      if (!empty($page_header_for_this_page) && $page_header_for_this_page_bool == '2') {
+      // Проверяем, не отключен ли заголовок для этого типа записи
+      if ($single_pageheader_id === 'disabled') {
+         $show_page_header = false;
+      } elseif (!empty($page_header_for_this_page) && $page_header_for_this_page_bool == '2') {
          $template_pageheader_id = $page_header_for_this_page;
-      } elseif (!empty($single_pageheader_id) && $page_header_for_this_page_bool == '1') {
+      } elseif (!empty($single_pageheader_id) && $single_pageheader_id !== 'default' && $page_header_for_this_page_bool == '1') {
          $template_pageheader_id = $single_pageheader_id;
       } elseif ($global_pagehaeder_type === '2') {
          $template_pageheader_id = $global_custom_template_pageheader;
@@ -26,17 +33,22 @@ if (!is_front_page() && !is_home() && !is_404()) {
          $template_pageheader_id = '';
       }
    } elseif (is_archive() || is_post_type_archive($post_type)) {
-      if (!empty($archive_pageheader_id)) {
+      // Проверяем, не отключен ли заголовок для архива этого типа
+      if ($archive_pageheader_id === 'disabled') {
+         $show_page_header = false;
+      } elseif (!empty($archive_pageheader_id) && $archive_pageheader_id !== 'default') {
          $template_pageheader_id = $archive_pageheader_id;
       } elseif ($global_pagehaeder_type === '2') {
          $template_pageheader_id = $global_custom_template_pageheader;
       } else {
          $template_pageheader_id = '';
       }
-   } else {
-      $template_pageheader_id = '';
    }
 
+   // Если заголовок отключен - пропускаем вывод
+   if (!$show_page_header) {
+      return;
+   }
 
    // Функция подготовки всех необходимых переменных для pageheader
    if (!function_exists('get_pageheader_vars')) {
@@ -90,10 +102,9 @@ if (!is_front_page() && !is_home() && !is_404()) {
          $page_header_pattern_image_url = Redux::get_option($opt_name, 'global-page-header-pattern')['url'] ?? '';
          $page_header_title_size = Redux::get_option($opt_name, 'opt-select-title-size') ?? '';
 
-
          $global_page_header_model = Redux::get_option($opt_name, 'global_page_header_model');
          $header_background = Redux::get_option($opt_name, 'header-background');
-         
+
          // Логика классов контейнера
          $container_class = [];
 
@@ -218,12 +229,14 @@ if (!is_front_page() && !is_home() && !is_404()) {
    // Получаем переменные для шаблона
    $pageheader_vars = get_pageheader_vars();
 
-   if ($template_pageheader_id) {
+   if ($template_pageheader_id && $template_pageheader_id !== 'default') {
       $post = get_post($template_pageheader_id);
-      $content = $post->post_content;
-      $content = apply_filters('the_content', $content);
-      $content = do_shortcode($content); // Обрабатываем шорткоды
-      echo $content;
+      if ($post) {
+         $content = $post->post_content;
+         $content = apply_filters('the_content', $content);
+         $content = do_shortcode($content); // Обрабатываем шорткоды
+         echo $content;
+      }
    } else {
       if (!empty($global_template_pageheader)) {
          $template_part = get_theme_file_path("templates/pageheader/pageheader-{$global_template_pageheader}.php");

@@ -54,7 +54,6 @@ function codeweber_svg_upload($mimes)
 add_filter('upload_mimes', 'codeweber_svg_upload');
 
 
-
 /**
  * Устанавливает корректный MIME-тип для SVG-файлов.
  *

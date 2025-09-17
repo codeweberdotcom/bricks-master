@@ -412,31 +412,45 @@ if (!empty($custom_post_type_files)) {
             ),
         );
 
-        // Настройки заголовка страницы
-        $page_header_settings = array(
-            array(
-                'id'       => 'single_page_header_select_' . $sanitized_id,
-                'type'     => 'select',
-                'title'    => sprintf(esc_html__('Page Header for Single %s', 'codeweber'), $translated_label),
-                'desc'     => $page_header_message,
-                'data'     => 'posts',
-                'args'     => array(
-                    'post_type' => 'page-header',
-                    'posts_per_page' => -1,
-                ),
-            ),
-            array(
-                'id'       => 'archive_page_header_select_' . $sanitized_id,
-                'type'     => 'select',
-                'title'    => sprintf(esc_html__('Page Header for Archive %s', 'codeweber'), $translated_label),
-                'desc'     => $page_header_message,
-                'data'     => 'posts',
-                'args'     => array(
-                    'post_type' => 'page-header',
-                    'posts_per_page' => -1,
-                ),
-            ),
-        );
+		// Сначала получаем все записи page-header
+		$page_headers = get_posts(array(
+			'post_type' => 'page-header',
+			'posts_per_page' => -1,
+			'post_status' => 'publish',
+			'orderby' => 'title',
+			'order' => 'ASC'
+		));
+
+		// Создаем базовые опции
+		$page_header_options = array(
+			'disabled' => esc_html__('Disabled - Hide Page Header', 'codeweber'),
+			'default'  => esc_html__('Default Page Header', 'codeweber'),
+		);
+
+		// Добавляем созданные записи
+		foreach ($page_headers as $header) {
+			$page_header_options[$header->ID] = $header->post_title;
+		}
+
+		// Настройки заголовка страницы
+		$page_header_settings = array(
+			array(
+				'id'       => 'single_page_header_select_' . $sanitized_id,
+				'type'     => 'select',
+				'title'    => sprintf(esc_html__('Page Header for Single %s', 'codeweber'), $translated_label),
+				'desc'     => $page_header_message,
+				'options'  => $page_header_options,
+				'default'  => 'default',
+			),
+			array(
+				'id'       => 'archive_page_header_select_' . $sanitized_id,
+				'type'     => 'select',
+				'title'    => sprintf(esc_html__('Page Header for Archive %s', 'codeweber'), $translated_label),
+				'desc'     => $page_header_message,
+				'options'  => $page_header_options,
+				'default'  => 'default',
+			),
+		);
 
         // Добавляем все настройки в виде табов
         $section_fields[] = array(

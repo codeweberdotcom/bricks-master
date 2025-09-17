@@ -115,9 +115,6 @@ if ($page_header_align === '1') {
 }
 ?>
 
-
-
-
 <section class="wrapper <?= implode(" ", $section_class); ?>" <?= implode(" ", $data_section); ?>>
    <div class="container <?= implode(" ", $container_class); ?>">
       <div class="row">

@@ -163,6 +163,16 @@ Redux::set_section(
 						'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/pageheader_7.jpg',
 						'class' => 'header_viewport',
 					),
+					'8' => array(
+						'title' => esc_html__('Page Header Type 8', 'codeweber'),
+						'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/pageheader_8.jpg',
+						'class' => 'header_viewport',
+					),
+					'9' => array(
+						'title' => esc_html__('Page Header Type 9', 'codeweber'),
+						'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/pageheader_9.jpg',
+						'class' => 'header_viewport',
+					),
 				),
 				'default'  => '1',
 				'required' => array('global_page_header_type', '=', '1'),

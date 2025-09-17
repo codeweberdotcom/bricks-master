@@ -1,46 +1,89 @@
 <?php
 
-
 /**
  * Подключает файл шаблона pageheader из каталога /templates/pageheader/ темы.
- *
- * Работает аналогично get_header(), но подключает:
- * - templates/pageheader/pageheader-{name}.php
- * - или templates/pageheader/pageheader.php
- *
- * Шорткод [pageheader name="название"] подключает шаблон pageheader.
- *
- * Пример использования: [pageheader name="main"]
- * @param string|null $name Имя подшаблона (опционально).
+ * Если выбрана конкретная запись pageheader, выводит ее контент.
  */
 function get_pageheader($name = null)
 {
-   do_action('get_pageheader', $name);
+    do_action('get_pageheader', $name);
 
-   // Если имя не передано — берем из Redux Framework
-   if (empty($name) && class_exists('Redux')) {
-      global $opt_name;
-      $name = Redux::get_option($opt_name, 'global_page_header_model');
-   }
+    $pageheader_content = null;
 
-   // Путь к шаблону в корне темы
-   $template = get_theme_file_path('pageheader.php');
+    // Если имя не передано — берем из Redux Framework
+    if (empty($name) && class_exists('Redux')) {
+        global $opt_name;
 
-   if (file_exists($template)) {
+        // Определяем тип страницы и получаем соответствующую опцию
+        if (is_singular()) {
+            // Для одиночных записей
+            $post_type = get_post_type();
+            $sanitized_id = sanitize_title($post_type);
+            $option_name = 'single_page_header_select_' . $sanitized_id;
+        } elseif (is_archive() || is_home() || is_search()) {
+            // Для архивных страниц
+            if (is_post_type_archive()) {
+                $post_type = get_post_type();
+            } elseif (is_category() || is_tag() || is_tax()) {
+                $taxonomy = get_queried_object()->taxonomy;
+                $post_type = get_taxonomy($taxonomy)->object_type[0] ?? 'post';
+            } else {
+                $post_type = 'post';
+            }
+            $sanitized_id = sanitize_title($post_type);
+            $option_name = 'archive_page_header_select_' . $sanitized_id;
+        } else {
+            // Для других страниц (главная, 404 и т.д.)
+            $option_name = 'global_page_header_model';
+        }
 
-      // Подготавливаем переменные, которые хотим передать
-      $pageheader_vars = [
-         'name' => $name,
-         // Здесь можно добавить любые другие переменные,
-         // например, из Redux
-      ];
+        // Получаем значение опции
+        $selected_option = Redux::get_option($opt_name, $option_name);
 
-      // Распаковываем переменные в локальную область видимости шаблона
-      extract($pageheader_vars);
+        // Если выбрано "default" или опция не найдена, используем глобальную
+        if ($selected_option === 'default' || empty($selected_option)) {
+            $selected_option = Redux::get_option($opt_name, 'global_page_header_model');
+        }
 
-      // Подключаем шаблон
-      require $template;
-   }
+        // Если выбрано "disabled", возвращаем пустоту
+        if ($selected_option === 'disabled') {
+            return;
+        }
+
+        // Если выбрана конкретная запись (числовой ID)
+        if (is_numeric($selected_option)) {
+            $post_id = intval($selected_option);
+            
+            // Проверяем, существует ли запись и является ли она pageheader
+            $post = get_post($post_id);
+            if ($post && $post->post_type === 'page-header' && $post->post_status === 'publish') {
+                // Выводим контент записи
+                echo apply_filters('the_content', $post->post_content);
+                return;
+            }
+        }
+
+        // Если это не числовой ID, используем как имя шаблона
+        $name = $selected_option;
+    }
+
+    // Если передано имя шаблона, ищем файл
+    if (!empty($name)) {
+        $template = get_theme_file_path('pageheader.php');
+
+        if (file_exists($template)) {
+            // Подготавливаем переменные, которые хотим передать
+            $pageheader_vars = [
+                'name' => $name,
+            ];
+
+            // Распаковываем переменные в локальную область видимости шаблона
+            extract($pageheader_vars);
+
+            // Подключаем шаблон
+            require $template;
+        }
+    }
 }
 
 
