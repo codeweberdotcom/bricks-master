@@ -1012,3 +1012,72 @@ $icon-file: "\eaed" !default;
 $icon-code: "\e952" !default;
 $icon-terminal: "\e905" !default;
 $icon-kbd: "\eba9" !default;
+
+
+//----------------------------------------------------------//
+//	SWIPER
+//----------------------------------------------------------//
+
+// Carousel / Swiper variables
+$swiper-arrow-size:                       2.2rem !default;
+$swiper-arrow-size-lg:                    3rem !default;
+$swiper-arrow-size-sm:                    1.8rem !default;
+$swiper-arrow-bg:                         rgba(var(--#{$prefix}white-rgb), 0.7) !default;
+$swiper-arrow-bg-hover:                   rgba(var(--#{$prefix}white-rgb), 0.9) !default;
+$swiper-arrow-bg-disabled:                rgba(var(--#{$prefix}white-rgb), 0.7) !default;
+$swiper-arrow-color:                      $main-dark !default;
+$swiper-arrow-color-hover:                $main-dark !default;
+$swiper-arrow-box-shadow:                 $box-shadow-sm !default;
+$swiper-arrow-border-radius:              100% !default;
+$swiper-arrow-font-size:                  1.2rem !default;
+$swiper-arrow-font-family:                $font-family-unicons !default;
+$swiper-arrow-prev-icon:                  $icon-prev !default;
+$swiper-arrow-next-icon:                  $icon-next !default;
+$swiper-arrow-horizontal-offset:          1rem !default;
+$swiper-arrow-horizontal-offset-lg:       1.5rem !default;
+$swiper-arrow-horizontal-offset-sm:       0.5rem !default;
+$swiper-arrow-vertical-offset:            auto !default;
+$swiper-arrow-transition:                 $link-transition !default;
+
+$swiper-pagination-bullet-size:           0.5rem !default;
+$swiper-pagination-bullet-size-lg:        0.7rem !default;
+$swiper-pagination-bullet-size-sm:        0.4rem !default;
+$swiper-pagination-bullet-margin:         0.3rem !default;
+$swiper-pagination-bullet-bg:             $secondary !default;
+$swiper-pagination-bullet-bg-hover:       $secondary !default;
+$swiper-pagination-bullet-opacity:        0.5 !default;
+$swiper-pagination-bullet-opacity-hover:  0.8 !default;
+$swiper-pagination-bullet-border:         3px solid transparent !default;
+$swiper-pagination-bullet-border-radius:  100% !default;
+$swiper-pagination-bullet-scale:          0.6 !default;
+$swiper-pagination-bullet-scale-hover:    1 !default;
+$swiper-pagination-bullet-active-scale:   1 !default;
+$swiper-pagination-bullet-active-bg:      none !default;
+$swiper-pagination-bullet-active-border:  3px solid $secondary !default;
+$swiper-pagination-bullet-transition:     $link-transition !default;
+
+$swiper-pagination-bottom-position:       -2.8rem !default;
+$swiper-pagination-bottom-position-nav:   -5.2rem !default;
+$swiper-pagination-bottom-position-closer: -2rem !default;
+$swiper-pagination-overlay-bottom:        0.6rem !default;
+
+$swiper-thumb-size:                       2.5rem !default;
+$swiper-thumb-border:                     2px solid transparent !default;
+$swiper-thumb-border-active:              2px solid rgba(var(--#{$prefix}white-rgb), 0.6) !default;
+$swiper-thumb-border-radius:              100% !default;
+$swiper-thumb-opacity:                    0.7 !default;
+$swiper-thumb-opacity-active:             1 !default;
+
+$swiper-navigation-bottom-position:       -3.2rem !default;
+$swiper-navigation-bottom-position-far:   -4.1rem !default;
+$swiper-navigation-button-margin:         0.2rem !default;
+$swiper-navigation-button-margin-start:   0.4rem !default;
+
+$swiper-overlay-bg:                       rgba($gray-900, 0.5) !default;
+$swiper-overlay-bg-300:                   rgba($gray-900, 0.3) !default;
+$swiper-overlay-bg-400:                   rgba($gray-900, 0.4) !default;
+
+$swiper-auto-slide-width:                 850px !default;
+$swiper-auto-xs-slide-width:              600px !default;
+$swiper-auto-xs-slide-width-tablet:       400px !default;
+$swiper-auto-xs-slide-width-mobile:       300px !default;

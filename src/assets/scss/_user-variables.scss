@@ -333,6 +333,30 @@ $nav-link-text-transform: uppercase;
 
 $dropdown-font-weight: 400;
 
+//----------------------------------------------------------//
+// SWIPER
+//----------------------------------------------------------//
+
+$icon-prev: "\e92f";
+$icon-next: "\e931";
+
+$swiper-arrow-size: 1.5rem;
+$swiper-arrow-border-radius: 0;
+
+$swiper-arrow-color: $white;
+$swiper-arrow-color-hover: $white;
+
+$swiper-arrow-bg: $primary;
+$swiper-arrow-bg-hover: $primary;
+
+$swiper-pagination-bullet-border-radius:  0;
+$swiper-pagination-bullet-active-bg:  $white;
+
+$swiper-pagination-bullet-active-border:  3px solid $primary;
+$swiper-pagination-bullet-border:         3px solid $primary;
+
+$swiper-pagination-bullet-bg: $primary;
+$swiper-pagination-bullet-bg-hover: $white;
 
 //----------------------------------------------------------//
 // LINKS
