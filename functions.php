@@ -37,6 +37,8 @@ if (class_exists('WooCommerce')) {
 	require_once get_template_directory() . '/functions/woocommerce.php';
 }
 
+
+// Подключаем модуль персональных данных Cyr-to-Lat
 require_once get_template_directory() . '/functions/cyr-to-lat.php';
 
 require_once get_template_directory() . '/functions/lib/comments-helper.php'; // --- Comments Helper ---
@@ -45,11 +47,6 @@ require_once get_template_directory() . '/functions/comments-reply.php'; // --- 
 
 
 
-
-
-
-
-// functions.php
 
 // Подключаем модуль персональных данных
 require_once get_template_directory() . '/functions/integrations/personal-data/init.php';
