@@ -11,37 +11,81 @@ defined('ABSPATH') || exit;
 
 /**
  * Возвращает список файлов пользовательских типов записей (CPT),
- * находящихся в директории `/functions/cpt` текущей темы.
+ * находящихся в директории `/functions/cpt` текущей и дочерней тем.
  *
  * Функция ищет файлы, имена которых начинаются с `cpt-` и заканчиваются на `.php`.
- * Это полезно для автоматического подключения CPT-файлов по шаблону.
- *
- * Пример имени файла: `cpt-faq.php`, `cpt-portfolio.php`.
- *
- * @return array Массив имён файлов (без путей), соответствующих критериям.
- *               Возвращает пустой массив, если директория не существует или нет подходящих файлов.
+ * Сначала проверяет дочернюю тему, затем родительскую.
  */
 if (!function_exists('get_cpt_files_list')) {
-	function get_cpt_files_list()
-	{
-		$directory = get_template_directory() . '/functions/cpt';
+    function get_cpt_files_list()
+    {
+        $files = array();
 
-		if (is_dir($directory)) {
-			$files = scandir($directory);
+        // Сначала проверяем дочернюю тему
+        $child_directory = get_stylesheet_directory() . '/functions/cpt';
+        if (is_dir($child_directory)) {
+            $child_files = scandir($child_directory);
+            $child_cpt_files = array_filter($child_files, function ($file) use ($child_directory) {
+                return is_file($child_directory . '/' . $file)
+                    && strpos($file, 'cpt-') === 0
+                    && pathinfo($file, PATHINFO_EXTENSION) === 'php';
+            });
 
-			$cpt_files = array_filter($files, function ($file) use ($directory) {
-				$is_valid = is_file($directory . '/' . $file)
-					&& strpos($file, 'cpt-') === 0
-					&& pathinfo($file, PATHINFO_EXTENSION) === 'php';
-				return $is_valid;
-			});
+            foreach ($child_cpt_files as $file) {
+                $files[] = $file;
+            }
+        }
 
-			return array_values($cpt_files);
-		}
+        // Затем проверяем родительскую тему
+        $parent_directory = get_template_directory() . '/functions/cpt';
+        if (is_dir($parent_directory)) {
+            $parent_files = scandir($parent_directory);
+            $parent_cpt_files = array_filter($parent_files, function ($file) use ($parent_directory) {
+                $is_valid = is_file($parent_directory . '/' . $file)
+                    && strpos($file, 'cpt-') === 0
+                    && pathinfo($file, PATHINFO_EXTENSION) === 'php';
+                return $is_valid;
+            });
 
-		return [];
-	}
+            // Добавляем только те файлы, которых нет в дочерней теме
+            foreach ($parent_cpt_files as $file) {
+                if (!in_array($file, $files)) {
+                    $files[] = $file;
+                }
+            }
+        }
+
+        return array_values($files);
+    }
 }
+
+/**
+ * Получает список файлов CPT ТОЛЬКО из дочерней темы
+ *
+ * @return array Массив файлов CPT из дочерней темы
+ */
+function get_child_cpt_files_list()
+{
+    $files = array();
+    $child_directory = get_stylesheet_directory() . '/functions/cpt';
+
+    if (is_dir($child_directory)) {
+        $child_files = scandir($child_directory);
+        $child_cpt_files = array_filter($child_files, function ($file) use ($child_directory) {
+            return is_file($child_directory . '/' . $file)
+                && strpos($file, 'cpt-') === 0
+                && pathinfo($file, PATHINFO_EXTENSION) === 'php';
+        });
+
+        foreach ($child_cpt_files as $file) {
+            $files[] = $file;
+        }
+    }
+
+    return $files;
+}
+
+
 
 /**
  * Генерирует массив переключателей (switches) для всех пользовательских типов записей (CPT),
@@ -152,7 +196,8 @@ function get_header_posts()
  */
 
 // Основной код
-$custom_post_type_files = get_cpt_files_list();
+$custom_post_type_files = get_cpt_files_list(); // Все файлы из обеих тем
+$child_cpt_files = get_child_cpt_files_list();  // Только файлы из дочерней темы
 $excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal'];
 
 if (!empty($custom_post_type_files)) {
@@ -178,68 +223,68 @@ if (!empty($custom_post_type_files)) {
 		]
 	);
 
-    // Проверяем наличие записей для стандартных типов
-    $header_posts = get_posts(array(
-        'post_type'      => 'header',
-        'posts_per_page' => 1,
-        'fields'         => 'ids',
-        'post_status'    => 'publish'
-    ));
+	// Проверяем наличие записей для стандартных типов
+	$header_posts = get_posts(array(
+		'post_type'      => 'header',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+		'post_status'    => 'publish'
+	));
 
-    $footer_posts = get_posts(array(
-        'post_type'      => 'footer',
-        'posts_per_page' => 1,
-        'fields'         => 'ids',
-        'post_status'    => 'publish'
-    ));
+	$footer_posts = get_posts(array(
+		'post_type'      => 'footer',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+		'post_status'    => 'publish'
+	));
 
-    $page_header_posts = get_posts(array(
-        'post_type'      => 'page-header',
-        'posts_per_page' => 1,
-        'fields'         => 'ids',
-        'post_status'    => 'publish'
-    ));
+	$page_header_posts = get_posts(array(
+		'post_type'      => 'page-header',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+		'post_status'    => 'publish'
+	));
 
-    // Формируем сообщения о наличии записей
-    $header_message = empty($header_posts)
-        ? sprintf(
-            esc_html__('No custom headers found. You can create one here: %s', 'codeweber'),
-            '<a href="' . esc_url(admin_url('edit.php?post_type=header')) . '" target="_blank">' . esc_html__('Create Header', 'codeweber') . '</a>'
-          )
-        : esc_html__('Select header from available options', 'codeweber');
+	// Формируем сообщения о наличии записей
+	$header_message = empty($header_posts)
+		? sprintf(
+			esc_html__('No custom headers found. You can create one here: %s', 'codeweber'),
+			'<a href="' . esc_url(admin_url('edit.php?post_type=header')) . '" target="_blank">' . esc_html__('Create Header', 'codeweber') . '</a>'
+		)
+		: esc_html__('Select header from available options', 'codeweber');
 
-    $footer_message = empty($footer_posts)
-        ? sprintf(
-            esc_html__('No custom footers found. You can create one here: %s', 'codeweber'),
-            '<a href="' . esc_url(admin_url('edit.php?post_type=footer')) . '" target="_blank">' . esc_html__('Create Footer', 'codeweber') . '</a>'
-          )
-        : esc_html__('Select footer from available options', 'codeweber');
+	$footer_message = empty($footer_posts)
+		? sprintf(
+			esc_html__('No custom footers found. You can create one here: %s', 'codeweber'),
+			'<a href="' . esc_url(admin_url('edit.php?post_type=footer')) . '" target="_blank">' . esc_html__('Create Footer', 'codeweber') . '</a>'
+		)
+		: esc_html__('Select footer from available options', 'codeweber');
 
-    $page_header_message = empty($page_header_posts)
-        ? sprintf(
-            esc_html__('No custom page headers found. You can create one here: %s', 'codeweber'),
-            '<a href="' . esc_url(admin_url('edit.php?post_type=page-header')) . '" target="_blank">' . esc_html__('Create Page Header', 'codeweber') . '</a>'
-          )
-        : esc_html__('Select page header from available options', 'codeweber');
+	$page_header_message = empty($page_header_posts)
+		? sprintf(
+			esc_html__('No custom page headers found. You can create one here: %s', 'codeweber'),
+			'<a href="' . esc_url(admin_url('edit.php?post_type=page-header')) . '" target="_blank">' . esc_html__('Create Page Header', 'codeweber') . '</a>'
+		)
+		: esc_html__('Select page header from available options', 'codeweber');
 
-    // Добавляем WooCommerce, если плагин активен
-    if (class_exists('WooCommerce')) {
-        $custom_post_type_files[] = 'cpt-woocommerce.php';
-    }
+	// Добавляем WooCommerce, если плагин активен
+	if (class_exists('WooCommerce')) {
+		$custom_post_type_files[] = 'cpt-woocommerce.php';
+	}
 
-    // Создаем настройки для каждого кастомного типа записи
-    foreach ($custom_post_type_files as $file) {
-        // Получаем базовое имя типа записи из имени файла
-        $base_name = str_replace(array('cpt-', '.php'), '', $file);
-        if (empty($base_name)) {
-            continue;
-        }
+	// Создаем настройки для каждого кастомного типа записи
+	foreach ($custom_post_type_files as $file) {
+		// Получаем базовое имя типа записи из имени файла
+		$base_name = str_replace(array('cpt-', '.php'), '', $file);
+		if (empty($base_name)) {
+			continue;
+		}
 
-        // Формируем ID опции для Redux
-        $option_id = 'cpt_switch_' . sanitize_key($base_name);
+		// Формируем ID опции для Redux
+		$option_id = 'cpt_switch_' . sanitize_key($base_name);
 
-        // Проверяем, включен ли этот тип записи
-        $is_enabled = Redux::get_option($opt_name, $option_id);
+		// Проверяем, включен ли этот тип записи
+		$is_enabled = Redux::get_option($opt_name, $option_id);
 
 		// Для legal CPT принудительно включаем без проверки переключателя
 		if ($file === 'cpt-legal.php') {
@@ -248,37 +293,43 @@ if (!empty($custom_post_type_files)) {
 
 		// Пропускаем если тип записи отключен и это не WooCommerce
 		if (!$is_enabled && $file !== 'cpt-woocommerce.php') {
-            continue;
-        }
+			continue;
+		}
 
-        // Форматируем имя для отображения в интерфейсе
-        $display_name = str_replace(array('-', '_'), ' ', $base_name);
-        $display_name = mb_convert_case($display_name, MB_CASE_TITLE, 'UTF-8');
-        $translated_label = __($display_name, 'codeweber');
-        $sanitized_id = sanitize_key($base_name);
+		// ОПРЕДЕЛЯЕМ ОТКУДА ФАЙЛ И ВЫБИРАЕМ ПРАВИЛЬНЫЙ ПУТЬ
+		$is_from_child_theme = in_array($file, $child_cpt_files);
+		$theme_directory = $is_from_child_theme
+			? get_stylesheet_directory()  // Путь к дочерней теме
+			: get_template_directory();   // Путь к родительской теме
 
-        // Получаем список доступных шаблонов
-        $archive_template_options = array('default' => esc_html__('Default Template', 'codeweber'));
-        $archive_template_directory = get_template_directory() . "/templates/archives/{$display_name}";
+		// Форматируем имя для отображения в интерфейсе
+		$display_name = str_replace(array('-', '_'), ' ', $base_name);
+		$display_name = mb_convert_case($display_name, MB_CASE_TITLE, 'UTF-8');
+		$translated_label = __($display_name, 'codeweber');
+		$sanitized_id = sanitize_key($base_name);
 
-        if (is_dir($archive_template_directory)) {
-            $archive_template_files = scandir($archive_template_directory);
-            foreach ($archive_template_files as $template_file) {
-                if ($template_file === '.' || $template_file === '..') {
-                    continue;
-                }
+		// ИСПОЛЬЗУЕМ ПРАВИЛЬНЫЙ ПУТЬ ДЛЯ ПОИСКА ШАБЛОНОВ
+		$archive_template_directory = $theme_directory . "/templates/archives/{$display_name}";
+		$single_template_directory = $theme_directory . "/templates/singles/{$display_name}";
 
-                if (is_file($archive_template_directory . '/' . $template_file) && pathinfo($template_file, PATHINFO_EXTENSION) === 'php') {
-                    $template_name = pathinfo($template_file, PATHINFO_FILENAME);
-                    $archive_template_options[$template_name] = $template_name;
-                }
-            }
-        }
+		// Получаем список доступных шаблонов архива
+		$archive_template_options = array('default' => esc_html__('Default Template', 'codeweber'));
+		if (is_dir($archive_template_directory)) {
+			$archive_template_files = scandir($archive_template_directory);
+			foreach ($archive_template_files as $template_file) {
+				if ($template_file === '.' || $template_file === '..') {
+					continue;
+				}
+
+				if (is_file($archive_template_directory . '/' . $template_file) && pathinfo($template_file, PATHINFO_EXTENSION) === 'php') {
+					$template_name = pathinfo($template_file, PATHINFO_FILENAME);
+					$archive_template_options[$template_name] = $template_name;
+				}
+			}
+		}
 
 		// Получаем список доступных шаблонов для single
 		$single_template_options = array('default' => esc_html__('Default Template', 'codeweber'));
-		$single_template_directory = get_template_directory() . "/templates/singles/{$display_name}";
-
 		if (is_dir($single_template_directory)) {
 			$single_template_files = scandir($single_template_directory);
 			foreach ($single_template_files as $template_file) {
@@ -296,17 +347,17 @@ if (!empty($custom_post_type_files)) {
 			}
 		}
 
-        // Основные поля секции
-        $section_fields = array(
-            // Выбор шаблона архива
-            array(
-                'id'       => 'archive_template_select_' . $sanitized_id,
-                'type'     => 'select',
-                'title'    => sprintf(esc_html__('Archive Template for %s', 'codeweber'), $translated_label),
-                'subtitle' => esc_html__('Select template for archive page', 'codeweber'),
-                'options'  => $archive_template_options,
-                'default'  => 'default',
-            ),
+		// Основные поля секции
+		$section_fields = array(
+			// Выбор шаблона архива
+			array(
+				'id'       => 'archive_template_select_' . $sanitized_id,
+				'type'     => 'select',
+				'title'    => sprintf(esc_html__('Archive Template for %s', 'codeweber'), $translated_label),
+				'subtitle' => esc_html__('Select template for archive page', 'codeweber'),
+				'options'  => $archive_template_options,
+				'default'  => 'default',
+			),
 
 			array(
 				'id'       => 'single_template_select_' . $sanitized_id,
@@ -317,100 +368,100 @@ if (!empty($custom_post_type_files)) {
 				'default'  => 'default',
 			),
 
-            // Пользовательский заголовок
-            array(
-                'id'       => 'custom_title_' . $sanitized_id,
-                'type'     => 'text',
-                'title'    => sprintf(esc_html__('Custom Title for %s', 'codeweber'), $translated_label),
-                'default'  => '',
-            ),
+			// Пользовательский заголовок
+			array(
+				'id'       => 'custom_title_' . $sanitized_id,
+				'type'     => 'text',
+				'title'    => sprintf(esc_html__('Custom Title for %s', 'codeweber'), $translated_label),
+				'default'  => '',
+			),
 
-            // Пользовательский подзаголовок
-            array(
-                'id'       => 'custom_subtitle_' . $sanitized_id,
-                'type'     => 'textarea',
-                'title'    => sprintf(esc_html__('Custom Subtitle for %s', 'codeweber'), $translated_label),
-                'default'  => '',
-            ),
-        );
+			// Пользовательский подзаголовок
+			array(
+				'id'       => 'custom_subtitle_' . $sanitized_id,
+				'type'     => 'textarea',
+				'title'    => sprintf(esc_html__('Custom Subtitle for %s', 'codeweber'), $translated_label),
+				'default'  => '',
+			),
+		);
 
-        // Настройки сайдбара
-        $sidebar_settings = array(
-            array(
-                'id'       => 'sidebar_position_single_' . $sanitized_id,
-                'type'     => 'button_set',
-                'title'    => sprintf(esc_html__('Sidebar Position for Single %s', 'codeweber'), $translated_label),
-                'options'  => array(
-                    'left'   => esc_html__('Left', 'codeweber'),
-                    'none'   => esc_html__('Disabled', 'codeweber'),
-                    'right'  => esc_html__('Right', 'codeweber'),
-                ),
-                'default'  => 'right',
-            ),
-            array(
-                'id'       => 'sidebar_position_archive_' . $sanitized_id,
-                'type'     => 'button_set',
-                'title'    => sprintf(esc_html__('Sidebar Position for Archive %s', 'codeweber'), $translated_label),
-                'options'  => array(
-                    'left'   => esc_html__('Left', 'codeweber'),
-                    'none'   => esc_html__('Disabled', 'codeweber'),
-                    'right'  => esc_html__('Right', 'codeweber'),
-                ),
-                'default'  => 'right',
-            ),
-        );
+		// Настройки сайдбара
+		$sidebar_settings = array(
+			array(
+				'id'       => 'sidebar_position_single_' . $sanitized_id,
+				'type'     => 'button_set',
+				'title'    => sprintf(esc_html__('Sidebar Position for Single %s', 'codeweber'), $translated_label),
+				'options'  => array(
+					'left'   => esc_html__('Left', 'codeweber'),
+					'none'   => esc_html__('Disabled', 'codeweber'),
+					'right'  => esc_html__('Right', 'codeweber'),
+				),
+				'default'  => 'right',
+			),
+			array(
+				'id'       => 'sidebar_position_archive_' . $sanitized_id,
+				'type'     => 'button_set',
+				'title'    => sprintf(esc_html__('Sidebar Position for Archive %s', 'codeweber'), $translated_label),
+				'options'  => array(
+					'left'   => esc_html__('Left', 'codeweber'),
+					'none'   => esc_html__('Disabled', 'codeweber'),
+					'right'  => esc_html__('Right', 'codeweber'),
+				),
+				'default'  => 'right',
+			),
+		);
 
-        // Настройки хедера
-        $header_settings = array(
-            array(
-                'id'       => 'single_header_select_' . $sanitized_id,
-                'type'     => 'select',
-                'title'    => sprintf(esc_html__('Header for Single %s', 'codeweber'), $translated_label),
-                'desc'     => $header_message,
-                'data'     => 'posts',
-                'args'     => array(
-                    'post_type' => 'header',
-                    'posts_per_page' => -1,
-                ),
-            ),
-            array(
-                'id'       => 'archive_header_select_' . $sanitized_id,
-                'type'     => 'select',
-                'title'    => sprintf(esc_html__('Header for Archive %s', 'codeweber'), $translated_label),
-                'desc'     => $header_message,
-                'data'     => 'posts',
-                'args'     => array(
-                    'post_type' => 'header',
-                    'posts_per_page' => -1,
-                ),
-            ),
-        );
+		// Настройки хедера
+		$header_settings = array(
+			array(
+				'id'       => 'single_header_select_' . $sanitized_id,
+				'type'     => 'select',
+				'title'    => sprintf(esc_html__('Header for Single %s', 'codeweber'), $translated_label),
+				'desc'     => $header_message,
+				'data'     => 'posts',
+				'args'     => array(
+					'post_type' => 'header',
+					'posts_per_page' => -1,
+				),
+			),
+			array(
+				'id'       => 'archive_header_select_' . $sanitized_id,
+				'type'     => 'select',
+				'title'    => sprintf(esc_html__('Header for Archive %s', 'codeweber'), $translated_label),
+				'desc'     => $header_message,
+				'data'     => 'posts',
+				'args'     => array(
+					'post_type' => 'header',
+					'posts_per_page' => -1,
+				),
+			),
+		);
 
-        // Настройки футера
-        $footer_settings = array(
-            array(
-                'id'       => 'single_footer_select_' . $sanitized_id,
-                'type'     => 'select',
-                'title'    => sprintf(esc_html__('Footer for Single %s', 'codeweber'), $translated_label),
-                'desc'     => $footer_message,
-                'data'     => 'posts',
-                'args'     => array(
-                    'post_type' => 'footer',
-                    'posts_per_page' => -1,
-                ),
-            ),
-            array(
-                'id'       => 'archive_footer_select_' . $sanitized_id,
-                'type'     => 'select',
-                'title'    => sprintf(esc_html__('Footer for Archive %s', 'codeweber'), $translated_label),
-                'desc'     => $footer_message,
-                'data'     => 'posts',
-                'args'     => array(
-                    'post_type' => 'footer',
-                    'posts_per_page' => -1,
-                ),
-            ),
-        );
+		// Настройки футера
+		$footer_settings = array(
+			array(
+				'id'       => 'single_footer_select_' . $sanitized_id,
+				'type'     => 'select',
+				'title'    => sprintf(esc_html__('Footer for Single %s', 'codeweber'), $translated_label),
+				'desc'     => $footer_message,
+				'data'     => 'posts',
+				'args'     => array(
+					'post_type' => 'footer',
+					'posts_per_page' => -1,
+				),
+			),
+			array(
+				'id'       => 'archive_footer_select_' . $sanitized_id,
+				'type'     => 'select',
+				'title'    => sprintf(esc_html__('Footer for Archive %s', 'codeweber'), $translated_label),
+				'desc'     => $footer_message,
+				'data'     => 'posts',
+				'args'     => array(
+					'post_type' => 'footer',
+					'posts_per_page' => -1,
+				),
+			),
+		);
 
 		// Сначала получаем все записи page-header
 		$page_headers = get_posts(array(
@@ -452,82 +503,82 @@ if (!empty($custom_post_type_files)) {
 			),
 		);
 
-        // Добавляем все настройки в виде табов
-        $section_fields[] = array(
-            'id'     => 'sidebar_settings_' . $sanitized_id,
-            'type'   => 'tabbed',
-            'title'  => sprintf(esc_html__('%s Sidebar Settings', 'codeweber'), $translated_label),
-            'tabs'   => array(
-                array(
-                    'title'  => esc_html__('Single', 'codeweber'),
-                    'fields' => array($sidebar_settings[0]),
-                ),
-                array(
-                    'title'  => esc_html__('Archive', 'codeweber'),
-                    'fields' => array($sidebar_settings[1]),
-                ),
-            ),
-        );
+		// Добавляем все настройки в виде табов
+		$section_fields[] = array(
+			'id'     => 'sidebar_settings_' . $sanitized_id,
+			'type'   => 'tabbed',
+			'title'  => sprintf(esc_html__('%s Sidebar Settings', 'codeweber'), $translated_label),
+			'tabs'   => array(
+				array(
+					'title'  => esc_html__('Single', 'codeweber'),
+					'fields' => array($sidebar_settings[0]),
+				),
+				array(
+					'title'  => esc_html__('Archive', 'codeweber'),
+					'fields' => array($sidebar_settings[1]),
+				),
+			),
+		);
 
-        $section_fields[] = array(
-            'id'     => 'header_settings_' . $sanitized_id,
-            'type'   => 'tabbed',
-            'title'  => sprintf(esc_html__('%s Header Settings', 'codeweber'), $translated_label),
-            'tabs'   => array(
-                array(
-                    'title'  => esc_html__('Single', 'codeweber'),
-                    'fields' => array($header_settings[0]),
-                ),
-                array(
-                    'title'  => esc_html__('Archive', 'codeweber'),
-                    'fields' => array($header_settings[1]),
-                ),
-            ),
-        );
+		$section_fields[] = array(
+			'id'     => 'header_settings_' . $sanitized_id,
+			'type'   => 'tabbed',
+			'title'  => sprintf(esc_html__('%s Header Settings', 'codeweber'), $translated_label),
+			'tabs'   => array(
+				array(
+					'title'  => esc_html__('Single', 'codeweber'),
+					'fields' => array($header_settings[0]),
+				),
+				array(
+					'title'  => esc_html__('Archive', 'codeweber'),
+					'fields' => array($header_settings[1]),
+				),
+			),
+		);
 
-        $section_fields[] = array(
-            'id'     => 'footer_settings_' . $sanitized_id,
-            'type'   => 'tabbed',
-            'title'  => sprintf(esc_html__('%s Footer Settings', 'codeweber'), $translated_label),
-            'tabs'   => array(
-                array(
-                    'title'  => esc_html__('Single', 'codeweber'),
-                    'fields' => array($footer_settings[0]),
-                ),
-                array(
-                    'title'  => esc_html__('Archive', 'codeweber'),
-                    'fields' => array($footer_settings[1]),
-                ),
-            ),
-        );
+		$section_fields[] = array(
+			'id'     => 'footer_settings_' . $sanitized_id,
+			'type'   => 'tabbed',
+			'title'  => sprintf(esc_html__('%s Footer Settings', 'codeweber'), $translated_label),
+			'tabs'   => array(
+				array(
+					'title'  => esc_html__('Single', 'codeweber'),
+					'fields' => array($footer_settings[0]),
+				),
+				array(
+					'title'  => esc_html__('Archive', 'codeweber'),
+					'fields' => array($footer_settings[1]),
+				),
+			),
+		);
 
-        $section_fields[] = array(
-            'id'     => 'page_header_settings_' . $sanitized_id,
-            'type'   => 'tabbed',
-            'title'  => sprintf(esc_html__('%s Page Header Settings', 'codeweber'), $translated_label),
-            'tabs'   => array(
-                array(
-                    'title'  => esc_html__('Single', 'codeweber'),
-                    'fields' => array($page_header_settings[0]),
-                ),
-                array(
-                    'title'  => esc_html__('Archive', 'codeweber'),
-                    'fields' => array($page_header_settings[1]),
-                ),
-            ),
-        );
+		$section_fields[] = array(
+			'id'     => 'page_header_settings_' . $sanitized_id,
+			'type'   => 'tabbed',
+			'title'  => sprintf(esc_html__('%s Page Header Settings', 'codeweber'), $translated_label),
+			'tabs'   => array(
+				array(
+					'title'  => esc_html__('Single', 'codeweber'),
+					'fields' => array($page_header_settings[0]),
+				),
+				array(
+					'title'  => esc_html__('Archive', 'codeweber'),
+					'fields' => array($page_header_settings[1]),
+				),
+			),
+		);
 
-        // Регистрируем секцию настроек для этого типа записи
-        Redux::set_section(
-            $opt_name,
-            array(
-                'title'      => $translated_label,
-                'id'         => 'custom_post_type_section_' . $sanitized_id,
-                'subsection' => true,
-                'fields'     => $section_fields,
-            )
-        );
-    }
+		// Регистрируем секцию настроек для этого типа записи
+		Redux::set_section(
+			$opt_name,
+			array(
+				'title'      => $translated_label,
+				'id'         => 'custom_post_type_section_' . $sanitized_id,
+				'subsection' => true,
+				'fields'     => $section_fields,
+			)
+		);
+	}
 } else {
-    error_log('No custom post type files found in the cpt directory.');
+	error_log('No custom post type files found in the cpt directory.');
 }

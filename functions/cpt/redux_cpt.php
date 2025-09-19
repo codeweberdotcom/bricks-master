@@ -1,8 +1,9 @@
 <?php
 global $opt_name;
 
-// Получаем список всех файлов CPT
+// Получаем список всех файлов CPT из обеих тем
 $cpt_files = get_cpt_files_list();
+$child_cpt_files = get_child_cpt_files_list();
 $cpt_status = [];
 
 // Проверяем, есть ли файлы CPT
@@ -25,7 +26,17 @@ if (!empty($cpt_files)) {
       }
 
       if ($is_enabled) {
-         $file_path = get_template_directory() . '/functions/cpt/' . $file;
+         // Определяем путь к файлу: сначала проверяем дочернюю тему, затем родительскую
+         $file_path = '';
+
+         // Проверяем, есть ли файл в дочерней теме
+         if (in_array($file, $child_cpt_files)) {
+            $file_path = get_stylesheet_directory() . '/functions/cpt/' . $file;
+         }
+         // Если нет в дочерней, проверяем в родительской
+         else {
+            $file_path = get_template_directory() . '/functions/cpt/' . $file;
+         }
 
          if (file_exists($file_path)) {
             // Подключаем с буферизацией для отладки
@@ -39,13 +50,23 @@ if (!empty($cpt_files)) {
             $cpt_status[] = [
                'label'  => $translated_label,
                'status' => 'Enabled',
-               'file'   => $file
+               'file'   => $file,
+               'path'   => $file_path
             ];
          } else {
             error_log("CPT file not found: {$file_path}");
          }
+      } else {
+         $cpt_status[] = [
+            'label'  => $translated_label,
+            'status' => 'Disabled',
+            'file'   => $file
+         ];
       }
    }
 } else {
-   error_log('No CPT files found in directory: ' . get_template_directory() . '/functions/cpt/');
+   error_log('No CPT files found in directories: ' . get_template_directory() . '/functions/cpt/ and ' . get_stylesheet_directory() . '/functions/cpt/');
 }
+
+// Логируем статус всех CPT для отладки
+error_log('CPT Status: ' . print_r($cpt_status, true));
