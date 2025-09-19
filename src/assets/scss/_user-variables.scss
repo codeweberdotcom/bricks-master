@@ -363,6 +363,13 @@ $swiper-pagination-bullet-bg-hover: $white;
 //----------------------------------------------------------//
 // LINKS
 //----------------------------------------------------------//
+
+.practice-card:hover .icontext {
+  transition: all .8s ease;
+  opacity: 1 !important;
+}
+
+
 a.hover-4 {
     position: relative;
     padding: 0 0rem .05rem;
@@ -397,6 +404,32 @@ a.hover-4:hover:before {
 
 a.hover-5 {
     position: relative;
+}
+
+.icontext.right::after{
+    line-height: 1;
+    font-family: Unicons;
+    content: "\e931";
+    padding-right: .05rem;
+    font-size: .9rem;
+    font-weight: 400;
+    vertical-align: -3px;
+    margin-right: -.25rem;
+    display: inline-block;
+    padding-left: 5px;
+}
+
+.icontext.left::before {
+    line-height: 1;
+    font-family: Unicons;
+    content: "\e92f";
+    padding-left: .05rem;
+    font-size: .9rem;
+    font-weight: 400;
+    vertical-align: -3px;
+    margin-left: -.25rem;
+    display: inline-block;
+    padding-right: 5px;
 }
 
 a.hover-5.right::before {
@@ -769,6 +802,24 @@ a.card:hover .hover-4::before {
   width: 13px;
   height: 13px;
   background: #febe10 !important;
+}
+
+.text-square-before-soft {
+  position: relative;
+  padding-left: 20px;
+  color: $white;
+}
+
+.text-square-before-soft::before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 13px;
+  height: 13px;
+  background: $white !important;
 }
 
 .partners-banner blockquote::before {
