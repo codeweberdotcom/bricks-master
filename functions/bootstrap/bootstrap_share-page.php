@@ -23,10 +23,18 @@
  *     @type string   $url             URL для分享. По умолчанию get_permalink()
  *     @type string   $hashtags        Хэштеги для Twitter. По умолчанию 'law,legal'
  *     @type string   $email_subject   Тема для email. По умолчанию зависит от региона
- *     @type string   $email_to        Email получателя. По умолчанию пусто
+ *     @type string   $email_to        Email получателя. По умолчанию email администратора сайта
  * }
  *
  * @return void
+ *
+ * @example
+ * // Простое использование
+ * codeweber_share_page();
+ *
+ * @example
+ * // Для российского региона
+ * codeweber_share_page(['region' => 'ru']);
  *
  * @example
  * // Для Европы с кастомными параметрами
@@ -36,6 +44,31 @@
  *     'email_subject' => 'Interesting EU legal article',
  *     'button_text' => 'Share in EU'
  * ]);
+ *
+ * @example  
+ * // Только определенные сети
+ * codeweber_share_page(['networks' => ['whatsapp', 'telegram', 'email']]);
+ *
+ * @example
+ * // Кастомный стиль и текст
+ * codeweber_share_page([
+ *     'button_class' => 'btn btn-primary btn-sm',
+ *     'button_text'  => 'Поделиться статьей'
+ * ]);
+ *
+ * @uses codeweber_detect_region() Для автоматического определения региона
+ * @uses codeweber_get_share_networks() Для получения списка сетей по региону
+ * @uses apply_filters('codeweber_share_networks') Фильтр для кастомизации сетей
+ *
+ * @available_networks
+ * Европа (eu): linkedin, twitter, facebook, whatsapp, email, xing
+ * Россия (ru): vk, telegram, whatsapp, odnoklassniki, viber, email
+ * Все доступные сети: facebook, linkedin, twitter, email, whatsapp, telegram, viber, 
+ * line, pinterest, tumblr, hackernews, reddit, vk, xing, buffer, instapaper, pocket,
+ * mashable, mix, flipboard, weibo, blogger, baidu, douban, okru, mailru, evernote,
+ * skype, delicious, sms, trello, messenger, odnoklassniki, meneame, diaspora,
+ * googlebookmarks, qzone, refind, surfingbird, yahoomail, wordpress, amazon,
+ * pinboard, threema, kakaostory, yummly
  */
 
 if (!function_exists('codeweber_share_page')) {
