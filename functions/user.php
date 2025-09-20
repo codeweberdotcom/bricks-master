@@ -15,7 +15,7 @@ function custom_user_avatar_field($user)
          <th><label for="custom_avatar_url"><?php _e('Avatar URL', 'codeweber'); ?></label></th>
          <td>
             <?php if ($avatar_url) : ?>
-               <img src="<?php echo esc_url($avatar_url); ?>" style="width: 100px; height: 100px; object-fit: cover; margin-bottom: 10px; border-radius: 50%;" /><br>
+               <img src="<?php echo esc_url($avatar_url); ?>" style="width: 32px; height: 32px; object-fit: cover; margin-bottom: 10px; border-radius: 50%;" /><br>
                <?php if ($avatar_id) : ?>
                   <small>Attachment ID: <?php echo $avatar_id; ?></small><br>
                <?php endif; ?>
@@ -24,7 +24,7 @@ function custom_user_avatar_field($user)
             <input type="text" name="custom_avatar_url" id="custom_avatar_url" value="<?php echo esc_url($avatar_url); ?>" class="regular-text" />
             <input type="hidden" name="custom_avatar_id" id="custom_avatar_id" value="<?php echo esc_attr($avatar_id); ?>" />
             <button type="button" class="button" id="upload_avatar_button"><?php _e('Select Image', 'codeweber'); ?></button>
-            <p class="description"><?php _e('Enter a URL or select an image from media library. Image will be resized to 400×400px.', 'codeweber'); ?></p>
+            <p class="description"><?php _e('Enter a URL or select an image from media library. Image will be resized to 100×100px.', 'codeweber'); ?></p>
          </td>
       </tr>
    </table>
@@ -50,8 +50,8 @@ function custom_user_avatar_field($user)
                // Обновляем превью
                var img = $('<img>').attr('src', attachment.url)
                   .css({
-                     'width': '100px',
-                     'height': '100px',
+                     'width': '32px',
+                     'height': '32px',
                      'object-fit': 'cover',
                      'margin-bottom': '10px',
                      'border-radius': '50%'
@@ -201,8 +201,8 @@ function use_custom_avatar($args, $id_or_email)
 
       if (!empty($custom_avatar)) {
          $args['url'] = $custom_avatar;
-         $args['width'] = 400;
-         $args['height'] = 400;
+         $args['width'] = 32;
+         $args['height'] = 32;
       }
    }
 
