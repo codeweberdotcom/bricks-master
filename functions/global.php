@@ -386,3 +386,155 @@ function universal_title($tag = false, $theme = false)
 		return '<' . $tag . '>' . $title . '</' . $tag . '>';
 	}
 }
+
+
+/**
+ * Кастомная пагинация для постов WordPress
+ * 
+ * Создает красивую пагинацию в стиле Bootstrap с иконками и гибкими настройками
+ * 
+ * @package CodeWeber
+ * @version 1.0.0
+ * 
+ * @param array $args {
+ *     Опциональные аргументы для настройки пагинации
+ * 
+ *     @type int    $mid_size       Количество страниц отображаемых по бокам от текущей страницы. По умолчанию: 2.
+ *     @type string $prev_text      Текст/HTML для кнопки "Предыдущая". По умолчанию: '<span aria-hidden="true"><i class="uil uil-arrow-left"></i></span>'.
+ *     @type string $next_text      Текст/HTML для кнопки "Следующая". По умолчанию: '<span aria-hidden="true"><i class="uil uil-arrow-right"></i></span>'.
+ *     @type string $prev_class     CSS класс для кнопки "Предыдущая". По умолчанию: 'page-item'.
+ *     @type string $next_class     CSS класс для кнопки "Следующая". По умолчанию: 'page-item'.
+ *     @type string $page_class     CSS класс для элементов страниц. По умолчанию: 'page-item'.
+ *     @type string $active_class   CSS класс для активной страницы. По умолчанию: 'active'.
+ *     @type string $disabled_class CSS класс для неактивных элементов. По умолчанию: 'disabled'.
+ *     @type string $nav_class      CSS класс для nav контейнера. По умолчанию: 'd-flex'.
+ *     @type string $ul_class       CSS класс для ul элемента. По умолчанию: 'pagination'.
+ *     @type string $link_class     CSS класс для ссылок. По умолчанию: 'page-link'.
+ *     @type bool   $show_dots      Показывать многоточия для скрытых страниц. По умолчанию: false.
+ *     @type string $dots_text      Текст для многоточий. По умолчанию: '...'.
+ *     @type string $aria_label     ARIA-label для навигации. По умолчанию: 'pagination'.
+ * }
+ * 
+ * @return void Выводит HTML пагинации
+ * 
+ * @example 
+ * // Базовое использование
+ * codeweber_posts_pagination();
+ * 
+ * // С кастомными настройками
+ * codeweber_posts_pagination(array(
+ *     'mid_size'  => 3,
+ *     'show_dots' => true,
+ *     'prev_text' => '<i class="fas fa-arrow-left"></i>',
+ *     'next_text' => '<i class="fas fa-arrow-right"></i>'
+ * ));
+ * 
+ * @since 1.0.0
+ */
+if (!function_exists('codeweber_posts_pagination')) {
+    function codeweber_posts_pagination($args = array()) {
+        global $wp_query, $wp_rewrite;
+        
+        // Default arguments
+        $defaults = array(
+            'mid_size'        => 2,
+            'prev_text'       => '<span aria-hidden="true"><i class="uil uil-arrow-left"></i></span>',
+            'next_text'       => '<span aria-hidden="true"><i class="uil uil-arrow-right"></i></span>',
+            'prev_class'      => 'page-item',
+            'next_class'      => 'page-item',
+            'page_class'      => 'page-item',
+            'active_class'    => 'active',
+            'disabled_class'  => 'disabled',
+            'nav_class'       => 'd-flex',
+            'ul_class'        => 'pagination',
+            'link_class'      => 'page-link',
+            'show_dots'       => false,
+            'dots_text'       => '...',
+            'aria_label'      => 'pagination'
+        );
+        
+        $args = wp_parse_args($args, $defaults);
+        
+        $total_pages = $wp_query->max_num_pages;
+        $current_page = max(1, get_query_var('paged'));
+        
+        if ($total_pages <= 1) return;
+        
+        $pagination = '<nav class="' . esc_attr($args['nav_class']) . '" aria-label="' . esc_attr($args['aria_label']) . '">';
+        $pagination .= '<ul class="' . esc_attr($args['ul_class']) . '">';
+        
+        // Previous button
+        $prev_class = $current_page > 1 ? $args['prev_class'] : $args['prev_class'] . ' ' . $args['disabled_class'];
+        $pagination .= '<li class="' . esc_attr($prev_class) . '">';
+        
+        if ($current_page > 1) {
+            $prev_link = get_previous_posts_page_link();
+            $pagination .= '<a class="' . esc_attr($args['link_class']) . '" href="' . esc_url($prev_link) . '" aria-label="' . esc_attr__('Previous', 'codeweber') . '">';
+            $pagination .= $args['prev_text'];
+            $pagination .= '</a>';
+        } else {
+            $pagination .= '<span class="' . esc_attr($args['link_class']) . '" aria-label="' . esc_attr__('Previous', 'codeweber') . '">';
+            $pagination .= $args['prev_text'];
+            $pagination .= '</span>';
+        }
+        
+        $pagination .= '</li>';
+        
+        // Page numbers with dots
+        $start = max(1, $current_page - $args['mid_size']);
+        $end = min($total_pages, $current_page + $args['mid_size']);
+        
+        // Show dots at the beginning if needed
+        if ($args['show_dots'] && $start > 1) {
+            $pagination .= '<li class="' . esc_attr($args['page_class'] . ' ' . $args['disabled_class']) . '">';
+            $pagination .= '<span class="' . esc_attr($args['link_class']) . '">' . esc_html($args['dots_text']) . '</span>';
+            $pagination .= '</li>';
+        }
+        
+        // Page numbers
+        for ($i = $start; $i <= $end; $i++) {
+            $page_class = $args['page_class'];
+            if ($i == $current_page) {
+                $page_class .= ' ' . $args['active_class'];
+            }
+            
+            $pagination .= '<li class="' . esc_attr($page_class) . '">';
+            
+            if ($i == $current_page) {
+                $pagination .= '<span class="' . esc_attr($args['link_class']) . '">' . $i . '</span>';
+            } else {
+                $pagination .= '<a class="' . esc_attr($args['link_class']) . '" href="' . esc_url(get_pagenum_link($i)) . '">' . $i . '</a>';
+            }
+            
+            $pagination .= '</li>';
+        }
+        
+        // Show dots at the end if needed
+        if ($args['show_dots'] && $end < $total_pages) {
+            $pagination .= '<li class="' . esc_attr($args['page_class'] . ' ' . $args['disabled_class']) . '">';
+            $pagination .= '<span class="' . esc_attr($args['link_class']) . '">' . esc_html($args['dots_text']) . '</span>';
+            $pagination .= '</li>';
+        }
+        
+        // Next button
+        $next_class = $current_page < $total_pages ? $args['next_class'] : $args['next_class'] . ' ' . $args['disabled_class'];
+        $pagination .= '<li class="' . esc_attr($next_class) . '">';
+        
+        if ($current_page < $total_pages) {
+            $next_link = get_next_posts_page_link();
+            $pagination .= '<a class="' . esc_attr($args['link_class']) . '" href="' . esc_url($next_link) . '" aria-label="' . esc_attr__('Next', 'codeweber') . '">';
+            $pagination .= $args['next_text'];
+            $pagination .= '</a>';
+        } else {
+            $pagination .= '<span class="' . esc_attr($args['link_class']) . '" aria-label="' . esc_attr__('Next', 'codeweber') . '">';
+            $pagination .= $args['next_text'];
+            $pagination .= '</span>';
+        }
+        
+        $pagination .= '</li>';
+        
+        $pagination .= '</ul></nav>';
+        
+        echo apply_filters('codeweber_posts_pagination', $pagination, $args);
+    }
+}

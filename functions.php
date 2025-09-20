@@ -37,6 +37,9 @@ if (class_exists('WooCommerce')) {
 	require_once get_template_directory() . '/functions/woocommerce.php';
 }
 
+// Подключаем модуль персональных данных Cyr-to-Lat
+require_once get_template_directory() . '/functions/user.php';
+
 
 // Подключаем модуль персональных данных Cyr-to-Lat
 require_once get_template_directory() . '/functions/cyr-to-lat.php';

@@ -73,19 +73,18 @@
 					<?php
 					$user_id = get_the_author_meta('ID');
 
-					// Получаем ID аватара из мета
+					// Проверяем оба возможных ключа
 					$avatar_id = get_user_meta($user_id, 'avatar_id', true);
+					if (empty($avatar_id)) {
+						$avatar_id = get_user_meta($user_id, 'custom_avatar_id', true);
+					}
 
 					if (!empty($avatar_id)) :
-						$avatar_src = wp_get_attachment_image_src($avatar_id, 'codeweber_square');
+						$avatar_src = wp_get_attachment_image_src($avatar_id, 'thumbnail');
 					?>
-						<figure class="user-avatar">
-							<img src="<?php echo esc_url($avatar_src[0]); ?>" class="rounded-circle" alt="<?php the_author_meta('display_name'); ?>">
-						</figure>
+						<img decoding="async" class="avatar w-48 me-3" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
 					<?php else : ?>
-						<figure class="user-avatar">
-							<?php echo get_avatar(get_the_author_meta('user_email'), 96); ?>
-						</figure>
+						<?php echo get_avatar(get_the_author_meta('user_email'), 96); ?>
 					<?php endif; ?>
 
 					<div>
@@ -96,7 +95,7 @@
 						</div>
 
 						<?php
-						$job_title = get_user_meta($user_id, 'job_title', true);
+						$job_title = get_user_meta($user_id, 'user_position', true);
 						if (empty($job_title)) {
 							$job_title = __('Writer', 'codeweber');
 						}
@@ -131,9 +130,10 @@
 
 			<hr />
 			<?php get_template_part('templates/components/lastpostslider-blog'); ?>
-			<hr />
 			<?php
-			if (comments_open() || get_comments_number()) {
+			if (comments_open() || get_comments_number()) { ?>
+				<hr />
+			<?php
 				comments_template();
 			}
 			?>
@@ -141,4 +141,4 @@
 
 	</div>
 
-		</section> <!-- #post-<?php the_ID(); ?> -->
+</section> <!-- #post-<?php the_ID(); ?> -->

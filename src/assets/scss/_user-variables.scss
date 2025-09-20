@@ -49,6 +49,8 @@ $container-max-widths: (
 $padding-43: 43px;
 $card-spacer-y: $padding-43;
 $card-spacer-x: $padding-43;
+$border-light: #F5F5F5;
+$hr-margin-y: 3rem;
 
 //----------------------------------------------------------//
 //	GLOBAL
@@ -838,7 +840,8 @@ a.card:hover .hover-4::before {
   left: 0;
   width: 13px;
   height: 13px;
-  background: #febe10 !important;
+  top: 14px;
+  background-color: $primary;
 }
 
 .sidebar nav a {

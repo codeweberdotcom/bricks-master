@@ -43,13 +43,7 @@ $content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-md-8';
 								}
 							}
 						endwhile;
-
-						the_posts_pagination(array(
-							'mid_size'  => 2,
-							'prev_text' => esc_html__('&laquo; Previous', 'bricks'),
-							'next_text' => esc_html__('Next &raquo;', 'bricks'),
-						));
-
+						codeweber_posts_pagination();
 					else :
 						get_template_part('templates/content/loop', 'none');
 					endif;

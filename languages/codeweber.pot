@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-19 13:22+0000\n"
+"POT-Creation-Date: 2025-09-20 07:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -3096,6 +3096,7 @@ msgstr ""
 msgid "Newsletter Technical Data"
 msgstr ""
 
+#: functions/global.php:525 functions/global.php:529
 #: functions/bootstrap/bootstrap_post-nav.php:17
 msgid "Next"
 msgstr ""
@@ -3579,7 +3580,7 @@ msgstr ""
 msgid "Page Headers"
 msgstr ""
 
-#: functions/global.php:355
+#: functions/global.php:357
 msgid "Page Not Found"
 msgstr ""
 
@@ -3926,6 +3927,10 @@ msgstr ""
 
 #: functions/bootstrap/bootstrap_post-nav.php:13
 msgid "Prev"
+msgstr ""
+
+#: functions/global.php:472 functions/global.php:476
+msgid "Previous"
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:11 functions/cpt/cpt-price_list.php:35
@@ -4402,7 +4407,7 @@ msgstr ""
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: functions/global.php:353
+#: functions/global.php:355
 #, php-format
 msgid "Search Results for: %s"
 msgstr ""
@@ -4773,6 +4778,10 @@ msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:12
 msgid "Share"
+msgstr ""
+
+#: functions/global.php:343
+msgid "Shop"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:41

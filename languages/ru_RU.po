@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-14 09:51+0000\n"
+"PO-Revision-Date: 2025-09-20 07:58+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -28,23 +28,23 @@ msgstr[0] "%d файл"
 msgstr[1] "%d файла"
 msgstr[2] "%d файлов"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:477
+#: redux-framework/sample/sections/codeweber/cpt-type.php:542
 #, php-format
 msgid "%s Footer Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:461
+#: redux-framework/sample/sections/codeweber/cpt-type.php:526
 #, php-format
 msgid "%s Header Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:493
+#: redux-framework/sample/sections/codeweber/cpt-type.php:558
 #, php-format
 #| msgid "%s Single Header Settings"
 msgid "%s Page Header Settings"
 msgstr "Настройки Заголовка Записи %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:445
+#: redux-framework/sample/sections/codeweber/cpt-type.php:510
 #, php-format
 msgid "%s Sidebar Settings"
 msgstr ""
@@ -476,14 +476,14 @@ msgstr "Применить выбранные шрифты"
 msgid "Applying..."
 msgstr "Применение..."
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:452
-#: redux-framework/sample/sections/codeweber/cpt-type.php:468
-#: redux-framework/sample/sections/codeweber/cpt-type.php:484
-#: redux-framework/sample/sections/codeweber/cpt-type.php:500
+#: redux-framework/sample/sections/codeweber/cpt-type.php:517
+#: redux-framework/sample/sections/codeweber/cpt-type.php:533
+#: redux-framework/sample/sections/codeweber/cpt-type.php:549
+#: redux-framework/sample/sections/codeweber/cpt-type.php:565
 msgid "Archive"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:305
+#: redux-framework/sample/sections/codeweber/cpt-type.php:356
 #, php-format
 msgid "Archive Template for %s"
 msgstr ""
@@ -610,21 +610,21 @@ msgstr "блокирование"
 msgid "Bottombar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:319
+#: redux-framework/sample/sections/codeweber/page-header.php:329
 msgid "Breadcrumb Background Color"
 msgstr "Цвет Фона Хлебных Крошек"
 
-#: redux-framework/sample/sections/codeweber/page-header.php:265
-#: redux-framework/sample/sections/codeweber/page-header.php:272
+#: redux-framework/sample/sections/codeweber/page-header.php:275
+#: redux-framework/sample/sections/codeweber/page-header.php:282
 msgid "Breadcrumbs"
 msgstr "Хлебные крошки"
 
-#: redux-framework/sample/sections/codeweber/page-header.php:182
-#: redux-framework/sample/sections/codeweber/page-header.php:301
+#: redux-framework/sample/sections/codeweber/page-header.php:192
+#: redux-framework/sample/sections/codeweber/page-header.php:311
 msgid "Breadcrumbs Color"
 msgstr "Цвет хлебных крошек"
 
-#: redux-framework/sample/sections/codeweber/page-header.php:283
+#: redux-framework/sample/sections/codeweber/page-header.php:293
 msgid "Bredcrumbs align"
 msgstr "Выравнивание хлебных крошек"
 
@@ -684,7 +684,7 @@ msgid "Category of personal data subjects:"
 msgstr "Категория субъектов персональных данных:"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:104
-#: redux-framework/sample/sections/codeweber/page-header.php:286
+#: redux-framework/sample/sections/codeweber/page-header.php:296
 msgid "Center"
 msgstr "По центру"
 
@@ -1080,15 +1080,15 @@ msgstr "Создать Пользовательский Заголовок"
 msgid "Create Custom Page-header"
 msgstr "Создать Пользовательский Заголовок"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:214
+#: redux-framework/sample/sections/codeweber/cpt-type.php:259
 msgid "Create Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:207
+#: redux-framework/sample/sections/codeweber/cpt-type.php:252
 msgid "Create Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:221
+#: redux-framework/sample/sections/codeweber/cpt-type.php:266
 msgid "Create Page Header"
 msgstr ""
 
@@ -1157,7 +1157,7 @@ msgstr ""
 msgid "Custom Post Type"
 msgstr "Тип Записи"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:173
+#: redux-framework/sample/sections/codeweber/cpt-type.php:218
 msgid "Custom Post Types"
 msgstr "Типы Записи"
 
@@ -1165,12 +1165,12 @@ msgstr "Типы Записи"
 msgid "Custom SCSS / Code"
 msgstr "Пользовательский SCSS / Код"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:332
+#: redux-framework/sample/sections/codeweber/cpt-type.php:383
 #, php-format
 msgid "Custom Subtitle for %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:324
+#: redux-framework/sample/sections/codeweber/cpt-type.php:375
 #, php-format
 msgid "Custom Title for %s"
 msgstr "Свой заголовок для %s"
@@ -1186,8 +1186,8 @@ msgstr "DaDaTa Настройки"
 #: redux-framework/sample/sections/codeweber/footer.php:102
 #: redux-framework/sample/sections/codeweber/header.php:117
 #: redux-framework/sample/sections/codeweber/header.php:249
-#: redux-framework/sample/sections/codeweber/page-header.php:184
-#: redux-framework/sample/sections/codeweber/page-header.php:303
+#: redux-framework/sample/sections/codeweber/page-header.php:194
+#: redux-framework/sample/sections/codeweber/page-header.php:313
 msgid "Dark"
 msgstr "Темный"
 
@@ -1259,6 +1259,10 @@ msgstr ""
 msgid "Default"
 msgstr "Стандартный"
 
+#: redux-framework/sample/sections/codeweber/cpt-type.php:478
+msgid "Default Page Header"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:694
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:684
 msgid "Default Status"
@@ -1268,8 +1272,8 @@ msgstr ""
 msgid "Default Subscription Form"
 msgstr "Форма подписки по умолчанию"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:261
-#: redux-framework/sample/sections/codeweber/cpt-type.php:279
+#: redux-framework/sample/sections/codeweber/cpt-type.php:316
+#: redux-framework/sample/sections/codeweber/cpt-type.php:332
 msgid "Default Template"
 msgstr ""
 
@@ -1323,11 +1327,15 @@ msgstr "\"Codeweber.ru\" - Разработка вебсайтов с 2016 го�
 msgid "Disable Sidebar"
 msgstr "Выключить Сайдбар"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:98
-#: redux-framework/sample/sections/codeweber/cpt-type.php:345
-#: redux-framework/sample/sections/codeweber/cpt-type.php:356
+#: redux-framework/sample/sections/codeweber/cpt-type.php:142
+#: redux-framework/sample/sections/codeweber/cpt-type.php:396
+#: redux-framework/sample/sections/codeweber/cpt-type.php:407
 msgid "Disabled"
 msgstr "Отключено"
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php:477
+msgid "Disabled - Hide Page Header"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:229
 #: redux-framework/sample/sections/extensions/users.php:245
@@ -1616,11 +1624,11 @@ msgstr ""
 msgid "Enable SMTP"
 msgstr "Включить SMTP"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:95
+#: redux-framework/sample/sections/codeweber/cpt-type.php:139
 msgid "Enable/disable this post type"
 msgstr "Включить/Отключить типы записей"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:97
+#: redux-framework/sample/sections/codeweber/cpt-type.php:141
 msgid "Enabled"
 msgstr "Включено"
 
@@ -1798,7 +1806,7 @@ msgstr ""
 msgid "Figma"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:100
+#: redux-framework/sample/sections/codeweber/cpt-type.php:144
 #, php-format
 msgid "File: %s"
 msgstr ""
@@ -1893,12 +1901,12 @@ msgstr "Футер"
 msgid "Footer Bootombar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:405
+#: redux-framework/sample/sections/codeweber/cpt-type.php:456
 #, php-format
 msgid "Footer for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:394
+#: redux-framework/sample/sections/codeweber/cpt-type.php:445
 #, php-format
 msgid "Footer for Single %s"
 msgstr ""
@@ -2149,12 +2157,12 @@ msgstr "Запуск сборщика Gulp"
 msgid "Header"
 msgstr "Хедер"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:379
+#: redux-framework/sample/sections/codeweber/cpt-type.php:430
 #, php-format
 msgid "Header for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:368
+#: redux-framework/sample/sections/codeweber/cpt-type.php:419
 #, php-format
 msgid "Header for Single %s"
 msgstr ""
@@ -2259,7 +2267,7 @@ msgstr "Скрыть в Архиве"
 msgid "Hide this document from archive"
 msgstr "Скрыть этот документ на архивной странице"
 
-#: functions/breadcrumbs.php:117
+#: functions/breadcrumbs.php:149
 msgid "Home"
 msgstr "Главная"
 
@@ -2466,7 +2474,7 @@ msgstr ""
 msgid "If you want to unsubscribe from the newsletter, click the button below:"
 msgstr "Если вы хотите отписаться от рассылки, нажмите кнопку ниже:"
 
-#: redux-framework/sample/sections/codeweber/page-header.php:205
+#: redux-framework/sample/sections/codeweber/page-header.php:215
 msgid "Image"
 msgstr "Изображение"
 
@@ -2679,10 +2687,10 @@ msgstr "Последнее обновление"
 msgid "Leave a comment"
 msgstr "Оставить комментарий"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:344
-#: redux-framework/sample/sections/codeweber/cpt-type.php:355
+#: redux-framework/sample/sections/codeweber/cpt-type.php:395
+#: redux-framework/sample/sections/codeweber/cpt-type.php:406
 #: redux-framework/sample/sections/codeweber/page-header.php:103
-#: redux-framework/sample/sections/codeweber/page-header.php:285
+#: redux-framework/sample/sections/codeweber/page-header.php:295
 msgid "Left"
 msgstr "Слева"
 
@@ -2803,8 +2811,8 @@ msgstr "Автор лицензиара:"
 #: redux-framework/sample/sections/codeweber/footer.php:103
 #: redux-framework/sample/sections/codeweber/header.php:118
 #: redux-framework/sample/sections/codeweber/header.php:250
-#: redux-framework/sample/sections/codeweber/page-header.php:185
-#: redux-framework/sample/sections/codeweber/page-header.php:304
+#: redux-framework/sample/sections/codeweber/page-header.php:195
+#: redux-framework/sample/sections/codeweber/page-header.php:314
 msgid "Light"
 msgstr "Светлый"
 
@@ -3012,7 +3020,7 @@ msgstr "Сводная информация модуля"
 msgid "Module Settings"
 msgstr "Настройки"
 
-#: redux-framework/sample/sections/codeweber/page-header.php:305
+#: redux-framework/sample/sections/codeweber/page-header.php:315
 msgid "Muted"
 msgstr ""
 
@@ -3151,6 +3159,7 @@ msgstr "Подписки на рассылку новостей"
 msgid "Newsletter Technical Data"
 msgstr "Технические данные Рассылки"
 
+#: functions/global.php:525 functions/global.php:529
 #: functions/bootstrap/bootstrap_post-nav.php:17
 msgid "Next"
 msgstr ""
@@ -3201,7 +3210,7 @@ msgid ""
 msgstr ""
 "Нет пользовательских Футеров. Создать Пользовательский Футер по ссылке: %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:213
+#: redux-framework/sample/sections/codeweber/cpt-type.php:258
 #, php-format
 msgid "No custom footers found. You can create one here: %s"
 msgstr ""
@@ -3214,7 +3223,7 @@ msgid ""
 "%s"
 msgstr "Шаблоны Хедера не найдены. Создайте, перейдя по следующей ссылке: %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:206
+#: redux-framework/sample/sections/codeweber/cpt-type.php:251
 #, php-format
 msgid "No custom headers found. You can create one here: %s"
 msgstr ""
@@ -3226,7 +3235,7 @@ msgid ""
 "link: %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:220
+#: redux-framework/sample/sections/codeweber/cpt-type.php:265
 #, php-format
 msgid "No custom page headers found. You can create one here: %s"
 msgstr ""
@@ -3412,7 +3421,7 @@ msgstr "Нет Аккаунта"
 msgid "No user consents found to remove."
 msgstr "Согласия пользователей на удаление не найдены."
 
-#: redux-framework/sample/sections/codeweber/page-header.php:207
+#: redux-framework/sample/sections/codeweber/page-header.php:217
 #: redux-framework/sample/sections/codeweber/smtp.php:143
 msgid "None"
 msgstr "Нет"
@@ -3468,7 +3477,7 @@ msgstr "Количество подписчиков:"
 msgid "Odnoklassniki"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:276
+#: redux-framework/sample/sections/codeweber/page-header.php:286
 msgid "Off"
 msgstr "Выкл."
 
@@ -3508,7 +3517,7 @@ msgstr "ОГРН/ОГРНИП"
 msgid "OGRN/OGRNIP Date registration"
 msgstr "ОГРН/ОГРНИП Дата регистрации орагнизации"
 
-#: redux-framework/sample/sections/codeweber/page-header.php:275
+#: redux-framework/sample/sections/codeweber/page-header.php:285
 msgid "On"
 msgstr "Вкл."
 
@@ -3577,22 +3586,22 @@ msgstr ""
 msgid "Page Header"
 msgstr "Заголовок"
 
-#: redux-framework/sample/sections/codeweber/page-header.php:194
+#: redux-framework/sample/sections/codeweber/page-header.php:204
 msgid "Page Header Background"
 msgstr "Цвет фона заголовка"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:101
-#: redux-framework/sample/sections/codeweber/page-header.php:201
+#: redux-framework/sample/sections/codeweber/page-header.php:211
 msgid "Page Header Background Type"
 msgstr "Тип фона Заголовка"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:431
+#: redux-framework/sample/sections/codeweber/cpt-type.php:499
 #, fuzzy, php-format
 #| msgid "Select Header for Archive %s"
 msgid "Page Header for Archive %s"
 msgstr "Хедер для Архива %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:420
+#: redux-framework/sample/sections/codeweber/cpt-type.php:491
 #, php-format
 #| msgid "Select Header for Single %s"
 msgid "Page Header for Single %s"
@@ -3634,15 +3643,23 @@ msgstr "Тип Заголовка Страницы 6"
 msgid "Page Header Type 7"
 msgstr "Тип Заголовка Страницы 7"
 
+#: redux-framework/sample/sections/codeweber/page-header.php:167
+msgid "Page Header Type 8"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/page-header.php:172
+msgid "Page Header Type 9"
+msgstr ""
+
 #: functions/cpt/cpt-page-header.php:10 functions/cpt/cpt-page-header.php:12
 msgid "Page Headers"
 msgstr "Заголовки"
 
-#: functions/global.php:354
+#: functions/global.php:357
 msgid "Page Not Found"
 msgstr ""
 
-#: functions/breadcrumbs.php:192
+#: functions/breadcrumbs.php:226
 msgid "Page not found"
 msgstr ""
 
@@ -3750,7 +3767,7 @@ msgstr "Пароль"
 msgid "Patreon"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:206
+#: redux-framework/sample/sections/codeweber/page-header.php:216
 msgid "Pattern"
 msgstr "Паттерн"
 
@@ -3989,6 +4006,10 @@ msgstr "Пресеты"
 
 #: functions/bootstrap/bootstrap_post-nav.php:13
 msgid "Prev"
+msgstr ""
+
+#: functions/global.php:472 functions/global.php:476
+msgid "Previous"
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:11 functions/cpt/cpt-price_list.php:35
@@ -4324,10 +4345,10 @@ msgstr "Условия возврата"
 msgid "Revision"
 msgstr "Версия документа"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:346
-#: redux-framework/sample/sections/codeweber/cpt-type.php:357
+#: redux-framework/sample/sections/codeweber/cpt-type.php:397
+#: redux-framework/sample/sections/codeweber/cpt-type.php:408
 #: redux-framework/sample/sections/codeweber/page-header.php:105
-#: redux-framework/sample/sections/codeweber/page-header.php:287
+#: redux-framework/sample/sections/codeweber/page-header.php:297
 msgid "Right"
 msgstr "Справа"
 
@@ -4469,12 +4490,12 @@ msgstr "Добавить Тарифный план"
 msgid "Search Projects"
 msgstr "Найти Проект"
 
-#: functions/breadcrumbs.php:190
+#: functions/breadcrumbs.php:224
 #, php-format
 msgid "Search results for \"%s\""
 msgstr "Результаты поиска для \"%s\""
 
-#: functions/global.php:352
+#: functions/global.php:355
 #, php-format
 msgid "Search Results for: %s"
 msgstr "Результаты Поиска для \"%s\""
@@ -4535,7 +4556,7 @@ msgstr ""
 msgid "Select Footer Background Solid Color"
 msgstr "Выберите Solid цвет фона для Футера"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:216
+#: redux-framework/sample/sections/codeweber/cpt-type.php:261
 msgid "Select footer from available options"
 msgstr ""
 
@@ -4564,7 +4585,7 @@ msgstr "Цвет Фона Хедера Soft "
 msgid "Select Header Background Solid Color"
 msgstr "Цвет Фона Хедера Solid"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:209
+#: redux-framework/sample/sections/codeweber/cpt-type.php:254
 msgid "Select header from available options"
 msgstr ""
 
@@ -4598,7 +4619,7 @@ msgstr ""
 msgid "Select Page Header"
 msgstr "Выберите тип Заголовка"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:223
+#: redux-framework/sample/sections/codeweber/cpt-type.php:268
 msgid "Select page header from available options"
 msgstr ""
 
@@ -4642,19 +4663,19 @@ msgstr ""
 msgid "Select Sidebar type for This Page"
 msgstr "Выбрать тип Сайдбара для этой страницы"
 
-#: redux-framework/sample/sections/codeweber/page-header.php:230
+#: redux-framework/sample/sections/codeweber/page-header.php:240
 msgid "Select Soft Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:217
+#: redux-framework/sample/sections/codeweber/page-header.php:227
 msgid "Select Solid Color"
 msgstr "Выберите Solid цвет"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:306
+#: redux-framework/sample/sections/codeweber/cpt-type.php:357
 msgid "Select template for archive page"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:315
+#: redux-framework/sample/sections/codeweber/cpt-type.php:366
 msgid "Select template for single page"
 msgstr ""
 
@@ -4813,7 +4834,7 @@ msgstr "Настройки Типов Записей"
 msgid "Settings Footer"
 msgstr "Настройки Футера"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:176
+#: redux-framework/sample/sections/codeweber/cpt-type.php:221
 msgid "Settings for custom post types."
 msgstr "Включение/Отключение типов записей"
 
@@ -4851,6 +4872,10 @@ msgstr "Расчетный счет"
 #: functions/bootstrap/bootstrap_share-page.php:12
 msgid "Share"
 msgstr "Поделиться"
+
+#: functions/global.php:343
+msgid "Shop"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:41
 msgid ""
@@ -4991,13 +5016,13 @@ msgstr "Показать колонку \"%s\" "
 msgid "Sidebar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:353
+#: redux-framework/sample/sections/codeweber/cpt-type.php:404
 #, fuzzy, php-format
 #| msgid "Select Sidebar position for Archive %s"
 msgid "Sidebar Position for Archive %s"
 msgstr "Позиция Сайдбара Архива %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:342
+#: redux-framework/sample/sections/codeweber/cpt-type.php:393
 #, fuzzy, php-format
 #| msgid "Select Sidebar position for Single %s"
 msgid "Sidebar Position for Single %s"
@@ -5016,14 +5041,14 @@ msgstr "Регистрация"
 msgid "Signal"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:448
-#: redux-framework/sample/sections/codeweber/cpt-type.php:464
-#: redux-framework/sample/sections/codeweber/cpt-type.php:480
-#: redux-framework/sample/sections/codeweber/cpt-type.php:496
+#: redux-framework/sample/sections/codeweber/cpt-type.php:513
+#: redux-framework/sample/sections/codeweber/cpt-type.php:529
+#: redux-framework/sample/sections/codeweber/cpt-type.php:545
+#: redux-framework/sample/sections/codeweber/cpt-type.php:561
 msgid "Single"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:314
+#: redux-framework/sample/sections/codeweber/cpt-type.php:365
 #, php-format
 msgid "Single Template for %s"
 msgstr ""
@@ -5110,13 +5135,13 @@ msgstr "Соцсети"
 
 #: redux-framework/sample/sections/codeweber/footer.php:116
 #: redux-framework/sample/sections/codeweber/header.php:131
-#: redux-framework/sample/sections/codeweber/page-header.php:204
+#: redux-framework/sample/sections/codeweber/page-header.php:214
 msgid "Soft-Color"
 msgstr "Цвет Soft"
 
 #: redux-framework/sample/sections/codeweber/footer.php:115
 #: redux-framework/sample/sections/codeweber/header.php:130
-#: redux-framework/sample/sections/codeweber/page-header.php:203
+#: redux-framework/sample/sections/codeweber/page-header.php:213
 msgid "Solid-Color"
 msgstr "Цвет Solid"
 
@@ -5619,7 +5644,7 @@ msgstr ""
 msgid "Tik-Tok"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:174
+#: redux-framework/sample/sections/codeweber/page-header.php:184
 #: redux-framework/sample/sections/codeweber/repeater.php:32
 msgid "Title"
 msgstr "Заголовок"
@@ -5765,7 +5790,7 @@ msgstr ""
 msgid "Unlimited slides with drag and drop sorting."
 msgstr ""
 
-#: functions/cpt/redux_cpt.php:15
+#: functions/cpt/redux_cpt.php:16
 msgid "Unnamed"
 msgstr ""
 
@@ -5853,11 +5878,11 @@ msgstr ""
 msgid "Upload Font"
 msgstr "Загрузить шрифт"
 
-#: redux-framework/sample/sections/codeweber/page-header.php:243
+#: redux-framework/sample/sections/codeweber/page-header.php:253
 msgid "Upload Header Background Image"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/page-header.php:255
+#: redux-framework/sample/sections/codeweber/page-header.php:265
 msgid "Upload Header Pattern Image"
 msgstr ""
 

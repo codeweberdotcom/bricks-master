@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-14 09:45+0000\n"
+"PO-Revision-Date: 2025-09-14 09:51+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -135,20 +135,20 @@ msgstr "Действия"
 #: redux-framework/sample/sections/codeweber/childtheme.php:130
 #: redux-framework/sample/sections/codeweber/childtheme.php:213
 msgid "Activate"
-msgstr ""
+msgstr "Активировать"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:121
 msgid "Activated"
-msgstr ""
+msgstr "Активировано"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:113
 msgid "Activating..."
-msgstr ""
+msgstr "Активация..."
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:204
 #: redux-framework/sample/sections/codeweber/childtheme.php:215
 msgid "Active"
-msgstr ""
+msgstr "Автивно"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:397
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:388
@@ -646,7 +646,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:62
 msgid "Button Style"
-msgstr ""
+msgstr "Стиль кнопки"
 
 #: comments.php:136
 msgid "By using this comment form you agree with our Privacy Policy"
@@ -3354,7 +3354,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:166
 msgid "No parent themes found"
-msgstr ""
+msgstr "Родительские темы не найдены."
 
 #: functions/integrations/image-licenses/image-licenses.php:493
 msgid "no PDF"
@@ -3648,11 +3648,11 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:86
 msgid "Page-frame"
-msgstr ""
+msgstr "Страница-рамка"
 
 #: redux-framework/sample/sections/codeweber/style.php:92
 msgid "Page-loader"
-msgstr ""
+msgstr "Загрузчик страниц"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1218
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:333
@@ -3722,20 +3722,20 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:53
 msgid "Parent Theme"
-msgstr ""
+msgstr "Родительская тема"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:262
 msgid "Parent theme does not exist"
-msgstr ""
+msgstr "Родительская тема не существует"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:88
 #: redux-framework/sample/sections/codeweber/childtheme.php:256
 msgid "Parent theme is required"
-msgstr ""
+msgstr "Требуется Родительская тема"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:207
 msgid "Parent:"
-msgstr ""
+msgstr "Родительская тема:"
 
 #: templates/content/single-legal.php:60 templates/content/single.php:61
 msgid "Part:"
@@ -4617,7 +4617,7 @@ msgstr "Выбрать Тип Заголовка"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:154
 msgid "Select Parent Theme"
-msgstr ""
+msgstr "Выберите Родительскую тему"
 
 #: functions/integrations/image-licenses/image-licenses.php:146
 msgid "Select PDF"
@@ -4660,7 +4660,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:54
 msgid "Select the parent theme"
-msgstr ""
+msgstr "Выберите родительскую тему"
 
 #: redux-framework/sample/sections/codeweber/footer.php:113
 msgid "Select type Footer background"
@@ -5504,11 +5504,11 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:370
 msgid "Theme activated successfully!"
-msgstr ""
+msgstr "Тема успешно активирована!"
 
 #: redux-framework/sample/sections/codeweber/style.php:41
 msgid "Theme color"
-msgstr ""
+msgstr "Цвет темы"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:270
 msgid "Theme directory already exists"
@@ -6002,7 +6002,7 @@ msgstr "Проверка"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:47
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #. %s — дата ревизии документа
 #: functions/personal-data.php:88
@@ -6379,6 +6379,8 @@ msgid ""
 "You need to download the font in two formats woff and woff2 to display in "
 "old browsers"
 msgstr ""
+"Вам необходимо скачать шрифт в двух форматах woff и woff2 для отображения в "
+"старых браузерах."
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1480
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:595
