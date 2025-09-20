@@ -44,7 +44,7 @@
 							<?php endif; ?>
 						</div>
 						<div class="mb-0 mb-md-2">
-							<?php codeweber_share_page(); ?>
+							<?php codeweber_share_page(['region' => 'ru', 'button_class' => 'has-ripple btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0']); ?>
 						</div>
 					</div>
 					<!-- /.post-footer -->
@@ -82,7 +82,7 @@
 					if (!empty($avatar_id)) :
 						$avatar_src = wp_get_attachment_image_src($avatar_id, 'thumbnail');
 					?>
-						<img decoding="async" class="avatar w-48 me-3" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
+						<img decoding="async" class="avatar w-48 h-48 me-3" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
 					<?php else : ?>
 						<?php echo get_avatar(get_the_author_meta('user_email'), 96); ?>
 					<?php endif; ?>
@@ -105,7 +105,7 @@
 				</div>
 
 				<div class="mt-3 mt-md-0 ms-auto">
-					<a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="btn btn-sm btn-soft-ash <?php echo esc_attr(GetThemeButton('rounded mt-2')); ?> btn-icon btn-icon-start mb-0">
+					<a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="btn btn-sm btn-soft-ash <?php echo esc_attr(GetThemeButton('rounded mt-2')); ?> btn-icon btn-icon-start mb-0 has-ripple">
 						<i class="uil uil-file-alt"></i> <?php esc_html_e('All Posts', 'codeweber'); ?>
 					</a>
 				</div>

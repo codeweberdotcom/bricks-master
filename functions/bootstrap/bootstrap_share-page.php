@@ -1,30 +1,271 @@
 <?php
 
 /**
- * Share Page
+ * Универсальная функция для кнопок分享 с поддержкой регионов
+ *
+ * Выводит выпадающее меню с кнопками социальных сетей, адаптированными под регион пользователя.
+ * Автоматически определяет регион по языку или может быть указан вручную. Поддерживает
+ * расширенную кастомизацию через параметры и фильтры WordPress.
+ *
+ * @since 1.0.0
+ *
+ * @param array $args {
+ *     Опционально. Массив параметров конфигурации.
+ *
+ *     @type string   $button_class    CSS классы для основной кнопки. По умолчанию 'btn btn-red btn-icon btn-icon-start dropdown-toggle mb-0 me-0 ' + getThemeButton()
+ *     @type string   $dropdown_class  CSS классы для выпадающего меню. По умолчанию 'dropdown-menu'
+ *     @type string   $item_class      CSS классы для элементов меню. По умолчанию 'dropdown-item'
+ *     @type string   $button_text     Текст на кнопке. По умолчанию __('Share', 'codeweber')
+ *     @type string   $button_icon     CSS класс иконки кнопки. По умолчанию 'uil uil-share-alt'
+ *     @type array    $networks        Массив конкретных сетей для отображения (переопределяет регион). По умолчанию []
+ *     @type string   $region          Регион: 'eu' (Европа), 'ru' (Россия), 'auto' (автоопределение). По умолчанию 'auto'
+ *     @type string   $title           Заголовок для分享. По умолчанию get_the_title()
+ *     @type string   $url             URL для分享. По умолчанию get_permalink()
+ *     @type string   $hashtags        Хэштеги для Twitter. По умолчанию 'law,legal'
+ *     @type string   $email_subject   Тема для email. По умолчанию зависит от региона
+ *     @type string   $email_to        Email получателя. По умолчанию пусто
+ * }
+ *
+ * @return void
+ *
+ * @example
+ * // Для Европы с кастомными параметрами
+ * codeweber_share_page([
+ *     'region' => 'eu',
+ *     'hashtags' => 'eulaw,legaladvice',
+ *     'email_subject' => 'Interesting EU legal article',
+ *     'button_text' => 'Share in EU'
+ * ]);
  */
 
-if (! function_exists('codeweber_share_page')) {
-   function codeweber_share_page()
-   { ?>
+if (!function_exists('codeweber_share_page')) {
+   /**
+    * Universal share function with regional support
+    *
+    * @param array $args {
+    *     Optional. Array of arguments.
+    *
+    *     @type string $button_class    CSS class for the main button
+    *     @type string $dropdown_class  CSS class for the dropdown menu
+    *     @type string $item_class      CSS class for dropdown items
+    *     @type string $button_text     Text for the share button
+    *     @type string $button_icon     Icon class for the button
+    *     @type array  $networks        Specific networks to show (overrides regional detection)
+    *     @type string $region          Force region: 'eu', 'ru', or 'auto'
+    *     @type string $title           Custom title for sharing
+    *     @type string $url             Custom URL for sharing
+    * }
+    */
+   function codeweber_share_page($args = [])
+   {
+      $defaults = [
+         'button_class'   => 'btn btn-red btn-icon btn-icon-start dropdown-toggle mb-0 me-0 ' . getThemeButton(),
+         'dropdown_class' => 'dropdown-menu',
+         'item_class'     => 'dropdown-item',
+         'button_text'    => __('Share', 'codeweber'),
+         'button_icon'    => 'uil uil-share-alt',
+         'networks'       => [],
+         'region'         => 'auto',
+         'title'          => get_the_title(),
+         'url'            => get_permalink(),
+      ];
+
+      $args = wp_parse_args($args, $defaults);
+
+      // Detect region if auto
+      $region = $args['region'] === 'auto' ? codeweber_detect_region() : $args['region'];
+
+      // Get networks for the region
+      $networks = !empty($args['networks']) ? $args['networks'] : codeweber_get_share_networks($region);
+
+      if (empty($networks)) {
+         return;
+      }
+
+      // Prepare sharing data
+      $share_title = esc_attr($args['title']);
+      $share_url = esc_url($args['url']);
+      $site_name = esc_attr(get_bloginfo('name'));
+?>
+
       <div class="dropdown share-dropdown btn-group">
-         <button class="btn btn-red btn-icon btn-icon-start dropdown-toggle mb-0 me-0 <?php echo getThemeButton(); ?>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="uil uil-share-alt"></i> <?php _e('Share', 'codeweber'); ?>
+         <button class="<?php echo esc_attr($args['button_class']); ?>"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false">
+            <i class="<?php echo esc_attr($args['button_icon']); ?>"></i>
+            <?php echo esc_html($args['button_text']); ?>
          </button>
-         <div class="dropdown-menu">
-            <button class="dropdown-item" data-sharer="vk" data-title="<?php the_title(); ?>" data-hashtag="hashtag" data-url="<?php echo get_permalink(); ?>"><i class="uil uil-vk"></i><?php _e('VKontakte', 'codeweber'); ?></button>
-            <button class="dropdown-item button" data-sharer="email" data-title="<?php the_title(); ?>" data-url="<?php echo get_permalink(); ?>" data-subject="Привет! Посмотри эту ссылку!" data-to="info@codeweber.com"><i class="uil uil-envelope-share"></i><?php _e('Email', 'codeweber'); ?></button>
-            <button class="dropdown-item button" data-sharer="whatsapp" data-title="<?php the_title(); ?>" data-url="<?php echo get_permalink(); ?>"><i class="uil uil-whatsapp"></i><?php _e('WhatsApp', 'codeweber'); ?></button>
-            <button class="dropdown-item button" data-sharer="telegram" data-title="<?php the_title(); ?>" data-url="<?php echo get_permalink(); ?>"><i class="uil uil-telegram"></i><?php _e('Telegram', 'codeweber'); ?></button>
 
-            <button class="dropdown-item button" data-sharer="okru" data-title="<?php the_title(); ?>" data-url="<?php echo get_permalink(); ?>"><i class="uil uil-odnoklassniki"></i><?php _e('Odnoklassniki', 'codeweber'); ?></button>
+         <div class="<?php echo esc_attr($args['dropdown_class']); ?>">
+            <?php foreach ($networks as $network => $network_data) : ?>
+               <?php
+               $icon_class = $network_data['icon'] ?? 'uil uil-share-alt';
+               $label = $network_data['label'] ?? ucfirst($network);
+               $data_attrs = '';
 
+               // Prepare data attributes
+               $data_attrs .= ' data-sharer="' . esc_attr($network) . '"';
+               $data_attrs .= ' data-title="' . $share_title . '"';
+               $data_attrs .= ' data-url="' . $share_url . '"';
 
+               // Add network-specific attributes
+               if (!empty($network_data['attributes'])) {
+                  foreach ($network_data['attributes'] as $attr => $value) {
+                     if ($value) {
+                        $data_attrs .= ' data-' . esc_attr($attr) . '="' . esc_attr($value) . '"';
+                     }
+                  }
+               }
+               ?>
 
-
+               <button class="<?php echo esc_attr($args['item_class']); ?> share-button"
+                  <?php echo $data_attrs; ?>
+                  type="button">
+                  <i class="<?php echo esc_attr($icon_class); ?>"></i>
+                  <?php echo esc_html($label); ?>
+               </button>
+            <?php endforeach; ?>
          </div>
       </div>
-   <?php }
+
+   <?php
+   }
+}
+
+/**
+ * Detect user region based on language/location
+ */
+function codeweber_detect_region()
+{
+   // Check if region is set in cookie/session
+   if (isset($_COOKIE['user_region'])) {
+      return sanitize_text_field($_COOKIE['user_region']);
+   }
+
+   // Detect by language
+   $language = get_locale();
+   if (strpos($language, 'ru') === 0) {
+      return 'ru';
+   }
+
+   // Default to EU
+   return 'eu';
+}
+
+/**
+ * Get share networks based on region
+ */
+function codeweber_get_share_networks($region = 'eu')
+{
+   $networks = [
+      'eu' => [
+         'linkedin' => [
+            'label' => __('LinkedIn', 'codeweber'),
+            'icon' => 'uil uil-linkedin',
+            'attributes' => []
+         ],
+         'twitter' => [
+            'label' => __('Twitter', 'codeweber'),
+            'icon' => 'uil uil-twitter',
+            'attributes' => [
+               'hashtags' => 'law,legal'
+            ]
+         ],
+         'facebook' => [
+            'label' => __('Facebook', 'codeweber'),
+            'icon' => 'uil uil-facebook-f',
+            'attributes' => []
+         ],
+         'whatsapp' => [
+            'label' => __('WhatsApp', 'codeweber'),
+            'icon' => 'uil uil-whatsapp',
+            'attributes' => []
+         ],
+         'email' => [
+            'label' => __('Email', 'codeweber'),
+            'icon' => 'uil uil-envelope-share',
+            'attributes' => [
+               'subject' => sprintf(__('Посмотрите: %s', 'codeweber'), get_bloginfo('name')),
+               'to' => get_option('admin_email') // ← И ЗДЕСЬ ТОЖЕ
+            ]
+            ],
+         'xing' => [
+            'label' => __('Xing', 'codeweber'),
+            'icon' => 'uil uil-xing',
+            'attributes' => []
+         ]
+      ],
+      'ru' => [
+         'vk' => [
+            'label' => __('VKontakte', 'codeweber'),
+            'icon' => 'uil uil-vk',
+            'attributes' => [
+               'hashtag' => 'law'
+            ]
+         ],
+         'telegram' => [
+            'label' => __('Telegram', 'codeweber'),
+            'icon' => 'uil uil-telegram',
+            'attributes' => []
+         ],
+         'whatsapp' => [
+            'label' => __('WhatsApp', 'codeweber'),
+            'icon' => 'uil uil-whatsapp',
+            'attributes' => []
+         ],
+         'odnoklassniki' => [
+            'label' => __('Odnoklassniki', 'codeweber'),
+            'icon' => 'uil uil-odnoklassniki',
+            'attributes' => []
+         ],
+         'viber' => [
+            'label' => __('Viber', 'codeweber'),
+            'icon' => 'uil uil-viber',
+            'attributes' => []
+         ],
+         'email' => [
+            'label' => __('Email', 'codeweber'),
+            'icon' => 'uil uil-envelope-share',
+            'attributes' => [
+               'subject' => sprintf(__('Посмотрите: %s', 'codeweber'), get_bloginfo('name')),
+               'to' => get_option('admin_email') // ← И ЗДЕСЬ ТОЖЕ
+            ]
+         ]
+      ]
+   ];
+
+   // Allow filtering networks
+   $networks = apply_filters('codeweber_share_networks', $networks, $region);
+
+   return $networks[$region] ?? $networks['eu'];
+}
+
+/**
+ * Shortcode for share buttons
+ */
+add_shortcode('share_buttons', 'codeweber_share_shortcode');
+function codeweber_share_shortcode($atts)
+{
+   $atts = shortcode_atts([
+      'region' => 'auto',
+      'networks' => '',
+      'class' => '',
+      'title' => get_the_title(),
+      'url' => get_permalink()
+   ], $atts);
+
+   if (!empty($atts['networks'])) {
+      $atts['networks'] = array_map('trim', explode(',', $atts['networks']));
+   }
+
+   if (!empty($atts['class'])) {
+      $atts['button_class'] .= ' ' . $atts['class'];
+   }
+
+   ob_start();
+   codeweber_share_page($atts);
+   return ob_get_clean();
 }
 
 
