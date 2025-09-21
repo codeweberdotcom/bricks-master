@@ -156,3 +156,27 @@ add_filter('get_the_archive_title', function ($title) {
 
    return $title;
 });
+
+
+/**
+ * Изменяет заголовок архивной страницы для произвольных типов записей.
+ * Работает с функцией post_type_archive_title().
+ *
+ * @param string $title Стандартный заголовок архива CPT
+ * @param string $post_type Тип записи
+ * @return string Новый заголовок архива
+ */
+add_filter('post_type_archive_title', function ($title, $post_type) {
+    if (!is_admin()) {
+        global $opt_name;
+
+        $custom_title_id = 'custom_title_' . $post_type;
+        $custom_title = Redux::get_option($opt_name, $custom_title_id);
+
+        if (!empty($custom_title)) {
+            return $custom_title;
+        }
+    }
+
+    return $title;
+}, 10, 2);

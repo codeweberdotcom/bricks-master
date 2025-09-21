@@ -338,11 +338,16 @@ function universal_title($tag = false, $theme = false)
 			$title = single_term_title('', false);
 		} elseif (is_post_type_archive()) {
 			$title = post_type_archive_title('', false);
+			// Применяем фильтр для кастомного заголовка CPT
+			$post_type = get_query_var('post_type');
+			$title = apply_filters('post_type_archive_title', $title, $post_type);
 		} elseif (function_exists('is_shop') && is_shop() && class_exists('WooCommerce')) {
 			// Для страницы архива магазина WooCommerce
 			$title = function_exists('woocommerce_page_title') ? woocommerce_page_title(false) : __('Shop', 'codeweber');
 		} else {
 			$title = get_the_archive_title();
+			// Убираем префикс "Архив: " если он есть
+			$title = preg_replace('/^.*:\s*/', '', $title);
 		}
 
 		// Убираем тег <span>, если он есть, для архивных страниц
