@@ -124,6 +124,8 @@ if (!is_front_page() && !is_home() && !is_404()) {
             $container_class[] = ($header_background === '3') ? 'pt-19 pt-md-23 pb-18 pb-md-20' : 'pt-19 pt-md-20 pb-18 pb-md-20';
          } elseif ($global_page_header_model === '8') {
             $container_class[] = ($header_background === '3') ? 'pt-19 pt-md-24 pb-18 pb-md-20' : 'pt-19 pt-md-21 pb-18 pb-md-20';
+         } elseif ($global_page_header_model === '9') {
+            $container_class[] = ($header_background === '3') ? 'py-14' : 'py-12';
          } else {
             $container_class[] = ($header_background === '3') ? 'pt-18 pt-md-20' : 'pt-10 pt-md-14';
          }

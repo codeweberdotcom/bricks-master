@@ -53,6 +53,8 @@ $hr-margin-y: 2rem;
 $border: #DDE4E6 !default;
 
 
+
+
 //----------------------------------------------------------//
 //	GLOBAL
 //----------------------------------------------------------//
@@ -75,6 +77,11 @@ $gray-900: #1E1E1E;
 
 $dark: #1E1E1E;
 $border-radius: 0;
+
+$border-radius: $border-radius;
+$border-radius-sm: $border-radius;
+$border-radius-lg: $border-radius;
+$border-radius-xl: $border-radius;
 
 //$icon-page-progress: "\e932";
 

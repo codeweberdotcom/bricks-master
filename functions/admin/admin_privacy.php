@@ -1979,7 +1979,7 @@ function render_personal_data_sections($opt_name)
 		echo '<div class="pdn-section">';
 		echo '<p><strong>' . esc_html($section_number) . '. Цель обработки "' . esc_html($title) . '"</strong></p>';
 		echo '<div class="table-responsive">';
-		echo '<figure class="wp-block-table"><table class=" has-fixed-layout" style="width:100%; table-layout: fixed;">';
+		echo '<figure class=""><table class=" table table-bordered" style="width:100%; table-layout: fixed;">';
 		echo '<tbody>';
 
 		$rows = [
