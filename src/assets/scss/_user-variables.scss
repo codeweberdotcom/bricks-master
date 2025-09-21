@@ -50,7 +50,8 @@ $card-spacer-x: $padding-43;
 $border-light: #F5F5F5;
 $hr-margin-y: 2rem;
 
-$border: #DDE4E6 !default;
+$border: #DDE4E6;
+$border-light: $border;
 
 
 
@@ -860,6 +861,50 @@ padding-left: 20px;
 }
 
 
+.wp-block-list li {
+    list-style-type: none;
+    position: relative;
+    padding-left: 20px;
+}
+
+.wp-block-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 13px;
+    width: 5px;
+    height: 5px;
+    background-color: $primary;
+}
+
+.service-link {
+    display: grid;
+    grid-template-columns: 0fr 1fr auto;
+    gap: 12px;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.service-link .brand-square-sm {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.service-link:hover .brand-square-sm {
+    opacity: 1;
+    width: 16px;
+}
+
+.service-link .uil-angle-right {
+    transition: all 0.3s ease;
+}
+
+.service-link:hover .uil-angle-right {
+    transform: translateX(5px);
+    color: $primary;
+}
 
 //START IMPORT FONTS
 @import "fonts/SourceSansPro";
