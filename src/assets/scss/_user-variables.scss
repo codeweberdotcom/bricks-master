@@ -50,9 +50,9 @@ $card-spacer-x: $padding-43;
 $border-light: #F5F5F5;
 $hr-margin-y: 2rem;
 
-$border: #DDE4E6;
-$border-light: $border;
-
+$border-color: #DDE4E6;
+$border: $border-color;
+$border-light: $border-color;
 
 
 
@@ -65,6 +65,11 @@ $white: #ffffff; // 50
 
 $body-bg: $white;
 $body-color: #1E1E1E;
+
+.list-unstyled li a.active {
+  color: #999;
+}
+
 
 $gray-100: #FAFAFA;
 $gray-200: #F5F5F5;
