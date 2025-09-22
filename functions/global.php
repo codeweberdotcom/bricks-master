@@ -394,6 +394,32 @@ function universal_title($tag = false, $theme = false)
 
 
 /**
+ * Шорткод для вывода универсального заголовка страницы
+ * 
+ * Использует функцию universal_title() для получения заголовка с автоматическим определением типа контента
+ * 
+ * @param array $atts Атрибуты шорткода:
+ *     - 'tag'    string  HTML-тег для обертки (по умолчанию: 'h1')
+ *     - 'theme'  string  Класс для тега или 'theme' для получения из Redux (по умолчанию: 'theme')
+ * 
+ * @return string Заголовок текущей страницы в указанном формате
+ * 
+ * @example [universal_title] - заголовок в теге h1 с классом из Redux
+ * @example [universal_title tag="h2" theme="custom-class"] - заголовок в h2 с кастомным классом
+ * @example [universal_title tag="div"] - заголовок в div с классом из Redux
+ */
+function universal_title_shortcode($atts)
+{
+	$atts = shortcode_atts(array(
+		'tag' => 'h1',
+		'theme' => 'theme'
+	), $atts);
+
+	return universal_title($atts['tag'], $atts['theme']);
+}
+add_shortcode('universal_title', 'universal_title_shortcode');
+
+/**
  * Кастомная пагинация для постов WordPress
  * 
  * Создает красивую пагинацию в стиле Bootstrap с иконками и гибкими настройками
