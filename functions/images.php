@@ -17,6 +17,7 @@ if (! function_exists('codeweber_image_settings')) {
 		add_image_size('codeweber_project_900-800', 900, 800, true);
 
 		add_image_size('codeweber_staff', 400, 400, true);
+		
 
 		//add_image_size('codeweber_big', 1400, 800, true );
 		//add_image_size('codeweber_square', 400, 400, true );
