@@ -73,6 +73,10 @@ $accordion-icon-font-size: 1.2rem;
 $accordion-card-hover-shadow: none;
 $accordion-card-hover-shadow: 0 0 0 rgba(0, 0, 0, 0);
 
+#practice_faq .accordion-button.text-white::before {
+  color: #fff;
+}
+
 //----------------------------------------------------------//
 //	GLOBAL
 //----------------------------------------------------------//

@@ -115,3 +115,13 @@ function register_taxonomy_document_type()
    register_taxonomy("document_type", ["documents"], $args);
 }
 add_action('init', 'register_taxonomy_document_type');
+
+
+add_filter('use_block_editor_for_post_type', 'disable_gutenberg_for_documents', 10, 2);
+function disable_gutenberg_for_documents($current_status, $post_type)
+{
+   if ($post_type === 'documents') {
+      return false;
+   }
+   return $current_status;
+}
