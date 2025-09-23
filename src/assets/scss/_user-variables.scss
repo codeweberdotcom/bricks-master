@@ -164,7 +164,7 @@ $accordion-button-active-color: $dark;
 
 // Две переменные для разных положений кнопки
 $accordion-button-padding-left: 1.37rem 1.5rem 1.37rem 2.7rem;
-$accordion-button-padding-right: 0.58rem 2.7rem 0.58rem 0;
+$accordion-button-padding-right: .855rem 2.7rem .855rem 0;
 
 // Две переменные для body padding
 $accordion-body-padding-left: 0 1.37rem 0.25rem 1.5rem;
@@ -184,6 +184,10 @@ $accordion-icon-one: "\ec5d"; // основная иконка
 // Переменные для углов поворота
 $accordion-icon-closed-rotate: 0deg; // Угол для закрытого состояния
 $accordion-icon-opened-rotate: 135deg; // Угол для открытого состояния
+
+.accordion-wrapper .card.plain .card-header button:not(.collapsed)::before {
+  right: 1.1rem;
+}
 
 // Уберите эти конфликтующие переменные или закомментируйте:
 // $accordion-icon-open: '\ec5d'; // конфликт с $accordion-icon-one
