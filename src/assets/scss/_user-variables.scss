@@ -71,7 +71,6 @@ $accordion-button-font-size: 1.2rem;
 $accordion-button-font-weight: 400;
 $accordion-icon-font-size: 1.2rem;
 $accordion-card-hover-shadow: none;
-
 $accordion-card-hover-shadow: 0 0 0 rgba(0, 0, 0, 0);
 
 //----------------------------------------------------------//
@@ -141,47 +140,58 @@ $card-border-radius: $border-radius;
 //----------------------------------------------------------//
 //  ACCORDEON
 //----------------------------------------------------------//
-$accordion-margin-bottom: 0rem;
-$accordion-card-body-padding: 0 0 0 1.1rem;
-$accordion-card-header-padding-default: 0 0 0 0;
+//----------------------------------------------------------//
+//  ACCORDION VARIABLES - ДОЛЖНЫ БЫТЬ В ПРАВИЛЬНОМ ПОРЯДКЕ
+//----------------------------------------------------------//
 
-$accordion-button-font-size: 0.89rem;
-$accordion-button-font-weight: 700;
+// Сначала базовые переменные
+$accordion-margin-bottom: 0rem;
+$accordion-card-body-padding: 0 0 0 0;
+$accordion-card-header-padding-default: 0 0 0 0;
+$accordion-card-header-padding: 0 0 0 0;
+
+$accordion-plain-border-width: 0 0 1px 0;
+$accordion-plain-border-style: solid;
+$accordion-plain-border-color: $border-color;
+
+$accordion-button-font-size: 1.1rem;
+$accordion-button-font-weight: 400;
 $accordion-icon-font-size: 1.15rem;
 $accordion-icon-color: $dark;
 $accordion-button-hover-color: $dark;
 $accordion-icon-hover-color: $primary;
 $accordion-button-active-color: $dark;
 
-$accordion-icon-margin-top: -0.25rem;
-$accordion-icon-margin-left: -0.3rem;
-
-// две переменные для разных положений кнопки
+// Две переменные для разных положений кнопки
 $accordion-button-padding-left: 1.37rem 1.5rem 1.37rem 2.7rem;
-$accordion-button-padding-right: 1.37rem 2.7rem 1.37rem 1.5rem;
+$accordion-button-padding-right: 0.58rem 2.7rem 0.58rem 0;
 
-// две переменные для body padding
+// Две переменные для body padding
 $accordion-body-padding-left: 0 1.37rem 0.25rem 1.5rem;
 $accordion-body-padding-right: 0 1.5rem 0.25rem 1.37rem;
-
-$accordion-icon-open: '\ec5d'; // условный код иконки вверх
-$accordion-icon-close: '\ec5d'; // код иконки вниз
 
 $accordion-body-padding-icon: 0 1.25rem 0.25rem 2.8rem;
 $accordion-button-icon-font-size: 1rem;
 
-//Расположение иконки
+// Расположение иконки
 $accordion-button-icon-span: 1.3rem;
 $accordion-icon-position: right; 
+
+// Тип иконки и значения ДОЛЖНЫ БЫТЬ ОПРЕДЕЛЕНЫ ДО ИХ ИСПОЛЬЗОВАНИЯ
+$accordion-icon-type: "one"; // одна иконка с поворотом
+$accordion-icon-one: "\ec5d"; // основная иконка
 
 // Переменные для углов поворота
 $accordion-icon-closed-rotate: 0deg; // Угол для закрытого состояния
 $accordion-icon-opened-rotate: 135deg; // Угол для открытого состояния
 
-//--одна иконка с поворотом
-$accordion-icon-type: "one";
-$accordion-icon-one: "\ec5d";
-$accordion-icon-opened-rotate: 135deg;
+// Уберите эти конфликтующие переменные или закомментируйте:
+// $accordion-icon-open: '\ec5d'; // конфликт с $accordion-icon-one
+// $accordion-icon-close: '\ec5d'; // конфликт с $accordion-icon-one
+
+// Финальные вычисляемые переменные ДОЛЖНЫ БЫТЬ В КОНЦЕ
+$accordion-button-padding: if($accordion-icon-position == left, $accordion-button-padding-left, $accordion-button-padding-right) !default;
+$accordion-body-padding-default: if($accordion-icon-position == left, $accordion-body-padding-left, $accordion-body-padding-right) !default;
 
 //--две иконки без поворота
 //$accordion-icon-type: "two";
