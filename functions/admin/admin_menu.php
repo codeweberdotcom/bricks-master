@@ -41,3 +41,47 @@ function add_checkbox_meta_to_menu_items($items, $args)
    }
    return $items;
 }
+
+
+
+
+// Добавляем чекбокс Mega Menu в пункты меню
+add_action('wp_nav_menu_item_custom_fields', 'add_mega_menu_checkbox', 10, 4);
+
+function add_mega_menu_checkbox($item_id, $item, $depth, $args)
+{
+   // Получаем сохранённое значение
+   $value = get_post_meta($item_id, '_mega_menu', true);
+?>
+   <p class="description">
+      <label for="edit-menu-item-mega-menu-<?php echo $item_id; ?>">
+         <input type="checkbox" id="edit-menu-item-mega-menu-<?php echo $item_id; ?>" name="menu-item-mega-menu[<?php echo $item_id; ?>]" value="1" <?php checked($value, 1); ?> />
+         <?php _e("Mega Menu", "textdomain"); ?>
+      </label>
+   </p>
+<?php
+}
+
+// Сохраняем значение чекбокса Mega Menu
+add_action('wp_update_nav_menu_item', 'save_mega_menu_checkbox', 10, 2);
+
+function save_mega_menu_checkbox($menu_id, $menu_item_db_id)
+{
+   if (isset($_POST['menu-item-mega-menu'][$menu_item_db_id])) {
+      update_post_meta($menu_item_db_id, '_mega_menu', 1);
+   } else {
+      delete_post_meta($menu_item_db_id, '_mega_menu');
+   }
+}
+
+// Добавляем мета-данные к объектам меню для использования в шаблоне
+add_filter('wp_nav_menu_objects', 'add_mega_menu_meta_to_menu_items', 10, 2);
+
+function add_mega_menu_meta_to_menu_items($items, $args)
+{
+   foreach ($items as $item) {
+      // Получаем значение мета-поля Mega Menu
+      $item->is_mega_menu = get_post_meta($item->ID, '_mega_menu', true) ?: false;
+   }
+   return $items;
+}

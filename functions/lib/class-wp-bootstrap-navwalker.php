@@ -80,20 +80,6 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			$output .= "{$n}{$indent}<ul$class_names $labelledby role=\"menu\">{$n}";
 		}
 
-		/**
-		 * Starts the element output.
-		 *
-		 * @since WP 3.0.0
-		 * @since WP 4.4.0 The {@see 'nav_menu_item_args'} filter was added.
-		 *
-		 * @see Walker_Nav_Menu::start_el()
-		 *
-		 * @param string   $output Used to append additional content (passed by reference).
-		 * @param WP_Post  $item   Menu item data object.
-		 * @param int      $depth  Depth of menu item. Used for padding.
-		 * @param stdClass $args   An object of wp_nav_menu() arguments.
-		 * @param int      $id     Current item ID.
-		 */
 		public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0)
 		{
 			if (isset($args->item_spacing) && 'discard' === $args->item_spacing) {
@@ -187,13 +173,11 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 				$atts['title'] = $item->attr_title;
 			}
 
-
 			$custom_class = !empty($item->classes) ? esc_attr($item->classes[0]) : '';
-
-
 
 			$atts['target'] = !empty($item->target) ? $item->target : '';
 			$atts['rel']    = !empty($item->xfn) ? $item->xfn : '';
+
 			// If item has_children add atts to <a>.
 			if (isset($args->has_children) && $args->has_children && 0 === $depth && $args->depth > 1) {
 				$atts['href']          = '#';
@@ -214,7 +198,6 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 
 			if ($args->has_children) {
 				$atts['data-toggle'] = 'dropdown';
-
 				$atts['aria-expanded'] = 'false';
 			}
 
@@ -223,6 +206,15 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			}
 
 			$atts['aria-current'] = $item->current ? 'page' : '';
+
+			// ДОБАВЛЯЕМ ПРОВЕРКУ НА CUSTOM CHECKBOX И КЛАСС SCROLL
+			if (isset($item->custom_checkbox) && $item->custom_checkbox) {
+				if (isset($atts['class'])) {
+					$atts['class'] .= ' scroll';
+				} else {
+					$atts['class'] = 'scroll';
+				}
+			}
 
 			// update atts of this item based on any custom linkmod classes.
 			$atts = self::update_atts_for_linkmod_type($atts, $linkmod_classes);
@@ -314,10 +306,6 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			} else {
 				$title = apply_filters('nav_menu_item_title', $title, $item, $args, $depth);
 			}
-
-
-
-
 
 			/**
 			 * If the .sr-only class was set apply to the nav items text only.
