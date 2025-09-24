@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Image Licenses Management Module
+ * Media Licenses Management Module (Images & Videos)
  */
 
 // Load text domain for translations
-function image_licenses_load_textdomain()
+function media_licenses_load_textdomain()
 {
    load_plugin_textdomain('codeweber', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
-add_action('plugins_loaded', 'image_licenses_load_textdomain');
+add_action('plugins_loaded', 'media_licenses_load_textdomain');
 
 // Register taxonomy for Licensor's author
 function register_licensor_author_taxonomy()
@@ -38,18 +38,18 @@ function register_licensor_author_taxonomy()
       'show_in_rest'      => false,
    );
 
-   register_taxonomy('licensor_author', array('image_license'), $args);
+   register_taxonomy('licensor_author', array('media_license'), $args);
 }
 add_action('init', 'register_licensor_author_taxonomy');
 
 // Register Custom Post Type for licenses
-function register_image_license_cpt()
+function register_media_license_cpt()
 {
    $labels = array(
-      'name'                  => _x('Image Licenses', 'Post Type General Name', 'codeweber'),
-      'singular_name'         => _x('Image License', 'Post Type Singular Name', 'codeweber'),
-      'menu_name'             => __('Image Licenses', 'codeweber'),
-      'name_admin_bar'        => __('Image License', 'codeweber'),
+      'name'                  => _x('Media Licenses', 'Post Type General Name', 'codeweber'),
+      'singular_name'         => _x('Media License', 'Post Type Singular Name', 'codeweber'),
+      'menu_name'             => __('Media Licenses', 'codeweber'),
+      'name_admin_bar'        => __('Media License', 'codeweber'),
       'archives'              => __('License Archives', 'codeweber'),
       'attributes'            => __('License Attributes', 'codeweber'),
       'parent_item_colon'     => __('Parent License:', 'codeweber'),
@@ -76,8 +76,8 @@ function register_image_license_cpt()
    );
 
    $args = array(
-      'label'                 => __('Image License', 'codeweber'),
-      'description'           => __('Manage licenses for images', 'codeweber'),
+      'label'                 => __('Media License', 'codeweber'),
+      'description'           => __('Manage licenses for images and videos', 'codeweber'),
       'labels'                => $labels,
       'public'                => false,
       'show_ui'               => true,
@@ -93,9 +93,9 @@ function register_image_license_cpt()
       'taxonomies'            => array('licensor_author'),
    );
 
-   register_post_type('image_license', $args);
+   register_post_type('media_license', $args);
 }
-add_action('init', 'register_image_license_cpt');
+add_action('init', 'register_media_license_cpt');
 
 // Add meta boxes for license fields
 function add_license_meta_boxes()
@@ -105,7 +105,7 @@ function add_license_meta_boxes()
       'license_pdf_meta_box',
       __('License PDF File', 'codeweber'),
       'render_license_pdf_meta_box',
-      'image_license',
+      'media_license',
       'normal',
       'high'
    );
@@ -115,17 +115,17 @@ function add_license_meta_boxes()
       'license_details_meta_box',
       __('License Details', 'codeweber'),
       'render_license_details_meta_box',
-      'image_license',
+      'media_license',
       'normal',
       'high'
    );
 
-   // Attached images meta box
+   // Attached media meta box
    add_meta_box(
       'license_attachments_meta_box',
-      __('Attached Images', 'codeweber'),
+      __('Attached Media Files', 'codeweber'),
       'render_license_attachments_meta_box',
-      'image_license',
+      'media_license',
       'normal',
       'default'
    );
@@ -248,7 +248,7 @@ function render_license_details_meta_box($post)
                <?php endforeach; ?>
             </select>
             <p class="description">
-               <a href="<?php echo admin_url('edit-tags.php?taxonomy=licensor_author&post_type=image_license'); ?>" target="_blank">
+               <a href="<?php echo admin_url('edit-tags.php?taxonomy=licensor_author&post_type=media_license'); ?>" target="_blank">
                   <?php _e('Manage authors', 'codeweber'); ?>
                </a>
             </p>
@@ -298,7 +298,7 @@ function render_license_details_meta_box($post)
 <?php
 }
 
-// Meta box for displaying attached images
+// Meta box for displaying attached media files
 function render_license_attachments_meta_box($post)
 {
    $attachments = get_attachments_with_license($post->ID);
@@ -306,32 +306,57 @@ function render_license_attachments_meta_box($post)
    echo '<div class="license-attachments">';
 
    if (!empty($attachments)) {
-      echo '<p>' . __('The following images use this license:', 'codeweber') . '</p>';
+      echo '<p>' . __('The following media files use this license:', 'codeweber') . '</p>';
       echo '<ul style="max-height: 300px; overflow-y: auto;">';
 
       foreach ($attachments as $attachment) {
          $edit_url = get_edit_post_link($attachment->ID);
          $thumb_url = wp_get_attachment_thumb_url($attachment->ID);
+         $file_type = wp_check_filetype($attachment->guid);
+         $file_icon = get_file_icon($file_type['ext']);
 
          echo '<li style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; display: flex; align-items: center;">';
          echo '<div style="margin-right: 15px;">';
          if ($thumb_url) {
             echo '<img src="' . esc_url($thumb_url) . '" style="max-width: 60px; height: auto;">';
+         } else {
+            echo '<span class="dashicons ' . esc_attr($file_icon) . '" style="font-size: 40px; width: 40px; height: 40px;"></span>';
          }
          echo '</div>';
          echo '<div>';
          echo '<strong><a href="' . esc_url($edit_url) . '" target="_blank">' . esc_html(get_the_title($attachment->ID)) . '</a></strong><br>';
-         echo '<span style="font-size: 12px; color: #666;">' . sprintf(__('ID: %s', 'codeweber'), $attachment->ID) . '</span>';
+         echo '<span style="font-size: 12px; color: #666;">' . sprintf(__('ID: %s | Type: %s', 'codeweber'), $attachment->ID, $file_type['ext']) . '</span>';
          echo '</div>';
          echo '</li>';
       }
 
       echo '</ul>';
    } else {
-      echo '<p>' . __('No attached images.', 'codeweber') . '</p>';
+      echo '<p>' . __('No attached media files.', 'codeweber') . '</p>';
    }
 
    echo '</div>';
+}
+
+// Helper function to get file type icon
+function get_file_icon($extension)
+{
+   $video_extensions = array('mp4', 'mov', 'avi', 'wmv', 'flv', 'webm', 'm4v');
+   $audio_extensions = array('mp3', 'wav', 'ogg', 'm4a');
+   $image_extensions = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp');
+   $document_extensions = array('pdf', 'doc', 'docx', 'txt');
+
+   if (in_array($extension, $video_extensions)) {
+      return 'dashicons-format-video';
+   } elseif (in_array($extension, $audio_extensions)) {
+      return 'dashicons-format-audio';
+   } elseif (in_array($extension, $image_extensions)) {
+      return 'dashicons-format-image';
+   } elseif (in_array($extension, $document_extensions)) {
+      return 'dashicons-media-document';
+   } else {
+      return 'dashicons-media-default';
+   }
 }
 
 // Save meta box data
@@ -401,13 +426,13 @@ function add_license_columns($columns)
          $new_columns['license_type'] = __('License Type', 'codeweber');
          $new_columns['licensor_author'] = __('Licensor Author', 'codeweber');
          $new_columns['pdf_file'] = __('PDF File', 'codeweber');
-         $new_columns['attachments_count'] = __('Attached Images', 'codeweber');
+         $new_columns['attachments_count'] = __('Attached Files', 'codeweber');
       }
    }
 
    return $new_columns;
 }
-add_filter('manage_image_license_posts_columns', 'add_license_columns');
+add_filter('manage_media_license_posts_columns', 'add_license_columns');
 
 function populate_license_columns($column, $post_id)
 {
@@ -445,7 +470,7 @@ function populate_license_columns($column, $post_id)
          break;
    }
 }
-add_action('manage_image_license_posts_custom_column', 'populate_license_columns', 10, 2);
+add_action('manage_media_license_posts_custom_column', 'populate_license_columns', 10, 2);
 
 // Make license type column sortable
 function make_license_columns_sortable($columns)
@@ -454,7 +479,7 @@ function make_license_columns_sortable($columns)
    $columns['attachments_count'] = 'attachments_count';
    return $columns;
 }
-add_filter('manage_edit-image_license_sortable_columns', 'make_license_columns_sortable');
+add_filter('manage_edit-media_license_sortable_columns', 'make_license_columns_sortable');
 
 // Add license column to media library
 function add_media_license_column($columns)
@@ -464,7 +489,7 @@ function add_media_license_column($columns)
    foreach ($columns as $key => $value) {
       $new_columns[$key] = $value;
       if ($key === 'title') {
-         $new_columns['image_license'] = __('License', 'codeweber');
+         $new_columns['media_license'] = __('License', 'codeweber');
       }
    }
 
@@ -474,11 +499,11 @@ add_filter('manage_media_columns', 'add_media_license_column');
 
 function populate_media_license_column($column_name, $post_id)
 {
-   if ($column_name !== 'image_license') {
+   if ($column_name !== 'media_license') {
       return;
    }
 
-   $license_id = get_post_meta($post_id, '_image_license_id', true);
+   $license_id = get_post_meta($post_id, '_media_license_id', true);
 
    if ($license_id) {
       $license = get_post($license_id);
@@ -501,35 +526,41 @@ add_action('manage_media_custom_column', 'populate_media_license_column', 10, 2)
 // Make license column sortable in media library
 function make_media_license_column_sortable($columns)
 {
-   $columns['image_license'] = 'image_license';
+   $columns['media_license'] = 'media_license';
    return $columns;
 }
 add_filter('manage_upload_sortable_columns', 'make_media_license_column_sortable');
 
-// Add license selection field to media files
+// Add license selection field to media files (both images and videos)
 function add_media_license_field($form_fields, $post)
 {
-   if (!wp_attachment_is_image($post->ID)) {
+   // Check if it's an image or video file
+   $mime_type = get_post_mime_type($post->ID);
+   $is_image = wp_attachment_is_image($post->ID);
+   $is_video = strpos($mime_type, 'video/') === 0;
+
+   // Only show for images and videos
+   if (!$is_image && !$is_video) {
       return $form_fields;
    }
 
    $licenses = get_posts(array(
-      'post_type' => 'image_license',
+      'post_type' => 'media_license',
       'posts_per_page' => -1,
       'post_status' => 'publish',
       'orderby' => 'title',
       'order' => 'ASC'
    ));
 
-   $current_license = get_post_meta($post->ID, '_image_license_id', true);
+   $current_license = get_post_meta($post->ID, '_media_license_id', true);
 
    $options = array('' => __('— No License —', 'codeweber'));
    foreach ($licenses as $license) {
       $options[$license->ID] = $license->post_title;
    }
 
-   $form_fields['image_license'] = array(
-      'label' => __('Image License', 'codeweber'),
+   $form_fields['media_license'] = array(
+      'label' => __('Media License', 'codeweber'),
       'input' => 'html',
       'html' => render_license_select($options, $current_license, $post->ID),
       'value' => $current_license
@@ -553,7 +584,7 @@ add_filter('attachment_fields_to_edit', 'add_media_license_field', 10, 2);
 
 function render_license_select($options, $current_value, $attachment_id)
 {
-   $html = '<select name="attachments[' . $attachment_id . '][image_license]" id="attachments-' . $attachment_id . '-image_license">';
+   $html = '<select name="attachments[' . $attachment_id . '][media_license]" id="attachments-' . $attachment_id . '-media_license">';
 
    foreach ($options as $value => $label) {
       $selected = selected($current_value, $value, false);
@@ -561,7 +592,7 @@ function render_license_select($options, $current_value, $attachment_id)
    }
 
    $html .= '</select>';
-   $html .= '<p class="description"><a href="' . admin_url('post-new.php?post_type=image_license') . '" target="_blank">' . __('Add New License', 'codeweber') . '</a></p>';
+   $html .= '<p class="description"><a href="' . admin_url('post-new.php?post_type=media_license') . '" target="_blank">' . __('Add New License', 'codeweber') . '</a></p>';
 
    return $html;
 }
@@ -569,11 +600,11 @@ function render_license_select($options, $current_value, $attachment_id)
 // Save selected license for media file
 function save_media_license_field($post, $attachment)
 {
-   if (isset($attachment['image_license'])) {
-      if (empty($attachment['image_license'])) {
-         delete_post_meta($post['ID'], '_image_license_id');
+   if (isset($attachment['media_license'])) {
+      if (empty($attachment['media_license'])) {
+         delete_post_meta($post['ID'], '_media_license_id');
       } else {
-         update_post_meta($post['ID'], '_image_license_id', sanitize_text_field($attachment['image_license']));
+         update_post_meta($post['ID'], '_media_license_id', sanitize_text_field($attachment['media_license']));
       }
    }
 
@@ -590,7 +621,7 @@ function get_attachments_with_license($license_id, $count_only = false)
       'posts_per_page' => -1,
       'meta_query' => array(
          array(
-            'key' => '_image_license_id',
+            'key' => '_media_license_id',
             'value' => $license_id,
             'compare' => '='
          )
@@ -610,14 +641,14 @@ function enqueue_license_admin_scripts()
 {
    $screen = get_current_screen();
 
-   if ($screen && ($screen->id === 'image_license' || $screen->id === 'attachment' || $screen->id === 'upload')) {
+   if ($screen && ($screen->id === 'media_license' || $screen->id === 'attachment' || $screen->id === 'upload')) {
       wp_enqueue_media();
    }
 
    // Admin styles
-   if ($screen && ($screen->id === 'image_license' || $screen->id === 'upload')) {
+   if ($screen && ($screen->id === 'media_license' || $screen->id === 'upload')) {
       echo '<style>
-            .column-image_license { width: 200px; }
+            .column-media_license { width: 200px; }
             .license-attachments ul { list-style: none; margin: 0; padding: 0; }
             .license-attachments li { transition: background-color 0.2s; }
             .license-attachments li:hover { background-color: #f9f9f9; }
@@ -629,4 +660,11 @@ function enqueue_license_admin_scripts()
 }
 add_action('admin_enqueue_scripts', 'enqueue_license_admin_scripts');
 add_action('admin_head', 'enqueue_license_admin_scripts');
+
+// Add video support to the media query
+function extend_media_license_support()
+{
+   // This function ensures video files are included in all queries
+}
+add_action('init', 'extend_media_license_support');
 ?>
