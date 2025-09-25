@@ -54,6 +54,25 @@ $card-spacer-x: $padding-43;
 
 $hr-margin-y: 2rem;
 
+.filter-item {
+  position: relative;
+}
+
+.filter-item.active::before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 13px;
+  height: 13px;
+  background: #febe10 !important;
+}
+
+.filter-item.active {
+  padding-left: 20px;
+}
 
 //----------------------------------------------------------//
 //	BORDER

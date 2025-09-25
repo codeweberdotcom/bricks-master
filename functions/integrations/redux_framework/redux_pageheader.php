@@ -125,6 +125,110 @@ function the_subtitle($html_structure = '<p class="lead">%s</p>')
 }
 
 
+/**
+ * Шорткод для вывода подзаголовка архивной страницы
+ * 
+ * Шорткод отображает кастомный подзаголовок для архивных страниц, 
+ * который настраивается через Redux Framework в админке WordPress.
+ * 
+ * Основные атрибуты:
+ * - html: HTML структура для обертки текста (по умолчанию: '<p class="lead">%s</p>')
+ * - class: CSS класс для элемента (по умолчанию: 'lead')
+ * - post_type: конкретный тип записи для принудительного вывода
+ * - wrapper: HTML тег-обертка (p, div, h2, h3, span и т.д.)
+ * 
+ * Примеры использования:
+ * 
+ * 1. БАЗОВОЕ ИСПОЛЬЗОВАНИЕ:
+ *    [subtitle]
+ *    Выведет: <p class="lead">Подзаголовок из настроек Redux</p>
+ * 
+ * 2. С КАСТОМНЫМ CSS КЛАССОМ:
+ *    [subtitle class="my-custom-class"]
+ *    Выведет: <p class="my-custom-class">Подзаголовок из настроек Redux</p>
+ * 
+ * 3. С КАСТОМНОЙ HTML СТРУКТУРОЙ:
+ *    [subtitle html="<h2 class='title'>%s</h2>"]
+ *    Выведет: <h2 class="title">Подзаголовок из настроек Redux</h2>
+ * 
+ * 4. С ОПРЕДЕЛЕННЫМ ТИПОМ ЗАПИСИ:
+ *    [subtitle post_type="products"]
+ *    Выведет подзаголовок для типа записи 'products', даже если текущая страница не архив
+ * 
+ * 5. С ИЗМЕНЕНИЕМ HTML ТЕГА:
+ *    [subtitle wrapper="h2" class="section-title"]
+ *    Выведет: <h2 class="section-title">Подзаголовок из настроек Redux</h2>
+ * 
+ * 6. КОМБИНИРОВАННЫЙ ПРИМЕР:
+ *    [subtitle post_type="news" wrapper="div" class="archive-description text-center"]
+ *    Выведет: <div class="archive-description text-center">Подзаголовок для новостей</div>
+ * 
+ * 7. ДЛЯ КОНКРЕТНОЙ СТРАНИЦЫ АРХИВА:
+ *    // В шаблоне archive.php или category.php
+ *    echo do_shortcode('[subtitle]');
+ * 
+ * 8. В ТЕКСТОВОМ ВИДЖЕТЕ ИЛИ РЕДАКТОРЕ:
+ *    <!-- Просто вставьте шорткод в контент -->
+ *    [subtitle class="intro-text"]
+ * 
+ * Важные примечания:
+ * - На архивных страницах автоматически определяется тип записи
+ * - Если подзаголовок не настроен в Redux, возвращается пустая строка
+ * - Атрибут 'post_type' имеет приоритет над автоматическим определением
+ * - Для работы требуется активированный Redux Framework с настроенными полями
+ * 
+ * @since 1.0.0
+ * 
+ * @param array $atts {
+ *     Атрибуты шорткода
+ *     
+ *     @type string $html      HTML шаблон с плейсхолдером %s для текста
+ *     @type string $class     CSS класс для элемента
+ *     @type string $post_type Слаг типа записи (post, page, products, etc.)
+ *     @type string $wrapper   HTML тег для обертки (p, div, h2, h3, span)
+ * }
+ * 
+ * @return string HTML код подзаголовка или пустая строка
+ * 
+ * @see the_subtitle() Основная функция для получения подзаголовка
+ */
+function subtitle_shortcode($atts)
+{
+    // Получаем атрибуты шорткода
+    $atts = shortcode_atts(array(
+        'html' => '<p class="lead">%s</p>',
+        'class' => 'lead',
+        'post_type' => '',
+        'wrapper' => 'p' // p, div, h2, h3, etc.
+    ), $atts);
+
+    // Если указан класс, но не указана HTML структура
+    if ($atts['html'] === '<p class="lead">%s</p>' && $atts['class'] !== 'lead') {
+        $atts['html'] = '<p class="' . esc_attr($atts['class']) . '">%s</p>';
+    }
+
+    // Если указан wrapper
+    if ($atts['wrapper'] && $atts['html'] === '<p class="lead">%s</p>') {
+        $atts['html'] = '<' . $atts['wrapper'] . ' class="' . esc_attr($atts['class']) . '">%s</' . $atts['wrapper'] . '>';
+    }
+
+    // Если указан конкретный тип записи
+    if (!empty($atts['post_type'])) {
+        global $opt_name;
+        $custom_subtitle_id = 'custom_subtitle_' . sanitize_key($atts['post_type']);
+        $custom_subtitle = Redux::get_option($opt_name, $custom_subtitle_id);
+
+        if (!empty($custom_subtitle)) {
+            return sprintf($atts['html'], esc_html($custom_subtitle));
+        }
+        return '';
+    }
+
+    // Используем оригинальную функцию
+    return the_subtitle($atts['html']);
+}
+add_shortcode('subtitle', 'subtitle_shortcode');
+
 
 /**
  * Изменяет заголовок архивной страницы для произвольных типов записей.

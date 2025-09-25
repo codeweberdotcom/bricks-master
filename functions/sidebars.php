@@ -118,7 +118,6 @@ function theme_register_header_widget()
 add_action('widgets_init', 'theme_register_header_widget');
 
 
-
 add_action('codeweber_after_widget', function ($sidebar_id) {
     if ($sidebar_id === 'legal') {
         // Проверяем, существует ли тип записи 'legal'
