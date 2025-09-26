@@ -12,7 +12,7 @@
 
 	if (class_exists('Redux')) {
 		global $opt_name;
-		$post_type = get_post_type();
+		$post_type = universal_get_post_type();
 		$post_id = get_the_ID();
 
 		$global_footer_type = Redux::get_option($opt_name, 'global-footer-type');

@@ -1,7 +1,7 @@
 <?php
 global $opt_name;
 
-$post_type = get_post_type();
+$post_type = universal_get_post_type();
 $post_type_lc = strtolower($post_type);
 
 $sidebar_position = get_sidebar_position($opt_name);

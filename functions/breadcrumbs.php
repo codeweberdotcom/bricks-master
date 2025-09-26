@@ -152,7 +152,7 @@ if (!function_exists('get_breadcrumbs')) {
             if (is_category()) {
                echo '<li class="breadcrumb-item active" aria-current="page">' . single_cat_title('', false) . '</li>';
             } elseif (is_single()) {
-               $post_type = get_post_type();
+               $post_type = universal_get_post_type();
 
                if ($post_type === 'product' && function_exists('wc_get_page_id')) {
                   // WooCommerce product

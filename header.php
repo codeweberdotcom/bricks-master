@@ -15,7 +15,7 @@
     <main class="content-wrapper">
         <?php 
         // Получаем тип контента и ID
-        $post_type = get_post_type();
+        $post_type = universal_get_post_type();
         $post_id = get_the_ID();
 
         if (class_exists('Redux')) {

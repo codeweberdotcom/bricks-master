@@ -2,7 +2,7 @@
 // Проверка, чтобы не выводить заголовок на главной, блоге и 404
 if (!is_front_page() && !is_home() && !is_404()) {
    global $opt_name;
-   $post_type = get_post_type();
+   $post_type = universal_get_post_type();
    $post_id = get_the_ID();
 
    $global_pagehaeder_type = Redux::get_option($opt_name, 'global_page_header_type');

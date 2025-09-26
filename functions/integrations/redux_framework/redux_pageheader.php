@@ -17,7 +17,7 @@ function get_pageheader($name = null)
         // Определяем тип страницы и получаем соответствующую опцию
         if (is_singular()) {
             // Для одиночных записей
-            $post_type = get_post_type();
+            $post_type = universal_get_post_type();
             $sanitized_id = sanitize_title($post_type);
             $option_name = 'single_page_header_select_' . $sanitized_id;
         } elseif (is_archive() || is_home() || is_search()) {
@@ -271,7 +271,7 @@ add_shortcode('subtitle', 'subtitle_shortcode');
  */
 add_filter('get_the_archive_title', function ($title) {
    if (is_post_type_archive() && !is_admin()) {
-      $post_type = get_post_type() ?: get_query_var('post_type');
+      $post_type = universal_get_post_type();
 
       if ($post_type) {
          global $opt_name;

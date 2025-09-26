@@ -171,7 +171,7 @@ add_action('codeweber_after_widget', function ($sidebar_id) {
  */
 function get_sidebar_position($opt_name)
 {
-    $post_type = get_post_type();
+    $post_type = universal_get_post_type();
     $post_id = get_the_ID();
 
     // Для архивов сразу возвращаем глобальную настройку
