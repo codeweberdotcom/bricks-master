@@ -34,7 +34,7 @@ function cptui_register_my_cpts_testimonials()
         "can_export" => true,
         "rewrite" => ["slug" => "testimonials", "with_front" => true],
         "query_var" => true,
-        "supports" => ["title", "comments"],
+        "supports" => ["title", "comments", "revisions"],
         "show_in_graphql" => false,
     ];
 
