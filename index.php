@@ -1,7 +1,25 @@
 <?php get_header(); ?>
 <?php get_pageheader(); ?>
 <?php
-$post_type = get_post_type();
+
+
+if (is_post_type_archive()) {
+	$post_type = get_queried_object()->name ?? '';
+} elseif (is_tax() || is_category() || is_tag()) {
+	$taxonomy = get_queried_object()->taxonomy ?? '';
+	$taxonomy_obj = get_taxonomy($taxonomy);
+	$post_type = $taxonomy_obj->object_type[0] ?? 'post';
+} else {
+	global $wp_query;
+	$post_type = $wp_query->get('post_type') ?? 'post';
+
+	// Если массив, берем первый элемент
+	if (is_array($post_type)) {
+		$post_type = $post_type[0];
+	}
+}
+
+
 $post_type_lc = strtolower($post_type);
 $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
 $pageheader_name = Redux::get_option($opt_name, 'global_page_header_model');

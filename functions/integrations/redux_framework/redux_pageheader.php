@@ -21,15 +21,31 @@ function get_pageheader($name = null)
             $sanitized_id = sanitize_title($post_type);
             $option_name = 'single_page_header_select_' . $sanitized_id;
         } elseif (is_archive() || is_home() || is_search()) {
-            // Для архивных страниц
+            // Для архивных страниц - более надежное определение post_type
             if (is_post_type_archive()) {
-                $post_type = get_post_type();
+                $post_type = get_queried_object()->name ?? '';
             } elseif (is_category() || is_tag() || is_tax()) {
-                $taxonomy = get_queried_object()->taxonomy;
-                $post_type = get_taxonomy($taxonomy)->object_type[0] ?? 'post';
-            } else {
+                $taxonomy = get_queried_object()->taxonomy ?? '';
+                $taxonomy_obj = get_taxonomy($taxonomy);
+                $post_type = $taxonomy_obj->object_type[0] ?? 'post';
+            } elseif (is_home() || is_author() || is_date()) {
                 $post_type = 'post';
+            } else {
+                // Пытаемся получить post_type из query vars
+                global $wp_query;
+                $post_type = $wp_query->get('post_type') ?? '';
+
+                // Если все еще пусто, используем значение по умолчанию
+                if (empty($post_type)) {
+                    $post_type = 'post';
+                }
             }
+
+            // Если массив (может быть для нескольких post types), берем первый
+            if (is_array($post_type)) {
+                $post_type = $post_type[0];
+            }
+
             $sanitized_id = sanitize_title($post_type);
             $option_name = 'archive_page_header_select_' . $sanitized_id;
         } else {
@@ -53,7 +69,7 @@ function get_pageheader($name = null)
         // Если выбрана конкретная запись (числовой ID)
         if (is_numeric($selected_option)) {
             $post_id = intval($selected_option);
-            
+
             // Проверяем, существует ли запись и является ли она pageheader
             $post = get_post($post_id);
             if ($post && $post->post_type === 'page-header' && $post->post_status === 'publish') {
@@ -86,7 +102,6 @@ function get_pageheader($name = null)
     }
 }
 
-
 /**
  * Возвращает подзаголовок для архивных страниц в зависимости от типа записи.
  * Подзаголовок берется из настроек Redux и выводится в заданной HTML-структуре.
@@ -98,30 +113,44 @@ function get_pageheader($name = null)
  */
 function the_subtitle($html_structure = '<p class="lead">%s</p>')
 {
-   // Проверяем, что это архивная страница и не админка
-   if (is_archive() && !is_admin()) {
-      // Получаем тип записи для текущего архива
-      $post_type = get_post_type() ?: get_query_var('post_type');
+    // Проверяем, что это архивная страница и не админка
+    if (is_archive() && !is_admin()) {
+        // Более надежное определение post_type для архивов
+        if (is_post_type_archive()) {
+            $post_type = get_queried_object()->name ?? '';
+        } elseif (is_category() || is_tag() || is_tax()) {
+            $taxonomy = get_queried_object()->taxonomy ?? '';
+            $taxonomy_obj = get_taxonomy($taxonomy);
+            $post_type = $taxonomy_obj->object_type[0] ?? 'post';
+        } else {
+            global $wp_query;
+            $post_type = $wp_query->get('post_type') ?? 'post';
 
-      // Если тип записи определён
-      if ($post_type) {
-         global $opt_name;
+            // Если массив, берем первый элемент
+            if (is_array($post_type)) {
+                $post_type = $post_type[0];
+            }
+        }
 
-         // Формируем ID для поля custom subtitle в зависимости от типа записи
-         $custom_subtitle_id = 'custom_subtitle_' . $post_type;
+        // Если тип записи определён
+        if ($post_type) {
+            global $opt_name;
 
-         // Получаем подзаголовок из настроек Redux
-         $custom_subtitle = Redux::get_option($opt_name, $custom_subtitle_id);
+            // Формируем ID для поля custom subtitle в зависимости от типа записи
+            $custom_subtitle_id = 'custom_subtitle_' . $post_type;
 
-         // Если подзаголовок найден, возвращаем его в указанной HTML-структуре
-         if (!empty($custom_subtitle)) {
-            return sprintf($html_structure, esc_html($custom_subtitle));
-         }
-      }
-   }
+            // Получаем подзаголовок из настроек Redux
+            $custom_subtitle = Redux::get_option($opt_name, $custom_subtitle_id);
 
-   // Если подзаголовок не найден, возвращаем пустую строку в HTML-структуре
-   return '';
+            // Если подзаголовок найден, возвращаем его в указанной HTML-структуре
+            if (!empty($custom_subtitle)) {
+                return sprintf($html_structure, esc_html($custom_subtitle));
+            }
+        }
+    }
+
+    // Если подзаголовок не найден, возвращаем пустую строку в HTML-структуре
+    return '';
 }
 
 

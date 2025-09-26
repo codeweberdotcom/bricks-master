@@ -4,7 +4,22 @@ while (have_posts()) :
 	the_post();
 	get_pageheader();
 
-	$post_type = get_post_type();
+	if (is_post_type_archive()) {
+		$post_type = get_queried_object()->name ?? '';
+	} elseif (is_tax() || is_category() || is_tag()) {
+		$taxonomy = get_queried_object()->taxonomy ?? '';
+		$taxonomy_obj = get_taxonomy($taxonomy);
+		$post_type = $taxonomy_obj->object_type[0] ?? 'post';
+	} else {
+		global $wp_query;
+		$post_type = $wp_query->get('post_type') ?? 'post';
+
+		// Если массив, берем первый элемент
+		if (is_array($post_type)) {
+			$post_type = $post_type[0];
+		}
+	}
+
 	$post_type_lc = strtolower($post_type);
 	$sidebar_position = get_sidebar_position($opt_name);
 
