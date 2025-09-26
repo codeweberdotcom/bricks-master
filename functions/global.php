@@ -569,3 +569,38 @@ if (!function_exists('codeweber_posts_pagination')) {
         echo apply_filters('codeweber_posts_pagination', $pagination, $args);
     }
 }
+
+
+/**
+ * Универсальная функция для надежного определения post_type
+ * 
+ * @return string Post type
+ */
+function universal_get_post_type() {
+    if (is_singular()) {
+        return get_post_type();
+    } elseif (is_post_type_archive()) {
+        return get_queried_object()->name ?? '';
+    } elseif (is_tax() || is_category() || is_tag()) {
+        $taxonomy = get_queried_object()->taxonomy ?? '';
+        $taxonomy_obj = get_taxonomy($taxonomy);
+        $post_type = $taxonomy_obj->object_type[0] ?? 'post';
+        
+        // Если массив, берем первый элемент
+        if (is_array($post_type)) {
+            $post_type = $post_type[0];
+        }
+        return $post_type;
+    } elseif (is_archive() || is_home() || is_author() || is_date()) {
+        global $wp_query;
+        $post_type = $wp_query->get('post_type') ?? 'post';
+        
+        // Если массив, берем первый элемент
+        if (is_array($post_type)) {
+            $post_type = $post_type[0];
+        }
+        return $post_type;
+    } else {
+        return 'post'; // Значение по умолчанию
+    }
+}
