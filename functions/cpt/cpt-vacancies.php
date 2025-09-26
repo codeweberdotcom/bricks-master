@@ -48,7 +48,7 @@ function cptui_register_my_cpts_vacancies()
       "can_export" => true,
       "rewrite" => ["slug" => "vacancies", "with_front" => true],
       "query_var" => true,
-      "supports" => ["title", "revisions"],
+      "supports" => ["title",  "thumbnail", "revisions"],
       "show_in_graphql" => false,
       "menu_icon" => "dashicons-businessperson",
    ];
