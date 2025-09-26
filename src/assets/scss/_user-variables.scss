@@ -74,6 +74,13 @@ $hr-margin-y: 2rem;
   padding-left: 20px;
 }
 
+
+.unordered-list > li::before {
+  top: 0.26rem !important;
+  font-size: 10px !important;
+  content: "\25A0" !important;
+}
+
 //----------------------------------------------------------//
 //	BORDER
 //----------------------------------------------------------//

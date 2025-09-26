@@ -65,12 +65,19 @@ function cptui_register_my_taxes_faq_categories()
 		"label" => esc_html__("FAQ Categories", "codeweber"),
 		"labels" => $labels,
 		"public" => false,
+		"publicly_queryable" => false, // Не доступна для запросов
 		"hierarchical" => true,
 		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => false, // Не показывать в меню навигации
+		"query_var" => false, // Отключаем query var
+		"rewrite" => false, // Отключаем перезапись URL
+		"show_admin_column" => true,
 		"show_in_rest" => true,
+		"show_tagcloud" => false, // Отключаем облако тегов
 		"rest_base" => "faq_categories",
 		"rest_controller_class" => "WP_REST_Terms_Controller",
-		"rewrite" => ["slug" => "faq-categories", "with_front" => true],
+		"show_in_quick_edit" => true,
 	];
 	register_taxonomy("faq_categories", ["faq"], $args);
 }
@@ -98,13 +105,20 @@ function cptui_register_my_taxes_faq_tag()
 	$args = [
 		"label" => esc_html__("FAQ Tags", "codeweber"),
 		"labels" => $labels,
-		"public" => true,
+		"public" => false, // Меняем на false
+		"publicly_queryable" => false, // Не доступна для запросов
 		"hierarchical" => false,
 		"show_ui" => true,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => false, // Не показывать в меню навигации
+		"query_var" => false, // Отключаем query var
+		"rewrite" => false, // Отключаем перезапись URL
+		"show_admin_column" => true,
 		"show_in_rest" => true,
+		"show_tagcloud" => false, // Отключаем облако тегов
 		"rest_base" => "faq_tag",
 		"rest_controller_class" => "WP_REST_Terms_Controller",
-		"rewrite" => ["slug" => "faq-tag", "with_front" => true],
+		"show_in_quick_edit" => true,
 	];
 	register_taxonomy("faq_tag", ["faq"], $args);
 }

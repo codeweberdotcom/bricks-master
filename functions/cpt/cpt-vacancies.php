@@ -152,9 +152,6 @@ function add_classic_editor_support()
 }
 add_action('admin_init', 'add_classic_editor_support');
 
-
-
-
 // Метабоксы для вакансий
 function vacancies_meta_boxes()
 {
@@ -214,6 +211,7 @@ function vacancy_basic_info_callback($post)
    $location = get_post_meta($post->ID, '_vacancy_location', true);
    $email = get_post_meta($post->ID, '_vacancy_email', true);
    $apply_url = get_post_meta($post->ID, '_vacancy_apply_url', true);
+   $salary = get_post_meta($post->ID, '_vacancy_salary', true); // Новое поле зарплата
 
 ?>
    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -231,6 +229,14 @@ function vacancy_basic_info_callback($post)
          </label>
          <input type="text" id="vacancy_location" name="vacancy_location" value="<?php echo esc_attr($location); ?>"
             style="width: 100%; padding: 8px;" placeholder="Shanghai">
+      </div>
+
+      <div>
+         <label for="vacancy_salary" style="display: block; margin-bottom: 5px; font-weight: bold;">
+            <?php _e('Salary', 'codeweber'); ?>
+         </label>
+         <input type="text" id="vacancy_salary" name="vacancy_salary" value="<?php echo esc_attr($salary); ?>"
+            style="width: 100%; padding: 8px;" placeholder="€50,000 - €70,000 per year">
       </div>
 
       <div>
@@ -569,6 +575,7 @@ function save_vacancy_meta($post_id)
       'vacancy_location',
       'vacancy_email',
       'vacancy_apply_url',
+      'vacancy_salary', // Новое поле зарплата
       'vacancy_introduction',
       'vacancy_additional_info',
       'vacancy_employment_type',
@@ -618,8 +625,6 @@ function vacancy_admin_scripts()
 }
 add_action('admin_enqueue_scripts', 'vacancy_admin_scripts');
 
-
-
 function get_vacancy_data_array($post_id = null)
 {
    if (!$post_id) {
@@ -636,6 +641,7 @@ function get_vacancy_data_array($post_id = null)
       'location' => get_post_meta($post_id, '_vacancy_location', true),
       'email' => get_post_meta($post_id, '_vacancy_email', true),
       'apply_url' => get_post_meta($post_id, '_vacancy_apply_url', true),
+      'salary' => get_post_meta($post_id, '_vacancy_salary', true), // Новое поле зарплата
       'introduction' => get_post_meta($post_id, '_vacancy_introduction', true),
       'additional_info' => get_post_meta($post_id, '_vacancy_additional_info', true),
       'employment_type' => get_post_meta($post_id, '_vacancy_employment_type', true),

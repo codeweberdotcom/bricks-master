@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-26 18:11+0000\n"
+"PO-Revision-Date: 2025-09-26 21:56+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -65,33 +65,33 @@ msgstr ""
 msgid "(e.g. No Staff found)"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:601
+#: functions/cpt/cpt-faq.php:615
 msgid "1. Basic usage"
-msgstr ""
+msgstr "1. Базовое использование"
 
-#: functions/cpt/cpt-faq.php:605
+#: functions/cpt/cpt-faq.php:619
 msgid "2. Specific category"
-msgstr ""
+msgstr "2. Конкретная категория"
 
-#: functions/cpt/cpt-faq.php:609
+#: functions/cpt/cpt-faq.php:623
 msgid "3. With tags"
-msgstr ""
+msgstr "3. С тегами"
 
 #: redux-framework/sample/sections/codeweber/legal.php:726
 msgid "365"
-msgstr ""
+msgstr "365"
 
-#: functions/cpt/cpt-faq.php:613
+#: functions/cpt/cpt-faq.php:627
 msgid "4. Sort by title"
-msgstr ""
+msgstr "4. Сортировать по названию"
 
 #: 404.php:8
 msgid "404 Error"
-msgstr ""
+msgstr "Ошибка 404"
 
-#: functions/cpt/cpt-faq.php:617
+#: functions/cpt/cpt-faq.php:631
 msgid "5. Combined parameters"
-msgstr ""
+msgstr "5. Комбинированные параметры"
 
 #: redux-framework/sample/sections/codeweber/legal.php:191
 #, fuzzy
@@ -101,9 +101,9 @@ msgstr ""
 "5.3. Обработка Оператором персональных данных осуществляется в следующих "
 "целях:"
 
-#: functions/cpt/cpt-faq.php:621
+#: functions/cpt/cpt-faq.php:635
 msgid "6. Multiple categories"
-msgstr ""
+msgstr "6. Несколько категорий"
 
 #: redux-framework/sample/sections/codeweber/legal.php:217
 msgid "7.2. The operator processes the following personal data:"
@@ -210,7 +210,7 @@ msgstr "Добавить Документ"
 msgid "Add Html Block"
 msgstr "Добавить Html блок"
 
-#: functions/cpt/cpt-vacancies.php:416
+#: functions/cpt/cpt-vacancies.php:422
 msgid "Add Language"
 msgstr "Добавить Язык"
 
@@ -239,7 +239,7 @@ msgstr "Добавить FAQ"
 msgid "Add New FAQ Category"
 msgstr "Добавить категорию FAQ"
 
-#: functions/cpt/cpt-faq.php:92
+#: functions/cpt/cpt-faq.php:99
 msgid "Add New FAQ Tag"
 msgstr "Добавить метку FAQ"
 
@@ -319,11 +319,11 @@ msgstr "Добавить или удалить типы вакансий"
 msgid "Add Project"
 msgstr "Добавить Проект"
 
-#: functions/cpt/cpt-vacancies.php:310
+#: functions/cpt/cpt-vacancies.php:316
 msgid "Add Requirement"
 msgstr "Добавить требование"
 
-#: functions/cpt/cpt-vacancies.php:295
+#: functions/cpt/cpt-vacancies.php:301
 msgid "Add Responsibility"
 msgstr "Добавить ответственность"
 
@@ -331,7 +331,7 @@ msgstr "Добавить ответственность"
 msgid "Add Service"
 msgstr "Добавить Услугу"
 
-#: functions/cpt/cpt-vacancies.php:431
+#: functions/cpt/cpt-vacancies.php:437
 msgid "Add Skill"
 msgstr "Добавить Навык"
 
@@ -339,7 +339,7 @@ msgstr "Добавить Навык"
 msgid "Add Staff"
 msgstr "Добавить Сотрудника"
 
-#: functions/cpt/cpt-faq.php:286
+#: functions/cpt/cpt-faq.php:300
 msgid "Add tags separated by commas"
 msgstr "Добавьте теги, разделенные запятыми."
 
@@ -352,7 +352,7 @@ msgstr "Добавить Вакансию"
 msgid "additional CSS classes"
 msgstr "дополнительные классы CSS"
 
-#: functions/cpt/cpt-vacancies.php:315
+#: functions/cpt/cpt-vacancies.php:321
 msgid "Additional Information"
 msgstr "Дополнительная Информация"
 
@@ -408,7 +408,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:131
 msgid "AJAX error"
-msgstr ""
+msgstr "Ошибка AJAX"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:103
 #: redux-framework/sample/sections/codeweber/smtp.php:212
@@ -416,7 +416,7 @@ msgstr ""
 msgid "AJAX error: "
 msgstr "Ошибка AJAX:"
 
-#: functions/cpt/cpt-faq.php:211
+#: functions/cpt/cpt-faq.php:225
 msgid "All Categories"
 msgstr ""
 
@@ -436,7 +436,7 @@ msgstr "Все Документы"
 msgid "All FAQ Categories"
 msgstr "Все категории FAQ"
 
-#: functions/cpt/cpt-faq.php:88
+#: functions/cpt/cpt-faq.php:95
 msgid "All FAQ Tags"
 msgstr "Все теги FAQ"
 
@@ -506,9 +506,9 @@ msgstr "Все статусы"
 msgid "All subscriptions"
 msgstr "Все подписчики"
 
-#: functions/cpt/cpt-faq.php:226
+#: functions/cpt/cpt-faq.php:240
 msgid "All Tags"
-msgstr ""
+msgstr "Все Теги"
 
 #: functions/integrations/personal-data/class-gdpr-erasure.php:64
 msgid "All user consents have been removed."
@@ -537,11 +537,11 @@ msgstr ""
 msgid "Anonymous"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:652
+#: functions/cpt/cpt-faq.php:666
 msgid "Answer container"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:653
+#: functions/cpt/cpt-faq.php:667
 msgid "Answer content"
 msgstr ""
 
@@ -554,11 +554,11 @@ msgstr ""
 msgid "API"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:238
+#: functions/cpt/cpt-vacancies.php:244
 msgid "Application Email"
 msgstr "Электронная почта для отправки резюме"
 
-#: functions/cpt/cpt-vacancies.php:246
+#: functions/cpt/cpt-vacancies.php:252
 msgid "Application URL"
 msgstr "URL-адрес Вакансии"
 
@@ -582,14 +582,14 @@ msgstr "Применение..."
 #: redux-framework/sample/sections/codeweber/cpt-type.php:549
 #: redux-framework/sample/sections/codeweber/cpt-type.php:565
 msgid "Archive"
-msgstr ""
+msgstr "Архив"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:356
 #, php-format
 msgid "Archive Template for %s"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:532
+#: functions/cpt/cpt-vacancies.php:538
 msgid "Archived"
 msgstr ""
 
@@ -634,6 +634,10 @@ msgstr "URL автора"
 msgid "Author:"
 msgstr "Автор:"
 
+#: templates/content/single-documents.php:66
+msgid "Automatic download failed. Choose an action:"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:310
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1458
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:250
@@ -643,7 +647,7 @@ msgstr "Доступные переменные:"
 
 #: functions/user.php:15
 msgid "Avatar URL"
-msgstr ""
+msgstr "Аватар URL"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:154
 msgid "Bank Account Details"
@@ -690,11 +694,11 @@ msgstr "Базовые Типы Заголовков"
 msgid "Basic media uploader with disabled URL input field."
 msgstr "Обычный загрузчик мультимедиа с отключенным полем ввода URL-адреса."
 
-#: functions/cpt/cpt-faq.php:547
+#: functions/cpt/cpt-faq.php:561
 msgid "Basic Usage"
-msgstr ""
+msgstr "Базовое использование"
 
-#: functions/cpt/cpt-vacancies.php:163
+#: functions/cpt/cpt-vacancies.php:160
 msgid "Basic Vacancy Information"
 msgstr "Основная информация о вакансиях"
 
@@ -783,9 +787,9 @@ msgstr ""
 msgid "Cannot open uploaded file"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:127 functions/cpt/cpt-faq.php:255
+#: functions/cpt/cpt-faq.php:141 functions/cpt/cpt-faq.php:269
 msgid "Categories"
-msgstr ""
+msgstr "Категории"
 
 #: redux-framework/sample/sections/codeweber/legal.php:256
 #: redux-framework/sample/sections/codeweber/legal.php:317
@@ -846,7 +850,7 @@ msgstr "Создание Child темы"
 msgid "Child Theme Name"
 msgstr "Название Дочерней темы"
 
-#: functions/cpt/cpt-vacancies.php:440
+#: functions/cpt/cpt-vacancies.php:446
 msgid "Chinese (native)"
 msgstr ""
 
@@ -869,7 +873,7 @@ msgstr "Город"
 
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:296
 msgid "Clear LOG"
-msgstr ""
+msgstr "Очистить Лог"
 
 #: functions/cpt/cpt-clients.php:11 functions/cpt/cpt-clients.php:23
 msgid "Client"
@@ -898,11 +902,11 @@ msgstr "Список Клиентов"
 #: functions/integrations/redux_framework/redux_cookie.php:42
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:51
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
-#: functions/cpt/cpt-vacancies.php:531
+#: functions/cpt/cpt-vacancies.php:537
 msgid "Closed"
-msgstr ""
+msgstr "Закрыто"
 
 #: functions/woocommerce.php:38 functions/woocommerce.php:39
 msgid "Code from SMS"
@@ -915,7 +919,7 @@ msgstr ""
 
 #. Name of the theme
 msgid "Codeweber"
-msgstr ""
+msgstr "Codeweber"
 
 #: functions/integrations/redux_framework/redux_framework.php:90
 #: redux-framework/sample/sections/codeweber/legal.php:145
@@ -969,7 +973,7 @@ msgctxt "comments title"
 msgid "One reply on &ldquo;%s&rdquo;"
 msgstr "Один отзыв в &ldquo;%s&rdquo;"
 
-#: functions/cpt/cpt-vacancies.php:222
+#: functions/cpt/cpt-vacancies.php:220
 msgid "Company"
 msgstr "Компания"
 
@@ -1030,7 +1034,7 @@ msgstr "Подключение успешно установлено!"
 
 #: functions/integrations/personal-data/class-gdpr-export.php:69
 msgid "Consent"
-msgstr ""
+msgstr "Согласие"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1288
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1294
@@ -1062,7 +1066,7 @@ msgstr "Согласие на рассылку:"
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:188
 msgid "Consent document not specified in settings"
-msgstr ""
+msgstr "Документ о согласии не указан в настройках"
 
 #: functions/integrations/personal-data/class-cf7-consent.php:206
 msgid "Consent document shortcode not found in the form."
@@ -1150,7 +1154,7 @@ msgstr "Контакты"
 msgid "Container"
 msgstr "Контейнер"
 
-#: functions/cpt/cpt-vacancies.php:383
+#: functions/cpt/cpt-vacancies.php:389
 msgid "Contract"
 msgstr "Трудовой договор"
 
@@ -1228,7 +1232,7 @@ msgstr "Создать Пользовательский Заголовок"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:259
 msgid "Create Footer"
-msgstr ""
+msgstr "Создать Футер"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:252
 msgid "Create Header"
@@ -1244,20 +1248,20 @@ msgstr "Созданные файлы:"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:69
 msgid "Creating..."
-msgstr ""
+msgstr "Создание..."
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:774
 msgid "CSS"
-msgstr ""
+msgstr "CSS"
 
-#: functions/cpt/cpt-faq.php:646
+#: functions/cpt/cpt-faq.php:660
 msgid "CSS Classes for Styling"
-msgstr ""
+msgstr "CSS-классы для стилизации"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:682
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:672
 msgid "CSV File"
-msgstr ""
+msgstr "CSV файл"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:828
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:812
@@ -1394,9 +1398,9 @@ msgstr "Таблица базы данных"
 msgid "Database table:"
 msgstr "Таблица базы данных:"
 
-#: functions/cpt/cpt-faq.php:134
+#: functions/cpt/cpt-faq.php:148
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: redux-framework/sample/sections/codeweber/legal.php:73
 msgid ""
@@ -1406,7 +1410,7 @@ msgstr ""
 "Дата регистрации. <br>[redux_option key=\"legal_ogrnip_date\"  format=\"d.m."
 "Y\"]"
 
-#: functions/cpt/cpt-faq.php:559 redux-framework/sample/metaboxes.php:111
+#: functions/cpt/cpt-faq.php:573 redux-framework/sample/metaboxes.php:111
 #: redux-framework/sample/metaboxes.php:175
 #: redux-framework/sample/metaboxes.php:234
 #: redux-framework/sample/metaboxes.php:277
@@ -1446,7 +1450,7 @@ msgstr "удаление"
 msgid "Delivery Terms"
 msgstr "Условия доставки"
 
-#: functions/cpt/cpt-faq.php:558
+#: functions/cpt/cpt-faq.php:572
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1316
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:431
 #: redux-framework/sample/sections/codeweber/childtheme.php:28
@@ -1497,34 +1501,34 @@ msgstr "Отключено - Скрыть заголовок страницы"
 msgid "Discord"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:623
+#: functions/cpt/cpt-faq.php:637
 msgid "Displays 10 FAQ items from \"general\" OR \"technical\" categories"
 msgstr "Отображает 10 пунктов FAQ из категорий «общие» или «технические»."
 
-#: functions/cpt/cpt-faq.php:611
+#: functions/cpt/cpt-faq.php:625
 msgid "Displays 10 FAQ items with \"important\" or \"popular\" tags"
 msgstr "Отображает 10 пунктов FAQ с тегами «важно» или «популярно»"
 
-#: functions/cpt/cpt-faq.php:607
+#: functions/cpt/cpt-faq.php:621
 msgid "Displays 5 FAQ items from \"general\" category"
 msgstr "Отображает 5 пунктов FAQ из категории «Общие»"
 
-#: functions/cpt/cpt-faq.php:619
+#: functions/cpt/cpt-faq.php:633
 msgid "Displays 6 latest FAQ items from \"payment\" category with \"new\" tag"
 msgstr ""
 "Отображает 6 последних пунктов FAQ из категории «Оплата» с тегом «Новое»"
 
-#: functions/cpt/cpt-faq.php:603
+#: functions/cpt/cpt-faq.php:617
 msgid "Displays all FAQ items sorted by date ascending"
 msgstr ""
 "Отображает все пункты FAQ, отсортированные по дате в порядке возрастания."
 
-#: functions/cpt/cpt-faq.php:615
+#: functions/cpt/cpt-faq.php:629
 msgid "Displays FAQ items sorted by title alphabetically"
 msgstr "Отображает FAQ, отсортированные по названию в алфавитном порядке."
 
 #: functions/personal-data.php:253 functions/cpt/cpt-documents.php:7
-#: functions/cpt/cpt-documents.php:26
+#: functions/cpt/cpt-documents.php:26 templates/content/single-documents.php:65
 #: functions/integrations/personal-data/class-consent-cpt.php:288
 #: functions/integrations/personal-data/class-gdpr-export.php:104
 msgid "Document"
@@ -1542,6 +1546,14 @@ msgstr "Категории Документов"
 msgid "Document Category"
 msgstr "Категория Документов"
 
+#: templates/content/single-documents.php:36
+msgid "Document download error."
+msgstr ""
+
+#: templates/content/single-documents.php:228
+msgid "Document file not found."
+msgstr ""
+
 #: functions/personal-data.php:261
 #: functions/integrations/personal-data/class-consent-cpt.php:298
 #: functions/integrations/personal-data/class-gdpr-export.php:106
@@ -1552,6 +1564,10 @@ msgstr "Ссылка на Документ"
 msgid "Document Published"
 msgstr "Документ опубликован"
 
+#: templates/content/single-documents.php:64
+msgid "Document ready for download!"
+msgstr ""
+
 #: functions/cpt/cpt-documents.php:28
 msgid "Document Reverted to Draft"
 msgstr ""
@@ -1559,6 +1575,10 @@ msgstr ""
 #: functions/cpt/cpt-documents.php:29
 msgid "Document Scheduled"
 msgstr "Документ запланирован"
+
+#: templates/content/single-documents.php:63
+msgid "Document successfully downloaded!"
+msgstr "Документ успешно загружен!"
 
 #: functions/cpt/cpt-documents.php:94
 msgid "Document Type"
@@ -1572,7 +1592,7 @@ msgstr "Типы Документов"
 msgid "Document Updated"
 msgstr "Документ обновлен"
 
-#: functions/cpt/cpt-faq.php:695 redux-framework/sample/theme-config.php:232
+#: functions/cpt/cpt-faq.php:709 redux-framework/sample/theme-config.php:232
 msgid "Documentation"
 msgstr "Документация"
 
@@ -1594,9 +1614,17 @@ msgstr "Документы согласий не выбраны. Обратит�
 msgid "Don't have an account?"
 msgstr "У вас нет учетной записи?"
 
+#: templates/content/single-documents.php:40
+msgid "Download"
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:280
 msgid "Download date:"
 msgstr "Дата загрузки:"
+
+#: templates/content/single-documents.php:67
+msgid "Download Document"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:153
 #: redux-framework/sample/sections/extensions/users.php:169
@@ -1615,7 +1643,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/contacts.php:15
 msgid "E-Mail"
-msgstr ""
+msgstr "E-Mail"
 
 #: templates/header/header-center-logo.php:263
 #: templates/header/header-classic.php:324
@@ -1626,7 +1654,7 @@ msgstr ""
 #: templates/header/header-fancy.php:293
 #: functions/integrations/personal-data/class-cf7-consent.php:453
 msgid "E-mail"
-msgstr ""
+msgstr "E-mail"
 
 #: redux-framework/sample/sections/codeweber/legal.php:105
 msgid ""
@@ -1645,13 +1673,13 @@ msgid "e.g., Royalty-free, Rights-managed, Creative Commons"
 msgstr ""
 "например, Безвозмездное использование, Управление правами, Creative Commons"
 
-#: functions/cpt/cpt-faq.php:649
+#: functions/cpt/cpt-faq.php:663
 msgid "Each FAQ item"
 msgstr "Каждый пункт FAQ"
 
 #: functions/lib/comments-helper.php:49
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: functions/cpt/cpt-clients.php:16
 msgid "Edit Client"
@@ -1673,7 +1701,7 @@ msgstr "Редактировать FAQ"
 msgid "Edit FAQ Category"
 msgstr "Редактировать FAQ категорию"
 
-#: functions/cpt/cpt-faq.php:89
+#: functions/cpt/cpt-faq.php:96
 msgid "Edit FAQ Tag"
 msgstr "Редактировать FAQ тег"
 
@@ -1742,7 +1770,7 @@ msgstr "Редактировать Вакансию"
 msgid "Edit Vacancy Type"
 msgstr "Редактировать тип Вакансии"
 
-#: functions/cpt/cpt-vacancies.php:397
+#: functions/cpt/cpt-vacancies.php:403
 msgid "Education / Qualification"
 msgstr "Образование/Квалификация"
 
@@ -1797,11 +1825,11 @@ msgstr "Шаблон электронного письма"
 msgid "Email:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:376
+#: functions/cpt/cpt-vacancies.php:382
 msgid "Employment Type"
 msgstr "Тип занятости"
 
-#: functions/cpt/cpt-faq.php:567 functions/cpt/cpt-faq.php:573
+#: functions/cpt/cpt-faq.php:581 functions/cpt/cpt-faq.php:587
 msgid "empty"
 msgstr ""
 
@@ -1852,11 +1880,11 @@ msgstr ""
 msgid "Enter recipient email for test:"
 msgstr "Введите адрес электронной почты получателя для теста:"
 
-#: functions/cpt/cpt-vacancies.php:304 functions/cpt/cpt-vacancies.php:342
+#: functions/cpt/cpt-vacancies.php:310 functions/cpt/cpt-vacancies.php:348
 msgid "Enter requirement..."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:289 functions/cpt/cpt-vacancies.php:332
+#: functions/cpt/cpt-vacancies.php:295 functions/cpt/cpt-vacancies.php:338
 msgid "Enter responsibility..."
 msgstr ""
 
@@ -1905,19 +1933,19 @@ msgstr ""
 msgid "Error: "
 msgstr "Ошибка:"
 
-#: functions/cpt/cpt-faq.php:560
+#: functions/cpt/cpt-faq.php:574
 msgid "Example"
-msgstr ""
+msgstr "Пример"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:670
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:660
 msgid "Example CSV structure:"
-msgstr ""
+msgstr "Пример структуры CSV:"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1483
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:598
 msgid "Example of showing notification"
-msgstr ""
+msgstr "Пример показа уведомления"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:141
 msgid "Existing Child Themes"
@@ -1966,7 +1994,7 @@ msgstr "Вопросы и ответы"
 msgid "Faq"
 msgstr "Вопросы и ответы"
 
-#: functions/cpt/cpt-faq.php:544
+#: functions/cpt/cpt-faq.php:558
 msgid "FAQ Accordion Shortcode Documentation"
 msgstr "FAQ Документация по шорткоду Accordion"
 
@@ -1980,7 +2008,7 @@ msgstr "FAQ Архивы"
 msgid "FAQ Categories"
 msgstr "Категории"
 
-#: functions/cpt/cpt-faq.php:566
+#: functions/cpt/cpt-faq.php:580
 msgid "FAQ categories (slugs separated by commas). Taxonomy: faq_categories"
 msgstr ""
 "Категории FAQ (ссылки, разделённые запятыми). Таксономия: faq_categories"
@@ -1990,25 +2018,25 @@ msgstr ""
 msgid "FAQ Category"
 msgstr "Категории"
 
-#: functions/cpt/cpt-faq.php:468
+#: functions/cpt/cpt-faq.php:482
 msgid "FAQ items not found."
 msgstr "FAQ не найдены."
 
 #. Родительское меню CPT FAQ
-#: functions/cpt/cpt-faq.php:528
+#: functions/cpt/cpt-faq.php:542
 msgid "FAQ Shortcode Documentation"
 msgstr "FAQ Документация по шорткоду"
 
-#: functions/cpt/cpt-faq.php:86
+#: functions/cpt/cpt-faq.php:93
 msgid "FAQ Tag"
 msgstr "FAQ Тег"
 
-#: functions/cpt/cpt-faq.php:85 functions/cpt/cpt-faq.php:87
-#: functions/cpt/cpt-faq.php:99
+#: functions/cpt/cpt-faq.php:92 functions/cpt/cpt-faq.php:94
+#: functions/cpt/cpt-faq.php:106
 msgid "FAQ Tags"
 msgstr "FAQ Теги"
 
-#: functions/cpt/cpt-faq.php:572
+#: functions/cpt/cpt-faq.php:586
 msgid "FAQ tags (slugs separated by commas). Taxonomy: faq_tag"
 msgstr "Теги FAQ (слэги, разделённые запятыми). Таксономия: faq_tag"
 
@@ -2052,9 +2080,9 @@ msgstr "Сопоставление полей"
 msgid "Field name"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:590
+#: functions/cpt/cpt-faq.php:604
 msgid "Field to sort by: date, title, menu_order, etc."
-msgstr ""
+msgstr "Поле для сортировки: дата, заголовок, menu_order и т. д."
 
 #: redux-framework/sample/sections/codeweber/socials.php:135
 #: redux-framework/sample/sections/extensions/users.php:151
@@ -2341,7 +2369,7 @@ msgstr ""
 "ФИО лица, ответственного за обработку персональных данных.<br>[redux_option "
 "key=\"responsible_person\"]"
 
-#: functions/cpt/cpt-vacancies.php:380
+#: functions/cpt/cpt-vacancies.php:386
 msgid "Full-time"
 msgstr "На постоянной основе"
 
@@ -2374,7 +2402,7 @@ msgstr ""
 
 #: 404.php:18
 msgid "Go to Homepage"
-msgstr ""
+msgstr "Перейти на главную"
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:31
 msgid "Google Analytics"
@@ -2840,11 +2868,11 @@ msgstr ""
 msgid "Insufficient permissions for import"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:382
+#: functions/cpt/cpt-vacancies.php:388
 msgid "Internship"
 msgstr "Стажировка"
 
-#: functions/cpt/cpt-vacancies.php:271
+#: functions/cpt/cpt-vacancies.php:277
 msgid "Introduction / Short Description"
 msgstr "Введение / Краткое описание"
 
@@ -2924,7 +2952,7 @@ msgstr ""
 msgid "KPP"
 msgstr "КПП"
 
-#: functions/cpt/cpt-vacancies.php:406
+#: functions/cpt/cpt-vacancies.php:412
 msgid "Languages"
 msgstr "Языки"
 
@@ -3120,7 +3148,7 @@ msgstr "Перечень собираемых персональных данн�
 msgid "List of personal data processed:"
 msgstr "Перечень обрабатываемых персональных данных:"
 
-#: functions/cpt/cpt-vacancies.php:230
+#: functions/cpt/cpt-vacancies.php:228
 msgid "Location"
 msgstr "Расположение"
 
@@ -3204,7 +3232,7 @@ msgstr "Основные настройки модуля подписки на �
 msgid "Main Sidebar"
 msgstr "Главный сайдбар"
 
-#: functions/cpt/cpt-faq.php:648
+#: functions/cpt/cpt-faq.php:662
 msgid "Main wrapper"
 msgstr ""
 
@@ -3275,7 +3303,7 @@ msgstr "Способ уничтожения:"
 msgid "Method of processing personal data:"
 msgstr "Способ обработки персональных данных:"
 
-#: functions/cpt/cpt-vacancies.php:449
+#: functions/cpt/cpt-vacancies.php:455
 msgid "Microsoft Excel"
 msgstr ""
 
@@ -3351,7 +3379,7 @@ msgstr "Новый FAQ"
 msgid "New FAQ Category Name"
 msgstr "Новое название категории FAQ"
 
-#: functions/cpt/cpt-faq.php:93
+#: functions/cpt/cpt-faq.php:100
 msgid "New FAQ Tag Name"
 msgstr "Новое имя тега FAQ"
 
@@ -3569,7 +3597,7 @@ msgstr "Не найдены Документы в корзине"
 msgid "No FAQ Categories Found"
 msgstr "Категории FAQ не найдены"
 
-#: functions/cpt/cpt-faq.php:95
+#: functions/cpt/cpt-faq.php:102
 msgid "No FAQ Tags Found"
 msgstr "Теги FAQ не найдены"
 
@@ -3671,7 +3699,7 @@ msgstr "Родительские темы не найдены."
 msgid "no PDF"
 msgstr "нет PDF-файла"
 
-#: functions/cpt/cpt-vacancies.php:468
+#: functions/cpt/cpt-vacancies.php:474
 msgid "No PDF selected"
 msgstr "Не выбран PDF"
 
@@ -3788,7 +3816,7 @@ msgstr "Не зарегистрирован"
 msgid "Not verified"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:578
+#: functions/cpt/cpt-faq.php:592
 msgid "Number of FAQ items to display. Use -1 for all items"
 msgstr "Количество отображаемых пунктов FAQ. Используйте -1 для всех пунктов."
 
@@ -3865,8 +3893,17 @@ msgstr ""
 msgid "Only JS"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:530
+#: 404.php:13
+msgid "Oops! Page Not Found."
+msgstr "Страница не найдена."
+
+#: functions/cpt/cpt-vacancies.php:536
 msgid "Open"
+msgstr ""
+
+#: templates/content/single-documents.php:43
+#: templates/content/single-documents.php:68
+msgid "Open in Browser"
 msgstr ""
 
 #: redux-framework/sample-config.php:577
@@ -4001,13 +4038,13 @@ msgstr "Страница-рамка"
 msgid "Page-loader"
 msgstr "Загрузчик страниц"
 
-#: functions/cpt/cpt-faq.php:557
+#: functions/cpt/cpt-faq.php:571
 msgid "Parameter"
-msgstr ""
+msgstr "Параметр"
 
-#: functions/cpt/cpt-faq.php:553
+#: functions/cpt/cpt-faq.php:567
 msgid "Parameters"
-msgstr ""
+msgstr "Параметры"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1218
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:333
@@ -4092,7 +4129,7 @@ msgstr "Требуется Родительская тема"
 msgid "Parent:"
 msgstr "Родительская тема:"
 
-#: functions/cpt/cpt-vacancies.php:381
+#: functions/cpt/cpt-vacancies.php:387
 msgid "Part-time"
 msgstr "Неполная занятость"
 
@@ -4357,6 +4394,10 @@ msgstr "Лицензия на изображение"
 msgid "Postal Code"
 msgstr "Почтовый индекс"
 
+#: templates/content/single-documents.php:15
+msgid "Preparing document for download..."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:23
 msgid "Presets"
 msgstr "Пресеты"
@@ -4551,7 +4592,7 @@ msgstr "Защищенный шрифт - не может быть удален"
 msgid "Public Offer Agreement"
 msgstr "Договор публичной оферты"
 
-#: functions/cpt/cpt-vacancies.php:536
+#: functions/cpt/cpt-vacancies.php:542
 msgid "Publish Date"
 msgstr ""
 
@@ -4607,11 +4648,11 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:651
+#: functions/cpt/cpt-faq.php:665
 msgid "Question button"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:650
+#: functions/cpt/cpt-faq.php:664
 msgid "Question header"
 msgstr "Заголовок вопроса"
 
@@ -4656,8 +4697,8 @@ msgstr "Дата регистрации:"
 msgid "Registration takes less than a minute."
 msgstr "Регистрация занимает меньше минуты."
 
-#: functions/cpt/cpt-vacancies.php:291 functions/cpt/cpt-vacancies.php:306
-#: functions/cpt/cpt-vacancies.php:334 functions/cpt/cpt-vacancies.php:344
+#: functions/cpt/cpt-vacancies.php:297 functions/cpt/cpt-vacancies.php:312
+#: functions/cpt/cpt-vacancies.php:340 functions/cpt/cpt-vacancies.php:350
 #: functions/integrations/image-licenses/image-licenses.php:147
 msgid "Remove"
 msgstr "Удалить"
@@ -4683,7 +4724,7 @@ msgstr ""
 msgid "Remove featured Image for this staff"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:472
+#: functions/cpt/cpt-vacancies.php:478
 msgid "Remove PDF"
 msgstr "Удалить PDF"
 
@@ -4702,7 +4743,7 @@ msgstr ""
 msgid "Required fields in CF7:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:299
+#: functions/cpt/cpt-vacancies.php:305
 msgid "Requirements"
 msgstr "Требования"
 
@@ -4711,7 +4752,7 @@ msgstr "Требования"
 msgid "Reset"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:284
+#: functions/cpt/cpt-vacancies.php:290
 msgid "Responsibilities"
 msgstr "Обязанности"
 
@@ -4778,6 +4819,10 @@ msgstr "Строка %d: недопустимый адрес электронн�
 msgid "Rutube"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:236
+msgid "Salary"
+msgstr "Заработная плата"
+
 #: functions/lib/comments-helper.php:32
 msgid "says:"
 msgstr ""
@@ -4816,7 +4861,7 @@ msgstr "Найти Документ"
 msgid "Search FAQ Categories"
 msgstr "Поиск по категориям FAQ"
 
-#: functions/cpt/cpt-faq.php:94
+#: functions/cpt/cpt-faq.php:101
 msgid "Search FAQ Tags"
 msgstr "Поиск по тегам FAQ"
 
@@ -5044,7 +5089,7 @@ msgstr "Выберите Родительскую тему"
 msgid "Select PDF"
 msgstr "Выбрать PDF"
 
-#: functions/cpt/cpt-vacancies.php:489
+#: functions/cpt/cpt-vacancies.php:495
 #: functions/integrations/image-licenses/image-licenses.php:171
 msgid "Select PDF File"
 msgstr "Выбрать PDF-файл"
@@ -5084,7 +5129,7 @@ msgstr "Выберите шаблон для одиночной страницы
 msgid "Select the parent theme"
 msgstr "Выберите родительскую тему"
 
-#: functions/cpt/cpt-vacancies.php:379
+#: functions/cpt/cpt-vacancies.php:385
 msgid "Select type"
 msgstr "Выберите тип"
 
@@ -5295,7 +5340,7 @@ msgstr ""
 "данных. <br>[redux_option key=\"legal_entity_short\"]"
 
 #. Заголовок страницы
-#: functions/cpt/cpt-faq.php:529
+#: functions/cpt/cpt-faq.php:543
 msgid "Shortcode Docs"
 msgstr ""
 
@@ -5473,7 +5518,7 @@ msgstr ""
 msgid "Site Name"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:421
+#: functions/cpt/cpt-vacancies.php:427
 msgid "Skills"
 msgstr "Навыки"
 
@@ -5489,7 +5534,7 @@ msgstr ""
 
 #: redux-framework/sample-config.php:450
 msgid "Slider / Spinner"
-msgstr ""
+msgstr "Слайдер / Спиннер"
 
 #: redux-framework/sample/sections/codeweber/api.php:33
 msgid "SMS RU Settings"
@@ -5572,9 +5617,9 @@ msgstr ""
 "Извините, ничего не найдено по вашему запросу. Попробуйте ещё раз, используя "
 "другие ключевые слова."
 
-#: functions/cpt/cpt-faq.php:584
+#: functions/cpt/cpt-faq.php:598
 msgid "Sort order: ASC (ascending) or DESC (descending)"
-msgstr ""
+msgstr "Порядок сортировки: ASC (по возрастанию) или DESC (по убыванию)"
 
 #: functions/integrations/image-licenses/image-licenses.php:274
 msgid "Specific item or project the license is for"
@@ -5847,7 +5892,7 @@ msgstr ""
 msgid "Systematization Data"
 msgstr "систематизация"
 
-#: functions/cpt/cpt-faq.php:128 functions/cpt/cpt-faq.php:275
+#: functions/cpt/cpt-faq.php:142 functions/cpt/cpt-faq.php:289
 msgid "Tags"
 msgstr ""
 
@@ -5879,9 +5924,9 @@ msgstr "Команда"
 msgid "Telegram"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:627
+#: functions/cpt/cpt-faq.php:641
 msgid "Template Structure"
-msgstr ""
+msgstr "Структура шаблона"
 
 #: functions/admin/admin_privacy.php:1098
 msgid "Terms of Use"
@@ -5972,9 +6017,9 @@ msgstr ""
 "Документ с Политикой в отношении обработки персональных данных выбран, но не "
 "опубликован. Пожалуйста, опубликуйте документ."
 
-#: functions/cpt/cpt-faq.php:628
+#: functions/cpt/cpt-faq.php:642
 msgid "The shortcode generates the following HTML structure:"
-msgstr ""
+msgstr "Короткий код генерирует следующую HTML-структуру:"
 
 #: redux-framework/sample-config.php:573
 msgid "The subtitle is NOT visible in customizer"
@@ -6298,7 +6343,7 @@ msgstr "Отменена подписка"
 msgid "Unsubscribed only"
 msgstr "Только отписавшиеся"
 
-#: functions/cpt/cpt-faq.php:91
+#: functions/cpt/cpt-faq.php:98
 msgid "Update FAQ Tag"
 msgstr "Обновить FAQ"
 
@@ -6348,7 +6393,7 @@ msgstr ""
 msgid "Upload New Font"
 msgstr "Загрузить новый шрифт"
 
-#: functions/cpt/cpt-vacancies.php:470
+#: functions/cpt/cpt-vacancies.php:476
 msgid "Upload PDF"
 msgstr "Загрузить PDF"
 
@@ -6394,9 +6439,9 @@ msgstr "URL-адрес лицензионного товара, если он д
 msgid "Usage Data"
 msgstr "использование"
 
-#: functions/cpt/cpt-faq.php:599
+#: functions/cpt/cpt-faq.php:613
 msgid "Usage Examples"
-msgstr ""
+msgstr "Примеры использования"
 
 #: functions/cpt/cpt-documents.php:23 functions/cpt/cpt-services.php:26
 #: functions/cpt/cpt-staff.php:26
@@ -6417,7 +6462,7 @@ msgstr ""
 msgid "Use shortcode for quick form addition:"
 msgstr "Используйте короткий код для быстрого добавления формы:"
 
-#: functions/cpt/cpt-faq.php:548
+#: functions/cpt/cpt-faq.php:562
 msgid "Use the following shortcode to display FAQ accordion:"
 msgstr "Используйте следующий шорткод для отображения аккордеона FAQ:"
 
@@ -6425,11 +6470,11 @@ msgstr "Используйте следующий шорткод для отоб
 msgid "Use this file"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:491
+#: functions/cpt/cpt-vacancies.php:497
 msgid "Use this PDF"
 msgstr "Использовать этот PDF"
 
-#: functions/cpt/cpt-vacancies.php:541
+#: functions/cpt/cpt-vacancies.php:547
 msgid "Use WordPress publish date"
 msgstr ""
 
@@ -6508,15 +6553,15 @@ msgstr "Список вакансий"
 msgid "Vacancy"
 msgstr "Вакансия"
 
-#: functions/cpt/cpt-vacancies.php:181
+#: functions/cpt/cpt-vacancies.php:178
 msgid "Vacancy Attributes"
 msgstr "Атрибуты вакансии"
 
-#: functions/cpt/cpt-vacancies.php:172
+#: functions/cpt/cpt-vacancies.php:169
 msgid "Vacancy Content"
 msgstr "Содержание вакансии"
 
-#: functions/cpt/cpt-vacancies.php:190
+#: functions/cpt/cpt-vacancies.php:187
 msgid "Vacancy PDF File"
 msgstr "PDF-файл вакансии"
 
@@ -6524,7 +6569,7 @@ msgstr "PDF-файл вакансии"
 msgid "Vacancy published"
 msgstr "Вакансия опубликована"
 
-#: functions/cpt/cpt-vacancies.php:199 functions/cpt/cpt-vacancies.php:527
+#: functions/cpt/cpt-vacancies.php:196 functions/cpt/cpt-vacancies.php:533
 msgid "Vacancy Status"
 msgstr "Статус вакансии"
 
@@ -6609,7 +6654,7 @@ msgstr "Показать FAQ"
 msgid "View FAQ Category"
 msgstr "Посмотреть категорию FAQ"
 
-#: functions/cpt/cpt-faq.php:90
+#: functions/cpt/cpt-faq.php:97
 msgid "View FAQ Tag"
 msgstr "Посмотреть тег FAQ"
 
@@ -6843,7 +6888,7 @@ msgstr ""
 msgid "Wordpress Register Form"
 msgstr "Форма регистрации Wordpress"
 
-#: functions/cpt/cpt-vacancies.php:389
+#: functions/cpt/cpt-vacancies.php:395
 msgid "Work Experience"
 msgstr "Опыт работы"
 
@@ -7039,11 +7084,6 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/legal.php:725
 msgid "Сookie Expiration Date"
 msgstr "Срок действия Cookie-файла*"
-
-#: 404.php:13
-msgctxt "Страница не найдена."
-msgid "Oops! Page Not Found."
-msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:557
 msgid "— No License —"
