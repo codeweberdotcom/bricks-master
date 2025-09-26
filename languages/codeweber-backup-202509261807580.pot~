@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 10:30+0000\n"
+"POT-Creation-Date: 2025-09-26 15:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -200,8 +200,7 @@ msgstr ""
 msgid "Add Html Block"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:418
-msgctxt "Добавить язык"
+#: functions/cpt/cpt-vacancies.php:416
 msgid "Add Language"
 msgstr ""
 
@@ -292,15 +291,15 @@ msgstr ""
 msgid "Add New Staff"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:14
+#: functions/cpt/cpt-vacancies.php:14
 msgid "Add New Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:76
+#: functions/cpt/cpt-vacancies.php:76
 msgid "Add New Vacancy Type"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:83
+#: functions/cpt/cpt-vacancies.php:81
 msgid "Add or remove vacancy types"
 msgstr ""
 
@@ -308,11 +307,11 @@ msgstr ""
 msgid "Add Project"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:312
+#: functions/cpt/cpt-vacancies.php:310
 msgid "Add Requirement"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:297
+#: functions/cpt/cpt-vacancies.php:295
 msgid "Add Responsibility"
 msgstr ""
 
@@ -320,7 +319,7 @@ msgstr ""
 msgid "Add Service"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:433
+#: functions/cpt/cpt-vacancies.php:431
 msgid "Add Skill"
 msgstr ""
 
@@ -332,7 +331,7 @@ msgstr ""
 msgid "Add tags separated by commas"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:15
+#: functions/cpt/cpt-vacancies.php:15
 msgid "Add Vacancy"
 msgstr ""
 
@@ -341,13 +340,11 @@ msgstr ""
 msgid "additional CSS classes"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:317
-msgctxt "Дополнительная информация"
+#: functions/cpt/cpt-vacancies.php:315
 msgid "Additional Information"
 msgstr ""
 
 #: functions/admin/admin_user_profil.php:22
-msgctxt "Дополнительная информация"
 msgid "Additional information"
 msgstr ""
 
@@ -503,11 +500,11 @@ msgstr ""
 msgid "All user consents have been removed."
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:13
+#: functions/cpt/cpt-vacancies.php:13
 msgid "All Vacancies"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:72
+#: functions/cpt/cpt-vacancies.php:72
 msgid "All Vacancy Types"
 msgstr ""
 
@@ -543,11 +540,11 @@ msgstr ""
 msgid "API"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:240
+#: functions/cpt/cpt-vacancies.php:238
 msgid "Application Email"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:248
+#: functions/cpt/cpt-vacancies.php:246
 msgid "Application URL"
 msgstr ""
 
@@ -578,7 +575,7 @@ msgstr ""
 msgid "Archive Template for %s"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:534
+#: functions/cpt/cpt-vacancies.php:532
 msgid "Archived"
 msgstr ""
 
@@ -681,8 +678,7 @@ msgstr ""
 msgid "Basic Usage"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:165
-msgctxt "Основная информация о вакансиях"
+#: functions/cpt/cpt-vacancies.php:163
 msgid "Basic Vacancy Information"
 msgstr ""
 
@@ -831,7 +827,7 @@ msgstr ""
 msgid "Child Theme Name"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:442
+#: functions/cpt/cpt-vacancies.php:440
 msgid "Chinese (native)"
 msgstr ""
 
@@ -843,8 +839,7 @@ msgstr ""
 msgid "Choose a point on the map"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:84
-msgctxt "Выбирайте из наиболее популярных типов вакансий"
+#: functions/cpt/cpt-vacancies.php:82
 msgid "Choose from the most used vacancy types"
 msgstr ""
 
@@ -884,7 +879,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:533
+#: functions/cpt/cpt-vacancies.php:531
 msgid "Closed"
 msgstr ""
 
@@ -948,7 +943,7 @@ msgctxt "comments title"
 msgid "One reply on &ldquo;%s&rdquo;"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:224
+#: functions/cpt/cpt-vacancies.php:222
 msgid "Company"
 msgstr ""
 
@@ -1127,6 +1122,10 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:88
 msgid "Container"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:383
+msgid "Contract"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:710
@@ -1702,16 +1701,15 @@ msgstr ""
 msgid "Edit Staff"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:16
+#: functions/cpt/cpt-vacancies.php:16
 msgid "Edit Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:73
+#: functions/cpt/cpt-vacancies.php:73
 msgid "Edit Vacancy Type"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:399
-msgctxt "Образование/Квалификация"
+#: functions/cpt/cpt-vacancies.php:397
 msgid "Education / Qualification"
 msgstr ""
 
@@ -1766,8 +1764,7 @@ msgstr ""
 msgid "Email:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:378
-msgctxt "Тип занятости"
+#: functions/cpt/cpt-vacancies.php:376
 msgid "Employment Type"
 msgstr ""
 
@@ -1822,11 +1819,11 @@ msgstr ""
 msgid "Enter recipient email for test:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:306 functions/cpt/cpt-vacancy.php:344
+#: functions/cpt/cpt-vacancies.php:304 functions/cpt/cpt-vacancies.php:342
 msgid "Enter requirement..."
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:291 functions/cpt/cpt-vacancy.php:334
+#: functions/cpt/cpt-vacancies.php:289 functions/cpt/cpt-vacancies.php:332
 msgid "Enter responsibility..."
 msgstr ""
 
@@ -2296,6 +2293,10 @@ msgstr ""
 msgid ""
 "Full name of the person responsible for personal data processing. <br>"
 "[redux_option key=\"responsible_person\"]"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:380
+msgid "Full-time"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:108
@@ -2769,7 +2770,11 @@ msgstr ""
 msgid "Insufficient permissions for import"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:273
+#: functions/cpt/cpt-vacancies.php:382
+msgid "Internship"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:271
 msgid "Introduction / Short Description"
 msgstr ""
 
@@ -2825,6 +2830,12 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
+#: templates/content/loop-none.php:10
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:289
 msgid "Item URL:"
 msgstr ""
@@ -2843,8 +2854,7 @@ msgstr ""
 msgid "KPP"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:408
-msgctxt "Языки"
+#: functions/cpt/cpt-vacancies.php:406
 msgid "Languages"
 msgstr ""
 
@@ -3036,7 +3046,7 @@ msgstr ""
 msgid "List of personal data processed:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:232
+#: functions/cpt/cpt-vacancies.php:230
 msgid "Location"
 msgstr ""
 
@@ -3189,7 +3199,7 @@ msgstr ""
 msgid "Method of processing personal data:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:451
+#: functions/cpt/cpt-vacancies.php:449
 msgid "Microsoft Excel"
 msgstr ""
 
@@ -3329,11 +3339,11 @@ msgstr ""
 msgid "New Testimonial"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:17
+#: functions/cpt/cpt-vacancies.php:17
 msgid "New Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:77
+#: functions/cpt/cpt-vacancies.php:77
 msgid "New Vacancy Type Name"
 msgstr ""
 
@@ -3579,7 +3589,7 @@ msgstr ""
 msgid "no PDF"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:470
+#: functions/cpt/cpt-vacancies.php:468
 msgid "No PDF selected"
 msgstr ""
 
@@ -3631,19 +3641,19 @@ msgstr ""
 msgid "No user consents found to remove."
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:21
+#: functions/cpt/cpt-vacancies.php:21
 msgid "No Vacancies found"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:22
+#: functions/cpt/cpt-vacancies.php:22
 msgid "No Vacancies found in trash"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:86
+#: functions/cpt/cpt-vacancies.php:84
 msgid "No vacancy types"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:85
+#: functions/cpt/cpt-vacancies.php:83
 msgid "No vacancy types found"
 msgstr ""
 
@@ -3769,7 +3779,7 @@ msgstr ""
 msgid "Only JS"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:532
+#: functions/cpt/cpt-vacancies.php:530
 msgid "Open"
 msgstr ""
 
@@ -3990,16 +4000,12 @@ msgstr ""
 msgid "Parent theme is required"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:78
-msgid "Parent Vacancy Type"
-msgstr ""
-
-#: functions/cpt/cpt-vacancy.php:79
-msgid "Parent Vacancy Type:"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/childtheme.php:207
 msgid "Parent:"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:381
+msgid "Part-time"
 msgstr ""
 
 #: templates/content/single-legal.php:61 templates/content/single.php:61
@@ -4221,7 +4227,7 @@ msgid ""
 "must first create the sidebar under Appearance > Widgets."
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:81
+#: functions/cpt/cpt-vacancies.php:79
 msgid "Popular Vacancy Types"
 msgstr ""
 
@@ -4438,7 +4444,7 @@ msgstr ""
 msgid "Public Offer Agreement"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:538
+#: functions/cpt/cpt-vacancies.php:536
 msgid "Publish Date"
 msgstr ""
 
@@ -4543,8 +4549,8 @@ msgstr ""
 msgid "Registration takes less than a minute."
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:293 functions/cpt/cpt-vacancy.php:308
-#: functions/cpt/cpt-vacancy.php:336 functions/cpt/cpt-vacancy.php:346
+#: functions/cpt/cpt-vacancies.php:291 functions/cpt/cpt-vacancies.php:306
+#: functions/cpt/cpt-vacancies.php:334 functions/cpt/cpt-vacancies.php:344
 #: functions/integrations/image-licenses/image-licenses.php:147
 msgid "Remove"
 msgstr ""
@@ -4570,7 +4576,7 @@ msgstr ""
 msgid "Remove featured Image for this staff"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:474
+#: functions/cpt/cpt-vacancies.php:472
 msgid "Remove PDF"
 msgstr ""
 
@@ -4589,8 +4595,7 @@ msgstr ""
 msgid "Required fields in CF7:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:301
-msgctxt "Требования"
+#: functions/cpt/cpt-vacancies.php:299
 msgid "Requirements"
 msgstr ""
 
@@ -4599,8 +4604,7 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:286
-msgctxt "Обязанности"
+#: functions/cpt/cpt-vacancies.php:284
 msgid "Responsibilities"
 msgstr ""
 
@@ -4779,11 +4783,11 @@ msgstr ""
 msgid "Search Staff"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:20
+#: functions/cpt/cpt-vacancies.php:20
 msgid "Search Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:80
+#: functions/cpt/cpt-vacancies.php:78
 msgid "Search Vacancy Types"
 msgstr ""
 
@@ -4931,7 +4935,7 @@ msgstr ""
 msgid "Select PDF"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:491
+#: functions/cpt/cpt-vacancies.php:489
 #: functions/integrations/image-licenses/image-licenses.php:171
 msgid "Select PDF File"
 msgstr ""
@@ -4971,7 +4975,7 @@ msgstr ""
 msgid "Select the parent theme"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:381
+#: functions/cpt/cpt-vacancies.php:379
 msgid "Select type"
 msgstr ""
 
@@ -5041,7 +5045,7 @@ msgstr ""
 msgid "Sending..."
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:82
+#: functions/cpt/cpt-vacancies.php:80
 msgid "Separate vacancy types with commas"
 msgstr ""
 
@@ -5345,8 +5349,7 @@ msgstr ""
 msgid "Site Name"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:423
-msgctxt "Навыки"
+#: functions/cpt/cpt-vacancies.php:421
 msgid "Skills"
 msgstr ""
 
@@ -5435,6 +5438,12 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/header.php:130
 #: redux-framework/sample/sections/codeweber/page-header.php:213
 msgid "Solid-Color"
+msgstr ""
+
+#: templates/content/loop-none.php:7
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:584
@@ -6148,7 +6157,7 @@ msgstr ""
 msgid "Update Licensor Author"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:75
+#: functions/cpt/cpt-vacancies.php:75
 msgid "Update Vacancy Type"
 msgstr ""
 
@@ -6184,7 +6193,7 @@ msgstr ""
 msgid "Upload New Font"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:472
+#: functions/cpt/cpt-vacancies.php:470
 msgid "Upload PDF"
 msgstr ""
 
@@ -6261,11 +6270,11 @@ msgstr ""
 msgid "Use this file"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:493
+#: functions/cpt/cpt-vacancies.php:491
 msgid "Use this PDF"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:543
+#: functions/cpt/cpt-vacancies.php:541
 msgid "Use WordPress publish date"
 msgstr ""
 
@@ -6331,57 +6340,57 @@ msgstr ""
 msgid "Username (login)"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:10 functions/cpt/cpt-vacancy.php:12
-#: functions/cpt/cpt-vacancy.php:30
+#: functions/cpt/cpt-vacancies.php:10 functions/cpt/cpt-vacancies.php:12
+#: functions/cpt/cpt-vacancies.php:30
 msgid "Vacancies"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:23
+#: functions/cpt/cpt-vacancies.php:23
 msgid "Vacancies list"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:11 functions/cpt/cpt-vacancy.php:24
+#: functions/cpt/cpt-vacancies.php:11 functions/cpt/cpt-vacancies.php:24
 msgid "Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:183
+#: functions/cpt/cpt-vacancies.php:181
 msgid "Vacancy Attributes"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:174
+#: functions/cpt/cpt-vacancies.php:172
 msgid "Vacancy Content"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:192
+#: functions/cpt/cpt-vacancies.php:190
 msgid "Vacancy PDF File"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:25
+#: functions/cpt/cpt-vacancies.php:25
 msgid "Vacancy published"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:201 functions/cpt/cpt-vacancy.php:529
+#: functions/cpt/cpt-vacancies.php:199 functions/cpt/cpt-vacancies.php:527
 msgid "Vacancy Status"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:70
+#: functions/cpt/cpt-vacancies.php:70
 msgid "Vacancy Type"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:69 functions/cpt/cpt-vacancy.php:71
-#: functions/cpt/cpt-vacancy.php:92
+#: functions/cpt/cpt-vacancies.php:69 functions/cpt/cpt-vacancies.php:71
+#: functions/cpt/cpt-vacancies.php:90
 msgid "Vacancy Types"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:88
+#: functions/cpt/cpt-vacancies.php:86
 msgid "Vacancy types list"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:87
+#: functions/cpt/cpt-vacancies.php:85
 msgid "Vacancy types list navigation"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:26
+#: functions/cpt/cpt-vacancies.php:26
 msgid "Vacancy updated"
 msgstr ""
 
@@ -6557,15 +6566,15 @@ msgstr ""
 msgid "View Staff"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:19
+#: functions/cpt/cpt-vacancies.php:19
 msgid "View Vacancies"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:18
+#: functions/cpt/cpt-vacancies.php:18
 msgid "View Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:74
+#: functions/cpt/cpt-vacancies.php:74
 msgid "View Vacancy Type"
 msgstr ""
 
@@ -6677,8 +6686,7 @@ msgstr ""
 msgid "Wordpress Register Form"
 msgstr ""
 
-#: functions/cpt/cpt-vacancy.php:391
-msgctxt "Опыт работы"
+#: functions/cpt/cpt-vacancies.php:389
 msgid "Work Experience"
 msgstr ""
 

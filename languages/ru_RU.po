@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-26 15:25+0000\n"
+"PO-Revision-Date: 2025-09-26 18:13+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -83,6 +83,10 @@ msgstr ""
 
 #: functions/cpt/cpt-faq.php:613
 msgid "4. Sort by title"
+msgstr ""
+
+#: 404.php:8
+msgid "404 Error"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:617
@@ -2368,6 +2372,10 @@ msgstr ""
 msgid "Gmail"
 msgstr ""
 
+#: 404.php:18
+msgid "Go to Homepage"
+msgstr "Перейти на главную"
+
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:31
 msgid "Google Analytics"
 msgstr ""
@@ -3856,6 +3864,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:292
 msgid "Only JS"
 msgstr ""
+
+#: 404.php:13
+msgid "Oops! Page Not Found."
+msgstr "Страница не найдена."
 
 #: functions/cpt/cpt-vacancies.php:530
 msgid "Open"
@@ -5947,6 +5959,14 @@ msgid ""
 msgstr ""
 "Документ о согласии на рассылку выбран, но не опубликован. Пожалуйста, "
 "опубликуйте документ."
+
+#: 404.php:15
+msgid ""
+"The page you are looking for is not available or has been moved. Try a "
+"different page or go to homepage with the button below."
+msgstr ""
+"К сожалению, запрашиваемая вами страница не существует или была перемещена. "
+"Возможно, вы опечатались в адресе или перешли по устаревшей ссылке."
 
 #: functions/integrations/personal-data/class-cf7-consent.php:174
 msgid ""
