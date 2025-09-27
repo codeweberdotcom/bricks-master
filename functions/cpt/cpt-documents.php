@@ -50,7 +50,7 @@ function register_my_cpt_documents()
       "can_export" => true,
       "rewrite" => ["slug" => "documents", "with_front" => true],
       "query_var" => true,
-      "supports" => ["title", "revisions",],
+      "supports" => ["title", "revisions", "author"],
       "taxonomies" => ["document_category", "document_type"],
    ];
 
