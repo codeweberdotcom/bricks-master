@@ -33,7 +33,7 @@ function cptui_register_my_cpts_vacancies()
       "public" => true,
       "publicly_queryable" => true,
       "show_ui" => true,
-      "show_in_rest" => true, // Отключаем REST API для Гутенберга
+      "show_in_rest" => true,
       "rest_base" => "",
       "rest_controller_class" => "WP_REST_Posts_Controller",
       "rest_namespace" => "wp/v2",
@@ -48,7 +48,7 @@ function cptui_register_my_cpts_vacancies()
       "can_export" => true,
       "rewrite" => ["slug" => "vacancies", "with_front" => true],
       "query_var" => true,
-      "supports" => ["title",  "thumbnail", "revisions"],
+      "supports" => ["title",  "thumbnail", "revisions", "author"],
       "show_in_graphql" => false,
       "menu_icon" => "dashicons-businessperson",
    ];
@@ -89,14 +89,14 @@ function cptui_register_my_taxes_vacancy_type()
    $args = [
       "label" => esc_html__("Vacancy Types", "codeweber"),
       "labels" => $labels,
-      "public" => false, // Полностью отключаем публичность
-      "publicly_queryable" => false, // Не доступна для запросов
+      "public" => false,
+      "publicly_queryable" => false,
       "hierarchical" => false,
-      "show_ui" => true, // Показываем только в админке
+      "show_ui" => true,
       "show_in_menu" => true,
-      "show_in_nav_menus" => false, // Не показывать в меню навигации
-      "query_var" => false, // Отключаем query var
-      "rewrite" => false, // Отключаем перезапись URL
+      "show_in_nav_menus" => false,
+      "query_var" => false,
+      "rewrite" => false,
       "show_admin_column" => true,
       "show_in_rest" => true,
       "show_tagcloud" => false,
@@ -117,13 +117,12 @@ add_action('init', 'cptui_register_my_taxes_vacancy_type');
 function enable_classic_editor_for_vacancies($use_block_editor, $post_type)
 {
    if ($post_type === 'vacancies') {
-      return false; // Отключаем Гутенберг
+      return false;
    }
    return $use_block_editor;
 }
 add_filter('use_block_editor_for_post_type', 'enable_classic_editor_for_vacancies', 10, 2);
 
-// Альтернативный способ - через хук post_type_labels
 function disable_gutenberg_for_vacancies($can_edit, $post)
 {
    if (empty($post->ID)) {
@@ -145,7 +144,7 @@ function add_classic_editor_support()
    add_filter('user_can_richedit', function ($can) {
       global $post;
       if ($post && $post->post_type === 'vacancies') {
-         return true; // Включаем визуальный редактор
+         return true;
       }
       return $can;
    });
@@ -211,7 +210,8 @@ function vacancy_basic_info_callback($post)
    $location = get_post_meta($post->ID, '_vacancy_location', true);
    $email = get_post_meta($post->ID, '_vacancy_email', true);
    $apply_url = get_post_meta($post->ID, '_vacancy_apply_url', true);
-   $salary = get_post_meta($post->ID, '_vacancy_salary', true); // Новое поле зарплата
+   $salary = get_post_meta($post->ID, '_vacancy_salary', true);
+   $linkedin_url = get_post_meta($post->ID, '_vacancy_linkedin_url', true); // Новое поле LinkedIn
 
 ?>
    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -254,6 +254,14 @@ function vacancy_basic_info_callback($post)
          <input type="url" id="vacancy_apply_url" name="vacancy_apply_url" value="<?php echo esc_attr($apply_url); ?>"
             style="width: 100%; padding: 8px;" placeholder="https://...">
       </div>
+
+      <div>
+         <label for="vacancy_linkedin_url" style="display: block; margin-bottom: 5px; font-weight: bold;">
+            <?php _e('LinkedIn URL', 'codeweber'); ?>
+         </label>
+         <input type="url" id="vacancy_linkedin_url" name="vacancy_linkedin_url" value="<?php echo esc_attr($linkedin_url); ?>"
+            style="width: 100%; padding: 8px;" placeholder="https://linkedin.com/...">
+      </div>
    </div>
 <?php
 }
@@ -264,7 +272,6 @@ function vacancy_content_callback($post)
    $introduction = get_post_meta($post->ID, '_vacancy_introduction', true);
    $additional_info = get_post_meta($post->ID, '_vacancy_additional_info', true);
 
-   // Получаем обязанности и требования
    $responsibilities = get_post_meta($post->ID, '_vacancy_responsibilities', true);
    $requirements = get_post_meta($post->ID, '_vacancy_requirements', true);
 
@@ -332,7 +339,6 @@ function vacancy_content_callback($post)
 
    <script>
       jQuery(document).ready(function($) {
-         // Добавление обязанностей
          $('#add-responsibility').click(function() {
             var newItem = $('<div class="responsibility-item" style="margin-bottom: 10px;">' +
                '<textarea name="vacancy_responsibilities[]" placeholder="<?php _e('Enter responsibility...', 'codeweber'); ?>"' +
@@ -342,7 +348,6 @@ function vacancy_content_callback($post)
             $('#responsibilities-container').append(newItem);
          });
 
-         // Добавление требований
          $('#add-requirement').click(function() {
             var newItem = $('<div class="requirement-item" style="margin-bottom: 10px;">' +
                '<textarea name="vacancy_requirements[]" placeholder="<?php _e('Enter requirement...', 'codeweber'); ?>"' +
@@ -352,7 +357,6 @@ function vacancy_content_callback($post)
             $('#requirements-container').append(newItem);
          });
 
-         // Удаление элементов
          $(document).on('click', '.remove-responsibility, .remove-requirement', function() {
             if ($(this).closest('.responsibility-item, .requirement-item').siblings().length > 0) {
                $(this).closest('.responsibility-item, .requirement-item').remove();
@@ -440,7 +444,6 @@ function vacancy_attributes_callback($post)
 
    <script>
       jQuery(document).ready(function($) {
-         // Добавление языков
          $('#add-language').click(function() {
             var newItem = $('<div class="language-item" style="margin-bottom: 5px;">' +
                '<input type="text" name="vacancy_languages[]" placeholder="<?php _e('Chinese (native)', 'codeweber'); ?>"' +
@@ -449,7 +452,6 @@ function vacancy_attributes_callback($post)
             $('#languages-container').append(newItem);
          });
 
-         // Добавление навыков
          $('#add-skill').click(function() {
             var newItem = $('<div class="skill-item" style="margin-bottom: 5px;">' +
                '<input type="text" name="vacancy_skills[]" placeholder="<?php _e('Microsoft Excel', 'codeweber'); ?>"' +
@@ -575,7 +577,8 @@ function save_vacancy_meta($post_id)
       'vacancy_location',
       'vacancy_email',
       'vacancy_apply_url',
-      'vacancy_salary', // Новое поле зарплата
+      'vacancy_salary',
+      'vacancy_linkedin_url', // Новое поле LinkedIn
       'vacancy_introduction',
       'vacancy_additional_info',
       'vacancy_employment_type',
@@ -601,7 +604,7 @@ function save_vacancy_meta($post_id)
    foreach ($array_fields as $field) {
       if (isset($_POST[$field])) {
          $values = array_map('sanitize_textarea_field', $_POST[$field]);
-         $values = array_filter($values); // Удаляем пустые значения
+         $values = array_filter($values);
          update_post_meta($post_id, '_' . $field, $values);
       }
    }
@@ -641,7 +644,8 @@ function get_vacancy_data_array($post_id = null)
       'location' => get_post_meta($post_id, '_vacancy_location', true),
       'email' => get_post_meta($post_id, '_vacancy_email', true),
       'apply_url' => get_post_meta($post_id, '_vacancy_apply_url', true),
-      'salary' => get_post_meta($post_id, '_vacancy_salary', true), // Новое поле зарплата
+      'salary' => get_post_meta($post_id, '_vacancy_salary', true),
+      'linkedin_url' => get_post_meta($post_id, '_vacancy_linkedin_url', true), // Новое поле LinkedIn
       'introduction' => get_post_meta($post_id, '_vacancy_introduction', true),
       'additional_info' => get_post_meta($post_id, '_vacancy_additional_info', true),
       'employment_type' => get_post_meta($post_id, '_vacancy_employment_type', true),

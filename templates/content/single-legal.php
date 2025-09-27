@@ -105,7 +105,7 @@
             </div>
 
             <div class="mt-3 mt-md-0 ms-auto">
-               <a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="btn btn-sm btn-soft-ash <?php echo esc_attr(GetThemeButton('rounded mt-2')); ?> btn-icon btn-icon-start mb-0">
+               <a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="btn btn-sm btn-soft-ash <?php echo esc_attr(GetThemeButton('rounded mt-2')); ?> btn-icon btn-icon-start mb-0 has-ripple">
                   <i class="uil uil-file-alt"></i> <?php esc_html_e('All Posts', 'codeweber'); ?>
                </a>
             </div>
@@ -118,7 +118,6 @@
             <p><?php echo esc_html($bio); ?></p>
          <?php endif; ?>
          <!-- /.author-bio -->
-
 
          <?php
          if (comments_open() || get_comments_number()) { ?>
