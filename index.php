@@ -2,7 +2,6 @@
 <?php get_pageheader(); ?>
 <?php
 
-
 $post_type = universal_get_post_type();
 $post_type_lc = strtolower($post_type);
 $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
@@ -19,7 +18,6 @@ $show_universal_title = ($pageheader_name === '1' && $archive_pageheader_id !== 
 		<div class="row gx-lg-8 gx-xl-12">
 
 			<?php get_sidebar('left'); ?>
-			<!-- #sidebar-left -->
 
 			<div id="loop-wrapper" class="<?php echo $content_class; ?> py-12">
 				<div class="blog classic-view row">
