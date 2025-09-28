@@ -3,30 +3,15 @@
 <?php
 
 
-if (is_post_type_archive()) {
-	$post_type = get_queried_object()->name ?? '';
-} elseif (is_tax() || is_category() || is_tag()) {
-	$taxonomy = get_queried_object()->taxonomy ?? '';
-	$taxonomy_obj = get_taxonomy($taxonomy);
-	$post_type = $taxonomy_obj->object_type[0] ?? 'post';
-} else {
-	global $wp_query;
-	$post_type = $wp_query->get('post_type') ?? 'post';
-
-	// Если массив, берем первый элемент
-	if (is_array($post_type)) {
-		$post_type = $post_type[0];
-	}
-}
-
-
+$post_type = universal_get_post_type();
 $post_type_lc = strtolower($post_type);
 $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
+
+$content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-md-8';
 $pageheader_name = Redux::get_option($opt_name, 'global_page_header_model');
 
-
-// Определяем класс колонки для контента
-$content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-md-8';
+$archive_pageheader_id = Redux::get_option($opt_name, 'archive_page_header_select_' . $post_type);
+$show_universal_title = ($pageheader_name === '1' && $archive_pageheader_id !== 'disabled');
 ?>
 
 <section id="content-wrapper" class="wrapper bg-light">
