@@ -308,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Добавляем общий счетчик результатов и кнопку "Показать все"
       const totalItems = data.data.found_posts;
       const footerElement = document.createElement("div");
-      footerElement.className = "p-3 bg-light border-top";
+      footerElement.className = "p-2 bg-light border-top";
 
       if (!isAllResults && data.data.has_more) {
         footerElement.classList.add("text-center");
