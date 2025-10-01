@@ -67,6 +67,3 @@ if (!empty($cpt_files)) {
 } else {
    error_log('No CPT files found in directories: ' . get_template_directory() . '/functions/cpt/ and ' . get_stylesheet_directory() . '/functions/cpt/');
 }
-
-// Логируем статус всех CPT для отладки
-error_log('CPT Status: ' . print_r($cpt_status, true));
