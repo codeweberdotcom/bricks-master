@@ -1,60 +1,9 @@
 <?php
 
 /**
- * ИНСТРУКЦИЯ 1: HTML DATA-ПАРАМЕТРЫ ДЛЯ INPUT
- * 
- * Базовая структура:
- * <input type="text" class="search-form form-control" placeholder="Поиск..." autocomplete="off"
- *        data-posts-per-page="10"
- *        data-post-types="post,page" 
- *        data-search-content="false"
- *        data-taxonomy="category"
- *        data-term="news"
- *        data-include-taxonomies="false"
- *        data-show-excerpt="true">
- * 
- * Параметры:
- * - data-posts-per-page: количество результатов (число, по умолчанию: 10)
- * - data-post-types: типы записей через запятую (post, page, product) 
- * - data-search-content: поиск в контенте (true/false, по умолчанию: false)
- * - data-taxonomy: таксономия для фильтрации (category, post_tag)
- * - data-term: термин таксономии (news, urgent)  
- * - data-include-taxonomies: включать таксономии в результаты (true/false)
- * - data-show-excerpt: показывать отрывки текста (true/false)
- * 
- * Примеры:
- * <input data-posts-per-page="5" data-post-types="product"> - 5 товаров
- * <input data-search-content="true" data-show-excerpt="true"> - поиск в контенте с отрывками
- * <input data-taxonomy="category" data-term="news"> - только в категории "news"
+ * AJAX Search Module with proper Russian pluralization
+ * Text Domain: codeweber
  */
-
-/**
- * ИНСТРУКЦИЯ 2: ИСПОЛЬЗОВАНИЕ ШОРТКОДА
- * 
- * Базовый синтаксис:
- * [ajax_search_form параметр="значение"]
- * 
- * Доступные параметры:
- * - placeholder: текст в поле (по умолчанию: "Поиск...")
- * - posts_per_page: количество результатов (число, по умолчанию: 10)  
- * - post_types: типы записей через запятую (post, page, product)
- * - search_content: поиск в контенте (true/false, по умолчанию: false)
- * - taxonomy: таксономия для фильтрации (category, post_tag)
- * - term: термин таксономии (news, urgent)
- * - include_taxonomies: включать таксономии (true/false, по умолчанию: false)
- * - show_excerpt: показывать отрывки (true/false, по умолчанию: true)
- * - class: CSS классы для стилизации
- * 
- * Примеры использования:
- * [ajax_search_form] - базовая форма
- * [ajax_search_form placeholder="Поиск товаров..." posts_per_page="8" post_types="product"] - поиск товаров
- * [ajax_search_form search_content="true" show_excerpt="true"] - поиск в контенте с отрывками
- * [ajax_search_form taxonomy="category" term="news" include_taxonomies="true"] - с фильтрацией по категории
- * 
- * Использование в PHP:
- * <?php echo do_shortcode('[ajax_search_form placeholder="Поиск..."]'); ?>
- */
-
 
 add_action('wp_enqueue_scripts', 'enqueue_ajax_search_scripts');
 function enqueue_ajax_search_scripts()
@@ -67,7 +16,7 @@ function enqueue_ajax_search_scripts()
       true
    );
 
-   // Три отдельных перевода для русского языка
+   // Локализация с правильным склонением для русского языка
    wp_localize_script('ajax-search', 'ajax_search_params', array(
       'ajaxurl' => admin_url('admin-ajax.php'),
       'nonce' => wp_create_nonce('ajax-search_nonce'),
@@ -78,21 +27,21 @@ function enqueue_ajax_search_scripts()
          'connection_error' => __('Connection error', 'codeweber'),
          'no_results' => __('No results found', 'codeweber'),
          'total_found' => __('Total found', 'codeweber'),
-         'result_singular' => __('result', 'codeweber'),           // 1 результат
-         'result_few' => __('results_few', 'codeweber'),          // 2,3,4 результата
-         'result_many' => __('results_many', 'codeweber'),        // 5,6... результатов
+         'result' => array(
+            'singular' => _n('result', 'results', 1, 'codeweber'),  // 1 результат
+            'few' => _n('result', 'results', 2, 'codeweber'),       // 2-4 результата  
+            'many' => _n('result', 'results', 5, 'codeweber')       // 5+ результатов
+         ),
          'taxonomy' => __('Taxonomy', 'codeweber'),
          'no_title' => __('No title', 'codeweber'),
-         'title' => __('title', 'codeweber'),
-         'content' => __('content', 'codeweber'),
+         'title' => __('Title', 'codeweber'),
+         'content' => __('Content', 'codeweber'),
          'show_all' => __('Show all', 'codeweber'),
-         'showing' => __('showing', 'codeweber'),
-         'of' => __('of', 'codeweber')
+         'showing' => __('Found', 'codeweber'),
+         'of' => __('of', 'codeweber'),
       )
    ));
 }
-
-
 
 // Добавьте этот код после существующего handle_ajax_search
 
@@ -145,8 +94,6 @@ function handle_ajax_search_load_all()
 
    wp_send_json_success($response);
 }
-
-
 
 add_action('wp_ajax_ajax_search', 'handle_ajax_search');
 add_action('wp_ajax_nopriv_ajax_search', 'handle_ajax_search');
@@ -511,7 +458,7 @@ function ajax_search_form_shortcode($atts)
             data-term="<?php echo esc_attr($atts['term']); ?>"
             data-include-taxonomies="<?php echo esc_attr($atts['include_taxonomies']); ?>"
             data-show-excerpt="<?php echo esc_attr($atts['show_excerpt']); ?>">
-        </form>
+      </form>
    </div>
 <?php
    return ob_get_clean();
@@ -524,6 +471,7 @@ function ajax_search_css()
    <style>
       .search-results-container {
          display: none;
+         z-index: 999!important;
       }
 
       .search-results-container:not(:empty) {
@@ -533,6 +481,7 @@ function ajax_search_css()
       .search-result-item:hover {
          background-color: #f8f9fa !important;
       }
+
 
       .hover-bg-light:hover {
          background-color: #f8f9fa !important;

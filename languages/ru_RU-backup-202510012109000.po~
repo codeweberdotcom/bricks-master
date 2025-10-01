@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-10-01 11:45+0000\n"
+"PO-Revision-Date: 2025-10-01 12:22+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.1.10\n"
+"X-Loco-Version: 2.8.0; wp-6.8.3; php-8.1.10\n"
 "X-Domain: codeweber"
 
 #: functions/lib/comments-helper.php:38
@@ -3750,7 +3750,7 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:79
 msgid "No results found"
-msgstr ""
+msgstr "Нет результатов"
 
 #: functions/admin/admin_media.php:35
 msgid "No sizes"
@@ -3826,7 +3826,7 @@ msgstr "Отсутствует"
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:56
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:62
 msgid "Not recorded"
-msgstr ""
+msgstr "Не записано"
 
 #: functions/integrations/personal-data/class-consent-cpt.php:145
 #: functions/integrations/personal-data/class-consent-cpt.php:420
@@ -4790,12 +4790,15 @@ msgstr "Ответственное лицо (ФИО)"
 
 #: functions/integrations/ajax-search-module/ajax-search.php:81
 msgid "result"
-msgstr ""
+msgstr "результат"
 
 #: functions/integrations/ajax-search-module/ajax-search.php:82
+msgid "results_few"
+msgstr "результата"
+
 #: functions/integrations/ajax-search-module/ajax-search.php:83
-msgid "results"
-msgstr ""
+msgid "results_many"
+msgstr "результатов"
 
 #: functions/admin/admin_privacy.php:1718
 msgid "Return Policy"

@@ -19,7 +19,7 @@ Redux::set_section($opt_name, array(
 		array(
 			'id'       => 'sectidon-start2',
 			'type'     => 'section',
-			'title'    => esc_html__('Основные данные', 'codeweber'),
+			'title'    => esc_html__('Basic data', 'codeweber'),
 			'indent'   => true, // Indent all options below until the next 'section' option is set.
 		),
 
@@ -722,8 +722,8 @@ Redux::set_section(
 			array(
 				'id'      => 'cookie_expiration_date',
 				'type'    => 'text',
-				'title'   => __('Сookie Expiration Date', 'codeweber'),
-				'default' => __('365', 'codeweber'),
+				'title'   => __('Cookie Expiration Date', 'codeweber'),
+				'default' => '365',
 			),
 
 			array(
@@ -733,9 +733,8 @@ Redux::set_section(
 					'teeny'            => true,
 					'textarea_rows'    => 10
 				),
-
 				'title'   => __('Welcome Text Cookie Banner', 'codeweber'),
-				'default' => __('На данном сайте используются файлы «cookies» для обеспечения его бесперебойной работы и для запоминания выбранных настроек, а также инструменты аналитики (Яндекс.Метрика). Продолжая работу с сайтом, Вы подтверждаете свое согласие на обработку и использование «cookies» Вашего браузера в соответствии с <a href="[url_cookie-policy]")>Политикой в отношении использования файлов Куки(Сookie)</a>', 'codeweber'),
+				'default' => __('This website uses cookies to ensure its uninterrupted operation and to remember selected settings, as well as analytics tools (Yandex.Metrica). By continuing to use the site, you confirm your consent to the processing and use of cookies in your browser in accordance with the <a href="[url_cookie-policy]">Cookie Usage Policy</a>', 'codeweber'),
 			),
 		)
 	)

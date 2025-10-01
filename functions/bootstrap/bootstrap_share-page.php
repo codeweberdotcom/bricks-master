@@ -219,10 +219,10 @@ function codeweber_get_share_networks($region = 'eu')
             'label' => __('Email', 'codeweber'),
             'icon' => 'uil uil-envelope-share',
             'attributes' => [
-               'subject' => sprintf(__('Посмотрите: %s', 'codeweber'), get_bloginfo('name')),
-               'to' => get_option('admin_email') // ← И ЗДЕСЬ ТОЖЕ
+               'subject' => sprintf(__('Check this out: %s', 'codeweber'), get_bloginfo('name')),
+               'to' => get_option('admin_email')
             ]
-            ],
+         ],
          'xing' => [
             'label' => __('Xing', 'codeweber'),
             'icon' => 'uil uil-xing',
@@ -261,8 +261,8 @@ function codeweber_get_share_networks($region = 'eu')
             'label' => __('Email', 'codeweber'),
             'icon' => 'uil uil-envelope-share',
             'attributes' => [
-               'subject' => sprintf(__('Посмотрите: %s', 'codeweber'), get_bloginfo('name')),
-               'to' => get_option('admin_email') // ← И ЗДЕСЬ ТОЖЕ
+               'subject' => sprintf(__('Check this out: %s', 'codeweber'), get_bloginfo('name')),
+               'to' => get_option('admin_email')
             ]
          ]
       ]

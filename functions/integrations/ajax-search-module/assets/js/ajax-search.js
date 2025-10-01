@@ -239,11 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Основной заголовок с цифрой в скобках
         const groupTitle = document.createElement("span");
-        if (isAllResults) {
-          groupTitle.textContent = `${groupLabel} (${group.count})`;
-        } else {
-          groupTitle.textContent = `${groupLabel} (${group.count})`;
-        }
+        groupTitle.textContent = `${groupLabel} (${group.count})`;
 
         // Дополнительная информация справа (из/из)
         const groupCount = document.createElement("span");
@@ -254,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
             group.count
           )}`;
         } else {
-          groupCount.textContent = `${group.count} из ${group.total_found}`;
+          groupCount.textContent = `${group.count} ${ajax_search_params.i18n.of} ${group.total_found}`;
         }
 
         groupHeader.appendChild(groupTitle);
@@ -317,8 +313,10 @@ document.addEventListener("DOMContentLoaded", function () {
         showMoreLink.href = "#";
         showMoreLink.className = "text-decoration-none fs-14";
         showMoreLink.innerHTML = `
-          <span>Показать все ${totalItems} результатов</span>
-          <i class="uil uil-angle-down ms-1 fs-14"></i>
+        <span>${
+          ajax_search_params.i18n.show_all
+        } ${totalItems} ${getNumericEnding(totalItems)}</span>
+        <i class="uil uil-angle-down ms-1 fs-14"></i>
         `;
         showMoreLink.addEventListener("click", function (e) {
           e.preventDefault();
@@ -331,9 +329,9 @@ document.addEventListener("DOMContentLoaded", function () {
         footerElement.classList.add("text-center");
         const counterText = document.createElement("span");
         counterText.className = "fs-14 text-muted";
-        counterText.textContent = `Найдено: ${totalItems} ${getNumericEnding(
-          totalItems
-        )}`;
+        counterText.textContent = `${
+          ajax_search_params.i18n.showing
+        }: ${totalItems} ${getNumericEnding(totalItems)}`;
         footerElement.appendChild(counterText);
       }
 
@@ -397,26 +395,18 @@ document.addEventListener("DOMContentLoaded", function () {
   function getNumericEnding(number) {
     const i18n = ajax_search_params.i18n;
 
-    // Русские правила склонения:
-    // 1 результат
-    // 2,3,4 результата
-    // 5,6... результатов
-    // 11,12...14 результатов
+    const n = Math.abs(number) % 100;
+    const n1 = n % 10;
 
-    if (number % 100 >= 11 && number % 100 <= 14) {
-      return i18n.result_many;
-    }
-
-    const lastDigit = number % 10;
-
-    if (lastDigit === 1) {
-      return i18n.result_singular;
-    } else if (lastDigit >= 2 && lastDigit <= 4) {
-      return i18n.result_few;
+    if (n1 === 1 && n !== 11) {
+      return i18n.result.singular; // 1, 21, 31... результат
+    } else if (n1 >= 2 && n1 <= 4 && (n < 10 || n > 20)) {
+      return i18n.result.few; // 2-4, 22-24, 32-34... результата
     } else {
-      return i18n.result_many;
+      return i18n.result.many; // 5-20, 25-30, 35-40... результатов
     }
   }
+
 
   function showNoResults(searchInput, resultsId) {
     clearResults(resultsId);
@@ -424,7 +414,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const div = document.createElement("div");
     div.id = resultsId;
     div.className =
-      "search-no-results position-absolute top-100 start-0 end-0 bg-white border p-4 text-muted text-center z-3";
+      "search-no-results position-absolute top-100 start-0 end-0 bg-white border p-3 text-muted text-center z-3";
     div.textContent = ajax_search_params.i18n.no_results;
     div.style.marginTop = "2px";
 

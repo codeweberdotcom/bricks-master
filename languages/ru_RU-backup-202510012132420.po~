@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-10-01 12:12+0000\n"
+"PO-Revision-Date: 2025-10-01 21:08+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -1026,7 +1026,7 @@ msgstr "Подтверждение подписки на рассылку"
 
 #: functions/integrations/ajax-search-module/ajax-search.php:78
 msgid "Connection error"
-msgstr ""
+msgstr "Ошибка соединения"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:245
 msgid "Connection failed: "
@@ -1189,7 +1189,7 @@ msgstr "Корреспондентский счёт"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:305
 msgid "Could not connect to SMTP server."
-msgstr ""
+msgstr "Не удалось подключиться к SMTP-серверу."
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:319
 msgid "Could not create functions.php"
@@ -4793,8 +4793,11 @@ msgid "result"
 msgstr "результат"
 
 #: functions/integrations/ajax-search-module/ajax-search.php:82
+msgid "results_few"
+msgstr "результата"
+
 #: functions/integrations/ajax-search-module/ajax-search.php:83
-msgid "results"
+msgid "results_many"
 msgstr "результатов"
 
 #: functions/admin/admin_privacy.php:1718
