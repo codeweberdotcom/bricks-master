@@ -370,6 +370,10 @@ style.textContent = `
       opacity: 0.7;
     }
   }
+
+.offcanvas:not(.offcanvas-nav) {
+  overflow-y: inherit;
+}
   
   .search-loader-container {
     background-color: rgba(0,0,0,0.1);
