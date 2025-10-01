@@ -84,10 +84,69 @@ function enqueue_ajax_search_scripts()
          'taxonomy' => __('Taxonomy', 'codeweber'),
          'no_title' => __('No title', 'codeweber'),
          'title' => __('title', 'codeweber'),
-         'content' => __('content', 'codeweber')
+         'content' => __('content', 'codeweber'),
+         'show_all' => __('Show all', 'codeweber'),
+         'showing' => __('showing', 'codeweber'),
+         'of' => __('of', 'codeweber')
       )
    ));
 }
+
+
+
+// Добавьте этот код после существующего handle_ajax_search
+
+add_action('wp_ajax_ajax_search_load_all', 'handle_ajax_search_load_all');
+add_action('wp_ajax_nopriv_ajax_search_load_all', 'handle_ajax_search_load_all');
+
+function handle_ajax_search_load_all()
+{
+   if (!wp_verify_nonce($_POST['nonce'], 'ajax-search_nonce')) {
+      wp_send_json_error(__('Security error', 'codeweber'));
+   }
+
+   $query = sanitize_text_field($_POST['search_query']);
+
+   if (empty($query) || strlen($query) < 3) {
+      wp_send_json_error(__('Query too short. Minimum 3 characters required.', 'codeweber'));
+   }
+
+   $post_types = isset($_POST['post_types']) ? sanitize_text_field($_POST['post_types']) : '';
+   $search_content = isset($_POST['search_content']) ? filter_var($_POST['search_content'], FILTER_VALIDATE_BOOLEAN) : false;
+   $taxonomy = isset($_POST['taxonomy']) ? sanitize_text_field($_POST['taxonomy']) : '';
+   $term = isset($_POST['term']) ? sanitize_text_field($_POST['term']) : '';
+   $include_taxonomies = isset($_POST['include_taxonomies']) ? filter_var($_POST['include_taxonomies'], FILTER_VALIDATE_BOOLEAN) : false;
+   $show_excerpt = isset($_POST['show_excerpt']) ? filter_var($_POST['show_excerpt'], FILTER_VALIDATE_BOOLEAN) : true;
+
+   // Загружаем все результаты (posts_per_page = -1)
+   $results = perform_enhanced_search(array(
+      'keyword' => $query,
+      'post_type' => $post_types,
+      'posts_per_page' => -1, // Все результаты
+      'taxonomy' => $taxonomy,
+      'term' => $term,
+      'include_taxonomies' => $include_taxonomies,
+      'search_content' => $search_content,
+      'show_excerpt' => $show_excerpt
+   ));
+
+   $total_items = 0;
+   if (isset($results['all_results'])) {
+      foreach ($results['all_results'] as $group) {
+         $total_items += $group['count'];
+      }
+   }
+
+   $response = array(
+      'results' => $results,
+      'search_query' => $query,
+      'found_posts' => $total_items
+   );
+
+   wp_send_json_success($response);
+}
+
+
 
 add_action('wp_ajax_ajax_search', 'handle_ajax_search');
 add_action('wp_ajax_nopriv_ajax_search', 'handle_ajax_search');
@@ -124,16 +183,20 @@ function handle_ajax_search()
    ));
 
    $total_items = 0;
+   $displayed_items = 0;
    if (isset($results['all_results'])) {
       foreach ($results['all_results'] as $group) {
-         $total_items += $group['count'];
+         $total_items += $group['total_found'];
+         $displayed_items += $group['count'];
       }
    }
 
    $response = array(
       'results' => $results,
       'search_query' => $query,
-      'found_posts' => $total_items
+      'found_posts' => $total_items,
+      'displayed_posts' => $displayed_items,
+      'has_more' => $total_items > $displayed_items
    );
 
    wp_send_json_success($response);
@@ -159,7 +222,7 @@ function perform_enhanced_search($atts)
    // Типы записей, которые нужно исключить из поиска
    $excluded_post_types = array(
       'header',
-      'footer', 
+      'footer',
       'media_license',
       'page-header',
       'modal',
@@ -174,7 +237,7 @@ function perform_enhanced_search($atts)
       // Если указаны конкретные типы, фильтруем их
       $requested_types = array_map('trim', explode(',', $atts['post_type']));
       $post_types = array_diff($requested_types, $excluded_post_types);
-      
+
       // Если после фильтрации не осталось типов, возвращаем пустой результат
       if (empty($post_types)) {
          return array('all_results' => array());
@@ -225,6 +288,17 @@ function perform_enhanced_search($atts)
 
    remove_filter('posts_where', $filter_callback);
 
+   // Получаем общее количество найденных записей (без ограничения posts_per_page)
+   $total_found_args = $args;
+   $total_found_args['posts_per_page'] = -1;
+   $total_found_args['fields'] = 'ids';
+
+   add_filter('posts_where', $filter_callback);
+   $total_found_query = new WP_Query($total_found_args);
+   remove_filter('posts_where', $filter_callback);
+
+   $total_found_posts = $total_found_query->found_posts;
+
    $taxonomy_results = array();
    if ($atts['include_taxonomies'] === 'true') {
       $taxonomy_results = search_taxonomy_terms_by_name($atts['keyword'], $atts['taxonomy']);
@@ -240,7 +314,8 @@ function perform_enhanced_search($atts)
          if (!isset($grouped_posts[$post_type])) {
             $grouped_posts[$post_type] = array(
                'label' => $post_type_obj->labels->name,
-               'posts' => array()
+               'posts' => array(),
+               'total_found' => 0
             );
          }
 
@@ -273,6 +348,26 @@ function perform_enhanced_search($atts)
       }
    }
 
+   // Подсчитываем общее количество найденных записей для каждого типа
+   foreach ($grouped_posts as $post_type => $group) {
+      $total_for_type_args = array(
+         'post_type' => $post_type,
+         'posts_per_page' => -1,
+         'fields' => 'ids',
+         'post_status' => 'publish'
+      );
+
+      if (!empty($atts['taxonomy'])) {
+         $total_for_type_args['tax_query'] = $args['tax_query'];
+      }
+
+      add_filter('posts_where', $filter_callback);
+      $total_for_type_query = new WP_Query($total_for_type_args);
+      remove_filter('posts_where', $filter_callback);
+
+      $grouped_posts[$post_type]['total_found'] = $total_for_type_query->found_posts;
+   }
+
    $grouped_taxonomies = array();
    if (!empty($taxonomy_results)) {
       foreach ($taxonomy_results as $term) {
@@ -280,15 +375,23 @@ function perform_enhanced_search($atts)
          $taxonomy_label = $taxonomy_obj->labels->name;
 
          if (!isset($grouped_taxonomies[$taxonomy_label])) {
-            $grouped_taxonomies[$taxonomy_label] = array();
+            $grouped_taxonomies[$taxonomy_label] = array(
+               'items' => array(),
+               'total_found' => 0
+            );
          }
 
-         $grouped_taxonomies[$taxonomy_label][] = array(
+         $grouped_taxonomies[$taxonomy_label]['items'][] = array(
             'name' => $term->name,
             'permalink' => get_term_link($term),
             'type' => 'taxonomy'
          );
       }
+   }
+
+   // Подсчитываем общее количество для таксономий
+   foreach ($grouped_taxonomies as $taxonomy_label => $group) {
+      $grouped_taxonomies[$taxonomy_label]['total_found'] = count($group['items']);
    }
 
    $all_results = array();
@@ -297,15 +400,17 @@ function perform_enhanced_search($atts)
       $all_results[$group['label']] = array(
          'type' => 'post_type',
          'count' => count($group['posts']),
+         'total_found' => $group['total_found'],
          'items' => $group['posts']
       );
    }
 
-   foreach ($grouped_taxonomies as $taxonomy_label => $terms) {
+   foreach ($grouped_taxonomies as $taxonomy_label => $group) {
       $all_results[$taxonomy_label] = array(
          'type' => 'taxonomy',
-         'count' => count($terms),
-         'items' => $terms
+         'count' => count($group['items']),
+         'total_found' => $group['total_found'],
+         'items' => $group['items']
       );
    }
 
@@ -314,7 +419,8 @@ function perform_enhanced_search($atts)
    return array(
       'all_results' => $all_results,
       'grouped_posts' => $grouped_posts,
-      'grouped_taxonomies' => $grouped_taxonomies
+      'grouped_taxonomies' => $grouped_taxonomies,
+      'total_found_posts' => $total_found_posts
    );
 }
 

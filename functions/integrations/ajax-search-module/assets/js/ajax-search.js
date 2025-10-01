@@ -1,6 +1,5 @@
 // AJAX Search for multiple forms with class .search-form - LOCALIZED VERSION
 document.addEventListener("DOMContentLoaded", function () {
-  // Находим все input внутри форм с классом .search-form ИЛИ прямые input с классом .search-form
   const searchInputs = document.querySelectorAll(
     '.search-form input[type="text"], .search-form input.search-form'
   );
@@ -8,6 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
   if (searchInputs.length === 0) {
     return;
   }
+
+  // Глобальные переменные для хранения состояния
+  let currentSearchData = {};
+  let currentSearchParams = {};
+  let currentResultsId = "";
 
   // Инициализируем каждый input поиска
   searchInputs.forEach((searchInput, index) => {
@@ -181,7 +185,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return response.json();
       })
       .then((data) => {
-        displayResults(data, searchInput, resultsId);
+        // Сохраняем данные для возможной загрузки всех результатов
+        currentSearchData = data;
+        currentSearchParams = searchParams;
+        currentResultsId = resultsId;
+
+        displayResults(data, searchInput, resultsId, false);
       })
       .catch((error) => {
         showError(
@@ -197,96 +206,191 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  function displayResults(data, searchInput, resultsId) {
-    clearResults(resultsId);
+function displayResults(data, searchInput, resultsId, isAllResults = false) {
+  clearResults(resultsId);
 
-    if (
-      data.success &&
-      data.data &&
-      data.data.results &&
-      data.data.results.all_results &&
-      Object.keys(data.data.results.all_results).length > 0
-    ) {
-      const container = document.createElement("div");
-      container.id = resultsId;
-      container.className =
-        "search-results-container position-absolute top-100 start-0 end-0 bg-white border shadow-lg overflow-auto z-3";
-      container.style.maxHeight = "500px";
-      container.style.marginTop = "2px";
+  if (
+    data.success &&
+    data.data &&
+    data.data.results &&
+    data.data.results.all_results &&
+    Object.keys(data.data.results.all_results).length > 0
+  ) {
+    const container = document.createElement("div");
+    container.id = resultsId;
+    container.className =
+      "search-results-container position-absolute top-100 start-0 end-0 bg-white border shadow-lg overflow-auto z-3";
+    container.style.maxHeight = isAllResults ? "600px" : "500px";
+    container.style.marginTop = "2px";
 
-      const allResults = data.data.results.all_results;
+    const allResults = data.data.results.all_results;
+    let totalDisplayed = 0;
 
-      // Добавляем группы результатов
-      Object.keys(allResults).forEach((groupLabel) => {
-        const group = allResults[groupLabel];
-        const groupElement = document.createElement("div");
-        groupElement.className = "search-result-group";
+    // Добавляем группы результатов
+    Object.keys(allResults).forEach((groupLabel) => {
+      const group = allResults[groupLabel];
+      const groupElement = document.createElement("div");
+      groupElement.className = "search-result-group";
 
-        const groupHeader = document.createElement("div");
-        groupHeader.className = "px-3 my-2 bg-light text-dark fw-bold small";
-        groupHeader.textContent = groupLabel;
-        groupElement.appendChild(groupHeader);
+      // Заголовок группы с количеством в скобках
+      const groupHeader = document.createElement("div");
+      groupHeader.className =
+        "px-3 py-2 bg-light text-dark fw-bold fs-12 d-flex justify-content-between align-items-center";
 
-        // Элементы группы
-        group.items.forEach((item) => {
-          const resultItem = document.createElement("a");
-          resultItem.href = item.permalink;
-          resultItem.className =
-            "search-result-item d-block px-3 text-dark text-decoration-none hover-bg-light";
+      // Основной заголовок с цифрой в скобках
+      const groupTitle = document.createElement("span");
+      if (isAllResults) {
+        groupTitle.textContent = `${groupLabel} (${group.count})`;
+      } else {
+        groupTitle.textContent = `${groupLabel} (${group.count})`;
+      }
 
-          let itemHtml = `
-            <div class="mb-1">${
+      // Дополнительная информация справа (из/из)
+      const groupCount = document.createElement("span");
+      groupCount.className = "text-muted fw-normal fs-11";
+
+      if (isAllResults) {
+        groupCount.textContent = `${group.count} ${getNumericEnding(
+          group.count
+        )}`;
+      } else {
+        groupCount.textContent = `${group.count} из ${group.total_found}`;
+      }
+
+      groupHeader.appendChild(groupTitle);
+      groupHeader.appendChild(groupCount);
+      groupElement.appendChild(groupHeader);
+
+      totalDisplayed += group.count;
+
+      // Элементы группы
+      group.items.forEach((item) => {
+        const resultItem = document.createElement("a");
+        resultItem.href = item.permalink;
+        resultItem.className =
+          "search-result-item d-block px-3 text-dark text-decoration-none hover-bg-light";
+
+        let itemHtml = `
+            <div class="mb-1 fw-medium">${
               item.title || item.name || ajax_search_params.i18n.no_title
             }</div>
           `;
 
-          // Показываем отрывки если есть
-          if (item.excerpts && item.excerpts.length > 0) {
-            itemHtml += `<div class="small text-body mt-1 lh-sm">
+        // Показываем отрывки если есть
+        if (item.excerpts && item.excerpts.length > 0) {
+          itemHtml += `<div class="fs-12 text-body mt-1 lh-sm">
                             ${item.excerpts.join("<br>")}
                         </div>`;
-          }
+        }
 
-          // Для таксономий показываем тип
-          if (item.type === "taxonomy") {
-            itemHtml += `<div class="small text-muted">
+        // Для таксономий показываем тип
+        if (item.type === "taxonomy") {
+          itemHtml += `<div class="fs-12 text-muted">
                             <small>${ajax_search_params.i18n.taxonomy}</small>
                         </div>`;
-          }
+        }
 
-          resultItem.innerHTML = itemHtml;
+        resultItem.innerHTML = itemHtml;
 
-          resultItem.addEventListener("mouseenter", () => {
-            resultItem.classList.add("bg-light");
-          });
-          resultItem.addEventListener("mouseleave", () => {
-            resultItem.classList.remove("bg-light");
-          });
-
-          groupElement.appendChild(resultItem);
+        resultItem.addEventListener("mouseenter", () => {
+          resultItem.classList.add("bg-light");
+        });
+        resultItem.addEventListener("mouseleave", () => {
+          resultItem.classList.remove("bg-light");
         });
 
-        container.appendChild(groupElement);
+        groupElement.appendChild(resultItem);
       });
 
-      // Добавляем общий счетчик результатов
-      const totalItems = data.data.found_posts;
-      const counterElement = document.createElement("div");
-      counterElement.className =
-        "p-2 bg-secondary bg-opacity-10 border-top small text-muted text-center";
-      counterElement.textContent = `${
-        ajax_search_params.i18n.total_found
-      }: ${totalItems} ${getNumericEnding(totalItems)}`;
-      container.appendChild(counterElement);
+      container.appendChild(groupElement);
+    });
 
-      // Добавляем контейнер в DOM
-      if (searchInput.parentNode) {
-        searchInput.parentNode.classList.add("position-relative");
-        searchInput.parentNode.appendChild(container);
-      }
+    // Добавляем общий счетчик результатов и кнопку "Показать все"
+    const totalItems = data.data.found_posts;
+    const footerElement = document.createElement("div");
+    footerElement.className = "p-3 bg-light border-top";
+
+    if (!isAllResults && data.data.has_more) {
+      footerElement.classList.add("text-center");
+
+      const showMoreLink = document.createElement("a");
+      showMoreLink.href = "#";
+      showMoreLink.className = "text-decoration-none fs-14";
+      showMoreLink.innerHTML = `
+          <span>Показать все ${totalItems} результатов</span>
+          <i class="uil uil-angle-down ms-1 fs-14"></i>
+        `;
+      showMoreLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        loadAllResults(searchInput, resultsId);
+      });
+
+      footerElement.appendChild(showMoreLink);
     } else {
-      showNoResults(searchInput, resultsId);
+      footerElement.classList.add("text-center");
+      const counterText = document.createElement("span");
+      counterText.className = "fs-14 text-muted";
+      counterText.textContent = `Найдено: ${totalItems} ${getNumericEnding(
+        totalItems
+      )}`;
+      footerElement.appendChild(counterText);
     }
+
+    container.appendChild(footerElement);
+
+    // Добавляем контейнер в DOM
+    if (searchInput.parentNode) {
+      searchInput.parentNode.classList.add("position-relative");
+      searchInput.parentNode.appendChild(container);
+    }
+  } else {
+    showNoResults(searchInput, resultsId);
+  }
+}
+
+  // Функция для загрузки всех результатов
+  function loadAllResults(searchInput, resultsId) {
+    const loaderId = resultsId.replace("search-results", "search-loader");
+    showLoader(loaderId);
+
+    const formData = new FormData();
+    formData.append("action", "ajax_search_load_all");
+    formData.append("search_query", currentSearchData.data.search_query);
+    formData.append("nonce", ajax_search_params.nonce);
+
+    // Добавляем параметры из data-атрибутов
+    formData.append("post_types", currentSearchParams.postTypes);
+    formData.append("search_content", currentSearchParams.searchContent);
+    formData.append("taxonomy", currentSearchParams.taxonomy);
+    formData.append("term", currentSearchParams.term);
+    formData.append(
+      "include_taxonomies",
+      currentSearchParams.includeTaxonomies
+    );
+    formData.append("show_excerpt", currentSearchParams.showExcerpt);
+
+    fetch(ajax_search_params.ajaxurl, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("HTTP error " + response.status);
+        return response.json();
+      })
+      .then((data) => {
+        displayResults(data, searchInput, resultsId, true);
+      })
+      .catch((error) => {
+        showError(
+          ajax_search_params.i18n.connection_error,
+          searchInput,
+          resultsId
+        );
+      })
+      .finally(() => {
+        hideLoader(loaderId);
+      });
   }
 
   // Функция для правильного склонения числительных для русского языка
@@ -370,10 +474,6 @@ style.textContent = `
       opacity: 0.7;
     }
   }
-
-.offcanvas:not(.offcanvas-nav) {
-  overflow-y: inherit;
-}
   
   .search-loader-container {
     background-color: rgba(0,0,0,0.1);
