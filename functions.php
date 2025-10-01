@@ -82,3 +82,6 @@ add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
  * Подключение модуля лицензий изображений
  */
 require_once get_template_directory() . '/functions/integrations/image-licenses/image-licenses.php';
+
+
+require_once get_template_directory() . '/functions/integrations/ajax-search-module/ajax-search.php';
