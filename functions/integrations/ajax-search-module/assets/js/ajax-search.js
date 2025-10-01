@@ -206,148 +206,148 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-function displayResults(data, searchInput, resultsId, isAllResults = false) {
-  clearResults(resultsId);
+  function displayResults(data, searchInput, resultsId, isAllResults = false) {
+    clearResults(resultsId);
 
-  if (
-    data.success &&
-    data.data &&
-    data.data.results &&
-    data.data.results.all_results &&
-    Object.keys(data.data.results.all_results).length > 0
-  ) {
-    const container = document.createElement("div");
-    container.id = resultsId;
-    container.className =
-      "search-results-container position-absolute top-100 start-0 end-0 bg-white border shadow-lg overflow-auto z-3";
-    container.style.maxHeight = isAllResults ? "600px" : "500px";
-    container.style.marginTop = "2px";
+    if (
+      data.success &&
+      data.data &&
+      data.data.results &&
+      data.data.results.all_results &&
+      Object.keys(data.data.results.all_results).length > 0
+    ) {
+      const container = document.createElement("div");
+      container.id = resultsId;
+      container.className =
+        "search-results-container position-absolute top-100 start-0 end-0 bg-white border shadow-lg overflow-auto z-3";
+      container.style.maxHeight = isAllResults ? "600px" : "500px";
+      container.style.marginTop = "2px";
 
-    const allResults = data.data.results.all_results;
-    let totalDisplayed = 0;
+      const allResults = data.data.results.all_results;
+      let totalDisplayed = 0;
 
-    // Добавляем группы результатов
-    Object.keys(allResults).forEach((groupLabel) => {
-      const group = allResults[groupLabel];
-      const groupElement = document.createElement("div");
-      groupElement.className = "search-result-group";
+      // Добавляем группы результатов
+      Object.keys(allResults).forEach((groupLabel) => {
+        const group = allResults[groupLabel];
+        const groupElement = document.createElement("div");
+        groupElement.className = "search-result-group";
 
-      // Заголовок группы с количеством в скобках
-      const groupHeader = document.createElement("div");
-      groupHeader.className =
-        "px-3 py-2 bg-light text-dark fw-bold fs-12 d-flex justify-content-between align-items-center";
+        // Заголовок группы с количеством в скобках
+        const groupHeader = document.createElement("div");
+        groupHeader.className =
+          "px-3 py-2 bg-light text-dark fw-bold fs-12 d-flex justify-content-between align-items-center";
 
-      // Основной заголовок с цифрой в скобках
-      const groupTitle = document.createElement("span");
-      if (isAllResults) {
-        groupTitle.textContent = `${groupLabel} (${group.count})`;
-      } else {
-        groupTitle.textContent = `${groupLabel} (${group.count})`;
-      }
+        // Основной заголовок с цифрой в скобках
+        const groupTitle = document.createElement("span");
+        if (isAllResults) {
+          groupTitle.textContent = `${groupLabel} (${group.count})`;
+        } else {
+          groupTitle.textContent = `${groupLabel} (${group.count})`;
+        }
 
-      // Дополнительная информация справа (из/из)
-      const groupCount = document.createElement("span");
-      groupCount.className = "text-muted fw-normal fs-11";
+        // Дополнительная информация справа (из/из)
+        const groupCount = document.createElement("span");
+        groupCount.className = "text-muted fw-normal fs-11";
 
-      if (isAllResults) {
-        groupCount.textContent = `${group.count} ${getNumericEnding(
-          group.count
-        )}`;
-      } else {
-        groupCount.textContent = `${group.count} из ${group.total_found}`;
-      }
+        if (isAllResults) {
+          groupCount.textContent = `${group.count} ${getNumericEnding(
+            group.count
+          )}`;
+        } else {
+          groupCount.textContent = `${group.count} из ${group.total_found}`;
+        }
 
-      groupHeader.appendChild(groupTitle);
-      groupHeader.appendChild(groupCount);
-      groupElement.appendChild(groupHeader);
+        groupHeader.appendChild(groupTitle);
+        groupHeader.appendChild(groupCount);
+        groupElement.appendChild(groupHeader);
 
-      totalDisplayed += group.count;
+        totalDisplayed += group.count;
 
-      // Элементы группы
-      group.items.forEach((item) => {
-        const resultItem = document.createElement("a");
-        resultItem.href = item.permalink;
-        resultItem.className =
-          "search-result-item d-block px-3 text-dark text-decoration-none hover-bg-light";
+        // Элементы группы
+        group.items.forEach((item) => {
+          const resultItem = document.createElement("a");
+          resultItem.href = item.permalink;
+          resultItem.className =
+            "search-result-item d-block px-3 text-dark text-decoration-none hover-bg-light";
 
-        let itemHtml = `
+          let itemHtml = `
             <div class="mb-1 fw-medium">${
               item.title || item.name || ajax_search_params.i18n.no_title
             }</div>
           `;
 
-        // Показываем отрывки если есть
-        if (item.excerpts && item.excerpts.length > 0) {
-          itemHtml += `<div class="fs-12 text-body mt-1 lh-sm">
+          // Показываем отрывки если есть
+          if (item.excerpts && item.excerpts.length > 0) {
+            itemHtml += `<div class="fs-12 text-body mt-1 lh-sm">
                             ${item.excerpts.join("<br>")}
                         </div>`;
-        }
+          }
 
-        // Для таксономий показываем тип
-        if (item.type === "taxonomy") {
-          itemHtml += `<div class="fs-12 text-muted">
+          // Для таксономий показываем тип
+          if (item.type === "taxonomy") {
+            itemHtml += `<div class="fs-12 text-muted">
                             <small>${ajax_search_params.i18n.taxonomy}</small>
                         </div>`;
-        }
+          }
 
-        resultItem.innerHTML = itemHtml;
+          resultItem.innerHTML = itemHtml;
 
-        resultItem.addEventListener("mouseenter", () => {
-          resultItem.classList.add("bg-light");
+          resultItem.addEventListener("mouseenter", () => {
+            resultItem.classList.add("bg-light");
+          });
+          resultItem.addEventListener("mouseleave", () => {
+            resultItem.classList.remove("bg-light");
+          });
+
+          groupElement.appendChild(resultItem);
         });
-        resultItem.addEventListener("mouseleave", () => {
-          resultItem.classList.remove("bg-light");
-        });
 
-        groupElement.appendChild(resultItem);
+        container.appendChild(groupElement);
       });
 
-      container.appendChild(groupElement);
-    });
+      // Добавляем общий счетчик результатов и кнопку "Показать все"
+      const totalItems = data.data.found_posts;
+      const footerElement = document.createElement("div");
+      footerElement.className = "p-3 bg-light border-top";
 
-    // Добавляем общий счетчик результатов и кнопку "Показать все"
-    const totalItems = data.data.found_posts;
-    const footerElement = document.createElement("div");
-    footerElement.className = "p-3 bg-light border-top";
+      if (!isAllResults && data.data.has_more) {
+        footerElement.classList.add("text-center");
 
-    if (!isAllResults && data.data.has_more) {
-      footerElement.classList.add("text-center");
-
-      const showMoreLink = document.createElement("a");
-      showMoreLink.href = "#";
-      showMoreLink.className = "text-decoration-none fs-14";
-      showMoreLink.innerHTML = `
+        const showMoreLink = document.createElement("a");
+        showMoreLink.href = "#";
+        showMoreLink.className = "text-decoration-none fs-14";
+        showMoreLink.innerHTML = `
           <span>Показать все ${totalItems} результатов</span>
           <i class="uil uil-angle-down ms-1 fs-14"></i>
         `;
-      showMoreLink.addEventListener("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        loadAllResults(searchInput, resultsId);
-      });
+        showMoreLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          loadAllResults(searchInput, resultsId);
+        });
 
-      footerElement.appendChild(showMoreLink);
+        footerElement.appendChild(showMoreLink);
+      } else {
+        footerElement.classList.add("text-center");
+        const counterText = document.createElement("span");
+        counterText.className = "fs-14 text-muted";
+        counterText.textContent = `Найдено: ${totalItems} ${getNumericEnding(
+          totalItems
+        )}`;
+        footerElement.appendChild(counterText);
+      }
+
+      container.appendChild(footerElement);
+
+      // Добавляем контейнер в DOM
+      if (searchInput.parentNode) {
+        searchInput.parentNode.classList.add("position-relative");
+        searchInput.parentNode.appendChild(container);
+      }
     } else {
-      footerElement.classList.add("text-center");
-      const counterText = document.createElement("span");
-      counterText.className = "fs-14 text-muted";
-      counterText.textContent = `Найдено: ${totalItems} ${getNumericEnding(
-        totalItems
-      )}`;
-      footerElement.appendChild(counterText);
+      showNoResults(searchInput, resultsId);
     }
-
-    container.appendChild(footerElement);
-
-    // Добавляем контейнер в DOM
-    if (searchInput.parentNode) {
-      searchInput.parentNode.classList.add("position-relative");
-      searchInput.parentNode.appendChild(container);
-    }
-  } else {
-    showNoResults(searchInput, resultsId);
   }
-}
 
   // Функция для загрузки всех результатов
   function loadAllResults(searchInput, resultsId) {
@@ -474,6 +474,9 @@ style.textContent = `
       opacity: 0.7;
     }
   }
+    .offcanvas:not(.offcanvas-nav) {
+  overflow-y: visible;
+}
   
   .search-loader-container {
     background-color: rgba(0,0,0,0.1);
