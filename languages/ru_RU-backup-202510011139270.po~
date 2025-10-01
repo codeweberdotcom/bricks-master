@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-09-26 21:59+0000\n"
+"PO-Revision-Date: 2025-09-27 10:11+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -587,11 +587,11 @@ msgstr "Архив"
 #: redux-framework/sample/sections/codeweber/cpt-type.php:356
 #, php-format
 msgid "Archive Template for %s"
-msgstr ""
+msgstr "Шаблон Архива для %s"
 
 #: functions/cpt/cpt-vacancies.php:538
 msgid "Archived"
-msgstr ""
+msgstr "В архиве"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1041
 msgid "Are you sure you want to delete this font?"
@@ -636,7 +636,7 @@ msgstr "Автор:"
 
 #: templates/content/single-documents.php:66
 msgid "Automatic download failed. Choose an action:"
-msgstr ""
+msgstr "Автоматическая загрузка не удалась. Выберите действие:"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:310
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1458
@@ -785,7 +785,7 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:765
 #: functions/integrations/newsletter-subscription/admin/newsletter-import-export.php:122
 msgid "Cannot open uploaded file"
-msgstr ""
+msgstr "Невозможно открыть загруженный файл"
 
 #: functions/cpt/cpt-faq.php:141 functions/cpt/cpt-faq.php:269
 msgid "Categories"
@@ -1548,7 +1548,7 @@ msgstr "Категория Документов"
 
 #: templates/content/single-documents.php:36
 msgid "Document download error."
-msgstr ""
+msgstr "Ошибка загрузки документа."
 
 #: templates/content/single-documents.php:228
 msgid "Document file not found."
@@ -1566,7 +1566,7 @@ msgstr "Документ опубликован"
 
 #: templates/content/single-documents.php:64
 msgid "Document ready for download!"
-msgstr ""
+msgstr "Документ готов к загрузке!"
 
 #: functions/cpt/cpt-documents.php:28
 msgid "Document Reverted to Draft"
@@ -1616,7 +1616,7 @@ msgstr "У вас нет учетной записи?"
 
 #: templates/content/single-documents.php:40
 msgid "Download"
-msgstr ""
+msgstr "Скачать"
 
 #: functions/integrations/image-licenses/image-licenses.php:280
 msgid "Download date:"
@@ -1624,7 +1624,7 @@ msgstr "Дата загрузки:"
 
 #: templates/content/single-documents.php:67
 msgid "Download Document"
-msgstr ""
+msgstr "Скачать документ"
 
 #: redux-framework/sample/sections/codeweber/socials.php:153
 #: redux-framework/sample/sections/extensions/users.php:169
@@ -2187,7 +2187,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/cpt-type.php:456
 #, php-format
 msgid "Footer for Archive %s"
-msgstr ""
+msgstr "Футер для Архива %s"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:445
 #, php-format
@@ -2371,7 +2371,7 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:386
 msgid "Full-time"
-msgstr "На постоянной основе"
+msgstr "Полный рабочий день"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:108
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:48
@@ -2548,7 +2548,7 @@ msgstr "Скрыть меню Загрузки"
 
 #: functions/admin/admin_privacy.php:2049
 msgid "Hide from Archive"
-msgstr ""
+msgstr "Скрыть на архивной странице"
 
 #: functions/admin/admin_privacy.php:114
 msgid "Hide from archive"
@@ -3899,12 +3899,12 @@ msgstr "Страница не найдена."
 
 #: functions/cpt/cpt-vacancies.php:536
 msgid "Open"
-msgstr ""
+msgstr "Открыта"
 
 #: templates/content/single-documents.php:43
 #: templates/content/single-documents.php:68
 msgid "Open in Browser"
-msgstr ""
+msgstr "Открыть в браузере"
 
 #: redux-framework/sample-config.php:577
 msgid "Opt 1"
@@ -4418,7 +4418,7 @@ msgstr "Прайс-лист"
 
 #: functions/cpt/cpt-price_list.php:28
 msgid "Price List Archives"
-msgstr ""
+msgstr "Архив Прайс-листов"
 
 #: functions/cpt/cpt-price_list.php:34
 msgid "Price List Attributes"
@@ -4463,7 +4463,7 @@ msgstr "Тарифные планы"
 
 #: functions/cpt/cpt-price_package.php:29
 msgid "Price Package Archives"
-msgstr ""
+msgstr "Архивы Ценовых пакетов"
 
 #: functions/cpt/cpt-price_package.php:35
 msgid "Price Package Attributes"
@@ -4564,7 +4564,7 @@ msgstr "Проекты"
 
 #: functions/cpt/cpt-projects.php:23
 msgid "Projects Archives"
-msgstr ""
+msgstr "Архивы Проектов"
 
 #: functions/cpt/cpt-projects.php:20
 #, fuzzy
@@ -5210,7 +5210,7 @@ msgstr "Услуга"
 
 #: functions/cpt/cpt-services.php:27
 msgid "Service archive"
-msgstr ""
+msgstr "Архив услуг"
 
 #: functions/cpt/cpt-services.php:74 functions/cpt/cpt-services.php:79
 msgid "Service Categories"
@@ -5633,7 +5633,7 @@ msgstr "Сотрудники"
 
 #: functions/cpt/cpt-staff.php:27
 msgid "Staff archive"
-msgstr ""
+msgstr "Архив сотрудников"
 
 #: functions/cpt/cpt-staff.php:28
 msgid "Staff list"

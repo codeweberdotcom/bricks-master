@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 23:36+0000\n"
+"POT-Creation-Date: 2025-10-01 12:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Add Html Block"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:422
+#: functions/cpt/cpt-vacancies.php:426
 msgid "Add Language"
 msgstr ""
 
@@ -311,11 +311,11 @@ msgstr ""
 msgid "Add Project"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:316
+#: functions/cpt/cpt-vacancies.php:323
 msgid "Add Requirement"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:301
+#: functions/cpt/cpt-vacancies.php:308
 msgid "Add Responsibility"
 msgstr ""
 
@@ -323,7 +323,7 @@ msgstr ""
 msgid "Add Service"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:437
+#: functions/cpt/cpt-vacancies.php:441
 msgid "Add Skill"
 msgstr ""
 
@@ -344,7 +344,7 @@ msgstr ""
 msgid "additional CSS classes"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:321
+#: functions/cpt/cpt-vacancies.php:328
 msgid "Additional Information"
 msgstr ""
 
@@ -579,7 +579,7 @@ msgstr ""
 msgid "Archive Template for %s"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:538
+#: functions/cpt/cpt-vacancies.php:540
 msgid "Archived"
 msgstr ""
 
@@ -686,7 +686,7 @@ msgstr ""
 msgid "Basic Usage"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:160
+#: functions/cpt/cpt-vacancies.php:159
 msgid "Basic Vacancy Information"
 msgstr ""
 
@@ -835,7 +835,7 @@ msgstr ""
 msgid "Child Theme Name"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:446
+#: functions/cpt/cpt-vacancies.php:449
 msgid "Chinese (native)"
 msgstr ""
 
@@ -887,7 +887,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:537
+#: functions/cpt/cpt-vacancies.php:539
 msgid "Closed"
 msgstr ""
 
@@ -1000,6 +1000,10 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:107
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:148
 msgid "Confirming your subscription to the newsletter"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:78
+msgid "Connection error"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:245
@@ -1132,7 +1136,12 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:389
+#: functions/integrations/ajax-search-module/ajax-search.php:87
+#: functions/integrations/ajax-search-module/ajax-search.php:246
+msgid "content"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:393
 msgid "Contract"
 msgstr ""
 
@@ -1741,7 +1750,7 @@ msgstr ""
 msgid "Edit Vacancy Type"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:403
+#: functions/cpt/cpt-vacancies.php:407
 msgid "Education / Qualification"
 msgstr ""
 
@@ -1796,7 +1805,7 @@ msgstr ""
 msgid "Email:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:382
+#: functions/cpt/cpt-vacancies.php:386
 msgid "Employment Type"
 msgstr ""
 
@@ -1851,11 +1860,11 @@ msgstr ""
 msgid "Enter recipient email for test:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:310 functions/cpt/cpt-vacancies.php:348
+#: functions/cpt/cpt-vacancies.php:317 functions/cpt/cpt-vacancies.php:353
 msgid "Enter requirement..."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:295 functions/cpt/cpt-vacancies.php:338
+#: functions/cpt/cpt-vacancies.php:302 functions/cpt/cpt-vacancies.php:344
 msgid "Enter responsibility..."
 msgstr ""
 
@@ -2327,7 +2336,7 @@ msgid ""
 "[redux_option key=\"responsible_person\"]"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:386
+#: functions/cpt/cpt-vacancies.php:390
 msgid "Full-time"
 msgstr ""
 
@@ -2806,11 +2815,11 @@ msgstr ""
 msgid "Insufficient permissions for import"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:388
+#: functions/cpt/cpt-vacancies.php:392
 msgid "Internship"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:277
+#: functions/cpt/cpt-vacancies.php:284
 msgid "Introduction / Short Description"
 msgstr ""
 
@@ -2890,7 +2899,7 @@ msgstr ""
 msgid "KPP"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:412
+#: functions/cpt/cpt-vacancies.php:416
 msgid "Languages"
 msgstr ""
 
@@ -3067,6 +3076,10 @@ msgstr ""
 msgid "LinkedIn"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:260
+msgid "LinkedIn URL"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:131
 msgid "List of collected personal data"
 msgstr ""
@@ -3235,7 +3248,7 @@ msgstr ""
 msgid "Method of processing personal data:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:455
+#: functions/cpt/cpt-vacancies.php:457
 msgid "Microsoft Excel"
 msgstr ""
 
@@ -3625,7 +3638,7 @@ msgstr ""
 msgid "no PDF"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:474
+#: functions/cpt/cpt-vacancies.php:476
 msgid "No PDF selected"
 msgstr ""
 
@@ -3657,6 +3670,10 @@ msgstr ""
 msgid "No Privacy Policy page selected by administrator"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/ajax-search.php:79
+msgid "No results found"
+msgstr ""
+
 #: functions/admin/admin_media.php:35
 msgid "No sizes"
 msgstr ""
@@ -3664,6 +3681,10 @@ msgstr ""
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:366
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:357
 msgid "No subscriptions found"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:85
+msgid "No title"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:94
@@ -3819,7 +3840,7 @@ msgstr ""
 msgid "Oops! Page Not Found."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:536
+#: functions/cpt/cpt-vacancies.php:538
 msgid "Open"
 msgstr ""
 
@@ -4048,7 +4069,7 @@ msgstr ""
 msgid "Parent:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:387
+#: functions/cpt/cpt-vacancies.php:391
 msgid "Part-time"
 msgstr ""
 
@@ -4492,7 +4513,7 @@ msgstr ""
 msgid "Public Offer Agreement"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:542
+#: functions/cpt/cpt-vacancies.php:544
 msgid "Publish Date"
 msgstr ""
 
@@ -4548,6 +4569,14 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/ajax-search.php:77
+msgid "Query too short"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:104
+msgid "Query too short. Minimum 3 characters required."
+msgstr ""
+
 #: functions/cpt/cpt-faq.php:665
 msgid "Question button"
 msgstr ""
@@ -4597,8 +4626,8 @@ msgstr ""
 msgid "Registration takes less than a minute."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:297 functions/cpt/cpt-vacancies.php:312
-#: functions/cpt/cpt-vacancies.php:340 functions/cpt/cpt-vacancies.php:350
+#: functions/cpt/cpt-vacancies.php:304 functions/cpt/cpt-vacancies.php:319
+#: functions/cpt/cpt-vacancies.php:346 functions/cpt/cpt-vacancies.php:355
 #: functions/integrations/image-licenses/image-licenses.php:147
 msgid "Remove"
 msgstr ""
@@ -4624,7 +4653,7 @@ msgstr ""
 msgid "Remove featured Image for this staff"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:478
+#: functions/cpt/cpt-vacancies.php:480
 msgid "Remove PDF"
 msgstr ""
 
@@ -4643,8 +4672,7 @@ msgstr ""
 msgid "Required fields in CF7:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:305
-msgctxt "Требования"
+#: functions/cpt/cpt-vacancies.php:312
 msgid "Requirements"
 msgstr ""
 
@@ -4653,12 +4681,24 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:290
+#: functions/cpt/cpt-vacancies.php:297
 msgid "Responsibilities"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:88
 msgid "Responsible Person (Full Name)"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:81
+msgid "result"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:82
+msgid "results_few"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:83
+msgid "results_many"
 msgstr ""
 
 #: functions/admin/admin_privacy.php:1718
@@ -4844,6 +4884,14 @@ msgstr ""
 msgid "Search Vacancy Types"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/ajax-search.php:359
+msgid "Search..."
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:75
+msgid "Searching..."
+msgstr ""
+
 #: redux-framework/sample-config.php:689
 msgid "Section via hook"
 msgstr ""
@@ -4851,6 +4899,11 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/childtheme.php:236
 #: redux-framework/sample/sections/codeweber/childtheme.php:342
 msgid "Security check failed"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:76
+#: functions/integrations/ajax-search-module/ajax-search.php:98
+msgid "Security error"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:687
@@ -4988,7 +5041,7 @@ msgstr ""
 msgid "Select PDF"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:495
+#: functions/cpt/cpt-vacancies.php:497
 #: functions/integrations/image-licenses/image-licenses.php:171
 msgid "Select PDF File"
 msgstr ""
@@ -5028,7 +5081,7 @@ msgstr ""
 msgid "Select the parent theme"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:385
+#: functions/cpt/cpt-vacancies.php:389
 msgid "Select type"
 msgstr ""
 
@@ -5402,7 +5455,7 @@ msgstr ""
 msgid "Site Name"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:427
+#: functions/cpt/cpt-vacancies.php:431
 msgid "Skills"
 msgstr ""
 
@@ -5778,6 +5831,10 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/ajax-search.php:84
+msgid "Taxonomy"
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:18
 msgctxt "taxonomy general name"
 msgid "Licensor Authors"
@@ -6008,6 +6065,11 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/ajax-search.php:86
+#: functions/integrations/ajax-search-module/ajax-search.php:237
+msgid "title"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:232
 #: redux-framework/sample/sections/codeweber/legal.php:293
 #: redux-framework/sample/sections/codeweber/legal.php:353
@@ -6030,6 +6092,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/header.php:317
 msgid "Topbar"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:80
+msgid "Total found"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:67
@@ -6252,7 +6318,7 @@ msgstr ""
 msgid "Upload New Font"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:476
+#: functions/cpt/cpt-vacancies.php:478
 msgid "Upload PDF"
 msgstr ""
 
@@ -6329,11 +6395,11 @@ msgstr ""
 msgid "Use this file"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:497
+#: functions/cpt/cpt-vacancies.php:499
 msgid "Use this PDF"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:547
+#: functions/cpt/cpt-vacancies.php:549
 msgid "Use WordPress publish date"
 msgstr ""
 
@@ -6412,15 +6478,15 @@ msgstr ""
 msgid "Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:178
+#: functions/cpt/cpt-vacancies.php:177
 msgid "Vacancy Attributes"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:169
+#: functions/cpt/cpt-vacancies.php:168
 msgid "Vacancy Content"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:187
+#: functions/cpt/cpt-vacancies.php:186
 msgid "Vacancy PDF File"
 msgstr ""
 
@@ -6428,7 +6494,7 @@ msgstr ""
 msgid "Vacancy published"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:196 functions/cpt/cpt-vacancies.php:533
+#: functions/cpt/cpt-vacancies.php:195 functions/cpt/cpt-vacancies.php:535
 msgid "Vacancy Status"
 msgstr ""
 
@@ -6745,7 +6811,7 @@ msgstr ""
 msgid "Wordpress Register Form"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:395
+#: functions/cpt/cpt-vacancies.php:399
 msgid "Work Experience"
 msgstr ""
 
