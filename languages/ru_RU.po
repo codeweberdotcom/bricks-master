@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-10-01 23:02+0000\n"
+"PO-Revision-Date: 2025-10-02 12:57+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -5548,7 +5548,7 @@ msgstr "Показать колонку \"%s\" "
 
 #: functions/integrations/ajax-search-module/ajax-search.php:39
 msgid "Show all"
-msgstr ""
+msgstr "Показать все"
 
 #: redux-framework/sample/metaboxes.php:358
 #: redux-framework/sample/sections/codeweber/page-header.php:65

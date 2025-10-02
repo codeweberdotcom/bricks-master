@@ -264,10 +264,10 @@ document.addEventListener("DOMContentLoaded", function () {
           const resultItem = document.createElement("a");
           resultItem.href = item.permalink;
           resultItem.className =
-            "search-result-item d-block px-3 text-dark text-decoration-none hover-bg-light";
+            "search-result-item d-block px-3 text-dark text-decoration-none hover-bg-light mb-1 pb-2 position-relative";
 
           let itemHtml = `
-            <div class="mb-1 fw-medium">${
+            <div class="fw-medium">${
               item.title || item.name || ajax_search_params.i18n.no_title
             }</div>
           `;
@@ -407,7 +407,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-
   function showNoResults(searchInput, resultsId) {
     clearResults(resultsId);
 
@@ -466,6 +465,15 @@ style.textContent = `
   }
     .offcanvas:not(.offcanvas-nav) {
   overflow-y: visible;
+}
+
+.search-result-item::after {
+  content: '';
+  background: #e6e6e6;
+  width: 90%;
+  position: absolute;
+  height: 1px;
+  bottom: -2px;
 }
   
   .search-loader-container {

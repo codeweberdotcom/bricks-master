@@ -199,6 +199,43 @@ function handle_ajax_search()
    wp_send_json_success($response);
 }
 
+// Функция для очистки текста от HTML и CSS
+// Улучшенная функция очистки текста от HTML и Гутенберг блоков
+function clean_text_from_html($text)
+{
+   if (empty($text)) {
+      return '';
+   }
+
+   // Удаляем комментарии Гутенберга <!-- wp:html --> и <!-- /wp:html -->
+   $clean_text = preg_replace('/<!--\s*\/?wp:html\s*-->/', '', $text);
+
+   // Удаляем другие комментарии Гутенберга
+   $clean_text = preg_replace('/<!--\s*\/?wp:[^\->]+\s*-->/', '', $clean_text);
+
+   // Удаляем все HTML теги, но сохраняем текст внутри них
+   $clean_text = strip_tags($clean_text);
+
+   // Удаляем CSS стили (содержащие {})
+   $clean_text = preg_replace('/\{[^}]*\}/', '', $clean_text);
+
+   // Удаляем оставшиеся HTML entities
+   $clean_text = html_entity_decode($clean_text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+   // Удаляем специальные HTML символы
+   $clean_text = str_replace(
+      array('&nbsp;', '&amp;', '&quot;', '&lt;', '&gt;', '&#8217;', '&#8216;', '&#8220;', '&#8221;', '&#038;'),
+      array(' ', '&', '"', '<', '>', "'", "'", '"', '"', '&'),
+      $clean_text
+   );
+
+   // Удаляем лишние пробелы, переносы строк и табуляции
+   $clean_text = preg_replace('/\s+/', ' ', $clean_text);
+   $clean_text = trim($clean_text);
+
+   return $clean_text;
+}
+
 function perform_enhanced_search($atts)
 {
    $atts = shortcode_atts(array(
@@ -207,10 +244,15 @@ function perform_enhanced_search($atts)
       'posts_per_page' => 10,
       'taxonomy' => '',
       'term' => '',
-      'include_taxonomies' => 'false',
-      'search_content' => 'false',
-      'show_excerpt' => 'true'
+      'include_taxonomies' => false,
+      'search_content' => false,
+      'show_excerpt' => true
    ), $atts);
+
+   // Приводим к булевым значениям
+   $atts['search_content'] = filter_var($atts['search_content'], FILTER_VALIDATE_BOOLEAN);
+   $atts['show_excerpt'] = filter_var($atts['show_excerpt'], FILTER_VALIDATE_BOOLEAN);
+   $atts['include_taxonomies'] = filter_var($atts['include_taxonomies'], FILTER_VALIDATE_BOOLEAN);
 
    if (empty($atts['keyword'])) {
       return array('all_results' => array());
@@ -270,8 +312,9 @@ function perform_enhanced_search($atts)
 
       $search_conditions[] = "{$wpdb->posts}.post_title LIKE '%" . esc_sql($wpdb->esc_like($atts['keyword'])) . "%'";
 
-      if ($atts['search_content'] === 'true') {
-         $search_conditions[] = "{$wpdb->posts}.post_content LIKE '%" . esc_sql($wpdb->esc_like($atts['keyword'])) . "%'";
+      if ($atts['search_content']) {
+         // Простой способ - убрать только основные Гутенберг комментарии
+         $search_conditions[] = "REPLACE(REPLACE({$wpdb->posts}.post_content, '<!-- wp:html -->', ''), '<!-- /wp:html -->', '') LIKE '%" . esc_sql($wpdb->esc_like($atts['keyword'])) . "%'";
       }
 
       $where .= " AND (" . implode(' OR ', $search_conditions) . ")";
@@ -297,7 +340,7 @@ function perform_enhanced_search($atts)
    $total_found_posts = $total_found_query->found_posts;
 
    $taxonomy_results = array();
-   if ($atts['include_taxonomies'] === 'true') {
+   if ($atts['include_taxonomies']) {
       $taxonomy_results = search_taxonomy_terms_by_name($atts['keyword'], $atts['taxonomy']);
    }
 
@@ -321,22 +364,43 @@ function perform_enhanced_search($atts)
             'permalink' => get_permalink(),
             'found_locations' => array(),
             'excerpts' => array(),
-            'type' => 'post'
+            'type' => $post_type
          );
 
-         if (stripos(get_the_title(), $atts['keyword']) !== false) {
-            $post_info['found_locations'][] = __('title', 'codeweber');
+         // Функция для безопасной подсветки текста
+         $highlight_keyword = function ($text, $keyword) {
+            if (empty($keyword) || empty($text)) {
+               return $text;
+            }
 
-            if ($atts['show_excerpt'] === 'true') {
+            return preg_replace(
+               '/(' . preg_quote($keyword, '/') . ')/i',
+               '<span class="fw-bold fs-15">$1</span>',
+               $text
+            );
+         };
+
+         // Всегда подсвечиваем заголовок, если пост найден
+         $post_info['title'] = $highlight_keyword(get_the_title(), $atts['keyword']);
+
+         // Проверяем где именно найдено совпадение
+         $title_has_match = stripos(get_the_title(), $atts['keyword']) !== false;
+         $content_has_match = $atts['search_content'] && stripos(get_the_content(), $atts['keyword']) !== false;
+
+         if ($title_has_match) {
+            $post_info['found_locations'][] = __('title', 'codeweber');
+            if ($atts['show_excerpt']) {
                $title_excerpt = get_text_excerpt(get_the_title(), $atts['keyword']);
                $post_info['excerpts'][] = $title_excerpt;
             }
          }
 
-         if ($atts['search_content'] === 'true' && stripos(get_the_content(), $atts['keyword']) !== false) {
+         if ($content_has_match) {
             $post_info['found_locations'][] = __('content', 'codeweber');
-            if ($atts['show_excerpt'] === 'true') {
-               $content_excerpt = get_text_excerpt(get_the_content(), $atts['keyword']);
+            if ($atts['show_excerpt']) {
+               // Используем очищенный контент для создания отрывка
+               $clean_content = clean_text_from_html(get_the_content());
+               $content_excerpt = get_text_excerpt($clean_content, $atts['keyword']);
                $post_info['excerpts'][] = $content_excerpt;
             }
          }
@@ -451,25 +515,52 @@ function search_taxonomy_terms_by_name($keyword, $specific_taxonomy = '')
 
 function get_text_excerpt($text, $keyword, $context_length = 50)
 {
-   $keyword_pos = stripos($text, $keyword);
+   // Очищаем текст от HTML перед обработкой
+   $clean_text = clean_text_from_html($text);
+
+   $keyword_pos = stripos($clean_text, $keyword);
 
    if ($keyword_pos === false) {
       return '';
    }
 
    $start = max(0, $keyword_pos - $context_length);
-   $end = min(strlen($text), $keyword_pos + strlen($keyword) + $context_length);
+   $end = min(strlen($clean_text), $keyword_pos + strlen($keyword) + $context_length);
 
-   $excerpt = substr($text, $start, $end - $start);
+   $excerpt = substr($clean_text, $start, $end - $start);
 
+   // Убираем начальные и конечные пробелы, пунктуацию
+   $excerpt = trim($excerpt);
+
+   // Добавляем многоточие только если текст обрезан в начале
    if ($start > 0) {
+      // Находим первое буквенное слово в обрезанном тексте
+      if (preg_match('/[a-zA-Zа-яА-Я0-9]/u', $excerpt)) {
+         $excerpt = '...' . ltrim($excerpt);
+      }
+   }
+
+   // Добавляем многоточие только если текст обрезан в конце
+   if ($end < strlen($clean_text)) {
+      // Находим последнее буквенное слово в обрезанном тексте
+      if (preg_match('/[a-zA-Zа-яА-Я0-9]/u', $excerpt)) {
+         $excerpt = rtrim($excerpt) . '...';
+      }
+   }
+
+   // Убираем возможные знаки вопроса и другие лишние символы в начале/конце
+   $excerpt = preg_replace('/^[^\wа-яА-Я]+/u', '', $excerpt);
+   $excerpt = preg_replace('/[^\wа-яА-Я]+$/u', '', $excerpt);
+
+   // Добавляем многоточия только если они действительно нужны
+   if ($start > 0 && !preg_match('/^\.\.\./', $excerpt)) {
       $excerpt = '...' . $excerpt;
    }
-   if ($end < strlen($text)) {
+   if ($end < strlen($clean_text) && !preg_match('/\.\.\.$/', $excerpt)) {
       $excerpt = $excerpt . '...';
    }
 
-   $excerpt = preg_replace('/(' . preg_quote($keyword, '/') . ')/i', '<mark style="background: yellow; padding: 2px 0;">$1</mark>', $excerpt);
+   $excerpt = preg_replace('/(' . preg_quote($keyword, '/') . ')/i', '<span class="fw-bold">$1</span>', $excerpt);
 
    return $excerpt;
 }
@@ -521,7 +612,7 @@ function ajax_search_css()
    <style>
       .search-results-container {
          display: none;
-         z-index: 999!important;
+         z-index: 999 !important;
       }
 
       .search-results-container:not(:empty) {
@@ -531,7 +622,6 @@ function ajax_search_css()
       .search-result-item:hover {
          background-color: #f8f9fa !important;
       }
-
 
       .hover-bg-light:hover {
          background-color: #f8f9fa !important;
