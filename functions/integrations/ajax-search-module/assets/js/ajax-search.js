@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "search-result-item d-block px-3 text-dark text-decoration-none hover-bg-light mb-1 pb-2 position-relative";
 
           let itemHtml = `
-            <div class="fw-medium">${
+            <div class="fw-medium fs-14">${
               item.title || item.name || ajax_search_params.i18n.no_title
             }</div>
           `;
