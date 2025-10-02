@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-01 21:16+0000\n"
+"POT-Creation-Date: 2025-10-01 21:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -1002,7 +1002,7 @@ msgstr ""
 msgid "Confirming your subscription to the newsletter"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:78
+#: functions/integrations/ajax-search-module/ajax-search.php:27
 msgid "Connection error"
 msgstr ""
 
@@ -1136,11 +1136,11 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:87
+#: functions/integrations/ajax-search-module/ajax-search.php:35
 msgid "Content"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:340
+#: functions/integrations/ajax-search-module/ajax-search.php:284
 msgid "content"
 msgstr ""
 
@@ -2313,7 +2313,7 @@ msgstr ""
 msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:89
+#: functions/integrations/ajax-search-module/ajax-search.php:37
 msgid "Found"
 msgstr ""
 
@@ -3677,7 +3677,7 @@ msgstr ""
 msgid "No Privacy Policy page selected by administrator"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:79
+#: functions/integrations/ajax-search-module/ajax-search.php:28
 msgid "No results found"
 msgstr ""
 
@@ -3690,7 +3690,7 @@ msgstr ""
 msgid "No subscriptions found"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:85
+#: functions/integrations/ajax-search-module/ajax-search.php:33
 msgid "No title"
 msgstr ""
 
@@ -3781,8 +3781,7 @@ msgstr ""
 msgid "Odnoklassniki"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:90
-msgctxt "из"
+#: functions/integrations/ajax-search-module/ajax-search.php:38
 msgid "of"
 msgstr ""
 
@@ -4581,12 +4580,12 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:77
+#: functions/integrations/ajax-search-module/ajax-search.php:26
 msgid "Query too short"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:111
-#: functions/integrations/ajax-search-module/ajax-search.php:163
+#: functions/integrations/ajax-search-module/ajax-search.php:57
+#: functions/integrations/ajax-search-module/ajax-search.php:107
 msgid "Query too short. Minimum 3 characters required."
 msgstr ""
 
@@ -4702,14 +4701,12 @@ msgstr ""
 msgid "Responsible Person (Full Name)"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:81
+#: functions/integrations/ajax-search-module/ajax-search.php:30
+#: functions/integrations/ajax-search-module/ajax-search.php:31
 msgid "result"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/ajax-search.php:82
-#: functions/integrations/ajax-search-module/ajax-search.php:83
-msgid "results"
-msgstr ""
+msgid_plural "results"
+msgstr[0] ""
+msgstr[1] ""
 
 #: functions/admin/admin_privacy.php:1718
 msgid "Return Policy"
@@ -4894,11 +4891,11 @@ msgstr ""
 msgid "Search Vacancy Types"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:484
+#: functions/integrations/ajax-search-module/ajax-search.php:428
 msgid "Search..."
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:75
+#: functions/integrations/ajax-search-module/ajax-search.php:24
 msgid "Searching..."
 msgstr ""
 
@@ -4911,9 +4908,9 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:76
-#: functions/integrations/ajax-search-module/ajax-search.php:105
-#: functions/integrations/ajax-search-module/ajax-search.php:157
+#: functions/integrations/ajax-search-module/ajax-search.php:25
+#: functions/integrations/ajax-search-module/ajax-search.php:51
+#: functions/integrations/ajax-search-module/ajax-search.php:101
 msgid "Security error"
 msgstr ""
 
@@ -5421,7 +5418,7 @@ msgstr ""
 msgid "Show \"%s\" column"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:88
+#: functions/integrations/ajax-search-module/ajax-search.php:36
 msgid "Show all"
 msgstr ""
 
@@ -5846,7 +5843,7 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:84
+#: functions/integrations/ajax-search-module/ajax-search.php:32
 msgid "Taxonomy"
 msgstr ""
 
@@ -6075,13 +6072,13 @@ msgstr ""
 msgid "Tik-Tok"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:86
+#: functions/integrations/ajax-search-module/ajax-search.php:34
 #: redux-framework/sample/sections/codeweber/page-header.php:184
 #: redux-framework/sample/sections/codeweber/repeater.php:32
 msgid "Title"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:331
+#: functions/integrations/ajax-search-module/ajax-search.php:275
 msgid "title"
 msgstr ""
 
@@ -6109,7 +6106,7 @@ msgstr ""
 msgid "Topbar"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:80
+#: functions/integrations/ajax-search-module/ajax-search.php:29
 msgid "Total found"
 msgstr ""
 

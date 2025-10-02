@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-10-01 21:08+0000\n"
+"PO-Revision-Date: 2025-10-01 22:58+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -55,15 +55,15 @@ msgstr "Порядок Элементов"
 
 #: functions/cpt/cpt-services.php:20
 msgid "(e.g. No Service found)"
-msgstr ""
+msgstr "(например, Служба не найдена)"
 
 #: functions/cpt/cpt-staff.php:21
 msgid "(e.g. No Staff found in Trash)"
-msgstr ""
+msgstr "(например, в корзине не найдено ни одного сотрудника)"
 
 #: functions/cpt/cpt-staff.php:20
 msgid "(e.g. No Staff found)"
-msgstr ""
+msgstr "(например, Персонал не найден)"
 
 #: functions/cpt/cpt-faq.php:615
 msgid "1. Basic usage"
@@ -1024,7 +1024,7 @@ msgstr "Подтвержден"
 msgid "Confirming your subscription to the newsletter"
 msgstr "Подтверждение подписки на рассылку"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:78
+#: functions/integrations/ajax-search-module/ajax-search.php:27
 msgid "Connection error"
 msgstr "Ошибка соединения"
 
@@ -1158,8 +1158,11 @@ msgstr "Контакты"
 msgid "Container"
 msgstr "Контейнер"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:87
-#: functions/integrations/ajax-search-module/ajax-search.php:246
+#: functions/integrations/ajax-search-module/ajax-search.php:35
+msgid "Content"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:284
 msgid "content"
 msgstr ""
 
@@ -1561,7 +1564,7 @@ msgstr "Ошибка загрузки документа."
 
 #: templates/content/single-documents.php:218
 msgid "Document file not found."
-msgstr ""
+msgstr "Файл документа не найден."
 
 #: functions/personal-data.php:261
 #: functions/integrations/personal-data/class-consent-cpt.php:298
@@ -2148,7 +2151,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:191
 msgid "Font directory not found"
-msgstr ""
+msgstr "Каталог шрифтов не найден"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:754
 msgid "Font Family Name"
@@ -2345,6 +2348,10 @@ msgstr "Название формы"
 #| msgid "+7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr "Формат +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
+
+#: functions/integrations/ajax-search-module/ajax-search.php:37
+msgid "Found"
+msgstr "Найдено"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:168
 msgid "From Email"
@@ -3556,7 +3563,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/cpt-type.php:258
 #, php-format
 msgid "No custom footers found. You can create one here: %s"
-msgstr ""
+msgstr "Пользовательские футеры не найдены. Вы можете создать их здесь: %s"
 
 #: redux-framework/sample/metaboxes.php:39
 #: redux-framework/sample/sections/codeweber/header.php:44
@@ -3569,34 +3576,34 @@ msgstr "Шаблоны Хедера не найдены. Создайте, пе�
 #: redux-framework/sample/sections/codeweber/cpt-type.php:251
 #, php-format
 msgid "No custom headers found. You can create one here: %s"
-msgstr ""
+msgstr "Пользовательские хедеры не найдены. Вы можете создать их здесь: %s"
 
 #: redux-framework/sample/metaboxes.php:60
 #, php-format
 msgid ""
 "No custom Page Header found. You can create one by visiting the following "
 "link: %s"
-msgstr ""
+msgstr "Пользовательские заголовки не найдены. Вы можете создать их здесь: %s"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:265
 #, php-format
 msgid "No custom page headers found. You can create one here: %s"
-msgstr ""
+msgstr "Пользовательские хедеры не найдены. Вы можете создать их здесь: %s"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:44
 #, php-format
 msgid ""
 "No custom pageheaders found. You can create one by visiting the following "
 "link: %s"
-msgstr ""
+msgstr "Пользовательские заголовки не найдены. Вы можете создать их здесь: %s"
 
 #: functions/integrations/personal-data/class-consent-cpt.php:53
 msgid "No data subjects found in Trash."
-msgstr ""
+msgstr "Субъекты данных в корзине не найдены."
 
 #: functions/integrations/personal-data/class-consent-cpt.php:52
 msgid "No data subjects found."
-msgstr ""
+msgstr "Субъекты данных не найдены."
 
 #: functions/cpt/cpt-documents.php:17
 msgid "No documents found"
@@ -3655,7 +3662,7 @@ msgstr "Не найдено Хедера в корзине"
 
 #: functions/cpt/cpt-html_blocks.php:21
 msgid "No Html Blocks found"
-msgstr ""
+msgstr "Блоки HTML не найдены."
 
 #: functions/cpt/cpt-legal.php:16
 msgid "No Legal documents found"
@@ -3690,19 +3697,19 @@ msgstr ""
 
 #: functions/cpt/cpt-offices.php:22
 msgid "No offices found"
-msgstr ""
+msgstr "Офисы не найдены"
 
 #: functions/cpt/cpt-offices.php:23
 msgid "No offices found in Trash"
-msgstr ""
+msgstr "В корзине не найдено ни одного офиса."
 
 #: functions/cpt/cpt-page-header.php:20
 msgid "No Page Headers found"
-msgstr ""
+msgstr "Заголовки не найдены"
 
 #: functions/cpt/cpt-page-header.php:21
 msgid "No Page Headers found in Trash"
-msgstr ""
+msgstr "Заголовки в корзине не найдены."
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:166
 msgid "No parent themes found"
@@ -3718,19 +3725,19 @@ msgstr "Не выбран PDF"
 
 #: functions/cpt/cpt-price_list.php:21
 msgid "No Price Lists found"
-msgstr ""
+msgstr "Прайс-листы не найдены"
 
 #: functions/cpt/cpt-price_list.php:22
 msgid "No Price Lists found in Trash"
-msgstr ""
+msgstr "В корзине не найдено ни одного прайс-листа."
 
 #: functions/cpt/cpt-price_package.php:22
 msgid "No Price Packages found"
-msgstr ""
+msgstr "Ценовые пакеты не найдены"
 
 #: functions/cpt/cpt-price_package.php:23
 msgid "No Price Packages found in Trash"
-msgstr ""
+msgstr "В корзине не найдено ни одного ценового пакета."
 
 #: functions/integrations/personal-data/class-cf7-consent.php:179
 msgid ""
@@ -3748,7 +3755,7 @@ msgstr ""
 "Страница Политики в отношении обработки персональных данных  не выбрана "
 "администратором"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:79
+#: functions/integrations/ajax-search-module/ajax-search.php:28
 msgid "No results found"
 msgstr "Нет результатов"
 
@@ -3759,9 +3766,9 @@ msgstr ""
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:366
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:357
 msgid "No subscriptions found"
-msgstr ""
+msgstr "Подписки не найдены"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:85
+#: functions/integrations/ajax-search-module/ajax-search.php:33
 msgid "No title"
 msgstr ""
 
@@ -3803,11 +3810,11 @@ msgstr "Нет"
 
 #: functions/integrations/image-licenses/image-licenses.php:65
 msgid "Not found"
-msgstr ""
+msgstr "Не найдено"
 
 #: functions/integrations/image-licenses/image-licenses.php:66
 msgid "Not found in Trash"
-msgstr ""
+msgstr "Не найдено в корзине"
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:149
 msgid "Not generated"
@@ -3851,6 +3858,10 @@ msgstr "Количество подписчиков:"
 #: redux-framework/sample/sections/extensions/users.php:59
 msgid "Odnoklassniki"
 msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:38
+msgid "of"
+msgstr "из"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:286
 msgid "Off"
@@ -4044,11 +4055,11 @@ msgstr "Заголовки"
 
 #: functions/global.php:362
 msgid "Page Not Found"
-msgstr ""
+msgstr "Страница не найдена"
 
 #: functions/breadcrumbs.php:226
 msgid "Page not found"
-msgstr ""
+msgstr "Страница не найдена"
 
 #: redux-framework/sample/sections/codeweber/style.php:86
 msgid "Page-frame"
@@ -4668,11 +4679,12 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:77
+#: functions/integrations/ajax-search-module/ajax-search.php:26
 msgid "Query too short"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:104
+#: functions/integrations/ajax-search-module/ajax-search.php:57
+#: functions/integrations/ajax-search-module/ajax-search.php:107
 msgid "Query too short. Minimum 3 characters required."
 msgstr ""
 
@@ -4778,7 +4790,7 @@ msgstr "Требования"
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:331
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:322
 msgid "Reset"
-msgstr ""
+msgstr "Сброс"
 
 #: functions/cpt/cpt-vacancies.php:297
 msgid "Responsibilities"
@@ -4788,17 +4800,13 @@ msgstr "Обязанности"
 msgid "Responsible Person (Full Name)"
 msgstr "Ответственное лицо (ФИО)"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:81
+#: functions/integrations/ajax-search-module/ajax-search.php:30
+#: functions/integrations/ajax-search-module/ajax-search.php:31
 msgid "result"
-msgstr "результат"
-
-#: functions/integrations/ajax-search-module/ajax-search.php:82
-msgid "results_few"
-msgstr "результата"
-
-#: functions/integrations/ajax-search-module/ajax-search.php:83
-msgid "results_many"
-msgstr "результатов"
+msgid_plural "results"
+msgstr[0] "результат"
+msgstr[1] "результата"
+msgstr[2] "результатов"
 
 #: functions/admin/admin_privacy.php:1718
 msgid "Return Policy"
@@ -4985,11 +4993,11 @@ msgstr "Поиск вакансий"
 msgid "Search Vacancy Types"
 msgstr "Поиск типов вакансий"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:359
+#: functions/integrations/ajax-search-module/ajax-search.php:428
 msgid "Search..."
 msgstr "Поиск..."
 
-#: functions/integrations/ajax-search-module/ajax-search.php:75
+#: functions/integrations/ajax-search-module/ajax-search.php:24
 msgid "Searching..."
 msgstr "Ищем..."
 
@@ -5002,8 +5010,9 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:76
-#: functions/integrations/ajax-search-module/ajax-search.php:98
+#: functions/integrations/ajax-search-module/ajax-search.php:25
+#: functions/integrations/ajax-search-module/ajax-search.php:51
+#: functions/integrations/ajax-search-module/ajax-search.php:101
 msgid "Security error"
 msgstr ""
 
@@ -5524,6 +5533,10 @@ msgstr "Короткий код: [redux_option key=\"text-about-company\"]"
 msgid "Show \"%s\" column"
 msgstr "Показать колонку \"%s\" "
 
+#: functions/integrations/ajax-search-module/ajax-search.php:36
+msgid "Show all"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:358
 #: redux-framework/sample/sections/codeweber/page-header.php:65
 msgid "Sidebar"
@@ -5559,7 +5572,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/cpt-type.php:545
 #: redux-framework/sample/sections/codeweber/cpt-type.php:561
 msgid "Single"
-msgstr ""
+msgstr "Одиночный"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:365
 #, php-format
@@ -5949,7 +5962,7 @@ msgstr "систематизация"
 msgid "Tags"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:84
+#: functions/integrations/ajax-search-module/ajax-search.php:32
 msgid "Taxonomy"
 msgstr ""
 
@@ -6199,13 +6212,13 @@ msgstr ""
 msgid "Tik-Tok"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/ajax-search.php:34
 #: redux-framework/sample/sections/codeweber/page-header.php:184
 #: redux-framework/sample/sections/codeweber/repeater.php:32
 msgid "Title"
 msgstr "Заголовок"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:86
-#: functions/integrations/ajax-search-module/ajax-search.php:237
+#: functions/integrations/ajax-search-module/ajax-search.php:275
 msgid "title"
 msgstr ""
 
@@ -6233,7 +6246,7 @@ msgstr ""
 msgid "Topbar"
 msgstr "ТопХедер"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:80
+#: functions/integrations/ajax-search-module/ajax-search.php:29
 msgid "Total found"
 msgstr "Всего найдено"
 
@@ -6587,7 +6600,7 @@ msgstr "ID Пользователя (если зарегистрирован)"
 #: functions/integrations/personal-data/class-consent-cpt.php:417
 #: functions/integrations/personal-data/class-gdpr-erasure.php:52
 msgid "User not found"
-msgstr ""
+msgstr "Пользователь не найден"
 
 #: functions/admin/admin_user_profil.php:63
 msgid "User Phone"
@@ -7101,14 +7114,14 @@ msgstr "Ваш E-Mail"
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:389
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:390
 msgid "Your Last Name"
-msgstr ""
+msgstr "Ваша Фамилия"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1270
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1271
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:385
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:386
 msgid "Your Name"
-msgstr ""
+msgstr "Ваше Имя"
 
 #: redux-framework/sample/sections/codeweber/socials.php:87
 #: redux-framework/sample/sections/extensions/users.php:103

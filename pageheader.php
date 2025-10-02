@@ -1,9 +1,14 @@
 <?php
 // Проверка, чтобы не выводить заголовок на главной, блоге и 404
-if (!is_front_page() && !is_home() && !is_404()) {
+if (!is_front_page() && !is_404()) {
    global $opt_name;
    $post_type = universal_get_post_type();
    $post_id = get_the_ID();
+
+   // СПЕЦИАЛЬНАЯ ПРОВЕРКА ДЛЯ СТРАНИЦЫ БЛОГА
+   if (is_home()) {
+      $post_type = 'post'; // Принудительно устанавливаем post_type для страницы блога
+   }
 
    $global_pagehaeder_type = Redux::get_option($opt_name, 'global_page_header_type');
    $global_template_pageheader = Redux::get_option($opt_name, 'global_page_header_model');
@@ -19,7 +24,19 @@ if (!is_front_page() && !is_home() && !is_404()) {
    $show_page_header = true;
    $template_pageheader_id = '';
 
-   if (is_single() || is_singular($post_type)) {
+   // СПЕЦИАЛЬНАЯ ОБРАБОТКА ДЛЯ СТРАНИЦЫ БЛОГА
+   if (is_home()) {
+      // Проверяем, не отключен ли заголовок для архива постов
+      if ($archive_pageheader_id === 'disabled') {
+         $show_page_header = false;
+      } elseif (!empty($archive_pageheader_id) && $archive_pageheader_id !== 'default') {
+         $template_pageheader_id = $archive_pageheader_id;
+      } elseif ($global_pagehaeder_type === '2') {
+         $template_pageheader_id = $global_custom_template_pageheader;
+      } else {
+         $template_pageheader_id = '';
+      }
+   } elseif (is_single() || is_singular($post_type)) {
       // Проверяем, не отключен ли заголовок для этого типа записи
       if ($single_pageheader_id === 'disabled') {
          $show_page_header = false;

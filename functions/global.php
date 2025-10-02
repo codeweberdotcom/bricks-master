@@ -297,7 +297,8 @@ function printr($data, $return = false)
  * соответствующий заголовок в указанном формате:
  * - Для одиночных записей и страниц — заголовок записи.
  * - Для архивов категорий, тегов, авторов, дат, таксономий и других архивов — заголовок архива.
- * - Для главной страницы и страницы блога — название сайта.
+ * - Для главной страницы — название сайта.
+ * - Для страницы блога — заголовок страницы блога.
  * - Для страницы поиска — строка поиска.
  * - Для 404 страницы — сообщение об ошибке.
  * - Для архива магазина WooCommerce — заголовок, заданный WooCommerce.
@@ -353,7 +354,13 @@ function universal_title($tag = false, $theme = false)
 		// Убираем тег <span>, если он есть, для архивных страниц
 		$title = strip_tags($title);
 	} elseif (is_home()) {
-		$title = get_bloginfo('name');
+		// Для страницы блога - получаем заголовок страницы блога
+		$blog_page_id = get_option('page_for_posts');
+		if ($blog_page_id) {
+			$title = get_the_title($blog_page_id);
+		} else {
+			$title = __('Blog', 'codeweber');
+		}
 	} elseif (is_front_page()) {
 		$title = get_bloginfo('name');
 	} elseif (is_search()) {
@@ -576,31 +583,37 @@ if (!function_exists('codeweber_posts_pagination')) {
  * 
  * @return string Post type
  */
-function universal_get_post_type() {
-    if (is_singular()) {
-        return get_post_type();
-    } elseif (is_post_type_archive()) {
-        return get_queried_object()->name ?? '';
-    } elseif (is_tax() || is_category() || is_tag()) {
-        $taxonomy = get_queried_object()->taxonomy ?? '';
-        $taxonomy_obj = get_taxonomy($taxonomy);
-        $post_type = $taxonomy_obj->object_type[0] ?? 'post';
-        
-        // Если массив, берем первый элемент
-        if (is_array($post_type)) {
-            $post_type = $post_type[0];
-        }
-        return $post_type;
-    } elseif (is_archive() || is_home() || is_author() || is_date()) {
-        global $wp_query;
-        $post_type = $wp_query->get('post_type') ?? 'post';
-        
-        // Если массив, берем первый элемент
-        if (is_array($post_type)) {
-            $post_type = $post_type[0];
-        }
-        return $post_type;
-    } else {
-        return 'post'; // Значение по умолчанию
-    }
+function universal_get_post_type()
+{
+	// Специальная проверка для страницы блога (главной страницы постов)
+	if (is_home() && !is_front_page()) {
+		return 'post';
+	}
+
+	if (is_singular()) {
+		return get_post_type();
+	} elseif (is_post_type_archive()) {
+		return get_queried_object()->name ?? '';
+	} elseif (is_tax() || is_category() || is_tag()) {
+		$taxonomy = get_queried_object()->taxonomy ?? '';
+		$taxonomy_obj = get_taxonomy($taxonomy);
+		$post_type = $taxonomy_obj->object_type[0] ?? 'post';
+
+		// Если массив, берем первый элемент
+		if (is_array($post_type)) {
+			$post_type = $post_type[0];
+		}
+		return $post_type;
+	} elseif (is_archive() || is_home() || is_author() || is_date()) {
+		global $wp_query;
+		$post_type = $wp_query->get('post_type') ?? 'post';
+
+		// Если массив, берем первый элемент
+		if (is_array($post_type)) {
+			$post_type = $post_type[0];
+		}
+		return $post_type;
+	} else {
+		return 'post'; // Значение по умолчанию
+	}
 }

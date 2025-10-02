@@ -197,12 +197,22 @@ function get_header_posts()
 
 // Основной код
 $custom_post_type_files = get_cpt_files_list(); // Все файлы из обеих тем
+// Добавляем имитацию файлов для стандартных типов записей
+$custom_post_type_files[] = 'cpt-post.php';
+
 $child_cpt_files = get_child_cpt_files_list();  // Только файлы из дочерней темы
 $excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal'];
 
 if (!empty($custom_post_type_files)) {
 	// Фильтруем файлы для генерации переключателей
 	$filtered_for_switches = array_filter($custom_post_type_files, function ($file) use ($excluded_cpt) {
+
+		// Исключаем стандартные типы из переключателей
+		if (str_contains(strtolower($file), 'blog')) {
+			return false;
+		}
+
+
 		foreach ($excluded_cpt as $word) {
 			if (str_contains(strtolower($file), $word)) {
 				return false;
@@ -283,21 +293,35 @@ if (!empty($custom_post_type_files)) {
 		// Формируем ID опции для Redux
 		$option_id = 'cpt_switch_' . sanitize_key($base_name);
 
-		// Проверяем, включен ли этот тип записи
-		$is_enabled = Redux::get_option($opt_name, $option_id);
+		// Для стандартных типов записей (blog и post) принудительно включаем без проверки переключателя
+		if ($file === 'cpt-post.php') {
+			$is_enabled = true;
+		} else {
+			// Проверяем, включен ли этот тип записи для обычных CPT
+			$is_enabled = Redux::get_option($opt_name, $option_id);
+		}
 
 		// Для legal CPT принудительно включаем без проверки переключателя
 		if ($file === 'cpt-legal.php') {
 			$is_enabled = true;
 		}
 
-		// Пропускаем если тип записи отключен и это не WooCommerce
-		if (!$is_enabled && $file !== 'cpt-woocommerce.php') {
+		// Пропускаем если тип записи отключен и это не WooCommerce и не стандартные типы
+		if (!$is_enabled && $file !== 'cpt-woocommerce.php' && $file !== 'cpt-post.php') {
 			continue;
 		}
 
+
+
 		// ОПРЕДЕЛЯЕМ ОТКУДА ФАЙЛ И ВЫБИРАЕМ ПРАВИЛЬНЫЙ ПУТЬ
-		$is_from_child_theme = in_array($file, $child_cpt_files);
+		// Для имитированных файлов используем родительскую тему
+		if ($file === 'cpt-post.php' ) {
+			$is_from_child_theme = false;
+		} else {
+			$is_from_child_theme = in_array($file, $child_cpt_files);
+		}
+
+
 		$theme_directory = $is_from_child_theme
 			? get_stylesheet_directory()  // Путь к дочерней теме
 			: get_template_directory();   // Путь к родительской теме
@@ -307,6 +331,10 @@ if (!empty($custom_post_type_files)) {
 		$display_name = mb_convert_case($display_name, MB_CASE_TITLE, 'UTF-8');
 		$translated_label = __($display_name, 'codeweber');
 		$sanitized_id = sanitize_key($base_name);
+
+
+		// Для стандартных типов убираем выбор шаблонов, оставляем только остальные настройки
+		$is_standard_type = ($file === 'cpt-post.php');
 
 		// ИСПОЛЬЗУЕМ ПРАВИЛЬНЫЙ ПУТЬ ДЛЯ ПОИСКА ШАБЛОНОВ
 		$archive_template_directory = $theme_directory . "/templates/archives/{$display_name}";
