@@ -1,8 +1,58 @@
 <?php
 
 /**
- * AJAX Search Module with proper Russian pluralization
- * Text Domain: codeweber
+ * ИНСТРУКЦИЯ 1: HTML DATA-ПАРАМЕТРЫ ДЛЯ INPUT
+ * 
+ * Базовая структура:
+ * <input type="text" class="search-form form-control" placeholder="Поиск..." autocomplete="off"
+ *        data-posts-per-page="10"
+ *        data-post-types="post,page" 
+ *        data-search-content="false"
+ *        data-taxonomy="category"
+ *        data-term="news"
+ *        data-include-taxonomies="false"
+ *        data-show-excerpt="true">
+ * 
+ * Параметры:
+ * - data-posts-per-page: количество результатов (число, по умолчанию: 10)
+ * - data-post-types: типы записей через запятую (post, page, product) 
+ * - data-search-content: поиск в контенте (true/false, по умолчанию: false)
+ * - data-taxonomy: таксономия для фильтрации (category, post_tag)
+ * - data-term: термин таксономии (news, urgent)  
+ * - data-include-taxonomies: включать таксономии в результаты (true/false)
+ * - data-show-excerpt: показывать отрывки текста (true/false)
+ * 
+ * Примеры:
+ * <input data-posts-per-page="5" data-post-types="product"> - 5 товаров
+ * <input data-search-content="true" data-show-excerpt="true"> - поиск в контенте с отрывками
+ * <input data-taxonomy="category" data-term="news"> - только в категории "news"
+ */
+
+/**
+ * ИНСТРУКЦИЯ 2: ИСПОЛЬЗОВАНИЕ ШОРТКОДА
+ * 
+ * Базовый синтаксис:
+ * [ajax_search_form параметр="значение"]
+ * 
+ * Доступные параметры:
+ * - placeholder: текст в поле (по умолчанию: "Поиск...")
+ * - posts_per_page: количество результатов (число, по умолчанию: 10)  
+ * - post_types: типы записей через запятую (post, page, product)
+ * - search_content: поиск в контенте (true/false, по умолчанию: false)
+ * - taxonomy: таксономия для фильтрации (category, post_tag)
+ * - term: термин таксономии (news, urgent)
+ * - include_taxonomies: включать таксономии (true/false, по умолчанию: false)
+ * - show_excerpt: показывать отрывки (true/false, по умолчанию: true)
+ * - class: CSS классы для стилизации
+ * 
+ * Примеры использования:
+ * [ajax_search_form] - базовая форма
+ * [ajax_search_form placeholder="Поиск товаров..." posts_per_page="8" post_types="product"] - поиск товаров
+ * [ajax_search_form search_content="true" show_excerpt="true"] - поиск в контенте с отрывками
+ * [ajax_search_form taxonomy="category" term="news" include_taxonomies="true"] - с фильтрацией по категории
+ * 
+ * Использование в PHP:
+ * <?php echo do_shortcode('[ajax_search_form placeholder="Поиск..."]'); ?>
  */
 
 add_action('wp_enqueue_scripts', 'enqueue_ajax_search_scripts');
