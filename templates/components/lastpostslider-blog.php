@@ -11,9 +11,9 @@ $myposts = $my_posts->query(array(
    'post_type' => 'post'
 )); ?>
 <h3 class="mb-6"><?php esc_html_e('You Might Also Like', 'codeweber'); ?></h3>
-<div class="swiper-container blog grid-view mb-16 swiper-container-0" data-margin="30" data-nav="false" data-dots="true" data-items-md="2" data-items-xs="1">
-   <div class="swiper swiper-initialized swiper-horizontal swiper-pointer-events">
-      <div class="swiper-wrapper" id="swiper-wrapper-b89a14f97e102ef7d" aria-live="off" style="cursor: grab; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+<div class="swiper-container blog grid-view mb-6" data-margin="30" data-nav="false" data-dots="true" data-items-md="2" data-items-xs="1">
+   <div class="swiper">
+      <div class="swiper-wrapper">
          <?php
          // обрабатываем результат
          foreach ($myposts as $post_single) {
@@ -52,10 +52,6 @@ $myposts = $my_posts->query(array(
          <?php wp_reset_postdata(); ?>
       </div>
       <!--/.swiper-wrapper -->
-      <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
    </div>
    <!-- /.swiper -->
-   <div class="swiper-controls">
-      <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1" aria-current="true"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span></div>
-   </div>
 </div>
