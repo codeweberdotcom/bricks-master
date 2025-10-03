@@ -44,15 +44,17 @@
  * - include_taxonomies: включать таксономии (true/false, по умолчанию: false)
  * - show_excerpt: показывать отрывки (true/false, по умолчанию: true)
  * - class: CSS классы для стилизации
+ * - id: уникальный идентификатор формы (по умолчанию: генерируется автоматически)
  * 
  * Примеры использования:
  * [ajax_search_form] - базовая форма
  * [ajax_search_form placeholder="Поиск товаров..." posts_per_page="8" post_types="product"] - поиск товаров
  * [ajax_search_form search_content="true" show_excerpt="true"] - поиск в контенте с отрывками
  * [ajax_search_form taxonomy="category" term="news" include_taxonomies="true"] - с фильтрацией по категории
+ * [ajax_search_form id="my-search-form" class="custom-class"] - с кастомным ID и классом
  * 
  * Использование в PHP:
- * <?php echo do_shortcode('[ajax_search_form placeholder="Поиск..."]'); ?>
+ * <?php echo do_shortcode('[ajax_search_form placeholder="Поиск..." id="custom-id"]'); ?>
  */
 
 add_action('wp_enqueue_scripts', 'enqueue_ajax_search_scripts');
@@ -577,18 +579,21 @@ function ajax_search_form_shortcode($atts)
       'term' => '',
       'include_taxonomies' => 'false',
       'show_excerpt' => 'true',
-      'class' => ''
+      'class' => '',
+      'id' => '' // Новый параметр для ID формы
    ), $atts);
 
-   $unique_id = uniqid('search-');
+   // Генерируем уникальный ID, если не указан
+   $form_id = !empty($atts['id']) ? esc_attr($atts['id']) : uniqid('search-form-');
+   $input_id = $form_id . '-input';
 
    ob_start();
 ?>
    <div class="position-relative <?php echo esc_attr($atts['class']); ?>">
-      <form class="search-form">
+      <form class="search-form" id="<?php echo $form_id; ?>">
          <input
             type="text"
-            id="<?php echo esc_attr($unique_id); ?>"
+            id="<?php echo $input_id; ?>"
             class="search-form form-control"
             placeholder="<?php echo esc_attr($atts['placeholder']); ?>"
             autocomplete="off"

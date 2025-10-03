@@ -11,7 +11,7 @@ $myposts = $my_posts->query(array(
    'post_type' => 'legal'
 )); ?>
 <h3 class="mb-6"><?php esc_html_e('Other documents', 'codeweber'); ?></h3>
-<div class="swiper-container blog grid-view mb-6" data-margin="15" data-nav="false" data-dots="true" data-items-md="2" data-items-xs="1">
+<div class="swiper-container blog grid-view mb-16" data-margin="15" data-nav="false" data-dots="true" data-items-md="2" data-items-xs="1">
    <div class="swiper">
       <div class="swiper-wrapper">
          <?php

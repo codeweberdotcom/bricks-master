@@ -83,5 +83,11 @@ add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
  */
 require_once get_template_directory() . '/functions/integrations/image-licenses/image-licenses.php';
 
-
+/**
+ * Подключение модуля поиска и статистики
+ */
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/ajax-search.php';
+
+
+
+	require_once get_template_directory() . '/functions/integrations/ajax-search-module/search-statistics.php';

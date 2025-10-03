@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-01 22:59+0000\n"
+"POT-Creation-Date: 2025-10-02 22:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -166,6 +166,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/childtheme.php:204
 #: redux-framework/sample/sections/codeweber/childtheme.php:215
 msgid "Active"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:383
+msgid "Active Filters:"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:397
@@ -430,6 +434,10 @@ msgstr ""
 msgid "All FAQs"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:364
+msgid "All Forms"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:316
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:401
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:307
@@ -552,6 +560,10 @@ msgstr ""
 msgid "Applied!"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:375
+msgid "Apply Filters"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:826
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:969
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:976
@@ -577,6 +589,13 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:540
 msgid "Archived"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:535
+#: functions/integrations/ajax-search-module/search-statistics.php:554
+msgid ""
+"Are you sure you want to delete ALL search statistics data? This action "
+"cannot be undone."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1041
@@ -718,6 +737,10 @@ msgstr ""
 #: functions/integrations/redux_framework/redux_framework.php:99
 #: redux-framework/sample/sections/codeweber/legal.php:154
 msgid "Blocking Data"
+msgstr ""
+
+#: functions/global.php:362
+msgid "Blog"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:288
@@ -862,8 +885,34 @@ msgstr ""
 msgid "City"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:533
+msgid "Clear All Data"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:522
+msgid "Clear Data"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:542
+#: functions/integrations/ajax-search-module/search-statistics.php:592
+msgid "Clear Data (AJAX)"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:376
+msgid "Clear Filters"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:296
 msgid "Clear LOG"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:168
+#: functions/integrations/ajax-search-module/search-statistics.php:567
+msgid "Clearing data..."
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:566
+msgid "Clearing..."
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:11 functions/cpt/cpt-clients.php:23
@@ -1008,7 +1057,7 @@ msgstr ""
 msgid "Confirming your subscription to the newsletter"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:27
+#: functions/integrations/ajax-search-module/ajax-search.php:81
 msgid "Connection error"
 msgstr ""
 
@@ -1142,11 +1191,11 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:38
+#: functions/integrations/ajax-search-module/ajax-search.php:92
 msgid "Content"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:287
+#: functions/integrations/ajax-search-module/ajax-search.php:403
 msgid "content"
 msgstr ""
 
@@ -1192,6 +1241,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:275
 msgid "Could not create theme directory"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:426
+msgid "Count"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/company-details.php:36
@@ -1349,6 +1402,10 @@ msgstr ""
 msgid "Dark Logo"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:169
+msgid "Data cleared successfully"
+msgstr ""
+
 #: functions/personal-data.php:169
 msgid ""
 "Data is formatted with HTML support for line breaks and clickable links."
@@ -1389,6 +1446,10 @@ msgstr ""
 msgid "Data User profil"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:413
+msgid "Database Size"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:138
 msgid "Database Table"
 msgstr ""
@@ -1399,6 +1460,7 @@ msgid "Database table:"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:148
+#: functions/integrations/ajax-search-module/search-statistics.php:464
 msgid "Date"
 msgstr ""
 
@@ -1863,6 +1925,10 @@ msgstr ""
 msgid "Encryption"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:357
+msgid "End Date:"
+msgstr ""
+
 #: functions/user.php:27
 msgid ""
 "Enter a URL or select an image from media library. Image will be resized to "
@@ -1893,8 +1959,23 @@ msgstr ""
 msgid "Enter the user position"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:529
+#: functions/integrations/ajax-search-module/search-statistics.php:558
+msgid "Enter your admin password to confirm:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:984
 msgid "Error applying fonts."
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:91
+#: functions/integrations/ajax-search-module/search-statistics.php:170
+#: functions/integrations/ajax-search-module/search-statistics.php:589
+msgid "Error clearing data"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:235
+msgid "Error clearing data!"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:104
@@ -1944,11 +2025,20 @@ msgstr ""
 msgid "Existing Child Themes"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:516
+msgid "Export current filtered data:"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:509
+msgid "Export Data"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:391
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:382
 msgid "Export Subscriptions"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:517
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:408
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:399
 msgid "Export to CSV"
@@ -2104,6 +2194,10 @@ msgstr ""
 
 #: functions/cpt/cpt-price_package.php:32
 msgid "Filter Price Packages"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:346
+msgid "Filters"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:99
@@ -2294,6 +2388,9 @@ msgstr ""
 msgid "Form Creation Instructions"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:427
+#: functions/integrations/ajax-search-module/search-statistics.php:466
+#: functions/integrations/ajax-search-module/search-statistics.php:672
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:709
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:699
 msgid "Form ID"
@@ -2315,6 +2412,10 @@ msgstr ""
 msgid "Form Title"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:390
+msgid "Form:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/contacts.php:25
 #: redux-framework/sample/sections/codeweber/contacts.php:34
 #: redux-framework/sample/sections/codeweber/contacts.php:42
@@ -2323,7 +2424,7 @@ msgstr ""
 msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:40
+#: functions/integrations/ajax-search-module/ajax-search.php:94
 msgid "Found"
 msgstr ""
 
@@ -2333,6 +2434,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:176
 msgid "From Name"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:386
+msgid "From:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:50
@@ -2412,6 +2517,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:54
 msgid "Google Tag Manager Settings"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:482
+msgid "Guest"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:144
@@ -2702,6 +2811,10 @@ msgstr ""
 msgid "iCloud"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:664
+msgid "ID"
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:328
 #, php-format
 msgid "ID: %s | Type: %s"
@@ -2815,6 +2928,7 @@ msgstr ""
 msgid "Instructions"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:71
 #: redux-framework/sample/sections/codeweber/childtheme.php:241
 #: redux-framework/sample/sections/codeweber/childtheme.php:347
 msgid "Insufficient permissions"
@@ -2871,6 +2985,15 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:738
 #: functions/integrations/newsletter-subscription/admin/newsletter-import-export.php:95
 msgid "Invalid import request"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:83
+#: functions/integrations/ajax-search-module/search-statistics.php:171
+msgid "Invalid password"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:238
+msgid "Invalid password!"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:915
@@ -3451,7 +3574,7 @@ msgstr ""
 msgid "Newsletter Technical Data"
 msgstr ""
 
-#: functions/global.php:556 functions/global.php:560
+#: functions/global.php:563 functions/global.php:567
 #: functions/bootstrap/bootstrap_post-nav.php:17
 msgid "Next"
 msgstr ""
@@ -3593,6 +3716,11 @@ msgstr ""
 msgid "No footers found in Trash"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:365
+#: functions/integrations/ajax-search-module/search-statistics.php:389
+msgid "No Form ID"
+msgstr ""
+
 #: functions/cpt/cpt-header.php:20
 msgid "No headers found"
 msgstr ""
@@ -3687,8 +3815,16 @@ msgstr ""
 msgid "No Privacy Policy page selected by administrator"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:28
+#: functions/integrations/ajax-search-module/search-statistics.php:499
+msgid "No recent searches found"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:82
 msgid "No results found"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:450
+msgid "No search queries found"
 msgstr ""
 
 #: functions/admin/admin_media.php:35
@@ -3700,7 +3836,7 @@ msgstr ""
 msgid "No subscriptions found"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:36
+#: functions/integrations/ajax-search-module/ajax-search.php:90
 msgid "No title"
 msgstr ""
 
@@ -3736,6 +3872,8 @@ msgstr ""
 msgid "None"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:443
+#: functions/integrations/ajax-search-module/search-statistics.php:488
 #: redux-framework/sample/sections/codeweber/header.php:87
 msgid "none"
 msgstr ""
@@ -3791,7 +3929,7 @@ msgstr ""
 msgid "Odnoklassniki"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:41
+#: functions/integrations/ajax-search-module/ajax-search.php:95
 msgid "of"
 msgstr ""
 
@@ -3910,6 +4048,10 @@ msgstr ""
 msgid "Outlook"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:467
+msgid "Page"
+msgstr ""
+
 #: functions/cpt/cpt-page-header.php:11 functions/cpt/cpt-page-header.php:26
 #: redux-framework/sample/sections/codeweber/page-header.php:54
 #: redux-framework/sample/sections/codeweber/style.php:99
@@ -3983,12 +4125,20 @@ msgstr ""
 msgid "Page Headers"
 msgstr ""
 
-#: functions/global.php:362
+#: functions/global.php:369
 msgid "Page Not Found"
 msgstr ""
 
 #: functions/breadcrumbs.php:226
 msgid "Page not found"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:669
+msgid "Page Title"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:668
+msgid "Page URL"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:86
@@ -4313,6 +4463,10 @@ msgid ""
 "must first create the sidebar under Appearance > Widgets."
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:421
+msgid "Popular Search Queries"
+msgstr ""
+
 #: functions/cpt/cpt-vacancies.php:79
 msgid "Popular Vacancy Types"
 msgstr ""
@@ -4356,7 +4510,7 @@ msgstr ""
 msgid "Prev"
 msgstr ""
 
-#: functions/global.php:503 functions/global.php:507
+#: functions/global.php:510 functions/global.php:514
 msgid "Previous"
 msgstr ""
 
@@ -4590,12 +4744,19 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:26
+#: functions/integrations/ajax-search-module/search-statistics.php:425
+#: functions/integrations/ajax-search-module/search-statistics.php:462
+msgid "Query"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/ajax-search.php:80
+#: functions/integrations/ajax-search-module/search-statistics.php:53
+#: functions/integrations/ajax-search-module/search-statistics.php:166
 msgid "Query too short"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:60
-#: functions/integrations/ajax-search-module/ajax-search.php:110
+#: functions/integrations/ajax-search-module/ajax-search.php:114
+#: functions/integrations/ajax-search-module/ajax-search.php:164
 msgid "Query too short. Minimum 3 characters required."
 msgstr ""
 
@@ -4611,6 +4772,10 @@ msgstr ""
 #: templates/content/loop-legal.php:15 templates/content/loop.php:15
 #: templates/archives/legal/legal_1.php:15
 msgid "Read More"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:458
+msgid "Recent Searches"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:133
@@ -4711,13 +4876,21 @@ msgstr ""
 msgid "Responsible Person (Full Name)"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:31
-#: functions/integrations/ajax-search-module/ajax-search.php:32
-#: functions/integrations/ajax-search-module/ajax-search.php:33
+#: functions/integrations/ajax-search-module/ajax-search.php:85
+#: functions/integrations/ajax-search-module/ajax-search.php:86
+#: functions/integrations/ajax-search-module/ajax-search.php:87
 msgid "result"
 msgid_plural "results"
 msgstr[0] ""
 msgstr[1] ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:465
+msgid "Results"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:670
+msgid "Results Count"
+msgstr ""
 
 #: functions/admin/admin_privacy.php:1718
 msgid "Return Policy"
@@ -4812,6 +4985,10 @@ msgstr ""
 msgid "Search Data Subjects"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:671
+msgid "Search Date"
+msgstr ""
+
 #: functions/cpt/cpt-documents.php:16
 msgid "Search Document"
 msgstr ""
@@ -4830,6 +5007,10 @@ msgstr ""
 
 #: functions/cpt/cpt-footer.php:19
 msgid "Search Footers"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:362
+msgid "Search Form:"
 msgstr ""
 
 #: functions/cpt/cpt-header.php:19
@@ -4876,12 +5057,21 @@ msgstr ""
 msgid "Search Projects"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:665
+msgid "Search Query"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:61
+#: functions/integrations/ajax-search-module/search-statistics.php:167
+msgid "Search query saved"
+msgstr ""
+
 #: functions/breadcrumbs.php:224
 #, php-format
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: functions/global.php:360
+#: functions/global.php:367
 #, php-format
 msgid "Search Results for: %s"
 msgstr ""
@@ -4894,6 +5084,23 @@ msgstr ""
 msgid "Search Staff"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:181
+#: functions/integrations/ajax-search-module/search-statistics.php:342
+msgid "Search Statistics"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:89
+msgid "Search statistics cleared successfully"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:233
+msgid "Search statistics data cleared successfully!"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:182
+msgid "Search Stats"
+msgstr ""
+
 #: functions/cpt/cpt-vacancies.php:20
 msgid "Search Vacancy"
 msgstr ""
@@ -4902,11 +5109,11 @@ msgstr ""
 msgid "Search Vacancy Types"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:431
+#: functions/integrations/ajax-search-module/ajax-search.php:576
 msgid "Search..."
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:24
+#: functions/integrations/ajax-search-module/ajax-search.php:78
 msgid "Searching..."
 msgstr ""
 
@@ -4919,9 +5126,12 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:25
-#: functions/integrations/ajax-search-module/ajax-search.php:54
-#: functions/integrations/ajax-search-module/ajax-search.php:104
+#: functions/integrations/ajax-search-module/ajax-search.php:79
+#: functions/integrations/ajax-search-module/ajax-search.php:108
+#: functions/integrations/ajax-search-module/ajax-search.php:158
+#: functions/integrations/ajax-search-module/search-statistics.php:46
+#: functions/integrations/ajax-search-module/search-statistics.php:75
+#: functions/integrations/ajax-search-module/search-statistics.php:165
 msgid "Security error"
 msgstr ""
 
@@ -5293,7 +5503,7 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: functions/global.php:346
+#: functions/global.php:347
 msgid "Shop"
 msgstr ""
 
@@ -5429,7 +5639,7 @@ msgstr ""
 msgid "Show \"%s\" column"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:39
+#: functions/integrations/ajax-search-module/ajax-search.php:93
 msgid "Show all"
 msgstr ""
 
@@ -5611,6 +5821,10 @@ msgstr ""
 
 #: functions/cpt/cpt-staff.php:33
 msgid "Staff updated"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:352
+msgid "Start Date:"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:206
@@ -5854,7 +6068,7 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:35
+#: functions/integrations/ajax-search-module/ajax-search.php:89
 msgid "Taxonomy"
 msgstr ""
 
@@ -6017,6 +6231,12 @@ msgstr ""
 msgid "Theme style"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:524
+msgid ""
+"This action will permanently delete all search statistics data. This cannot "
+"be undone."
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/newsletter-core.php:76
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:802
 msgid "This email is already subscribed to the newsletter."
@@ -6092,13 +6312,13 @@ msgstr ""
 msgid "Tik-Tok"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:37
+#: functions/integrations/ajax-search-module/ajax-search.php:91
 #: redux-framework/sample/sections/codeweber/page-header.php:184
 #: redux-framework/sample/sections/codeweber/repeater.php:32
 msgid "Title"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:278
+#: functions/integrations/ajax-search-module/ajax-search.php:395
 msgid "title"
 msgstr ""
 
@@ -6122,12 +6342,24 @@ msgstr ""
 msgid "to receive informational and promotional newsletters"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:387
+msgid "To:"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:409
+msgid "Today's Searches"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/header.php:317
 msgid "Topbar"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:29
+#: functions/integrations/ajax-search-module/ajax-search.php:83
 msgid "Total found"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:401
+msgid "Total Searches"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:67
@@ -6242,6 +6474,10 @@ msgstr ""
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1220
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:335
 msgid "unique form identifier (required)"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:405
+msgid "Unique Queries"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:325
@@ -6435,8 +6671,13 @@ msgstr ""
 msgid "Use WordPress publish date"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:463
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:261
 msgid "User"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:479
+msgid "User #"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:66
@@ -6467,12 +6708,17 @@ msgstr ""
 msgid "User Consents"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:666
 #: functions/integrations/personal-data/class-consent-cpt.php:383
 msgid "User ID"
 msgstr ""
 
 #: functions/integrations/personal-data/class-consent-cpt.php:132
 msgid "User ID (if registered):"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:667
+msgid "User IP"
 msgstr ""
 
 #: functions/integrations/personal-data/class-consent-cpt.php:417
@@ -6757,6 +7003,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/socials.php:33
 #: redux-framework/sample/sections/extensions/users.php:54
 msgid "Vkontakte"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:524
+msgid "Warning:"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1267

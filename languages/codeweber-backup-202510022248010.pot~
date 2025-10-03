@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-01 21:16+0000\n"
+"POT-Creation-Date: 2025-10-01 22:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -27,22 +27,22 @@ msgid_plural "%d files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:542
+#: redux-framework/sample/sections/codeweber/cpt-type.php:570
 #, php-format
 msgid "%s Footer Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:526
+#: redux-framework/sample/sections/codeweber/cpt-type.php:554
 #, php-format
 msgid "%s Header Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:558
+#: redux-framework/sample/sections/codeweber/cpt-type.php:586
 #, php-format
 msgid "%s Page Header Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:510
+#: redux-framework/sample/sections/codeweber/cpt-type.php:538
 #, php-format
 msgid "%s Sidebar Settings"
 msgstr ""
@@ -73,10 +73,6 @@ msgstr ""
 
 #: functions/cpt/cpt-faq.php:623
 msgid "3. With tags"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:726
-msgid "365"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:627
@@ -567,14 +563,14 @@ msgstr ""
 msgid "Applying..."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:517
-#: redux-framework/sample/sections/codeweber/cpt-type.php:533
-#: redux-framework/sample/sections/codeweber/cpt-type.php:549
-#: redux-framework/sample/sections/codeweber/cpt-type.php:565
+#: redux-framework/sample/sections/codeweber/cpt-type.php:545
+#: redux-framework/sample/sections/codeweber/cpt-type.php:561
+#: redux-framework/sample/sections/codeweber/cpt-type.php:577
+#: redux-framework/sample/sections/codeweber/cpt-type.php:593
 msgid "Archive"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:356
+#: redux-framework/sample/sections/codeweber/cpt-type.php:384
 #, php-format
 msgid "Archive Template for %s"
 msgstr ""
@@ -673,6 +669,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:129
 msgid "Base Page Header Models"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/legal.php:22
+msgid "Basic data"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:139
@@ -805,6 +805,12 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:225
 msgid "Check SMTP Connection"
+msgstr ""
+
+#: functions/bootstrap/bootstrap_share-page.php:222
+#: functions/bootstrap/bootstrap_share-page.php:264
+#, php-format
+msgid "Check this out: %s"
 msgstr ""
 
 #: functions/integrations/personal-data/class-cf7-consent.php:455
@@ -1002,7 +1008,7 @@ msgstr ""
 msgid "Confirming your subscription to the newsletter"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:78
+#: functions/integrations/ajax-search-module/ajax-search.php:27
 msgid "Connection error"
 msgstr ""
 
@@ -1136,11 +1142,11 @@ msgstr ""
 msgid "Container"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:87
+#: functions/integrations/ajax-search-module/ajax-search.php:38
 msgid "Content"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:340
+#: functions/integrations/ajax-search-module/ajax-search.php:287
 msgid "content"
 msgstr ""
 
@@ -1152,11 +1158,15 @@ msgstr ""
 msgid "Cookie Data"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/legal.php:725
+msgid "Cookie Expiration Date"
+msgstr ""
+
 #: functions/admin/admin_privacy.php:1374
 msgid "Cookie Policy"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:769
+#: redux-framework/sample/sections/codeweber/legal.php:768
 msgid "Cookie Scanner"
 msgstr ""
 
@@ -1220,15 +1230,15 @@ msgstr ""
 msgid "Create Custom Page-header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:259
+#: redux-framework/sample/sections/codeweber/cpt-type.php:269
 msgid "Create Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:252
+#: redux-framework/sample/sections/codeweber/cpt-type.php:262
 msgid "Create Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:266
+#: redux-framework/sample/sections/codeweber/cpt-type.php:276
 msgid "Create Page Header"
 msgstr ""
 
@@ -1301,7 +1311,7 @@ msgstr ""
 msgid "Custom Post Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:218
+#: redux-framework/sample/sections/codeweber/cpt-type.php:228
 msgid "Custom Post Types"
 msgstr ""
 
@@ -1309,12 +1319,12 @@ msgstr ""
 msgid "Custom SCSS / Code"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:383
+#: redux-framework/sample/sections/codeweber/cpt-type.php:411
 #, php-format
 msgid "Custom Subtitle for %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:375
+#: redux-framework/sample/sections/codeweber/cpt-type.php:403
 #, php-format
 msgid "Custom Title for %s"
 msgstr ""
@@ -1405,7 +1415,7 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:478
+#: redux-framework/sample/sections/codeweber/cpt-type.php:506
 msgid "Default Page Header"
 msgstr ""
 
@@ -1418,8 +1428,8 @@ msgstr ""
 msgid "Default Subscription Form"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:316
-#: redux-framework/sample/sections/codeweber/cpt-type.php:332
+#: redux-framework/sample/sections/codeweber/cpt-type.php:344
+#: redux-framework/sample/sections/codeweber/cpt-type.php:360
 msgid "Default Template"
 msgstr ""
 
@@ -1475,12 +1485,12 @@ msgid "Disable Sidebar"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:142
-#: redux-framework/sample/sections/codeweber/cpt-type.php:396
-#: redux-framework/sample/sections/codeweber/cpt-type.php:407
+#: redux-framework/sample/sections/codeweber/cpt-type.php:424
+#: redux-framework/sample/sections/codeweber/cpt-type.php:435
 msgid "Disabled"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:477
+#: redux-framework/sample/sections/codeweber/cpt-type.php:505
 msgid "Disabled - Hide Page Header"
 msgstr ""
 
@@ -2161,12 +2171,12 @@ msgstr ""
 msgid "Footer Bootombar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:456
+#: redux-framework/sample/sections/codeweber/cpt-type.php:484
 #, php-format
 msgid "Footer for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:445
+#: redux-framework/sample/sections/codeweber/cpt-type.php:473
 #, php-format
 msgid "Footer for Single %s"
 msgstr ""
@@ -2313,8 +2323,7 @@ msgstr ""
 msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:89
-msgctxt "Найдено"
+#: functions/integrations/ajax-search-module/ajax-search.php:40
 msgid "Found"
 msgstr ""
 
@@ -2423,12 +2432,12 @@ msgstr ""
 msgid "Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:430
+#: redux-framework/sample/sections/codeweber/cpt-type.php:458
 #, php-format
 msgid "Header for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:419
+#: redux-framework/sample/sections/codeweber/cpt-type.php:447
 #, php-format
 msgid "Header for Single %s"
 msgstr ""
@@ -2939,8 +2948,8 @@ msgstr ""
 msgid "Leave a comment"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:395
-#: redux-framework/sample/sections/codeweber/cpt-type.php:406
+#: redux-framework/sample/sections/codeweber/cpt-type.php:423
+#: redux-framework/sample/sections/codeweber/cpt-type.php:434
 #: redux-framework/sample/sections/codeweber/page-header.php:103
 #: redux-framework/sample/sections/codeweber/page-header.php:295
 msgid "Left"
@@ -3492,7 +3501,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:258
+#: redux-framework/sample/sections/codeweber/cpt-type.php:268
 #, php-format
 msgid "No custom footers found. You can create one here: %s"
 msgstr ""
@@ -3505,7 +3514,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:251
+#: redux-framework/sample/sections/codeweber/cpt-type.php:261
 #, php-format
 msgid "No custom headers found. You can create one here: %s"
 msgstr ""
@@ -3517,7 +3526,7 @@ msgid ""
 "link: %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:265
+#: redux-framework/sample/sections/codeweber/cpt-type.php:275
 #, php-format
 msgid "No custom page headers found. You can create one here: %s"
 msgstr ""
@@ -3678,7 +3687,7 @@ msgstr ""
 msgid "No Privacy Policy page selected by administrator"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:79
+#: functions/integrations/ajax-search-module/ajax-search.php:28
 msgid "No results found"
 msgstr ""
 
@@ -3691,7 +3700,7 @@ msgstr ""
 msgid "No subscriptions found"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:85
+#: functions/integrations/ajax-search-module/ajax-search.php:36
 msgid "No title"
 msgstr ""
 
@@ -3782,8 +3791,7 @@ msgstr ""
 msgid "Odnoklassniki"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:90
-msgctxt "из"
+#: functions/integrations/ajax-search-module/ajax-search.php:41
 msgid "of"
 msgstr ""
 
@@ -3917,12 +3925,12 @@ msgstr ""
 msgid "Page Header Background Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:499
+#: redux-framework/sample/sections/codeweber/cpt-type.php:527
 #, php-format
 msgid "Page Header for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:491
+#: redux-framework/sample/sections/codeweber/cpt-type.php:519
 #, php-format
 msgid "Page Header for Single %s"
 msgstr ""
@@ -4582,12 +4590,12 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:77
+#: functions/integrations/ajax-search-module/ajax-search.php:26
 msgid "Query too short"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:111
-#: functions/integrations/ajax-search-module/ajax-search.php:163
+#: functions/integrations/ajax-search-module/ajax-search.php:60
+#: functions/integrations/ajax-search-module/ajax-search.php:110
 msgid "Query too short. Minimum 3 characters required."
 msgstr ""
 
@@ -4703,14 +4711,13 @@ msgstr ""
 msgid "Responsible Person (Full Name)"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:81
+#: functions/integrations/ajax-search-module/ajax-search.php:31
+#: functions/integrations/ajax-search-module/ajax-search.php:32
+#: functions/integrations/ajax-search-module/ajax-search.php:33
 msgid "result"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/ajax-search.php:82
-#: functions/integrations/ajax-search-module/ajax-search.php:83
-msgid "results"
-msgstr ""
+msgid_plural "results"
+msgstr[0] ""
+msgstr[1] ""
 
 #: functions/admin/admin_privacy.php:1718
 msgid "Return Policy"
@@ -4722,8 +4729,8 @@ msgstr ""
 msgid "Revision"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:397
-#: redux-framework/sample/sections/codeweber/cpt-type.php:408
+#: redux-framework/sample/sections/codeweber/cpt-type.php:425
+#: redux-framework/sample/sections/codeweber/cpt-type.php:436
 #: redux-framework/sample/sections/codeweber/page-header.php:105
 #: redux-framework/sample/sections/codeweber/page-header.php:297
 msgid "Right"
@@ -4779,12 +4786,12 @@ msgstr ""
 msgid "says:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:771
+#: redux-framework/sample/sections/codeweber/legal.php:770
 msgid "Scan and display browser cookies."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:777
-#: redux-framework/sample/sections/codeweber/legal.php:780
+#: redux-framework/sample/sections/codeweber/legal.php:776
+#: redux-framework/sample/sections/codeweber/legal.php:779
 msgid "Scan Frontend Cookies"
 msgstr ""
 
@@ -4895,11 +4902,11 @@ msgstr ""
 msgid "Search Vacancy Types"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:484
+#: functions/integrations/ajax-search-module/ajax-search.php:431
 msgid "Search..."
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:75
+#: functions/integrations/ajax-search-module/ajax-search.php:24
 msgid "Searching..."
 msgstr ""
 
@@ -4912,9 +4919,9 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:76
-#: functions/integrations/ajax-search-module/ajax-search.php:105
-#: functions/integrations/ajax-search-module/ajax-search.php:157
+#: functions/integrations/ajax-search-module/ajax-search.php:25
+#: functions/integrations/ajax-search-module/ajax-search.php:54
+#: functions/integrations/ajax-search-module/ajax-search.php:104
 msgid "Security error"
 msgstr ""
 
@@ -4961,7 +4968,7 @@ msgstr ""
 msgid "Select Footer Background Solid Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:261
+#: redux-framework/sample/sections/codeweber/cpt-type.php:271
 msgid "Select footer from available options"
 msgstr ""
 
@@ -4990,7 +4997,7 @@ msgstr ""
 msgid "Select Header Background Solid Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:254
+#: redux-framework/sample/sections/codeweber/cpt-type.php:264
 msgid "Select header from available options"
 msgstr ""
 
@@ -5028,7 +5035,7 @@ msgstr ""
 msgid "Select Page Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:268
+#: redux-framework/sample/sections/codeweber/cpt-type.php:278
 msgid "Select page header from available options"
 msgstr ""
 
@@ -5081,11 +5088,11 @@ msgstr ""
 msgid "Select Solid Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:357
+#: redux-framework/sample/sections/codeweber/cpt-type.php:385
 msgid "Select template for archive page"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:366
+#: redux-framework/sample/sections/codeweber/cpt-type.php:394
 msgid "Select template for single page"
 msgstr ""
 
@@ -5251,7 +5258,7 @@ msgstr ""
 msgid "Settings Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:221
+#: redux-framework/sample/sections/codeweber/cpt-type.php:231
 msgid "Settings for custom post types."
 msgstr ""
 
@@ -5422,7 +5429,7 @@ msgstr ""
 msgid "Show \"%s\" column"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:88
+#: functions/integrations/ajax-search-module/ajax-search.php:39
 msgid "Show all"
 msgstr ""
 
@@ -5431,12 +5438,12 @@ msgstr ""
 msgid "Sidebar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:404
+#: redux-framework/sample/sections/codeweber/cpt-type.php:432
 #, php-format
 msgid "Sidebar Position for Archive %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:393
+#: redux-framework/sample/sections/codeweber/cpt-type.php:421
 #, php-format
 msgid "Sidebar Position for Single %s"
 msgstr ""
@@ -5454,14 +5461,14 @@ msgstr ""
 msgid "Signal"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:513
-#: redux-framework/sample/sections/codeweber/cpt-type.php:529
-#: redux-framework/sample/sections/codeweber/cpt-type.php:545
-#: redux-framework/sample/sections/codeweber/cpt-type.php:561
+#: redux-framework/sample/sections/codeweber/cpt-type.php:541
+#: redux-framework/sample/sections/codeweber/cpt-type.php:557
+#: redux-framework/sample/sections/codeweber/cpt-type.php:573
+#: redux-framework/sample/sections/codeweber/cpt-type.php:589
 msgid "Single"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:365
+#: redux-framework/sample/sections/codeweber/cpt-type.php:393
 #, php-format
 msgid "Single Template for %s"
 msgstr ""
@@ -5847,7 +5854,7 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:84
+#: functions/integrations/ajax-search-module/ajax-search.php:35
 msgid "Taxonomy"
 msgstr ""
 
@@ -6071,18 +6078,27 @@ msgstr ""
 msgid "This section includes all user consents stored in the system."
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/legal.php:737
+msgid ""
+"This website uses cookies to ensure its uninterrupted operation and to "
+"remember selected settings, as well as analytics tools (Yandex.Metrica). By "
+"continuing to use the site, you confirm your consent to the processing and "
+"use of cookies in your browser in accordance with the <a href=\"[url_cookie-"
+"policy]\">Cookie Usage Policy</a>"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/socials.php:81
 #: redux-framework/sample/sections/extensions/users.php:97
 msgid "Tik-Tok"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:86
+#: functions/integrations/ajax-search-module/ajax-search.php:37
 #: redux-framework/sample/sections/codeweber/page-header.php:184
 #: redux-framework/sample/sections/codeweber/repeater.php:32
 msgid "Title"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:331
+#: functions/integrations/ajax-search-module/ajax-search.php:278
 msgid "title"
 msgstr ""
 
@@ -6110,7 +6126,7 @@ msgstr ""
 msgid "Topbar"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:80
+#: functions/integrations/ajax-search-module/ajax-search.php:29
 msgid "Total found"
 msgstr ""
 
@@ -6767,7 +6783,7 @@ msgstr ""
 msgid "WeChat"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:737
+#: redux-framework/sample/sections/codeweber/legal.php:736
 msgid "Welcome Text Cookie Banner"
 msgstr ""
 
@@ -6992,30 +7008,6 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:118
 msgid "Zoom level of the map"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:738
-msgid ""
-"На данном сайте используются файлы «cookies» для обеспечения его "
-"бесперебойной работы и для запоминания выбранных настроек, а также "
-"инструменты аналитики (Яндекс.Метрика). Продолжая работу с сайтом, Вы "
-"подтверждаете свое согласие на обработку и использование «cookies» Вашего "
-"браузера в соответствии с <a href=\"[url_cookie-policy]\")>Политикой в "
-"отношении использования файлов Куки(Сookie)</a>"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:22
-msgid "Основные данные"
-msgstr ""
-
-#: functions/bootstrap/bootstrap_share-page.php:222
-#: functions/bootstrap/bootstrap_share-page.php:264
-#, php-format
-msgid "Посмотрите: %s"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:725
-msgid "Сookie Expiration Date"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:557
