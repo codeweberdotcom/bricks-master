@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-10-01 21:32+0000\n"
+"PO-Revision-Date: 2025-10-02 23:01+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -28,23 +28,23 @@ msgstr[0] "%d файл"
 msgstr[1] "%d файла"
 msgstr[2] "%d файлов"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:542
+#: redux-framework/sample/sections/codeweber/cpt-type.php:570
 #, php-format
 msgid "%s Footer Settings"
 msgstr "%s Настройки Футера"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:526
+#: redux-framework/sample/sections/codeweber/cpt-type.php:554
 #, php-format
 msgid "%s Header Settings"
 msgstr "%s Настройки Хедера"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:558
+#: redux-framework/sample/sections/codeweber/cpt-type.php:586
 #, php-format
 #| msgid "%s Single Header Settings"
 msgid "%s Page Header Settings"
 msgstr "Настройки Заголовка Записи %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:510
+#: redux-framework/sample/sections/codeweber/cpt-type.php:538
 #, php-format
 msgid "%s Sidebar Settings"
 msgstr "%s Настройки Сайдбара"
@@ -55,15 +55,15 @@ msgstr "Порядок Элементов"
 
 #: functions/cpt/cpt-services.php:20
 msgid "(e.g. No Service found)"
-msgstr ""
+msgstr "(например, Служба не найдена)"
 
 #: functions/cpt/cpt-staff.php:21
 msgid "(e.g. No Staff found in Trash)"
-msgstr ""
+msgstr "(например, в корзине не найдено ни одного сотрудника)"
 
 #: functions/cpt/cpt-staff.php:20
 msgid "(e.g. No Staff found)"
-msgstr ""
+msgstr "(например, Персонал не найден)"
 
 #: functions/cpt/cpt-faq.php:615
 msgid "1. Basic usage"
@@ -76,10 +76,6 @@ msgstr "2. Конкретная категория"
 #: functions/cpt/cpt-faq.php:623
 msgid "3. With tags"
 msgstr "3. С тегами"
-
-#: redux-framework/sample/sections/codeweber/legal.php:726
-msgid "365"
-msgstr "365"
 
 #: functions/cpt/cpt-faq.php:627
 msgid "4. Sort by title"
@@ -177,6 +173,10 @@ msgstr "Активация..."
 #: redux-framework/sample/sections/codeweber/childtheme.php:215
 msgid "Active"
 msgstr "Автивно"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:383
+msgid "Active Filters:"
+msgstr "Активные фильтры:"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:397
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:388
@@ -379,7 +379,7 @@ msgstr "Адрес"
 
 #: redux-framework/sample-config.php:480
 msgid "Advanced Features"
-msgstr ""
+msgstr "Расширенные функции"
 
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:429
 msgid ""
@@ -418,7 +418,7 @@ msgstr "Ошибка AJAX:"
 
 #: functions/cpt/cpt-faq.php:225
 msgid "All Categories"
-msgstr ""
+msgstr "Все категории"
 
 #: functions/cpt/cpt-clients.php:13
 msgid "All Clients"
@@ -444,6 +444,10 @@ msgstr "Все теги FAQ"
 msgid "All FAQs"
 msgstr "Все FAQ"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:364
+msgid "All Forms"
+msgstr "Все формы"
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:316
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:401
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:307
@@ -453,7 +457,7 @@ msgstr "Все формы"
 
 #: functions/cpt/cpt-html_blocks.php:13
 msgid "All Html Blocks"
-msgstr ""
+msgstr "Все блоки HTML"
 
 #: functions/cpt/cpt-legal.php:9
 msgid "All Legal"
@@ -482,7 +486,7 @@ msgstr "Все статьи"
 
 #: functions/cpt/cpt-price_list.php:13
 msgid "All Price Lists"
-msgstr ""
+msgstr "Все прайс-листы"
 
 #: functions/cpt/cpt-price_package.php:14
 msgid "All Price Packages"
@@ -531,7 +535,7 @@ msgstr "У вас уже есть аккаунт?"
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:439
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:797
 msgid "An error occurred. Please try again later."
-msgstr ""
+msgstr "Произошла ошибка. Повторите попытку позже."
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:260
 msgid "Anonymous"
@@ -539,7 +543,7 @@ msgstr ""
 
 #: functions/cpt/cpt-faq.php:666
 msgid "Answer container"
-msgstr ""
+msgstr "Контейнер Ответа"
 
 #: functions/cpt/cpt-faq.php:667
 msgid "Answer content"
@@ -566,6 +570,10 @@ msgstr "URL-адрес Вакансии"
 msgid "Applied!"
 msgstr "Применено!"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:375
+msgid "Apply Filters"
+msgstr "Применить фильтры"
+
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:826
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:969
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:976
@@ -577,14 +585,14 @@ msgstr "Применить выбранные шрифты"
 msgid "Applying..."
 msgstr "Применение..."
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:517
-#: redux-framework/sample/sections/codeweber/cpt-type.php:533
-#: redux-framework/sample/sections/codeweber/cpt-type.php:549
-#: redux-framework/sample/sections/codeweber/cpt-type.php:565
+#: redux-framework/sample/sections/codeweber/cpt-type.php:545
+#: redux-framework/sample/sections/codeweber/cpt-type.php:561
+#: redux-framework/sample/sections/codeweber/cpt-type.php:577
+#: redux-framework/sample/sections/codeweber/cpt-type.php:593
 msgid "Archive"
 msgstr "Архив"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:356
+#: redux-framework/sample/sections/codeweber/cpt-type.php:384
 #, php-format
 msgid "Archive Template for %s"
 msgstr "Шаблон Архива для %s"
@@ -592,6 +600,15 @@ msgstr "Шаблон Архива для %s"
 #: functions/cpt/cpt-vacancies.php:540
 msgid "Archived"
 msgstr "В архиве"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:535
+#: functions/integrations/ajax-search-module/search-statistics.php:554
+msgid ""
+"Are you sure you want to delete ALL search statistics data? This action "
+"cannot be undone."
+msgstr ""
+"Вы уверены, что хотите удалить ВСЕ данные статистики поиска? Это действие не "
+"может быть отменено."
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1041
 msgid "Are you sure you want to delete this font?"
@@ -687,6 +704,10 @@ msgstr "Базовые типы Хедера"
 msgid "Base Page Header Models"
 msgstr "Базовые Типы Заголовков"
 
+#: redux-framework/sample/sections/codeweber/legal.php:22
+msgid "Basic data"
+msgstr "Основные данные"
+
 #: redux-framework/sample/metaboxes.php:139
 #: redux-framework/sample/metaboxes.php:150
 #: redux-framework/sample/metaboxes.php:202
@@ -731,6 +752,10 @@ msgstr "БИК"
 #: redux-framework/sample/sections/codeweber/legal.php:154
 msgid "Blocking Data"
 msgstr "блокирование"
+
+#: functions/global.php:362
+msgid "Blog"
+msgstr "Блог"
 
 #: redux-framework/sample/sections/codeweber/footer.php:288
 msgid "Bottombar"
@@ -822,6 +847,12 @@ msgstr "По центру"
 msgid "Check SMTP Connection"
 msgstr "Проверьте SMTP-соединение"
 
+#: functions/bootstrap/bootstrap_share-page.php:222
+#: functions/bootstrap/bootstrap_share-page.php:264
+#, php-format
+msgid "Check this out: %s"
+msgstr ""
+
 #: functions/integrations/personal-data/class-cf7-consent.php:455
 msgid "Checkbox for Consent"
 msgstr "Чекбокс для Согласия"
@@ -871,9 +902,35 @@ msgstr "Выбирите из популярных типов вакансий"
 msgid "City"
 msgstr "Город"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:533
+msgid "Clear All Data"
+msgstr "Очистить все данные"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:522
+msgid "Clear Data"
+msgstr "Очистить данные"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:542
+#: functions/integrations/ajax-search-module/search-statistics.php:592
+msgid "Clear Data (AJAX)"
+msgstr "Очистить данные (AJAX)"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:376
+msgid "Clear Filters"
+msgstr "Очистить фильтры"
+
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:296
 msgid "Clear LOG"
 msgstr "Очистить Лог"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:168
+#: functions/integrations/ajax-search-module/search-statistics.php:567
+msgid "Clearing data..."
+msgstr "Очистка данных..."
+
+#: functions/integrations/ajax-search-module/search-statistics.php:566
+msgid "Clearing..."
+msgstr "Очистка..."
 
 #: functions/cpt/cpt-clients.php:11 functions/cpt/cpt-clients.php:23
 msgid "Client"
@@ -1024,7 +1081,7 @@ msgstr "Подтвержден"
 msgid "Confirming your subscription to the newsletter"
 msgstr "Подтверждение подписки на рассылку"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:78
+#: functions/integrations/ajax-search-module/ajax-search.php:81
 msgid "Connection error"
 msgstr "Ошибка соединения"
 
@@ -1158,11 +1215,11 @@ msgstr "Контакты"
 msgid "Container"
 msgstr "Контейнер"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:87
+#: functions/integrations/ajax-search-module/ajax-search.php:92
 msgid "Content"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:340
+#: functions/integrations/ajax-search-module/ajax-search.php:403
 msgid "content"
 msgstr ""
 
@@ -1174,11 +1231,17 @@ msgstr "Трудовой договор"
 msgid "Cookie Data"
 msgstr "Cookie Данные"
 
+#: redux-framework/sample/sections/codeweber/legal.php:725
+#, fuzzy
+#| msgid "Сookie Expiration Date"
+msgid "Cookie Expiration Date"
+msgstr "Срок действия Cookie-файла*"
+
 #: functions/admin/admin_privacy.php:1374
 msgid "Cookie Policy"
 msgstr "Политика в отношении использования файлов Куки(Сookie)"
 
-#: redux-framework/sample/sections/codeweber/legal.php:769
+#: redux-framework/sample/sections/codeweber/legal.php:768
 msgid "Cookie Scanner"
 msgstr "Cookie Сканер"
 
@@ -1205,6 +1268,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/childtheme.php:275
 msgid "Could not create theme directory"
 msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:426
+msgid "Count"
+msgstr "Количество"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:36
 #: redux-framework/sample/sections/codeweber/company-details.php:98
@@ -1242,15 +1309,15 @@ msgstr "Создать Пользовательский Заголовок"
 msgid "Create Custom Page-header"
 msgstr "Создать Пользовательский Заголовок"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:259
+#: redux-framework/sample/sections/codeweber/cpt-type.php:269
 msgid "Create Footer"
 msgstr "Создать Футер"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:252
+#: redux-framework/sample/sections/codeweber/cpt-type.php:262
 msgid "Create Header"
 msgstr "Создать Хедер"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:266
+#: redux-framework/sample/sections/codeweber/cpt-type.php:276
 msgid "Create Page Header"
 msgstr "Создать Заголовок"
 
@@ -1288,7 +1355,7 @@ msgstr "CSV Импорт"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1095
 msgid "Current Fonts"
-msgstr ""
+msgstr "Текущие шрифты"
 
 #: functions/integrations/personal-data/class-cf7-consent.php:697
 #: functions/integrations/personal-data/class-consent-manager.php:98
@@ -1313,7 +1380,7 @@ msgstr "Загрузка пользовательских шрифтов"
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1309
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:424
 msgid "Custom form fields"
-msgstr ""
+msgstr "Пользовательские поля формы"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:115
 msgid "Custom Page-Header"
@@ -1323,7 +1390,7 @@ msgstr "Пользовательский Заголовок"
 msgid "Custom Post Type"
 msgstr "Тип Записи"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:218
+#: redux-framework/sample/sections/codeweber/cpt-type.php:228
 msgid "Custom Post Types"
 msgstr "Типы Записи"
 
@@ -1331,19 +1398,19 @@ msgstr "Типы Записи"
 msgid "Custom SCSS / Code"
 msgstr "Пользовательский SCSS / Код"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:383
+#: redux-framework/sample/sections/codeweber/cpt-type.php:411
 #, php-format
 msgid "Custom Subtitle for %s"
-msgstr ""
+msgstr "Пользовательский Субтайтл для %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:375
+#: redux-framework/sample/sections/codeweber/cpt-type.php:403
 #, php-format
 msgid "Custom Title for %s"
 msgstr "Свой заголовок для %s"
 
 #: redux-framework/sample-config.php:572
 msgid "Customizer Only Option"
-msgstr ""
+msgstr "Только для Кастомайзера"
 
 #: redux-framework/sample/sections/codeweber/api.php:16
 msgid "DaDaTa Settings"
@@ -1360,6 +1427,10 @@ msgstr "Темный"
 #: redux-framework/sample/sections/codeweber/style.php:48
 msgid "Dark Logo"
 msgstr "Темный Логотип"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:169
+msgid "Data cleared successfully"
+msgstr "Данные успешно удалены"
 
 #: functions/personal-data.php:169
 msgid ""
@@ -1399,7 +1470,11 @@ msgstr ""
 
 #: functions/admin/admin_user_profil.php:84
 msgid "Data User profil"
-msgstr ""
+msgstr "Данные Профиль пользователя"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:413
+msgid "Database Size"
+msgstr "Размер базы данных"
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:138
 msgid "Database Table"
@@ -1411,6 +1486,7 @@ msgid "Database table:"
 msgstr "Таблица базы данных:"
 
 #: functions/cpt/cpt-faq.php:148
+#: functions/integrations/ajax-search-module/search-statistics.php:464
 msgid "Date"
 msgstr "Дата"
 
@@ -1429,7 +1505,7 @@ msgstr ""
 msgid "Default"
 msgstr "Стандартный"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:478
+#: redux-framework/sample/sections/codeweber/cpt-type.php:506
 msgid "Default Page Header"
 msgstr "Заголовок по умолчанию"
 
@@ -1442,8 +1518,8 @@ msgstr ""
 msgid "Default Subscription Form"
 msgstr "Форма подписки по умолчанию"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:316
-#: redux-framework/sample/sections/codeweber/cpt-type.php:332
+#: redux-framework/sample/sections/codeweber/cpt-type.php:344
+#: redux-framework/sample/sections/codeweber/cpt-type.php:360
 msgid "Default Template"
 msgstr ""
 
@@ -1499,12 +1575,12 @@ msgid "Disable Sidebar"
 msgstr "Выключить Сайдбар"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:142
-#: redux-framework/sample/sections/codeweber/cpt-type.php:396
-#: redux-framework/sample/sections/codeweber/cpt-type.php:407
+#: redux-framework/sample/sections/codeweber/cpt-type.php:424
+#: redux-framework/sample/sections/codeweber/cpt-type.php:435
 msgid "Disabled"
 msgstr "Отключено"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:477
+#: redux-framework/sample/sections/codeweber/cpt-type.php:505
 msgid "Disabled - Hide Page Header"
 msgstr "Отключено - Скрыть заголовок страницы"
 
@@ -1564,7 +1640,7 @@ msgstr "Ошибка загрузки документа."
 
 #: templates/content/single-documents.php:218
 msgid "Document file not found."
-msgstr ""
+msgstr "Файл документа не найден."
 
 #: functions/personal-data.php:261
 #: functions/integrations/personal-data/class-consent-cpt.php:298
@@ -1882,6 +1958,10 @@ msgstr "Включено"
 msgid "Encryption"
 msgstr "Шифрование"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:357
+msgid "End Date:"
+msgstr "Дата окончания:"
+
 #: functions/user.php:27
 msgid ""
 "Enter a URL or select an image from media library. Image will be resized to "
@@ -1910,11 +1990,26 @@ msgstr "Введите название Дочерней темы"
 
 #: functions/user.php:262
 msgid "Enter the user position"
-msgstr ""
+msgstr "Введите должность пользователя"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:529
+#: functions/integrations/ajax-search-module/search-statistics.php:558
+msgid "Enter your admin password to confirm:"
+msgstr "Введите пароль администратора для подтверждения:"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:984
 msgid "Error applying fonts."
 msgstr "Ошибка применения шрифтов."
+
+#: functions/integrations/ajax-search-module/search-statistics.php:91
+#: functions/integrations/ajax-search-module/search-statistics.php:170
+#: functions/integrations/ajax-search-module/search-statistics.php:589
+msgid "Error clearing data"
+msgstr "Ошибка очистки данных"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:235
+msgid "Error clearing data!"
+msgstr "Ошибка очистки данных!"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:104
 msgid "Error creating SCSS file: "
@@ -1963,11 +2058,20 @@ msgstr "Пример показа уведомления"
 msgid "Existing Child Themes"
 msgstr "Существующие Дочерние темы"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:516
+msgid "Export current filtered data:"
+msgstr "Экспорт текущих отфильтрованных данных:"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:509
+msgid "Export Data"
+msgstr "Экспорт данных"
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:391
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:382
 msgid "Export Subscriptions"
 msgstr "Экспорт подписчиков"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:517
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:408
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:399
 msgid "Export to CSV"
@@ -2131,6 +2235,10 @@ msgstr ""
 msgid "Filter Price Packages"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:346
+msgid "Filters"
+msgstr "Фильтры"
+
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:99
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1231
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:200
@@ -2151,7 +2259,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:191
 msgid "Font directory not found"
-msgstr ""
+msgstr "Каталог шрифтов не найден"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:754
 msgid "Font Family Name"
@@ -2196,12 +2304,12 @@ msgstr "Футер"
 msgid "Footer Bootombar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:456
+#: redux-framework/sample/sections/codeweber/cpt-type.php:484
 #, php-format
 msgid "Footer for Archive %s"
 msgstr "Футер для Архива %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:445
+#: redux-framework/sample/sections/codeweber/cpt-type.php:473
 #, php-format
 msgid "Footer for Single %s"
 msgstr ""
@@ -2319,15 +2427,18 @@ msgstr "Форма"
 msgid "Form Creation Instructions"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:427
+#: functions/integrations/ajax-search-module/search-statistics.php:466
+#: functions/integrations/ajax-search-module/search-statistics.php:672
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:709
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:699
 msgid "Form ID"
-msgstr ""
+msgstr "ID Формы"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:652
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:642
 msgid "Form identifier"
-msgstr ""
+msgstr "Идентификатор формы"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:714
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:704
@@ -2340,6 +2451,10 @@ msgstr "Идентификатор формы для импортированн�
 msgid "Form Title"
 msgstr "Название формы"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:390
+msgid "Form:"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/contacts.php:25
 #: redux-framework/sample/sections/codeweber/contacts.php:34
 #: redux-framework/sample/sections/codeweber/contacts.php:42
@@ -2349,9 +2464,9 @@ msgstr "Название формы"
 msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr "Формат +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:89
+#: functions/integrations/ajax-search-module/ajax-search.php:94
 msgid "Found"
-msgstr ""
+msgstr "Найдено"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:168
 msgid "From Email"
@@ -2360,6 +2475,10 @@ msgstr "E-Mail отправителя"
 #: redux-framework/sample/sections/codeweber/smtp.php:176
 msgid "From Name"
 msgstr "Имя отправителя"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:386
+msgid "From:"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:50
 msgid ""
@@ -2446,6 +2565,10 @@ msgstr ""
 msgid "Google Tag Manager Settings"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:482
+msgid "Guest"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/style.php:144
 msgid "Gulp"
 msgstr ""
@@ -2464,12 +2587,12 @@ msgstr "Запуск сборщика Gulp"
 msgid "Header"
 msgstr "Хедер"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:430
+#: redux-framework/sample/sections/codeweber/cpt-type.php:458
 #, php-format
 msgid "Header for Archive %s"
 msgstr "Хедер для Архива %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:419
+#: redux-framework/sample/sections/codeweber/cpt-type.php:447
 #, php-format
 msgid "Header for Single %s"
 msgstr "Хедер для Одиночной %s"
@@ -2749,6 +2872,10 @@ msgstr ""
 msgid "iCloud"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:664
+msgid "ID"
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:328
 #, php-format
 msgid "ID: %s | Type: %s"
@@ -2867,6 +2994,7 @@ msgstr ""
 msgid "Instructions"
 msgstr "Инструкции"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:71
 #: redux-framework/sample/sections/codeweber/childtheme.php:241
 #: redux-framework/sample/sections/codeweber/childtheme.php:347
 msgid "Insufficient permissions"
@@ -2923,6 +3051,15 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:738
 #: functions/integrations/newsletter-subscription/admin/newsletter-import-export.php:95
 msgid "Invalid import request"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:83
+#: functions/integrations/ajax-search-module/search-statistics.php:171
+msgid "Invalid password"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:238
+msgid "Invalid password!"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:915
@@ -3002,8 +3139,8 @@ msgstr "Последнее обновление"
 msgid "Leave a comment"
 msgstr "Оставить комментарий"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:395
-#: redux-framework/sample/sections/codeweber/cpt-type.php:406
+#: redux-framework/sample/sections/codeweber/cpt-type.php:423
+#: redux-framework/sample/sections/codeweber/cpt-type.php:434
 #: redux-framework/sample/sections/codeweber/page-header.php:103
 #: redux-framework/sample/sections/codeweber/page-header.php:295
 msgid "Left"
@@ -3509,7 +3646,7 @@ msgstr "Подписки на рассылку новостей"
 msgid "Newsletter Technical Data"
 msgstr "Технические данные Рассылки"
 
-#: functions/global.php:556 functions/global.php:560
+#: functions/global.php:563 functions/global.php:567
 #: functions/bootstrap/bootstrap_post-nav.php:17
 msgid "Next"
 msgstr ""
@@ -3560,10 +3697,10 @@ msgid ""
 msgstr ""
 "Нет пользовательских Футеров. Создать Пользовательский Футер по ссылке: %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:258
+#: redux-framework/sample/sections/codeweber/cpt-type.php:268
 #, php-format
 msgid "No custom footers found. You can create one here: %s"
-msgstr ""
+msgstr "Пользовательские футеры не найдены. Вы можете создать их здесь: %s"
 
 #: redux-framework/sample/metaboxes.php:39
 #: redux-framework/sample/sections/codeweber/header.php:44
@@ -3573,37 +3710,37 @@ msgid ""
 "%s"
 msgstr "Шаблоны Хедера не найдены. Создайте, перейдя по следующей ссылке: %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:251
+#: redux-framework/sample/sections/codeweber/cpt-type.php:261
 #, php-format
 msgid "No custom headers found. You can create one here: %s"
-msgstr ""
+msgstr "Пользовательские хедеры не найдены. Вы можете создать их здесь: %s"
 
 #: redux-framework/sample/metaboxes.php:60
 #, php-format
 msgid ""
 "No custom Page Header found. You can create one by visiting the following "
 "link: %s"
-msgstr ""
+msgstr "Пользовательские заголовки не найдены. Вы можете создать их здесь: %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:265
+#: redux-framework/sample/sections/codeweber/cpt-type.php:275
 #, php-format
 msgid "No custom page headers found. You can create one here: %s"
-msgstr ""
+msgstr "Пользовательские хедеры не найдены. Вы можете создать их здесь: %s"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:44
 #, php-format
 msgid ""
 "No custom pageheaders found. You can create one by visiting the following "
 "link: %s"
-msgstr ""
+msgstr "Пользовательские заголовки не найдены. Вы можете создать их здесь: %s"
 
 #: functions/integrations/personal-data/class-consent-cpt.php:53
 msgid "No data subjects found in Trash."
-msgstr ""
+msgstr "Субъекты данных в корзине не найдены."
 
 #: functions/integrations/personal-data/class-consent-cpt.php:52
 msgid "No data subjects found."
-msgstr ""
+msgstr "Субъекты данных не найдены."
 
 #: functions/cpt/cpt-documents.php:17
 msgid "No documents found"
@@ -3652,6 +3789,11 @@ msgstr "Не найден Футер"
 msgid "No footers found in Trash"
 msgstr "Не найдены Футеры в корзине"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:365
+#: functions/integrations/ajax-search-module/search-statistics.php:389
+msgid "No Form ID"
+msgstr "Нет ID Формы"
+
 #: functions/cpt/cpt-header.php:20
 msgid "No headers found"
 msgstr "Не найдено Хедера"
@@ -3662,7 +3804,7 @@ msgstr "Не найдено Хедера в корзине"
 
 #: functions/cpt/cpt-html_blocks.php:21
 msgid "No Html Blocks found"
-msgstr ""
+msgstr "Блоки HTML не найдены."
 
 #: functions/cpt/cpt-legal.php:16
 msgid "No Legal documents found"
@@ -3697,19 +3839,19 @@ msgstr ""
 
 #: functions/cpt/cpt-offices.php:22
 msgid "No offices found"
-msgstr ""
+msgstr "Офисы не найдены"
 
 #: functions/cpt/cpt-offices.php:23
 msgid "No offices found in Trash"
-msgstr ""
+msgstr "В корзине не найдено ни одного офиса."
 
 #: functions/cpt/cpt-page-header.php:20
 msgid "No Page Headers found"
-msgstr ""
+msgstr "Заголовки не найдены"
 
 #: functions/cpt/cpt-page-header.php:21
 msgid "No Page Headers found in Trash"
-msgstr ""
+msgstr "Заголовки в корзине не найдены."
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:166
 msgid "No parent themes found"
@@ -3725,19 +3867,19 @@ msgstr "Не выбран PDF"
 
 #: functions/cpt/cpt-price_list.php:21
 msgid "No Price Lists found"
-msgstr ""
+msgstr "Прайс-листы не найдены"
 
 #: functions/cpt/cpt-price_list.php:22
 msgid "No Price Lists found in Trash"
-msgstr ""
+msgstr "В корзине не найдено ни одного прайс-листа."
 
 #: functions/cpt/cpt-price_package.php:22
 msgid "No Price Packages found"
-msgstr ""
+msgstr "Ценовые пакеты не найдены"
 
 #: functions/cpt/cpt-price_package.php:23
 msgid "No Price Packages found in Trash"
-msgstr ""
+msgstr "В корзине не найдено ни одного ценового пакета."
 
 #: functions/integrations/personal-data/class-cf7-consent.php:179
 msgid ""
@@ -3755,9 +3897,17 @@ msgstr ""
 "Страница Политики в отношении обработки персональных данных  не выбрана "
 "администратором"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:79
+#: functions/integrations/ajax-search-module/search-statistics.php:499
+msgid "No recent searches found"
+msgstr "Недавние поиски не найдены."
+
+#: functions/integrations/ajax-search-module/ajax-search.php:82
 msgid "No results found"
 msgstr "Нет результатов"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:450
+msgid "No search queries found"
+msgstr "Поисковые запросы не найдены."
 
 #: functions/admin/admin_media.php:35
 msgid "No sizes"
@@ -3766,9 +3916,9 @@ msgstr ""
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:366
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:357
 msgid "No subscriptions found"
-msgstr ""
+msgstr "Подписки не найдены"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:85
+#: functions/integrations/ajax-search-module/ajax-search.php:90
 msgid "No title"
 msgstr ""
 
@@ -3804,17 +3954,19 @@ msgstr "Типы вакансий не найдены"
 msgid "None"
 msgstr "Нет"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:443
+#: functions/integrations/ajax-search-module/search-statistics.php:488
 #: redux-framework/sample/sections/codeweber/header.php:87
 msgid "none"
 msgstr "Нет"
 
 #: functions/integrations/image-licenses/image-licenses.php:65
 msgid "Not found"
-msgstr ""
+msgstr "Не найдено"
 
 #: functions/integrations/image-licenses/image-licenses.php:66
 msgid "Not found in Trash"
-msgstr ""
+msgstr "Не найдено в корзине"
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:149
 msgid "Not generated"
@@ -3859,9 +4011,9 @@ msgstr "Количество подписчиков:"
 msgid "Odnoklassniki"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:90
+#: functions/integrations/ajax-search-module/ajax-search.php:95
 msgid "of"
-msgstr ""
+msgstr "из"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:286
 msgid "Off"
@@ -3978,6 +4130,10 @@ msgstr ""
 msgid "Outlook"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:467
+msgid "Page"
+msgstr "Страница"
+
 #: functions/cpt/cpt-page-header.php:11 functions/cpt/cpt-page-header.php:26
 #: redux-framework/sample/sections/codeweber/page-header.php:54
 #: redux-framework/sample/sections/codeweber/style.php:99
@@ -3993,13 +4149,13 @@ msgstr "Цвет фона заголовка"
 msgid "Page Header Background Type"
 msgstr "Тип фона Заголовка"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:499
+#: redux-framework/sample/sections/codeweber/cpt-type.php:527
 #, fuzzy, php-format
 #| msgid "Select Header for Archive %s"
 msgid "Page Header for Archive %s"
 msgstr "Хедер для Архива %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:491
+#: redux-framework/sample/sections/codeweber/cpt-type.php:519
 #, php-format
 #| msgid "Select Header for Single %s"
 msgid "Page Header for Single %s"
@@ -4053,12 +4209,20 @@ msgstr ""
 msgid "Page Headers"
 msgstr "Заголовки"
 
-#: functions/global.php:362
+#: functions/global.php:369
 msgid "Page Not Found"
-msgstr ""
+msgstr "Страница не найдена"
 
 #: functions/breadcrumbs.php:226
 msgid "Page not found"
+msgstr "Страница не найдена"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:669
+msgid "Page Title"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:668
+msgid "Page URL"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:86
@@ -4363,7 +4527,7 @@ msgstr "Введите ваше Имя"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:281
 msgid "Please fill in all required SMTP fields."
-msgstr ""
+msgstr "Пожалуйста, заполните все обязательные поля SMTP."
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:138
 msgid "Please reload the page to see the changes."
@@ -4389,6 +4553,10 @@ msgstr ""
 "Выберите боковую панель, которую вы хотите отобразить на этой странице. "
 "Примечание: сначала необходимо создать боковую панель в разделе «Внешний "
 "вид» > «Виджеты»."
+
+#: functions/integrations/ajax-search-module/search-statistics.php:421
+msgid "Popular Search Queries"
+msgstr "Популярные поисковые запросы"
 
 #: functions/cpt/cpt-vacancies.php:79
 msgid "Popular Vacancy Types"
@@ -4437,7 +4605,7 @@ msgstr "Пресеты"
 msgid "Prev"
 msgstr ""
 
-#: functions/global.php:503 functions/global.php:507
+#: functions/global.php:510 functions/global.php:514
 msgid "Previous"
 msgstr ""
 
@@ -4679,14 +4847,21 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:77
-msgid "Query too short"
-msgstr ""
+#: functions/integrations/ajax-search-module/search-statistics.php:425
+#: functions/integrations/ajax-search-module/search-statistics.php:462
+msgid "Query"
+msgstr "Запрос"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:111
-#: functions/integrations/ajax-search-module/ajax-search.php:163
+#: functions/integrations/ajax-search-module/ajax-search.php:80
+#: functions/integrations/ajax-search-module/search-statistics.php:53
+#: functions/integrations/ajax-search-module/search-statistics.php:166
+msgid "Query too short"
+msgstr "Запрос слишком короткий"
+
+#: functions/integrations/ajax-search-module/ajax-search.php:114
+#: functions/integrations/ajax-search-module/ajax-search.php:164
 msgid "Query too short. Minimum 3 characters required."
-msgstr ""
+msgstr "Запрос слишком короткий. Требуется минимум 3 символа."
 
 #: functions/cpt/cpt-faq.php:665
 msgid "Question button"
@@ -4701,6 +4876,10 @@ msgstr "Заголовок вопроса"
 #: templates/archives/legal/legal_1.php:15
 msgid "Read More"
 msgstr "Читать"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:458
+msgid "Recent Searches"
+msgstr "Недавние поиски"
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:133
 msgid "Record ID"
@@ -4790,7 +4969,7 @@ msgstr "Требования"
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:331
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:322
 msgid "Reset"
-msgstr ""
+msgstr "Сброс"
 
 #: functions/cpt/cpt-vacancies.php:297
 msgid "Responsibilities"
@@ -4800,9 +4979,22 @@ msgstr "Обязанности"
 msgid "Responsible Person (Full Name)"
 msgstr "Ответственное лицо (ФИО)"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:83
-msgid "results_many"
-msgstr "результатов"
+#: functions/integrations/ajax-search-module/ajax-search.php:85
+#: functions/integrations/ajax-search-module/ajax-search.php:86
+#: functions/integrations/ajax-search-module/ajax-search.php:87
+msgid "result"
+msgid_plural "results"
+msgstr[0] "результат"
+msgstr[1] "результата"
+msgstr[2] "результатов"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:465
+msgid "Results"
+msgstr "Результатов"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:670
+msgid "Results Count"
+msgstr "Количество результатов"
 
 #: functions/admin/admin_privacy.php:1718
 msgid "Return Policy"
@@ -4814,8 +5006,8 @@ msgstr "Условия возврата"
 msgid "Revision"
 msgstr "Версия документа"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:397
-#: redux-framework/sample/sections/codeweber/cpt-type.php:408
+#: redux-framework/sample/sections/codeweber/cpt-type.php:425
+#: redux-framework/sample/sections/codeweber/cpt-type.php:436
 #: redux-framework/sample/sections/codeweber/page-header.php:105
 #: redux-framework/sample/sections/codeweber/page-header.php:297
 msgid "Right"
@@ -4871,12 +5063,12 @@ msgstr "Заработная плата"
 msgid "says:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:771
+#: redux-framework/sample/sections/codeweber/legal.php:770
 msgid "Scan and display browser cookies."
 msgstr "Сканировать и отображать файлы cookie браузера."
 
-#: redux-framework/sample/sections/codeweber/legal.php:777
-#: redux-framework/sample/sections/codeweber/legal.php:780
+#: redux-framework/sample/sections/codeweber/legal.php:776
+#: redux-framework/sample/sections/codeweber/legal.php:779
 msgid "Scan Frontend Cookies"
 msgstr "Сканирование файлов cookie интерфейса"
 
@@ -4895,7 +5087,11 @@ msgstr "Найти Клиента"
 
 #: functions/integrations/personal-data/class-consent-cpt.php:50
 msgid "Search Data Subjects"
-msgstr ""
+msgstr "Поиск субъектов данных"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:671
+msgid "Search Date"
+msgstr "Дата поиска"
 
 #: functions/cpt/cpt-documents.php:16
 msgid "Search Document"
@@ -4917,13 +5113,17 @@ msgstr "Поиск FAQ"
 msgid "Search Footers"
 msgstr "Найти Футер"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:362
+msgid "Search Form:"
+msgstr "Форма поиска:"
+
 #: functions/cpt/cpt-header.php:19
 msgid "Search Headers"
 msgstr "Найти Хедер"
 
 #: functions/cpt/cpt-html_blocks.php:20
 msgid "Search Html Blocks"
-msgstr ""
+msgstr "Поиск HTML-блоков"
 
 #: functions/cpt/cpt-legal.php:15
 msgid "Search Legal"
@@ -4943,15 +5143,15 @@ msgstr "Найти Модальное окно"
 
 #: functions/cpt/cpt-offices.php:21
 msgid "Search Offices"
-msgstr ""
+msgstr "Поиск офисов"
 
 #: functions/cpt/cpt-page-header.php:19
 msgid "Search Page Headers"
-msgstr ""
+msgstr "Поиск Заголовков"
 
 #: functions/cpt/cpt-price_list.php:20
 msgid "Search Price Lists"
-msgstr ""
+msgstr "Поиск прайс-листов"
 
 #: functions/cpt/cpt-price_package.php:21
 #, fuzzy
@@ -4963,12 +5163,21 @@ msgstr "Добавить Тарифный план"
 msgid "Search Projects"
 msgstr "Найти Проект"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:665
+msgid "Search Query"
+msgstr "Поисковый запрос"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:61
+#: functions/integrations/ajax-search-module/search-statistics.php:167
+msgid "Search query saved"
+msgstr "Поисковый запрос сохранен"
+
 #: functions/breadcrumbs.php:224
 #, php-format
 msgid "Search results for \"%s\""
 msgstr "Результаты поиска для \"%s\""
 
-#: functions/global.php:360
+#: functions/global.php:367
 #, php-format
 msgid "Search Results for: %s"
 msgstr "Результаты Поиска для \"%s\""
@@ -4981,6 +5190,23 @@ msgstr "Найти Услугу"
 msgid "Search Staff"
 msgstr "Найти Сотрудника"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:181
+#: functions/integrations/ajax-search-module/search-statistics.php:342
+msgid "Search Statistics"
+msgstr "Статистика поиска"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:89
+msgid "Search statistics cleared successfully"
+msgstr "Статистика поиска успешно очищена"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:233
+msgid "Search statistics data cleared successfully!"
+msgstr "Данные статистики поиска успешно очищены!"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:182
+msgid "Search Stats"
+msgstr "Статистика поиска"
+
 #: functions/cpt/cpt-vacancies.php:20
 msgid "Search Vacancy"
 msgstr "Поиск вакансий"
@@ -4989,11 +5215,11 @@ msgstr "Поиск вакансий"
 msgid "Search Vacancy Types"
 msgstr "Поиск типов вакансий"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:484
+#: functions/integrations/ajax-search-module/ajax-search.php:576
 msgid "Search..."
 msgstr "Поиск..."
 
-#: functions/integrations/ajax-search-module/ajax-search.php:75
+#: functions/integrations/ajax-search-module/ajax-search.php:78
 msgid "Searching..."
 msgstr "Ищем..."
 
@@ -5006,9 +5232,12 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:76
-#: functions/integrations/ajax-search-module/ajax-search.php:105
-#: functions/integrations/ajax-search-module/ajax-search.php:157
+#: functions/integrations/ajax-search-module/ajax-search.php:79
+#: functions/integrations/ajax-search-module/ajax-search.php:108
+#: functions/integrations/ajax-search-module/ajax-search.php:158
+#: functions/integrations/ajax-search-module/search-statistics.php:46
+#: functions/integrations/ajax-search-module/search-statistics.php:75
+#: functions/integrations/ajax-search-module/search-statistics.php:165
 msgid "Security error"
 msgstr ""
 
@@ -5055,7 +5284,7 @@ msgstr "Выберите Soft Color фона Футера"
 msgid "Select Footer Background Solid Color"
 msgstr "Выберите Solid цвет фона для Футера"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:261
+#: redux-framework/sample/sections/codeweber/cpt-type.php:271
 msgid "Select footer from available options"
 msgstr "Выберите Футер из доступных вариантов"
 
@@ -5084,7 +5313,7 @@ msgstr "Цвет Фона Хедера Soft "
 msgid "Select Header Background Solid Color"
 msgstr "Цвет Фона Хедера Solid"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:254
+#: redux-framework/sample/sections/codeweber/cpt-type.php:264
 msgid "Select header from available options"
 msgstr "Выберите заголовок из доступных вариантов"
 
@@ -5122,7 +5351,7 @@ msgstr "Выберите или создайте страницы для юри�
 msgid "Select Page Header"
 msgstr "Выберите тип Заголовка"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:268
+#: redux-framework/sample/sections/codeweber/cpt-type.php:278
 msgid "Select page header from available options"
 msgstr "Выберите заголовок страницы из доступных вариантов"
 
@@ -5175,11 +5404,11 @@ msgstr "Выбрать Soft Color"
 msgid "Select Solid Color"
 msgstr "Выберите Solid цвет"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:357
+#: redux-framework/sample/sections/codeweber/cpt-type.php:385
 msgid "Select template for archive page"
 msgstr "Выберите шаблон для страницы архива"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:366
+#: redux-framework/sample/sections/codeweber/cpt-type.php:394
 msgid "Select template for single page"
 msgstr "Выберите шаблон для одиночной страницы"
 
@@ -5346,7 +5575,7 @@ msgstr "Настройки Типов Записей"
 msgid "Settings Footer"
 msgstr "Настройки Футера"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:221
+#: redux-framework/sample/sections/codeweber/cpt-type.php:231
 msgid "Settings for custom post types."
 msgstr "Включение/Отключение типов записей"
 
@@ -5385,7 +5614,7 @@ msgstr "Расчетный счет"
 msgid "Share"
 msgstr "Поделиться"
 
-#: functions/global.php:346
+#: functions/global.php:347
 msgid "Shop"
 msgstr ""
 
@@ -5469,7 +5698,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/company-details.php:99
 msgid "Shortcode: [redux_option key=\"fact-country\"]"
-msgstr ""
+msgstr "Идентификатор формы"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:127
 msgid "Shortcode: [redux_option key=\"fact-house\"]"
@@ -5529,22 +5758,22 @@ msgstr "Короткий код: [redux_option key=\"text-about-company\"]"
 msgid "Show \"%s\" column"
 msgstr "Показать колонку \"%s\" "
 
-#: functions/integrations/ajax-search-module/ajax-search.php:88
+#: functions/integrations/ajax-search-module/ajax-search.php:93
 msgid "Show all"
-msgstr ""
+msgstr "Показать все"
 
 #: redux-framework/sample/metaboxes.php:358
 #: redux-framework/sample/sections/codeweber/page-header.php:65
 msgid "Sidebar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:404
+#: redux-framework/sample/sections/codeweber/cpt-type.php:432
 #, fuzzy, php-format
 #| msgid "Select Sidebar position for Archive %s"
 msgid "Sidebar Position for Archive %s"
 msgstr "Позиция Сайдбара Архива %s"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:393
+#: redux-framework/sample/sections/codeweber/cpt-type.php:421
 #, fuzzy, php-format
 #| msgid "Select Sidebar position for Single %s"
 msgid "Sidebar Position for Single %s"
@@ -5563,14 +5792,14 @@ msgstr "Регистрация"
 msgid "Signal"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:513
-#: redux-framework/sample/sections/codeweber/cpt-type.php:529
-#: redux-framework/sample/sections/codeweber/cpt-type.php:545
-#: redux-framework/sample/sections/codeweber/cpt-type.php:561
+#: redux-framework/sample/sections/codeweber/cpt-type.php:541
+#: redux-framework/sample/sections/codeweber/cpt-type.php:557
+#: redux-framework/sample/sections/codeweber/cpt-type.php:573
+#: redux-framework/sample/sections/codeweber/cpt-type.php:589
 msgid "Single"
-msgstr ""
+msgstr "Одиночный"
 
-#: redux-framework/sample/sections/codeweber/cpt-type.php:365
+#: redux-framework/sample/sections/codeweber/cpt-type.php:393
 #, php-format
 msgid "Single Template for %s"
 msgstr ""
@@ -5716,6 +5945,10 @@ msgstr ""
 #: functions/cpt/cpt-staff.php:33
 msgid "Staff updated"
 msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:352
+msgid "Start Date:"
+msgstr "Дата начала:"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:206
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:200
@@ -5958,7 +6191,7 @@ msgstr "систематизация"
 msgid "Tags"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:84
+#: functions/integrations/ajax-search-module/ajax-search.php:89
 msgid "Taxonomy"
 msgstr ""
 
@@ -6134,6 +6367,14 @@ msgstr ""
 msgid "Theme style"
 msgstr "Стилизация Темы"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:524
+msgid ""
+"This action will permanently delete all search statistics data. This cannot "
+"be undone."
+msgstr ""
+"Это действие безвозвратно удалит все данные статистики поиска. Это действие "
+"нельзя отменить."
+
 #: functions/integrations/newsletter-subscription/newsletter-core.php:76
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:802
 msgid "This email is already subscribed to the newsletter."
@@ -6153,6 +6394,8 @@ msgid ""
 "This field will store all slides values into a multidimensional array to use "
 "into a foreach loop."
 msgstr ""
+"Это поле сохранит все значения слайдов в многомерном массиве для "
+"использования в цикле foreach."
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:185
 msgid "This font is protected and cannot be deleted."
@@ -6183,16 +6426,16 @@ msgstr "Это не Дочерняя тема."
 
 #: redux-framework/sample/theme-config.php:306
 msgid "This is the sidebar content, HTML is allowed."
-msgstr ""
+msgstr "Это содержимое боковой панели, HTML разрешен."
 
 #: redux-framework/sample/theme-config.php:295
 #: redux-framework/sample/theme-config.php:300
 msgid "This is the tab content, HTML is allowed."
-msgstr ""
+msgstr "Это содержимое вкладки, HTML разрешен."
 
 #: functions/cpt/cpt-projects.php:31
 msgid "This module allows you to display your work or cases on the website."
-msgstr ""
+msgstr "Этот модуль позволяет вам отображать ваши работы или кейсы на сайте."
 
 #: redux-framework/sample/metaboxes.php:74
 msgid "This Post Settings"
@@ -6203,18 +6446,27 @@ msgid "This section includes all user consents stored in the system."
 msgstr ""
 "В этом разделе содержатся все согласия пользователей, хранящиеся в системе."
 
+#: redux-framework/sample/sections/codeweber/legal.php:737
+msgid ""
+"This website uses cookies to ensure its uninterrupted operation and to "
+"remember selected settings, as well as analytics tools (Yandex.Metrica). By "
+"continuing to use the site, you confirm your consent to the processing and "
+"use of cookies in your browser in accordance with the <a href=\"[url_cookie-"
+"policy]\">Cookie Usage Policy</a>"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/socials.php:81
 #: redux-framework/sample/sections/extensions/users.php:97
 msgid "Tik-Tok"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:86
+#: functions/integrations/ajax-search-module/ajax-search.php:91
 #: redux-framework/sample/sections/codeweber/page-header.php:184
 #: redux-framework/sample/sections/codeweber/repeater.php:32
 msgid "Title"
 msgstr "Заголовок"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:331
+#: functions/integrations/ajax-search-module/ajax-search.php:395
 msgid "title"
 msgstr ""
 
@@ -6238,13 +6490,25 @@ msgstr "Размер заголовка в Page Header"
 msgid "to receive informational and promotional newsletters"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:387
+msgid "To:"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/search-statistics.php:409
+msgid "Today's Searches"
+msgstr "Сегодняшние поиски"
+
 #: redux-framework/sample/sections/codeweber/header.php:317
 msgid "Topbar"
 msgstr "ТопХедер"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:80
+#: functions/integrations/ajax-search-module/ajax-search.php:83
 msgid "Total found"
 msgstr "Всего найдено"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:401
+msgid "Total Searches"
+msgstr "Всего поисков"
 
 #: functions/cpt/cpt-offices.php:67
 msgid "Town"
@@ -6358,6 +6622,10 @@ msgstr ""
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1220
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:335
 msgid "unique form identifier (required)"
+msgstr "уникальный идентификатор формы (обязательно)"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:405
+msgid "Unique Queries"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:325
@@ -6553,9 +6821,14 @@ msgstr "Использовать этот PDF"
 msgid "Use WordPress publish date"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:463
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:261
 msgid "User"
-msgstr ""
+msgstr "Пользователь"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:479
+msgid "User #"
+msgstr "Пользователь #"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:66
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:209
@@ -6585,6 +6858,7 @@ msgstr "User Agent/Данные браузера"
 msgid "User Consents"
 msgstr "Пользовательские согласия"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:666
 #: functions/integrations/personal-data/class-consent-cpt.php:383
 msgid "User ID"
 msgstr "ID Пользователя"
@@ -6593,10 +6867,14 @@ msgstr "ID Пользователя"
 msgid "User ID (if registered):"
 msgstr "ID Пользователя (если зарегистрирован)"
 
+#: functions/integrations/ajax-search-module/search-statistics.php:667
+msgid "User IP"
+msgstr "IP пользователя"
+
 #: functions/integrations/personal-data/class-consent-cpt.php:417
 #: functions/integrations/personal-data/class-gdpr-erasure.php:52
 msgid "User not found"
-msgstr ""
+msgstr "Пользователь не найден"
 
 #: functions/admin/admin_user_profil.php:63
 msgid "User Phone"
@@ -6604,7 +6882,7 @@ msgstr "Телефон Пользователя"
 
 #: redux-framework/sample/sections/extensions/users.php:30
 msgid "User Socials"
-msgstr ""
+msgstr "Соцсети Пользователя"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:529
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:520
@@ -6877,6 +7155,10 @@ msgstr ""
 msgid "Vkontakte"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/search-statistics.php:524
+msgid "Warning:"
+msgstr "Внимание:"
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1267
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:382
 msgid "We will call back within 15 minutes"
@@ -6901,7 +7183,7 @@ msgstr "Правила использования сайта"
 msgid "WeChat"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:737
+#: redux-framework/sample/sections/codeweber/legal.php:736
 msgid "Welcome Text Cookie Banner"
 msgstr "Приветственный текстовый Cookie-баннер"
 
@@ -7110,14 +7392,14 @@ msgstr "Ваш E-Mail"
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:389
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:390
 msgid "Your Last Name"
-msgstr ""
+msgstr "Ваша Фамилия"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1270
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1271
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:385
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:386
 msgid "Your Name"
-msgstr ""
+msgstr "Ваше Имя"
 
 #: redux-framework/sample/sections/codeweber/socials.php:87
 #: redux-framework/sample/sections/extensions/users.php:103
@@ -7135,40 +7417,6 @@ msgstr "Уровень увеличения"
 #: redux-framework/sample/sections/codeweber/map_geo.php:118
 msgid "Zoom level of the map"
 msgstr "Уровень увеличения на карте"
-
-#: redux-framework/sample/sections/codeweber/legal.php:738
-msgid ""
-"На данном сайте используются файлы «cookies» для обеспечения его "
-"бесперебойной работы и для запоминания выбранных настроек, а также "
-"инструменты аналитики (Яндекс.Метрика). Продолжая работу с сайтом, Вы "
-"подтверждаете свое согласие на обработку и использование «cookies» Вашего "
-"браузера в соответствии с <a href=\"[url_cookie-policy]\")>Политикой в "
-"отношении использования файлов Куки(Сookie)</a>"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:22
-msgid "Основные данные"
-msgstr ""
-
-#: functions/bootstrap/bootstrap_share-page.php:222
-#: functions/bootstrap/bootstrap_share-page.php:264
-#, php-format
-msgid "Посмотрите: %s"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:725
-msgid "Сookie Expiration Date"
-msgstr "Срок действия Cookie-файла*"
-
-#: functions/integrations/ajax-search-module/ajax-search.php:81
-msgctxt "результат"
-msgid "result"
-msgstr "результат"
-
-#: functions/integrations/ajax-search-module/ajax-search.php:82
-msgctxt "результата"
-msgid "results_few"
-msgstr "результата"
 
 #: functions/integrations/image-licenses/image-licenses.php:557
 msgid "— No License —"
