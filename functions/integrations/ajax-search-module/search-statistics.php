@@ -40,7 +40,6 @@ function create_search_statistics_table()
 add_action('wp_ajax_save_search_query', 'handle_save_search_query');
 add_action('wp_ajax_nopriv_save_search_query', 'handle_save_search_query');
 
-// В handle_save_search_query()
 function handle_save_search_query()
 {
    if (!wp_verify_nonce($_POST['nonce'], 'search_statistics_nonce')) {
@@ -56,12 +55,10 @@ function handle_save_search_query()
    $results_count = isset($_POST['results_count']) ? intval($_POST['results_count']) : 0;
    $form_id = isset($_POST['form_id']) ? sanitize_text_field($_POST['form_id']) : '';
 
-   // Получаем ВСЕ Matomo cookies из JavaScript
+   // УПРОЩАЕМ: убираем сложные данные Matomo
    $matomo_data = [
-      'visitor_id' => sanitize_text_field($_POST['matomo_visitor_id'] ?? ''),
-      'session_id' => sanitize_text_field($_POST['matomo_session_id'] ?? ''),
-      'cookies_found' => json_decode(stripslashes($_POST['matomo_cookies_found'] ?? '{}'), true),
-      'source' => 'javascript_detection'
+      'visitor_id' => '', // Теперь это будет определяться на сервере
+      'source' => 'javascript_search'
    ];
 
    // Вызываем хук для отладки
@@ -84,7 +81,8 @@ function debug_search_data_hook($search_query, $results_count, $form_id)
    debug_search_data($search_query, $results_count, $form_id, $matomo_data);
 }
 
-// Функция для получения данных отслеживания Matomo
+
+// Функция для получения данных отслеживания Matomo через PHP API
 function get_matomo_tracking_data()
 {
    $data = [
@@ -95,34 +93,106 @@ function get_matomo_tracking_data()
       'matomo_session_id' => ''
    ];
 
-   // Способ 1: Получаем visitor_id из кастомного cookie
-   if (isset($_COOKIE['_matomo_visitor_id'])) {
-      $data['visitor_id'] = $_COOKIE['_matomo_visitor_id'];
-      $data['matomo_visitor_id'] = $_COOKIE['_matomo_visitor_id'];
+   // Получаем visitor_id через PHP Matomo
+   $visitor_id = get_matomo_visitor_id_via_php();
+
+   if (!empty($visitor_id)) {
+      $data['visitor_id'] = $visitor_id;
+      $data['matomo_visitor_id'] = $visitor_id;
+
+      // Создаем session_id на основе visitor_id
+      $data['session_id'] = substr($visitor_id, 0, 16) . '_' . time();
+      $data['matomo_session_id'] = $data['session_id'];
+
+      return $data;
    }
 
-   // Способ 2: Получаем session_id из кастомного cookie
-   if (isset($_COOKIE['MATOMO_SESSID'])) {
-      $data['session_id'] = $_COOKIE['MATOMO_SESSID'];
-      $data['matomo_session_id'] = $_COOKIE['MATOMO_SESSID'];
-   }
+   // Fallback - создаем на основе IP и User-Agent
+   $user_ip = $_SERVER['REMOTE_ADDR'] ?? '';
+   $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
-   // Способ 3: Пробуем стандартные cookies на всякий случай
-   if (isset($_COOKIE['_pk_id'])) {
-      $cookie_value = $_COOKIE['_pk_id'];
-      if (preg_match('/^([a-f0-9]+)\./', $cookie_value, $matches)) {
-         $data['visitor_id'] = $matches[1];
-      }
-   }
-
-   if (isset($_COOKIE['_pk_ses'])) {
-      $cookie_value = $_COOKIE['_pk_ses'];
-      if (preg_match('/^([a-f0-9]+)\./', $cookie_value, $matches)) {
-         $data['session_id'] = $matches[1];
-      }
-   }
+   $data['visitor_id'] = 'php_visitor_' . md5($user_ip . $user_agent . date('Y-m-d'));
+   $data['matomo_visitor_id'] = $data['visitor_id'];
+   $data['session_id'] = 'php_session_' . time() . '_' . rand(1000, 9999);
+   $data['matomo_session_id'] = $data['session_id'];
 
    return $data;
+}
+
+// Вспомогательная функция для получения visitor_id через PHP Matomo
+function get_matomo_visitor_id_via_php()
+{
+   // Если есть готовая функция Matomo
+   if (function_exists('matomo_get_visitor_id')) {
+      return matomo_get_visitor_id();
+   }
+
+   // Пытаемся получить через глобальные переменные Matomo
+   if (isset($GLOBALS['MATOMO_VISITOR_ID'])) {
+      return $GLOBALS['MATOMO_VISITOR_ID'];
+   }
+
+   // Пытаемся получить из сессии Matomo
+   if (isset($_SESSION['matomo_visitor_id'])) {
+      return $_SESSION['matomo_visitor_id'];
+   }
+
+   // Пытаемся получить через базу данных Matomo (последний visitor_id для этого IP)
+   $visitor_id = get_matomo_visitor_id_from_db();
+   if (!empty($visitor_id)) {
+      return $visitor_id;
+   }
+
+   return '';
+}
+
+// Функция для получения visitor_id из базы данных Matomo
+function get_matomo_visitor_id_from_db()
+{
+   global $wpdb;
+
+   $user_ip = $_SERVER['REMOTE_ADDR'] ?? '';
+
+   if (empty($user_ip) || $user_ip === '127.0.0.1') {
+      return '';
+   }
+
+   // Пробуем разные варианты таблиц Matomo
+   $matomo_tables = [
+      $wpdb->prefix . 'matomo_log_visit',
+      'matomo_log_visit',
+      'piwik_log_visit',
+      $wpdb->prefix . 'piwik_log_visit',
+      $wpdb->prefix . 'matomo_log_link_visit_action',
+      'matomo_log_link_visit_action'
+   ];
+
+   foreach ($matomo_tables as $table) {
+      if ($wpdb->get_var("SHOW TABLES LIKE '$table'") === $table) {
+         // Пытаемся найти последний visitor_id по IP
+         $visitor_id = $wpdb->get_var($wpdb->prepare(
+            "SELECT idvisitor FROM $table 
+                 WHERE location_ip = %s 
+                 ORDER BY visit_last_action_time DESC LIMIT 1",
+            $user_ip
+         ));
+
+         if ($visitor_id) {
+            return $visitor_id;
+         }
+
+         // Пытаемся найти любой visitor_id
+         $visitor_id = $wpdb->get_var(
+            "SELECT idvisitor FROM $table ORDER BY visit_last_action_time DESC LIMIT 1"
+         );
+
+         if ($visitor_id) {
+            return $visitor_id;
+         }
+      }
+   }
+
+   return '';
 }
 
 // Временная тестовая функция для отладки

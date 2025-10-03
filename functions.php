@@ -88,9 +88,6 @@ require_once get_template_directory() . '/functions/integrations/image-licenses/
  */
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/ajax-search.php';
 
+require_once get_template_directory() . '/functions/integrations/ajax-search-module/search-statistics.php';
 
-
-	require_once get_template_directory() . '/functions/integrations/ajax-search-module/search-statistics.php';
-
-
-require_once get_template_directory() . '/functions/integrations/ajax-search-module/test.php';
+require_once get_template_directory() . '/functions/integrations/ajax-search-module/matomo-search-integration.php';
