@@ -91,3 +91,6 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 
 
 	require_once get_template_directory() . '/functions/integrations/ajax-search-module/search-statistics.php';
+
+
+require_once get_template_directory() . '/functions/integrations/ajax-search-module/test.php';

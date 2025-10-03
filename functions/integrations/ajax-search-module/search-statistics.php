@@ -40,6 +40,7 @@ function create_search_statistics_table()
 add_action('wp_ajax_save_search_query', 'handle_save_search_query');
 add_action('wp_ajax_nopriv_save_search_query', 'handle_save_search_query');
 
+// В handle_save_search_query()
 function handle_save_search_query()
 {
    if (!wp_verify_nonce($_POST['nonce'], 'search_statistics_nonce')) {
@@ -48,7 +49,6 @@ function handle_save_search_query()
 
    $search_query = sanitize_text_field($_POST['search_query']);
 
-   // Пропускаем слишком короткие запросы
    if (empty($search_query) || strlen($search_query) < 3) {
       wp_send_json_success(__('Query too short', 'codeweber'));
    }
@@ -56,10 +56,101 @@ function handle_save_search_query()
    $results_count = isset($_POST['results_count']) ? intval($_POST['results_count']) : 0;
    $form_id = isset($_POST['form_id']) ? sanitize_text_field($_POST['form_id']) : '';
 
+   // Получаем ВСЕ Matomo cookies из JavaScript
+   $matomo_data = [
+      'visitor_id' => sanitize_text_field($_POST['matomo_visitor_id'] ?? ''),
+      'session_id' => sanitize_text_field($_POST['matomo_session_id'] ?? ''),
+      'cookies_found' => json_decode(stripslashes($_POST['matomo_cookies_found'] ?? '{}'), true),
+      'source' => 'javascript_detection'
+   ];
+
+   // Вызываем хук для отладки
+   do_action('before_save_search_query', $search_query, $results_count, $form_id, $matomo_data);
+
    save_search_query_to_db($search_query, $results_count, $form_id);
 
    wp_send_json_success(__('Search query saved', 'codeweber'));
 }
+
+// Хук для отладки данных поиска
+add_action('before_save_search_query', 'debug_search_data_hook', 10, 3);
+
+function debug_search_data_hook($search_query, $results_count, $form_id)
+{
+   // Получаем данные Matomo
+   $matomo_data = get_matomo_tracking_data();
+
+   // Отладочная информация
+   debug_search_data($search_query, $results_count, $form_id, $matomo_data);
+}
+
+// Функция для получения данных отслеживания Matomo
+function get_matomo_tracking_data()
+{
+   $data = [
+      'visitor_id' => '',
+      'session_id' => '',
+      'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+      'matomo_visitor_id' => '',
+      'matomo_session_id' => ''
+   ];
+
+   // Способ 1: Получаем visitor_id из кастомного cookie
+   if (isset($_COOKIE['_matomo_visitor_id'])) {
+      $data['visitor_id'] = $_COOKIE['_matomo_visitor_id'];
+      $data['matomo_visitor_id'] = $_COOKIE['_matomo_visitor_id'];
+   }
+
+   // Способ 2: Получаем session_id из кастомного cookie
+   if (isset($_COOKIE['MATOMO_SESSID'])) {
+      $data['session_id'] = $_COOKIE['MATOMO_SESSID'];
+      $data['matomo_session_id'] = $_COOKIE['MATOMO_SESSID'];
+   }
+
+   // Способ 3: Пробуем стандартные cookies на всякий случай
+   if (isset($_COOKIE['_pk_id'])) {
+      $cookie_value = $_COOKIE['_pk_id'];
+      if (preg_match('/^([a-f0-9]+)\./', $cookie_value, $matches)) {
+         $data['visitor_id'] = $matches[1];
+      }
+   }
+
+   if (isset($_COOKIE['_pk_ses'])) {
+      $cookie_value = $_COOKIE['_pk_ses'];
+      if (preg_match('/^([a-f0-9]+)\./', $cookie_value, $matches)) {
+         $data['session_id'] = $matches[1];
+      }
+   }
+
+   return $data;
+}
+
+// Временная тестовая функция для отладки
+function debug_search_data($search_query, $results_count, $form_id, $matomo_data)
+{
+   $debug_data = [
+      'timestamp' => current_time('mysql'),
+      'search_query' => $search_query,
+      'results_count' => $results_count,
+      'form_id' => $form_id,
+      'matomo_data' => $matomo_data,
+      'user_info' => [
+         'user_id' => get_current_user_id(),
+         'user_ip' => $_SERVER['REMOTE_ADDR'] ?? '',
+         'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+         'is_user_logged_in' => is_user_logged_in()
+      ]
+   ];
+
+   // Логируем в debug.log
+   error_log('SEARCH STATISTICS DEBUG: ' . print_r($debug_data, true));
+
+   // Также выводим в ответе AJAX для удобства отладки
+   if (defined('WP_DEBUG') && WP_DEBUG && isset($_GET['debug_search'])) {
+      echo "<!-- SEARCH DEBUG: " . base64_encode(json_encode($debug_data)) . " -->";
+   }
+}
+
 
 // AJAX обработчик для очистки базы данных
 add_action('wp_ajax_clear_search_statistics', 'handle_clear_search_statistics');
