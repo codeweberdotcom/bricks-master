@@ -44,7 +44,7 @@ if (!function_exists('brk_styles_scripts')) {
 		wp_enqueue_script('plugins-scripts', get_template_directory_uri() . '/dist/assets/js/plugins.js', false, $theme_version, true);
 		wp_enqueue_script('theme-scripts', get_template_directory_uri() . '/dist/assets/js/theme.js', false, $theme_version, true);
 
-		wp_localize_script('theme-scripts', 'theme-scripts_ajax', array(
+		wp_localize_script('theme-scripts', 'theme_scripts_ajax', array(
 			'ajax_url' => admin_url('admin-ajax.php'),
 			'nonce' => wp_create_nonce('theme-scripts_nonce'),
 			'translations' => array(

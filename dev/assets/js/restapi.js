@@ -15,13 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const button = entry.target;
-          const dataValue = button
-            .getAttribute("data-value")
-            ?.replace("modal-", "");
+          const dataValueAttr = button.getAttribute("data-value");
+          const dataValue = dataValueAttr
+            ? dataValueAttr.replace("modal-", "")
+            : null;
           if (!dataValue) return;
 
           const cachedContent = localStorage.getItem(dataValue);
-          const cachedTime = localStorage.getItem(`${dataValue}_time`);
+          const cachedTime = localStorage.getItem(dataValue + "_time");
 
           if (
             ENABLE_CACHE &&
@@ -35,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           // Подгружаем в кэш
-          fetch(`${wpApiSettings.root}wp/v2/modal/${dataValue}`)
+          fetch(wpApiSettings.root + "wp/v2/modal/" + dataValue)
             .then((response) => {
               if (!response.ok) throw new Error("Ошибка при загрузке данных");
               return response.json();
@@ -44,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
               if (data && data.content && data.content.rendered) {
                 localStorage.setItem(dataValue, data.content.rendered);
                 localStorage.setItem(
-                  `${dataValue}_time`,
+                  dataValue + "_time",
                   Date.now().toString()
                 );
               }
@@ -67,14 +68,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ Стандартный обработчик клика по кнопке
   modalButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      const dataValue = button
-        .getAttribute("data-value")
-        ?.replace("modal-", "");
+      const dataValueAttr = button.getAttribute("data-value");
+      const dataValue = dataValueAttr
+        ? dataValueAttr.replace("modal-", "")
+        : null;
       if (!dataValue) {
         return;
       }
       const cachedContent = localStorage.getItem(dataValue);
-      const cachedTime = localStorage.getItem(`${dataValue}_time`);
+      const cachedTime = localStorage.getItem(dataValue + "_time");
       if (
         ENABLE_CACHE &&
         cachedContent &&
@@ -85,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modalInstance.show();
       } else {
         modalContent.innerHTML = '<div class="modal-loader"></div>';
-        fetch(`${wpApiSettings.root}wp/v2/modal/${dataValue}`)
+        fetch(wpApiSettings.root + "wp/v2/modal/" + dataValue)
           .then((response) => {
             if (!response.ok)
               throw new Error("Ошибка при загрузке данных с сервера");
@@ -96,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
               if (ENABLE_CACHE) {
                 localStorage.setItem(dataValue, data.content.rendered);
                 localStorage.setItem(
-                  `${dataValue}_time`,
+                  dataValue + "_time",
                   Date.now().toString()
                 );
               }
@@ -104,12 +106,14 @@ document.addEventListener("DOMContentLoaded", () => {
               const formElement = modalContent.querySelector("form.wpcf7-form");
               if (formElement && typeof wpcf7 !== "undefined") {
                 wpcf7.init(formElement);
-                custom.cf7BlockDoubleClick();
-                custom.formValidation();
-                custom.addTelMask();
-                custom.rippleEffect();
-                custom.formSubmittingWatcher();
-
+                if (typeof custom !== "undefined") {
+                  if (custom.cf7CloseAfterSent) custom.cf7CloseAfterSent();
+                  if (custom.formValidation) custom.formValidation();
+                  if (custom.addTelMask) custom.addTelMask();
+                  if (custom.rippleEffect) custom.rippleEffect();
+                  if (custom.formSubmittingWatcher)
+                    custom.formSubmittingWatcher();
+                }
               }
               modalInstance.show();
             } else {

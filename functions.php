@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  https://developer.wordpress.org/themes/basics/theme-functions/
  */
@@ -27,7 +28,7 @@ require_once get_template_directory() . '/functions/cleanup.php';
 require_once get_template_directory() . '/functions/custom.php';
 
 if (class_exists('WPCF7')) {
-require_once get_template_directory() . '/functions/integrations/cf7.php';
+	require_once get_template_directory() . '/functions/integrations/cf7.php';
 };
 
 require_once get_template_directory() . '/functions/admin/admin_settings.php';
@@ -91,3 +92,5 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/search-statistics.php';
 
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/matomo-search-integration.php';
+
+require_once get_template_directory() . '/functions/integrations/ajax-search-module/contact-form7-matomo-integration.php';

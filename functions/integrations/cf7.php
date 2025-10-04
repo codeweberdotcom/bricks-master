@@ -23,9 +23,6 @@ function codeweber_cf7_styles_scripts()
 }
 
 
-
-
-
 /**
  * Удаляет стандартное сообщение об ошибке "Некорректные поля" в Contact Form 7.
  *
@@ -787,3 +784,32 @@ add_action('admin_init', function () {
       }
    }
 });
+
+
+
+
+add_action('rest_api_init', function () {
+   register_rest_route('custom/v1', '/cf7-title/(?P<id>\d+)', [
+      'methods' => 'GET',
+      'callback' => 'get_cf7_form_title',
+      'permission_callback' => '__return_true'
+   ]);
+});
+
+function get_cf7_form_title($data)
+{
+   $form_id = $data['id'];
+
+   // Находим пост формы по ID
+   $form_post = get_post($form_id);
+
+   if (!$form_post || $form_post->post_type !== 'wpcf7_contact_form') {
+      return new WP_Error('form_not_found', 'Форма не найдена', ['status' => 404]);
+   }
+
+   return [
+      'id' => $form_id,
+      'title' => $form_post->post_title,
+      'slug' => $form_post->post_name
+   ];
+}

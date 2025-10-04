@@ -54,7 +54,7 @@ function matomo_get_consistent_visitor_id()
 }
 
 // Функция: Отправка события поиска в Matomo
-function matomo_track_search_event($search_query, $results_count)
+function matomo_track_search_event($search_query, $results_count, $current_url = '')
 {
    if (!get_option('matomo_track_searches', 1) || !matomo_is_plugin_active()) {
       return false;
@@ -62,6 +62,11 @@ function matomo_track_search_event($search_query, $results_count)
 
    $visitor_id = matomo_get_consistent_visitor_id();
    if (empty($visitor_id)) return false;
+
+   // Если URL не передан, используем текущий URL
+   if (empty($current_url)) {
+      $current_url = home_url($_SERVER['REQUEST_URI'] ?? '');
+   }
 
    $params = [
       'idsite' => 1,
@@ -72,7 +77,7 @@ function matomo_track_search_event($search_query, $results_count)
       'e_a' => 'Query',
       'e_n' => $search_query,
       'e_v' => $results_count,
-      'url' => home_url('/?s=' . urlencode($search_query)),
+      'url' => $current_url, // Используем текущий URL вместо стандартного поиска
       'urlref' => $_SERVER['HTTP_REFERER'] ?? home_url(),
       'send_image' => 0,
    ];
@@ -94,7 +99,9 @@ function matomo_track_search_event($search_query, $results_count)
 
 function matomo_track_search_from_hook($search_query, $results_count, $form_id, $matomo_data)
 {
-   matomo_track_search_event($search_query, $results_count);
+   // Получаем текущий URL страницы, где производился поиск
+   $current_url = home_url($_SERVER['REQUEST_URI'] ?? '');
+   matomo_track_search_event($search_query, $results_count, $current_url);
 }
 
 // Страница настройки интеграции

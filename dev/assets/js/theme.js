@@ -1044,12 +1044,12 @@ var custom = {
   init: function () {
     custom.rippleEffect();
     custom.addTelMask();
-    custom.cf7BlockDoubleClick();
+    custom.cf7CloseAfterSent();
     custom.formValidation();
     custom.formSubmittingWatcher();
   },
 
-  cf7BlockDoubleClick: function () {
+  cf7CloseAfterSent: function () {
     const forms = document.querySelectorAll(".wpcf7-form");
     forms.forEach(function (form) {
       form.addEventListener("submit", function (event) {

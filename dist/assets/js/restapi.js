@@ -104,7 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
               const formElement = modalContent.querySelector("form.wpcf7-form");
               if (formElement && typeof wpcf7 !== "undefined") {
                 wpcf7.init(formElement);
-                custom.cf7BlockDoubleClick();
+                
+                custom.cf7CloseAfterSent();
                 custom.formValidation();
                 custom.addTelMask();
                 custom.rippleEffect();
