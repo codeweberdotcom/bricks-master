@@ -48,10 +48,10 @@ class NewsletterSubscriptionShortcode
          class="newsletter-subscription-form <?php echo esc_attr($atts['class']); ?>" novalidate>
          <div class="newsletter-form-inner">
             <div class="form-floating mc-field-group input-group">
-               <input type="email" name="email" class="required email form-control"
+               <input type="email" name="email" class="required email form-control mtm-track"
                   placeholder="<?php echo esc_attr($email_placeholder); ?>"
                   id="newsletter-email-<?php echo esc_attr($atts['id']); ?>"
-                  required autocomplete="off">
+                  required autocomplete="off" data-mtm-name="newsletter" data-mtm-action="Click">
                <label for="newsletter-email-<?php echo esc_attr($atts['id']); ?>">
                   <?php echo esc_html($email_placeholder); ?>
                </label>

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-10-02 23:00+0000\n"
+"PO-Revision-Date: 2025-10-04 23:22+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -20,6 +20,13 @@ msgstr ""
 #, php-format
 msgid "%1$s "
 msgstr "%1$s "
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:182
+msgid "%d CF7 form found"
+msgid_plural "%d CF7 forms found"
+msgstr[0] "Найдена %d форма CF7"
+msgstr[1] "Найдены %d форма CF7"
+msgstr[2] "Найдены %d форма CF7"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:787
 msgid "%d file"
@@ -174,7 +181,7 @@ msgstr "Активация..."
 msgid "Active"
 msgstr "Автивно"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:383
+#: functions/integrations/ajax-search-module/search-statistics.php:622
 msgid "Active Filters:"
 msgstr "Активные фильтры:"
 
@@ -424,6 +431,10 @@ msgstr "Все категории"
 msgid "All Clients"
 msgstr "Все Клиенты"
 
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:156
+msgid "All Contact Form 7 events are tracked via JavaScript with REST API."
+msgstr "Все события Contact Form 7 отслеживаются через JavaScript с REST API."
+
 #: functions/integrations/personal-data/class-consent-cpt.php:49
 msgid "All Data Subjects"
 msgstr "Субъекты данных"
@@ -444,7 +455,7 @@ msgstr "Все теги FAQ"
 msgid "All FAQs"
 msgstr "Все FAQ"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:364
+#: functions/integrations/ajax-search-module/search-statistics.php:603
 msgid "All Forms"
 msgstr "Все формы"
 
@@ -454,6 +465,10 @@ msgstr "Все формы"
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:392
 msgid "All forms"
 msgstr "Все формы"
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:171
+msgid "All forms:"
+msgstr "Все формы:"
 
 #: functions/cpt/cpt-html_blocks.php:13
 msgid "All Html Blocks"
@@ -570,7 +585,7 @@ msgstr "URL-адрес Вакансии"
 msgid "Applied!"
 msgstr "Применено!"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:375
+#: functions/integrations/ajax-search-module/search-statistics.php:614
 msgid "Apply Filters"
 msgstr "Применить фильтры"
 
@@ -601,8 +616,8 @@ msgstr "Шаблон Архива для %s"
 msgid "Archived"
 msgstr "В архиве"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:535
-#: functions/integrations/ajax-search-module/search-statistics.php:554
+#: functions/integrations/ajax-search-module/search-statistics.php:774
+#: functions/integrations/ajax-search-module/search-statistics.php:793
 msgid ""
 "Are you sure you want to delete ALL search statistics data? This action "
 "cannot be undone."
@@ -843,6 +858,10 @@ msgstr "Категория субъектов персональных данн�
 msgid "Center"
 msgstr "По центру"
 
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:183
+msgid "CF7 events tracking"
+msgstr "Отслеживание событий CF7"
+
 #: redux-framework/sample/sections/codeweber/smtp.php:225
 msgid "Check SMTP Connection"
 msgstr "Проверьте SMTP-соединение"
@@ -902,20 +921,20 @@ msgstr "Выбирите из популярных типов вакансий"
 msgid "City"
 msgstr "Город"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:533
+#: functions/integrations/ajax-search-module/search-statistics.php:772
 msgid "Clear All Data"
 msgstr "Очистить все данные"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:522
+#: functions/integrations/ajax-search-module/search-statistics.php:761
 msgid "Clear Data"
 msgstr "Очистить данные"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:542
-#: functions/integrations/ajax-search-module/search-statistics.php:592
+#: functions/integrations/ajax-search-module/search-statistics.php:781
+#: functions/integrations/ajax-search-module/search-statistics.php:831
 msgid "Clear Data (AJAX)"
 msgstr "Очистить данные (AJAX)"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:376
+#: functions/integrations/ajax-search-module/search-statistics.php:615
 msgid "Clear Filters"
 msgstr "Очистить фильтры"
 
@@ -923,12 +942,12 @@ msgstr "Очистить фильтры"
 msgid "Clear LOG"
 msgstr "Очистить Лог"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:168
-#: functions/integrations/ajax-search-module/search-statistics.php:567
+#: functions/integrations/ajax-search-module/search-statistics.php:364
+#: functions/integrations/ajax-search-module/search-statistics.php:806
 msgid "Clearing data..."
 msgstr "Очистка данных..."
 
-#: functions/integrations/ajax-search-module/search-statistics.php:566
+#: functions/integrations/ajax-search-module/search-statistics.php:805
 msgid "Clearing..."
 msgstr "Очистка..."
 
@@ -1081,7 +1100,7 @@ msgstr "Подтвержден"
 msgid "Confirming your subscription to the newsletter"
 msgstr "Подтверждение подписки на рассылку"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:81
+#: functions/integrations/ajax-search-module/ajax-search.php:79
 msgid "Connection error"
 msgstr "Ошибка соединения"
 
@@ -1190,6 +1209,10 @@ msgstr "Согласия"
 msgid "Consents History"
 msgstr "История согласий"
 
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:150
+msgid "Contact Form 7 - Matomo Tracking Settings"
+msgstr "Contact Form 7 — Настройки отслеживания Matomo"
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:115
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1253
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:55
@@ -1215,11 +1238,11 @@ msgstr "Контакты"
 msgid "Container"
 msgstr "Контейнер"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:92
+#: functions/integrations/ajax-search-module/ajax-search.php:90
 msgid "Content"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:403
+#: functions/integrations/ajax-search-module/ajax-search.php:401
 msgid "content"
 msgstr ""
 
@@ -1269,7 +1292,7 @@ msgstr ""
 msgid "Could not create theme directory"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:426
+#: functions/integrations/ajax-search-module/search-statistics.php:665
 msgid "Count"
 msgstr "Количество"
 
@@ -1355,7 +1378,7 @@ msgstr "CSV Импорт"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1095
 msgid "Current Fonts"
-msgstr ""
+msgstr "Текущие шрифты"
 
 #: functions/integrations/personal-data/class-cf7-consent.php:697
 #: functions/integrations/personal-data/class-consent-manager.php:98
@@ -1380,7 +1403,7 @@ msgstr "Загрузка пользовательских шрифтов"
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1309
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:424
 msgid "Custom form fields"
-msgstr ""
+msgstr "Пользовательские поля формы"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:115
 msgid "Custom Page-Header"
@@ -1401,7 +1424,7 @@ msgstr "Пользовательский SCSS / Код"
 #: redux-framework/sample/sections/codeweber/cpt-type.php:411
 #, php-format
 msgid "Custom Subtitle for %s"
-msgstr ""
+msgstr "Пользовательский Субтайтл для %s"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:403
 #, php-format
@@ -1410,7 +1433,7 @@ msgstr "Свой заголовок для %s"
 
 #: redux-framework/sample-config.php:572
 msgid "Customizer Only Option"
-msgstr ""
+msgstr "Только для Кастомайзера"
 
 #: redux-framework/sample/sections/codeweber/api.php:16
 msgid "DaDaTa Settings"
@@ -1428,7 +1451,7 @@ msgstr "Темный"
 msgid "Dark Logo"
 msgstr "Темный Логотип"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:169
+#: functions/integrations/ajax-search-module/search-statistics.php:365
 msgid "Data cleared successfully"
 msgstr "Данные успешно удалены"
 
@@ -1472,7 +1495,7 @@ msgstr ""
 msgid "Data User profil"
 msgstr "Данные Профиль пользователя"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:413
+#: functions/integrations/ajax-search-module/search-statistics.php:652
 msgid "Database Size"
 msgstr "Размер базы данных"
 
@@ -1486,7 +1509,7 @@ msgid "Database table:"
 msgstr "Таблица базы данных:"
 
 #: functions/cpt/cpt-faq.php:148
-#: functions/integrations/ajax-search-module/search-statistics.php:464
+#: functions/integrations/ajax-search-module/search-statistics.php:703
 msgid "Date"
 msgstr "Дата"
 
@@ -1497,6 +1520,10 @@ msgid ""
 msgstr ""
 "Дата регистрации. <br>[redux_option key=\"legal_ogrnip_date\"  format=\"d.m."
 "Y\"]"
+
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:138
+msgid "Debug Mode"
+msgstr ""
 
 #: functions/cpt/cpt-faq.php:573 redux-framework/sample/metaboxes.php:111
 #: redux-framework/sample/metaboxes.php:175
@@ -1934,6 +1961,10 @@ msgstr "Включить Контейнер для контента"
 msgid "Enable Cookie Banner"
 msgstr "Включить Сookie-баннер"
 
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:141
+msgid "Enable debug logging"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:24
 msgid "Enable phone display"
 msgstr "Включить отображение телефона"
@@ -1958,7 +1989,7 @@ msgstr "Включено"
 msgid "Encryption"
 msgstr "Шифрование"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:357
+#: functions/integrations/ajax-search-module/search-statistics.php:596
 msgid "End Date:"
 msgstr "Дата окончания:"
 
@@ -1992,8 +2023,8 @@ msgstr "Введите название Дочерней темы"
 msgid "Enter the user position"
 msgstr "Введите должность пользователя"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:529
-#: functions/integrations/ajax-search-module/search-statistics.php:558
+#: functions/integrations/ajax-search-module/search-statistics.php:768
+#: functions/integrations/ajax-search-module/search-statistics.php:797
 msgid "Enter your admin password to confirm:"
 msgstr "Введите пароль администратора для подтверждения:"
 
@@ -2001,13 +2032,13 @@ msgstr "Введите пароль администратора для подт
 msgid "Error applying fonts."
 msgstr "Ошибка применения шрифтов."
 
-#: functions/integrations/ajax-search-module/search-statistics.php:91
-#: functions/integrations/ajax-search-module/search-statistics.php:170
-#: functions/integrations/ajax-search-module/search-statistics.php:589
+#: functions/integrations/ajax-search-module/search-statistics.php:252
+#: functions/integrations/ajax-search-module/search-statistics.php:366
+#: functions/integrations/ajax-search-module/search-statistics.php:828
 msgid "Error clearing data"
 msgstr "Ошибка очистки данных"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:235
+#: functions/integrations/ajax-search-module/search-statistics.php:447
 msgid "Error clearing data!"
 msgstr "Ошибка очистки данных!"
 
@@ -2058,11 +2089,11 @@ msgstr "Пример показа уведомления"
 msgid "Existing Child Themes"
 msgstr "Существующие Дочерние темы"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:516
+#: functions/integrations/ajax-search-module/search-statistics.php:755
 msgid "Export current filtered data:"
 msgstr "Экспорт текущих отфильтрованных данных:"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:509
+#: functions/integrations/ajax-search-module/search-statistics.php:748
 msgid "Export Data"
 msgstr "Экспорт данных"
 
@@ -2071,7 +2102,7 @@ msgstr "Экспорт данных"
 msgid "Export Subscriptions"
 msgstr "Экспорт подписчиков"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:517
+#: functions/integrations/ajax-search-module/search-statistics.php:756
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:408
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:399
 msgid "Export to CSV"
@@ -2235,7 +2266,7 @@ msgstr ""
 msgid "Filter Price Packages"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:346
+#: functions/integrations/ajax-search-module/search-statistics.php:585
 msgid "Filters"
 msgstr "Фильтры"
 
@@ -2427,9 +2458,9 @@ msgstr "Форма"
 msgid "Form Creation Instructions"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:427
-#: functions/integrations/ajax-search-module/search-statistics.php:466
-#: functions/integrations/ajax-search-module/search-statistics.php:672
+#: functions/integrations/ajax-search-module/search-statistics.php:666
+#: functions/integrations/ajax-search-module/search-statistics.php:705
+#: functions/integrations/ajax-search-module/search-statistics.php:917
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:709
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:699
 msgid "Form ID"
@@ -2451,7 +2482,11 @@ msgstr "Идентификатор формы для импортированн�
 msgid "Form Title"
 msgstr "Название формы"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:390
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:170
+msgid "Form titles are fetched from REST API:"
+msgstr "Заголовки форм извлекаются из REST API"
+
+#: functions/integrations/ajax-search-module/search-statistics.php:629
 msgid "Form:"
 msgstr ""
 
@@ -2464,7 +2499,7 @@ msgstr ""
 msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr "Формат +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:94
+#: functions/integrations/ajax-search-module/ajax-search.php:92
 msgid "Found"
 msgstr "Найдено"
 
@@ -2476,7 +2511,7 @@ msgstr "E-Mail отправителя"
 msgid "From Name"
 msgstr "Имя отправителя"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:386
+#: functions/integrations/ajax-search-module/search-statistics.php:625
 msgid "From:"
 msgstr ""
 
@@ -2565,7 +2600,7 @@ msgstr ""
 msgid "Google Tag Manager Settings"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:482
+#: functions/integrations/ajax-search-module/search-statistics.php:721
 msgid "Guest"
 msgstr ""
 
@@ -2713,6 +2748,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/company-details.php:126
 msgid "House Number"
 msgstr "Номер дома"
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:169
+msgid "How it works:"
+msgstr "Как это работает:"
 
 #: functions/cpt/cpt-html_blocks.php:11 functions/cpt/cpt-html_blocks.php:23
 #, fuzzy
@@ -2872,7 +2911,7 @@ msgstr ""
 msgid "iCloud"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:664
+#: functions/integrations/ajax-search-module/search-statistics.php:909
 msgid "ID"
 msgstr ""
 
@@ -2994,7 +3033,8 @@ msgstr ""
 msgid "Instructions"
 msgstr "Инструкции"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:71
+#: functions/integrations/ajax-search-module/search-statistics.php:232
+#: functions/integrations/ajax-search-module/search-statistics.php:397
 #: redux-framework/sample/sections/codeweber/childtheme.php:241
 #: redux-framework/sample/sections/codeweber/childtheme.php:347
 msgid "Insufficient permissions"
@@ -3011,6 +3051,10 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/admin/newsletter-import-export.php:99
 msgid "Insufficient permissions for import"
 msgstr ""
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:176
+msgid "Integration Status"
+msgstr "Статус интеграции"
 
 #: functions/cpt/cpt-vacancies.php:392
 msgid "Internship"
@@ -3053,12 +3097,12 @@ msgstr ""
 msgid "Invalid import request"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:83
-#: functions/integrations/ajax-search-module/search-statistics.php:171
+#: functions/integrations/ajax-search-module/search-statistics.php:244
+#: functions/integrations/ajax-search-module/search-statistics.php:367
 msgid "Invalid password"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:238
+#: functions/integrations/ajax-search-module/search-statistics.php:450
 msgid "Invalid password!"
 msgstr ""
 
@@ -3100,6 +3144,14 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:585
 msgid "JavaScript events"
 msgstr ""
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:155
+msgid "JavaScript Tracking Active"
+msgstr "Отслеживание JavaScript Активно"
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:180
+msgid "JavaScript tracking enabled"
+msgstr "Отслеживание JavaScript включено"
 
 #: redux-framework/sample/sections/codeweber/legal.php:64
 msgid "KPP"
@@ -3413,6 +3465,31 @@ msgid ""
 msgstr ""
 "Сопоставление полей формы с полями модуля для хранения журналов согласия "
 "пользователей с юридическими документами сайта."
+
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:23
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:24
+msgid "Matomo Integration"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:178
+msgid "Matomo JavaScript Tracking Status"
+msgstr "Статус отслеживания Matomo JavaScript"
+
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:120
+msgid "Matomo plugin is not active. Search tracking is disabled."
+msgstr ""
+
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:116
+msgid "Matomo Search Integration"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:134
+msgid "Matomo Tracking"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:133
+msgid "Matomo Tracking Settings"
+msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:52
 #: functions/integrations/image-licenses/image-licenses.php:79
@@ -3789,8 +3866,8 @@ msgstr "Не найден Футер"
 msgid "No footers found in Trash"
 msgstr "Не найдены Футеры в корзине"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:365
-#: functions/integrations/ajax-search-module/search-statistics.php:389
+#: functions/integrations/ajax-search-module/search-statistics.php:604
+#: functions/integrations/ajax-search-module/search-statistics.php:628
 msgid "No Form ID"
 msgstr "Нет ID Формы"
 
@@ -3830,6 +3907,10 @@ msgstr "Нет Модальных окон"
 #: functions/cpt/cpt-modals.php:21
 msgid "No modals found in Trash"
 msgstr "Нет Модальных окон в корзине"
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:33
+msgid "No Name Form"
+msgstr ""
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:277
 msgid "No newsletter subscription data found for this email"
@@ -3897,15 +3978,15 @@ msgstr ""
 "Страница Политики в отношении обработки персональных данных  не выбрана "
 "администратором"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:499
+#: functions/integrations/ajax-search-module/search-statistics.php:738
 msgid "No recent searches found"
 msgstr "Недавние поиски не найдены."
 
-#: functions/integrations/ajax-search-module/ajax-search.php:82
+#: functions/integrations/ajax-search-module/ajax-search.php:80
 msgid "No results found"
 msgstr "Нет результатов"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:450
+#: functions/integrations/ajax-search-module/search-statistics.php:689
 msgid "No search queries found"
 msgstr "Поисковые запросы не найдены."
 
@@ -3918,7 +3999,7 @@ msgstr ""
 msgid "No subscriptions found"
 msgstr "Подписки не найдены"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:90
+#: functions/integrations/ajax-search-module/ajax-search.php:88
 msgid "No title"
 msgstr ""
 
@@ -3954,8 +4035,8 @@ msgstr "Типы вакансий не найдены"
 msgid "None"
 msgstr "Нет"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:443
-#: functions/integrations/ajax-search-module/search-statistics.php:488
+#: functions/integrations/ajax-search-module/search-statistics.php:682
+#: functions/integrations/ajax-search-module/search-statistics.php:727
 #: redux-framework/sample/sections/codeweber/header.php:87
 msgid "none"
 msgstr "Нет"
@@ -4011,7 +4092,7 @@ msgstr "Количество подписчиков:"
 msgid "Odnoklassniki"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:95
+#: functions/integrations/ajax-search-module/ajax-search.php:93
 msgid "of"
 msgstr "из"
 
@@ -4130,7 +4211,7 @@ msgstr ""
 msgid "Outlook"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:467
+#: functions/integrations/ajax-search-module/search-statistics.php:706
 msgid "Page"
 msgstr "Страница"
 
@@ -4217,11 +4298,11 @@ msgstr "Страница не найдена"
 msgid "Page not found"
 msgstr "Страница не найдена"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:669
+#: functions/integrations/ajax-search-module/search-statistics.php:914
 msgid "Page Title"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:668
+#: functions/integrations/ajax-search-module/search-statistics.php:913
 msgid "Page URL"
 msgstr ""
 
@@ -4554,7 +4635,7 @@ msgstr ""
 "Примечание: сначала необходимо создать боковую панель в разделе «Внешний "
 "вид» > «Виджеты»."
 
-#: functions/integrations/ajax-search-module/search-statistics.php:421
+#: functions/integrations/ajax-search-module/search-statistics.php:660
 msgid "Popular Search Queries"
 msgstr "Популярные поисковые запросы"
 
@@ -4847,19 +4928,19 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:425
-#: functions/integrations/ajax-search-module/search-statistics.php:462
+#: functions/integrations/ajax-search-module/search-statistics.php:664
+#: functions/integrations/ajax-search-module/search-statistics.php:701
 msgid "Query"
 msgstr "Запрос"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:80
-#: functions/integrations/ajax-search-module/search-statistics.php:53
-#: functions/integrations/ajax-search-module/search-statistics.php:166
+#: functions/integrations/ajax-search-module/ajax-search.php:78
+#: functions/integrations/ajax-search-module/search-statistics.php:52
+#: functions/integrations/ajax-search-module/search-statistics.php:362
 msgid "Query too short"
 msgstr "Запрос слишком короткий"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:114
-#: functions/integrations/ajax-search-module/ajax-search.php:164
+#: functions/integrations/ajax-search-module/ajax-search.php:112
+#: functions/integrations/ajax-search-module/ajax-search.php:162
 msgid "Query too short. Minimum 3 characters required."
 msgstr "Запрос слишком короткий. Требуется минимум 3 символа."
 
@@ -4877,7 +4958,7 @@ msgstr "Заголовок вопроса"
 msgid "Read More"
 msgstr "Читать"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:458
+#: functions/integrations/ajax-search-module/search-statistics.php:697
 msgid "Recent Searches"
 msgstr "Недавние поиски"
 
@@ -4979,26 +5060,38 @@ msgstr "Обязанности"
 msgid "Responsible Person (Full Name)"
 msgstr "Ответственное лицо (ФИО)"
 
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:187
+msgid "REST API Endpoint"
+msgstr "Конечная точка REST API"
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:181
+msgid "REST API integration"
+msgstr "Интеграция REST API"
+
+#: functions/integrations/ajax-search-module/ajax-search.php:83
+#: functions/integrations/ajax-search-module/ajax-search.php:84
 #: functions/integrations/ajax-search-module/ajax-search.php:85
-#: functions/integrations/ajax-search-module/ajax-search.php:86
-#: functions/integrations/ajax-search-module/ajax-search.php:87
 msgid "result"
 msgid_plural "results"
 msgstr[0] "результат"
 msgstr[1] "результата"
 msgstr[2] "результатов"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:465
+#: functions/integrations/ajax-search-module/search-statistics.php:704
 msgid "Results"
 msgstr "Результатов"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:670
+#: functions/integrations/ajax-search-module/search-statistics.php:915
 msgid "Results Count"
 msgstr "Количество результатов"
 
 #: functions/admin/admin_privacy.php:1718
 msgid "Return Policy"
 msgstr "Условия возврата"
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:189
+msgid "Returns:"
+msgstr "Возврат:"
 
 #: functions/personal-data.php:276
 #: functions/integrations/personal-data/class-consent-cpt.php:329
@@ -5059,6 +5152,10 @@ msgstr ""
 msgid "Salary"
 msgstr "Заработная плата"
 
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:146
+msgid "Save Settings"
+msgstr ""
+
 #: functions/lib/comments-helper.php:32
 msgid "says:"
 msgstr ""
@@ -5089,7 +5186,7 @@ msgstr "Найти Клиента"
 msgid "Search Data Subjects"
 msgstr "Поиск субъектов данных"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:671
+#: functions/integrations/ajax-search-module/search-statistics.php:916
 msgid "Search Date"
 msgstr "Дата поиска"
 
@@ -5113,7 +5210,7 @@ msgstr "Поиск FAQ"
 msgid "Search Footers"
 msgstr "Найти Футер"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:362
+#: functions/integrations/ajax-search-module/search-statistics.php:601
 msgid "Search Form:"
 msgstr "Форма поиска:"
 
@@ -5163,12 +5260,12 @@ msgstr "Добавить Тарифный план"
 msgid "Search Projects"
 msgstr "Найти Проект"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:665
+#: functions/integrations/ajax-search-module/search-statistics.php:910
 msgid "Search Query"
 msgstr "Поисковый запрос"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:61
-#: functions/integrations/ajax-search-module/search-statistics.php:167
+#: functions/integrations/ajax-search-module/search-statistics.php:69
+#: functions/integrations/ajax-search-module/search-statistics.php:363
 msgid "Search query saved"
 msgstr "Поисковый запрос сохранен"
 
@@ -5190,20 +5287,20 @@ msgstr "Найти Услугу"
 msgid "Search Staff"
 msgstr "Найти Сотрудника"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:181
-#: functions/integrations/ajax-search-module/search-statistics.php:342
+#: functions/integrations/ajax-search-module/search-statistics.php:377
+#: functions/integrations/ajax-search-module/search-statistics.php:581
 msgid "Search Statistics"
 msgstr "Статистика поиска"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:89
+#: functions/integrations/ajax-search-module/search-statistics.php:250
 msgid "Search statistics cleared successfully"
 msgstr "Статистика поиска успешно очищена"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:233
+#: functions/integrations/ajax-search-module/search-statistics.php:445
 msgid "Search statistics data cleared successfully!"
 msgstr "Данные статистики поиска успешно очищены!"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:182
+#: functions/integrations/ajax-search-module/search-statistics.php:378
 msgid "Search Stats"
 msgstr "Статистика поиска"
 
@@ -5215,11 +5312,11 @@ msgstr "Поиск вакансий"
 msgid "Search Vacancy Types"
 msgstr "Поиск типов вакансий"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:576
+#: functions/integrations/ajax-search-module/ajax-search.php:574
 msgid "Search..."
 msgstr "Поиск..."
 
-#: functions/integrations/ajax-search-module/ajax-search.php:78
+#: functions/integrations/ajax-search-module/ajax-search.php:76
 msgid "Searching..."
 msgstr "Ищем..."
 
@@ -5232,12 +5329,12 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:79
-#: functions/integrations/ajax-search-module/ajax-search.php:108
-#: functions/integrations/ajax-search-module/ajax-search.php:158
+#: functions/integrations/ajax-search-module/ajax-search.php:77
+#: functions/integrations/ajax-search-module/ajax-search.php:106
+#: functions/integrations/ajax-search-module/ajax-search.php:156
 #: functions/integrations/ajax-search-module/search-statistics.php:46
-#: functions/integrations/ajax-search-module/search-statistics.php:75
-#: functions/integrations/ajax-search-module/search-statistics.php:165
+#: functions/integrations/ajax-search-module/search-statistics.php:236
+#: functions/integrations/ajax-search-module/search-statistics.php:361
 msgid "Security error"
 msgstr ""
 
@@ -5450,6 +5547,10 @@ msgstr "Информация об организации"
 msgid "Send"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:134
+msgid "Send search queries to Matomo as Events"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:133
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:73
 msgid "Send subscription confirmation email"
@@ -5490,6 +5591,11 @@ msgstr "Отправка..."
 #: functions/cpt/cpt-vacancies.php:80
 msgid "Separate vacancy types with commas"
 msgstr "Разделяйте типы вакансий запятыми."
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:37
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:164
+msgid "Server error"
+msgstr ""
 
 #: functions/cpt/cpt-services.php:10 functions/cpt/cpt-services.php:29
 msgid "Service"
@@ -5559,6 +5665,10 @@ msgstr ""
 msgid "Set featured Image for this staff"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:125
+msgid "Settings"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/api.php:8
 msgid "Settings API"
 msgstr "Настройки API"
@@ -5596,6 +5706,10 @@ msgstr ""
 "персональных данных, Политики в отношении использования файлов cookie и форм "
 "согласия на использование персональных данных в соответствии с "
 "законодательством Российской Федерации."
+
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:108
+msgid "Settings saved!"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/socials.php:8
 #: redux-framework/sample/sections/extensions/users.php:32
@@ -5758,7 +5872,7 @@ msgstr "Короткий код: [redux_option key=\"text-about-company\"]"
 msgid "Show \"%s\" column"
 msgstr "Показать колонку \"%s\" "
 
-#: functions/integrations/ajax-search-module/ajax-search.php:93
+#: functions/integrations/ajax-search-module/ajax-search.php:91
 msgid "Show all"
 msgstr "Показать все"
 
@@ -5912,6 +6026,11 @@ msgstr ""
 msgid "Sort order: ASC (ascending) or DESC (descending)"
 msgstr "Порядок сортировки: ASC (по возрастанию) или DESC (по убыванию)"
 
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:38
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:166
+msgid "Spam detected"
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:274
 msgid "Specific item or project the license is for"
 msgstr "Конкретный элемент или проект, на который выдана лицензия"
@@ -5946,7 +6065,7 @@ msgstr ""
 msgid "Staff updated"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:352
+#: functions/integrations/ajax-search-module/search-statistics.php:591
 msgid "Start Date:"
 msgstr "Дата начала:"
 
@@ -5983,6 +6102,11 @@ msgstr "Улица"
 #: comments.php:153
 msgid "Submit"
 msgstr "Отправить"
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:39
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:162
+msgid "Submit button clicked"
+msgstr ""
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:663
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1247
@@ -6169,6 +6293,11 @@ msgstr "Подписки"
 msgid "Subtitle"
 msgstr ""
 
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:35
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:163
+msgid "Successful submission"
+msgstr ""
+
 #: functions/roles.php:8
 msgid "Super Admin"
 msgstr ""
@@ -6191,7 +6320,7 @@ msgstr "систематизация"
 msgid "Tags"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:89
+#: functions/integrations/ajax-search-module/ajax-search.php:87
 msgid "Taxonomy"
 msgstr ""
 
@@ -6367,7 +6496,7 @@ msgstr ""
 msgid "Theme style"
 msgstr "Стилизация Темы"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:524
+#: functions/integrations/ajax-search-module/search-statistics.php:763
 msgid ""
 "This action will permanently delete all search statistics data. This cannot "
 "be undone."
@@ -6460,13 +6589,13 @@ msgstr ""
 msgid "Tik-Tok"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/ajax-search.php:91
+#: functions/integrations/ajax-search-module/ajax-search.php:89
 #: redux-framework/sample/sections/codeweber/page-header.php:184
 #: redux-framework/sample/sections/codeweber/repeater.php:32
 msgid "Title"
 msgstr "Заголовок"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:395
+#: functions/integrations/ajax-search-module/ajax-search.php:393
 msgid "title"
 msgstr ""
 
@@ -6490,11 +6619,11 @@ msgstr "Размер заголовка в Page Header"
 msgid "to receive informational and promotional newsletters"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:387
+#: functions/integrations/ajax-search-module/search-statistics.php:626
 msgid "To:"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:409
+#: functions/integrations/ajax-search-module/search-statistics.php:648
 msgid "Today's Searches"
 msgstr "Сегодняшние поиски"
 
@@ -6502,11 +6631,11 @@ msgstr "Сегодняшние поиски"
 msgid "Topbar"
 msgstr "ТопХедер"
 
-#: functions/integrations/ajax-search-module/ajax-search.php:83
+#: functions/integrations/ajax-search-module/ajax-search.php:81
 msgid "Total found"
 msgstr "Всего найдено"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:401
+#: functions/integrations/ajax-search-module/search-statistics.php:640
 msgid "Total Searches"
 msgstr "Всего поисков"
 
@@ -6517,6 +6646,19 @@ msgstr "Город"
 #: functions/cpt/cpt-offices.php:66 functions/cpt/cpt-offices.php:71
 msgid "Towns"
 msgstr "Города"
+
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:130
+msgid "Track Searches"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:160
+msgid "Tracked Events"
+msgstr "Отслеживаемые события"
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:171
+msgid "Tracked via CF7 events (works for regular and modal forms)"
+msgstr ""
+"Отслеживается через события CF7 (работает для обычных и модальных форм)"
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:6
 msgid "Tracking & Metrics"
@@ -6624,9 +6766,9 @@ msgstr ""
 msgid "unique form identifier (required)"
 msgstr "уникальный идентификатор формы (обязательно)"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:405
+#: functions/integrations/ajax-search-module/search-statistics.php:644
 msgid "Unique Queries"
-msgstr ""
+msgstr "Уникальные запросы"
 
 #: redux-framework/sample/metaboxes.php:325
 msgid "Unlimited slides with drag and drop sorting."
@@ -6821,12 +6963,12 @@ msgstr "Использовать этот PDF"
 msgid "Use WordPress publish date"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:463
+#: functions/integrations/ajax-search-module/search-statistics.php:702
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:261
 msgid "User"
 msgstr "Пользователь"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:479
+#: functions/integrations/ajax-search-module/search-statistics.php:718
 msgid "User #"
 msgstr "Пользователь #"
 
@@ -6858,7 +7000,7 @@ msgstr "User Agent/Данные браузера"
 msgid "User Consents"
 msgstr "Пользовательские согласия"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:666
+#: functions/integrations/ajax-search-module/search-statistics.php:911
 #: functions/integrations/personal-data/class-consent-cpt.php:383
 msgid "User ID"
 msgstr "ID Пользователя"
@@ -6867,7 +7009,7 @@ msgstr "ID Пользователя"
 msgid "User ID (if registered):"
 msgstr "ID Пользователя (если зарегистрирован)"
 
-#: functions/integrations/ajax-search-module/search-statistics.php:667
+#: functions/integrations/ajax-search-module/search-statistics.php:912
 msgid "User IP"
 msgstr "IP пользователя"
 
@@ -6946,6 +7088,14 @@ msgstr "Навигация по списку типов вакансий"
 #: functions/cpt/cpt-vacancies.php:26
 msgid "Vacancy updated"
 msgstr "Вакансия обновлена"
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:36
+msgid "Validation error"
+msgstr ""
+
+#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:165
+msgid "Validation error (with error count)"
+msgstr ""
 
 #: functions/admin/admin_user_profil.php:17
 msgid "Verified"
@@ -7155,7 +7305,7 @@ msgstr ""
 msgid "Vkontakte"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/search-statistics.php:524
+#: functions/integrations/ajax-search-module/search-statistics.php:763
 msgid "Warning:"
 msgstr "Внимание:"
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-10-04 20:38+0000\n"
+"PO-Revision-Date: 2025-10-04 23:24+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -140,7 +140,7 @@ msgstr "Пользовательский тип записи для управл
 
 #. Description of the theme
 msgid "A modular WordPress starter theme powered by Bootstrap 5 and Gulp"
-msgstr ""
+msgstr "Модульная стартовая тема WordPress, работающая на Bootstrap 5 и Gulp"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:15
 #: redux-framework/sample/sections/codeweber/company-details.php:21
@@ -433,7 +433,7 @@ msgstr "Все Клиенты"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:156
 msgid "All Contact Form 7 events are tracked via JavaScript with REST API."
-msgstr ""
+msgstr "Все события Contact Form 7 отслеживаются через JavaScript с REST API."
 
 #: functions/integrations/personal-data/class-consent-cpt.php:49
 msgid "All Data Subjects"
@@ -468,7 +468,7 @@ msgstr "Все формы"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:171
 msgid "All forms:"
-msgstr ""
+msgstr "Все формы:"
 
 #: functions/cpt/cpt-html_blocks.php:13
 msgid "All Html Blocks"
@@ -647,7 +647,7 @@ msgstr "Прикрепленные изображения"
 
 #: functions/integrations/image-licenses/image-licenses.php:126
 msgid "Attached Media Files"
-msgstr ""
+msgstr "Прикрепленные медиа-файлы"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:35
 msgid "Author"
@@ -709,7 +709,7 @@ msgstr "Базовый"
 
 #: redux-framework/sample/sections/codeweber/footer.php:155
 msgid "Base Footer Models"
-msgstr ""
+msgstr "Базовые модели Футера"
 
 #: redux-framework/sample/sections/codeweber/header.php:171
 msgid "Base Header Models"
@@ -1211,7 +1211,7 @@ msgstr "История согласий"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:150
 msgid "Contact Form 7 - Matomo Tracking Settings"
-msgstr ""
+msgstr "Contact Form 7 — Настройки отслеживания Matomo"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:115
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1253
@@ -2484,7 +2484,7 @@ msgstr "Название формы"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:170
 msgid "Form titles are fetched from REST API:"
-msgstr ""
+msgstr "Заголовки форм извлекаются из REST API"
 
 #: functions/integrations/ajax-search-module/search-statistics.php:629
 msgid "Form:"
@@ -2751,7 +2751,7 @@ msgstr "Номер дома"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:169
 msgid "How it works:"
-msgstr ""
+msgstr "Как это работает:"
 
 #: functions/cpt/cpt-html_blocks.php:11 functions/cpt/cpt-html_blocks.php:23
 #, fuzzy
@@ -3054,7 +3054,7 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:176
 msgid "Integration Status"
-msgstr ""
+msgstr "Статус интеграции"
 
 #: functions/cpt/cpt-vacancies.php:392
 msgid "Internship"
@@ -3147,11 +3147,11 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:155
 msgid "JavaScript Tracking Active"
-msgstr ""
+msgstr "Отслеживание JavaScript Активно"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:180
 msgid "JavaScript tracking enabled"
-msgstr ""
+msgstr "Отслеживание JavaScript включено"
 
 #: redux-framework/sample/sections/codeweber/legal.php:64
 msgid "KPP"
@@ -3469,11 +3469,11 @@ msgstr ""
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:23
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:24
 msgid "Matomo Integration"
-msgstr ""
+msgstr "Matomo Интеграция"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:178
 msgid "Matomo JavaScript Tracking Status"
-msgstr ""
+msgstr "Статус отслеживания Matomo JavaScript"
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:120
 msgid "Matomo plugin is not active. Search tracking is disabled."
@@ -5062,11 +5062,11 @@ msgstr "Ответственное лицо (ФИО)"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:187
 msgid "REST API Endpoint"
-msgstr ""
+msgstr "Конечная точка REST API"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:181
 msgid "REST API integration"
-msgstr ""
+msgstr "Интеграция REST API"
 
 #: functions/integrations/ajax-search-module/ajax-search.php:83
 #: functions/integrations/ajax-search-module/ajax-search.php:84
@@ -5091,7 +5091,7 @@ msgstr "Условия возврата"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:189
 msgid "Returns:"
-msgstr ""
+msgstr "Возврат:"
 
 #: functions/personal-data.php:276
 #: functions/integrations/personal-data/class-consent-cpt.php:329
@@ -6653,11 +6653,12 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:160
 msgid "Tracked Events"
-msgstr ""
+msgstr "Отслеживаемые события"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:171
 msgid "Tracked via CF7 events (works for regular and modal forms)"
 msgstr ""
+"Отслеживается через события CF7 (работает для обычных и модальных форм)"
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:6
 msgid "Tracking & Metrics"
