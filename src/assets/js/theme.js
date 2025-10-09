@@ -589,14 +589,37 @@ var theme = {
 
   /**
    * Plyr
-   * Enables media player
+   * Enables media player with support for YouTube, Vimeo, Rutube, and VK Video
    * Requires assets/js/vendor/plyr.js
    */
   plyr: () => {
     var players = Plyr.setup(".player", {
       loadSprite: true,
+      // Enable support for new providers
+      rutube: {
+        customControls: true,
+        autoplay: false,
+        autoUnmute: false,
+        autoUnmuteDelay: 1000,
+      },
+      vkvideo: {
+        customControls: true,
+        autoplay: false,
+        autoUnmute: false,
+        autoUnmuteDelay: 1000,
+      },
+    });
+
+    // Log initialized players for debugging
+    console.log("Plyr initialized with support for:", {
+      youtube: "enabled (no changes needed)",
+      vimeo: "enabled (no changes needed)",
+      rutube: "enabled",
+      vkvideo: "enabled",
+      totalPlayers: players.length,
     });
   },
+
   /**
    * Progressbar
    * Enables animated progressbars

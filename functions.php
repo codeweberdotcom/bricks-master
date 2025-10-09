@@ -32,7 +32,7 @@ if (class_exists('WPCF7')) {
 };
 
 require_once get_template_directory() . '/functions/admin/admin_settings.php';
-//require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
+require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
 
 if (class_exists('WooCommerce')) {
 	require_once get_template_directory() . '/functions/woocommerce.php';
