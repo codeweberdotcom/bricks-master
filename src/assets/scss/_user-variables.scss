@@ -932,8 +932,8 @@ a.card:hover .hover-4::before {
   content: "";
   position: absolute;
   display: inline-block;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  transform: translateY(-22%);
   left: 0;
   width: 13px;
   height: 13px;

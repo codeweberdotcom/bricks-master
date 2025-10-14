@@ -557,7 +557,7 @@ var theme = {
     touchNavigation: true,
     loop: false,
     zoomable: true,
-    autoplayVideos: true,
+    autoplayVideos: false,
     moreLength: 0,
     slideExtraAttributes: {
       poster: "",
@@ -583,43 +583,35 @@ var theme = {
           title: false,
           transparent: false,
         },
+        vkvideo: {
+          allowfullscreen: true,
+          allow:
+            "autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;",
+          style: "border: none; width: 720px; height: 405px;",
+          width: "720",
+          height: "405",
+        },
+        rutube: {
+          allowfullscreen: true,
+          allow: "clipboard-write; autoplay;",
+          style: "border: none; width: 720px; height: 405px;",
+          width: "720",
+          height: "405",
+        },
       },
     },
   }),
 
   /**
    * Plyr
-   * Enables media player with support for YouTube, Vimeo, Rutube, and VK Video
+   * Enables media player
    * Requires assets/js/vendor/plyr.js
    */
   plyr: () => {
     var players = Plyr.setup(".player", {
       loadSprite: true,
-      // Enable support for new providers
-      rutube: {
-        customControls: true,
-        autoplay: false,
-        autoUnmute: false,
-        autoUnmuteDelay: 1000,
-      },
-      vkvideo: {
-        customControls: true,
-        autoplay: false,
-        autoUnmute: false,
-        autoUnmuteDelay: 1000,
-      },
-    });
-
-    // Log initialized players for debugging
-    console.log("Plyr initialized with support for:", {
-      youtube: "enabled (no changes needed)",
-      vimeo: "enabled (no changes needed)",
-      rutube: "enabled",
-      vkvideo: "enabled",
-      totalPlayers: players.length,
     });
   },
-
   /**
    * Progressbar
    * Enables animated progressbars
