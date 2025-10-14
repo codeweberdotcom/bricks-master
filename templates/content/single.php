@@ -82,7 +82,7 @@
 					if (!empty($avatar_id)) :
 						$avatar_src = wp_get_attachment_image_src($avatar_id, 'thumbnail');
 					?>
-						<img decoding="async" class="avatar w-48 h-48 me-3" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
+						<img decoding="async" class="avatar w-48 h-48 me-3 shadow-lg" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
 					<?php else : ?>
 						<?php echo get_avatar(get_the_author_meta('user_email'), 96); ?>
 					<?php endif; ?>
