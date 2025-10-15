@@ -45,6 +45,11 @@ $container-max-widths: (
 );
 
 
+.swiper-hero-blog, .swiper-hero-blog .swiper-slide {
+    height: 450px !important;
+}
+
+
 //----------------------------------------------------------//
 //	CARD
 //----------------------------------------------------------//
