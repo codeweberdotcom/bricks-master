@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-04 20:37+0000\n"
+"POT-Creation-Date: 2025-10-16 11:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -1492,7 +1492,7 @@ msgid ""
 "format=\"d.m.Y\"]"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:138
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:145
 msgid "Debug Mode"
 msgstr ""
 
@@ -1927,7 +1927,7 @@ msgstr ""
 msgid "Enable Cookie Banner"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:141
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:148
 msgid "Enable debug logging"
 msgstr ""
 
@@ -3402,11 +3402,11 @@ msgstr ""
 msgid "Matomo JavaScript Tracking Status"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:120
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:127
 msgid "Matomo plugin is not active. Search tracking is disabled."
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:116
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:123
 msgid "Matomo Search Integration"
 msgstr ""
 
@@ -5047,7 +5047,7 @@ msgstr ""
 msgid "Salary"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:146
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:153
 msgid "Save Settings"
 msgstr ""
 
@@ -5440,7 +5440,7 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:134
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:141
 msgid "Send search queries to Matomo as Events"
 msgstr ""
 
@@ -5557,7 +5557,7 @@ msgstr ""
 msgid "Set featured Image for this staff"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:125
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:132
 msgid "Settings"
 msgstr ""
 
@@ -5595,7 +5595,7 @@ msgid ""
 "personal data consent forms in accordance with Russian Federation law."
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:108
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:115
 msgid "Settings saved!"
 msgstr ""
 
@@ -6498,7 +6498,7 @@ msgstr ""
 msgid "Towns"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:130
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:137
 msgid "Track Searches"
 msgstr ""
 
