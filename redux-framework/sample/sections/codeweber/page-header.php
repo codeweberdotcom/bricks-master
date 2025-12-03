@@ -12,6 +12,10 @@ defined('ABSPATH') || exit;
 // Путь к файлу colors.json
 $colors_file = get_template_directory() . '/components/colors.json';
 
+// Инициализируем переменные по умолчанию
+$color_options = array();
+$soft_color_options = array();
+
 // Проверяем, существует ли файл
 if (file_exists($colors_file)) {
 	// Загружаем содержимое файла и декодируем его в массив
@@ -20,8 +24,6 @@ if (file_exists($colors_file)) {
 	// Проверяем, успешно ли декодирован JSON
 	if ($colors_data && is_array($colors_data)) {
 		// Преобразуем массив цветов в формат для Redux
-		$color_options = array();
-		$soft_color_options = array();
 		foreach ($colors_data as $color) {
 			$color_options[$color['value']] = esc_html__($color['label'], 'codeweber');
 		}

@@ -49,15 +49,11 @@ require_once get_template_directory() . '/functions/lib/comments-helper.php'; //
 require_once get_template_directory() . '/functions/comments-reply.php'; // --- Comments Reply Functions ---
 
 
-
-
-
 // Подключаем модуль персональных данных
 require_once get_template_directory() . '/functions/integrations/personal-data/init.php';
 
 // Подключение модуля newsletter subscription
 require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-init.php';
-
 
 
 /**
