@@ -54,6 +54,7 @@ figure.overlay img {
     width: 100%;
     height: 100%;
     background: rgba($gray-900, 0.6);
+    pointer-events: none;
   }
   &.color span.bg {
     background: rgba(var(--#{$prefix}primary-rgb), 0.7);
@@ -156,6 +157,45 @@ figure.overlay img {
     left: 0;
     width: 100%;
     transform: translateY(-80%);
+  }
+  &:hover {
+    figcaption,
+    .figcaption {
+      opacity: 1;
+    }
+    figcaption *,
+    .figcaption * {
+      transform: translateY(-50%);
+    }
+  }
+}
+.overlay-4 {
+  * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  figcaption {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0.75rem 1rem;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+    text-align: center;
+  }
+  .from-top {
+    position: absolute;
+    padding: 0.75rem 1rem;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-80%);
+    i {
+      @include font-size(2rem);
+    }
   }
   &:hover {
     figcaption,
@@ -291,6 +331,10 @@ figure.overlay img {
 }
 .itooltip-dark.itooltip-inner {
   background: rgba($gray-900, 0.9);
+  color: var(--#{$prefix}white);
+}
+.itooltip-dark.itooltip-inner * {
+  color: var(--#{$prefix}white);
 }
 .itooltip-color.itooltip-inner {
   background: rgba(var(--#{$prefix}primary-rgb), 0.9);
@@ -300,9 +344,6 @@ figure.overlay img {
     .itooltip-#{$color}.itooltip-inner {
       background: rgba($value, 0.9);
     }
-}
-[class*="itooltip-"]:not(.itooltip-light).itooltip-inner * {
-  color: var(--#{$prefix}white);
 }
 .lift {
   -webkit-backface-visibility: hidden;
