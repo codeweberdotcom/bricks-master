@@ -3,11 +3,34 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalButtons = document.querySelectorAll('a[data-bs-toggle="modal"]');
   const modalElement = document.getElementById("modal");
   const modalContent = document.getElementById("modal-content");
-  if (!modalElement || !modalContent) {
+  const modalDialog = modalElement ? modalElement.querySelector(".modal-dialog") : null;
+  
+  if (!modalElement || !modalContent || !modalDialog) {
     return;
   }
 
   const modalInstance = new bootstrap.Modal(modalElement);
+
+  /**
+   * Apply modal size class to modal-dialog
+   * @param {string} sizeClass - Modal size class (modal-sm, modal-lg, etc.)
+   */
+  const applyModalSize = (sizeClass) => {
+    // Remove all existing size classes
+    const sizeClasses = [
+      'modal-sm', 'modal-lg', 'modal-xl', 
+      'modal-fullscreen', 'modal-fullscreen-sm-down', 
+      'modal-fullscreen-md-down', 'modal-fullscreen-lg-down',
+      'modal-fullscreen-xl-down', 'modal-fullscreen-xxl-down'
+    ];
+    
+    sizeClasses.forEach(cls => modalDialog.classList.remove(cls));
+    
+    // Add new size class if provided
+    if (sizeClass && sizeClass.trim() !== '') {
+      modalDialog.classList.add(sizeClass);
+    }
+  };
 
   // ✅ Предзагрузка формы в кэш при появлении кнопки в viewport
   if ("IntersectionObserver" in window) {
@@ -47,6 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
                   `${dataValue}_time`,
                   Date.now().toString()
                 );
+                // Cache modal size as well
+                const modalSize = data.modal_size || '';
+                localStorage.setItem(`${dataValue}_size`, modalSize);
               }
             })
             .catch((err) => {
@@ -75,12 +101,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       const cachedContent = localStorage.getItem(dataValue);
       const cachedTime = localStorage.getItem(`${dataValue}_time`);
+      const cachedSize = localStorage.getItem(`${dataValue}_size`);
+      
       if (
         ENABLE_CACHE &&
         cachedContent &&
         cachedTime &&
         Date.now() - cachedTime < 60000
       ) {
+        // Apply cached modal size
+        if (cachedSize) {
+          applyModalSize(cachedSize);
+        }
         modalContent.innerHTML = cachedContent;
         modalInstance.show();
       } else {
@@ -93,13 +125,19 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .then((data) => {
             if (data && data.content && data.content.rendered) {
+              // Apply modal size from API
+              const modalSize = data.modal_size || '';
+              applyModalSize(modalSize);
+              
               if (ENABLE_CACHE) {
                 localStorage.setItem(dataValue, data.content.rendered);
                 localStorage.setItem(
                   `${dataValue}_time`,
                   Date.now().toString()
                 );
+                localStorage.setItem(`${dataValue}_size`, modalSize);
               }
+              
               modalContent.innerHTML = data.content.rendered;
               const formElement = modalContent.querySelector("form.wpcf7-form");
               if (formElement && typeof wpcf7 !== "undefined") {

@@ -366,3 +366,44 @@ Redux_Metaboxes::set_box(
 		),
 	)
 );
+
+// Modal Settings Metabox
+Redux_Metaboxes::set_box(
+	$opt_name,
+	array(
+		'id'         => 'opt-metaboxes-modal',
+		'title'      => esc_html__( 'Modal Settings', 'codeweber' ),
+		'post_types' => array( 'modal' ),
+		'position'   => 'normal', // normal, advanced, side.
+		'priority'   => 'high', // high, core, default, low.
+		'sections'   => array(
+			array(
+				'title'      => esc_html__( 'Bootstrap Modal Options', 'codeweber' ),
+				'icon_class' => 'icon-large',
+				'icon'       => 'el-icon-screen',
+				'fields'     => array(
+					array(
+						'id'       => 'modal-size',
+						'type'     => 'select',
+						'title'    => esc_html__( 'Modal Size', 'codeweber' ),
+						'subtitle' => esc_html__( 'Select the size of the modal window', 'codeweber' ),
+						'desc'     => esc_html__( 'Choose from Bootstrap modal size options', 'codeweber' ),
+						'options'  => array(
+							''                               => esc_html__( 'Default', 'codeweber' ),
+							'modal-sm'                       => esc_html__( 'Small (modal-sm)', 'codeweber' ),
+							'modal-lg'                       => esc_html__( 'Large (modal-lg)', 'codeweber' ),
+							'modal-xl'                       => esc_html__( 'Extra Large (modal-xl)', 'codeweber' ),
+							'modal-fullscreen'               => esc_html__( 'Full Screen', 'codeweber' ),
+							'modal-fullscreen-sm-down'       => esc_html__( 'Full Screen Below SM', 'codeweber' ),
+							'modal-fullscreen-md-down'       => esc_html__( 'Full Screen Below MD', 'codeweber' ),
+							'modal-fullscreen-lg-down'       => esc_html__( 'Full Screen Below LG', 'codeweber' ),
+							'modal-fullscreen-xl-down'       => esc_html__( 'Full Screen Below XL', 'codeweber' ),
+							'modal-fullscreen-xxl-down'      => esc_html__( 'Full Screen Below XXL', 'codeweber' ),
+						),
+						'default'  => '',
+					),
+				),
+			),
+		),
+	)
+);

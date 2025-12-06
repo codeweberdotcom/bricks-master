@@ -24,6 +24,86 @@ video.player {
     @include transition($link-transition);
   }
 }
+
+//----------------------------------------------------------//
+//	CUSTOM VIDEO PLAY BUTTON
+//----------------------------------------------------------//
+.video-play-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;        // 56px
+  height: 3.5rem;
+  border-radius: 50%;
+  border: 0;
+  padding: 1.25rem;     // Как у plyr__control--overlaid
+  padding-left: 1.5rem; // Визуальное центрирование треугольника
+  background: var(--#{$prefix}white);
+  box-shadow: $box-shadow;
+  color: $main-dark;
+  opacity: 1;
+  cursor: pointer;
+  z-index: 2;
+  transition: $link-transition;
+  
+  svg {
+    width: 1.125rem;    // 18px
+    height: 1.125rem;
+    position: relative;
+    z-index: 1;
+    fill: currentColor;
+  }
+  
+  &:focus,
+  &:hover {
+    background: var(--#{$prefix}white) !important;
+    color: var(--#{$prefix}primary) !important;
+    box-shadow: $box-shadow;
+  }
+
+  // Ripple effect - как у plyr__control--overlaid
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background: var(--#{$prefix}white);
+    opacity: 0.8;
+    animation: ripple-1 2s infinite ease-in-out;
+    z-index: -1;
+  }
+  
+  &::after {
+    opacity: 0.6;
+    animation: ripple-2 2s infinite ease-in-out;
+    animation-delay: 0.5s;
+  }
+}
+
+// Цветные варианты
+@each $color, $value in $colors {
+  .video-play-btn.btn-#{$color} {
+    background: var(--#{$prefix}#{$color});
+    color: var(--#{$prefix}white);
+    
+    &:focus,
+    &:hover {
+      background: var(--#{$prefix}#{$color}) !important;
+      opacity: 0.9;
+    }
+
+    &::before,
+    &::after {
+      background: var(--#{$prefix}#{$color});
+    }
+  }
+}
 .plyr--video .plyr__controls {
   background: linear-gradient(transparent, rgba($gray-900, 0.2));
   .plyr__control {

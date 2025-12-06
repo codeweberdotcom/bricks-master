@@ -580,10 +580,10 @@ require_once Redux_Core::$dir . '../sample/sections/codeweber/style.php';
 // require_once Redux_Core::$dir . '../sample/sections/extensions/taxonomy.php';
 // require_once Redux_Core::$dir . '../sample/sections/extensions/users.php';
 
-// /**
-//  * Metaboxes
-//  */
-// require_once Redux_Core::$dir . '../sample/metaboxes.php';
+/**
+ * Metaboxes
+ */
+require_once Redux_Core::$dir . '../sample/metaboxes.php';
 
 // /**
 //  * Raw README

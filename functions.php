@@ -90,3 +90,13 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/matomo-search-integration.php';
 
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/contact-form7-matomo-integration.php';
+
+/**
+ * Подключение универсального модального контейнера
+ */
+require_once get_template_directory() . '/functions/integrations/modal-container.php';
+
+/**
+ * Подключение REST API расширений для модальных окон
+ */
+require_once get_template_directory() . '/functions/integrations/modal-rest-api.php';
