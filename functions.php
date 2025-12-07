@@ -47,6 +47,7 @@ require_once get_template_directory() . '/functions/cyr-to-lat.php';
 
 require_once get_template_directory() . '/functions/lib/comments-helper.php'; // --- Comments Helper ---
 require_once get_template_directory() . '/functions/comments-reply.php'; // --- Comments Reply Functions ---
+require_once get_template_directory() . '/functions/post-card-templates.php'; // --- Post Card Templates System ---
 
 
 // Подключаем модуль персональных данных

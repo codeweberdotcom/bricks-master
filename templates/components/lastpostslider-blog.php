@@ -1,57 +1,67 @@
 <?php
 
 /**
- * Blog Lats Posts - Slider
+ * Blog Last Posts - Slider
+ * 
+ * Обновлен для использования новой системы шаблонов
  */
+
+// Загружаем функцию рендеринга карточек
+if (!function_exists('cw_render_post_card')) {
+    $post_card_templates_path = get_template_directory() . '/functions/post-card-templates.php';
+    if (file_exists($post_card_templates_path)) {
+        require_once $post_card_templates_path;
+    }
+}
+
+// Запрос постов
+$blog_query = new WP_Query(array(
+    'post_type' => 'post',
+    'posts_per_page' => 6,
+    'post_status' => 'publish',
+    'post__not_in' => array(get_the_ID()), // Исключаем текущий пост
+));
+
+if (!$blog_query->have_posts()) {
+    return;
+}
+
+// Настройки отображения
+$display_settings = [
+    'show_title' => true,
+    'show_date' => true,
+    'show_category' => true,
+    'show_comments' => true,
+    'title_length' => 0, // Без ограничения длины
+    'excerpt_length' => 0, // Без excerpt
+    'title_tag' => 'h2',
+    'title_class' => '',
+];
+
+// Настройки шаблона
+$template_args = [
+    'image_size' => 'codeweber_single',
+    'hover_classes' => 'overlay overlay-1 hover-scale',
+    'border_radius' => 'rounded',
+    'show_figcaption' => true,
+    'enable_hover_scale' => true,
+];
 ?>
 
-<?php
-$my_posts = new WP_Query;
-$myposts = $my_posts->query(array(
-   'post_type' => 'post'
-)); ?>
 <h3 class="mb-6"><?php esc_html_e('You Might Also Like', 'codeweber'); ?></h3>
 <div class="swiper-container blog grid-view mb-16" data-margin="30" data-nav="false" data-dots="true" data-items-md="2" data-items-xs="1">
-   <div class="swiper">
-      <div class="swiper-wrapper">
-         <?php
-         // обрабатываем результат
-         foreach ($myposts as $post_single) {
-            setup_postdata($post_single);
-         ?>
-            <div class="swiper-slide">
-               <article>
-                  <figure class="overlay overlay-1 hover-scale rounded mb-5">
-                     <a href="<?php the_permalink($post_single->ID); ?>">
-                        <img src="<?php echo get_the_post_thumbnail_url($post_single->ID, 'codeweber_single'); ?>" alt=""><span class="bg"></span></a>
-                     <figcaption>
-                        <div class="from-top mb-0 h5"><?php esc_html_e('Read More', 'codeweber'); ?></div>
-                     </figcaption>
-                  </figure>
-                  <div class="post-header">
-                     <div class="post-category text-line">
-                        <?php the_category(', '); ?>
-                     </div>
-                     <!-- /.post-category -->
-                     <h2 class="post-title h3 mt-1 mb-3"><a class="link-dark" href="<?php the_permalink($post_single->ID); ?>"><?php echo esc_html($post_single->post_title); ?></a></h2>
-                  </div>
-                  <!-- /.post-header -->
-                  <div class="post-footer">
-                     <ul class="post-meta mb-0">
-                        <li class="post-date"><i class="uil uil-calendar-alt"></i><span><?php the_time(get_option('date_format')); ?></span></li>
-                        <li class="post-comments"><a href="<?php echo get_post_permalink($post_single->ID); ?>/#comments"><i class="uil uil-comment"></i><?php echo $post_single->comment_count; ?></a></li>
-                     </ul>
-                     <!-- /.post-meta -->
-                  </div>
-                  <!-- /.post-footer -->
-               </article>
-               <!-- /article -->
-            </div>
-            <!--/.swiper-slide -->
-         <?php } ?>
-         <?php wp_reset_postdata(); ?>
-      </div>
-      <!--/.swiper-wrapper -->
-   </div>
-   <!-- /.swiper -->
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <?php while ($blog_query->have_posts()) : $blog_query->the_post(); ?>
+                <div class="swiper-slide">
+                    <?php echo cw_render_post_card(get_post(), 'default', $display_settings, $template_args); ?>
+                </div>
+                <!--/.swiper-slide -->
+            <?php endwhile; ?>
+            <?php wp_reset_postdata(); ?>
+        </div>
+        <!--/.swiper-wrapper -->
+    </div>
+    <!-- /.swiper -->
 </div>
+<!-- /.swiper-container -->

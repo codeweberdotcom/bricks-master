@@ -129,7 +129,32 @@
 			<!-- /.social -->
 
 			<hr />
-			<?php get_template_part('templates/components/lastpostslider-blog'); ?>
+			<?php 
+			// Старый компонент (закомментирован, можно раскомментировать для сравнения)
+			// get_template_part('templates/components/lastpostslider-blog'); 
+			
+			// Остальные шаблоны закомментированы для проверки
+			/*
+			$templates = ['default', 'card', 'card-content', 'slider', 'default-clickable'];
+			
+			foreach ($templates as $template) {
+				echo '<div class="mb-12">';
+				echo '<h2 class="mb-5">Template: ' . esc_html($template) . '</h2>';
+				// Для default шаблона показываем два варианта: с hover-scale и без
+				if ($template === 'default') {
+					echo '<h3 class="mb-3">Без hover-scale:</h3>';
+					echo do_shortcode('[cw_blog_posts_slider posts_per_page="3" template="default" enable_hover_scale="false" show_title="true" show_date="true" show_category="true" show_comments="true" title_tag="h3" title_length="50" image_size="medium_large" items_xl="2" items_lg="2" items_md="2" items_sm="1" items_xs="1" items_xxs="1"]');
+					echo '<h3 class="mb-3 mt-8">С hover-scale:</h3>';
+					echo do_shortcode('[cw_blog_posts_slider posts_per_page="3" template="default" enable_hover_scale="true" show_title="true" show_date="true" show_category="true" show_comments="true" title_tag="h3" title_length="50" image_size="medium_large" items_xl="2" items_lg="2" items_md="2" items_sm="1" items_xs="1" items_xxs="1"]');
+				} else {
+					echo do_shortcode('[cw_blog_posts_slider posts_per_page="6" template="' . esc_attr($template) . '" show_title="true" show_date="true" show_category="true" show_comments="true" title_tag="h3" title_length="50" image_size="medium_large" items_xl="2" items_lg="2" items_md="2" items_sm="1" items_xs="1" items_xxs="1"]');
+				}
+				echo '</div>';
+				echo '<hr class="my-12" />';
+			}
+			*/
+			?>
+			
 			<?php
 			if (comments_open() || get_comments_number()) { ?>
 				<hr />
