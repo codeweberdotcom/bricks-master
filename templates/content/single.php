@@ -133,6 +133,9 @@
 			// Старый компонент (закомментирован, можно раскомментировать для сравнения)
 			// get_template_part('templates/components/lastpostslider-blog'); 
 			
+			// ВЫВОД ШАБЛОНА С HOVER-SCALE
+			echo do_shortcode('[cw_blog_posts_slider posts_per_page="6" template="default" enable_hover_scale="true" show_title="true" show_date="true" show_category="true" show_comments="true" title_tag="h3" title_length="50" image_size="medium_large" items_xl="2" items_lg="2" items_md="2" items_sm="1" items_xs="1" items_xxs="1"]');
+			
 			// Остальные шаблоны закомментированы для проверки
 			/*
 			$templates = ['default', 'card', 'card-content', 'slider', 'default-clickable'];

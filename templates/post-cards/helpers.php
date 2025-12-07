@@ -130,3 +130,5 @@ function cw_get_post_card_data($post, $image_size = 'full') {
     ];
 }
 
+
+

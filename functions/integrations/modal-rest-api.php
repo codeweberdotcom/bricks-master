@@ -54,3 +54,5 @@ function codeweber_get_modal_size($object)
     return $modal_size ? $modal_size : '';
 }
 
+
+

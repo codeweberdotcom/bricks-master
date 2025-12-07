@@ -414,25 +414,6 @@
   }
 }
 
-// Ограничение высоты для изображений в swiper-auto слайдах
-.swiper-auto .swiper-slide figure,
-.swiper-auto .swiper-slide figure img {
-  max-height: 400px;
-  object-fit: cover;
-}
-
-@media (max-width: 767px) {
-  .swiper-auto .swiper-slide figure,
-  .swiper-auto .swiper-slide figure img {
-    max-height: 300px;
-  }
-}
-
-// Для ticker режима (continuous scroll) слайды должны иметь auto ширину
-.swiper-auto .swiper-wrapper.ticker .swiper-slide {
-  width: auto !important;
-}
-
 //----------------------------------------------------------//
 //	ANIMATIONS
 //----------------------------------------------------------//
