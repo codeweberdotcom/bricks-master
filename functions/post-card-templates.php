@@ -139,6 +139,10 @@ function cw_blog_posts_slider_shortcode($atts) {
     
     // Настройки шаблона
     $hover_classes = 'overlay overlay-1';
+    // Для overlay-5 используем overlay-5
+    if ($atts['template'] === 'overlay-5') {
+        $hover_classes = 'overlay overlay-5';
+    }
     // Добавляем hover-scale для соответствующих шаблонов
     if ($atts['template'] === 'slider') {
         $hover_classes .= ' hover-scale';
