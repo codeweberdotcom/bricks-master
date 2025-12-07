@@ -17,7 +17,12 @@ if (! function_exists('codeweber_image_settings')) {
 		add_image_size('codeweber_project_900-800', 900, 800, true);
 
 		add_image_size('codeweber_staff', 400, 400, true);
-		
+
+		//CPT Clients
+		add_image_size('codeweber_clients_115-60', 115, 60, false);
+		add_image_size('codeweber_clients_200-60', 200, 60, false);
+		add_image_size('codeweber_clients_300-200', 300, 200, false);
+		add_image_size('codeweber_clients_400-267', 400, 267, false);
 
 		//add_image_size('codeweber_big', 1400, 800, true );
 		//add_image_size('codeweber_square', 400, 400, true );
@@ -66,6 +71,7 @@ function codeweber_get_allowed_image_sizes($post_type = '', $post_id = 0)
 	$default_sizes = [
 		'projects' => ['codeweber_project_900-900', 'codeweber_project_900-718', 'codeweber_project_900-800', 'woocommerce_gallery_thumbnail'],
 		'staff' => ['codeweber_staff', 'woocommerce_gallery_thumbnail'],
+		'clients' => ['codeweber_clients_115-60', 'codeweber_clients_200-60', 'codeweber_clients_300-200', 'codeweber_clients_400-267', 'woocommerce_gallery_thumbnail'],
 		'default' => [] // По умолчанию пустой массив - не удаляем никакие размеры
 	];
 

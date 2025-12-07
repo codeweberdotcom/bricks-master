@@ -1,0 +1,199 @@
+{
+  "version": "1.0.0",
+  "post_type": "clients",
+  "description": "Demo данные для CPT Clients",
+  "source_images": "src/assets/img/brands/",
+  "items": [
+    {
+      "title": "TechCorp Solutions",
+      "slug": "techcorp-solutions",
+      "status": "publish",
+      "image": "c1.png",
+      "image_alt": "TechCorp Solutions Logo",
+      "order": 1,
+      "company_name": "ООО ТехКорп Солюшнс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Global Industries",
+      "slug": "global-industries",
+      "status": "publish",
+      "image": "c2.png",
+      "image_alt": "Global Industries Logo",
+      "order": 2,
+      "company_name": "ЗАО Глобал Индастриз",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Digital Innovations",
+      "slug": "digital-innovations",
+      "status": "publish",
+      "image": "c3.png",
+      "image_alt": "Digital Innovations Logo",
+      "order": 3,
+      "company_name": "ООО Цифровые Инновации",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Creative Agency",
+      "slug": "creative-agency",
+      "status": "publish",
+      "image": "c4.png",
+      "image_alt": "Creative Agency Logo",
+      "order": 4,
+      "company_name": "Агентство Креатив",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Business Solutions",
+      "slug": "business-solutions",
+      "status": "publish",
+      "image": "c5.png",
+      "image_alt": "Business Solutions Logo",
+      "order": 5,
+      "company_name": "ООО Бизнес Солюшнс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Innovation Labs",
+      "slug": "innovation-labs",
+      "status": "publish",
+      "image": "c6.png",
+      "image_alt": "Innovation Labs Logo",
+      "order": 6,
+      "company_name": "Лаборатория Инноваций",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Smart Systems",
+      "slug": "smart-systems",
+      "status": "publish",
+      "image": "c7.png",
+      "image_alt": "Smart Systems Logo",
+      "order": 7,
+      "company_name": "ООО Смарт Системс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Future Tech",
+      "slug": "future-tech",
+      "status": "publish",
+      "image": "c8.png",
+      "image_alt": "Future Tech Logo",
+      "order": 8,
+      "company_name": "ЗАО Фьючер Тех",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Enterprise Solutions",
+      "slug": "enterprise-solutions",
+      "status": "publish",
+      "image": "c9.png",
+      "image_alt": "Enterprise Solutions Logo",
+      "order": 9,
+      "company_name": "ООО Энтерпрайз Солюшнс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Cloud Services",
+      "slug": "cloud-services",
+      "status": "publish",
+      "image": "c10.png",
+      "image_alt": "Cloud Services Logo",
+      "order": 10,
+      "company_name": "ООО Клауд Сервисез",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Data Analytics",
+      "slug": "data-analytics",
+      "status": "publish",
+      "image": "c11.png",
+      "image_alt": "Data Analytics Logo",
+      "order": 11,
+      "company_name": "ООО Дата Аналитикс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Brand Partners",
+      "slug": "brand-partners",
+      "status": "publish",
+      "image": "z1.png",
+      "image_alt": "Brand Partners Logo",
+      "order": 12,
+      "company_name": "ООО Бренд Партнерс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Strategic Alliance",
+      "slug": "strategic-alliance",
+      "status": "publish",
+      "image": "z2.png",
+      "image_alt": "Strategic Alliance Logo",
+      "order": 13,
+      "company_name": "ЗАО Стратегический Альянс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Premium Brands",
+      "slug": "premium-brands",
+      "status": "publish",
+      "image": "z3.png",
+      "image_alt": "Premium Brands Logo",
+      "order": 14,
+      "company_name": "ООО Премиум Брендс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Elite Partners",
+      "slug": "elite-partners",
+      "status": "publish",
+      "image": "z4.png",
+      "image_alt": "Elite Partners Logo",
+      "order": 15,
+      "company_name": "ООО Элит Партнерс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Corporate Network",
+      "slug": "corporate-network",
+      "status": "publish",
+      "image": "z5.png",
+      "image_alt": "Corporate Network Logo",
+      "order": 16,
+      "company_name": "ООО Корпоративная Сеть",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Global Partners",
+      "slug": "global-partners",
+      "status": "publish",
+      "image": "z6.png",
+      "image_alt": "Global Partners Logo",
+      "order": 17,
+      "company_name": "ООО Глобал Партнерс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Trusted Brands",
+      "slug": "trusted-brands",
+      "status": "publish",
+      "image": "z7.png",
+      "image_alt": "Trusted Brands Logo",
+      "order": 18,
+      "company_name": "ООО Трастед Брендс",
+      "company_url": "https://codeweber.ru"
+    },
+    {
+      "title": "Industry Leaders",
+      "slug": "industry-leaders",
+      "status": "publish",
+      "image": "z8.png",
+      "image_alt": "Industry Leaders Logo",
+      "order": 19,
+      "company_name": "ООО Индастри Лидерс",
+      "company_url": "https://codeweber.ru"
+    }
+  ]
+}
+

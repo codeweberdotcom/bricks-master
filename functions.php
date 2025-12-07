@@ -10,6 +10,7 @@ require_once get_template_directory() . '/functions/cpt/cpt-footer.php';
 require_once get_template_directory() . '/functions/cpt/cpt-page-header.php';
 require_once get_template_directory() . '/functions/cpt/cpt-modals.php';
 require_once get_template_directory() . '/functions/cpt/cpt-html_blocks.php';
+require_once get_template_directory() . '/functions/cpt/cpt-clients.php';
 
 require_once get_template_directory() . '/functions/setup.php';
 require_once get_template_directory() . '/functions/gulp.php';
@@ -91,6 +92,10 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/matomo-search-integration.php';
 
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/contact-form7-matomo-integration.php';
+
+// Подключение demo функций
+require_once get_template_directory() . '/functions/demo/demo-clients.php';
+require_once get_template_directory() . '/functions/demo/demo-ajax.php';
 
 /**
  * Подключение универсального модального контейнера

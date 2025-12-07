@@ -29,16 +29,46 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
     }
     
     // Получаем данные поста
-    $post_data = cw_get_post_card_data($post, $template_args['image_size'] ?? 'full');
+    $enable_link = isset($template_args['enable_link']) ? $template_args['enable_link'] : false;
+    $post_data = cw_get_post_card_data($post, $template_args['image_size'] ?? 'full', $enable_link);
     if (!$post_data) {
         return '';
     }
     
-    // Загружаем шаблон
-    $template_path = get_template_directory() . '/templates/post-cards/' . sanitize_file_name($template_name) . '.php';
+    // Определяем тип записи
+    $post_type = is_object($post) ? $post->post_type : get_post_type($post);
+    
+    // Определяем папку для шаблонов
+    $template_dir = 'post'; // По умолчанию
+    $template_file = sanitize_file_name($template_name);
+    
+    // Если шаблон начинается с "client-", это шаблон для clients
+    if (strpos($template_name, 'client-') === 0) {
+        $template_dir = 'clients';
+        $template_file = str_replace('client-', '', $template_file);
+    } elseif ($post_type === 'clients') {
+        // Если тип записи clients, ищем в папке clients
+        $template_dir = 'clients';
+    }
+    
+    // Путь к шаблону в новой структуре
+    $template_path = get_template_directory() . '/templates/post-cards/' . $template_dir . '/' . $template_file . '.php';
+    
+    // Fallback: проверяем старую структуру (для обратной совместимости)
     if (!file_exists($template_path)) {
-        // Fallback на default
-        $template_path = get_template_directory() . '/templates/post-cards/default.php';
+        $old_template_path = get_template_directory() . '/templates/post-cards/' . sanitize_file_name($template_name) . '.php';
+        if (file_exists($old_template_path)) {
+            $template_path = $old_template_path;
+        } else {
+            // Fallback на default в соответствующей папке
+            $default_path = get_template_directory() . '/templates/post-cards/' . $template_dir . '/default.php';
+            if (file_exists($default_path)) {
+                $template_path = $default_path;
+            } else {
+                // Последний fallback - default в post
+                $template_path = get_template_directory() . '/templates/post-cards/post/default.php';
+            }
+        }
     }
     
     ob_start();
@@ -235,4 +265,133 @@ function cw_blog_posts_slider_shortcode($atts) {
 
 // Регистрируем новый шорткод
 add_shortcode('cw_blog_posts_slider', 'cw_blog_posts_slider_shortcode');
+
+/**
+ * Шорткод для отображения клиентов
+ * 
+ * @param array $atts Атрибуты шорткода
+ * @return string HTML
+ */
+function cw_clients_shortcode($atts) {
+    $atts = shortcode_atts([
+        'posts_per_page' => -1,
+        'orderby' => 'menu_order',
+        'order' => 'ASC',
+        'template' => 'client-simple', // client-simple, client-grid, client-card
+        'image_size' => 'codeweber_clients_300-200',
+        'layout' => 'swiper', // swiper, grid, grid-cards
+        'enable_link' => 'false', // Включить ссылки на записи (true/false)
+        // Swiper настройки
+        'items_xl' => '7',
+        'items_lg' => '6',
+        'items_md' => '4',
+        'items_sm' => '2',
+        'items_xs' => '2',
+        'margin' => '0',
+        'dots' => 'false',
+        'nav' => 'false',
+        'autoplay' => 'false',
+        'loop' => 'true',
+        // Grid настройки
+        'columns_xl' => '4',
+        'columns_md' => '2',
+        'gap' => '12',
+    ], $atts);
+    
+    $args = [
+        'post_type' => 'clients',
+        'posts_per_page' => intval($atts['posts_per_page']),
+        'orderby' => $atts['orderby'],
+        'order' => $atts['order'],
+        'post_status' => 'publish'
+    ];
+    
+    $query = new WP_Query($args);
+    
+    if (!$query->have_posts()) {
+        return '';
+    }
+    
+    $display_settings = [
+        'show_title' => false,
+        'show_date' => false,
+        'show_category' => false,
+        'show_comments' => false,
+    ];
+    
+    $template_args = [
+        'image_size' => $atts['image_size'],
+        'enable_link' => $atts['enable_link'] === 'true',
+    ];
+    
+    ob_start();
+    
+    if ($atts['layout'] === 'swiper') {
+        // Swiper layout
+        $swiper_data = [
+            'data-margin' => esc_attr($atts['margin']),
+            'data-dots' => esc_attr($atts['dots']),
+            'data-nav' => esc_attr($atts['nav']),
+            'data-autoplay' => esc_attr($atts['autoplay']),
+            'data-loop' => esc_attr($atts['loop']),
+            'data-items-xl' => esc_attr($atts['items_xl']),
+            'data-items-lg' => esc_attr($atts['items_lg']),
+            'data-items-md' => esc_attr($atts['items_md']),
+            'data-items-sm' => esc_attr($atts['items_sm']),
+            'data-items-xs' => esc_attr($atts['items_xs']),
+        ];
+        
+        $swiper_attrs = '';
+        foreach ($swiper_data as $key => $value) {
+            $swiper_attrs .= $key . '="' . $value . '" ';
+        }
+        
+        ?>
+        <div class="swiper-container clients mb-0" <?php echo $swiper_attrs; ?>>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <?php while ($query->have_posts()) : $query->the_post(); ?>
+                        <div class="swiper-slide px-5">
+                            <?php echo cw_render_post_card(get_post(), $atts['template'], $display_settings, $template_args); ?>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
+                <!--/.swiper-wrapper -->
+            </div>
+            <!-- /.swiper -->
+        </div>
+        <!-- /.swiper-container -->
+        <?php
+    } elseif ($atts['layout'] === 'grid-cards') {
+        // Grid with cards
+        ?>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-xl-<?php echo esc_attr($atts['columns_xl']); ?> gx-lg-6 gy-6 justify-content-center">
+            <?php while ($query->have_posts()) : $query->the_post(); ?>
+                <div class="col">
+                    <?php echo cw_render_post_card(get_post(), $atts['template'], $display_settings, $template_args); ?>
+                </div>
+                <!--/column -->
+            <?php endwhile; ?>
+        </div>
+        <!--/.row -->
+        <?php
+    } else {
+        // Simple grid
+        ?>
+        <div class="row row-cols-2 row-cols-md-<?php echo esc_attr($atts['columns_md']); ?> row-cols-xl-<?php echo esc_attr($atts['columns_xl']); ?> gx-0 gx-md-8 gx-xl-<?php echo esc_attr($atts['gap']); ?> gy-12">
+            <?php while ($query->have_posts()) : $query->the_post(); ?>
+                <div class="col">
+                    <?php echo cw_render_post_card(get_post(), $atts['template'], $display_settings, $template_args); ?>
+                </div>
+                <!--/column -->
+            <?php endwhile; ?>
+        </div>
+        <!--/.row -->
+        <?php
+    }
+    
+    wp_reset_postdata();
+    return ob_get_clean();
+}
+add_shortcode('cw_clients', 'cw_clients_shortcode');
 

@@ -47,9 +47,10 @@ function cw_get_post_card_display_settings($args = []) {
  * 
  * @param WP_Post|int $post Объект поста или ID
  * @param string $image_size Размер изображения
+ * @param bool $enable_link Включить ссылки (для clients использует Company URL если доступен)
  * @return array|null Массив данных поста или null
  */
-function cw_get_post_card_data($post, $image_size = 'full') {
+function cw_get_post_card_data($post, $image_size = 'full', $enable_link = false) {
     if (is_numeric($post)) {
         $post = get_post($post);
     }
@@ -73,6 +74,28 @@ function cw_get_post_card_data($post, $image_size = 'full') {
     // Если нет alt, используем заголовок поста
     if (empty($image_alt)) {
         $image_alt = get_the_title($post->ID);
+    }
+    
+    // Специальная обработка для clients - упрощенные данные
+    if ($post->post_type === 'clients') {
+        // Для clients: если enable_link включен, используем Company URL из метаполя
+        $link = get_permalink($post->ID);
+        if ($enable_link) {
+            $company_url = get_post_meta($post->ID, '_cw_clients_company_url', true);
+            if (!empty($company_url)) {
+                $link = esc_url($company_url);
+            }
+        }
+        
+        return [
+            'id' => $post->ID,
+            'title' => get_the_title($post->ID),
+            'link' => $link,
+            'image_url' => $image_url,
+            'image_alt' => $image_alt,
+            'post_type' => 'clients',
+            // Упрощенные данные - без категорий, даты, комментариев, excerpt
+        ];
     }
     
     // Получаем категории (для разных типов записей)
