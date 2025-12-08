@@ -1,79 +1,10 @@
 //----------------------------------------------------------//
-//  ACCORDION VARIABLES
-//----------------------------------------------------------//
-
-
-// Переменные для углов поворота
-
-// Accordion plain card border variables
-$accordion-plain-border-width: 0 0 0 0 !default;
-$accordion-plain-border-style: none !default;
-$accordion-plain-border-color: none !default;
-
-$accordion-margin-bottom: 1.25rem !default;
-$accordion-card-body-padding: 0 0 0 1.1rem !default;
-$accordion-card-header-padding: 0 0 0.8rem 0 !default;
-$accordion-card-header-padding-default: 0.9rem 1.3rem 0.85rem !default;
-
-// две переменные для разных положений кнопки
-$accordion-button-padding-left: 0 0 0 1rem !default;
-$accordion-button-padding-right: 0 1rem 0 0 !default;
-
-// две переменные для body padding
-$accordion-body-padding-left: 0 1.25rem 0.25rem 2.35rem !default;
-$accordion-body-padding-right: 0 2.35rem 0.25rem 1.25rem !default;
-
-// переменная позиции иконки
-$accordion-icon-position: left !default; // left | right
-
-$accordion-button-font-size: 0.85rem !default;
-$accordion-button-font-weight: $font-weight-bold !default;
-$accordion-icon-font-size: 1.15rem !default;
-$accordion-icon-color: var(--#{$prefix}primary) !default;
-
-$accordion-body-padding-icon: 0 1.25rem 0.25rem 2.8rem !default;
-$accordion-button-icon-span: 1.3rem !default;
-$accordion-button-icon-font-size: 1rem !default;
-
-// Иконки
-$accordion-icon-one: $icon-caret-down !default;
-$accordion-icon-open: $icon-caret-up !default;
-$accordion-icon-close: $icon-caret-down !default;
-$accordion-icon-type: "two" !default; // "one" - одна иконка с поворотом, "two" - две разные иконки
-
-// Повороты
-$accordion-icon-closed-rotate: 0deg !default;
-$accordion-icon-opened-rotate: 180deg !default;
-
-// Hover эффекты
-$accordion-card-hover-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !default;
-$accordion-card-hover-transition: background ease 0.3s, box-shadow ease 0.3s !default;
-
-// Hover цвета
-$accordion-button-hover-color: var(--#{$prefix}primary) !default;
-$accordion-icon-hover-color: var(--#{$prefix}primary) !default;
-
-// Цвет текста в открытом состоянии
-$accordion-button-active-color: var(--#{$prefix}primary) !default;
-
-// Финальные переменные (должны быть после всех зависимостей)
-$accordion-button-padding: if($accordion-icon-position == left, $accordion-button-padding-left, $accordion-button-padding-right) !default;
-$accordion-body-padding-default: if($accordion-icon-position == left, $accordion-body-padding-left, $accordion-body-padding-right) !default;
-
-//----------------------------------------------------------//
 //  ACCORDION
 //----------------------------------------------------------//
+// NOTE: Все переменные аккордеона находятся в _variables.scss
+//----------------------------------------------------------//
 
-// Mixin для позиционирования иконки
-@mixin accordion-icon-position($position) {
-  @if $position == left {
-    left: $accordion-button-icon-span;
-    right: auto;
-  } @else if $position == right {
-    right: $accordion-button-icon-span;
-    left: auto;
-  }
-}
+// Классы для позиционирования иконки (убрали mixin, используем классы)
 
 // Mixin для вертикального выравнивания иконки с поддержкой поворота
 @mixin accordion-icon-transform($rotate: 0deg) {
@@ -96,19 +27,21 @@ $accordion-body-padding-default: if($accordion-icon-position == left, $accordion
       margin-bottom: 0;
       box-shadow: none;
 
+      // По умолчанию иконка слева (класс .icon-left)
       .card-body {
-        padding: $accordion-card-body-padding;
+        padding: $accordion-card-body-padding-left;
       }
 
       .card-header {
         padding: $accordion-card-header-padding;
 
         button {
-          padding: $accordion-button-padding;
+          padding: $accordion-button-padding-left;
           position: relative;
 
           &:before {
-            @include accordion-icon-position($accordion-icon-position);
+            left: $accordion-button-icon-span;
+            right: auto;
             top: 50%;
             // Убрали transform отсюда, он будет в отдельных состояниях
           }
@@ -154,7 +87,7 @@ $accordion-body-padding-default: if($accordion-icon-position == left, $accordion
     button {
       cursor: pointer;
       width: 100%;
-      padding: $accordion-button-padding;
+      padding: $accordion-button-padding-left;
       text-align: left;
       margin: 0;
       border: 0;
@@ -175,7 +108,8 @@ $accordion-body-padding-default: if($accordion-icon-position == left, $accordion
         display: inline-block;
         color: $accordion-icon-color;
         @include transition(all 0.25s ease);
-        @include accordion-icon-position($accordion-icon-position);
+        left: $accordion-button-icon-span;
+        right: auto;
         top: 50%;
         // Базовый transform без поворота
         transform: translateY(-50%);
@@ -200,7 +134,7 @@ $accordion-body-padding-default: if($accordion-icon-position == left, $accordion
       }
 
       &:not(.collapsed) {
-        color: $accordion-button-active-color;
+        color: var(--#{$prefix}primary);
 
         &:before {
           // Вариант с одной иконкой (поворот)
@@ -249,7 +183,8 @@ $accordion-body-padding-default: if($accordion-icon-position == left, $accordion
 
       > span {
         position: absolute;
-        @include accordion-icon-position($accordion-icon-position);
+        left: 0;
+        right: auto;
         top: 50%;
         transform: translateY(-50%);
         display: flex;
@@ -306,4 +241,206 @@ $accordion-body-padding-default: if($accordion-icon-position == left, $accordion
 .accordion-collapse > .card-footer {
   background: $pre-bg;
   padding: 0;
+}
+
+//----------------------------------------------------------//
+//  КЛАССЫ ДЛЯ ТИПОВ ИКОНОК
+//----------------------------------------------------------//
+.accordion-wrapper {
+  // Тип 1 — стандартные стрелки (caret-up/caret-down)
+  &.type-1 {
+    .card.plain .card-header button {
+      &.collapsed:before {
+        content: $accordion-icon-close-type-1;
+        transform: translateY(-50%);
+      }
+      &:not(.collapsed):before {
+        content: $accordion-icon-open-type-1;
+        transform: translateY(-50%);
+      }
+    }
+
+    .card-header button {
+      &.collapsed:before {
+        content: $accordion-icon-close-type-1;
+        transform: translateY(-50%);
+      }
+      &:not(.collapsed):before {
+        content: $accordion-icon-open-type-1;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  // Тип 2 — кастомные иконки
+  &.type-2 {
+    .card.plain .card-header button {
+      &.collapsed:before {
+        content: $accordion-icon-close-type-2;
+        transform: translateY(-50%);
+      }
+      &:not(.collapsed):before {
+        content: $accordion-icon-open-type-2;
+        transform: translateY(-50%);
+      }
+    }
+
+    .card-header button {
+      &.collapsed:before {
+        content: $accordion-icon-close-type-2;
+        transform: translateY(-50%);
+      }
+      &:not(.collapsed):before {
+        content: $accordion-icon-open-type-2;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  // Тип 3 — одна иконка с поворотом
+  &.type-3 {
+    .card.plain .card-header button {
+      // смещение иконки под тип-3
+      &:before {
+        left: $accordion-button-icon-span-type-3;
+        right: auto;
+      }
+      &.collapsed:before {
+        content: $accordion-icon-one-type-3;
+        transform: translateY(-50%) rotate($accordion-icon-type-3-closed-rotate);
+      }
+      &:not(.collapsed):before {
+        content: $accordion-icon-one-type-3;
+        transform: translateY(-50%) rotate($accordion-icon-type-3-opened-rotate);
+        right: -0.45rem;
+        left: auto;
+      }
+    }
+
+    .card-header button {
+      &:before {
+        left: $accordion-button-icon-span-type-3;
+        right: auto;
+      }
+      &.collapsed:before {
+        content: $accordion-icon-one-type-3;
+        transform: translateY(-50%) rotate($accordion-icon-type-3-closed-rotate);
+      }
+      &:not(.collapsed):before {
+        content: $accordion-icon-one-type-3;
+        transform: translateY(-50%) rotate($accordion-icon-type-3-opened-rotate);
+        right: -0.45rem;
+        left: auto;
+      }
+    }
+  }
+}
+
+//----------------------------------------------------------//
+//  КЛАССЫ ДЛЯ ПОЗИЦИОНИРОВАНИЯ ИКОНКИ
+//----------------------------------------------------------//
+// По умолчанию иконка слева (класс .icon-left не обязателен)
+// Для перемещения иконки справа добавьте класс .icon-right к .accordion-wrapper
+
+.accordion-wrapper {
+  // Класс для иконки справа
+  &.icon-right {
+    .card {
+      &.plain {
+        .card-body {
+          padding: $accordion-card-body-padding-right;
+        }
+
+        .card-header {
+          button {
+            padding: $accordion-button-padding-right;
+
+            &:before {
+              right: $accordion-button-icon-span;
+              left: auto;
+            }
+          }
+        }
+      }
+    }
+
+    .card-header {
+      button {
+        padding: $accordion-button-padding-right;
+
+        &:before {
+          right: $accordion-button-icon-span;
+          left: auto;
+        }
+      }
+    }
+
+    .accordion-item {
+      .card-body {
+        padding: $accordion-body-padding-right;
+      }
+
+      &.icon {
+        button {
+          padding: 0 1.5rem 0 0;
+
+          > span {
+            right: 0;
+            left: auto;
+          }
+        }
+      }
+    }
+  }
+
+  // Класс для иконки слева (явное указание, если нужно)
+  &.icon-left {
+    .card {
+      &.plain {
+        .card-body {
+          padding: $accordion-card-body-padding-left;
+        }
+
+        .card-header {
+          button {
+            padding: $accordion-button-padding-left;
+
+            &:before {
+              left: $accordion-button-icon-span;
+              right: auto;
+            }
+          }
+        }
+      }
+    }
+
+    .card-header {
+      button {
+        padding: $accordion-button-padding-left;
+        text-align: left;
+
+        &:before {
+          left: $accordion-button-icon-span;
+          right: auto;
+        }
+      }
+    }
+
+    .accordion-item {
+      .card-body {
+        padding: $accordion-body-padding-left;
+      }
+
+      &.icon {
+        button {
+          padding: 0 0 0 1.5rem;
+
+          > span {
+            left: 0;
+            right: auto;
+          }
+        }
+      }
+    }
+  }
 }

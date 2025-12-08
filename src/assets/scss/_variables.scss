@@ -1016,6 +1016,73 @@ $icon-kbd: "\eba9" !default;
 
 
 //----------------------------------------------------------//
+//	ACCORDION
+//----------------------------------------------------------//
+// Accordion plain card border variables
+$accordion-plain-border-width: 0 0 0 0 !default;
+$accordion-plain-border-style: none !default;
+$accordion-plain-border-color: none !default;
+
+$accordion-margin-bottom: 1.25rem !default;
+// две переменные для body padding в plain стиле
+$accordion-card-body-padding-left: 0 0 0 1.1rem !default;
+$accordion-card-body-padding-right: 0 1.1rem 0 0 !default;
+$accordion-card-header-padding: 0 0 0.8rem 0 !default;
+$accordion-card-header-padding-default: 0.9rem 1.3rem 0.85rem !default;
+
+// две переменные для разных положений кнопки
+$accordion-button-padding-left: 0 0 0 1rem !default;
+$accordion-button-padding-right: 0 1rem 0 0 !default;
+
+// две переменные для body padding
+$accordion-body-padding-left: 0 1.25rem 0.25rem 2.35rem !default;
+$accordion-body-padding-right: 0 2.35rem 0.25rem 1.25rem !default;
+
+$accordion-button-font-size: 0.85rem !default;
+$accordion-button-font-weight: $font-weight-bold !default;
+$accordion-icon-font-size: 1.15rem !default;
+$accordion-icon-color: var(--#{$prefix}primary) !default;
+
+$accordion-body-padding-icon: 0 1.25rem 0.25rem 2.8rem !default;
+$accordion-button-icon-span: -0.3rem !default;
+$accordion-button-icon-font-size: 1rem !default;
+
+// Иконки
+$accordion-icon-one: $icon-caret-down !default;
+$accordion-icon-open: $icon-caret-up !default;
+$accordion-icon-close: $icon-caret-down !default;
+$accordion-icon-type: "two" !default; // "one" - одна иконка с поворотом, "two" - две разные иконки
+
+// Иконки для разных типов аккордеона
+$accordion-icon-open-type-1: $icon-caret-up !default;
+$accordion-icon-close-type-1: $icon-caret-down !default;
+$accordion-icon-open-type-2: "\ec07" !default;
+$accordion-icon-close-type-2: "\ec5d" !default;
+$accordion-icon-one-type-3: "\ec5d" !default;
+$accordion-icon-type-3-closed-rotate: 0deg !default;
+$accordion-icon-type-3-opened-rotate: 135deg !default;
+$accordion-button-icon-span-type-3: 1.3rem !default;
+
+// Повороты
+$accordion-icon-closed-rotate: 0deg !default;
+$accordion-icon-opened-rotate: 180deg !default;
+
+// Hover эффекты
+$accordion-card-hover-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !default;
+$accordion-card-hover-transition: background ease 0.3s, box-shadow ease 0.3s !default;
+
+// Hover цвета
+$accordion-button-hover-color: var(--#{$prefix}primary) !default;
+$accordion-icon-hover-color: var(--#{$prefix}primary) !default;
+
+// Цвет текста в открытом состоянии
+$accordion-button-active-color: var(--#{$prefix}primary) !default;
+
+// Значения по умолчанию (для класса .icon-left)
+$accordion-button-padding: $accordion-button-padding-left !default;
+$accordion-body-padding-default: $accordion-body-padding-left !default;
+$accordion-card-body-padding: $accordion-card-body-padding-left !default;
+//----------------------------------------------------------//
 //	SWIPER
 //----------------------------------------------------------//
 
