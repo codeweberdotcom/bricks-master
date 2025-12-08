@@ -19,7 +19,7 @@ $show_universal_title = ($pageheader_name === '1' && $archive_pageheader_id !== 
 
 			<?php get_sidebar('left'); ?>
 
-			<div id="loop-wrapper" class="<?php echo $content_class; ?> py-12">
+			<div id="loop-wrapper" class="<?php echo $content_class; ?> py-14">
 				<div class="blog classic-view row">
 					<?php if ($pageheader_name === '1') { ?>
 						<h1 class="display-4 mb-10"><?php echo universal_title(); ?></h1>
