@@ -126,6 +126,11 @@ add_action('admin_init', function () {
 
 // Подключаем страницу как подменю CPT "legal"
 add_action('admin_menu', function () {
+	// Проверяем, что CPT 'legal' зарегистрирован
+	if (!post_type_exists('legal')) {
+		return;
+	}
+	
 	add_submenu_page(
 		'edit.php?post_type=legal',            // <-- родительское меню = твой CPT
 		__('Legal Settings', 'codeweber'),     // Заголовок страницы
@@ -147,7 +152,7 @@ add_action('admin_menu', function () {
 	<?php
 		}
 	);
-});
+}, 20);
 
 
 /**
@@ -228,7 +233,7 @@ add_action('admin_init', function () {
 				}
 			}
 
-			wp_redirect(admin_url('options-general.php?page=codeweber-legal-settings'));
+			wp_redirect(admin_url('edit.php?post_type=legal&page=codeweber-legal-settings'));
 			exit;
 		}
 	}

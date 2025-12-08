@@ -54,3 +54,24 @@ if (! function_exists('getThemeCardImageRadius')) {
       return isset($style_map[$style_key]) ? $style_map[$style_key] : $default_class;
    }
 }
+
+/**
+ * Получение стиля скругления для блока аккордеона из Redux Framework
+ * Применяет скругление только если выбрано rounded-0, иначе возвращает пустую строку
+ * Использование: <?php echo getThemeAccordionCardRadius(); ?>
+ *
+ * @return string CSS-класс скругления (только 'rounded-0' или пустая строка)
+ */
+if (! function_exists('getThemeAccordionCardRadius')) {
+   function getThemeAccordionCardRadius()
+   {
+      global $opt_name;
+
+      // Получаем значение из Redux (по умолчанию '2')
+      $style_key = Redux::get_option($opt_name, 'opt_card_image_border_radius', '2');
+
+      // Применяем скругление только если выбрано '4' (rounded-0)
+      // Для других значений ('2' - пусто, '3' - rounded-xl) возвращаем пустую строку
+      return ($style_key === '4') ? 'rounded-0' : '';
+   }
+}

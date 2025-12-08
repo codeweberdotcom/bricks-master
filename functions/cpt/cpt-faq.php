@@ -710,3 +710,14 @@ function add_faq_docs_plugin_link($links)
 	array_unshift($links, $docs_link);
 	return $links;
 }
+
+/**
+ * Отключаем single FAQ страницы - возвращаем 404
+ */
+add_action('template_redirect', function() {
+	if (is_singular('faq')) {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header(404);
+	}
+});
