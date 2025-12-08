@@ -1028,14 +1028,17 @@ $accordion-margin-bottom: 1.25rem !default;
 $accordion-card-body-padding-left: 0 0 0 1.1rem !default;
 $accordion-card-body-padding-right: 0 1.1rem 0 0 !default;
 $accordion-card-header-padding: 0 0 0.8rem 0 !default;
-$accordion-card-header-padding-default: 0.9rem 1.3rem 0.85rem !default;
+$accordion-card-header-padding-default: 0 !default;
+
+// Отступ для кнопки в шапке аккордеона (по умолчанию)
+$accordion-card-header-button-padding: 0.9rem 2.6rem 0.85rem !default;
 
 // две переменные для разных положений кнопки
 $accordion-button-padding-left: 0 0 0 1rem !default;
 $accordion-button-padding-right: 0 1rem 0 0 !default;
 
 // две переменные для body padding
-$accordion-body-padding-left: 0 1.25rem 0.25rem 2.35rem !default;
+$accordion-body-padding-left: 0 1.25rem 0.25rem 2.6rem !default;
 $accordion-body-padding-right: 0 2.35rem 0.25rem 1.25rem !default;
 
 $accordion-button-font-size: 0.85rem !default;
@@ -1044,7 +1047,7 @@ $accordion-icon-font-size: 1.15rem !default;
 $accordion-icon-color: var(--#{$prefix}primary) !default;
 
 $accordion-body-padding-icon: 0 1.25rem 0.25rem 2.8rem !default;
-$accordion-button-icon-span: -0.3rem !default;
+$accordion-button-icon-span: 1.3rem !default;
 $accordion-button-icon-font-size: 1rem !default;
 
 // Иконки

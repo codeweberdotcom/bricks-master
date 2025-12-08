@@ -16,7 +16,7 @@ if (!isset($post_data) || !$post_data) {
 $display = cw_get_post_card_display_settings($display_settings ?? []);
 $template_args = wp_parse_args($template_args ?? [], [
     'hover_classes' => 'overlay overlay-1',
-    'border_radius' => 'rounded',
+    'border_radius' => getThemeCardImageRadius() ?: 'rounded',
     'show_figcaption' => true,
 ]);
 
@@ -40,11 +40,11 @@ if (!empty($display['title_class'])) {
 ?>
 
 <article class="h-100 mb-6">
-    <div class="card shadow-lg d-flex flex-column h-100">
+    <div class="card shadow-lg d-flex flex-column h-100<?php echo $template_args['border_radius'] ? ' ' . esc_attr($template_args['border_radius']) : ''; ?>">
         <?php if ($post_data['image_url']) : ?>
             <figure class="<?php echo esc_attr($template_args['hover_classes'] . ' ' . $template_args['border_radius'] . ' card-img-top'); ?>">
                 <a href="<?php echo esc_url($post_data['link']); ?>">
-                    <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" />
+                    <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" class="<?php echo esc_attr($template_args['border_radius']); ?>" />
                 </a>
                 <?php if ($template_args['show_figcaption']) : ?>
                     <figcaption>

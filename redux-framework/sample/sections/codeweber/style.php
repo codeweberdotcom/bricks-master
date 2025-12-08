@@ -85,10 +85,6 @@ Redux::set_section(
 				'type'     => 'image_select',
 				'title'    => esc_html__('Скругление Card и Image', 'codeweber'),
 				'options'  => array(
-					'1' => array(
-						'alt' => 'Pill',
-						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/pill.jpg',
-					),
 					'2' => array(
 						'alt' => 'Rounded',
 						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/rounded.jpg',

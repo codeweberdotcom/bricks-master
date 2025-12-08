@@ -44,10 +44,7 @@
 							<?php endif; ?>
 						</div>
 						<div class="mb-0 mb-md-2">
-							<?php codeweber_share_page([
-								'region'       => 'ru',
-								'button_class' => 'has-ripple btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0' . getThemeButton(),
-							]); ?>
+							<?php codeweber_share_page(['region' => 'ru', 'button_class' => 'has-ripple btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0']); ?>
 						</div>
 					</div>
 					<!-- /.post-footer -->

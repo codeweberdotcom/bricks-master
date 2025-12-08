@@ -16,7 +16,7 @@ if (!isset($post_data) || !$post_data) {
 $display = cw_get_post_card_display_settings($display_settings ?? []);
 $template_args = wp_parse_args($template_args ?? [], [
     'hover_classes' => 'overlay overlay-1 hover-scale',
-    'border_radius' => 'rounded',
+    'border_radius' => getThemeCardImageRadius() ?: 'rounded',
     'show_figcaption' => true,
 ]);
 
@@ -50,7 +50,7 @@ if (!empty($display['title_class'])) {
         <?php if ($post_data['image_url']) : ?>
             <figure class="post-figure <?php echo esc_attr($template_args['hover_classes'] . ' ' . $template_args['border_radius']); ?> mb-5">
                 <a href="<?php echo esc_url($post_data['link']); ?>">
-                    <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" class="post-image" />
+                    <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" class="post-image <?php echo esc_attr($template_args['border_radius']); ?>" />
                     
                     <?php if ($display['show_category'] && $post_data['category']) : ?>
                         <div class="caption-wrapper p-7">

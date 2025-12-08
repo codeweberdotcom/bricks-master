@@ -16,7 +16,7 @@ if (!isset($post_data) || !$post_data) {
 $display = cw_get_post_card_display_settings($display_settings ?? []);
 $template_args = wp_parse_args($template_args ?? [], [
     'hover_classes' => 'overlay overlay-5',
-    'border_radius' => 'rounded',
+    'border_radius' => getThemeCardImageRadius() ?: 'rounded',
     'show_figcaption' => true,
 ]);
 
@@ -62,7 +62,7 @@ $date_badge = get_the_date('d M Y', $post_data['id']);
                         </<?php echo esc_attr($title_tag); ?>>
                     <?php endif; ?>
                 </div>
-                <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>">
+                <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" class="<?php echo esc_attr($template_args['border_radius']); ?>">
             </a>
             
             <?php if ($template_args['show_figcaption']) : ?>

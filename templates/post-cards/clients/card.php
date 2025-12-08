@@ -17,15 +17,17 @@ $template_args = wp_parse_args($template_args ?? [], [
     'enable_link' => false, // По умолчанию без ссылки
 ]);
 
+$card_radius = getThemeCardImageRadius();
+
 if ($post_data['image_url']) : ?>
-    <div class="card shadow-lg h-100 p-0 align-items-center">
+    <div class="card shadow-lg h-100 p-0 align-items-center<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
         <div class="card-body align-items-center d-flex px-3 py-6 p-md-8">
-            <figure class="px-md-3 px-xl-0 px-xxl-3 mb-0">
+            <figure class="px-md-3 px-xl-0 px-xxl-3 mb-0<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                 <?php if ($template_args['enable_link'] && !empty($post_data['link'])) : ?>
                     <a href="<?php echo esc_url($post_data['link']); ?>">
                 <?php endif; ?>
                 <img src="<?php echo esc_url($post_data['image_url']); ?>" 
-                     alt="<?php echo esc_attr($post_data['image_alt']); ?>" />
+                     alt="<?php echo esc_attr($post_data['image_alt']); ?>" class="<?php echo esc_attr($card_radius); ?>" />
                 <?php if ($template_args['enable_link'] && !empty($post_data['link'])) : ?>
                     </a>
                 <?php endif; ?>

@@ -19,7 +19,8 @@ $myposts = $my_posts->query(array(
          foreach ($myposts as $post_single) {
             setup_postdata($post_single);
          ?>
-            <div class="swiper-slide m-1 card">
+            <?php $card_radius = getThemeCardImageRadius(); ?>
+            <div class="swiper-slide m-1 card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                <article class="card-body p-6">
                   
                      <div class="post-header">

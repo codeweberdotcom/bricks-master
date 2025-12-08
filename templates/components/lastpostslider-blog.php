@@ -42,7 +42,7 @@ $display_settings = [
 $template_args = [
     'image_size' => 'codeweber_single',
     'hover_classes' => 'overlay overlay-1 hover-scale',
-    'border_radius' => 'rounded',
+    'border_radius' => getThemeCardImageRadius() ?: 'rounded',
     'show_figcaption' => true,
     'enable_hover_scale' => true,
 ];

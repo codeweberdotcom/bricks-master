@@ -42,7 +42,6 @@ if (! function_exists('getThemeCardImageRadius')) {
 
       // Карта соответствий опций Redux → стандартные Bootstrap классы
       $style_map = [
-         '1' => 'rounded-pill',
          '2' => '',
          '3' => 'rounded-xl',
          '4' => 'rounded-0',

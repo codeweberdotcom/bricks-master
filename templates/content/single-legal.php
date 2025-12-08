@@ -1,7 +1,8 @@
 <section id="post-<?php the_ID(); ?>" <?php post_class('blog single'); ?>>
-   <div class="card">
+   <?php $card_radius = getThemeCardImageRadius(); ?>
+   <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
 
-      <figure class="card-img-top">
+      <figure class="card-img-top<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
          <?php
          // Получаем ID миниатюры текущего поста
          $thumbnail_id = get_post_thumbnail_id();
@@ -10,9 +11,13 @@
          $large_image_url = wp_get_attachment_image_src($thumbnail_id, 'codeweber_extralarge');
 
          if ($large_image_url) :
+            $img_classes = 'img-fluid';
+            if ($card_radius) {
+               $img_classes .= ' ' . esc_attr($card_radius);
+            }
          ?>
             <a href="<?php echo esc_url($large_image_url[0]); ?>" data-glightbox data-gallery="g1">
-               <?php the_post_thumbnail('codeweber_extralarge', array('class' => 'img-fluid')); ?>
+               <?php the_post_thumbnail('codeweber_extralarge', array('class' => $img_classes)); ?>
             </a>
          <?php endif; ?>
       </figure>
@@ -82,17 +87,21 @@
                if (!empty($avatar_id)) :
                   $avatar_src = wp_get_attachment_image_src($avatar_id, 'thumbnail');
                ?>
-                  <img decoding="async" class="avatar w-48 h-48 me-3 shadow-lg" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
+                  <figure class="user-avatar me-3">
+                     <img class="rounded-circle" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
+                  </figure>
                <?php else : ?>
-                  <?php echo get_avatar(get_the_author_meta('user_email'), 96); ?>
+                  <figure class="user-avatar me-3">
+                     <?php echo get_avatar(get_the_author_meta('user_email'), 96, '', '', ['class' => 'rounded-circle']); ?>
+                  </figure>
                <?php endif; ?>
 
                <div>
-                  <div class="h6">
+                  <h6>
                      <a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="link-dark">
                         <?php the_author_meta('first_name'); ?> <?php the_author_meta('last_name'); ?>
                      </a>
-                  </div>
+                  </h6>
 
                   <?php
                   $job_title = get_user_meta($user_id, 'user_position', true);

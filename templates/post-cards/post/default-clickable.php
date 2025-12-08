@@ -16,7 +16,7 @@ if (!isset($post_data) || !$post_data) {
 $display = cw_get_post_card_display_settings($display_settings ?? []);
 $template_args = wp_parse_args($template_args ?? [], [
     'hover_classes' => '', // БЕЗ overlay
-    'border_radius' => 'rounded',
+    'border_radius' => getThemeCardImageRadius() ?: 'rounded',
     'show_figcaption' => false, // БЕЗ figcaption
     'enable_lift' => false, // Включить/выключить lift эффект
 ]);
@@ -46,7 +46,7 @@ if ($template_args['enable_lift']) {
     <a href="<?php echo esc_url($post_data['link']); ?>" class="<?php echo esc_attr($card_classes); ?>">
         <?php if ($post_data['image_url']) : ?>
             <figure class="<?php echo esc_attr($template_args['border_radius']); ?> mb-5">
-                <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" />
+                <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" class="<?php echo esc_attr($template_args['border_radius']); ?>" />
             </figure>
         <?php endif; ?>
         

@@ -40,7 +40,7 @@
           position: relative;
 
           &:before {
-            left: $accordion-button-icon-span;
+            left: -0.3rem;
             right: auto;
             top: 50%;
             // Убрали transform отсюда, он будет в отдельных состояниях
@@ -87,7 +87,7 @@
     button {
       cursor: pointer;
       width: 100%;
-      padding: $accordion-button-padding-left;
+      padding: $accordion-card-header-button-padding;
       text-align: left;
       margin: 0;
       border: 0;
@@ -168,11 +168,11 @@
 
   &.icon {
     .card-body {
-      padding: $accordion-body-padding-icon;
+      padding: 0 1.25rem 0.25rem 2.6rem;
     }
 
     button {
-      padding: 0 0 0 1.5rem;
+      padding: 0.9rem 2.6rem 0.85rem;
       display: flex;
       align-items: center;
       position: relative;
@@ -181,9 +181,9 @@
         display: none;
       }
 
-      > span {
+      > .icon {
         position: absolute;
-        left: 0;
+        left: 1.3rem;
         right: auto;
         top: 50%;
         transform: translateY(-50%);
@@ -302,7 +302,7 @@
     .card.plain .card-header button {
       // смещение иконки под тип-3
       &:before {
-        left: $accordion-button-icon-span-type-3;
+        left: -0.3rem;
         right: auto;
       }
       &.collapsed:before {
@@ -312,14 +312,14 @@
       &:not(.collapsed):before {
         content: $accordion-icon-one-type-3;
         transform: translateY(-50%) rotate($accordion-icon-type-3-opened-rotate);
-        right: -0.45rem;
-        left: auto;
+        right: auto;
+        left: -0.2rem;
       }
     }
 
     .card-header button {
       &:before {
-        left: $accordion-button-icon-span-type-3;
+        left: 1.3rem;
         right: auto;
       }
       &.collapsed:before {
@@ -329,8 +329,8 @@
       &:not(.collapsed):before {
         content: $accordion-icon-one-type-3;
         transform: translateY(-50%) rotate($accordion-icon-type-3-opened-rotate);
-        right: -0.45rem;
-        left: auto;
+        right: auto;
+        left: 1.45rem;
       }
     }
   }
@@ -364,12 +364,25 @@
       }
     }
 
+    // Коррекция для type-3 при правой иконке
+    &.type-3 {
+      .card-header button:not(.collapsed):before {
+        left: auto;
+        right: 1.2rem;
+      }
+      
+      .card.plain .card-header button:not(.collapsed):before {
+        right: 1.2rem;
+        left: auto;
+      }
+    }
+
     .card-header {
       button {
-        padding: $accordion-button-padding-right;
+        padding: 0.9rem 2.6rem 0.85rem 1.3rem;
 
         &:before {
-          right: $accordion-button-icon-span;
+          right: 1.3rem;
           left: auto;
         }
       }
@@ -384,12 +397,21 @@
         button {
           padding: 0 1.5rem 0 0;
 
-          > span {
+          > .icon {
             right: 0;
             left: auto;
           }
         }
       }
+    }
+
+    .accordion-item.icon button {
+      padding: 0.9rem 2.6rem 0.85rem 1.3rem;
+    }
+
+    .accordion-item.icon button > .icon {
+      right: 1.3rem;
+      left: auto;
     }
   }
 
@@ -435,7 +457,7 @@
         button {
           padding: 0 0 0 1.5rem;
 
-          > span {
+          > .icon {
             left: 0;
             right: auto;
           }

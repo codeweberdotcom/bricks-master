@@ -357,17 +357,21 @@ if (!function_exists('codeweber_author_info')) {
                 <?php if (!empty($avatar_id)) : 
                     $avatar_src = wp_get_attachment_image_src($avatar_id, $avatar_size);
                 ?>
-                    <img decoding="async" class="avatar w-48 h-48 me-3 shadow-lg" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
+                    <figure class="user-avatar me-3">
+                        <img class="rounded-circle" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
+                    </figure>
                 <?php else : ?>
-                    <?php echo get_avatar(get_the_author_meta('user_email'), 96); ?>
+                    <figure class="user-avatar me-3">
+                        <?php echo get_avatar(get_the_author_meta('user_email'), 96, '', '', ['class' => 'rounded-circle']); ?>
+                    </figure>
                 <?php endif; ?>
 
                 <div>
-                    <div class="h6">
+                    <h6>
                         <a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="link-dark">
                             <?php the_author_meta('first_name'); ?> <?php the_author_meta('last_name'); ?>
                         </a>
-                    </div>
+                    </h6>
                     <span class="post-meta fs-15"><?php echo esc_html($job_title); ?></span>
                 </div>
             </div>

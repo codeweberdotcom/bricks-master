@@ -95,6 +95,7 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 
 // Подключение demo функций
 require_once get_template_directory() . '/functions/demo/demo-clients.php';
+require_once get_template_directory() . '/functions/demo/demo-faq.php';
 require_once get_template_directory() . '/functions/demo/demo-ajax.php';
 
 /**

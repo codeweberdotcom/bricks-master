@@ -197,7 +197,7 @@ function cw_blog_posts_slider_shortcode($atts) {
     $template_args = [
         'image_size' => $atts['image_size'],
         'hover_classes' => $hover_classes,
-        'border_radius' => 'rounded',
+        'border_radius' => getThemeCardImageRadius() ?: 'rounded',
         'show_figcaption' => true,
         'enable_lift' => $enable_lift,
         'enable_hover_scale' => $atts['enable_hover_scale'] === 'true', // Для default шаблона
