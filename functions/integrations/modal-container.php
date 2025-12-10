@@ -18,11 +18,12 @@ if (!defined('ABSPATH')) {
  */
 function codeweber_universal_modal_container()
 {
+    $card_radius = getThemeCardImageRadius();
     ?>
     <!-- Universal Modal Container -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content text-center">
+            <div class="modal-content<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                 <div class="modal-body">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php echo esc_attr__('Close', 'codeweber'); ?>"></button>
                     <div id="modal-content">

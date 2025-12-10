@@ -159,6 +159,77 @@ add_action('codeweber_after_widget', function ($sidebar_id) {
               </div>';
         }
     }
+    
+    if ($sidebar_id === 'faq') {
+        // Проверяем, существует ли тип записи 'faq'
+        if (!post_type_exists('faq')) {
+            return; // Прекращаем выполнение, если тип записи не существует
+        }
+
+        // Получаем текущий якорь из URL (hash)
+        $current_anchor = '';
+        if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '#') !== false) {
+            $current_anchor = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], '#') + 1);
+        }
+
+        // Получаем все категории FAQ
+        $faq_categories = get_terms([
+            'taxonomy'   => 'faq_categories',
+            'hide_empty' => true,
+        ]);
+
+        if (!empty($faq_categories) && !is_wp_error($faq_categories)) {
+            echo '<div class="widget">
+                    <nav id="sidebar-nav">
+                        <ul class="list-unstyled text-reset">';
+
+            $index = 1;
+            
+            // Получаем FAQ записи без категорий для проверки наличия секции "Other Questions"
+            $uncategorized_faqs = get_posts([
+                'post_type'      => 'faq',
+                'posts_per_page' => -1,
+                'post_status'    => 'publish',
+                'orderby'        => 'menu_order',
+                'order'          => 'ASC',
+                'tax_query'      => [
+                    [
+                        'taxonomy' => 'faq_categories',
+                        'operator' => 'NOT EXISTS',
+                    ],
+                ],
+            ]);
+
+            foreach ($faq_categories as $category) {
+                $category_anchor = sanitize_title($category->name);
+                $anchor_url = '#' . $category_anchor;
+                $active_class = ($current_anchor === $category_anchor) ? ' active' : '';
+                
+                echo '<li><a class="nav-link scroll' . $active_class . '" href="' . esc_attr($anchor_url) . '">' . $index . '. ' . esc_html($category->name) . '</a></li>';
+                $index++;
+            }
+
+            // Добавляем пункт для некатегоризированных FAQ, если они есть
+            if (!empty($uncategorized_faqs)) {
+                $uncategorized_anchor = 'faq-uncategorized';
+                $active_class = ($current_anchor === $uncategorized_anchor) ? ' active' : '';
+                echo '<li><a class="nav-link scroll' . $active_class . '" href="#' . esc_attr($uncategorized_anchor) . '">' . $index . '. ' . esc_html__('Other Questions', 'codeweber') . '</a></li>';
+            }
+
+            echo '</ul>
+                 </nav>
+              </div>';
+        } else {
+            // Если нет категорий, выводим ссылку на секцию "faq-all"
+            echo '<div class="widget">
+                    <nav id="sidebar-nav">
+                        <ul class="list-unstyled text-reset">
+                            <li><a class="nav-link scroll active" href="#faq-all">' . esc_html__('All FAQs', 'codeweber') . '</a></li>
+                        </ul>
+                    </nav>
+                  </div>';
+        }
+    }
 });
 
 

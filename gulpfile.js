@@ -37,6 +37,7 @@ var path = {
     vendorjs: "src/assets/js/vendor/*.*",
     themejs: "src/assets/js/theme.js",
     restapijs: "src/assets/js/restapi.js",
+    testimonialformjs: "src/assets/js/testimonial-form.js",
     style: "src/assets/scss/style.scss",
     fontcss: "src/assets/scss/fonts/*.*",
     colorcss: [
@@ -132,6 +133,29 @@ gulp.task("restapijs:dist", function () {
   return (
     gulp
       .src(path.src.restapijs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      //.pipe(uglify()) // если нужно минифицировать — раскомментируй
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
+gulp.task("testimonialformjs:dev", function () {
+  return gulp
+    .src(path.src.testimonialformjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("testimonialformjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.testimonialformjs)
       .pipe(gulp.dest(path.dist.js))
       .pipe(plumber())
       //.pipe(uglify()) // если нужно минифицировать — раскомментируй
@@ -421,6 +445,7 @@ gulp.task(
       "vendorcss:dev",
       "pluginsjs:dev",
       "restapijs:dev",
+      "testimonialformjs:dev",
       "themejs:dev",
       "fonts:dev",
       "media:dev",
@@ -443,6 +468,7 @@ gulp.task(
       "vendorcss:dist",
       "pluginsjs:dist",
       "restapijs:dist",
+      "testimonialformjs:dist",
       "themejs:dist",
       "fonts:dist",
       "media:dist",
@@ -462,6 +488,8 @@ gulp.task('watch', function () {
     gulp.watch(path.watch.vendorcss, gulp.series('vendorcss:dist'));
     gulp.watch(path.watch.vendorjs, gulp.series('pluginsjs:dist'));
     gulp.watch(path.watch.themejs, gulp.series('themejs:dist'));
+    gulp.watch(path.src.restapijs, gulp.series('restapijs:dist'));
+    gulp.watch(path.src.testimonialformjs, gulp.series('testimonialformjs:dist'));
     gulp.watch(path.watch.img, gulp.series('image:dist'));
     gulp.watch(path.watch.fonts, gulp.series('fonts:dist'));
     gulp.watch(path.watch.media, gulp.series('media:dist'));

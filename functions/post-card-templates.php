@@ -46,9 +46,16 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
     if (strpos($template_name, 'client-') === 0) {
         $template_dir = 'clients';
         $template_file = str_replace('client-', '', $template_file);
+    } elseif (strpos($template_name, 'testimonial-') === 0) {
+        // Если шаблон начинается с "testimonial-", это шаблон для testimonials
+        $template_dir = 'testimonials';
+        $template_file = str_replace('testimonial-', '', $template_file);
     } elseif ($post_type === 'clients') {
         // Если тип записи clients, ищем в папке clients
         $template_dir = 'clients';
+    } elseif ($post_type === 'testimonials') {
+        // Если тип записи testimonials, ищем в папке testimonials
+        $template_dir = 'testimonials';
     }
     
     // Путь к шаблону в новой структуре

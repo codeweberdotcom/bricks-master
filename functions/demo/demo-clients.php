@@ -31,6 +31,32 @@ function cw_demo_get_clients_data() {
         return false;
     }
     
+    // Определяем язык сайта
+    $locale = get_locale();
+    $is_russian = (strpos($locale, 'ru') === 0);
+    
+    // Адаптируем данные в зависимости от языка
+    if ($is_russian && !empty($data['items'])) {
+        foreach ($data['items'] as &$item) {
+            // Для русского языка используем company_name как title, если оно есть
+            if (!empty($item['company_name'])) {
+                $item['title'] = $item['company_name'];
+            }
+        }
+        unset($item); // Сбрасываем ссылку
+        
+        // Адаптируем категории
+        if (isset($data['categories'])) {
+            $data['categories'] = array_map(function($cat) {
+                $ru_categories = array(
+                    'Primary Clients' => 'Основные клиенты',
+                    'Partners' => 'Партнеры'
+                );
+                return isset($ru_categories[$cat]) ? $ru_categories[$cat] : $cat;
+            }, $data['categories']);
+        }
+    }
+    
     return $data;
 }
 
@@ -148,17 +174,21 @@ function cw_demo_get_or_create_client_category($category_name) {
  * @return string Название категории
  */
 function cw_demo_get_client_category_by_image($image_filename) {
+    // Определяем язык сайта
+    $locale = get_locale();
+    $is_russian = (strpos($locale, 'ru') === 0);
+    
     // Если файл начинается с "c" - первая категория, если с "z" - вторая
     $first_char = strtolower(substr(basename($image_filename), 0, 1));
     
     if ($first_char === 'c') {
-        return 'Primary Clients';
+        return $is_russian ? 'Основные клиенты' : 'Primary Clients';
     } elseif ($first_char === 'z') {
-        return 'Partners';
+        return $is_russian ? 'Партнеры' : 'Partners';
     }
     
     // Fallback - по умолчанию
-    return 'Primary Clients';
+    return $is_russian ? 'Основные клиенты' : 'Primary Clients';
 }
 
 /**
@@ -250,15 +280,21 @@ function cw_demo_create_clients() {
     $errors = array();
     $categories_created = array();
     
+    // Определяем язык для категорий
+    $locale = get_locale();
+    $is_russian = (strpos($locale, 'ru') === 0);
+    $category_primary = $is_russian ? 'Основные клиенты' : 'Primary Clients';
+    $category_partners = $is_russian ? 'Партнеры' : 'Partners';
+    
     // Создаем категории заранее
-    $category_c = cw_demo_get_or_create_client_category('Primary Clients');
-    $category_z = cw_demo_get_or_create_client_category('Partners');
+    $category_c = cw_demo_get_or_create_client_category($category_primary);
+    $category_z = cw_demo_get_or_create_client_category($category_partners);
     
     if ($category_c) {
-        $categories_created[] = 'Primary Clients';
+        $categories_created[] = $category_primary;
     }
     if ($category_z) {
-        $categories_created[] = 'Partners';
+        $categories_created[] = $category_partners;
     }
     
     foreach ($data['items'] as $item) {

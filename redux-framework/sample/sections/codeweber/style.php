@@ -101,6 +101,30 @@ Redux::set_section(
 				'default'  => '2',
 			),
 			array(
+				'id'       => 'opt_form_border_radius',
+				'type'     => 'image_select',
+				'title'    => esc_html__('Скругление Forms', 'codeweber'),
+				'options'  => array(
+					'1' => array(
+						'alt' => 'Pill',
+						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/pill.jpg',
+					),
+					'2' => array(
+						'alt' => 'Rounded',
+						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/rounded.jpg',
+					),
+					'3' => array(
+						'alt' => 'Rounder',
+						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/rounder.jpg',
+					),
+					'4' => array(
+						'alt' => 'Square',
+						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/square.jpg',
+					),
+				),
+				'default'  => '2',
+			),
+			array(
 				'id'       => 'page-frame',
 				'type'     => 'switch',
 				'title'    => esc_html__('Page-frame', 'codeweber'),

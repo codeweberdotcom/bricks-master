@@ -77,7 +77,8 @@ add_action('enqueue_block_editor_assets', 'brk_styles_scripts_gutenberg');
 
 function enqueue_my_custom_script()
 {
-	if (is_page()) {
+	// Load on pages and post type archives (including testimonials archive)
+	if (is_page() || is_post_type_archive() || is_archive()) {
 		wp_enqueue_script(
 			'my-custom-script',
 			get_template_directory_uri() . '/dist/assets/js/restapi.js',
@@ -86,9 +87,12 @@ function enqueue_my_custom_script()
 			false // <-- подключаем в head, не в footer
 		);
 
+		$current_user_id = get_current_user_id();
 		wp_localize_script('my-custom-script', 'wpApiSettings', array(
-			'root'  => esc_url(rest_url()),
+			'root' => esc_url_raw(rest_url()),
 			'nonce' => wp_create_nonce('wp_rest'),
+			'currentUserId' => $current_user_id,
+			'isLoggedIn' => $current_user_id > 0
 		));
 	}
 }
@@ -118,3 +122,42 @@ function theme_enqueue_fetch_assets()
 	}
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_fetch_assets');
+
+/**
+ * Enqueue testimonial form script
+ */
+function codeweber_enqueue_testimonial_form() {
+	// Check if we're on testimonials archive page
+	if (is_post_type_archive('testimonials') || is_page_template('archive-testimonials.php')) {
+		// Prefer dist version, fallback to src
+		$dist_path = get_template_directory() . '/dist/assets/js/testimonial-form.js';
+		$dist_url = get_template_directory_uri() . '/dist/assets/js/testimonial-form.js';
+		$src_path = get_template_directory() . '/src/assets/js/testimonial-form.js';
+		$src_url = get_template_directory_uri() . '/src/assets/js/testimonial-form.js';
+		
+		if (file_exists($dist_path)) {
+			$script_path = $dist_path;
+			$script_url = $dist_url;
+		} elseif (file_exists($src_path)) {
+			$script_path = $src_path;
+			$script_url = $src_url;
+		} else {
+			return; // File doesn't exist
+		}
+		
+		wp_enqueue_script(
+			'testimonial-form',
+			$script_url,
+			[], // Dependencies
+			filemtime($script_path),
+			true // Load in footer
+		);
+		
+		// Localize script
+		wp_localize_script('testimonial-form', 'codeweberTestimonialForm', [
+			'restUrl' => rest_url('codeweber/v1/submit-testimonial'),
+			'nonce' => wp_create_nonce('wp_rest'),
+		]);
+	}
+}
+add_action('wp_enqueue_scripts', 'codeweber_enqueue_testimonial_form');

@@ -119,29 +119,16 @@ function codeweber_thumbnail_alt()
 
 
 /**
- * Форматирует номер телефона, оставляя только цифры.
- * - Если цифр больше трёх, добавляет в начале `+`.
- * - Если первая цифра `8` и номер длиннее трёх цифр, заменяет `8` на `7`.
- * - Если цифр три или меньше, оставляет их без изменений.
+ * Очищает номер телефона, оставляя только цифры.
+ * Удаляет все символы, кроме цифр.
  *
- * @param string $text Входной текст, содержащий номер телефона.
- * @return string Отформатированный номер.
+ * @param string $digits Входной текст, содержащий номер телефона.
+ * @return string Очищенный номер, содержащий только цифры.
  */
 function cleanNumber($digits)
 {
 	// Удаляем все символы, кроме цифр
-	$digits = preg_replace('/\D/', '', $digits);
-
-	// Если цифр больше трёх, обрабатываем номер
-	if (strlen($digits) > 3) {
-		// Если номер начинается с 8, заменяем на 7
-		if ($digits[0] === '8') {
-			$digits = '7' . substr($digits, 1);
-		}
-		return '+' . $digits;
-	}
-
-	return $digits;
+	return preg_replace('/\D/', '', $digits);
 }
 
 /**
@@ -493,6 +480,9 @@ if (!function_exists('codeweber_posts_pagination')) {
         
         $args = wp_parse_args($args, $defaults);
         
+        // Получаем стиль кнопок из настроек темы
+        $button_style = getThemeButton();
+        
         $total_pages = $wp_query->max_num_pages;
         $current_page = max(1, get_query_var('paged'));
         
@@ -507,11 +497,11 @@ if (!function_exists('codeweber_posts_pagination')) {
         
         if ($current_page > 1) {
             $prev_link = get_previous_posts_page_link();
-            $pagination .= '<a class="' . esc_attr($args['link_class']) . '" href="' . esc_url($prev_link) . '" aria-label="' . esc_attr__('Previous', 'codeweber') . '">';
+            $pagination .= '<a class="' . esc_attr($args['link_class'] . $button_style) . '" href="' . esc_url($prev_link) . '" aria-label="' . esc_attr__('Previous', 'codeweber') . '">';
             $pagination .= $args['prev_text'];
             $pagination .= '</a>';
         } else {
-            $pagination .= '<span class="' . esc_attr($args['link_class']) . '" aria-label="' . esc_attr__('Previous', 'codeweber') . '">';
+            $pagination .= '<span class="' . esc_attr($args['link_class'] . $button_style) . '" aria-label="' . esc_attr__('Previous', 'codeweber') . '">';
             $pagination .= $args['prev_text'];
             $pagination .= '</span>';
         }
@@ -525,7 +515,7 @@ if (!function_exists('codeweber_posts_pagination')) {
         // Show dots at the beginning if needed
         if ($args['show_dots'] && $start > 1) {
             $pagination .= '<li class="' . esc_attr($args['page_class'] . ' ' . $args['disabled_class']) . '">';
-            $pagination .= '<span class="' . esc_attr($args['link_class']) . '">' . esc_html($args['dots_text']) . '</span>';
+            $pagination .= '<span class="' . esc_attr($args['link_class'] . $button_style) . '">' . esc_html($args['dots_text']) . '</span>';
             $pagination .= '</li>';
         }
         
@@ -539,9 +529,9 @@ if (!function_exists('codeweber_posts_pagination')) {
             $pagination .= '<li class="' . esc_attr($page_class) . '">';
             
             if ($i == $current_page) {
-                $pagination .= '<span class="' . esc_attr($args['link_class']) . '">' . $i . '</span>';
+                $pagination .= '<span class="' . esc_attr($args['link_class'] . $button_style) . '">' . $i . '</span>';
             } else {
-                $pagination .= '<a class="' . esc_attr($args['link_class']) . '" href="' . esc_url(get_pagenum_link($i)) . '">' . $i . '</a>';
+                $pagination .= '<a class="' . esc_attr($args['link_class'] . $button_style) . '" href="' . esc_url(get_pagenum_link($i)) . '">' . $i . '</a>';
             }
             
             $pagination .= '</li>';
@@ -550,7 +540,7 @@ if (!function_exists('codeweber_posts_pagination')) {
         // Show dots at the end if needed
         if ($args['show_dots'] && $end < $total_pages) {
             $pagination .= '<li class="' . esc_attr($args['page_class'] . ' ' . $args['disabled_class']) . '">';
-            $pagination .= '<span class="' . esc_attr($args['link_class']) . '">' . esc_html($args['dots_text']) . '</span>';
+            $pagination .= '<span class="' . esc_attr($args['link_class'] . $button_style) . '">' . esc_html($args['dots_text']) . '</span>';
             $pagination .= '</li>';
         }
         
@@ -560,11 +550,11 @@ if (!function_exists('codeweber_posts_pagination')) {
         
         if ($current_page < $total_pages) {
             $next_link = get_next_posts_page_link();
-            $pagination .= '<a class="' . esc_attr($args['link_class']) . '" href="' . esc_url($next_link) . '" aria-label="' . esc_attr__('Next', 'codeweber') . '">';
+            $pagination .= '<a class="' . esc_attr($args['link_class'] . $button_style) . '" href="' . esc_url($next_link) . '" aria-label="' . esc_attr__('Next', 'codeweber') . '">';
             $pagination .= $args['next_text'];
             $pagination .= '</a>';
         } else {
-            $pagination .= '<span class="' . esc_attr($args['link_class']) . '" aria-label="' . esc_attr__('Next', 'codeweber') . '">';
+            $pagination .= '<span class="' . esc_attr($args['link_class'] . $button_style) . '" aria-label="' . esc_attr__('Next', 'codeweber') . '">';
             $pagination .= $args['next_text'];
             $pagination .= '</span>';
         }

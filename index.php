@@ -6,7 +6,7 @@ $post_type = universal_get_post_type();
 $post_type_lc = strtolower($post_type);
 $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
 
-$content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-md-8';
+$content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-xl-9';
 $pageheader_name = Redux::get_option($opt_name, 'global_page_header_model');
 
 $archive_pageheader_id = Redux::get_option($opt_name, 'archive_page_header_select_' . $post_type);

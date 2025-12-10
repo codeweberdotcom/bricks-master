@@ -5,6 +5,7 @@ namespace Codeweber\Functions\Fetch;
 require_once __DIR__ . '/Fetch.php';
 require_once __DIR__ . '/exampleFunction.php';
 require_once __DIR__ . '/getPosts.php';
+require_once __DIR__ . '/loadMoreItems.php';
 
 add_action('wp_ajax_fetch_action', 'Codeweber\\Functions\\Fetch\\handle_fetch_action');
 add_action('wp_ajax_nopriv_fetch_action', 'Codeweber\\Functions\\Fetch\\handle_fetch_action');
@@ -21,6 +22,11 @@ function handle_fetch_action()
 
    if ($actionType === 'getPosts') {
       $response = getPosts($params);
+      wp_send_json($response);
+   }
+
+   if ($actionType === 'loadMoreItems') {
+      $response = loadMoreItems($params);
       wp_send_json($response);
    }
 

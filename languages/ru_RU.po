@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-10-16 11:53+0000\n"
+"PO-Revision-Date: 2025-12-10 01:17+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -71,6 +71,10 @@ msgstr "(например, в корзине не найдено ни одног
 #: functions/cpt/cpt-staff.php:20
 msgid "(e.g. No Staff found)"
 msgstr "(например, Персонал не найден)"
+
+#: functions/cpt/cpt-testimonials.php:238
+msgid "-- Select User --"
+msgstr "-- Выберите пользователя --"
 
 #: functions/cpt/cpt-faq.php:615
 msgid "1. Basic usage"
@@ -141,6 +145,23 @@ msgstr "Пользовательский тип записи для управл
 #. Description of the theme
 msgid "A modular WordPress starter theme powered by Bootstrap 5 and Gulp"
 msgstr "Модульная стартовая тема WordPress, работающая на Bootstrap 5 и Gulp"
+
+#: functions/testimonials/testimonial-form-api.php:211
+#, php-format
+msgid ""
+"A new testimonial has been submitted and is pending review.\n"
+"\n"
+"Author: %s\n"
+"Email: %s\n"
+"\n"
+"View: %s"
+msgstr ""
+"Новый отзыв отправлен и ожидает проверки.\n"
+"\n"
+"Автор: %s\n"
+"Email: %s\n"
+"\n"
+"Просмотр: %s"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:15
 #: redux-framework/sample/sections/codeweber/company-details.php:21
@@ -600,6 +621,10 @@ msgstr "Применить выбранные шрифты"
 msgid "Applying..."
 msgstr "Применение..."
 
+#: functions/cpt/cpt-testimonials.php:392
+msgid "Approved"
+msgstr "Одобрено"
+
 #: redux-framework/sample/sections/codeweber/cpt-type.php:545
 #: redux-framework/sample/sections/codeweber/cpt-type.php:561
 #: redux-framework/sample/sections/codeweber/cpt-type.php:577
@@ -657,6 +682,22 @@ msgstr "Автор"
 #, php-format
 msgid "Author %s"
 msgstr "Автор %s"
+
+#: functions/cpt/cpt-testimonials.php:217
+msgid "Author Avatar:"
+msgstr "Аватар автора:"
+
+#: functions/cpt/cpt-testimonials.php:202
+msgid "Author Name:"
+msgstr "Имя автора:"
+
+#: functions/cpt/cpt-testimonials.php:207
+msgid "Author Role/Position:"
+msgstr "Должность автора:"
+
+#: functions/cpt/cpt-testimonials.php:186
+msgid "Author Type:"
+msgstr "Тип автора:"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:41
 msgid "Author URI"
@@ -821,6 +862,10 @@ msgstr ""
 "обработки персональных данных  и даете Согласие на обработку ваших "
 "Персонлаьных данных."
 
+#: archive-testimonials.php:249
+msgid "Cancel"
+msgstr "Отмена"
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:777
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:765
 #: functions/integrations/newsletter-subscription/admin/newsletter-import-export.php:122
@@ -974,9 +1019,7 @@ msgstr "Клиенты"
 msgid "Clients list"
 msgstr "Список Клиентов"
 
-#: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1104
-#: functions/integrations/redux_framework/redux_cookie.php:42
-#: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:51
+#: archive-testimonials.php:148
 msgid "Close"
 msgstr "Закрыть"
 
@@ -1049,13 +1092,29 @@ msgctxt "comments title"
 msgid "One reply on &ldquo;%s&rdquo;"
 msgstr "Один отзыв в &ldquo;%s&rdquo;"
 
-#: functions/cpt/cpt-vacancies.php:220
+#: archive-testimonials.php:230
 msgid "Company"
 msgstr "Компания"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:5
 msgid "Company Details"
 msgstr "Данные Компании"
+
+#: functions/cpt/cpt-testimonials.php:213
+msgid "Company Name"
+msgstr "Название компании"
+
+#: archive-testimonials.php:228
+msgid "Company name"
+msgstr "Название компании"
+
+#: functions/cpt/cpt-testimonials.php:276
+msgid "Company Name (optional)"
+msgstr "Название компании (необязательно)"
+
+#: functions/cpt/cpt-testimonials.php:212
+msgid "Company:"
+msgstr "Компания:"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1265
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:380
@@ -1395,6 +1454,10 @@ msgstr "Текущая версия %s"
 #: redux-framework/sample/sections/codeweber/page-header.php:91
 msgid "Custom"
 msgstr "Пользовательский"
+
+#: functions/cpt/cpt-testimonials.php:190
+msgid "Custom (Manual Entry)"
+msgstr "Произвольный (ручной ввод)"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1088
 msgid "Custom Fonts Upload"
@@ -2019,6 +2082,10 @@ msgstr ""
 msgid "Enter the name for your child theme"
 msgstr "Введите название Дочерней темы"
 
+#: functions/cpt/cpt-testimonials.php:181
+msgid "Enter the testimonial text/quote"
+msgstr "Введите текст отзыва/цитату"
+
 #: functions/user.php:262
 msgid "Enter the user position"
 msgstr "Введите должность пользователя"
@@ -2126,6 +2193,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:70
 msgid "Facebook Pixel Settings"
 msgstr ""
+
+#: functions/testimonials/testimonial-form-api.php:154
+msgid "Failed to create testimonial. Please try again."
+msgstr "Не удалось создать отзыв. Попробуйте снова."
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1120
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:67
@@ -2269,6 +2340,10 @@ msgstr ""
 #: functions/integrations/ajax-search-module/search-statistics.php:585
 msgid "Filters"
 msgstr "Фильтры"
+
+#: functions/cpt/cpt-testimonials.php:208
+msgid "Financial Analyst"
+msgstr "Финансовый аналитик"
 
 #: functions/integrations/newsletter-subscription/newsletter-privacy.php:99
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1231
@@ -3153,6 +3228,10 @@ msgstr "Отслеживание JavaScript Активно"
 msgid "JavaScript tracking enabled"
 msgstr "Отслеживание JavaScript включено"
 
+#: functions/cpt/cpt-testimonials.php:203
+msgid "John Doe"
+msgstr "Иван Иванов"
+
 #: redux-framework/sample/sections/codeweber/legal.php:64
 msgid "KPP"
 msgstr "КПП"
@@ -3190,6 +3269,14 @@ msgstr "Последнее обновление"
 #: comments.php:18
 msgid "Leave a comment"
 msgstr "Оставить комментарий"
+
+#: archive-testimonials.php:128
+msgid "Leave a Review"
+msgstr "Оставить отзыв"
+
+#: archive-testimonials.php:147
+msgid "Leave Your Testimonial"
+msgstr "Оставьте свой отзыв"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:423
 #: redux-framework/sample/sections/codeweber/cpt-type.php:434
@@ -3676,6 +3763,11 @@ msgstr "Новый Сотрудник"
 #: functions/cpt/cpt-testimonials.php:13
 msgid "New Testimonial"
 msgstr "Новый Отзыв"
+
+#: functions/testimonials/testimonial-form-api.php:209
+#, php-format
+msgid "New Testimonial Submission from %s"
+msgstr "Новый отзыв от %s"
 
 #: functions/cpt/cpt-vacancies.php:17
 msgid "New Vacancy"
@@ -4182,6 +4274,10 @@ msgstr ""
 msgid "Opt 3"
 msgstr ""
 
+#: functions/cpt/cpt-testimonials.php:277
+msgid "Optional: Override company name for this testimonial"
+msgstr "Необязательно: Переопределить название компании для этого отзыва"
+
 #: functions/integrations/newsletter-subscription/newsletter-core.php:582
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:190
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1045
@@ -4430,12 +4526,7 @@ msgstr "Паттерн"
 msgid "PDF File"
 msgstr "PDF-файл"
 
-#: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:310
-#: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:700
-#: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:1020
-#: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:301
-#: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:690
-#: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:994
+#: functions/cpt/cpt-testimonials.php:391
 msgid "Pending"
 msgstr "Ожидает"
 
@@ -4952,6 +5043,14 @@ msgstr ""
 msgid "Question header"
 msgstr "Заголовок вопроса"
 
+#: archive-testimonials.php:236
+msgid "Rating *"
+msgstr "Рейтинг *"
+
+#: functions/cpt/cpt-testimonials.php:282
+msgid "Rating:"
+msgstr "Рейтинг:"
+
 #: templates/components/lastpostslider-blog.php:28
 #: templates/content/loop-legal.php:15 templates/content/loop.php:15
 #: templates/archives/legal/legal_1.php:15
@@ -4985,6 +5084,10 @@ msgstr ""
 msgid "Region"
 msgstr "Регион"
 
+#: functions/cpt/cpt-testimonials.php:194
+msgid "Registered User"
+msgstr "Зарегистрированный пользователь"
+
 #: functions/integrations/personal-data/class-consent-cpt.php:385
 msgid "Registration Date"
 msgstr "Дата регистрации"
@@ -4997,11 +5100,19 @@ msgstr "Дата регистрации:"
 msgid "Registration takes less than a minute."
 msgstr "Регистрация занимает меньше минуты."
 
+#: functions/cpt/cpt-testimonials.php:393
+msgid "Rejected"
+msgstr "Отклонено"
+
 #: functions/cpt/cpt-vacancies.php:304 functions/cpt/cpt-vacancies.php:319
 #: functions/cpt/cpt-vacancies.php:346 functions/cpt/cpt-vacancies.php:355
 #: functions/integrations/image-licenses/image-licenses.php:147
 msgid "Remove"
 msgstr "Удалить"
+
+#: functions/cpt/cpt-testimonials.php:227
+msgid "Remove Avatar"
+msgstr "Удалить аватар"
 
 #: functions/cpt/cpt-documents.php:22
 #: functions/integrations/image-licenses/image-licenses.php:69
@@ -5329,6 +5440,11 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
+#: functions/testimonials/testimonial-form-api.php:88
+msgid "Security check failed. Please refresh the page and try again."
+msgstr ""
+"Проверка безопасности не пройдена. Обновите страницу и попробуйте снова."
+
 #: functions/integrations/ajax-search-module/ajax-search.php:77
 #: functions/integrations/ajax-search-module/ajax-search.php:106
 #: functions/integrations/ajax-search-module/ajax-search.php:156
@@ -5343,9 +5459,21 @@ msgstr ""
 msgid "Select a CSV file to import. Maximum file size:"
 msgstr "Выберите CSV-файл для импорта. Максимальный размер файла:"
 
+#: functions/cpt/cpt-testimonials.php:248
+msgid ""
+"Select a registered user. Their name, email, and avatar will be used "
+"automatically."
+msgstr ""
+"Выберите зарегистрированного пользователя. Его имя, email и аватар будут "
+"использованы автоматически."
+
 #: functions/user.php:38
 msgid "Select Avatar"
 msgstr "Выбрать Аватар"
+
+#: functions/cpt/cpt-testimonials.php:344
+msgid "Select Avatar Image"
+msgstr "Выбрать изображение аватара"
 
 #: redux-framework/sample/sections/codeweber/footer.php:84
 msgid "Select Custom Footer"
@@ -5483,6 +5611,10 @@ msgstr "Выбрать PDF-файл"
 msgid "Select privacy policy document"
 msgstr "Выберите документ политики конфиденциальности"
 
+#: functions/cpt/cpt-testimonials.php:284
+msgid "Select rating"
+msgstr "Выберите рейтинг"
+
 #: redux-framework/sample/metaboxes.php:288
 #: redux-framework/sample/metaboxes.php:289
 msgid "Select Sidebar position for This Page"
@@ -5525,6 +5657,10 @@ msgstr "Выберите тип Бэкграунда Футера"
 msgid "Select type Header background"
 msgstr "Тип бэкграунда Хедера"
 
+#: functions/cpt/cpt-testimonials.php:236
+msgid "Select User:"
+msgstr "Выбрать пользователя:"
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription_admin.php:193
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:187
 msgid "Select which columns to display in the subscriptions table:"
@@ -5559,8 +5695,7 @@ msgstr "Отправить электронное письмо с подтвер
 #: redux-framework/sample/sections/codeweber/smtp.php:184
 #: redux-framework/sample/sections/codeweber/smtp.php:187
 msgid "Send Test Email"
-msgstr ""
-"Отправить Тестовый Email\n"
+msgstr "Отправить Тестовый Email"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:245
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:185
@@ -5582,9 +5717,7 @@ msgstr "Имя отправителя"
 msgid "Sender name in emails"
 msgstr "Имя отправителя в электронных письмах"
 
-#: functions/integrations/newsletter-subscription/newsletter-core.php:47
-#: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:434
-#: redux-framework/sample/sections/codeweber/smtp.php:193
+#: archive-testimonials.php:250
 msgid "Sending..."
 msgstr "Отправка..."
 
@@ -6065,6 +6198,17 @@ msgstr ""
 msgid "Staff updated"
 msgstr ""
 
+#: functions/cpt/cpt-testimonials.php:285
+msgid "star"
+msgstr "звезда"
+
+#: functions/cpt/cpt-testimonials.php:286
+#: functions/cpt/cpt-testimonials.php:287
+#: functions/cpt/cpt-testimonials.php:288
+#: functions/cpt/cpt-testimonials.php:289
+msgid "stars"
+msgstr "звезд"
+
 #: functions/integrations/ajax-search-module/search-statistics.php:591
 msgid "Start Date:"
 msgstr "Дата начала:"
@@ -6083,6 +6227,10 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:693
 msgid "Status for subscribers without status field in CSV"
 msgstr "Статус для подписчиков без поля статуса в CSV"
+
+#: functions/cpt/cpt-testimonials.php:388
+msgid "Status:"
+msgstr "Статус:"
 
 #: redux-framework/sample/sections/codeweber/socials.php:235
 #: redux-framework/sample/sections/extensions/users.php:251
@@ -6107,6 +6255,10 @@ msgstr "Отправить"
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:162
 msgid "Submit button clicked"
 msgstr ""
+
+#: archive-testimonials.php:250
+msgid "Submit Testimonial"
+msgstr "Отправить отзыв"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:663
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1247
@@ -6299,7 +6451,7 @@ msgid "Successful submission"
 msgstr ""
 
 #: functions/roles.php:8
-msgid "Super Admin"
+msgid "Simple Admin"
 msgstr ""
 
 #: redux-framework/sample/theme-config.php:238
@@ -6376,6 +6528,15 @@ msgstr "Тестовое SMTP-соединение"
 msgid "Testimonial"
 msgstr "Отзывы"
 
+#: functions/testimonials/testimonial-form-api.php:131
+#, php-format
+msgid "Testimonial from %s"
+msgstr "Отзыв от %s"
+
+#: functions/cpt/cpt-testimonials.php:171
+msgid "Testimonial Text:"
+msgstr "Текст отзыва:"
+
 #: functions/cpt/cpt-testimonials.php:10 functions/cpt/cpt-testimonials.php:12
 #: functions/cpt/cpt-testimonials.php:17
 msgid "Testimonials"
@@ -6402,6 +6563,15 @@ msgid ""
 msgstr ""
 "Спасибо за подписку! На ваш адрес электронной почты отправлено письмо с "
 "подтверждением."
+
+#: functions/testimonials/testimonial-form-api.php:99
+msgid "Thank you for your submission."
+msgstr "Спасибо за вашу заявку."
+
+#: functions/testimonials/testimonial-form-api.php:167
+msgid "Thank you for your testimonial! It will be reviewed and published soon."
+msgstr ""
+"Спасибо за ваш отзыв! Он будет проверен и опубликован в ближайшее время."
 
 #: functions/integrations/personal-data/class-cf7-consent.php:197
 msgid ""
@@ -6626,6 +6796,10 @@ msgstr ""
 #: functions/integrations/ajax-search-module/search-statistics.php:648
 msgid "Today's Searches"
 msgstr "Сегодняшние поиски"
+
+#: functions/testimonials/testimonial-form-api.php:116
+msgid "Too many submissions. Please try again later."
+msgstr "Слишком много отправок. Попробуйте позже."
 
 #: redux-framework/sample/sections/codeweber/header.php:317
 msgid "Topbar"
@@ -6862,6 +7036,10 @@ msgstr ""
 "Загружайте любые мультимедийные файлы с помощью встроенного загрузчика "
 "WordPress"
 
+#: functions/cpt/cpt-testimonials.php:225
+msgid "Upload Avatar"
+msgstr "Загрузить аватар"
+
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:757
 msgid "Upload Font"
 msgstr "Загрузить шрифт"
@@ -6955,6 +7133,10 @@ msgstr "Используйте следующий шорткод для отоб
 msgid "Use this file"
 msgstr ""
 
+#: functions/cpt/cpt-testimonials.php:346
+msgid "Use this image"
+msgstr "Использовать это изображение"
+
 #: functions/cpt/cpt-vacancies.php:499
 msgid "Use this PDF"
 msgstr "Использовать этот PDF"
@@ -7008,6 +7190,10 @@ msgstr "ID Пользователя"
 #: functions/integrations/personal-data/class-consent-cpt.php:132
 msgid "User ID (if registered):"
 msgstr "ID Пользователя (если зарегистрирован)"
+
+#: functions/cpt/cpt-testimonials.php:252
+msgid "User Info:"
+msgstr "Информация о пользователе:"
 
 #: functions/integrations/ajax-search-module/search-statistics.php:912
 msgid "User IP"
@@ -7319,6 +7505,14 @@ msgstr ""
 msgid "We will no longer send you email notifications."
 msgstr "Мы больше не будем отправлять вам уведомления по электронной почте."
 
+#: archive-testimonials.php:127
+msgid ""
+"We would love to hear about your experience with us. Your feedback helps us "
+"improve and helps others make better decisions."
+msgstr ""
+"Ваш отзыв помогает нам улучшаться и помогает другим принимать более "
+"обоснованные решения."
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1465
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:580
 msgid "Website name"
@@ -7537,6 +7731,14 @@ msgstr ""
 msgid "Your Email"
 msgstr "Ваш E-Mail"
 
+#: archive-testimonials.php:199
+msgid "Your email"
+msgstr "Ваш email"
+
+#: archive-testimonials.php:202
+msgid "Your Email *"
+msgstr "Ваш Email *"
+
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1274
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1275
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:389
@@ -7550,6 +7752,30 @@ msgstr "Ваша Фамилия"
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:386
 msgid "Your Name"
 msgstr "Ваше Имя"
+
+#: archive-testimonials.php:184
+msgid "Your name"
+msgstr "Ваше имя"
+
+#: archive-testimonials.php:187
+msgid "Your Name *"
+msgstr "Ваше имя *"
+
+#: archive-testimonials.php:216
+msgid "Your Position"
+msgstr "Ваша должность"
+
+#: archive-testimonials.php:214
+msgid "Your position"
+msgstr "Ваша должность"
+
+#: archive-testimonials.php:172
+msgid "Your Testimonial *"
+msgstr "Ваш отзыв *"
+
+#: archive-testimonials.php:168
+msgid "Your testimonial text"
+msgstr "Текст вашего отзыва"
 
 #: redux-framework/sample/sections/codeweber/socials.php:87
 #: redux-framework/sample/sections/extensions/users.php:103

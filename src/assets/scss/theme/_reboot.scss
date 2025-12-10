@@ -36,7 +36,7 @@ a {
   &:focus {
     outline: 0;
   }
-  &[href^=tel] {
+  &[href^=tel]:not(.btn) {
     color: inherit;
     text-decoration:inherit;
   }

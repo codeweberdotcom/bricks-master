@@ -151,3 +151,74 @@ function cw_demo_ajax_delete_faq() {
 }
 add_action('wp_ajax_cw_demo_delete_faq', 'cw_demo_ajax_delete_faq');
 
+/**
+ * AJAX обработчик для создания demo testimonials
+ */
+function cw_demo_ajax_create_testimonials() {
+    // Проверка прав
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array(
+            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+        ));
+    }
+    
+    // Проверка nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_testimonials')) {
+        wp_send_json_error(array(
+            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+        ));
+    }
+    
+    // Выполняем создание
+    $result = cw_demo_create_testimonials();
+    
+    if ($result['success']) {
+        wp_send_json_success(array(
+            'message' => $result['message'],
+            'created' => $result['created'],
+            'total' => $result['total'],
+            'errors' => $result['errors']
+        ));
+    } else {
+        wp_send_json_error(array(
+            'message' => $result['message']
+        ));
+    }
+}
+add_action('wp_ajax_cw_demo_create_testimonials', 'cw_demo_ajax_create_testimonials');
+
+/**
+ * AJAX обработчик для удаления demo testimonials
+ */
+function cw_demo_ajax_delete_testimonials() {
+    // Проверка прав
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array(
+            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+        ));
+    }
+    
+    // Проверка nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_testimonials')) {
+        wp_send_json_error(array(
+            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+        ));
+    }
+    
+    // Выполняем удаление
+    $result = cw_demo_delete_testimonials();
+    
+    if ($result['success']) {
+        wp_send_json_success(array(
+            'message' => $result['message'],
+            'deleted' => $result['deleted'],
+            'errors' => $result['errors']
+        ));
+    } else {
+        wp_send_json_error(array(
+            'message' => $result['message']
+        ));
+    }
+}
+add_action('wp_ajax_cw_demo_delete_testimonials', 'cw_demo_ajax_delete_testimonials');
+

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-10-04 23:22+0000\n"
+"PO-Revision-Date: 2025-10-16 11:53+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -140,7 +140,7 @@ msgstr "Пользовательский тип записи для управл
 
 #. Description of the theme
 msgid "A modular WordPress starter theme powered by Bootstrap 5 and Gulp"
-msgstr ""
+msgstr "Модульная стартовая тема WordPress, работающая на Bootstrap 5 и Gulp"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:15
 #: redux-framework/sample/sections/codeweber/company-details.php:21
@@ -647,7 +647,7 @@ msgstr "Прикрепленные изображения"
 
 #: functions/integrations/image-licenses/image-licenses.php:126
 msgid "Attached Media Files"
-msgstr ""
+msgstr "Прикрепленные медиа-файлы"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:35
 msgid "Author"
@@ -709,7 +709,7 @@ msgstr "Базовый"
 
 #: redux-framework/sample/sections/codeweber/footer.php:155
 msgid "Base Footer Models"
-msgstr ""
+msgstr "Базовые модели Футера"
 
 #: redux-framework/sample/sections/codeweber/header.php:171
 msgid "Base Header Models"
@@ -1521,7 +1521,7 @@ msgstr ""
 "Дата регистрации. <br>[redux_option key=\"legal_ogrnip_date\"  format=\"d.m."
 "Y\"]"
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:138
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:145
 msgid "Debug Mode"
 msgstr ""
 
@@ -1961,7 +1961,7 @@ msgstr "Включить Контейнер для контента"
 msgid "Enable Cookie Banner"
 msgstr "Включить Сookie-баннер"
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:141
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:148
 msgid "Enable debug logging"
 msgstr ""
 
@@ -3469,17 +3469,17 @@ msgstr ""
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:23
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:24
 msgid "Matomo Integration"
-msgstr ""
+msgstr "Matomo Интеграция"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:178
 msgid "Matomo JavaScript Tracking Status"
-msgstr ""
+msgstr "Статус отслеживания Matomo JavaScript"
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:120
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:127
 msgid "Matomo plugin is not active. Search tracking is disabled."
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:116
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:123
 msgid "Matomo Search Integration"
 msgstr ""
 
@@ -3726,7 +3726,7 @@ msgstr "Технические данные Рассылки"
 #: functions/global.php:563 functions/global.php:567
 #: functions/bootstrap/bootstrap_post-nav.php:17
 msgid "Next"
-msgstr ""
+msgstr "Следующий"
 
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1329
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:1335
@@ -4684,11 +4684,11 @@ msgstr "Пресеты"
 
 #: functions/bootstrap/bootstrap_post-nav.php:13
 msgid "Prev"
-msgstr ""
+msgstr "Предыдущий"
 
 #: functions/global.php:510 functions/global.php:514
 msgid "Previous"
-msgstr ""
+msgstr "Предыдущий"
 
 #: functions/cpt/cpt-price_list.php:11 functions/cpt/cpt-price_list.php:35
 #, fuzzy
@@ -4956,7 +4956,7 @@ msgstr "Заголовок вопроса"
 #: templates/content/loop-legal.php:15 templates/content/loop.php:15
 #: templates/archives/legal/legal_1.php:15
 msgid "Read More"
-msgstr "Читать"
+msgstr "Подробнее"
 
 #: functions/integrations/ajax-search-module/search-statistics.php:697
 msgid "Recent Searches"
@@ -5152,7 +5152,7 @@ msgstr ""
 msgid "Salary"
 msgstr "Заработная плата"
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:146
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:153
 msgid "Save Settings"
 msgstr ""
 
@@ -5547,7 +5547,7 @@ msgstr "Информация об организации"
 msgid "Send"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:134
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:141
 msgid "Send search queries to Matomo as Events"
 msgstr ""
 
@@ -5665,7 +5665,7 @@ msgstr ""
 msgid "Set featured Image for this staff"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:125
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:132
 msgid "Settings"
 msgstr ""
 
@@ -5707,7 +5707,7 @@ msgstr ""
 "согласия на использование персональных данных в соответствии с "
 "законодательством Российской Федерации."
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:108
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:115
 msgid "Settings saved!"
 msgstr ""
 
@@ -6647,7 +6647,7 @@ msgstr "Город"
 msgid "Towns"
 msgstr "Города"
 
-#: functions/integrations/ajax-search-module/matomo-search-integration.php:130
+#: functions/integrations/ajax-search-module/matomo-search-integration.php:137
 msgid "Track Searches"
 msgstr ""
 
@@ -7588,3 +7588,11 @@ msgstr "— Выберите автора —"
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:226
 msgid "— Select —"
 msgstr "— Выбрать —"
+
+#: archive-testimonials.php:127
+msgid "We would love to hear about your experience with us. Your feedback helps us improve and helps others make better decisions."
+msgstr "Мы будем рады узнать о вашем опыте работы с нами. Ваш отзыв помогает нам улучшаться и помогает другим принимать более обоснованные решения."
+
+#: archive-testimonials.php:128
+msgid "Leave a Review"
+msgstr "Оставить отзыв"

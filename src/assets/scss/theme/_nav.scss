@@ -78,7 +78,8 @@
 }
 @media (max-width: 767px) {
   .nav-tabs.nav-tabs-basic,
-  .nav-tabs.nav-pills {
+  .nav-tabs.nav-pills,
+  .nav-tabs.nav-tabs-fanny {
     flex-direction: column;
     .nav-item {
       margin-bottom: 1rem;

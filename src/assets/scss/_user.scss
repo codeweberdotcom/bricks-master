@@ -125,6 +125,44 @@ $nav-pills-box-shadow:                  none !default; // ← добавили �
 $nav-pills-icon-size:                   1rem !default;
 
 
+// FUNNY STYLE TABS (based on btn styles)
+$nav-tabs-fanny-font-size:              $btn-font-size !default;
+$nav-tabs-fanny-font-weight:            $btn-font-weight !default;
+$nav-tabs-fanny-padding-y:              $btn-padding-y !default;
+$nav-tabs-fanny-padding-x:              $btn-padding-x !default;
+$nav-tabs-fanny-margin-right:           0.5rem !default;
+
+// Border radius variants
+$nav-tabs-fanny-border-radius-default:  $btn-border-radius !default; // rounded
+$nav-tabs-fanny-border-radius-0:        0 !default; // rounded-0
+$nav-tabs-fanny-border-radius-pill:     $rounded-pill !default; // rounded-pill
+
+// Colors
+$nav-tabs-fanny-color:                  var(--#{$prefix}body-color) !default;
+$nav-tabs-fanny-hover-color:            var(--#{$prefix}primary) !default;
+$nav-tabs-fanny-active-color:           var(--#{$prefix}white) !default;
+
+// Background
+$nav-tabs-fanny-bg:                     transparent !default;
+$nav-tabs-fanny-hover-bg:               transparent !default;
+$nav-tabs-fanny-active-bg:              var(--#{$prefix}primary) !default;
+
+// Border
+$nav-tabs-fanny-border-width:           0 !default;
+$nav-tabs-fanny-border-color:           transparent !default;
+$nav-tabs-fanny-active-border-color:    var(--#{$prefix}primary) !default;
+
+// Box shadow
+$nav-tabs-fanny-box-shadow:             none !default;
+$nav-tabs-fanny-active-box-shadow:      $btn-active-box-shadow !default;
+
+// Transition
+$nav-tabs-fanny-transition:             $btn-transition !default;
+
+// Icon
+$nav-tabs-fanny-icon-size:              1rem !default;
+
+
 //----------------------------------------------------------//
 //  NAV TABS STYLES
 //----------------------------------------------------------//
@@ -219,6 +257,111 @@ $nav-pills-icon-size:                   1rem !default;
       background: $nav-pills-active-bg;
       color: $nav-pills-active-color;
       box-shadow: $nav-pills-active-box-shadow;
+    }
+  }
+
+
+  // FUNNY STYLE TABS (based on btn styles)
+  &.nav-tabs-fanny {
+    border-color: transparent;
+    border: 0;
+
+    .nav-item {
+      margin-right: $nav-tabs-fanny-margin-right;
+      margin-bottom: 0;
+      
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .nav-link {
+      // Apply btn base styles
+      @include font-size($nav-tabs-fanny-font-size);
+      font-weight: $nav-tabs-fanny-font-weight;
+      padding: $nav-tabs-fanny-padding-y $nav-tabs-fanny-padding-x;
+      margin-right: 0; // убираем отступ, он теперь на nav-item
+      
+      // Default border-radius - скругление со всех сторон
+      border-radius: $nav-tabs-fanny-border-radius-default;
+      
+      // Colors and backgrounds - неактивные без фона, бордеров, теней
+      color: $nav-tabs-fanny-color;
+      background: $nav-tabs-fanny-bg;
+      border: 0;
+      
+      // Layout
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      
+      // Effects
+      transition: $nav-tabs-fanny-transition;
+      box-shadow: none;
+
+      i, svg {
+        font-size: $nav-tabs-fanny-icon-size;
+        width: $nav-tabs-fanny-icon-size;
+        height: $nav-tabs-fanny-icon-size;
+        line-height: 1;
+      }
+
+      &:hover,
+      &:focus {
+        color: $nav-tabs-fanny-hover-color;
+        background: $nav-tabs-fanny-hover-bg;
+        border: 0;
+        box-shadow: none;
+      }
+    }
+
+    .nav-link.active,
+    .nav-item.show .nav-link {
+      // Apply btn-primary solid styles (как btn btn-primary)
+      --bs-btn-bg: var(--#{$prefix}primary);
+      --bs-btn-border-color: var(--#{$prefix}primary);
+      --bs-btn-hover-bg: var(--#{$prefix}primary);
+      --bs-btn-hover-border-color: var(--#{$prefix}primary);
+      --bs-btn-active-bg: var(--#{$prefix}primary);
+      --bs-btn-active-border-color: var(--#{$prefix}primary);
+      --bs-btn-color: var(--#{$prefix}white);
+      --bs-btn-hover-color: var(--#{$prefix}white);
+      --bs-btn-active-color: var(--#{$prefix}white);
+      
+      color: var(--bs-btn-color) !important;
+      background-color: var(--bs-btn-bg) !important;
+      border-color: var(--bs-btn-border-color);
+      border: 0;
+      box-shadow: $nav-tabs-fanny-active-box-shadow;
+    }
+
+    // Border radius modifiers - скругление со всех сторон (border-radius применяется ко всем углам)
+    &.tab-rounded {
+      .nav-link {
+        border-radius: $nav-tabs-fanny-border-radius-default;
+        &.active {
+          border-radius: $nav-tabs-fanny-border-radius-default;
+        }
+      }
+    }
+
+    &.tab-rounded-0 {
+      .nav-link {
+        border-radius: $nav-tabs-fanny-border-radius-0;
+        &.active {
+          border-radius: $nav-tabs-fanny-border-radius-0;
+        }
+      }
+    }
+
+    &.tab-rounded-pill {
+      .nav-link {
+        border-radius: $nav-tabs-fanny-border-radius-pill;
+        &.active {
+          border-radius: $nav-tabs-fanny-border-radius-pill;
+        }
+      }
     }
   }
 
@@ -415,5 +558,14 @@ $dropdown-font-weight: 700 !default;
     position: relative;
     z-index: 2;
   }
+}
+
+//----------------------------------------------------------//
+//  CUSTOM UTILITY CLASSES
+//----------------------------------------------------------//
+
+// Width max-content utility
+.width-auto {
+  width: max-content !important;
 }
 

@@ -264,9 +264,30 @@ var theme = {
       e.preventDefault();
       this.blur();
       const href = this.getAttribute("href");
-      const offsetTop = document.querySelector(href).offsetTop;
+      if (!href || !href.startsWith('#')) return;
+      
+      const targetElement = document.querySelector(href);
+      if (!targetElement) return;
+      
+      // Получаем высоту фиксированного header, если он есть
+      let headerOffset = 0;
+      const navbar = document.querySelector(".navbar-clone.navbar-stick, .navbar.fixed");
+      if (navbar) {
+        headerOffset = navbar.offsetHeight || 75;
+      } else {
+        // Если нет фиксированного header, проверяем обычный navbar
+        const regularNavbar = document.querySelector(".navbar");
+        if (regularNavbar) {
+          headerOffset = regularNavbar.offsetHeight || 0;
+        }
+      }
+      
+      // Добавляем небольшой дополнительный offset для лучшего позиционирования
+      const additionalOffset = 20;
+      const offsetTop = targetElement.offsetTop - headerOffset - additionalOffset;
+      
       scroll({
-        top: offsetTop,
+        top: Math.max(0, offsetTop),
         behavior: "smooth",
       });
     }

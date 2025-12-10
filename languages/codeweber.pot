@@ -6175,7 +6175,7 @@ msgid "Successful submission"
 msgstr ""
 
 #: functions/roles.php:8
-msgid "Super Admin"
+msgid "Simple Admin"
 msgstr ""
 
 #: redux-framework/sample/theme-config.php:238
@@ -7427,4 +7427,249 @@ msgstr ""
 #: functions/integrations/personal-data/class-cf7-consent.php:149
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:226
 msgid "— Select —"
+msgstr ""
+
+#: archive-testimonials.php:127
+msgid "We would love to hear about your experience with us. Your feedback helps us improve and helps others make better decisions."
+msgstr ""
+
+#: archive-testimonials.php:128
+msgid "Leave a Review"
+msgstr ""
+
+#: archive-testimonials.php:147
+msgid "Leave Your Testimonial"
+msgstr ""
+
+#: archive-testimonials.php:148
+msgid "Close"
+msgstr ""
+
+#: archive-testimonials.php:168
+msgid "Your testimonial text"
+msgstr ""
+
+#: archive-testimonials.php:172
+msgid "Your Testimonial *"
+msgstr ""
+
+#: archive-testimonials.php:184
+msgid "Your name"
+msgstr ""
+
+#: archive-testimonials.php:187
+msgid "Your Name *"
+msgstr ""
+
+#: archive-testimonials.php:199
+msgid "Your email"
+msgstr ""
+
+#: archive-testimonials.php:202
+msgid "Your Email *"
+msgstr ""
+
+#: archive-testimonials.php:214
+msgid "Your position"
+msgstr ""
+
+#: archive-testimonials.php:216
+msgid "Your Position"
+msgstr ""
+
+#: archive-testimonials.php:228
+msgid "Company name"
+msgstr ""
+
+#: archive-testimonials.php:230
+msgid "Company"
+msgstr ""
+
+#: archive-testimonials.php:236
+msgid "Rating *"
+msgstr ""
+
+#: archive-testimonials.php:238
+msgid "Select rating"
+msgstr ""
+
+#: archive-testimonials.php:239
+msgid "star"
+msgstr ""
+
+#: archive-testimonials.php:240
+#: archive-testimonials.php:241
+#: archive-testimonials.php:242
+#: archive-testimonials.php:243
+msgid "stars"
+msgstr ""
+
+#: archive-testimonials.php:249
+msgid "Cancel"
+msgstr ""
+
+#: archive-testimonials.php:250
+msgid "Sending..."
+msgstr ""
+
+#: archive-testimonials.php:250
+msgid "Submit Testimonial"
+msgstr ""
+
+#: functions/testimonials/testimonial-form-api.php:88
+msgid "Security check failed. Please refresh the page and try again."
+msgstr ""
+
+#: functions/testimonials/testimonial-form-api.php:99
+msgid "Thank you for your submission."
+msgstr ""
+
+#: functions/testimonials/testimonial-form-api.php:116
+msgid "Too many submissions. Please try again later."
+msgstr ""
+
+#: functions/testimonials/testimonial-form-api.php:131
+#, php-format
+msgid "Testimonial from %s"
+msgstr ""
+
+#: functions/testimonials/testimonial-form-api.php:154
+msgid "Failed to create testimonial. Please try again."
+msgstr ""
+
+#: functions/testimonials/testimonial-form-api.php:167
+msgid "Thank you for your testimonial! It will be reviewed and published soon."
+msgstr ""
+
+#: functions/testimonials/testimonial-form-api.php:209
+#, php-format
+msgid "New Testimonial Submission from %s"
+msgstr ""
+
+#: functions/testimonials/testimonial-form-api.php:211
+#, php-format
+msgid "A new testimonial has been submitted and is pending review.\n\nAuthor: %s\nEmail: %s\n\nView: %s"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:171
+msgid "Testimonial Text:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:181
+msgid "Enter the testimonial text/quote"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:186
+msgid "Author Type:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:190
+msgid "Custom (Manual Entry)"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:194
+msgid "Registered User"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:202
+msgid "Author Name:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:203
+msgid "John Doe"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:207
+msgid "Author Role/Position:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:208
+msgid "Financial Analyst"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:212
+msgid "Company:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:213
+msgid "Company Name"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:217
+msgid "Author Avatar:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:225
+msgid "Upload Avatar"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:227
+msgid "Remove Avatar"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:236
+msgid "Select User:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:238
+msgid "-- Select User --"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:248
+msgid "Select a registered user. Their name, email, and avatar will be used automatically."
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:252
+msgid "User Info:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:276
+msgid "Company Name (optional)"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:277
+msgid "Optional: Override company name for this testimonial"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:282
+msgid "Rating:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:284
+msgid "Select rating"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:285
+msgid "star"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:286
+#: functions/cpt/cpt-testimonials.php:287
+#: functions/cpt/cpt-testimonials.php:288
+#: functions/cpt/cpt-testimonials.php:289
+msgid "stars"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:344
+msgid "Select Avatar Image"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:346
+msgid "Use this image"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:388
+msgid "Status:"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:391
+msgid "Pending"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:392
+msgid "Approved"
+msgstr ""
+
+#: functions/cpt/cpt-testimonials.php:393
+msgid "Rejected"
 msgstr ""

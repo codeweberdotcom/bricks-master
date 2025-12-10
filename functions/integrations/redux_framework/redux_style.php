@@ -75,3 +75,31 @@ if (! function_exists('getThemeAccordionCardRadius')) {
       return ($style_key === '4') ? 'rounded-0' : '';
    }
 }
+
+/**
+ * Получение стиля скругления форм из Redux Framework с поддержкой класса по умолчанию
+ * Также доступно как шорткод: [getthemeform default=" rounded"]
+ *
+ * @param string $default_class Класс по умолчанию
+ * @return string CSS-класс скругления формы
+ */
+if (! function_exists('getThemeFormRadius')) {
+   function getThemeFormRadius($default_class = ' rounded')
+   {
+      global $opt_name;
+
+      // Карта соответствий опций Redux → CSS классы
+      $style_map = [
+         '1' => ' rounded-pill',
+         '2' => ' rounded',
+         '3' => ' rounded-xl',
+         '4' => ' rounded-0',
+      ];
+
+      // Получаем значение из Redux (по умолчанию '2')
+      $style_key = Redux::get_option($opt_name, 'opt_form_border_radius', '2');
+
+      // Возвращаем класс из карты или переданный по умолчанию
+      return isset($style_map[$style_key]) ? $style_map[$style_key] : $default_class;
+   }
+}

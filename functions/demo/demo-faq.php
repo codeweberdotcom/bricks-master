@@ -17,6 +17,23 @@ if (!defined('ABSPATH')) {
  * @return array|false Массив данных или false при ошибке
  */
 function cw_demo_get_faq_data() {
+    // Определяем язык сайта
+    $locale = get_locale();
+    $is_russian = (strpos($locale, 'ru') === 0);
+    
+    if ($is_russian) {
+        return cw_demo_get_faq_data_ru();
+    } else {
+        return cw_demo_get_faq_data_en();
+    }
+}
+
+/**
+ * Получить данные FAQ (русский)
+ * 
+ * @return array|false Массив данных или false при ошибке
+ */
+function cw_demo_get_faq_data_ru() {
     $json_path = get_template_directory() . '/demo/faq/data.json';
     
     if (!file_exists($json_path)) {
@@ -32,6 +49,201 @@ function cw_demo_get_faq_data() {
     }
     
     return $data;
+}
+
+/**
+ * Получить данные FAQ (английский)
+ * 
+ * @return array|false Массив данных или false при ошибке
+ */
+function cw_demo_get_faq_data_en() {
+    return array(
+        'version' => '1.0.0',
+        'post_type' => 'faq',
+        'description' => 'Demo data for FAQ CPT',
+        'items' => array(
+            array(
+                'title' => 'What does your company do?',
+                'slug' => 'what-does-your-company-do',
+                'status' => 'publish',
+                'content' => 'We provide services and sell products in accordance with applicable laws. The current list of services and items is presented on the website.',
+                'category' => 'General Information',
+                'tags' => array('Popular', 'Important'),
+                'order' => 1
+            ),
+            array(
+                'title' => 'In which regions do you operate?',
+                'slug' => 'in-which-regions-do-you-operate',
+                'status' => 'publish',
+                'content' => 'We operate in multiple regions. The possibility of providing services and delivering goods depends on the region.',
+                'category' => 'General Information',
+                'tags' => array('Important'),
+                'order' => 2
+            ),
+            array(
+                'title' => 'Is the information on the website a public offer?',
+                'slug' => 'is-the-information-on-the-website-a-public-offer',
+                'status' => 'publish',
+                'content' => 'The information on the website is for reference only and is not a public offer unless otherwise expressly stated.',
+                'category' => 'General Information',
+                'tags' => array('Important'),
+                'order' => 3
+            ),
+            array(
+                'title' => 'Can I get a consultation before ordering?',
+                'slug' => 'can-i-get-a-consultation-before-ordering',
+                'status' => 'publish',
+                'content' => 'Yes, you can get a consultation from our specialists through the contact form or by the contacts listed on the website.',
+                'category' => 'General Information',
+                'tags' => array('Consultation', 'Popular'),
+                'order' => 4
+            ),
+            array(
+                'title' => 'How can I find out current prices?',
+                'slug' => 'how-can-i-find-out-current-prices',
+                'status' => 'publish',
+                'content' => 'Current prices for goods and services are indicated in the relevant sections of the website and may be changed without prior notice.',
+                'category' => 'General Information',
+                'tags' => array('Popular'),
+                'order' => 5
+            ),
+            array(
+                'title' => 'How do I place an order for a service?',
+                'slug' => 'how-do-i-place-an-order-for-a-service',
+                'status' => 'publish',
+                'content' => 'Select the desired service on the website, fill out the application form or contact us in a convenient way.',
+                'category' => 'Ordering Services and Purchasing Products',
+                'tags' => array('Order', 'Popular'),
+                'order' => 6
+            ),
+            array(
+                'title' => 'How do I buy a product through the website?',
+                'slug' => 'how-do-i-buy-a-product-through-the-website',
+                'status' => 'publish',
+                'content' => 'Add the product to the cart, place an order and choose a convenient payment and delivery method.',
+                'category' => 'Ordering Services and Purchasing Products',
+                'tags' => array('Order'),
+                'order' => 7
+            ),
+            array(
+                'title' => 'Can I place an order without registration?',
+                'slug' => 'can-i-place-an-order-without-registration',
+                'status' => 'publish',
+                'content' => 'Yes, placing an order is possible without registration, however registration provides additional benefits and convenience in managing orders.',
+                'category' => 'Ordering Services and Purchasing Products',
+                'tags' => array('Order', 'Popular'),
+                'order' => 8
+            ),
+            array(
+                'title' => 'How can I find out the status of my order?',
+                'slug' => 'how-can-i-find-out-the-status-of-my-order',
+                'status' => 'publish',
+                'content' => 'The order status can be checked in your personal account or by contacting customer support.',
+                'category' => 'Ordering Services and Purchasing Products',
+                'tags' => array('Order'),
+                'order' => 9
+            ),
+            array(
+                'title' => 'Can I change or cancel my order?',
+                'slug' => 'can-i-change-or-cancel-my-order',
+                'status' => 'publish',
+                'content' => 'The possibility of changing or canceling an order depends on the stage of its processing. We recommend contacting us as early as possible.',
+                'category' => 'Ordering Services and Purchasing Products',
+                'tags' => array('Order', 'Important'),
+                'order' => 10
+            ),
+            array(
+                'title' => 'What payment methods do you accept?',
+                'slug' => 'what-payment-methods-do-you-accept',
+                'status' => 'publish',
+                'content' => 'We accept payment by bank cards and other methods available in your region.',
+                'category' => 'Payment and Delivery',
+                'tags' => array('Payment', 'Popular'),
+                'order' => 11
+            ),
+            array(
+                'title' => 'Is payment on the website secure?',
+                'slug' => 'is-payment-on-the-website-secure',
+                'status' => 'publish',
+                'content' => 'Yes, all payments are processed through secure payment systems using modern security protocols.',
+                'category' => 'Payment and Delivery',
+                'tags' => array('Payment', 'Security'),
+                'order' => 12
+            ),
+            array(
+                'title' => 'Do you provide documents for accounting?',
+                'slug' => 'do-you-provide-documents-for-accounting',
+                'status' => 'publish',
+                'content' => 'Yes, upon request, the necessary closing documents are provided in electronic or printed form.',
+                'category' => 'Payment and Delivery',
+                'tags' => array('Documents'),
+                'order' => 13
+            ),
+            array(
+                'title' => 'What delivery methods are available?',
+                'slug' => 'what-delivery-methods-are-available',
+                'status' => 'publish',
+                'content' => 'Delivery methods and terms depend on the region and the selected product. Detailed information is indicated when placing an order.',
+                'category' => 'Payment and Delivery',
+                'tags' => array('Delivery', 'Popular'),
+                'order' => 14
+            ),
+            array(
+                'title' => 'How much does delivery cost?',
+                'slug' => 'how-much-does-delivery-cost',
+                'status' => 'publish',
+                'content' => 'The delivery cost is calculated individually and displayed at the order placement stage.',
+                'category' => 'Payment and Delivery',
+                'tags' => array('Delivery'),
+                'order' => 15
+            ),
+            array(
+                'title' => 'Do you provide warranty on products and services?',
+                'slug' => 'do-you-provide-warranty-on-products-and-services',
+                'status' => 'publish',
+                'content' => 'Yes, warranty obligations are provided in accordance with the manufacturer\'s conditions and applicable laws.',
+                'category' => 'Warranty, Returns and Security',
+                'tags' => array('Warranty', 'Important'),
+                'order' => 16
+            ),
+            array(
+                'title' => 'Can I return a product?',
+                'slug' => 'can-i-return-a-product',
+                'status' => 'publish',
+                'content' => 'Product return is possible in accordance with consumer protection laws and return conditions published on the website.',
+                'category' => 'Warranty, Returns and Security',
+                'tags' => array('Return', 'Popular'),
+                'order' => 17
+            ),
+            array(
+                'title' => 'What should I do if the product is of poor quality?',
+                'slug' => 'what-should-i-do-if-the-product-is-of-poor-quality',
+                'status' => 'publish',
+                'content' => 'In this case, contact us through customer support for prompt resolution of the issue.',
+                'category' => 'Warranty, Returns and Security',
+                'tags' => array('Return', 'Warranty'),
+                'order' => 18
+            ),
+            array(
+                'title' => 'How are customer personal data processed?',
+                'slug' => 'how-are-customer-personal-data-processed',
+                'status' => 'publish',
+                'content' => 'We process personal data in strict accordance with the requirements of data protection legislation.',
+                'category' => 'Warranty, Returns and Security',
+                'tags' => array('Security', 'Important'),
+                'order' => 19
+            ),
+            array(
+                'title' => 'Is my data shared with third parties?',
+                'slug' => 'is-my-data-shared-with-third-parties',
+                'status' => 'publish',
+                'content' => 'Personal data is not shared with third parties without user consent, except in cases provided by law.',
+                'category' => 'Warranty, Returns and Security',
+                'tags' => array('Security'),
+                'order' => 20
+            ),
+        )
+    );
 }
 
 /**
@@ -241,3 +453,4 @@ function cw_demo_delete_faq() {
         'errors' => $errors
     );
 }
+

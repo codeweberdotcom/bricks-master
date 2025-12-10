@@ -96,6 +96,7 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 // Подключение demo функций
 require_once get_template_directory() . '/functions/demo/demo-clients.php';
 require_once get_template_directory() . '/functions/demo/demo-faq.php';
+require_once get_template_directory() . '/functions/demo/demo-testimonials.php';
 require_once get_template_directory() . '/functions/demo/demo-ajax.php';
 
 /**
@@ -107,3 +108,8 @@ require_once get_template_directory() . '/functions/integrations/modal-container
  * Подключение REST API расширений для модальных окон
  */
 require_once get_template_directory() . '/functions/integrations/modal-rest-api.php';
+
+/**
+ * Подключение API для формы отправки отзывов
+ */
+require_once get_template_directory() . '/functions/testimonials/testimonial-form-api.php';

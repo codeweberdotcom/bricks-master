@@ -36,10 +36,10 @@
                   <?php _e('Document download error.', 'codeweber'); ?>
                </div>
                <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
-                  <a href="<?php echo esc_url($file_url); ?>" download="<?php echo esc_attr($file_name); ?>" class="btn btn-danger btn-md">
+                  <a href="<?php echo esc_url($file_url); ?>" download="<?php echo esc_attr($file_name); ?>" class="btn btn-danger btn-md<?php echo getThemeButton(); ?>">
                      <i class="uil uil-import me-1"></i><?php _e('Download', 'codeweber'); ?>
                   </a>
-                  <a href="<?php echo esc_url($file_url); ?>" target="_blank" class="btn btn-outline-danger btn-md">
+                  <a href="<?php echo esc_url($file_url); ?>" target="_blank" class="btn btn-outline-danger btn-md<?php echo getThemeButton(); ?>">
                      <i class="uil uil-eye me-1"></i><?php _e('Open in Browser', 'codeweber'); ?>
                   </a>
                </div>
@@ -65,6 +65,7 @@
             const documentLabel = '<?php echo esc_js(__('Document', 'codeweber')); ?>';
             const autoDownloadFailed = '<?php echo esc_js(__('Automatic download failed. Choose an action:', 'codeweber')); ?>';
             const downloadDocumentText = '<?php echo esc_js(__('Download Document', 'codeweber')); ?>';
+            const buttonStyle = '<?php echo esc_js(getThemeButton()); ?>';
 
             // Функция для обновления прогресса с округлением
             function updateProgress(value) {
@@ -147,7 +148,7 @@
                                 <div class="h3 mb-3">${successMessage}</div>
                                 <p class="h5 mb-3 text-muted"><strong>${documentTitle}</strong></p>
                                 <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center mt-4">
-                                    <a href="${fileUrl}" download="${fileName}" class="btn btn-primary btn-md">
+                                    <a href="${fileUrl}" download="${fileName}" class="btn btn-primary btn-md${buttonStyle}">
                                         <i class="uil uil-import me-2"></i>${downloadDocumentText}
                                     </a>
                                 </div>

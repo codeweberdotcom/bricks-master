@@ -252,6 +252,124 @@ Redux::set_section(
 					</script>
 				',
 			),
+			array(
+				'id'      => 'demo-testimonials-controls',
+				'type'    => 'raw',
+				'content' => '
+					<div class="demo-controls" style="margin: 20px 0;">
+						<h3>' . esc_html__('Demo Testimonials', 'codeweber') . '</h3>
+						<p class="description">' . esc_html__('Создайте 15 demo записей для CPT Testimonials с аватарками из папки avatars', 'codeweber') . '</p>
+						<div style="margin: 15px 0;">
+							<button id="cw-demo-create-testimonials" class="button button-primary" style="margin-right: 10px;">
+								' . esc_html__('Создать Demo Testimonials', 'codeweber') . '
+							</button>
+							<button id="cw-demo-delete-testimonials" class="button button-secondary">
+								' . esc_html__('Удалить Demo Testimonials', 'codeweber') . '
+							</button>
+						</div>
+						<div id="cw-demo-testimonials-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
+					</div>
+					<script>
+					(function($) {
+						"use strict";
+						
+						var createNonce = "' . wp_create_nonce('cw_demo_create_testimonials') . '";
+						var deleteNonce = "' . wp_create_nonce('cw_demo_delete_testimonials') . '";
+						
+						function showStatus(message, type) {
+							var $status = $("#cw-demo-testimonials-status");
+							$status.removeClass("notice-success notice-error");
+							$status.addClass("notice-" + (type || "info"));
+							$status.html("<p>" + message + "</p>").show();
+						}
+						
+						function setButtonsState(disabled) {
+							$("#cw-demo-create-testimonials, #cw-demo-delete-testimonials").prop("disabled", disabled);
+						}
+						
+						$("#cw-demo-create-testimonials").on("click", function(e) {
+							e.preventDefault();
+							
+							if (!confirm("' . esc_js(__('Создать 15 demo записей testimonials? Это может занять некоторое время.', 'codeweber')) . '")) {
+								return;
+							}
+							
+							setButtonsState(true);
+							showStatus("' . esc_js(__('Создание записей...', 'codeweber')) . '", "info");
+							
+							$.ajax({
+								url: ajaxurl,
+								type: "POST",
+								data: {
+									action: "cw_demo_create_testimonials",
+									nonce: createNonce
+								},
+								success: function(response) {
+									setButtonsState(false);
+									if (response.success) {
+										var message = response.data.message;
+										if (response.data.errors && response.data.errors.length > 0) {
+											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											response.data.errors.forEach(function(error) {
+												message += "<li>" + error + "</li>";
+											});
+											message += "</ul>";
+										}
+										showStatus(message, "success");
+									} else {
+										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+									}
+								},
+								error: function() {
+									setButtonsState(false);
+									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+								}
+							});
+						});
+						
+						$("#cw-demo-delete-testimonials").on("click", function(e) {
+							e.preventDefault();
+							
+							if (!confirm("' . esc_js(__('Удалить все demo записи testimonials? Это действие нельзя отменить.', 'codeweber')) . '")) {
+								return;
+							}
+							
+							setButtonsState(true);
+							showStatus("' . esc_js(__('Удаление записей...', 'codeweber')) . '", "info");
+							
+							$.ajax({
+								url: ajaxurl,
+								type: "POST",
+								data: {
+									action: "cw_demo_delete_testimonials",
+									nonce: deleteNonce
+								},
+								success: function(response) {
+									setButtonsState(false);
+									if (response.success) {
+										var message = response.data.message;
+										if (response.data.errors && response.data.errors.length > 0) {
+											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											response.data.errors.forEach(function(error) {
+												message += "<li>" + error + "</li>";
+											});
+											message += "</ul>";
+										}
+										showStatus(message, "success");
+									} else {
+										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+									}
+								},
+								error: function() {
+									setButtonsState(false);
+									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+								}
+							});
+						});
+					})(jQuery);
+					</script>
+				',
+			),
 		),
 	)
 );

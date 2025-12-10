@@ -1,5 +1,6 @@
+<?php $card_radius = getThemeCardImageRadius(); ?>
 <article id="<?= $post->post_name; ?>" <?php post_class('post'); ?>>
-   <div class="card">
+   <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
       <figure class="card-img-top overlay overlay-1 hover-scale">
          <a href="<?php the_permalink(); ?>">
             <?php
@@ -25,6 +26,7 @@
             <p><?php the_excerpt(); ?></p>
          </div>
          <!-- /.post-content -->
+         <a href="<?php the_permalink(); ?>" class="hover"><?php esc_html_e('Перейти', 'codeweber'); ?></a>
       </div>
    </div>
 </article> <!-- #post-<?php the_ID(); ?> -->

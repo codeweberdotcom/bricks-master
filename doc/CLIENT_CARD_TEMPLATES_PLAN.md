@@ -466,3 +466,4 @@ $template_path = get_template_directory() . '/templates/' . $template_dir . '/' 
 3. Какой размер изображения использовать по умолчанию?
 4. Нужна ли поддержка в Gutenberg блоке (как Post Grid)?
 
+
