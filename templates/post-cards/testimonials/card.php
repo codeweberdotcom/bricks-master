@@ -37,9 +37,8 @@ if (empty($template_args['bg_color'])) {
             
             <?php codeweber_testimonial_blockquote_details($post_data, [
                 'show_company' => $template_args['show_company'] && !empty($post_data['company']),
-                'avatar_size' => 'w-12',
-                'avatar_bg' => 'bg-pale-primary',
-                'avatar_text' => 'text-primary',
+                'show_avatar' => false, // Для этого шаблона не показываем аватар/инициалы, только имя и должность
+                'info_class' => 'p-0', // Используем p-0 для шаблона с цветными фонами
                 'echo' => true,
             ]); ?>
         </blockquote>

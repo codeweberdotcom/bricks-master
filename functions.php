@@ -20,6 +20,9 @@ require_once get_template_directory() . '/plugins/tgm/plugins_autoinstall.php';
 
 require_once get_template_directory() . '/functions/enqueues.php';
 require_once get_template_directory() . '/functions/images.php';
+require_once get_template_directory() . '/functions/pdf-thumbnail-install.php';
+require_once get_template_directory() . '/functions/pdf-thumbnail.php';
+require_once get_template_directory() . '/functions/pdf-thumbnail-js.php';
 require_once get_template_directory() . '/functions/navmenus.php';
 require_once get_template_directory() . '/functions/sidebars.php';
 require_once get_template_directory() . '/functions/lib/class-wp-bootstrap-navwalker.php';
@@ -108,6 +111,11 @@ require_once get_template_directory() . '/functions/integrations/modal-container
  * Подключение REST API расширений для модальных окон
  */
 require_once get_template_directory() . '/functions/integrations/modal-rest-api.php';
+
+/**
+ * Подключение единого шаблона сообщения об успешной отправке
+ */
+require_once get_template_directory() . '/functions/integrations/success-message-template.php';
 
 /**
  * Подключение API для формы отправки отзывов

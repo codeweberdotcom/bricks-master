@@ -961,9 +961,9 @@ function codeweber_testimonial_author_info($post_id = null, $args = [])
             </figure>
             <div>
                 <?php if ($args['show_link'] && $author_link): ?>
-                    <h6><a href="<?php echo $author_link; ?>" class="link-dark"><?php echo $author_name; ?></a></h6>
+                    <div class="h6"><a href="<?php echo $author_link; ?>" class="link-dark"><?php echo $author_name; ?></a></div>
                 <?php else: ?>
-                    <h6><?php echo $author_name; ?></h6>
+                    <div class="h6"><?php echo $author_name; ?></div>
                 <?php endif; ?>
                 <?php if ($author_role): ?>
                     <span class="post-meta fs-15"><?php echo $author_role; ?></span>
@@ -1070,7 +1070,7 @@ function codeweber_testimonial_block($post_id = null, $args = [])
  * @param int|array $post_id_or_data Post ID (optional, uses current post if not provided) OR array with post data (from cw_get_post_card_data)
  * @param array $args Additional arguments:
  *   - 'show_company' (bool): Show company name (default: false)
- *   - 'avatar_size' (string): Avatar size class - 'w-10', 'w-12', 'w-15' (default: 'w-12'). Height will be added automatically (h-10, h-12, h-15)
+ *   - 'avatar_size' (string): Avatar size class - 'w-10', 'w-11', 'w-12', 'w-15' (default: 'w-11'). Height will be added automatically (h-10, h-11, h-12, h-15)
  *   - 'avatar_bg' (string): Avatar background class - 'bg-primary', 'bg-pale-primary', 'bg-soft-primary' (default: 'bg-primary')
  *   - 'avatar_text' (string): Avatar text color class - 'text-white', 'text-primary' (default: 'text-white')
  *   - 'initials_count' (int): Number of initials to show (1 or 2, default: 2)
@@ -1081,10 +1081,12 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
     // Default arguments
     $defaults = [
         'show_company' => false,
-        'avatar_size' => 'w-12',
+        'show_avatar' => true, // Показывать аватар/инициалы (если false - не показывать ни аватар, ни инициалы)
+        'avatar_size' => 'w-11',
         'avatar_bg' => 'bg-primary',
         'avatar_text' => 'text-white',
         'initials_count' => 2,
+        'info_class' => '', // Дополнительный класс для info (например, 'ps-0' или 'p-0')
         'echo' => true,
     ];
     
@@ -1135,9 +1137,9 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
         }
     }
     
-    // Generate initials if no avatar
+    // Generate initials if no avatar (только если show_avatar включен)
     $initials = '';
-    if (empty($avatar_url) && !empty($author_name)) {
+    if ($args['show_avatar'] && empty($avatar_url) && !empty($author_name)) {
         $name_parts = explode(' ', trim($author_name));
         if ($args['initials_count'] === 1) {
             // Первая буква имени
@@ -1152,10 +1154,18 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
         }
     }
     
-    // Определяем, нужно ли добавлять класс p-0 для info (когда нет аватара/инициалов)
-    $info_class = '';
-    if (empty($avatar_url) && empty($initials)) {
+    // Определяем класс для info
+    // Если указан явно info_class И есть аватар/инициалы, используем его
+    // Если нет аватара/инициалов, всегда используем p-0 (даже если указан другой класс)
+    if (!$args['show_avatar'] || (empty($avatar_url) && empty($initials))) {
+        // Когда нет аватара, всегда используем p-0
         $info_class = ' p-0';
+    } elseif (!empty($args['info_class'])) {
+        // Когда есть аватар и указан явный класс, используем его
+        $info_class = ' ' . esc_attr($args['info_class']);
+    } else {
+        // По умолчанию без дополнительных классов
+        $info_class = '';
     }
     
     // Получаем класс высоты из класса ширины (w-10 -> h-10, w-12 -> h-12, w-15 -> h-15)
@@ -1165,32 +1175,65 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
     ob_start();
     ?>
     <div class="blockquote-details">
-        <?php if ($avatar_url) : ?>
-            <img 
-                class="rounded-circle <?php echo esc_attr($args['avatar_size']); ?>" 
-                src="<?php echo $avatar_url; ?>" 
-                <?php if ($avatar_url_2x) : ?>
-                    srcset="<?php echo $avatar_url_2x; ?> 2x" 
+        <?php if ($args['show_avatar'] && ($avatar_url || $initials)) : ?>
+            <?php if ($avatar_url) : ?>
+                <!-- Аватар с картинкой -->
+                <div class="d-flex align-items-center">
+                    <figure class="user-avatar">
+                        <img 
+                            class="rounded-circle" 
+                            src="<?php echo $avatar_url; ?>" 
+                            <?php if ($avatar_url_2x) : ?>
+                                srcset="<?php echo $avatar_url_2x; ?> 2x" 
+                            <?php endif; ?>
+                            alt="<?php echo esc_attr($author_name); ?>" 
+                        />
+                    </figure>
+                    <div>
+                        <?php if ($author_name) : ?>
+                            <div class="h6 mb-0"><?php echo $author_name; ?></div>
+                        <?php endif; ?>
+                        <?php if ($author_role) : ?>
+                            <span class="post-meta fs-15"><?php echo $author_role; ?></span>
+                        <?php endif; ?>
+                        <?php if ($args['show_company'] && $company) : ?>
+                            <span class="post-meta fs-15 text-muted"><?php echo $company; ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php elseif ($initials) : ?>
+                <!-- Аватар с инициалами -->
+                <div class="d-flex align-items-center">
+                    <span class="avatar <?php echo esc_attr($args['avatar_bg'] . ' ' . $args['avatar_text'] . ' ' . $args['avatar_size'] . ' ' . $avatar_height); ?>">
+                        <span><?php echo esc_html($initials); ?></span>
+                    </span>
+                    <div class="info<?php echo esc_attr($info_class); ?>">
+                        <?php if ($author_name) : ?>
+                            <div class="h5 mb-1"><?php echo $author_name; ?></div>
+                        <?php endif; ?>
+                        <?php if ($author_role) : ?>
+                            <p class="mb-0"><?php echo $author_role; ?></p>
+                        <?php endif; ?>
+                        <?php if ($args['show_company'] && $company) : ?>
+                            <p class="mb-0 text-muted small"><?php echo $company; ?></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php else : ?>
+            <!-- Без аватара -->
+            <div class="info<?php echo esc_attr($info_class); ?>">
+                <?php if ($author_name) : ?>
+                    <div class="h5 mb-1"><?php echo $author_name; ?></div>
                 <?php endif; ?>
-                alt="<?php echo esc_attr($author_name); ?>" 
-            />
-        <?php elseif ($initials) : ?>
-            <span class="avatar <?php echo esc_attr($args['avatar_bg'] . ' ' . $args['avatar_text'] . ' ' . $args['avatar_size'] . ' ' . $avatar_height); ?>">
-                <span><?php echo esc_html($initials); ?></span>
-            </span>
+                <?php if ($author_role) : ?>
+                    <p class="mb-0"><?php echo $author_role; ?></p>
+                <?php endif; ?>
+                <?php if ($args['show_company'] && $company) : ?>
+                    <p class="mb-0 text-muted small"><?php echo $company; ?></p>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
-        
-        <div class="info<?php echo esc_attr($info_class); ?>">
-            <?php if ($author_name) : ?>
-                <h5 class="mb-1"><?php echo $author_name; ?></h5>
-            <?php endif; ?>
-            <?php if ($author_role) : ?>
-                <p class="mb-0"><?php echo $author_role; ?></p>
-            <?php endif; ?>
-            <?php if ($args['show_company'] && $company) : ?>
-                <p class="mb-0 text-muted small"><?php echo $company; ?></p>
-            <?php endif; ?>
-        </div>
     </div>
     <?php
     $output = ob_get_clean();
@@ -1234,3 +1277,14 @@ function codeweber_register_testimonial_rest_fields() {
     }
 }
 add_action('rest_api_init', 'codeweber_register_testimonial_rest_fields');
+
+/**
+ * Отключаем single Testimonials страницы - возвращаем 404
+ */
+add_action('template_redirect', function() {
+	if (is_singular('testimonials')) {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header(404);
+	}
+});

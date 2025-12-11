@@ -18,6 +18,11 @@ figure.overlay img {
     padding: 0.5rem;
     z-index: 5;
     pointer-events: none;
+    // Разрешаем клики на интерактивных элементах
+    a, button, .btn, .ajax-download {
+      pointer-events: auto;
+      cursor: pointer;
+    }
   }
   * {
     @include transition(all 0.4s ease);
@@ -320,6 +325,7 @@ figure.overlay img {
     top: 0;
     opacity: 0;
     visibility: hidden;
+    @include transition(width 0.4s ease, opacity 0.4s ease, visibility 0s);
   }
   &:hover span.bg {
     visibility: visible;

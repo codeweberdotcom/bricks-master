@@ -1260,11 +1260,42 @@ var custom = {
   rippleEffect: () => {
     document.querySelectorAll(".has-ripple").forEach((button) => {
       // Проверяем, была ли кнопка уже инициализирована
-      if (button.dataset.rippleInitialized) {
+      if (button.dataset.rippleInitialized === "true") {
         return;
       }
 
+      // Очищаем старые ripple элементы перед инициализацией
+      const oldRipples = button.querySelectorAll(".a-ripple");
+      oldRipples.forEach(ripple => ripple.remove());
+
+      // Throttle для предотвращения множественных ripple при быстром наведении
+      let rippleTimeout = null;
+      let lastRippleTime = 0;
+      const RIPPLE_THROTTLE = 300; // Минимальный интервал между ripple эффектами (мс)
+
+      // Создаем функцию для создания ripple эффекта
       const createRipple = (e) => {
+        const now = Date.now();
+        
+        // Для mouseenter используем throttle, чтобы не создавать ripple слишком часто
+        if (e.type === "mouseenter") {
+          // Проверяем, есть ли уже активные ripple элементы
+          const existingRipples = button.querySelectorAll(".a-ripple");
+          if (existingRipples.length > 0) {
+            return; // Не создаем новый ripple, если уже есть активный
+          }
+
+          // Throttle: не создаем ripple чаще, чем раз в RIPPLE_THROTTLE мс
+          if (now - lastRippleTime < RIPPLE_THROTTLE) {
+            return;
+          }
+          lastRippleTime = now;
+        }
+
+        // Очищаем все старые ripple элементы перед созданием нового
+        const existingRipples = button.querySelectorAll(".a-ripple");
+        existingRipples.forEach(ripple => ripple.remove());
+
         const rect = button.getBoundingClientRect();
         const ripple = document.createElement("span");
         const size = Math.max(rect.width, rect.height);
@@ -1275,11 +1306,16 @@ var custom = {
         ripple.style.top = `${y}px`;
         ripple.className = "a-ripple a-ripple-animate";
         button.appendChild(ripple);
+        
+        // Автоматически удаляем после завершения анимации
         ripple.addEventListener("animationend", () => {
           ripple.remove();
         });
       };
 
+      // Сохраняем ссылку на функцию для возможности удаления обработчика
+      button._rippleHandler = createRipple;
+      
       button.addEventListener("click", createRipple);
       button.addEventListener("mouseenter", createRipple);
       button.dataset.rippleInitialized = "true";

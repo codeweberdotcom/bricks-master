@@ -638,3 +638,5 @@ echo do_shortcode('[cw_blog_posts_slider posts_per_page="6" template="default" e
 - `templates/post-cards/*.php` - шаблоны карточек
 
 
+
+

@@ -50,12 +50,26 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
         // Если шаблон начинается с "testimonial-", это шаблон для testimonials
         $template_dir = 'testimonials';
         $template_file = str_replace('testimonial-', '', $template_file);
+    } elseif (strpos($template_name, 'document-') === 0) {
+        // Если шаблон начинается с "document-", это шаблон для documents
+        $template_dir = 'documents';
+        $template_file = str_replace('document-', '', $template_file);
+    } elseif (strpos($template_name, 'faq-') === 0) {
+        // Если шаблон начинается с "faq-", это шаблон для faq
+        $template_dir = 'faq';
+        $template_file = str_replace('faq-', '', $template_file);
     } elseif ($post_type === 'clients') {
         // Если тип записи clients, ищем в папке clients
         $template_dir = 'clients';
     } elseif ($post_type === 'testimonials') {
         // Если тип записи testimonials, ищем в папке testimonials
         $template_dir = 'testimonials';
+    } elseif ($post_type === 'documents') {
+        // Если тип записи documents, ищем в папке documents
+        $template_dir = 'documents';
+    } elseif ($post_type === 'faq') {
+        // Если тип записи faq, ищем в папке faq
+        $template_dir = 'faq';
     }
     
     // Путь к шаблону в новой структуре

@@ -77,15 +77,14 @@ add_action('enqueue_block_editor_assets', 'brk_styles_scripts_gutenberg');
 
 function enqueue_my_custom_script()
 {
-	// Load on pages and post type archives (including testimonials archive)
-	if (is_page() || is_post_type_archive() || is_archive()) {
-		wp_enqueue_script(
-			'my-custom-script',
-			get_template_directory_uri() . '/dist/assets/js/restapi.js',
-			array(),
-			null,
-			false // <-- подключаем в head, не в footer
-		);
+	// Load on all pages (needed for ajax-download and other REST API features)
+	wp_enqueue_script(
+		'my-custom-script',
+		get_template_directory_uri() . '/dist/assets/js/restapi.js',
+		array(),
+		null,
+		false // <-- подключаем в head, не в footer
+	);
 
 		$current_user_id = get_current_user_id();
 		wp_localize_script('my-custom-script', 'wpApiSettings', array(
@@ -94,7 +93,20 @@ function enqueue_my_custom_script()
 			'currentUserId' => $current_user_id,
 			'isLoggedIn' => $current_user_id > 0
 		));
-	}
+		
+		// Локализация для загрузки документов
+		wp_localize_script('my-custom-script', 'codeweberDownload', array(
+			'loadingText' => __('Loading...', 'codeweber'),
+			'errorText' => __('Error downloading file. Please try again.', 'codeweber')
+		));
+		
+		// Локализация для отправки документов на email
+		wp_localize_script('my-custom-script', 'codeweberDocumentEmail', array(
+			'sendingText' => __('Sending...', 'codeweber'),
+			'successText' => __('Document sent successfully!', 'codeweber'),
+			'errorText' => __('Error sending email. Please try again.', 'codeweber'),
+			'serverError' => __('Server error', 'codeweber')
+		));
 }
 add_action('wp_enqueue_scripts', 'enqueue_my_custom_script', 20);
 
@@ -161,3 +173,29 @@ function codeweber_enqueue_testimonial_form() {
 	}
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_testimonial_form');
+
+/**
+ * Enqueue AJAX download script for documents
+ * Загружается на всех страницах, так как шаблон documents может использоваться в блоках Gutenberg
+ */
+function codeweber_enqueue_ajax_download() {
+	// Load only from dist
+	$dist_path = get_template_directory() . '/dist/assets/js/ajax-download.js';
+	$dist_url = get_template_directory_uri() . '/dist/assets/js/ajax-download.js';
+	
+	if (!file_exists($dist_path)) {
+		return; // File doesn't exist in dist
+	}
+	
+	wp_enqueue_script(
+		'ajax-download',
+		$dist_url,
+		['my-custom-script'], // Зависимость от restapi.js для wpApiSettings
+		filemtime($dist_path),
+		true // Load in footer
+	);
+	
+	// wpApiSettings уже подключен в enqueue_my_custom_script() для всех страниц
+	// Поэтому дополнительная локализация не требуется
+}
+add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_download', 25);

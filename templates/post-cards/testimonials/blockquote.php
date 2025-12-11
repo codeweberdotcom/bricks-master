@@ -34,6 +34,8 @@ $template_args = wp_parse_args($template_args ?? [], [
             
             <?php codeweber_testimonial_blockquote_details($post_data, [
                 'show_company' => $template_args['show_company'] && !empty($post_data['company']),
+                'show_avatar' => true, // Показываем аватар/инициалы если доступны
+                'info_class' => 'ps-0', // Используем ps-0 для шаблона с рейтингом, если есть аватар
                 'echo' => true,
             ]); ?>
         </blockquote>

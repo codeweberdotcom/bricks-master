@@ -436,3 +436,5 @@ $image_url = wp_get_attachment_image_src($thumbnail_id, $image_size)[0];
 - `templates/post-cards/helpers.php` - использование в шаблонах
 
 
+
+

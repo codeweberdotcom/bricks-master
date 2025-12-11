@@ -50,7 +50,7 @@ function register_my_cpt_documents()
       "can_export" => true,
       "rewrite" => ["slug" => "documents", "with_front" => true],
       "query_var" => true,
-      "supports" => ["title", "revisions", "author"],
+      "supports" => ["title", "revisions", "author", "thumbnail"],
       "taxonomies" => ["document_category", "document_type"],
    ];
 
@@ -324,7 +324,16 @@ function save_documents_file_meta($post_id)
       }
 
       update_post_meta($post_id, '_document_file', $upload['url']);
+      
+      // Генерируем превью для PDF файлов и устанавливаем как featured image
+      // Примечание: для новых постов превью будет создано через JavaScript при сохранении
+      if ($file_type['type'] === 'application/pdf' && $post_id && $post_id > 0) {
+         codeweber_generate_document_pdf_thumbnail($post_id, $upload['file']);
+      }
    }
+   
+   // Проверяем, есть ли отложенное превью из localStorage (обрабатывается через AJAX)
+   // Это обрабатывается в pdf-thumbnail-js.php через JavaScript
 }
 add_action('save_post_documents', 'save_documents_file_meta');
 
@@ -389,3 +398,441 @@ function display_documents_file_column($column, $post_id)
    }
 }
 add_action('manage_documents_posts_custom_column', 'display_documents_file_column', 10, 2);
+
+/**
+ * Регистрирует метаполе _document_file в REST API для типа записи documents
+ */
+function register_document_file_rest_field() {
+	register_rest_field('documents', '_document_file', [
+		'get_callback' => function($post) {
+			return get_post_meta($post['id'], '_document_file', true);
+		},
+		'schema' => [
+			'type' => 'string',
+			'context' => ['view', 'edit'],
+		],
+	]);
+}
+add_action('rest_api_init', 'register_document_file_rest_field');
+
+/**
+ * REST API endpoint для получения URL файла документа для AJAX загрузки
+ */
+function register_document_download_endpoint() {
+	register_rest_route('codeweber/v1', '/documents/(?P<id>\d+)/download-url', [
+		'methods' => 'GET',
+		'callback' => 'get_document_download_url',
+		'permission_callback' => '__return_true',
+		'args' => [
+			'id' => [
+				'required' => true,
+				'type' => 'integer',
+				'validate_callback' => function($param) {
+					return is_numeric($param);
+				}
+			]
+		]
+	]);
+}
+add_action('rest_api_init', 'register_document_download_endpoint');
+
+/**
+ * REST API endpoint для модального окна отправки документа на email
+ */
+function register_document_email_modal_endpoint() {
+	register_rest_route('wp/v2', '/modal/doc-(?P<id>\d+)', [
+		'methods' => 'GET',
+		'callback' => 'get_document_email_modal',
+		'permission_callback' => '__return_true',
+		'args' => [
+			'id' => [
+				'required' => true,
+				'type' => 'integer',
+				'validate_callback' => function($param) {
+					return is_numeric($param);
+				}
+			]
+		]
+	]);
+}
+add_action('rest_api_init', 'register_document_email_modal_endpoint');
+
+/**
+ * Callback для получения HTML модального окна отправки документа на email
+ * 
+ * @param WP_REST_Request $request
+ * @return WP_REST_Response|WP_Error
+ */
+function get_document_email_modal($request) {
+	$post_id = $request->get_param('id');
+	
+	// Проверяем, что пост существует и это documents
+	$post = get_post($post_id);
+	if (!$post || $post->post_type !== 'documents') {
+		return new WP_Error(
+			'invalid_post',
+			__('Document not found', 'codeweber'),
+			['status' => 404]
+		);
+	}
+	
+	// Получаем URL файла
+	$file_url = get_post_meta($post_id, '_document_file', true);
+	
+	if (empty($file_url)) {
+		return new WP_Error(
+			'no_file',
+			__('File not found for this document', 'codeweber'),
+			['status' => 404]
+		);
+	}
+	
+	$file_name = basename($file_url);
+	$document_title = get_the_title($post_id);
+	
+	ob_start();
+	?>
+	<div class="document-email-form text-start">
+		<h5 class="modal-title mb-4"><?php esc_html_e('Send Document by Email', 'codeweber'); ?></h5>
+		<form id="document-email-form" class="document-email-form">
+			<input type="hidden" name="document_id" value="<?php echo esc_attr($post_id); ?>">
+			
+			<div class="mb-4">
+				<p class="mb-2"><strong><?php esc_html_e('Document:', 'codeweber'); ?></strong> <?php echo esc_html($document_title); ?></p>
+				<p class="text-muted small mb-0"><?php echo esc_html($file_name); ?></p>
+			</div>
+			
+			<div class="form-floating mb-4">
+				<input 
+					type="email" 
+					class="form-control<?php echo getThemeFormRadius(); ?>" 
+					name="email" 
+					id="document_email" 
+					placeholder="<?php esc_attr_e('Your email', 'codeweber'); ?>"
+					required
+				>
+				<label for="document_email"><?php esc_html_e('Your Email *', 'codeweber'); ?></label>
+			</div>
+			
+			<div class="modal-footer text-center justify-content-center mt-4 pt-0 pb-0">
+				<button type="submit" class="btn btn-primary<?php echo getThemeButton(); ?>" data-loading-text="<?php esc_attr_e('Sending...', 'codeweber'); ?>">
+					<?php esc_html_e('Send Document', 'codeweber'); ?>
+				</button>
+			</div>
+		</form>
+	</div>
+	<?php
+	$form_html = ob_get_clean();
+	
+	return rest_ensure_response([
+		'id' => $post_id,
+		'content' => [
+			'rendered' => $form_html
+		],
+		'modal_size' => 'modal-md'
+	]);
+}
+
+/**
+ * REST API endpoint для отправки документа на email
+ */
+function register_document_email_send_endpoint() {
+	register_rest_route('codeweber/v1', '/documents/send-email', [
+		'methods' => 'POST',
+		'callback' => 'send_document_email',
+		'permission_callback' => '__return_true',
+		'args' => [
+			'document_id' => [
+				'required' => true,
+				'type' => 'integer',
+				'validate_callback' => function($param) {
+					return is_numeric($param);
+				}
+			],
+			'email' => [
+				'required' => true,
+				'sanitize_callback' => 'sanitize_email',
+				'validate_callback' => function($param) {
+					return is_email($param);
+				}
+			]
+		]
+	]);
+}
+add_action('rest_api_init', 'register_document_email_send_endpoint');
+
+/**
+ * Callback для отправки документа на email
+ * 
+ * @param WP_REST_Request $request
+ * @return WP_REST_Response|WP_Error
+ */
+function send_document_email($request) {
+	// Загружаем переводы темы для REST API контекста
+	// В REST API контексте переводы могут не загружаться автоматически
+	$locale = get_locale();
+	if (!$locale || $locale === 'en_US') {
+		$locale = get_option('WPLANG') ?: 'ru_RU';
+	}
+	
+	// Принудительно устанавливаем локаль
+	if (function_exists('switch_to_locale') && $locale && $locale !== 'en_US') {
+		switch_to_locale($locale);
+	}
+	
+	// Принудительно загружаем переводы
+	unload_textdomain('codeweber');
+	load_theme_textdomain('codeweber', get_template_directory() . '/languages');
+	
+	// Принудительно загружаем .mo файл
+	$mofile = get_template_directory() . '/languages/' . $locale . '.mo';
+	if (file_exists($mofile)) {
+		load_textdomain('codeweber', $mofile);
+	}
+	
+	// Также пробуем загрузить ru_RU если локаль не совпадает
+	if ($locale !== 'ru_RU') {
+		$ru_mofile = get_template_directory() . '/languages/ru_RU.mo';
+		if (file_exists($ru_mofile)) {
+			load_textdomain('codeweber', $ru_mofile);
+		}
+	}
+	
+	// Проверка REST API nonce из заголовка
+	$nonce = $request->get_header('X-WP-Nonce');
+	
+	// Проверяем REST API nonce
+	if (!$nonce || !wp_verify_nonce($nonce, 'wp_rest')) {
+		return new WP_Error(
+			'invalid_nonce',
+			__('Security check failed.', 'codeweber'),
+			['status' => 403]
+		);
+	}
+	
+	$post_id = $request->get_param('document_id');
+	$email = $request->get_param('email');
+	
+	// Проверяем документ
+	$post = get_post($post_id);
+	if (!$post || $post->post_type !== 'documents') {
+		return new WP_Error(
+			'invalid_post',
+			__('Document not found', 'codeweber'),
+			['status' => 404]
+		);
+	}
+	
+	// Получаем URL файла
+	$file_url = get_post_meta($post_id, '_document_file', true);
+	if (empty($file_url)) {
+		return new WP_Error(
+			'no_file',
+			__('File not found for this document', 'codeweber'),
+			['status' => 404]
+		);
+	}
+	
+	$file_name = basename($file_url);
+	$document_title = get_the_title($post_id);
+	
+	// Получаем путь к файлу для вложения
+	$upload_dir = wp_upload_dir();
+	$file_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $file_url);
+	
+	// Проверяем, существует ли файл
+	if (!file_exists($file_path)) {
+		// Пробуем альтернативный способ получения пути
+		$file_path = get_attached_file(get_post_meta($post_id, '_document_file_id', true));
+		if (!$file_path || !file_exists($file_path)) {
+			// Если файл не найден, отправляем ссылку на файл
+			$file_path = null;
+		}
+	}
+	
+	// Отправляем email с вложением файла
+	// Используем прямые переводы для гарантии русского языка
+	$locale = get_locale();
+	$is_russian = ($locale === 'ru_RU' || strpos($locale, 'ru') === 0);
+	
+	if ($is_russian) {
+		$subject = sprintf('Документ: %s', $document_title);
+		$email_message = sprintf(
+			"Здравствуйте,\n\nВы запросили получить документ: %s\n\n",
+			$document_title
+		);
+		
+		if ($file_path && file_exists($file_path)) {
+			$email_message .= "Пожалуйста, найдите документ во вложении к этому письму.\n\n";
+		} else {
+			$email_message .= "Ссылка для скачивания:\n" . $file_url . "\n\n";
+		}
+		
+		$email_message .= "С уважением";
+	} else {
+		// Английская версия для других языков
+		$subject = sprintf(__('Document: %s', 'codeweber'), $document_title);
+		$email_message = sprintf(
+			__("Hello,\n\nYou requested to receive the document: %s\n\n", 'codeweber'),
+			$document_title
+		);
+		
+		if ($file_path && file_exists($file_path)) {
+			$email_message .= __("Please find the document attached to this email.\n\n", 'codeweber');
+		} else {
+			$email_message .= __("Download link:", 'codeweber') . "\n" . $file_url . "\n\n";
+		}
+		
+		$email_message .= __("Best regards", 'codeweber');
+	}
+	
+	$headers = array('Content-Type: text/html; charset=UTF-8');
+	
+	// Если файл существует, добавляем его как вложение
+	$attachments = array();
+	if ($file_path && file_exists($file_path)) {
+		$attachments[] = $file_path;
+	}
+	
+	// Отправляем email
+	$sent = wp_mail($email, $subject, nl2br(esc_html($email_message)), $headers, $attachments);
+	
+	// Логируем результат для отладки
+	if (!$sent) {
+		error_log('Document email send failed. Post ID: ' . $post_id . ', Email: ' . $email);
+	}
+	
+	if ($sent) {
+		return new WP_REST_Response([
+			'success' => true,
+			'message' => __('Document sent successfully to your email.', 'codeweber')
+		], 200);
+	} else {
+		return new WP_Error(
+			'email_failed',
+			__('Failed to send email. Please try again.', 'codeweber'),
+			['status' => 500]
+		);
+	}
+}
+
+/**
+ * Callback для получения URL файла документа
+ * 
+ * @param WP_REST_Request $request
+ * @return WP_REST_Response|WP_Error
+ */
+function get_document_download_url($request) {
+	$post_id = $request->get_param('id');
+	
+	// Проверяем, что пост существует и это documents
+	$post = get_post($post_id);
+	if (!$post || $post->post_type !== 'documents') {
+		return new WP_Error(
+			'invalid_post',
+			__('Document not found', 'codeweber'),
+			['status' => 404]
+		);
+	}
+	
+	// Получаем URL файла
+	$file_url = get_post_meta($post_id, '_document_file', true);
+	
+	if (empty($file_url)) {
+		return new WP_Error(
+			'no_file',
+			__('File not found for this document', 'codeweber'),
+			['status' => 404]
+		);
+	}
+	
+	// Опционально: логирование загрузки
+	do_action('document_downloaded', $post_id);
+	
+	return new WP_REST_Response([
+		'success' => true,
+		'file_url' => esc_url_raw($file_url),
+		'file_name' => basename($file_url),
+		'post_id' => $post_id
+	], 200);
+}
+
+/**
+ * Генерирует превью PDF файла и устанавливает его как featured image для документа
+ * 
+ * @param int $post_id ID поста документа
+ * @param string $pdf_file_path Полный путь к загруженному PDF файлу
+ * @return int|false ID вложения превью или false при ошибке
+ */
+function codeweber_generate_document_pdf_thumbnail($post_id, $pdf_file_path)
+{
+   if (!file_exists($pdf_file_path)) {
+      return false;
+   }
+   
+   // Проверяем, что это PDF
+   $file_type = wp_check_filetype($pdf_file_path);
+   if ($file_type['type'] !== 'application/pdf') {
+      return false;
+   }
+   
+   // Генерируем превью используя функцию из pdf-thumbnail.php
+   if (!function_exists('codeweber_generate_pdf_thumbnail')) {
+      return false;
+   }
+   
+   // Создаем превью среднего размера
+   $thumbnail_url = codeweber_generate_pdf_thumbnail($pdf_file_path, 'jpg', 90, 800, 0);
+   
+   if (!$thumbnail_url) {
+      return false;
+   }
+   
+   // Получаем путь к файлу превью
+   $upload_dir = wp_upload_dir();
+   $thumbnail_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $thumbnail_url);
+   
+   if (!file_exists($thumbnail_path)) {
+      return false;
+   }
+   
+   // Создаем вложение для превью
+   $file_name = basename($thumbnail_path);
+   $file_type = wp_check_filetype($file_name, null);
+   
+   $attachment = array(
+      'guid'           => $thumbnail_url,
+      'post_mime_type' => $file_type['type'],
+      'post_title'     => get_the_title($post_id) . ' - PDF Preview',
+      'post_content'   => '',
+      'post_status'    => 'inherit'
+   );
+   
+   // Вставляем вложение в базу данных
+   $attachment_id = wp_insert_attachment($attachment, $thumbnail_path, $post_id);
+   
+   if (is_wp_error($attachment_id)) {
+      return false;
+   }
+   
+   // Генерируем метаданные для вложения
+   require_once(ABSPATH . 'wp-admin/includes/image.php');
+   $attachment_data = wp_generate_attachment_metadata($attachment_id, $thumbnail_path);
+   wp_update_attachment_metadata($attachment_id, $attachment_data);
+   
+   // Устанавливаем превью как featured image
+   set_post_thumbnail($post_id, $attachment_id);
+   
+   return $attachment_id;
+}
+
+/**
+ * Отключаем single Documents страницы - возвращаем 404
+ */
+add_action('template_redirect', function() {
+	if (is_singular('documents')) {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header(404);
+	}
+});

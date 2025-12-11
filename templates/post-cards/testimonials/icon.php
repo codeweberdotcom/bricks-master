@@ -20,23 +20,20 @@ $template_args = wp_parse_args($template_args ?? [], [
 ]);
 ?>
 
-<div class="item-inner">
-    <div class="card">
-        <div class="card-body">
-            <blockquote class="icon mb-0">
-                <?php if (!empty($post_data['text'])) : ?>
-                    <p><?php echo $post_data['text']; ?></p>
-                <?php endif; ?>
-                
-                <?php codeweber_testimonial_blockquote_details($post_data, [
-                    'show_company' => $template_args['show_company'] && !empty($post_data['company']),
-                    'echo' => true,
-                ]); ?>
-            </blockquote>
-        </div>
-        <!-- /.card-body -->
+<div class="card">
+    <div class="card-body">
+        <blockquote class="icon mb-0">
+            <?php if (!empty($post_data['text'])) : ?>
+                <p><?php echo $post_data['text']; ?></p>
+            <?php endif; ?>
+            
+            <?php codeweber_testimonial_blockquote_details($post_data, [
+                'show_company' => $template_args['show_company'] && !empty($post_data['company']),
+                'echo' => true,
+            ]); ?>
+        </blockquote>
     </div>
-    <!-- /.card -->
+    <!-- /.card-body -->
 </div>
-<!-- /.item-inner -->
+<!-- /.card -->
 

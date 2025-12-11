@@ -467,3 +467,5 @@ $template_path = get_template_directory() . '/templates/' . $template_dir . '/' 
 4. Нужна ли поддержка в Gutenberg блоке (как Post Grid)?
 
 
+
+
