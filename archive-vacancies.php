@@ -16,8 +16,8 @@ get_pageheader();
       $post_type = 'vacancies';
       global $opt_name;
       $templateloop = Redux::get_option($opt_name, 'archive_template_select_' . $post_type);
-      // Если шаблон не выбран, используем по умолчанию vacancies_1
-      if (empty($templateloop)) {
+      // Если шаблон не выбран или равен 'default', используем по умолчанию vacancies_1
+      if (empty($templateloop) || $templateloop === 'default') {
           $templateloop = 'vacancies_1';
       }
       $template_file = "templates/archives/vacancies/{$templateloop}.php";
