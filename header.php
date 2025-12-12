@@ -26,15 +26,28 @@
 
         if (class_exists('Redux')) {
             global $opt_name;
-            if (is_single() || is_singular($post_type)) {
-                $this_header_post_id = Redux::get_post_meta($opt_name, $post_id, 'this-custom-post-header');
-                if (!empty($this_header_post_id)) {
-                    $header_post_id = $this_header_post_id;
-                } else {
-                    $header_post_id = Redux::get_option($opt_name, 'single_header_select_' . $post_type);
+            // Убеждаемся, что $opt_name установлена
+            if (empty($opt_name)) {
+                $opt_name = 'redux_demo';
+            }
+            // Проверяем, что Redux экземпляр инициализирован
+            $redux_instance = Redux_Instances::get_instance($opt_name);
+            // #region agent log
+            $log_data = json_encode(['location' => 'header.php:28', 'message' => 'Header render start', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'class_exists_Redux' => class_exists('Redux'), 'redux_instance_exists' => $redux_instance !== null, 'post_type' => $post_type, 'post_id' => $post_id], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
+            $log_file = ABSPATH . '.cursor/debug.log';
+            @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+            // #endregion
+            if ($redux_instance !== null) {
+                if (is_single() || is_singular($post_type)) {
+                    $this_header_post_id = Redux::get_post_meta($opt_name, $post_id, 'this-custom-post-header');
+                    if (!empty($this_header_post_id)) {
+                        $header_post_id = $this_header_post_id;
+                    } else {
+                        $header_post_id = Redux::get_option($opt_name, 'single_header_select_' . $post_type);
+                    }
+                } elseif (is_archive() || is_post_type_archive($post_type)) {
+                    $header_post_id = Redux::get_option($opt_name, 'archive_header_select_' . $post_type);
                 }
-            } elseif (is_archive() || is_post_type_archive($post_type)) {
-                $header_post_id = Redux::get_option($opt_name, 'archive_header_select_' . $post_type);
             }
         }
 
@@ -48,7 +61,21 @@
         } else {
 
             if (class_exists('Redux')) {
-                $global_header_model = Redux::get_option($opt_name, 'global-header-model');
+                global $opt_name;
+                if (empty($opt_name)) {
+                    $opt_name = 'redux_demo';
+                }
+                $redux_instance = Redux_Instances::get_instance($opt_name);
+                if ($redux_instance !== null) {
+                    $global_header_model = Redux::get_option($opt_name, 'global-header-model');
+                } else {
+                    $global_header_model = '';
+                }
+                // #region agent log
+                $log_data = json_encode(['location' => 'header.php:60', 'message' => 'Global header model check', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'global_header_model' => $global_header_model, 'header_post_id' => $header_post_id ?? 'EMPTY', 'redux_instance_exists' => $redux_instance !== null], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'B']);
+                $log_file = ABSPATH . '.cursor/debug.log';
+                @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+                // #endregion
                 switch ($global_header_model) {
                     case '1':
                     case '2':

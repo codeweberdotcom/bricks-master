@@ -6,11 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalContent = document.getElementById("modal-content");
   const modalDialog = modalElement ? modalElement.querySelector(".modal-dialog") : null;
   
-  if (!modalElement || !modalContent || !modalDialog) {
-    return;
+  // Инициализация модального окна (если есть)
+  let modalInstance = null;
+  if (modalElement && modalContent && modalDialog) {
+    modalInstance = new bootstrap.Modal(modalElement);
   }
-
-  const modalInstance = new bootstrap.Modal(modalElement);
   
   // ============================================
   // Обработчик для data-bs-toggle="download"
@@ -28,15 +28,25 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         
-        // Извлекаем ID документа из data-value (формат: doc-{id} или просто {id})
+        // Извлекаем ID из data-value (формат: doc-{id}, staff-{id}, vac-{id} или просто {id})
         let postId = dataValue;
+        let apiEndpoint = 'documents';
+        
         if (dataValue.startsWith('doc-')) {
           postId = dataValue.replace('doc-', '');
+          apiEndpoint = 'documents';
+        } else if (dataValue.startsWith('staff-')) {
+          postId = dataValue.replace('staff-', '');
+          apiEndpoint = 'staff';
+        } else if (dataValue.startsWith('vac-')) {
+          postId = dataValue.replace('vac-', '');
+          apiEndpoint = 'vacancies';
         }
+        
         postId = parseInt(postId);
         
         if (!postId || isNaN(postId)) {
-          console.error('Download: Invalid document ID');
+          console.error('Download: Invalid ID');
           return;
         }
         
@@ -93,7 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         // Получаем URL файла через REST API
-        fetch(wpApiSettings.root + 'codeweber/v1/documents/' + postId + '/download-url', {
+        const endpoint = apiEndpoint === 'staff' ? 'vcf-url' : 'download-url';
+        fetch(wpApiSettings.root + 'codeweber/v1/' + apiEndpoint + '/' + postId + '/' + endpoint, {
           method: 'GET',
           headers: {
             'X-WP-Nonce': wpApiSettings.nonce,

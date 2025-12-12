@@ -4,6 +4,12 @@
 
 $post_type = universal_get_post_type();
 $post_type_lc = strtolower($post_type);
+global $opt_name;
+// #region agent log
+$log_data = json_encode(['location' => 'index.php:7', 'message' => 'Archive template start', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'post_type' => $post_type, 'class_exists_Redux' => class_exists('Redux')], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+$log_file = ABSPATH . '.cursor/debug.log';
+@file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+// #endregion
 $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
 
 $content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-xl-9';
@@ -28,6 +34,11 @@ $show_universal_title = ($pageheader_name === '1' && $archive_pageheader_id !== 
 					<?php
 					$templateloop = Redux::get_option($opt_name, 'archive_template_select_' . $post_type);
 					$template_file = "templates/archives/{$post_type_lc}/{$templateloop}.php";
+					// #region agent log
+					$log_data = json_encode(['location' => 'index.php:29', 'message' => 'Archive template selection', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'templateloop' => $templateloop ?? 'EMPTY', 'template_file' => $template_file, 'template_exists' => locate_template($template_file)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
+					$log_file = ABSPATH . '.cursor/debug.log';
+					@file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+					// #endregion
 
 					if (have_posts()) :
 

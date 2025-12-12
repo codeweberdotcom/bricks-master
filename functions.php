@@ -13,6 +13,7 @@ require_once get_template_directory() . '/functions/cpt/cpt-html_blocks.php';
 require_once get_template_directory() . '/functions/cpt/cpt-clients.php';
 
 require_once get_template_directory() . '/functions/setup.php';
+require_once get_template_directory() . '/functions/roles.php';
 require_once get_template_directory() . '/functions/gulp.php';
 
 require_once get_template_directory() . '/plugins/tgm/class-tgm-plugin-activation.php';
@@ -72,12 +73,22 @@ function codeweber_initialize_redux()
 
 	global $opt_name;
 	$opt_name = 'redux_demo';
+	// #region agent log
+	$log_data = json_encode(['location' => 'functions.php:75', 'message' => 'Redux initialization', 'data' => ['opt_name' => $opt_name, 'class_exists_Redux' => class_exists('Redux'), 'hook' => 'after_setup_theme', 'priority' => 30, 'role_exists' => get_role('simpleadmin') !== null], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
+	$log_file = ABSPATH . '.cursor/debug.log';
+	@file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+	// #endregion
 
 	require_once get_template_directory() . '/redux-framework/sample/theme-config.php';
 	require_once get_template_directory() . '/functions/cpt/redux_cpt.php';
 	require_once get_template_directory() . '/functions/sidebars-redux.php';
+	
+	// Подключаем theme-settings.php с настройками Redux
+	if (file_exists(get_template_directory() . '/redux-framework/theme-settings/theme-settings.php')) {
+		require_once get_template_directory() . '/redux-framework/theme-settings/theme-settings.php';
+	}
 }
-add_action('after_setup_theme', 'codeweber_initialize_redux', 20);
+add_action('after_setup_theme', 'codeweber_initialize_redux', 30);
 
 
 /**
@@ -100,6 +111,8 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 require_once get_template_directory() . '/functions/demo/demo-clients.php';
 require_once get_template_directory() . '/functions/demo/demo-faq.php';
 require_once get_template_directory() . '/functions/demo/demo-testimonials.php';
+require_once get_template_directory() . '/functions/demo/demo-staff.php';
+require_once get_template_directory() . '/functions/demo/demo-vacancies.php';
 require_once get_template_directory() . '/functions/demo/demo-ajax.php';
 
 /**

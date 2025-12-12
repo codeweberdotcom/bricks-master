@@ -1,24 +1,18 @@
 <?php
 // Основной идентификатор Redux
-$opt_name = "my_redux_options";
+global $opt_name;
+// Используем redux_demo вместо my_redux_options
+if (empty($opt_name)) {
+	$opt_name = 'redux_demo';
+}
 
 // Проверяем, инициализирован ли Redux
 if (! class_exists('Redux')) {
 	return;
 }
 
-// Устанавливаем основное меню Redux
-Redux::setArgs($opt_name, array(
-	'opt_name'    => $opt_name,
-	'display_name' => 'Тема Настроек',
-	'menu_title'  => 'Настройки темы',
-	'menu_type'   => 'menu',
-	'allow_sub_menu' => false,
-	'menu_slug'   => 'theme-options',
-));
-
-// 👉 Сюда добавь этот блок 👇
-add_action('redux/options/my_redux_options/enqueue', 'theme_settings_custom_styles');
+// Стили для Redux панели
+add_action('redux/options/' . $opt_name . '/enqueue', 'theme_settings_custom_styles');
 
 function theme_settings_custom_styles()
 {
@@ -65,10 +59,10 @@ function add_redux_sections_from_files($path, $opt_name)
 // Указываем путь к настройкам темы
 $theme_settings_path = get_template_directory() . '/redux-framework/theme-settings';
 
-// Запускаем функцию
+// Запускаем функцию для добавления секций в redux_demo
 add_redux_sections_from_files($theme_settings_path, $opt_name);
 
-Redux::setSection($opt_name, array(
+$color_section = array(
 	'title'      => 'Color Selection',
 	'id'         => 'color_selection_section',
 	'desc'       => 'Выберите параметры цветов.',
@@ -118,16 +112,23 @@ Redux::setSection($opt_name, array(
 			),
 		),
 	),
-));
+);
+
+Redux::setSection($opt_name, $color_section);
 
 
 
 
-// Функция для подключения стилей и скриптов только для страницы 'my_redux_options_options' в админке
+// Функция для подключения стилей и скриптов для страницы Redux в админке
 function codeweber_admin_styles_scripts()
 {
-	// Проверяем, что текущая страница - это 'my_redux_options_options'
-	if (isset($_GET['page']) && $_GET['page'] === 'my_redux_options_options') {
+	global $opt_name;
+	if (empty($opt_name)) {
+		$opt_name = 'redux_demo';
+	}
+	
+	// Проверяем, что текущая страница - это страница Redux настроек
+	if (isset($_GET['page']) && ($_GET['page'] === $opt_name || $_GET['page'] === 'redux_demo')) {
 		// Подключаем файл стилей только для этой страницы
 		wp_enqueue_style('theme-settings-css', get_template_directory_uri() . '/redux-framework/theme-settings/theme-settings.css', false, wp_get_theme()->get('Version'), 'all');
 	}

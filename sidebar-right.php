@@ -11,7 +11,7 @@ if ($sidebar_position === 'right') {
    if ($post_type === 'post') {
       // Используем стандартный сайдбар WordPress с нужными классами
 ?>
-      <aside class="col-xl-3 sidebar sticky-sidebar mt-md-0 py-14 d-none d-xl-block">
+      <aside class="col-xl-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-xl-block">
          <?php
          do_action('codeweber_before_sidebar', 'sidebar-1');
          get_sidebar();
@@ -22,7 +22,7 @@ if ($sidebar_position === 'right') {
    } else {
       // Используем кастомный сайдбар для других типов записей
       if (is_active_sidebar($post_type)) { ?>
-         <aside class="col-xl-3 sidebar sticky-sidebar mt-md-0 py-14 d-none d-xl-block">
+         <aside class="col-xl-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-xl-block">
             <?php
             do_action('codeweber_before_sidebar', $post_type);
             dynamic_sidebar($post_type);
@@ -31,7 +31,7 @@ if ($sidebar_position === 'right') {
          </aside>
       <?php
       } else { ?>
-         <aside class="col-xl-3 sidebar sticky-sidebar mt-md-0 py-14 d-none d-xl-block">
+         <aside class="col-xl-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-xl-block">
             <?php do_action('codeweber_after_widget', $post_type); ?>
          </aside>
 <?php

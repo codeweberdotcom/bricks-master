@@ -1,3 +1,17 @@
+<?php
+/**
+ * Template: Single Legal Default
+ * 
+ * Шаблон для отображения страницы Legal (Fallback)
+ * 
+ * @package Codeweber
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+?>
+
 <section id="post-<?php the_ID(); ?>" <?php post_class('blog single'); ?>>
    <?php $card_radius = getThemeCardImageRadius(); ?>
    <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
@@ -140,3 +154,4 @@
    </div>
 
 </section> <!-- #post-<?php the_ID(); ?> -->
+

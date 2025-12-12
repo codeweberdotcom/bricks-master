@@ -58,6 +58,10 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
         // Если шаблон начинается с "faq-", это шаблон для faq
         $template_dir = 'faq';
         $template_file = str_replace('faq-', '', $template_file);
+    } elseif (strpos($template_name, 'staff-') === 0) {
+        // Если шаблон начинается с "staff-", это шаблон для staff
+        $template_dir = 'staff';
+        $template_file = str_replace('staff-', '', $template_file);
     } elseif ($post_type === 'clients') {
         // Если тип записи clients, ищем в папке clients
         $template_dir = 'clients';
@@ -70,6 +74,16 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
     } elseif ($post_type === 'faq') {
         // Если тип записи faq, ищем в папке faq
         $template_dir = 'faq';
+    } elseif ($post_type === 'staff') {
+        // Если тип записи staff, ищем в папке staff
+        $template_dir = 'staff';
+    } elseif (strpos($template_name, 'vacancy-') === 0) {
+        // Если шаблон начинается с "vacancy-", это шаблон для vacancies
+        $template_dir = 'post';
+        $template_file = str_replace('vacancy-', '', $template_file);
+    } elseif ($post_type === 'vacancies') {
+        // Если тип записи vacancies, используем шаблоны из post
+        $template_dir = 'post';
     }
     
     // Путь к шаблону в новой структуре
@@ -92,8 +106,11 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
         }
     }
     
+    // Передаем переменные в шаблон явно
     ob_start();
-    include $template_path;
+    // Делаем переменные доступными в шаблоне
+    $template_file = $template_path;
+    include $template_file;
     return ob_get_clean();
 }
 

@@ -1,0 +1,556 @@
+{
+  "version": "1.0.0",
+  "post_type": "vacancies",
+  "description": "Demo данные для CPT Vacancies",
+  "source_images": "src/assets/img/photos/",
+  "vacancy_types": [
+    {
+      "name_en": "Full-time",
+      "name_ru": "Полная занятость",
+      "slug": "full-time"
+    },
+    {
+      "name_en": "Part-time",
+      "name_ru": "Частичная занятость",
+      "slug": "part-time"
+    },
+    {
+      "name_en": "Remote",
+      "name_ru": "Удаленная работа",
+      "slug": "remote"
+    }
+  ],
+  "items": [
+    {
+      "title_en": "Senior Web Developer",
+      "title_ru": "Ведущий веб-разработчик",
+      "slug": "senior-web-developer",
+      "status": "publish",
+      "image_alt_en": "Senior Web Developer",
+      "image_alt_ru": "Ведущий веб-разработчик",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "San Francisco, CA",
+      "location_ru": "Москва, Россия",
+      "email": "careers@sandbox.com",
+      "apply_url": "https://sandbox.com/careers/apply",
+      "salary_en": "$80,000 - $120,000",
+      "salary_ru": "150 000 - 220 000 ₽",
+      "employment_type": "full-time",
+      "experience": "5+ years",
+      "education": "Bachelor's degree",
+      "linkedin_url": "https://linkedin.com/company/sandbox",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "We are looking for an experienced Senior Web Developer to join our team. You will be responsible for developing and maintaining web applications using modern technologies.",
+      "introduction_ru": "Мы ищем опытного ведущего веб-разработчика для нашей команды. Вы будете отвечать за разработку и поддержку веб-приложений с использованием современных технологий.",
+      "requirements_en": [
+        "5+ years of experience in web development",
+        "Strong knowledge of PHP, JavaScript, and MySQL",
+        "Experience with WordPress or similar CMS",
+        "Knowledge of modern front-end frameworks (React, Vue.js)",
+        "Excellent problem-solving skills"
+      ],
+      "requirements_ru": [
+        "5+ лет опыта в веб-разработке",
+        "Глубокие знания PHP, JavaScript и MySQL",
+        "Опыт работы с WordPress или аналогичными CMS",
+        "Знание современных front-end фреймворков (React, Vue.js)",
+        "Отличные навыки решения проблем"
+      ],
+      "responsibilities_en": [
+        "Develop and maintain web applications",
+        "Collaborate with design and product teams",
+        "Write clean, maintainable code",
+        "Perform code reviews",
+        "Mentor junior developers"
+      ],
+      "responsibilities_ru": [
+        "Разработка и поддержка веб-приложений",
+        "Взаимодействие с командами дизайна и продукта",
+        "Написание чистого, поддерживаемого кода",
+        "Проведение code review",
+        "Менторство младших разработчиков"
+      ],
+      "vacancy_type_slug": "full-time"
+    },
+    {
+      "title_en": "UX/UI Designer",
+      "title_ru": "UX/UI дизайнер",
+      "slug": "ux-ui-designer",
+      "status": "publish",
+      "image_alt_en": "UX/UI Designer",
+      "image_alt_ru": "UX/UI дизайнер",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "New York, NY",
+      "location_ru": "Санкт-Петербург, Россия",
+      "email": "design@sandbox.com",
+      "apply_url": "",
+      "salary_en": "$60,000 - $90,000",
+      "salary_ru": "120 000 - 180 000 ₽",
+      "employment_type": "full-time",
+      "experience": "3+ years",
+      "education": "Bachelor's degree in Design or related field",
+      "linkedin_url": "",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "We are seeking a talented UX/UI Designer to create engaging and intuitive user experiences for our digital products.",
+      "introduction_ru": "Мы ищем талантливого UX/UI дизайнера для создания привлекательного и интуитивного пользовательского опыта для наших цифровых продуктов.",
+      "requirements_en": [
+        "3+ years of UX/UI design experience",
+        "Proficiency in Figma, Adobe XD, or Sketch",
+        "Strong portfolio demonstrating user-centered design",
+        "Understanding of responsive design principles",
+        "Knowledge of HTML/CSS is a plus"
+      ],
+      "requirements_ru": [
+        "3+ лет опыта в UX/UI дизайне",
+        "Владение Figma, Adobe XD или Sketch",
+        "Сильное портфолио с примерами user-centered дизайна",
+        "Понимание принципов адаптивного дизайна",
+        "Знание HTML/CSS будет плюсом"
+      ],
+      "responsibilities_en": [
+        "Design user interfaces for web and mobile applications",
+        "Create wireframes, prototypes, and high-fidelity designs",
+        "Conduct user research and usability testing",
+        "Collaborate with developers and product managers",
+        "Maintain design systems and style guides"
+      ],
+      "responsibilities_ru": [
+        "Дизайн пользовательских интерфейсов для веб и мобильных приложений",
+        "Создание wireframes, прототипов и high-fidelity дизайнов",
+        "Проведение исследований пользователей и юзабилити-тестирования",
+        "Взаимодействие с разработчиками и менеджерами продукта",
+        "Поддержка дизайн-систем и руководств по стилю"
+      ],
+      "vacancy_type_slug": "full-time"
+    },
+    {
+      "title_en": "Remote Frontend Developer",
+      "title_ru": "Frontend разработчик (удаленно)",
+      "slug": "remote-frontend-developer",
+      "status": "publish",
+      "image_alt_en": "Remote Frontend Developer",
+      "image_alt_ru": "Frontend разработчик (удаленно)",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "Remote",
+      "location_ru": "Удаленно",
+      "email": "remote@sandbox.com",
+      "apply_url": "",
+      "salary_en": "$70,000 - $100,000",
+      "salary_ru": "130 000 - 200 000 ₽",
+      "employment_type": "full-time",
+      "experience": "4+ years",
+      "education": "Bachelor's degree or equivalent experience",
+      "linkedin_url": "",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "Join our distributed team as a Remote Frontend Developer. Work from anywhere and help us build amazing user experiences.",
+      "introduction_ru": "Присоединяйтесь к нашей распределенной команде в качестве Frontend разработчика. Работайте из любой точки мира и помогите нам создавать потрясающий пользовательский опыт.",
+      "requirements_en": [
+        "4+ years of frontend development experience",
+        "Expert knowledge of JavaScript (ES6+), HTML5, CSS3",
+        "Experience with React, Vue.js, or Angular",
+        "Understanding of RESTful APIs",
+        "Excellent communication skills for remote work"
+      ],
+      "requirements_ru": [
+        "4+ лет опыта в frontend разработке",
+        "Экспертные знания JavaScript (ES6+), HTML5, CSS3",
+        "Опыт работы с React, Vue.js или Angular",
+        "Понимание RESTful API",
+        "Отличные коммуникативные навыки для удаленной работы"
+      ],
+      "responsibilities_en": [
+        "Develop responsive and interactive user interfaces",
+        "Optimize applications for maximum speed and scalability",
+        "Work closely with backend developers and designers",
+        "Participate in code reviews and team meetings",
+        "Stay up-to-date with emerging technologies"
+      ],
+      "responsibilities_ru": [
+        "Разработка адаптивных и интерактивных пользовательских интерфейсов",
+        "Оптимизация приложений для максимальной скорости и масштабируемости",
+        "Тесное взаимодействие с backend разработчиками и дизайнерами",
+        "Участие в code review и командных встречах",
+        "Отслеживание новых технологий"
+      ],
+      "vacancy_type_slug": "remote"
+    },
+    {
+      "title_en": "Backend Developer",
+      "title_ru": "Backend разработчик",
+      "slug": "backend-developer",
+      "status": "publish",
+      "image_alt_en": "Backend Developer",
+      "image_alt_ru": "Backend разработчик",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "London, UK",
+      "location_ru": "Екатеринбург, Россия",
+      "email": "backend@sandbox.com",
+      "apply_url": "",
+      "salary_en": "$75,000 - $110,000",
+      "salary_ru": "140 000 - 210 000 ₽",
+      "employment_type": "full-time",
+      "experience": "4+ years",
+      "education": "Bachelor's degree in Computer Science",
+      "linkedin_url": "",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "We are looking for a skilled Backend Developer to build robust and scalable server-side applications.",
+      "introduction_ru": "Мы ищем опытного Backend разработчика для создания надежных и масштабируемых серверных приложений.",
+      "requirements_en": [
+        "4+ years of backend development experience",
+        "Strong knowledge of PHP, Python, or Node.js",
+        "Experience with databases (MySQL, PostgreSQL, MongoDB)",
+        "Understanding of RESTful API design",
+        "Knowledge of microservices architecture"
+      ],
+      "requirements_ru": [
+        "4+ лет опыта в backend разработке",
+        "Глубокие знания PHP, Python или Node.js",
+        "Опыт работы с базами данных (MySQL, PostgreSQL, MongoDB)",
+        "Понимание проектирования RESTful API",
+        "Знание архитектуры микросервисов"
+      ],
+      "responsibilities_en": [
+        "Design and develop server-side applications",
+        "Optimize database queries and performance",
+        "Implement secure authentication and authorization",
+        "Collaborate with frontend developers",
+        "Write technical documentation"
+      ],
+      "responsibilities_ru": [
+        "Проектирование и разработка серверных приложений",
+        "Оптимизация запросов к базе данных и производительности",
+        "Реализация безопасной аутентификации и авторизации",
+        "Взаимодействие с frontend разработчиками",
+        "Написание технической документации"
+      ],
+      "vacancy_type_slug": "full-time"
+    },
+    {
+      "title_en": "Digital Marketing Specialist",
+      "title_ru": "Специалист по цифровому маркетингу",
+      "slug": "digital-marketing-specialist",
+      "status": "publish",
+      "image_alt_en": "Digital Marketing Specialist",
+      "image_alt_ru": "Специалист по цифровому маркетингу",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "Chicago, IL",
+      "location_ru": "Новосибирск, Россия",
+      "email": "marketing@sandbox.com",
+      "apply_url": "",
+      "salary_en": "$50,000 - $75,000",
+      "salary_ru": "100 000 - 150 000 ₽",
+      "employment_type": "full-time",
+      "experience": "2+ years",
+      "education": "Bachelor's degree in Marketing or related field",
+      "linkedin_url": "",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "Join our marketing team as a Digital Marketing Specialist and help us grow our online presence.",
+      "introduction_ru": "Присоединяйтесь к нашей маркетинговой команде в качестве специалиста по цифровому маркетингу и помогите нам развивать онлайн-присутствие.",
+      "requirements_en": [
+        "2+ years of digital marketing experience",
+        "Knowledge of SEO, SEM, and social media marketing",
+        "Experience with Google Analytics and AdWords",
+        "Content creation and copywriting skills",
+        "Understanding of email marketing campaigns"
+      ],
+      "requirements_ru": [
+        "2+ лет опыта в цифровом маркетинге",
+        "Знание SEO, SEM и маркетинга в социальных сетях",
+        "Опыт работы с Google Analytics и AdWords",
+        "Навыки создания контента и копирайтинга",
+        "Понимание email-маркетинговых кампаний"
+      ],
+      "responsibilities_en": [
+        "Develop and execute digital marketing campaigns",
+        "Manage social media accounts and content",
+        "Analyze marketing metrics and ROI",
+        "Create engaging content for various platforms",
+        "Collaborate with sales and design teams"
+      ],
+      "responsibilities_ru": [
+        "Разработка и реализация цифровых маркетинговых кампаний",
+        "Управление аккаунтами в социальных сетях и контентом",
+        "Анализ маркетинговых метрик и ROI",
+        "Создание привлекательного контента для различных платформ",
+        "Взаимодействие с отделами продаж и дизайна"
+      ],
+      "vacancy_type_slug": "full-time"
+    },
+    {
+      "title_en": "Part-time Content Writer",
+      "title_ru": "Контент-райтер (частичная занятость)",
+      "slug": "part-time-content-writer",
+      "status": "publish",
+      "image_alt_en": "Part-time Content Writer",
+      "image_alt_ru": "Контент-райтер (частичная занятость)",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "Remote",
+      "location_ru": "Удаленно",
+      "email": "content@sandbox.com",
+      "apply_url": "",
+      "salary_en": "$30,000 - $45,000",
+      "salary_ru": "60 000 - 90 000 ₽",
+      "employment_type": "part-time",
+      "experience": "1+ years",
+      "education": "Bachelor's degree in Journalism, Communications, or related field",
+      "linkedin_url": "",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "We are looking for a creative Content Writer to join our team on a part-time basis. Perfect for freelancers or students.",
+      "introduction_ru": "Мы ищем творческого контент-райтера для работы в нашей команде на условиях частичной занятости. Отлично подходит для фрилансеров или студентов.",
+      "requirements_en": [
+        "1+ years of content writing experience",
+        "Excellent writing and editing skills",
+        "Ability to write for different audiences and formats",
+        "Basic knowledge of SEO principles",
+        "Time management and self-discipline"
+      ],
+      "requirements_ru": [
+        "1+ год опыта написания контента",
+        "Отличные навыки написания и редактирования",
+        "Умение писать для разных аудиторий и форматов",
+        "Базовые знания принципов SEO",
+        "Управление временем и самодисциплина"
+      ],
+      "responsibilities_en": [
+        "Write blog posts, articles, and web content",
+        "Create engaging social media content",
+        "Proofread and edit content",
+        "Research industry trends and topics",
+        "Meet content deadlines"
+      ],
+      "responsibilities_ru": [
+        "Написание статей в блог, статей и веб-контента",
+        "Создание привлекательного контента для социальных сетей",
+        "Вычитка и редактирование контента",
+        "Исследование трендов и тем в отрасли",
+        "Соблюдение дедлайнов по контенту"
+      ],
+      "vacancy_type_slug": "part-time"
+    },
+    {
+      "title_en": "DevOps Engineer",
+      "title_ru": "DevOps инженер",
+      "slug": "devops-engineer",
+      "status": "publish",
+      "image_alt_en": "DevOps Engineer",
+      "image_alt_ru": "DevOps инженер",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "Austin, TX",
+      "location_ru": "Казань, Россия",
+      "email": "devops@sandbox.com",
+      "apply_url": "",
+      "salary_en": "$90,000 - $130,000",
+      "salary_ru": "170 000 - 250 000 ₽",
+      "employment_type": "full-time",
+      "experience": "5+ years",
+      "education": "Bachelor's degree in Computer Science or related field",
+      "linkedin_url": "",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "We are seeking an experienced DevOps Engineer to manage our infrastructure and deployment processes.",
+      "introduction_ru": "Мы ищем опытного DevOps инженера для управления нашей инфраструктурой и процессами развертывания.",
+      "requirements_en": [
+        "5+ years of DevOps or System Administration experience",
+        "Strong knowledge of Linux/Unix systems",
+        "Experience with Docker, Kubernetes, or similar",
+        "Knowledge of CI/CD pipelines (Jenkins, GitLab CI)",
+        "Understanding of cloud platforms (AWS, Azure, GCP)"
+      ],
+      "requirements_ru": [
+        "5+ лет опыта в DevOps или системном администрировании",
+        "Глубокие знания Linux/Unix систем",
+        "Опыт работы с Docker, Kubernetes или аналогичными",
+        "Знание CI/CD пайплайнов (Jenkins, GitLab CI)",
+        "Понимание облачных платформ (AWS, Azure, GCP)"
+      ],
+      "responsibilities_en": [
+        "Manage and optimize cloud infrastructure",
+        "Implement and maintain CI/CD pipelines",
+        "Monitor system performance and reliability",
+        "Automate deployment and scaling processes",
+        "Ensure security best practices"
+      ],
+      "responsibilities_ru": [
+        "Управление и оптимизация облачной инфраструктуры",
+        "Внедрение и поддержка CI/CD пайплайнов",
+        "Мониторинг производительности и надежности систем",
+        "Автоматизация процессов развертывания и масштабирования",
+        "Обеспечение соблюдения лучших практик безопасности"
+      ],
+      "vacancy_type_slug": "full-time"
+    },
+    {
+      "title_en": "Project Manager",
+      "title_ru": "Менеджер проектов",
+      "slug": "project-manager",
+      "status": "publish",
+      "image_alt_en": "Project Manager",
+      "image_alt_ru": "Менеджер проектов",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "Boston, MA",
+      "location_ru": "Краснодар, Россия",
+      "email": "projects@sandbox.com",
+      "apply_url": "",
+      "salary_en": "$65,000 - $95,000",
+      "salary_ru": "125 000 - 185 000 ₽",
+      "employment_type": "full-time",
+      "experience": "3+ years",
+      "education": "Bachelor's degree in Business, Management, or related field",
+      "linkedin_url": "",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "We are looking for an organized and proactive Project Manager to lead our development projects.",
+      "introduction_ru": "Мы ищем организованного и проактивного менеджера проектов для руководства нашими проектами разработки.",
+      "requirements_en": [
+        "3+ years of project management experience",
+        "Experience in Agile/Scrum methodologies",
+        "Strong communication and leadership skills",
+        "Knowledge of project management tools (Jira, Trello, Asana)",
+        "Ability to manage multiple projects simultaneously"
+      ],
+      "requirements_ru": [
+        "3+ лет опыта управления проектами",
+        "Опыт работы с методологиями Agile/Scrum",
+        "Отличные коммуникативные и лидерские навыки",
+        "Знание инструментов управления проектами (Jira, Trello, Asana)",
+        "Способность управлять несколькими проектами одновременно"
+      ],
+      "responsibilities_en": [
+        "Plan and execute development projects",
+        "Coordinate between teams and stakeholders",
+        "Track project progress and milestones",
+        "Manage project budgets and timelines",
+        "Facilitate meetings and stand-ups"
+      ],
+      "responsibilities_ru": [
+        "Планирование и выполнение проектов разработки",
+        "Координация между командами и заинтересованными сторонами",
+        "Отслеживание прогресса проектов и вех",
+        "Управление бюджетами и сроками проектов",
+        "Проведение встреч и стендапов"
+      ],
+      "vacancy_type_slug": "full-time"
+    },
+    {
+      "title_en": "QA Engineer",
+      "title_ru": "Инженер по тестированию",
+      "slug": "qa-engineer",
+      "status": "publish",
+      "image_alt_en": "QA Engineer",
+      "image_alt_ru": "Инженер по тестированию",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "Seattle, WA",
+      "location_ru": "Ростов-на-Дону, Россия",
+      "email": "qa@sandbox.com",
+      "apply_url": "",
+      "salary_en": "$55,000 - $80,000",
+      "salary_ru": "110 000 - 160 000 ₽",
+      "employment_type": "full-time",
+      "experience": "2+ years",
+      "education": "Bachelor's degree in Computer Science or related field",
+      "linkedin_url": "",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "Join our QA team and help ensure the quality and reliability of our software products.",
+      "introduction_ru": "Присоединяйтесь к нашей команде QA и помогите обеспечить качество и надежность наших программных продуктов.",
+      "requirements_en": [
+        "2+ years of QA testing experience",
+        "Knowledge of testing methodologies and techniques",
+        "Experience with test automation tools (Selenium, Cypress)",
+        "Understanding of bug tracking systems",
+        "Attention to detail and analytical thinking"
+      ],
+      "requirements_ru": [
+        "2+ лет опыта в тестировании ПО",
+        "Знание методологий и техник тестирования",
+        "Опыт работы с инструментами автоматизации тестирования (Selenium, Cypress)",
+        "Понимание систем отслеживания ошибок",
+        "Внимание к деталям и аналитическое мышление"
+      ],
+      "responsibilities_en": [
+        "Design and execute test cases",
+        "Identify and report software bugs",
+        "Perform manual and automated testing",
+        "Collaborate with development team",
+        "Ensure product quality standards"
+      ],
+      "responsibilities_ru": [
+        "Разработка и выполнение тестовых сценариев",
+        "Выявление и документирование ошибок ПО",
+        "Выполнение ручного и автоматизированного тестирования",
+        "Взаимодействие с командой разработки",
+        "Обеспечение стандартов качества продукта"
+      ],
+      "vacancy_type_slug": "full-time"
+    },
+    {
+      "title_en": "Sales Manager",
+      "title_ru": "Менеджер по продажам",
+      "slug": "sales-manager",
+      "status": "publish",
+      "image_alt_en": "Sales Manager",
+      "image_alt_ru": "Менеджер по продажам",
+      "company_en": "Sandbox Inc.",
+      "company_ru": "ООО Сандбокс",
+      "location_en": "Miami, FL",
+      "location_ru": "Сочи, Россия",
+      "email": "sales@sandbox.com",
+      "apply_url": "",
+      "salary_en": "$45,000 - $70,000 + commission",
+      "salary_ru": "90 000 - 140 000 ₽ + комиссионные",
+      "employment_type": "full-time",
+      "experience": "2+ years",
+      "education": "Bachelor's degree in Business, Sales, or related field",
+      "linkedin_url": "",
+      "telegram_url": "https://t.me/sandbox_careers",
+      "whatsapp_url": "https://wa.me/1234567890",
+      "introduction_en": "We are looking for a motivated Sales Manager to drive revenue growth and build lasting client relationships.",
+      "introduction_ru": "Мы ищем мотивированного менеджера по продажам для увеличения доходов и построения долгосрочных отношений с клиентами.",
+      "requirements_en": [
+        "2+ years of sales experience",
+        "Excellent communication and negotiation skills",
+        "Ability to build and maintain client relationships",
+        "Knowledge of CRM systems",
+        "Results-oriented mindset"
+      ],
+      "requirements_ru": [
+        "2+ лет опыта в продажах",
+        "Отличные коммуникативные и переговорные навыки",
+        "Способность строить и поддерживать отношения с клиентами",
+        "Знание CRM систем",
+        "Ориентация на результат"
+      ],
+      "responsibilities_en": [
+        "Identify and pursue sales opportunities",
+        "Build relationships with new and existing clients",
+        "Prepare and deliver sales presentations",
+        "Negotiate contracts and close deals",
+        "Meet or exceed sales targets"
+      ],
+      "responsibilities_ru": [
+        "Выявление и реализация возможностей продаж",
+        "Построение отношений с новыми и существующими клиентами",
+        "Подготовка и проведение презентаций продаж",
+        "Ведение переговоров и заключение сделок",
+        "Достижение или превышение целевых показателей продаж"
+      ],
+      "vacancy_type_slug": "full-time"
+    }
+  ]
+}
+

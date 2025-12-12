@@ -97,3 +97,4 @@ add_action('admin_notices', function() {
 - Скачать: https://www.ghostscript.com/download/gsdnld.html
 - Документация: https://www.ghostscript.com/documentation.html
 
+

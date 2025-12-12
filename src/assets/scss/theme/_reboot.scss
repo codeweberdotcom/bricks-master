@@ -127,6 +127,34 @@ a.hover-3 {
       height: calc(100% + 3px);
     }
   }
+  &.next:before {
+    bottom: -1px;
+  }
+  &.next:hover {
+    &:before {
+      height: calc(100% + 3px);
+    }
+  }
+  &.previous:before {
+    bottom: -1px;
+  }
+  &.previous:after {
+    content: $icon-more;
+    font-family: $font-family-unicons;
+    line-height: 1;
+    @include font-size(0.9rem);
+    font-weight: normal;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    display: inline-block;
+  }
+  &.previous:hover {
+    &:before {
+      height: calc(100% + 3px);
+    }
+  }
 }
 @each $color,
 $value in $colors {
@@ -208,6 +236,47 @@ a.text-reset:hover,
     vertical-align: -3px;
     margin-right: -0.25rem;
     display: inline-block;
+  }
+}
+//----------------------------------------------------------//
+//	NEXT (identical to more)
+//----------------------------------------------------------//
+.next {
+  font-weight: $font-weight-bold;
+  letter-spacing: -0.01rem;
+  display: inline-block;
+  &:after {
+    line-height: 1;
+    font-family: $font-family-unicons;
+    content: $icon-more;
+    padding-left: 0.05rem;
+    @include font-size(0.9rem);
+    font-weight: normal;
+    vertical-align: -3px;
+    margin-right: -0.25rem;
+    display: inline-block;
+  }
+}
+//----------------------------------------------------------//
+//	PREVIOUS (arrow on the left side, rotated)
+//----------------------------------------------------------//
+.previous {
+  font-weight: $font-weight-bold;
+  letter-spacing: -0.01rem;
+  display: inline-block;
+  position: relative;
+  padding-left: 1.2rem;
+  &:after {
+    line-height: 1;
+    font-family: $font-family-unicons;
+    content: $icon-more;
+    @include font-size(0.9rem);
+    font-weight: normal;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
   }
 }
 //----------------------------------------------------------//

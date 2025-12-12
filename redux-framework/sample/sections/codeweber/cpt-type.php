@@ -337,8 +337,10 @@ if (!empty($custom_post_type_files)) {
 		$is_standard_type = ($file === 'cpt-post.php');
 
 		// ИСПОЛЬЗУЕМ ПРАВИЛЬНЫЙ ПУТЬ ДЛЯ ПОИСКА ШАБЛОНОВ
-		$archive_template_directory = $theme_directory . "/templates/archives/{$display_name}";
-		$single_template_directory = $theme_directory . "/templates/singles/{$display_name}";
+		// Используем base_name в нижнем регистре для формирования пути к папкам шаблонов
+		$template_folder_name = strtolower($base_name);
+		$archive_template_directory = $theme_directory . "/templates/archives/{$template_folder_name}";
+		$single_template_directory = $theme_directory . "/templates/singles/{$template_folder_name}";
 
 		// Получаем список доступных шаблонов архива
 		$archive_template_options = array('default' => esc_html__('Default Template', 'codeweber'));

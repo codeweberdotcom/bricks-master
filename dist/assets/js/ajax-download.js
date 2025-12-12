@@ -86,7 +86,6 @@
                     button.innerHTML = '<i class="uil uil-spinner-alt uil-spin fs-13 me-1"></i>' + loadingText;
                 }
             }
-        }
 
         // Получаем URL файла через REST API
         fetch(wpApiSettings.root + 'codeweber/v1/documents/' + postId + '/download-url', {

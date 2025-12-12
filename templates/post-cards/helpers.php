@@ -189,6 +189,60 @@ function cw_get_post_card_data($post, $image_size = 'full', $enable_link = false
         ];
     }
     
+    // Специальная обработка для staff
+    if ($post->post_type === 'staff') {
+        // Получаем метаполя staff
+        $position = get_post_meta($post->ID, '_staff_position', true);
+        $name = get_post_meta($post->ID, '_staff_name', true);
+        $surname = get_post_meta($post->ID, '_staff_surname', true);
+        $email = get_post_meta($post->ID, '_staff_email', true);
+        $phone = get_post_meta($post->ID, '_staff_phone', true);
+        $company = get_post_meta($post->ID, '_staff_company', true);
+        
+        // Формируем полное имя из метаполей или используем title
+        $full_name = trim($name . ' ' . $surname);
+        if (empty($full_name)) {
+            $full_name = get_the_title($post->ID);
+        }
+        
+        // Получаем изображение @2x для retina (используем full для лучшего качества)
+        $image_url_2x = '';
+        if ($thumbnail_id && $image_url) {
+            // Для @2x используем full размер или исходный размер изображения
+            $image_2x = wp_get_attachment_image_src($thumbnail_id, 'full');
+            if ($image_2x && $image_2x[0] !== $image_url) {
+                $image_url_2x = esc_url($image_2x[0]);
+            }
+        }
+        
+        // Получаем отдел из таксономии
+        $department_name = '';
+        $departments = get_the_terms($post->ID, 'departments');
+        if ($departments && !is_wp_error($departments) && !empty($departments)) {
+            $department = reset($departments);
+            $department_name = $department->name;
+        }
+        
+        return [
+            'id' => $post->ID,
+            'title' => $full_name,
+            'position' => !empty($position) ? esc_html($position) : '',
+            'department' => $department_name,
+            'company' => !empty($company) ? esc_html($company) : '',
+            'name' => !empty($name) ? esc_html($name) : '',
+            'surname' => !empty($surname) ? esc_html($surname) : '',
+            'full_name' => $full_name,
+            'email' => !empty($email) ? esc_html($email) : '',
+            'phone' => !empty($phone) ? esc_html($phone) : '',
+            'excerpt' => get_the_excerpt($post->ID),
+            'link' => get_permalink($post->ID),
+            'image_url' => $image_url,
+            'image_url_2x' => $image_url_2x,
+            'image_alt' => $image_alt,
+            'post_type' => 'staff',
+        ];
+    }
+    
     // Получаем категории (для разных типов записей)
     $categories = [];
     $category = null;

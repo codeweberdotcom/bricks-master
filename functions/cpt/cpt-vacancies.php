@@ -578,7 +578,9 @@ function save_vacancy_meta($post_id)
       'vacancy_email',
       'vacancy_apply_url',
       'vacancy_salary',
-      'vacancy_linkedin_url', // Новое поле LinkedIn
+      'vacancy_linkedin_url',
+      'vacancy_telegram_url',
+      'vacancy_whatsapp_url',
       'vacancy_introduction',
       'vacancy_additional_info',
       'vacancy_employment_type',
@@ -659,4 +661,83 @@ function get_vacancy_data_array($post_id = null)
       'pdf_url' => get_post_meta($post_id, '_vacancy_pdf', true) ? wp_get_attachment_url(get_post_meta($post_id, '_vacancy_pdf', true)) : '',
       'vacancy_types' => get_the_terms($post_id, 'vacancy_type')
    ];
+}
+
+/**
+ * REST API endpoint для получения URL PDF файла вакансии для AJAX загрузки
+ */
+function register_vacancy_download_endpoint() {
+   register_rest_route('codeweber/v1', '/vacancies/(?P<id>\d+)/download-url', [
+      'methods' => 'GET',
+      'callback' => 'get_vacancy_download_url',
+      'permission_callback' => '__return_true',
+      'args' => [
+         'id' => [
+            'required' => true,
+            'type' => 'integer',
+            'validate_callback' => function($param) {
+               return is_numeric($param);
+            }
+         ]
+      ]
+   ]);
+}
+add_action('rest_api_init', 'register_vacancy_download_endpoint');
+
+/**
+ * Callback для получения URL PDF файла вакансии
+ * 
+ * @param WP_REST_Request $request
+ * @return WP_REST_Response|WP_Error
+ */
+function get_vacancy_download_url($request) {
+   $post_id = $request->get_param('id');
+   
+   // Проверяем, что пост существует и это vacancies
+   $post = get_post($post_id);
+   if (!$post || $post->post_type !== 'vacancies') {
+      return new WP_Error(
+         'invalid_post',
+         __('Vacancy not found', 'codeweber'),
+         ['status' => 404]
+      );
+   }
+   
+   // Получаем ID вложения PDF файла
+   $pdf_id = get_post_meta($post_id, '_vacancy_pdf', true);
+   
+   if (empty($pdf_id)) {
+      return new WP_Error(
+         'no_file',
+         __('PDF file not found for this vacancy', 'codeweber'),
+         ['status' => 404]
+      );
+   }
+   
+   // Получаем URL файла
+   $file_url = wp_get_attachment_url($pdf_id);
+   
+   if (empty($file_url)) {
+      return new WP_Error(
+         'no_file',
+         __('PDF file not found for this vacancy', 'codeweber'),
+         ['status' => 404]
+      );
+   }
+   
+   // Получаем имя файла
+   $file_name = basename(get_attached_file($pdf_id));
+   if (empty($file_name)) {
+      $file_name = 'vacancy-' . $post_id . '.pdf';
+   }
+   
+   // Опционально: логирование загрузки
+   do_action('vacancy_downloaded', $post_id);
+   
+   return new WP_REST_Response([
+      'success' => true,
+      'file_url' => esc_url_raw($file_url),
+      'file_name' => $file_name,
+      'post_id' => $post_id
+   ], 200);
 }

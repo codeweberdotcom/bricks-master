@@ -129,3 +129,4 @@ npm run build
 3. Проверьте, что REST API endpoint доступен: `/wp-json/codeweber/v1/documents/{id}/download-url`
 4. Убедитесь, что у документа есть файл в метаполе `_document_file`
 
+
