@@ -4,15 +4,82 @@
  * https://developer.wordpress.org/themes/basics/including-css-javascript/
  */
 
+/**
+ * Получить путь к файлу из dist, проверяя сначала дочернюю тему, затем родительскую
+ * 
+ * @param string $file_path Относительный путь к файлу от корня темы (например: '/dist/assets/css/style.css')
+ * @return string|false URL файла или false, если файл не найден
+ */
+if (!function_exists('brk_get_dist_file_url')) {
+	function brk_get_dist_file_url($file_path) {
+		// Убираем начальный слэш, если есть
+		$file_path = ltrim($file_path, '/');
+		
+		// Проверяем сначала в дочерней теме (если она активна)
+		if (is_child_theme()) {
+			$child_file = get_stylesheet_directory() . '/' . $file_path;
+			if (file_exists($child_file)) {
+				return get_stylesheet_directory_uri() . '/' . $file_path;
+			}
+		}
+		
+		// Если не найдено в дочерней теме или дочерняя тема не активна, проверяем родительскую
+		$parent_file = get_template_directory() . '/' . $file_path;
+		if (file_exists($parent_file)) {
+			return get_template_directory_uri() . '/' . $file_path;
+		}
+		
+		// Файл не найден
+		return false;
+	}
+}
+
+/**
+ * Получить путь к файлу из dist, проверяя сначала дочернюю тему, затем родительскую
+ * 
+ * @param string $file_path Относительный путь к файлу от корня темы (например: '/dist/assets/css/style.css')
+ * @return string|false Полный путь к файлу или false, если файл не найден
+ */
+if (!function_exists('brk_get_dist_file_path')) {
+	function brk_get_dist_file_path($file_path) {
+		// Убираем начальный слэш, если есть
+		$file_path = ltrim($file_path, '/');
+		
+		// Проверяем сначала в дочерней теме (если она активна)
+		if (is_child_theme()) {
+			$child_file = get_stylesheet_directory() . '/' . $file_path;
+			if (file_exists($child_file)) {
+				return $child_file;
+			}
+		}
+		
+		// Если не найдено в дочерней теме или дочерняя тема не активна, проверяем родительскую
+		$parent_file = get_template_directory() . '/' . $file_path;
+		if (file_exists($parent_file)) {
+			return $parent_file;
+		}
+		
+		// Файл не найден
+		return false;
+	}
+}
+
 if (!function_exists('brk_styles_scripts')) {
 	function brk_styles_scripts()
 	{
 		$theme_version = wp_get_theme()->get('Version');
 
 		// --- CSS ---
-		//wp_enqueue_style('google-fonts', get_template_directory_uri() . '/dist/assets/css/fonts/urbanist.css', false, $theme_version, 'all');
-		wp_enqueue_style('plugin-styles', get_template_directory_uri() . '/dist/assets/css/plugins.css', false, $theme_version, 'all');
-		wp_enqueue_style('theme-styles', get_template_directory_uri() . '/dist/assets/css/style.css', false, $theme_version, 'all');
+		//wp_enqueue_style('google-fonts', brk_get_dist_file_url('dist/assets/css/fonts/urbanist.css'), false, $theme_version, 'all');
+		$plugin_styles_url = brk_get_dist_file_url('dist/assets/css/plugins.css');
+		if ($plugin_styles_url) {
+			wp_enqueue_style('plugin-styles', $plugin_styles_url, false, $theme_version, 'all');
+		}
+		
+		$theme_styles_url = brk_get_dist_file_url('dist/assets/css/style.css');
+		if ($theme_styles_url) {
+			wp_enqueue_style('theme-styles', $theme_styles_url, false, $theme_version, 'all');
+		}
 
 		if (class_exists('Redux')) {
 		global $opt_name;
@@ -26,13 +93,16 @@ if (!function_exists('brk_styles_scripts')) {
 
 		// --- Если выбрана тема не "default" — подключаем соответствующий файл из /dist/assets/assets/css/colors/ ---
 		if ($theme_color && $theme_color !== 'default') {
-			wp_enqueue_style(
-				'theme-color-style',
-				get_template_directory_uri() . '/dist/assets/css/colors/' . $theme_color . '.css',
-				false,
-				$theme_version,
-				'all'
-			);
+			$color_styles_url = brk_get_dist_file_url('dist/assets/css/colors/' . $theme_color . '.css');
+			if ($color_styles_url) {
+				wp_enqueue_style(
+					'theme-color-style',
+					$color_styles_url,
+					false,
+					$theme_version,
+					'all'
+				);
+			}
 		}
 
 		// --- JS ---
@@ -41,16 +111,23 @@ if (!function_exists('brk_styles_scripts')) {
 		if (is_singular() and comments_open() and (get_option('thread_comments') == 1)) wp_enqueue_script('comment-reply');
 
 		/*dist add codeweber theme scripts */
-		wp_enqueue_script('plugins-scripts', get_template_directory_uri() . '/dist/assets/js/plugins.js', false, $theme_version, true);
-		wp_enqueue_script('theme-scripts', get_template_directory_uri() . '/dist/assets/js/theme.js', false, $theme_version, true);
-
-		wp_localize_script('theme-scripts', 'theme_scripts_ajax', array(
-			'ajax_url' => admin_url('admin-ajax.php'),
-			'nonce' => wp_create_nonce('theme-scripts_nonce'),
-			'translations' => array(
-				'message_sent' => __('Message successfully sent.', 'codeweber'),
-			)
-		));
+		$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+		if ($plugins_scripts_url) {
+			wp_enqueue_script('plugins-scripts', $plugins_scripts_url, false, $theme_version, true);
+		}
+		
+		$theme_scripts_url = brk_get_dist_file_url('dist/assets/js/theme.js');
+		if ($theme_scripts_url) {
+			wp_enqueue_script('theme-scripts', $theme_scripts_url, false, $theme_version, true);
+			
+			wp_localize_script('theme-scripts', 'theme_scripts_ajax', array(
+				'ajax_url' => admin_url('admin-ajax.php'),
+				'nonce' => wp_create_nonce('theme-scripts_nonce'),
+				'translations' => array(
+					'message_sent' => __('Message successfully sent.', 'codeweber'),
+				)
+			));
+		}
 	}
 }
 add_action('wp_enqueue_scripts', 'brk_styles_scripts');
@@ -64,12 +141,26 @@ if (! function_exists('brk_styles_scripts_gutenberg')) {
 		$theme_version = wp_get_theme()->get('Version');
 
 		// --- CSS ---
-		wp_enqueue_style('plugin-styles1', get_template_directory_uri() . '/dist/assets/css/plugins.css', array(), $theme_version, 'all');
-		wp_enqueue_style('theme-styles1', get_template_directory_uri() . '/dist/assets/css/style.css', array(), $theme_version, 'all');
+		$plugin_styles_url = brk_get_dist_file_url('dist/assets/css/plugins.css');
+		if ($plugin_styles_url) {
+			wp_enqueue_style('plugin-styles1', $plugin_styles_url, array(), $theme_version, 'all');
+		}
+		
+		$theme_styles_url = brk_get_dist_file_url('dist/assets/css/style.css');
+		if ($theme_styles_url) {
+			wp_enqueue_style('theme-styles1', $theme_styles_url, array(), $theme_version, 'all');
+		}
 
 		// --- JS ---
-		wp_enqueue_script('plugins-scripts2', get_template_directory_uri() . '/dist/assets/js/plugins.js', array(), $theme_version, true);
-		wp_enqueue_script('theme-scripts2', get_template_directory_uri() . '/dist/assets/js/theme.js', array(), $theme_version, true);
+		$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+		if ($plugins_scripts_url) {
+			wp_enqueue_script('plugins-scripts2', $plugins_scripts_url, array(), $theme_version, true);
+		}
+		
+		$theme_scripts_url = brk_get_dist_file_url('dist/assets/js/theme.js');
+		if ($theme_scripts_url) {
+			wp_enqueue_script('theme-scripts2', $theme_scripts_url, array(), $theme_version, true);
+		}
 	}
 }
 add_action('enqueue_block_editor_assets', 'brk_styles_scripts_gutenberg');
@@ -78,11 +169,19 @@ add_action('enqueue_block_editor_assets', 'brk_styles_scripts_gutenberg');
 function enqueue_my_custom_script()
 {
 	// Load on all pages (needed for ajax-download and other REST API features)
+	$restapi_url = brk_get_dist_file_url('dist/assets/js/restapi.js');
+	if (!$restapi_url) {
+		return; // File doesn't exist
+	}
+	
+	$restapi_path = brk_get_dist_file_path('dist/assets/js/restapi.js');
+	$version = $restapi_path ? filemtime($restapi_path) : null;
+	
 	wp_enqueue_script(
 		'my-custom-script',
-		get_template_directory_uri() . '/dist/assets/js/restapi.js',
+		$restapi_url,
 		array(),
-		null,
+		$version,
 		false // <-- подключаем в head, не в footer
 	);
 
@@ -142,19 +241,23 @@ function codeweber_enqueue_testimonial_form() {
 	// Check if we're on testimonials archive page
 	if (is_post_type_archive('testimonials') || is_page_template('archive-testimonials.php')) {
 		// Prefer dist version, fallback to src
-		$dist_path = get_template_directory() . '/dist/assets/js/testimonial-form.js';
-		$dist_url = get_template_directory_uri() . '/dist/assets/js/testimonial-form.js';
-		$src_path = get_template_directory() . '/src/assets/js/testimonial-form.js';
-		$src_url = get_template_directory_uri() . '/src/assets/js/testimonial-form.js';
+		$dist_path = brk_get_dist_file_path('dist/assets/js/testimonial-form.js');
+		$dist_url = brk_get_dist_file_url('dist/assets/js/testimonial-form.js');
 		
-		if (file_exists($dist_path)) {
+		if ($dist_path && $dist_url) {
 			$script_path = $dist_path;
 			$script_url = $dist_url;
-		} elseif (file_exists($src_path)) {
-			$script_path = $src_path;
-			$script_url = $src_url;
 		} else {
-			return; // File doesn't exist
+			// Fallback to src
+			$src_path = get_template_directory() . '/src/assets/js/testimonial-form.js';
+			$src_url = get_template_directory_uri() . '/src/assets/js/testimonial-form.js';
+			
+			if (file_exists($src_path)) {
+				$script_path = $src_path;
+				$script_url = $src_url;
+			} else {
+				return; // File doesn't exist
+			}
 		}
 		
 		wp_enqueue_script(
@@ -180,10 +283,10 @@ add_action('wp_enqueue_scripts', 'codeweber_enqueue_testimonial_form');
  */
 function codeweber_enqueue_ajax_download() {
 	// Load only from dist
-	$dist_path = get_template_directory() . '/dist/assets/js/ajax-download.js';
-	$dist_url = get_template_directory_uri() . '/dist/assets/js/ajax-download.js';
+	$dist_path = brk_get_dist_file_path('dist/assets/js/ajax-download.js');
+	$dist_url = brk_get_dist_file_url('dist/assets/js/ajax-download.js');
 	
-	if (!file_exists($dist_path)) {
+	if (!$dist_path || !$dist_url) {
 		return; // File doesn't exist in dist
 	}
 	
@@ -199,3 +302,48 @@ function codeweber_enqueue_ajax_download() {
 	// Поэтому дополнительная локализация не требуется
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_download', 25);
+
+/**
+ * Enqueue universal AJAX filter script
+ * Загружается на всех страницах для универсального использования
+ */
+function codeweber_enqueue_ajax_filter() {
+	// Prefer dist version, fallback to src
+	$dist_path = brk_get_dist_file_path('dist/assets/js/ajax-filter.js');
+	$dist_url = brk_get_dist_file_url('dist/assets/js/ajax-filter.js');
+	
+	if ($dist_path && $dist_url) {
+		$script_path = $dist_path;
+		$script_url = $dist_url;
+	} else {
+		// Fallback to src
+		$src_path = get_template_directory() . '/src/assets/js/ajax-filter.js';
+		$src_url = get_template_directory_uri() . '/src/assets/js/ajax-filter.js';
+		
+		if (file_exists($src_path)) {
+			$script_path = $src_path;
+			$script_url = $src_url;
+		} else {
+			return; // File doesn't exist
+		}
+	}
+	
+	wp_enqueue_script(
+		'ajax-filter',
+		$script_url,
+		[], // Dependencies
+		filemtime($script_path),
+		true // Load in footer
+	);
+	
+	// Localize script
+	wp_localize_script('ajax-filter', 'codeweberFilter', [
+		'ajaxUrl' => admin_url('admin-ajax.php'),
+		'nonce' => wp_create_nonce('codeweber_filter_nonce'),
+		'translations' => [
+			'error' => __('Error', 'codeweber'),
+			'loading' => __('Loading...', 'codeweber'),
+		]
+	]);
+}
+add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_filter', 20);

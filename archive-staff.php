@@ -31,7 +31,7 @@ get_pageheader();
       $use_row_cols = ($templateloop === 'staff_3' || $templateloop === 'staff_4' || $templateloop === 'staff_5');
       ?>
       
-      <div class="row gx-lg-8 gx-xl-12">
+      <div class="row">
           <?php get_sidebar('left'); ?>
           
           <div class="<?php echo esc_attr($content_class); ?>">

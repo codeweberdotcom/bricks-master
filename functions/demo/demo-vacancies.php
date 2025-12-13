@@ -152,6 +152,64 @@ function cw_demo_import_vacancy_image($image_filename, $post_id) {
 }
 
 /**
+ * Импортировать PDF файл вакансии в медиабиблиотеку
+ *
+ * @param string $pdf_filename Имя файла PDF
+ * @param int $post_id ID записи
+ * @return int|false ID attachment или false при ошибке
+ */
+function cw_demo_import_vacancy_pdf($pdf_filename, $post_id) {
+    $source_path = get_template_directory() . '/src/docs/' . $pdf_filename;
+
+    if (!file_exists($source_path)) {
+        error_log('Demo Vacancies: Файл PDF не найден - ' . $pdf_filename);
+        return false;
+    }
+
+    $file_type = wp_check_filetype(basename($source_path), null);
+    if (!$file_type['type']) {
+        error_log('Demo Vacancies: Неизвестный тип файла - ' . $pdf_filename);
+        return false;
+    }
+
+    $upload_dir = wp_upload_dir();
+    $file_name = basename($source_path);
+    $file_path = $upload_dir['path'] . '/' . $file_name;
+
+    if (!copy($source_path, $file_path)) {
+        error_log('Demo Vacancies: Не удалось скопировать файл - ' . $pdf_filename);
+        return false;
+    }
+
+    $file_array = array(
+        'name' => $file_name,
+        'tmp_name' => $file_path,
+    );
+
+    require_once(ABSPATH . 'wp-admin/includes/file.php');
+    require_once(ABSPATH . 'wp-admin/includes/media.php');
+    require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+    $attachment_id = media_handle_sideload($file_array, $post_id);
+
+    if (file_exists($file_path)) {
+        @unlink($file_path);
+    }
+
+    if (is_wp_error($attachment_id)) {
+        error_log('Demo Vacancies: Ошибка загрузки PDF - ' . $attachment_id->get_error_message());
+        return false;
+    }
+
+    wp_update_post(array(
+        'ID' => $attachment_id,
+        'post_parent' => $post_id
+    ));
+
+    return $attachment_id;
+}
+
+/**
  * Создать или получить тип вакансии (vacancy_type)
  * 
  * @param array $type_data Данные типа из JSON
@@ -279,6 +337,16 @@ function cw_demo_create_vacancy_post($vacancy_data) {
         if ($attachment_id) {
             // Устанавливаем alt текст для изображения
             update_post_meta($attachment_id, '_wp_attachment_image_alt', sanitize_text_field($image_alt));
+        }
+    }
+    
+    // Импортируем PDF файл, если указан
+    if (!empty($vacancy_data['pdf'])) {
+        $pdf_attachment_id = cw_demo_import_vacancy_pdf($vacancy_data['pdf'], $post_id);
+        
+        if ($pdf_attachment_id) {
+            // Сохраняем ID PDF файла в метаполе
+            update_post_meta($post_id, '_vacancy_pdf', $pdf_attachment_id);
         }
     }
     

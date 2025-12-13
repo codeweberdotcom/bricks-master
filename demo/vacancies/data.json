@@ -72,7 +72,8 @@
         "Проведение code review",
         "Менторство младших разработчиков"
       ],
-      "vacancy_type_slug": "full-time"
+      "vacancy_type_slug": "full-time",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
       "title_en": "UX/UI Designer",
@@ -125,7 +126,8 @@
         "Взаимодействие с разработчиками и менеджерами продукта",
         "Поддержка дизайн-систем и руководств по стилю"
       ],
-      "vacancy_type_slug": "full-time"
+      "vacancy_type_slug": "full-time",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
       "title_en": "Remote Frontend Developer",
@@ -178,7 +180,8 @@
         "Участие в code review и командных встречах",
         "Отслеживание новых технологий"
       ],
-      "vacancy_type_slug": "remote"
+      "vacancy_type_slug": "remote",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
       "title_en": "Backend Developer",
@@ -231,7 +234,8 @@
         "Взаимодействие с frontend разработчиками",
         "Написание технической документации"
       ],
-      "vacancy_type_slug": "full-time"
+      "vacancy_type_slug": "full-time",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
       "title_en": "Digital Marketing Specialist",
@@ -284,7 +288,8 @@
         "Создание привлекательного контента для различных платформ",
         "Взаимодействие с отделами продаж и дизайна"
       ],
-      "vacancy_type_slug": "full-time"
+      "vacancy_type_slug": "full-time",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
       "title_en": "Part-time Content Writer",
@@ -337,7 +342,8 @@
         "Исследование трендов и тем в отрасли",
         "Соблюдение дедлайнов по контенту"
       ],
-      "vacancy_type_slug": "part-time"
+      "vacancy_type_slug": "part-time",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
       "title_en": "DevOps Engineer",
@@ -390,7 +396,8 @@
         "Автоматизация процессов развертывания и масштабирования",
         "Обеспечение соблюдения лучших практик безопасности"
       ],
-      "vacancy_type_slug": "full-time"
+      "vacancy_type_slug": "full-time",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
       "title_en": "Project Manager",
@@ -443,7 +450,8 @@
         "Управление бюджетами и сроками проектов",
         "Проведение встреч и стендапов"
       ],
-      "vacancy_type_slug": "full-time"
+      "vacancy_type_slug": "full-time",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
       "title_en": "QA Engineer",
@@ -496,7 +504,8 @@
         "Взаимодействие с командой разработки",
         "Обеспечение стандартов качества продукта"
       ],
-      "vacancy_type_slug": "full-time"
+      "vacancy_type_slug": "full-time",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
       "title_en": "Sales Manager",
@@ -549,7 +558,8 @@
         "Ведение переговоров и заключение сделок",
         "Достижение или превышение целевых показателей продаж"
       ],
-      "vacancy_type_slug": "full-time"
+      "vacancy_type_slug": "full-time",
+      "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     }
   ]
 }

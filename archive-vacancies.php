@@ -9,6 +9,7 @@ get_header();
 get_pageheader();
 ?>
 
+<?php if (have_posts()) : ?>
 <section id="content-wrapper" class="wrapper bg-light">
   <div class="container">
       <?php 
@@ -26,18 +27,37 @@ get_pageheader();
       $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
       $content_class = ($sidebar_position === 'none') ? 'col-12 py-14' : 'col-xl-9 pt-14';
       
-      // Для vacancies используем row-cols структуру
-      $use_row_cols = true;
+      // Для vacancies_1 шаблон содержит всю разметку с фильтрами
+      $is_vacancies_1 = ($templateloop === 'vacancies_1');
       ?>
       
-      <div class="row gx-lg-8 gx-xl-12">
-          <?php get_sidebar('left'); ?>
+      <?php if ($is_vacancies_1) : ?>
+          <?php
+          // Для vacancies_1 шаблон содержит всю разметку с фильтрами
+          if (locate_template($template_file)) {
+              get_template_part("templates/archives/vacancies/{$templateloop}");
+          }
+          ?>
+      <?php else : ?>
+          <div class="row">
+              <?php get_sidebar('left'); ?>
+              
+              <div class="<?php echo esc_attr($content_class); ?>">
           
-          <div class="<?php echo esc_attr($content_class); ?>">
-      
-      <?php if (have_posts()) : ?>
-          <?php if ($use_row_cols) : ?>
-              <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-5">
+          <?php if ($templateloop === 'vacancies_2') : ?>
+              <div class="row gy-6 mb-5">
+                  <?php while (have_posts()) : 
+                    the_post();
+                    
+                    // Используем выбранный шаблон
+                    if (locate_template($template_file)) {
+                        get_template_part("templates/archives/vacancies/{$templateloop}");
+                    }
+                  endwhile; ?>
+              </div>
+              <!-- /.row -->
+          <?php elseif ($templateloop === 'vacancies_3') : ?>
+              <div class="row g-3 mb-5">
                   <?php while (have_posts()) : 
                     the_post();
                     
@@ -75,21 +95,27 @@ get_pageheader();
           // Pagination
           codeweber_posts_pagination();
           ?>
-      <?php else : ?>
-          <div class="py-14">
-              <p><?php _e('No vacancies found.', 'codeweber'); ?></p>
+              </div>
+              <!-- /column -->
+              
+              <?php get_sidebar('right'); ?>
           </div>
+          <!-- /.row -->
       <?php endif; ?>
-          </div>
-          <!-- /column -->
-          
-          <?php get_sidebar('right'); ?>
-      </div>
-      <!-- /.row -->
   </div>
   <!-- /.container -->
 </section>
 <!-- /section -->
+<?php else : ?>
+<section class="wrapper bg-light">
+  <div class="container py-14">
+      <div class="row">
+          <div class="col-12 text-center">
+              <p><?php _e('No vacancies found.', 'codeweber'); ?></p>
+          </div>
+      </div>
+  </div>
+</section>
+<?php endif; ?>
 
 <?php get_footer(); ?>
-

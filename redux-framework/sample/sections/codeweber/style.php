@@ -189,6 +189,5 @@ Redux::set_section(
 		'id'       => 'themegulp',
 		'subsection' => true,   // <-- вот это делает её субсекцией
 		'fields'   => $theme_gulp,
-	),
-
+	)
 );

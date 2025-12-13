@@ -107,6 +107,9 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/contact-form7-matomo-integration.php';
 
+// Подключение универсального AJAX фильтра
+require_once get_template_directory() . '/functions/ajax-filter.php';
+
 // Подключение demo функций
 require_once get_template_directory() . '/functions/demo/demo-clients.php';
 require_once get_template_directory() . '/functions/demo/demo-faq.php';

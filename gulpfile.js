@@ -1,6 +1,168 @@
 'use strict';
 
+/**
+ * Gulpfile для темы Codeweber
+ * 
+ * Поддержка дочерних тем:
+ * - Запускается из родительской темы (codeweber)
+ * - Автоматически определяет активную дочернюю тему через PHP скрипт (functions/gulp-theme-info.php)
+ * - Генерирует dist в активной дочерней теме (если она есть)
+ * - Если дочерняя тема не активна, генерирует dist в родительской теме
+ * - Всегда использует src из родительской темы для компиляции
+ * - При подключении файлов в WordPress сначала проверяется дочерняя тема,
+ *   затем родительская (см. functions/enqueues.php)
+ * 
+ * Использование:
+ * - Запускайте gulp из директории родительской темы: cd wp-content/themes/codeweber && gulp build:dist
+ * - Gulp автоматически определит активную дочернюю тему через PHP скрипт
+ * - Требуется PHP и доступ к WordPress (wp-load.php)
+ */
+
+/* Include fs and child_process for file operations and PHP execution */
+var fs = require('fs'),
+    path_module = require('path'),
+    { execSync } = require('child_process');
+
+/* Get active child theme from WordPress */
+function getActiveChildTheme() {
+  var parentThemePath = process.cwd();
+  var phpScriptPath = path_module.join(parentThemePath, 'functions', 'gulp-theme-info.php');
+  
+  // Работаем ТОЛЬКО через PHP скрипт - он точно знает, какая тема активна
+  if (!fs.existsSync(phpScriptPath)) {
+    console.error('❌ ОШИБКА: PHP скрипт не найден: ' + phpScriptPath);
+    process.exit(1);
+  }
+  
+  try {
+    // Находим PHP
+    var phpCommand = 'php';
+    if (process.platform === 'win32') {
+      // На Windows пробуем разные варианты
+      var possiblePhpPaths = [
+        'php',
+        'C:\\laragon\\bin\\php\\php-8.1.10-Win32-vs16-x64\\php.exe',
+        'C:\\laragon\\bin\\php\\php-8.2.12-Win32-vs16-x64\\php.exe',
+        'C:\\laragon\\bin\\php\\php-8.3.0-Win32-vs16-x64\\php.exe',
+        'C:\\xampp\\php\\php.exe',
+        process.env.PHP_BIN || 'php'
+      ];
+      for (var i = 0; i < possiblePhpPaths.length; i++) {
+        try {
+          execSync(possiblePhpPaths[i] + ' --version', { stdio: 'ignore' });
+          phpCommand = possiblePhpPaths[i];
+          break;
+        } catch (e) {
+          // Пробуем следующий путь
+        }
+      }
+    }
+    
+    // Выполняем PHP скрипт
+    // Игнорируем stderr, чтобы предупреждения не попадали в вывод
+    var result = execSync(phpCommand + ' "' + phpScriptPath + '"', { 
+      encoding: 'utf8',
+      cwd: parentThemePath,
+      stdio: ['ignore', 'pipe', 'ignore'], // Игнорируем stdin и stderr, получаем только stdout
+      maxBuffer: 1024 * 1024 // Увеличиваем буфер для больших выводов
+    });
+    
+    var resultText = result.trim();
+    if (!resultText) {
+      console.error('❌ ОШИБКА: PHP скрипт не вернул данные');
+      process.exit(1);
+    }
+    
+    try {
+      var themeInfo = JSON.parse(resultText);
+      // Используем результат PHP скрипта - он точно знает, какая тема активна
+      return themeInfo;
+    } catch (parseError) {
+      console.error('❌ ОШИБКА: Не удалось распарсить JSON от PHP скрипта:');
+      console.error('Результат:', resultText);
+      console.error('Ошибка:', parseError.message);
+      process.exit(1);
+    }
+  } catch (e) {
+    console.error('❌ ОШИБКА: Не удалось выполнить PHP скрипт:');
+    console.error('Команда:', phpCommand + ' "' + phpScriptPath + '"');
+    console.error('Ошибка:', e.message);
+    if (e.stderr) {
+      console.error('Stderr:', e.stderr.toString());
+    }
+    if (e.stdout) {
+      console.error('Stdout:', e.stdout.toString());
+    }
+    console.error('\nУбедитесь, что:');
+    console.error('1. PHP установлен и доступен в PATH');
+    console.error('2. WordPress установлен и доступен');
+    console.error('3. PHP скрипт может загрузить wp-load.php');
+    process.exit(1);
+  }
+}
+
+/* Determine paths based on theme type */
+var themeInfo = getActiveChildTheme();
+var isChild = themeInfo.is_child;
+var currentThemePath = isChild ? themeInfo.child_theme_path : themeInfo.parent_theme_path;
+var parentThemePath = themeInfo.parent_theme_path;
+
+// Отладочная информация
+if (process.env.DEBUG_GULP) {
+  console.log('DEBUG: themeInfo =', JSON.stringify(themeInfo, null, 2));
+  console.log('DEBUG: isChild =', isChild);
+  console.log('DEBUG: currentThemePath =', currentThemePath);
+  console.log('DEBUG: parentThemePath =', parentThemePath);
+}
+
+/* Log theme information */
+console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+if (isChild) {
+  console.log('✓ Активная дочерняя тема: ' + themeInfo.child_theme_name);
+  console.log('  Родительская тема: codeweber');
+  console.log('  dist будет создан в: ' + currentThemePath + '/dist');
+  console.log('  src будет использован из: ' + parentThemePath + '/src');
+} else {
+  console.log('✓ Работаем в родительской теме: codeweber');
+  console.log('  Дочерняя тема не активна');
+  console.log('  dist будет создан в: ' + currentThemePath + '/dist');
+}
+console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+/* Check if src exists in current theme, otherwise use parent */
+function getSrcPath(relativePath) {
+  var currentSrc = path_module.join(currentThemePath, relativePath);
+  var parentSrc = path_module.join(parentThemePath, relativePath);
+  
+  // If we're in child theme and src doesn't exist here, use parent
+  if (isChild && !fs.existsSync(path_module.join(currentThemePath, 'src'))) {
+    return parentSrc;
+  }
+  // Otherwise use current theme's src (or parent if not child)
+  return currentSrc;
+}
+
+/* Calculate relative path from current theme to parent theme */
+var srcBasePath = isChild 
+  ? path_module.relative(currentThemePath, parentThemePath).replace(/\\/g, '/') 
+  : '.';
+if (srcBasePath === '') {
+  srcBasePath = '.';
+}
+var srcPrefix = srcBasePath === '.' ? 'src' : srcBasePath + '/src';
+
+// Убеждаемся, что директория dist существует в дочерней теме
+if (isChild) {
+  var distDir = path_module.join(currentThemePath, 'dist');
+  if (!fs.existsSync(distDir)) {
+    fs.mkdirSync(distDir, { recursive: true });
+    console.log('✓ Создана директория dist в дочерней теме: ' + distDir);
+  }
+}
+
 /* Paths */
+// Вычисляем абсолютные пути для dist в текущей теме (дочерней, если активна)
+var distBasePath = currentThemePath;
 var path = {
   dev: {
     html: "dev/",
@@ -15,68 +177,75 @@ var path = {
     php: "dev/assets/php/",
   },
   dist: {
-    html: "dist/",
-    js: "dist/assets/js/",
-    css: "dist/assets/css/",
-    style: "dist/assets/css/",
-    fontcss: "dist/assets/css/fonts/",
-    colorcss: "dist/assets/css/colors/",
-    img: "dist/assets/img/",
-    fonts: "dist/assets/fonts/",
-    media: "dist/assets/media/",
-    php: "dist/assets/php/",
+    html: path_module.join(distBasePath, "dist"),
+    js: path_module.join(distBasePath, "dist/assets/js"),
+    css: path_module.join(distBasePath, "dist/assets/css"),
+    style: path_module.join(distBasePath, "dist/assets/css"),
+    fontcss: path_module.join(distBasePath, "dist/assets/css/fonts"),
+    colorcss: path_module.join(distBasePath, "dist/assets/css/colors"),
+    img: path_module.join(distBasePath, "dist/assets/img"),
+    fonts: path_module.join(distBasePath, "dist/assets/fonts"),
+    media: path_module.join(distBasePath, "dist/assets/media"),
+    php: path_module.join(distBasePath, "dist/assets/php"),
   },
   src: {
+    // Всегда используем src из родительской темы
+    base: srcPrefix,
     html: [
-      "src/**/*.html",
-      "!src/partials/**/*.html",
-      "!src/assets/php/**/*.html",
+      srcPrefix + "/**/*.html",
+      "!" + srcPrefix + "/partials/**/*.html",
+      "!" + srcPrefix + "/assets/php/**/*.html"
     ],
-    partials: "src/partials/",
-    js: "src/assets/js/",
-    vendorjs: "src/assets/js/vendor/*.*",
-    themejs: "src/assets/js/theme.js",
-    restapijs: "src/assets/js/restapi.js",
-    testimonialformjs: "src/assets/js/testimonial-form.js",
-    ajaxdownloadjs: "src/assets/js/ajax-download.js",
-    style: "src/assets/scss/style.scss",
-    fontcss: "src/assets/scss/fonts/*.*",
+    partials: srcPrefix + "/partials/",
+    js: srcPrefix + "/assets/js/",
+    vendorjs: srcPrefix + "/assets/js/vendor/*.*",
+    themejs: srcPrefix + "/assets/js/theme.js",
+    restapijs: srcPrefix + "/assets/js/restapi.js",
+    testimonialformjs: srcPrefix + "/assets/js/testimonial-form.js",
+    ajaxdownloadjs: srcPrefix + "/assets/js/ajax-download.js",
+    ajaxfilterjs: srcPrefix + "/assets/js/ajax-filter.js",
+    style: srcPrefix + "/assets/scss/style.scss",
+    fontcss: srcPrefix + "/assets/scss/fonts/*.*",
     colorcss: [
-      "src/assets/scss/colors/*.scss",
-      "src/assets/scss/theme/_colors.scss",
+      srcPrefix + "/assets/scss/colors/*.scss",
+      srcPrefix + "/assets/scss/theme/_colors.scss",
     ],
-    vendorcss: "src/assets/css/vendor/*.*",
-    img: "src/assets/img/**/*.*",
-    fonts: "src/assets/fonts/**/*.*",
-    media: "src/assets/media/**/*.*",
-    php: "src/assets/php/**/*.*",
+    vendorcss: srcPrefix + "/assets/css/vendor/*.*",
+    img: srcPrefix + "/assets/img/**/*.*",
+    fonts: srcPrefix + "/assets/fonts/**/*.*",
+    media: srcPrefix + "/assets/media/**/*.*",
+    php: srcPrefix + "/assets/php/**/*.*",
   },
   watch: {
-    html: ["src/**/*.html", "!src/assets/php/**/*.html"],
-    partials: "src/partials/**/*.*",
-    themejs: "src/assets/js/theme.js",
-    vendorjs: "src/assets/js/vendor/*.*",
+    // Всегда следим за src в родительской теме
+    html: [
+      srcPrefix + "/**/*.html", 
+      "!" + srcPrefix + "/assets/php/**/*.html"
+    ],
+    partials: srcPrefix + "/partials/**/*.*",
+    themejs: srcPrefix + "/assets/js/theme.js",
+    vendorjs: srcPrefix + "/assets/js/vendor/*.*",
     css: [
-      "src/assets/scss/**/*.scss",
-      "!src/assets/scss/fonts/*.scss",
-      "!src/assets/scss/colors/*.scss",
-      "!src/assets/scss/theme/_colors.scss",
+      srcPrefix + "/assets/scss/**/*.scss",
+      "!" + srcPrefix + "/assets/scss/fonts/*.scss",
+      "!" + srcPrefix + "/assets/scss/colors/*.scss",
+      "!" + srcPrefix + "/assets/scss/theme/_colors.scss",
     ],
-    fontcss: "src/assets/scss/fonts/*.scss",
+    fontcss: srcPrefix + "/assets/scss/fonts/*.scss",
     colorcss: [
-      "src/assets/scss/colors/*.scss",
-      "src/assets/scss/theme/_colors.scss",
+      srcPrefix + "/assets/scss/colors/*.scss",
+      srcPrefix + "/assets/scss/theme/_colors.scss",
     ],
-    vendorcss: "src/assets/css/vendor/*.*",
-    img: "src/assets/img/**/*.*",
-    fonts: "src/assets/fonts/**/*.*",
-    media: "src/assets/media/**/*.*",
-    php: "src/assets/php/",
-    user: "src/assets/scss/_user-variables.scss",
+    vendorcss: srcPrefix + "/assets/css/vendor/*.*",
+    img: srcPrefix + "/assets/img/**/*.*",
+    fonts: srcPrefix + "/assets/fonts/**/*.*",
+    media: srcPrefix + "/assets/media/**/*.*",
+    php: srcPrefix + "/assets/php/",
+    user: srcPrefix + "/assets/scss/_user-variables.scss",
   },
   clean: {
     dev: "dev/*",
-    dist: "dist/*",
+    dist: path_module.join(distBasePath, "dist/*"),
   },
 };
 
@@ -180,6 +349,29 @@ gulp.task("ajaxdownloadjs:dist", function () {
   return (
     gulp
       .src(path.src.ajaxdownloadjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      //.pipe(uglify()) // если нужно минифицировать — раскомментируй
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
+gulp.task("ajaxfilterjs:dev", function () {
+  return gulp
+    .src(path.src.ajaxfilterjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("ajaxfilterjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.ajaxfilterjs)
       .pipe(gulp.dest(path.dist.js))
       .pipe(plumber())
       //.pipe(uglify()) // если нужно минифицировать — раскомментируй
@@ -471,6 +663,7 @@ gulp.task(
       "restapijs:dev",
       "testimonialformjs:dev",
       "ajaxdownloadjs:dev",
+      "ajaxfilterjs:dev",
       "themejs:dev",
       "fonts:dev",
       "media:dev",
@@ -495,6 +688,7 @@ gulp.task(
       "restapijs:dist",
       "testimonialformjs:dist",
       "ajaxdownloadjs:dist",
+      "ajaxfilterjs:dist",
       "themejs:dist",
       "fonts:dist",
       "media:dist",
@@ -517,6 +711,7 @@ gulp.task('watch', function () {
     gulp.watch(path.src.restapijs, gulp.series('restapijs:dist'));
     gulp.watch(path.src.testimonialformjs, gulp.series('testimonialformjs:dist'));
     gulp.watch(path.src.ajaxdownloadjs, gulp.series('ajaxdownloadjs:dist'));
+    gulp.watch(path.src.ajaxfilterjs, gulp.series('ajaxfilterjs:dist'));
     gulp.watch(path.watch.img, gulp.series('image:dist'));
     gulp.watch(path.watch.fonts, gulp.series('fonts:dist'));
     gulp.watch(path.watch.media, gulp.series('media:dist'));

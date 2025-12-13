@@ -62,60 +62,6 @@ $theme_settings_path = get_template_directory() . '/redux-framework/theme-settin
 // Запускаем функцию для добавления секций в redux_demo
 add_redux_sections_from_files($theme_settings_path, $opt_name);
 
-$color_section = array(
-	'title'      => 'Color Selection',
-	'id'         => 'color_selection_section',
-	'desc'       => 'Выберите параметры цветов.',
-	'icon'       => 'el el-brush',
-	'fields'     => array(),  // Параметры основной секции
-	'subsections' => array(  // Вложенные субсекции
-		array(
-			'title'      => 'Color',
-			'id'         => 'color_subsection',
-			'desc'       => 'Основной цвет.',
-			'icon'       => 'el el-paint-brush',
-			'fields'     => array(
-				array(
-					'title'   => 'Основной цвет',
-					'id'      => 'main_color',
-					'type'    => 'color',
-					'default' => '#ff0000',
-				),
-			),
-		),
-		array(
-			'title'      => 'Color Gradient',
-			'id'         => 'color_gradient_subsection',
-			'desc'       => 'Градиент цветов.',
-			'icon'       => 'el el-gradients',
-			'fields'     => array(
-				array(
-					'title'   => 'Градиент',
-					'id'      => 'color_gradient',
-					'type'    => 'text',
-					'default' => 'linear-gradient(45deg, #ff0000, #00ff00)',
-				),
-			),
-		),
-		array(
-			'title'      => 'Color RGBA',
-			'id'         => 'color_rgba_subsection',
-			'desc'       => 'RGBA цвет.',
-			'icon'       => 'el el-paint-bucket',
-			'fields'     => array(
-				array(
-					'title'   => 'RGBA значение',
-					'id'      => 'color_rgba',
-					'type'    => 'text',
-					'default' => 'rgba(255, 0, 0, 0.5)',
-				),
-			),
-		),
-	),
-);
-
-Redux::setSection($opt_name, $color_section);
-
 
 
 
