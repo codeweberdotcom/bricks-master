@@ -212,6 +212,7 @@ function vacancy_basic_info_callback($post)
    $apply_url = get_post_meta($post->ID, '_vacancy_apply_url', true);
    $salary = get_post_meta($post->ID, '_vacancy_salary', true);
    $linkedin_url = get_post_meta($post->ID, '_vacancy_linkedin_url', true); // Новое поле LinkedIn
+   $cf7_form_id = get_post_meta($post->ID, '_vacancy_cf7_form_id', true); // Поле для выбора формы CF7
 
 ?>
    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -261,6 +262,40 @@ function vacancy_basic_info_callback($post)
          </label>
          <input type="url" id="vacancy_linkedin_url" name="vacancy_linkedin_url" value="<?php echo esc_attr($linkedin_url); ?>"
             style="width: 100%; padding: 8px;" placeholder="https://linkedin.com/...">
+      </div>
+
+      <div>
+         <label for="vacancy_cf7_form_id" style="display: block; margin-bottom: 5px; font-weight: bold;">
+            <?php _e('Contact Form 7', 'codeweber'); ?>
+         </label>
+         <?php
+         // Получаем список форм CF7
+         $cf7_forms = array();
+         if (class_exists('WPCF7_ContactForm')) {
+            $cf7_posts = get_posts(array(
+               'post_type' => 'wpcf7_contact_form',
+               'posts_per_page' => -1,
+               'orderby' => 'title',
+               'order' => 'ASC'
+            ));
+            foreach ($cf7_posts as $cf7_post) {
+               $cf7_forms[$cf7_post->ID] = $cf7_post->post_title;
+            }
+         }
+         ?>
+         <select id="vacancy_cf7_form_id" name="vacancy_cf7_form_id" style="width: 100%; padding: 8px;">
+            <option value=""><?php _e('— Select Form —', 'codeweber'); ?></option>
+            <?php foreach ($cf7_forms as $form_id => $form_title): ?>
+               <option value="<?php echo esc_attr($form_id); ?>" <?php selected($cf7_form_id, $form_id); ?>>
+                  <?php echo esc_html($form_title); ?>
+               </option>
+            <?php endforeach; ?>
+         </select>
+         <?php if (empty($cf7_forms)): ?>
+            <p style="margin-top: 5px; color: #666; font-size: 12px;">
+               <?php _e('No Contact Form 7 forms found. Please create a form first.', 'codeweber'); ?>
+            </p>
+         <?php endif; ?>
       </div>
    </div>
 <?php
@@ -586,12 +621,23 @@ function save_vacancy_meta($post_id)
       'vacancy_employment_type',
       'vacancy_experience',
       'vacancy_education',
-      'vacancy_status'
+      'vacancy_status',
+      'vacancy_cf7_form_id'
    ];
 
    foreach ($fields as $field) {
       if (isset($_POST[$field])) {
-         update_post_meta($post_id, '_' . $field, sanitize_text_field($_POST[$field]));
+         // Для ID формы CF7 используем intval
+         if ($field === 'vacancy_cf7_form_id') {
+            $value = isset($_POST[$field]) && !empty($_POST[$field]) ? intval($_POST[$field]) : '';
+            if ($value) {
+               update_post_meta($post_id, '_' . $field, $value);
+            } else {
+               delete_post_meta($post_id, '_' . $field);
+            }
+         } else {
+            update_post_meta($post_id, '_' . $field, sanitize_text_field($_POST[$field]));
+         }
       }
    }
 
@@ -641,8 +687,12 @@ function get_vacancy_data_array($post_id = null)
       return false;
    }
 
+   $cf7_form_id = get_post_meta($post_id, '_vacancy_cf7_form_id', true);
+   $cf7_form_id = !empty($cf7_form_id) ? intval($cf7_form_id) : '';
+   
    return [
       'company' => get_post_meta($post_id, '_vacancy_company', true),
+      'cf7_form_id' => $cf7_form_id,
       'location' => get_post_meta($post_id, '_vacancy_location', true),
       'email' => get_post_meta($post_id, '_vacancy_email', true),
       'apply_url' => get_post_meta($post_id, '_vacancy_apply_url', true),

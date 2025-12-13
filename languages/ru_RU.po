@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-12-13 10:59+0000\n"
+"PO-Revision-Date: 2025-12-13 17:18+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -245,7 +245,7 @@ msgstr "Добавить Документ"
 msgid "Add Html Block"
 msgstr "Добавить Html блок"
 
-#: functions/cpt/cpt-vacancies.php:426
+#: functions/cpt/cpt-vacancies.php:461
 msgid "Add Language"
 msgstr "Добавить Язык"
 
@@ -375,11 +375,11 @@ msgstr "Добавить или удалить типы вакансий"
 msgid "Add Project"
 msgstr "Добавить Проект"
 
-#: functions/cpt/cpt-vacancies.php:323
+#: functions/cpt/cpt-vacancies.php:358
 msgid "Add Requirement"
 msgstr "Добавить требование"
 
-#: functions/cpt/cpt-vacancies.php:308
+#: functions/cpt/cpt-vacancies.php:343
 msgid "Add Responsibility"
 msgstr "Добавить ответственность"
 
@@ -387,7 +387,7 @@ msgstr "Добавить ответственность"
 msgid "Add Service"
 msgstr "Добавить Услугу"
 
-#: functions/cpt/cpt-vacancies.php:441
+#: functions/cpt/cpt-vacancies.php:476
 msgid "Add Skill"
 msgstr "Добавить Навык"
 
@@ -408,7 +408,7 @@ msgstr "Добавить Вакансию"
 msgid "additional CSS classes"
 msgstr "дополнительные классы CSS"
 
-#: functions/cpt/cpt-vacancies.php:328
+#: functions/cpt/cpt-vacancies.php:363
 msgid "Additional Information"
 msgstr "Дополнительная Информация"
 
@@ -504,7 +504,7 @@ msgstr "Все категории FAQ"
 msgid "All FAQ Tags"
 msgstr "Все теги FAQ"
 
-#: functions/sidebars.php:484 functions/cpt/cpt-faq.php:22
+#: functions/sidebars.php:372 functions/cpt/cpt-faq.php:22
 msgid "All FAQs"
 msgstr "Все FAQ"
 
@@ -634,11 +634,11 @@ msgstr ""
 msgid "API"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:244
+#: functions/cpt/cpt-vacancies.php:245
 msgid "Application Email"
 msgstr "Электронная почта для отправки резюме"
 
-#: functions/cpt/cpt-vacancies.php:252
+#: functions/cpt/cpt-vacancies.php:253
 msgid "Application URL"
 msgstr "URL-адрес Вакансии"
 
@@ -682,7 +682,7 @@ msgstr "Архив"
 msgid "Archive Template for %s"
 msgstr "Шаблон Архива для %s"
 
-#: functions/cpt/cpt-vacancies.php:540
+#: functions/cpt/cpt-vacancies.php:575
 msgid "Archived"
 msgstr "В архиве"
 
@@ -1013,7 +1013,7 @@ msgstr "Создание Child темы"
 msgid "Child Theme Name"
 msgstr "Название Дочерней темы"
 
-#: functions/cpt/cpt-vacancies.php:449
+#: functions/cpt/cpt-vacancies.php:484
 msgid "Chinese (native)"
 msgstr ""
 
@@ -1108,7 +1108,7 @@ msgstr "Список Клиентов"
 msgid "Close"
 msgstr "Закрыть"
 
-#: functions/cpt/cpt-vacancies.php:539
+#: functions/cpt/cpt-vacancies.php:574
 msgid "Closed"
 msgstr "Закрыто"
 
@@ -1178,7 +1178,7 @@ msgid "One reply on &ldquo;%s&rdquo;"
 msgstr "Один отзыв в &ldquo;%s&rdquo;"
 
 #: functions/cpt/cpt-staff.php:197 functions/cpt/cpt-testimonials.php:542
-#: functions/cpt/cpt-vacancies.php:220
+#: functions/cpt/cpt-vacancies.php:221
 #: functions/testimonials/testimonial-form-api.php:208
 msgid "Company"
 msgstr "Компания"
@@ -1364,6 +1364,10 @@ msgstr "Согласия"
 msgid "Consents History"
 msgstr "История согласий"
 
+#: functions/cpt/cpt-vacancies.php:269
+msgid "Contact Form 7"
+msgstr ""
+
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:150
 msgid "Contact Form 7 - Matomo Tracking Settings"
 msgstr "Contact Form 7 — Настройки отслеживания Matomo"
@@ -1417,7 +1421,7 @@ msgid "content"
 msgstr ""
 
 #: functions/ajax-filter.php:354 functions/sidebars.php:181
-#: functions/sidebars.php:311 functions/cpt/cpt-vacancies.php:393
+#: functions/cpt/cpt-vacancies.php:428
 #: templates/archives/vacancies/vacancies_2.php:34
 #: templates/post-cards/vacancies/card.php:54
 msgid "Contract"
@@ -1813,7 +1817,7 @@ msgstr "уничтожение"
 msgid "Detailed guide for creating and configuring email newsletter forms."
 msgstr "Подробное руководство по созданию и настройке форм email-рассылок."
 
-#: functions/sidebars.php:225 functions/sidebars.php:355
+#: functions/sidebars.php:225
 msgid "Details"
 msgstr "Детально"
 
@@ -1972,7 +1976,7 @@ msgstr "Скачать"
 msgid "Download date:"
 msgstr "Дата загрузки:"
 
-#: functions/sidebars.php:278 functions/sidebars.php:408
+#: functions/sidebars.php:280
 msgid "Download document"
 msgstr "Скачать документ"
 
@@ -2139,7 +2143,7 @@ msgstr "Редактировать Вакансию"
 msgid "Edit Vacancy Type"
 msgstr "Редактировать тип Вакансии"
 
-#: functions/cpt/cpt-vacancies.php:407
+#: functions/cpt/cpt-vacancies.php:442
 msgid "Education / Qualification"
 msgstr "Образование/Квалификация"
 
@@ -2198,7 +2202,7 @@ msgstr "Шаблон электронного письма"
 msgid "Email:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:386
+#: functions/cpt/cpt-vacancies.php:421
 msgid "Employment Type"
 msgstr "Тип занятости"
 
@@ -2265,11 +2269,11 @@ msgstr ""
 msgid "Enter recipient email for test:"
 msgstr "Введите адрес электронной почты получателя для теста:"
 
-#: functions/cpt/cpt-vacancies.php:317 functions/cpt/cpt-vacancies.php:353
+#: functions/cpt/cpt-vacancies.php:352 functions/cpt/cpt-vacancies.php:388
 msgid "Enter requirement..."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:302 functions/cpt/cpt-vacancies.php:344
+#: functions/cpt/cpt-vacancies.php:337 functions/cpt/cpt-vacancies.php:379
 msgid "Enter responsibility..."
 msgstr ""
 
@@ -2884,8 +2888,7 @@ msgstr "Полный рабочий день"
 msgid "Full time"
 msgstr "Полный рабочий день"
 
-#: functions/sidebars.php:178 functions/sidebars.php:308
-#: functions/cpt/cpt-vacancies.php:390
+#: functions/sidebars.php:178 functions/cpt/cpt-vacancies.php:425
 #: templates/post-cards/vacancies/card.php:51
 msgid "Full-time"
 msgstr "Полный рабочий день"
@@ -3426,13 +3429,12 @@ msgstr ""
 msgid "Integration Status"
 msgstr "Статус интеграции"
 
-#: functions/sidebars.php:180 functions/sidebars.php:310
-#: functions/cpt/cpt-vacancies.php:392
+#: functions/sidebars.php:180 functions/cpt/cpt-vacancies.php:427
 #: templates/post-cards/vacancies/card.php:55
 msgid "Internship"
 msgstr "Стажировка"
 
-#: functions/cpt/cpt-vacancies.php:284
+#: functions/cpt/cpt-vacancies.php:319
 msgid "Introduction / Short Description"
 msgstr "Введение / Краткое описание"
 
@@ -3554,7 +3556,7 @@ msgstr ""
 msgid "KPP"
 msgstr "КПП"
 
-#: functions/cpt/cpt-vacancies.php:416
+#: functions/cpt/cpt-vacancies.php:451
 msgid "Languages"
 msgstr "Языки"
 
@@ -3749,7 +3751,7 @@ msgstr ""
 msgid "LinkedIn"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:260
+#: functions/cpt/cpt-vacancies.php:261
 msgid "LinkedIn URL"
 msgstr ""
 
@@ -3773,7 +3775,7 @@ msgstr "Перечень обрабатываемых персональных �
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: functions/cpt/cpt-vacancies.php:228
+#: functions/cpt/cpt-vacancies.php:229
 #: templates/archives/vacancies/vacancies_1.php:124
 #: templates/archives/vacancies/vacancies_1.php:125
 msgid "Location"
@@ -3959,7 +3961,7 @@ msgstr "Способ уничтожения:"
 msgid "Method of processing personal data:"
 msgstr "Способ обработки персональных данных:"
 
-#: functions/cpt/cpt-vacancies.php:457
+#: functions/cpt/cpt-vacancies.php:492
 msgid "Microsoft Excel"
 msgstr ""
 
@@ -4232,6 +4234,10 @@ msgstr "Документ с согласием не выбран. Выберит
 msgid "No consents recorded yet."
 msgstr "Пока не зарегистрировано ни одного согласия."
 
+#: functions/cpt/cpt-vacancies.php:296
+msgid "No Contact Form 7 forms found. Please create a form first."
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:49
 #: redux-framework/sample/sections/codeweber/footer.php:46
 #, php-format
@@ -4425,7 +4431,7 @@ msgstr "Родительские темы не найдены."
 msgid "no PDF"
 msgstr "нет PDF-файла"
 
-#: functions/cpt/cpt-vacancies.php:476
+#: functions/cpt/cpt-vacancies.php:511
 msgid "No PDF selected"
 msgstr "Не выбран PDF"
 
@@ -4658,7 +4664,7 @@ msgstr ""
 msgid "Oops! Page Not Found."
 msgstr "Страница не найдена."
 
-#: functions/cpt/cpt-vacancies.php:538
+#: functions/cpt/cpt-vacancies.php:573
 msgid "Open"
 msgstr "Открыта"
 
@@ -4703,7 +4709,7 @@ msgstr ""
 msgid "Other documents"
 msgstr ""
 
-#: archive-faq.php:192 functions/sidebars.php:473
+#: archive-faq.php:192 functions/sidebars.php:361
 msgid "Other Questions"
 msgstr ""
 
@@ -4938,8 +4944,7 @@ msgstr "Частичная занятость"
 msgid "Part time"
 msgstr "Частичная занятость"
 
-#: functions/sidebars.php:179 functions/sidebars.php:309
-#: functions/cpt/cpt-vacancies.php:391
+#: functions/sidebars.php:179 functions/cpt/cpt-vacancies.php:426
 #: templates/post-cards/vacancies/card.php:52
 msgid "Part-time"
 msgstr "Неполная занятость"
@@ -4965,7 +4970,7 @@ msgstr "Паттерн"
 msgid "PDF File"
 msgstr "PDF-файл"
 
-#: functions/cpt/cpt-vacancies.php:712 functions/cpt/cpt-vacancies.php:723
+#: functions/cpt/cpt-vacancies.php:762 functions/cpt/cpt-vacancies.php:773
 msgid "PDF file not found for this vacancy"
 msgstr ""
 
@@ -5439,7 +5444,7 @@ msgstr "Защищенный шрифт - не может быть удален"
 msgid "Public Offer Agreement"
 msgstr "Договор публичной оферты"
 
-#: functions/cpt/cpt-vacancies.php:544
+#: functions/cpt/cpt-vacancies.php:579
 msgid "Publish Date"
 msgstr ""
 
@@ -5639,8 +5644,8 @@ msgstr "Отклонено"
 msgid "Remote"
 msgstr "Удаленная работа"
 
-#: functions/cpt/cpt-vacancies.php:304 functions/cpt/cpt-vacancies.php:319
-#: functions/cpt/cpt-vacancies.php:346 functions/cpt/cpt-vacancies.php:355
+#: functions/cpt/cpt-vacancies.php:339 functions/cpt/cpt-vacancies.php:354
+#: functions/cpt/cpt-vacancies.php:381 functions/cpt/cpt-vacancies.php:390
 #: functions/integrations/image-licenses/image-licenses.php:147
 msgid "Remove"
 msgstr "Удалить"
@@ -5670,7 +5675,7 @@ msgstr ""
 msgid "Remove featured Image for this staff"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:480
+#: functions/cpt/cpt-vacancies.php:515
 msgid "Remove PDF"
 msgstr "Удалить PDF"
 
@@ -5689,7 +5694,7 @@ msgstr ""
 msgid "Required fields in CF7:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:312
+#: functions/cpt/cpt-vacancies.php:347
 #: templates/singles/vacancies/default.php:39
 msgid "Requirements"
 msgstr "Требования"
@@ -5699,7 +5704,7 @@ msgstr "Требования"
 msgid "Reset"
 msgstr "Сброс"
 
-#: functions/cpt/cpt-vacancies.php:297
+#: functions/cpt/cpt-vacancies.php:332
 #: templates/singles/vacancies/default.php:50
 msgid "Responsibilities"
 msgstr "Обязанности"
@@ -5796,7 +5801,7 @@ msgstr "Строка %d: недопустимый адрес электронн�
 msgid "Rutube"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:236
+#: functions/cpt/cpt-vacancies.php:237
 msgid "Salary"
 msgstr "Заработная плата"
 
@@ -6166,7 +6171,7 @@ msgstr "Выберите Родительскую тему"
 msgid "Select PDF"
 msgstr "Выбрать PDF"
 
-#: functions/cpt/cpt-vacancies.php:497
+#: functions/cpt/cpt-vacancies.php:532
 #: functions/integrations/image-licenses/image-licenses.php:171
 msgid "Select PDF File"
 msgstr "Выбрать PDF-файл"
@@ -6218,7 +6223,7 @@ msgstr ""
 msgid "Select the status of this testimonial"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:389
+#: functions/cpt/cpt-vacancies.php:424
 msgid "Select type"
 msgstr "Выберите тип"
 
@@ -6667,7 +6672,7 @@ msgstr ""
 msgid "Site Name"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:431 templates/singles/staff/staff_2.php:206
+#: functions/cpt/cpt-vacancies.php:466 templates/singles/staff/staff_2.php:206
 #: templates/singles/staff/staff_3.php:197
 #: templates/singles/staff/staff_4.php:226
 #: templates/singles/staff/staff_5.php:250
@@ -6885,6 +6890,10 @@ msgstr "Улица, Номер дома и Офис"
 #: comments.php:153
 msgid "Submit"
 msgstr "Отправить"
+
+#: functions/sidebars.php:292
+msgid "Submit a request"
+msgstr "Отправить заявку"
 
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:39
 #: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:162
@@ -7754,7 +7763,7 @@ msgstr ""
 msgid "Upload New Font"
 msgstr "Загрузить новый шрифт"
 
-#: functions/cpt/cpt-vacancies.php:478
+#: functions/cpt/cpt-vacancies.php:513
 msgid "Upload PDF"
 msgstr "Загрузить PDF"
 
@@ -7839,11 +7848,11 @@ msgstr ""
 msgid "Use this image"
 msgstr "Использовать это изображение"
 
-#: functions/cpt/cpt-vacancies.php:499
+#: functions/cpt/cpt-vacancies.php:534
 msgid "Use this PDF"
 msgstr "Использовать этот PDF"
 
-#: functions/cpt/cpt-vacancies.php:549
+#: functions/cpt/cpt-vacancies.php:584
 msgid "Use WordPress publish date"
 msgstr ""
 
@@ -7946,7 +7955,7 @@ msgstr "Атрибуты вакансии"
 msgid "Vacancy Content"
 msgstr "Содержание вакансии"
 
-#: functions/cpt/cpt-vacancies.php:701
+#: functions/cpt/cpt-vacancies.php:751
 msgid "Vacancy not found"
 msgstr ""
 
@@ -7958,7 +7967,7 @@ msgstr "PDF-файл вакансии"
 msgid "Vacancy published"
 msgstr "Вакансия опубликована"
 
-#: functions/cpt/cpt-vacancies.php:195 functions/cpt/cpt-vacancies.php:535
+#: functions/cpt/cpt-vacancies.php:195 functions/cpt/cpt-vacancies.php:570
 msgid "Vacancy Status"
 msgstr "Статус вакансии"
 
@@ -8323,7 +8332,7 @@ msgstr ""
 msgid "Wordpress Register Form"
 msgstr "Форма регистрации Wordpress"
 
-#: functions/cpt/cpt-vacancies.php:399
+#: functions/cpt/cpt-vacancies.php:434
 msgid "Work Experience"
 msgstr "Опыт работы"
 
@@ -8338,7 +8347,7 @@ msgstr "Рабочий телефон"
 msgid "Would you like to share your thoughts?"
 msgstr "Хотите поделиться своими мыслями?"
 
-#: functions/sidebars.php:197 functions/sidebars.php:327 functions/user.php:347
+#: functions/sidebars.php:197 functions/user.php:347
 #: templates/content/single.php:104 templates/singles/legal/default.php:123
 msgid "Writer"
 msgstr "Писатель"
@@ -8809,6 +8818,10 @@ msgstr "— Не выбрано —"
 #: functions/integrations/image-licenses/image-licenses.php:243
 msgid "— Select Author —"
 msgstr "— Выберите автора —"
+
+#: functions/cpt/cpt-vacancies.php:287
+msgid "— Select Form —"
+msgstr ""
 
 #: functions/admin/admin_privacy.php:38
 #: functions/integrations/newsletter-subscription(old)/newsletter-subscription.php:286
