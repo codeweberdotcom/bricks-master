@@ -327,9 +327,10 @@ class NewsletterSubscriptionSettings
          </div>
 
          <div class="card">
-            <h2>1. <?php _e('Shortcode form', 'codeweber'); ?></h2>
-            <p><?php _e('Use shortcode for quick form addition:', 'codeweber'); ?></p>
-            <pre>[newsletter_form id="unique_id" class="your-css-class"]</pre>
+            <h2>1. <?php _e('Form Integration', 'codeweber'); ?></h2>
+            <p><?php _e('Newsletter subscription forms are now handled through the codeweber-forms system. Use the shortcode:', 'codeweber'); ?></p>
+            <pre>[codeweber_form id="FORM_ID"]</pre>
+            <p><strong><?php _e('Note:', 'codeweber'); ?></strong> <?php _e('The old [newsletter_form] shortcode has been removed. All forms are now managed through the codeweber-forms system.', 'codeweber'); ?></p>
             <p><strong><?php _e('Parameters:', 'codeweber'); ?></strong></p>
             <ul>
                <li><code>id</code> - <?php _e('unique form identifier (required)', 'codeweber'); ?></li>

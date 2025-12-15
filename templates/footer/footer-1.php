@@ -80,7 +80,7 @@ $text_class = implode(' ', $text_class_array);
                <h4 class="widget-title  mb-3 <?= $text_class; ?>">Our Newsletter</h4>
                <p class="mb-5 <?= $text_class; ?>">Subscribe to our newsletter to get our news & deals delivered to you.</p>
                <div class="newsletter-wrapper">
-                  <?= do_shortcode('[newsletter_form]'); ?>
+                  <?= do_shortcode('[codeweber_form id="6119"]'); ?>
                </div>
                <!-- /.newsletter-wrapper -->
             </div>

@@ -10,6 +10,165 @@
     'use strict';
 
     /**
+     * Заменяет контент модального окна на шаблон с конвертом
+     * 
+     * @param {HTMLElement} form - Элемент формы
+     * @param {string} message - Сообщение для отображения
+     */
+    function replaceModalContentWithEnvelope(form, message) {
+        const modal = form.closest('.modal');
+        const modalContent = modal ? modal.querySelector('.modal-body') : null;
+
+        if (!modal || !modalContent) {
+            return; // Модального окна нет
+        }
+
+        // Получаем шаблон успешной отправки через REST API
+        let apiRoot = '/wp-json/';
+        let apiNonce = '';
+
+        if (typeof wpApiSettings !== 'undefined') {
+            apiRoot = wpApiSettings.root;
+            apiNonce = wpApiSettings.nonce;
+        } else {
+            // Пытаемся получить nonce из мета-тега
+            const nonceMeta = document.querySelector('meta[name="wp-api-nonce"]');
+            if (nonceMeta) {
+                apiNonce = nonceMeta.getAttribute('content');
+            }
+        }
+
+        fetch(apiRoot + 'codeweber/v1/success-message-template?message=' + encodeURIComponent(message) + '&icon_type=svg', {
+            method: 'GET',
+            headers: {
+                'X-WP-Nonce': apiNonce,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(templateData) {
+            if (templateData.success && templateData.html) {
+                // Заменяем содержимое модального окна на шаблон с конвертом
+                modalContent.innerHTML = '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' + templateData.html;
+
+                // Закрываем модальное окно через 2 секунды
+                setTimeout(function() {
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                        const bsModal = bootstrap.Modal.getInstance(modal);
+                        if (bsModal) {
+                            bsModal.hide();
+                        }
+                    } else if (typeof jQuery !== 'undefined' && jQuery(modal).modal) {
+                        jQuery(modal).modal('hide');
+                    }
+                }, 2000);
+            } else {
+                // Fallback: просто закрываем модальное окно
+                setTimeout(function() {
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                        const bsModal = bootstrap.Modal.getInstance(modal);
+                        if (bsModal) {
+                            bsModal.hide();
+                        }
+                    } else if (typeof jQuery !== 'undefined' && jQuery(modal).modal) {
+                        jQuery(modal).modal('hide');
+                    }
+                }, 500);
+            }
+        })
+        .catch(function(error) {
+            console.error('[Testimonial Form] Error loading success template:', error);
+            // Fallback: закрываем модальное окно
+            setTimeout(function() {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    const bsModal = bootstrap.Modal.getInstance(modal);
+                    if (bsModal) {
+                        bsModal.hide();
+                    }
+                } else if (typeof jQuery !== 'undefined' && jQuery(modal).modal) {
+                    jQuery(modal).modal('hide');
+                }
+            }, 500);
+        });
+    }
+
+    /**
+     * Get UTM parameters from URL or localStorage
+     * 
+     * @return object UTM parameters
+     */
+    function getUTMParams() {
+        const utmParams = {};
+        const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'utm_id'];
+        
+        // Get from current URL
+        const urlParams = new URLSearchParams(window.location.search);
+        utmKeys.forEach(key => {
+            const value = urlParams.get(key);
+            if (value) {
+                utmParams[key] = value;
+            }
+        });
+        
+        // Get from localStorage (stored from previous visits)
+        try {
+            const storedUTM = localStorage.getItem('codeweber_utm_params');
+            const expiry = localStorage.getItem('codeweber_utm_params_expiry');
+            
+            // Check if stored UTM is still valid (30 days)
+            if (storedUTM && expiry && Date.now() < parseInt(expiry)) {
+                const parsed = JSON.parse(storedUTM);
+                // Merge with current URL params (URL params take priority)
+                utmKeys.forEach(key => {
+                    if (!utmParams[key] && parsed[key]) {
+                        utmParams[key] = parsed[key];
+                    }
+                });
+            } else if (storedUTM) {
+                // Expired, remove it
+                localStorage.removeItem('codeweber_utm_params');
+                localStorage.removeItem('codeweber_utm_params_expiry');
+            }
+        } catch (e) {
+            console.error('[Testimonial Form] Error reading UTM from localStorage:', e);
+        }
+        
+        // Store current UTM params in localStorage for future use
+        if (Object.keys(utmParams).length > 0) {
+            try {
+                localStorage.setItem('codeweber_utm_params', JSON.stringify(utmParams));
+                // Store expiration (30 days)
+                localStorage.setItem('codeweber_utm_params_expiry', (Date.now() + (30 * 24 * 60 * 60 * 1000)).toString());
+            } catch (e) {
+                console.error('[Testimonial Form] Error storing UTM in localStorage:', e);
+            }
+        }
+        
+        return utmParams;
+    }
+    
+    /**
+     * Get additional tracking data
+     * 
+     * @return object Tracking data
+     */
+    function getTrackingData() {
+        const data = {};
+        
+        // Referrer
+        if (document.referrer) {
+            data.referrer = document.referrer;
+        }
+        
+        // Landing page (current page URL)
+        data.landing_page = window.location.href;
+        
+        return data;
+    }
+
+    /**
      * Initialize testimonial form
      */
     function initTestimonialForm() {
@@ -22,8 +181,52 @@
         const originalBtnText = submitBtn.textContent || submitBtn.innerText;
         const formMessages = form.querySelector('.testimonial-form-messages');
 
+        // JavaScript хук: форма открыта (отправляем один раз при загрузке)
+        if (!form.dataset.opened) {
+            form.dataset.opened = 'true';
+            
+            const openedEvent = new CustomEvent('codeweberFormOpened', {
+                detail: {
+                    formId: 'testimonial-form',
+                    form: form
+                }
+            });
+            form.dispatchEvent(openedEvent);
+            
+            // Отправляем запрос на сервер для PHP хука
+            const restUrl = codeweberForms?.restUrl || '/wp-json/codeweber-forms/v1/';
+            const restNonce = codeweberForms?.restNonce || '';
+            
+            if (restUrl) {
+                fetch(restUrl + 'form-opened', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-WP-Nonce': restNonce
+                    },
+                    body: JSON.stringify({ form_id: 'testimonial-form' })
+                }).catch(() => {}); // Игнорируем ошибки
+            }
+        }
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+
+            // JavaScript хук: форма отправляется
+            const submittingEvent = new CustomEvent('codeweberFormSubmitting', {
+                detail: {
+                    formId: 'testimonial-form',
+                    form: form,
+                    formData: new FormData(form)
+                },
+                cancelable: true
+            });
+            const submittingResult = form.dispatchEvent(submittingEvent);
+            
+            // Если событие было отменено, не отправляем форму
+            if (!submittingResult) {
+                return;
+            }
 
             // Clear previous messages
             if (formMessages) {
@@ -31,8 +234,44 @@
                 formMessages.className = 'testimonial-form-messages';
             }
 
-            // Validate form
+            // Bootstrap validation: check if form is valid
+            if (!form.checkValidity()) {
+                // Add was-validated class to show validation styles
+                form.classList.add('was-validated');
+                
+                // JavaScript хук: ошибка валидации
+                const invalidEvent = new CustomEvent('codeweberFormInvalid', {
+                    detail: {
+                        formId: 'testimonial-form',
+                        form: form,
+                        message: 'Form validation failed'
+                    }
+                });
+                form.dispatchEvent(invalidEvent);
+                
+                // Focus on first invalid field
+                const firstInvalid = form.querySelector(':invalid');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                }
+                
+                return;
+            }
+            
+            // Remove was-validated class if form is valid (for re-submission)
+            form.classList.remove('was-validated');
+            
+            // Also run custom validation
             if (!validateForm(form)) {
+                // JavaScript хук: ошибка валидации
+                const invalidEvent = new CustomEvent('codeweberFormInvalid', {
+                    detail: {
+                        formId: 'testimonial-form',
+                        form: form,
+                        message: 'Form validation failed'
+                    }
+                });
+                form.dispatchEvent(invalidEvent);
                 return;
             }
 
@@ -47,11 +286,32 @@
             const userId = formData.get('user_id'); // Check if user is logged in
             const isLoggedIn = !!userId;
             
+            // Collect UTM parameters
+            const utmParams = getUTMParams();
+            const trackingData = getTrackingData();
+            
+            // Collect consents
+            const testimonialConsents = {};
+            const consentCheckboxes = form.querySelectorAll('input[name^="testimonial_consents["]');
+            consentCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const name = checkbox.name;
+                    // Extract document ID from name like "testimonial_consents[123]"
+                    const match = name.match(/testimonial_consents\[(\d+)\]/);
+                    if (match && match[1]) {
+                        testimonialConsents[match[1]] = '1';
+                    }
+                }
+            });
+            
             const data = {
                 testimonial_text: formData.get('testimonial_text'),
                 rating: formData.get('rating'),
                 nonce: formNonce,
-                honeypot: formData.get('testimonial_honeypot') || '' // Honeypot field
+                honeypot: formData.get('testimonial_honeypot') || '', // Honeypot field
+                utm_params: utmParams,
+                tracking_data: trackingData,
+                testimonial_consents: testimonialConsents
             };
             
             // If user is logged in, send user_id; otherwise send name and email
@@ -92,33 +352,59 @@
             })
             .then(data => {
                 if (data.success) {
-                    showMessage(formMessages, data.message || 'Thank you for your testimonial! It will be reviewed and published soon.', 'success');
                     form.reset();
                     
-                    // Close modal if exists
+                    const message = data.message || __('Message sent successfully.', 'codeweber');
+                    
+                    // 1. Основная логика UI: заменяем контент модального окна на шаблон с конвертом
+                    replaceModalContentWithEnvelope(form, message);
+                    
+                    // 2. Если модального окна нет, показываем простое сообщение
                     const modal = form.closest('.modal');
-                    if (modal) {
-                        setTimeout(() => {
-                            // Try Bootstrap 5
-                            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                                const bsModal = bootstrap.Modal.getInstance(modal);
-                                if (bsModal) {
-                                    bsModal.hide();
-                                }
-                            }
-                            // Fallback to jQuery Bootstrap
-                            else if (typeof jQuery !== 'undefined' && jQuery(modal).modal) {
-                                jQuery(modal).modal('hide');
-                            }
-                        }, 2000);
+                    if (!modal && formMessages) {
+                        showMessage(formMessages, message, 'success');
                     }
+                    
+                    // 3. JavaScript хук: для дополнительных действий (аналитика, уведомления и т.д.)
+                    const successEvent = new CustomEvent('codeweberFormSubmitted', {
+                        detail: {
+                            formId: 'testimonial-form',
+                            form: form,
+                            submissionId: data.data?.post_id || null,
+                            message: message,
+                            apiResponse: data
+                        }
+                    });
+                    form.dispatchEvent(successEvent);
                 } else {
                     showMessage(formMessages, data.message || 'An error occurred. Please try again.', 'error');
+                    
+                    // JavaScript хук: ошибка отправки
+                    const errorEvent = new CustomEvent('codeweberFormError', {
+                        detail: {
+                            formId: 'testimonial-form',
+                            form: form,
+                            message: data.message || 'An error occurred. Please try again.',
+                            apiResponse: data
+                        }
+                    });
+                    form.dispatchEvent(errorEvent);
                 }
             })
             .catch(error => {
                 console.error('Testimonial Form Error:', error);
                 showMessage(formMessages, error.message || 'An error occurred. Please try again.', 'error');
+                
+                // JavaScript хук: ошибка сети/сервера
+                const networkErrorEvent = new CustomEvent('codeweberFormError', {
+                    detail: {
+                        formId: 'testimonial-form',
+                        form: form,
+                        message: error.message || 'Network error occurred',
+                        error: error
+                    }
+                });
+                form.dispatchEvent(networkErrorEvent);
             })
             .finally(() => {
                 submitBtn.disabled = false;
@@ -204,8 +490,28 @@
             }
         }
 
-        if (!isValid && formMessages) {
-            showMessage(formMessages, errors.join('<br>'), 'error');
+        // Validate required consents
+        const consentCheckboxes = form.querySelectorAll('input[name^="testimonial_consents["][required]');
+        consentCheckboxes.forEach(checkbox => {
+            if (!checkbox.checked) {
+                isValid = false;
+                const label = form.querySelector('label[for="' + checkbox.id + '"]');
+                const labelText = label ? label.textContent.trim() : 'consent';
+                errors.push('Please accept: ' + labelText);
+                checkbox.classList.add('is-invalid');
+            } else {
+                checkbox.classList.remove('is-invalid');
+            }
+        });
+
+        // Don't show alert message, only use Bootstrap validation styles
+        // if (!isValid && formMessages) {
+        //     showMessage(formMessages, errors.join('<br>'), 'error');
+        // }
+        
+        // If validation failed, add was-validated class for Bootstrap styles
+        if (!isValid) {
+            form.classList.add('was-validated');
         }
 
         return isValid;

@@ -90,7 +90,6 @@ if (! function_exists('getThemeFormRadius')) {
 
       // Карта соответствий опций Redux → CSS классы
       $style_map = [
-         '1' => ' rounded-pill',
          '2' => ' rounded',
          '3' => ' rounded-xl',
          '4' => ' rounded-0',

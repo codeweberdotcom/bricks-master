@@ -115,10 +115,14 @@ class TestimonialFormAPI {
         }
         
         ob_start();
+        
+        // Get form radius class from Redux settings
+        $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
+        
         ?>
         <div class="testimonial-form-modal text-start">
             <h5 class="modal-title mb-4"><?php esc_html_e('Leave Your Testimonial', 'codeweber'); ?></h5>
-            <form id="testimonial-form" class="testimonial-form">
+            <form id="testimonial-form" class="testimonial-form needs-validation" novalidate>
                 <?php 
                 // Generate nonce for form submission
                 $form_nonce = wp_create_nonce('submit_testimonial');
@@ -139,7 +143,7 @@ class TestimonialFormAPI {
                     <div class="col-12">
                         <div class="form-floating">
                             <textarea 
-                                class="form-control" 
+                                class="form-control<?php echo esc_attr($form_radius_class); ?>" 
                                 name="testimonial_text" 
                                 id="testimonial_text" 
                                 placeholder="<?php esc_attr_e('Your testimonial text', 'codeweber'); ?>" 
@@ -156,7 +160,7 @@ class TestimonialFormAPI {
                             <div class="form-floating">
                                 <input 
                                     type="text" 
-                                    class="form-control" 
+                                    class="form-control<?php echo esc_attr($form_radius_class); ?>" 
                                     name="author_name" 
                                     id="author_name" 
                                     placeholder="<?php esc_attr_e('Your name', 'codeweber'); ?>"
@@ -171,7 +175,7 @@ class TestimonialFormAPI {
                             <div class="form-floating">
                                 <input 
                                     type="email" 
-                                    class="form-control" 
+                                    class="form-control<?php echo esc_attr($form_radius_class); ?>" 
                                     name="author_email" 
                                     id="author_email" 
                                     placeholder="<?php esc_attr_e('Your email', 'codeweber'); ?>"
@@ -186,7 +190,7 @@ class TestimonialFormAPI {
                             <div class="form-floating">
                                 <input 
                                     type="text" 
-                                    class="form-control" 
+                                    class="form-control<?php echo esc_attr($form_radius_class); ?>" 
                                     name="author_role" 
                                     id="author_role" 
                                     placeholder="<?php esc_attr_e('Your position', 'codeweber'); ?>"
@@ -200,7 +204,7 @@ class TestimonialFormAPI {
                             <div class="form-floating">
                                 <input 
                                     type="text" 
-                                    class="form-control" 
+                                    class="form-control<?php echo esc_attr($form_radius_class); ?>" 
                                     name="company" 
                                     id="company" 
                                     placeholder="<?php esc_attr_e('Company name', 'codeweber'); ?>"
@@ -214,6 +218,56 @@ class TestimonialFormAPI {
                     <div class="col-12">
                         <?php echo codeweber_testimonial_rating_stars(0, 'rating', 'rating', true); ?>
                     </div>
+                    
+                    <!-- Consent Checkboxes -->
+                    <?php
+                    // Get consents for testimonial form directly from option
+                    $all_consents = get_option('builtin_form_consents', []);
+                    $consents = isset($all_consents['testimonial']) ? $all_consents['testimonial'] : [];
+                    
+                    // Debug: log consents data
+                    if (defined('WP_DEBUG') && WP_DEBUG) {
+                        error_log('Testimonial Form - All consents: ' . print_r($all_consents, true));
+                        error_log('Testimonial Form - Testimonial consents: ' . print_r($consents, true));
+                        error_log('Testimonial Form - Function exists: ' . (function_exists('codeweber_forms_process_consent_label') ? 'yes' : 'no'));
+                    }
+                    
+                    if (!empty($consents) && is_array($consents) && function_exists('codeweber_forms_process_consent_label')) {
+                        ?>
+                        <div class="col-12">
+                            <div class="consents-container">
+                                <?php
+                                foreach ($consents as $index => $consent) {
+                                    if (empty($consent['label']) || empty($consent['document_id'])) {
+                                        continue;
+                                    }
+                                    
+                                    $document_id = intval($consent['document_id']);
+                                    $label_text = codeweber_forms_process_consent_label($consent['label'], $document_id, 0);
+                                    $required = !empty($consent['required']);
+                                    $checkbox_id = 'testimonial-consent-' . $document_id . '-' . $index;
+                                    ?>
+                                    <div class="form-check small-checkbox small-chekbox mb-1">
+                                        <input 
+                                            type="checkbox" 
+                                            class="form-check-input<?php echo esc_attr($form_radius_class); ?>" 
+                                            id="<?php echo esc_attr($checkbox_id); ?>" 
+                                            name="testimonial_consents[<?php echo esc_attr($document_id); ?>]" 
+                                            value="1"
+                                            <?php echo $required ? 'required' : ''; ?>
+                                        >
+                                        <label class="form-check-label" for="<?php echo esc_attr($checkbox_id); ?>">
+                                            <?php echo wp_kses_post($label_text); ?>
+                                        </label>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
                 
                 <div class="modal-footer text-center justify-content-center mt-4 pt-0 pb-0">
@@ -347,6 +401,8 @@ class TestimonialFormAPI {
         // Get and validate data
         $testimonial_text = $request->get_param('testimonial_text');
         $rating = $request->get_param('rating');
+        $utm_params = $request->get_param('utm_params') ?: [];
+        $tracking_data = $request->get_param('tracking_data') ?: [];
         
         // Initialize variables
         $author_name = '';
@@ -400,6 +456,39 @@ class TestimonialFormAPI {
                     __('Please provide a valid email address.', 'codeweber'),
                     ['status' => 400]
                 );
+            }
+        }
+        
+        // Validate consents
+        if (function_exists('codeweber_forms_validate_consents')) {
+            $all_consents = get_option('builtin_form_consents', []);
+            $consents = isset($all_consents['testimonial']) ? $all_consents['testimonial'] : [];
+            if (!empty($consents) && is_array($consents)) {
+                // Get required consents
+                $required_consents = [];
+                foreach ($consents as $consent) {
+                    if (!empty($consent['required']) && !empty($consent['document_id'])) {
+                        $required_consents[] = intval($consent['document_id']);
+                    }
+                }
+                
+                // Get submitted consents
+                $submitted_consents = $request->get_param('testimonial_consents');
+                if (!is_array($submitted_consents)) {
+                    $submitted_consents = [];
+                }
+                
+                // Validate
+                if (!empty($required_consents)) {
+                    $validation = codeweber_forms_validate_consents($submitted_consents, $required_consents);
+                    if (!$validation['valid']) {
+                        return new \WP_Error(
+                            'consent_required',
+                            __('Please accept all required consents.', 'codeweber'),
+                            ['status' => 400]
+                        );
+                    }
+                }
             }
         }
 
@@ -459,11 +548,103 @@ class TestimonialFormAPI {
             error_log('Testimonial Submit - Force updated meta fields for registered user');
         }
 
+        // Собираем UTM метки и tracking данные
+        $utm_tracker = new CodeweberFormsUTM();
+        $utm_data = array_merge(
+            $utm_tracker->get_utm_params(),
+            $utm_params,
+            $utm_tracker->get_tracking_data(),
+            $tracking_data
+        );
+        
+        // Prepare submission data
+        $submission_fields = [
+            'name' => $author_name,
+            'email' => $author_email,
+            'role' => $author_role,
+            'company' => $company,
+            'testimonial_text' => $testimonial_text,
+            'rating' => $rating,
+        ];
+        
+        // Добавляем UTM данные в поля формы для сохранения и отображения
+        if (!empty($utm_data)) {
+            $submission_fields['_utm_data'] = $utm_data;
+        }
+        
+        // Get user agent
+        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        
+        // Хук перед отправкой (если класс доступен)
+        if (class_exists('CodeweberFormsHooks')) {
+            $form_settings = [
+                'formName' => __('Testimonial Form', 'codeweber'),
+                'recipientEmail' => get_option('admin_email'),
+            ];
+            CodeweberFormsHooks::before_send(0, $form_settings, $submission_fields);
+        }
+        
+        // Save to forms submissions table
+        $submission_id = null;
+        if (class_exists('CodeweberFormsDatabase')) {
+            $db = new CodeweberFormsDatabase();
+            
+            $submission_id = $db->save_submission([
+                'form_id' => 0, // testimonial-form doesn't have numeric ID
+                'form_name' => __('Testimonial Form', 'codeweber'),
+                'submission_data' => $submission_fields,
+                'files_data' => null,
+                'ip_address' => $ip,
+                'user_agent' => $user_agent,
+                'user_id' => $is_logged_in ? $user_id : 0,
+                'status' => 'new',
+                'email_sent' => 0,
+                'email_error' => null,
+            ]);
+            
+            if ($submission_id) {
+                error_log('Testimonial Submit - Saved to forms submissions table with ID: ' . $submission_id);
+                
+                // Хук после сохранения
+                if (class_exists('CodeweberFormsHooks')) {
+                    CodeweberFormsHooks::after_saved($submission_id, 0, $submission_fields);
+                }
+            } else {
+                error_log('Testimonial Submit - Failed to save to forms submissions table');
+                
+                // Хук при ошибке сохранения
+                if (class_exists('CodeweberFormsHooks')) {
+                    CodeweberFormsHooks::send_error(0, $form_settings ?? [], __('Failed to save submission.', 'codeweber-forms'));
+                }
+            }
+        }
+        
+        // Хук после успешной отправки
+        if (class_exists('CodeweberFormsHooks') && $submission_id) {
+            $form_settings = [
+                'formName' => __('Testimonial Form', 'codeweber'),
+                'recipientEmail' => get_option('admin_email'),
+            ];
+            CodeweberFormsHooks::after_send(0, $form_settings, $submission_id);
+        }
+
         // Update rate limiting
         set_transient($transient_key, $submissions + 1, HOUR_IN_SECONDS);
 
-        // Send notification email to admin (optional)
-        $this->send_admin_notification($post_id, $author_name, $author_email);
+        // Send notification email to admin using forms module templates
+        $this->send_admin_notification_via_forms_module($submission_id, $submission_fields, $post_id, $author_name, $author_email, $ip, $user_agent);
+
+        // Send auto-reply email to user using forms module templates
+        $auto_reply_result = $this->send_testimonial_auto_reply($submission_id, $submission_fields, $author_name, $author_email, $ip, $user_agent);
+        
+        // Обновляем статус отправки автоответа
+        if ($submission_id && class_exists('CodeweberFormsDatabase')) {
+            $db = new CodeweberFormsDatabase();
+            $db->update_submission($submission_id, [
+                'auto_reply_sent' => $auto_reply_result['success'] ? 1 : 0,
+                'auto_reply_error' => $auto_reply_result['error'] ?? null,
+            ]);
+        }
 
         return new WP_REST_Response([
             'success' => true,
@@ -497,27 +678,282 @@ class TestimonialFormAPI {
     }
 
     /**
-     * Send notification email to admin
+     * Send notification email to admin using forms module templates
      * 
+     * @param int $submission_id
+     * @param array $submission_fields
      * @param int $post_id
      * @param string $author_name
      * @param string $author_email
+     * @param string $ip
+     * @param string $user_agent
      */
-    private function send_admin_notification($post_id, $author_name, $author_email) {
-        $admin_email = get_option('admin_email');
-        if (!$admin_email) {
-            return;
+    private function send_admin_notification_via_forms_module($submission_id, $submission_fields, $post_id, $author_name, $author_email, $ip, $user_agent) {
+        // Используем систему шаблонов модуля форм, если доступна
+        if (class_exists('CodeweberFormsMailer') && class_exists('CodeweberFormsEmailTemplates')) {
+            $email_templates = get_option('codeweber_forms_email_templates', []);
+            $admin_notification_enabled = isset($email_templates['admin_notification_enabled']) 
+                ? $email_templates['admin_notification_enabled'] 
+                : true;
+            
+            if (!$admin_notification_enabled) {
+                return; // Уведомления отключены
+            }
+            
+            $admin_email = get_option('admin_email');
+            if (!$admin_email) {
+                return;
+            }
+            
+            // Получаем тему письма
+            $subject = isset($email_templates['admin_notification_subject']) && !empty($email_templates['admin_notification_subject'])
+                ? $email_templates['admin_notification_subject']
+                : __('New Testimonial Submission', 'codeweber-forms');
+            
+            // Обработка переменных в теме
+            $subject = str_replace(
+                ['{form_name}', '{user_name}', '{site_name}'],
+                [
+                    __('Testimonial Form', 'codeweber'),
+                    $author_name,
+                    get_bloginfo('name')
+                ],
+                $subject
+            );
+            
+            // Получаем шаблон
+            $template = '';
+            if (isset($email_templates['admin_notification_template']) && !empty($email_templates['admin_notification_template'])) {
+                $template = $email_templates['admin_notification_template'];
+            } else {
+                // Используем дефолтный шаблон из класса
+                $templates_class = new CodeweberFormsEmailTemplates();
+                $template = $templates_class->get_default_admin_template();
+            }
+            
+            // Добавляем ссылку на редактирование отзыва в админке
+            $submission_fields['edit_testimonial'] = admin_url('post.php?post=' . intval($post_id) . '&action=edit');
+            
+            // Вычисляем, на какой странице архива находится отзыв (9 отзывов на страницу)
+            // Учитываем, что отзыв может быть pending, поэтому ищем среди всех отзывов
+            $posts_per_page = 9;
+            $args = [
+                'post_type' => 'testimonials',
+                'post_status' => ['publish', 'pending', 'draft'],
+                'posts_per_page' => -1,
+                'meta_query' => [
+                    'relation' => 'OR',
+                    [
+                        'key' => '_testimonial_status',
+                        'value' => 'approved',
+                        'compare' => '='
+                    ],
+                    [
+                        'key' => '_testimonial_status',
+                        'compare' => 'NOT EXISTS'
+                    ],
+                    [
+                        'key' => '_testimonial_status',
+                        'value' => 'pending',
+                        'compare' => '='
+                    ]
+                ],
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'fields' => 'ids'
+            ];
+            $all_testimonials = get_posts($args);
+            $post_position = array_search($post_id, $all_testimonials);
+            
+            if ($post_position !== false) {
+                $page_number = floor($post_position / $posts_per_page) + 1;
+                $archive_url = get_post_type_archive_link('testimonials');
+                // Убираем trailing slash из archive_url, если есть, чтобы избежать двойного слеша
+                $archive_url = rtrim($archive_url, '/');
+                $submission_fields['view_testimonial'] = $archive_url . '/page/' . $page_number . '/';
+            } else {
+                // Если отзыв не найден, просто ссылка на первую страницу архива
+                $archive_url = get_post_type_archive_link('testimonials');
+                $archive_url = rtrim($archive_url, '/');
+                $submission_fields['view_testimonial'] = $archive_url . '/page/1/';
+            }
+            $submission_fields['testimonial_id'] = $post_id;
+            
+            // Подготовка данных для шаблона
+            $template_data = [
+                'form_name' => __('Testimonial Form', 'codeweber'),
+                'fields' => $submission_fields,
+                'user_name' => $author_name,
+                'user_email' => $author_email,
+                'submission_date' => date_i18n(get_option('date_format'), current_time('timestamp')),
+                'submission_time' => date('H:i', current_time('timestamp')),
+                'ip_address' => $ip,
+                'user_agent' => $user_agent,
+            ];
+            
+            // Обработка шаблона
+            $message = CodeweberFormsMailer::process_template($template, $template_data);
+            
+            // Отправка через модуль форм
+            $form_settings = [
+                'formName' => __('Testimonial Form', 'codeweber'),
+                'recipientEmail' => $admin_email,
+            ];
+            
+            $email_sent = CodeweberFormsMailer::send(0, $form_settings, $admin_email, $subject, $message);
+            $email_error = $email_sent ? null : __('Email sending failed.', 'codeweber-forms');
+            
+            // Обновляем статус отправки email в базе данных
+            if ($submission_id && class_exists('CodeweberFormsDatabase')) {
+                $db = new CodeweberFormsDatabase();
+                $db->update_submission($submission_id, [
+                    'email_sent' => $email_sent ? 1 : 0,
+                    'email_error' => $email_error,
+                ]);
+            }
+        } else {
+            // Fallback: простая отправка, если модуль форм недоступен
+            $admin_email = get_option('admin_email');
+            if (!$admin_email) {
+                return;
+            }
+
+            $subject = sprintf(__('New Testimonial Submission from %s', 'codeweber'), $author_name);
+            $message = sprintf(
+                __("A new testimonial has been submitted and is pending review.\n\nAuthor: %s\nEmail: %s\n\nView: %s", 'codeweber'),
+                $author_name,
+                $author_email,
+                admin_url('post.php?post=' . $post_id . '&action=edit')
+            );
+
+            $email_sent = wp_mail($admin_email, $subject, $message);
+            $email_error = $email_sent ? null : __('Email sending failed.', 'codeweber-forms');
+            
+            // Обновляем статус отправки email в базе данных
+            if ($submission_id && class_exists('CodeweberFormsDatabase')) {
+                $db = new CodeweberFormsDatabase();
+                $db->update_submission($submission_id, [
+                    'email_sent' => $email_sent ? 1 : 0,
+                    'email_error' => $email_error,
+                ]);
+            }
         }
+    }
 
-        $subject = sprintf(__('New Testimonial Submission from %s', 'codeweber'), $author_name);
-        $message = sprintf(
-            __("A new testimonial has been submitted and is pending review.\n\nAuthor: %s\nEmail: %s\n\nView: %s", 'codeweber'),
-            $author_name,
-            $author_email,
-            admin_url('post.php?post=' . $post_id . '&action=edit')
-        );
-
-        wp_mail($admin_email, $subject, $message);
+    /**
+     * Send auto-reply email to user using forms module templates
+     * 
+     * @param int $submission_id
+     * @param array $submission_fields
+     * @param string $author_name
+     * @param string $author_email
+     * @param string $ip
+     * @param string $user_agent
+     * @return array ['success' => bool, 'error' => string|null]
+     */
+    private function send_testimonial_auto_reply($submission_id, $submission_fields, $author_name, $author_email, $ip, $user_agent) {
+        error_log('Testimonial Form - send_testimonial_auto_reply called');
+        error_log('Testimonial Form - author_email: ' . $author_email);
+        
+        // Проверяем наличие классов
+        $mailer_exists = class_exists('CodeweberFormsMailer');
+        $templates_exists = class_exists('CodeweberFormsEmailTemplates');
+        error_log('Testimonial Form - CodeweberFormsMailer exists: ' . ($mailer_exists ? 'yes' : 'no'));
+        error_log('Testimonial Form - CodeweberFormsEmailTemplates exists: ' . ($templates_exists ? 'yes' : 'no'));
+        
+        // Используем систему шаблонов модуля форм, если доступна
+        if ($mailer_exists && $templates_exists) {
+            error_log('Testimonial Form - Classes exist, checking templates');
+            
+            $email_templates = get_option('codeweber_forms_email_templates', []);
+            $testimonial_reply_enabled = isset($email_templates['testimonial_reply_enabled']) 
+                ? $email_templates['testimonial_reply_enabled'] 
+                : true;
+            
+            error_log('Testimonial Form - testimonial_reply_enabled: ' . ($testimonial_reply_enabled ? 'true' : 'false'));
+            
+            if (!$testimonial_reply_enabled) {
+                error_log('Testimonial Form - Auto-reply is disabled in settings');
+                return ['success' => false, 'error' => __('Auto-reply is disabled.', 'codeweber-forms')];
+            }
+            
+            if (empty($author_email) || !is_email($author_email)) {
+                error_log('Testimonial Form - Invalid email address: ' . $author_email);
+                return ['success' => false, 'error' => __('Invalid email address.', 'codeweber-forms')];
+            }
+            
+            error_log('Testimonial Form - Starting auto-reply email preparation');
+            
+            // Получаем тему письма
+            $subject = isset($email_templates['testimonial_reply_subject']) && !empty($email_templates['testimonial_reply_subject'])
+                ? $email_templates['testimonial_reply_subject']
+                : __('Thank you for your testimonial', 'codeweber-forms');
+            
+            // Обработка переменных в теме
+            $subject = str_replace(
+                ['{form_name}', '{user_name}', '{site_name}'],
+                [
+                    __('Testimonial Form', 'codeweber'),
+                    $author_name,
+                    get_bloginfo('name')
+                ],
+                $subject
+            );
+            
+            // Получаем шаблон
+            $template = '';
+            if (isset($email_templates['testimonial_reply_template']) && !empty($email_templates['testimonial_reply_template'])) {
+                $template = $email_templates['testimonial_reply_template'];
+            } else {
+                // Используем дефолтный шаблон из класса
+                $templates_class = new CodeweberFormsEmailTemplates();
+                $template = $templates_class->get_default_testimonial_reply_template();
+            }
+            
+            // Подготовка данных для шаблона
+            $template_data = [
+                'form_name' => __('Testimonial Form', 'codeweber'),
+                'fields' => $submission_fields,
+                'user_name' => $author_name,
+                'user_email' => $author_email,
+                'submission_date' => date_i18n(get_option('date_format'), current_time('timestamp')),
+                'submission_time' => date('H:i', current_time('timestamp')),
+                'ip_address' => $ip,
+                'user_agent' => $user_agent,
+            ];
+            
+            // Обработка шаблона
+            $message = CodeweberFormsMailer::process_template($template, $template_data);
+            
+            // Отправка через модуль форм
+            $form_settings = [
+                'formName' => __('Testimonial Form', 'codeweber'),
+                'recipientEmail' => $author_email,
+            ];
+            
+            $sent = CodeweberFormsMailer::send(0, $form_settings, $author_email, $subject, $message);
+            $error = $sent ? null : __('Email sending failed.', 'codeweber-forms');
+            
+            if (!$sent) {
+                error_log('Testimonial Form - Failed to send auto-reply email to: ' . $author_email);
+                error_log('Testimonial Form - Subject: ' . $subject);
+                error_log('Testimonial Form - Template length: ' . strlen($template));
+                error_log('Testimonial Form - Message length: ' . strlen($message));
+            } else {
+                error_log('Testimonial Form - Auto-reply email sent successfully to: ' . $author_email);
+            }
+            
+            return [
+                'success' => $sent,
+                'error' => $error,
+            ];
+        } else {
+            error_log('Testimonial Form - CodeweberFormsMailer or CodeweberFormsEmailTemplates class not found for auto-reply.');
+            return [
+                'success' => false,
+                'error' => __('Email templates module not available.', 'codeweber-forms'),
+            ];
+        }
     }
 }
 

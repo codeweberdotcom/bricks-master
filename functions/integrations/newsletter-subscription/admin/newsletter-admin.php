@@ -8,10 +8,17 @@ if (!defined('ABSPATH')) {
    exit;
 }
 
+// Load WP_List_Table class
+if (!class_exists('WP_List_Table')) {
+   require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
+}
+
+// Load Newsletter List Table class
+require_once dirname(__FILE__) . '/class-newsletter-list-table.php';
+
 class NewsletterSubscriptionAdmin
 {
    private $table_name;
-   private $option_name = 'newsletter_subscription_columns';
 
    public function __construct()
    {
@@ -20,6 +27,48 @@ class NewsletterSubscriptionAdmin
 
       add_action('admin_menu', array($this, 'add_admin_menu'));
       add_action('admin_init', array($this, 'admin_init'));
+      add_action('admin_init', array($this, 'process_bulk_actions_early'));
+      
+      // Register screen option for per page
+      add_filter('set-screen-option', array($this, 'set_screen_option'), 10, 3);
+      
+      // Register columns filter for Screen Options (must be early)
+      add_action('load-toplevel_page_newsletter-subscriptions', array($this, 'setup_screen_options'));
+   }
+   
+   /**
+    * Setup screen options (columns and per page)
+    */
+   public function setup_screen_options()
+   {
+      $screen = get_current_screen();
+      if (!$screen) {
+         return;
+      }
+      
+      // Register per page option
+      $screen->add_option('per_page', array(
+         'label' => __('Subscriptions per page', 'codeweber'),
+         'default' => 20,
+         'option' => 'subscriptions_per_page'
+      ));
+      
+      // Create list table instance to register columns
+      $list_table = new Newsletter_Subscription_List_Table($this);
+      
+      // Register columns for Screen Options
+      add_filter("manage_{$screen->id}_columns", array($list_table, 'get_columns'));
+   }
+   
+   /**
+    * Save screen option (per page)
+    */
+   public function set_screen_option($status, $option, $value)
+   {
+      if ('subscriptions_per_page' === $option) {
+         return (int) $value;
+      }
+      return $status;
    }
 
    public function add_admin_menu()
@@ -36,15 +85,6 @@ class NewsletterSubscriptionAdmin
 
       add_submenu_page(
          'newsletter-subscriptions',
-         __('Subscription Column Settings', 'codeweber'),
-         __('Column Settings', 'codeweber'),
-         'manage_options',
-         'newsletter-subscriptions-column-settings',
-         array($this, 'render_settings_page')
-      );
-
-      add_submenu_page(
-         'newsletter-subscriptions',
          __('Import Subscribers', 'codeweber'),
          __('Import', 'codeweber'),
          'manage_options',
@@ -52,76 +92,11 @@ class NewsletterSubscriptionAdmin
          array($this, 'render_import_page')
       );
 
-      add_filter('manage_newsletter-subscriptions_page_newsletter-subscriptions_columns', array($this, 'add_user_column'));
-      add_action('manage_newsletter-subscriptions_page_newsletter-subscriptions_custom_column', array($this, 'display_user_column'), 10, 2);
-   }
-
-   public function add_user_column($columns)
-   {
-      $new_columns = array();
-      foreach ($columns as $key => $value) {
-         $new_columns[$key] = $value;
-         if ($key === 'email') {
-            $new_columns['user_info'] = __('User Account', 'codeweber');
-         }
-      }
-      return $new_columns;
-   }
-
-   public function display_user_column($column_name, $item_id)
-   {
-      if ($column_name === 'user_info') {
-         global $wpdb;
-
-         $subscription = $wpdb->get_row($wpdb->prepare(
-            "SELECT email FROM {$this->table_name} WHERE id = %d",
-            $item_id
-         ));
-
-         if ($subscription && !empty($subscription->email)) {
-            $user = get_user_by('email', $subscription->email);
-
-            if ($user) {
-               echo '<div class="user-info-column">';
-               echo '<strong>' . esc_html($user->display_name) . '</strong><br>';
-               echo '<small>ID: ' . esc_html($user->ID) . '</small><br>';
-               echo '<small>' . implode(', ', $user->roles) . '</small><br>';
-               echo '<a href="' . admin_url('user-edit.php?user_id=' . $user->ID) . '" 
-                         target="_blank" class="button button-small">' . __('View Profile', 'codeweber') . '</a>';
-               echo '</div>';
-            } else {
-               echo '<span class="description">' . __('No user account', 'codeweber') . '</span>';
-            }
-         }
-      }
    }
 
    public function admin_init()
    {
       add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_styles'));
-
-      register_setting('newsletter_subscription_columns', $this->option_name, array(
-         'sanitize_callback' => array($this, 'sanitize_column_settings')
-      ));
-
-      add_settings_section(
-         'newsletter_columns_section',
-         __('Column Display Settings', 'codeweber'),
-         array($this, 'columns_section_callback'),
-         'newsletter-subscriptions-column-settings'
-      );
-
-      $columns = $this->get_available_columns();
-      foreach ($columns as $column => $label) {
-         add_settings_field(
-            $column . '_column',
-            $label,
-            array($this, 'column_field_callback'),
-            'newsletter-subscriptions-column-settings',
-            'newsletter_columns_section',
-            array('column' => $column, 'label' => $label)
-         );
-      }
 
       add_action('admin_post_newsletter_export_csv', array($this, 'handle_export_csv'));
       add_action('admin_post_nopriv_newsletter_export_csv', array($this, 'handle_export_csv'));
@@ -130,62 +105,6 @@ class NewsletterSubscriptionAdmin
       add_action('admin_post_nopriv_newsletter_import_csv', array($this, 'handle_import_csv'));
    }
 
-   public function sanitize_column_settings($input)
-   {
-      $available_columns = array_keys($this->get_available_columns());
-      $sanitized_input = array();
-
-      if (empty($_POST[$this->option_name])) {
-         return array();
-      }
-
-      foreach ($available_columns as $column) {
-         if (isset($_POST[$this->option_name][$column]) && $_POST[$this->option_name][$column] === '1') {
-            $sanitized_input[$column] = 1;
-         } else {
-            $sanitized_input[$column] = 0;
-         }
-      }
-
-      return $sanitized_input;
-   }
-
-   public function column_field_callback($args)
-   {
-      $options = get_option($this->option_name, array());
-      $column = $args['column'];
-
-      $is_checked = true;
-      if (is_array($options) && isset($options[$column])) {
-         $is_checked = (bool) $options[$column];
-      }
-
-      echo '<label>';
-      echo '<input type="checkbox" name="' . $this->option_name . '[' . $column . ']" value="1" ' . checked(true, $is_checked, false) . ' />';
-      echo ' ' . sprintf(__('Show "%s" column', 'codeweber'), esc_html($args['label']));
-      echo '</label>';
-   }
-
-   public function render_settings_page()
-   {
-?>
-      <div class="wrap">
-         <h1><?php _e('Subscription Column Settings', 'codeweber'); ?></h1>
-         <form method="post" action="options.php">
-            <?php
-            settings_fields('newsletter_subscription_columns');
-            do_settings_sections('newsletter-subscriptions-column-settings');
-            submit_button();
-            ?>
-         </form>
-      </div>
-   <?php
-   }
-
-   public function columns_section_callback()
-   {
-      echo '<p>' . __('Select which columns to display in the subscriptions table:', 'codeweber') . '</p>';
-   }
 
    public function get_available_columns()
    {
@@ -207,22 +126,13 @@ class NewsletterSubscriptionAdmin
 
    public function is_column_enabled($column)
    {
-      $options = get_option($this->option_name, array());
-
-      if ($options === false) {
-         return true;
-      }
-
-      if (empty($options)) {
-         return false;
-      }
-
-      return isset($options[$column]) ? (bool) $options[$column] : false;
+      // All columns are always enabled (settings page removed)
+      return true;
    }
 
    public function enqueue_admin_styles($hook)
    {
-      if ($hook !== 'toplevel_page_newsletter-subscriptions' && $hook !== 'newsletter-subscriptions_page_newsletter-subscriptions-column-settings' && $hook !== 'newsletter-subscriptions_page_newsletter-subscriptions-import') {
+      if ($hook !== 'toplevel_page_newsletter-subscriptions' && $hook !== 'newsletter-subscriptions_page_newsletter-subscriptions-import') {
          return;
       }
 
@@ -234,55 +144,40 @@ class NewsletterSubscriptionAdmin
       );
    }
 
+   /**
+    * Process bulk actions early via admin_init hook (before any output)
+    */
+   public function process_bulk_actions_early()
+   {
+      // Only process on our admin page
+      if (!isset($_GET['page']) || $_GET['page'] !== 'newsletter-subscriptions') {
+         return;
+      }
+      
+      // Check if this is a bulk action
+      if (isset($_POST['subscription']) && is_array($_POST['subscription'])) {
+         $list_table = new Newsletter_Subscription_List_Table($this);
+         $list_table->process_bulk_action();
+         // process_bulk_action() will redirect and exit
+      }
+   }
+
    public function render_admin_page()
    {
       global $wpdb;
 
+      // Handle individual actions (unsubscribe, delete) only if not bulk action
       $this->handle_actions();
+      
+      // Now create list table instance and prepare items
+      $list_table = new Newsletter_Subscription_List_Table($this);
+      $list_table->prepare_items();
+      
 
-      $per_page = 20;
-      $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-      $offset = ($current_page - 1) * $per_page;
-
-      $where = '';
+      $forms = $wpdb->get_col("SELECT DISTINCT form_id FROM {$this->table_name} ORDER BY form_id");
       $search = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
       $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
       $form_filter = isset($_GET['form_id']) ? sanitize_text_field($_GET['form_id']) : '';
-
-      if ($search) {
-         $where .= $wpdb->prepare(
-            " AND (email LIKE %s OR first_name LIKE %s OR last_name LIKE %s)",
-            '%' . $wpdb->esc_like($search) . '%',
-            '%' . $wpdb->esc_like($search) . '%',
-            '%' . $wpdb->esc_like($search) . '%'
-         );
-      }
-
-      if ($status && in_array($status, ['pending', 'confirmed', 'unsubscribed'])) {
-         $where .= $wpdb->prepare(" AND status = %s", $status);
-      }
-
-      if ($form_filter) {
-         $where .= $wpdb->prepare(" AND form_id = %s", $form_filter);
-      }
-
-      $total_items = $wpdb->get_var("SELECT COUNT(*) FROM {$this->table_name} WHERE 1=1 {$where}");
-      $total_pages = ceil($total_items / $per_page);
-
-      $subscriptions = $wpdb->get_results(
-         "SELECT * FROM {$this->table_name} WHERE 1=1 {$where} 
-             ORDER BY created_at DESC LIMIT {$per_page} OFFSET {$offset}"
-      );
-
-      $forms = $wpdb->get_col("SELECT DISTINCT form_id FROM {$this->table_name} ORDER BY form_id");
-
-      $enabled_columns = array();
-      $available_columns = $this->get_available_columns();
-      foreach ($available_columns as $column => $label) {
-         if ($this->is_column_enabled($column)) {
-            $enabled_columns[$column] = $label;
-         }
-      }
 
    ?>
       <div class="wrap">
@@ -290,8 +185,13 @@ class NewsletterSubscriptionAdmin
 
          <?php settings_errors('newsletter_messages'); ?>
 
+         <?php
+         // Display views (All, Pending, Confirmed, etc.)
+         $list_table->views();
+         ?>
+
          <div class="newsletter-admin-filters">
-            <form method="get">
+            <form method="get" id="newsletter-filter-form">
                <input type="hidden" name="page" value="newsletter-subscriptions">
 
                <div class="tablenav top">
@@ -300,7 +200,8 @@ class NewsletterSubscriptionAdmin
                         <option value=""><?php _e('All statuses', 'codeweber'); ?></option>
                         <option value="pending" <?php selected($status, 'pending'); ?>><?php _e('Pending', 'codeweber'); ?></option>
                         <option value="confirmed" <?php selected($status, 'confirmed'); ?>><?php _e('Confirmed', 'codeweber'); ?></option>
-                        <option value='unsubscribed' <?php selected($status, 'unsubscribed'); ?>><?php _e('Unsubscribed', 'codeweber'); ?></option>
+                        <option value="unsubscribed" <?php selected($status, 'unsubscribed'); ?>><?php _e('Unsubscribed', 'codeweber'); ?></option>
+                        <option value="trash" <?php selected($status, 'trash'); ?>>Корзина</option>
                      </select>
 
                      <select name="form_id" class="newsletter-form-filter">
@@ -315,15 +216,12 @@ class NewsletterSubscriptionAdmin
                      <input type="text" name="s" value="<?php echo esc_attr($search); ?>"
                         placeholder="<?php _e('Search by email or name', 'codeweber'); ?>" class="newsletter-search">
 
-                     <input type="submit" class="button" value="<?php _e('Filter', 'codeweber'); ?>">
+                     <?php submit_button(__('Filter', 'codeweber'), 'secondary', 'filter_action', false); ?>
 
                      <?php if ($search || $status || $form_filter): ?>
                         <a href="<?php echo admin_url('admin.php?page=newsletter-subscriptions'); ?>"
                            class="button"><?php _e('Reset', 'codeweber'); ?></a>
                      <?php endif; ?>
-
-                     <a href="<?php echo admin_url('admin.php?page=newsletter-subscriptions-column-settings'); ?>"
-                        class="button button-secondary"><?php _e('Column Settings', 'codeweber'); ?></a>
 
                      <a href="<?php echo admin_url('admin.php?page=newsletter-subscriptions-import'); ?>"
                         class="button button-secondary"><?php _e('Import Subscribers', 'codeweber'); ?></a>
@@ -332,51 +230,22 @@ class NewsletterSubscriptionAdmin
             </form>
          </div>
 
-         <table class="wp-list-table widefat fixed striped newsletter-subscriptions-table">
-            <thead>
-               <tr>
-                  <?php foreach ($enabled_columns as $column => $label): ?>
-                     <th><?php echo esc_html($label); ?></th>
-                  <?php endforeach; ?>
-               </tr>
-            </thead>
-            <tbody>
-               <?php if ($subscriptions): ?>
-                  <?php foreach ($subscriptions as $subscription): ?>
-                     <tr>
-                        <?php foreach ($enabled_columns as $column => $label): ?>
-                           <td>
-                              <?php echo $this->render_column_content($column, $subscription); ?>
-                           </td>
-                        <?php endforeach; ?>
-                     </tr>
-                  <?php endforeach; ?>
-               <?php else: ?>
-                  <tr>
-                     <td colspan="<?php echo count($enabled_columns); ?>" style="text-align: center;">
-                        <?php _e('No subscriptions found', 'codeweber'); ?>
-                     </td>
-                  </tr>
-               <?php endif; ?>
-            </tbody>
-         </table>
-
-         <?php if ($total_pages > 1): ?>
-            <div class="tablenav bottom">
-               <div class="tablenav-pages">
-                  <?php
-                  echo paginate_links(array(
-                     'base' => add_query_arg('paged', '%#%'),
-                     'format' => '',
-                     'prev_text' => '&laquo;',
-                     'next_text' => '&raquo;',
-                     'total' => $total_pages,
-                     'current' => $current_page
-                  ));
-                  ?>
-               </div>
-            </div>
-         <?php endif; ?>
+         <form method="post" id="newsletter-bulk-form">
+            <?php 
+            // Preserve filter parameters in the form
+            if ($status) {
+               echo '<input type="hidden" name="status" value="' . esc_attr($status) . '">';
+            }
+            if ($form_filter) {
+               echo '<input type="hidden" name="form_id" value="' . esc_attr($form_filter) . '">';
+            }
+            if ($search) {
+               echo '<input type="hidden" name="s" value="' . esc_attr($search) . '">';
+            }
+            
+            $list_table->display();
+            ?>
+         </form>
 
          <div class="newsletter-export">
             <h2><?php _e('Export Subscriptions', 'codeweber'); ?></h2>
@@ -403,7 +272,7 @@ class NewsletterSubscriptionAdmin
       <?php
    }
 
-   private function render_column_content($column, $subscription)
+   public function render_column_content($column, $subscription)
    {
       switch ($column) {
          case 'email':
@@ -465,38 +334,65 @@ class NewsletterSubscriptionAdmin
             ob_start();
             ?>
             <div class="newsletter-actions">
-               <?php if ($subscription->status !== 'unsubscribed'): ?>
+               <?php if ($subscription->status === 'trash'): ?>
                   <form method="post" style="display:inline;">
-                     <input type="hidden" name="action" value="unsubscribe">
+                     <input type="hidden" name="action" value="untrash">
                      <input type="hidden" name="email" value="<?php echo esc_attr($subscription->email); ?>">
                      <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
-                     <button type="submit" class="button button-small"
-                        onclick="return confirm('<?php _e('Are you sure you want to unsubscribe this user?', 'codeweber'); ?>')">
-                        <?php _e('Unsubscribe', 'codeweber'); ?>
+                     <button type="submit" class="button button-small">
+                        <?php _e('Restore', 'codeweber'); ?>
+                     </button>
+                  </form>
+
+                  <form method="post" style="display:inline;">
+                     <input type="hidden" name="action" value="delete_permanent">
+                     <input type="hidden" name="email" value="<?php echo esc_attr($subscription->email); ?>">
+                     <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
+                     <button type="submit" class="button button-small button-link-delete"
+                        onclick="return confirm('<?php _e('Are you sure you want to permanently delete this subscription?', 'codeweber'); ?>')">
+                        <?php _e('Delete Permanently', 'codeweber'); ?>
+                     </button>
+                  </form>
+               <?php else: ?>
+                  <?php if ($subscription->status !== 'unsubscribed'): ?>
+                     <form method="post" style="display:inline;">
+                        <input type="hidden" name="action" value="unsubscribe">
+                        <input type="hidden" name="email" value="<?php echo esc_attr($subscription->email); ?>">
+                        <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
+                        <button type="submit" class="button button-small"
+                           onclick="return confirm('<?php _e('Are you sure you want to unsubscribe this user?', 'codeweber'); ?>')">
+                           <?php _e('Unsubscribe', 'codeweber'); ?>
+                        </button>
+                     </form>
+                  <?php endif; ?>
+
+                  <form method="post" style="display:inline;">
+                     <input type="hidden" name="action" value="trash">
+                     <input type="hidden" name="email" value="<?php echo esc_attr($subscription->email); ?>">
+                     <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
+                     <button type="submit" class="button button-small button-link-delete"
+                        onclick="return confirm('Вы уверены, что хотите переместить эту подписку в корзину?')">
+                        Корзина
                      </button>
                   </form>
                <?php endif; ?>
-
-               <form method="post" style="display:inline;">
-                  <input type="hidden" name="action" value="delete">
-                  <input type="hidden" name="email" value="<?php echo esc_attr($subscription->email); ?>">
-                  <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
-                  <button type="submit" class="button button-small button-link-delete"
-                     onclick="return confirm('<?php _e('Are you sure you want to delete this subscription?', 'codeweber'); ?>')">
-                     <?php _e('Delete', 'codeweber'); ?>
-                  </button>
-               </form>
             </div>
       <?php
             return ob_get_clean();
 
          default:
+            // Return empty string for unknown columns
             return '';
       }
    }
 
    private function handle_actions()
    {
+      // Don't handle if this is a bulk action
+      if (isset($_POST['subscription']) && is_array($_POST['subscription'])) {
+         return;
+      }
+      
       if (!isset($_POST['action']) || !check_admin_referer('newsletter_admin_action', 'newsletter_nonce')) {
          return;
       }
@@ -523,14 +419,52 @@ class NewsletterSubscriptionAdmin
             }
             break;
 
-         case 'delete':
-            $result = $wpdb->delete($this->table_name, array('email' => $email));
+         case 'trash':
+            // Only move to trash if not already in trash
+            $result = $wpdb->query($wpdb->prepare(
+               "UPDATE {$this->table_name} SET status = 'trash', updated_at = %s WHERE email = %s AND status != 'trash'",
+               current_time('mysql'),
+               $email
+            ));
 
             if ($result) {
                add_settings_error(
                   'newsletter_messages',
                   'newsletter_message',
-                  __('Subscription successfully deleted', 'codeweber'),
+                  'Подписка перемещена в корзину',
+                  'success'
+               );
+            }
+            break;
+
+         case 'untrash':
+            $result = $wpdb->update($this->table_name, array(
+               'status' => 'confirmed',
+               'updated_at' => current_time('mysql')
+            ), array('email' => $email, 'status' => 'trash'));
+
+            if ($result) {
+               add_settings_error(
+                  'newsletter_messages',
+                  'newsletter_message',
+                  'Подписка восстановлена из корзины',
+                  'success'
+               );
+            }
+            break;
+
+         case 'delete_permanent':
+            // Only delete if in trash
+            $result = $wpdb->query($wpdb->prepare(
+               "DELETE FROM {$this->table_name} WHERE email = %s AND status = 'trash'",
+               $email
+            ));
+
+            if ($result) {
+               add_settings_error(
+                  'newsletter_messages',
+                  'newsletter_message',
+                  __('Subscription permanently deleted', 'codeweber'),
                   'success'
                );
             }
@@ -712,10 +646,10 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
                      <td>
                         <label>
                            <input type="checkbox" name="skip_duplicates" id="skip_duplicates" value="1" checked>
-                           <?php _e('Skip duplicate emails (keep existing)', 'codeweber'); ?>
+                           Пропускать дубликаты email (оставлять существующие)
                         </label>
                         <p class="description">
-                           <?php _e('If unchecked, duplicates will be updated with new data', 'codeweber'); ?>
+                           Если снято, дубликаты будут обновлены новыми данными
                         </p>
                      </td>
                   </tr>
@@ -969,7 +903,7 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
    private function validate_status($status)
    {
       $status = strtolower(trim($status));
-      $valid_statuses = array('pending', 'confirmed', 'unsubscribed');
+      $valid_statuses = array('pending', 'confirmed', 'unsubscribed', 'trash');
 
       return in_array($status, $valid_statuses) ? $status : 'confirmed';
    }
@@ -993,13 +927,14 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
       $labels = array(
          'pending' => __('Pending', 'codeweber'),
          'confirmed' => __('Confirmed', 'codeweber'),
-         'unsubscribed' => __('Unsubscribed', 'codeweber')
+         'unsubscribed' => __('Unsubscribed', 'codeweber'),
+         'trash' => 'Корзина'
       );
 
       return $labels[$status] ?? $status;
    }
 
-   private function get_form_label($form_id)
+   public function get_form_label($form_id)
    {
       $form_labels = array(
          'default' => __('Subscription Form|Email', 'codeweber'),

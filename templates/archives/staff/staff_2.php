@@ -24,3 +24,6 @@ if (empty($card_html)) {
 </div>
 <!--/column -->
 
+
+
+

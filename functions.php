@@ -55,11 +55,40 @@ require_once get_template_directory() . '/functions/comments-reply.php'; // --- 
 require_once get_template_directory() . '/functions/post-card-templates.php'; // --- Post Card Templates System ---
 
 
-// Подключаем модуль персональных данных
-require_once get_template_directory() . '/functions/integrations/personal-data/init.php';
+// Подключаем универсальный модуль персональных данных V2
+require_once get_template_directory() . '/functions/integrations/personal-data-v2/init.php';
 
 // Подключение модуля newsletter subscription
 require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-init.php';
+
+// Регистрация провайдеров Personal Data V2
+add_action('personal_data_v2_ready', function($manager) {
+    // CF7 Provider
+    if (file_exists(get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-cf7-provider.php')) {
+        require_once get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-cf7-provider.php';
+        $provider = new CF7_Data_Provider();
+        $manager->register_provider($provider);
+    }
+    
+    // Testimonials Provider
+    if (file_exists(get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-testimonials-provider.php')) {
+        require_once get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-testimonials-provider.php';
+        $provider = new Testimonials_Data_Provider();
+        $manager->register_provider($provider);
+    }
+    
+    // Consent Provider
+    if (file_exists(get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-consent-provider.php')) {
+        require_once get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-consent-provider.php';
+        $provider = new Consent_Data_Provider();
+        $manager->register_provider($provider);
+    }
+}, 10);
+
+// Тестовый скрипт для проверки провайдеров (удалите после тестирования)
+if (defined('WP_DEBUG') && WP_DEBUG) {
+    require_once get_template_directory() . '/functions/integrations/personal-data-v2/test-providers.php';
+}
 
 
 /**
@@ -106,6 +135,11 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/matomo-search-integration.php';
 
 require_once get_template_directory() . '/functions/integrations/ajax-search-module/contact-form7-matomo-integration.php';
+
+/**
+ * Подключение модуля форм CodeWeber
+ */
+require_once get_template_directory() . '/functions/integrations/codeweber-forms/codeweber-forms-init.php';
 
 // Подключение универсального AJAX фильтра
 require_once get_template_directory() . '/functions/ajax-filter.php';

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #0073aa; color: white; padding: 20px; text-align: center; }
+        .content { background-color: #f9f9f9; padding: 20px; }
+        .footer { background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 12px; color: #666; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background-color: #f5f5f5; padding: 10px; text-align: left; border: 1px solid #ddd; }
+        td { padding: 10px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2 style="margin: 0;">Спасибо за обращение!</h2>
+        </div>
+        <div class="content">
+            <p>Здравствуйте, {user_name}!</p>
+            <p>Мы получили ваше сообщение и свяжемся с вами в ближайшее время.</p>
+            <p>С уважением,<br>{site_name}</p>
+        </div>
+        <div class="footer">
+            <p><small>IP: {user_ip}<br>User Agent: {user_agent}</small></p>
+        </div>
+    </div>
+</body>
+</html>
+
+

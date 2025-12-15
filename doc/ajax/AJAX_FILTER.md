@@ -650,3 +650,6 @@ if (!in_array($post_type, $allowed_post_types)) {
 
 Разработано для темы Codeweber.
 
+
+
+

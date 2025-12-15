@@ -1,0 +1,844 @@
+# Translation file for CodeWeber Forms Module
+# Copyright (C) 2025 CodeWeber
+# This file is distributed under the same license as the CodeWeber Forms package.
+msgid ""
+msgstr ""
+"Project-Id-Version: CodeWeber Forms 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-14 12:00+0000\n"
+"PO-Revision-Date: 2025-12-14 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Russian\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+#: admin/codeweber-forms-admin.php:27
+msgid "Form Submissions"
+msgstr "Отправки форм"
+
+#: admin/codeweber-forms-admin.php:38
+msgid "All Submissions"
+msgstr "Все отправки"
+
+#: admin/codeweber-forms-admin.php:47
+msgid "Settings"
+msgstr "Настройки"
+
+#: admin/codeweber-forms-settings.php:45
+msgid "Email Settings"
+msgstr "Настройки Email"
+
+#: admin/codeweber-forms-settings.php:55
+msgid "Default Recipient Email"
+msgstr "Email получателя по умолчанию"
+
+#: admin/codeweber-forms-settings.php:65
+msgid "Default Sender Email"
+msgstr "Email отправителя по умолчанию"
+
+#: admin/codeweber-forms-settings.php:75
+msgid "Default Sender Name"
+msgstr "Имя отправителя по умолчанию"
+
+#: admin/codeweber-forms-settings.php:85
+msgid "Default Email Subject"
+msgstr "Тема письма по умолчанию"
+
+#: admin/codeweber-forms-settings.php:95
+msgid "Rate Limiting"
+msgstr "Ограничение отправок"
+
+#: admin/codeweber-forms-settings.php:105
+msgid "Enable Rate Limiting"
+msgstr "Включить ограничение отправок"
+
+#: admin/codeweber-forms-settings.php:115
+msgid "Max Submissions per Period"
+msgstr "Максимум отправок за период"
+
+#: admin/codeweber-forms-settings.php:125
+msgid "Rate Limit Period (minutes)"
+msgstr "Период ограничения (минуты)"
+
+#: admin/codeweber-forms-settings.php:135
+msgid "Default Messages"
+msgstr "Сообщения по умолчанию"
+
+#: admin/codeweber-forms-settings.php:145
+msgid "Success Message"
+msgstr "Сообщение об успехе"
+
+#: admin/codeweber-forms-settings.php:155
+msgid "Error Message"
+msgstr "Сообщение об ошибке"
+
+#: admin/codeweber-forms-settings.php:165
+msgid "Configure default email settings for form submissions."
+msgstr "Настройте параметры email по умолчанию для отправок форм."
+
+#: admin/codeweber-forms-settings.php:170
+msgid "Configure rate limiting to prevent spam submissions."
+msgstr "Настройте ограничение отправок для предотвращения спама."
+
+#: admin/codeweber-forms-settings.php:175
+msgid "Set default messages shown to users after form submission."
+msgstr "Установите сообщения по умолчанию, показываемые пользователям после отправки формы."
+
+#: admin/codeweber-forms-settings.php:185
+msgid "Email address where form submissions will be sent by default."
+msgstr "Email адрес, на который по умолчанию будут отправляться данные форм."
+
+#: admin/codeweber-forms-settings.php:192
+msgid "Email address used as sender for form submission emails."
+msgstr "Email адрес, используемый как отправитель для писем с отправками форм."
+
+#: admin/codeweber-forms-settings.php:199
+msgid "Name used as sender for form submission emails."
+msgstr "Имя, используемое как отправитель для писем с отправками форм."
+
+#: admin/codeweber-forms-settings.php:206
+msgid "Default subject line for form submission emails."
+msgstr "Тема письма по умолчанию для писем с отправками форм."
+
+#: admin/codeweber-forms-settings.php:213
+msgid "Enable rate limiting for form submissions"
+msgstr "Включить ограничение отправок для форм"
+
+#: admin/codeweber-forms-settings.php:220
+msgid "Maximum number of submissions allowed per period."
+msgstr "Максимальное количество отправок, разрешенных за период."
+
+#: admin/codeweber-forms-settings.php:227
+msgid "Time period in minutes for rate limiting."
+msgstr "Временной период в минутах для ограничения отправок."
+
+#: admin/codeweber-forms-settings.php:234
+msgid "Message shown to users after successful form submission."
+msgstr "Сообщение, показываемое пользователям после успешной отправки формы."
+
+#: admin/codeweber-forms-settings.php:241
+msgid "Message shown to users when form submission fails."
+msgstr "Сообщение, показываемое пользователям при неудачной отправке формы."
+
+#: admin/codeweber-forms-settings.php:250
+msgid "Form Settings"
+msgstr "Настройки форм"
+
+#: admin/codeweber-forms-settings.php:252
+msgid "You do not have sufficient permissions to access this page."
+msgstr "У вас недостаточно прав для доступа к этой странице."
+
+#: codeweber-forms-api.php:63
+msgid "Security check failed."
+msgstr "Проверка безопасности не пройдена."
+
+#: codeweber-forms-api.php:69
+msgid "Spam detected."
+msgstr "Обнаружен спам."
+
+#: codeweber-forms-api.php:79
+msgid "Too many submissions. Please try again later."
+msgstr "Слишком много отправок. Пожалуйста, попробуйте позже."
+
+#: codeweber-forms-api.php:85
+msgid "Form not found."
+msgstr "Форма не найдена."
+
+#: codeweber-forms-api.php:91
+msgid "No fields provided."
+msgstr "Поля не предоставлены."
+
+#: codeweber-forms-api.php:113
+msgid "Failed to save submission."
+msgstr "Не удалось сохранить отправку."
+
+#: codeweber-forms-api.php:140
+msgid "Thank you! Your message has been sent."
+msgstr "Спасибо! Ваше сообщение отправлено."
+
+#: codeweber-forms-api.php:342
+msgid "Thank you for subscribing!"
+msgstr "Спасибо за подписку!"
+
+#: codeweber-forms-api.php:178
+msgid "New Form Submission"
+msgstr "Новая отправка формы"
+
+#: codeweber-forms-mailer.php:133
+msgid "Field"
+msgstr "Поле"
+
+#: codeweber-forms-mailer.php:134
+msgid "Value"
+msgstr "Значение"
+
+#: codeweber-forms-shortcode.php:29
+msgid "Form ID or name is required."
+msgstr "Требуется ID или название формы."
+
+#: codeweber-forms-core.php:40
+msgid "This field is required."
+msgstr "Это поле обязательно."
+
+#: codeweber-forms-core.php:41
+msgid "Please enter a valid email address."
+msgstr "Пожалуйста, введите корректный email адрес."
+
+#: codeweber-forms-core.php:42
+msgid "Form submitted successfully!"
+msgstr "Форма успешно отправлена!"
+
+#: codeweber-forms-core.php:43
+msgid "An error occurred. Please try again."
+msgstr "Произошла ошибка. Пожалуйста, попробуйте снова."
+
+#: codeweber-forms-api.php:178
+msgid "Form:"
+msgstr "Форма:"
+
+#: codeweber-forms-api.php:180
+msgid "Date:"
+msgstr "Дата:"
+
+#: codeweber-forms-api.php:181
+msgid "From:"
+msgstr "От:"
+
+#: codeweber-forms-api.php:182
+msgid "Form Fields:"
+msgstr "Поля формы:"
+
+#: codeweber-forms-api.php:186
+msgid "Thank you for your submission!"
+msgstr "Спасибо за вашу отправку!"
+
+#: codeweber-forms-admin.php:60
+msgid "All statuses"
+msgstr "Все статусы"
+
+#: codeweber-forms-admin.php:61
+msgid "New"
+msgstr "Новое"
+
+#: codeweber-forms-admin.php:62
+msgid "Read"
+msgstr "Прочитано"
+
+#: codeweber-forms-admin.php:63
+msgid "Archived"
+msgstr "Архивировано"
+
+#: codeweber-forms-admin.php:64
+msgid "All forms"
+msgstr "Все формы"
+
+#: codeweber-forms-admin.php:65
+msgid "Search..."
+msgstr "Поиск..."
+
+#: codeweber-forms-admin.php:66
+msgid "Filter"
+msgstr "Фильтр"
+
+#: codeweber-forms-admin.php:67
+msgid "Reset"
+msgstr "Сбросить"
+
+#: codeweber-forms-admin.php:68
+msgid "ID"
+msgstr "ID"
+
+#: codeweber-forms-admin.php:69
+msgid "Form"
+msgstr "Форма"
+
+#: codeweber-forms-admin.php:70
+msgid "Submission Data"
+msgstr "Данные отправки"
+
+#: codeweber-forms-admin.php:71
+msgid "Status"
+msgstr "Статус"
+
+#: codeweber-forms-admin.php:152
+msgid "Email Admin"
+msgstr "Email админу"
+
+#: codeweber-forms-admin.php:153
+msgid "Email User"
+msgstr "Email пользователю"
+
+#: codeweber-forms-admin.php:73
+msgid "Date"
+msgstr "Дата"
+
+#: codeweber-forms-admin.php:74
+msgid "Actions"
+msgstr "Действия"
+
+#: codeweber-forms-admin.php:75
+msgid "View all"
+msgstr "Показать все"
+
+#: codeweber-forms-admin.php:76
+msgid "View"
+msgstr "Просмотр"
+
+#: codeweber-forms-admin.php:77
+msgid "Delete"
+msgstr "Удалить"
+
+#: codeweber-forms-admin.php:78
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: codeweber-forms-admin.php:79
+msgid "No submissions found"
+msgstr "Отправки не найдены"
+
+#: codeweber-forms-admin.php:80
+msgid "Submission deleted successfully"
+msgstr "Отправка успешно удалена"
+
+#: codeweber-forms-admin.php:81
+msgid "Failed to delete submission"
+msgstr "Не удалось удалить отправку"
+
+#: admin/codeweber-forms-email-templates.php:56
+msgid "Email Templates"
+msgstr "Шаблоны писем"
+
+#: admin/codeweber-forms-email-templates.php:240
+msgid "Form name"
+msgstr "Название формы"
+
+#: admin/codeweber-forms-email-templates.php:241
+msgid "User name from form"
+msgstr "Имя пользователя из формы"
+
+#: admin/codeweber-forms-email-templates.php:242
+msgid "User email from form"
+msgstr "Email пользователя из формы"
+
+#: admin/codeweber-forms-email-templates.php:243
+msgid "Submission date"
+msgstr "Дата отправки"
+
+#: admin/codeweber-forms-email-templates.php:244
+msgid "Submission time (24h format)"
+msgstr "Время отправки (24ч формат)"
+
+#: admin/codeweber-forms-email-templates.php:245
+msgid "All form fields in table format"
+msgstr "Все поля формы в виде таблицы"
+
+#: admin/codeweber-forms-email-templates.php:246
+msgid "User IP address"
+msgstr "IP адрес пользователя"
+
+#: admin/codeweber-forms-email-templates.php:247
+msgid "User browser/agent"
+msgstr "Браузер/агент пользователя"
+
+#: admin/codeweber-forms-email-templates.php:248
+msgid "Site name"
+msgstr "Название сайта"
+
+#: admin/codeweber-forms-email-templates.php:249
+msgid "Site URL"
+msgstr "URL сайта"
+
+#: admin/codeweber-forms-email-templates.php:271
+msgid "Thank you for your message"
+msgstr "Спасибо за ваше сообщение"
+
+#: admin/codeweber-forms-email-templates.php:275
+msgid "Thank you for your testimonial"
+msgstr "Спасибо за ваш отзыв"
+
+#: admin/codeweber-forms-email-templates.php:279
+msgid "Your resume has been received"
+msgstr "Ваше резюме получено"
+
+#: admin/codeweber-forms-email-templates.php:296
+msgid "Available Variables"
+msgstr "Доступные переменные"
+
+#: admin/codeweber-forms-email-templates.php:297
+msgid "You can use these variables in your email templates:"
+msgstr "Вы можете использовать эти переменные в шаблонах писем:"
+
+#: admin/codeweber-forms-email-templates.php:301
+msgid "Variable"
+msgstr "Переменная"
+
+#: admin/codeweber-forms-email-templates.php:302
+msgid "Description"
+msgstr "Описание"
+
+#: admin/codeweber-forms-email-templates.php:318
+msgid "Admin Notification Template"
+msgstr "Шаблон уведомления администратора"
+
+#: admin/codeweber-forms-email-templates.php:319
+msgid "This template is used for emails sent to administrators when a form is submitted."
+msgstr "Этот шаблон используется для писем, отправляемых администраторам при отправке формы."
+
+#: admin/codeweber-forms-email-templates.php:325
+msgid "Enable Admin Notifications"
+msgstr "Включить уведомления администратора"
+
+#: admin/codeweber-forms-email-templates.php:335
+msgid "Send email notifications to administrators"
+msgstr "Отправлять email уведомления администраторам"
+
+#: admin/codeweber-forms-email-templates.php:342
+msgid "Email Subject"
+msgstr "Тема письма"
+
+#: admin/codeweber-forms-email-templates.php:352
+msgid "Subject line for admin notification emails. You can use variables like {form_name}."
+msgstr "Тема письма для уведомлений администратора. Можно использовать переменные, например {form_name}."
+
+#: admin/codeweber-forms-email-templates.php:359
+msgid "Email Template"
+msgstr "Шаблон письма"
+
+#: admin/codeweber-forms-email-templates.php:377
+msgid "HTML template for admin notification emails. Use variables from the list above."
+msgstr "HTML шаблон для уведомлений администратора. Используйте переменные из списка выше."
+
+#: admin/codeweber-forms-email-templates.php:386
+msgid "Auto-Reply Template"
+msgstr "Шаблон автоответа"
+
+#: admin/codeweber-forms-email-templates.php:387
+msgid "This template is used for automatic reply emails sent to users after form submission."
+msgstr "Этот шаблон используется для автоматических ответов, отправляемых пользователям после отправки формы."
+
+#: admin/codeweber-forms-email-templates.php:393
+msgid "Enable Auto-Reply"
+msgstr "Включить автоответ"
+
+#: admin/codeweber-forms-email-templates.php:403
+msgid "Send automatic reply emails to users"
+msgstr "Отправлять автоматические ответы пользователям"
+
+#: admin/codeweber-forms-email-templates.php:406
+msgid "Note: Auto-reply will only be sent if the form contains an email field."
+msgstr "Примечание: Автоответ будет отправлен только если форма содержит поле email."
+
+#: admin/codeweber-forms-email-templates.php:413
+msgid "Subject line for auto-reply emails. You can use variables like {form_name}, {user_name}."
+msgstr "Тема письма для автоответов. Можно использовать переменные, например {form_name}, {user_name}."
+
+#: admin/codeweber-forms-email-templates.php:430
+msgid "HTML template for auto-reply emails. Use variables from the list above."
+msgstr "HTML шаблон для автоответов. Используйте переменные из списка выше."
+
+#: admin/codeweber-forms-email-templates.php:457
+msgid "Testimonial Reply Template"
+msgstr "Шаблон ответа на отзыв"
+
+#: admin/codeweber-forms-email-templates.php:458
+msgid "This template is used for automatic reply emails sent to users after testimonial submission."
+msgstr "Этот шаблон используется для автоматических ответов, отправляемых пользователям после отправки отзыва."
+
+#: admin/codeweber-forms-email-templates.php:464
+msgid "Enable Testimonial Reply"
+msgstr "Включить ответ на отзыв"
+
+#: admin/codeweber-forms-email-templates.php:474
+msgid "Send automatic reply emails for testimonials"
+msgstr "Отправлять автоматические ответы на отзывы"
+
+#: admin/codeweber-forms-email-templates.php:477
+msgid "Note: Reply will be sent if form name contains \"testimonial\" or \"отзыв\"."
+msgstr "Примечание: Ответ будет отправлен, если название формы содержит \"testimonial\" или \"отзыв\"."
+
+#: admin/codeweber-forms-email-templates.php:484
+msgid "Subject line for testimonial reply emails. You can use variables like {form_name}, {user_name}."
+msgstr "Тема письма для ответов на отзывы. Можно использовать переменные, например {form_name}, {user_name}."
+
+#: admin/codeweber-forms-email-templates.php:501
+msgid "HTML template for testimonial reply emails. Use variables from the list above."
+msgstr "HTML шаблон для ответов на отзывы. Используйте переменные из списка выше."
+
+#: admin/codeweber-forms-email-templates.php:528
+msgid "Resume Reply Template"
+msgstr "Шаблон ответа на резюме"
+
+#: admin/codeweber-forms-email-templates.php:529
+msgid "This template is used for automatic reply emails sent to users after resume/CV submission."
+msgstr "Этот шаблон используется для автоматических ответов, отправляемых пользователям после отправки резюме/CV."
+
+#: admin/codeweber-forms-email-templates.php:535
+msgid "Enable Resume Reply"
+msgstr "Включить ответ на резюме"
+
+#: admin/codeweber-forms-email-templates.php:545
+msgid "Send automatic reply emails for resumes"
+msgstr "Отправлять автоматические ответы на резюме"
+
+#: admin/codeweber-forms-email-templates.php:548
+msgid "Note: Reply will be sent if form name contains \"resume\", \"резюме\", \"cv\" or \"вакансия\"."
+msgstr "Примечание: Ответ будет отправлен, если название формы содержит \"resume\", \"резюме\", \"cv\" или \"вакансия\"."
+
+#: admin/codeweber-forms-email-templates.php:555
+msgid "Subject line for resume reply emails. You can use variables like {form_name}, {user_name}."
+msgstr "Тема письма для ответов на резюме. Можно использовать переменные, например {form_name}, {user_name}."
+
+#: admin/codeweber-forms-email-templates.php:572
+msgid "HTML template for resume reply emails. Use variables from the list above."
+msgstr "HTML шаблон для ответов на резюме. Используйте переменные из списка выше."
+
+#: codeweber-forms-api.php:231
+msgid "%s is required."
+msgstr "%s обязательно."
+
+#: codeweber-forms-api.php:379
+msgid "Email sending failed."
+msgstr "Не удалось отправить письмо."
+
+#: codeweber-forms-renderer.php:29
+msgid "Invalid form configuration."
+msgstr "Неверная конфигурация формы."
+
+#: codeweber-forms-renderer.php:48
+msgid "Form block not found."
+msgstr "Блок формы не найден."
+
+#: codeweber-forms-renderer.php:90
+msgid "Send Message"
+msgstr "Отправить сообщение"
+
+#: codeweber-forms-renderer.php:103
+msgid "Join"
+msgstr "Подписаться"
+
+#: codeweber-forms-renderer.php:155
+msgid "Email Address"
+msgstr "Email адрес"
+
+#: codeweber-forms-renderer.php:128
+msgid "Sending..."
+msgstr "Отправка..."
+
+#: codeweber-forms-validator.php:26
+msgid "Minimum length is %d characters."
+msgstr "Минимальная длина %d символов."
+
+#: codeweber-forms-validator.php:30
+msgid "Maximum length is %d characters."
+msgstr "Максимальная длина %d символов."
+
+#: codeweber-forms-validator.php:42
+msgid "Please enter a valid URL."
+msgstr "Пожалуйста, введите корректный URL."
+
+#: admin/codeweber-forms-email-templates.php:301
+msgid "Hello,"
+msgstr "Здравствуйте,"
+
+#: admin/codeweber-forms-email-templates.php:302
+msgid "We have received your message and will contact you soon."
+msgstr "Мы получили ваше сообщение и свяжемся с вами в ближайшее время."
+
+#: admin/codeweber-forms-email-templates.php:303
+msgid "Best regards,"
+msgstr "С уважением,"
+
+#: admin/codeweber-forms-email-templates.php:332
+msgid "Thank you for leaving a testimonial. Your opinion is very important to us!"
+msgstr "Благодарим вас за оставленный отзыв. Ваше мнение очень важно для нас!"
+
+#: admin/codeweber-forms-email-templates.php:333
+msgid "After moderation, your testimonial will be published on our website."
+msgstr "После модерации ваш отзыв будет опубликован на нашем сайте."
+
+#: admin/codeweber-forms-email-templates.php:362
+msgid "We have received your resume and will review it carefully."
+msgstr "Мы получили ваше резюме и внимательно его изучим."
+
+#: admin/codeweber-forms-email-templates.php:363
+msgid "If your candidacy interests us, we will contact you soon."
+msgstr "Если ваша кандидатура нас заинтересует, мы свяжемся с вами в ближайшее время."
+
+#: admin/codeweber-forms-email-templates.php:364
+msgid "HR Department"
+msgstr "Отдел кадров"
+
+#: codeweber-forms-utm.php:108
+msgid "Parameter"
+msgstr "Параметр"
+
+#: codeweber-forms-mailer.php:168
+msgid "Edit in admin"
+msgstr "Редактировать в админке"
+
+#: codeweber-forms-mailer.php:195
+msgid "Name"
+msgstr "Имя"
+
+#: codeweber-forms-mailer.php:196
+msgid "Email"
+msgstr "Email"
+
+#: codeweber-forms-mailer.php:197
+msgid "Role"
+msgstr "Роль"
+
+#: codeweber-forms-mailer.php:198
+msgid "Company"
+msgstr "Компания"
+
+#: codeweber-forms-mailer.php:199
+msgid "Testimonial text"
+msgstr "Текст отзыва"
+
+#: codeweber-forms-mailer.php:200
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: codeweber-forms-mailer.php:201
+msgid "Edit testimonial"
+msgstr "Редактировать отзыв"
+
+#: codeweber-forms-mailer.php:202
+msgid "View testimonial"
+msgstr "Просмотр отзыва"
+
+#: codeweber-forms-mailer.php:203
+msgid "Testimonial id"
+msgstr "ID отзыва"
+
+#: codeweber-forms-mailer.php:204
+msgid "Message"
+msgstr "Сообщение"
+
+#: codeweber-forms-mailer.php:205
+msgid "Phone"
+msgstr "Телефон"
+
+#: codeweber-forms-mailer.php:206
+msgid "Subject"
+msgstr "Тема"
+
+#: testimonial-form-api.php:507
+msgid "Testimonial Form"
+msgstr "Форма отзыва"
+
+#: codeweber-forms-admin.php:336
+msgid "View Submission"
+msgstr "Просмотр отправки"
+
+#: codeweber-forms-admin.php:340
+msgid "← Back to Submissions"
+msgstr "← Назад к отправкам"
+
+#: codeweber-forms-admin.php:328
+msgid "Submission not found."
+msgstr "Отправка не найдена."
+
+#: codeweber-forms-admin.php:367
+msgid "Sent"
+msgstr "Отправлено"
+
+#: codeweber-forms-admin.php:372
+msgid "Not sent"
+msgstr "Не отправлено"
+
+#: matomo-forms-integration.php:123
+msgid "Matomo Forms Integration"
+msgstr "Интеграция Matomo с формами"
+
+#: matomo-forms-integration.php:127
+msgid "Matomo plugin is not active. Form tracking is disabled."
+msgstr "Плагин Matomo не активен. Отслеживание форм отключено."
+
+#: matomo-forms-integration.php:137
+msgid "Track Form Submissions"
+msgstr "Отслеживать отправки форм"
+
+#: matomo-forms-integration.php:141
+msgid "Send form submissions to Matomo as Events"
+msgstr "Отправлять отправки форм в Matomo как события"
+
+#: codeweber-forms-consent-settings.php:47
+msgid "Consent Settings"
+msgstr "Настройки согласий"
+
+#: codeweber-forms-consent-settings.php:60
+msgid "Available Consent Documents"
+msgstr "Доступные документы согласий"
+
+#: codeweber-forms-consent-settings.php:61
+msgid "These documents can be used in forms. You can select them for each form individually."
+msgstr "Эти документы можно использовать в формах. Вы можете выбрать их для каждой формы индивидуально."
+
+#: codeweber-forms-consent-settings.php:65
+msgid "No consent documents found. Please create documents in the Legal section."
+msgstr "Документы согласий не найдены. Пожалуйста, создайте документы в разделе Legal."
+
+
+#: codeweber-forms-consent-settings.php:71
+msgid "Document Title"
+msgstr "Название документа"
+
+#: codeweber-forms-consent-settings.php:72
+msgid "Type"
+msgstr "Тип"
+
+#: codeweber-forms-consent-settings.php:73
+msgid "Shortcode"
+msgstr "Шорткод"
+
+#: codeweber-forms-consent-settings.php:78
+msgid "Privacy Policy"
+msgstr "Политика конфиденциальности"
+
+#: codeweber-forms-consent-settings.php:85
+msgid "Legal Document"
+msgstr "Юридический документ"
+
+#: codeweber-forms-consent-settings.php:95
+msgid "How to Use Consents in Forms"
+msgstr "Как использовать согласия в формах"
+
+#: codeweber-forms-consent-settings.php:96
+msgid "Edit a form in the Forms section."
+msgstr "Отредактируйте форму в разделе Forms."
+
+#: codeweber-forms-consent-settings.php:97
+msgid "In the form editor, you will see a \"Consents\" metabox."
+msgstr "В редакторе формы вы увидите метабокс \"Согласия\"."
+
+#: codeweber-forms-consent-settings.php:98
+msgid "Add consent checkboxes by clicking \"Add Consent\"."
+msgstr "Добавьте чекбоксы согласий, нажав \"Добавить согласие\"."
+
+#: codeweber-forms-consent-settings.php:99
+msgid "For each consent, specify:"
+msgstr "Для каждого согласия укажите:"
+
+#: codeweber-forms-consent-settings.php:101
+msgid "Label text (you can use shortcodes for links)"
+msgstr "Текст метки (можно использовать шорткоды для ссылок)"
+
+#: codeweber-forms-consent-settings.php:102
+msgid "Document to link to"
+msgstr "Документ для ссылки"
+
+#: codeweber-forms-consent-settings.php:103
+msgid "Whether it is required"
+msgstr "Обязательно ли оно"
+
+#: codeweber-forms-consent-settings.php:104
+msgid "The consent checkboxes will automatically appear in the form on the frontend."
+msgstr "Чекбоксы согласий автоматически появятся в форме на фронтенде."
+
+#: codeweber-forms-consent-settings.php:107
+msgid "Shortcode Examples"
+msgstr "Примеры шорткодов"
+
+#: codeweber-forms-consent-settings.php:108
+msgid "In the consent label text, you can use these shortcodes:"
+msgstr "В тексте метки согласия вы можете использовать эти шорткоды:"
+
+#: codeweber-forms-consent-settings.php:110
+msgid "Link to Privacy Policy"
+msgstr "Ссылка на политику конфиденциальности"
+
+#: codeweber-forms-consent-settings.php:111
+msgid "Link to Legal Consent Document"
+msgstr "Ссылка на документ юридического согласия"
+
+#: codeweber-forms-consent-settings.php:112
+msgid "Link to Mailing Consent Document"
+msgstr "Ссылка на документ согласия на рассылку"
+
+#: codeweber-forms-consent-settings.php:115
+msgid "Note: {form_id} will be automatically replaced with the actual form ID when the form is rendered."
+msgstr "Примечание: {form_id} будет автоматически заменен на фактический ID формы при рендеринге формы."
+
+#: codeweber-forms-consent-metabox.php:47
+msgid "Consents"
+msgstr "Согласия"
+
+#: codeweber-forms-consent-metabox.php:52
+msgid "Add consent checkboxes to your form. Each consent can have a custom label with shortcodes for document links."
+msgstr "Добавьте чекбоксы согласий в вашу форму. Каждое согласие может иметь пользовательскую метку со шорткодами для ссылок на документы."
+
+#: codeweber-forms-consent-metabox.php:68
+msgid "Consent"
+msgstr "Согласие"
+
+#: codeweber-forms-consent-metabox.php:72
+msgid "Label Text"
+msgstr "Текст метки"
+
+#: codeweber-forms-consent-metabox.php:75
+msgid "I agree to the [cf7_privacy_policy id=\"{form_id}\"]"
+msgstr "Я согласен с [cf7_privacy_policy id=\"{form_id}\"]"
+
+#: codeweber-forms-consent-metabox.php:77
+msgid "You can use shortcodes: [cf7_privacy_policy id=\"{form_id}\"], [cf7_legal_consent_link id=\"{form_id}\"], [cf7_mailing_consent_link id=\"{form_id}\"]"
+msgstr "Вы можете использовать шорткоды: [cf7_privacy_policy id=\"{form_id}\"], [cf7_legal_consent_link id=\"{form_id}\"], [cf7_mailing_consent_link id=\"{form_id}\"]"
+
+#: codeweber-forms-consent-metabox.php:82
+msgid "Document Type"
+msgstr "Тип документа"
+
+#: codeweber-forms-consent-metabox.php:88
+msgid "Legal Consent"
+msgstr "Юридическое согласие"
+
+#: codeweber-forms-consent-metabox.php:89
+msgid "Mailing Consent"
+msgstr "Согласие на рассылку"
+
+#: codeweber-forms-consent-metabox.php:95
+msgid "Select Document"
+msgstr "Выбрать документ"
+
+#: codeweber-forms-consent-metabox.php:105
+msgid "Required (form cannot be submitted without this consent)"
+msgstr "Обязательно (форма не может быть отправлена без этого согласия)"
+
+#: codeweber-forms-consent-metabox.php:110
+msgid "Remove"
+msgstr "Удалить"
+
+#: codeweber-forms-consent-metabox.php:120
+msgid "+ Add Consent"
+msgstr "+ Добавить согласие"
+
+
+#: matomo-forms-integration.php:115
+msgid "Form Submission"
+msgstr "Отправка формы"
+
+#: matomo-forms-integration.php:123
+msgid "Form Opened"
+msgstr "Форма открыта"
+
+#: matomo-forms-integration.php:131
+msgid "Form Error"
+msgstr "Ошибка формы"
+
+#: codeweber-forms-testimonial-settings.php:27
+msgid "Testimonial Form Settings"
+msgstr "Настройки формы отзыва"
+
+
+#: codeweber-forms-testimonial-settings.php:50
+msgid "Configure consent checkboxes for the testimonial form. Each consent can have a custom label with shortcodes for document links."
+msgstr "Настройте чекбоксы согласий для формы отзыва. Каждое согласие может иметь пользовательскую метку со шорткодами для ссылок на документы."
+
+#: codeweber-forms-testimonial-settings.php:127
+msgid "Note: {form_id} will be automatically replaced with \"0\" (testimonial form ID) when the form is rendered."
+msgstr "Примечание: {form_id} будет автоматически заменен на \"0\" (ID формы отзыва) при рендеринге формы."
+

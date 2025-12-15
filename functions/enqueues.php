@@ -118,7 +118,7 @@ if (!function_exists('brk_styles_scripts')) {
 		
 		$theme_scripts_url = brk_get_dist_file_url('dist/assets/js/theme.js');
 		if ($theme_scripts_url) {
-			wp_enqueue_script('theme-scripts', $theme_scripts_url, false, $theme_version, true);
+			wp_enqueue_script('theme-scripts', $theme_scripts_url, array('plugins-scripts'), $theme_version, true);
 			
 			wp_localize_script('theme-scripts', 'theme_scripts_ajax', array(
 				'ajax_url' => admin_url('admin-ajax.php'),
@@ -177,12 +177,19 @@ function enqueue_my_custom_script()
 	$restapi_path = brk_get_dist_file_path('dist/assets/js/restapi.js');
 	$version = $restapi_path ? filemtime($restapi_path) : null;
 	
+	// Проверяем, загружен ли plugins-scripts (для Bootstrap)
+	$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+	$dependencies = array();
+	if ($plugins_scripts_url) {
+		$dependencies[] = 'plugins-scripts';
+	}
+	
 	wp_enqueue_script(
 		'my-custom-script',
 		$restapi_url,
-		array(),
+		$dependencies,
 		$version,
-		false // <-- подключаем в head, не в footer
+		true // Перемещаем в footer, чтобы Bootstrap точно был загружен
 	);
 
 		$current_user_id = get_current_user_id();
@@ -236,46 +243,43 @@ add_action('wp_enqueue_scripts', 'theme_enqueue_fetch_assets');
 
 /**
  * Enqueue testimonial form script
+ * Form can appear on any page (e.g., in modal), so we always load the universal script
  */
 function codeweber_enqueue_testimonial_form() {
-	// Check if we're on testimonials archive page
-	if (is_post_type_archive('testimonials') || is_page_template('archive-testimonials.php')) {
-		// Prefer dist version, fallback to src
-		$dist_path = brk_get_dist_file_path('dist/assets/js/testimonial-form.js');
-		$dist_url = brk_get_dist_file_url('dist/assets/js/testimonial-form.js');
-		
-		if ($dist_path && $dist_url) {
-			$script_path = $dist_path;
-			$script_url = $dist_url;
-		} else {
-			// Fallback to src
-			$src_path = get_template_directory() . '/src/assets/js/testimonial-form.js';
-			$src_url = get_template_directory_uri() . '/src/assets/js/testimonial-form.js';
-			
-			if (file_exists($src_path)) {
-				$script_path = $src_path;
-				$script_url = $src_url;
-			} else {
-				return; // File doesn't exist
-			}
-		}
-		
+	// Always load universal form script (it handles both testimonial and codeweber forms)
+	// If codeweber-forms-core already loaded it, WordPress will handle it correctly
+	$universal_script_path = get_template_directory() . '/functions/integrations/codeweber-forms/assets/js/form-submit-universal.js';
+	$universal_script_url = get_template_directory_uri() . '/functions/integrations/codeweber-forms/assets/js/form-submit-universal.js';
+	
+	if (file_exists($universal_script_path)) {
 		wp_enqueue_script(
-			'testimonial-form',
-			$script_url,
-			[], // Dependencies
-			filemtime($script_path),
-			true // Load in footer
+			'codeweber',
+			$universal_script_url,
+			['jquery'],
+			filemtime($universal_script_path),
+			true
 		);
 		
-		// Localize script
-		wp_localize_script('testimonial-form', 'codeweberTestimonialForm', [
-			'restUrl' => rest_url('codeweber/v1/submit-testimonial'),
-			'nonce' => wp_create_nonce('wp_rest'),
+		// Add codeweberForms localization (will merge if already exists)
+		wp_localize_script('codeweber', 'codeweberForms', [
+			'restUrl' => rest_url('codeweber-forms/v1/'),
+			'restNonce' => wp_create_nonce('wp_rest'),
 		]);
 	}
+	
+	// Add testimonial-specific localization
+	wp_localize_script('codeweber', 'codeweberTestimonialForm', [
+		'restUrl' => rest_url('codeweber/v1/submit-testimonial'),
+		'nonce' => wp_create_nonce('wp_rest'),
+	]);
+	
+	// Add wpApiSettings for REST API access (needed for success message template)
+	wp_localize_script('codeweber', 'wpApiSettings', [
+		'root' => esc_url_raw(rest_url()),
+		'nonce' => wp_create_nonce('wp_rest'),
+	]);
 }
-add_action('wp_enqueue_scripts', 'codeweber_enqueue_testimonial_form');
+add_action('wp_enqueue_scripts', 'codeweber_enqueue_testimonial_form', 20); // Priority 20 to run after codeweber-forms-core
 
 /**
  * Enqueue AJAX download script for documents

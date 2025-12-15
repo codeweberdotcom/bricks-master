@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Инициализация модального окна (если есть)
   let modalInstance = null;
-  if (modalElement && modalContent && modalDialog) {
+  if (modalElement && modalContent && modalDialog && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
     modalInstance = new bootstrap.Modal(modalElement);
   }
   

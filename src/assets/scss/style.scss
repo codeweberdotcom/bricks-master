@@ -198,6 +198,11 @@ Author:		elemis
     margin-top: 6px;
 }
 
+.small-chekbox label,
+.small-chekbox a {
+    font-size: .7rem !important;
+}
+
 .form-check-input.is-invalid ~ .form-check-label,
 .was-validated .form-check-input:invalid ~ .form-check-label, 
 .was-validated .form-check-input:invalid ~ .form-check-label a {

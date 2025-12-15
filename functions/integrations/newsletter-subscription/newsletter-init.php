@@ -19,9 +19,6 @@ require_once NEWSLETTER_SUBSCRIPTION_PATH . '/admin/newsletter-admin.php';
 require_once NEWSLETTER_SUBSCRIPTION_PATH . '/admin/newsletter-settings.php';
 require_once NEWSLETTER_SUBSCRIPTION_PATH . '/admin/newsletter-import-export.php';
 require_once NEWSLETTER_SUBSCRIPTION_PATH . '/frontend/newsletter-frontend.php';
-require_once NEWSLETTER_SUBSCRIPTION_PATH . '/frontend/newsletter-shortcode.php';
-require_once NEWSLETTER_SUBSCRIPTION_PATH . '/frontend/newsletter-ajax.php';
-require_once NEWSLETTER_SUBSCRIPTION_PATH . '/newsletter-privacy.php';
 
 
 // newsletter-init.php
@@ -38,22 +35,18 @@ add_action('init', function () {
 
    // Инициализируем фронтенд
    new NewsletterSubscriptionFrontend();
-   new NewsletterSubscriptionShortcode();
-   new NewsletterSubscriptionAjax(); // ✅ ДОБАВЬТЕ ЭТУ СТРОЧКУ
 
    // Основной класс модуля
    new NewsletterSubscription();
 }, 20);
 
-add_filter('wp_privacy_personal_data_exporters', 'newsletter_register_data_exporter');
-
-function newsletter_register_data_exporter($exporters)
-{
-   $exporters['newsletter-subscription'] = array(
-      'exporter_friendly_name' => __('Newsletter Subscription Data', 'codeweber'),
-      'callback' => 'newsletter_personal_data_exporter',
-   );
-   return $exporters;
-}
+// Регистрация провайдера в Personal Data V2 (универсальный модуль)
+add_action('personal_data_v2_ready', function($manager) {
+   if (file_exists(__DIR__ . '/../personal-data-v2/providers/class-newsletter-provider.php')) {
+      require_once __DIR__ . '/../personal-data-v2/providers/class-newsletter-provider.php';
+      $provider = new Newsletter_Data_Provider();
+      $manager->register_provider($provider);
+   }
+}, 10);
 
 

@@ -326,7 +326,7 @@ class NewsletterSubscriptionImportExport
    private function validate_status($status)
    {
       $status = strtolower(trim($status));
-      $valid_statuses = array('pending', 'confirmed', 'unsubscribed');
+      $valid_statuses = array('pending', 'confirmed', 'unsubscribed', 'trash');
 
       return in_array($status, $valid_statuses) ? $status : 'confirmed';
    }

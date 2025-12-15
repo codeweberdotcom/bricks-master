@@ -135,3 +135,6 @@ add_filter('codeweber_redux_permissions_config', function($config) {
 - `redux_permissions.php` - логика применения ограничений
 - `roles.php` - helper-функции для работы с ролями
 
+
+
+

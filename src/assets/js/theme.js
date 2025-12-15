@@ -573,7 +573,7 @@ var theme = {
    * Enables lightbox functionality
    * Requires assets/js/vendor/glightbox.js
    */
-  lightbox: GLightbox({
+  lightbox: typeof GLightbox !== 'undefined' ? GLightbox({
     selector: "*[data-glightbox]",
     touchNavigation: true,
     loop: false,
@@ -621,7 +621,7 @@ var theme = {
         },
       },
     },
-  }),
+  }) : null,
 
   /**
    * Plyr

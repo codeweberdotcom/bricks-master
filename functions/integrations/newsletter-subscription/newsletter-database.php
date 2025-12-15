@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 class NewsletterSubscriptionDatabase
 {
    private $table_name;
-   private $version = '1.0.2';
+   private $version = '1.0.3';
 
    public function __construct()
    {
@@ -36,7 +36,7 @@ class NewsletterSubscriptionDatabase
                 ip_address VARCHAR(45) DEFAULT '',
                 user_agent TEXT,
                 form_id VARCHAR(50) DEFAULT '',
-                status ENUM('pending', 'confirmed', 'unsubscribed') DEFAULT 'confirmed',
+                status ENUM('pending', 'confirmed', 'unsubscribed', 'trash') DEFAULT 'confirmed',
                 created_at DATETIME DEFAULT '0000-00-00 00:00:00',
                 confirmed_at DATETIME DEFAULT NULL,
                 unsubscribed_at DATETIME DEFAULT NULL,
