@@ -70,12 +70,81 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     protected function get_bulk_actions()
     {
-        return array(
-            'mark_read' => __('Mark as Read', 'codeweber'),
-            'mark_new' => __('Mark as New', 'codeweber'),
-            'mark_archived' => __('Mark as Archived', 'codeweber'),
-            'delete' => __('Delete Permanently', 'codeweber'),
+        $actions = array(
+            'mark_read'     => __('Отметить как прочитанные', 'codeweber'),
+            'mark_new'      => __('Отметить как новые', 'codeweber'),
         );
+
+        // Если мы в корзине — показываем "Восстановить" и "Удалить навсегда",
+        // иначе — "В корзину" (мягкое удаление).
+        $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
+        if ($status === 'trash') {
+            $actions['restore'] = __('Восстановить из корзины', 'codeweber');
+            $actions['delete']  = __('Удалить навсегда', 'codeweber');
+        } else {
+            $actions['trash']   = __('В корзину', 'codeweber');
+        }
+
+        return $actions;
+    }
+
+    /**
+     * Views (фильтры по статусу: Все, Новые, Прочитанные, Архив, Корзина)
+     * Аналогично newsletter-subscriptions
+     */
+    protected function get_views()
+    {
+        $current_status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
+
+        $views = array();
+
+        // Все (кроме корзины)
+        $all_count = $this->db->count_submissions(array(
+            'exclude_status' => 'trash',
+        ));
+        $class = ($current_status === '') ? 'current' : '';
+        $views['all'] = sprintf(
+            '<a href="%s" class="%s">%s <span class="count">(%d)</span></a>',
+            admin_url('admin.php?page=codeweber'),
+            $class,
+            __('Все', 'codeweber'),
+            $all_count
+        );
+
+        // Новые
+        $new_count = $this->db->count_submissions(array('status' => 'new'));
+        $class = ($current_status === 'new') ? 'current' : '';
+        $views['new'] = sprintf(
+            '<a href="%s" class="%s">%s <span class="count">(%d)</span></a>',
+            admin_url('admin.php?page=codeweber&status=new'),
+            $class,
+            __('Новые', 'codeweber'),
+            $new_count
+        );
+
+        // Прочитанные
+        $read_count = $this->db->count_submissions(array('status' => 'read'));
+        $class = ($current_status === 'read') ? 'current' : '';
+        $views['read'] = sprintf(
+            '<a href="%s" class="%s">%s <span class="count">(%d)</span></a>',
+            admin_url('admin.php?page=codeweber&status=read'),
+            $class,
+            __('Прочитанные', 'codeweber'),
+            $read_count
+        );
+
+        // Корзина (показываем всегда, даже если 0 — как в стандартных списках)
+        $trash_count = $this->db->count_submissions(array('status' => 'trash'));
+        $class = ($current_status === 'trash') ? 'current' : '';
+        $views['trash'] = sprintf(
+            '<a href="%s" class="%s">%s <span class="count">(%d)</span></a>',
+            admin_url('admin.php?page=codeweber&status=trash'),
+            $class,
+            __('Корзина', 'codeweber'),
+            $trash_count
+        );
+
+        return $views;
     }
 
     /**
@@ -114,8 +183,65 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     protected function column_form($item)
     {
-        $form_name = $item->form_name ?: ($item->form_id == 0 ? __('Testimonial Form', 'codeweber') : $item->form_id);
-        return '<strong>' . esc_html($form_name) . '</strong>';
+        // 1) Если в таблице сохранено логическое имя формы (form_name),
+        // всегда показываем его (это то, что пришло из шорткода name или было задано явно).
+        if (!empty($item->form_name)) {
+            return '<strong>' . esc_html($item->form_name) . '</strong>';
+        }
+
+        // 2) Если form_id = 0 – это старая запись формы отзыва
+        if ((int) $item->form_id === 0) {
+            return '<strong>' . esc_html(__('Testimonial Form', 'codeweber')) . '</strong>';
+        }
+
+        $form_id = $item->form_id;
+
+        // 3) Для числового form_id пробуем найти запись CPT codeweber_form и взять её заголовок
+        if (is_numeric($form_id)) {
+            $post = get_post((int) $form_id);
+            if ($post && $post->post_type === 'codeweber_form') {
+                return '<strong>' . esc_html($post->post_title) . '</strong>';
+            }
+        }
+
+        // 4) Для встроенных форм по строковому ключу (newsletter, testimonial, resume, callback)
+        $builtin_labels = array(
+            'newsletter'  => __('Newsletter Subscription', 'codeweber'),
+            'testimonial' => __('Testimonial Form', 'codeweber'),
+            'resume'      => __('Resume Form', 'codeweber'),
+            'callback'    => __('Callback Request', 'codeweber'),
+        );
+        if (is_string($form_id) && isset($builtin_labels[$form_id])) {
+            return '<strong>' . esc_html($builtin_labels[$form_id]) . '</strong>';
+        }
+
+        // 5) Фоллбек: показываем сам form_id как есть
+        return '<strong>' . esc_html($form_id) . '</strong>';
+    }
+
+    /**
+     * Get translated field label
+     */
+    protected function get_field_label($key)
+    {
+        // Переводим некоторые служебные ключи в человекочитаемые и переводимые названия
+        if ($key === 'newsletter_consents') {
+            return __('Newsletter Consents', 'codeweber');
+        } elseif ($key === 'form_name') {
+            return __('Form name', 'codeweber');
+        } elseif ($key === 'name') {
+            return __('Name', 'codeweber');
+        } elseif ($key === 'role') {
+            return __('Role', 'codeweber');
+        } elseif ($key === 'company') {
+            return __('Company', 'codeweber');
+        } elseif ($key === 'testimonial_text' || $key === 'testimonial-text') {
+            return __('Testimonial text', 'codeweber');
+        } elseif ($key === 'rating') {
+            return __('Rating', 'codeweber');
+        } else {
+            return ucfirst(str_replace(['_', '-'], ' ', $key));
+        }
     }
 
     /**
@@ -132,9 +258,19 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $preview = [];
         $count = 0;
         foreach (array_slice($data, 0, 3) as $key => $value) {
-            if ($key === '_utm_data') continue;
-            $label = ucfirst(str_replace(['_', '-'], ' ', $key));
-            $display_value = is_array($value) ? implode(', ', $value) : $value;
+            if ($key === '_utm_data') {
+                continue;
+            }
+
+            $label = $this->get_field_label($key);
+
+            // Special handling for newsletter consents to avoid "Array" output
+            if ($key === 'newsletter_consents' && is_array($value)) {
+                $display_value = $this->format_newsletter_consents($value);
+            } else {
+                $display_value = $this->format_submission_value($value);
+            }
+
             if (mb_strlen($display_value) > 50) {
                 $display_value = mb_substr($display_value, 0, 50) . '...';
             }
@@ -154,10 +290,20 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         // Full data (hidden)
         $output .= '<div class="submission-full" id="submission-' . $item->id . '" style="display:none;">';
         foreach ($data as $key => $value) {
-            if ($key === '_utm_data') continue;
-            $label = ucfirst(str_replace(['_', '-'], ' ', $key));
+            if ($key === '_utm_data') {
+                continue;
+            }
+
+            $label = $this->get_field_label($key);
             $output .= '<strong>' . esc_html($label) . ':</strong> ';
-            $output .= esc_html(is_array($value) ? implode(', ', $value) : $value);
+
+            if ($key === 'newsletter_consents' && is_array($value)) {
+                $display_value = $this->format_newsletter_consents($value);
+            } else {
+                $display_value = $this->format_submission_value($value);
+            }
+
+            $output .= esc_html($display_value);
             $output .= '<br>';
         }
         $output .= '</div>';
@@ -166,12 +312,95 @@ class Codeweber_Forms_List_Table extends WP_List_Table
     }
 
     /**
+     * Format generic submission value (handles nested arrays safely)
+     *
+     * @param mixed $value
+     * @return string
+     */
+    protected function format_submission_value($value): string
+    {
+        if (is_array($value)) {
+            $formatted = [];
+            foreach ($value as $k => $v) {
+                if (is_array($v)) {
+                    // Skip deeply nested arrays to avoid "Array to string conversion"
+                    continue;
+                }
+
+                // Keep key for associative arrays for better readability
+                if (!is_int($k)) {
+                    $formatted[] = $k . ': ' . $v;
+                } else {
+                    $formatted[] = $v;
+                }
+            }
+
+            return implode(', ', $formatted);
+        }
+
+        return (string) $value;
+    }
+
+    /**
+     * Format newsletter consents value for display in admin table
+     *
+     * @param array $consents
+     * @return string
+     */
+    protected function format_newsletter_consents(array $consents): string
+    {
+        $consents_list = [];
+
+        foreach ($consents as $doc_id => $consent_data) {
+            $doc_title = '';
+            $doc = get_post($doc_id);
+            if ($doc) {
+                $doc_title = $doc->post_title;
+            }
+
+            $consent_info = $doc_title ? $doc_title : sprintf(__('Document ID: %d', 'codeweber'), $doc_id);
+
+            if (!empty($consent_data['document_version'])) {
+                $consent_info .= ' (' . __('Version', 'codeweber') . ': ' . $consent_data['document_version'] . ')';
+            }
+
+            if (!empty($consent_data['document_revision_id'])) {
+                $consent_info .= ' [' . __('Revision ID', 'codeweber') . ': ' . $consent_data['document_revision_id'] . ']';
+            }
+
+            $consents_list[] = $consent_info;
+        }
+
+        return implode('; ', $consents_list);
+    }
+
+    /**
      * Column Status
      */
     protected function column_status($item)
     {
-        $status_class = 'status-' . $item->status;
-        return '<span class="status-badge ' . esc_attr($status_class) . '">' . esc_html(ucfirst($item->status)) . '</span>';
+        $status = $item->status;
+        $status_class = 'status-' . $status;
+
+        switch ($status) {
+            case 'new':
+                $label = __('New', 'codeweber');
+                break;
+            case 'read':
+                $label = __('Read', 'codeweber');
+                break;
+            case 'archived':
+                $label = __('Archived', 'codeweber');
+                break;
+            case 'trash':
+                $label = __('Trash', 'codeweber');
+                break;
+            default:
+                $label = ucfirst($status);
+                break;
+        }
+
+        return '<span class="status-badge ' . esc_attr($status_class) . '">' . esc_html($label) . '</span>';
     }
 
     /**
@@ -233,6 +462,8 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     public function prepare_items()
     {
+        global $wpdb;
+
         $per_page = $this->get_items_per_page('codeweber_forms_per_page', 20);
         $current_page = $this->get_pagenum();
 
@@ -264,6 +495,9 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         }
         if ($status) {
             $args['status'] = $status;
+        } else {
+            // По умолчанию не показываем корзину (trash), как в newsletter-subscriptions
+            $args['exclude_status'] = 'trash';
         }
         if ($search) {
             $args['search'] = $search;
@@ -289,11 +523,16 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             'total_pages' => ceil($total_items / $per_page)
         ));
 
-        // Set column headers
-        $columns = $this->get_columns();
-        $hidden = array();
+        // Set column headers (как в newsletter-subscriptions):
+        // - колонки берем из get_columns()
+        // - скрытые колонки — из Screen Options
+        // - сортируемые — из get_sortable_columns()
+        $columns  = $this->get_columns();
+        $hidden   = function_exists('get_hidden_columns') && $this->screen
+            ? get_hidden_columns($this->screen)
+            : array();
         $sortable = $this->get_sortable_columns();
-        $primary = 'id';
+        $primary  = 'id';
 
         $this->_column_headers = array($columns, $hidden, $sortable, $primary);
     }
@@ -303,11 +542,18 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     public function process_bulk_action()
     {
-        if (!isset($_POST['submission']) || !is_array($_POST['submission'])) {
+        // WordPress list tables используют $_REQUEST, поэтому
+        // поддерживаем и GET, и POST (как это делает ядро).
+        if (!isset($_REQUEST['submission']) || !is_array($_REQUEST['submission'])) {
             return;
         }
 
-        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'bulk-submissions')) {
+        // WP_List_Table выводит nonce вида 'bulk-' . $this->_args['plural'],
+        // поэтому используем ту же схему для проверки.
+        if (
+            !isset($_REQUEST['_wpnonce']) ||
+            !wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-' . $this->_args['plural'])
+        ) {
             return;
         }
 
@@ -316,7 +562,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             return;
         }
 
-        $ids = array_map('intval', $_POST['submission']);
+        $ids = array_map('intval', $_REQUEST['submission']);
         $ids = array_filter($ids);
 
         if (empty($ids)) {
@@ -374,14 +620,42 @@ class Codeweber_Forms_List_Table extends WP_List_Table
                 }
                 break;
 
-            case 'mark_archived':
-                $result = $this->db->bulk_update_status($ids, 'archived');
+            case 'mark_new':
+                $result = $this->db->bulk_update_status($ids, 'new');
                 if ($result !== false) {
                     $updated = $result;
                     add_settings_error(
                         'codeweber_forms_messages',
                         'codeweber_forms_message',
-                        sprintf(__('%d submission(s) marked as archived', 'codeweber'), $updated),
+                        sprintf(__('%d submission(s) marked as new', 'codeweber'), $updated),
+                        'success'
+                    );
+                }
+                break;
+
+            case 'trash':
+                // Переместить в корзину
+                $result = $this->db->bulk_update_status($ids, 'trash');
+                if ($result !== false) {
+                    $updated = $result;
+                    add_settings_error(
+                        'codeweber_forms_messages',
+                        'codeweber_forms_message',
+                        sprintf(__('%d submission(s) moved to trash', 'codeweber'), $updated),
+                        'success'
+                    );
+                }
+                break;
+
+            case 'restore':
+                // Восстановить из корзины: по умолчанию делаем статус new
+                $result = $this->db->bulk_update_status($ids, 'new');
+                if ($result !== false) {
+                    $updated = $result;
+                    add_settings_error(
+                        'codeweber_forms_messages',
+                        'codeweber_forms_message',
+                        sprintf(__('%d submission(s) restored from trash', 'codeweber'), $updated),
                         'success'
                     );
                 }
@@ -447,6 +721,17 @@ class Codeweber_Forms_List_Table extends WP_List_Table
                 <a href="<?php echo admin_url('admin.php?page=codeweber'); ?>" class="button">
                     <?php _e('Reset', 'codeweber'); ?>
                 </a>
+            <?php endif; ?>
+            
+            <?php if ($status === 'trash'): ?>
+                <form method="post" style="display: inline-block; margin-left: 5px;">
+                    <input type="hidden" name="action" value="empty_trash">
+                    <?php wp_nonce_field('codeweber_forms_action', 'codeweber_forms_nonce'); ?>
+                    <button type="submit" class="button button-secondary button-link-delete"
+                        onclick="return confirm('<?php echo esc_js(__('Are you sure you want to permanently delete all submissions from the trash?', 'codeweber')); ?>');">
+                        <?php _e('Empty Trash', 'codeweber'); ?>
+                    </button>
+                </form>
             <?php endif; ?>
         </div>
         <?php

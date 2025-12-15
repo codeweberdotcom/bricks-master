@@ -87,11 +87,49 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
             }
             
             // Form ID
-            if (!empty($record['context']['form_id'])) {
-                $form_title = get_the_title($record['context']['form_id']);
+            if (isset($record['context']['form_id'])) {
+                $form_id_display = $record['context']['form_id'];
+                // Если это строка (встроенная форма), показываем как есть
+                if (is_string($form_id_display)) {
+                    $form_id_display = $form_id_display;
+                } else {
+                    $form_id_display = (string) $form_id_display;
+                }
+                
                 $data[] = [
-                    'name' => __('Form', 'codeweber'),
-                    'value' => $form_title ? $form_title : __('Form ID', 'codeweber') . ': ' . $record['context']['form_id']
+                    'name' => __('Form ID', 'codeweber'),
+                    'value' => $form_id_display
+                ];
+            }
+            
+            // Form Name / Form Title (with translation support)
+            $form_name = '';
+            
+            // 1) Используем form_name из контекста (если есть)
+            if (!empty($record['context']['form_name'])) {
+                $form_name = $record['context']['form_name'];
+            }
+            // 2) Для встроенных форм используем переведенные названия
+            elseif (!empty($record['context']['form_id']) && is_string($record['context']['form_id'])) {
+                $builtin_labels = [
+                    'testimonial' => __('Testimonial Form', 'codeweber'),
+                    'newsletter' => __('Newsletter Subscription', 'codeweber'),
+                    'resume' => __('Resume Form', 'codeweber'),
+                    'callback' => __('Callback Request', 'codeweber'),
+                ];
+                if (isset($builtin_labels[$record['context']['form_id']])) {
+                    $form_name = $builtin_labels[$record['context']['form_id']];
+                }
+            }
+            // 3) Пытаемся получить из form_id (для CPT форм)
+            elseif (!empty($record['context']['form_id']) && is_numeric($record['context']['form_id']) && $record['context']['form_id'] > 0) {
+                $form_name = get_the_title($record['context']['form_id']);
+            }
+            
+            if (!empty($form_name)) {
+                $data[] = [
+                    'name' => __('Form Name', 'codeweber'),
+                    'value' => $form_name
                 ];
             }
             
@@ -153,9 +191,12 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
                             $consent_info .= ' - ' . __('Version', 'codeweber') . ': ' . $consent['document_version'];
                         }
                         
-                        // Add URL
+                        // Add URL (make it clickable in export)
                         if ($doc_url) {
-                            $consent_info .= ' - ' . __('URL', 'codeweber') . ': ' . $doc_url;
+                            $consent_info .= ' - ' . __('URL', 'codeweber') . ': '
+                                . '<a href="' . esc_url($doc_url) . '" target="_blank" rel="noopener noreferrer">'
+                                . esc_html($doc_url)
+                                . '</a>';
                         }
                         
                         // Add revocation status
@@ -230,51 +271,82 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
             ];
         }
         
-        // Check if there are revoked consents older than 3 years
-        // We should only delete consents that were revoked more than 3 years ago
-        $three_years_ago_timestamp = strtotime('-3 years');
-        $has_recent_consents = false;
+        /**
+         * Политика хранения согласий (основывается ТОЛЬКО на параметре retention_days):
+         * - Параметр задаётся в админке (страница теста personal-data-test) и сохраняется в опции
+         *   codeweber_personal_data_retention_days.
+         * - Если значение <= 0 — при запросе на удаление мы сразу удаляем всю историю согласий.
+         * - Если значение > 0:
+         *   1) При ПЕРВОМ запросе на удаление фиксируем дату запроса в user_meta
+         *      _codeweber_user_consents_erase_requested_at и НИЧЕГО не удаляем.
+         *   2) При последующих запросах сравниваем текущую дату с датой запроса.
+         *      Если прошло больше retention_days — удаляем всю историю согласий.
+         *      Если нет — оставляем и сообщаем, что период хранения ещё не истёк.
+         */
+        $retention_days = (int) get_option('codeweber_personal_data_retention_days', 0);
         
-        foreach ($consents_history as $record) {
-            if (!empty($record['consents']) && is_array($record['consents'])) {
-                foreach ($record['consents'] as $consent) {
-                    // Keep if not revoked
-                    if (empty($consent['revoked_at'])) {
-                        $has_recent_consents = true;
-                        break 2;
-                    }
-                    
-                    // Keep if revoked less than 3 years ago
-                    $revoked_timestamp = !empty($consent['revoked_at_gmt']) 
-                        ? strtotime($consent['revoked_at_gmt']) 
-                        : strtotime($consent['revoked_at']);
-                    
-                    if ($revoked_timestamp && $revoked_timestamp > $three_years_ago_timestamp) {
-                        $has_recent_consents = true;
-                        break 2;
-                    }
-                }
-            }
-        }
-        
-        // If all consents are older than 3 years, we can delete them
-        if (!$has_recent_consents) {
+        // Немедленное удаление всех согласий
+        if ($retention_days <= 0) {
             $deleted = delete_user_meta($user->ID, '_codeweber_user_consents');
+            delete_user_meta($user->ID, '_codeweber_user_consents_erase_requested_at');
             
             return [
-                'items_removed' => $deleted,
+                'items_removed'  => (bool) $deleted,
                 'items_retained' => false,
-                'messages' => [__('User consents deleted (older than 3 years)', 'codeweber')],
-                'done' => true
+                'messages'       => [__('User consents deleted', 'codeweber')],
+                'done'           => true,
             ];
         }
         
-        // Some consents are still within 3 years - we should keep them
+        // Режим хранения N дней с момента ПЕРВОГО запроса на удаление
+        $requested_at = get_user_meta($user->ID, '_codeweber_user_consents_erase_requested_at', true);
+        
+        // Если дата запроса ещё не зафиксирована — фиксируем сейчас и НИЧЕГО не удаляем
+        if (empty($requested_at)) {
+            update_user_meta($user->ID, '_codeweber_user_consents_erase_requested_at', current_time('mysql'));
+            
+            return [
+                'items_removed'  => false,
+                'items_retained' => true,
+                'messages'       => [
+                    sprintf(
+                        /* translators: %d: retention days */
+                        __('User consents erase request registered (will be deletable after %d days)', 'codeweber'),
+                        $retention_days
+                    )
+                ],
+                'done' => true,
+            ];
+        }
+        
+        $requested_timestamp = strtotime($requested_at);
+        $threshold_timestamp = time() - ($retention_days * DAY_IN_SECONDS);
+        
+        // Если с момента запроса на удаление прошло больше retention_days — удаляем всю историю согласий
+        if ($requested_timestamp && $requested_timestamp <= $threshold_timestamp) {
+            $deleted = delete_user_meta($user->ID, '_codeweber_user_consents');
+            delete_user_meta($user->ID, '_codeweber_user_consents_erase_requested_at');
+            
+            return [
+                'items_removed'  => (bool) $deleted,
+                'items_retained' => false,
+                'messages'       => [__('User consents deleted', 'codeweber')],
+                'done'           => true,
+            ];
+        }
+        
+        // Период хранения ещё не истёк — историю пока сохраняем
         return [
-            'items_removed' => false,
+            'items_removed'  => false,
             'items_retained' => true,
-            'messages' => [__('User consents retained (within 3 year retention period)', 'codeweber')],
-            'done' => true
+            'messages'       => [
+                sprintf(
+                    /* translators: %d: retention days */
+                    __('User consents retained (within %d-day retention period)', 'codeweber'),
+                    $retention_days
+                )
+            ],
+            'done' => true,
         ];
     }
     

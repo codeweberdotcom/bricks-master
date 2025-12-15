@@ -345,9 +345,11 @@ class CodeweberFormsEmailTemplates {
             <h2 style="margin: 0;">' . __('New Form Submission', 'codeweber') . '</h2>
         </div>
         <div class="content">
-            <p><strong>' . __('Form:', 'codeweber') . '</strong> {form_name}</p>
-            <p><strong>' . __('Date:', 'codeweber') . '</strong> {submission_date} {submission_time}</p>
-            <p><strong>' . __('From:', 'codeweber') . '</strong> {user_name} ({user_email})</p>
+            <p>
+                <strong>' . __('Form:', 'codeweber') . '</strong> {form_name}<br>
+                <strong>' . __('Date:', 'codeweber') . '</strong> {submission_date} {submission_time}<br>
+                <strong>' . __('From:', 'codeweber') . '</strong> {user_name} ({user_email})
+            </p>
             <hr>
             <h3>' . __('Form Fields:', 'codeweber') . '</h3>
             {form_fields}
@@ -502,6 +504,7 @@ class CodeweberFormsEmailTemplates {
             '{user_agent}' => __('User browser/agent', 'codeweber'),
             '{site_name}' => __('Site name', 'codeweber'),
             '{site_url}' => __('Site URL', 'codeweber'),
+            '{unsubscribe_url}' => __('Unsubscribe link for newsletter subscriptions', 'codeweber'),
         ];
     }
     

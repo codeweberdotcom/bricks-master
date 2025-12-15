@@ -156,6 +156,7 @@ function codeweber_forms_save_user_consents($user_id, $consents, $context = []) 
         'consents' => $processed_consents,
         'context' => [
             'form_id' => $context['form_id'] ?? 0,
+            'form_name' => sanitize_text_field($context['form_name'] ?? ''),
             'submission_id' => $context['submission_id'] ?? 0,
             'ip_address' => sanitize_text_field($context['ip_address'] ?? ''),
             'user_agent' => sanitize_textarea_field($context['user_agent'] ?? ''),
@@ -379,9 +380,45 @@ function codeweber_forms_save_consents_on_submit($submission_id, $form_id, $form
         return;
     }
     
+    // Получаем название формы
+    $form_name = '';
+    
+    // 1) Из служебного поля _form_name (приходит из шорткода name)
+    if (!empty($form_data['_form_name'])) {
+        $form_name = sanitize_text_field($form_data['_form_name']);
+    }
+    // 2) Из submission в базе данных
+    elseif ($submission_id && class_exists('CodeweberFormsDatabase')) {
+        $db = new CodeweberFormsDatabase();
+        $submission = $db->get_submission($submission_id);
+        if ($submission && !empty($submission->form_name)) {
+            $form_name = $submission->form_name;
+        }
+    }
+    // 3) Из form_id для встроенных форм (строковые ключи)
+    if (empty($form_name) && is_string($form_id) && !empty($form_id)) {
+        $builtin_labels = [
+            'testimonial' => __('Testimonial Form', 'codeweber'),
+            'newsletter' => __('Newsletter Subscription', 'codeweber'),
+            'resume' => __('Resume Form', 'codeweber'),
+            'callback' => __('Callback Request', 'codeweber'),
+        ];
+        if (isset($builtin_labels[$form_id])) {
+            $form_name = $builtin_labels[$form_id];
+        }
+    }
+    // 4) Из CPT формы по ID
+    elseif (empty($form_name) && is_numeric($form_id) && $form_id > 0) {
+        $form_post = get_post($form_id);
+        if ($form_post && $form_post->post_type === 'codeweber_form') {
+            $form_name = $form_post->post_title;
+        }
+    }
+    
     // Prepare context
     $context = [
         'form_id' => $form_id,
+        'form_name' => $form_name,
         'submission_id' => $submission_id,
         'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
         'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',

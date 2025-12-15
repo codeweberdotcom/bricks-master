@@ -135,10 +135,10 @@ if (codeweber_forms_matomo_is_plugin_active()) {
         if (is_numeric($form_id) && $form_id > 0) {
             $post = get_post($form_id);
             if ($post && $post->post_type === 'codeweber_form') {
-                $form_settings['formName'] = $post->post_title;
+                $form_settings['formTitle'] = $post->post_title;
             }
         }
-        $form_name = $form_settings['formName'] ?? __('Form', 'codeweber');
+        $form_name = $form_settings['formTitle'] ?? __('Form', 'codeweber');
         $current_url = home_url($_SERVER['REQUEST_URI'] ?? '');
         codeweber_forms_matomo_track_form_event($form_id, $form_name, 'Form Opened', 1, $current_url);
     }
@@ -146,7 +146,7 @@ if (codeweber_forms_matomo_is_plugin_active()) {
     // Отслеживание успешной отправки формы
     add_action('codeweber_form_after_send', 'codeweber_forms_matomo_track_submission', 10, 3);
     function codeweber_forms_matomo_track_submission($form_id, $form_settings, $submission_id) {
-        $form_name = $form_settings['formName'] ?? __('Form', 'codeweber');
+        $form_name = $form_settings['formTitle'] ?? __('Form', 'codeweber');
         $current_url = $_SERVER['HTTP_REFERER'] ?? home_url();
         codeweber_forms_matomo_track_form_event($form_id, $form_name, 'Form Submission', 1, $current_url);
     }
@@ -154,7 +154,7 @@ if (codeweber_forms_matomo_is_plugin_active()) {
     // Отслеживание ошибок отправки
     add_action('codeweber_form_send_error', 'codeweber_forms_matomo_track_error', 10, 3);
     function codeweber_forms_matomo_track_error($form_id, $form_settings, $error_message) {
-        $form_name = $form_settings['formName'] ?? __('Form', 'codeweber');
+        $form_name = $form_settings['formTitle'] ?? __('Form', 'codeweber');
         $current_url = $_SERVER['HTTP_REFERER'] ?? home_url();
         codeweber_forms_matomo_track_form_event($form_id, $form_name, 'Form Error', 0, $current_url);
     }

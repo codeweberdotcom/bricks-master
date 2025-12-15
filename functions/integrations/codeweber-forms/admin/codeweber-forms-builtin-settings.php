@@ -134,7 +134,7 @@ class CodeweberFormsBuiltinSettings {
             var allDocuments = <?php echo json_encode($all_documents); ?>;
             var builtinForms = <?php echo json_encode($builtin_forms); ?>;
             var formBlockIndex = <?php echo count($builtin_forms); ?>;
-            
+
             // Add new form block
             $('#add-form-block-btn').on('click', function() {
                 var formBlock = createFormBlock(formBlockIndex, '', [], allDocuments, builtinForms);
@@ -215,14 +215,66 @@ class CodeweberFormsBuiltinSettings {
                     }
                 });
             });
+
+            // --- Accordion behaviour for form blocks ---
+
+            // Initially collapse all existing blocks (JS управляет видимостью)
+            var $existingBlocks = $('#forms-container .form-block');
+            $existingBlocks.addClass('is-collapsed').find('.cw-form-body').hide();
             
+            // Set initial toggle symbols (+)
+            $existingBlocks.each(function() {
+                var $block = $(this);
+                var $toggle = $block.find('.cw-accordion-toggle').first();
+                if (!$toggle.length) {
+                    return;
+                }
+                $toggle.text('+');
+            });
+
+            // Toggle block on header click
+            $(document).on('click', '.cw-form-header', function(e) {
+                // Ignore clicks on interactive elements inside header
+                if ($(e.target).closest('button, a, input, select, textarea, label').length) {
+                    return;
+                }
+                var $block = $(this).closest('.form-block');
+                var $body = $block.find('.cw-form-body');
+                var $toggle = $block.find('.cw-accordion-toggle').first();
+                var isCollapsed = $block.hasClass('is-collapsed');
+
+                if (isCollapsed) {
+                    // Открываем
+                    $block.removeClass('is-collapsed');
+                    if ($toggle.length) {
+                        $toggle.text('−');
+                    }
+                    $body.stop(true, true).slideDown(150);
+                } else {
+                    // Закрываем
+                    $block.addClass('is-collapsed');
+                    if ($toggle.length) {
+                        $toggle.text('+');
+                    }
+                    $body.stop(true, true).slideUp(150);
+                }
+            });
+
             function createFormBlock(formIndex, selectedFormKey, consents, allDocuments, builtinForms) {
-                var html = '<div class="form-block" data-form-index="' + formIndex + '" style="border: 2px solid #2271b1; padding: 20px; margin-bottom: 20px; background: #f0f6fc; border-radius: 4px;">';
-                html += '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">';
+                var html = '<div class="form-block is-collapsed" data-form-index="' + formIndex + '" style="border: 2px solid #2271b1; padding: 20px; margin-bottom: 20px; background: #f0f6fc; border-radius: 4px;">';
+
+                // Clickable header
+                html += '<div class="cw-form-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; cursor: pointer;">';
+                html += '<div style="display:flex; align-items:center; gap:6px;">';
+                html += '<span class="cw-accordion-toggle" aria-hidden="true">+</span>';
                 html += '<h3 style="margin: 0;"><?php _e('Form', 'codeweber'); ?> #' + (formIndex + 1) + '</h3>';
+                html += '</div>';
                 html += '<button type="button" class="button remove-form-block-btn"><?php _e('Remove Form', 'codeweber'); ?></button>';
                 html += '</div>';
-                
+
+                // Collapsible body
+                html += '<div class="cw-form-body" style="display: none;">';
+
                 // Form selector
                 html += '<p>';
                 html += '<label><strong><?php _e('Select Form:', 'codeweber'); ?></strong><br>';
@@ -243,13 +295,14 @@ class CodeweberFormsBuiltinSettings {
                     }
                 }
                 html += '</div>';
-                
+
                 // Add consent button
                 html += '<p style="margin-top: 15px;">';
                 html += '<button type="button" class="button add-consent-btn"><?php _e('+ Add Consent', 'codeweber'); ?></button>';
                 html += '</p>';
-                
-                html += '</div>';
+
+                html += '</div>'; // .cw-form-body
+                html += '</div>'; // .form-block
                 return html;
             }
             
@@ -328,8 +381,15 @@ class CodeweberFormsBuiltinSettings {
                     grid-template-columns: 1fr;
                 }
             }
-            .card h2 {
-                margin-top: 0;
+            .cw-form-header {
+                cursor: pointer;
+            }
+            .cw-accordion-toggle {
+                display: inline-block;
+                font-weight: 600;
+                margin-right: 2px;
+                color: #2271b1;
+                font-size: 20px;
             }
         </style>
         <?php
@@ -342,24 +402,53 @@ class CodeweberFormsBuiltinSettings {
         static $form_index = 0;
         ?>
         <div class="form-block" data-form-index="<?php echo $form_index; ?>" style="border: 2px solid #2271b1; padding: 20px; margin-bottom: 20px; background: #f0f6fc; border-radius: 4px; max-width: 100%;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0;"><?php echo esc_html($form_label); ?></h3>
+            <div class="cw-form-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <span class="cw-accordion-toggle" aria-hidden="true">+</span>
+                    <h3 style="margin: 0;">
+                        <?php 
+                        // Показываем название формы и её внутренний ключ (form_key),
+                        // который используется как internalName и в плейсхолдере {form_id}.
+                        echo esc_html($form_label); 
+                        echo ' ';
+                        printf('(ID: %s)', esc_html($form_key));
+                        ?>
+                    </h3>
+                </div>
                 <button type="button" class="button remove-form-block-btn"><?php _e('Remove Form', 'codeweber'); ?></button>
             </div>
-            
-            <input type="hidden" name="form_blocks[<?php echo $form_index; ?>][form_key]" value="<?php echo esc_attr($form_key); ?>">
-            
-            <div class="consents-list" style="margin-top: 20px;">
-                <?php if (!empty($consents)): ?>
-                    <?php foreach ($consents as $consent_index => $consent): ?>
-                        <?php $this->render_consent_row_in_block($form_index, $consent_index, $consent, $all_documents); ?>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+
+            <div class="cw-form-body">
+                <p class="description" style="margin: 4px 0 12px 4px;">
+                    <?php
+                    // Базовый шорткод по ключу встроенной формы
+                    printf(
+                        __('Shortcode for this form: %s', 'codeweber'),
+                        '<code>[codeweber_form id=&quot;' . esc_attr($form_key) . '&quot;]</code>'
+                    );
+                    echo '<br>';
+                    // Пример с использованием name и title
+                    printf(
+                        __('With custom name and title: %s', 'codeweber'),
+                        '<code>[codeweber_form id=&quot;' . esc_attr($form_key) . '&quot; name=&quot;Form name here&quot; title=&quot;Form title here&quot;]</code>'
+                    );
+                    ?>
+                </p>
+                
+                <input type="hidden" name="form_blocks[<?php echo $form_index; ?>][form_key]" value="<?php echo esc_attr($form_key); ?>">
+                
+                <div class="consents-list" style="margin-top: 20px;">
+                    <?php if (!empty($consents)): ?>
+                        <?php foreach ($consents as $consent_index => $consent): ?>
+                            <?php $this->render_consent_row_in_block($form_index, $consent_index, $consent, $all_documents); ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+                
+                <p style="margin-top: 15px;">
+                    <button type="button" class="button add-consent-btn"><?php _e('+ Add Consent', 'codeweber'); ?></button>
+                </p>
             </div>
-            
-            <p style="margin-top: 15px;">
-                <button type="button" class="button add-consent-btn"><?php _e('+ Add Consent', 'codeweber'); ?></button>
-            </p>
         </div>
         <?php
         $form_index++;

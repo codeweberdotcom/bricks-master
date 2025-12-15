@@ -18,66 +18,83 @@ class CodeweberFormsShortcode {
     
     /**
      * Render shortcode
+     *
+     * Поддерживает два варианта идентификатора:
+     *  - числовой ID: [codeweber_form id="6119"] → CPT codeweber_form с ID 6119
+     *  - строковый ключ встроенной формы: [codeweber_form id="newsletter"]
      */
     public function render_shortcode($atts) {
         $atts = shortcode_atts([
-            'id' => '',
-            'name' => '',
+            'id'    => '',
+            'name'  => '',
+            'title' => '',
         ], $atts, 'codeweber_form');
-        
-        if (empty($atts['id']) && empty($atts['name'])) {
-            return '<p>' . __('Form ID or name is required.', 'codeweber') . '</p>';
+
+        if ($atts['id'] === '') {
+            return '<p>' . __('Form ID is required.', 'codeweber') . '</p>';
+        }
+
+        $raw_id      = (string) $atts['id'];
+        $form_id     = $raw_id;
+        $form_config = null;
+
+        // Вариант 1: числовой ID → форма из CPT codeweber_form
+        if (ctype_digit($raw_id)) {
+            $form_id     = (int) $raw_id;
+            $form_config = $this->get_form_config($form_id);
+
+            if (!$form_config) {
+                return '<p>' . __('Form not found.', 'codeweber') . '</p>';
+            }
+        } else {
+            // Вариант 2: встроенная форма по строковому ключу
+            $builtin_labels = [
+                'testimonial' => __('Testimonial Form', 'codeweber'),
+                'resume'      => __('Resume Form', 'codeweber'),
+                'newsletter'  => __('Newsletter Subscription', 'codeweber'),
+                'callback'    => __('Callback Request', 'codeweber'),
+            ];
+
+            $form_title = $atts['title'] !== ''
+                ? $atts['title']
+                : ($builtin_labels[$raw_id] ?? $raw_id);
+
+            $form_config = [
+                'id'       => $raw_id,
+                'name'     => $form_title,
+                'fields'   => [],
+                'settings' => [
+                    // formTitle — заголовок формы во фронтенде
+                    'formTitle' => $form_title,
+                ],
+            ];
+        }
+
+        // Логическое имя формы (внутренний идентификатор)
+        if (!empty($atts['name'])) {
+            $form_config['settings']['internalName'] = sanitize_text_field($atts['name']);
+        }
+
+        // Переопределяем отображаемый заголовок формы, если задан title
+        if (!empty($atts['title'])) {
+            $form_config['settings']['formTitle'] = $atts['title'];
         }
         
-        // Получаем конфигурацию формы
-        $form_config = $this->get_form_config($atts['id'], $atts['name']);
-        
-        if (!$form_config) {
-            return '<p>' . __('Form not found.', 'codeweber') . '</p>';
-        }
-        
-        // Получаем ID формы из конфигурации
-        $form_id = !empty($atts['id']) && is_numeric($atts['id']) ? intval($atts['id']) : ($form_config['id'] ?? 0);
-        
-        $core = new CodeweberFormsCore();
-        return $core->render_form($form_id, $form_config);
+        $renderer = new CodeweberFormsRenderer();
+        return $renderer->render($form_id, $form_config);
     }
     
     /**
      * Get form configuration
      */
-    private function get_form_config($id, $name) {
-        $form_post = null;
-        
-        // Получаем форму из CPT
-        if (!empty($id) && is_numeric($id)) {
-            $form_post = get_post($id);
-            if ($form_post && $form_post->post_type === 'codeweber_form') {
-                return $this->parse_form_config($form_post);
-            }
+    private function get_form_config($id) {
+        if (empty($id) || !is_numeric($id)) {
+            return false;
         }
-        
-        // Или по названию
-        if (!empty($name)) {
-            $query = new WP_Query([
-                'post_type' => 'codeweber_form',
-                'title' => $name,
-                'post_status' => 'publish',
-                'posts_per_page' => 1,
-                'no_found_rows' => true,
-                'ignore_sticky_posts' => true,
-                'update_post_term_cache' => false,
-                'update_post_meta_cache' => false,
-                'orderby' => 'post_date ID',
-                'order' => 'ASC',
-            ]);
-            
-            if (!empty($query->post)) {
-                $form_post = $query->post;
-                wp_reset_postdata();
-                return $this->parse_form_config($form_post);
-            }
-            wp_reset_postdata();
+
+        $form_post = get_post((int) $id);
+        if ($form_post && $form_post->post_type === 'codeweber_form') {
+            return $this->parse_form_config($form_post);
         }
         
         return false;
@@ -90,18 +107,19 @@ class CodeweberFormsShortcode {
         // Парсим конфигурацию из post_content (Gutenberg блоки или JSON)
         // И метаполей
         $config = [
-            'id' => $post->ID,
-            'name' => $post->post_title,
+            'id'     => $post->ID,
+            'name'   => $post->post_title,
             'fields' => [], // Из post_content
             'settings' => [
-                'formName' => $post->post_title,
-                'recipientEmail' => get_post_meta($post->ID, '_form_recipient_email', true),
-                'senderEmail' => get_post_meta($post->ID, '_form_sender_email', true),
-                'senderName' => get_post_meta($post->ID, '_form_sender_name', true),
-                'subject' => get_post_meta($post->ID, '_form_subject', true),
-                'successMessage' => get_post_meta($post->ID, '_form_success_message', true),
-                'errorMessage' => get_post_meta($post->ID, '_form_error_message', true),
-            ]
+                // formTitle — заголовок формы
+                'formTitle'       => $post->post_title,
+                'recipientEmail'  => get_post_meta($post->ID, '_form_recipient_email', true),
+                'senderEmail'     => get_post_meta($post->ID, '_form_sender_email', true),
+                'senderName'      => get_post_meta($post->ID, '_form_sender_name', true),
+                'subject'         => get_post_meta($post->ID, '_form_subject', true),
+                'successMessage'  => get_post_meta($post->ID, '_form_success_message', true),
+                'errorMessage'    => get_post_meta($post->ID, '_form_error_message', true),
+            ],
         ];
         
         // Парсим Gutenberg блоки из post_content

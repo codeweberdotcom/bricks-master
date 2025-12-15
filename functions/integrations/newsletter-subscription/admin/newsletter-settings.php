@@ -51,19 +51,6 @@ class NewsletterSubscriptionSettings
       );
 
       add_settings_field(
-         'enable_cf7_integration',
-         __('Contact Form 7 Integration', 'codeweber'),
-         array($this, 'checkbox_field_callback'),
-         'newsletter-subscriptions-module-settings',
-         'newsletter_general_section',
-         array(
-            'label' => __('Enable automatic subscription from Contact Form 7 forms', 'codeweber'),
-            'name' => 'enable_cf7_integration',
-            'default' => true
-         )
-      );
-
-      add_settings_field(
          'send_confirmation_email',
          __('Confirmation Email', 'codeweber'),
          array($this, 'checkbox_field_callback'),
@@ -76,137 +63,8 @@ class NewsletterSubscriptionSettings
          )
       );
 
-      add_settings_field(
-         'email_subject',
-         __('Email Subject', 'codeweber'),
-         array($this, 'text_field_callback'),
-         'newsletter-subscriptions-module-settings',
-         'newsletter_general_section',
-         array(
-            'label' => __('Subscription confirmation email subject', 'codeweber'),
-            'name' => 'email_subject',
-            'default' => __('Subscription Confirmation', 'codeweber'),
-            'placeholder' => __('Subscription Confirmation', 'codeweber')
-         )
-      );
-
-      add_settings_field(
-         'email_template',
-         __('Email Template', 'codeweber'),
-         array($this, 'textarea_field_callback'),
-         'newsletter-subscriptions-module-settings',
-         'newsletter_general_section',
-         array(
-            'label' => __('HTML email confirmation template', 'codeweber'),
-            'name' => 'email_template',
-            'default' => '
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>' . __('Confirming your subscription to the newsletter', 'codeweber') . '</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .button { 
-            display: inline-block; 
-            padding: 12px 24px; 
-            background-color: #dc3545; 
-            color: white; 
-            text-decoration: none; 
-            border-radius: 4px; 
-            margin: 20px 0; 
-        }
-        .button:hover { background-color: #c82333; }
-    </style>
-</head>
-<body>
-    <div style="max-width: 600px; margin: 0 auto;">
-        <h2>' . __('Hello', 'codeweber') . ', {first_name} {last_name}!</h2>
-        <p>' . __('You have successfully subscribed to our newsletter.', 'codeweber') . '</p>
-        <p>' . __('If you want to unsubscribe from the newsletter, click the button below:', 'codeweber') . '</p>
-        <div style="text-align: center;">
-            <a href="{unsubscribe_url}" class="button">' . __('Unsubscribe', 'codeweber') . '</a>
-        </div>
-        <p>' . __('Or copy and paste the following link into your browser:', 'codeweber') . '<br>
-        <a href="{unsubscribe_url}">{unsubscribe_url}</a></p>
-        <hr>
-        <p style="font-size: 12px; color: #666;">
-            ' . __('Best regards,', 'codeweber') . '<br>' . __('Team', 'codeweber') . ' {site_name}
-        </p>
-    </div>
-</body>
-</html>',
-            'placeholder' => __('HTML email template', 'codeweber'),
-            'rows' => 15
-         )
-      );
-
-      add_settings_field(
-         'privacy_policy_legal',
-         __('Privacy Policy', 'codeweber'),
-         array($this, 'legal_dropdown_callback'),
-         'newsletter-subscriptions-module-settings',
-         'newsletter_general_section',
-         array(
-            'label' => __('Select privacy policy document', 'codeweber'),
-            'name' => 'privacy_policy_legal',
-            'default' => ''
-         )
-      );
-
-      add_settings_field(
-         'mailing_consent_legal',
-         __('Mailing Consent', 'codeweber'),
-         array($this, 'legal_dropdown_callback'),
-         'newsletter-subscriptions-module-settings',
-         'newsletter_general_section',
-         array(
-            'label' => __('Select mailing consent document', 'codeweber'),
-            'name' => 'mailing_consent_legal',
-            'default' => ''
-         )
-      );
-
-      add_settings_field(
-         'data_processing_consent_legal',
-         __('Data Processing Consent', 'codeweber'),
-         array($this, 'legal_dropdown_callback'),
-         'newsletter-subscriptions-module-settings',
-         'newsletter_general_section',
-         array(
-            'label' => __('Select data processing consent document', 'codeweber'),
-            'name' => 'data_processing_consent_legal',
-            'default' => ''
-         )
-      );
-
-      add_settings_field(
-         'from_email',
-         __('Sender Email', 'codeweber'),
-         array($this, 'text_field_callback'),
-         'newsletter-subscriptions-module-settings',
-         'newsletter_general_section',
-         array(
-            'label' => __('Sender email address', 'codeweber'),
-            'name' => 'from_email',
-            'default' => get_option('admin_email'),
-            'placeholder' => 'noreply@example.com'
-         )
-      );
-
-      add_settings_field(
-         'from_name',
-         __('Sender Name', 'codeweber'),
-         array($this, 'text_field_callback'),
-         'newsletter-subscriptions-module-settings',
-         'newsletter_general_section',
-         array(
-            'label' => __('Sender name in emails', 'codeweber'),
-            'name' => 'from_name',
-            'default' => get_bloginfo('name'),
-            'placeholder' => __('Site Name', 'codeweber')
-         )
-      );
+      // Отправитель и шаблон письма подписки теперь настраиваются
+      // через Codeweber Forms Email Templates (newsletter_reply).
    }
 
    public function legal_dropdown_callback($args)
@@ -366,63 +224,7 @@ class NewsletterSubscriptionSettings
          </div>
 
          <div class="card">
-            <h2>3. <?php _e('Contact Form 7 Integration', 'codeweber'); ?></h2>
-            <p><?php _e('For automatic subscription from CF7 forms add checkboxes:', 'codeweber'); ?></p>
-            <pre>[checkbox soglasie-na-rassilku use_label_element "1" "<?php _e('I agree to receive newsletter', 'codeweber'); ?>"]</pre>
-            <pre>[checkbox soglasie-na-obrabotku use_label_element "1" "<?php _e('I agree to data processing', 'codeweber'); ?>"]</pre>
-            <p><strong><?php _e('Required fields in CF7:', 'codeweber'); ?></strong></p>
-            <ul>
-               <li><code>email-address</code> - <?php _e('email field', 'codeweber'); ?></li>
-               <li><code>text-name</code> - <?php _e('name field', 'codeweber'); ?></li>
-               <li><code>soglasie-na-rassilku</code> - <?php _e('mailing consent checkbox', 'codeweber'); ?></li>
-               <li><code>soglasie-na-obrabotku</code> - <?php _e('data processing consent checkbox', 'codeweber'); ?></li>
-            </ul>
-
-            <p><strong><?php _e('Complete CF7 form example:', 'codeweber'); ?></strong></p>
-            <pre><code>&lt;h2 class="mb-3 text-start"&gt;<?php _e('Request a callback', 'codeweber'); ?>&lt;/h2&gt;
-&lt;p class="lead mb-6 text-start"&gt;<?php _e('We will call back within 15 minutes', 'codeweber'); ?>&lt;/p&gt;
-
-&lt;div class="form-floating mb-3 text-dark"&gt; 
-  [text* text-name id:floatingName class:form-control placeholder "<?php _e('Your Name', 'codeweber'); ?>"]
-  &lt;label for="floatingName"&gt;<?php _e('Your Name', 'codeweber'); ?>&lt;/label&gt;
-&lt;/div&gt;
-&lt;div class="form-floating mb-3 text-dark"&gt; 
-  [text* text-lastname id:floatingName1 class:form-control placeholder "<?php _e('Your Last Name', 'codeweber'); ?>"]
-  &lt;label for="floatingName1"&gt;<?php _e('Your Last Name', 'codeweber'); ?>&lt;/label&gt;
-&lt;/div&gt;
-&lt;div class="form-floating mb-3 text-dark"&gt; 
-  [email* email-address id:floatingEmail class:form-control placeholder "<?php _e('Your Email', 'codeweber'); ?>"]
-  &lt;label for="floatingEmail"&gt;<?php _e('Your Email', 'codeweber'); ?>&lt;/label&gt;
-&lt;/div&gt;
-&lt;div class="form-floating mb-3 text-dark"&gt; 
-  [tel* tel-463 id:floatingTel class:phone-mask class:form-control placeholder "+7(000)123-45-67"]
-  &lt;label for="floatingTel"&gt;+7(000)123-45-67&lt;/label&gt;
-&lt;/div&gt;
-&lt;div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance"&gt;
-  [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
-  &lt;label for="flexCheckDefault1" class="form-check-label text-start"&gt;
-    <?php _e('I give my', 'codeweber'); ?> &lt;a class="text-primary" href="[cf7_data_processing_link]" target="_blank"&gt;<?php _e('consent', 'codeweber'); ?>&lt;/a&gt; <?php _e('for processing my personal data.', 'codeweber'); ?>
-  &lt;/label&gt;
-&lt;/div&gt;
-&lt;div class="form-check mb-3 fs-12 small-chekbox"&gt;
-  [acceptance soglasie-na-rassilku id:flexCheckDefault14 class:form-check-input class:optional use_label_element optional]
-  &lt;label for="flexCheckDefault14" class="form-check-label text-start"&gt;
-    <?php _e('I give my', 'codeweber'); ?> &lt;a class="text-primary" href="[cf7_mailing_consent_link]" target="_blank"&gt;<?php _e('consent', 'codeweber'); ?>&lt;/a&gt; <?php _e('to receive informational and promotional newsletters', 'codeweber'); ?>
-  &lt;/label&gt;
-&lt;/div&gt;
-&lt;div class="form-check mb-3 fs-12 small-chekbox"&gt;
-  [acceptance privacy-policy-read id:flexCheckDefault15 class:form-check-input use_label_element]
-  &lt;label for="flexCheckDefault15" class="form-check-label text-start"&gt;
-    <?php _e('I am familiar with the document', 'codeweber'); ?> &lt;a href="[cf7_privacy_policy]" target="_blank"&gt;<?php _e('personal data processing policy', 'codeweber'); ?>&lt;/a&gt;.
-  &lt;/label&gt;
-&lt;/div&gt;
-&lt;button type="submit" class="wpcf7-submit has-ripple btn [getthemebutton] btn-md btn-primary mx-5 mx-md-0"&gt;
-  <?php _e('Send', 'codeweber'); ?>
-&lt;/button&gt;</code></pre>
-         </div>
-
-         <div class="card">
-            <h2>4. <?php _e('Custom form fields', 'codeweber'); ?></h2>
+            <h2>3. <?php _e('Custom form fields', 'codeweber'); ?></h2>
             <table class="widefat fixed" style="margin: 15px 0;">
                <thead>
                   <tr>

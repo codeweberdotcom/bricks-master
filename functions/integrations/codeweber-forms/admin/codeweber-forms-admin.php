@@ -20,6 +20,11 @@ class CodeweberFormsAdmin {
     public function __construct() {
         $this->db = new CodeweberFormsDatabase();
         add_action('admin_menu', [$this, 'add_admin_menu']);
+        // Screen options: количество элементов на странице и колонки
+        add_filter('set-screen-option', [$this, 'set_screen_option'], 10, 3);
+        add_action('load-toplevel_page_codeweber', [$this, 'add_screen_options']);
+        // Обработка массовых действий до вывода (чтобы не было ошибок заголовков)
+        add_action('admin_init', [$this, 'process_bulk_actions_early']);
     }
     
     /**
@@ -63,6 +68,57 @@ class CodeweberFormsAdmin {
             [$this, 'render_email_templates_page']
         );
     }
+
+    /**
+     * Register screen options for submissions list
+     */
+    public function add_screen_options() {
+        $screen = get_current_screen();
+        if (!$screen || $screen->id !== 'toplevel_page_codeweber') {
+            return;
+        }
+
+        // Количество элементов на странице
+        add_screen_option('per_page', array(
+            'label'   => __('Количество отправок на странице', 'codeweber'),
+            'default' => 20,
+            'option'  => 'codeweber_forms_per_page',
+        ));
+
+        // Регистрация колонок для "Настройки экрана → Столбцы"
+        // Делаем, как в newsletter-subscriptions: создаём инстанс таблицы
+        // и вешаем его get_columns на manage_{$screen->id}_columns.
+        $list_table = new Codeweber_Forms_List_Table($this);
+        add_filter("manage_{$screen->id}_columns", array($list_table, 'get_columns'));
+    }
+
+    /**
+     * Handle saving of screen options
+     */
+    public function set_screen_option($status, $option, $value) {
+        if ($option === 'codeweber_forms_per_page') {
+            return (int) $value;
+        }
+
+        return $status;
+    }
+    
+    /**
+     * Process bulk actions early (до любого вывода), как в newsletter-subscriptions
+     */
+    public function process_bulk_actions_early() {
+        // Только на нашей странице
+        if (!isset($_GET['page']) || $_GET['page'] !== 'codeweber') {
+            return;
+        }
+
+        // Проверяем, есть ли выбранные элементы
+        if (isset($_REQUEST['submission']) && is_array($_REQUEST['submission'])) {
+            $list_table = new Codeweber_Forms_List_Table($this);
+            $list_table->process_bulk_action();
+            // process_bulk_action() делает wp_redirect и exit при успехе
+        }
+    }
     
     /**
      * Render submissions list page
@@ -79,19 +135,21 @@ class CodeweberFormsAdmin {
         
         // Create instance of list table
         $list_table = new Codeweber_Forms_List_Table($this);
-        
-        // Process bulk actions
-        $list_table->process_bulk_action();
-        
+
         // Prepare items
         $list_table->prepare_items();
         
         ?>
         <div class="wrap">
             <h1><?php _e('Form Submissions', 'codeweber'); ?></h1>
-            
+
             <?php settings_errors('codeweber_forms_messages'); ?>
-            
+
+            <?php
+            // Вкладки-фильтры (Все, Новые, Прочитанные, Архив, Корзина)
+            $list_table->views();
+            ?>
+
             <form method="get">
                 <input type="hidden" name="page" value="codeweber">
                 <?php
@@ -153,6 +211,18 @@ class CodeweberFormsAdmin {
                         'codeweber_forms_message',
                         __('Failed to delete submission', 'codeweber'),
                         'error'
+                    );
+                }
+                break;
+
+            case 'empty_trash':
+                $result = $this->db->empty_trash();
+                if ($result !== false) {
+                    add_settings_error(
+                        'codeweber_forms_messages',
+                        'codeweber_forms_message',
+                        __('Trash has been emptied', 'codeweber'),
+                        'success'
                     );
                 }
                 break;
@@ -295,14 +365,128 @@ class CodeweberFormsAdmin {
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                            // Первая строка: имя формы (используем логическое имя, если оно сохранено)
+                            $form_label = '';
+                            if (!empty($submission->form_name)) {
+                                $form_label = $submission->form_name;
+                            } else {
+                                // Пытаемся вычислить человекочитаемое имя по form_id
+                                if (!empty($submission->form_id)) {
+                                    $form_id = $submission->form_id;
+                                    if (is_numeric($form_id)) {
+                                        $post = get_post((int) $form_id);
+                                        if ($post && $post->post_type === 'codeweber_form') {
+                                            $form_label = $post->post_title;
+                                        }
+                                    } elseif (is_string($form_id)) {
+                                        $builtin_labels = array(
+                                            'newsletter'  => __('Newsletter Subscription', 'codeweber'),
+                                            'testimonial' => __('Testimonial Form', 'codeweber'),
+                                            'resume'      => __('Resume Form', 'codeweber'),
+                                            'callback'    => __('Callback Request', 'codeweber'),
+                                        );
+                                        if (isset($builtin_labels[$form_id])) {
+                                            $form_label = $builtin_labels[$form_id];
+                                        } else {
+                                            $form_label = $form_id;
+                                        }
+                                    }
+                                }
+                            }
+                            if (!empty($form_label)): ?>
+                                <tr>
+                                    <td><strong><?php _e('Form', 'codeweber'); ?></strong></td>
+                                    <td><?php echo esc_html($form_label); ?></td>
+                                </tr>
+                            <?php endif; ?>
+
                             <?php foreach ($data as $key => $value): ?>
                                 <?php if ($key === '_utm_data') continue; // Пропускаем UTM данные, они обрабатываются отдельно ?>
                                 <tr>
-                                    <td><strong><?php echo esc_html(ucfirst(str_replace(['_', '-'], ' ', $key))); ?></strong></td>
+                                    <td>
+                                        <strong>
+                                            <?php
+                                            // Переводим некоторые служебные ключи в человекочитаемые и переводимые названия
+                                            if ($key === 'newsletter_consents') {
+                                                echo esc_html(__('Newsletter Consents', 'codeweber'));
+                                            } elseif ($key === 'form_name') {
+                                                echo esc_html(__('Form name', 'codeweber'));
+                                            } elseif ($key === 'name') {
+                                                echo esc_html(__('Name', 'codeweber'));
+                                            } elseif ($key === 'role') {
+                                                echo esc_html(__('Role', 'codeweber'));
+                                            } elseif ($key === 'company') {
+                                                echo esc_html(__('Company', 'codeweber'));
+                                            } elseif ($key === 'testimonial_text' || $key === 'testimonial-text') {
+                                                echo esc_html(__('Testimonial text', 'codeweber'));
+                                            } elseif ($key === 'rating') {
+                                                echo esc_html(__('Rating', 'codeweber'));
+                                            } else {
+                                                echo esc_html(ucfirst(str_replace(['_', '-'], ' ', $key)));
+                                            }
+                                            ?>
+                                        </strong>
+                                    </td>
                                     <td>
                                         <?php 
-                                        if (is_array($value)) {
-                                            echo esc_html(implode(', ', $value));
+                                        // Специальная обработка newsletter_consents, чтобы избежать "Array to string conversion"
+                                        if ($key === 'newsletter_consents' && is_array($value)) {
+                                            $consent_lines = [];
+
+                                            // Подключаем helper для получения корректного URL документа/ревизии
+                                            if (!function_exists('codeweber_forms_get_document_url')) {
+                                                require_once get_template_directory() . '/functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php';
+                                            }
+
+                                            foreach ($value as $doc_id => $consent_data) {
+                                                $doc = get_post($doc_id);
+                                                if (!$doc) {
+                                                    continue;
+                                                }
+
+                                                $doc_title = $doc->post_title;
+                                                $version   = $consent_data['document_version'] ?? null;
+                                                $doc_url   = codeweber_forms_get_document_url($doc_id, $version);
+
+                                                $line = sprintf(
+                                                    '%s (ID: %d)',
+                                                    esc_html($doc_title),
+                                                    (int) $doc_id
+                                                );
+
+                                                if (!empty($version)) {
+                                                    $line .= sprintf(
+                                                        ' - %s: %s',
+                                                        __('Version', 'codeweber'),
+                                                        esc_html($version)
+                                                    );
+                                                }
+
+                                                if (!empty($doc_url)) {
+                                                    $url = esc_url($doc_url);
+                                                    $line .= ' - ' . __('URL', 'codeweber') . ': '
+                                                        . '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $url . '</a>';
+                                                }
+
+                                                $consent_lines[] = $line;
+                                            }
+
+                                            if (!empty($consent_lines)) {
+                                                echo wp_kses_post(implode('<br>', $consent_lines));
+                                            } else {
+                                                echo '—';
+                                            }
+                                        } elseif (is_array($value)) {
+                                            // Общая обработка массивов (простые значения)
+                                            $flat = [];
+                                            foreach ($value as $k => $v) {
+                                                if (is_array($v)) {
+                                                    continue;
+                                                }
+                                                $flat[] = $v;
+                                            }
+                                            echo esc_html(implode(', ', $flat));
                                         } elseif (filter_var($value, FILTER_VALIDATE_URL)) {
                                             echo '<a href="' . esc_url($value) . '" target="_blank">' . esc_html($value) . '</a>';
                                         } else {
@@ -316,7 +500,7 @@ class CodeweberFormsAdmin {
                             <?php if (isset($data['_utm_data']) && is_array($data['_utm_data'])): ?>
                                 <tr>
                                     <td colspan="2">
-                                        <h3>UTM Parameters</h3>
+                                        <h3><?php _e('UTM Parameters', 'codeweber'); ?></h3>
                                         <table class="wp-list-table widefat fixed">
                                             <thead>
                                                 <tr>

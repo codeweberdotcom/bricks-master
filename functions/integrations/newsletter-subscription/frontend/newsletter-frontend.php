@@ -113,10 +113,35 @@ class NewsletterSubscriptionFrontend
          return false;
       }
 
+      // Получаем текущую запись для обновления истории событий
+      $subscription = $wpdb->get_row($wpdb->prepare(
+         "SELECT * FROM {$this->table_name} WHERE email = %s AND unsubscribe_token = %s AND status = 'confirmed'",
+         $email,
+         $token
+      ));
+
+      $events = [];
+      if ($subscription && !empty($subscription->events_history)) {
+         $decoded = json_decode($subscription->events_history, true);
+         if (is_array($decoded)) {
+            $events = $decoded;
+         }
+      }
+
+      $now = current_time('mysql');
+      $events[] = [
+         'type'    => 'unsubscribed',
+         'date'    => $now,
+         'source'  => 'frontend',
+         'form_id' => $subscription ? $subscription->form_id : '',
+         'page_url'=> wp_get_referer() ?: home_url($_SERVER['REQUEST_URI'] ?? '/'),
+      ];
+
       $result = $wpdb->update($this->table_name, array(
          'status' => 'unsubscribed',
-         'unsubscribed_at' => current_time('mysql'),
-         'updated_at' => current_time('mysql')
+         'unsubscribed_at' => $now,
+         'updated_at' => $now,
+         'events_history' => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
       ), array(
          'email' => $email,
          'unsubscribe_token' => $token,

@@ -222,15 +222,30 @@
             }
         }
 
-        // Validate rating
-        if (!rating || !rating.value) {
+        // Validate rating - add visual indicator to stars wrapper
+        const ratingWrapper = form.querySelector('.rating-stars-wrapper');
+        const ratingValue = rating ? parseInt(rating.value) : 0;
+        
+        if (!rating || !rating.value || ratingValue < 1 || ratingValue > 5) {
             isValid = false;
             if (rating) {
                 rating.classList.add('is-invalid');
+                // Set custom validity message
+                rating.setCustomValidity('Please select a rating');
+            }
+            // Add visual indicator to stars wrapper
+            if (ratingWrapper) {
+                ratingWrapper.classList.add('is-invalid');
             }
         } else {
             if (rating) {
                 rating.classList.remove('is-invalid');
+                // Clear custom validity
+                rating.setCustomValidity('');
+            }
+            // Remove visual indicator from stars wrapper
+            if (ratingWrapper) {
+                ratingWrapper.classList.remove('is-invalid');
             }
         }
 
@@ -298,6 +313,7 @@
         else if (form.classList.contains('codeweber-form')) {
             config.type = 'codeweber';
             config.formId = form.dataset.formId || form.id.replace('form-', '');
+            config.formName = form.dataset.formName || '';
             config.apiEndpoint = (codeweberForms?.restUrl || '/wp-json/codeweber-forms/v1/') + 'submit';
             config.nonceField = 'form_nonce';
             config.nonceAction = 'codeweber_form_submit';
@@ -321,6 +337,12 @@
         const nonce = formData.get(config.nonceField);
         if (nonce) {
             data.nonce = nonce;
+        } else {
+            console.warn('[Form Submit Debug] Nonce not found in form field:', config.nonceField);
+            // For testimonial forms, nonce is required
+            if (config.type === 'testimonial') {
+                console.warn('[Form Submit Debug] Testimonial form requires nonce!');
+            }
         }
 
         // Collect consents
@@ -347,16 +369,35 @@
 
         // Collect other fields based on form type
         if (config.type === 'testimonial') {
-            data.testimonial_text = formData.get('testimonial_text');
-            data.rating = formData.get('rating');
+            // Get testimonial_text and ensure it's not empty
+            const testimonialText = formData.get('testimonial_text');
+            if (testimonialText && testimonialText.trim()) {
+                data.testimonial_text = testimonialText.trim();
+            } else {
+                data.testimonial_text = '';
+            }
+            
+            // Get rating and convert to integer (required: 1-5)
+            const ratingValue = formData.get('rating');
+            if (ratingValue) {
+                const ratingInt = parseInt(ratingValue, 10);
+                if (!isNaN(ratingInt) && ratingInt >= 1 && ratingInt <= 5) {
+                    data.rating = ratingInt;
+                } else {
+                    data.rating = null; // Will cause validation error
+                }
+            } else {
+                data.rating = null; // Will cause validation error
+            }
+            
             data.honeypot = formData.get('testimonial_honeypot') || '';
             
             const userId = formData.get('user_id');
             if (userId) {
                 data.user_id = parseInt(userId, 10);
             } else {
-                data.author_name = formData.get('author_name');
-                data.author_email = formData.get('author_email');
+                data.author_name = formData.get('author_name') || '';
+                data.author_email = formData.get('author_email') || '';
                 data.author_role = formData.get('author_role') || '';
                 data.company = formData.get('company') || '';
             }
@@ -364,6 +405,9 @@
             // Generic codeweber form
             data.honeypot = formData.get('form_honeypot') || '';
             data.form_id = config.formId;
+            if (config.formName) {
+                data.form_name = config.formName;
+            }
             
             // Collect all fields except system ones
             const fields = {};
@@ -434,8 +478,10 @@
         }
 
         const formMessages = form.querySelector(config.messagesContainer);
+        const originalBtnHTML = submitBtn.innerHTML;
         const originalBtnText = submitBtn.textContent || submitBtn.innerText;
         const loadingText = submitBtn.dataset.loadingText || 'Отправка...';
+        const originalMinHeight = submitBtn.style.minHeight || '';
         
         // Флаг для отслеживания наших изменений кнопки
         let isOurControl = false;
@@ -591,7 +637,44 @@
                 formMessages.style.display = 'none';
             }
 
-            // Validate form
+            // Run custom validation first (for testimonial forms, this checks rating)
+            // This ensures visual indicators are updated before HTML5 validation
+            if (config.customValidation) {
+                const customValid = config.customValidation(form);
+                
+                if (!customValid) {
+                    form.classList.add('was-validated');
+                    
+                    // JavaScript событие: ошибка валидации
+                    const invalidEvent = new CustomEvent('codeweberFormInvalid', {
+                        detail: {
+                            formId: config.formId,
+                            form: form,
+                            message: 'Form validation failed'
+                        }
+                    });
+                    form.dispatchEvent(invalidEvent);
+                    
+                    // Focus on first invalid field (prefer rating if invalid)
+                    const rating = form.querySelector('[name="rating"]');
+                    const ratingWrapper = form.querySelector('.rating-stars-wrapper');
+                    if (rating && rating.classList.contains('is-invalid')) {
+                        // Focus on rating input (hidden) or scroll to stars
+                        if (ratingWrapper) {
+                            ratingWrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    } else {
+                        const firstInvalid = form.querySelector(':invalid, .is-invalid');
+                        if (firstInvalid) {
+                            firstInvalid.focus();
+                        }
+                    }
+                    
+                    return;
+                }
+            }
+
+            // Validate form with HTML5 validation
             const isValid = form.checkValidity();
             
             if (!isValid) {
@@ -619,28 +702,55 @@
             // Remove was-validated class if form is valid (for re-submission)
             form.classList.remove('was-validated');
 
-            // Run custom validation if exists
-            if (config.customValidation) {
-                const customValid = config.customValidation(form);
-                
-                if (!customValid) {
-                    // JavaScript событие: ошибка валидации
-                    const invalidEvent = new CustomEvent('codeweberFormInvalid', {
-                        detail: {
-                            formId: config.formId,
-                            form: form,
-                            message: 'Form validation failed'
-                        }
-                    });
-                    form.dispatchEvent(invalidEvent);
-                    return;
-                }
-            }
-
-            // Show loading state
+            // Show loading state with spinner (like in testimonials download button)
             isOurControl = true;
+            
+            // Сохраняем текущую высоту и устанавливаем minHeight для предотвращения изменения размера
+            const currentHeight = submitBtn.offsetHeight;
+            if (currentHeight > 0) {
+                submitBtn.style.minHeight = currentHeight + 'px';
+            }
+            
             submitBtn.disabled = true;
-            submitBtn.textContent = loadingText;
+            
+            // Показываем спиннер (того же размера что и текст)
+            // Работает для всех форм: testimonial, newsletter subscription, и других codeweber форм
+            const icon = submitBtn.querySelector('i');
+            const span = submitBtn.querySelector('span');
+            
+            if (icon) {
+                // Сохраняем размер иконки (fs-13 или другой), заменяем только иконку на спиннер
+                const iconSize = icon.className.match(/fs-\d+/);
+                const iconSizeClass = iconSize ? iconSize[0] : 'fs-13';
+                
+                // Заменяем иконку на спиннер с сохранением размера и добавляем отступ справа
+                icon.className = 'uil uil-spinner-alt uil-spin ' + iconSizeClass;
+                if (!icon.classList.contains('me-1')) {
+                    icon.classList.add('me-1');
+                }
+                
+                // Удаляем span обертку с текстом, если есть
+                if (span) {
+                    span.remove();
+                }
+                
+                // Удаляем все текстовые узлы после иконки
+                let node = icon.nextSibling;
+                while (node) {
+                    const next = node.nextSibling;
+                    if (node.nodeType === Node.TEXT_NODE || (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN')) {
+                        node.remove();
+                    }
+                    node = next;
+                }
+                
+                // Добавляем новый текстовый узел с текстом загрузки
+                submitBtn.appendChild(document.createTextNode(loadingText));
+            } else {
+                // Если структуры нет (старые формы без иконки), создаем с правильным размером
+                submitBtn.innerHTML = '<i class="uil uil-spinner-alt uil-spin fs-13 me-1"></i>' + loadingText;
+            }
+            
             isOurControl = false;
 
             // JavaScript событие: запрос начат (кнопка заблокирована)
@@ -657,6 +767,26 @@
                 const data = collectFormData(form, config);
                 console.log('[Form Submit Debug] Collected form data:', data);
                 console.log('[Form Submit Debug] newsletter_consents in data:', data.newsletter_consents);
+                
+                // Additional validation for testimonial form
+                if (config.type === 'testimonial') {
+                    if (!data.testimonial_text || !data.testimonial_text.trim()) {
+                        throw new Error('Testimonial text is required');
+                    }
+                    // Only validate rating range if it's set, don't show error if just not selected
+                    if (data.rating !== null && data.rating !== undefined && (data.rating < 1 || data.rating > 5)) {
+                        throw new Error('Rating must be between 1 and 5');
+                    }
+                    // If rating is not selected (null/undefined/0), let HTML5 validation handle it
+                    if (!data.nonce) {
+                        throw new Error('Security nonce is missing');
+                    }
+                    console.log('[Form Submit Debug] Testimonial validation passed:', {
+                        testimonial_text: data.testimonial_text ? data.testimonial_text.substring(0, 50) + '...' : 'empty',
+                        rating: data.rating,
+                        has_nonce: !!data.nonce
+                    });
+                }
 
                 // Get API nonce
                 const apiNonce = config.type === 'testimonial' 
@@ -677,6 +807,15 @@
                 console.log('[Form Submit Debug] Sending request to:', config.apiEndpoint);
                 console.log('[Form Submit Debug] Request data (full):', JSON.stringify(data, null, 2));
                 console.log('[Form Submit Debug] newsletter_consents in request:', data.newsletter_consents);
+                if (config.type === 'testimonial') {
+                    console.log('[Form Submit Debug] Testimonial data check:', {
+                        testimonial_text_length: data.testimonial_text ? data.testimonial_text.length : 0,
+                        rating_type: typeof data.rating,
+                        rating_value: data.rating,
+                        has_nonce: !!data.nonce,
+                        nonce_length: data.nonce ? data.nonce.length : 0
+                    });
+                }
                 const response = await fetch(config.apiEndpoint, {
                     method: 'POST',
                     headers: {
@@ -702,9 +841,99 @@
                 if (!response.ok) {
                     try {
                         const errorData = await response.json();
-                        const errorMessage = errorData.message || errorData.data?.message || errorData.code || `HTTP ${response.status}: ${response.statusText}`;
+                        console.error('[Form Submit Debug] Server error response:', errorData);
+                        
+                        // Handle WordPress REST API validation errors
+                        let errorMessage = errorData.message || errorData.data?.message || errorData.code || `HTTP ${response.status}: ${response.statusText}`;
+                        
+                        // If there are specific parameter errors, add them to the message
+                        if (errorData.data?.params && typeof errorData.data.params === 'object') {
+                            const paramErrors = Object.values(errorData.data.params).filter(msg => msg);
+                            if (paramErrors.length > 0) {
+                                errorMessage = paramErrors.join('. ');
+                            }
+                        }
+                        
+                        // Translate common error codes to user-friendly messages
+                        if (errorData.code === 'rest_invalid_param') {
+                            errorMessage = errorMessage || __('Please check the form fields and try again.', 'codeweber');
+                        } else if (errorData.code === 'invalid_nonce') {
+                            errorMessage = __('Security check failed. Please refresh the page and try again.', 'codeweber');
+                        } else if (errorData.code === 'rate_limit_exceeded') {
+                            errorMessage = __('Too many submissions. Please try again later.', 'codeweber');
+                        } else if (errorData.code === 'already_subscribed') {
+                            // Special handling for newsletter формы: показываем модальное окно "уже подписан",
+                            // а не стандартное сообщение об ошибке / HTTP 400.
+                            const isNewsletter = form.classList.contains('newsletter-subscription-form') ||
+                                                 config.formId === '6119' || config.formId === 6119;
+                            
+                            if (isNewsletter) {
+                                // Скрываем стандартный контейнер сообщений
+                                if (formMessages) {
+                                    formMessages.style.display = 'none';
+                                    formMessages.innerHTML = '';
+                                }
+
+                                // Ищем (или создаем) модальное окно
+                                let modal = form.closest('#modal') || document.getElementById('modal');
+
+                                if (!modal) {
+                                    const oldModal = document.getElementById('newsletter-success-modal');
+                                    if (oldModal) {
+                                        oldModal.remove();
+                                    }
+
+                                    const modalHtml = `
+                                        <div class="modal fade" id="newsletter-success-modal" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                    document.body.insertAdjacentHTML('beforeend', modalHtml);
+                                    modal = document.getElementById('newsletter-success-modal');
+
+                                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                                        const bsModal = new bootstrap.Modal(modal);
+                                        bsModal.show();
+                                    }
+                                } else {
+                                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                                        const bsModal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
+                                        bsModal.show();
+                                    }
+                                }
+
+                                // Показываем сообщение "уже подписан" внутри модалки с тем же оформлением конверта
+                                if (modal && modal.id === 'newsletter-success-modal') {
+                                    replaceModalContentWithEnvelope(modal, errorMessage);
+                                } else {
+                                    replaceModalContentWithEnvelope(form, errorMessage);
+                                }
+
+                                // Дополнительное событие для кастомных обработчиков
+                                const alreadySubscribedEvent = new CustomEvent('codeweberNewsletterAlreadySubscribed', {
+                                    detail: {
+                                        formId: config.formId,
+                                        form: form,
+                                        message: errorMessage,
+                                        apiResponse: errorData
+                                    }
+                                });
+                                form.dispatchEvent(alreadySubscribedEvent);
+                                document.dispatchEvent(alreadySubscribedEvent);
+
+                                // Завершаем обработчик, чтобы не показывать стандартное сообщение об ошибке
+                                return;
+                            }
+                        }
+                        
                         throw new Error(errorMessage);
                     } catch (parseError) {
+                        // If JSON parsing failed, use status text
+                        console.error('[Form Submit Debug] Failed to parse error response:', parseError);
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
                 }
@@ -749,8 +978,15 @@
                         config.onSuccess(form, responseData, formMessages);
                     }
                 } else {
-                    if (formMessages) {
-                        showMessage(formMessages, responseData.message || 'An error occurred. Please try again.', 'error', config.messagesClass);
+                    // Filter out rating validation errors for testimonial forms (we show visual indicator instead)
+                    let errorMessage = responseData.message || 'An error occurred. Please try again.';
+                    if (config.type === 'testimonial' && errorMessage.includes('Rating must be between 1 and 5')) {
+                        // Don't show this message, visual indicator on stars is enough
+                        errorMessage = '';
+                    }
+                    
+                    if (formMessages && errorMessage) {
+                        showMessage(formMessages, errorMessage, 'error', config.messagesClass);
                     }
                     
                     // JavaScript событие: ошибка отправки
@@ -758,7 +994,7 @@
                         detail: {
                             formId: config.formId,
                             form: form,
-                            message: responseData.message || 'An error occurred. Please try again.',
+                            message: errorMessage || 'An error occurred. Please try again.',
                             apiResponse: responseData
                         }
                     });
@@ -766,8 +1002,15 @@
                 }
 
             } catch (error) {
-                if (formMessages) {
-                    showMessage(formMessages, error.message || 'An error occurred. Please try again.', 'error', config.messagesClass);
+                // Filter out rating validation errors for testimonial forms
+                let errorMessage = error.message || 'An error occurred. Please try again.';
+                if (config.type === 'testimonial' && errorMessage.includes('Rating must be between 1 and 5')) {
+                    // Don't show this message, visual indicator on stars is enough
+                    errorMessage = '';
+                }
+                
+                if (formMessages && errorMessage) {
+                    showMessage(formMessages, errorMessage, 'error', config.messagesClass);
                 }
                 
                 // JavaScript событие: ошибка сети/сервера
@@ -775,7 +1018,7 @@
                     detail: {
                         formId: config.formId,
                         form: form,
-                        message: error.message || 'Network error occurred',
+                        message: errorMessage || 'Network error occurred',
                         error: error
                     }
                 });
@@ -798,7 +1041,13 @@
                 // Восстанавливаем состояние кнопки
                 isOurControl = true;
                 submitBtn.disabled = false;
-                submitBtn.textContent = originalBtnText;
+                submitBtn.innerHTML = originalBtnHTML;
+                // Восстанавливаем оригинальный minHeight или очищаем
+                if (originalMinHeight) {
+                    submitBtn.style.minHeight = originalMinHeight;
+                } else {
+                    submitBtn.style.minHeight = '';
+                }
                 isOurControl = false;
             }
         });
@@ -853,7 +1102,7 @@
                     showMessage(formMessages, message, 'success', 'testimonial-form-messages');
                 }
             }
-            // Обработка для newsletter формы
+            // Обработка для newsletter формы (ТОЛЬКО для newsletter формы)
             else if (isNewsletter) {
                 // Скрываем стандартное сообщение, если оно есть
                 if (formMessages) {

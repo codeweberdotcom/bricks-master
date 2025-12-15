@@ -82,15 +82,19 @@ class CodeweberFormsRenderer {
         $settings = $config['settings'] ?? [];
         
         // Получаем form_id из конфигурации, если не передан
+        // form_id может быть как числом (CPT формы), так и строкой (встроенные формы)
         if (empty($form_id) && !empty($config['id'])) {
-            $form_id = intval($config['id']);
+            $form_id = is_numeric($config['id']) ? intval($config['id']) : $config['id'];
         }
         
         // Генерируем уникальный ID формы
         $form_unique_id = 'form-' . ($form_id ?: uniqid());
         
         // Настройки формы
-        $form_name = $settings['formName'] ?? 'Contact Form';
+        // formTitle — заголовок формы для верстки (frontend),
+        // internalName — логическое имя формы (если задано через шорткод name),
+        // для статистики/идентификаторов внутри системы предпочтительнее internalName.
+        $form_name = $settings['internalName'] ?? ($settings['formTitle'] ?? 'Contact Form');
         $recipient_email = $settings['recipientEmail'] ?? get_option('admin_email');
         $success_message = $settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
         $error_message = $settings['errorMessage'] ?? __('An error occurred. Please try again.', 'codeweber');
@@ -130,6 +134,7 @@ class CodeweberFormsRenderer {
             id="<?php echo esc_attr($form_unique_id); ?>" 
             class="codeweber-form needs-validation<?php echo $is_newsletter_form ? ' newsletter-subscription-form' : ''; ?>" 
             data-form-id="<?php echo esc_attr($form_id); ?>"
+            data-form-name="<?php echo esc_attr($settings['internalName'] ?? ''); ?>"
             data-handled-by="codeweber-forms-universal"
             method="post"
             enctype="multipart/form-data"
@@ -199,10 +204,11 @@ class CodeweberFormsRenderer {
                         ?>
                         <button 
                             type="submit" 
-                            class="<?php echo esc_attr($submit_button_class . $button_style); ?>"
+                            class="<?php echo esc_attr($submit_button_class . ' btn-icon btn-icon-start' . $button_style); ?>"
                             data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
                         >
-                            <?php echo esc_html($submit_button_text); ?>
+                            <i class="uil uil-send fs-13"></i>
+                            <span class="ms-1"><?php echo esc_html($submit_button_text); ?></span>
                         </button>
                     </div>
                     
@@ -258,12 +264,17 @@ class CodeweberFormsRenderer {
                 </div>
                 
                 <div class="form-submit-wrapper mt-4">
+                    <?php 
+                    // Получаем класс кнопки из темы
+                    $button_style = function_exists('getThemeButton') ? getThemeButton() : '';
+                    ?>
                     <button 
                         type="submit" 
-                        class="<?php echo esc_attr($submit_button_class); ?>"
+                        class="<?php echo esc_attr($submit_button_class . ' btn-icon btn-icon-start' . $button_style); ?>"
                         data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
                     >
-                        <?php echo esc_html($submit_button_text); ?>
+                        <i class="uil uil-send fs-13"></i>
+                        <span class="ms-1"><?php echo esc_html($submit_button_text); ?></span>
                     </button>
                 </div>
             <?php endif; ?>
@@ -276,20 +287,24 @@ class CodeweberFormsRenderer {
      * Проверяет, является ли форма newsletter формой
      */
     private function is_newsletter_form($form_id, $form_name) {
-        // Проверяем по названию
-        $name_lower = strtolower($form_name);
-        if (strpos($name_lower, 'newsletter') !== false) {
-            return true;
+        // 1) Встроенная форма по строковому идентификатору (НЕ переводим, это технический ключ)
+        if (is_string($form_id)) {
+            $id_lower = strtolower($form_id);
+            if ($id_lower === 'newsletter') {
+                return true;
+            }
         }
-        
-        // Проверяем по метаполю
+
+        // 2) Формы‑записи CPT: определяем по метаполю `_form_type = newsletter`
         if ($form_id && is_numeric($form_id)) {
-            $form_type = get_post_meta($form_id, '_form_type', true);
+            $form_type = get_post_meta((int) $form_id, '_form_type', true);
             if ($form_type === 'newsletter') {
                 return true;
             }
         }
-        
+
+        // Название формы (`form_name`) в определении типа НЕ участвует,
+        // чтобы переводы названия никак не влияли на логику.
         return false;
     }
     

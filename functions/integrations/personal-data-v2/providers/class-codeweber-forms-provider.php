@@ -109,11 +109,20 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
             
             $data = [];
             
-            // Название формы
+            // Название формы (с поддержкой перевода)
             if (!empty($submission->form_name)) {
+                $form_name = $submission->form_name;
+
+                // Пытаемся найти перевод по самому названию формы
+                // Например, для "Newsletter Subscription" будет использован перевод из ru_RU.po
+                $translated_form_name = __($form_name, 'codeweber');
+                if (!empty($translated_form_name) && $translated_form_name !== $form_name) {
+                    $form_name = $translated_form_name;
+                }
+
                 $data[] = [
-                    'name' => __('Form Name', 'codeweber'),
-                    'value' => $submission->form_name
+                    'name'  => __('Form Name', 'codeweber'),
+                    'value' => $form_name,
                 ];
             }
             
@@ -150,27 +159,54 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
             }
             
             // Обработка newsletter_consents (специальная обработка)
+            // Выводим каждый документ согласия отдельной строкой, в формате как в блоке "Пользовательские согласия"
             if (!empty($submission_data['newsletter_consents']) && is_array($submission_data['newsletter_consents'])) {
-                $consents_list = [];
                 foreach ($submission_data['newsletter_consents'] as $doc_id => $consent_data) {
                     $doc = get_post($doc_id);
                     if ($doc) {
-                        $consent_info = $doc->post_title;
-                        if (!empty($consent_data['document_version'])) {
-                            $consent_info .= ' (' . __('Version', 'codeweber') . ': ' . $consent_data['document_version'] . ')';
-                        }
+                        $doc_title = $doc->post_title;
+                        $doc_url = '';
+
+                        // URL документа: если есть ревизия, используем ссылку на нее, иначе permalink документа
                         if (!empty($consent_data['document_revision_id'])) {
-                            $consent_info .= ' [' . __('Revision ID', 'codeweber') . ': ' . $consent_data['document_revision_id'] . ']';
+                            $doc_url = admin_url('revision.php?revision=' . $consent_data['document_revision_id']);
+                        } else {
+                            $doc_url = get_permalink($doc_id);
                         }
-                        $consents_list[] = $consent_info;
+
+                        // Базовая часть: Название (ID: X)
+                        $consent_info = sprintf(
+                            '%s (ID: %d)',
+                            $doc_title,
+                            $doc_id
+                        );
+
+                        // Информация о ревизии
+                        if (!empty($consent_data['document_revision_id'])) {
+                            $consent_info .= sprintf(
+                                ' - ' . __('Revision ID', 'codeweber') . ': %d',
+                                $consent_data['document_revision_id']
+                            );
+                        }
+
+                        // Информация о версии
+                        if (!empty($consent_data['document_version'])) {
+                            $consent_info .= ' - ' . __('Version', 'codeweber') . ': ' . $consent_data['document_version'];
+                        }
+
+                        // URL (делаем кликабельным)
+                        if ($doc_url) {
+                            $consent_info .= ' - ' . __('URL', 'codeweber') . ': '
+                                . '<a href="' . esc_url($doc_url) . '" target="_blank" rel="noopener noreferrer">'
+                                . esc_html($doc_url)
+                                . '</a>';
+                        }
+
+                        $data[] = [
+                            'name'  => __('Consented Document', 'codeweber'),
+                            'value' => $consent_info,
+                        ];
                     }
-                }
-                
-                if (!empty($consents_list)) {
-                    $data[] = [
-                        'name' => __('Newsletter Consents', 'codeweber'),
-                        'value' => implode('; ', $consents_list)
-                    ];
                 }
             }
             
@@ -229,14 +265,6 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
                 $data[] = [
                     'name' => __('Browser User Agent', 'codeweber'),
                     'value' => $submission->user_agent
-                ];
-            }
-            
-            // Статус
-            if (!empty($submission->status)) {
-                $data[] = [
-                    'name' => __('Status', 'codeweber'),
-                    'value' => ucfirst($submission->status)
                 ];
             }
             

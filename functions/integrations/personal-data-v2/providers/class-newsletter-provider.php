@@ -124,9 +124,16 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
             
             // Форма подписки
             if (!empty($subscription->form_id)) {
+                // Название формы (человекочитаемое)
                 $data[] = [
                     'name' => __('Subscription Form', 'codeweber'),
                     'value' => $this->get_form_label($subscription->form_id)
+                ];
+                
+                // ID формы подписки
+                $data[] = [
+                    'name' => __('Subscription Form ID', 'codeweber'),
+                    'value' => $subscription->form_id
                 ];
             }
             
@@ -154,20 +161,132 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
                 ];
             }
             
-            // Дата подтверждения
-            if (!empty($subscription->confirmed_at) && $subscription->confirmed_at !== '0000-00-00 00:00:00') {
-                $data[] = [
-                    'name' => __('Confirmation Date', 'codeweber'),
-                    'value' => date('d.m.Y H:i:s', strtotime($subscription->confirmed_at))
-                ];
+            // История событий подписки/отписки (events_history)
+            // Храним все события в одном массиве и выводим в экспорте в виде списка "События"
+            $events = [];
+            if (!empty($subscription->events_history)) {
+                $decoded = json_decode($subscription->events_history, true);
+                if (is_array($decoded)) {
+                    $events = $decoded;
+                }
             }
-            
-            // Дата отписки
-            if (!empty($subscription->unsubscribed_at) && $subscription->unsubscribed_at !== '0000-00-00 00:00:00') {
-                $data[] = [
-                    'name' => __('Unsubscribe Date', 'codeweber'),
-                    'value' => date('d.m.Y H:i:s', strtotime($subscription->unsubscribed_at))
-                ];
+
+            // Фолбэк для старых записей без events_history: используем confirmed_at / unsubscribed_at
+            if (empty($events)) {
+                if (!empty($subscription->confirmed_at) && $subscription->confirmed_at !== '0000-00-00 00:00:00') {
+                    $events[] = [
+                        'type' => 'confirmed',
+                        'date' => $subscription->confirmed_at,
+                        'source' => 'legacy',
+                    ];
+                }
+                if (!empty($subscription->unsubscribed_at) && $subscription->unsubscribed_at !== '0000-00-00 00:00:00') {
+                    $events[] = [
+                        'type' => 'unsubscribed',
+                        'date' => $subscription->unsubscribed_at,
+                        'source' => 'legacy',
+                    ];
+                }
+            }
+
+            if (!empty($events)) {
+                foreach ($events as $event) {
+                    if (empty($event['date'])) {
+                        continue;
+                    }
+                    $timestamp = strtotime($event['date']);
+                    if (!$timestamp) {
+                        continue;
+                    }
+
+                    $date_str = date('d.m.Y H:i:s', $timestamp);
+                    $label = '';
+
+                    if (!empty($event['type']) && $event['type'] === 'confirmed') {
+                        $label = __('Confirmation Date', 'codeweber');
+                    } elseif (!empty($event['type']) && $event['type'] === 'unsubscribed') {
+                        $label = __('Unsubscribe Date', 'codeweber');
+                    } else {
+                        $label = __('Event Date', 'codeweber');
+                    }
+
+                    // Собираем человекочитаемое значение события, включая форму и страницу
+                    $parts = [];
+                    $parts[] = sprintf('%s: %s', $label, $date_str);
+
+                    if (!empty($event['form_id'])) {
+                        $parts[] = sprintf(
+                            '%s: %s',
+                            __('Subscription Form', 'codeweber'),
+                            $this->get_form_label($event['form_id'])
+                        );
+                    }
+
+                    if (!empty($event['page_url'])) {
+                        $parts[] = sprintf(
+                            '%s: %s',
+                            __('Page URL', 'codeweber'),
+                            $event['page_url']
+                        );
+                    }
+
+                    // Согласия, выданные в рамках этого события (если есть)
+                    if (!empty($event['consents']) && is_array($event['consents'])) {
+                        $consent_parts = [];
+                        foreach ($event['consents'] as $consent) {
+                            if (empty($consent['id']) || empty($consent['title'])) {
+                                continue;
+                            }
+
+                            $doc_str = sprintf(
+                                '%s (ID: %d)',
+                                $consent['title'],
+                                $consent['id']
+                            );
+
+                            if (!empty($consent['document_revision_id'])) {
+                                $doc_str .= sprintf(
+                                    ' - %s: %d',
+                                    __('Revision ID', 'codeweber'),
+                                    $consent['document_revision_id']
+                                );
+                            }
+
+                            if (!empty($consent['document_version'])) {
+                                $doc_str .= sprintf(
+                                    ' - %s: %s',
+                                    __('Version', 'codeweber'),
+                                    $consent['document_version']
+                                );
+                            }
+
+                            if (!empty($consent['url'])) {
+                                $doc_str .= ' - ' . __('URL', 'codeweber') . ': '
+                                    . '<a href="' . esc_url($consent['url']) . '" target="_blank" rel="noopener noreferrer">'
+                                    . esc_html($consent['url'])
+                                    . '</a>';
+                            }
+
+                            $consent_parts[] = $doc_str;
+                        }
+
+                        if (!empty($consent_parts)) {
+                            $parts[] = sprintf(
+                                '%s: %s',
+                                __('Consented Document', 'codeweber'),
+                                implode(' | ', $consent_parts)
+                            );
+                        }
+                    }
+
+                    // Выводим каждую часть события отдельной строкой "События"
+                    foreach ($parts as $part) {
+                        $data[] = [
+                            'name'  => __('Events', 'codeweber'),
+                            'value' => $part,
+                        ];
+                    }
+                }
             }
             
             // ID записи
@@ -311,6 +430,17 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
      * @return string
      */
     private function get_form_label(string $form_id): string {
+        // Встроенные формы (newsletter, testimonial, resume, callback)
+        $builtin_forms = [
+            'newsletter'  => __('Newsletter Subscription', 'codeweber'),
+            'testimonial' => __('Testimonial Form', 'codeweber'),
+            'resume'      => __('Resume Form', 'codeweber'),
+            'callback'    => __('Callback Request', 'codeweber'),
+        ];
+        if (isset($builtin_forms[$form_id])) {
+            return $builtin_forms[$form_id];
+        }
+        
         // Для CF7 форм
         if (strpos($form_id, 'cf7_') === 0) {
             $parts = explode('_', $form_id);

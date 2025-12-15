@@ -692,6 +692,9 @@ function codeweber_testimonial_rating_stars($current_rating = 0, $name = 'rating
         .rating-stars-wrapper {
             font-size: 1.25rem;
             line-height: 1;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
         .rating-star-item {
             color: rgba(0, 0, 0, 0.1);
@@ -706,6 +709,28 @@ function codeweber_testimonial_rating_stars($current_rating = 0, $name = 'rating
         }
         .rating-stars-wrapper:hover .rating-star-item {
             color: rgba(0, 0, 0, 0.1);
+        }
+        /* Bootstrap validation styles for stars */
+        .rating-stars-wrapper.is-invalid {
+            border: 1px solid #dc3545;
+            background-color: rgba(220, 53, 69, 0.05);
+        }
+        .rating-stars-wrapper.is-invalid .rating-star-item {
+            color: #dc3545;
+            opacity: 0.6;
+        }
+        .rating-stars-wrapper.is-invalid:hover .rating-star-item {
+            color: #dc3545;
+        }
+        /* Focus state */
+        .rating-stars-wrapper:focus-within {
+            border-color: #86b7fe;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .rating-stars-wrapper.is-invalid:focus-within {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
         }
     </style>
     <script>
@@ -732,8 +757,39 @@ function codeweber_testimonial_rating_stars($current_rating = 0, $name = 'rating
                         selectedRating = rating;
                         if (input) {
                             input.value = rating;
+                            // Validate rating immediately when star is clicked
+                            if (rating >= 1 && rating <= 5) {
+                                // Remove validation error classes
+                                input.classList.remove('is-invalid');
+                                container.classList.remove('is-invalid');
+                                
+                                // Trigger validation event to update form state
+                                const form = input.closest('form');
+                                if (form) {
+                                    // Trigger input event for HTML5 validation
+                                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                                    
+                                    // If form has was-validated class, re-validate rating field
+                                    if (form.classList.contains('was-validated')) {
+                                        // Manually validate rating field
+                                        if (rating >= 1 && rating <= 5) {
+                                            input.setCustomValidity('');
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        updateStarsVisual(stars, rating);
+                        // Update visual state immediately (show selected stars)
+                        updateStarsVisual(stars, rating, false);
+                        // Ensure stars show correct color
+                        stars.forEach(function(s) {
+                            if (parseInt(s.dataset.rating) <= rating) {
+                                s.style.color = '#fcc032';
+                            } else {
+                                s.style.color = 'rgba(0, 0, 0, 0.1)';
+                            }
+                        });
                     });
                 });
                 
@@ -775,6 +831,7 @@ function codeweber_testimonial_rating_stars($current_rating = 0, $name = 'rating
                     }
                 }
             });
+            // Don't remove is-invalid here - let form validation handle it on submit
         }
         
         if (document.readyState === 'loading') {

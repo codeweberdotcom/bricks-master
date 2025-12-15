@@ -166,6 +166,12 @@ class NewsletterSubscriptionAdmin
    {
       global $wpdb;
 
+      // Детальный просмотр подписки
+      if (isset($_GET['action']) && $_GET['action'] === 'view' && !empty($_GET['email'])) {
+         $this->render_view_page(sanitize_email($_GET['email']));
+         return;
+      }
+
       // Handle individual actions (unsubscribe, delete) only if not bulk action
       $this->handle_actions();
       
@@ -228,6 +234,17 @@ class NewsletterSubscriptionAdmin
                   </div>
                </div>
             </form>
+
+            <?php if ($status === 'trash'): ?>
+               <form method="post" style="margin: 10px 0;">
+                  <input type="hidden" name="action" value="empty_trash">
+                  <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
+                  <button type="submit" class="button button-secondary button-link-delete"
+                     onclick="return confirm('Вы уверены, что хотите безвозвратно очистить корзину подписок?');">
+                     <?php _e('Empty Trash', 'codeweber'); ?>
+                  </button>
+               </form>
+            <?php endif; ?>
          </div>
 
          <form method="post" id="newsletter-bulk-form">
@@ -334,6 +351,14 @@ class NewsletterSubscriptionAdmin
             ob_start();
             ?>
             <div class="newsletter-actions">
+               <?php
+               // Кнопка "Просмотр" для детального просмотра истории подписки/отписки
+               $view_url = admin_url('admin.php?page=newsletter-subscriptions&action=view&email=' . urlencode($subscription->email));
+               ?>
+               <a href="<?php echo esc_url($view_url); ?>" class="button button-small">
+                  <?php _e('View', 'codeweber'); ?>
+               </a>
+
                <?php if ($subscription->status === 'trash'): ?>
                   <form method="post" style="display:inline;">
                      <input type="hidden" name="action" value="untrash">
@@ -399,23 +424,50 @@ class NewsletterSubscriptionAdmin
 
       global $wpdb;
       $action = $_POST['action'];
-      $email = sanitize_email($_POST['email']);
+      $email = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
 
       switch ($action) {
          case 'unsubscribe':
-            $result = $wpdb->update($this->table_name, array(
-               'status' => 'unsubscribed',
-               'unsubscribed_at' => current_time('mysql'),
-               'updated_at' => current_time('mysql')
-            ), array('email' => $email));
+            // Обновляем статус и историю событий при отписке из админки
+            $subscription = $wpdb->get_row($wpdb->prepare(
+               "SELECT * FROM {$this->table_name} WHERE email = %s LIMIT 1",
+               $email
+            ));
 
-            if ($result) {
-               add_settings_error(
-                  'newsletter_messages',
-                  'newsletter_message',
-                  __('User successfully unsubscribed from newsletter', 'codeweber'),
-                  'success'
-               );
+            if ($subscription) {
+               $events = [];
+               if (!empty($subscription->events_history)) {
+                  $decoded = json_decode($subscription->events_history, true);
+                  if (is_array($decoded)) {
+                     $events = $decoded;
+                  }
+               }
+
+               $now = current_time('mysql');
+               $events[] = [
+                  'type'         => 'unsubscribed',
+                  'date'         => $now,
+                  'source'       => 'admin',
+                  'form_id'      => $subscription->form_id,
+                  'page_url'     => '', // отписка из админки, страницы нет
+                  'actor_user_id'=> get_current_user_id(),
+               ];
+
+               $result = $wpdb->update($this->table_name, array(
+                  'status'          => 'unsubscribed',
+                  'unsubscribed_at' => $now,
+                  'updated_at'      => $now,
+                  'events_history'  => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
+               ), array('email' => $email));
+
+               if ($result) {
+                  add_settings_error(
+                     'newsletter_messages',
+                     'newsletter_message',
+                     __('User successfully unsubscribed from newsletter', 'codeweber'),
+                     'success'
+                  );
+               }
             }
             break;
 
@@ -469,7 +521,251 @@ class NewsletterSubscriptionAdmin
                );
             }
             break;
+
+         case 'empty_trash':
+            // Delete all subscriptions that are currently in trash
+            $result = $wpdb->query(
+               "DELETE FROM {$this->table_name} WHERE status = 'trash'"
+            );
+
+            if ($result !== false) {
+               add_settings_error(
+                  'newsletter_messages',
+                  'newsletter_message',
+                  __('Trash has been emptied', 'codeweber'),
+                  'success'
+               );
+            }
+            break;
       }
+   }
+
+   /**
+    * Render detailed view page for a single subscription (with full events history)
+    *
+    * @param string $email
+    */
+   private function render_view_page($email)
+   {
+      global $wpdb;
+
+      $subscription = $wpdb->get_row($wpdb->prepare(
+         "SELECT * FROM {$this->table_name} WHERE email = %s LIMIT 1",
+         $email
+      ));
+
+      if (!$subscription) {
+         wp_die(__('Subscription not found', 'codeweber'));
+      }
+
+      // Декодируем историю событий
+      $events = [];
+      if (!empty($subscription->events_history)) {
+         $decoded = json_decode($subscription->events_history, true);
+         if (is_array($decoded)) {
+            $events = $decoded;
+         }
+      }
+
+      ?>
+      <div class="wrap">
+         <h1><?php _e('Newsletter Subscription', 'codeweber'); ?></h1>
+
+         <p>
+            <a href="<?php echo admin_url('admin.php?page=newsletter-subscriptions'); ?>" class="button">
+               <?php _e('← Back to Subscriptions', 'codeweber'); ?>
+            </a>
+         </p>
+
+         <h2><?php _e('Subscription Details', 'codeweber'); ?></h2>
+         <table class="wp-list-table widefat fixed striped">
+            <tbody>
+               <tr>
+                  <th style="width: 220px;"><?php _e('Email', 'codeweber'); ?></th>
+                  <td><?php echo esc_html($subscription->email); ?></td>
+               </tr>
+               <tr>
+                  <th><?php _e('Status', 'codeweber'); ?></th>
+                  <td>
+                     <span class="newsletter-status status-<?php echo esc_attr($subscription->status); ?>">
+                        <?php echo esc_html($this->get_status_label($subscription->status)); ?>
+                     </span>
+                  </td>
+               </tr>
+               <?php if (!empty($subscription->first_name) || !empty($subscription->last_name)): ?>
+               <tr>
+                  <th><?php _e('Name', 'codeweber'); ?></th>
+                  <td><?php echo esc_html(trim($subscription->first_name . ' ' . $subscription->last_name)); ?></td>
+               </tr>
+               <?php endif; ?>
+               <?php if (!empty($subscription->phone)): ?>
+               <tr>
+                  <th><?php _e('Phone', 'codeweber'); ?></th>
+                  <td><?php echo esc_html($subscription->phone); ?></td>
+               </tr>
+               <?php endif; ?>
+               <tr>
+                  <th><?php _e('Subscription Form', 'codeweber'); ?></th>
+                  <td>
+                     <span title="<?php echo esc_attr($subscription->form_id); ?>">
+                        <?php echo esc_html($this->get_form_label($subscription->form_id)); ?>
+                     </span>
+                  </td>
+               </tr>
+               <tr>
+                  <th><?php _e('IP Address', 'codeweber'); ?></th>
+                  <td><?php echo esc_html($subscription->ip_address); ?></td>
+               </tr>
+               <tr>
+                  <th><?php _e('User Agent', 'codeweber'); ?></th>
+                  <td><code><?php echo esc_html($subscription->user_agent); ?></code></td>
+               </tr>
+               <tr>
+                  <th><?php _e('Created At', 'codeweber'); ?></th>
+                  <td><?php echo esc_html($subscription->created_at); ?></td>
+               </tr>
+               <?php if (!empty($subscription->confirmed_at)): ?>
+               <tr>
+                  <th><?php _e('Confirmation Date', 'codeweber'); ?></th>
+                  <td><?php echo esc_html($subscription->confirmed_at); ?></td>
+               </tr>
+               <?php endif; ?>
+               <?php if ($subscription->status === 'unsubscribed' && !empty($subscription->unsubscribed_at) && $subscription->unsubscribed_at !== '0000-00-00 00:00:00'): ?>
+               <tr>
+                  <th><?php _e('Unsubscribe Date', 'codeweber'); ?></th>
+                  <td><?php echo esc_html($subscription->unsubscribed_at); ?></td>
+               </tr>
+               <?php endif; ?>
+            </tbody>
+         </table>
+
+         <h2 style="margin-top: 30px;"><?php _e('Subscription / Unsubscribe History', 'codeweber'); ?></h2>
+         <p class="description">
+            <?php _e('The table below shows the full history of subscription and unsubscribe events for this email address.', 'codeweber'); ?>
+         </p>
+
+         <table class="wp-list-table widefat fixed striped">
+            <thead>
+               <tr>
+                  <th style="width: 160px;"><?php _e('Event Type', 'codeweber'); ?></th>
+                  <th style="width: 190px;"><?php _e('Date & Time', 'codeweber'); ?></th>
+                  <th style="width: 150px;"><?php _e('Form ID', 'codeweber'); ?></th>
+                  <th style="width: 220px;"><?php _e('Subscription Form', 'codeweber'); ?></th>
+                  <th style="width: 220px;"><?php _e('Author', 'codeweber'); ?></th>
+                  <th style="width: 260px;"><?php _e('Page URL', 'codeweber'); ?></th>
+                  <th><?php _e('Consents', 'codeweber'); ?></th>
+               </tr>
+            </thead>
+            <tbody>
+               <?php if (empty($events)): ?>
+                  <tr>
+                     <td colspan="7">
+                        <em><?php _e('No events history recorded for this subscription.', 'codeweber'); ?></em>
+                     </td>
+                  </tr>
+               <?php else: ?>
+                  <?php foreach ($events as $event): ?>
+                     <?php
+                     $date_str = !empty($event['date']) ? esc_html($event['date']) : '—';
+                     $type_label = '';
+                     if (!empty($event['type']) && $event['type'] === 'confirmed') {
+                        // Показываем более понятное название для подписки
+                        $type_label = __('Subscribe', 'codeweber');
+                     } elseif (!empty($event['type']) && $event['type'] === 'unsubscribed') {
+                        $type_label = __('Unsubscribe', 'codeweber');
+                     } else {
+                        $type_label = __('Event', 'codeweber');
+                     }
+
+                     // Форма
+                     // Если в событии сохранено человекочитаемое имя формы (form_name),
+                     // показываем его. Иначе берём красивое имя по form_id.
+                     $form_label = '—';
+                     if (!empty($event['form_name'])) {
+                        $form_label = $event['form_name'];
+                     } elseif (!empty($event['form_id'])) {
+                        $form_label = $this->get_form_label($event['form_id']);
+                     }
+
+                     // Автор
+                     // Если отписка/подписка через пользователя (frontend, cf7, codeweber_form),
+                     // показываем email подписчика. Если действие сделал админ (source=admin),
+                     // показываем email администратора со ссылкой на его профиль, если actor_user_id задан.
+                     $author_cell = '—';
+                     if (!empty($event['source']) && $event['source'] === 'admin' && !empty($event['actor_user_id'])) {
+                        $actor = get_user_by('id', (int) $event['actor_user_id']);
+                        if ($actor) {
+                           $profile_url = get_edit_user_link($actor->ID);
+                           $author_cell = '<a href="' . esc_url($profile_url) . '" target="_blank" rel="noopener noreferrer">'
+                              . esc_html($actor->user_email) . '</a>';
+                        }
+                     } else {
+                        // По умолчанию считаем, что действие совершил сам подписчик
+                        $author_cell = esc_html($subscription->email);
+                     }
+
+                     // Страница
+                     $page_cell = '—';
+                     if (!empty($event['page_url'])) {
+                        $url = esc_url($event['page_url']);
+                        $page_cell = '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $url . '</a>';
+                     }
+
+                     // Согласия
+                     $consents_cell = '';
+                     if (!empty($event['consents']) && is_array($event['consents'])) {
+                        $consent_lines = [];
+                        foreach ($event['consents'] as $consent) {
+                           if (empty($consent['id']) || empty($consent['title'])) {
+                              continue;
+                           }
+                           $line = sprintf(
+                              '%s (ID: %d)',
+                              esc_html($consent['title']),
+                              (int) $consent['id']
+                           );
+                           if (!empty($consent['document_revision_id'])) {
+                              $line .= sprintf(
+                                 ' - %s: %d',
+                                 __('Revision ID', 'codeweber'),
+                                 (int) $consent['document_revision_id']
+                              );
+                           }
+                           if (!empty($consent['document_version'])) {
+                              $line .= sprintf(
+                                 ' - %s: %s',
+                                 __('Version', 'codeweber'),
+                                 esc_html($consent['document_version'])
+                              );
+                           }
+                           if (!empty($consent['url'])) {
+                              $url = esc_url($consent['url']);
+                              $line .= ' - ' . __('URL', 'codeweber') . ': '
+                                 . '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $url . '</a>';
+                           }
+                           $consent_lines[] = $line;
+                        }
+
+                        if (!empty($consent_lines)) {
+                           $consents_cell = implode('<br>', $consent_lines);
+                        }
+                     }
+                     ?>
+                     <tr>
+                        <td><?php echo esc_html($type_label); ?></td>
+                        <td><?php echo $date_str ? esc_html(date('d.m.Y H:i:s', strtotime($date_str))) : '—'; ?></td>
+                        <td><?php echo !empty($event['form_id']) ? esc_html($event['form_id']) : '—'; ?></td>
+                        <td><?php echo esc_html($form_label); ?></td>
+                        <td><?php echo $author_cell; ?></td>
+                        <td><?php echo $page_cell; ?></td>
+                        <td><?php echo $consents_cell ?: '—'; ?></td>
+                     </tr>
+                  <?php endforeach; ?>
+               <?php endif; ?>
+            </tbody>
+         </table>
+      </div>
+      <?php
    }
 
    public function handle_export_csv()
@@ -937,11 +1233,23 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
    public function get_form_label($form_id)
    {
       $form_labels = array(
-         'default' => __('Subscription Form|Email', 'codeweber'),
-         'cf7_1072' => __('Contact Form 7: Request Callback', 'codeweber'),
-         'imported' => __('Imported', 'codeweber')
+         'default'   => __('Subscription Form|Email', 'codeweber'),
+         'cf7_1072'  => __('Contact Form 7: Request Callback', 'codeweber'),
+         'imported'  => __('Imported', 'codeweber'),
       );
 
+      // 0) Встроенные формы, сохранённые без префикса (newsletter, testimonial, resume, callback)
+      $builtin_plain = array(
+         'newsletter'  => __('Newsletter Subscription', 'codeweber'),
+         'testimonial' => __('Testimonial Form', 'codeweber'),
+         'resume'      => __('Resume Form', 'codeweber'),
+         'callback'    => __('Callback Request', 'codeweber'),
+      );
+      if (isset($builtin_plain[$form_id])) {
+         return $builtin_plain[$form_id];
+      }
+
+      // 1) Интеграции с Contact Form 7
       if (strpos($form_id, 'cf7_') === 0) {
          $form_parts = explode('_', $form_id);
          if (count($form_parts) >= 2 && is_numeric($form_parts[1])) {
@@ -952,6 +1260,35 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
          }
       }
 
+      // 2) Формы Codeweber Forms: codeweber_form_6119 или codeweber_form_newsletter
+      if (strpos($form_id, 'codeweber_form_') === 0) {
+         $suffix = substr($form_id, strlen('codeweber_form_'));
+
+         // Вариант 2.1: числовой ID -> заголовок записи CPT
+         if (ctype_digit($suffix)) {
+            $post = get_post((int) $suffix);
+            if ($post && $post->post_type === 'codeweber_form') {
+               return $post->post_title;
+            }
+         }
+
+         // Вариант 2.2: встроенные формы по строковому ключу (newsletter, testimonial, resume, callback)
+         $builtin_labels = array(
+            'newsletter'  => __('Newsletter Subscription', 'codeweber'),
+            'testimonial' => __('Testimonial Form', 'codeweber'),
+            'resume'      => __('Resume Form', 'codeweber'),
+            'callback'    => __('Callback Request', 'codeweber'),
+         );
+
+         if (isset($builtin_labels[$suffix])) {
+            return $builtin_labels[$suffix];
+         }
+
+         // Если не распознали — возвращаем сам form_id
+         return $form_id;
+      }
+
+      // 3) Статические ярлыки
       return $form_labels[$form_id] ?? $form_id;
    }
 }

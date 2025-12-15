@@ -116,16 +116,18 @@ class CodeweberFormsMailer {
         }
         
         $replacements = [
-            '{form_name}' => $data['form_name'] ?? '',
-            '{form_fields}' => $form_fields_html . $utm_html,
-            '{user_name}' => $data['user_name'] ?? '',
-            '{user_email}' => $data['user_email'] ?? '',
-            '{submission_date}' => date_i18n(get_option('date_format'), $submission_timestamp),
-            '{submission_time}' => date('H:i', $submission_timestamp), // 24-часовой формат
-            '{user_ip}' => $data['ip_address'] ?? '',
-            '{user_agent}' => $data['user_agent'] ?? '',
-            '{site_name}' => get_bloginfo('name'),
-            '{site_url}' => home_url(),
+            '{form_name}'        => $data['form_name'] ?? '',
+            '{form_fields}'      => $form_fields_html . $utm_html,
+            '{user_name}'        => $data['user_name'] ?? '',
+            '{user_email}'       => $data['user_email'] ?? '',
+            '{submission_date}'  => date_i18n(get_option('date_format'), $submission_timestamp),
+            '{submission_time}'  => date('H:i', $submission_timestamp), // 24-часовой формат
+            '{user_ip}'          => $data['ip_address'] ?? '',
+            '{user_agent}'       => $data['user_agent'] ?? '',
+            '{site_name}'        => get_bloginfo('name'),
+            '{site_url}'         => home_url(),
+            // Для newsletter шаблонов может быть передан URL для отписки
+            '{unsubscribe_url}'  => $data['unsubscribe_url'] ?? '',
         ];
         
         $content = $template;
@@ -230,7 +232,8 @@ class CodeweberFormsMailer {
                 
                 if (!empty($consent_links)) {
                     $label = __('Newsletter Consents', 'codeweber');
-                    $value = implode(', ', $consent_links);
+                    // Выводим каждое согласие с новой строки
+                    $value = implode('<br>', $consent_links);
                     // Для newsletter_consents значение уже содержит HTML-ссылки, не экранируем
                     $display_value = $value;
                     $is_html = true; // Флаг, что это HTML

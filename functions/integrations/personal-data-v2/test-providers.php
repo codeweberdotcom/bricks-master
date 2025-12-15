@@ -38,10 +38,60 @@ function personal_data_v2_test_page() {
     
     $manager = Personal_Data_Manager::get_instance();
     $providers = $manager->get_providers();
+
+    // Обработка сохранения настроек хранения данных (retention days)
+    if (isset($_POST['codeweber_retention_days']) && isset($_POST['codeweber_retention_nonce'])) {
+        if (wp_verify_nonce($_POST['codeweber_retention_nonce'], 'codeweber_retention_settings')) {
+            $days = (int) $_POST['codeweber_retention_days'];
+            if ($days < 0) {
+                $days = 0;
+            }
+            update_option('codeweber_personal_data_retention_days', $days);
+            echo '<div class="notice notice-success"><p>' . esc_html__('Retention settings saved.', 'codeweber') . '</p></div>';
+        } else {
+            echo '<div class="notice notice-error"><p>' . esc_html__('Security check failed while saving retention settings.', 'codeweber') . '</p></div>';
+        }
+    }
+
+    $current_retention_days = (int) get_option('codeweber_personal_data_retention_days', 0);
     
     ?>
     <div class="wrap">
         <h1><?php _e('Personal Data V2 Providers Test', 'codeweber'); ?></h1>
+        
+        <div class="card" style="max-width: 600px; margin-top: 20px;">
+            <h2><?php _e('Consent Retention Settings', 'codeweber'); ?></h2>
+            <p class="description">
+                <?php _e('Configure how long (in days) user consent history should be retained after revocation before it can be fully deleted during personal data erasure.', 'codeweber'); ?>
+            </p>
+            <form method="post" action="">
+                <?php wp_nonce_field('codeweber_retention_settings', 'codeweber_retention_nonce'); ?>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="codeweber_retention_days"><?php _e('Retention period (days)', 'codeweber'); ?></label>
+                        </th>
+                        <td>
+                            <input type="number"
+                                   id="codeweber_retention_days"
+                                   name="codeweber_retention_days"
+                                   min="0"
+                                   step="1"
+                                   value="<?php echo esc_attr($current_retention_days); ?>"
+                                   style="width: 100px;">
+                            <p class="description">
+                                <?php _e('0 days means delete all consents immediately when erasing personal data.', 'codeweber'); ?>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                    <button type="submit" class="button button-primary">
+                        <?php _e('Save Retention Settings', 'codeweber'); ?>
+                    </button>
+                </p>
+            </form>
+        </div>
         
         <div class="card" style="max-width: 1200px; margin-top: 20px;">
             <h2><?php _e('Registered Providers', 'codeweber'); ?></h2>

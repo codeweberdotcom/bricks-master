@@ -39,7 +39,6 @@ if (is_admin()) {
     require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-admin.php';
     require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-settings.php';
     require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-submissions.php';
-    require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-consent-settings.php';
     require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-consent-metabox.php';
     require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-builtin-settings.php';
 }
@@ -101,7 +100,6 @@ add_action('init', function() {
         new CodeweberFormsAdmin();
         new CodeweberFormsSettings();
         new CodeweberFormsSubmissions();
-        new CodeweberFormsConsentSettings();
         new CodeweberFormsConsentMetabox();
         new CodeweberFormsBuiltinSettings();
     }

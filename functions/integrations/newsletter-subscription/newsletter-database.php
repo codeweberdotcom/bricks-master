@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 class NewsletterSubscriptionDatabase
 {
    private $table_name;
-   private $version = '1.0.3';
+   private $version = '1.0.4';
 
    public function __construct()
    {
@@ -42,6 +42,7 @@ class NewsletterSubscriptionDatabase
                 unsubscribed_at DATETIME DEFAULT NULL,
                 updated_at DATETIME DEFAULT '0000-00-00 00:00:00',
                 unsubscribe_token VARCHAR(100) DEFAULT '',
+                events_history LONGTEXT DEFAULT NULL,
                 PRIMARY KEY (id),
                 UNIQUE KEY email (email),
                 KEY status (status),

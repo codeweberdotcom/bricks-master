@@ -17,8 +17,43 @@ if (!defined('ABSPATH')) {
 add_action('codeweber_form_saved', 'codeweber_forms_newsletter_integration', 10, 3);
 
 function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_data) {
-    // Проверяем, является ли форма newsletter формой
-    if (!codeweber_forms_is_newsletter_form($form_id)) {
+    // Проверяем, является ли форма newsletter формой ИЛИ есть ли согласия на рассылку
+    $is_newsletter_form = codeweber_forms_is_newsletter_form($form_id);
+    $has_mailing_consent = false;
+    
+    // Проверяем наличие согласий на рассылку в данных формы
+    if (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
+        foreach ($form_data['newsletter_consents'] as $doc_id => $consent) {
+            // Проверяем, что согласие дано
+            $consent_value = null;
+            if (is_array($consent)) {
+                $consent_value = isset($consent['value']) ? $consent['value'] : null;
+            } else {
+                $consent_value = $consent;
+            }
+            
+            if ($consent_value === '1' || $consent_value === 1) {
+                // Проверяем, является ли документ согласием на рассылку
+                $doc = get_post(intval($doc_id));
+                if ($doc) {
+                    $doc_title_lower = mb_strtolower($doc->post_title, 'UTF-8');
+                    // Проверяем по названию документа
+                    if (strpos($doc_title_lower, 'рассылк') !== false || 
+                        strpos($doc_title_lower, 'mailing') !== false || 
+                        strpos($doc_title_lower, 'newsletter') !== false ||
+                        (strpos($doc_title_lower, 'информационн') !== false && strpos($doc_title_lower, 'рекламн') !== false)) {
+                        $has_mailing_consent = true;
+                        error_log('Newsletter integration: Found mailing consent in document ID: ' . $doc_id);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    // Если форма не является newsletter формой И нет согласия на рассылку - выходим
+    if (!$is_newsletter_form && !$has_mailing_consent) {
+        error_log('Newsletter integration: Form is not newsletter form and no mailing consent found');
         return;
     }
     
@@ -46,15 +81,115 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     global $wpdb;
     $table_name = $wpdb->prefix . 'newsletter_subscriptions';
     
-    // Проверяем, не существует ли уже подписка
-    $exists = $wpdb->get_var($wpdb->prepare(
-        "SELECT id FROM {$table_name} WHERE email = %s",
+    // Проверяем, существует ли уже подписка
+    $subscription = $wpdb->get_row($wpdb->prepare(
+        "SELECT * FROM {$table_name} WHERE email = %s",
         $email
     ));
     
-    if ($exists) {
-        error_log('Newsletter integration: Email already subscribed: ' . $email);
-        return;
+    if ($subscription) {
+        // Уже подтвержден — не создаём дубликат
+        if ($subscription->status === 'confirmed') {
+            error_log('Newsletter integration: Email already subscribed: ' . $email);
+            return;
+        }
+        
+        // Ранее отписался — реактивируем подписку
+        if ($subscription->status === 'unsubscribed') {
+            error_log('Newsletter integration: Reactivating unsubscribed email: ' . $email);
+            
+            $unsubscribe_token = wp_generate_password(32, false);
+            $now = current_time('mysql');
+            
+            // Обновляем историю событий
+            $events = [];
+            if (!empty($subscription->events_history)) {
+                $decoded = json_decode($subscription->events_history, true);
+                if (is_array($decoded)) {
+                    $events = $decoded;
+                }
+            }
+            
+            // Получаем имя формы для события
+            $form_name_for_event = '';
+            if (!empty($form_data['_form_name'])) {
+                $form_name_for_event = sanitize_text_field($form_data['_form_name']);
+            } elseif (class_exists('CodeweberFormsDatabase')) {
+                $db = new CodeweberFormsDatabase();
+                $submission = $db->get_submission($submission_id);
+                if ($submission && !empty($submission->form_name)) {
+                    $form_name_for_event = $submission->form_name;
+                }
+            }
+            
+            $normalized_form_id = is_numeric($form_id) ? (string) (int) $form_id : (string) $form_id;
+            $event = [
+                'type'      => 'confirmed',
+                'date'      => $now,
+                'source'    => 'codeweber_form_resubscribe',
+                'form_id'   => $normalized_form_id,
+                'form_name' => $form_name_for_event,
+                'page_url'  => wp_get_referer() ?: home_url($_SERVER['REQUEST_URI'] ?? '/'),
+            ];
+            
+            // Добавляем согласия в событие, если есть
+            if (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
+                $consents_for_event = [];
+                
+                if (!function_exists('codeweber_forms_get_document_url')) {
+                    require_once get_template_directory() . '/functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php';
+                }
+                
+                foreach ($form_data['newsletter_consents'] as $doc_id => $consent) {
+                    $doc = get_post(intval($doc_id));
+                    if (!$doc) {
+                        continue;
+                    }
+                    
+                    $doc_title = $doc->post_title;
+                    $version = is_array($consent) ? ($consent['document_version'] ?? null) : null;
+                    $doc_url = codeweber_forms_get_document_url(intval($doc_id), $version);
+                    
+                    $consents_for_event[] = [
+                        'id'                  => (int) $doc_id,
+                        'title'               => $doc_title,
+                        'document_revision_id'=> is_array($consent) ? ($consent['document_revision_id'] ?? null) : null,
+                        'document_version'    => $version,
+                        'url'                 => $doc_url,
+                    ];
+                }
+                
+                if (!empty($consents_for_event)) {
+                    $event['consents'] = $consents_for_event;
+                }
+            }
+            
+            $events[] = $event;
+            
+            // Реактивируем подписку
+            $updated = $wpdb->update(
+                $table_name,
+                [
+                    'status'            => 'confirmed',
+                    'confirmed_at'      => $now,
+                    'unsubscribed_at'   => null,
+                    'updated_at'        => $now,
+                    'unsubscribe_token' => $unsubscribe_token,
+                    'events_history'    => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
+                ],
+                ['id' => $subscription->id],
+                ['%s', '%s', '%s', '%s', '%s', '%s'],
+                ['%d']
+            );
+            
+            if ($updated !== false) {
+                error_log('Newsletter integration: Subscription reactivated for: ' . $email);
+                return; // Подписка реактивирована, выходим
+            } else {
+                error_log('Newsletter integration: Failed to reactivate subscription: ' . $wpdb->last_error);
+                // Продолжаем создавать новую подписку
+            }
+        }
     }
     
     // Получаем дополнительные данные из формы
@@ -69,7 +204,74 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
     $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
     
+    // Пытаемся получить логическое имя формы:
+    // 1) из служебного поля _form_name (прилетает из шорткода name),
+    // 2) либо из таблицы отправок (form_name), как fallback.
+    $form_name_for_event = '';
+    if (!empty($form_data['_form_name'])) {
+        $form_name_for_event = sanitize_text_field($form_data['_form_name']);
+    } elseif (class_exists('CodeweberFormsDatabase')) {
+        $db = new CodeweberFormsDatabase();
+        $submission = $db->get_submission($submission_id);
+        if ($submission && !empty($submission->form_name)) {
+            $form_name_for_event = $submission->form_name;
+        }
+    }
+
+    // Формируем историю событий (events_history)
+    $now = current_time('mysql');
+    $normalized_form_id = is_numeric($form_id) ? (string) (int) $form_id : (string) $form_id;
+    $events = [
+        [
+            'type'     => 'confirmed',
+            'date'     => $now,
+            'source'   => 'codeweber_form',
+            // В events_history храним ID формы и при наличии – человекочитаемое имя
+            'form_id'  => $normalized_form_id,
+            'form_name'=> $form_name_for_event,
+            'page_url' => wp_get_referer() ?: home_url($_SERVER['REQUEST_URI'] ?? '/'),
+            'consents' => [],
+        ],
+    ];
+
+    // Добавляем в событие согласия, которые были даны при подписке (если есть)
+    if (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
+        $consents_for_event = [];
+        foreach ($form_data['newsletter_consents'] as $doc_id => $consent) {
+            $doc = get_post($doc_id);
+            if (!$doc) {
+                continue;
+            }
+
+            $doc_title = $doc->post_title;
+            $version   = $consent['document_version'] ?? null;
+
+            // Используем общий helper, чтобы ссылка на документ/ревизию
+            // была полностью консистентна с другими местами (экспорт, письма и т.д.)
+            if (!function_exists('codeweber_forms_get_document_url')) {
+                require_once get_template_directory() . '/functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php';
+            }
+
+            $doc_url = codeweber_forms_get_document_url($doc_id, $version);
+
+            $consents_for_event[] = [
+                'id'                 => (int) $doc_id,
+                'title'              => $doc_title,
+                'document_revision_id'=> null, // вычисляется helper'ом по версии, если нужна ревизия
+                'document_version'   => $version,
+                'url'                => $doc_url,
+            ];
+        }
+
+        if (!empty($consents_for_event)) {
+            $events[0]['consents'] = $consents_for_event;
+        }
+    }
+
     // Вставляем подписку в таблицу
+    // form_id храним без префиксов, только реальный ID/ключ формы:
+    // - для встроенных форм: newsletter, testimonial и т.д.
+    // - для CPT-форм: числовой ID (6119 и т.п.)
     $insert_data = [
         'email' => sanitize_email($email),
         'first_name' => sanitize_text_field($first_name),
@@ -77,12 +279,13 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
         'phone' => sanitize_text_field($phone),
         'ip_address' => sanitize_text_field($ip_address),
         'user_agent' => sanitize_textarea_field($user_agent),
-        'form_id' => 'codeweber_form_' . $form_id,
+        'form_id' => $normalized_form_id,
         'status' => 'confirmed',
-        'created_at' => current_time('mysql'),
-        'confirmed_at' => current_time('mysql'),
-        'updated_at' => current_time('mysql'),
-        'unsubscribe_token' => $unsubscribe_token
+        'created_at' => $now,
+        'confirmed_at' => $now,
+        'updated_at' => $now,
+        'unsubscribe_token' => $unsubscribe_token,
+        'events_history' => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
     ];
     
     $result = $wpdb->insert($table_name, $insert_data);
@@ -94,17 +297,7 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     
     if ($result) {
         error_log('Newsletter integration: Subscription saved for: ' . $email);
-        
-        // Отправляем email подтверждения, если настроено
-        $newsletter_options = get_option('newsletter_subscription_settings', []);
-        $send_email = isset($newsletter_options['send_confirmation_email']) ? $newsletter_options['send_confirmation_email'] : true;
-        
-        if ($send_email && class_exists('NewsletterSubscription')) {
-            $newsletter = new NewsletterSubscription();
-            if (method_exists($newsletter, 'send_confirmation_email')) {
-                $newsletter->send_confirmation_email($email, $first_name, $last_name, $unsubscribe_token);
-            }
-        }
+        // Письмо подписки отправляется через автоответ Codeweber Forms (newsletter_reply)
     }
 }
 
@@ -115,13 +308,21 @@ function codeweber_forms_is_newsletter_form($form_id) {
     if (!$form_id) {
         return false;
     }
-    
-    // Convert to integer if string
-    $form_id = intval($form_id);
+
+    // Поддержка строкового ключа встроенной формы
+    if (is_string($form_id)) {
+        $key = strtolower($form_id);
+        if ($key === 'newsletter') {
+            return true;
+        }
+    }
+
+    // Для совместимости также поддерживаем числовые ID CPT
+    $form_id = (int) $form_id;
     if ($form_id <= 0) {
         return false;
     }
-    
+
     // Known newsletter form IDs
     $known_newsletter_form_ids = [6119]; // Add more IDs here if needed
     

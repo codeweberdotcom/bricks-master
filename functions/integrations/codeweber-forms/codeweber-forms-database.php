@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
 
 class CodeweberFormsDatabase {
     private $table_name;
-    private $version = '1.0.1'; // Увеличили версию для добавления полей auto_reply_sent и auto_reply_error
+    private $version = '1.0.3'; // Изменили form_id на VARCHAR для поддержки строковых ID (testimonial, newsletter и т.д.)
     
     public function __construct() {
         global $wpdb;
@@ -27,19 +27,29 @@ class CodeweberFormsDatabase {
     private function create_table() {
         global $wpdb;
         
-        if (get_option('codeweber_forms_db_version') !== $this->version) {
+        $current_version = get_option('codeweber_forms_db_version', '0');
+        
+        if ($current_version !== $this->version) {
             $charset_collate = $wpdb->get_charset_collate();
+            
+            // Проверяем, существует ли таблица
+            $table_exists = $wpdb->get_var("SHOW TABLES LIKE '{$this->table_name}'") === $this->table_name;
+            
+            if ($table_exists && version_compare($current_version, '1.0.3', '<')) {
+                // Миграция: изменяем тип поля form_id с BIGINT на VARCHAR
+                $wpdb->query("ALTER TABLE {$this->table_name} MODIFY COLUMN form_id VARCHAR(255) NOT NULL DEFAULT '0'");
+            }
             
             $sql = "CREATE TABLE {$this->table_name} (
                 id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-                form_id BIGINT(20) UNSIGNED NOT NULL,
+                form_id VARCHAR(255) NOT NULL DEFAULT '0',
                 form_name VARCHAR(255) DEFAULT '',
                 submission_data LONGTEXT NOT NULL,
                 files_data LONGTEXT DEFAULT NULL,
                 ip_address VARCHAR(45) DEFAULT '',
                 user_agent TEXT,
                 user_id BIGINT(20) UNSIGNED DEFAULT 0,
-                status ENUM('new', 'read', 'archived', 'deleted') DEFAULT 'new',
+                status ENUM('new', 'read', 'archived', 'trash') DEFAULT 'new',
                 email_sent TINYINT(1) DEFAULT 0,
                 email_error TEXT DEFAULT NULL,
                 auto_reply_sent TINYINT(1) DEFAULT 0,
@@ -47,7 +57,7 @@ class CodeweberFormsDatabase {
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
-                KEY form_id (form_id),
+                KEY form_id (form_id(191)),
                 KEY status (status),
                 KEY user_id (user_id),
                 KEY created_at (created_at)
@@ -84,8 +94,16 @@ class CodeweberFormsDatabase {
         $data = wp_parse_args($data, $defaults);
         
         // Подготовка данных
+        // form_id может быть как числом (для CPT форм), так и строкой (для встроенных форм: testimonial, newsletter и т.д.)
+        $form_id_value = $data['form_id'];
+        if (is_numeric($form_id_value)) {
+            $form_id_value = (string) $form_id_value; // Преобразуем число в строку для единообразия
+        } else {
+            $form_id_value = sanitize_text_field($form_id_value); // Очищаем строку
+        }
+        
         $insert_data = [
-            'form_id' => intval($data['form_id']),
+            'form_id' => $form_id_value,
             'form_name' => sanitize_text_field($data['form_name']),
             'submission_data' => is_string($data['submission_data']) ? $data['submission_data'] : json_encode($data['submission_data'], JSON_UNESCAPED_UNICODE),
             'files_data' => !empty($data['files_data']) ? (is_string($data['files_data']) ? $data['files_data'] : json_encode($data['files_data'], JSON_UNESCAPED_UNICODE)) : null,
@@ -126,13 +144,14 @@ class CodeweberFormsDatabase {
         global $wpdb;
         
         $defaults = [
-            'form_id' => '',
-            'status' => '',
-            'search' => '',
-            'limit' => 20,
-            'offset' => 0,
-            'orderby' => 'created_at',
-            'order' => 'DESC'
+            'form_id'        => '',
+            'status'         => '',
+            'exclude_status' => '',
+            'search'         => '',
+            'limit'          => 20,
+            'offset'         => 0,
+            'orderby'        => 'created_at',
+            'order'          => 'DESC'
         ];
         $args = wp_parse_args($args, $defaults);
         
@@ -142,6 +161,8 @@ class CodeweberFormsDatabase {
         }
         if (!empty($args['status'])) {
             $where[] = $wpdb->prepare("status = %s", sanitize_text_field($args['status']));
+        } elseif (!empty($args['exclude_status'])) {
+            $where[] = $wpdb->prepare("status != %s", sanitize_text_field($args['exclude_status']));
         }
         if (!empty($args['search'])) {
             $search_term = '%' . $wpdb->esc_like($args['search']) . '%';
@@ -179,6 +200,8 @@ class CodeweberFormsDatabase {
         }
         if (!empty($args['status'])) {
             $where[] = $wpdb->prepare("status = %s", sanitize_text_field($args['status']));
+        } elseif (!empty($args['exclude_status'])) {
+            $where[] = $wpdb->prepare("status != %s", sanitize_text_field($args['exclude_status']));
         }
         if (!empty($args['search'])) {
             $search_term = '%' . $wpdb->esc_like($args['search']) . '%';
@@ -257,10 +280,10 @@ class CodeweberFormsDatabase {
     }
     
     /**
-     * Soft delete submission (change status to deleted)
+     * Soft delete submission (change status to trash)
      */
     public function delete_submission($id) {
-        return $this->update_submission_status($id, 'deleted');
+        return $this->update_submission_status($id, 'trash');
     }
     
     /**
@@ -270,9 +293,22 @@ class CodeweberFormsDatabase {
         global $wpdb;
         return $wpdb->delete($this->table_name, ['id' => intval($id)], ['%d']);
     }
+
+    /**
+     * Permanently delete all submissions that are in trash
+     */
+    public function empty_trash() {
+        global $wpdb;
+        return $wpdb->query(
+            $wpdb->prepare(
+                "DELETE FROM {$this->table_name} WHERE status = %s",
+                'trash'
+            )
+        );
+    }
     
     /**
-     * Bulk delete submissions (soft delete)
+     * Bulk delete submissions (move to trash)
      */
     public function bulk_delete_submissions($ids) {
         global $wpdb;
@@ -285,7 +321,7 @@ class CodeweberFormsDatabase {
         
         $placeholders = implode(',', array_fill(0, count($ids), '%d'));
         $query = $wpdb->prepare(
-            "UPDATE {$this->table_name} SET status = 'deleted' WHERE id IN ($placeholders)",
+            "UPDATE {$this->table_name} SET status = 'trash' WHERE id IN ($placeholders)",
             ...$ids
         );
         return $wpdb->query($query);

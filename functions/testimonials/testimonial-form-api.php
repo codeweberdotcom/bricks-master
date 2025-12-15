@@ -375,7 +375,15 @@ class TestimonialFormAPI {
         }
         
         // Rate limiting
-        if ($is_logged_in && $user_id > 0) {
+        // Проверяем настройки - можно отключить через админку
+        $forms_options = get_option('codeweber_forms_options', []);
+        $rate_limit_enabled = isset($forms_options['rate_limit_enabled']) ? (bool) $forms_options['rate_limit_enabled'] : true;
+        
+        if (!$rate_limit_enabled) {
+            // Rate limiting отключен в настройках
+            $transient_key = null;
+            $submissions = 0;
+        } elseif ($is_logged_in && $user_id > 0) {
             // For logged-in users, skip rate limiting (trusted users)
             $transient_key = null;
             $submissions = 0;
@@ -492,6 +500,47 @@ class TestimonialFormAPI {
             }
         }
 
+        // Обрабатываем testimonial_consents аналогично newsletter_consents для универсальной обработки
+        $testimonial_consents_for_save = null;
+        $submitted_testimonial_consents = $request->get_param('testimonial_consents');
+        if (!empty($submitted_testimonial_consents) && is_array($submitted_testimonial_consents)) {
+            error_log('Testimonial Submit - Processing testimonial_consents: ' . print_r($submitted_testimonial_consents, true));
+            
+            // Сохраняем версии документов на момент подписки
+            $consents_with_versions = [];
+            foreach ($submitted_testimonial_consents as $doc_id => $value) {
+                // Обрабатываем разные форматы: '1', 1, ['value' => '1'], etc.
+                $consent_value = null;
+                if (is_array($value)) {
+                    $consent_value = isset($value['value']) ? $value['value'] : (isset($value[0]) ? $value[0] : null);
+                } else {
+                    $consent_value = $value;
+                }
+                
+                if ($consent_value === '1' || $consent_value === 1) {
+                    $doc_id = intval($doc_id);
+                    $doc = get_post($doc_id);
+                    if ($doc) {
+                        // Сохраняем ID документа и дату его последнего изменения (версию)
+                        $consents_with_versions[$doc_id] = [
+                            'value' => '1',
+                            'document_id' => $doc_id,
+                            'document_version' => $doc->post_modified,
+                            'document_version_timestamp' => strtotime($doc->post_modified),
+                        ];
+                        error_log('Testimonial Submit - Added consent for doc_id: ' . $doc_id . ' (version: ' . $doc->post_modified . ')');
+                    } else {
+                        $consents_with_versions[$doc_id] = $value;
+                        error_log('Testimonial Submit - WARNING: Document not found for doc_id: ' . $doc_id);
+                    }
+                }
+            }
+            if (!empty($consents_with_versions)) {
+                $testimonial_consents_for_save = $consents_with_versions;
+                error_log('Testimonial Submit - Final testimonial_consents_for_save: ' . print_r($testimonial_consents_for_save, true));
+            }
+        }
+
         // Create testimonial post
         $post_data = [
             'post_title' => sprintf(__('Testimonial from %s', 'codeweber'), $author_name),
@@ -567,6 +616,12 @@ class TestimonialFormAPI {
             'rating' => $rating,
         ];
         
+        // Добавляем согласия в формате newsletter_consents для универсальной обработки
+        if ($testimonial_consents_for_save !== null && !empty($testimonial_consents_for_save)) {
+            $submission_fields['newsletter_consents'] = $testimonial_consents_for_save;
+            error_log('Testimonial Submit - Added newsletter_consents to submission_fields');
+        }
+        
         // Добавляем UTM данные в поля формы для сохранения и отображения
         if (!empty($utm_data)) {
             $submission_fields['_utm_data'] = $utm_data;
@@ -578,10 +633,10 @@ class TestimonialFormAPI {
         // Хук перед отправкой (если класс доступен)
         if (class_exists('CodeweberFormsHooks')) {
             $form_settings = [
-                'formName' => __('Testimonial Form', 'codeweber'),
+                'formTitle' => __('Testimonial Form', 'codeweber'),
                 'recipientEmail' => get_option('admin_email'),
             ];
-            CodeweberFormsHooks::before_send(0, $form_settings, $submission_fields);
+            CodeweberFormsHooks::before_send('testimonial', $form_settings, $submission_fields);
         }
         
         // Save to forms submissions table
@@ -590,7 +645,7 @@ class TestimonialFormAPI {
             $db = new CodeweberFormsDatabase();
             
             $submission_id = $db->save_submission([
-                'form_id' => 0, // testimonial-form doesn't have numeric ID
+                'form_id' => 'testimonial', // Используем строковый ключ для встроенной формы
                 'form_name' => __('Testimonial Form', 'codeweber'),
                 'submission_data' => $submission_fields,
                 'files_data' => null,
@@ -605,16 +660,16 @@ class TestimonialFormAPI {
             if ($submission_id) {
                 error_log('Testimonial Submit - Saved to forms submissions table with ID: ' . $submission_id);
                 
-                // Хук после сохранения
+                // Хук после сохранения (передаем 'testimonial' вместо 0)
                 if (class_exists('CodeweberFormsHooks')) {
-                    CodeweberFormsHooks::after_saved($submission_id, 0, $submission_fields);
+                    CodeweberFormsHooks::after_saved($submission_id, 'testimonial', $submission_fields);
                 }
             } else {
                 error_log('Testimonial Submit - Failed to save to forms submissions table');
                 
                 // Хук при ошибке сохранения
                 if (class_exists('CodeweberFormsHooks')) {
-                    CodeweberFormsHooks::send_error(0, $form_settings ?? [], __('Failed to save submission.', 'codeweber-forms'));
+                    CodeweberFormsHooks::send_error('testimonial', $form_settings ?? [], __('Failed to save submission.', 'codeweber-forms'));
                 }
             }
         }
@@ -622,14 +677,16 @@ class TestimonialFormAPI {
         // Хук после успешной отправки
         if (class_exists('CodeweberFormsHooks') && $submission_id) {
             $form_settings = [
-                'formName' => __('Testimonial Form', 'codeweber'),
+                'formTitle' => __('Testimonial Form', 'codeweber'),
                 'recipientEmail' => get_option('admin_email'),
             ];
-            CodeweberFormsHooks::after_send(0, $form_settings, $submission_id);
+            CodeweberFormsHooks::after_send('testimonial', $form_settings, $submission_id);
         }
 
-        // Update rate limiting
-        set_transient($transient_key, $submissions + 1, HOUR_IN_SECONDS);
+        // Update rate limiting (только если включен и для гостей)
+        if ($transient_key !== null) {
+            set_transient($transient_key, $submissions + 1, HOUR_IN_SECONDS);
+        }
 
         // Send notification email to admin using forms module templates
         $this->send_admin_notification_via_forms_module($submission_id, $submission_fields, $post_id, $author_name, $author_email, $ip, $user_agent);
@@ -796,7 +853,7 @@ class TestimonialFormAPI {
             
             // Отправка через модуль форм
             $form_settings = [
-                'formName' => __('Testimonial Form', 'codeweber'),
+                'formTitle' => __('Testimonial Form', 'codeweber'),
                 'recipientEmail' => $admin_email,
             ];
             
@@ -927,7 +984,7 @@ class TestimonialFormAPI {
             
             // Отправка через модуль форм
             $form_settings = [
-                'formName' => __('Testimonial Form', 'codeweber'),
+                'formTitle' => __('Testimonial Form', 'codeweber'),
                 'recipientEmail' => $author_email,
             ];
             
