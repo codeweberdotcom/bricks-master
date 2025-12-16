@@ -104,27 +104,13 @@ class CodeweberFormsConsentMetabox {
                 // Label text
                 html += '<p>';
                 html += '<label><strong><?php _e('Label Text', 'codeweber'); ?>:</strong><br>';
-                html += '<input type="text" name="consents[' + index + '][label]" value="' + (consent.label || '') + '" class="large-text" placeholder="<?php _e('I agree to the [cf7_privacy_policy id="{form_id}"]', 'codeweber'); ?>">';
+                html += '<input type="text" name="consents[' + index + '][label]" value="' + (consent.label || '') + '" class="large-text consent-label-input" placeholder="<?php _e('I agree to the {document_title}', 'codeweber'); ?>" style="width: 100%;">';
                 html += '</label><br>';
-                html += '<small class="description"><?php _e('You can use shortcodes: [cf7_privacy_policy id="{form_id}"], [cf7_legal_consent_link id="{form_id}"], [cf7_mailing_consent_link id="{form_id}"]', 'codeweber'); ?></small>';
+                html += '<small class="description"><?php _e('You can use placeholders: {document_url}, {document_title}, {document_title_url}, {form_id}. For example: \"I agree to the {document_title_url}\"', 'codeweber'); ?></small>';
                 html += '</p>';
                 
-                // Document type
-                html += '<p>';
-                html += '<label><strong><?php _e('Document Type', 'codeweber'); ?>:</strong><br>';
-                html += '<select name="consents[' + index + '][document_type]" class="consent-document-type">';
-                html += '<option value=""><?php _e('— Select —', 'codeweber'); ?></option>';
-                if (privacyPage) {
-                    html += '<option value="privacy_policy" ' + (consent.document_type === 'privacy_policy' ? 'selected' : '') + '><?php _e('Privacy Policy', 'codeweber'); ?></option>';
-                }
-                html += '<option value="legal_consent" ' + (consent.document_type === 'legal_consent' ? 'selected' : '') + '><?php _e('Legal Consent', 'codeweber'); ?></option>';
-                html += '<option value="mailing_consent" ' + (consent.document_type === 'mailing_consent' ? 'selected' : '') + '><?php _e('Mailing Consent', 'codeweber'); ?></option>';
-                html += '</select>';
-                html += '</label>';
-                html += '</p>';
-                
-                // Document selection (for legal documents)
-                html += '<p class="consent-document-select" style="display: none;">';
+                // Document selection (CPT legal documents)
+                html += '<p class="consent-document-select">';
                 html += '<label><strong><?php _e('Select Document', 'codeweber'); ?>:</strong><br>';
                 html += '<select name="consents[' + index + '][document_id]" class="consent-document-id">';
                 html += '<option value=""><?php _e('— Select —', 'codeweber'); ?></option>';
@@ -154,21 +140,60 @@ class CodeweberFormsConsentMetabox {
                 return html;
             }
             
-            // Show/hide document select based on document type
-            $(document).on('change', '.consent-document-type', function() {
-                var $row = $(this).closest('.consent-row');
-                var docType = $(this).val();
-                var $docSelect = $row.find('.consent-document-select');
+            // Auto-fill label text when document is selected (similar to built-in forms settings)
+            $(document).on('change', '.consent-document-id', function() {
+                var $select = $(this);
+                var $row = $select.closest('.consent-row');
+                var $labelInput = $row.find('input[name*="[label]"]');
+                var documentId = $select.val();
                 
-                if (docType === 'legal_consent' || docType === 'mailing_consent') {
-                    $docSelect.show();
-                } else {
-                    $docSelect.hide();
+                if (!documentId) {
+                    return;
                 }
+                
+                // Ask for confirmation if field already has text
+                var hasExistingText = $labelInput.val().trim();
+                if (hasExistingText) {
+                    if (!confirm('<?php _e('Replace existing label text with default text for this document?', 'codeweber'); ?>')) {
+                        return;
+                    }
+                }
+                
+                // Show loading state
+                var originalValue = $labelInput.val();
+                $labelInput.prop('disabled', true);
+                
+                // Get AJAX URL (ajaxurl is available in WordPress admin)
+                var ajaxUrl = (typeof ajaxurl !== 'undefined') ? ajaxurl : '<?php echo admin_url('admin-ajax.php'); ?>';
+                
+                // Get default text from server
+                $.ajax({
+                    url: ajaxUrl,
+                    type: 'POST',
+                    data: {
+                        action: 'codeweber_forms_get_default_label',
+                        document_id: documentId,
+                        nonce: '<?php echo wp_create_nonce("codeweber_forms_default_label"); ?>'
+                    },
+                    success: function(response) {
+                        if (response.success && response.data && response.data.label) {
+                            $labelInput.val(response.data.label);
+                        } else {
+                            console.error('Failed to get default label:', response);
+                            // Keep original value on error
+                            $labelInput.val(originalValue);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX error:', status, error);
+                        // Keep original value on error
+                        $labelInput.val(originalValue);
+                    },
+                    complete: function() {
+                        $labelInput.prop('disabled', false);
+                    }
+                });
             });
-            
-            // Trigger change on existing selects
-            $('.consent-document-type').trigger('change');
         });
         </script>
         
@@ -178,6 +203,15 @@ class CodeweberFormsConsentMetabox {
                 padding: 15px;
                 margin-bottom: 15px;
                 background: #f9f9f9;
+            }
+            .consent-row label {
+                display: block;
+                width: 100%;
+            }
+            .consent-row input.consent-label-input {
+                width: 100% !important;
+                max-width: 800px !important;
+                box-sizing: border-box;
             }
         </style>
         <?php
@@ -193,25 +227,12 @@ class CodeweberFormsConsentMetabox {
             
             <p>
                 <label><strong><?php _e('Label Text', 'codeweber'); ?>:</strong><br>
-                    <input type="text" name="consents[<?php echo $index; ?>][label]" value="<?php echo esc_attr($consent['label'] ?? ''); ?>" class="large-text" placeholder="<?php _e('I agree to the [cf7_privacy_policy id="{form_id}"]', 'codeweber'); ?>">
+                    <input type="text" name="consents[<?php echo $index; ?>][label]" value="<?php echo esc_attr($consent['label'] ?? ''); ?>" class="large-text consent-label-input" placeholder="<?php _e('I agree to the {document_title}', 'codeweber'); ?>" style="width: 100%;">
                 </label><br>
-                <small class="description"><?php _e('You can use shortcodes: [cf7_privacy_policy id="{form_id}"], [cf7_legal_consent_link id="{form_id}"], [cf7_mailing_consent_link id="{form_id}"]', 'codeweber'); ?></small>
+                <small class="description"><?php _e('You can use placeholders: {document_url}, {document_title}, {document_title_url}, {form_id}. For example: \"I agree to the {document_title_url}\"', 'codeweber'); ?></small>
             </p>
             
-            <p>
-                <label><strong><?php _e('Document Type', 'codeweber'); ?>:</strong><br>
-                    <select name="consents[<?php echo $index; ?>][document_type]" class="consent-document-type">
-                        <option value=""><?php _e('— Select —', 'codeweber'); ?></option>
-                        <?php if ($privacy_policy_page): ?>
-                            <option value="privacy_policy" <?php selected($consent['document_type'] ?? '', 'privacy_policy'); ?>><?php _e('Privacy Policy', 'codeweber'); ?></option>
-                        <?php endif; ?>
-                        <option value="legal_consent" <?php selected($consent['document_type'] ?? '', 'legal_consent'); ?>><?php _e('Legal Consent', 'codeweber'); ?></option>
-                        <option value="mailing_consent" <?php selected($consent['document_type'] ?? '', 'mailing_consent'); ?>><?php _e('Mailing Consent', 'codeweber'); ?></option>
-                    </select>
-                </label>
-            </p>
-            
-            <p class="consent-document-select" style="display: <?php echo (in_array($consent['document_type'] ?? '', ['legal_consent', 'mailing_consent'])) ? 'block' : 'none'; ?>;">
+            <p class="consent-document-select">
                 <label><strong><?php _e('Select Document', 'codeweber'); ?>:</strong><br>
                     <select name="consents[<?php echo $index; ?>][document_id]" class="consent-document-id">
                         <option value=""><?php _e('— Select —', 'codeweber'); ?></option>

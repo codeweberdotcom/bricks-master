@@ -17,6 +17,8 @@ define('CODEWEBER_FORMS_LANGUAGES', CODEWEBER_FORMS_PATH . '/languages');
 
 // Подключаем файлы модуля
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-cpt.php';
+require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-gutenberg-restrictions.php';
+require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-block-selector.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-database.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-core.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-api.php';
@@ -81,11 +83,15 @@ add_action('after_setup_theme', function() {
 // REST API регистрируем сразу, до init
 new CodeweberFormsAPI();
 
+// Регистрируем CPT для форм ДО хука init, чтобы хук init в конструкторе успел зарегистрироваться
+new CodeweberFormsCPT();
+
+// Блок для выбора формы на обычных страницах - регистрируем ДО хука init
+// чтобы хук init в конструкторе успел зарегистрироваться с приоритетом 5
+new CodeweberFormsBlockSelector();
+
 // Инициализация
 add_action('init', function() {
-    // Регистрируем CPT для форм
-    new CodeweberFormsCPT();
-    
     // Инициализируем БД для отправок
     new CodeweberFormsDatabase();
     
@@ -102,7 +108,11 @@ add_action('init', function() {
         new CodeweberFormsSubmissions();
         new CodeweberFormsConsentMetabox();
         new CodeweberFormsBuiltinSettings();
+        
+        // Ограничения Gutenberg редактора для CPT форм
+        new CodeweberFormsGutenbergRestrictions();
     }
+    
     // Email Templates нужен и на фронтенде для отправки писем
     new CodeweberFormsEmailTemplates();
 }, 20);

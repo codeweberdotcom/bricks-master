@@ -22,7 +22,6 @@ class CodeweberFormsAdmin {
         add_action('admin_menu', [$this, 'add_admin_menu']);
         // Screen options: количество элементов на странице и колонки
         add_filter('set-screen-option', [$this, 'set_screen_option'], 10, 3);
-        add_action('load-toplevel_page_codeweber', [$this, 'add_screen_options']);
         // Обработка массовых действий до вывода (чтобы не было ошибок заголовков)
         add_action('admin_init', [$this, 'process_bulk_actions_early']);
     }
@@ -31,27 +30,28 @@ class CodeweberFormsAdmin {
      * Add admin menu
      */
     public function add_admin_menu() {
-        add_menu_page(
+        // Делаем раздел отправок форм дочерним пунктом меню CPT "Form"
+        // Родительский slug для CPT: Form (`codeweber_form`)
+        $parent_slug = 'edit.php?post_type=codeweber_form';
+
+        // Основная страница "Отправки форм" как подпункт CPT "Form"
+        $hook = add_submenu_page(
+            $parent_slug,
             __('Form Submissions', 'codeweber'),
             __('Form Submissions', 'codeweber'),
-            'manage_options',
-            'codeweber',
-            [$this, 'render_list_page'],
-            'dashicons-email-alt',
-            30
-        );
-        
-        add_submenu_page(
-            'codeweber',
-            __('All Submissions', 'codeweber'),
-            __('All Submissions', 'codeweber'),
             'manage_options',
             'codeweber',
             [$this, 'render_list_page']
         );
+
+        // Регистрируем экранные опции для страницы списка отправок
+        if ($hook) {
+            add_action("load-{$hook}", [$this, 'add_screen_options']);
+        }
         
+        // Остальные дочерние пункты (настройки и шаблоны писем) также переносим под CPT "Form"
         add_submenu_page(
-            'codeweber',
+            $parent_slug,
             __('Settings', 'codeweber'),
             __('Settings', 'codeweber'),
             'manage_options',
@@ -60,7 +60,7 @@ class CodeweberFormsAdmin {
         );
         
         add_submenu_page(
-            'codeweber',
+            $parent_slug,
             __('Email Templates', 'codeweber'),
             __('Email Templates', 'codeweber'),
             'manage_options',
@@ -74,7 +74,7 @@ class CodeweberFormsAdmin {
      */
     public function add_screen_options() {
         $screen = get_current_screen();
-        if (!$screen || $screen->id !== 'toplevel_page_codeweber') {
+        if (!$screen) {
             return;
         }
 

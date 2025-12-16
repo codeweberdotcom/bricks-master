@@ -87,8 +87,11 @@ class CodeweberFormsRenderer {
             $form_id = is_numeric($config['id']) ? intval($config['id']) : $config['id'];
         }
         
-        // Генерируем уникальный ID формы
-        $form_unique_id = 'form-' . ($form_id ?: uniqid());
+        // Генерируем уникальный ID формы для каждого экземпляра на странице
+        // Используем статический счетчик, чтобы гарантировать уникальность
+        static $form_instance_counter = 0;
+        $form_instance_counter++;
+        $form_unique_id = 'form-' . ($form_id ?: uniqid()) . '-' . $form_instance_counter;
         
         // Настройки формы
         // formTitle — заголовок формы для верстки (frontend),
@@ -259,7 +262,7 @@ class CodeweberFormsRenderer {
                 <!-- Стандартная верстка для обычных форм -->
                 <div class="row g-4">
                     <?php foreach ($fields as $field): ?>
-                        <?php echo $this->render_field($field); ?>
+                        <?php echo $this->render_field($field, $form_id); ?>
                     <?php endforeach; ?>
                 </div>
                 
@@ -311,7 +314,7 @@ class CodeweberFormsRenderer {
     /**
      * Render single form field
      */
-    private function render_field($field) {
+    private function render_field($field, $form_id = 0) {
         $field_type = $field['fieldType'] ?? 'text';
         $field_name = $field['fieldName'] ?? '';
         $field_label = $field['fieldLabel'] ?? '';
@@ -330,6 +333,43 @@ class CodeweberFormsRenderer {
         $field_id = 'field-' . $field_name;
         $required_attr = $is_required ? 'required' : '';
         $required_mark = $is_required ? ' <span class="text-danger">*</span>' : '';
+        
+        // Специальный тип поля: блок согласий, основанный на настройках метабокса формы (_form_consents)
+        if ($field_type === 'consents_block') {
+            // form_id для CPT формы должен быть числовым
+            $numeric_form_id = is_numeric($form_id) ? (int) $form_id : 0;
+            
+            if ($numeric_form_id > 0 && function_exists('codeweber_forms_render_consent_checkbox')) {
+                $consents = get_post_meta($numeric_form_id, '_form_consents', true);
+                if (!is_array($consents)) {
+                    $consents = [];
+                }
+                
+                if (!empty($consents)) {
+                    ob_start();
+                    ?>
+                    <div class="col-12">
+                        <div class="form-consents-block mt-3">
+                            <?php
+                            foreach ($consents as $consent) {
+                                // Рендерим чекбокс согласия на основе документа и текста метки
+                                echo codeweber_forms_render_consent_checkbox(
+                                    $consent,
+                                    'newsletter_consents', // имя массива, которое уже обрабатывается в универсальной логике
+                                    $numeric_form_id
+                                );
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                    return ob_get_clean();
+                }
+            }
+            
+            // Если согласий нет или form_id невалиден — ничего не выводим
+            return '';
+        }
         
         ob_start();
         ?>

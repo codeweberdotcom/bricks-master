@@ -569,3 +569,200 @@ $dropdown-font-weight: 700 !default;
   width: max-content !important;
 }
 
+
+//----------------------------------------------------------//
+//  SPINNERS & ICON ANIMATIONS
+//----------------------------------------------------------//
+
+.uil-spinner-alt,
+.uil-spinner,
+.uil-spin,
+.uil-fidget-spinner,
+.uil-process {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.uil-envelope-send,
+.uil-envelope-upload {
+  animation: spinner 1s linear infinite, wobble 0.5s ease-in-out infinite;
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+
+//----------------------------------------------------------//
+//  LOGIN BUTTON SENDING STATE
+//----------------------------------------------------------//
+
+.btn-login {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-login.sending::after {
+  content: "Отправка...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.btn-login.sending::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #000,
+    #000 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn-login.sending .letter {
+  position: absolute;
+  width: 20px;
+  height: 14px;
+  background: #f0f0f0;
+  border: 1px solid #000;
+  border-radius: 2px;
+  bottom: 6px;
+  animation: letterMove 2s linear infinite;
+}
+
+@keyframes letterMove {
+  0% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}
+
+
+//----------------------------------------------------------//
+//  NAVIGATION & OFFCANVAS
+//----------------------------------------------------------//
+
+.menu-item-has-children.dropdown.parent-link {
+  padding-right: 1rem;
+}
+
+.offcanvas-light {
+  background-color: #ffffff !important;
+  color: #1e2228 !important;
+}
+
+.offcanvas-light .logo-dark {
+  display: block !important;
+}
+
+.navbar.transparent.navbar-light .logo-dark {
+  display: block !important;
+}
+
+
+//----------------------------------------------------------//
+//  BREADCRUMBS
+//----------------------------------------------------------//
+
+.breadcrumb.text-dark .breadcrumb-item a {
+  color: var(--bs-dark);
+}
+
+.breadcrumb.text-dark .breadcrumb-item.active,
+.breadcrumb.text-dark .breadcrumb-item:hover {
+  color: var(--bs-black);
+}
+
+.breadcrumb.text-white .breadcrumb-item + .breadcrumb-item::before {
+  color: rgba(var(--bs-black), 0.5);
+}
+
+
+//----------------------------------------------------------//
+//  RESPONSIVE NAVBAR COLORS (OFFCANVAS LIGHT)
+//----------------------------------------------------------//
+
+@media (max-width: 991.98px) {
+  .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link,
+  .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link.active,
+  .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link:focus,
+  .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link:hover,
+  .navbar-expand-lg .navbar-collapse.offcanvas-light .show > .nav-link,
+  .navbar-expand-lg .navbar-collapse.offcanvas-light .dropdown-menu .dropdown-item {
+    color: #343f52 !important;
+  }
+}
+
+
+//----------------------------------------------------------//
+//  FORMS & CHECKBOXES
+//----------------------------------------------------------//
+
+.screen-reader-response,
+.wpcf7-response-output {
+  display: none !important;
+}
+
+.small-chekbox .form-check-input {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.small-chekbox input {
+  margin-top: 6px;
+}
+
+.small-chekbox label,
+.small-chekbox a {
+  font-size: 0.7rem !important;
+}
+
+.form-check-input.is-invalid ~ .form-check-label,
+.was-validated .form-check-input:invalid ~ .form-check-label,
+.was-validated .form-check-input:invalid ~ .form-check-label a {
+  color: #dc3545 !important;
+}
+
+textarea[rows="10"] {
+  min-height: 200px !important;
+}
+

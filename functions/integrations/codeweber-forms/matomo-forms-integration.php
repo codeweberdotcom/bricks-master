@@ -22,14 +22,11 @@ function codeweber_forms_matomo_integration_admin_menu() {
         return;
     }
 
-    // Проверяем, что главное меню уже зарегистрировано
-    global $submenu;
-    if (!isset($submenu['codeweber'])) {
-        return;
-    }
+    // Переносим пункт меню Matomo под CPT "Form" (codeweber_form)
+    $parent_slug = 'edit.php?post_type=codeweber_form';
 
     add_submenu_page(
-        'codeweber',
+        $parent_slug,
         __('Matomo Integration', 'codeweber'),
         __('Matomo Integration', 'codeweber'),
         'manage_options',

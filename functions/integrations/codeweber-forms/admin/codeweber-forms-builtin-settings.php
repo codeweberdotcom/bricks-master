@@ -66,10 +66,13 @@ class CodeweberFormsBuiltinSettings {
      * Add admin menu
      */
     public function add_admin_menu() {
+        // Делаем страницу настроек встроенных форм дочерним пунктом меню CPT "Формы"
+        $parent_slug = 'edit.php?post_type=codeweber_form';
+
         add_submenu_page(
-            'codeweber',
-            __('Built-in Forms Settings', 'codeweber'),
-            __('Built-in Forms Settings', 'codeweber'),
+            $parent_slug,
+            __('Настройки встроенных форм', 'codeweber'),
+            __('Настройки встроенных форм', 'codeweber'),
             'manage_options',
             'codeweber-forms-builtin-settings',
             [$this, 'render_page']
@@ -144,8 +147,20 @@ class CodeweberFormsBuiltinSettings {
             
             // Remove form block
             $(document).on('click', '.remove-form-block-btn', function() {
+                var $formBlock = $(this).closest('.form-block');
+                // Проверяем form_key из скрытого поля или из select
+                var formKey = $formBlock.find('input[name*="[form_key]"]').val() || 
+                              $formBlock.find('select[name*="[form_key]"]').val();
+                
+                // Запрещаем удаление встроенных форм
+                var builtinFormKeys = ['testimonial', 'resume', 'newsletter', 'callback'];
+                if (builtinFormKeys.indexOf(formKey) !== -1) {
+                    alert('<?php _e('Built-in forms cannot be deleted. You can only modify their consent settings.', 'codeweber'); ?>');
+                    return false;
+                }
+                
                 if (confirm('<?php _e('Are you sure you want to remove this form and all its consents?', 'codeweber'); ?>')) {
-                    $(this).closest('.form-block').remove();
+                    $formBlock.remove();
                 }
             });
             
@@ -161,6 +176,27 @@ class CodeweberFormsBuiltinSettings {
             // Remove consent row
             $(document).on('click', '.remove-consent-btn', function() {
                 $(this).closest('.consent-row').remove();
+            });
+            
+            // Обработка изменения выбора формы - скрываем/показываем кнопку удаления
+            $(document).on('change', 'select.form-key-selector', function() {
+                var $formBlock = $(this).closest('.form-block');
+                var formKey = $(this).val();
+                var builtinFormKeys = ['testimonial', 'resume', 'newsletter', 'callback'];
+                var isBuiltin = builtinFormKeys.indexOf(formKey) !== -1;
+                var $removeBtn = $formBlock.find('.remove-form-block-btn');
+                
+                if (isBuiltin) {
+                    // Скрываем кнопку удаления и меняем стиль блока
+                    $removeBtn.hide();
+                    $formBlock.addClass('builtin-form').css('border-color', '#00a32a');
+                    $formBlock.find('.cw-accordion-toggle').css('color', '#00a32a');
+                } else {
+                    // Показываем кнопку удаления и возвращаем обычный стиль
+                    $removeBtn.show();
+                    $formBlock.removeClass('builtin-form').css('border-color', '#2271b1');
+                    $formBlock.find('.cw-accordion-toggle').css('color', '#2271b1');
+                }
             });
             
             // Auto-fill label text when document is selected
@@ -261,7 +297,13 @@ class CodeweberFormsBuiltinSettings {
             });
 
             function createFormBlock(formIndex, selectedFormKey, consents, allDocuments, builtinForms) {
-                var html = '<div class="form-block is-collapsed" data-form-index="' + formIndex + '" style="border: 2px solid #2271b1; padding: 20px; margin-bottom: 20px; background: #f0f6fc; border-radius: 4px;">';
+                // Проверяем, является ли форма встроенной
+                var builtinFormKeys = ['testimonial', 'resume', 'newsletter', 'callback'];
+                var isBuiltin = builtinFormKeys.indexOf(selectedFormKey) !== -1;
+                var blockClass = isBuiltin ? 'form-block builtin-form is-collapsed' : 'form-block is-collapsed';
+                var borderColor = isBuiltin ? '#00a32a' : '#2271b1';
+                
+                var html = '<div class="' + blockClass + '" data-form-index="' + formIndex + '" data-form-key="' + (selectedFormKey || '') + '" style="border: 2px solid ' + borderColor + '; padding: 20px; margin-bottom: 20px; background: #f0f6fc; border-radius: 4px;">';
 
                 // Clickable header
                 html += '<div class="cw-form-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; cursor: pointer;">';
@@ -269,7 +311,10 @@ class CodeweberFormsBuiltinSettings {
                 html += '<span class="cw-accordion-toggle" aria-hidden="true">+</span>';
                 html += '<h3 style="margin: 0;"><?php _e('Form', 'codeweber'); ?> #' + (formIndex + 1) + '</h3>';
                 html += '</div>';
-                html += '<button type="button" class="button remove-form-block-btn"><?php _e('Remove Form', 'codeweber'); ?></button>';
+                // Показываем кнопку удаления только для не встроенных форм
+                if (!isBuiltin) {
+                    html += '<button type="button" class="button remove-form-block-btn"><?php _e('Remove Form', 'codeweber'); ?></button>';
+                }
                 html += '</div>';
 
                 // Collapsible body
@@ -363,6 +408,12 @@ class CodeweberFormsBuiltinSettings {
                 background: #f0f6fc;
                 border-radius: 4px;
             }
+            .form-block.builtin-form {
+                border-color: #00a32a;
+            }
+            .form-block.builtin-form .cw-accordion-toggle {
+                color: #00a32a;
+            }
             .consent-row {
                 border: 1px solid #ddd;
                 padding: 15px;
@@ -401,7 +452,16 @@ class CodeweberFormsBuiltinSettings {
     private function render_form_block($form_key, $form_label, $consents, $all_documents, $builtin_forms) {
         static $form_index = 0;
         ?>
-        <div class="form-block" data-form-index="<?php echo $form_index; ?>" style="border: 2px solid #2271b1; padding: 20px; margin-bottom: 20px; background: #f0f6fc; border-radius: 4px; max-width: 100%;">
+        <?php
+        // Определяем, является ли форма встроенной
+        $builtin_form_keys = ['testimonial', 'resume', 'newsletter', 'callback'];
+        $is_builtin = in_array($form_key, $builtin_form_keys);
+        $block_class = $is_builtin ? 'form-block builtin-form' : 'form-block';
+        $block_style = $is_builtin 
+            ? 'border: 2px solid #00a32a; padding: 20px; margin-bottom: 20px; background: #f0f6fc; border-radius: 4px; max-width: 100%;' 
+            : 'border: 2px solid #2271b1; padding: 20px; margin-bottom: 20px; background: #f0f6fc; border-radius: 4px; max-width: 100%;';
+        ?>
+        <div class="<?php echo esc_attr($block_class); ?>" data-form-index="<?php echo $form_index; ?>" data-form-key="<?php echo esc_attr($form_key); ?>" style="<?php echo esc_attr($block_style); ?>">
             <div class="cw-form-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
                 <div style="display:flex; align-items:center; gap:6px;">
                     <span class="cw-accordion-toggle" aria-hidden="true">+</span>
@@ -412,10 +472,15 @@ class CodeweberFormsBuiltinSettings {
                         echo esc_html($form_label); 
                         echo ' ';
                         printf('(ID: %s)', esc_html($form_key));
+                        if ($is_builtin) {
+                            echo ' <span style="color: #00a32a; font-size: 0.9em; font-weight: normal;">(' . __('Built-in form', 'codeweber') . ')</span>';
+                        }
                         ?>
                     </h3>
                 </div>
+                <?php if (!$is_builtin): ?>
                 <button type="button" class="button remove-form-block-btn"><?php _e('Remove Form', 'codeweber'); ?></button>
+                <?php endif; ?>
             </div>
 
             <div class="cw-form-body">
@@ -540,10 +605,16 @@ class CodeweberFormsBuiltinSettings {
      * Save settings
      */
     private function save_settings() {
+        $builtin_forms = $this->get_builtin_forms();
+        $all_consents = [];
+        
+        // Получаем существующие настройки для встроенных форм (защита от удаления)
+        $existing_consents = get_option($this->option_name, []);
+        if (!is_array($existing_consents)) {
+            $existing_consents = [];
+        }
+        
         if (isset($_POST['form_blocks']) && is_array($_POST['form_blocks'])) {
-            $builtin_forms = $this->get_builtin_forms();
-            $all_consents = [];
-            
             // Process each form block
             foreach ($_POST['form_blocks'] as $block) {
                 $form_key = sanitize_text_field($block['form_key'] ?? '');
@@ -571,13 +642,19 @@ class CodeweberFormsBuiltinSettings {
                 // Store consents for this form (overwrite if form already exists)
                 $all_consents[$form_key] = $consents;
             }
-            
-            // Save all consents
-            update_option($this->option_name, $all_consents);
-        } else {
-            // If no form blocks submitted, clear all
-            update_option($this->option_name, []);
         }
+        
+        // Всегда сохраняем встроенные формы, даже если они не были в POST
+        // Это защищает от случайного удаления
+        foreach ($builtin_forms as $form_key => $form_label) {
+            if (!isset($all_consents[$form_key])) {
+                // Если форма не была в POST, используем существующие настройки или пустой массив
+                $all_consents[$form_key] = isset($existing_consents[$form_key]) ? $existing_consents[$form_key] : [];
+            }
+        }
+        
+        // Save all consents
+        update_option($this->option_name, $all_consents);
     }
     
     /**

@@ -63,6 +63,15 @@ class CodeweberFormsAPI {
             'callback' => [$this, 'form_opened'],
             'permission_callback' => '__return_true'
         ]);
+        
+        // Endpoint для получения списка форм (для блока Gutenberg)
+        register_rest_route('codeweber-forms/v1', '/forms', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_forms_list'],
+            'permission_callback' => function() {
+                return current_user_can('edit_posts');
+            }
+        ]);
     }
     
     /**
@@ -1109,5 +1118,33 @@ class CodeweberFormsAPI {
         // TODO: Implement form config saving
         return new WP_REST_Response(['success' => false, 'message' => 'Not implemented yet'], 200);
     }
+    
+    /**
+     * Get list of forms for Gutenberg block
+     */
+    public function get_forms_list($request) {
+        $forms = get_posts([
+            'post_type' => 'codeweber_form',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'orderby' => 'title',
+            'order' => 'ASC',
+        ]);
+        
+        $forms_list = [];
+        foreach ($forms as $form) {
+            $forms_list[] = [
+                'id' => $form->ID,
+                'title' => $form->post_title,
+                'shortcode' => '[codeweber_form id="' . $form->ID . '"]',
+            ];
+        }
+        
+        return new WP_REST_Response([
+            'success' => true,
+            'forms' => $forms_list,
+        ], 200);
+    }
+    
 }
 

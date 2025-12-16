@@ -120,6 +120,22 @@ class CodeweberFormsSettings {
             'codeweber-forms-settings',
             'codeweber_forms_messages_section'
         );
+        
+        // Editor Settings Section
+        add_settings_section(
+            'codeweber_forms_editor_section',
+            __('Gutenberg Editor Settings', 'codeweber'),
+            [$this, 'editor_section_callback'],
+            'codeweber-forms-settings'
+        );
+        
+        add_settings_field(
+            'block_restriction',
+            __('Block Restriction Mode', 'codeweber'),
+            [$this, 'block_restriction_field'],
+            'codeweber-forms-settings',
+            'codeweber_forms_editor_section'
+        );
     }
     
     /**
@@ -166,6 +182,14 @@ class CodeweberFormsSettings {
             $sanitized['error_message'] = sanitize_textarea_field($input['error_message']);
         }
         
+        // Editor settings
+        if (isset($input['block_restriction'])) {
+            $allowed_modes = ['minimal', 'all'];
+            if (in_array($input['block_restriction'], $allowed_modes)) {
+                update_option('codeweber_forms_block_restriction', $input['block_restriction']);
+            }
+        }
+        
         return $sanitized;
     }
     
@@ -188,6 +212,10 @@ class CodeweberFormsSettings {
     
     public function messages_section_callback() {
         echo '<p>' . __('Set default messages shown to users after form submission.', 'codeweber') . '</p>';
+    }
+    
+    public function editor_section_callback() {
+        echo '<p>' . __('Configure Gutenberg editor settings for form creation.', 'codeweber') . '</p>';
     }
     
     // Field callbacks
@@ -245,6 +273,23 @@ class CodeweberFormsSettings {
         $value = $this->get_option('error_message', __('An error occurred. Please try again.', 'codeweber'));
         echo '<textarea name="' . $this->option_name . '[error_message]" rows="3" class="large-text">' . esc_textarea($value) . '</textarea>';
         echo '<p class="description">' . __('Message shown to users when form submission fails.', 'codeweber') . '</p>';
+    }
+    
+    public function block_restriction_field() {
+        $value = get_option('codeweber_forms_block_restriction', 'minimal');
+        ?>
+        <select name="<?php echo esc_attr($this->option_name); ?>[block_restriction]">
+            <option value="minimal" <?php selected($value, 'minimal'); ?>>
+                <?php _e('Minimal (only form blocks)', 'codeweber'); ?>
+            </option>
+            <option value="all" <?php selected($value, 'all'); ?>>
+                <?php _e('All Codeweber Blocks', 'codeweber'); ?>
+            </option>
+        </select>
+        <p class="description">
+            <?php _e('Choose which blocks are available in the Gutenberg editor when creating forms. "Minimal" mode allows only form and form-field blocks, while "All Codeweber Blocks" allows all blocks from Codeweber Gutenberg Blocks plugin.', 'codeweber'); ?>
+        </p>
+        <?php
     }
     
     /**
