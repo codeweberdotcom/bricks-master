@@ -301,8 +301,11 @@ function codeweber_forms_render_consent_checkbox($consent, $field_name = 'consen
     $required = !empty($consent['required']);
     $checkbox_id = 'consent-' . $document_id . '-' . uniqid();
     
+    // Получаем класс скругления формы из темы
+    $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
+    
     $html = '<div class="form-check small-checkbox small-chekbox mb-1">';
-    $html .= '<input type="checkbox" class="form-check-input" id="' . esc_attr($checkbox_id) . '" name="' . esc_attr($field_name) . '[' . esc_attr($document_id) . ']" value="1"';
+    $html .= '<input type="checkbox" class="form-check-input' . esc_attr($form_radius_class) . '" id="' . esc_attr($checkbox_id) . '" name="' . esc_attr($field_name) . '[' . esc_attr($document_id) . ']" value="1"';
     if ($required) {
         $html .= ' required';
     }

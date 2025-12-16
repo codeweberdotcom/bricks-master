@@ -294,6 +294,9 @@ class CodeweberFormsRenderer {
                         }
                     }
                     
+                    // Получаем класс скругления кнопки из темы
+                    $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';
+                    
                     // Рендерим кнопки из блоков submit-button для newsletter формы
                     if (!empty($submit_buttons)) {
                         foreach ($submit_buttons as $button_attrs) {
@@ -304,11 +307,14 @@ class CodeweberFormsRenderer {
                             }
                             $button_class = $button_attrs['buttonClass'] ?? 'btn btn-primary';
                             $block_class = $button_attrs['blockClass'] ?? '';
+                            
+                            // Объединяем классы кнопки с классом скругления из темы
+                            $final_button_class = trim($button_class . ' ' . $button_radius_class);
                             ?>
                             <div class="form-submit-wrapper mt-3 <?php echo esc_attr($block_class); ?>">
                                 <button
                                     type="submit"
-                                    class="<?php echo esc_attr($button_class); ?> btn-icon btn-icon-start"
+                                    class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
                                     data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
                                 >
                                     <i class="uil uil-send fs-13"></i>
@@ -319,11 +325,12 @@ class CodeweberFormsRenderer {
                         }
                     } else {
                         // Fallback: используем старую кнопку из настроек
+                        $final_button_class = trim($submit_button_class . ' ' . $button_radius_class);
                         ?>
                         <div class="form-submit-wrapper mt-3">
                             <button
                                 type="submit"
-                                class="<?php echo esc_attr($submit_button_class); ?> btn-icon btn-icon-start"
+                                class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
                                 data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
                             >
                                 <i class="uil uil-send fs-13"></i>
@@ -407,6 +414,24 @@ class CodeweberFormsRenderer {
                     }
                 }
                 
+                // Добавляем классы выравнивания к элементу с row (для фронтенда)
+                $alignment_classes = [];
+                if (!empty($settings['formAlignItems'])) {
+                    $alignment_classes[] = trim($settings['formAlignItems']);
+                }
+                if (!empty($settings['formJustifyContent'])) {
+                    $alignment_classes[] = 'd-flex';
+                    $alignment_classes[] = trim($settings['formJustifyContent']);
+                }
+                if (!empty($settings['formTextAlign'])) {
+                    $alignment_classes[] = trim($settings['formTextAlign']);
+                }
+                if (!empty($settings['formPosition'])) {
+                    $alignment_classes[] = trim($settings['formPosition']);
+                }
+                
+                // Объединяем все классы
+                $row_classes = array_merge($row_classes, $alignment_classes);
                 $row_class = implode(' ', array_filter($row_classes));
                 
                 // Временная отладка для проверки значений gap
@@ -431,6 +456,9 @@ class CodeweberFormsRenderer {
                 </div>
                 
                 <?php
+                // Получаем класс скругления кнопки из темы
+                $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';
+                
                 // Рендерим кнопки из блоков submit-button
                 $submit_buttons = $form_config['submit_buttons'] ?? [];
                 if (!empty($submit_buttons)) {
@@ -438,11 +466,14 @@ class CodeweberFormsRenderer {
                         $button_text = $button_attrs['buttonText'] ?? __('Send Message', 'codeweber');
                         $button_class = $button_attrs['buttonClass'] ?? 'btn btn-primary';
                         $block_class = $button_attrs['blockClass'] ?? '';
+                        
+                        // Объединяем классы кнопки с классом скругления из темы
+                        $final_button_class = trim($button_class . ' ' . $button_radius_class);
                         ?>
                         <div class="form-submit-wrapper mt-4 <?php echo esc_attr($block_class); ?>">
                             <button
                                 type="submit"
-                                class="<?php echo esc_attr($button_class); ?> btn-icon btn-icon-start"
+                                class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
                                 data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
                             >
                                 <i class="uil uil-send fs-13"></i>
@@ -453,11 +484,12 @@ class CodeweberFormsRenderer {
                     }
                 } else {
                     // Fallback: используем старую кнопку из настроек, если блоков submit-button нет
+                    $final_button_class = trim($submit_button_class . ' ' . $button_radius_class);
                     ?>
                     <div class="form-submit-wrapper mt-4">
                         <button
                             type="submit"
-                            class="<?php echo esc_attr($submit_button_class); ?> btn-icon btn-icon-start"
+                            class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
                             data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
                         >
                             <i class="uil uil-send fs-13"></i>
@@ -512,6 +544,9 @@ class CodeweberFormsRenderer {
         $default_value = $field['defaultValue'] ?? '';
         $max_length = !empty($field['maxLength']) ? intval($field['maxLength']) : 0;
         $min_length = !empty($field['minLength']) ? intval($field['minLength']) : 0;
+        
+        // Получаем класс скругления формы из темы
+        $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
         
         // Генерируем классы col-* из fieldColumns* атрибутов
         $get_col_classes = function($field) {
@@ -623,7 +658,7 @@ class CodeweberFormsRenderer {
                     ?>
                     <div class="form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
                         <textarea
-                            class="form-control"
+                            class="form-control<?php echo esc_attr($form_radius_class); ?>"
                             id="<?php echo esc_attr($field_id); ?>"
                             name="<?php echo esc_attr($field_name); ?>"
                             placeholder="<?php echo esc_attr($placeholder ?: $field_label); ?>"
@@ -643,7 +678,7 @@ class CodeweberFormsRenderer {
                     ?>
                     <div class="form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
                         <select
-                            class="form-select"
+                            class="form-select<?php echo esc_attr($form_radius_class); ?>"
                             id="<?php echo esc_attr($field_id); ?>"
                             name="<?php echo esc_attr($field_name); ?>"
                             <?php echo $required_attr; ?>
@@ -672,7 +707,7 @@ class CodeweberFormsRenderer {
                         <?php foreach ($options as $idx => $option): ?>
                             <div class="form-check">
                                 <input
-                                    class="form-check-input"
+                                    class="form-check-input<?php echo esc_attr($form_radius_class); ?>"
                                     type="radio"
                                     id="<?php echo esc_attr($field_id . '-' . $idx); ?>"
                                     name="<?php echo esc_attr($field_name); ?>"
@@ -700,7 +735,7 @@ class CodeweberFormsRenderer {
                             <?php foreach ($options as $idx => $option): ?>
                                 <div class="form-check">
                                     <input
-                                        class="form-check-input"
+                                        class="form-check-input<?php echo esc_attr($form_radius_class); ?>"
                                         type="checkbox"
                                         id="<?php echo esc_attr($field_id . '-' . $idx); ?>"
                                         name="<?php echo esc_attr($field_name); ?>[]"
@@ -718,7 +753,7 @@ class CodeweberFormsRenderer {
                         ?>
                         <div class="form-check<?php echo $block_class ? ' ' . $block_class : ''; ?>">
                             <input
-                                class="form-check-input"
+                                class="form-check-input<?php echo esc_attr($form_radius_class); ?>"
                                 type="checkbox"
                                 id="<?php echo esc_attr($field_id); ?>"
                                 name="<?php echo esc_attr($field_name); ?>"
@@ -740,7 +775,7 @@ class CodeweberFormsRenderer {
                     <div class="form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
                         <input
                             type="file"
-                            class="form-control"
+                            class="form-control<?php echo esc_attr($form_radius_class); ?>"
                             id="<?php echo esc_attr($field_id); ?>"
                             name="<?php echo esc_attr($field_name); ?><?php echo $multiple ? '[]' : ''; ?>"
                             <?php echo $required_attr; ?>
@@ -771,7 +806,7 @@ class CodeweberFormsRenderer {
                     <div class="form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
                         <input
                             type="<?php echo esc_attr($field_type); ?>"
-                            class="form-control"
+                            class="form-control<?php echo esc_attr($form_radius_class); ?>"
                             id="<?php echo esc_attr($field_id); ?>"
                             name="<?php echo esc_attr($field_name); ?>"
                             placeholder="<?php echo esc_attr($placeholder ?: $field_label); ?>"
