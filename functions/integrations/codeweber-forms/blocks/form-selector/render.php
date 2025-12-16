@@ -42,3 +42,4 @@ if (!$form_post || $form_post->post_type !== 'codeweber_form') {
 echo do_shortcode('[codeweber_form id="' . esc_attr($form_id) . '"]');
 
 
+

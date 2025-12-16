@@ -35,6 +35,13 @@
                 } catch (e) {
                     // Блок может быть уже скрыт или не зарегистрирован
                 }
+                
+                // Скрываем блок submit-button (он только для редактирования форм)
+                try {
+                    unregisterBlockType('codeweber-blocks/submit-button');
+                } catch (e) {
+                    // Блок может быть уже скрыт или не зарегистрирован
+                }
             }
         } catch (e) {
             // Игнорируем ошибки
@@ -68,5 +75,6 @@
 
     setTimeout(initSubscription, 1000);
 })();
+
 
 

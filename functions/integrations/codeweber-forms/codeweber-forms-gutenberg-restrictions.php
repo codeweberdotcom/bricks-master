@@ -80,7 +80,9 @@ class CodeweberFormsGutenbergRestrictions {
         // Вместо него будет использоваться блок codeweber-blocks/form-selector
         if (is_array($allowed_block_types)) {
             $allowed_block_types = array_filter($allowed_block_types, function($block) {
-                return $block !== 'codeweber-blocks/form' && $block !== 'codeweber-blocks/form-field';
+                return $block !== 'codeweber-blocks/form' 
+                    && $block !== 'codeweber-blocks/form-field'
+                    && $block !== 'codeweber-blocks/submit-button';
             });
         }
         
