@@ -3950,7 +3950,7 @@ msgstr "КПП"
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:106
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:195
 msgid "Label Text"
-msgstr ""
+msgstr "Текст метки"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:465
 msgid "Landing Page"
@@ -6630,7 +6630,7 @@ msgstr "Выберите отдел"
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:128
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:215
 msgid "Select Document"
-msgstr ""
+msgstr "Выберите документ"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:775
 msgid "Select Font"
