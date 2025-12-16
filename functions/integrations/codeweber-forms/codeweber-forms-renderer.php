@@ -78,6 +78,16 @@ class CodeweberFormsRenderer {
             ),
         ];
         
+        // НОВОЕ: Извлекаем тип формы из блока или метаполя
+        if (!empty($block_attrs['formType'])) {
+            $form_config['type'] = sanitize_text_field($block_attrs['formType']);
+        } else {
+            $form_type = get_post_meta($post->ID, '_form_type', true);
+            if (!empty($form_type)) {
+                $form_config['type'] = $form_type;
+            }
+        }
+        
         return $this->render_from_config($post->ID, $form_config);
     }
     
@@ -112,8 +122,9 @@ class CodeweberFormsRenderer {
         // Получаем кнопки из блоков submit-button
         $submit_buttons = $form_config['submit_buttons'] ?? [];
         
-        // Определяем, является ли форма newsletter формой (нужно определить до использования)
-        $is_newsletter_form = $this->is_newsletter_form($form_id, $form_name);
+        // НОВОЕ: Получаем тип формы через единую функцию
+        $form_type = CodeweberFormsCore::get_form_type($form_id, $config);
+        $is_newsletter_form = ($form_type === 'newsletter');
         
         // Для newsletter формы используем "Join" с переводом (fallback, если нет блоков submit-button)
         if ($is_newsletter_form) {
@@ -161,6 +172,7 @@ class CodeweberFormsRenderer {
         // Формируем data-атрибуты
         $form_data_attrs = [
             'data-form-id' => $form_id,
+            'data-form-type' => $form_type, // НОВОЕ: Добавляем тип формы
             'data-form-name' => $settings['internalName'] ?? '',
             'data-handled-by' => 'codeweber-forms-universal',
         ];
@@ -253,8 +265,13 @@ class CodeweberFormsRenderer {
                     </div>
                     
                     <?php
-                    // Получаем согласия из builtin_form_consents для newsletter формы
-                    if (function_exists('codeweber_forms_render_consent_checkbox')) {
+                    // ВАЖНО: Согласия для CPT форм НЕ добавляются автоматически из глобальных настроек.
+                    // Согласия должны быть добавлены через блок form-field с типом consents_block в Gutenberg редакторе.
+                    // 
+                    // Для legacy форм (строковый ID) оставляем автоматическое добавление согласий из builtin_form_consents
+                    // для обратной совместимости, но только если это не CPT форма.
+                    if (!is_numeric($form_id) && function_exists('codeweber_forms_render_consent_checkbox')) {
+                        // LEGACY: Только для встроенных форм (строковый ID: newsletter, testimonial и т.д.)
                         $all_consents = get_option('builtin_form_consents', []);
                         $newsletter_consents = isset($all_consents['newsletter']) ? $all_consents['newsletter'] : [];
                         
@@ -293,6 +310,7 @@ class CodeweberFormsRenderer {
                             <?php
                         }
                     }
+                    // Для CPT форм согласия рендерятся только из блоков form-field с типом consents_block
                     
                     // Получаем класс скругления кнопки из темы
                     $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';

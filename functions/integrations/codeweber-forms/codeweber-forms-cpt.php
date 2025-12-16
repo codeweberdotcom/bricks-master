@@ -15,15 +15,22 @@ class CodeweberFormsCPT {
     public function __construct() {
         add_action('init', [$this, 'register_post_type']);
         add_action('save_post_codeweber_form', [$this, 'save_form_meta'], 10, 3);
+        // НОВОЕ: Хук для сохранения типа формы из блока (работает и через REST API)
+        add_action('rest_after_insert_codeweber_form', [$this, 'save_form_type_from_block'], 10, 3);
+        add_action('wp_insert_post', [$this, 'save_form_type_from_block'], 10, 3);
         // Автоматическая вставка блока теперь выполняется через JavaScript в редакторе Gutenberg
         // add_action('wp_insert_post', [$this, 'auto_insert_form_block'], 10, 3);
         
-        // Добавляем колонку с шорткодом в список форм
-        add_filter('manage_codeweber_form_posts_columns', [$this, 'add_shortcode_column']);
-        add_action('manage_codeweber_form_posts_custom_column', [$this, 'fill_shortcode_column'], 10, 2);
+        // Добавляем колонки в список форм
+        add_filter('manage_codeweber_form_posts_columns', [$this, 'add_custom_columns']);
+        add_action('manage_codeweber_form_posts_custom_column', [$this, 'fill_custom_columns'], 10, 2);
         
         // Подключаем скрипт для копирования шорткода
         add_action('admin_footer', [$this, 'enqueue_copy_shortcode_script']);
+        
+        // НОВОЕ: Автоматический запуск миграции CPT форм при первой загрузке
+        // ВАЖНО: Миграция затрагивает только CPT формы, legacy формы не трогаем
+        add_action('admin_init', [$this, 'maybe_run_cpt_migration']);
     }
     
     /**
@@ -167,14 +174,15 @@ class CodeweberFormsCPT {
     }
     
     /**
-     * Добавить колонку с шорткодом в список форм
+     * Добавить кастомные колонки в список форм
      */
-    public function add_shortcode_column($columns) {
-        // Вставляем колонку после заголовка
+    public function add_custom_columns($columns) {
+        // Вставляем колонки после заголовка
         $new_columns = [];
         foreach ($columns as $key => $value) {
             $new_columns[$key] = $value;
             if ($key === 'title') {
+                $new_columns['form_type'] = __('Form Type', 'codeweber');
                 $new_columns['shortcode'] = __('Shortcode', 'codeweber');
             }
         }
@@ -182,9 +190,45 @@ class CodeweberFormsCPT {
     }
     
     /**
-     * Заполнить колонку с шорткодом
+     * Заполнить кастомные колонки
      */
-    public function fill_shortcode_column($column, $post_id) {
+    public function fill_custom_columns($column, $post_id) {
+        if ($column === 'form_type') {
+            // НОВОЕ: Получаем тип формы через единую функцию
+            $form_type = 'form'; // По умолчанию
+            if (class_exists('CodeweberFormsCore')) {
+                $form_type = CodeweberFormsCore::get_form_type($post_id);
+            } else {
+                // Fallback: из метаполя
+                $form_type = get_post_meta($post_id, '_form_type', true) ?: 'form';
+            }
+            
+            // Маппинг типов на читаемые названия
+            $type_labels = [
+                'form' => __('Regular Form', 'codeweber'),
+                'newsletter' => __('Newsletter Subscription', 'codeweber'),
+                'testimonial' => __('Testimonial Form', 'codeweber'),
+                'resume' => __('Resume Form', 'codeweber'),
+                'callback' => __('Callback Request', 'codeweber'),
+            ];
+            
+            $type_label = $type_labels[$form_type] ?? $form_type;
+            $type_badge_color = [
+                'form' => '#2271b1',
+                'newsletter' => '#00a32a',
+                'testimonial' => '#d63638',
+                'resume' => '#d54e21',
+                'callback' => '#826eb4',
+            ];
+            
+            $badge_color = $type_badge_color[$form_type] ?? '#666';
+            ?>
+            <span style="display: inline-block; padding: 2px 8px; border-radius: 3px; background: <?php echo esc_attr($badge_color); ?>; color: #fff; font-size: 11px; font-weight: 500;">
+                <?php echo esc_html($type_label); ?>
+            </span>
+            <?php
+        }
+        
         if ($column === 'shortcode') {
             $shortcode = '[codeweber_form id="' . esc_attr($post_id) . '"]';
             ?>
@@ -204,6 +248,85 @@ class CodeweberFormsCPT {
             </div>
             <?php
         }
+    }
+    
+    /**
+     * Save form type from block attributes
+     * Работает как для обычного сохранения, так и для REST API
+     */
+    public function save_form_type_from_block($post, $request = null, $creating = null) {
+        // Проверяем, что это наш CPT
+        if (is_object($post)) {
+            $post_id = $post->ID;
+            $post_type = $post->post_type;
+            $post_content = $post->post_content;
+        } else {
+            $post_id = $post;
+            $post_obj = get_post($post_id);
+            if (!$post_obj || $post_obj->post_type !== 'codeweber_form') {
+                return;
+            }
+            $post_type = $post_obj->post_type;
+            $post_content = $post_obj->post_content;
+        }
+        
+        if ($post_type !== 'codeweber_form') {
+            return;
+        }
+        
+        // Проверка прав
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+        
+        // Проверка автосохранения
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+        
+        // Извлекаем тип формы из блока
+        $form_type = $this->extract_form_type_from_content($post_content);
+        
+        if ($form_type) {
+            update_post_meta($post_id, '_form_type', $form_type);
+        } else {
+            // Если тип не найден, устанавливаем по умолчанию 'form'
+            // Но только если метаполе еще не установлено (чтобы не перезаписывать при автосохранении)
+            if (!get_post_meta($post_id, '_form_type', true)) {
+                update_post_meta($post_id, '_form_type', 'form');
+            }
+        }
+    }
+    
+    /**
+     * Извлечь тип формы из Gutenberg блоков в post_content
+     * 
+     * @param string $content Post content с Gutenberg блоками
+     * @return string|null Тип формы или null
+     */
+    private function extract_form_type_from_content($content) {
+        if (empty($content) || !has_blocks($content)) {
+            return null;
+        }
+        
+        $blocks = parse_blocks($content);
+        
+        // Ищем блок формы
+        foreach ($blocks as $block) {
+            if ($block['blockName'] === 'codeweber-blocks/form') {
+                // Извлекаем formType из атрибутов блока
+                if (!empty($block['attrs']['formType'])) {
+                    $form_type = sanitize_text_field($block['attrs']['formType']);
+                    // Валидация: разрешенные типы
+                    $allowed_types = ['form', 'newsletter', 'testimonial', 'resume', 'callback'];
+                    if (in_array($form_type, $allowed_types, true)) {
+                        return $form_type;
+                    }
+                }
+            }
+        }
+        
+        return null;
     }
     
     /**
@@ -251,6 +374,44 @@ class CodeweberFormsCPT {
         })(jQuery);
         </script>
         <?php
+    }
+    
+    /**
+     * Запустить миграцию CPT форм, если нужно
+     * 
+     * ВАЖНО: Эта миграция НЕ затрагивает legacy встроенные формы.
+     * Legacy формы (testimonial, newsletter, resume, callback) продолжают
+     * работать через строковые ID и не требуют миграции.
+     * 
+     * Миграция затрагивает ТОЛЬКО CPT формы типа 'codeweber_form'.
+     */
+    public function maybe_run_cpt_migration() {
+        // Проверяем, была ли уже выполнена миграция
+        $migration_done = get_option('codeweber_forms_cpt_migration_done', false);
+        
+        if ($migration_done) {
+            return; // Уже выполнено
+        }
+        
+        // Запускаем миграцию только для администраторов
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+        
+        // Запускаем миграцию в фоне (один раз)
+        // Миграция затрагивает ТОЛЬКО CPT формы типа 'codeweber_form'
+        // Legacy формы (строковые ID) не мигрируются и продолжают работать
+        if (class_exists('CodeweberFormsCPTMigration')) {
+            $results = CodeweberFormsCPTMigration::migrate_all_forms();
+            
+            // Помечаем миграцию как выполненную
+            update_option('codeweber_forms_cpt_migration_done', true);
+            update_option('codeweber_forms_cpt_migration_results', $results);
+            
+            // Логируем
+            error_log('Codeweber Forms: CPT migration completed automatically');
+            error_log('Codeweber Forms: Legacy forms (testimonial, newsletter, etc.) are NOT migrated and continue to work as before');
+        }
     }
 }
 

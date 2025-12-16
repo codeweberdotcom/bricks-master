@@ -448,7 +448,7 @@ class NewsletterSubscriptionAdmin
                   'type'         => 'unsubscribed',
                   'date'         => $now,
                   'source'       => 'admin',
-                  'form_id'      => $subscription->form_id,
+                  'form_id'      => '', // ИСПРАВЛЕНО: при отписке form_id пустой (отписка не через форму)
                   'page_url'     => '', // отписка из админки, страницы нет
                   'actor_user_id'=> get_current_user_id(),
                ];
@@ -652,6 +652,7 @@ class NewsletterSubscriptionAdmin
                   <th style="width: 150px;"><?php _e('Form ID', 'codeweber'); ?></th>
                   <th style="width: 220px;"><?php _e('Subscription Form', 'codeweber'); ?></th>
                   <th style="width: 220px;"><?php _e('Author', 'codeweber'); ?></th>
+                  <th style="width: 130px;"><?php _e('IP Address', 'codeweber'); ?></th>
                   <th style="width: 260px;"><?php _e('Page URL', 'codeweber'); ?></th>
                   <th><?php _e('Consents', 'codeweber'); ?></th>
                </tr>
@@ -659,7 +660,7 @@ class NewsletterSubscriptionAdmin
             <tbody>
                <?php if (empty($events)): ?>
                   <tr>
-                     <td colspan="7">
+                     <td colspan="8">
                         <em><?php _e('No events history recorded for this subscription.', 'codeweber'); ?></em>
                      </td>
                   </tr>
@@ -702,6 +703,15 @@ class NewsletterSubscriptionAdmin
                      } else {
                         // По умолчанию считаем, что действие совершил сам подписчик
                         $author_cell = esc_html($subscription->email);
+                     }
+
+                     // IP-адрес
+                     $ip_cell = '—';
+                     if (!empty($event['ip_address'])) {
+                        $ip_cell = esc_html($event['ip_address']);
+                     } elseif (!empty($subscription->ip_address) && $event['type'] === 'confirmed') {
+                        // Для старых событий без IP в истории, используем IP из основной записи (только для подписок)
+                        $ip_cell = esc_html($subscription->ip_address);
                      }
 
                      // Страница
@@ -757,6 +767,7 @@ class NewsletterSubscriptionAdmin
                         <td><?php echo !empty($event['form_id']) ? esc_html($event['form_id']) : '—'; ?></td>
                         <td><?php echo esc_html($form_label); ?></td>
                         <td><?php echo $author_cell; ?></td>
+                        <td><?php echo $ip_cell; ?></td>
                         <td><?php echo $page_cell; ?></td>
                         <td><?php echo $consents_cell ?: '—'; ?></td>
                      </tr>
@@ -1238,6 +1249,42 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
          'imported'  => __('Imported', 'codeweber'),
       );
 
+      // НОВОЕ: Используем единую функцию для получения типа формы
+      if (class_exists('CodeweberFormsCore')) {
+         // Нормализуем form_id (может быть с префиксом codeweber_form_)
+         $normalized_id = $form_id;
+         if (strpos($form_id, 'codeweber_form_') === 0) {
+            $normalized_id = substr($form_id, strlen('codeweber_form_'));
+         }
+         
+         // ВАЖНО: Если это числовой ID, ВСЕГДА пытаемся получить название из CPT
+         // Это приоритетнее, чем тип формы, так как пользователь видит название формы, а не тип
+         if (is_numeric($normalized_id) && (int) $normalized_id > 0) {
+            $form_post = get_post((int) $normalized_id);
+            if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
+               return $form_post->post_title;
+            }
+         }
+         
+         // Только если не удалось получить название из CPT, используем тип формы
+         // Получаем тип формы
+         $form_type = CodeweberFormsCore::get_form_type($normalized_id);
+         
+         // Маппинг типов на читаемые названия
+         $type_labels = [
+            'form' => __('Regular Form', 'codeweber'),
+            'newsletter' => __('Newsletter Subscription', 'codeweber'),
+            'testimonial' => __('Testimonial Form', 'codeweber'),
+            'resume' => __('Resume Form', 'codeweber'),
+            'callback' => __('Callback Request', 'codeweber'),
+         ];
+         
+         if (isset($type_labels[$form_type])) {
+            return $type_labels[$form_type];
+         }
+      }
+
+      // LEGACY: Fallback для обратной совместимости
       // 0) Встроенные формы, сохранённые без префикса (newsletter, testimonial, resume, callback)
       $builtin_plain = array(
          'newsletter'  => __('Newsletter Subscription', 'codeweber'),
@@ -1289,6 +1336,20 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
       }
 
       // 3) Статические ярлыки
-      return $form_labels[$form_id] ?? $form_id;
+      if (isset($form_labels[$form_id])) {
+         return $form_labels[$form_id];
+      }
+      
+      // 4) КРИТИЧНО: Если form_id числовой (строка или число), пытаемся получить название из CPT
+      // Это должно сработать даже если предыдущие проверки не сработали
+      if (is_numeric($form_id) && (int) $form_id > 0) {
+         $form_post = get_post((int) $form_id);
+         if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
+            return $form_post->post_title;
+         }
+      }
+      
+      // 5) Финальный fallback: возвращаем сам form_id
+      return $form_id;
    }
 }

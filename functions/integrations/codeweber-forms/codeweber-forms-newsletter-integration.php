@@ -101,6 +101,10 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
             $unsubscribe_token = wp_generate_password(32, false);
             $now = current_time('mysql');
             
+            // Получаем IP и User Agent для обновления при реактивации
+            $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
+            $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+            
             // Обновляем историю событий
             $events = [];
             if (!empty($subscription->events_history)) {
@@ -122,6 +126,14 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                 }
             }
             
+            // Если название не получено и form_id числовой, получаем из CPT
+            if (empty($form_name_for_event) && is_numeric($form_id) && $form_id > 0) {
+                $form_post = get_post((int) $form_id);
+                if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
+                    $form_name_for_event = $form_post->post_title;
+                }
+            }
+            
             $normalized_form_id = is_numeric($form_id) ? (string) (int) $form_id : (string) $form_id;
             $event = [
                 'type'      => 'confirmed',
@@ -130,6 +142,7 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                 'form_id'   => $normalized_form_id,
                 'form_name' => $form_name_for_event,
                 'page_url'  => wp_get_referer() ?: home_url($_SERVER['REQUEST_URI'] ?? '/'),
+                'ip_address' => sanitize_text_field($ip_address), // ИСПРАВЛЕНО: сохраняем IP в событии истории
             ];
             
             // Добавляем согласия в событие, если есть
@@ -167,9 +180,13 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
             $events[] = $event;
             
             // Реактивируем подписку
+            // ИСПРАВЛЕНО: обновляем form_id и ip_address на новые из запроса при реактивации
             $updated = $wpdb->update(
                 $table_name,
                 [
+                    'form_id'          => $normalized_form_id, // ИСПРАВЛЕНО: обновляем на новый form_id
+                    'ip_address'       => sanitize_text_field($ip_address), // ИСПРАВЛЕНО: обновляем IP на новый
+                    'user_agent'       => sanitize_textarea_field($user_agent), // ИСПРАВЛЕНО: обновляем user_agent на новый
                     'status'            => 'confirmed',
                     'confirmed_at'      => $now,
                     'unsubscribed_at'   => null,
@@ -178,7 +195,7 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                     'events_history'    => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
                 ],
                 ['id' => $subscription->id],
-                ['%s', '%s', '%s', '%s', '%s', '%s'],
+                ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'],
                 ['%d']
             );
             
@@ -206,7 +223,8 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     
     // Пытаемся получить логическое имя формы:
     // 1) из служебного поля _form_name (прилетает из шорткода name),
-    // 2) либо из таблицы отправок (form_name), как fallback.
+    // 2) из таблицы отправок (form_name),
+    // 3) из CPT поста (post_title), если form_id числовой.
     $form_name_for_event = '';
     if (!empty($form_data['_form_name'])) {
         $form_name_for_event = sanitize_text_field($form_data['_form_name']);
@@ -215,6 +233,14 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
         $submission = $db->get_submission($submission_id);
         if ($submission && !empty($submission->form_name)) {
             $form_name_for_event = $submission->form_name;
+        }
+    }
+    
+    // Если название не получено и form_id числовой, получаем из CPT
+    if (empty($form_name_for_event) && is_numeric($form_id) && $form_id > 0) {
+        $form_post = get_post((int) $form_id);
+        if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
+            $form_name_for_event = $form_post->post_title;
         }
     }
 
@@ -230,6 +256,7 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
             'form_id'  => $normalized_form_id,
             'form_name'=> $form_name_for_event,
             'page_url' => wp_get_referer() ?: home_url($_SERVER['REQUEST_URI'] ?? '/'),
+            'ip_address' => sanitize_text_field($ip_address), // ИСПРАВЛЕНО: сохраняем IP в событии истории
             'consents' => [],
         ],
     ];
@@ -303,12 +330,22 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
 
 /**
  * Проверяет, является ли форма newsletter формой
+ * 
+ * @param int|string $form_id Form ID
+ * @return bool
  */
 function codeweber_forms_is_newsletter_form($form_id) {
     if (!$form_id) {
         return false;
     }
 
+    // НОВОЕ: Используем единую функцию для получения типа формы
+    if (class_exists('CodeweberFormsCore')) {
+        $form_type = CodeweberFormsCore::get_form_type($form_id);
+        return ($form_type === 'newsletter');
+    }
+
+    // LEGACY: Fallback для обратной совместимости (если класс не загружен)
     // Поддержка строкового ключа встроенной формы
     if (is_string($form_id)) {
         $key = strtolower($form_id);

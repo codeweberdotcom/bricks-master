@@ -178,15 +178,49 @@ class CodeweberFormsAPI {
         }
         
         // Валидация полей (передаем form_id для проверки типа формы)
+        error_log('=== FORM SUBMIT API START ===');
+        error_log('Form ID: ' . print_r($form_id, true));
+        error_log('Form ID type: ' . (is_numeric($form_id) ? 'numeric (CPT)' : 'string (legacy)'));
+        error_log('Form settings: ' . print_r($form_settings, true));
+        error_log('Fields: ' . print_r($fields, true));
+        error_log('Submitted newsletter_consents: ' . print_r($submitted_newsletter_consents, true));
+        
         $validation_result = $this->validate_fields($fields, $form_settings, $form_id);
         if (!$validation_result['valid']) {
+            error_log('Field validation failed: ' . $validation_result['message']);
             return new WP_Error('validation_failed', $validation_result['message'], ['status' => 400]);
         }
+        error_log('Field validation passed');
         
         // Валидация согласий для newsletter формы (как в форме отзывов)
         if (codeweber_forms_is_newsletter_form($form_id) && function_exists('codeweber_forms_validate_consents')) {
-            $all_consents = get_option('builtin_form_consents', []);
-            $newsletter_consents_config = isset($all_consents['newsletter']) ? $all_consents['newsletter'] : [];
+            error_log('=== NEWSLETTER CONSENTS VALIDATION START ===');
+            error_log('Form ID: ' . print_r($form_id, true));
+            error_log('Form ID type: ' . (is_numeric($form_id) ? 'numeric (CPT)' : 'string (legacy)'));
+            
+            // НОВОЕ: Для CPT форм согласия извлекаются из блоков формы, а не из глобальных настроек
+            $newsletter_consents_config = [];
+            
+            if (is_numeric($form_id)) {
+                // CPT форма - извлекаем согласия из блоков form-field с типом consents_block
+                error_log('CPT form - extracting consents from blocks');
+                if (class_exists('CodeweberFormsCore')) {
+                    $newsletter_consents_config = CodeweberFormsCore::extract_consents_from_blocks($form_id);
+                    error_log('Extracted consents from blocks: ' . print_r($newsletter_consents_config, true));
+                } else {
+                    error_log('CodeweberFormsCore class not found - cannot extract consents from blocks');
+                }
+            } else {
+                // LEGACY: Для встроенных форм (строковый ID) используем глобальные настройки
+                error_log('Legacy form - using global builtin_form_consents');
+                $all_consents = get_option('builtin_form_consents', []);
+                $newsletter_consents_config = isset($all_consents['newsletter']) ? $all_consents['newsletter'] : [];
+                error_log('Legacy consents config: ' . print_r($newsletter_consents_config, true));
+            }
+            
+            error_log('Final consents config: ' . print_r($newsletter_consents_config, true));
+            error_log('Consents config is array: ' . (is_array($newsletter_consents_config) ? 'YES' : 'NO'));
+            error_log('Consents config is empty: ' . (empty($newsletter_consents_config) ? 'YES' : 'NO'));
             
             if (!empty($newsletter_consents_config) && is_array($newsletter_consents_config)) {
                 // Получаем обязательные согласия
@@ -197,10 +231,16 @@ class CodeweberFormsAPI {
                     }
                 }
                 
+                error_log('Required consents (document IDs): ' . print_r($required_consents, true));
+                
                 // Получаем отправленные согласия (из параметра или из fields)
                 $submitted_consents = [];
+                error_log('Submitted newsletter_consents parameter: ' . print_r($submitted_newsletter_consents, true));
+                error_log('Fields newsletter_consents: ' . print_r(isset($fields['newsletter_consents']) ? $fields['newsletter_consents'] : 'NOT SET', true));
+                
                 // Сначала проверяем параметр запроса
                 if (!empty($submitted_newsletter_consents) && is_array($submitted_newsletter_consents)) {
+                    error_log('Processing newsletter_consents from request parameter');
                     // Преобразуем в формат для валидации (простой массив doc_id => '1')
                     foreach ($submitted_newsletter_consents as $doc_id => $value) {
                         if (is_array($value) && isset($value['value'])) {
@@ -212,6 +252,7 @@ class CodeweberFormsAPI {
                 } 
                 // Затем проверяем в fields
                 if (empty($submitted_consents) && isset($fields['newsletter_consents']) && is_array($fields['newsletter_consents'])) {
+                    error_log('Processing newsletter_consents from fields');
                     // Преобразуем в формат для валидации
                     foreach ($fields['newsletter_consents'] as $doc_id => $value) {
                         if (is_array($value) && isset($value['value'])) {
@@ -222,21 +263,38 @@ class CodeweberFormsAPI {
                     }
                 }
                 
-                error_log('Newsletter consents validation - Required: ' . print_r($required_consents, true));
-                error_log('Newsletter consents validation - Submitted: ' . print_r($submitted_consents, true));
+                error_log('Final submitted consents (after processing): ' . print_r($submitted_consents, true));
+                error_log('Submitted consents keys (document IDs): ' . print_r(array_keys($submitted_consents), true));
                 
                 // Валидация
                 if (!empty($required_consents)) {
+                    error_log('Running validation function...');
                     $validation = codeweber_forms_validate_consents($submitted_consents, $required_consents);
+                    error_log('Validation result: ' . print_r($validation, true));
+                    
                     if (!$validation['valid']) {
+                        error_log('VALIDATION FAILED - Missing required consents');
+                        error_log('=== NEWSLETTER CONSENTS VALIDATION END (FAILED) ===');
                         return new WP_Error(
                             'consent_required',
                             __('Please accept all required consents.', 'codeweber'),
                             ['status' => 400]
                         );
+                    } else {
+                        error_log('VALIDATION PASSED');
                     }
+                } else {
+                    error_log('No required consents configured - skipping validation');
                 }
+            } else {
+                error_log('No consents config found or config is not an array - skipping validation');
             }
+            
+            error_log('=== NEWSLETTER CONSENTS VALIDATION END (SUCCESS) ===');
+        } else {
+            error_log('Form is NOT newsletter form or validate_consents function not available');
+            error_log('codeweber_forms_is_newsletter_form result: ' . (function_exists('codeweber_forms_is_newsletter_form') ? (codeweber_forms_is_newsletter_form($form_id) ? 'TRUE' : 'FALSE') : 'FUNCTION NOT EXISTS'));
+            error_log('codeweber_forms_validate_consents function exists: ' . (function_exists('codeweber_forms_validate_consents') ? 'YES' : 'NO'));
         }
         
         // Исключаем newsletter_consents из fields перед санитизацией
@@ -337,6 +395,10 @@ class CodeweberFormsAPI {
                     if ($subscription->status === 'unsubscribed') {
                         $unsubscribe_token = wp_generate_password(32, false);
 
+                        // Получаем IP и User Agent для обновления при реактивации
+                        $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
+                        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+
                         // Обновляем историю событий (events_history)
                         $events = [];
                         if (!empty($subscription->events_history)) {
@@ -346,15 +408,30 @@ class CodeweberFormsAPI {
                             }
                         }
                         $now = current_time('mysql');
+                        
+                        // Получаем название формы для события
+                        $form_name_for_event = '';
+                        if (!empty($form_name_from_request)) {
+                            $form_name_for_event = sanitize_text_field($form_name_from_request);
+                        } elseif (is_numeric($form_id) && $form_id > 0) {
+                            // Если название не пришло в запросе, получаем из CPT
+                            $form_post = get_post((int) $form_id);
+                            if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
+                                $form_name_for_event = $form_post->post_title;
+                            }
+                        }
+                        
+                        // Нормализуем form_id для события (используем НОВЫЙ из запроса, а не старый из базы)
+                        $normalized_form_id = is_numeric($form_id) ? (string) (int) $form_id : (string) $form_id;
+                        
                         $event = [
                             'type'      => 'confirmed',
                             'date'      => $now,
                             'source'    => 'codeweber_form_resubscribe',
-                            'form_id'   => $subscription->form_id,
-                            // Если из запроса пришло логическое имя формы (name из шорткода),
-                            // сохраняем его в истории событий; иначе оставляем пустым.
-                            'form_name' => !empty($form_name_from_request) ? $form_name_from_request : '',
+                            'form_id'   => $normalized_form_id, // ИСПРАВЛЕНО: используем новый form_id из запроса
+                            'form_name' => $form_name_for_event, // ИСПРАВЛЕНО: получаем название из CPT если нужно
                             'page_url'  => wp_get_referer() ?: home_url($_SERVER['REQUEST_URI'] ?? '/'),
+                            'ip_address' => sanitize_text_field($ip_address), // ИСПРАВЛЕНО: сохраняем IP в событии истории
                         ];
 
                         // Если в текущем запросе есть согласия, добавляем их в событие
@@ -405,14 +482,20 @@ class CodeweberFormsAPI {
                         $events[] = $event;
 
                         // ВАЖНО: не затираем confirmed_at и unsubscribed_at, чтобы сохранялась история.
-                        // Обновляем только статус, updated_at, новый unsubscribe_token и историю событий.
+                        // Обновляем статус, form_id (на новый из запроса), ip_address, updated_at, новый unsubscribe_token и историю событий.
                         // При повторной подписке через форму codeweber:
                         // - статус: confirmed
+                        // - form_id: обновляем на новый из запроса (ИСПРАВЛЕНО)
+                        // - ip_address: обновляем на новый (ИСПРАВЛЕНО)
                         // - confirmed_at: дата последней подписки
                         // - unsubscribed_at: очищаем (пользователь снова подписан)
+                        $normalized_form_id = is_numeric($form_id) ? (string) (int) $form_id : (string) $form_id;
                         $updated = $wpdb->update(
                             $table_name,
                             [
+                                'form_id'          => $normalized_form_id, // ИСПРАВЛЕНО: обновляем на новый form_id
+                                'ip_address'       => sanitize_text_field($ip_address), // ИСПРАВЛЕНО: обновляем IP на новый
+                                'user_agent'       => sanitize_textarea_field($user_agent), // ИСПРАВЛЕНО: обновляем user_agent на новый
                                 'status'            => 'confirmed',
                                 'confirmed_at'      => $now,
                                 'unsubscribed_at'   => null,
@@ -421,7 +504,7 @@ class CodeweberFormsAPI {
                                 'events_history'    => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
                             ],
                             ['id' => $subscription->id],
-                            ['%s', '%s', '%s', '%s', '%s', '%s'],
+                            ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'],
                             ['%d']
                         );
 
@@ -610,6 +693,9 @@ class CodeweberFormsAPI {
         } else {
             $success_message = $form_settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
         }
+        
+        error_log('=== FORM SUBMIT API END (SUCCESS) ===');
+        error_log('Submission ID: ' . $submission_id);
         
         return new WP_REST_Response([
             'success' => true,
@@ -948,9 +1034,32 @@ class CodeweberFormsAPI {
     }
     
     /**
-     * Detect form type based on form_id and form_name
+     * Detect form type based on form_id and form_settings
+     * 
+     * НОВОЕ: Использует единую функцию get_form_type() для определения типа
      */
     private function detect_form_type($form_id, $form_settings) {
+        // НОВОЕ: Используем единую функцию для получения типа формы
+        if (class_exists('CodeweberFormsCore')) {
+            $form_type = CodeweberFormsCore::get_form_type($form_id, ['settings' => $form_settings]);
+            
+            // Маппинг типов форм на типы автоответов
+            switch ($form_type) {
+                case 'testimonial':
+                    return 'testimonial';
+                case 'resume':
+                    return 'resume';
+                case 'newsletter':
+                    return 'newsletter';
+                case 'callback':
+                    return 'callback';
+                case 'form':
+                default:
+                    return 'auto_reply';
+            }
+        }
+        
+        // LEGACY: Fallback для обратной совместимости
         $form_name = strtolower($form_settings['formTitle'] ?? '');
         $form_id_str = strtolower($form_id);
         

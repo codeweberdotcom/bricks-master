@@ -430,6 +430,34 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
      * @return string
      */
     private function get_form_label(string $form_id): string {
+        // НОВОЕ: Используем единую функцию для получения типа формы
+        if (class_exists('CodeweberFormsCore')) {
+            $form_type = CodeweberFormsCore::get_form_type($form_id);
+            
+            // Маппинг типов на читаемые названия
+            $type_labels = [
+                'form' => __('Regular Form', 'codeweber'),
+                'newsletter' => __('Newsletter Subscription', 'codeweber'),
+                'testimonial' => __('Testimonial Form', 'codeweber'),
+                'resume' => __('Resume Form', 'codeweber'),
+                'callback' => __('Callback Request', 'codeweber'),
+            ];
+            
+            // Если это CPT форма, получаем название из поста
+            if (is_numeric($form_id)) {
+                $form_post = get_post((int) $form_id);
+                if ($form_post && $form_post->post_type === 'codeweber_form') {
+                    return $form_post->post_title;
+                }
+            }
+            
+            // Для legacy встроенных форм используем тип
+            if (isset($type_labels[$form_type])) {
+                return $type_labels[$form_type];
+            }
+        }
+        
+        // LEGACY: Fallback для обратной совместимости
         // Встроенные формы (newsletter, testimonial, resume, callback)
         $builtin_forms = [
             'newsletter'  => __('Newsletter Subscription', 'codeweber'),

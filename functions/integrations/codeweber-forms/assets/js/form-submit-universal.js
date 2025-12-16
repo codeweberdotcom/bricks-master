@@ -296,8 +296,45 @@
             customValidation: null
         };
 
-        // Testimonial form
-        if (form.id === 'testimonial-form' || form.classList.contains('testimonial-form')) {
+        // НОВОЕ: Приоритет 1 - определяем тип из data-form-type атрибута
+        const formType = form.dataset.formType;
+        
+        if (formType) {
+            // Используем тип из атрибута
+            config.formId = form.dataset.formId || form.id.replace('form-', '');
+            config.formName = form.dataset.formName || '';
+            
+            // Настраиваем конфигурацию в зависимости от типа
+            switch (formType) {
+                case 'testimonial':
+                    config.type = 'testimonial';
+                    config.apiEndpoint = codeweberTestimonialForm?.restUrl || '/wp-json/codeweber/v1/submit-testimonial';
+                    config.nonceField = 'testimonial_nonce';
+                    config.nonceAction = 'submit_testimonial';
+                    config.consentPrefix = 'testimonial_consents';
+                    config.messagesContainer = '.testimonial-form-messages';
+                    config.messagesClass = 'testimonial-form-messages';
+                    config.customValidation = validateTestimonialForm;
+                    break;
+                    
+                case 'newsletter':
+                case 'resume':
+                case 'callback':
+                case 'form':
+                default:
+                    // Все типы форм Codeweber используют единый API
+                    config.type = 'codeweber';
+                    config.apiEndpoint = (codeweberForms?.restUrl || '/wp-json/codeweber-forms/v1/') + 'submit';
+                    config.nonceField = 'form_nonce';
+                    config.nonceAction = 'codeweber_form_submit';
+                    config.consentPrefix = 'newsletter_consents';
+                    config.messagesContainer = '.form-messages';
+                    config.messagesClass = 'form-messages';
+                    break;
+            }
+        }
+        // LEGACY: Обратная совместимость - проверка по ID и классам
+        else if (form.id === 'testimonial-form' || form.classList.contains('testimonial-form')) {
             config.type = 'testimonial';
             config.formId = 'testimonial-form';
             config.apiEndpoint = codeweberTestimonialForm?.restUrl || '/wp-json/codeweber/v1/submit-testimonial';
@@ -307,9 +344,8 @@
             config.messagesContainer = '.testimonial-form-messages';
             config.messagesClass = 'testimonial-form-messages';
             config.customValidation = validateTestimonialForm;
-            // onSuccess убран - обработка через универсальный хук codeweberFormSubmitted
         }
-        // Codeweber forms (newsletter, etc.)
+        // LEGACY: Codeweber forms (newsletter, etc.)
         else if (form.classList.contains('codeweber-form')) {
             config.type = 'codeweber';
             config.formId = form.dataset.formId || form.id.replace('form-', '');
@@ -320,7 +356,6 @@
             config.consentPrefix = 'newsletter_consents';
             config.messagesContainer = '.form-messages';
             config.messagesClass = 'form-messages';
-            // onSuccess убран - обработка через универсальный хук codeweberFormSubmitted
         }
 
         return config;

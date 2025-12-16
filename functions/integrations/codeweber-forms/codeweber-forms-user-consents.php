@@ -395,23 +395,44 @@ function codeweber_forms_save_consents_on_submit($submission_id, $form_id, $form
             $form_name = $submission->form_name;
         }
     }
-    // 3) Из form_id для встроенных форм (строковые ключи)
-    if (empty($form_name) && is_string($form_id) && !empty($form_id)) {
-        $builtin_labels = [
-            'testimonial' => __('Testimonial Form', 'codeweber'),
-            'newsletter' => __('Newsletter Subscription', 'codeweber'),
-            'resume' => __('Resume Form', 'codeweber'),
-            'callback' => __('Callback Request', 'codeweber'),
-        ];
-        if (isset($builtin_labels[$form_id])) {
-            $form_name = $builtin_labels[$form_id];
+    // 3) НОВОЕ: Используем единую функцию для получения названия формы
+    if (empty($form_name)) {
+        // Если это числовой ID, получаем название из CPT
+        if (is_numeric($form_id) && $form_id > 0) {
+            $form_post = get_post($form_id);
+            if ($form_post && $form_post->post_type === 'codeweber_form') {
+                $form_name = $form_post->post_title;
+            }
         }
-    }
-    // 4) Из CPT формы по ID
-    elseif (empty($form_name) && is_numeric($form_id) && $form_id > 0) {
-        $form_post = get_post($form_id);
-        if ($form_post && $form_post->post_type === 'codeweber_form') {
-            $form_name = $form_post->post_title;
+        
+        // Если название не получено, используем get_form_type() для определения типа
+        if (empty($form_name) && class_exists('CodeweberFormsCore')) {
+            $form_type = CodeweberFormsCore::get_form_type($form_id);
+            
+            $type_labels = [
+                'form' => __('Regular Form', 'codeweber'),
+                'newsletter' => __('Newsletter Subscription', 'codeweber'),
+                'testimonial' => __('Testimonial Form', 'codeweber'),
+                'resume' => __('Resume Form', 'codeweber'),
+                'callback' => __('Callback Request', 'codeweber'),
+            ];
+            
+            if (isset($type_labels[$form_type])) {
+                $form_name = $type_labels[$form_type];
+            }
+        }
+        
+        // LEGACY: Fallback для обратной совместимости
+        if (empty($form_name) && is_string($form_id) && !empty($form_id)) {
+            $builtin_labels = [
+                'testimonial' => __('Testimonial Form', 'codeweber'),
+                'newsletter' => __('Newsletter Subscription', 'codeweber'),
+                'resume' => __('Resume Form', 'codeweber'),
+                'callback' => __('Callback Request', 'codeweber'),
+            ];
+            if (isset($builtin_labels[$form_id])) {
+                $form_name = $builtin_labels[$form_id];
+            }
         }
     }
     

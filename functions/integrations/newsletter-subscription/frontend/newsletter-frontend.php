@@ -133,7 +133,7 @@ class NewsletterSubscriptionFrontend
          'type'    => 'unsubscribed',
          'date'    => $now,
          'source'  => 'frontend',
-         'form_id' => $subscription ? $subscription->form_id : '',
+         'form_id' => '', // ИСПРАВЛЕНО: при отписке form_id пустой (отписка не через форму)
          'page_url'=> wp_get_referer() ?: home_url($_SERVER['REQUEST_URI'] ?? '/'),
       ];
 

@@ -842,3 +842,23 @@ msgstr "Настройте чекбоксы согласий для формы �
 msgid "Note: {form_id} will be automatically replaced with \"0\" (testimonial form ID) when the form is rendered."
 msgstr "Примечание: {form_id} будет автоматически заменен на \"0\" (ID формы отзыва) при рендеринге формы."
 
+#: codeweber-forms-cpt.php:185
+msgid "Form Type"
+msgstr "Тип формы"
+
+#: codeweber-forms-cpt.php:208
+msgid "Regular Form"
+msgstr "Обычная форма"
+
+#: codeweber-forms-cpt.php:209
+msgid "Newsletter Subscription"
+msgstr "Подписка на рассылку"
+
+#: codeweber-forms-cpt.php:211
+msgid "Resume Form"
+msgstr "Форма резюме"
+
+#: codeweber-forms-cpt.php:212
+msgid "Callback Request"
+msgstr "Запрос обратного звонка"
+

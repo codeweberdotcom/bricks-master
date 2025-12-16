@@ -21,6 +21,7 @@ require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-gutenberg-restrictions.php
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-block-selector.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-database.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-core.php';
+require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-migrate-cpt-types.php'; // НОВОЕ: Скрипт миграции CPT форм
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-api.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-validator.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-sanitizer.php';

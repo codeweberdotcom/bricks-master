@@ -46,8 +46,13 @@ class CodeweberFormsShortcode {
             if (!$form_config) {
                 return '<p>' . __('Form not found.', 'codeweber') . '</p>';
             }
+            
+            // НОВОЕ: Получаем тип формы автоматически
+            $form_type = CodeweberFormsCore::get_form_type($form_id, $form_config);
+            $form_config['type'] = $form_type;
+            
         } else {
-            // Вариант 2: встроенная форма по строковому ключу
+            // Вариант 2: встроенная форма по строковому ключу (legacy)
             $builtin_labels = [
                 'testimonial' => __('Testimonial Form', 'codeweber'),
                 'resume'      => __('Resume Form', 'codeweber'),
@@ -62,6 +67,7 @@ class CodeweberFormsShortcode {
             $form_config = [
                 'id'       => $raw_id,
                 'name'     => $form_title,
+                'type'     => $raw_id, // Для legacy встроенных форм тип = ID
                 'fields'   => [],
                 'settings' => [
                     // formTitle — заголовок формы во фронтенде
@@ -139,6 +145,11 @@ class CodeweberFormsShortcode {
                 // Извлекаем настройки формы из атрибутов блока
                 if (!empty($form_block['attrs'])) {
                     $config['settings'] = array_merge($config['settings'], $form_block['attrs']);
+                    
+                    // НОВОЕ: Извлекаем тип формы из блока
+                    if (!empty($form_block['attrs']['formType'])) {
+                        $config['type'] = sanitize_text_field($form_block['attrs']['formType']);
+                    }
                 }
                 
                 // Извлекаем поля из innerBlocks
@@ -156,6 +167,14 @@ class CodeweberFormsShortcode {
                         $config['fields'][] = $block['attrs'];
                     }
                 }
+            }
+        }
+        
+        // НОВОЕ: Если тип не найден в блоке, получаем из метаполя
+        if (empty($config['type'])) {
+            $form_type = get_post_meta($post->ID, '_form_type', true);
+            if (!empty($form_type)) {
+                $config['type'] = $form_type;
             }
         }
         

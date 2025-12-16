@@ -26,6 +26,44 @@ class CodeweberFormsBuiltinSettings {
         ];
     }
     
+    /**
+     * НОВОЕ: Получить формы из CPT, сгруппированные по типу
+     * 
+     * @return array Массив [form_type => [WP_Post, ...]]
+     */
+    private function get_cpt_forms_by_type() {
+        $forms_by_type = [
+            'newsletter' => [],
+            'testimonial' => [],
+            'resume' => [],
+            'callback' => [],
+        ];
+        
+        // Получаем все формы из CPT
+        $cpt_forms = get_posts([
+            'post_type' => 'codeweber_form',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+        ]);
+        
+        foreach ($cpt_forms as $form_post) {
+            // Получаем тип формы
+            $form_type = 'form'; // По умолчанию
+            if (class_exists('CodeweberFormsCore')) {
+                $form_type = CodeweberFormsCore::get_form_type($form_post->ID);
+            } else {
+                $form_type = get_post_meta($form_post->ID, '_form_type', true) ?: 'form';
+            }
+            
+            // Добавляем только формы специальных типов (не обычные)
+            if (isset($forms_by_type[$form_type])) {
+                $forms_by_type[$form_type][] = $form_post;
+            }
+        }
+        
+        return $forms_by_type;
+    }
+    
     public function __construct() {
         add_action('admin_menu', [$this, 'add_admin_menu']);
         // Migrate old testimonial settings if needed
@@ -91,6 +129,9 @@ class CodeweberFormsBuiltinSettings {
         
         $builtin_forms = $this->get_builtin_forms();
         
+        // НОВОЕ: Получаем формы из CPT с соответствующими типами
+        $cpt_forms_by_type = $this->get_cpt_forms_by_type();
+        
         // Get all saved consents for all forms
         $all_consents = get_option($this->option_name, []);
         if (!is_array($all_consents)) {
@@ -103,19 +144,33 @@ class CodeweberFormsBuiltinSettings {
         ?>
         <div class="wrap">
             <h1><?php _e('Built-in Forms Settings', 'codeweber'); ?></h1>
+            <p class="description"><?php _e('Configure consent settings for built-in form types. Forms from CPT with matching types are also shown here.', 'codeweber'); ?></p>
             
             <form method="post" action="">
                 <?php wp_nonce_field('save_builtin_consents', 'builtin_consents_nonce'); ?>
                 
                 <div id="forms-container">
                     <?php
-                    // Render all forms with their consents
+                    // Render legacy built-in forms
                     foreach ($builtin_forms as $form_key => $form_label) {
                         $consents = isset($all_consents[$form_key]) ? $all_consents[$form_key] : [];
                         if (!is_array($consents)) {
                             $consents = [];
                         }
-                        $this->render_form_block($form_key, $form_label, $consents, $all_documents, $builtin_forms);
+                        $this->render_form_block($form_key, $form_label, $consents, $all_documents, $builtin_forms, true);
+                    }
+                    
+                    // НОВОЕ: Render CPT forms grouped by type
+                    foreach ($cpt_forms_by_type as $form_type => $forms) {
+                        foreach ($forms as $form_post) {
+                            $form_key = 'cpt_' . $form_post->ID;
+                            $form_label = $form_post->post_title . ' (ID: ' . $form_post->ID . ')';
+                            $consents = isset($all_consents[$form_key]) ? $all_consents[$form_key] : [];
+                            if (!is_array($consents)) {
+                                $consents = [];
+                            }
+                            $this->render_form_block($form_key, $form_label, $consents, $all_documents, $builtin_forms, false, $form_type, $form_post->ID);
+                        }
                     }
                     ?>
                 </div>
@@ -448,14 +503,26 @@ class CodeweberFormsBuiltinSettings {
     
     /**
      * Render form block with consents
+     * 
+     * @param string $form_key Ключ формы (legacy или cpt_ID)
+     * @param string $form_label Название формы
+     * @param array $consents Массив согласий
+     * @param array $all_documents Все доступные документы
+     * @param array $builtin_forms Список встроенных форм
+     * @param bool $is_builtin Является ли форма встроенной (legacy)
+     * @param string|null $form_type Тип формы (для CPT форм)
+     * @param int|null $cpt_id ID формы в CPT (для CPT форм)
      */
-    private function render_form_block($form_key, $form_label, $consents, $all_documents, $builtin_forms) {
+    private function render_form_block($form_key, $form_label, $consents, $all_documents, $builtin_forms, $is_builtin = false, $form_type = null, $cpt_id = null) {
         static $form_index = 0;
+        $form_index++;
         ?>
         <?php
-        // Определяем, является ли форма встроенной
+        // Определяем, является ли форма встроенной (legacy)
         $builtin_form_keys = ['testimonial', 'resume', 'newsletter', 'callback'];
-        $is_builtin = in_array($form_key, $builtin_form_keys);
+        if ($is_builtin === null) {
+            $is_builtin = in_array($form_key, $builtin_form_keys);
+        }
         $block_class = $is_builtin ? 'form-block builtin-form' : 'form-block';
         $block_style = $is_builtin 
             ? 'border: 2px solid #00a32a; padding: 20px; margin-bottom: 20px; background: #f0f6fc; border-radius: 4px; max-width: 100%;' 
@@ -486,21 +553,26 @@ class CodeweberFormsBuiltinSettings {
             <div class="cw-form-body">
                 <p class="description" style="margin: 4px 0 12px 4px;">
                     <?php
-                    // Базовый шорткод по ключу встроенной формы
+                    // НОВОЕ: Шорткод зависит от типа формы (CPT или legacy)
+                    $shortcode_id = $cpt_id ? $cpt_id : $form_key;
                     printf(
                         __('Shortcode for this form: %s', 'codeweber'),
-                        '<code>[codeweber_form id=&quot;' . esc_attr($form_key) . '&quot;]</code>'
+                        '<code>[codeweber_form id=&quot;' . esc_attr($shortcode_id) . '&quot;]</code>'
                     );
                     echo '<br>';
                     // Пример с использованием name и title
                     printf(
                         __('With custom name and title: %s', 'codeweber'),
-                        '<code>[codeweber_form id=&quot;' . esc_attr($form_key) . '&quot; name=&quot;Form name here&quot; title=&quot;Form title here&quot;]</code>'
+                        '<code>[codeweber_form id=&quot;' . esc_attr($shortcode_id) . '&quot; name=&quot;Form name here&quot; title=&quot;Form title here&quot;]</code>'
                     );
                     ?>
                 </p>
                 
                 <input type="hidden" name="form_blocks[<?php echo $form_index; ?>][form_key]" value="<?php echo esc_attr($form_key); ?>">
+                <?php if ($cpt_id): ?>
+                <input type="hidden" name="form_blocks[<?php echo $form_index; ?>][cpt_id]" value="<?php echo esc_attr($cpt_id); ?>">
+                <input type="hidden" name="form_blocks[<?php echo $form_index; ?>][form_type]" value="<?php echo esc_attr($form_type); ?>">
+                <?php endif; ?>
                 
                 <div class="consents-list" style="margin-top: 20px;">
                     <?php if (!empty($consents)): ?>
@@ -516,7 +588,6 @@ class CodeweberFormsBuiltinSettings {
             </div>
         </div>
         <?php
-        $form_index++;
     }
     
     /**
@@ -618,9 +689,24 @@ class CodeweberFormsBuiltinSettings {
             // Process each form block
             foreach ($_POST['form_blocks'] as $block) {
                 $form_key = sanitize_text_field($block['form_key'] ?? '');
+                $cpt_id = !empty($block['cpt_id']) ? intval($block['cpt_id']) : null;
                 
-                // Validate form key
-                if (empty($form_key) || !isset($builtin_forms[$form_key])) {
+                // НОВОЕ: Валидация для legacy и CPT форм
+                if (empty($form_key)) {
+                    continue;
+                }
+                
+                // Проверяем, является ли это legacy формой
+                $is_legacy = isset($builtin_forms[$form_key]);
+                
+                // Если это CPT форма, проверяем существование
+                if (!$is_legacy && $cpt_id) {
+                    $form_post = get_post($cpt_id);
+                    if (!$form_post || $form_post->post_type !== 'codeweber_form') {
+                        continue;
+                    }
+                } elseif (!$is_legacy) {
+                    // Если не legacy и нет CPT ID, пропускаем
                     continue;
                 }
                 
