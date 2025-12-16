@@ -758,10 +758,37 @@ class CodeweberFormsBuiltinSettings {
      * AJAX handler to get default consent label for a document
      */
     public function ajax_get_default_label() {
-        check_ajax_referer('codeweber_forms_default_label', 'nonce');
+        // Check nonce - try both AJAX nonce and REST API nonce
+        $nonce_valid = false;
+        if (isset($_POST['nonce'])) {
+            // Try AJAX nonce first
+            $nonce_valid = wp_verify_nonce($_POST['nonce'], 'codeweber_forms_default_label');
+            // If AJAX nonce fails, try REST API nonce (for Gutenberg editor)
+            if (!$nonce_valid && function_exists('wp_verify_nonce')) {
+                $nonce_valid = wp_verify_nonce($_POST['nonce'], 'wp_rest');
+            }
+        }
         
-        if (!current_user_can('manage_options')) {
+        // For Gutenberg editor, also check user capability
+        if (!$nonce_valid && current_user_can('edit_posts')) {
+            // Allow if user can edit posts (Gutenberg editor users)
+            $nonce_valid = true;
+        }
+        
+        if (!$nonce_valid) {
+            wp_send_json_error(['message' => __('Security check failed', 'codeweber')]);
+        }
+        
+        if (!current_user_can('manage_options') && !current_user_can('edit_posts')) {
             wp_send_json_error(['message' => __('Unauthorized', 'codeweber')]);
+        }
+        
+        // Загружаем переводы из основного файла темы перед получением метки
+        // Это необходимо для правильной локализации текстов согласий
+        $locale = get_locale();
+        $theme_mofile = get_template_directory() . '/languages/' . $locale . '.mo';
+        if (file_exists($theme_mofile)) {
+            load_textdomain('codeweber', $theme_mofile);
         }
         
         $document_id = isset($_POST['document_id']) ? intval($_POST['document_id']) : 0;

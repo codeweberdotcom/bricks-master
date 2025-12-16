@@ -22,6 +22,7 @@ class CodeweberFormsGutenbergRestrictions {
             // Блоки форм (обязательные)
             'codeweber-blocks/form',
             'codeweber-blocks/form-field',
+            'codeweber-blocks/submit-button',
             
             // Дополнительные блоки для структуры (опционально)
             'codeweber-blocks/section',
@@ -51,6 +52,7 @@ class CodeweberFormsGutenbergRestrictions {
         return [
             'codeweber-blocks/form',
             'codeweber-blocks/form-field',
+            'codeweber-blocks/submit-button',
         ];
     }
     

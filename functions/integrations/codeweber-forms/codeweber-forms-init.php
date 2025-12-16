@@ -106,7 +106,7 @@ add_action('init', function() {
         new CodeweberFormsAdmin();
         new CodeweberFormsSettings();
         new CodeweberFormsSubmissions();
-        new CodeweberFormsConsentMetabox();
+        // new CodeweberFormsConsentMetabox(); // Отключено - согласия настраиваются через блок Form Field
         new CodeweberFormsBuiltinSettings();
         
         // Ограничения Gutenberg редактора для CPT форм

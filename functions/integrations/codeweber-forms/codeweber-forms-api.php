@@ -620,6 +620,12 @@ class CodeweberFormsAPI {
     
     /**
      * Get form settings
+     * 
+     * Priority order:
+     * 1. Block attributes (from post_content)
+     * 2. Post meta fields (_codeweber_form_*)
+     * 3. Global settings (codeweber_forms_options)
+     * 4. Default values
      */
     private function get_form_settings($form_id) {
         // Получаем настройки по умолчанию из админки
@@ -629,14 +635,61 @@ class CodeweberFormsAPI {
         if (is_numeric($form_id)) {
             $post = get_post($form_id);
             if ($post && $post->post_type === 'codeweber_form') {
+                // Извлекаем настройки из атрибутов блока (приоритет 1)
+                $block_attrs = [];
+                if (has_blocks($post->post_content)) {
+                    $blocks = parse_blocks($post->post_content);
+                    foreach ($blocks as $block) {
+                        if ($block['blockName'] === 'codeweber-blocks/form' && !empty($block['attrs'])) {
+                            $block_attrs = $block['attrs'];
+                            break;
+                        }
+                    }
+                }
+                
+                // Получаем метаполя поста (приоритет 2)
+                $post_meta = [
+                    'recipientEmail' => get_post_meta($post->ID, '_codeweber_form_recipient_email', true),
+                    'senderEmail' => get_post_meta($post->ID, '_codeweber_form_sender_email', true),
+                    'senderName' => get_post_meta($post->ID, '_codeweber_form_sender_name', true),
+                    'subject' => get_post_meta($post->ID, '_codeweber_form_subject', true),
+                    'successMessage' => get_post_meta($post->ID, '_codeweber_form_success_message', true),
+                    'errorMessage' => get_post_meta($post->ID, '_codeweber_form_error_message', true),
+                ];
+                
+                // Применяем приоритет: блок -> метаполя -> глобальные -> дефолты
                 return [
                     'formTitle' => $post->post_title,
-                    'recipientEmail' => get_post_meta($post->ID, '_codeweber_form_recipient_email', true) ?: ($default_options['default_recipient_email'] ?? get_option('admin_email')),
-                    'senderEmail' => get_post_meta($post->ID, '_codeweber_form_sender_email', true) ?: ($default_options['default_sender_email'] ?? get_option('admin_email')),
-                    'senderName' => get_post_meta($post->ID, '_codeweber_form_sender_name', true) ?: ($default_options['default_sender_name'] ?? get_bloginfo('name')),
-                    'subject' => get_post_meta($post->ID, '_codeweber_form_subject', true) ?: ($default_options['default_subject'] ?? __('New Form Submission', 'codeweber')),
-                    'successMessage' => get_post_meta($post->ID, '_codeweber_form_success_message', true) ?: ($default_options['success_message'] ?? __('Thank you! Your message has been sent.', 'codeweber')),
-                    'errorMessage' => get_post_meta($post->ID, '_codeweber_form_error_message', true) ?: ($default_options['error_message'] ?? __('An error occurred. Please try again.', 'codeweber')),
+                    'recipientEmail' => !empty($block_attrs['recipientEmail']) 
+                        ? $block_attrs['recipientEmail'] 
+                        : (!empty($post_meta['recipientEmail']) 
+                            ? $post_meta['recipientEmail'] 
+                            : ($default_options['default_recipient_email'] ?? get_option('admin_email'))),
+                    'senderEmail' => !empty($block_attrs['senderEmail']) 
+                        ? $block_attrs['senderEmail'] 
+                        : (!empty($post_meta['senderEmail']) 
+                            ? $post_meta['senderEmail'] 
+                            : ($default_options['default_sender_email'] ?? get_option('admin_email'))),
+                    'senderName' => !empty($block_attrs['senderName']) 
+                        ? $block_attrs['senderName'] 
+                        : (!empty($post_meta['senderName']) 
+                            ? $post_meta['senderName'] 
+                            : ($default_options['default_sender_name'] ?? get_bloginfo('name'))),
+                    'subject' => !empty($block_attrs['subject']) 
+                        ? $block_attrs['subject'] 
+                        : (!empty($post_meta['subject']) 
+                            ? $post_meta['subject'] 
+                            : ($default_options['default_subject'] ?? __('New Form Submission', 'codeweber'))),
+                    'successMessage' => !empty($block_attrs['successMessage']) 
+                        ? $block_attrs['successMessage'] 
+                        : (!empty($post_meta['successMessage']) 
+                            ? $post_meta['successMessage'] 
+                            : ($default_options['success_message'] ?? __('Thank you! Your message has been sent.', 'codeweber'))),
+                    'errorMessage' => !empty($block_attrs['errorMessage']) 
+                        ? $block_attrs['errorMessage'] 
+                        : (!empty($post_meta['errorMessage']) 
+                            ? $post_meta['errorMessage'] 
+                            : ($default_options['error_message'] ?? __('An error occurred. Please try again.', 'codeweber'))),
                 ];
             }
         }

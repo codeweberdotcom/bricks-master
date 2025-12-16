@@ -41,3 +41,4 @@ if (!$form_post || $form_post->post_type !== 'codeweber_form') {
 // Используем шорткод для отображения формы
 echo do_shortcode('[codeweber_form id="' . esc_attr($form_id) . '"]');
 
+

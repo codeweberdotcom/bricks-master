@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-12-16 08:11+0000\n"
+"PO-Revision-Date: 2025-12-16 16:31+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -126,7 +126,19 @@ msgstr "(например, Персонал не найден)"
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:511
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:76
 msgid "+ Add Consent"
+msgstr "+ Добавить согласие"
+
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:370
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:538
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:262
+msgid ""
+"You can use placeholders: {document_url}, {document_title}, "
+"{document_title_url}, {form_id}. For example: \"I agree to the "
+"{document_title_url}\""
 msgstr ""
+"Вы можете использовать плейсхолдеры: {document_url}, {document_title}, "
+"{document_title_url}, {form_id}. Например: \"Я соглашаюсь с "
+"{document_title_url}\""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:122
 msgid "+ Add Form"
@@ -368,11 +380,6 @@ msgstr "Добавить метку FAQ"
 #: functions/cpt/cpt-footer.php:13 functions/cpt/cpt-footer.php:14
 msgid "Add New Footer"
 msgstr "Добавить Футер"
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:37
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:38
-msgid "Add New Form"
-msgstr ""
 
 #: functions/cpt/cpt-header.php:13 functions/cpt/cpt-header.php:14
 msgid "Add New Header"
@@ -653,11 +660,6 @@ msgstr "Все Сотрудники"
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:206
 msgid "All statuses"
 msgstr "Все статусы"
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:46
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:47
-msgid "All Submissions"
-msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:273
 msgid "All subscriptions"
@@ -988,7 +990,7 @@ msgstr "БИК"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:134
 msgid "Block Restriction Mode"
-msgstr ""
+msgstr "Режим ограничения блокировки"
 
 #: functions/integrations/redux_framework/redux_framework.php:99
 #: redux-framework/sample/sections/codeweber/legal.php:154
@@ -1214,6 +1216,10 @@ msgid ""
 "forms. \"Minimal\" mode allows only form and form-field blocks, while \"All "
 "Codeweber Blocks\" allows all blocks from Codeweber Gutenberg Blocks plugin."
 msgstr ""
+"Выберите, какие блоки доступны в редакторе Gutenberg при создании форм. "
+"Режим \"Minimal\" позволяет использовать только блоки формы и полей формы, в "
+"то время как режим \"All Codeweber Blocks\" позволяет использовать все блоки "
+"из плагина Codeweber Gutenberg Blocks."
 
 #: functions/cpt/cpt-staff.php:221
 #: redux-framework/sample/sections/codeweber/company-details.php:50
@@ -1556,10 +1562,6 @@ msgstr ""
 msgid "Contact form not found."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:50
-msgid "Contact forms created with CodeWeber Forms"
-msgstr ""
-
 #: templates/singles/staff/default.php:108
 #: templates/singles/staff/staff_1.php:108
 msgid "Contact Information"
@@ -1846,7 +1848,7 @@ msgid "Date:"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:145
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:200
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:197
 msgid "Debug Mode"
 msgstr ""
 
@@ -2248,10 +2250,6 @@ msgstr "Редактировать FAQ тег"
 msgid "Edit Footer"
 msgstr "Редактировать Футер"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:39
-msgid "Edit Form"
-msgstr ""
-
 #: functions/cpt/cpt-header.php:15
 msgid "Edit Header"
 msgstr "Редактировать Хедер"
@@ -2455,7 +2453,7 @@ msgid "Enable Cookie Banner"
 msgstr "Включить Сookie-баннер"
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:148
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:203
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:200
 msgid "Enable debug logging"
 msgstr ""
 
@@ -2512,6 +2510,8 @@ msgid ""
 "Enter a URL or select an image from media library. Image will be resized to "
 "100×100px."
 msgstr ""
+"Введите URL-адрес или выберите изображение из медиатеки. Размер изображения "
+"будет изменен до 100×100 пикселей."
 
 #: functions/integrations/personal-data-v2/test-providers.php:265
 msgid "Enter an email address that has data in one of the modules"
@@ -3060,11 +3060,10 @@ msgid ""
 "must be entered and saved in the API tab"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:35
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:94
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:141
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:149
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:157
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:91
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:138
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:146
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:154
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:43
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:285
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:399
@@ -3088,7 +3087,7 @@ msgstr ""
 msgid "Form Creation Instructions"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:65
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:62
 msgid "Form Error"
 msgstr ""
 
@@ -3158,7 +3157,7 @@ msgstr ""
 msgid "Form not found. Please select another form."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:64
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:61
 msgid "Form Opened"
 msgstr ""
 
@@ -3166,12 +3165,12 @@ msgstr ""
 msgid "Form Settings"
 msgstr "Настройки формы"
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:63
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:60
 msgid "Form Submission"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:35
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:36
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:40
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:41
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:144
 msgid "Form Submissions"
 msgstr ""
@@ -3198,12 +3197,6 @@ msgstr ""
 #| msgid "+7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr "Формат +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:34
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:36
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:48
-msgid "Forms"
-msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:92
 msgid "Found"
@@ -3965,7 +3958,7 @@ msgstr "КПП"
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:106
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:195
 msgid "Label Text"
-msgstr ""
+msgstr "Текст метки"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:465
 msgid "Landing Page"
@@ -4275,14 +4268,14 @@ msgstr ""
 msgid "Map"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:178
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:175
 msgid "Matomo Forms Integration"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:23
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:24
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:33
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:34
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:30
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:31
 msgid "Matomo Integration"
 msgstr "Matomo Интеграция"
 
@@ -4290,7 +4283,7 @@ msgstr "Matomo Интеграция"
 msgid "Matomo JavaScript Tracking Status"
 msgstr "Статус отслеживания Matomo JavaScript"
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:182
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:179
 msgid "Matomo plugin is not active. Form tracking is disabled."
 msgstr ""
 
@@ -4326,11 +4319,11 @@ msgstr ""
 #: functions/integrations/image-licenses/image-licenses.php:79
 #: functions/integrations/image-licenses/image-licenses.php:563
 msgid "Media License"
-msgstr ""
+msgstr "Медиа-лицензия"
 
 #: functions/integrations/image-licenses/image-licenses.php:51
 msgid "Media Licenses"
-msgstr ""
+msgstr "Медиа-лицензии"
 
 #: redux-framework/sample/sections/codeweber/socials.php:123
 #: redux-framework/sample/sections/extensions/users.php:139
@@ -4513,10 +4506,6 @@ msgstr "Новое имя тега FAQ"
 #: functions/cpt/cpt-footer.php:16
 msgid "New Footer"
 msgstr "Новый Футер"
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:40
-msgid "New Form"
-msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:637
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:667
@@ -4831,14 +4820,6 @@ msgstr "Не найдены Футеры в корзине"
 #: functions/integrations/ajax-search-module/search-statistics.php:628
 msgid "No Form ID"
 msgstr "Нет ID Формы"
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:43
-msgid "No forms found"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:44
-msgid "No forms found in Trash"
-msgstr ""
 
 #: functions/cpt/cpt-header.php:20
 msgid "No headers found"
@@ -6404,7 +6385,7 @@ msgid "Save Retention Settings"
 msgstr "Сохранить настройки срока хранения"
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:153
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:208
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:205
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:127
 msgid "Save Settings"
 msgstr "Сохранить настройки"
@@ -6477,10 +6458,6 @@ msgstr "Найти Футер"
 #: functions/integrations/ajax-search-module/search-statistics.php:601
 msgid "Search Form:"
 msgstr "Форма поиска:"
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:42
-msgid "Search Forms"
-msgstr ""
 
 #: functions/cpt/cpt-header.php:19
 msgid "Search Headers"
@@ -6661,7 +6638,7 @@ msgstr "Выберите отдел"
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:128
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:215
 msgid "Select Document"
-msgstr ""
+msgstr "Выберите документ"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:775
 msgid "Select Font"
@@ -6880,7 +6857,7 @@ msgstr "Отправить документ на email"
 msgid "Send email notifications to administrators"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:196
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:193
 msgid "Send form submissions to Matomo as Events"
 msgstr ""
 
@@ -7010,7 +6987,7 @@ msgid "Set featured Image for this staff"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:132
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:187
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:184
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:55
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:56
 msgid "Settings"
@@ -7055,7 +7032,7 @@ msgstr ""
 "законодательством Российской Федерации."
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:115
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:170
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:167
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:86
 msgid "Settings saved!"
 msgstr ""
@@ -8318,7 +8295,7 @@ msgstr "Город"
 msgid "Towns"
 msgstr "Города"
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:192
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:189
 msgid "Track Form Submissions"
 msgstr ""
 
@@ -8969,10 +8946,6 @@ msgstr "Показать Футер"
 msgid "View Footers"
 msgstr "Показать Футеры"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:41
-msgid "View Form"
-msgstr ""
-
 #: functions/cpt/cpt-header.php:17
 msgid "View Header"
 msgstr "Показать Хедер"
@@ -9283,17 +9256,6 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:367
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:535
-msgid ""
-"You can use placeholders: {document_url}, {document_title}, "
-"{document_title_url}, {form_id}. For example: \"I agree to the "
-"{document_title_url}\""
-msgstr ""
-"Вы можете использовать заполнители: {document_url}, {document_title}, "
-"{document_title_url}, {form_id}. Например: \"Я согласен с "
-"{document_title_url}\""
-
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:109
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:198
 msgid ""
@@ -9411,6 +9373,10 @@ msgstr "Уровень увеличения на карте"
 msgid "Библиотека QR кода не найдена"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:44
+msgid "В корзине форм не найдено"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:85
 msgid "В корзину"
 msgstr ""
@@ -9437,12 +9403,28 @@ msgstr ""
 msgid "Генерация..."
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:38
+msgid "Добавить новую форму"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:37
+msgid "Добавить форму"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:140
 msgid "Информация:"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:42
+msgid "Искать формы"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:83
 msgid "Количество отправок на странице"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:50
+msgid "Контактные формы, созданные через CodeWeber Forms"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:143
@@ -9482,6 +9464,10 @@ msgstr ""
 #: functions/demo/demo-ajax.php:232 functions/demo/demo-ajax.php:268
 #: functions/demo/demo-ajax.php:303 functions/demo/demo-ajax.php:339
 msgid "Недостаточно прав для выполнения операции"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:40
+msgid "Новая форма"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:121
@@ -9574,8 +9560,16 @@ msgstr ""
 msgid "Произошла ошибка"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:41
+msgid "Просмотр формы"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:132
 msgid "Прочитанные"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:39
+msgid "Редактировать форму"
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:287
@@ -9729,6 +9723,20 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:83
 msgid "Удалить навсегда"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:35
+msgid "Форма"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:34
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:36
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:48
+msgid "Формы"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:43
+msgid "Формы не найдены"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:576

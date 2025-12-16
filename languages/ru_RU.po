@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-12-16 08:30+0000\n"
+"PO-Revision-Date: 2025-12-16 16:42+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -131,8 +131,14 @@ msgstr "+ Добавить согласие"
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:370
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:538
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:262
-msgid "You can use placeholders: {document_url}, {document_title}, {document_title_url}, {form_id}. For example: \"I agree to the {document_title_url}\""
-msgstr "Вы можете использовать плейсхолдеры: {document_url}, {document_title}, {document_title_url}, {form_id}. Например: \"Я соглашаюсь с {document_title_url}\""
+msgid ""
+"You can use placeholders: {document_url}, {document_title}, "
+"{document_title_url}, {form_id}. For example: \"I agree to the "
+"{document_title_url}\""
+msgstr ""
+"Вы можете использовать плейсхолдеры: {document_url}, {document_title}, "
+"{document_title_url}, {form_id}. Например: \"Я соглашаюсь с "
+"{document_title_url}\""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:122
 msgid "+ Add Form"
@@ -2504,6 +2510,8 @@ msgid ""
 "Enter a URL or select an image from media library. Image will be resized to "
 "100×100px."
 msgstr ""
+"Введите URL-адрес или выберите изображение из медиатеки. Размер изображения "
+"будет изменен до 100×100 пикселей."
 
 #: functions/integrations/personal-data-v2/test-providers.php:265
 msgid "Enter an email address that has data in one of the modules"
@@ -4311,11 +4319,11 @@ msgstr ""
 #: functions/integrations/image-licenses/image-licenses.php:79
 #: functions/integrations/image-licenses/image-licenses.php:563
 msgid "Media License"
-msgstr ""
+msgstr "Медиа-лицензия"
 
 #: functions/integrations/image-licenses/image-licenses.php:51
 msgid "Media Licenses"
-msgstr ""
+msgstr "Медиа-лицензии"
 
 #: redux-framework/sample/sections/codeweber/socials.php:123
 #: redux-framework/sample/sections/extensions/users.php:139
@@ -8744,15 +8752,15 @@ msgstr "Имя пользователя (логин)"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:460
 msgid "UTM Campaign"
-msgstr "UTM кампания"
+msgstr "UTM Campaign"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:462
 msgid "UTM Content"
-msgstr "UTM контент"
+msgstr "UTM Content"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:225
 msgid "UTM Data"
-msgstr "UTM данные"
+msgstr "UTM Данные"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:463
 msgid "UTM ID"
@@ -8760,19 +8768,19 @@ msgstr "UTM ID"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:459
 msgid "UTM Medium"
-msgstr "UTM канал"
+msgstr "UTM Medium"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:503
 msgid "UTM Parameters"
-msgstr "UTM параметры"
+msgstr "UTM Параметры"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:458
 msgid "UTM Source"
-msgstr "UTM источник"
+msgstr "Utm source"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:461
 msgid "UTM Term"
-msgstr "UTM термин"
+msgstr "UTM Term"
 
 #: functions/cpt/cpt-vacancies.php:10 functions/cpt/cpt-vacancies.php:12
 #: functions/cpt/cpt-vacancies.php:30
@@ -9247,17 +9255,6 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/smtp.php:118
 msgid "Yes"
 msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:367
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:535
-msgid ""
-"You can use placeholders: {document_url}, {document_title}, "
-"{document_title_url}, {form_id}. For example: \"I agree to the "
-"{document_title_url}\""
-msgstr ""
-"Вы можете использовать заполнители: {document_url}, {document_title}, "
-"{document_title_url}, {form_id}. Например: \"Я согласен с "
-"{document_title_url}\""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:109
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:198
