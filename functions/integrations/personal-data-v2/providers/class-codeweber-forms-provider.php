@@ -110,28 +110,38 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
             $data = [];
             
             // Название формы (с поддержкой перевода)
-            if (!empty($submission->form_name)) {
-                $form_name = $submission->form_name;
-
-                // Пытаемся найти перевод по самому названию формы
-                // Например, для "Newsletter Subscription" будет использован перевод из ru_RU.po
-                $translated_form_name = __($form_name, 'codeweber');
-                if (!empty($translated_form_name) && $translated_form_name !== $form_name) {
-                    $form_name = $translated_form_name;
+            if (!empty($submission->form_id)) {
+                $form_title = get_the_title($submission->form_id);
+                $form_name = $form_title ? sprintf('%s (ID: %s)', $form_title, $submission->form_id) : '';
+                
+                if (!empty($form_name)) {
+                    // Пытаемся найти перевод по названию формы
+                    $translated_form_title = __($form_title, 'codeweber');
+                    if (!empty($translated_form_title) && $translated_form_title !== $form_title) {
+                        $form_title = $translated_form_title;
+                        $form_name = sprintf('%s (ID: %s)', $translated_form_title, $submission->form_id);
+                    }
+                    
+                    // Добавляем ссылку на редактирование формы
+                    $form_edit_url = admin_url('post.php?post=' . $submission->form_id . '&action=edit');
+                    $form_name_with_link = sprintf(
+                        '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                        esc_url($form_edit_url),
+                        esc_html($form_name)
+                    );
+                    
+                    $data[] = [
+                        'name'  => __('Form Name', 'codeweber'),
+                        'value' => $form_name_with_link,
+                    ];
                 }
-
-                $data[] = [
-                    'name'  => __('Form Name', 'codeweber'),
-                    'value' => $form_name,
-                ];
             }
             
             // ID формы
             if (!empty($submission->form_id)) {
-                $form_title = get_the_title($submission->form_id);
                 $data[] = [
                     'name' => __('Form ID', 'codeweber'),
-                    'value' => $form_title ? sprintf('%s (ID: %s)', $form_title, $submission->form_id) : (string)$submission->form_id
+                    'value' => (string)$submission->form_id
                 ];
             }
             
@@ -142,7 +152,13 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
                 }
                 
                 // Пропускаем системные поля, они обрабатываются отдельно
-                if (in_array($field_name, ['newsletter_consents', '_utm_data'])) {
+                if (in_array($field_name, ['newsletter_consents', '_utm_data', 'form_name', 'Form Name', 'formName'])) {
+                    continue;
+                }
+                
+                // Пропускаем поля, которые дублируют уже выведенную информацию
+                $field_lower = strtolower($field_name);
+                if (in_array($field_lower, ['form_name', 'formname', 'form name'])) {
                     continue;
                 }
                 
@@ -151,6 +167,20 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
                 
                 // Форматируем значение
                 $display_value = $this->format_field_value($field_value);
+                
+                // Если это email поле, добавляем ссылку на профиль пользователя
+                $field_lower = strtolower($field_name);
+                if (strpos($field_lower, 'email') !== false && is_email($field_value)) {
+                    $user = get_user_by('email', $field_value);
+                    if ($user) {
+                        $user_profile_url = admin_url('user-edit.php?user_id=' . $user->ID);
+                        $display_value = sprintf(
+                            '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                            esc_url($user_profile_url),
+                            esc_html($display_value)
+                        );
+                    }
+                }
                 
                 $data[] = [
                     'name' => $field_label,
@@ -275,9 +305,17 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
             ];
             
             // ID записи
+            $record_id_value = (string)$submission->id;
+            $submission_view_url = admin_url('admin.php?page=codeweber&action=view&id=' . $submission->id);
+            $record_id_with_link = sprintf(
+                '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                esc_url($submission_view_url),
+                esc_html($record_id_value)
+            );
+            
             $data[] = [
                 'name' => __('Record ID', 'codeweber'),
-                'value' => (string)$submission->id
+                'value' => $record_id_with_link
             ];
             
             $export_items[] = [

@@ -86,32 +86,63 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
                 ];
             }
             
+            // Email Address (with link to user profile)
+            $email_value = $email;
+            if (is_email($email) && $user) {
+                $user_profile_url = admin_url('user-edit.php?user_id=' . $user->ID);
+                $email_value = sprintf(
+                    '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                    esc_url($user_profile_url),
+                    esc_html($email)
+                );
+            }
+            $data[] = [
+                'name' => __('Email Address', 'codeweber'),
+                'value' => $email_value
+            ];
+            
             // Form ID
             if (isset($record['context']['form_id'])) {
                 $form_id_display = $record['context']['form_id'];
+                $form_id_for_link = null;
+                
                 // Если это строка (встроенная форма), показываем как есть
                 if (is_string($form_id_display)) {
                     $form_id_display = $form_id_display;
                 } else {
                     $form_id_display = (string) $form_id_display;
+                    $form_id_for_link = (int) $form_id_display;
+                }
+                
+                // Добавляем ссылку на редактирование формы, если это числовой ID
+                if ($form_id_for_link && is_numeric($form_id_display)) {
+                    $form_edit_url = admin_url('post.php?post=' . $form_id_for_link . '&action=edit');
+                    $form_id_value = sprintf(
+                        '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                        esc_url($form_edit_url),
+                        esc_html($form_id_display)
+                    );
+                } else {
+                    $form_id_value = $form_id_display;
                 }
                 
                 $data[] = [
                     'name' => __('Form ID', 'codeweber'),
-                    'value' => $form_id_display
+                    'value' => $form_id_value
                 ];
             }
             
             // Form Name / Form Title (with translation support)
             $form_name = '';
+            $form_id_for_name = isset($record['context']['form_id']) ? $record['context']['form_id'] : null;
             
             // 1) Используем form_name из контекста (если есть)
             if (!empty($record['context']['form_name'])) {
                 $form_name = $record['context']['form_name'];
             }
             // 2) НОВОЕ: Используем единую функцию для получения названия формы
-            elseif (!empty($record['context']['form_id'])) {
-                $form_id = $record['context']['form_id'];
+            elseif (!empty($form_id_for_name)) {
+                $form_id = $form_id_for_name;
                 
                 // Если это числовой ID, получаем название из CPT
                 if (is_numeric($form_id)) {
@@ -153,17 +184,36 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
             }
             
             if (!empty($form_name)) {
+                // Добавляем ссылку на редактирование формы
+                $form_name_value = $form_name;
+                if ($form_id_for_name && is_numeric($form_id_for_name)) {
+                    $form_edit_url = admin_url('post.php?post=' . (int) $form_id_for_name . '&action=edit');
+                    $form_name_value = sprintf(
+                        '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                        esc_url($form_edit_url),
+                        esc_html($form_name)
+                    );
+                }
+                
                 $data[] = [
                     'name' => __('Form Name', 'codeweber'),
-                    'value' => $form_name
+                    'value' => $form_name_value
                 ];
             }
             
             // Submission ID
             if (!empty($record['context']['submission_id'])) {
+                $submission_id = (string)$record['context']['submission_id'];
+                $submission_view_url = admin_url('admin.php?page=codeweber&action=view&id=' . $submission_id);
+                $submission_id_value = sprintf(
+                    '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                    esc_url($submission_view_url),
+                    esc_html($submission_id)
+                );
+                
                 $data[] = [
                     'name' => __('Submission ID', 'codeweber'),
-                    'value' => (string)$record['context']['submission_id']
+                    'value' => $submission_id_value
                 ];
             }
             

@@ -94,10 +94,20 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
                 'value' => $this->get_status_label($subscription->status)
             ];
             
-            // Email
+            // Email (with link to user profile if user exists)
+            $email_value = $subscription->email;
+            $user = get_user_by('email', $subscription->email);
+            if ($user) {
+                $user_profile_url = admin_url('user-edit.php?user_id=' . $user->ID);
+                $email_value = sprintf(
+                    '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                    esc_url($user_profile_url),
+                    esc_html($subscription->email)
+                );
+            }
             $data[] = [
                 'name' => __('Subscriber Email', 'codeweber'),
-                'value' => $subscription->email
+                'value' => $email_value
             ];
             
             // Дата подписки
@@ -124,16 +134,39 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
             
             // Форма подписки
             if (!empty($subscription->form_id)) {
-                // Название формы (человекочитаемое)
+                // Название формы (человекочитаемое) с ссылкой на редактирование формы
+                $form_label = $this->get_form_label($subscription->form_id);
+                $form_name_value = $form_label;
+                
+                // Добавляем ссылку на редактирование формы, если form_id числовой
+                if (is_numeric($subscription->form_id)) {
+                    $form_edit_url = admin_url('post.php?post=' . (int) $subscription->form_id . '&action=edit');
+                    $form_name_value = sprintf(
+                        '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                        esc_url($form_edit_url),
+                        esc_html($form_label)
+                    );
+                }
+                
                 $data[] = [
                     'name' => __('Subscription Form', 'codeweber'),
-                    'value' => $this->get_form_label($subscription->form_id)
+                    'value' => $form_name_value
                 ];
                 
-                // ID формы подписки
+                // ID формы подписки с ссылкой на редактирование
+                $form_id_value = $subscription->form_id;
+                if (is_numeric($subscription->form_id)) {
+                    $form_edit_url = admin_url('post.php?post=' . (int) $subscription->form_id . '&action=edit');
+                    $form_id_value = sprintf(
+                        '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                        esc_url($form_edit_url),
+                        esc_html($subscription->form_id)
+                    );
+                }
+                
                 $data[] = [
                     'name' => __('Subscription Form ID', 'codeweber'),
-                    'value' => $subscription->form_id
+                    'value' => $form_id_value
                 ];
             }
             
@@ -194,13 +227,13 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
                     if (empty($event['date'])) {
                         continue;
                     }
+
                     $timestamp = strtotime($event['date']);
                     if (!$timestamp) {
                         continue;
                     }
 
                     $date_str = date('d.m.Y H:i:s', $timestamp);
-                    $label = '';
 
                     if (!empty($event['type']) && $event['type'] === 'confirmed') {
                         $label = __('Confirmation Date', 'codeweber');
@@ -210,23 +243,65 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
                         $label = __('Event Date', 'codeweber');
                     }
 
-                    // Собираем человекочитаемое значение события, включая форму и страницу
-                    $parts = [];
-                    $parts[] = sprintf('%s: %s', $label, $date_str);
+                    $event_parts   = [];
+                    $event_parts[] = sprintf('%s: %s', $label, $date_str);
 
-                    if (!empty($event['form_id'])) {
-                        $parts[] = sprintf(
+                    // Имя формы лучше брать из form_name, если оно сохранено в событии
+                    $form_label = '';
+                    if (!empty($event['form_name'])) {
+                        $form_label = $event['form_name'];
+                    } elseif (!empty($event['form_id'])) {
+                        $form_label = $this->get_form_label($event['form_id']);
+                    } elseif (!empty($subscription->form_id)) {
+                        $form_label = $this->get_form_label($subscription->form_id);
+                    }
+
+                    if (!empty($form_label)) {
+                        $event_parts[] = sprintf(
                             '%s: %s',
                             __('Subscription Form', 'codeweber'),
-                            $this->get_form_label($event['form_id'])
+                            $form_label
                         );
                     }
 
-                    if (!empty($event['page_url'])) {
-                        $parts[] = sprintf(
+                    // Способ отписки/ссылка на страницу
+                    if (!empty($event['type']) && $event['type'] === 'unsubscribed') {
+                        $actor_added = false;
+
+                        if (!empty($event['source']) && $event['source'] === 'admin' && !empty($event['actor_user_id'])) {
+                            $actor = get_user_by('id', (int) $event['actor_user_id']);
+                            if ($actor) {
+                                $profile_url = get_edit_user_link($actor->ID);
+                                $event_parts[] = sprintf(
+                                    '%s: <a href="%s" target="_blank" rel="noopener noreferrer">%s (%s)</a>',
+                                    __('Unsubscribed by administrator', 'codeweber'),
+                                    esc_url($profile_url),
+                                    esc_html($actor->user_login),
+                                    esc_html($actor->user_email)
+                                );
+                                $actor_added = true;
+                            }
+                        }
+
+                        if (!empty($event['page_url'])) {
+                            $event_parts[] = sprintf(
+                                $actor_added ? __('Unsubscribe page', 'codeweber') . ': %s' : __('Unsubscribed via page', 'codeweber') . ': %s',
+                                '<a href="' . esc_url($event['page_url']) . '" target="_blank" rel="noopener noreferrer">' . esc_html($event['page_url']) . '</a>'
+                            );
+                        }
+                    } elseif (!empty($event['page_url'])) {
+                        $event_parts[] = sprintf(
                             '%s: %s',
                             __('Page URL', 'codeweber'),
-                            $event['page_url']
+                            '<a href="' . esc_url($event['page_url']) . '" target="_blank" rel="noopener noreferrer">' . esc_html($event['page_url']) . '</a>'
+                        );
+                    }
+
+                    if (!empty($event['ip_address'])) {
+                        $event_parts[] = sprintf(
+                            '%s: %s',
+                            __('IP Address', 'codeweber'),
+                            esc_html($event['ip_address'])
                         );
                     }
 
@@ -271,7 +346,7 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
                         }
 
                         if (!empty($consent_parts)) {
-                            $parts[] = sprintf(
+                            $event_parts[] = sprintf(
                                 '%s: %s',
                                 __('Consented Document', 'codeweber'),
                                 implode(' | ', $consent_parts)
@@ -279,20 +354,26 @@ class Newsletter_Data_Provider implements Personal_Data_Provider_Interface {
                         }
                     }
 
-                    // Выводим каждую часть события отдельной строкой "События"
-                    foreach ($parts as $part) {
-                        $data[] = [
-                            'name'  => __('Events', 'codeweber'),
-                            'value' => $part,
-                        ];
-                    }
+                    // Каждое событие — одной строкой
+                    $data[] = [
+                        'name'  => __('Events', 'codeweber'),
+                        'value' => implode(' | ', $event_parts),
+                    ];
                 }
             }
             
-            // ID записи
+            // ID записи (с ссылкой на просмотр подписки в админке)
+            $record_id_value = (string)$subscription->id;
+            $subscription_view_url = admin_url('admin.php?page=newsletter-subscriptions&action=view&email=' . urlencode($subscription->email));
+            $record_id_value = sprintf(
+                '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                esc_url($subscription_view_url),
+                esc_html($record_id_value)
+            );
+            
             $data[] = [
                 'name' => __('Record ID', 'codeweber'),
-                'value' => (string)$subscription->id
+                'value' => $record_id_value
             ];
             
             $export_items[] = [
