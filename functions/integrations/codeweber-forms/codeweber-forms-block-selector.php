@@ -275,12 +275,15 @@ class CodeweberFormsBlockSelector {
             return false;
         }
         
-        // Извлекаем поля из innerBlocks
+        // Извлекаем поля и кнопки из innerBlocks
         $fields = [];
+        $submit_buttons = [];
         if (!empty($form_block['innerBlocks'])) {
             foreach ($form_block['innerBlocks'] as $inner_block) {
                 if ($inner_block['blockName'] === 'codeweber-blocks/form-field') {
                     $fields[] = $inner_block['attrs'];
+                } elseif ($inner_block['blockName'] === 'codeweber-blocks/submit-button') {
+                    $submit_buttons[] = $inner_block['attrs'];
                 }
             }
         }
@@ -289,6 +292,7 @@ class CodeweberFormsBlockSelector {
             'id' => $form_id,
             'name' => $form_post->post_title,
             'fields' => $fields,
+            'submit_buttons' => $submit_buttons,
             'settings' => array_merge(
                 $form_block['attrs'] ?? [],
                 [

@@ -312,6 +312,7 @@ msgid "Email Templates"
 msgstr "Шаблоны писем"
 
 #: admin/codeweber-forms-email-templates.php:240
+#: admin/class-codeweber-forms-list-table.php:231
 msgid "Form name"
 msgstr "Название формы"
 
@@ -861,4 +862,12 @@ msgstr "Форма резюме"
 #: codeweber-forms-cpt.php:212
 msgid "Callback Request"
 msgstr "Запрос обратного звонка"
+
+#: codeweber-forms-cpt.php:438
+msgid "All Form Types"
+msgstr "Все типы форм"
+
+#: admin/class-codeweber-forms-list-table.php:736
+msgid "All form types"
+msgstr "Все типы форм"
 

@@ -54,10 +54,23 @@ class CodeweberFormsRenderer {
         if (!empty($form_block['innerBlocks'])) {
             foreach ($form_block['innerBlocks'] as $inner_block) {
                 if ($inner_block['blockName'] === 'codeweber-blocks/form-field') {
-                    $fields[] = $inner_block['attrs'];
+                    $field_attrs = $inner_block['attrs'] ?? [];
+                    // Отладка для newsletter полей
+                    if (defined('WP_DEBUG') && WP_DEBUG && ($field_attrs['fieldType'] ?? '') === 'newsletter') {
+                        error_log('[Form Render] Found newsletter field: ' . print_r($field_attrs, true));
+                    }
+                    $fields[] = $field_attrs;
                 } elseif ($inner_block['blockName'] === 'codeweber-blocks/submit-button') {
                     $submit_buttons[] = $inner_block['attrs'];
                 }
+            }
+        }
+        
+        // Отладка
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('[Form Render] Total fields count: ' . count($fields));
+            foreach ($fields as $idx => $field) {
+                error_log('[Form Render] Field ' . $idx . ' type: ' . ($field['fieldType'] ?? 'NO TYPE'));
             }
         }
         
@@ -98,6 +111,9 @@ class CodeweberFormsRenderer {
         $fields = $config['fields'] ?? [];
         $settings = $config['settings'] ?? [];
         
+        // Получаем кнопки из блоков submit-button
+        $submit_buttons = $config['submit_buttons'] ?? [];
+        
         // Получаем form_id из конфигурации, если не передан
         // form_id может быть как числом (CPT формы), так и строкой (встроенные формы)
         if (empty($form_id) && !empty($config['id'])) {
@@ -118,9 +134,6 @@ class CodeweberFormsRenderer {
         $recipient_email = $settings['recipientEmail'] ?? get_option('admin_email');
         $success_message = $settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
         $error_message = $settings['errorMessage'] ?? __('An error occurred. Please try again.', 'codeweber');
-        
-        // Получаем кнопки из блоков submit-button
-        $submit_buttons = $form_config['submit_buttons'] ?? [];
         
         // НОВОЕ: Получаем тип формы через единую функцию
         $form_type = CodeweberFormsCore::get_form_type($form_id, $config);
@@ -214,11 +227,22 @@ class CodeweberFormsRenderer {
             <div class="form-messages" style="display: none;"></div>
             
             <?php 
-            // Для newsletter формы с одним email полем используем специальную верстку
-            $has_single_email = count($fields) === 1 && !empty($fields[0]) && ($fields[0]['fieldType'] ?? '') === 'email';
+            // Проверяем, есть ли поле типа newsletter (которое рендерится с кнопкой внутри)
+            $has_newsletter_field = false;
+            foreach ($fields as $field) {
+                if (($field['fieldType'] ?? '') === 'newsletter') {
+                    $has_newsletter_field = true;
+                    break;
+                }
+            }
+            
+            // Для newsletter формы с одним email полем (БЕЗ newsletter типа) используем специальную верстку
+            // Проверяем как тип 'email', но НЕ 'newsletter' (newsletter рендерится через render.php с кнопкой)
+            $has_single_email = count($fields) === 1 && !empty($fields[0]) && 
+                ($fields[0]['fieldType'] ?? '') === 'email' && !$has_newsletter_field;
             
             // Если newsletter форма, но поля не найдены, создаем дефолтное email поле
-            if ($is_newsletter_form && empty($fields)) {
+            if ($is_newsletter_form && empty($fields) && !$has_newsletter_field) {
                 $fields = [[
                     'fieldType' => 'email',
                     'fieldName' => 'email',
@@ -229,138 +253,17 @@ class CodeweberFormsRenderer {
                 $has_single_email = true;
             }
             
-            if ($is_newsletter_form && $has_single_email): 
+            // Если есть поле newsletter, НЕ используем специальную верстку - поле само рендерится с кнопкой
+            // УБРАНО: Специальная верстка для newsletter формы больше не используется
+            // Теперь newsletter поле рендерится через render.php с кнопкой внутри
+            // Кнопка рендерится ТОЛЬКО если:
+            // 1. Добавлена через блок submit-button в редакторе Gutenberg
+            // 2. Или используется поле типа newsletter (которое содержит кнопку внутри)
+            
+            // Все формы (включая newsletter) рендерятся через стандартную верстку
+            // Кнопка добавляется только через блок submit-button или поле newsletter
             ?>
-                <!-- Специальная верстка для newsletter формы: email + кнопка в одной строке -->
-                <div class="newsletter-form-inner">
-                    <div class="input-group form-floating">
-                        <?php 
-                        $email_field = $fields[0];
-                        $field_id = 'field-' . ($email_field['fieldName'] ?? 'email');
-                        
-                        // Переводим fieldLabel и placeholder, если они указаны
-                        $field_label = !empty($email_field['fieldLabel']) 
-                            ? (trim($email_field['fieldLabel']) === 'Email Address' ? __('Email Address', 'codeweber') : $email_field['fieldLabel'])
-                            : __('Email Address', 'codeweber');
-                        $field_placeholder = !empty($email_field['placeholder'])
-                            ? (trim($email_field['placeholder']) === 'Email Address' ? __('Email Address', 'codeweber') : $email_field['placeholder'])
-                            : $field_label;
-                        ?>
-                        <?php 
-                        // Получаем класс скругления формы из темы
-                        $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
-                        ?>
-                        <input
-                            type="email"
-                            class="form-control required email<?php echo esc_attr($form_radius_class); ?>"
-                            id="<?php echo esc_attr($field_id); ?>"
-                            name="<?php echo esc_attr($email_field['fieldName'] ?? 'email'); ?>"
-                            placeholder="<?php echo esc_attr($field_placeholder); ?>"
-                            required
-                            autocomplete="off"
-                        >
-                        <label for="<?php echo esc_attr($field_id); ?>">
-                            <?php echo esc_html($field_label); ?>
-                        </label>
-                    </div>
-                    
-                    <?php
-                    // ВАЖНО: Согласия для CPT форм НЕ добавляются автоматически из глобальных настроек.
-                    // Согласия должны быть добавлены через блок form-field с типом consents_block в Gutenberg редакторе.
-                    // 
-                    // Для legacy форм (строковый ID) оставляем автоматическое добавление согласий из builtin_form_consents
-                    // для обратной совместимости, но только если это не CPT форма.
-                    if (!is_numeric($form_id) && function_exists('codeweber_forms_render_consent_checkbox')) {
-                        // LEGACY: Только для встроенных форм (строковый ID: newsletter, testimonial и т.д.)
-                        $all_consents = get_option('builtin_form_consents', []);
-                        $newsletter_consents = isset($all_consents['newsletter']) ? $all_consents['newsletter'] : [];
-                        
-                        if (!empty($newsletter_consents) && is_array($newsletter_consents)) {
-                            $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
-                            ?>
-                            <div class="newsletter-consents mt-2">
-                                <?php
-                                foreach ($newsletter_consents as $index => $consent) {
-                                    if (empty($consent['label']) || empty($consent['document_id'])) {
-                                        continue;
-                                    }
-                                    
-                                    $document_id = intval($consent['document_id']);
-                                    $label_text = codeweber_forms_process_consent_label($consent['label'], $document_id, $form_id);
-                                    $required = !empty($consent['required']);
-                                    $checkbox_id = 'newsletter-consent-' . $document_id . '-' . $index;
-                                    ?>
-                                    <div class="form-check small-checkbox small-chekbox mb-1">
-                                        <input 
-                                            type="checkbox" 
-                                            class="form-check-input<?php echo esc_attr($form_radius_class); ?>" 
-                                            id="<?php echo esc_attr($checkbox_id); ?>" 
-                                            name="newsletter_consents[<?php echo esc_attr($document_id); ?>]" 
-                                            value="1"
-                                            <?php echo $required ? 'required' : ''; ?>
-                                        >
-                                        <label class="form-check-label" for="<?php echo esc_attr($checkbox_id); ?>" style="font-size: 12px;">
-                                            <?php echo wp_kses_post($label_text); ?>
-                                        </label>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                            <?php
-                        }
-                    }
-                    // Для CPT форм согласия рендерятся только из блоков form-field с типом consents_block
-                    
-                    // Получаем класс скругления кнопки из темы
-                    $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';
-                    
-                    // Рендерим кнопки из блоков submit-button для newsletter формы
-                    if (!empty($submit_buttons)) {
-                        foreach ($submit_buttons as $button_attrs) {
-                            $button_text = $button_attrs['buttonText'] ?? __('Join', 'codeweber');
-                            // Для newsletter формы переводим "Join"
-                            if (strtolower(trim($button_text)) === 'join') {
-                                $button_text = __('Join', 'codeweber');
-                            }
-                            $button_class = $button_attrs['buttonClass'] ?? 'btn btn-primary';
-                            $block_class = $button_attrs['blockClass'] ?? '';
-                            
-                            // Объединяем классы кнопки с классом скругления из темы
-                            $final_button_class = trim($button_class . ' ' . $button_radius_class);
-                            ?>
-                            <div class="form-submit-wrapper mt-3 <?php echo esc_attr($block_class); ?>">
-                                <button
-                                    type="submit"
-                                    class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
-                                    data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
-                                >
-                                    <i class="uil uil-send fs-13"></i>
-                                    <span class="ms-1"><?php echo esc_html($button_text); ?></span>
-                                </button>
-                            </div>
-                            <?php
-                        }
-                    } else {
-                        // Fallback: используем старую кнопку из настроек
-                        $final_button_class = trim($submit_button_class . ' ' . $button_radius_class);
-                        ?>
-                        <div class="form-submit-wrapper mt-3">
-                            <button
-                                type="submit"
-                                class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
-                                data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
-                            >
-                                <i class="uil uil-send fs-13"></i>
-                                <span class="ms-1"><?php echo esc_html($submit_button_text); ?></span>
-                            </button>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-            <?php else: ?>
-                <!-- Стандартная верстка для обычных форм -->
+                <!-- Стандартная верстка для всех форм -->
                 <?php
                 // Генерируем классы Gap (логика соответствует helpers.js getGapClasses)
                 // getGapClasses генерирует классы для всех трех типов одновременно (g, gx, gy)
@@ -469,7 +372,13 @@ class CodeweberFormsRenderer {
                 ?>
                 <div class="<?php echo esc_attr($row_class); ?>">
                     <?php foreach ($fields as $field): ?>
-                        <?php echo $this->render_field($field, $form_id); ?>
+                        <?php 
+                        // Временная отладка для newsletter
+                        if (current_user_can('manage_options') && !empty($_GET['debug_form']) && ($field['fieldType'] ?? '') === 'newsletter') {
+                            echo '<!-- DEBUG: Rendering newsletter field: ' . print_r($field, true) . ' -->';
+                        }
+                        echo $this->render_field($field, $form_id); 
+                        ?>
                     <?php endforeach; ?>
                 </div>
                 
@@ -477,8 +386,8 @@ class CodeweberFormsRenderer {
                 // Получаем класс скругления кнопки из темы
                 $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';
                 
-                // Рендерим кнопки из блоков submit-button
-                $submit_buttons = $form_config['submit_buttons'] ?? [];
+                // Рендерим кнопки из блоков submit-button (добавленных в редакторе Gutenberg)
+                // $submit_buttons уже получены из $config в начале метода render_from_config
                 if (!empty($submit_buttons)) {
                     foreach ($submit_buttons as $button_attrs) {
                         $button_text = $button_attrs['buttonText'] ?? __('Send Message', 'codeweber');
@@ -492,7 +401,7 @@ class CodeweberFormsRenderer {
                             <button
                                 type="submit"
                                 class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
-                                data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
+                                data-loading-text="<?php echo esc_attr(__('Sending', 'codeweber')); ?>"
                             >
                                 <i class="uil uil-send fs-13"></i>
                                 <span class="ms-1"><?php echo esc_html($button_text); ?></span>
@@ -500,24 +409,12 @@ class CodeweberFormsRenderer {
                         </div>
                         <?php
                     }
-                } else {
-                    // Fallback: используем старую кнопку из настроек, если блоков submit-button нет
-                    $final_button_class = trim($submit_button_class . ' ' . $button_radius_class);
-                    ?>
-                    <div class="form-submit-wrapper mt-4">
-                        <button
-                            type="submit"
-                            class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
-                            data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
-                        >
-                            <i class="uil uil-send fs-13"></i>
-                            <span class="ms-1"><?php echo esc_html($submit_button_text); ?></span>
-                        </button>
-                    </div>
-                    <?php
                 }
+                // УБРАНО: Fallback кнопка больше не рендерится автоматически
+                // Кнопка рендерится ТОЛЬКО если:
+                // 1. Добавлена через блок submit-button в редакторе Gutenberg
+                // 2. Или используется поле типа newsletter (которое содержит кнопку внутри через render.php)
                 ?>
-            <?php endif; ?>
         </form>
         <?php
         return ob_get_clean();
@@ -554,6 +451,11 @@ class CodeweberFormsRenderer {
     private function render_field($field, $form_id = 0) {
         $field_type = $field['fieldType'] ?? 'text';
         $field_name = $field['fieldName'] ?? '';
+        
+        // Отладка для newsletter
+        if (defined('WP_DEBUG') && WP_DEBUG && $field_type === 'newsletter') {
+            error_log('[Form Render Field] Rendering newsletter field: ' . print_r($field, true));
+        }
         $field_label = $field['fieldLabel'] ?? '';
         $placeholder = $field['placeholder'] ?? '';
         $is_required = !empty($field['isRequired']);
@@ -658,9 +560,15 @@ class CodeweberFormsRenderer {
             return '';
         }
         
+        // Для newsletter типа fieldName может быть пустым (по умолчанию 'email')
         // Для остальных типов полей требуется fieldName
-        if (empty($field_name)) {
+        if ($field_type !== 'newsletter' && empty($field_name)) {
             return '';
+        }
+        
+        // Для newsletter используем 'email' по умолчанию, если fieldName пустой
+        if ($field_type === 'newsletter' && empty($field_name)) {
+            $field_name = 'email';
         }
         
         $field_id = 'field-' . $field_name;
@@ -815,6 +723,47 @@ class CodeweberFormsRenderer {
                         name="<?php echo esc_attr($field_name); ?>"
                         value="<?php echo esc_attr($default_value); ?>"
                     />
+                    <?php
+                    break;
+                
+                case 'newsletter':
+                    // Поле newsletter рендерится с кнопкой внутри input-group
+                    $field_name_newsletter = !empty($field_name) ? $field_name : 'email';
+                    $field_id_newsletter = 'field-' . $field_name_newsletter;
+                    $field_label_newsletter = !empty($field_label) ? $field_label : __('Email Address', 'codeweber');
+                    $field_placeholder_newsletter = !empty($placeholder) ? $placeholder : $field_label_newsletter;
+                    
+                    // Получаем текст и класс кнопки из атрибутов
+                    $button_text_newsletter = !empty($field['buttonText']) ? $field['buttonText'] : __('Join', 'codeweber');
+                    $button_class_newsletter = !empty($field['buttonClass']) ? $field['buttonClass'] : 'btn btn-primary';
+                    
+                    // Получаем класс скругления кнопки из темы
+                    $button_radius_class_newsletter = '';
+                    if (function_exists('getThemeButton')) {
+                        $button_radius_class_newsletter = getThemeButton();
+                    }
+                    $button_class_final = trim($button_class_newsletter . ' ' . $button_radius_class_newsletter);
+                    ?>
+                    <div class="input-group form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
+                        <input
+                            type="email"
+                            class="form-control required email <?php echo esc_attr($form_radius_class); ?>"
+                            id="<?php echo esc_attr($field_id_newsletter); ?>"
+                            name="<?php echo esc_attr($field_name_newsletter); ?>"
+                            placeholder="<?php echo esc_attr($field_placeholder_newsletter); ?>"
+                            <?php echo $required_attr; ?>
+                            autocomplete="off"
+                        >
+                        <label for="<?php echo esc_attr($field_id_newsletter); ?>">
+                            <?php echo esc_html($field_label_newsletter); ?><?php echo $required_mark; ?>
+                        </label>
+                        <input
+                            type="submit"
+                            value="<?php echo esc_attr($button_text_newsletter); ?>"
+                            class="<?php echo esc_attr($button_class_final); ?>"
+                            data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
+                        >
+                    </div>
                     <?php
                     break;
                 

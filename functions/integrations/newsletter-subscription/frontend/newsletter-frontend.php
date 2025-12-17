@@ -129,12 +129,24 @@ class NewsletterSubscriptionFrontend
       }
 
       $now = current_time('mysql');
+      // Получаем IP-адрес пользователя
+      $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
+      if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+         // Если используется прокси, берем первый IP из списка
+         $forwarded_ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+         $ip_address = trim($forwarded_ips[0]);
+      } elseif (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+         $ip_address = $_SERVER['HTTP_X_REAL_IP'];
+      }
+      $ip_address = sanitize_text_field($ip_address);
+      
       $events[] = [
-         'type'    => 'unsubscribed',
-         'date'    => $now,
-         'source'  => 'frontend',
-         'form_id' => '', // ИСПРАВЛЕНО: при отписке form_id пустой (отписка не через форму)
-         'page_url'=> wp_get_referer() ?: home_url($_SERVER['REQUEST_URI'] ?? '/'),
+         'type'       => 'unsubscribed',
+         'date'       => $now,
+         'source'     => 'frontend',
+         'form_id'    => '', // ИСПРАВЛЕНО: при отписке form_id пустой (отписка не через форму)
+         'page_url'   => wp_get_referer() ?: home_url($_SERVER['REQUEST_URI'] ?? '/'),
+         'ip_address'=> $ip_address, // Добавляем IP-адрес пользователя
       ];
 
       $result = $wpdb->update($this->table_name, array(

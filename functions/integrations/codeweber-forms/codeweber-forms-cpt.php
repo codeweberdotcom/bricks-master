@@ -31,6 +31,10 @@ class CodeweberFormsCPT {
         // НОВОЕ: Автоматический запуск миграции CPT форм при первой загрузке
         // ВАЖНО: Миграция затрагивает только CPT формы, legacy формы не трогаем
         add_action('admin_init', [$this, 'maybe_run_cpt_migration']);
+        
+        // НОВОЕ: Добавляем фильтр по типу формы на странице списка CPT форм
+        add_action('restrict_manage_posts', [$this, 'add_form_type_filter']);
+        add_filter('parse_query', [$this, 'filter_posts_by_form_type']);
     }
     
     /**
@@ -412,6 +416,77 @@ class CodeweberFormsCPT {
             error_log('Codeweber Forms: CPT migration completed automatically');
             error_log('Codeweber Forms: Legacy forms (testimonial, newsletter, etc.) are NOT migrated and continue to work as before');
         }
+    }
+    
+    /**
+     * Добавить фильтр по типу формы на странице списка CPT форм
+     * 
+     * @param string $post_type Тип поста
+     * @param string $which Расположение ('top' или 'bottom')
+     */
+    public function add_form_type_filter($post_type, $which = 'top') {
+        // Только для нашего CPT и только сверху
+        if ($post_type !== 'codeweber_form' || $which !== 'top') {
+            return;
+        }
+        
+        // Получаем выбранный тип формы
+        $selected_type = isset($_GET['form_type_filter']) ? sanitize_text_field($_GET['form_type_filter']) : '';
+        
+        // Маппинг типов на читаемые названия с переводами
+        $type_labels = array(
+            '' => __('Все типы форм', 'codeweber'),
+            'form' => __('Обычная форма', 'codeweber'),
+            'newsletter' => __('Подписка на рассылку', 'codeweber'),
+            'testimonial' => __('Форма отзыва', 'codeweber'),
+            'resume' => __('Форма резюме', 'codeweber'),
+            'callback' => __('Запрос обратного звонка', 'codeweber'),
+        );
+        
+        ?>
+        <select name="form_type_filter" id="form-type-filter">
+            <?php foreach ($type_labels as $type_key => $type_label): ?>
+                <option value="<?php echo esc_attr($type_key); ?>" <?php selected($selected_type, $type_key); ?>>
+                    <?php echo esc_html($type_label); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <?php
+    }
+    
+    /**
+     * Фильтровать посты по типу формы
+     * 
+     * @param WP_Query $query Объект запроса
+     */
+    public function filter_posts_by_form_type($query) {
+        global $pagenow, $typenow;
+        
+        // Только на странице списка постов и для нашего CPT
+        if ($pagenow !== 'edit.php' || $typenow !== 'codeweber_form') {
+            return;
+        }
+        
+        // Проверяем, есть ли фильтр по типу формы
+        if (!isset($_GET['form_type_filter']) || $_GET['form_type_filter'] === '') {
+            return;
+        }
+        
+        $form_type = sanitize_text_field($_GET['form_type_filter']);
+        
+        // Добавляем мета-запрос для фильтрации по типу формы
+        $meta_query = $query->get('meta_query');
+        if (!is_array($meta_query)) {
+            $meta_query = array();
+        }
+        
+        $meta_query[] = array(
+            'key' => '_form_type',
+            'value' => $form_type,
+            'compare' => '='
+        );
+        
+        $query->set('meta_query', $meta_query);
     }
 }
 

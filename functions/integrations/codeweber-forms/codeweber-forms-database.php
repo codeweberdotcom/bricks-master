@@ -199,6 +199,7 @@ class CodeweberFormsDatabase {
         
         $defaults = [
             'form_id'        => '',
+            'form_type'      => '', // НОВОЕ: Фильтрация по типу формы
             'status'         => '',
             'exclude_status' => '',
             'search'         => '',
@@ -220,6 +221,10 @@ class CodeweberFormsDatabase {
             } else {
                 $where[] = $wpdb->prepare("form_id = %s", sanitize_text_field($form_id));
             }
+        }
+        // НОВОЕ: Фильтрация по типу формы
+        if (!empty($args['form_type'])) {
+            $where[] = $wpdb->prepare("form_type = %s", sanitize_text_field($args['form_type']));
         }
         if (!empty($args['status'])) {
             $where[] = $wpdb->prepare("status = %s", sanitize_text_field($args['status']));

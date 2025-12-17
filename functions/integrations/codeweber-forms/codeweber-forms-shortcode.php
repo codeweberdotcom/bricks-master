@@ -152,11 +152,16 @@ class CodeweberFormsShortcode {
                     }
                 }
                 
-                // Извлекаем поля из innerBlocks
+                // Извлекаем поля и кнопки из innerBlocks
                 if (!empty($form_block['innerBlocks'])) {
                     foreach ($form_block['innerBlocks'] as $inner_block) {
                         if ($inner_block['blockName'] === 'codeweber-blocks/form-field') {
                             $config['fields'][] = $inner_block['attrs'];
+                        } elseif ($inner_block['blockName'] === 'codeweber-blocks/submit-button') {
+                            if (!isset($config['submit_buttons'])) {
+                                $config['submit_buttons'] = [];
+                            }
+                            $config['submit_buttons'][] = $inner_block['attrs'];
                         }
                     }
                 }

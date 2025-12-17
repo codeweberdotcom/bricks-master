@@ -41,6 +41,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             'cb' => '<input type="checkbox" />',
             'id' => __('ID', 'codeweber'),
             'form' => __('Form', 'codeweber'),
+            'form_name' => __('Form name', 'codeweber'),
             'data' => __('Submission Data', 'codeweber'),
             'status' => __('Status', 'codeweber'),
             'email_admin' => __('Email Admin', 'codeweber'),
@@ -60,6 +61,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         return array(
             'id' => array('id', true),
             'form' => array('form_name', false),
+            'form_name' => array('form_name', false),
             'status' => array('status', false),
             'date' => array('created_at', true),
         );
@@ -152,7 +154,12 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     protected function column_default($item, $column_name)
     {
-        $method = 'column_' . $column_name;
+        // Явная обработка колонки form_name (на случай, если WordPress преобразует подчеркивание)
+        if ($column_name === 'form_name' || $column_name === 'form-name') {
+            return $this->column_form_name($item);
+        }
+        
+        $method = 'column_' . str_replace('-', '_', $column_name);
         if (method_exists($this, $method)) {
             return call_user_func(array($this, $method), $item);
         }
@@ -220,27 +227,82 @@ class Codeweber_Forms_List_Table extends WP_List_Table
     }
 
     /**
+     * Column Form Name
+     * Показывает значение поля form_name из базы данных
+     * Если form_name пустое или это ID, получаем название из заголовка CPT записи
+     */
+    protected function column_form_name($item)
+    {
+        // ПРИОРИТЕТ 1: Поле form_name из таблицы submissions (если это не ID)
+        if (!empty($item->form_name) && trim($item->form_name) !== '') {
+            $form_name = trim($item->form_name);
+            // Если это не чисто число (не ID), показываем
+            if (!is_numeric($form_name)) {
+                return esc_html($form_name);
+            }
+        }
+        
+        // ПРИОРИТЕТ 2: Если form_name пустое или это ID, получаем название из заголовка CPT записи
+        if (!empty($item->form_id) && is_numeric($item->form_id)) {
+            $form_post = get_post((int) $item->form_id);
+            if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
+                return esc_html($form_post->post_title);
+            }
+        }
+        
+        // ПРИОРИТЕТ 3: Извлекаем form_name из JSON данных отправки (fallback)
+        if (!empty($item->submission_data)) {
+            $data = json_decode($item->submission_data, true);
+            if (is_array($data)) {
+                // Проверяем разные варианты ключей
+                if (!empty($data['form_name'])) {
+                    $form_name = trim($data['form_name']);
+                    if (!empty($form_name) && !is_numeric($form_name)) {
+                        return esc_html($form_name);
+                    }
+                }
+                // Также проверяем вариант с пробелом (form name)
+                if (!empty($data['form name'])) {
+                    $form_name = trim($data['form name']);
+                    if (!empty($form_name) && !is_numeric($form_name)) {
+                        return esc_html($form_name);
+                    }
+                }
+            }
+        }
+        
+        // Если form_name не найдено, показываем прочерк
+        return '<span style="color: #999;">—</span>';
+    }
+
+    /**
      * Get translated field label
      */
     protected function get_field_label($key)
     {
+        // Нормализуем ключ (убираем пробелы, приводим к нижнему регистру)
+        $normalized_key = strtolower(str_replace([' ', '-'], '_', trim($key)));
+        
         // Переводим некоторые служебные ключи в человекочитаемые и переводимые названия
-        if ($key === 'newsletter_consents') {
+        if ($normalized_key === 'newsletter_consents') {
             return __('Newsletter Consents', 'codeweber');
-        } elseif ($key === 'form_name') {
+        } elseif ($normalized_key === 'form_name' || $key === 'form name') {
             return __('Form name', 'codeweber');
-        } elseif ($key === 'name') {
+        } elseif ($normalized_key === 'name') {
             return __('Name', 'codeweber');
-        } elseif ($key === 'role') {
+        } elseif ($normalized_key === 'role') {
             return __('Role', 'codeweber');
-        } elseif ($key === 'company') {
+        } elseif ($normalized_key === 'company') {
             return __('Company', 'codeweber');
-        } elseif ($key === 'testimonial_text' || $key === 'testimonial-text') {
+        } elseif ($normalized_key === 'testimonial_text' || $normalized_key === 'testimonial-text') {
             return __('Testimonial text', 'codeweber');
-        } elseif ($key === 'rating') {
+        } elseif ($normalized_key === 'rating') {
             return __('Rating', 'codeweber');
         } else {
-            return ucfirst(str_replace(['_', '-'], ' ', $key));
+            // Если ключ не найден в списке, пытаемся перевести через ucfirst
+            // Но сначала проверяем, может быть это уже переведенная строка
+            $translated = __(ucfirst(str_replace(['_', '-'], ' ', $key)), 'codeweber');
+            return $translated;
         }
     }
 
@@ -471,6 +533,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $search = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
         $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
         $form_id = isset($_GET['form_id']) ? sanitize_text_field($_GET['form_id']) : '';
+        $form_type = isset($_GET['form_type']) ? sanitize_text_field($_GET['form_type']) : ''; // НОВОЕ: Фильтр по типу формы
 
         // Get sort order
         $orderby = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'created_at';
@@ -492,6 +555,10 @@ class Codeweber_Forms_List_Table extends WP_List_Table
 
         if ($form_id !== '') {
             $args['form_id'] = $form_id;
+        }
+        // НОВОЕ: Фильтрация по типу формы
+        if ($form_type !== '') {
+            $args['form_type'] = $form_type;
         }
         if ($status) {
             $args['status'] = $status;
@@ -579,6 +646,10 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         if (isset($_GET['form_id']) && !empty($_GET['form_id'])) {
             $params['form_id'] = sanitize_text_field($_GET['form_id']);
         }
+        // НОВОЕ: Сохраняем фильтр по типу формы
+        if (isset($_GET['form_type']) && !empty($_GET['form_type'])) {
+            $params['form_type'] = sanitize_text_field($_GET['form_type']);
+        }
         if (isset($_GET['s']) && !empty($_GET['s'])) {
             $params['s'] = sanitize_text_field($_GET['s']);
         }
@@ -602,19 +673,6 @@ class Codeweber_Forms_List_Table extends WP_List_Table
                         'codeweber_forms_messages',
                         'codeweber_forms_message',
                         sprintf(__('%d submission(s) marked as read', 'codeweber'), $updated),
-                        'success'
-                    );
-                }
-                break;
-
-            case 'mark_new':
-                $result = $this->db->bulk_update_status($ids, 'new');
-                if ($result !== false) {
-                    $updated = $result;
-                    add_settings_error(
-                        'codeweber_forms_messages',
-                        'codeweber_forms_message',
-                        sprintf(__('%d submission(s) marked as new', 'codeweber'), $updated),
                         'success'
                     );
                 }
@@ -694,9 +752,30 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $forms = $wpdb->get_results(
             "SELECT DISTINCT form_id, form_name FROM {$wpdb->prefix}codeweber_forms_submissions ORDER BY form_id DESC"
         );
+        
+        // НОВОЕ: Получаем список уникальных типов форм из базы данных
+        // Используем прямой запрос, так как нет пользовательского ввода
+        $form_types = $wpdb->get_col(
+            "SELECT DISTINCT form_type FROM {$wpdb->prefix}codeweber_forms_submissions WHERE form_type IS NOT NULL AND form_type != '' ORDER BY form_type ASC"
+        );
+        
+        // Если типов нет в базе, используем пустой массив (фильтр все равно покажется с дефолтными типами)
+        if (!is_array($form_types)) {
+            $form_types = array();
+        }
 
         $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
         $form_id = isset($_GET['form_id']) ? sanitize_text_field($_GET['form_id']) : '';
+        $form_type = isset($_GET['form_type']) ? sanitize_text_field($_GET['form_type']) : ''; // НОВОЕ: Фильтр по типу формы
+        
+        // Маппинг типов на читаемые названия
+        $type_labels = array(
+            'form' => __('Regular Form', 'codeweber'),
+            'newsletter' => __('Newsletter Subscription', 'codeweber'),
+            'testimonial' => __('Testimonial Form', 'codeweber'),
+            'resume' => __('Resume Form', 'codeweber'),
+            'callback' => __('Callback Request', 'codeweber'),
+        );
         ?>
         <div class="alignleft actions">
             <select name="status">
@@ -715,9 +794,29 @@ class Codeweber_Forms_List_Table extends WP_List_Table
                 <?php endforeach; ?>
             </select>
             
+            <select name="form_type">
+                <option value=""><?php _e('All form types', 'codeweber'); ?></option>
+                <?php if (!empty($form_types)): ?>
+                    <?php foreach ($form_types as $type): ?>
+                        <option value="<?php echo esc_attr($type); ?>" <?php selected($form_type, $type); ?>>
+                            <?php echo esc_html(isset($type_labels[$type]) ? $type_labels[$type] : ucfirst($type)); ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <?php 
+                    // Показываем все возможные типы, даже если их еще нет в базе
+                    foreach ($type_labels as $type_key => $type_label): 
+                    ?>
+                        <option value="<?php echo esc_attr($type_key); ?>" <?php selected($form_type, $type_key); ?>>
+                            <?php echo esc_html($type_label); ?>
+                        </option>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </select>
+            
             <?php submit_button(__('Filter', 'codeweber'), 'secondary', 'filter_action', false); ?>
             
-            <?php if ($status || $form_id): ?>
+            <?php if ($status || $form_id || $form_type): ?>
                 <a href="<?php echo admin_url('admin.php?page=codeweber'); ?>" class="button">
                     <?php _e('Reset', 'codeweber'); ?>
                 </a>

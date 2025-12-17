@@ -165,6 +165,10 @@ class CodeweberFormsAdmin {
                 if (isset($_GET['form_id'])) {
                     echo '<input type="hidden" name="form_id" value="' . esc_attr($_GET['form_id']) . '">';
                 }
+                // НОВОЕ: Preserve form_type filter
+                if (isset($_GET['form_type'])) {
+                    echo '<input type="hidden" name="form_type" value="' . esc_attr($_GET['form_type']) . '">';
+                }
                 
                 $list_table->search_box(__('Search', 'codeweber'), 'submission');
                 $list_table->display();

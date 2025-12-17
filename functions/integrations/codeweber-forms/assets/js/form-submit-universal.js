@@ -498,31 +498,48 @@
      * Initialize single form
      */
     function initForm(form) {
-        // Проверяем, не инициализирована ли форма уже
-        if (form.dataset.initialized === 'true') {
+        // Ищем кнопку submit (может быть как button, так и input)
+        let submitBtn = form.querySelector('button[type="submit"]');
+        if (!submitBtn) {
+            submitBtn = form.querySelector('input[type="submit"]');
+        }
+        if (!submitBtn) {
             return;
         }
-        form.dataset.initialized = 'true';
         
-        const submitBtn = form.querySelector('button[type="submit"]');
-        if (!submitBtn) return;
-
         const config = getFormConfig(form);
         if (!config.apiEndpoint) {
             return;
         }
+        
+        // Проверяем, не инициализирована ли форма уже
+        // Если форма уже инициализирована, проверяем наличие обработчика
+        if (form.dataset.initialized === 'true') {
+            // Проверяем, есть ли обработчик submit (должен быть функцией)
+            const hasSubmitHandler = form._codeweberSubmitHandler !== undefined && typeof form._codeweberSubmitHandler === 'function';
+            if (hasSubmitHandler) {
+                return; // Обработчик уже есть, не переинициализируем
+            }
+            // Если обработчика нет, сбрасываем флаг и продолжаем инициализацию
+            form.dataset.initialized = 'false';
+        }
 
         const formMessages = form.querySelector(config.messagesContainer);
-        const originalBtnHTML = submitBtn.innerHTML;
-        const originalBtnText = submitBtn.textContent || submitBtn.innerText;
-        const loadingText = submitBtn.dataset.loadingText || 'Отправка...';
+        
+        // Для input[type="submit"] используем value, для button - innerHTML
+        const isInputSubmit = submitBtn.tagName === 'INPUT';
+        const originalBtnHTML = isInputSubmit ? submitBtn.value : submitBtn.innerHTML;
+        const originalBtnText = isInputSubmit ? submitBtn.value : (submitBtn.textContent || submitBtn.innerText);
+        const loadingText = submitBtn.dataset.loadingText || 'Отправка';
         const originalMinHeight = submitBtn.style.minHeight || '';
         
         // Флаг для отслеживания наших изменений кнопки
         let isOurControl = false;
         
-        // Сохраняем оригинальный setter для disabled
-        const buttonPrototype = Object.getOwnPropertyDescriptor(HTMLButtonElement.prototype, 'disabled');
+        // Сохраняем оригинальный setter для disabled (для button и input одинаково)
+        const elementPrototype = isInputSubmit 
+            ? Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'disabled')
+            : Object.getOwnPropertyDescriptor(HTMLButtonElement.prototype, 'disabled');
         
         // Перехватываем изменения disabled
         try {
@@ -531,13 +548,16 @@
                     const wasDisabled = this.disabled;
                     const willBeDisabled = value;
                     
+                    // Получаем текущий текст кнопки (для input - value, для button - textContent)
+                    const currentText = isInputSubmit ? this.value : (this.textContent || this.innerText);
+                    
                     // Если кнопка разблокируется во время отправки (когда текст "Отправка...")
-                    if (wasDisabled && !willBeDisabled && (this.textContent === loadingText || this.textContent.trim() === loadingText.trim())) {
+                    if (wasDisabled && !willBeDisabled && (currentText === loadingText || currentText.trim() === loadingText.trim())) {
                         if (!isOurControl) {
                             // Сохраняем информацию о том, кто разблокировал
                             const unlockInfo = {
                                 timestamp: Date.now(),
-                                text: this.textContent,
+                                text: currentText,
                                 stack: new Error().stack
                             };
                             submitBtn._unlockInfo = unlockInfo;
@@ -545,8 +565,8 @@
                     }
                     
                     // Устанавливаем значение
-                    if (buttonPrototype && buttonPrototype.set) {
-                        buttonPrototype.set.call(this, value);
+                    if (elementPrototype && elementPrototype.set) {
+                        elementPrototype.set.call(this, value);
                     } else {
                         if (value) {
                             this.setAttribute('disabled', 'disabled');
@@ -556,8 +576,8 @@
                     }
                 },
                 get: function() {
-                    if (buttonPrototype && buttonPrototype.get) {
-                        return buttonPrototype.get.call(this);
+                    if (elementPrototype && elementPrototype.get) {
+                        return elementPrototype.get.call(this);
                     }
                     return this.hasAttribute('disabled');
                 },
@@ -571,7 +591,8 @@
         const eventWatcher = function(event) {
             if (event.type === 'codeweberFormSubmitted' || event.type === 'codeweberFormError') {
                 setTimeout(() => {
-                    if (submitBtn.disabled === false && (submitBtn.textContent === loadingText || submitBtn.textContent.trim() === loadingText.trim())) {
+                    const currentText = isInputSubmit ? submitBtn.value : (submitBtn.textContent || submitBtn.innerText);
+                    if (submitBtn.disabled === false && (currentText === loadingText || currentText.trim() === loadingText.trim())) {
                         // Button was unlocked by external script
                     }
                 }, 0);
@@ -645,8 +666,12 @@
             }
         }
 
-        form.addEventListener('submit', async function(e) {
+        // Добавляем обработчик submit
+        const submitHandler = async function(e) {
+            // Критически важно предотвратить стандартное поведение формы
             e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
             e.stopPropagation();
 
             // JavaScript событие: форма отправляется
@@ -748,42 +773,80 @@
             
             submitBtn.disabled = true;
             
-            // Показываем спиннер (того же размера что и текст)
-            // Работает для всех форм: testimonial, newsletter subscription, и других codeweber форм
-            const icon = submitBtn.querySelector('i');
-            const span = submitBtn.querySelector('span');
-            
-            if (icon) {
-                // Сохраняем размер иконки (fs-13 или другой), заменяем только иконку на спиннер
-                const iconSize = icon.className.match(/fs-\d+/);
-                const iconSizeClass = iconSize ? iconSize[0] : 'fs-13';
+            // Для input[type="submit"] заменяем на button с иконкой спиннера, для button - innerHTML с иконкой
+            if (isInputSubmit) {
+                // Сохраняем оригинальный input для восстановления
+                const originalInputValue = submitBtn.value;
+                const originalInputClass = submitBtn.className;
                 
-                // Заменяем иконку на спиннер с сохранением размера и добавляем отступ справа
-                icon.className = 'uil uil-spinner-alt uil-spin ' + iconSizeClass;
-                if (!icon.classList.contains('me-1')) {
-                    icon.classList.add('me-1');
-                }
+                // Создаем временный button с иконкой спиннера
+                const tempButton = document.createElement('button');
+                tempButton.type = 'submit';
+                tempButton.className = originalInputClass + ' btn-icon btn-icon-start';
+                tempButton.disabled = true;
+                tempButton.innerHTML = '<i class="uil uil-spinner-alt uil-spin fs-13 me-1"></i>' + loadingText;
                 
-                // Удаляем span обертку с текстом, если есть
-                if (span) {
-                    span.remove();
-                }
-                
-                // Удаляем все текстовые узлы после иконки
-                let node = icon.nextSibling;
-                while (node) {
-                    const next = node.nextSibling;
-                    if (node.nodeType === Node.TEXT_NODE || (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN')) {
-                        node.remove();
+                // Сохраняем ссылку на оригинальный input для восстановления
+                // Копируем dataset правильно
+                const datasetCopy = {};
+                if (submitBtn.dataset) {
+                    for (const key in submitBtn.dataset) {
+                        if (submitBtn.dataset.hasOwnProperty(key)) {
+                            datasetCopy[key] = submitBtn.dataset[key];
+                        }
                     }
-                    node = next;
                 }
+                tempButton._originalInput = {
+                    value: originalInputValue,
+                    className: originalInputClass,
+                    dataset: datasetCopy
+                };
+                // Флаг для отслеживания замены
+                tempButton._wasInputReplaced = true;
                 
-                // Добавляем новый текстовый узел с текстом загрузки
-                submitBtn.appendChild(document.createTextNode(loadingText));
+                // Заменяем input на button
+                submitBtn.parentNode.replaceChild(tempButton, submitBtn);
+                
+                // Обновляем ссылку на submitBtn для дальнейшего использования
+                submitBtn = tempButton;
             } else {
-                // Если структуры нет (старые формы без иконки), создаем с правильным размером
-                submitBtn.innerHTML = '<i class="uil uil-spinner-alt uil-spin fs-13 me-1"></i>' + loadingText;
+                // Показываем спиннер (того же размера что и текст)
+                // Работает для всех форм: testimonial, newsletter subscription, и других codeweber форм
+                const icon = submitBtn.querySelector('i');
+                const span = submitBtn.querySelector('span');
+                
+                if (icon) {
+                    // Сохраняем размер иконки (fs-13 или другой), заменяем только иконку на спиннер
+                    const iconSize = icon.className.match(/fs-\d+/);
+                    const iconSizeClass = iconSize ? iconSize[0] : 'fs-13';
+                    
+                    // Заменяем иконку на спиннер с сохранением размера и добавляем отступ справа
+                    icon.className = 'uil uil-spinner-alt uil-spin ' + iconSizeClass;
+                    if (!icon.classList.contains('me-1')) {
+                        icon.classList.add('me-1');
+                    }
+                    
+                    // Удаляем span обертку с текстом, если есть
+                    if (span) {
+                        span.remove();
+                    }
+                    
+                    // Удаляем все текстовые узлы после иконки
+                    let node = icon.nextSibling;
+                    while (node) {
+                        const next = node.nextSibling;
+                        if (node.nodeType === Node.TEXT_NODE || (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN')) {
+                            node.remove();
+                        }
+                        node = next;
+                    }
+                    
+                    // Добавляем новый текстовый узел с текстом загрузки
+                    submitBtn.appendChild(document.createTextNode(loadingText));
+                } else {
+                    // Если структуры нет (старые формы без иконки), создаем с правильным размером
+                    submitBtn.innerHTML = '<i class="uil uil-spinner-alt uil-spin fs-13 me-1"></i>' + loadingText;
+                }
             }
             
             isOurControl = false;
@@ -1060,7 +1123,8 @@
                 form.dispatchEvent(networkErrorEvent);
             } finally {
                 // Проверяем, не разблокирована ли кнопка другим скриптом
-                if (!submitBtn.disabled && (submitBtn.textContent === loadingText || submitBtn.textContent.trim() === loadingText.trim())) {
+                const currentText = isInputSubmit ? submitBtn.value : (submitBtn.textContent || submitBtn.innerText);
+                if (!submitBtn.disabled && (currentText === loadingText || currentText.trim() === loadingText.trim())) {
                     // Button was unlocked by external script
                 }
                 
@@ -1076,7 +1140,37 @@
                 // Восстанавливаем состояние кнопки
                 isOurControl = true;
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnHTML;
+                
+                // Если input был заменен на button, восстанавливаем input
+                if (submitBtn._wasInputReplaced && submitBtn._originalInput) {
+                    const originalInputData = submitBtn._originalInput;
+                    // Восстанавливаем оригинальный input
+                    const restoredInput = document.createElement('input');
+                    restoredInput.type = 'submit';
+                    restoredInput.value = originalInputData.value || originalBtnHTML;
+                    restoredInput.className = originalInputData.className || '';
+                    restoredInput.disabled = false;
+                    // Копируем все data-атрибуты
+                    if (originalInputData.dataset) {
+                        for (const key in originalInputData.dataset) {
+                            if (originalInputData.dataset.hasOwnProperty(key)) {
+                                restoredInput.dataset[key] = originalInputData.dataset[key];
+                            }
+                        }
+                    }
+                    // Заменяем button обратно на input
+                    submitBtn.parentNode.replaceChild(restoredInput, submitBtn);
+                    // Обновляем ссылку для дальнейшего использования
+                    submitBtn = restoredInput;
+                } else {
+                    // Для input используем value, для button - innerHTML
+                    if (isInputSubmit) {
+                        submitBtn.value = originalBtnHTML;
+                    } else {
+                        submitBtn.innerHTML = originalBtnHTML;
+                    }
+                }
+                
                 // Восстанавливаем оригинальный minHeight или очищаем
                 if (originalMinHeight) {
                     submitBtn.style.minHeight = originalMinHeight;
@@ -1085,7 +1179,51 @@
                 }
                 isOurControl = false;
             }
-        });
+        };
+        
+        form.addEventListener('submit', submitHandler);
+        
+        // Для input[type="submit"] также добавляем обработчик клика
+        // так как input[type="submit"] может вызвать стандартную отправку формы до того, как сработает submit
+        if (isInputSubmit) {
+            // Используем capture phase для перехвата события раньше всех других обработчиков
+            submitBtn.addEventListener('click', function(e) {
+                // Предотвращаем стандартное поведение (отправку формы)
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                
+                // Проверяем валидность формы
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    // Фокусируемся на первом невалидном поле
+                    const firstInvalid = form.querySelector(':invalid');
+                    if (firstInvalid) {
+                        firstInvalid.focus();
+                    }
+                    return false;
+                }
+                
+                // Вызываем обработчик submit напрямую
+                // Создаем синтетическое событие submit
+                const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+                // Устанавливаем preventDefault в событии
+                Object.defineProperty(submitEvent, 'defaultPrevented', {
+                    get: function() { return true; },
+                    configurable: true
+                });
+                // Вызываем обработчик напрямую
+                submitHandler(submitEvent);
+                
+                return false;
+            }, true); // Используем capture phase для перехвата события раньше
+        }
+        
+        // Сохраняем ссылку на обработчик для проверки
+        form._codeweberSubmitHandler = submitHandler;
+        
+        // Помечаем форму как инициализированную после успешной настройки
+        form.dataset.initialized = 'true';
     }
 
     /**

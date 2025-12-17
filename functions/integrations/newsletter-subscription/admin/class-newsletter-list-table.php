@@ -427,15 +427,49 @@ class Newsletter_Subscription_List_Table extends WP_List_Table
             $updated = 0;
             $unsubscribed_at = current_time('mysql');
             $updated_at = current_time('mysql');
+            $actor_user_id = get_current_user_id();
             foreach ($emails as $email) {
-               $result = $wpdb->query($wpdb->prepare(
-                  "UPDATE {$this->table_name} SET status = 'unsubscribed', unsubscribed_at = %s, updated_at = %s WHERE email = %s",
-                  $unsubscribed_at,
-                  $updated_at,
+               // Получаем текущую запись для обновления истории событий
+               $subscription = $wpdb->get_row($wpdb->prepare(
+                  "SELECT * FROM {$this->table_name} WHERE email = %s LIMIT 1",
                   $email
                ));
-               if ($result !== false && $result > 0) {
-                  $updated += $result;
+               
+               if ($subscription) {
+                  // Обновляем историю событий
+                  $events = [];
+                  if (!empty($subscription->events_history)) {
+                     $decoded = json_decode($subscription->events_history, true);
+                     if (is_array($decoded)) {
+                        $events = $decoded;
+                     }
+                  }
+                  
+                  $events[] = [
+                     'type'         => 'unsubscribed',
+                     'date'         => $unsubscribed_at,
+                     'source'       => 'admin',
+                     'form_id'      => '',
+                     'page_url'     => '',
+                     'actor_user_id'=> $actor_user_id,
+                  ];
+                  
+                  $result = $wpdb->update(
+                     $this->table_name,
+                     [
+                        'status'          => 'unsubscribed',
+                        'unsubscribed_at' => $unsubscribed_at,
+                        'updated_at'      => $updated_at,
+                        'events_history'  => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
+                     ],
+                     ['email' => $email],
+                     ['%s', '%s', '%s', '%s'],
+                     ['%s']
+                  );
+                  
+                  if ($result !== false && $result > 0) {
+                     $updated += $result;
+                  }
                }
             }
             if ($updated > 0) {

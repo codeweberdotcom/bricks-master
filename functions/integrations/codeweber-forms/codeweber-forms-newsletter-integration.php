@@ -21,6 +21,15 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     $is_newsletter_form = codeweber_forms_is_newsletter_form($form_id);
     $has_mailing_consent = false;
     
+    // Проверяем, не была ли подписка уже создана (чтобы избежать дубликатов при прямом вызове)
+    static $processed_submissions = [];
+    $submission_key = $submission_id . '_' . $form_id;
+    if (isset($processed_submissions[$submission_key])) {
+        error_log('Newsletter integration: Subscription already processed for submission_id: ' . $submission_id . ', form_id: ' . $form_id);
+        return;
+    }
+    $processed_submissions[$submission_key] = true;
+    
     // Проверяем наличие согласий на рассылку в данных формы
     if (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
         foreach ($form_data['newsletter_consents'] as $doc_id => $consent) {

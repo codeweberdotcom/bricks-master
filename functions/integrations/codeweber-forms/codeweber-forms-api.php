@@ -367,8 +367,24 @@ class CodeweberFormsAPI {
          */
         if (codeweber_forms_is_newsletter_form($form_id)) {
             // Определяем email из полей формы
-            $email_raw = $fields['email'] ?? ($fields['email-address'] ?? ($fields['EMAIL'] ?? ''));
+            // Сначала проверяем поле с именем 'email'
+            $email_raw = $fields['email'] ?? '';
             $email = sanitize_email($email_raw);
+            
+            // Если email не найден по имени 'email', ищем в других полях по значению
+            if (empty($email) || !is_email($email)) {
+                foreach ($fields as $field_name => $field_value) {
+                    // Пропускаем служебные поля
+                    if (in_array($field_name, ['form_id', 'form_nonce', 'form_honeypot', '_wp_http_referer', 'newsletter_consents', 'utm_params', 'tracking_data', '_utm_data'])) {
+                        continue;
+                    }
+                    // Проверяем, является ли значение валидным email
+                    if (!empty($field_value) && is_email($field_value)) {
+                        $email = sanitize_email($field_value);
+                        break;
+                    }
+                }
+            }
 
             if (!empty($email) && is_email($email)) {
                 global $wpdb;
@@ -562,6 +578,25 @@ class CodeweberFormsAPI {
         $sanitized_fields = $this->sanitize_fields($fields);
         error_log('Form Submit - sanitized_fields (before adding consents): ' . print_r($sanitized_fields, true));
         
+        // Для newsletter форм: если email не найден по имени 'email', ищем его в других полях
+        if ($form_id && function_exists('codeweber_forms_is_newsletter_form') && codeweber_forms_is_newsletter_form($form_id)) {
+            if (empty($sanitized_fields['email']) || !is_email($sanitized_fields['email'])) {
+                // Ищем email значение в других полях
+                foreach ($sanitized_fields as $field_name => $field_value) {
+                    // Пропускаем служебные поля
+                    if (in_array($field_name, ['form_id', 'form_nonce', 'form_honeypot', '_wp_http_referer', 'newsletter_consents', 'utm_params', 'tracking_data', '_utm_data'])) {
+                        continue;
+                    }
+                    // Проверяем, является ли значение валидным email
+                    if (!empty($field_value) && is_email($field_value)) {
+                        $sanitized_fields['email'] = sanitize_email($field_value);
+                        error_log('Form Submit - Mapped email field: ' . $field_name . ' -> email');
+                        break;
+                    }
+                }
+            }
+        }
+        
         // Добавляем newsletter_consents обратно после санитизации
         if ($newsletter_consents_for_save !== null) {
             $sanitized_fields['newsletter_consents'] = $newsletter_consents_for_save;
@@ -597,10 +632,23 @@ class CodeweberFormsAPI {
         
         // Сохранение в БД
         $db = new CodeweberFormsDatabase();
-        // Определяем человекочитаемое имя формы по умолчанию
-        $default_form_name = $form_settings['formTitle'] ?? 'Contact Form';
-        if (is_string($form_id)) {
-            // Для встроенных форм (newsletter, testimonial и т.п.) используем те же лейблы, что и в шорткоде/настройках
+        
+        // Определяем название формы для сохранения в БД
+        $form_name_for_db = '';
+        
+        // Приоритет 1: Если пришло название из запроса (атрибут name в шорткоде)
+        if (!empty($form_name_from_request) && trim($form_name_from_request) !== '') {
+            $form_name_for_db = sanitize_text_field($form_name_from_request);
+        }
+        // Приоритет 2: Если form_id - число (CPT форма), получаем название из заголовка CPT записи
+        elseif (is_numeric($form_id) && (int) $form_id > 0) {
+            $form_post = get_post((int) $form_id);
+            if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
+                $form_name_for_db = $form_post->post_title;
+            }
+        }
+        // Приоритет 3: Для встроенных форм (newsletter, testimonial и т.п.) используем лейблы
+        elseif (is_string($form_id)) {
             $builtin_labels = [
                 'testimonial' => __('Testimonial Form', 'codeweber'),
                 'newsletter'  => __('Newsletter Subscription', 'codeweber'),
@@ -608,18 +656,21 @@ class CodeweberFormsAPI {
                 'callback'    => __('Callback Request', 'codeweber'),
             ];
             if (isset($builtin_labels[$form_id])) {
-                $default_form_name = $builtin_labels[$form_id];
+                $form_name_for_db = $builtin_labels[$form_id];
             } else {
                 // Фоллбек: если это какой‑то другой строковый ID, используем его как есть
-                $default_form_name = $form_id;
+                $form_name_for_db = $form_id;
             }
+        }
+        // Приоритет 4: Используем formTitle из настроек формы
+        if (empty($form_name_for_db)) {
+            $form_name_for_db = $form_settings['formTitle'] ?? 'Contact Form';
         }
 
         $submission_id = $db->save_submission([
             'form_id'   => $form_id,
-            // form_name: если пришёл form_name (name из шорткода) — используем его,
-            // иначе используем человекочитаемое имя по умолчанию (а не сырой ID).
-            'form_name' => !empty($form_name_from_request) ? $form_name_from_request : $default_form_name,
+            // form_name: приоритет - название из запроса, затем из заголовка CPT, затем из настроек
+            'form_name' => $form_name_for_db,
             'submission_data' => $sanitized_fields,
             'files_data' => $files_data,
             'ip_address' => $ip_address,
@@ -658,6 +709,17 @@ class CodeweberFormsAPI {
                 'email_sent' => $email_sent ? 1 : 0,
                 'email_error' => $email_error,
             ]);
+        }
+        
+        // Для newsletter форм: создаем подписку ДО отправки auto-reply, чтобы unsubscribe_url был доступен
+        if (codeweber_forms_is_newsletter_form($form_id) && !empty($sanitized_fields['email'])) {
+            $user_email = sanitize_email($sanitized_fields['email']);
+            if (is_email($user_email)) {
+                // Вызываем интеграцию newsletter ДО отправки auto-reply
+                if (function_exists('codeweber_forms_newsletter_integration')) {
+                    codeweber_forms_newsletter_integration($submission_id, $form_id, $sanitized_fields);
+                }
+            }
         }
         
         // Отправка auto-reply пользователю
@@ -840,8 +902,32 @@ class CodeweberFormsAPI {
         if (empty($form_fields_config)) {
             // Для newsletter формы проверяем наличие email
             if ($form_id && function_exists('codeweber_forms_is_newsletter_form') && codeweber_forms_is_newsletter_form($form_id)) {
-                if (empty($fields['email']) || !is_email($fields['email'])) {
-                    return ['valid' => false, 'message' => __('Email is required.', 'codeweber')];
+                // Ищем email поле - сначала по имени 'email', затем по типу поля или по значению
+                $email_value = null;
+                
+                // 1. Проверяем поле с именем 'email'
+                if (!empty($fields['email']) && is_email($fields['email'])) {
+                    $email_value = $fields['email'];
+                } else {
+                    // 2. Ищем поле с типом email или newsletter в значениях
+                    // Проходим по всем полям и ищем email значение
+                    foreach ($fields as $field_name => $field_value) {
+                        // Пропускаем служебные поля
+                        if (in_array($field_name, ['form_id', 'form_nonce', 'form_honeypot', '_wp_http_referer', 'newsletter_consents', 'utm_params', 'tracking_data', '_utm_data'])) {
+                            continue;
+                        }
+                        
+                        // Проверяем, является ли значение валидным email
+                        if (!empty($field_value) && is_email($field_value)) {
+                            $email_value = $field_value;
+                            break;
+                        }
+                    }
+                }
+                
+                // Если email не найден или невалиден
+                if (empty($email_value) || !is_email($email_value)) {
+                    return ['valid' => false, 'message' => __('E-Mail обязателен для заполнения', 'codeweber')];
                 }
             }
             return ['valid' => true];
