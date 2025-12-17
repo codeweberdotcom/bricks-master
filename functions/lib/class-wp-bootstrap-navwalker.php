@@ -51,6 +51,14 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			$indent = str_repeat($t, $depth);
 			// Default class to add to the file.
 			$classes = array('dropdown-menu');
+
+			// Добавляем скругление из Redux, если выбрано "square" (rounded-0)
+			if (function_exists('getThemeCardImageRadius')) {
+				$radius_class = getThemeCardImageRadius('');
+				if (!empty($radius_class) && $radius_class === 'rounded-0') {
+					$classes[] = 'rounded-0';
+				}
+			}
 			/**
 			 * Filters the CSS class(es) applied to a menu list element.
 			 *

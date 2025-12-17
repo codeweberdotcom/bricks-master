@@ -72,10 +72,8 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
         
         $export_items = [];
         
-        foreach ($consents_history as $index => $record) {
-            $group_id = 'user-consents';
-            $group_label = __('User Consents', 'codeweber');
-            
+        // Вспомогательная функция для построения общих данных записи
+        $build_record_base_data = function($record, $email, $user) {
             $data = [];
             
             // Consent date and time
@@ -106,10 +104,8 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
                 $form_id_display = $record['context']['form_id'];
                 $form_id_for_link = null;
                 
-                // Если это строка (встроенная форма), показываем как есть
-                if (is_string($form_id_display)) {
-                    $form_id_display = $form_id_display;
-                } else {
+                // Если это не строка, конвертируем в строку
+                if (!is_string($form_id_display)) {
                     $form_id_display = (string) $form_id_display;
                     $form_id_for_link = (int) $form_id_display;
                 }
@@ -233,9 +229,31 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
                 ];
             }
             
-            // Consents (documents)
-            if (!empty($record['consents']) && is_array($record['consents'])) {
-                foreach ($record['consents'] as $doc_id => $consent) {
+            return $data;
+        };
+        
+        foreach ($consents_history as $index => $record) {
+            if (empty($record['consents']) || !is_array($record['consents'])) {
+                continue;
+            }
+            
+            // Разделяем согласия на активные и отозванные
+            $active_consents = [];
+            $revoked_consents = [];
+            
+            foreach ($record['consents'] as $doc_id => $consent) {
+                if (!empty($consent['revoked_at'])) {
+                    $revoked_consents[$doc_id] = $consent;
+                } else {
+                    $active_consents[$doc_id] = $consent;
+                }
+            }
+            
+            // Добавляем запись с активными согласиями
+            if (!empty($active_consents)) {
+                $data = $build_record_base_data($record, $email, $user);
+                
+                foreach ($active_consents as $doc_id => $consent) {
                     $doc = get_post($doc_id);
                     if ($doc) {
                         $doc_title = $doc->post_title;
@@ -275,9 +293,68 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
                                 . '</a>';
                         }
                         
-                        // Add revocation status
+                        $data[] = [
+                            'name' => __('Consented Document', 'codeweber'),
+                            'value' => $consent_info
+                        ];
+                    }
+                }
+                
+                $export_items[] = [
+                    'group_id' => 'user-consents',
+                    'group_label' => __('User Consents', 'codeweber'),
+                    'item_id' => 'user-consent-' . $index,
+                    'data' => $data,
+                ];
+            }
+            
+            // Добавляем запись с отозванными согласиями
+            if (!empty($revoked_consents)) {
+                $data = $build_record_base_data($record, $email, $user);
+                
+                foreach ($revoked_consents as $doc_id => $consent) {
+                    $doc = get_post($doc_id);
+                    if ($doc) {
+                        $doc_title = $doc->post_title;
+                        $doc_url = '';
+                        
+                        // Get document URL (with revision if available)
+                        if (!empty($consent['document_revision_id'])) {
+                            $doc_url = admin_url('revision.php?revision=' . $consent['document_revision_id']);
+                        } else {
+                            $doc_url = get_permalink($doc_id);
+                        }
+                        
+                        $consent_info = sprintf(
+                            '%s (ID: %d)',
+                            $doc_title,
+                            $doc_id
+                        );
+                        
+                        // Add revision info
+                        if (!empty($consent['document_revision_id'])) {
+                            $consent_info .= sprintf(
+                                ' - ' . __('Revision ID', 'codeweber') . ': %d',
+                                $consent['document_revision_id']
+                            );
+                        }
+                        
+                        // Add version info
+                        if (!empty($consent['document_version'])) {
+                            $consent_info .= ' - ' . __('Version', 'codeweber') . ': ' . $consent['document_version'];
+                        }
+                        
+                        // Add URL (make it clickable in export)
+                        if ($doc_url) {
+                            $consent_info .= ' - ' . __('URL', 'codeweber') . ': '
+                                . '<a href="' . esc_url($doc_url) . '" target="_blank" rel="noopener noreferrer">'
+                                . esc_html($doc_url)
+                                . '</a>';
+                        }
+                        
+                        // Add revocation status with Russian translation
                         if (!empty($consent['revoked_at'])) {
-                            $consent_info .= ' - ' . __('Revoked', 'codeweber') . ': ' . $consent['revoked_at'];
+                            $consent_info .= ' - ' . __('Отозвано', 'codeweber') . ': ' . $consent['revoked_at'];
                             if (!empty($consent['revoked_at_gmt'])) {
                                 $consent_info .= ' (GMT: ' . $consent['revoked_at_gmt'] . ')';
                             }
@@ -289,14 +366,14 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
                         ];
                     }
                 }
+                
+                $export_items[] = [
+                    'group_id' => 'user-consents-revoked',
+                    'group_label' => __('Отозванные согласия', 'codeweber'),
+                    'item_id' => 'user-consent-revoked-' . $index,
+                    'data' => $data,
+                ];
             }
-            
-            $export_items[] = [
-                'group_id' => $group_id,
-                'group_label' => $group_label,
-                'item_id' => 'user-consent-' . $index,
-                'data' => $data,
-            ];
         }
         
         return [

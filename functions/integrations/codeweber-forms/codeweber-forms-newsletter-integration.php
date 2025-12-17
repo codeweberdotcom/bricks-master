@@ -60,9 +60,10 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
         }
     }
     
-    // Если форма не является newsletter формой И нет согласия на рассылку - выходим
-    if (!$is_newsletter_form && !$has_mailing_consent) {
-        error_log('Newsletter integration: Form is not newsletter form and no mailing consent found');
+    // Новое правило: подписка создаётся только при наличии согласия на рассылку,
+    // вне зависимости от того, является ли форма newsletter-формой.
+    if (!$has_mailing_consent) {
+        error_log('Newsletter integration: Mailing consent not found, skipping subscription');
         return;
     }
     

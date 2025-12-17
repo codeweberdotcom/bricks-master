@@ -48,8 +48,6 @@ class NewsletterSubscriptionFrontend
       if (isset($_GET['unsubscribe'])) {
          $options = get_option($this->options_name, array());
 
-         $close_text = __('Close', 'codeweber');
-
          $unsubscribe_success = isset($options['unsubscribe_success']) && !empty($options['unsubscribe_success'])
             ? $options['unsubscribe_success']
             : __('You have successfully unsubscribed from the newsletter', 'codeweber');
@@ -66,42 +64,61 @@ class NewsletterSubscriptionFrontend
             ? $options['unsubscribe_error_message']
             : __('Failed to unsubscribe from the newsletter. The link may have expired.', 'codeweber');
 
-         if ($_GET['unsubscribe'] === 'success') {
-            echo '<div class="modal fade modal-popup newsletter-unsubscribe-notice newsletter-unsubscribe-success" id="modal-01" tabindex="-1">
-                  <div class="modal-dialog modal-dialog-centered modal-sm">
-                     <div class="modal-content text-center">
-                       <div class="modal-body">
-                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' . esc_attr($close_text) . '"></button>
-                         <h3 class="text-center">' . esc_html($unsubscribe_success) . '</h3>
-                         <p>' . esc_html($unsubscribe_message) . '</p>
-                       </div>
-                     </div>
-                   </div>
-                  </div>
-                <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        if (window.history.replaceState && window.location.search.includes("unsubscribe=")) {
-                            var newUrl = window.location.href.replace(/([?&])unsubscribe=[^&]*(&|$)/, "$1");
-                            newUrl = newUrl.replace(/[?&]$/, "");
-                            window.history.replaceState({}, document.title, newUrl);
-                        }
-                    });
-                </script>
-                ';
+         // Используем универсальное модальное окно #modal, чтобы избежать дублирования разметки
+         $is_success = ($_GET['unsubscribe'] === 'success');
+
+         if ($is_success) {
+            $modal_content = '<div class="text-center"><h3 class="text-center">' . esc_html($unsubscribe_success) . '</h3><p>' . esc_html($unsubscribe_message) . '</p></div>';
+            $modal_type_class = 'newsletter-unsubscribe-success';
          } elseif ($_GET['unsubscribe'] === 'error') {
-            echo '<div class="modal fade modal-popup newsletter-unsubscribe-notice newsletter-unsubscribe-error" id="modal-02" tabindex="-1">
-                  <div class="modal-dialog modal-dialog-centered modal-sm">
-                     <div class="modal-content text-center">
-                       <div class="modal-body">
-                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' . esc_attr($close_text) . '"></button>
-                         <h3 class="text-center">' . esc_html($unsubscribe_error) . '</h3>
-                         <p>' . esc_html($unsubscribe_error_message) . '</p>
-                       </div>
-                     </div>
-                   </div>
-                  </div>
-                ';
+            $modal_content = '<div class="text-center"><h3 class="text-center">' . esc_html($unsubscribe_error) . '</h3><p>' . esc_html($unsubscribe_error_message) . '</p></div>';
+            $modal_type_class = 'newsletter-unsubscribe-error';
+         } else {
+            return;
          }
+
+         echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+               var modalElement = document.getElementById("modal");
+               var modalContent = document.getElementById("modal-content");
+
+               if (modalElement && modalContent) {
+                  // Устанавливаем контент
+                  modalContent.innerHTML = ' . json_encode($modal_content) . ';
+
+                  // Добавляем класс для стилизации
+                  modalElement.classList.add("' . esc_js($modal_type_class) . '");
+
+                  // Настраиваем размер и выравнивание
+                  var modalDialog = modalElement.querySelector(".modal-dialog");
+                  if (modalDialog) {
+                     modalDialog.classList.add("modal-sm", "modal-dialog-centered", "text-center");
+                  }
+
+                  // Открываем модальное окно
+                  if (typeof bootstrap !== "undefined" && bootstrap.Modal) {
+                     var modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+                     modalInstance.show();
+                  }
+
+                  // После закрытия очищаем URL и классы
+                  modalElement.addEventListener("hidden.bs.modal", function cleanup() {
+                     modalElement.classList.remove("' . esc_js($modal_type_class) . '");
+                     if (modalDialog) {
+                        modalDialog.classList.remove("modal-sm", "modal-dialog-centered", "text-center");
+                     }
+
+                     if (window.history.replaceState && window.location.search.includes("unsubscribe=")) {
+                        var newUrl = window.location.href.replace(/([?&])unsubscribe=[^&]*(&|$)/, "$1");
+                        newUrl = newUrl.replace(/[?&]$/, "");
+                        window.history.replaceState({}, document.title, newUrl);
+                     }
+
+                     modalElement.removeEventListener("hidden.bs.modal", cleanup);
+                  }, { once: true });
+               }
+            });
+         </script>';
       }
    }
 
@@ -160,6 +177,11 @@ class NewsletterSubscriptionFrontend
          'status' => 'confirmed'
       ));
 
+      // Отзываем согласие на рассылку при отписке
+      if ($result !== false) {
+         $this->revoke_mailing_consent($email);
+      }
+
       return $result !== false;
    }
 
@@ -174,6 +196,39 @@ class NewsletterSubscriptionFrontend
       ));
 
       return !empty($valid);
+   }
+
+   /**
+    * Revoke mailing consent when user unsubscribes
+    * 
+    * @param string $email User email address
+    */
+   private function revoke_mailing_consent($email)
+   {
+      // 1. Get consent document ID from settings
+      $consent_document_id = get_option('codeweber_legal_email_consent', 0);
+
+      if (empty($consent_document_id)) {
+         error_log('Newsletter unsubscribe: Mailing consent document ID not configured');
+         return;
+      }
+
+      // 2. Find user by email
+      $user = get_user_by('email', $email);
+      if (!$user) {
+         error_log('Newsletter unsubscribe: User not found for email: ' . $email);
+         return;
+      }
+
+      // 3. Revoke mailing consent (only this document)
+      if (function_exists('codeweber_forms_revoke_user_consent')) {
+         $result = codeweber_forms_revoke_user_consent($user->ID, $consent_document_id);
+         if (is_wp_error($result)) {
+            error_log('Newsletter unsubscribe: Failed to revoke consent: ' . $result->get_error_message());
+         } else {
+            error_log('Newsletter unsubscribe: Consent revoked successfully for user ID: ' . $user->ID);
+         }
+      }
    }
 
    public function send_confirmation_email($email, $first_name, $last_name, $unsubscribe_token)

@@ -469,6 +469,8 @@ class Newsletter_Subscription_List_Table extends WP_List_Table
                   
                   if ($result !== false && $result > 0) {
                      $updated += $result;
+                     // Отзываем согласие на рассылку при отписке
+                     $this->revoke_mailing_consent($email);
                   }
                }
             }
@@ -690,6 +692,39 @@ class Newsletter_Subscription_List_Table extends WP_List_Table
             wp_redirect($redirect_url);
             exit;
             break;
+      }
+   }
+
+   /**
+    * Revoke mailing consent when user unsubscribes
+    * 
+    * @param string $email User email address
+    */
+   private function revoke_mailing_consent($email)
+   {
+      // 1. Get consent document ID from settings
+      $consent_document_id = get_option('codeweber_legal_email_consent', 0);
+
+      if (empty($consent_document_id)) {
+         error_log('Newsletter unsubscribe: Mailing consent document ID not configured');
+         return;
+      }
+
+      // 2. Find user by email
+      $user = get_user_by('email', $email);
+      if (!$user) {
+         error_log('Newsletter unsubscribe: User not found for email: ' . $email);
+         return;
+      }
+
+      // 3. Revoke mailing consent (only this document)
+      if (function_exists('codeweber_forms_revoke_user_consent')) {
+         $result = codeweber_forms_revoke_user_consent($user->ID, $consent_document_id);
+         if (is_wp_error($result)) {
+            error_log('Newsletter unsubscribe: Failed to revoke consent: ' . $result->get_error_message());
+         } else {
+            error_log('Newsletter unsubscribe: Consent revoked successfully for user ID: ' . $user->ID);
+         }
       }
    }
 

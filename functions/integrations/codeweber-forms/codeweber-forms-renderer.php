@@ -127,9 +127,8 @@ class CodeweberFormsRenderer {
         $form_unique_id = 'form-' . ($form_id ?: uniqid()) . '-' . $form_instance_counter;
         
         // Настройки формы
-        // formTitle — заголовок формы для верстки (frontend),
-        // internalName — логическое имя формы (если задано через шорткод name),
-        // для статистики/идентификаторов внутри системы предпочтительнее internalName.
+        // internalName — логическое имя формы (если задано через шорткод name).
+        // formTitle — заголовок формы (берётся из CPT title / настроек).
         $form_name = $settings['internalName'] ?? ($settings['formTitle'] ?? 'Contact Form');
         $recipient_email = $settings['recipientEmail'] ?? get_option('admin_email');
         $success_message = $settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
@@ -183,10 +182,13 @@ class CodeweberFormsRenderer {
         $form_element_id = $block_id ?: $form_unique_id;
         
         // Формируем data-атрибуты
+        // data-form-name: используем internalName приоритетно, иначе formTitle, иначе дефолт
+        $data_form_name = $settings['internalName'] ?? $form_name;
+
         $form_data_attrs = [
             'data-form-id' => $form_id,
             'data-form-type' => $form_type, // НОВОЕ: Добавляем тип формы
-            'data-form-name' => $settings['internalName'] ?? '',
+            'data-form-name' => $data_form_name,
             'data-handled-by' => 'codeweber-forms-universal',
         ];
         
@@ -743,11 +745,17 @@ class CodeweberFormsRenderer {
                         $button_radius_class_newsletter = getThemeButton();
                     }
                     $button_class_final = trim($button_class_newsletter . ' ' . $button_radius_class_newsletter);
+                    
+                    // Для newsletter типа: если стиль кнопки rounded-pill, применяем его к input полю
+                    $input_radius_class = $form_radius_class;
+                    if (strpos($button_radius_class_newsletter, 'rounded-pill') !== false) {
+                        $input_radius_class = ' rounded-pill';
+                    }
                     ?>
                     <div class="input-group form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
                         <input
                             type="email"
-                            class="form-control required email <?php echo esc_attr($form_radius_class); ?>"
+                            class="form-control required email <?php echo esc_attr($input_radius_class); ?>"
                             id="<?php echo esc_attr($field_id_newsletter); ?>"
                             name="<?php echo esc_attr($field_name_newsletter); ?>"
                             placeholder="<?php echo esc_attr($field_placeholder_newsletter); ?>"

@@ -294,11 +294,9 @@ class CodeweberFormsCPT {
         if ($form_type) {
             update_post_meta($post_id, '_form_type', $form_type);
         } else {
-            // Если тип не найден, устанавливаем по умолчанию 'form'
-            // Но только если метаполе еще не установлено (чтобы не перезаписывать при автосохранении)
-            if (!get_post_meta($post_id, '_form_type', true)) {
-                update_post_meta($post_id, '_form_type', 'form');
-            }
+            // Если атрибут formType не сериализуется (например, выбрана "Обычная форма")
+            // — принудительно сохраняем тип 'form', чтобы сбросить прошлое значение.
+            update_post_meta($post_id, '_form_type', 'form');
         }
     }
     
