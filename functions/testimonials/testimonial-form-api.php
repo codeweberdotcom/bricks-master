@@ -33,18 +33,18 @@ class TestimonialFormAPI {
             'callback' => [$this, 'submit_testimonial'],
             'permission_callback' => '__return_true',
             'args' => [
-                'testimonial_text' => [
+                'message' => [
                     'required' => true,
                     'sanitize_callback' => 'wp_kses_post',
                     'validate_callback' => function($param) {
                         return !empty(trim(strip_tags($param)));
                     }
                 ],
-                'author_name' => [
+                'name' => [
                     'required' => false,
                     'sanitize_callback' => 'sanitize_text_field'
                 ],
-                'author_email' => [
+                'email' => [
                     'required' => false,
                     'sanitize_callback' => 'sanitize_email'
                 ],
@@ -52,7 +52,7 @@ class TestimonialFormAPI {
                     'required' => false,
                     'sanitize_callback' => 'absint'
                 ],
-                'author_role' => [
+                'role' => [
                     'required' => false,
                     'sanitize_callback' => 'sanitize_text_field'
                 ],
@@ -161,12 +161,12 @@ class TestimonialFormAPI {
                                 <input 
                                     type="text" 
                                     class="form-control<?php echo esc_attr($form_radius_class); ?>" 
-                                    name="author_name" 
-                                    id="author_name" 
+                                    name="name" 
+                                    id="name" 
                                     placeholder="<?php esc_attr_e('Your name', 'codeweber'); ?>"
                                     required
                                 >
-                                <label for="author_name"><?php esc_html_e('Your Name *', 'codeweber'); ?></label>
+                                <label for="name"><?php esc_html_e('Your Name *', 'codeweber'); ?></label>
                             </div>
                         </div>
                         
@@ -176,12 +176,12 @@ class TestimonialFormAPI {
                                 <input 
                                     type="email" 
                                     class="form-control<?php echo esc_attr($form_radius_class); ?>" 
-                                    name="author_email" 
-                                    id="author_email" 
+                                    name="email" 
+                                    id="email" 
                                     placeholder="<?php esc_attr_e('Your email', 'codeweber'); ?>"
                                     required
                                 >
-                                <label for="author_email"><?php esc_html_e('Your Email *', 'codeweber'); ?></label>
+                                <label for="email"><?php esc_html_e('Your Email *', 'codeweber'); ?></label>
                             </div>
                         </div>
                         
@@ -191,11 +191,11 @@ class TestimonialFormAPI {
                                 <input 
                                     type="text" 
                                     class="form-control<?php echo esc_attr($form_radius_class); ?>" 
-                                    name="author_role" 
-                                    id="author_role" 
+                                    name="role" 
+                                    id="role" 
                                     placeholder="<?php esc_attr_e('Your position', 'codeweber'); ?>"
                                 >
-                                <label for="author_role"><?php esc_html_e('Your Position', 'codeweber'); ?></label>
+                                <label for="role"><?php esc_html_e('Your Position', 'codeweber'); ?></label>
                             </div>
                         </div>
                         
@@ -407,7 +407,8 @@ class TestimonialFormAPI {
         }
         
         // Get and validate data
-        $testimonial_text = $request->get_param('testimonial_text');
+        // Используем стандартные имена полей: message, name, email
+        $testimonial_text = $request->get_param('message');
         $rating = $request->get_param('rating');
         $utm_params = $request->get_param('utm_params') ?: [];
         $tracking_data = $request->get_param('tracking_data') ?: [];
@@ -415,7 +416,7 @@ class TestimonialFormAPI {
         // Initialize variables
         $author_name = '';
         $author_email = '';
-        $author_role = '';
+        $role = '';
         $company = '';
         $author_type = 'custom';
         
@@ -426,7 +427,7 @@ class TestimonialFormAPI {
                 // Use logged-in user's data
                 $author_name = $current_user->display_name;
                 $author_email = $current_user->user_email;
-                $author_role = get_user_meta($user_id, 'position', true) ?: '';
+                $role = get_user_meta($user_id, 'position', true) ?: '';
                 $company = get_user_meta($user_id, 'company', true) ?: '';
                 // Use 'user' to match admin interface (not 'registered')
                 $author_type = 'user';
@@ -441,11 +442,11 @@ class TestimonialFormAPI {
             error_log('Testimonial Submit - User not logged in, using guest data');
         }
         
-        // If not logged in, get data from form
+        // If not logged in, get data from form (используем стандартные имена: name, email, role)
         if (!$is_logged_in) {
-            $author_name = $request->get_param('author_name');
-            $author_email = $request->get_param('author_email');
-            $author_role = $request->get_param('author_role');
+            $author_name = $request->get_param('name');
+            $author_email = $request->get_param('email');
+            $role = $request->get_param('role');
             $company = $request->get_param('company');
             $author_type = 'custom';
             
@@ -465,20 +466,57 @@ class TestimonialFormAPI {
                     ['status' => 400]
                 );
             }
+            
+            // Проверяем, существует ли пользователь с таким email
+            $user_by_email = get_user_by('email', $author_email);
+            if ($user_by_email && $user_by_email->ID > 0) {
+                // Пользователь существует - используем данные из профиля и устанавливаем тип автора как 'user'
+                $author_type = 'user';
+                $user_id = $user_by_email->ID;
+                $is_logged_in = true; // Помечаем как найденного пользователя
+                
+                // Используем данные из профиля пользователя
+                $author_name = $user_by_email->display_name;
+                $author_email = $user_by_email->user_email;
+                $role = get_user_meta($user_id, 'position', true) ?: ($request->get_param('role') ?: '');
+                $company = get_user_meta($user_id, 'company', true) ?: ($request->get_param('company') ?: '');
+                
+                error_log('Testimonial Submit - Found existing user by email: ' . $author_email . ' (ID: ' . $user_id . ')');
+                error_log('Testimonial Submit - Using user profile data: name=' . $author_name . ', role=' . $role . ', company=' . $company);
+                error_log('Testimonial Submit - Setting author_type to: user');
+            }
         }
         
         // Validate consents
+        // Получаем form_id из запроса (для CPT форм это числовой ID)
+        $form_id_from_request = $request->get_param('form_id');
+        $is_cpt_form = !empty($form_id_from_request) && is_numeric($form_id_from_request);
+        
         if (function_exists('codeweber_forms_validate_consents')) {
-            $all_consents = get_option('builtin_form_consents', []);
-            $consents = isset($all_consents['testimonial']) ? $all_consents['testimonial'] : [];
-            if (!empty($consents) && is_array($consents)) {
+            $consents_config = [];
+            
+            // НОВОЕ: Для CPT форм согласия извлекаются из блоков формы, а не из глобальных настроек
+            if ($is_cpt_form && class_exists('CodeweberFormsCore')) {
+                $form_id_int = intval($form_id_from_request);
+                $consents_config = CodeweberFormsCore::extract_consents_from_blocks($form_id_int);
+                error_log('Testimonial Submit - CPT form, extracted consents from blocks: ' . print_r($consents_config, true));
+            } else {
+                // LEGACY: Для встроенных форм (строковый ID) используем глобальные настройки
+                $all_consents = get_option('builtin_form_consents', []);
+                $consents_config = isset($all_consents['testimonial']) ? $all_consents['testimonial'] : [];
+                error_log('Testimonial Submit - Legacy form, using builtin_form_consents: ' . print_r($consents_config, true));
+            }
+            
+            if (!empty($consents_config) && is_array($consents_config)) {
                 // Get required consents
                 $required_consents = [];
-                foreach ($consents as $consent) {
+                foreach ($consents_config as $consent) {
                     if (!empty($consent['required']) && !empty($consent['document_id'])) {
                         $required_consents[] = intval($consent['document_id']);
                     }
                 }
+                
+                error_log('Testimonial Submit - Required consents (document IDs): ' . print_r($required_consents, true));
                 
                 // Get submitted consents
                 $submitted_consents = $request->get_param('testimonial_consents');
@@ -486,9 +524,13 @@ class TestimonialFormAPI {
                     $submitted_consents = [];
                 }
                 
+                error_log('Testimonial Submit - Submitted consents: ' . print_r($submitted_consents, true));
+                
                 // Validate
                 if (!empty($required_consents)) {
                     $validation = codeweber_forms_validate_consents($submitted_consents, $required_consents);
+                    error_log('Testimonial Submit - Consent validation result: ' . print_r($validation, true));
+                    
                     if (!$validation['valid']) {
                         return new \WP_Error(
                             'consent_required',
@@ -497,6 +539,8 @@ class TestimonialFormAPI {
                         );
                     }
                 }
+            } else {
+                error_log('Testimonial Submit - No consents config found, skipping consent validation');
             }
         }
 
@@ -551,7 +595,7 @@ class TestimonialFormAPI {
                 '_testimonial_text' => wp_kses_post($testimonial_text),
                 '_testimonial_author_type' => $author_type,
                 '_testimonial_author_name' => sanitize_text_field($author_name),
-                '_testimonial_author_role' => sanitize_text_field($author_role),
+                '_testimonial_author_role' => sanitize_text_field($role),
                 '_testimonial_company' => sanitize_text_field($company),
                 '_testimonial_rating' => absint($rating),
                 '_testimonial_status' => 'pending',
@@ -588,13 +632,13 @@ class TestimonialFormAPI {
         error_log('Testimonial Submit - _testimonial_author_user_id: ' . get_post_meta($post_id, '_testimonial_author_user_id', true));
         error_log('Testimonial Submit - _testimonial_author_name: ' . get_post_meta($post_id, '_testimonial_author_name', true));
         
-        // Double-check: if user is logged in, ensure meta fields are set correctly
+        // Double-check: if user is logged in or found by email, ensure meta fields are set correctly
         if ($is_logged_in && $user_id > 0) {
             // Force update meta fields to ensure they're saved
             // Use 'user' instead of 'registered' to match admin interface
             update_post_meta($post_id, '_testimonial_author_type', 'user');
             update_post_meta($post_id, '_testimonial_author_user_id', absint($user_id));
-            error_log('Testimonial Submit - Force updated meta fields for registered user');
+            error_log('Testimonial Submit - Force updated meta fields for user (ID: ' . $user_id . ')');
         }
 
         // Собираем UTM метки и tracking данные
@@ -606,13 +650,13 @@ class TestimonialFormAPI {
             $tracking_data
         );
         
-        // Prepare submission data
+        // Prepare submission data (используем стандартные имена)
         $submission_fields = [
             'name' => $author_name,
             'email' => $author_email,
-            'role' => $author_role,
+            'role' => $role,
             'company' => $company,
-            'testimonial_text' => $testimonial_text,
+            'message' => $testimonial_text,
             'rating' => $rating,
         ];
         

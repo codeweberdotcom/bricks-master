@@ -150,6 +150,7 @@ require_once get_template_directory() . '/functions/demo/demo-faq.php';
 require_once get_template_directory() . '/functions/demo/demo-testimonials.php';
 require_once get_template_directory() . '/functions/demo/demo-staff.php';
 require_once get_template_directory() . '/functions/demo/demo-vacancies.php';
+require_once get_template_directory() . '/functions/demo/demo-forms.php';
 require_once get_template_directory() . '/functions/demo/demo-ajax.php';
 
 /**

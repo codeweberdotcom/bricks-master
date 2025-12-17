@@ -674,9 +674,9 @@ function codeweber_testimonial_rating_stars($current_rating = 0, $name = 'rating
     ob_start();
     ?>
     <div class="testimonial-rating-selector">
-        <label class="form-label d-block mb-3"><?php esc_html_e('Rating *', 'codeweber'); ?></label>
+        <label class="form-label d-block mb-0 mt-3"><?php esc_html_e('Rating *', 'codeweber'); ?></label>
         <input type="hidden" name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($id); ?>" value="<?php echo esc_attr($current_rating); ?>" <?php echo $required ? 'required' : ''; ?>>
-        <div class="rating-stars-wrapper d-flex gap-1 align-items-center" data-rating-input="<?php echo esc_attr($id); ?>">
+        <div class="rating-stars-wrapper d-flex gap-1 align-items-center p-0" data-rating-input="<?php echo esc_attr($id); ?>">
             <?php for ($i = 1; $i <= 5; $i++): 
                 $is_active = $i <= $current_rating;
             ?>
@@ -692,7 +692,6 @@ function codeweber_testimonial_rating_stars($current_rating = 0, $name = 'rating
         .rating-stars-wrapper {
             font-size: 1.25rem;
             line-height: 1;
-            padding: 0.5rem;
             border-radius: 0.375rem;
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }

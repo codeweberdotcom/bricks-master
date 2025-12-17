@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-12-17 11:36+0000\n"
+"PO-Revision-Date: 2025-12-17 21:38+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -426,7 +426,7 @@ msgstr "Добавить Сотрудника"
 
 #: functions/cpt/cpt-testimonials.php:15
 msgid "Add New Testimonial"
-msgstr ""
+msgstr "Добавить новый отзыв"
 
 #: functions/cpt/cpt-vacancies.php:14
 msgid "Add New Vacancy"
@@ -662,7 +662,7 @@ msgstr "Все Теги"
 
 #: functions/cpt/cpt-testimonials.php:13
 msgid "All Testimonials"
-msgstr ""
+msgstr "Все отзывы"
 
 #: functions/cpt/cpt-vacancies.php:13
 msgid "All Vacancies"
@@ -2308,7 +2308,7 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:16
 msgid "Edit Testimonial"
-msgstr ""
+msgstr "Редактировать отзыв"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:291
 msgid "Edit testimonial"
@@ -2890,7 +2890,7 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:32
 msgid "Filter testimonials list"
-msgstr ""
+msgstr "Фильтровать список отзывов"
 
 #: functions/integrations/ajax-search-module/search-statistics.php:585
 msgid "Filters"
@@ -3780,7 +3780,7 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:26
 msgid "Insert into testimonial"
-msgstr ""
+msgstr "Вставить в отзыв"
 
 #: templates/singles/staff/staff_4.php:189
 #: templates/singles/staff/staff_5.php:212
@@ -3893,7 +3893,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:98
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:190
 msgid "Invalid user ID"
-msgstr ""
+msgstr "Неверный ID пользователя"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:337
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:117
@@ -4957,11 +4957,11 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:21
 msgid "No testimonials found"
-msgstr ""
+msgstr "Отзывы не найдены"
 
 #: functions/cpt/cpt-testimonials.php:22
 msgid "No testimonials found in trash"
-msgstr ""
+msgstr "В корзине отзывов не найдено"
 
 #: functions/integrations/ajax-search-module/ajax-search.php:88
 msgid "No title"
@@ -5391,7 +5391,7 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:23
 msgid "Parent Testimonial:"
-msgstr ""
+msgstr "Родительский отзыв:"
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:53
 msgid "Parent Theme"
@@ -6580,7 +6580,7 @@ msgstr "Статистика поиска"
 
 #: functions/cpt/cpt-testimonials.php:20
 msgid "Search Testimonials"
-msgstr ""
+msgstr "Поиск отзывов"
 
 #: functions/cpt/cpt-vacancies.php:20
 msgid "Search Vacancy"
@@ -6823,7 +6823,7 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:396
 msgid "Select the status of this testimonial"
-msgstr ""
+msgstr "Выберите статус этого отзыва"
 
 #: functions/cpt/cpt-vacancies.php:424
 msgid "Select type"
@@ -7882,11 +7882,11 @@ msgstr "Отзывы"
 
 #: functions/cpt/cpt-testimonials.php:24
 msgid "Testimonial Archives"
-msgstr ""
+msgstr "Архив отзывов"
 
 #: functions/cpt/cpt-testimonials.php:25
 msgid "Testimonial Attributes"
-msgstr ""
+msgstr "Атрибуты отзыва"
 
 #: functions/testimonials/testimonial-form-api.php:636
 #: functions/testimonials/testimonial-form-api.php:649
@@ -7931,12 +7931,12 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:126
 msgid "Testimonial Information"
-msgstr ""
+msgstr "Информация об отзыве"
 
 #: functions/cpt/cpt-testimonials.php:1329
 #, php-format
 msgid "Testimonial meta field: %s"
-msgstr ""
+msgstr "Метаполе отзыва: %s"
 
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:288
 msgid "Testimonial personal data anonymized"
@@ -7944,11 +7944,11 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:35
 msgid "Testimonial published"
-msgstr ""
+msgstr "Отзыв опубликован"
 
 #: functions/cpt/cpt-testimonials.php:36
 msgid "Testimonial published privately"
-msgstr ""
+msgstr "Отзыв опубликован приватно"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:733
 msgid "Testimonial Reply Template"
@@ -7956,15 +7956,15 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:37
 msgid "Testimonial reverted to draft"
-msgstr ""
+msgstr "Отзыв возвращён в черновик"
 
 #: functions/cpt/cpt-testimonials.php:38
 msgid "Testimonial scheduled"
-msgstr ""
+msgstr "Отзыв запланирован"
 
 #: functions/cpt/cpt-testimonials.php:135
 msgid "Testimonial Status"
-msgstr ""
+msgstr "Статус отзыва"
 
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:126
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:334
@@ -7983,7 +7983,7 @@ msgstr "Текст отзыва:"
 
 #: functions/cpt/cpt-testimonials.php:39
 msgid "Testimonial updated"
-msgstr ""
+msgstr "Отзыв обновлён"
 
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:198
 msgid "Testimonial URL"
@@ -7997,11 +7997,11 @@ msgstr "Отзывы"
 
 #: functions/cpt/cpt-testimonials.php:34
 msgid "Testimonials list"
-msgstr ""
+msgstr "Список отзывов"
 
 #: functions/cpt/cpt-testimonials.php:33
 msgid "Testimonials list navigation"
-msgstr ""
+msgstr "Навигация по списку отзывов"
 
 #: redux-framework/sample-config.php:727
 msgid "Testing filter hook!"
@@ -8637,7 +8637,7 @@ msgstr "Загружено по этой лицензии"
 
 #: functions/cpt/cpt-testimonials.php:27
 msgid "Uploaded to this testimonial"
-msgstr ""
+msgstr "Загружено в этот отзыв"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1015
 msgid "Uploading..."
@@ -9094,7 +9094,7 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:18
 msgid "View Testimonial"
-msgstr ""
+msgstr "Просмотр отзыва"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:292
 msgid "View testimonial"
@@ -9102,7 +9102,7 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:19
 msgid "View Testimonials"
-msgstr ""
+msgstr "Просмотр отзывов"
 
 #: functions/cpt/cpt-vacancies.php:19
 msgid "View Vacancies"
@@ -9839,7 +9839,7 @@ msgstr ""
 #: functions/cpt/cpt-testimonials.php:591
 #: functions/cpt/cpt-testimonials.php:603
 msgid "—"
-msgstr ""
+msgstr "—"
 
 #: functions/integrations/image-licenses/image-licenses.php:557
 msgid "— No License —"

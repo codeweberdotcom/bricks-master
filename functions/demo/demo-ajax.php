@@ -364,3 +364,74 @@ function cw_demo_ajax_delete_vacancies() {
 }
 add_action('wp_ajax_cw_demo_delete_vacancies', 'cw_demo_ajax_delete_vacancies');
 
+/**
+ * AJAX обработчик для создания demo форм
+ */
+function cw_demo_ajax_create_forms() {
+    // Проверка прав
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array(
+            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+        ));
+    }
+    
+    // Проверка nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_forms')) {
+        wp_send_json_error(array(
+            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+        ));
+    }
+    
+    // Выполняем создание
+    $result = cw_demo_create_forms();
+    
+    if ($result['success']) {
+        wp_send_json_success(array(
+            'message' => $result['message'],
+            'created' => $result['created'],
+            'total' => $result['total'],
+            'errors' => $result['errors']
+        ));
+    } else {
+        wp_send_json_error(array(
+            'message' => $result['message']
+        ));
+    }
+}
+add_action('wp_ajax_cw_demo_create_forms', 'cw_demo_ajax_create_forms');
+
+/**
+ * AJAX обработчик для удаления demo форм
+ */
+function cw_demo_ajax_delete_forms() {
+    // Проверка прав
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array(
+            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+        ));
+    }
+    
+    // Проверка nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_forms')) {
+        wp_send_json_error(array(
+            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+        ));
+    }
+    
+    // Выполняем удаление
+    $result = cw_demo_delete_forms();
+    
+    if ($result['success']) {
+        wp_send_json_success(array(
+            'message' => $result['message'],
+            'deleted' => $result['deleted'],
+            'errors' => $result['errors']
+        ));
+    } else {
+        wp_send_json_error(array(
+            'message' => $result['message']
+        ));
+    }
+}
+add_action('wp_ajax_cw_demo_delete_forms', 'cw_demo_ajax_delete_forms');
+

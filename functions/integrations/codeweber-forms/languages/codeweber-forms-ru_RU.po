@@ -867,6 +867,14 @@ msgstr "Запрос обратного звонка"
 msgid "All Form Types"
 msgstr "Все типы форм"
 
+#: codeweber-forms-renderer.php:820
+msgid "Your Position"
+msgstr "Ваша должность"
+
+#: codeweber-forms-renderer.php:821
+msgid "Company"
+msgstr "Компания"
+
 #: admin/class-codeweber-forms-list-table.php:736
 msgid "All form types"
 msgstr "Все типы форм"

@@ -137,6 +137,7 @@ class CodeweberFormsRenderer {
         // НОВОЕ: Получаем тип формы через единую функцию
         $form_type = CodeweberFormsCore::get_form_type($form_id, $config);
         $is_newsletter_form = ($form_type === 'newsletter');
+        $is_testimonial_form = ($form_type === 'testimonial');
         
         // Для newsletter формы используем "Join" с переводом (fallback, если нет блоков submit-button)
         if ($is_newsletter_form) {
@@ -219,14 +220,28 @@ class CodeweberFormsRenderer {
             enctype="multipart/form-data"
             novalidate
         >
-            <?php wp_nonce_field('codeweber_form_submit', 'form_nonce'); ?>
+            <?php 
+            // Для testimonial формы используем testimonial_nonce, для остальных - form_nonce
+            if ($is_testimonial_form) {
+                wp_nonce_field('submit_testimonial', 'testimonial_nonce');
+            } else {
+                wp_nonce_field('codeweber_form_submit', 'form_nonce');
+            }
+            ?>
             <?php echo $honeypot_field; ?>
             
             <input type="hidden" name="form_id" value="<?php echo esc_attr($form_id); ?>">
+            <?php 
+            // Добавляем user_id для залогиненных пользователей (для JavaScript валидации и API)
+            if (is_user_logged_in()) {
+                $current_user_id = get_current_user_id();
+                echo '<input type="hidden" name="user_id" value="' . esc_attr($current_user_id) . '">';
+            }
+            ?>
             <?php if (!$is_newsletter_form): ?>
                 <input type="hidden" name="form_honeypot" value="">
             <?php endif; ?>
-            <div class="form-messages" style="display: none;"></div>
+            <div class="<?php echo $is_testimonial_form ? 'testimonial-form-messages' : 'form-messages'; ?>" style="display: none;"></div>
             
             <?php 
             // Проверяем, есть ли поле типа newsletter (которое рендерится с кнопкой внутри)
@@ -379,7 +394,7 @@ class CodeweberFormsRenderer {
                         if (current_user_can('manage_options') && !empty($_GET['debug_form']) && ($field['fieldType'] ?? '') === 'newsletter') {
                             echo '<!-- DEBUG: Rendering newsletter field: ' . print_r($field, true) . ' -->';
                         }
-                        echo $this->render_field($field, $form_id); 
+                        echo $this->render_field($field, $form_id, $form_type); 
                         ?>
                     <?php endforeach; ?>
                 </div>
@@ -448,11 +463,36 @@ class CodeweberFormsRenderer {
     }
     
     /**
+     * Get default field name for field type if not provided
+     * 
+     * @param string $field_type Type of the field
+     * @return string|null Default field name or null if field name is required
+     */
+    private function get_default_field_name($field_type) {
+        $defaults = [
+            'newsletter' => 'email',
+            'rating' => 'rating',
+            'author_role' => 'role', // fieldType = 'author_role', но fieldName = 'role'
+            'company' => 'company',
+        ];
+        
+        return $defaults[$field_type] ?? null;
+    }
+    
+    /**
      * Render single form field
      */
-    private function render_field($field, $form_id = 0) {
+    private function render_field($field, $form_id = 0, $form_type = null) {
         $field_type = $field['fieldType'] ?? 'text';
         $field_name = $field['fieldName'] ?? '';
+        
+        // Устанавливаем дефолтное имя поля для специальных типов, если оно не задано
+        if (empty($field_name)) {
+            $default_name = $this->get_default_field_name($field_type);
+            if ($default_name !== null) {
+                $field_name = $default_name;
+            }
+        }
         
         // Отладка для newsletter
         if (defined('WP_DEBUG') && WP_DEBUG && $field_type === 'newsletter') {
@@ -461,11 +501,19 @@ class CodeweberFormsRenderer {
         $field_label = $field['fieldLabel'] ?? '';
         $placeholder = $field['placeholder'] ?? '';
         $is_required = !empty($field['isRequired']);
+        $show_for_guests_only = !empty($field['showForGuestsOnly']);
         $width = $field['width'] ?? 'col-12';
         $help_text = $field['helpText'] ?? '';
         $default_value = $field['defaultValue'] ?? '';
         $max_length = !empty($field['maxLength']) ? intval($field['maxLength']) : 0;
         $min_length = !empty($field['minLength']) ? intval($field['minLength']) : 0;
+        
+        // Для showForGuestsOnly: если поле должно показываться только гостям
+        // Для авторизованных пользователей поле полностью скрывается (не рендерится)
+        if ($show_for_guests_only && is_user_logged_in()) {
+            // Поле не рендерится для авторизованных пользователей
+            return '';
+        }
         
         // Получаем класс скругления формы из темы
         $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
@@ -503,8 +551,10 @@ class CodeweberFormsRenderer {
         // Получаем blockClass из атрибутов поля
         $block_class = !empty($field['blockClass']) ? esc_attr($field['blockClass']) : '';
         
-        // Специальный тип поля: блок согласий, основанный на настройках блока (атрибут consents)
-        // Для consents_block не требуется fieldName, поэтому проверяем его первым
+        // Специальные типы полей, которые не требуют fieldName (имеют свою логику обработки)
+        // consents_block - не требует fieldName
+        // rating - имеет дефолтное значение 'rating'
+        // newsletter - имеет дефолтное значение 'email'
         if ($field_type === 'consents_block') {
             // Получаем согласия из атрибутов блока
             // Атрибуты могут быть в разных местах в зависимости от того, как блок был сохранен
@@ -534,6 +584,20 @@ class CodeweberFormsRenderer {
             
             if (!empty($consents) && function_exists('codeweber_forms_render_consent_checkbox')) {
                 $numeric_form_id = is_numeric($form_id) ? (int) $form_id : 0;
+                
+                // Определяем префикс для согласий на основе типа формы
+                $consents_prefix = 'newsletter_consents'; // По умолчанию
+                // Используем переданный тип формы, если есть, иначе пытаемся определить
+                if ($form_type === 'testimonial') {
+                    $consents_prefix = 'testimonial_consents';
+                } elseif (function_exists('CodeweberFormsCore')) {
+                    // Fallback: пробуем определить через CodeweberFormsCore
+                    $form_type_for_consents = CodeweberFormsCore::get_form_type($numeric_form_id, []);
+                    if ($form_type_for_consents === 'testimonial') {
+                        $consents_prefix = 'testimonial_consents';
+                    }
+                }
+                
                 ob_start();
                 ?>
                 <div class="<?php echo esc_attr($width_classes); ?>">
@@ -547,7 +611,7 @@ class CodeweberFormsRenderer {
                             // Рендерим чекбокс согласия на основе документа и текста метки
                             echo codeweber_forms_render_consent_checkbox(
                                 $consent,
-                                'newsletter_consents', // имя массива, которое уже обрабатывается в универсальной логике
+                                $consents_prefix, // Используем правильный префикс в зависимости от типа формы
                                 $numeric_form_id
                             );
                         }
@@ -562,15 +626,12 @@ class CodeweberFormsRenderer {
             return '';
         }
         
-        // Для newsletter типа fieldName может быть пустым (по умолчанию 'email')
+        // Для специальных типов (newsletter, rating, author_role, company) fieldName может быть пустым (есть дефолтные значения)
         // Для остальных типов полей требуется fieldName
-        if ($field_type !== 'newsletter' && empty($field_name)) {
+        // Примечание: author_role - это внутренний тип поля, но fieldName должен быть 'role'
+        $field_types_without_required_name = ['newsletter', 'rating', 'author_role', 'company'];
+        if (!in_array($field_type, $field_types_without_required_name) && empty($field_name)) {
             return '';
-        }
-        
-        // Для newsletter используем 'email' по умолчанию, если fieldName пустой
-        if ($field_type === 'newsletter' && empty($field_name)) {
-            $field_name = 'email';
         }
         
         $field_id = 'field-' . $field_name;
@@ -725,6 +786,66 @@ class CodeweberFormsRenderer {
                         name="<?php echo esc_attr($field_name); ?>"
                         value="<?php echo esc_attr($default_value); ?>"
                     />
+                    <?php
+                    break;
+                
+                case 'rating':
+                    // Используем существующую функцию для рендеринга звёзд рейтинга
+                    // Функция сама возвращает полную разметку со стилями и скриптами
+                    if (function_exists('codeweber_testimonial_rating_stars')) {
+                        // Функция возвращает HTML строку через ob_get_clean
+                        $rating_html = codeweber_testimonial_rating_stars(0, $field_name, $field_id, $is_required);
+                        echo $rating_html;
+                    } else {
+                        // Fallback если функция не найдена
+                        ?>
+                        <div class="form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
+                            <input
+                                type="number"
+                                min="1"
+                                max="5"
+                                class="form-control<?php echo esc_attr($form_radius_class); ?>"
+                                id="<?php echo esc_attr($field_id); ?>"
+                                name="<?php echo esc_attr($field_name); ?>"
+                                placeholder="<?php echo esc_attr($placeholder ?: $field_label); ?>"
+                                value="<?php echo esc_attr($default_value); ?>"
+                                <?php echo $required_attr; ?>
+                            />
+                            <label for="<?php echo esc_attr($field_id); ?>">
+                                <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>
+                            </label>
+                        </div>
+                        <?php
+                    }
+                    break;
+                
+                case 'author_role':
+                case 'company':
+                    // Эти типы рендерятся как обычные text поля, но с предустановленными значениями
+                    // Если label не задан, используем дефолтные
+                    // Примечание: fieldType = 'author_role', но fieldName должен быть 'role'
+                    if (empty($field_label)) {
+                        $field_label = ($field_type === 'author_role') 
+                            ? __('Your Position', 'codeweber') 
+                            : __('Company', 'codeweber');
+                    }
+                    ?>
+                    <div class="form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
+                        <input
+                            type="text"
+                            class="form-control<?php echo esc_attr($form_radius_class); ?>"
+                            id="<?php echo esc_attr($field_id); ?>"
+                            name="<?php echo esc_attr($field_name); ?>"
+                            placeholder="<?php echo esc_attr($placeholder ?: $field_label); ?>"
+                            value="<?php echo esc_attr($default_value); ?>"
+                            <?php echo $required_attr; ?>
+                            <?php echo $max_length > 0 ? 'maxlength="' . $max_length . '"' : ''; ?>
+                            <?php echo $min_length > 0 ? 'minlength="' . $min_length . '"' : ''; ?>
+                        />
+                        <label for="<?php echo esc_attr($field_id); ?>">
+                            <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>
+                        </label>
+                    </div>
                     <?php
                     break;
                 
