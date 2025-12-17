@@ -571,11 +571,25 @@ class CodeweberFormsAPI {
         }
         error_log('Form Submit - sanitized_fields (final): ' . print_r($sanitized_fields, true));
         
-        // Если из запроса пришло логическое имя формы (name из шорткода),
-        // добавляем его в массив полей как служебное поле _form_name,
-        // чтобы его могли использовать интеграции (newsletter, логи и т.д.)
-        if (!empty($form_name_from_request)) {
-            $sanitized_fields['_form_name'] = sanitize_text_field($form_name_from_request);
+        // ИМЕНА ФОРМЫ ВСЕГДА БЕРЕТСЯ ИЗ TITLE CPT ФОРМЫ
+        // Источник всегда один - post_title из CPT по form_id
+        $form_name_for_integrations = '';
+        
+        // Получаем title из CPT формы
+        if (is_numeric($form_id) && (int) $form_id > 0) {
+            $form_post = get_post((int) $form_id);
+            if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
+                $form_name_for_integrations = $form_post->post_title;
+            }
+        }
+        
+        // Всегда добавляем _form_name в sanitized_fields для использования в интеграциях
+        // (newsletter, логи и т.д.)
+        if (!empty($form_name_for_integrations)) {
+            $sanitized_fields['_form_name'] = $form_name_for_integrations;
+            error_log('Form Submit - Added _form_name to sanitized_fields from CPT title: ' . $form_name_for_integrations);
+        } else {
+            error_log('Form Submit - WARNING: Could not get form_name from CPT title. form_id: ' . var_export($form_id, true));
         }
 
         // Обработка файлов

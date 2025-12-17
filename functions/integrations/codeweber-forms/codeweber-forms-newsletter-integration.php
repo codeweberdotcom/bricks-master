@@ -114,25 +114,43 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                 }
             }
             
-            // Получаем имя формы для события
+            // ИМЕНА ФОРМЫ ВСЕГДА БЕРЕТСЯ ИЗ TITLE CPT ФОРМЫ
+            // Источник всегда один - post_title из CPT по form_id
             $form_name_for_event = '';
-            if (!empty($form_data['_form_name'])) {
-                $form_name_for_event = sanitize_text_field($form_data['_form_name']);
-            } elseif (class_exists('CodeweberFormsDatabase')) {
-                $db = new CodeweberFormsDatabase();
-                $submission = $db->get_submission($submission_id);
-                if ($submission && !empty($submission->form_name)) {
-                    $form_name_for_event = $submission->form_name;
-                }
-            }
             
-            // Если название не получено и form_id числовой, получаем из CPT
-            if (empty($form_name_for_event) && is_numeric($form_id) && $form_id > 0) {
-                $form_post = get_post((int) $form_id);
+            error_log('=== NEWSLETTER INTEGRATION (REACTIVATION): Getting form_name from CPT title START ===');
+            error_log('form_id type: ' . gettype($form_id));
+            error_log('form_id value: ' . var_export($form_id, true));
+            error_log('form_id is_numeric: ' . (is_numeric($form_id) ? 'YES' : 'NO'));
+            
+            // Получаем title из CPT формы
+            if (is_numeric($form_id) && (int) $form_id > 0) {
+                $int_form_id = (int) $form_id;
+                error_log('Getting post from CPT. int_form_id: ' . $int_form_id);
+                $form_post = get_post($int_form_id);
+                error_log('get_post result: ' . ($form_post ? 'FOUND' : 'NOT FOUND'));
+                if ($form_post) {
+                    error_log('Post ID: ' . $form_post->ID);
+                    error_log('Post type: ' . $form_post->post_type);
+                    error_log('Post title: ' . $form_post->post_title);
+                    error_log('Post type match: ' . ($form_post->post_type === 'codeweber_form' ? 'YES' : 'NO'));
+                    error_log('Post title empty: ' . (empty($form_post->post_title) ? 'YES' : 'NO'));
+                }
                 if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
                     $form_name_for_event = $form_post->post_title;
+                    error_log('Got form_name from CPT title: ' . $form_name_for_event);
+                } else {
+                    error_log('Failed to get form_name from CPT title. Post exists: ' . ($form_post ? 'YES' : 'NO'));
+                    if ($form_post) {
+                        error_log('Reason: post_type=' . $form_post->post_type . ' (expected codeweber_form), title_empty=' . (empty($form_post->post_title) ? 'YES' : 'NO'));
+                    }
                 }
+            } else {
+                error_log('WARNING: form_id is not numeric, cannot get CPT title. form_id: ' . var_export($form_id, true));
             }
+            
+            error_log('Final form_name_for_event from CPT title (reactivation): ' . var_export($form_name_for_event, true));
+            error_log('=== NEWSLETTER INTEGRATION (REACTIVATION): Getting form_name from CPT title END ===');
             
             $normalized_form_id = is_numeric($form_id) ? (string) (int) $form_id : (string) $form_id;
             $event = [
@@ -221,28 +239,43 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
     $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
     
-    // Пытаемся получить логическое имя формы:
-    // 1) из служебного поля _form_name (прилетает из шорткода name),
-    // 2) из таблицы отправок (form_name),
-    // 3) из CPT поста (post_title), если form_id числовой.
+    // ИМЕНА ФОРМЫ ВСЕГДА БЕРЕТСЯ ИЗ TITLE CPT ФОРМЫ
+    // Источник всегда один - post_title из CPT по form_id
     $form_name_for_event = '';
-    if (!empty($form_data['_form_name'])) {
-        $form_name_for_event = sanitize_text_field($form_data['_form_name']);
-    } elseif (class_exists('CodeweberFormsDatabase')) {
-        $db = new CodeweberFormsDatabase();
-        $submission = $db->get_submission($submission_id);
-        if ($submission && !empty($submission->form_name)) {
-            $form_name_for_event = $submission->form_name;
-        }
-    }
     
-    // Если название не получено и form_id числовой, получаем из CPT
-    if (empty($form_name_for_event) && is_numeric($form_id) && $form_id > 0) {
-        $form_post = get_post((int) $form_id);
+    error_log('=== NEWSLETTER INTEGRATION: Getting form_name from CPT title START ===');
+    error_log('form_id type: ' . gettype($form_id));
+    error_log('form_id value: ' . var_export($form_id, true));
+    error_log('form_id is_numeric: ' . (is_numeric($form_id) ? 'YES' : 'NO'));
+    
+    // Получаем title из CPT формы
+    if (is_numeric($form_id) && (int) $form_id > 0) {
+        $int_form_id = (int) $form_id;
+        error_log('Getting post from CPT. int_form_id: ' . $int_form_id);
+        $form_post = get_post($int_form_id);
+        error_log('get_post result: ' . ($form_post ? 'FOUND' : 'NOT FOUND'));
+        if ($form_post) {
+            error_log('Post ID: ' . $form_post->ID);
+            error_log('Post type: ' . $form_post->post_type);
+            error_log('Post title: ' . $form_post->post_title);
+            error_log('Post type match: ' . ($form_post->post_type === 'codeweber_form' ? 'YES' : 'NO'));
+            error_log('Post title empty: ' . (empty($form_post->post_title) ? 'YES' : 'NO'));
+        }
         if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
             $form_name_for_event = $form_post->post_title;
+            error_log('Got form_name from CPT title: ' . $form_name_for_event);
+        } else {
+            error_log('Failed to get form_name from CPT title. Post exists: ' . ($form_post ? 'YES' : 'NO'));
+            if ($form_post) {
+                error_log('Reason: post_type=' . $form_post->post_type . ' (expected codeweber_form), title_empty=' . (empty($form_post->post_title) ? 'YES' : 'NO'));
+            }
         }
+    } else {
+        error_log('WARNING: form_id is not numeric, cannot get CPT title. form_id: ' . var_export($form_id, true));
     }
+    
+    error_log('Final form_name_for_event from CPT title: ' . var_export($form_name_for_event, true));
+    error_log('=== NEWSLETTER INTEGRATION: Getting form_name from CPT title END ===');
 
     // Формируем историю событий (events_history)
     $now = current_time('mysql');
@@ -260,6 +293,12 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
             'consents' => [],
         ],
     ];
+    
+    error_log('=== NEWSLETTER INTEGRATION: Saving event to DB ===');
+    error_log('normalized_form_id: ' . var_export($normalized_form_id, true));
+    error_log('form_name_for_event in event: ' . var_export($form_name_for_event, true));
+    error_log('Event array: ' . print_r($events[0], true));
+    error_log('Events JSON: ' . wp_json_encode($events, JSON_UNESCAPED_UNICODE));
 
     // Добавляем в событие согласия, которые были даны при подписке (если есть)
     if (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
@@ -314,6 +353,10 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
         'unsubscribe_token' => $unsubscribe_token,
         'events_history' => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
     ];
+    
+    error_log('=== NEWSLETTER INTEGRATION: Inserting subscription ===');
+    error_log('events_history JSON length: ' . strlen($insert_data['events_history']));
+    error_log('events_history JSON preview: ' . substr($insert_data['events_history'], 0, 500));
     
     $result = $wpdb->insert($table_name, $insert_data);
     

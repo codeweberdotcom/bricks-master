@@ -561,9 +561,22 @@ class NewsletterSubscriptionAdmin
       // Декодируем историю событий
       $events = [];
       if (!empty($subscription->events_history)) {
+         error_log('=== VIEW PAGE: Reading events_history from DB ===');
+         error_log('events_history raw length: ' . strlen($subscription->events_history));
+         error_log('events_history raw preview: ' . substr($subscription->events_history, 0, 500));
          $decoded = json_decode($subscription->events_history, true);
+         error_log('json_decode result: ' . ($decoded ? 'SUCCESS' : 'FAILED'));
+         if (json_last_error() !== JSON_ERROR_NONE) {
+            error_log('JSON decode error: ' . json_last_error_msg());
+         }
          if (is_array($decoded)) {
             $events = $decoded;
+            error_log('Events count: ' . count($events));
+            if (!empty($events)) {
+               error_log('First event: ' . print_r($events[0], true));
+               error_log('First event form_id: ' . var_export($events[0]['form_id'] ?? 'NOT SET', true));
+               error_log('First event form_name: ' . var_export($events[0]['form_name'] ?? 'NOT SET', true));
+            }
          }
       }
 
@@ -682,11 +695,23 @@ class NewsletterSubscriptionAdmin
                      // Если в событии сохранено человекочитаемое имя формы (form_name),
                      // показываем его. Иначе берём красивое имя по form_id.
                      $form_label = '—';
+                     
+                     error_log('=== HISTORY DISPLAY: Getting form label START ===');
+                     error_log('Event form_name: ' . var_export($event['form_name'] ?? 'NOT SET', true));
+                     error_log('Event form_id: ' . var_export($event['form_id'] ?? 'NOT SET', true));
+                     error_log('Event form_id type: ' . gettype($event['form_id'] ?? null));
+                     
                      if (!empty($event['form_name'])) {
                         $form_label = $event['form_name'];
+                        error_log('Using form_name from event: ' . $form_label);
                      } elseif (!empty($event['form_id'])) {
+                        error_log('Calling get_form_label with: ' . var_export($event['form_id'], true));
                         $form_label = $this->get_form_label($event['form_id']);
+                        error_log('get_form_label returned: ' . $form_label);
                      }
+                     
+                     error_log('Final form_label: ' . $form_label);
+                     error_log('=== HISTORY DISPLAY: Getting form label END ===');
 
                      // Автор
                      // Если отписка/подписка через пользователя (frontend, cf7, codeweber_form),
@@ -1243,6 +1268,11 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
 
    public function get_form_label($form_id)
    {
+      error_log('=== get_form_label START ===');
+      error_log('Input form_id: ' . var_export($form_id, true));
+      error_log('Input form_id type: ' . gettype($form_id));
+      error_log('Input form_id is_numeric: ' . (is_numeric($form_id) ? 'YES' : 'NO'));
+      
       $form_labels = array(
          'default'   => __('Subscription Form|Email', 'codeweber'),
          'cf7_1072'  => __('Contact Form 7: Request Callback', 'codeweber'),
@@ -1255,15 +1285,38 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
          $normalized_id = $form_id;
          if (strpos($form_id, 'codeweber_form_') === 0) {
             $normalized_id = substr($form_id, strlen('codeweber_form_'));
+            error_log('Removed codeweber_form_ prefix. normalized_id: ' . $normalized_id);
          }
+         
+         error_log('Normalized ID: ' . var_export($normalized_id, true));
+         error_log('Normalized ID is_numeric: ' . (is_numeric($normalized_id) ? 'YES' : 'NO'));
          
          // ВАЖНО: Если это числовой ID, ВСЕГДА пытаемся получить название из CPT
          // Это приоритетнее, чем тип формы, так как пользователь видит название формы, а не тип
          if (is_numeric($normalized_id) && (int) $normalized_id > 0) {
-            $form_post = get_post((int) $normalized_id);
-            if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
-               return $form_post->post_title;
+            $int_id = (int) $normalized_id;
+            error_log('Trying CPT lookup. int_id: ' . $int_id);
+            $form_post = get_post($int_id);
+            error_log('get_post result: ' . ($form_post ? 'FOUND' : 'NOT FOUND'));
+            if ($form_post) {
+               error_log('Post ID: ' . $form_post->ID);
+               error_log('Post type: ' . $form_post->post_type);
+               error_log('Post title: ' . $form_post->post_title);
+               error_log('Post type match: ' . ($form_post->post_type === 'codeweber_form' ? 'YES' : 'NO'));
+               error_log('Post title empty: ' . (empty($form_post->post_title) ? 'YES' : 'NO'));
             }
+            if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
+               error_log('Returning CPT post title: ' . $form_post->post_title);
+               error_log('=== get_form_label END (CPT success) ===');
+               return $form_post->post_title;
+            } else {
+               error_log('CPT lookup failed. Post exists: ' . ($form_post ? 'YES' : 'NO'));
+               if ($form_post) {
+                  error_log('Reason: post_type=' . $form_post->post_type . ' (expected codeweber_form), title_empty=' . (empty($form_post->post_title) ? 'YES' : 'NO'));
+               }
+            }
+         } else {
+            error_log('Skipping CPT check: is_numeric=' . (is_numeric($normalized_id) ? 'YES' : 'NO') . ', int>0=' . (((int)$normalized_id > 0) ? 'YES' : 'NO'));
          }
          
          // Только если не удалось получить название из CPT, используем тип формы
