@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-12-17 21:38+0000\n"
+"PO-Revision-Date: 2025-12-17 22:08+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -165,7 +165,6 @@ msgid "5. Combined parameters"
 msgstr "5. Комбинированные параметры"
 
 #: redux-framework/sample/sections/codeweber/legal.php:191
-#, fuzzy
 #| msgid "5.3 The Operator processes personal data for the following purposes:"
 msgid "5.3. The Operator processes personal data for the following purposes:"
 msgstr ""
