@@ -773,6 +773,7 @@ class CodeweberFormsAPI {
 
         // 1) Form type из запроса (JavaScript отправляет form_type из data-form-type)
         $form_type_from_request = $form_type_from_request ? strtolower(trim((string) $form_type_from_request)) : '';
+        error_log('[CW Forms] submit: form_id=' . $form_id . ' | form_type_from_request=' . var_export($form_type_from_request, true));
         if ($form_type_from_request === 'newsletter') {
             $detected_form_type = 'newsletter';
         } elseif ($form_type_from_request === 'testimonial') {
@@ -791,6 +792,7 @@ class CodeweberFormsAPI {
             } elseif ($detected_type === 'callback') {
                 $detected_form_type = 'callback';
             }
+            error_log('[CW Forms] submit: detected_type_from_content=' . var_export($detected_type, true));
         }
 
         // 3) Fallback: formType в настройках формы
@@ -799,7 +801,10 @@ class CodeweberFormsAPI {
             if (in_array($form_type_setting, ['newsletter', 'testimonial', 'callback'], true)) {
                 $detected_form_type = $form_type_setting;
             }
+            error_log('[CW Forms] submit: form_type_from_settings=' . var_export($form_type_setting ?? null, true));
         }
+
+        error_log('[CW Forms] submit: detected_form_type_final=' . var_export($detected_form_type, true));
         
         if ($detected_form_type === 'newsletter') {
             // Check if custom message is set in form meta
