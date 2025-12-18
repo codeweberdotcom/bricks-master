@@ -871,11 +871,59 @@ msgstr "Все типы форм"
 msgid "Your Position"
 msgstr "Ваша должность"
 
-#: codeweber-forms-renderer.php:821
-msgid "Company"
-msgstr "Компания"
-
 #: admin/class-codeweber-forms-list-table.php:736
 msgid "All form types"
 msgstr "Все типы форм"
+
+#: codeweber-forms-default-forms.php
+msgid "Your Review"
+msgstr "Ваш отзыв"
+
+#: codeweber-forms-default-forms.php
+msgid "Your Name"
+msgstr "Ваше имя"
+
+#: codeweber-forms-default-forms.php
+msgid "Your Email"
+msgstr "Ваш Email"
+
+#: codeweber-forms-default-forms.php
+msgid "Your testimonial text"
+msgstr "Ваш текст отзыва"
+
+#: codeweber-forms-default-forms.php
+msgid "Your name"
+msgstr "Ваше имя"
+
+#: codeweber-forms-default-forms.php
+msgid "Your email"
+msgstr "Ваш email"
+
+#: codeweber-forms-default-forms.php
+msgid "Your position"
+msgstr "Ваша должность"
+
+#: codeweber-forms-default-forms.php
+msgid "Company name"
+msgstr "Название компании"
+
+#: codeweber-forms-default-forms.php
+msgid "Submit Testimonial"
+msgstr "Отправить отзыв"
+
+#: codeweber-forms-default-forms.php
+msgid "Default Testimonial Form"
+msgstr "Форма отзывов по умолчанию"
+
+#: testimonial-form-api.php
+msgid "Leave Your Testimonial"
+msgstr "Оставьте свой отзыв"
+
+#: codeweber-forms-default-forms.php
+msgid "Thank you for your testimonial!"
+msgstr "Спасибо за ваш отзыв!"
+
+#: codeweber-forms-default-forms.php
+msgid "Sending"
+msgstr "Отправка"
 

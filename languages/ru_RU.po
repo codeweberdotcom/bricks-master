@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-12-17 22:08+0000\n"
+"PO-Revision-Date: 2025-12-18 00:26+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -37,11 +37,11 @@ msgstr[2] "%d файлов"
 
 #: functions/integrations/personal-data-v2/test-providers.php:220
 msgid "%d item(s) found"
-msgstr ""
+msgstr "Найдено %d элементов"
 
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:136
 msgid "%d stars"
-msgstr ""
+msgstr "%d звезд"
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:729
 msgid "%d submission(s) deleted permanently"
@@ -92,7 +92,7 @@ msgstr "%s Настройки Хедера"
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:880
 #, php-format
 msgid "%s is required."
-msgstr ""
+msgstr "%s обязательно"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:588
 #, php-format

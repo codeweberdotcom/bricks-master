@@ -171,15 +171,6 @@
      * @return {boolean}
      */
     function validateTestimonialForm(form) {
-        // #region agent log
-        const allInputs = Array.from(form.querySelectorAll('input, textarea, select')).map(el => ({
-            name: el.name,
-            type: el.type || el.tagName.toLowerCase(),
-            value: el.value ? el.value.substring(0, 50) : null,
-            hasValue: !!el.value
-        }));
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:173',message:'validateTestimonialForm entry',data:{formId:form.id,allFormFields:allInputs},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
         
         // Используем стандартные имена полей: message, name, email
         const testimonialText = form.querySelector('[name="message"]');
@@ -189,23 +180,14 @@
         const userId = form.querySelector('[name="user_id"]');
         const isLoggedIn = !!userId;
 
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:181',message:'Field elements found',data:{hasMessage:!!testimonialText,messageValue:testimonialText?.value||null,hasName:!!authorName,nameValue:authorName?.value||null,hasEmail:!!authorEmail,emailValue:authorEmail?.value||null,hasRating:!!rating,ratingValue:rating?.value||null,hasUserId:!!userId,isLoggedIn:isLoggedIn},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
 
         let isValid = true;
 
         // Validate testimonial text (используем стандартное имя поля: message)
         const testimonialTextValid = testimonialText && testimonialText.value.trim();
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:187',message:'Message text validation',data:{messageTextValid:!!testimonialTextValid,messageTextValue:testimonialText?.value||'NOT_FOUND',isValidBefore:isValid},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
         
         if (!testimonialText || !testimonialText.value.trim()) {
             isValid = false;
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:191',message:'Testimonial text validation FAILED',data:{reason:!testimonialText?'FIELD_NOT_FOUND':'VALUE_EMPTY'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-            // #endregion
             if (testimonialText) {
                 testimonialText.classList.add('is-invalid');
             }
@@ -217,21 +199,12 @@
 
         // Validate author name and email only if user is not logged in
         if (!isLoggedIn) {
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:196',message:'Author validation (user not logged in)',data:{isValidBefore:isValid},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-            // #endregion
             
             // Validate author name
             const authorNameValid = authorName && authorName.value.trim();
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:199',message:'Author name validation',data:{authorNameValid:!!authorNameValid,authorNameValue:authorName?.value||'NOT_FOUND'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-            // #endregion
             
             if (!authorName || !authorName.value.trim()) {
                 isValid = false;
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:202',message:'Author name validation FAILED',data:{reason:!authorName?'FIELD_NOT_FOUND':'VALUE_EMPTY'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-                // #endregion
                 if (authorName) {
                     authorName.classList.add('is-invalid');
                 }
@@ -243,23 +216,14 @@
 
             // Validate email
             const authorEmailValid = authorEmail && authorEmail.value.trim() && isValidEmail(authorEmail.value);
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:216',message:'Author email validation',data:{authorEmailValid:!!authorEmailValid,authorEmailValue:authorEmail?.value||'NOT_FOUND',isValidEmail:authorEmail?.value?isValidEmail(authorEmail.value):false},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-            // #endregion
             
             if (!authorEmail || !authorEmail.value.trim()) {
                 isValid = false;
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:220',message:'Author email validation FAILED',data:{reason:!authorEmail?'FIELD_NOT_FOUND':'VALUE_EMPTY'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-                // #endregion
                 if (authorEmail) {
                     authorEmail.classList.add('is-invalid');
                 }
             } else if (authorEmail && !isValidEmail(authorEmail.value)) {
                 isValid = false;
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:227',message:'Author email validation FAILED',data:{reason:'INVALID_EMAIL_FORMAT'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-                // #endregion
                 authorEmail.classList.add('is-invalid');
             } else {
                 if (authorEmail) {
@@ -272,15 +236,9 @@
         const ratingWrapper = form.querySelector('.rating-stars-wrapper');
         const ratingValue = rating ? parseInt(rating.value) : 0;
         
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:229',message:'Rating validation check',data:{hasRating:!!rating,ratingValue:ratingValue,ratingRawValue:rating?.value||null,isValidBefore:isValid},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-        // #endregion
         
         if (!rating || !rating.value || ratingValue < 1 || ratingValue > 5) {
             isValid = false;
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:232',message:'Rating validation FAILED',data:{reason:!rating?'FIELD_NOT_FOUND':!rating.value?'VALUE_EMPTY':ratingValue<1||ratingValue>5?'VALUE_OUT_OF_RANGE':''},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-            // #endregion
             if (rating) {
                 rating.classList.add('is-invalid');
                 // Set custom validity message
@@ -304,16 +262,10 @@
 
         // Validate required consents
         const consentCheckboxes = form.querySelectorAll('input[name^="testimonial_consents["][required]');
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:255',message:'Consents validation check',data:{consentCount:consentCheckboxes.length,consentStates:Array.from(consentCheckboxes).map(cb=>({name:cb.name,checked:cb.checked,required:cb.hasAttribute('required')})),isValidBefore:isValid},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-        // #endregion
         
         consentCheckboxes.forEach(checkbox => {
             if (!checkbox.checked) {
                 isValid = false;
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:258',message:'Consent validation FAILED',data:{consentName:checkbox.name},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-                // #endregion
                 checkbox.classList.add('is-invalid');
             } else {
                 checkbox.classList.remove('is-invalid');
@@ -325,9 +277,6 @@
             form.classList.add('was-validated');
         }
 
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:267',message:'validateTestimonialForm exit',data:{isValid:isValid},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
 
         return isValid;
     }
@@ -1543,7 +1492,8 @@
 
     // Reinitialize if form is added dynamically (e.g., modal opened)
     document.addEventListener('shown.bs.modal', function(e) {
-        if (e.target.querySelector('#testimonial-form')) {
+        // Проверяем наличие любой codeweber формы в модалке (не только testimonial-form)
+        if (e.target.querySelector('.codeweber-form')) {
             setTimeout(function() {
                 initForms();
             }, 100);
@@ -1556,7 +1506,8 @@
         const observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if (mutation.addedNodes.length > 0) {
-                    const form = modalContent.querySelector('#testimonial-form');
+                    // Проверяем наличие любой codeweber формы (не только testimonial-form)
+                    const form = modalContent.querySelector('.codeweber-form');
                     if (form) {
                         setTimeout(initForms, 100);
                     }

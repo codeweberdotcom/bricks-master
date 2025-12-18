@@ -201,5 +201,36 @@ class CodeweberFormsCore {
         
         return $consents;
     }
+    
+    /**
+     * Get CPT form by type
+     * 
+     * Searches for a CPT form with the specified form type
+     * 
+     * @param string $form_type Form type (testimonial, newsletter, etc.)
+     * @return WP_Post|null Found form post or null
+     */
+    public static function get_form_by_type($form_type) {
+        $args = [
+            'post_type' => 'codeweber_form',
+            'post_status' => 'publish',
+            'posts_per_page' => 1,
+            'meta_query' => [
+                [
+                    'key' => '_form_type',
+                    'value' => $form_type,
+                    'compare' => '=',
+                ],
+            ],
+        ];
+        
+        $query = new WP_Query($args);
+        
+        if ($query->have_posts()) {
+            return $query->posts[0];
+        }
+        
+        return null;
+    }
 }
 

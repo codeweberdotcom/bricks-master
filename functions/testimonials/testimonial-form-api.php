@@ -86,6 +86,10 @@ class TestimonialFormAPI {
      * @return WP_REST_Response
      */
     public function get_testimonial_form_html($request) {
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('[Testimonial Form API] get_testimonial_form_html called');
+        }
+        
         // Check if user is logged in
         // Get user_id from request parameter (passed from JS)
         $request_user_id = $request->get_param('user_id');
@@ -114,176 +118,95 @@ class TestimonialFormAPI {
             }
         }
         
-        ob_start();
+        // Приоритет 1: Ищем CPT форму с типом testimonial
+        $cpt_form = null;
+        if (class_exists('CodeweberFormsCore')) {
+            $cpt_form = CodeweberFormsCore::get_form_by_type('testimonial');
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                if ($cpt_form) {
+                    error_log('[Testimonial Form API] Found CPT form, ID: ' . $cpt_form->ID . ', status: ' . $cpt_form->post_status);
+                } else {
+                    error_log('[Testimonial Form API] No CPT form found');
+                }
+            }
+        }
         
-        // Get form radius class from Redux settings
-        $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
+        // Если найдена CPT форма - используем её
+        if ($cpt_form) {
+            if (class_exists('CodeweberFormsRenderer')) {
+                $renderer = new CodeweberFormsRenderer();
+                $form_html = $renderer->render($cpt_form->ID, $cpt_form);
+                
+                // Обертываем в структуру модального окна
+                $wrapped_html = '<div class="testimonial-form-modal text-start">' . 
+                    '<h5 class="modal-title mb-4">' . esc_html__('Leave Your Testimonial', 'codeweber') . '</h5>' . 
+                    $form_html . 
+                    '</div>';
+                
+                return new WP_REST_Response([
+                    'content' => [
+                        'rendered' => $wrapped_html
+                    ],
+                    'modal_size' => 'modal-lg'
+                ], 200);
+            }
+        }
         
-        ?>
-        <div class="testimonial-form-modal text-start">
-            <h5 class="modal-title mb-4"><?php esc_html_e('Leave Your Testimonial', 'codeweber'); ?></h5>
-            <form id="testimonial-form" class="testimonial-form needs-validation" novalidate>
-                <?php 
-                // Generate nonce for form submission
-                $form_nonce = wp_create_nonce('submit_testimonial');
-                ?>
-                <input type="hidden" name="testimonial_nonce" value="<?php echo esc_attr($form_nonce); ?>" id="testimonial_nonce">
-                <?php if ($is_logged_in): ?>
-                    <input type="hidden" name="user_id" value="<?php echo esc_attr($current_user->ID); ?>" id="user_id">
-                <?php endif; ?>
+        // Приоритет 2: Используем default форму
+        if (class_exists('CodeweberFormsDefaultForms')) {
+            $default_forms = new CodeweberFormsDefaultForms();
+            $current_user_id_for_form = $is_logged_in && $current_user ? $current_user->ID : 0;
+            
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('[Testimonial Form API] Getting default form, is_logged_in: ' . ($is_logged_in ? 'true' : 'false') . ', user_id: ' . $current_user_id_for_form);
+            }
+            
+            try {
+                $form_html = $default_forms->get_default_form_html('testimonial', $is_logged_in, $current_user_id_for_form);
                 
-                <!-- Honeypot field (hidden, for spam protection) -->
-                <input type="text" name="testimonial_honeypot" value="" style="display: none;" tabindex="-1" autocomplete="off">
-                
-                <!-- Messages container -->
-                <div class="testimonial-form-messages" style="display: none;"></div>
-                
-                <div class="row g-4">
-                    <!-- Testimonial Text -->
-                    <div class="col-12">
-                        <div class="form-floating">
-                            <textarea 
-                                class="form-control<?php echo esc_attr($form_radius_class); ?>" 
-                                name="testimonial_text" 
-                                id="testimonial_text" 
-                                placeholder="<?php esc_attr_e('Your testimonial text', 'codeweber'); ?>" 
-                                style="height: 120px;"
-                                required
-                            ></textarea>
-                            <label for="testimonial_text"><?php esc_html_e('Your Testimonial *', 'codeweber'); ?></label>
-                        </div>
-                    </div>
-                    
-                    <?php if (!$is_logged_in): ?>
-                        <!-- Author Name -->
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input 
-                                    type="text" 
-                                    class="form-control<?php echo esc_attr($form_radius_class); ?>" 
-                                    name="name" 
-                                    id="name" 
-                                    placeholder="<?php esc_attr_e('Your name', 'codeweber'); ?>"
-                                    required
-                                >
-                                <label for="name"><?php esc_html_e('Your Name *', 'codeweber'); ?></label>
-                            </div>
-                        </div>
-                        
-                        <!-- Author Email -->
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input 
-                                    type="email" 
-                                    class="form-control<?php echo esc_attr($form_radius_class); ?>" 
-                                    name="email" 
-                                    id="email" 
-                                    placeholder="<?php esc_attr_e('Your email', 'codeweber'); ?>"
-                                    required
-                                >
-                                <label for="email"><?php esc_html_e('Your Email *', 'codeweber'); ?></label>
-                            </div>
-                        </div>
-                        
-                        <!-- Author Role -->
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input 
-                                    type="text" 
-                                    class="form-control<?php echo esc_attr($form_radius_class); ?>" 
-                                    name="role" 
-                                    id="role" 
-                                    placeholder="<?php esc_attr_e('Your position', 'codeweber'); ?>"
-                                >
-                                <label for="role"><?php esc_html_e('Your Position', 'codeweber'); ?></label>
-                            </div>
-                        </div>
-                        
-                        <!-- Company -->
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input 
-                                    type="text" 
-                                    class="form-control<?php echo esc_attr($form_radius_class); ?>" 
-                                    name="company" 
-                                    id="company" 
-                                    placeholder="<?php esc_attr_e('Company name', 'codeweber'); ?>"
-                                >
-                                <label for="company"><?php esc_html_e('Company', 'codeweber'); ?></label>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <!-- Rating -->
-                    <div class="col-12">
-                        <?php echo codeweber_testimonial_rating_stars(0, 'rating', 'rating', true); ?>
-                    </div>
-                    
-                    <!-- Consent Checkboxes -->
-                    <?php
-                    // Get consents for testimonial form directly from option
-                    $all_consents = get_option('builtin_form_consents', []);
-                    $consents = isset($all_consents['testimonial']) ? $all_consents['testimonial'] : [];
-                    
-                    // Debug: log consents data
-                    if (defined('WP_DEBUG') && WP_DEBUG) {
-                        error_log('Testimonial Form - All consents: ' . print_r($all_consents, true));
-                        error_log('Testimonial Form - Testimonial consents: ' . print_r($consents, true));
-                        error_log('Testimonial Form - Function exists: ' . (function_exists('codeweber_forms_process_consent_label') ? 'yes' : 'no'));
+                if (defined('WP_DEBUG') && WP_DEBUG) {
+                    error_log('[Testimonial Form API] Default form HTML length: ' . strlen($form_html));
+                    if (empty($form_html)) {
+                        error_log('[Testimonial Form API] Default form HTML is empty!');
                     }
-                    
-                    if (!empty($consents) && is_array($consents) && function_exists('codeweber_forms_process_consent_label')) {
-                        ?>
-                        <div class="col-12">
-                            <div class="consents-container">
-                                <?php
-                                foreach ($consents as $index => $consent) {
-                                    if (empty($consent['label']) || empty($consent['document_id'])) {
-                                        continue;
-                                    }
-                                    
-                                    $document_id = intval($consent['document_id']);
-                                    $label_text = codeweber_forms_process_consent_label($consent['label'], $document_id, 0);
-                                    $required = !empty($consent['required']);
-                                    $checkbox_id = 'testimonial-consent-' . $document_id . '-' . $index;
-                                    ?>
-                                    <div class="form-check small-checkbox small-chekbox mb-1">
-                                        <input 
-                                            type="checkbox" 
-                                            class="form-check-input<?php echo esc_attr($form_radius_class); ?>" 
-                                            id="<?php echo esc_attr($checkbox_id); ?>" 
-                                            name="testimonial_consents[<?php echo esc_attr($document_id); ?>]" 
-                                            value="1"
-                                            <?php echo $required ? 'required' : ''; ?>
-                                        >
-                                        <label class="form-check-label" for="<?php echo esc_attr($checkbox_id); ?>">
-                                            <?php echo wp_kses_post($label_text); ?>
-                                        </label>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
+                }
+            } catch (Exception $e) {
+                if (defined('WP_DEBUG') && WP_DEBUG) {
+                    error_log('[Testimonial Form API] Exception when getting default form: ' . $e->getMessage());
+                }
+                $form_html = '';
+            }
+            
+            if (!empty($form_html)) {
+                // Обертываем в структуру модального окна
+                $wrapped_html = '<div class="testimonial-form-modal text-start">' . 
+                    '<h5 class="modal-title mb-4">' . esc_html__('Leave Your Testimonial', 'codeweber') . '</h5>' . 
+                    $form_html . 
+                    '</div>';
                 
-                <div class="modal-footer text-center justify-content-center mt-4 pt-0 pb-0">
-                    <button type="submit" class="btn btn-primary<?php echo getThemeButton(); ?>" data-loading-text="<?php esc_attr_e('Sending...', 'codeweber'); ?>"><?php esc_html_e('Submit Testimonial', 'codeweber'); ?></button>
-                </div>
-            </form>
-        </div>
-        <?php
-        $form_html = ob_get_clean();
+                return new WP_REST_Response([
+                    'content' => [
+                        'rendered' => $wrapped_html
+                    ],
+                    'modal_size' => 'modal-lg'
+                ], 200);
+            } else {
+                if (defined('WP_DEBUG') && WP_DEBUG) {
+                    error_log('[Testimonial Form API] Default form HTML is empty');
+                }
+            }
+        } else {
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('[Testimonial Form API] CodeweberFormsDefaultForms class not found');
+            }
+        }
         
-        return new WP_REST_Response([
-            'content' => [
-                'rendered' => $form_html
-            ],
-            'modal_size' => 'modal-lg'
-        ], 200);
+        // Если ни CPT, ни default форма не найдены - возвращаем ошибку
+        return new WP_Error(
+            'form_not_found',
+            __('Testimonial form not found.', 'codeweber'),
+            ['status' => 404]
+        );
     }
 
     /**
@@ -490,14 +413,16 @@ class TestimonialFormAPI {
         // Validate consents
         // Получаем form_id из запроса (для CPT форм это числовой ID)
         $form_id_from_request = $request->get_param('form_id');
-        $is_cpt_form = !empty($form_id_from_request) && is_numeric($form_id_from_request);
+        $form_id_int = intval($form_id_from_request);
+        $is_cpt_form = !empty($form_id_from_request) && is_numeric($form_id_from_request) && $form_id_int > 0; // form_id = 0 это default форма без согласий
+        $is_default_form = ($form_id_int === 0);
         
-        if (function_exists('codeweber_forms_validate_consents')) {
+        // Default формы (form_id = 0) не имеют согласий, пропускаем проверку
+        if (!$is_default_form && function_exists('codeweber_forms_validate_consents')) {
             $consents_config = [];
             
             // НОВОЕ: Для CPT форм согласия извлекаются из блоков формы, а не из глобальных настроек
             if ($is_cpt_form && class_exists('CodeweberFormsCore')) {
-                $form_id_int = intval($form_id_from_request);
                 $consents_config = CodeweberFormsCore::extract_consents_from_blocks($form_id_int);
                 error_log('Testimonial Submit - CPT form, extracted consents from blocks: ' . print_r($consents_config, true));
             } else {
@@ -507,17 +432,21 @@ class TestimonialFormAPI {
                 error_log('Testimonial Submit - Legacy form, using builtin_form_consents: ' . print_r($consents_config, true));
             }
             
+            // Извлекаем только обязательные согласия из конфигурации
+            $required_consents = [];
             if (!empty($consents_config) && is_array($consents_config)) {
-                // Get required consents
-                $required_consents = [];
                 foreach ($consents_config as $consent) {
                     if (!empty($consent['required']) && !empty($consent['document_id'])) {
                         $required_consents[] = intval($consent['document_id']);
                     }
                 }
-                
-                error_log('Testimonial Submit - Required consents (document IDs): ' . print_r($required_consents, true));
-                
+            }
+            
+            error_log('Testimonial Submit - Required consents (document IDs): ' . print_r($required_consents, true));
+            
+            // Проверяем согласия ТОЛЬКО если в форме есть обязательные согласия
+            // Если обязательных согласий нет (массив пустой), пропускаем проверку
+            if (!empty($required_consents)) {
                 // Get submitted consents
                 $submitted_consents = $request->get_param('testimonial_consents');
                 if (!is_array($submitted_consents)) {
@@ -527,21 +456,21 @@ class TestimonialFormAPI {
                 error_log('Testimonial Submit - Submitted consents: ' . print_r($submitted_consents, true));
                 
                 // Validate
-                if (!empty($required_consents)) {
-                    $validation = codeweber_forms_validate_consents($submitted_consents, $required_consents);
-                    error_log('Testimonial Submit - Consent validation result: ' . print_r($validation, true));
-                    
-                    if (!$validation['valid']) {
-                        return new \WP_Error(
-                            'consent_required',
-                            __('Please accept all required consents.', 'codeweber'),
-                            ['status' => 400]
-                        );
-                    }
+                $validation = codeweber_forms_validate_consents($submitted_consents, $required_consents);
+                error_log('Testimonial Submit - Consent validation result: ' . print_r($validation, true));
+                
+                if (!$validation['valid']) {
+                    return new \WP_Error(
+                        'consent_required',
+                        __('Please accept all required consents.', 'codeweber'),
+                        ['status' => 400]
+                    );
                 }
             } else {
-                error_log('Testimonial Submit - No consents config found, skipping consent validation');
+                error_log('Testimonial Submit - No required consents found in form, skipping consent validation');
             }
+        } else if ($is_default_form) {
+            error_log('Testimonial Submit - Default form (form_id=0), skipping consent validation');
         }
 
         // Обрабатываем testimonial_consents аналогично newsletter_consents для универсальной обработки

@@ -349,7 +349,14 @@ document.addEventListener("DOMContentLoaded", () => {
           // Подгружаем в кэш
           fetch(`${wpApiSettings.root}wp/v2/modal/${dataValue}`)
             .then((response) => {
-              if (!response.ok) throw new Error("Ошибка при загрузке данных");
+              if (!response.ok) {
+                console.error(`Ошибка при загрузке данных: ${response.status} ${response.statusText}`);
+                return response.json().then(err => {
+                  throw new Error(err.message || `Ошибка при загрузке данных: ${response.status}`);
+                }).catch(() => {
+                  throw new Error(`Ошибка при загрузке данных: ${response.status}`);
+                });
+              }
               return response.json();
             })
             .then((data) => {
@@ -429,11 +436,11 @@ document.addEventListener("DOMContentLoaded", () => {
           custom.formSubmittingWatcher();
         }
         
-        // Initialize testimonial form if present
-        const testimonialForm = modalContent.querySelector('#testimonial-form');
-        if (testimonialForm && typeof initTestimonialForm === 'function') {
+        // Инициализируем codeweber формы (testimonial, newsletter, etc.)
+        if (typeof window.initTestimonialForm === 'function') {
           setTimeout(function() {
-            initTestimonialForm();
+            console.log('[REST API] Initializing codeweber forms in modal (cached)');
+            window.initTestimonialForm();
           }, 100);
         }
       } else {
@@ -476,6 +483,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 initTestimonialRatingStars();
               }, 50);
               
+              // Инициализируем codeweber формы (testimonial, newsletter, etc.)
+              if (typeof window.initTestimonialForm === 'function') {
+                setTimeout(function() {
+                  console.log('[REST API] Initializing codeweber forms in modal');
+                  window.initTestimonialForm();
+                }, 100);
+              }
+              
               // Инициализируем обработчик формы отправки документа на email
               initDocumentEmailForm();
               
@@ -487,14 +502,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 custom.addTelMask();
                 custom.rippleEffect();
                 custom.formSubmittingWatcher();
-              }
-              
-              // Initialize testimonial form if present
-              const testimonialForm = modalContent.querySelector('#testimonial-form');
-              if (testimonialForm && typeof initTestimonialForm === 'function') {
-                setTimeout(function() {
-                  initTestimonialForm();
-                }, 100);
               }
             } else {
               modalContent.innerHTML = "Контент не найден.";

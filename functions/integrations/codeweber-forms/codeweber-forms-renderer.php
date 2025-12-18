@@ -16,8 +16,9 @@ class CodeweberFormsRenderer {
      * Render form
      */
     public function render($form_id, $form_config) {
-        // Если передан объект поста CPT
-        if (is_object($form_config) && $form_config instanceof WP_Post) {
+        // Если передан объект поста CPT (или виртуальный пост с нужными свойствами)
+        if (is_object($form_config) && 
+            (isset($form_config->post_type) || isset($form_config->post_content))) {
             return $this->render_from_cpt($form_config);
         }
         
@@ -83,10 +84,10 @@ class CodeweberFormsRenderer {
             'settings' => array_merge(
                 $block_attrs, // Все атрибуты блока, включая formGap*, formGapType, и т.д.
                 [
-                    'recipientEmail' => get_post_meta($post->ID, '_form_recipient_email', true),
-                    'senderEmail' => get_post_meta($post->ID, '_form_sender_email', true),
-                    'senderName' => get_post_meta($post->ID, '_form_sender_name', true),
-                    'subject' => get_post_meta($post->ID, '_form_subject', true),
+                    'recipientEmail' => ($post->ID > 0) ? get_post_meta($post->ID, '_form_recipient_email', true) : '',
+                    'senderEmail' => ($post->ID > 0) ? get_post_meta($post->ID, '_form_sender_email', true) : '',
+                    'senderName' => ($post->ID > 0) ? get_post_meta($post->ID, '_form_sender_name', true) : '',
+                    'subject' => ($post->ID > 0) ? get_post_meta($post->ID, '_form_subject', true) : '',
                 ]
             ),
         ];
@@ -95,9 +96,12 @@ class CodeweberFormsRenderer {
         if (!empty($block_attrs['formType'])) {
             $form_config['type'] = sanitize_text_field($block_attrs['formType']);
         } else {
-            $form_type = get_post_meta($post->ID, '_form_type', true);
-            if (!empty($form_type)) {
-                $form_config['type'] = $form_type;
+            // Для default форм (ID=0) метаполя не получаем
+            if ($post->ID > 0) {
+                $form_type = get_post_meta($post->ID, '_form_type', true);
+                if (!empty($form_type)) {
+                    $form_config['type'] = $form_type;
+                }
             }
         }
         
