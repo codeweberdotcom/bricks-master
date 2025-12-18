@@ -13,6 +13,11 @@ if (!defined('ABSPATH')) {
 
 class CodeweberFormsDefaultForms {
     /**
+     * Общий счетчик для всех default форм (гарантирует уникальность ID)
+     */
+    private static $global_form_instance_counter = 0;
+    
+    /**
      * Get default form HTML
      * 
      * Default формы всегда берутся из кода темы
@@ -26,10 +31,8 @@ class CodeweberFormsDefaultForms {
         switch ($form_type) {
             case 'testimonial':
                 return $this->get_default_testimonial_form_html($is_logged_in, $user_id);
-            // Здесь можно добавить другие типы default форм в будущем
-            // case 'newsletter':
-            //     return $this->get_default_newsletter_form_html($is_logged_in);
-            //     break;
+            case 'newsletter':
+                return $this->get_default_newsletter_form_html($is_logged_in, $user_id);
         }
         
         if (defined('WP_DEBUG') && WP_DEBUG) {
@@ -54,9 +57,8 @@ class CodeweberFormsDefaultForms {
         }
         
         // Генерируем уникальный ID формы для каждого экземпляра на странице
-        static $form_instance_counter = 0;
-        $form_instance_counter++;
-        $form_unique_id = 'form-0-' . $form_instance_counter;
+        self::$global_form_instance_counter++;
+        $form_unique_id = 'form-0-' . self::$global_form_instance_counter;
         
         // Получаем классы скругления из темы
         $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
@@ -215,5 +217,81 @@ class CodeweberFormsDefaultForms {
                         </label>
                     </div>
                 </div>';
+    }
+    
+    /**
+     * Get default newsletter form HTML
+     * 
+     * Возвращает HTML шаблон default формы подписки на рассылку
+     * 
+     * @param bool $is_logged_in Is user logged in (for user_id hidden field)
+     * @param int $user_id User ID if logged in (for user_id hidden field)
+     * @return string HTML of the form
+     */
+    private function get_default_newsletter_form_html($is_logged_in = false, $user_id = 0) {
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('[Default Forms] Generating newsletter form HTML, is_logged_in: ' . ($is_logged_in ? 'true' : 'false') . ', user_id: ' . $user_id);
+        }
+        
+        // Генерируем уникальный ID формы для каждого экземпляра на странице
+        self::$global_form_instance_counter++;
+        $form_unique_id = 'form-0-' . self::$global_form_instance_counter;
+        
+        // Получаем классы скругления из темы
+        $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
+        $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';
+        
+        // Генерируем nonce поле (для REST API используем wp_create_nonce)
+        $nonce_value = wp_create_nonce('codeweber_form_submit');
+        $nonce_field = '<input type="hidden" name="nonce" value="' . esc_attr($nonce_value) . '">';
+        
+        // Генерируем user_id поле, если пользователь залогинен
+        $user_id_field = '';
+        if ($is_logged_in && $user_id > 0) {
+            $user_id_field = '<input type="hidden" name="user_id" value="' . esc_attr($user_id) . '">';
+        }
+        
+        // Переводы
+        $label_email = __('Email', 'codeweber');
+        $placeholder_email = __('Email Address', 'codeweber');
+        $button_text = __('Subscribe', 'codeweber');
+        $button_loading_text = __('Sending...', 'codeweber');
+        
+        // Уникальный ID для поля email
+        $field_email_id = 'field-email-' . self::$global_form_instance_counter;
+        
+        // Собираем классы для input
+        $input_class = 'form-control required email';
+        if ($form_radius_class) {
+            $input_class .= ' ' . $form_radius_class;
+        }
+        
+        // Собираем классы для кнопки
+        $button_class = 'btn btn-primary';
+        if ($button_radius_class) {
+            $button_class .= ' ' . $button_radius_class;
+        }
+        
+        // Основной HTML шаблон
+        $html = '<form id="' . esc_attr($form_unique_id) . '" class="codeweber-form newsletter-subscription-form needs-validation" data-form-id="0" data-form-type="newsletter" data-form-name="' . esc_attr(__('Default Newsletter Form', 'codeweber')) . '" data-handled-by="codeweber-forms-universal" method="post" enctype="multipart/form-data" novalidate="">
+            ' . $nonce_field . '
+            <input type="hidden" name="form_id" value="0">
+            ' . $user_id_field . '
+            <input type="hidden" name="form_honeypot" value="">
+            
+            <div class="input-group form-floating">
+                <input type="email" class="' . esc_attr($input_class) . '" id="' . esc_attr($field_email_id) . '" name="email" placeholder="' . esc_attr($placeholder_email) . '" required="" autocomplete="off">
+                <label for="' . esc_attr($field_email_id) . '">
+                    ' . esc_html($label_email) . ' <span class="text-danger">*</span>
+                </label>
+                <input type="submit" value="' . esc_attr($button_text) . '" class="' . esc_attr($button_class) . '" data-loading-text="' . esc_attr($button_loading_text) . '">
+            </div>
+        </form>';
+        
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('[Default Forms] Generated newsletter form HTML length: ' . strlen($html));
+        }
+        
+        return $html;
     }
 }

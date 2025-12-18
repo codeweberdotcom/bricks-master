@@ -203,27 +203,33 @@
 
     /**
      * Save component (null - динамический рендеринг через render.php)
+     * Для динамических блоков save должен возвращать null
      */
     function Save() {
         return null;
     }
 
-    // Проверяем, зарегистрирован ли блок уже в PHP
+    // Проверяем, зарегистрирован ли блок уже в PHP (через block.json)
     const existingBlock = wp.blocks.getBlockType('codeweber-blocks/form-selector');
     
     if (existingBlock) {
-        // Блок уже зарегистрирован в PHP с render_callback
-        // Обновляем только edit и save компоненты, сохраняя render_callback
-        existingBlock.edit = Edit;
-        existingBlock.save = Save;
-        
-        // Также обновляем метаданные блока для отображения в редакторе
-        if (existingBlock.title !== __('Form Selector', 'codeweber')) {
-            existingBlock.title = __('Form Selector', 'codeweber');
-        }
-        if (existingBlock.category !== 'codeweber-gutenberg-blocks') {
-            existingBlock.category = 'codeweber-gutenberg-blocks';
-        }
+        // Блок уже зарегистрирован в PHP через block.json
+        // Просто обновляем edit компонент, сохраняя остальные настройки
+        // Используем правильный API для обновления блока
+        wp.hooks.addFilter(
+            'blocks.registerBlockType',
+            'codeweber-forms/form-selector-update-edit',
+            function(settings, name) {
+                if (name === 'codeweber-blocks/form-selector') {
+                    return {
+                        ...settings,
+                        edit: Edit,
+                        save: Save,
+                    };
+                }
+                return settings;
+            }
+        );
     } else {
         // Блок не зарегистрирован в PHP, регистрируем его в JavaScript
         registerBlockType('codeweber-blocks/form-selector', {

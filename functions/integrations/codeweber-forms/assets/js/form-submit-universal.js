@@ -380,6 +380,9 @@
     function collectFormData(form, config) {
         const formData = new FormData(form);
         const data = {};
+        
+        // Сохраняем formType из атрибута формы для передачи на сервер
+        const formTypeFromAttr = form.dataset.formType;
 
         // Get nonce
         const nonce = formData.get(config.nonceField);
@@ -450,6 +453,12 @@
             
             data.honeypot = formData.get('testimonial_honeypot') || '';
             data.form_id = config.formId; // Передаем form_id для CPT форм, чтобы сервер мог получить согласия из блоков
+            // Передаем тип формы из data-form-type атрибута (для правильного определения success message)
+            if (formTypeFromAttr) {
+                data.form_type = formTypeFromAttr;
+            } else if (config.type) {
+                data.form_type = config.type;
+            }
             
             const userId = formData.get('user_id');
             if (userId) {
@@ -465,6 +474,13 @@
             // Generic codeweber form
             data.honeypot = formData.get('form_honeypot') || '';
             data.form_id = config.formId;
+            // Передаем тип формы из data-form-type атрибута (для правильного определения success message)
+            // Приоритет: data-form-type из атрибута формы (для newsletter, resume, callback и т.д.)
+            if (formTypeFromAttr) {
+                data.form_type = formTypeFromAttr;
+            } else if (config.type) {
+                data.form_type = config.type;
+            }
             if (config.formName) {
                 data.form_name = config.formName;
             }

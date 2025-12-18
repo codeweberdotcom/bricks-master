@@ -80,6 +80,7 @@ class CodeweberFormsAPI {
     public function submit_form($request) {
         $form_id = $request->get_param('form_id');
         $form_name_from_request = $request->get_param('form_name');
+        $form_type_from_request = $request->get_param('form_type'); // Тип формы из JavaScript (для default форм)
         $fields = $request->get_param('fields');
         $honeypot = $request->get_param('honeypot');
         $utm_params = $request->get_param('utm_params') ?: [];
@@ -89,6 +90,7 @@ class CodeweberFormsAPI {
         // Debug logging
         error_log('=== FORM SUBMIT DEBUG START ===');
         error_log('Form Submit - form_id: ' . $form_id);
+        error_log('Form Submit - form_type_from_request: ' . var_export($form_type_from_request, true));
         error_log('Form Submit - fields (raw): ' . print_r($fields, true));
         error_log('Form Submit - submitted_newsletter_consents (param): ' . print_r($submitted_newsletter_consents, true));
         error_log('Form Submit - is_newsletter_form: ' . (codeweber_forms_is_newsletter_form($form_id) ? 'YES' : 'NO'));
@@ -194,14 +196,22 @@ class CodeweberFormsAPI {
         
         // Валидация согласий для newsletter формы (как в форме отзывов)
         if (codeweber_forms_is_newsletter_form($form_id) && function_exists('codeweber_forms_validate_consents')) {
-            error_log('=== NEWSLETTER CONSENTS VALIDATION START ===');
-            error_log('Form ID: ' . print_r($form_id, true));
-            error_log('Form ID type: ' . (is_numeric($form_id) ? 'numeric (CPT)' : 'string (legacy)'));
+            // Проверяем, является ли форма default формой (form_id = 0)
+            $form_id_int = is_numeric($form_id) ? intval($form_id) : 0;
+            $is_default_form = ($form_id_int === 0);
             
-            // НОВОЕ: Для CPT форм согласия извлекаются из блоков формы, а не из глобальных настроек
-            $newsletter_consents_config = [];
-            
-            if (is_numeric($form_id)) {
+            // Default формы (form_id = 0) не имеют согласий, пропускаем проверку
+            if ($is_default_form) {
+                error_log('=== NEWSLETTER CONSENTS VALIDATION SKIPPED (default form) ===');
+            } else {
+                error_log('=== NEWSLETTER CONSENTS VALIDATION START ===');
+                error_log('Form ID: ' . print_r($form_id, true));
+                error_log('Form ID type: ' . (is_numeric($form_id) ? 'numeric (CPT)' : 'string (legacy)'));
+                
+                // НОВОЕ: Для CPT форм согласия извлекаются из блоков формы, а не из глобальных настроек
+                $newsletter_consents_config = [];
+                
+                if (is_numeric($form_id) && $form_id_int > 0) {
                 // CPT форма - извлекаем согласия из блоков form-field с типом consents_block
                 error_log('CPT form - extracting consents from blocks');
                 if (class_exists('CodeweberFormsCore')) {
@@ -290,7 +300,8 @@ class CodeweberFormsAPI {
                 error_log('No consents config found or config is not an array - skipping validation');
             }
             
-            error_log('=== NEWSLETTER CONSENTS VALIDATION END (SUCCESS) ===');
+                error_log('=== NEWSLETTER CONSENTS VALIDATION END (SUCCESS) ===');
+            }
         } else {
             error_log('Form is NOT newsletter form or validate_consents function not available');
             error_log('codeweber_forms_is_newsletter_form result: ' . (function_exists('codeweber_forms_is_newsletter_form') ? (codeweber_forms_is_newsletter_form($form_id) ? 'TRUE' : 'FALSE') : 'FUNCTION NOT EXISTS'));
@@ -756,21 +767,61 @@ class CodeweberFormsAPI {
         // Хук после отправки
         CodeweberFormsHooks::after_send($form_id, $form_settings, $submission_id);
         
-        // Special message for newsletter subscription form
-        // If form has custom successMessage in meta, use it; otherwise use default for newsletter
-        if (codeweber_forms_is_newsletter_form($form_id)) {
+        // Special message for newsletter / testimonial / callback forms
+        // Приоритет: form_type из запроса -> detect_form_type -> formType из настроек
+        $detected_form_type = null;
+
+        // 1) Form type из запроса (JavaScript отправляет form_type из data-form-type)
+        $form_type_from_request = $form_type_from_request ? strtolower(trim((string) $form_type_from_request)) : '';
+        if ($form_type_from_request === 'newsletter') {
+            $detected_form_type = 'newsletter';
+        } elseif ($form_type_from_request === 'testimonial') {
+            $detected_form_type = 'testimonial';
+        } elseif ($form_type_from_request === 'callback') {
+            $detected_form_type = 'callback';
+        }
+
+        // 2) Если не пришло из запроса, пытаемся определить из содержимого/мета
+        if (!$detected_form_type) {
+            $detected_type = $this->detect_form_type($form_id, $form_settings);
+            if ($detected_type === 'newsletter') {
+                $detected_form_type = 'newsletter';
+            } elseif ($detected_type === 'testimonial') {
+                $detected_form_type = 'testimonial';
+            } elseif ($detected_type === 'callback') {
+                $detected_form_type = 'callback';
+            }
+        }
+
+        // 3) Fallback: formType в настройках формы
+        if (!$detected_form_type && !empty($form_settings['formType'])) {
+            $form_type_setting = strtolower(trim((string) $form_settings['formType']));
+            if (in_array($form_type_setting, ['newsletter', 'testimonial', 'callback'], true)) {
+                $detected_form_type = $form_type_setting;
+            }
+        }
+        
+        if ($detected_form_type === 'newsletter') {
             // Check if custom message is set in form meta
             $custom_message = '';
-            if (is_numeric($form_id)) {
+            if (is_numeric($form_id) && (int) $form_id > 0) {
                 $custom_message = get_post_meta($form_id, '_codeweber_form_success_message', true);
             }
             // Use custom message if exists, otherwise use newsletter default
             $success_message = !empty($custom_message) ? $custom_message : __('Thank you for subscribing!', 'codeweber');
+        } elseif ($detected_form_type === 'testimonial') {
+            // Для testimonial форм используем специальное сообщение
+            $success_message = $form_settings['successMessage'] ?? __('Thank you for your testimonial!', 'codeweber');
+        } elseif ($detected_form_type === 'callback') {
+            // Для callback форм используем специальное сообщение
+            $success_message = $form_settings['successMessage'] ?? __('Your request has been accepted', 'codeweber');
         } else {
             $success_message = $form_settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
         }
         
         error_log('=== FORM SUBMIT API END (SUCCESS) ===');
+        error_log('Form Submit - detected_form_type: ' . var_export($detected_form_type, true));
+        error_log('Form Submit - success_message: ' . $success_message);
         error_log('Submission ID: ' . $submission_id);
         
         return new WP_REST_Response([

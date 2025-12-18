@@ -198,81 +198,56 @@ document.addEventListener("DOMContentLoaded", () => {
    * Initialize testimonial rating stars
    */
   function initTestimonialRatingStars() {
-    console.log('[Rating Stars] Initialization started');
-    
     // Use event delegation on modal-content to handle dynamically loaded content
     const modalContent = document.getElementById('modal-content');
     if (!modalContent) {
-      console.log('[Rating Stars] Modal content not found');
       return;
     }
-    
-    console.log('[Rating Stars] Modal content found:', modalContent);
-    
+
     // Remove old event listeners by using a flag
     const ratingContainers = modalContent.querySelectorAll('.rating-stars-wrapper:not([data-initialized])');
-    console.log('[Rating Stars] Found containers:', ratingContainers.length);
-    
-    if (ratingContainers.length === 0) {
-      console.log('[Rating Stars] No uninitialized containers found');
-      return;
-    }
+    if (ratingContainers.length === 0) return;
     
     ratingContainers.forEach(function(container, index) {
-      console.log('[Rating Stars] Initializing container', index + 1);
-      
       // Mark as initialized
       container.setAttribute('data-initialized', 'true');
       
       const stars = container.querySelectorAll('.rating-star-item');
-      console.log('[Rating Stars] Found stars:', stars.length);
       
       const inputId = container.dataset.ratingInput;
-      console.log('[Rating Stars] Input ID:', inputId);
       
       let selectedRating = 0;
       
       // Get initial rating from input
       const input = document.getElementById(inputId);
       if (input) {
-        console.log('[Rating Stars] Input found:', input);
         if (input.value) {
           selectedRating = parseInt(input.value) || 0;
-          console.log('[Rating Stars] Initial rating:', selectedRating);
           updateStarsVisual(stars, selectedRating);
         }
-      } else {
-        console.log('[Rating Stars] Input not found for ID:', inputId);
       }
       
       // Click handler - use event delegation
       container.addEventListener('click', function(e) {
-        console.log('[Rating Stars] Click event on container');
         const star = e.target.closest('.rating-star-item');
         if (!star) {
-          console.log('[Rating Stars] Click not on star');
           return;
         }
         
-        console.log('[Rating Stars] Click on star:', star);
         e.preventDefault();
         e.stopPropagation();
         
         const rating = parseInt(star.dataset.rating);
-        console.log('[Rating Stars] Selected rating:', rating);
         selectedRating = rating;
         if (input) {
           input.value = rating;
-          console.log('[Rating Stars] Input value set to:', rating);
         }
         updateStarsVisual(stars, rating);
-        console.log('[Rating Stars] Stars visual updated');
       });
       
       // Hover handlers - highlight all stars from first to current
       stars.forEach(function(star, starIndex) {
         star.addEventListener('mouseenter', function() {
-          console.log('[Rating Stars] Hover on star:', starIndex + 1);
           const hoverRating = parseInt(this.dataset.rating);
           // Highlight all stars from 1 to hoverRating (left to right)
           stars.forEach(function(s) {
@@ -288,34 +263,26 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // Reset on mouse leave
       container.addEventListener('mouseleave', function() {
-        console.log('[Rating Stars] Mouse leave, resetting to:', selectedRating);
         updateStarsVisual(stars, selectedRating);
       });
-      
-      console.log('[Rating Stars] Container', index + 1, 'initialized successfully');
     });
-    
-    console.log('[Rating Stars] Initialization completed');
   }
   
   /**
    * Update stars visual state
    */
   function updateStarsVisual(stars, rating, isHover) {
-    console.log('[Rating Stars] updateStarsVisual called with rating:', rating, 'isHover:', isHover);
     stars.forEach(function(star, index) {
       const starRating = parseInt(star.dataset.rating);
       if (starRating <= rating) {
         star.classList.add('active');
         if (!isHover) {
           star.style.color = '#fcc032';
-          console.log('[Rating Stars] Star', index + 1, 'activated (rating:', starRating, ')');
         }
       } else {
         if (!isHover) {
           star.classList.remove('active');
           star.style.color = 'rgba(0, 0, 0, 0.1)';
-          console.log('[Rating Stars] Star', index + 1, 'deactivated (rating:', starRating, ')');
         }
       }
     });

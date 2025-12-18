@@ -394,8 +394,8 @@ class CodeweberFormsRenderer {
                 <div class="<?php echo esc_attr($row_class); ?>">
                     <?php foreach ($fields as $field): ?>
                         <?php 
-                        // Временная отладка для newsletter
-                        if (current_user_can('manage_options') && !empty($_GET['debug_form']) && ($field['fieldType'] ?? '') === 'newsletter') {
+                        // Временная отладка для newsletter (только на фронтенде, не в админ-панели)
+                        if (!is_admin() && current_user_can('manage_options') && !empty($_GET['debug_form']) && ($field['fieldType'] ?? '') === 'newsletter') {
                             echo '<!-- DEBUG: Rendering newsletter field: ' . print_r($field, true) . ' -->';
                         }
                         echo $this->render_field($field, $form_id, $form_type); 
@@ -487,6 +487,9 @@ class CodeweberFormsRenderer {
      * Render single form field
      */
     private function render_field($field, $form_id = 0, $form_type = null) {
+        // Начинаем буферизацию вывода для предотвращения проблем с заголовками
+        ob_start();
+        
         $field_type = $field['fieldType'] ?? 'text';
         $field_name = $field['fieldName'] ?? '';
         
@@ -498,7 +501,7 @@ class CodeweberFormsRenderer {
             }
         }
         
-        // Отладка для newsletter
+        // Отладка для newsletter (только в error_log, не в вывод)
         if (defined('WP_DEBUG') && WP_DEBUG && $field_type === 'newsletter') {
             error_log('[Form Render Field] Rendering newsletter field: ' . print_r($field, true));
         }
@@ -516,6 +519,7 @@ class CodeweberFormsRenderer {
         // Для авторизованных пользователей поле полностью скрывается (не рендерится)
         if ($show_for_guests_only && is_user_logged_in()) {
             // Поле не рендерится для авторизованных пользователей
+            ob_end_clean(); // Очищаем буфер перед возвратом
             return '';
         }
         
@@ -554,6 +558,79 @@ class CodeweberFormsRenderer {
         
         // Получаем blockClass из атрибутов поля
         $block_class = !empty($field['blockClass']) ? esc_attr($field['blockClass']) : '';
+        
+        // Телефонная маска (используем только для поля tel)
+        $phone_mask = '';
+        $phone_mask_caret = '_';
+        if ($field_type === 'tel') {
+            $phone_mask = isset($field['phoneMask']) ? trim((string) $field['phoneMask']) : '';
+            $phone_mask_caret = isset($field['phoneMaskCaret']) ? (string) $field['phoneMaskCaret'] : '_';
+            if ($phone_mask_caret === '') {
+                $phone_mask_caret = '_';
+            }
+            // гарантируем один символ
+            if (function_exists('mb_substr')) {
+                $phone_mask_caret = mb_substr($phone_mask_caret, 0, 1);
+            } else {
+                $phone_mask_caret = substr($phone_mask_caret, 0, 1);
+            }
+        }
+
+        // Базовые данные для идентификаторов/обязательности (нужны до inline-разметки)
+        $field_id = 'field-' . $field_name;
+        $required_attr = $is_required ? 'required' : '';
+        $required_mark = $is_required ? ' <span class="text-danger">*</span>' : '';
+
+        // Inline button support for text-like fields (newsletter-style layout)
+        $inline_button_enabled = !empty($field['enableInlineButton']);
+        $inline_button_text = $field['inlineButtonText'] ?? '';
+        $inline_button_class = $field['inlineButtonClass'] ?? 'btn btn-primary';
+        $inline_supported_types = ['text', 'email', 'tel', 'url', 'number', 'date', 'time', 'author_role', 'company'];
+
+        if ($inline_button_enabled && in_array($field_type, $inline_supported_types, true)) {
+            $button_radius_class_inline = function_exists('getThemeButton') ? getThemeButton() : '';
+            $button_class_final_inline = trim(($inline_button_class ?: 'btn btn-primary') . ' ' . $button_radius_class_inline);
+
+            $input_radius_class_inline = $form_radius_class;
+            if (strpos($button_radius_class_inline, 'rounded-pill') !== false) {
+                $input_radius_class_inline = ' rounded-pill';
+            }
+
+            $inline_label = $field_label ?: __('Field', 'codeweber');
+            $inline_placeholder = $placeholder ?: $inline_label;
+            $inline_button_text_final = $inline_button_text ?: __('Send', 'codeweber');
+            ?>
+            <div class="<?php echo esc_attr($width_classes); ?>">
+                <div class="input-group<?php echo $block_class ? ' ' . $block_class : ''; ?>">
+                    <div class="form-floating">
+                        <input
+                            type="<?php echo esc_attr($field_type); ?>"
+                            class="form-control<?php echo esc_attr($input_radius_class_inline); ?>"
+                            id="<?php echo esc_attr($field_id); ?>"
+                            name="<?php echo esc_attr($field_name); ?>"
+                            placeholder="<?php echo esc_attr($inline_placeholder); ?>"
+                            value="<?php echo esc_attr($default_value); ?>"
+                            <?php echo $required_attr; ?>
+                            <?php echo $max_length > 0 ? 'maxlength="' . $max_length . '"' : ''; ?>
+                            <?php echo $min_length > 0 ? 'minlength="' . $min_length . '"' : ''; ?>
+                            <?php echo $phone_mask ? 'data-mask="' . esc_attr($phone_mask) . '"' : ''; ?>
+                            <?php echo $phone_mask && $phone_mask_caret !== '' ? 'data-mask-caret="' . esc_attr($phone_mask_caret) . '"' : ''; ?>
+                        >
+                        <label for="<?php echo esc_attr($field_id); ?>">
+                            <?php echo esc_html($inline_label); ?><?php echo $required_mark; ?>
+                        </label>
+                    </div>
+                    <input
+                        type="submit"
+                        value="<?php echo esc_attr($inline_button_text_final); ?>"
+                        class="<?php echo esc_attr($button_class_final_inline); ?>"
+                        data-loading-text="<?php echo esc_attr(__('Sending...', 'codeweber')); ?>"
+                    >
+                </div>
+            </div>
+            <?php
+            return ob_get_clean();
+        }
         
         // Специальные типы полей, которые не требуют fieldName (имеют свою логику обработки)
         // consents_block - не требует fieldName
@@ -627,6 +704,7 @@ class CodeweberFormsRenderer {
             }
             
             // Если согласий нет — ничего не выводим
+            ob_end_clean(); // Очищаем буфер перед возвратом
             return '';
         }
         
@@ -635,6 +713,7 @@ class CodeweberFormsRenderer {
         // Примечание: author_role - это внутренний тип поля, но fieldName должен быть 'role'
         $field_types_without_required_name = ['newsletter', 'rating', 'author_role', 'company'];
         if (!in_array($field_type, $field_types_without_required_name) && empty($field_name)) {
+            ob_end_clean(); // Очищаем буфер перед возвратом
             return '';
         }
         
@@ -877,19 +956,21 @@ class CodeweberFormsRenderer {
                         $input_radius_class = ' rounded-pill';
                     }
                     ?>
-                    <div class="input-group form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
-                        <input
-                            type="email"
-                            class="form-control required email <?php echo esc_attr($input_radius_class); ?>"
-                            id="<?php echo esc_attr($field_id_newsletter); ?>"
-                            name="<?php echo esc_attr($field_name_newsletter); ?>"
-                            placeholder="<?php echo esc_attr($field_placeholder_newsletter); ?>"
-                            <?php echo $required_attr; ?>
-                            autocomplete="off"
-                        >
-                        <label for="<?php echo esc_attr($field_id_newsletter); ?>">
-                            <?php echo esc_html($field_label_newsletter); ?><?php echo $required_mark; ?>
-                        </label>
+                    <div class="input-group<?php echo $block_class ? ' ' . $block_class : ''; ?>">
+                        <div class="form-floating">
+                            <input
+                                type="email"
+                                class="form-control required email <?php echo esc_attr($input_radius_class); ?>"
+                                id="<?php echo esc_attr($field_id_newsletter); ?>"
+                                name="<?php echo esc_attr($field_name_newsletter); ?>"
+                                placeholder="<?php echo esc_attr($field_placeholder_newsletter); ?>"
+                                <?php echo $required_attr; ?>
+                                autocomplete="off"
+                            >
+                            <label for="<?php echo esc_attr($field_id_newsletter); ?>">
+                                <?php echo esc_html($field_label_newsletter); ?><?php echo $required_mark; ?>
+                            </label>
+                        </div>
                         <input
                             type="submit"
                             value="<?php echo esc_attr($button_text_newsletter); ?>"
@@ -914,6 +995,8 @@ class CodeweberFormsRenderer {
                             <?php echo $required_attr; ?>
                             <?php echo $max_length > 0 ? 'maxlength="' . $max_length . '"' : ''; ?>
                             <?php echo $min_length > 0 ? 'minlength="' . $min_length . '"' : ''; ?>
+                            <?php echo $phone_mask ? 'data-mask="' . esc_attr($phone_mask) . '"' : ''; ?>
+                            <?php echo $phone_mask && $phone_mask_caret !== '' ? 'data-mask-caret="' . esc_attr($phone_mask_caret) . '"' : ''; ?>
                         />
                         <label for="<?php echo esc_attr($field_id); ?>">
                             <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>

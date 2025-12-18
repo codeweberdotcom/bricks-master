@@ -15,6 +15,7 @@
     "bootstrap": "^5.3.2",
     "browser-sync": "~2.27.7",
     "del": "~6.0.0",
+    "gettext-parser": "^8.0.0",
     "gulp": "~4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-beautify": "^3.0.0",
@@ -36,7 +37,5 @@
     "imagemin-jpeg-recompress": "~7.0.0",
     "imagemin-pngquant": "~9.0.2",
     "sass": "1.49.0"
-  },
-  "dependencies": {
   }
 }

@@ -1,29 +1,43 @@
 const fs = require('fs');
 const path = require('path');
-const { gettextParser } = require('gettext-parser');
+const gettextParser = require('gettext-parser');
 
 console.log('🔄 Compiling CodeWeber Forms translations...\n');
 
-const poPath = path.join(__dirname, 'codeweber-forms-ru_RU.po');
+// Список языков для компиляции
+const languages = ['ru_RU', 'pl_PL'];
 
-if (!fs.existsSync(poPath)) {
-    console.log('⚠️ PO file not found:', poPath);
-    process.exit(1);
-}
+let compiledCount = 0;
 
-try {
-    const poFile = fs.readFileSync(poPath);
-    const po = gettextParser.po.parse(poFile);
+languages.forEach(locale => {
+    const poPath = path.join(__dirname, `codeweber-forms-${locale}.po`);
     
-    // Компилируем .mo файл для PHP
-    const mo = gettextParser.mo.compile(po);
-    const moPath = path.join(__dirname, 'codeweber-forms-ru_RU.mo');
-    fs.writeFileSync(moPath, mo);
+    if (!fs.existsSync(poPath)) {
+        console.log(`⚠️ PO file not found: ${poPath}`);
+        return;
+    }
     
-    console.log('✅ MO file compiled: codeweber-forms-ru_RU.mo');
-    console.log('✅ Translations ready!\n');
-} catch (error) {
-    console.error('❌ Error compiling translations:', error.message);
+    try {
+        const poFile = fs.readFileSync(poPath);
+        const po = gettextParser.po.parse(poFile, 'utf8');
+        
+        // Компилируем .mo файл для PHP
+        const mo = gettextParser.mo.compile(po);
+        const moPath = path.join(__dirname, `codeweber-forms-${locale}.mo`);
+        fs.writeFileSync(moPath, mo);
+        
+        console.log(`✅ MO file compiled: codeweber-forms-${locale}.mo`);
+        compiledCount++;
+    } catch (error) {
+        console.error(`❌ Error compiling ${locale}:`, error.message);
+        console.error(error.stack);
+    }
+});
+
+if (compiledCount > 0) {
+    console.log(`\n✅ ${compiledCount} translation file(s) compiled successfully!\n`);
+} else {
+    console.error('❌ No translations were compiled.');
     process.exit(1);
 }
 
