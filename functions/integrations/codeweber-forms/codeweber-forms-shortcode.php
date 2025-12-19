@@ -144,7 +144,15 @@ class CodeweberFormsShortcode {
             if ($form_block) {
                 // Извлекаем настройки формы из атрибутов блока
                 if (!empty($form_block['attrs'])) {
-                    $config['settings'] = array_merge($config['settings'], $form_block['attrs']);
+                    // Объединяем настройки, но не перезаписываем непустые значения из метаполей пустыми значениями из блока
+                    foreach ($form_block['attrs'] as $key => $value) {
+                        // Для successMessage и errorMessage: не перезаписываем, если значение из блока пустое
+                        if (in_array($key, ['successMessage', 'errorMessage']) && (empty($value) || trim($value) === '')) {
+                            // Пропускаем пустые значения, чтобы не перезаписать значения из метаполей
+                            continue;
+                        }
+                        $config['settings'][$key] = $value;
+                    }
                     
                     // НОВОЕ: Извлекаем тип формы из блока
                     if (!empty($form_block['attrs']['formType'])) {
@@ -181,6 +189,14 @@ class CodeweberFormsShortcode {
             if (!empty($form_type)) {
                 $config['type'] = $form_type;
             }
+        }
+        
+        // Устанавливаем дефолтные значения для сообщений, если они пустые
+        if (empty($config['settings']['successMessage'])) {
+            $config['settings']['successMessage'] = __('Thank you! Your message has been sent.', 'codeweber');
+        }
+        if (empty($config['settings']['errorMessage'])) {
+            $config['settings']['errorMessage'] = __('An error occurred. Please try again.', 'codeweber');
         }
         
         return $config;

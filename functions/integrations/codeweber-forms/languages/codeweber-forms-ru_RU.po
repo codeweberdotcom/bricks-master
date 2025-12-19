@@ -368,6 +368,14 @@ msgstr "Спасибо за ваш отзыв"
 msgid "Your resume has been received"
 msgstr "Ваше резюме получено"
 
+#: codeweber-forms-api.php
+msgid "Thank you for your request"
+msgstr "Спасибо за вашу заявку"
+
+#: codeweber-forms-api.php
+msgid "Your resume has been sent"
+msgstr "Ваше резюме отправлено"
+
 #: admin/codeweber-forms-email-templates.php:296
 msgid "Available Variables"
 msgstr "Доступные переменные"

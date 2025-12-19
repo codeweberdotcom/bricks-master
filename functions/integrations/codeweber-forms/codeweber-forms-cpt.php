@@ -186,7 +186,8 @@ class CodeweberFormsCPT {
         foreach ($columns as $key => $value) {
             $new_columns[$key] = $value;
             if ($key === 'title') {
-                $new_columns['form_type'] = __('Form Type', 'codeweber');
+                $new_columns['form_id'] = __('ID', 'codeweber');
+                $new_columns['form_type'] = __('Тип формы', 'codeweber');
                 $new_columns['shortcode'] = __('Shortcode', 'codeweber');
             }
         }
@@ -197,6 +198,10 @@ class CodeweberFormsCPT {
      * Заполнить кастомные колонки
      */
     public function fill_custom_columns($column, $post_id) {
+        if ($column === 'form_id') {
+            echo '<strong>' . esc_html($post_id) . '</strong>';
+        }
+        
         if ($column === 'form_type') {
             // НОВОЕ: Получаем тип формы через единую функцию
             $form_type = 'form'; // По умолчанию
@@ -485,6 +490,41 @@ class CodeweberFormsCPT {
         );
         
         $query->set('meta_query', $meta_query);
+    }
+    
+    /**
+     * Добавить сортируемые колонки
+     * 
+     * @param array $columns Массив колонок
+     * @return array
+     */
+    public function add_sortable_columns($columns) {
+        $columns['form_type'] = 'form_type';
+        return $columns;
+    }
+    
+    /**
+     * Обработка сортировки по типу формы
+     * 
+     * @param WP_Query $query Объект запроса
+     */
+    public function handle_form_type_sorting($query) {
+        if (!is_admin() || !$query->is_main_query()) {
+            return;
+        }
+        
+        // Проверяем, что это страница списка форм
+        global $typenow;
+        if ($typenow !== 'codeweber_form') {
+            return;
+        }
+        
+        // Проверяем, что сортировка идет по form_type
+        $orderby = $query->get('orderby');
+        if ($orderby === 'form_type') {
+            $query->set('meta_key', '_form_type');
+            $query->set('orderby', 'meta_value');
+        }
     }
 }
 

@@ -1385,6 +1385,123 @@
     }
 
     /**
+     * Initialize rating stars
+     */
+    function initRatingStars() {
+        const ratingContainers = document.querySelectorAll('.rating-stars-wrapper:not([data-initialized])');
+        
+        if (ratingContainers.length === 0) {
+            return;
+        }
+        
+        ratingContainers.forEach(function(container) {
+            // Mark as initialized to prevent double initialization
+            container.setAttribute('data-initialized', 'true');
+            
+            const stars = container.querySelectorAll('.rating-star-item');
+            const inputId = container.dataset.ratingInput;
+            let selectedRating = 0;
+            
+            if (!inputId) {
+                console.warn('[Rating Stars] No data-rating-input attribute found on container');
+                return;
+            }
+            
+            // Get initial rating from input
+            const input = document.getElementById(inputId);
+            if (!input) {
+                console.warn('[Rating Stars] Input element not found with ID:', inputId);
+                return;
+            }
+            
+            if (input.value) {
+                selectedRating = parseInt(input.value) || 0;
+                updateStarsVisual(stars, selectedRating);
+            }
+            
+            // Click handler - attach directly to each star
+            stars.forEach(function(star) {
+                star.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const rating = parseInt(this.dataset.rating);
+                    if (isNaN(rating) || rating < 1 || rating > 5) {
+                        return;
+                    }
+                    
+                    selectedRating = rating;
+                    if (input) {
+                        input.value = rating;
+                        
+                        // Validate rating immediately when star is clicked
+                        // Remove validation error classes
+                        input.classList.remove('is-invalid');
+                        container.classList.remove('is-invalid');
+                        
+                        // Trigger validation event to update form state
+                        const form = input.closest('form');
+                        if (form) {
+                            // Trigger input event for HTML5 validation
+                            input.dispatchEvent(new Event('input', { bubbles: true }));
+                            input.dispatchEvent(new Event('change', { bubbles: true }));
+                            
+                            // If form has was-validated class, re-validate rating field
+                            if (form.classList.contains('was-validated')) {
+                                // Manually validate rating field
+                                input.setCustomValidity('');
+                            }
+                        }
+                    }
+                    
+                    // Update visual state immediately (show selected stars)
+                    updateStarsVisual(stars, rating);
+                });
+            });
+            
+            // Hover handlers - highlight all stars from first to current
+            stars.forEach(function(star) {
+                star.addEventListener('mouseenter', function() {
+                    const hoverRating = parseInt(this.dataset.rating);
+                    if (isNaN(hoverRating)) {
+                        return;
+                    }
+                    // Highlight all stars from 1 to hoverRating (left to right)
+                    stars.forEach(function(s) {
+                        const sRating = parseInt(s.dataset.rating);
+                        if (sRating <= hoverRating) {
+                            s.style.color = '#fcc032';
+                        } else {
+                            s.style.color = 'rgba(0, 0, 0, 0.1)';
+                        }
+                    });
+                });
+            });
+            
+            // Reset on mouse leave
+            container.addEventListener('mouseleave', function() {
+                updateStarsVisual(stars, selectedRating);
+            });
+        });
+    }
+    
+    /**
+     * Update stars visual state
+     */
+    function updateStarsVisual(stars, rating) {
+        stars.forEach(function(star) {
+            const starRating = parseInt(star.dataset.rating);
+            if (starRating <= rating) {
+                star.style.color = '#fcc032';
+                star.classList.add('active');
+            } else {
+                star.style.color = 'rgba(0, 0, 0, 0.1)';
+                star.classList.remove('active');
+            }
+        });
+    }
+
+    /**
      * Initialize all forms
      */
     function initForms() {
@@ -1498,12 +1615,18 @@
     // Initialize on DOM ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
+            initRatingStars(); // Initialize rating stars first
             initForms();
             setupUniversalSuccessHandler();
+            // Re-initialize rating stars after forms are initialized
+            setTimeout(initRatingStars, 100);
         });
     } else {
+        initRatingStars(); // Initialize rating stars first
         initForms();
         setupUniversalSuccessHandler();
+        // Re-initialize rating stars after forms are initialized
+        setTimeout(initRatingStars, 100);
     }
 
     // Reinitialize if form is added dynamically (e.g., modal opened)
@@ -1511,6 +1634,7 @@
         // Проверяем наличие любой codeweber формы в модалке (не только testimonial-form)
         if (e.target.querySelector('.codeweber-form')) {
             setTimeout(function() {
+                initRatingStars(); // Reinitialize rating stars
                 initForms();
             }, 100);
         }
@@ -1525,7 +1649,10 @@
                     // Проверяем наличие любой codeweber формы (не только testimonial-form)
                     const form = modalContent.querySelector('.codeweber-form');
                     if (form) {
-                        setTimeout(initForms, 100);
+                        setTimeout(function() {
+                            initRatingStars(); // Reinitialize rating stars
+                            initForms();
+                        }, 100);
                     }
                 }
             });

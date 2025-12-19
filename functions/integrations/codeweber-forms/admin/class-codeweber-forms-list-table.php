@@ -40,7 +40,8 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $columns = array(
             'cb' => '<input type="checkbox" />',
             'id' => __('ID', 'codeweber'),
-            'form' => __('Form', 'codeweber'),
+            'form' => __('Форма', 'codeweber'),
+            'form_type' => __('Тип формы', 'codeweber'),
             'form_name' => __('Form name', 'codeweber'),
             'data' => __('Submission Data', 'codeweber'),
             'status' => __('Status', 'codeweber'),
@@ -61,6 +62,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         return array(
             'id' => array('id', true),
             'form' => array('form_name', false),
+            'form_type' => array('form_type', false),
             'form_name' => array('form_name', false),
             'status' => array('status', false),
             'date' => array('created_at', true),
@@ -159,6 +161,11 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             return $this->column_form_name($item);
         }
         
+        // Явная обработка колонки form_type
+        if ($column_name === 'form_type' || $column_name === 'form-type') {
+            return $this->column_form_type($item);
+        }
+        
         $method = 'column_' . str_replace('-', '_', $column_name);
         if (method_exists($this, $method)) {
             return call_user_func(array($this, $method), $item);
@@ -187,43 +194,114 @@ class Codeweber_Forms_List_Table extends WP_List_Table
 
     /**
      * Column Form
+     * Показывает ID формы со ссылкой на форму
      */
     protected function column_form($item)
     {
-        // 1) Если в таблице сохранено логическое имя формы (form_name),
-        // всегда показываем его (это то, что пришло из шорткода name или было задано явно).
-        if (!empty($item->form_name)) {
-            return '<strong>' . esc_html($item->form_name) . '</strong>';
-        }
-
-        // 2) Если form_id = 0 – это старая запись формы отзыва
-        if ((int) $item->form_id === 0) {
-            return '<strong>' . esc_html(__('Testimonial Form', 'codeweber')) . '</strong>';
-        }
-
         $form_id = $item->form_id;
-
-        // 3) Для числового form_id пробуем найти запись CPT codeweber_form и взять её заголовок
-        if (is_numeric($form_id)) {
+        
+        // Если form_id числовой и это CPT форма, показываем ID со ссылкой
+        if (is_numeric($form_id) && (int) $form_id > 0) {
             $post = get_post((int) $form_id);
             if ($post && $post->post_type === 'codeweber_form') {
-                return '<strong>' . esc_html($post->post_title) . '</strong>';
+                $edit_link = get_edit_post_link($form_id);
+                return '<a href="' . esc_url($edit_link) . '"><strong>#' . esc_html($form_id) . '</strong></a>';
             }
         }
-
-        // 4) Для встроенных форм по строковому ключу (newsletter, testimonial, resume, callback)
-        $builtin_labels = array(
-            'newsletter'  => __('Newsletter Subscription', 'codeweber'),
-            'testimonial' => __('Testimonial Form', 'codeweber'),
-            'resume'      => __('Resume Form', 'codeweber'),
-            'callback'    => __('Callback Request', 'codeweber'),
-        );
-        if (is_string($form_id) && isset($builtin_labels[$form_id])) {
-            return '<strong>' . esc_html($builtin_labels[$form_id]) . '</strong>';
+        
+        // Для встроенных форм (строковые ID) показываем ID без ссылки
+        if (is_string($form_id) && !is_numeric($form_id)) {
+            $builtin_labels = array(
+                'newsletter'  => __('Newsletter Subscription', 'codeweber'),
+                'testimonial' => __('Testimonial Form', 'codeweber'),
+                'resume'      => __('Resume Form', 'codeweber'),
+                'callback'    => __('Callback Request', 'codeweber'),
+            );
+            if (isset($builtin_labels[$form_id])) {
+                return '<strong>' . esc_html($form_id) . '</strong>';
+            }
         }
-
-        // 5) Фоллбек: показываем сам form_id как есть
+        
+        // Если form_id = 0 – это старая запись формы отзыва
+        if ((int) $form_id === 0) {
+            return '<strong>0</strong>';
+        }
+        
+        // Фоллбек: показываем сам form_id как есть
         return '<strong>' . esc_html($form_id) . '</strong>';
+    }
+    
+    /**
+     * Column Form Type
+     */
+    protected function column_form_type($item)
+    {
+        // ПРИОРИТЕТ 1: Получаем тип формы из базы данных
+        $form_type = !empty($item->form_type) ? $item->form_type : null;
+        
+        // ПРИОРИТЕТ 2: Если тип не сохранен, пытаемся определить его
+        if (empty($form_type) && !empty($item->form_id)) {
+            if (class_exists('CodeweberFormsCore')) {
+                $form_type = CodeweberFormsCore::get_form_type($item->form_id);
+            } else {
+                // Fallback: для числового ID проверяем метаполе
+                if (is_numeric($item->form_id) && (int) $item->form_id > 0) {
+                    $form_type = get_post_meta((int) $item->form_id, '_form_type', true);
+                    if (empty($form_type)) {
+                        // Если метаполе пустое, пытаемся извлечь из блока
+                        $post = get_post((int) $item->form_id);
+                        if ($post && $post->post_type === 'codeweber_form' && !empty($post->post_content)) {
+                            $blocks = parse_blocks($post->post_content);
+                            foreach ($blocks as $block) {
+                                if ($block['blockName'] === 'codeweber-blocks/form' && !empty($block['attrs']['formType'])) {
+                                    $form_type = sanitize_text_field($block['attrs']['formType']);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // Для строковых ID (legacy формы)
+                    $form_id_lower = strtolower($item->form_id);
+                    $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback'];
+                    if (in_array($form_id_lower, $builtin_types)) {
+                        $form_type = $form_id_lower;
+                    }
+                }
+            }
+        }
+        
+        // Если form_id = 0, это старая форма отзыва
+        if (empty($form_type) && (int) $item->form_id === 0) {
+            $form_type = 'testimonial';
+        }
+        
+        // По умолчанию
+        if (empty($form_type)) {
+            $form_type = 'form';
+        }
+        
+        // Маппинг типов на читаемые названия
+        $type_labels = array(
+            'form' => __('Regular Form', 'codeweber'),
+            'newsletter' => __('Newsletter Subscription', 'codeweber'),
+            'testimonial' => __('Testimonial Form', 'codeweber'),
+            'resume' => __('Resume Form', 'codeweber'),
+            'callback' => __('Callback Request', 'codeweber'),
+        );
+        
+        $type_label = isset($type_labels[$form_type]) ? $type_labels[$form_type] : $form_type;
+        $type_badge_color = array(
+            'form' => '#2271b1',
+            'newsletter' => '#00a32a',
+            'testimonial' => '#d63638',
+            'resume' => '#d54e21',
+            'callback' => '#826eb4',
+        );
+        
+        $badge_color = isset($type_badge_color[$form_type]) ? $type_badge_color[$form_type] : '#666';
+        
+        return '<span style="display: inline-block; padding: 2px 8px; border-radius: 3px; background: ' . esc_attr($badge_color) . '; color: #fff; font-size: 11px; font-weight: 500;">' . esc_html($type_label) . '</span>';
     }
 
     /**
@@ -286,18 +364,30 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         // Переводим некоторые служебные ключи в человекочитаемые и переводимые названия
         if ($normalized_key === 'newsletter_consents') {
             return __('Newsletter Consents', 'codeweber');
-        } elseif ($normalized_key === 'form_name' || $key === 'form name') {
-            return __('Form name', 'codeweber');
-        } elseif ($normalized_key === 'name') {
-            return __('Name', 'codeweber');
-        } elseif ($normalized_key === 'role') {
-            return __('Role', 'codeweber');
-        } elseif ($normalized_key === 'company') {
-            return __('Company', 'codeweber');
-        } elseif ($normalized_key === 'testimonial_text' || $normalized_key === 'testimonial-text') {
-            return __('Testimonial text', 'codeweber');
-        } elseif ($normalized_key === 'rating') {
-            return __('Rating', 'codeweber');
+        } elseif ($normalized_key === 'form_name' || $normalized_key === 'formname' || $key === 'form name' || $key === 'Form name') {
+            return __('Название формы', 'codeweber');
+        } elseif ($normalized_key === 'user_id' || $normalized_key === 'userid' || $key === 'User id' || $key === 'User ID' || $key === 'user id') {
+            return __('ID пользователя', 'codeweber');
+        } elseif ($normalized_key === 'phone' || $key === 'Phone') {
+            return __('Телефон', 'codeweber');
+        } elseif ($normalized_key === 'message' || $key === 'Message') {
+            return __('Сообщение', 'codeweber');
+        } elseif ($normalized_key === 'name' || $key === 'Name') {
+            return __('Имя', 'codeweber');
+        } elseif ($normalized_key === 'email' || $key === 'Email') {
+            return __('Email', 'codeweber');
+        } elseif ($normalized_key === 'role' || $key === 'Role') {
+            return __('Роль', 'codeweber');
+        } elseif ($normalized_key === 'company' || $key === 'Company') {
+            return __('Компания', 'codeweber');
+        } elseif ($normalized_key === 'testimonial_text' || $normalized_key === 'testimonial-text' || $key === 'Testimonial text') {
+            return __('Текст отзыва', 'codeweber');
+        } elseif ($normalized_key === 'rating' || $key === 'Rating') {
+            return __('Рейтинг', 'codeweber');
+        } elseif ($normalized_key === 'subject' || $key === 'Subject') {
+            return __('Тема', 'codeweber');
+        } elseif ($normalized_key === 'comment' || $key === 'Comment') {
+            return __('Комментарий', 'codeweber');
         } else {
             // Если ключ не найден в списке, пытаемся перевести через ucfirst
             // Но сначала проверяем, может быть это уже переведенная строка
@@ -340,11 +430,11 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             $count++;
         }
 
-        $output = '<div class="submission-preview">';
+        $output = '<div class="submission-preview" id="submission-preview-' . $item->id . '">';
         $output .= implode('<br>', $preview);
         
         if (count($data) > $count) {
-            $output .= ' <a href="#" class="view-full" data-id="' . $item->id . '">' . __('View all', 'codeweber') . '</a>';
+            $output .= ' <a href="#" class="view-full" data-id="' . $item->id . '">' . __('Показать все', 'codeweber') . '</a>';
         }
         
         $output .= '</div>';
@@ -534,13 +624,15 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
         $form_id = isset($_GET['form_id']) ? sanitize_text_field($_GET['form_id']) : '';
         $form_type = isset($_GET['form_type']) ? sanitize_text_field($_GET['form_type']) : ''; // НОВОЕ: Фильтр по типу формы
+        $utm_key = isset($_GET['utm_key']) ? sanitize_text_field($_GET['utm_key']) : ''; // НОВОЕ: Фильтр по UTM метке
+        $utm_value = isset($_GET['utm_value']) ? sanitize_text_field($_GET['utm_value']) : ''; // НОВОЕ: Значение UTM метки
 
         // Get sort order
         $orderby = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'created_at';
         $order = isset($_GET['order']) && strtoupper($_GET['order']) === 'ASC' ? 'ASC' : 'DESC';
 
         // Validate orderby
-        $allowed_orderby = array('id', 'form_name', 'status', 'created_at');
+        $allowed_orderby = array('id', 'form_name', 'form_type', 'status', 'created_at');
         if (!in_array($orderby, $allowed_orderby)) {
             $orderby = 'created_at';
         }
@@ -568,6 +660,14 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         }
         if ($search) {
             $args['search'] = $search;
+        }
+        
+        // НОВОЕ: Фильтрация по UTM меткам
+        if ($utm_key !== '' && $utm_value !== '') {
+            $args['utm_filter'] = array(
+                'key' => $utm_key,
+                'value' => $utm_value
+            );
         }
 
         // Get items
@@ -649,6 +749,13 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         // НОВОЕ: Сохраняем фильтр по типу формы
         if (isset($_GET['form_type']) && !empty($_GET['form_type'])) {
             $params['form_type'] = sanitize_text_field($_GET['form_type']);
+        }
+        // НОВОЕ: Сохраняем UTM фильтры
+        if (isset($_GET['utm_key']) && !empty($_GET['utm_key'])) {
+            $params['utm_key'] = sanitize_text_field($_GET['utm_key']);
+        }
+        if (isset($_GET['utm_value']) && !empty($_GET['utm_value'])) {
+            $params['utm_value'] = sanitize_text_field($_GET['utm_value']);
         }
         if (isset($_GET['s']) && !empty($_GET['s'])) {
             $params['s'] = sanitize_text_field($_GET['s']);
@@ -767,6 +874,8 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
         $form_id = isset($_GET['form_id']) ? sanitize_text_field($_GET['form_id']) : '';
         $form_type = isset($_GET['form_type']) ? sanitize_text_field($_GET['form_type']) : ''; // НОВОЕ: Фильтр по типу формы
+        $utm_key = isset($_GET['utm_key']) ? sanitize_text_field($_GET['utm_key']) : ''; // НОВОЕ: Фильтр по UTM метке
+        $utm_value = isset($_GET['utm_value']) ? sanitize_text_field($_GET['utm_value']) : ''; // НОВОЕ: Значение UTM метки
         
         // Маппинг типов на читаемые названия
         $type_labels = array(
@@ -814,9 +923,24 @@ class Codeweber_Forms_List_Table extends WP_List_Table
                 <?php endif; ?>
             </select>
             
+            <select name="utm_key" style="margin-left: 5px;">
+                <option value=""><?php _e('All UTM parameters', 'codeweber'); ?></option>
+                <option value="utm_source" <?php selected($utm_key, 'utm_source'); ?>><?php _e('UTM Source', 'codeweber'); ?></option>
+                <option value="utm_medium" <?php selected($utm_key, 'utm_medium'); ?>><?php _e('UTM Medium', 'codeweber'); ?></option>
+                <option value="utm_campaign" <?php selected($utm_key, 'utm_campaign'); ?>><?php _e('UTM Campaign', 'codeweber'); ?></option>
+                <option value="utm_term" <?php selected($utm_key, 'utm_term'); ?>><?php _e('UTM Term', 'codeweber'); ?></option>
+                <option value="utm_content" <?php selected($utm_key, 'utm_content'); ?>><?php _e('UTM Content', 'codeweber'); ?></option>
+            </select>
+            
+            <?php if ($utm_key): ?>
+                <input type="text" name="utm_value" value="<?php echo esc_attr($utm_value); ?>" placeholder="<?php esc_attr_e('UTM value', 'codeweber'); ?>" style="margin-left: 5px; width: 150px;" />
+            <?php else: ?>
+                <input type="text" name="utm_value" value="" placeholder="<?php esc_attr_e('UTM value', 'codeweber'); ?>" style="margin-left: 5px; width: 150px; display: none;" />
+            <?php endif; ?>
+            
             <?php submit_button(__('Filter', 'codeweber'), 'secondary', 'filter_action', false); ?>
             
-            <?php if ($status || $form_id || $form_type): ?>
+            <?php if ($status || $form_id || $form_type || $utm_key || $utm_value): ?>
                 <a href="<?php echo admin_url('admin.php?page=codeweber'); ?>" class="button">
                     <?php _e('Reset', 'codeweber'); ?>
                 </a>

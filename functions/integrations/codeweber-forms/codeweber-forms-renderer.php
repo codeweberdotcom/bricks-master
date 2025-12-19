@@ -775,8 +775,68 @@ class CodeweberFormsRenderer {
                     <?php
                     break;
                 
+                case 'rating':
+                    $current_rating = !empty($default_value) ? intval($default_value) : 0;
+                    if ($current_rating < 1 || $current_rating > 5) {
+                        $current_rating = 0;
+                    }
+                    ?>
+                    <div<?php echo $block_class ? ' class="' . $block_class . '"' : ''; ?>>
+                        <label class="form-label d-block mb-2">
+                            <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>
+                        </label>
+                        <input
+                            type="hidden"
+                            id="<?php echo esc_attr($field_id); ?>"
+                            name="<?php echo esc_attr($field_name); ?>"
+                            value="<?php echo esc_attr($current_rating); ?>"
+                            <?php echo $required_attr; ?>
+                        />
+                        <div class="rating-stars-wrapper d-flex gap-1 align-items-center p-0" data-rating-input="<?php echo esc_attr($field_id); ?>">
+                            <?php for ($i = 1; $i <= 5; $i++): 
+                                $is_active = $i <= $current_rating;
+                            ?>
+                                <span 
+                                    class="rating-star-item <?php echo $is_active ? 'active' : ''; ?>" 
+                                    data-rating="<?php echo esc_attr($i); ?>"
+                                    style="cursor: pointer;"
+                                >★</span>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+                    <?php
+                    break;
+                
                 default:
                     // text, email, tel, url, date, time, number
+                    // Подготовка data-атрибутов для phone-mask (только для tel)
+                    $mask_attrs = '';
+                    if ($field_type === 'tel') {
+                        $phone_mask = $field['phoneMask'] ?? '';
+                        $phone_mask_caret = $field['phoneMaskCaret'] ?? '';
+                        $phone_mask_soft_caret = $field['phoneMaskSoftCaret'] ?? '';
+                        
+                        if (!empty($phone_mask)) {
+                            $mask_attrs .= ' data-mask="' . esc_attr($phone_mask) . '"';
+                            
+                            // Добавляем data-mask-caret, если указан
+                            if (!empty($phone_mask_caret)) {
+                                $caret_char = substr((string)$phone_mask_caret, 0, 1);
+                                if ($caret_char) {
+                                    $mask_attrs .= ' data-mask-caret="' . esc_attr($caret_char) . '"';
+                                }
+                            }
+                            
+                            // Добавляем data-mask-soft-caret, если указан
+                            if (!empty($phone_mask_soft_caret)) {
+                                $soft_caret_char = substr((string)$phone_mask_soft_caret, 0, 1);
+                                if ($soft_caret_char) {
+                                    $mask_attrs .= ' data-mask-soft-caret="' . esc_attr($soft_caret_char) . '"';
+                                }
+                            }
+                            // data-mask-blur не добавляем (по умолчанию false)
+                        }
+                    }
                     ?>
                     <div class="form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
                         <input
@@ -789,6 +849,7 @@ class CodeweberFormsRenderer {
                             <?php echo $required_attr; ?>
                             <?php echo $max_length > 0 ? 'maxlength="' . $max_length . '"' : ''; ?>
                             <?php echo $min_length > 0 ? 'minlength="' . $min_length . '"' : ''; ?>
+                            <?php echo $mask_attrs; ?>
                         />
                         <label for="<?php echo esc_attr($field_id); ?>">
                             <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>

@@ -81,6 +81,15 @@ class CodeweberFormsAPI {
         $form_id = $request->get_param('form_id');
         $form_name_from_request = $request->get_param('form_name');
         $form_type_from_request = $request->get_param('form_type'); // Тип формы из JavaScript (для default форм)
+        
+        // Дополнительная проверка через JSON params (на случай, если get_param не работает с JSON)
+        if (empty($form_type_from_request)) {
+            $json_params = $request->get_json_params();
+            if (!empty($json_params['form_type'])) {
+                $form_type_from_request = $json_params['form_type'];
+            }
+        }
+        
         $fields = $request->get_param('fields');
         $honeypot = $request->get_param('honeypot');
         $utm_params = $request->get_param('utm_params') ?: [];
@@ -771,57 +780,73 @@ class CodeweberFormsAPI {
         // Приоритет: form_type из запроса -> detect_form_type -> formType из настроек
         $detected_form_type = null;
 
-        // 1) Form type из запроса (JavaScript отправляет form_type из data-form-type)
-        $form_type_from_request = $form_type_from_request ? strtolower(trim((string) $form_type_from_request)) : '';
-        error_log('[CW Forms] submit: form_id=' . $form_id . ' | form_type_from_request=' . var_export($form_type_from_request, true));
-        if ($form_type_from_request === 'newsletter') {
-            $detected_form_type = 'newsletter';
-        } elseif ($form_type_from_request === 'testimonial') {
-            $detected_form_type = 'testimonial';
-        } elseif ($form_type_from_request === 'callback') {
-            $detected_form_type = 'callback';
+        // 1) Сначала проверяем мета-поле формы для всех типов форм
+        $custom_message = '';
+        if (is_numeric($form_id) && (int) $form_id > 0) {
+            $custom_message = get_post_meta($form_id, '_codeweber_form_success_message', true);
         }
-
-        // 2) Если не пришло из запроса, пытаемся определить из содержимого/мета
-        if (!$detected_form_type) {
-            $detected_type = $this->detect_form_type($form_id, $form_settings);
-            if ($detected_type === 'newsletter') {
-                $detected_form_type = 'newsletter';
-            } elseif ($detected_type === 'testimonial') {
-                $detected_form_type = 'testimonial';
-            } elseif ($detected_type === 'callback') {
-                $detected_form_type = 'callback';
-            }
-            error_log('[CW Forms] submit: detected_type_from_content=' . var_export($detected_type, true));
-        }
-
-        // 3) Fallback: formType в настройках формы
-        if (!$detected_form_type && !empty($form_settings['formType'])) {
-            $form_type_setting = strtolower(trim((string) $form_settings['formType']));
-            if (in_array($form_type_setting, ['newsletter', 'testimonial', 'callback'], true)) {
-                $detected_form_type = $form_type_setting;
-            }
-            error_log('[CW Forms] submit: form_type_from_settings=' . var_export($form_type_setting ?? null, true));
-        }
-
-        error_log('[CW Forms] submit: detected_form_type_final=' . var_export($detected_form_type, true));
         
-        if ($detected_form_type === 'newsletter') {
-            // Check if custom message is set in form meta
-            $custom_message = '';
-            if (is_numeric($form_id) && (int) $form_id > 0) {
-                $custom_message = get_post_meta($form_id, '_codeweber_form_success_message', true);
-            }
-            // Use custom message if exists, otherwise use newsletter default
-            $success_message = !empty($custom_message) ? $custom_message : __('Thank you for subscribing!', 'codeweber');
-        } elseif ($detected_form_type === 'testimonial') {
-            // Для testimonial форм используем специальное сообщение
-            $success_message = $form_settings['successMessage'] ?? __('Thank you for your testimonial!', 'codeweber');
-        } elseif ($detected_form_type === 'callback') {
-            // Для callback форм используем специальное сообщение
-            $success_message = $form_settings['successMessage'] ?? __('Your request has been accepted', 'codeweber');
+        // Если мета-поле заполнено, используем его для всех типов форм
+        if (!empty($custom_message)) {
+            $success_message = $custom_message;
         } else {
-            $success_message = $form_settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
+            // Если мета-поле пустое, определяем тип формы и используем дефолтное сообщение
+            
+            // 2) Form type из запроса (JavaScript отправляет form_type из data-form-type)
+            // Нормализуем значение: приводим к нижнему регистру и обрезаем пробелы
+            $form_type_normalized = $form_type_from_request ? strtolower(trim((string) $form_type_from_request)) : '';
+            error_log('[CW Forms] submit: form_id=' . $form_id . ' | form_type_from_request (raw)=' . var_export($form_type_from_request, true));
+            error_log('[CW Forms] submit: form_type_normalized=' . var_export($form_type_normalized, true));
+            
+            if ($form_type_normalized === 'newsletter') {
+                $detected_form_type = 'newsletter';
+            } elseif ($form_type_normalized === 'testimonial') {
+                $detected_form_type = 'testimonial';
+            } elseif ($form_type_normalized === 'callback') {
+                $detected_form_type = 'callback';
+            } elseif ($form_type_normalized === 'resume') {
+                $detected_form_type = 'resume';
+            }
+
+            // 3) Если не пришло из запроса, пытаемся определить из содержимого/мета
+            if (!$detected_form_type) {
+                $detected_type = $this->detect_form_type($form_id, $form_settings);
+                if ($detected_type === 'newsletter') {
+                    $detected_form_type = 'newsletter';
+                } elseif ($detected_type === 'testimonial') {
+                    $detected_form_type = 'testimonial';
+                } elseif ($detected_type === 'callback') {
+                    $detected_form_type = 'callback';
+                } elseif ($detected_type === 'resume') {
+                    $detected_form_type = 'resume';
+                }
+                error_log('[CW Forms] submit: detected_type_from_content=' . var_export($detected_type, true));
+            }
+
+            // 4) Fallback: formType в настройках формы
+            if (!$detected_form_type && !empty($form_settings['formType'])) {
+                $form_type_setting = strtolower(trim((string) $form_settings['formType']));
+                if (in_array($form_type_setting, ['newsletter', 'testimonial', 'callback', 'resume'], true)) {
+                    $detected_form_type = $form_type_setting;
+                }
+                error_log('[CW Forms] submit: form_type_from_settings=' . var_export($form_type_setting ?? null, true));
+            }
+
+            error_log('[CW Forms] submit: detected_form_type_final=' . var_export($detected_form_type, true));
+            
+            // Определяем дефолтное сообщение в зависимости от типа формы
+            if ($detected_form_type === 'newsletter') {
+                $success_message = __('Thank you for subscribing!', 'codeweber');
+            } elseif ($detected_form_type === 'testimonial') {
+                $success_message = __('Thank you for your testimonial', 'codeweber');
+            } elseif ($detected_form_type === 'callback') {
+                $success_message = __('Thank you for your request', 'codeweber');
+            } elseif ($detected_form_type === 'resume') {
+                $success_message = __('Your resume has been sent', 'codeweber');
+            } else {
+                // Для остальных типов форм - стандартное сообщение
+                $success_message = $form_settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
+            }
         }
         
         error_log('=== FORM SUBMIT API END (SUCCESS) ===');

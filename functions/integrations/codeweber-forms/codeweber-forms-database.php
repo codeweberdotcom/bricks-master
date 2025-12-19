@@ -203,6 +203,7 @@ class CodeweberFormsDatabase {
             'status'         => '',
             'exclude_status' => '',
             'search'         => '',
+            'utm_filter'     => '', // НОВОЕ: Фильтрация по UTM меткам (массив: ['key' => 'utm_source', 'value' => 'google'])
             'limit'          => 20,
             'offset'         => 0,
             'orderby'        => 'created_at',
@@ -243,16 +244,23 @@ class CodeweberFormsDatabase {
         
         $where_clause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
         
-        $orderby = sanitize_sql_orderby($args['orderby'] . ' ' . $args['order']);
-        if (!$orderby) {
-            $orderby = 'created_at DESC';
-        }
+        // Валидация и обработка orderby
+        $allowed_orderby = array('id', 'form_id', 'form_name', 'form_type', 'status', 'created_at', 'updated_at');
+        $orderby_field = in_array($args['orderby'], $allowed_orderby) ? $args['orderby'] : 'created_at';
+        $order = strtoupper($args['order']) === 'ASC' ? 'ASC' : 'DESC';
+        
+        // Безопасная вставка имени колонки через whitelist (уже валидировано выше)
+        // Используем обратные кавычки для имен колонок
+        $orderby = '`' . $orderby_field . '` ' . $order;
+        
+        $limit = intval($args['limit']);
+        $offset = intval($args['offset']);
         
         $query = "SELECT * FROM {$this->table_name} {$where_clause} 
                   ORDER BY {$orderby} 
-                  LIMIT %d OFFSET %d";
+                  LIMIT {$limit} OFFSET {$offset}";
         
-        return $wpdb->get_results($wpdb->prepare($query, intval($args['limit']), intval($args['offset'])));
+        return $wpdb->get_results($query);
     }
     
     /**
@@ -290,6 +298,26 @@ class CodeweberFormsDatabase {
                 $search_term,
                 $search_term
             );
+        }
+        
+        // НОВОЕ: Фильтрация по UTM меткам
+        if (!empty($args['utm_filter']) && is_array($args['utm_filter'])) {
+            $utm_key = isset($args['utm_filter']['key']) ? sanitize_text_field($args['utm_filter']['key']) : '';
+            $utm_value = isset($args['utm_filter']['value']) ? sanitize_text_field($args['utm_filter']['value']) : '';
+            
+            // Whitelist допустимых UTM ключей для безопасности
+            $allowed_utm_keys = array('utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'utm_id');
+            
+            if (!empty($utm_key) && !empty($utm_value) && in_array($utm_key, $allowed_utm_keys)) {
+                // Используем JSON_EXTRACT для поиска в JSON поле
+                // UTM данные хранятся в submission_data как JSON: {"_utm_data": {"utm_source": "google", ...}}
+                $json_path = '$._utm_data.' . $utm_key;
+                $where[] = $wpdb->prepare(
+                    "JSON_UNQUOTE(JSON_EXTRACT(submission_data, %s)) = %s",
+                    $json_path,
+                    $utm_value
+                );
+            }
         }
         
         $where_clause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
