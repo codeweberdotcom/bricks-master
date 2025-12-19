@@ -35,11 +35,16 @@ class CodeweberFormsBlockSelector {
      * Регистрировать блок
      */
     public function register_block() {
-        $block_path = CODEWEBER_FORMS_PATH . '/blocks/form-selector';
-        
-        // Используем block.json для регистрации блока
-        // Это правильный способ для блоков с render.php
-        $block_type = register_block_type_from_metadata($block_path, [
+        // Регистрируем блок в PHP с render_callback
+        // JavaScript добавит edit компонент к уже зарегистрированному блоку
+        $block_type = register_block_type('codeweber-blocks/form-selector', [
+            'api_version' => 2,
+            'attributes' => [
+                'formId' => [
+                    'type' => 'string',
+                    'default' => '',
+                ],
+            ],
             'render_callback' => [$this, 'render_block'],
             'editor_script' => 'codeweber-forms-form-selector-block',
             'editor_style' => 'codeweber-forms-form-selector-block-editor',
