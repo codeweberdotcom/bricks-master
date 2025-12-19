@@ -150,6 +150,19 @@ class CodeweberFormsAdmin {
             $list_table->views();
             ?>
 
+            <?php
+            // Показать кнопку "Empty Trash" только во вкладке Корзина
+            $current_status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
+            if ($current_status === 'trash') : ?>
+                <form method="post" style="margin: 10px 0;">
+                    <?php wp_nonce_field('codeweber_forms_action', 'codeweber_forms_nonce'); ?>
+                    <input type="hidden" name="action" value="empty_trash">
+                    <button type="submit" class="button button-secondary" onclick="return confirm('<?php echo esc_js(__('Empty trash? This will permanently delete items.', 'codeweber')); ?>');">
+                        <?php _e('Empty Trash', 'codeweber'); ?>
+                    </button>
+                </form>
+            <?php endif; ?>
+
             <form method="get">
                 <input type="hidden" name="page" value="codeweber">
                 <?php
@@ -207,6 +220,35 @@ class CodeweberFormsAdmin {
      * Handle admin actions
      */
     private function handle_actions() {
+        // 1) GET single-row actions (View/Delete)
+        if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
+            $submission_id = intval($_GET['id']);
+            $nonce = isset($_GET['_wpnonce']) ? $_GET['_wpnonce'] : '';
+            if (!$submission_id || !wp_verify_nonce($nonce, 'delete_submission_' . $submission_id)) {
+                return;
+            }
+
+            // Soft delete -> move to trash
+            $deleted = $this->db->delete_submission($submission_id);
+            if ($deleted !== false) {
+                add_settings_error(
+                    'codeweber_forms_messages',
+                    'codeweber_forms_message',
+                    __('Submission moved to trash', 'codeweber'),
+                    'success'
+                );
+            } else {
+                add_settings_error(
+                    'codeweber_forms_messages',
+                    'codeweber_forms_message',
+                    __('Failed to move submission to trash', 'codeweber'),
+                    'error'
+                );
+            }
+            return;
+        }
+
+        // 2) POST actions (trash empty, etc.)
         if (!isset($_POST['action']) || !check_admin_referer('codeweber_forms_action', 'codeweber_forms_nonce')) {
             return;
         }
@@ -216,18 +258,19 @@ class CodeweberFormsAdmin {
         
         switch ($action) {
             case 'delete':
-                if ($this->db->permanently_delete_submission($submission_id)) {
+                // soft delete -> trash
+                if ($this->db->delete_submission($submission_id)) {
                     add_settings_error(
                         'codeweber_forms_messages',
                         'codeweber_forms_message',
-                        __('Submission deleted successfully', 'codeweber'),
+                        __('Submission moved to trash', 'codeweber'),
                         'success'
                     );
                 } else {
                     add_settings_error(
                         'codeweber_forms_messages',
                         'codeweber_forms_message',
-                        __('Failed to delete submission', 'codeweber'),
+                        __('Failed to move submission to trash', 'codeweber'),
                         'error'
                     );
                 }
@@ -372,6 +415,68 @@ class CodeweberFormsAdmin {
                         <?php endif; ?>
                     </tbody>
                 </table>
+                
+                <?php if ($files_data && is_array($files_data) && !empty($files_data)): ?>
+                    <h2><?php _e('Attached Files', 'codeweber'); ?></h2>
+                    <table class="wp-list-table widefat fixed striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;"><?php _e('File Name', 'codeweber'); ?></th>
+                                <th><?php _e('Size', 'codeweber'); ?></th>
+                                <th><?php _e('Type', 'codeweber'); ?></th>
+                                <th><?php _e('Actions', 'codeweber'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($files_data as $file): ?>
+                                <tr>
+                                    <td>
+                                        <strong><?php echo esc_html($file['file_name'] ?? $file['name'] ?? __('Unknown', 'codeweber')); ?></strong>
+                                    </td>
+                                    <td>
+                                        <?php 
+                                        $file_size = $file['file_size'] ?? $file['size'] ?? 0;
+                                        echo size_format($file_size, 2);
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php echo esc_html($file['file_type'] ?? $file['type'] ?? '-'); ?>
+                                    </td>
+                                    <td>
+                                        <?php 
+                                        $file_url = $file['file_url'] ?? '';
+                                        $file_path = $file['file_path'] ?? '';
+                                        
+                                        // Если есть URL, используем его
+                                        if ($file_url) {
+                                            $download_url = $file_url;
+                                        } elseif ($file_path) {
+                                            // Конвертируем путь в URL
+                                            $upload_dir = wp_upload_dir();
+                                            $download_url = str_replace($upload_dir['basedir'], $upload_dir['baseurl'], $file_path);
+                                        } else {
+                                            $download_url = '';
+                                        }
+                                        
+                                        if ($download_url && file_exists($file_path ?: str_replace(wp_upload_dir()['baseurl'], wp_upload_dir()['basedir'], $file_url))):
+                                        ?>
+                                            <a href="<?php echo esc_url($download_url); ?>" target="_blank" class="button button-small">
+                                                <span class="dashicons dashicons-download" style="vertical-align: middle;"></span>
+                                                <?php _e('Download', 'codeweber'); ?>
+                                            </a>
+                                            <a href="<?php echo esc_url($download_url); ?>" target="_blank" class="button button-small">
+                                                <span class="dashicons dashicons-external" style="vertical-align: middle;"></span>
+                                                <?php _e('View', 'codeweber'); ?>
+                                            </a>
+                                        <?php else: ?>
+                                            <span class="description"><?php _e('File not found', 'codeweber'); ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
                 
                 <h2><?php _e('Submission Data', 'codeweber'); ?></h2>
                 <?php if ($data): ?>

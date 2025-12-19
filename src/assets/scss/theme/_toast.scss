@@ -1,0 +1,18 @@
+//----------------------------------------------------------//
+//	ALERTS (FilePond notifications - Bootstrap Alert style)
+//----------------------------------------------------------//
+
+// FilePond Alert Container
+.cw-alert-container {
+    z-index: 1090; // Higher than Bootstrap's default z-index
+    pointer-events: none; // Allow clicks to pass through container
+    
+    .alert {
+        pointer-events: auto; // Allow interaction with the alert itself
+        min-width: 300px;
+        max-width: 400px;
+        margin-bottom: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+

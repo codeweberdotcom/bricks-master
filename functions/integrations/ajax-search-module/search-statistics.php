@@ -373,7 +373,7 @@ function enqueue_search_statistics_scripts()
 add_action('admin_menu', 'add_search_statistics_admin_page');
 function add_search_statistics_admin_page()
 {
-   add_menu_page(
+   $hook = add_menu_page(
       __('Search Statistics', 'codeweber'),
       __('Search Stats', 'codeweber'),
       'manage_options',
@@ -382,6 +382,52 @@ function add_search_statistics_admin_page()
       'dashicons-search',
       30
    );
+   
+   // Register screen option for per page
+   add_action('load-' . $hook, 'search_statistics_screen_options');
+   
+   // Enqueue admin styles
+   add_action('admin_enqueue_scripts', 'enqueue_search_statistics_admin_styles');
+}
+
+// Enqueue admin styles
+function enqueue_search_statistics_admin_styles($hook)
+{
+   if ($hook !== 'toplevel_page_search-statistics') {
+      return;
+   }
+
+   wp_enqueue_style(
+      'search-statistics-admin',
+      get_template_directory_uri() . '/functions/integrations/ajax-search-module/assets/css/admin.css',
+      array(),
+      '1.0.0'
+   );
+}
+
+// Setup screen options
+function search_statistics_screen_options()
+{
+   $screen = get_current_screen();
+   if (!$screen) {
+      return;
+   }
+   
+   $screen->add_option('per_page', array(
+      'label' => __('Searches per page', 'codeweber'),
+      'default' => 20,
+      'option' => 'search_statistics_per_page'
+   ));
+}
+
+// Save screen option
+add_filter('set-screen-option', 'search_statistics_set_screen_option', 10, 3);
+function search_statistics_set_screen_option($status, $option, $value)
+{
+   if ('search_statistics_per_page' === $option) {
+      return (int) $value;
+   }
+   return $status;
 }
 
 // Обработка экспорта ДО начала вывода контента
@@ -426,6 +472,9 @@ function get_search_forms_list()
 function display_search_statistics_page()
 {
    global $wpdb;
+
+   // Load List Table class
+   require_once dirname(__FILE__) . '/class-search-statistics-list-table.php';
 
    $table_name = $wpdb->prefix . 'search_statistics';
 
@@ -486,20 +535,6 @@ function display_search_statistics_page()
       if ($form_id === '_none') {
          $total_searches = $wpdb->get_var("SELECT COUNT(*) FROM $table_name $where_sql");
          $unique_queries = $wpdb->get_var("SELECT COUNT(DISTINCT search_query) FROM $table_name $where_sql");
-         $popular_queries = $wpdb->get_results("
-            SELECT search_query, COUNT(*) as search_count 
-            FROM $table_name 
-            $where_sql 
-            GROUP BY search_query 
-            ORDER BY search_count DESC 
-            LIMIT 20
-         ");
-         $recent_searches = $wpdb->get_results("
-            SELECT * FROM $table_name 
-            $where_sql 
-            ORDER BY search_date DESC 
-            LIMIT 50
-         ");
       } else {
          $total_searches = $wpdb->get_var(
             $wpdb->prepare("SELECT COUNT(*) FROM $table_name $where_sql", $query_params)
@@ -508,43 +543,11 @@ function display_search_statistics_page()
          $unique_queries = $wpdb->get_var(
             $wpdb->prepare("SELECT COUNT(DISTINCT search_query) FROM $table_name $where_sql", $query_params)
          );
-
-         $popular_queries = $wpdb->get_results(
-            $wpdb->prepare("
-                   SELECT search_query, COUNT(*) as search_count 
-                   FROM $table_name 
-                   $where_sql 
-                   GROUP BY search_query 
-                   ORDER BY search_count DESC 
-                   LIMIT 20
-               ", $query_params)
-         );
-
-         $recent_searches = $wpdb->get_results(
-            $wpdb->prepare("
-                   SELECT * FROM $table_name 
-                   $where_sql 
-                   ORDER BY search_date DESC 
-                   LIMIT 50
-               ", $query_params)
-         );
       }
    } else {
       // Без фильтров
       $total_searches = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
       $unique_queries = $wpdb->get_var("SELECT COUNT(DISTINCT search_query) FROM $table_name");
-      $popular_queries = $wpdb->get_results("
-            SELECT search_query, COUNT(*) as search_count 
-            FROM $table_name 
-            GROUP BY search_query 
-            ORDER BY search_count DESC 
-            LIMIT 20
-        ");
-      $recent_searches = $wpdb->get_results("
-            SELECT * FROM $table_name 
-            ORDER BY search_date DESC 
-            LIMIT 50
-        ");
    }
 
    // Сегодняшние поиски (отдельно, так как всегда нужна фильтрация по дате)
@@ -580,60 +583,6 @@ function display_search_statistics_page()
    <div class="wrap">
       <h1><?php _e('Search Statistics', 'codeweber'); ?></h1>
 
-      <!-- Фильтры -->
-      <div class="search-filters" style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
-         <h3><?php _e('Filters', 'codeweber'); ?></h3>
-         <form method="get" action="">
-            <input type="hidden" name="page" value="search-statistics">
-
-            <div style="display: flex; gap: 15px; align-items: end; flex-wrap: wrap;">
-               <div>
-                  <label for="start_date" style="display: block; margin-bottom: 5px; font-weight: bold;"><?php _e('Start Date:', 'codeweber'); ?></label>
-                  <input type="date" id="start_date" name="start_date" value="<?php echo esc_attr($start_date); ?>" style="padding: 5px;">
-               </div>
-
-               <div>
-                  <label for="end_date" style="display: block; margin-bottom: 5px; font-weight: bold;"><?php _e('End Date:', 'codeweber'); ?></label>
-                  <input type="date" id="end_date" name="end_date" value="<?php echo esc_attr($end_date); ?>" style="padding: 5px;">
-               </div>
-
-               <div>
-                  <label for="form_id" style="display: block; margin-bottom: 5px; font-weight: bold;"><?php _e('Search Form:', 'codeweber'); ?></label>
-                  <select id="form_id" name="form_id" style="padding: 5px; min-width: 200px;">
-                     <option value=""><?php _e('All Forms', 'codeweber'); ?></option>
-                     <option value="_none" <?php selected($form_id, '_none'); ?>><?php _e('No Form ID', 'codeweber'); ?></option>
-                     <?php foreach ($forms_list as $form): ?>
-                        <option value="<?php echo esc_attr($form); ?>" <?php selected($form_id, $form); ?>>
-                           <?php echo esc_html($form); ?>
-                        </option>
-                     <?php endforeach; ?>
-                  </select>
-               </div>
-
-               <div>
-                  <input type="submit" class="button button-primary" value="<?php _e('Apply Filters', 'codeweber'); ?>" style="margin-top: 20px;">
-                  <a href="?page=search-statistics" class="button" style="margin-top: 20px;"><?php _e('Clear Filters', 'codeweber'); ?></a>
-               </div>
-            </div>
-         </form>
-
-         <?php if (!empty($start_date) || !empty($end_date) || !empty($form_id)): ?>
-            <div style="margin-top: 10px; padding: 10px; background: #e7f3ff; border-radius: 3px;">
-               <strong><?php _e('Active Filters:', 'codeweber'); ?></strong>
-               <?php
-               $active_filters = [];
-               if (!empty($start_date)) $active_filters[] = __("From:", 'codeweber') . " " . $start_date;
-               if (!empty($end_date)) $active_filters[] = __("To:", 'codeweber') . " " . $end_date;
-               if (!empty($form_id)) {
-                  $form_label = ($form_id === '_none') ? __('No Form ID', 'codeweber') : $form_id;
-                  $active_filters[] = __("Form:", 'codeweber') . " " . $form_label;
-               }
-               echo implode(', ', $active_filters);
-               ?>
-            </div>
-         <?php endif; ?>
-      </div>
-
       <div class="search-stats-overview" style="margin: 20px 0;">
          <div class="stats-container" style="display: flex; gap: 20px; flex-wrap: wrap;">
             <div class="stat-box" style="background: #f8f9fa; padding: 20px; border-radius: 5px; min-width: 200px;">
@@ -655,91 +604,59 @@ function display_search_statistics_page()
          </div>
       </div>
 
-      <div class="search-stats-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-         <div class="popular-queries">
-            <h2><?php _e('Popular Search Queries', 'codeweber'); ?></h2>
-            <table class="wp-list-table widefat fixed striped">
-               <thead>
-                  <tr>
-                     <th><?php _e('Query', 'codeweber'); ?></th>
-                     <th><?php _e('Count', 'codeweber'); ?></th>
-                     <th><?php _e('Form ID', 'codeweber'); ?></th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <?php if ($popular_queries): ?>
-                     <?php foreach ($popular_queries as $query): ?>
-                        <tr>
-                           <td><?php echo esc_html($query->search_query); ?></td>
-                           <td><?php echo number_format($query->search_count); ?></td>
-                           <td>
-                              <?php
-                              // Получаем form_id для этого запроса
-                              $query_form_id = $wpdb->get_var($wpdb->prepare(
-                                 "SELECT form_id FROM $table_name WHERE search_query = %s LIMIT 1",
-                                 $query->search_query
-                              ));
-                              echo $query_form_id ? esc_html($query_form_id) : '<em>' . __('none', 'codeweber') . '</em>';
-                              ?>
-                           </td>
-                        </tr>
-                     <?php endforeach; ?>
-                  <?php else: ?>
-                     <tr>
-                        <td colspan="3"><?php _e('No search queries found', 'codeweber'); ?></td>
-                     </tr>
-                  <?php endif; ?>
-               </tbody>
-            </table>
-         </div>
-
+      <div class="search-stats-content">
          <div class="recent-searches">
             <h2><?php _e('Recent Searches', 'codeweber'); ?></h2>
-            <table class="wp-list-table widefat fixed striped">
-               <thead>
-                  <tr>
-                     <th><?php _e('Query', 'codeweber'); ?></th>
-                     <th><?php _e('User', 'codeweber'); ?></th>
-                     <th><?php _e('Date', 'codeweber'); ?></th>
-                     <th><?php _e('Results', 'codeweber'); ?></th>
-                     <th><?php _e('Form ID', 'codeweber'); ?></th>
-                     <th><?php _e('Page', 'codeweber'); ?></th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <?php if ($recent_searches): ?>
-                     <?php foreach ($recent_searches as $search): ?>
-                        <tr>
-                           <td><?php echo esc_html($search->search_query); ?></td>
-                           <td>
-                              <?php if ($search->user_id): ?>
-                                 <?php
-                                 $user = get_user_by('id', $search->user_id);
-                                 echo $user ? esc_html($user->display_name) : __('User #', 'codeweber') . $search->user_id;
-                                 ?>
-                              <?php else: ?>
-                                 <?php _e('Guest', 'codeweber'); ?>
-                              <?php endif; ?>
-                           </td>
-                           <td><?php echo date('Y-m-d H:i', strtotime($search->search_date)); ?></td>
-                           <td><?php echo number_format($search->results_count); ?></td>
-                           <td>
-                              <?php echo $search->form_id ? esc_html($search->form_id) : '<em>' . __('none', 'codeweber') . '</em>'; ?>
-                           </td>
-                           <td>
-                              <a href="<?php echo esc_url($search->page_url); ?>" target="_blank">
-                                 <?php echo esc_html(wp_trim_words($search->page_title, 5)); ?>
-                              </a>
-                           </td>
-                        </tr>
-                     <?php endforeach; ?>
-                  <?php else: ?>
-                     <tr>
-                        <td colspan="6"><?php _e('No recent searches found', 'codeweber'); ?></td>
-                     </tr>
-                  <?php endif; ?>
-               </tbody>
-            </table>
+            <?php
+            // Create instance of list table
+            $list_table = new Search_Statistics_List_Table();
+            
+            // Prepare items
+            $list_table->prepare_items();
+            ?>
+            
+            <form method="get" id="search-statistics-search-form">
+               <input type="hidden" name="page" value="search-statistics">
+               <?php
+               ?>
+               <div class="tablenav top">
+                  <div class="alignleft actions">
+                     <input type="date" name="start_date" value="<?php echo esc_attr($start_date); ?>" placeholder="<?php _e('Start date', 'codeweber'); ?>">
+                     <input type="date" name="end_date" value="<?php echo esc_attr($end_date); ?>" placeholder="<?php _e('End date', 'codeweber'); ?>">
+                     <select name="form_id">
+                        <option value=""><?php _e('All Forms', 'codeweber'); ?></option>
+                        <option value="_none" <?php selected($form_id, '_none'); ?>><?php _e('No Form ID', 'codeweber'); ?></option>
+                        <?php foreach ($forms_list as $form): ?>
+                           <option value="<?php echo esc_attr($form); ?>" <?php selected($form_id, $form); ?>>
+                              <?php echo esc_html($form); ?>
+                           </option>
+                        <?php endforeach; ?>
+                     </select>
+                     <input type="submit" class="button" value="<?php _e('Filter', 'codeweber'); ?>">
+                     <a href="?page=search-statistics" class="button"><?php _e('Reset', 'codeweber'); ?></a>
+                  </div>
+                  <div class="alignright">
+                     <?php $list_table->search_box(__('Search', 'codeweber'), 'search'); ?>
+                  </div>
+               </div>
+            </form>
+            
+            <form method="post" id="search-statistics-form">
+               <?php
+               // Preserve filter parameters in hidden fields for redirect after bulk action
+               if (!empty($start_date)) {
+                  echo '<input type="hidden" name="start_date" value="' . esc_attr($start_date) . '">';
+               }
+               if (!empty($end_date)) {
+                  echo '<input type="hidden" name="end_date" value="' . esc_attr($end_date) . '">';
+               }
+               if (!empty($form_id)) {
+                  echo '<input type="hidden" name="form_id" value="' . esc_attr($form_id) . '">';
+               }
+               
+               $list_table->display();
+               ?>
+            </form>
          </div>
       </div>
 

@@ -80,6 +80,12 @@ input[type="file"].form-control.file-input-hidden {
     background: transparent;
 }
 
+/* FilePond styles - ensure FilePond inputs are visible */
+input[type="file"].filepond {
+    display: block;
+    width: 100%;
+}
+
 /* File List Styles */
 .file-list-container .list-group {
     border: none;

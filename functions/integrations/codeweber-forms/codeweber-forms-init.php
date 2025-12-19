@@ -20,6 +20,7 @@ require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-cpt.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-gutenberg-restrictions.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-block-selector.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-database.php';
+require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-temp-files.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-core.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-default-forms.php'; // Default формы (хранятся в коде)
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-migrate-cpt-types.php'; // НОВОЕ: Скрипт миграции CPT форм
@@ -97,6 +98,9 @@ add_action('init', function() {
     // Инициализируем БД для отправок
     new CodeweberFormsDatabase();
     
+    // Инициализируем класс для временных файлов
+    new CodeweberFormsTempFiles();
+    
     // Основной класс
     new CodeweberFormsCore();
     
@@ -117,7 +121,19 @@ add_action('init', function() {
     
     // Email Templates нужен и на фронтенде для отправки писем
     new CodeweberFormsEmailTemplates();
+    
+    // Schedule cleanup cron job for temp files
+    if (!wp_next_scheduled('codeweber_forms_cleanup_temp_files')) {
+        wp_schedule_event(time(), 'daily', 'codeweber_forms_cleanup_temp_files');
+    }
 }, 20);
+
+// Cleanup expired temp files
+add_action('codeweber_forms_cleanup_temp_files', function() {
+    $temp_files = new CodeweberFormsTempFiles();
+    $deleted_count = $temp_files->cleanup_expired_files(100);
+    error_log('Codeweber Forms: Cleaned up ' . $deleted_count . ' expired temp files');
+});
 
 // Регистрация провайдера в Personal Data V2 (новый универсальный модуль)
 // Старый функционал продолжает работать, новый модуль добавляется параллельно

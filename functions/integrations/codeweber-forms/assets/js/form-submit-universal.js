@@ -472,6 +472,46 @@
             }
         } else {
             // Generic codeweber form
+            // Collect FilePond file IDs
+            const fileIds = [];
+            const filepondInputs = form.querySelectorAll('input[type="file"][data-filepond="true"]');
+            console.log('[Form Submit] Found FilePond inputs:', filepondInputs.length);
+            filepondInputs.forEach((input, index) => {
+                console.log('[Form Submit] Processing input', index, ':', input.id, 'filepondInstance:', !!input.filepondInstance);
+                if (input.filepondInstance) {
+                    const files = input.filepondInstance.getFiles();
+                    console.log('[Form Submit] Input', index, 'has', files.length, 'files');
+                    files.forEach((file, fileIndex) => {
+                        console.log('[Form Submit] File', fileIndex, ':', {
+                            id: file.id,
+                            serverId: file.serverId,
+                            status: file.status,
+                            filename: file.filename
+                        });
+                        // FilePond returns file ID from server in serverId property
+                        if (file.serverId) {
+                            fileIds.push(file.serverId);
+                            console.log('[Form Submit] Added file ID:', file.serverId);
+                        } else {
+                            console.warn('[Form Submit] File', fileIndex, 'has no serverId');
+                        }
+                    });
+                } else {
+                    console.warn('[Form Submit] Input', index, 'has no filepondInstance');
+                    // Try to get file IDs from dataset as fallback
+                    if (input.dataset.fileIds) {
+                        const idsFromDataset = input.dataset.fileIds.split(',').filter(id => id.trim());
+                        console.log('[Form Submit] Found file IDs in dataset:', idsFromDataset);
+                        fileIds.push(...idsFromDataset);
+                    }
+                }
+            });
+            if (fileIds.length > 0) {
+                data.file_ids = fileIds;
+                console.log('[Form Submit] Collected FilePond file IDs:', fileIds);
+            } else {
+                console.warn('[Form Submit] No file IDs collected!');
+            }
             data.honeypot = formData.get('form_honeypot') || '';
             data.form_id = config.formId;
             // Передаем тип формы из data-form-type атрибута (для правильного определения success message)
@@ -1131,9 +1171,16 @@
                 });
                 form.dispatchEvent(responseProcessedEvent);
 
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1173',message:'Response processed, checking success',data:{formId:config.formId,success:responseData.success,hasResponseData:!!responseData},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'A'})}).catch(()=>{});
+                // #endregion
+
                 if (responseData.success) {
                     // Reset form first
                     form.reset();
+                    
+                    // Очистка FilePond выполняется в универсальном обработчике с задержкой
+                    // Здесь только диспатчим событие, чтобы не мешать показу модального окна
                     
                     // JavaScript событие: успешная отправка
                     // Универсальный обработчик setupUniversalSuccessHandler() обработает это событие
@@ -1665,6 +1712,29 @@
                                 formId === '6119' || formId === 6119;
             const isCodeweberForm = form.classList.contains('codeweber-form');
             
+            // Debug log: cleanup context
+            try {
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        sessionId: 'debug-session',
+                        runId: 'filepond-clear',
+                        timestamp: Date.now(),
+                        location: 'form-submit-universal.js:success-start',
+                        data: {
+                            formId,
+                            formType,
+                            pondsInForm: (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') ? FilePond.find(form).length : 'no-FilePond',
+                            pondsInBody: (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') ? FilePond.find(document.body).length : 'no-FilePond',
+                            fileInputs: Array.from(form.querySelectorAll('input[type="file"][data-filepond="true"]')).map(i => ({id:i.id, dataset:i.dataset.fileIds||'', hasInstance:!!i.filepondInstance}))
+                        }
+                    })
+                }).catch(()=>{});
+            } catch(e) {
+                console.warn('[Form Submit] Debug log failed', e);
+            }
+            
             // Получаем контейнер для сообщений
             const formMessages = form.querySelector('.form-messages') || 
                                 form.querySelector('.testimonial-form-messages');
@@ -1719,6 +1789,95 @@
                 // Если модального окна нет, заменяем содержимое формы
                 replaceModalContentWithEnvelope(form, message);
             }
+            
+            // Очистка FilePond после успешной отправки - выполняем с задержкой, чтобы не мешать показу модального окна
+            setTimeout(() => {
+                try {
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1795',message:'Universal handler: Starting FilePond cleanup',data:{formId,hasFilePond:typeof FilePond!=='undefined',hasFind:typeof FilePond!=='undefined'&&typeof FilePond.find==='function'},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                    // #endregion
+                    
+                    // Переинициализация FilePond: находим инстансы через FilePond.find() и уничтожаем их
+                    if (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') {
+                        // Пробуем найти инстансы в форме и во всем документе
+                        const pondsInForm = FilePond.find(form);
+                        const pondsInBody = FilePond.find(document.body);
+                        // #region agent log
+                        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1802',message:'Universal handler: FilePond instances found',data:{countInForm:pondsInForm.length,countInBody:pondsInBody.length,filepondRootsInForm:form.querySelectorAll('.filepond--root').length,filepondRootsInBody:document.querySelectorAll('.filepond--root').length},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                        // #endregion
+                        // Используем инстансы из body, если в форме не найдено
+                        const ponds = pondsInForm.length > 0 ? pondsInForm : pondsInBody;
+                        ponds.forEach((pond, index) => {
+                            try {
+                                // #region agent log
+                                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1807',message:'Universal handler: Destroying pond',data:{pondIndex:index,hasDestroy:typeof pond.destroy==='function'},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                                // #endregion
+                                if (typeof pond.destroy === 'function') {
+                                    pond.destroy();
+                                    // #region agent log
+                                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1811',message:'Universal handler: Pond destroyed',data:{pondIndex:index},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                                    // #endregion
+                                }
+                            } catch (e) {
+                                console.warn('[Form Submit] Failed to destroy FilePond instance', e);
+                                // #region agent log
+                                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1816',message:'Universal handler: Error destroying pond',data:{pondIndex:index,error:e.message},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                                // #endregion
+                            }
+                        });
+                    }
+                    
+                    // Также ищем оригинальные input'ы и очищаем их атрибуты
+                    const filepondInputs = form.querySelectorAll('input[type="file"][data-filepond="true"]');
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1823',message:'Universal handler: Cleaning file inputs',data:{count:filepondInputs.length},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                    // #endregion
+                    filepondInputs.forEach((input) => {
+                        input.removeAttribute('data-filepond-initialized');
+                        input.dataset.fileIds = '';
+                        input.value = '';
+                        if (input.filepondInstance) {
+                            input.filepondInstance = null;
+                        }
+                    });
+                    
+                    // Удаляем все FilePond root элементы (они могут остаться после destroy)
+                    const filepondRoots = form.querySelectorAll('.filepond--root');
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1833',message:'Universal handler: Removing root elements',data:{count:filepondRoots.length},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                    // #endregion
+                    filepondRoots.forEach((root) => {
+                        root.remove();
+                    });
+                    
+                    // Удаляем скрытые input'ы с file[] значениями
+                    const filepondDataInputs = form.querySelectorAll('input[type="hidden"][name^="file"]');
+                    filepondDataInputs.forEach((input) => {
+                        if (input.name === 'file[]' || input.closest('.filepond--data')) {
+                            input.remove();
+                        }
+                    });
+                    
+                    // Удаляем fieldset.filepond--data
+                    const filepondDataFieldsets = form.querySelectorAll('fieldset.filepond--data');
+                    filepondDataFieldsets.forEach((fieldset) => {
+                        fieldset.remove();
+                    });
+                    
+                    // Переинициализируем FilePond
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1848',message:'Universal handler: Calling initFilePond',data:{hasInitFilePond:typeof window.initFilePond==='function'},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                    // #endregion
+                    if (typeof window.initFilePond === 'function') {
+                        window.initFilePond();
+                    }
+                } catch (e) {
+                    console.error('[Form Submit] Error cleaning up FilePond', e);
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1855',message:'Universal handler: Error in cleanup',data:{error:e.message,errorStack:e.stack},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                    // #endregion
+                }
+            }, 300); // Задержка, чтобы модальное окно успело показаться
         });
     }
 

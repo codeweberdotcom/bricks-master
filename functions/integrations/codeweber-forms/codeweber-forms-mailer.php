@@ -15,7 +15,7 @@ class CodeweberFormsMailer {
     /**
      * Send email
      */
-    public static function send($form_id, $form_data, $recipient, $subject, $message) {
+    public static function send($form_id, $form_data, $recipient, $subject, $message, $files_data = null) {
         global $opt_name;
         
         // Получаем SMTP настройки из Redux
@@ -23,9 +23,17 @@ class CodeweberFormsMailer {
         
         if ($smtp_enabled) {
             // Используем SMTP
-            return self::send_via_smtp($form_id, $form_data, $recipient, $subject, $message);
+            return self::send_via_smtp($form_id, $form_data, $recipient, $subject, $message, $files_data);
         } else {
-            // Используем стандартный wp_mail
+            // Используем стандартный wp_mail (не поддерживает вложения напрямую)
+            // Для wp_mail нужно использовать фильтр wp_mail
+            if (!empty($files_data)) {
+                add_filter('wp_mail', function($args) use ($files_data) {
+                    // Для wp_mail файлы нужно обрабатывать через фильтр
+                    // Пока оставляем без вложений для wp_mail
+                    return $args;
+                });
+            }
             return wp_mail($recipient, $subject, $message, ['Content-Type: text/html; charset=UTF-8']);
         }
     }
@@ -33,7 +41,7 @@ class CodeweberFormsMailer {
     /**
      * Send via SMTP
      */
-    private static function send_via_smtp($form_id, $form_data, $recipient, $subject, $message) {
+    private static function send_via_smtp($form_id, $form_data, $recipient, $subject, $message, $files_data = null) {
         global $opt_name;
         
         if (!class_exists('Redux')) {
@@ -79,10 +87,36 @@ class CodeweberFormsMailer {
             $mail->isHTML(true);
             
             // Прикрепляем файлы если есть
-            if (!empty($form_data['files'])) {
-                foreach ($form_data['files'] as $file) {
-                    if (isset($file['path']) && file_exists($file['path'])) {
-                        $mail->addAttachment($file['path'], $file['name'] ?? '');
+            // files_data может быть массивом файлов или JSON строкой
+            $files_to_attach = [];
+            if (!empty($files_data)) {
+                if (is_string($files_data)) {
+                    $files_to_attach = json_decode($files_data, true);
+                } elseif (is_array($files_data)) {
+                    $files_to_attach = $files_data;
+                }
+            }
+            
+            if (!empty($files_to_attach)) {
+                foreach ($files_to_attach as $file) {
+                    // Поддержка разных форматов: file_path или file_url
+                    $file_path = null;
+                    if (isset($file['file_path']) && file_exists($file['file_path'])) {
+                        $file_path = $file['file_path'];
+                    } elseif (isset($file['file_url'])) {
+                        // Конвертируем URL в путь
+                        $upload_dir = wp_upload_dir();
+                        $file_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $file['file_url']);
+                        if (!file_exists($file_path)) {
+                            continue;
+                        }
+                    } elseif (isset($file['path']) && file_exists($file['path'])) {
+                        $file_path = $file['path'];
+                    }
+                    
+                    if ($file_path && file_exists($file_path)) {
+                        $file_name = $file['file_name'] ?? $file['name'] ?? basename($file_path);
+                        $mail->addAttachment($file_path, $file_name);
                     }
                 }
             }
@@ -145,6 +179,12 @@ class CodeweberFormsMailer {
         if (empty($fields) || !is_array($fields)) {
             return '<p>' . __('No fields provided.', 'codeweber') . '</p>';
         }
+
+        // Паттерны для файловых полей (FilePond UUID), которые уже отправлены как вложения
+        $file_field_keys = ['file', 'File', 'file[]', 'File[]', 'files', 'Files'];
+        $is_uuid = function($v) {
+            return is_string($v) && preg_match('/^[a-f0-9\\-]{36}$/i', trim($v));
+        };
         
         $html = '<table style="width: 100%; border-collapse: collapse; margin: 20px 0;">';
         $html .= '<thead><tr style="background-color: #f5f5f5;"><th style="padding: 10px; text-align: left; border: 1px solid #ddd;">' . __('Field', 'codeweber') . '</th>';
@@ -155,6 +195,29 @@ class CodeweberFormsMailer {
             // Пропускаем служебные поля UTM (они обрабатываются отдельно)
             if ($field_name === '_utm_data') {
                 continue;
+            }
+
+            // Пропускаем FilePond UUID (они уже отправлены как вложения)
+            if (in_array($field_name, $file_field_keys, true)) {
+                if (is_array($field_value)) {
+                    $all_uuid = true;
+                    foreach ($field_value as $v) {
+                        if (!$is_uuid($v)) { $all_uuid = false; break; }
+                    }
+                    if ($all_uuid) {
+                        continue;
+                    }
+                } elseif (is_string($field_value)) {
+                    $parts = array_map('trim', explode(',', $field_value));
+                    $all_uuid = true;
+                    foreach ($parts as $p) {
+                        if ($p === '') continue;
+                        if (!$is_uuid($p)) { $all_uuid = false; break; }
+                    }
+                    if ($all_uuid) {
+                        continue;
+                    }
+                }
             }
             
             // Специальная обработка для newsletter_consents

@@ -1,0 +1,121 @@
+/* Search Statistics Admin Styles */
+
+/* Table cell styling - match codeweber forms and newsletter */
+.wp-list-table th,
+.wp-list-table td {
+    font-size: 13px;
+    padding: 10px;
+}
+
+.wp-list-table strong {
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* Row actions styling - matches WordPress default row-actions */
+.row-actions {
+    visibility: hidden;
+    font-size: 13px;
+}
+
+tr:hover .row-actions {
+    visibility: visible;
+}
+
+.row-actions a {
+    display: inline;
+}
+
+.row-actions span {
+    color: #b4b9be;
+}
+
+/* Search filters styling */
+.search-filters {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.search-filters h3 {
+    margin-top: 0;
+}
+
+.search-filters label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.search-filters input[type="date"],
+.search-filters select {
+    padding: 5px 8px;
+    font-size: 14px;
+    line-height: 2;
+    min-height: 30px;
+    border-radius: 4px;
+    border: 1px solid #8c8f94;
+}
+
+.search-filters .button {
+    font-size: 13px;
+}
+
+/* Stats overview */
+.search-stats-overview {
+    margin: 20px 0;
+}
+
+.stats-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    min-width: 200px;
+}
+
+.stat-box h3 {
+    margin-top: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.stat-box p {
+    font-size: 2em;
+    margin: 0;
+    color: #0073aa;
+    font-weight: 600;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 782px) {
+    .search-filters > form > div {
+        flex-direction: column;
+    }
+    
+    .search-filters input[type="date"],
+    .search-filters select {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .stats-container {
+        flex-direction: column;
+    }
+    
+    .stat-box {
+        width: 100%;
+    }
+    
+    .row-actions {
+        visibility: visible;
+    }
+}
+

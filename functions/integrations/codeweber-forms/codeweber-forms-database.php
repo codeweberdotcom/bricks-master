@@ -192,9 +192,25 @@ class CodeweberFormsDatabase {
     }
     
     /**
-     * Get submissions with filters
+     * Get submissions with filters (supports both array and positional parameters)
      */
-    public function get_submissions($args = []) {
+    public function get_submissions($args_or_limit = [], $offset = 0, $orderby = 'created_at', $order = 'DESC', $status = '', $form_id = '', $form_type = '', $search = '') {
+        // Support both old positional parameters and new array format
+        if (is_array($args_or_limit)) {
+            $args = $args_or_limit;
+        } else {
+            // Old positional parameters format
+            $args = [
+                'limit' => intval($args_or_limit),
+                'offset' => intval($offset),
+                'orderby' => $orderby,
+                'order' => $order,
+                'status' => $status,
+                'form_id' => $form_id,
+                'form_type' => $form_type,
+                'search' => $search
+            ];
+        }
         global $wpdb;
         
         $defaults = [
@@ -260,6 +276,27 @@ class CodeweberFormsDatabase {
                   LIMIT {$limit} OFFSET {$offset}";
         
         return $wpdb->get_results($query);
+    }
+    
+    /**
+     * Get submissions count (alias for count_submissions with positional parameters)
+     * For backward compatibility with list table
+     */
+    public function get_submissions_count($status = '', $form_id = '', $form_type = '', $search = '') {
+        $args = [];
+        if (!empty($status)) {
+            $args['status'] = $status;
+        }
+        if (!empty($form_id)) {
+            $args['form_id'] = $form_id;
+        }
+        if (!empty($form_type)) {
+            $args['form_type'] = $form_type;
+        }
+        if (!empty($search)) {
+            $args['search'] = $search;
+        }
+        return $this->count_submissions($args);
     }
     
     /**
@@ -352,6 +389,11 @@ class CodeweberFormsDatabase {
             $format[] = '%s';
         }
         
+        if (isset($data['files_data'])) {
+            $update_data['files_data'] = is_string($data['files_data']) ? $data['files_data'] : json_encode($data['files_data'], JSON_UNESCAPED_UNICODE);
+            $format[] = '%s';
+        }
+        
         if (empty($update_data)) {
             return false;
         }
@@ -377,6 +419,9 @@ class CodeweberFormsDatabase {
      */
     public function permanently_delete_submission($id) {
         global $wpdb;
+        $submission = $this->get_submission($id);
+        $this->delete_submission_files($submission);
+        $this->delete_temp_files_by_submission($submission);
         return $wpdb->delete($this->table_name, ['id' => intval($id)], ['%d']);
     }
 
@@ -385,6 +430,15 @@ class CodeweberFormsDatabase {
      */
     public function empty_trash() {
         global $wpdb;
+        $trash_submissions = $wpdb->get_results(
+            $wpdb->prepare("SELECT * FROM {$this->table_name} WHERE status = %s", 'trash')
+        );
+        if (!empty($trash_submissions)) {
+            foreach ($trash_submissions as $submission) {
+                $this->delete_submission_files($submission);
+                $this->delete_temp_files_by_submission($submission);
+            }
+        }
         return $wpdb->query(
             $wpdb->prepare(
                 "DELETE FROM {$this->table_name} WHERE status = %s",
@@ -424,6 +478,12 @@ class CodeweberFormsDatabase {
         if (empty($ids)) {
             return false;
         }
+        // Clean files for each submission before deleting rows
+        foreach ($ids as $sid) {
+            $submission = $this->get_submission($sid);
+            $this->delete_submission_files($submission);
+            $this->delete_temp_files_by_submission($submission);
+        }
         
         $placeholders = implode(',', array_fill(0, count($ids), '%d'));
         $query = $wpdb->prepare(
@@ -431,6 +491,44 @@ class CodeweberFormsDatabase {
             ...$ids
         );
         return $wpdb->query($query);
+    }
+
+    /**
+     * Delete physical files associated with submission
+     */
+    private function delete_submission_files($submission) {
+        if (!$submission || empty($submission->files_data)) {
+            return;
+        }
+        $files = json_decode($submission->files_data, true);
+        if (!is_array($files)) {
+            return;
+        }
+        foreach ($files as $file) {
+            $path = $file['file_path'] ?? '';
+            $url = $file['file_url'] ?? '';
+            if (!$path && $url) {
+                $upload_dir = wp_upload_dir();
+                $path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $url);
+            }
+            if ($path && file_exists($path)) {
+                @unlink($path);
+            }
+        }
+    }
+
+    /**
+     * Delete temp files linked to submission
+     */
+    private function delete_temp_files_by_submission($submission) {
+        if (!$submission) {
+            return;
+        }
+        if (!class_exists('CodeweberFormsTempFiles')) {
+            require_once get_template_directory() . '/functions/integrations/codeweber-forms/codeweber-forms-temp-files.php';
+        }
+        $temp_files = new CodeweberFormsTempFiles();
+        $temp_files->delete_by_submission($submission->id);
     }
     
     /**

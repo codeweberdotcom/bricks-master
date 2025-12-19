@@ -45,6 +45,13 @@ class CodeweberFormsAPI {
                 'honeypot' => [
                     'required' => false,
                     'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'file_ids' => [
+                    'required' => false,
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'string'
+                    ]
                 ]
             ]
         ]);
@@ -72,6 +79,59 @@ class CodeweberFormsAPI {
                 return current_user_can('edit_posts');
             }
         ]);
+        
+        // Endpoint для загрузки файлов (instant upload)
+        register_rest_route('codeweber-forms/v1', '/upload', [
+            'methods' => 'POST',
+            'callback' => [$this, 'upload_file'],
+            'permission_callback' => function($request) {
+                $nonce = $request->get_header('X-WP-Nonce');
+                // #region agent log
+                $log_file = dirname(WP_CONTENT_DIR) . '/.cursor/debug.log';
+                $log_data = [
+                    'id' => 'log_' . time() . '_' . uniqid(),
+                    'timestamp' => time() * 1000,
+                    'location' => 'codeweber-forms-api.php:88',
+                    'message' => 'nonce check',
+                    'data' => [
+                        'nonce_present' => !empty($nonce),
+                        'nonce_verified' => !empty($nonce) ? wp_verify_nonce($nonce, 'wp_rest') : false
+                    ],
+                    'sessionId' => 'debug-session',
+                    'runId' => 'run1',
+                    'hypothesisId' => 'D'
+                ];
+                @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
+                // #endregion
+                if (empty($nonce)) {
+                    return false;
+                }
+                return wp_verify_nonce($nonce, 'wp_rest');
+            },
+            'args' => []
+        ]);
+        
+        // Endpoint для удаления временного файла
+        register_rest_route('codeweber-forms/v1', '/upload/(?P<id>[a-f0-9\-]+)', [
+            'methods' => 'DELETE',
+            'callback' => [$this, 'delete_temp_file'],
+            'permission_callback' => function($request) {
+                $nonce = $request->get_header('X-WP-Nonce');
+                if (empty($nonce)) {
+                    return false;
+                }
+                return wp_verify_nonce($nonce, 'wp_rest');
+            },
+            'args' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'validate_callback' => function($param) {
+                        return !empty($param) && preg_match('/^[a-f0-9\-]+$/', $param);
+                    }
+                ]
+            ]
+        ]);
     }
     
     /**
@@ -92,15 +152,59 @@ class CodeweberFormsAPI {
         
         $fields = $request->get_param('fields');
         $honeypot = $request->get_param('honeypot');
+        $file_ids = $request->get_param('file_ids'); // File IDs from FilePond instant upload
         $utm_params = $request->get_param('utm_params') ?: [];
         $tracking_data = $request->get_param('tracking_data') ?: [];
         $submitted_newsletter_consents = $request->get_param('newsletter_consents');
+        
+        // If file_ids not in params, try to get from JSON body
+        if (empty($file_ids)) {
+            $json_params = $request->get_json_params();
+            if (!empty($json_params['file_ids'])) {
+                $file_ids = $json_params['file_ids'];
+            }
+        }
+
+        // Fallback: extract file_ids from raw fields if present (e.g. "file[]" sent as part of form data)
+        if (empty($file_ids) && !empty($fields)) {
+            $file_field_keys = ['file', 'File', 'file[]', 'File[]', 'files', 'Files'];
+            $collected_ids = [];
+            foreach ($file_field_keys as $key) {
+                if (!isset($fields[$key])) {
+                    continue;
+                }
+                $value = $fields[$key];
+                if (is_array($value)) {
+                    foreach ($value as $v) {
+                        if (is_string($v) && preg_match('/^[a-f0-9\\-]{36}$/i', trim($v))) {
+                            $collected_ids[] = trim($v);
+                        }
+                    }
+                } elseif (is_string($value)) {
+                    // Comma-separated UUIDs
+                    $parts = array_map('trim', explode(',', $value));
+                    foreach ($parts as $part) {
+                        if (preg_match('/^[a-f0-9\\-]{36}$/i', $part)) {
+                            $collected_ids[] = $part;
+                        }
+                    }
+                }
+            }
+            if (!empty($collected_ids)) {
+                $file_ids = array_values(array_unique($collected_ids));
+                error_log('Form Submit - Extracted file_ids from fields fallback: ' . print_r($file_ids, true));
+            }
+        }
+
+        // Log final file_ids after all attempts
+        error_log('Form Submit - file_ids (final): ' . print_r($file_ids, true));
         
         // Debug logging
         error_log('=== FORM SUBMIT DEBUG START ===');
         error_log('Form Submit - form_id: ' . $form_id);
         error_log('Form Submit - form_type_from_request: ' . var_export($form_type_from_request, true));
         error_log('Form Submit - fields (raw): ' . print_r($fields, true));
+        error_log('Form Submit - file_ids (raw): ' . print_r($file_ids, true));
         error_log('Form Submit - submitted_newsletter_consents (param): ' . print_r($submitted_newsletter_consents, true));
         error_log('Form Submit - is_newsletter_form: ' . (codeweber_forms_is_newsletter_form($form_id) ? 'YES' : 'NO'));
         
@@ -647,8 +751,33 @@ class CodeweberFormsAPI {
             error_log('Form Submit - WARNING: Could not get form_name from CPT title. form_id: ' . var_export($form_id, true));
         }
 
-        // Обработка файлов
-        $files_data = $this->handle_file_uploads($request);
+        // Обработка файлов (используем file_ids из запроса)
+        $files_data = null;
+        error_log('Form Submit - Processing files. file_ids: ' . print_r($file_ids, true));
+        if (!empty($file_ids) && is_array($file_ids)) {
+            $request->set_param('file_ids', $file_ids);
+            $files_data = $this->handle_file_uploads($request);
+            error_log('Form Submit - handle_file_uploads returned: ' . print_r($files_data, true));
+        } else {
+            error_log('Form Submit - WARNING: No file_ids provided or not an array');
+        }
+        
+        // Remove file UUIDs from sanitized_fields if they were included as regular fields
+        // FilePond might send file IDs through form fields (e.g., "File[]" field)
+        if (!empty($sanitized_fields)) {
+            // Remove common file field names that might contain UUIDs
+            $file_field_patterns = ['File', 'file', 'File[]', 'file[]', 'files', 'Files'];
+            foreach ($file_field_patterns as $pattern) {
+                if (isset($sanitized_fields[$pattern])) {
+                    $field_value = $sanitized_fields[$pattern];
+                    // Check if value looks like UUIDs (comma-separated UUIDs)
+                    if (is_string($field_value) && preg_match('/^[a-f0-9\-]{36}(,\s*[a-f0-9\-]{36})*$/i', $field_value)) {
+                        error_log('Form Submit - Removing file UUIDs from sanitized_fields: ' . $pattern . ' = ' . $field_value);
+                        unset($sanitized_fields[$pattern]);
+                    }
+                }
+            }
+        }
         
         // Сохранение в БД
         $db = new CodeweberFormsDatabase();
@@ -687,12 +816,13 @@ class CodeweberFormsAPI {
             $form_name_for_db = $form_settings['formTitle'] ?? 'Contact Form';
         }
 
+        // Save submission first (files_data will be updated after moving files)
         $submission_id = $db->save_submission([
             'form_id'   => $form_id,
             // form_name: приоритет - название из запроса, затем из заголовка CPT, затем из настроек
             'form_name' => $form_name_for_db,
             'submission_data' => $sanitized_fields,
-            'files_data' => $files_data,
+            'files_data' => null, // Will be updated after files are moved
             'ip_address' => $ip_address,
             'user_agent' => $user_agent,
             'user_id' => $user_id,
@@ -701,6 +831,46 @@ class CodeweberFormsAPI {
         if (!$submission_id) {
             CodeweberFormsHooks::send_error($form_id, $form_settings, __('Failed to save submission.', 'codeweber'));
             return new WP_Error('save_failed', __('Failed to save submission.', 'codeweber'), ['status' => 500]);
+        }
+        
+        // Process files and move to permanent location
+        error_log('Form Submit - Processing files for permanent storage. files_data: ' . print_r($files_data, true));
+        if (!empty($files_data) && is_array($files_data)) {
+            $temp_files = new CodeweberFormsTempFiles();
+            $permanent_files = [];
+            
+            foreach ($files_data as $file_info) {
+                if (isset($file_info['file_id'])) {
+                    error_log('Form Submit - Moving file to permanent: ' . $file_info['file_id']);
+                    $moved_file = $temp_files->move_to_permanent($file_info['file_id'], $submission_id);
+                    if ($moved_file) {
+                        error_log('Form Submit - File moved successfully: ' . print_r($moved_file, true));
+                        $permanent_files[] = [
+                            'file_id' => $moved_file['file_id'],
+                            'file_url' => $moved_file['file_url'],
+                            'file_name' => $moved_file['file_name'],
+                            'file_size' => $moved_file['file_size'],
+                            'file_type' => $moved_file['file_type']
+                        ];
+                    } else {
+                        error_log('Form Submit - ERROR: Failed to move file: ' . $file_info['file_id']);
+                    }
+                }
+            }
+            
+            // Update submission with final files data
+            if (!empty($permanent_files)) {
+                error_log('Form Submit - Updating submission with permanent files: ' . print_r($permanent_files, true));
+                $db->update_submission($submission_id, [
+                    'files_data' => json_encode($permanent_files, JSON_UNESCAPED_UNICODE)
+                ]);
+                $files_data = $permanent_files;
+            } else {
+                error_log('Form Submit - WARNING: No permanent files to save');
+                $files_data = null;
+            }
+        } else {
+            error_log('Form Submit - No files_data to process');
         }
         
         // Хук перед отправкой
@@ -1105,11 +1275,351 @@ class CodeweberFormsAPI {
     }
     
     /**
-     * Handle file uploads
+     * Upload file (instant upload for FilePond)
+     * Uses WordPress standard wp_handle_upload() for security and compatibility
+     */
+    public function upload_file($request) {
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+        // #region agent log
+        $log_file = dirname(WP_CONTENT_DIR) . '/.cursor/debug.log';
+        $log_data = [
+            'id' => 'log_' . time() . '_' . uniqid(),
+            'timestamp' => time() * 1000,
+            'location' => 'codeweber-forms-api.php:1198',
+            'message' => 'upload_file entry',
+            'data' => [
+                'has_files' => !empty($_FILES),
+                'files_keys' => !empty($_FILES) ? array_keys($_FILES) : [],
+                'content_type' => $_SERVER['CONTENT_TYPE'] ?? 'not set',
+                'request_method' => $_SERVER['REQUEST_METHOD'] ?? 'not set',
+                'nonce_header' => $request->get_header('X-WP-Nonce') ? 'present' : 'missing'
+            ],
+            'sessionId' => 'debug-session',
+            'runId' => 'run1',
+            'hypothesisId' => 'A'
+        ];
+        @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
+        // #endregion
+        
+        // FilePond sends file as 'filepond' by default
+        // But REST API might need special handling
+        
+        // Try to get file from $_FILES first
+        $file_key = null;
+        $file = null;
+        
+        // Check common FilePond field names
+        // FilePond sends as 'filepond' but may arrive as 'file' or 'file[]'
+        $possible_keys = ['filepond', 'file'];
+        
+        foreach ($possible_keys as $key) {
+            if (!empty($_FILES[$key]) && is_array($_FILES[$key])) {
+                // Check if it's array format (multiple files or file[])
+                if (isset($_FILES[$key]['tmp_name']) && is_array($_FILES[$key]['tmp_name']) && isset($_FILES[$key]['tmp_name'][0])) {
+                    // Array format - take first file
+                    if (!empty($_FILES[$key]['tmp_name'][0])) {
+                        $file_key = $key;
+                        $file = [
+                            'name' => $_FILES[$key]['name'][0],
+                            'type' => $_FILES[$key]['type'][0],
+                            'tmp_name' => $_FILES[$key]['tmp_name'][0],
+                            'error' => $_FILES[$key]['error'][0],
+                            'size' => $_FILES[$key]['size'][0]
+                        ];
+                        break;
+                    }
+                } elseif (isset($_FILES[$key]['tmp_name']) && !is_array($_FILES[$key]['tmp_name'])) {
+                    // Single file (not array)
+                    if (!empty($_FILES[$key]['tmp_name'])) {
+                        $file_key = $key;
+                        $file = $_FILES[$key];
+                        break;
+                    }
+                }
+            }
+        }
+        
+        // If not found, check all $_FILES keys
+        if (!$file && !empty($_FILES)) {
+            foreach ($_FILES as $key => $file_data) {
+                if (is_array($file_data)) {
+                    if (isset($file_data['tmp_name']) && !empty($file_data['tmp_name'])) {
+                        $file_key = $key;
+                        $file = $file_data;
+                        break;
+                    } elseif (isset($file_data['tmp_name'][0]) && !empty($file_data['tmp_name'][0])) {
+                        $file_key = $key;
+                        $file = [
+                            'name' => $file_data['name'][0],
+                            'type' => $file_data['type'][0],
+                            'tmp_name' => $file_data['tmp_name'][0],
+                            'error' => $file_data['error'][0],
+                            'size' => $file_data['size'][0]
+                        ];
+                        break;
+                    }
+                }
+            }
+        }
+        
+        // #region agent log
+        $log_data = [
+            'id' => 'log_' . time() . '_' . uniqid(),
+            'timestamp' => time() * 1000,
+            'location' => 'codeweber-forms-api.php:1245',
+            'message' => 'file search result',
+            'data' => [
+                'file_found' => !empty($file),
+                'file_key' => $file_key,
+                'all_files_keys' => !empty($_FILES) ? array_keys($_FILES) : [],
+                'file_error' => isset($file['error']) ? (is_array($file['error']) ? 'array' : $file['error']) : 'not set',
+                'file_name' => isset($file['name']) ? (is_array($file['name']) ? 'array' : $file['name']) : 'not set',
+                'file_structure' => is_array($file) ? array_keys($file) : 'not array'
+            ],
+            'sessionId' => 'debug-session',
+            'runId' => 'run1',
+            'hypothesisId' => 'B'
+        ];
+        @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
+        // #endregion
+        
+        if (!$file) {
+            // #region agent log
+            $log_data = [
+                'id' => 'log_' . time() . '_' . uniqid(),
+                'timestamp' => time() * 1000,
+                'location' => 'codeweber-forms-api.php:1268',
+                'message' => 'no file found error',
+                'data' => ['files_dump' => print_r($_FILES, true)],
+                'sessionId' => 'debug-session',
+                'runId' => 'run1',
+                'hypothesisId' => 'A'
+            ];
+            @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
+            // #endregion
+            return new WP_Error('no_file', __('No file uploaded.', 'codeweber'), ['status' => 400]);
+        }
+        
+        // Validate file
+        // Ensure error code is scalar (not array)
+        $file_error = isset($file['error']) ? $file['error'] : null;
+        if (is_array($file_error)) {
+            // If error is array, take first element
+            $file_error = !empty($file_error) ? reset($file_error) : UPLOAD_ERR_NO_FILE;
+        }
+        
+        if ($file_error === null || $file_error !== UPLOAD_ERR_OK) {
+            $error_code = $file_error !== null ? intval($file_error) : 'unknown';
+            $error_messages = [
+                UPLOAD_ERR_INI_SIZE => 'File exceeds upload_max_filesize',
+                UPLOAD_ERR_FORM_SIZE => 'File exceeds MAX_FILE_SIZE',
+                UPLOAD_ERR_PARTIAL => 'File was only partially uploaded',
+                UPLOAD_ERR_NO_FILE => 'No file was uploaded',
+                UPLOAD_ERR_NO_TMP_DIR => 'Missing temporary folder',
+                UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+                UPLOAD_ERR_EXTENSION => 'File upload stopped by extension'
+            ];
+            // Ensure error_code is valid key (int or string)
+            $error_message = (is_int($error_code) || is_string($error_code)) && isset($error_messages[$error_code]) 
+                ? $error_messages[$error_code] 
+                : 'Unknown error';
+            // #region agent log
+            $log_data = [
+                'id' => 'log_' . time() . '_' . uniqid(),
+                'timestamp' => time() * 1000,
+                'location' => 'codeweber-forms-api.php:1274',
+                'message' => 'file error code check',
+                'data' => [
+                    'error_code' => $error_code,
+                    'error_message' => $error_message,
+                    'upload_err_ok' => UPLOAD_ERR_OK
+                ],
+                'sessionId' => 'debug-session',
+                'runId' => 'run1',
+                'hypothesisId' => 'C'
+            ];
+            @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
+            // #endregion
+            return new WP_Error('upload_error', __('File upload error.', 'codeweber') . ': ' . $error_message, ['status' => 400]);
+        }
+        
+        // Get file info
+        $file_name = sanitize_file_name($file['name']);
+        $file_size = $file['size'];
+        $file_type = $file['type'];
+        $tmp_name = $file['tmp_name'];
+        
+        // Validate file exists
+        if (!file_exists($tmp_name)) {
+            error_log('FilePond Upload Error: Temporary file does not exist: ' . $tmp_name);
+            return new WP_Error('file_not_found', __('Temporary file not found.', 'codeweber'), ['status' => 400]);
+        }
+        
+        // WordPress standard file type validation
+        $wp_filetype = wp_check_filetype_and_ext($tmp_name, $file_name);
+        if (!$wp_filetype['ext'] || !$wp_filetype['type']) {
+            error_log('FilePond Upload Error: Invalid file type. Extension: ' . ($wp_filetype['ext'] ?? 'none') . ', Type: ' . ($wp_filetype['type'] ?? 'none'));
+            return new WP_Error('invalid_file_type', __('Sorry, this file type is not permitted for security reasons.', 'codeweber'), ['status' => 400]);
+        }
+        
+        // Additional allowed types check (from settings)
+        $allowed_types = get_option('codeweber_forms_allowed_file_types', []);
+        if (!empty($allowed_types) && !in_array($wp_filetype['type'], $allowed_types)) {
+            error_log('FilePond Upload Error: File type not in allowed list: ' . $wp_filetype['type']);
+            return new WP_Error('invalid_file_type', __('File type not allowed.', 'codeweber'), ['status' => 400]);
+        }
+        
+        // Validate file size
+        $max_size = get_option('codeweber_forms_max_file_size', 10 * 1024 * 1024); // Default 10MB
+        if ($file_size > $max_size) {
+            error_log('FilePond Upload Error: File too large: ' . $file_size . ' bytes (max: ' . $max_size . ')');
+            return new WP_Error('file_too_large', __('File is too large.', 'codeweber'), ['status' => 400]);
+        }
+        
+        // Initialize temp files handler
+        $temp_files = new CodeweberFormsTempFiles();
+        $temp_dir = $temp_files->get_temp_dir();
+        
+        // Ensure temp directory exists
+        if (!is_dir($temp_dir)) {
+            wp_mkdir_p($temp_dir);
+        }
+        if (!is_writable($temp_dir)) {
+            error_log('FilePond Upload Error: Temp directory is not writable: ' . $temp_dir);
+            return new WP_Error('dir_not_writable', __('Temporary directory is not writable.', 'codeweber'), ['status' => 500]);
+        }
+        
+        // Use WordPress approach similar to Contact Form 7:
+        // - wp_check_filetype_and_ext() for validation (already done above)
+        // - wp_unique_filename() for unique filename generation
+        // - move_uploaded_file() for moving file
+        // - Proper file permissions
+        
+        // Sanitize and prepare filename
+        $filename = sanitize_file_name($file_name);
+        $filename = wp_unique_filename($temp_dir, $filename);
+        $temp_path = $temp_dir . '/' . $filename;
+        
+        error_log('FilePond Upload: Preparing to move file. tmp_name: ' . $tmp_name . ', temp_path: ' . $temp_path);
+        error_log('FilePond Upload: temp_dir exists: ' . (is_dir($temp_dir) ? 'YES' : 'NO') . ', writable: ' . (is_writable($temp_dir) ? 'YES' : 'NO'));
+        
+        // Move uploaded file (WordPress standard approach for temp files)
+        if (!@move_uploaded_file($tmp_name, $temp_path)) {
+            $error = error_get_last();
+            error_log('FilePond Upload Error: Failed to move file. Error: ' . ($error ? $error['message'] : 'Unknown error'));
+            error_log('FilePond Upload Error: tmp_name exists: ' . (file_exists($tmp_name) ? 'YES' : 'NO') . ', is_uploaded_file: ' . (is_uploaded_file($tmp_name) ? 'YES' : 'NO'));
+            return new WP_Error('move_failed', __('Failed to save file.', 'codeweber'), ['status' => 500]);
+        }
+        
+        error_log('FilePond Upload: File moved successfully. temp_path: ' . $temp_path . ', file exists: ' . (file_exists($temp_path) ? 'YES' : 'NO'));
+        
+        // Set correct file permissions (WordPress standard: 0666 masked by umask)
+        $stat = stat(dirname($temp_path));
+        if ($stat) {
+            $perms = $stat['mode'] & 0000666;
+            @chmod($temp_path, $perms);
+        }
+        
+        // Use validated file type from wp_check_filetype_and_ext()
+        $uploaded_file_type = $wp_filetype['type'];
+        
+        error_log('FilePond Upload: Saving to database. file_path: ' . $temp_path . ', file_name: ' . $file_name . ', file_size: ' . $file_size . ', file_type: ' . $uploaded_file_type);
+        
+        // Save to database
+        $file_data = $temp_files->save_temp_file($temp_path, $file_name, $file_size, $uploaded_file_type);
+        
+        if ($file_data) {
+            error_log('FilePond Upload: File saved to database successfully. file_id: ' . $file_data['file_id']);
+        } else {
+            error_log('FilePond Upload Error: Failed to save file to database');
+        }
+        
+        if (!$file_data) {
+            @unlink($temp_path);
+            return new WP_Error('save_failed', __('Failed to save file record.', 'codeweber'), ['status' => 500]);
+        }
+        
+        // Return file ID (FilePond expects this as response)
+        // FilePond expects just the file ID string, not JSON object
+        // But we'll return JSON and parse it in onload callback
+        return rest_ensure_response([
+            'success' => true,
+            'file' => [
+                'id' => $file_data['file_id'],
+                'name' => $file_data['file_name'],
+                'size' => $file_data['file_size'],
+                'type' => $file_data['file_type']
+            ]
+        ]);
+    }
+    
+    /**
+     * Delete temp file
+     */
+    public function delete_temp_file($request) {
+        $file_id = $request->get_param('id');
+        
+        if (empty($file_id)) {
+            return new WP_Error('invalid_file_id', __('Invalid file ID.', 'codeweber'), ['status' => 400]);
+        }
+        
+        $temp_files = new CodeweberFormsTempFiles();
+        $result = $temp_files->delete_temp_file($file_id);
+        
+        if ($result) {
+            return new WP_REST_Response(['success' => true], 200);
+        } else {
+            return new WP_Error('delete_failed', __('Failed to delete file.', 'codeweber'), ['status' => 500]);
+        }
+    }
+    
+    /**
+     * Handle file uploads when form is submitted
+     * Returns array of file info for processing
      */
     private function handle_file_uploads($request) {
-        // TODO: Реализовать загрузку файлов
-        return null;
+        $file_ids = $request->get_param('file_ids');
+        
+        error_log('handle_file_uploads - file_ids: ' . print_r($file_ids, true));
+        
+        if (empty($file_ids) || !is_array($file_ids)) {
+            error_log('handle_file_uploads - No file_ids or not an array');
+            return null;
+        }
+        
+        $temp_files = new CodeweberFormsTempFiles();
+        $files_data = [];
+        
+        // Collect file info from temp files
+        foreach ($file_ids as $file_id) {
+            error_log('handle_file_uploads - Processing file_id: ' . $file_id);
+            $file = $temp_files->get_temp_file($file_id);
+            if (!$file) {
+                error_log('handle_file_uploads - File not found in temp table: ' . $file_id);
+                continue;
+            }
+            
+            error_log('handle_file_uploads - File found: ' . print_r($file, true));
+            
+            // Check if file hasn't expired
+            if (strtotime($file->expires_at) < time()) {
+                error_log('handle_file_uploads - File expired: ' . $file_id);
+                // File expired, skip it
+                continue;
+            }
+            
+            $files_data[] = [
+                'file_id' => $file->file_id,
+                'file_name' => $file->file_name,
+                'file_size' => $file->file_size,
+                'file_type' => $file->file_type,
+                'temp_path' => $file->file_path
+            ];
+        }
+        
+        error_log('handle_file_uploads - Returning files_data: ' . print_r($files_data, true));
+        return !empty($files_data) ? $files_data : null;
     }
     
     /**
@@ -1202,7 +1712,7 @@ class CodeweberFormsAPI {
             $message = CodeweberFormsMailer::process_template($template, $template_data);
             
             // Отправка
-            $sent = CodeweberFormsMailer::send($form_id, $form_settings, $recipient, $subject, $message);
+            $sent = CodeweberFormsMailer::send($form_id, $form_settings, $recipient, $subject, $message, $files_data);
             
             if ($sent) {
                 return ['success' => true];

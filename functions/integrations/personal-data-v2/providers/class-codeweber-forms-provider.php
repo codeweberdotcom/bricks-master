@@ -162,6 +162,107 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
                     continue;
                 }
                 
+                // Специальная обработка полей с файлами (File[], file[] и т.д.)
+                $is_file_field = false;
+                if (preg_match('/^(.+)\[\]$/i', $field_name, $matches)) {
+                    $is_file_field = true;
+                    $field_name_without_brackets = $matches[1];
+                }
+                
+                // Проверяем, является ли значение GUID файлов (строка с GUID через точку с запятой)
+                $is_guid_value = false;
+                if (is_string($field_value)) {
+                    // Проверяем формат GUID (например: "2d57aff7-52a5-4eff-b212-d86a16bc56c0; 29d960cb-068c-4039-b210-0d5fc3cd2d4b")
+                    $guid_pattern = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(;\s*[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})*$/i';
+                    if (preg_match($guid_pattern, trim($field_value))) {
+                        $is_guid_value = true;
+                    }
+                }
+                
+                // Если это поле с файлами (содержит GUID), обрабатываем его специально
+                if ($is_file_field || $is_guid_value) {
+                    // Получаем данные файлов из files_data
+                    $files_data = null;
+                    if (!empty($submission->files_data)) {
+                        $files_data = json_decode($submission->files_data, true);
+                    }
+                    
+                    // Парсим GUID из значения
+                    $guids = [];
+                    if (is_string($field_value)) {
+                        $guids = array_map('trim', explode(';', $field_value));
+                        $guids = array_filter($guids); // Убираем пустые значения
+                    } elseif (is_array($field_value)) {
+                        $guids = $field_value;
+                    }
+                    
+                    // Находим файлы по GUID и формируем список с именами и ссылками
+                    $files_list = [];
+                    if (!empty($files_data) && is_array($files_data)) {
+                        // Поддержка двух структур: простой массив или объект с ключами по имени поля
+                        $files_to_search = [];
+                        
+                        // Если это простой массив файлов (каждый элемент - объект файла)
+                        if (isset($files_data[0]) && is_array($files_data[0]) && isset($files_data[0]['file_id'])) {
+                            $files_to_search = $files_data;
+                        }
+                        // Если это объект с ключами по имени поля
+                        else {
+                            foreach ($files_data as $field_key => $field_files) {
+                                if (is_array($field_files)) {
+                                    // Если это массив файлов
+                                    if (isset($field_files[0]) && is_array($field_files[0])) {
+                                        $files_to_search = array_merge($files_to_search, $field_files);
+                                    }
+                                    // Если это один файл
+                                    elseif (isset($field_files['file_id'])) {
+                                        $files_to_search[] = $field_files;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Ищем файлы по GUID
+                        foreach ($guids as $guid) {
+                            foreach ($files_to_search as $file) {
+                                if (isset($file['file_id']) && $file['file_id'] === $guid) {
+                                    $file_name = $file['file_name'] ?? $guid;
+                                    $file_url = $file['file_url'] ?? '';
+                                    
+                                    if ($file_url) {
+                                        $files_list[] = sprintf(
+                                            '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                            esc_url($file_url),
+                                            esc_html($file_name)
+                                        );
+                                    } else {
+                                        $files_list[] = esc_html($file_name);
+                                    }
+                                    break; // Найден файл, переходим к следующему GUID
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Если файлы не найдены, показываем GUID как есть (fallback)
+                    if (empty($files_list) && !empty($guids)) {
+                        foreach ($guids as $guid) {
+                            $files_list[] = esc_html($guid);
+                        }
+                    }
+                    
+                    // Получаем переведенное название поля (без скобок)
+                    $field_label_name = $is_file_field ? $field_name_without_brackets : $field_name;
+                    $field_label = $this->get_translated_field_label($field_label_name);
+                    
+                    $data[] = [
+                        'name' => $field_label,
+                        'value' => !empty($files_list) ? implode('; ', $files_list) : ''
+                    ];
+                    
+                    continue; // Пропускаем обычную обработку для полей с файлами
+                }
+                
                 // Получаем переведенное название поля
                 $field_label = $this->get_translated_field_label($field_name);
                 
@@ -483,6 +584,10 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
      * @return string Переведенное название
      */
     private function get_translated_field_label(string $field_name): string {
+        // Проверяем язык сайта для прямого перевода
+        $locale = get_locale();
+        $is_russian = (strpos($locale, 'ru') === 0);
+        
         $translations = [
             'email' => __('Email Address', 'codeweber'),
             'name' => __('Name', 'codeweber'),
@@ -493,6 +598,7 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
             'message' => __('Message', 'codeweber'),
             'subject' => __('Subject', 'codeweber'),
             'company' => __('Company', 'codeweber'),
+            'file' => $is_russian ? 'Файл' : __('File', 'codeweber'),
             'utm_source' => __('UTM Source', 'codeweber'),
             'utm_medium' => __('UTM Medium', 'codeweber'),
             'utm_campaign' => __('UTM Campaign', 'codeweber'),

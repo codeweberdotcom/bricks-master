@@ -316,8 +316,29 @@ class NewsletterSubscriptionAdmin
                esc_html(mb_substr($subscription->user_agent, 0, 30) . (mb_strlen($subscription->user_agent) > 30 ? '...' : '')) . '</span>';
 
          case 'status':
-            return '<span class="newsletter-status status-' . esc_attr($subscription->status) . '">' .
-               $this->get_status_label($subscription->status) . '</span>';
+            $status_colors = array(
+               'pending' => '#fff3cd',
+               'confirmed' => '#d4edda',
+               'unsubscribed' => '#f8d7da',
+               'trash' => '#646970',
+            );
+            $status_text_colors = array(
+               'pending' => '#856404',
+               'confirmed' => '#155724',
+               'unsubscribed' => '#721c24',
+               'trash' => '#ffffff',
+            );
+            
+            $bg_color = isset($status_colors[$subscription->status]) ? $status_colors[$subscription->status] : '#f0f0f1';
+            $text_color = isset($status_text_colors[$subscription->status]) ? $status_text_colors[$subscription->status] : '#2c3338';
+            $label = $this->get_status_label($subscription->status);
+            
+            return sprintf(
+               '<span style="display: inline-block; padding: 3px 8px; background-color: %s; color: %s; border-radius: 3px; font-size: 11px; font-weight: 600;">%s</span>',
+               esc_attr($bg_color),
+               esc_attr($text_color),
+               esc_html($label)
+            );
 
          case 'created_at':
             return date('d.m.Y H:i', strtotime($subscription->created_at));
@@ -348,62 +369,43 @@ class NewsletterSubscriptionAdmin
             }
 
          case 'actions':
-            ob_start();
-            ?>
-            <div class="newsletter-actions">
-               <?php
-               // Кнопка "Просмотр" для детального просмотра истории подписки/отписки
-               $view_url = admin_url('admin.php?page=newsletter-subscriptions&action=view&email=' . urlencode($subscription->email));
-               ?>
-               <a href="<?php echo esc_url($view_url); ?>" class="button button-small">
-                  <?php _e('View', 'codeweber'); ?>
-               </a>
-
-               <?php if ($subscription->status === 'trash'): ?>
-                  <form method="post" style="display:inline;">
-                     <input type="hidden" name="action" value="untrash">
-                     <input type="hidden" name="email" value="<?php echo esc_attr($subscription->email); ?>">
-                     <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
-                     <button type="submit" class="button button-small">
-                        <?php _e('Restore', 'codeweber'); ?>
-                     </button>
-                  </form>
-
-                  <form method="post" style="display:inline;">
-                     <input type="hidden" name="action" value="delete_permanent">
-                     <input type="hidden" name="email" value="<?php echo esc_attr($subscription->email); ?>">
-                     <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
-                     <button type="submit" class="button button-small button-link-delete"
-                        onclick="return confirm('<?php _e('Are you sure you want to permanently delete this subscription?', 'codeweber'); ?>')">
-                        <?php _e('Delete Permanently', 'codeweber'); ?>
-                     </button>
-                  </form>
-               <?php else: ?>
-                  <?php if ($subscription->status !== 'unsubscribed'): ?>
-                     <form method="post" style="display:inline;">
-                        <input type="hidden" name="action" value="unsubscribe">
-                        <input type="hidden" name="email" value="<?php echo esc_attr($subscription->email); ?>">
-                        <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
-                        <button type="submit" class="button button-small"
-                           onclick="return confirm('<?php _e('Are you sure you want to unsubscribe this user?', 'codeweber'); ?>')">
-                           <?php _e('Unsubscribe', 'codeweber'); ?>
-                        </button>
-                     </form>
-                  <?php endif; ?>
-
-                  <form method="post" style="display:inline;">
-                     <input type="hidden" name="action" value="trash">
-                     <input type="hidden" name="email" value="<?php echo esc_attr($subscription->email); ?>">
-                     <?php wp_nonce_field('newsletter_admin_action', 'newsletter_nonce'); ?>
-                     <button type="submit" class="button button-small button-link-delete"
-                        onclick="return confirm('Вы уверены, что хотите переместить эту подписку в корзину?')">
-                        Корзина
-                     </button>
-                  </form>
-               <?php endif; ?>
-            </div>
-      <?php
-            return ob_get_clean();
+            $view_url = admin_url('admin.php?page=newsletter-subscriptions&action=view&email=' . urlencode($subscription->email));
+            
+            $actions = array();
+            $actions['view'] = '<a href="' . esc_url($view_url) . '">' . __('View', 'codeweber') . '</a>';
+            
+            if ($subscription->status === 'trash') {
+               $untrash_url = wp_nonce_url(
+                  admin_url('admin.php?page=newsletter-subscriptions&action=untrash&email=' . urlencode($subscription->email)),
+                  'newsletter_admin_action_' . urlencode($subscription->email)
+               );
+               $delete_url = wp_nonce_url(
+                  admin_url('admin.php?page=newsletter-subscriptions&action=delete_permanent&email=' . urlencode($subscription->email)),
+                  'newsletter_admin_action_' . urlencode($subscription->email)
+               );
+               $actions['untrash'] = '<a href="' . esc_url($untrash_url) . '">' . __('Restore', 'codeweber') . '</a>';
+               $actions['delete'] = '<a href="' . esc_url($delete_url) . '" onclick="return confirm(\'' . esc_js(__('Are you sure you want to permanently delete this subscription?', 'codeweber')) . '\');">' . __('Delete Permanently', 'codeweber') . '</a>';
+            } else {
+               if ($subscription->status !== 'unsubscribed') {
+                  $unsubscribe_url = wp_nonce_url(
+                     admin_url('admin.php?page=newsletter-subscriptions&action=unsubscribe&email=' . urlencode($subscription->email)),
+                     'newsletter_admin_action_' . urlencode($subscription->email)
+                  );
+                  $actions['unsubscribe'] = '<a href="' . esc_url($unsubscribe_url) . '" onclick="return confirm(\'' . esc_js(__('Are you sure you want to unsubscribe this user?', 'codeweber')) . '\');">' . __('Unsubscribe', 'codeweber') . '</a>';
+               }
+               
+               $trash_url = wp_nonce_url(
+                  admin_url('admin.php?page=newsletter-subscriptions&action=trash&email=' . urlencode($subscription->email)),
+                  'newsletter_admin_action_' . urlencode($subscription->email)
+               );
+               $actions['trash'] = '<a href="' . esc_url($trash_url) . '" onclick="return confirm(\'' . esc_js(__('Are you sure you want to move this subscription to trash?', 'codeweber')) . '\');">' . __('Trash', 'codeweber') . '</a>';
+            }
+            
+            // Render actions in WordPress row_actions style
+            $output = '<div class="row-actions">';
+            $output .= implode(' | ', $actions);
+            $output .= '</div>';
+            return $output;
 
          default:
             // Return empty string for unknown columns
@@ -541,6 +543,11 @@ class NewsletterSubscriptionAdmin
             }
             break;
       }
+      
+      // Redirect after action (prevent duplicate submissions)
+      $redirect_url = admin_url('admin.php?page=newsletter-subscriptions');
+      wp_redirect($redirect_url);
+      exit;
    }
 
    /**
