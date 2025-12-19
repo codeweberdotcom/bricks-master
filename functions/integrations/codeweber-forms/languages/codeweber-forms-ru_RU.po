@@ -939,3 +939,11 @@ msgstr "Спасибо за ваш отзыв!"
 msgid "Sending"
 msgstr "Отправка"
 
+#: codeweber-forms-renderer.php:700
+msgid "No file selected"
+msgstr "Файл не выбран"
+
+#: codeweber-forms-renderer.php:701
+msgid "Browse"
+msgstr "Обзор"
+

@@ -67,4 +67,58 @@
     box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
 }
 
+/* File Input Styles */
+input[type="file"].form-control.file-input-hidden {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+}
+
+/* File List Styles */
+.file-list-container .list-group {
+    border: none;
+}
+
+.file-list-container .list-group-item {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.file-list-container .list-group-item:first-child {
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+}
+
+.file-list-container .list-group-item:last-child {
+    border-bottom-left-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+/* Submit Button Icon Styles */
+.form-submit-wrapper button[type="submit"] i {
+    display: inline-block !important;
+    visibility: visible !important;
+    font-family: "Unicons" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+.form-submit-wrapper button[type="submit"]:disabled i {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
 

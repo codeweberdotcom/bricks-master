@@ -624,8 +624,6 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
         $form_id = isset($_GET['form_id']) ? sanitize_text_field($_GET['form_id']) : '';
         $form_type = isset($_GET['form_type']) ? sanitize_text_field($_GET['form_type']) : ''; // НОВОЕ: Фильтр по типу формы
-        $utm_key = isset($_GET['utm_key']) ? sanitize_text_field($_GET['utm_key']) : ''; // НОВОЕ: Фильтр по UTM метке
-        $utm_value = isset($_GET['utm_value']) ? sanitize_text_field($_GET['utm_value']) : ''; // НОВОЕ: Значение UTM метки
 
         // Get sort order
         $orderby = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'created_at';
@@ -660,14 +658,6 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         }
         if ($search) {
             $args['search'] = $search;
-        }
-        
-        // НОВОЕ: Фильтрация по UTM меткам
-        if ($utm_key !== '' && $utm_value !== '') {
-            $args['utm_filter'] = array(
-                'key' => $utm_key,
-                'value' => $utm_value
-            );
         }
 
         // Get items
@@ -749,13 +739,6 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         // НОВОЕ: Сохраняем фильтр по типу формы
         if (isset($_GET['form_type']) && !empty($_GET['form_type'])) {
             $params['form_type'] = sanitize_text_field($_GET['form_type']);
-        }
-        // НОВОЕ: Сохраняем UTM фильтры
-        if (isset($_GET['utm_key']) && !empty($_GET['utm_key'])) {
-            $params['utm_key'] = sanitize_text_field($_GET['utm_key']);
-        }
-        if (isset($_GET['utm_value']) && !empty($_GET['utm_value'])) {
-            $params['utm_value'] = sanitize_text_field($_GET['utm_value']);
         }
         if (isset($_GET['s']) && !empty($_GET['s'])) {
             $params['s'] = sanitize_text_field($_GET['s']);
@@ -874,8 +857,6 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
         $form_id = isset($_GET['form_id']) ? sanitize_text_field($_GET['form_id']) : '';
         $form_type = isset($_GET['form_type']) ? sanitize_text_field($_GET['form_type']) : ''; // НОВОЕ: Фильтр по типу формы
-        $utm_key = isset($_GET['utm_key']) ? sanitize_text_field($_GET['utm_key']) : ''; // НОВОЕ: Фильтр по UTM метке
-        $utm_value = isset($_GET['utm_value']) ? sanitize_text_field($_GET['utm_value']) : ''; // НОВОЕ: Значение UTM метки
         
         // Маппинг типов на читаемые названия
         $type_labels = array(
@@ -923,24 +904,9 @@ class Codeweber_Forms_List_Table extends WP_List_Table
                 <?php endif; ?>
             </select>
             
-            <select name="utm_key" style="margin-left: 5px;">
-                <option value=""><?php _e('All UTM parameters', 'codeweber'); ?></option>
-                <option value="utm_source" <?php selected($utm_key, 'utm_source'); ?>><?php _e('UTM Source', 'codeweber'); ?></option>
-                <option value="utm_medium" <?php selected($utm_key, 'utm_medium'); ?>><?php _e('UTM Medium', 'codeweber'); ?></option>
-                <option value="utm_campaign" <?php selected($utm_key, 'utm_campaign'); ?>><?php _e('UTM Campaign', 'codeweber'); ?></option>
-                <option value="utm_term" <?php selected($utm_key, 'utm_term'); ?>><?php _e('UTM Term', 'codeweber'); ?></option>
-                <option value="utm_content" <?php selected($utm_key, 'utm_content'); ?>><?php _e('UTM Content', 'codeweber'); ?></option>
-            </select>
-            
-            <?php if ($utm_key): ?>
-                <input type="text" name="utm_value" value="<?php echo esc_attr($utm_value); ?>" placeholder="<?php esc_attr_e('UTM value', 'codeweber'); ?>" style="margin-left: 5px; width: 150px;" />
-            <?php else: ?>
-                <input type="text" name="utm_value" value="" placeholder="<?php esc_attr_e('UTM value', 'codeweber'); ?>" style="margin-left: 5px; width: 150px; display: none;" />
-            <?php endif; ?>
-            
             <?php submit_button(__('Filter', 'codeweber'), 'secondary', 'filter_action', false); ?>
             
-            <?php if ($status || $form_id || $form_type || $utm_key || $utm_value): ?>
+            <?php if ($status || $form_id || $form_type): ?>
                 <a href="<?php echo admin_url('admin.php?page=codeweber'); ?>" class="button">
                     <?php _e('Reset', 'codeweber'); ?>
                 </a>

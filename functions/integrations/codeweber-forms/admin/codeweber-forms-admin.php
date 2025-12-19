@@ -169,13 +169,6 @@ class CodeweberFormsAdmin {
                 if (isset($_GET['form_type'])) {
                     echo '<input type="hidden" name="form_type" value="' . esc_attr($_GET['form_type']) . '">';
                 }
-                // НОВОЕ: Preserve UTM filters
-                if (isset($_GET['utm_key'])) {
-                    echo '<input type="hidden" name="utm_key" value="' . esc_attr($_GET['utm_key']) . '">';
-                }
-                if (isset($_GET['utm_value'])) {
-                    echo '<input type="hidden" name="utm_value" value="' . esc_attr($_GET['utm_value']) . '">';
-                }
                 
                 $list_table->search_box(__('Search', 'codeweber'), 'submission');
                 $list_table->display();
@@ -204,31 +197,6 @@ class CodeweberFormsAdmin {
                     $full.show();
                     $link.text('<?php echo esc_js(__('Скрыть', 'codeweber')); ?>');
                 }
-            });
-            
-            // НОВОЕ: Показывать/скрывать поле ввода значения UTM в зависимости от выбранного параметра
-            var $utmKeySelect = $('select[name="utm_key"]');
-            var $utmValueInput = $('input[name="utm_value"]');
-            
-            function toggleUtmValueInput() {
-                if ($utmKeySelect.val()) {
-                    if ($utmValueInput.length === 0) {
-                        // Создаем поле ввода, если его нет
-                        $utmKeySelect.after('<input type="text" name="utm_value" value="<?php echo esc_js(isset($_GET['utm_value']) ? $_GET['utm_value'] : ''); ?>" placeholder="<?php esc_attr_e('UTM value', 'codeweber'); ?>" style="margin-left: 5px; width: 150px;" />');
-                        $utmValueInput = $('input[name="utm_value"]');
-                    }
-                    $utmValueInput.show();
-                } else {
-                    $utmValueInput.hide();
-                }
-            }
-            
-            // Инициализация при загрузке
-            toggleUtmValueInput();
-            
-            // Обработка изменения выбранного UTM параметра
-            $utmKeySelect.on('change', function() {
-                toggleUtmValueInput();
             });
         });
         </script>

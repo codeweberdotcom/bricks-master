@@ -909,42 +909,26 @@
                 // Обновляем ссылку на submitBtn для дальнейшего использования
                 submitBtn = tempButton;
             } else {
-                // Показываем спиннер (того же размера что и текст)
+                // Добавляем иконку uil-send перед текстом при отправке
                 // Работает для всех форм: testimonial, newsletter subscription, и других codeweber форм
-                const icon = submitBtn.querySelector('i');
                 const span = submitBtn.querySelector('span');
+                const buttonText = span ? (span.textContent || span.innerText || loadingText) : (submitBtn.textContent || submitBtn.innerText || loadingText);
                 
+                // Заменяем содержимое кнопки на иконку + текст через innerHTML
+                // Это гарантирует правильную работу псевдоэлементов Unicons
+                submitBtn.innerHTML = '<i class="uil uil-send fs-13 me-1"></i> <span>' + buttonText + '</span>';
+                
+                // Принудительно применяем стили для иконки (для правильной работы псевдоэлементов)
+                const icon = submitBtn.querySelector('i');
                 if (icon) {
-                    // Сохраняем размер иконки (fs-13 или другой), заменяем только иконку на спиннер
-                    const iconSize = icon.className.match(/fs-\d+/);
-                    const iconSizeClass = iconSize ? iconSize[0] : 'fs-13';
-                    
-                    // Заменяем иконку на спиннер с сохранением размера и добавляем отступ справа
-                    icon.className = 'uil uil-spinner-alt uil-spin ' + iconSizeClass;
-                    if (!icon.classList.contains('me-1')) {
-                        icon.classList.add('me-1');
-                    }
-                    
-                    // Удаляем span обертку с текстом, если есть
-                    if (span) {
-                        span.remove();
-                    }
-                    
-                    // Удаляем все текстовые узлы после иконки
-                    let node = icon.nextSibling;
-                    while (node) {
-                        const next = node.nextSibling;
-                        if (node.nodeType === Node.TEXT_NODE || (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN')) {
-                            node.remove();
-                        }
-                        node = next;
-                    }
-                    
-                    // Добавляем новый текстовый узел с текстом загрузки
-                    submitBtn.appendChild(document.createTextNode(loadingText));
-                } else {
-                    // Если структуры нет (старые формы без иконки), создаем с правильным размером
-                    submitBtn.innerHTML = '<i class="uil uil-spinner-alt uil-spin fs-13 me-1"></i>' + loadingText;
+                    // Принудительно пересчитываем стили для применения псевдоэлементов
+                    void icon.offsetHeight; // Trigger reflow
+                    // Убеждаемся, что иконка видима и имеет правильные стили
+                    icon.style.display = 'inline-block';
+                    icon.style.visibility = 'visible';
+                    icon.style.fontFamily = '"Unicons"';
+                    icon.style.fontStyle = 'normal';
+                    icon.style.fontWeight = 'normal';
                 }
             }
             
@@ -1502,9 +1486,135 @@
     }
 
     /**
+     * Initialize file input translations
+     */
+    function initFileInputs() {
+        const fileInputs = document.querySelectorAll('input[type="file"].form-control:not([data-file-initialized])');
+        
+        // Helper function to format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+        
+        
+        fileInputs.forEach(function(input) {
+            // Mark as initialized to prevent double initialization
+            input.setAttribute('data-file-initialized', 'true');
+            
+            const displayInput = document.getElementById(input.id + '-display');
+            const browseButton = document.querySelector('[data-file-input="' + input.id + '"]');
+            const fileListContainer = document.getElementById(input.id + '-list');
+            
+            const noFileText = input.dataset.noFileText || 'Файл не выбран';
+            const isMultiple = input.hasAttribute('multiple');
+            
+            // Helper function to render file list
+            function renderFileList(files) {
+                if (!fileListContainer) return;
+                
+                if (!files || files.length === 0) {
+                    fileListContainer.innerHTML = '';
+                    return;
+                }
+                
+                // For single file (non-multiple), show simple text in input
+                if (files.length === 1 && !isMultiple) {
+                    const file = files[0];
+                    if (displayInput) {
+                        displayInput.value = file.name;
+                        displayInput.classList.remove('text-muted');
+                        displayInput.classList.add('text-success');
+                    }
+                    fileListContainer.innerHTML = '';
+                    return;
+                }
+                
+                // For multiple files, show beautiful list
+                if (isMultiple && files.length > 0) {
+                    // Update input with summary
+                    if (displayInput) {
+                        displayInput.value = files.length + ' файл' + (files.length > 1 ? (files.length < 5 ? 'а' : 'ов') : '') + ' выбрано';
+                        displayInput.classList.remove('text-muted');
+                        displayInput.classList.add('text-success');
+                    }
+                    
+                    // Create list group
+                    let listHTML = '<ul class="list-group list-group-flush">';
+                    Array.from(files).forEach(function(file, index) {
+                        const fileSize = formatFileSize(file.size);
+                        const fileNumber = index + 1;
+                        listHTML += '<li class="list-group-item d-flex align-items-center px-0 py-2">';
+                        listHTML += '<span class="me-2 text-primary fw-bold">' + fileNumber + '.</span>';
+                        listHTML += '<div class="flex-grow-1">';
+                        listHTML += '<span class="fw-semibold small">' + file.name + '</span> <small class="text-muted">' + fileSize + '</small>';
+                        listHTML += '</div>';
+                        listHTML += '</li>';
+                    });
+                    listHTML += '</ul>';
+                    fileListContainer.innerHTML = listHTML;
+                } else {
+                    // Single file in multiple mode - show in list too
+                    const file = files[0];
+                    if (displayInput) {
+                        displayInput.value = file.name;
+                        displayInput.classList.remove('text-muted');
+                        displayInput.classList.add('text-success');
+                    }
+                    const fileSize = formatFileSize(file.size);
+                    let listHTML = '<ul class="list-group list-group-flush">';
+                    listHTML += '<li class="list-group-item d-flex align-items-center px-0 py-2">';
+                    listHTML += '<span class="me-2 text-primary fw-bold">1.</span>';
+                    listHTML += '<div class="flex-grow-1">';
+                    listHTML += '<span class="fw-semibold small">' + file.name + '</span> <small class="text-muted">' + fileSize + '</small>';
+                    listHTML += '</div>';
+                    listHTML += '</li>';
+                    listHTML += '</ul>';
+                    fileListContainer.innerHTML = listHTML;
+                }
+            }
+            
+            // Browse button click handler
+            if (browseButton) {
+                browseButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    input.click();
+                });
+            }
+            
+            // Update display on change
+            input.addEventListener('change', function(e) {
+                const files = e.target.files;
+                renderFileList(files);
+            });
+            
+            // Set initial display
+            if (!input.files || input.files.length === 0) {
+                if (displayInput) {
+                    displayInput.value = '';
+                    displayInput.placeholder = noFileText;
+                    displayInput.classList.remove('text-success');
+                    displayInput.classList.add('text-muted');
+                }
+                if (fileListContainer) {
+                    fileListContainer.innerHTML = '';
+                }
+            } else {
+                renderFileList(input.files);
+            }
+        });
+    }
+
+    /**
      * Initialize all forms
      */
     function initForms() {
+        // Initialize file inputs
+        initFileInputs();
+        
         // Testimonial form (legacy)
         const testimonialForm = document.getElementById('testimonial-form');
         if (testimonialForm) {
@@ -1616,17 +1726,25 @@
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
             initRatingStars(); // Initialize rating stars first
+            initFileInputs(); // Initialize file inputs
             initForms();
             setupUniversalSuccessHandler();
-            // Re-initialize rating stars after forms are initialized
-            setTimeout(initRatingStars, 100);
+            // Re-initialize after forms are initialized
+            setTimeout(function() {
+                initRatingStars();
+                initFileInputs();
+            }, 100);
         });
     } else {
         initRatingStars(); // Initialize rating stars first
+        initFileInputs(); // Initialize file inputs
         initForms();
         setupUniversalSuccessHandler();
-        // Re-initialize rating stars after forms are initialized
-        setTimeout(initRatingStars, 100);
+        // Re-initialize after forms are initialized
+        setTimeout(function() {
+            initRatingStars();
+            initFileInputs();
+        }, 100);
     }
 
     // Reinitialize if form is added dynamically (e.g., modal opened)
@@ -1635,6 +1753,7 @@
         if (e.target.querySelector('.codeweber-form')) {
             setTimeout(function() {
                 initRatingStars(); // Reinitialize rating stars
+                initFileInputs(); // Reinitialize file inputs
                 initForms();
             }, 100);
         }
@@ -1651,6 +1770,7 @@
                     if (form) {
                         setTimeout(function() {
                             initRatingStars(); // Reinitialize rating stars
+                            initFileInputs(); // Reinitialize file inputs
                             initForms();
                         }, 100);
                     }

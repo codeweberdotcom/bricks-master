@@ -405,8 +405,7 @@ class CodeweberFormsRenderer {
                                 class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
                                 data-loading-text="<?php echo esc_attr(__('Sending', 'codeweber')); ?>"
                             >
-                                <i class="uil uil-send fs-13"></i>
-                                <span class="ms-1"><?php echo esc_html($button_text); ?></span>
+                                <span><?php echo esc_html($button_text); ?></span>
                             </button>
                         </div>
                         <?php
@@ -573,7 +572,9 @@ class CodeweberFormsRenderer {
             $field_name = 'email';
         }
         
-        $field_id = 'field-' . $field_name;
+        // Генерируем уникальный ID поля с учетом form_id для избежания конфликтов на странице с несколькими формами
+        $form_id_safe = $form_id ? sanitize_html_class($form_id) : 'default';
+        $field_id = 'field-' . $form_id_safe . '-' . $field_name;
         $required_attr = $is_required ? 'required' : '';
         $required_mark = $is_required ? ' <span class="text-danger">*</span>' : '';
         
@@ -604,23 +605,21 @@ class CodeweberFormsRenderer {
                 case 'select':
                     $options = $field['options'] ?? [];
                     ?>
-                    <div class="form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
+                    <div class="form-select-wrapper mb-4<?php echo $block_class ? ' ' . $block_class : ''; ?>">
                         <select
                             class="form-select<?php echo esc_attr($form_radius_class); ?>"
                             id="<?php echo esc_attr($field_id); ?>"
                             name="<?php echo esc_attr($field_name); ?>"
+                            aria-label="<?php echo esc_attr($field_label ?: __('Select option', 'codeweber')); ?>"
                             <?php echo $required_attr; ?>
                         >
-                            <option value=""><?php echo esc_html($placeholder ?: __('Select...', 'codeweber')); ?></option>
+                            <option value=""><?php echo esc_html($placeholder ?: $field_label ?: __('Select...', 'codeweber')); ?></option>
                             <?php foreach ($options as $option): ?>
-                                <option value="<?php echo esc_attr($option['value'] ?? ''); ?>">
+                                <option value="<?php echo esc_attr($option['value'] ?? ''); ?>" <?php echo ($default_value && $default_value === ($option['value'] ?? '')) ? 'selected' : ''; ?>>
                                     <?php echo esc_html($option['label'] ?? ''); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <label for="<?php echo esc_attr($field_id); ?>">
-                            <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>
-                        </label>
                     </div>
                     <?php
                     break;
@@ -699,20 +698,40 @@ class CodeweberFormsRenderer {
                 case 'file':
                     $accept = $field['accept'] ?? '';
                     $multiple = !empty($field['multiple']);
+                    $no_file_text = __('No file selected', 'codeweber');
+                    $browse_text = __('Browse', 'codeweber');
                     ?>
-                    <div class="form-floating<?php echo $block_class ? ' ' . $block_class : ''; ?>">
-                        <input
-                            type="file"
-                            class="form-control<?php echo esc_attr($form_radius_class); ?>"
-                            id="<?php echo esc_attr($field_id); ?>"
-                            name="<?php echo esc_attr($field_name); ?><?php echo $multiple ? '[]' : ''; ?>"
-                            <?php echo $required_attr; ?>
-                            <?php echo $accept ? 'accept="' . esc_attr($accept) . '"' : ''; ?>
-                            <?php echo $multiple ? 'multiple' : ''; ?>
-                        />
-                        <label for="<?php echo esc_attr($field_id); ?>">
+                    <div<?php echo $block_class ? ' class="' . $block_class . '"' : ''; ?>>
+                        <label for="<?php echo esc_attr($field_id); ?>" class="form-label">
                             <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>
                         </label>
+                        <div class="input-group">
+                            <input
+                                type="file"
+                                class="form-control file-input-hidden<?php echo esc_attr($form_radius_class); ?>"
+                                id="<?php echo esc_attr($field_id); ?>"
+                                name="<?php echo esc_attr($field_name); ?><?php echo $multiple ? '[]' : ''; ?>"
+                                data-no-file-text="<?php echo esc_attr($no_file_text); ?>"
+                                <?php echo $required_attr; ?>
+                                <?php echo $accept ? 'accept="' . esc_attr($accept) . '"' : ''; ?>
+                                <?php echo $multiple ? 'multiple' : ''; ?>
+                            />
+                            <input
+                                type="text"
+                                class="form-control file-input-display<?php echo esc_attr($form_radius_class); ?>"
+                                id="<?php echo esc_attr($field_id); ?>-display"
+                                readonly
+                                placeholder="<?php echo esc_attr($no_file_text); ?>"
+                            />
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary file-browse-button"
+                                data-file-input="<?php echo esc_attr($field_id); ?>"
+                            >
+                                <?php echo esc_html($browse_text); ?>
+                            </button>
+                        </div>
+                        <div class="file-list-container mt-2" id="<?php echo esc_attr($field_id); ?>-list"></div>
                     </div>
                     <?php
                     break;
@@ -731,7 +750,7 @@ class CodeweberFormsRenderer {
                 case 'newsletter':
                     // Поле newsletter рендерится с кнопкой внутри input-group
                     $field_name_newsletter = !empty($field_name) ? $field_name : 'email';
-                    $field_id_newsletter = 'field-' . $field_name_newsletter;
+                    $field_id_newsletter = 'field-' . $form_id_safe . '-' . $field_name_newsletter;
                     $field_label_newsletter = !empty($field_label) ? $field_label : __('Email Address', 'codeweber');
                     $field_placeholder_newsletter = !empty($placeholder) ? $placeholder : $field_label_newsletter;
                     
