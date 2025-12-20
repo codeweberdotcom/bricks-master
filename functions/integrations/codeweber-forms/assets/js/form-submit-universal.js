@@ -1185,6 +1185,8 @@
                     // JavaScript событие: успешная отправка
                     // Универсальный обработчик setupUniversalSuccessHandler() обработает это событие
                     const successEvent = new CustomEvent('codeweberFormSubmitted', {
+                        bubbles: true, // Событие должно всплывать, чтобы обработчик на document мог его поймать
+                        cancelable: true,
                         detail: {
                             formId: config.formId,
                             form: form,
@@ -1193,7 +1195,7 @@
                             apiResponse: responseData
                         }
                     });
-                    // Диспатчим событие на форме и на документе для универсальных обработчиков
+                    // Диспатчим событие на форме (всплывет на document) и также на document напрямую для надежности
                     form.dispatchEvent(successEvent);
                     document.dispatchEvent(successEvent);
                     
@@ -1725,9 +1727,10 @@
                         data: {
                             formId,
                             formType,
-                            pondsInForm: (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') ? FilePond.find(form).length : 'no-FilePond',
-                            pondsInBody: (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') ? FilePond.find(document.body).length : 'no-FilePond',
-                            fileInputs: Array.from(form.querySelectorAll('input[type="file"][data-filepond="true"]')).map(i => ({id:i.id, dataset:i.dataset.fileIds||'', hasInstance:!!i.filepondInstance}))
+                            pondsInForm: (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') ? ((FilePond.find(form) || []).length) : 'no-FilePond',
+                            pondsInBody: (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') ? ((FilePond.find(document.body) || []).length) : 'no-FilePond',
+                            fileInputs: Array.from(form.querySelectorAll('input[type="file"][data-filepond="true"]')).map(i => ({id:i.id, dataset:i.dataset.fileIds||'', hasInstance:!!i.filepondInstance})),
+                            filepondRoots: form.querySelectorAll('.filepond--root').length
                         }
                     })
                 }).catch(()=>{});
@@ -1791,86 +1794,258 @@
             }
             
             // Очистка FilePond после успешной отправки - выполняем с задержкой, чтобы не мешать показу модального окна
+            // Используем флаг, чтобы не вызывать очистку дважды
+            if (form.dataset.filepondCleanupScheduled === 'true') {
+                console.log('[FilePond Cleanup] Cleanup already scheduled, skipping');
+                return;
+            }
+            form.dataset.filepondCleanupScheduled = 'true';
+            
+            console.log('[FilePond Cleanup] ===== CLEANUP SCHEDULED =====');
+            console.log('[FilePond Cleanup] Form ID:', formId, 'Form:', form);
             setTimeout(() => {
+                console.log('[FilePond Cleanup] ===== CLEANUP TIMEOUT FIRED =====');
                 try {
                     // #region agent log
                     fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1795',message:'Universal handler: Starting FilePond cleanup',data:{formId,hasFilePond:typeof FilePond!=='undefined',hasFind:typeof FilePond!=='undefined'&&typeof FilePond.find==='function'},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
                     // #endregion
                     
-                    // Переинициализация FilePond: находим инстансы через FilePond.find() и уничтожаем их
+                    // Очистка FilePond: удаляем только файлы, но оставляем сам FilePond инстанс
+                    console.log('[FilePond Cleanup] ===== START CLEANUP =====');
+                    console.log('[FilePond Cleanup] Form ID:', formId);
+                    console.log('[FilePond Cleanup] FilePond available:', typeof FilePond !== 'undefined');
+                    console.log('[FilePond Cleanup] FilePond.find available:', typeof FilePond !== 'undefined' && typeof FilePond.find === 'function');
+                    
+                    let filesRemovedCount = 0;
+                    
+                    // Способ 1: Ищем через оригинальный input по ID (FilePond создает root с тем же ID)
+                    const filepondRoots = form.querySelectorAll('.filepond--root');
+                    console.log('[FilePond Cleanup] Found .filepond--root elements:', filepondRoots.length);
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1805',message:'Universal handler: Found FilePond roots',data:{rootsCount:filepondRoots.length},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                    // #endregion
+                    
+                    // Пробуем найти инстансы через FilePond.find() по каждому root элементу
                     if (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') {
-                        // Пробуем найти инстансы в форме и во всем документе
-                        const pondsInForm = FilePond.find(form);
-                        const pondsInBody = FilePond.find(document.body);
-                        // #region agent log
-                        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1802',message:'Universal handler: FilePond instances found',data:{countInForm:pondsInForm.length,countInBody:pondsInBody.length,filepondRootsInForm:form.querySelectorAll('.filepond--root').length,filepondRootsInBody:document.querySelectorAll('.filepond--root').length},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                        // #endregion
-                        // Используем инстансы из body, если в форме не найдено
-                        const ponds = pondsInForm.length > 0 ? pondsInForm : pondsInBody;
-                        ponds.forEach((pond, index) => {
+                        filepondRoots.forEach((root, rootIndex) => {
+                            console.log('[FilePond Cleanup] Processing root', rootIndex, 'ID:', root.id);
                             try {
-                                // #region agent log
-                                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1807',message:'Universal handler: Destroying pond',data:{pondIndex:index,hasDestroy:typeof pond.destroy==='function'},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                                // #endregion
-                                if (typeof pond.destroy === 'function') {
-                                    pond.destroy();
-                                    // #region agent log
-                                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1811',message:'Universal handler: Pond destroyed',data:{pondIndex:index},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                                    // #endregion
+                                // Пробуем разные способы поиска инстанса
+                                let pond = null;
+                                
+                                // Способ 1: FilePond.find(root)
+                                const findResult = FilePond.find(root);
+                                console.log('[FilePond Cleanup] FilePond.find(root) returned:', findResult, 'type:', typeof findResult, 'isArray:', Array.isArray(findResult));
+                                
+                                if (Array.isArray(findResult) && findResult.length > 0) {
+                                    pond = findResult[0]; // Берем первый инстанс
+                                } else if (findResult && typeof findResult.getFiles === 'function') {
+                                    pond = findResult; // Это уже инстанс
+                                }
+                                
+                                // Способ 2: FilePond.find() по ID (если root.id совпадает с input.id)
+                                if (!pond && root.id) {
+                                    const findById = FilePond.find(document.getElementById(root.id));
+                                    console.log('[FilePond Cleanup] FilePond.find(by ID) returned:', findById);
+                                    if (findById && typeof findById.getFiles === 'function') {
+                                        pond = findById;
+                                    } else if (Array.isArray(findById) && findById.length > 0) {
+                                        pond = findById[0];
+                                    }
+                                }
+                                
+                                // Способ 3: Ищем оригинальный input и берем filepondInstance
+                                if (!pond && root.id) {
+                                    const originalInput = document.getElementById(root.id);
+                                    if (originalInput && originalInput.filepondInstance) {
+                                        pond = originalInput.filepondInstance;
+                                        console.log('[FilePond Cleanup] Found pond via originalInput.filepondInstance');
+                                    }
+                                }
+                                
+                                if (pond) {
+                                    console.log('[FilePond Cleanup] ✓ Found pond for root', rootIndex);
+                                    try {
+                                        // Получаем все файлы
+                                        if (typeof pond.getFiles === 'function') {
+                                            const files = pond.getFiles();
+                                            console.log('[FilePond Cleanup] Pond has', files.length, 'files');
+                                            console.log('[FilePond Cleanup] Files:', files.map(f => ({id: f.id, filename: f.filename, status: f.status})));
+                                            // #region agent log
+                                            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1815',message:'Universal handler: Files found in pond',data:{rootIndex:rootIndex,filesCount:files.length,fileIds:files.map(f=>f.id)},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                                            // #endregion
+                                            
+                                            // Удаляем все файлы
+                                            if (files.length > 0) {
+                                                console.log('[FilePond Cleanup] Attempting to remove', files.length, 'files');
+                                                
+                                                // Сохраняем ID файлов для проверки
+                                                const fileIds = files.map(f => f.id);
+                                                console.log('[FilePond Cleanup] File IDs to remove:', fileIds);
+                                                
+                                                if (typeof pond.removeFiles === 'function') {
+                                                    console.log('[FilePond Cleanup] Calling pond.removeFiles()');
+                                                    // Передаем параметры для правильного удаления
+                                                    pond.removeFiles();
+                                                    filesRemovedCount += files.length;
+                                                    console.log('[FilePond Cleanup] ✓ removeFiles() called successfully');
+                                                    
+                                                    // Принудительно обновляем UI - удаляем DOM элементы файлов
+                                                    setTimeout(() => {
+                                                        const filesAfter = pond.getFiles();
+                                                        console.log('[FilePond Cleanup] Files after removeFiles():', filesAfter.length);
+                                                        
+                                                        // Если файлы все еще есть в FilePond, удаляем их по одному
+                                                        if (filesAfter.length > 0) {
+                                                            console.warn('[FilePond Cleanup] ⚠️ Files still present after removeFiles()! Removing individually...');
+                                                            filesAfter.forEach((file) => {
+                                                                if (typeof pond.removeFile === 'function') {
+                                                                    pond.removeFile(file.id);
+                                                                }
+                                                            });
+                                                        }
+                                                        
+                                                        // Принудительно удаляем DOM элементы файлов из UI
+                                                        const fileItems = root.querySelectorAll('.filepond--item');
+                                                        console.log('[FilePond Cleanup] Found DOM file items:', fileItems.length);
+                                                        fileItems.forEach((item) => {
+                                                            item.remove();
+                                                        });
+                                                        
+                                                        // Обновляем высоту списка
+                                                        const listScroller = root.querySelector('.filepond--list-scroller');
+                                                        if (listScroller) {
+                                                            listScroller.style.transform = 'translate3d(0px, 0px, 0px)';
+                                                        }
+                                                        
+                                                        console.log('[FilePond Cleanup] ✓✓✓ UI cleaned up!');
+                                                    }, 50);
+                                                } else if (typeof pond.removeFile === 'function') {
+                                                    console.log('[FilePond Cleanup] removeFiles() not available, using removeFile() for each file');
+                                                    files.forEach((file, fileIndex) => {
+                                                        console.log('[FilePond Cleanup] Removing file', fileIndex, ':', file.id, file.filename);
+                                                        pond.removeFile(file.id);
+                                                        filesRemovedCount++;
+                                                    });
+                                                    
+                                                    // Принудительно очищаем DOM
+                                                    setTimeout(() => {
+                                                        const fileItems = root.querySelectorAll('.filepond--item');
+                                                        fileItems.forEach((item) => {
+                                                            item.remove();
+                                                        });
+                                                        const listScroller = root.querySelector('.filepond--list-scroller');
+                                                        if (listScroller) {
+                                                            listScroller.style.transform = 'translate3d(0px, 0px, 0px)';
+                                                        }
+                                                    }, 50);
+                                                    
+                                                    console.log('[FilePond Cleanup] ✓ All files removed via removeFile()');
+                                                } else {
+                                                    console.error('[FilePond Cleanup] ✗ Neither removeFiles() nor removeFile() available!');
+                                                    
+                                                    // Если методы недоступны, удаляем DOM элементы напрямую
+                                                    const fileItems = root.querySelectorAll('.filepond--item');
+                                                    fileItems.forEach((item) => {
+                                                        item.remove();
+                                                    });
+                                                }
+                                            } else {
+                                                console.log('[FilePond Cleanup] No files to remove');
+                                            }
+                                        } else {
+                                            console.error('[FilePond Cleanup] ✗ pond.getFiles is not a function!');
+                                        }
+                                    } catch (e) {
+                                        console.error('[FilePond Cleanup] ✗ Error removing files from pond:', e);
+                                        // #region agent log
+                                        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1825',message:'Universal handler: Error removing files from pond',data:{rootIndex:rootIndex,error:e.message,errorStack:e.stack},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
+                                        // #endregion
+                                    }
+                                } else {
+                                    console.warn('[FilePond Cleanup] ⚠️ Could not find FilePond instance for root', rootIndex);
                                 }
                             } catch (e) {
-                                console.warn('[Form Submit] Failed to destroy FilePond instance', e);
-                                // #region agent log
-                                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1816',message:'Universal handler: Error destroying pond',data:{pondIndex:index,error:e.message},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                                // #endregion
+                                console.error('[FilePond Cleanup] ✗ Error finding FilePond instances for root', rootIndex, ':', e);
                             }
                         });
                     }
                     
-                    // Также ищем оригинальные input'ы и очищаем их атрибуты
+                    // Способ 2: Ищем через input.filepondInstance (FilePond может скрыть input, ищем через data-атрибут)
+                    // FilePond скрывает оригинальный input, но может оставить его в DOM
                     const filepondInputs = form.querySelectorAll('input[type="file"][data-filepond="true"]');
-                    // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1823',message:'Universal handler: Cleaning file inputs',data:{count:filepondInputs.length},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                    // #endregion
-                    filepondInputs.forEach((input) => {
-                        input.removeAttribute('data-filepond-initialized');
-                        input.dataset.fileIds = '';
-                        input.value = '';
+                    console.log('[FilePond Cleanup] Found input[data-filepond="true"]:', filepondInputs.length);
+                    
+                    // Также ищем скрытые input'ы, которые FilePond мог скрыть
+                    const allFileInputs = form.querySelectorAll('input[type="file"]');
+                    console.log('[FilePond Cleanup] Found all input[type="file"]:', allFileInputs.length);
+                    
+                    // Объединяем оба списка
+                    const allInputs = Array.from(new Set([...filepondInputs, ...allFileInputs]));
+                    console.log('[FilePond Cleanup] Total unique inputs to check:', allInputs.length);
+                    
+                    allInputs.forEach((input, inputIndex) => {
+                        console.log('[FilePond Cleanup] Processing input', inputIndex, 'ID:', input.id, 'has filepondInstance:', !!input.filepondInstance, 'data-filepond:', input.dataset.filepond);
                         if (input.filepondInstance) {
-                            input.filepondInstance = null;
+                            try {
+                                const pond = input.filepondInstance;
+                                if (typeof pond.getFiles === 'function') {
+                                    const files = pond.getFiles();
+                                    console.log('[FilePond Cleanup] Input', inputIndex, 'pond has', files.length, 'files');
+                                    if (files.length > 0) {
+                                        if (typeof pond.removeFiles === 'function') {
+                                            console.log('[FilePond Cleanup] Calling removeFiles() on input', inputIndex);
+                                            pond.removeFiles();
+                                            filesRemovedCount += files.length;
+                                            console.log('[FilePond Cleanup] ✓ removeFiles() called on input', inputIndex);
+                                            
+                                            // Проверяем результат
+                                            setTimeout(() => {
+                                                const filesAfter = pond.getFiles();
+                                                console.log('[FilePond Cleanup] Files after removeFiles() on input', inputIndex, ':', filesAfter.length);
+                                            }, 100);
+                                        } else if (typeof pond.removeFile === 'function') {
+                                            console.log('[FilePond Cleanup] Using removeFile() for each file on input', inputIndex);
+                                            files.forEach((file) => {
+                                                pond.removeFile(file.id);
+                                                filesRemovedCount++;
+                                            });
+                                            console.log('[FilePond Cleanup] ✓ All files removed via removeFile() on input', inputIndex);
+                                        } else {
+                                            console.warn('[FilePond Cleanup] ⚠️ Neither removeFiles() nor removeFile() available on input', inputIndex);
+                                        }
+                                    }
+                                }
+                            } catch (e) {
+                                console.error('[FilePond Cleanup] ✗ Error removing files via input', inputIndex, ':', e);
+                            }
                         }
+                        // Очищаем атрибуты
+                        if (input.dataset.fileIds) {
+                            input.dataset.fileIds = '';
+                        }
+                        input.value = '';
                     });
                     
-                    // Удаляем все FilePond root элементы (они могут остаться после destroy)
-                    const filepondRoots = form.querySelectorAll('.filepond--root');
-                    // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1833',message:'Universal handler: Removing root elements',data:{count:filepondRoots.length},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                    // #endregion
-                    filepondRoots.forEach((root) => {
-                        root.remove();
-                    });
+                    console.log('[FilePond Cleanup] Total files removed:', filesRemovedCount);
+                    console.log('[FilePond Cleanup] ===== END CLEANUP =====');
                     
-                    // Удаляем скрытые input'ы с file[] значениями
-                    const filepondDataInputs = form.querySelectorAll('input[type="hidden"][name^="file"]');
+                    // Удаляем скрытые input'ы с file[] значениями (они создаются FilePond)
+                    const filepondDataInputs = form.querySelectorAll('input[type="hidden"][name="file[]"]');
                     filepondDataInputs.forEach((input) => {
-                        if (input.name === 'file[]' || input.closest('.filepond--data')) {
-                            input.remove();
-                        }
+                        input.remove();
                     });
                     
-                    // Удаляем fieldset.filepond--data
+                    // Удаляем fieldset.filepond--data (он создается FilePond для скрытых input'ов)
                     const filepondDataFieldsets = form.querySelectorAll('fieldset.filepond--data');
                     filepondDataFieldsets.forEach((fieldset) => {
                         fieldset.remove();
                     });
                     
-                    // Переинициализируем FilePond
-                    // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1848',message:'Universal handler: Calling initFilePond',data:{hasInitFilePond:typeof window.initFilePond==='function'},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                    // #endregion
-                    if (typeof window.initFilePond === 'function') {
-                        window.initFilePond();
-                    }
+                    // НЕ удаляем .filepond--root элементы - они нужны для работы FilePond
+                    // НЕ удаляем скрытые input'ы - они могут быть нужны FilePond
+                    // НЕ удаляем fieldset.filepond--data - они могут быть нужны FilePond
+                    // НЕ переинициализируем FilePond - он уже работает, просто очищен от файлов
                 } catch (e) {
                     console.error('[Form Submit] Error cleaning up FilePond', e);
                     // #region agent log
