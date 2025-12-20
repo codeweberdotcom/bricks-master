@@ -825,6 +825,133 @@ jQuery(document).ready(function($) {
    {
       global $wpdb;
 
+      // Handle subscribe another email form submission
+      if (isset($_POST['action']) && $_POST['action'] === 'subscribe_another_email' && current_user_can('manage_options')) {
+         if (!check_admin_referer('newsletter_subscribe_another', 'newsletter_subscribe_another_nonce')) {
+            wp_die(__('Security check failed', 'codeweber'));
+         }
+
+         $new_email = sanitize_email($_POST['new_subscriber_email'] ?? '');
+         if (empty($new_email) || !is_email($new_email)) {
+            add_settings_error(
+               'newsletter_messages',
+               'newsletter_message',
+               __('Invalid email address', 'codeweber'),
+               'error'
+            );
+         } else {
+            $first_name = sanitize_text_field($_POST['new_subscriber_first_name'] ?? '');
+            $last_name = sanitize_text_field($_POST['new_subscriber_last_name'] ?? '');
+            $phone = sanitize_text_field($_POST['new_subscriber_phone'] ?? '');
+            
+            // Check if subscription already exists
+            $existing = $wpdb->get_row($wpdb->prepare(
+               "SELECT * FROM {$this->table_name} WHERE email = %s",
+               $new_email
+            ));
+
+            $now = current_time('mysql');
+            $actor_user_id = get_current_user_id();
+            $actor = get_user_by('id', $actor_user_id);
+            $actor_email = $actor ? $actor->user_email : '';
+
+            if ($existing) {
+               // Update existing subscription
+               $events = [];
+               if (!empty($existing->events_history)) {
+                  $decoded = json_decode($existing->events_history, true);
+                  if (is_array($decoded)) {
+                     $events = $decoded;
+                  }
+               }
+
+               // Add new subscription event
+               $events[] = [
+                  'type'         => 'confirmed',
+                  'date'         => $now,
+                  'source'       => 'admin',
+                  'form_id'      => 'admin_subscribe',
+                  'form_name'    => __('Admin Subscription', 'codeweber'),
+                  'page_url'     => admin_url('admin.php?page=newsletter-subscriptions&action=view&email=' . urlencode($email)),
+                  'actor_user_id'=> $actor_user_id,
+                  'ip_address'   => $_SERVER['REMOTE_ADDR'] ?? '',
+               ];
+
+               // Получаем user_id авторизованного пользователя
+               $user_id = 0;
+               if (is_user_logged_in()) {
+                  $user_id = get_current_user_id();
+               }
+               
+               $update_data = [
+                  'first_name'     => $first_name,
+                  'last_name'      => $last_name,
+                  'phone'           => $phone,
+                  'user_id'         => $user_id,
+                  'status'          => 'confirmed',
+                  'confirmed_at'    => $now,
+                  'unsubscribed_at' => null,
+                  'updated_at'      => $now,
+                  'events_history'  => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
+               ];
+
+               if (empty($existing->ip_address)) {
+                  $update_data['ip_address'] = $_SERVER['REMOTE_ADDR'] ?? '';
+               }
+               if (empty($existing->user_agent)) {
+                  $update_data['user_agent'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
+               }
+
+               $result = $wpdb->update($this->table_name, $update_data, ['email' => $new_email]);
+
+               if ($result !== false) {
+                  $redirect_url = admin_url('admin.php?page=newsletter-subscriptions&action=view&email=' . urlencode($new_email) . '&subscribed=1');
+                  wp_safe_redirect($redirect_url);
+                  exit;
+               }
+            } else {
+               // Create new subscription
+               $unsubscribe_token = wp_hash($new_email . 'unsubscribe_salt' . time() . wp_rand());
+               
+               $events = [[
+                  'type'         => 'confirmed',
+                  'date'         => $now,
+                  'source'       => 'admin',
+                  'form_id'      => 'admin_subscribe',
+                  'form_name'    => __('Admin Subscription', 'codeweber'),
+                  'page_url'     => admin_url('admin.php?page=newsletter-subscriptions&action=view&email=' . urlencode($email)),
+                  'actor_user_id'=> $actor_user_id,
+                  'ip_address'   => $_SERVER['REMOTE_ADDR'] ?? '',
+               ]];
+
+               $insert_data = [
+                  'email'           => $new_email,
+                  'first_name'      => $first_name,
+                  'last_name'       => $last_name,
+                  'phone'           => $phone,
+                  'ip_address'      => $_SERVER['REMOTE_ADDR'] ?? '',
+                  'user_agent'      => $_SERVER['HTTP_USER_AGENT'] ?? '',
+                  'form_id'         => 'admin_subscribe',
+                  'user_id'          => $actor_user_id,
+                  'status'           => 'confirmed',
+                  'created_at'       => $now,
+                  'confirmed_at'     => $now,
+                  'updated_at'       => $now,
+                  'unsubscribe_token'=> $unsubscribe_token,
+                  'events_history'   => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
+               ];
+
+               $result = $wpdb->insert($this->table_name, $insert_data);
+
+               if ($result) {
+                  $redirect_url = admin_url('admin.php?page=newsletter-subscriptions&action=view&email=' . urlencode($new_email) . '&subscribed=1');
+                  wp_safe_redirect($redirect_url);
+                  exit;
+               }
+            }
+         }
+      }
+
       $subscription = $wpdb->get_row($wpdb->prepare(
          "SELECT * FROM {$this->table_name} WHERE email = %s LIMIT 1",
          $email
@@ -854,6 +981,13 @@ jQuery(document).ready(function($) {
                error_log('First event form_name: ' . var_export($events[0]['form_name'] ?? 'NOT SET', true));
             }
          }
+      }
+
+      // Show success message if subscription was created
+      if (isset($_GET['subscribed']) && $_GET['subscribed'] === '1') {
+         echo '<div class="notice notice-success is-dismissible"><p>' . 
+              esc_html(__('Email successfully subscribed to newsletter', 'codeweber')) . 
+              '</p></div>';
       }
 
       ?>
@@ -894,6 +1028,25 @@ jQuery(document).ready(function($) {
                </tr>
                <?php endif; ?>
                <tr>
+                  <th><?php _e('User', 'codeweber'); ?></th>
+                  <td>
+                     <?php 
+                     // Показываем пользователя, который отправил форму (по user_id), а не по email подписки
+                     $user = null;
+                     if (!empty($subscription->user_id) && (int) $subscription->user_id > 0) {
+                        $user = get_user_by('id', (int) $subscription->user_id);
+                     }
+                     
+                     if ($user) {
+                        $user_profile_url = admin_url('user-edit.php?user_id=' . $user->ID);
+                        echo '<a href="' . esc_url($user_profile_url) . '" target="_blank">' . esc_html($user->display_name) . ' (' . esc_html($user->user_email) . ')</a>';
+                     } else {
+                        echo '<span class="description">' . __('No user account', 'codeweber') . '</span>';
+                     }
+                     ?>
+                  </td>
+               </tr>
+               <tr>
                   <th><?php _e('Subscription Form', 'codeweber'); ?></th>
                   <td>
                      <span title="<?php echo esc_attr($subscription->form_id); ?>">
@@ -927,6 +1080,55 @@ jQuery(document).ready(function($) {
                <?php endif; ?>
             </tbody>
          </table>
+
+         <?php if (current_user_can('manage_options')): ?>
+         <h2 style="margin-top: 30px;"><?php _e('Subscribe Another Email', 'codeweber'); ?></h2>
+         <p class="description">
+            <?php _e('You can subscribe another email address to the newsletter. The subscription will be created with you as the author.', 'codeweber'); ?>
+         </p>
+         <form method="post" action="" style="max-width: 600px;">
+            <?php wp_nonce_field('newsletter_subscribe_another', 'newsletter_subscribe_another_nonce'); ?>
+            <input type="hidden" name="action" value="subscribe_another_email">
+            <table class="form-table">
+               <tr>
+                  <th scope="row">
+                     <label for="new_subscriber_email"><?php _e('Email', 'codeweber'); ?></label>
+                  </th>
+                  <td>
+                     <input type="email" name="new_subscriber_email" id="new_subscriber_email" class="regular-text" required>
+                     <p class="description"><?php _e('Enter the email address to subscribe', 'codeweber'); ?></p>
+                  </td>
+               </tr>
+               <tr>
+                  <th scope="row">
+                     <label for="new_subscriber_first_name"><?php _e('First Name', 'codeweber'); ?></label>
+                  </th>
+                  <td>
+                     <input type="text" name="new_subscriber_first_name" id="new_subscriber_first_name" class="regular-text">
+                  </td>
+               </tr>
+               <tr>
+                  <th scope="row">
+                     <label for="new_subscriber_last_name"><?php _e('Last Name', 'codeweber'); ?></label>
+                  </th>
+                  <td>
+                     <input type="text" name="new_subscriber_last_name" id="new_subscriber_last_name" class="regular-text">
+                  </td>
+               </tr>
+               <tr>
+                  <th scope="row">
+                     <label for="new_subscriber_phone"><?php _e('Phone', 'codeweber'); ?></label>
+                  </th>
+                  <td>
+                     <input type="tel" name="new_subscriber_phone" id="new_subscriber_phone" class="regular-text">
+                  </td>
+               </tr>
+            </table>
+            <p class="submit">
+               <button type="submit" class="button button-primary"><?php _e('Subscribe', 'codeweber'); ?></button>
+            </p>
+         </form>
+         <?php endif; ?>
 
          <h2 style="margin-top: 30px;"><?php _e('Subscription / Unsubscribe History', 'codeweber'); ?></h2>
          <p class="description">

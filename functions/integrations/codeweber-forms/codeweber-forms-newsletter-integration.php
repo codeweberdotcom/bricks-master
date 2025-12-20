@@ -207,6 +207,12 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
             
             $events[] = $event;
             
+            // Получаем user_id авторизованного пользователя при реактивации
+            $user_id = 0;
+            if (is_user_logged_in()) {
+                $user_id = get_current_user_id();
+            }
+            
             // Реактивируем подписку
             // ИСПРАВЛЕНО: обновляем form_id и ip_address на новые из запроса при реактивации
             $updated = $wpdb->update(
@@ -215,6 +221,7 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                     'form_id'          => $normalized_form_id, // ИСПРАВЛЕНО: обновляем на новый form_id
                     'ip_address'       => sanitize_text_field($ip_address), // ИСПРАВЛЕНО: обновляем IP на новый
                     'user_agent'       => sanitize_textarea_field($user_agent), // ИСПРАВЛЕНО: обновляем user_agent на новый
+                    'user_id'          => $user_id, // Обновляем user_id авторизованного пользователя
                     'status'            => 'confirmed',
                     'confirmed_at'      => $now,
                     'unsubscribed_at'   => null,
@@ -223,7 +230,7 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                     'events_history'    => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
                 ],
                 ['id' => $subscription->id],
-                ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'],
+                ['%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s'],
                 ['%d']
             );
             
@@ -344,6 +351,12 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
         }
     }
 
+    // Получаем user_id авторизованного пользователя, который отправил форму
+    $user_id = 0;
+    if (is_user_logged_in()) {
+        $user_id = get_current_user_id();
+    }
+    
     // Вставляем подписку в таблицу
     // form_id храним без префиксов, только реальный ID/ключ формы:
     // - для встроенных форм: newsletter, testimonial и т.д.
@@ -356,6 +369,7 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
         'ip_address' => sanitize_text_field($ip_address),
         'user_agent' => sanitize_textarea_field($user_agent),
         'form_id' => $normalized_form_id,
+        'user_id' => $user_id,
         'status' => 'confirmed',
         'created_at' => $now,
         'confirmed_at' => $now,

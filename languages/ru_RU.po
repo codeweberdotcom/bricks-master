@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-12-20 10:01+0000\n"
+"PO-Revision-Date: 2025-12-20 19:32+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -7669,7 +7669,7 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:29
 msgid "Submission"
-msgstr ""
+msgstr "Отправка"
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:46
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:718
@@ -8789,7 +8789,23 @@ msgstr "Загрузить Светлый Логотип"
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:379
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:571
 msgid "Uploaded Files"
-msgstr ""
+msgstr "Загруженные файлы"
+
+#: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:520
+msgid "Attached Form Files"
+msgstr "Прикрепленные к формам файлы"
+
+#: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:525
+msgid "File Name"
+msgstr "Название файла"
+
+#: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:545
+msgid "File Size"
+msgstr "Размер файла"
+
+#: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:552
+msgid "File Type"
+msgstr "Тип файла"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:764
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1061
@@ -9259,7 +9275,7 @@ msgstr "Показать Сотрудника"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:528
 msgid "View Submission"
-msgstr ""
+msgstr "Просмотр отправки"
 
 #: functions/cpt/cpt-testimonials.php:18
 msgid "View Testimonial"
@@ -10043,7 +10059,7 @@ msgstr "— Выберите автора —"
 #: functions/cpt/cpt-vacancies.php:287
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:382
 msgid "— Select Form —"
-msgstr ""
+msgstr "— Выбрать форму —"
 
 #: functions/admin/admin_privacy.php:38
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:432

@@ -83,6 +83,7 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
         }
         
         $export_items = [];
+        $all_attached_files = []; // Собираем все файлы для отдельного раздела
         
         foreach ($submissions as $submission) {
             // Парсим JSON данные
@@ -359,26 +360,97 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
                 }
             }
             
-            // Файлы (если есть)
+            // Файлы (если есть) - собираем все файлы из files_data
+            $all_files_list = [];
             if (!empty($submission->files_data)) {
                 $files_data = json_decode($submission->files_data, true);
                 if (is_array($files_data) && !empty($files_data)) {
-                    $files_list = [];
-                    foreach ($files_data as $field_name => $files) {
-                        if (is_array($files)) {
-                            foreach ($files as $file) {
-                                if (isset($file['name'])) {
-                                    $files_list[] = $file['name'];
+                    // Поддержка двух структур: простой массив или объект с ключами по имени поля
+                    $files_to_process = [];
+                    
+                    // Если это простой массив файлов (каждый элемент - объект файла)
+                    if (isset($files_data[0]) && is_array($files_data[0]) && isset($files_data[0]['file_id'])) {
+                        $files_to_process = $files_data;
+                    }
+                    // Если это объект с ключами по имени поля
+                    else {
+                        foreach ($files_data as $field_key => $field_files) {
+                            if (is_array($field_files)) {
+                                // Если это массив файлов
+                                if (isset($field_files[0]) && is_array($field_files[0])) {
+                                    $files_to_process = array_merge($files_to_process, $field_files);
+                                }
+                                // Если это один файл
+                                elseif (isset($field_files['file_id'])) {
+                                    $files_to_process[] = $field_files;
                                 }
                             }
                         }
                     }
                     
-                    if (!empty($files_list)) {
-                        $data[] = [
-                            'name' => __('Uploaded Files', 'codeweber'),
-                            'value' => implode(', ', $files_list)
-                        ];
+                    // Формируем список файлов с ссылками
+                    foreach ($files_to_process as $file) {
+                        if (isset($file['file_name']) && isset($file['file_url'])) {
+                            $file_name = $file['file_name'];
+                            $file_url = $file['file_url'];
+                            
+                            $all_files_list[] = sprintf(
+                                '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                                esc_url($file_url),
+                                esc_html($file_name)
+                            );
+                        } elseif (isset($file['file_name'])) {
+                            $all_files_list[] = esc_html($file['file_name']);
+                        }
+                    }
+                }
+            }
+            
+            // Добавляем строку "Файлы" в раздел формы, если есть файлы
+            if (!empty($all_files_list)) {
+                $data[] = [
+                    'name' => __('Files', 'codeweber'),
+                    'value' => implode('; ', $all_files_list)
+                ];
+                
+                // Сохраняем файлы для отдельного раздела
+                if (!empty($submission->files_data)) {
+                    $files_data = json_decode($submission->files_data, true);
+                    if (is_array($files_data) && !empty($files_data)) {
+                        // Поддержка двух структур: простой массив или объект с ключами по имени поля
+                        $files_to_process = [];
+                        
+                        // Если это простой массив файлов (каждый элемент - объект файла)
+                        if (isset($files_data[0]) && is_array($files_data[0]) && isset($files_data[0]['file_id'])) {
+                            $files_to_process = $files_data;
+                        }
+                        // Если это объект с ключами по имени поля
+                        else {
+                            foreach ($files_data as $field_key => $field_files) {
+                                if (is_array($field_files)) {
+                                    // Если это массив файлов
+                                    if (isset($field_files[0]) && is_array($field_files[0])) {
+                                        $files_to_process = array_merge($files_to_process, $field_files);
+                                    }
+                                    // Если это один файл
+                                    elseif (isset($field_files['file_id'])) {
+                                        $files_to_process[] = $field_files;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Добавляем информацию о форме к каждому файлу
+                        foreach ($files_to_process as $file) {
+                            if (isset($file['file_name']) && isset($file['file_url'])) {
+                                $file_info = $file;
+                                $file_info['form_name'] = !empty($submission->form_id) ? get_the_title($submission->form_id) : '';
+                                $file_info['form_id'] = $submission->form_id;
+                                $file_info['submission_id'] = $submission->id;
+                                $file_info['submission_date'] = $submission->created_at;
+                                $all_attached_files[] = $file_info;
+                            }
+                        }
                     }
                 }
             }
@@ -425,6 +497,97 @@ class Codeweber_Forms_Data_Provider implements Personal_Data_Provider_Interface 
                 'item_id' => 'codeweber-forms-submission-' . $submission->id,
                 'data' => $data,
             ];
+        }
+        
+        // Добавляем отдельный раздел "Прикрепленные к формам файлы", если есть файлы
+        if (!empty($all_attached_files)) {
+            $files_group_data = [];
+            
+            foreach ($all_attached_files as $file) {
+                $file_item = [];
+                
+                // Название файла со ссылкой
+                if (isset($file['file_url'])) {
+                    $file_name_with_link = sprintf(
+                        '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                        esc_url($file['file_url']),
+                        esc_html($file['file_name'])
+                    );
+                } else {
+                    $file_name_with_link = esc_html($file['file_name']);
+                }
+                
+                $file_item[] = [
+                    'name' => __('File Name', 'codeweber'),
+                    'value' => $file_name_with_link
+                ];
+                
+                // Название формы
+                if (!empty($file['form_name'])) {
+                    $form_name_display = $file['form_name'];
+                    if (!empty($file['form_id'])) {
+                        $form_edit_url = admin_url('post.php?post=' . $file['form_id'] . '&action=edit');
+                        $form_name_display = sprintf(
+                            '<a href="%s" target="_blank" rel="noopener noreferrer">%s (ID: %s)</a>',
+                            esc_url($form_edit_url),
+                            esc_html($file['form_name']),
+                            esc_html($file['form_id'])
+                        );
+                    }
+                    
+                    $file_item[] = [
+                        'name' => __('Form Name', 'codeweber'),
+                        'value' => $form_name_display
+                    ];
+                }
+                
+                // Размер файла
+                if (isset($file['file_size'])) {
+                    $file_size_formatted = size_format($file['file_size'], 2);
+                    $file_item[] = [
+                        'name' => __('File Size', 'codeweber'),
+                        'value' => $file_size_formatted
+                    ];
+                }
+                
+                // Тип файла
+                if (isset($file['file_type'])) {
+                    $file_item[] = [
+                        'name' => __('File Type', 'codeweber'),
+                        'value' => esc_html($file['file_type'])
+                    ];
+                }
+                
+                // Дата отправки формы
+                if (!empty($file['submission_date'])) {
+                    $file_item[] = [
+                        'name' => __('Submission Date', 'codeweber'),
+                        'value' => date('d.m.Y H:i:s', strtotime($file['submission_date']))
+                    ];
+                }
+                
+                // Ссылка на отправку формы
+                if (!empty($file['submission_id'])) {
+                    $submission_view_url = admin_url('admin.php?page=codeweber&action=view&id=' . $file['submission_id']);
+                    $submission_link = sprintf(
+                        '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                        esc_url($submission_view_url),
+                        esc_html(__('View Submission', 'codeweber'))
+                    );
+                    
+                    $file_item[] = [
+                        'name' => __('Submission', 'codeweber'),
+                        'value' => $submission_link
+                    ];
+                }
+                
+                $export_items[] = [
+                    'group_id' => 'codeweber-forms-attached-files',
+                    'group_label' => __('Attached Form Files', 'codeweber'),
+                    'item_id' => 'attached-file-' . (isset($file['file_id']) ? $file['file_id'] : uniqid()),
+                    'data' => $file_item,
+                ];
+            }
         }
         
         return [

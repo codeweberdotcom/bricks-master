@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 class NewsletterSubscriptionDatabase
 {
    private $table_name;
-   private $version = '1.0.4';
+   private $version = '1.0.5';
 
    public function __construct()
    {
@@ -24,7 +24,9 @@ class NewsletterSubscriptionDatabase
    {
       global $wpdb;
 
-      if (get_option('newsletter_subscription_version') !== $this->version) {
+      $current_version = get_option('newsletter_subscription_version', '0');
+      
+      if (version_compare($current_version, $this->version, '<')) {
          $charset_collate = $wpdb->get_charset_collate();
 
          $sql = "CREATE TABLE {$this->table_name} (
@@ -36,6 +38,7 @@ class NewsletterSubscriptionDatabase
                 ip_address VARCHAR(45) DEFAULT '',
                 user_agent TEXT,
                 form_id VARCHAR(50) DEFAULT '',
+                user_id BIGINT(20) UNSIGNED DEFAULT 0,
                 status ENUM('pending', 'confirmed', 'unsubscribed', 'trash') DEFAULT 'confirmed',
                 created_at DATETIME DEFAULT '0000-00-00 00:00:00',
                 confirmed_at DATETIME DEFAULT NULL,
@@ -47,12 +50,28 @@ class NewsletterSubscriptionDatabase
                 UNIQUE KEY email (email),
                 KEY status (status),
                 KEY form_id (form_id),
+                KEY user_id (user_id),
                 KEY unsubscribed_at (unsubscribed_at),
                 KEY unsubscribe_token (unsubscribe_token)
             ) $charset_collate;";
 
          require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
          dbDelta($sql);
+
+         // Migrate: add user_id column if it doesn't exist
+         if (version_compare($current_version, '1.0.5', '<')) {
+            $column_exists = $wpdb->get_results(
+               "SHOW COLUMNS FROM {$this->table_name} LIKE 'user_id'"
+            );
+            
+            if (empty($column_exists)) {
+               $wpdb->query(
+                  "ALTER TABLE {$this->table_name} 
+                   ADD COLUMN user_id BIGINT(20) UNSIGNED DEFAULT 0 AFTER form_id,
+                   ADD KEY user_id (user_id)"
+               );
+            }
+         }
 
          update_option('newsletter_subscription_version', $this->version);
       }
