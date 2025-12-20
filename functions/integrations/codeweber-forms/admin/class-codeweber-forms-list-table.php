@@ -40,10 +40,11 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $columns = array(
             'cb' => '<input type="checkbox" />',
             'id' => __('ID', 'codeweber'),
-            'form' => __('Форма', 'codeweber'),
-            'form_type' => __('Тип формы', 'codeweber'),
+            'form' => __('Form', 'codeweber'),
+            'form_type' => __('Form Type', 'codeweber'),
             'form_name' => __('Form name', 'codeweber'),
             'data' => __('Submission Data', 'codeweber'),
+            'files' => __('Files', 'codeweber'),
             'status' => __('Status', 'codeweber'),
             'email_admin' => __('Email Admin', 'codeweber'),
             'email_user' => __('Email User', 'codeweber'),
@@ -91,51 +92,120 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     public function process_bulk_action()
     {
-        // WP_List_Table bulk forms чаще всего используют method="get", поэтому берём данные из $_REQUEST
+        // WP_List_Table bulk forms используют method="post", поэтому берём данные из $_POST
+        // Но WordPress также может передавать через $_REQUEST
         if (!isset($_REQUEST['submission']) || !is_array($_REQUEST['submission'])) {
             return;
         }
 
-        $action = $this->current_action();
-        if (!$action) {
+        // Получаем action из action или action2 (верхний или нижний dropdown)
+        $action = null;
+        if (isset($_POST['action2']) && $_POST['action2'] !== '-1') {
+            $action = sanitize_text_field($_POST['action2']);
+        } elseif (isset($_POST['action']) && $_POST['action'] !== '-1') {
+            $action = sanitize_text_field($_POST['action']);
+        } else {
+            $action = $this->current_action();
+        }
+
+        if (!$action || $action === '-1') {
             return;
         }
 
+        // Проверяем nonce - используем правильный action для bulk операций
         check_admin_referer('bulk-' . $this->_args['plural']);
 
         $submission_ids = array_map('intval', $_REQUEST['submission']);
+        $submission_ids = array_filter($submission_ids);
+
+        if (empty($submission_ids)) {
+            return;
+        }
 
         // Debug log for bulk actions
-        error_log('Forms List Table - bulk action: ' . $action . ' ids: ' . print_r($submission_ids, true));
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('Forms List Table - bulk action: ' . $action . ' ids: ' . print_r($submission_ids, true));
+        }
+
+        $updated_count = 0;
 
         switch ($action) {
             case 'mark_read':
                 foreach ($submission_ids as $id) {
-                    $this->db->update_submission($id, array('status' => 'read'));
+                    if ($this->db->update_submission($id, array('status' => 'read')) !== false) {
+                        $updated_count++;
+                    }
                 }
                 break;
             case 'mark_unread':
                 foreach ($submission_ids as $id) {
-                    $this->db->update_submission($id, array('status' => 'new'));
+                    if ($this->db->update_submission($id, array('status' => 'new')) !== false) {
+                        $updated_count++;
+                    }
                 }
                 break;
             case 'archive':
                 foreach ($submission_ids as $id) {
-                    $this->db->update_submission($id, array('status' => 'archived'));
+                    if ($this->db->update_submission($id, array('status' => 'archived')) !== false) {
+                        $updated_count++;
+                    }
                 }
                 break;
             case 'unarchive':
                 foreach ($submission_ids as $id) {
-                    $this->db->update_submission($id, array('status' => 'read'));
+                    if ($this->db->update_submission($id, array('status' => 'read')) !== false) {
+                        $updated_count++;
+                    }
                 }
                 break;
             case 'delete':
                 foreach ($submission_ids as $id) {
                     // soft delete -> trash
-                    $this->db->delete_submission($id);
+                    if ($this->db->delete_submission($id) !== false) {
+                        $updated_count++;
+                    }
                 }
                 break;
+            default:
+                // Неизвестное действие - не делаем редирект
+                return;
         }
+
+        // Строим правильный URL для редиректа
+        $redirect_url = admin_url('admin.php?page=codeweber');
+        
+        // Сохраняем параметры фильтров
+        $preserve_params = ['status', 'form_id', 'form_type', 's', 'paged'];
+        foreach ($preserve_params as $param) {
+            if (isset($_REQUEST[$param]) && !empty($_REQUEST[$param])) {
+                $redirect_url = add_query_arg($param, sanitize_text_field($_REQUEST[$param]), $redirect_url);
+            }
+        }
+
+        // Добавляем сообщение об успехе
+        $action_labels = array(
+            'mark_read' => __('marked as read', 'codeweber'),
+            'mark_unread' => __('marked as unread', 'codeweber'),
+            'archive' => __('archived', 'codeweber'),
+            'unarchive' => __('unarchived', 'codeweber'),
+            'delete' => __('moved to trash', 'codeweber'),
+        );
+        
+        $action_label = isset($action_labels[$action]) ? $action_labels[$action] : __('updated', 'codeweber');
+        $message = sprintf(
+            _n('%d submission %s', '%d submissions %s', $updated_count, 'codeweber'),
+            $updated_count,
+            $action_label
+        );
+
+        // Перенаправляем на правильный URL с информацией о действии
+        $redirect_url = add_query_arg([
+            'bulk_updated' => $updated_count,
+            'bulk_action' => $action
+        ], $redirect_url);
+        
+        wp_safe_redirect($redirect_url);
+        exit;
     }
 
     /**
@@ -208,7 +278,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $statuses = array(
             'all'      => __('All', 'codeweber'),
             'new'      => __('New', 'codeweber'),
-            'read'     => __('Read', 'codeweber'),
+            'read'     => __('Viewed', 'codeweber'),
             'archived' => __('Archived', 'codeweber'),
             'trash'    => __('Trash', 'codeweber'),
         );
@@ -233,6 +303,80 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         }
 
         return $views;
+    }
+
+    /**
+     * Override display_tablenav to ensure form action points to correct URL
+     */
+    protected function display_tablenav($which) {
+        if ('top' === $which) {
+            wp_nonce_field('bulk-' . $this->_args['plural']);
+        }
+        ?>
+        <div class="tablenav <?php echo esc_attr($which); ?>">
+            <?php if ($this->has_items()): ?>
+                <div class="alignleft actions bulkactions">
+                    <?php $this->bulk_actions($which); ?>
+                </div>
+            <?php endif;
+            $this->extra_tablenav($which);
+            $this->pagination($which);
+            ?>
+            <br class="clear" />
+        </div>
+        <?php
+    }
+
+    /**
+     * Extra table navigation
+     */
+    protected function extra_tablenav($which) {
+        if ($which === 'top') {
+            // Фильтр по форме
+            $current_form_id = isset($_GET['form_id']) ? sanitize_text_field($_GET['form_id']) : '';
+            $forms = get_posts([
+                'post_type' => 'codeweber_form',
+                'posts_per_page' => -1,
+                'post_status' => 'publish',
+                'orderby' => 'title',
+                'order' => 'ASC'
+            ]);
+            
+            // Фильтр по типу формы
+            $current_form_type = isset($_GET['form_type']) ? sanitize_text_field($_GET['form_type']) : '';
+            $form_types = [
+                'form' => __('Regular Form', 'codeweber'),
+                'newsletter' => __('Newsletter Subscription', 'codeweber'),
+                'testimonial' => __('Testimonial Form', 'codeweber'),
+                'resume' => __('Resume Form', 'codeweber'),
+                'callback' => __('Callback Request', 'codeweber'),
+            ];
+            ?>
+            <div class="alignleft actions">
+                <label for="filter-by-form" class="screen-reader-text"><?php _e('Filter by form', 'codeweber'); ?></label>
+                <select name="form_id" id="filter-by-form">
+                    <option value=""><?php _e('All Forms', 'codeweber'); ?></option>
+                    <?php foreach ($forms as $form): ?>
+                        <option value="<?php echo esc_attr($form->ID); ?>" <?php selected($current_form_id, $form->ID); ?>>
+                            <?php echo esc_html($form->post_title . ' (#' . $form->ID . ')'); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                
+                <label for="filter-by-form-type" class="screen-reader-text"><?php _e('Filter by form type', 'codeweber'); ?></label>
+                <select name="form_type" id="filter-by-form-type">
+                    <option value=""><?php _e('All Form Types', 'codeweber'); ?></option>
+                    <?php foreach ($form_types as $type => $label): ?>
+                        <option value="<?php echo esc_attr($type); ?>" <?php selected($current_form_type, $type); ?>>
+                            <?php echo esc_html($label); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                
+                <input type="submit" class="button" value="<?php esc_attr_e('Filter', 'codeweber'); ?>">
+            </div>
+            <?php
+        }
     }
 
     /**
@@ -387,9 +531,16 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             'read' => '#2271b1',
             'archived' => '#646970',
         );
+        
+        $status_labels = array(
+            'new' => __('New', 'codeweber'),
+            'read' => __('Viewed', 'codeweber'),
+            'archived' => __('Archived', 'codeweber'),
+            'trash' => __('Trash', 'codeweber'),
+        );
 
         $color = isset($status_colors[$item->status]) ? $status_colors[$item->status] : '#666';
-        $label = ucfirst($item->status);
+        $label = isset($status_labels[$item->status]) ? $status_labels[$item->status] : ucfirst($item->status);
 
         return sprintf(
             '<span style="display: inline-block; padding: 3px 8px; background-color: %s; color: white; border-radius: 3px; font-size: 11px; font-weight: 600;">%s</span>',
@@ -507,7 +658,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $output .= implode('<br>', $preview);
         
         if (count($data) > $count) {
-            $output .= ' <a href="#" class="view-full" data-id="' . $item->id . '">' . __('Показать все', 'codeweber') . '</a>';
+            $output .= ' <a href="#" class="view-full" data-id="' . $item->id . '">' . __('Show all', 'codeweber') . '</a>';
         }
         
         $output .= '</div>';
@@ -532,6 +683,41 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             $output .= '<br>';
         }
         $output .= '</div>';
+
+        return $output;
+    }
+
+    /**
+     * Column Files
+     */
+    protected function column_files($item)
+    {
+        if (empty($item->files_data)) {
+            return '—';
+        }
+
+        $files_data = json_decode($item->files_data, true);
+        if (!is_array($files_data) || empty($files_data)) {
+            return '—';
+        }
+
+        $files_count = count($files_data);
+        
+        // Подсчитываем общий размер файлов
+        $total_size = 0;
+        foreach ($files_data as $file) {
+            $file_size = $file['file_size'] ?? $file['size'] ?? 0;
+            $total_size += (int) $file_size;
+        }
+
+        $output = '';
+        $output .= '<span class="dashicons dashicons-paperclip" style="color: #2271b1; vertical-align: middle; margin-right: 5px;"></span>';
+        $output .= '<strong>' . sprintf(_n('%d file', '%d files', $files_count, 'codeweber'), $files_count) . '</strong>';
+        
+        if ($total_size > 0) {
+            $output .= '<br>';
+            $output .= '<span style="color: #666; font-size: 12px;">' . size_format($total_size, 2) . '</span>';
+        }
 
         return $output;
     }

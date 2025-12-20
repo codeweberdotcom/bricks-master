@@ -24,6 +24,8 @@ class CodeweberFormsAdmin {
         add_filter('set-screen-option', [$this, 'set_screen_option'], 10, 3);
         // Обработка массовых действий до вывода (чтобы не было ошибок заголовков)
         add_action('admin_init', [$this, 'process_bulk_actions_early']);
+        // Обработка удаления файлов до вывода
+        add_action('admin_init', [$this, 'handle_file_deletion']);
     }
     
     /**
@@ -80,7 +82,7 @@ class CodeweberFormsAdmin {
 
         // Количество элементов на странице
         add_screen_option('per_page', array(
-            'label'   => __('Количество отправок на странице', 'codeweber'),
+            'label'   => __('Number of submissions per page', 'codeweber'),
             'default' => 20,
             'option'  => 'codeweber_forms_per_page',
         ));
@@ -107,31 +109,182 @@ class CodeweberFormsAdmin {
      * Process bulk actions early (до любого вывода), как в newsletter-subscriptions
      */
     public function process_bulk_actions_early() {
-        // Только на нашей странице
-        if (!isset($_GET['page']) || $_GET['page'] !== 'codeweber') {
-            return;
-        }
-
-        // Проверяем, есть ли выбранные элементы
-        if (isset($_REQUEST['submission']) && is_array($_REQUEST['submission'])) {
+        // Проверяем, есть ли выбранные элементы (bulk actions)
+        // Проверяем как по page параметру, так и по наличию submission массива
+        $is_codeweber_page = (isset($_GET['page']) && $_GET['page'] === 'codeweber') || 
+                             (isset($_POST['page']) && $_POST['page'] === 'codeweber') ||
+                             (isset($_REQUEST['page']) && $_REQUEST['page'] === 'codeweber');
+        
+        // Если есть выбранные элементы для bulk actions, обрабатываем независимо от URL
+        if (isset($_REQUEST['submission']) && is_array($_REQUEST['submission']) && !empty($_REQUEST['submission'])) {
             $list_table = new Codeweber_Forms_List_Table($this);
             $list_table->process_bulk_action();
             // process_bulk_action() делает wp_redirect и exit при успехе
         }
+        
+        // Также проверяем по page параметру для других действий
+        if (!$is_codeweber_page) {
+            return;
+        }
+    }
+    
+    /**
+     * Handle file deletion (до любого вывода)
+     */
+    public function handle_file_deletion() {
+        // Только на нашей странице просмотра
+        if (!isset($_GET['page']) || $_GET['page'] !== 'codeweber' || !isset($_POST['action']) || $_POST['action'] !== 'delete_file') {
+            return;
+        }
+        
+        if (!check_admin_referer('codeweber_forms_delete_file', 'codeweber_forms_delete_file_nonce')) {
+            wp_die(__('Security check failed', 'codeweber'));
+        }
+        
+        $submission_id = isset($_POST['submission_id']) ? intval($_POST['submission_id']) : 0;
+        $file_index = isset($_POST['file_index']) ? $_POST['file_index'] : '';
+        
+        if (!$submission_id || $file_index === '') {
+            wp_safe_redirect(add_query_arg(['page' => 'codeweber', 'action' => 'view', 'id' => $submission_id, 'error' => 'invalid_params'], admin_url('admin.php')));
+            exit;
+        }
+        
+        $submission = $this->db->get_submission($submission_id);
+        if (!$submission || empty($submission->files_data)) {
+            wp_safe_redirect(add_query_arg(['page' => 'codeweber', 'action' => 'view', 'id' => $submission_id, 'error' => 'no_files'], admin_url('admin.php')));
+            exit;
+        }
+        
+        $files_data = json_decode($submission->files_data, true);
+        if (!is_array($files_data) || empty($files_data)) {
+            wp_safe_redirect(add_query_arg(['page' => 'codeweber', 'action' => 'view', 'id' => $submission_id, 'error' => 'invalid_format'], admin_url('admin.php')));
+            exit;
+        }
+        
+        // Преобразуем файлы в плоский массив, сохраняя оригинальные ключи
+        $files_flat = [];
+        $original_keys = [];
+        
+        foreach ($files_data as $key => $value) {
+            if (is_array($value) && isset($value[0]) && is_array($value[0])) {
+                // Вложенный массив
+                foreach ($value as $inner_key => $file) {
+                    $files_flat[] = $file;
+                    $original_keys[] = ['parent' => $key, 'child' => $inner_key];
+                }
+            } else {
+                // Плоский массив или один файл
+                $files_flat[] = $value;
+                $original_keys[] = ['parent' => $key, 'child' => null];
+            }
+        }
+        
+        $numeric_index = intval($file_index);
+        
+        if ($numeric_index < 0 || $numeric_index >= count($files_flat)) {
+            wp_safe_redirect(add_query_arg(['page' => 'codeweber', 'action' => 'view', 'id' => $submission_id, 'error' => 'file_not_found'], admin_url('admin.php')));
+            exit;
+        }
+        
+        $target_file = $files_flat[$numeric_index];
+        $target_key_info = $original_keys[$numeric_index];
+        
+        // Определяем путь к файлу
+        $file_path = $target_file['file_path'] ?? $target_file['temp_path'] ?? '';
+        
+        if (empty($file_path) && !empty($target_file['file_url'])) {
+            $upload_dir = wp_upload_dir();
+            $file_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $target_file['file_url']);
+            // Нормализуем путь для Windows/Unix совместимости
+            $file_path = wp_normalize_path($file_path);
+        }
+        
+        // Физически удаляем файл с сервера (если существует)
+        $file_deleted_physically = false;
+        if (!empty($file_path)) {
+            $file_path_normalized = wp_normalize_path($file_path);
+            if (file_exists($file_path_normalized)) {
+                $file_deleted_physically = @unlink($file_path_normalized);
+            } else {
+                // Файл уже не существует - это нормально, продолжаем удаление из БД
+                // Это может быть битая ссылка, которую нужно очистить
+                $file_deleted_physically = true;
+            }
+        }
+        
+        // ВСЕГДА удаляем файл из базы данных, даже если физически файл уже был удален
+        // Удаляем файл из оригинального массива
+        if ($target_key_info['child'] !== null) {
+            unset($files_data[$target_key_info['parent']][$target_key_info['child']]);
+            if (empty($files_data[$target_key_info['parent']])) {
+                unset($files_data[$target_key_info['parent']]);
+            } else {
+                $files_data[$target_key_info['parent']] = array_values($files_data[$target_key_info['parent']]);
+            }
+        } else {
+            unset($files_data[$target_key_info['parent']]);
+            $keys = array_keys($files_data);
+            $is_numeric_array = true;
+            foreach ($keys as $k) {
+                if (!is_numeric($k)) {
+                    $is_numeric_array = false;
+                    break;
+                }
+            }
+            if ($is_numeric_array) {
+                $files_data = array_values($files_data);
+            }
+        }
+        
+        // Обновляем данные в базе (ВСЕГДА, даже если остается 0 файлов)
+        $files_data_json = !empty($files_data) ? json_encode($files_data, JSON_UNESCAPED_UNICODE) : null;
+        
+        // ВСЕГДА обновляем базу данных принудительно через прямой SQL запрос
+        // Это гарантирует обновление даже когда осталось 0 файлов (null)
+        global $wpdb;
+        
+        if ($files_data_json === null) {
+            // Устанавливаем NULL для пустого массива файлов (последний файл удален)
+            $updated = $wpdb->query($wpdb->prepare(
+                "UPDATE {$wpdb->prefix}codeweber_forms_submissions 
+                 SET files_data = NULL 
+                 WHERE id = %d",
+                $submission_id
+            ));
+        } else {
+            // Обновляем с JSON данными
+            $updated = $wpdb->update(
+                $wpdb->prefix . 'codeweber_forms_submissions',
+                ['files_data' => $files_data_json],
+                ['id' => $submission_id],
+                ['%s'],
+                ['%d']
+            );
+        }
+        
+        // $wpdb->update возвращает false при ошибке или число строк (может быть 0, если данные не изменились)
+        // $wpdb->query возвращает количество затронутых строк или false при ошибке
+        if ($updated !== false) {
+            $message = $file_deleted_physically ? 'deleted' : 'removed_from_db';
+            wp_safe_redirect(add_query_arg(['page' => 'codeweber', 'action' => 'view', 'id' => $submission_id, 'deleted' => $message], admin_url('admin.php')));
+        } else {
+            wp_safe_redirect(add_query_arg(['page' => 'codeweber', 'action' => 'view', 'id' => $submission_id, 'error' => 'delete_failed'], admin_url('admin.php')));
+        }
+        exit;
     }
     
     /**
      * Render submissions list page
      */
     public function render_list_page() {
+        // Handle actions first (including file deletion on view page)
+        $this->handle_actions();
+        
         // Проверяем, нужно ли показать детальный просмотр отправки
         if (isset($_GET['action']) && $_GET['action'] === 'view' && isset($_GET['id'])) {
             $this->render_view_page(intval($_GET['id']));
             return;
         }
-        
-        // Handle single delete action (from action column)
-        $this->handle_actions();
         
         // Create instance of list table
         $list_table = new Codeweber_Forms_List_Table($this);
@@ -144,6 +297,33 @@ class CodeweberFormsAdmin {
             <h1><?php _e('Form Submissions', 'codeweber'); ?></h1>
 
             <?php settings_errors('codeweber_forms_messages'); ?>
+            
+            <?php
+            // Показываем сообщение об успешном массовом действии
+            if (isset($_GET['bulk_updated']) && $_GET['bulk_updated'] > 0) {
+                $count = intval($_GET['bulk_updated']);
+                $action = isset($_GET['bulk_action']) ? sanitize_text_field($_GET['bulk_action']) : '';
+                
+                // Получаем метку действия
+                $action_labels = array(
+                    'mark_read' => __('marked as read', 'codeweber'),
+                    'mark_unread' => __('marked as unread', 'codeweber'),
+                    'archive' => __('archived', 'codeweber'),
+                    'unarchive' => __('unarchived', 'codeweber'),
+                    'delete' => __('moved to trash', 'codeweber'),
+                );
+                
+                $action_label = isset($action_labels[$action]) ? $action_labels[$action] : __('updated', 'codeweber');
+                
+                $message = sprintf(
+                    _n('%d submission %s', '%d submissions %s', $count, 'codeweber'),
+                    $count,
+                    $action_label
+                );
+                
+                echo '<div class="notice notice-success is-dismissible"><p>' . esc_html($message) . '</p></div>';
+            }
+            ?>
 
             <?php
             // Вкладки-фильтры (Все, Новые, Прочитанные, Архив, Корзина)
@@ -163,24 +343,12 @@ class CodeweberFormsAdmin {
                 </form>
             <?php endif; ?>
 
-            <form method="get">
+            <form method="get" action="<?php echo esc_url(admin_url('admin.php')); ?>">
                 <input type="hidden" name="page" value="codeweber">
                 <?php
-                // Preserve search query
-                if (isset($_GET['s'])) {
-                    echo '<input type="hidden" name="s" value="' . esc_attr($_GET['s']) . '">';
-                }
                 // Preserve status filter
                 if (isset($_GET['status'])) {
                     echo '<input type="hidden" name="status" value="' . esc_attr($_GET['status']) . '">';
-                }
-                // Preserve form_id filter
-                if (isset($_GET['form_id'])) {
-                    echo '<input type="hidden" name="form_id" value="' . esc_attr($_GET['form_id']) . '">';
-                }
-                // НОВОЕ: Preserve form_type filter
-                if (isset($_GET['form_type'])) {
-                    echo '<input type="hidden" name="form_type" value="' . esc_attr($_GET['form_type']) . '">';
                 }
                 
                 $list_table->search_box(__('Search', 'codeweber'), 'submission');
@@ -203,12 +371,12 @@ class CodeweberFormsAdmin {
                     // Скрываем полные данные, показываем превью
                     $full.hide();
                     $preview.show();
-                    $link.text('<?php echo esc_js(__('Показать все', 'codeweber')); ?>');
+                    $link.text('<?php echo esc_js(__('Show all', 'codeweber')); ?>');
                 } else {
                     // Показываем полные данные, скрываем превью
                     $preview.hide();
                     $full.show();
-                    $link.text('<?php echo esc_js(__('Скрыть', 'codeweber')); ?>');
+                    $link.text('<?php echo esc_js(__('Hide', 'codeweber')); ?>');
                 }
             });
         });
@@ -248,7 +416,7 @@ class CodeweberFormsAdmin {
             return;
         }
 
-        // 2) POST actions (trash empty, etc.)
+        // 2) POST actions (trash empty, delete file, etc.)
         if (!isset($_POST['action']) || !check_admin_referer('codeweber_forms_action', 'codeweber_forms_nonce')) {
             return;
         }
@@ -310,6 +478,42 @@ class CodeweberFormsAdmin {
      * Render submission view page
      */
     private function render_view_page($submission_id) {
+        // Показываем сообщения об успехе/ошибке
+        if (isset($_GET['deleted'])) {
+            $deleted_value = sanitize_text_field($_GET['deleted']);
+            if ($deleted_value === '1' || $deleted_value === 'deleted') {
+                add_settings_error(
+                    'codeweber_forms_messages',
+                    'codeweber_forms_message',
+                    __('File deleted successfully', 'codeweber'),
+                    'success'
+                );
+            } elseif ($deleted_value === 'removed_from_db') {
+                add_settings_error(
+                    'codeweber_forms_messages',
+                    'codeweber_forms_message',
+                    __('File reference removed from database (file was already deleted)', 'codeweber'),
+                    'success'
+                );
+            }
+        } elseif (isset($_GET['error'])) {
+            $error_messages = [
+                'invalid_params' => __('Invalid request parameters', 'codeweber'),
+                'no_files' => __('No files found in submission', 'codeweber'),
+                'invalid_format' => __('Invalid files data format', 'codeweber'),
+                'file_not_found' => __('File not found', 'codeweber'),
+                'delete_failed' => __('Failed to delete file', 'codeweber'),
+            ];
+            $error_key = sanitize_text_field($_GET['error']);
+            $error_message = isset($error_messages[$error_key]) ? $error_messages[$error_key] : __('An error occurred', 'codeweber');
+            add_settings_error(
+                'codeweber_forms_messages',
+                'codeweber_forms_message',
+                $error_message,
+                'error'
+            );
+        }
+        
         $submission = $this->db->get_submission($submission_id);
         
         if (!$submission) {
@@ -418,64 +622,97 @@ class CodeweberFormsAdmin {
                 
                 <?php if ($files_data && is_array($files_data) && !empty($files_data)): ?>
                     <h2><?php _e('Attached Files', 'codeweber'); ?></h2>
-                    <table class="wp-list-table widefat fixed striped">
-                        <thead>
-                            <tr>
-                                <th style="width: 30%;"><?php _e('File Name', 'codeweber'); ?></th>
-                                <th><?php _e('Size', 'codeweber'); ?></th>
-                                <th><?php _e('Type', 'codeweber'); ?></th>
-                                <th><?php _e('Actions', 'codeweber'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($files_data as $file): ?>
-                                <tr>
-                                    <td>
-                                        <strong><?php echo esc_html($file['file_name'] ?? $file['name'] ?? __('Unknown', 'codeweber')); ?></strong>
-                                    </td>
-                                    <td>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <?php 
+                        $image_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+                        foreach ($files_data as $file_index => $file): 
+                            $file_url = $file['file_url'] ?? '';
+                            $file_path = $file['file_path'] ?? '';
+                            $file_name = $file['file_name'] ?? $file['name'] ?? __('Unknown', 'codeweber');
+                            $file_type = $file['file_type'] ?? $file['type'] ?? '';
+                            
+                            // Если есть URL, используем его
+                            if ($file_url) {
+                                $download_url = $file_url;
+                                // Если file_path не указан, пытаемся получить его из URL
+                                if (empty($file_path)) {
+                                    $upload_dir = wp_upload_dir();
+                                    $file_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $file_url);
+                                }
+                            } elseif ($file_path) {
+                                // Конвертируем путь в URL
+                                $upload_dir = wp_upload_dir();
+                                $download_url = str_replace($upload_dir['basedir'], $upload_dir['baseurl'], $file_path);
+                            } else {
+                                $download_url = '';
+                            }
+                            
+                            // Проверяем, существует ли файл физически
+                            $file_exists = false;
+                            if (!empty($file_path)) {
+                                // Нормализуем путь (убираем лишние слеши и обрабатываем относительные пути)
+                                $file_path_normalized = wp_normalize_path($file_path);
+                                if (file_exists($file_path_normalized)) {
+                                    $file_exists = true;
+                                }
+                            }
+                            // Если файл не найден по пути, но есть URL - это нормально (файл может быть удален)
+                            // В этом случае $file_exists останется false, и мы покажем предупреждение
+                            
+                            $is_image = in_array(strtolower($file_type), $image_types);
+                        ?>
+                            <div style="border: 1px solid #ddd; padding: 10px; border-radius: 4px; background: #fff;">
+                                <?php if ($is_image && $download_url && $file_exists): ?>
+                                    <div style="margin-bottom: 10px; position: relative;">
+                                        <img src="<?php echo esc_url($download_url); ?>" 
+                                             alt="<?php echo esc_attr($file_name); ?>"
+                                             style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px;"
+                                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <div style="display: none; width: 100%; height: 150px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; align-items: center; justify-content: center; flex-direction: column; position: absolute; top: 0; left: 0;">
+                                            <span class="dashicons dashicons-warning" style="font-size: 32px; color: #856404; margin-bottom: 5px;"></span>
+                                            <span style="font-size: 11px; color: #856404; text-align: center; padding: 0 5px;"><?php _e('File not found', 'codeweber'); ?></span>
+                                        </div>
+                                    </div>
+                                <?php elseif ($is_image && $download_url && !$file_exists): ?>
+                                    <div style="width: 100%; height: 150px; background: #fff3cd; border: 1px solid #ffc107; display: flex; align-items: center; justify-content: center; border-radius: 4px; margin-bottom: 10px; flex-direction: column;">
+                                        <span class="dashicons dashicons-warning" style="font-size: 32px; color: #856404; margin-bottom: 5px;"></span>
+                                        <span style="font-size: 11px; color: #856404; text-align: center; padding: 0 5px;"><?php _e('File not found', 'codeweber'); ?></span>
+                                    </div>
+                                <?php else: ?>
+                                    <div style="width: 100%; height: 150px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 4px; margin-bottom: 10px;">
+                                        <span class="dashicons dashicons-media-document" style="font-size: 48px; color: #666;"></span>
+                                    </div>
+                                <?php endif; ?>
+                                <div style="font-size: 12px;">
+                                    <strong><?php echo esc_html($file_name); ?></strong><br>
+                                    <span style="color: #666;">
                                         <?php 
                                         $file_size = $file['file_size'] ?? $file['size'] ?? 0;
                                         echo size_format($file_size, 2);
                                         ?>
-                                    </td>
-                                    <td>
-                                        <?php echo esc_html($file['file_type'] ?? $file['type'] ?? '-'); ?>
-                                    </td>
-                                    <td>
-                                        <?php 
-                                        $file_url = $file['file_url'] ?? '';
-                                        $file_path = $file['file_path'] ?? '';
-                                        
-                                        // Если есть URL, используем его
-                                        if ($file_url) {
-                                            $download_url = $file_url;
-                                        } elseif ($file_path) {
-                                            // Конвертируем путь в URL
-                                            $upload_dir = wp_upload_dir();
-                                            $download_url = str_replace($upload_dir['basedir'], $upload_dir['baseurl'], $file_path);
-                                        } else {
-                                            $download_url = '';
-                                        }
-                                        
-                                        if ($download_url && file_exists($file_path ?: str_replace(wp_upload_dir()['baseurl'], wp_upload_dir()['basedir'], $file_url))):
-                                        ?>
-                                            <a href="<?php echo esc_url($download_url); ?>" target="_blank" class="button button-small">
-                                                <span class="dashicons dashicons-download" style="vertical-align: middle;"></span>
-                                                <?php _e('Download', 'codeweber'); ?>
-                                            </a>
-                                            <a href="<?php echo esc_url($download_url); ?>" target="_blank" class="button button-small">
-                                                <span class="dashicons dashicons-external" style="vertical-align: middle;"></span>
-                                                <?php _e('View', 'codeweber'); ?>
-                                            </a>
-                                        <?php else: ?>
-                                            <span class="description"><?php _e('File not found', 'codeweber'); ?></span>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                                    </span>
+                                </div>
+                                <?php if ($download_url): ?>
+                                    <div style="margin-top: 10px; display: flex; gap: 5px;">
+                                        <a href="<?php echo esc_url($download_url); ?>" target="_blank" class="button button-small" style="flex: 1; text-align: center;">
+                                            <span class="dashicons dashicons-download" style="vertical-align: middle;"></span>
+                                            <?php _e('Download', 'codeweber'); ?>
+                                        </a>
+                                        <form method="post" style="flex: 1; margin: 0;">
+                                            <?php wp_nonce_field('codeweber_forms_delete_file', 'codeweber_forms_delete_file_nonce'); ?>
+                                            <input type="hidden" name="action" value="delete_file">
+                                            <input type="hidden" name="submission_id" value="<?php echo esc_attr($submission_id); ?>">
+                                            <input type="hidden" name="file_index" value="<?php echo esc_attr($file_index); ?>">
+                                            <button type="submit" class="button button-small button-link-delete" style="width: 100%; text-align: center; color: #b32d2e;" onclick="return confirm('<?php echo esc_js(__('Are you sure you want to delete this file?', 'codeweber')); ?>');">
+                                                <span class="dashicons dashicons-trash" style="vertical-align: middle;"></span>
+                                                <?php _e('Delete', 'codeweber'); ?>
+                                            </button>
+                                        </form>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
                 
                 <h2><?php _e('Submission Data', 'codeweber'); ?></h2>
@@ -530,30 +767,34 @@ class CodeweberFormsAdmin {
                                     <td>
                                         <strong>
                                             <?php
+                                            // Убираем квадратные скобки из ключа
+                                            $clean_key = str_replace(['[', ']'], '', $key);
                                             // Переводим некоторые служебные ключи в человекочитаемые и переводимые названия
                                             // Нормализуем ключ для сравнения (приводим к нижнему регистру и заменяем пробелы/дефисы на подчеркивания)
-                                            $normalized_key = strtolower(str_replace([' ', '-'], '_', trim($key)));
+                                            $normalized_key = strtolower(str_replace([' ', '-'], '_', trim($clean_key)));
                                             
-                                            if ($key === 'newsletter_consents' || $normalized_key === 'newsletter_consents') {
+                                            if ($normalized_key === 'newsletter_consents') {
                                                 echo esc_html(__('Newsletter Consents', 'codeweber'));
-                                            } elseif ($key === 'form_name' || $normalized_key === 'form_name' || $key === 'form name' || $key === 'Form name') {
-                                                echo esc_html(__('Название формы', 'codeweber'));
-                                            } elseif ($key === 'name' || $normalized_key === 'name') {
-                                                echo esc_html(__('Имя', 'codeweber'));
-                                            } elseif ($key === 'role' || $normalized_key === 'role') {
-                                                echo esc_html(__('Роль', 'codeweber'));
-                                            } elseif ($key === 'company' || $normalized_key === 'company') {
-                                                echo esc_html(__('Компания', 'codeweber'));
-                                            } elseif ($key === 'testimonial_text' || $key === 'testimonial-text' || $normalized_key === 'testimonial_text') {
-                                                echo esc_html(__('Текст отзыва', 'codeweber'));
-                                            } elseif ($key === 'rating' || $normalized_key === 'rating') {
-                                                echo esc_html(__('Рейтинг', 'codeweber'));
-                                            } elseif ($key === 'message' || $key === 'Message' || $normalized_key === 'message') {
-                                                echo esc_html(__('Сообщение', 'codeweber'));
-                                            } elseif ($key === 'user_id' || $key === 'User id' || $key === 'User ID' || $key === 'user id' || $normalized_key === 'user_id') {
-                                                echo esc_html(__('ID пользователя', 'codeweber'));
+                                            } elseif ($normalized_key === 'form_name' || strtolower(trim($clean_key)) === 'form name') {
+                                                echo esc_html(__('Form Name', 'codeweber'));
+                                            } elseif ($normalized_key === 'file') {
+                                                echo esc_html(__('File', 'codeweber'));
+                                            } elseif ($normalized_key === 'name' && strpos($normalized_key, 'form') === false) {
+                                                echo esc_html(__('Name', 'codeweber'));
+                                            } elseif ($clean_key === 'role' || $normalized_key === 'role') {
+                                                echo esc_html(__('Role', 'codeweber'));
+                                            } elseif ($clean_key === 'company' || $normalized_key === 'company') {
+                                                echo esc_html(__('Company', 'codeweber'));
+                                            } elseif ($clean_key === 'testimonial_text' || $clean_key === 'testimonial-text' || $normalized_key === 'testimonial_text') {
+                                                echo esc_html(__('Testimonial Text', 'codeweber'));
+                                            } elseif ($clean_key === 'rating' || $normalized_key === 'rating') {
+                                                echo esc_html(__('Rating', 'codeweber'));
+                                            } elseif ($clean_key === 'message' || $clean_key === 'Message' || $normalized_key === 'message') {
+                                                echo esc_html(__('Message', 'codeweber'));
+                                            } elseif ($clean_key === 'user_id' || $clean_key === 'User id' || $clean_key === 'User ID' || $clean_key === 'user id' || $normalized_key === 'user_id') {
+                                                echo esc_html(__('User ID', 'codeweber'));
                                             } else {
-                                                echo esc_html(ucfirst(str_replace(['_', '-'], ' ', $key)));
+                                                echo esc_html(ucfirst(str_replace(['_', '-'], ' ', $clean_key)));
                                             }
                                             ?>
                                         </strong>
@@ -662,36 +903,6 @@ class CodeweberFormsAdmin {
                     </table>
                 <?php else: ?>
                     <p><?php _e('No data available.', 'codeweber'); ?></p>
-                <?php endif; ?>
-                
-                <?php if ($files_data && is_array($files_data) && !empty($files_data)): ?>
-                    <h2><?php _e('Uploaded Files', 'codeweber'); ?></h2>
-                    <table class="wp-list-table widefat fixed striped">
-                        <thead>
-                            <tr>
-                                <th><?php _e('File Name', 'codeweber'); ?></th>
-                                <th><?php _e('Size', 'codeweber'); ?></th>
-                                <th><?php _e('Type', 'codeweber'); ?></th>
-                                <th><?php _e('Actions', 'codeweber'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($files_data as $file): ?>
-                                <tr>
-                                    <td><?php echo esc_html($file['name'] ?? ''); ?></td>
-                                    <td><?php echo esc_html(size_format($file['size'] ?? 0)); ?></td>
-                                    <td><?php echo esc_html($file['type'] ?? ''); ?></td>
-                                    <td>
-                                        <?php if (isset($file['url'])): ?>
-                                            <a href="<?php echo esc_url($file['url']); ?>" target="_blank" class="button button-small">
-                                                <?php _e('Download', 'codeweber'); ?>
-                                            </a>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
                 <?php endif; ?>
             </div>
         </div>

@@ -632,10 +632,13 @@
         
         // Для input[type="submit"] используем value, для button - innerHTML
         const isInputSubmit = submitBtn.tagName === 'INPUT';
-        const originalBtnHTML = isInputSubmit ? submitBtn.value : submitBtn.innerHTML;
+        let originalBtnHTML = isInputSubmit ? submitBtn.value : submitBtn.innerHTML;
         const originalBtnText = isInputSubmit ? submitBtn.value : (submitBtn.textContent || submitBtn.innerText);
         const loadingText = submitBtn.dataset.loadingText || 'Отправка';
         const originalMinHeight = submitBtn.style.minHeight || '';
+        
+        // Для button: не добавляем иконку при инициализации
+        // Иконка будет добавляться при отправке через createElement + innerHTML (как в newsletter)
         
         // Флаг для отслеживания наших изменений кнопки
         let isOurControl = false;
@@ -789,6 +792,614 @@
             }
         }
 
+        // Вспомогательная функция для поиска FilePond root
+        function findFilePondRoot(input, wrapper) {
+            let filepondRoot = null;
+            
+            // Способ 1: через FilePond instance (самый надежный)
+            if (input.filepondInstance && input.filepondInstance.root) {
+                filepondRoot = input.filepondInstance.root;
+                return filepondRoot;
+            }
+            
+            // Способ 2: через closest
+            filepondRoot = input.closest('.filepond--root');
+            if (filepondRoot) {
+                return filepondRoot;
+            }
+            
+            // Способ 3: через родительский элемент
+            if (input.parentNode) {
+                filepondRoot = input.parentNode.closest ? input.parentNode.closest('.filepond--root') : null;
+                if (filepondRoot) {
+                    return filepondRoot;
+                }
+            }
+            
+            // Способ 4: поиск в wrapper
+            if (wrapper) {
+                filepondRoot = wrapper.querySelector('.filepond--root');
+                if (filepondRoot) {
+                    return filepondRoot;
+                }
+            }
+            
+            // Способ 5: поиск по оригинальному ID поля (input может иметь другой ID после инициализации FilePond)
+            // Ищем input с data-filepond и получаем его оригинальный ID
+            const originalInput = input.hasAttribute('data-filepond') ? input : 
+                                  document.querySelector(`input[data-filepond="true"][id*="${input.id}"]`) ||
+                                  document.querySelector(`input[data-filepond="true"]`);
+            
+            if (originalInput) {
+                // Пробуем найти root по оригинальному ID поля (например, field-6566-file)
+                const originalId = originalInput.id;
+                
+                // Ищем root с таким же ID или содержащий input с таким ID
+                const possibleRoot = document.getElementById(originalId) || 
+                                    document.querySelector(`.filepond--root[id="${originalId}"]`) ||
+                                    document.querySelector(`.filepond--root:has(input[id="${originalId}"])`);
+                
+                if (possibleRoot && possibleRoot.classList.contains('filepond--root')) {
+                    filepondRoot = possibleRoot;
+                    return filepondRoot;
+                }
+            }
+            
+            // Способ 6: поиск всех FilePond roots и проверка, содержит ли они этот input
+            const allRoots = document.querySelectorAll('.filepond--root');
+            for (let root of allRoots) {
+                if (root.contains(input) || root.querySelector(`input[id="${input.id}"]`)) {
+                    filepondRoot = root;
+                    return filepondRoot;
+                }
+            }
+            
+            return filepondRoot;
+        }
+
+        // Очистка ошибок валидации для FilePond при добавлении файлов
+        function setupFilePondValidationCleanup(form) {
+            // Ищем все file inputs, включая те, что могут быть скрыты FilePond
+            const filepondInputs = form.querySelectorAll('input[type="file"][data-filepond="true"][required]');
+            // Также ищем через FilePond root элементы
+            const filepondRoots = form.querySelectorAll('.filepond--root');
+            
+            filepondInputs.forEach((input) => {
+                // Ждем инициализации FilePond
+                const checkFilePond = setInterval(() => {
+                    if (input.filepondInstance) {
+                        clearInterval(checkFilePond);
+                        
+                        const wrapper = input.closest('.form-field-wrapper') || input.closest('.input-group');
+                        
+                        // Сохраняем оригинальный ID поля для поиска root
+                        // FilePond может изменить ID input, но root обычно сохраняет оригинальный ID
+                        // Пробуем найти оригинальный ID через name атрибут или через label
+                        let originalFieldId = input.id || input.getAttribute('id');
+                        
+                        // Если ID начинается с filepond--browser-, это измененный ID, ищем оригинальный
+                        if (originalFieldId && originalFieldId.startsWith('filepond--browser-')) {
+                            // Пробуем найти через name атрибут
+                            const fieldName = input.getAttribute('name');
+                            if (fieldName) {
+                                // Ищем label с for, который может указывать на оригинальный ID
+                                const label = document.querySelector(`label[for*="${fieldName}"]`);
+                                if (label && label.getAttribute('for')) {
+                                    originalFieldId = label.getAttribute('for');
+                                } else {
+                                    // Пробуем найти root по name через форму
+                                    const form = input.closest('form');
+                                    if (form) {
+                                        const possibleRoot = form.querySelector(`.filepond--root[id*="${fieldName}"]`);
+                                        if (possibleRoot) {
+                                            originalFieldId = possibleRoot.id;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Если не нашли, пробуем найти через wrapper или форму
+                            if (originalFieldId.startsWith('filepond--browser-')) {
+                                const form = input.closest('form');
+                                if (form) {
+                                    // Ищем все FilePond roots в форме
+                                    const allRoots = form.querySelectorAll('.filepond--root');
+                                    if (allRoots.length === 1) {
+                                        originalFieldId = allRoots[0].id;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Функция для очистки валидации
+                        const clearValidation = () => {
+                            // Удаляем is-invalid с input
+                            input.classList.remove('is-invalid');
+                            
+                            // Удаляем is-invalid с wrapper
+                            const currentWrapper = input.closest('.form-field-wrapper') || input.closest('.input-group');
+                            if (currentWrapper) {
+                                currentWrapper.classList.remove('is-invalid');
+                            }
+                            
+                            // Всегда ищем filepondRoot заново, так как он может измениться
+                            const currentFilepondRoot = findFilePondRoot(input, currentWrapper);
+                            
+                            // Также пробуем найти по оригинальному ID
+                            let rootToUse = currentFilepondRoot;
+                            if (!rootToUse && originalFieldId) {
+                                // Пробуем найти root по ID поля (например, field-6566-file)
+                                const rootById = document.getElementById(originalFieldId);
+                                if (rootById && rootById.classList.contains('filepond--root')) {
+                                    rootToUse = rootById;
+                                } else {
+                                    // Ищем все roots и проверяем, какой содержит input с таким ID
+                                    const allRoots = document.querySelectorAll('.filepond--root');
+                                    for (let root of allRoots) {
+                                        if (root.id === originalFieldId || root.querySelector(`input[id*="${originalFieldId}"]`)) {
+                                            rootToUse = root;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            if (rootToUse) {
+                                rootToUse.classList.remove('is-invalid');
+                                rootToUse.style.boxShadow = '';
+                                rootToUse.classList.add('is-valid');
+                            } else {
+                                // Попытка найти root вручную через все возможные способы
+                                const manualRoot = document.getElementById(originalFieldId) ||
+                                                   input.closest('.filepond--root') ||
+                                                   (input.filepondInstance && input.filepondInstance.root) ||
+                                                   document.querySelector(`.filepond--root[id="${originalFieldId}"]`);
+                                
+                                if (manualRoot && manualRoot.classList.contains('filepond--root')) {
+                                    manualRoot.classList.remove('is-invalid');
+                                    manualRoot.style.boxShadow = '';
+                                    manualRoot.classList.add('is-valid');
+                                }
+                            }
+                            
+                            input.setCustomValidity('');
+                        };
+                        
+                        // Функция для проверки и очистки валидации на основе статуса файлов
+                        const checkAndClearValidation = () => {
+                            try {
+                                const files = input.filepondInstance.getFiles();
+                                if (files.length > 0) {
+                                    // Проверяем статус всех файлов
+                                    const allProcessed = files.every(file => {
+                                        // FilePond.FileStatus.PROCESSED = 5
+                                        return file.status === 5;
+                                    });
+                                    if (allProcessed) {
+                                        clearValidation();
+                                        return true;
+                                    }
+                                }
+                            } catch (e) {
+                                // Игнорируем ошибки
+                            }
+                            return false;
+                        };
+                        
+                        // Проверяем сразу при инициализации
+                        checkAndClearValidation();
+                        
+                        // Также проверяем через небольшую задержку (на случай, если файлы еще загружаются)
+                        setTimeout(() => {
+                            checkAndClearValidation();
+                        }, 500);
+                        
+                        // И еще раз через секунду (на случай медленной загрузки)
+                        setTimeout(() => {
+                            checkAndClearValidation();
+                        }, 1000);
+                        
+                        // Обработчик завершения обработки файла (успешно или с ошибкой)
+                        // В FilePond событие может называться по-разному в разных версиях
+                        // Пробуем несколько вариантов
+                        const processFileCompleteHandler = (file) => {
+                            // Проверяем статус файла: 5 = PROCESSED (успешно)
+                            if (file && file.status === 5) {
+                                clearValidation();
+                            }
+                            // Также проверяем все файлы после завершения обработки
+                            setTimeout(() => checkAndClearValidation(), 100);
+                        };
+                        
+                        // Пробуем разные варианты событий
+                        if (typeof input.filepondInstance.on === 'function') {
+                            // processfilecomplete - стандартное событие FilePond
+                            input.filepondInstance.on('processfilecomplete', processFileCompleteHandler);
+                            
+                            // processfile - альтернативное событие
+                            input.filepondInstance.on('processfile', (error, file) => {
+                                if (!error && file) {
+                                    // Если файл уже обработан, очищаем валидацию
+                                    if (file.status === 5) {
+                                        clearValidation();
+                                    }
+                                    // Проверяем все файлы
+                                    setTimeout(() => checkAndClearValidation(), 100);
+                                }
+                            });
+                            
+                            // updatefiles - событие при изменении списка файлов
+                            input.filepondInstance.on('updatefiles', (files) => {
+                                if (files && files.length > 0) {
+                                    const allProcessed = files.every(file => file.status === 5);
+                                    if (allProcessed) {
+                                        clearValidation();
+                                    }
+                                }
+                            });
+                            
+                            // addfile - файл добавлен (может быть еще не загружен)
+                            input.filepondInstance.on('addfile', (error, file) => {
+                                if (!error && file) {
+                                    // Проверяем статус через небольшую задержку
+                                    setTimeout(() => checkAndClearValidation(), 200);
+                                }
+                            });
+                        }
+                        
+                        // Обработчик ошибки загрузки файла
+                        input.filepondInstance.on('processfileerror', (error, file) => {
+                            // Если загрузка не удалась и поле обязательное, показываем ошибку
+                            if (input.hasAttribute('required')) {
+                                input.classList.add('is-invalid');
+                                if (wrapper) {
+                                    wrapper.classList.add('is-invalid');
+                                }
+                                
+                                const filepondRoot = findFilePondRoot(input, wrapper);
+                                if (filepondRoot) {
+                                    filepondRoot.classList.add('is-invalid');
+                                    filepondRoot.classList.remove('is-valid');
+                                }
+                                
+                                input.setCustomValidity('Ошибка загрузки файла');
+                            }
+                        });
+                        
+                        // Обработчик удаления всех файлов
+                        input.filepondInstance.on('removefile', () => {
+                            const files = input.filepondInstance.getFiles();
+                            if (files.length === 0) {
+                                // Все файлы удалены - если поле обязательное, показываем ошибку
+                                if (input.hasAttribute('required')) {
+                                    input.classList.add('is-invalid');
+                                    if (wrapper) {
+                                        wrapper.classList.add('is-invalid');
+                                    }
+                                    
+                                    const filepondRoot = findFilePondRoot(input, wrapper);
+                                    if (filepondRoot) {
+                                        filepondRoot.classList.add('is-invalid');
+                                        filepondRoot.classList.remove('is-valid');
+                                    }
+                                } else {
+                                    // Если поле не обязательное, просто убираем классы валидации
+                                    const filepondRoot = findFilePondRoot(input, wrapper);
+                                    if (filepondRoot) {
+                                        filepondRoot.classList.remove('is-valid');
+                                    }
+                                }
+                            } else {
+                                // Есть файлы - проверяем, все ли загружены успешно
+                                const allProcessed = files.every(file => file.status === 5); // 5 = FilePond.FileStatus.PROCESSED
+                                const filepondRoot = findFilePondRoot(input, wrapper);
+                                if (filepondRoot && allProcessed) {
+                                    // Все файлы успешно загружены
+                                    filepondRoot.classList.remove('is-invalid');
+                                    filepondRoot.classList.add('is-valid');
+                                }
+                            }
+                        });
+                    }
+                }, 100);
+                
+                // Останавливаем проверку через 5 секунд
+                setTimeout(() => clearInterval(checkFilePond), 5000);
+            });
+        }
+
+        // Validate required file fields with FilePond
+        function validateRequiredFileFields(form) {
+            // Способ 1: Ищем все file inputs в форме и в документе (FilePond может переместить input)
+            const allFileInputs = Array.from(form.querySelectorAll('input[type="file"]'));
+            // Также ищем в document, так как FilePond может переместить input
+            const allFileInputsInDoc = Array.from(document.querySelectorAll('input[type="file"]'));
+            // Объединяем и убираем дубликаты
+            const uniqueInputs = [...new Set([...allFileInputs, ...allFileInputsInDoc])];
+            console.log('[FilePond Validation] Found', allFileInputs.length, 'file inputs in form,', allFileInputsInDoc.length, 'in document,', uniqueInputs.length, 'unique');
+            
+            // Способ 2: Ищем через FilePond root элементы
+            const allFilepondRoots = form.querySelectorAll('.filepond--root');
+            console.log('[FilePond Validation] Found', allFilepondRoots.length, 'FilePond root elements');
+            
+            const filepondInputs = [];
+            
+            // Сначала проверяем file inputs
+            uniqueInputs.forEach(input => {
+                // Проверяем, что input принадлежит этой форме
+                const belongsToForm = form.contains(input) || 
+                                     (input.closest('.form-field-wrapper') && form.contains(input.closest('.form-field-wrapper'))) ||
+                                     (input.filepondInstance && input.filepondInstance.root && form.contains(input.filepondInstance.root));
+                
+                if (!belongsToForm) {
+                    return; // Пропускаем inputs из других форм
+                }
+                
+                const hasFilePond = input.filepondInstance || 
+                                   input.hasAttribute('data-filepond') ||
+                                   input.closest('.filepond--root');
+                
+                if (hasFilePond) {
+                    // Проверяем обязательность
+                    const isRequired = input.hasAttribute('required') || 
+                                       input.getAttribute('aria-required') === 'true' ||
+                                       (input.closest('.form-field-wrapper') && input.closest('.form-field-wrapper').querySelector('label .text-danger'));
+                    
+                    console.log('[FilePond Validation] Input', input.id, 'belongsToForm:', belongsToForm, 'hasFilePond:', hasFilePond, 'isRequired:', isRequired);
+                    
+                    if (isRequired) {
+                        filepondInputs.push(input);
+                    }
+                }
+            });
+            
+            // Если не нашли через inputs, ищем через FilePond roots
+            if (filepondInputs.length === 0 && allFilepondRoots.length > 0) {
+                allFilepondRoots.forEach(root => {
+                    // Ищем input внутри root
+                    let input = root.querySelector('input[type="file"]');
+                    
+                    // Если не нашли внутри, ищем по ID из data-атрибутов или других способов
+                    if (!input) {
+                        // FilePond может хранить ссылку на input в data-атрибутах
+                        const rootId = root.id;
+                        if (rootId) {
+                            // Пробуем найти input по ID, который может быть связан с root
+                            const possibleIds = [
+                                rootId.replace('filepond--root-', ''),
+                                rootId.replace('filepond-', ''),
+                                root.dataset.inputId
+                            ];
+                            
+                            for (const id of possibleIds) {
+                                if (id) {
+                                    input = document.getElementById(id);
+                                    if (input && input.type === 'file') {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Если все еще не нашли, ищем через все file inputs и проверяем filepondInstance
+                    if (!input) {
+                        uniqueInputs.forEach(testInput => {
+                            if (testInput.filepondInstance && testInput.filepondInstance.root === root) {
+                                input = testInput;
+                            }
+                        });
+                    }
+                    
+                    if (input && !filepondInputs.includes(input)) {
+                        // Проверяем обязательность через wrapper или label
+                        const wrapper = root.closest('.form-field-wrapper');
+                        const isRequired = input.hasAttribute('required') || 
+                                           input.getAttribute('aria-required') === 'true' ||
+                                           (wrapper && wrapper.querySelector('label .text-danger'));
+                        
+                        console.log('[FilePond Validation] Found input via root:', input.id, 'isRequired:', isRequired, 'has filepondInstance:', !!input.filepondInstance);
+                        
+                        if (isRequired) {
+                            filepondInputs.push(input);
+                        }
+                    }
+                });
+            }
+            
+            // Последний способ: ищем все file inputs и проверяем наличие filepondInstance
+            if (filepondInputs.length === 0) {
+                console.log('[FilePond Validation] Trying last resort: checking all file inputs for filepondInstance');
+                uniqueInputs.forEach(input => {
+                    console.log('[FilePond Validation] Checking input:', input.id, 'type:', input.type, 'has filepondInstance:', !!input.filepondInstance, 'display:', window.getComputedStyle(input).display);
+                    
+                    if (input.filepondInstance && !filepondInputs.includes(input)) {
+                        const wrapper = input.closest('.form-field-wrapper');
+                        const isRequired = input.hasAttribute('required') || 
+                                           input.getAttribute('aria-required') === 'true' ||
+                                           (wrapper && wrapper.querySelector('label .text-danger'));
+                        
+                        console.log('[FilePond Validation] Found input with filepondInstance:', input.id, 'isRequired:', isRequired);
+                        
+                        if (isRequired) {
+                            filepondInputs.push(input);
+                        }
+                    }
+                });
+            }
+            
+            // Еще один способ: ищем через все элементы с filepondInstance (может быть на других элементах)
+            if (filepondInputs.length === 0) {
+                console.log('[FilePond Validation] Final attempt: searching for elements with filepondInstance property');
+                // Проверяем все элементы формы на наличие filepondInstance
+                const allFormElements = form.querySelectorAll('*');
+                allFormElements.forEach(element => {
+                    if (element.filepondInstance && element.type === 'file' && !filepondInputs.includes(element)) {
+                        const wrapper = element.closest('.form-field-wrapper');
+                        const isRequired = element.hasAttribute('required') || 
+                                           element.getAttribute('aria-required') === 'true' ||
+                                           (wrapper && wrapper.querySelector('label .text-danger'));
+                        
+                        console.log('[FilePond Validation] Found element with filepondInstance:', element.id, 'isRequired:', isRequired);
+                        
+                        if (isRequired) {
+                            filepondInputs.push(element);
+                        }
+                    }
+                });
+            }
+            
+            console.log('[FilePond Validation] Found', filepondInputs.length, 'required file inputs with FilePond');
+            const errors = [];
+            
+            filepondInputs.forEach((input, index) => {
+                console.log('[FilePond Validation] Checking input', index + 1, ':', input.id, 'has filepondInstance:', !!input.filepondInstance);
+                let isValid = false;
+                let files = [];
+                
+                // Пытаемся получить filepondInstance разными способами
+                let filepondInstance = input.filepondInstance;
+                const wrapper = input.closest('.form-field-wrapper') || input.closest('.input-group');
+                
+                // Если нет instance на input, ищем через FilePond root
+                if (!filepondInstance) {
+                    const filepondRoot = findFilePondRoot(input, wrapper);
+                    if (filepondRoot) {
+                        // FilePond может хранить instance в разных местах
+                        // Пробуем найти через все элементы внутри root
+                        const rootInputs = filepondRoot.querySelectorAll('input[type="file"]');
+                        for (const rootInput of rootInputs) {
+                            if (rootInput.filepondInstance) {
+                                filepondInstance = rootInput.filepondInstance;
+                                console.log('[FilePond Validation] Found filepondInstance via root input:', rootInput.id);
+                                break;
+                            }
+                        }
+                        
+                        // Также пробуем найти через оригинальный input по ID root
+                        if (!filepondInstance && filepondRoot.id) {
+                            const originalInput = document.getElementById(filepondRoot.id);
+                            if (originalInput && originalInput.filepondInstance) {
+                                filepondInstance = originalInput.filepondInstance;
+                                console.log('[FilePond Validation] Found filepondInstance via original input ID:', filepondRoot.id);
+                            }
+                        }
+                        
+                        // Последний способ: ищем все file inputs в документе и проверяем их root
+                        if (!filepondInstance) {
+                            const allFileInputs = document.querySelectorAll('input[type="file"]');
+                            for (const testInput of allFileInputs) {
+                                if (testInput.filepondInstance && testInput.filepondInstance.root === filepondRoot) {
+                                    filepondInstance = testInput.filepondInstance;
+                                    console.log('[FilePond Validation] Found filepondInstance via matching root:', testInput.id);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if (filepondInstance) {
+                    files = filepondInstance.getFiles();
+                    console.log('[FilePond Validation] Input', input.id, 'has', files.length, 'files');
+                    // Проверяем, что есть файлы и они не в состоянии ошибки
+                    // Статусы FilePond: 
+                    // 1=IDLE (файл добавлен), 
+                    // 2=PROCESSING (в процессе загрузки), 
+                    // 3=PROCESSING_COMPLETE (успешно загружен), 
+                    // 4=PROCESSING_ERROR (ошибка загрузки), 
+                    // 5=PROCESSING_REVERT_ERROR (ошибка отмены)
+                    isValid = files.length > 0 && files.every(file => {
+                        // Исключаем файлы с ошибками
+                        const fileValid = file.status !== 4 && file.status !== 5;
+                        console.log('[FilePond Validation] File', file.filename, 'status:', file.status, 'valid:', fileValid);
+                        return fileValid;
+                    });
+                    console.log('[FilePond Validation] Input', input.id, 'isValid:', isValid);
+                } else {
+                    // Fallback для обычных input без FilePond
+                    isValid = input.files && input.files.length > 0;
+                    console.log('[FilePond Validation] Input', input.id, 'no filepondInstance, using fallback, isValid:', isValid);
+                }
+                
+                if (!isValid) {
+                    errors.push(input);
+                    
+                    // Визуальное выделение
+                    input.classList.add('is-invalid');
+                    const wrapper = input.closest('.form-field-wrapper') || input.closest('.input-group');
+                    if (wrapper) {
+                        wrapper.classList.add('is-invalid');
+                    }
+                    
+                    // Ищем FilePond root элемент
+                    const filepondRoot = findFilePondRoot(input, wrapper);
+                    
+                    console.log('[FilePond Validation] Input:', input.id, 'FilePond root found:', !!filepondRoot, 'root element:', filepondRoot);
+                    
+                    if (filepondRoot) {
+                        filepondRoot.classList.add('is-invalid');
+                        console.log('[FilePond Validation] Added is-invalid class to FilePond root');
+                        
+                        // Также применяем стили напрямую для гарантии
+                        filepondRoot.style.boxShadow = '0 0 0 0.25rem rgba(220, 53, 69, 0.25)';
+                    } else {
+                        console.warn('[FilePond Validation] FilePond root not found for input:', input.id);
+                        // Если не нашли root, попробуем найти через поиск всех FilePond root в форме
+                        const allFilepondRoots = form.querySelectorAll('.filepond--root');
+                        console.log('[FilePond Validation] Found', allFilepondRoots.length, 'FilePond roots in form');
+                        
+                        // Ищем root, который может быть связан с этим input
+                        allFilepondRoots.forEach((root, index) => {
+                            const rootInput = root.querySelector('input[type="file"]');
+                            console.log('[FilePond Validation] Root', index, 'has input:', !!rootInput, 'input id:', rootInput?.id);
+                            if (rootInput && (rootInput === input || rootInput.id === input.id)) {
+                                root.classList.add('is-invalid');
+                                root.style.boxShadow = '0 0 0 0.25rem rgba(220, 53, 69, 0.25)';
+                                console.log('[FilePond Validation] Found matching root and added styles');
+                            }
+                        });
+                        
+                        // Также добавляем класс к родительскому элементу input-group
+                        const inputGroup = wrapper?.querySelector('.input-group');
+                        if (inputGroup) {
+                            inputGroup.classList.add('is-invalid');
+                        }
+                    }
+                    
+                    // Сообщение об ошибке
+                    input.setCustomValidity('Это поле обязательно для заполнения');
+                } else {
+                    input.classList.remove('is-invalid');
+                    const wrapper = input.closest('.form-field-wrapper') || input.closest('.input-group');
+                    if (wrapper) {
+                        wrapper.classList.remove('is-invalid');
+                    }
+                    
+                    // Убираем класс с FilePond root элемента
+                    const filepondRoot = findFilePondRoot(input, wrapper);
+                    if (filepondRoot) {
+                        filepondRoot.classList.remove('is-invalid');
+                        // Убираем inline стили
+                        filepondRoot.style.boxShadow = '';
+                    }
+                    
+                    // Также убираем с input-group если есть
+                    const inputGroup = wrapper?.querySelector('.input-group');
+                    if (inputGroup) {
+                        inputGroup.classList.remove('is-invalid');
+                    }
+                    
+                    input.setCustomValidity('');
+                }
+            });
+            
+            return {
+                isValid: errors.length === 0,
+                errors: errors
+            };
+        }
+
         // Добавляем обработчик submit
         const submitHandler = async function(e) {
             console.log('[Form Submit] Submit handler called for form:', config.formId, 'type:', config.type, 'event:', e.type);
@@ -871,6 +1482,40 @@
                 }
             }
 
+            // Validate required file fields with FilePond
+            console.log('[Form Submit] Validating required file fields...');
+            const fileValidation = validateRequiredFileFields(form);
+            if (!fileValidation.isValid) {
+                form.classList.add('was-validated');
+                
+                const invalidEvent = new CustomEvent('codeweberFormInvalid', {
+                    detail: {
+                        formId: config.formId,
+                        form: form,
+                        message: 'Form validation failed'
+                    }
+                });
+                form.dispatchEvent(invalidEvent);
+                
+                // Фокус на первое невалидное поле
+                if (fileValidation.errors.length > 0) {
+                    const firstInvalid = fileValidation.errors[0];
+                    const wrapper = firstInvalid.closest('.form-field-wrapper') || firstInvalid.closest('.input-group');
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Пытаемся сфокусироваться на видимом элементе FilePond
+                    const filepondRoot = findFilePondRoot(firstInvalid, wrapper);
+                    if (filepondRoot) {
+                        const browseButton = filepondRoot.querySelector('.filepond--browser, .filepond--label-action');
+                        if (browseButton) {
+                            browseButton.focus();
+                        }
+                    }
+                }
+                
+                return;
+            }
+
             // Validate form with HTML5 validation
             console.log('[Form Submit] Checking HTML5 validation...');
             const isValid = form.checkValidity();
@@ -949,27 +1594,43 @@
                 // Обновляем ссылку на submitBtn для дальнейшего использования
                 submitBtn = tempButton;
             } else {
-                // Добавляем иконку uil-send перед текстом при отправке
-                // Работает для всех форм: testimonial, newsletter subscription, и других codeweber форм
-                const span = submitBtn.querySelector('span');
-                const buttonText = span ? (span.textContent || span.innerText || loadingText) : (submitBtn.textContent || submitBtn.innerText || loadingText);
-                
-                // Заменяем содержимое кнопки на иконку + текст через innerHTML
-                // Это гарантирует правильную работу псевдоэлементов Unicons
-                submitBtn.innerHTML = '<i class="uil uil-send fs-13 me-1"></i> <span>' + buttonText + '</span>';
-                
-                // Принудительно применяем стили для иконки (для правильной работы псевдоэлементов)
-                const icon = submitBtn.querySelector('i');
-                if (icon) {
-                    // Принудительно пересчитываем стили для применения псевдоэлементов
-                    void icon.offsetHeight; // Trigger reflow
-                    // Убеждаемся, что иконка видима и имеет правильные стили
-                    icon.style.display = 'inline-block';
-                    icon.style.visibility = 'visible';
-                    icon.style.fontFamily = '"Unicons"';
-                    icon.style.fontStyle = 'normal';
-                    icon.style.fontWeight = 'normal';
+                // Для button: используем тот же подход, что и для input (newsletter)
+                // Создаем новый button со спиннером через innerHTML (как в newsletter)
+                const originalButtonClass = submitBtn.className;
+                const originalButtonDataset = {};
+                if (submitBtn.dataset) {
+                    for (const key in submitBtn.dataset) {
+                        if (submitBtn.dataset.hasOwnProperty(key)) {
+                            originalButtonDataset[key] = submitBtn.dataset[key];
+                        }
+                    }
                 }
+                
+                // Создаем новый button со спиннером (как в newsletter)
+                const newButton = document.createElement('button');
+                newButton.type = 'submit';
+                newButton.className = originalButtonClass + ' btn-icon btn-icon-start';
+                newButton.disabled = true;
+                // Копируем dataset
+                for (const key in originalButtonDataset) {
+                    newButton.dataset[key] = originalButtonDataset[key];
+                }
+                // Добавляем спиннер через innerHTML (как в newsletter)
+                newButton.innerHTML = '<i class="uil uil-spinner-alt uil-spin fs-13 me-1"></i>' + loadingText;
+                
+                // Заменяем старый button на новый
+                submitBtn.parentNode.replaceChild(newButton, submitBtn);
+                
+                // Обновляем ссылку на submitBtn
+                submitBtn = newButton;
+                
+                // Сохраняем информацию для восстановления
+                submitBtn._originalButton = {
+                    className: originalButtonClass,
+                    dataset: originalButtonDataset,
+                    innerHTML: originalBtnHTML
+                };
+                submitBtn._wasButtonReplaced = true;
             }
             
             isOurControl = false;
@@ -1275,12 +1936,37 @@
                     submitBtn.parentNode.replaceChild(restoredInput, submitBtn);
                     // Обновляем ссылку для дальнейшего использования
                     submitBtn = restoredInput;
+                } else if (submitBtn._wasButtonReplaced && submitBtn._originalButton) {
+                    // Если button был заменен на новый button с иконкой, восстанавливаем оригинальный
+                    const originalButtonData = submitBtn._originalButton;
+                    const restoredButton = document.createElement('button');
+                    restoredButton.type = 'submit';
+                    restoredButton.className = originalButtonData.className || '';
+                    restoredButton.innerHTML = originalButtonData.innerHTML || originalBtnHTML;
+                    restoredButton.disabled = false;
+                    // Копируем все data-атрибуты
+                    if (originalButtonData.dataset) {
+                        for (const key in originalButtonData.dataset) {
+                            if (originalButtonData.dataset.hasOwnProperty(key)) {
+                                restoredButton.dataset[key] = originalButtonData.dataset[key];
+                            }
+                        }
+                    }
+                    // Заменяем новый button обратно на оригинальный
+                    submitBtn.parentNode.replaceChild(restoredButton, submitBtn);
+                    // Обновляем ссылку для дальнейшего использования
+                    submitBtn = restoredButton;
                 } else {
                     // Для input используем value, для button - innerHTML
                     if (isInputSubmit) {
                         submitBtn.value = originalBtnHTML;
                     } else {
                         submitBtn.innerHTML = originalBtnHTML;
+                        // После восстановления снова скрываем иконку через CSS класс (если она есть)
+                        const icon = submitBtn.querySelector('i');
+                        if (icon) {
+                            icon.classList.add('submit-icon-hidden');
+                        }
                     }
                 }
                 
@@ -1311,6 +1997,40 @@
             // Для button[type="submit"] добавляем обработчик клика
             submitBtn.addEventListener('click', function(e) {
                 console.log('[Form Submit] Button submit clicked for form:', config.formId, 'type:', config.type);
+                
+                // Сначала проверяем обязательные файловые поля с FilePond
+                console.log('[Form Submit] Validating required file fields (button click)...');
+                const fileValidation = validateRequiredFileFields(form);
+                if (!fileValidation.isValid) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.classList.add('was-validated');
+                    
+                    const invalidEvent = new CustomEvent('codeweberFormInvalid', {
+                        detail: {
+                            formId: config.formId,
+                            form: form,
+                            message: 'Form validation failed'
+                        }
+                    });
+                    form.dispatchEvent(invalidEvent);
+                    
+                    // Фокус на первое невалидное поле
+                    if (fileValidation.errors.length > 0) {
+                        const firstInvalid = fileValidation.errors[0];
+                        const wrapper = firstInvalid.closest('.form-field-wrapper') || firstInvalid.closest('.input-group');
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        const filepondRoot = findFilePondRoot(firstInvalid, wrapper);
+                        if (filepondRoot) {
+                            const browseButton = filepondRoot.querySelector('.filepond--browser, .filepond--label-action');
+                            if (browseButton) {
+                                browseButton.focus();
+                            }
+                        }
+                    }
+                    return false;
+                }
                 
                 // Проверяем валидность формы перед отправкой
                 if (!form.checkValidity()) {
@@ -1398,6 +2118,9 @@
         
         // Сохраняем ссылку на обработчик для проверки
         form._codeweberSubmitHandler = submitHandler;
+        
+        // Настраиваем автоматическую очистку ошибок валидации для FilePond
+        setupFilePondValidationCleanup(form);
         
         // Устанавливаем флаг инициализации
         form.dataset.initialized = 'true';

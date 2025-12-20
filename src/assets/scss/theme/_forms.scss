@@ -154,3 +154,99 @@ form.dark-fields .form-control {
     }
   }
 }
+
+// Валидация файловых полей с FilePond
+.form-field-wrapper {
+  &.is-invalid {
+    input[type="file"],
+    .filepond--root {
+      border-color: #dc3545;
+      box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+    
+    .filepond--root {
+      background-color: #fff5f5;
+    }
+    
+    label {
+      color: #dc3545;
+    }
+  }
+}
+
+// Стили для невалидного состояния FilePond (Bootstrap-совместимые)
+.filepond--root.is-invalid,
+.form-field-wrapper.is-invalid .filepond--root,
+.input-group.is-invalid .filepond--root {
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+  
+  .filepond--drop-label {
+    color: #dc3545 !important;
+    
+    .filepond--label-action {
+      color: #dc3545 !important;
+      text-decoration: underline;
+      
+      &:hover,
+      &:focus {
+        color: #b02a37 !important;
+      }
+    }
+  }
+  
+  // При фокусе
+  &:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+  }
+}
+
+// Дополнительные стили для гарантированного применения
+.filepond--root.is-invalid .filepond--drop-label label {
+  color: #dc3545 !important;
+}
+
+// Стили для валидного состояния FilePond (зеленая тень)
+// Важно: эти стили должны иметь такую же или большую специфичность, чем is-invalid
+.filepond--root.is-valid,
+.form-field-wrapper.is-valid .filepond--root,
+.input-group.is-valid .filepond--root {
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25) !important;
+  
+  .filepond--drop-label {
+    color: #198754 !important;
+    
+    .filepond--label-action {
+      color: #198754 !important;
+      text-decoration: underline;
+      
+      &:hover,
+      &:focus {
+        color: #146c43 !important;
+      }
+    }
+  }
+  
+  // При фокусе
+  &:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25) !important;
+  }
+}
+
+.filepond--root.is-valid .filepond--drop-label label {
+  color: #198754 !important;
+}
+
+// Скрытие иконки в кнопке submit до отправки
+// Используем opacity вместо width, чтобы не мешать генерации ::before
+.submit-icon-hidden {
+  opacity: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  display: inline-block !important;
+  visibility: hidden !important;
+}
+
+// Стили для label при невалидном состоянии
+.form-field-wrapper.is-invalid label[for*="field-"] {
+  color: #dc3545;
+}

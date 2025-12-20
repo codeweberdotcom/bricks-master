@@ -28,6 +28,9 @@ class NewsletterSubscriptionAdmin
       add_action('admin_menu', array($this, 'add_admin_menu'));
       add_action('admin_init', array($this, 'admin_init'));
       add_action('admin_init', array($this, 'process_bulk_actions_early'));
+      add_action('admin_init', array($this, 'handle_empty_trash_early'));
+      add_action('admin_init', array($this, 'handle_post_actions_early'));
+      add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
       
       // Register screen option for per page
       add_filter('set-screen-option', array($this, 'set_screen_option'), 10, 3);
@@ -96,7 +99,7 @@ class NewsletterSubscriptionAdmin
 
    public function admin_init()
    {
-      add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_styles'));
+      // Scripts are enqueued via enqueue_admin_scripts method hooked in __construct
 
       add_action('admin_post_newsletter_export_csv', array($this, 'handle_export_csv'));
       add_action('admin_post_nopriv_newsletter_export_csv', array($this, 'handle_export_csv'));
@@ -130,7 +133,7 @@ class NewsletterSubscriptionAdmin
       return true;
    }
 
-   public function enqueue_admin_styles($hook)
+   public function enqueue_admin_scripts($hook)
    {
       if ($hook !== 'toplevel_page_newsletter-subscriptions' && $hook !== 'newsletter-subscriptions_page_newsletter-subscriptions-import') {
          return;
@@ -142,6 +145,53 @@ class NewsletterSubscriptionAdmin
          array(),
          '1.0.0'
       );
+      
+      // Enqueue jQuery if not already loaded
+      wp_enqueue_script('jquery');
+      
+      // Add inline script for POST actions via JavaScript
+      $script = '
+jQuery(document).ready(function($) {
+   $(".newsletter-row-action").on("click", function(e) {
+      e.preventDefault();
+      
+      var $link = $(this);
+      var action = $link.data("action");
+      var email = $link.data("email");
+      var nonce = $link.data("nonce");
+      var confirmMsg = $link.data("confirm");
+      
+      if (confirmMsg && !confirm(confirmMsg)) {
+         return false;
+      }
+      
+      // Create form and submit via POST
+      var form = $("<form>", {
+         method: "POST",
+         action: "' . esc_js(admin_url('admin.php?page=newsletter-subscriptions')) . '"
+      });
+      
+      form.append($("<input>", {type: "hidden", name: "action", value: action}));
+      form.append($("<input>", {type: "hidden", name: "email", value: email}));
+      form.append($("<input>", {type: "hidden", name: "newsletter_nonce", value: nonce}));
+      form.append($("<input>", {type: "hidden", name: "page", value: "newsletter-subscriptions"}));
+      
+      // Preserve filter parameters from current URL
+      var urlParams = new URLSearchParams(window.location.search);
+      var params = ["status", "form_id", "s", "paged"];
+      params.forEach(function(param) {
+         var value = urlParams.get(param);
+         if (value) {
+            form.append($("<input>", {type: "hidden", name: param, value: value}));
+         }
+      });
+      
+      $("body").append(form);
+      form.submit();
+   });
+});';
+      
+      wp_add_inline_script('jquery', $script);
    }
 
    /**
@@ -160,6 +210,183 @@ class NewsletterSubscriptionAdmin
          $list_table->process_bulk_action();
          // process_bulk_action() will redirect and exit
       }
+   }
+   
+   /**
+    * Handle empty_trash action early via admin_init hook (before any output)
+    */
+   public function handle_empty_trash_early()
+   {
+      // Only process on our admin page
+      if (!isset($_GET['page']) || $_GET['page'] !== 'newsletter-subscriptions') {
+         return;
+      }
+      
+      // Check if this is empty_trash action
+      if (!isset($_POST['action']) || $_POST['action'] !== 'empty_trash') {
+         return;
+      }
+      
+      if (!check_admin_referer('newsletter_admin_action', 'newsletter_nonce')) {
+         wp_die(__('Security check failed', 'codeweber'));
+      }
+      
+      global $wpdb;
+      
+      // Delete all subscriptions that are currently in trash
+      $result = $wpdb->query(
+         "DELETE FROM {$this->table_name} WHERE status = 'trash'"
+      );
+      
+      $redirect_url = admin_url('admin.php?page=newsletter-subscriptions');
+      
+      // Preserve status filter if in trash view
+      if (isset($_GET['status']) && $_GET['status'] === 'trash') {
+         // After emptying trash, redirect to all subscriptions
+         // (since trash will be empty)
+      } else {
+         $redirect_url = add_query_arg('status', 'trash', $redirect_url);
+      }
+      
+      if ($result !== false) {
+         // Add success message via query parameter
+         $redirect_url = add_query_arg('trash_emptied', '1', $redirect_url);
+      }
+      
+      wp_safe_redirect($redirect_url);
+      exit;
+   }
+   
+   /**
+    * Handle POST actions early via admin_init hook (before any output)
+    * Handles unsubscribe, trash, untrash, delete_permanent actions from row forms
+    */
+   public function handle_post_actions_early()
+   {
+      // Check if we have POST action and email (row actions)
+      if (!isset($_POST['action']) || !isset($_POST['email'])) {
+         return;
+      }
+      
+      // Don't handle if this is a bulk action or empty_trash
+      if (isset($_POST['subscription']) && is_array($_POST['subscription'])) {
+         return;
+      }
+      
+      if ($_POST['action'] === 'empty_trash') {
+         return;
+      }
+      
+      // Check if this is our page (can be in GET or POST)
+      $page = isset($_GET['page']) ? $_GET['page'] : (isset($_POST['page']) ? $_POST['page'] : '');
+      if ($page !== 'newsletter-subscriptions') {
+         return;
+      }
+      
+      if (!check_admin_referer('newsletter_admin_action', 'newsletter_nonce')) {
+         wp_die(__('Security check failed', 'codeweber'));
+      }
+      
+      $action = sanitize_text_field($_POST['action']);
+      $email = sanitize_email($_POST['email']);
+      
+      if (empty($email) || !is_email($email)) {
+         return;
+      }
+      
+      global $wpdb;
+      
+      $redirect_url = admin_url('admin.php?page=newsletter-subscriptions');
+      
+      // Preserve filters
+      $preserve_params = ['status', 'form_id', 's', 'paged'];
+      foreach ($preserve_params as $param) {
+         if (isset($_GET[$param]) && !empty($_GET[$param])) {
+            $redirect_url = add_query_arg($param, sanitize_text_field($_GET[$param]), $redirect_url);
+         }
+      }
+      
+      switch ($action) {
+         case 'unsubscribe':
+            // Update status and events history on unsubscribe from admin
+            $subscription = $wpdb->get_row($wpdb->prepare(
+               "SELECT * FROM {$this->table_name} WHERE email = %s LIMIT 1",
+               $email
+            ));
+
+            if ($subscription) {
+               $events = [];
+               if (!empty($subscription->events_history)) {
+                  $decoded = json_decode($subscription->events_history, true);
+                  if (is_array($decoded)) {
+                     $events = $decoded;
+                  }
+               }
+
+               $now = current_time('mysql');
+               $events[] = [
+                  'type'         => 'unsubscribed',
+                  'date'         => $now,
+                  'source'       => 'admin',
+                  'form_id'      => '',
+                  'page_url'     => '',
+                  'actor_user_id'=> get_current_user_id(),
+               ];
+
+               $result = $wpdb->update($this->table_name, array(
+                  'status'          => 'unsubscribed',
+                  'unsubscribed_at' => $now,
+                  'updated_at'      => $now,
+                  'events_history'  => wp_json_encode($events, JSON_UNESCAPED_UNICODE),
+               ), array('email' => $email));
+
+               if ($result) {
+                  // Revoke mailing consent on unsubscribe
+                  $this->revoke_mailing_consent($email);
+                  $redirect_url = add_query_arg('unsubscribed', '1', $redirect_url);
+               }
+            }
+            break;
+
+         case 'trash':
+            // Only move to trash if not already in trash
+            $result = $wpdb->query($wpdb->prepare(
+               "UPDATE {$this->table_name} SET status = 'trash', updated_at = %s WHERE email = %s AND status != 'trash'",
+               current_time('mysql'),
+               $email
+            ));
+
+            if ($result) {
+               $redirect_url = add_query_arg('trashed', '1', $redirect_url);
+            }
+            break;
+
+         case 'untrash':
+            $result = $wpdb->update($this->table_name, array(
+               'status' => 'confirmed',
+               'updated_at' => current_time('mysql')
+            ), array('email' => $email, 'status' => 'trash'));
+
+            if ($result) {
+               $redirect_url = add_query_arg('untrashed', '1', $redirect_url);
+            }
+            break;
+
+         case 'delete_permanent':
+            // Only delete if in trash
+            $result = $wpdb->query($wpdb->prepare(
+               "DELETE FROM {$this->table_name} WHERE email = %s AND status = 'trash'",
+               $email
+            ));
+
+            if ($result) {
+               $redirect_url = add_query_arg('deleted', '1', $redirect_url);
+            }
+            break;
+      }
+      
+      wp_safe_redirect($redirect_url);
+      exit;
    }
 
    public function render_admin_page()
@@ -190,6 +417,35 @@ class NewsletterSubscriptionAdmin
          <h1><?php _e('Newsletter Subscriptions', 'codeweber'); ?></h1>
 
          <?php settings_errors('newsletter_messages'); ?>
+         
+         <?php
+         // Показываем сообщения об успешных действиях
+         if (isset($_GET['trash_emptied']) && $_GET['trash_emptied'] === '1') {
+            echo '<div class="notice notice-success is-dismissible"><p>' . 
+                 esc_html(__('Trash has been emptied', 'codeweber')) . 
+                 '</p></div>';
+         }
+         if (isset($_GET['unsubscribed']) && $_GET['unsubscribed'] === '1') {
+            echo '<div class="notice notice-success is-dismissible"><p>' . 
+                 esc_html(__('User successfully unsubscribed from newsletter', 'codeweber')) . 
+                 '</p></div>';
+         }
+         if (isset($_GET['trashed']) && $_GET['trashed'] === '1') {
+            echo '<div class="notice notice-success is-dismissible"><p>' . 
+                 esc_html__('Subscription moved to trash', 'codeweber') . 
+                 '</p></div>';
+         }
+         if (isset($_GET['untrashed']) && $_GET['untrashed'] === '1') {
+            echo '<div class="notice notice-success is-dismissible"><p>' . 
+                 esc_html__('Subscription restored from trash', 'codeweber') . 
+                 '</p></div>';
+         }
+         if (isset($_GET['deleted']) && $_GET['deleted'] === '1') {
+            echo '<div class="notice notice-success is-dismissible"><p>' . 
+                 esc_html(__('Subscription permanently deleted', 'codeweber')) . 
+                 '</p></div>';
+         }
+         ?>
 
          <?php
          // Display views (All, Pending, Confirmed, etc.)
@@ -374,31 +630,35 @@ class NewsletterSubscriptionAdmin
             $actions = array();
             $actions['view'] = '<a href="' . esc_url($view_url) . '">' . __('View', 'codeweber') . '</a>';
             
+            // Use JavaScript to submit POST forms (can't nest forms)
+            $nonce = wp_create_nonce('newsletter_admin_action');
+            
             if ($subscription->status === 'trash') {
-               $untrash_url = wp_nonce_url(
-                  admin_url('admin.php?page=newsletter-subscriptions&action=untrash&email=' . urlencode($subscription->email)),
-                  'newsletter_admin_action_' . urlencode($subscription->email)
-               );
-               $delete_url = wp_nonce_url(
-                  admin_url('admin.php?page=newsletter-subscriptions&action=delete_permanent&email=' . urlencode($subscription->email)),
-                  'newsletter_admin_action_' . urlencode($subscription->email)
-               );
-               $actions['untrash'] = '<a href="' . esc_url($untrash_url) . '">' . __('Restore', 'codeweber') . '</a>';
-               $actions['delete'] = '<a href="' . esc_url($delete_url) . '" onclick="return confirm(\'' . esc_js(__('Are you sure you want to permanently delete this subscription?', 'codeweber')) . '\');">' . __('Delete Permanently', 'codeweber') . '</a>';
+               $actions['untrash'] = '<a href="#" class="newsletter-row-action" 
+                  data-action="untrash" 
+                  data-email="' . esc_attr($subscription->email) . '" 
+                  data-nonce="' . esc_attr($nonce) . '"
+                  data-confirm="' . esc_js(__('Are you sure you want to restore this subscription?', 'codeweber')) . '">' . __('Restore', 'codeweber') . '</a>';
+               
+               $actions['delete'] = '<a href="#" class="newsletter-row-action delete" 
+                  data-action="delete_permanent" 
+                  data-email="' . esc_attr($subscription->email) . '" 
+                  data-nonce="' . esc_attr($nonce) . '"
+                  data-confirm="' . esc_js(__('Are you sure you want to permanently delete this subscription?', 'codeweber')) . '">' . __('Delete Permanently', 'codeweber') . '</a>';
             } else {
                if ($subscription->status !== 'unsubscribed') {
-                  $unsubscribe_url = wp_nonce_url(
-                     admin_url('admin.php?page=newsletter-subscriptions&action=unsubscribe&email=' . urlencode($subscription->email)),
-                     'newsletter_admin_action_' . urlencode($subscription->email)
-                  );
-                  $actions['unsubscribe'] = '<a href="' . esc_url($unsubscribe_url) . '" onclick="return confirm(\'' . esc_js(__('Are you sure you want to unsubscribe this user?', 'codeweber')) . '\');">' . __('Unsubscribe', 'codeweber') . '</a>';
+                  $actions['unsubscribe'] = '<a href="#" class="newsletter-row-action" 
+                     data-action="unsubscribe" 
+                     data-email="' . esc_attr($subscription->email) . '" 
+                     data-nonce="' . esc_attr($nonce) . '"
+                     data-confirm="' . esc_js(__('Are you sure you want to unsubscribe this user?', 'codeweber')) . '">' . __('Unsubscribe', 'codeweber') . '</a>';
                }
                
-               $trash_url = wp_nonce_url(
-                  admin_url('admin.php?page=newsletter-subscriptions&action=trash&email=' . urlencode($subscription->email)),
-                  'newsletter_admin_action_' . urlencode($subscription->email)
-               );
-               $actions['trash'] = '<a href="' . esc_url($trash_url) . '" onclick="return confirm(\'' . esc_js(__('Are you sure you want to move this subscription to trash?', 'codeweber')) . '\');">' . __('Trash', 'codeweber') . '</a>';
+               $actions['trash'] = '<a href="#" class="newsletter-row-action" 
+                  data-action="trash" 
+                  data-email="' . esc_attr($subscription->email) . '" 
+                  data-nonce="' . esc_attr($nonce) . '"
+                  data-confirm="' . esc_js(__('Are you sure you want to move this subscription to trash?', 'codeweber')) . '">' . __('Trash', 'codeweber') . '</a>';
             }
             
             // Render actions in WordPress row_actions style
@@ -417,6 +677,12 @@ class NewsletterSubscriptionAdmin
    {
       // Don't handle if this is a bulk action
       if (isset($_POST['subscription']) && is_array($_POST['subscription'])) {
+         return;
+      }
+      
+      // Row actions (unsubscribe, trash, untrash, delete_permanent) are now handled by handle_post_actions_early()
+      // Skip them here to avoid double processing
+      if (isset($_POST['action']) && isset($_POST['email']) && in_array($_POST['action'], ['unsubscribe', 'trash', 'untrash', 'delete_permanent'])) {
          return;
       }
       

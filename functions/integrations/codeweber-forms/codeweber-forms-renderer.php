@@ -69,7 +69,8 @@ class CodeweberFormsRenderer {
                         error_log('[Form Render] Found newsletter field: ' . print_r($field_attrs, true));
                     }
                     // Проверяем, есть ли file поле с FilePond
-                    if (($field_attrs['fieldType'] ?? '') === 'file' && !empty($field_attrs['useFilePond'])) {
+                    // FilePond всегда используется для полей типа file
+                    if (($field_attrs['fieldType'] ?? '') === 'file') {
                         $has_filepond = true;
                         // #region agent log
                         $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
@@ -179,9 +180,10 @@ class CodeweberFormsRenderer {
         $settings = $config['settings'] ?? [];
         
         // Check for FilePond fields and enqueue scripts if needed
+        // FilePond всегда используется для полей типа file
         $has_filepond = false;
         foreach ($fields as $field) {
-            if (($field['fieldType'] ?? '') === 'file' && !empty($field['useFilePond'])) {
+            if (($field['fieldType'] ?? '') === 'file') {
                 $has_filepond = true;
                 break;
             }
@@ -548,7 +550,84 @@ class CodeweberFormsRenderer {
      * Render single form field
      */
     private function render_field($field, $form_id = 0) {
+        // Check for inline button BEFORE other processing
+        $enable_inline_button = isset($field['enableInlineButton']) && ($field['enableInlineButton'] === true || $field['enableInlineButton'] === 'true' || $field['enableInlineButton'] === 1);
         $field_type = $field['fieldType'] ?? 'text';
+        $inline_button_supported_types = ['text', 'email', 'tel', 'url', 'number', 'date', 'time', 'author_role', 'company'];
+        $inline_button_enabled = $enable_inline_button && in_array($field_type, $inline_button_supported_types) && $field_type !== 'newsletter';
+        
+        // #region agent log
+        $log_file = dirname(WP_CONTENT_DIR) . '/.cursor/debug.log';
+        $log_entry = json_encode([
+            'sessionId' => 'debug-session',
+            'runId' => 'run1',
+            'hypothesisId' => 'L',
+            'location' => 'codeweber-forms-renderer.php:render_field',
+            'message' => 'render_field called - checking inline button',
+            'data' => [
+                'field_type' => $field_type,
+                'enable_inline_button' => $enable_inline_button,
+                'inline_button_enabled' => $inline_button_enabled,
+                'enableInlineButton_raw' => $field['enableInlineButton'] ?? 'NOT_SET'
+            ],
+            'timestamp' => time() * 1000
+        ]) . "\n";
+        @file_put_contents($log_file, $log_entry, FILE_APPEND);
+        // #endregion
+        
+        // For fields with inline button, use render.php (like newsletter)
+        if ($inline_button_enabled) {
+            // #region agent log
+            $log_entry = json_encode([
+                'sessionId' => 'debug-session',
+                'runId' => 'run1',
+                'hypothesisId' => 'M',
+                'location' => 'codeweber-forms-renderer.php:render_field',
+                'message' => 'INLINE BUTTON - calling render.php',
+                'data' => ['field_type' => $field_type, 'form_id' => $form_id],
+                'timestamp' => time() * 1000
+            ]) . "\n";
+            @file_put_contents($log_file, $log_entry, FILE_APPEND);
+            // #endregion
+            
+            // Use render.php for inline button fields
+            $render_path = WP_PLUGIN_DIR . '/codeweber-gutenberg-blocks/build/blocks/form-field/render.php';
+            if (file_exists($render_path)) {
+                // Create a mock block object for render.php
+                $block_instance = (object) [
+                    'context' => ['codeweber/formId' => $form_id]
+                ];
+                
+                // Pass variables to render.php scope
+                $attributes = $field;
+                $content = '';
+                $block = $block_instance;
+                $context = ['codeweber/formId' => $form_id];
+                
+                ob_start();
+                require $render_path;
+                $rendered = ob_get_clean();
+                
+                // #region agent log
+                $log_entry = json_encode([
+                    'sessionId' => 'debug-session',
+                    'runId' => 'run1',
+                    'hypothesisId' => 'N',
+                    'location' => 'codeweber-forms-renderer.php:render_field',
+                    'message' => 'INLINE BUTTON - render.php output generated',
+                    'data' => [
+                        'output_length' => strlen($rendered),
+                        'output_preview' => substr($rendered, 0, 200)
+                    ],
+                    'timestamp' => time() * 1000
+                ]) . "\n";
+                @file_put_contents($log_file, $log_entry, FILE_APPEND);
+                // #endregion
+                
+                return $rendered;
+            }
+        }
+        
         $field_name = $field['fieldName'] ?? '';
         
         // Отладка для newsletter
@@ -796,7 +875,8 @@ class CodeweberFormsRenderer {
                 case 'file':
                     $accept = $field['accept'] ?? '';
                     $multiple = !empty($field['multiple']);
-                    $use_filepond = !empty($field['useFilePond']);
+                    // FilePond всегда используется для полей типа file
+                    $use_filepond = true; // Всегда true для полей типа file
                     $max_files = !empty($field['maxFiles']) ? intval($field['maxFiles']) : 0;
                     // Use default values from block.json if not set
                     $max_file_size = $field['maxFileSize'] ?? '10MB';
@@ -807,7 +887,7 @@ class CodeweberFormsRenderer {
                     if (!is_dir($log_dir)) {
                         @mkdir($log_dir, 0755, true);
                     }
-                    @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'C','location'=>'codeweber-forms-renderer.php:712','message'=>'File field attributes','data'=>['useFilePond'=>$use_filepond,'maxFiles'=>$max_files,'maxFileSize'=>$max_file_size,'maxTotalFileSize'=>$max_total_file_size,'rawField'=>['useFilePond'=>$field['useFilePond']??null,'maxFiles'=>$field['maxFiles']??null,'maxFileSize'=>$field['maxFileSize']??null,'maxTotalFileSize'=>$field['maxTotalFileSize']??null]],'timestamp'=>time()*1000])."\n", FILE_APPEND);
+                    @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'C','location'=>'codeweber-forms-renderer.php:712','message'=>'File field attributes','data'=>['useFilePond'=>$use_filepond,'maxFiles'=>$max_files,'maxFileSize'=>$max_file_size,'maxTotalFileSize'=>$max_total_file_size,'multiple'=>$multiple],'timestamp'=>time()*1000])."\n", FILE_APPEND);
                     // #endregion
                     $no_file_text = __('No file selected', 'codeweber');
                     $browse_text = __('Browse', 'codeweber');
@@ -816,53 +896,20 @@ class CodeweberFormsRenderer {
                         <label for="<?php echo esc_attr($field_id); ?>" class="form-label">
                             <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>
                         </label>
-                        <?php if ($use_filepond): ?>
-                        <!-- FilePond will replace this input -->
+                        <!-- FilePond для всех файлов - обычный дизайн -->
                         <input
                             type="file"
                             class="filepond"
                             id="<?php echo esc_attr($field_id); ?>"
                             name="<?php echo esc_attr($field_name); ?><?php echo $multiple ? '[]' : ''; ?>"
                             data-filepond="true"
-                            data-max-files="<?php echo $max_files > 0 ? esc_attr($max_files) : ''; ?>"
+                            data-max-files="<?php echo ($multiple && $max_files > 0) ? esc_attr($max_files) : ($multiple ? '' : '1'); ?>"
                             data-max-file-size="<?php echo $max_file_size ? esc_attr($max_file_size) : ''; ?>"
                             data-max-total-file-size="<?php echo $max_total_file_size ? esc_attr($max_total_file_size) : ''; ?>"
                             <?php echo $required_attr; ?>
                             <?php echo $accept ? 'accept="' . esc_attr($accept) . '"' : ''; ?>
                             <?php echo $multiple ? 'multiple' : ''; ?>
                         />
-                        <?php else: ?>
-                        <div class="input-group">
-                            <input
-                                type="file"
-                                class="form-control file-input-hidden<?php echo esc_attr($form_radius_class); ?>"
-                                id="<?php echo esc_attr($field_id); ?>"
-                                name="<?php echo esc_attr($field_name); ?><?php echo $multiple ? '[]' : ''; ?>"
-                                data-filepond="false"
-                                data-no-file-text="<?php echo esc_attr($no_file_text); ?>"
-                                <?php echo $required_attr; ?>
-                                <?php echo $accept ? 'accept="' . esc_attr($accept) . '"' : ''; ?>
-                                <?php echo $multiple ? 'multiple' : ''; ?>
-                            />
-                            <input
-                                type="text"
-                                class="form-control file-input-display<?php echo esc_attr($form_radius_class); ?>"
-                                id="<?php echo esc_attr($field_id); ?>-display"
-                                readonly
-                                placeholder="<?php echo esc_attr($no_file_text); ?>"
-                            />
-                            <button
-                                type="button"
-                                class="btn btn-primary file-browse-button"
-                                data-file-input="<?php echo esc_attr($field_id); ?>"
-                            >
-                                <?php echo esc_html($browse_text); ?>
-                            </button>
-                            <?php endif; ?>
-                        </div>
-                        <?php if (!$use_filepond): ?>
-                        <div class="file-list-container mt-2" id="<?php echo esc_attr($field_id); ?>-list"></div>
-                        <?php endif; ?>
                     </div>
                     <?php
                     break;

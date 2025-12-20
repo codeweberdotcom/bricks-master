@@ -227,8 +227,9 @@ msgstr "Все статусы"
 msgid "New"
 msgstr "Новое"
 
-#: codeweber-forms-admin.php:62
-msgid "Read"
+#: admin/class-codeweber-forms-list-table.php:281
+#: admin/class-codeweber-forms-list-table.php:537
+msgid "Viewed"
 msgstr "Прочитано"
 
 #: codeweber-forms-admin.php:63
@@ -946,4 +947,55 @@ msgstr "Файл не выбран"
 #: codeweber-forms-renderer.php:701
 msgid "Browse"
 msgstr "Обзор"
+
+#: admin/class-codeweber-forms-list-table.php:80
+msgid "Mark as Read"
+msgstr "Отметить как прочитанное"
+
+#: admin/class-codeweber-forms-list-table.php:81
+msgid "Mark as Unread"
+msgstr "Отметить как непрочитанное"
+
+#: admin/class-codeweber-forms-list-table.php:83
+msgid "Unarchive"
+msgstr "Разархивировать"
+
+#: admin/class-codeweber-forms-list-table.php:187
+msgid "marked as read"
+msgstr "отмечены как прочитанные"
+
+#: admin/class-codeweber-forms-list-table.php:188
+msgid "marked as unread"
+msgstr "отмечены как непрочитанные"
+
+#: admin/class-codeweber-forms-list-table.php:189
+msgid "archived"
+msgstr "архивированы"
+
+#: admin/class-codeweber-forms-list-table.php:190
+msgid "unarchived"
+msgstr "разархивированы"
+
+#: admin/class-codeweber-forms-list-table.php:191
+msgid "moved to trash"
+msgstr "перемещены в корзину"
+
+#: admin/class-codeweber-forms-list-table.php:194
+msgid "updated"
+msgstr "обновлены"
+
+#: admin/class-codeweber-forms-list-table.php:196
+msgid "%d submission %s"
+msgid_plural "%d submissions %s"
+msgstr[0] "%d отправка %s"
+msgstr[1] "%d отправки %s"
+msgstr[2] "%d отправок %s"
+
+#: admin/class-codeweber-forms-list-table.php:279
+msgid "All"
+msgstr "Все"
+
+#: admin/class-codeweber-forms-list-table.php:283
+msgid "Trash"
+msgstr "Корзина"
 
