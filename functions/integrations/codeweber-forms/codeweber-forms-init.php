@@ -137,8 +137,40 @@ add_action('init', function() {
 add_action('codeweber_forms_cleanup_temp_files', function() {
     $temp_files = new CodeweberFormsTempFiles();
     $deleted_count = $temp_files->cleanup_expired_files(100);
-    error_log('Codeweber Forms: Cleaned up ' . $deleted_count . ' expired temp files');
 });
+
+// Асинхронная отправка email администратору
+add_action('codeweber_forms_send_admin_email', function($form_id, $form_settings, $sanitized_fields, $files_data, $submission_id) {
+    $api = new CodeweberFormsAPI();
+    $email_result = $api->send_email_async($form_id, $form_settings, $sanitized_fields, $files_data, $submission_id, 'admin');
+    
+    // Обновляем статус отправки email в БД
+    $db = new CodeweberFormsDatabase();
+    $db->update_submission($submission_id, [
+        'email_sent' => $email_result['success'] ? 1 : 0,
+        'email_error' => $email_result['error'] ?? null,
+    ]);
+    
+    // Хук при ошибке отправки email
+    if (!$email_result['success'] && !empty($email_result['error'])) {
+        CodeweberFormsHooks::send_error($form_id, $form_settings, $email_result['error']);
+    }
+}, 10, 5);
+
+// Асинхронная отправка auto-reply пользователю
+add_action('codeweber_forms_send_auto_reply', function($form_id, $form_settings, $sanitized_fields, $user_email, $form_type, $submission_id) {
+    $api = new CodeweberFormsAPI();
+    $auto_reply_result = $api->send_auto_reply_async($form_id, $form_settings, $sanitized_fields, $user_email, $form_type, $submission_id);
+    
+    // Обновляем статус отправки автоответа в БД
+    if ($submission_id) {
+        $db = new CodeweberFormsDatabase();
+        $db->update_submission($submission_id, [
+            'auto_reply_sent' => $auto_reply_result['success'] ? 1 : 0,
+            'auto_reply_error' => $auto_reply_result['error'] ?? null,
+        ]);
+    }
+}, 10, 6);
 
 // Регистрация провайдера в Personal Data V2 (новый универсальный модуль)
 // Старый функционал продолжает работать, новый модуль добавляется параллельно

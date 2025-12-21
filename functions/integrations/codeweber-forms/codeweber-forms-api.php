@@ -371,6 +371,23 @@ class CodeweberFormsAPI {
         // Если есть согласия — сразу обогащаем их версией документа,
         // чтобы далее (в том числе в логике ресабскрайба) всегда использовать единый формат
         if ($newsletter_consents_for_save !== null) {
+            // ОПТИМИЗАЦИЯ: Получаем все документы одним запросом вместо множественных get_post()
+            $doc_ids = array_map('intval', array_keys($newsletter_consents_for_save));
+            $docs_map = [];
+            if (!empty($doc_ids)) {
+                $documents = get_posts([
+                    'post_type' => 'legal',
+                    'post__in' => $doc_ids,
+                    'posts_per_page' => -1,
+                    'post_status' => 'publish'
+                ]);
+                
+                // Создаем маппинг ID => документ для быстрого доступа
+                foreach ($documents as $doc) {
+                    $docs_map[$doc->ID] = $doc;
+                }
+            }
+            
             // Сохраняем версии документов на момент подписки
             $consents_with_versions = [];
             foreach ($newsletter_consents_for_save as $doc_id => $value) {
@@ -384,7 +401,8 @@ class CodeweberFormsAPI {
                 
                 if ($consent_value === '1' || $consent_value === 1) {
                     $doc_id = intval($doc_id);
-                    $doc = get_post($doc_id);
+                    // Используем кешированный документ вместо get_post()
+                    $doc = $docs_map[$doc_id] ?? null;
                     if ($doc) {
                         // Сохраняем ID документа и дату его последнего изменения (версию)
                         $consents_with_versions[$doc_id] = [
@@ -734,28 +752,26 @@ class CodeweberFormsAPI {
         // Хук перед отправкой
         CodeweberFormsHooks::before_send($form_id, $form_settings, $sanitized_fields);
         
-        // Отправка email администратору
-        $email_sent = false;
-        $email_error = null;
+        // Отправка email администратору (асинхронно)
         $email_templates = get_option('codeweber_forms_email_templates', []);
         $admin_notification_enabled = isset($email_templates['admin_notification_enabled']) 
             ? $email_templates['admin_notification_enabled'] 
             : true;
         
         if ($admin_notification_enabled && !empty($form_settings['recipientEmail'])) {
-            $email_result = $this->send_email($form_id, $form_settings, $sanitized_fields, $files_data, $submission_id, 'admin');
-            $email_sent = $email_result['success'];
-            $email_error = $email_result['error'] ?? null;
+            // Планируем отправку через WP Cron (не блокирует ответ)
+            wp_schedule_single_event(time(), 'codeweber_forms_send_admin_email', [
+                $form_id,
+                $form_settings,
+                $sanitized_fields,
+                $files_data,
+                $submission_id
+            ]);
             
-            // Хук при ошибке отправки email
-            if (!$email_sent && $email_error) {
-                CodeweberFormsHooks::send_error($form_id, $form_settings, $email_error);
-            }
-            
-            // Обновляем статус отправки email
+            // Помечаем как "в процессе отправки" (статус обновится после отправки)
             $db->update_submission($submission_id, [
-                'email_sent' => $email_sent ? 1 : 0,
-                'email_error' => $email_error,
+                'email_sent' => 0,
+                'email_error' => null,
             ]);
         }
         
@@ -770,26 +786,28 @@ class CodeweberFormsAPI {
             }
         }
         
-        // Отправка auto-reply пользователю
+        // Отправка auto-reply пользователю (асинхронно)
         // Определяем тип формы для выбора правильного шаблона
         $form_type = $this->detect_form_type($form_id, $form_settings);
-        
-        $auto_reply_sent = false;
-        $auto_reply_error = null;
         
         if (!empty($sanitized_fields['email'])) {
             $user_email = sanitize_email($sanitized_fields['email']);
             if (is_email($user_email)) {
-                // Отправляем соответствующий шаблон в зависимости от типа формы
-                $auto_reply_result = $this->send_auto_reply($form_id, $form_settings, $sanitized_fields, $user_email, $form_type, $submission_id);
-                $auto_reply_sent = $auto_reply_result['success'] ?? false;
-                $auto_reply_error = $auto_reply_result['error'] ?? null;
+                // Планируем отправку через WP Cron (не блокирует ответ)
+                wp_schedule_single_event(time(), 'codeweber_forms_send_auto_reply', [
+                    $form_id,
+                    $form_settings,
+                    $sanitized_fields,
+                    $user_email,
+                    $form_type,
+                    $submission_id
+                ]);
                 
-                // Обновляем статус отправки автоответа
+                // Помечаем как "в процессе отправки" (статус обновится после отправки)
                 if ($submission_id) {
                     $db->update_submission($submission_id, [
-                        'auto_reply_sent' => $auto_reply_sent ? 1 : 0,
-                        'auto_reply_error' => $auto_reply_error,
+                        'auto_reply_sent' => 0,
+                        'auto_reply_error' => null,
                     ]);
                 }
             }
@@ -1574,6 +1592,24 @@ class CodeweberFormsAPI {
         } catch (Exception $e) {
             return ['success' => false, 'error' => $e->getMessage()];
         }
+    }
+    
+    /**
+     * Public method for async email sending (used by WP Cron)
+     * 
+     * @return array ['success' => bool, 'error' => string|null]
+     */
+    public function send_email_async($form_id, $form_settings, $fields, $files_data, $submission_id, $type = 'admin') {
+        return $this->send_email($form_id, $form_settings, $fields, $files_data, $submission_id, $type);
+    }
+    
+    /**
+     * Public method for async auto-reply sending (used by WP Cron)
+     * 
+     * @return array ['success' => bool, 'error' => string|null]
+     */
+    public function send_auto_reply_async($form_id, $form_settings, $fields, $user_email, $form_type = 'auto_reply', $submission_id = 0) {
+        return $this->send_auto_reply($form_id, $form_settings, $fields, $user_email, $form_type, $submission_id);
     }
     
     /**

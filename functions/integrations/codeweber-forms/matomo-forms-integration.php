@@ -167,7 +167,8 @@ function codeweber_forms_matomo_track_form_event($form_id, $form_name, $form_typ
     $response = wp_remote_post(
         home_url('/wp-json/matomo/v1/hit/'),
         [
-            'timeout' => 10,
+            'timeout' => 2, // Максимум 2 секунды
+            'blocking' => false, // Не ждать ответа (асинхронно)
             'sslverify' => false,
             'body' => $params,
         ]
