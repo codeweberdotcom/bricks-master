@@ -1646,11 +1646,37 @@
 
             console.log('[Form Submit] Starting data collection and submission...');
             try {
-                // Collect data
+                // Collect data BEFORE disabling fields (FormData doesn't include disabled fields)
                 console.log('[Form Submit] Calling collectFormData...');
                 const data = collectFormData(form, config);
                 console.log('[Form Submit Debug] Collected form data:', data);
                 console.log('[Form Submit Debug] newsletter_consents in data:', data.newsletter_consents);
+                
+                // Блокируем все поля формы ПОСЛЕ сбора данных
+                const formFields = form.querySelectorAll('input:not([type="hidden"]):not([type="submit"]):not([type="button"]), textarea, select, button:not([type="submit"])');
+                const disabledFields = [];
+                formFields.forEach(field => {
+                    // Сохраняем состояние disabled, если поле уже было заблокировано
+                    if (!field.disabled) {
+                        field.disabled = true;
+                        disabledFields.push(field);
+                    }
+                });
+                
+                // Блокируем FilePond поля, если они есть
+                const filepondInputs = form.querySelectorAll('input[type="file"][data-filepond="true"]');
+                const disabledFilePondInstances = [];
+                filepondInputs.forEach(input => {
+                    if (input.filepondInstance) {
+                        // Блокируем FilePond через его API
+                        input.filepondInstance.setOptions({ disabled: true });
+                        disabledFilePondInstances.push(input.filepondInstance);
+                    }
+                });
+                
+                // Сохраняем список заблокированных полей в форме для восстановления
+                form._disabledFields = disabledFields;
+                form._disabledFilePondInstances = disabledFilePondInstances;
                 
                 // Additional validation for testimonial form
                 // Используем только HTML5 валидацию через setCustomValidity - не бросаем исключения
@@ -1832,9 +1858,6 @@
                 });
                 form.dispatchEvent(responseProcessedEvent);
 
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1173',message:'Response processed, checking success',data:{formId:config.formId,success:responseData.success,hasResponseData:!!responseData},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'A'})}).catch(()=>{});
-                // #endregion
 
                 if (responseData.success) {
                     // Reset form first
@@ -1914,6 +1937,28 @@
                 // Восстанавливаем состояние кнопки
                 isOurControl = true;
                 submitBtn.disabled = false;
+                
+                // Разблокируем все поля формы
+                if (form._disabledFields && form._disabledFields.length > 0) {
+                    form._disabledFields.forEach(field => {
+                        if (field && field.disabled) {
+                            field.disabled = false;
+                        }
+                    });
+                    // Очищаем список
+                    form._disabledFields = null;
+                }
+                
+                // Разблокируем FilePond поля
+                if (form._disabledFilePondInstances && form._disabledFilePondInstances.length > 0) {
+                    form._disabledFilePondInstances.forEach(instance => {
+                        if (instance) {
+                            instance.setOptions({ disabled: false });
+                        }
+                    });
+                    // Очищаем список
+                    form._disabledFilePondInstances = null;
+                }
                 
                 // Если input был заменен на button, восстанавливаем input
                 if (submitBtn._wasInputReplaced && submitBtn._originalInput) {
@@ -2529,9 +2574,6 @@
             setTimeout(() => {
                 console.log('[FilePond Cleanup] ===== CLEANUP TIMEOUT FIRED =====');
                 try {
-                    // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1795',message:'Universal handler: Starting FilePond cleanup',data:{formId,hasFilePond:typeof FilePond!=='undefined',hasFind:typeof FilePond!=='undefined'&&typeof FilePond.find==='function'},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                    // #endregion
                     
                     // Очистка FilePond: удаляем только файлы, но оставляем сам FilePond инстанс
                     console.log('[FilePond Cleanup] ===== START CLEANUP =====');
@@ -2544,9 +2586,6 @@
                     // Способ 1: Ищем через оригинальный input по ID (FilePond создает root с тем же ID)
                     const filepondRoots = form.querySelectorAll('.filepond--root');
                     console.log('[FilePond Cleanup] Found .filepond--root elements:', filepondRoots.length);
-                    // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1805',message:'Universal handler: Found FilePond roots',data:{rootsCount:filepondRoots.length},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                    // #endregion
                     
                     // Пробуем найти инстансы через FilePond.find() по каждому root элементу
                     if (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') {
@@ -2594,9 +2633,6 @@
                                             const files = pond.getFiles();
                                             console.log('[FilePond Cleanup] Pond has', files.length, 'files');
                                             console.log('[FilePond Cleanup] Files:', files.map(f => ({id: f.id, filename: f.filename, status: f.status})));
-                                            // #region agent log
-                                            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1815',message:'Universal handler: Files found in pond',data:{rootIndex:rootIndex,filesCount:files.length,fileIds:files.map(f=>f.id)},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                                            // #endregion
                                             
                                             // Удаляем все файлы
                                             if (files.length > 0) {
@@ -2681,9 +2717,6 @@
                                         }
                                     } catch (e) {
                                         console.error('[FilePond Cleanup] ✗ Error removing files from pond:', e);
-                                        // #region agent log
-                                        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1825',message:'Universal handler: Error removing files from pond',data:{rootIndex:rootIndex,error:e.message,errorStack:e.stack},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                                        // #endregion
                                     }
                                 } else {
                                     console.warn('[FilePond Cleanup] ⚠️ Could not find FilePond instance for root', rootIndex);
@@ -2771,9 +2804,6 @@
                     // НЕ переинициализируем FilePond - он уже работает, просто очищен от файлов
                 } catch (e) {
                     console.error('[Form Submit] Error cleaning up FilePond', e);
-                    // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'form-submit-universal.js:1855',message:'Universal handler: Error in cleanup',data:{error:e.message,errorStack:e.stack},timestamp:Date.now(),sessionId:'debug-session',runId:'filepond-reinit',hypothesisId:'E'})}).catch(()=>{});
-                    // #endregion
                 }
             }, 300); // Задержка, чтобы модальное окно успело показаться
         });
@@ -2808,11 +2838,16 @@
     document.addEventListener('shown.bs.modal', function(e) {
         // Проверяем наличие любой codeweber формы в модалке (не только testimonial-form)
         if (e.target.querySelector('.codeweber-form')) {
-            setTimeout(function() {
+            // Используем requestAnimationFrame для минимальной задержки
+            requestAnimationFrame(function() {
                 initRatingStars(); // Reinitialize rating stars
                 initFileInputs(); // Reinitialize file inputs
-                initForms();
-            }, 100);
+                initForms(); // Инициализируем формы СРАЗУ - это критично для предотвращения обычной отправки
+                // Инициализируем FilePond для полей с data-filepond="true"
+                if (typeof window.initFilePond === 'function') {
+                    window.initFilePond();
+                }
+            });
         }
     });
     
@@ -2825,11 +2860,16 @@
                     // Проверяем наличие любой codeweber формы (не только testimonial-form)
                     const form = modalContent.querySelector('.codeweber-form');
                     if (form) {
-                        setTimeout(function() {
+                        // Используем requestAnimationFrame для минимальной задержки
+                        requestAnimationFrame(function() {
                             initRatingStars(); // Reinitialize rating stars
                             initFileInputs(); // Reinitialize file inputs
-                            initForms();
-                        }, 100);
+                            initForms(); // Инициализируем формы СРАЗУ - это критично для предотвращения обычной отправки
+                            // Инициализируем FilePond для полей с data-filepond="true"
+                            if (typeof window.initFilePond === 'function') {
+                                window.initFilePond();
+                            }
+                        });
                     }
                 }
             });
@@ -2841,6 +2881,9 @@
     window.initTestimonialForm = function() {
         initForms();
     };
+    
+    // Make initForms globally available for modal initialization
+    window.initForms = initForms;
 
 })();
 

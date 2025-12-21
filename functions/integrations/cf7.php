@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Подключение панели согласий для CF7
+ */
+if (class_exists('WPCF7')) {
+    require_once get_template_directory() . '/functions/integrations/cf7-consents-panel.php';
+}
+
+/**
  * Отключает автоматическую загрузку стилей и скриптов Contact Form 7 на всех страницах.
  *
  * По умолчанию Contact Form 7 подключает свои стили и скрипты на каждой странице сайта.

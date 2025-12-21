@@ -346,6 +346,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             $current_form_type = isset($_GET['form_type']) ? sanitize_text_field($_GET['form_type']) : '';
             $form_types = [
                 'form' => __('Regular Form', 'codeweber'),
+                'cf7' => __('Contact Form 7', 'codeweber'),
                 'newsletter' => __('Newsletter Subscription', 'codeweber'),
                 'testimonial' => __('Testimonial Form', 'codeweber'),
                 'resume' => __('Resume Form', 'codeweber'),
@@ -489,6 +490,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         // Маппинг типов на читаемые названия
         $type_labels = array(
             'form' => __('Regular Form', 'codeweber'),
+            'cf7' => __('Contact Form 7', 'codeweber'),
             'newsletter' => __('Newsletter Subscription', 'codeweber'),
             'testimonial' => __('Testimonial Form', 'codeweber'),
             'resume' => __('Resume Form', 'codeweber'),
@@ -498,6 +500,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $type_label = isset($type_labels[$form_type]) ? $type_labels[$form_type] : $form_type;
         $type_badge_color = array(
             'form' => '#2271b1',
+            'cf7' => '#ff6900',
             'newsletter' => '#00a32a',
             'testimonial' => '#d63638',
             'resume' => '#d54e21',

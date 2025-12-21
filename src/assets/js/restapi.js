@@ -6,6 +6,207 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalContent = document.getElementById("modal-content");
   const modalDialog = modalElement ? modalElement.querySelector(".modal-dialog") : null;
   
+  // Функция для получения базового URL плагина
+  function getPluginBaseUrl() {
+    // Пытаемся найти уже загруженный скрипт FilePond и получить его базовый URL
+    const existingFilePondScript = document.querySelector('script[src*="filepond.min.js"]');
+    if (existingFilePondScript) {
+      const src = existingFilePondScript.getAttribute('src');
+      return src.replace('/assets/filepond/filepond.min.js', '');
+    }
+    // Если скрипт не найден, используем относительный путь от корня сайта
+    return window.location.origin + '/wp-content/plugins/codeweber-gutenberg-blocks';
+  }
+  
+  // Флаг для предотвращения множественных загрузок скрипта
+  let filepondInitScriptLoading = false;
+  let filepondInitScriptLoaded = false;
+  
+  // Функция для динамической загрузки filepond-init.js
+  function loadFilePondInitScript() {
+    // Проверяем, не загружен ли уже скрипт
+    if (filepondInitScriptLoaded || document.querySelector('script[src*="filepond-init.js"]')) {
+      filepondInitScriptLoaded = true;
+      // Скрипт уже загружен, просто ждем его выполнения
+      setTimeout(function() {
+        if (typeof window.initFilePond === 'function') {
+          // Проверяем, есть ли неинициализированные поля
+          const uninitializedInputs = modalContent ? modalContent.querySelectorAll('input[type="file"][data-filepond="true"]:not([data-filepond-initialized])') : [];
+          if (uninitializedInputs.length > 0) {
+            window.initFilePond();
+          }
+        }
+      }, 50); // Уменьшена задержка с 200ms до 50ms
+      return;
+    }
+    
+    // Проверяем, не загружается ли скрипт в данный момент
+    if (filepondInitScriptLoading) {
+      return;
+    }
+    
+    // Устанавливаем флаг загрузки
+    filepondInitScriptLoading = true;
+    
+    // Убеждаемся, что filepondSettings доступен (создаем, если не определен)
+    // Проверяем, не определен ли он глобально (может быть локализован через wp_localize_script)
+    if (typeof window.filepondSettings === 'undefined' && typeof filepondSettings === 'undefined') {
+      // Создаем filepondSettings вручную, если он не был локализован
+      window.filepondSettings = {
+        uploadUrl: wpApiSettings.root + 'codeweber-forms/v1/upload',
+        nonce: wpApiSettings.nonce,
+        translations: {
+          labelIdle: 'Drag & drop your files or <span class="filepond--label-action">browse</span>',
+          maxFiles: 'Maximum number of files: %s. Please remove excess files.',
+          fileTooLarge: 'File is too large. Maximum size: %s',
+          totalSizeTooLarge: 'Total file size is too large. Maximum: %s',
+          errorUploading: 'Error uploading file',
+          errorAddingFile: 'Error adding file',
+          filesRemoved: 'Maximum number of files: %s. Files removed: %s',
+          totalSizeExceeded: 'Total file size exceeded. Maximum: %s',
+          uploadComplete: 'Upload complete',
+          tapToUndo: 'Tap to undo',
+          uploading: 'Uploading',
+          tapToCancel: 'tap to cancel'
+        }
+      };
+    } else if (typeof filepondSettings !== 'undefined' && typeof window.filepondSettings === 'undefined') {
+      // Если filepondSettings определен локально, но не глобально, делаем его глобальным
+      window.filepondSettings = filepondSettings;
+    }
+    
+    // Загружаем переводы перед загрузкой скрипта, если они еще не загружены
+    const loadTranslationsPromise = new Promise(function(resolve) {
+      // Проверяем, есть ли уже переводы (не английские по умолчанию)
+      if (window.filepondSettings && window.filepondSettings.translations && 
+          window.filepondSettings.translations.uploadComplete !== 'Upload complete') {
+        // Переводы уже загружены (не английские по умолчанию)
+        resolve();
+      } else {
+        // Загружаем переводы через REST API
+        fetch(wpApiSettings.root + 'codeweber-forms/v1/filepond-translations', {
+          credentials: 'include'
+        })
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(translations) {
+            if (translations && typeof translations === 'object') {
+              if (!window.filepondSettings) {
+                window.filepondSettings = {
+                  uploadUrl: wpApiSettings.root + 'codeweber-forms/v1/upload',
+                  nonce: wpApiSettings.nonce,
+                  translations: {}
+                };
+              }
+              window.filepondSettings.translations = translations;
+            }
+            resolve();
+          })
+          .catch(function(error) {
+            console.warn('[REST API] Failed to load FilePond translations:', error);
+            resolve(); // Продолжаем даже если переводы не загрузились
+          });
+      }
+    });
+    
+    // Загружаем скрипт динамически после загрузки переводов
+    loadTranslationsPromise.then(function() {
+      const script = document.createElement('script');
+      const pluginBaseUrl = getPluginBaseUrl();
+      script.src = pluginBaseUrl + '/includes/js/filepond-init.js';
+      script.onload = function() {
+        filepondInitScriptLoading = false;
+        filepondInitScriptLoaded = true;
+        setTimeout(function() {
+          if (typeof window.initFilePond === 'function') {
+            // Проверяем, есть ли неинициализированные поля
+            const uninitializedInputs = modalContent ? modalContent.querySelectorAll('input[type="file"][data-filepond="true"]:not([data-filepond-initialized])') : [];
+            if (uninitializedInputs.length > 0) {
+              window.initFilePond();
+            }
+          }
+        }, 50); // Уменьшена задержка с 100ms до 50ms
+      };
+      script.onerror = function() {
+        filepondInitScriptLoading = false;
+        console.error('[REST API DEBUG] Failed to load filepond-init.js from', script.src);
+      };
+      document.head.appendChild(script);
+    });
+  }
+  
+  // Функция для динамической загрузки всех FilePond скриптов
+  function loadFilePondScripts() {
+    // Проверяем, загружена ли библиотека FilePond
+    if (typeof FilePond === 'undefined') {
+      const pluginBaseUrl = getPluginBaseUrl();
+      
+      // Загружаем FilePond CSS
+      if (!document.querySelector('link[href*="filepond.min.css"]')) {
+        const css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = pluginBaseUrl + '/assets/filepond/filepond.min.css';
+        document.head.appendChild(css);
+      }
+      
+      // Загружаем FilePond JS
+      if (!document.querySelector('script[src*="filepond.min.js"]')) {
+        const filepondScript = document.createElement('script');
+        filepondScript.src = pluginBaseUrl + '/assets/filepond/filepond.min.js';
+        filepondScript.onload = function() {
+          loadFilePondInitScript();
+        };
+        filepondScript.onerror = function() {
+          console.error('[REST API DEBUG] Failed to load filepond.min.js from', filepondScript.src);
+        };
+        document.head.appendChild(filepondScript);
+      } else {
+        loadFilePondInitScript();
+      }
+    } else {
+      loadFilePondInitScript();
+    }
+  }
+  
+  // Функция для ожидания и вызова initFilePond или прямой инициализации
+  function waitAndInitFilePond(attempts = 0) {
+    const maxAttempts = 2; // Максимум 0.2 секунды (2 * 100ms) - минимальная задержка для проверки
+    const fileInputsBeforeInit = modalContent ? modalContent.querySelectorAll('input[type="file"][data-filepond="true"]') : [];
+    
+    // Если нет файловых полей, не инициализируем
+    if (fileInputsBeforeInit.length === 0) {
+      return;
+    }
+    
+    if (typeof window.initFilePond === 'function') {
+      // Функция доступна, вызываем сразу
+      const uninitializedInputs = modalContent ? modalContent.querySelectorAll('input[type="file"][data-filepond="true"]:not([data-filepond-initialized])') : [];
+      // Вызываем initFilePond только если есть неинициализированные поля
+      if (uninitializedInputs.length > 0) {
+        window.initFilePond();
+      }
+    } else if (attempts < maxAttempts) {
+      setTimeout(function() {
+        waitAndInitFilePond(attempts + 1);
+      }, 100);
+    } else {
+      
+      // Загружаем скрипты сразу, без дополнительных проверок
+      if (typeof FilePond !== 'undefined') {
+        const fileInputs = modalContent ? modalContent.querySelectorAll('input[type="file"][data-filepond="true"]:not([data-filepond-initialized])') : [];
+        if (fileInputs.length > 0) {
+          console.log('[REST API DEBUG] Loading FilePond init script immediately for', fileInputs.length, 'input(s)');
+          loadFilePondInitScript();
+        }
+      } else {
+        // FilePond библиотека не загружена - загружаем скрипты сразу
+        console.log('[REST API DEBUG] FilePond library not loaded, loading scripts immediately...');
+        loadFilePondScripts();
+      }
+    }
+  }
+  
   // Инициализация модального окна (если есть)
   let modalInstance = null;
   if (modalElement && modalContent && modalDialog && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
@@ -387,12 +588,36 @@ document.addEventListener("DOMContentLoaded", () => {
         modalContent.innerHTML = cachedContent;
         console.log('[REST API] Cached content loaded, initializing rating stars...');
         
+        // КРИТИЧНО: Добавляем временный обработчик submit с preventDefault() СРАЗУ для кэшированного контента
+        const cachedCodeweberForms = modalContent.querySelectorAll('.codeweber-form');
+        cachedCodeweberForms.forEach(function(form) {
+          // Добавляем временный обработчик, который будет удален после инициализации
+          const tempSubmitHandler = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            console.warn('[REST API] Form submit prevented - form not yet initialized (cached). Form ID:', form.id || form.dataset.formId || 'unknown');
+            return false;
+          };
+          form.addEventListener('submit', tempSubmitHandler, true); // Используем capture phase
+          // Сохраняем ссылку на обработчик для последующего удаления
+          form._tempSubmitHandler = tempSubmitHandler;
+          // Удаляем обработчик после инициализации (через небольшую задержку)
+          setTimeout(function() {
+            if (form._tempSubmitHandler) {
+              form.removeEventListener('submit', form._tempSubmitHandler, true);
+              delete form._tempSubmitHandler;
+            }
+          }, 1000); // Удаляем через 1 секунду (достаточно для инициализации)
+        });
+        
         // Initialize rating stars if present (with small delay to ensure DOM is ready)
         setTimeout(function() {
           console.log('[REST API] Calling initTestimonialRatingStars after timeout (cached)');
           initTestimonialRatingStars();
         }, 50);
         
+        // Инициализируем Contact Form 7 формы
         const formElement = modalContent.querySelector("form.wpcf7-form");
         if (formElement && typeof wpcf7 !== "undefined") {
           wpcf7.init(formElement);
@@ -403,13 +628,16 @@ document.addEventListener("DOMContentLoaded", () => {
           custom.formSubmittingWatcher();
         }
         
-        // Инициализируем codeweber формы (testimonial, newsletter, etc.)
-        if (typeof window.initTestimonialForm === 'function') {
-          setTimeout(function() {
-            console.log('[REST API] Initializing codeweber forms in modal (cached)');
-            window.initTestimonialForm();
-          }, 100);
+        // Инициализируем Codeweber формы СРАЗУ для кэшированного контента
+        // Формы будут инициализированы через shown.bs.modal и MutationObserver в form-submit-universal.js
+        if (cachedCodeweberForms.length > 0) {
+          console.log('[REST API] Found', cachedCodeweberForms.length, 'Codeweber form(s) in cached content');
         }
+        
+        // Инициализируем FilePond для кэшированного контента
+        
+        // Используем ту же функцию waitAndInitFilePond для кэшированного контента
+        waitAndInitFilePond();
       } else {
         // Load content via API
         // Add user_id as query parameter if user is logged in
@@ -444,23 +672,62 @@ document.addEventListener("DOMContentLoaded", () => {
               modalContent.innerHTML = data.content.rendered;
               console.log('[REST API] Content loaded, initializing rating stars...');
               
+              // КРИТИЧНО: Добавляем временный обработчик submit с preventDefault() СРАЗУ после загрузки контента
+              // Это предотвратит обычную отправку формы до инициализации AJAX обработчика
+              const codeweberForms = modalContent.querySelectorAll('.codeweber-form');
+              console.log('[REST API] Found', codeweberForms.length, 'Codeweber form(s) in modal, adding temporary submit handlers');
+              codeweberForms.forEach(function(form) {
+                // Добавляем временный обработчик, который будет удален после инициализации
+                const tempSubmitHandler = function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  e.stopImmediatePropagation();
+                  console.warn('[REST API] Form submit prevented - form not yet initialized. Form ID:', form.id || form.dataset.formId || 'unknown', 'Initialized:', form.dataset.initialized);
+                  return false;
+                };
+                form.addEventListener('submit', tempSubmitHandler, true); // Используем capture phase
+                // Сохраняем ссылку на обработчик для последующего удаления
+                form._tempSubmitHandler = tempSubmitHandler;
+                console.log('[REST API] Temporary submit handler added to form:', form.id || form.dataset.formId || 'unknown');
+                // Удаляем обработчик после инициализации (проверяем каждые 100ms)
+                const checkAndRemoveHandler = function(attempts) {
+                  if (attempts > 20) {
+                    // Максимум 2 секунды, затем удаляем в любом случае
+                    if (form._tempSubmitHandler) {
+                      form.removeEventListener('submit', form._tempSubmitHandler, true);
+                      delete form._tempSubmitHandler;
+                      console.log('[REST API] Temporary submit handler removed (timeout) for form:', form.id || form.dataset.formId || 'unknown');
+                    }
+                    return;
+                  }
+                  if (form.dataset.initialized === 'true' && form._codeweberSubmitHandler) {
+                    // Форма инициализирована, удаляем временный обработчик
+                    if (form._tempSubmitHandler) {
+                      form.removeEventListener('submit', form._tempSubmitHandler, true);
+                      delete form._tempSubmitHandler;
+                      console.log('[REST API] Temporary submit handler removed (form initialized) for form:', form.id || form.dataset.formId || 'unknown');
+                    }
+                  } else {
+                    // Проверяем снова через 100ms
+                    setTimeout(function() {
+                      checkAndRemoveHandler(attempts + 1);
+                    }, 100);
+                  }
+                };
+                checkAndRemoveHandler(0);
+              });
+              
+              
               // Initialize rating stars if present (with small delay to ensure DOM is ready)
               setTimeout(function() {
                 console.log('[REST API] Calling initTestimonialRatingStars after timeout');
                 initTestimonialRatingStars();
               }, 50);
               
-              // Инициализируем codeweber формы (testimonial, newsletter, etc.)
-              if (typeof window.initTestimonialForm === 'function') {
-                setTimeout(function() {
-                  console.log('[REST API] Initializing codeweber forms in modal');
-                  window.initTestimonialForm();
-                }, 100);
-              }
-              
               // Инициализируем обработчик формы отправки документа на email
               initDocumentEmailForm();
               
+              // Инициализируем Contact Form 7 формы
               const formElement = modalContent.querySelector("form.wpcf7-form");
               if (formElement && typeof wpcf7 !== "undefined") {
                 wpcf7.init(formElement);
@@ -470,6 +737,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 custom.rippleEffect();
                 custom.formSubmittingWatcher();
               }
+              
+              // Инициализируем Codeweber формы СРАЗУ после загрузки контента
+              // Это критично, чтобы форма не отправлялась через обычный POST
+              // MutationObserver в form-submit-universal.js должен сработать автоматически,
+              // но для надежности вызываем инициализацию явно
+              if (codeweberForms.length > 0) {
+                console.log('[REST API] Found', codeweberForms.length, 'Codeweber form(s), triggering initialization...');
+                // Используем requestAnimationFrame для гарантии, что DOM готов
+                requestAnimationFrame(function() {
+                  // Вызываем initForms() явно, если она доступна
+                  if (typeof window.initForms === 'function') {
+                    console.log('[REST API] Calling window.initForms() explicitly');
+                    window.initForms();
+                  } else {
+                    console.warn('[REST API] window.initForms is not available, MutationObserver should handle initialization');
+                  }
+                  // Проверяем через небольшую задержку, инициализированы ли формы
+                  setTimeout(function() {
+                    const uninitializedForms = Array.from(codeweberForms).filter(f => !f.dataset.initialized || f.dataset.initialized === 'false');
+                    if (uninitializedForms.length > 0) {
+                      console.warn('[REST API]', uninitializedForms.length, 'form(s) still not initialized after explicit initForms call');
+                    }
+                  }, 200);
+                });
+              }
+              
+              // Инициализируем FilePond для форм, загруженных через AJAX
+              
+              // Начинаем ожидание и инициализацию
+              waitAndInitFilePond();
+              
             } else {
               modalContent.innerHTML = "Контент не найден.";
             }

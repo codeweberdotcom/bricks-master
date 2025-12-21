@@ -309,6 +309,18 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                                 </a>
                             </span>
                         <?php endif; ?>
+
+                        <?php 
+                        $codeweber_form_id = isset($vacancy_data['codeweber_form_id']) ? $vacancy_data['codeweber_form_id'] : '';
+                        $codeweber_form_id = !empty($codeweber_form_id) ? intval($codeweber_form_id) : 0;
+                        
+                        if ($codeweber_form_id > 0) : ?>
+                            <span data-group="page-title-buttons">
+                                <a href="javascript:void(0)" class="btn has-ripple w-100 btn-outline-primary mb-2<?php echo esc_attr($button_style); ?>" data-value="cf-<?php echo esc_attr($codeweber_form_id); ?>" data-bs-toggle="modal" data-bs-target="#modal">
+                                    <?php _e('Submit a request', 'codeweber'); ?>
+                                </a>
+                            </span>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <!--/.card-body -->

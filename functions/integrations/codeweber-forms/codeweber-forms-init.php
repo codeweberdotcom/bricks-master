@@ -39,6 +39,11 @@ require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-user-consents.php';
 require_once CODEWEBER_FORMS_PATH . '/matomo-forms-integration.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-newsletter-integration.php';
 
+// Интеграция с Contact Form 7 (только если CF7 активен)
+if (class_exists('WPCF7')) {
+    require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-cf7-integration.php';
+}
+
 // Админка
 if (is_admin()) {
     require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-admin.php';

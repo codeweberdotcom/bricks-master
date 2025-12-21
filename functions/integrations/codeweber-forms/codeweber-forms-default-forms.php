@@ -237,8 +237,7 @@ class CodeweberFormsDefaultForms {
         self::$global_form_instance_counter++;
         $form_unique_id = 'form-0-' . self::$global_form_instance_counter;
         
-        // Получаем классы скругления из темы
-        $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
+        // Получаем классы скругления из темы (используем getThemeButton для обоих элементов)
         $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';
         
         // Генерируем nonce поле (для REST API используем wp_create_nonce)
@@ -260,10 +259,10 @@ class CodeweberFormsDefaultForms {
         // Уникальный ID для поля email
         $field_email_id = 'field-email-' . self::$global_form_instance_counter;
         
-        // Собираем классы для input
+        // Собираем классы для input (используем тот же класс, что и для кнопки)
         $input_class = 'form-control required email';
-        if ($form_radius_class) {
-            $input_class .= ' ' . $form_radius_class;
+        if ($button_radius_class) {
+            $input_class .= ' ' . $button_radius_class;
         }
         
         // Собираем классы для кнопки
@@ -295,6 +294,7 @@ class CodeweberFormsDefaultForms {
         return $html;
     }
 }
+
 
 
 
