@@ -621,11 +621,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const formElement = modalContent.querySelector("form.wpcf7-form");
         if (formElement && typeof wpcf7 !== "undefined") {
           wpcf7.init(formElement);
-          custom.cf7CloseAfterSent();
-          custom.formValidation();
           custom.addTelMask();
           custom.rippleEffect();
-          custom.formSubmittingWatcher();
+          // formValidation инициализируется автоматически через form-validation.js
+          if (typeof initFormValidation === 'function') {
+            initFormValidation();
+          }
         }
         
         // Инициализируем Codeweber формы СРАЗУ для кэшированного контента
@@ -731,12 +732,17 @@ document.addEventListener("DOMContentLoaded", () => {
               const formElement = modalContent.querySelector("form.wpcf7-form");
               if (formElement && typeof wpcf7 !== "undefined") {
                 wpcf7.init(formElement);
-                custom.cf7CloseAfterSent();
-                custom.formValidation();
                 custom.addTelMask();
                 custom.rippleEffect();
-                custom.formSubmittingWatcher();
+                // formValidation инициализируется автоматически через form-validation.js
+                if (typeof initFormValidation === 'function') {
+                  initFormValidation();
+                }
               }
+              
+              // Инициализируем маску телефона для всех форм в модальном окне
+              // Это должно применяться к любым input[data-mask] независимо от типа формы
+              custom.addTelMask();
               
               // Инициализируем Codeweber формы СРАЗУ после загрузки контента
               // Это критично, чтобы форма не отправлялась через обычный POST

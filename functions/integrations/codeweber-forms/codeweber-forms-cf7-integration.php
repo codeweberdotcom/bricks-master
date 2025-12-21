@@ -48,6 +48,7 @@ class CodeweberFormsCF7Integration {
         // Получаем данные формы
         $posted_data = $submission->get_posted_data();
         
+        
         // Получаем загруженные файлы
         $uploaded_files = $submission->uploaded_files();
         
@@ -57,8 +58,67 @@ class CodeweberFormsCF7Integration {
         // Получаем User Agent
         $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
         
-        // Получаем ID пользователя
-        $user_id = get_current_user_id();
+        // Получаем ID пользователя (авторизованного пользователя, который отправил форму)
+        // ПРИОРИТЕТ 1: Пробуем получить из $_POST (может быть передан через скрытое поле)
+        $user_id = 0;
+        if (!empty($_POST['user_id']) && (int) $_POST['user_id'] > 0) {
+            $user_id = (int) $_POST['user_id'];
+        }
+        // ПРИОРИТЕТ 2: Пробуем получить из posted_data (может быть передан через поле формы)
+        elseif (!empty($posted_data['user_id']) && (int) $posted_data['user_id'] > 0) {
+            $user_id = (int) $posted_data['user_id'];
+        }
+        // ПРИОРИТЕТ 3: Восстанавливаем пользователя из cookie (для AJAX запросов)
+        else {
+            // При AJAX запросах CF7 WordPress может не видеть авторизованного пользователя
+            // Пробуем восстановить сессию через валидацию cookie
+            $cookie_name = LOGGED_IN_COOKIE;
+            
+            
+            if (!empty($_COOKIE[$cookie_name])) {
+                $cookie_value = $_COOKIE[$cookie_name];
+                
+                // Пробуем парсить cookie вручную (более надежный способ для AJAX)
+                $cookie_parts = explode('|', $cookie_value);
+                
+                
+                if (!empty($cookie_parts[0])) {
+                    $cookie_username = $cookie_parts[0];
+                    
+                    
+                    // В WordPress cookie формат: username|expiration|token|hmac
+                    // Первая часть - это логин, а не user_id
+                    // Ищем пользователя по логину
+                    $user = get_user_by('login', $cookie_username);
+                    if (!$user) {
+                        // Если не нашли по логину, пробуем по email
+                        $user = get_user_by('email', $cookie_username);
+                    }
+                    
+                    if ($user && $user->ID > 0) {
+                        // Восстанавливаем текущего пользователя
+                        wp_set_current_user($user->ID);
+                        $user_id = get_current_user_id();
+                    }
+                }
+                
+                // Если парсинг не сработал, пробуем валидацию через WordPress функцию
+                if ($user_id === 0) {
+                    $cookie_user = wp_validate_logged_in_cookie($cookie_value);
+                    if ($cookie_user && $cookie_user > 0) {
+                        // Восстанавливаем текущего пользователя
+                        wp_set_current_user($cookie_user);
+                        $user_id = get_current_user_id();
+                    }
+                }
+            }
+            
+            // ПРИОРИТЕТ 4: Стандартный способ (может не работать при AJAX)
+            if ($user_id === 0) {
+                $user_id = get_current_user_id();
+            }
+        }
+        
         
         // Подготавливаем данные для сохранения
         $submission_data = $this->prepare_submission_data($posted_data);
@@ -91,11 +151,6 @@ class CodeweberFormsCF7Integration {
         
         $submission_id = $db->save_submission($save_data);
         
-        // Логируем для отладки (если включен WP_DEBUG)
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('CF7 Integration: Saved submission ID ' . $submission_id . ' for form ' . $form_name . ' (CF7 ID: ' . $cf7_form_id . ')');
-        }
-        
         // Вызываем хуки codeweber-forms после сохранения
         // ВАЖНО: Обернуто в try-catch, чтобы ошибки в хуках не блокировали отправку CF7
         if ($submission_id && class_exists('CodeweberFormsHooks')) {
@@ -105,10 +160,9 @@ class CodeweberFormsCF7Integration {
                 // Подготавливаем данные формы для хуков (аналогично codeweber-forms-api.php)
                 $form_data = $submission_data; // Используем уже подготовленные данные
                 
-                // Логируем для отладки (если включен WP_DEBUG)
-                if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log('CF7 Integration: Calling codeweber_form_saved hook with submission_id: ' . $submission_id . ', form_id: ' . $form_id);
-                    error_log('CF7 Integration: Data passed to hook: ' . print_r($form_data, true));
+                // Передаем user_id в form_data для использования в newsletter integration
+                if ($user_id > 0) {
+                    $form_data['_user_id'] = $user_id;
                 }
                 
                 // Вызываем хук после сохранения
@@ -118,22 +172,13 @@ class CodeweberFormsCF7Integration {
                 // Подготавливаем настройки формы для хука after_send
                 $form_settings = $this->get_form_settings_for_cf7($contact_form);
                 
-                // Логируем для отладки (если включен WP_DEBUG)
-                if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log('CF7 Integration: Calling codeweber_form_after_send hook with form_id: ' . $form_id . ', submission_id: ' . $submission_id);
-                }
-                
                 // Вызываем хук после отправки
                 // Параметры: form_id, form_settings, submission_id
                 CodeweberFormsHooks::after_send($form_id, $form_settings, $submission_id);
             } catch (Exception $e) {
-                // Логируем ошибку, но не блокируем отправку CF7
-                error_log('CF7 Integration: Error in codeweber-forms hooks: ' . $e->getMessage());
-                error_log('CF7 Integration: Stack trace: ' . $e->getTraceAsString());
+                // Игнорируем ошибки в хуках, чтобы не блокировать отправку CF7
             } catch (Error $e) {
-                // Логируем фатальную ошибку, но не блокируем отправку CF7
-                error_log('CF7 Integration: Fatal error in codeweber-forms hooks: ' . $e->getMessage());
-                error_log('CF7 Integration: Stack trace: ' . $e->getTraceAsString());
+                // Игнорируем фатальные ошибки в хуках, чтобы не блокировать отправку CF7
             }
         }
         
@@ -147,7 +192,9 @@ class CodeweberFormsCF7Integration {
      * @return array Подготовленные данные
      */
     private function prepare_submission_data($posted_data) {
+        
         $prepared = [];
+        $form_consents = []; // Собираем согласия в универсальном формате
         
         // Фильтруем служебные поля CF7
         $excluded_fields = ['_wpcf7', '_wpcf7_version', '_wpcf7_locale', '_wpcf7_unit_tag', '_wpcf7_container_post'];
@@ -158,11 +205,228 @@ class CodeweberFormsCF7Integration {
                 continue;
             }
             
+            // Преобразуем согласия CF7 в form_consents[ID]
+            // ПРИОРИТЕТ 1: Новый формат form_consents_ID (прямой формат, не требует преобразования)
+            if (strpos($key, 'form_consents_') === 0) {
+                $match = preg_match('/form_consents_(\d+)/', $key, $matches);
+                if ($match && isset($matches[1])) {
+                    $document_id = intval($matches[1]);
+                    
+                    // CF7 может передавать acceptance поля как массивы или строки
+                    // Обрабатываем оба случая
+                    $consent_value = null;
+                    if (is_array($value)) {
+                        // Если массив, берем первое значение или проверяем наличие '1'
+                        $consent_value = isset($value[0]) ? $value[0] : (in_array('1', $value) ? '1' : null);
+                    } else {
+                        $consent_value = $value;
+                    }
+                    
+                    
+                    if ($consent_value === '1' || $consent_value === 'on' || $consent_value === 1 || (is_array($value) && !empty($value))) {
+                        $form_consents[$document_id] = '1';
+                    }
+                }
+                // Не добавляем исходное поле в prepared, так как оно преобразовано
+                continue;
+            }
+            
+            // ПРИОРИТЕТ 2: Старый формат soglasie-{document_slug} (обратная совместимость)
+            if (strpos($key, 'soglasie-') === 0) {
+                // Извлекаем slug документа из имени поля
+                $document_slug = substr($key, 9); // Убираем префикс "soglasie-"
+                
+                // Ищем документ по post_name (slug) в CPT legal
+                $document = null;
+                $documents = get_posts([
+                    'post_type' => 'legal',
+                    'post_status' => 'publish',
+                    'name' => $document_slug, // Ищем по post_name (slug)
+                    'posts_per_page' => 1,
+                ]);
+                
+                if (!empty($documents)) {
+                    $document = $documents[0];
+                } else {
+                    // Если не нашли по post_name, пробуем найти по sanitized title
+                    $documents = get_posts([
+                        'post_type' => 'legal',
+                        'post_status' => 'publish',
+                        'posts_per_page' => -1,
+                    ]);
+                    
+                    foreach ($documents as $doc) {
+                        $doc_slug = $doc->post_name ?: sanitize_title($doc->post_title);
+                        if ($doc_slug === $document_slug) {
+                            $document = $doc;
+                            break;
+                        }
+                    }
+                }
+                
+                // Если документ найден и согласие дано
+                if ($document && ($value === '1' || $value === 'on' || $value === 1)) {
+                    $document_id = $document->ID;
+                    $form_consents[$document_id] = '1';
+                }
+                
+                // Не добавляем исходное поле в prepared, так как оно преобразовано
+                continue;
+            }
+            
+            // ПРИОРИТЕТ 3: Формат form_consents[ID] (с квадратными скобками, обратная совместимость)
+            if (preg_match('/^form_consents\[(\d+)\]$/', $key, $matches)) {
+                $document_id = intval($matches[1]);
+                if ($value === '1' || $value === 'on' || $value === 1) {
+                    $form_consents[$document_id] = '1';
+                }
+                // Не добавляем исходное поле в prepared, так как оно преобразовано
+                continue;
+            }
+            
             // Очищаем данные
             if (is_array($value)) {
                 $prepared[$key] = array_map('sanitize_text_field', $value);
             } else {
                 $prepared[$key] = sanitize_text_field($value);
+            }
+        }
+        
+        // Добавляем преобразованные согласия в подготовленные данные
+        if (!empty($form_consents)) {
+            $prepared['form_consents'] = $form_consents;
+        }
+        
+        // Обрабатываем UTM данные, если они переданы через скрытое поле из JavaScript
+        $utm_data_from_form = null;
+        
+        if (isset($posted_data['_utm_data']) && !empty($posted_data['_utm_data'])) {
+            // UTM данные переданы через скрытое поле (JSON строка)
+            $utm_data_json = is_array($posted_data['_utm_data']) 
+                ? $posted_data['_utm_data'][0] 
+                : $posted_data['_utm_data'];
+            
+            $utm_data_from_form = json_decode($utm_data_json, true);
+            
+            if (!is_array($utm_data_from_form) || empty($utm_data_from_form)) {
+                $utm_data_from_form = null; // Invalid JSON, will fallback to server-side collection
+            }
+        }
+        
+        // Собираем UTM данные аналогично Codeweber Forms API
+        if (class_exists('CodeweberFormsUTM')) {
+            $utm_tracker = new CodeweberFormsUTM();
+            
+            // Получаем UTM параметры отдельно (как в Codeweber Forms API)
+            $utm_params = $utm_tracker->get_utm_params();
+            
+            // Получаем tracking данные (referrer, landing_page)
+            $tracking_data = $utm_tracker->get_tracking_data();
+            
+            // Извлекаем UTM параметры из URL referrer и landing_page, если они там есть
+            $utm_keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'utm_id'];
+            
+            // Обрабатываем referrer
+            $referrer = $tracking_data['referrer'] ?? '';
+            $referrer_clean = $referrer;
+            if (!empty($referrer) && filter_var($referrer, FILTER_VALIDATE_URL)) {
+                $referrer_parsed = parse_url($referrer);
+                if (!empty($referrer_parsed['query'])) {
+                    parse_str($referrer_parsed['query'], $referrer_params);
+                    // Извлекаем UTM параметры из referrer
+                    foreach ($utm_keys as $utm_key) {
+                        if (isset($referrer_params[$utm_key]) && !empty($referrer_params[$utm_key])) {
+                            // Если UTM параметр еще не установлен (ни в серверных данных, ни в данных из формы), используем из referrer
+                            $has_utm_param = !empty($utm_params[$utm_key]) || 
+                                           ($utm_data_from_form && !empty($utm_data_from_form[$utm_key]));
+                            if (!$has_utm_param) {
+                                $utm_params[$utm_key] = sanitize_text_field($referrer_params[$utm_key]);
+                            }
+                        }
+                    }
+                    // Удаляем UTM параметры из query string для чистого referrer
+                    foreach ($utm_keys as $utm_key) {
+                        unset($referrer_params[$utm_key]);
+                    }
+                    // Пересобираем URL без UTM параметров
+                    $referrer_clean = $referrer_parsed['scheme'] . '://' . $referrer_parsed['host'];
+                    if (!empty($referrer_parsed['port'])) {
+                        $referrer_clean .= ':' . $referrer_parsed['port'];
+                    }
+                    if (!empty($referrer_parsed['path'])) {
+                        $referrer_clean .= $referrer_parsed['path'];
+                    }
+                    if (!empty($referrer_params)) {
+                        $referrer_clean .= '?' . http_build_query($referrer_params);
+                    }
+                    if (!empty($referrer_parsed['fragment'])) {
+                        $referrer_clean .= '#' . $referrer_parsed['fragment'];
+                    }
+                }
+            }
+            
+            // Обрабатываем landing_page
+            $landing_page = $tracking_data['landing_page'] ?? '';
+            $landing_page_clean = $landing_page;
+            if (!empty($landing_page) && filter_var($landing_page, FILTER_VALIDATE_URL)) {
+                $landing_parsed = parse_url($landing_page);
+                if (!empty($landing_parsed['query'])) {
+                    parse_str($landing_parsed['query'], $landing_params);
+                    // Извлекаем UTM параметры из landing_page
+                    foreach ($utm_keys as $utm_key) {
+                        if (isset($landing_params[$utm_key]) && !empty($landing_params[$utm_key])) {
+                            // Если UTM параметр еще не установлен (ни в серверных данных, ни в данных из формы), используем из landing_page
+                            $has_utm_param = !empty($utm_params[$utm_key]) || 
+                                           ($utm_data_from_form && !empty($utm_data_from_form[$utm_key]));
+                            if (!$has_utm_param) {
+                                $utm_params[$utm_key] = sanitize_text_field($landing_params[$utm_key]);
+                            }
+                        }
+                    }
+                    // Удаляем UTM параметры из query string для чистого landing_page
+                    foreach ($utm_keys as $utm_key) {
+                        unset($landing_params[$utm_key]);
+                    }
+                    // Пересобираем URL без UTM параметров
+                    $landing_page_clean = $landing_parsed['scheme'] . '://' . $landing_parsed['host'];
+                    if (!empty($landing_parsed['port'])) {
+                        $landing_page_clean .= ':' . $landing_parsed['port'];
+                    }
+                    if (!empty($landing_parsed['path'])) {
+                        $landing_page_clean .= $landing_parsed['path'];
+                    }
+                    if (!empty($landing_params)) {
+                        $landing_page_clean .= '?' . http_build_query($landing_params);
+                    }
+                    if (!empty($landing_parsed['fragment'])) {
+                        $landing_page_clean .= '#' . $landing_parsed['fragment'];
+                    }
+                }
+            }
+            
+            // Объединяем все UTM данные (аналогично Codeweber Forms API)
+            // Приоритет: данные из формы > извлеченные из URL > серверные данные
+            $utm_data = array_merge(
+                $utm_params,
+                $utm_data_from_form ?: []
+            );
+            
+            // Добавляем tracking данные с очищенными URL
+            // Используем данные из формы, если они есть, иначе очищенные URL
+            if (!isset($utm_data['referrer']) || empty($utm_data['referrer'])) {
+                if (!empty($referrer_clean)) {
+                    $utm_data['referrer'] = $referrer_clean;
+                }
+            }
+            if (!isset($utm_data['landing_page']) || empty($utm_data['landing_page'])) {
+                if (!empty($landing_page_clean)) {
+                    $utm_data['landing_page'] = $landing_page_clean;
+                }
+            }
+            
+            // Добавляем UTM данные в подготовленные данные для сохранения
+            if (!empty($utm_data)) {
+                $prepared['_utm_data'] = $utm_data;
             }
         }
         
@@ -368,26 +632,5 @@ class CodeweberFormsCF7Integration {
 if (class_exists('WPCF7')) {
     new CodeweberFormsCF7Integration();
     
-    // ТЕСТОВЫЙ ХУК: Для проверки работы нового функционала
-    // Удалите этот блок после проверки
-    add_action('codeweber_form_saved', function($submission_id, $form_id, $form_data) {
-        // Проверяем, что это CF7 форма (начинается с 'cf7_')
-        if (strpos($form_id, 'cf7_') === 0) {
-            error_log('✅ НОВЫЙ ФУНКЦИОНАЛ РАБОТАЕТ! CF7 форма сохранена через codeweber-forms хуки.');
-            error_log('   Submission ID: ' . $submission_id);
-            error_log('   Form ID: ' . $form_id);
-            error_log('   Form Data keys: ' . implode(', ', array_keys($form_data)));
-        }
-    }, 5, 3);
-    
-    add_action('codeweber_form_after_send', function($form_id, $form_settings, $submission_id) {
-        // Проверяем, что это CF7 форма
-        if (strpos($form_id, 'cf7_') === 0) {
-            error_log('✅ НОВЫЙ ФУНКЦИОНАЛ РАБОТАЕТ! CF7 форма обработана через codeweber_form_after_send хук.');
-            error_log('   Form ID: ' . $form_id);
-            error_log('   Submission ID: ' . $submission_id);
-            error_log('   Success Message: ' . ($form_settings['successMessage'] ?? 'N/A'));
-        }
-    }, 5, 3);
 }
 

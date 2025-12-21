@@ -79,7 +79,10 @@ function codeweber_register_cf7_modal_endpoint()
         )
     );
 }
-add_action('rest_api_init', 'codeweber_register_cf7_modal_endpoint', 10);
+// Регистрируем CF7 endpoint только если CF7 активен
+if (class_exists('WPCF7')) {
+    add_action('rest_api_init', 'codeweber_register_cf7_modal_endpoint', 10);
+}
 
 /**
  * Register Codeweber Forms endpoint for modal windows
@@ -251,7 +254,10 @@ function codeweber_intercept_cf7_modal_requests($result, $server, $request)
     
     return $result;
 }
-add_filter('rest_pre_dispatch', 'codeweber_intercept_cf7_modal_requests', 10, 3);
+// Перехватываем CF7 запросы только если CF7 активен
+if (class_exists('WPCF7')) {
+    add_filter('rest_pre_dispatch', 'codeweber_intercept_cf7_modal_requests', 10, 3);
+}
 
 /**
  * Get CF7 form HTML for modal window

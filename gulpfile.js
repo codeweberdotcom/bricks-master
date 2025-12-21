@@ -204,6 +204,10 @@ var path = {
     testimonialformjs: srcPrefix + "/assets/js/testimonial-form.js",
     ajaxdownloadjs: srcPrefix + "/assets/js/ajax-download.js",
     ajaxfilterjs: srcPrefix + "/assets/js/ajax-filter.js",
+    formvalidationjs: srcPrefix + "/assets/js/form-validation.js",
+    cf7acceptancerequiredjs: srcPrefix + "/assets/js/cf7-acceptance-required.js",
+    cf7successmessagejs: srcPrefix + "/assets/js/cf7-success-message.js",
+    cf7utmtrackingjs: srcPrefix + "/assets/js/cf7-utm-tracking.js",
     style: srcPrefix + "/assets/scss/style.scss",
     fontcss: srcPrefix + "/assets/scss/fonts/*.*",
     colorcss: [
@@ -372,6 +376,95 @@ gulp.task("ajaxfilterjs:dist", function () {
   return (
     gulp
       .src(path.src.ajaxfilterjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      //.pipe(uglify()) // если нужно минифицировать — раскомментируй
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
+gulp.task("formvalidationjs:dev", function () {
+  return gulp
+    .src(path.src.formvalidationjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("formvalidationjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.formvalidationjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      //.pipe(uglify()) // если нужно минифицировать — раскомментируй
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
+gulp.task("cf7acceptancerequiredjs:dev", function () {
+  return gulp
+    .src(path.src.cf7acceptancerequiredjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("cf7acceptancerequiredjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.cf7acceptancerequiredjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      //.pipe(uglify()) // если нужно минифицировать — раскомментируй
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
+gulp.task("cf7successmessagejs:dev", function () {
+  return gulp
+    .src(path.src.cf7successmessagejs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("cf7successmessagejs:dist", function () {
+  return (
+    gulp
+      .src(path.src.cf7successmessagejs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      //.pipe(uglify()) // если нужно минифицировать — раскомментируй
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
+gulp.task("cf7utmtrackingjs:dev", function () {
+  return gulp
+    .src(path.src.cf7utmtrackingjs)
+    .pipe(gulp.dest(path.dest.js));
+});
+
+gulp.task("cf7utmtrackingjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.cf7utmtrackingjs)
       .pipe(gulp.dest(path.dist.js))
       .pipe(plumber())
       //.pipe(uglify()) // если нужно минифицировать — раскомментируй
@@ -664,6 +757,10 @@ gulp.task(
       "testimonialformjs:dev",
       "ajaxdownloadjs:dev",
       "ajaxfilterjs:dev",
+      "formvalidationjs:dev",
+      "cf7acceptancerequiredjs:dev",
+      "cf7successmessagejs:dev",
+      "cf7utmtrackingjs:dev",
       "themejs:dev",
       "fonts:dev",
       "media:dev",
@@ -689,6 +786,10 @@ gulp.task(
       "testimonialformjs:dist",
       "ajaxdownloadjs:dist",
       "ajaxfilterjs:dist",
+      "formvalidationjs:dist",
+      "cf7acceptancerequiredjs:dist",
+      "cf7successmessagejs:dist",
+      "cf7utmtrackingjs:dist",
       "themejs:dist",
       "fonts:dist",
       "media:dist",
@@ -712,6 +813,10 @@ gulp.task('watch', function () {
     gulp.watch(path.src.testimonialformjs, gulp.series('testimonialformjs:dist'));
     gulp.watch(path.src.ajaxdownloadjs, gulp.series('ajaxdownloadjs:dist'));
     gulp.watch(path.src.ajaxfilterjs, gulp.series('ajaxfilterjs:dist'));
+    gulp.watch(path.src.formvalidationjs, gulp.series('formvalidationjs:dist'));
+    gulp.watch(path.src.cf7acceptancerequiredjs, gulp.series('cf7acceptancerequiredjs:dist'));
+    gulp.watch(path.src.cf7successmessagejs, gulp.series('cf7successmessagejs:dist'));
+    gulp.watch(path.src.cf7utmtrackingjs, gulp.series('cf7utmtrackingjs:dist'));
     gulp.watch(path.watch.img, gulp.series('image:dist'));
     gulp.watch(path.watch.fonts, gulp.series('fonts:dist'));
     gulp.watch(path.watch.media, gulp.series('media:dist'));

@@ -763,6 +763,13 @@ class CodeweberFormsAdmin {
 
                             <?php foreach ($data as $key => $value): ?>
                                 <?php if ($key === '_utm_data') continue; // Пропускаем UTM данные, они обрабатываются отдельно ?>
+                                <?php 
+                                // Пропускаем отдельные поля form_consents_{id} (например form_consents_4981, form_consents_4976)
+                                // Эти поля дублируют информацию из массива form_consents/newsletter_consents
+                                if (preg_match('/^form_consents_\d+$/', $key)) {
+                                    continue;
+                                }
+                                ?>
                                 <tr>
                                     <td>
                                         <strong>
@@ -773,14 +780,20 @@ class CodeweberFormsAdmin {
                                             // Нормализуем ключ для сравнения (приводим к нижнему регистру и заменяем пробелы/дефисы на подчеркивания)
                                             $normalized_key = strtolower(str_replace([' ', '-'], '_', trim($clean_key)));
                                             
-                                            if ($normalized_key === 'newsletter_consents') {
-                                                echo esc_html(__('Newsletter Consents', 'codeweber'));
+                                            if ($normalized_key === 'newsletter_consents' || $normalized_key === 'form_consents' || strtolower($clean_key) === 'form consents') {
+                                                echo esc_html(__('Consents', 'codeweber'));
                                             } elseif ($normalized_key === 'form_name' || strtolower(trim($clean_key)) === 'form name') {
                                                 echo esc_html(__('Form Name', 'codeweber'));
                                             } elseif ($normalized_key === 'file') {
                                                 echo esc_html(__('File', 'codeweber'));
                                             } elseif ($normalized_key === 'name' && strpos($normalized_key, 'form') === false) {
                                                 echo esc_html(__('Name', 'codeweber'));
+                                            } elseif ($normalized_key === 'lastname' || strtolower($clean_key) === 'lastname') {
+                                                echo esc_html(__('Lastname', 'codeweber'));
+                                            } elseif ($normalized_key === 'patronymic' || strtolower($clean_key) === 'patronymic') {
+                                                echo esc_html(__('Patronymic', 'codeweber'));
+                                            } elseif ($normalized_key === 'phone' || strtolower($clean_key) === 'phone') {
+                                                echo esc_html(__('Phone', 'codeweber'));
                                             } elseif ($clean_key === 'role' || $normalized_key === 'role') {
                                                 echo esc_html(__('Role', 'codeweber'));
                                             } elseif ($clean_key === 'company' || $normalized_key === 'company') {
@@ -794,15 +807,22 @@ class CodeweberFormsAdmin {
                                             } elseif ($clean_key === 'user_id' || $clean_key === 'User id' || $clean_key === 'User ID' || $clean_key === 'user id' || $normalized_key === 'user_id') {
                                                 echo esc_html(__('User ID', 'codeweber'));
                                             } else {
-                                                echo esc_html(ucfirst(str_replace(['_', '-'], ' ', $clean_key)));
+                                                // Пытаемся перевести ключ через систему переводов
+                                                $translated_key = __(ucfirst(str_replace(['_', '-'], ' ', $clean_key)), 'codeweber');
+                                                // Если перевод вернул исходную строку (перевода нет), используем её как есть
+                                                if ($translated_key === ucfirst(str_replace(['_', '-'], ' ', $clean_key))) {
+                                                    echo esc_html(ucfirst(str_replace(['_', '-'], ' ', $clean_key)));
+                                                } else {
+                                                    echo esc_html($translated_key);
+                                                }
                                             }
                                             ?>
                                         </strong>
                                     </td>
                                     <td>
                                         <?php 
-                                        // Специальная обработка newsletter_consents, чтобы избежать "Array to string conversion"
-                                        if ($key === 'newsletter_consents' && is_array($value)) {
+                                        // Специальная обработка newsletter_consents и form_consents, чтобы избежать "Array to string conversion"
+                                        if (($key === 'newsletter_consents' || $key === 'form_consents') && is_array($value)) {
                                             $consent_lines = [];
 
                                             // Подключаем helper для получения корректного URL документа/ревизии
@@ -817,8 +837,13 @@ class CodeweberFormsAdmin {
                                                 }
 
                                                 $doc_title = $doc->post_title;
-                                                $version   = $consent_data['document_version'] ?? null;
-                                                $doc_url   = codeweber_forms_get_document_url($doc_id, $version);
+                                                // Для CF7 форм consent_data может быть строкой "1" или массивом с document_version
+                                                if (is_array($consent_data)) {
+                                                    $version = $consent_data['document_version'] ?? null;
+                                                } else {
+                                                    $version = null;
+                                                }
+                                                $doc_url = codeweber_forms_get_document_url($doc_id, $version);
 
                                                 $line = sprintf(
                                                     '%s (ID: %d)',

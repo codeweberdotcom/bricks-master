@@ -17,6 +17,7 @@ if (!defined('ABSPATH')) {
 add_action('codeweber_form_saved', 'codeweber_forms_newsletter_integration', 10, 3);
 
 function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_data) {
+    
     // Проверяем, является ли форма newsletter формой ИЛИ есть ли согласия на рассылку
     $is_newsletter_form = codeweber_forms_is_newsletter_form($form_id);
     $has_mailing_consent = false;
@@ -30,9 +31,21 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     }
     $processed_submissions[$submission_key] = true;
     
-    // Проверяем наличие согласий на рассылку в данных формы
-    if (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
-        foreach ($form_data['newsletter_consents'] as $doc_id => $consent) {
+    // Проверяем наличие согласий на рассылку в данных формы (с приоритетом form_consents)
+    $consents_to_check = null;
+    
+    // ПРИОРИТЕТ 1: form_consents (универсальный префикс)
+    if (!empty($form_data['form_consents']) && is_array($form_data['form_consents'])) {
+        $consents_to_check = $form_data['form_consents'];
+    }
+    // ПРИОРИТЕТ 2: newsletter_consents (обратная совместимость)
+    elseif (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
+        $consents_to_check = $form_data['newsletter_consents'];
+    } else {
+    }
+    
+    if (!empty($consents_to_check)) {
+        foreach ($consents_to_check as $doc_id => $consent) {
             // Проверяем, что согласие дано
             $consent_value = null;
             if (is_array($consent)) {
@@ -42,17 +55,29 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
             }
             
             if ($consent_value === '1' || $consent_value === 1) {
-                // Проверяем, является ли документ согласием на рассылку
+                
+                // ПРИОРИТЕТ 1: Проверяем, является ли документ тем, что указан в настройках
+                $mailing_consent_document_id = get_option('codeweber_legal_email_consent', 0);
+                
+                if ($mailing_consent_document_id && intval($doc_id) === intval($mailing_consent_document_id)) {
+                    $has_mailing_consent = true;
+                    error_log('Newsletter integration: Found mailing consent by settings (document ID: ' . $doc_id . ')');
+                    break;
+                }
+                
+                // ПРИОРИТЕТ 2: Проверяем по названию документа (обратная совместимость)
                 $doc = get_post(intval($doc_id));
                 if ($doc) {
                     $doc_title_lower = mb_strtolower($doc->post_title, 'UTF-8');
-                    // Проверяем по названию документа
-                    if (strpos($doc_title_lower, 'рассылк') !== false || 
+                    $title_match = strpos($doc_title_lower, 'рассылк') !== false || 
                         strpos($doc_title_lower, 'mailing') !== false || 
                         strpos($doc_title_lower, 'newsletter') !== false ||
-                        (strpos($doc_title_lower, 'информационн') !== false && strpos($doc_title_lower, 'рекламн') !== false)) {
+                        (strpos($doc_title_lower, 'информационн') !== false && strpos($doc_title_lower, 'рекламн') !== false);
+                    
+                    
+                    if ($title_match) {
                         $has_mailing_consent = true;
-                        error_log('Newsletter integration: Found mailing consent in document ID: ' . $doc_id);
+                        error_log('Newsletter integration: Found mailing consent by title (document ID: ' . $doc_id . ')');
                         break;
                     }
                 }
@@ -73,6 +98,7 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
         return;
     }
     
+    
     // Получаем email из данных формы
     $email = '';
     if (is_array($form_data)) {
@@ -83,6 +109,7 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                  '';
     }
     
+    
     if (empty($email) || !is_email($email)) {
         error_log('Newsletter integration: Invalid or missing email in form data');
         return;
@@ -91,11 +118,13 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     global $wpdb;
     $table_name = $wpdb->prefix . 'newsletter_subscriptions';
     
+    
     // Проверяем, существует ли уже подписка
     $subscription = $wpdb->get_row($wpdb->prepare(
         "SELECT * FROM {$table_name} WHERE email = %s",
         $email
     ));
+    
     
     if ($subscription) {
         // Уже подтвержден — не создаём дубликат
@@ -124,17 +153,33 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                 }
             }
             
-            // ИМЕНА ФОРМЫ ВСЕГДА БЕРЕТСЯ ИЗ TITLE CPT ФОРМЫ
-            // Источник всегда один - post_title из CPT по form_id
+            // ИМЕНА ФОРМЫ БЕРЕТСЯ ИЗ TITLE CPT ФОРМЫ ИЛИ ИЗ CF7 ФОРМЫ
             $form_name_for_event = '';
             
-            error_log('=== NEWSLETTER INTEGRATION (REACTIVATION): Getting form_name from CPT title START ===');
+            error_log('=== NEWSLETTER INTEGRATION (REACTIVATION): Getting form_name START ===');
             error_log('form_id type: ' . gettype($form_id));
             error_log('form_id value: ' . var_export($form_id, true));
-            error_log('form_id is_numeric: ' . (is_numeric($form_id) ? 'YES' : 'NO'));
             
-            // Получаем title из CPT формы
-            if (is_numeric($form_id) && (int) $form_id > 0) {
+            // Проверяем, является ли это CF7 формой (формат: cf7_1072)
+            if (is_string($form_id) && strpos($form_id, 'cf7_') === 0) {
+                // Это CF7 форма - получаем название из объекта формы CF7
+                $cf7_form_id = str_replace('cf7_', '', $form_id);
+                $cf7_form_id = intval($cf7_form_id);
+                
+                if ($cf7_form_id > 0 && class_exists('WPCF7_ContactForm')) {
+                    $cf7_form = WPCF7_ContactForm::get_instance($cf7_form_id);
+                    if ($cf7_form) {
+                        $form_name_for_event = $cf7_form->title();
+                        error_log('Got form_name from CF7 form (reactivation): ' . $form_name_for_event . ' (CF7 ID: ' . $cf7_form_id . ')');
+                    } else {
+                        error_log('CF7 form not found for ID (reactivation): ' . $cf7_form_id);
+                    }
+                } else {
+                    error_log('Invalid CF7 form ID (reactivation): ' . $cf7_form_id);
+                }
+            }
+            // Получаем title из CPT формы (для обычных Codeweber форм)
+            elseif (is_numeric($form_id) && (int) $form_id > 0) {
                 $int_form_id = (int) $form_id;
                 error_log('Getting post from CPT. int_form_id: ' . $int_form_id);
                 $form_post = get_post($int_form_id);
@@ -148,19 +193,19 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                 }
                 if ($form_post && $form_post->post_type === 'codeweber_form' && !empty($form_post->post_title)) {
                     $form_name_for_event = $form_post->post_title;
-                    error_log('Got form_name from CPT title: ' . $form_name_for_event);
+                    error_log('Got form_name from CPT title (reactivation): ' . $form_name_for_event);
                 } else {
-                    error_log('Failed to get form_name from CPT title. Post exists: ' . ($form_post ? 'YES' : 'NO'));
+                    error_log('Failed to get form_name from CPT title (reactivation). Post exists: ' . ($form_post ? 'YES' : 'NO'));
                     if ($form_post) {
                         error_log('Reason: post_type=' . $form_post->post_type . ' (expected codeweber_form), title_empty=' . (empty($form_post->post_title) ? 'YES' : 'NO'));
                     }
                 }
             } else {
-                error_log('WARNING: form_id is not numeric, cannot get CPT title. form_id: ' . var_export($form_id, true));
+                error_log('WARNING: form_id is not numeric and not CF7 format (reactivation), cannot get form title. form_id: ' . var_export($form_id, true));
             }
             
-            error_log('Final form_name_for_event from CPT title (reactivation): ' . var_export($form_name_for_event, true));
-            error_log('=== NEWSLETTER INTEGRATION (REACTIVATION): Getting form_name from CPT title END ===');
+            error_log('Final form_name_for_event (reactivation): ' . var_export($form_name_for_event, true));
+            error_log('=== NEWSLETTER INTEGRATION (REACTIVATION): Getting form_name END ===');
             
             $normalized_form_id = is_numeric($form_id) ? (string) (int) $form_id : (string) $form_id;
             $event = [
@@ -173,15 +218,22 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
                 'ip_address' => sanitize_text_field($ip_address), // ИСПРАВЛЕНО: сохраняем IP в событии истории
             ];
             
-            // Добавляем согласия в событие, если есть
-            if (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
+            // Добавляем согласия в событие, если есть (с приоритетом form_consents)
+            $consents_for_event_data = null;
+            if (!empty($form_data['form_consents']) && is_array($form_data['form_consents'])) {
+                $consents_for_event_data = $form_data['form_consents'];
+            } elseif (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
+                $consents_for_event_data = $form_data['newsletter_consents'];
+            }
+            
+            if (!empty($consents_for_event_data)) {
                 $consents_for_event = [];
                 
                 if (!function_exists('codeweber_forms_get_document_url')) {
                     require_once get_template_directory() . '/functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php';
                 }
                 
-                foreach ($form_data['newsletter_consents'] as $doc_id => $consent) {
+                foreach ($consents_for_event_data as $doc_id => $consent) {
                     $doc = get_post(intval($doc_id));
                     if (!$doc) {
                         continue;
@@ -256,17 +308,33 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
     $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
     
-    // ИМЕНА ФОРМЫ ВСЕГДА БЕРЕТСЯ ИЗ TITLE CPT ФОРМЫ
-    // Источник всегда один - post_title из CPT по form_id
+    // ИМЕНА ФОРМЫ БЕРЕТСЯ ИЗ TITLE CPT ФОРМЫ ИЛИ ИЗ CF7 ФОРМЫ
     $form_name_for_event = '';
     
-    error_log('=== NEWSLETTER INTEGRATION: Getting form_name from CPT title START ===');
+    error_log('=== NEWSLETTER INTEGRATION: Getting form_name START ===');
     error_log('form_id type: ' . gettype($form_id));
     error_log('form_id value: ' . var_export($form_id, true));
-    error_log('form_id is_numeric: ' . (is_numeric($form_id) ? 'YES' : 'NO'));
     
-    // Получаем title из CPT формы
-    if (is_numeric($form_id) && (int) $form_id > 0) {
+    // Проверяем, является ли это CF7 формой (формат: cf7_1072)
+    if (is_string($form_id) && strpos($form_id, 'cf7_') === 0) {
+        // Это CF7 форма - получаем название из объекта формы CF7
+        $cf7_form_id = str_replace('cf7_', '', $form_id);
+        $cf7_form_id = intval($cf7_form_id);
+        
+        if ($cf7_form_id > 0 && class_exists('WPCF7_ContactForm')) {
+            $cf7_form = WPCF7_ContactForm::get_instance($cf7_form_id);
+            if ($cf7_form) {
+                $form_name_for_event = $cf7_form->title();
+                error_log('Got form_name from CF7 form: ' . $form_name_for_event . ' (CF7 ID: ' . $cf7_form_id . ')');
+            } else {
+                error_log('CF7 form not found for ID: ' . $cf7_form_id);
+            }
+        } else {
+            error_log('Invalid CF7 form ID: ' . $cf7_form_id);
+        }
+    }
+    // Получаем title из CPT формы (для обычных Codeweber форм)
+    elseif (is_numeric($form_id) && (int) $form_id > 0) {
         $int_form_id = (int) $form_id;
         error_log('Getting post from CPT. int_form_id: ' . $int_form_id);
         $form_post = get_post($int_form_id);
@@ -288,11 +356,11 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
             }
         }
     } else {
-        error_log('WARNING: form_id is not numeric, cannot get CPT title. form_id: ' . var_export($form_id, true));
+        error_log('WARNING: form_id is not numeric and not CF7 format, cannot get form title. form_id: ' . var_export($form_id, true));
     }
     
-    error_log('Final form_name_for_event from CPT title: ' . var_export($form_name_for_event, true));
-    error_log('=== NEWSLETTER INTEGRATION: Getting form_name from CPT title END ===');
+    error_log('Final form_name_for_event: ' . var_export($form_name_for_event, true));
+    error_log('=== NEWSLETTER INTEGRATION: Getting form_name END ===');
 
     // Формируем историю событий (events_history)
     $now = current_time('mysql');
@@ -317,10 +385,17 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     error_log('Event array: ' . print_r($events[0], true));
     error_log('Events JSON: ' . wp_json_encode($events, JSON_UNESCAPED_UNICODE));
 
-    // Добавляем в событие согласия, которые были даны при подписке (если есть)
-    if (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
+    // Добавляем в событие согласия, которые были даны при подписке (если есть) (с приоритетом form_consents)
+    $consents_for_event_data = null;
+    if (!empty($form_data['form_consents']) && is_array($form_data['form_consents'])) {
+        $consents_for_event_data = $form_data['form_consents'];
+    } elseif (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
+        $consents_for_event_data = $form_data['newsletter_consents'];
+    }
+    
+    if (!empty($consents_for_event_data)) {
         $consents_for_event = [];
-        foreach ($form_data['newsletter_consents'] as $doc_id => $consent) {
+        foreach ($consents_for_event_data as $doc_id => $consent) {
             $doc = get_post($doc_id);
             if (!$doc) {
                 continue;
@@ -352,10 +427,27 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     }
 
     // Получаем user_id авторизованного пользователя, который отправил форму
+    // ВАЖНО: Используем авторизованного пользователя, который отправил форму,
+    // а НЕ пользователя с email из формы (email может быть любым)
     $user_id = 0;
-    if (is_user_logged_in()) {
-        $user_id = get_current_user_id();
+    
+    // ПРИОРИТЕТ 1: Из form_data (передается из CF7 интеграции)
+    if (!empty($form_data['_user_id']) && (int) $form_data['_user_id'] > 0) {
+        $user_id = (int) $form_data['_user_id'];
+        error_log('Newsletter integration: Using user_id from form_data: ' . $user_id);
     }
+    // ПРИОРИТЕТ 2: Через get_current_user_id() - авторизованный пользователь
+    elseif (is_user_logged_in()) {
+        $user_id = get_current_user_id();
+        if ($user_id > 0) {
+            error_log('Newsletter integration: Using user_id from get_current_user_id(): ' . $user_id);
+        }
+    }
+    
+    // НЕ используем поиск по email, так как email может быть любым
+    // и не должен определять user_id подписки
+    // user_id должен быть только у авторизованного пользователя, который отправил форму
+    
     
     // Вставляем подписку в таблицу
     // form_id храним без префиксов, только реальный ID/ключ формы:
@@ -382,7 +474,9 @@ function codeweber_forms_newsletter_integration($submission_id, $form_id, $form_
     error_log('events_history JSON length: ' . strlen($insert_data['events_history']));
     error_log('events_history JSON preview: ' . substr($insert_data['events_history'], 0, 500));
     
+    
     $result = $wpdb->insert($table_name, $insert_data);
+    
     
     if ($result === false) {
         error_log('Newsletter integration: Database insert failed: ' . $wpdb->last_error);

@@ -13,35 +13,146 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Get or create user by email
+ * Clean phone number - remove all non-digit characters
  * 
- * @param string $email Email address
+ * @param string $phone Phone number
+ * @return string Cleaned phone number (digits only)
+ */
+function codeweber_forms_clean_phone($phone) {
+    if (empty($phone)) {
+        return '';
+    }
+    // Remove all non-digit characters
+    return preg_replace('/[^0-9]/', '', $phone);
+}
+
+/**
+ * Get site domain for phone-based email generation
+ * 
+ * @return string Site domain (e.g., 'example.ru')
+ */
+function codeweber_forms_get_site_domain() {
+    $home_url = home_url();
+    $parsed = parse_url($home_url);
+    $domain = !empty($parsed['host']) ? $parsed['host'] : $_SERVER['HTTP_HOST'] ?? 'example.ru';
+    
+    // Remove www. prefix if present
+    $domain = preg_replace('/^www\./', '', $domain);
+    
+    return $domain;
+}
+
+/**
+ * Get or create user by email or phone
+ * 
+ * Новая логика:
+ * 1. Если email НЕ найден в форме:
+ *    - Ищем phone -> очищаем -> ищем по email phone@{домен}.ru -> если нашли записываем данные, если нет создаем нового
+ * 2. Если email найден в форме:
+ *    - Ищем phone -> ищем пользователя по email -> записываем данные -> сохраняем телефон в очищенном формате в поле phone
+ * 
+ * @param string|null $email Email address (может быть пустым)
  * @param array $user_data Additional user data (first_name, last_name, phone)
  * @return WP_User|WP_Error User object or error
  */
-function codeweber_forms_get_or_create_user($email, $user_data = []) {
-    // Validate email
-    if (!is_email($email)) {
-        return new WP_Error('invalid_email', __('Invalid email address', 'codeweber'));
+function codeweber_forms_get_or_create_user($email = null, $user_data = []) {
+    $phone = !empty($user_data['phone']) ? $user_data['phone'] : '';
+    $cleaned_phone = codeweber_forms_clean_phone($phone);
+    
+    // ЛОГИКА 1: Email НЕ найден в форме
+    if (empty($email) || !is_email($email)) {
+        // Если email не валиден, проверяем phone
+        if (empty($cleaned_phone)) {
+            return new WP_Error('no_contact', __('Email or phone is required', 'codeweber'));
+        }
+        
+        // Генерируем email из телефона: 79285632563@{домен}.ru
+        $domain = codeweber_forms_get_site_domain();
+        $phone_email = $cleaned_phone . '@' . $domain;
+        
+        // Ищем пользователя по сгенерированному email
+        $user = get_user_by('email', $phone_email);
+        
+        if ($user) {
+            // Пользователь найден - обновляем данные
+            if (!empty($user_data['first_name'])) {
+                update_user_meta($user->ID, 'first_name', sanitize_text_field($user_data['first_name']));
+            }
+            if (!empty($user_data['last_name'])) {
+                update_user_meta($user->ID, 'last_name', sanitize_text_field($user_data['last_name']));
+            }
+            // Сохраняем телефон в очищенном формате
+            if (!empty($cleaned_phone)) {
+                update_user_meta($user->ID, 'phone', $cleaned_phone);
+            }
+            return $user;
+        }
+        
+        // Пользователь не найден - создаем нового
+        $username = sanitize_user($phone_email, true);
+        
+        // Generate unique username if taken
+        $original_username = $username;
+        $counter = 1;
+        while (username_exists($username)) {
+            $username = $original_username . $counter;
+            $counter++;
+        }
+        
+        // Generate random password
+        $password = wp_generate_password(12, false);
+        
+        // Create user with phone-based email
+        $user_id = wp_create_user($username, $password, $phone_email);
+        
+        if (is_wp_error($user_id)) {
+            return $user_id;
+        }
+        
+        // Get user object
+        $user = get_userdata($user_id);
+        if (!$user) {
+            return new WP_Error('user_creation_failed', __('Failed to create user', 'codeweber'));
+        }
+        
+        // Set role (subscriber by default)
+        $user->set_role('subscriber');
+        
+        // Save additional data
+        if (!empty($user_data['first_name'])) {
+            update_user_meta($user_id, 'first_name', sanitize_text_field($user_data['first_name']));
+        }
+        if (!empty($user_data['last_name'])) {
+            update_user_meta($user_id, 'last_name', sanitize_text_field($user_data['last_name']));
+        }
+        // Сохраняем телефон в очищенном формате
+        if (!empty($cleaned_phone)) {
+            update_user_meta($user_id, 'phone', $cleaned_phone);
+        }
+        
+        return $user;
     }
     
-    // Try to find existing user
+    // ЛОГИКА 2: Email найден в форме
+    // Ищем пользователя по email
     $user = get_user_by('email', $email);
+    
     if ($user) {
-        // Update additional data if provided
+        // Пользователь найден - обновляем данные
         if (!empty($user_data['first_name'])) {
             update_user_meta($user->ID, 'first_name', sanitize_text_field($user_data['first_name']));
         }
         if (!empty($user_data['last_name'])) {
             update_user_meta($user->ID, 'last_name', sanitize_text_field($user_data['last_name']));
         }
-        if (!empty($user_data['phone'])) {
-            update_user_meta($user->ID, 'phone', sanitize_text_field($user_data['phone']));
+        // Сохраняем телефон в очищенном формате (79285632563)
+        if (!empty($cleaned_phone)) {
+            update_user_meta($user->ID, 'phone', $cleaned_phone);
         }
         return $user;
     }
     
-    // Create new user
+    // Пользователь не найден - создаем нового с указанным email
     $username = sanitize_user($email, true);
     
     // Generate unique username if taken
@@ -78,8 +189,9 @@ function codeweber_forms_get_or_create_user($email, $user_data = []) {
     if (!empty($user_data['last_name'])) {
         update_user_meta($user_id, 'last_name', sanitize_text_field($user_data['last_name']));
     }
-    if (!empty($user_data['phone'])) {
-        update_user_meta($user_id, 'phone', sanitize_text_field($user_data['phone']));
+    // Сохраняем телефон в очищенном формате (79285632563)
+    if (!empty($cleaned_phone)) {
+        update_user_meta($user_id, 'phone', $cleaned_phone);
     }
     
     return $user;
@@ -339,29 +451,41 @@ add_action('codeweber_form_saved', 'codeweber_forms_save_consents_on_submit', 10
 add_action('codeweber_form_after_saved', 'codeweber_forms_save_consents_on_submit', 10, 3);
 
 function codeweber_forms_save_consents_on_submit($submission_id, $form_id, $form_data) {
-    error_log('=== codeweber_forms_save_consents_on_submit START ===');
-    error_log('Submission ID: ' . $submission_id);
-    error_log('Form ID: ' . $form_id);
-    error_log('Form data keys: ' . implode(', ', array_keys($form_data)));
-    error_log('Form data (full): ' . print_r($form_data, true));
+    // Check if form has consents (проверяем form_consents с приоритетом)
+    $consents_to_save = null;
     
-    // Check if form has consents
-    if (empty($form_data['newsletter_consents']) || !is_array($form_data['newsletter_consents'])) {
-        error_log('codeweber_forms_save_consents_on_submit: No newsletter_consents found in form_data');
-        error_log('=== codeweber_forms_save_consents_on_submit END (no consents) ===');
+    // ПРИОРИТЕТ 1: form_consents (универсальный префикс)
+    if (!empty($form_data['form_consents']) && is_array($form_data['form_consents'])) {
+        $consents_to_save = $form_data['form_consents'];
+    }
+    // ПРИОРИТЕТ 2: newsletter_consents (обратная совместимость)
+    elseif (!empty($form_data['newsletter_consents']) && is_array($form_data['newsletter_consents'])) {
+        $consents_to_save = $form_data['newsletter_consents'];
+    }
+    
+    if (empty($consents_to_save)) {
         return; // No consents in this form submission
     }
     
-    error_log('codeweber_forms_save_consents_on_submit: Found newsletter_consents: ' . print_r($form_data['newsletter_consents'], true));
-    
-    // Get email from form data
+    // Get email from form data (может быть пустым)
     $email = $form_data['email'] ?? 
              $form_data['email-address'] ?? 
              $form_data['EMAIL'] ?? 
              '';
     
-    if (empty($email) || !is_email($email)) {
-        error_log('codeweber_forms_save_consents_on_submit: Invalid or missing email');
+    // Валидируем email только если он указан
+    if (!empty($email) && !is_email($email)) {
+        $email = ''; // Сбрасываем невалидный email, будем использовать phone
+    }
+    
+    // Get phone from form data
+    $phone = $form_data['phone'] ?? 
+             $form_data['tel'] ?? 
+             $form_data['phone-number'] ?? 
+             '';
+    
+    // Проверяем, что есть хотя бы email или phone
+    if (empty($email) && empty($phone)) {
         return;
     }
     
@@ -369,14 +493,13 @@ function codeweber_forms_save_consents_on_submit($submission_id, $form_id, $form
     $user_data = [
         'first_name' => $form_data['first_name'] ?? $form_data['text-name'] ?? $form_data['name'] ?? '',
         'last_name' => $form_data['last_name'] ?? $form_data['text-surname'] ?? $form_data['surname'] ?? '',
-        'phone' => $form_data['phone'] ?? $form_data['tel'] ?? '',
+        'phone' => $phone,
     ];
     
-    // Get or create user
-    $user = codeweber_forms_get_or_create_user($email, $user_data);
+    // Get or create user (email может быть пустым, тогда будет использован phone)
+    $user = codeweber_forms_get_or_create_user($email ?: null, $user_data);
     
     if (is_wp_error($user)) {
-        error_log('codeweber_forms_save_consents_on_submit: Failed to get/create user: ' . $user->get_error_message());
         return;
     }
     
@@ -445,17 +568,7 @@ function codeweber_forms_save_consents_on_submit($submission_id, $form_id, $form
         'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
     ];
     
-    // Save consents
-    $result = codeweber_forms_save_user_consents($user->ID, $form_data['newsletter_consents'], $context);
-    
-    if (is_wp_error($result)) {
-        error_log('codeweber_forms_save_consents_on_submit: Failed to save consents: ' . $result->get_error_message());
-    } else {
-        error_log('codeweber_forms_save_consents_on_submit: Consents saved successfully for user ID: ' . $user->ID);
-        // Verify saved consents
-        $saved_consents = get_user_meta($user->ID, '_codeweber_user_consents', true);
-        error_log('codeweber_forms_save_consents_on_submit: Verified saved consents count: ' . (is_array($saved_consents) ? count($saved_consents) : 0));
-    }
-    error_log('=== codeweber_forms_save_consents_on_submit END ===');
+    // Save consents (используем преобразованные согласия)
+    $result = codeweber_forms_save_user_consents($user->ID, $consents_to_save, $context);
 }
 

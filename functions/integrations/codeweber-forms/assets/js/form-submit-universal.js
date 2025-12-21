@@ -302,7 +302,7 @@
             apiEndpoint: null,
             nonceField: 'form_nonce',
             nonceAction: 'codeweber_form_submit',
-            consentPrefix: 'newsletter_consents',
+            consentPrefix: 'form_consents', // Универсальный префикс для всех форм
             messagesContainer: '.form-messages',
             messagesClass: 'form-messages',
             onSuccess: null,
@@ -324,7 +324,7 @@
                     config.apiEndpoint = codeweberTestimonialForm?.restUrl || '/wp-json/codeweber/v1/submit-testimonial';
                     config.nonceField = 'testimonial_nonce';
                     config.nonceAction = 'submit_testimonial';
-                    config.consentPrefix = 'testimonial_consents';
+                    // consentPrefix остается 'form_consents' (универсальный)
                     config.messagesContainer = '.testimonial-form-messages';
                     config.messagesClass = 'testimonial-form-messages';
                     config.customValidation = validateTestimonialForm;
@@ -340,7 +340,7 @@
                     config.apiEndpoint = (codeweberForms?.restUrl || '/wp-json/codeweber-forms/v1/') + 'submit';
                     config.nonceField = 'form_nonce';
                     config.nonceAction = 'codeweber_form_submit';
-                    config.consentPrefix = 'newsletter_consents';
+                    // consentPrefix остается 'form_consents' (универсальный)
                     config.messagesContainer = '.form-messages';
                     config.messagesClass = 'form-messages';
                     break;
@@ -353,7 +353,7 @@
             config.apiEndpoint = codeweberTestimonialForm?.restUrl || '/wp-json/codeweber/v1/submit-testimonial';
             config.nonceField = 'testimonial_nonce';
             config.nonceAction = 'submit_testimonial';
-            config.consentPrefix = 'testimonial_consents';
+            // consentPrefix остается 'form_consents' (универсальный)
             config.messagesContainer = '.testimonial-form-messages';
             config.messagesClass = 'testimonial-form-messages';
             config.customValidation = validateTestimonialForm;
@@ -366,7 +366,7 @@
             config.apiEndpoint = (codeweberForms?.restUrl || '/wp-json/codeweber-forms/v1/') + 'submit';
             config.nonceField = 'form_nonce';
             config.nonceAction = 'codeweber_form_submit';
-            config.consentPrefix = 'newsletter_consents';
+            // consentPrefix остается 'form_consents' (универсальный)
             config.messagesContainer = '.form-messages';
             config.messagesClass = 'form-messages';
         }
@@ -396,18 +396,35 @@
             }
         }
 
-        // Collect consents
+        // Collect consents (поддержка обоих форматов: form_consents[ID] и form_consents_ID)
         const consents = {};
-        const consentCheckboxes = form.querySelectorAll(`input[name^="${config.consentPrefix}["]`);
+        // Ищем чекбоксы с обоими форматами
+        const consentCheckboxes = form.querySelectorAll(
+            `input[name^="${config.consentPrefix}["], input[name^="${config.consentPrefix}_"]`
+        );
         console.log('[Form Submit Debug] Looking for consents with prefix:', config.consentPrefix);
         console.log('[Form Submit Debug] Found checkboxes:', consentCheckboxes.length);
         consentCheckboxes.forEach(checkbox => {
             console.log('[Form Submit Debug] Checkbox:', checkbox.name, 'checked:', checkbox.checked);
             if (checkbox.checked) {
-                const match = checkbox.name.match(new RegExp(`${config.consentPrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\[(\\d+)\\]`));
-                if (match && match[1]) {
-                    consents[match[1]] = '1';
-                    console.log('[Form Submit Debug] Added consent for doc_id:', match[1]);
+                let docId = null;
+                
+                // Формат 1: form_consents[ID] (с квадратными скобками)
+                const matchBrackets = checkbox.name.match(new RegExp(`${config.consentPrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\[(\\d+)\\]`));
+                if (matchBrackets && matchBrackets[1]) {
+                    docId = matchBrackets[1];
+                }
+                // Формат 2: form_consents_ID (с подчеркиванием)
+                else {
+                    const matchUnderscore = checkbox.name.match(new RegExp(`${config.consentPrefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}_(\\d+)`));
+                    if (matchUnderscore && matchUnderscore[1]) {
+                        docId = matchUnderscore[1];
+                    }
+                }
+                
+                if (docId) {
+                    consents[docId] = '1';
+                    console.log('[Form Submit Debug] Added consent for doc_id:', docId, '(format:', checkbox.name.includes('[') ? 'brackets' : 'underscore', ')');
                 }
             }
         });

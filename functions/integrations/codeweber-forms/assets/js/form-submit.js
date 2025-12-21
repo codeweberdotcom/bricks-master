@@ -191,7 +191,34 @@
                         continue;
                     }
                     
-                    // Handle newsletter_consents as array
+                    // Handle form_consents as array (универсальный префикс) - формат 1: form_consents[ID]
+                    if (key.startsWith('form_consents[')) {
+                        // Extract document ID from key like "form_consents[4973]"
+                        const match = key.match(/form_consents\[(\d+)\]/);
+                        if (match) {
+                            const docId = match[1];
+                            if (!fields.form_consents) {
+                                fields.form_consents = {};
+                            }
+                            fields.form_consents[docId] = value;
+                        }
+                        continue;
+                    }
+                    
+                    // Handle form_consents_ID format (универсальный префикс) - формат 2: form_consents_ID
+                    if (key.startsWith('form_consents_')) {
+                        const match = key.match(/form_consents_(\d+)/);
+                        if (match) {
+                            const docId = match[1];
+                            if (!fields.form_consents) {
+                                fields.form_consents = {};
+                            }
+                            fields.form_consents[docId] = value;
+                        }
+                        continue;
+                    }
+                    
+                    // Handle newsletter_consents as array (обратная совместимость)
                     if (key.startsWith('newsletter_consents[')) {
                         // Extract document ID from key like "newsletter_consents[4973]"
                         const match = key.match(/newsletter_consents\[(\d+)\]/);
@@ -230,8 +257,10 @@
                     tracking_data: trackingData
                 };
                 
-                // Add newsletter_consents to data if present
-                if (fields.newsletter_consents) {
+                // Add consents to data if present (приоритет form_consents)
+                if (fields.form_consents) {
+                    data.form_consents = fields.form_consents;
+                } elseif (fields.newsletter_consents) {
                     data.newsletter_consents = fields.newsletter_consents;
                 }
 

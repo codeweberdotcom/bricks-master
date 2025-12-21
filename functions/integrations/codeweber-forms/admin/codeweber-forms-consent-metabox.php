@@ -73,7 +73,7 @@ class CodeweberFormsConsentMetabox {
             
             <p>
                 <button type="button" class="button" id="add-consent-btn">
-                    <?php _e('+ Add Consent', 'codeweber'); ?>
+                    <?php _e('Add consent', 'codeweber'); ?>
                 </button>
             </p>
         </div>

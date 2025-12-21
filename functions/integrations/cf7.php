@@ -39,6 +39,7 @@ function codeweber_cf7_styles_scripts()
  * @param array $messages Массив сообщений Contact Form 7.
  * @return array Модифицированный массив сообщений.
  */
+if (class_exists('WPCF7')) {
 add_filter('wpcf7_messages', function ($messages) {
    // Очищаем конкретное сообщение об ошибке
    if (isset($messages['invalid_fields'])) {
@@ -56,6 +57,133 @@ add_filter('wpcf7_messages', function ($messages) {
  * дополнительных JS или CSS, нужных для обработки согласий, кастомных полей и т.п.
  */
 add_action('wp_enqueue_scripts', 'codeweber_cf7_styles_scripts');
+}
+
+/**
+ * Подключение кастомных JavaScript файлов для CF7
+ */
+if (class_exists('WPCF7')) {
+add_action('wp_enqueue_scripts', 'codeweber_cf7_custom_scripts', 20);
+}
+function codeweber_cf7_custom_scripts() {
+    // Подключаем скрипты только если CF7 активирован
+    if (!class_exists('WPCF7') || !wp_script_is('contact-form-7', 'registered')) {
+        return;
+    }
+
+    // Подключаем валидацию форм (для CF7 форм с классом needs-validation)
+    // Prefer dist version, fallback to src
+    $form_validation_path = brk_get_dist_file_path('dist/assets/js/form-validation.js');
+    $form_validation_url = brk_get_dist_file_url('dist/assets/js/form-validation.js');
+    
+    if ($form_validation_path && $form_validation_url) {
+        $script_path = $form_validation_path;
+        $script_url = $form_validation_url;
+    } else {
+        // Fallback to src
+        $src_path = get_template_directory() . '/src/assets/js/form-validation.js';
+        $src_url = get_template_directory_uri() . '/src/assets/js/form-validation.js';
+        
+        if (file_exists($src_path)) {
+            $script_path = $src_path;
+            $script_url = $src_url;
+        } else {
+            return; // File doesn't exist
+        }
+    }
+    
+    wp_enqueue_script(
+        'codeweber-form-validation',
+        $script_url,
+        array(),
+        filemtime($script_path),
+        true
+    );
+
+    // Подключаем кастомную логику для CF7 acceptance чекбоксов
+    $cf7_acceptance_path = brk_get_dist_file_path('dist/assets/js/cf7-acceptance-required.js');
+    $cf7_acceptance_url = brk_get_dist_file_url('dist/assets/js/cf7-acceptance-required.js');
+    
+    if ($cf7_acceptance_path && $cf7_acceptance_url) {
+        $acceptance_path = $cf7_acceptance_path;
+        $acceptance_url = $cf7_acceptance_url;
+    } else {
+        // Fallback to src
+        $src_path = get_template_directory() . '/src/assets/js/cf7-acceptance-required.js';
+        $src_url = get_template_directory_uri() . '/src/assets/js/cf7-acceptance-required.js';
+        
+        if (file_exists($src_path)) {
+            $acceptance_path = $src_path;
+            $acceptance_url = $src_url;
+        } else {
+            return; // File doesn't exist
+        }
+    }
+    
+    wp_enqueue_script(
+        'codeweber-cf7-acceptance-required',
+        $acceptance_url,
+        array('contact-form-7', 'codeweber-form-validation'),
+        filemtime($acceptance_path),
+        true
+    );
+
+    // Подключаем показ успешного сообщения через механизм codeweber forms
+    $cf7_success_path = brk_get_dist_file_path('dist/assets/js/cf7-success-message.js');
+    $cf7_success_url = brk_get_dist_file_url('dist/assets/js/cf7-success-message.js');
+    
+    if ($cf7_success_path && $cf7_success_url) {
+        $success_path = $cf7_success_path;
+        $success_url = $cf7_success_url;
+    } else {
+        // Fallback to src
+        $src_path = get_template_directory() . '/src/assets/js/cf7-success-message.js';
+        $src_url = get_template_directory_uri() . '/src/assets/js/cf7-success-message.js';
+        
+        if (file_exists($src_path)) {
+            $success_path = $src_path;
+            $success_url = $src_url;
+        } else {
+            return; // File doesn't exist
+        }
+    }
+    
+    wp_enqueue_script(
+        'codeweber-cf7-success-message',
+        $success_url,
+        array('contact-form-7'),
+        filemtime($success_path),
+        true
+    );
+
+    // Подключаем UTM tracking для CF7 форм
+    $cf7_utm_path = brk_get_dist_file_path('dist/assets/js/cf7-utm-tracking.js');
+    $cf7_utm_url = brk_get_dist_file_url('dist/assets/js/cf7-utm-tracking.js');
+    
+    if ($cf7_utm_path && $cf7_utm_url) {
+        $utm_path = $cf7_utm_path;
+        $utm_url = $cf7_utm_url;
+    } else {
+        // Fallback to src
+        $src_path = get_template_directory() . '/src/assets/js/cf7-utm-tracking.js';
+        $src_url = get_template_directory_uri() . '/src/assets/js/cf7-utm-tracking.js';
+        
+        if (file_exists($src_path)) {
+            $utm_path = $src_path;
+            $utm_url = $src_url;
+        } else {
+            return; // File doesn't exist
+        }
+    }
+    
+    wp_enqueue_script(
+        'codeweber-cf7-utm-tracking',
+        $utm_url,
+        array('contact-form-7'),
+        filemtime($utm_path),
+        true
+    );
+}
 
 
 
@@ -80,76 +208,6 @@ add_filter('wpcf7_autop_or_not', '__return_false');
 
 
 
-
-/**
- * Отображает модальное окно после успешной отправки формы Contact Form 7.
- *
- * Добавляет HTML разметку модального окна с сообщением об успешной отправке
- * и JS-скрипт, который показывает это окно при событии 'wpcf7mailsent'.
- * Также скрипт очищает классы валидации и aria-атрибуты у полей формы.
- *
- * Хук: wp_footer — выводит модальное окно перед закрывающим тегом </body>.
- */
-add_action('wp_footer', 'сf7_modal_after_sent');
-
-function сf7_modal_after_sent()
-{
-   echo '<div class="modal fade" id="modal-0166" tabindex="-1">
-  <div class="modal-dialog  modal-dialog-centered  modal-fullscreen-sm-down">
-    <div class="modal-content min-vh-50 text-center">
-    <div class="modal-body align-content-center">
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      <div class="container">
-            <div class="row">
-              <div class="col-12 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 395.7" class="mb-3 svg-inject icon-svg icon-svg-lg text-primary">
-                  <path class="lineal-stroke" d="M483.6 395.7H53.3C23.9 395.7 0 371.9 0 342.4V53.3C0 23.9 23.9 0 53.3 0h405.4C488.1 0 512 23.9 512 53.3v222.8c0 7.9-6.4 14.2-14.2 14.2s-14.2-6.4-14.2-14.2V53.3c0-13.7-11.1-24.8-24.8-24.8H53.3c-13.7 0-24.8 11.1-24.8 24.8v289.2c0 13.7 11.1 24.8 24.8 24.8h430.3c7.9.2 14.1 6.7 13.8 14.6-.2 7.5-6.3 13.6-13.8 13.8z"></path>
-                  <path class="lineal-fill" d="M497.8 53.3L256 236.4 14.2 53.3c0-21.6 17.5-39.1 39.1-39.1h405.4c21.6 0 39.1 17.5 39.1 39.1z"></path>
-                  <path class="lineal-stroke" d="M256 250.6c-3.1 0-6.1-1-8.6-2.9L5.6 64.6C2.1 61.9 0 57.7 0 53.3 0 23.9 23.9 0 53.3 0h405.4C488.1 0 512 23.9 512 53.3c0 4.4-2.1 8.6-5.6 11.3L264.6 247.7c-2.5 1.9-5.5 2.9-8.6 2.9zM29.3 46.8L256 218.6 482.7 46.8c-2.9-10.9-12.8-18.4-24-18.4H53.3c-11.3.1-21.1 7.6-24 18.4zm454.2 348.7c-3.1 0-6.1-1-8.6-2.9l-99.6-75.4c-6.3-4.7-7.5-13.7-2.7-19.9 4.7-6.3 13.7-7.5 19.9-2.7l99.6 75.4c6.3 4.7 7.5 13.7 2.8 19.9-2.7 3.6-6.9 5.7-11.4 5.6zm-449-4.6c-7.9 0-14.2-6.4-14.2-14.2 0-4.5 2.1-8.7 5.6-11.4l93.5-70.8c6.3-4.7 15.2-3.5 19.9 2.7 4.7 6.3 3.5 15.2-2.7 19.9L43.1 388c-2.5 1.9-5.5 2.9-8.6 2.9z"></path>
-                </svg>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12 text-center">
-                <div class="card-title h4">Сообщение успешно отправлено.</div>
-              </div>
-            </div>
-          </div>
-        <!--/.row -->
-      </div>
-      <!--/.modal-body -->
-    </div>
-    <!--/.modal-content -->
-  </div>
-  <!--/.modal-dialog -->
-</div>
-<!--/.modal -->';
-?>
-
-   <script type="text/javascript">
-      document.addEventListener('wpcf7mailsent', function(event) {
-         var myModal = new bootstrap.Modal(document.getElementById('modal-0166'), {
-            keyboard: false
-         });
-         myModal.show();
-
-         var form = event.target;
-
-         // Убираем класс валидации с формы
-         form.classList.remove('was-validated');
-
-         // Убираем все классы is-valid и is-invalid с полей + aria-invalid атрибуты
-         form.querySelectorAll('.form-control, .form-check-input').forEach(function(input) {
-            input.classList.remove('is-valid', 'is-invalid');
-            input.removeAttribute('aria-invalid');
-         });
-      }, false);
-   </script>
-
-<?php
-}
-
-
 /**
  * Добавляет дополнительный CSS класс к атрибуту class формы Contact Form 7.
  *
@@ -159,7 +217,9 @@ function сf7_modal_after_sent()
  * @param string $class Текущий список CSS классов формы.
  * @return string Обновленный список CSS классов с добавленным 'needs-validation'.
  */
+if (class_exists('WPCF7')) {
 add_filter('wpcf7_form_class_attr', 'custom_custom_form_class_attr');
+}
 
 function custom_custom_form_class_attr($class)
 {
@@ -179,15 +239,87 @@ function custom_custom_form_class_attr($class)
  * @param string $content HTML код формы CF7.
  * @return string Модифицированный HTML с добавленными атрибутами required.
  */
-add_filter('wpcf7_form_elements', 'dd_wpcf7_form_elements_replace');
+if (class_exists('WPCF7')) {
+add_filter('wpcf7_form_elements', 'dd_wpcf7_form_elements_replace', 5);
+}
 function dd_wpcf7_form_elements_replace($content)
 {
-   // Добавляем атрибут required для элементов с aria-required="true"
+   // ШАГ 1: Добавляем атрибут required для элементов с aria-required="true"
    $content = preg_replace('/aria-required="true"/', 'aria-required="true"  required', $content);
 
-   // Добавляем атрибуты required и aria-required="true" для отмеченных чекбоксов
+   // ШАГ 2: Добавляем атрибуты required и aria-required="true" для отмеченных чекбоксов
    $content = preg_replace('/checked="checked"/', 'checked="checked" aria-required="true"  required', $content);
 
+   return $content;
+}
+
+// ИСПРАВЛЕНО: Удаляем required из опциональных acceptance полей после всех других фильтров
+// Используем более высокий приоритет (999), чтобы сработать после всех других фильтров
+if (class_exists('WPCF7')) {
+add_filter('wpcf7_form_elements', 'dd_wpcf7_remove_required_from_optional_acceptance', 999);
+}
+function dd_wpcf7_remove_required_from_optional_acceptance($content)
+{
+   // Получаем текущую форму CF7
+   $contact_form = WPCF7_ContactForm::get_current();
+   if (!$contact_form) {
+      return $content;
+   }
+   
+   $form_id = $contact_form->id();
+   
+   // Получаем согласия формы
+   if (!class_exists('CF7_Consents_Panel')) {
+      return $content;
+   }
+   
+   $consents_panel = new CF7_Consents_Panel();
+   $consents = $consents_panel->get_consents($form_id);
+   
+   if (empty($consents)) {
+      return $content;
+   }
+   
+   // Для каждого опционального согласия удаляем required из соответствующего input
+   foreach ($consents as $consent) {
+      if (empty($consent['document_id']) || !empty($consent['required'])) {
+         continue; // Пропускаем обязательные согласия
+      }
+      
+      $document_id = intval($consent['document_id']);
+      $acceptance_name = 'form_consents_' . $document_id;
+      
+      // Удаляем required и aria-required из input с этим именем
+      // Используем точный поиск полного тега input с сохранением структуры
+      $pattern = '/(<input)(\s+[^>]*name=["\']' . preg_quote($acceptance_name, '/') . '["\'][^>]*)(>)/i';
+      $content = preg_replace_callback($pattern, function ($matches) {
+         $input_open = $matches[1]; // <input
+         $input_attrs = $matches[2]; // все атрибуты с пробелом в начале
+         $input_close = $matches[3]; // >
+         
+         // Удаляем required (в любом формате) - аккуратно, чтобы не сломать структуру
+         $input_attrs = preg_replace('/\s+required(?=\s|>|$)/i', '', $input_attrs);
+         $input_attrs = preg_replace('/\s+required="[^"]*"/i', '', $input_attrs);
+         $input_attrs = preg_replace('/\s+required=\'[^\']*\'/i', '', $input_attrs);
+         
+         // Удаляем aria-required="true"
+         $input_attrs = preg_replace('/\s+aria-required="true"/i', '', $input_attrs);
+         $input_attrs = preg_replace('/\s+aria-required=\'true\'/i', '', $input_attrs);
+         
+         // Нормализуем множественные пробелы в один (но сохраняем пробел после <input)
+         $input_attrs = preg_replace('/\s{2,}/', ' ', $input_attrs);
+         $input_attrs = trim($input_attrs);
+         
+         // Если атрибуты не пустые, добавляем пробел после <input
+         if (!empty($input_attrs)) {
+            $input_attrs = ' ' . $input_attrs;
+         }
+         
+         // Возвращаем полный тег
+         return $input_open . $input_attrs . $input_close;
+      }, $content);
+   }
+   
    return $content;
 }
 
@@ -204,6 +336,7 @@ function dd_wpcf7_form_elements_replace($content)
  * @param string $content HTML код формы CF7.
  * @return string Модифицированный HTML с добавленным required у чекбоксов.
  */
+if (class_exists('WPCF7')) {
 add_filter('wpcf7_form_elements', function ($content) {
    // Используем preg_replace_callback для точечной обработки каждого input[type="checkbox"]
    $content = preg_replace_callback(
@@ -229,6 +362,7 @@ add_filter('wpcf7_form_elements', function ($content) {
 
    return $content;
 });
+}
 
 
 
@@ -242,6 +376,7 @@ add_filter('wpcf7_form_elements', function ($content) {
  * @param string $content HTML-код формы CF7.
  * @return string Модифицированный HTML-код без указанных span-оберток.
  */
+if (class_exists('WPCF7')) {
 add_filter('wpcf7_form_elements', function ($content) {
    // Удаляем <span class="wpcf7-list-item"> вокруг input
    $content = preg_replace_callback(
@@ -263,534 +398,41 @@ add_filter('wpcf7_form_elements', function ($content) {
 
    return $content;
 });
-
+}
 
 
 /**
- * Создание пользовательских форм Contact Form 7 программно.
+ * Добавляет атрибут data-mask к полям телефона в формах CF7.
+ * 
+ * Ищет поля по классу wpcf7-tel, который CF7 автоматически добавляет к полям [tel*].
+ * Поскольку CF7 не поддерживает произвольные data-атрибуты в синтаксисе тегов,
+ * мы добавляем их программно через фильтр после рендеринга формы.
  *
- * Каждая функция создает форму с уникальным слагом, если такая форма еще не существует.
- * В форму включены поля с валидацией, согласие на обработку моих персональных данных,
- * и задается шаблон письма для уведомлений.
+ * @param string $content HTML-код формы CF7.
+ * @return string Модифицированный HTML с добавленным data-mask у полей телефона.
  */
-
-/**
- * Создает простую форму "Заказать звонок" с полями Имя и Телефон.
- */
-function create_custom_cf7_form()
-{
-   if (!post_type_exists('wpcf7_contact_form')) {
-      return;
-   }
-
-   // Проверяем, нет ли формы с таким слагом уже
-   $slug = 'zakazat-zvonok'; // <-- зафиксированный slug
-   $existing_form = get_page_by_path($slug, OBJECT, 'wpcf7_contact_form');
-   if ($existing_form) {
-      return;
-   }
-
-   // Содержимое формы
-   $form_content = <<<EOD
-<h2 class="mb-3 text-start">Заказать звонок</h2>
-<p class="lead mb-6 text-start">Перезвоним в течение 15 минут</p>
-
-<div class="form-floating mb-3 text-dark"> 
-  [text* text-name id:floatingName class:form-control placeholder "Ваше Имя"]
-  <label for="floatingName">Ваше Имя</label>
-  <div class="invalid-feedback">
-        Введите ваше Имя.
-      </div>
-</div>
-
-<div class="form-floating mb-3 text-dark"> 
-  [tel* tel-463 id:floatingTel class:phone-mask class:form-control placeholder "+7(000)123-45-67"]
-  <label for="floatingTel">+7(000)123-45-67</label>
-  <div class="invalid-feedback">
-        Введите ваш телефон.
-      </div>
-</div>
-
- <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
-  [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
-  <label for="flexCheckDefault1" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link]" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy]" target="_blank">политика обработки персональных данных</a> ознакомлен.
-  </label>
-
-</div>
-
-<div class="form-check mb-3 fs-12 small-chekbox">
-  [acceptance soglasie-na-rassilku id:flexCheckDefault14 class:form-check-input class:optional use_label_element optional]
-  <label for="flexCheckDefault14" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_mailing_consent_link]" target="_blank">согласие</a> на получение информационной и рекламной рассылки
-  </label>
-</div>
-
-<button type="submit" class="wpcf7-submit has-ripple btn [getthemebutton] btn-md btn-primary mx-5 mx-md-0">
-  Отправить
-</button>
-EOD;
-
-   // Создание формы
-   $form_post = array(
-      'post_title'   => 'Заказать звонок',
-      'post_name'    => $slug, // <-- задаем стабильный слаг
-      'post_content' => $form_content,
-      'post_status'  => 'publish',
-      'post_type'    => 'wpcf7_contact_form',
-   );
-
-   $post_id = wp_insert_post($form_post);
-
-   if (is_wp_error($post_id)) {
-      return;
-   }
-
-   // Установка содержимого формы
-   update_post_meta($post_id, '_form', $form_content);
-
-   // (опционально) Установка шаблона письма
-   $mail = array(
-      'subject'            => '[Заказать звонок] Заказ звонка от [text-name]',
-      'sender'             => '[your-email]',
-      'body'               => "Имя: [text-name]\nТелефон: [tel-463]\nEmail: [email-address]\nКомментарий: [textarea-471]",
-      'recipient'          => get_option('admin_email'),
-      'additional_headers' => "Reply-To: [email-address]",
-      'attachments'        => '',
-      'use_html'           => true
-   );
-
-   update_post_meta($post_id, '_mail', $mail);
-}
-
-
-/**
- * Создаёт форму "Подписка на рассылку" с email и согласием.
- */
-function create_newsletter_cf7_form()
-{
-   if (!post_type_exists('wpcf7_contact_form')) {
-      return;
-   }
-
-   $slug = 'newsletter-subscription';
-   $existing_form = get_page_by_path($slug, OBJECT, 'wpcf7_contact_form');
-   if ($existing_form) {
-      return;
-   }
-
-   $form_content = <<<EOD
-<div class="form-floating mb-3 text-dark input-group needs-validation" novalidate>
-  [email* email-address id:floatingEmail class:form-control class:border-0 placeholder "Ваш Email"]
-  <label class="z-index50" for="floatingEmail">Ваш Email</label>
-  <button type="submit" class="wpcf7-submit has-ripple btn btn-primary">
-    Отправить
-  </button>
-</div>
-
-<div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
-  [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
-  <label for="flexCheckDefault1" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link id='988']" target="_blank">согласие</a> на обработку моих персональных данных.<br>
-    Я даю свое <a class="text-primary" href="[cf7_mailing_consent_link id='988']" target="_blank">согласие</a> на получение информационной и рекламной рассылки
-  </label>
-  
-</div>
-EOD;
-
-   $form_post = array(
-      'post_title'   => 'Подписка на рассылку',
-      'post_name'    => $slug,
-      'post_content' => $form_content,
-      'post_status'  => 'publish',
-      'post_type'    => 'wpcf7_contact_form',
-   );
-
-   $post_id = wp_insert_post($form_post);
-
-   if (is_wp_error($post_id)) {
-      return;
-   }
-
-   update_post_meta($post_id, '_form', $form_content);
-
-   $mail = array(
-      'subject'            => '[Подписка] Новый email: [email-address]',
-      'sender'             => get_option('admin_email'),
-      'body'               => "Email: [email-address]",
-      'recipient'          => get_option('admin_email'),
-      'additional_headers' => "Reply-To: [email-address]",
-      'attachments'        => '',
-      'use_html'           => true,
-   );
-
-   update_post_meta($post_id, '_mail', $mail);
-}
-
-
-
-function create_custom_cf7_form_with_name_and_email()
-{
-   if (!post_type_exists('wpcf7_contact_form')) {
-      return;
-   }
-
-   // Проверяем, нет ли формы с таким слагом уже
-   $slug = 'zakazat-zvonok-name-email'; // Новый слаг для этой формы
-   $existing_form = get_page_by_path($slug, OBJECT, 'wpcf7_contact_form');
-   if ($existing_form) {
-      return;
-   }
-
-   // Содержимое формы
-   $form_content = <<<EOD
-<h2 class="mb-3 text-start">Заказать звонок</h2>
-                    <p class="lead mb-6 text-start">Перезвоним в течение 15 минут</p>
-
-<div class="form-floating mb-3 text-dark"> 
-  [text* text-name id:floatingName class:form-control placeholder "Ваше Имя"]
-  <label for="floatingName">Ваше Имя</label>
-  <div class="invalid-feedback">
-        Введите ваше Имя.
-      </div>
-</div>
-
-<div class="form-floating mb-3 text-dark"> 
-  [email* email-address id:floatingEmail class:form-control placeholder "Ваш Email"]
-  <label for="floatingEmail">Ваш Email</label>
-  <div class="invalid-feedback">
-        Введите ваш E-Mail.
-      </div>
-</div>
-
-<div class="form-floating mb-3 text-dark"> 
-  [tel* tel-463 id:floatingTel class:phone-mask class:form-control placeholder "+7(000)123-45-67"]
-  <label for="floatingTel">+7(000)123-45-67</label>
-  <div class="invalid-feedback">
-        Введите ваш телефон.
-      </div>
-</div>
-
-<div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
-  [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
-  <label for="flexCheckDefault1" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link]" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy]" target="_blank">политика обработки персональных данных</a> ознакомлен.
-  </label>
-</div>
-
-<div class="form-check mb-3 fs-12 small-chekbox">
-  [acceptance soglasie-na-rassilku id:flexCheckDefault14 class:form-check-input class:optional use_label_element optional]
-  <label for="flexCheckDefault14" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_mailing_consent_link]" target="_blank">согласие</a> на получение информационной и рекламной рассылки
-  </label>
-</div>
-
-<button type="submit" class="wpcf7-submit has-ripple btn [getthemebutton] btn-md btn-primary mx-5 mx-md-0">
-  Отправить
-</button>
-EOD;
-
-   // Создание формы
-   $form_post = array(
-      'post_title'   => 'Заказать звонок с Имя и Email',
-      'post_name'    => $slug, // <-- новый стабильный слаг
-      'post_content' => $form_content,
-      'post_status'  => 'publish',
-      'post_type'    => 'wpcf7_contact_form',
-   );
-
-   $post_id = wp_insert_post($form_post);
-
-   if (is_wp_error($post_id)) {
-      return;
-   }
-
-   // Установка содержимого формы
-   update_post_meta($post_id, '_form', $form_content);
-
-   // (опционально) Установка шаблона письма
-   $mail = array(
-      'subject'            => '[Заказать звонок] Заказ звонка от [text-name]',
-      'sender'             => '[your-email]',
-      'body'               => "Имя: [text-name]\nEmail: [email-address]\nТелефон: [tel-463]",
-      'recipient'          => get_option('admin_email'),
-      'additional_headers' => "Reply-To: [email-address]",
-      'attachments'        => '',
-      'use_html'           => true
-   );
-
-   update_post_meta($post_id, '_mail', $mail);
-}
-
-
-function create_custom_cf7_form_with_name_comment_and_email()
-{
-   if (!post_type_exists('wpcf7_contact_form')) {
-      return;
-   }
-
-   // Проверяем, нет ли формы с таким слагом уже
-   $slug = 'svyazatsya-s-nami-1'; // Новый слаг для этой формы
-   $existing_form = get_page_by_path($slug, OBJECT, 'wpcf7_contact_form');
-   if ($existing_form) {
-      return;
-   }
-
-   // Содержимое формы
-   $form_content = <<<EOD
-<div class="row gx-4">
-    <div class="col-md-6">
-        <div class="form-floating mb-4">
-            [text* text-name id:floatingName class:form-control placeholder "Ваше Имя"]
-            <label for="floatingName">Ваше Имя</label>
-            <div class="invalid-feedback">
-        Введите ваше Имя.
-      </div>
-        </div>
-    </div>
-    <!-- /column -->
-    <div class="col-md-6">
-        <div class="form-floating mb-4">
-            [text* text-lastname id:floatingLastName class:form-control placeholder "Ваша Фамилия"]
-            <label for="floatingLastName">Ваша Фамилия</label>
-            <div class="invalid-feedback">
-        Введите вашу Фамилию.
-      </div>
-        </div>
-    </div>
-    <!-- /column -->
-    <div class="col-md-6">
-        <div class="form-floating mb-4">
-            [email* email-address id:floatingEmail class:form-control placeholder "Ваш Email"]
-            <label for="floatingEmail">Ваш Email</label>
-            <div class="invalid-feedback">
-        Введите ваш E-Mail.
-      </div>
-        </div>
-    </div>
-    <!-- /column -->
-    <div class="col-md-6">
-        <div class="form-floating mb-4">
-            [tel* tel-463 id:floatingTel class:phone-mask class:form-control placeholder "+7(000)123-45-67"]
-            <label for="floatingTel">+7(000)123-45-67</label>
-            <div class="invalid-feedback">
-        Введите ваш телефон.
-      </div>
-        </div>
-    </div>
-    <!-- /column -->
-    <div class="col-12">
-        <div class="form-floating mb-4">
-            [textarea* textarea-937 id:floatingMessage class:form-control placeholder "Ваше сообщение"]
-            <label for="floatingMessage">Ваше сообщение</label>
-            <div class="invalid-feedback">
-        Введите ваше Сообщение.
-      </div>
-        </div>
-    </div>
-    <!-- /column -->
-    <div class="col-12">
-  
-
-   <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
-  [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
-  <label for="flexCheckDefault1" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_legal_consent_link]" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy]" target="_blank">политика обработки персональных данных</a> ознакомлен.
-  </label>
-</div>
-
-<div class="form-check mb-3 fs-12 small-chekbox">
-  [acceptance soglasie-na-rassilku id:flexCheckDefault14 class:form-check-input class:optional use_label_element optional]
-  <label for="flexCheckDefault14" class="form-check-label text-start">
-    Я даю свое <a class="text-primary" href="[cf7_mailing_consent_link]" target="_blank">согласие</a> на получение информационной и рекламной рассылки
-  </label>
-</div>
-
-    </div>
-    <!-- /column -->
-    <div class="col-12">
-        <button type="submit" class="wpcf7-submit has-ripple btn [getthemebutton] btn-md btn-primary mx-5 mx-md-0">
-   Отправить запрос
-</button>
-    </div>
-    <!-- /column -->
-</div>
-EOD;
-
-   // Создание формы
-   $form_post = array(
-      'post_title'   => 'Связаться с нами 1',
-      'post_name'    => $slug, // <-- новый стабильный слаг
-      'post_content' => $form_content,
-      'post_status'  => 'publish',
-      'post_type'    => 'wpcf7_contact_form',
-   );
-
-   $post_id = wp_insert_post($form_post);
-
-   if (is_wp_error($post_id)) {
-      return;
-   }
-
-   // Установка содержимого формы
-   update_post_meta($post_id, '_form', $form_content);
-
-   // (опционально) Установка шаблона письма
-   $mail = array(
-      'subject'            => '[Связаться с нами] Запрос от [text-name] [text-lastname]',
-      'sender'             => '[your-email]',
-      'body'               => "Имя: [text-name] [text-lastname]\nEmail: [email-address]\nТелефон: [tel-463]\nСообщение: [textarea-937]",
-      'recipient'          => get_option('admin_email'),
-      'additional_headers' => "Reply-To: [email-address]",
-      'attachments'        => '',
-      'use_html'           => true
-   );
-
-   update_post_meta($post_id, '_mail', $mail);
-}
-
-
-function create_custom_cf7_form_with_name_comment_and_email_2()
-{
-   if (!post_type_exists('wpcf7_contact_form')) {
-      return;
-   }
-
-   $slug = 'svyazatsya-s-nami-2';
-   $existing_form = get_page_by_path($slug, OBJECT, 'wpcf7_contact_form');
-   if ($existing_form) {
-      return; // Форма уже существует
-   }
-
-   $form_content = <<<EOD
-<div class="row gx-4">
-    <div class="col-md-6">
-        <div class="form-floating mb-4">
-            [text* text-name id:floatingName class:form-control placeholder "Ваше Имя"]
-            <label for="floatingName">Ваше Имя</label>
-            <div class="invalid-feedback">
-        Введите ваше Имя.
-      </div>
-        </div>
-    </div>
-    <!-- /column -->
-
-    <div class="col-md-6">
-        <div class="form-floating mb-4">
-            [email* email-address id:floatingEmail class:form-control placeholder "Ваш Email"]
-            <label for="floatingEmail">Ваш Email</label>
-        </div>
-    </div>
-    <!-- /column -->
-    
-    <div class="col-12">
-        <div class="form-floating mb-4">
-            [textarea* textarea-937 id:floatingMessage class:form-control placeholder "Ваше сообщение"]
-            <label for="floatingMessage">Ваше сообщение</label>
-             <div class="invalid-feedback">
-        Введите ваше Сообщение.
-      </div>
-        </div>
-    </div>
-    <!-- /column -->
-    <div class="col-12">
-
-       <div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">
-          [acceptance soglasie-na-obrabotku id:flexCheckDefault1 class:form-check-input use_label_element]
-          <label for="flexCheckDefault1" class="form-check-label text-start">
-            Я даю свое <a class="text-primary" href="[cf7_legal_consent_link id='1004']" target="_blank">согласие</a> на обработку моих персональных данных.<br> С документом <a href="[cf7_privacy_policy id='1004']" target="_blank">политика обработки персональных данных</a> ознакомлен.
-          </label>
-       </div>
-
-       <div class="form-check mb-3 fs-12 small-chekbox">
-          [acceptance soglasie-na-rassilku id:flexCheckDefault14 class:form-check-input class:optional use_label_element optional]
-          <label for="flexCheckDefault14" class="form-check-label text-start">
-            Я даю свое <a class="text-primary" href="[cf7_mailing_consent_link id='1004']" target="_blank">согласие</a> на получение информационной и рекламной рассылки
-          </label>
-       </div>
-
-    </div>
-    <!-- /column -->
-    <div class="col-12">
-        <button type="submit" class="wpcf7-submit has-ripple btn [getthemebutton] btn-md btn-primary mx-5 mx-md-0">
-            Отправить запрос
-        </button>
-    </div>
-    <!-- /column -->
-</div>
-EOD;
-
-   $form_post = [
-      'post_title'   => 'Связаться с нами 2',
-      'post_name'    => $slug,
-      'post_content' => $form_content,
-      'post_status'  => 'publish',
-      'post_type'    => 'wpcf7_contact_form',
-   ];
-
-   $post_id = wp_insert_post($form_post);
-
-   if (is_wp_error($post_id)) {
-      return;
-   }
-
-   update_post_meta($post_id, '_form', $form_content);
-
-   // Настройки письма (можешь подкорректировать по своему)
-   $mail = [
-      'subject'            => '[Связаться с нами] Запрос от [text-name]',
-      'sender'             => '[your-email]',
-      'body'               => "Имя: [text-name]\nEmail: [email-address]\nСообщение: [textarea-937]",
-      'recipient'          => get_option('admin_email'),
-      'additional_headers' => "Reply-To: [email-address]",
-      'attachments'        => '',
-      'use_html'           => true,
-   ];
-
-   update_post_meta($post_id, '_mail', $mail);
-}
-
-// Шаг 1: Отслеживаем активацию CF7 и ставим флаг
-add_action('activated_plugin', function ($plugin) {
-   if ($plugin === 'contact-form-7/wp-contact-form-7.php') {
-      update_option('my_cf7_just_activated', 1);
-   }
-});
-
-// Шаг 2: На admin_init проверяем флаг и создаем формы
-add_action('admin_init', function () {
-   if (get_option('my_cf7_just_activated')) {
-      // Удаляем флаг сразу, чтобы не сработало повторно
-      delete_option('my_cf7_just_activated');
-
-      // Проверяем, активен ли CF7
-      if (!function_exists('is_plugin_active')) {
-         include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-      }
-      if (is_plugin_active('contact-form-7/wp-contact-form-7.php')) {
-
-         // Теперь функции должны быть доступны — вызываем их
-         if (function_exists('create_custom_cf7_form')) {
-            create_custom_cf7_form();
+if (class_exists('WPCF7')) {
+    add_filter('wpcf7_form_elements', function ($content) {
+   // Добавляем data-mask ко всем input с классом wpcf7-tel
+   $content = preg_replace_callback(
+      '/<input([^>]*class=["\'][^"\']*wpcf7-tel[^"\']*["\'][^>]*)>/i',
+      function ($matches) {
+         $input_attrs = $matches[1];
+         
+         // Проверяем, нет ли уже data-mask
+         if (strpos($input_attrs, 'data-mask') !== false) {
+            return '<input' . $input_attrs . '>';
          }
-         if (function_exists('create_custom_cf7_form_with_name_and_email')) {
-            create_custom_cf7_form_with_name_and_email();
-         }
-         if (function_exists('create_custom_cf7_form_with_name_comment_and_email')) {
-            create_custom_cf7_form_with_name_comment_and_email();
-         }
-         if (function_exists('create_custom_cf7_form_with_name_comment_and_email_2')) {
-            create_custom_cf7_form_with_name_comment_and_email_2();
-         }
-         if (function_exists('create_newsletter_cf7_form')) {
-            create_newsletter_cf7_form();
-         }
-         add_action('admin_notices', function () {
-            echo '<div class="notice notice-success is-dismissible"><p>Contact Form 7 активирован — формы созданы успешно.</p></div>';
-         });
-      }
-   }
-});
+         
+         // Добавляем data-mask перед закрывающей скобкой
+         return '<input' . $input_attrs . ' data-mask="+7 (___) ___-__-__">';
+      },
+      $content
+   );
+   
+   return $content;
+    }, 20); // Приоритет 20, чтобы сработать после других фильтров
+}
 
 
 
@@ -819,4 +461,211 @@ function get_cf7_form_title($data)
       'title' => $form_post->post_title,
       'slug' => $form_post->post_name
    ];
+}
+
+/**
+ * Добавление типов форм для CF7 (аналогично codeweber forms)
+ * 
+ * Добавляет панель "Form Type" в редактор CF7 для выбора типа формы.
+ * Тип формы сохраняется в метаполе и добавляется как data-form-type атрибут к тегу <form>.
+ */
+
+if (class_exists('WPCF7')) {
+    // Добавляем панель "Form Type" в редактор CF7
+    add_filter('wpcf7_editor_panels', 'codeweber_cf7_add_form_type_panel');
+    
+    // Сохраняем тип формы при сохранении CF7 формы
+    add_action('wpcf7_save_contact_form', 'codeweber_cf7_save_form_type', 10, 1);
+    
+    // Добавляем data-form-type атрибут к тегу <form> через правильный фильтр
+    add_filter('wpcf7_form_additional_atts', 'codeweber_cf7_add_form_type_attribute', 10, 1);
+}
+
+/**
+ * Добавляет панель "Form Type" в редактор CF7
+ * 
+ * @param array $panels Массив существующих панелей
+ * @return array Массив панелей с добавленной панелью типов форм
+ */
+function codeweber_cf7_add_form_type_panel($panels) {
+    $panels['form-type-panel'] = [
+        'title' => __('Form Type', 'codeweber'),
+        'callback' => 'codeweber_cf7_render_form_type_panel',
+    ];
+    return $panels;
+}
+
+/**
+ * Отображает панель выбора типа формы
+ * 
+ * @param WPCF7_ContactForm $contact_form Объект формы CF7
+ */
+function codeweber_cf7_render_form_type_panel($contact_form) {
+    $form_id = $contact_form->id();
+    $form_type = get_post_meta($form_id, '_cf7_form_type', true);
+    
+    if (empty($form_type)) {
+        $form_type = 'form'; // По умолчанию
+    }
+    
+    wp_nonce_field('cf7_form_type_save', 'cf7_form_type_nonce');
+    ?>
+    <div id="cf7-form-type-panel">
+        <h2><?php _e('Form Type', 'codeweber'); ?></h2>
+        
+        <p class="description">
+            <?php _e('Select the type of this form. This will add a data-form-type attribute to the form wrapper, similar to codeweber forms.', 'codeweber'); ?>
+        </p>
+        
+        <table class="form-table">
+            <tr>
+                <th scope="row">
+                    <label for="cf7_form_type"><?php _e('Form Type', 'codeweber'); ?></label>
+                </th>
+                <td>
+                    <select name="cf7_form_type" id="cf7_form_type" style="width: 100%; max-width: 300px;">
+                        <option value="form" <?php selected($form_type, 'form'); ?>><?php _e('Regular Form', 'codeweber'); ?></option>
+                        <option value="callback" <?php selected($form_type, 'callback'); ?>><?php _e('Callback Request', 'codeweber'); ?></option>
+                        <option value="newsletter" <?php selected($form_type, 'newsletter'); ?>><?php _e('Newsletter Subscription', 'codeweber'); ?></option>
+                        <option value="testimonial" <?php selected($form_type, 'testimonial'); ?>><?php _e('Testimonial Form', 'codeweber'); ?></option>
+                        <option value="resume" <?php selected($form_type, 'resume'); ?>><?php _e('Resume Form', 'codeweber'); ?></option>
+                        <option value="contact" <?php selected($form_type, 'contact'); ?>><?php _e('Contact Form', 'codeweber'); ?></option>
+                    </select>
+                    <p class="description">
+                        <?php _e('This will add data-form-type="..." attribute to the form element, allowing JavaScript to identify the form type.', 'codeweber'); ?>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <?php
+}
+
+/**
+ * Сохраняет тип формы при сохранении CF7 формы
+ * 
+ * @param WPCF7_ContactForm $contact_form Объект формы CF7
+ */
+function codeweber_cf7_save_form_type($contact_form) {
+    // Проверка nonce
+    if (!isset($_POST['cf7_form_type_nonce']) || !wp_verify_nonce($_POST['cf7_form_type_nonce'], 'cf7_form_type_save')) {
+        return;
+    }
+    
+    // Проверка прав
+    if (!current_user_can('wpcf7_edit_contact_form', $contact_form->id())) {
+        return;
+    }
+    
+    $form_id = $contact_form->id();
+    $form_type = isset($_POST['cf7_form_type']) ? sanitize_text_field($_POST['cf7_form_type']) : 'form';
+    
+    // Валидация типа формы
+    $allowed_types = ['form', 'callback', 'newsletter', 'testimonial', 'resume', 'contact'];
+    if (!in_array($form_type, $allowed_types)) {
+        $form_type = 'form'; // Fallback к дефолтному типу
+    }
+    
+    // Сохраняем в метаполе
+    update_post_meta($form_id, '_cf7_form_type', $form_type);
+}
+
+/**
+ * Добавляет data-form-type атрибут к тегу <form> в CF7
+ * 
+ * Использует фильтр wpcf7_form_additional_atts для добавления атрибутов к форме
+ * 
+ * @param array $atts Массив дополнительных атрибутов формы
+ * @return array Массив атрибутов с добавленным data-form-type
+ */
+function codeweber_cf7_add_form_type_attribute($atts) {
+    // #region agent log
+    $log_file = 'c:\laragon\www\bricksnew\.cursor\debug.log';
+    $log_entry = json_encode([
+        'sessionId' => 'debug-session',
+        'runId' => 'post-fix',
+        'hypothesisId' => 'FIX',
+        'location' => 'cf7.php:581',
+        'message' => 'Function called with wpcf7_form_additional_atts',
+        'data' => ['atts' => $atts, 'atts_type' => gettype($atts)],
+        'timestamp' => time() * 1000
+    ]) . "\n";
+    file_put_contents($log_file, $log_entry, FILE_APPEND);
+    // #endregion
+    
+    // Получаем текущую форму CF7
+    $contact_form = WPCF7_ContactForm::get_current();
+    
+    // #region agent log
+    $log_entry = json_encode([
+        'sessionId' => 'debug-session',
+        'runId' => 'post-fix',
+        'hypothesisId' => 'FIX',
+        'location' => 'cf7.php:590',
+        'message' => 'get_current result',
+        'data' => ['has_contact_form' => ($contact_form !== null), 'form_id' => $contact_form ? $contact_form->id() : null],
+        'timestamp' => time() * 1000
+    ]) . "\n";
+    file_put_contents($log_file, $log_entry, FILE_APPEND);
+    // #endregion
+    
+    if (!$contact_form) {
+        // #region agent log
+        $log_entry = json_encode([
+            'sessionId' => 'debug-session',
+            'runId' => 'post-fix',
+            'hypothesisId' => 'FIX',
+            'location' => 'cf7.php:595',
+            'message' => 'Early return - no contact form',
+            'data' => [],
+            'timestamp' => time() * 1000
+        ]) . "\n";
+        file_put_contents($log_file, $log_entry, FILE_APPEND);
+        // #endregion
+        return $atts;
+    }
+    
+    $form_id = $contact_form->id();
+    $form_type = get_post_meta($form_id, '_cf7_form_type', true);
+    
+    // #region agent log
+    $log_entry = json_encode([
+        'sessionId' => 'debug-session',
+        'runId' => 'post-fix',
+        'hypothesisId' => 'FIX',
+        'location' => 'cf7.php:603',
+        'message' => 'Form type from meta',
+        'data' => ['form_id' => $form_id, 'form_type' => $form_type, 'form_type_empty' => empty($form_type)],
+        'timestamp' => time() * 1000
+    ]) . "\n";
+    file_put_contents($log_file, $log_entry, FILE_APPEND);
+    // #endregion
+    
+    // Если тип не задан, используем 'form' по умолчанию
+    if (empty($form_type)) {
+        $form_type = 'form';
+    }
+    
+    // Убеждаемся, что $atts - массив
+    if (!is_array($atts)) {
+        $atts = [];
+    }
+    
+    // Добавляем data-form-type атрибут
+    $atts['data-form-type'] = $form_type;
+    
+    // #region agent log
+    $log_entry = json_encode([
+        'sessionId' => 'debug-session',
+        'runId' => 'post-fix',
+        'hypothesisId' => 'FIX',
+        'location' => 'cf7.php:625',
+        'message' => 'Added data-form-type to atts',
+        'data' => ['form_type' => $form_type, 'final_atts' => $atts],
+        'timestamp' => time() * 1000
+    ]) . "\n";
+    file_put_contents($log_file, $log_entry, FILE_APPEND);
+    // #endregion
+    
+    return $atts;
 }

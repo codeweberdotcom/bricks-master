@@ -123,7 +123,6 @@ class CodeweberFormsMailer {
             
             return $mail->send();
         } catch (\Exception $e) {
-            error_log('Form Mailer Error: ' . $e->getMessage());
             return false;
         }
     }

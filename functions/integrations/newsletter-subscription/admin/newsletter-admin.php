@@ -1081,55 +1081,6 @@ jQuery(document).ready(function($) {
             </tbody>
          </table>
 
-         <?php if (current_user_can('manage_options')): ?>
-         <h2 style="margin-top: 30px;"><?php _e('Subscribe Another Email', 'codeweber'); ?></h2>
-         <p class="description">
-            <?php _e('You can subscribe another email address to the newsletter. The subscription will be created with you as the author.', 'codeweber'); ?>
-         </p>
-         <form method="post" action="" style="max-width: 600px;">
-            <?php wp_nonce_field('newsletter_subscribe_another', 'newsletter_subscribe_another_nonce'); ?>
-            <input type="hidden" name="action" value="subscribe_another_email">
-            <table class="form-table">
-               <tr>
-                  <th scope="row">
-                     <label for="new_subscriber_email"><?php _e('Email', 'codeweber'); ?></label>
-                  </th>
-                  <td>
-                     <input type="email" name="new_subscriber_email" id="new_subscriber_email" class="regular-text" required>
-                     <p class="description"><?php _e('Enter the email address to subscribe', 'codeweber'); ?></p>
-                  </td>
-               </tr>
-               <tr>
-                  <th scope="row">
-                     <label for="new_subscriber_first_name"><?php _e('First Name', 'codeweber'); ?></label>
-                  </th>
-                  <td>
-                     <input type="text" name="new_subscriber_first_name" id="new_subscriber_first_name" class="regular-text">
-                  </td>
-               </tr>
-               <tr>
-                  <th scope="row">
-                     <label for="new_subscriber_last_name"><?php _e('Last Name', 'codeweber'); ?></label>
-                  </th>
-                  <td>
-                     <input type="text" name="new_subscriber_last_name" id="new_subscriber_last_name" class="regular-text">
-                  </td>
-               </tr>
-               <tr>
-                  <th scope="row">
-                     <label for="new_subscriber_phone"><?php _e('Phone', 'codeweber'); ?></label>
-                  </th>
-                  <td>
-                     <input type="tel" name="new_subscriber_phone" id="new_subscriber_phone" class="regular-text">
-                  </td>
-               </tr>
-            </table>
-            <p class="submit">
-               <button type="submit" class="button button-primary"><?php _e('Subscribe', 'codeweber'); ?></button>
-            </p>
-         </form>
-         <?php endif; ?>
-
          <h2 style="margin-top: 30px;"><?php _e('Subscription / Unsubscribe History', 'codeweber'); ?></h2>
          <p class="description">
             <?php _e('The table below shows the full history of subscription and unsubscribe events for this email address.', 'codeweber'); ?>
@@ -1192,19 +1143,31 @@ jQuery(document).ready(function($) {
                      error_log('=== HISTORY DISPLAY: Getting form label END ===');
 
                      // Автор
-                     // Если отписка/подписка через пользователя (frontend, cf7, codeweber_form),
-                     // показываем email подписчика. Если действие сделал админ (source=admin),
-                     // показываем email администратора со ссылкой на его профиль, если actor_user_id задан.
+                     // ПРИОРИТЕТ 1: Показываем реального авторизованного пользователя, который создал подписку (user_id из subscription)
+                     // ПРИОРИТЕТ 2: Если событие создано администратором (source=admin), показываем actor_user_id
+                     // ПРИОРИТЕТ 3: Иначе показываем email подписки
                      $author_cell = '—';
-                     if (!empty($event['source']) && $event['source'] === 'admin' && !empty($event['actor_user_id'])) {
+                     
+                     // ПРИОРИТЕТ 1: user_id из подписки (реальный авторизованный пользователь, который отправил форму)
+                     if (!empty($subscription->user_id) && (int) $subscription->user_id > 0) {
+                        $user = get_user_by('id', (int) $subscription->user_id);
+                        if ($user) {
+                           $profile_url = get_edit_user_link($user->ID);
+                           $author_cell = '<a href="' . esc_url($profile_url) . '" target="_blank" rel="noopener noreferrer">'
+                              . esc_html($user->display_name) . ' (' . esc_html($user->user_email) . ')</a>';
+                        }
+                     }
+                     // ПРИОРИТЕТ 2: actor_user_id из события (для админских действий)
+                     elseif (!empty($event['source']) && $event['source'] === 'admin' && !empty($event['actor_user_id'])) {
                         $actor = get_user_by('id', (int) $event['actor_user_id']);
                         if ($actor) {
                            $profile_url = get_edit_user_link($actor->ID);
                            $author_cell = '<a href="' . esc_url($profile_url) . '" target="_blank" rel="noopener noreferrer">'
-                              . esc_html($actor->user_email) . '</a>';
+                              . esc_html($actor->display_name) . ' (' . esc_html($actor->user_email) . ')</a>';
                         }
-                     } else {
-                        // По умолчанию считаем, что действие совершил сам подписчик
+                     }
+                     // ПРИОРИТЕТ 3: Email подписки (fallback)
+                     else {
                         $author_cell = esc_html($subscription->email);
                      }
 
@@ -1830,7 +1793,30 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
             error_log('Skipping CPT check: is_numeric=' . (is_numeric($normalized_id) ? 'YES' : 'NO') . ', int>0=' . (((int)$normalized_id > 0) ? 'YES' : 'NO'));
          }
          
-         // Только если не удалось получить название из CPT, используем тип формы
+         // Проверяем, является ли это CF7 формой (формат: cf7_1072)
+         if (is_string($normalized_id) && strpos($normalized_id, 'cf7_') === 0) {
+            // Это CF7 форма - получаем название из объекта формы CF7
+            $cf7_form_id = str_replace('cf7_', '', $normalized_id);
+            $cf7_form_id = intval($cf7_form_id);
+            
+            error_log('Detected CF7 form format. CF7 ID: ' . $cf7_form_id);
+            
+            if ($cf7_form_id > 0 && class_exists('WPCF7_ContactForm')) {
+               $cf7_form = WPCF7_ContactForm::get_instance($cf7_form_id);
+               if ($cf7_form) {
+                  $form_title = $cf7_form->title();
+                  error_log('Got CF7 form title: ' . $form_title);
+                  error_log('=== get_form_label END (CF7 success) ===');
+                  return $form_title;
+               } else {
+                  error_log('CF7 form not found for ID: ' . $cf7_form_id);
+               }
+            } else {
+               error_log('Invalid CF7 form ID or WPCF7_ContactForm class not available: ' . $cf7_form_id);
+            }
+         }
+         
+         // Только если не удалось получить название из CPT или CF7, используем тип формы
          // Получаем тип формы
          $form_type = CodeweberFormsCore::get_form_type($normalized_id);
          

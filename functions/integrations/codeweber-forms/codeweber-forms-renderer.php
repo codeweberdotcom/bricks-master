@@ -33,14 +33,6 @@ class CodeweberFormsRenderer {
      * Render form from CPT post
      */
     private function render_from_cpt($post) {
-        // #region agent log
-        $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
-        $log_path = $log_dir . '/debug.log';
-        if (!is_dir($log_dir)) {
-            @mkdir($log_dir, 0755, true);
-        }
-        @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'A','location'=>'codeweber-forms-renderer.php:35','message'=>'render_from_cpt called','data'=>['postId'=>$post->ID,'postType'=>$post->post_type],'timestamp'=>time()*1000])."\n", FILE_APPEND);
-        // #endregion
         // Парсим Gutenberg блоки из post_content
         $blocks = parse_blocks($post->post_content);
         
@@ -64,22 +56,10 @@ class CodeweberFormsRenderer {
             foreach ($form_block['innerBlocks'] as $inner_block) {
                 if ($inner_block['blockName'] === 'codeweber-blocks/form-field') {
                     $field_attrs = $inner_block['attrs'] ?? [];
-                    // Отладка для newsletter полей
-                    if (defined('WP_DEBUG') && WP_DEBUG && ($field_attrs['fieldType'] ?? '') === 'newsletter') {
-                        error_log('[Form Render] Found newsletter field: ' . print_r($field_attrs, true));
-                    }
                     // Проверяем, есть ли file поле с FilePond
                     // FilePond всегда используется для полей типа file
                     if (($field_attrs['fieldType'] ?? '') === 'file') {
                         $has_filepond = true;
-                        // #region agent log
-                        $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
-                        $log_path = $log_dir . '/debug.log';
-                        if (!is_dir($log_dir)) {
-                            @mkdir($log_dir, 0755, true);
-                        }
-                        @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'A','location'=>'codeweber-forms-renderer.php:65','message'=>'FilePond field detected','data'=>['fieldType'=>$field_attrs['fieldType']??'','useFilePond'=>$field_attrs['useFilePond']??false,'maxFiles'=>$field_attrs['maxFiles']??0,'maxFileSize'=>$field_attrs['maxFileSize']??'','maxTotalFileSize'=>$field_attrs['maxTotalFileSize']??''],'timestamp'=>time()*1000])."\n", FILE_APPEND);
-                        // #endregion
                     }
                     $fields[] = $field_attrs;
                 } elseif ($inner_block['blockName'] === 'codeweber-blocks/submit-button') {
@@ -90,47 +70,8 @@ class CodeweberFormsRenderer {
         
         // Enqueue FilePond if needed
         if ($has_filepond) {
-            // #region agent log
-            $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
-            $log_path = $log_dir . '/debug.log';
-            if (!is_dir($log_dir)) {
-                @mkdir($log_dir, 0755, true);
-            }
-            @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'A','location'=>'codeweber-forms-renderer.php:75','message'=>'Attempting to enqueue FilePond','data'=>['has_filepond'=>$has_filepond,'class_exists'=>class_exists('\Codeweber\Blocks\Plugin')],'timestamp'=>time()*1000])."\n", FILE_APPEND);
-            // #endregion
             if (class_exists('\Codeweber\Blocks\Plugin')) {
                 \Codeweber\Blocks\Plugin::enqueue_filepond();
-                // #region agent log
-                $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
-                $log_path = $log_dir . '/debug.log';
-                if (!is_dir($log_dir)) {
-                    @mkdir($log_dir, 0755, true);
-                }
-                @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'A','location'=>'codeweber-forms-renderer.php:78','message'=>'FilePond enqueued successfully','data'=>['script_enqueued'=>wp_script_is('filepond','enqueued'),'style_enqueued'=>wp_style_is('filepond','enqueued')],'timestamp'=>time()*1000])."\n", FILE_APPEND);
-                // #endregion
-                if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log('[Form Render] FilePond enqueued for form');
-                }
-            } else {
-                // #region agent log
-                $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
-                $log_path = $log_dir . '/debug.log';
-                if (!is_dir($log_dir)) {
-                    @mkdir($log_dir, 0755, true);
-                }
-                @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'A','location'=>'codeweber-forms-renderer.php:85','message'=>'Plugin class not found','data'=>[],'timestamp'=>time()*1000])."\n", FILE_APPEND);
-                // #endregion
-                if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log('[Form Render] FilePond needed but Plugin class not found');
-                }
-            }
-        }
-        
-        // Отладка
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[Form Render] Total fields count: ' . count($fields));
-            foreach ($fields as $idx => $field) {
-                error_log('[Form Render] Field ' . $idx . ' type: ' . ($field['fieldType'] ?? 'NO TYPE'));
             }
         }
         
@@ -161,6 +102,7 @@ class CodeweberFormsRenderer {
             }
         }
         
+        // Рендерим форму (заголовок теперь добавляется в render_from_config())
         return $this->render_from_config($post->ID, $form_config);
     }
     
@@ -168,14 +110,6 @@ class CodeweberFormsRenderer {
      * Render form from configuration array
      */
     private function render_from_config($form_id, $config) {
-        // #region agent log
-        $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
-        $log_path = $log_dir . '/debug.log';
-        if (!is_dir($log_dir)) {
-            @mkdir($log_dir, 0755, true);
-        }
-        @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'A','location'=>'codeweber-forms-renderer.php:144','message'=>'render_from_config called','data'=>['formId'=>$form_id,'fieldsCount'=>count($config['fields']??[]),'hasFileField'=>!empty(array_filter($config['fields']??[],function($f){return ($f['fieldType']??'')==='file';}))],'timestamp'=>time()*1000])."\n", FILE_APPEND);
-        // #endregion
         $fields = $config['fields'] ?? [];
         $settings = $config['settings'] ?? [];
         
@@ -190,24 +124,8 @@ class CodeweberFormsRenderer {
         }
         
         if ($has_filepond) {
-            // #region agent log
-            $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
-            $log_path = $log_dir . '/debug.log';
-            if (!is_dir($log_dir)) {
-                @mkdir($log_dir, 0755, true);
-            }
-            @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'A','location'=>'codeweber-forms-renderer.php:158','message'=>'FilePond detected in render_from_config','data'=>['has_filepond'=>$has_filepond,'class_exists'=>class_exists('\Codeweber\Blocks\Plugin')],'timestamp'=>time()*1000])."\n", FILE_APPEND);
-            // #endregion
             if (class_exists('\Codeweber\Blocks\Plugin')) {
                 \Codeweber\Blocks\Plugin::enqueue_filepond();
-                // #region agent log
-                $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
-                $log_path = $log_dir . '/debug.log';
-                if (!is_dir($log_dir)) {
-                    @mkdir($log_dir, 0755, true);
-                }
-                @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'A','location'=>'codeweber-forms-renderer.php:165','message'=>'FilePond enqueued in render_from_config','data'=>['script_enqueued'=>wp_script_is('filepond','enqueued'),'style_enqueued'=>wp_style_is('filepond','enqueued')],'timestamp'=>time()*1000])."\n", FILE_APPEND);
-                // #endregion
             }
         }
         
@@ -457,20 +375,6 @@ class CodeweberFormsRenderer {
                 $row_classes = array_merge($row_classes, $alignment_classes);
                 $row_class = implode(' ', array_filter($row_classes));
                 
-                // Временная отладка для проверки значений gap
-                // Раскомментируйте для проверки в error_log или wp_debug.log
-                if (defined('WP_DEBUG') && WP_DEBUG && isset($_GET['debug_gap'])) {
-                    error_log('=== Form Gap Debug ===');
-                    error_log('formGap: ' . ($settings['formGap'] ?? 'NOT SET'));
-                    error_log('formGapType: ' . ($settings['formGapType'] ?? 'NOT SET'));
-                    error_log('gap_classes count: ' . count($gap_classes));
-                    error_log('gap_classes: ' . print_r($gap_classes, true));
-                    error_log('row_class: ' . $row_class);
-                    $gap_settings = array_filter($settings, function($key) {
-                        return strpos($key, 'formGap') === 0;
-                    }, ARRAY_FILTER_USE_KEY);
-                    error_log('All formGap* settings: ' . print_r($gap_settings, true));
-                }
                 ?>
                 <div class="<?php echo esc_attr($row_class); ?>">
                     <?php foreach ($fields as $field): ?>
@@ -518,7 +422,43 @@ class CodeweberFormsRenderer {
                 ?>
         </form>
         <?php
-        return ob_get_clean();
+        $rendered_form = ob_get_clean();
+        
+        // Добавляем заголовок перед формой, если он указан
+        $header_output = '';
+        $form_title = $settings['formTitle'] ?? '';
+        $form_subtitle = $settings['formSubtitle'] ?? '';
+        $form_title_tag = $settings['formTitleTag'] ?? 'div';
+        $form_subtitle_tag = $settings['formSubtitleTag'] ?? 'p';
+        $form_title_class = $settings['formTitleClass'] ?? '';
+        $form_subtitle_class = $settings['formSubtitleClass'] ?? '';
+        
+        if (!empty($form_title) || !empty($form_subtitle)) {
+            $header_output = '<div class="form-header">';
+            if (!empty($form_title)) {
+                $title_classes = !empty($form_title_class) ? esc_attr(trim($form_title_class)) : 'h3 text-start';
+                $title_tag = sanitize_key($form_title_tag);
+                // Ограничиваем возможные теги для безопасности
+                $allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'p', 'span'];
+                if (!in_array($title_tag, $allowed_tags)) {
+                    $title_tag = 'div';
+                }
+                $header_output .= '<' . $title_tag . ' class="' . $title_classes . '">' . esc_html($form_title) . '</' . $title_tag . '>';
+            }
+            if (!empty($form_subtitle)) {
+                $subtitle_classes = !empty($form_subtitle_class) ? esc_attr(trim($form_subtitle_class)) : 'lead mb-4 text-start';
+                $subtitle_tag = sanitize_key($form_subtitle_tag);
+                // Ограничиваем возможные теги для безопасности
+                $allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'p', 'span'];
+                if (!in_array($subtitle_tag, $allowed_tags)) {
+                    $subtitle_tag = 'p';
+                }
+                $header_output .= '<' . $subtitle_tag . ' class="' . $subtitle_classes . '">' . esc_html($form_subtitle) . '</' . $subtitle_tag . '>';
+            }
+            $header_output .= '</div>';
+        }
+        
+        return $header_output . $rendered_form;
     }
     
     /**
@@ -556,39 +496,9 @@ class CodeweberFormsRenderer {
         $inline_button_supported_types = ['text', 'email', 'tel', 'url', 'number', 'date', 'time', 'author_role', 'company'];
         $inline_button_enabled = $enable_inline_button && in_array($field_type, $inline_button_supported_types) && $field_type !== 'newsletter';
         
-        // #region agent log
-        $log_file = dirname(WP_CONTENT_DIR) . '/.cursor/debug.log';
-        $log_entry = json_encode([
-            'sessionId' => 'debug-session',
-            'runId' => 'run1',
-            'hypothesisId' => 'L',
-            'location' => 'codeweber-forms-renderer.php:render_field',
-            'message' => 'render_field called - checking inline button',
-            'data' => [
-                'field_type' => $field_type,
-                'enable_inline_button' => $enable_inline_button,
-                'inline_button_enabled' => $inline_button_enabled,
-                'enableInlineButton_raw' => $field['enableInlineButton'] ?? 'NOT_SET'
-            ],
-            'timestamp' => time() * 1000
-        ]) . "\n";
-        @file_put_contents($log_file, $log_entry, FILE_APPEND);
-        // #endregion
         
         // For fields with inline button, use render.php (like newsletter)
         if ($inline_button_enabled) {
-            // #region agent log
-            $log_entry = json_encode([
-                'sessionId' => 'debug-session',
-                'runId' => 'run1',
-                'hypothesisId' => 'M',
-                'location' => 'codeweber-forms-renderer.php:render_field',
-                'message' => 'INLINE BUTTON - calling render.php',
-                'data' => ['field_type' => $field_type, 'form_id' => $form_id],
-                'timestamp' => time() * 1000
-            ]) . "\n";
-            @file_put_contents($log_file, $log_entry, FILE_APPEND);
-            // #endregion
             
             // Use render.php for inline button fields
             $render_path = WP_PLUGIN_DIR . '/codeweber-gutenberg-blocks/build/blocks/form-field/render.php';
@@ -608,21 +518,6 @@ class CodeweberFormsRenderer {
                 require $render_path;
                 $rendered = ob_get_clean();
                 
-                // #region agent log
-                $log_entry = json_encode([
-                    'sessionId' => 'debug-session',
-                    'runId' => 'run1',
-                    'hypothesisId' => 'N',
-                    'location' => 'codeweber-forms-renderer.php:render_field',
-                    'message' => 'INLINE BUTTON - render.php output generated',
-                    'data' => [
-                        'output_length' => strlen($rendered),
-                        'output_preview' => substr($rendered, 0, 200)
-                    ],
-                    'timestamp' => time() * 1000
-                ]) . "\n";
-                @file_put_contents($log_file, $log_entry, FILE_APPEND);
-                // #endregion
                 
                 return $rendered;
             }
@@ -630,10 +525,6 @@ class CodeweberFormsRenderer {
         
         $field_name = $field['fieldName'] ?? '';
         
-        // Отладка для newsletter
-        if (defined('WP_DEBUG') && WP_DEBUG && $field_type === 'newsletter') {
-            error_log('[Form Render Field] Rendering newsletter field: ' . print_r($field, true));
-        }
         $field_label = $field['fieldLabel'] ?? '';
         $placeholder = $field['placeholder'] ?? '';
         $is_required = !empty($field['isRequired']);
@@ -702,11 +593,6 @@ class CodeweberFormsRenderer {
                 }
             }
             
-            // Отладочный вывод (можно убрать после проверки)
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                error_log('Consents Block Debug - Field: ' . print_r($field, true));
-                error_log('Consents Block Debug - Consents: ' . print_r($consents, true));
-            }
             
             if (!empty($consents) && function_exists('codeweber_forms_render_consent_checkbox')) {
                 $numeric_form_id = is_numeric($form_id) ? (int) $form_id : 0;
@@ -723,7 +609,7 @@ class CodeweberFormsRenderer {
                             // Рендерим чекбокс согласия на основе документа и текста метки
                             echo codeweber_forms_render_consent_checkbox(
                                 $consent,
-                                'newsletter_consents', // имя массива, которое уже обрабатывается в универсальной логике
+                                'form_consents', // Универсальный префикс для всех форм
                                 $numeric_form_id
                             );
                         }
@@ -881,14 +767,6 @@ class CodeweberFormsRenderer {
                     // Use default values from block.json if not set
                     $max_file_size = $field['maxFileSize'] ?? '10MB';
                     $max_total_file_size = $field['maxTotalFileSize'] ?? '100MB';
-                    // #region agent log
-                    $log_dir = dirname(WP_CONTENT_DIR) . '/.cursor';
-                    $log_path = $log_dir . '/debug.log';
-                    if (!is_dir($log_dir)) {
-                        @mkdir($log_dir, 0755, true);
-                    }
-                    @file_put_contents($log_path, json_encode(['sessionId'=>'debug-session','runId'=>'run1','hypothesisId'=>'C','location'=>'codeweber-forms-renderer.php:712','message'=>'File field attributes','data'=>['useFilePond'=>$use_filepond,'maxFiles'=>$max_files,'maxFileSize'=>$max_file_size,'maxTotalFileSize'=>$max_total_file_size,'multiple'=>$multiple],'timestamp'=>time()*1000])."\n", FILE_APPEND);
-                    // #endregion
                     $no_file_text = __('No file selected', 'codeweber');
                     $browse_text = __('Browse', 'codeweber');
                     ?>

@@ -86,23 +86,6 @@ class CodeweberFormsAPI {
             'callback' => [$this, 'upload_file'],
             'permission_callback' => function($request) {
                 $nonce = $request->get_header('X-WP-Nonce');
-                // #region agent log
-                $log_file = dirname(WP_CONTENT_DIR) . '/.cursor/debug.log';
-                $log_data = [
-                    'id' => 'log_' . time() . '_' . uniqid(),
-                    'timestamp' => time() * 1000,
-                    'location' => 'codeweber-forms-api.php:88',
-                    'message' => 'nonce check',
-                    'data' => [
-                        'nonce_present' => !empty($nonce),
-                        'nonce_verified' => !empty($nonce) ? wp_verify_nonce($nonce, 'wp_rest') : false
-                    ],
-                    'sessionId' => 'debug-session',
-                    'runId' => 'run1',
-                    'hypothesisId' => 'D'
-                ];
-                @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
-                // #endregion
                 if (empty($nonce)) {
                     return false;
                 }
@@ -155,7 +138,9 @@ class CodeweberFormsAPI {
         $file_ids = $request->get_param('file_ids'); // File IDs from FilePond instant upload
         $utm_params = $request->get_param('utm_params') ?: [];
         $tracking_data = $request->get_param('tracking_data') ?: [];
-        $submitted_newsletter_consents = $request->get_param('newsletter_consents');
+        $submitted_form_consents = $request->get_param('form_consents'); // Универсальный префикс
+        $submitted_newsletter_consents = $request->get_param('newsletter_consents'); // Обратная совместимость
+        $submitted_testimonial_consents = $request->get_param('testimonial_consents'); // Обратная совместимость
         
         // If file_ids not in params, try to get from JSON body
         if (empty($file_ids)) {
@@ -192,21 +177,8 @@ class CodeweberFormsAPI {
             }
             if (!empty($collected_ids)) {
                 $file_ids = array_values(array_unique($collected_ids));
-                error_log('Form Submit - Extracted file_ids from fields fallback: ' . print_r($file_ids, true));
             }
         }
-
-        // Log final file_ids after all attempts
-        error_log('Form Submit - file_ids (final): ' . print_r($file_ids, true));
-        
-        // Debug logging
-        error_log('=== FORM SUBMIT DEBUG START ===');
-        error_log('Form Submit - form_id: ' . $form_id);
-        error_log('Form Submit - form_type_from_request: ' . var_export($form_type_from_request, true));
-        error_log('Form Submit - fields (raw): ' . print_r($fields, true));
-        error_log('Form Submit - file_ids (raw): ' . print_r($file_ids, true));
-        error_log('Form Submit - submitted_newsletter_consents (param): ' . print_r($submitted_newsletter_consents, true));
-        error_log('Form Submit - is_newsletter_form: ' . (codeweber_forms_is_newsletter_form($form_id) ? 'YES' : 'NO'));
         
         // Nonce проверяется автоматически через permission_callback
         
@@ -293,19 +265,10 @@ class CodeweberFormsAPI {
         }
         
         // Валидация полей (передаем form_id для проверки типа формы)
-        error_log('=== FORM SUBMIT API START ===');
-        error_log('Form ID: ' . print_r($form_id, true));
-        error_log('Form ID type: ' . (is_numeric($form_id) ? 'numeric (CPT)' : 'string (legacy)'));
-        error_log('Form settings: ' . print_r($form_settings, true));
-        error_log('Fields: ' . print_r($fields, true));
-        error_log('Submitted newsletter_consents: ' . print_r($submitted_newsletter_consents, true));
-        
         $validation_result = $this->validate_fields($fields, $form_settings, $form_id);
         if (!$validation_result['valid']) {
-            error_log('Field validation failed: ' . $validation_result['message']);
             return new WP_Error('validation_failed', $validation_result['message'], ['status' => 400]);
         }
-        error_log('Field validation passed');
         
         // Валидация согласий для newsletter формы (как в форме отзывов)
         if (codeweber_forms_is_newsletter_form($form_id) && function_exists('codeweber_forms_validate_consents')) {
@@ -314,36 +277,20 @@ class CodeweberFormsAPI {
             $is_default_form = ($form_id_int === 0);
             
             // Default формы (form_id = 0) не имеют согласий, пропускаем проверку
-            if ($is_default_form) {
-                error_log('=== NEWSLETTER CONSENTS VALIDATION SKIPPED (default form) ===');
-            } else {
-                error_log('=== NEWSLETTER CONSENTS VALIDATION START ===');
-                error_log('Form ID: ' . print_r($form_id, true));
-                error_log('Form ID type: ' . (is_numeric($form_id) ? 'numeric (CPT)' : 'string (legacy)'));
-                
+            if (!$is_default_form) {
                 // НОВОЕ: Для CPT форм согласия извлекаются из блоков формы, а не из глобальных настроек
                 $newsletter_consents_config = [];
                 
                 if (is_numeric($form_id) && $form_id_int > 0) {
-                // CPT форма - извлекаем согласия из блоков form-field с типом consents_block
-                error_log('CPT form - extracting consents from blocks');
-                if (class_exists('CodeweberFormsCore')) {
-                    $newsletter_consents_config = CodeweberFormsCore::extract_consents_from_blocks($form_id);
-                    error_log('Extracted consents from blocks: ' . print_r($newsletter_consents_config, true));
+                    // CPT форма - извлекаем согласия из блоков form-field с типом consents_block
+                    if (class_exists('CodeweberFormsCore')) {
+                        $newsletter_consents_config = CodeweberFormsCore::extract_consents_from_blocks($form_id);
+                    }
                 } else {
-                    error_log('CodeweberFormsCore class not found - cannot extract consents from blocks');
+                    // LEGACY: Для встроенных форм (строковый ID) используем глобальные настройки
+                    $all_consents = get_option('builtin_form_consents', []);
+                    $newsletter_consents_config = isset($all_consents['newsletter']) ? $all_consents['newsletter'] : [];
                 }
-            } else {
-                // LEGACY: Для встроенных форм (строковый ID) используем глобальные настройки
-                error_log('Legacy form - using global builtin_form_consents');
-                $all_consents = get_option('builtin_form_consents', []);
-                $newsletter_consents_config = isset($all_consents['newsletter']) ? $all_consents['newsletter'] : [];
-                error_log('Legacy consents config: ' . print_r($newsletter_consents_config, true));
-            }
-            
-            error_log('Final consents config: ' . print_r($newsletter_consents_config, true));
-            error_log('Consents config is array: ' . (is_array($newsletter_consents_config) ? 'YES' : 'NO'));
-            error_log('Consents config is empty: ' . (empty($newsletter_consents_config) ? 'YES' : 'NO'));
             
             if (!empty($newsletter_consents_config) && is_array($newsletter_consents_config)) {
                 // Получаем обязательные согласия
@@ -354,16 +301,11 @@ class CodeweberFormsAPI {
                     }
                 }
                 
-                error_log('Required consents (document IDs): ' . print_r($required_consents, true));
-                
                 // Получаем отправленные согласия (из параметра или из fields)
                 $submitted_consents = [];
-                error_log('Submitted newsletter_consents parameter: ' . print_r($submitted_newsletter_consents, true));
-                error_log('Fields newsletter_consents: ' . print_r(isset($fields['newsletter_consents']) ? $fields['newsletter_consents'] : 'NOT SET', true));
                 
                 // Сначала проверяем параметр запроса
                 if (!empty($submitted_newsletter_consents) && is_array($submitted_newsletter_consents)) {
-                    error_log('Processing newsletter_consents from request parameter');
                     // Преобразуем в формат для валидации (простой массив doc_id => '1')
                     foreach ($submitted_newsletter_consents as $doc_id => $value) {
                         if (is_array($value) && isset($value['value'])) {
@@ -375,7 +317,6 @@ class CodeweberFormsAPI {
                 } 
                 // Затем проверяем в fields
                 if (empty($submitted_consents) && isset($fields['newsletter_consents']) && is_array($fields['newsletter_consents'])) {
-                    error_log('Processing newsletter_consents from fields');
                     // Преобразуем в формат для валидации
                     foreach ($fields['newsletter_consents'] as $doc_id => $value) {
                         if (is_array($value) && isset($value['value'])) {
@@ -386,61 +327,50 @@ class CodeweberFormsAPI {
                     }
                 }
                 
-                error_log('Final submitted consents (after processing): ' . print_r($submitted_consents, true));
-                error_log('Submitted consents keys (document IDs): ' . print_r(array_keys($submitted_consents), true));
-                
                 // Валидация
                 if (!empty($required_consents)) {
-                    error_log('Running validation function...');
                     $validation = codeweber_forms_validate_consents($submitted_consents, $required_consents);
-                    error_log('Validation result: ' . print_r($validation, true));
                     
                     if (!$validation['valid']) {
-                        error_log('VALIDATION FAILED - Missing required consents');
-                        error_log('=== NEWSLETTER CONSENTS VALIDATION END (FAILED) ===');
                         return new WP_Error(
                             'consent_required',
                             __('Please accept all required consents.', 'codeweber'),
                             ['status' => 400]
                         );
-                    } else {
-                        error_log('VALIDATION PASSED');
                     }
-                } else {
-                    error_log('No required consents configured - skipping validation');
                 }
-            } else {
-                error_log('No consents config found or config is not an array - skipping validation');
             }
-            
-                error_log('=== NEWSLETTER CONSENTS VALIDATION END (SUCCESS) ===');
             }
-        } else {
-            error_log('Form is NOT newsletter form or validate_consents function not available');
-            error_log('codeweber_forms_is_newsletter_form result: ' . (function_exists('codeweber_forms_is_newsletter_form') ? (codeweber_forms_is_newsletter_form($form_id) ? 'TRUE' : 'FALSE') : 'FUNCTION NOT EXISTS'));
-            error_log('codeweber_forms_validate_consents function exists: ' . (function_exists('codeweber_forms_validate_consents') ? 'YES' : 'NO'));
         }
         
-        // Исключаем newsletter_consents из fields перед санитизацией
+        // Исключаем согласия из fields перед санитизацией
         // Делаем это ДО логики newsletter, чтобы в ней тоже можно было использовать $newsletter_consents_for_save
         $newsletter_consents_for_save = null;
         
-        // Сначала проверяем отдельный параметр newsletter_consents
-        if (!empty($submitted_newsletter_consents) && is_array($submitted_newsletter_consents)) {
-            error_log('Form Submit - Found newsletter_consents in request parameter');
+        // ПРИОРИТЕТ 1: form_consents (универсальный префикс)
+        if (!empty($submitted_form_consents) && is_array($submitted_form_consents)) {
+            $newsletter_consents_for_save = $submitted_form_consents;
+        }
+        // ПРИОРИТЕТ 2: newsletter_consents (обратная совместимость)
+        elseif (!empty($submitted_newsletter_consents) && is_array($submitted_newsletter_consents)) {
             $newsletter_consents_for_save = $submitted_newsletter_consents;
         }
-        // Затем проверяем в fields
+        // ПРИОРИТЕТ 3: testimonial_consents (обратная совместимость)
+        elseif (!empty($submitted_testimonial_consents) && is_array($submitted_testimonial_consents)) {
+            $newsletter_consents_for_save = $submitted_testimonial_consents;
+        }
+        // ПРИОРИТЕТ 4: из fields (form_consents)
+        elseif (isset($fields['form_consents']) && is_array($fields['form_consents'])) {
+            $newsletter_consents_for_save = $fields['form_consents'];
+        }
+        // ПРИОРИТЕТ 5: из fields (newsletter_consents - обратная совместимость)
         elseif (isset($fields['newsletter_consents']) && is_array($fields['newsletter_consents'])) {
-            error_log('Form Submit - Found newsletter_consents in fields');
             $newsletter_consents_for_save = $fields['newsletter_consents'];
         }
 
         // Если есть согласия — сразу обогащаем их версией документа,
         // чтобы далее (в том числе в логике ресабскрайба) всегда использовать единый формат
         if ($newsletter_consents_for_save !== null) {
-            error_log('Form Submit - Processing newsletter_consents_for_save: ' . print_r($newsletter_consents_for_save, true));
-            
             // Сохраняем версии документов на момент подписки
             $consents_with_versions = [];
             foreach ($newsletter_consents_for_save as $doc_id => $value) {
@@ -463,23 +393,18 @@ class CodeweberFormsAPI {
                             'document_version' => $doc->post_modified, // Дата последнего изменения документа
                             'document_version_timestamp' => strtotime($doc->post_modified), // Timestamp для удобства
                         ];
-                        error_log('Form Submit - Added consent for doc_id: ' . $doc_id . ' (version: ' . $doc->post_modified . ')');
                     } else {
                         // Если документ не найден, сохраняем как есть
                         $consents_with_versions[$doc_id] = $value;
-                        error_log('Form Submit - WARNING: Document not found for doc_id: ' . $doc_id);
                     }
-                } else {
-                    error_log('Form Submit - Skipping consent for doc_id: ' . $doc_id . ' (value: ' . print_r($value, true) . ')');
                 }
             }
             $newsletter_consents_for_save = $consents_with_versions;
-            error_log('Form Submit - Final newsletter_consents_for_save: ' . print_r($newsletter_consents_for_save, true));
             
             // Убираем из fields, чтобы не санитизировалось как обычное поле
+            unset($fields['form_consents']);
             unset($fields['newsletter_consents']);
-        } else {
-            error_log('Form Submit - WARNING: No newsletter_consents found in request or fields!');
+            unset($fields['testimonial_consents']);
         }
         
         /**
@@ -499,7 +424,7 @@ class CodeweberFormsAPI {
             if (empty($email) || !is_email($email)) {
                 foreach ($fields as $field_name => $field_value) {
                     // Пропускаем служебные поля
-                    if (in_array($field_name, ['form_id', 'form_nonce', 'form_honeypot', '_wp_http_referer', 'newsletter_consents', 'utm_params', 'tracking_data', '_utm_data'])) {
+                    if (in_array($field_name, ['form_id', 'form_nonce', 'form_honeypot', '_wp_http_referer', 'form_consents', 'newsletter_consents', 'testimonial_consents', 'utm_params', 'tracking_data', '_utm_data'])) {
                         continue;
                     }
                     // Проверяем, является ли значение валидным email
@@ -654,53 +579,8 @@ class CodeweberFormsAPI {
             }
         }
         
-        if ($newsletter_consents_for_save !== null) {
-            error_log('Form Submit - Processing newsletter_consents_for_save: ' . print_r($newsletter_consents_for_save, true));
-            
-            // Сохраняем версии документов на момент подписки
-            $consents_with_versions = [];
-            foreach ($newsletter_consents_for_save as $doc_id => $value) {
-                // Обрабатываем разные форматы: '1', 1, ['value' => '1'], etc.
-                $consent_value = null;
-                if (is_array($value)) {
-                    $consent_value = isset($value['value']) ? $value['value'] : (isset($value[0]) ? $value[0] : null);
-                } else {
-                    $consent_value = $value;
-                }
-                
-                if ($consent_value === '1' || $consent_value === 1) {
-                    $doc_id = intval($doc_id);
-                    $doc = get_post($doc_id);
-                    if ($doc) {
-                        // Сохраняем ID документа и дату его последнего изменения (версию)
-                        $consents_with_versions[$doc_id] = [
-                            'value' => '1',
-                            'document_id' => $doc_id,
-                            'document_version' => $doc->post_modified, // Дата последнего изменения документа
-                            'document_version_timestamp' => strtotime($doc->post_modified), // Timestamp для удобства
-                        ];
-                        error_log('Form Submit - Added consent for doc_id: ' . $doc_id . ' (version: ' . $doc->post_modified . ')');
-                    } else {
-                        // Если документ не найден, сохраняем как есть
-                        $consents_with_versions[$doc_id] = $value;
-                        error_log('Form Submit - WARNING: Document not found for doc_id: ' . $doc_id);
-                    }
-                } else {
-                    error_log('Form Submit - Skipping consent for doc_id: ' . $doc_id . ' (value: ' . print_r($value, true) . ')');
-                }
-            }
-            $newsletter_consents_for_save = $consents_with_versions;
-            error_log('Form Submit - Final newsletter_consents_for_save: ' . print_r($newsletter_consents_for_save, true));
-            
-            // Убираем из fields, чтобы не санитизировалось как обычное поле
-            unset($fields['newsletter_consents']);
-        } else {
-            error_log('Form Submit - WARNING: No newsletter_consents found in request or fields!');
-        }
-        
         // Санитизация данных
         $sanitized_fields = $this->sanitize_fields($fields);
-        error_log('Form Submit - sanitized_fields (before adding consents): ' . print_r($sanitized_fields, true));
         
         // Для newsletter форм: если email не найден по имени 'email', ищем его в других полях
         if ($form_id && function_exists('codeweber_forms_is_newsletter_form') && codeweber_forms_is_newsletter_form($form_id)) {
@@ -708,13 +588,12 @@ class CodeweberFormsAPI {
                 // Ищем email значение в других полях
                 foreach ($sanitized_fields as $field_name => $field_value) {
                     // Пропускаем служебные поля
-                    if (in_array($field_name, ['form_id', 'form_nonce', 'form_honeypot', '_wp_http_referer', 'newsletter_consents', 'utm_params', 'tracking_data', '_utm_data'])) {
+                    if (in_array($field_name, ['form_id', 'form_nonce', 'form_honeypot', '_wp_http_referer', 'form_consents', 'newsletter_consents', 'testimonial_consents', 'utm_params', 'tracking_data', '_utm_data'])) {
                         continue;
                     }
                     // Проверяем, является ли значение валидным email
                     if (!empty($field_value) && is_email($field_value)) {
                         $sanitized_fields['email'] = sanitize_email($field_value);
-                        error_log('Form Submit - Mapped email field: ' . $field_name . ' -> email');
                         break;
                     }
                 }
@@ -724,11 +603,7 @@ class CodeweberFormsAPI {
         // Добавляем newsletter_consents обратно после санитизации
         if ($newsletter_consents_for_save !== null) {
             $sanitized_fields['newsletter_consents'] = $newsletter_consents_for_save;
-            error_log('Form Submit - Added newsletter_consents to sanitized_fields');
-        } else {
-            error_log('Form Submit - WARNING: newsletter_consents_for_save is null, not adding to sanitized_fields');
         }
-        error_log('Form Submit - sanitized_fields (final): ' . print_r($sanitized_fields, true));
         
         // ИМЕНА ФОРМЫ ВСЕГДА БЕРЕТСЯ ИЗ TITLE CPT ФОРМЫ
         // Источник всегда один - post_title из CPT по form_id
@@ -746,20 +621,13 @@ class CodeweberFormsAPI {
         // (newsletter, логи и т.д.)
         if (!empty($form_name_for_integrations)) {
             $sanitized_fields['_form_name'] = $form_name_for_integrations;
-            error_log('Form Submit - Added _form_name to sanitized_fields from CPT title: ' . $form_name_for_integrations);
-        } else {
-            error_log('Form Submit - WARNING: Could not get form_name from CPT title. form_id: ' . var_export($form_id, true));
         }
 
         // Обработка файлов (используем file_ids из запроса)
         $files_data = null;
-        error_log('Form Submit - Processing files. file_ids: ' . print_r($file_ids, true));
         if (!empty($file_ids) && is_array($file_ids)) {
             $request->set_param('file_ids', $file_ids);
             $files_data = $this->handle_file_uploads($request);
-            error_log('Form Submit - handle_file_uploads returned: ' . print_r($files_data, true));
-        } else {
-            error_log('Form Submit - WARNING: No file_ids provided or not an array');
         }
         
         // Remove file UUIDs from sanitized_fields if they were included as regular fields
@@ -772,7 +640,6 @@ class CodeweberFormsAPI {
                     $field_value = $sanitized_fields[$pattern];
                     // Check if value looks like UUIDs (comma-separated UUIDs)
                     if (is_string($field_value) && preg_match('/^[a-f0-9\-]{36}(,\s*[a-f0-9\-]{36})*$/i', $field_value)) {
-                        error_log('Form Submit - Removing file UUIDs from sanitized_fields: ' . $pattern . ' = ' . $field_value);
                         unset($sanitized_fields[$pattern]);
                     }
                 }
@@ -834,17 +701,14 @@ class CodeweberFormsAPI {
         }
         
         // Process files and move to permanent location
-        error_log('Form Submit - Processing files for permanent storage. files_data: ' . print_r($files_data, true));
         if (!empty($files_data) && is_array($files_data)) {
             $temp_files = new CodeweberFormsTempFiles();
             $permanent_files = [];
             
             foreach ($files_data as $file_info) {
                 if (isset($file_info['file_id'])) {
-                    error_log('Form Submit - Moving file to permanent: ' . $file_info['file_id']);
                     $moved_file = $temp_files->move_to_permanent($file_info['file_id'], $submission_id);
                     if ($moved_file) {
-                        error_log('Form Submit - File moved successfully: ' . print_r($moved_file, true));
                         $permanent_files[] = [
                             'file_id' => $moved_file['file_id'],
                             'file_url' => $moved_file['file_url'],
@@ -852,25 +716,19 @@ class CodeweberFormsAPI {
                             'file_size' => $moved_file['file_size'],
                             'file_type' => $moved_file['file_type']
                         ];
-                    } else {
-                        error_log('Form Submit - ERROR: Failed to move file: ' . $file_info['file_id']);
                     }
                 }
             }
             
             // Update submission with final files data
             if (!empty($permanent_files)) {
-                error_log('Form Submit - Updating submission with permanent files: ' . print_r($permanent_files, true));
                 $db->update_submission($submission_id, [
                     'files_data' => json_encode($permanent_files, JSON_UNESCAPED_UNICODE)
                 ]);
                 $files_data = $permanent_files;
             } else {
-                error_log('Form Submit - WARNING: No permanent files to save');
                 $files_data = null;
             }
-        } else {
-            error_log('Form Submit - No files_data to process');
         }
         
         // Хук перед отправкой
@@ -938,10 +796,7 @@ class CodeweberFormsAPI {
         }
         
         // Хук после сохранения
-        error_log('Form Submit - Calling codeweber_form_saved hook with submission_id: ' . $submission_id . ', form_id: ' . $form_id);
-        error_log('Form Submit - Data passed to hook: ' . print_r($sanitized_fields, true));
         CodeweberFormsHooks::after_saved($submission_id, $form_id, $sanitized_fields);
-        error_log('=== FORM SUBMIT DEBUG END ===');
         
         // Хук после отправки
         CodeweberFormsHooks::after_send($form_id, $form_settings, $submission_id);
@@ -965,8 +820,6 @@ class CodeweberFormsAPI {
             // 2) Form type из запроса (JavaScript отправляет form_type из data-form-type)
             // Нормализуем значение: приводим к нижнему регистру и обрезаем пробелы
             $form_type_normalized = $form_type_from_request ? strtolower(trim((string) $form_type_from_request)) : '';
-            error_log('[CW Forms] submit: form_id=' . $form_id . ' | form_type_from_request (raw)=' . var_export($form_type_from_request, true));
-            error_log('[CW Forms] submit: form_type_normalized=' . var_export($form_type_normalized, true));
             
             if ($form_type_normalized === 'newsletter') {
                 $detected_form_type = 'newsletter';
@@ -990,7 +843,6 @@ class CodeweberFormsAPI {
                 } elseif ($detected_type === 'resume') {
                     $detected_form_type = 'resume';
                 }
-                error_log('[CW Forms] submit: detected_type_from_content=' . var_export($detected_type, true));
             }
 
             // 4) Fallback: formType в настройках формы
@@ -999,10 +851,7 @@ class CodeweberFormsAPI {
                 if (in_array($form_type_setting, ['newsletter', 'testimonial', 'callback', 'resume'], true)) {
                     $detected_form_type = $form_type_setting;
                 }
-                error_log('[CW Forms] submit: form_type_from_settings=' . var_export($form_type_setting ?? null, true));
             }
-
-            error_log('[CW Forms] submit: detected_form_type_final=' . var_export($detected_form_type, true));
             
             // Определяем дефолтное сообщение в зависимости от типа формы
             if ($detected_form_type === 'newsletter') {
@@ -1018,11 +867,6 @@ class CodeweberFormsAPI {
                 $success_message = $form_settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
             }
         }
-        
-        error_log('=== FORM SUBMIT API END (SUCCESS) ===');
-        error_log('Form Submit - detected_form_type: ' . var_export($detected_form_type, true));
-        error_log('Form Submit - success_message: ' . $success_message);
-        error_log('Submission ID: ' . $submission_id);
         
         return new WP_REST_Response([
             'success' => true,
@@ -1141,7 +985,6 @@ class CodeweberFormsAPI {
      */
     private function validate_fields($fields, $form_settings, $form_id = 0) {
         if (empty($fields) || !is_array($fields)) {
-            error_log('Form validation failed: No fields provided');
             return ['valid' => false, 'message' => __('No fields provided.', 'codeweber')];
         }
         
@@ -1164,7 +1007,7 @@ class CodeweberFormsAPI {
                     // Проходим по всем полям и ищем email значение
                     foreach ($fields as $field_name => $field_value) {
                         // Пропускаем служебные поля
-                        if (in_array($field_name, ['form_id', 'form_nonce', 'form_honeypot', '_wp_http_referer', 'newsletter_consents', 'utm_params', 'tracking_data', '_utm_data'])) {
+                        if (in_array($field_name, ['form_id', 'form_nonce', 'form_honeypot', '_wp_http_referer', 'form_consents', 'newsletter_consents', 'testimonial_consents', 'utm_params', 'tracking_data', '_utm_data'])) {
                             continue;
                         }
                         
@@ -1281,26 +1124,6 @@ class CodeweberFormsAPI {
     public function upload_file($request) {
         require_once(ABSPATH . 'wp-admin/includes/file.php');
         require_once(ABSPATH . 'wp-admin/includes/image.php');
-        // #region agent log
-        $log_file = dirname(WP_CONTENT_DIR) . '/.cursor/debug.log';
-        $log_data = [
-            'id' => 'log_' . time() . '_' . uniqid(),
-            'timestamp' => time() * 1000,
-            'location' => 'codeweber-forms-api.php:1198',
-            'message' => 'upload_file entry',
-            'data' => [
-                'has_files' => !empty($_FILES),
-                'files_keys' => !empty($_FILES) ? array_keys($_FILES) : [],
-                'content_type' => $_SERVER['CONTENT_TYPE'] ?? 'not set',
-                'request_method' => $_SERVER['REQUEST_METHOD'] ?? 'not set',
-                'nonce_header' => $request->get_header('X-WP-Nonce') ? 'present' : 'missing'
-            ],
-            'sessionId' => 'debug-session',
-            'runId' => 'run1',
-            'hypothesisId' => 'A'
-        ];
-        @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
-        // #endregion
         
         // FilePond sends file as 'filepond' by default
         // But REST API might need special handling
@@ -1363,41 +1186,8 @@ class CodeweberFormsAPI {
             }
         }
         
-        // #region agent log
-        $log_data = [
-            'id' => 'log_' . time() . '_' . uniqid(),
-            'timestamp' => time() * 1000,
-            'location' => 'codeweber-forms-api.php:1245',
-            'message' => 'file search result',
-            'data' => [
-                'file_found' => !empty($file),
-                'file_key' => $file_key,
-                'all_files_keys' => !empty($_FILES) ? array_keys($_FILES) : [],
-                'file_error' => isset($file['error']) ? (is_array($file['error']) ? 'array' : $file['error']) : 'not set',
-                'file_name' => isset($file['name']) ? (is_array($file['name']) ? 'array' : $file['name']) : 'not set',
-                'file_structure' => is_array($file) ? array_keys($file) : 'not array'
-            ],
-            'sessionId' => 'debug-session',
-            'runId' => 'run1',
-            'hypothesisId' => 'B'
-        ];
-        @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
-        // #endregion
         
         if (!$file) {
-            // #region agent log
-            $log_data = [
-                'id' => 'log_' . time() . '_' . uniqid(),
-                'timestamp' => time() * 1000,
-                'location' => 'codeweber-forms-api.php:1268',
-                'message' => 'no file found error',
-                'data' => ['files_dump' => print_r($_FILES, true)],
-                'sessionId' => 'debug-session',
-                'runId' => 'run1',
-                'hypothesisId' => 'A'
-            ];
-            @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
-            // #endregion
             return new WP_Error('no_file', __('No file uploaded.', 'codeweber'), ['status' => 400]);
         }
         
@@ -1424,23 +1214,6 @@ class CodeweberFormsAPI {
             $error_message = (is_int($error_code) || is_string($error_code)) && isset($error_messages[$error_code]) 
                 ? $error_messages[$error_code] 
                 : 'Unknown error';
-            // #region agent log
-            $log_data = [
-                'id' => 'log_' . time() . '_' . uniqid(),
-                'timestamp' => time() * 1000,
-                'location' => 'codeweber-forms-api.php:1274',
-                'message' => 'file error code check',
-                'data' => [
-                    'error_code' => $error_code,
-                    'error_message' => $error_message,
-                    'upload_err_ok' => UPLOAD_ERR_OK
-                ],
-                'sessionId' => 'debug-session',
-                'runId' => 'run1',
-                'hypothesisId' => 'C'
-            ];
-            @file_put_contents($log_file, json_encode($log_data) . "\n", FILE_APPEND);
-            // #endregion
             return new WP_Error('upload_error', __('File upload error.', 'codeweber') . ': ' . $error_message, ['status' => 400]);
         }
         
@@ -1452,28 +1225,24 @@ class CodeweberFormsAPI {
         
         // Validate file exists
         if (!file_exists($tmp_name)) {
-            error_log('FilePond Upload Error: Temporary file does not exist: ' . $tmp_name);
             return new WP_Error('file_not_found', __('Temporary file not found.', 'codeweber'), ['status' => 400]);
         }
         
         // WordPress standard file type validation
         $wp_filetype = wp_check_filetype_and_ext($tmp_name, $file_name);
         if (!$wp_filetype['ext'] || !$wp_filetype['type']) {
-            error_log('FilePond Upload Error: Invalid file type. Extension: ' . ($wp_filetype['ext'] ?? 'none') . ', Type: ' . ($wp_filetype['type'] ?? 'none'));
             return new WP_Error('invalid_file_type', __('Sorry, this file type is not permitted for security reasons.', 'codeweber'), ['status' => 400]);
         }
         
         // Additional allowed types check (from settings)
         $allowed_types = get_option('codeweber_forms_allowed_file_types', []);
         if (!empty($allowed_types) && !in_array($wp_filetype['type'], $allowed_types)) {
-            error_log('FilePond Upload Error: File type not in allowed list: ' . $wp_filetype['type']);
             return new WP_Error('invalid_file_type', __('File type not allowed.', 'codeweber'), ['status' => 400]);
         }
         
         // Validate file size
         $max_size = get_option('codeweber_forms_max_file_size', 10 * 1024 * 1024); // Default 10MB
         if ($file_size > $max_size) {
-            error_log('FilePond Upload Error: File too large: ' . $file_size . ' bytes (max: ' . $max_size . ')');
             return new WP_Error('file_too_large', __('File is too large.', 'codeweber'), ['status' => 400]);
         }
         
@@ -1486,7 +1255,6 @@ class CodeweberFormsAPI {
             wp_mkdir_p($temp_dir);
         }
         if (!is_writable($temp_dir)) {
-            error_log('FilePond Upload Error: Temp directory is not writable: ' . $temp_dir);
             return new WP_Error('dir_not_writable', __('Temporary directory is not writable.', 'codeweber'), ['status' => 500]);
         }
         
@@ -1501,18 +1269,10 @@ class CodeweberFormsAPI {
         $filename = wp_unique_filename($temp_dir, $filename);
         $temp_path = $temp_dir . '/' . $filename;
         
-        error_log('FilePond Upload: Preparing to move file. tmp_name: ' . $tmp_name . ', temp_path: ' . $temp_path);
-        error_log('FilePond Upload: temp_dir exists: ' . (is_dir($temp_dir) ? 'YES' : 'NO') . ', writable: ' . (is_writable($temp_dir) ? 'YES' : 'NO'));
-        
         // Move uploaded file (WordPress standard approach for temp files)
         if (!@move_uploaded_file($tmp_name, $temp_path)) {
-            $error = error_get_last();
-            error_log('FilePond Upload Error: Failed to move file. Error: ' . ($error ? $error['message'] : 'Unknown error'));
-            error_log('FilePond Upload Error: tmp_name exists: ' . (file_exists($tmp_name) ? 'YES' : 'NO') . ', is_uploaded_file: ' . (is_uploaded_file($tmp_name) ? 'YES' : 'NO'));
             return new WP_Error('move_failed', __('Failed to save file.', 'codeweber'), ['status' => 500]);
         }
-        
-        error_log('FilePond Upload: File moved successfully. temp_path: ' . $temp_path . ', file exists: ' . (file_exists($temp_path) ? 'YES' : 'NO'));
         
         // Set correct file permissions (WordPress standard: 0666 masked by umask)
         $stat = stat(dirname($temp_path));
@@ -1524,16 +1284,8 @@ class CodeweberFormsAPI {
         // Use validated file type from wp_check_filetype_and_ext()
         $uploaded_file_type = $wp_filetype['type'];
         
-        error_log('FilePond Upload: Saving to database. file_path: ' . $temp_path . ', file_name: ' . $file_name . ', file_size: ' . $file_size . ', file_type: ' . $uploaded_file_type);
-        
         // Save to database
         $file_data = $temp_files->save_temp_file($temp_path, $file_name, $file_size, $uploaded_file_type);
-        
-        if ($file_data) {
-            error_log('FilePond Upload: File saved to database successfully. file_id: ' . $file_data['file_id']);
-        } else {
-            error_log('FilePond Upload Error: Failed to save file to database');
-        }
         
         if (!$file_data) {
             @unlink($temp_path);
@@ -1581,10 +1333,7 @@ class CodeweberFormsAPI {
     private function handle_file_uploads($request) {
         $file_ids = $request->get_param('file_ids');
         
-        error_log('handle_file_uploads - file_ids: ' . print_r($file_ids, true));
-        
         if (empty($file_ids) || !is_array($file_ids)) {
-            error_log('handle_file_uploads - No file_ids or not an array');
             return null;
         }
         
@@ -1593,18 +1342,13 @@ class CodeweberFormsAPI {
         
         // Collect file info from temp files
         foreach ($file_ids as $file_id) {
-            error_log('handle_file_uploads - Processing file_id: ' . $file_id);
             $file = $temp_files->get_temp_file($file_id);
             if (!$file) {
-                error_log('handle_file_uploads - File not found in temp table: ' . $file_id);
                 continue;
             }
             
-            error_log('handle_file_uploads - File found: ' . print_r($file, true));
-            
             // Check if file hasn't expired
             if (strtotime($file->expires_at) < time()) {
-                error_log('handle_file_uploads - File expired: ' . $file_id);
                 // File expired, skip it
                 continue;
             }
@@ -1618,7 +1362,6 @@ class CodeweberFormsAPI {
             ];
         }
         
-        error_log('handle_file_uploads - Returning files_data: ' . print_r($files_data, true));
         return !empty($files_data) ? $files_data : null;
     }
     
@@ -1829,7 +1572,6 @@ class CodeweberFormsAPI {
             
             return ['success' => false, 'error' => __('Auto-reply is disabled.', 'codeweber')];
         } catch (Exception $e) {
-            error_log('Auto-reply email error: ' . $e->getMessage());
             return ['success' => false, 'error' => $e->getMessage()];
         }
     }

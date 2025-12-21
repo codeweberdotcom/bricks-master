@@ -139,7 +139,7 @@ class TestimonialFormAPI {
                 
                 // Обертываем в структуру модального окна
                 $wrapped_html = '<div class="testimonial-form-modal text-start">' . 
-                    '<h5 class="modal-title mb-4">' . esc_html__('Leave Your Testimonial', 'codeweber') . '</h5>' . 
+                    '<h3 class="modal-title mb-4">' . esc_html__('Leave Your Testimonial', 'codeweber') . '</h3>' . 
                     $form_html . 
                     '</div>';
                 
@@ -180,7 +180,7 @@ class TestimonialFormAPI {
             if (!empty($form_html)) {
                 // Обертываем в структуру модального окна
                 $wrapped_html = '<div class="testimonial-form-modal text-start">' . 
-                    '<h5 class="modal-title mb-4">' . esc_html__('Leave Your Testimonial', 'codeweber') . '</h5>' . 
+                    '<h3 class="modal-title mb-4">' . esc_html__('Leave Your Testimonial', 'codeweber') . '</h3>' . 
                     $form_html . 
                     '</div>';
                 
@@ -447,10 +447,17 @@ class TestimonialFormAPI {
             // Проверяем согласия ТОЛЬКО если в форме есть обязательные согласия
             // Если обязательных согласий нет (массив пустой), пропускаем проверку
             if (!empty($required_consents)) {
-                // Get submitted consents
-                $submitted_consents = $request->get_param('testimonial_consents');
-                if (!is_array($submitted_consents)) {
-                    $submitted_consents = [];
+                // Get submitted consents (с приоритетом form_consents)
+                $submitted_form_consents = $request->get_param('form_consents');
+                $submitted_testimonial_consents = $request->get_param('testimonial_consents');
+                
+                $submitted_consents = [];
+                if (!empty($submitted_form_consents) && is_array($submitted_form_consents)) {
+                    $submitted_consents = $submitted_form_consents;
+                    error_log('Testimonial Submit - Using form_consents for validation');
+                } elseif (!empty($submitted_testimonial_consents) && is_array($submitted_testimonial_consents)) {
+                    $submitted_consents = $submitted_testimonial_consents;
+                    error_log('Testimonial Submit - Using testimonial_consents for validation (legacy)');
                 }
                 
                 error_log('Testimonial Submit - Submitted consents: ' . print_r($submitted_consents, true));
@@ -473,15 +480,28 @@ class TestimonialFormAPI {
             error_log('Testimonial Submit - Default form (form_id=0), skipping consent validation');
         }
 
-        // Обрабатываем testimonial_consents аналогично newsletter_consents для универсальной обработки
+        // Обрабатываем согласия с приоритетом form_consents
         $testimonial_consents_for_save = null;
+        $submitted_form_consents = $request->get_param('form_consents');
         $submitted_testimonial_consents = $request->get_param('testimonial_consents');
-        if (!empty($submitted_testimonial_consents) && is_array($submitted_testimonial_consents)) {
-            error_log('Testimonial Submit - Processing testimonial_consents: ' . print_r($submitted_testimonial_consents, true));
-            
+        
+        // ПРИОРИТЕТ 1: form_consents (универсальный префикс)
+        if (!empty($submitted_form_consents) && is_array($submitted_form_consents)) {
+            error_log('Testimonial Submit - Processing form_consents: ' . print_r($submitted_form_consents, true));
+            $consents_to_process = $submitted_form_consents;
+        }
+        // ПРИОРИТЕТ 2: testimonial_consents (обратная совместимость)
+        elseif (!empty($submitted_testimonial_consents) && is_array($submitted_testimonial_consents)) {
+            error_log('Testimonial Submit - Processing testimonial_consents (legacy): ' . print_r($submitted_testimonial_consents, true));
+            $consents_to_process = $submitted_testimonial_consents;
+        } else {
+            $consents_to_process = [];
+        }
+        
+        if (!empty($consents_to_process)) {
             // Сохраняем версии документов на момент подписки
             $consents_with_versions = [];
-            foreach ($submitted_testimonial_consents as $doc_id => $value) {
+            foreach ($consents_to_process as $doc_id => $value) {
                 // Обрабатываем разные форматы: '1', 1, ['value' => '1'], etc.
                 $consent_value = null;
                 if (is_array($value)) {

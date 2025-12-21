@@ -33,11 +33,12 @@ class CF7_Consents_Panel {
         add_action('wp_ajax_cf7_consents_get_default_label', [$this, 'ajax_get_default_label']);
         
         // Обработка шорткода [cf7_consent_checkbox] в форме CF7
-        add_filter('wpcf7_form_elements', [$this, 'process_consent_checkbox_shortcode'], 20, 1);
+        // Используем фильтр свойств формы ДО обработки тегов, чтобы CF7 обработал acceptance теги
+        add_filter('wpcf7_contact_form_property_form', [$this, 'process_consent_checkbox_shortcode_in_form_property'], 10, 2);
         
         // Обертка для acceptance полей согласий после обработки CF7
-        // ВРЕМЕННО ОТКЛЮЧЕНО для диагностики - раскомментируйте после проверки
-        // add_filter('wpcf7_form_elements', [$this, 'wrap_consent_acceptance_fields'], 30, 1);
+        // Используем более высокий приоритет, чтобы сработать после всех других фильтров
+        add_filter('wpcf7_form_elements', [$this, 'wrap_consent_acceptance_fields'], 999, 1);
     }
     
     /**
@@ -375,7 +376,7 @@ class CF7_Consents_Panel {
                 }
                 
                 $consents[] = [
-                    'label' => sanitize_text_field($consent_data['label']),
+                    'label' => wp_kses_post($consent_data['label']),
                     'document_id' => intval($consent_data['document_id']),
                     'required' => !empty($consent_data['required']),
                 ];
@@ -580,7 +581,47 @@ class CF7_Consents_Panel {
     }
     
     /**
-     * Обрабатывает шорткод [cf7_consent_checkbox] в форме CF7
+     * Обрабатывает шорткод [cf7_consent_checkbox] в свойстве формы CF7 на фронтенде
+     * Заменяет его на acceptance теги ДО обработки тегов CF7
+     * 
+     * @param string $form_content Содержимое формы CF7
+     * @param WPCF7_ContactForm $contact_form Объект формы CF7
+     * @return string Обработанное содержимое
+     */
+    public function process_consent_checkbox_shortcode_in_form_property($form_content, $contact_form) {
+        // Обрабатываем только на фронтенде, не в админке
+        if (is_admin()) {
+            return $form_content;
+        }
+        
+        // Проверяем, есть ли шорткод в содержимом
+        if (strpos($form_content, '[cf7_consent_checkbox]') === false) {
+            return $form_content;
+        }
+        
+        $form_id = $contact_form->id();
+        
+        if (!$form_id) {
+            return str_replace('[cf7_consent_checkbox]', '', $form_content);
+        }
+        
+        // Получаем согласия для формы
+        $consents = $this->get_consents($form_id);
+        
+        if (empty($consents)) {
+            // Если согласий нет, просто удаляем шорткод
+            return str_replace('[cf7_consent_checkbox]', '', $form_content);
+        }
+        
+        // Генерируем acceptance теги для всех согласий (без обертки, обертку добавит фильтр)
+        $acceptance_tags = $this->render_cf7_consents_html($consents, $form_id, false);
+        
+        // Заменяем шорткод на acceptance теги
+        return str_replace('[cf7_consent_checkbox]', $acceptance_tags, $form_content);
+    }
+    
+    /**
+     * Обрабатывает шорткод [cf7_consent_checkbox] в форме CF7 (старый метод, оставлен для совместимости)
      * Заменяет его на верстку чекбоксов согласий
      * 
      * @param string $content Содержимое формы CF7
@@ -623,8 +664,8 @@ class CF7_Consents_Panel {
             return str_replace('[cf7_consent_checkbox]', '', $content);
         }
         
-        // Генерируем верстку для всех согласий
-        $consents_html = $this->render_cf7_consents_html($consents, $form_id);
+        // Генерируем верстку для всех согласий (без обертки, для фильтра)
+        $consents_html = $this->render_cf7_consents_html($consents, $form_id, false);
         
         // Заменяем шорткод на верстку
         return str_replace('[cf7_consent_checkbox]', $consents_html, $content);
@@ -635,9 +676,10 @@ class CF7_Consents_Panel {
      * 
      * @param array $consents Массив согласий
      * @param int $form_id ID формы CF7
+     * @param bool $for_editor Если true, возвращает полную HTML структуру для редактора
      * @return string HTML верстка
      */
-    private function render_cf7_consents_html($consents, $form_id) {
+    private function render_cf7_consents_html($consents, $form_id, $for_editor = false) {
         $html = '';
         
         foreach ($consents as $index => $consent) {
@@ -654,14 +696,9 @@ class CF7_Consents_Panel {
                 continue;
             }
             
-            // Генерируем slug для имени поля acceptance
-            // Используем post_name, если есть, иначе создаем из post_title
-            if (!empty($document->post_name)) {
-                $document_slug = $document->post_name;
-            } else {
-                $document_slug = sanitize_title($document->post_title);
-            }
-            $acceptance_name = 'soglasie-' . $document_slug;
+            // Используем формат form_consents_{document_id} вместо soglasie-{slug}
+            // Это обеспечивает прямую связь с ID документа и совместимость с универсальным форматом
+            $acceptance_name = 'form_consents_' . $document_id;
             
             // Генерируем ID для чекбокса
             $checkbox_id = 'flexCheckDefault-' . $document_id;
@@ -676,21 +713,38 @@ class CF7_Consents_Panel {
             }
             
             // Формируем CF7 acceptance тег
-            // Используем content для текста метки, чтобы CF7 обработал его
             $acceptance_attrs = [];
             $acceptance_attrs[] = $acceptance_name;
             $acceptance_attrs[] = 'id:' . $checkbox_id;
             $acceptance_attrs[] = 'class:form-check-input';
+            $acceptance_attrs[] = 'use_label_element'; // CF7 не будет создавать свой label
             if ($required) {
                 $acceptance_attrs[] = 'required';
+            } else {
+                $acceptance_attrs[] = 'optional'; // Для необязательных согласий
             }
             
-            // Формируем acceptance тег с текстом метки в content
-            // CF7 обработает тег и создаст HTML, затем мы обернем его через фильтр
-            $acceptance_tag = '[acceptance ' . implode(' ', $acceptance_attrs) . ']' . $label_text . '[/acceptance]';
+            // Формируем acceptance тег
+            $acceptance_tag = '[acceptance ' . implode(' ', $acceptance_attrs) . ']';
             
-            // Выводим только тег, обертку добавим через фильтр
-            $html .= $acceptance_tag . "\n";
+            if ($for_editor) {
+                // Для редактора: полная HTML структура с оберткой и label
+                // Добавляем класс optional, если согласие необязательное
+                $wrapper_class = 'form-check mb-2 fs-12 small-chekbox wpcf7-acceptance';
+                if (!$required) {
+                    $wrapper_class .= ' optional';
+                }
+                
+                $html .= '<div class="' . esc_attr($wrapper_class) . '">' . "\n";
+                $html .= '  ' . $acceptance_tag . "\n";
+                $html .= '  <label for="' . esc_attr($checkbox_id) . '" class="form-check-label text-start">' . "\n";
+                $html .= '    ' . $label_text . "\n";
+                $html .= '  </label>' . "\n";
+                $html .= '</div>' . "\n";
+            } else {
+                // Для фильтра: только acceptance тег, обертку добавит фильтр
+                $html .= $acceptance_tag . "\n";
+            }
         }
         
         return $html;
@@ -718,12 +772,10 @@ class CF7_Consents_Panel {
                 return $content;
             }
         } catch (Exception $e) {
-            // В случае ошибки возвращаем оригинальный контент
-            error_log('CF7 Consents Panel: Error in wrap_consent_acceptance_fields: ' . $e->getMessage());
+            error_log('CF7 Consents Panel: Error getting form data: ' . $e->getMessage());
             return $content;
         } catch (Error $e) {
-            // В случае фатальной ошибки возвращаем оригинальный контент
-            error_log('CF7 Consents Panel: Fatal error in wrap_consent_acceptance_fields: ' . $e->getMessage());
+            error_log('CF7 Consents Panel: Fatal error getting form data: ' . $e->getMessage());
             return $content;
         }
         
@@ -740,80 +792,112 @@ class CF7_Consents_Panel {
                     continue;
                 }
                 
-                // Генерируем имя поля и ID
+                // Поддерживаем оба формата: новый (form_consents_ID) и старый (soglasie-{slug}) для обратной совместимости
+                $acceptance_name_new = 'form_consents_' . $document_id; // Новый формат
+                
+                // Старый формат для обратной совместимости
                 if (!empty($document->post_name)) {
                     $document_slug = $document->post_name;
                 } else {
                     $document_slug = sanitize_title($document->post_title);
                 }
-                $acceptance_name = 'soglasie-' . $document_slug;
+                $acceptance_name_old = 'soglasie-' . $document_slug;
+                
                 $checkbox_id = 'flexCheckDefault-' . $document_id;
                 
-                // Ищем обработанное acceptance поле по data-name атрибуту
-                // CF7 создает структуру: <span class="wpcf7-form-control-wrap" data-name="...">
-                $pattern = '/(<span[^>]*class="wpcf7-form-control-wrap[^"]*"[^>]*data-name="' . preg_quote($acceptance_name, '/') . '"[^>]*>)(.*?)(<\/span>)/is';
+                // Ищем input по name атрибуту (пробуем оба формата)
+                // Сначала новый формат
+                $pattern_with_wrapper_new = '/(<span[^>]*class="[^"]*wpcf7-form-control[^"]*wpcf7-acceptance[^"]*"[^>]*>\s*<input[^>]*name=["\']' . preg_quote($acceptance_name_new, '/') . '["\'][^>]*>\s*<\/span>)/is';
+                $pattern_input_only_new = '/(<input[^>]*name=["\']' . preg_quote($acceptance_name_new, '/') . '["\'][^>]*>)/i';
                 
-                $content = preg_replace_callback($pattern, function($matches) use ($checkbox_id, $consent, $document_id, $form_id) {
-                    $full_match = $matches[0]; // Полное совпадение
-                    
-                    // Извлекаем input из структуры CF7
-                    $input_pattern = '/<input[^>]*id="' . preg_quote($checkbox_id, '/') . '"[^>]*>/i';
+                // Затем старый формат
+                $pattern_with_wrapper_old = '/(<span[^>]*class="[^"]*wpcf7-form-control[^"]*wpcf7-acceptance[^"]*"[^>]*>\s*<input[^>]*name=["\']' . preg_quote($acceptance_name_old, '/') . '["\'][^>]*>\s*<\/span>)/is';
+                $pattern_input_only_old = '/(<input[^>]*name=["\']' . preg_quote($acceptance_name_old, '/') . '["\'][^>]*>)/i';
+                
+                $field_html = '';
+                $has_wrapper = false;
+                $acceptance_name_used = ''; // Запоминаем, какой формат нашли
+                
+                // Проверяем новый формат сначала
+                if (preg_match($pattern_with_wrapper_new, $content, $wrapper_matches)) {
+                    $field_html = $wrapper_matches[1];
+                    $has_wrapper = true;
+                    $acceptance_name_used = $acceptance_name_new;
+                } 
+                elseif (preg_match($pattern_input_only_new, $content, $input_matches)) {
+                    $field_html = $input_matches[1];
+                    $has_wrapper = false;
+                    $acceptance_name_used = $acceptance_name_new;
+                }
+                // Если не нашли новый формат, пробуем старый
+                elseif (preg_match($pattern_with_wrapper_old, $content, $wrapper_matches)) {
+                    $field_html = $wrapper_matches[1];
+                    $has_wrapper = true;
+                    $acceptance_name_used = $acceptance_name_old;
+                }
+                elseif (preg_match($pattern_input_only_old, $content, $input_matches)) {
+                    $field_html = $input_matches[1];
+                    $has_wrapper = false;
+                    $acceptance_name_used = $acceptance_name_old;
+                }
+                
+                if (!empty($field_html) && !empty($acceptance_name_used)) {
+                    // Извлекаем input из обертки, если она есть
                     $input_html = '';
-                    if (preg_match($input_pattern, $full_match, $input_matches)) {
-                        $input_html = $input_matches[0];
-                    } else {
-                        // Если не нашли по ID, ищем любой input внутри
-                        if (preg_match('/<input[^>]*>/i', $full_match, $input_matches)) {
+                    if ($has_wrapper) {
+                        // Извлекаем input из span обертки
+                        if (preg_match('/<input[^>]*name=["\']' . preg_quote($acceptance_name_used, '/') . '["\'][^>]*>/i', $field_html, $input_matches)) {
                             $input_html = $input_matches[0];
+                            // Заменяем имя на новый формат, если использовался старый
+                            if ($acceptance_name_used === $acceptance_name_old) {
+                                $input_html = preg_replace('/name=["\']' . preg_quote($acceptance_name_old, '/') . '["\']/', 'name="' . esc_attr($acceptance_name_new) . '"', $input_html);
+                            }
                         }
-                    }
-                    
-                    // Ищем текст label из span.wpcf7-list-item-label
-                    $label_text = '';
-                    $label_span_pattern = '/<span[^>]*class="[^"]*wpcf7-list-item-label[^"]*"[^>]*>(.*?)<\/span>/is';
-                    if (preg_match($label_span_pattern, $full_match, $label_matches)) {
-                        $label_text = trim($label_matches[1]);
-                    }
-                    
-                    // Если label_text пустой, используем обработанный текст из согласия
-                    if (empty($label_text) && !empty($consent['label'])) {
-                        if (function_exists('codeweber_forms_process_consent_label')) {
-                            $label_text = codeweber_forms_process_consent_label($consent['label'], $document_id, $form_id);
-                        } else {
-                            $label_text = esc_html($consent['label']);
-                        }
-                    }
-                    
-                    // Извлекаем только обертку wpcf7-form-control-wrap с input внутри, но без label
-                    // Создаем упрощенную структуру с input
-                    $wrap_attrs = '';
-                    if (preg_match('/<span[^>]*class="wpcf7-form-control-wrap[^"]*"[^>]*>/i', $full_match, $wrap_matches)) {
-                        $wrap_attrs = $wrap_matches[0];
                     } else {
-                        $wrap_attrs = '<span class="wpcf7-form-control-wrap" data-name="soglasie-' . esc_attr(sanitize_title(get_post($document_id)->post_name ?: get_post($document_id)->post_title)) . '">';
+                        $input_html = $field_html;
+                        // Заменяем имя на новый формат, если использовался старый
+                        if ($acceptance_name_used === $acceptance_name_old) {
+                            $input_html = preg_replace('/name=["\']' . preg_quote($acceptance_name_old, '/') . '["\']/', 'name="' . esc_attr($acceptance_name_new) . '"', $input_html);
+                        }
                     }
                     
-                    // Формируем новую структуру
-                    $wrapped = '<div class="form-check mb-2 fs-12 small-chekbox wpcf7-acceptance">' . "\n";
-                    $wrapped .= '  ' . $wrap_attrs . "\n";
-                    $wrapped .= '    <span class="wpcf7-form-control wpcf7-acceptance">' . "\n";
-                    $wrapped .= '      <span class="wpcf7-list-item">' . "\n";
-                    $wrapped .= '        ' . $input_html . "\n";
-                    $wrapped .= '      </span>' . "\n";
-                    $wrapped .= '    </span>' . "\n";
-                    $wrapped .= '  </span>' . "\n";
-                    
-                    // Добавляем label
-                    if (!empty($label_text)) {
-                        $wrapped .= '  <label for="' . esc_attr($checkbox_id) . '" class="form-check-label text-start">' . "\n";
-                        $wrapped .= '    ' . wp_kses_post($label_text) . "\n";
-                        $wrapped .= '  </label>' . "\n";
+                    if (!empty($input_html)) {
+                        // Получаем текст метки из согласия
+                        $label_text = '';
+                        if (!empty($consent['label'])) {
+                            if (function_exists('codeweber_forms_process_consent_label')) {
+                                $label_text = codeweber_forms_process_consent_label($consent['label'], $document_id, $form_id);
+                            } else {
+                                $label_text = esc_html($consent['label']);
+                            }
+                        }
+                        
+                        // Определяем, является ли согласие обязательным
+                        $is_required = !empty($consent['required']);
+                        
+                        // Формируем класс обертки
+                        $wrapper_class = 'form-check mb-2 fs-12 small-chekbox wpcf7-acceptance';
+                        if (!$is_required) {
+                            $wrapper_class .= ' optional';
+                        }
+                        
+                        // Формируем обертку в нужном формате
+                        $wrapped = '<div class="' . esc_attr($wrapper_class) . '">' . "\n";
+                        $wrapped .= '  ' . $input_html . "\n";
+                        
+                        // Добавляем label после input
+                        if (!empty($label_text)) {
+                            $wrapped .= '  <label for="' . esc_attr($checkbox_id) . '" class="form-check-label text-start">' . "\n";
+                            $wrapped .= '    ' . wp_kses_post($label_text) . "\n";
+                            $wrapped .= '  </label>' . "\n";
+                        }
+                        
+                        $wrapped .= '</div>';
+                        
+                        // Заменяем найденное поле (с оберткой или без) на обернутую версию
+                        $content = str_replace($field_html, $wrapped, $content);
                     }
-                    
-                    $wrapped .= '</div>';
-                    
-                    return $wrapped;
-                }, $content);
+                }
             } catch (Exception $e) {
                 // Логируем ошибку, но продолжаем обработку других согласий
                 error_log('CF7 Consents Panel: Error processing consent: ' . $e->getMessage());
@@ -872,26 +956,32 @@ class CF7_Consents_Panel {
                             var currentValue = $textarea.val();
                             var shortcode = '[cf7_consent_checkbox]';
                             
-                            // Добавляем шорткод в конец, если его там еще нет
-                            if (currentValue.indexOf(shortcode) === -1) {
-                                // Добавляем перенос строки, если текст не пустой
-                                if (currentValue.trim()) {
-                                    currentValue += '\n\n';
-                                }
-                                currentValue += shortcode;
-                                $textarea.val(currentValue);
-                                
-                                // Триггерим событие change для сохранения
-                                $textarea.trigger('change');
-                                
-                                // Показываем уведомление
-                                if (typeof wp !== 'undefined' && wp.notices) {
-                                    wp.notices.createNotice('success', '<?php echo esc_js(__('Consent checkboxes shortcode added to form template.', 'codeweber')); ?>', {
-                                        isDismissible: true
-                                    });
-                                }
-                            } else {
-                                alert('<?php echo esc_js(__('The [cf7_consent_checkbox] shortcode is already in the form template.', 'codeweber')); ?>');
+                            // Получаем позицию курсора
+                            var cursorPos = $textarea[0].selectionStart || 0;
+                            var selectionEnd = $textarea[0].selectionEnd || cursorPos;
+                            
+                            // Если есть выделенный текст, заменяем его на шорткод
+                            // Если курсор просто стоит, вставляем шорткод в позицию курсора
+                            var textBefore = currentValue.substring(0, cursorPos);
+                            var textAfter = currentValue.substring(selectionEnd);
+                            
+                            // Вставляем шорткод в позицию курсора
+                            var newValue = textBefore + shortcode + textAfter;
+                            $textarea.val(newValue);
+                            
+                            // Устанавливаем курсор после вставленного шорткода
+                            var newCursorPos = cursorPos + shortcode.length;
+                            $textarea[0].setSelectionRange(newCursorPos, newCursorPos);
+                            $textarea.focus();
+                            
+                            // Триггерим событие change для сохранения
+                            $textarea.trigger('change');
+                            
+                            // Показываем уведомление
+                            if (typeof wp !== 'undefined' && wp.notices) {
+                                wp.notices.createNotice('success', '<?php echo esc_js(__('Consent checkboxes shortcode added to form template.', 'codeweber')); ?>', {
+                                    isDismissible: true
+                                });
                             }
                         }
                     });

@@ -305,7 +305,8 @@ function codeweber_forms_render_consent_checkbox($consent, $field_name = 'consen
     $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
     
     $html = '<div class="form-check small-checkbox small-chekbox mb-1">';
-    $html .= '<input type="checkbox" class="form-check-input' . esc_attr($form_radius_class) . '" id="' . esc_attr($checkbox_id) . '" name="' . esc_attr($field_name) . '[' . esc_attr($document_id) . ']" value="1"';
+    // Используем формат с подчеркиванием: form_consents_ID (вместо form_consents[ID])
+    $html .= '<input type="checkbox" class="form-check-input' . esc_attr($form_radius_class) . '" id="' . esc_attr($checkbox_id) . '" name="' . esc_attr($field_name) . '_' . esc_attr($document_id) . '" value="1"';
     if ($required) {
         $html .= ' required';
     }

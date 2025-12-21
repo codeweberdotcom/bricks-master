@@ -124,7 +124,6 @@ class Codeweber_Forms_List_Table extends WP_List_Table
 
         // Debug log for bulk actions
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('Forms List Table - bulk action: ' . $action . ' ids: ' . print_r($submission_ids, true));
         }
 
         $updated_count = 0;
@@ -406,6 +405,23 @@ class Codeweber_Forms_List_Table extends WP_List_Table
     {
         $form_id = $item->form_id;
         
+        // Обработка CF7 форм (формат: cf7_1072)
+        if (is_string($form_id) && strpos($form_id, 'cf7_') === 0) {
+            $cf7_form_id = str_replace('cf7_', '', $form_id);
+            if (is_numeric($cf7_form_id) && (int) $cf7_form_id > 0) {
+                // Проверяем, существует ли форма CF7
+                if (class_exists('WPCF7_ContactForm')) {
+                    $cf7_form = WPCF7_ContactForm::get_instance((int) $cf7_form_id);
+                    if ($cf7_form) {
+                        $edit_link = admin_url('admin.php?page=wpcf7&post=' . (int) $cf7_form_id . '&action=edit');
+                        return '<a href="' . esc_url($edit_link) . '"><strong>#' . esc_html($cf7_form_id) . '</strong></a>';
+                    }
+                }
+                // Если форма не найдена, показываем ID без ссылки
+                return '<strong>#' . esc_html($cf7_form_id) . '</strong>';
+            }
+        }
+        
         // Если form_id числовой и это CPT форма, показываем ID со ссылкой
         if (is_numeric($form_id) && (int) $form_id > 0) {
             $post = get_post((int) $form_id);
@@ -442,36 +458,113 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     protected function column_form_type($item)
     {
+        // #region agent log
+        $log_file = 'c:\laragon\www\bricksnew\.cursor\debug.log';
+        $log_entry = json_encode([
+            'sessionId' => 'debug-session',
+            'runId' => 'post-fix',
+            'hypothesisId' => 'FIX',
+            'location' => 'class-codeweber-forms-list-table.php:460',
+            'message' => 'column_form_type called',
+            'data' => ['form_id' => $item->form_id ?? 'N/A', 'form_type_from_db' => $item->form_type ?? 'N/A', 'form_id_type' => gettype($item->form_id ?? null)],
+            'timestamp' => time() * 1000
+        ]) . "\n";
+        @file_put_contents($log_file, $log_entry, FILE_APPEND);
+        // #endregion
+        
         // ПРИОРИТЕТ 1: Получаем тип формы из базы данных
         $form_type = !empty($item->form_type) ? $item->form_type : null;
         
+        // ПРИОРИТЕТ 1.1: Для CF7 форм всегда проверяем метаполе, даже если в БД сохранен тип 'cf7'
+        // Это позволяет отображать реальный тип формы (callback, newsletter и т.д.) вместо общего 'cf7'
+        if (!empty($item->form_id) && is_string($item->form_id) && strpos($item->form_id, 'cf7_') === 0) {
+            $cf7_form_id = str_replace('cf7_', '', $item->form_id);
+            if (is_numeric($cf7_form_id) && (int) $cf7_form_id > 0) {
+                // #region agent log
+                $log_file = 'c:\laragon\www\bricksnew\.cursor\debug.log';
+                $log_entry = json_encode([
+                    'sessionId' => 'debug-session',
+                    'runId' => 'post-fix-v2',
+                    'hypothesisId' => 'FIX',
+                    'location' => 'class-codeweber-forms-list-table.php:481',
+                    'message' => 'CF7 form detected - checking meta',
+                    'data' => ['cf7_form_id' => (int) $cf7_form_id, 'form_id' => $item->form_id, 'form_type_from_db' => $form_type],
+                    'timestamp' => time() * 1000
+                ]) . "\n";
+                @file_put_contents($log_file, $log_entry, FILE_APPEND);
+                // #endregion
+                
+                // Получаем тип формы из метаполя CF7 формы
+                $cf7_form_type = get_post_meta((int) $cf7_form_id, '_cf7_form_type', true);
+                
+                // #region agent log
+                $log_entry = json_encode([
+                    'sessionId' => 'debug-session',
+                    'runId' => 'post-fix-v2',
+                    'hypothesisId' => 'FIX',
+                    'location' => 'class-codeweber-forms-list-table.php:495',
+                    'message' => 'CF7 form type from meta',
+                    'data' => ['cf7_form_id' => (int) $cf7_form_id, 'cf7_form_type' => $cf7_form_type, 'form_type_empty' => empty($cf7_form_type)],
+                    'timestamp' => time() * 1000
+                ]) . "\n";
+                @file_put_contents($log_file, $log_entry, FILE_APPEND);
+                // #endregion
+                
+                if (!empty($cf7_form_type)) {
+                    // Используем тип из метаполя CF7 формы
+                    $form_type = $cf7_form_type;
+                    
+                    // #region agent log
+                    $log_entry = json_encode([
+                        'sessionId' => 'debug-session',
+                        'runId' => 'post-fix-v2',
+                        'hypothesisId' => 'FIX',
+                        'location' => 'class-codeweber-forms-list-table.php:505',
+                        'message' => 'Using CF7 form type from meta',
+                        'data' => ['form_type' => $form_type],
+                        'timestamp' => time() * 1000
+                    ]) . "\n";
+                    @file_put_contents($log_file, $log_entry, FILE_APPEND);
+                    // #endregion
+                } elseif (empty($form_type)) {
+                    // Если тип не задан в CF7 и не сохранен в БД, используем 'cf7' как дефолт
+                    $form_type = 'cf7';
+                }
+                // Если $form_type уже был 'cf7' из БД и метаполе пустое, оставляем 'cf7'
+            }
+        }
+        
         // ПРИОРИТЕТ 2: Если тип не сохранен, пытаемся определить его
         if (empty($form_type) && !empty($item->form_id)) {
-            if (class_exists('CodeweberFormsCore')) {
-                $form_type = CodeweberFormsCore::get_form_type($item->form_id);
-            } else {
-                // Fallback: для числового ID проверяем метаполе
-                if (is_numeric($item->form_id) && (int) $item->form_id > 0) {
-                    $form_type = get_post_meta((int) $item->form_id, '_form_type', true);
-                    if (empty($form_type)) {
-                        // Если метаполе пустое, пытаемся извлечь из блока
-                        $post = get_post((int) $item->form_id);
-                        if ($post && $post->post_type === 'codeweber_form' && !empty($post->post_content)) {
-                            $blocks = parse_blocks($post->post_content);
-                            foreach ($blocks as $block) {
-                                if ($block['blockName'] === 'codeweber-blocks/form' && !empty($block['attrs']['formType'])) {
-                                    $form_type = sanitize_text_field($block['attrs']['formType']);
-                                    break;
+            
+            // ПРИОРИТЕТ 2.2: Если еще не определен, используем CodeweberFormsCore
+            if (empty($form_type)) {
+                if (class_exists('CodeweberFormsCore')) {
+                    $form_type = CodeweberFormsCore::get_form_type($item->form_id);
+                } else {
+                    // Fallback: для числового ID проверяем метаполе
+                    if (is_numeric($item->form_id) && (int) $item->form_id > 0) {
+                        $form_type = get_post_meta((int) $item->form_id, '_form_type', true);
+                        if (empty($form_type)) {
+                            // Если метаполе пустое, пытаемся извлечь из блока
+                            $post = get_post((int) $item->form_id);
+                            if ($post && $post->post_type === 'codeweber_form' && !empty($post->post_content)) {
+                                $blocks = parse_blocks($post->post_content);
+                                foreach ($blocks as $block) {
+                                    if ($block['blockName'] === 'codeweber-blocks/form' && !empty($block['attrs']['formType'])) {
+                                        $form_type = sanitize_text_field($block['attrs']['formType']);
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
-                } else {
-                    // Для строковых ID (legacy формы)
-                    $form_id_lower = strtolower($item->form_id);
-                    $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback'];
-                    if (in_array($form_id_lower, $builtin_types)) {
-                        $form_type = $form_id_lower;
+                    } else {
+                        // Для строковых ID (legacy формы)
+                        $form_id_lower = strtolower($item->form_id);
+                        $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback'];
+                        if (in_array($form_id_lower, $builtin_types)) {
+                            $form_type = $form_id_lower;
+                        }
                     }
                 }
             }
@@ -498,6 +591,20 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         );
         
         $type_label = isset($type_labels[$form_type]) ? $type_labels[$form_type] : $form_type;
+        
+        // #region agent log
+        $log_entry = json_encode([
+            'sessionId' => 'debug-session',
+            'runId' => 'post-fix',
+            'hypothesisId' => 'FIX',
+            'location' => 'class-codeweber-forms-list-table.php:590',
+            'message' => 'Final type label',
+            'data' => ['form_type' => $form_type, 'type_label' => $type_label, 'form_id' => $item->form_id ?? 'N/A', 'has_in_labels' => isset($type_labels[$form_type])],
+            'timestamp' => time() * 1000
+        ]) . "\n";
+        @file_put_contents($log_file, $log_entry, FILE_APPEND);
+        // #endregion
+        
         $type_badge_color = array(
             'form' => '#2271b1',
             'cf7' => '#ff6900',
@@ -640,11 +747,17 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             if ($key === '_utm_data') {
                 continue;
             }
+            
+            // Пропускаем отдельные поля form_consents_{id} (например form_consents_4981, form_consents_4976)
+            // Эти поля дублируют информацию из массива form_consents/newsletter_consents
+            if (preg_match('/^form_consents_\d+$/', $key)) {
+                continue;
+            }
 
             $label = $this->get_field_label($key);
 
-            // Special handling for newsletter consents to avoid "Array" output
-            if ($key === 'newsletter_consents' && is_array($value)) {
+            // Special handling for newsletter consents and form_consents to avoid "Array" output
+            if (($key === 'newsletter_consents' || $key === 'form_consents') && is_array($value)) {
                 $display_value = $this->format_newsletter_consents($value);
             } else {
                 $display_value = $this->format_submission_value($value);
@@ -672,11 +785,17 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             if ($key === '_utm_data') {
                 continue;
             }
+            
+            // Пропускаем отдельные поля form_consents_{id} (например form_consents_4981, form_consents_4976)
+            // Эти поля дублируют информацию из массива form_consents/newsletter_consents
+            if (preg_match('/^form_consents_\d+$/', $key)) {
+                continue;
+            }
 
             $label = $this->get_field_label($key);
             $output .= '<strong>' . esc_html($label) . ':</strong> ';
 
-            if ($key === 'newsletter_consents' && is_array($value)) {
+            if (($key === 'newsletter_consents' || $key === 'form_consents') && is_array($value)) {
                 $display_value = $this->format_newsletter_consents($value);
             } else {
                 $display_value = $this->format_submission_value($value);
@@ -756,7 +875,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
     }
 
     /**
-     * Format newsletter consents value for display in admin table
+     * Format newsletter consents and form_consents value for display in admin table
      *
      * @param array $consents
      * @return string
@@ -766,6 +885,12 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         $consents_list = [];
 
         foreach ($consents as $doc_id => $consent_data) {
+            // Пропускаем, если согласие не дано (значение не "1", не "on", не 1)
+            $consent_value = is_array($consent_data) ? ($consent_data['value'] ?? $consent_data['document_version'] ?? null) : $consent_data;
+            if ($consent_value !== '1' && $consent_value !== 'on' && $consent_value !== 1 && $consent_value !== true) {
+                continue;
+            }
+            
             $doc_title = '';
             $doc = get_post($doc_id);
             if ($doc) {
@@ -774,12 +899,15 @@ class Codeweber_Forms_List_Table extends WP_List_Table
 
             $consent_info = $doc_title ? $doc_title : sprintf(__('Document ID: %d', 'codeweber'), $doc_id);
 
-            if (!empty($consent_data['document_version'])) {
-                $consent_info .= ' (' . __('Version', 'codeweber') . ': ' . $consent_data['document_version'] . ')';
-            }
+            // Для CF7 форм consent_data может быть строкой "1", для Codeweber форм - массивом с document_version
+            if (is_array($consent_data)) {
+                if (!empty($consent_data['document_version'])) {
+                    $consent_info .= ' (' . __('Version', 'codeweber') . ': ' . $consent_data['document_version'] . ')';
+                }
 
-            if (!empty($consent_data['document_revision_id'])) {
-                $consent_info .= ' [' . __('Revision ID', 'codeweber') . ': ' . $consent_data['document_revision_id'] . ']';
+                if (!empty($consent_data['document_revision_id'])) {
+                    $consent_info .= ' [' . __('Revision ID', 'codeweber') . ': ' . $consent_data['document_revision_id'] . ']';
+                }
             }
 
             $consents_list[] = $consent_info;
@@ -793,15 +921,37 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     protected function get_field_label($field_name)
     {
+        // Нормализуем ключ для сравнения (приводим к нижнему регистру и заменяем пробелы/дефисы на подчеркивания)
+        $normalized_key = strtolower(str_replace([' ', '-'], '_', trim($field_name)));
+        
         $labels = array(
             'name' => __('Name', 'codeweber'),
             'email' => __('Email', 'codeweber'),
             'phone' => __('Phone', 'codeweber'),
             'message' => __('Message', 'codeweber'),
             'subject' => __('Subject', 'codeweber'),
+            'lastname' => __('Lastname', 'codeweber'),
+            'patronymic' => __('Patronymic', 'codeweber'),
             'newsletter_consents' => __('Newsletter Consents', 'codeweber'),
+            'form_consents' => __('Consents', 'codeweber'),
         );
 
-        return isset($labels[$field_name]) ? $labels[$field_name] : ucfirst(str_replace('_', ' ', $field_name));
+        // Проверяем нормализованный ключ
+        if (isset($labels[$normalized_key])) {
+            return $labels[$normalized_key];
+        }
+        
+        // Проверяем исходный ключ
+        if (isset($labels[$field_name])) {
+            return $labels[$field_name];
+        }
+        
+        // Пытаемся перевести через систему переводов
+        $translated = __(ucfirst(str_replace(['_', '-'], ' ', $field_name)), 'codeweber');
+        if ($translated !== ucfirst(str_replace(['_', '-'], ' ', $field_name))) {
+            return $translated;
+        }
+        
+        return ucfirst(str_replace('_', ' ', $field_name));
     }
 }

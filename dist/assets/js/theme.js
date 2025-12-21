@@ -1553,35 +1553,18 @@ var custom = {
   init: function () {
     custom.rippleEffect();
     custom.addTelMask();
-    custom.cf7CloseAfterSent();
-    custom.formValidation();
-    custom.formSubmittingWatcher();
   },
 
-  cf7CloseAfterSent: function () {
-    // Закрываем модальное окно при успешной отправке CF7
-    document.addEventListener(
-      "wpcf7mailsent",
-      function (event) {
-        const modal = document.getElementById("modal");
-        if (modal) {
-          modal.classList.remove("show");
-
-          // Если используете Bootstrap
-          const bootstrapModal = bootstrap.Modal.getInstance(modal);
-          if (bootstrapModal) {
-            bootstrapModal.hide();
-          }
-        }
-      },
-      false
-    );
-  },
 
   addTelMask: function () {
     const telInputs = document.querySelectorAll("input[data-mask]");
 
     telInputs.forEach((input) => {
+      // Пропускаем уже инициализированные поля
+      if (input.dataset.phoneMaskInitialized === 'true') {
+        return;
+      }
+      
       const mask = input.dataset.mask;
       if (!mask) {
         return;
@@ -1617,6 +1600,9 @@ var custom = {
       input.placeholder = mask.replaceAll("_", placeholderCaret);
 
       const phoneMask = new PhoneMask(input, options);
+      
+      // Помечаем поле как инициализированное, чтобы избежать повторной инициализации
+      input.dataset.phoneMaskInitialized = 'true';
 
       // Функция проверки валидности
       const validatePhone = () => {
@@ -1655,100 +1641,6 @@ var custom = {
     });
   },
 
-  /**
-   * Form Validation
-   * Adds Bootstrap 4/5 form validation behavior
-   */
-  formValidation: function () {
-    var forms = document.getElementsByClassName("needs-validation");
-
-    Array.prototype.forEach.call(forms, function (form) {
-      form.addEventListener(
-        "submit",
-        function (event) {
-          if (!form.checkValidity()) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add("was-validated");
-        },
-        false
-      );
-    });
-  },
-
-  /**
-   * Form Submit Status Watcher
-   * Listens for 'submitting', 'invalid', 'unaccepted' and 'sent' classes on forms and updates the submit button text
-   */
-  formSubmittingWatcher: function () {
-    var forms = document.getElementsByClassName("wpcf7-form");
-
-    Array.prototype.forEach.call(forms, function (form) {
-      // Найти кнопку отправки внутри формы
-      var submitButton = form.querySelector(
-        'button[type="submit"], input[type="submit"], div[type="submit"], span[type="submit"]'
-      );
-
-      if (submitButton) {
-        // Сохраняем оригинальный текст в data-атрибут
-        if (submitButton.tagName.toLowerCase() === "input") {
-          submitButton.setAttribute("data-original-text", submitButton.value);
-        } else {
-          submitButton.setAttribute(
-            "data-original-text",
-            submitButton.innerHTML
-          );
-        }
-      }
-
-      var observer = new MutationObserver(function (mutationsList) {
-        mutationsList.forEach(function (mutation) {
-          if (mutation.attributeName === "class") {
-            if (form.classList.contains("submitting")) {
-              // Если форма отправляется — меняем текст
-              if (submitButton) {
-                var loadingText =
-                  'Отправка... <i class="uil uil-envelope-upload ms-2"></i>';
-                if (submitButton.tagName.toLowerCase() === "input") {
-                  submitButton.value = "Отправка...";
-                } else {
-                  submitButton.innerHTML = loadingText;
-                }
-              }
-            } else if (
-              form.classList.contains("invalid") ||
-              form.classList.contains("unaccepted")
-            ) {
-              // Если форма вернула invalid или unaccepted — возвращаем оригинальный текст
-              if (submitButton) {
-                var originalText =
-                  submitButton.getAttribute("data-original-text");
-                if (submitButton.tagName.toLowerCase() === "input") {
-                  submitButton.value = originalText;
-                } else {
-                  submitButton.innerHTML = originalText;
-                }
-              }
-            } else if (form.classList.contains("sent")) {
-              // Если форма успешно отправлена — меняем текст на "Отправлено"
-              if (submitButton) {
-                var successText =
-                  'Отправлено <i class="uil uil-check-circle ms-2"></i>';
-                if (submitButton.tagName.toLowerCase() === "input") {
-                  submitButton.value = "Отправлено";
-                } else {
-                  submitButton.innerHTML = successText;
-                }
-              }
-            }
-          }
-        });
-      });
-
-      observer.observe(form, { attributes: true });
-    });
-  },
 
   rippleEffect: () => {
     document.querySelectorAll(".has-ripple").forEach((button) => {

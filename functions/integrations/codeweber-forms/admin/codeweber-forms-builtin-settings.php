@@ -387,6 +387,9 @@ class CodeweberFormsBuiltinSettings {
                 html += '</label>';
                 html += '</p>';
                 
+                // Consents description
+                html += '<p class="description" style="margin-top: 20px; margin-bottom: 15px;"><?php _e('Configure consent checkboxes for this form. You can add multiple consents using the repeater below.', 'codeweber'); ?></p>';
+                
                 // Consents list
                 html += '<div class="consents-list" style="margin-top: 20px;">';
                 if (consents && consents.length > 0) {
@@ -398,7 +401,7 @@ class CodeweberFormsBuiltinSettings {
 
                 // Add consent button
                 html += '<p style="margin-top: 15px;">';
-                html += '<button type="button" class="button add-consent-btn"><?php _e('+ Add Consent', 'codeweber'); ?></button>';
+                html += '<button type="button" class="button add-consent-btn"><?php _e('Add consent', 'codeweber'); ?></button>';
                 html += '</p>';
 
                 html += '</div>'; // .cw-form-body
@@ -574,6 +577,10 @@ class CodeweberFormsBuiltinSettings {
                 <input type="hidden" name="form_blocks[<?php echo $form_index; ?>][form_type]" value="<?php echo esc_attr($form_type); ?>">
                 <?php endif; ?>
                 
+                <p class="description" style="margin-top: 20px; margin-bottom: 15px;">
+                    <?php _e('Configure consent checkboxes for this form. You can add multiple consents using the repeater below.', 'codeweber'); ?>
+                </p>
+                
                 <div class="consents-list" style="margin-top: 20px;">
                     <?php if (!empty($consents)): ?>
                         <?php foreach ($consents as $consent_index => $consent): ?>
@@ -583,7 +590,7 @@ class CodeweberFormsBuiltinSettings {
                 </div>
                 
                 <p style="margin-top: 15px;">
-                    <button type="button" class="button add-consent-btn"><?php _e('+ Add Consent', 'codeweber'); ?></button>
+                    <button type="button" class="button add-consent-btn"><?php _e('Add consent', 'codeweber'); ?></button>
                 </p>
             </div>
         </div>

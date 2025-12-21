@@ -435,3 +435,75 @@ function cw_demo_ajax_delete_forms() {
 }
 add_action('wp_ajax_cw_demo_delete_forms', 'cw_demo_ajax_delete_forms');
 
+/**
+ * AJAX обработчик для создания demo форм CF7
+ */
+function cw_demo_ajax_create_cf7_forms() {
+    // Проверка прав
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array(
+            'message' => 'Недостаточно прав для выполнения операции'
+        ));
+    }
+    
+    // Проверка nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_cf7_forms')) {
+        wp_send_json_error(array(
+            'message' => 'Ошибка безопасности. Обновите страницу и попробуйте снова.'
+        ));
+    }
+    
+    // Выполняем создание
+    $result = cw_demo_create_cf7_forms();
+    
+    if ($result['success']) {
+        wp_send_json_success(array(
+            'message' => $result['message'],
+            'created' => $result['created'],
+            'total' => $result['total'],
+            'forms' => $result['forms'],
+            'errors' => $result['errors']
+        ));
+    } else {
+        wp_send_json_error(array(
+            'message' => $result['message']
+        ));
+    }
+}
+add_action('wp_ajax_cw_demo_create_cf7_forms', 'cw_demo_ajax_create_cf7_forms');
+
+/**
+ * AJAX обработчик для удаления demo форм CF7
+ */
+function cw_demo_ajax_delete_cf7_forms() {
+    // Проверка прав
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array(
+            'message' => 'Недостаточно прав для выполнения операции'
+        ));
+    }
+    
+    // Проверка nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_cf7_forms')) {
+        wp_send_json_error(array(
+            'message' => 'Ошибка безопасности. Обновите страницу и попробуйте снова.'
+        ));
+    }
+    
+    // Выполняем удаление
+    $result = cw_demo_delete_cf7_forms();
+    
+    if ($result['success']) {
+        wp_send_json_success(array(
+            'message' => $result['message'],
+            'deleted' => $result['deleted'],
+            'errors' => $result['errors']
+        ));
+    } else {
+        wp_send_json_error(array(
+            'message' => $result['message']
+        ));
+    }
+}
+add_action('wp_ajax_cw_demo_delete_cf7_forms', 'cw_demo_ajax_delete_cf7_forms');
+
