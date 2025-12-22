@@ -50,7 +50,6 @@ if (is_admin()) {
     require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-settings.php';
     require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-submissions.php';
     require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-consent-metabox.php';
-    require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-builtin-settings.php';
 }
 // Email Templates класс нужен и на фронтенде для отправки писем
 require_once CODEWEBER_FORMS_PATH . '/admin/codeweber-forms-email-templates.php';
@@ -118,7 +117,6 @@ add_action('init', function() {
         new CodeweberFormsSettings();
         new CodeweberFormsSubmissions();
         // new CodeweberFormsConsentMetabox(); // Отключено - согласия настраиваются через блок Form Field
-        new CodeweberFormsBuiltinSettings();
         
         // Ограничения Gutenberg редактора для CPT форм
         new CodeweberFormsGutenbergRestrictions();

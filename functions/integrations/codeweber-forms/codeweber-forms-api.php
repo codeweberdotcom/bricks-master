@@ -278,7 +278,7 @@ class CodeweberFormsAPI {
             
             // Default формы (form_id = 0) не имеют согласий, пропускаем проверку
             if (!$is_default_form) {
-                // НОВОЕ: Для CPT форм согласия извлекаются из блоков формы, а не из глобальных настроек
+                // Для CPT форм согласия извлекаются из блоков формы
                 $newsletter_consents_config = [];
                 
                 if (is_numeric($form_id) && $form_id_int > 0) {
@@ -286,10 +286,6 @@ class CodeweberFormsAPI {
                     if (class_exists('CodeweberFormsCore')) {
                         $newsletter_consents_config = CodeweberFormsCore::extract_consents_from_blocks($form_id);
                     }
-                } else {
-                    // LEGACY: Для встроенных форм (строковый ID) используем глобальные настройки
-                    $all_consents = get_option('builtin_form_consents', []);
-                    $newsletter_consents_config = isset($all_consents['newsletter']) ? $all_consents['newsletter'] : [];
                 }
             
             if (!empty($newsletter_consents_config) && is_array($newsletter_consents_config)) {
