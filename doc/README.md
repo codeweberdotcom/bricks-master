@@ -18,7 +18,8 @@ doc/
 │   ├── ARCHIVE_TEMPLATES.md # Создание архивных страниц
 │   ├── METAFIELDS.md       # Добавление метаполей
 │   ├── SINGLE_TEMPLATES.md # Создание single шаблонов
-│   └── REDUX_CPT_OPTIONS.md # Redux настройки для CPT
+│   ├── REDUX_CPT_OPTIONS.md # Redux настройки для CPT
+│   └── YANDEX_MAPS.md      # Интеграция Яндекс карт
 │
 ├── images/                  # Работа с изображениями
 │   └── IMAGE_CREATION_GUIDE.md      # Подробное руководство по созданию изображений
@@ -39,6 +40,7 @@ doc/
 - **[Метаполя](modules/METAFIELDS.md)** - Как и куда добавлять метаполя к single записям
 - **[Single шаблоны](modules/SINGLE_TEMPLATES.md)** - Создание шаблонов Single записей на примере staff
 - **[Redux настройки CPT](modules/REDUX_CPT_OPTIONS.md)** - Управление CPT через Redux Framework (шаблоны, сайдбары, заголовки)
+- **[Yandex Maps](modules/YANDEX_MAPS.md)** - Интеграция Яндекс карт с автоматическим спиннером загрузки
 
 ### AJAX функциональность
 
@@ -76,6 +78,7 @@ doc/
 - [Метаполя](modules/METAFIELDS.md) - Добавление кастомных полей
 - [Сайдбары](modules/SIDEBARS.md) - Регистрация и использование сайдбаров
 - [Redux настройки CPT](modules/REDUX_CPT_OPTIONS.md) - Полное руководство по настройкам CPT через Redux
+- [Yandex Maps](modules/YANDEX_MAPS.md) - Полное руководство по интеграции Яндекс карт
 
 ### AJAX функции
 

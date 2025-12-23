@@ -1,0 +1,214 @@
+/**
+ * CodeWeber Yandex Maps Styles
+ * 
+ * @package Codeweber
+ * @version 1.0.0
+ */
+
+/* Обертка карты */
+.codeweber-yandex-map-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 400px; /* Минимальная высота для корректного отображения спиннера */
+}
+
+.codeweber-yandex-map {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Боковое меню */
+.codeweber-map-sidebar {
+    position: absolute;
+    top: 47px;
+    width: calc(100% - 20px);
+    max-width: 300px;
+    max-height: calc(100% - 103px);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.codeweber-map-sidebar-left {
+    left: 10px;
+}
+
+.codeweber-map-sidebar-right {
+    right: 10px;
+}
+
+@media (min-width: 768px) {
+    .codeweber-map-sidebar {
+        display: block;
+    }
+}
+
+.codeweber-map-sidebar.active {
+    display: block;
+}
+
+/* Заголовок сайдбара */
+.codeweber-map-sidebar-title {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Кнопка закрытия */
+.codeweber-map-sidebar-close {
+    background: none;
+    border: none;
+    padding: 0;
+    min-width: auto;
+    color: #666;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.codeweber-map-sidebar-close:hover {
+    color: #333;
+}
+
+/* Кнопка открытия (мобильные) */
+.codeweber-map-sidebar-toggle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1001;
+}
+
+/* Фильтры */
+.codeweber-map-filter {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+}
+
+.codeweber-map-filter label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.codeweber-map-filter select {
+    width: 100% !important;
+}
+
+/* Список элементов */
+.codeweber-map-sidebar-list {
+    padding: 0;
+}
+
+.codeweber-map-sidebar-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.codeweber-map-sidebar-item:hover {
+    background: #f8f9fa;
+}
+
+.codeweber-map-sidebar-item.active {
+    background: #e7f3ff;
+    border-left-color: #0d6efd;
+}
+
+.codeweber-map-sidebar-item h6 {
+    margin: 0 0 5px 0;
+    font-size: 15px;
+    color: #333;
+    font-weight: 600;
+}
+
+.codeweber-map-sidebar-item p {
+    margin: 0 0 5px 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.codeweber-map-sidebar-item p:last-child {
+    margin-bottom: 0;
+}
+
+.codeweber-map-sidebar-item a {
+    color: #666;
+    text-decoration: none;
+}
+
+.codeweber-map-sidebar-item a:hover {
+    color: #0d6efd;
+}
+
+/* Скрытие элементов при фильтрации */
+.codeweber-map-sidebar-item[style*="display: none"] {
+    display: none !important;
+}
+
+/* Адаптивность */
+@media (max-width: 767px) {
+    .codeweber-map-sidebar {
+        width: calc(100% - 20px);
+        max-width: none;
+    }
+}
+
+/* Стили для балунов */
+.ymaps-balloon {
+    max-width: 300px;
+}
+
+.ymaps-balloon__content {
+    padding: 15px;
+}
+
+/* Стили для кластеров */
+.ymaps-cluster {
+    cursor: pointer;
+}
+
+/* Стили для маршрутов */
+.codeweber-map-route-control {
+    margin: 10px;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.codeweber-map-sidebar-item {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Спиннер загрузки карты - использует глобальный класс .spinner */
+.yandex-map-loader {
+    /* Используется класс .spinner.spinner-overlay из темы */
+}
+
+

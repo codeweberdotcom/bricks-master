@@ -110,6 +110,7 @@ Redux_Metaboxes::set_box(
 						'options'  => array(
 							'1' => esc_html__('Default', 'codeweber'),
 							'2' => esc_html__('Custom', 'codeweber'),
+							'3' => esc_html__('Disable', 'codeweber'),
 						),
 						'default'  => '1',
 					),
@@ -174,6 +175,7 @@ Redux_Metaboxes::set_box(
 						'options'  => array(
 							'1' => esc_html__('Default', 'codeweber'),
 							'2' => esc_html__('Custom', 'codeweber'),
+							'3' => esc_html__('Disable', 'codeweber'),
 						),
 						'default'  => '1',
 					),
@@ -233,6 +235,7 @@ Redux_Metaboxes::set_box(
 						'options'  => array(
 							'1' => esc_html__('Default', 'codeweber'),
 							'2' => esc_html__('Custom', 'codeweber'),
+							'3' => esc_html__('Disable', 'codeweber'),
 						),
 						'default'  => '1',
 					),

@@ -107,7 +107,7 @@ if (empty($full_name)) {
             <div class="col-md-6">
                 <?php if (!empty($email)) : ?>
                     <div class="d-flex align-items-center mb-4">
-                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3">
+                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
                             <i class="uil uil-envelope"></i>
                         </div>
                         <div>
@@ -119,7 +119,7 @@ if (empty($full_name)) {
 
                 <?php if (!empty($phone)) : ?>
                     <div class="d-flex align-items-center mb-4">
-                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3">
+                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
                             <i class="uil uil-phone"></i>
                         </div>
                         <div>
@@ -131,7 +131,7 @@ if (empty($full_name)) {
 
                 <?php if (!empty($job_phone)) : ?>
                     <div class="d-flex align-items-center mb-4">
-                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3">
+                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
                             <i class="uil uil-phone-alt"></i>
                         </div>
                         <div>
@@ -143,7 +143,7 @@ if (empty($full_name)) {
 
                 <?php if (!empty($website)) : ?>
                     <div class="d-flex align-items-center mb-4">
-                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3">
+                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
                             <i class="uil uil-globe"></i>
                         </div>
                         <div>
@@ -159,7 +159,7 @@ if (empty($full_name)) {
             <?php if ($qrcode_url) : ?>
                 <div class="col-md-6">
                     <div class="d-flex align-items-center">
-                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3">
+                        <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
                             <i class="uil uil-qrcode-scan"></i>
                         </div>
                         <div>

@@ -23,6 +23,7 @@
         // Получаем тип контента и ID
         $post_type = universal_get_post_type();
         $post_id = get_the_ID();
+        $header_post_id = '';
 
         if (class_exists('Redux')) {
             global $opt_name;
@@ -39,6 +40,12 @@
             // #endregion
             if ($redux_instance !== null) {
                 if (is_single() || is_singular($post_type)) {
+                    // Проверяем индивидуальные настройки записи
+                    $this_header_type = Redux::get_post_meta($opt_name, $post_id, 'this-header-type');
+                    if ($this_header_type === '3') {
+                        return; // Disable - не выводим header
+                    }
+                    
                     $this_header_post_id = Redux::get_post_meta($opt_name, $post_id, 'this-custom-post-header');
                     if (!empty($this_header_post_id)) {
                         $header_post_id = $this_header_post_id;
@@ -51,7 +58,12 @@
             }
         }
 
-        if (!empty($header_post_id)) {
+        // Проверяем, не отключен ли header
+        if ($header_post_id === 'disable') {
+            return; // Не выводим header
+        }
+
+        if (!empty($header_post_id) && $header_post_id !== 'default') {
             $header_post = get_post($header_post_id);
             if ($header_post) {
                 setup_postdata($header_post);

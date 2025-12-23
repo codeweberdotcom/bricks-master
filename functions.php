@@ -139,6 +139,7 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
  * Подключение модуля форм CodeWeber
  */
 require_once get_template_directory() . '/functions/integrations/codeweber-forms/codeweber-forms-init.php';
+require_once get_template_directory() . '/functions/integrations/yandex-maps/yandex-maps-init.php';
 
 // Подключение универсального AJAX фильтра
 require_once get_template_directory() . '/functions/ajax-filter.php';

@@ -37,8 +37,10 @@ if (!is_front_page() && !is_404()) {
          $template_pageheader_id = '';
       }
    } elseif (is_single() || is_singular($post_type)) {
-      // Проверяем, не отключен ли заголовок для этого типа записи
-      if ($single_pageheader_id === 'disabled') {
+      // Проверяем индивидуальные настройки записи
+      if ($page_header_for_this_page_bool === '3') {
+         $show_page_header = false; // Disable - не выводим page header
+      } elseif ($single_pageheader_id === 'disabled') {
          $show_page_header = false;
       } elseif (!empty($page_header_for_this_page) && $page_header_for_this_page_bool == '2') {
          $template_pageheader_id = $page_header_for_this_page;

@@ -76,30 +76,10 @@ if ($office_image_url) {
 
 // Получаем стили из настроек темы
 $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
-$button_style = function_exists('getThemeButton') ? getThemeButton() : ' rounded-pill';
 ?>
 
-<div class="card shadow shadow-lg lift h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
+<div class="card shadow shadow-lg lift h-100 rounded-0">
         <div class="card-body">
-            <!-- Header: Logo and Location -->
-            <div class="d-flex align-items-center mb-3">
-                <?php if ($office_image_url) : ?>
-                    <span class="avatar w-10 h-10 me-3 d-inline-flex align-items-center justify-content-center overflow-hidden bg-white rounded-circle flex-shrink-0 shadow-lg <?php echo $is_svg ? 'p-2' : ''; ?>">
-                        <img src="<?php echo esc_url($office_image_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-100 h-100 <?php echo $is_svg ? 'object-fit-contain' : 'object-fit-cover'; ?>">
-                    </span>
-                <?php endif; ?>
-                <?php if ($location) : ?>
-                    <div>
-                        <div class="fw-bold text-body"><?php echo esc_html($city ?: $title); ?></div>
-                        <div class="text-muted small"><?php echo esc_html($location); ?></div>
-                    </div>
-                <?php else : ?>
-                    <div>
-                        <div class="fw-bold text-body"><?php echo esc_html($title); ?></div>
-                    </div>
-                <?php endif; ?>
-            </div>
-            
             <!-- Office Title -->
             <h4 class="mb-3">
                 <a href="<?php echo esc_url($link); ?>" class="link-dark">
@@ -109,10 +89,10 @@ $button_style = function_exists('getThemeButton') ? getThemeButton() : ' rounded
             
             <!-- Address -->
             <?php if ($full_address || $street) : ?>
-                <div class="mb-3">
-                    <div class="d-flex align-items-start">
-                        <i class="uil uil-map-marker fs-20 text-primary me-2 mt-1"></i>
-                        <div class="text-body small">
+                <div>
+                    <div class="d-flex align-items-center">
+                        <i class="uil uil-map-marker fs-20 text-primary me-2"></i>
+                        <div class="text-body fs-14">
                             <?php if ($full_address) : ?>
                                 <?php echo esc_html($full_address); ?>
                             <?php elseif ($street) : ?>
@@ -122,27 +102,31 @@ $button_style = function_exists('getThemeButton') ? getThemeButton() : ' rounded
                     </div>
                 </div>
             <?php endif; ?>
-            
+
             <!-- Contact Info -->
-            <div class="mb-3">
-                <?php if ($phone) : ?>
-                    <div class="d-flex align-items-center mb-2">
-                        <i class="uil uil-phone fs-20 text-primary me-2"></i>
-                        <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone)); ?>" class="text-body small text-decoration-none">
-                            <?php echo esc_html($phone); ?>
-                        </a>
-                    </div>
-                <?php endif; ?>
-                
-                <?php if ($email) : ?>
-                    <div class="d-flex align-items-center">
-                        <i class="uil uil-envelope fs-20 text-primary me-2"></i>
-                        <a href="mailto:<?php echo esc_attr($email); ?>" class="text-body small text-decoration-none">
-                            <?php echo esc_html($email); ?>
-                        </a>
-                    </div>
-                <?php endif; ?>
-            </div>
+            <?php if ($phone || $email) : ?>
+                <div>
+                    <?php if ($phone) : ?>
+                        <div class="d-flex align-items-center">
+                            <i class="uil uil-phone fs-20 text-primary me-2"></i>
+                            <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone)); ?>" class="text-body small text-decoration-none">
+                                <?php echo esc_html($phone); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div>
+                    <?php if ($email) : ?>
+                        <div class="d-flex align-items-center">
+                            <i class="uil uil-envelope fs-20 text-primary me-2"></i>
+                            <a href="mailto:<?php echo esc_attr($email); ?>" class="text-body small text-decoration-none">
+                                <?php echo esc_html($email); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
             
             <!-- Working Hours -->
             <?php if ($working_hours) : ?>
@@ -156,12 +140,26 @@ $button_style = function_exists('getThemeButton') ? getThemeButton() : ' rounded
                     </div>
                 </div>
             <?php endif; ?>
-            
-            <!-- View Details Button -->
-            <div class="mt-3">
-                <a href="<?php echo esc_url($link); ?>" class="btn btn-outline-primary<?php echo esc_attr($button_style); ?> w-100 has-ripple">
-                    <?php _e('View Details', 'codeweber'); ?>
-                </a>
+
+            <!-- Header: Logo and Location (bottom) -->
+            <hr class="my-5">
+            <div class="d-flex align-items-center">
+                <?php if ($office_image_url) : ?>
+                    <span class="avatar w-10 h-10 me-3 d-inline-flex align-items-center justify-content-center overflow-hidden bg-white rounded-circle flex-shrink-0 shadow-lg <?php echo $is_svg ? 'p-2' : ''; ?>">
+                        <img src="<?php echo esc_url($office_image_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-100 h-100 <?php echo $is_svg ? 'object-fit-contain' : 'object-fit-cover'; ?>">
+                    </span>
+                <?php endif; ?>
+
+                <?php if ($location) : ?>
+                    <div>
+                        <div class="fw-bold text-body"><?php echo esc_html($city ?: $title); ?></div>
+                        <div class="text-muted small"><?php echo esc_html($location); ?></div>
+                    </div>
+                <?php else : ?>
+                    <div>
+                        <div class="fw-bold text-body"><?php echo esc_html($title); ?></div>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
         <!-- /.card-body -->

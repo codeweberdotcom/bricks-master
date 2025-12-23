@@ -441,6 +441,26 @@ if (!empty($custom_post_type_files)) {
 			),
 		);
 
+		// Получаем все записи header для опций
+		$headers = get_posts(array(
+			'post_type' => 'header',
+			'posts_per_page' => -1,
+			'post_status' => 'publish',
+			'orderby' => 'title',
+			'order' => 'ASC'
+		));
+
+		// Создаем базовые опции для header
+		$header_options = array(
+			'default'  => esc_html__('Default Header', 'codeweber'),
+			'disable'  => esc_html__('Disable - Hide Header', 'codeweber'),
+		);
+
+		// Добавляем созданные записи
+		foreach ($headers as $header) {
+			$header_options[$header->ID] = $header->post_title;
+		}
+
 		// Настройки хедера
 		$header_settings = array(
 			array(
@@ -448,24 +468,38 @@ if (!empty($custom_post_type_files)) {
 				'type'     => 'select',
 				'title'    => sprintf(esc_html__('Header for Single %s', 'codeweber'), $translated_label),
 				'desc'     => $header_message,
-				'data'     => 'posts',
-				'args'     => array(
-					'post_type' => 'header',
-					'posts_per_page' => -1,
-				),
+				'options'  => $header_options,
+				'default'  => 'default',
 			),
 			array(
 				'id'       => 'archive_header_select_' . $sanitized_id,
 				'type'     => 'select',
 				'title'    => sprintf(esc_html__('Header for Archive %s', 'codeweber'), $translated_label),
 				'desc'     => $header_message,
-				'data'     => 'posts',
-				'args'     => array(
-					'post_type' => 'header',
-					'posts_per_page' => -1,
-				),
+				'options'  => $header_options,
+				'default'  => 'default',
 			),
 		);
+
+		// Получаем все записи footer для опций
+		$footers = get_posts(array(
+			'post_type' => 'footer',
+			'posts_per_page' => -1,
+			'post_status' => 'publish',
+			'orderby' => 'title',
+			'order' => 'ASC'
+		));
+
+		// Создаем базовые опции для footer
+		$footer_options = array(
+			'default'  => esc_html__('Default Footer', 'codeweber'),
+			'disable'  => esc_html__('Disable - Hide Footer', 'codeweber'),
+		);
+
+		// Добавляем созданные записи
+		foreach ($footers as $footer) {
+			$footer_options[$footer->ID] = $footer->post_title;
+		}
 
 		// Настройки футера
 		$footer_settings = array(
@@ -474,22 +508,16 @@ if (!empty($custom_post_type_files)) {
 				'type'     => 'select',
 				'title'    => sprintf(esc_html__('Footer for Single %s', 'codeweber'), $translated_label),
 				'desc'     => $footer_message,
-				'data'     => 'posts',
-				'args'     => array(
-					'post_type' => 'footer',
-					'posts_per_page' => -1,
-				),
+				'options'  => $footer_options,
+				'default'  => 'default',
 			),
 			array(
 				'id'       => 'archive_footer_select_' . $sanitized_id,
 				'type'     => 'select',
 				'title'    => sprintf(esc_html__('Footer for Archive %s', 'codeweber'), $translated_label),
 				'desc'     => $footer_message,
-				'data'     => 'posts',
-				'args'     => array(
-					'post_type' => 'footer',
-					'posts_per_page' => -1,
-				),
+				'options'  => $footer_options,
+				'default'  => 'default',
 			),
 		);
 
@@ -504,8 +532,8 @@ if (!empty($custom_post_type_files)) {
 
 		// Создаем базовые опции
 		$page_header_options = array(
-			'disabled' => esc_html__('Disabled - Hide Page Header', 'codeweber'),
 			'default'  => esc_html__('Default Page Header', 'codeweber'),
+			'disabled' => esc_html__('Disable - Hide Page Header', 'codeweber'),
 		);
 
 		// Добавляем созданные записи

@@ -345,6 +345,7 @@ require_once Redux_Core::$dir . '../sample/sections/codeweber/woocommerce.php';
 }
 
 require_once Redux_Core::$dir . '../sample/sections/codeweber/map_geo.php';
+require_once Redux_Core::$dir . '../sample/sections/codeweber/yandex-maps-settings.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/api.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/childtheme.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/style.php';

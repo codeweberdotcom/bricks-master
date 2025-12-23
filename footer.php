@@ -44,10 +44,19 @@
 
 		// Определяем тип страницы (одиночная или архив)
 		if (is_single() || is_singular($post_type)) {
+			// Проверяем индивидуальные настройки записи
+			if ($footer_for_this_page_bool === '3') {
+				return; // Disable - не выводим footer
+			}
+			
+			// Проверяем, не отключен ли footer
+			if ($single_footer_id === 'disable') {
+				return; // Не выводим footer
+			}
 
 			if (!empty($footer_for_this_page_id) && $footer_for_this_page_bool == '2') {
 				$template_footer_id = $footer_for_this_page_id;
-			} elseif (!empty($single_footer_id) && $footer_for_this_page_bool == '1') {
+			} elseif (!empty($single_footer_id) && $single_footer_id !== 'default' && $footer_for_this_page_bool == '1') {
 				$template_footer_id = $single_footer_id;
 			} elseif ($global_footer_type === '2') {
 				$template_footer_id = $global_custom_template_footer;
@@ -55,7 +64,12 @@
 				$template_footer_id = '';
 			}
 		} elseif (is_archive() || is_post_type_archive($post_type)) {
-			if (!empty($archive_footer_id)) {
+			// Проверяем, не отключен ли footer
+			if ($archive_footer_id === 'disable') {
+				return; // Не выводим footer
+			}
+
+			if (!empty($archive_footer_id) && $archive_footer_id !== 'default') {
 				$template_footer_id = Redux::get_option($opt_name, 'archive_footer_select_' . $post_type);
 			} elseif ($global_footer_type === '2') {
 				$template_footer_id = $global_custom_template_footer;
