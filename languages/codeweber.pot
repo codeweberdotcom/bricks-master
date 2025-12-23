@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-21 18:23+0000\n"
+"POT-Creation-Date: 2025-12-23 01:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -21,20 +21,14 @@ msgstr ""
 msgid "%1$s "
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:182
-msgid "%d CF7 form found"
-msgid_plural "%d CF7 forms found"
-msgstr[0] ""
-msgstr[1] ""
-
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:718
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:837
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:787
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:630
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:737
 msgid "%d file attached"
 msgid_plural "%d files attached"
 msgstr[0] ""
@@ -48,7 +42,7 @@ msgstr ""
 msgid "%d stars"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:196
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:195
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:319
 #, php-format
 msgid "%d submission %s"
@@ -82,7 +76,7 @@ msgstr ""
 msgid "%s Header Settings"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1203
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1058
 #, php-format
 msgid "%s is required."
 msgstr ""
@@ -111,10 +105,6 @@ msgstr ""
 
 #: functions/cpt/cpt-staff.php:23
 msgid "(e.g. No Staff found)"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:180
-msgid "+ Add Form"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:238
@@ -249,12 +239,14 @@ msgstr ""
 msgid "Activating..."
 msgstr ""
 
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:560
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:567
 #: redux-framework/sample/sections/codeweber/childtheme.php:204
 #: redux-framework/sample/sections/codeweber/childtheme.php:215
 msgid "Active"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:225
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:337
 msgid "Active consent not found for this document"
 msgstr ""
 
@@ -284,8 +276,6 @@ msgstr ""
 msgid "Add Consent"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:404
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:593
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:76
 msgid "Add consent"
 msgstr ""
@@ -464,7 +454,7 @@ msgstr ""
 msgid "additional CSS classes"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:417
+#: functions/cpt/cpt-offices.php:149 functions/cpt/cpt-vacancies.php:417
 msgid "Additional Information"
 msgstr ""
 
@@ -476,7 +466,7 @@ msgstr ""
 msgid "Additional Types"
 msgstr ""
 
-#: templates/header/header-center-logo.php:273
+#: archive-offices.php:247 templates/header/header-center-logo.php:273
 #: templates/header/header-classic.php:335
 #: templates/header/header-extended-center-logo.php:313
 #: templates/header/header-extended-center-logo.php:457
@@ -487,6 +477,14 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/header.php:308
 #: redux-framework/sample/sections/codeweber/map_geo.php:124
 msgid "Address"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:488
+msgid "Address (from map)"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:492
+msgid "Address is automatically determined from the map"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:580
@@ -527,12 +525,16 @@ msgstr ""
 msgid "AJAX error: "
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:279
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:278
 msgid "All"
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:72 functions/cpt/cpt-faq.php:225
 msgid "All Categories"
+msgstr ""
+
+#: archive-offices.php:147
+msgid "All Cities"
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:13
@@ -541,10 +543,6 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:286
 msgid "All Codeweber Blocks"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:156
-msgid "All Contact Form 7 events are tracked via JavaScript with REST API."
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:80
@@ -571,22 +569,18 @@ msgstr ""
 msgid "All form fields in table format"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:369
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:368
 msgid "All Form Types"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:627
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:359
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:358
 msgid "All Forms"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:470
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:534
 msgid "All forms"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:171
-msgid "All forms:"
 msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:13
@@ -666,11 +660,11 @@ msgstr ""
 msgid "An error occurred"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1107
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1137
-#: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:536
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:963
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:993
+#: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:617
 #: functions/integrations/codeweber-forms/codeweber-forms-core.php:43
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:171
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:153
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:199
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:273
 msgid "An error occurred. Please try again."
@@ -754,12 +748,12 @@ msgid "Archive Template for %s"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:629
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:282
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:541
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:281
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:648
 msgid "Archived"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:189
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:188
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:311
 msgid "archived"
 msgstr ""
@@ -791,10 +785,6 @@ msgstr ""
 msgid "Are you sure you want to remove this consent?"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:217
-msgid "Are you sure you want to remove this form and all its consents?"
-msgstr ""
-
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:641
 msgid "Are you sure you want to restore this subscription?"
 msgstr ""
@@ -804,7 +794,7 @@ msgid "Are you sure you want to unsubscribe this user?"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:331
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:602
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:709
 msgid "Are you sure?"
 msgstr ""
 
@@ -875,12 +865,16 @@ msgstr ""
 msgid "Author:"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1762
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1587
 msgid "Auto-reply is disabled."
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:655
 msgid "Auto-Reply Template"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:140 functions/cpt/cpt-offices.php:563
+msgid "Available Services"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:558
@@ -1033,7 +1027,7 @@ msgstr ""
 msgid "Brief description of the child theme"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:776
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:771
 msgid "Browse"
 msgstr ""
 
@@ -1056,19 +1050,6 @@ msgstr ""
 msgid "Build DIST"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:546
-msgid "Built-in form"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:213
-msgid ""
-"Built-in forms cannot be deleted. You can only modify their consent settings."
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:146
-msgid "Built-in Forms Settings"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/style.php:62
 msgid "Button Style"
 msgstr ""
@@ -1077,17 +1058,17 @@ msgstr ""
 msgid "By using this comment form you agree with our Privacy Policy"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:807
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1123
+#: functions/integrations/cf7.php:528
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:686
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:979
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:221
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:60
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:428
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:442
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:353
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:424
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:497
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:540
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:554
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:352
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:440
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:590
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:747
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:25
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1829
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1843
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1877
@@ -1148,8 +1129,8 @@ msgstr ""
 msgid "Center"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:183
-msgid "CF7 events tracking"
+#: redux-framework/sample/sections/codeweber/demo.php:732
+msgid "CF7 Forms"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:194
@@ -1225,6 +1206,7 @@ msgid ""
 "Codeweber Blocks\" allows all blocks from Codeweber Gutenberg Blocks plugin."
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:202 functions/cpt/cpt-offices.php:803
 #: functions/cpt/cpt-staff.php:221
 #: redux-framework/sample/sections/codeweber/company-details.php:50
 #: redux-framework/sample/sections/codeweber/company-details.php:112
@@ -1305,11 +1287,13 @@ msgstr ""
 msgid "CodeWeber Form"
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:226
-#: functions/integrations/modal-rest-api.php:342
+#: functions/integrations/modal-rest-api.php:229
+#: functions/integrations/modal-rest-api.php:348
 msgid "Codeweber form not found."
 msgstr ""
 
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:145
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:558
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:44
 msgid "Codeweber Forms"
 msgstr ""
@@ -1318,8 +1302,8 @@ msgstr ""
 msgid "CodeWeber Forms Editor"
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:215
-#: functions/integrations/modal-rest-api.php:321
+#: functions/integrations/modal-rest-api.php:218
+#: functions/integrations/modal-rest-api.php:327
 msgid "Codeweber Forms module is not available."
 msgstr ""
 
@@ -1369,8 +1353,8 @@ msgstr ""
 #: functions/cpt/cpt-staff.php:197 functions/cpt/cpt-testimonials.php:542
 #: functions/cpt/cpt-vacancies.php:227
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:103
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:351
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:795
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:350
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:800
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:763
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:117
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:333
@@ -1407,17 +1391,9 @@ msgid "Company:"
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:284
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:391
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:581
 msgid ""
 "Configure consent checkboxes for this form. You can add multiple consents "
 "using the repeater below."
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:147
-msgid ""
-"Configure consent settings for built-in form types. Forms from CPT with "
-"matching types are also shown here."
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:206
@@ -1484,8 +1460,6 @@ msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:86
 #: functions/integrations/cf7-consents-panel.php:315
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:416
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:607
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:102
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:226
 msgid "Consent"
@@ -1543,29 +1517,34 @@ msgstr ""
 #: functions/integrations/cf7-consents-panel.php:255
 #: functions/integrations/cf7-consents-panel.php:281
 #: functions/integrations/cf7-consents-panel.php:950
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:936
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:784
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:27
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1099
 msgid "Consents"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:113
+msgid "Contact Details"
+msgstr ""
+
+#: functions/integrations/cf7.php:532
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:160
 #: functions/integrations/codeweber-forms/codeweber-forms-gutenberg-restrictions.php:200
 msgid "Contact Form"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:275
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:349
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:493
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:144
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:563
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:348
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:586
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:34
 msgid "Contact Form 7"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:150
-msgid "Contact Form 7 - Matomo Tracking Settings"
-msgstr ""
-
-#: functions/integrations/modal-rest-api.php:178
-#: functions/integrations/modal-rest-api.php:268
+#: functions/integrations/modal-rest-api.php:181
+#: functions/integrations/modal-rest-api.php:274
 msgid "Contact Form 7 plugin is not active."
 msgstr ""
 
@@ -1592,8 +1571,8 @@ msgstr ""
 msgid "Contact Form 7: Request Callback"
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:189
-#: functions/integrations/modal-rest-api.php:289
+#: functions/integrations/modal-rest-api.php:192
+#: functions/integrations/modal-rest-api.php:295
 msgid "Contact form not found."
 msgstr ""
 
@@ -1669,7 +1648,7 @@ msgstr ""
 msgid "Could not create theme directory"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:215
+#: functions/cpt/cpt-offices.php:196 functions/cpt/cpt-staff.php:215
 #: redux-framework/sample/sections/codeweber/company-details.php:36
 #: redux-framework/sample/sections/codeweber/company-details.php:98
 msgid "Country"
@@ -1869,13 +1848,13 @@ msgid ""
 "format=\"d.m.Y\"]"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1847
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1689
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:350
 msgid "Date:"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:145
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:197
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:532
 msgid "Debug Mode"
 msgstr ""
 
@@ -1939,7 +1918,7 @@ msgstr ""
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:71
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:331
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:84
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:602
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:709
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:708
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:806
 msgid "Delete"
@@ -1972,6 +1951,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:614
 msgid "Demo Forms"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:850
+msgid "Demo Offices"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:15
@@ -2007,7 +1990,7 @@ msgstr ""
 msgid "Departments list navigation"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:572
+#: functions/cpt/cpt-faq.php:572 functions/cpt/cpt-offices.php:599
 #: functions/integrations/personal-data-v2/test-providers.php:107
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:564
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:234
@@ -2102,11 +2085,11 @@ msgstr ""
 msgid "Document Category"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:775
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:900
 msgid "Document ID: %d"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:271
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:270
 msgid "Document ID: %d (not found)"
 msgstr ""
 
@@ -2243,7 +2226,7 @@ msgstr ""
 msgid "E-mail Responsible Person"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1183
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1038
 msgid "E-Mail обязателен для заполнения"
 msgstr ""
 
@@ -2299,7 +2282,7 @@ msgstr ""
 msgid "Edit Html Block"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:320
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:319
 msgid "Edit in admin"
 msgstr ""
 
@@ -2352,7 +2335,7 @@ msgstr ""
 msgid "Edit Testimonial"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:354
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:353
 msgid "Edit testimonial"
 msgstr ""
 
@@ -2370,13 +2353,14 @@ msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:219
 #: functions/bootstrap/bootstrap_share-page.php:261
+#: functions/cpt/cpt-offices.php:283 functions/cpt/cpt-offices.php:805
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:254
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:349
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:348
 #: templates/singles/staff/staff_2.php:114
 #: templates/singles/staff/staff_3.php:116
 #: templates/singles/staff/staff_4.php:137
 #: templates/singles/staff/staff_5.php:151
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:798
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:929
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:115
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1007
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:477
@@ -2388,9 +2372,9 @@ msgid "Email *"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:255
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:287
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:288
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:815
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:269
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:270
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:810
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:755
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:98
 msgid "Email Address"
@@ -2425,7 +2409,11 @@ msgstr ""
 msgid "Email Marketing Consent"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1652
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:66
+msgid "Email or phone is required"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1477
 msgid "Email sending failed."
 msgstr ""
 
@@ -2503,7 +2491,7 @@ msgid "Enable Cookie Banner"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:148
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:200
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:535
 msgid "Enable debug logging"
 msgstr ""
 
@@ -2758,7 +2746,8 @@ msgstr ""
 msgid "Failed to create testimonial. Please try again."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:68
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:115
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:179
 msgid "Failed to create user"
 msgstr ""
 
@@ -2766,7 +2755,7 @@ msgstr ""
 msgid "Failed to delete file"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1505
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1339
 msgid "Failed to delete file."
 msgstr ""
 
@@ -2779,24 +2768,24 @@ msgstr ""
 msgid "Failed to render form. Please check form configuration."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:175
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:287
 msgid "Failed to save consents to user meta"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1472
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1306
 msgid "Failed to save file record."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1444
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1288
 msgid "Failed to save file."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:235
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:347
 msgid "Failed to save revoked consent"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:834
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:835
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:713
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:714
 msgid "Failed to save submission."
 msgstr ""
 
@@ -2863,6 +2852,10 @@ msgstr ""
 msgid "FAQs"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:286
+msgid "Fax"
+msgstr ""
+
 #: functions/cpt/cpt-documents.php:20 functions/cpt/cpt-testimonials.php:28
 #: functions/integrations/image-licenses/image-licenses.php:67
 msgid "Featured Image"
@@ -2884,7 +2877,7 @@ msgstr ""
 msgid "Featured Image for this staff"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:190
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:189
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:540
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:723
 msgid "Field"
@@ -2908,7 +2901,7 @@ msgstr ""
 msgid "Figma"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:783
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:788
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:764
 msgid "File"
 msgstr ""
@@ -2917,7 +2910,7 @@ msgstr ""
 msgid "File deleted successfully"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1409
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1260
 msgid "File is too large."
 msgstr ""
 
@@ -2948,11 +2941,11 @@ msgstr ""
 msgid "File Type"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1402
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1254
 msgid "File type not allowed."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1376
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1231
 msgid "File upload error."
 msgstr ""
 
@@ -2972,16 +2965,20 @@ msgid "Fill your email and password to sign in."
 msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:635
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:377
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:376
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:481
 msgid "Filter"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:357
+#: archive-offices.php:144
+msgid "Filter by City"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:356
 msgid "Filter by form"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:367
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:366
 msgid "Filter by form type"
 msgstr ""
 
@@ -3169,14 +3166,10 @@ msgid ""
 "must be entered and saved in the API tab"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:91
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:138
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:146
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:154
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:107
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:43
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:550
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:759
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:367
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:119
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:195
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:547
@@ -3192,23 +3185,23 @@ msgstr ""
 msgid "Form block not found."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:779
-msgid "Form consents"
-msgstr ""
-
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:34
 msgid "Form Creation Instructions"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:62
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:115
 msgid "Form Error"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:582
+msgid "Form Errors"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:733
 msgid "Form Fields"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1850
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1692
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:354
 msgid "Form Fields:"
 msgstr ""
@@ -3227,6 +3220,10 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-migrate-cpt-types.php:170
 #, php-format
 msgid "Form ID %d (%s): %s"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:216
+msgid "Form ID is required"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:34
@@ -3250,7 +3247,7 @@ msgstr ""
 msgid "Form Integration"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:781
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:786
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:135
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:539
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:732
@@ -3263,8 +3260,8 @@ msgstr ""
 msgid "Form name"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:276
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:277
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:263
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:264
 #: functions/integrations/codeweber-forms/codeweber-forms-core.php:72
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:47
 msgid "Form not found."
@@ -3275,7 +3272,8 @@ msgstr ""
 msgid "Form not found. Please select another form."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:61
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:114
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:580
 msgid "Form Opened"
 msgstr ""
 
@@ -3283,7 +3281,8 @@ msgstr ""
 msgid "Form Settings"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:60
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:113
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:581
 msgid "Form Submission"
 msgstr ""
 
@@ -3297,15 +3296,17 @@ msgstr ""
 msgid "Form submitted successfully!"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:170
-msgid "Form titles are fetched from REST API:"
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:551
+msgid "Form System"
 msgstr ""
 
+#: functions/integrations/cf7.php:492 functions/integrations/cf7.php:514
+#: functions/integrations/cf7.php:523
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:44
 msgid "Form Type"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1846
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1688
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:349
 msgid "Form:"
 msgstr ""
@@ -3316,6 +3317,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/contacts.php:50
 #: redux-framework/sample/sections/codeweber/contacts.php:58
 msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:552
+msgid "Forms Count"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:92
@@ -3334,9 +3339,13 @@ msgstr ""
 msgid "From Name"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1848
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1690
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:351
 msgid "From:"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:220
+msgid "Full Address"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:50
@@ -3627,10 +3636,6 @@ msgstr ""
 msgid "House Number"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:169
-msgid "How it works:"
-msgstr ""
-
 #: functions/integrations/personal-data-v2/test-providers.php:261
 msgid "How to Test"
 msgstr ""
@@ -3705,67 +3710,54 @@ msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:540
 #: functions/integrations/cf7-consents-panel.php:547
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:832
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:839
 msgid ""
 "I <a href=\"{document_url}\">consent</a> to the processing of my personal "
 "data."
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:491
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:783
 msgid ""
 "I agree to <a href=\"{document_url}\">receive informational and advertising "
 "mailings</a>."
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:520
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:812
 msgid "I agree to the <a href=\"{document_url}\">cookie policy</a>."
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:534
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:826
 msgid "I agree to the <a href=\"{document_url}\">delivery terms</a>."
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:513
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:805
 msgid "I agree to the <a href=\"{document_url}\">license agreement</a>."
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:506
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:798
 msgid "I agree to the <a href=\"{document_url}\">public offer agreement</a>."
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:527
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:819
 msgid "I agree to the <a href=\"{document_url}\">return policy</a>."
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:499
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:791
 msgid "I agree to the <a href=\"{document_url}\">terms of use</a>."
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:469
 #: functions/integrations/cf7-consents-panel.php:555
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:847
 msgid "I agree to the {document_title_url}."
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:89
 #: functions/integrations/cf7-consents-panel.php:322
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:426
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:614
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:107
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:230
 msgid "I agree to the {document_title}"
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:546
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:838
 msgid ""
 "I have read the <a href=\"{document_url}\">personal data processing policy "
 "document.</a>"
@@ -3911,7 +3903,7 @@ msgstr ""
 msgid "Insufficient permissions for import"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:176
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:547
 msgid "Integration Status"
 msgstr ""
 
@@ -3924,7 +3916,7 @@ msgstr ""
 msgid "Introduction / Short Description"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:102
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:214
 msgid "Invalid consents data"
 msgstr ""
 
@@ -3934,11 +3926,9 @@ msgid "Invalid CSV format"
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:575
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:890
 msgid "Invalid document ID"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:25
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:839
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:245
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:615
@@ -3966,7 +3956,7 @@ msgstr ""
 msgid "Invalid file format. Please upload a CSV file."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1496
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1330
 msgid "Invalid file ID."
 msgstr ""
 
@@ -3978,8 +3968,8 @@ msgstr ""
 msgid "Invalid form configuration."
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:278
-#: functions/integrations/modal-rest-api.php:331
+#: functions/integrations/modal-rest-api.php:284
+#: functions/integrations/modal-rest-api.php:337
 msgid "Invalid form ID."
 msgstr ""
 
@@ -4006,8 +3996,8 @@ msgid "Invalid request parameters"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:410
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:98
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:190
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:210
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:302
 msgid "Invalid user ID"
 msgstr ""
 
@@ -4052,14 +4042,6 @@ msgstr ""
 msgid "JavaScript events"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:155
-msgid "JavaScript Tracking Active"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:180
-msgid "JavaScript tracking enabled"
-msgstr ""
-
 #: functions/cpt/cpt-staff.php:212 templates/singles/staff/default.php:143
 #: templates/singles/staff/staff_1.php:143
 msgid "Job Phone"
@@ -4069,9 +4051,9 @@ msgstr ""
 msgid "John Doe"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:184
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:190
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:819
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:166
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:172
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:814
 msgid "Join"
 msgstr ""
 
@@ -4085,8 +4067,6 @@ msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:88
 #: functions/integrations/cf7-consents-panel.php:321
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:425
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:613
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:106
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:229
 msgid "Label Text"
@@ -4122,8 +4102,13 @@ msgid ""
 "telephone number, driver's license details."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:787
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:933
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:792
 msgid "Lastname"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:467
+msgid "Latitude"
 msgstr ""
 
 #: comments.php:18
@@ -4164,7 +4149,6 @@ msgid "Legal Archives"
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:447
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:675
 msgid "Legal Document"
 msgstr ""
 
@@ -4321,6 +4305,10 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:122
+msgid "Location & Map"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:211
 msgid "Logo Dark Footer w/ URL"
 msgstr ""
@@ -4335,6 +4323,14 @@ msgstr ""
 
 #: redux-framework/sample/metaboxes.php:137
 msgid "Logo Light Header w/ URL"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:536
+msgid "Logs all Matomo tracking events to WordPress debug log"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:474
+msgid "Longitude"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:16
@@ -4387,6 +4383,11 @@ msgstr ""
 msgid "Manage licenses for images and videos"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:226 functions/cpt/cpt-offices.php:806
+msgid "Manager"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:329
 #: redux-framework/sample/sections/codeweber/footer.php:274
 #: redux-framework/sample/sections/codeweber/header.php:303
 msgid "Map"
@@ -4400,32 +4401,28 @@ msgstr ""
 msgid "Mark as Unread"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:187
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:186
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:309
 msgid "marked as read"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:188
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:187
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:310
 msgid "marked as unread"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:175
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:508
 msgid "Matomo Forms Integration"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:23
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:24
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:29
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:30
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:31
 msgid "Matomo Integration"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:178
-msgid "Matomo JavaScript Tracking Status"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:179
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:513
 msgid "Matomo plugin is not active. Form tracking is disabled."
 msgstr ""
 
@@ -4435,14 +4432,6 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:123
 msgid "Matomo Search Integration"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:134
-msgid "Matomo Tracking"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:133
-msgid "Matomo Tracking Settings"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:86
@@ -4477,9 +4466,9 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:357
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:800
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:801
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:356
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:931
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:806
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:145
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:349
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:761
@@ -4585,7 +4574,11 @@ msgstr ""
 msgid "Module Settings"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:191
+#: functions/cpt/cpt-offices.php:224
+msgid "Mon-Fri: 9:00-18:00"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:190
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:313
 msgid "moved to trash"
 msgstr ""
@@ -4603,9 +4596,9 @@ msgid "My Price Lists"
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:185 functions/cpt/cpt-staff.php:420
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:348
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:797
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:785
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:347
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:928
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:790
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1020
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:756
 msgid "Name"
@@ -4623,8 +4616,8 @@ msgstr ""
 msgid "Name used as sender for form submission emails."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:280
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:539
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:279
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:646
 msgid "New"
 msgstr ""
 
@@ -4660,11 +4653,11 @@ msgstr ""
 msgid "New Footer"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1097
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1135
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1568
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1843
-#: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:525
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:953
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:991
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1393
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1685
+#: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:606
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:345
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:525
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:241
@@ -4740,9 +4733,8 @@ msgstr ""
 msgid "New Vacancy Type Name"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:297
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:802
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:777
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:296
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:935
 msgid "Newsletter Consents"
 msgstr ""
 
@@ -4754,17 +4746,17 @@ msgstr ""
 msgid "Newsletter Reply Template"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:805
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1122
+#: functions/integrations/cf7.php:529
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:684
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:978
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:218
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:59
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:425
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:440
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:350
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:421
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:494
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:537
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:552
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:349
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:437
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:587
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:744
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:24
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:995
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1826
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1840
@@ -4838,7 +4830,7 @@ msgstr ""
 msgid "No consents found"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:198
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:310
 msgid "No consents found for this user"
 msgstr ""
 
@@ -4895,7 +4887,7 @@ msgid ""
 "link: %s"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:920
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:930
 msgid "No data available."
 msgstr ""
 
@@ -4947,12 +4939,12 @@ msgstr ""
 msgid "No FAQs found."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1147
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:180
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1002
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:179
 msgid "No fields provided."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:775
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:770
 msgid "No file selected"
 msgstr ""
 
@@ -4961,7 +4953,7 @@ msgstr ""
 msgid "No file uploaded"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1350
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1205
 msgid "No file uploaded."
 msgstr ""
 
@@ -5022,7 +5014,9 @@ msgstr ""
 msgid "No modals found in Trash"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:33
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:282
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:287
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:292
 msgid "No Name Form"
 msgstr ""
 
@@ -5036,6 +5030,14 @@ msgstr ""
 
 #: functions/cpt/cpt-offices.php:23
 msgid "No offices found in Trash"
+msgstr ""
+
+#: archive-offices.php:543
+msgid "No offices found."
+msgstr ""
+
+#: archive-offices.php:186
+msgid "No offices with coordinates found."
 msgstr ""
 
 #: functions/cpt/cpt-page-header.php:20
@@ -5092,8 +5094,16 @@ msgstr ""
 msgid "No results found"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:576
+msgid "No services found. Please create services first."
+msgstr ""
+
 #: functions/admin/admin_media.php:35
 msgid "No sizes"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:256
+msgid "No staff members found. Please create staff members first."
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/class-newsletter-list-table.php:674
@@ -5134,6 +5144,10 @@ msgstr ""
 msgid "No vacancies found."
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:533
+msgid "No vacancies found. Please create vacancies first."
+msgstr ""
+
 #: functions/cpt/cpt-vacancies.php:84
 msgid "No vacancy types"
 msgstr ""
@@ -5142,7 +5156,7 @@ msgstr ""
 msgid "No vacancy types found"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:151
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:263
 msgid "No valid consents to save"
 msgstr ""
 
@@ -5153,6 +5167,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/header.php:89
 msgid "none"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:569
+msgid "Not Active"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:65
@@ -5240,11 +5258,20 @@ msgstr ""
 msgid "Office"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:613
+msgid "Office Image"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:104
+msgid "Office Information"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/company-details.php:71
 #: redux-framework/sample/sections/codeweber/company-details.php:133
 msgid "Office/Apartment"
 msgstr ""
 
+#: archive-offices.php:120 archive-offices.php:125
 #: functions/cpt/cpt-offices.php:11 functions/cpt/cpt-offices.php:13
 #: functions/cpt/cpt-offices.php:28
 msgid "Offices"
@@ -5444,7 +5471,7 @@ msgstr ""
 
 #: functions/cpt/cpt-faq.php:571
 #: functions/integrations/codeweber-forms/codeweber-forms-utm.php:108
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:893
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:903
 msgid "Parameter"
 msgstr ""
 
@@ -5576,7 +5603,8 @@ msgstr ""
 msgid "Patreon"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:789
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:934
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:794
 msgid "Patronymic"
 msgstr ""
 
@@ -5668,8 +5696,9 @@ msgstr ""
 msgid "Personal Data V2 Providers Test"
 msgstr ""
 
-#: functions/admin/admin_user_profil.php:24
-#: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-staff.php:194
+#: archive-offices.php:251 functions/admin/admin_user_profil.php:24
+#: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-offices.php:277
+#: functions/cpt/cpt-offices.php:804 functions/cpt/cpt-staff.php:194
 #: functions/cpt/cpt-staff.php:423 templates/header/header-center-logo.php:254
 #: templates/header/header-classic.php:315
 #: templates/header/header-extended-center-logo.php:294
@@ -5677,15 +5706,15 @@ msgstr ""
 #: templates/header/header-extended.php:295
 #: templates/header/header-fancy-center-logo.php:260
 #: templates/header/header-fancy.php:284
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:358
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:357
 #: templates/singles/staff/default.php:129
 #: templates/singles/staff/staff_1.php:129
 #: templates/singles/staff/staff_2.php:126
 #: templates/singles/staff/staff_3.php:128
 #: templates/singles/staff/staff_4.php:131
 #: templates/singles/staff/staff_5.php:141
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:799
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:791
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:930
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:796
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:118
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1026
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:207
@@ -5718,6 +5747,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/contacts.php:57
 msgid "Phone 05"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:280
+msgid "Phone 2"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:192
@@ -5769,7 +5802,7 @@ msgid "Pinterest"
 msgstr ""
 
 #: functions/testimonials/testimonial-form-api.php:472
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:388
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:333
 msgid "Please accept all required consents."
 msgstr ""
 
@@ -5880,7 +5913,7 @@ msgctxt "Post Type Singular Name"
 msgid "Media License"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:227
+#: functions/cpt/cpt-offices.php:217 functions/cpt/cpt-staff.php:227
 #: redux-framework/sample/sections/codeweber/company-details.php:78
 #: redux-framework/sample/sections/codeweber/company-details.php:140
 msgid "Postal Code"
@@ -6003,7 +6036,6 @@ msgstr ""
 
 #: functions/admin/admin_privacy.php:553
 #: functions/integrations/cf7-consents-panel.php:423
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:657
 msgid "Privacy Policy"
 msgstr ""
 
@@ -6182,7 +6214,7 @@ msgstr ""
 msgid "Question header"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:265
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:252
 msgid "Rate limit exceeded."
 msgstr ""
 
@@ -6198,8 +6230,8 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:84
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:92
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:104
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:353
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:799
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:352
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:804
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:135
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:335
 msgid "Rating"
@@ -6262,7 +6294,7 @@ msgstr ""
 msgid "Reg.ru"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:218
+#: functions/cpt/cpt-offices.php:199 functions/cpt/cpt-staff.php:218
 #: redux-framework/sample/sections/codeweber/company-details.php:43
 #: redux-framework/sample/sections/codeweber/company-details.php:105
 msgid "Region"
@@ -6292,10 +6324,11 @@ msgstr ""
 msgid "Registration takes less than a minute."
 msgstr ""
 
+#: functions/integrations/cf7.php:527
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:217
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:424
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:348
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:492
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:536
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:347
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:585
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1825
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:156
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:520
@@ -6305,6 +6338,10 @@ msgstr ""
 #: functions/cpt/cpt-testimonials.php:393
 #: functions/cpt/cpt-testimonials.php:614
 msgid "Rejected"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:131 functions/cpt/cpt-offices.php:519
+msgid "Related Vacancy"
 msgstr ""
 
 #: functions/ajax-filter.php:353
@@ -6318,8 +6355,6 @@ msgstr ""
 #: functions/integrations/cf7-consents-panel.php:87
 #: functions/integrations/cf7-consents-panel.php:316
 #: functions/integrations/image-licenses/image-licenses.php:147
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:417
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:608
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:136
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:256
 msgid "Remove"
@@ -6350,9 +6385,8 @@ msgstr ""
 msgid "Remove featured Image for this staff"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:371
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:552
-msgid "Remove Form"
+#: functions/cpt/cpt-offices.php:625
+msgid "Remove Image"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:569
@@ -6360,7 +6394,6 @@ msgid "Remove PDF"
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:85
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:271
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:157
 msgid "Replace existing label text with default text for this document?"
 msgstr ""
@@ -6371,8 +6404,6 @@ msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:93
 #: functions/integrations/cf7-consents-panel.php:344
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:451
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:636
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:130
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:251
 msgid "Required (form cannot be submitted without this consent)"
@@ -6395,14 +6426,6 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:88
 msgid "Responsible Person (Full Name)"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:187
-msgid "REST API Endpoint"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:181
-msgid "REST API integration"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:641
@@ -6429,17 +6452,17 @@ msgstr ""
 msgid "Results for:"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:806
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1121
+#: functions/integrations/cf7.php:531
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:685
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:977
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:220
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:58
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:427
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:441
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:352
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:423
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:496
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:539
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:553
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:351
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:439
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:589
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:746
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:23
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1828
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1842
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1876
@@ -6466,11 +6489,7 @@ msgstr ""
 msgid "Return Policy"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:189
-msgid "Returns:"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:782
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:909
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1206
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:319
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:278
@@ -6490,8 +6509,8 @@ msgstr ""
 msgid "Right Sidebar"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:350
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:793
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:349
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:798
 msgid "Role"
 msgstr ""
 
@@ -6538,8 +6557,7 @@ msgid "Save Retention Settings"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:153
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:205
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:185
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:541
 msgid "Save Settings"
 msgstr ""
 
@@ -6733,7 +6751,6 @@ msgstr ""
 #: functions/ajax-filter.php:24
 #: functions/integrations/cf7-consents-panel.php:564
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:141
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:872
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:231
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:287
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:831
@@ -6795,8 +6812,6 @@ msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:91
 #: functions/integrations/cf7-consents-panel.php:328
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:433
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:620
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:114
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:236
 msgid "Select Document"
@@ -6840,10 +6855,6 @@ msgstr ""
 msgid "Select Footer type for This Page"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:380
-msgid "Select Form:"
-msgstr ""
-
 #: redux-framework/sample/metaboxes.php:121
 msgid "Select Header"
 msgstr ""
@@ -6873,11 +6884,15 @@ msgstr ""
 msgid "Select Header type for This Page"
 msgstr ""
 
-#: functions/user.php:26
+#: functions/user.php:26 functions/cpt/cpt-offices.php:622
 msgid "Select Image"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:681
+#: functions/cpt/cpt-offices.php:639
+msgid "Select Office Image"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:676
 msgid "Select option"
 msgstr ""
 
@@ -6961,6 +6976,12 @@ msgstr ""
 msgid "Select the status of this testimonial"
 msgstr ""
 
+#: functions/integrations/cf7.php:517
+msgid ""
+"Select the type of this form. This will add a data-form-type attribute to "
+"the form wrapper, similar to codeweber forms."
+msgstr ""
+
 #: functions/cpt/cpt-vacancies.php:478
 msgid "Select type"
 msgstr ""
@@ -6977,7 +6998,7 @@ msgstr ""
 msgid "Select User:"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:684
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:679
 msgid "Select..."
 msgstr ""
 
@@ -7021,13 +7042,13 @@ msgstr ""
 msgid "Send email notifications to administrators"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:193
-msgid "Send form submissions to Matomo as Events"
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:527
+msgid "Send form events to Matomo"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:161
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:193
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:431
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:175
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:399
 msgid "Send Message"
 msgstr ""
 
@@ -7049,13 +7070,13 @@ msgid "Send to Email"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:146
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:442
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:410
 msgid "Sending"
 msgstr ""
 
 #: functions/enqueues.php:211 functions/cpt/cpt-documents.php:518
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:257
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:852
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:847
 #: redux-framework/sample/sections/codeweber/smtp.php:193
 msgid "Sending..."
 msgstr ""
@@ -7081,9 +7102,11 @@ msgstr ""
 msgid "Separate vacancy types with commas"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:117
+msgid "Server Error"
+msgstr ""
+
 #: functions/enqueues.php:214
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:37
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:164
 msgid "Server error"
 msgstr ""
 
@@ -7123,8 +7146,9 @@ msgstr ""
 msgid "Service updated"
 msgstr ""
 
-#: functions/cpt/cpt-services.php:9 functions/cpt/cpt-services.php:11
-#: functions/cpt/cpt-services.php:12 functions/cpt/cpt-services.php:38
+#: functions/cpt/cpt-offices.php:808 functions/cpt/cpt-services.php:9
+#: functions/cpt/cpt-services.php:11 functions/cpt/cpt-services.php:12
+#: functions/cpt/cpt-services.php:38
 msgid "Services"
 msgstr ""
 
@@ -7154,7 +7178,7 @@ msgid "Set featured Image for this staff"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:132
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:184
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:518
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:57
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:58
 msgid "Settings"
@@ -7195,8 +7219,7 @@ msgid ""
 msgstr ""
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:115
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:167
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:127
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:487
 msgid "Settings saved!"
 msgstr ""
 
@@ -7234,11 +7257,6 @@ msgstr ""
 #. Заголовок страницы
 #: functions/cpt/cpt-faq.php:543
 msgid "Shortcode Docs"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:562
-#, php-format
-msgid "Shortcode for this form: %s"
 msgstr ""
 
 #: functions/admin/admin_privacy.php:119
@@ -7334,7 +7352,7 @@ msgid "Shortcode: [redux_option key=\"text-about-company\"]"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:91
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:664
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:777
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:374
 msgid "Show all"
 msgstr ""
@@ -7497,7 +7515,7 @@ msgid ""
 "different keywords."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1395
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1248
 msgid "Sorry, this file type is not permitted for security reasons."
 msgstr ""
 
@@ -7505,13 +7523,12 @@ msgstr ""
 msgid "Sort order: ASC (ascending) or DESC (descending)"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:38
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:166
-msgid "Spam detected"
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:118
+msgid "Spam Detected"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:206
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:207
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:193
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:194
 msgid "Spam detected."
 msgstr ""
 
@@ -7575,6 +7592,7 @@ msgid "Start date"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:544
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:553
 #: functions/integrations/personal-data-v2/test-providers.php:108
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:48
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:556
@@ -7617,8 +7635,12 @@ msgstr ""
 msgid "Street, House Number and Office"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:359
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:801
+#: functions/cpt/cpt-offices.php:214
+msgid "Street, House, Office"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:358
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:932
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:124
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:347
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:762
@@ -7706,11 +7728,6 @@ msgstr ""
 
 #: functions/sidebars.php:308 functions/sidebars.php:320
 msgid "Submit a request"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:39
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:162
-msgid "Submit button clicked"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:110
@@ -7917,9 +7934,8 @@ msgstr ""
 msgid "Success Message"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:35
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:163
-msgid "Successful submission"
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:581
+msgid "Successful form submission"
 msgstr ""
 
 #: redux-framework/sample/theme-config.php:238
@@ -7977,11 +7993,11 @@ msgstr ""
 msgid "Template Structure"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1422
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1272
 msgid "Temporary directory is not writable."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1388
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1242
 msgid "Temporary file not found."
 msgstr ""
 
@@ -8034,6 +8050,7 @@ msgstr ""
 msgid "Testimonial Attributes"
 msgstr ""
 
+#: functions/integrations/cf7.php:530
 #: functions/testimonials/testimonial-form-api.php:629
 #: functions/testimonials/testimonial-form-api.php:642
 #: functions/testimonials/testimonial-form-api.php:673
@@ -8043,18 +8060,17 @@ msgstr ""
 #: functions/testimonials/testimonial-form-api.php:946
 #: functions/testimonials/testimonial-form-api.php:965
 #: functions/testimonials/testimonial-form-api.php:980
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:804
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1120
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:683
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:976
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:219
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:57
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:426
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:439
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:351
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:422
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:495
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:538
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:551
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:350
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:438
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:588
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:552
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:745
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:22
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1827
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1841
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1875
@@ -8074,7 +8090,7 @@ msgstr ""
 msgid "Testimonial from %s"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:356
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:355
 msgid "Testimonial id"
 msgstr ""
 
@@ -8115,13 +8131,13 @@ msgstr ""
 msgid "Testimonial Status"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:797
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:802
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:126
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:334
 msgid "Testimonial Text"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:352
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:351
 msgid "Testimonial text"
 msgstr ""
 
@@ -8164,7 +8180,7 @@ msgid ""
 "Thank you for leaving a testimonial. Your opinion is very important to us!"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1583
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1408
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:445
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:541
 msgid "Thank you for subscribing"
@@ -8174,7 +8190,7 @@ msgstr ""
 msgid "Thank you for subscribing to our newsletter!"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1011
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:872
 msgid "Thank you for subscribing!"
 msgstr ""
 
@@ -8183,13 +8199,13 @@ msgid ""
 "Thank you for subscribing! A confirmation email has been sent to your email."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1589
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1414
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:383
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:529
 msgid "Thank you for your message"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1015
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:876
 msgid "Thank you for your request"
 msgstr ""
 
@@ -8197,8 +8213,8 @@ msgstr ""
 msgid "Thank you for your submission."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1013
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1573
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:874
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1398
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:413
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:533
 msgid "Thank you for your testimonial"
@@ -8208,11 +8224,11 @@ msgstr ""
 msgid "Thank you for your testimonial! It will be reviewed and published soon."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1020
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1102
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1136
-#: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:531
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:170
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:881
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:958
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:992
+#: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:612
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:152
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:196
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:267
 msgid "Thank you! Your message has been sent."
@@ -8301,7 +8317,7 @@ msgid ""
 "be undone."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:527
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:464
 msgid "This email is already subscribed to the newsletter."
 msgstr ""
 
@@ -8399,6 +8415,12 @@ msgid ""
 "policy]\">Cookie Usage Policy</a>"
 msgstr ""
 
+#: functions/integrations/cf7.php:535
+msgid ""
+"This will add data-form-type=\"...\" attribute to the form element, allowing "
+"JavaScript to identify the form type."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/socials.php:81
 #: redux-framework/sample/sections/extensions/users.php:97
 msgid "Tik-Tok"
@@ -8437,7 +8459,7 @@ msgstr ""
 msgid "Today's Searches"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:268
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:255
 msgid "Too many submissions. Please try again in %d minutes."
 msgstr ""
 
@@ -8465,7 +8487,7 @@ msgstr ""
 msgid "Towns"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/matomo-forms-integration.php:189
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:523
 msgid "Track Form Submissions"
 msgstr ""
 
@@ -8473,16 +8495,16 @@ msgstr ""
 msgid "Track Searches"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:160
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:578
 msgid "Tracked Events"
-msgstr ""
-
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:171
-msgid "Tracked via CF7 events (works for regular and modal forms)"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:6
 msgid "Tracking & Metrics"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:528
+msgid "Tracks: Form Opened, Form Submission, Form Errors"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_framework.php:98
@@ -8494,8 +8516,8 @@ msgstr ""
 msgid "Transparent"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:283
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:542
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:282
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:649
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:661
 msgid "Trash"
 msgstr ""
@@ -8595,13 +8617,12 @@ msgstr ""
 msgid "Unarchive"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:190
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:189
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:312
 msgid "unarchived"
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:569
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:876
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:14
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:84
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:176
@@ -8614,6 +8635,10 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:593
 msgid "Unique Queries"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:509
+msgid "Universal integration for Codeweber Forms and Contact Form 7"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:631
@@ -8704,7 +8729,7 @@ msgstr ""
 msgid "Update Vacancy Type"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:194
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:193
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:316
 msgid "updated"
 msgstr ""
@@ -8790,7 +8815,7 @@ msgstr ""
 msgid "Uploading..."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:854
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:864
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1219
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:331
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:290
@@ -8834,7 +8859,7 @@ msgstr ""
 msgid "Use this file"
 msgstr ""
 
-#: functions/cpt/cpt-testimonials.php:346
+#: functions/cpt/cpt-offices.php:640 functions/cpt/cpt-testimonials.php:346
 msgid "Use this image"
 msgstr ""
 
@@ -8906,7 +8931,7 @@ msgid "User email from form"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:828
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:803
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:808
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:737
 msgid "User ID"
 msgstr ""
@@ -8969,7 +8994,7 @@ msgstr ""
 msgid "UTM Medium"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:889
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:899
 msgid "UTM Parameters"
 msgstr ""
 
@@ -8990,7 +9015,8 @@ msgstr ""
 msgid "Vacancies list"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:11 functions/cpt/cpt-vacancies.php:24
+#: functions/cpt/cpt-offices.php:807 functions/cpt/cpt-vacancies.php:11
+#: functions/cpt/cpt-vacancies.php:24
 msgid "Vacancy"
 msgstr ""
 
@@ -9039,19 +9065,19 @@ msgstr ""
 msgid "Vacancy updated"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:36
-msgid "Validation error"
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:116
+msgid "Validation Error"
 msgstr ""
 
-#: functions/integrations/ajax-search-module/contact-form7-matomo-integration.php:165
-msgid "Validation error (with error count)"
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:582
+msgid "Validation errors, server errors, spam detection"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:191
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:190
 #: functions/integrations/codeweber-forms/codeweber-forms-utm.php:109
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:541
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:724
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:894
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:904
 msgid "Value"
 msgstr ""
 
@@ -9067,8 +9093,8 @@ msgstr ""
 msgid "Verify"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:778
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:847
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:905
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:857
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1213
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:326
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:285
@@ -9089,7 +9115,7 @@ msgstr ""
 msgid "Viber"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:601
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:708
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:631
 msgid "View"
 msgstr ""
@@ -9108,6 +9134,13 @@ msgstr ""
 
 #: functions/cpt/cpt-staff.php:82
 msgid "View Department"
+msgstr ""
+
+#: archive-offices.php:258 templates/archives/offices/offices_1.php:39
+#: templates/archives/offices/offices_2.php:39
+#: templates/archives/offices/offices_3.php:39
+#: templates/post-cards/offices/card.php:163
+msgid "View Details"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:14
@@ -9242,7 +9275,7 @@ msgstr ""
 msgid "View Testimonial"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:355
+#: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:354
 msgid "View testimonial"
 msgstr ""
 
@@ -9262,8 +9295,8 @@ msgstr ""
 msgid "View Vacancy Type"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:281
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:540
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:280
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:647
 msgid "Viewed"
 msgstr ""
 
@@ -9315,7 +9348,7 @@ msgid ""
 "improve and helps others make better decisions."
 msgstr ""
 
-#: templates/singles/staff/staff_2.php:150
+#: functions/cpt/cpt-offices.php:289 templates/singles/staff/staff_2.php:150
 #: templates/singles/staff/staff_4.php:143
 #: templates/singles/staff/staff_5.php:164
 msgid "Website"
@@ -9350,6 +9383,10 @@ msgstr ""
 msgid "Whatsapp"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/matomo-forms-integration.php:580
+msgid "When form is displayed/opened"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/footer.php:280
 #: redux-framework/sample/sections/codeweber/header.php:309
 msgid "Widget 1"
@@ -9373,11 +9410,6 @@ msgstr ""
 #: functions/sidebars.php:63 functions/sidebars.php:73
 #: functions/sidebars.php:83
 msgid "Widget area on the right side of the Header"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:568
-#, php-format
-msgid "With custom name and title: %s"
 msgstr ""
 
 #: functions/sidebars.php:45 functions/sidebars.php:47
@@ -9405,6 +9437,11 @@ msgstr ""
 #: templates/singles/staff/staff_4.php:125
 #: templates/singles/staff/staff_5.php:131
 msgid "Work Phone"
+msgstr ""
+
+#: archive-offices.php:255 functions/cpt/cpt-offices.php:223
+#: templates/post-cards/offices/card.php:153
+msgid "Working Hours"
 msgstr ""
 
 #: comments.php:154
@@ -9442,6 +9479,12 @@ msgstr ""
 msgid "Yandex Map"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:456
+msgid ""
+"Yandex Maps API key is not configured. Please set it in Redux Framework "
+"settings."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:22
 msgid "Yandex Metric Settings"
 msgstr ""
@@ -9456,8 +9499,6 @@ msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:90
 #: functions/integrations/cf7-consents-panel.php:324
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:428
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:616
 msgid ""
 "You can use placeholders: {document_url}, {document_title}, "
 "{document_title_url}, {form_id}. For example: \"I agree to the "
@@ -9551,13 +9592,13 @@ msgstr ""
 msgid "Your position"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1578
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1403
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:479
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:537
 msgid "Your resume has been received"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1017
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:878
 msgid "Your resume has been sent"
 msgstr ""
 
@@ -9578,6 +9619,7 @@ msgstr ""
 msgid "Zoho"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:481
 #: redux-framework/sample/sections/codeweber/map_geo.php:117
 msgid "Zoom Level"
 msgstr ""
@@ -9636,11 +9678,6 @@ msgstr ""
 msgid "Контактные формы, созданные через CodeWeber Forms"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:112
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:113
-msgid "Настройки встроенных форм"
-msgstr ""
-
 #: functions/demo/demo-testimonials.php:467
 #, php-format
 msgid "Не удалось загрузить аватар для \"%s\""
@@ -9674,6 +9711,7 @@ msgstr ""
 #: functions/demo/demo-ajax.php:232 functions/demo/demo-ajax.php:268
 #: functions/demo/demo-ajax.php:303 functions/demo/demo-ajax.php:339
 #: functions/demo/demo-ajax.php:374 functions/demo/demo-ajax.php:410
+#: functions/demo/demo-ajax.php:517 functions/demo/demo-ajax.php:554
 msgid "Недостаточно прав для выполнения операции"
 msgstr ""
 
@@ -9717,6 +9755,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/demo.php:601
 #: redux-framework/sample/sections/codeweber/demo.php:679
 #: redux-framework/sample/sections/codeweber/demo.php:719
+#: redux-framework/sample/sections/codeweber/demo.php:797
+#: redux-framework/sample/sections/codeweber/demo.php:837
+#: redux-framework/sample/sections/codeweber/demo.php:915
+#: redux-framework/sample/sections/codeweber/demo.php:955
 msgid "Ошибка AJAX запроса"
 msgstr ""
 
@@ -9728,6 +9770,7 @@ msgstr ""
 #: functions/demo/demo-ajax.php:239 functions/demo/demo-ajax.php:275
 #: functions/demo/demo-ajax.php:310 functions/demo/demo-ajax.php:346
 #: functions/demo/demo-ajax.php:381 functions/demo/demo-ajax.php:417
+#: functions/demo/demo-ajax.php:524 functions/demo/demo-ajax.php:561
 msgid "Ошибка безопасности. Обновите страницу и попробуйте снова."
 msgstr ""
 
@@ -9752,6 +9795,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/demo.php:588
 #: redux-framework/sample/sections/codeweber/demo.php:666
 #: redux-framework/sample/sections/codeweber/demo.php:706
+#: redux-framework/sample/sections/codeweber/demo.php:784
+#: redux-framework/sample/sections/codeweber/demo.php:824
+#: redux-framework/sample/sections/codeweber/demo.php:902
+#: redux-framework/sample/sections/codeweber/demo.php:942
 msgid "Ошибки:"
 msgstr ""
 
@@ -9779,6 +9826,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/demo.php:596
 #: redux-framework/sample/sections/codeweber/demo.php:674
 #: redux-framework/sample/sections/codeweber/demo.php:714
+#: redux-framework/sample/sections/codeweber/demo.php:792
+#: redux-framework/sample/sections/codeweber/demo.php:832
+#: redux-framework/sample/sections/codeweber/demo.php:910
+#: redux-framework/sample/sections/codeweber/demo.php:950
 msgid "Произошла ошибка"
 msgstr ""
 
@@ -9815,6 +9866,12 @@ msgstr ""
 msgid "Создайте demo записи для CPT FAQ с категориями"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/demo.php:851
+msgid ""
+"Создайте demo записи для CPT Offices с городами России и адресами Москвы с "
+"координатами для Яндекс карт"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/demo.php:379
 msgid ""
 "Создайте demo записи для CPT Staff с изображениями из папки avatars и "
@@ -9829,6 +9886,12 @@ msgstr ""
 msgid "Создайте demo формы (Testimonial и Newsletter) для CPT Forms"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/demo.php:733
+msgid ""
+"Создайте demo формы Contact Form 7: \"Форма обратной связи\" и \"Заказать "
+"звонок\""
+msgstr ""
+
 #: functions/demo/demo-testimonials.php:477
 msgid "Создана %d demo запись testimonials"
 msgid_plural "Создано %d demo записей testimonials"
@@ -9840,15 +9903,21 @@ msgstr[1] ""
 #: redux-framework/sample/sections/codeweber/demo.php:298
 #: redux-framework/sample/sections/codeweber/demo.php:416
 #: redux-framework/sample/sections/codeweber/demo.php:534
+#: redux-framework/sample/sections/codeweber/demo.php:888
 msgid "Создание записей..."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:652
+#: redux-framework/sample/sections/codeweber/demo.php:770
 msgid "Создание форм..."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:293
 msgid "Создать 15 demo записей testimonials? Это может занять некоторое время."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:736
+msgid "Создать CF7 формы"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:28
@@ -9857,6 +9926,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:146
 msgid "Создать Demo FAQ"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:854
+msgid "Создать Demo Offices"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:382
@@ -9887,8 +9960,16 @@ msgstr ""
 msgid "Создать demo записи клиентов? Это может занять некоторое время."
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/demo.php:883
+msgid "Создать demo записи офисов? Это может занять некоторое время."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/demo.php:618
 msgid "Создать Demo формы"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:765
+msgid "Создать demo формы CF7? Это может занять некоторое время."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:647
@@ -9910,11 +9991,17 @@ msgstr[1] ""
 #: redux-framework/sample/sections/codeweber/demo.php:338
 #: redux-framework/sample/sections/codeweber/demo.php:456
 #: redux-framework/sample/sections/codeweber/demo.php:574
+#: redux-framework/sample/sections/codeweber/demo.php:928
 msgid "Удаление записей..."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:692
+#: redux-framework/sample/sections/codeweber/demo.php:810
 msgid "Удаление форм..."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:739
+msgid "Удалить CF7 формы"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:31
@@ -9923,6 +10010,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:149
 msgid "Удалить Demo FAQ"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:857
+msgid "Удалить Demo Offices"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:385
@@ -9963,6 +10054,14 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:97
 msgid "Удалить все demo записи клиентов? Это действие нельзя отменить."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:923
+msgid "Удалить все demo записи офисов? Это действие нельзя отменить."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:805
+msgid "Удалить все demo формы CF7? Это действие нельзя отменить."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:687
@@ -10006,16 +10105,25 @@ msgstr ""
 msgid "— Select Author —"
 msgstr ""
 
+#: functions/cpt/cpt-offices.php:204
+msgid "— Select City —"
+msgstr ""
+
 #: functions/cpt/cpt-vacancies.php:303 functions/cpt/cpt-vacancies.php:341
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:382
 msgid "— Select Form —"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:228
+msgid "— Select Manager —"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:522
+msgid "— Select Vacancy —"
 msgstr ""
 
 #: functions/admin/admin_privacy.php:38
 #: functions/integrations/cf7-consents-panel.php:92
 #: functions/integrations/cf7-consents-panel.php:330
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:435
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-builtin-settings.php:622
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:116
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:238
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:84

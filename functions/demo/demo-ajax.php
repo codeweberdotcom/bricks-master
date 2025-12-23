@@ -507,3 +507,75 @@ function cw_demo_ajax_delete_cf7_forms() {
 }
 add_action('wp_ajax_cw_demo_delete_cf7_forms', 'cw_demo_ajax_delete_cf7_forms');
 
+/**
+ * AJAX обработчик для создания demo offices
+ */
+function cw_demo_ajax_create_offices() {
+    // Проверка прав
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array(
+            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+        ));
+    }
+    
+    // Проверка nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_offices')) {
+        wp_send_json_error(array(
+            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+        ));
+    }
+    
+    // Выполняем создание
+    $result = cw_demo_create_offices();
+    
+    if ($result['success']) {
+        wp_send_json_success(array(
+            'message' => $result['message'],
+            'created' => $result['created'],
+            'total' => $result['total'],
+            'towns_created' => $result['towns_created'] ?? 0,
+            'errors' => $result['errors']
+        ));
+    } else {
+        wp_send_json_error(array(
+            'message' => $result['message']
+        ));
+    }
+}
+add_action('wp_ajax_cw_demo_create_offices', 'cw_demo_ajax_create_offices');
+
+/**
+ * AJAX обработчик для удаления demo offices
+ */
+function cw_demo_ajax_delete_offices() {
+    // Проверка прав
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(array(
+            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+        ));
+    }
+    
+    // Проверка nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_offices')) {
+        wp_send_json_error(array(
+            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+        ));
+    }
+    
+    // Выполняем удаление
+    $result = cw_demo_delete_offices();
+    
+    if ($result['success']) {
+        wp_send_json_success(array(
+            'message' => $result['message'],
+            'deleted' => $result['deleted'],
+            'errors' => $result['errors']
+        ));
+    } else {
+        wp_send_json_error(array(
+            'message' => $result['message']
+        ));
+    }
+}
+add_action('wp_ajax_cw_demo_delete_offices', 'cw_demo_ajax_delete_offices');
+

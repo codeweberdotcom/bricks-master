@@ -62,6 +62,10 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
         // Если шаблон начинается с "staff-", это шаблон для staff
         $template_dir = 'staff';
         $template_file = str_replace('staff-', '', $template_file);
+    } elseif (strpos($template_name, 'office-') === 0) {
+        // Если шаблон начинается с "office-", это шаблон для offices
+        $template_dir = 'offices';
+        $template_file = str_replace('office-', '', $template_file);
     } elseif ($post_type === 'clients') {
         // Если тип записи clients, ищем в папке clients
         $template_dir = 'clients';
@@ -77,6 +81,9 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
     } elseif ($post_type === 'staff') {
         // Если тип записи staff, ищем в папке staff
         $template_dir = 'staff';
+    } elseif ($post_type === 'offices') {
+        // Если тип записи offices, ищем в папке offices
+        $template_dir = 'offices';
     } elseif (strpos($template_name, 'vacancy-') === 0) {
         // Если шаблон начинается с "vacancy-", это шаблон для vacancies
         $template_dir = 'post';

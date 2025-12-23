@@ -1,6 +1,6 @@
 <?php
 /**
- * Template: Offices Archive - Style 1 (Card Grid)
+ * Template: Offices Archive - Style 3 (Card Grid with Map)
  * 
  * Карточка офиса с изображением, адресом, контактами и часами работы
  * Использует: templates/post-cards/offices/card.php
