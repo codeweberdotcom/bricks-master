@@ -333,6 +333,7 @@ require_once Redux_Core::$dir . '../sample/sections/codeweber/header.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/page-header.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/footer.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/socials.php';
+require_once Redux_Core::$dir . '../sample/sections/codeweber/floating-social-widget.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/contacts.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/company-details.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/legal.php';

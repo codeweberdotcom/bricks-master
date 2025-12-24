@@ -43,19 +43,37 @@ $latitude = get_post_meta($post_id, '_office_latitude', true);
 $longitude = get_post_meta($post_id, '_office_longitude', true);
 $zoom = get_post_meta($post_id, '_office_zoom', true);
 
-// Получаем настройки из Redux
+// Получаем API ключ Яндекс карт из Redux
 global $opt_name;
 if (empty($opt_name)) {
     $opt_name = 'redux_demo';
 }
+// #region agent log
+$log_data = json_encode(['location' => 'offices_5.php:47', 'message' => 'Redux check start', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'class_exists_Redux' => class_exists('Redux')], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
+$log_file = ABSPATH . '.cursor/debug.log';
+@file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+// #endregion
+$yandex_api_key = '';
 $show_directions_button = false;
 if (class_exists('Redux')) {
+    $yandex_api_key = Redux::get_option($opt_name, 'yandexapi');
     $route_button_option = Redux::get_option($opt_name, 'yandex_maps_route_button');
-    $show_directions_button = (bool) $route_button_option;
+    // #region agent log
+    $log_data = json_encode(['location' => 'offices_5.php:55', 'message' => 'Route button option retrieved', 'data' => ['route_button_option' => $route_button_option, 'route_button_option_type' => gettype($route_button_option), 'route_button_option_empty' => empty($route_button_option), 'route_button_option_bool' => (bool)$route_button_option], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
+    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+    // #endregion
+    // Проверяем, что опция включена
+    $show_directions_button = !empty($route_button_option);
+    // #region agent log
+    $log_data = json_encode(['location' => 'offices_5.php:58', 'message' => 'Show directions button calculated', 'data' => ['show_directions_button' => $show_directions_button, 'show_directions_button_type' => gettype($show_directions_button)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
+    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+    // #endregion
+} else {
+    // #region agent log
+    $log_data = json_encode(['location' => 'offices_5.php:62', 'message' => 'Redux class not found', 'data' => [], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'C']);
+    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+    // #endregion
 }
-
-// Получаем экземпляр класса Yandex Maps
-$yandex_maps = Codeweber_Yandex_Maps::get_instance();
 
 // Формируем полный адрес для отображения
 $address_parts = array();
@@ -83,67 +101,14 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
 
 <div class="row g-3">
     <div class="col-md-5">
-        <?php if (!empty($latitude) && !empty($longitude)) : ?>
-            <?php
-            // Подготавливаем маркер для карты
-            $marker = array(
-                'id' => $post_id,
-                'title' => get_the_title(),
-                'link' => get_permalink(),
-                'address' => $display_address,
-                'phone' => $phone,
-                'workingHours' => $working_hours,
-                'city' => $city,
-                'latitude' => floatval($latitude),
-                'longitude' => floatval($longitude),
-            );
-            
-            // Формируем содержимое балуна
-            $balloon_content = '';
-            if ($display_address) {
-                $balloon_content .= '<div style="margin-bottom: 8px;"><strong>' . esc_html__('Address', 'codeweber') . ':</strong><br>' . esc_html($display_address) . '</div>';
-            }
-            if ($phone) {
-                $balloon_content .= '<div style="margin-bottom: 8px;"><strong>' . esc_html__('Phone', 'codeweber') . ':</strong><br><a href="tel:' . esc_attr(preg_replace('/[^0-9+]/', '', $phone)) . '">' . esc_html($phone) . '</a></div>';
-            }
-            if ($working_hours) {
-                $balloon_content .= '<div style="margin-bottom: 8px;"><strong>' . esc_html__('Working Hours', 'codeweber') . ':</strong><br>' . esc_html($working_hours) . '</div>';
-            }
-            $marker['balloonContentHeader'] = '<strong style="color: #333; font-size: 16px;">' . esc_html(get_the_title()) . '</strong>';
-            $marker['balloonContent'] = $balloon_content;
-            $marker['hintContent'] = get_the_title();
-            
-            // Получаем настройки search_control из Redux
-            $search_control_enabled = true;
-            if (class_exists('Redux')) {
-                $search_control_option = Redux::get_option($opt_name, 'yandex_maps_search_control');
-                $search_control_enabled = (bool) $search_control_option;
-            }
-            
+        <?php if (!empty($yandex_api_key) && !empty($latitude) && !empty($longitude)) : ?>
+            <?php 
             $figure_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : 'rounded';
-            $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
-            echo '<div class="card h-100' . ($card_radius ? ' ' . esc_attr($card_radius) : '') . '">';
-            echo '<div class="card-body p-0 h-100 d-flex flex-column">';
-            echo '<div class="flex-grow-1">';
-            echo '<style>#office-single-map-1, .codeweber-yandex-map-wrapper { height: 100% !important; min-height: 400px; }</style>';
-            echo $yandex_maps->render_map(
-                array(
-                    'map_id' => 'office-single-map-1',
-                    'center' => array(floatval($latitude), floatval($longitude)),
-                    'zoom' => !empty($zoom) ? intval($zoom) : 15,
-                    'height' => 500, // Будет переопределено через CSS
-                    'width' => '100%',
-                    'border_radius' => $figure_radius ? 8 : 0,
-                    'search_control' => $search_control_enabled,
-                    'show_sidebar' => false, // Сайдбар отключен на single страницах
-                    'marker_auto_open_balloon' => false,
-                ),
-                array($marker)
-            );
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
+            $figure_radius = $figure_radius ?: 'rounded';
             ?>
+            <div class="mb-8 mb-md-0 <?php echo esc_attr($figure_radius); ?>">
+                <div id="office-single-map-5" style="width: 100%; height: 400px; border-radius: <?php echo $figure_radius ? '8px' : '0'; ?>;"></div>
+            </div>
         <?php endif; ?>
     </div>
     <!--/column -->
@@ -160,55 +125,8 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
                 
                 <hr class="my-4">
 
-                <?php if (!empty($description)) : ?>
-                    <div class="mb-4">
-                        <div class="lead">
-                            <?php echo wp_kses_post(wpautop($description)); ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
-                <!-- Адрес и график работы -->
-                <?php if ($display_address || !empty($working_hours)) : ?>
-                    <div class="row g-4 mb-4">
-                        <?php if ($display_address) : ?>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
-                                        <i class="uil uil-map-marker"></i>
-                                    </div>
-                                    <div>
-                                        <div class="mb-1 h6"><?php esc_html_e('Address', 'codeweber'); ?></div>
-                                        <p class="mb-0"><?php echo esc_html($display_address); ?></p>
-                                        <?php if ($show_directions_button) : ?>
-                                            <a href="https://yandex.ru/maps/?text=<?php echo urlencode($display_address); ?>" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary mt-2<?php echo esc_attr($button_class); ?>">
-                                                <i class="uil uil-directions me-1"></i> <?php esc_html_e('Get Directions', 'codeweber'); ?>
-                                            </a>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if (!empty($working_hours)) : ?>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
-                                        <i class="uil uil-clock"></i>
-                                    </div>
-                                    <div>
-                                        <div class="mb-1 h6"><?php esc_html_e('Working Hours', 'codeweber'); ?></div>
-                                        <p class="mb-0"><?php echo esc_html($working_hours); ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                <?php endif; ?>
-
-                <!-- Кнопки контактов -->
                 <div class="row g-3">
-                    <!-- Левая колонка -->
+                    <!-- Левая колонка - Кнопки контактов -->
                     <div class="col-md-6">
                         <?php if (!empty($phone)) : ?>
                             <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone)); ?>" class="btn btn-icon btn-sm btn-icon-start btn-outline-dark justify-content-between d-flex w-100 mb-2 has-ripple<?php echo esc_attr($button_class); ?>">
@@ -220,26 +138,22 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
                             </a>
                         <?php endif; ?>
 
-                        <?php if (!empty($email)) : ?>
-                            <a href="mailto:<?php echo esc_attr($email); ?>" class="btn btn-icon btn-icon-start btn-sm btn-outline-dark justify-content-between d-flex w-100 mb-2 has-ripple<?php echo esc_attr($button_class); ?>">
-                                <i class="uil uil-envelope"></i>
-                                <div class="d-flex flex-wrap text-end justify-content-end">
-                                    <span class="fs-12 lh-1 mb-1 w-100"><?php esc_html_e('Email', 'codeweber'); ?></span>
-                                    <span class="lh-1"><?php echo esc_html($email); ?></span>
-                                </div>
-                            </a>
-                        <?php endif; ?>
-                    </div>
-                    <!--/column -->
-
-                    <!-- Правая колонка -->
-                    <div class="col-md-6">
                         <?php if (!empty($phone_2)) : ?>
                             <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone_2)); ?>" class="btn btn-icon btn-sm btn-icon-start btn-outline-dark justify-content-between d-flex w-100 mb-2 has-ripple<?php echo esc_attr($button_class); ?>">
                                 <i class="uil uil-phone-alt"></i>
                                 <div class="d-flex flex-wrap text-end justify-content-end">
                                     <span class="fs-12 lh-1 mb-1 w-100"><?php esc_html_e('Phone 2', 'codeweber'); ?></span>
                                     <span class="lh-1"><?php echo esc_html($phone_2); ?></span>
+                                </div>
+                            </a>
+                        <?php endif; ?>
+
+                        <?php if (!empty($email)) : ?>
+                            <a href="mailto:<?php echo esc_attr($email); ?>" class="btn btn-icon btn-icon-start btn-sm btn-outline-dark justify-content-between d-flex w-100 mb-2 has-ripple<?php echo esc_attr($button_class); ?>">
+                                <i class="uil uil-envelope"></i>
+                                <div class="d-flex flex-wrap text-end justify-content-end">
+                                    <span class="fs-12 lh-1 mb-1 w-100"><?php esc_html_e('Email', 'codeweber'); ?></span>
+                                    <span class="lh-1"><?php echo esc_html($email); ?></span>
                                 </div>
                             </a>
                         <?php endif; ?>
@@ -256,6 +170,47 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
                                 </div>
                             </a>
                         <?php endif; ?>
+                    </div>
+                    <!--/column -->
+
+                    <!-- Правая колонка - Адрес и часы работы -->
+                    <div class="col-md-6">
+                        <?php if ($display_address) : ?>
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="icon btn btn-circle btn-md btn-soft-primary me-3">
+                                    <i class="uil uil-map-marker"></i>
+                                </div>
+                                <div>
+                                    <div class="mb-1 h6"><?php esc_html_e('Address', 'codeweber'); ?></div>
+                                    <p class="mb-0"><?php echo esc_html($display_address); ?></p>
+                                    <?php 
+                                    // #region agent log
+                                    $log_data = json_encode(['location' => 'offices_5.php:168', 'message' => 'Checking show_directions_button condition', 'data' => ['show_directions_button' => $show_directions_button, 'show_directions_button_type' => gettype($show_directions_button), 'condition_result' => (bool)$show_directions_button, 'display_address' => $display_address], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
+                                    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+                                    // #endregion
+                                    if ($show_directions_button) : ?>
+                                        <a href="https://yandex.ru/maps/?text=<?php echo urlencode($display_address); ?>" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary mt-2<?php echo esc_attr($button_class); ?>">
+                                            <i class="uil uil-directions me-1"></i> <?php esc_html_e('Get Directions', 'codeweber'); ?>
+                                        </a>
+                                    <?php 
+                                    // #region agent log
+                                    $log_data = json_encode(['location' => 'offices_5.php:173', 'message' => 'Directions button rendered', 'data' => [], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
+                                    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+                                    // #endregion
+                                    endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($working_hours)) : ?>
+                            <div class="btn btn-sm btn-icon btn-icon-start btn-outline-primary justify-content-between d-flex w-100 mb-2 disabled<?php echo esc_attr($button_class); ?>">
+                                <i class="uil uil-clock"></i>
+                                <div class="d-flex flex-wrap text-end justify-content-end">
+                                    <span class="fs-12 lh-1 mb-1 w-100"><?php esc_html_e('Working Hours', 'codeweber'); ?></span>
+                                    <span class="lh-1 fs-11"><?php echo esc_html($working_hours); ?></span>
+                                </div>
+                            </div>
+                        <?php endif; ?>
 
                         <?php if (!empty($fax)) : ?>
                             <div class="btn btn-sm btn-icon btn-icon-start btn-outline-primary justify-content-between d-flex w-100 mb-2 disabled<?php echo esc_attr($button_class); ?>">
@@ -269,6 +224,17 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
                     </div>
                     <!--/column -->
                 </div>
+
+                <hr class="my-4">
+
+                <?php if (!empty($description)) : ?>
+                    <div class="mb-8">
+                        <h4 class="mb-4"><?php esc_html_e('Description', 'codeweber'); ?></h4>
+                        <div class="lead">
+                            <?php echo wp_kses_post(wpautop($description)); ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             <!--/.card-body -->
         </div>

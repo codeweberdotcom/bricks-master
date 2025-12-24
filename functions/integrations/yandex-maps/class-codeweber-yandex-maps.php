@@ -536,6 +536,9 @@ class Codeweber_Yandex_Maps {
             }
         }
 
+        // Подготавливаем маркеры
+        $prepared_markers = $this->prepare_markers($markers, $settings);
+        
         // Подготавливаем данные для JavaScript
         $map_data = array(
             'id' => $map_id,
@@ -550,7 +553,7 @@ class Codeweber_Yandex_Maps {
             'geolocationControl' => $settings['geolocation_control'],
             'routeButton' => $settings['route_button'],
             'autoFitBounds' => $settings['auto_fit_bounds'],
-            'markers' => $this->prepare_markers($markers, $settings),
+            'markers' => $prepared_markers,
             'markerSettings' => array(
                 'type' => $settings['marker_type'],
                 'preset' => $settings['marker_preset'],
@@ -565,6 +568,13 @@ class Codeweber_Yandex_Maps {
                 'showFilters' => $settings['show_filters'],
                 'filterByCity' => $settings['filter_by_city'],
                 'filterByCategory' => $settings['filter_by_category'],
+                'fields' => isset($settings['sidebar_fields']) ? $settings['sidebar_fields'] : array(
+                    'showCity' => true,
+                    'showAddress' => false,
+                    'showPhone' => false,
+                    'showWorkingHours' => true,
+                    'showDescription' => true,
+                ),
             ),
             'route' => array(
                 'show' => $settings['show_route'],
@@ -582,7 +592,21 @@ class Codeweber_Yandex_Maps {
                 'autoPan' => $settings['balloon_auto_pan'],
                 'layout' => $settings['balloon_layout'],
                 'contentLayout' => $settings['balloon_content_layout'],
+                'fields' => !empty($settings['balloon_fields']) && is_array($settings['balloon_fields']) 
+                    ? $settings['balloon_fields'] 
+                    : array(
+                        'showCity' => true,
+                        'showAddress' => true,
+                        'showPhone' => true,
+                        'showWorkingHours' => true,
+                        'showLink' => true,
+                        'showDescription' => false,
+                    ),
             ),
+            
+            // #region agent log
+            // Логирование настроек балуна для отладки
+            // #endregion
             'markerBehavior' => array(
                 'openBalloonOnClick' => $settings['marker_open_balloon_on_click'],
                 'autoOpenBalloon' => $settings['marker_auto_open_balloon'],
@@ -648,9 +672,50 @@ class Codeweber_Yandex_Maps {
     private function prepare_markers(array $markers, array $settings): array {
         $prepared = array();
         
+        // #region agent log
+        try {
+            $log = array(
+                'sessionId' => 'debug-session',
+                'runId' => 'pre-fix',
+                'hypothesisId' => 'B',
+                'location' => 'class-codeweber-yandex-maps.php:prepare_markers',
+                'message' => 'Preparing markers',
+                'data' => array(
+                    'inputMarkersCount' => count($markers),
+                    'firstMarkerKeys' => !empty($markers) ? array_keys($markers[0]) : array(),
+                ),
+                'timestamp' => round(microtime(true) * 1000),
+            );
+            @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
+        } catch (\Throwable $e) {
+            // silent
+        }
+        // #endregion
+        
         foreach ($markers as $marker) {
             // Проверяем обязательные поля
             if (empty($marker['latitude']) || empty($marker['longitude'])) {
+                // #region agent log
+                try {
+                    $log = array(
+                        'sessionId' => 'debug-session',
+                        'runId' => 'pre-fix',
+                        'hypothesisId' => 'B',
+                        'location' => 'class-codeweber-yandex-maps.php:prepare_markers',
+                        'message' => 'Marker skipped - missing coordinates',
+                        'data' => array(
+                            'markerKeys' => array_keys($marker),
+                            'hasLat' => isset($marker['latitude']),
+                            'hasLng' => isset($marker['longitude']),
+                            'hasCoords' => isset($marker['coords']),
+                        ),
+                        'timestamp' => round(microtime(true) * 1000),
+                    );
+                    @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
+                } catch (\Throwable $e) {
+                    // silent
+                }
+                // #endregion
                 continue;
             }
             
@@ -685,6 +750,25 @@ class Codeweber_Yandex_Maps {
             
             $prepared[] = $prepared_marker;
         }
+        
+        // #region agent log
+        try {
+            $log = array(
+                'sessionId' => 'debug-session',
+                'runId' => 'pre-fix',
+                'hypothesisId' => 'B',
+                'location' => 'class-codeweber-yandex-maps.php:prepare_markers',
+                'message' => 'Markers prepared',
+                'data' => array(
+                    'preparedCount' => count($prepared),
+                ),
+                'timestamp' => round(microtime(true) * 1000),
+            );
+            @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
+        } catch (\Throwable $e) {
+            // silent
+        }
+        // #endregion
         
         return $prepared;
     }

@@ -11,6 +11,7 @@ require 'bootstrap/bootstrap_pagination.php';
 require 'bootstrap/bootstrap_post-nav.php';
 require 'bootstrap/bootstrap_share-page.php';
 require 'bootstrap/bootstrap_nav-menu.php';
+require 'bootstrap/bootstrap_floating-social-widget.php';
 
 /**
  *  Shortcodes

@@ -18,11 +18,6 @@
 		}
 		// Проверяем, что Redux экземпляр инициализирован
 		$redux_instance = Redux_Instances::get_instance($opt_name);
-		// #region agent log
-		$log_data = json_encode(['location' => 'footer.php:14', 'message' => 'Footer render start', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'class_exists_Redux' => class_exists('Redux'), 'redux_instance_exists' => $redux_instance !== null], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
-		$log_file = ABSPATH . '.cursor/debug.log';
-		@file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-		// #endregion
 		$post_type = universal_get_post_type();
 		$post_id = get_the_ID();
 		
@@ -107,11 +102,6 @@
 
 		// Получаем переменные для шаблона
 		$footer_vars = get_footer_vars();
-		// #region agent log
-		$log_data = json_encode(['location' => 'footer.php:78', 'message' => 'Footer template decision', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'template_footer_id' => $template_footer_id ?? 'EMPTY', 'global_template_footer' => $global_template_footer ?? 'EMPTY', 'global_footer_type' => $global_footer_type ?? 'EMPTY', 'is_single' => is_single(), 'is_archive' => is_archive(), 'post_type' => $post_type], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'C']);
-		$log_file = ABSPATH . '.cursor/debug.log';
-		@file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-		// #endregion
 
 		if ($template_footer_id) {
 			$post = get_post($template_footer_id);
@@ -132,5 +122,14 @@
 		get_template_part('templates/footer/footer');
 	}
 	?>
+	
 	<?php wp_footer(); ?>
+	
+	<?php
+	// Плавающий виджет соцсетей (после wp_footer, чтобы был вне всех контейнеров)
+	if (function_exists('codeweber_floating_social_widget')) {
+		echo codeweber_floating_social_widget();
+	}
+	?>
+	
 	</body>

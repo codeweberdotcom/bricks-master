@@ -356,20 +356,33 @@
                 return markerData.balloonContent;
             }
 
+            // Получаем настройки полей балуна
+            const balloonFields = this.config.balloon?.fields || {
+                showCity: true,
+                showAddress: true,
+                showPhone: true,
+                showWorkingHours: true,
+                showLink: true,
+                showDescription: false,
+            };
+
             // Стандартный шаблон балуна: ключевая информация об офисе
-            if (markerData.city) {
+            if (balloonFields.showCity && markerData.city) {
                 content += `<div style="margin-bottom: 8px;"><strong>${codeweberYandexMaps.i18n.city}:</strong><br>${markerData.city}</div>`;
             }
-            if (markerData.address) {
+            if (balloonFields.showAddress && markerData.address) {
                 content += `<div style="margin-bottom: 8px;"><strong>${codeweberYandexMaps.i18n.address}:</strong><br>${markerData.address}</div>`;
             }
-            if (markerData.phone) {
+            if (balloonFields.showPhone && markerData.phone) {
                 content += `<div style="margin-bottom: 8px;"><strong>${codeweberYandexMaps.i18n.phone}:</strong><br><a href="tel:${markerData.phone.replace(/[^0-9+]/g, '')}">${markerData.phone}</a></div>`;
             }
-            if (markerData.workingHours) {
+            if (balloonFields.showWorkingHours && markerData.workingHours) {
                 content += `<div style="margin-bottom: 8px;"><strong>${codeweberYandexMaps.i18n.workingHours}:</strong><br>${markerData.workingHours}</div>`;
             }
-            if (markerData.link) {
+            if (balloonFields.showDescription && markerData.description) {
+                content += `<div style="margin-bottom: 8px;">${markerData.description}</div>`;
+            }
+            if (balloonFields.showLink && markerData.link) {
                 content += `<div style="margin-top: 10px;"><a href="${markerData.link}" style="display: inline-block; padding: 6px 12px; background: #0d6efd; color: #fff; text-decoration: none; border-radius: 4px;">${codeweberYandexMaps.i18n.viewDetails}</a></div>`;
             }
 
@@ -471,17 +484,32 @@
             item.dataset.city = marker.city || '';
             item.dataset.category = marker.category || '';
 
+            // Получаем настройки полей сайдбара
+            const sidebarFields = this.config.sidebar?.fields || {
+                showCity: true,
+                showAddress: false,
+                showPhone: false,
+                showWorkingHours: true,
+                showDescription: true,
+            };
+
             let html = '';
             if (marker.title) {
                 html += `<h6>${marker.title}</h6>`;
             }
-            if (marker.description && marker.description.trim() !== '') {
+            if (sidebarFields.showDescription && marker.description && marker.description.trim() !== '') {
                 html += `<p style="font-size: 13px; color: #666; margin-bottom: 8px;">${marker.description}</p>`;
             }
-            if (marker.city) {
+            if (sidebarFields.showCity && marker.city) {
                 html += `<p><i class="uil uil-location-pin-alt me-1"></i> ${marker.city}</p>`;
             }
-            if (marker.workingHours) {
+            if (sidebarFields.showAddress && marker.address) {
+                html += `<p><i class="uil uil-map-marker me-1"></i> ${marker.address}</p>`;
+            }
+            if (sidebarFields.showPhone && marker.phone) {
+                html += `<p><i class="uil uil-phone me-1"></i> <a href="tel:${marker.phone.replace(/[^0-9+]/g, '')}">${marker.phone}</a></p>`;
+            }
+            if (sidebarFields.showWorkingHours && marker.workingHours) {
                 html += `<p><i class="uil uil-clock me-1"></i> ${marker.workingHours}</p>`;
             }
 
@@ -741,9 +769,39 @@
 
         const initWrapper = function(wrapper) {
             const configData = wrapper.getAttribute('data-map-config');
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    sessionId:'debug-session',
+                    runId:'pre-fix',
+                    hypothesisId:'C',
+                    location:'yandex-maps.js:initWrapper',
+                    message:'Reading map config',
+                    data:{hasConfig:!!configData,configLength:configData ? configData.length : 0},
+                    timestamp:Date.now()
+                })
+            }).catch(()=>{});
+            // #endregion
             if (!configData) return;
             try {
                 const config = JSON.parse(configData);
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        sessionId:'debug-session',
+                        runId:'pre-fix',
+                        hypothesisId:'C',
+                        location:'yandex-maps.js:initWrapper',
+                        message:'Config parsed',
+                        data:{mapId:config.id,markersCount:config.markers ? config.markers.length : 0,showSidebar:config.sidebar ? config.sidebar.show : false},
+                        timestamp:Date.now()
+                    })
+                }).catch(()=>{});
+                // #endregion
                 if (config.lazyLoad) {
                     const observer = new IntersectionObserver((entries, obs) => {
                         entries.forEach(entry => {

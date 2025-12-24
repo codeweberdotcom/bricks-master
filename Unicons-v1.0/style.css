@@ -1,295 +1,28 @@
-//----------------------------------------------------------//
-//	SVG ICONS
-//----------------------------------------------------------//
-img.svg-inject {
-  visibility: hidden;
-}
-.icon-svg,
-.icon-svg.icon-svg-lg {
-  width: 3rem;
-  height: 3rem;
-}
-.icon-svg.icon-svg-md {
-  width: 2.6rem;
-  height: 2.6rem;
-}
-.icon-svg.icon-svg-sm {
-  width: 2.2rem;
-  height: 2.2rem;
-}
-.icon-svg.icon-svg-xs {
-  width: 1.8rem;
-  height: 1.8rem;
-}
-.svg-bg {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  backface-visibility: hidden;
-  .icon-svg {
-    width: 1.3rem;
-    height: 1.3rem;
-  }
-  width: 3rem;
-  height: 3rem;
-  &.svg-bg-lg {
-    width: 4rem;
-    height: 4rem;
-    .icon-svg {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
-  }
-}
-.lineal-fill {
-  fill: var(--#{$prefix}icon-fill-primary);
-}
-.lineal-stroke {
-  fill: $lineal-stroke;
-}
-@each $color,
-$value in $icon-fill {
-  .text-#{$color} .lineal-fill {
-    fill: var(--#{$prefix}icon-fill-#{$color});
-  }
-}
-.solid {
-  .fill-primary,
-  .fill-secondary {
-    fill: var(--#{$prefix}primary);
-  }
-}
-@each $color,
-$value in $colors {
-  .solid.text-#{$color} {
-    .fill-primary,
-    .fill-secondary {
-      fill: var(--#{$prefix}#{$color});
-    }
-  }
-}
-.solid-mono {
-  .fill-primary {
-    fill: var(--#{$prefix}primary);
-  }
-  .fill-secondary {
-    fill: var(--#{$prefix}icon-solid-fill-primary);
-  }
-}
-@each $color,
-$value in $icon-solid-fill {
-  .solid-mono.text-#{$color} {
-    .fill-primary {
-      fill: var(--#{$prefix}#{$color});
-    }
-    .fill-secondary {
-      fill: var(--#{$prefix}icon-solid-fill-#{$color});
-    }
-  }
-}
-.solid-duo {
-  &.text-purple-aqua {
-    .fill-primary {
-      fill: $purple;
-    }
-    .fill-secondary {
-      fill: #8ce0f1;
-    }
-  }
-  &.text-navy-green {
-    .fill-primary {
-      fill: #414b64;
-    }
-    .fill-secondary {
-      fill: $green;
-    }
-  }
-  &.text-grape-fuchsia {
-    .fill-primary {
-      fill: $grape;
-    }
-    .fill-secondary {
-      fill: #f857a6;
-    }
-  }
-  &.text-grape-green {
-    .fill-primary {
-      fill: $grape;
-    }
-    .fill-secondary {
-      fill: #94dd8e;
-    }
-  }
-  &.text-navy-sky {
-    .fill-primary {
-      fill: #414b64;
-    }
-    .fill-secondary {
-      fill: $sky;
-    }
-  }
-  &.text-blue-pink {
-    .fill-primary {
-      fill: $blue;
-    }
-    .fill-secondary {
-      fill: #fc7eb9;
-    }
-  }
-  &.text-green-fuchsia {
-    .fill-primary {
-      fill: #8ed882;
-    }
-    .fill-secondary {
-      fill: $fuchsia;
-    }
-  }
-  &.text-grape-yellow {
-    .fill-primary {
-      fill: $grape;
-    }
-    .fill-secondary {
-      fill: $yellow;
-    }
-  }
-  &.text-sky-pink {
-    .fill-primary {
-      fill: $sky;
-    }
-    .fill-secondary {
-      fill: #ff98ab;
-    }
-  }
-  &.text-purple-pink {
-    .fill-primary {
-      fill: $purple;
-    }
-    .fill-secondary {
-      fill: #fdb9d3;
-    }
-  }
-  &.text-green-red {
-    .fill-primary {
-      fill: $green;
-    }
-    .fill-secondary {
-      fill: #ff7c94;
-    }
-  }
-  &.text-red-yellow {
-    .fill-primary {
-      fill: #e54281;
-    }
-    .fill-secondary {
-      fill: $yellow;
-    }
-  }
-}
-//----------------------------------------------------------//
-//	RATINGS
-//----------------------------------------------------------//
-.ratings {
-  display: inline-block;
-  position: relative;
-  width: 5rem;
-  height: 0.8rem;
-  @include font-size(0.9rem);
-  line-height: 1;
-  &:after,
-  &:before {
-    display: inline-block;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-    font-style: normal;
-    font-weight: normal;
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: #fcc032;
-    content: "\2605\2605\2605\2605\2605";
-    overflow: hidden;
-  }
-  &:before {
-    color: rgba($dark, 0.1);
-  }
-  &.one:after {
-    content: "\2605";
-  }
-  &.two:after {
-    content: "\2605\2605";
-  }
-  &.three:after {
-    content: "\2605\2605\2605";
-  }
-  &.four:after {
-    content: "\2605\2605\2605\2605";
-  }
-}
-.custom-control .ratings {
-  height: 0.9rem;
-}
-.ratings-wrapper span {
-  display: inline-block;
-  &.ratings {
-    vertical-align: -1px;
-  }
-}
-//----------------------------------------------------------//
-//	FONT ICONS
-//----------------------------------------------------------//
 @font-face {
   font-family: 'Unicons';
-  src: url('../fonts/unicons/Unicons.woff2') format('woff2'),
-    url('../fonts/unicons/Unicons.woff') format('woff');
+  src:  url('fonts/Unicons.eot?fegogk');
+  src:  url('fonts/Unicons.eot?fegogk#iefix') format('embedded-opentype'),
+    url('fonts/Unicons.ttf?fegogk') format('truetype'),
+    url('fonts/Unicons.woff?fegogk') format('woff'),
+    url('fonts/Unicons.svg?fegogk#Unicons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
-@font-face {
-  font-family: "Custom";
-  src: url('../fonts/custom/Custom.woff2') format('woff2'),
-    url('../fonts/custom/Custom.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
-[class^="uil-"],
-[class*=" uil-"],
-[class^="icn-"],
-[class*=" icn-"] {
-  speak: none;
+
+[class^="uil-"], [class*=" uil-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Unicons' !important;
+  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  word-spacing: normal;
-}
-[class^="uil-"],
-[class*=" uil-"] {
-  font-family: "Unicons" !important;
-}
-[class^="icn-"],
-[class*=" icn-"] {
-  font-family: "Custom" !important;
-}
-
-.icn-caret-right:before {
-  content: "\e900";
-}
-.icn-comment-line:before {
-  content: "\e904";
-}
-.icn-external:before {
-  content: "\e906";
-}
-.icn-flower:before {
-  content: "\e907";
-}
-.icn-terminal:before {
-  content: "\e905";
 }
 
 .uil-max:before {
@@ -3158,9 +2891,6 @@ $value in $icon-solid-fill {
   content: "\eac0";
 }
 .uil-envelope-send:before {
-  content: "\eac1";
-}
-.uil-send:before {
   content: "\eac1";
 }
 .uil-envelope-share:before {
