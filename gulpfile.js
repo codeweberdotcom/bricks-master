@@ -204,6 +204,7 @@ var path = {
     testimonialformjs: srcPrefix + "/assets/js/testimonial-form.js",
     ajaxdownloadjs: srcPrefix + "/assets/js/ajax-download.js",
     ajaxfilterjs: srcPrefix + "/assets/js/ajax-filter.js",
+    sharebuttonsjs: srcPrefix + "/assets/js/share-buttons.js",
     formvalidationjs: srcPrefix + "/assets/js/form-validation.js",
     cf7acceptancerequiredjs: srcPrefix + "/assets/js/cf7-acceptance-required.js",
     cf7successmessagejs: srcPrefix + "/assets/js/cf7-success-message.js",
@@ -376,6 +377,29 @@ gulp.task("ajaxfilterjs:dist", function () {
   return (
     gulp
       .src(path.src.ajaxfilterjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      //.pipe(uglify()) // если нужно минифицировать — раскомментируй
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
+gulp.task("sharebuttonsjs:dev", function () {
+  return gulp
+    .src(path.src.sharebuttonsjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("sharebuttonsjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.sharebuttonsjs)
       .pipe(gulp.dest(path.dist.js))
       .pipe(plumber())
       //.pipe(uglify()) // если нужно минифицировать — раскомментируй
@@ -757,6 +781,7 @@ gulp.task(
       "testimonialformjs:dev",
       "ajaxdownloadjs:dev",
       "ajaxfilterjs:dev",
+      "sharebuttonsjs:dev",
       "formvalidationjs:dev",
       "cf7acceptancerequiredjs:dev",
       "cf7successmessagejs:dev",
@@ -786,6 +811,7 @@ gulp.task(
       "testimonialformjs:dist",
       "ajaxdownloadjs:dist",
       "ajaxfilterjs:dist",
+      "sharebuttonsjs:dist",
       "formvalidationjs:dist",
       "cf7acceptancerequiredjs:dist",
       "cf7successmessagejs:dist",
@@ -813,6 +839,7 @@ gulp.task('watch', function () {
     gulp.watch(path.src.testimonialformjs, gulp.series('testimonialformjs:dist'));
     gulp.watch(path.src.ajaxdownloadjs, gulp.series('ajaxdownloadjs:dist'));
     gulp.watch(path.src.ajaxfilterjs, gulp.series('ajaxfilterjs:dist'));
+    gulp.watch(path.src.sharebuttonsjs, gulp.series('sharebuttonsjs:dist'));
     gulp.watch(path.src.formvalidationjs, gulp.series('formvalidationjs:dist'));
     gulp.watch(path.src.cf7acceptancerequiredjs, gulp.series('cf7acceptancerequiredjs:dist'));
     gulp.watch(path.src.cf7successmessagejs, gulp.series('cf7successmessagejs:dist'));

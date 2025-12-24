@@ -1,0 +1,144 @@
+/**
+ * Share Buttons - Floating Social Share Widget
+ * Адаптировано под Bootstrap и Unicons
+ */
+
+(function() {
+	'use strict';
+	
+	document.addEventListener('DOMContentLoaded', function() {
+		// Находим все виджеты на странице
+		const shareButtonsWidgets = document.querySelectorAll('.share-buttons');
+		
+		if (shareButtonsWidgets.length === 0) {
+			return;
+		}
+		
+		// Инициализируем каждый виджет отдельно
+		shareButtonsWidgets.forEach(function(shareButtons, widgetIndex) {
+			const shareButtonMain = shareButtons.querySelector('.share-button-main');
+			const shareButtonIcon = shareButtonMain ? shareButtonMain.querySelector('i') : null;
+			
+			if (!shareButtonMain) {
+				return;
+			}
+			
+			// Обработчик клика на главную кнопку
+			shareButtonMain.addEventListener('click', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				
+				const isRotating = shareButtonMain.classList.contains('rotate');
+				
+				if (isRotating) {
+					// Закрытие - обратный поворот
+					shareButtonMain.classList.remove('rotate');
+					shareButtonMain.classList.add('rotate-reverse');
+					
+					// Удаляем класс обратной анимации после завершения
+					setTimeout(function() {
+						shareButtonMain.classList.remove('rotate-reverse');
+					}, 600);
+				} else {
+					// Открытие - прямой поворот
+					shareButtonMain.classList.remove('rotate-reverse');
+					shareButtonMain.classList.add('rotate');
+				}
+				
+				// Переключаем класс open для показа/скрытия социальных кнопок
+				const isOpen = shareButtons.classList.contains('open');
+				
+				if (isOpen) {
+					// Закрытие - меняем иконку обратно на comment-dots
+					if (shareButtonIcon) {
+						shareButtonIcon.className = 'uil uil-comment-dots';
+					}
+					
+					// Закрытие - сначала запускаем анимацию исчезновения
+					shareButtons.classList.add('closing');
+					
+					// Удаляем open после небольшой задержки, чтобы closing успел примениться
+					setTimeout(function() {
+						shareButtons.classList.remove('open');
+					}, 10);
+					
+					// После завершения анимации убираем класс closing
+					setTimeout(function() {
+						shareButtons.classList.remove('closing');
+					}, 500);
+				} else {
+					// Открытие - меняем иконку на times
+					if (shareButtonIcon) {
+						shareButtonIcon.className = 'uil uil-times';
+					}
+					
+					// Открытие - убираем класс closing если был и добавляем open
+					shareButtons.classList.remove('closing');
+					shareButtons.classList.add('open');
+				}
+			});
+		});
+		
+		// Закрытие при клике вне области кнопок (для всех виджетов)
+		// Используем задержку, чтобы обработчик клика на кнопке сработал первым
+		document.addEventListener('click', function(e) {
+			// Небольшая задержка, чтобы обработчик клика на кнопке успел сработать
+			setTimeout(function() {
+				// Пропускаем клики на кнопках виджетов и внутри виджетов
+				let clickedOnWidget = false;
+				shareButtonsWidgets.forEach(function(shareButtons) {
+					// Проверяем, был ли клик внутри виджета (включая кнопку и иконку)
+					if (shareButtons.contains(e.target)) {
+						clickedOnWidget = true;
+					}
+				});
+				
+				if (clickedOnWidget) {
+					return;
+				}
+				
+				shareButtonsWidgets.forEach(function(shareButtons, widgetIndex) {
+					const isOpen = shareButtons.classList.contains('open');
+					const containsTarget = shareButtons.contains(e.target);
+					
+					if (isOpen && !containsTarget) {
+					
+					const shareButtonMain = shareButtons.querySelector('.share-button-main');
+					const shareButtonIcon = shareButtonMain ? shareButtonMain.querySelector('i') : null;
+					
+					if (!shareButtonMain) {
+						return;
+					}
+					
+					shareButtonMain.classList.remove('rotate');
+					shareButtonMain.classList.add('rotate-reverse');
+					
+					// Закрытие - меняем иконку обратно на comment-dots
+					if (shareButtonIcon) {
+						shareButtonIcon.className = 'uil uil-comment-dots';
+					}
+					
+					// Закрытие - сначала запускаем анимацию исчезновения
+					shareButtons.classList.add('closing');
+					
+					// Удаляем open после небольшой задержки
+					setTimeout(function() {
+						shareButtons.classList.remove('open');
+					}, 10);
+					
+					// После завершения анимации убираем класс closing
+					setTimeout(function() {
+						shareButtons.classList.remove('closing');
+					}, 500);
+					
+					// Удаляем класс обратной анимации после завершения
+					setTimeout(function() {
+						shareButtonMain.classList.remove('rotate-reverse');
+					}, 600);
+					}
+				});
+			}, 10); // Небольшая задержка для обработчика клика на кнопке
+		});
+	});
+})();
+

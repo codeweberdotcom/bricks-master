@@ -1,0 +1,140 @@
+//----------------------------------------------------------//
+//	SHARE BUTTONS - Floating Social Share Widget
+//----------------------------------------------------------//
+
+.share-buttons {
+	display: flex;
+	align-items: center;
+	gap: 10px; // Bootstrap gap для правильного расстояния между кнопками
+	z-index: 9999;
+	margin: 10px;
+	
+	// Вариант для правого угла
+	&.right-widget {
+		flex-direction: row-reverse; // Иконки выезжают влево
+	}
+	
+	// Вариант для верхнего угла
+	&.top-widget {
+		flex-direction: column-reverse; // Иконки выезжают вверх
+	}
+	
+	// Комбинация: верхний правый угол
+	&.top-widget.right-widget {
+		flex-direction: column-reverse; // Иконки выезжают вверх (приоритет над row-reverse)
+		align-items: flex-end; // Выравнивание по правому краю
+	}
+	
+	.share-button-main {
+		z-index: 2;
+		cursor: pointer;
+		transform: rotate(0deg);
+		flex-shrink: 0;
+		
+		i {
+			transition: transform 0.6s ease-in-out;
+		}
+		
+		&.rotate {
+			animation: rotate360 0.6s ease-in-out forwards;
+		}
+		
+		&.rotate-reverse {
+			animation: rotate360reverse 0.6s ease-in-out forwards;
+		}
+	}
+	
+	@keyframes rotate360 {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	
+	@keyframes rotate360reverse {
+		from {
+			transform: rotate(360deg);
+		}
+		to {
+			transform: rotate(0deg);
+		}
+	}
+	
+	.widget-social {
+		z-index: 1;
+		flex-shrink: 0;
+		position: relative;
+		transition: transform 0.4s ease-out, opacity 0.4s ease-out, max-width 0.4s ease-out, max-height 0.4s ease-out;
+		opacity: 0;
+		pointer-events: none;
+		transform: scale(0.8) scaleX(0);
+		transform-origin: center;
+		max-width: 100px; // Ограничение размера в открытом состоянии
+		max-height: 0;
+		overflow: hidden;
+		
+		i {
+			position: relative;
+			transition: color 0.3s ease;
+		}
+	}
+	
+	// Позиционирование кнопок при открытии
+	&.open {
+		.widget-social {
+			opacity: 1;
+			pointer-events: auto;
+			transform: scale(1) scaleX(1);
+			max-width: 100px; // Достаточно для кнопки btn-lg
+			max-height: 100px; // Достаточно для кнопки btn-lg
+		}
+		
+		// Последовательное появление с задержкой
+		.widget-social.btn-gradient.social-max {
+			transition-delay: 0.05s;
+		}
+		
+		.widget-social.btn-telegram.social-max {
+			transition-delay: 0.1s;
+		}
+		
+		.widget-social.social-whatsapp {
+			transition-delay: 0.15s;
+		}
+	}
+	
+	// Анимация закрытия
+	&.closing {
+		.widget-social {
+			opacity: 0;
+			pointer-events: none;
+			transform: scale(0.8) scaleX(0);
+			max-height: 0;
+		}
+		
+		// Последовательное исчезновение с обратной задержкой
+		.widget-social.social-whatsapp {
+			transition-delay: 0.15s;
+		}
+		
+		.widget-social.btn-telegram.social-max {
+			transition-delay: 0.1s;
+		}
+		
+		.widget-social.btn-gradient.social-max {
+			transition-delay: 0.05s;
+		}
+	}
+	
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 768px) {
+	.share-buttons {
+		margin: 5px;
+		gap: 10px;
+	}
+}
+

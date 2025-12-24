@@ -351,3 +351,38 @@ function codeweber_enqueue_ajax_filter() {
 	]);
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_filter', 20);
+
+/**
+ * Enqueue share buttons script
+ * Подключает скрипт для плавающих кнопок социальных сетей
+ */
+function codeweber_enqueue_share_buttons() {
+	// Prefer dist version, fallback to src
+	$dist_path = brk_get_dist_file_path('dist/assets/js/share-buttons.js');
+	$dist_url = brk_get_dist_file_url('dist/assets/js/share-buttons.js');
+	
+	if ($dist_path && $dist_url) {
+		$script_path = $dist_path;
+		$script_url = $dist_url;
+	} else {
+		// Fallback to src
+		$src_path = get_template_directory() . '/src/assets/js/share-buttons.js';
+		$src_url = get_template_directory_uri() . '/src/assets/js/share-buttons.js';
+		
+		if (file_exists($src_path)) {
+			$script_path = $src_path;
+			$script_url = $src_url;
+		} else {
+			return; // File doesn't exist
+		}
+	}
+	
+	wp_enqueue_script(
+		'share-buttons',
+		$script_url,
+		[], // No dependencies
+		filemtime($script_path),
+		true // Load in footer
+	);
+}
+add_action('wp_enqueue_scripts', 'codeweber_enqueue_share_buttons', 20);
