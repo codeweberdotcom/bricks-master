@@ -10,6 +10,12 @@ Redux::set_section(
 		'icon'             => 'el el-home',
 		'fields'           => array(
 			array(
+				'id'       => 'max',
+				'type'     => 'text',
+				'title'    => esc_html__('Max', 'codeweber'),
+				'subtitle' => esc_html__('Subtitle', 'codeweber'),
+			),
+			array(
 				'id'       => 'telegram',
 				'type'     => 'text',
 				'title'    => esc_html__('Telegram', 'codeweber'),
@@ -262,6 +268,7 @@ Redux::set_section(
 add_action('redux/options/' . $opt_name . '/saved', 'combine_socials_urls', 10, 2);
 function combine_socials_urls($options, $opt_name) {
 	// Получаем значения всех полей
+	$max_url        = isset($options['max']) ? $options['max'] : '';
 	$telegram_url   = isset($options['telegram']) ? $options['telegram'] : '';
 	$whatsapp_url   = isset($options['whatsapp']) ? $options['whatsapp'] : '';
 	$viber_url      = isset($options['viber']) ? $options['viber'] : '';
@@ -305,6 +312,7 @@ function combine_socials_urls($options, $opt_name) {
 
 	// Формируем массив с соцсетями
 	$socials = array(
+		'max'         => $max_url,
 		'telegram'    => $telegram_url,
 		'whatsapp'    => $whatsapp_url,
 		'viber'       => $viber_url,

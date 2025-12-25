@@ -6,6 +6,43 @@
  * Uses Bootstrap classes: btn btn-circle
  */
 
+// Подключаем класс для плавающего виджета
+require_once get_template_directory() . '/functions/bootstrap/class-floating-social-widget.php';
+
+if (!function_exists('codeweber_floating_social_widget_new')) {
+	/**
+	 * Выводит плавающий виджет соцсетей (новая версия с поддержкой множественных соцсетей)
+	 * 
+	 * @param string $template Имя шаблона (template_1, template_2, template_3)
+	 * @return string HTML код виджета или пустая строка
+	 */
+	function codeweber_floating_social_widget_new($template = null) {
+		// #region agent log
+		$log_data = json_encode(['location' => 'bootstrap_floating-social-widget.php:19', 'message' => 'codeweber_floating_social_widget_new called', 'data' => ['template' => $template, 'class_exists' => class_exists('CodeWeber_Floating_Social_Widget')], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+		@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
+		// #endregion
+		
+		if (!class_exists('CodeWeber_Floating_Social_Widget')) {
+			// #region agent log
+			$log_data = json_encode(['location' => 'bootstrap_floating-social-widget.php:22', 'message' => 'Class not found', 'data' => [], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
+			// #endregion
+			return '';
+		}
+		
+		$widget = new CodeWeber_Floating_Social_Widget();
+		// Если шаблон не указан, метод render() сам выберет шаблон на основе widget_type из настроек
+		$output = $widget->render($template);
+		
+		// #region agent log
+		$log_data = json_encode(['location' => 'bootstrap_floating-social-widget.php:30', 'message' => 'codeweber_floating_social_widget_new exit', 'data' => ['output_length' => strlen($output), 'output_empty' => empty($output)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+		@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
+		// #endregion
+		
+		return $output;
+	}
+}
+
 if (!function_exists('codeweber_floating_social_widget')) {
 	/**
 	 * Выводит плавающий виджет соцсетей

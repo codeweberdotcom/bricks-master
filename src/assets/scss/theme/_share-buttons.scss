@@ -4,7 +4,6 @@
 
 .share-buttons {
 	display: flex;
-	align-items: center;
 	gap: 10px; // Bootstrap gap для правильного расстояния между кнопками
 	z-index: 9999;
 	margin: 10px;
@@ -36,26 +35,26 @@
 		}
 		
 		&.rotate {
-			animation: rotate360 0.6s ease-in-out forwards;
+			animation: rotate180 0.6s ease-in-out forwards;
 		}
 		
 		&.rotate-reverse {
-			animation: rotate360reverse 0.6s ease-in-out forwards;
+			animation: rotate180reverse 0.6s ease-in-out forwards;
 		}
 	}
 	
-	@keyframes rotate360 {
+	@keyframes rotate180 {
 		from {
 			transform: rotate(0deg);
 		}
 		to {
-			transform: rotate(360deg);
+			transform: rotate(180deg);
 		}
 	}
 	
-	@keyframes rotate360reverse {
+	@keyframes rotate180reverse {
 		from {
-			transform: rotate(360deg);
+			transform: rotate(180deg);
 		}
 		to {
 			transform: rotate(0deg);
@@ -66,14 +65,9 @@
 		z-index: 1;
 		flex-shrink: 0;
 		position: relative;
-		transition: transform 0.4s ease-out, opacity 0.4s ease-out, max-width 0.4s ease-out, max-height 0.4s ease-out;
+		transition: opacity 0.4s ease-out;
 		opacity: 0;
 		pointer-events: none;
-		transform: scale(0.8) scaleX(0);
-		transform-origin: center;
-		max-width: 100px; // Ограничение размера в открытом состоянии
-		max-height: 0;
-		overflow: hidden;
 		
 		i {
 			position: relative;
@@ -86,22 +80,49 @@
 		.widget-social {
 			opacity: 1;
 			pointer-events: auto;
-			transform: scale(1) scaleX(1);
-			max-width: 100px; // Достаточно для кнопки btn-lg
-			max-height: 100px; // Достаточно для кнопки btn-lg
 		}
 		
-		// Последовательное появление с задержкой
-		.widget-social.btn-gradient.social-max {
+		// Последовательное появление с задержкой для каждого элемента
+		// Используем :nth-of-type() для автоматического назначения задержек
+		// Это работает, так как все .widget-social - это элементы <a>
+		.widget-social:nth-of-type(1) {
 			transition-delay: 0.05s;
 		}
 		
-		.widget-social.btn-telegram.social-max {
+		.widget-social:nth-of-type(2) {
 			transition-delay: 0.1s;
 		}
 		
-		.widget-social.social-whatsapp {
+		.widget-social:nth-of-type(3) {
 			transition-delay: 0.15s;
+		}
+		
+		.widget-social:nth-of-type(4) {
+			transition-delay: 0.2s;
+		}
+		
+		.widget-social:nth-of-type(5) {
+			transition-delay: 0.25s;
+		}
+		
+		.widget-social:nth-of-type(6) {
+			transition-delay: 0.3s;
+		}
+		
+		.widget-social:nth-of-type(7) {
+			transition-delay: 0.35s;
+		}
+		
+		.widget-social:nth-of-type(8) {
+			transition-delay: 0.4s;
+		}
+		
+		.widget-social:nth-of-type(9) {
+			transition-delay: 0.45s;
+		}
+		
+		.widget-social:nth-of-type(10) {
+			transition-delay: 0.5s;
 		}
 	}
 	
@@ -110,21 +131,47 @@
 		.widget-social {
 			opacity: 0;
 			pointer-events: none;
-			transform: scale(0.8) scaleX(0);
-			max-height: 0;
 		}
 		
 		// Последовательное исчезновение с обратной задержкой
-		.widget-social.social-whatsapp {
-			transition-delay: 0.15s;
+		.widget-social:nth-of-type(10) {
+			transition-delay: 0.05s;
 		}
 		
-		.widget-social.btn-telegram.social-max {
+		.widget-social:nth-of-type(9) {
 			transition-delay: 0.1s;
 		}
 		
-		.widget-social.btn-gradient.social-max {
-			transition-delay: 0.05s;
+		.widget-social:nth-of-type(8) {
+			transition-delay: 0.15s;
+		}
+		
+		.widget-social:nth-of-type(7) {
+			transition-delay: 0.2s;
+		}
+		
+		.widget-social:nth-of-type(6) {
+			transition-delay: 0.25s;
+		}
+		
+		.widget-social:nth-of-type(5) {
+			transition-delay: 0.3s;
+		}
+		
+		.widget-social:nth-of-type(4) {
+			transition-delay: 0.35s;
+		}
+		
+		.widget-social:nth-of-type(3) {
+			transition-delay: 0.4s;
+		}
+		
+		.widget-social:nth-of-type(2) {
+			transition-delay: 0.45s;
+		}
+		
+		.widget-social:nth-of-type(1) {
+			transition-delay: 0.5s;
 		}
 	}
 	

@@ -127,8 +127,40 @@
 	
 	<?php
 	// Плавающий виджет соцсетей (после wp_footer, чтобы был вне всех контейнеров)
-	if (function_exists('codeweber_floating_social_widget')) {
+	// Новая версия с поддержкой множественных соцсетей
+	// #region agent log
+	$log_data = json_encode(['location' => 'footer.php:131', 'message' => 'Footer widget section entry', 'data' => ['function_exists_new' => function_exists('codeweber_floating_social_widget_new'), 'function_exists_old' => function_exists('codeweber_floating_social_widget')], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+	@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
+	// #endregion
+	
+	if (function_exists('codeweber_floating_social_widget_new')) {
+		// Не передаем шаблон - метод render() сам выберет на основе widget_type из Redux
+		$widget_output = codeweber_floating_social_widget_new();
+		
+		// #region agent log
+		$log_data = json_encode(['location' => 'footer.php:137', 'message' => 'Widget output received in footer', 'data' => ['output_length' => strlen($widget_output), 'output_empty' => empty($widget_output), 'output_preview' => substr($widget_output, 0, 100)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+		@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
+		// #endregion
+		
+		if (!empty($widget_output)) {
+			// Временный тестовый комментарий для проверки вывода
+			echo '<!-- FLOATING WIDGET START: ' . strlen($widget_output) . ' bytes -->';
+			echo $widget_output;
+			echo '<!-- FLOATING WIDGET END -->';
+			// #region agent log
+			$log_data = json_encode(['location' => 'footer.php:147', 'message' => 'Widget output echoed', 'data' => ['output_length' => strlen($widget_output)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
+			// #endregion
+		} elseif (defined('WP_DEBUG') && WP_DEBUG) {
+			// Временный тестовый вывод для отладки
+			echo '<!-- Floating Social Widget: функция вызвана, но вывод пустой -->';
+		}
+	} elseif (function_exists('codeweber_floating_social_widget')) {
+		// Старая версия для обратной совместимости
 		echo codeweber_floating_social_widget();
+	} elseif (defined('WP_DEBUG') && WP_DEBUG) {
+		// Временный тестовый вывод для отладки
+		echo '<!-- Floating Social Widget: функции не найдены -->';
 	}
 	?>
 	
