@@ -70,20 +70,48 @@ function codeweber_get_available_socials() {
 	$socials = get_option('socials_urls', array());
 	$available_socials = array('' => esc_html__('-- Select Social Network --', 'codeweber'));
 	
-	// Добавляем формы в список доступных опций, если они выбраны
+	// Добавляем только выбранные формы из репитера floating_widget_forms
 	global $opt_name;
 	if (empty($opt_name)) {
 		$opt_name = 'redux_demo';
 	}
 	
-	// Добавляем все доступные формы в список (CodeWeber и CF7)
-	$all_forms = codeweber_get_all_forms();
-	foreach ($all_forms as $form_id_full => $form_title) {
-		if (!empty($form_id_full)) {
-			// Изменяем формат метки с "(CodeWeber)" или "(CF7)" на "(Email)"
-			$form_title_clean = str_replace(' (CodeWeber)', '', $form_title);
-			$form_title_clean = str_replace(' (CF7)', '', $form_title_clean);
-			$available_socials[$form_id_full] = $form_title_clean . ' (Email)';
+	// Получаем текущие выбранные формы из репитера
+	if (class_exists('Redux')) {
+		$forms_repeater = Redux::get_option($opt_name, 'floating_widget_forms', array());
+		
+		// Получаем все доступные формы для получения их названий
+		$all_forms = codeweber_get_all_forms();
+		
+		// Добавляем только те формы, которые выбраны в репитере
+		if (!empty($forms_repeater) && is_array($forms_repeater)) {
+			// Обрабатываем структуру repeater с group_values
+			if (isset($forms_repeater['form_id']) && is_array($forms_repeater['form_id'])) {
+				// Структура с group_values: ['form_id' => [0 => 'form_1', 1 => 'cf7_2', ...]]
+				foreach ($forms_repeater['form_id'] as $form_id_full) {
+					if (!empty($form_id_full) && isset($all_forms[$form_id_full])) {
+						$form_title = $all_forms[$form_id_full];
+						// Изменяем формат метки с "(CodeWeber)" или "(CF7)" на "(Email)"
+						$form_title_clean = str_replace(' (CodeWeber)', '', $form_title);
+						$form_title_clean = str_replace(' (CF7)', '', $form_title_clean);
+						$available_socials[$form_id_full] = $form_title_clean . ' (Email)';
+					}
+				}
+			} else {
+				// Обычная структура массива: [0 => ['form_id' => 'form_1'], 1 => ['form_id' => 'cf7_2'], ...]
+				foreach ($forms_repeater as $form_item) {
+					if (is_array($form_item) && isset($form_item['form_id']) && !empty($form_item['form_id'])) {
+						$form_id_full = $form_item['form_id'];
+						if (isset($all_forms[$form_id_full])) {
+							$form_title = $all_forms[$form_id_full];
+							// Изменяем формат метки с "(CodeWeber)" или "(CF7)" на "(Email)"
+							$form_title_clean = str_replace(' (CodeWeber)', '', $form_title);
+							$form_title_clean = str_replace(' (CF7)', '', $form_title_clean);
+							$available_socials[$form_id_full] = $form_title_clean . ' (Email)';
+						}
+					}
+				}
+			}
 		}
 	}
 	
