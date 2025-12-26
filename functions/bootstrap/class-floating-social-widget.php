@@ -79,10 +79,21 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				),
 				'icon' => 'uil-comment-dots',
 				'width' => '180px',
-				'right_offset' => '100px',
-				'left_offset' => 'auto',
-				'top_offset' => 'auto',
-				'bottom_offset' => '100px',
+				// Desktop offsets
+				'right_offset_desktop' => '30px',
+				'left_offset_desktop' => 'auto',
+				'top_offset_desktop' => 'auto',
+				'bottom_offset_desktop' => '30px',
+				// Tablet offsets
+				'right_offset_tablet' => '20px',
+				'left_offset_tablet' => 'auto',
+				'top_offset_tablet' => 'auto',
+				'bottom_offset_tablet' => '20px',
+				// Mobile offsets
+				'right_offset_mobile' => '15px',
+				'left_offset_mobile' => 'auto',
+				'top_offset_mobile' => 'auto',
+				'bottom_offset_mobile' => '15px',
 				'z_index' => 9999,
 			);
 		}
@@ -139,9 +150,16 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					// Обрабатываем массив social_network
 					foreach ($socials_raw['social_network'] as $index => $social_id) {
 						if (!empty($social_id) && is_string($social_id)) {
-							$socials[] = array('social_network' => $social_id);
+							$social_item = array('social_network' => $social_id);
+							
+							// Добавляем custom_text, если он есть
+							if (isset($socials_raw['custom_text'][$index]) && !empty($socials_raw['custom_text'][$index])) {
+								$social_item['custom_text'] = $socials_raw['custom_text'][$index];
+							}
+							
+							$socials[] = $social_item;
 							// #region agent log
-							$log_data = json_encode(['location' => 'class-floating-social-widget.php:80', 'message' => 'Added social from group_values', 'data' => ['index' => $index, 'social_id' => $social_id], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
+							$log_data = json_encode(['location' => 'class-floating-social-widget.php:80', 'message' => 'Added social from group_values', 'data' => ['index' => $index, 'social_id' => $social_id, 'has_custom_text' => isset($social_item['custom_text'])], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
 							@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
 							// #endregion
 						}
@@ -214,9 +232,14 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$button_color = Redux::get_option($this->opt_name, 'floating_widget_button_color');
 			$animation_type = Redux::get_option($this->opt_name, 'floating_widget_animation_type');
 			$widget_type = Redux::get_option($this->opt_name, 'floating_widget_type');
+			$widget_item_type = Redux::get_option($this->opt_name, 'floating_widget_item_type');
+			$button_text = Redux::get_option($this->opt_name, 'floating_widget_button_text');
+			$button_action_type = Redux::get_option($this->opt_name, 'floating_widget_button_action_type');
+			$show_icon_mobile = Redux::get_option($this->opt_name, 'floating_widget_show_icon_mobile');
+			$widget_position_side = Redux::get_option($this->opt_name, 'floating_widget_position_side');
 			
 			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:220', 'message' => 'Settings retrieved from Redux', 'data' => ['button_color' => $button_color, 'button_color_type' => gettype($button_color), 'animation_type' => $animation_type, 'animation_type_type' => gettype($animation_type), 'widget_type' => $widget_type, 'widget_type_type' => gettype($widget_type)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+			$log_data = json_encode(['location' => 'class-floating-social-widget.php:220', 'message' => 'Settings retrieved from Redux', 'data' => ['button_color' => $button_color, 'button_color_type' => gettype($button_color), 'animation_type' => $animation_type, 'animation_type_type' => gettype($animation_type), 'widget_type' => $widget_type, 'widget_type_type' => gettype($widget_type), 'widget_item_type' => $widget_item_type, 'button_text' => $button_text], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
 			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
 			// #endregion
 			
@@ -235,6 +258,24 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				$widget_type = 'icon';
 			}
 			
+			// Нормализуем тип элементов виджета - если пусто, используем button
+			if (empty($widget_item_type)) {
+				$widget_item_type = 'button';
+			}
+			
+			// Нормализуем текст кнопки
+			if (empty($button_text)) {
+				$button_text = esc_html__('Написать нам', 'codeweber');
+			}
+			
+			// Нормализуем тип действия кнопки
+			if (empty($button_action_type)) {
+				$button_action_type = 'none';
+			}
+			
+			// Форма теперь добавляется автоматически через фильтр Redux в список Social Networks
+			// и отображается в интерфейсе, где можно управлять порядком
+			
 			$this->settings = array(
 				'enabled' => $enabled_normalized,
 				'socials' => $socials,
@@ -242,11 +283,27 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				'button_color' => $button_color,
 				'animation_type' => $animation_type,
 				'widget_type' => $widget_type,
+				'widget_item_type' => $widget_item_type,
+				'button_text' => $button_text,
+				'button_action_type' => $button_action_type,
+				'show_icon_mobile' => !empty($show_icon_mobile) ? true : false,
+				'widget_position_side' => !empty($widget_position_side) ? $widget_position_side : 'right',
 				'width' => Redux::get_option($this->opt_name, 'floating_widget_width'),
-				'right_offset' => Redux::get_option($this->opt_name, 'floating_widget_right_offset'),
-				'left_offset' => Redux::get_option($this->opt_name, 'floating_widget_left_offset'),
-				'top_offset' => Redux::get_option($this->opt_name, 'floating_widget_top_offset'),
-				'bottom_offset' => Redux::get_option($this->opt_name, 'floating_widget_bottom_offset'),
+				// Desktop offsets
+				'right_offset_desktop' => Redux::get_option($this->opt_name, 'floating_widget_right_offset_desktop'),
+				'left_offset_desktop' => Redux::get_option($this->opt_name, 'floating_widget_left_offset_desktop'),
+				'top_offset_desktop' => Redux::get_option($this->opt_name, 'floating_widget_top_offset_desktop'),
+				'bottom_offset_desktop' => Redux::get_option($this->opt_name, 'floating_widget_bottom_offset_desktop'),
+				// Tablet offsets
+				'right_offset_tablet' => Redux::get_option($this->opt_name, 'floating_widget_right_offset_tablet'),
+				'left_offset_tablet' => Redux::get_option($this->opt_name, 'floating_widget_left_offset_tablet'),
+				'top_offset_tablet' => Redux::get_option($this->opt_name, 'floating_widget_top_offset_tablet'),
+				'bottom_offset_tablet' => Redux::get_option($this->opt_name, 'floating_widget_bottom_offset_tablet'),
+				// Mobile offsets
+				'right_offset_mobile' => Redux::get_option($this->opt_name, 'floating_widget_right_offset_mobile'),
+				'left_offset_mobile' => Redux::get_option($this->opt_name, 'floating_widget_left_offset_mobile'),
+				'top_offset_mobile' => Redux::get_option($this->opt_name, 'floating_widget_top_offset_mobile'),
+				'bottom_offset_mobile' => Redux::get_option($this->opt_name, 'floating_widget_bottom_offset_mobile'),
 				'z_index' => Redux::get_option($this->opt_name, 'floating_widget_z_index'),
 			);
 			
@@ -293,7 +350,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		/**
 		 * Get social network URL by ID
 		 * 
-		 * @param string|array $social_id Social network ID (e.g., 'telegram', 'whatsapp', 'max')
+		 * @param string|array $social_id Social network ID (e.g., 'telegram', 'whatsapp', 'max', 'form_123')
 		 * @return string|false URL or false if not found
 		 */
 		private function get_social_url($social_id) {
@@ -309,6 +366,12 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
 				// #endregion
 				return false;
+			}
+			
+			// Проверяем, является ли это формой (CodeWeber или CF7)
+			if (strpos($social_id, 'form_') === 0 || strpos($social_id, 'cf7_') === 0) {
+				// Для формы возвращаем javascript:void(0), ссылка формируется через data-атрибуты
+				return 'javascript:void(0)';
 			}
 			
 			$url_exists = isset($this->socials_urls[$social_id]) && !empty($this->socials_urls[$social_id]);
@@ -332,6 +395,11 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		 * @return string Icon class
 		 */
 		private function get_social_icon_class($social_id) {
+			// Проверяем, является ли это формой (CodeWeber или CF7)
+			if (strpos($social_id, 'form_') === 0 || strpos($social_id, 'cf7_') === 0) {
+				return 'uil-envelope';
+			}
+			
 			$icon_map = array(
 				'max'         => 'uil-max',
 				'telegram'    => 'uil-telegram',
@@ -382,10 +450,60 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		/**
 		 * Get social network label
 		 * 
-		 * @param string $social_id Social network ID
+		 * @param string|array $social_id_or_item Social network ID or array with social_item data
 		 * @return string Label
 		 */
-		private function get_social_label($social_id) {
+		private function get_social_label($social_id_or_item) {
+			// Если передан массив, извлекаем social_id и custom_text
+			$social_id = '';
+			$custom_text = '';
+			
+			if (is_array($social_id_or_item)) {
+				if (isset($social_id_or_item['social_network'])) {
+					$social_id = $social_id_or_item['social_network'];
+					// Если social_network тоже массив, берем первый элемент
+					if (is_array($social_id)) {
+						$social_id = isset($social_id[0]) ? $social_id[0] : '';
+					}
+				} elseif (isset($social_id_or_item[0])) {
+					$social_id = $social_id_or_item[0];
+				}
+				
+				// Получаем кастомный текст, если он есть
+				if (isset($social_id_or_item['custom_text'])) {
+					$custom_text = $social_id_or_item['custom_text'];
+					// Если custom_text тоже массив, берем первый элемент
+					if (is_array($custom_text)) {
+						$custom_text = isset($custom_text[0]) ? $custom_text[0] : '';
+					}
+				}
+			} else {
+				$social_id = $social_id_or_item;
+			}
+			
+			// Если указан кастомный текст, возвращаем его
+			if (!empty($custom_text) && is_string($custom_text)) {
+				return $custom_text;
+			}
+			
+			// Иначе используем стандартную логику
+			// Проверяем, является ли это формой (CodeWeber или CF7)
+			if (strpos($social_id, 'form_') === 0) {
+				$form_id = str_replace('form_', '', $social_id);
+				$form_post = get_post($form_id);
+				if ($form_post && $form_post->post_status === 'publish') {
+					return $form_post->post_title . ' (Email)';
+				}
+				return 'Form (Email)';
+			} elseif (strpos($social_id, 'cf7_') === 0) {
+				$form_id = str_replace('cf7_', '', $social_id);
+				$form_post = get_post($form_id);
+				if ($form_post && $form_post->post_status === 'publish') {
+					return $form_post->post_title . ' (Email)';
+				}
+				return 'Form (Email)';
+			}
+			
 			$labels = array(
 				'max'         => 'MAX',
 				'telegram'    => 'Telegram',
@@ -440,6 +558,11 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		 * @return string Button class
 		 */
 		private function get_button_class($social_id) {
+			// Проверяем, является ли это формой (CodeWeber или CF7)
+			if (strpos($social_id, 'form_') === 0 || strpos($social_id, 'cf7_') === 0) {
+				return 'btn btn-navy';
+			}
+			
 			// Исключения для специальных случаев
 			$exceptions = array(
 				'max' => 'btn-gradient gradient-10', // Без префикса btn, так как он добавляется отдельно
@@ -468,6 +591,100 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			}
 			
 			return 'fs-28';
+		}
+		
+		/**
+		 * Normalize offset value (add px if numeric)
+		 * 
+		 * @param mixed $value Offset value
+		 * @return string Normalized value
+		 */
+		private function normalize_offset($value) {
+			if (empty($value)) {
+				return 'auto';
+			}
+			if (is_numeric($value)) {
+				return intval($value) . 'px';
+			}
+			return $value;
+		}
+		
+		/**
+		 * Generate responsive CSS styles for widget offsets
+		 * 
+		 * @return string CSS with media queries
+		 */
+		private function get_responsive_styles() {
+			if (!$this->is_enabled()) {
+				return '';
+			}
+			
+			$css = '';
+			
+			// Отступы теперь определены в inline стилях через CSS переменные, используем их
+			// Mobile styles (<768px) - используем CSS переменные из inline стилей
+			$css .= '@media (max-width: 767.98px) {';
+			$css .= '.share-buttons.position-fixed {';
+			$css .= 'right: var(--right-mobile);';
+			$css .= 'left: var(--left-mobile);';
+			$css .= 'top: var(--top-mobile);';
+			$css .= 'bottom: var(--bottom-mobile);';
+			$css .= '}';
+			$css .= '}';
+			
+			// Tablet styles (≥768px and <992px)
+			$css .= '@media (min-width: 768px) and (max-width: 991.98px) {';
+			$css .= '.share-buttons.position-fixed {';
+			$css .= 'right: var(--right-tablet);';
+			$css .= 'left: var(--left-tablet);';
+			$css .= 'top: var(--top-tablet);';
+			$css .= 'bottom: var(--bottom-tablet);';
+			$css .= '}';
+			$css .= '}';
+			
+			// Desktop styles (≥992px) - последним, чтобы переопределить на больших экранах
+			$css .= '@media (min-width: 992px) {';
+			$css .= '.share-buttons.position-fixed {';
+			$css .= 'right: var(--right-desktop);';
+			$css .= 'left: var(--left-desktop);';
+			$css .= 'top: var(--top-desktop);';
+			$css .= 'bottom: var(--bottom-desktop);';
+			$css .= '}';
+			$css .= '}';
+			
+			// Если включена опция "Show Icon on Mobile" для типа Button, скрываем текст на мобильных
+			if (!empty($this->settings['widget_type']) && $this->settings['widget_type'] === 'button' 
+				&& !empty($this->settings['show_icon_mobile']) && $this->settings['show_icon_mobile']) {
+				// Мобильные устройства (<768px)
+				$css .= '@media (max-width: 767.98px) {';
+				$css .= '.share-button-main.widget-button-mobile-icon .widget-button-text {';
+				$css .= 'display: none !important;';
+				$css .= '}';
+				$css .= '.share-button-main.widget-button-mobile-icon {';
+				$css .= 'padding-left: 0.5rem !important;';
+				$css .= 'padding-right: 0.5rem !important;';
+				$css .= '}';
+				$css .= '.share-button-main.widget-button-mobile-icon i {';
+				$css .= 'margin-right: 0 !important;';
+				$css .= '}';
+				$css .= '}';
+				
+				// Планшеты (≥768px and <992px)
+				$css .= '@media (min-width: 768px) and (max-width: 991.98px) {';
+				$css .= '.share-button-main.widget-button-mobile-icon .widget-button-text {';
+				$css .= 'display: none !important;';
+				$css .= '}';
+				$css .= '.share-button-main.widget-button-mobile-icon {';
+				$css .= 'padding-left: 0.5rem !important;';
+				$css .= 'padding-right: 0.5rem !important;';
+				$css .= '}';
+				$css .= '.share-button-main.widget-button-mobile-icon i {';
+				$css .= 'margin-right: 0 !important;';
+				$css .= '}';
+				$css .= '}';
+			}
+			
+			return $css;
 		}
 		
 		/**
@@ -518,37 +735,87 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			// Get width
 			$width = !empty($this->settings['width']) ? esc_attr($this->settings['width']) : '180px';
 			
-			// Get offsets
-			$right = !empty($this->settings['right_offset']) ? $this->settings['right_offset'] : '100px';
-			$bottom = !empty($this->settings['bottom_offset']) ? $this->settings['bottom_offset'] : '100px';
-			
-			// Нормализуем значения - добавляем px если это число
-			if (is_numeric($right)) {
-				$right = intval($right) . 'px';
-			}
-			if (is_numeric($bottom)) {
-				$bottom = intval($bottom) . 'px';
-			}
-			
 			// Get z-index
 			$z_index = !empty($this->settings['z_index']) ? intval($this->settings['z_index']) : 9999;
 			
-			// Build inline styles
+			// Get widget position side first to apply correct rules
+			$widget_position_side = !empty($this->settings['widget_position_side']) ? $this->settings['widget_position_side'] : 'right';
+			
+			// Get all offsets for all devices - все значения выводим в inline стилях
+			$right_desktop = $this->normalize_offset(!empty($this->settings['right_offset_desktop']) ? $this->settings['right_offset_desktop'] : '30px');
+			$left_desktop = $this->normalize_offset(!empty($this->settings['left_offset_desktop']) ? $this->settings['left_offset_desktop'] : 'auto');
+			$top_desktop = $this->normalize_offset(!empty($this->settings['top_offset_desktop']) ? $this->settings['top_offset_desktop'] : 'auto');
+			$bottom_desktop = $this->normalize_offset(!empty($this->settings['bottom_offset_desktop']) ? $this->settings['bottom_offset_desktop'] : '30px');
+			
+			$right_tablet = $this->normalize_offset(!empty($this->settings['right_offset_tablet']) ? $this->settings['right_offset_tablet'] : '20px');
+			$left_tablet = $this->normalize_offset(!empty($this->settings['left_offset_tablet']) ? $this->settings['left_offset_tablet'] : 'auto');
+			$top_tablet = $this->normalize_offset(!empty($this->settings['top_offset_tablet']) ? $this->settings['top_offset_tablet'] : 'auto');
+			$bottom_tablet = $this->normalize_offset(!empty($this->settings['bottom_offset_tablet']) ? $this->settings['bottom_offset_tablet'] : '20px');
+			
+			$right_mobile = $this->normalize_offset(!empty($this->settings['right_offset_mobile']) ? $this->settings['right_offset_mobile'] : '15px');
+			$left_mobile = $this->normalize_offset(!empty($this->settings['left_offset_mobile']) ? $this->settings['left_offset_mobile'] : 'auto');
+			$top_mobile = $this->normalize_offset(!empty($this->settings['top_offset_mobile']) ? $this->settings['top_offset_mobile'] : 'auto');
+			$bottom_mobile = $this->normalize_offset(!empty($this->settings['bottom_offset_mobile']) ? $this->settings['bottom_offset_mobile'] : '15px');
+			
+			// Apply position rules: в режиме Left right всегда auto на всех устройствах, в режиме Right left всегда auto на всех устройствах
+			if ($widget_position_side === 'left') {
+				$right_desktop = 'auto';
+				$right_tablet = 'auto';
+				$right_mobile = 'auto';
+			} elseif ($widget_position_side === 'right') {
+				$left_desktop = 'auto';
+				$left_tablet = 'auto';
+				$left_mobile = 'auto';
+			}
+			
+			// Build inline styles - все значения отступов выводим как inline стили
 			$styles = array(
-				'min-width: ' . esc_attr($width),
-				'right: ' . esc_attr($right),
-				'bottom: ' . esc_attr($bottom),
+				'width: ' . esc_attr($width),
 				'z-index: ' . $z_index,
+				// Desktop offsets
+				'--right-desktop: ' . esc_attr($right_desktop),
+				'--left-desktop: ' . esc_attr($left_desktop),
+				'--top-desktop: ' . esc_attr($top_desktop),
+				'--bottom-desktop: ' . esc_attr($bottom_desktop),
+				// Tablet offsets
+				'--right-tablet: ' . esc_attr($right_tablet),
+				'--left-tablet: ' . esc_attr($left_tablet),
+				'--top-tablet: ' . esc_attr($top_tablet),
+				'--bottom-tablet: ' . esc_attr($bottom_tablet),
+				// Mobile offsets
+				'--right-mobile: ' . esc_attr($right_mobile),
+				'--left-mobile: ' . esc_attr($left_mobile),
+				'--top-mobile: ' . esc_attr($top_mobile),
+				'--bottom-mobile: ' . esc_attr($bottom_mobile),
 			);
+			
+			// Add desktop offsets as default (will be overridden by CSS media queries using CSS variables)
+			// Добавляем все свойства, даже если они 'auto', чтобы все значения были видны в inline стилях
+			$styles[] = 'right: var(--right-desktop)';
+			$styles[] = 'left: var(--left-desktop)';
+			$styles[] = 'top: var(--top-desktop)';
+			$styles[] = 'bottom: var(--bottom-desktop)';
+			
 			$style_attr = implode('; ', $styles);
+			
+			// Generate responsive CSS that uses CSS variables from inline styles
+			$responsive_css = $this->get_responsive_styles();
 			
 			// Get animation type and determine class
 			$animation_type = !empty($this->settings['animation_type']) ? $this->settings['animation_type'] : 'vertical';
-			$widget_classes = 'share-buttons align-items-end position-fixed';
+			
+			// В режиме Left используем align-items-start, в режиме Right - align-items-end
+			$align_class = ($widget_position_side === 'left') ? 'align-items-start' : 'align-items-end';
+			$widget_classes = 'share-buttons ' . $align_class . ' position-fixed';
 			
 			// Добавляем класс top-widget только если анимация вертикальная
 			if ($animation_type === 'vertical') {
 				$widget_classes .= ' top-widget';
+			}
+			
+			// Добавляем класс right-widget если выбрано Right
+			if ($widget_position_side === 'right') {
+				$widget_classes .= ' right-widget';
 			}
 			
 			// #region agent log
@@ -557,26 +824,47 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			// #endregion
 			
 			// Start output
-			$output = '<div class="' . esc_attr($widget_classes) . '" style="' . esc_attr($style_attr) . '">';
+			$output = '';
+			
+			// Add responsive CSS if available
+			if (!empty($responsive_css)) {
+				$output .= '<style type="text/css">' . $responsive_css . '</style>';
+			}
+			
+			$output .= '<div class="' . esc_attr($widget_classes) . '" style="' . esc_attr($style_attr) . '">';
 			
 			// Get button color from settings
 			$button_color = !empty($this->settings['button_color']) ? esc_attr($this->settings['button_color']) : 'primary';
+			$widget_type = !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'icon';
 			
 			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:515', 'message' => 'Button color for rendering', 'data' => ['button_color' => $button_color, 'button_class' => 'btn-' . $button_color], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+			$log_data = json_encode(['location' => 'class-floating-social-widget.php:515', 'message' => 'Button color for rendering', 'data' => ['button_color' => $button_color, 'button_class' => 'btn-' . $button_color, 'widget_type' => $widget_type], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
 			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
 			// #endregion
 			
-			// Main button using CodeWeber_Floating_Button
-			$main_button = new CodeWeber_Floating_Button(array(
-				'icon' => 'uil uil-' . esc_attr($main_icon),
-				'color' => $button_color,
-				'size' => 'lg',
-				'class' => 'share-button-main',
-				'tag' => 'button',
-				'type' => 'button',
-			));
-			$output .= $main_button->render();
+			// Main button - разная верстка для разных типов виджета
+			if ($widget_type === 'button') {
+				// Верстка для типа Button с текстом
+				$button_text = !empty($this->settings['button_text']) ? esc_html($this->settings['button_text']) : esc_html__('Написать нам', 'codeweber');
+				$show_icon_mobile = !empty($this->settings['show_icon_mobile']) ? $this->settings['show_icon_mobile'] : false;
+				// Добавляем класс для управления отображением на мобильных
+				$button_mobile_class = $show_icon_mobile ? ' widget-button-mobile-icon' : '';
+				$output .= '<button class="btn-text-hide btn btn-' . $button_color . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill share-button-main no-rotate' . esc_attr($button_mobile_class) . '" type="button">';
+				$output .= '<i class="fs-28 uil uil-' . esc_attr($main_icon) . '"></i>';
+				$output .= '<span class="ps-1 text-hide pe-2 widget-button-text">' . $button_text . '</span>';
+				$output .= '</button>';
+			} else {
+				// Верстка для типа Icon (как было)
+				$main_button = new CodeWeber_Floating_Button(array(
+					'icon' => 'uil uil-' . esc_attr($main_icon),
+					'color' => $button_color,
+					'size' => 'lg',
+					'class' => 'share-button-main',
+					'tag' => 'button',
+					'type' => 'button',
+				));
+				$output .= $main_button->render();
+			}
 			
 			// Social network buttons
 			// Обрабатываем массив соцсетей из repeater
@@ -627,17 +915,111 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				// Формируем полный класс иконки: uil uil-{icon_name}
 				$icon_class = 'uil uil-' . $icon_class_name;
 				
-				$label = $this->get_social_label($social_id);
+				$label = $this->get_social_label($social_item);
 				$button_class = $this->get_button_class($social_id);
 				$icon_size = $this->get_icon_size_class($social_id);
 				
-				// Build social button
-				$output .= '<a href="' . $social_url . '" ';
-				$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social justify-content-between w-100" ';
-				$output .= 'target="_blank" rel="noopener noreferrer">';
-				$output .= '<i class="' . esc_attr($icon_size) . ' ' . esc_attr($icon_class) . ' me-0"></i>';
-				$output .= '<span class="ps-1 pe-2">' . esc_html($label) . '</span>';
-				$output .= '</a>';
+				// Проверяем, является ли это формой (CodeWeber или CF7)
+				$is_form = (strpos($social_id, 'form_') === 0 || strpos($social_id, 'cf7_') === 0);
+				
+				// Определяем тип формы и ID на основе префикса
+				if (strpos($social_id, 'cf7_') === 0) {
+					// CF7 форма
+					$form_id = str_replace('cf7_', '', $social_id);
+					$data_value = 'cf7-' . esc_attr($form_id);
+				} elseif (strpos($social_id, 'form_') === 0) {
+					// CodeWeber форма
+					$form_id = str_replace('form_', '', $social_id);
+					$data_value = 'cf-' . esc_attr($form_id);
+				} else {
+					$form_id = '';
+					$data_value = '';
+				}
+				
+				// Получаем тип элементов виджета
+				$widget_item_type = !empty($this->settings['widget_item_type']) ? $this->settings['widget_item_type'] : 'button';
+				
+				// Build social button - разная верстка в зависимости от типа элементов
+				if ($widget_item_type === 'icon') {
+					// Верстка для типа Icon - только иконки в кружках
+					$button_class_raw = $button_class;
+					// Убираем префикс 'btn ' из button_class, так как CodeWeber_Floating_Button уже добавляет 'btn'
+					$button_class_clean = str_replace('btn ', '', $button_class_raw);
+					$button_class_clean = trim($button_class_clean);
+					
+					// Определяем color и дополнительные классы
+					$color = '';
+					$additional_classes = array('social', 'widget-social');
+					
+					// Проверяем, содержит ли класс btn-gradient (для градиентных кнопок)
+					if (strpos($button_class_clean, 'btn-gradient') !== false) {
+						// Для градиентных кнопок: btn-gradient gradient-10
+						$button_class_parts = explode(' ', $button_class_clean);
+						foreach ($button_class_parts as $part) {
+							if ($part === 'btn-gradient') {
+								$additional_classes[] = 'btn-gradient';
+							} elseif ($part !== 'btn-gradient') {
+								$additional_classes[] = $part; // gradient-10
+							}
+						}
+					} elseif (strpos($button_class_clean, 'btn-') === 0) {
+						// Если начинается с 'btn-', используем как color (убираем префикс)
+						$color = str_replace('btn-', '', $button_class_clean);
+					} else {
+						// Иначе это составной класс, добавляем как дополнительный
+						$additional_classes[] = $button_class_clean;
+					}
+					
+					// Для формы используем data-атрибуты для открытия модального окна
+					if ($is_form) {
+						$social_button = new CodeWeber_Floating_Button(array(
+							'icon' => $icon_class,
+							'color' => $color,
+							'size' => 'lg',
+							'class' => implode(' ', $additional_classes),
+							'href' => 'javascript:void(0)',
+							'title' => esc_attr($label),
+							'data' => array(
+								'value' => $data_value,
+								'bs-toggle' => 'modal',
+								'bs-target' => '#modal'
+							),
+							'tag' => 'a',
+						));
+					} else {
+						// Build social button using CodeWeber_Floating_Button (Icon variant)
+						$social_button = new CodeWeber_Floating_Button(array(
+							'icon' => $icon_class,
+							'color' => $color,
+							'size' => 'lg',
+							'class' => implode(' ', $additional_classes),
+							'href' => $social_url,
+							'title' => esc_attr($label),
+							'target' => '_blank',
+							'rel' => 'noopener noreferrer',
+							'tag' => 'a',
+						));
+					}
+					$output .= $social_button->render();
+				} else {
+					// Верстка для типа Button - кнопки с текстом (по умолчанию)
+					if ($is_form) {
+						// Для формы используем data-атрибуты для открытия модального окна
+						$output .= '<a href="javascript:void(0)" ';
+						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social justify-content-between w-100" ';
+						$output .= 'title="' . esc_attr($label) . '" ';
+						$output .= 'data-value="' . esc_attr($data_value) . '" ';
+						$output .= 'data-bs-toggle="modal" data-bs-target="#modal">';
+					} else {
+						$output .= '<a href="' . $social_url . '" ';
+						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social justify-content-between w-100" ';
+						$output .= 'title="' . esc_attr($label) . '" ';
+						$output .= 'target="_blank" rel="noopener noreferrer">';
+					}
+					$output .= '<i class="' . esc_attr($icon_size) . ' ' . esc_attr($icon_class) . ' me-0"></i>';
+					$output .= '<span class="ps-1 pe-2">' . esc_html($label) . '</span>';
+					$output .= '</a>';
+				}
 			}
 			
 			$output .= '</div>';
@@ -682,41 +1064,98 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			// Get width
 			$width = !empty($this->settings['width']) ? esc_attr($this->settings['width']) : '180px';
 			
-			// Get offsets
-			$right = !empty($this->settings['right_offset']) ? $this->settings['right_offset'] : '100px';
-			$bottom = !empty($this->settings['bottom_offset']) ? $this->settings['bottom_offset'] : '100px';
-			
-			// Нормализуем значения - добавляем px если это число
-			if (is_numeric($right)) {
-				$right = intval($right) . 'px';
-			}
-			if (is_numeric($bottom)) {
-				$bottom = intval($bottom) . 'px';
-			}
-			
 			// Get z-index
 			$z_index = !empty($this->settings['z_index']) ? intval($this->settings['z_index']) : 9999;
 			
-			// Build inline styles
+			// Get widget position side first to apply correct rules
+			$widget_position_side = !empty($this->settings['widget_position_side']) ? $this->settings['widget_position_side'] : 'right';
+			
+			// Get all offsets for all devices - все значения выводим в inline стилях
+			$right_desktop = $this->normalize_offset(!empty($this->settings['right_offset_desktop']) ? $this->settings['right_offset_desktop'] : '30px');
+			$left_desktop = $this->normalize_offset(!empty($this->settings['left_offset_desktop']) ? $this->settings['left_offset_desktop'] : 'auto');
+			$top_desktop = $this->normalize_offset(!empty($this->settings['top_offset_desktop']) ? $this->settings['top_offset_desktop'] : 'auto');
+			$bottom_desktop = $this->normalize_offset(!empty($this->settings['bottom_offset_desktop']) ? $this->settings['bottom_offset_desktop'] : '30px');
+			
+			$right_tablet = $this->normalize_offset(!empty($this->settings['right_offset_tablet']) ? $this->settings['right_offset_tablet'] : '20px');
+			$left_tablet = $this->normalize_offset(!empty($this->settings['left_offset_tablet']) ? $this->settings['left_offset_tablet'] : 'auto');
+			$top_tablet = $this->normalize_offset(!empty($this->settings['top_offset_tablet']) ? $this->settings['top_offset_tablet'] : 'auto');
+			$bottom_tablet = $this->normalize_offset(!empty($this->settings['bottom_offset_tablet']) ? $this->settings['bottom_offset_tablet'] : '20px');
+			
+			$right_mobile = $this->normalize_offset(!empty($this->settings['right_offset_mobile']) ? $this->settings['right_offset_mobile'] : '15px');
+			$left_mobile = $this->normalize_offset(!empty($this->settings['left_offset_mobile']) ? $this->settings['left_offset_mobile'] : 'auto');
+			$top_mobile = $this->normalize_offset(!empty($this->settings['top_offset_mobile']) ? $this->settings['top_offset_mobile'] : 'auto');
+			$bottom_mobile = $this->normalize_offset(!empty($this->settings['bottom_offset_mobile']) ? $this->settings['bottom_offset_mobile'] : '15px');
+			
+			// Apply position rules: в режиме Left right всегда auto на всех устройствах, в режиме Right left всегда auto на всех устройствах
+			if ($widget_position_side === 'left') {
+				$right_desktop = 'auto';
+				$right_tablet = 'auto';
+				$right_mobile = 'auto';
+			} elseif ($widget_position_side === 'right') {
+				$left_desktop = 'auto';
+				$left_tablet = 'auto';
+				$left_mobile = 'auto';
+			}
+			
+			// Build inline styles - все значения отступов выводим как inline стили
 			$styles = array(
-				'min-width: ' . esc_attr($width),
-				'right: ' . esc_attr($right),
-				'bottom: ' . esc_attr($bottom),
+				'width: ' . esc_attr($width),
 				'z-index: ' . $z_index,
+				// Desktop offsets
+				'--right-desktop: ' . esc_attr($right_desktop),
+				'--left-desktop: ' . esc_attr($left_desktop),
+				'--top-desktop: ' . esc_attr($top_desktop),
+				'--bottom-desktop: ' . esc_attr($bottom_desktop),
+				// Tablet offsets
+				'--right-tablet: ' . esc_attr($right_tablet),
+				'--left-tablet: ' . esc_attr($left_tablet),
+				'--top-tablet: ' . esc_attr($top_tablet),
+				'--bottom-tablet: ' . esc_attr($bottom_tablet),
+				// Mobile offsets
+				'--right-mobile: ' . esc_attr($right_mobile),
+				'--left-mobile: ' . esc_attr($left_mobile),
+				'--top-mobile: ' . esc_attr($top_mobile),
+				'--bottom-mobile: ' . esc_attr($bottom_mobile),
 			);
+			
+			// Add desktop offsets as default (will be overridden by CSS media queries using CSS variables)
+			// Добавляем все свойства, даже если они 'auto', чтобы все значения были видны в inline стилях
+			$styles[] = 'right: var(--right-desktop)';
+			$styles[] = 'left: var(--left-desktop)';
+			$styles[] = 'top: var(--top-desktop)';
+			$styles[] = 'bottom: var(--bottom-desktop)';
+			
 			$style_attr = implode('; ', $styles);
+			
+			// Generate responsive CSS that uses CSS variables from inline styles
+			$responsive_css = $this->get_responsive_styles();
 			
 			// Get animation type and determine class
 			$animation_type = !empty($this->settings['animation_type']) ? $this->settings['animation_type'] : 'vertical';
-			$widget_classes = 'share-buttons align-items-end position-fixed';
+			
+			// В режиме Left используем align-items-start, в режиме Right - align-items-end
+			$align_class = ($widget_position_side === 'left') ? 'align-items-start' : 'align-items-end';
+			$widget_classes = 'share-buttons ' . $align_class . ' position-fixed';
 			
 			// Добавляем класс top-widget только если анимация вертикальная
 			if ($animation_type === 'vertical') {
 				$widget_classes .= ' top-widget';
 			}
 			
+			// Добавляем класс right-widget если выбрано Right
+			if ($widget_position_side === 'right') {
+				$widget_classes .= ' right-widget';
+			}
+			
 			// Start output
-			$output = '<div class="' . esc_attr($widget_classes) . '" style="' . esc_attr($style_attr) . '">';
+			$output = '';
+			
+			// Add responsive CSS if available
+			if (!empty($responsive_css)) {
+				$output .= '<style type="text/css">' . $responsive_css . '</style>';
+			}
+			
+			$output .= '<div class="' . esc_attr($widget_classes) . '" style="' . esc_attr($style_attr) . '">';
 			
 			// Get main icon
 			$main_icon_raw = !empty($this->settings['icon']) ? $this->settings['icon'] : 'comment-dots';
@@ -724,17 +1163,31 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			
 			// Get button color from settings
 			$button_color = !empty($this->settings['button_color']) ? esc_attr($this->settings['button_color']) : 'primary';
+			$widget_type = !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'icon';
 			
-			// Main button using CodeWeber_Floating_Button (такая же как в template_1)
-			$main_button = new CodeWeber_Floating_Button(array(
-				'icon' => 'uil uil-' . esc_attr($main_icon),
-				'color' => $button_color,
-				'size' => 'lg',
-				'class' => 'share-button-main',
-				'tag' => 'button',
-				'type' => 'button',
-			));
-			$output .= $main_button->render();
+			// Main button - разная верстка для разных типов виджета
+			if ($widget_type === 'button') {
+				// Верстка для типа Button с текстом
+				$button_text = !empty($this->settings['button_text']) ? esc_html($this->settings['button_text']) : esc_html__('Написать нам', 'codeweber');
+				$show_icon_mobile = !empty($this->settings['show_icon_mobile']) ? $this->settings['show_icon_mobile'] : false;
+				// Добавляем класс для управления отображением на мобильных
+				$button_mobile_class = $show_icon_mobile ? ' widget-button-mobile-icon' : '';
+				$output .= '<button class="btn-text-hide btn btn-' . $button_color . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill share-button-main no-rotate' . esc_attr($button_mobile_class) . '" type="button">';
+				$output .= '<i class="fs-28 uil uil-' . esc_attr($main_icon) . '"></i>';
+				$output .= '<span class="ps-1 text-hide pe-2 widget-button-text">' . $button_text . '</span>';
+				$output .= '</button>';
+			} else {
+				// Верстка для типа Icon (как было)
+				$main_button = new CodeWeber_Floating_Button(array(
+					'icon' => 'uil uil-' . esc_attr($main_icon),
+					'color' => $button_color,
+					'size' => 'lg',
+					'class' => 'share-button-main',
+					'tag' => 'button',
+					'type' => 'button',
+				));
+				$output .= $main_button->render();
+			}
 			
 			// Social network buttons (Icon variant - только иконки)
 			foreach ($socials as $social_item) {
@@ -774,47 +1227,111 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				// Формируем полный класс иконки: uil uil-{icon_name}
 				$icon_class = 'uil uil-' . $icon_class_name;
 				
-				$button_class_raw = $this->get_button_class($social_id);
-				// Убираем префикс 'btn ' из button_class, так как CodeWeber_Floating_Button уже добавляет 'btn'
-				$button_class = str_replace('btn ', '', $button_class_raw);
-				$button_class = trim($button_class);
+				$label = $this->get_social_label($social_item);
+				$button_class = $this->get_button_class($social_id);
+				$icon_size = $this->get_icon_size_class($social_id);
 				
-				// Определяем color и дополнительные классы
-				$color = '';
-				$additional_classes = array('social', 'widget-social');
+				// Проверяем, является ли это формой (CodeWeber или CF7)
+				$is_form = (strpos($social_id, 'form_') === 0 || strpos($social_id, 'cf7_') === 0);
 				
-				// Проверяем, содержит ли класс btn-gradient (для градиентных кнопок)
-				if (strpos($button_class, 'btn-gradient') !== false) {
-					// Для градиентных кнопок: btn-gradient gradient-10
-					// Разделяем на btn-gradient и gradient-10
-					$button_class_parts = explode(' ', $button_class);
-					foreach ($button_class_parts as $part) {
-						if ($part === 'btn-gradient') {
-							$additional_classes[] = 'btn-gradient';
-						} elseif ($part !== 'btn-gradient') {
-							$additional_classes[] = $part; // gradient-10
-						}
-					}
-				} elseif (strpos($button_class, 'btn-') === 0) {
-					// Если начинается с 'btn-', используем как color (убираем префикс)
-					$color = str_replace('btn-', '', $button_class);
+				// Определяем тип формы и ID на основе префикса
+				if (strpos($social_id, 'cf7_') === 0) {
+					// CF7 форма
+					$form_id = str_replace('cf7_', '', $social_id);
+					$data_value = 'cf7-' . esc_attr($form_id);
+				} elseif (strpos($social_id, 'form_') === 0) {
+					// CodeWeber форма
+					$form_id = str_replace('form_', '', $social_id);
+					$data_value = 'cf-' . esc_attr($form_id);
 				} else {
-					// Иначе это составной класс, добавляем как дополнительный
-					$additional_classes[] = $button_class;
+					$form_id = '';
+					$data_value = '';
 				}
 				
-				// Build social button using CodeWeber_Floating_Button (Icon variant)
-				$social_button = new CodeWeber_Floating_Button(array(
-					'icon' => $icon_class,
-					'color' => $color,
-					'size' => 'lg',
-					'class' => implode(' ', $additional_classes),
-					'href' => $social_url,
-					'target' => '_blank',
-					'rel' => 'noopener noreferrer',
-					'tag' => 'a',
-				));
-				$output .= $social_button->render();
+				// Получаем тип элементов виджета
+				$widget_item_type = !empty($this->settings['widget_item_type']) ? $this->settings['widget_item_type'] : 'button';
+				
+				// Build social button - разная верстка в зависимости от типа элементов
+				if ($widget_item_type === 'icon') {
+					// Верстка для типа Icon - только иконки в кружках
+					$button_class_raw = $button_class;
+					// Убираем префикс 'btn ' из button_class, так как CodeWeber_Floating_Button уже добавляет 'btn'
+					$button_class_clean = str_replace('btn ', '', $button_class_raw);
+					$button_class_clean = trim($button_class_clean);
+					
+					// Определяем color и дополнительные классы
+					$color = '';
+					$additional_classes = array('social', 'widget-social');
+					
+					// Проверяем, содержит ли класс btn-gradient (для градиентных кнопок)
+					if (strpos($button_class_clean, 'btn-gradient') !== false) {
+						// Для градиентных кнопок: btn-gradient gradient-10
+						$button_class_parts = explode(' ', $button_class_clean);
+						foreach ($button_class_parts as $part) {
+							if ($part === 'btn-gradient') {
+								$additional_classes[] = 'btn-gradient';
+							} elseif ($part !== 'btn-gradient') {
+								$additional_classes[] = $part; // gradient-10
+							}
+						}
+					} elseif (strpos($button_class_clean, 'btn-') === 0) {
+						// Если начинается с 'btn-', используем как color (убираем префикс)
+						$color = str_replace('btn-', '', $button_class_clean);
+					} else {
+						// Иначе это составной класс, добавляем как дополнительный
+						$additional_classes[] = $button_class_clean;
+					}
+					
+					// Для формы используем data-атрибуты для открытия модального окна
+					if ($is_form) {
+						$social_button = new CodeWeber_Floating_Button(array(
+							'icon' => $icon_class,
+							'color' => $color,
+							'size' => 'lg',
+							'class' => implode(' ', $additional_classes),
+							'href' => 'javascript:void(0)',
+							'title' => esc_attr($label),
+							'data' => array(
+								'value' => $data_value,
+								'bs-toggle' => 'modal',
+								'bs-target' => '#modal'
+							),
+							'tag' => 'a',
+						));
+					} else {
+						// Build social button using CodeWeber_Floating_Button (Icon variant)
+						$social_button = new CodeWeber_Floating_Button(array(
+							'icon' => $icon_class,
+							'color' => $color,
+							'size' => 'lg',
+							'class' => implode(' ', $additional_classes),
+							'href' => $social_url,
+							'title' => esc_attr($label),
+							'target' => '_blank',
+							'rel' => 'noopener noreferrer',
+							'tag' => 'a',
+						));
+					}
+					$output .= $social_button->render();
+				} else {
+					// Верстка для типа Button - кнопки с текстом (по умолчанию)
+					if ($is_form) {
+						// Для формы используем data-атрибуты для открытия модального окна
+						$output .= '<a href="javascript:void(0)" ';
+						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social justify-content-between w-100" ';
+						$output .= 'title="' . esc_attr($label) . '" ';
+						$output .= 'data-value="' . esc_attr($data_value) . '" ';
+						$output .= 'data-bs-toggle="modal" data-bs-target="#modal">';
+					} else {
+						$output .= '<a href="' . $social_url . '" ';
+						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social justify-content-between w-100" ';
+						$output .= 'title="' . esc_attr($label) . '" ';
+						$output .= 'target="_blank" rel="noopener noreferrer">';
+					}
+					$output .= '<i class="' . esc_attr($icon_size) . ' ' . esc_attr($icon_class) . ' me-0"></i>';
+					$output .= '<span class="ps-1 pe-2">' . esc_html($label) . '</span>';
+					$output .= '</a>';
+				}
 			}
 			
 			$output .= '</div>';

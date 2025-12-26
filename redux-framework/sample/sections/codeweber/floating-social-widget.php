@@ -70,6 +70,23 @@ function codeweber_get_available_socials() {
 	$socials = get_option('socials_urls', array());
 	$available_socials = array('' => esc_html__('-- Select Social Network --', 'codeweber'));
 	
+	// Добавляем формы в список доступных опций, если они выбраны
+	global $opt_name;
+	if (empty($opt_name)) {
+		$opt_name = 'redux_demo';
+	}
+	
+	// Добавляем все доступные формы в список (CodeWeber и CF7)
+	$all_forms = codeweber_get_all_forms();
+	foreach ($all_forms as $form_id_full => $form_title) {
+		if (!empty($form_id_full)) {
+			// Изменяем формат метки с "(CodeWeber)" или "(CF7)" на "(Email)"
+			$form_title_clean = str_replace(' (CodeWeber)', '', $form_title);
+			$form_title_clean = str_replace(' (CF7)', '', $form_title_clean);
+			$available_socials[$form_id_full] = $form_title_clean . ' (Email)';
+		}
+	}
+	
 	if (!empty($socials)) {
 		$social_labels = array(
 			'max'         => esc_html__('Max', 'codeweber'),
@@ -126,6 +143,99 @@ function codeweber_get_available_socials() {
 	return $available_socials;
 }
 
+// Функция для получения списка форм CodeWeber
+function codeweber_get_codeweber_forms() {
+	$forms = array('' => esc_html__('-- Select Form --', 'codeweber'));
+	
+	$codeweber_posts = get_posts(array(
+		'post_type' => 'codeweber_form',
+		'post_status' => 'publish',
+		'posts_per_page' => -1,
+		'orderby' => 'title',
+		'order' => 'ASC'
+	));
+	
+	foreach ($codeweber_posts as $codeweber_post) {
+		$forms[$codeweber_post->ID] = $codeweber_post->post_title;
+	}
+	
+	return $forms;
+}
+
+// Функция для получения списка форм CF7
+function codeweber_get_cf7_forms() {
+	$forms = array('' => esc_html__('-- Select Form --', 'codeweber'));
+	
+	// Проверяем, активирован ли плагин CF7
+	$cf7_plugin_active = false;
+	if (function_exists('is_plugin_active')) {
+		$cf7_plugin_active = is_plugin_active('contact-form-7/wp-contact-form-7.php');
+	} else {
+		$cf7_plugin_active = class_exists('WPCF7_ContactForm');
+	}
+	
+	if ($cf7_plugin_active && class_exists('WPCF7_ContactForm')) {
+		$cf7_posts = get_posts(array(
+			'post_type' => 'wpcf7_contact_form',
+			'posts_per_page' => -1,
+			'orderby' => 'title',
+			'order' => 'ASC'
+		));
+		
+		foreach ($cf7_posts as $cf7_post) {
+			$forms[$cf7_post->ID] = $cf7_post->post_title;
+		}
+	}
+	
+	return $forms;
+}
+
+// Функция для получения объединенного списка всех форм (CodeWeber + CF7)
+function codeweber_get_all_forms() {
+	$forms = array('' => esc_html__('-- Select Form --', 'codeweber'));
+	
+	// Добавляем CodeWeber формы
+	$codeweber_forms = codeweber_get_codeweber_forms();
+	foreach ($codeweber_forms as $form_id => $form_title) {
+		if (!empty($form_id)) {
+			$forms['form_' . $form_id] = $form_title . ' (CodeWeber)';
+		}
+	}
+	
+	// Добавляем CF7 формы, если плагин активен
+	$cf7_forms = codeweber_get_cf7_forms();
+	foreach ($cf7_forms as $form_id => $form_title) {
+		if (!empty($form_id)) {
+			$forms['cf7_' . $form_id] = $form_title . ' (CF7)';
+		}
+	}
+	
+	return $forms;
+}
+
+// Функция для получения опций типа действия кнопки
+function codeweber_get_button_action_type_options() {
+	$options = array(
+		'none' => esc_html__('Without Form', 'codeweber'),
+		'form' => esc_html__('Form', 'codeweber'),
+	);
+	
+	// Проверяем, активирован ли плагин CF7
+	$cf7_plugin_active = false;
+	if (function_exists('is_plugin_active')) {
+		$cf7_plugin_active = is_plugin_active('contact-form-7/wp-contact-form-7.php');
+	} else {
+		$cf7_plugin_active = class_exists('WPCF7_ContactForm');
+	}
+	
+	// Добавляем опцию CF7 только если плагин активен
+	if ($cf7_plugin_active) {
+		$options['cf7'] = esc_html__('CF7', 'codeweber');
+	}
+	
+	return $options;
+}
+
 // Функция для получения списка цветов темы
 function codeweber_get_theme_colors() {
 	$colors = array(
@@ -180,13 +290,25 @@ Redux::set_section(
 				'id'       => 'floating_widget_type',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Widget Type', 'codeweber'),
-				'subtitle' => esc_html__('Select widget display type', 'codeweber'),
+				'subtitle' => esc_html__('Select main button display type', 'codeweber'),
 				'options'  => array(
 					'button' => esc_html__('Button', 'codeweber'),
 					'icon'   => esc_html__('Icon', 'codeweber'),
 				),
 				'default'  => 'icon',
 				'required' => array('floating_widget_enabled', '=', true),
+			),
+			
+			array(
+				'id'       => 'floating_widget_show_icon_mobile',
+				'type'     => 'switch',
+				'title'    => esc_html__('Show Icon on Mobile', 'codeweber'),
+				'subtitle' => esc_html__('Show icon type instead of button on mobile devices (<768px)', 'codeweber'),
+				'default'  => false,
+				'required' => array(
+					array('floating_widget_enabled', '=', true),
+					array('floating_widget_type', '=', 'button'),
+				),
 			),
 			
 			array(
@@ -222,6 +344,19 @@ Redux::set_section(
 			),
 			
 			array(
+				'id'       => 'floating_widget_item_type',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Widget Item Type', 'codeweber'),
+				'subtitle' => esc_html__('Select dropdown items display type', 'codeweber'),
+				'options'  => array(
+					'button' => esc_html__('Button', 'codeweber'),
+					'icon'   => esc_html__('Icon', 'codeweber'),
+				),
+				'default'  => 'button',
+				'required' => array('floating_widget_enabled', '=', true),
+			),
+			
+			array(
 				'id'       => 'floating_widget_animation_type',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Animation Type', 'codeweber'),
@@ -235,12 +370,62 @@ Redux::set_section(
 			),
 			
 			array(
+				'id'       => 'floating_widget_position_side',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Widget Position', 'codeweber'),
+				'subtitle' => esc_html__('Select widget side position', 'codeweber'),
+				'options'  => array(
+					'left'  => esc_html__('Left', 'codeweber'),
+					'right' => esc_html__('Right', 'codeweber'),
+				),
+				'default'  => 'right',
+				'required' => array('floating_widget_enabled', '=', true),
+			),
+			
+			array(
 				'id'       => 'floating_widget_width',
 				'type'     => 'text',
 				'title'    => esc_html__('Widget Width', 'codeweber'),
 				'subtitle' => esc_html__('Widget width in pixels', 'codeweber'),
 				'default'  => '180px',
 				'required' => array('floating_widget_enabled', '=', true),
+			),
+			
+			array(
+				'id'       => 'floating_widget_button_action_type',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Button Action', 'codeweber'),
+				'subtitle' => esc_html__('Select button action type', 'codeweber'),
+				'options'  => codeweber_get_button_action_type_options(),
+				'default'  => 'none',
+				'required' => array('floating_widget_enabled', '=', true),
+			),
+			
+			array(
+				'id'          => 'floating_widget_forms',
+				'type'        => 'repeater',
+				'title'       => esc_html__('Forms', 'codeweber'),
+				'subtitle'    => esc_html__('Add multiple forms to display in widget', 'codeweber'),
+				'group_values' => true,
+				'item_name'   => esc_html__('Form', 'codeweber'),
+				'bind_title'  => 'form_id',
+				'panels_closed' => false,
+				'active'      => 0,
+				'fields'      => array(
+					array(
+						'id'       => 'form_id',
+						'type'     => 'select',
+						'title'    => esc_html__('Select Form', 'codeweber'),
+						'subtitle' => esc_html__('Select form to display', 'codeweber'),
+						'options'  => codeweber_get_all_forms(),
+						'default'  => '',
+					),
+				),
+				'default'     => array(),
+				'required'    => array(
+					array('floating_widget_enabled', '=', true),
+					array('floating_widget_button_action_type', '!=', 'none'),
+				),
 			),
 			
 			array(
@@ -262,45 +447,172 @@ Redux::set_section(
 						'options'  => codeweber_get_available_socials(),
 						'default'  => '',
 					),
+					array(
+						'id'       => 'custom_text',
+						'type'     => 'text',
+						'title'    => esc_html__('Custom Text', 'codeweber'),
+						'subtitle' => esc_html__('Custom text to display instead of default label (leave empty to use default)', 'codeweber'),
+						'default'  => '',
+					),
 				),
 				'default'     => array(),
 				'required'    => array('floating_widget_enabled', '=', true),
 			),
 			
 			array(
-				'id'       => 'floating_widget_right_offset',
+				'id'       => 'floating_widget_offset_desktop',
+				'type'     => 'section',
+				'title'    => esc_html__('Desktop Offsets', 'codeweber'),
+				'subtitle' => esc_html__('Offset settings for desktop devices (≥992px)', 'codeweber'),
+				'indent'   => true,
+				'required' => array('floating_widget_enabled', '=', true),
+			),
+			array(
+				'id'       => 'floating_widget_right_offset_desktop',
 				'type'     => 'text',
 				'title'    => esc_html__('Right Offset', 'codeweber'),
 				'subtitle' => esc_html__('Distance from right edge (enter number in px or "auto")', 'codeweber'),
 				'default'  => '30px',
-				'required' => array('floating_widget_enabled', '=', true),
+				'required' => array(
+					array('floating_widget_enabled', '=', true),
+					array('floating_widget_position_side', '=', 'right'),
+				),
 			),
-			
 			array(
-				'id'       => 'floating_widget_left_offset',
+				'id'       => 'floating_widget_left_offset_desktop',
 				'type'     => 'text',
 				'title'    => esc_html__('Left Offset', 'codeweber'),
 				'subtitle' => esc_html__('Distance from left edge (enter number in px or "auto")', 'codeweber'),
 				'default'  => 'auto',
-				'required' => array('floating_widget_enabled', '=', true),
+				'required' => array(
+					array('floating_widget_enabled', '=', true),
+					array('floating_widget_position_side', '=', 'left'),
+				),
 			),
-			
 			array(
-				'id'       => 'floating_widget_top_offset',
+				'id'       => 'floating_widget_top_offset_desktop',
 				'type'     => 'text',
 				'title'    => esc_html__('Top Offset', 'codeweber'),
 				'subtitle' => esc_html__('Distance from top edge (enter number in px or "auto")', 'codeweber'),
 				'default'  => 'auto',
-				'required' => array('floating_widget_enabled', '=', true),
+				'required' => array('floating_widget_enabled', '=', false), // Скрываем поле Top для всех позиций
 			),
-			
 			array(
-				'id'       => 'floating_widget_bottom_offset',
+				'id'       => 'floating_widget_bottom_offset_desktop',
 				'type'     => 'text',
 				'title'    => esc_html__('Bottom Offset', 'codeweber'),
 				'subtitle' => esc_html__('Distance from bottom edge (enter number in px or "auto")', 'codeweber'),
 				'default'  => '30px',
 				'required' => array('floating_widget_enabled', '=', true),
+			),
+			array(
+				'id'     => 'floating_widget_offset_desktop_end',
+				'type'   => 'section',
+				'indent' => false,
+			),
+			
+			array(
+				'id'       => 'floating_widget_offset_tablet',
+				'type'     => 'section',
+				'title'    => esc_html__('Tablet Offsets', 'codeweber'),
+				'subtitle' => esc_html__('Offset settings for tablet devices (≥768px and <992px)', 'codeweber'),
+				'indent'   => true,
+				'required' => array('floating_widget_enabled', '=', true),
+			),
+			array(
+				'id'       => 'floating_widget_right_offset_tablet',
+				'type'     => 'text',
+				'title'    => esc_html__('Right Offset', 'codeweber'),
+				'subtitle' => esc_html__('Distance from right edge (enter number in px or "auto")', 'codeweber'),
+				'default'  => '20px',
+				'required' => array(
+					array('floating_widget_enabled', '=', true),
+					array('floating_widget_position_side', '=', 'right'),
+				),
+			),
+			array(
+				'id'       => 'floating_widget_left_offset_tablet',
+				'type'     => 'text',
+				'title'    => esc_html__('Left Offset', 'codeweber'),
+				'subtitle' => esc_html__('Distance from left edge (enter number in px or "auto")', 'codeweber'),
+				'default'  => 'auto',
+				'required' => array(
+					array('floating_widget_enabled', '=', true),
+					array('floating_widget_position_side', '=', 'left'),
+				),
+			),
+			array(
+				'id'       => 'floating_widget_top_offset_tablet',
+				'type'     => 'text',
+				'title'    => esc_html__('Top Offset', 'codeweber'),
+				'subtitle' => esc_html__('Distance from top edge (enter number in px or "auto")', 'codeweber'),
+				'default'  => 'auto',
+				'required' => array('floating_widget_enabled', '=', false), // Скрываем поле Top для всех позиций
+			),
+			array(
+				'id'       => 'floating_widget_bottom_offset_tablet',
+				'type'     => 'text',
+				'title'    => esc_html__('Bottom Offset', 'codeweber'),
+				'subtitle' => esc_html__('Distance from bottom edge (enter number in px or "auto")', 'codeweber'),
+				'default'  => '20px',
+				'required' => array('floating_widget_enabled', '=', true),
+			),
+			array(
+				'id'     => 'floating_widget_offset_tablet_end',
+				'type'   => 'section',
+				'indent' => false,
+			),
+			
+			array(
+				'id'       => 'floating_widget_offset_mobile',
+				'type'     => 'section',
+				'title'    => esc_html__('Mobile Offsets', 'codeweber'),
+				'subtitle' => esc_html__('Offset settings for mobile devices (<768px)', 'codeweber'),
+				'indent'   => true,
+				'required' => array('floating_widget_enabled', '=', true),
+			),
+			array(
+				'id'       => 'floating_widget_right_offset_mobile',
+				'type'     => 'text',
+				'title'    => esc_html__('Right Offset', 'codeweber'),
+				'subtitle' => esc_html__('Distance from right edge (enter number in px or "auto")', 'codeweber'),
+				'default'  => '15px',
+				'required' => array(
+					array('floating_widget_enabled', '=', true),
+					array('floating_widget_position_side', '=', 'right'),
+				),
+			),
+			array(
+				'id'       => 'floating_widget_left_offset_mobile',
+				'type'     => 'text',
+				'title'    => esc_html__('Left Offset', 'codeweber'),
+				'subtitle' => esc_html__('Distance from left edge (enter number in px or "auto")', 'codeweber'),
+				'default'  => 'auto',
+				'required' => array(
+					array('floating_widget_enabled', '=', true),
+					array('floating_widget_position_side', '=', 'left'),
+				),
+			),
+			array(
+				'id'       => 'floating_widget_top_offset_mobile',
+				'type'     => 'text',
+				'title'    => esc_html__('Top Offset', 'codeweber'),
+				'subtitle' => esc_html__('Distance from top edge (enter number in px or "auto")', 'codeweber'),
+				'default'  => 'auto',
+				'required' => array('floating_widget_enabled', '=', false), // Скрываем поле Top для всех позиций
+			),
+			array(
+				'id'       => 'floating_widget_bottom_offset_mobile',
+				'type'     => 'text',
+				'title'    => esc_html__('Bottom Offset', 'codeweber'),
+				'subtitle' => esc_html__('Distance from bottom edge (enter number in px or "auto")', 'codeweber'),
+				'default'  => '15px',
+				'required' => array('floating_widget_enabled', '=', true),
+			),
+			array(
+				'id'     => 'floating_widget_offset_mobile_end',
+				'type'   => 'section',
+				'indent' => false,
 			),
 			
 			array(
@@ -318,3 +630,72 @@ Redux::set_section(
 		),
 	)
 );
+
+// Фильтр для автоматического добавления форм в список Social Networks при сохранении настроек
+add_filter('redux/options/' . $opt_name . '/validate', 'codeweber_floating_widget_add_forms_to_socials', 10, 2);
+function codeweber_floating_widget_add_forms_to_socials($plugin_options, $old_options) {
+	// Проверяем, включен ли виджет
+	if (empty($plugin_options['floating_widget_enabled'])) {
+		return $plugin_options;
+	}
+	
+	// Получаем текущий список социальных сетей
+	$socials = isset($plugin_options['floating_widget_socials']) && is_array($plugin_options['floating_widget_socials']) 
+		? $plugin_options['floating_widget_socials'] 
+		: array();
+	
+	// Получаем список форм из repeater
+	$forms_repeater = isset($plugin_options['floating_widget_forms']) && is_array($plugin_options['floating_widget_forms']) 
+		? $plugin_options['floating_widget_forms'] 
+		: array();
+	
+	// Добавляем все формы из repeater в список социальных сетей
+	if (!empty($forms_repeater)) {
+		foreach ($forms_repeater as $form_item) {
+			if (is_array($form_item) && isset($form_item['form_id']) && !empty($form_item['form_id'])) {
+				$form_id_full = $form_item['form_id'];
+				
+				// Проверяем, есть ли уже эта форма в списке
+				$form_exists = false;
+				foreach ($socials as $social_item) {
+					if (is_array($social_item) && isset($social_item['social_network'])) {
+						if ($social_item['social_network'] === $form_id_full) {
+							$form_exists = true;
+							break;
+						}
+					} elseif (is_string($social_item) && $social_item === $form_id_full) {
+						$form_exists = true;
+						break;
+					}
+				}
+				
+				// Если формы нет в списке, добавляем её
+				if (!$form_exists) {
+					$socials[] = array('social_network' => $form_id_full);
+				}
+			}
+		}
+		
+		$plugin_options['floating_widget_socials'] = $socials;
+	}
+	
+	// Автоматически устанавливаем значения отступов в зависимости от позиции виджета
+	$widget_position = isset($plugin_options['floating_widget_position_side']) ? $plugin_options['floating_widget_position_side'] : 'right';
+	
+	// Массив устройств для обработки
+	$devices = array('desktop', 'tablet', 'mobile');
+	
+	foreach ($devices as $device) {
+		if ($widget_position === 'left') {
+			// Для Left: устанавливаем right и top в "auto"
+			$plugin_options['floating_widget_right_offset_' . $device] = 'auto';
+			$plugin_options['floating_widget_top_offset_' . $device] = 'auto';
+		} elseif ($widget_position === 'right') {
+			// Для Right: устанавливаем left и top в "auto"
+			$plugin_options['floating_widget_left_offset_' . $device] = 'auto';
+			$plugin_options['floating_widget_top_offset_' . $device] = 'auto';
+		}
+	}
+	
+	return $plugin_options;
+}

@@ -810,6 +810,11 @@ var theme = {
       document.querySelectorAll('[data-bs-toggle="popover"]')
     );
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      // Проверяем и исправляем title если он null
+      var title = popoverTriggerEl.getAttribute('data-bs-title') || popoverTriggerEl.getAttribute('title');
+      if (title === null || title === 'null' || title === '') {
+        popoverTriggerEl.setAttribute('data-bs-title', '');
+      }
       return new bootstrap.Popover(popoverTriggerEl);
     });
   },

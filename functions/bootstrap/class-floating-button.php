@@ -43,6 +43,7 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 				'href' => '',             // URL для ссылки (если пусто, будет button)
 				'target' => '',            // target для ссылки ('_blank', '_self' и т.д.)
 				'rel' => '',               // rel для ссылки ('noopener', 'noreferrer' и т.д.)
+				'title' => '',             // title атрибут (подсказка при наведении)
 				'aria_label' => '',        // aria-label
 				'aria_labelledby' => '',   // aria-labelledby
 				'onclick' => '',           // onclick handler (JavaScript)
@@ -225,7 +226,12 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 			$tag = $this->get_tag();
 			if ($tag === 'a') {
 				$href = !empty($this->config['href']) ? $this->config['href'] : '#';
-				$attributes['href'] = esc_url($href);
+				// Для javascript:void(0) не используем esc_url, так как это не валидный URL
+				if ($href === 'javascript:void(0)') {
+					$attributes['href'] = 'javascript:void(0)';
+				} else {
+					$attributes['href'] = esc_url($href);
+				}
 				
 				// target
 				if (!empty($this->config['target'])) {
@@ -249,6 +255,11 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 				if (!empty($this->config['disabled'])) {
 					$attributes['disabled'] = 'disabled';
 				}
+			}
+			
+			// title
+			if (!empty($this->config['title'])) {
+				$attributes['title'] = esc_attr($this->config['title']);
 			}
 			
 			// aria-label

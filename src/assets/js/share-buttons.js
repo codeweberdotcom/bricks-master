@@ -28,21 +28,26 @@
 				e.preventDefault();
 				e.stopPropagation();
 				
-				const isRotating = shareButtonMain.classList.contains('rotate');
+				// Проверяем, нужно ли применять вращение (не применяем для типа button)
+				const noRotate = shareButtonMain.classList.contains('no-rotate');
 				
-				if (isRotating) {
-					// Закрытие - обратный поворот
-					shareButtonMain.classList.remove('rotate');
-					shareButtonMain.classList.add('rotate-reverse');
+				if (!noRotate) {
+					const isRotating = shareButtonMain.classList.contains('rotate');
 					
-					// Удаляем класс обратной анимации после завершения
-					setTimeout(function() {
+					if (isRotating) {
+						// Закрытие - обратный поворот
+						shareButtonMain.classList.remove('rotate');
+						shareButtonMain.classList.add('rotate-reverse');
+						
+						// Удаляем класс обратной анимации после завершения
+						setTimeout(function() {
+							shareButtonMain.classList.remove('rotate-reverse');
+						}, 600);
+					} else {
+						// Открытие - прямой поворот
 						shareButtonMain.classList.remove('rotate-reverse');
-					}, 600);
-				} else {
-					// Открытие - прямой поворот
-					shareButtonMain.classList.remove('rotate-reverse');
-					shareButtonMain.classList.add('rotate');
+						shareButtonMain.classList.add('rotate');
+					}
 				}
 				
 				// Переключаем класс open для показа/скрытия социальных кнопок
@@ -51,7 +56,12 @@
 				if (isOpen) {
 					// Закрытие - меняем иконку обратно на comment-dots
 					if (shareButtonIcon) {
-						shareButtonIcon.className = 'uil uil-comment-dots';
+						// Сохраняем все классы кроме классов uil и uil-*
+						const allClasses = shareButtonIcon.className.split(' ');
+						const preservedClasses = allClasses.filter(function(cls) {
+							return cls !== 'uil' && !cls.startsWith('uil-');
+						});
+						shareButtonIcon.className = preservedClasses.join(' ') + ' uil uil-comment-dots';
 					}
 					
 					// Закрытие - сначала запускаем анимацию исчезновения
@@ -69,7 +79,12 @@
 				} else {
 					// Открытие - меняем иконку на times
 					if (shareButtonIcon) {
-						shareButtonIcon.className = 'uil uil-times';
+						// Сохраняем все классы кроме классов uil и uil-*
+						const allClasses = shareButtonIcon.className.split(' ');
+						const preservedClasses = allClasses.filter(function(cls) {
+							return cls !== 'uil' && !cls.startsWith('uil-');
+						});
+						shareButtonIcon.className = preservedClasses.join(' ') + ' uil uil-times';
 					}
 					
 					// Открытие - убираем класс closing если был и добавляем open
@@ -102,39 +117,47 @@
 					const containsTarget = shareButtons.contains(e.target);
 					
 					if (isOpen && !containsTarget) {
-					
-					const shareButtonMain = shareButtons.querySelector('.share-button-main');
-					const shareButtonIcon = shareButtonMain ? shareButtonMain.querySelector('i') : null;
-					
-					if (!shareButtonMain) {
-						return;
-					}
-					
-					shareButtonMain.classList.remove('rotate');
-					shareButtonMain.classList.add('rotate-reverse');
-					
-					// Закрытие - меняем иконку обратно на comment-dots
-					if (shareButtonIcon) {
-						shareButtonIcon.className = 'uil uil-comment-dots';
-					}
-					
-					// Закрытие - сначала запускаем анимацию исчезновения
-					shareButtons.classList.add('closing');
-					
-					// Удаляем open после небольшой задержки
-					setTimeout(function() {
-						shareButtons.classList.remove('open');
-					}, 10);
-					
-					// После завершения анимации убираем класс closing
-					setTimeout(function() {
-						shareButtons.classList.remove('closing');
-					}, 500);
-					
-					// Удаляем класс обратной анимации после завершения
-					setTimeout(function() {
-						shareButtonMain.classList.remove('rotate-reverse');
-					}, 600);
+						const shareButtonMain = shareButtons.querySelector('.share-button-main');
+						const shareButtonIcon = shareButtonMain ? shareButtonMain.querySelector('i') : null;
+						
+						if (!shareButtonMain) {
+							return;
+						}
+						
+						// Проверяем, нужно ли применять вращение (не применяем для типа button)
+						const noRotate = shareButtonMain.classList.contains('no-rotate');
+						if (!noRotate) {
+							shareButtonMain.classList.remove('rotate');
+							shareButtonMain.classList.add('rotate-reverse');
+						}
+						
+						// Закрытие - меняем иконку обратно на comment-dots
+						if (shareButtonIcon) {
+							// Сохраняем все классы кроме классов uil и uil-*
+							const allClasses = shareButtonIcon.className.split(' ');
+							const preservedClasses = allClasses.filter(function(cls) {
+								return cls !== 'uil' && !cls.startsWith('uil-');
+							});
+							shareButtonIcon.className = preservedClasses.join(' ') + ' uil uil-comment-dots';
+						}
+						
+						// Закрытие - сначала запускаем анимацию исчезновения
+						shareButtons.classList.add('closing');
+						
+						// Удаляем open после небольшой задержки
+						setTimeout(function() {
+							shareButtons.classList.remove('open');
+						}, 10);
+						
+						// После завершения анимации убираем класс closing
+						setTimeout(function() {
+							shareButtons.classList.remove('closing');
+						}, 500);
+						
+						// Удаляем класс обратной анимации после завершения
+						setTimeout(function() {
+							shareButtonMain.classList.remove('rotate-reverse');
+						}, 600);
 					}
 				});
 			}, 10); // Небольшая задержка для обработчика клика на кнопке

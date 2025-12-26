@@ -809,15 +809,10 @@ var theme = {
     var popoverTriggerList = [].slice.call(
       document.querySelectorAll('[data-bs-toggle="popover"]')
     );
-    // Исключаем hotspot popover'ы из автоматической инициализации
-    // Они инициализируются отдельно через image-hotspot-frontend.js
-    var filteredList = popoverTriggerList.filter(function (popoverTriggerEl) {
-      return !popoverTriggerEl.closest('.cw-hotspot-point');
-    });
-    var popoverList = filteredList.map(function (popoverTriggerEl) {
-      // Убеждаемся, что title всегда строка, а не null
-      var titleAttr = popoverTriggerEl.getAttribute('data-bs-title');
-      if (titleAttr === null || titleAttr === 'null') {
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      // Проверяем и исправляем title если он null
+      var title = popoverTriggerEl.getAttribute('data-bs-title') || popoverTriggerEl.getAttribute('title');
+      if (title === null || title === 'null' || title === '') {
         popoverTriggerEl.setAttribute('data-bs-title', '');
       }
       return new bootstrap.Popover(popoverTriggerEl);
