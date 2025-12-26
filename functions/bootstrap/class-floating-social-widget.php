@@ -567,10 +567,16 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
 			// #endregion
 			
-			// Main button
-			$output .= '<button class="btn btn-circle btn-' . $button_color . ' btn-lg share-button-main">';
-			$output .= '<i class="uil uil-' . esc_attr($main_icon) . '"></i>';
-			$output .= '</button>';
+			// Main button using CodeWeber_Floating_Button
+			$main_button = new CodeWeber_Floating_Button(array(
+				'icon' => 'uil uil-' . esc_attr($main_icon),
+				'color' => $button_color,
+				'size' => 'lg',
+				'class' => 'share-button-main',
+				'tag' => 'button',
+				'type' => 'button',
+			));
+			$output .= $main_button->render();
 			
 			// Social network buttons
 			// Обрабатываем массив соцсетей из repeater
@@ -719,10 +725,16 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			// Get button color from settings
 			$button_color = !empty($this->settings['button_color']) ? esc_attr($this->settings['button_color']) : 'primary';
 			
-			// Main button (такая же как в template_1)
-			$output .= '<button class="btn btn-circle btn-' . $button_color . ' btn-lg share-button-main">';
-			$output .= '<i class="uil uil-' . esc_attr($main_icon) . '"></i>';
-			$output .= '</button>';
+			// Main button using CodeWeber_Floating_Button (такая же как в template_1)
+			$main_button = new CodeWeber_Floating_Button(array(
+				'icon' => 'uil uil-' . esc_attr($main_icon),
+				'color' => $button_color,
+				'size' => 'lg',
+				'class' => 'share-button-main',
+				'tag' => 'button',
+				'type' => 'button',
+			));
+			$output .= $main_button->render();
 			
 			// Social network buttons (Icon variant - только иконки)
 			foreach ($socials as $social_item) {
@@ -763,16 +775,46 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				$icon_class = 'uil uil-' . $icon_class_name;
 				
 				$button_class_raw = $this->get_button_class($social_id);
-				// Убираем префикс 'btn ' из button_class, так как мы уже добавляем 'btn' в начале
+				// Убираем префикс 'btn ' из button_class, так как CodeWeber_Floating_Button уже добавляет 'btn'
 				$button_class = str_replace('btn ', '', $button_class_raw);
 				$button_class = trim($button_class);
 				
-				// Build social button (Icon variant: btn btn-circle {button_class} btn-lg social widget-social)
-				$output .= '<a href="' . esc_url($social_url) . '" ';
-				$output .= 'class="btn btn-circle ' . esc_attr($button_class) . ' btn-lg social widget-social" ';
-				$output .= 'target="_blank" rel="noopener noreferrer">';
-				$output .= '<i class="' . esc_attr($icon_class) . '"></i>';
-				$output .= '</a>';
+				// Определяем color и дополнительные классы
+				$color = '';
+				$additional_classes = array('social', 'widget-social');
+				
+				// Проверяем, содержит ли класс btn-gradient (для градиентных кнопок)
+				if (strpos($button_class, 'btn-gradient') !== false) {
+					// Для градиентных кнопок: btn-gradient gradient-10
+					// Разделяем на btn-gradient и gradient-10
+					$button_class_parts = explode(' ', $button_class);
+					foreach ($button_class_parts as $part) {
+						if ($part === 'btn-gradient') {
+							$additional_classes[] = 'btn-gradient';
+						} elseif ($part !== 'btn-gradient') {
+							$additional_classes[] = $part; // gradient-10
+						}
+					}
+				} elseif (strpos($button_class, 'btn-') === 0) {
+					// Если начинается с 'btn-', используем как color (убираем префикс)
+					$color = str_replace('btn-', '', $button_class);
+				} else {
+					// Иначе это составной класс, добавляем как дополнительный
+					$additional_classes[] = $button_class;
+				}
+				
+				// Build social button using CodeWeber_Floating_Button (Icon variant)
+				$social_button = new CodeWeber_Floating_Button(array(
+					'icon' => $icon_class,
+					'color' => $color,
+					'size' => 'lg',
+					'class' => implode(' ', $additional_classes),
+					'href' => $social_url,
+					'target' => '_blank',
+					'rel' => 'noopener noreferrer',
+					'tag' => 'a',
+				));
+				$output .= $social_button->render();
 			}
 			
 			$output .= '</div>';

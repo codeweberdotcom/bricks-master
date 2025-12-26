@@ -58,6 +58,7 @@ function getHotspotContent($params) {
     
     $content = '';
     $title = !empty($point['title']) ? esc_html($point['title']) : '';
+    $wrapper_class = !empty($point['wrapperClass']) ? esc_attr($point['wrapperClass']) : '';
     
     // #region agent log
     $log_file = WP_CONTENT_DIR . '/../.cursor/debug.log';
@@ -144,7 +145,7 @@ function getHotspotContent($params) {
                 
                 // Вызываем функцию напрямую (она уже использует ob_start/ob_get_clean внутри)
                 $post_content = cw_render_post_card($post, $post_template, [], [
-                    'enable_link' => false, // Отключаем ссылку в popover
+                    'enable_link' => true, // Включаем ссылку в popover
                     'image_size' => 'medium'
                 ]);
                 
@@ -231,7 +232,8 @@ function getHotspotContent($params) {
         'data' => [
             'content_length' => strlen($content),
             'content_preview' => substr($content, 0, 100),
-            'title' => $title
+            'title' => $title,
+            'wrapper_class' => $wrapper_class
         ],
         'timestamp' => round(microtime(true) * 1000),
         'sessionId' => 'debug-session',
@@ -245,6 +247,11 @@ function getHotspotContent($params) {
     if (!empty($point['link'])) {
         $link_target = isset($point['linkTarget']) ? esc_attr($point['linkTarget']) : '_self';
         $content .= '<br><a href="' . esc_url($point['link']) . '" target="' . $link_target . '">' . __('Learn more', 'codeweber') . '</a>';
+    }
+    
+    // Оборачиваем весь контент в div с классом, если указан wrapperClass
+    if (!empty($wrapper_class)) {
+        $content = '<div class="' . $wrapper_class . '">' . $content . '</div>';
     }
     
     return [

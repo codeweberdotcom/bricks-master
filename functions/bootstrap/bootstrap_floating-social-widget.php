@@ -6,7 +6,9 @@
  * Uses Bootstrap classes: btn btn-circle
  */
 
-// Подключаем класс для плавающего виджета
+// Подключаем класс для универсальной плавающей кнопки
+require_once get_template_directory() . '/functions/bootstrap/class-floating-button.php';
+// Подключаем класс для плавающего виджета соцсетей
 require_once get_template_directory() . '/functions/bootstrap/class-floating-social-widget.php';
 
 if (!function_exists('codeweber_floating_social_widget_new')) {
@@ -178,6 +180,45 @@ if (!function_exists('codeweber_floating_social_widget')) {
 		$output .= '</a>';
 		
 		return $output;
+	}
+}
+
+if (!function_exists('codeweber_floating_button')) {
+	/**
+	 * Создает универсальную плавающую кнопку
+	 * 
+	 * Примеры использования:
+	 * 
+	 * // Простая кнопка для модального окна
+	 * echo codeweber_floating_button(array(
+	 *     'icon' => 'uil uil-phone',
+	 *     'background' => '#28a745',
+	 *     'data' => array('bs-toggle' => 'modal', 'bs-target' => '#contactModal'),
+	 *     'id' => 'contact-floating-btn',
+	 *     'right' => '30px',
+	 *     'bottom' => '30px'
+	 * ));
+	 * 
+	 * // Кнопка-ссылка
+	 * echo codeweber_floating_button(array(
+	 *     'icon' => 'uil uil-whatsapp',
+	 *     'href' => 'https://wa.me/1234567890',
+	 *     'target' => '_blank',
+	 *     'color' => 'whatsapp',
+	 *     'right' => '30px',
+	 *     'bottom' => '100px'
+	 * ));
+	 * 
+	 * @param array $config Configuration array
+	 * @return string HTML output
+	 */
+	function codeweber_floating_button($config = array()) {
+		if (!class_exists('CodeWeber_Floating_Button')) {
+			return '';
+		}
+		
+		$button = new CodeWeber_Floating_Button($config);
+		return $button->render();
 	}
 }
 
