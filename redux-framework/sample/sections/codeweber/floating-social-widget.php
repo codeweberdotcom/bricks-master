@@ -92,9 +92,9 @@ function codeweber_get_available_socials() {
 					if (!empty($form_id_full) && isset($all_forms[$form_id_full])) {
 						$form_title = $all_forms[$form_id_full];
 						// Изменяем формат метки с "(CodeWeber)" или "(CF7)" на "(Email)"
-						$form_title_clean = str_replace(' (CodeWeber)', '', $form_title);
-						$form_title_clean = str_replace(' (CF7)', '', $form_title_clean);
-						$available_socials[$form_id_full] = $form_title_clean . ' (Email)';
+						$form_title_clean = str_replace(' ' . esc_html__('(CodeWeber)', 'codeweber'), '', $form_title);
+						$form_title_clean = str_replace(' ' . esc_html__('(CF7)', 'codeweber'), '', $form_title_clean);
+						$available_socials[$form_id_full] = $form_title_clean . ' ' . esc_html__('(Email)', 'codeweber');
 					}
 				}
 			} else {
@@ -105,9 +105,9 @@ function codeweber_get_available_socials() {
 						if (isset($all_forms[$form_id_full])) {
 							$form_title = $all_forms[$form_id_full];
 							// Изменяем формат метки с "(CodeWeber)" или "(CF7)" на "(Email)"
-							$form_title_clean = str_replace(' (CodeWeber)', '', $form_title);
-							$form_title_clean = str_replace(' (CF7)', '', $form_title_clean);
-							$available_socials[$form_id_full] = $form_title_clean . ' (Email)';
+							$form_title_clean = str_replace(' ' . esc_html__('(CodeWeber)', 'codeweber'), '', $form_title);
+							$form_title_clean = str_replace(' ' . esc_html__('(CF7)', 'codeweber'), '', $form_title_clean);
+							$available_socials[$form_id_full] = $form_title_clean . ' ' . esc_html__('(Email)', 'codeweber');
 						}
 					}
 				}
@@ -226,7 +226,7 @@ function codeweber_get_all_forms() {
 	$codeweber_forms = codeweber_get_codeweber_forms();
 	foreach ($codeweber_forms as $form_id => $form_title) {
 		if (!empty($form_id)) {
-			$forms['form_' . $form_id] = $form_title . ' (CodeWeber)';
+			$forms['form_' . $form_id] = $form_title . ' ' . esc_html__('(CodeWeber)', 'codeweber');
 		}
 	}
 	
@@ -234,7 +234,7 @@ function codeweber_get_all_forms() {
 	$cf7_forms = codeweber_get_cf7_forms();
 	foreach ($cf7_forms as $form_id => $form_title) {
 		if (!empty($form_id)) {
-			$forms['cf7_' . $form_id] = $form_title . ' (CF7)';
+			$forms['cf7_' . $form_id] = $form_title . ' ' . esc_html__('(CF7)', 'codeweber');
 		}
 	}
 	

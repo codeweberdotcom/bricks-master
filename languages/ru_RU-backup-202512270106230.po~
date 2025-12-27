@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2025-12-23 01:39+0000\n"
+"PO-Revision-Date: 2025-12-23 14:32+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -9620,7 +9620,7 @@ msgstr "Рабочий телефон"
 #: archive-offices.php:255 functions/cpt/cpt-offices.php:223
 #: templates/post-cards/offices/card.php:153
 msgid "Working Hours"
-msgstr ""
+msgstr "График работы"
 
 #: comments.php:154
 msgid "Would you like to share your thoughts?"
@@ -10324,3 +10324,79 @@ msgstr "← Назад к разделу Отправленные"
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:999
 msgid "← Back to Subscriptions"
 msgstr "← Назад к подпискам"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:33
+msgid "General Settings"
+msgstr "Общие настройки"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:40
+msgid "Default Center"
+msgstr "Центр карты по умолчанию"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:82
+msgid "Map Behaviors"
+msgstr "Поведение карты"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:88
+msgid "Enable Double Click Zoom"
+msgstr "Включить масштабирование двойным кликом"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:117
+msgid "Show Route Button"
+msgstr "Показать кнопку маршрута"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:140
+msgid "Default Marker Type"
+msgstr "Тип маркера по умолчанию"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:153
+msgid "Marker Preset"
+msgstr "Пресет маркера"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:154
+msgid "Yandex Maps marker preset"
+msgstr "Пресет маркера Яндекс Карт"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:201
+msgid "Open Balloon on Click"
+msgstr "Открывать балун по клику"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:202
+msgid "Open balloon when marker is clicked"
+msgstr "Открывать балун при клике на маркер"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:208
+msgid "Auto Open First Balloon"
+msgstr "Автоматически открывать первый балун"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:209
+msgid "Automatically open balloon for the first marker"
+msgstr "Автоматически открывать балун для первого маркера"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:217
+msgid "Clusterer Settings"
+msgstr "Настройки кластеризации"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:255
+msgid "Enable Sidebar"
+msgstr "Включить боковую панель"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:256
+msgid "Show sidebar with list of markers"
+msgstr "Показать боковую панель со списком маркеров"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:263
+msgid "Sidebar Position"
+msgstr "Позиция боковой панели"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:264
+msgid "Position of sidebar on map"
+msgstr "Позиция боковой панели на карте"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:428
+msgid "Custom Style (CSS)"
+msgstr "Пользовательский стиль (CSS)"
+
+#: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:435
+msgid "Custom Style (JSON)"
+msgstr "Пользовательский стиль (JSON)"
