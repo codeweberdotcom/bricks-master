@@ -631,6 +631,55 @@ function universal_title_shortcode($atts)
 add_shortcode('universal_title', 'universal_title_shortcode');
 
 /**
+ * Получение настройки хедера с учетом индивидуальных настроек страницы
+ * Если для страницы выбран тип 'Base Settings' (4), возвращает индивидуальные настройки
+ * Иначе возвращает глобальные настройки
+ * 
+ * @param string $option_name Имя опции Redux
+ * @param mixed $default Значение по умолчанию
+ * @return mixed Значение настройки
+ */
+if (!function_exists('codeweber_get_header_option')) {
+    function codeweber_get_header_option($option_name, $default = '') {
+        global $opt_name;
+        if (empty($opt_name)) {
+            $opt_name = 'redux_demo';
+        }
+        
+        // Проверяем, используется ли тип '4' для текущей страницы
+        if (!empty($GLOBALS['codeweber_use_this_header_settings']) && $GLOBALS['codeweber_use_this_header_settings'] === true) {
+            // Маппинг глобальных опций на индивидуальные
+            $option_map = array(
+                'header-rounded' => 'codeweber_this_header_rounded',
+                'header-color-text' => 'codeweber_this_header_color_text',
+                'header-background' => 'codeweber_this_header_background',
+                'solid-color-header' => 'codeweber_this_solid_color_header',
+                'soft-color-header' => 'codeweber_this_soft_color_header',
+            );
+            
+            if (isset($option_map[$option_name])) {
+                $global_var_name = $option_map[$option_name];
+                // Проверяем, установлена ли глобальная переменная
+                if (array_key_exists($global_var_name, $GLOBALS)) {
+                    $value = $GLOBALS[$global_var_name];
+                    // Используем значение, если оно не null
+                    // Пустая строка может быть валидным значением, поэтому проверяем только на null
+                    if ($value !== null) {
+                        return $value;
+                    }
+                }
+            }
+        }
+        
+        // Возвращаем глобальную настройку
+        if (class_exists('Redux')) {
+            return Redux::get_option($opt_name, $option_name, $default);
+        }
+        return $default;
+    }
+}
+
+/**
  * Кастомная пагинация для постов WordPress
  * 
  * Создает красивую пагинацию в стиле Bootstrap с иконками и гибкими настройками

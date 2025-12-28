@@ -14,6 +14,30 @@ if ( ! class_exists( 'Redux_Metaboxes' ) ) {
 	return;
 }
 
+// Путь к файлу colors.json
+$colors_file = get_template_directory() . '/components/colors.json';
+
+// Инициализируем переменные по умолчанию
+$color_options = array();
+$soft_color_options = array();
+
+// Проверяем, существует ли файл
+if (file_exists($colors_file)) {
+	// Загружаем содержимое файла и декодируем его в массив
+	$colors_data = json_decode(file_get_contents($colors_file), true);
+
+	// Проверяем, успешно ли декодирован JSON
+	if ($colors_data && is_array($colors_data)) {
+		// Преобразуем массив цветов в формат для Redux
+		foreach ($colors_data as $color) {
+			$color_options[$color['value']] = esc_html__($color['label'], 'codeweber');
+		}
+		foreach ($colors_data as $color) {
+			$soft_color_options['soft-'. $color['value']] = esc_html__('Soft-'. $color['label'], 'codeweber');
+		}
+	}
+}
+
 // Проверка наличия записей типа "header"
 $header_posts = get_posts(array(
 	'post_type'      => 'header',
@@ -110,6 +134,7 @@ Redux_Metaboxes::set_box(
 						'options'  => array(
 							'1' => esc_html__('Default', 'codeweber'),
 							'2' => esc_html__('Custom', 'codeweber'),
+							'4' => esc_html__('Base Settings', 'codeweber'),
 							'3' => esc_html__('Disable', 'codeweber'),
 						),
 						'default'  => '1',
@@ -151,6 +176,126 @@ Redux_Metaboxes::set_box(
 						'desc'     => esc_html__('Basic media uploader with disabled URL input field.', 'codeweber'),
 						'subtitle' => esc_html__('Upload any media using the WordPress native uploader', 'codeweber'),
 						'required' => array('this-header-type', '=', '1'),
+					),
+
+					// ========== ПОЛЯ ДЛЯ ТИПА 'Base Settings' (4) ==========
+					
+					// Header rounded
+					array(
+						'id'       => 'this-header-rounded',
+						'type'     => 'button_set',
+						'title'    => esc_html__('Header rounded', 'codeweber'),
+						'options'  => array(
+							'1' => esc_html__('rounded', 'codeweber'),
+							'2' => esc_html__('rounded-pill', 'codeweber'),
+							'3' => esc_html__('none', 'codeweber'),
+						),
+						'default'  => '1',
+						'required' => array('this-header-type', '=', '4'),
+					),
+
+					// Header text color
+					array(
+						'id'       => 'this-header-color-text',
+						'type'     => 'button_set',
+						'title'    => esc_html__('Header text color', 'codeweber'),
+						'options'  => array(
+							'1' =>  esc_html__('Dark', 'codeweber'),
+							'2' =>  esc_html__('Light', 'codeweber'),
+						),
+						'default'  => '1',
+						'required' => array('this-header-type', '=', '4'),
+					),
+
+					// Header background type
+					array(
+						'id'       => 'this-header-background',
+						'type'     => 'button_set',
+						'title'    => esc_html__('Select type Header background', 'codeweber'),
+						'options'  => array(
+							'1' => esc_html__('Solid-Color', 'codeweber'),
+							'2' => esc_html__('Soft-Color', 'codeweber'),
+							'3' => esc_html__('Transparent', 'codeweber'),
+						),
+						'default'  => '1',
+						'required' => array('this-header-type', '=', '4'),
+					),
+
+					// Solid-Color select
+					array(
+						'id'       => 'this-solid-color-header',
+						'type'     => 'select',
+						'title'    => esc_html__('Select Header Background Solid Color', 'codeweber'),
+						'options'  => $color_options,
+						'default'  => 'light',
+						'required' => array(
+							array('this-header-background', '=', '1'),
+							array('this-header-type', '=', '4')
+						),
+					),
+
+					// Soft-Color select
+					array(
+						'id'       => 'this-soft-color-header',
+						'type'     => 'select',
+						'title'    => esc_html__('Select Header Background Soft Color', 'codeweber'),
+						'options'  => $soft_color_options,
+						'default'  => 'soft-red',
+						'required' => array(
+							array('this-header-background', '=', '2'),
+							array('this-header-type', '=', '4')
+						),
+					),
+
+					// Base Header Models
+					array(
+						'id'       => 'this-global-header-model',
+						'type'     => 'image_select',
+						'title'    => esc_html__('Base Header Models', 'codeweber'),
+						'options'  => array(
+							'1' => array(
+								'title' => esc_html__('Header Type 1', 'codeweber'),
+								'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/header_1.jpg',
+								'class' => 'header_viewport',
+							),
+							'2' => array(
+								'title' => esc_html__('Header Type 2', 'codeweber'),
+								'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/header_3.jpg',
+								'class' => 'header_viewport',
+							),
+							'3' => array(
+								'title' => esc_html__('Header Type 3', 'codeweber'),
+								'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/header_5.jpg',
+								'class' => 'header_viewport',
+							),
+							'4' => array(
+								'title' => esc_html__('Header Type 4', 'codeweber'),
+								'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/header_6.jpg',
+								'class' => 'header_viewport',
+							),
+							'5' => array(
+								'title' => esc_html__('Header Type 5', 'codeweber'),
+								'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/header_2.jpg',
+								'class' => 'header_viewport',
+							),
+							'6' => array(
+								'title' => esc_html__('Header Type 6', 'codeweber'),
+								'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/header_8.jpg',
+								'class' => 'header_viewport',
+							),
+							'7' => array(
+								'title' => esc_html__('Header Type 7', 'codeweber'),
+								'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/header_4.jpg',
+								'class' => 'header_viewport',
+							),
+							'8' => array(
+								'title' => esc_html__('Header Type 8', 'codeweber'),
+								'img'   => get_template_directory_uri() . '/redux-framework/sample/patterns/header_7.jpg',
+								'class' => 'header_viewport',
+							),
+						),
+						'default'  => '1',
+						'required' => array('this-header-type', '=', '4'),
 					),
 				),
 			),

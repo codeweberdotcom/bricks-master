@@ -46,11 +46,12 @@ $config = [
 
 global $opt_name;
 $global_header_model = Redux::get_option($opt_name, 'global-header-model');
-$header_color_text = Redux::get_option($opt_name, 'header-color-text');
-$solid_color_header = Redux::get_option($opt_name, 'solid-color-header');
-$soft_color_header = Redux::get_option($opt_name, 'soft-color-header');
-$header_background = Redux::get_option($opt_name, 'header-background');
-$header_rounded = Redux::get_option($opt_name, 'header-rounded');
+// Используем функцию-хелпер для получения настроек с учетом индивидуальных настроек страницы
+$header_color_text = function_exists('codeweber_get_header_option') ? codeweber_get_header_option('header-color-text') : Redux::get_option($opt_name, 'header-color-text');
+$solid_color_header = function_exists('codeweber_get_header_option') ? codeweber_get_header_option('solid-color-header') : Redux::get_option($opt_name, 'solid-color-header');
+$soft_color_header = function_exists('codeweber_get_header_option') ? codeweber_get_header_option('soft-color-header') : Redux::get_option($opt_name, 'soft-color-header');
+$header_background = function_exists('codeweber_get_header_option') ? codeweber_get_header_option('header-background') : Redux::get_option($opt_name, 'header-background');
+$header_rounded = function_exists('codeweber_get_header_option') ? codeweber_get_header_option('header-rounded') : Redux::get_option($opt_name, 'header-rounded');
 $sort_offcanvas_right = Redux::get_option($opt_name, 'sort-offcanvas-right');
 $social_icon_type = Redux::get_option($opt_name, 'social-icon-type');
 $social_icon_type_mobile = Redux::get_option($opt_name, 'social-icon-type-mobile-menu');
