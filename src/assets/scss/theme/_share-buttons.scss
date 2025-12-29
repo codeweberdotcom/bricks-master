@@ -7,6 +7,7 @@
 	gap: 10px; // Bootstrap gap для правильного расстояния между кнопками
 	z-index: 9999;
 	margin: 10px;
+	position: relative; // Для позиционирования абсолютных элементов
 	
 	// Вариант для правого угла
 	&.right-widget {
@@ -29,6 +30,7 @@
 		cursor: pointer;
 		transform: rotate(0deg);
 		flex-shrink: 0;
+		position: relative; // Для позиционирования абсолютных элементов относительно главной кнопки
 		
 		i {
 			transition: transform 0.6s ease-in-out;
@@ -74,11 +76,12 @@
 	
 	.widget-social {
 		z-index: 1;
-		flex-shrink: 0;
-		position: relative;
-		transition: opacity 0.4s ease-out;
+		position: absolute !important;
+		transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 		opacity: 0;
 		pointer-events: none;
+		transform: translate(0, 0);
+		top: 0;
 		
 		i {
 			position: relative;
@@ -96,44 +99,184 @@
 		// Последовательное появление с задержкой для каждого элемента
 		// Используем :nth-of-type() для автоматического назначения задержек
 		// Это работает, так как все .widget-social - это элементы <a>
+		// По умолчанию элементы выезжают вправо (для левого виджета)
 		.widget-social:nth-of-type(1) {
 			transition-delay: 0.05s;
+			transform: translate(calc(1 * (100% + 10px)), 0);
 		}
 		
 		.widget-social:nth-of-type(2) {
 			transition-delay: 0.1s;
+			transform: translate(calc(2 * (100% + 10px)), 0);
 		}
 		
 		.widget-social:nth-of-type(3) {
 			transition-delay: 0.15s;
+			transform: translate(calc(3 * (100% + 10px)), 0);
 		}
 		
 		.widget-social:nth-of-type(4) {
 			transition-delay: 0.2s;
+			transform: translate(calc(4 * (100% + 10px)), 0);
 		}
 		
 		.widget-social:nth-of-type(5) {
 			transition-delay: 0.25s;
+			transform: translate(calc(5 * (100% + 10px)), 0);
 		}
 		
 		.widget-social:nth-of-type(6) {
 			transition-delay: 0.3s;
+			transform: translate(calc(6 * (100% + 10px)), 0);
 		}
 		
 		.widget-social:nth-of-type(7) {
 			transition-delay: 0.35s;
+			transform: translate(calc(7 * (100% + 10px)), 0);
 		}
 		
 		.widget-social:nth-of-type(8) {
 			transition-delay: 0.4s;
+			transform: translate(calc(8 * (100% + 10px)), 0);
 		}
 		
 		.widget-social:nth-of-type(9) {
 			transition-delay: 0.45s;
+			transform: translate(calc(9 * (100% + 10px)), 0);
 		}
 		
 		.widget-social:nth-of-type(10) {
 			transition-delay: 0.5s;
+			transform: translate(calc(10 * (100% + 10px)), 0);
+		}
+		
+		// Для правого виджета элементы выезжают влево
+		&.right-widget:not(.top-widget) {
+			.widget-social:nth-of-type(1) {
+				transform: translate(calc(-1 * (100% + 10px)), 0);
+			}
+			
+			.widget-social:nth-of-type(2) {
+				transform: translate(calc(-2 * (100% + 10px)), 0);
+			}
+			
+			.widget-social:nth-of-type(3) {
+				transform: translate(calc(-3 * (100% + 10px)), 0);
+			}
+			
+			.widget-social:nth-of-type(4) {
+				transform: translate(calc(-4 * (100% + 10px)), 0);
+			}
+			
+			.widget-social:nth-of-type(5) {
+				transform: translate(calc(-5 * (100% + 10px)), 0);
+			}
+			
+			.widget-social:nth-of-type(6) {
+				transform: translate(calc(-6 * (100% + 10px)), 0);
+			}
+			
+			.widget-social:nth-of-type(7) {
+				transform: translate(calc(-7 * (100% + 10px)), 0);
+			}
+			
+			.widget-social:nth-of-type(8) {
+				transform: translate(calc(-8 * (100% + 10px)), 0);
+			}
+			
+			.widget-social:nth-of-type(9) {
+				transform: translate(calc(-9 * (100% + 10px)), 0);
+			}
+			
+			.widget-social:nth-of-type(10) {
+				transform: translate(calc(-10 * (100% + 10px)), 0);
+			}
+		}
+		
+		// Для верхнего виджета элементы выезжают вверх
+		&.top-widget:not(.right-widget) {
+			.widget-social:nth-of-type(1) {
+				transform: translate(0, calc(-1 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(2) {
+				transform: translate(0, calc(-2 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(3) {
+				transform: translate(0, calc(-3 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(4) {
+				transform: translate(0, calc(-4 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(5) {
+				transform: translate(0, calc(-5 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(6) {
+				transform: translate(0, calc(-6 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(7) {
+				transform: translate(0, calc(-7 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(8) {
+				transform: translate(0, calc(-8 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(9) {
+				transform: translate(0, calc(-9 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(10) {
+				transform: translate(0, calc(-10 * (100% + 10px)));
+			}
+		}
+		
+		// Для верхнего правого виджета элементы выезжают вверх
+		&.top-widget.right-widget {
+			.widget-social:nth-of-type(1) {
+				transform: translate(0, calc(-1 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(2) {
+				transform: translate(0, calc(-2 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(3) {
+				transform: translate(0, calc(-3 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(4) {
+				transform: translate(0, calc(-4 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(5) {
+				transform: translate(0, calc(-5 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(6) {
+				transform: translate(0, calc(-6 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(7) {
+				transform: translate(0, calc(-7 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(8) {
+				transform: translate(0, calc(-8 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(9) {
+				transform: translate(0, calc(-9 * (100% + 10px)));
+			}
+			
+			.widget-social:nth-of-type(10) {
+				transform: translate(0, calc(-10 * (100% + 10px)));
+			}
 		}
 	}
 	
@@ -142,6 +285,7 @@
 		.widget-social {
 			opacity: 0;
 			pointer-events: none;
+			transform: translate(0, 0); // Возвращаем в исходное положение
 		}
 		
 		// Последовательное исчезновение с обратной задержкой
