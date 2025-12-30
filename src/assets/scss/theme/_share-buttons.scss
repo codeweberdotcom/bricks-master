@@ -5,7 +5,7 @@
 .share-buttons {
 	display: flex;
 	flex-direction: column; // Элементы располагаются сверху вниз по умолчанию
-	gap: 5px; // Bootstrap gap для правильного расстояния между кнопками
+	gap: 2px; // Bootstrap gap для правильного расстояния между кнопками
 	z-index: 9999;
 	margin: 10px;
 	position: relative; // Для позиционирования абсолютных элементов
@@ -105,56 +105,110 @@
 			pointer-events: auto;
 		}
 		
-		// Последовательное появление с задержкой и смещением для каждого элемента
-		// Расстояние между кнопками уменьшено в 2 раза: было 70px, стало 35px
-		.widget-social:nth-of-type(1) {
-			transform: translateY(-35px);
-			transition-delay: 0.05s;
+		// Для типа icon: высота примерно 58px + gap 2px = 60px на элемент
+		&.widget-item-icon {
+			.widget-social:nth-of-type(1) {
+				transform: translateY(-60px);
+				transition-delay: 0.05s;
+			}
+			
+			.widget-social:nth-of-type(2) {
+				transform: translateY(-120px);
+				transition-delay: 0.1s;
+			}
+			
+			.widget-social:nth-of-type(3) {
+				transform: translateY(-180px);
+				transition-delay: 0.15s;
+			}
+			
+			.widget-social:nth-of-type(4) {
+				transform: translateY(-240px);
+				transition-delay: 0.2s;
+			}
+			
+			.widget-social:nth-of-type(5) {
+				transform: translateY(-300px);
+				transition-delay: 0.25s;
+			}
+			
+			.widget-social:nth-of-type(6) {
+				transform: translateY(-360px);
+				transition-delay: 0.3s;
+			}
+			
+			.widget-social:nth-of-type(7) {
+				transform: translateY(-420px);
+				transition-delay: 0.35s;
+			}
+			
+			.widget-social:nth-of-type(8) {
+				transform: translateY(-480px);
+				transition-delay: 0.4s;
+			}
+			
+			.widget-social:nth-of-type(9) {
+				transform: translateY(-540px);
+				transition-delay: 0.45s;
+			}
+			
+			.widget-social:nth-of-type(10) {
+				transform: translateY(-600px);
+				transition-delay: 0.5s;
+			}
 		}
 		
-		.widget-social:nth-of-type(2) {
-			transform: translateY(-70px);
-			transition-delay: 0.1s;
-		}
-		
-		.widget-social:nth-of-type(3) {
-			transform: translateY(-105px);
-			transition-delay: 0.15s;
-		}
-		
-		.widget-social:nth-of-type(4) {
-			transform: translateY(-140px);
-			transition-delay: 0.2s;
-		}
-		
-		.widget-social:nth-of-type(5) {
-			transform: translateY(-175px);
-			transition-delay: 0.25s;
-		}
-		
-		.widget-social:nth-of-type(6) {
-			transform: translateY(-210px);
-			transition-delay: 0.3s;
-		}
-		
-		.widget-social:nth-of-type(7) {
-			transform: translateY(-245px);
-			transition-delay: 0.35s;
-		}
-		
-		.widget-social:nth-of-type(8) {
-			transform: translateY(-280px);
-			transition-delay: 0.4s;
-		}
-		
-		.widget-social:nth-of-type(9) {
-			transform: translateY(-315px);
-			transition-delay: 0.45s;
-		}
-		
-		.widget-social:nth-of-type(10) {
-			transform: translateY(-350px);
-			transition-delay: 0.5s;
+		// Для типа button: высота примерно 60px + gap 2px = 62px на элемент
+		&.widget-item-button {
+			.widget-social:nth-of-type(1) {
+				transform: translateY(-62px);
+				transition-delay: 0.05s;
+			}
+			
+			.widget-social:nth-of-type(2) {
+				transform: translateY(-124px);
+				transition-delay: 0.1s;
+			}
+			
+			.widget-social:nth-of-type(3) {
+				transform: translateY(-186px);
+				transition-delay: 0.15s;
+			}
+			
+			.widget-social:nth-of-type(4) {
+				transform: translateY(-248px);
+				transition-delay: 0.2s;
+			}
+			
+			.widget-social:nth-of-type(5) {
+				transform: translateY(-310px);
+				transition-delay: 0.25s;
+			}
+			
+			.widget-social:nth-of-type(6) {
+				transform: translateY(-372px);
+				transition-delay: 0.3s;
+			}
+			
+			.widget-social:nth-of-type(7) {
+				transform: translateY(-434px);
+				transition-delay: 0.35s;
+			}
+			
+			.widget-social:nth-of-type(8) {
+				transform: translateY(-496px);
+				transition-delay: 0.4s;
+			}
+			
+			.widget-social:nth-of-type(9) {
+				transform: translateY(-558px);
+				transition-delay: 0.45s;
+			}
+			
+			.widget-social:nth-of-type(10) {
+				transform: translateY(-620px);
+				transition-delay: 0.5s;
+			}
 		}
 	}
 	
@@ -214,7 +268,7 @@
 @media (max-width: 768px) {
 	.share-buttons {
 		margin: 5px;
-		gap: 5px;
+		gap: 2px;
 	}
 }
 

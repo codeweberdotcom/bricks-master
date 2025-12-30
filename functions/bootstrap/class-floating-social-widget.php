@@ -834,8 +834,12 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				$widget_classes .= ' right-widget';
 			}
 			
+			// Добавляем класс для типа элементов виджета (icon или button)
+			$widget_item_type = !empty($this->settings['widget_item_type']) ? $this->settings['widget_item_type'] : 'button';
+			$widget_classes .= ' widget-item-' . esc_attr($widget_item_type);
+			
 			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:530', 'message' => 'Animation type for rendering', 'data' => ['animation_type' => $animation_type, 'widget_classes' => $widget_classes], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+			$log_data = json_encode(['location' => 'class-floating-social-widget.php:530', 'message' => 'Animation type for rendering', 'data' => ['animation_type' => $animation_type, 'widget_classes' => $widget_classes, 'widget_item_type' => $widget_item_type], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
 			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
 			// #endregion
 			
@@ -1162,6 +1166,10 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			if ($widget_position_side === 'right') {
 				$widget_classes .= ' right-widget';
 			}
+			
+			// Добавляем класс для типа элементов виджета (icon или button)
+			$widget_item_type = !empty($this->settings['widget_item_type']) ? $this->settings['widget_item_type'] : 'button';
+			$widget_classes .= ' widget-item-' . esc_attr($widget_item_type);
 			
 			// Start output
 			$output = '';
