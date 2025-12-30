@@ -4,13 +4,20 @@
 
 .share-buttons {
 	display: flex;
-	gap: 10px; // Bootstrap gap для правильного расстояния между кнопками
+	flex-direction: column; // Элементы располагаются сверху вниз по умолчанию
+	gap: 5px; // Bootstrap gap для правильного расстояния между кнопками
 	z-index: 9999;
 	margin: 10px;
+	position: relative; // Для позиционирования абсолютных элементов
 	
 	// Вариант для правого угла
 	&.right-widget {
 		flex-direction: row-reverse; // Иконки выезжают влево
+		
+		.widget-social {
+			left: auto; // Сбрасываем left
+			right: 0; // Выравнивание по правому краю
+		}
 	}
 	
 	// Вариант для верхнего угла
@@ -29,6 +36,7 @@
 		cursor: pointer;
 		transform: rotate(0deg);
 		flex-shrink: 0;
+		position: relative; // Главная кнопка остается на месте
 		
 		i {
 			transition: transform 0.6s ease-in-out;
@@ -75,10 +83,14 @@
 	.widget-social {
 		z-index: 1;
 		flex-shrink: 0;
-		position: relative;
-		transition: opacity 0.4s ease-out;
+		position: absolute;
+		bottom: 0;
+		left: 0; // Выравнивание по левому краю по умолчанию
+		width: 100%; // Ширина как у главной кнопки
+		transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 		opacity: 0;
 		pointer-events: none;
+		transform: translateY(0);
 		
 		i {
 			position: relative;
@@ -93,46 +105,55 @@
 			pointer-events: auto;
 		}
 		
-		// Последовательное появление с задержкой для каждого элемента
-		// Используем :nth-of-type() для автоматического назначения задержек
-		// Это работает, так как все .widget-social - это элементы <a>
+		// Последовательное появление с задержкой и смещением для каждого элемента
+		// Расстояние между кнопками уменьшено в 2 раза: было 70px, стало 35px
 		.widget-social:nth-of-type(1) {
+			transform: translateY(-35px);
 			transition-delay: 0.05s;
 		}
 		
 		.widget-social:nth-of-type(2) {
+			transform: translateY(-70px);
 			transition-delay: 0.1s;
 		}
 		
 		.widget-social:nth-of-type(3) {
+			transform: translateY(-105px);
 			transition-delay: 0.15s;
 		}
 		
 		.widget-social:nth-of-type(4) {
+			transform: translateY(-140px);
 			transition-delay: 0.2s;
 		}
 		
 		.widget-social:nth-of-type(5) {
+			transform: translateY(-175px);
 			transition-delay: 0.25s;
 		}
 		
 		.widget-social:nth-of-type(6) {
+			transform: translateY(-210px);
 			transition-delay: 0.3s;
 		}
 		
 		.widget-social:nth-of-type(7) {
+			transform: translateY(-245px);
 			transition-delay: 0.35s;
 		}
 		
 		.widget-social:nth-of-type(8) {
+			transform: translateY(-280px);
 			transition-delay: 0.4s;
 		}
 		
 		.widget-social:nth-of-type(9) {
+			transform: translateY(-315px);
 			transition-delay: 0.45s;
 		}
 		
 		.widget-social:nth-of-type(10) {
+			transform: translateY(-350px);
 			transition-delay: 0.5s;
 		}
 	}
@@ -142,6 +163,7 @@
 		.widget-social {
 			opacity: 0;
 			pointer-events: none;
+			transform: translateY(0);
 		}
 		
 		// Последовательное исчезновение с обратной задержкой
@@ -192,7 +214,7 @@
 @media (max-width: 768px) {
 	.share-buttons {
 		margin: 5px;
-		gap: 10px;
+		gap: 5px;
 	}
 }
 

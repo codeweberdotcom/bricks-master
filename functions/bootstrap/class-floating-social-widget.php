@@ -121,15 +121,30 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$enabled_raw = Redux::get_option($this->opt_name, 'floating_widget_enabled');
 			$socials_raw = Redux::get_option($this->opt_name, 'floating_widget_socials');
 			
-			// Нормализуем значение enabled - может быть строкой "1"/"0" или boolean
+			// Нормализуем значение enabled - может быть строкой "1"/"0", boolean, или числом
+			// Redux switch может возвращать разные типы в зависимости от версии
 			$enabled_normalized = false;
 			if (is_bool($enabled_raw)) {
+				// Если это boolean, используем значение как есть
 				$enabled_normalized = $enabled_raw;
 			} elseif (is_string($enabled_raw)) {
-				$enabled_normalized = ($enabled_raw === '1' || $enabled_raw === 'true' || $enabled_raw === 'on');
+				// Если это строка, проверяем на "включено"
+				$enabled_normalized = ($enabled_raw === '1' || $enabled_raw === 'true' || $enabled_raw === 'on' || $enabled_raw === 'yes');
 			} elseif (is_numeric($enabled_raw)) {
+				// Если это число, проверяем на 1
 				$enabled_normalized = (intval($enabled_raw) === 1);
+			} elseif ($enabled_raw === 1) {
+				// Прямая проверка на 1
+				$enabled_normalized = true;
+			} elseif ($enabled_raw === 0 || $enabled_raw === null || $enabled_raw === '') {
+				// Прямая проверка на 0, null или пустую строку
+				$enabled_normalized = false;
 			}
+			
+			// #region agent log
+			$log_data = json_encode(['location' => 'class-floating-social-widget.php:normalize_enabled', 'message' => 'Enabled normalization', 'data' => ['enabled_raw' => $enabled_raw, 'enabled_raw_type' => gettype($enabled_raw), 'enabled_normalized' => $enabled_normalized], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'FIX']);
+			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
+			// #endregion
 			
 			// #region agent log
 			$log_data = json_encode(['location' => 'class-floating-social-widget.php:70', 'message' => 'Redux options retrieved', 'data' => ['enabled_raw' => $enabled_raw, 'enabled_type' => gettype($enabled_raw), 'enabled_normalized' => $enabled_normalized, 'socials_raw_type' => gettype($socials_raw), 'socials_raw_empty' => empty($socials_raw), 'socials_raw_is_array' => is_array($socials_raw), 'socials_raw_count' => is_array($socials_raw) ? count($socials_raw) : 0, 'socials_raw_structure' => is_array($socials_raw) ? array_map(function($item) { return ['type' => gettype($item), 'is_array' => is_array($item), 'keys' => is_array($item) ? array_keys($item) : []]; }, array_slice($socials_raw, 0, 3)) : null], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
@@ -336,11 +351,12 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		 * @return bool
 		 */
 		public function is_enabled() {
-			$enabled = !empty($this->settings['enabled']);
-			$has_socials = !empty($this->settings['socials']);
+			// Проверяем enabled - должно быть строго true (не просто truthy)
+			$enabled = isset($this->settings['enabled']) && $this->settings['enabled'] === true;
+			$has_socials = !empty($this->settings['socials']) && is_array($this->settings['socials']) && count($this->settings['socials']) > 0;
 			
 			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:108', 'message' => 'is_enabled check', 'data' => ['enabled' => $enabled, 'has_socials' => $has_socials, 'enabled_raw' => $this->settings['enabled'], 'socials_count' => count($this->settings['socials']), 'result' => $enabled && $has_socials], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
+			$log_data = json_encode(['location' => 'class-floating-social-widget.php:108', 'message' => 'is_enabled check', 'data' => ['enabled' => $enabled, 'has_socials' => $has_socials, 'enabled_raw' => $this->settings['enabled'], 'enabled_type' => gettype($this->settings['enabled']), 'socials_count' => count($this->settings['socials']), 'result' => $enabled && $has_socials], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
 			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
 			// #endregion
 			
