@@ -22,5 +22,6 @@
   { "label": "Pinterest", "value": "pinterest" },
   { "label": "Dewalt", "value": "dewalt" },
   { "label": "Facebook", "value": "facebook" },
-  { "label": "Telegram", "value": "telegram" }
+  { "label": "Telegram", "value": "telegram" },
+  { "label": "Frost", "value": "frost" }
 ]

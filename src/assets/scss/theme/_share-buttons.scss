@@ -5,7 +5,7 @@
 .share-buttons {
 	display: flex;
 	flex-direction: column; // Элементы располагаются сверху вниз по умолчанию
-	gap: 2px; // Bootstrap gap для правильного расстояния между кнопками
+	gap: 4px; // Bootstrap gap для правильного расстояния между кнопками
 	z-index: 9999;
 	margin: 10px;
 	position: relative; // Для позиционирования абсолютных элементов
@@ -105,108 +105,242 @@
 			pointer-events: auto;
 		}
 		
-		// Для типа icon: высота примерно 58px + gap 2px = 60px на элемент
-		&.widget-item-icon {
-			.widget-social:nth-of-type(1) {
-				transform: translateY(-60px);
+		// Комбинация 1: Button виджет + Button элементы
+		// Основная кнопка Button (51.6px) + элементы Button (51.6px) + gap (4px) = 55.6px шаг
+		&.widget-main-button-elements-button .button-element {
+			// Первый элемент: высота основной кнопки (51.6px) + gap (4px) = 55.6px
+			&:first-of-type,
+			&:nth-child(2) {
+				transform: translateY(-55.6px) !important;
 				transition-delay: 0.05s;
 			}
 			
-			.widget-social:nth-of-type(2) {
-				transform: translateY(-120px);
+			// Второй элемент: предыдущий (55.6px) + высота элемента (51.6px) + gap (4px) = 111.2px
+			&:nth-of-type(2),
+			&:nth-child(3) {
+				transform: translateY(-111.2px) !important;
 				transition-delay: 0.1s;
 			}
 			
-			.widget-social:nth-of-type(3) {
-				transform: translateY(-180px);
+			// Третий элемент: 111.2 + 55.6 = 166.8px
+			&:nth-of-type(3),
+			&:nth-child(4) {
+				transform: translateY(-166.8px) !important;
 				transition-delay: 0.15s;
 			}
 			
-			.widget-social:nth-of-type(4) {
-				transform: translateY(-240px);
+			// Четвертый элемент: 166.8 + 55.6 = 222.4px
+			&:nth-of-type(4),
+			&:nth-child(5) {
+				transform: translateY(-222.4px) !important;
 				transition-delay: 0.2s;
 			}
 			
-			.widget-social:nth-of-type(5) {
-				transform: translateY(-300px);
+			// Пятый элемент: 222.4 + 55.6 = 278px
+			&:nth-of-type(5),
+			&:nth-child(6) {
+				transform: translateY(-278px) !important;
 				transition-delay: 0.25s;
 			}
 			
-			.widget-social:nth-of-type(6) {
-				transform: translateY(-360px);
+			// Шестой элемент: 278 + 55.6 = 333.6px
+			&:nth-of-type(6),
+			&:nth-child(7) {
+				transform: translateY(-333.6px) !important;
 				transition-delay: 0.3s;
 			}
 			
-			.widget-social:nth-of-type(7) {
-				transform: translateY(-420px);
+			// Седьмой элемент: 333.6 + 55.6 = 389.2px
+			&:nth-of-type(7),
+			&:nth-child(8) {
+				transform: translateY(-389.2px) !important;
 				transition-delay: 0.35s;
 			}
 			
-			.widget-social:nth-of-type(8) {
-				transform: translateY(-480px);
+			// Восьмой элемент: 389.2 + 55.6 = 444.8px
+			&:nth-of-type(8),
+			&:nth-child(9) {
+				transform: translateY(-444.8px) !important;
 				transition-delay: 0.4s;
 			}
 			
-			.widget-social:nth-of-type(9) {
-				transform: translateY(-540px);
+			// Девятый элемент: 444.8 + 55.6 = 500.4px
+			&:nth-of-type(9),
+			&:nth-child(10) {
+				transform: translateY(-500.4px) !important;
 				transition-delay: 0.45s;
 			}
 			
-			.widget-social:nth-of-type(10) {
-				transform: translateY(-600px);
+			// Десятый элемент: 500.4 + 55.6 = 556px
+			&:nth-of-type(10),
+			&:nth-child(11) {
+				transform: translateY(-556px) !important;
 				transition-delay: 0.5s;
 			}
 		}
 		
-		// Для типа button: высота примерно 60px + gap 2px = 62px на элемент
-		&.widget-item-button {
-			.widget-social:nth-of-type(1) {
-				transform: translateY(-62px);
+		// Комбинация 2: Button виджет + Icon элементы
+		// Основная кнопка Button (51.6px) + элементы Icon (60px) + gap (4px)
+		// Первый элемент: высота основной кнопки (51.6px) + gap (4px) = 55.6px
+		// Остальные элементы: шаг = высота элемента (60px) + gap (4px) = 64px
+		&.widget-main-button-elements-icon .icon-element {
+			&:nth-child(2) {
+				transform: translateY(-55.6px) !important; // 51.6 + 4
 				transition-delay: 0.05s;
 			}
 			
-			.widget-social:nth-of-type(2) {
-				transform: translateY(-124px);
+			&:nth-child(3) {
+				transform: translateY(-119.6px) !important; // 55.6 + 60 + 4
 				transition-delay: 0.1s;
 			}
 			
-			.widget-social:nth-of-type(3) {
-				transform: translateY(-186px);
+			&:nth-child(4) {
+				transform: translateY(-183.6px) !important; // 119.6 + 64
 				transition-delay: 0.15s;
 			}
 			
-			.widget-social:nth-of-type(4) {
-				transform: translateY(-248px);
+			&:nth-child(5) {
+				transform: translateY(-247.6px) !important; // 183.6 + 64
 				transition-delay: 0.2s;
 			}
 			
-			.widget-social:nth-of-type(5) {
-				transform: translateY(-310px);
+			&:nth-child(6) {
+				transform: translateY(-311.6px) !important; // 247.6 + 64
 				transition-delay: 0.25s;
 			}
 			
-			.widget-social:nth-of-type(6) {
-				transform: translateY(-372px);
+			&:nth-child(7) {
+				transform: translateY(-375.6px) !important; // 311.6 + 64
 				transition-delay: 0.3s;
 			}
 			
-			.widget-social:nth-of-type(7) {
-				transform: translateY(-434px);
+			&:nth-child(8) {
+				transform: translateY(-439.6px) !important; // 375.6 + 64
 				transition-delay: 0.35s;
 			}
 			
-			.widget-social:nth-of-type(8) {
-				transform: translateY(-496px);
+			&:nth-child(9) {
+				transform: translateY(-503.6px) !important; // 439.6 + 64
 				transition-delay: 0.4s;
 			}
 			
-			.widget-social:nth-of-type(9) {
-				transform: translateY(-558px);
+			&:nth-child(10) {
+				transform: translateY(-567.6px) !important; // 503.6 + 64
 				transition-delay: 0.45s;
 			}
 			
-			.widget-social:nth-of-type(10) {
-				transform: translateY(-620px);
+			&:nth-child(11) {
+				transform: translateY(-631.6px) !important; // 567.6 + 64
+				transition-delay: 0.5s;
+			}
+		}
+		
+		// Комбинация 3: Icon виджет + Icon элементы
+		// Основная кнопка Icon (60px) + элементы Icon (60px) + gap (4px) = 64px шаг
+		&.widget-main-icon-elements-icon .icon-element {
+			&:nth-child(2) {
+				transform: translateY(-64px) !important; // 60 + 4
+				transition-delay: 0.05s;
+			}
+			
+			&:nth-child(3) {
+				transform: translateY(-128px) !important; // 64 + 64
+				transition-delay: 0.1s;
+			}
+			
+			&:nth-child(4) {
+				transform: translateY(-192px) !important; // 128 + 64
+				transition-delay: 0.15s;
+			}
+			
+			&:nth-child(5) {
+				transform: translateY(-256px) !important; // 192 + 64
+				transition-delay: 0.2s;
+			}
+			
+			&:nth-child(6) {
+				transform: translateY(-320px) !important; // 256 + 64
+				transition-delay: 0.25s;
+			}
+			
+			&:nth-child(7) {
+				transform: translateY(-384px) !important; // 320 + 64
+				transition-delay: 0.3s;
+			}
+			
+			&:nth-child(8) {
+				transform: translateY(-448px) !important; // 384 + 64
+				transition-delay: 0.35s;
+			}
+			
+			&:nth-child(9) {
+				transform: translateY(-512px) !important; // 448 + 64
+				transition-delay: 0.4s;
+			}
+			
+			&:nth-child(10) {
+				transform: translateY(-576px) !important; // 512 + 64
+				transition-delay: 0.45s;
+			}
+			
+			&:nth-child(11) {
+				transform: translateY(-640px) !important; // 576 + 64
+				transition-delay: 0.5s;
+			}
+		}
+		
+		// Комбинация 4: Icon виджет + Button элементы
+		// Основная кнопка Icon (60px) + элементы Button (51.6px) + gap (4px)
+		// Первый элемент: высота основной кнопки (60px) + gap (4px) = 64px
+		// Остальные элементы: шаг = высота элемента (51.6px) + gap (4px) = 55.6px
+		&.widget-main-icon-elements-button .button-element {
+			&:nth-child(2) {
+				transform: translateY(-64px) !important; // 60 + 4
+				transition-delay: 0.05s;
+			}
+			
+			&:nth-child(3) {
+				transform: translateY(-119.6px) !important; // 64 + 51.6 + 4
+				transition-delay: 0.1s;
+			}
+			
+			&:nth-child(4) {
+				transform: translateY(-175.2px) !important; // 119.6 + 55.6
+				transition-delay: 0.15s;
+			}
+			
+			&:nth-child(5) {
+				transform: translateY(-230.8px) !important; // 175.2 + 55.6
+				transition-delay: 0.2s;
+			}
+			
+			&:nth-child(6) {
+				transform: translateY(-286.4px) !important; // 230.8 + 55.6
+				transition-delay: 0.25s;
+			}
+			
+			&:nth-child(7) {
+				transform: translateY(-342px) !important; // 286.4 + 55.6
+				transition-delay: 0.3s;
+			}
+			
+			&:nth-child(8) {
+				transform: translateY(-397.6px) !important; // 342 + 55.6
+				transition-delay: 0.35s;
+			}
+			
+			&:nth-child(9) {
+				transform: translateY(-453.2px) !important; // 397.6 + 55.6
+				transition-delay: 0.4s;
+			}
+			
+			&:nth-child(10) {
+				transform: translateY(-508.8px) !important; // 453.2 + 55.6
+				transition-delay: 0.45s;
+			}
+			
+			&:nth-child(11) {
+				transform: translateY(-564.4px) !important; // 508.8 + 55.6
 				transition-delay: 0.5s;
 			}
 		}
@@ -268,7 +402,7 @@
 @media (max-width: 768px) {
 	.share-buttons {
 		margin: 5px;
-		gap: 2px;
+		gap: 6px;
 	}
 }
 

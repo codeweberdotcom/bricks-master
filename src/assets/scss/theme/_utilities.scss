@@ -75,3 +75,25 @@ $utilities: map-merge($utilities,
       )
     ),
   ));
+
+// Переопределения для .frost, чтобы использовать цвет с альфа-каналом напрямую
+.border-frost {
+  border-color: var(--bs-frost) !important;
+}
+
+.bg-frost {
+  background-color: var(--bs-frost) !important;
+}
+
+.text-frost {
+  color: var(--bs-frost) !important;
+}
+
+.btn-frost {
+  --bs-btn-bg: var(--bs-frost);
+  --bs-btn-border-color: var(--bs-frost);
+  --bs-btn-hover-bg: var(--bs-frost);
+  --bs-btn-hover-border-color: var(--bs-frost);
+  --bs-btn-active-bg: var(--bs-frost);
+  --bs-btn-active-border-color: var(--bs-frost);
+}

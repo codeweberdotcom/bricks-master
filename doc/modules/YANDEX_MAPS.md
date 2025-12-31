@@ -476,3 +476,4 @@ map.fitBounds([placemark1, placemark2]); // Подогнать под конкр
 
 
 
+

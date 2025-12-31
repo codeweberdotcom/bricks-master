@@ -838,8 +838,12 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$widget_item_type = !empty($this->settings['widget_item_type']) ? $this->settings['widget_item_type'] : 'button';
 			$widget_classes .= ' widget-item-' . esc_attr($widget_item_type);
 			
+			// Добавляем класс для комбинации основной кнопки и элементов (для правильного расчета расстояний)
+			$widget_type = !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'icon';
+			$widget_classes .= ' widget-main-' . esc_attr($widget_type) . '-elements-' . esc_attr($widget_item_type);
+			
 			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:530', 'message' => 'Animation type for rendering', 'data' => ['animation_type' => $animation_type, 'widget_classes' => $widget_classes, 'widget_item_type' => $widget_item_type], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
+			$log_data = json_encode(['location' => 'class-floating-social-widget.php:530', 'message' => 'Animation type for rendering', 'data' => ['animation_type' => $animation_type, 'widget_classes' => $widget_classes, 'widget_item_type' => $widget_item_type, 'widget_type' => $widget_type], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
 			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
 			// #endregion
 			
@@ -879,7 +883,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					'icon' => 'uil uil-' . esc_attr($main_icon),
 					'color' => $button_color,
 					'size' => 'lg',
-					'class' => 'share-button-main',
+					'class' => 'share-icon-main',
 					'tag' => 'button',
 					'type' => 'button',
 				));
@@ -969,7 +973,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					
 					// Определяем color и дополнительные классы
 					$color = '';
-					$additional_classes = array('social', 'widget-social');
+					$additional_classes = array('social', 'widget-social', 'icon-element');
 					
 					// Проверяем, содержит ли класс btn-gradient (для градиентных кнопок)
 					if (strpos($button_class_clean, 'btn-gradient') !== false) {
@@ -1026,13 +1030,13 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					if ($is_form) {
 						// Для формы используем data-атрибуты для открытия модального окна
 						$output .= '<a href="javascript:void(0)" ';
-						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social justify-content-between w-100" ';
+						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social button-element justify-content-between w-100" ';
 						$output .= 'title="' . esc_attr($label) . '" ';
 						$output .= 'data-value="' . esc_attr($data_value) . '" ';
 						$output .= 'data-bs-toggle="modal" data-bs-target="#modal">';
 					} else {
 						$output .= '<a href="' . $social_url . '" ';
-						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social justify-content-between w-100" ';
+						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social button-element justify-content-between w-100" ';
 						$output .= 'title="' . esc_attr($label) . '" ';
 						$output .= 'target="_blank" rel="noopener noreferrer">';
 					}
@@ -1171,6 +1175,10 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$widget_item_type = !empty($this->settings['widget_item_type']) ? $this->settings['widget_item_type'] : 'button';
 			$widget_classes .= ' widget-item-' . esc_attr($widget_item_type);
 			
+			// Добавляем класс для комбинации основной кнопки и элементов (для правильного расчета расстояний)
+			$widget_type = !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'icon';
+			$widget_classes .= ' widget-main-' . esc_attr($widget_type) . '-elements-' . esc_attr($widget_item_type);
+			
 			// Start output
 			$output = '';
 			
@@ -1206,7 +1214,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					'icon' => 'uil uil-' . esc_attr($main_icon),
 					'color' => $button_color,
 					'size' => 'lg',
-					'class' => 'share-button-main',
+					'class' => 'share-icon-main',
 					'tag' => 'button',
 					'type' => 'button',
 				));
@@ -1285,7 +1293,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					
 					// Определяем color и дополнительные классы
 					$color = '';
-					$additional_classes = array('social', 'widget-social');
+					$additional_classes = array('social', 'widget-social', 'icon-element');
 					
 					// Проверяем, содержит ли класс btn-gradient (для градиентных кнопок)
 					if (strpos($button_class_clean, 'btn-gradient') !== false) {
@@ -1342,13 +1350,13 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					if ($is_form) {
 						// Для формы используем data-атрибуты для открытия модального окна
 						$output .= '<a href="javascript:void(0)" ';
-						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social justify-content-between w-100" ';
+						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social button-element justify-content-between w-100" ';
 						$output .= 'title="' . esc_attr($label) . '" ';
 						$output .= 'data-value="' . esc_attr($data_value) . '" ';
 						$output .= 'data-bs-toggle="modal" data-bs-target="#modal">';
 					} else {
 						$output .= '<a href="' . $social_url . '" ';
-						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social justify-content-between w-100" ';
+						$output .= 'class="' . esc_attr($button_class) . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill widget-social button-element justify-content-between w-100" ';
 						$output .= 'title="' . esc_attr($label) . '" ';
 						$output .= 'target="_blank" rel="noopener noreferrer">';
 					}
