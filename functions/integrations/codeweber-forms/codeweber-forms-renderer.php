@@ -49,8 +49,10 @@ class CodeweberFormsRenderer {
         }
         
         // Извлекаем поля и кнопки из innerBlocks
+        // Также рендерим другие блоки (например, heading-subtitle)
         $fields = [];
         $submit_buttons = [];
+        $other_blocks_html = '';
         $has_filepond = false;
         if (!empty($form_block['innerBlocks'])) {
             foreach ($form_block['innerBlocks'] as $inner_block) {
@@ -64,6 +66,9 @@ class CodeweberFormsRenderer {
                     $fields[] = $field_attrs;
                 } elseif ($inner_block['blockName'] === 'codeweber-blocks/submit-button') {
                     $submit_buttons[] = $inner_block['attrs'];
+                } else {
+                    // Рендерим все остальные блоки (например, heading-subtitle)
+                    $other_blocks_html .= render_block($inner_block);
                 }
             }
         }
@@ -102,8 +107,16 @@ class CodeweberFormsRenderer {
             }
         }
         
+        // Рендерим другие блоки (например, heading-subtitle) перед формой
+        $output = '';
+        if (!empty($other_blocks_html)) {
+            $output .= $other_blocks_html;
+        }
+        
         // Рендерим форму (заголовок теперь добавляется в render_from_config())
-        return $this->render_from_config($post->ID, $form_config);
+        $output .= $this->render_from_config($post->ID, $form_config);
+        
+        return $output;
     }
     
     /**
@@ -424,41 +437,8 @@ class CodeweberFormsRenderer {
         <?php
         $rendered_form = ob_get_clean();
         
-        // Добавляем заголовок перед формой, если он указан
-        $header_output = '';
-        $form_title = $settings['formTitle'] ?? '';
-        $form_subtitle = $settings['formSubtitle'] ?? '';
-        $form_title_tag = $settings['formTitleTag'] ?? 'div';
-        $form_subtitle_tag = $settings['formSubtitleTag'] ?? 'p';
-        $form_title_class = $settings['formTitleClass'] ?? '';
-        $form_subtitle_class = $settings['formSubtitleClass'] ?? '';
-        
-        if (!empty($form_title) || !empty($form_subtitle)) {
-            $header_output = '<div class="form-header">';
-            if (!empty($form_title)) {
-                $title_classes = !empty($form_title_class) ? esc_attr(trim($form_title_class)) : 'h3 text-start';
-                $title_tag = sanitize_key($form_title_tag);
-                // Ограничиваем возможные теги для безопасности
-                $allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'p', 'span'];
-                if (!in_array($title_tag, $allowed_tags)) {
-                    $title_tag = 'div';
-                }
-                $header_output .= '<' . $title_tag . ' class="' . $title_classes . '">' . esc_html($form_title) . '</' . $title_tag . '>';
-            }
-            if (!empty($form_subtitle)) {
-                $subtitle_classes = !empty($form_subtitle_class) ? esc_attr(trim($form_subtitle_class)) : 'lead mb-4 text-start';
-                $subtitle_tag = sanitize_key($form_subtitle_tag);
-                // Ограничиваем возможные теги для безопасности
-                $allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'p', 'span'];
-                if (!in_array($subtitle_tag, $allowed_tags)) {
-                    $subtitle_tag = 'p';
-                }
-                $header_output .= '<' . $subtitle_tag . ' class="' . $subtitle_classes . '">' . esc_html($form_subtitle) . '</' . $subtitle_tag . '>';
-            }
-            $header_output .= '</div>';
-        }
-        
-        return $header_output . $rendered_form;
+        // Заголовок теперь управляется через блок Title, поэтому не выводим его здесь
+        return $rendered_form;
     }
     
     /**

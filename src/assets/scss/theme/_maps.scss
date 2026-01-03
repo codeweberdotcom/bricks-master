@@ -49,6 +49,7 @@ $colors-soft: (
 	"aqua": $aqua-soft,
 	"navy": $navy-soft,
 	"ash": $ash-soft,
+	"dewalt": $dewalt-soft,
 	"gray": $gray-soft,
 ) !default;
 
@@ -70,6 +71,7 @@ $colors-pale: (
 	"navy": $navy-pale,
 	"dark": $dark-pale,
 	"ash": $ash-pale,
+	"dewalt": $dewalt-pale,
 	"frost": $frost-pale,
 ) !default;
 
@@ -90,6 +92,7 @@ $bullet-soft: (
 	"aqua": $aqua-bullet-soft,
 	"navy": $navy-bullet-soft,
 	"ash": $ash-bullet-soft,
+	"dewalt": $dewalt-bullet-soft,
 ) !default;
 
 $icon-fill: (
@@ -109,6 +112,7 @@ $icon-fill: (
 	"aqua": $aqua-icon-fill,
 	"navy": $navy-icon-fill,
 	"ash": $ash-icon-fill,
+	"dewalt": $dewalt-icon-fill,
 ) !default;
 
 $icon-solid-fill: (
@@ -128,6 +132,7 @@ $icon-solid-fill: (
 	"aqua": $aqua-icon-solid-fill,
 	"navy": $navy-icon-solid-fill,
 	"ash": $ash-icon-solid-fill,
+	"dewalt": $dewalt-icon-solid-fill,
 ) !default;
 
 $border-soft: (
@@ -147,6 +152,7 @@ $border-soft: (
 	"aqua": $aqua-border-soft,
 	"navy": $navy-border-soft,
 	"ash": $ash-border-soft,
+	"dewalt": $dewalt-border-soft,
 ) !default;
 
 // scss-docs-start theme-border-subtle-map
@@ -296,6 +302,7 @@ $utilities-border-subtle: (
 	"aqua-soft": var(--#{$prefix}soft-aqua-border),
 	"navy-soft": var(--#{$prefix}soft-navy-border),
 	"ash-soft": var(--#{$prefix}soft-ash-border),
+	"dewalt-soft": var(--#{$prefix}soft-dewalt-border),
 ) !default;
 // scss-docs-end utilities-border-colors
 
