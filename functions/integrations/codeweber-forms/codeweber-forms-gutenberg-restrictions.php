@@ -29,7 +29,7 @@ class CodeweberFormsGutenbergRestrictions {
             'codeweber-blocks/columns',
             'codeweber-blocks/column',
             'codeweber-blocks/paragraph',
-            'codeweber-blocks/heading-subtitle',
+            'codeweber-gutenberg-blocks/heading-subtitle',
             'codeweber-blocks/button',
             'codeweber-blocks/icon',
             'codeweber-blocks/card',
@@ -53,6 +53,7 @@ class CodeweberFormsGutenbergRestrictions {
             'codeweber-blocks/form',
             'codeweber-blocks/form-field',
             'codeweber-blocks/submit-button',
+            'codeweber-gutenberg-blocks/heading-subtitle',
         ];
     }
     
