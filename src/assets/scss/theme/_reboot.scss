@@ -332,6 +332,8 @@ hr.double {
     flex: 1;
     height: 1px;
     border-top: 1px solid $hr-color;
+    // Наследование цвета текста для линий
+    border-top-color: currentColor;
   }
   
   &::before {
@@ -364,6 +366,36 @@ hr.double {
   > * {
     margin: 0;
     white-space: nowrap;
+  }
+  
+  // Цвета через text-* классы (только border-top-color, не трогаем border-top)
+  @each $color, $value in $colors {
+    &.text-#{$color} {
+      &::before,
+      &::after {
+        border-top-color: var(--#{$prefix}#{$color});
+      }
+    }
+  }
+  
+  // Мягкие цвета
+  @each $color, $value in $colors-soft {
+    &.text-soft-#{$color} {
+      &::before,
+      &::after {
+        border-top-color: var(--#{$prefix}soft-#{$color});
+      }
+    }
+  }
+  
+  // Бледные цвета
+  @each $color, $value in $colors-pale {
+    &.text-pale-#{$color} {
+      &::before,
+      &::after {
+        border-top-color: var(--#{$prefix}pale-#{$color});
+      }
+    }
   }
 }
 .divider:after {
