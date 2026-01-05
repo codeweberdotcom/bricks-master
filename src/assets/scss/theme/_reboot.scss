@@ -319,6 +319,53 @@ hr.double {
 .divider-icon:after {
   right: 0;
 }
+.divider-text {
+  border: 0;
+  position: relative;
+  margin: $hr-margin-y 0;
+  display: flex;
+  align-items: center;
+  
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    border-top: 1px solid $hr-color;
+  }
+  
+  &::before {
+    margin-right: 1rem;
+  }
+  
+  &::after {
+    margin-left: 1rem;
+  }
+  
+  // Left alignment - only right line
+  &.text-start {
+    &::before {
+      display: none;
+    }
+  }
+  
+  // Right alignment - only left line
+  &.text-end {
+    &::after {
+      display: none;
+    }
+  }
+  
+  // Center alignment - both lines (default)
+  &.text-center {
+    // Both lines visible
+  }
+  
+  > * {
+    margin: 0;
+    white-space: nowrap;
+  }
+}
 .divider:after {
   content: "";
   width: 100%;
