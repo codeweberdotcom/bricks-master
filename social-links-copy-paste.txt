@@ -1,0 +1,82 @@
+===========================================
+ГОТОВЫЙ БЛОК ДЛЯ КОПИРОВАНИЯ В WORDPRESS
+===========================================
+
+Скопируйте весь блок ниже и вставьте в редактор WordPress (текстовый режим)
+для просмотра всех вариантов шорткода [social_links]
+
+===========================================
+
+<h2>Все типы отображения (размер md)</h2>
+
+<p><strong>Type1 - Круглые кнопки с фоном (каждая соцсеть свой цвет):</strong></p>
+[social_links type="type1" size="md"]
+
+<p><strong>Type2 - Иконки в muted-стиле (серые):</strong></p>
+[social_links type="type2" size="md"]
+
+<p><strong>Type3 - Обычные цветные иконки без кнопок:</strong></p>
+[social_links type="type3" size="md"]
+
+<p><strong>Type4 - Белые иконки:</strong></p>
+[social_links type="type4" size="md"]
+
+<p><strong>Type5 - Тёмные круглые кнопки:</strong></p>
+[social_links type="type5" size="md"]
+
+<p><strong>Type6 - Кнопки с иконками и названиями (широкие, белые):</strong></p>
+[social_links type="type6" size="md"]
+
+<p><strong>Type7 - Кнопки с кастомным фоном соцсети:</strong></p>
+[social_links type="type7" size="md"]
+
+<p><strong>Type8 - Кнопки с настраиваемым цветом (solid, primary):</strong></p>
+[social_links type="type8" button-color="primary" buttonstyle="solid" size="md"]
+
+<p><strong>Type8 - Кнопки с настраиваемым цветом (outline, red):</strong></p>
+[social_links type="type8" button-color="red" buttonstyle="outline" size="md"]
+
+<hr>
+
+<h2>Все размеры (type1)</h2>
+
+<p><strong>Small (sm):</strong></p>
+[social_links type="type1" size="sm"]
+
+<p><strong>Medium (md) - по умолчанию:</strong></p>
+[social_links type="type1" size="md"]
+
+<p><strong>Large (lg):</strong></p>
+[social_links type="type1" size="lg"]
+
+<hr>
+
+<h2>С CSS классами</h2>
+
+<p><strong>Выравнивание по центру:</strong></p>
+[social_links type="type1" class="justify-content-center"]
+
+<p><strong>С отступами:</strong></p>
+[social_links type="type1" class="mb-4"]
+
+<p><strong>Вертикальное расположение:</strong></p>
+[social_links type="type6" class="flex-column"]
+
+<hr>
+
+<h2>Минимальные примеры</h2>
+
+<p>Без параметров (type1, md):</p>
+[social_links]
+
+<p>Только тип:</p>
+[social_links type="type2"]
+
+<p>Только размер:</p>
+[social_links size="lg"]
+
+<p>Только класс:</p>
+[social_links class="mb-3"]
+
+===========================================
+

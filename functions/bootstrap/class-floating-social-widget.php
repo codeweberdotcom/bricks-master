@@ -252,6 +252,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$button_action_type = Redux::get_option($this->opt_name, 'floating_widget_button_action_type');
 			$show_icon_mobile = Redux::get_option($this->opt_name, 'floating_widget_show_icon_mobile');
 			$widget_position_side = Redux::get_option($this->opt_name, 'floating_widget_position_side');
+			$icon_style = Redux::get_option($this->opt_name, 'floating_widget_icon_style');
 			
 			// #region agent log
 			$log_data = json_encode(['location' => 'class-floating-social-widget.php:220', 'message' => 'Settings retrieved from Redux', 'data' => ['button_color' => $button_color, 'button_color_type' => gettype($button_color), 'animation_type' => $animation_type, 'animation_type_type' => gettype($animation_type), 'widget_type' => $widget_type, 'widget_type_type' => gettype($widget_type), 'widget_item_type' => $widget_item_type, 'button_text' => $button_text], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
@@ -288,6 +289,11 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				$button_action_type = 'none';
 			}
 			
+			// Нормализуем стиль иконки - если пусто, используем btn-circle
+			if (empty($icon_style)) {
+				$icon_style = 'btn-circle';
+			}
+			
 			// Форма теперь добавляется автоматически через фильтр Redux в список Social Networks
 			// и отображается в интерфейсе, где можно управлять порядком
 			
@@ -303,6 +309,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				'button_action_type' => $button_action_type,
 				'show_icon_mobile' => !empty($show_icon_mobile) ? true : false,
 				'widget_position_side' => !empty($widget_position_side) ? $widget_position_side : 'right',
+				'icon_style' => $icon_style,
 				'width' => Redux::get_option($this->opt_name, 'floating_widget_width'),
 				// Desktop offsets
 				'right_offset_desktop' => Redux::get_option($this->opt_name, 'floating_widget_right_offset_desktop'),
@@ -873,19 +880,21 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				$show_icon_mobile = !empty($this->settings['show_icon_mobile']) ? $this->settings['show_icon_mobile'] : false;
 				// Добавляем класс для управления отображением на мобильных
 				$button_mobile_class = $show_icon_mobile ? ' widget-button-mobile-icon' : '';
-				$output .= '<button class="btn-text-hide btn btn-' . $button_color . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill share-button-main no-rotate' . esc_attr($button_mobile_class) . '" type="button">';
+				$output .= '<button class="btn-text-hide btn btn-' . $button_color . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill share-button-main no-rotate zindex-50' . esc_attr($button_mobile_class) . '" type="button">';
 				$output .= '<i class="fs-28 uil uil-' . esc_attr($main_icon) . '"></i>';
 				$output .= '<span class="ps-1 text-hide pe-2 widget-button-text">' . $button_text . '</span>';
 				$output .= '</button>';
 			} else {
 				// Верстка для типа Icon (как было)
+				$icon_style = !empty($this->settings['icon_style']) ? $this->settings['icon_style'] : 'btn-circle';
 				$main_button = new CodeWeber_Floating_Button(array(
 					'icon' => 'uil uil-' . esc_attr($main_icon),
 					'color' => $button_color,
 					'size' => 'lg',
-					'class' => 'share-icon-main',
+					'class' => 'share-icon-main zindex-50',
 					'tag' => 'button',
 					'type' => 'button',
+					'button_style' => $icon_style,
 				));
 				$output .= $main_button->render();
 			}
@@ -1009,6 +1018,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 								'bs-target' => '#modal'
 							),
 							'tag' => 'a',
+							'button_style' => $icon_style,
 						));
 					} else {
 						// Build social button using CodeWeber_Floating_Button (Icon variant)
@@ -1022,6 +1032,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 							'target' => '_blank',
 							'rel' => 'noopener noreferrer',
 							'tag' => 'a',
+							'button_style' => $icon_style,
 						));
 					}
 					$output .= $social_button->render();
@@ -1204,19 +1215,21 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				$show_icon_mobile = !empty($this->settings['show_icon_mobile']) ? $this->settings['show_icon_mobile'] : false;
 				// Добавляем класс для управления отображением на мобильных
 				$button_mobile_class = $show_icon_mobile ? ' widget-button-mobile-icon' : '';
-				$output .= '<button class="btn-text-hide btn btn-' . $button_color . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill share-button-main no-rotate' . esc_attr($button_mobile_class) . '" type="button">';
+				$output .= '<button class="btn-text-hide btn btn-' . $button_color . ' py-0 ps-2 pe-2 has-ripple btn-icon btn-icon-start rounded-pill share-button-main no-rotate zindex-50' . esc_attr($button_mobile_class) . '" type="button">';
 				$output .= '<i class="fs-28 uil uil-' . esc_attr($main_icon) . '"></i>';
 				$output .= '<span class="ps-1 text-hide pe-2 widget-button-text">' . $button_text . '</span>';
 				$output .= '</button>';
 			} else {
 				// Верстка для типа Icon (как было)
+				$icon_style = !empty($this->settings['icon_style']) ? $this->settings['icon_style'] : 'btn-circle';
 				$main_button = new CodeWeber_Floating_Button(array(
 					'icon' => 'uil uil-' . esc_attr($main_icon),
 					'color' => $button_color,
 					'size' => 'lg',
-					'class' => 'share-icon-main',
+					'class' => 'share-icon-main zindex-50',
 					'tag' => 'button',
 					'type' => 'button',
+					'button_style' => $icon_style,
 				));
 				$output .= $main_button->render();
 			}
@@ -1286,6 +1299,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				// Build social button - разная верстка в зависимости от типа элементов
 				if ($widget_item_type === 'icon') {
 					// Верстка для типа Icon - только иконки в кружках
+					$icon_style = !empty($this->settings['icon_style']) ? $this->settings['icon_style'] : 'btn-circle';
 					$button_class_raw = $button_class;
 					// Убираем префикс 'btn ' из button_class, так как CodeWeber_Floating_Button уже добавляет 'btn'
 					$button_class_clean = str_replace('btn ', '', $button_class_raw);
@@ -1329,6 +1343,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 								'bs-target' => '#modal'
 							),
 							'tag' => 'a',
+							'button_style' => $icon_style,
 						));
 					} else {
 						// Build social button using CodeWeber_Floating_Button (Icon variant)
@@ -1342,6 +1357,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 							'target' => '_blank',
 							'rel' => 'noopener noreferrer',
 							'tag' => 'a',
+							'button_style' => $icon_style,
 						));
 					}
 					$output .= $social_button->render();

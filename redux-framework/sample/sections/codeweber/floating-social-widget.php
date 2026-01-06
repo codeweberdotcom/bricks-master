@@ -385,6 +385,19 @@ Redux::set_section(
 			),
 			
 			array(
+				'id'       => 'floating_widget_icon_style',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Icon Style', 'codeweber'),
+				'subtitle' => esc_html__('Select style for icon elements (applies only to Icon type)', 'codeweber'),
+				'options'  => array(
+					'btn-circle' => esc_html__('Circle', 'codeweber'),
+					'btn-block'  => esc_html__('Block', 'codeweber'),
+				),
+				'default'  => 'btn-circle',
+				'required' => array('floating_widget_enabled', '=', true),
+			),
+			
+			array(
 				'id'       => 'floating_widget_animation_type',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Animation Type', 'codeweber'),

@@ -146,19 +146,26 @@ function cleanNumber($digits)
  * - `type5`: тёмные круглые кнопки
  * - `type6`: кнопки с иконками и названиями соцсетей (широкие)
  * - `type7`: кнопки с кастомным фоном соцсети (например, `btn-telegram`)
+ * - `type8`: кнопки с настраиваемым цветом и стилем (solid/outline), без обертки nav social
  *
  * Размеры:
  * - `lg`: большие кнопки
  * - `md`: средние (по умолчанию)
  * - `sm`: маленькие
  *
+ * Для type8 доступны дополнительные параметры:
+ * - `button_color`: цвет кнопки (primary, red, blue, green и т.д. - все цвета темы)
+ * - `buttonstyle`: стиль кнопки (solid или outline)
+ *
  * @param string $class Дополнительные CSS-классы для обёртки `<nav>`.
  * @param string $type Тип отображения (например, `type1`, `type6`, и т.д.).
  * @param string $size Размер иконок или кнопок (`lg`, `md`, `sm`). По умолчанию `'md'`.
+ * @param string $button_color Цвет кнопки для type8 (primary, red, blue и т.д.). По умолчанию `'primary'`.
+ * @param string $buttonstyle Стиль кнопки для type8 (solid или outline). По умолчанию `'solid'`.
  *
  * @return string HTML-код со ссылками на соцсети.
  */
-function social_links($class, $type, $size = 'md')
+function social_links($class, $type, $size = 'md', $button_color = 'primary', $buttonstyle = 'solid')
 {
 	$socials = get_option('socials_urls');
 	if (empty($socials)) {
@@ -174,6 +181,10 @@ function social_links($class, $type, $size = 'md')
 	$size_class = isset($size_classes[$size]) ? $size_classes[$size][0] : 'fs-35';
 	$btn_size_class = isset($size_classes[$size]) ? $size_classes[$size][1] : 'btn-md';
 
+	// Для type8 не используем обертку nav social
+	$use_nav_wrapper = ($type !== 'type8');
+	$wrapper_class = ''; // Инициализируем для type8
+	
 	$nav_class = 'nav social gap-1';
 	if ($type === 'type2') {
 		$nav_class .= ' social-muted';
@@ -187,7 +198,13 @@ function social_links($class, $type, $size = 'md')
 		$nav_class .= ' ' . $class;
 	}
 
-	$output = '<nav class="' . esc_attr($nav_class) . '">';
+	// Для type8 используем только дополнительные классы, без nav social
+	if ($type === 'type8') {
+		$wrapper_class = !empty($class) ? esc_attr($class) : '';
+		$output = !empty($wrapper_class) ? '<div class="' . $wrapper_class . '">' : '';
+	} else {
+		$output = '<nav class="' . esc_attr($nav_class) . '">';
+	}
 	foreach ($socials as $social => $url) {
 		if (!empty($url)) {
 			$original_social = $social;
@@ -241,12 +258,33 @@ function social_links($class, $type, $size = 'md')
 				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 mb-2 me-2 fs-16"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
 			} elseif ($type === 'type7') {
 				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . $label . ' justify-content-between w-100 mb-2 me-2"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
+			} elseif ($type === 'type8') {
+				// Type8: кнопки с настраиваемым цветом и стилем
+				// Нормализуем параметры
+				$btn_color = !empty($button_color) ? esc_attr($button_color) : 'primary';
+				$btn_style = ($buttonstyle === 'outline') ? 'outline' : 'solid';
+				
+				// Формируем класс кнопки с btn-circle
+				if ($btn_style === 'outline') {
+					$btn_class = 'btn btn-circle btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
+				} else {
+					$btn_class = 'btn btn-circle btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
+				}
+				
+				$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '" target="_blank" title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
 			} else {
 				$output .= '<a href="' . esc_url($url) . '" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			}
 		}
 	}
-	$output .= '</nav>';
+	
+	// Закрываем обертку в зависимости от типа
+	if ($type === 'type8') {
+		$output .= !empty($wrapper_class) ? '</div>' : '';
+	} else {
+		$output .= '</nav>';
+	}
+	
 	return $output;
 }
 

@@ -1,0 +1,247 @@
+===========================================
+ПРИМЕРЫ ИСПОЛЬЗОВАНИЯ ШОРТКОДА [social_links]
+===========================================
+
+Все примеры можно использовать в редакторе WordPress (визуальный/текстовый режим),
+в шаблонах через do_shortcode(), или в PHP коде.
+
+===========================================
+БАЗОВЫЕ ПРИМЕРЫ
+===========================================
+
+1. Минимальный вариант (type1, размер md):
+[social_links]
+
+2. С указанием типа:
+[social_links type="type1"]
+
+3. С указанием размера:
+[social_links size="lg"]
+
+4. С дополнительным CSS классом:
+[social_links class="my-custom-class"]
+
+5. Все параметры:
+[social_links type="type1" size="md" class="my-class"]
+
+===========================================
+ТИПЫ ОТОБРАЖЕНИЯ (type)
+===========================================
+
+TYPE1 - Круглые кнопки с фоном (каждая соцсеть свой цвет)
+-----------------------------------------------------------
+[social_links type="type1"]
+[social_links type="type1" size="lg"]
+[social_links type="type1" size="sm"]
+[social_links type="type1" class="mb-4"]
+
+TYPE2 - Иконки в muted-стиле (серые)
+-----------------------------------------------------------
+[social_links type="type2"]
+[social_links type="type2" size="lg"]
+[social_links type="type2" size="sm"]
+[social_links type="type2" class="justify-content-center"]
+
+TYPE3 - Обычные цветные иконки без кнопок
+-----------------------------------------------------------
+[social_links type="type3"]
+[social_links type="type3" size="lg"]
+[social_links type="type3" size="sm"]
+[social_links type="type3" class="gap-2"]
+
+TYPE4 - Белые иконки
+-----------------------------------------------------------
+[social_links type="type4"]
+[social_links type="type4" size="lg"]
+[social_links type="type4" size="sm"]
+[social_links type="type4" class="mb-3"]
+
+TYPE5 - Тёмные круглые кнопки
+-----------------------------------------------------------
+[social_links type="type5"]
+[social_links type="type5" size="lg"]
+[social_links type="type5" size="sm"]
+[social_links type="type5" class="mt-4"]
+
+TYPE6 - Кнопки с иконками и названиями (широкие, белые)
+-----------------------------------------------------------
+[social_links type="type6"]
+[social_links type="type6" size="lg"]
+[social_links type="type6" size="sm"]
+[social_links type="type6" class="flex-column"]
+
+TYPE7 - Кнопки с кастомным фоном соцсети
+-----------------------------------------------------------
+[social_links type="type7"]
+[social_links type="type7" size="lg"]
+[social_links type="type7" size="sm"]
+[social_links type="type7" class="mb-5"]
+
+TYPE8 - Кнопки с настраиваемым цветом и стилем (без обертки nav social)
+-----------------------------------------------------------
+[social_links type="type8"]
+[social_links type="type8" button-color="primary" buttonstyle="solid"]
+[social_links type="type8" button-color="red" buttonstyle="outline"]
+[social_links type="type8" button-color="blue" buttonstyle="solid" size="lg"]
+[social_links type="type8" button-color="green" buttonstyle="outline" size="sm"]
+[social_links type="type8" button-color="purple" buttonstyle="solid" class="gap-2"]
+[social_links type="type8" button-color="orange" buttonstyle="outline" class="justify-content-center"]
+
+Примечание: Для type8 доступны параметры button-color и buttonstyle:
+- button-color: primary, red, blue, green, purple, orange, yellow, navy, ash и другие цвета темы
+- buttonstyle: solid (сплошная) или outline (с обводкой)
+- Для type8 не используется обертка nav social, только дополнительные классы из параметра class
+
+===========================================
+РАЗМЕРЫ (size)
+===========================================
+
+SMALL (sm) - Маленькие иконки/кнопки
+-----------------------------------------------------------
+[social_links size="sm"]
+[social_links type="type1" size="sm"]
+[social_links type="type2" size="sm"]
+
+MEDIUM (md) - Средние иконки/кнопки (по умолчанию)
+-----------------------------------------------------------
+[social_links size="md"]
+[social_links type="type1" size="md"]
+[social_links type="type3" size="md"]
+
+LARGE (lg) - Большие иконки/кнопки
+-----------------------------------------------------------
+[social_links size="lg"]
+[social_links type="type1" size="lg"]
+[social_links type="type5" size="lg"]
+
+===========================================
+С ДОПОЛНИТЕЛЬНЫМИ CSS КЛАССАМИ (class)
+===========================================
+
+Выравнивание по центру:
+[social_links class="justify-content-center"]
+[social_links type="type1" class="justify-content-center"]
+
+Отступы:
+[social_links class="mb-4"]
+[social_links class="mt-3 mb-5"]
+[social_links class="p-3"]
+
+Flexbox направление:
+[social_links class="flex-column"]
+[social_links type="type6" class="flex-column"]
+
+Комбинированные классы:
+[social_links class="justify-content-center mb-4 gap-2"]
+[social_links type="type1" class="mt-5 mb-3"]
+
+===========================================
+ИСПОЛЬЗОВАНИЕ В PHP КОДЕ
+===========================================
+
+В шаблонах WordPress:
+<?php echo do_shortcode('[social_links type="type1" size="lg"]'); ?>
+
+С функцией напрямую:
+<?php echo social_links('my-class', 'type1', 'lg'); ?>
+
+В цикле с разными типами:
+<?php
+$types = ['type1', 'type2', 'type3', 'type4', 'type5', 'type6', 'type7'];
+foreach ($types as $type) {
+    echo '<div class="mb-4">';
+    echo '<h3>' . esc_html($type) . '</h3>';
+    echo do_shortcode('[social_links type="' . esc_attr($type) . '"]');
+    echo '</div>';
+}
+?>
+
+===========================================
+ПОЛНЫЙ ТЕСТОВЫЙ БЛОК
+===========================================
+
+Скопируйте этот блок на тестовую страницу для просмотра всех вариантов:
+
+<h2>Все типы отображения (размер md)</h2>
+<p><strong>Type1 - Круглые кнопки с фоном:</strong></p>
+[social_links type="type1" size="md"]
+
+<p><strong>Type2 - Иконки в muted-стиле:</strong></p>
+[social_links type="type2" size="md"]
+
+<p><strong>Type3 - Обычные цветные иконки:</strong></p>
+[social_links type="type3" size="md"]
+
+<p><strong>Type4 - Белые иконки:</strong></p>
+[social_links type="type4" size="md"]
+
+<p><strong>Type5 - Тёмные круглые кнопки:</strong></p>
+[social_links type="type5" size="md"]
+
+<p><strong>Type6 - Кнопки с названиями (белые):</strong></p>
+[social_links type="type6" size="md"]
+
+<p><strong>Type7 - Кнопки с кастомным фоном:</strong></p>
+[social_links type="type7" size="md"]
+
+<p><strong>Type8 - Кнопки с настраиваемым цветом (solid, primary):</strong></p>
+[social_links type="type8" button-color="primary" buttonstyle="solid" size="md"]
+
+<p><strong>Type8 - Кнопки с настраиваемым цветом (outline, red):</strong></p>
+[social_links type="type8" button-color="red" buttonstyle="outline" size="md"]
+
+<h2>Размеры (type1)</h2>
+<p><strong>Small:</strong></p>
+[social_links type="type1" size="sm"]
+
+<p><strong>Medium:</strong></p>
+[social_links type="type1" size="md"]
+
+<p><strong>Large:</strong></p>
+[social_links type="type1" size="lg"]
+
+===========================================
+ПАРАМЕТРЫ ДЛЯ TYPE8
+===========================================
+
+button-color - Цвет кнопки (доступные значения):
+-----------------------------------------------------------
+primary, red, blue, green, purple, orange, yellow, navy, ash, 
+telegram, whatsapp, vk, sky, grape, violet, pink, fuchsia, 
+leaf, aqua, white, light, gray, dark и другие цвета темы
+
+Примеры:
+[social_links type="type8" button-color="primary"]
+[social_links type="type8" button-color="red"]
+[social_links type="type8" button-color="blue"]
+
+buttonstyle - Стиль кнопки:
+-----------------------------------------------------------
+- solid: сплошная кнопка (btn-primary, btn-red и т.д.)
+- outline: кнопка с обводкой (btn-outline-primary, btn-outline-red и т.д.)
+
+Примеры:
+[social_links type="type8" buttonstyle="solid"]
+[social_links type="type8" buttonstyle="outline"]
+[social_links type="type8" button-color="primary" buttonstyle="outline"]
+
+Комбинированные примеры для type8:
+-----------------------------------------------------------
+[social_links type="type8" button-color="primary" buttonstyle="solid" size="lg"]
+[social_links type="type8" button-color="red" buttonstyle="outline" size="sm" class="gap-2"]
+[social_links type="type8" button-color="blue" buttonstyle="solid" class="justify-content-center"]
+
+===========================================
+ПРИМЕЧАНИЯ
+===========================================
+
+1. Шорткод использует данные из опции WordPress 'socials_urls'
+2. Если соцсети не настроены, шорткод вернет пустую строку
+3. Все параметры опциональны, есть значения по умолчанию
+4. Можно комбинировать все параметры вместе
+5. CSS классы применяются к обёртке <nav> (кроме type8)
+6. Для type8 обертка nav social не используется, только дополнительные классы из параметра class
+7. Параметры button-color и buttonstyle работают только для type8
+
+===========================================
+

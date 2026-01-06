@@ -45,13 +45,14 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 				'rel' => '',               // rel для ссылки ('noopener', 'noreferrer' и т.д.)
 				'title' => '',             // title атрибут (подсказка при наведении)
 				'aria_label' => '',        // aria-label
-				'aria_labelledby' => '',   // aria-labelledby
-				'onclick' => '',           // onclick handler (JavaScript)
-				'tag' => 'auto',           // HTML тег: 'a', 'button' или 'auto' (определяется по href)
-				'type' => 'button',        // type для button ('button', 'submit', 'reset')
-				'disabled' => false,       // disabled атрибут для button
-				'style' => array(),        // Дополнительные inline стили ['margin' => '10px']
-			));
+			'aria_labelledby' => '',   // aria-labelledby
+			'onclick' => '',           // onclick handler (JavaScript)
+			'tag' => 'auto',           // HTML тег: 'a', 'button' или 'auto' (определяется по href)
+			'type' => 'button',        // type для button ('button', 'submit', 'reset')
+			'disabled' => false,       // disabled атрибут для button
+			'style' => array(),        // Дополнительные inline стили ['margin' => '10px']
+			'button_style' => 'btn-circle', // Стиль кнопки: 'btn-circle' или 'btn-block'
+		));
 		}
 		
 		/**
@@ -115,7 +116,9 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 		 * @return string
 		 */
 		private function get_classes() {
-			$classes = array('btn', 'btn-circle');
+			// Определяем стиль кнопки (btn-circle или btn-block)
+			$button_style = !empty($this->config['button_style']) ? $this->config['button_style'] : 'btn-circle';
+			$classes = array('btn', $button_style);
 			
 			// Размер
 			if (!empty($this->config['size'])) {
