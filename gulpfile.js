@@ -757,7 +757,7 @@ gulp.task('clean:dev', function () {
   return del(path.clean.dev);
 });
 gulp.task('clean:dist', function () {
-  return del(path.clean.dist);
+  return del(path.clean.dist, { force: true });
 });
 
 // Clear cache

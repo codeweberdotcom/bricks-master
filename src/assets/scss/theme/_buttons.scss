@@ -539,19 +539,20 @@ $value in $brand-colors {
 .navbar-dark .social.social-muted a:not(.btn-circle):not([class*="link-"]):hover i {
   color: var(--#{$prefix}white) !important;
 }
-.social>a {
-  margin: 0 0.7rem 0 0;
-}
-[class*="text-end"] .social>a,
-.social[class*="text-end"]>a {
-  margin: 0 0 0 0.7rem;
-}
-@media (min-width: 768px) {
-  [class*="text-md-end"] .social>a,
-  .social[class*="text-md-end"]>a {
-    margin: 0 0 0 0.7rem;
-  }
-}
+// Удалено: margin для .social>a, так как используется gap
+// .social>a {
+//   margin: 0 0.7rem 0 0;
+// }
+// [class*="text-end"] .social>a,
+// .social[class*="text-end"]>a {
+//   margin: 0 0 0 0.7rem;
+// }
+// @media (min-width: 768px) {
+//   [class*="text-md-end"] .social>a,
+//   .social[class*="text-md-end"]>a {
+//     margin: 0 0 0 0.7rem;
+//   }
+// }
 .text-center .social>a,
 .social.text-center>a {
   margin: 0 0.35rem;

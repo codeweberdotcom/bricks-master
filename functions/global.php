@@ -146,7 +146,8 @@ function cleanNumber($digits)
  * - `type5`: тёмные круглые кнопки
  * - `type6`: кнопки с иконками и названиями соцсетей (широкие)
  * - `type7`: кнопки с кастомным фоном соцсети (например, `btn-telegram`)
- * - `type8`: кнопки с настраиваемым цветом и стилем (solid/outline), без обертки nav social
+ * - `type8`: кнопки с настраиваемым цветом и стилем (solid/outline), без обертки nav social (по умолчанию primary solid)
+ * - `type9`: кнопки primary outline (фиксированные параметры), без обертки nav social
  *
  * Размеры:
  * - `lg`: большие кнопки
@@ -181,11 +182,10 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 	$size_class = isset($size_classes[$size]) ? $size_classes[$size][0] : 'fs-35';
 	$btn_size_class = isset($size_classes[$size]) ? $size_classes[$size][1] : 'btn-md';
 
-	// Для type8 не используем обертку nav social
-	$use_nav_wrapper = ($type !== 'type8');
-	$wrapper_class = ''; // Инициализируем для type8
+	// Для type8 и type9 используем обертку nav gap-2 (без social)
+	$use_nav_wrapper = true;
 	
-	$nav_class = 'nav social gap-1';
+	$nav_class = 'nav social gap-2';
 	if ($type === 'type2') {
 		$nav_class .= ' social-muted';
 	} elseif ($type === 'type4') {
@@ -195,13 +195,28 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 	}
 
 	if (isset($class) && $class !== NULL) {
+		// Для type3 и type6 удаляем social-white, если он передан в $class (type3 и type6 должны быть цветными)
+		if ($type === 'type3' || $type === 'type6') {
+			$class = preg_replace('/\bsocial-white\b/', '', $class);
+			$class = trim($class);
+		}
+		
+		// Если в $class есть gap-*, заменяем gap-2 на новый gap
+		if (preg_match('/\bgap-\d+\b/', $class)) {
+			$nav_class = preg_replace('/\bgap-\d+\b/', '', $nav_class);
+			$nav_class = trim($nav_class);
+		}
 		$nav_class .= ' ' . $class;
 	}
 
-	// Для type8 используем только дополнительные классы, без nav social
-	if ($type === 'type8') {
-		$wrapper_class = !empty($class) ? esc_attr($class) : '';
-		$output = !empty($wrapper_class) ? '<div class="' . $wrapper_class . '">' : '';
+	// Для type8 и type9 используем обертку nav gap-2 (без social)
+	if ($type === 'type8' || $type === 'type9') {
+		// Для type8 и type9 используем nav gap-2, можно добавить дополнительные классы из $class
+		$nav_gap_class = 'nav gap-2';
+		if (!empty($class)) {
+			$nav_gap_class .= ' ' . esc_attr($class);
+		}
+		$output = '<nav class="' . $nav_gap_class . '">';
 	} else {
 		$output = '<nav class="' . esc_attr($nav_class) . '">';
 	}
@@ -249,38 +264,43 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 			}
 
 			if ($type === 'type1') {
-				$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle ' . esc_attr($btn_size_class) . ' btn-' . esc_attr($social) . '" target="_blank"><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle lh-1 ' . esc_attr($btn_size_class) . ' btn-' . esc_attr($social) . '" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			} elseif ($type === 'type5') {
-				$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle ' . esc_attr($btn_size_class) . ' btn-dark" target="_blank"><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle lh-1 ' . esc_attr($btn_size_class) . ' btn-dark" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			} elseif ($type === 'type2' || $type === 'type3' || $type === 'type4') {
-				$output .= '<a href="' . esc_url($url) . '" target="_blank"><i class="' . $icon_class . ' ' . esc_attr($size_class) . '"></i></a>';
+				// Для type2, type3 и type4 не применяем size_class (fs-45 и т.д.)
+				$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			} elseif ($type === 'type6') {
-				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 mb-2 me-2 fs-16"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
+				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 fs-16 lh-1"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
 			} elseif ($type === 'type7') {
-				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . $label . ' justify-content-between w-100 mb-2 me-2"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
+				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . $label . ' justify-content-between w-100 lh-1"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
 			} elseif ($type === 'type8') {
-				// Type8: кнопки с настраиваемым цветом и стилем
+				// Type8: кнопки с настраиваемым цветом и стилем (по умолчанию primary solid)
 				// Нормализуем параметры
 				$btn_color = !empty($button_color) ? esc_attr($button_color) : 'primary';
 				$btn_style = ($buttonstyle === 'outline') ? 'outline' : 'solid';
 				
 				// Формируем класс кнопки с btn-circle
 				if ($btn_style === 'outline') {
-					$btn_class = 'btn btn-circle btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
+					$btn_class = 'btn btn-circle lh-1 btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
 				} else {
-					$btn_class = 'btn btn-circle btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
+					$btn_class = 'btn btn-circle lh-1 btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
 				}
 				
 				$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '" target="_blank" title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
+			} elseif ($type === 'type9') {
+				// Type9: кнопки primary outline (фиксированные параметры)
+				$btn_class = 'btn btn-circle lh-1 btn-outline-primary ' . esc_attr($btn_size_class);
+				$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '" target="_blank" title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
 			} else {
-				$output .= '<a href="' . esc_url($url) . '" target="_blank"><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			}
 		}
 	}
 	
 	// Закрываем обертку в зависимости от типа
-	if ($type === 'type8') {
-		$output .= !empty($wrapper_class) ? '</div>' : '';
+	if ($type === 'type8' || $type === 'type9') {
+		$output .= '</nav>';
 	} else {
 		$output .= '</nav>';
 	}
@@ -292,13 +312,23 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
  * Выводит список ссылок на социальные сети для staff из метаполей записи.
  * Аналогична функции social_links(), но берет данные из метаполей staff записи.
  *
+ * Доступные типы отображения:
+ * - `type1`: круглые кнопки с фоном, каждая соцсеть — свой стиль
+ * - `type2`: иконки в muted-стиле (серые)
+ * - `type3`: обычные цветные иконки без кнопок
+ * - `type4`: белые иконки
+ * - `type8`: кнопки с настраиваемым цветом и стилем (solid/outline), без обертки nav social (по умолчанию primary solid)
+ * - `type9`: кнопки primary outline (фиксированные параметры), без обертки nav social
+ *
  * @param int $post_id ID записи staff
  * @param string $class Дополнительные CSS-классы для обёртки <nav>.
  * @param string $type Тип отображения (например, `type1`, `type2`, и т.д.). По умолчанию `type1`.
  * @param string $size Размер иконок или кнопок (`lg`, `md`, `sm`). По умолчанию `'sm'`.
+ * @param string $button_color Цвет кнопки для type8 (primary, red, blue и т.д.). По умолчанию `'primary'`.
+ * @param string $buttonstyle Стиль кнопки для type8 (solid или outline). По умолчанию `'solid'`.
  * @return string HTML-код со ссылками на соцсети.
  */
-function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm')
+function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm', $button_color = 'primary', $buttonstyle = 'solid')
 {
 	$social_fields = [
 		'facebook' => 'facebook-f',
@@ -333,14 +363,14 @@ function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm'
 	$size_class = isset($size_classes[$size]) ? $size_classes[$size][0] : 'fs-35';
 	$btn_size_class = isset($size_classes[$size]) ? $size_classes[$size][1] : 'btn-sm';
 	
-	// Для type2 используем формат nav social social-muted без gap-1
+	// Для type2 используем формат nav social social-muted без gap-2
 	if ($type === 'type2') {
 		$nav_class = 'nav social social-muted';
 	} elseif ($type === 'type1') {
-		// Для type1 (btn-circle) gap-1 не используется
+		// Для type1 (btn-circle) gap-2 не используется
 		$nav_class = 'nav social';
 	} else {
-		$nav_class = 'nav social gap-1';
+		$nav_class = 'nav social gap-2';
 		if ($type === 'type4') {
 			$nav_class .= ' social-white';
 		} elseif ($type === 'type7') {
@@ -349,10 +379,31 @@ function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm'
 	}
 	
 	if (!empty($class)) {
+		// Для type3 и type6 удаляем social-white, если он передан в $class (type3 и type6 должны быть цветными)
+		if ($type === 'type3' || $type === 'type6') {
+			$class = preg_replace('/\bsocial-white\b/', '', $class);
+			$class = trim($class);
+		}
+		
+		// Если в $class есть gap-*, заменяем gap-2 на новый gap (только если gap-2 был добавлен)
+		if (strpos($nav_class, 'gap-2') !== false && preg_match('/\bgap-\d+\b/', $class)) {
+			$nav_class = preg_replace('/\bgap-\d+\b/', '', $nav_class);
+			$nav_class = trim($nav_class);
+		}
 		$nav_class .= ' ' . $class;
 	}
 	
-	$output = '<nav class="' . esc_attr($nav_class) . '">';
+	// Для type8 и type9 используем обертку nav gap-2 (без social)
+	if ($type === 'type8' || $type === 'type9') {
+		// Для type8 и type9 используем nav gap-2, можно добавить дополнительные классы из $class
+		$nav_gap_class = 'nav gap-2';
+		if (!empty($class)) {
+			$nav_gap_class .= ' ' . esc_attr($class);
+		}
+		$output = '<nav class="' . $nav_gap_class . '">';
+	} else {
+		$output = '<nav class="' . esc_attr($nav_class) . '">';
+	}
 	foreach ($socials as $social_key => $url) {
 		$icon_name = $social_fields[$social_key];
 		$icon_class = 'uil uil-' . esc_attr($icon_name);
@@ -360,19 +411,43 @@ function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm'
 		if ($type === 'type1') {
 			// Круглые кнопки с цветом соцсети
 			$btn_class = ($social_key === 'vk' || $social_key === 'website') ? 'btn-primary' : 'btn-' . $social_key;
-			$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle ' . esc_attr($btn_size_class) . ' ' . esc_attr($btn_class) . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle lh-1 ' . esc_attr($btn_size_class) . ' ' . esc_attr($btn_class) . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type2') {
 			// Простые иконки без класса размера для type2 (формат nav social social-muted)
-			$output .= '<a href="' . esc_url($url) . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type3' || $type === 'type4') {
-			// Простые иконки с классом размера
-			$output .= '<a href="' . esc_url($url) . '" target="_blank" rel="noopener"><i class="' . $icon_class . ' ' . esc_attr($size_class) . '"></i></a>';
+			// Простые иконки без класса размера (fs-45 не применяется для type3 и type4)
+			$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
+		} elseif ($type === 'type8') {
+			// Type8: кнопки с настраиваемым цветом и стилем (по умолчанию primary solid)
+			$btn_color = !empty($button_color) ? esc_attr($button_color) : 'primary';
+			$btn_style = ($buttonstyle === 'outline') ? 'outline' : 'solid';
+			
+			// Формируем класс кнопки с btn-circle
+			if ($btn_style === 'outline') {
+				$btn_class = 'btn btn-circle lh-1 btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
+			} else {
+				$btn_class = 'btn btn-circle lh-1 btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
+			}
+			
+			$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
+		} elseif ($type === 'type9') {
+			// Type9: кнопки primary outline (фиксированные параметры)
+			$btn_class = 'btn btn-circle lh-1 btn-outline-primary ' . esc_attr($btn_size_class);
+			$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		} else {
 			// По умолчанию - простые иконки
-			$output .= '<a href="' . esc_url($url) . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		}
 	}
-	$output .= '</nav>';
+	
+	// Закрываем обертку в зависимости от типа
+	if ($type === 'type8' || $type === 'type9') {
+		$output .= '</nav>';
+	} else {
+		$output .= '</nav>';
+	}
+	
 	return $output;
 }
 
@@ -380,13 +455,26 @@ function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm'
  * Выводит список ссылок на социальные сети для вакансий из метаполей записи.
  * Аналогична функции staff_social_links(), но берет данные из метаполей vacancy записи.
  *
+ * Доступные типы отображения:
+ * - `type1`: круглые кнопки с фоном, каждая соцсеть — свой стиль
+ * - `type2`: иконки в muted-стиле (серые)
+ * - `type3`: обычные цветные иконки без кнопок
+ * - `type4`: белые иконки
+ * - `type5`: тёмные круглые кнопки
+ * - `type6`: кнопки с иконками и названиями соцсетей (широкие)
+ * - `type7`: кнопки с кастомным фоном соцсети
+ * - `type8`: кнопки с настраиваемым цветом и стилем (solid/outline), без обертки nav social (по умолчанию primary solid)
+ * - `type9`: кнопки primary outline (фиксированные параметры), без обертки nav social
+ *
  * @param int $post_id ID записи vacancy
  * @param string $class Дополнительные CSS-классы для обёртки <nav>.
  * @param string $type Тип отображения (например, `type1`, `type2`, и т.д.). По умолчанию `type1`.
  * @param string $size Размер иконок или кнопок (`lg`, `md`, `sm`). По умолчанию `'sm'`.
+ * @param string $button_color Цвет кнопки для type8 (primary, red, blue и т.д.). По умолчанию `'primary'`.
+ * @param string $buttonstyle Стиль кнопки для type8 (solid или outline). По умолчанию `'solid'`.
  * @return string HTML-код со ссылками на соцсети.
  */
-function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 'sm')
+function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 'sm', $button_color = 'primary', $buttonstyle = 'solid')
 {
 	$vacancy_fields = [
 		'email' => ['icon' => 'envelope', 'label' => 'Email'],
@@ -427,14 +515,17 @@ function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 's
 	// Получаем стиль кнопок из Redux
 	$button_style = function_exists('getThemeButton') ? getThemeButton('') : '';
 	
-	// Для type2 используем формат nav social social-muted без gap-1
+	// Для type8 не используем обертку nav social
+	$wrapper_class = ''; // Инициализируем для type8
+	
+	// Для type2 используем формат nav social social-muted без gap-2
 	if ($type === 'type2') {
 		$nav_class = 'nav social social-muted';
 	} elseif ($type === 'type1') {
-		// Для type1 (btn-circle) gap-1 не используется
+		// Для type1 (btn-circle) gap-2 не используется
 		$nav_class = 'nav social';
 	} else {
-		$nav_class = 'nav social gap-1';
+		$nav_class = 'nav social gap-2';
 		if ($type === 'type4') {
 			$nav_class .= ' social-white';
 		} elseif ($type === 'type7') {
@@ -443,10 +534,31 @@ function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 's
 	}
 	
 	if (!empty($class)) {
+		// Для type3 и type6 удаляем social-white, если он передан в $class (type3 и type6 должны быть цветными)
+		if ($type === 'type3' || $type === 'type6') {
+			$class = preg_replace('/\bsocial-white\b/', '', $class);
+			$class = trim($class);
+		}
+		
+		// Если в $class есть gap-*, заменяем gap-2 на новый gap (только если gap-2 был добавлен)
+		if (strpos($nav_class, 'gap-2') !== false && preg_match('/\bgap-\d+\b/', $class)) {
+			$nav_class = preg_replace('/\bgap-\d+\b/', '', $nav_class);
+			$nav_class = trim($nav_class);
+		}
 		$nav_class .= ' ' . $class;
 	}
 	
-	$output = '<nav class="' . esc_attr($nav_class) . '">';
+	// Для type8 и type9 используем обертку nav gap-2 (без social)
+	if ($type === 'type8' || $type === 'type9') {
+		// Для type8 и type9 используем nav gap-2, можно добавить дополнительные классы из $class
+		$nav_gap_class = 'nav gap-2';
+		if (!empty($class)) {
+			$nav_gap_class .= ' ' . esc_attr($class);
+		}
+		$output = '<nav class="' . $nav_gap_class . '">';
+	} else {
+		$output = '<nav class="' . esc_attr($nav_class) . '">';
+	}
 	foreach ($socials as $field_key => $data) {
 		$icon_class = 'uil uil-' . esc_attr($data['icon']);
 		$label = $data['label'];
@@ -477,30 +589,56 @@ function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 's
 		
 		if ($type === 'type1') {
 			// Круглые кнопки с цветом соцсети
-			$output .= '<a href="' . esc_url($data['url']) . '" class="btn btn-circle ' . esc_attr($btn_size_class) . ' ' . esc_attr($btn_color_class) . esc_attr($button_style) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($data['url']) . '" class="btn btn-circle lh-1 ' . esc_attr($btn_size_class) . ' ' . esc_attr($btn_color_class) . esc_attr($button_style) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type2' || $type === 'type3' || $type === 'type4') {
 			// Простые иконки (type2 - muted, type3 - обычные, type4 - белые)
-			if ($type === 'type3' || $type === 'type4') {
-				$output .= '<a href="' . esc_url($data['url']) . '"' . $target_attr . '><i class="' . $icon_class . ' ' . esc_attr($size_class) . '"></i></a>';
-			} else {
+			// Для type3 и type4 не применяем size_class (fs-45 и т.д.)
+			if ($type === 'type2') {
 				// type2 - без класса размера
-				$output .= '<a href="' . esc_url($data['url']) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($data['url']) . '" class="lh-1"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			} else {
+				// type3 и type4 - без класса размера
+				$output .= '<a href="' . esc_url($data['url']) . '" class="lh-1"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
 			}
 		} elseif ($type === 'type5') {
 			// Круглые кнопки с темным фоном
-			$output .= '<a href="' . esc_url($data['url']) . '" class="btn btn-circle btn-dark ' . esc_attr($btn_size_class) . esc_attr($button_style) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($data['url']) . '" class="btn btn-circle lh-1 btn-dark ' . esc_attr($btn_size_class) . esc_attr($button_style) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type6') {
 			// Кнопки с иконками и названиями (широкие)
-			$output .= '<a role="button" href="' . esc_url($data['url']) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 mb-2 me-2 fs-16"><i class="fs-20 ' . $icon_class . '"></i>' . esc_html($label) . '</a>';
+			$output .= '<a role="button" href="' . esc_url($data['url']) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 fs-16 lh-1"><i class="fs-20 ' . $icon_class . '"></i>' . esc_html($label) . '</a>';
 		} elseif ($type === 'type7') {
 			// Кнопки с кастомным фоном соцсети
-			$output .= '<a role="button" href="' . esc_url($data['url']) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . esc_attr($social_name) . ' justify-content-between w-100 mb-2 me-2"><i class="fs-20 ' . $icon_class . '"></i>' . esc_html($label) . '</a>';
+			$output .= '<a role="button" href="' . esc_url($data['url']) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . esc_attr($social_name) . ' justify-content-between w-100 lh-1"><i class="fs-20 ' . $icon_class . '"></i>' . esc_html($label) . '</a>';
+		} elseif ($type === 'type8') {
+			// Type8: кнопки с настраиваемым цветом и стилем (по умолчанию primary solid)
+			$btn_color = !empty($button_color) ? esc_attr($button_color) : 'primary';
+			$btn_style = ($buttonstyle === 'outline') ? 'outline' : 'solid';
+			
+			// Формируем класс кнопки с btn-circle
+			if ($btn_style === 'outline') {
+				$btn_class = 'btn btn-circle lh-1 btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
+			} else {
+				$btn_class = 'btn btn-circle lh-1 btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
+			}
+			
+			$output .= '<a href="' . esc_url($data['url']) . '" class="' . $btn_class . '"' . $target_attr . ' title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
+		} elseif ($type === 'type9') {
+			// Type9: кнопки primary outline (фиксированные параметры)
+			$btn_class = 'btn btn-circle lh-1 btn-outline-primary ' . esc_attr($btn_size_class);
+			$output .= '<a href="' . esc_url($data['url']) . '" class="' . $btn_class . '"' . $target_attr . ' title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
 		} else {
 			// По умолчанию - простые иконки
-			$output .= '<a href="' . esc_url($data['url']) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($data['url']) . '" class="lh-1"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
 		}
 	}
-	$output .= '</nav>';
+	
+	// Закрываем обертку в зависимости от типа
+	if ($type === 'type8' || $type === 'type9') {
+		$output .= '</nav>';
+	} else {
+		$output .= '</nav>';
+	}
+	
 	return $output;
 }
 
