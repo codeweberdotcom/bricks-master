@@ -167,7 +167,7 @@ if (!function_exists('codeweber_floating_social_widget')) {
 		
 		// Формируем HTML с Bootstrap классами
 		$output = '<a href="' . $social_url . '" ';
-		$output .= 'class="' . esc_attr($btn_class_attr) . ' codeweber-floating-social-widget" ';
+		$output .= 'class="' . esc_attr($btn_class_attr) . ' codeweber-floating-social-widget has-ripple" ';
 		$output .= 'style="' . esc_attr($style_attr) . '" ';
 		$output .= 'target="_blank" rel="noopener noreferrer" ';
 		$output .= 'aria-label="' . esc_attr__('Open social network', 'codeweber') . '">';

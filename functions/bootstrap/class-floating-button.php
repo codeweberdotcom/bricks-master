@@ -118,7 +118,7 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 		private function get_classes() {
 			// Определяем стиль кнопки (btn-circle или btn-block)
 			$button_style = !empty($this->config['button_style']) ? $this->config['button_style'] : 'btn-circle';
-			$classes = array('btn', $button_style);
+			$classes = array('btn', $button_style, 'has-ripple');
 			
 			// Размер
 			if (!empty($this->config['size'])) {

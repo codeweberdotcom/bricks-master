@@ -20,7 +20,7 @@
 
 			<div class="col-md-3 mb-4">
 
-				<h3 class="h4 mb-4"><?php esc_html_e( 'Contacts', 'bricks' ); ?></h3>
+				<div class="h3 h4 mb-4"><?php esc_html_e( 'Contacts', 'bricks' ); ?></div>
 
 				<ul class="list-unstyled navbar-nav flex-column">
 
@@ -39,7 +39,7 @@
 
 			<div class="col-md-3 mb-4">
 
-				<h3 class="h4 mb-4"><?php esc_html_e( 'Pages', 'bricks' ); ?></h3>
+				<div class="h3 h4 mb-4"><?php esc_html_e( 'Pages', 'bricks' ); ?></div>
 
 				<?php
 				wp_nav_menu(
@@ -60,7 +60,7 @@
 
 			<div class="col-md-3 mb-4">
 
-				<h3 class="h4 mb-4"><?php esc_html_e( 'Privacy', 'bricks' ); ?></h3>
+				<div class="h3 h4 mb-4"><?php esc_html_e( 'Privacy', 'bricks' ); ?></div>
 
 				<?php
 				wp_nav_menu(

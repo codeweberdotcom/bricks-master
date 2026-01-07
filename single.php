@@ -62,13 +62,13 @@ while (have_posts()) :
 					?>
 
 					<!-- УБИРАЕМ условие - навигация выводится ВСЕГДА -->
-					<nav class="nav mt-8">
+					<nav class="nav mt-8 justify-content-between">
 						<?php
 						// Предыдущий пост
 						$previous_post = get_adjacent_post(false, '', true);
 						if ($previous_post) {
 							printf(
-								'<a href="%s" class="hover-5 left label-u text-charcoal-blue me-4 mb-5">%s</a>',
+								'<a href="%s" class="hover more-left me-4 mb-5">%s</a>',
 								get_permalink($previous_post->ID),
 								get_the_title($previous_post->ID)
 							);
@@ -78,7 +78,7 @@ while (have_posts()) :
 						$next_post = get_adjacent_post(false, '', false);
 						if ($next_post) {
 							printf(
-								'<a href="%s" class="hover-5 right label-u text-charcoal-blue ms-auto mb-5">%s</a>',
+								'<a href="%s" class="hover more ms-auto mb-5">%s</a>',
 								get_permalink($next_post->ID),
 								get_the_title($next_post->ID)
 							);

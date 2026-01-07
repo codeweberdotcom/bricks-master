@@ -80,3 +80,37 @@ add_shortcode('social_links', function ($atts) {
 	// Вызываем функцию social_links с новыми параметрами для type8
 	return social_links($atts['class'], $atts['type'], $atts['size'], $atts['button-color'], $atts['buttonstyle']);
 });
+
+/**
+ * Шорткод [address] выводит фактический или юридический адрес из настроек Redux
+ *
+ * Параметры:
+ * - type: тип адреса ('fact' - фактический, 'juri' - юридический). По умолчанию 'fact'
+ * - separator: разделитель между частями адреса. По умолчанию ', '
+ * - fallback: текст по умолчанию, если адрес не заполнен
+ *
+ * Примеры:
+ * [address] - фактический адрес с разделителем <br>
+ * [address type="juri"] - юридический адрес
+ * [address separator="<br> "] - адрес с разделителем перенос строки
+ * [address type="juri" separator=", " fallback="Адрес не указан"]
+ *
+ * @param array $atts Атрибуты шорткода
+ * @return string Отформатированный адрес
+ */
+add_shortcode('address', function ($atts) {
+	// Проверяем, что функция codeweber_get_address существует
+	if (!function_exists('codeweber_get_address')) {
+		return '<!-- Функция codeweber_get_address не найдена -->';
+	}
+	
+	// Парсим атрибуты
+	$atts = shortcode_atts(array(
+		'type' => 'fact',
+		'separator' => ', ',
+		'fallback' => 'Moonshine St. 14/05 Light City, London, United Kingdom'
+	), $atts, 'address');
+	
+	// Вызываем функцию codeweber_get_address
+	return codeweber_get_address($atts['type'], $atts['separator'], $atts['fallback']);
+});

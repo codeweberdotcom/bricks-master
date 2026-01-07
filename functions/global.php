@@ -157,16 +157,18 @@ function cleanNumber($digits)
  * Для type8 доступны дополнительные параметры:
  * - `button_color`: цвет кнопки (primary, red, blue, green и т.д. - все цвета темы)
  * - `buttonstyle`: стиль кнопки (solid или outline)
+ * - `button_form`: форма кнопки (circle или block). По умолчанию `'circle'`.
  *
  * @param string $class Дополнительные CSS-классы для обёртки `<nav>`.
  * @param string $type Тип отображения (например, `type1`, `type6`, и т.д.).
  * @param string $size Размер иконок или кнопок (`lg`, `md`, `sm`). По умолчанию `'md'`.
  * @param string $button_color Цвет кнопки для type8 (primary, red, blue и т.д.). По умолчанию `'primary'`.
  * @param string $buttonstyle Стиль кнопки для type8 (solid или outline). По умолчанию `'solid'`.
+ * @param string $button_form Форма кнопки (circle или block). По умолчанию `'circle'`.
  *
  * @return string HTML-код со ссылками на соцсети.
  */
-function social_links($class, $type, $size = 'md', $button_color = 'primary', $buttonstyle = 'solid')
+function social_links($class, $type, $size = 'md', $button_color = 'primary', $buttonstyle = 'solid', $button_form = 'circle')
 {
 	$socials = get_option('socials_urls');
 	if (empty($socials)) {
@@ -181,6 +183,9 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 
 	$size_class = isset($size_classes[$size]) ? $size_classes[$size][0] : 'fs-35';
 	$btn_size_class = isset($size_classes[$size]) ? $size_classes[$size][1] : 'btn-md';
+	
+	// Определяем класс формы кнопки (btn-circle или btn-block)
+	$btn_form_class = ($button_form === 'block') ? 'btn-block' : 'btn-circle';
 
 	// Для type8 и type9 используем обертку nav gap-2 (без social)
 	$use_nav_wrapper = true;
@@ -191,7 +196,7 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 	} elseif ($type === 'type4') {
 		$nav_class .= ' social-white';
 	} elseif ($type === 'type7') {
-		$nav_class = '';
+		$nav_class = 'nav gap-2 social-white';
 	}
 
 	if (isset($class) && $class !== NULL) {
@@ -264,36 +269,36 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 			}
 
 			if ($type === 'type1') {
-				$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle lh-1 ' . esc_attr($btn_size_class) . ' btn-' . esc_attr($social) . '" target="_blank"><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($url) . '" class="btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple ' . esc_attr($btn_size_class) . ' btn-' . esc_attr($social) . '" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			} elseif ($type === 'type5') {
-				$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle lh-1 ' . esc_attr($btn_size_class) . ' btn-dark" target="_blank"><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($url) . '" class="btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple ' . esc_attr($btn_size_class) . ' btn-dark" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			} elseif ($type === 'type2' || $type === 'type3' || $type === 'type4') {
 				// Для type2, type3 и type4 не применяем size_class (fs-45 и т.д.)
-				$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank"><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($url) . '" class="lh-1 has-ripple" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			} elseif ($type === 'type6') {
-				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 fs-16 lh-1"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
+				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 fs-16 lh-1 has-ripple"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
 			} elseif ($type === 'type7') {
-				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . $label . ' justify-content-between w-100 lh-1"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
+				$output .= '<a role="button" href="' . esc_url($url) . '" target="_blank" title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . $label . ' justify-content-between w-100 lh-1 has-ripple"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
 			} elseif ($type === 'type8') {
 				// Type8: кнопки с настраиваемым цветом и стилем (по умолчанию primary solid)
 				// Нормализуем параметры
 				$btn_color = !empty($button_color) ? esc_attr($button_color) : 'primary';
 				$btn_style = ($buttonstyle === 'outline') ? 'outline' : 'solid';
 				
-				// Формируем класс кнопки с btn-circle
+				// Формируем класс кнопки с динамической формой
 				if ($btn_style === 'outline') {
-					$btn_class = 'btn btn-circle lh-1 btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
+					$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
 				} else {
-					$btn_class = 'btn btn-circle lh-1 btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
+					$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
 				}
 				
 				$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '" target="_blank" title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
 			} elseif ($type === 'type9') {
 				// Type9: кнопки primary outline (фиксированные параметры)
-				$btn_class = 'btn btn-circle lh-1 btn-outline-primary ' . esc_attr($btn_size_class);
+				$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-outline-primary ' . esc_attr($btn_size_class);
 				$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '" target="_blank" title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
 			} else {
-				$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank"><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($url) . '" class="lh-1 has-ripple" target="_blank"><i class="' . $icon_class . '"></i></a>';
 			}
 		}
 	}
@@ -326,9 +331,10 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
  * @param string $size Размер иконок или кнопок (`lg`, `md`, `sm`). По умолчанию `'sm'`.
  * @param string $button_color Цвет кнопки для type8 (primary, red, blue и т.д.). По умолчанию `'primary'`.
  * @param string $buttonstyle Стиль кнопки для type8 (solid или outline). По умолчанию `'solid'`.
+ * @param string $button_form Форма кнопки (circle или block). По умолчанию `'circle'`.
  * @return string HTML-код со ссылками на соцсети.
  */
-function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm', $button_color = 'primary', $buttonstyle = 'solid')
+function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm', $button_color = 'primary', $buttonstyle = 'solid', $button_form = 'circle')
 {
 	$social_fields = [
 		'facebook' => 'facebook-f',
@@ -363,6 +369,9 @@ function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm'
 	$size_class = isset($size_classes[$size]) ? $size_classes[$size][0] : 'fs-35';
 	$btn_size_class = isset($size_classes[$size]) ? $size_classes[$size][1] : 'btn-sm';
 	
+	// Определяем класс формы кнопки (btn-circle или btn-block)
+	$btn_form_class = ($button_form === 'block') ? 'btn-block' : 'btn-circle';
+	
 	// Для type2 используем формат nav social social-muted без gap-2
 	if ($type === 'type2') {
 		$nav_class = 'nav social social-muted';
@@ -374,7 +383,7 @@ function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm'
 		if ($type === 'type4') {
 			$nav_class .= ' social-white';
 		} elseif ($type === 'type7') {
-			$nav_class = '';
+			$nav_class = 'nav gap-2 social-white';
 		}
 	}
 	
@@ -409,35 +418,35 @@ function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm'
 		$icon_class = 'uil uil-' . esc_attr($icon_name);
 		
 		if ($type === 'type1') {
-			// Круглые кнопки с цветом соцсети
+			// Кнопки с цветом соцсети
 			$btn_class = ($social_key === 'vk' || $social_key === 'website') ? 'btn-primary' : 'btn-' . $social_key;
-			$output .= '<a href="' . esc_url($url) . '" class="btn btn-circle lh-1 ' . esc_attr($btn_size_class) . ' ' . esc_attr($btn_class) . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple ' . esc_attr($btn_size_class) . ' ' . esc_attr($btn_class) . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type2') {
 			// Простые иконки без класса размера для type2 (формат nav social social-muted)
-			$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="lh-1 has-ripple" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type3' || $type === 'type4') {
 			// Простые иконки без класса размера (fs-45 не применяется для type3 и type4)
-			$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="lh-1 has-ripple" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type8') {
 			// Type8: кнопки с настраиваемым цветом и стилем (по умолчанию primary solid)
 			$btn_color = !empty($button_color) ? esc_attr($button_color) : 'primary';
 			$btn_style = ($buttonstyle === 'outline') ? 'outline' : 'solid';
 			
-			// Формируем класс кнопки с btn-circle
+			// Формируем класс кнопки с динамической формой
 			if ($btn_style === 'outline') {
-				$btn_class = 'btn btn-circle lh-1 btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
+				$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
 			} else {
-				$btn_class = 'btn btn-circle lh-1 btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
+				$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
 			}
 			
 			$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type9') {
 			// Type9: кнопки primary outline (фиксированные параметры)
-			$btn_class = 'btn btn-circle lh-1 btn-outline-primary ' . esc_attr($btn_size_class);
+			$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-outline-primary ' . esc_attr($btn_size_class);
 			$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		} else {
 			// По умолчанию - простые иконки
-			$output .= '<a href="' . esc_url($url) . '" class="lh-1" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="lh-1 has-ripple" target="_blank" rel="noopener"><i class="' . $icon_class . '"></i></a>';
 		}
 	}
 	
@@ -472,9 +481,10 @@ function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm'
  * @param string $size Размер иконок или кнопок (`lg`, `md`, `sm`). По умолчанию `'sm'`.
  * @param string $button_color Цвет кнопки для type8 (primary, red, blue и т.д.). По умолчанию `'primary'`.
  * @param string $buttonstyle Стиль кнопки для type8 (solid или outline). По умолчанию `'solid'`.
+ * @param string $button_form Форма кнопки (circle или block). По умолчанию `'circle'`.
  * @return string HTML-код со ссылками на соцсети.
  */
-function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 'sm', $button_color = 'primary', $buttonstyle = 'solid')
+function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 'sm', $button_color = 'primary', $buttonstyle = 'solid', $button_form = 'circle')
 {
 	$vacancy_fields = [
 		'email' => ['icon' => 'envelope', 'label' => 'Email'],
@@ -512,6 +522,9 @@ function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 's
 	$size_class = isset($size_classes[$size]) ? $size_classes[$size][0] : 'fs-35';
 	$btn_size_class = isset($size_classes[$size]) ? $size_classes[$size][1] : 'btn-sm';
 	
+	// Определяем класс формы кнопки (btn-circle или btn-block)
+	$btn_form_class = ($button_form === 'block') ? 'btn-block' : 'btn-circle';
+	
 	// Получаем стиль кнопок из Redux
 	$button_style = function_exists('getThemeButton') ? getThemeButton('') : '';
 	
@@ -529,7 +542,7 @@ function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 's
 		if ($type === 'type4') {
 			$nav_class .= ' social-white';
 		} elseif ($type === 'type7') {
-			$nav_class = '';
+			$nav_class = 'nav gap-2 social-white';
 		}
 	}
 	
@@ -588,47 +601,47 @@ function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 's
 		$target_attr = ($field_key === 'email') ? '' : ' target="_blank" rel="noopener"';
 		
 		if ($type === 'type1') {
-			// Круглые кнопки с цветом соцсети
-			$output .= '<a href="' . esc_url($data['url']) . '" class="btn btn-circle lh-1 ' . esc_attr($btn_size_class) . ' ' . esc_attr($btn_color_class) . esc_attr($button_style) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			// Кнопки с цветом соцсети
+			$output .= '<a href="' . esc_url($data['url']) . '" class="btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple ' . esc_attr($btn_size_class) . ' ' . esc_attr($btn_color_class) . esc_attr($button_style) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type2' || $type === 'type3' || $type === 'type4') {
 			// Простые иконки (type2 - muted, type3 - обычные, type4 - белые)
 			// Для type3 и type4 не применяем size_class (fs-45 и т.д.)
 			if ($type === 'type2') {
 				// type2 - без класса размера
-				$output .= '<a href="' . esc_url($data['url']) . '" class="lh-1"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($data['url']) . '" class="lh-1 has-ripple"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
 			} else {
 				// type3 и type4 - без класса размера
-				$output .= '<a href="' . esc_url($data['url']) . '" class="lh-1"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+				$output .= '<a href="' . esc_url($data['url']) . '" class="lh-1 has-ripple"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
 			}
 		} elseif ($type === 'type5') {
-			// Круглые кнопки с темным фоном
-			$output .= '<a href="' . esc_url($data['url']) . '" class="btn btn-circle lh-1 btn-dark ' . esc_attr($btn_size_class) . esc_attr($button_style) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			// Кнопки с темным фоном
+			$output .= '<a href="' . esc_url($data['url']) . '" class="btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-dark ' . esc_attr($btn_size_class) . esc_attr($button_style) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type6') {
 			// Кнопки с иконками и названиями (широкие)
-			$output .= '<a role="button" href="' . esc_url($data['url']) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 fs-16 lh-1"><i class="fs-20 ' . $icon_class . '"></i>' . esc_html($label) . '</a>';
+			$output .= '<a role="button" href="' . esc_url($data['url']) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 fs-16 lh-1 has-ripple"><i class="fs-20 ' . $icon_class . '"></i>' . esc_html($label) . '</a>';
 		} elseif ($type === 'type7') {
 			// Кнопки с кастомным фоном соцсети
-			$output .= '<a role="button" href="' . esc_url($data['url']) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . esc_attr($social_name) . ' justify-content-between w-100 lh-1"><i class="fs-20 ' . $icon_class . '"></i>' . esc_html($label) . '</a>';
+			$output .= '<a role="button" href="' . esc_url($data['url']) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . esc_attr($social_name) . ' justify-content-between w-100 lh-1 has-ripple"><i class="fs-20 ' . $icon_class . '"></i>' . esc_html($label) . '</a>';
 		} elseif ($type === 'type8') {
 			// Type8: кнопки с настраиваемым цветом и стилем (по умолчанию primary solid)
 			$btn_color = !empty($button_color) ? esc_attr($button_color) : 'primary';
 			$btn_style = ($buttonstyle === 'outline') ? 'outline' : 'solid';
 			
-			// Формируем класс кнопки с btn-circle
+			// Формируем класс кнопки с динамической формой
 			if ($btn_style === 'outline') {
-				$btn_class = 'btn btn-circle lh-1 btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
+				$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-outline-' . $btn_color . ' ' . esc_attr($btn_size_class);
 			} else {
-				$btn_class = 'btn btn-circle lh-1 btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
+				$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-' . $btn_color . ' ' . esc_attr($btn_size_class);
 			}
 			
 			$output .= '<a href="' . esc_url($data['url']) . '" class="' . $btn_class . '"' . $target_attr . ' title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
 		} elseif ($type === 'type9') {
 			// Type9: кнопки primary outline (фиксированные параметры)
-			$btn_class = 'btn btn-circle lh-1 btn-outline-primary ' . esc_attr($btn_size_class);
+			$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-outline-primary ' . esc_attr($btn_size_class);
 			$output .= '<a href="' . esc_url($data['url']) . '" class="' . $btn_class . '"' . $target_attr . ' title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
 		} else {
 			// По умолчанию - простые иконки
-			$output .= '<a href="' . esc_url($data['url']) . '" class="lh-1"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($data['url']) . '" class="lh-1 has-ripple"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
 		}
 	}
 	
@@ -1048,4 +1061,56 @@ function universal_get_post_type()
 	} else {
 		return 'post'; // Значение по умолчанию
 	}
+}
+
+/**
+ * Универсальная функция для вывода фактического или юридического адреса
+ * 
+ * @param string $type Тип адреса: 'fact' (фактический) или 'juri' (юридический). По умолчанию 'fact'
+ * @param string $separator Разделитель между частями адреса. По умолчанию ', '
+ * @param string $fallback Текст по умолчанию, если адрес не заполнен. По умолчанию 'Moonshine St. 14/05 Light City, London, United Kingdom'
+ * @return string Отформатированный адрес
+ */
+function codeweber_get_address($type = 'fact', $separator = ', ', $fallback = 'Moonshine St. 14/05 Light City, London, United Kingdom')
+{
+	// Проверяем наличие Redux Framework
+	if (!class_exists('Redux')) {
+		return $fallback;
+	}
+
+	global $opt_name;
+	if (empty($opt_name)) {
+		return $fallback;
+	}
+
+	// Определяем префикс для полей адреса
+	$prefix = ($type === 'juri') ? 'juri' : 'fact';
+
+	// Получаем данные адреса из Redux
+	$country = Redux::get_option($opt_name, $prefix . '-country', '');
+	$region = Redux::get_option($opt_name, $prefix . '-region', '');
+	$city = Redux::get_option($opt_name, $prefix . '-city', '');
+	$street = Redux::get_option($opt_name, $prefix . '-street', '');
+	$house = Redux::get_option($opt_name, $prefix . '-house', '');
+	$office = Redux::get_option($opt_name, $prefix . '-office', '');
+	$postal = Redux::get_option($opt_name, $prefix . '-postal', '');
+
+	// Формируем строку улицы с домом и офисом
+	$street_line = trim(implode(' ', array_filter([$street, $house, $office])), ' ,');
+
+	// Собираем части адреса в обратном порядке: индекс, страна, регион, город, улица
+	$parts = [];
+	if (!empty($postal)) $parts[] = $postal;
+	if (!empty($country)) $parts[] = $country;
+	if (!empty($region)) $parts[] = $region;
+	if (!empty($city)) $parts[] = $city;
+	if (!empty($street_line)) $parts[] = $street_line;
+
+	// Если адрес не заполнен, возвращаем fallback
+	if (empty($parts)) {
+		return $fallback;
+	}
+
+	// Объединяем части адреса с указанным разделителем
+	return implode($separator, $parts);
 }

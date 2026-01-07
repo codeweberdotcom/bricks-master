@@ -54,8 +54,16 @@ $header_rounded = function_exists('codeweber_get_header_option') ? codeweber_get
 $sort_offcanvas_right = Redux::get_option($opt_name, 'sort-offcanvas-right');
 $social_icon_type = Redux::get_option($opt_name, 'social-icon-type');
 $social_icon_type_mobile = Redux::get_option($opt_name, 'social-icon-type-mobile-menu');
+$social_button_style_offcanvas = Redux::get_option($opt_name, 'social-button-style-offcanvas', 'circle');
+$social_button_style_mobile = Redux::get_option($opt_name, 'social-button-style-mobile-menu', 'circle');
+$social_button_size_offcanvas = Redux::get_option($opt_name, 'social-button-size-offcanvas', 'md');
+$social_button_size_mobile = Redux::get_option($opt_name, 'social-button-size-mobile-menu', 'md');
 $config['social-type'] = 'type' . $social_icon_type;
 $config['social-type-mobile-menu'] = 'type' . $social_icon_type_mobile;
+$config['social-button-style-offcanvas'] = $social_button_style_offcanvas;
+$config['social-button-style-mobile-menu'] = $social_button_style_mobile;
+$config['social-button-size-offcanvas'] = $social_button_size_offcanvas;
+$config['social-button-size-mobile-menu'] = $social_button_size_mobile;
 $mobile_menu_background = Redux::get_option($opt_name, 'mobile-menu-background');
 $topbar_enable = Redux::get_option($opt_name, 'header-topbar-enable');
 
@@ -214,7 +222,7 @@ if ($config['navbar-center-nav'] === true) {
                             <a href="mailto:<?php $email; ?>"><?php $email; ?></a>
                             <a href="tel:<?php cleanNumber($phone1); ?>"><?= $phone1; ?></a>
                             <a href="tel:<?php cleanNumber($phone2); ?>"><?= $phone2; ?></a>
-                            <?= social_links('mt-2', $config['social-type-mobile-menu'], $config['social-size']); ?>
+                            <?= social_links('mt-2', $config['social-type-mobile-menu'], $config['social-button-size-mobile-menu'], 'primary', 'solid', $config['social-button-style-mobile-menu']); ?>
                         </div>
                         <!-- /offcanvas-nav-other -->
                     <?php } ?>
@@ -392,7 +400,7 @@ if ($config['navbar-center-nav'] === true) {
                             case 'socials':
                                 echo '<div class="widget mb-5">
                                        <div class="widget-title mb-3 h4">' . esc_html__('Social Media', 'codeweber') . ' </div>';
-                                echo social_links('', $config['social-type'], $config['social-size']);
+                                echo social_links('', $config['social-type'], $config['social-button-size-offcanvas'], 'primary', 'solid', $config['social-button-style-offcanvas']);
                                 echo '</div>';
                                 break;
 

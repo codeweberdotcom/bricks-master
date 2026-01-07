@@ -243,6 +243,32 @@ Redux::set_section(
 				'required' => array('global-header-type', '=', '1'),
 			),
 
+			// Выбор стиля кнопок соцсетей для мобильного меню
+			array(
+				'id'       => 'social-button-style-mobile-menu',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Button Style', 'codeweber'),
+				'options'  => array(
+					'circle' => esc_html__('Circle', 'codeweber'),
+					'block'  => esc_html__('Block', 'codeweber'),
+				),
+				'default'  => 'circle',
+				'required' => array('global-header-type', '=', '1'),
+			),
+
+			// Выбор размера кнопок соцсетей для мобильного меню
+			array(
+				'id'       => 'social-button-size-mobile-menu',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Button Size', 'codeweber'),
+				'options'  => array(
+					'sm' => esc_html__('Small', 'codeweber'),
+					'md' => esc_html__('Medium', 'codeweber'),
+					'lg' => esc_html__('Large', 'codeweber'),
+				),
+				'default'  => 'md',
+				'required' => array('global-header-type', '=', '1'),
+			),
 
 			// Выбор типа фона
 			array(
@@ -291,6 +317,33 @@ Redux::set_section(
 					'9' => esc_html__('Type 9', 'codeweber'),
 				),
 				'default'  => '1',
+				'required' => array('global-header-offcanvas-right', '=', '1'),
+			),
+
+			// Выбор стиля кнопок соцсетей для бокового меню
+			array(
+				'id'       => 'social-button-style-offcanvas',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Button Style', 'codeweber'),
+				'options'  => array(
+					'circle' => esc_html__('Circle', 'codeweber'),
+					'block'  => esc_html__('Block', 'codeweber'),
+				),
+				'default'  => 'circle',
+				'required' => array('global-header-offcanvas-right', '=', '1'),
+			),
+
+			// Выбор размера кнопок соцсетей для бокового меню
+			array(
+				'id'       => 'social-button-size-offcanvas',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Button Size', 'codeweber'),
+				'options'  => array(
+					'sm' => esc_html__('Small', 'codeweber'),
+					'md' => esc_html__('Medium', 'codeweber'),
+					'lg' => esc_html__('Large', 'codeweber'),
+				),
+				'default'  => 'md',
 				'required' => array('global-header-offcanvas-right', '=', '1'),
 			),
 

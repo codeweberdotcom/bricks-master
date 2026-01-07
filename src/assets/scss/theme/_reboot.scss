@@ -156,6 +156,66 @@ a.hover-3 {
     }
   }
 }
+a.hover-4 {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  display: inline-block;
+  transition: padding-left 0.3s ease-in-out;
+  z-index: 1;
+  text-decoration: none;
+  &::before {
+    content: $icon-more;
+    font-family: $font-family-unicons;
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-100%);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    line-height: 1;
+    @include font-size(0.9rem);
+    font-weight: normal;
+    pointer-events: none;
+  }
+  &:hover {
+    padding-left: 1rem;
+    &::before {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+  }
+}
+a.hover-5 {
+  position: relative;
+  padding-left: 0;
+  padding-right: 0;
+  display: inline-block;
+  transition: padding-left 0.3s ease-in-out;
+  z-index: 1;
+  text-decoration: none;
+  &::before {
+    content: "\e931";
+    font-family: $font-family-unicons;
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-100%);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    line-height: 1;
+    @include font-size(0.9rem);
+    font-weight: normal;
+    pointer-events: none;
+  }
+  &:hover {
+    padding-left: 1rem;
+    &::before {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+  }
+}
 @each $color,
 $value in $colors {
   a.hover-2.link-#{$color}:before {
@@ -235,6 +295,25 @@ a.text-reset:hover,
     font-weight: normal;
     vertical-align: -3px;
     margin-right: -0.25rem;
+    display: inline-block;
+  }
+}
+.more-left {
+  font-weight: $font-weight-bold;
+  letter-spacing: -0.01rem;
+  display: inline-block;
+  position: relative;
+  padding-left: 1rem;
+  &::after {
+    content: "\e949";
+    font-family: $font-family-unicons;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1;
+    @include font-size(0.9rem);
+    font-weight: normal;
     display: inline-block;
   }
 }

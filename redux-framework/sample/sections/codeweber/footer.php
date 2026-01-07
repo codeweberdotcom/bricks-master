@@ -161,112 +161,31 @@ Redux::set_section(
 				'required' => array('global_footer_type', '=', '1'),
 			),
 
-			// Preview Type 1
+			// Выбор стиля кнопок соцсетей для футера
 			array(
-				'id'       => 'social-preview-type1',
-				'type'     => 'raw',
-				'title'    => esc_html__('Preview Type 1', 'codeweber'),
-				'content'  => codeweber_social_preview_with_styles('social-preview-type1', '[social_links type="type1" size="md"]'),
-				'required' => array(
-					array('global_footer_type', '=', '1'),
-					array('social-icon-type-footer', '=', '1'),
+				'id'       => 'social-button-style-footer',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Button Style', 'codeweber'),
+				'options'  => array(
+					'circle' => esc_html__('Circle', 'codeweber'),
+					'block'  => esc_html__('Block', 'codeweber'),
 				),
+				'default'  => 'circle',
+				'required' => array('global_footer_type', '=', '1'),
 			),
 
-			// Preview Type 2
+			// Выбор размера кнопок соцсетей для футера
 			array(
-				'id'       => 'social-preview-type2',
-				'type'     => 'raw',
-				'title'    => esc_html__('Preview Type 2', 'codeweber'),
-				'content'  => codeweber_social_preview_with_styles('social-preview-type2', '[social_links type="type2" size="md"]'),
-				'required' => array(
-					array('global_footer_type', '=', '1'),
-					array('social-icon-type-footer', '=', '2'),
+				'id'       => 'social-button-size-footer',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Button Size', 'codeweber'),
+				'options'  => array(
+					'sm' => esc_html__('Small', 'codeweber'),
+					'md' => esc_html__('Medium', 'codeweber'),
+					'lg' => esc_html__('Large', 'codeweber'),
 				),
-			),
-
-			// Preview Type 3
-			array(
-				'id'       => 'social-preview-type3',
-				'type'     => 'raw',
-				'title'    => esc_html__('Preview Type 3', 'codeweber'),
-				'content'  => codeweber_social_preview_with_styles('social-preview-type3', '[social_links type="type3" size="md"]'),
-				'required' => array(
-					array('global_footer_type', '=', '1'),
-					array('social-icon-type-footer', '=', '3'),
-				),
-			),
-
-			// Preview Type 4
-			array(
-				'id'       => 'social-preview-type4',
-				'type'     => 'raw',
-				'title'    => esc_html__('Preview Type 4', 'codeweber'),
-				'content'  => codeweber_social_preview_with_styles('social-preview-type4', '[social_links type="type4" size="md"]'),
-				'required' => array(
-					array('global_footer_type', '=', '1'),
-					array('social-icon-type-footer', '=', '4'),
-				),
-			),
-
-			// Preview Type 5
-			array(
-				'id'       => 'social-preview-type5',
-				'type'     => 'raw',
-				'title'    => esc_html__('Preview Type 5', 'codeweber'),
-				'content'  => codeweber_social_preview_with_styles('social-preview-type5', '[social_links type="type5" size="md"]'),
-				'required' => array(
-					array('global_footer_type', '=', '1'),
-					array('social-icon-type-footer', '=', '5'),
-				),
-			),
-
-			// Preview Type 6
-			array(
-				'id'       => 'social-preview-type6',
-				'type'     => 'raw',
-				'title'    => esc_html__('Preview Type 6', 'codeweber'),
-				'content'  => codeweber_social_preview_with_styles('social-preview-type6', '[social_links type="type6" size="md"]'),
-				'required' => array(
-					array('global_footer_type', '=', '1'),
-					array('social-icon-type-footer', '=', '6'),
-				),
-			),
-
-			// Preview Type 7
-			array(
-				'id'       => 'social-preview-type7',
-				'type'     => 'raw',
-				'title'    => esc_html__('Preview Type 7', 'codeweber'),
-				'content'  => codeweber_social_preview_with_styles('social-preview-type7', '[social_links type="type7" size="md"]'),
-				'required' => array(
-					array('global_footer_type', '=', '1'),
-					array('social-icon-type-footer', '=', '7'),
-				),
-			),
-
-			// Preview Type 8
-			array(
-				'id'       => 'social-preview-type8',
-				'type'     => 'raw',
-				'title'    => esc_html__('Preview Type 8', 'codeweber'),
-				'content'  => codeweber_social_preview_with_styles('social-preview-type8', '[social_links type="type8" button-color="primary" buttonstyle="solid" size="md"]'),
-				'required' => array(
-					array('global_footer_type', '=', '1'),
-					array('social-icon-type-footer', '=', '8'),
-				),
-			),
-
-			// Preview Type 9
-			array(
-				'id'       => 'social-preview-type9',
-				'type'     => 'raw',
-				'title'    => esc_html__('Preview Type 9', 'codeweber'),
-				'content'  => codeweber_social_preview_with_styles('social-preview-type9', '[social_links type="type9" size="md"]'),
-				'required' => array(
-					array('global_footer_type', '=', '1'),
-					array('social-icon-type-footer', '=', '9'),
-				),
+				'default'  => 'md',
+				'required' => array('global_footer_type', '=', '1'),
 			),
 
 			// Выбор цвета логотипа для футера

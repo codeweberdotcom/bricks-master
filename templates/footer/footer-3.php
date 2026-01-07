@@ -1,80 +1,161 @@
-<footer class="bg-dark">
-   <div class="container py-13 py-md-15">
-      <div class="row gy-6 gy-lg-0">
-         <div class="col-md-4 col-lg-3">
-            <div class="widget">
-               <img class="mb-4" src="<?php echo get_template_directory_uri(); ?> /dist/assets/img/logo-dark.png" srcset="dist/assets/img/logo-dark@2x.png 2x" alt="" />
-               <p class="mb-4">© <script>
-                     document.write(new Date().getUTCFullYear());
-                  </script> Sandbox. <br class="d-none d-lg-block" />All rights reserved.</p>
-               <nav class="nav social ">
-                  <a href="#"><i class="uil uil-twitter"></i></a>
-                  <a href="#"><i class="uil uil-facebook-f"></i></a>
-                  <a href="#"><i class="uil uil-dribbble"></i></a>
-                  <a href="#"><i class="uil uil-instagram"></i></a>
-                  <a href="#"><i class="uil uil-youtube"></i></a>
-               </nav>
-               <!-- /.social -->
-            </div>
-            <!-- /.widget -->
-         </div>
-         <!-- /column -->
-         <div class="col-md-4 col-lg-3">
-            <div class="widget">
-               <h4 class="widget-title  mb-3">Get in Touch</h4>
-               <address class="pe-xl-15 pe-xxl-17">Moonshine St. 14/05 Light City, London, United Kingdom</address>
-               <a href="mailto:#" class="link-body">info@email.com</a><br /> 00 (123) 456 78 90
-            </div>
-            <!-- /.widget -->
-         </div>
-         <!-- /column -->
-         <div class="col-md-4 col-lg-3">
-            <div class="widget">
-               <h4 class="widget-title  mb-3">Learn More</h4>
-               <ul class="list-unstyled text-reset mb-0">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Our Story</a></li>
-                  <li><a href="#">Projects</a></li>
-                  <li><a href="#">Terms of Use</a></li>
-                  <li><a href="#">Privacy Policy</a></li>
-               </ul>
-            </div>
-            <!-- /.widget -->
-         </div>
-         <!-- /column -->
-         <div class="col-md-12 col-lg-3">
-            <div class="widget">
-               <h4 class="widget-title  mb-3">Our Newsletter</h4>
-               <p class="mb-5">Subscribe to our newsletter to get our news & deals delivered to you.</p>
-               <div class="newsletter-wrapper">
-                  <!-- Begin Mailchimp Signup Form -->
-                  <div id="mc_embed_signup2">
-                     <form action="https://elemisfreebies.us20.list-manage.com/subscribe/post?u=aa4947f70a475ce162057838d&amp;id=b49ef47a9a" method="post" id="mc-embedded-subscribe-form2" name="mc-embedded-subscribe-form" class="validate " target="_blank" novalidate>
-                        <div id="mc_embed_signup_scroll2">
-                           <div class="mc-field-group input-group form-floating">
-                              <input type="email" value="" name="EMAIL" class="required email form-control" placeholder="Email Address" id="mce-EMAIL2">
-                              <label for="mce-EMAIL2">Email Address</label>
-                              <input type="submit" value="Join" name="subscribe" id="mc-embedded-subscribe2" class="btn btn-primary ">
-                           </div>
-                           <div id="mce-responses2" class="clear">
-                              <div class="response" id="mce-error-response2" style="display:none"></div>
-                              <div class="response" id="mce-success-response2" style="display:none"></div>
-                           </div> <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                           <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ddc180777a163e0f9f66ee014_4b1bcfa0bc" tabindex="-1" value=""></div>
-                           <div class="clear"></div>
-                        </div>
-                     </form>
-                  </div>
-                  <!--End mc_embed_signup-->
-               </div>
-               <!-- /.newsletter-wrapper -->
-            </div>
-            <!-- /.widget -->
-         </div>
-         <!-- /column -->
+<?php
+
+$footer_color_text = $footer_vars['footer_color_text'] ?? false;
+$footer_background = $footer_vars['footer_background'] ?? false;
+
+if ($footer_background === 'solid') {
+   $footer_background_color = $footer_vars['footer_solid_color'] ?? false;
+} elseif ($footer_background === 'soft') {
+   $footer_background_color = $footer_vars['footer_soft_color'] ?? false;
+} else {
+   $footer_background_color = 'dark';
+}
+
+// Определяем классы для текста
+$text_class_array = [];
+if ($footer_color_text === 'dark') {
+   $text_class_array[] = 'text-white';
+   $text_inverse = 'text-inverse';
+} else {
+   $text_class_array[] = 'text-reset';
+   $text_inverse = '';
+}
+$text_class = implode(' ', $text_class_array);
+
+// Получаем настройки соцсетей для футера
+global $opt_name;
+$social_icon_type_footer = Redux::get_option($opt_name, 'social-icon-type-footer', '1');
+$social_type_footer = 'type' . $social_icon_type_footer;
+$social_size_footer = Redux::get_option($opt_name, 'social-button-size-footer', 'md');
+$social_button_style_footer = Redux::get_option($opt_name, 'social-button-style-footer', 'circle');
+
+// Получаем настройку цвета логотипа для футера
+$footer_logo_color = Redux::get_option($opt_name, 'footer-logo-color', 'light');
+
+// Определяем класс для соцсетей (social-white для темного фона)
+$social_class = ($footer_background_color === 'dark' || $footer_color_text === 'dark') ? 'social-white' : '';
+
+// Получаем текст для CTA секции (можно использовать text-about-company или создать отдельную настройку)
+$cta_text = Redux::get_option($opt_name, 'footer-cta-text', '');
+if (empty($cta_text)) {
+   $cta_text = do_shortcode('[redux_option key="text-about-company"]');
+}
+$cta_button_text = Redux::get_option($opt_name, 'footer-cta-button-text', 'Try It For Free');
+$cta_button_url = Redux::get_option($opt_name, 'footer-cta-button-url', '#');
+
+?>
+
+<footer class="bg-<?= $footer_background_color; ?> <?= $text_inverse; ?>">
+  <div class="container pt-15 pt-md-17 pb-13 pb-md-15">
+    <div class="d-lg-flex flex-row align-items-lg-center">
+      <div class="h3 display-4 mb-6 mb-lg-0 pe-lg-20 pe-xl-22 pe-xxl-25 text-white"><?= esc_html($cta_text); ?></div>
+      <a href="<?= esc_url($cta_button_url); ?>" class="btn btn-primary rounded-pill mb-0 text-nowrap"><?= esc_html($cta_button_text); ?></a>
+    </div>
+    <!--/div -->
+    <hr class="mt-11 mb-12" />
+    <div class="row gy-6 gy-lg-0">
+      <div class="col-md-4 col-lg-3">
+        <div class="widget">
+          <a href="<?= esc_url(home_url('/')); ?>" class="d-inline-block mb-4">
+            <?= get_custom_logo_type($footer_logo_color); ?>
+          </a>
+          <p class="mb-4 <?= $text_class; ?>">
+            © <?= date('Y'); ?> <?= get_bloginfo('name'); ?>. <br class="d-none d-lg-block" />All rights reserved.
+          </p>
+          <nav class="nav <?= esc_attr($social_class); ?>">
+            <?= social_links('', $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
+          </nav>
+          <!-- /.social -->
+        </div>
+        <!-- /.widget -->
       </div>
-      <!--/.row -->
-      <?php get_template_part('templates/footer/footer', 'copyright'); ?>
-   </div>
-   <!-- /.container -->
+      <!-- /column -->
+      <div class="col-md-4 col-lg-3">
+        <div class="widget">
+          <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Get in Touch', 'codeweber'); ?></div>
+          <address class="pe-xl-15 pe-xxl-17 <?= $text_class; ?>">
+            <?php
+            global $opt_name;
+            $country = Redux::get_option($opt_name, 'fact-country', '');
+            $region = Redux::get_option($opt_name, 'fact-region', '');
+            $city = Redux::get_option($opt_name, 'fact-city', '');
+            $street = Redux::get_option($opt_name, 'fact-street', '');
+            $house = Redux::get_option($opt_name, 'fact-house', '');
+            $office = Redux::get_option($opt_name, 'fact-office', '');
+            $postal = Redux::get_option($opt_name, 'fact-postal', '');
+            
+            $parts = [];
+            // Формируем строку улицы с домом и офисом
+            $street_line = trim(implode(' ', array_filter([$street, $house, $office])), ' ,');
+            // Порядок: индекс, страна, регион, город, улица
+            if (!empty($postal)) $parts[] = $postal;
+            if (!empty($country)) $parts[] = $country;
+            if (!empty($region)) $parts[] = $region;
+            if (!empty($city)) $parts[] = $city;
+            if (!empty($street_line)) $parts[] = $street_line;
+            
+            $full_address = !empty($parts) ? implode(', ', $parts) : 'Moonshine St. 14/05 Light City, London, United Kingdom';
+            echo $full_address;
+            ?>
+          </address>
+          <?php echo do_shortcode('[get_contact field="e-mail" type="link" class="' . $text_class . '"]'); ?><br />
+          <?php echo do_shortcode('[get_contact field="phone_01" type="link" class="' . $text_class . '"]'); ?>
+        </div>
+        <!-- /.widget -->
+      </div>
+      <!-- /column -->
+      <div class="col-md-4 col-lg-3">
+        <div class="widget">
+          <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Learn More', 'codeweber'); ?></div>
+          <?php
+          wp_nav_menu(
+            array(
+              'theme_location'  => 'footer',
+              'depth'           => 1,
+              'container'       => false,
+              'menu_class'      => 'list-unstyled mb-0',
+              'fallback_cb'     => false,
+              'items_wrap'      => '<ul class="list-unstyled mb-0">%3$s</ul>',
+              'walker'          => new WP_Bootstrap_Navwalker(),
+            )
+          );
+          // Если меню не назначено, показываем fallback
+          if (!has_nav_menu('footer')) {
+            echo '<ul class="list-unstyled mb-0">';
+            echo '<li><a href="#" class="' . $text_class . '">About Us</a></li>';
+            echo '<li><a href="#" class="' . $text_class . '">Our Story</a></li>';
+            echo '<li><a href="#" class="' . $text_class . '">Projects</a></li>';
+            echo '<li><a href="#" class="' . $text_class . '">Terms of Use</a></li>';
+            echo '<li><a href="#" class="' . $text_class . '">Privacy Policy</a></li>';
+            echo '</ul>';
+          }
+          ?>
+        </div>
+        <!-- /.widget -->
+      </div>
+      <!-- /column -->
+      <div class="col-md-12 col-lg-3">
+        <div class="widget">
+          <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Our Newsletter', 'codeweber'); ?></div>
+          <p class="mb-5 <?= $text_class; ?>">Subscribe to our newsletter to get our news & deals delivered to you.</p>
+          <div class="newsletter-wrapper">
+            <?php
+            // Выводим default newsletter форму
+            if (class_exists('CodeweberFormsDefaultForms')) {
+               $is_logged_in = is_user_logged_in();
+               $user_id = $is_logged_in ? get_current_user_id() : 0;
+               $default_forms = new CodeweberFormsDefaultForms();
+               echo $default_forms->get_default_form_html('newsletter', $is_logged_in, $user_id);
+            }
+            ?>
+          </div>
+          <!-- /.newsletter-wrapper -->
+        </div>
+        <!-- /.widget -->
+      </div>
+      <!-- /column -->
+    </div>
+    <!--/.row -->
+  </div>
+  <!-- /.container -->
 </footer>

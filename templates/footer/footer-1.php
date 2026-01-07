@@ -26,13 +26,17 @@ $text_class = implode(' ', $text_class_array);
 global $opt_name;
 $social_icon_type_footer = Redux::get_option($opt_name, 'social-icon-type-footer', '1');
 $social_type_footer = 'type' . $social_icon_type_footer;
-$social_size_footer = 'md'; // Можно сделать настраиваемым
+$social_size_footer = Redux::get_option($opt_name, 'social-button-size-footer', 'md');
+$social_button_style_footer = Redux::get_option($opt_name, 'social-button-style-footer', 'circle');
 
 // Получаем настройку цвета логотипа для футера
 $footer_logo_color = Redux::get_option($opt_name, 'footer-logo-color', 'light');
 
 // Определяем класс для соцсетей (social-white для темного фона)
 $social_class = ($footer_background_color === 'dark' || $footer_color_text === 'dark') ? 'social-white' : '';
+
+// Определяем класс для ссылок (link-body или text-white)
+$link_class = ($footer_color_text === 'dark') ? 'text-white' : 'link-body';
 
 ?>
 
@@ -47,7 +51,7 @@ $social_class = ($footer_background_color === 'dark' || $footer_color_text === '
           <p class="mb-4 <?= $text_class; ?>">
             <?= do_shortcode('[redux_option key="text-about-company"]'); ?>
           </p>
-          <?= social_links($social_class, $social_type_footer, $social_size_footer); ?>
+          <?= social_links($social_class, $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
           <!-- /.social -->
         </div>
         <!-- /.widget -->
@@ -55,38 +59,41 @@ $social_class = ($footer_background_color === 'dark' || $footer_color_text === '
       <!-- /column -->
       <div class="col-md-4 col-lg-3">
         <div class="widget">
-          <h4 class="widget-title <?= $text_class; ?> mb-3">Get in Touch</h4>
+          <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Get in Touch', 'codeweber'); ?></div>
           <address class="pe-xl-15 pe-xxl-17 <?= $text_class; ?>">
             <?php
             global $opt_name;
-            $address_data = Redux::get_option($opt_name, 'fact-company-adress', array());
+            $country = Redux::get_option($opt_name, 'fact-country', '');
+            $region = Redux::get_option($opt_name, 'fact-region', '');
+            $city = Redux::get_option($opt_name, 'fact-city', '');
+            $street = Redux::get_option($opt_name, 'fact-street', '');
+            $house = Redux::get_option($opt_name, 'fact-house', '');
+            $office = Redux::get_option($opt_name, 'fact-office', '');
+            $postal = Redux::get_option($opt_name, 'fact-postal', '');
+            
             $parts = [];
-            if (!empty($address_data['box1'])) $parts[] = $address_data['box1'];
-            if (!empty($address_data['box2'])) $parts[] = $address_data['box2'];
-            if (!empty($address_data['box3']) || !empty($address_data['box4'])) {
-              $city_street = trim("{$address_data['box3']} {$address_data['box4']}");
-              $parts[] = $city_street;
-            }
-            if (!empty($address_data['box5']) || !empty($address_data['box6'])) {
-              $house = !empty($address_data['box5']) ? "д. {$address_data['box5']}" : '';
-              $office = !empty($address_data['box6']) ? "оф. {$address_data['box6']}" : '';
-              $house_office = trim("{$house}, {$office}", ', ');
-              $parts[] = $house_office;
-            }
-            if (!empty($address_data['box7'])) $parts[] = $address_data['box7'];
-            $full_address = !empty($parts) ? implode('<br> ', $parts) : 'Moonshine St. 14/05 Light City, London, United Kingdom';
+            // Формируем строку улицы с домом и офисом
+            $street_line = trim(implode(' ', array_filter([$street, $house, $office])), ' ,');
+            // Порядок: индекс, страна, регион, город, улица
+            if (!empty($postal)) $parts[] = $postal;
+            if (!empty($country)) $parts[] = $country;
+            if (!empty($region)) $parts[] = $region;
+            if (!empty($city)) $parts[] = $city;
+            if (!empty($street_line)) $parts[] = $street_line;
+            
+            $full_address = !empty($parts) ? implode(', ', $parts) : 'Moonshine St. 14/05 Light City, London, United Kingdom';
             echo $full_address;
             ?>
           </address>
-          <?php echo do_shortcode('[get_contact field="e-mail" type="link" class="link-body"]'); ?><br />
-          <?php echo do_shortcode('[get_contact field="phone_01" type="link" class="link-body"]'); ?>
+          <?php echo do_shortcode('[get_contact field="e-mail" type="link" class="' . esc_attr($link_class) . '"]'); ?><br />
+          <?php echo do_shortcode('[get_contact field="phone_01" type="link" class="' . esc_attr($link_class) . '"]'); ?>
         </div>
         <!-- /.widget -->
       </div>
       <!-- /column -->
       <div class="col-md-4 col-lg-3">
         <div class="widget">
-          <h4 class="widget-title <?= $text_class; ?> mb-3">Learn More</h4>
+          <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Learn More', 'codeweber'); ?></div>
           <?php
           wp_nav_menu(
             array(
@@ -116,7 +123,7 @@ $social_class = ($footer_background_color === 'dark' || $footer_color_text === '
       <!-- /column -->
       <div class="col-md-12 col-lg-3">
         <div class="widget">
-          <h4 class="widget-title <?= $text_class; ?> mb-3">Our Newsletter</h4>
+          <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Our Newsletter', 'codeweber'); ?></div>
           <p class="mb-5 <?= $text_class; ?>">Subscribe to our newsletter to get our news & deals delivered to you.</p>
           <div class="newsletter-wrapper">
             <?php

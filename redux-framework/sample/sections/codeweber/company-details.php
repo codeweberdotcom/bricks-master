@@ -23,6 +23,21 @@ Redux::set_section(
 				'indent' => true,
 			),
 
+			// Информация о шорткоде адреса
+			array(
+				'id'     => 'info-address-shortcode',
+				'type'   => 'info',
+				'title'  => esc_html__('Address Shortcode', 'codeweber'),
+				'style'  => 'info',
+				'desc'   => esc_html__('Для вывода полного адреса используйте шорткод [address].', 'codeweber') . '<br><br>' .
+					'<strong>' . esc_html__('Примеры использования:', 'codeweber') . '</strong><br>' .
+					'<code>[address]</code> - ' . esc_html__('Фактический адрес', 'codeweber') . '<br>' .
+					'<code>[address type="juri"]</code> - ' . esc_html__('Юридический адрес', 'codeweber') . '<br>' .
+					'<code>[address separator=", "]</code> - ' . esc_html__('С разделителем запятая', 'codeweber') . '<br>' .
+					'<code>[address type="juri" separator=", " fallback="Адрес не указан"]</code> - ' . esc_html__('С кастомным fallback', 'codeweber'),
+				'indent' => false,
+			),
+
 			// Юридический адрес
 			array(
 				'id'     => 'section-legal-address',

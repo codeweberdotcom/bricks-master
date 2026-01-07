@@ -521,10 +521,15 @@ $value in $gradients {
 }
 @each $color,
 $value in $brand-colors {
-  .social a:not([class*="link-"]):not(.btn-circle) .uil[class*="#{$color}"] {
+  .social a:not([class*="link-"]):not(.btn-circle):not(.btn-block) .uil[class*="#{$color}"] {
     color: $value;
   }
   .social a.btn-circle[class*="#{$color}"] {
+    color: var(--#{$prefix}white);
+    background-color: $value;
+    border-color: transparent;
+  }
+  .social a.btn-block[class*="#{$color}"] {
     color: var(--#{$prefix}white);
     background-color: $value;
     border-color: transparent;
