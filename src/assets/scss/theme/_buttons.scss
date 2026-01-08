@@ -535,6 +535,68 @@ $value in $brand-colors {
     border-color: transparent;
   }
 }
+
+// Явные стили для всех кнопок социальных сетей
+@each $color,
+$value in $brand-colors {
+  .btn-#{$color},
+  .social .btn-#{$color},
+  .share-buttons .btn-#{$color} {
+    background-color: $value !important;
+    border-color: $value !important;
+    color: var(--#{$prefix}white) !important;
+    
+    &:hover {
+      background-color: darken($value, 10%) !important;
+      border-color: darken($value, 10%) !important;
+      color: var(--#{$prefix}white) !important;
+    }
+  }
+}
+
+// Дополнительные стили для соцсетей с несоответствующими ключами
+.btn-tik-tok,
+.social .btn-tik-tok,
+.share-buttons .btn-tik-tok {
+  background-color: $tiktok !important;
+  border-color: $tiktok !important;
+  color: var(--#{$prefix}white) !important;
+  
+  &:hover {
+    background-color: darken($tiktok, 10%) !important;
+    border-color: darken($tiktok, 10%) !important;
+    color: var(--#{$prefix}white) !important;
+  }
+}
+
+.btn-googledrive,
+.social .btn-googledrive,
+.share-buttons .btn-googledrive {
+  background-color: $googledrive !important;
+  border-color: $googledrive !important;
+  color: var(--#{$prefix}white) !important;
+  
+  &:hover {
+    background-color: darken($googledrive, 10%) !important;
+    border-color: darken($googledrive, 10%) !important;
+    color: var(--#{$prefix}white) !important;
+  }
+}
+
+.btn-googleplay,
+.social .btn-googleplay,
+.share-buttons .btn-googleplay {
+  background-color: $googleplay !important;
+  border-color: $googleplay !important;
+  color: var(--#{$prefix}white) !important;
+  
+  &:hover {
+    background-color: darken($googleplay, 10%) !important;
+    border-color: darken($googleplay, 10%) !important;
+    color: var(--#{$prefix}white) !important;
+  }
+}
+
 .social.social-muted a:not(.btn-circle):not([class*="link-"]) i {
   color: $main-dark !important;
 }
