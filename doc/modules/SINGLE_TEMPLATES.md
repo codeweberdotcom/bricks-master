@@ -347,7 +347,7 @@ while (have_posts()) :
                         <?php
                         $previous_post = get_adjacent_post(false, '', true);
                         if ($previous_post) {
-                            printf('<a href="%s" class="hover-5 left">%s</a>', 
+                            printf('<a href="%s" class="hover-9 left">%s</a>', 
                                 get_permalink($previous_post->ID),
                                 get_the_title($previous_post->ID)
                             );

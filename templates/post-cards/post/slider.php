@@ -97,7 +97,7 @@ if (!empty($display['title_class'])) {
                 </div>
             <?php endif; ?>
             
-            <a href="<?php echo esc_url($post_data['link']); ?>" class="hover-4 link-body label-s text-charcoal-blue me-4 post-read-more">
+            <a href="<?php echo esc_url($post_data['link']); ?>" class="hover-8 link-body label-s text-charcoal-blue me-4 post-read-more">
                 <?php esc_html_e('Read more', 'codeweber'); ?>
             </a>
         </div>
