@@ -474,7 +474,7 @@ a.hover-5.right::before {
     width: 100%;
     height: 1px;
     background: $primary;
-    bottom: -3px;
+    top: calc(100% + 3px);
     right: 0;
     pointer-events: none;
 }
@@ -511,8 +511,8 @@ a.hover-5.left::after {
     position: absolute;
     width: 100%;
     height: 1px;
-    background: #febe10;
-    bottom: -3px;
+    background: $primary;
+    top: calc(100% + 3px);
     left: 0;
     pointer-events: none;
     // Переопределяем базовые стили
@@ -701,7 +701,7 @@ a.card:hover .hover-4::before {
     left: 0;
     width: 30px;
     height: .05rem;
-    background: #FEBE10 !important;
+    background: $primary !important;
 }
 
 .text-line-before-soft {
@@ -759,7 +759,7 @@ a.card:hover .hover-4::before {
     content: "";
     width: 16px;
     height: 16px;
-    background: #febe10;
+    background: $primary;
 }
 
 .brand-square-md {
@@ -833,7 +833,7 @@ a.card:hover .hover-4::before {
   left: 0;
   width: 13px;
   height: 13px;
-  background: #febe10 !important;
+  background: $primary !important;
 }
 
 .text-square-before-soft {
@@ -866,7 +866,7 @@ a.card:hover .hover-4::before {
   left: 0;
   width: 13px;
   height: 13px;
-  background: #febe10 !important;
+  background: $primary !important;
 }
 
 .sidebar nav a {
@@ -895,7 +895,7 @@ padding-left: 20px;
     left: 0;
     width: 13px;
     height: 13px;
-    background: #febe10 !important;
+    background: $primary !important;
 }
 
 .filter-item.active {
@@ -927,31 +927,42 @@ padding-left: 20px;
 }
 
 //----------------------------------------------------------//
-//	SWIPER CONTROLS
+//	BUTTON VARIABLES
 //----------------------------------------------------------//
 
-.swiper-controls .swiper-pagination .swiper-pagination-bullet {
-    -webkit-backface-visibility: visible;
-    backface-visibility: visible;
-    transition: all .2s ease-in-out;
-    position: relative;
-    display: inline-block;
-    width: .5rem;
-    height: .5rem;
-    margin: 0 .3rem;
-    padding: 0;
-    background: #febe10;
-    opacity: .5;
-    border-radius: 0;
-    border: 3px solid #febe10;
-    transform: scale(.6);
-}
+$btn-border-radius-xs: 0 !default;
 
-.swiper-controls .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
-    transform: scale(1);
-    background: #fff;
-    border: 3px solid #febe10;
-}
+//----------------------------------------------------------//
+//	SWIPER VARIABLES
+//----------------------------------------------------------//
+
+// Кнопки навигации
+$swiper-arrow-size: 1.8rem !default;
+$swiper-arrow-bg: $primary !default;
+$swiper-arrow-color: $white !default;
+$swiper-arrow-bg-hover: rgba($primary, 0.9) !default;
+$swiper-arrow-color-hover: $white !default;
+$swiper-arrow-bg-disabled: rgba($primary, 0.7) !default;
+$swiper-arrow-border-radius: 0 !default;
+
+// Пагинация (bullets) - настройки для всех Swiper
+$swiper-pagination-bullet-size: 0.5rem;
+$swiper-pagination-bullet-margin: 0.3rem;
+$swiper-pagination-bullet-bg: $primary;
+$swiper-pagination-bullet-bg-hover: $primary;
+$swiper-pagination-bullet-opacity: 0.5;
+$swiper-pagination-bullet-opacity-hover: 0.8;
+$swiper-pagination-bullet-border: 3px solid $primary;
+$swiper-pagination-bullet-border-radius: 0;
+$swiper-pagination-bullet-scale: 0.6;
+$swiper-pagination-bullet-scale-hover: 1;
+$swiper-pagination-bullet-active-scale: 1;
+$swiper-pagination-bullet-active-bg: $white;
+$swiper-pagination-bullet-active-border: 3px solid $primary;
+$swiper-pagination-bullet-transition: all .2s ease-in-out;
+
+
+
 
 //START IMPORT FONTS
 @import "fonts/SourceSansPro";
