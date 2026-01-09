@@ -961,8 +961,16 @@ $swiper-pagination-bullet-active-bg: $white;
 $swiper-pagination-bullet-active-border: 3px solid $primary;
 $swiper-pagination-bullet-transition: all .2s ease-in-out;
 
+#partnersAccordion button {
+  font-weight: 400!important;
+}
 
-
+#partnersAccordion .accordion-button::before {
+  font-size: 17px;
+  width: 17px;
+  height: 17px;
+  line-height: 1;
+}
 
 //START IMPORT FONTS
 @import "fonts/SourceSansPro";
