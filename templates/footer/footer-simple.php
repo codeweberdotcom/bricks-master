@@ -70,7 +70,7 @@
 			<div class="col-md-12 col-lg-3">
 				<div class="widget">
 					<div class="h4 widget-title  mb-3"><?php esc_html_e('Our Newsletter', 'codeweber'); ?></div>
-					<p class="mb-5">Subscribe to our newsletter to get our news & deals delivered to you.</p>
+					<p class="mb-5"><?php esc_html_e('Subscribe to our newsletter to get our news & deals delivered to you.', 'codeweber'); ?></p>
 					<div class="newsletter-wrapper">
 						<!-- Begin Mailchimp Signup Form -->
 						<div id="mc_embed_signup2">

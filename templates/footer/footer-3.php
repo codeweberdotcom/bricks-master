@@ -137,7 +137,7 @@ $cta_button_url = Redux::get_option($opt_name, 'footer-cta-button-url', '#');
       <div class="col-md-12 col-lg-3">
         <div class="widget">
           <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Our Newsletter', 'codeweber'); ?></div>
-          <p class="mb-5 <?= $text_class; ?>">Subscribe to our newsletter to get our news & deals delivered to you.</p>
+          <p class="mb-5 <?= $text_class; ?>"><?php esc_html_e('Subscribe to our newsletter to get our news & deals delivered to you.', 'codeweber'); ?></p>
           <div class="newsletter-wrapper">
             <?php
             // Выводим default newsletter форму

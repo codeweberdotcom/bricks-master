@@ -266,7 +266,7 @@ class CodeweberFormsDefaultForms {
         }
         
         // Собираем классы для кнопки
-        $button_class = 'btn btn-primary';
+        $button_class = 'btn btn-primary has-ripple';
         if ($button_radius_class) {
             $button_class .= ' ' . $button_radius_class;
         }

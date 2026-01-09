@@ -20,7 +20,7 @@
 
 			<div class="col-md-3 mb-4">
 
-				<div class="h3 h4 mb-4"><?php esc_html_e( 'Contacts', 'bricks' ); ?></div>
+				<div class="h3 h4 mb-4"><?php esc_html_e( 'Contacts', 'codeweber' ); ?></div>
 
 				<ul class="list-unstyled navbar-nav flex-column">
 
@@ -39,7 +39,7 @@
 
 			<div class="col-md-3 mb-4">
 
-				<div class="h3 h4 mb-4"><?php esc_html_e( 'Pages', 'bricks' ); ?></div>
+				<div class="h3 h4 mb-4"><?php esc_html_e( 'Pages', 'codeweber' ); ?></div>
 
 				<?php
 				wp_nav_menu(
@@ -60,7 +60,7 @@
 
 			<div class="col-md-3 mb-4">
 
-				<div class="h3 h4 mb-4"><?php esc_html_e( 'Privacy', 'bricks' ); ?></div>
+				<div class="h3 h4 mb-4"><?php esc_html_e( 'Privacy', 'codeweber' ); ?></div>
 
 				<?php
 				wp_nav_menu(
