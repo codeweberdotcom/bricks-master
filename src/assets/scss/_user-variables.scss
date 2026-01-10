@@ -938,11 +938,6 @@ $btn-border-radius-xs: 0 !default;
 
 // Кнопки навигации
 $swiper-arrow-size: 1.8rem !default;
-$swiper-arrow-bg: $primary !default;
-$swiper-arrow-color: $white !default;
-$swiper-arrow-bg-hover: rgba($primary, 0.9) !default;
-$swiper-arrow-color-hover: $white !default;
-$swiper-arrow-bg-disabled: rgba($primary, 0.7) !default;
 $swiper-arrow-border-radius: 0 !default;
 
 // Пагинация (bullets) - настройки для всех Swiper
@@ -962,7 +957,7 @@ $swiper-pagination-bullet-active-border: 3px solid $primary;
 $swiper-pagination-bullet-transition: all .2s ease-in-out;
 
 #partnersAccordion button {
-  font-weight: 400!important;
+  font-weight: 400 !important;
 }
 
 #partnersAccordion .accordion-button::before {
@@ -970,6 +965,22 @@ $swiper-pagination-bullet-transition: all .2s ease-in-out;
   width: 17px;
   height: 17px;
   line-height: 1;
+}
+
+#partnersAccordion.type-3 button:not(.collapsed)::before {
+  right: 1.3rem !important;
+}
+
+#partnersAccordion.type-3 button:not(.collapsed)::before {
+  right: 1.3rem !important;
+}
+
+#partnersAccordion button {
+  padding: 0.4rem 2.8rem 0.4rem 0px !important;
+}
+
+#partnersAccordion .card-body {
+  padding: 0px 1.5rem 0.25rem 0px;
 }
 
 //START IMPORT FONTS
