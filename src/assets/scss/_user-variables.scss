@@ -784,20 +784,8 @@ a.card:hover .hover-4::before {
     height: 48px;
 }
 
-.practice-card {
-	min-height: 200px;
-}
-
-@media (min-width: 768px) {
-	.practice-card {
-		min-height: 284.44px;
-	}
-}
-
-@media (max-width: 767px) {
-	.card.practice-card .h4 {
-		font-size: 20px;
-	}
+.practice-card{
+    min-height: 284.44px;
 }
 
 .practice-card .brand-square-xs {
