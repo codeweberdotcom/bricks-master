@@ -246,7 +246,6 @@
         
         // wpApiSettings доступен, инициализируем
         initAjaxDownload();
-        console.log('AJAX Download handler initialized');
     }
     
     // Инициализация при загрузке DOM
@@ -261,7 +260,6 @@
     window.addEventListener('load', function() {
         if (typeof wpApiSettings !== 'undefined' && typeof initAjaxDownload !== 'undefined') {
             // Убедимся, что обработчик работает
-            console.log('AJAX Download: wpApiSettings available after page load');
         }
     });
 

@@ -228,8 +228,6 @@
         fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:init:entry',message:'Initialization started',data:{readyState:document.readyState},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
         // #endregion
         
-        console.log('[CF7 Success Message] Initializing...');
-        
         // Используем data-атрибут на body вместо document.dataset
         const body = document.body;
         if (!body) {
@@ -242,7 +240,6 @@
         
         // Проверяем, не инициализирован ли уже обработчик
         if (body.dataset.cf7SuccessMessageInitialized === 'true') {
-            console.log('[CF7 Success Message] Already initialized, skipping');
             // #region agent log
             fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:init:already-initialized',message:'Already initialized, skipping',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
             // #endregion
@@ -251,7 +248,6 @@
 
         // Слушаем событие успешной отправки CF7
         document.addEventListener('wpcf7mailsent', handleCf7Success, false);
-        console.log('[CF7 Success Message] Event listener added for wpcf7mailsent');
         
         // #region agent log
         fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:init:event-listener-added',message:'Event listener added',data:{event:'wpcf7mailsent'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
@@ -259,7 +255,6 @@
 
         // Помечаем как инициализированный через data-атрибут body
         body.dataset.cf7SuccessMessageInitialized = 'true';
-        console.log('[CF7 Success Message] Initialization complete');
         
         // #region agent log
         fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:init:complete',message:'Initialization complete',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});

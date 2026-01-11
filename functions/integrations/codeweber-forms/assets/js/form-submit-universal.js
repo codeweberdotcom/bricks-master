@@ -601,8 +601,6 @@
      * Initialize single form
      */
     function initForm(form) {
-        console.log('[Form Init] Initializing form:', form.id || form.className, form);
-        
         // Ищем кнопку submit (может быть как button, так и input)
         let submitBtn = form.querySelector('button[type="submit"]');
         const isButtonSubmit = !!submitBtn;
@@ -613,10 +611,8 @@
             console.warn('[Form Init] No submit button found in form:', form.id || form.className);
             return;
         }
-        console.log('[Form Init] Submit button found:', submitBtn.tagName, 'isButton:', isButtonSubmit, 'isInput:', !isButtonSubmit);
         
         const config = getFormConfig(form);
-        console.log('[Form Init] Form config:', config);
         if (!config.apiEndpoint) {
             console.warn('[Form Init] No API endpoint configured for form:', form.id || form.className);
             return;
@@ -2048,7 +2044,6 @@
         // поэтому переносим его ниже, после addEventListener('submit', submitHandler)
         
         form.addEventListener('submit', submitHandler);
-        console.log('[Form Init] Submit event listener added to form:', config.formId, 'type:', config.type);
         
         // Сохраняем ссылку на обработчик для использования в обработчике клика
         const submitHandlerRef = submitHandler;
@@ -2186,17 +2181,6 @@
         
         // Устанавливаем флаг инициализации
         form.dataset.initialized = 'true';
-        
-        // Логирование для отладки
-        if (window.console && console.log) {
-            console.log('[Form Init] Form initialized:', {
-                formId: config.formId,
-                formType: config.type,
-                apiEndpoint: config.apiEndpoint,
-                nonceField: config.nonceField,
-                consentPrefix: config.consentPrefix
-            });
-        }
         
         // Помечаем форму как инициализированную после успешной настройки
         form.dataset.initialized = 'true';
