@@ -646,32 +646,33 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			
 			// Отступы теперь определены в inline стилях через CSS переменные, используем их
 			// Mobile styles (<768px) - используем CSS переменные из inline стилей
+			// Добавляем !important чтобы переопределить inline стили
 			$css .= '@media (max-width: 767.98px) {';
 			$css .= '.share-buttons.position-fixed {';
-			$css .= 'right: var(--right-mobile);';
-			$css .= 'left: var(--left-mobile);';
-			$css .= 'top: var(--top-mobile);';
-			$css .= 'bottom: var(--bottom-mobile);';
+			$css .= 'right: var(--right-mobile) !important;';
+			$css .= 'left: var(--left-mobile) !important;';
+			$css .= 'top: var(--top-mobile) !important;';
+			$css .= 'bottom: var(--bottom-mobile) !important;';
 			$css .= '}';
 			$css .= '}';
 			
 			// Tablet styles (≥768px and <992px)
 			$css .= '@media (min-width: 768px) and (max-width: 991.98px) {';
 			$css .= '.share-buttons.position-fixed {';
-			$css .= 'right: var(--right-tablet);';
-			$css .= 'left: var(--left-tablet);';
-			$css .= 'top: var(--top-tablet);';
-			$css .= 'bottom: var(--bottom-tablet);';
+			$css .= 'right: var(--right-tablet) !important;';
+			$css .= 'left: var(--left-tablet) !important;';
+			$css .= 'top: var(--top-tablet) !important;';
+			$css .= 'bottom: var(--bottom-tablet) !important;';
 			$css .= '}';
 			$css .= '}';
 			
 			// Desktop styles (≥992px) - последним, чтобы переопределить на больших экранах
 			$css .= '@media (min-width: 992px) {';
 			$css .= '.share-buttons.position-fixed {';
-			$css .= 'right: var(--right-desktop);';
-			$css .= 'left: var(--left-desktop);';
-			$css .= 'top: var(--top-desktop);';
-			$css .= 'bottom: var(--bottom-desktop);';
+			$css .= 'right: var(--right-desktop) !important;';
+			$css .= 'left: var(--left-desktop) !important;';
+			$css .= 'top: var(--top-desktop) !important;';
+			$css .= 'bottom: var(--bottom-desktop) !important;';
 			$css .= '}';
 			$css .= '}';
 			
