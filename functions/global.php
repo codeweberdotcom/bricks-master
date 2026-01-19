@@ -1114,3 +1114,29 @@ function codeweber_get_address($type = 'fact', $separator = ', ', $fallback = 'M
 	// Объединяем части адреса с указанным разделителем
 	return implode($separator, $parts);
 }
+
+/**
+ * Выводит колонку футера с проверкой виджета
+ * Если виджет активен, выводит его содержимое, иначе выводит стандартное содержимое
+ * 
+ * @param string $widget_id ID области виджета (footer-1, footer-2, footer-3, footer-4)
+ * @param string $column_classes CSS классы для колонки
+ * @param callable $default_content Функция для вывода стандартного содержимого
+ */
+function codeweber_footer_column($widget_id, $column_classes, $default_content) {
+    if (is_active_sidebar($widget_id)) {
+        // Если виджет активен, выводим его
+        echo '<div class="' . esc_attr($column_classes) . '">';
+        dynamic_sidebar($widget_id);
+        echo '</div>';
+        echo '<!-- /column -->';
+    } else {
+        // Если виджет не активен, выводим стандартное содержимое
+        echo '<div class="' . esc_attr($column_classes) . '">';
+        if (is_callable($default_content)) {
+            call_user_func($default_content);
+        }
+        echo '</div>';
+        echo '<!-- /column -->';
+    }
+}

@@ -17,3 +17,79 @@
         width: calc(100% - (0.5rem*2));
     }
 }
+//----------------------------------------------------------//
+//	MODAL CORNER POSITIONING
+//----------------------------------------------------------//
+
+// Нижний левый угол (Bottom Left)
+.modal.fade.modal-bottom-start .modal-dialog {
+  position: fixed;
+  bottom: 1.75rem;
+  left: 1.75rem;
+  right: auto;
+  top: auto;
+  margin: 0;
+  transform: translate(0, 0);
+}
+
+// Нижний правый угол (Bottom Right)
+.modal.fade.modal-bottom-end .modal-dialog {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  left: auto;
+  top: auto;
+  margin: 0;
+  transform: translate(0, 0);
+}
+
+// Верхний левый угол (Top Left)
+.modal.fade.modal-top-start .modal-dialog {
+  position: fixed;
+  top: 1.75rem;
+  left: 1.75rem;
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  transform: translate(0, 0);
+}
+
+// Верхний правый угол (Top Right)
+.modal.fade.modal-top-end .modal-dialog {
+  position: fixed;
+  top: 1.75rem;
+  right: 1.75rem;
+  left: auto;
+  bottom: auto;
+  margin: 0;
+  transform: translate(0, 0);
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 767.98px) {
+  .modal.fade.modal-bottom-start .modal-dialog,
+  .modal.fade.modal-bottom-end .modal-dialog,
+  .modal.fade.modal-top-start .modal-dialog,
+  .modal.fade.modal-top-end .modal-dialog {
+    bottom: 0.5rem;
+    top: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    width: calc(100% - 1rem);
+    max-width: none;
+  }
+}
+
+// Для очень маленьких экранов
+@media (max-width: 575.98px) {
+  .modal.fade.modal-bottom-start .modal-dialog,
+  .modal.fade.modal-bottom-end .modal-dialog,
+  .modal.fade.modal-top-start .modal-dialog,
+  .modal.fade.modal-top-end .modal-dialog {
+    bottom: 0.25rem;
+    top: 0.25rem;
+    left: 0.25rem;
+    right: 0.25rem;
+    width: calc(100% - 0.5rem);
+  }
+}

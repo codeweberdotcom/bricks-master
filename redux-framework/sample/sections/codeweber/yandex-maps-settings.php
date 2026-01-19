@@ -433,8 +433,10 @@ Redux::set_section(
                 'id'       => 'yandex_maps_style_json',
                 'type'     => 'textarea',
                 'title'    => esc_html__('Custom Style (JSON)', 'codeweber'),
-                'subtitle' => esc_html__('Custom JSON style configuration for Yandex Map (advanced)', 'codeweber'),
+                'subtitle' => esc_html__('Custom JSON style configuration for Yandex Map. Example: [{"featureType":"water","elementType":"geometry","stylers":[{"color":"#808080"}]},{"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#404040"}]}]', 'codeweber'),
+                'desc'     => esc_html__('Enter JSON array with style rules. See Yandex Maps Style Editor documentation for details.', 'codeweber'),
                 'default'  => '',
+                'rows'     => 10,
             ),
             
         ),

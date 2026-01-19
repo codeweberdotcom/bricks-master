@@ -55,7 +55,7 @@
          <!-- /column -->
          <div class="col-md-4 col-lg-3">
             <div class="widget">
-               <div class="h4 widget-title  mb-3"><?php esc_html_e('Learn More', 'codeweber'); ?></div>
+               <div class="h4 widget-title  mb-3"><?php esc_html_e('Navigation', 'codeweber'); ?></div>
                <ul class="list-unstyled text-reset mb-0">
                   <li><a href="#">About Us</a></li>
                   <li><a href="#">Our Story</a></li>

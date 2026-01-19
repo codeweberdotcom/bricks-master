@@ -569,6 +569,41 @@ document.addEventListener("DOMContentLoaded", () => {
       const cachedSize = localStorage.getItem(`${dataValue}_size`);
       
       // Show modal immediately (standard loader already exists in modal-container.php)
+      // Check if cookie modal is open (highest priority)
+      const cookieModal = document.getElementById('cookieModal');
+      if (cookieModal && cookieModal.classList.contains('show')) {
+        // Wait for cookie modal to close, then show REST API modal
+        const checkCookieModal = setInterval(function() {
+          if (!cookieModal.classList.contains('show')) {
+            clearInterval(checkCookieModal);
+            // Close notification modal if it's open
+            const notificationModal = document.getElementById('notification-modal');
+            if (notificationModal && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+              const notificationBsModal = bootstrap.Modal.getInstance(notificationModal);
+              if (notificationBsModal && notificationModal.classList.contains('show')) {
+                notificationBsModal.hide();
+              }
+            }
+            // Apply cached modal size if available
+            if (cachedSize) {
+              applyModalSize(cachedSize);
+            }
+            // Open modal
+            modalInstance.show();
+          }
+        }, 100);
+        return; // Exit early, will show modal after cookie modal closes
+      }
+      
+      // Close notification modal if it's open (to prevent conflicts)
+      const notificationModal = document.getElementById('notification-modal');
+      if (notificationModal && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+        const notificationBsModal = bootstrap.Modal.getInstance(notificationModal);
+        if (notificationBsModal && notificationModal.classList.contains('show')) {
+          notificationBsModal.hide();
+        }
+      }
+      
       // Apply cached modal size if available
       if (cachedSize) {
         applyModalSize(cachedSize);

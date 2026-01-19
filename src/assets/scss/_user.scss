@@ -782,3 +782,30 @@ textarea[rows="10"] {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
+
+//----------------------------------------------------------//
+//  OVERRIDE THIRD-PARTY LIBRARY FONTS
+//  Переопределение шрифтов сторонних библиотек на шрифты темы
+//----------------------------------------------------------//
+
+// FilePond - переопределение шрифтов Roboto и Helvetica
+.filepond--root,
+.filepond--root * {
+  font-family: $font-family-base !important;
+}
+
+// FullCalendar - переопределение шрифта Helvetica
+.fc,
+.fc *,
+.fc-button,
+.fc-button * {
+  font-family: $font-family-base !important;
+}
+
+// Дополнительно: переопределение для всех элементов, которые могут использовать Roboto или Helvetica
+[style*="font-family: Roboto"],
+[style*="font-family: Helvetica"],
+[style*="font-family: 'Roboto'"],
+[style*="font-family: 'Helvetica'"] {
+  font-family: $font-family-base !important;
+}

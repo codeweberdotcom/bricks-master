@@ -11,6 +11,7 @@ require_once get_template_directory() . '/functions/cpt/cpt-page-header.php';
 require_once get_template_directory() . '/functions/cpt/cpt-modals.php';
 require_once get_template_directory() . '/functions/cpt/cpt-html_blocks.php';
 require_once get_template_directory() . '/functions/cpt/cpt-clients.php';
+require_once get_template_directory() . '/functions/cpt/cpt-notifications.php';
 
 require_once get_template_directory() . '/functions/setup.php';
 require_once get_template_directory() . '/functions/roles.php';

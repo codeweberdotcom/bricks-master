@@ -111,15 +111,21 @@ $link_class = ($footer_color_text === 'dark') ? 'text-white' : 'link-body';
     <div class="row mt-n10 mt-lg-0">
       <div class="col-xl-10 mx-auto">
         <div class="row mb-3">
-          <div class="col-md-4">
+          <?php
+          // Колонка 1 - Footer 1
+          codeweber_footer_column('footer-1', 'col-md-4', function() use ($text_class, $full_address) {
+            ?>
             <div class="widget">
               <div class="h4 widget-title <?= $text_class; ?>"><?php esc_html_e('Address', 'codeweber'); ?></div>
               <address class="<?= $text_class; ?>"><?= $full_address; ?></address>
             </div>
             <!-- /.widget -->
-          </div>
-          <!--/column -->
-          <div class="col-md-4">
+            <?php
+          });
+
+          // Колонка 2 - Footer 2
+          codeweber_footer_column('footer-2', 'col-md-4', function() use ($text_class, $phone1, $phone2) {
+            ?>
             <div class="widget">
               <div class="h4 widget-title <?= $text_class; ?>"><?php esc_html_e('Phone', 'codeweber'); ?></div>
               <p class="<?= $text_class; ?> mb-0">
@@ -138,9 +144,12 @@ $link_class = ($footer_color_text === 'dark') ? 'text-white' : 'link-body';
               </p>
             </div>
             <!-- /.widget -->
-          </div>
-          <!--/column -->
-          <div class="col-md-4">
+            <?php
+          });
+
+          // Колонка 3 - Footer 3
+          codeweber_footer_column('footer-3', 'col-md-4', function() use ($text_class, $link_class, $email1, $email2) {
+            ?>
             <div class="widget">
               <div class="h4 widget-title <?= $text_class; ?>"><?php esc_html_e('E-mail', 'codeweber'); ?></div>
               <p class="<?= $text_class; ?> mb-0">
@@ -159,8 +168,9 @@ $link_class = ($footer_color_text === 'dark') ? 'text-white' : 'link-body';
               </p>
             </div>
             <!-- /.widget -->
-          </div>
-          <!--/column -->
+            <?php
+          });
+          ?>
         </div>
         <!--/.row -->
         <p class="<?= $text_class; ?>">© <?= date('Y'); ?> <?= get_bloginfo('name'); ?>. All rights reserved.</p>

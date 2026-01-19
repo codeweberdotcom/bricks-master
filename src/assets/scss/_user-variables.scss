@@ -299,9 +299,6 @@ $btn-font-weight-md:       600;
 $btn-font-weight-lg:       600;
 $btn-font-weight-elg:      600;
 
-// Close Button Background
-$btn-close-bg: none;
-$btn-close-hover-bg: none;
 
 //----------------------------------------------------------//
 //  FORMS
@@ -477,7 +474,7 @@ a.hover-5.right::before {
     width: 100%;
     height: 1px;
     background: $primary;
-    top: calc(100% + 3px);
+    bottom: -3px;
     right: 0;
     pointer-events: none;
 }
@@ -514,8 +511,8 @@ a.hover-5.left::after {
     position: absolute;
     width: 100%;
     height: 1px;
-    background: $primary;
-    top: calc(100% + 3px);
+    background: #febe10;
+    bottom: -3px;
     left: 0;
     pointer-events: none;
     // Переопределяем базовые стили
@@ -704,7 +701,7 @@ a.card:hover .hover-4::before {
     left: 0;
     width: 30px;
     height: .05rem;
-    background: $primary !important;
+    background: #FEBE10 !important;
 }
 
 .text-line-before-soft {
@@ -762,7 +759,7 @@ a.card:hover .hover-4::before {
     content: "";
     width: 16px;
     height: 16px;
-    background: $primary;
+    background: #febe10;
 }
 
 .brand-square-md {
@@ -809,27 +806,6 @@ a.card:hover .hover-4::before {
 	color: #fff;
 }
 
-// Hover эффекты для practice-card на мобильных устройствах при появлении в viewport
-@media (max-width: 991.98px) {
-	.practice-card-in-viewport .brand-square-xs {
-		opacity: 1 !important;
-		transition: all 0.8s ease;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-	}
-
-	.practice-card-in-viewport .h4 {
-		transition: all 0.8s ease;
-		color: #fff;
-	}
-
-	.practice-card-in-viewport .icontext {
-		transition: all .8s ease;
-		opacity: 1 !important;
-	}
-}
-
 .practice-section img {
     filter: grayscale(100%);
     transition: filter 0.6s ease-in-out, transform 0.6s ease;
@@ -857,7 +833,7 @@ a.card:hover .hover-4::before {
   left: 0;
   width: 13px;
   height: 13px;
-  background: $primary !important;
+  background: #febe10 !important;
 }
 
 .text-square-before-soft {
@@ -890,7 +866,7 @@ a.card:hover .hover-4::before {
   left: 0;
   width: 13px;
   height: 13px;
-  background: $primary !important;
+  background: #febe10 !important;
 }
 
 .sidebar nav a {
@@ -919,7 +895,7 @@ padding-left: 20px;
     left: 0;
     width: 13px;
     height: 13px;
-    background: $primary !important;
+    background: #febe10 !important;
 }
 
 .filter-item.active {
@@ -951,60 +927,30 @@ padding-left: 20px;
 }
 
 //----------------------------------------------------------//
-//	BUTTON VARIABLES
+//	SWIPER CONTROLS
 //----------------------------------------------------------//
 
-$btn-border-radius-xs: 0 !default;
-
-//----------------------------------------------------------//
-//	SWIPER VARIABLES
-//----------------------------------------------------------//
-
-// Кнопки навигации
-$swiper-arrow-size: 1.8rem !default;
-$swiper-arrow-border-radius: 0 !default;
-
-// Пагинация (bullets) - настройки для всех Swiper
-$swiper-pagination-bullet-size: 0.5rem;
-$swiper-pagination-bullet-margin: 0.3rem;
-$swiper-pagination-bullet-bg: $primary;
-$swiper-pagination-bullet-bg-hover: $primary;
-$swiper-pagination-bullet-opacity: 0.5;
-$swiper-pagination-bullet-opacity-hover: 0.8;
-$swiper-pagination-bullet-border: 3px solid $primary;
-$swiper-pagination-bullet-border-radius: 0;
-$swiper-pagination-bullet-scale: 0.6;
-$swiper-pagination-bullet-scale-hover: 1;
-$swiper-pagination-bullet-active-scale: 1;
-$swiper-pagination-bullet-active-bg: $white;
-$swiper-pagination-bullet-active-border: 3px solid $primary;
-$swiper-pagination-bullet-transition: all .2s ease-in-out;
-
-#partnersAccordion button {
-  font-weight: 400 !important;
+.swiper-controls .swiper-pagination .swiper-pagination-bullet {
+    -webkit-backface-visibility: visible;
+    backface-visibility: visible;
+    transition: all .2s ease-in-out;
+    position: relative;
+    display: inline-block;
+    width: .5rem;
+    height: .5rem;
+    margin: 0 .3rem;
+    padding: 0;
+    background: #febe10;
+    opacity: .5;
+    border-radius: 0;
+    border: 3px solid #febe10;
+    transform: scale(.6);
 }
 
-#partnersAccordion .accordion-button::before {
-  font-size: 17px;
-  width: 17px;
-  height: 17px;
-  line-height: 1;
-}
-
-#partnersAccordion.type-3 button:not(.collapsed)::before {
-  right: 1.3rem !important;
-}
-
-#partnersAccordion.type-3 button:not(.collapsed)::before {
-  right: 1.3rem !important;
-}
-
-#partnersAccordion button {
-  padding: 0.4rem 2.8rem 0.4rem 0px !important;
-}
-
-#partnersAccordion .card-body {
-  padding: 0px 1.5rem 0.25rem 0px;
+.swiper-controls .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    transform: scale(1);
+    background: #fff;
+    border: 3px solid #febe10;
 }
 
 //START IMPORT FONTS

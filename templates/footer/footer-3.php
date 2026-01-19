@@ -54,7 +54,10 @@ $cta_button_url = Redux::get_option($opt_name, 'footer-cta-button-url', '#');
     <!--/div -->
     <hr class="mt-11 mb-12" />
     <div class="row gy-6 gy-lg-0">
-      <div class="col-md-4 col-lg-3">
+      <?php
+      // Колонка 1 - Footer 1
+      codeweber_footer_column('footer-1', 'col-md-4 col-lg-3', function() use ($footer_logo_color, $text_class, $social_class, $social_type_footer, $social_size_footer, $social_button_style_footer) {
+        ?>
         <div class="widget">
           <a href="<?= esc_url(home_url('/')); ?>" class="d-inline-block mb-4">
             <?= get_custom_logo_type($footer_logo_color); ?>
@@ -68,45 +71,49 @@ $cta_button_url = Redux::get_option($opt_name, 'footer-cta-button-url', '#');
           <!-- /.social -->
         </div>
         <!-- /.widget -->
-      </div>
-      <!-- /column -->
-      <div class="col-md-4 col-lg-3">
+        <?php
+      });
+
+      // Колонка 2 - Footer 2
+      codeweber_footer_column('footer-2', 'col-md-4 col-lg-3', function() use ($text_class) {
+        global $opt_name;
+        $country = Redux::get_option($opt_name, 'fact-country', '');
+        $region = Redux::get_option($opt_name, 'fact-region', '');
+        $city = Redux::get_option($opt_name, 'fact-city', '');
+        $street = Redux::get_option($opt_name, 'fact-street', '');
+        $house = Redux::get_option($opt_name, 'fact-house', '');
+        $office = Redux::get_option($opt_name, 'fact-office', '');
+        $postal = Redux::get_option($opt_name, 'fact-postal', '');
+        
+        $parts = [];
+        // Формируем строку улицы с домом и офисом
+        $street_line = trim(implode(' ', array_filter([$street, $house, $office])), ' ,');
+        // Порядок: индекс, страна, регион, город, улица
+        if (!empty($postal)) $parts[] = $postal;
+        if (!empty($country)) $parts[] = $country;
+        if (!empty($region)) $parts[] = $region;
+        if (!empty($city)) $parts[] = $city;
+        if (!empty($street_line)) $parts[] = $street_line;
+        
+        $full_address = !empty($parts) ? implode(', ', $parts) : 'Moonshine St. 14/05 Light City, London, United Kingdom';
+        ?>
         <div class="widget">
           <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Get in Touch', 'codeweber'); ?></div>
           <address class="pe-xl-15 pe-xxl-17 <?= $text_class; ?>">
-            <?php
-            global $opt_name;
-            $country = Redux::get_option($opt_name, 'fact-country', '');
-            $region = Redux::get_option($opt_name, 'fact-region', '');
-            $city = Redux::get_option($opt_name, 'fact-city', '');
-            $street = Redux::get_option($opt_name, 'fact-street', '');
-            $house = Redux::get_option($opt_name, 'fact-house', '');
-            $office = Redux::get_option($opt_name, 'fact-office', '');
-            $postal = Redux::get_option($opt_name, 'fact-postal', '');
-            
-            $parts = [];
-            // Формируем строку улицы с домом и офисом
-            $street_line = trim(implode(' ', array_filter([$street, $house, $office])), ' ,');
-            // Порядок: индекс, страна, регион, город, улица
-            if (!empty($postal)) $parts[] = $postal;
-            if (!empty($country)) $parts[] = $country;
-            if (!empty($region)) $parts[] = $region;
-            if (!empty($city)) $parts[] = $city;
-            if (!empty($street_line)) $parts[] = $street_line;
-            
-            $full_address = !empty($parts) ? implode(', ', $parts) : 'Moonshine St. 14/05 Light City, London, United Kingdom';
-            echo $full_address;
-            ?>
+            <?= esc_html($full_address); ?>
           </address>
           <?php echo do_shortcode('[get_contact field="e-mail" type="link" class="' . $text_class . '"]'); ?><br />
           <?php echo do_shortcode('[get_contact field="phone_01" type="link" class="' . $text_class . '"]'); ?>
         </div>
         <!-- /.widget -->
-      </div>
-      <!-- /column -->
-      <div class="col-md-4 col-lg-3">
+        <?php
+      });
+
+      // Колонка 3 - Footer 3
+      codeweber_footer_column('footer-3', 'col-md-4 col-lg-3', function() use ($text_class) {
+        ?>
         <div class="widget">
-          <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Learn More', 'codeweber'); ?></div>
+          <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Navigation', 'codeweber'); ?></div>
           <?php
           wp_nav_menu(
             array(
@@ -132,9 +139,12 @@ $cta_button_url = Redux::get_option($opt_name, 'footer-cta-button-url', '#');
           ?>
         </div>
         <!-- /.widget -->
-      </div>
-      <!-- /column -->
-      <div class="col-md-12 col-lg-3">
+        <?php
+      });
+
+      // Колонка 4 - Footer 4
+      codeweber_footer_column('footer-4', 'col-md-12 col-lg-3', function() use ($text_class) {
+        ?>
         <div class="widget">
           <div class="h4 widget-title <?= $text_class; ?> mb-3"><?php esc_html_e('Our Newsletter', 'codeweber'); ?></div>
           <p class="mb-5 <?= $text_class; ?>"><?php esc_html_e('Subscribe to our newsletter to get our news & deals delivered to you.', 'codeweber'); ?></p>
@@ -152,8 +162,9 @@ $cta_button_url = Redux::get_option($opt_name, 'footer-cta-button-url', '#');
           <!-- /.newsletter-wrapper -->
         </div>
         <!-- /.widget -->
-      </div>
-      <!-- /column -->
+        <?php
+      });
+      ?>
     </div>
     <!--/.row -->
   </div>

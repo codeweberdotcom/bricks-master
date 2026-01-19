@@ -52,7 +52,62 @@
             return;
         }
 
+        // Check if cookie modal is open (highest priority)
+        const cookieModal = document.getElementById('cookieModal');
+        if (cookieModal && cookieModal.classList.contains('show')) {
+            console.log('[CF7 Success Message] Cookie modal is open, waiting for it to close');
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate',message:'Cookie modal is open, deferring CF7 success modal',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+            // #endregion
+            
+            // Wait for cookie modal to close, then show CF7 success modal
+            const checkCookieModal = setInterval(function() {
+                if (!cookieModal.classList.contains('show')) {
+                    clearInterval(checkCookieModal);
+                    // Close notification modal if it's open (to prevent conflicts)
+                    const notificationModal = document.getElementById('notification-modal');
+                    if (notificationModal) {
+                        const notificationBsModal = bootstrap.Modal.getInstance(notificationModal);
+                        if (notificationBsModal && notificationModal.classList.contains('show')) {
+                            notificationBsModal.hide();
+                            console.log('[CF7 Success Message] Closed notification modal before showing success message');
+                        }
+                    }
+                    // Now show CF7 success modal
+                    showCf7SuccessModal();
+                }
+            }, 100);
+            return; // Exit early, will show modal after cookie modal closes
+        }
+        
+        // Close notification modal if it's open (to prevent conflicts)
+        const notificationModal = document.getElementById('notification-modal');
+        if (notificationModal) {
+            const notificationBsModal = bootstrap.Modal.getInstance(notificationModal);
+            if (notificationBsModal && notificationModal.classList.contains('show')) {
+                notificationBsModal.hide();
+                console.log('[CF7 Success Message] Closed notification modal before showing success message');
+            }
+        }
+        
         // Show existing modal only if it's not already open
+        showCf7SuccessModal();
+    }
+    
+    function showCf7SuccessModal() {
+        const modal = document.getElementById('modal');
+        if (!modal) return;
+        
+        // Проверяем, не открыт ли cookie modal (самый высокий приоритет)
+        const cookieModal = document.getElementById('cookieModal');
+        if (cookieModal && cookieModal.classList.contains('show')) {
+            console.log('[CF7 Success Message] Cookie modal is open, cannot show CF7 success modal');
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:showCf7SuccessModal',message:'Cookie modal is open, blocking CF7 success modal',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+            // #endregion
+            return; // Блокируем открытие
+        }
+        
         if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
             console.log('[CF7 Success Message] Bootstrap available, checking modal state');
             let bsModal = bootstrap.Modal.getInstance(modal);
@@ -79,7 +134,7 @@
         } else {
             console.error('[CF7 Success Message] Bootstrap not available');
         }
-
+        
         // Get success message template via REST API
         let apiRoot = '/wp-json/';
         let apiNonce = '';

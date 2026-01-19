@@ -216,6 +216,41 @@ function enqueue_my_custom_script()
 }
 add_action('wp_enqueue_scripts', 'enqueue_my_custom_script', 20);
 
+/**
+ * Enqueue notification triggers script
+ * Handles all trigger types for notification modals
+ */
+function codeweber_enqueue_notification_triggers()
+{
+	// Load on all pages (needed for notification triggers)
+	$notification_triggers_url = brk_get_dist_file_url('dist/assets/js/notification-triggers.js');
+	if (!$notification_triggers_url) {
+		return; // File doesn't exist
+	}
+	
+	$notification_triggers_path = brk_get_dist_file_path('dist/assets/js/notification-triggers.js');
+	$version = $notification_triggers_path ? filemtime($notification_triggers_path) : null;
+	
+	// Dependencies: plugins-scripts (Bootstrap) and my-custom-script (restapi.js)
+	$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+	$dependencies = array();
+	if ($plugins_scripts_url) {
+		$dependencies[] = 'plugins-scripts';
+	}
+	if (wp_script_is('my-custom-script', 'registered')) {
+		$dependencies[] = 'my-custom-script';
+	}
+	
+	wp_enqueue_script(
+		'notification-triggers',
+		$notification_triggers_url,
+		$dependencies,
+		$version,
+		true // Load in footer
+	);
+}
+add_action('wp_enqueue_scripts', 'codeweber_enqueue_notification_triggers', 25);
+
 
 
 function theme_enqueue_fetch_assets()

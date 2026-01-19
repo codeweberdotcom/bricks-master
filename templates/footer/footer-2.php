@@ -65,7 +65,10 @@ $social_class = ($footer_background_color === 'dark' || $footer_color_text === '
 <footer class="bg-<?= $footer_background_color; ?> <?= $text_inverse; ?>">
   <div class="container pb-7">
     <div class="row gx-lg-0 gy-6">
-      <div class="col-lg-4">
+      <?php
+      // Колонка 1 - Footer 1
+      codeweber_footer_column('footer-1', 'col-lg-4', function() use ($footer_logo_color, $text_class) {
+        ?>
         <div class="widget">
           <a href="<?= esc_url(home_url('/')); ?>" class="d-inline-block mb-4">
             <?= get_custom_logo_type($footer_logo_color); ?>
@@ -75,9 +78,12 @@ $social_class = ($footer_background_color === 'dark' || $footer_color_text === '
           </p>
         </div>
         <!-- /.widget -->
-      </div>
-      <!-- /column -->
-      <div class="col-lg-3 offset-lg-2">
+        <?php
+      });
+
+      // Колонка 2 - Footer 2
+      codeweber_footer_column('footer-2', 'col-lg-3 offset-lg-2', function() use ($text_class, $phone1, $phone2) {
+        ?>
         <div class="widget">
           <div class="d-flex flex-row">
             <div>
@@ -106,9 +112,12 @@ $social_class = ($footer_background_color === 'dark' || $footer_color_text === '
           <!--/div -->
         </div>
         <!-- /.widget -->
-      </div>
-      <!-- /column -->
-      <div class="col-lg-3">
+        <?php
+      });
+
+      // Колонка 3 - Footer 3
+      codeweber_footer_column('footer-3', 'col-lg-3', function() use ($text_class, $full_address) {
+        ?>
         <div class="widget">
           <div class="d-flex flex-row">
             <div>
@@ -124,8 +133,9 @@ $social_class = ($footer_background_color === 'dark' || $footer_color_text === '
           <!--/div -->
         </div>
         <!-- /.widget -->
-      </div>
-      <!-- /column -->
+        <?php
+      });
+      ?>
     </div>
     <!--/.row -->
     <hr class="mt-13 mt-md-14 mb-7" />

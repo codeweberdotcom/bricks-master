@@ -162,6 +162,13 @@
 	}
 	?>
 	
+	<?php 
+	// Выводим модальное окно перед wp_footer()
+	if (function_exists('codeweber_universal_modal_container')) {
+		codeweber_universal_modal_container();
+	}
+	?>
+	
 	<?php wp_footer(); ?>
 	
 	</body>

@@ -1129,11 +1129,9 @@
             const allFileInputsInDoc = Array.from(document.querySelectorAll('input[type="file"]'));
             // Объединяем и убираем дубликаты
             const uniqueInputs = [...new Set([...allFileInputs, ...allFileInputsInDoc])];
-            console.log('[FilePond Validation] Found', allFileInputs.length, 'file inputs in form,', allFileInputsInDoc.length, 'in document,', uniqueInputs.length, 'unique');
             
             // Способ 2: Ищем через FilePond root элементы
             const allFilepondRoots = form.querySelectorAll('.filepond--root');
-            console.log('[FilePond Validation] Found', allFilepondRoots.length, 'FilePond root elements');
             
             const filepondInputs = [];
             
@@ -1154,11 +1152,9 @@
                 
                 if (hasFilePond) {
                     // Проверяем обязательность
-                    const isRequired = input.hasAttribute('required') || 
-                                       input.getAttribute('aria-required') === 'true' ||
-                                       (input.closest('.form-field-wrapper') && input.closest('.form-field-wrapper').querySelector('label .text-danger'));
-                    
-                    console.log('[FilePond Validation] Input', input.id, 'belongsToForm:', belongsToForm, 'hasFilePond:', hasFilePond, 'isRequired:', isRequired);
+                const isRequired = input.hasAttribute('required') || 
+                                   input.getAttribute('aria-required') === 'true' ||
+                                   (input.closest('.form-field-wrapper') && input.closest('.form-field-wrapper').querySelector('label .text-danger'));
                     
                     if (isRequired) {
                         filepondInputs.push(input);
@@ -1211,8 +1207,6 @@
                                            input.getAttribute('aria-required') === 'true' ||
                                            (wrapper && wrapper.querySelector('label .text-danger'));
                         
-                        console.log('[FilePond Validation] Found input via root:', input.id, 'isRequired:', isRequired, 'has filepondInstance:', !!input.filepondInstance);
-                        
                         if (isRequired) {
                             filepondInputs.push(input);
                         }
@@ -1222,17 +1216,12 @@
             
             // Последний способ: ищем все file inputs и проверяем наличие filepondInstance
             if (filepondInputs.length === 0) {
-                console.log('[FilePond Validation] Trying last resort: checking all file inputs for filepondInstance');
                 uniqueInputs.forEach(input => {
-                    console.log('[FilePond Validation] Checking input:', input.id, 'type:', input.type, 'has filepondInstance:', !!input.filepondInstance, 'display:', window.getComputedStyle(input).display);
-                    
                     if (input.filepondInstance && !filepondInputs.includes(input)) {
                         const wrapper = input.closest('.form-field-wrapper');
                         const isRequired = input.hasAttribute('required') || 
                                            input.getAttribute('aria-required') === 'true' ||
                                            (wrapper && wrapper.querySelector('label .text-danger'));
-                        
-                        console.log('[FilePond Validation] Found input with filepondInstance:', input.id, 'isRequired:', isRequired);
                         
                         if (isRequired) {
                             filepondInputs.push(input);
@@ -1243,7 +1232,6 @@
             
             // Еще один способ: ищем через все элементы с filepondInstance (может быть на других элементах)
             if (filepondInputs.length === 0) {
-                console.log('[FilePond Validation] Final attempt: searching for elements with filepondInstance property');
                 // Проверяем все элементы формы на наличие filepondInstance
                 const allFormElements = form.querySelectorAll('*');
                 allFormElements.forEach(element => {
@@ -1253,8 +1241,6 @@
                                            element.getAttribute('aria-required') === 'true' ||
                                            (wrapper && wrapper.querySelector('label .text-danger'));
                         
-                        console.log('[FilePond Validation] Found element with filepondInstance:', element.id, 'isRequired:', isRequired);
-                        
                         if (isRequired) {
                             filepondInputs.push(element);
                         }
@@ -1262,11 +1248,9 @@
                 });
             }
             
-            console.log('[FilePond Validation] Found', filepondInputs.length, 'required file inputs with FilePond');
             const errors = [];
             
             filepondInputs.forEach((input, index) => {
-                console.log('[FilePond Validation] Checking input', index + 1, ':', input.id, 'has filepondInstance:', !!input.filepondInstance);
                 let isValid = false;
                 let files = [];
                 
@@ -1284,7 +1268,6 @@
                         for (const rootInput of rootInputs) {
                             if (rootInput.filepondInstance) {
                                 filepondInstance = rootInput.filepondInstance;
-                                console.log('[FilePond Validation] Found filepondInstance via root input:', rootInput.id);
                                 break;
                             }
                         }
@@ -1294,7 +1277,6 @@
                             const originalInput = document.getElementById(filepondRoot.id);
                             if (originalInput && originalInput.filepondInstance) {
                                 filepondInstance = originalInput.filepondInstance;
-                                console.log('[FilePond Validation] Found filepondInstance via original input ID:', filepondRoot.id);
                             }
                         }
                         
@@ -1304,7 +1286,6 @@
                             for (const testInput of allFileInputs) {
                                 if (testInput.filepondInstance && testInput.filepondInstance.root === filepondRoot) {
                                     filepondInstance = testInput.filepondInstance;
-                                    console.log('[FilePond Validation] Found filepondInstance via matching root:', testInput.id);
                                     break;
                                 }
                             }
@@ -1314,7 +1295,6 @@
                 
                 if (filepondInstance) {
                     files = filepondInstance.getFiles();
-                    console.log('[FilePond Validation] Input', input.id, 'has', files.length, 'files');
                     // Проверяем, что есть файлы и они не в состоянии ошибки
                     // Статусы FilePond: 
                     // 1=IDLE (файл добавлен), 
@@ -1325,14 +1305,11 @@
                     isValid = files.length > 0 && files.every(file => {
                         // Исключаем файлы с ошибками
                         const fileValid = file.status !== 4 && file.status !== 5;
-                        console.log('[FilePond Validation] File', file.filename, 'status:', file.status, 'valid:', fileValid);
                         return fileValid;
                     });
-                    console.log('[FilePond Validation] Input', input.id, 'isValid:', isValid);
                 } else {
                     // Fallback для обычных input без FilePond
                     isValid = input.files && input.files.length > 0;
-                    console.log('[FilePond Validation] Input', input.id, 'no filepondInstance, using fallback, isValid:', isValid);
                 }
                 
                 if (!isValid) {
@@ -1348,28 +1325,21 @@
                     // Ищем FilePond root элемент
                     const filepondRoot = findFilePondRoot(input, wrapper);
                     
-                    console.log('[FilePond Validation] Input:', input.id, 'FilePond root found:', !!filepondRoot, 'root element:', filepondRoot);
-                    
                     if (filepondRoot) {
                         filepondRoot.classList.add('is-invalid');
-                        console.log('[FilePond Validation] Added is-invalid class to FilePond root');
                         
                         // Также применяем стили напрямую для гарантии
                         filepondRoot.style.boxShadow = '0 0 0 0.25rem rgba(220, 53, 69, 0.25)';
                     } else {
-                        console.warn('[FilePond Validation] FilePond root not found for input:', input.id);
                         // Если не нашли root, попробуем найти через поиск всех FilePond root в форме
                         const allFilepondRoots = form.querySelectorAll('.filepond--root');
-                        console.log('[FilePond Validation] Found', allFilepondRoots.length, 'FilePond roots in form');
                         
                         // Ищем root, который может быть связан с этим input
                         allFilepondRoots.forEach((root, index) => {
                             const rootInput = root.querySelector('input[type="file"]');
-                            console.log('[FilePond Validation] Root', index, 'has input:', !!rootInput, 'input id:', rootInput?.id);
                             if (rootInput && (rootInput === input || rootInput.id === input.id)) {
                                 root.classList.add('is-invalid');
                                 root.style.boxShadow = '0 0 0 0.25rem rgba(220, 53, 69, 0.25)';
-                                console.log('[FilePond Validation] Found matching root and added styles');
                             }
                         });
                         
@@ -1812,11 +1782,25 @@
                                     document.body.insertAdjacentHTML('beforeend', modalHtml);
                                     modal = document.getElementById('newsletter-success-modal');
 
+                                    // Проверяем, не открыт ли cookie modal (самый высокий приоритет)
+                                    const cookieModal = document.getElementById('cookieModal');
+                                    if (cookieModal && cookieModal.classList.contains('show')) {
+                                        console.log('[Codeweber Forms] Cookie modal is open, cannot show newsletter success modal');
+                                        return; // Блокируем открытие
+                                    }
+                                    
                                     if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
                                         const bsModal = new bootstrap.Modal(modal);
                                         bsModal.show();
                                     }
                                 } else {
+                                    // Проверяем, не открыт ли cookie modal (самый высокий приоритет)
+                                    const cookieModal = document.getElementById('cookieModal');
+                                    if (cookieModal && cookieModal.classList.contains('show')) {
+                                        console.log('[Codeweber Forms] Cookie modal is open, cannot show newsletter success modal');
+                                        return; // Блокируем открытие
+                                    }
+                                    
                                     if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
                                         const bsModal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
                                         bsModal.show();
@@ -2541,12 +2525,25 @@
                 document.body.insertAdjacentHTML('beforeend', modalHtml);
                 modal = document.getElementById('codeweber-form-success-modal');
                 
+                // Проверяем, не открыт ли cookie modal (самый высокий приоритет)
+                const cookieModal = document.getElementById('cookieModal');
+                if (cookieModal && cookieModal.classList.contains('show')) {
+                    console.log('[Codeweber Forms] Cookie modal is open, cannot show form success modal');
+                    return; // Блокируем открытие
+                }
+                
                 // Показываем модальное окно
                 if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
                     const bsModal = new bootstrap.Modal(modal);
                     bsModal.show();
                 }
             } else {
+                // Проверяем, не открыт ли cookie modal (самый высокий приоритет)
+                const cookieModal = document.getElementById('cookieModal');
+                if (cookieModal && cookieModal.classList.contains('show')) {
+                    console.log('[Codeweber Forms] Cookie modal is open, cannot show form success modal');
+                    return; // Блокируем открытие
+                }
                 // Используем существующее модальное окно - показываем его
                 if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
                     const bsModal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
@@ -2565,40 +2562,29 @@
             // Очистка FilePond после успешной отправки - выполняем с задержкой, чтобы не мешать показу модального окна
             // Используем флаг, чтобы не вызывать очистку дважды
             if (form.dataset.filepondCleanupScheduled === 'true') {
-                console.log('[FilePond Cleanup] Cleanup already scheduled, skipping');
                 return;
             }
             form.dataset.filepondCleanupScheduled = 'true';
             
-            console.log('[FilePond Cleanup] ===== CLEANUP SCHEDULED =====');
-            console.log('[FilePond Cleanup] Form ID:', formId, 'Form:', form);
             setTimeout(() => {
-                console.log('[FilePond Cleanup] ===== CLEANUP TIMEOUT FIRED =====');
                 try {
                     
                     // Очистка FilePond: удаляем только файлы, но оставляем сам FilePond инстанс
-                    console.log('[FilePond Cleanup] ===== START CLEANUP =====');
-                    console.log('[FilePond Cleanup] Form ID:', formId);
-                    console.log('[FilePond Cleanup] FilePond available:', typeof FilePond !== 'undefined');
-                    console.log('[FilePond Cleanup] FilePond.find available:', typeof FilePond !== 'undefined' && typeof FilePond.find === 'function');
                     
                     let filesRemovedCount = 0;
                     
                     // Способ 1: Ищем через оригинальный input по ID (FilePond создает root с тем же ID)
                     const filepondRoots = form.querySelectorAll('.filepond--root');
-                    console.log('[FilePond Cleanup] Found .filepond--root elements:', filepondRoots.length);
                     
                     // Пробуем найти инстансы через FilePond.find() по каждому root элементу
                     if (typeof FilePond !== 'undefined' && typeof FilePond.find === 'function') {
                         filepondRoots.forEach((root, rootIndex) => {
-                            console.log('[FilePond Cleanup] Processing root', rootIndex, 'ID:', root.id);
                             try {
                                 // Пробуем разные способы поиска инстанса
                                 let pond = null;
                                 
                                 // Способ 1: FilePond.find(root)
                                 const findResult = FilePond.find(root);
-                                console.log('[FilePond Cleanup] FilePond.find(root) returned:', findResult, 'type:', typeof findResult, 'isArray:', Array.isArray(findResult));
                                 
                                 if (Array.isArray(findResult) && findResult.length > 0) {
                                     pond = findResult[0]; // Берем первый инстанс
@@ -2609,7 +2595,6 @@
                                 // Способ 2: FilePond.find() по ID (если root.id совпадает с input.id)
                                 if (!pond && root.id) {
                                     const findById = FilePond.find(document.getElementById(root.id));
-                                    console.log('[FilePond Cleanup] FilePond.find(by ID) returned:', findById);
                                     if (findById && typeof findById.getFiles === 'function') {
                                         pond = findById;
                                     } else if (Array.isArray(findById) && findById.length > 0) {
@@ -2622,42 +2607,28 @@
                                     const originalInput = document.getElementById(root.id);
                                     if (originalInput && originalInput.filepondInstance) {
                                         pond = originalInput.filepondInstance;
-                                        console.log('[FilePond Cleanup] Found pond via originalInput.filepondInstance');
                                     }
                                 }
                                 
                                 if (pond) {
-                                    console.log('[FilePond Cleanup] ✓ Found pond for root', rootIndex);
                                     try {
                                         // Получаем все файлы
                                         if (typeof pond.getFiles === 'function') {
                                             const files = pond.getFiles();
-                                            console.log('[FilePond Cleanup] Pond has', files.length, 'files');
-                                            console.log('[FilePond Cleanup] Files:', files.map(f => ({id: f.id, filename: f.filename, status: f.status})));
                                             
                                             // Удаляем все файлы
                                             if (files.length > 0) {
-                                                console.log('[FilePond Cleanup] Attempting to remove', files.length, 'files');
-                                                
-                                                // Сохраняем ID файлов для проверки
-                                                const fileIds = files.map(f => f.id);
-                                                console.log('[FilePond Cleanup] File IDs to remove:', fileIds);
-                                                
                                                 if (typeof pond.removeFiles === 'function') {
-                                                    console.log('[FilePond Cleanup] Calling pond.removeFiles()');
                                                     // Передаем параметры для правильного удаления
                                                     pond.removeFiles();
                                                     filesRemovedCount += files.length;
-                                                    console.log('[FilePond Cleanup] ✓ removeFiles() called successfully');
                                                     
                                                     // Принудительно обновляем UI - удаляем DOM элементы файлов
                                                     setTimeout(() => {
                                                         const filesAfter = pond.getFiles();
-                                                        console.log('[FilePond Cleanup] Files after removeFiles():', filesAfter.length);
                                                         
                                                         // Если файлы все еще есть в FilePond, удаляем их по одному
                                                         if (filesAfter.length > 0) {
-                                                            console.warn('[FilePond Cleanup] ⚠️ Files still present after removeFiles()! Removing individually...');
                                                             filesAfter.forEach((file) => {
                                                                 if (typeof pond.removeFile === 'function') {
                                                                     pond.removeFile(file.id);
@@ -2667,7 +2638,6 @@
                                                         
                                                         // Принудительно удаляем DOM элементы файлов из UI
                                                         const fileItems = root.querySelectorAll('.filepond--item');
-                                                        console.log('[FilePond Cleanup] Found DOM file items:', fileItems.length);
                                                         fileItems.forEach((item) => {
                                                             item.remove();
                                                         });
@@ -2677,13 +2647,9 @@
                                                         if (listScroller) {
                                                             listScroller.style.transform = 'translate3d(0px, 0px, 0px)';
                                                         }
-                                                        
-                                                        console.log('[FilePond Cleanup] ✓✓✓ UI cleaned up!');
                                                     }, 50);
                                                 } else if (typeof pond.removeFile === 'function') {
-                                                    console.log('[FilePond Cleanup] removeFiles() not available, using removeFile() for each file');
                                                     files.forEach((file, fileIndex) => {
-                                                        console.log('[FilePond Cleanup] Removing file', fileIndex, ':', file.id, file.filename);
                                                         pond.removeFile(file.id);
                                                         filesRemovedCount++;
                                                     });
@@ -2699,31 +2665,21 @@
                                                             listScroller.style.transform = 'translate3d(0px, 0px, 0px)';
                                                         }
                                                     }, 50);
-                                                    
-                                                    console.log('[FilePond Cleanup] ✓ All files removed via removeFile()');
                                                 } else {
-                                                    console.error('[FilePond Cleanup] ✗ Neither removeFiles() nor removeFile() available!');
-                                                    
                                                     // Если методы недоступны, удаляем DOM элементы напрямую
                                                     const fileItems = root.querySelectorAll('.filepond--item');
                                                     fileItems.forEach((item) => {
                                                         item.remove();
                                                     });
                                                 }
-                                            } else {
-                                                console.log('[FilePond Cleanup] No files to remove');
                                             }
-                                        } else {
-                                            console.error('[FilePond Cleanup] ✗ pond.getFiles is not a function!');
                                         }
                                     } catch (e) {
-                                        console.error('[FilePond Cleanup] ✗ Error removing files from pond:', e);
+                                        // Silent error handling
                                     }
-                                } else {
-                                    console.warn('[FilePond Cleanup] ⚠️ Could not find FilePond instance for root', rootIndex);
                                 }
                             } catch (e) {
-                                console.error('[FilePond Cleanup] ✗ Error finding FilePond instances for root', rootIndex, ':', e);
+                                // Silent error handling
                             }
                         });
                     }
@@ -2731,50 +2687,33 @@
                     // Способ 2: Ищем через input.filepondInstance (FilePond может скрыть input, ищем через data-атрибут)
                     // FilePond скрывает оригинальный input, но может оставить его в DOM
                     const filepondInputs = form.querySelectorAll('input[type="file"][data-filepond="true"]');
-                    console.log('[FilePond Cleanup] Found input[data-filepond="true"]:', filepondInputs.length);
                     
                     // Также ищем скрытые input'ы, которые FilePond мог скрыть
                     const allFileInputs = form.querySelectorAll('input[type="file"]');
-                    console.log('[FilePond Cleanup] Found all input[type="file"]:', allFileInputs.length);
                     
                     // Объединяем оба списка
                     const allInputs = Array.from(new Set([...filepondInputs, ...allFileInputs]));
-                    console.log('[FilePond Cleanup] Total unique inputs to check:', allInputs.length);
                     
                     allInputs.forEach((input, inputIndex) => {
-                        console.log('[FilePond Cleanup] Processing input', inputIndex, 'ID:', input.id, 'has filepondInstance:', !!input.filepondInstance, 'data-filepond:', input.dataset.filepond);
                         if (input.filepondInstance) {
                             try {
                                 const pond = input.filepondInstance;
                                 if (typeof pond.getFiles === 'function') {
                                     const files = pond.getFiles();
-                                    console.log('[FilePond Cleanup] Input', inputIndex, 'pond has', files.length, 'files');
                                     if (files.length > 0) {
                                         if (typeof pond.removeFiles === 'function') {
-                                            console.log('[FilePond Cleanup] Calling removeFiles() on input', inputIndex);
                                             pond.removeFiles();
                                             filesRemovedCount += files.length;
-                                            console.log('[FilePond Cleanup] ✓ removeFiles() called on input', inputIndex);
-                                            
-                                            // Проверяем результат
-                                            setTimeout(() => {
-                                                const filesAfter = pond.getFiles();
-                                                console.log('[FilePond Cleanup] Files after removeFiles() on input', inputIndex, ':', filesAfter.length);
-                                            }, 100);
                                         } else if (typeof pond.removeFile === 'function') {
-                                            console.log('[FilePond Cleanup] Using removeFile() for each file on input', inputIndex);
                                             files.forEach((file) => {
                                                 pond.removeFile(file.id);
                                                 filesRemovedCount++;
                                             });
-                                            console.log('[FilePond Cleanup] ✓ All files removed via removeFile() on input', inputIndex);
-                                        } else {
-                                            console.warn('[FilePond Cleanup] ⚠️ Neither removeFiles() nor removeFile() available on input', inputIndex);
                                         }
                                     }
                                 }
                             } catch (e) {
-                                console.error('[FilePond Cleanup] ✗ Error removing files via input', inputIndex, ':', e);
+                                // Silent error handling
                             }
                         }
                         // Очищаем атрибуты
@@ -2783,9 +2722,6 @@
                         }
                         input.value = '';
                     });
-                    
-                    console.log('[FilePond Cleanup] Total files removed:', filesRemovedCount);
-                    console.log('[FilePond Cleanup] ===== END CLEANUP =====');
                     
                     // Удаляем скрытые input'ы с file[] значениями (они создаются FilePond)
                     const filepondDataInputs = form.querySelectorAll('input[type="hidden"][name="file[]"]');

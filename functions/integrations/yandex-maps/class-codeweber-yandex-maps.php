@@ -399,21 +399,18 @@ class Codeweber_Yandex_Maps {
         // #endregion
 
         // Подключаем Яндекс Maps API только если есть ключ
+        // Используем API 3.0 для поддержки нового формата JSON (tags/elements/stylers)
+        // Загружаем динамически через JavaScript для обработки ошибок
         if ($has_key && !empty($this->api_key)) {
-            wp_enqueue_script(
-                'yandex-maps-api',
-                'https://api-maps.yandex.ru/2.1/?apikey=' . esc_attr($this->api_key) . '&lang=' . esc_attr($this->default_settings['language']),
-                array(),
-                null,
-                true
-            );
+            // Не подключаем API здесь - будем загружать динамически через JavaScript
+            // Это позволит обработать ошибки загрузки
         }
         
-        // Подключаем наш JavaScript
+        // Подключаем наш JavaScript (не зависит от API, API будет загружен динамически)
         wp_enqueue_script(
             'codeweber-yandex-maps',
             $this->url . '/assets/js/yandex-maps.js',
-            array('yandex-maps-api'),
+            array(), // Убираем зависимость от yandex-maps-api
             $this->version,
             true
         );

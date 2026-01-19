@@ -117,6 +117,62 @@ function theme_register_header_widget()
 }
 add_action('widgets_init', 'theme_register_header_widget');
 
+/**
+ * Регистрация областей виджетов для футера
+ */
+function codeweber_register_footer_widgets()
+{
+    register_sidebar([
+        'name'          => __('Footer 1', 'codeweber'),
+        'id'            => 'footer-1',
+        'description'   => __('Widget area for Footer 1', 'codeweber'),
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="widget-title mb-3">',
+        'after_title'   => '</h4>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Footer 2', 'codeweber'),
+        'id'            => 'footer-2',
+        'description'   => __('Widget area for Footer 2', 'codeweber'),
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="widget-title mb-3">',
+        'after_title'   => '</h4>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Footer 3', 'codeweber'),
+        'id'            => 'footer-3',
+        'description'   => __('Widget area for Footer 3', 'codeweber'),
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="widget-title mb-3">',
+        'after_title'   => '</h4>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Footer 4', 'codeweber'),
+        'id'            => 'footer-4',
+        'description'   => __('Widget area for Footer 4', 'codeweber'),
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="widget-title mb-3">',
+        'after_title'   => '</h4>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Bottom Footer', 'codeweber'),
+        'id'            => 'bottom-footer',
+        'description'   => __('Widget area for Bottom Footer', 'codeweber'),
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="widget-title mb-3">',
+        'after_title'   => '</h4>',
+    ]);
+}
+add_action('widgets_init', 'codeweber_register_footer_widgets');
 
 /**
  * Виджет сайдбара для Legal

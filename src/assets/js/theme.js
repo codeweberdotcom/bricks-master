@@ -378,7 +378,7 @@ var theme = {
    * Enables showing elements by scrolling
    * Requires assets/js/vendor/scrollCue.min.js
    */
-  scrollCue: () => {
+    scrollCue: () => {
     scrollCue.init({
       interval: -400,
       duration: 700,
@@ -823,13 +823,84 @@ var theme = {
    * Enables Bootstrap modal popup
    */
   bsModal: () => {
-    if (document.querySelector(".modal-popup") != null) {
-      var myModalPopup = new bootstrap.Modal(
-        document.querySelector(".modal-popup")
-      );
-      setTimeout(function () {
-        myModalPopup.show();
-      }, 200);
+    // Ищем модальные окна с классом modal-popup, но исключаем notification-modal
+    // Notification modal обрабатывается отдельно в notification-triggers.js
+    var modalPopupElements = document.querySelectorAll(".modal-popup:not(#notification-modal)");
+    
+    if (modalPopupElements.length > 0) {
+      // Обрабатываем все модальные окна с modal-popup (кроме notification-modal)
+      // Например, cookie modal и другие
+      modalPopupElements.forEach(function(modalPopupElement) {
+        // Проверяем, не является ли это notification modal
+        if (modalPopupElement.id === 'notification-modal') {
+          return; // Пропускаем notification modal
+        }
+        
+        var myModalPopup = new bootstrap.Modal(modalPopupElement);
+        
+        // Получаем значение задержки из data-wait, или используем 200 по умолчанию
+        var waitTime = modalPopupElement.getAttribute('data-wait');
+        waitTime = waitTime ? parseInt(waitTime, 10) : 200;
+        
+        setTimeout(function () {
+          // Cookie modal has highest priority - close notification modal before showing
+          const notificationModal = document.getElementById('notification-modal');
+          if (notificationModal && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            const notificationBsModal = bootstrap.Modal.getInstance(notificationModal);
+            if (notificationBsModal && notificationModal.classList.contains('show')) {
+              notificationBsModal.hide();
+            }
+          }
+          
+          myModalPopup.show();
+        }, waitTime);
+      });
+      
+      // Добавляем глобальный слушатель для блокировки открытия других модальных окон, когда cookie modal открыт
+      const cookieModal = document.getElementById('cookieModal');
+      if (cookieModal && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+        // Сохраняем оригинальный метод show один раз при инициализации
+        if (!bootstrap.Modal.prototype.show._original) {
+          bootstrap.Modal.prototype.show._original = bootstrap.Modal.prototype.show;
+        }
+        
+        // Закрываем все другие модальные окна при открытии cookie modal
+        cookieModal.addEventListener('show.bs.modal', function(e) {
+          // Блокируем открытие всех других модальных окон
+          document.querySelectorAll('.modal:not(#cookieModal)').forEach(function(otherModal) {
+            const otherBsModal = bootstrap.Modal.getInstance(otherModal);
+            if (otherBsModal && otherModal.classList.contains('show')) {
+              otherBsModal.hide();
+            }
+          });
+        });
+        
+        // Глобальный перехватчик для блокировки открытия других модальных окон
+        cookieModal.addEventListener('shown.bs.modal', function(e) {
+          // Сохраняем ссылку на оригинальную функцию
+          const originalShow = bootstrap.Modal.prototype.show._original || bootstrap.Modal.prototype.show;
+          
+          // Переопределяем метод show для блокировки открытия других модальных окон
+          bootstrap.Modal.prototype.show = function() {
+            // Если cookie modal открыт, блокируем открытие других модальных окон
+            if (cookieModal.classList.contains('show') && this._element && this._element.id !== 'cookieModal') {
+              console.log('[Modal Priority] Blocked opening modal ' + (this._element.id || 'unknown') + ' because cookie modal is open');
+              return;
+            }
+            // Вызываем оригинальную функцию
+            if (originalShow) {
+              return originalShow.call(this);
+            }
+          };
+        });
+        
+        cookieModal.addEventListener('hidden.bs.modal', function(e) {
+          // Восстанавливаем оригинальный метод show после закрытия cookie modal
+          if (bootstrap.Modal.prototype.show._original) {
+            bootstrap.Modal.prototype.show = bootstrap.Modal.prototype.show._original;
+          }
+        });
+      }
     }
     // Fixes jumping of page progress caused by modal
     var innerWidth = window.innerWidth;

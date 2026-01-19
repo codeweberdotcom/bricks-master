@@ -41,8 +41,14 @@
         }
 
         init() {
-            if (typeof ymaps === 'undefined') {
-                console.error('Yandex Maps API is not loaded');
+            // Загружаем API 3.0 динамически, если он еще не загружен
+            if (typeof ymaps3 === 'undefined' && typeof ymaps === 'undefined') {
+                this.loadAPI3();
+            }
+            
+            // Проверяем, какой API доступен - новый (ymaps3) или старый (ymaps)
+            // Ждем загрузки API через готовность
+            const checkAPI = () => {
                 // #region agent log
                 fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
                     method:'POST',
@@ -50,9 +56,103 @@
                     body:JSON.stringify({
                         sessionId:'debug-session',
                         runId:'pre-fix',
-                        hypothesisId:'H2',
+                        hypothesisId:'API_CHECK',
                         location:'yandex-maps.js:init',
-                        message:'ymaps is undefined in init',
+                        message:'Checking available API',
+                        data:{
+                            hasYmaps3:typeof ymaps3 !== 'undefined',
+                            hasYmaps:typeof ymaps !== 'undefined',
+                            hasStyleJson:!!this.config.styleJson,
+                            styleJsonLength:this.config.styleJson ? this.config.styleJson.length : 0
+                        },
+                        timestamp:Date.now()
+                    })
+                }).catch(()=>{});
+                // #endregion
+                
+                // Если есть новый API и задан стиль в новом формате, используем новый API
+                if (typeof ymaps3 !== 'undefined' && 
+                    this.config.styleJson && typeof this.config.styleJson === 'string' && this.config.styleJson.trim() !== '') {
+                    try {
+                        const styleJson = JSON.parse(this.config.styleJson);
+                        const isNewFormat = Array.isArray(styleJson) && styleJson.length > 0 && 
+                                           ('tags' in styleJson[0] || 'elements' in styleJson[0]);
+                        
+                        if (isNewFormat) {
+                            // Используем новый API для нового формата JSON
+                            ymaps3.ready.then(() => {
+                                this.initNewAPI();
+                            });
+                            return;
+                        }
+                    } catch (e) {
+                        console.warn('Error parsing styleJson, falling back to old API:', e);
+                    }
+                }
+                
+                // Если новый API еще не загрузился, ждем немного и проверяем снова
+                if (typeof ymaps3 === 'undefined' && typeof ymaps === 'undefined') {
+                    setTimeout(checkAPI, 100);
+                    return;
+                }
+                
+                // Используем старый API для обратной совместимости
+                if (typeof ymaps !== 'undefined') {
+                    ymaps.ready(() => {
+                        this.createMap();
+                        this.addMarkers();
+                        this.initSidebar();
+                        this.initFilters();
+                        this.initRoute();
+                        this.hideLoader();
+                    });
+                } else {
+                    console.error('Yandex Maps API is not loaded');
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                        method:'POST',
+                        headers:{'Content-Type':'application/json'},
+                        body:JSON.stringify({
+                            sessionId:'debug-session',
+                            runId:'pre-fix',
+                            hypothesisId:'H2',
+                            location:'yandex-maps.js:init',
+                            message:'Both APIs are undefined',
+                            data:{},
+                            timestamp:Date.now()
+                        })
+                    }).catch(()=>{});
+                    // #endregion
+                }
+            };
+            
+            // Проверяем API с небольшой задержкой для загрузки скрипта
+            if (typeof ymaps3 === 'undefined' && typeof ymaps === 'undefined') {
+                setTimeout(checkAPI, 100);
+            } else {
+                checkAPI();
+            }
+        }
+        
+        /**
+         * Динамическая загрузка API 3.0
+         */
+        loadAPI3() {
+            const apiKey = this.config.apiKey || window.codeweberYandexMaps?.apiKey;
+            const lang = this.config.language || window.codeweberYandexMaps?.language || 'ru_RU';
+            
+            if (!apiKey) {
+                console.error('Yandex Maps API key is not set');
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        sessionId:'debug-session',
+                        runId:'pre-fix',
+                        hypothesisId:'LOAD_API3',
+                        location:'yandex-maps.js:loadAPI3',
+                        message:'API key not set',
                         data:{},
                         timestamp:Date.now()
                     })
@@ -60,15 +160,216 @@
                 // #endregion
                 return;
             }
-
-            ymaps.ready(() => {
-                this.createMap();
-                this.addMarkers();
-                this.initSidebar();
-                this.initFilters();
-                this.initRoute();
-                this.hideLoader();
-            });
+            
+            const apiUrl = `https://api-maps.yandex.ru/v3/?apikey=${encodeURIComponent(apiKey)}&lang=${encodeURIComponent(lang)}`;
+            
+            // Проверяем, не загружается ли уже скрипт
+            if (document.querySelector(`script[src*="api-maps.yandex.ru/v3"]`)) {
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        sessionId:'debug-session',
+                        runId:'pre-fix',
+                        hypothesisId:'LOAD_API3',
+                        location:'yandex-maps.js:loadAPI3',
+                        message:'API 3.0 script already loading',
+                        data:{url:apiUrl},
+                        timestamp:Date.now()
+                    })
+                }).catch(()=>{});
+                // #endregion
+                return;
+            }
+            
+            // #region agent log
+            const hostname = window.location.hostname;
+            const protocol = window.location.protocol;
+            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    sessionId:'debug-session',
+                    runId:'pre-fix',
+                    hypothesisId:'LOAD_API3',
+                    location:'yandex-maps.js:loadAPI3',
+                    message:'Starting to load API 3.0',
+                    data:{
+                        url:apiUrl,
+                        hasApiKey:!!apiKey,
+                        currentUrl:window.location.href,
+                        hostname:hostname,
+                        protocol:protocol,
+                        referer:document.referrer || '(empty)',
+                        userAgent:navigator.userAgent.substring(0,100),
+                        instruction:'In Yandex Developer Console, add HTTP Referer restriction: ' + hostname + ' (without protocol and port)'
+                    },
+                    timestamp:Date.now()
+                })
+            }).catch(()=>{});
+            // #endregion
+            
+            // Проверяем, не загружается ли уже скрипт (более надежная проверка)
+            const existingScript = document.querySelector(`script[src="${apiUrl}"]`);
+            if (existingScript) {
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        sessionId:'debug-session',
+                        runId:'pre-fix',
+                        hypothesisId:'LOAD_API3',
+                        location:'yandex-maps.js:loadAPI3',
+                        message:'API 3.0 script already exists, waiting for load',
+                        data:{url:apiUrl},
+                        timestamp:Date.now()
+                    })
+                }).catch(()=>{});
+                // #endregion
+                
+                // Если скрипт уже есть, ждем его загрузки
+                if (existingScript.onload) {
+                    return;
+                }
+                existingScript.onload = () => {
+                    setTimeout(() => this.init(), 100);
+                };
+                existingScript.onerror = () => {
+                    this.loadAPI21(apiKey, lang);
+                };
+                return;
+            }
+            
+            const script = document.createElement('script');
+            script.src = apiUrl;
+            script.async = true;
+            script.defer = true;
+            // НЕ используем crossOrigin для script тегов - это вызывает CORS проверку, которая не нужна
+            
+            script.onload = () => {
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        sessionId:'debug-session',
+                        runId:'pre-fix',
+                        hypothesisId:'LOAD_API3',
+                        location:'yandex-maps.js:loadAPI3',
+                        message:'API 3.0 script loaded successfully',
+                        data:{
+                            hasYmaps3:typeof ymaps3 !== 'undefined',
+                            hasYMap:typeof ymaps3?.YMap !== 'undefined'
+                        },
+                        timestamp:Date.now()
+                    })
+                }).catch(()=>{});
+                // #endregion
+                
+                // Повторно запускаем проверку API
+                this.init();
+            };
+            
+            script.onerror = (error) => {
+                const errorMsg = 'Failed to load Yandex Maps API 3.0. Status 403 indicates API key restrictions issue. Please check HTTP Referer settings in Yandex Developer Console. Current URL: ' + window.location.href;
+                console.error(errorMsg, error);
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        sessionId:'debug-session',
+                        runId:'pre-fix',
+                        hypothesisId:'LOAD_API3',
+                        location:'yandex-maps.js:loadAPI3',
+                        message:'API 3.0 script failed to load - Status 403',
+                        data:{
+                            url:apiUrl,
+                            currentUrl:window.location.href,
+                            referer:document.referrer,
+                            error:error?.message || 'unknown',
+                            statusCode:403,
+                            suggestion:'API key returned 403 Forbidden. Check HTTP Referer restrictions in Yandex Developer Console. Current domain: ' + window.location.hostname
+                        },
+                        timestamp:Date.now()
+                    })
+                }).catch(()=>{});
+                // #endregion
+                
+                // Попробуем загрузить API 2.1 как fallback
+                this.loadAPI21(apiKey, lang);
+            };
+            
+            document.head.appendChild(script);
+        }
+        
+        /**
+         * Загрузка API 2.1 как fallback
+         */
+        loadAPI21(apiKey, lang) {
+            const apiUrl = `https://api-maps.yandex.ru/2.1/?apikey=${encodeURIComponent(apiKey)}&lang=${encodeURIComponent(lang)}`;
+            
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    sessionId:'debug-session',
+                    runId:'pre-fix',
+                    hypothesisId:'LOAD_API21',
+                    location:'yandex-maps.js:loadAPI21',
+                    message:'Loading API 2.1 as fallback',
+                    data:{url:apiUrl},
+                    timestamp:Date.now()
+                })
+            }).catch(()=>{});
+            // #endregion
+            
+            const script = document.createElement('script');
+            script.src = apiUrl;
+            script.async = true;
+            script.defer = true;
+            
+            script.onload = () => {
+                // Повторно запускаем проверку API
+                this.init();
+            };
+            
+            script.onerror = (error) => {
+                console.error('Failed to load Yandex Maps API 2.1:', error);
+            };
+            
+            document.head.appendChild(script);
+        }
+        
+        /**
+         * Инициализация с новым API (YMap)
+         */
+        initNewAPI() {
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    sessionId:'debug-session',
+                    runId:'pre-fix',
+                    hypothesisId:'NEW_API',
+                    location:'yandex-maps.js:initNewAPI',
+                    message:'Initializing with new API',
+                    data:{},
+                    timestamp:Date.now()
+                })
+            }).catch(()=>{});
+            // #endregion
+            
+            this.createMapNewAPI();
+            this.addMarkersNewAPI();
+            this.initSidebar();
+            this.initFilters();
+            this.initRoute();
+            this.hideLoader();
         }
 
         /**
@@ -120,6 +421,204 @@
                 type: this.config.mapType,
                 controls: baseControls
             });
+
+            // Применение кастомного стиля из JSON, если задан
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    sessionId:'debug-session',
+                    runId:'pre-fix',
+                    hypothesisId:'STYLE0',
+                    location:'yandex-maps.js:createMap',
+                    message:'Checking styleJson before application',
+                    data:{
+                        hasStyleJson:!!this.config.styleJson,
+                        type:typeof this.config.styleJson,
+                        length:this.config.styleJson ? this.config.styleJson.length : 0,
+                        firstChars:this.config.styleJson ? this.config.styleJson.substring(0,50) : ''
+                    },
+                    timestamp:Date.now()
+                })
+            }).catch(()=>{});
+            // #endregion
+            
+            if (this.config.styleJson && typeof this.config.styleJson === 'string' && this.config.styleJson.trim() !== '') {
+                try {
+                    const styleJson = JSON.parse(this.config.styleJson);
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                        method:'POST',
+                        headers:{'Content-Type':'application/json'},
+                        body:JSON.stringify({
+                            sessionId:'debug-session',
+                            runId:'pre-fix',
+                            hypothesisId:'STYLE1',
+                            location:'yandex-maps.js:createMap',
+                            message:'JSON parsed successfully',
+                            data:{
+                                isArray:Array.isArray(styleJson),
+                                isObject:typeof styleJson === 'object',
+                                keys:typeof styleJson === 'object' && !Array.isArray(styleJson) ? Object.keys(styleJson) : [],
+                                firstItem:Array.isArray(styleJson) && styleJson.length > 0 ? styleJson[0] : null,
+                                hasTags:Array.isArray(styleJson) && styleJson.length > 0 ? 'tags' in styleJson[0] : false
+                            },
+                            timestamp:Date.now()
+                        })
+                    }).catch(()=>{});
+                    // #endregion
+                    
+                    // Определяем формат JSON: новый формат (tags/elements/stylers) или старый (featureType/elementType)
+                    let stylesArray = null;
+                    if (Array.isArray(styleJson)) {
+                        stylesArray = styleJson;
+                    } else if (styleJson.styles && Array.isArray(styleJson.styles)) {
+                        stylesArray = styleJson.styles;
+                    } else if (styleJson.preset && styleJson.options) {
+                        // Если передан объект с preset и options (старый формат)
+                        this.map.setType(styleJson);
+                        // #region agent log
+                        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                            method:'POST',
+                            headers:{'Content-Type':'application/json'},
+                            body:JSON.stringify({
+                                sessionId:'debug-session',
+                                runId:'pre-fix',
+                                hypothesisId:'STYLE5',
+                                location:'yandex-maps.js:createMap',
+                                message:'Applied via setType with preset',
+                                data:{preset:styleJson.preset},
+                                timestamp:Date.now()
+                            })
+                        }).catch(()=>{});
+                        // #endregion
+                        return; // Выходим, так как стиль уже применен
+                    } else {
+                        stylesArray = [styleJson];
+                    }
+                    
+                    if (stylesArray && stylesArray.length > 0) {
+                        // Проверяем формат: если есть 'tags' - это новый формат, иначе старый
+                        const isNewFormat = stylesArray[0] && ('tags' in stylesArray[0] || 'elements' in stylesArray[0]);
+                        
+                        // #region agent log
+                        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                            method:'POST',
+                            headers:{'Content-Type':'application/json'},
+                            body:JSON.stringify({
+                                sessionId:'debug-session',
+                                runId:'pre-fix',
+                                hypothesisId:'STYLE9',
+                                location:'yandex-maps.js:createMap',
+                                message:'Before applying style',
+                                data:{
+                                    stylesCount:stylesArray.length,
+                                    isNewFormat:isNewFormat,
+                                    mapType:this.map.getType(),
+                                    hasOptions:!!this.map.options,
+                                    optionsKeys:this.map.options ? Object.keys(this.map.options) : []
+                                },
+                                timestamp:Date.now()
+                            })
+                        }).catch(()=>{});
+                        // #endregion
+                        
+                        // В Yandex Maps API 2.1 применяем стиль через options.set('customMapStyle', ...)
+                        // ВАЖНО: В API 2.1 кастомизация доступна только в коммерческой версии
+                        // Новый формат JSON (tags/elements/stylers) может не работать в API 2.1
+                        try {
+                            // Пробуем установить стиль
+                            this.map.options.set('customMapStyle', stylesArray);
+                            
+                            // Проверяем, установился ли стиль
+                            const appliedStyle = this.map.options.get('customMapStyle');
+                            
+                            // #region agent log
+                            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                                method:'POST',
+                                headers:{'Content-Type':'application/json'},
+                                body:JSON.stringify({
+                                    sessionId:'debug-session',
+                                    runId:'pre-fix',
+                                    hypothesisId:'STYLE3',
+                                    location:'yandex-maps.js:createMap',
+                                    message:'Custom style applied via options.set',
+                                    data:{
+                                        stylesCount:stylesArray.length,
+                                        mapType:this.map.getType(),
+                                        format:isNewFormat ? 'new' : 'old',
+                                        styleApplied:!!appliedStyle,
+                                        appliedStyleLength:appliedStyle ? (Array.isArray(appliedStyle) ? appliedStyle.length : 'not array') : 'null',
+                                        firstStyle:stylesArray[0]
+                                    },
+                                    timestamp:Date.now()
+                                })
+                            }).catch(()=>{});
+                            // #endregion
+                            
+                            // Если стиль не применился и это новый формат, выводим предупреждение
+                            if (isNewFormat && !appliedStyle) {
+                                console.warn('Yandex Maps API 2.1 may not support new format JSON (tags/elements/stylers). Customization is only available in commercial version of API 2.1.');
+                            }
+                        } catch (styleError) {
+                            console.error('Error setting customMapStyle:', styleError);
+                            // #region agent log
+                            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                                method:'POST',
+                                headers:{'Content-Type':'application/json'},
+                                body:JSON.stringify({
+                                    sessionId:'debug-session',
+                                    runId:'pre-fix',
+                                    hypothesisId:'STYLE8',
+                                    location:'yandex-maps.js:createMap',
+                                    message:'Error setting customMapStyle',
+                                    data:{
+                                        error:styleError.message,
+                                        stack:styleError.stack,
+                                        isNewFormat:isNewFormat
+                                    },
+                                    timestamp:Date.now()
+                                })
+                            }).catch(()=>{});
+                            // #endregion
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing or applying styleJson:', e);
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                        method:'POST',
+                        headers:{'Content-Type':'application/json'},
+                        body:JSON.stringify({
+                            sessionId:'debug-session',
+                            runId:'pre-fix',
+                            hypothesisId:'STYLE2',
+                            location:'yandex-maps.js:createMap',
+                            message:'Error parsing styleJson',
+                            data:{error:e.message,stack:e.stack},
+                            timestamp:Date.now()
+                        })
+                    }).catch(()=>{});
+                    // #endregion
+                }
+            } else {
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        sessionId:'debug-session',
+                        runId:'pre-fix',
+                        hypothesisId:'STYLE4',
+                        location:'yandex-maps.js:createMap',
+                        message:'No styleJson or empty',
+                        data:{hasStyleJson:!!this.config.styleJson,type:typeof this.config.styleJson},
+                        timestamp:Date.now()
+                    })
+                }).catch(()=>{});
+                // #endregion
+            }
 
             // Настройки карты
             if (!this.config.enableScrollZoom) {
@@ -177,6 +676,145 @@
                 });
                 this.map.geoObjects.add(this.clusterer);
             }
+        }
+
+        /**
+         * Создание карты с новым API (ymaps3.YMap)
+         */
+        createMapNewAPI() {
+            const mapElement = document.getElementById(this.config.id);
+            if (!mapElement) {
+                console.error('Map element not found:', this.config.id);
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        sessionId:'debug-session',
+                        runId:'pre-fix',
+                        hypothesisId:'NEW_API_MAP',
+                        location:'yandex-maps.js:createMapNewAPI',
+                        message:'Map element not found',
+                        data:{mapId:this.config.id},
+                        timestamp:Date.now()
+                    })
+                }).catch(()=>{});
+                // #endregion
+                return;
+            }
+
+            // Применяем кастомные стили к обертке, если заданы
+            if (this.config.customStyle && typeof this.config.customStyle === 'string') {
+                try {
+                    mapElement.parentElement.style.cssText += this.config.customStyle;
+                } catch (e) {
+                    console.error('Invalid customStyle for map wrapper', e);
+                }
+            }
+
+            // Создаем карту с новым API
+            this.map = new ymaps3.YMap(mapElement, {
+                location: {
+                    center: this.config.center,
+                    zoom: this.config.zoom
+                },
+                mode: 'vector'
+            });
+
+            // Парсим и применяем кастомный стиль
+            if (this.config.styleJson && typeof this.config.styleJson === 'string' && this.config.styleJson.trim() !== '') {
+                try {
+                    const styleJson = JSON.parse(this.config.styleJson);
+                    let stylesArray = null;
+                    if (Array.isArray(styleJson)) {
+                        stylesArray = styleJson;
+                    } else if (styleJson.styles && Array.isArray(styleJson.styles)) {
+                        stylesArray = styleJson.styles;
+                    } else {
+                        stylesArray = [styleJson];
+                    }
+
+                    if (stylesArray && stylesArray.length > 0) {
+                        // Создаем слой с кастомным стилем
+                        const layer = new ymaps3.YMapDefaultSchemeLayer({
+                            customization: stylesArray
+                        });
+                        this.map.addChild(layer);
+                        
+                        // #region agent log
+                        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                            method:'POST',
+                            headers:{'Content-Type':'application/json'},
+                            body:JSON.stringify({
+                                sessionId:'debug-session',
+                                runId:'pre-fix',
+                                hypothesisId:'NEW_API_STYLE',
+                                location:'yandex-maps.js:createMapNewAPI',
+                                message:'Custom style applied with new API',
+                                data:{
+                                    stylesCount:stylesArray.length,
+                                    layerAdded:true,
+                                    mapCreated:!!this.map
+                                },
+                                timestamp:Date.now()
+                            })
+                        }).catch(()=>{});
+                        // #endregion
+                    }
+                } catch (e) {
+                    console.error('Error applying custom style with new API:', e);
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                        method:'POST',
+                        headers:{'Content-Type':'application/json'},
+                        body:JSON.stringify({
+                            sessionId:'debug-session',
+                            runId:'pre-fix',
+                            hypothesisId:'NEW_API_STYLE_ERROR',
+                            location:'yandex-maps.js:createMapNewAPI',
+                            message:'Error applying style with new API',
+                            data:{error:e.message,stack:e.stack},
+                            timestamp:Date.now()
+                        })
+                    }).catch(()=>{});
+                    // #endregion
+                }
+            } else {
+                // Если стиля нет, добавляем стандартный слой
+                const layer = new ymaps3.YMapDefaultSchemeLayer();
+                this.map.addChild(layer);
+            }
+        }
+
+        /**
+         * Добавление маркеров на карту (новый API)
+         */
+        addMarkersNewAPI() {
+            if (!this.map || !this.config.markers || this.config.markers.length === 0) {
+                return;
+            }
+
+            // В новом API маркеры добавляются через YMapMarker
+            // Пока оставляем базовую реализацию - можно расширить позже
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    sessionId:'debug-session',
+                    runId:'pre-fix',
+                    hypothesisId:'NEW_API_MARKERS',
+                    location:'yandex-maps.js:addMarkersNewAPI',
+                    message:'Markers will be added (basic implementation)',
+                    data:{markersCount:this.config.markers.length},
+                    timestamp:Date.now()
+                })
+            }).catch(()=>{});
+            // #endregion
+            
+            // TODO: Реализовать добавление маркеров для нового API
+            // Пока используем старый метод addMarkers для обратной совместимости
+            console.warn('Markers addition for new API not fully implemented yet');
         }
 
         /**

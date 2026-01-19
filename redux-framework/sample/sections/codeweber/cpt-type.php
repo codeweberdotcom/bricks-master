@@ -99,13 +99,13 @@ function get_child_cpt_files_list()
  * @return array Массив конфигураций переключателей, подходящих для использования в Redux или других UI-фреймворках.
  */
 
-$excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal'];
+$excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal', 'notifications'];
 
 
 function generate_cpt_switches($cpt_files)
 {
 	$cpt_switches = [];
-	$excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal'];
+	$excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal', 'notifications'];
 
 	foreach ($cpt_files as $file) {
 		$file_lower = strtolower($file);
@@ -201,7 +201,7 @@ $custom_post_type_files = get_cpt_files_list(); // Все файлы из обе
 $custom_post_type_files[] = 'cpt-post.php';
 
 $child_cpt_files = get_child_cpt_files_list();  // Только файлы из дочерней темы
-$excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal'];
+$excluded_cpt = ['header', 'footer', 'html', 'modal', 'page-header', 'legal', 'notifications'];
 
 if (!empty($custom_post_type_files)) {
 	// Фильтруем файлы для генерации переключателей

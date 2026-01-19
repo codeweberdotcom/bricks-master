@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-09 01:30+0000\n"
+"POT-Creation-Date: 2026-01-12 07:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -1800,7 +1800,7 @@ msgstr ""
 
 #: functions/integrations/cf7.php:532
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:160
-#: functions/integrations/codeweber-forms/codeweber-forms-gutenberg-restrictions.php:201
+#: functions/integrations/codeweber-forms/codeweber-forms-gutenberg-restrictions.php:207
 msgid "Contact Form"
 msgstr ""
 
@@ -4753,11 +4753,6 @@ msgstr ""
 msgid "Leaf"
 msgstr ""
 
-#: templates/footer/footer-1.php:96 templates/footer/footer-3.php:109
-#: templates/footer/footer-simple.php:58 templates/footer/footer.php:58
-msgid "Learn More"
-msgstr ""
-
 #: functions/fetch/getHotspotContent.php:249
 msgid "Learn more"
 msgstr ""
@@ -5347,6 +5342,11 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:237
 msgid "Name used as sender for form submission emails."
+msgstr ""
+
+#: templates/footer/footer-1.php:96 templates/footer/footer-3.php:109
+#: templates/footer/footer-simple.php:58 templates/footer/footer.php:58
+msgid "Navigation"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:286
@@ -8813,8 +8813,8 @@ msgstr ""
 msgid "Subscribe"
 msgstr ""
 
-#: templates/footer/footer-3.php:140 templates/footer/footer-simple.php:73
-#: templates/footer/footer.php:73
+#: templates/footer/footer-1.php:127 templates/footer/footer-3.php:140
+#: templates/footer/footer-simple.php:73 templates/footer/footer.php:73
 msgid "Subscribe to our newsletter to get our news & deals delivered to you."
 msgstr ""
 
@@ -10893,8 +10893,8 @@ msgid "Контактные формы, созданные через CodeWeber 
 msgstr ""
 
 #: functions/bootstrap/class-floating-social-widget.php:284
-#: functions/bootstrap/class-floating-social-widget.php:879
-#: functions/bootstrap/class-floating-social-widget.php:1214
+#: functions/bootstrap/class-floating-social-widget.php:880
+#: functions/bootstrap/class-floating-social-widget.php:1215
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:357
 msgid "Написать нам"
 msgstr ""

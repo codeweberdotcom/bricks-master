@@ -170,12 +170,18 @@ class CodeweberFormsGutenbergRestrictions {
             return;
         }
         
+        // Не загружаем скрипты в контексте редактора виджетов (WordPress 5.8+)
+        // wp-editor несовместим с wp-edit-widgets или wp-customize-widgets
+        if ($screen->id === 'widgets' || $screen->id === 'customize') {
+            return;
+        }
+        
         // Скрипт для скрытия блока формы на обычных страницах
         if ($screen->post_type !== 'codeweber_form') {
             wp_enqueue_script(
                 'codeweber-forms-hide-form-block',
                 CODEWEBER_FORMS_URL . '/admin/assets/js/hide-form-block.js',
-                ['wp-blocks', 'wp-element', 'wp-editor', 'wp-data'],
+                ['wp-blocks', 'wp-element', 'wp-block-editor', 'wp-data'],
                 CODEWEBER_FORMS_VERSION,
                 true
             );
@@ -190,7 +196,7 @@ class CodeweberFormsGutenbergRestrictions {
             wp_enqueue_script(
                 'codeweber-forms-auto-insert',
                 CODEWEBER_FORMS_URL . '/admin/assets/js/auto-insert-form-block.js',
-                ['wp-blocks', 'wp-element', 'wp-editor', 'wp-data'],
+                ['wp-blocks', 'wp-element', 'wp-block-editor', 'wp-data'],
                 CODEWEBER_FORMS_VERSION,
                 true
             );

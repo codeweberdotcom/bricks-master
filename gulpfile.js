@@ -201,6 +201,7 @@ var path = {
     vendorjs: srcPrefix + "/assets/js/vendor/*.*",
     themejs: srcPrefix + "/assets/js/theme.js",
     restapijs: srcPrefix + "/assets/js/restapi.js",
+    notificationtriggersjs: srcPrefix + "/assets/js/notification-triggers.js",
     testimonialformjs: srcPrefix + "/assets/js/testimonial-form.js",
     ajaxdownloadjs: srcPrefix + "/assets/js/ajax-download.js",
     ajaxfilterjs: srcPrefix + "/assets/js/ajax-filter.js",
@@ -308,6 +309,29 @@ gulp.task("restapijs:dist", function () {
   return (
     gulp
       .src(path.src.restapijs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      //.pipe(uglify()) // если нужно минифицировать — раскомментируй
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
+gulp.task("notificationtriggersjs:dev", function () {
+  return gulp
+    .src(path.src.notificationtriggersjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("notificationtriggersjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.notificationtriggersjs)
       .pipe(gulp.dest(path.dist.js))
       .pipe(plumber())
       //.pipe(uglify()) // если нужно минифицировать — раскомментируй
@@ -778,6 +802,7 @@ gulp.task(
       "vendorcss:dev",
       "pluginsjs:dev",
       "restapijs:dev",
+      "notificationtriggersjs:dev",
       "testimonialformjs:dev",
       "ajaxdownloadjs:dev",
       "ajaxfilterjs:dev",
@@ -808,6 +833,7 @@ gulp.task(
       "vendorcss:dist",
       "pluginsjs:dist",
       "restapijs:dist",
+      "notificationtriggersjs:dist",
       "testimonialformjs:dist",
       "ajaxdownloadjs:dist",
       "ajaxfilterjs:dist",
@@ -836,6 +862,7 @@ gulp.task('watch', function () {
     gulp.watch(path.watch.vendorjs, gulp.series('pluginsjs:dist'));
     gulp.watch(path.watch.themejs, gulp.series('themejs:dist'));
     gulp.watch(path.src.restapijs, gulp.series('restapijs:dist'));
+    gulp.watch(path.src.notificationtriggersjs, gulp.series('notificationtriggersjs:dist'));
     gulp.watch(path.src.testimonialformjs, gulp.series('testimonialformjs:dist'));
     gulp.watch(path.src.ajaxdownloadjs, gulp.series('ajaxdownloadjs:dist'));
     gulp.watch(path.src.ajaxfilterjs, gulp.series('ajaxfilterjs:dist'));

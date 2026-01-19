@@ -1,7 +1,10 @@
 <footer class="bg-dark">
 	<div class="container py-13 py-md-15">
 		<div class="row gy-6 gy-lg-0">
-			<div class="col-md-4 col-lg-3">
+			<?php
+			// Колонка 1 - Footer 1
+			codeweber_footer_column('footer-1', 'col-md-4 col-lg-3', function() {
+				?>
 				<div class="widget">
 					<img class="mb-4" src="<?php echo get_template_directory_uri(); ?> /dist/assets/img/logo-dark.png" srcset="dist/assets/img/logo-dark@2x.png 2x" alt="" />
 					<p class="mb-4">© <script>
@@ -17,45 +20,49 @@
 					<!-- /.social -->
 				</div>
 				<!-- /.widget -->
-			</div>
-			<!-- /column -->
-			<div class="col-md-4 col-lg-3">
+				<?php
+			});
+
+			// Колонка 2 - Footer 2
+			codeweber_footer_column('footer-2', 'col-md-4 col-lg-3', function() {
+				global $opt_name;
+				$country = Redux::get_option($opt_name, 'fact-country', '');
+				$region = Redux::get_option($opt_name, 'fact-region', '');
+				$city = Redux::get_option($opt_name, 'fact-city', '');
+				$street = Redux::get_option($opt_name, 'fact-street', '');
+				$house = Redux::get_option($opt_name, 'fact-house', '');
+				$office = Redux::get_option($opt_name, 'fact-office', '');
+				$postal = Redux::get_option($opt_name, 'fact-postal', '');
+				
+				$parts = [];
+				// Формируем строку улицы с домом и офисом
+				$street_line = trim(implode(' ', array_filter([$street, $house, $office])), ' ,');
+				// Порядок: индекс, страна, регион, город, улица
+				if (!empty($postal)) $parts[] = $postal;
+				if (!empty($country)) $parts[] = $country;
+				if (!empty($region)) $parts[] = $region;
+				if (!empty($city)) $parts[] = $city;
+				if (!empty($street_line)) $parts[] = $street_line;
+				
+				$full_address = !empty($parts) ? implode(', ', $parts) : 'Moonshine St. 14/05 Light City, London, United Kingdom';
+				?>
 				<div class="widget">
 					<div class="h4 widget-title  mb-3"><?php esc_html_e('Get in Touch', 'codeweber'); ?></div>
 					<address class="pe-xl-15 pe-xxl-17">
-						<?php
-						global $opt_name;
-						$country = Redux::get_option($opt_name, 'fact-country', '');
-						$region = Redux::get_option($opt_name, 'fact-region', '');
-						$city = Redux::get_option($opt_name, 'fact-city', '');
-						$street = Redux::get_option($opt_name, 'fact-street', '');
-						$house = Redux::get_option($opt_name, 'fact-house', '');
-						$office = Redux::get_option($opt_name, 'fact-office', '');
-						$postal = Redux::get_option($opt_name, 'fact-postal', '');
-						
-						$parts = [];
-						// Формируем строку улицы с домом и офисом
-						$street_line = trim(implode(' ', array_filter([$street, $house, $office])), ' ,');
-						// Порядок: индекс, страна, регион, город, улица
-						if (!empty($postal)) $parts[] = $postal;
-						if (!empty($country)) $parts[] = $country;
-						if (!empty($region)) $parts[] = $region;
-						if (!empty($city)) $parts[] = $city;
-						if (!empty($street_line)) $parts[] = $street_line;
-						
-						$full_address = !empty($parts) ? implode(', ', $parts) : 'Moonshine St. 14/05 Light City, London, United Kingdom';
-						echo $full_address;
-						?>
+						<?= esc_html($full_address); ?>
 					</address>
 					<?php echo do_shortcode('[get_contact field="e-mail" type="link" class="link-body"]'); ?><br />
 					<?php echo do_shortcode('[get_contact field="phone_01" type="link" class="link-body"]'); ?>
 				</div>
 				<!-- /.widget -->
-			</div>
-			<!-- /column -->
-			<div class="col-md-4 col-lg-3">
+				<?php
+			});
+
+			// Колонка 3 - Footer 3
+			codeweber_footer_column('footer-3', 'col-md-4 col-lg-3', function() {
+				?>
 				<div class="widget">
-					<div class="h4 widget-title  mb-3"><?php esc_html_e('Learn More', 'codeweber'); ?></div>
+					<div class="h4 widget-title  mb-3"><?php esc_html_e('Navigation', 'codeweber'); ?></div>
 					<ul class="list-unstyled text-reset mb-0">
 						<li><a href="#">About Us</a></li>
 						<li><a href="#">Our Story</a></li>
@@ -65,9 +72,12 @@
 					</ul>
 				</div>
 				<!-- /.widget -->
-			</div>
-			<!-- /column -->
-			<div class="col-md-12 col-lg-3">
+				<?php
+			});
+
+			// Колонка 4 - Footer 4
+			codeweber_footer_column('footer-4', 'col-md-12 col-lg-3', function() {
+				?>
 				<div class="widget">
 					<div class="h4 widget-title  mb-3"><?php esc_html_e('Our Newsletter', 'codeweber'); ?></div>
 					<p class="mb-5"><?php esc_html_e('Subscribe to our newsletter to get our news & deals delivered to you.', 'codeweber'); ?></p>
@@ -95,8 +105,9 @@
 					<!-- /.newsletter-wrapper -->
 				</div>
 				<!-- /.widget -->
-			</div>
-			<!-- /column -->
+				<?php
+			});
+			?>
 		</div>
 		<!--/.row -->
 		<?php get_template_part('templates/footer/footer', 'copyright'); ?>
