@@ -222,6 +222,10 @@ $display-font-weight: $font-weight-normal;
      text-transform: uppercase;
 }
 
+.btn.btn-circle i {
+  font-size: 1.5rem!important;
+}
+
 
 $lead-font-size: $font-size-base * 1.25 * 0.9;
 $lead-font-weight: 500;
