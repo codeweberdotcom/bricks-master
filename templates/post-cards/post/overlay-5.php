@@ -72,7 +72,6 @@ $date_badge = get_the_date('d M Y', $post_data['id']);
                         <?php if ($excerpt) : ?>
                             <p class="mb-3"><?php echo esc_html($excerpt); ?></p>
                         <?php endif; ?>
-                        
                         <div class="d-block">
                             <a href="<?php echo esc_url($post_data['link']); ?>" class="hover-8 link-body label-s text-charcoal-blue me-4 post-read-more">
                                 <?php esc_html_e('Read more', 'codeweber'); ?>

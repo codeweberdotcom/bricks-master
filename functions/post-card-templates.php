@@ -22,9 +22,9 @@ if (!defined('ABSPATH')) {
  * @return string HTML карточки
  */
 function cw_render_post_card($post, $template_name = 'default', $display_settings = [], $template_args = []) {
-    // Загружаем helpers
-    $helpers_path = get_template_directory() . '/templates/post-cards/helpers.php';
-    if (file_exists($helpers_path)) {
+    // Загружаем helpers (сначала из дочерней темы, затем из родительской)
+    $helpers_path = get_theme_file_path('templates/post-cards/helpers.php');
+    if ($helpers_path && file_exists($helpers_path)) {
         require_once $helpers_path;
     }
     
@@ -93,22 +93,22 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
         $template_dir = 'post';
     }
     
-    // Путь к шаблону в новой структуре
-    $template_path = get_template_directory() . '/templates/post-cards/' . $template_dir . '/' . $template_file . '.php';
+    // Путь к шаблону: сначала дочерняя тема, затем родительская (get_theme_file_path)
+    $template_path = get_theme_file_path('templates/post-cards/' . $template_dir . '/' . $template_file . '.php');
     
     // Fallback: проверяем старую структуру (для обратной совместимости)
-    if (!file_exists($template_path)) {
-        $old_template_path = get_template_directory() . '/templates/post-cards/' . sanitize_file_name($template_name) . '.php';
-        if (file_exists($old_template_path)) {
+    if (!$template_path || !file_exists($template_path)) {
+        $old_template_path = get_theme_file_path('templates/post-cards/' . sanitize_file_name($template_name) . '.php');
+        if ($old_template_path && file_exists($old_template_path)) {
             $template_path = $old_template_path;
         } else {
             // Fallback на default в соответствующей папке
-            $default_path = get_template_directory() . '/templates/post-cards/' . $template_dir . '/default.php';
-            if (file_exists($default_path)) {
+            $default_path = get_theme_file_path('templates/post-cards/' . $template_dir . '/default.php');
+            if ($default_path && file_exists($default_path)) {
                 $template_path = $default_path;
             } else {
                 // Последний fallback - default в post
-                $template_path = get_template_directory() . '/templates/post-cards/post/default.php';
+                $template_path = get_theme_file_path('templates/post-cards/post/default.php');
             }
         }
     }

@@ -73,7 +73,7 @@ figure.overlay img {
       background: $value;
     }
   }
-  &:not(.overlay-3):hover span.bg {
+  &:not(.overlay-3):not(.overlay-5):hover span.bg {
     opacity: 1;
     @include transition(opacity 0.35s ease-in-out);
   }
@@ -325,7 +325,6 @@ figure.overlay img {
     top: 0;
     opacity: 0;
     visibility: hidden;
-    @include transition(width 0.4s ease, opacity 0.4s ease, visibility 0s);
   }
   &:hover span.bg {
     visibility: visible;

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-01-14 12:04+0000\n"
+"PO-Revision-Date: 2026-01-29 13:35+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.8.0; wp-6.9; php-8.1.10\n"
+"X-Loco-Version: 2.8.1; wp-6.9; php-8.1.10\n"
 "X-Domain: codeweber"
 
 #: functions/lib/comments-helper.php:38
@@ -4367,9 +4367,8 @@ msgid "Guest"
 msgstr "Гость"
 
 #: redux-framework/sample/sections/codeweber/style.php:184
-#, fuzzy
 msgid "Gulp"
-msgstr "Глуп"
+msgstr "Gulp"
 
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:442
 msgid "Gulp JS Variables / Code"

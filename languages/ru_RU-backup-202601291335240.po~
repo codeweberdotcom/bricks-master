@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-01-12 10:26+0000\n"
+"PO-Revision-Date: 2026-01-14 12:04+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -315,7 +315,6 @@ msgid "Add Client"
 msgstr "Добавить Клиента"
 
 #: functions/integrations/cf7-consents-panel.php:297
-#, fuzzy
 #| msgid "+ Add Consent"
 msgid "Add Consent"
 msgstr "+ Добавить согласие"
@@ -428,7 +427,6 @@ msgid "Add New Page Header"
 msgstr "Добавить Заголовок"
 
 #: functions/cpt/cpt-price_list.php:15
-#, fuzzy
 #| msgid "Add new Price list"
 msgid "Add New Price List"
 msgstr "Добавить Прайс-лист"
@@ -900,10 +898,9 @@ msgstr "Ash"
 
 #: functions/integrations/image-licenses/image-licenses.php:429
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:624
-#, fuzzy
 #| msgid "Attached Images"
 msgid "Attached Files"
-msgstr "Прикрепленные изображения"
+msgstr "Прикрепленные файлы"
 
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:586
 msgid "Attached Form Files"
@@ -976,12 +973,10 @@ msgid "Auto Open First Balloon"
 msgstr "Автоматически открывать первый балун"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1587
-#, fuzzy
 msgid "Auto-reply is disabled."
 msgstr "Автоматический ответ отключен."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:655
-#, fuzzy
 msgid "Auto-Reply Template"
 msgstr "Шаблон автоматического ответа"
 
@@ -994,14 +989,12 @@ msgid "Automatically pan map when balloon is opened"
 msgstr "Автоматически перемещать карту при открытии балуна"
 
 #: functions/cpt/cpt-offices.php:140 functions/cpt/cpt-offices.php:563
-#, fuzzy
 msgid "Available Services"
 msgstr "Доступные услуги"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:558
-#, fuzzy
 msgid "Available Variables"
-msgstr "Доступные переменные"
+msgstr "Доступные вариации"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:108
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:376
@@ -1072,7 +1065,6 @@ msgid "Base Page Header Models"
 msgstr "Базовые Типы Заголовков"
 
 #: redux-framework/sample/metaboxes.php:137
-#, fuzzy
 msgid "Base Settings"
 msgstr "Основные настройки"
 
@@ -1088,12 +1080,10 @@ msgid "Basic media uploader with disabled URL input field."
 msgstr "Обычный загрузчик мультимедиа с отключенным полем ввода URL-адреса."
 
 #: functions/fetch/getPostCardTemplates.php:70
-#, fuzzy
 msgid "Basic staff card with image, name and position"
 msgstr "Базовая визитная карточка с изображением, именем и должностью."
 
 #: functions/fetch/getPostCardTemplates.php:45
-#, fuzzy
 msgid "Basic testimonial card with rating, text, avatar and author"
 msgstr "Базовая карточка отзыва с оценкой, текстом, аватаром и автором."
 
@@ -1110,16 +1100,14 @@ msgid "Before starting the build Gulp, save the Redux settings."
 msgstr "Перед началом сборки Gulp сохраните настройки Redux."
 
 #: redux-framework/sample/sections/codeweber/smtp.php:34
-#, fuzzy
 msgid "Beget"
-msgstr "Быть"
+msgstr "Beget"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:142
 #: redux-framework/sample/sections/codeweber/socials.php:147
 #: redux-framework/sample/sections/extensions/users.php:157
-#, fuzzy
 msgid "Behance"
-msgstr "Беханс"
+msgstr "Behance"
 
 #: functions/cpt/cpt-documents.php:686
 msgid "Best regards"
@@ -1145,7 +1133,6 @@ msgstr "Велосипедный"
 #: redux-framework/sample/sections/codeweber/footer.php:171
 #: redux-framework/sample/sections/codeweber/header.php:253
 #: redux-framework/sample/sections/codeweber/header.php:330
-#, fuzzy
 msgid "Block"
 msgstr "Блок"
 
@@ -1154,7 +1141,6 @@ msgid "Block Restriction Mode"
 msgstr "Режим ограничения блокировки"
 
 #: functions/fetch/getPostCardTemplates.php:47
-#, fuzzy
 msgid "Block with quote and icon"
 msgstr "Блок с цитатой и иконкой"
 
@@ -1164,9 +1150,8 @@ msgid "Blocking Data"
 msgstr "блокирование"
 
 #: functions/fetch/getPostCardTemplates.php:47
-#, fuzzy
 msgid "Blockquote"
-msgstr "Блок цитат"
+msgstr "Цитата"
 
 #: functions/global.php:755
 msgid "Blog"
@@ -1186,9 +1171,8 @@ msgid "Blue Icon"
 msgstr "Синяя иконка"
 
 #: redux-framework/sample/metaboxes.php:529
-#, fuzzy
 msgid "Bootstrap Modal Options"
-msgstr "Варианты настройки Bootstrap Modal"
+msgstr "Настройки Bootstrap Modal"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:544
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:596
@@ -1197,7 +1181,6 @@ msgid "Bottom Offset"
 msgstr "Отступ снизу"
 
 #: redux-framework/sample/sections/codeweber/footer.php:312
-#, fuzzy
 msgid "Bottombar"
 msgstr "Нижняя панель"
 
@@ -1239,17 +1222,14 @@ msgid "Browser User Agent"
 msgstr "User Agent браузера"
 
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:277
-#, fuzzy
 msgid "Build DEV"
-msgstr "Создайте DEV"
+msgstr "Build DEV"
 
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:282
-#, fuzzy
 msgid "Build DIST"
-msgstr "Создайте DIST"
+msgstr "Build DIST"
 
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:429
-#, fuzzy
 msgid "Build Route"
 msgstr "Создать маршрут"
 
@@ -1312,40 +1292,33 @@ msgstr "Невозможно открыть загруженный файл"
 #: functions/fetch/getPostCardTemplates.php:81
 #: functions/fetch/getPostCardTemplates.php:88
 #: functions/fetch/getPostCardTemplates.php:96
-#, fuzzy
 msgid "Card"
-msgstr "Карта"
+msgstr "Card"
 
 #: functions/fetch/getPostCardTemplates.php:97
-#, fuzzy
 msgid "Card Content"
-msgstr "Содержимое карточки"
+msgstr "Содержимое Card"
 
 #: functions/fetch/getPostCardTemplates.php:56
-#, fuzzy
 msgid "Card layout with AJAX download button for documents"
-msgstr "Размещение карты с кнопкой загрузки AJAX для документов"
+msgstr "Card формат с кнопкой загрузки AJAX для документов"
 
 #: functions/fetch/getPostCardTemplates.php:55
-#, fuzzy
 msgid "Card layout with email button for documents"
-msgstr "Размещение карт с кнопкой отправки по электронной почте для документов"
+msgstr "Card формат с кнопкой отправки по E-Mail для документов"
 
 #: functions/fetch/getPostCardTemplates.php:96
-#, fuzzy
 msgid "Card layout with shadow and card body"
-msgstr "Размещение карточек с тени и контентом карточки"
+msgstr "Card формат с тенью и контентом карточки"
 
 #: functions/fetch/getPostCardTemplates.php:46
 #: functions/fetch/getPostCardTemplates.php:71
-#, fuzzy
 msgid "Card with colored backgrounds (Sandbox style)"
-msgstr "Карта с цветными фонами (Стиль песочницы)"
+msgstr "Card формат с цветными фонами"
 
 #: functions/fetch/getPostCardTemplates.php:97
-#, fuzzy
 msgid "Card with excerpt and footer"
-msgstr "Карта с извлечением и нижним колонтитулом"
+msgstr "Card формат с коротким текстом и нижним колонтитулом"
 
 #: functions/cpt/cpt-clients.php:69 functions/cpt/cpt-clients.php:71
 #: functions/cpt/cpt-clients.php:93 functions/cpt/cpt-faq.php:141
@@ -1354,17 +1327,14 @@ msgid "Categories"
 msgstr "Категории"
 
 #: functions/cpt/cpt-clients.php:88
-#, fuzzy
 msgid "Categories list"
 msgstr "Список категорий"
 
 #: functions/cpt/cpt-clients.php:87
-#, fuzzy
 msgid "Categories list navigation"
 msgstr "Навигация по списку категорий"
 
 #: functions/cpt/cpt-clients.php:70
-#, fuzzy
 msgid "Category"
 msgstr "Категория"
 
@@ -1400,12 +1370,10 @@ msgid "CF7"
 msgstr "CF7"
 
 #: redux-framework/sample/sections/codeweber/demo.php:732
-#, fuzzy
 msgid "CF7 Forms"
 msgstr "Формы CF7"
 
 #: functions/integrations/personal-data-v2/test-providers.php:194
-#, fuzzy
 msgid "Check Data"
 msgstr "Проверьте данные"
 
@@ -1414,19 +1382,17 @@ msgid "Check SMTP Connection"
 msgstr "Проверьте SMTP-соединение"
 
 #: functions/integrations/personal-data-v2/test-providers.php:263
-#, fuzzy
 msgid "Check that all providers are registered above"
 msgstr "Убедитесь, что все поставщики зарегистрированы выше."
 
 #: functions/integrations/personal-data-v2/test-providers.php:266
-#, fuzzy
 msgid "Check that the export includes data from registered providers"
 msgstr ""
 "Убедитесь, что экспорт включает данные от зарегистрированных поставщиков."
 
 #: functions/bootstrap/bootstrap_share-page.php:222
 #: functions/bootstrap/bootstrap_share-page.php:264
-#, fuzzy, php-format
+#, php-format
 msgid "Check this out: %s"
 msgstr "Посмотрите на это: %s"
 
@@ -1447,7 +1413,6 @@ msgid "Child Theme Name"
 msgstr "Название Дочерней темы"
 
 #: functions/cpt/cpt-vacancies.php:538
-#, fuzzy
 msgid "Chinese (native)"
 msgstr "Китайский (родной)"
 
@@ -1460,12 +1425,10 @@ msgid "Choose a point on the map"
 msgstr "Выберите точку на карте"
 
 #: redux-framework/sample/metaboxes.php:538
-#, fuzzy
 msgid "Choose from Bootstrap modal size options"
 msgstr "Выберите размер модального окна Bootstrap"
 
 #: functions/cpt/cpt-clients.php:84
-#, fuzzy
 msgid "Choose from the most used categories"
 msgstr "Выберите из самых популярных категорий"
 
@@ -1493,34 +1456,28 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:170
 #: redux-framework/sample/sections/codeweber/header.php:252
 #: redux-framework/sample/sections/codeweber/header.php:329
-#, fuzzy
 msgid "Circle"
 msgstr "Круг"
 
 #: functions/fetch/getPostCardTemplates.php:73
-#, fuzzy
 msgid "Circle Center"
 msgstr "Центр Круга"
 
 #: functions/fetch/getPostCardTemplates.php:74
-#, fuzzy
 msgid "Circle Center Alt"
 msgstr "Центр круга Alt"
 
 #: functions/fetch/getPostCardTemplates.php:74
-#, fuzzy
 msgid "Circular avatar centered with link on image and social links"
 msgstr ""
 "Круглый аватар, центрированный с ссылкой на изображении и социальными "
 "ссылками"
 
 #: functions/fetch/getPostCardTemplates.php:73
-#, fuzzy
 msgid "Circular avatar centered with social links"
 msgstr "Круглый аватар, центрированный с социальными ссылками"
 
 #: functions/fetch/getPostCardTemplates.php:72
-#, fuzzy
 msgid "Circular avatar with social links"
 msgstr "Круглый аватар с социальными ссылками"
 
@@ -1563,23 +1520,19 @@ msgid "Client"
 msgstr "Клиент"
 
 #: functions/fetch/getPostCardTemplates.php:38
-#, fuzzy
 msgid "Client Card"
-msgstr "Карта клиента"
+msgstr "Карточка клиента"
 
 #: functions/fetch/getPostCardTemplates.php:37
-#, fuzzy
 msgid "Client Grid"
 msgstr "Сетка клиентов"
 
 #: functions/cpt/cpt-clients.php:24
-#, fuzzy
 #| msgid "Client puplished"
 msgid "Client published"
 msgstr "Клиент опубликован"
 
 #: functions/fetch/getPostCardTemplates.php:36
-#, fuzzy
 msgid "Client Simple"
 msgstr "Клиент Простой"
 
@@ -1619,46 +1572,39 @@ msgid "Code from SMS"
 msgstr "Код из СМС"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:160
-#, fuzzy
 msgid "CodePen"
-msgstr "КодПен"
+msgstr "CodePen"
 
 #: redux-framework/sample/sections/codeweber/socials.php:259
 #: redux-framework/sample/sections/extensions/users.php:269
-#, fuzzy
 msgid "Codepen"
-msgstr "Кодпен"
+msgstr "Codepen"
 
 #. Name of the theme
 msgid "Codeweber"
 msgstr "Codeweber"
 
 #: functions/cpt/cpt-vacancies.php:324
-#, fuzzy
 msgid "CodeWeber Form"
-msgstr "КодВебер Форма"
+msgstr "CodeWeber Форма"
 
 #: functions/integrations/modal-rest-api.php:229
 #: functions/integrations/modal-rest-api.php:348
-#, fuzzy
 msgid "Codeweber form not found."
 msgstr "Форма Codeweber не найдена."
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:145
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:558
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:44
-#, fuzzy
 msgid "Codeweber Forms"
 msgstr "Формы Codeweber"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-gutenberg-restrictions.php:123
-#, fuzzy
 msgid "CodeWeber Forms Editor"
 msgstr "Редактор форм CodeWeber"
 
 #: functions/integrations/modal-rest-api.php:218
 #: functions/integrations/modal-rest-api.php:327
-#, fuzzy
 msgid "Codeweber Forms module is not available."
 msgstr "Модуль Codeweber Forms недоступен."
 
@@ -1680,7 +1626,6 @@ msgid "Color for custom markers"
 msgstr "Цвет для пользовательских маркеров"
 
 #: templates/content/loop.php:59
-#, fuzzy
 #| msgid " Comment"
 #| msgid_plural " Comments"
 msgid "Comment"
@@ -1730,7 +1675,6 @@ msgid "Company Details"
 msgstr "Данные Компании"
 
 #: functions/cpt/cpt-clients.php:123
-#, fuzzy
 msgid "Company Information"
 msgstr "Информация о компании"
 
@@ -1747,7 +1691,6 @@ msgid "Company Name (optional)"
 msgstr "Название компании (необязательно)"
 
 #: functions/cpt/cpt-clients.php:163 functions/cpt/cpt-clients.php:240
-#, fuzzy
 msgid "Company URL"
 msgstr "URL компании"
 
@@ -1848,7 +1791,6 @@ msgid "Consent Data"
 msgstr "Данные для Согласий"
 
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:544
-#, fuzzy
 msgid "Consent Date"
 msgstr "Дата согласия"
 
@@ -1861,7 +1803,6 @@ msgid "Consent Retention Settings"
 msgstr "Настройки срока хранения согласий"
 
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:543
-#, fuzzy
 msgid "Consent Text"
 msgstr "Текст согласия"
 
@@ -1880,7 +1821,6 @@ msgid "Consent to receive mailings"
 msgstr "Согласие на получение рассылок"
 
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:540
-#, fuzzy
 msgid "Consent Type"
 msgstr "Тип согласия"
 
@@ -13030,23 +12970,20 @@ msgid "— Select Author —"
 msgstr "— Выберите автора —"
 
 #: functions/cpt/cpt-offices.php:204
-#, fuzzy
 msgid "— Select City —"
-msgstr "- Выберите город -"
+msgstr "— Выберите город —"
 
 #: functions/cpt/cpt-vacancies.php:303 functions/cpt/cpt-vacancies.php:341
 msgid "— Select Form —"
 msgstr "— Выбрать форму —"
 
 #: functions/cpt/cpt-offices.php:228
-#, fuzzy
 msgid "— Select Manager —"
-msgstr "- Выберите менеджера"
+msgstr "— Выберите менеджера —"
 
 #: functions/cpt/cpt-offices.php:522
-#, fuzzy
 msgid "— Select Vacancy —"
-msgstr "- Выберите вакансию"
+msgstr "— Выберите вакансию —"
 
 #: functions/admin/admin_privacy.php:38
 #: functions/integrations/cf7-consents-panel.php:92
