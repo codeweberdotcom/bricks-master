@@ -38,6 +38,8 @@ if (!empty($post_data['text'])) {
     ob_start();
     codeweber_testimonial_blockquote_details($post_data, [
         'show_company' => $template_args['show_company'] && !empty($post_data['company']),
+        'title_tag' => isset($display['title_tag']) ? $display['title_tag'] : 'div',
+        'title_class' => isset($display['title_class']) ? $display['title_class'] : '',
         'echo' => true,
     ]);
     $card_html .= ob_get_clean();

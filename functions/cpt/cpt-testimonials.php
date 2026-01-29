@@ -1143,6 +1143,8 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
         'avatar_text' => 'text-white',
         'initials_count' => 2,
         'info_class' => '', // Дополнительный класс для info (например, 'ps-0' или 'p-0')
+        'title_tag' => 'div', // Тег для имени автора (h1-h6, p, div, span)
+        'title_class' => 'h6 mb-0', // Класс для имени (если пусто — используется дефолт по контексту)
         'echo' => true,
     ];
     
@@ -1226,6 +1228,12 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
     
     // Получаем класс высоты из класса ширины (w-10 -> h-10, w-12 -> h-12, w-15 -> h-15)
     $avatar_height = str_replace('w-', 'h-', $args['avatar_size']);
+
+    // Тег и класс для имени автора (из настроек блока Post Grid)
+    $allowed_title_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span'];
+    $author_tag = !empty($args['title_tag']) && in_array($args['title_tag'], $allowed_title_tags, true) ? $args['title_tag'] : 'div';
+    $author_class = isset($args['title_class']) && $args['title_class'] !== '' ? esc_attr($args['title_class']) : 'h6 mb-0';
+    $author_class_alt = isset($args['title_class']) && $args['title_class'] !== '' ? esc_attr($args['title_class']) : 'h5 mb-1';
     
     // Build HTML
     ob_start();
@@ -1247,7 +1255,7 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
                     </figure>
                     <div>
                         <?php if ($author_name) : ?>
-                            <div class="h6 mb-0"><?php echo $author_name; ?></div>
+                            <<?php echo $author_tag; ?> class="<?php echo $author_class; ?>"><?php echo $author_name; ?></<?php echo $author_tag; ?>>
                         <?php endif; ?>
                         <?php if ($author_role) : ?>
                             <span class="post-meta fs-15"><?php echo $author_role; ?></span>
@@ -1265,7 +1273,7 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
                     </span>
                     <div class="info<?php echo esc_attr($info_class); ?>">
                         <?php if ($author_name) : ?>
-                            <div class="h5 mb-1"><?php echo $author_name; ?></div>
+                            <<?php echo $author_tag; ?> class="<?php echo $author_class_alt; ?>"><?php echo $author_name; ?></<?php echo $author_tag; ?>>
                         <?php endif; ?>
                         <?php if ($author_role) : ?>
                             <p class="mb-0"><?php echo $author_role; ?></p>
@@ -1280,7 +1288,7 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
             <!-- Без аватара -->
             <div class="info<?php echo esc_attr($info_class); ?>">
                 <?php if ($author_name) : ?>
-                    <div class="h5 mb-1"><?php echo $author_name; ?></div>
+                    <<?php echo $author_tag; ?> class="<?php echo $author_class_alt; ?>"><?php echo $author_name; ?></<?php echo $author_tag; ?>>
                 <?php endif; ?>
                 <?php if ($author_role) : ?>
                     <p class="mb-0"><?php echo $author_role; ?></p>

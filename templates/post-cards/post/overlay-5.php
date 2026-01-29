@@ -36,9 +36,10 @@ if ($display['excerpt_length'] > 0) {
 
 // Формируем тег и классы для заголовка
 $title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';
-$title_class = 'h5 mb-0';
 if (!empty($display['title_class'])) {
-    $title_class .= ' ' . esc_attr($display['title_class']);
+    $title_class = esc_attr($display['title_class']);
+} else {
+    $title_class = 'h5 mb-0';
 }
 
 // Форматируем дату для badge
@@ -67,7 +68,7 @@ $date_badge = get_the_date('d M Y', $post_data['id']);
             
             <?php if ($template_args['show_figcaption']) : ?>
                 <figcaption class="p-5">
-                    <div class="post-body h-100 d-flex flex-column justify-content-between from-left">
+                    <div class="post-body h-100 d-flex flex-column from-left">
                         <?php if ($excerpt) : ?>
                             <p class="mb-3"><?php echo esc_html($excerpt); ?></p>
                         <?php endif; ?>

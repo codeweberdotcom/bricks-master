@@ -28,11 +28,11 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
 }
 
 // Формируем тег и классы для заголовка
-$title_tag = 'h2'; // Всегда h2
-$title_class = 'post-title h3'; // Добавляем класс h3
-$title_class .= ' mt-1 mb-3';
+$title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';
 if (!empty($display['title_class'])) {
-    $title_class .= ' ' . esc_attr($display['title_class']);
+    $title_class = esc_attr($display['title_class']);
+} else {
+    $title_class = 'post-title h3 mt-1 mb-3';
 }
 
 // Классы для карточки

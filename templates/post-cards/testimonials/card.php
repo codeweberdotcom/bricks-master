@@ -45,6 +45,8 @@ codeweber_testimonial_blockquote_details($post_data, [
     'show_company' => $template_args['show_company'] && !empty($post_data['company']),
     'show_avatar' => false, // Для этого шаблона не показываем аватар/инициалы, только имя и должность
     'info_class' => 'p-0', // Используем p-0 для шаблона с цветными фонами
+    'title_tag' => isset($display['title_tag']) ? $display['title_tag'] : 'div',
+    'title_class' => isset($display['title_class']) ? $display['title_class'] : '',
     'echo' => true,
 ]);
 $card_html .= ob_get_clean();

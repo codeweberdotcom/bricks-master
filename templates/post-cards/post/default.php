@@ -34,17 +34,16 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
 
 // Формируем тег и классы для заголовка
 $title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';
-$title_class = 'post-title';
-// Добавляем класс размера для h1-h6
-if (in_array($title_tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
-    $title_class .= ' ' . $title_tag;
-} else {
-    $title_class .= ' h3'; // Fallback класс для p, div, span
-}
-$title_class .= ' mt-1 mb-3';
-// Добавляем кастомный класс если указан
 if (!empty($display['title_class'])) {
-    $title_class .= ' ' . esc_attr($display['title_class']);
+    $title_class = esc_attr($display['title_class']);
+} else {
+    $title_class = 'post-title';
+    if (in_array($title_tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
+        $title_class .= ' ' . $title_tag;
+    } else {
+        $title_class .= ' h3';
+    }
+    $title_class .= ' mt-1 mb-3';
 }
 ?>
 

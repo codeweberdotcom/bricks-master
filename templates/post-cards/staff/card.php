@@ -81,8 +81,10 @@ if (!empty($image_url)) {
 $card_html .= '</figure>
         <div class="card-body px-6 py-5">';
 
+$staff_title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h4';
+$staff_title_class = !empty($display['title_class']) ? esc_attr($display['title_class']) : 'mb-1';
 if (!empty($post_data['title'])) {
-    $card_html .= '<h4 class="mb-1">' . esc_html($post_data['title']) . '</h4>';
+    $card_html .= '<' . $staff_title_tag . ' class="' . $staff_title_class . '">' . esc_html($post_data['title']) . '</' . $staff_title_tag . '>';
 }
 
 if (!empty($post_data['position'])) {

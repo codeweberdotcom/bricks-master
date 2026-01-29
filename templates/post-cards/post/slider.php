@@ -36,12 +36,10 @@ if ($display['excerpt_length'] > 0) {
 
 // Формируем тег и классы для заголовка
 $title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h3';
-$title_class = 'post-title';
-if (in_array($title_tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
-    $title_class .= ' h4'; // Сохраняем стиль h4 для совместимости
-}
 if (!empty($display['title_class'])) {
-    $title_class .= ' ' . esc_attr($display['title_class']);
+    $title_class = esc_attr($display['title_class']);
+} else {
+    $title_class = 'post-title h4';
 }
 ?>
 

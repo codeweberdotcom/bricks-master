@@ -26,16 +26,18 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
 }
 
 // Формируем тег и классы для заголовка
-$title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';
-$title_class = 'post-title';
-if (in_array($title_tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
-    $title_class .= ' ' . $title_tag;
-} else {
-    $title_class .= ' h3';
-}
-$title_class .= ' mt-1 mb-3';
+$title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h3';
 if (!empty($display['title_class'])) {
-    $title_class .= ' ' . esc_attr($display['title_class']);
+    // Если задан класс из блока — используем только его (замена дефолтных)
+    $title_class = esc_attr($display['title_class']);
+} else {
+    $title_class = 'post-title';
+    if (in_array($title_tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
+        $title_class .= ' ' . $title_tag;
+    } else {
+        $title_class .= ' h3';
+    }
+    $title_class .= ' mt-1 mb-3';
 }
 ?>
 
@@ -48,7 +50,7 @@ if (!empty($display['title_class'])) {
                 </a>
                 <?php if ($template_args['show_figcaption']) : ?>
                     <figcaption>
-                        <h5 class="from-top mb-0"><?php esc_html_e('Read More', 'codeweber'); ?></h5>
+                        <div class="from-top mb-0 h5"><?php esc_html_e('Read More', 'codeweber'); ?></div>
                     </figcaption>
                 <?php endif; ?>
             </figure>

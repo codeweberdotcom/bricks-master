@@ -30,9 +30,10 @@ if ($display['excerpt_length'] > 0) {
 
 // Формируем тег и классы для заголовка
 $title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h4';
-$title_class = '';
 if (!empty($display['title_class'])) {
-    $title_class = ' ' . esc_attr($display['title_class']);
+    $title_class = esc_attr($display['title_class']);
+} else {
+    $title_class = 'mb-0';
 }
 ?>
 

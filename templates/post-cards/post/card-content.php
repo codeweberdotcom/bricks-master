@@ -38,13 +38,10 @@ if ($display['excerpt_length'] > 0) {
 
 // Формируем тег и классы для заголовка
 $title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';
-$title_class = 'post-title';
-if (in_array($title_tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
-    $title_class .= ' h3'; // Всегда h3 для этого шаблона
-}
-$title_class .= ' mt-1 mb-3';
 if (!empty($display['title_class'])) {
-    $title_class .= ' ' . esc_attr($display['title_class']);
+    $title_class = esc_attr($display['title_class']);
+} else {
+    $title_class = 'post-title h3 mt-1 mb-3';
 }
 
 // Классы для figure

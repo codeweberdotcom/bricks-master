@@ -80,9 +80,11 @@ if (!empty($image_url)) {
     echo '<img class="rounded-circle ' . esc_attr($template_args['avatar_size']) . ' mb-4" src="' . esc_url($image_url) . '"' . $image_srcset . ' alt="' . esc_attr($post_data['image_alt']) . '" />';
 }
 
+$staff_title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h3';
+$staff_title_class = !empty($display['title_class']) ? esc_attr($display['title_class']) : 'h4 mb-1';
 // Имя (без ссылки, так как вся карточка в ссылке)
 if (!empty($post_data['title'])) {
-    echo '<h3 class="h4 mb-1">' . esc_html($post_data['title']) . '</h3>';
+    echo '<' . $staff_title_tag . ' class="' . $staff_title_class . '">' . esc_html($post_data['title']) . '</' . $staff_title_tag . '>';
 }
 
 // Должность

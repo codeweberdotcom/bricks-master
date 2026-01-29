@@ -49,6 +49,8 @@ codeweber_testimonial_blockquote_details($post_data, [
     'show_company' => $template_args['show_company'] && !empty($post_data['company']),
     'show_avatar' => true, // Показываем аватар/инициалы если доступны
     'info_class' => 'ps-0', // Используем ps-0 для шаблона с рейтингом, если есть аватар
+    'title_tag' => isset($display['title_tag']) ? $display['title_tag'] : 'div',
+    'title_class' => isset($display['title_class']) ? $display['title_class'] : '',
     'echo' => true,
 ]);
 $card_html .= ob_get_clean();
