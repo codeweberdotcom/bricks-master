@@ -66,7 +66,7 @@
 			return;
 		}
 
-		$global_footer_type = Redux::get_option($opt_name, 'global-footer-type');
+		$global_footer_type = Redux::get_option($opt_name, 'global_footer_type');
 		$global_template_footer = Redux::get_option($opt_name, 'global-footer-model');
 		$global_custom_template_footer = Redux::get_option($opt_name, 'custom-footer');
 
@@ -111,8 +111,12 @@
 				$template_footer_id = '';
 			}
 		} else {
-			// Другие случаи (можете задать значение по умолчанию)
-			$template_footer_id = '';
+			// Другие случаи (главная «Последние записи», 404 и т.д.) — учитываем глобальный пользовательский футер
+			if ($global_footer_type === '2' && !empty($global_custom_template_footer)) {
+				$template_footer_id = $global_custom_template_footer;
+			} else {
+				$template_footer_id = '';
+			}
 		}
 
 		// Функция подготовки всех необходимых переменных для pageheader
