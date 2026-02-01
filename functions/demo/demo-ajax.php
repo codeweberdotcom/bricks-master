@@ -579,3 +579,48 @@ function cw_demo_ajax_delete_offices() {
 }
 add_action('wp_ajax_cw_demo_delete_offices', 'cw_demo_ajax_delete_offices');
 
+/**
+ * AJAX обработчик для создания demo футеров
+ */
+function cw_demo_ajax_create_footers() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Недостаточно прав для выполнения операции', 'codeweber' ) ) );
+	}
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_demo_create_footers' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber' ) ) );
+	}
+	$result = cw_demo_create_footers();
+	if ( $result['success'] ) {
+		wp_send_json_success( array(
+			'message' => $result['message'],
+			'created' => $result['created'],
+			'total'   => $result['total'],
+			'errors'  => $result['errors'],
+		) );
+	}
+	wp_send_json_error( array( 'message' => $result['message'] ) );
+}
+add_action( 'wp_ajax_cw_demo_create_footers', 'cw_demo_ajax_create_footers' );
+
+/**
+ * AJAX обработчик для удаления demo футеров
+ */
+function cw_demo_ajax_delete_footers() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Недостаточно прав для выполнения операции', 'codeweber' ) ) );
+	}
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_demo_delete_footers' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber' ) ) );
+	}
+	$result = cw_demo_delete_footers();
+	if ( $result['success'] ) {
+		wp_send_json_success( array(
+			'message' => $result['message'],
+			'deleted' => $result['deleted'],
+			'errors'  => $result['errors'],
+		) );
+	}
+	wp_send_json_error( array( 'message' => $result['message'] ) );
+}
+add_action( 'wp_ajax_cw_demo_delete_footers', 'cw_demo_ajax_delete_footers' );
+
