@@ -966,7 +966,7 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo Footer', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте demo записи для CPT Footer: Footer_01 (футер с 4 колонками), Footer_02 (CTA + футер с 4 колонками)', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Создайте demo записи для CPT Footer: Footer_01 (футер с 4 колонками), Footer_02 (CTA + футер с 4 колонками), Footer_03 (CTA card + футер с 4 колонками, Redux Demo)', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-footers" class="button button-primary" style="margin-right: 10px;">
 								' . esc_html__('Создать Demo Footer', 'codeweber') . '
@@ -998,7 +998,7 @@ Redux::set_section(
 						$("#cw-demo-create-footers").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать demo футеры (Footer_01, Footer_02)? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Создать demo футеры (Footer_01, Footer_02, Footer_03)? Это может занять некоторое время.', 'codeweber')) . '")) {
 								return;
 							}
 
