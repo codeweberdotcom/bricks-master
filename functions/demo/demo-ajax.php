@@ -623,4 +623,3 @@ function cw_demo_ajax_delete_footers() {
 	wp_send_json_error( array( 'message' => $result['message'] ) );
 }
 add_action( 'wp_ajax_cw_demo_delete_footers', 'cw_demo_ajax_delete_footers' );
-
