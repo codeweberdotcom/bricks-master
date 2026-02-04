@@ -65,7 +65,7 @@
     @include font-size(1rem);
     line-height: 1;
     backface-visibility: hidden;
-    i {
+    &:not(.btn-play) i {
       @include font-size(1rem);
     }
     &.btn-xs {

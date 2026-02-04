@@ -79,9 +79,20 @@ add_filter('wp_nav_menu_objects', 'add_mega_menu_meta_to_menu_items', 10, 2);
 
 function add_mega_menu_meta_to_menu_items($items, $args)
 {
+   if (!is_array($items) || empty($items)) {
+      return $items;
+   }
+   $items_by_id = array();
    foreach ($items as $item) {
-      // Получаем значение мета-поля Mega Menu
+      $items_by_id[$item->ID] = $item;
       $item->is_mega_menu = get_post_meta($item->ID, '_mega_menu', true) ?: false;
+   }
+   foreach ($items as $item) {
+      $item->parent_is_mega_menu = false;
+      if (!empty($item->menu_item_parent) && isset($items_by_id[$item->menu_item_parent])) {
+         $parent = $items_by_id[$item->menu_item_parent];
+         $item->parent_is_mega_menu = !empty($parent->is_mega_menu);
+      }
    }
    return $items;
 }

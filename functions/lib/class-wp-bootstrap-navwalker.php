@@ -27,6 +27,7 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 	 */
 	class WP_Bootstrap_Navwalker extends Walker_Nav_Menu
 	{
+		private $current_parent_is_mega_menu = false;
 
 		/**
 		 * Starts the list before the elements are added.
@@ -51,6 +52,11 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			$indent = str_repeat($t, $depth);
 			// Default class to add to the file.
 			$classes = array('dropdown-menu');
+
+			// Mega Menu: add mega-menu class when parent has Mega Menu enabled.
+			if ($this->current_parent_is_mega_menu) {
+				$classes[] = 'mega-menu';
+			}
 
 			// Добавляем скругление из Redux, если выбрано "square" (rounded-0)
 			if (function_exists('getThemeCardImageRadius')) {
@@ -128,13 +134,30 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			 */
 			$args = apply_filters('nav_menu_item_args', $args, $item, $depth);
 
+			// When depth === 1: only top level, no submenus - output simple links without dropdown structure.
+			// WordPress: depth 0 = all levels, depth 1 = top level only.
+			$show_dropdown = !isset($args->depth) || $args->depth === 0 || $args->depth > 1;
+
 			// Add .dropdown or .active classes where they are needed.
 
-			if (isset($args->has_children) && $args->has_children && 0 === $depth) {
+			// Store parent's mega menu state for start_lvl (ul wrapper). Only top-level items have the checkbox.
+			if ($depth === 0) {
+				$this->current_parent_is_mega_menu = !empty($item->is_mega_menu);
+			} else {
+				$this->current_parent_is_mega_menu = false;
+			}
+
+			// Mega Menu: html_blocks child outputs post content instead of link.
+			$is_mega_menu_content = ($depth === 1 && $item->object === 'html_blocks' && !empty($item->parent_is_mega_menu));
+
+			if ($is_mega_menu_content) {
+				$classes[] = 'dropdown-mega-content';
+				$classes[] = 'mega-menu-content';
+			} elseif ($show_dropdown && isset($args->has_children) && $args->has_children && 0 === $depth) {
 				$classes[] = 'dropdown parent-link';
-			} elseif (isset($args->has_children) && $args->has_children && 1 === $depth) {
+			} elseif ($show_dropdown && isset($args->has_children) && $args->has_children && 1 === $depth) {
 				$classes[] = 'dropdown dropend parent-link dropdown-submenu';
-			} elseif (isset($args->has_children) && $args->has_children && 2 === $depth) {
+			} elseif ($show_dropdown && isset($args->has_children) && $args->has_children && 2 === $depth) {
 				$classes[] = 'dropdown dropend parent-link dropdown-submenu';
 			}
 
@@ -143,9 +166,21 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 				$classes[] = 'active';
 			}
 
+			// Add dropdown-mega class when Mega Menu is enabled for this item (only when showing dropdown).
+			if ($show_dropdown && !empty($item->is_mega_menu)) {
+				$classes[] = 'dropdown-mega';
+			}
+
 			// Add some additional default classes to the item.
 			$classes[] = 'menu-item-' . $item->ID;
-			$classes[] = 'nav-item';
+			if (!$is_mega_menu_content) {
+				$classes[] = 'nav-item';
+			}
+
+			// When not showing dropdown, remove menu-item-has-children for clean flat output.
+			if (!$show_dropdown) {
+				$classes = array_diff($classes, array('menu-item-has-children'));
+			}
 
 			// Allow filtering the classes.
 			$classes = apply_filters('nav_menu_css_class', array_filter($classes), $item, $args, $depth);
@@ -170,6 +205,23 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 
 			$output .= $indent . '<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement"' . $id . $class_names . '>';
 
+			// Mega Menu: output html_blocks post content instead of link.
+			if ($is_mega_menu_content && !empty($item->object_id)) {
+				static $mega_menu_rendering = false;
+				if (!$mega_menu_rendering) {
+					$html_post = get_post($item->object_id);
+					if ($html_post && $html_post->post_type === 'html_blocks') {
+						$mega_menu_rendering = true;
+						$mega_content = apply_filters('the_content', $html_post->post_content);
+						$mega_menu_rendering = false;
+						$item_output = $mega_content;
+						$item_output .= isset($args->after) ? $args->after : '';
+						$output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+						return;
+					}
+				}
+			}
+
 			// initialize array for holding the $atts for the link item.
 			$atts = array();
 
@@ -186,8 +238,8 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			$atts['target'] = !empty($item->target) ? $item->target : '';
 			$atts['rel']    = !empty($item->xfn) ? $item->xfn : '';
 
-			// If item has_children add atts to <a>.
-			if (isset($args->has_children) && $args->has_children && 0 === $depth && $args->depth > 1) {
+			// If item has_children add atts to <a> (only when showing dropdown).
+			if ($show_dropdown && isset($args->has_children) && $args->has_children && 0 === $depth) {
 				$atts['href']          = '#';
 				$atts['data-toggle']   = 'dropdown';
 				$atts['aria-haspopup'] = 'true';
@@ -204,12 +256,12 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 				}
 			}
 
-			if ($args->has_children) {
+			if ($show_dropdown && isset($args->has_children) && $args->has_children) {
 				$atts['data-toggle'] = 'dropdown';
 				$atts['aria-expanded'] = 'false';
 			}
 
-			if ($args->has_children && $depth > 0) {
+			if ($show_dropdown && isset($args->has_children) && $args->has_children && $depth > 0) {
 				$atts['class'] = 'dropdown-item dropdown-toggle';
 			}
 
@@ -256,26 +308,23 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 				$item_output .= self::linkmod_element_open($linkmod_type, $attributes);
 			} else {
 				// With no link mod type set this must be a standard <a> tag.
-
+				// When show_dropdown is false, always use simple link. Otherwise use parent-link + dropdown-toggle.
 				$title = apply_filters('the_title', esc_html($item->title), $item->ID);
 
-				if (isset($args->has_children) && $args->has_children && 0 === $depth) {
-					$item_output .= '<a class="nav-link" href="' . $item->url . '">' . $title . '</a>';
-				} elseif (isset($args->has_children) && $args->has_children && 1 === $depth) {
-					$item_output .= '<a class="dropdown-item" href="' . $item->url . '">' . $title . '</a>';
-				} elseif (isset($args->has_children) && $args->has_children && 2 === $depth) {
-					$item_output .= '<a class="dropdown-item" href="' . $item->url . '">' . $title . '</a>';
-				} elseif (isset($args->has_children) && $args->has_children && 3 === $depth) {
-					$item_output .= '<a class="dropdown-item" href="' . $item->url . '">' . $title . '</a>';
-				}
-
-				if (isset($args->has_children) && $args->has_children && 0 === $depth) {
+				if ($show_dropdown && isset($args->has_children) && $args->has_children && 0 === $depth) {
+					$item_output .= '<a class="nav-link" href="' . esc_url($item->url) . '">' . $title . '</a>';
 					$item_output .= '<a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">';
-				} elseif (isset($args->has_children) && $args->has_children && 1 === $depth) {
+				} elseif ($show_dropdown && isset($args->has_children) && $args->has_children && 1 === $depth) {
+					$item_output .= '<a class="dropdown-item" href="' . esc_url($item->url) . '">' . $title . '</a>';
 					$item_output .= '<a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">';
-				} elseif (isset($args->has_children) && $args->has_children && 2 === $depth) {
+				} elseif ($show_dropdown && isset($args->has_children) && $args->has_children && 2 === $depth) {
+					$item_output .= '<a class="dropdown-item" href="' . esc_url($item->url) . '">' . $title . '</a>';
 					$item_output .= '<a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">';
+				} elseif ($show_dropdown && isset($args->has_children) && $args->has_children && 3 === $depth) {
+					$item_output .= '<a class="dropdown-item" href="' . esc_url($item->url) . '">' . $title . '</a>';
+					$item_output .= '<a' . $attributes . '>';
 				} else {
+					// Simple link (no dropdown) - depth <= 1 or no children
 					$item_output .= '<a' . $attributes . '>';
 				}
 			}
@@ -305,11 +354,12 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			 * @param int      $depth Depth of menu item. Used for padding.
 			 */
 
-			if (isset($args->has_children) && $args->has_children && 0 === $depth) {
+			// Visually-hidden title only for dropdown-toggle (when show_dropdown). Otherwise normal title.
+			if ($show_dropdown && isset($args->has_children) && $args->has_children && 0 === $depth) {
 				$title = '<span class="visually-hidden">' . apply_filters('nav_menu_item_title', $title, $item, $args, $depth) . '</span>';
-			} elseif (isset($args->has_children) && $args->has_children && 1 === $depth) {
+			} elseif ($show_dropdown && isset($args->has_children) && $args->has_children && 1 === $depth) {
 				$title = '<span class="visually-hidden">' . apply_filters('nav_menu_item_title', $title, $item, $args, $depth) . '</span>';
-			} elseif (isset($args->has_children) && $args->has_children && 2 === $depth) {
+			} elseif ($show_dropdown && isset($args->has_children) && $args->has_children && 2 === $depth) {
 				$title = '<span class="visually-hidden">' . apply_filters('nav_menu_item_title', $title, $item, $args, $depth) . '</span>';
 			} else {
 				$title = apply_filters('nav_menu_item_title', $title, $item, $args, $depth);

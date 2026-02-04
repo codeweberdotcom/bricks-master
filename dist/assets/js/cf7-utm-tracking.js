@@ -49,7 +49,7 @@
                 localStorage.removeItem('codeweber_utm_params_expiry');
             }
         } catch (e) {
-            console.error('[CF7 UTM] Error reading UTM from localStorage:', e);
+            // Error reading UTM from localStorage - silently fail
         }
         
         // Store current UTM params in localStorage for future use
@@ -59,7 +59,7 @@
                 // Store expiration (30 days)
                 localStorage.setItem('codeweber_utm_params_expiry', (Date.now() + (30 * 24 * 60 * 60 * 1000)).toString());
             } catch (e) {
-                console.error('[CF7 UTM] Error storing UTM in localStorage:', e);
+                // Error storing UTM in localStorage - silently fail
             }
         }
         
@@ -113,8 +113,6 @@
         hiddenInput.name = '_utm_data';
         hiddenInput.value = JSON.stringify(utmData);
         form.appendChild(hiddenInput);
-        
-        console.log('[CF7 UTM] Added UTM data to form:', utmData);
     }
     
     /**

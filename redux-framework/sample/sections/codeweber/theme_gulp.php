@@ -13,8 +13,8 @@ function save_scss_to_file($options, $changed_values)
 	if (isset($redux_options['opt-gulp-sass-variation'])) {
 		$scss_content = $redux_options['opt-gulp-sass-variation'];
 
-		// Путь к файлу _user-variables.scss
-		$file_path = get_template_directory() . '/src/assets/scss/_user-variables.scss';
+		// Путь к файлу _user-variables.scss — в активной теме (child или parent)
+		$file_path = get_stylesheet_directory() . '/src/assets/scss/_user-variables.scss';
 
 		// Проверяем возможность записи
 		if (file_exists($file_path) && !is_writable($file_path)) {
@@ -53,8 +53,12 @@ add_action('admin_enqueue_scripts', function ($hook) {
 	wp_localize_script('gulp-build-trigger', 'gulpBuildAjax', [
 		'ajax_url' => admin_url('admin-ajax.php'),
 		'nonce'    => wp_create_nonce('gulp_build_nonce'),
+		'load_user_vars_nonce' => wp_create_nonce('load_user_variables'),
 	]);
 });
+
+// AJAX обработчик для загрузки содержимого _user-variables.scss (НЕ трогает Gulp!)
+add_action('wp_ajax_load_user_variables', 'load_user_variables_callback');
 
 // AJAX обработчики для всех кнопок
 add_action('wp_ajax_run_gulp_build', 'run_gulp_build_callback');
@@ -62,6 +66,57 @@ add_action('wp_ajax_run_gulp_dev', 'run_gulp_dev_callback');
 add_action('wp_ajax_run_gulp_dist', 'run_gulp_dist_callback');
 add_action('wp_ajax_run_gulp_css', 'run_gulp_css_callback');
 add_action('wp_ajax_run_gulp_js', 'run_gulp_js_callback');
+
+// Загрузка содержимого _user-variables.scss и активного шрифта из активной темы (НЕ трогает Gulp!)
+function load_user_variables_callback()
+{
+	if (!isset($_POST['_ajax_nonce']) || !wp_verify_nonce($_POST['_ajax_nonce'], 'load_user_variables')) {
+		wp_send_json_error(['message' => 'Nonce verification failed.']);
+		return;
+	}
+
+	$file_path = get_stylesheet_directory() . '/src/assets/scss/_user-variables.scss';
+	if (!file_exists($file_path)) {
+		$file_path = get_template_directory() . '/src/assets/scss/_user-variables.scss';
+	}
+
+	if (!file_exists($file_path)) {
+		wp_send_json_error(['message' => __('File _user-variables.scss not found in active theme.', 'codeweber')]);
+		return;
+	}
+
+	$content = file_get_contents($file_path);
+	if ($content === false) {
+		wp_send_json_error(['message' => __('Could not read file.', 'codeweber')]);
+		return;
+	}
+
+	$response_data = ['content' => $content];
+
+	// Парсим импорт шрифта из _user-variables и загружаем содержимое файла шрифта
+	$pattern = '~//START IMPORT FONTS\s+@import "fonts/([^"]+)";\s+//END IMPORT FONTS~s';
+	if (preg_match($pattern, $content, $matches)) {
+		$font_import_name = trim($matches[1]);
+		$font_filename = $font_import_name . (substr($font_import_name, -5) === '.scss' ? '' : '.scss');
+
+		$fonts_dir = get_stylesheet_directory() . '/src/assets/scss/fonts/';
+		$font_file_path = $fonts_dir . $font_filename;
+		if (!file_exists($font_file_path)) {
+			$fonts_dir = get_template_directory() . '/src/assets/scss/fonts/';
+			$font_file_path = $fonts_dir . $font_filename;
+		}
+
+		if (file_exists($font_file_path)) {
+			$font_content = file_get_contents($font_file_path);
+			if ($font_content !== false) {
+				$response_data['font_content'] = $font_content;
+				$response_data['font_filename'] = $font_filename;
+			}
+		}
+	}
+
+	wp_send_json_success($response_data);
+}
 
 // Общая функция для выполнения Gulp команд
 function run_gulp_command($command)
@@ -80,18 +135,19 @@ function run_gulp_command($command)
 	];
 }
 
-// Функция для записи SCSS переменных в файл
+// Функция для записи SCSS переменных в файл (в активной теме)
 function write_scss_variables()
 {
 	global $opt_name;
 	$global_header_model = Redux::get_option($opt_name, 'opt-gulp-sass-variation');
 
-	// Путь к файлу _user-variables.scss
-	$scss_file_path = get_template_directory() . '/src/assets/scss/_user-variables.scss';
+	// Путь к файлу _user-variables.scss — в активной теме
+	$scss_dir = get_stylesheet_directory() . '/src/assets/scss/';
+	$scss_file_path = $scss_dir . '_user-variables.scss';
 
-	// Проверяем, существует ли файл
-	if (!file_exists($scss_file_path)) {
-		return ['success' => false, 'message' => 'Файл _user-variables.scss не найден'];
+	// Создаём директорию, если её нет
+	if (!file_exists($scss_dir)) {
+		wp_mkdir_p($scss_dir);
 	}
 
 	// Перезаписываем файл содержимым из поля Redux или пустой строкой
@@ -217,16 +273,19 @@ function run_gulp_js_callback()
 	}
 }
 
-// Функция для получения пути к файлу шрифта
+// Функция для получения пути к файлу шрифта (для загрузки: активная тема → родительская)
 function redux_get_font_file_path($filename)
 {
-	$theme_path = get_template_directory() . '/src/assets/scss/fonts/';
-
 	if (substr($filename, -5) !== '.scss') {
 		$filename .= '.scss';
 	}
 
-	return $theme_path . $filename;
+	$active_path = get_stylesheet_directory() . '/src/assets/scss/fonts/' . $filename;
+	if (file_exists($active_path)) {
+		return $active_path;
+	}
+
+	return get_template_directory() . '/src/assets/scss/fonts/' . $filename;
 }
 
 // Функция для загрузки содержимого файла
@@ -241,11 +300,30 @@ function redux_load_font_file_content($filename)
 	return '';
 }
 
-// Функция для сохранения содержимого в файл
+// Функция для сохранения содержимого в файл (всегда в активной теме)
 function redux_save_font_file_content($filename, $content)
 {
-	$file_path = redux_get_font_file_path($filename);
-	return file_put_contents($file_path, $content);
+	if (substr($filename, -5) !== '.scss') {
+		$filename .= '.scss';
+	}
+
+	// В child-теме: Bootstrap mixins в parent
+	if (get_template_directory() !== get_stylesheet_directory()) {
+		$parent_slug = basename(get_template_directory());
+		$bootstrap_path = '../../../../../' . $parent_slug . '/node_modules/bootstrap/scss/mixins';
+		$content = preg_replace(
+			'~@import\s+"\.\./\.\./\.\./\.\./node_modules/bootstrap/scss/mixins"~',
+			'@import "' . $bootstrap_path . '"',
+			$content
+		);
+	}
+
+	$dir = get_stylesheet_directory() . '/src/assets/scss/fonts/';
+	if (!file_exists($dir)) {
+		wp_mkdir_p($dir);
+	}
+
+	return file_put_contents($dir . $filename, $content);
 }
 
 // Функция для сохранения файла при сохранении настроек Redux
@@ -409,6 +487,14 @@ return array(
 	),
 
 	array(
+		'id'    => 'opt-load-user-variables',
+		'type'  => 'raw',
+		'title' => '',
+		'desc'  => '',
+		'content' => '<div style="margin-bottom:15px;"><button type="button" id="load-user-variables-btn" class="button button-secondary"><span class="dashicons dashicons-download" style="margin-top:4px;"></span> ' . esc_html__('Load _user-variables and active font from the currently active theme', 'codeweber') . '</button></div>',
+	),
+
+	array(
 		'id'       => 'opt-gulp-sass-variation',
 		'type'     => 'ace_editor',
 		'title'    => esc_html__('Custom SCSS / Code', 'codeweber'),
@@ -428,19 +514,6 @@ return array(
 		'title'    => esc_html__('Font individual / Code', 'codeweber'),
 		'subtitle' => esc_html__("After adding a font, this field will display a code for managing the font's individual properties.", "codeweber"),
 		'mode'     => 'scss',
-		'theme'    => 'monokai',
-		'default'  => '',
-		'args'     => array(
-			'minLines' => 15,
-			'maxLines' => 30,
-		),
-	),
-
-	array(
-		'id'       => 'opt-gulp-js-variation',
-		'type'     => 'ace_editor',
-		'title'    => esc_html__('Gulp JS Variables / Code', 'codeweber'),
-		'mode'     => 'js',
 		'theme'    => 'monokai',
 		'default'  => '',
 		'args'     => array(

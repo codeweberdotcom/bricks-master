@@ -115,6 +115,11 @@ if (process.env.DEBUG_GULP) {
   console.log('DEBUG: parentThemePath =', parentThemePath);
 }
 
+/* Определяем, какой _user-variables.scss будет использован при сборке */
+var userVarsPathActive = path_module.join(currentThemePath, 'src', 'assets', 'scss', '_user-variables.scss');
+var userVarsPathParent = path_module.join(parentThemePath, 'src', 'assets', 'scss', '_user-variables.scss');
+var userVarsUsedPath = fs.existsSync(userVarsPathActive) ? userVarsPathActive : userVarsPathParent;
+
 /* Log theme information */
 console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 if (isChild) {
@@ -127,6 +132,7 @@ if (isChild) {
   console.log('  Дочерняя тема не активна');
   console.log('  dist будет создан в: ' + currentThemePath + '/dist');
 }
+console.log('  _user-variables.scss: ' + userVarsUsedPath);
 console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
 /* Check if src exists in current theme, otherwise use parent */
@@ -254,6 +260,12 @@ var path = {
     dist: path_module.join(distBasePath, "dist/*"),
   },
 };
+
+/* SASS includePaths: активная тема первая, чтобы @import 'user-variables' брал _user-variables из неё */
+var sassIncludePaths = [path_module.join(currentThemePath, 'src', 'assets', 'scss')];
+if (isChild) {
+  sassIncludePaths.push(path_module.join(parentThemePath, 'src', 'assets', 'scss'));
+}
 
 /* Include gulp and plugins */
 var gulp = require('gulp'),
@@ -549,7 +561,7 @@ gulp.task('css:dev', function () {
   return gulp.src(path.src.style)
     .pipe(newer(path.dev.style))
     .pipe(plumber())
-    .pipe(sass()
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -566,7 +578,7 @@ gulp.task('css:dist', function () {
     .pipe(newer(path.dist.style))
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(sass()
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -598,7 +610,7 @@ gulp.task('fontcss:dev', function () {
   return gulp.src(path.src.fontcss)
     .pipe(newer(path.dev.fontcss))
     .pipe(plumber())
-    .pipe(sass()
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -615,7 +627,7 @@ gulp.task('fontcss:dist', function () {
   return gulp.src(path.src.fontcss)
     .pipe(newer(path.dist.fontcss))
     .pipe(plumber())
-    .pipe(sass()
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -634,7 +646,7 @@ gulp.task('fontcss:dist', function () {
 gulp.task('colorcss:dev', function () {
   return gulp.src(path.src.colorcss)
     .pipe(plumber())
-    .pipe(sass()
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -649,7 +661,7 @@ gulp.task('colorcss:dev', function () {
 gulp.task('colorcss:dist', function () {
   return gulp.src(path.src.colorcss)
     .pipe(plumber())
-    .pipe(sass()
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');

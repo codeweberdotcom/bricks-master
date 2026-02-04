@@ -21,7 +21,7 @@ function redux_handle_custom_font_upload()
 		wp_send_json_error(__('Font name and files are required', 'codeweber'));
 	}
 
-	$fonts_dir = get_template_directory() . '/src/assets/fonts/';
+	$fonts_dir = get_stylesheet_directory() . '/src/assets/fonts/';
 	$font_dir = $fonts_dir . $font_name . '/';
 
 	// Создаем директории если не существуют
@@ -107,8 +107,8 @@ function redux_handle_apply_custom_font()
 
 		$scss_filename = $result;
 
-		// Получаем полное содержимое SCSS файла
-		$scss_dir = get_template_directory() . '/src/assets/scss/fonts/';
+		// Получаем полное содержимое SCSS файла (из активной темы)
+		$scss_dir = get_stylesheet_directory() . '/src/assets/scss/fonts/';
 		$scss_file = $scss_dir . $scss_filename;
 
 		if (file_exists($scss_file)) {
@@ -185,7 +185,7 @@ function redux_handle_custom_font_delete()
 		wp_send_json_error(__('This font is protected and cannot be deleted.', 'codeweber'));
 	}
 
-	$font_dir = get_template_directory() . '/src/assets/fonts/' . $font_name . '/';
+	$font_dir = get_stylesheet_directory() . '/src/assets/fonts/' . $font_name . '/';
 
 	if (!file_exists($font_dir)) {
 		wp_send_json_error(__('Font directory not found', 'codeweber'));
@@ -312,9 +312,28 @@ function redux_generate_font_css($font_name, $font_dir)
 	return $css;
 }
 
+// Пути для SCSS шрифтов: в child-теме ссылки на родительскую (woff, node_modules)
+function redux_get_fonts_url_prefix()
+{
+	if (get_template_directory() === get_stylesheet_directory()) {
+		return '../fonts';
+	}
+	$parent_slug = basename(get_template_directory());
+	return '../../../../' . $parent_slug . '/src/assets/fonts';
+}
+
+function redux_get_bootstrap_mixins_import()
+{
+	if (get_template_directory() === get_stylesheet_directory()) {
+		return '../../../../node_modules/bootstrap/scss/mixins';
+	}
+	$parent_slug = basename(get_template_directory());
+	return '../../../../../' . $parent_slug . '/node_modules/bootstrap/scss/mixins';
+}
+
 function redux_create_font_scss($selected_fonts, $primary_font)
 {
-	$scss_dir = get_template_directory() . '/src/assets/scss/fonts/';
+	$scss_dir = get_stylesheet_directory() . '/src/assets/scss/fonts/';
 
 	if (!file_exists($scss_dir)) {
 		wp_mkdir_p($scss_dir);
@@ -351,7 +370,7 @@ function redux_create_font_scss($selected_fonts, $primary_font)
 	$ordered_fonts = array_merge([$primary_font], array_diff($selected_fonts, [$primary_font]));
 
 	foreach ($ordered_fonts as $font_name) {
-		$font_dir = get_template_directory() . '/src/assets/fonts/' . $font_name . '/';
+		$font_dir = get_stylesheet_directory() . '/src/assets/fonts/' . $font_name . '/';
 		$font_css_path = $font_dir . $font_name . '.css';
 
 		if (file_exists($font_css_path)) {
@@ -363,11 +382,12 @@ function redux_create_font_scss($selected_fonts, $primary_font)
 				$real_font_names[$font_name] = $matches[1];
 			}
 
+			$fonts_prefix = redux_get_fonts_url_prefix();
 			$modified_css = preg_replace_callback(
 				'/url\(\'([^\']+)\'\)/',
-				function ($matches) use ($font_name) {
+				function ($matches) use ($font_name, $fonts_prefix) {
 					$old_path = $matches[1];
-					return "url('../fonts/{$font_name}/" . basename($old_path) . "')";
+					return "url('{$fonts_prefix}/{$font_name}/" . basename($old_path) . "')";
 				},
 				$css_content
 			);
@@ -415,13 +435,14 @@ function redux_create_font_scss($selected_fonts, $primary_font)
 			// Сохраняем настоящее имя шрифта
 			$real_font_names[$font_name] = $real_font_name;
 
+			$fonts_prefix = redux_get_fonts_url_prefix();
 			foreach ($font_variants as $variant) {
 				$src = array();
 				if (isset($variant['formats']['woff2'])) {
-					$src[] = "url('../fonts/{$font_name}/{$variant['formats']['woff2']}') format('woff2')";
+					$src[] = "url('{$fonts_prefix}/{$font_name}/{$variant['formats']['woff2']}') format('woff2')";
 				}
 				if (isset($variant['formats']['woff'])) {
-					$src[] = "url('../fonts/{$font_name}/{$variant['formats']['woff']}') format('woff')";
+					$src[] = "url('{$fonts_prefix}/{$font_name}/{$variant['formats']['woff']}') format('woff')";
 				}
 
 				if (!empty($src)) {
@@ -438,8 +459,9 @@ function redux_create_font_scss($selected_fonts, $primary_font)
 		}
 	}
 
+	$bootstrap_import = redux_get_bootstrap_mixins_import();
 	$scss_content .= "\n// Bootstrap Configuration\n";
-	$scss_content .= "@import \"../../../../node_modules/bootstrap/scss/mixins\";\n\n";
+	$scss_content .= "@import \"{$bootstrap_import}\";\n\n";
 
 	// Font Variables
 	$scss_content .= "// Font Variables\n";
@@ -696,7 +718,7 @@ function redux_extract_font_weight($filename)
 function redux_get_uploaded_fonts()
 {
 	$fonts = array();
-	$fonts_dir = get_template_directory() . '/src/assets/fonts/';
+	$fonts_dir = get_stylesheet_directory() . '/src/assets/fonts/';
 
 	if (!file_exists($fonts_dir)) {
 		return $fonts;
@@ -1102,26 +1124,29 @@ return array(
 
 function redux_get_fonts_scss()
 {
-	$theme_path = get_template_directory();
-	$fonts_path = $theme_path . '/src/assets/scss/fonts/';
-
 	$options = array(
 		'' => esc_html__('Select Font Combination', 'codeweber')
 	);
 
-	// Проверяем существует ли папка
-	if (!file_exists($fonts_path)) {
-		return $options;
+	$seen = array();
+	$paths = array(get_stylesheet_directory() . '/src/assets/scss/fonts/');
+	if (get_template_directory() !== get_stylesheet_directory()) {
+		$paths[] = get_template_directory() . '/src/assets/scss/fonts/';
 	}
 
-	// Получаем SCSS файлы
-	$files = glob($fonts_path . '*.scss');
-
-	foreach ($files as $file) {
-		if (is_file($file)) {
-			$filename = basename($file); // Получаем имя файла с расширением
-			$pretty_name = $filename;
-			$options[$filename] = $pretty_name;
+	foreach ($paths as $fonts_path) {
+		if (!file_exists($fonts_path)) {
+			continue;
+		}
+		$files = glob($fonts_path . '*.scss');
+		foreach ($files as $file) {
+			if (is_file($file)) {
+				$filename = basename($file);
+				if (!isset($seen[$filename])) {
+					$seen[$filename] = true;
+					$options[$filename] = $filename;
+				}
+			}
 		}
 	}
 
@@ -1131,26 +1156,7 @@ function redux_get_fonts_scss()
 // Альтернативный вариант - если нужно использовать в Redux поле
 function redux_fonts_combinations_field($field)
 {
-	$options = array(
-		'' => esc_html__('Select Font Combination', 'codeweber')
-	);
-
-	$theme_path = get_template_directory();
-	$fonts_path = $theme_path . '/src/assets/scss/fonts/';
-
-	if (file_exists($fonts_path)) {
-		$files = glob($fonts_path . '*.scss');
-
-		foreach ($files as $file) {
-			if (is_file($file)) {
-				$filename = basename($file); // Получаем имя файла с расширением
-				$pretty_name = $filename;
-				$options[$filename] = $pretty_name;
-			}
-		}
-	}
-
-	return $options;
+	return redux_get_fonts_scss();
 }
 
 
