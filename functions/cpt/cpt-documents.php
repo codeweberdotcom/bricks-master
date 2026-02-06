@@ -226,6 +226,7 @@ function get_allowed_document_types()
       'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'xls'  => 'application/vnd.ms-excel',
       'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'csv'  => 'text/csv',
       'ppt'  => 'application/vnd.ms-powerpoint',
       'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
       'txt'  => 'text/plain',

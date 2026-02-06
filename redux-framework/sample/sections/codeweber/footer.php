@@ -272,6 +272,7 @@ Redux::set_section(
 				'type'     => 'accordion',
 				'title'    => esc_html__('Footer Column Settings', 'codeweber'),
 				'position' => 'start',
+				'required' => array('global_footer_type', '=', '1'),
 			),
 
 			// Активация Breadcrumbs
@@ -311,6 +312,7 @@ Redux::set_section(
 				'type'     => 'accordion',
 				'title'    => esc_html__('Bottombar', 'codeweber'),
 				'position' => 'start',
+				'required' => array('global_footer_type', '=', '1'),
 			),
 
 			// Активация Breadcrumbs

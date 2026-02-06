@@ -141,6 +141,20 @@ if ( ! class_exists( 'Redux_Import_Export', false ) ) {
 			</p>
 			<p></p>
 			<label for="redux-export-code"></label><textarea class="large-text no-update" id="redux-export-code" rows="1"></textarea>
+			<div class="hr">
+				<div class="inner">
+					<span>&nbsp;</span>
+				</div>
+			</div>
+			<h4><?php esc_html_e( 'Redux Settings', 'redux-framework' ); ?></h4>
+			<p>
+				<button type="button" id="redux-import-from-theme" class="button-secondary" data-secret="<?php echo esc_attr( $secret ); ?>">
+					<?php esc_html_e( 'Load from Theme', 'redux-framework' ); ?>
+				</button>
+				<button type="button" id="redux-save-to-theme" class="button-secondary" data-secret="<?php echo esc_attr( $secret ); ?>">
+					<?php esc_html_e( 'Save to Theme', 'redux-framework' ); ?>
+				</button>
+			</p>
 			<?php
 		}
 
@@ -168,7 +182,12 @@ if ( ! class_exists( 'Redux_Import_Export', false ) ) {
 				'redux-extension-import-export',
 				'ImportExport',
 				array(
-					'unchanged_values' => esc_html__( 'Your panel has unchanged values, would you like to save them now?', 'redux-framework' ),
+					'unchanged_values'       => esc_html__( 'Your panel has unchanged values, would you like to save them now?', 'redux-framework' ),
+					'save_success'           => esc_html__( 'Settings saved to theme successfully.', 'redux-framework' ),
+					'save_error'             => esc_html__( 'Failed to save settings to theme.', 'redux-framework' ),
+					'load_success'           => esc_html__( 'Settings loaded from theme. Click Import to apply.', 'redux-framework' ),
+					'load_error'             => esc_html__( 'Failed to load settings from theme.', 'redux-framework' ),
+					'opt_name'               => $this->parent->args['opt_name'],
 				)
 			);
 

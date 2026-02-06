@@ -1,6 +1,46 @@
 // Font Import
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@1,300;1,400;1,500;1,600;1,700');
-@import "../../fonts/space/space.css";
+// Space Grotesk (inlined to avoid Sass @import path resolution issues)
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/space/SpaceGrotesk-SemiBold.woff2') format('woff2'),
+       url('../fonts/space/SpaceGrotesk-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/space/SpaceGrotesk-Light.woff2') format('woff2'),
+       url('../fonts/space/SpaceGrotesk-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/space/SpaceGrotesk-Bold.woff2') format('woff2'),
+       url('../fonts/space/SpaceGrotesk-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/space/SpaceGrotesk-Medium.woff2') format('woff2'),
+       url('../fonts/space/SpaceGrotesk-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/space/SpaceGrotesk-Regular.woff2') format('woff2'),
+       url('../fonts/space/SpaceGrotesk-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
 
 // Bootstrap Configuration
 @import "../../../../node_modules/bootstrap/scss/mixins";

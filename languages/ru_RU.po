@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-02-03 14:39+0000\n"
+"PO-Revision-Date: 2026-02-04 11:33+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.8.1; wp-6.9; php-8.1.10\n"
+"X-Loco-Version: 2.8.1; wp-6.9.1; php-8.1.10\n"
 "X-Domain: codeweber"
 
 #: functions/lib/comments-helper.php:38
@@ -5492,7 +5492,8 @@ msgstr "Перечень обрабатываемых персональных �
 
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:487
 msgid "Load _user-variables and active font from the currently active theme"
-msgstr "Загрузить _user-variables и активный шрифт из текущей активированной темы"
+msgstr ""
+"Загрузить _user-variables и активный шрифт из текущей активированной темы"
 
 #: functions/enqueues.php:205 functions/enqueues.php:384
 #: templates/post-cards/documents/card_download.php:82

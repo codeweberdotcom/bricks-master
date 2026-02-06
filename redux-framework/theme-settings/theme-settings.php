@@ -77,6 +77,8 @@ function codeweber_admin_styles_scripts()
 	if (isset($_GET['page']) && ($_GET['page'] === $opt_name || $_GET['page'] === 'redux_demo')) {
 		// Подключаем файл стилей только для этой страницы
 		wp_enqueue_style('theme-settings-css', get_template_directory_uri() . '/redux-framework/theme-settings/theme-settings.css', false, wp_get_theme()->get('Version'), 'all');
+		// Скрытие аккордеонов Footer при типе футера "Кастомный"
+		wp_enqueue_script('theme-settings-footer-admin', get_template_directory_uri() . '/redux-framework/theme-settings/footer-admin.js', array('jquery'), wp_get_theme()->get('Version'), true);
 	}
 }
 

@@ -104,8 +104,8 @@ function getActiveChildTheme() {
 /* Determine paths based on theme type */
 var themeInfo = getActiveChildTheme();
 var isChild = themeInfo.is_child;
-var currentThemePath = isChild ? themeInfo.child_theme_path : themeInfo.parent_theme_path;
-var parentThemePath = themeInfo.parent_theme_path;
+var currentThemePath = path_module.resolve(path_module.normalize(isChild ? themeInfo.child_theme_path : themeInfo.parent_theme_path));
+var parentThemePath = path_module.resolve(path_module.normalize(themeInfo.parent_theme_path));
 
 // Отладочная информация
 if (process.env.DEBUG_GULP) {
@@ -218,6 +218,16 @@ var path = {
     cf7utmtrackingjs: srcPrefix + "/assets/js/cf7-utm-tracking.js",
     style: srcPrefix + "/assets/scss/style.scss",
     fontcss: srcPrefix + "/assets/scss/fonts/*.*",
+    // When building for child theme: use child's style.scss if it exists (ensures child's _user-variables with correct fonts)
+    styleEntry: (function() {
+      if (isChild) {
+        var childStyle = path_module.join(currentThemePath, 'src', 'assets', 'scss', 'style.scss');
+        if (fs.existsSync(childStyle)) {
+          return childStyle;
+        }
+      }
+      return path_module.join(parentThemePath, 'src', 'assets', 'scss', 'style.scss');
+    })(),
     colorcss: [
       srcPrefix + "/assets/scss/colors/*.scss",
       srcPrefix + "/assets/scss/theme/_colors.scss",
@@ -237,12 +247,22 @@ var path = {
     partials: srcPrefix + "/partials/**/*.*",
     themejs: srcPrefix + "/assets/js/theme.js",
     vendorjs: srcPrefix + "/assets/js/vendor/*.*",
-    css: [
-      srcPrefix + "/assets/scss/**/*.scss",
-      "!" + srcPrefix + "/assets/scss/fonts/*.scss",
-      "!" + srcPrefix + "/assets/scss/colors/*.scss",
-      "!" + srcPrefix + "/assets/scss/theme/_colors.scss",
-    ],
+    css: (function() {
+      var paths = [
+        srcPrefix + "/assets/scss/**/*.scss",
+        "!" + srcPrefix + "/assets/scss/fonts/*.scss",
+        "!" + srcPrefix + "/assets/scss/colors/*.scss",
+        "!" + srcPrefix + "/assets/scss/theme/_colors.scss",
+      ];
+      // When child theme: also watch child's scss (style.scss imports from there)
+      if (isChild) {
+        var childScss = path_module.join(currentThemePath, 'src', 'assets', 'scss', '**/*.scss');
+        if (fs.existsSync(path_module.join(currentThemePath, 'src', 'assets', 'scss'))) {
+          paths.push(childScss);
+        }
+      }
+      return paths;
+    })(),
     fontcss: srcPrefix + "/assets/scss/fonts/*.scss",
     colorcss: [
       srcPrefix + "/assets/scss/colors/*.scss",
@@ -558,7 +578,7 @@ gulp.task('html:dist', function () {
 
 // Compile theme styles
 gulp.task('css:dev', function () {
-  return gulp.src(path.src.style)
+  return gulp.src(path.src.styleEntry)
     .pipe(newer(path.dev.style))
     .pipe(plumber())
     .pipe(sass({ includePaths: sassIncludePaths })
@@ -574,7 +594,7 @@ gulp.task('css:dev', function () {
     .pipe(touch())
 });
 gulp.task('css:dist', function () {
-  return gulp.src(path.src.style)
+  return gulp.src(path.src.styleEntry)
     .pipe(newer(path.dist.style))
     .pipe(plumber())
     .pipe(sourcemaps.init())
@@ -587,7 +607,10 @@ gulp.task('css:dist', function () {
     .pipe(sassUnicode())
     .pipe(autoprefixer())
     .pipe(cleanCSS())
-    .pipe(sourcemaps.write('.'))
+    .pipe(sourcemaps.write('.', {
+      includeContent: true,
+      sourceRoot: '../../../src/assets/scss'
+    }))
     .pipe(gulp.dest(path.dist.style))
     .pipe(touch())
     .on('end', () => { reload(); });

@@ -6,6 +6,10 @@
 add_action('wp_nav_menu_item_custom_fields', 'add_mega_menu_checkbox_to_menu_item', 10, 4);
 function add_mega_menu_checkbox_to_menu_item($item_id, $item, $depth, $args)
 {
+   // Показывать чекбокс только для пунктов верхнего уровня (depth 0)
+   if ($depth !== 0) {
+      return;
+   }
    $is_mega_menu = get_post_meta($item_id, '_is_mega_menu', true);
 ?>
    <div class="field-mega-menu description-wide" style="margin: 5px 0;">

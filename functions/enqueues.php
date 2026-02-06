@@ -78,7 +78,7 @@ if (!function_exists('brk_styles_scripts')) {
 		
 		$theme_styles_url = brk_get_dist_file_url('dist/assets/css/style.css');
 		if ($theme_styles_url) {
-			wp_enqueue_style('theme-styles', $theme_styles_url, false, $theme_version, 'all');
+			wp_enqueue_style('codeweber-style', $theme_styles_url, false, $theme_version, 'all');
 		}
 
 		if (class_exists('Redux')) {

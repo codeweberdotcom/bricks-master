@@ -52,6 +52,9 @@ if ( ! class_exists( 'Redux_Extension_Import_Export', false ) ) {
 			add_action( 'wp_ajax_redux_download_options-' . $this->parent->args['opt_name'], array( $this, 'download_options' ) );
 			add_action( 'wp_ajax_nopriv_redux_download_options-' . $this->parent->args['opt_name'], array( $this, 'download_options' ) );
 
+			add_action( 'wp_ajax_redux_save_to_theme-' . $this->parent->args['opt_name'], array( $this, 'save_to_theme' ) );
+			add_action( 'wp_ajax_redux_load_from_theme-' . $this->parent->args['opt_name'], array( $this, 'load_from_theme' ) );
+
 			// phpcs:ignore WordPress.NamingConventions.ValidHookName
 			do_action( 'redux/options/' . $this->parent->args['opt_name'] . '/import', array( $this, 'remove_cookie' ) );
 
@@ -139,6 +142,81 @@ if ( ! class_exists( 'Redux_Extension_Import_Export', false ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput
 			echo( $content );
 			exit;
+		}
+
+		/**
+		 * Get path to redux-settings.json in active theme.
+		 *
+		 * @return string
+		 */
+		private function get_theme_settings_path(): string {
+			return get_stylesheet_directory() . '/redux-settings.json';
+		}
+
+		/**
+		 * Save options to theme redux-settings.json file.
+		 */
+		public function save_to_theme() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( array( 'message' => __( 'Permission denied.', 'redux-framework' ) ) );
+			}
+
+			// phpcs:ignore WordPress.Security.NonceVerification
+			if ( ! isset( $_POST['secret'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['secret'] ) ), 'redux_io_' . $this->parent->args['opt_name'] ) ) {
+				wp_send_json_error( array( 'message' => __( 'Invalid security token.', 'redux-framework' ) ) );
+			}
+
+			$this->parent->options_class->get();
+			$backup_options                 = $this->parent->options;
+			$backup_options['redux-backup'] = 1;
+
+			if ( isset( $backup_options['REDUX_imported'] ) ) {
+				unset( $backup_options['REDUX_imported'] );
+			}
+
+			$content  = wp_json_encode( $backup_options, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+			$filepath = $this->get_theme_settings_path();
+
+			if ( ! is_writable( dirname( $filepath ) ) ) {
+				wp_send_json_error( array( 'message' => __( 'Theme directory is not writable.', 'redux-framework' ) ) );
+			}
+
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+			if ( false === file_put_contents( $filepath, $content ) ) {
+				wp_send_json_error( array( 'message' => __( 'Failed to save file.', 'redux-framework' ) ) );
+			}
+
+			wp_send_json_success( array( 'message' => __( 'Settings saved to theme successfully.', 'redux-framework' ) ) );
+		}
+
+		/**
+		 * Load options from theme redux-settings.json file.
+		 */
+		public function load_from_theme() {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( array( 'message' => __( 'Permission denied.', 'redux-framework' ) ) );
+			}
+
+			// phpcs:ignore WordPress.Security.NonceVerification
+			if ( ! isset( $_GET['secret'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_GET['secret'] ) ), 'redux_io_' . $this->parent->args['opt_name'] ) ) {
+				wp_send_json_error( array( 'message' => __( 'Invalid security token.', 'redux-framework' ) ) );
+			}
+
+			$filepath = $this->get_theme_settings_path();
+
+			if ( ! file_exists( $filepath ) ) {
+				wp_send_json_error( array( 'message' => __( 'Settings file not found in theme.', 'redux-framework' ) ) );
+			}
+
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			$content = file_get_contents( $filepath );
+			$data   = json_decode( $content, true );
+
+			if ( json_last_error() !== JSON_ERROR_NONE || ! is_array( $data ) ) {
+				wp_send_json_error( array( 'message' => __( 'Invalid settings file format.', 'redux-framework' ) ) );
+			}
+
+			wp_send_json_success( array( 'data' => $content, 'message' => __( 'Settings loaded from theme.', 'redux-framework' ) ) );
 		}
 
 		/**

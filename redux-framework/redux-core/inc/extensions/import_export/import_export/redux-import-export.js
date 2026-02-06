@@ -7,6 +7,15 @@
 	redux.field_objects               = redux.field_objects || {};
 	redux.field_objects.import_export = redux.field_objects.import_export || {};
 
+	redux.field_objects.import_export.show_notice = function ( message, type ) {
+		const $bar = $( document.getElementById( 'redux_notification_bar' ) );
+		const noticeClass = 'success' === type ? 'admin-notice notice-blue saved_notice' : 'admin-notice notice-red saved_notice';
+		if ( $bar.length ) {
+			$bar.html( '<div class="' + noticeClass + '"><strong>' + message + '</strong></div>' ).slideDown( 'fast' );
+			$bar.delay( 4000 ).slideUp();
+		}
+	};
+
 	redux.field_objects.import_export.copy_text = function ( $text ) {
 		const copyFrom = document.createElement( 'textarea' );
 
@@ -131,6 +140,34 @@
 							}
 						);
 
+						$( this ).find( '#redux-import-from-theme' ).on(
+							'click',
+							function () {
+								const $btn = $( this );
+								const secret = $btn.data( 'secret' );
+								const url = ajaxurl + '?action=redux_load_from_theme-' + ImportExport.opt_name + '&secret=' + secret;
+
+								$btn.prop( 'disabled', true );
+
+								$.get( url )
+									.done( function ( response ) {
+										if ( response.success && response.data && response.data.data ) {
+											$( '#redux-import-code-wrapper' ).fadeIn( 'medium' );
+											$( '#import-code-value' ).val( response.data.data ).trigger( 'focus' );
+											redux.field_objects.import_export.show_notice( ImportExport.load_success, 'success' );
+										} else {
+											redux.field_objects.import_export.show_notice( ( response.data && response.data.message ) || ImportExport.load_error, 'error' );
+										}
+									} )
+									.fail( function () {
+										redux.field_objects.import_export.show_notice( ImportExport.load_error, 'error' );
+									} )
+									.always( function () {
+										$btn.prop( 'disabled', false );
+									} );
+							}
+						);
+
 						$( this ).find( '#redux-import-upload' ).on(
 							'click',
 							function () {
@@ -153,6 +190,44 @@
 								};
 
 								fileread.readAsText( file_to_read );
+							}
+						);
+
+						$( this ).find( '#redux-save-to-theme' ).on(
+							'click',
+							function ( e ) {
+								const $btn = $( this );
+								const secret = $btn.data( 'secret' );
+
+								e.preventDefault();
+								$btn.prop( 'disabled', true );
+
+								const doSave = function () {
+									$.post( ajaxurl, {
+										action: 'redux_save_to_theme-' + ImportExport.opt_name,
+										secret: secret
+									} )
+										.done( function ( response ) {
+											if ( response.success ) {
+												redux.field_objects.import_export.show_notice( ImportExport.save_success, 'success' );
+											} else {
+												redux.field_objects.import_export.show_notice( ( response.data && response.data.message ) || ImportExport.save_error, 'error' );
+											}
+										} )
+										.fail( function () {
+											redux.field_objects.import_export.show_notice( ImportExport.save_error, 'error' );
+										} )
+										.always( function () {
+											$btn.prop( 'disabled', false );
+										} );
+								};
+
+								if ( window.onbeforeunload && confirm( ImportExport.unchanged_values ) ) {
+									$( '#redux_top_save' ).trigger( 'click' );
+									setTimeout( doSave, 2000 );
+								} else {
+									doSave();
+								}
 							}
 						);
 
