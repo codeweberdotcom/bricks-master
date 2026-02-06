@@ -262,9 +262,11 @@ function get_allowed_document_extensions()
  */
 function render_documents_file_meta_box($post)
 {
-   $file_url = get_post_meta($post->ID, '_document_file', true);
-   $file_name = basename($file_url);
+   $file_meta = get_post_meta($post->ID, '_document_file', true);
+   $file_url = is_numeric($file_meta) ? wp_get_attachment_url((int) $file_meta) : $file_meta;
+   $file_name = $file_url ? basename($file_url) : '';
    $allowed_extensions = get_allowed_document_extensions();
+   $is_spreadsheet = codeweber_document_is_spreadsheet($post->ID);
 
    wp_nonce_field('save_document_file', 'document_file_nonce');
 
@@ -274,6 +276,20 @@ function render_documents_file_meta_box($post)
       echo '<p>Текущий файл: <strong>' . esc_html($file_name) . '</strong></p>';
       echo '<p><a href="' . esc_url($file_url) . '" target="_blank">Просмотреть файл</a></p>';
       echo '<p><label><input type="checkbox" name="remove_document_file" value="1"> Удалить файл</label></p>';
+      if ($is_spreadsheet && $post->ID > 0) {
+         echo '<div class="codeweber-doc-edit-tabulator-wrap" style="margin-top:15px;">';
+         echo '<div class="codeweber-doc-edit-toolbar">';
+         echo '<button type="button" class="button button-small codeweber-doc-edit-settings-toggle"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('Настройки таблицы', 'codeweber') . '</button>';
+         echo '<div class="codeweber-doc-edit-settings" style="display:none; margin-top:8px; padding:10px; background:#f6f7f7; border-radius:4px;">';
+         echo '<label><input type="checkbox" class="codeweber-edit-tab-resizable" checked> ' . esc_html__('Изменять ширину колонок', 'codeweber') . '</label> ';
+         echo '<label><input type="checkbox" class="codeweber-edit-tab-sortable" checked> ' . esc_html__('Сортировка', 'codeweber') . '</label> ';
+         echo '<label><input type="number" class="codeweber-edit-tab-minwidth" value="80" min="40" max="500" style="width:55px;"> ' . esc_html__('мин. px', 'codeweber') . '</label> ';
+         echo '<label><input type="number" class="codeweber-edit-tab-maxwidth" value="400" min="0" max="1000" style="width:55px;"> ' . esc_html__('макс. px', 'codeweber') . '</label> ';
+         echo '<button type="button" class="button button-small codeweber-doc-edit-apply">' . esc_html__('Применить', 'codeweber') . '</button>';
+         echo '</div></div>';
+         echo '<div id="codeweber-doc-edit-tabulator" data-doc-id="' . (int) $post->ID . '" class="codeweber-doc-edit-tabulator"></div>';
+         echo '</div>';
+      }
    }
 
    echo '<input type="file" name="document_file" id="document_file" accept=".' . esc_attr(implode(',.', array_keys(get_allowed_document_types()))) . '">';
@@ -355,6 +371,9 @@ function allow_file_upload_in_admin()
             color: #666;
             margin-top: 5px;
         }
+        .codeweber-doc-edit-tabulator { border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
+   .codeweber-doc-edit-toolbar { margin-bottom: 8px; }
+   .codeweber-doc-edit-settings label { margin-right: 12px; }
     </style>';
 
    echo '<script type="text/javascript">
@@ -380,6 +399,22 @@ function add_documents_file_column($columns)
 add_filter('manage_documents_posts_columns', 'add_documents_file_column');
 
 /**
+ * Проверяет, является ли файл документа CSV/XLS/XLSX
+ * 
+ * @param int $post_id ID поста документа
+ * @return bool
+ */
+function codeweber_document_is_spreadsheet($post_id)
+{
+   $file_meta = get_post_meta($post_id, '_document_file', true);
+   if (!$file_meta) return false;
+   $file_url = is_numeric($file_meta) ? wp_get_attachment_url((int) $file_meta) : $file_meta;
+   if (!$file_url) return false;
+   $ext = strtolower(pathinfo($file_url, PATHINFO_EXTENSION));
+   return in_array($ext, ['csv', 'xls', 'xlsx'], true);
+}
+
+/**
  * Заполняет колонку с файлом данными
  * 
  * @param string $column Название колонки
@@ -389,16 +424,308 @@ add_filter('manage_documents_posts_columns', 'add_documents_file_column');
 function display_documents_file_column($column, $post_id)
 {
    if ($column === 'document_file') {
-      $file_url = get_post_meta($post_id, '_document_file', true);
-      if ($file_url) {
-         $file_name = basename($file_url);
+      $file_meta = get_post_meta($post_id, '_document_file', true);
+      if ($file_meta) {
+         $file_url = is_numeric($file_meta) ? wp_get_attachment_url((int) $file_meta) : $file_meta;
+         $file_name = $file_url ? basename($file_url) : '';
          echo '<a href="' . esc_url($file_url) . '" target="_blank">' . esc_html($file_name) . '</a>';
+         if (codeweber_document_is_spreadsheet($post_id)) {
+            echo ' <a href="#" class="codeweber-doc-preview" data-doc-id="' . (int) $post_id . '" title="' . esc_attr__('Просмотр в таблице', 'codeweber') . '">[' . esc_html__('Таблица', 'codeweber') . ']</a>';
+         }
       } else {
          echo '—';
       }
    }
 }
 add_action('manage_documents_posts_custom_column', 'display_documents_file_column', 10, 2);
+
+/**
+ * Подключает Tabulator на странице документов в админке
+ * Требует активный плагин codeweber-gutenberg-blocks для REST API
+ */
+function codeweber_documents_enqueue_tabulator()
+{
+   $screen = get_current_screen();
+   if (!$screen || $screen->post_type !== 'documents') {
+      return;
+   }
+   if (!class_exists('Codeweber\Blocks\Plugin')) {
+      return;
+   }
+   $tabulator_version = '6.3.0';
+   $tabulator_cdn = 'https://cdn.jsdelivr.net/npm/tabulator-tables@' . $tabulator_version;
+   wp_enqueue_style(
+      'tabulator',
+      $tabulator_cdn . '/dist/css/tabulator_midnight.min.css',
+      [],
+      $tabulator_version
+   );
+   wp_enqueue_script(
+      'tabulator',
+      $tabulator_cdn . '/dist/js/tabulator.min.js',
+      [],
+      $tabulator_version,
+      true
+   );
+   wp_add_inline_script('tabulator', codeweber_documents_tabulator_script(), 'after');
+}
+add_action('admin_enqueue_scripts', 'codeweber_documents_enqueue_tabulator');
+
+/**
+ * Возвращает JS для Tabulator превью документов
+ * 
+ * @return string
+ */
+/**
+ * Возвращает настройки Tabulator по умолчанию (можно переопределить через фильтр)
+ *
+ * Доступные опции:
+ * - layout: 'fitColumns' | 'fitData' | 'fitDataFill' — режим раскладки колонок
+ * - resizableColumnFit: bool — при изменении ширины колонки подстраивать соседнюю
+ * - columnMinWidth: int — минимальная ширина колонки (px)
+ * - columnMaxWidth: int — максимальная ширина колонки (px), 0 = без ограничения
+ * - columnResizable: bool — разрешить изменять ширину колонок перетаскиванием
+ * - movableColumns: bool — разрешить перетаскивание колонок
+ * - sortable: bool — разрешить сортировку по клику на заголовок
+ *
+ * Пример в functions.php темы:
+ * add_filter('codeweber_documents_tabulator_options', function($opts) {
+ *    $opts['columnMinWidth'] = 100;
+ *    $opts['columnMaxWidth'] = 600;
+ *    return $opts;
+ * });
+ *
+ * @return array
+ */
+function codeweber_documents_tabulator_default_options()
+{
+   $defaults = [
+      'layout' => 'fitColumns',
+      'resizableColumnFit' => true,
+      'columnMinWidth' => 80,
+      'columnMaxWidth' => 400,
+      'columnResizable' => true,
+      'movableColumns' => true,
+      'sortable' => true,
+   ];
+   return apply_filters('codeweber_documents_tabulator_options', $defaults);
+}
+
+function codeweber_documents_tabulator_script()
+{
+   $api_root = esc_url(rest_url('codeweber-gutenberg-blocks/v1'));
+   $nonce = wp_create_nonce('wp_rest');
+   $opts = codeweber_documents_tabulator_default_options();
+   $opts_json = wp_json_encode($opts);
+   return <<<JS
+(function() {
+   var tabulatorOpts = {$opts_json};
+
+   function getTabulatorOptsFromUI() {
+      var resizable = document.getElementById('codeweber-tab-resizable');
+      var sortable = document.getElementById('codeweber-tab-sortable');
+      var movable = document.getElementById('codeweber-tab-movable');
+      var minW = document.getElementById('codeweber-tab-minwidth');
+      var maxW = document.getElementById('codeweber-tab-maxwidth');
+      var opts = Object.assign({}, tabulatorOpts);
+      if (resizable) opts.columnResizable = resizable.checked;
+      if (sortable) opts.sortable = sortable.checked;
+      if (movable) opts.movableColumns = movable.checked;
+      if (minW) opts.columnMinWidth = parseInt(minW.value, 10) || 80;
+      if (maxW) opts.columnMaxWidth = parseInt(maxW.value, 10);
+      return opts;
+   }
+
+   function loadTableData(docId, containerEl, height, tableRef, optsOverride) {
+      if (!containerEl) return;
+      var opts = optsOverride || tabulatorOpts;
+      if (tableRef && tableRef.table) { tableRef.table.destroy(); tableRef.table = null; }
+      containerEl.innerHTML = '<div class="codeweber-tabulator-loading">Загрузка...</div>';
+      fetch('{$api_root}/documents/' + docId + '/csv', {
+         headers: { 'X-WP-Nonce': '{$nonce}' }
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+         containerEl.innerHTML = '';
+         if (data.rows && data.rows.length > 0) {
+            var headers = data.rows[0];
+            var rows = data.rows.slice(1);
+            var minW = opts.columnMinWidth || 80;
+            var maxW = opts.columnMaxWidth;
+            if (maxW === undefined) maxW = 400;
+            var resizable = opts.columnResizable !== false;
+            var columns = headers.map(function(h, i) {
+               var col = {
+                  title: String(h || 'Col' + (i+1)),
+                  field: 'col' + i,
+                  minWidth: minW,
+                  resizable: resizable
+               };
+               if (maxW > 0) col.maxWidth = maxW;
+               return col;
+            });
+            var tableData = rows.map(function(row) {
+               var obj = {};
+               row.forEach(function(cell, i) { obj['col' + i] = cell; });
+               return obj;
+            });
+            if (typeof Tabulator !== 'undefined') {
+               var config = {
+                  data: tableData,
+                  columns: columns,
+                  layout: opts.layout || 'fitColumns',
+                  height: height || '400px',
+                  resizableColumnFit: opts.resizableColumnFit !== false,
+                  movableColumns: opts.movableColumns !== false,
+                  sortable: opts.sortable !== false
+               };
+               var t = new Tabulator(containerEl, config);
+               if (tableRef) tableRef.table = t;
+            }
+         } else {
+            containerEl.innerHTML = '<p>Нет данных</p>';
+         }
+      })
+      .catch(function() {
+         containerEl.innerHTML = '<p class="codeweber-tabulator-error">Ошибка загрузки</p>';
+      });
+   }
+
+   function getEditPageOpts() {
+      var wrap = document.querySelector('.codeweber-doc-edit-tabulator-wrap');
+      if (!wrap) return tabulatorOpts;
+      var r = wrap.querySelector('.codeweber-edit-tab-resizable');
+      var s = wrap.querySelector('.codeweber-edit-tab-sortable');
+      var minW = wrap.querySelector('.codeweber-edit-tab-minwidth');
+      var maxW = wrap.querySelector('.codeweber-edit-tab-maxwidth');
+      var opts = Object.assign({}, tabulatorOpts);
+      if (r) opts.columnResizable = r.checked;
+      if (s) opts.sortable = s.checked;
+      opts.movableColumns = false;
+      if (minW) opts.columnMinWidth = parseInt(minW.value, 10) || 80;
+      if (maxW) opts.columnMaxWidth = parseInt(maxW.value, 10);
+      return opts;
+   }
+
+   document.addEventListener('DOMContentLoaded', function() {
+      var editTableEl = document.getElementById('codeweber-doc-edit-tabulator');
+      var editWrap = document.querySelector('.codeweber-doc-edit-tabulator-wrap');
+      if (editTableEl && editWrap) {
+         var docId = editTableEl.getAttribute('data-doc-id');
+         var toggleBtn = editWrap.querySelector('.codeweber-doc-edit-settings-toggle');
+         var settingsDiv = editWrap.querySelector('.codeweber-doc-edit-settings');
+         var applyBtn = editWrap.querySelector('.codeweber-doc-edit-apply');
+         if (toggleBtn && settingsDiv) {
+            toggleBtn.addEventListener('click', function() {
+               settingsDiv.style.display = settingsDiv.style.display === 'none' ? 'block' : 'none';
+            });
+         }
+         if (applyBtn && docId) {
+            applyBtn.addEventListener('click', function() {
+               var opts = getEditPageOpts();
+               loadTableData(docId, editTableEl, '300px', null, opts);
+            });
+         }
+         if (docId) {
+            var opts = getEditPageOpts();
+            loadTableData(docId, editTableEl, '300px', null, opts);
+         }
+      }
+
+      var modal = document.getElementById('codeweber-doc-tabulator-modal');
+      if (!modal) return;
+      var tableEl = document.getElementById('codeweber-doc-tabulator-table');
+      var closeBtn = modal.querySelector('.codeweber-doc-modal-close');
+      var settingsPanel = modal.querySelector('.codeweber-doc-tabulator-settings');
+      var toolbarToggle = modal.querySelector('.codeweber-doc-toolbar-toggle');
+      var applyBtn = modal.querySelector('.codeweber-doc-apply-settings');
+      var modalTableRef = { table: null };
+      var currentDocId = null;
+
+      if (toolbarToggle && settingsPanel) {
+         toolbarToggle.addEventListener('click', function() {
+            settingsPanel.style.display = settingsPanel.style.display === 'none' ? 'flex' : 'none';
+         });
+      }
+      if (applyBtn && tableEl) {
+         applyBtn.addEventListener('click', function() {
+            if (currentDocId) {
+               var opts = getTabulatorOptsFromUI();
+               loadTableData(currentDocId, tableEl, '400px', modalTableRef, opts);
+            }
+         });
+      }
+
+      document.body.addEventListener('click', function(e) {
+         var link = e.target.closest('.codeweber-doc-preview');
+         if (link) {
+            e.preventDefault();
+            var docId = link.getAttribute('data-doc-id');
+            if (docId) {
+               currentDocId = docId;
+               modal.classList.add('active');
+               document.body.classList.add('codeweber-modal-open');
+               var opts = getTabulatorOptsFromUI();
+               loadTableData(docId, tableEl, '400px', modalTableRef, opts);
+            }
+         }
+         if (e.target === modal || (closeBtn && e.target === closeBtn)) {
+            modal.classList.remove('active');
+            document.body.classList.remove('codeweber-modal-open');
+         }
+      });
+   });
+})();
+JS;
+}
+
+/**
+ * Выводит модальное окно для превью таблицы документов
+ */
+function codeweber_documents_tabulator_modal()
+{
+   $screen = get_current_screen();
+   if (!$screen || $screen->post_type !== 'documents') {
+      return;
+   }
+   ?>
+   <div id="codeweber-doc-tabulator-modal" class="codeweber-doc-tabulator-modal">
+      <div class="codeweber-doc-tabulator-modal-content">
+         <button type="button" class="codeweber-doc-modal-close" aria-label="<?php esc_attr_e('Закрыть', 'codeweber'); ?>">&times;</button>
+         <div class="codeweber-doc-tabulator-toolbar">
+            <button type="button" class="button codeweber-doc-toolbar-toggle" title="<?php esc_attr_e('Настройки таблицы', 'codeweber'); ?>">
+               <span class="dashicons dashicons-admin-generic"></span> <?php esc_html_e('Настройки', 'codeweber'); ?>
+            </button>
+            <div class="codeweber-doc-tabulator-settings" style="display:none;">
+               <label><input type="checkbox" id="codeweber-tab-resizable" checked> <?php esc_html_e('Изменять ширину колонок', 'codeweber'); ?></label>
+               <label><input type="checkbox" id="codeweber-tab-sortable" checked> <?php esc_html_e('Сортировка', 'codeweber'); ?></label>
+               <label><input type="checkbox" id="codeweber-tab-movable" checked> <?php esc_html_e('Перетаскивание колонок', 'codeweber'); ?></label>
+               <label><?php esc_html_e('Мин. ширина:', 'codeweber'); ?> <input type="number" id="codeweber-tab-minwidth" value="80" min="40" max="500" style="width:60px;"> px</label>
+               <label><?php esc_html_e('Макс. ширина:', 'codeweber'); ?> <input type="number" id="codeweber-tab-maxwidth" value="400" min="0" max="1000" style="width:60px;"> px</label>
+               <button type="button" class="button button-small codeweber-doc-apply-settings"><?php esc_html_e('Применить', 'codeweber'); ?></button>
+            </div>
+         </div>
+         <div id="codeweber-doc-tabulator-table" class="codeweber-doc-tabulator-table"></div>
+      </div>
+   </div>
+   <style>
+   .codeweber-doc-tabulator-modal { display:none; position:fixed; z-index:100000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.6); }
+   .codeweber-doc-tabulator-modal.active { display:flex; align-items:center; justify-content:center; }
+   .codeweber-doc-tabulator-modal-content { position:relative; background:#fff; padding:20px; border-radius:8px; max-width:95%; max-height:90vh; overflow:auto; box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+   .codeweber-doc-modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid #ddd; }
+   .codeweber-doc-modal-close { font-size:28px; background:none; border:none; cursor:pointer; color:#666; line-height:1; padding:0 8px; }
+   .codeweber-doc-modal-close:hover { color:#000; }
+   .codeweber-doc-tabulator-toolbar { margin-bottom:12px; }
+   .codeweber-doc-toolbar-toggle { display:inline-flex; align-items:center; gap:4px; }
+   .codeweber-doc-tabulator-settings { margin-top:10px; padding:10px; background:#f6f7f7; border-radius:4px; display:flex; flex-wrap:wrap; gap:12px 20px; align-items:center; }
+   .codeweber-doc-tabulator-settings label { display:inline-flex; align-items:center; gap:4px; white-space:nowrap; }
+   .codeweber-doc-tabulator-table { min-width:400px; min-height:200px; }
+   .codeweber-tabulator-loading, .codeweber-tabulator-error { padding:20px; text-align:center; color:#666; }
+   body.codeweber-modal-open { overflow:hidden; }
+   </style>
+   <?php
+}
+add_action('admin_footer', 'codeweber_documents_tabulator_modal');
 
 /**
  * Регистрирует метаполе _document_file в REST API для типа записи documents
