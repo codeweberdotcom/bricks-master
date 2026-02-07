@@ -55,3 +55,109 @@ function cptui_register_my_cpts_html_blocks()
 }
 
 add_action('init', 'cptui_register_my_cpts_html_blocks');
+
+/**
+ * Shortcode [html_block id="X"] — выводит контент HTML-блока по ID
+ *
+ * @param array $atts Атрибуты: id — ID поста html_blocks
+ * @return string HTML-контент блока или пустая строка
+ */
+function codeweber_html_block_shortcode($atts)
+{
+	$atts = shortcode_atts(['id' => ''], $atts, 'html_block');
+	if (empty($atts['id'])) {
+		return '';
+	}
+	$post = get_post((int) $atts['id']);
+	if (!$post || $post->post_type !== 'html_blocks' || $post->post_status !== 'publish') {
+		return '';
+	}
+	return do_shortcode(apply_filters('the_content', $post->post_content));
+}
+add_shortcode('html_block', 'codeweber_html_block_shortcode');
+
+/**
+ * Добавляет колонку Shortcode в список HTML Blocks
+ */
+function codeweber_add_html_blocks_shortcode_column($columns)
+{
+	$new_columns = [];
+	foreach ($columns as $key => $value) {
+		$new_columns[$key] = $value;
+		if ($key === 'title') {
+			$new_columns['shortcode'] = __('Shortcode', 'codeweber');
+		}
+	}
+	return $new_columns;
+}
+add_filter('manage_html_blocks_posts_columns', 'codeweber_add_html_blocks_shortcode_column');
+
+/**
+ * Заполняет колонку Shortcode
+ */
+function codeweber_fill_html_blocks_shortcode_column($column, $post_id)
+{
+	if ($column !== 'shortcode') {
+		return;
+	}
+	$shortcode = '[html_block id="' . esc_attr($post_id) . '"]';
+	?>
+	<div style="display: flex; align-items: center; gap: 8px;">
+		<code style="background: #f0f0f1; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-family: monospace;">
+			<?php echo esc_html($shortcode); ?>
+		</code>
+		<button
+			type="button"
+			class="button button-small copy-shortcode-btn"
+			data-shortcode="<?php echo esc_attr($shortcode); ?>"
+			style="height: 24px; line-height: 22px; padding: 0 8px;"
+			title="<?php esc_attr_e('Copy shortcode', 'codeweber'); ?>"
+		>
+			<span class="dashicons dashicons-clipboard" style="font-size: 14px; width: 14px; height: 14px; line-height: 22px;"></span>
+		</button>
+	</div>
+	<?php
+}
+add_action('manage_html_blocks_posts_custom_column', 'codeweber_fill_html_blocks_shortcode_column', 10, 2);
+
+/**
+ * Подключает скрипт копирования шорткода на странице списка HTML Blocks
+ */
+function codeweber_html_blocks_copy_shortcode_script()
+{
+	$screen = get_current_screen();
+	if (!$screen || $screen->post_type !== 'html_blocks' || $screen->base !== 'edit') {
+		return;
+	}
+	?>
+	<script type="text/javascript">
+	(function($) {
+		$(document).ready(function() {
+			$(document).on('click', '.copy-shortcode-btn', function(e) {
+				e.preventDefault();
+				var $btn = $(this);
+				var shortcode = $btn.data('shortcode');
+				var $temp = $('<textarea>');
+				$('body').append($temp);
+				$temp.val(shortcode).select();
+				try {
+					document.execCommand('copy');
+					$temp.remove();
+					var $originalIcon = $btn.find('.dashicons');
+					$originalIcon.removeClass('dashicons-clipboard').addClass('dashicons-yes-alt');
+					$btn.css('color', '#46b450');
+					setTimeout(function() {
+						$originalIcon.removeClass('dashicons-yes-alt').addClass('dashicons-clipboard');
+						$btn.css('color', '');
+					}, 2000);
+				} catch (err) {
+					$temp.remove();
+					alert('<?php echo esc_js(__('Failed to copy shortcode', 'codeweber')); ?>');
+				}
+			});
+		});
+	})(jQuery);
+	</script>
+	<?php
+}
+add_action('admin_footer', 'codeweber_html_blocks_copy_shortcode_script');

@@ -277,8 +277,15 @@ function render_documents_file_meta_box($post)
       echo '<p><a href="' . esc_url($file_url) . '" target="_blank">Просмотреть файл</a></p>';
       echo '<p><label><input type="checkbox" name="remove_document_file" value="1"> Удалить файл</label></p>';
       if ($is_spreadsheet && $post->ID > 0) {
-         echo '<div class="codeweber-doc-edit-tabulator-wrap" style="margin-top:15px;">';
+         $ext = $file_url ? strtolower(pathinfo($file_url, PATHINFO_EXTENSION)) : '';
+         $writable = in_array($ext, ['csv', 'xlsx'], true);
+         echo '<div class="codeweber-doc-edit-tabulator-wrap" style="margin-top:15px;" data-writable="' . ($writable ? '1' : '0') . '">';
          echo '<div class="codeweber-doc-edit-toolbar">';
+         echo '<button type="button" class="button button-primary codeweber-doc-edit-save"' . ($writable ? '' : ' disabled title="' . esc_attr__('XLS доступен только для чтения. Используйте CSV или XLSX.', 'codeweber') . '"') . '><span class="dashicons dashicons-saved"></span> ' . esc_html__('Сохранить в файл', 'codeweber') . '</button> ';
+         if ($writable) {
+            echo ' <button type="button" class="button button-small codeweber-doc-edit-add-row"><span class="dashicons dashicons-plus-alt"></span> ' . esc_html__('Добавить строку', 'codeweber') . '</button> ';
+            echo ' <button type="button" class="button button-small codeweber-doc-edit-add-col"><span class="dashicons dashicons-plus-alt2"></span> ' . esc_html__('Добавить колонку', 'codeweber') . '</button> ';
+         }
          echo '<button type="button" class="button button-small codeweber-doc-edit-settings-toggle"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('Настройки таблицы', 'codeweber') . '</button>';
          echo '<div class="codeweber-doc-edit-settings" style="display:none; margin-top:8px; padding:10px; background:#f6f7f7; border-radius:4px;">';
          echo '<label><input type="checkbox" class="codeweber-edit-tab-resizable" checked> ' . esc_html__('Изменять ширину колонок', 'codeweber') . '</label> ';
@@ -374,6 +381,9 @@ function allow_file_upload_in_admin()
         .codeweber-doc-edit-tabulator { border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
    .codeweber-doc-edit-toolbar { margin-bottom: 8px; }
    .codeweber-doc-edit-settings label { margin-right: 12px; }
+   .codeweber-tab-del-row { cursor: pointer; color: #a00; font-size: 18px; }
+   .codeweber-tab-del-row:hover { color: #d00; }
+   .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title .tabulator-title-editor { background: #666; color: #fff; }
     </style>';
 
    echo '<script type="text/javascript">
@@ -449,20 +459,20 @@ function codeweber_documents_enqueue_tabulator()
    if (!$screen || $screen->post_type !== 'documents') {
       return;
    }
-   if (!class_exists('Codeweber\Blocks\Plugin')) {
+   if (!class_exists('Codeweber\Blocks\Plugin') || !defined('GUTENBERG_BLOCKS_URL')) {
       return;
    }
    $tabulator_version = '6.3.0';
-   $tabulator_cdn = 'https://cdn.jsdelivr.net/npm/tabulator-tables@' . $tabulator_version;
+   $tabulator_base = GUTENBERG_BLOCKS_URL . 'assets/vendor/tabulator/';
    wp_enqueue_style(
       'tabulator',
-      $tabulator_cdn . '/dist/css/tabulator_midnight.min.css',
+      $tabulator_base . 'tabulator_midnight.min.css',
       [],
       $tabulator_version
    );
    wp_enqueue_script(
       'tabulator',
-      $tabulator_cdn . '/dist/js/tabulator.min.js',
+      $tabulator_base . 'tabulator.min.js',
       [],
       $tabulator_version,
       true
@@ -536,10 +546,25 @@ function codeweber_documents_tabulator_script()
       return opts;
    }
 
-   function loadTableData(docId, containerEl, height, tableRef, optsOverride) {
+   function buildHeaderMenu(tableRef, colIndex) {
+      return [
+         {
+            label: 'Удалить колонку',
+            action: function(e, column) {
+               var tbl = column.getTable();
+               var cols = tbl.getColumns().filter(function(c) { var f = c.getField(); return f && f.indexOf('col') === 0; });
+               if (cols.length <= 1) { alert('Нельзя удалить последнюю колонку'); return; }
+               tbl.deleteColumn(column.getField());
+            }
+         }
+      ];
+   }
+
+   function loadTableData(docId, containerEl, height, tableRef, optsOverride, editable) {
       if (!containerEl) return;
       var opts = optsOverride || tabulatorOpts;
       if (tableRef && tableRef.table) { tableRef.table.destroy(); tableRef.table = null; }
+      if (tableRef) tableRef.headers = null;
       containerEl.innerHTML = '<div class="codeweber-tabulator-loading">Загрузка...</div>';
       fetch('{$api_root}/documents/' + docId + '/csv', {
          headers: { 'X-WP-Nonce': '{$nonce}' }
@@ -554,16 +579,39 @@ function codeweber_documents_tabulator_script()
             var maxW = opts.columnMaxWidth;
             if (maxW === undefined) maxW = 400;
             var resizable = opts.columnResizable !== false;
-            var columns = headers.map(function(h, i) {
+            var dataColumns = headers.map(function(h, i) {
                var col = {
                   title: String(h || 'Col' + (i+1)),
                   field: 'col' + i,
                   minWidth: minW,
-                  resizable: resizable
+                  resizable: resizable,
+                  headerFilter: 'input',
+                  headerFilterPlaceholder: 'Поиск...'
                };
                if (maxW > 0) col.maxWidth = maxW;
+               if (editable) {
+                  col.editor = 'input';
+                  col.editableTitle = true;
+                  col.headerMenu = buildHeaderMenu(tableRef, i);
+               }
                return col;
             });
+            var columns = dataColumns.slice();
+            if (editable) {
+               columns.push({
+                  title: '',
+                  field: '_del',
+                  width: 44,
+                  minWidth: 44,
+                  maxWidth: 44,
+                  resizable: false,
+                  sortable: false,
+                  formatter: function() { return '<span class="dashicons dashicons-trash codeweber-tab-del-row" title="Удалить строку"></span>'; },
+                  cellClick: function(e, cell) {
+                     if (e.target.closest('.codeweber-tab-del-row')) { cell.getRow().delete(); }
+                  }
+               });
+            }
             var tableData = rows.map(function(row) {
                var obj = {};
                row.forEach(function(cell, i) { obj['col' + i] = cell; });
@@ -580,7 +628,11 @@ function codeweber_documents_tabulator_script()
                   sortable: opts.sortable !== false
                };
                var t = new Tabulator(containerEl, config);
-               if (tableRef) tableRef.table = t;
+               if (tableRef) {
+                  tableRef.table = t;
+                  tableRef.headers = headers;
+                  tableRef.docId = docId;
+               }
             }
          } else {
             containerEl.innerHTML = '<p>Нет данных</p>';
@@ -588,6 +640,42 @@ function codeweber_documents_tabulator_script()
       })
       .catch(function() {
          containerEl.innerHTML = '<p class="codeweber-tabulator-error">Ошибка загрузки</p>';
+      });
+   }
+
+   function saveTableToFile(tableRef) {
+      if (!tableRef || !tableRef.table || !tableRef.docId) return;
+      var table = tableRef.table;
+      var docId = tableRef.docId;
+      var cols = table.getColumns().filter(function(c) { var f = c.getField(); return f && f.indexOf('col') === 0; });
+      var headers = cols.map(function(c) { return c.getDefinition().title || ''; });
+      var fields = cols.map(function(c) { return c.getField(); });
+      var dataRows = table.getData().map(function(row) {
+         return fields.map(function(f) { return row[f] != null ? String(row[f]) : ''; });
+      });
+      var rows = [headers].concat(dataRows);
+      var btn = document.querySelector('.codeweber-doc-edit-save');
+      if (btn) { btn.disabled = true; btn.textContent = 'Сохранение...'; }
+      fetch('{$api_root}/documents/' + docId + '/spreadsheet', {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            'X-WP-Nonce': '{$nonce}'
+         },
+         body: JSON.stringify({ rows: rows })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
+         if (btn) { btn.disabled = false; btn.innerHTML = '<span class="dashicons dashicons-saved"></span> Сохранить в файл'; }
+         if (res.success) {
+            alert('Сохранено');
+         } else {
+            alert(res.message || 'Ошибка сохранения');
+         }
+      })
+      .catch(function(err) {
+         if (btn) { btn.disabled = false; btn.innerHTML = '<span class="dashicons dashicons-saved"></span> Сохранить в файл'; }
+         alert('Ошибка: ' + (err.message || 'Не удалось сохранить'));
       });
    }
 
@@ -610,25 +698,72 @@ function codeweber_documents_tabulator_script()
    document.addEventListener('DOMContentLoaded', function() {
       var editTableEl = document.getElementById('codeweber-doc-edit-tabulator');
       var editWrap = document.querySelector('.codeweber-doc-edit-tabulator-wrap');
+      var editTableRef = { table: null, headers: null, docId: null };
       if (editTableEl && editWrap) {
          var docId = editTableEl.getAttribute('data-doc-id');
          var toggleBtn = editWrap.querySelector('.codeweber-doc-edit-settings-toggle');
          var settingsDiv = editWrap.querySelector('.codeweber-doc-edit-settings');
          var applyBtn = editWrap.querySelector('.codeweber-doc-edit-apply');
+         var saveBtn = editWrap.querySelector('.codeweber-doc-edit-save');
          if (toggleBtn && settingsDiv) {
             toggleBtn.addEventListener('click', function() {
                settingsDiv.style.display = settingsDiv.style.display === 'none' ? 'block' : 'none';
             });
          }
+         if (saveBtn) {
+            saveBtn.addEventListener('click', function() { saveTableToFile(editTableRef); });
+         }
+         var addRowBtn = editWrap.querySelector('.codeweber-doc-edit-add-row');
+         if (addRowBtn) {
+            addRowBtn.addEventListener('click', function() {
+               if (editTableRef.table) {
+                  var cols = editTableRef.table.getColumns().filter(function(c) { var f = c.getField(); return f && f.indexOf('col') === 0; });
+                  var row = {};
+                  cols.forEach(function(c) { row[c.getField()] = ''; });
+                  editTableRef.table.addRow(row);
+               }
+            });
+         }
+         var addColBtn = editWrap.querySelector('.codeweber-doc-edit-add-col');
+         if (addColBtn) {
+            addColBtn.addEventListener('click', function() {
+               if (editTableRef.table) {
+                  var cols = editTableRef.table.getColumns().filter(function(c) { var f = c.getField(); return f && f.indexOf('col') === 0; });
+                  var maxIdx = -1;
+                  cols.forEach(function(c) {
+                     var m = c.getField().match(/^col(\d+)$/);
+                     if (m) maxIdx = Math.max(maxIdx, parseInt(m[1], 10));
+                  });
+                  var nextIdx = maxIdx + 1;
+                  var opts = getEditPageOpts();
+                  var minW = opts.columnMinWidth || 80;
+                  var maxW = opts.columnMaxWidth;
+                  if (maxW === undefined) maxW = 400;
+                  var colDef = {
+                     title: 'Col' + (nextIdx + 1),
+                     field: 'col' + nextIdx,
+                     minWidth: minW,
+                     resizable: opts.columnResizable !== false,
+                     editor: 'input',
+                     editableTitle: true,
+                     headerMenu: buildHeaderMenu(editTableRef, nextIdx),
+                     headerFilter: 'input',
+                     headerFilterPlaceholder: 'Поиск...'
+                  };
+                  if (maxW > 0) colDef.maxWidth = maxW;
+                  editTableRef.table.addColumn(colDef, true, '_del');
+               }
+            });
+         }
          if (applyBtn && docId) {
             applyBtn.addEventListener('click', function() {
                var opts = getEditPageOpts();
-               loadTableData(docId, editTableEl, '300px', null, opts);
+               loadTableData(docId, editTableEl, '300px', editTableRef, opts, true);
             });
          }
          if (docId) {
             var opts = getEditPageOpts();
-            loadTableData(docId, editTableEl, '300px', null, opts);
+            loadTableData(docId, editTableEl, '300px', editTableRef, opts, true);
          }
       }
 
