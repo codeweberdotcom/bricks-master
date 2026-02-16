@@ -29,12 +29,12 @@ Redux::set_section(
 				'type'   => 'info',
 				'title'  => esc_html__('Address Shortcode', 'codeweber'),
 				'style'  => 'info',
-				'desc'   => esc_html__('Для вывода полного адреса используйте шорткод [address].', 'codeweber') . '<br><br>' .
-					'<strong>' . esc_html__('Примеры использования:', 'codeweber') . '</strong><br>' .
-					'<code>[address]</code> - ' . esc_html__('Фактический адрес', 'codeweber') . '<br>' .
-					'<code>[address type="juri"]</code> - ' . esc_html__('Юридический адрес', 'codeweber') . '<br>' .
-					'<code>[address separator=", "]</code> - ' . esc_html__('С разделителем запятая', 'codeweber') . '<br>' .
-					'<code>[address type="juri" separator=", " fallback="Адрес не указан"]</code> - ' . esc_html__('С кастомным fallback', 'codeweber'),
+				'desc'   => esc_html__('Use the [address] shortcode to output the full address.', 'codeweber') . '<br><br>' .
+					'<strong>' . esc_html__('Usage examples:', 'codeweber') . '</strong><br>' .
+					'<code>[address]</code> - ' . esc_html__('Actual address', 'codeweber') . '<br>' .
+					'<code>[address type="juri"]</code> - ' . esc_html__('Legal address', 'codeweber') . '<br>' .
+					'<code>[address separator=", "]</code> - ' . esc_html__('With comma separator', 'codeweber') . '<br>' .
+					'<code>[address type="juri" separator=", " fallback="Address not set"]</code> - ' . esc_html__('With custom fallback', 'codeweber'),
 				'indent' => false,
 			),
 

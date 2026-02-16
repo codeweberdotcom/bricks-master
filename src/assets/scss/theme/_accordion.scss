@@ -36,7 +36,7 @@
         padding: $accordion-card-header-padding;
 
         button {
-          padding: $accordion-button-padding-left;
+          padding: 0 0 0 1.2rem;
           position: relative;
 
           &:before {
@@ -87,7 +87,7 @@
     button {
       cursor: pointer;
       width: 100%;
-      padding: $accordion-card-header-button-padding;
+      padding: .9rem 2.9rem .85rem;
       text-align: left;
       margin: 0;
       border: 0;

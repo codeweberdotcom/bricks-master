@@ -281,7 +281,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			
 			// Нормализуем текст кнопки
 			if (empty($button_text)) {
-				$button_text = esc_html__('Написать нам', 'codeweber');
+				$button_text = esc_html__('Contact us', 'codeweber');
 			}
 			
 			// Нормализуем тип действия кнопки
@@ -877,7 +877,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			// Main button - разная верстка для разных типов виджета
 			if ($widget_type === 'button') {
 				// Верстка для типа Button с текстом
-				$button_text = !empty($this->settings['button_text']) ? esc_html($this->settings['button_text']) : esc_html__('Написать нам', 'codeweber');
+				$button_text = !empty($this->settings['button_text']) ? esc_html($this->settings['button_text']) : esc_html__('Contact us', 'codeweber');
 				$show_icon_mobile = !empty($this->settings['show_icon_mobile']) ? $this->settings['show_icon_mobile'] : false;
 				// Добавляем класс для управления отображением на мобильных
 				$button_mobile_class = $show_icon_mobile ? ' widget-button-mobile-icon' : '';
@@ -1212,7 +1212,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			// Main button - разная верстка для разных типов виджета
 			if ($widget_type === 'button') {
 				// Верстка для типа Button с текстом
-				$button_text = !empty($this->settings['button_text']) ? esc_html($this->settings['button_text']) : esc_html__('Написать нам', 'codeweber');
+				$button_text = !empty($this->settings['button_text']) ? esc_html($this->settings['button_text']) : esc_html__('Contact us', 'codeweber');
 				$show_icon_mobile = !empty($this->settings['show_icon_mobile']) ? $this->settings['show_icon_mobile'] : false;
 				// Добавляем класс для управления отображением на мобильных
 				$button_mobile_class = $show_icon_mobile ? ' widget-button-mobile-icon' : '';

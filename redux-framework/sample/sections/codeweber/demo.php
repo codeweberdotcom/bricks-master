@@ -22,13 +22,13 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo Clients', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте demo записи для CPT Clients с изображениями из папки brands', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create demo entries for CPT Clients with images from the brands folder', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-clients" class="button button-primary" style="margin-right: 10px;">
-								' . esc_html__('Создать Demo Clients', 'codeweber') . '
+								' . esc_html__('Create Demo Clients', 'codeweber') . '
 							</button>
 							<button id="cw-demo-delete-clients" class="button button-secondary">
-								' . esc_html__('Удалить Demo Clients', 'codeweber') . '
+								' . esc_html__('Delete Demo Clients', 'codeweber') . '
 							</button>
 						</div>
 						<div id="cw-demo-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
@@ -54,12 +54,12 @@ Redux::set_section(
 						$("#cw-demo-create-clients").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать demo записи клиентов? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create demo client entries? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Создание записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Creating entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -73,7 +73,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>Ошибки:</strong><ul>";
+											message += "<br><strong>" + "' . esc_js(__('Errors:', 'codeweber')) . '" + "</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -81,12 +81,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -94,12 +94,12 @@ Redux::set_section(
 						$("#cw-demo-delete-clients").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Удалить все demo записи клиентов? Это действие нельзя отменить.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Delete all demo client entries? This action cannot be undone.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Удаление записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Deleting entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -113,7 +113,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>Ошибки:</strong><ul>";
+											message += "<br><strong>" + "' . esc_js(__('Errors:', 'codeweber')) . '" + "</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -121,12 +121,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -140,13 +140,13 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo FAQ', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте demo записи для CPT FAQ с категориями', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create demo entries for CPT FAQ with categories', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-faq" class="button button-primary" style="margin-right: 10px;">
-								' . esc_html__('Создать Demo FAQ', 'codeweber') . '
+								' . esc_html__('Create Demo FAQ', 'codeweber') . '
 							</button>
 							<button id="cw-demo-delete-faq" class="button button-secondary">
-								' . esc_html__('Удалить Demo FAQ', 'codeweber') . '
+								' . esc_html__('Delete Demo FAQ', 'codeweber') . '
 							</button>
 						</div>
 						<div id="cw-demo-faq-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
@@ -172,12 +172,12 @@ Redux::set_section(
 						$("#cw-demo-create-faq").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать demo записи FAQ? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create demo FAQ entries? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Создание записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Creating entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -191,7 +191,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>Ошибки:</strong><ul>";
+											message += "<br><strong>" + "' . esc_js(__('Errors:', 'codeweber')) . '" + "</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -199,12 +199,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -212,12 +212,12 @@ Redux::set_section(
 						$("#cw-demo-delete-faq").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Удалить все demo записи FAQ? Это действие нельзя отменить.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Delete all demo FAQ entries? This action cannot be undone.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Удаление записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Deleting entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -231,7 +231,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>Ошибки:</strong><ul>";
+											message += "<br><strong>" + "' . esc_js(__('Errors:', 'codeweber')) . '" + "</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -239,12 +239,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -258,13 +258,13 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo Testimonials', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте 15 demo записей для CPT Testimonials с аватарками из папки avatars', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create 15 demo entries for CPT Testimonials with avatars from the avatars folder', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-testimonials" class="button button-primary" style="margin-right: 10px;">
-								' . esc_html__('Создать Demo Testimonials', 'codeweber') . '
+								' . esc_html__('Create Demo Testimonials', 'codeweber') . '
 							</button>
 							<button id="cw-demo-delete-testimonials" class="button button-secondary">
-								' . esc_html__('Удалить Demo Testimonials', 'codeweber') . '
+								' . esc_html__('Delete Demo Testimonials', 'codeweber') . '
 							</button>
 						</div>
 						<div id="cw-demo-testimonials-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
@@ -290,12 +290,12 @@ Redux::set_section(
 						$("#cw-demo-create-testimonials").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать 15 demo записей testimonials? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create 15 demo testimonial entries? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Создание записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Creating entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -309,7 +309,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -317,12 +317,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -330,12 +330,12 @@ Redux::set_section(
 						$("#cw-demo-delete-testimonials").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Удалить все demo записи testimonials? Это действие нельзя отменить.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Delete all demo testimonial entries? This action cannot be undone.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Удаление записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Deleting entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -349,7 +349,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -357,12 +357,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -376,13 +376,13 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo Staff', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте demo записи для CPT Staff с изображениями из папки avatars и отделами', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create demo entries for CPT Staff with images from the avatars folder and departments', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-staff" class="button button-primary" style="margin-right: 10px;">
-								' . esc_html__('Создать Demo Staff', 'codeweber') . '
+								' . esc_html__('Create Demo Staff', 'codeweber') . '
 							</button>
 							<button id="cw-demo-delete-staff" class="button button-secondary">
-								' . esc_html__('Удалить Demo Staff', 'codeweber') . '
+								' . esc_html__('Delete Demo Staff', 'codeweber') . '
 							</button>
 						</div>
 						<div id="cw-demo-staff-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
@@ -408,12 +408,12 @@ Redux::set_section(
 						$("#cw-demo-create-staff").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать demo записи staff? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create demo staff entries? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Создание записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Creating entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -427,7 +427,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -435,12 +435,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -448,12 +448,12 @@ Redux::set_section(
 						$("#cw-demo-delete-staff").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Удалить все demo записи staff? Это действие нельзя отменить.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Delete all demo staff entries? This action cannot be undone.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Удаление записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Deleting entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -467,7 +467,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -475,12 +475,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -494,13 +494,13 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo Vacancies', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте demo записи для CPT Vacancies с изображениями из папки photos', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create demo entries for CPT Vacancies with images from the photos folder', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-vacancies" class="button button-primary" style="margin-right: 10px;">
-								' . esc_html__('Создать Demo Vacancies', 'codeweber') . '
+								' . esc_html__('Create Demo Vacancies', 'codeweber') . '
 							</button>
 							<button id="cw-demo-delete-vacancies" class="button button-secondary">
-								' . esc_html__('Удалить Demo Vacancies', 'codeweber') . '
+								' . esc_html__('Delete Demo Vacancies', 'codeweber') . '
 							</button>
 						</div>
 						<div id="cw-demo-vacancies-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
@@ -526,12 +526,12 @@ Redux::set_section(
 						$("#cw-demo-create-vacancies").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать demo записи vacancies? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create demo vacancy entries? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Создание записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Creating entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -545,7 +545,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -553,12 +553,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -566,12 +566,12 @@ Redux::set_section(
 						$("#cw-demo-delete-vacancies").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Удалить все demo записи vacancies? Это действие нельзя отменить.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Delete all demo vacancy entries? This action cannot be undone.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Удаление записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Deleting entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -585,7 +585,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -593,12 +593,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -612,13 +612,13 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo Forms', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте demo формы (Testimonial и Newsletter) для CPT Forms', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create demo forms (Testimonial and Newsletter) for CPT Forms', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-forms" class="button button-primary" style="margin-right: 10px;">
-								' . esc_html__('Создать Demo формы', 'codeweber') . '
+								' . esc_html__('Create Demo Forms', 'codeweber') . '
 							</button>
 							<button id="cw-demo-delete-forms" class="button button-secondary">
-								' . esc_html__('Удалить Demo формы', 'codeweber') . '
+								' . esc_html__('Delete Demo Forms', 'codeweber') . '
 							</button>
 						</div>
 						<div id="cw-demo-forms-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
@@ -644,12 +644,12 @@ Redux::set_section(
 						$("#cw-demo-create-forms").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать demo формы? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create demo forms? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Создание форм...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Creating forms...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -663,7 +663,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -671,12 +671,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -684,12 +684,12 @@ Redux::set_section(
 						$("#cw-demo-delete-forms").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Удалить все demo формы? Это действие нельзя отменить.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Delete all demo forms? This action cannot be undone.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Удаление форм...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Deleting forms...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -703,7 +703,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -711,12 +711,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -730,13 +730,13 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('CF7 Forms', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте demo формы Contact Form 7: "Форма обратной связи" и "Заказать звонок"', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create demo Contact Form 7 forms: "Feedback form" and "Callback request"', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-cf7-forms" class="button button-primary" style="margin-right: 10px;">
-								' . esc_html__('Создать CF7 формы', 'codeweber') . '
+								' . esc_html__('Create CF7 Forms', 'codeweber') . '
 							</button>
 							<button id="cw-demo-delete-cf7-forms" class="button button-secondary">
-								' . esc_html__('Удалить CF7 формы', 'codeweber') . '
+								' . esc_html__('Delete CF7 Forms', 'codeweber') . '
 							</button>
 						</div>
 						<div id="cw-demo-cf7-forms-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
@@ -762,12 +762,12 @@ Redux::set_section(
 						$("#cw-demo-create-cf7-forms").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать demo формы CF7? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create demo CF7 forms? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Создание форм...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Creating forms...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -781,7 +781,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -789,12 +789,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -802,12 +802,12 @@ Redux::set_section(
 						$("#cw-demo-delete-cf7-forms").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Удалить все demo формы CF7? Это действие нельзя отменить.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Delete all demo CF7 forms? This action cannot be undone.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Удаление форм...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Deleting forms...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -821,7 +821,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -829,12 +829,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -848,13 +848,13 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo Offices', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте demo записи для CPT Offices с городами России и адресами Москвы с координатами для Яндекс карт', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create demo entries for CPT Offices with Russian cities and Moscow addresses with Yandex Maps coordinates', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-offices" class="button button-primary" style="margin-right: 10px;">
-								' . esc_html__('Создать Demo Offices', 'codeweber') . '
+								' . esc_html__('Create Demo Offices', 'codeweber') . '
 							</button>
 							<button id="cw-demo-delete-offices" class="button button-secondary">
-								' . esc_html__('Удалить Demo Offices', 'codeweber') . '
+								' . esc_html__('Delete Demo Offices', 'codeweber') . '
 							</button>
 						</div>
 						<div id="cw-demo-offices-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
@@ -880,12 +880,12 @@ Redux::set_section(
 						$("#cw-demo-create-offices").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать demo записи офисов? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create demo office entries? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Создание записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Creating entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -899,7 +899,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -907,12 +907,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -920,12 +920,12 @@ Redux::set_section(
 						$("#cw-demo-delete-offices").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Удалить все demo записи офисов? Это действие нельзя отменить.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Delete all demo office entries? This action cannot be undone.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Удаление записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Deleting entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -939,7 +939,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -947,12 +947,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -966,13 +966,13 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo Footer', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Создайте demo записи для CPT Footer: Footer_01 (футер с 4 колонками), Footer_02 (CTA + футер с 4 колонками), Footer_03 (CTA card + футер с 4 колонками, Redux Demo)', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create demo entries for CPT Footer: Footer_01 (4-column footer), Footer_02 (CTA + 4-column footer), Footer_03 (CTA card + 4-column footer, Redux Demo)', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-footers" class="button button-primary" style="margin-right: 10px;">
-								' . esc_html__('Создать Demo Footer', 'codeweber') . '
+								' . esc_html__('Create Demo Footer', 'codeweber') . '
 							</button>
 							<button id="cw-demo-delete-footers" class="button button-secondary">
-								' . esc_html__('Удалить Demo Footer', 'codeweber') . '
+								' . esc_html__('Delete Demo Footer', 'codeweber') . '
 							</button>
 						</div>
 						<div id="cw-demo-footers-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
@@ -998,12 +998,12 @@ Redux::set_section(
 						$("#cw-demo-create-footers").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Создать demo футеры (Footer_01, Footer_02, Footer_03)? Это может занять некоторое время.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create demo footers (Footer_01, Footer_02, Footer_03)? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Создание записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Creating entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -1017,7 +1017,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . '</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . '</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -1025,12 +1025,12 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});
@@ -1038,12 +1038,12 @@ Redux::set_section(
 						$("#cw-demo-delete-footers").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Удалить все demo футеры? Это действие нельзя отменить.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Delete all demo footers? This action cannot be undone.', 'codeweber')) . '")) {
 								return;
 							}
 
 							setButtonsState(true);
-							showStatus("' . esc_js(__('Удаление записей...', 'codeweber')) . '", "info");
+							showStatus("' . esc_js(__('Deleting entries...', 'codeweber')) . '", "info");
 
 							$.ajax({
 								url: ajaxurl,
@@ -1057,7 +1057,7 @@ Redux::set_section(
 									if (response.success) {
 										var message = response.data.message;
 										if (response.data.errors && response.data.errors.length > 0) {
-											message += "<br><strong>' . esc_js(__('Ошибки:', 'codeweber')) . ':</strong><ul>";
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
 											response.data.errors.forEach(function(error) {
 												message += "<li>" + error + "</li>";
 											});
@@ -1065,12 +1065,130 @@ Redux::set_section(
 										}
 										showStatus(message, "success");
 									} else {
-										showStatus(response.data.message || "' . esc_js(__('Произошла ошибка', 'codeweber')) . '", "error");
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
 									}
 								},
 								error: function() {
 									setButtonsState(false);
-									showStatus("' . esc_js(__('Ошибка AJAX запроса', 'codeweber')) . '", "error");
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
+								}
+							});
+						});
+					})(jQuery);
+					</script>
+				',
+			),
+			array(
+				'id'      => 'demo-header-controls',
+				'type'    => 'raw',
+				'content' => '
+					<div class="demo-controls" style="margin: 20px 0;">
+						<h3>' . esc_html__('Demo Header', 'codeweber') . '</h3>
+						<p class="description">' . esc_html__('Create demo entries for CPT Header: Header_01–08 (Navbar), Header_09 (Top Header + Navbar)', 'codeweber') . '</p>
+						<div style="margin: 15px 0;">
+							<button id="cw-demo-create-headers" class="button button-primary" style="margin-right: 10px;">
+								' . esc_html__('Create Demo Header', 'codeweber') . '
+							</button>
+							<button id="cw-demo-delete-headers" class="button button-secondary">
+								' . esc_html__('Delete Demo Header', 'codeweber') . '
+							</button>
+						</div>
+						<div id="cw-demo-headers-status" class="demo-status" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;"></div>
+					</div>
+					<script>
+					(function($) {
+						"use strict";
+
+						var createNonce = "' . wp_create_nonce('cw_demo_create_headers') . '";
+						var deleteNonce = "' . wp_create_nonce('cw_demo_delete_headers') . '";
+
+						function showStatus(message, type) {
+							var $status = $("#cw-demo-headers-status");
+							$status.removeClass("notice-success notice-error");
+							$status.addClass("notice-" + (type || "info"));
+							$status.html("<p>" + message + "</p>").show();
+						}
+
+						function setButtonsState(disabled) {
+							$("#cw-demo-create-headers, #cw-demo-delete-headers").prop("disabled", disabled);
+						}
+
+						$("#cw-demo-create-headers").on("click", function(e) {
+							e.preventDefault();
+
+							if (!confirm("' . esc_js(__('Create demo headers (Header_01 … Header_08)? This may take a while.', 'codeweber')) . '")) {
+								return;
+							}
+
+							setButtonsState(true);
+							showStatus("' . esc_js(__('Creating entries...', 'codeweber')) . '", "info");
+
+							$.ajax({
+								url: ajaxurl,
+								type: "POST",
+								data: {
+									action: "cw_demo_create_headers",
+									nonce: createNonce
+								},
+								success: function(response) {
+									setButtonsState(false);
+									if (response.success) {
+										var message = response.data.message;
+										if (response.data.errors && response.data.errors.length > 0) {
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . '</strong><ul>";
+											response.data.errors.forEach(function(error) {
+												message += "<li>" + error + "</li>";
+											});
+											message += "</ul>";
+										}
+										showStatus(message, "success");
+									} else {
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
+									}
+								},
+								error: function() {
+									setButtonsState(false);
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
+								}
+							});
+						});
+
+						$("#cw-demo-delete-headers").on("click", function(e) {
+							e.preventDefault();
+
+							if (!confirm("' . esc_js(__('Delete all demo headers? This action cannot be undone.', 'codeweber')) . '")) {
+								return;
+							}
+
+							setButtonsState(true);
+							showStatus("' . esc_js(__('Deleting entries...', 'codeweber')) . '", "info");
+
+							$.ajax({
+								url: ajaxurl,
+								type: "POST",
+								data: {
+									action: "cw_demo_delete_headers",
+									nonce: deleteNonce
+								},
+								success: function(response) {
+									setButtonsState(false);
+									if (response.success) {
+										var message = response.data.message;
+										if (response.data.errors && response.data.errors.length > 0) {
+											message += "<br><strong>' . esc_js(__('Errors:', 'codeweber')) . ':</strong><ul>";
+											response.data.errors.forEach(function(error) {
+												message += "<li>" + error + "</li>";
+											});
+											message += "</ul>";
+										}
+										showStatus(message, "success");
+									} else {
+										showStatus(response.data.message || "' . esc_js(__('An error occurred', 'codeweber')) . '", "error");
+									}
+								},
+								error: function() {
+									setButtonsState(false);
+									showStatus("' . esc_js(__('AJAX request error', 'codeweber')) . '", "error");
 								}
 							});
 						});

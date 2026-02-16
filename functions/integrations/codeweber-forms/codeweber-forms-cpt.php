@@ -42,23 +42,23 @@ class CodeweberFormsCPT {
      */
     public function register_post_type() {
         $labels = [
-            'name' => __('Формы', 'codeweber'),
-            'singular_name' => __('Форма', 'codeweber'),
-            'menu_name' => __('Формы', 'codeweber'),
-            'add_new' => __('Добавить форму', 'codeweber'),
-            'add_new_item' => __('Добавить новую форму', 'codeweber'),
-            'edit_item' => __('Редактировать форму', 'codeweber'),
-            'new_item' => __('Новая форма', 'codeweber'),
-            'view_item' => __('Просмотр формы', 'codeweber'),
-            'search_items' => __('Искать формы', 'codeweber'),
-            'not_found' => __('Формы не найдены', 'codeweber'),
-            'not_found_in_trash' => __('В корзине форм не найдено', 'codeweber'),
+            'name' => __('Forms', 'codeweber'),
+            'singular_name' => __('Form', 'codeweber'),
+            'menu_name' => __('Forms', 'codeweber'),
+            'add_new' => __('Add form', 'codeweber'),
+            'add_new_item' => __('Add new form', 'codeweber'),
+            'edit_item' => __('Edit form', 'codeweber'),
+            'new_item' => __('New form', 'codeweber'),
+            'view_item' => __('View form', 'codeweber'),
+            'search_items' => __('Search forms', 'codeweber'),
+            'not_found' => __('No forms found', 'codeweber'),
+            'not_found_in_trash' => __('No forms found in trash', 'codeweber'),
         ];
         
         $args = [
-            'label' => __('Формы', 'codeweber'),
+            'label' => __('Forms', 'codeweber'),
             'labels' => $labels,
-            'description' => __('Контактные формы, созданные через CodeWeber Forms', 'codeweber'),
+            'description' => __('Contact forms created with CodeWeber Forms', 'codeweber'),
             'public' => false,
             'publicly_queryable' => false,
             'show_ui' => true,
@@ -187,7 +187,7 @@ class CodeweberFormsCPT {
             $new_columns[$key] = $value;
             if ($key === 'title') {
                 $new_columns['form_id'] = __('ID', 'codeweber');
-                $new_columns['form_type'] = __('Тип формы', 'codeweber');
+                $new_columns['form_type'] = __('Form type', 'codeweber');
                 $new_columns['shortcode'] = __('Shortcode', 'codeweber');
             }
         }
@@ -438,12 +438,12 @@ class CodeweberFormsCPT {
         
         // Маппинг типов на читаемые названия с переводами
         $type_labels = array(
-            '' => __('Все типы форм', 'codeweber'),
-            'form' => __('Обычная форма', 'codeweber'),
-            'newsletter' => __('Подписка на рассылку', 'codeweber'),
-            'testimonial' => __('Форма отзыва', 'codeweber'),
-            'resume' => __('Форма резюме', 'codeweber'),
-            'callback' => __('Запрос обратного звонка', 'codeweber'),
+            '' => __('All form types', 'codeweber'),
+            'form' => __('Regular form', 'codeweber'),
+            'newsletter' => __('Newsletter subscription', 'codeweber'),
+            'testimonial' => __('Testimonial form', 'codeweber'),
+            'resume' => __('Resume form', 'codeweber'),
+            'callback' => __('Callback request', 'codeweber'),
         );
         
         ?>

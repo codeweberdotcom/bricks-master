@@ -59,14 +59,14 @@ function codeweber_save_pdf_thumbnail_ajax() {
 	check_ajax_referer('pdf_thumbnail_nonce', 'nonce');
 	
 	if (!current_user_can('upload_files')) {
-		wp_send_json_error(['message' => 'Недостаточно прав']);
+		wp_send_json_error(['message' => __('Insufficient permissions', 'codeweber')]);
 	}
 	
 	$post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
 	$image_data = isset($_POST['image_data']) ? $_POST['image_data'] : '';
 	
 	if (!$post_id || !$image_data) {
-		wp_send_json_error(['message' => 'Недостаточно данных']);
+		wp_send_json_error(['message' => __('Insufficient data', 'codeweber')]);
 	}
 	
 	// Декодируем base64 изображение

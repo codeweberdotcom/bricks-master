@@ -83,7 +83,7 @@ Redux::set_section(
 			array(
 				'id'       => 'opt_card_image_border_radius',
 				'type'     => 'image_select',
-				'title'    => esc_html__('Скругление Card и Image', 'codeweber'),
+				'title'    => esc_html__('Card and Image rounded corners', 'codeweber'),
 				'options'  => array(
 					'2' => array(
 						'alt' => 'Rounded',
@@ -103,7 +103,7 @@ Redux::set_section(
 			array(
 				'id'       => 'opt_form_border_radius',
 				'type'     => 'image_select',
-				'title'    => esc_html__('Скругление Forms', 'codeweber'),
+				'title'    => esc_html__('Forms rounded corners', 'codeweber'),
 				'options'  => array(
 					'2' => array(
 						'alt' => 'Rounded',

@@ -192,7 +192,7 @@
               display: block;
               //transition: $dropdown-transition;
             }
-            .dropdown:not(.dropdown-submenu) {
+            .dropdown:not(.dropdown-submenu):not(.cwgb-search-block) {
               &:hover {
                 >.dropdown-menu {
                   top: 100%;
@@ -478,4 +478,34 @@
 }
 .navbar-nav .dropdown.dropstart > .dropdown-toggle:after {
   @include caret-end();
+}
+//----------------------------------------------------------//
+//	HEADER SEARCH BLOCK (cwgb-search-block)
+//----------------------------------------------------------//
+.cwgb-search-block {
+  &.dropdown {
+    position: relative !important;
+  }
+  .dropdown-menu {
+    position: absolute !important;
+    left: 0;
+    right: auto;
+    top: 100%;
+    z-index: 1050;
+  }
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+  .dropdown-menu.show {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}
+/* В шапке поиск всегда слева (панель влево от иконки) */
+.navbar .navbar-nav .dropdown.cwgb-search-block .dropdown-menu,
+.navbar-other .cwgb-search-block .dropdown-menu {
+  right: 0 !important;
+  left: auto !important;
 }

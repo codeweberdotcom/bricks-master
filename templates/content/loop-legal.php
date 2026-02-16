@@ -30,7 +30,7 @@
 				<p><?php the_excerpt(); ?></p>
 			</div>
 			<!-- /.post-content -->
-			<a href="<?php the_permalink(); ?>" class="hover"><?php esc_html_e('Перейти', 'codeweber'); ?></a>
+			<a href="<?php the_permalink(); ?>" class="hover"><?php esc_html_e('Go', 'codeweber'); ?></a>
 		</div>
 	</div>
 </article> <!-- #post-<?php the_ID(); ?> -->

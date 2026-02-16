@@ -114,6 +114,43 @@ function theme_register_header_widget()
         'after_title'   => '</h3>',
     ]);
 
+	// Navbar Header 1 (Classic) widget areas - no wrapper (widget widget_block)
+	register_sidebar([
+		'name'          => __('Navbar: After Logo', 'codeweber'),
+		'id'            => 'navbar-brand-1',
+		'description'   => __('Inside navbar-brand, after logo', 'codeweber'),
+		'before_widget' => '',
+		'after_widget'  => '',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	]);
+	register_sidebar([
+		'name'          => __('Navbar: Before Menu (Offcanvas)', 'codeweber'),
+		'id'            => 'navbar-offcanvas-before-1',
+		'description'   => __('Inside offcanvas-body, before menu', 'codeweber'),
+		'before_widget' => '',
+		'after_widget'  => '',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	]);
+	register_sidebar([
+		'name'          => __('Navbar: After Menu (Offcanvas)', 'codeweber'),
+		'id'            => 'navbar-offcanvas-after-1',
+		'description'   => __('Inside offcanvas-body, after menu', 'codeweber'),
+		'before_widget' => '',
+		'after_widget'  => '',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	]);
+	register_sidebar([
+		'name'          => __('Navbar: Right (Before Nav)', 'codeweber'),
+		'id'            => 'navbar-other-1',
+		'description'   => __('Inside navbar-other, before navbar-nav', 'codeweber'),
+		'before_widget' => '',
+		'after_widget'  => '',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	]);
 }
 add_action('widgets_init', 'theme_register_header_widget');
 

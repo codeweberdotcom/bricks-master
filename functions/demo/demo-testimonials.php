@@ -441,7 +441,7 @@ function cw_demo_create_testimonials() {
         
         if (is_wp_error($post_id)) {
             $errors[] = sprintf(
-                __('Ошибка создания записи "%s": %s', 'codeweber'),
+                __('Error creating record "%s": %s', 'codeweber'),
                 $testimonial_data['title'],
                 $post_id->get_error_message()
             );
@@ -464,7 +464,7 @@ function cw_demo_create_testimonials() {
                 update_post_meta($post_id, '_testimonial_avatar', $avatar_id);
             } else {
                 $errors[] = sprintf(
-                    __('Не удалось загрузить аватар для "%s"', 'codeweber'),
+                    __('Failed to load avatar for "%s"', 'codeweber'),
                     $testimonial_data['title']
                 );
             }
@@ -475,8 +475,8 @@ function cw_demo_create_testimonials() {
     
     $message = sprintf(
         _n(
-            'Создана %d demo запись testimonials',
-            'Создано %d demo записей testimonials',
+            '%d demo testimonial entry created',
+            '%d demo testimonial entries created',
             $created,
             'codeweber'
         ),
@@ -522,7 +522,7 @@ function cw_demo_delete_testimonials() {
             $deleted++;
         } else {
             $errors[] = sprintf(
-                __('Не удалось удалить запись ID: %d', 'codeweber'),
+                __('Failed to delete record ID: %d', 'codeweber'),
                 $testimonial->ID
             );
         }
@@ -530,8 +530,8 @@ function cw_demo_delete_testimonials() {
     
     $message = sprintf(
         _n(
-            'Удалена %d запись testimonials',
-            'Удалено %d записей testimonials',
+            '%d testimonial entry deleted',
+            '%d testimonial entries deleted',
             $deleted,
             'codeweber'
         ),

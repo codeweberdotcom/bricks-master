@@ -231,8 +231,6 @@ if ($config['navbar-center-nav'] === true) {
                 </div>
             </div>
             <div class="<?= $navbarotherclass; ?>">
-
-
                 <?php if (is_active_sidebar('header-right')) { ?>
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
                         <?php dynamic_sidebar('header-right'); ?>
@@ -258,17 +256,7 @@ if ($config['navbar-center-nav'] === true) {
         </div>
     </nav>
 
-    <div class="offcanvas offcanvas-top bg-light" id="offcanvas-search" data-bs-scroll="true">
-        <div class="container d-flex flex-row py-6">
-            <form class="search-form w-100">
-                <input id="search-form" type="text" class="form-control" placeholder="<?= esc_html__('Type keyword and hit enter', 'codeweber'); ?>">
-            </form>
-            <!-- /.search-form -->
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <!-- /.container -->
-    </div>
-    <!-- /.offcanvas -->
+    <?php get_template_part('templates/header/offcanvas-search'); ?>
 
     <?php
     if ($global_header_offcanvas_right === '1') { ?>
@@ -310,7 +298,6 @@ if ($config['navbar-center-nav'] === true) {
                                     echo '</div><!-- /.widget -->';
                                 }
                                 break;
-
 
                             case 'description':
                                 echo '<div class="widget mb-5">

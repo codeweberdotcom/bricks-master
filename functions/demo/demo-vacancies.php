@@ -274,7 +274,7 @@ function cw_demo_create_vacancy_post($vacancy_data) {
     $post_id = wp_insert_post($post_data);
     
     if (is_wp_error($post_id)) {
-        error_log('Demo Vacancies: Ошибка создания записи - ' . $post_id->get_error_message());
+        error_log('Demo Vacancies: ' . __('Error creating record', 'codeweber') . ' - ' . $post_id->get_error_message());
         return false;
     }
     
@@ -364,7 +364,7 @@ function cw_demo_create_vacancies() {
     if (!$data || empty($data['items'])) {
         return array(
             'success' => false,
-            'message' => 'Данные не найдены или файл поврежден',
+            'message' => __('No data found or file is corrupted', 'codeweber'),
             'created' => 0,
             'errors' => array()
         );
@@ -398,7 +398,7 @@ function cw_demo_create_vacancies() {
         }
     }
     
-    $message = sprintf('Создано записей: %d из %d', $created, count($data['items']));
+    $message = sprintf(__('%1$d of %2$d entries created', 'codeweber'), $created, count($data['items']));
     if (!empty($types_created)) {
         $message .= '. Типы вакансий: ' . implode(', ', $types_created);
     }
@@ -449,13 +449,13 @@ function cw_demo_delete_vacancies() {
         if ($result) {
             $deleted++;
         } else {
-            $errors[] = 'Не удалось удалить запись ID: ' . $post_id;
+            $errors[] = sprintf(__('Failed to delete record ID: %d', 'codeweber'), $post_id);
         }
     }
     
     return array(
         'success' => true,
-        'message' => sprintf('Удалено записей: %d', $deleted),
+        'message' => sprintf(__('%d entries deleted', 'codeweber'), $deleted),
         'deleted' => $deleted,
         'errors' => $errors
     );

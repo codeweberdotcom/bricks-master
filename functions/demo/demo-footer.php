@@ -224,7 +224,7 @@ function cw_demo_create_footers() {
 	if ( empty( $data ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Данные не найдены', 'codeweber' ),
+			'message' => __( 'No data found', 'codeweber' ),
 			'created' => 0,
 			'errors'  => array(),
 		);
@@ -238,13 +238,13 @@ function cw_demo_create_footers() {
 		if ( $post_id ) {
 			$created++;
 		} else {
-			$errors[] = __( 'Не удалось создать:', 'codeweber' ) . ' ' . ( ! empty( $item['title'] ) ? $item['title'] : '—' );
+			$errors[] = __( 'Failed to create:', 'codeweber' ) . ' ' . ( ! empty( $item['title'] ) ? $item['title'] : '—' );
 		}
 	}
 
 	return array(
 		'success' => true,
-		'message' => sprintf( __( 'Создано футеров: %1$d из %2$d', 'codeweber' ), $created, count( $data ) ),
+		'message' => sprintf( __( '%1$d of %2$d footers created', 'codeweber' ), $created, count( $data ) ),
 		'created' => $created,
 		'total'   => count( $data ),
 		'errors'  => $errors,
@@ -283,7 +283,7 @@ function cw_demo_delete_footers() {
 
 	return array(
 		'success' => true,
-		'message' => sprintf( __( 'Удалено футеров: %d', 'codeweber' ), $deleted ),
+		'message' => sprintf( __( '%d footers deleted', 'codeweber' ), $deleted ),
 		'deleted' => $deleted,
 		'errors'  => array(),
 	);

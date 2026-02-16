@@ -18,7 +18,7 @@ function cw_demo_create_cf7_forms() {
     if (!post_type_exists('wpcf7_contact_form')) {
         return array(
             'success' => false,
-            'message' => 'Contact Form 7 не активирован',
+            'message' => __('Contact Form 7 is not active', 'codeweber'),
             'created' => 0,
             'errors' => array()
         );
@@ -105,7 +105,7 @@ EOD;
         $form1_id = wp_insert_post($form1_post);
 
         if (is_wp_error($form1_id)) {
-            $errors[] = 'Не удалось создать форму "Форма обратной связи": ' . $form1_id->get_error_message();
+            $errors[] = __('Failed to create form "Feedback form":', 'codeweber') . ' ' . $form1_id->get_error_message();
         } else {
             update_post_meta($form1_id, '_form', $form1_content);
             update_post_meta($form1_id, '_demo_created', true);
@@ -126,7 +126,7 @@ EOD;
             $forms[] = 'Форма обратной связи';
         }
     } else {
-        $errors[] = 'Форма "Форма обратной связи" уже существует';
+        $errors[] = __('Form "Feedback form" already exists', 'codeweber');
     }
 
     // Форма 2: Заказать звонок
@@ -193,12 +193,12 @@ EOD;
             $forms[] = 'Заказать звонок';
         }
     } else {
-        $errors[] = 'Форма "Заказать звонок" уже существует';
+        $errors[] = __('Form "Callback request" already exists', 'codeweber');
     }
 
-    $message = sprintf('Создано форм: %d из 2', $created);
+    $message = sprintf(__('%d of 2 forms created', 'codeweber'), $created);
     if (!empty($forms)) {
-        $message .= '. Формы: ' . implode(', ', $forms);
+        $message .= '. ' . __('Forms:', 'codeweber') . ' ' . implode(', ', $forms);
     }
 
     return array(
@@ -220,7 +220,7 @@ function cw_demo_delete_cf7_forms() {
     if (!post_type_exists('wpcf7_contact_form')) {
         return array(
             'success' => false,
-            'message' => 'Contact Form 7 не активирован',
+            'message' => __('Contact Form 7 is not active', 'codeweber'),
             'deleted' => 0,
             'errors' => array()
         );
@@ -244,11 +244,11 @@ function cw_demo_delete_cf7_forms() {
         if ($result) {
             $deleted++;
         } else {
-            $errors[] = 'Не удалось удалить форму: ' . $form->post_title;
+            $errors[] = __('Failed to delete form:', 'codeweber') . ' ' . $form->post_title;
         }
     }
 
-    $message = sprintf('Удалено форм: %d', $deleted);
+    $message = sprintf(__('%d forms deleted', 'codeweber'), $deleted);
 
     return array(
         'success' => true,

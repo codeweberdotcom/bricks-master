@@ -307,7 +307,7 @@ function cw_demo_create_faq_post($faq_data) {
     $post_id = wp_insert_post($post_data);
     
     if (is_wp_error($post_id)) {
-        error_log('Demo FAQ: Ошибка создания записи - ' . $post_id->get_error_message());
+        error_log('Demo FAQ: ' . __('Error creating record', 'codeweber') . ' - ' . $post_id->get_error_message());
         return false;
     }
     
@@ -361,7 +361,7 @@ function cw_demo_create_faq() {
     if (!$data || empty($data['items'])) {
         return array(
             'success' => false,
-            'message' => 'Данные не найдены или файл поврежден',
+            'message' => __('No data found or file is corrupted', 'codeweber'),
             'created' => 0,
             'errors' => array()
         );
@@ -393,7 +393,7 @@ function cw_demo_create_faq() {
         if ($post_id) {
             $created++;
         } else {
-            $errors[] = 'Не удалось создать: ' . (!empty($item['title']) ? $item['title'] : 'неизвестно');
+            $errors[] = __('Failed to create:', 'codeweber') . ' ' . (!empty($item['title']) ? $item['title'] : __('unknown', 'codeweber'));
         }
     }
     
@@ -442,13 +442,13 @@ function cw_demo_delete_faq() {
         if ($result) {
             $deleted++;
         } else {
-            $errors[] = 'Не удалось удалить запись ID: ' . $post_id;
+            $errors[] = sprintf(__('Failed to delete record ID: %d', 'codeweber'), $post_id);
         }
     }
     
     return array(
         'success' => true,
-        'message' => sprintf('Удалено записей: %d', $deleted),
+        'message' => sprintf(__('%d entries deleted', 'codeweber'), $deleted),
         'deleted' => $deleted,
         'errors' => $errors
     );

@@ -80,6 +80,9 @@ var theme = {
       const CLASS_NAME = "has-child-dropdown-show";
       $bs.Dropdown.prototype.toggle = (function (_original) {
         return function () {
+          if (this._element && this._element.closest && this._element.closest(".cwgb-search-block")) {
+            return _original.call(this);
+          }
           document.querySelectorAll("." + CLASS_NAME).forEach(function (e) {
             e.classList.remove(CLASS_NAME);
           });
@@ -122,7 +125,6 @@ var theme = {
     const scrollLink = document.querySelectorAll(
       ".onepage .navbar li a.scroll"
     );
-    const searchOffcanvas = document.getElementById("offcanvas-search");
     navOffCanvasBtn.forEach((e) => {
       e.addEventListener("click", (event) => {
         bsOffCanvas.show();
@@ -133,11 +135,20 @@ var theme = {
         bsOffCanvas.hide();
       });
     });
-    if (searchOffcanvas != null) {
-      searchOffcanvas.addEventListener("shown.bs.offcanvas", function () {
-        document.getElementById("search-form").focus();
-      });
-    }
+    document.addEventListener("click", function (e) {
+      const trigger = e.target.closest("[data-bs-target]");
+      if (!trigger) return;
+      const targetId = trigger.getAttribute("data-bs-target");
+      if (!targetId) return;
+      const panel = document.querySelector(targetId);
+      if (!panel) return;
+      setTimeout(function () {
+        const input = panel.querySelector(
+          "form.search-form input, .search-form input"
+        );
+        if (input) input.focus();
+      }, 350);
+    });
   },
   /**
    * Isotope

@@ -463,9 +463,9 @@ style.textContent = `
       opacity: 0.7;
     }
   }
-    .offcanvas:not(.offcanvas-nav) {
-  overflow-y: visible;
-}
+  #offcanvas-search.offcanvas {
+    overflow-y: visible;
+  }
 
 .search-result-item::after {
   content: '';

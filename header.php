@@ -61,6 +61,24 @@
                 } elseif (is_archive() || is_post_type_archive($post_type)) {
                     $header_post_id = Redux::get_option($opt_name, 'archive_header_select_' . $post_type);
                 }
+
+                // Если не задан хедер для страницы — используем глобальный «Пользовательский Хедер»
+                $use_global_custom = true;
+                if (is_single() || is_singular($post_type)) {
+                    $this_header_type_check = Redux::get_post_meta($opt_name, $post_id, 'this-header-type');
+                    if ($this_header_type_check === '4') {
+                        $use_global_custom = false; // Запись использует Base Settings
+                    }
+                }
+                if ($use_global_custom && (empty($header_post_id) || $header_post_id === 'default')) {
+                    $global_header_type = Redux::get_option($opt_name, 'global-header-type');
+                    if ($global_header_type === '2') {
+                        $global_custom_header = Redux::get_option($opt_name, 'custom-header');
+                        if (!empty($global_custom_header)) {
+                            $header_post_id = $global_custom_header;
+                        }
+                    }
+                }
             }
         }
 

@@ -75,12 +75,3 @@ $utilities: map-merge($utilities,
       )
     ),
   ));
-
-.btn-frost {
-  --bs-btn-bg: var(--bs-frost);
-  --bs-btn-border-color: var(--bs-frost);
-  --bs-btn-hover-bg: var(--bs-frost);
-  --bs-btn-hover-border-color: var(--bs-frost);
-  --bs-btn-active-bg: var(--bs-frost);
-  --bs-btn-active-border-color: var(--bs-frost);
-}

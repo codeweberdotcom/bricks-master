@@ -39,16 +39,39 @@
 @import "wrappers";
 @import "toast";
 
-// Переопределения для .frost, чтобы использовать правильную прозрачность
-// Размещено здесь, чтобы гарантировать, что переопределения идут после всех Bootstrap классов
+// Frost: glass effect (backdrop blur + semi-transparent white)
 .border-frost {
-  --bs-border-opacity: 0.150;
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .bg-frost {
-  --bs-bg-opacity: 0.150;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(1rem) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(1rem) saturate(180%) !important;
 }
 
 .text-frost {
-  --bs-text-opacity: 0.150;
+  color: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(1rem) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(1rem) saturate(180%) !important;
+}
+
+// btn-frost: после buttons, с !important чтобы перебить --bs-btn-bg
+.btn-frost {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(1rem) saturate(180%);
+  -webkit-backdrop-filter: blur(1rem) saturate(180%);
+  border-color: rgba(255, 255, 255, 0) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0) !important;
+    color: #fff !important;
+  }
+  &:active,
+  &.active {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0) !important;
+    color: #fff !important;
+  }
 }

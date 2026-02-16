@@ -354,7 +354,7 @@ Redux::set_section(
 				'type'     => 'text',
 				'title'    => esc_html__('Button Text', 'codeweber'),
 				'subtitle' => esc_html__('Text displayed on button', 'codeweber'),
-				'default'  => esc_html__('Написать нам', 'codeweber'),
+				'default'  => esc_html__('Contact us', 'codeweber'),
 				'required' => array(
 					array('floating_widget_enabled', '=', true),
 					array('floating_widget_type', '=', 'button'),

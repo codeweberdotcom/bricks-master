@@ -155,6 +155,7 @@ require_once get_template_directory() . '/functions/demo/demo-forms.php';
 require_once get_template_directory() . '/functions/demo/demo-cf7-forms.php';
 require_once get_template_directory() . '/functions/demo/demo-offices.php';
 require_once get_template_directory() . '/functions/demo/demo-footer.php';
+require_once get_template_directory() . '/functions/demo/demo-header.php';
 require_once get_template_directory() . '/functions/demo/demo-ajax.php';
 
 /**

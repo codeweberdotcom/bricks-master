@@ -48,7 +48,7 @@ if (empty($header_posts)) {
 	);
 }
 
-// Подключаем секцию и поле выбора цвета
+// Родительская секция "Настройки Хедер" (без полей, только контейнер для дочерних пунктов)
 Redux::set_section(
 	$opt_name,
 	array(
@@ -56,15 +56,18 @@ Redux::set_section(
 		'id'               => 'header',
 		'customizer_width' => '300px',
 		'icon'             => 'el el-home',
+		'fields'           => array(),
+	)
+);
+
+// Дочерняя подсекция: Хедер
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'            => esc_html__('Header', 'codeweber'),
+		'id'               => 'header-main',
+		'subsection'       => true,
 		'fields'           => array(
-
-			array(
-				'id'       => 'header-accordeon-change-header',
-				'type'     => 'accordion',
-				'title'    => esc_html__('Header', 'codeweber'),
-				'position' => 'start',
-			),
-
 			// Выбор типа Header
 			array(
 				'id'       => 'global-header-type',
@@ -81,8 +84,6 @@ Redux::set_section(
 				'id'       => 'header-rounded',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Header rounded', 'codeweber'),
-
-				// Must provide key => value pairs for radio options.
 				'options'  => array(
 					'1' => esc_html__('rounded', 'codeweber'),
 					'2' => esc_html__('rounded-pill', 'codeweber'),
@@ -90,9 +91,7 @@ Redux::set_section(
 				),
 				'default'  => '1',
 				'required' => array('global-header-type', '=', '1'),
-
 			),
-
 
 			// Custom Header List
 			array(
@@ -105,16 +104,13 @@ Redux::set_section(
 					'posts_per_page' => -1,
 				),
 				'required' => array('global-header-type', '=', '2'),
-				'desc'     => $no_headers_message, // Выводим сообщение, если записей нет
+				'desc'     => $no_headers_message,
 			),
-
-
 
 			array(
 				'id'       => 'header-color-text',
 				'type'     => 'button_set',
 				'title'    => esc_html__('Header text color', 'codeweber'),
-				// Must provide key => value pairs for radio options.
 				'options'  => array(
 					'1' =>  esc_html__('Dark', 'codeweber'),
 					'2' =>  esc_html__('Light', 'codeweber'),
@@ -142,15 +138,13 @@ Redux::set_section(
 				'id'       => 'solid-color-header',
 				'type'     => 'select',
 				'title'    => esc_html__('Select Header Background Solid Color', 'codeweber'),
-				'options'  => $color_options, // Используем динамически полученные цвета
-				'default'  => 'light',  // Можно выбрать дефолтный цвет
+				'options'  => $color_options,
+				'default'  => 'light',
 				'required' => array(
 					array('header-background', '=', '1'),
 					array('global-header-type', '=', '1')
 				),
 			),
-
-
 
 			// Выбор Soft-Color
 			array(
@@ -164,7 +158,6 @@ Redux::set_section(
 					array('global-header-type', '=', '1')
 				),
 			),
-
 
 			// Base Header Models
 			array(
@@ -216,14 +209,18 @@ Redux::set_section(
 				'default'  => '1',
 				'required' => array('global-header-type', '=', '1'),
 			),
-			array(
-				'id'       => 'header-accordeon-offcanvas-left',
-				'type'     => 'accordion',
-				'title'    => esc_html__('Mobile Menu', 'codeweber'),
-				'position' => 'start',
-			),
+		),
+	)
+);
 
-			// Выбор типа фона
+// Дочерняя подсекция: Мобильное меню
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'            => esc_html__('Mobile Menu', 'codeweber'),
+		'id'               => 'header-mobile',
+		'subsection'       => true,
+		'fields'           => array(
 			array(
 				'id'       => 'social-icon-type-mobile-menu',
 				'type'     => 'button_set',
@@ -243,7 +240,6 @@ Redux::set_section(
 				'required' => array('global-header-type', '=', '1'),
 			),
 
-			// Выбор стиля кнопок соцсетей для мобильного меню
 			array(
 				'id'       => 'social-button-style-mobile-menu',
 				'type'     => 'button_set',
@@ -256,7 +252,6 @@ Redux::set_section(
 				'required' => array('global-header-type', '=', '1'),
 			),
 
-			// Выбор размера кнопок соцсетей для мобильного меню
 			array(
 				'id'       => 'social-button-size-mobile-menu',
 				'type'     => 'button_set',
@@ -270,7 +265,6 @@ Redux::set_section(
 				'required' => array('global-header-type', '=', '1'),
 			),
 
-			// Выбор типа фона
 			array(
 				'id'       => 'mobile-menu-background',
 				'type'     => 'button_set',
@@ -282,16 +276,18 @@ Redux::set_section(
 				'default'  => '1',
 				'required' => array('global-header-type', '=', '1'),
 			),
+		),
+	)
+);
 
-
-			array(
-				'id'       => 'header-accordeon-offcanvas-right',
-				'type'     => 'accordion',
-				'title'    => esc_html__('Offcanvas Right Menu', 'codeweber'),
-				'position' => 'start',
-			),
-
-			// Активация Breadcrumbs
+// Дочерняя подсекция: Боковое Дополнительное Меню (Offcanvas Right)
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'            => esc_html__('Offcanvas Right Menu', 'codeweber'),
+		'id'               => 'header-offcanvas',
+		'subsection'       => true,
+		'fields'           => array(
 			array(
 				'id'       => 'global-header-offcanvas-right',
 				'type'     => 'switch',
@@ -300,7 +296,6 @@ Redux::set_section(
 				'required' => array('global-header-type', '=', '1'),
 			),
 
-			// Выбор типа фона
 			array(
 				'id'       => 'social-icon-type',
 				'type'     => 'button_set',
@@ -320,7 +315,6 @@ Redux::set_section(
 				'required' => array('global-header-offcanvas-right', '=', '1'),
 			),
 
-			// Выбор стиля кнопок соцсетей для бокового меню
 			array(
 				'id'       => 'social-button-style-offcanvas',
 				'type'     => 'button_set',
@@ -333,7 +327,6 @@ Redux::set_section(
 				'required' => array('global-header-offcanvas-right', '=', '1'),
 			),
 
-			// Выбор размера кнопок соцсетей для бокового меню
 			array(
 				'id'       => 'social-button-size-offcanvas',
 				'type'     => 'button_set',
@@ -362,26 +355,30 @@ Redux::set_section(
 					),
 					'disabled' => array(
 						'menu'                    => esc_html__('Menu', 'codeweber'),
-						'address'                    => esc_html__('Address', 'codeweber'),
-						'widget_offcanvas_1'   => esc_html__('Widget 1', 'codeweber'),
-						'widget_offcanvas_2' => esc_html__('Widget 2', 'codeweber'),
-						'widget_offcanvas_3'  => esc_html__('Widget 3', 'codeweber'),
+						'address'                 => esc_html__('Address', 'codeweber'),
+						'widget_offcanvas_1'       => esc_html__('Widget 1', 'codeweber'),
+						'widget_offcanvas_2'     => esc_html__('Widget 2', 'codeweber'),
+						'widget_offcanvas_3'      => esc_html__('Widget 3', 'codeweber'),
 					),
 				),
 			),
+		),
+	)
+);
 
-			array(
-				'id'       => 'header-accordeon-topbar',
-				'type'     => 'accordion',
-				'title'    => esc_html__('Topbar', 'codeweber'),
-				'position' => 'start',
-			),
-
-			// Активация Breadcrumbs
+// Дочерняя подсекция: ТопХедер (Topbar)
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'            => esc_html__('Topbar', 'codeweber'),
+		'id'               => 'header-topbar',
+		'subsection'       => true,
+		'fields'           => array(
 			array(
 				'id'       => 'header-topbar-enable',
 				'type'     => 'switch',
 				'title'    => esc_html__('Header Topbar', 'codeweber'),
+				'desc'     => esc_html__('For Base header — shows topbar above navbar. For Custom header use the "Top Header" block in the editor.', 'codeweber'),
 				'default'  => 1,
 				'required' => array('global-header-type', '=', '1'),
 			),

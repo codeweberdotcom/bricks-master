@@ -273,26 +273,26 @@ function render_documents_file_meta_box($post)
    echo '<div class="document-file-upload">';
 
    if ($file_url) {
-      echo '<p>Текущий файл: <strong>' . esc_html($file_name) . '</strong></p>';
-      echo '<p><a href="' . esc_url($file_url) . '" target="_blank">Просмотреть файл</a></p>';
-      echo '<p><label><input type="checkbox" name="remove_document_file" value="1"> Удалить файл</label></p>';
+      echo '<p>' . esc_html__('Current file:', 'codeweber') . ' <strong>' . esc_html($file_name) . '</strong></p>';
+      echo '<p><a href="' . esc_url($file_url) . '" target="_blank">' . esc_html__('View file', 'codeweber') . '</a></p>';
+      echo '<p><label><input type="checkbox" name="remove_document_file" value="1"> ' . esc_html__('Remove file', 'codeweber') . '</label></p>';
       if ($is_spreadsheet && $post->ID > 0) {
          $ext = $file_url ? strtolower(pathinfo($file_url, PATHINFO_EXTENSION)) : '';
          $writable = in_array($ext, ['csv', 'xlsx'], true);
          echo '<div class="codeweber-doc-edit-tabulator-wrap" style="margin-top:15px;" data-writable="' . ($writable ? '1' : '0') . '">';
          echo '<div class="codeweber-doc-edit-toolbar">';
-         echo '<button type="button" class="button button-primary codeweber-doc-edit-save"' . ($writable ? '' : ' disabled title="' . esc_attr__('XLS доступен только для чтения. Используйте CSV или XLSX.', 'codeweber') . '"') . '><span class="dashicons dashicons-saved"></span> ' . esc_html__('Сохранить в файл', 'codeweber') . '</button> ';
+         echo '<button type="button" class="button button-primary codeweber-doc-edit-save"' . ($writable ? '' : ' disabled title="' . esc_attr__('XLS is read-only. Use CSV or XLSX.', 'codeweber') . '"') . '><span class="dashicons dashicons-saved"></span> ' . esc_html__('Save to file', 'codeweber') . '</button> ';
          if ($writable) {
-            echo ' <button type="button" class="button button-small codeweber-doc-edit-add-row"><span class="dashicons dashicons-plus-alt"></span> ' . esc_html__('Добавить строку', 'codeweber') . '</button> ';
-            echo ' <button type="button" class="button button-small codeweber-doc-edit-add-col"><span class="dashicons dashicons-plus-alt2"></span> ' . esc_html__('Добавить колонку', 'codeweber') . '</button> ';
+            echo ' <button type="button" class="button button-small codeweber-doc-edit-add-row"><span class="dashicons dashicons-plus-alt"></span> ' . esc_html__('Add row', 'codeweber') . '</button> ';
+            echo ' <button type="button" class="button button-small codeweber-doc-edit-add-col"><span class="dashicons dashicons-plus-alt2"></span> ' . esc_html__('Add column', 'codeweber') . '</button> ';
          }
-         echo '<button type="button" class="button button-small codeweber-doc-edit-settings-toggle"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('Настройки таблицы', 'codeweber') . '</button>';
+         echo '<button type="button" class="button button-small codeweber-doc-edit-settings-toggle"><span class="dashicons dashicons-admin-generic"></span> ' . esc_html__('Table settings', 'codeweber') . '</button>';
          echo '<div class="codeweber-doc-edit-settings" style="display:none; margin-top:8px; padding:10px; background:#f6f7f7; border-radius:4px;">';
-         echo '<label><input type="checkbox" class="codeweber-edit-tab-resizable" checked> ' . esc_html__('Изменять ширину колонок', 'codeweber') . '</label> ';
-         echo '<label><input type="checkbox" class="codeweber-edit-tab-sortable" checked> ' . esc_html__('Сортировка', 'codeweber') . '</label> ';
-         echo '<label><input type="number" class="codeweber-edit-tab-minwidth" value="80" min="40" max="500" style="width:55px;"> ' . esc_html__('мин. px', 'codeweber') . '</label> ';
-         echo '<label><input type="number" class="codeweber-edit-tab-maxwidth" value="400" min="0" max="1000" style="width:55px;"> ' . esc_html__('макс. px', 'codeweber') . '</label> ';
-         echo '<button type="button" class="button button-small codeweber-doc-edit-apply">' . esc_html__('Применить', 'codeweber') . '</button>';
+         echo '<label><input type="checkbox" class="codeweber-edit-tab-resizable" checked> ' . esc_html__('Resize columns', 'codeweber') . '</label> ';
+         echo '<label><input type="checkbox" class="codeweber-edit-tab-sortable" checked> ' . esc_html__('Sort', 'codeweber') . '</label> ';
+         echo '<label><input type="number" class="codeweber-edit-tab-minwidth" value="80" min="40" max="500" style="width:55px;"> ' . esc_html__('min. px', 'codeweber') . '</label> ';
+         echo '<label><input type="number" class="codeweber-edit-tab-maxwidth" value="400" min="0" max="1000" style="width:55px;"> ' . esc_html__('max. px', 'codeweber') . '</label> ';
+         echo '<button type="button" class="button button-small codeweber-doc-edit-apply">' . esc_html__('Apply', 'codeweber') . '</button>';
          echo '</div></div>';
          echo '<div id="codeweber-doc-edit-tabulator" data-doc-id="' . (int) $post->ID . '" class="codeweber-doc-edit-tabulator"></div>';
          echo '</div>';
@@ -336,7 +336,7 @@ function save_documents_file_meta($post_id)
 
       if (!in_array($file_type['type'], $allowed_types)) {
          $allowed_extensions = get_allowed_document_extensions();
-         wp_die('Недопустимый тип файла. Разрешены: ' . $allowed_extensions);
+         wp_die(esc_html__('Invalid file type. Allowed:', 'codeweber') . ' ' . $allowed_extensions);
       }
 
       require_once(ABSPATH . 'wp-admin/includes/file.php');
@@ -403,7 +403,7 @@ add_action('admin_head', 'allow_file_upload_in_admin');
  */
 function add_documents_file_column($columns)
 {
-   $columns['document_file'] = 'Файл';
+   $columns['document_file'] = __('File', 'codeweber');
    return $columns;
 }
 add_filter('manage_documents_posts_columns', 'add_documents_file_column');
@@ -440,7 +440,7 @@ function display_documents_file_column($column, $post_id)
          $file_name = $file_url ? basename($file_url) : '';
          echo '<a href="' . esc_url($file_url) . '" target="_blank">' . esc_html($file_name) . '</a>';
          if (codeweber_document_is_spreadsheet($post_id)) {
-            echo ' <a href="#" class="codeweber-doc-preview" data-doc-id="' . (int) $post_id . '" title="' . esc_attr__('Просмотр в таблице', 'codeweber') . '">[' . esc_html__('Таблица', 'codeweber') . ']</a>';
+            echo ' <a href="#" class="codeweber-doc-preview" data-doc-id="' . (int) $post_id . '" title="' . esc_attr__('View in table', 'codeweber') . '">[' . esc_html__('Table', 'codeweber') . ']</a>';
          }
       } else {
          echo '—';
@@ -826,18 +826,18 @@ function codeweber_documents_tabulator_modal()
    ?>
    <div id="codeweber-doc-tabulator-modal" class="codeweber-doc-tabulator-modal">
       <div class="codeweber-doc-tabulator-modal-content">
-         <button type="button" class="codeweber-doc-modal-close" aria-label="<?php esc_attr_e('Закрыть', 'codeweber'); ?>">&times;</button>
+         <button type="button" class="codeweber-doc-modal-close" aria-label="<?php esc_attr_e('Close', 'codeweber'); ?>">&times;</button>
          <div class="codeweber-doc-tabulator-toolbar">
-            <button type="button" class="button codeweber-doc-toolbar-toggle" title="<?php esc_attr_e('Настройки таблицы', 'codeweber'); ?>">
-               <span class="dashicons dashicons-admin-generic"></span> <?php esc_html_e('Настройки', 'codeweber'); ?>
+            <button type="button" class="button codeweber-doc-toolbar-toggle" title="<?php esc_attr_e('Table settings', 'codeweber'); ?>">
+               <span class="dashicons dashicons-admin-generic"></span> <?php esc_html_e('Settings', 'codeweber'); ?>
             </button>
             <div class="codeweber-doc-tabulator-settings" style="display:none;">
-               <label><input type="checkbox" id="codeweber-tab-resizable" checked> <?php esc_html_e('Изменять ширину колонок', 'codeweber'); ?></label>
-               <label><input type="checkbox" id="codeweber-tab-sortable" checked> <?php esc_html_e('Сортировка', 'codeweber'); ?></label>
-               <label><input type="checkbox" id="codeweber-tab-movable" checked> <?php esc_html_e('Перетаскивание колонок', 'codeweber'); ?></label>
-               <label><?php esc_html_e('Мин. ширина:', 'codeweber'); ?> <input type="number" id="codeweber-tab-minwidth" value="80" min="40" max="500" style="width:60px;"> px</label>
-               <label><?php esc_html_e('Макс. ширина:', 'codeweber'); ?> <input type="number" id="codeweber-tab-maxwidth" value="400" min="0" max="1000" style="width:60px;"> px</label>
-               <button type="button" class="button button-small codeweber-doc-apply-settings"><?php esc_html_e('Применить', 'codeweber'); ?></button>
+               <label><input type="checkbox" id="codeweber-tab-resizable" checked> <?php esc_html_e('Resize columns', 'codeweber'); ?></label>
+               <label><input type="checkbox" id="codeweber-tab-sortable" checked> <?php esc_html_e('Sort', 'codeweber'); ?></label>
+               <label><input type="checkbox" id="codeweber-tab-movable" checked> <?php esc_html_e('Drag columns', 'codeweber'); ?></label>
+               <label><?php esc_html_e('Min. width:', 'codeweber'); ?> <input type="number" id="codeweber-tab-minwidth" value="80" min="40" max="500" style="width:60px;"> px</label>
+               <label><?php esc_html_e('Max. width:', 'codeweber'); ?> <input type="number" id="codeweber-tab-maxwidth" value="400" min="0" max="1000" style="width:60px;"> px</label>
+               <button type="button" class="button button-small codeweber-doc-apply-settings"><?php esc_html_e('Apply', 'codeweber'); ?></button>
             </div>
          </div>
          <div id="codeweber-doc-tabulator-table" class="codeweber-doc-tabulator-table"></div>

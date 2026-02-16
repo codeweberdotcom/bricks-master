@@ -850,14 +850,14 @@ function codeweber_ajax_generate_staff_qrcode() {
     // Проверка прав
     if (!current_user_can('edit_posts')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав', 'codeweber')
+            'message' => __('Insufficient permissions', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'generate_staff_qrcode')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности', 'codeweber')
+            'message' => __('Security error', 'codeweber')
         ));
     }
     
@@ -865,7 +865,7 @@ function codeweber_ajax_generate_staff_qrcode() {
     
     if (!$post_id) {
         wp_send_json_error(array(
-            'message' => __('Неверный ID записи', 'codeweber')
+            'message' => __('Invalid record ID', 'codeweber')
         ));
     }
     
@@ -881,22 +881,22 @@ function codeweber_ajax_generate_staff_qrcode() {
     if ($qrcode_id) {
         $qrcode_url = wp_get_attachment_image_url($qrcode_id, 'full');
         wp_send_json_success(array(
-            'message' => __('QR код успешно сгенерирован', 'codeweber'),
+            'message' => __('QR code generated successfully', 'codeweber'),
             'qrcode_id' => $qrcode_id,
             'qrcode_url' => $qrcode_url
         ));
     } else {
         // Получаем последнюю ошибку из логов для отладки
-        $error_message = __('Не удалось сгенерировать QR код', 'codeweber');
+        $error_message = __('Failed to generate QR code', 'codeweber');
         
         // Проверяем, что библиотека загружена
         if (!codeweber_load_qrcode_library()) {
-            $error_message = __('Библиотека QR кода не найдена', 'codeweber');
+            $error_message = __('QR code library not found', 'codeweber');
         } else {
             // Проверяем, что vCard данные генерируются
             $test_vcard = codeweber_staff_generate_vcard($post_id, true);
             if (empty($test_vcard)) {
-                $error_message = __('Не удалось создать vCard данные', 'codeweber');
+                $error_message = __('Failed to create vCard data', 'codeweber');
             }
         }
         
@@ -914,14 +914,14 @@ function codeweber_ajax_delete_staff_qrcode() {
     // Проверка прав
     if (!current_user_can('edit_posts')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав', 'codeweber')
+            'message' => __('Insufficient permissions', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'delete_staff_qrcode')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности', 'codeweber')
+            'message' => __('Security error', 'codeweber')
         ));
     }
     
@@ -929,7 +929,7 @@ function codeweber_ajax_delete_staff_qrcode() {
     
     if (!$post_id) {
         wp_send_json_error(array(
-            'message' => __('Неверный ID записи', 'codeweber')
+            'message' => __('Invalid record ID', 'codeweber')
         ));
     }
     
@@ -945,16 +945,16 @@ function codeweber_ajax_delete_staff_qrcode() {
             delete_post_meta($post_id, '_staff_qrcode_id');
             
             wp_send_json_success(array(
-                'message' => __('QR код успешно удален', 'codeweber')
+                'message' => __('QR code deleted successfully', 'codeweber')
             ));
         } else {
             wp_send_json_error(array(
-                'message' => __('Не удалось удалить QR код', 'codeweber')
+                'message' => __('Failed to delete QR code', 'codeweber')
             ));
         }
     } else {
         wp_send_json_error(array(
-            'message' => __('QR код не найден', 'codeweber')
+            'message' => __('QR code not found', 'codeweber')
         ));
     }
 }

@@ -1035,7 +1035,7 @@ class CodeweberFormsAPI {
                 
                 // Если email не найден или невалиден
                 if (empty($email_value) || !is_email($email_value)) {
-                    return ['valid' => false, 'message' => __('E-Mail обязателен для заполнения', 'codeweber')];
+                    return ['valid' => false, 'message' => __('Email is required', 'codeweber')];
                 }
             }
             return ['valid' => true];

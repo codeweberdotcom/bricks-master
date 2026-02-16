@@ -57,7 +57,7 @@ function cw_demo_create_towns() {
         );
         
         if (is_wp_error($term_data)) {
-            $errors[] = 'Не удалось создать город: ' . $town_name . ' - ' . $term_data->get_error_message();
+            $errors[] = __('Failed to create city:', 'codeweber') . ' ' . $town_name . ' - ' . $term_data->get_error_message();
         } else {
             $created++;
         }
@@ -65,7 +65,7 @@ function cw_demo_create_towns() {
     
     return array(
         'success' => true,
-        'message' => sprintf('Создано городов: %d из %d', $created, count($towns)),
+        'message' => sprintf(__('%1$d of %2$d cities created', 'codeweber'), $created, count($towns)),
         'created' => $created,
         'total' => count($towns),
         'errors' => $errors
@@ -206,7 +206,7 @@ function cw_demo_create_office_post($office_data) {
     $post_id = wp_insert_post($post_data);
     
     if (is_wp_error($post_id)) {
-        error_log('Demo Offices: Ошибка создания записи - ' . $post_id->get_error_message());
+        error_log('Demo Offices: ' . __('Error creating record', 'codeweber') . ' - ' . $post_id->get_error_message());
         return false;
     }
     
@@ -305,13 +305,13 @@ function cw_demo_create_offices() {
         if ($post_id) {
             $created++;
         } else {
-            $errors[] = 'Не удалось создать: ' . (!empty($office_data['title']) ? $office_data['title'] : 'неизвестно');
+            $errors[] = __('Failed to create:', 'codeweber') . ' ' . (!empty($office_data['title']) ? $office_data['title'] : __('unknown', 'codeweber'));
         }
     }
     
-    $message = sprintf('Создано офисов: %d из %d', $created, count($offices_data));
+    $message = sprintf(__('%1$d of %2$d offices created', 'codeweber'), $created, count($offices_data));
     if ($towns_result['created'] > 0) {
-        $message .= '. Создано городов: ' . $towns_result['created'];
+        $message .= '. ' . sprintf(__('%d cities created', 'codeweber'), $towns_result['created']);
     }
     
     // Объединяем ошибки
@@ -357,13 +357,13 @@ function cw_demo_delete_offices() {
         if ($result) {
             $deleted++;
         } else {
-            $errors[] = 'Не удалось удалить запись ID: ' . $post_id;
+            $errors[] = sprintf(__('Failed to delete record ID: %d', 'codeweber'), $post_id);
         }
     }
     
     return array(
         'success' => true,
-        'message' => sprintf('Удалено офисов: %d', $deleted),
+        'message' => sprintf(__('%d offices deleted', 'codeweber'), $deleted),
         'deleted' => $deleted,
         'errors' => $errors
     );

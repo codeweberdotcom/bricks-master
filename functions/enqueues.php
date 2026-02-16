@@ -128,11 +128,38 @@ if (!function_exists('brk_styles_scripts')) {
 				)
 			));
 		}
+
+		// Header search dropdown: run after Bootstrap, before theme.js, so our capture listener runs first.
+		$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+		if ($plugins_scripts_url) {
+			wp_enqueue_script('codeweber-search-dropdown', false, array('plugins-scripts'), $theme_version, true);
+		$search_dropdown_inline = <<<'JS'
+(function(){
+  function run() {
+    var toggle = document.querySelector('.cwgb-search-block .dropdown-toggle');
+    var container = toggle ? toggle.closest('.dropdown') : null;
+    var menu = container ? container.querySelector('.dropdown-menu') : null;
+    if (!toggle || !menu) return;
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var show = !menu.classList.contains('show');
+      menu.classList.toggle('show', show);
+      toggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+    }, true);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();
+JS;
+		wp_add_inline_script('codeweber-search-dropdown', $search_dropdown_inline, 'after');
+		}
 	}
 }
 add_action('wp_enqueue_scripts', 'brk_styles_scripts');
-
-
 
 // --- Unicons ACF admin styles and Blocks Gutenberg ---
 if (! function_exists('brk_styles_scripts_gutenberg')) {

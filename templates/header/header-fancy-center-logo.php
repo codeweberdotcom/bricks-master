@@ -67,6 +67,7 @@ $config['social-button-size-offcanvas'] = $social_button_size_offcanvas;
 $config['social-button-size-mobile-menu'] = $social_button_size_mobile;
 $mobile_menu_background = Redux::get_option($opt_name, 'mobile-menu-background');
 $topbar_enable = Redux::get_option($opt_name, 'header-topbar-enable');
+$global_header_offcanvas_right = Redux::get_option($opt_name, 'global-header-offcanvas-right');
 
 $phone1 = Redux::get_option($opt_name, 'phone_01') . '<br>';
 $phone2 = Redux::get_option($opt_name, 'phone_02') . '<br>';

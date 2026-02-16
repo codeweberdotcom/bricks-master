@@ -121,7 +121,7 @@ class CodeweberFormsGutenbergRestrictions {
             <div class="notice notice-info is-dismissible">
                 <p>
                     <strong><?php _e('CodeWeber Forms Editor', 'codeweber'); ?></strong><br>
-                    <?php _e('В этом редакторе доступны только блоки Codeweber Gutenberg Blocks. Добавьте блок "Form" и внутри него блоки "Form Field" для создания формы.', 'codeweber'); ?>
+                    <?php _e('Only Codeweber Gutenberg Blocks are available in this editor. Add a "Form" block and "Form Field" blocks inside it to build the form.', 'codeweber'); ?>
                 </p>
             </div>
             <?php

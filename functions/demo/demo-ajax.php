@@ -16,14 +16,14 @@ function cw_demo_ajax_create_clients() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => 'Недостаточно прав для выполнения операции'
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_clients')) {
         wp_send_json_error(array(
-            'message' => 'Ошибка безопасности. Обновите страницу и попробуйте снова.'
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -52,14 +52,14 @@ function cw_demo_ajax_delete_clients() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => 'Недостаточно прав для выполнения операции'
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_clients')) {
         wp_send_json_error(array(
-            'message' => 'Ошибка безопасности. Обновите страницу и попробуйте снова.'
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -87,14 +87,14 @@ function cw_demo_ajax_create_faq() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => 'Недостаточно прав для выполнения операции'
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_faq')) {
         wp_send_json_error(array(
-            'message' => 'Ошибка безопасности. Обновите страницу и попробуйте снова.'
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -123,14 +123,14 @@ function cw_demo_ajax_delete_faq() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => 'Недостаточно прав для выполнения операции'
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_faq')) {
         wp_send_json_error(array(
-            'message' => 'Ошибка безопасности. Обновите страницу и попробуйте снова.'
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -158,14 +158,14 @@ function cw_demo_ajax_create_testimonials() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_testimonials')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -194,14 +194,14 @@ function cw_demo_ajax_delete_testimonials() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_testimonials')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -229,14 +229,14 @@ function cw_demo_ajax_create_staff() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_staff')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -265,14 +265,14 @@ function cw_demo_ajax_delete_staff() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_staff')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -300,14 +300,14 @@ function cw_demo_ajax_create_vacancies() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_vacancies')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -336,14 +336,14 @@ function cw_demo_ajax_delete_vacancies() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_vacancies')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -371,14 +371,14 @@ function cw_demo_ajax_create_forms() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_forms')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -407,14 +407,14 @@ function cw_demo_ajax_delete_forms() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_forms')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -442,14 +442,14 @@ function cw_demo_ajax_create_cf7_forms() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => 'Недостаточно прав для выполнения операции'
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_cf7_forms')) {
         wp_send_json_error(array(
-            'message' => 'Ошибка безопасности. Обновите страницу и попробуйте снова.'
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -479,14 +479,14 @@ function cw_demo_ajax_delete_cf7_forms() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => 'Недостаточно прав для выполнения операции'
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_cf7_forms')) {
         wp_send_json_error(array(
-            'message' => 'Ошибка безопасности. Обновите страницу и попробуйте снова.'
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -514,14 +514,14 @@ function cw_demo_ajax_create_offices() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_create_offices')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -551,14 +551,14 @@ function cw_demo_ajax_delete_offices() {
     // Проверка прав
     if (!current_user_can('manage_options')) {
         wp_send_json_error(array(
-            'message' => __('Недостаточно прав для выполнения операции', 'codeweber')
+            'message' => __('Insufficient permissions to perform this action.', 'codeweber')
         ));
     }
     
     // Проверка nonce
     if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cw_demo_delete_offices')) {
         wp_send_json_error(array(
-            'message' => __('Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber')
+            'message' => __('Security error. Please refresh the page and try again.', 'codeweber')
         ));
     }
     
@@ -584,10 +584,10 @@ add_action('wp_ajax_cw_demo_delete_offices', 'cw_demo_ajax_delete_offices');
  */
 function cw_demo_ajax_create_footers() {
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error( array( 'message' => __( 'Недостаточно прав для выполнения операции', 'codeweber' ) ) );
+		wp_send_json_error( array( 'message' => __( 'Insufficient permissions to perform this action.', 'codeweber' ) ) );
 	}
 	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_demo_create_footers' ) ) {
-		wp_send_json_error( array( 'message' => __( 'Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber' ) ) );
+		wp_send_json_error( array( 'message' => __( 'Security error. Please refresh the page and try again.', 'codeweber' ) ) );
 	}
 	$result = cw_demo_create_footers();
 	if ( $result['success'] ) {
@@ -605,10 +605,10 @@ add_action( 'wp_ajax_cw_demo_create_footers', 'cw_demo_ajax_create_footers' );/*
  */
 function cw_demo_ajax_delete_footers() {
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error( array( 'message' => __( 'Недостаточно прав для выполнения операции', 'codeweber' ) ) );
+		wp_send_json_error( array( 'message' => __( 'Insufficient permissions to perform this action.', 'codeweber' ) ) );
 	}
 	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_demo_delete_footers' ) ) {
-		wp_send_json_error( array( 'message' => __( 'Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber' ) ) );
+		wp_send_json_error( array( 'message' => __( 'Security error. Please refresh the page and try again.', 'codeweber' ) ) );
 	}
 	$result = cw_demo_delete_footers();
 	if ( $result['success'] ) {
@@ -621,3 +621,46 @@ function cw_demo_ajax_delete_footers() {
 	wp_send_json_error( array( 'message' => $result['message'] ) );
 }
 add_action( 'wp_ajax_cw_demo_delete_footers', 'cw_demo_ajax_delete_footers' );
+
+/**
+ * AJAX обработчик для создания demo хедеров
+ */
+function cw_demo_ajax_create_headers() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Insufficient permissions to perform this action.', 'codeweber' ) ) );
+	}
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_demo_create_headers' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Security error. Please refresh the page and try again.', 'codeweber' ) ) );
+	}
+	$result = cw_demo_create_headers();
+	if ( $result['success'] ) {
+		wp_send_json_success( array(
+			'message' => $result['message'],
+			'created' => $result['created'],
+			'total'   => $result['total'],
+			'errors'  => $result['errors'],
+		) );
+	}
+	wp_send_json_error( array( 'message' => $result['message'] ) );
+}
+add_action( 'wp_ajax_cw_demo_create_headers', 'cw_demo_ajax_create_headers' );/**
+ * AJAX обработчик для удаления demo хедеров
+ */
+function cw_demo_ajax_delete_headers() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Insufficient permissions to perform this action.', 'codeweber' ) ) );
+	}
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_demo_delete_headers' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Security error. Please refresh the page and try again.', 'codeweber' ) ) );
+	}
+	$result = cw_demo_delete_headers();
+	if ( $result['success'] ) {
+		wp_send_json_success( array(
+			'message' => $result['message'],
+			'deleted' => $result['deleted'],
+			'errors'  => $result['errors'],
+		) );
+	}
+	wp_send_json_error( array( 'message' => $result['message'] ) );
+}
+add_action( 'wp_ajax_cw_demo_delete_headers', 'cw_demo_ajax_delete_headers' );

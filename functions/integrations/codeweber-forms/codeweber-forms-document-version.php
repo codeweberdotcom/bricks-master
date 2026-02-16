@@ -125,9 +125,9 @@ function codeweber_forms_handle_document_version() {
         add_filter('the_content', function($content) use ($version_timestamp) {
             $version_date = date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $version_timestamp);
             $notice = '<div class="document-version-notice" style="background: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin-bottom: 20px; border-radius: 4px;">';
-            $notice .= '<strong>' . __('Внимание:', 'codeweber') . '</strong> ';
-            $notice .= sprintf(__('Отображается версия документа от %s (версия, актуальная на момент вашего согласия).', 'codeweber'), $version_date);
-            $notice .= ' <a href="' . esc_url(remove_query_arg('version')) . '">' . __('Показать текущую версию', 'codeweber') . '</a>';
+            $notice .= '<strong>' . __('Notice:', 'codeweber') . '</strong> ';
+            $notice .= sprintf(__('Showing document version from %s (version current at the time of your consent).', 'codeweber'), $version_date);
+            $notice .= ' <a href="' . esc_url(remove_query_arg('version')) . '">' . __('Show current version', 'codeweber') . '</a>';
             $notice .= '</div>';
             return $notice . $content;
         }, 5);
@@ -137,8 +137,8 @@ function codeweber_forms_handle_document_version() {
         add_filter('the_content', function($content) use ($version_timestamp) {
             $version_date = date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $version_timestamp);
             $notice = '<div class="document-version-notice" style="background: #d1ecf1; border: 1px solid #bee5eb; padding: 15px; margin-bottom: 20px; border-radius: 4px;">';
-            $notice .= '<strong>' . __('Информация:', 'codeweber') . '</strong> ';
-            $notice .= sprintf(__('Отображается актуальная версия документа (версия от %s).', 'codeweber'), $version_date);
+            $notice .= '<strong>' . __('Info:', 'codeweber') . '</strong> ';
+            $notice .= sprintf(__('Showing current document version (version from %s).', 'codeweber'), $version_date);
             $notice .= '</div>';
             return $notice . $content;
         }, 5);

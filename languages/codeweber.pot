@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-03 14:39+0000\n"
+"POT-Creation-Date: 2026-02-15 17:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,13 +16,59 @@ msgstr ""
 "X-Loco-Version: 2.8.0; wp-6.8.2; php-8.1.10\n"
 "X-Domain: codeweber"
 
+#: functions/demo/demo-offices.php:68
+#, php-format
+msgid "%1$d of %2$d cities created"
+msgstr ""
+
+#: functions/demo/demo-clients.php:310 functions/demo/demo-staff.php:399
+#: functions/demo/demo-vacancies.php:401
+#, php-format
+msgid "%1$d of %2$d entries created"
+msgstr ""
+
+#: functions/demo/demo-footer.php:247
+#, php-format
+msgid "%1$d of %2$d footers created"
+msgstr ""
+
+#: functions/demo/demo-forms.php:300
+#, php-format
+msgid "%1$d of %2$d forms created"
+msgstr ""
+
+#: functions/demo/demo-header.php:132
+#, php-format
+msgid "%1$d of %2$d headers created"
+msgstr ""
+
+#: functions/demo/demo-offices.php:312
+#, php-format
+msgid "%1$d of %2$d offices created"
+msgstr ""
+
 #: functions/lib/comments-helper.php:38
 #, php-format
 msgid "%1$s "
 msgstr ""
 
+#: functions/demo/demo-offices.php:314
+msgid "%d cities created"
+msgstr ""
+
+#: functions/demo/demo-testimonials.php:477
+msgid "%d demo testimonial entry created"
+msgid_plural "%d demo testimonial entries created"
+msgstr[0] ""
+msgstr[1] ""
+
+#: functions/demo/demo-faq.php:451 functions/demo/demo-staff.php:456
+#: functions/demo/demo-vacancies.php:458
+msgid "%d entries deleted"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:837
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:787
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:809
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] ""
@@ -34,8 +80,28 @@ msgid_plural "%d files attached"
 msgstr[0] ""
 msgstr[1] ""
 
+#: functions/demo/demo-footer.php:286
+msgid "%d footers deleted"
+msgstr ""
+
+#: functions/demo/demo-cf7-forms.php:251 functions/demo/demo-forms.php:347
+msgid "%d forms deleted"
+msgstr ""
+
+#: functions/demo/demo-header.php:171
+msgid "%d headers deleted"
+msgstr ""
+
 #: functions/integrations/personal-data-v2/test-providers.php:220
 msgid "%d item(s) found"
+msgstr ""
+
+#: functions/demo/demo-cf7-forms.php:199
+msgid "%d of 2 forms created"
+msgstr ""
+
+#: functions/demo/demo-offices.php:366
+msgid "%d offices deleted"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:136
@@ -65,6 +131,12 @@ msgstr ""
 #: functions/integrations/newsletter-subscription/admin/class-newsletter-list-table.php:481
 msgid "%d subscription(s) successfully unsubscribed"
 msgstr ""
+
+#: functions/demo/demo-testimonials.php:532
+msgid "%d testimonial entry deleted"
+msgid_plural "%d testimonial entries deleted"
+msgstr[0] ""
+msgstr[1] ""
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:600
 #, php-format
@@ -248,7 +320,7 @@ msgstr ""
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:46
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:52
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:126
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:777
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:799
 msgid "Actions"
 msgstr ""
 
@@ -289,6 +361,10 @@ msgstr ""
 msgid "Actual Address"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/company-details.php:34
+msgid "Actual address"
+msgstr ""
+
 #: functions/lib/class-wp-bootstrap-navwalker.php:477
 #: functions/lib/class-wp-bootstrap-navwalker_original.php:426
 #: functions/lib/class-wp-bootstrap-navwalker_original.php:426
@@ -297,6 +373,10 @@ msgstr ""
 
 #: functions/cpt/cpt-clients.php:15
 msgid "Add Client"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:287
+msgid "Add column"
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:297
@@ -315,6 +395,10 @@ msgstr ""
 
 #: functions/cpt/cpt-documents.php:10
 msgid "Add Document"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:48
+msgid "Add form"
 msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:15
@@ -373,6 +457,10 @@ msgstr ""
 
 #: functions/cpt/cpt-footer.php:13 functions/cpt/cpt-footer.php:14
 msgid "Add New Footer"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:49
+msgid "Add new form"
 msgstr ""
 
 #: functions/cpt/cpt-header.php:13 functions/cpt/cpt-header.php:14
@@ -469,6 +557,10 @@ msgstr ""
 msgid "Add Responsibility"
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:286
+msgid "Add row"
+msgstr ""
+
 #: functions/cpt/cpt-services.php:13
 msgid "Add Service"
 msgstr ""
@@ -506,13 +598,13 @@ msgid "Additional Types"
 msgstr ""
 
 #: templates/footer/footer-2.php:129 templates/footer/footer-5.php:119
-#: templates/header/header-center-logo.php:282
-#: templates/header/header-classic.php:344
-#: templates/header/header-extended-center-logo.php:322
-#: templates/header/header-extended-center-logo.php:466
-#: templates/header/header-extended.php:323
-#: templates/header/header-fancy-center-logo.php:288
-#: templates/header/header-fancy.php:312
+#: templates/header/header-center-logo.php:283
+#: templates/header/header-classic.php:331
+#: templates/header/header-extended-center-logo.php:312
+#: templates/header/header-extended-center-logo.php:456
+#: templates/header/header-extended.php:313
+#: templates/header/header-fancy-center-logo.php:289
+#: templates/header/header-fancy.php:302
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:436
 #: templates/singles/offices/default.php:104
 #: templates/singles/offices/default.php:183
@@ -523,8 +615,8 @@ msgstr ""
 #: templates/singles/offices/offices_2.php:227
 #: templates/singles/offices/offices_5.php:184
 #: templates/singles/offices/offices_5.php:279
-#: redux-framework/sample/sections/codeweber/footer.php:301
-#: redux-framework/sample/sections/codeweber/header.php:365
+#: redux-framework/sample/sections/codeweber/footer.php:302
+#: redux-framework/sample/sections/codeweber/header.php:358
 #: redux-framework/sample/sections/codeweber/map_geo.php:124
 msgid "Address"
 msgstr ""
@@ -558,7 +650,7 @@ msgstr ""
 msgid "Advanced Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:468
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:515
 msgid ""
 "After adding a font, this field will display a code for managing the font's "
 "individual properties."
@@ -582,6 +674,29 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/smtp.php:212
 #: redux-framework/sample/sections/codeweber/smtp.php:248
 msgid "AJAX error: "
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:89
+#: redux-framework/sample/sections/codeweber/demo.php:129
+#: redux-framework/sample/sections/codeweber/demo.php:207
+#: redux-framework/sample/sections/codeweber/demo.php:247
+#: redux-framework/sample/sections/codeweber/demo.php:325
+#: redux-framework/sample/sections/codeweber/demo.php:365
+#: redux-framework/sample/sections/codeweber/demo.php:443
+#: redux-framework/sample/sections/codeweber/demo.php:483
+#: redux-framework/sample/sections/codeweber/demo.php:561
+#: redux-framework/sample/sections/codeweber/demo.php:601
+#: redux-framework/sample/sections/codeweber/demo.php:679
+#: redux-framework/sample/sections/codeweber/demo.php:719
+#: redux-framework/sample/sections/codeweber/demo.php:797
+#: redux-framework/sample/sections/codeweber/demo.php:837
+#: redux-framework/sample/sections/codeweber/demo.php:915
+#: redux-framework/sample/sections/codeweber/demo.php:955
+#: redux-framework/sample/sections/codeweber/demo.php:1033
+#: redux-framework/sample/sections/codeweber/demo.php:1073
+#: redux-framework/sample/sections/codeweber/demo.php:1151
+#: redux-framework/sample/sections/codeweber/demo.php:1191
+msgid "AJAX request error"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:278
@@ -625,7 +740,7 @@ msgstr ""
 msgid "All FAQ Tags"
 msgstr ""
 
-#: functions/sidebars.php:463 functions/cpt/cpt-faq.php:22
+#: functions/sidebars.php:500 functions/cpt/cpt-faq.php:22
 msgid "All FAQs"
 msgstr ""
 
@@ -635,6 +750,10 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:368
 msgid "All Form Types"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:441
+msgid "All form types"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:627
@@ -733,6 +852,26 @@ msgid "Already have an account?"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:508
+#: redux-framework/sample/sections/codeweber/demo.php:84
+#: redux-framework/sample/sections/codeweber/demo.php:124
+#: redux-framework/sample/sections/codeweber/demo.php:202
+#: redux-framework/sample/sections/codeweber/demo.php:242
+#: redux-framework/sample/sections/codeweber/demo.php:320
+#: redux-framework/sample/sections/codeweber/demo.php:360
+#: redux-framework/sample/sections/codeweber/demo.php:438
+#: redux-framework/sample/sections/codeweber/demo.php:478
+#: redux-framework/sample/sections/codeweber/demo.php:556
+#: redux-framework/sample/sections/codeweber/demo.php:596
+#: redux-framework/sample/sections/codeweber/demo.php:674
+#: redux-framework/sample/sections/codeweber/demo.php:714
+#: redux-framework/sample/sections/codeweber/demo.php:792
+#: redux-framework/sample/sections/codeweber/demo.php:832
+#: redux-framework/sample/sections/codeweber/demo.php:910
+#: redux-framework/sample/sections/codeweber/demo.php:950
+#: redux-framework/sample/sections/codeweber/demo.php:1028
+#: redux-framework/sample/sections/codeweber/demo.php:1068
+#: redux-framework/sample/sections/codeweber/demo.php:1146
+#: redux-framework/sample/sections/codeweber/demo.php:1186
 msgid "An error occurred"
 msgstr ""
 
@@ -790,22 +929,26 @@ msgstr ""
 msgid "Application URL"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:963
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:985
 msgid "Applied!"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:295 functions/cpt/cpt-documents.php:840
+msgid "Apply"
 msgstr ""
 
 #: templates/archives/vacancies/vacancies_3.php:30
 msgid "Apply now"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:826
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:969
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:976
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:982
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:848
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:991
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:998
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1004
 msgid "Apply Selected Fonts"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:949
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:971
 msgid "Applying..."
 msgstr ""
 
@@ -854,7 +997,7 @@ msgstr ""
 msgid "Are you sure you want to delete this file?"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1041
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1063
 msgid "Are you sure you want to delete this font?"
 msgstr ""
 
@@ -1036,7 +1179,7 @@ msgid "Bank TIN"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:81
-#: redux-framework/sample/sections/codeweber/header.php:74
+#: redux-framework/sample/sections/codeweber/header.php:77
 #: redux-framework/sample/sections/codeweber/page-header.php:92
 msgid "Base"
 msgstr ""
@@ -1046,7 +1189,7 @@ msgid "Base Footer Models"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:254
-#: redux-framework/sample/sections/codeweber/header.php:173
+#: redux-framework/sample/sections/codeweber/header.php:166
 msgid "Base Header Models"
 msgstr ""
 
@@ -1085,7 +1228,7 @@ msgstr ""
 msgid "Basic Vacancy Information"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:482
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:529
 msgid "Before starting the build Gulp, save the Redux settings."
 msgstr ""
 
@@ -1099,7 +1242,7 @@ msgstr ""
 msgid "Behance"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:686
+#: functions/cpt/cpt-documents.php:1149
 msgid "Best regards"
 msgstr ""
 
@@ -1121,8 +1264,8 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:394
 #: redux-framework/sample/sections/codeweber/footer.php:171
-#: redux-framework/sample/sections/codeweber/header.php:253
-#: redux-framework/sample/sections/codeweber/header.php:330
+#: redux-framework/sample/sections/codeweber/header.php:249
+#: redux-framework/sample/sections/codeweber/header.php:324
 msgid "Block"
 msgstr ""
 
@@ -1168,7 +1311,7 @@ msgstr ""
 msgid "Bottom Center (Default)"
 msgstr ""
 
-#: functions/sidebars.php:166
+#: functions/sidebars.php:203
 msgid "Bottom Footer"
 msgstr ""
 
@@ -1186,7 +1329,7 @@ msgstr ""
 msgid "Bottom Right"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:312
+#: redux-framework/sample/sections/codeweber/footer.php:313
 msgid "Bottombar"
 msgstr ""
 
@@ -1227,11 +1370,11 @@ msgstr ""
 msgid "Browser User Agent"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:308
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:355
 msgid "Build DEV"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:313
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:360
 msgid "Build DIST"
 msgstr ""
 
@@ -1285,6 +1428,10 @@ msgstr ""
 msgid "Callback Request"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:446
+msgid "Callback request"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1472
 #: functions/integrations/newsletter-subscription/admin/newsletter-import-export.php:122
 msgid "Cannot open uploaded file"
@@ -1296,6 +1443,10 @@ msgstr ""
 #: functions/fetch/getPostCardTemplates.php:88
 #: functions/fetch/getPostCardTemplates.php:96
 msgid "Card"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:86
+msgid "Card and Image rounded corners"
 msgstr ""
 
 #: functions/fetch/getPostCardTemplates.php:97
@@ -1461,8 +1612,8 @@ msgstr ""
 #: functions/fetch/getPostCardTemplates.php:72
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:393
 #: redux-framework/sample/sections/codeweber/footer.php:170
-#: redux-framework/sample/sections/codeweber/header.php:252
-#: redux-framework/sample/sections/codeweber/header.php:329
+#: redux-framework/sample/sections/codeweber/header.php:248
+#: redux-framework/sample/sections/codeweber/header.php:323
 msgid "Circle"
 msgstr ""
 
@@ -1507,7 +1658,7 @@ msgstr ""
 msgid "Clear Data (AJAX)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:327
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:374
 msgid "Clear LOG"
 msgstr ""
 
@@ -1553,6 +1704,7 @@ msgstr ""
 msgid "Clients list"
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:829
 #: functions/integrations/modal-container.php:84
 #: functions/integrations/modal-container.php:99
 #: functions/integrations/success-message-template.php:69
@@ -1857,6 +2009,10 @@ msgstr ""
 msgid "Contact Form 7"
 msgstr ""
 
+#: functions/demo/demo-cf7-forms.php:21 functions/demo/demo-cf7-forms.php:223
+msgid "Contact Form 7 is not active"
+msgstr ""
+
 #: functions/integrations/modal-rest-api.php:181
 #: functions/integrations/modal-rest-api.php:274
 msgid "Contact Form 7 plugin is not active."
@@ -1890,10 +2046,21 @@ msgstr ""
 msgid "Contact form not found."
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:61
+msgid "Contact forms created with CodeWeber Forms"
+msgstr ""
+
 #: templates/singles/offices/default.php:176
 #: templates/singles/staff/default.php:108
 #: templates/singles/staff/staff_1.php:108
 msgid "Contact Information"
+msgstr ""
+
+#: functions/bootstrap/class-floating-social-widget.php:284
+#: functions/bootstrap/class-floating-social-widget.php:880
+#: functions/bootstrap/class-floating-social-widget.php:1215
+#: redux-framework/sample/sections/codeweber/floating-social-widget.php:357
+msgid "Contact us"
 msgstr ""
 
 #: templates/footer/footer-columns.php:21
@@ -1913,7 +2080,7 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: functions/ajax-filter.php:354 functions/sidebars.php:253
+#: functions/ajax-filter.php:354 functions/sidebars.php:290
 #: functions/cpt/cpt-vacancies.php:482
 #: templates/archives/vacancies/vacancies_2.php:34
 #: templates/post-cards/vacancies/card.php:54
@@ -1940,6 +2107,7 @@ msgstr ""
 msgid "Coordinates"
 msgstr ""
 
+#: functions/cpt/cpt-html_blocks.php:114
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:253
 msgid "Copy shortcode"
 msgstr ""
@@ -1978,8 +2146,22 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/demo.php:261
+msgid ""
+"Create 15 demo entries for CPT Testimonials with avatars from the avatars "
+"folder"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:293
+msgid "Create 15 demo testimonial entries? This may take a while."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/childtheme.php:15
 msgid "Create and manage child themes"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:736
+msgid "Create CF7 Forms"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:61
@@ -2005,6 +2187,125 @@ msgstr ""
 msgid "Create Custom Page-header"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/demo.php:765
+msgid "Create demo CF7 forms? This may take a while."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:57
+msgid "Create demo client entries? This may take a while."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:28
+msgid "Create Demo Clients"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:733
+msgid ""
+"Create demo Contact Form 7 forms: \"Feedback form\" and \"Callback request\""
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:25
+msgid "Create demo entries for CPT Clients with images from the brands folder"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:143
+msgid "Create demo entries for CPT FAQ with categories"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:969
+msgid ""
+"Create demo entries for CPT Footer: Footer_01 (4-column footer), Footer_02 "
+"(CTA + 4-column footer), Footer_03 (CTA card + 4-column footer, Redux Demo)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:1087
+msgid ""
+"Create demo entries for CPT Header: Header_01–08 (Navbar), Header_09 (Top "
+"Header + Navbar)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:851
+msgid ""
+"Create demo entries for CPT Offices with Russian cities and Moscow addresses "
+"with Yandex Maps coordinates"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:379
+msgid ""
+"Create demo entries for CPT Staff with images from the avatars folder and "
+"departments"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:497
+msgid ""
+"Create demo entries for CPT Vacancies with images from the photos folder"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:146
+msgid "Create Demo FAQ"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:175
+msgid "Create demo FAQ entries? This may take a while."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:972
+msgid "Create Demo Footer"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:1001
+msgid ""
+"Create demo footers (Footer_01, Footer_02, Footer_03)? This may take a while."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:618
+msgid "Create Demo Forms"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:615
+msgid "Create demo forms (Testimonial and Newsletter) for CPT Forms"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:647
+msgid "Create demo forms? This may take a while."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:1090
+msgid "Create Demo Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:1119
+msgid "Create demo headers (Header_01 … Header_08)? This may take a while."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:883
+msgid "Create demo office entries? This may take a while."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:854
+msgid "Create Demo Offices"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:382
+msgid "Create Demo Staff"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:411
+msgid "Create demo staff entries? This may take a while."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:264
+msgid "Create Demo Testimonials"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:500
+msgid "Create Demo Vacancies"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:529
+msgid "Create demo vacancy entries? This may take a while."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/cpt-type.php:269
 msgid "Create Footer"
 msgstr ""
@@ -2025,11 +2326,27 @@ msgstr ""
 msgid "Created files:"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/demo.php:62
+#: redux-framework/sample/sections/codeweber/demo.php:180
+#: redux-framework/sample/sections/codeweber/demo.php:298
+#: redux-framework/sample/sections/codeweber/demo.php:416
+#: redux-framework/sample/sections/codeweber/demo.php:534
+#: redux-framework/sample/sections/codeweber/demo.php:888
+#: redux-framework/sample/sections/codeweber/demo.php:1006
+#: redux-framework/sample/sections/codeweber/demo.php:1124
+msgid "Creating entries..."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:652
+#: redux-framework/sample/sections/codeweber/demo.php:770
+msgid "Creating forms..."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/childtheme.php:69
 msgid "Creating..."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:774
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:796
 msgid "CSS"
 msgstr ""
 
@@ -2050,7 +2367,11 @@ msgstr ""
 msgid "CSV Import"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1095
+#: functions/cpt/cpt-documents.php:276
+msgid "Current file:"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1117
 msgid "Current Fonts"
 msgstr ""
 
@@ -2060,7 +2381,7 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:382
 #: redux-framework/sample/metaboxes.php:426
 #: redux-framework/sample/sections/codeweber/footer.php:82
-#: redux-framework/sample/sections/codeweber/header.php:75
+#: redux-framework/sample/sections/codeweber/header.php:78
 #: redux-framework/sample/sections/codeweber/page-header.php:93
 msgid "Custom"
 msgstr ""
@@ -2077,7 +2398,7 @@ msgstr ""
 msgid "Custom CSS styles for map wrapper"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1088
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1110
 msgid "Custom Fonts Upload"
 msgstr ""
 
@@ -2105,7 +2426,7 @@ msgstr ""
 msgid "Custom Post Types"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:453
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:500
 msgid "Custom SCSS / Code"
 msgstr ""
 
@@ -2148,8 +2469,8 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:271
 #: redux-framework/sample/sections/codeweber/footer.php:111
 #: redux-framework/sample/sections/codeweber/footer.php:198
-#: redux-framework/sample/sections/codeweber/header.php:119
-#: redux-framework/sample/sections/codeweber/header.php:279
+#: redux-framework/sample/sections/codeweber/header.php:115
+#: redux-framework/sample/sections/codeweber/header.php:273
 #: redux-framework/sample/sections/codeweber/page-header.php:196
 #: redux-framework/sample/sections/codeweber/page-header.php:315
 msgid "Dark"
@@ -2361,12 +2682,112 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:84
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:709
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:708
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:806
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:828
 msgid "Delete"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:805
+msgid "Delete all demo CF7 forms? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:97
+msgid "Delete all demo client entries? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:215
+msgid "Delete all demo FAQ entries? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:1041
+msgid "Delete all demo footers? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:687
+msgid "Delete all demo forms? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:1159
+msgid "Delete all demo headers? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:923
+msgid "Delete all demo office entries? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:451
+msgid "Delete all demo staff entries? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:333
+msgid "Delete all demo testimonial entries? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:569
+msgid "Delete all demo vacancy entries? This action cannot be undone."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:739
+msgid "Delete CF7 Forms"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:31
+msgid "Delete Demo Clients"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:149
+msgid "Delete Demo FAQ"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:975
+msgid "Delete Demo Footer"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:621
+msgid "Delete Demo Forms"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:1093
+msgid "Delete Demo Header"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:857
+msgid "Delete Demo Offices"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:385
+msgid "Delete Demo Staff"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:267
+msgid "Delete Demo Testimonials"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:503
+msgid "Delete Demo Vacancies"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:647
 msgid "Delete Permanently"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:291
+msgid "Delete QR code"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:102
+#: redux-framework/sample/sections/codeweber/demo.php:220
+#: redux-framework/sample/sections/codeweber/demo.php:338
+#: redux-framework/sample/sections/codeweber/demo.php:456
+#: redux-framework/sample/sections/codeweber/demo.php:574
+#: redux-framework/sample/sections/codeweber/demo.php:928
+#: redux-framework/sample/sections/codeweber/demo.php:1046
+#: redux-framework/sample/sections/codeweber/demo.php:1164
+msgid "Deleting entries..."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:692
+#: redux-framework/sample/sections/codeweber/demo.php:810
+msgid "Deleting forms..."
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_framework.php:100
@@ -2396,6 +2817,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:614
 msgid "Demo Forms"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/demo.php:1086
+msgid "Demo Header"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:850
@@ -2442,8 +2867,8 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:564
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:234
 #: redux-framework/sample/sections/codeweber/childtheme.php:28
-#: redux-framework/sample/sections/codeweber/footer.php:294
-#: redux-framework/sample/sections/codeweber/header.php:358
+#: redux-framework/sample/sections/codeweber/footer.php:295
+#: redux-framework/sample/sections/codeweber/header.php:351
 msgid "Description"
 msgstr ""
 
@@ -2468,7 +2893,7 @@ msgstr ""
 msgid "Detailed guide for creating and configuring email newsletter forms."
 msgstr ""
 
-#: functions/sidebars.php:297
+#: functions/sidebars.php:334
 msgid "Details"
 msgstr ""
 
@@ -2599,8 +3024,8 @@ msgstr ""
 msgid "Document ID: %d (not found)"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:474 functions/cpt/cpt-documents.php:621
-#: functions/cpt/cpt-documents.php:733
+#: functions/cpt/cpt-documents.php:937 functions/cpt/cpt-documents.php:1084
+#: functions/cpt/cpt-documents.php:1196
 msgid "Document not found"
 msgstr ""
 
@@ -2620,11 +3045,11 @@ msgstr ""
 msgid "Document Scheduled"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:708
+#: functions/cpt/cpt-documents.php:1171
 msgid "Document sent successfully to your email."
 msgstr ""
 
-#: functions/enqueues.php:212
+#: functions/enqueues.php:239
 msgid "Document sent successfully!"
 msgstr ""
 
@@ -2648,11 +3073,11 @@ msgstr ""
 msgid "Document URL"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:501
+#: functions/cpt/cpt-documents.php:964
 msgid "Document:"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:674
+#: functions/cpt/cpt-documents.php:1137
 #, php-format
 msgid "Document: %s"
 msgstr ""
@@ -2683,12 +3108,16 @@ msgstr ""
 msgid "Download date:"
 msgstr ""
 
-#: functions/sidebars.php:352
+#: functions/sidebars.php:389
 msgid "Download document"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:683
+#: functions/cpt/cpt-documents.php:1146
 msgid "Download link:"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:837
+msgid "Drag columns"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:144
@@ -2719,13 +3148,13 @@ msgid "E-Mail"
 msgstr ""
 
 #: templates/footer/footer-5.php:154
-#: templates/header/header-center-logo.php:272
-#: templates/header/header-classic.php:333
-#: templates/header/header-extended-center-logo.php:312
-#: templates/header/header-extended-center-logo.php:456
-#: templates/header/header-extended.php:313
-#: templates/header/header-fancy-center-logo.php:278
-#: templates/header/header-fancy.php:302
+#: templates/header/header-center-logo.php:273
+#: templates/header/header-classic.php:320
+#: templates/header/header-extended-center-logo.php:302
+#: templates/header/header-extended-center-logo.php:446
+#: templates/header/header-extended.php:303
+#: templates/header/header-fancy-center-logo.php:279
+#: templates/header/header-fancy.php:292
 msgid "E-mail"
 msgstr ""
 
@@ -2737,10 +3166,6 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:104
 msgid "E-mail Responsible Person"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1038
-msgid "E-Mail обязателен для заполнения"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:233
@@ -2785,6 +3210,10 @@ msgstr ""
 
 #: functions/cpt/cpt-footer.php:15
 msgid "Edit Footer"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:50
+msgid "Edit form"
 msgstr ""
 
 #: functions/cpt/cpt-header.php:15
@@ -2919,6 +3348,10 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:49
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:564
 msgid "Email Admin"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1038
+msgid "Email is required"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:201
@@ -3147,7 +3580,7 @@ msgstr ""
 msgid "Enter the company website URL"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:437
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:484
 msgid "Enter the font file name (with or without .scss extension)"
 msgstr ""
 
@@ -3172,11 +3605,11 @@ msgstr ""
 msgid "Enter your admin password to confirm:"
 msgstr ""
 
-#: functions/enqueues.php:383
+#: functions/enqueues.php:410
 msgid "Error"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:984
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1006
 msgid "Error applying fonts."
 msgstr ""
 
@@ -3190,15 +3623,26 @@ msgstr ""
 msgid "Error clearing data!"
 msgstr ""
 
+#: functions/demo/demo-clients.php:220 functions/demo/demo-faq.php:310
+#: functions/demo/demo-forms.php:215 functions/demo/demo-offices.php:209
+#: functions/demo/demo-staff.php:283 functions/demo/demo-vacancies.php:277
+msgid "Error creating record"
+msgstr ""
+
+#: functions/demo/demo-testimonials.php:444
+#, php-format
+msgid "Error creating record \"%s\": %s"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:104
 msgid "Error creating SCSS file: "
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1074
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1096
 msgid "Error deleting font."
 msgstr ""
 
-#: functions/enqueues.php:206
+#: functions/enqueues.php:233
 msgid "Error downloading file. Please try again."
 msgstr ""
 
@@ -3210,15 +3654,15 @@ msgstr ""
 msgid "Error saving fonts: "
 msgstr ""
 
-#: functions/enqueues.php:213
+#: functions/enqueues.php:240
 msgid "Error sending email. Please try again."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1034
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1056
 msgid "Error uploading font."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:618
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:640
 msgid "Error writing SCSS file: "
 msgstr ""
 
@@ -3227,6 +3671,26 @@ msgid "Error: "
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-migrate-cpt-types.php:167
+#: redux-framework/sample/sections/codeweber/demo.php:76
+#: redux-framework/sample/sections/codeweber/demo.php:116
+#: redux-framework/sample/sections/codeweber/demo.php:194
+#: redux-framework/sample/sections/codeweber/demo.php:234
+#: redux-framework/sample/sections/codeweber/demo.php:312
+#: redux-framework/sample/sections/codeweber/demo.php:352
+#: redux-framework/sample/sections/codeweber/demo.php:430
+#: redux-framework/sample/sections/codeweber/demo.php:470
+#: redux-framework/sample/sections/codeweber/demo.php:548
+#: redux-framework/sample/sections/codeweber/demo.php:588
+#: redux-framework/sample/sections/codeweber/demo.php:666
+#: redux-framework/sample/sections/codeweber/demo.php:706
+#: redux-framework/sample/sections/codeweber/demo.php:784
+#: redux-framework/sample/sections/codeweber/demo.php:824
+#: redux-framework/sample/sections/codeweber/demo.php:902
+#: redux-framework/sample/sections/codeweber/demo.php:942
+#: redux-framework/sample/sections/codeweber/demo.php:1020
+#: redux-framework/sample/sections/codeweber/demo.php:1060
+#: redux-framework/sample/sections/codeweber/demo.php:1138
+#: redux-framework/sample/sections/codeweber/demo.php:1178
 msgid "Errors:"
 msgstr ""
 
@@ -3314,8 +3778,17 @@ msgstr ""
 msgid "Facebook Pixel Settings"
 msgstr ""
 
+#: functions/cpt/cpt-html_blocks.php:155
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:377
 msgid "Failed to copy shortcode"
+msgstr ""
+
+#: functions/demo/demo-offices.php:60
+msgid "Failed to create city:"
+msgstr ""
+
+#: functions/demo/demo-cf7-forms.php:108
+msgid "Failed to create form \"Feedback form\":"
 msgstr ""
 
 #: functions/testimonials/testimonial-form-api.php:573
@@ -3327,12 +3800,47 @@ msgstr ""
 msgid "Failed to create user"
 msgstr ""
 
+#: functions/qr-code.php:899
+msgid "Failed to create vCard data"
+msgstr ""
+
+#: functions/demo/demo-clients.php:306 functions/demo/demo-faq.php:396
+#: functions/demo/demo-footer.php:241 functions/demo/demo-forms.php:296
+#: functions/demo/demo-header.php:126 functions/demo/demo-offices.php:308
+#: functions/demo/demo-staff.php:395
+msgid "Failed to create:"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:505
 msgid "Failed to delete file"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1339
 msgid "Failed to delete file."
+msgstr ""
+
+#: functions/demo/demo-cf7-forms.php:247
+msgid "Failed to delete form:"
+msgstr ""
+
+#: functions/qr-code.php:952
+msgid "Failed to delete QR code"
+msgstr ""
+
+#: functions/demo/demo-clients.php:361 functions/demo/demo-faq.php:445
+#: functions/demo/demo-forms.php:341 functions/demo/demo-offices.php:360
+#: functions/demo/demo-staff.php:450 functions/demo/demo-testimonials.php:525
+#: functions/demo/demo-vacancies.php:452
+msgid "Failed to delete record ID: %d"
+msgstr ""
+
+#: functions/qr-code.php:890
+msgid "Failed to generate QR code"
+msgstr ""
+
+#: functions/demo/demo-testimonials.php:467
+#, php-format
+msgid "Failed to load avatar for \"%s\""
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:412
@@ -3365,7 +3873,7 @@ msgstr ""
 msgid "Failed to save submission."
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:713
+#: functions/cpt/cpt-documents.php:1176
 msgid "Failed to send email. Please try again."
 msgstr ""
 
@@ -3484,6 +3992,7 @@ msgstr ""
 msgid "Figma"
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:406
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:788
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:764
 msgid "File"
@@ -3511,8 +4020,8 @@ msgstr ""
 msgid "File not found"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:485 functions/cpt/cpt-documents.php:631
-#: functions/cpt/cpt-documents.php:744
+#: functions/cpt/cpt-documents.php:948 functions/cpt/cpt-documents.php:1094
+#: functions/cpt/cpt-documents.php:1207
 msgid "File not found for this document"
 msgstr ""
 
@@ -3543,7 +4052,7 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:47
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:412
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:773
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:795
 msgid "Files"
 msgstr ""
 
@@ -3622,19 +4131,19 @@ msgstr ""
 msgid "Font directory not found"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:754
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:776
 msgid "Font Family Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:436
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:483
 msgid "Font File Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:467
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:514
 msgid "Font individual / Code"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:772
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:794
 msgid "Font Name"
 msgstr ""
 
@@ -3661,23 +4170,23 @@ msgstr ""
 msgid "Footer"
 msgstr ""
 
-#: functions/sidebars.php:126
+#: functions/sidebars.php:163
 msgid "Footer 1"
 msgstr ""
 
-#: functions/sidebars.php:136
+#: functions/sidebars.php:173
 msgid "Footer 2"
 msgstr ""
 
-#: functions/sidebars.php:146
+#: functions/sidebars.php:183
 msgid "Footer 3"
 msgstr ""
 
-#: functions/sidebars.php:156
+#: functions/sidebars.php:193
 msgid "Footer 4"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:320
+#: redux-framework/sample/sections/codeweber/footer.php:322
 msgid "Footer Bootombar"
 msgstr ""
 
@@ -3759,6 +4268,12 @@ msgstr ""
 msgid "Footer Type 8"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/header.php:381
+msgid ""
+"For Base header — shows topbar above navbar. For Custom header use the \"Top "
+"Header\" block in the editor."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:132
 #: redux-framework/sample/sections/codeweber/legal.php:142
 msgid "For consent to the processing of personal data"
@@ -3790,6 +4305,7 @@ msgid ""
 "must be entered and saved in the API tab"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:46
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:107
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:43
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:550
@@ -3800,6 +4316,14 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:248
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:451
 msgid "Form"
+msgstr ""
+
+#: functions/demo/demo-cf7-forms.php:196
+msgid "Form \"Callback request\" already exists"
+msgstr ""
+
+#: functions/demo/demo-cf7-forms.php:129
+msgid "Form \"Feedback form\" already exists"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:212
@@ -3932,6 +4456,10 @@ msgstr ""
 msgid "Form Type"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:190
+msgid "Form type"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1688
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:349
 msgid "Form:"
@@ -3945,12 +4473,23 @@ msgstr ""
 msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:45
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:47
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:59
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:448
 msgid "Forms"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:552
 msgid "Forms Count"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:106
+msgid "Forms rounded corners"
+msgstr ""
+
+#: functions/demo/demo-cf7-forms.php:201
+msgid "Forms:"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:92
@@ -4036,7 +4575,7 @@ msgstr ""
 msgid "Full time"
 msgstr ""
 
-#: functions/sidebars.php:250 functions/cpt/cpt-vacancies.php:479
+#: functions/sidebars.php:287 functions/cpt/cpt-vacancies.php:479
 #: templates/post-cards/vacancies/card.php:51
 msgid "Full-time"
 msgstr ""
@@ -4051,6 +4590,14 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:33
 msgid "General Settings"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:287
+msgid "Generate QR code"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:402
+msgid "Generating..."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:9
@@ -4085,6 +4632,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:27
 msgid "Gmail"
+msgstr ""
+
+#: templates/content/loop-legal.php:33 templates/archives/legal/legal_1.php:29
+msgid "Go"
 msgstr ""
 
 #: 404.php:18
@@ -4156,7 +4707,7 @@ msgstr ""
 msgid "Gulp"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:481
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:528
 msgid "Gulp Run"
 msgstr ""
 
@@ -4170,7 +4721,7 @@ msgstr ""
 
 #: functions/cpt/cpt-header.php:10 functions/cpt/cpt-header.php:11
 #: functions/cpt/cpt-header.php:12 functions/cpt/cpt-header.php:26
-#: redux-framework/sample/sections/codeweber/header.php:64
+#: redux-framework/sample/sections/codeweber/header.php:67
 msgid "Header"
 msgstr ""
 
@@ -4201,7 +4752,7 @@ msgid "Header Right 1"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:187
-#: redux-framework/sample/sections/codeweber/header.php:83
+#: redux-framework/sample/sections/codeweber/header.php:86
 msgid "Header rounded"
 msgstr ""
 
@@ -4210,51 +4761,51 @@ msgid "Header Settings"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:201
-#: redux-framework/sample/sections/codeweber/header.php:116
+#: redux-framework/sample/sections/codeweber/header.php:113
 msgid "Header text color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:384
+#: redux-framework/sample/sections/codeweber/header.php:380
 msgid "Header Topbar"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:257
-#: redux-framework/sample/sections/codeweber/header.php:176
+#: redux-framework/sample/sections/codeweber/header.php:169
 msgid "Header Type 1"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:262
-#: redux-framework/sample/sections/codeweber/header.php:181
+#: redux-framework/sample/sections/codeweber/header.php:174
 msgid "Header Type 2"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:267
-#: redux-framework/sample/sections/codeweber/header.php:186
+#: redux-framework/sample/sections/codeweber/header.php:179
 msgid "Header Type 3"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:272
-#: redux-framework/sample/sections/codeweber/header.php:191
+#: redux-framework/sample/sections/codeweber/header.php:184
 msgid "Header Type 4"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:277
-#: redux-framework/sample/sections/codeweber/header.php:196
+#: redux-framework/sample/sections/codeweber/header.php:189
 msgid "Header Type 5"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:282
-#: redux-framework/sample/sections/codeweber/header.php:201
+#: redux-framework/sample/sections/codeweber/header.php:194
 msgid "Header Type 6"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:287
-#: redux-framework/sample/sections/codeweber/header.php:206
+#: redux-framework/sample/sections/codeweber/header.php:199
 msgid "Header Type 7"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:292
-#: redux-framework/sample/sections/codeweber/header.php:211
+#: redux-framework/sample/sections/codeweber/header.php:204
 msgid "Header Type 8"
 msgstr ""
 
@@ -4281,7 +4832,7 @@ msgstr ""
 msgid "Hello,"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:676
+#: functions/cpt/cpt-documents.php:1139
 #, php-format
 msgid ""
 "Hello,\n"
@@ -4569,7 +5120,7 @@ msgstr ""
 msgid "Improve accessibility for screen readers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:454
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:501
 msgid ""
 "In this window, you can add SCSS code that will be written to the GULP _user-"
 "variables.scss file during the build process."
@@ -4581,6 +5132,10 @@ msgstr ""
 
 #: functions/cpt/cpt-notifications.php:282
 msgid "Inactivity Delay"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:140
+msgid "Info:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:387
@@ -4611,6 +5166,22 @@ msgstr ""
 msgid "Insert into testimonial"
 msgstr ""
 
+#: functions/sidebars.php:121
+msgid "Inside navbar-brand, after logo"
+msgstr ""
+
+#: functions/sidebars.php:148
+msgid "Inside navbar-other, before navbar-nav"
+msgstr ""
+
+#: functions/sidebars.php:139
+msgid "Inside offcanvas-body, after menu"
+msgstr ""
+
+#: functions/sidebars.php:130
+msgid "Inside offcanvas-body, before menu"
+msgstr ""
+
 #: templates/singles/staff/staff_4.php:189
 #: templates/singles/staff/staff_5.php:212
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:130
@@ -4623,6 +5194,12 @@ msgstr ""
 msgid "Instructions"
 msgstr ""
 
+#: functions/pdf-thumbnail-js.php:69
+msgid "Insufficient data"
+msgstr ""
+
+#: functions/pdf-thumbnail-js.php:62 functions/qr-code.php:853
+#: functions/qr-code.php:917
 #: functions/integrations/ajax-search-module/search-statistics.php:232
 #: functions/integrations/ajax-search-module/search-statistics.php:443
 #: redux-framework/sample/sections/codeweber/childtheme.php:241
@@ -4640,11 +5217,24 @@ msgstr ""
 msgid "Insufficient permissions for import"
 msgstr ""
 
+#: functions/demo/demo-ajax.php:19 functions/demo/demo-ajax.php:55
+#: functions/demo/demo-ajax.php:90 functions/demo/demo-ajax.php:126
+#: functions/demo/demo-ajax.php:161 functions/demo/demo-ajax.php:197
+#: functions/demo/demo-ajax.php:232 functions/demo/demo-ajax.php:268
+#: functions/demo/demo-ajax.php:303 functions/demo/demo-ajax.php:339
+#: functions/demo/demo-ajax.php:374 functions/demo/demo-ajax.php:410
+#: functions/demo/demo-ajax.php:445 functions/demo/demo-ajax.php:482
+#: functions/demo/demo-ajax.php:517 functions/demo/demo-ajax.php:554
+#: functions/demo/demo-ajax.php:587 functions/demo/demo-ajax.php:608
+#: functions/demo/demo-ajax.php:630 functions/demo/demo-ajax.php:651
+msgid "Insufficient permissions to perform this action."
+msgstr ""
+
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:547
 msgid "Integration Status"
 msgstr ""
 
-#: functions/sidebars.php:252 functions/cpt/cpt-vacancies.php:481
+#: functions/sidebars.php:289 functions/cpt/cpt-vacancies.php:481
 #: templates/post-cards/vacancies/card.php:55
 msgid "Internship"
 msgstr ""
@@ -4697,6 +5287,10 @@ msgstr ""
 msgid "Invalid file ID."
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:339
+msgid "Invalid file type. Allowed:"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:503
 msgid "Invalid files data format"
 msgstr ""
@@ -4726,6 +5320,10 @@ msgstr ""
 
 #: functions/ajax-filter.php:51
 msgid "Invalid post type"
+msgstr ""
+
+#: functions/qr-code.php:868 functions/qr-code.php:932
+msgid "Invalid record ID"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:501
@@ -4822,8 +5420,8 @@ msgid "Languages"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:185
-#: redux-framework/sample/sections/codeweber/header.php:267
-#: redux-framework/sample/sections/codeweber/header.php:344
+#: redux-framework/sample/sections/codeweber/header.php:262
+#: redux-framework/sample/sections/codeweber/header.php:337
 msgid "Large"
 msgstr ""
 
@@ -4909,6 +5507,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/company-details.php:45
 msgid "Legal Address"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:35
+msgid "Legal address"
 msgstr ""
 
 #: functions/cpt/cpt-legal.php:18
@@ -5014,8 +5616,8 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:272
 #: redux-framework/sample/sections/codeweber/footer.php:112
 #: redux-framework/sample/sections/codeweber/footer.php:197
-#: redux-framework/sample/sections/codeweber/header.php:120
-#: redux-framework/sample/sections/codeweber/header.php:280
+#: redux-framework/sample/sections/codeweber/header.php:116
+#: redux-framework/sample/sections/codeweber/header.php:274
 #: redux-framework/sample/sections/codeweber/page-header.php:197
 #: redux-framework/sample/sections/codeweber/page-header.php:316
 msgid "Light"
@@ -5065,11 +5667,11 @@ msgstr ""
 msgid "List of personal data processed:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:487
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:494
 msgid "Load _user-variables and active font from the currently active theme"
 msgstr ""
 
-#: functions/enqueues.php:205 functions/enqueues.php:384
+#: functions/enqueues.php:232 functions/enqueues.php:411
 #: templates/post-cards/documents/card_download.php:82
 msgid "Loading..."
 msgstr ""
@@ -5183,8 +5785,8 @@ msgid "Manager"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:329
-#: redux-framework/sample/sections/codeweber/footer.php:296
-#: redux-framework/sample/sections/codeweber/header.php:360
+#: redux-framework/sample/sections/codeweber/footer.php:297
+#: redux-framework/sample/sections/codeweber/header.php:353
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:63
 msgid "Map"
 msgstr ""
@@ -5263,6 +5865,14 @@ msgstr ""
 msgid "Max Submissions per Period"
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:294
+msgid "max. px"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:839
+msgid "Max. width:"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-validator.php:30
 msgid "Maximum length is %d characters."
 msgstr ""
@@ -5286,8 +5896,8 @@ msgid "Media Licenses"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:184
-#: redux-framework/sample/sections/codeweber/header.php:266
-#: redux-framework/sample/sections/codeweber/header.php:343
+#: redux-framework/sample/sections/codeweber/header.php:261
+#: redux-framework/sample/sections/codeweber/header.php:336
 msgid "Medium"
 msgstr ""
 
@@ -5297,8 +5907,8 @@ msgstr ""
 msgid "Meetup"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:300
-#: redux-framework/sample/sections/codeweber/header.php:364
+#: redux-framework/sample/sections/codeweber/footer.php:301
+#: redux-framework/sample/sections/codeweber/header.php:357
 msgid "Menu"
 msgstr ""
 
@@ -5361,6 +5971,14 @@ msgstr ""
 msgid "Migration completed: %d total, %d updated, %d skipped, %d errors."
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:293
+msgid "min. px"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:838
+msgid "Min. width:"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:283
 msgid "Minimal (only form blocks)"
 msgstr ""
@@ -5369,11 +5987,11 @@ msgstr ""
 msgid "Minimum length is %d characters."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:222
+#: redux-framework/sample/sections/codeweber/header.php:220
 msgid "Mobile Menu"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:277
+#: redux-framework/sample/sections/codeweber/header.php:271
 msgid "Mobile Menu Background"
 msgstr ""
 
@@ -5466,6 +6084,22 @@ msgstr ""
 msgid "Name used as sender for form submission emails."
 msgstr ""
 
+#: functions/sidebars.php:119
+msgid "Navbar: After Logo"
+msgstr ""
+
+#: functions/sidebars.php:137
+msgid "Navbar: After Menu (Offcanvas)"
+msgstr ""
+
+#: functions/sidebars.php:128
+msgid "Navbar: Before Menu (Offcanvas)"
+msgstr ""
+
+#: functions/sidebars.php:146
+msgid "Navbar: Right (Before Nav)"
+msgstr ""
+
 #: templates/footer/footer-1.php:103 templates/footer/footer-3.php:116
 #: templates/footer/footer-simple.php:65 templates/footer/footer.php:58
 msgid "Navigation"
@@ -5510,6 +6144,10 @@ msgstr ""
 
 #: functions/cpt/cpt-footer.php:16
 msgid "New Footer"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:51
+msgid "New form"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:953
@@ -5633,6 +6271,10 @@ msgstr ""
 msgid "Newsletter Subscription"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:443
+msgid "Newsletter subscription"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:189
 msgid ""
 "Newsletter subscription forms are now handled through the codeweber-forms "
@@ -5754,6 +6396,16 @@ msgstr ""
 msgid "No data available."
 msgstr ""
 
+#: functions/demo/demo-footer.php:227 functions/demo/demo-forms.php:281
+#: functions/demo/demo-header.php:112
+msgid "No data found"
+msgstr ""
+
+#: functions/demo/demo-clients.php:273 functions/demo/demo-faq.php:364
+#: functions/demo/demo-staff.php:365 functions/demo/demo-vacancies.php:367
+msgid "No data found or file is corrupted"
+msgstr ""
+
 #: functions/cpt/cpt-staff.php:94
 msgid "No departments"
 msgstr ""
@@ -5828,8 +6480,8 @@ msgstr ""
 msgid "No fonts selected"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:766
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1061
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:788
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1083
 msgid "No fonts uploaded yet."
 msgstr ""
 
@@ -5843,6 +6495,14 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:628
 msgid "No Form ID"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:54
+msgid "No forms found"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:55
+msgid "No forms found in trash"
 msgstr ""
 
 #: functions/cpt/cpt-header.php:20
@@ -6037,7 +6697,7 @@ msgid "None"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:191
-#: redux-framework/sample/sections/codeweber/header.php:89
+#: redux-framework/sample/sections/codeweber/header.php:90
 msgid "none"
 msgstr ""
 
@@ -6086,6 +6746,10 @@ msgid ""
 "Note: Reply will be sent if form name contains \"testimonial\" or \"отзыв\"."
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:128
+msgid "Notice:"
+msgstr ""
+
 #: functions/cpt/cpt-notifications.php:11
 msgid "Notification"
 msgstr ""
@@ -6131,12 +6795,12 @@ msgstr ""
 msgid "Offcanvas Menu"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:290
-#: redux-framework/sample/sections/codeweber/header.php:298
+#: redux-framework/sample/sections/codeweber/header.php:287
+#: redux-framework/sample/sections/codeweber/header.php:294
 msgid "Offcanvas Right Menu"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:281
+#: redux-framework/sample/sections/codeweber/footer.php:282
 msgid "Offcanvas Right Menu footer"
 msgstr ""
 
@@ -6196,21 +6860,27 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: templates/header/header-center-logo.php:313
-#: templates/header/header-classic.php:375
-#: templates/header/header-extended-center-logo.php:353
-#: templates/header/header-extended-center-logo.php:497
-#: templates/header/header-extended.php:354
-#: templates/header/header-fancy-center-logo.php:319
-#: templates/header/header-fancy.php:343
+#: templates/header/header-center-logo.php:314
+#: templates/header/header-classic.php:362
+#: templates/header/header-extended-center-logo.php:343
+#: templates/header/header-extended-center-logo.php:487
+#: templates/header/header-extended.php:344
+#: templates/header/header-fancy-center-logo.php:320
+#: templates/header/header-fancy.php:333
 msgid "On Map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:318
+#: functions/integrations/codeweber-forms/codeweber-forms-gutenberg-restrictions.php:124
+msgid ""
+"Only Codeweber Gutenberg Blocks are available in this editor. Add a \"Form\" "
+"block and \"Form Field\" blocks inside it to build the form."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:365
 msgid "Only CSS"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:323
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:370
 msgid "Only JS"
 msgstr ""
 
@@ -6274,8 +6944,8 @@ msgstr ""
 msgid "Orange"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:289
-#: redux-framework/sample/sections/codeweber/header.php:353
+#: redux-framework/sample/sections/codeweber/footer.php:290
+#: redux-framework/sample/sections/codeweber/header.php:346
 msgid "Order items in side menu"
 msgstr ""
 
@@ -6291,7 +6961,7 @@ msgstr ""
 msgid "Other documents"
 msgstr ""
 
-#: archive-faq.php:192 functions/sidebars.php:452
+#: archive-faq.php:192 functions/sidebars.php:489
 msgid "Other Questions"
 msgstr ""
 
@@ -6550,7 +7220,7 @@ msgstr ""
 msgid "Part time"
 msgstr ""
 
-#: functions/sidebars.php:251 functions/cpt/cpt-vacancies.php:480
+#: functions/sidebars.php:288 functions/cpt/cpt-vacancies.php:480
 #: templates/post-cards/vacancies/card.php:52
 msgid "Part-time"
 msgstr ""
@@ -6671,13 +7341,13 @@ msgstr ""
 #: functions/cpt/cpt-offices.php:804 functions/cpt/cpt-staff.php:194
 #: functions/cpt/cpt-staff.php:423 templates/footer/footer-2.php:95
 #: templates/footer/footer-5.php:130
-#: templates/header/header-center-logo.php:263
-#: templates/header/header-classic.php:324
-#: templates/header/header-extended-center-logo.php:303
-#: templates/header/header-extended-center-logo.php:447
-#: templates/header/header-extended.php:304
-#: templates/header/header-fancy-center-logo.php:269
-#: templates/header/header-fancy.php:293
+#: templates/header/header-center-logo.php:264
+#: templates/header/header-classic.php:311
+#: templates/header/header-extended-center-logo.php:293
+#: templates/header/header-extended-center-logo.php:437
+#: templates/header/header-extended.php:294
+#: templates/header/header-fancy-center-logo.php:270
+#: templates/header/header-fancy.php:283
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:357
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:437
 #: templates/singles/offices/default.php:107
@@ -6770,8 +7440,8 @@ msgstr ""
 msgid "Phone Responsible Person"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:295
-#: redux-framework/sample/sections/codeweber/header.php:359
+#: redux-framework/sample/sections/codeweber/footer.php:296
+#: redux-framework/sample/sections/codeweber/header.php:352
 msgid "Phones"
 msgstr ""
 
@@ -6797,7 +7467,7 @@ msgstr ""
 msgid "Please accept all required consents."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:997
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1019
 msgid "Please enter a font family name"
 msgstr ""
 
@@ -6826,7 +7496,7 @@ msgstr ""
 msgid "Please fill in all required SMTP fields."
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:681
+#: functions/cpt/cpt-documents.php:1144
 msgid ""
 "Please find the document attached to this email.\n"
 "\n"
@@ -6845,15 +7515,15 @@ msgstr ""
 msgid "Please select a form in the block settings."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:938
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:960
 msgid "Please select a primary font"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:933
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:955
 msgid "Please select at least one font"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1002
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1024
 msgid "Please select font files to upload"
 msgstr ""
 
@@ -7034,11 +7704,11 @@ msgstr ""
 msgid "Primary"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:776
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:798
 msgid "Primary Font"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:944
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:966
 msgid "Primary font must be selected in the first column"
 msgstr ""
 
@@ -7092,13 +7762,13 @@ msgstr ""
 msgid "Projects Not Found in Trash"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:813
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1069
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:835
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1091
 msgid "Protected"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:811
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1069
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:833
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1091
 msgid "Protected font - cannot be deleted"
 msgstr ""
 
@@ -7196,24 +7866,36 @@ msgstr ""
 msgid "QR Code"
 msgstr ""
 
+#: functions/qr-code.php:948 functions/cpt/cpt-staff.php:405
+msgid "QR code deleted successfully"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:406
+msgid "QR code deletion error"
+msgstr ""
+
+#: functions/qr-code.php:884 functions/cpt/cpt-staff.php:403
+msgid "QR code generated successfully"
+msgstr ""
+
+#: functions/cpt/cpt-staff.php:404
+msgid "QR code generation error"
+msgstr ""
+
 #: functions/cpt/cpt-staff.php:276
 msgid "QR Code ID"
 msgstr ""
 
+#: functions/qr-code.php:894
+msgid "QR code library not found"
+msgstr ""
+
 #: functions/qr-code.php:957
-msgid "QR код не найден"
+msgid "QR code not found"
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:281
-msgid "QR код не сгенерирован"
-msgstr ""
-
-#: functions/qr-code.php:884 functions/cpt/cpt-staff.php:403
-msgid "QR код успешно сгенерирован"
-msgstr ""
-
-#: functions/qr-code.php:948 functions/cpt/cpt-staff.php:405
-msgid "QR код успешно удален"
+msgid "QR code not generated"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:40
@@ -7374,6 +8056,10 @@ msgstr ""
 msgid "Regular Form"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:442
+msgid "Regular form"
+msgstr ""
+
 #: functions/cpt/cpt-testimonials.php:393
 #: functions/cpt/cpt-testimonials.php:614
 msgid "Rejected"
@@ -7424,6 +8110,10 @@ msgstr ""
 msgid "Remove featured Image for this staff"
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:278
+msgid "Remove file"
+msgstr ""
+
 #: functions/cpt/cpt-offices.php:625
 msgid "Remove Image"
 msgstr ""
@@ -7456,6 +8146,10 @@ msgstr ""
 #: functions/integrations/ajax-search-module/search-statistics.php:636
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:485
 msgid "Reset"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:291 functions/cpt/cpt-documents.php:835
+msgid "Resize columns"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:386
@@ -7516,6 +8210,10 @@ msgstr ""
 msgid "Resume Form"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:445
+msgid "Resume form"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:811
 msgid "Resume Reply Template"
 msgstr ""
@@ -7539,6 +8237,14 @@ msgstr ""
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:337
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:325
 msgid "Revision ID"
+msgstr ""
+
+#: functions/integrations/personal-data-v2/providers/class-consent-provider.php:357
+msgid "Revoked"
+msgstr ""
+
+#: functions/integrations/personal-data-v2/providers/class-consent-provider.php:372
+msgid "Revoked consents"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:427
@@ -7566,12 +8272,12 @@ msgid "Role"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:189
-#: redux-framework/sample/sections/codeweber/header.php:87
+#: redux-framework/sample/sections/codeweber/header.php:88
 msgid "rounded"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:190
-#: redux-framework/sample/sections/codeweber/header.php:88
+#: redux-framework/sample/sections/codeweber/header.php:89
 msgid "rounded-pill"
 msgstr ""
 
@@ -7632,6 +8338,10 @@ msgstr ""
 #: templates/singles/staff/staff_4.php:211
 #: templates/singles/staff/staff_5.php:235
 msgid "Save to Contacts"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:284
+msgid "Save to file"
 msgstr ""
 
 #: functions/lib/comments-helper.php:32
@@ -7704,6 +8414,10 @@ msgstr ""
 
 #: functions/cpt/cpt-footer.php:19
 msgid "Search Footers"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:53
+msgid "Search forms"
 msgstr ""
 
 #: functions/cpt/cpt-header.php:19
@@ -7845,7 +8559,7 @@ msgstr ""
 msgid "Security check failed while saving retention settings."
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:608
+#: functions/cpt/cpt-documents.php:1071
 msgid "Security check failed."
 msgstr ""
 
@@ -7853,6 +8567,7 @@ msgstr ""
 msgid "Security check failed. Please refresh the page and try again."
 msgstr ""
 
+#: functions/qr-code.php:860 functions/qr-code.php:924
 #: functions/integrations/ajax-search-module/ajax-search.php:77
 #: functions/integrations/ajax-search-module/ajax-search.php:106
 #: functions/integrations/ajax-search-module/ajax-search.php:156
@@ -7860,6 +8575,19 @@ msgstr ""
 #: functions/integrations/ajax-search-module/search-statistics.php:236
 #: functions/integrations/ajax-search-module/search-statistics.php:361
 msgid "Security error"
+msgstr ""
+
+#: functions/demo/demo-ajax.php:26 functions/demo/demo-ajax.php:62
+#: functions/demo/demo-ajax.php:97 functions/demo/demo-ajax.php:133
+#: functions/demo/demo-ajax.php:168 functions/demo/demo-ajax.php:204
+#: functions/demo/demo-ajax.php:239 functions/demo/demo-ajax.php:275
+#: functions/demo/demo-ajax.php:310 functions/demo/demo-ajax.php:346
+#: functions/demo/demo-ajax.php:381 functions/demo/demo-ajax.php:417
+#: functions/demo/demo-ajax.php:452 functions/demo/demo-ajax.php:489
+#: functions/demo/demo-ajax.php:524 functions/demo/demo-ajax.php:561
+#: functions/demo/demo-ajax.php:590 functions/demo/demo-ajax.php:611
+#: functions/demo/demo-ajax.php:633 functions/demo/demo-ajax.php:654
+msgid "Security error. Please refresh the page and try again."
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1384
@@ -7900,7 +8628,7 @@ msgstr ""
 msgid "Select Custom Footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:101
+#: redux-framework/sample/sections/codeweber/header.php:100
 msgid "Select Custom Header"
 msgstr ""
 
@@ -7919,12 +8647,11 @@ msgstr ""
 msgid "Select dropdown items display type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:775
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:797
 msgid "Select Font"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1109
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1135
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1128
 msgid "Select Font Combination"
 msgstr ""
 
@@ -7970,12 +8697,12 @@ msgid "Select Header"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:241
-#: redux-framework/sample/sections/codeweber/header.php:159
+#: redux-framework/sample/sections/codeweber/header.php:153
 msgid "Select Header Background Soft Color"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:228
-#: redux-framework/sample/sections/codeweber/header.php:144
+#: redux-framework/sample/sections/codeweber/header.php:140
 msgid "Select Header Background Solid Color"
 msgstr ""
 
@@ -7987,7 +8714,7 @@ msgstr ""
 msgid "Select Header from Custom Headers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:72
+#: redux-framework/sample/sections/codeweber/header.php:75
 msgid "Select Header Type"
 msgstr ""
 
@@ -8135,7 +8862,7 @@ msgid "Select type Footer background"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:214
-#: redux-framework/sample/sections/codeweber/header.php:130
+#: redux-framework/sample/sections/codeweber/header.php:126
 msgid "Select type Header background"
 msgstr ""
 
@@ -8179,11 +8906,11 @@ msgstr ""
 msgid "Send automatic reply emails to users"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:519
+#: functions/cpt/cpt-documents.php:982
 msgid "Send Document"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:496
+#: functions/cpt/cpt-documents.php:959
 msgid "Send Document by Email"
 msgstr ""
 
@@ -8223,7 +8950,7 @@ msgstr ""
 msgid "Sending"
 msgstr ""
 
-#: functions/enqueues.php:211 functions/cpt/cpt-documents.php:518
+#: functions/enqueues.php:238 functions/cpt/cpt-documents.php:981
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:257
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:827
 #: redux-framework/sample/sections/codeweber/smtp.php:193
@@ -8255,7 +8982,7 @@ msgstr ""
 msgid "Server Error"
 msgstr ""
 
-#: functions/enqueues.php:214
+#: functions/enqueues.php:241
 msgid "Server error"
 msgstr ""
 
@@ -8326,6 +9053,7 @@ msgstr ""
 msgid "Set featured Image for this staff"
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:832
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:132
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:518
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:57
@@ -8407,6 +9135,7 @@ msgid ""
 "[redux_option key=\"legal_entity_short\"]"
 msgstr ""
 
+#: functions/cpt/cpt-html_blocks.php:88
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:191
 msgid "Shortcode"
 msgstr ""
@@ -8530,6 +9259,10 @@ msgstr ""
 msgid "Show close button on balloon"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:130
+msgid "Show current version"
+msgstr ""
+
 #: functions/cpt/cpt-notifications.php:188
 msgid "Show Delay"
 msgstr ""
@@ -8572,6 +9305,18 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:313
 msgid "Show/hide floating social widget"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:141
+#, php-format
+msgid "Showing current document version (version from %s)."
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:129
+#, php-format
+msgid ""
+"Showing document version from %s (version current at the time of your "
+"consent)."
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:506
@@ -8689,8 +9434,8 @@ msgid "Slider layout with category on image and excerpt"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:183
-#: redux-framework/sample/sections/codeweber/header.php:265
-#: redux-framework/sample/sections/codeweber/header.php:342
+#: redux-framework/sample/sections/codeweber/header.php:260
+#: redux-framework/sample/sections/codeweber/header.php:335
 msgid "Small"
 msgstr ""
 
@@ -8725,18 +9470,18 @@ msgid "Snapchat"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:181
-#: redux-framework/sample/sections/codeweber/header.php:263
-#: redux-framework/sample/sections/codeweber/header.php:340
+#: redux-framework/sample/sections/codeweber/header.php:258
+#: redux-framework/sample/sections/codeweber/header.php:333
 msgid "Social Button Size"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:168
-#: redux-framework/sample/sections/codeweber/header.php:250
-#: redux-framework/sample/sections/codeweber/header.php:327
+#: redux-framework/sample/sections/codeweber/header.php:246
+#: redux-framework/sample/sections/codeweber/header.php:321
 msgid "Social Button Style"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:307
+#: redux-framework/sample/sections/codeweber/header.php:302
 msgid "Social Icon Type"
 msgstr ""
 
@@ -8744,17 +9489,17 @@ msgstr ""
 msgid "Social Icon Type footer "
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:230
+#: redux-framework/sample/sections/codeweber/header.php:227
 msgid "Social Icon Type Mobile Menu"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:233 templates/header/header-center-logo.php:340
-#: templates/header/header-classic.php:402
-#: templates/header/header-extended-center-logo.php:380
-#: templates/header/header-extended-center-logo.php:524
-#: templates/header/header-extended.php:381
-#: templates/header/header-fancy-center-logo.php:346
-#: templates/header/header-fancy.php:370
+#: functions/cpt/cpt-staff.php:233 templates/header/header-center-logo.php:341
+#: templates/header/header-classic.php:389
+#: templates/header/header-extended-center-logo.php:370
+#: templates/header/header-extended-center-logo.php:514
+#: templates/header/header-extended.php:371
+#: templates/header/header-fancy-center-logo.php:347
+#: templates/header/header-fancy.php:360
 msgid "Social Media"
 msgstr ""
 
@@ -8767,22 +9512,22 @@ msgstr ""
 msgid "Social Networks"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:297
-#: redux-framework/sample/sections/codeweber/header.php:361
+#: redux-framework/sample/sections/codeweber/footer.php:298
+#: redux-framework/sample/sections/codeweber/header.php:354
 #: redux-framework/sample/sections/codeweber/socials.php:6
 msgid "Socials"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:217
 #: redux-framework/sample/sections/codeweber/footer.php:125
-#: redux-framework/sample/sections/codeweber/header.php:133
+#: redux-framework/sample/sections/codeweber/header.php:129
 #: redux-framework/sample/sections/codeweber/page-header.php:216
 msgid "Soft-Color"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:216
 #: redux-framework/sample/sections/codeweber/footer.php:124
-#: redux-framework/sample/sections/codeweber/header.php:132
+#: redux-framework/sample/sections/codeweber/header.php:128
 #: redux-framework/sample/sections/codeweber/page-header.php:215
 msgid "Solid-Color"
 msgstr ""
@@ -8795,6 +9540,10 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1248
 msgid "Sorry, this file type is not permitted for security reasons."
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:292 functions/cpt/cpt-documents.php:836
+msgid "Sort"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:598
@@ -9013,7 +9762,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: functions/sidebars.php:364 functions/sidebars.php:376
+#: functions/sidebars.php:401 functions/sidebars.php:413
 msgid "Submit a request"
 msgstr ""
 
@@ -9248,6 +9997,14 @@ msgstr ""
 msgid "Systematization Data"
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:443
+msgid "Table"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:289 functions/cpt/cpt-documents.php:831
+msgid "Table settings"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:558
 msgid "Tablet Offsets"
 msgstr ""
@@ -9383,6 +10140,10 @@ msgstr ""
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:522
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:545
 msgid "Testimonial Form"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:444
+msgid "Testimonial form"
 msgstr ""
 
 #: functions/testimonials/testimonial-form-api.php:207
@@ -9807,7 +10568,7 @@ msgstr ""
 msgid "Top Right"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/header.php:376
+#: redux-framework/sample/sections/codeweber/header.php:373
 msgid "Topbar"
 msgstr ""
 
@@ -9857,7 +10618,7 @@ msgid "Transfer (distribution, provision, access) Data"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:218
-#: redux-framework/sample/sections/codeweber/header.php:134
+#: redux-framework/sample/sections/codeweber/header.php:130
 msgid "Transparent"
 msgstr ""
 
@@ -9906,64 +10667,61 @@ msgid "Type"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:150
-#: redux-framework/sample/sections/codeweber/header.php:232
-#: redux-framework/sample/sections/codeweber/header.php:309
+#: redux-framework/sample/sections/codeweber/header.php:229
+#: redux-framework/sample/sections/codeweber/header.php:304
 msgid "Type 1"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:151
-#: redux-framework/sample/sections/codeweber/header.php:233
-#: redux-framework/sample/sections/codeweber/header.php:310
+#: redux-framework/sample/sections/codeweber/header.php:230
+#: redux-framework/sample/sections/codeweber/header.php:305
 msgid "Type 2"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:152
-#: redux-framework/sample/sections/codeweber/header.php:234
-#: redux-framework/sample/sections/codeweber/header.php:311
+#: redux-framework/sample/sections/codeweber/header.php:231
+#: redux-framework/sample/sections/codeweber/header.php:306
 msgid "Type 3"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:153
-#: redux-framework/sample/sections/codeweber/header.php:235
-#: redux-framework/sample/sections/codeweber/header.php:312
+#: redux-framework/sample/sections/codeweber/header.php:232
+#: redux-framework/sample/sections/codeweber/header.php:307
 msgid "Type 4"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:154
-#: redux-framework/sample/sections/codeweber/header.php:236
-#: redux-framework/sample/sections/codeweber/header.php:313
+#: redux-framework/sample/sections/codeweber/header.php:233
+#: redux-framework/sample/sections/codeweber/header.php:308
 msgid "Type 5"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:155
-#: redux-framework/sample/sections/codeweber/header.php:237
-#: redux-framework/sample/sections/codeweber/header.php:314
+#: redux-framework/sample/sections/codeweber/header.php:234
+#: redux-framework/sample/sections/codeweber/header.php:309
 msgid "Type 6"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:156
-#: redux-framework/sample/sections/codeweber/header.php:238
-#: redux-framework/sample/sections/codeweber/header.php:315
+#: redux-framework/sample/sections/codeweber/header.php:235
+#: redux-framework/sample/sections/codeweber/header.php:310
 msgid "Type 7"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:157
-#: redux-framework/sample/sections/codeweber/header.php:239
-#: redux-framework/sample/sections/codeweber/header.php:316
+#: redux-framework/sample/sections/codeweber/header.php:236
+#: redux-framework/sample/sections/codeweber/header.php:311
 msgid "Type 8"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:158
-#: redux-framework/sample/sections/codeweber/header.php:240
-#: redux-framework/sample/sections/codeweber/header.php:317
+#: redux-framework/sample/sections/codeweber/header.php:237
+#: redux-framework/sample/sections/codeweber/header.php:312
 msgid "Type 9"
 msgstr ""
 
-#: templates/header/header-classic.php:264
-#: templates/header/header-extended-center-logo.php:269
-#: templates/header/header-extended.php:269
-#: templates/header/header-fancy.php:258
-msgid "Type keyword and hit enter"
+#: templates/header/offcanvas-search.php:16
+msgid "Type keyword"
 msgstr ""
 
 #: functions/cpt/cpt-services.php:110 functions/cpt/cpt-services.php:115
@@ -10000,6 +10758,12 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:631
 msgid "Unknown"
+msgstr ""
+
+#: functions/demo/demo-clients.php:306 functions/demo/demo-faq.php:396
+#: functions/demo/demo-forms.php:296 functions/demo/demo-offices.php:308
+#: functions/demo/demo-staff.php:395
+msgid "unknown"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:473
@@ -10096,7 +10860,7 @@ msgstr ""
 msgid "Updating (clarification, modification) Data"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1089
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1111
 msgid "Upload and manage custom fonts"
 msgstr ""
 
@@ -10111,7 +10875,7 @@ msgstr ""
 msgid "Upload Avatar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:757
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:779
 msgid "Upload Font"
 msgstr ""
 
@@ -10123,7 +10887,7 @@ msgstr ""
 msgid "Upload Header Pattern Image"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:752
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:774
 msgid "Upload New Font"
 msgstr ""
 
@@ -10151,8 +10915,8 @@ msgstr ""
 msgid "Uploaded Files"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:764
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1061
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:786
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1083
 msgid "Uploaded Fonts"
 msgstr ""
 
@@ -10168,7 +10932,7 @@ msgstr ""
 msgid "Uploaded to this testimonial"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:1015
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:1037
 msgid "Uploading..."
 msgstr ""
 
@@ -10194,6 +10958,10 @@ msgstr ""
 msgid "Usage Examples"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/company-details.php:33
+msgid "Usage examples:"
+msgstr ""
+
 #: functions/cpt/cpt-documents.php:23 functions/cpt/cpt-services.php:26
 #: functions/cpt/cpt-staff.php:29 functions/cpt/cpt-testimonials.php:31
 #: functions/integrations/image-licenses/image-licenses.php:70
@@ -10206,6 +10974,10 @@ msgstr ""
 
 #: functions/cpt/cpt-price_package.php:28
 msgid "Use as Featured Image for this Price Package"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:32
+msgid "Use the [address] shortcode to output the full address."
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:562
@@ -10532,12 +11304,20 @@ msgstr ""
 msgid "View FAQs"
 msgstr ""
 
+#: functions/cpt/cpt-documents.php:277
+msgid "View file"
+msgstr ""
+
 #: functions/cpt/cpt-footer.php:17
 msgid "View Footer"
 msgstr ""
 
 #: functions/cpt/cpt-footer.php:18
 msgid "View Footers"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:52
+msgid "View form"
 msgstr ""
 
 #: functions/cpt/cpt-header.php:17
@@ -10554,6 +11334,10 @@ msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:19
 msgid "View Html Blocks"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:443
+msgid "View in table"
 msgstr ""
 
 #: functions/cpt/cpt-legal.php:14
@@ -10786,18 +11570,18 @@ msgstr ""
 msgid "White"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:302
-#: redux-framework/sample/sections/codeweber/header.php:366
+#: redux-framework/sample/sections/codeweber/footer.php:303
+#: redux-framework/sample/sections/codeweber/header.php:359
 msgid "Widget 1"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:303
-#: redux-framework/sample/sections/codeweber/header.php:367
+#: redux-framework/sample/sections/codeweber/footer.php:304
+#: redux-framework/sample/sections/codeweber/header.php:360
 msgid "Widget 2"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/footer.php:304
-#: redux-framework/sample/sections/codeweber/header.php:368
+#: redux-framework/sample/sections/codeweber/footer.php:305
+#: redux-framework/sample/sections/codeweber/header.php:361
 msgid "Widget 3"
 msgstr ""
 
@@ -10806,23 +11590,23 @@ msgstr ""
 msgid "Widget area for %s"
 msgstr ""
 
-#: functions/sidebars.php:168
+#: functions/sidebars.php:205
 msgid "Widget area for Bottom Footer"
 msgstr ""
 
-#: functions/sidebars.php:128
+#: functions/sidebars.php:165
 msgid "Widget area for Footer 1"
 msgstr ""
 
-#: functions/sidebars.php:138
+#: functions/sidebars.php:175
 msgid "Widget area for Footer 2"
 msgstr ""
 
-#: functions/sidebars.php:148
+#: functions/sidebars.php:185
 msgid "Widget area for Footer 3"
 msgstr ""
 
-#: functions/sidebars.php:158
+#: functions/sidebars.php:195
 msgid "Widget area for Footer 4"
 msgstr ""
 
@@ -10853,6 +11637,14 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:430
 msgid "Widget width in pixels"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:36
+msgid "With comma separator"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/company-details.php:37
+msgid "With custom fallback"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:247
@@ -10909,13 +11701,17 @@ msgstr ""
 msgid "Would you like to share your thoughts?"
 msgstr ""
 
-#: functions/sidebars.php:269 functions/user.php:347
+#: functions/sidebars.php:306 functions/user.php:347
 #: templates/content/single.php:104 templates/singles/legal/default.php:123
 msgid "Writer"
 msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:227
 msgid "Xing"
+msgstr ""
+
+#: functions/cpt/cpt-documents.php:284
+msgid "XLS is read-only. Use CSV or XLSX."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:32
@@ -11019,7 +11815,7 @@ msgstr ""
 msgid "You Might Also Like"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/redux-fonts.php:753
+#: redux-framework/sample/sections/codeweber/redux-fonts.php:775
 msgid ""
 "You need to download the font in two formats woff and woff2 to display in "
 "old browsers"
@@ -11045,12 +11841,12 @@ msgstr ""
 msgid "Your Email"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:511
+#: functions/cpt/cpt-documents.php:974
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:107
 msgid "Your email"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:514
+#: functions/cpt/cpt-documents.php:977
 msgid "Your Email *"
 msgstr ""
 
@@ -11109,551 +11905,6 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:118
 msgid "Zoom level of the map"
-msgstr ""
-
-#: functions/qr-code.php:894
-msgid "Библиотека QR кода не найдена"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:55
-msgid "В корзине форм не найдено"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-gutenberg-restrictions.php:124
-msgid ""
-"В этом редакторе доступны только блоки Codeweber Gutenberg Blocks. Добавьте "
-"блок \"Form\" и внутри него блоки \"Form Field\" для создания формы."
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:128
-msgid "Внимание:"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:441
-msgid "Все типы форм"
-msgstr ""
-
-#: functions/cpt/cpt-staff.php:402
-msgid "Генерация..."
-msgstr ""
-
-#: functions/demo/demo-footer.php:227
-msgid "Данные не найдены"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:32
-msgid "Для вывода полного адреса используйте шорткод [address]."
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:49
-msgid "Добавить новую форму"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:48
-msgid "Добавить форму"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:446
-msgid "Запрос обратного звонка"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:140
-msgid "Информация:"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:53
-msgid "Искать формы"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:61
-msgid "Контактные формы, созданные через CodeWeber Forms"
-msgstr ""
-
-#: functions/bootstrap/class-floating-social-widget.php:284
-#: functions/bootstrap/class-floating-social-widget.php:880
-#: functions/bootstrap/class-floating-social-widget.php:1215
-#: redux-framework/sample/sections/codeweber/floating-social-widget.php:357
-msgid "Написать нам"
-msgstr ""
-
-#: functions/demo/demo-testimonials.php:467
-#, php-format
-msgid "Не удалось загрузить аватар для \"%s\""
-msgstr ""
-
-#: functions/qr-code.php:890
-msgid "Не удалось сгенерировать QR код"
-msgstr ""
-
-#: functions/qr-code.php:899
-msgid "Не удалось создать vCard данные"
-msgstr ""
-
-#: functions/demo/demo-footer.php:241
-msgid "Не удалось создать:"
-msgstr ""
-
-#: functions/qr-code.php:952
-msgid "Не удалось удалить QR код"
-msgstr ""
-
-#: functions/demo/demo-testimonials.php:525
-msgid "Не удалось удалить запись ID: %d"
-msgstr ""
-
-#: functions/qr-code.php:868 functions/qr-code.php:932
-msgid "Неверный ID записи"
-msgstr ""
-
-#: functions/qr-code.php:853 functions/qr-code.php:917
-msgid "Недостаточно прав"
-msgstr ""
-
-#: functions/demo/demo-ajax.php:161 functions/demo/demo-ajax.php:197
-#: functions/demo/demo-ajax.php:232 functions/demo/demo-ajax.php:268
-#: functions/demo/demo-ajax.php:303 functions/demo/demo-ajax.php:339
-#: functions/demo/demo-ajax.php:374 functions/demo/demo-ajax.php:410
-#: functions/demo/demo-ajax.php:517 functions/demo/demo-ajax.php:554
-#: functions/demo/demo-ajax.php:587 functions/demo/demo-ajax.php:608
-msgid "Недостаточно прав для выполнения операции"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:51
-msgid "Новая форма"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:442
-msgid "Обычная форма"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:141
-#, php-format
-msgid "Отображается актуальная версия документа (версия от %s)."
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:129
-#, php-format
-msgid ""
-"Отображается версия документа от %s (версия, актуальная на момент вашего "
-"согласия)."
-msgstr ""
-
-#: functions/integrations/personal-data-v2/providers/class-consent-provider.php:372
-msgid "Отозванные согласия"
-msgstr ""
-
-#: functions/integrations/personal-data-v2/providers/class-consent-provider.php:357
-msgid "Отозвано"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:89
-#: redux-framework/sample/sections/codeweber/demo.php:129
-#: redux-framework/sample/sections/codeweber/demo.php:207
-#: redux-framework/sample/sections/codeweber/demo.php:247
-#: redux-framework/sample/sections/codeweber/demo.php:325
-#: redux-framework/sample/sections/codeweber/demo.php:365
-#: redux-framework/sample/sections/codeweber/demo.php:443
-#: redux-framework/sample/sections/codeweber/demo.php:483
-#: redux-framework/sample/sections/codeweber/demo.php:561
-#: redux-framework/sample/sections/codeweber/demo.php:601
-#: redux-framework/sample/sections/codeweber/demo.php:679
-#: redux-framework/sample/sections/codeweber/demo.php:719
-#: redux-framework/sample/sections/codeweber/demo.php:797
-#: redux-framework/sample/sections/codeweber/demo.php:837
-#: redux-framework/sample/sections/codeweber/demo.php:915
-#: redux-framework/sample/sections/codeweber/demo.php:955
-#: redux-framework/sample/sections/codeweber/demo.php:1033
-#: redux-framework/sample/sections/codeweber/demo.php:1073
-msgid "Ошибка AJAX запроса"
-msgstr ""
-
-#: functions/qr-code.php:860 functions/qr-code.php:924
-msgid "Ошибка безопасности"
-msgstr ""
-
-#: functions/demo/demo-ajax.php:168 functions/demo/demo-ajax.php:204
-#: functions/demo/demo-ajax.php:239 functions/demo/demo-ajax.php:275
-#: functions/demo/demo-ajax.php:310 functions/demo/demo-ajax.php:346
-#: functions/demo/demo-ajax.php:381 functions/demo/demo-ajax.php:417
-#: functions/demo/demo-ajax.php:524 functions/demo/demo-ajax.php:561
-#: functions/demo/demo-ajax.php:590 functions/demo/demo-ajax.php:611
-msgid "Ошибка безопасности. Обновите страницу и попробуйте снова."
-msgstr ""
-
-#: functions/cpt/cpt-staff.php:404
-msgid "Ошибка генерации QR кода"
-msgstr ""
-
-#: functions/demo/demo-testimonials.php:444
-#, php-format
-msgid "Ошибка создания записи \"%s\": %s"
-msgstr ""
-
-#: functions/cpt/cpt-staff.php:406
-msgid "Ошибка удаления QR кода"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:312
-#: redux-framework/sample/sections/codeweber/demo.php:352
-#: redux-framework/sample/sections/codeweber/demo.php:430
-#: redux-framework/sample/sections/codeweber/demo.php:470
-#: redux-framework/sample/sections/codeweber/demo.php:548
-#: redux-framework/sample/sections/codeweber/demo.php:588
-#: redux-framework/sample/sections/codeweber/demo.php:666
-#: redux-framework/sample/sections/codeweber/demo.php:706
-#: redux-framework/sample/sections/codeweber/demo.php:784
-#: redux-framework/sample/sections/codeweber/demo.php:824
-#: redux-framework/sample/sections/codeweber/demo.php:902
-#: redux-framework/sample/sections/codeweber/demo.php:942
-#: redux-framework/sample/sections/codeweber/demo.php:1020
-#: redux-framework/sample/sections/codeweber/demo.php:1060
-msgid "Ошибки:"
-msgstr ""
-
-#: templates/content/loop-legal.php:33 templates/archives/legal/legal_1.php:29
-msgid "Перейти"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:443
-msgid "Подписка на рассылку"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:130
-msgid "Показать текущую версию"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:33
-msgid "Примеры использования:"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:84
-#: redux-framework/sample/sections/codeweber/demo.php:124
-#: redux-framework/sample/sections/codeweber/demo.php:202
-#: redux-framework/sample/sections/codeweber/demo.php:242
-#: redux-framework/sample/sections/codeweber/demo.php:320
-#: redux-framework/sample/sections/codeweber/demo.php:360
-#: redux-framework/sample/sections/codeweber/demo.php:438
-#: redux-framework/sample/sections/codeweber/demo.php:478
-#: redux-framework/sample/sections/codeweber/demo.php:556
-#: redux-framework/sample/sections/codeweber/demo.php:596
-#: redux-framework/sample/sections/codeweber/demo.php:674
-#: redux-framework/sample/sections/codeweber/demo.php:714
-#: redux-framework/sample/sections/codeweber/demo.php:792
-#: redux-framework/sample/sections/codeweber/demo.php:832
-#: redux-framework/sample/sections/codeweber/demo.php:910
-#: redux-framework/sample/sections/codeweber/demo.php:950
-#: redux-framework/sample/sections/codeweber/demo.php:1028
-#: redux-framework/sample/sections/codeweber/demo.php:1068
-msgid "Произошла ошибка"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:52
-msgid "Просмотр формы"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:50
-msgid "Редактировать форму"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:37
-msgid "С кастомным fallback"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:36
-msgid "С разделителем запятая"
-msgstr ""
-
-#: functions/cpt/cpt-staff.php:287
-msgid "Сгенерировать QR код"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/style.php:86
-msgid "Скругление Card и Image"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/style.php:106
-msgid "Скругление Forms"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:261
-msgid ""
-"Создайте 15 demo записей для CPT Testimonials с аватарками из папки avatars"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:25
-msgid "Создайте demo записи для CPT Clients с изображениями из папки brands"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:143
-msgid "Создайте demo записи для CPT FAQ с категориями"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:969
-msgid ""
-"Создайте demo записи для CPT Footer: Footer_01 (футер с 4 колонками), "
-"Footer_02 (CTA + футер с 4 колонками), Footer_03 (CTA card + футер с 4 "
-"колонками, Redux Demo)"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:851
-msgid ""
-"Создайте demo записи для CPT Offices с городами России и адресами Москвы с "
-"координатами для Яндекс карт"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:379
-msgid ""
-"Создайте demo записи для CPT Staff с изображениями из папки avatars и "
-"отделами"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:497
-msgid "Создайте demo записи для CPT Vacancies с изображениями из папки photos"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:615
-msgid "Создайте demo формы (Testimonial и Newsletter) для CPT Forms"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:733
-msgid ""
-"Создайте demo формы Contact Form 7: \"Форма обратной связи\" и \"Заказать "
-"звонок\""
-msgstr ""
-
-#: functions/demo/demo-testimonials.php:477
-msgid "Создана %d demo запись testimonials"
-msgid_plural "Создано %d demo записей testimonials"
-msgstr[0] ""
-msgstr[1] ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:62
-#: redux-framework/sample/sections/codeweber/demo.php:180
-#: redux-framework/sample/sections/codeweber/demo.php:298
-#: redux-framework/sample/sections/codeweber/demo.php:416
-#: redux-framework/sample/sections/codeweber/demo.php:534
-#: redux-framework/sample/sections/codeweber/demo.php:888
-#: redux-framework/sample/sections/codeweber/demo.php:1006
-msgid "Создание записей..."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:652
-#: redux-framework/sample/sections/codeweber/demo.php:770
-msgid "Создание форм..."
-msgstr ""
-
-#: functions/demo/demo-footer.php:247
-#, php-format
-msgid "Создано футеров: %1$d из %2$d"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:293
-msgid "Создать 15 demo записей testimonials? Это может занять некоторое время."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:736
-msgid "Создать CF7 формы"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:28
-msgid "Создать Demo Clients"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:146
-msgid "Создать Demo FAQ"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:972
-msgid "Создать Demo Footer"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:854
-msgid "Создать Demo Offices"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:382
-msgid "Создать Demo Staff"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:264
-msgid "Создать Demo Testimonials"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:500
-msgid "Создать Demo Vacancies"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:175
-msgid "Создать demo записи FAQ? Это может занять некоторое время."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:411
-msgid "Создать demo записи staff? Это может занять некоторое время."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:529
-msgid "Создать demo записи vacancies? Это может занять некоторое время."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:57
-msgid "Создать demo записи клиентов? Это может занять некоторое время."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:883
-msgid "Создать demo записи офисов? Это может занять некоторое время."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:618
-msgid "Создать Demo формы"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:765
-msgid "Создать demo формы CF7? Это может занять некоторое время."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:647
-msgid "Создать demo формы? Это может занять некоторое время."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:1001
-msgid ""
-"Создать demo футеры (Footer_01, Footer_02, Footer_03)? Это может занять "
-"некоторое время."
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:190
-msgid "Тип формы"
-msgstr ""
-
-#: functions/demo/demo-testimonials.php:532
-msgid "Удалена %d запись testimonials"
-msgid_plural "Удалено %d записей testimonials"
-msgstr[0] ""
-msgstr[1] ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:102
-#: redux-framework/sample/sections/codeweber/demo.php:220
-#: redux-framework/sample/sections/codeweber/demo.php:338
-#: redux-framework/sample/sections/codeweber/demo.php:456
-#: redux-framework/sample/sections/codeweber/demo.php:574
-#: redux-framework/sample/sections/codeweber/demo.php:928
-#: redux-framework/sample/sections/codeweber/demo.php:1046
-msgid "Удаление записей..."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:692
-#: redux-framework/sample/sections/codeweber/demo.php:810
-msgid "Удаление форм..."
-msgstr ""
-
-#: functions/demo/demo-footer.php:286
-msgid "Удалено футеров: %d"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:739
-msgid "Удалить CF7 формы"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:31
-msgid "Удалить Demo Clients"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:149
-msgid "Удалить Demo FAQ"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:975
-msgid "Удалить Demo Footer"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:857
-msgid "Удалить Demo Offices"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:385
-msgid "Удалить Demo Staff"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:267
-msgid "Удалить Demo Testimonials"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:503
-msgid "Удалить Demo Vacancies"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:621
-msgid "Удалить Demo формы"
-msgstr ""
-
-#: functions/cpt/cpt-staff.php:291
-msgid "Удалить QR код"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:215
-msgid "Удалить все demo записи FAQ? Это действие нельзя отменить."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:451
-msgid "Удалить все demo записи staff? Это действие нельзя отменить."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:333
-msgid "Удалить все demo записи testimonials? Это действие нельзя отменить."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:569
-msgid "Удалить все demo записи vacancies? Это действие нельзя отменить."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:97
-msgid "Удалить все demo записи клиентов? Это действие нельзя отменить."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:923
-msgid "Удалить все demo записи офисов? Это действие нельзя отменить."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:805
-msgid "Удалить все demo формы CF7? Это действие нельзя отменить."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:687
-msgid "Удалить все demo формы? Это действие нельзя отменить."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/demo.php:1041
-msgid "Удалить все demo футеры? Это действие нельзя отменить."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:34
-msgid "Фактический адрес"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:46
-msgid "Форма"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:444
-msgid "Форма отзыва"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:445
-msgid "Форма резюме"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:45
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:47
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:59
-msgid "Формы"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:54
-msgid "Формы не найдены"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/company-details.php:35
-msgid "Юридический адрес"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:576

@@ -278,17 +278,17 @@ function codeweber_staff_meta_box_callback($post)
 					<?php echo esc_html($qrcode_id); ?>
 				</p>
 			<?php else : ?>
-				<p style="color: #666; font-style: italic;"><?php echo esc_html__('QR код не сгенерирован', 'codeweber'); ?></p>
+				<p style="color: #666; font-style: italic;"><?php echo esc_html__('QR code not generated', 'codeweber'); ?></p>
 			<?php endif; ?>
 		</div>
 		
 		<div style="display: flex; gap: 10px; align-items: center;">
 			<button type="button" id="generate-staff-qrcode-btn" class="button button-secondary" data-post-id="<?php echo esc_attr($post->ID); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('generate_staff_qrcode')); ?>">
-				<?php echo esc_html__('Сгенерировать QR код', 'codeweber'); ?>
+				<?php echo esc_html__('Generate QR code', 'codeweber'); ?>
 			</button>
 			<?php if ($qrcode_id) : ?>
 				<button type="button" id="delete-staff-qrcode-btn" class="button button-link-delete" data-post-id="<?php echo esc_attr($post->ID); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('delete_staff_qrcode')); ?>" style="color: #b32d2e;">
-					<?php echo esc_html__('Удалить QR код', 'codeweber'); ?>
+					<?php echo esc_html__('Delete QR code', 'codeweber'); ?>
 				</button>
 			<?php endif; ?>
 			<span id="qrcode-generating-spinner" class="spinner" style="float: none; margin-left: 10px; visibility: hidden;"></span>
@@ -399,11 +399,11 @@ function codeweber_staff_admin_scripts($hook) {
 	wp_localize_script('staff-qrcode-admin', 'staffQrcode', array(
 		'ajax_url' => admin_url('admin-ajax.php'),
 		'nonce' => wp_create_nonce('generate_staff_qrcode'),
-		'generating' => esc_html__('Генерация...', 'codeweber'),
-		'success' => esc_html__('QR код успешно сгенерирован', 'codeweber'),
-		'error' => esc_html__('Ошибка генерации QR кода', 'codeweber'),
-		'delete_success' => esc_html__('QR код успешно удален', 'codeweber'),
-		'delete_error' => esc_html__('Ошибка удаления QR кода', 'codeweber'),
+		'generating' => esc_html__('Generating...', 'codeweber'),
+		'success' => esc_html__('QR code generated successfully', 'codeweber'),
+		'error' => esc_html__('QR code generation error', 'codeweber'),
+		'delete_success' => esc_html__('QR code deleted successfully', 'codeweber'),
+		'delete_error' => esc_html__('QR code deletion error', 'codeweber'),
 	));
 }
 add_action('admin_enqueue_scripts', 'codeweber_staff_admin_scripts');

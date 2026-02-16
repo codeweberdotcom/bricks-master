@@ -354,7 +354,7 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
                         
                         // Add revocation status with Russian translation
                         if (!empty($consent['revoked_at'])) {
-                            $consent_info .= ' - ' . __('Отозвано', 'codeweber') . ': ' . $consent['revoked_at'];
+                            $consent_info .= ' - ' . __('Revoked', 'codeweber') . ': ' . $consent['revoked_at'];
                             if (!empty($consent['revoked_at_gmt'])) {
                                 $consent_info .= ' (GMT: ' . $consent['revoked_at_gmt'] . ')';
                             }
@@ -369,7 +369,7 @@ class Consent_Data_Provider implements Personal_Data_Provider_Interface {
                 
                 $export_items[] = [
                     'group_id' => 'user-consents-revoked',
-                    'group_label' => __('Отозванные согласия', 'codeweber'),
+                    'group_label' => __('Revoked consents', 'codeweber'),
                     'item_id' => 'user-consent-revoked-' . $index,
                     'data' => $data,
                 ];
