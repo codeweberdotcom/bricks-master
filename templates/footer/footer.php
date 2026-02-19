@@ -1,3 +1,18 @@
+<?php
+// Настройки соцсетей для базового футера (как в footer-1, footer-2 и др.)
+$footer_social_class = 'social-white';
+$footer_social_type = 'type1';
+$footer_social_size = 'md';
+$footer_social_style = 'circle';
+if (class_exists('Redux')) {
+	global $opt_name;
+	$opt_name = !empty($opt_name) ? $opt_name : 'redux_demo';
+	$footer_social_type = Redux::get_option($opt_name, 'social-icon-type-footer', '1');
+	$footer_social_type = 'type' . $footer_social_type;
+	$footer_social_size = Redux::get_option($opt_name, 'social-button-size-footer', 'md');
+	$footer_social_style = Redux::get_option($opt_name, 'social-button-style-footer', 'circle');
+}
+?>
 <footer class="bg-dark">
    <div class="container py-13 py-md-15">
       <div class="row gy-6 gy-lg-0">
@@ -7,13 +22,7 @@
                <p class="mb-4">© <script>
                      document.write(new Date().getUTCFullYear());
                   </script> Sandbox. <br class="d-none d-lg-block" />All rights reserved.</p>
-               <nav class="nav social ">
-                  <a href="#"><i class="uil uil-twitter"></i></a>
-                  <a href="#"><i class="uil uil-facebook-f"></i></a>
-                  <a href="#"><i class="uil uil-dribbble"></i></a>
-                  <a href="#"><i class="uil uil-instagram"></i></a>
-                  <a href="#"><i class="uil uil-youtube"></i></a>
-               </nav>
+               <?php echo social_links($footer_social_class, $footer_social_type, $footer_social_size, 'primary', 'solid', $footer_social_style); ?>
                <!-- /.social -->
             </div>
             <!-- /.widget -->

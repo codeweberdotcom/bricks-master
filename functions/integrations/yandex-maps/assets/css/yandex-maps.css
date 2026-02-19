@@ -7,9 +7,9 @@
 
 /* Обертка карты */
 .codeweber-yandex-map-wrapper {
-    position: relative;
-    width: 100%;
-    min-height: 400px; /* Минимальная высота для корректного отображения спиннера */
+  position: relative;
+  width: 100%;
+  min-height: 200px;
 }
 
 .codeweber-yandex-map {

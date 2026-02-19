@@ -6,13 +6,13 @@
 			// Получаем ID миниатюры текущего поста
 			$thumbnail_id = get_post_thumbnail_id();
 
-			// Получаем URL изображения размера 'large'
+			// Lightbox — крупный размер
 			$large_image_url = wp_get_attachment_image_src($thumbnail_id, 'codeweber_extralarge');
 
 			if ($large_image_url) :
 			?>
 				<a href="<?php echo esc_url($large_image_url[0]); ?>" data-glightbox data-gallery="g1">
-					<?php the_post_thumbnail('codeweber_extralarge', array('class' => 'img-fluid')); ?>
+					<?php the_post_thumbnail('codeweber_post_960-600', array('class' => 'img-fluid')); ?>
 				</a>
 			<?php endif; ?>
 		</figure>
@@ -52,7 +52,7 @@
 				<!-- /.post -->
 			</div>
 			<!-- /.classic-view -->
-			<hr>
+			<hr class="mt-5 mb-5">
 			<div>
 				<?php
 
@@ -123,48 +123,43 @@
 			<?php endif; ?>
 			<!-- /.author-bio -->
 
-			<nav class="nav social">
-				<a href="#"><i class="uil uil-twitter"></i></a>
-				<a href="#"><i class="uil uil-facebook-f"></i></a>
-				<a href="#"><i class="uil uil-dribbble"></i></a>
-				<a href="#"><i class="uil uil-instagram"></i></a>
-				<a href="#"><i class="uil uil-youtube"></i></a>
-			</nav>
+			<?php
+			if (function_exists('social_links')) {
+				echo social_links('', 'type3', 'sm', 'primary', 'solid', 'circle');
+			}
+			?>
 			<!-- /.social -->
 
-			<hr />
-			<?php 
-			// Старый компонент (закомментирован, можно раскомментировать для сравнения)
-			// get_template_part('templates/components/lastpostslider-blog'); 
-			
-			// ВЫВОД ШАБЛОНА С HOVER-SCALE
-			echo do_shortcode('[cw_blog_posts_slider posts_per_page="6" template="default" enable_hover_scale="true" show_title="true" show_date="true" show_category="true" show_comments="true" title_tag="h3" title_length="50" image_size="medium_large" items_xl="2" items_lg="2" items_md="2" items_sm="1" items_xs="1" items_xxs="1"]');
-			
-			// Остальные шаблоны закомментированы для проверки
-			/*
-			$templates = ['default', 'card', 'card-content', 'slider', 'default-clickable'];
-			
-			foreach ($templates as $template) {
-				echo '<div class="mb-12">';
-				echo '<h2 class="mb-5">Template: ' . esc_html($template) . '</h2>';
-				// Для default шаблона показываем два варианта: с hover-scale и без
-				if ($template === 'default') {
-					echo '<h3 class="mb-3">Без hover-scale:</h3>';
-					echo do_shortcode('[cw_blog_posts_slider posts_per_page="3" template="default" enable_hover_scale="false" show_title="true" show_date="true" show_category="true" show_comments="true" title_tag="h3" title_length="50" image_size="medium_large" items_xl="2" items_lg="2" items_md="2" items_sm="1" items_xs="1" items_xxs="1"]');
-					echo '<h3 class="mb-3 mt-8">С hover-scale:</h3>';
-					echo do_shortcode('[cw_blog_posts_slider posts_per_page="3" template="default" enable_hover_scale="true" show_title="true" show_date="true" show_category="true" show_comments="true" title_tag="h3" title_length="50" image_size="medium_large" items_xl="2" items_lg="2" items_md="2" items_sm="1" items_xs="1" items_xxs="1"]');
-				} else {
-					echo do_shortcode('[cw_blog_posts_slider posts_per_page="6" template="' . esc_attr($template) . '" show_title="true" show_date="true" show_category="true" show_comments="true" title_tag="h3" title_length="50" image_size="medium_large" items_xl="2" items_lg="2" items_md="2" items_sm="1" items_xs="1" items_xxs="1"]');
-				}
-				echo '</div>';
-				echo '<hr class="my-12" />';
+			<hr class="my-5">
+
+			<h3 class="mb-6"><?php echo esc_html__('You Might Also Like', 'codeweber'); ?></h3>
+
+			<?php
+			if (function_exists('cw_blog_posts_slider')) {
+				echo cw_blog_posts_slider([
+					'posts_per_page' => 6,
+					'template' => 'default',
+					'enable_hover_scale' => true,
+					'show_title' => true,
+					'show_date' => true,
+					'show_category' => true,
+					'show_comments' => true,
+					'title_tag' => 'h3',
+					'title_length' => 50,
+					'image_size' => 'codeweber_post_560-350',
+					'items_xl' => '2',
+					'items_lg' => '2',
+					'items_md' => '2',
+					'items_sm' => '1',
+					'items_xs' => '1',
+					'items_xxs' => '1',
+				]);
 			}
-			*/
 			?>
 			
 			<?php
 			if (comments_open() || get_comments_number()) { ?>
-				<hr />
+				<hr class="my-5" />
 			<?php
 				comments_template();
 			}

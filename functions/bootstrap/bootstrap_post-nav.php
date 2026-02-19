@@ -1,22 +1,35 @@
 <?php
 
-//** Pagination with buttons */
+/**
+ * Навигация «предыдущая / следующая запись» для single.
+ * Вывод в стиле single.php: ссылки с классами hover more-left / hover more.
+ */
 function codeweber_posts_nav()
 {
-   $next_post = get_next_post();
-   $prev_post = get_previous_post();
+	$previous_post = get_adjacent_post(false, '', true);
+	$next_post    = get_adjacent_post(false, '', false);
 
-   if ($next_post || $prev_post) : ?>
-      <!--/column -->
-      <div class="col-md-8 align-self-center text-center text-md-start navigation">
-         <?php if (!empty($prev_post)) : ?>
-            <a href="<?php echo get_permalink($prev_post); ?>" class="btn btn-soft-ash <?php echo GetThemeButton(); ?> btn-icon btn-icon-start mb-0 me-1"><i class="uil uil-arrow-left"></i> <?php _e('Prev', 'codeweber') ?></a>
-         <?php endif; ?>
+	if (!$previous_post && !$next_post) {
+		return;
+	}
 
-         <?php if (!empty($next_post)) : ?>
-            <a href="<?php echo get_permalink($next_post); ?>" class="btn btn-soft-ash <?php echo GetThemeButton(); ?> btn-icon btn-icon-end mb-0"><?php _e('Next', 'codeweber') ?> <i class="uil uil-arrow-right"></i></a>
-         <?php endif; ?>
-      </div>
-      <!--/column -->
-<?php endif;
+	echo '<nav class="nav mt-8 justify-content-between">';
+
+	if ($previous_post) {
+		printf(
+			'<a href="%s" class="hover more-left me-4 mb-5">%s</a>',
+			esc_url(get_permalink($previous_post->ID)),
+			esc_html__('Previous', 'codeweber')
+		);
+	}
+
+	if ($next_post) {
+		printf(
+			'<a href="%s" class="hover more ms-auto mb-5">%s</a>',
+			esc_url(get_permalink($next_post->ID)),
+			esc_html__('Next', 'codeweber')
+		);
+	}
+
+	echo '</nav>';
 }

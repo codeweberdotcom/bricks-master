@@ -73,7 +73,7 @@ if (have_comments()) {
 			}
 			?>
 		</ol><!-- .comments-inner -->
-		<hr />
+		<hr class="my-5"/>
 	</div><!-- comments -->
 <?php
 }

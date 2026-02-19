@@ -1084,7 +1084,7 @@ Redux::set_section(
 				'content' => '
 					<div class="demo-controls" style="margin: 20px 0;">
 						<h3>' . esc_html__('Demo Header', 'codeweber') . '</h3>
-						<p class="description">' . esc_html__('Create demo entries for CPT Header: Header_01–08 (Navbar), Header_09 (Top Header + Navbar)', 'codeweber') . '</p>
+						<p class="description">' . esc_html__('Create demo entries for CPT Header: Header_01, Header_01 - Dark, Header_01 - Light, Header_02–08 (Navbar), Header_09 (Top Header + Navbar)', 'codeweber') . '</p>
 						<div style="margin: 15px 0;">
 							<button id="cw-demo-create-headers" class="button button-primary" style="margin-right: 10px;">
 								' . esc_html__('Create Demo Header', 'codeweber') . '
@@ -1116,7 +1116,7 @@ Redux::set_section(
 						$("#cw-demo-create-headers").on("click", function(e) {
 							e.preventDefault();
 
-							if (!confirm("' . esc_js(__('Create demo headers (Header_01 … Header_08)? This may take a while.', 'codeweber')) . '")) {
+							if (!confirm("' . esc_js(__('Create demo headers (Header_01, Header_01 - Dark, Header_01 - Light, Header_02 … Header_09)? This may take a while.', 'codeweber')) . '")) {
 								return;
 							}
 

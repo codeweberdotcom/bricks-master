@@ -15,40 +15,22 @@
      * @param {string} message - Message text (optional, not used - server uses translated default)
      */
     function replaceModalContentWithSuccessTemplate(form, message) {
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:entry',message:'Function called',data:{hasForm:!!form,message:message||'(default)'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-        // #endregion
-        
         console.log('[CF7 Success Message] replaceModalContentWithSuccessTemplate called', { form, message });
         
         // Use existing modal #modal from footer
         const modal = document.getElementById('modal');
         console.log('[CF7 Success Message] Modal element:', modal);
         
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:modal-check',message:'Modal element check',data:{modalFound:!!modal,modalId:modal?.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-        // #endregion
-        
         if (!modal) {
             console.error('[CF7 Success Message] Modal #modal not found in DOM');
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:modal-not-found',message:'Modal #modal not found',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-            // #endregion
             return; // Modal not found
         }
 
         const modalContent = modal.querySelector('.modal-body');
         console.log('[CF7 Success Message] Modal body:', modalContent);
         
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:modal-body-check',message:'Modal body check',data:{modalBodyFound:!!modalContent},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-        // #endregion
-        
         if (!modalContent) {
             console.error('[CF7 Success Message] Modal body not found');
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:modal-body-not-found',message:'Modal body not found',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-            // #endregion
             return;
         }
 
@@ -56,10 +38,6 @@
         const cookieModal = document.getElementById('cookieModal');
         if (cookieModal && cookieModal.classList.contains('show')) {
             console.log('[CF7 Success Message] Cookie modal is open, waiting for it to close');
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate',message:'Cookie modal is open, deferring CF7 success modal',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-            // #endregion
-            
             // Wait for cookie modal to close, then show CF7 success modal
             const checkCookieModal = setInterval(function() {
                 if (!cookieModal.classList.contains('show')) {
@@ -102,9 +80,6 @@
         const cookieModal = document.getElementById('cookieModal');
         if (cookieModal && cookieModal.classList.contains('show')) {
             console.log('[CF7 Success Message] Cookie modal is open, cannot show CF7 success modal');
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:showCf7SuccessModal',message:'Cookie modal is open, blocking CF7 success modal',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
-            // #endregion
             return; // Блокируем открытие
         }
         
@@ -157,10 +132,6 @@
         console.log('[CF7 Success Message] Fetching template from:', apiUrl);
         console.log('[CF7 Success Message] API nonce:', apiNonce ? 'present' : 'missing');
         
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:fetch-start',message:'Starting fetch request',data:{apiUrl:apiUrl,hasNonce:!!apiNonce},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-        // #endregion
-        
         fetch(apiUrl, {
             method: 'GET',
             headers: {
@@ -171,10 +142,6 @@
         .then(function(response) {
             console.log('[CF7 Success Message] Fetch response status:', response.status, response.statusText);
             
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:fetch-response',message:'Fetch response received',data:{status:response.status,statusText:response.statusText,ok:response.ok},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-            // #endregion
-            
             if (!response.ok) {
                 throw new Error('HTTP error! status: ' + response.status);
             }
@@ -183,19 +150,11 @@
         .then(function(templateData) {
             console.log('[CF7 Success Message] Template data received:', templateData);
             
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:template-data',message:'Template data received',data:{success:templateData.success,hasHtml:!!templateData.html},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-            // #endregion
-            
             if (templateData.success && templateData.html) {
                 console.log('[CF7 Success Message] Replacing modal content with template');
                 // Replace modal content with template
                 modalContent.innerHTML = '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' + templateData.html;
                 console.log('[CF7 Success Message] Modal content replaced successfully');
-                
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:content-replaced',message:'Modal content replaced successfully',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-                // #endregion
 
                 // Close modal after 5 seconds (same as codeweber forms)
                 setTimeout(function() {
@@ -230,10 +189,6 @@
                 apiRoot: apiRoot,
                 apiNonce: apiNonce ? 'present' : 'missing'
             });
-            
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:replaceModalContentWithSuccessTemplate:fetch-error',message:'Fetch error',data:{errorMessage:error.message,apiRoot:apiRoot,hasNonce:!!apiNonce},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-            // #endregion
             // Fallback: закрываем модальное окно
             setTimeout(function() {
                 if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
@@ -252,10 +207,6 @@
      * CF7 form success handler
      */
     function handleCf7Success(event) {
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:handleCf7Success:entry',message:'wpcf7mailsent event triggered',data:{hasTarget:!!event.target,hasDetail:!!event.detail},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
-        
         console.log('[CF7 Success Message] wpcf7mailsent event triggered', event);
         const form = event.target;
         console.log('[CF7 Success Message] Form element:', form);
@@ -279,41 +230,18 @@
      * Initialize wpcf7mailsent event handler
      */
     function init() {
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:init:entry',message:'Initialization started',data:{readyState:document.readyState},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
-        
-        // Используем data-атрибут на body вместо document.dataset
         const body = document.body;
         if (!body) {
             console.error('[CF7 Success Message] Body element not found');
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:init:body-not-found',message:'Body element not found',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-            // #endregion
             return;
         }
         
-        // Проверяем, не инициализирован ли уже обработчик
         if (body.dataset.cf7SuccessMessageInitialized === 'true') {
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:init:already-initialized',message:'Already initialized, skipping',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-            // #endregion
             return;
         }
 
-        // Слушаем событие успешной отправки CF7
         document.addEventListener('wpcf7mailsent', handleCf7Success, false);
-        
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:init:event-listener-added',message:'Event listener added',data:{event:'wpcf7mailsent'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
-        // #endregion
-
-        // Помечаем как инициализированный через data-атрибут body
         body.dataset.cf7SuccessMessageInitialized = 'true';
-        
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'cf7-success-message.js:init:complete',message:'Initialization complete',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-        // #endregion
     }
 
     // Инициализация при загрузке DOM

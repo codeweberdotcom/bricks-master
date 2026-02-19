@@ -12,30 +12,15 @@
      * Основной класс для работы с Яндекс картами
      */
     class CodeweberYandexMaps {
-        constructor(config) {
+        constructor(config, wrapper) {
             this.config = config;
+            this.wrapper = wrapper || null;
             this.map = null;
             this.placemarks = {};
             this.clusterer = null;
             this.route = null;
             this.sidebar = null;
             this.filters = {};
-            
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({
-                    sessionId:'debug-session',
-                    runId:'pre-fix',
-                    hypothesisId:'H1',
-                    location:'yandex-maps.js:constructor',
-                    message:'Yandex map constructor called',
-                    data:{mapId:config.id,markersCount:config.markers ? config.markers.length : 0},
-                    timestamp:Date.now()
-                })
-            }).catch(()=>{});
-            // #endregion
 
             this.init();
         }
@@ -43,30 +28,19 @@
         init() {
             if (typeof ymaps === 'undefined') {
                 console.error('Yandex Maps API is not loaded');
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                    method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({
-                        sessionId:'debug-session',
-                        runId:'pre-fix',
-                        hypothesisId:'H2',
-                        location:'yandex-maps.js:init',
-                        message:'ymaps is undefined in init',
-                        data:{},
-                        timestamp:Date.now()
-                    })
-                }).catch(()=>{});
-                // #endregion
                 return;
             }
 
             ymaps.ready(() => {
-                this.createMap();
-                this.addMarkers();
-                this.initSidebar();
-                this.initFilters();
-                this.initRoute();
+                try {
+                    this.createMap();
+                    this.addMarkers();
+                    this.initSidebar();
+                    this.initFilters();
+                    this.initRoute();
+                } catch (err) {
+                    // ignore
+                }
                 this.hideLoader();
             });
         }
@@ -75,24 +49,11 @@
          * Создание карты
          */
         createMap() {
-            const mapElement = document.getElementById(this.config.id);
+            const mapElement = this.wrapper
+                ? this.wrapper.querySelector('#' + CSS.escape(this.config.id))
+                : document.getElementById(this.config.id);
             if (!mapElement) {
                 console.error('Map element not found:', this.config.id);
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                    method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({
-                        sessionId:'debug-session',
-                        runId:'pre-fix',
-                        hypothesisId:'H3',
-                        location:'yandex-maps.js:createMap',
-                        message:'Map element not found',
-                        data:{mapId:this.config.id},
-                        timestamp:Date.now()
-                    })
-                }).catch(()=>{});
-                // #endregion
                 return;
             }
 
@@ -114,32 +75,23 @@
                 baseControls.push('routeButtonControl');
             }
 
-            this.map = new ymaps.Map(this.config.id, {
+            const container = this.wrapper ? mapElement : this.config.id;
+            this.map = new ymaps.Map(container, {
                 center: this.config.center,
                 zoom: this.config.zoom,
                 type: this.config.mapType,
                 controls: baseControls
             });
 
+            var wrapperEl = this.wrapper || mapElement.closest('.codeweber-yandex-map-wrapper');
+            if (wrapperEl) {
+                wrapperEl._cwgbYandexMapInstance = this;
+            }
+
             // Применение кастомного стиля из JSON, если задан
             if (this.config.styleJson && typeof this.config.styleJson === 'string' && this.config.styleJson.trim() !== '') {
                 try {
                     const styleJson = JSON.parse(this.config.styleJson);
-                    // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                        method:'POST',
-                        headers:{'Content-Type':'application/json'},
-                        body:JSON.stringify({
-                            sessionId:'debug-session',
-                            runId:'pre-fix',
-                            hypothesisId:'STYLE1',
-                            location:'yandex-maps.js:createMap',
-                            message:'Applying custom style from JSON',
-                            data:{styleJsonLength:this.config.styleJson.length,parsed:!!styleJson,isArray:Array.isArray(styleJson)},
-                            timestamp:Date.now()
-                        })
-                    }).catch(()=>{});
-                    // #endregion
                     // Применяем кастомный стиль через options.set('customMapStyle', ...)
                     // Yandex Maps API 2.1 ожидает массив правил стиля
                     if (Array.isArray(styleJson)) {
@@ -153,55 +105,9 @@
                         // Пробуем применить как массив
                         this.map.options.set('customMapStyle', [styleJson]);
                     }
-                    // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                        method:'POST',
-                        headers:{'Content-Type':'application/json'},
-                        body:JSON.stringify({
-                            sessionId:'debug-session',
-                            runId:'pre-fix',
-                            hypothesisId:'STYLE3',
-                            location:'yandex-maps.js:createMap',
-                            message:'Custom style applied successfully',
-                            data:{styleApplied:true},
-                            timestamp:Date.now()
-                        })
-                    }).catch(()=>{});
-                    // #endregion
                 } catch (e) {
                     console.error('Error parsing or applying styleJson:', e);
-                    // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                        method:'POST',
-                        headers:{'Content-Type':'application/json'},
-                        body:JSON.stringify({
-                            sessionId:'debug-session',
-                            runId:'pre-fix',
-                            hypothesisId:'STYLE2',
-                            location:'yandex-maps.js:createMap',
-                            message:'Error parsing styleJson',
-                            data:{error:e.message,stack:e.stack},
-                            timestamp:Date.now()
-                        })
-                    }).catch(()=>{});
-                    // #endregion
                 }
-            } else {
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                    method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({
-                        sessionId:'debug-session',
-                        runId:'pre-fix',
-                        hypothesisId:'STYLE4',
-                        location:'yandex-maps.js:createMap',
-                        message:'No styleJson or empty',
-                        data:{hasStyleJson:!!this.config.styleJson,type:typeof this.config.styleJson},
-                        timestamp:Date.now()
-                    })
-                }).catch(()=>{});
-                // #endregion
             }
 
             // Настройки карты
@@ -219,25 +125,6 @@
             if (typeof this.config.enableMultiTouch !== 'undefined' && !this.config.enableMultiTouch) {
                 this.map.behaviors.disable('multiTouch');
             }
-
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({
-                    sessionId:'debug-session',
-                    runId:'pre-fix',
-                    hypothesisId:'DZ2',
-                    location:'yandex-maps.js:createMap',
-                    message:'Double click zoom behavior state',
-                    data:{
-                        configEnableDblClickZoom:this.config.enableDblClickZoom,
-                        dblClickZoomEnabled:this.map.behaviors.isEnabled('dblClickZoom')
-                    },
-                    timestamp:Date.now()
-                })
-            }).catch(()=>{});
-            // #endregion
 
             // Настройки авто-прокрутки для балунов и подсказок
             if (this.config.markerBehavior) {
@@ -267,42 +154,11 @@
          */
         addMarkers() {
             if (!this.map || !this.config.markers || this.config.markers.length === 0) {
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                    method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({
-                        sessionId:'debug-session',
-                        runId:'pre-fix',
-                        hypothesisId:'H5',
-                        location:'yandex-maps.js:addMarkers',
-                        message:'No markers or map not initialized',
-                        data:{hasMap:!!this.map,markersCount:this.config.markers ? this.config.markers.length : 0},
-                        timestamp:Date.now()
-                    })
-                }).catch(()=>{});
-                // #endregion
                 return;
             }
 
             const markers = this.config.markers;
             const markerSettings = this.config.markerSettings || {};
-
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({
-                    sessionId:'debug-session',
-                    runId:'pre-fix',
-                    hypothesisId:'H6',
-                    location:'yandex-maps.js:addMarkers',
-                    message:'Adding markers',
-                    data:{markersCount:markers.length},
-                    timestamp:Date.now()
-                })
-            }).catch(()=>{});
-            // #endregion
 
             markers.forEach((markerData) => {
                 const placemark = this.createPlacemark(markerData, markerSettings);
@@ -486,30 +342,13 @@
          * Инициализация бокового меню
          */
         initSidebar() {
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({
-                    sessionId:'debug-session',
-                    runId:'pre-fix',
-                    hypothesisId:'S1',
-                    location:'yandex-maps.js:initSidebar',
-                    message:'Init sidebar called',
-                    data:{
-                        hasSidebarConfig:!!this.config.sidebar,
-                        sidebarConfig:this.config.sidebar||null
-                    },
-                    timestamp:Date.now()
-                })
-            }).catch(()=>{});
-            // #endregion
-
             if (!this.config.sidebar || !this.config.sidebar.show) {
                 return;
             }
 
-            const mapElement = document.getElementById(this.config.id);
+            const mapElement = this.wrapper
+                ? this.wrapper.querySelector('#' + CSS.escape(this.config.id))
+                : document.getElementById(this.config.id);
             if (!mapElement) return;
 
             const sidebar = document.createElement('div');
@@ -654,7 +493,10 @@
                 return;
             }
 
-            const list = document.getElementById(`${this.config.id}-sidebar-list`);
+            const listId = this.config.id + '-sidebar-list';
+            const list = this.wrapper
+                ? this.wrapper.querySelector('#' + CSS.escape(listId))
+                : document.getElementById(listId);
             if (!list) return;
 
             // Фильтр по городу
@@ -815,7 +657,10 @@
          * Скрытие спиннера загрузки карты
          */
         hideLoader() {
-            const loaderElement = document.getElementById(this.config.id + '-loader');
+            const loaderId = this.config.id + '-loader';
+            const loaderElement = this.wrapper
+                ? this.wrapper.querySelector('#' + CSS.escape(loaderId))
+                : document.getElementById(loaderId);
             if (loaderElement) {
                 loaderElement.classList.add('done');
                 // Удаляем элемент после анимации
@@ -826,6 +671,18 @@
                 }, 300);
             }
         }
+
+        /**
+         * Обновить размер карты после изменения размеров контейнера (например при открытии offcanvas).
+         * Вызывать при событии shown.bs.offcanvas для карт внутри панели.
+         */
+        invalidateSize() {
+            const hasFit = !!(this.map && this.map.container && typeof this.map.container.fitToViewport === 'function');
+            if (hasFit) {
+                this.map.container.fitToViewport();
+            }
+            this.hideLoader();
+        }
     }
 
     /**
@@ -833,77 +690,69 @@
      */
     function initMaps() {
         const mapWrappers = document.querySelectorAll('.codeweber-yandex-map-wrapper');
-        
-        // #region agent log
-        fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({
-                sessionId:'debug-session',
-                runId:'pre-fix',
-                hypothesisId:'H7',
-                location:'yandex-maps.js:initMaps',
-                message:'Found map wrappers',
-                data:{wrappersCount:mapWrappers.length},
-                timestamp:Date.now()
-            })
-        }).catch(()=>{});
-        // #endregion
 
         const initWrapper = function(wrapper) {
+            if (wrapper.getAttribute('data-cwgb-map-inited') === '1') return;
             const configData = wrapper.getAttribute('data-map-config');
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({
-                    sessionId:'debug-session',
-                    runId:'pre-fix',
-                    hypothesisId:'C',
-                    location:'yandex-maps.js:initWrapper',
-                    message:'Reading map config',
-                    data:{hasConfig:!!configData,configLength:configData ? configData.length : 0},
-                    timestamp:Date.now()
-                })
-            }).catch(()=>{});
-            // #endregion
             if (!configData) return;
             try {
+                wrapper.setAttribute('data-cwgb-map-inited', '1');
                 const config = JSON.parse(configData);
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/49b89e88-4674-4191-9133-bf7fd16c00a5',{
-                    method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({
-                        sessionId:'debug-session',
-                        runId:'pre-fix',
-                        hypothesisId:'C',
-                        location:'yandex-maps.js:initWrapper',
-                        message:'Config parsed',
-                        data:{mapId:config.id,markersCount:config.markers ? config.markers.length : 0,showSidebar:config.sidebar ? config.sidebar.show : false},
-                        timestamp:Date.now()
-                    })
-                }).catch(()=>{});
-                // #endregion
                 if (config.lazyLoad) {
                     const observer = new IntersectionObserver((entries, obs) => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting) {
-                                new CodeweberYandexMaps(config);
+                                new CodeweberYandexMaps(config, wrapper);
                                 obs.unobserve(entry.target);
                             }
                         });
                     }, { threshold: 0.1 });
                     observer.observe(wrapper);
                 } else {
-                    new CodeweberYandexMaps(config);
+                    new CodeweberYandexMaps(config, wrapper);
                 }
             } catch (e) {
+                wrapper.removeAttribute('data-cwgb-map-inited');
                 console.error('Error parsing map config:', e);
             }
         };
 
         mapWrappers.forEach(initWrapper);
+
+        // При открытии любого offcanvas обновить размер карт внутри него (Navbar mobile и др.)
+        document.addEventListener('shown.bs.offcanvas', function(e) {
+            var offcanvas = e.target;
+            if (!offcanvas || !offcanvas.querySelectorAll) return;
+            var wrappers = offcanvas.querySelectorAll('.codeweber-yandex-map-wrapper');
+            var instances = 0;
+            wrappers.forEach(function(wrapper) {
+                if (wrapper._cwgbYandexMapInstance && typeof wrapper._cwgbYandexMapInstance.invalidateSize === 'function') {
+                    instances++;
+                    wrapper._cwgbYandexMapInstance.invalidateSize();
+                }
+            });
+        });
+
+        // Поддержка динамически добавленных карт (например в редакторе Gutenberg через ServerSideRender)
+        if (typeof MutationObserver !== 'undefined') {
+            var mapObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType !== 1) return;
+                        if (node.classList && node.classList.contains('codeweber-yandex-map-wrapper')) {
+                            initWrapper(node);
+                        }
+                        if (node.querySelectorAll) {
+                            var list = node.querySelectorAll('.codeweber-yandex-map-wrapper');
+                            for (var i = 0; i < list.length; i++) {
+                                initWrapper(list[i]);
+                            }
+                        }
+                    });
+                });
+            });
+            mapObserver.observe(document.body, { childList: true, subtree: true });
+        }
     }
 
     // Инициализация при загрузке DOM

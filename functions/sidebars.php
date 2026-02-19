@@ -114,45 +114,46 @@ function theme_register_header_widget()
         'after_title'   => '</h3>',
     ]);
 
-	// Navbar Header 1 (Classic) widget areas - no wrapper (widget widget_block)
-	register_sidebar([
-		'name'          => __('Navbar: After Logo', 'codeweber'),
-		'id'            => 'navbar-brand-1',
-		'description'   => __('Inside navbar-brand, after logo', 'codeweber'),
-		'before_widget' => '',
-		'after_widget'  => '',
-		'before_title'  => '<h3 class="widget-title">',
-		'after_title'   => '</h3>',
-	]);
-	register_sidebar([
-		'name'          => __('Navbar: Before Menu (Offcanvas)', 'codeweber'),
-		'id'            => 'navbar-offcanvas-before-1',
-		'description'   => __('Inside offcanvas-body, before menu', 'codeweber'),
-		'before_widget' => '',
-		'after_widget'  => '',
-		'before_title'  => '<h3 class="widget-title">',
-		'after_title'   => '</h3>',
-	]);
-	register_sidebar([
-		'name'          => __('Navbar: After Menu (Offcanvas)', 'codeweber'),
-		'id'            => 'navbar-offcanvas-after-1',
-		'description'   => __('Inside offcanvas-body, after menu', 'codeweber'),
-		'before_widget' => '',
-		'after_widget'  => '',
-		'before_title'  => '<h3 class="widget-title">',
-		'after_title'   => '</h3>',
-	]);
-	register_sidebar([
-		'name'          => __('Navbar: Right (Before Nav)', 'codeweber'),
-		'id'            => 'navbar-other-1',
-		'description'   => __('Inside navbar-other, before navbar-nav', 'codeweber'),
-		'before_widget' => '',
-		'after_widget'  => '',
-		'before_title'  => '<h3 class="widget-title">',
-		'after_title'   => '</h3>',
-	]);
 }
 add_action('widgets_init', 'theme_register_header_widget');
+
+/**
+ * Регистрация областей виджетов для оффканваса (мобильное меню / панель «Инфо»)
+ * Используются в блоке Navbar / Header Widgets при включении «Widget 1/2/3» в списке элементов оффканваса.
+ */
+function theme_register_offcanvas_widgets()
+{
+    register_sidebar([
+        'name'          => __('Widget Offcanvas 1', 'codeweber'),
+        'id'            => 'widget-offcanvas-1',
+        'description'   => __('Widget area in the offcanvas panel (mobile menu / info panel).', 'codeweber'),
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Widget Offcanvas 2', 'codeweber'),
+        'id'            => 'widget-offcanvas-2',
+        'description'   => __('Widget area in the offcanvas panel (mobile menu / info panel).', 'codeweber'),
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ]);
+
+    register_sidebar([
+        'name'          => __('Widget Offcanvas 3', 'codeweber'),
+        'id'            => 'widget-offcanvas-3',
+        'description'   => __('Widget area in the offcanvas panel (mobile menu / info panel).', 'codeweber'),
+        'before_widget' => '<div class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ]);
+}
+add_action('widgets_init', 'theme_register_offcanvas_widgets');
 
 /**
  * Регистрация областей виджетов для футера

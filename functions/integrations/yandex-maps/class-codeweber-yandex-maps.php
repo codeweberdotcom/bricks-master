@@ -208,27 +208,6 @@ class Codeweber_Yandex_Maps {
         $sidebar_enabled = Redux::get_option($opt_name, 'yandex_maps_sidebar_enabled');
         $this->default_settings['show_sidebar'] = !empty($sidebar_enabled);
 
-        // #region agent log
-        try {
-            $log = array(
-                'sessionId'    => 'debug-session',
-                'runId'        => 'pre-fix',
-                'hypothesisId' => 'S2',
-                'location'     => 'class-codeweber-yandex-maps.php:load_redux_settings',
-                'message'      => 'Sidebar settings loaded from Redux',
-                'data'         => array(
-                    'raw_sidebar_enabled' => $sidebar_enabled,
-                    'show_sidebar'        => $this->default_settings['show_sidebar'],
-                    'opt_name'            => $opt_name,
-                ),
-                'timestamp'    => round(microtime(true) * 1000),
-            );
-            @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
-        } catch (\Throwable $e) {
-            // silent
-        }
-        // #endregion
-        
         $sidebar_position = Redux::get_option($opt_name, 'yandex_maps_sidebar_position');
         if (!empty($sidebar_position)) {
             $this->default_settings['sidebar_position'] = $sidebar_position;
@@ -357,46 +336,8 @@ class Codeweber_Yandex_Maps {
      * Подключение скриптов и стилей на фронтенде
      */
     public function enqueue_scripts(): void {
-        // #region agent log
-        try {
-            $log = array(
-                'sessionId' => 'debug-session',
-                'runId'     => 'pre-fix',
-                'hypothesisId' => 'P1',
-                'location'  => 'class-codeweber-yandex-maps.php:enqueue_scripts',
-                'message'   => 'Enqueue Yandex Maps assets (before has_api_key)',
-                'data'      => array(
-                    'raw_api_key_empty' => empty($this->api_key),
-                ),
-                'timestamp' => round(microtime(true) * 1000),
-            );
-            @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
-        } catch (\Throwable $e) {
-            // silent
-        }
-        // #endregion
-
         // Гарантированно обновляем ключ из Redux перед подключением скрипта
         $has_key = $this->has_api_key();
-
-        // #region agent log
-        try {
-            $log = array(
-                'sessionId' => 'debug-session',
-                'runId'     => 'pre-fix',
-                'hypothesisId' => 'P1',
-                'location'  => 'class-codeweber-yandex-maps.php:enqueue_scripts',
-                'message'   => 'Enqueue Yandex Maps assets (after has_api_key)',
-                'data'      => array(
-                    'has_api_key' => $has_key,
-                ),
-                'timestamp' => round(microtime(true) * 1000),
-            );
-            @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
-        } catch (\Throwable $e) {
-            // silent
-        }
-        // #endregion
 
         // Подключаем Яндекс Maps API только если есть ключ
         if ($has_key && !empty($this->api_key)) {
@@ -450,10 +391,54 @@ class Codeweber_Yandex_Maps {
     }
     
     /**
-     * Подключение скриптов и стилей в админке
+     * Подключение скриптов и стилей в админке (в т.ч. в редакторе блоков для превью карты)
      */
-    public function enqueue_admin_scripts(): void {
-        // Подключаем стили для админки если нужно
+    public function enqueue_admin_scripts(string $hook_suffix): void {
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+        $is_block_editor = $screen && method_exists($screen, 'is_block_editor') && $screen->is_block_editor();
+        if (!$is_block_editor || !$this->has_api_key() || empty($this->api_key)) {
+            return;
+        }
+        wp_enqueue_script(
+            'yandex-maps-api',
+            'https://api-maps.yandex.ru/2.1/?apikey=' . esc_attr($this->api_key) . '&lang=' . esc_attr($this->default_settings['language']),
+            array(),
+            null,
+            true
+        );
+        wp_enqueue_script(
+            'codeweber-yandex-maps',
+            $this->url . '/assets/js/yandex-maps.js',
+            array('yandex-maps-api'),
+            $this->version,
+            true
+        );
+        wp_enqueue_style(
+            'codeweber-yandex-maps',
+            $this->url . '/assets/css/yandex-maps.css',
+            array(),
+            $this->version
+        );
+        wp_localize_script('codeweber-yandex-maps', 'codeweberYandexMaps', array(
+            'apiKey' => $this->api_key,
+            'language' => $this->default_settings['language'],
+            'defaultCenter' => $this->default_settings['center'],
+            'defaultZoom' => $this->default_settings['zoom'],
+            'i18n' => array(
+                'route' => __('Route', 'codeweber'),
+                'buildRoute' => __('Build Route', 'codeweber'),
+                'from' => __('From', 'codeweber'),
+                'to' => __('To', 'codeweber'),
+                'filterByCity' => __('Filter by City', 'codeweber'),
+                'allCities' => __('All Cities', 'codeweber'),
+                'offices' => __('Offices', 'codeweber'),
+                'city' => __('City', 'codeweber'),
+                'address' => __('Address', 'codeweber'),
+                'phone' => __('Phone', 'codeweber'),
+                'workingHours' => __('Working Hours', 'codeweber'),
+                'viewDetails' => __('View Details', 'codeweber'),
+            ),
+        ));
     }
     
     /**
@@ -499,32 +484,6 @@ class Codeweber_Yandex_Maps {
         
         // Генерируем уникальный ID для карты (или используем переданный)
         $map_id = !empty($settings['map_id']) ? $settings['map_id'] : 'yandex-map-' . uniqid();
-        
-        // #region agent log
-        try {
-            $log = array(
-                'sessionId' => 'debug-session',
-                'runId'     => 'pre-fix',
-                'hypothesisId' => 'P2',
-                'location'  => 'class-codeweber-yandex-maps.php:render_map',
-                'message'   => 'Render map called',
-                'data'      => array(
-                    'map_id'       => $map_id,
-                    'markersCount' => is_array($markers) ? count($markers) : 0,
-                    'height'       => $settings['height'],
-                    'sidebar'      => array(
-                        'show'         => $settings['show_sidebar'],
-                        'show_filters' => $settings['show_filters'],
-                        'filter_by_city' => $settings['filter_by_city'],
-                    ),
-                ),
-                'timestamp' => round(microtime(true) * 1000),
-            );
-            @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
-        } catch (\Throwable $e) {
-            // silent
-        }
-        // #endregion
 
         // Удаляем searchControl из массива controls, если опция отключена
         $controls = $settings['controls'];
@@ -603,10 +562,6 @@ class Codeweber_Yandex_Maps {
                         'showDescription' => false,
                     ),
             ),
-            
-            // #region agent log
-            // Логирование настроек балуна для отладки
-            // #endregion
             'markerBehavior' => array(
                 'openBalloonOnClick' => $settings['marker_open_balloon_on_click'],
                 'autoOpenBalloon' => $settings['marker_auto_open_balloon'],
@@ -625,25 +580,6 @@ class Codeweber_Yandex_Maps {
             'styleJson' => $settings['style_json'],
         );
 
-        // #region agent log
-        try {
-            $log = array(
-                'sessionId'    => 'debug-session',
-                'runId'        => 'pre-fix',
-                'hypothesisId' => 'DZ1',
-                'location'     => 'class-codeweber-yandex-maps.php:render_map',
-                'message'      => 'Double click zoom setting passed to JS',
-                'data'         => array(
-                    'enable_dbl_click_zoom' => $settings['enable_dbl_click_zoom'],
-                ),
-                'timestamp'    => round(microtime(true) * 1000),
-            );
-            @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
-        } catch (\Throwable $e) {
-            // silent
-        }
-        // #endregion
-        
         // Стили для карты
         $map_style = sprintf(
             'width: %s; height: %spx; border-radius: %spx;',
@@ -671,51 +607,10 @@ class Codeweber_Yandex_Maps {
      */
     private function prepare_markers(array $markers, array $settings): array {
         $prepared = array();
-        
-        // #region agent log
-        try {
-            $log = array(
-                'sessionId' => 'debug-session',
-                'runId' => 'pre-fix',
-                'hypothesisId' => 'B',
-                'location' => 'class-codeweber-yandex-maps.php:prepare_markers',
-                'message' => 'Preparing markers',
-                'data' => array(
-                    'inputMarkersCount' => count($markers),
-                    'firstMarkerKeys' => !empty($markers) ? array_keys($markers[0]) : array(),
-                ),
-                'timestamp' => round(microtime(true) * 1000),
-            );
-            @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
-        } catch (\Throwable $e) {
-            // silent
-        }
-        // #endregion
-        
+
         foreach ($markers as $marker) {
             // Проверяем обязательные поля
             if (empty($marker['latitude']) || empty($marker['longitude'])) {
-                // #region agent log
-                try {
-                    $log = array(
-                        'sessionId' => 'debug-session',
-                        'runId' => 'pre-fix',
-                        'hypothesisId' => 'B',
-                        'location' => 'class-codeweber-yandex-maps.php:prepare_markers',
-                        'message' => 'Marker skipped - missing coordinates',
-                        'data' => array(
-                            'markerKeys' => array_keys($marker),
-                            'hasLat' => isset($marker['latitude']),
-                            'hasLng' => isset($marker['longitude']),
-                            'hasCoords' => isset($marker['coords']),
-                        ),
-                        'timestamp' => round(microtime(true) * 1000),
-                    );
-                    @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
-                } catch (\Throwable $e) {
-                    // silent
-                }
-                // #endregion
                 continue;
             }
             
@@ -750,26 +645,7 @@ class Codeweber_Yandex_Maps {
             
             $prepared[] = $prepared_marker;
         }
-        
-        // #region agent log
-        try {
-            $log = array(
-                'sessionId' => 'debug-session',
-                'runId' => 'pre-fix',
-                'hypothesisId' => 'B',
-                'location' => 'class-codeweber-yandex-maps.php:prepare_markers',
-                'message' => 'Markers prepared',
-                'data' => array(
-                    'preparedCount' => count($prepared),
-                ),
-                'timestamp' => round(microtime(true) * 1000),
-            );
-            @file_put_contents(ABSPATH . '.cursor/debug.log', json_encode($log) . PHP_EOL, FILE_APPEND);
-        } catch (\Throwable $e) {
-            // silent
-        }
-        // #endregion
-        
+
         return $prepared;
     }
     

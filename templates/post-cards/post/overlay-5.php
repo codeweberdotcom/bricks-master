@@ -68,7 +68,7 @@ $date_badge = get_the_date('d M Y', $post_data['id']);
             
             <?php if ($template_args['show_figcaption']) : ?>
                 <figcaption class="p-5">
-                    <div class="post-body h-100 d-flex flex-column from-left">
+                    <div class="post-body h-100 d-flex flex-column from-left justify-content-end">
                         <?php if ($excerpt) : ?>
                             <p class="mb-3"><?php echo esc_html($excerpt); ?></p>
                         <?php endif; ?>

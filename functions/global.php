@@ -1035,6 +1035,11 @@ function universal_get_post_type()
 		return 'post';
 	}
 
+	// Страницы авторов и архивов по дате — используем тот же сайдбар, что и в архиве блога
+	if (is_author() || is_date()) {
+		return 'post';
+	}
+
 	if (is_singular()) {
 		return get_post_type();
 	} elseif (is_post_type_archive()) {
