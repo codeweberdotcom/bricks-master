@@ -82,19 +82,29 @@
             }
         }
 
+        // На 404 всегда используем дефолтный header (модель из Redux), без кастомного поста
+        if (is_404()) {
+            $header_post_id = '';
+        }
+
         // Проверяем, не отключен ли header
         if ($header_post_id === 'disable') {
             return; // Не выводим header
         }
 
+        $header_post = null;
         if (!empty($header_post_id) && $header_post_id !== 'default') {
             $header_post = get_post($header_post_id);
             if ($header_post) {
                 setup_postdata($header_post);
                 the_content(); // Выводим контент записи (с поддержкой шорткодов, HTML и т.д.)
                 wp_reset_postdata(); // Важно: сбрасываем глобальные данные
+            } else {
+                // Пост хедера не найден (удалён/неверный ID) или 404 — показываем дефолтный header
+                $header_post_id = '';
             }
-        } else {
+        }
+        if (empty($header_post_id) || $header_post_id === 'default') {
 
             if (class_exists('Redux')) {
                 global $opt_name;
