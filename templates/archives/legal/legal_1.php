@@ -11,7 +11,7 @@
                   'alt' => get_the_title(),
                )
             );
-            ?><span class="bg"></span></a>
+            ?></a>
          <figcaption>
             <h5 class="from-top mb-0"><?php esc_html_e('Read More', 'codeweber'); ?></h5>
          </figcaption>

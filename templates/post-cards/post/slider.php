@@ -57,7 +57,7 @@ if (!empty($display['title_class'])) {
                             </div>
                         </div>
                     <?php endif; ?>
-                    <span class="bg"></span>
+                   
                 </a>
                 <?php if ($template_args['show_figcaption']) : ?>
                     <figcaption>

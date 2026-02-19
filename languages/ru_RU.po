@@ -13087,3 +13087,47 @@ msgstr "← Назад к разделу Отправленные"
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:999
 msgid "← Back to Subscriptions"
 msgstr "← Назад к подпискам"
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Add images via the upload area below. Drag items in the grid to reorder."
+msgstr "Добавляйте изображения через область загрузки ниже. Перетаскивайте элементы в сетке для изменения порядка."
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Save the project as draft first, then you can add gallery images."
+msgstr "Сначала сохраните проект как черновик, затем можно добавить изображения в галерею."
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Security check failed. Reload the page and try again."
+msgstr "Ошибка проверки безопасности. Перезагрузите страницу и попробуйте снова."
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Invalid request."
+msgstr "Недопустимый запрос."
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "No file received."
+msgstr "Файл не получен."
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Upload failed"
+msgstr "Ошибка загрузки"
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Upload complete"
+msgstr "Загрузка завершена"
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Tap to cancel"
+msgstr "Нажмите, чтобы отменить"
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Tap to undo"
+msgstr "Нажмите, чтобы отменить действие"
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Add images"
+msgstr "Добавить изображения"
+
+#: functions/integrations/project-gallery-metabox.php
+msgid "Drag & Drop your files or <span class=\"filepond--label-action\">browse</span>"
+msgstr "Перетащите файлы сюда или <span class=\"filepond--label-action\">выберите</span>"

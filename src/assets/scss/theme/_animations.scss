@@ -100,7 +100,8 @@
 }
 .page-loader:before,
 .swiper-hero:before,
-.gloader {
+.gloader,
+.modal-loader:after {
   position: absolute;
   content: "";
   top: 50%;

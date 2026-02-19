@@ -29,6 +29,11 @@ require 'integrations/yoast_rankmath.php';
 require 'integrations/redux_framework/redux_framework.php';
 
 /**
+ *  Project Gallery (FilePond + SortableJS) — replaces Redux slides for CPT projects
+ */
+require 'integrations/project-gallery-metabox.php';
+
+/**
  *  Personal Data Integration - Registration Form WP
  */
 //require 'personal-data.php';

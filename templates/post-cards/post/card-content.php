@@ -57,7 +57,7 @@ if (!empty($template_args['border_radius'])) {
             <figure class="<?php echo esc_attr($figure_classes); ?>">
                 <a href="<?php echo esc_url($post_data['link']); ?>">
                     <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" class="<?php echo esc_attr($template_args['border_radius']); ?>" />
-                    <span class="bg"></span>
+                   
                 </a>
                 <?php if ($template_args['show_figcaption']) : ?>
                     <figcaption>

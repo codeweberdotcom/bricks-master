@@ -453,41 +453,8 @@ Redux_Metaboxes::set_box(
 );
 
 
-// Настройка Redux Metabox
-Redux_Metaboxes::set_box(
-	$opt_name,
-	array(
-		'id'         => 'opt-metaboxes-2',
-		'post_types' => array( 'projects'), // Используем тот же массив
-		'position'   => 'side',
-		'priority'   => 'high',
-		'sections'   => array(
-			array(
-				'icon_class' => 'icon-large',
-				'icon'       => 'el-icon-home',
-				'fields'     => array(
-					array(
-						'id'          => 'opt-slides',
-						'type'        => 'slides',
-						'title'       => esc_html__('Project Gallery', 'codeweber'),
-						'subtitle'    => esc_html__('Unlimited slides with drag and drop sorting.', 'codeweber'),
-						'desc'        => esc_html__('This field will store all slides values into a multidimensional array to use into a foreach loop.', 'codeweber'),
-						'show' => array(
-							'url' => false,
-							'title' => true,
-							'description' => true,
-							'attachment_id' => true, // Ключевое изменение
-						),
-						'placeholder' => array(
-							'title'       => esc_html__('This is a title', 'codeweber'),
-							'description' => esc_html__('Description Here', 'codeweber'),
-						),
-					),
-				),
-			),
-		),
-	)
-);
+// Project Gallery: replaced by FilePond + SortableJS metabox (see project-gallery-metabox.php).
+// Redux opt-metaboxes-2 (slides) removed for post type 'projects'.
 
 Redux_Metaboxes::set_box(
 	$opt_name,
