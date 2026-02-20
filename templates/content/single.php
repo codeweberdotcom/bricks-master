@@ -1,7 +1,14 @@
+<?php
+$card_radius_class = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius('rounded') : 'rounded';
+if (empty(trim($card_radius_class))) {
+	$card_radius_class = 'rounded';
+}
+$figure_class = ($card_radius_class === 'rounded-0') ? '' : 'card-img-top';
+?>
 <section id="post-<?php the_ID(); ?>" <?php post_class('blog single'); ?>>
-	<div class="card">
+	<div class="card <?php echo esc_attr($card_radius_class); ?>">
 
-		<figure class="card-img-top">
+		<figure<?php echo $figure_class !== '' ? ' class="' . esc_attr($figure_class) . '"' : ''; ?>>
 			<?php
 			// Получаем ID миниатюры текущего поста
 			$thumbnail_id = get_post_thumbnail_id();
@@ -44,7 +51,7 @@
 							<?php endif; ?>
 						</div>
 						<div class="mb-0 mb-md-2">
-							<?php codeweber_share_page(['region' => 'ru', 'button_class' => 'has-ripple btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0']); ?>
+							<?php codeweber_share_page(['region' => 'ru', 'button_class' => 'has-ripple btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0' . (function_exists('getThemeButton') ? getThemeButton() : '')]); ?>
 						</div>
 					</div>
 					<!-- /.post-footer -->
@@ -109,7 +116,7 @@
 				</div>
 
 				<div class="mt-3 mt-md-0 ms-auto">
-					<a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="btn btn-sm btn-soft-ash <?php echo esc_attr(GetThemeButton('rounded mt-2')); ?> btn-icon btn-icon-start mb-0 has-ripple">
+					<a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="btn btn-sm btn-soft-ash <?php echo esc_attr(function_exists('getThemeButton') ? getThemeButton(' rounded mt-2') : ' rounded mt-2'); ?> btn-icon btn-icon-start mb-0 has-ripple">
 						<i class="uil uil-file-alt"></i> <?php esc_html_e('All Posts', 'codeweber'); ?>
 					</a>
 				</div>

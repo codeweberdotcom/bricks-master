@@ -188,9 +188,14 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 
 	$size_class = isset($size_classes[$size]) ? $size_classes[$size][0] : 'fs-35';
 	$btn_size_class = isset($size_classes[$size]) ? $size_classes[$size][1] : 'btn-md';
-	
-	// Определяем класс формы кнопки (btn-circle или btn-block)
-	$btn_form_class = ($button_form === 'block') ? 'btn-block' : 'btn-circle';
+
+	// Стиль скругления из темы (getThemeButton) применяем только для btn-block; для circle не меняем
+	if ($button_form === 'block') {
+		$theme_btn_form = function_exists('getThemeButton') ? getThemeButton() : '';
+		$btn_form_class = 'btn-block' . $theme_btn_form;
+	} else {
+		$btn_form_class = 'btn-circle';
+	}
 
 	// Для type8 и type9 используем обертку nav gap-2 (без social)
 	$use_nav_wrapper = true;

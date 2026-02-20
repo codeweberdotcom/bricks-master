@@ -27,22 +27,22 @@ function cptui_register_my_cpts_footer()
       "labels" => $labels,
       "description" => "",
       "public" => true,
-      "publicly_queryable" => true,
+      "publicly_queryable" => false, // Не отображать Single и Archive на фронтенде
       "show_ui" => true,
       "show_in_rest" => true,
       "rest_base" => "",
       "rest_controller_class" => "WP_REST_Posts_Controller",
-      "has_archive" => false, // Отключаем архив
+      "has_archive" => false,
       "show_in_menu" => true,
       "show_in_nav_menus" => true,
       "delete_with_user" => false,
-      "exclude_from_search" => false,
+      "exclude_from_search" => true,
       "capability_type" => "post",
       "map_meta_cap" => true,
-      "hierarchical" => false, // Без родителей
+      "hierarchical" => false,
       "can_export" => true,
-      "rewrite" => ["slug" => "footer", "with_front" => true],
-      "query_var" => true,
+      "rewrite" => false, // Отключаем URL на фронтенде
+      "query_var" => false,
       "supports" => ["title", "editor"],
       "show_in_graphql" => false,
    ];
@@ -51,3 +51,14 @@ function cptui_register_my_cpts_footer()
 }
 
 add_action('init', 'cptui_register_my_cpts_footer');
+
+/**
+ * Запрет отображения Single и Archive Footer на фронтенде — отдаём 404.
+ */
+add_action('template_redirect', function () {
+	if (is_singular('footer') || is_post_type_archive('footer')) {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header(404);
+	}
+});

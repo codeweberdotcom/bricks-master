@@ -52,6 +52,7 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 			'disabled' => false,       // disabled атрибут для button
 			'style' => array(),        // Дополнительные inline стили ['margin' => '10px']
 			'button_style' => 'btn-circle', // Стиль кнопки: 'btn-circle' или 'btn-block'
+			'radius_class' => '',     // Класс скругления из темы (getThemeButton): rounded-pill, rounded, rounded-xl, rounded-0
 		));
 		}
 		
@@ -116,9 +117,15 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 		 * @return string
 		 */
 		private function get_classes() {
-			// Определяем стиль кнопки (btn-circle или btn-block)
-			$button_style = !empty($this->config['button_style']) ? $this->config['button_style'] : 'btn-circle';
-			$classes = array('btn', $button_style, 'has-ripple');
+			$radius_class = !empty($this->config['radius_class']) ? trim($this->config['radius_class']) : '';
+			// Если задан класс скругления из темы — используем его вместо фиксированного btn-circle
+			if ($radius_class !== '') {
+				$button_style = 'btn-block';
+				$classes = array('btn', $button_style, $radius_class, 'has-ripple');
+			} else {
+				$button_style = !empty($this->config['button_style']) ? $this->config['button_style'] : 'btn-circle';
+				$classes = array('btn', $button_style, 'has-ripple');
+			}
 			
 			// Размер
 			if (!empty($this->config['size'])) {

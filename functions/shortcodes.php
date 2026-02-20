@@ -114,3 +114,109 @@ add_shortcode('address', function ($atts) {
 	// Вызываем функцию codeweber_get_address
 	return codeweber_get_address($atts['type'], $atts['separator'], $atts['fallback']);
 });
+
+/**
+ * Шорткод [vertical_menu] выводит меню вертикально (списком).
+ *
+ * Параметры:
+ * - location: theme_location меню (header, header_1, offcanvas, footer, footer_1, footer_2, footer_3, footer_4). Приоритет над menu.
+ * - menu: ID или slug меню (если не указан location).
+ * - class: дополнительные CSS-классы для обёртки <ul>.
+ * - depth: уровни вложенности (по умолчанию 0 — все).
+ *
+ * Примеры:
+ * [vertical_menu]
+ * [vertical_menu location="header_1"]
+ * [vertical_menu location="offcanvas"]
+ * [vertical_menu menu="main" class="nav flex-column"]
+ *
+ * @param array $atts Атрибуты шорткода
+ * @return string HTML меню
+ */
+add_shortcode('vertical_menu', function ($atts) {
+	$atts = shortcode_atts([
+		'location' => 'header_1',
+		'menu'     => '',
+		'class'    => 'nav flex-column',
+		'depth'    => 0,
+	], $atts, 'vertical_menu');
+
+	$args = [
+		'menu_class'      => $atts['class'],
+		'menu_id'         => 'vertical-menu-' . ( $atts['location'] ?: $atts['menu'] ?: 'main' ),
+		'container'       => 'nav',
+		'container_class' => 'vertical-menu-wrapper',
+		'echo'            => false,
+		'depth'           => (int) $atts['depth'],
+		'fallback_cb'     => false,
+	];
+
+	if ( ! empty( $atts['location'] ) ) {
+		// theme_location в теме всегда в нижнем регистре (header_1, offcanvas, footer...)
+		$args['theme_location'] = strtolower( $atts['location'] );
+	} elseif ( ! empty( $atts['menu'] ) ) {
+		$args['menu'] = $atts['menu'];
+	} else {
+		$args['theme_location'] = 'header_1';
+	}
+
+	$output = wp_nav_menu( $args );
+	return $output ? $output : '';
+});
+
+/**
+ * Шорткод [menu_list] выводит список всех меню сайта (ID, slug, название и привязка к областям).
+ * Помогает подобрать значение для [vertical_menu location="..."], [vertical_menu menu="..."].
+ *
+ * Параметры:
+ * - format: list (маркированный список) или table (таблица). По умолчанию list.
+ *
+ * Пример: [menu_list] или [menu_list format="table"]
+ *
+ * @param array $atts Атрибуты шорткода
+ * @return string HTML списка меню
+ */
+add_shortcode( 'menu_list', function ( $atts ) {
+	$atts = shortcode_atts( [
+		'format' => 'list',
+	], $atts, 'menu_list' );
+
+	$menus = wp_get_nav_menus();
+	if ( empty( $menus ) ) {
+		return '<p>' . esc_html__( 'No menus created yet. Create menus in Appearance → Menus.', 'codeweber' ) . '</p>';
+	}
+
+	$locations = get_registered_nav_menus();
+	$assigned  = get_nav_menu_locations();
+
+	$out = '';
+	if ( $atts['format'] === 'table' ) {
+		$out .= '<table class="menu-list-table" border="1" cellpadding="8" style="border-collapse:collapse;"><thead><tr><th>ID</th><th>Slug</th><th>Name</th><th>Theme location (use in location="...")</th></tr></thead><tbody>';
+		foreach ( $menus as $menu ) {
+			$loc_names = [];
+			foreach ( $assigned as $loc_slug => $menu_id ) {
+				if ( (int) $menu_id === (int) $menu->term_id ) {
+					$loc_names[] = $loc_slug . ( isset( $locations[ $loc_slug ] ) ? ' (' . $locations[ $loc_slug ] . ')' : '' );
+				}
+			}
+			$out .= '<tr><td>' . (int) $menu->term_id . '</td><td><code>' . esc_html( $menu->slug ) . '</code></td><td>' . esc_html( $menu->name ) . '</td><td>' . ( $loc_names ? implode( ', ', $loc_names ) : '—' ) . '</td></tr>';
+		}
+		$out .= '</tbody></table>';
+	} else {
+		$out .= '<ul class="menu-list">';
+		foreach ( $menus as $menu ) {
+			$loc_names = [];
+			foreach ( $assigned as $loc_slug => $menu_id ) {
+				if ( (int) $menu_id === (int) $menu->term_id ) {
+					$loc_names[] = $loc_slug;
+				}
+			}
+			$loc_str = $loc_names ? ' → location: <code>' . implode( '</code>, <code>', $loc_names ) . '</code>' : ' (not assigned to any area)';
+			$out .= '<li>ID: ' . (int) $menu->term_id . ', slug: <code>' . esc_html( $menu->slug ) . '</code>, name: ' . esc_html( $menu->name ) . $loc_str . '</li>';
+		}
+		$out .= '</ul>';
+	}
+
+	$out .= '<p><strong>' . esc_html__( 'Registered theme locations (for location="..."):', 'codeweber' ) . '</strong> <code>header</code>, <code>header_1</code>, <code>offcanvas</code>, <code>footer</code>, <code>footer_1</code>, <code>footer_2</code>, <code>footer_3</code>, <code>footer_4</code></p>';
+	return $out;
+} );

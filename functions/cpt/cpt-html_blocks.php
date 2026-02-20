@@ -45,8 +45,8 @@ function cptui_register_my_cpts_html_blocks()
 		"map_meta_cap" => true,
 		"hierarchical" => false,
 		"can_export" => false,
-		"rewrite" => ["slug" => "html_blocks", "with_front" => true],
-		"query_var" => true,
+		"rewrite" => false, // Не отображать Single и Archive на фронтенде
+		"query_var" => false,
 		"supports" => ["title", "editor"],
 		"show_in_graphql" => false,
 	];
@@ -55,6 +55,17 @@ function cptui_register_my_cpts_html_blocks()
 }
 
 add_action('init', 'cptui_register_my_cpts_html_blocks');
+
+/**
+ * Запрет отображения Single и Archive Html Blocks на фронтенде — отдаём 404.
+ */
+add_action('template_redirect', function () {
+	if (is_singular('html_blocks') || is_post_type_archive('html_blocks')) {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header(404);
+	}
+});
 
 /**
  * Shortcode [html_block id="X"] — выводит контент HTML-блока по ID

@@ -127,6 +127,10 @@ if (comments_open() || pings_open()) {
 	}
 }
 
+	/** Theme form radius and button style for comment form */
+	$comment_form_radius = function_exists('getThemeFormRadius') ? getThemeFormRadius() : ' rounded';
+	$comment_submit_btn  = function_exists('getThemeButton') ? getThemeButton() : '';
+
 	/** Change Comment form fields */
 	comment_form(
 		array(
@@ -136,14 +140,14 @@ if (comments_open() || pings_open()) {
                           <label class="form-check-label" for="wp-comment-cookies-consent">' .  __("By using this comment form you agree with our Privacy Policy", "codeweber") . ' </label>
                            </div>',
 				'author' => '<div class="form-floating mb-4">
-					<input type="text" class="form-control" name="author" id="form_name" value="' . esc_attr($commenter["comment_author"]) . '" tabindex="1" placeholder="Name" required />
+					<input type="text" class="form-control' . esc_attr($comment_form_radius) . '" name="author" id="form_name" value="' . esc_attr($commenter["comment_author"]) . '" tabindex="1" placeholder="Name" required />
 					<label for="author">' . __("Name *", "codeweber") . '</label>
 					<div class="valid-feedback"> ' . esc_html__("Looks good!", "codeweber") . ' </div>
 					<div class="invalid-feedback"> ' . esc_html__("Please enter your first name.", "codeweber") . ' </div>
 				   </div> <!-- .form-group -->',
 
 				'email'  => '<div class="form-floating mb-4">
-					<input id="form_email" type="email" class="form-control" name="email" value="' . esc_attr($commenter["comment_author_email"]) . '" tabindex="2" placeholder="jane.doe@example.com" required />
+					<input id="form_email" type="email" class="form-control' . esc_attr($comment_form_radius) . '" name="email" value="' . esc_attr($commenter["comment_author_email"]) . '" tabindex="2" placeholder="jane.doe@example.com" required />
 					<label for="form_email">' . esc_html__("Email *", "codeweber") . '</label>
 					<div class="valid-feedback"> ' . esc_html__("Looks good!", "codeweber") . ' </div>
 					<div class="invalid-feedback"> ' . esc_html__("Please enter your E-Mail.", "codeweber") . ' </div>
@@ -152,13 +156,13 @@ if (comments_open() || pings_open()) {
 
 			'label_submit'       => __("Submit", "codeweber"),
 			'title_reply'        => __('Would you like to share your thoughts?', 'codeweber'),
-			'class_submit'       => 'btn btn-primary ' . GetThemeButton() . ' mb-0',
-			'class_form'         => 'comment-form needs-validation',
+			'class_submit'       => 'btn btn-primary' . esc_attr($comment_submit_btn) . ' mb-0',
+			'class_form'         => 'comment-form needs-validation' . esc_attr($comment_form_radius),
 			'title_reply_before' => '<h3 id="reply-title" class="mb-3 me-2">',
 			'title_reply_after'  => '</h3>',
 
 			'comment_field' =>  '<div class="form-floating mb-4 comment-form-comment">
-				<textarea class="form-control input-lg" name="comment" id="comment" tabindex="4" placeholder="Type your comment here..." style="height: 150px" required></textarea>
+				<textarea class="form-control input-lg' . esc_attr($comment_form_radius) . '" name="comment" id="comment" tabindex="4" placeholder="Type your comment here..." style="height: 150px" required></textarea>
 				<label for="comment">' . esc_html__("Comment *", "codeweber") . '</label>
 				<div class="valid-feedback"> ' . esc_html__("Looks good!", "codeweber") . '</div>
 				<div class="invalid-feedback"> ' . esc_html__("Please enter your comment.", "codeweber") . '</div>

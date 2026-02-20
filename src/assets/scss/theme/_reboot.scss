@@ -623,6 +623,35 @@ h6 {
     background-color: $gray-400;
   }
 }
+
+.text-line-primary {
+  position: relative;
+  padding-left: 1.4rem;
+  &::before {
+    content: "";
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-60%);
+  left: 0;
+  width: .75rem;
+  height: .05rem;
+    background: var(--#{$prefix}primary) !important;
+  }
+}
+
+.text-line-full {
+  display: flex;
+  align-items: center;
+  &::after {
+    content: "";
+    flex: 1;
+    height: 0.05rem;
+    background-color: $border-light;
+    margin-left: 1rem;
+  }
+}
+
 .text-primary {
   color: var(--#{$prefix}primary) !important;
 }
