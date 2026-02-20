@@ -186,7 +186,8 @@ blockquote {
 //----------------------------------------------------------//
 //	UNSTYLED LIST
 //----------------------------------------------------------//
-.list-unstyled li a.active {
+.list-unstyled li a.active,
+.list-unstyled li.current-menu-item > a {
   color: var(--#{$prefix}primary) !important;
 }
 //----------------------------------------------------------//

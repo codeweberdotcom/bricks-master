@@ -116,57 +116,7 @@ add_shortcode('address', function ($atts) {
 });
 
 /**
- * Шорткод [vertical_menu] выводит меню вертикально (списком).
- *
- * Параметры:
- * - location: theme_location меню (header, header_1, offcanvas, footer, footer_1, footer_2, footer_3, footer_4). Приоритет над menu.
- * - menu: ID или slug меню (если не указан location).
- * - class: дополнительные CSS-классы для обёртки <ul>.
- * - depth: уровни вложенности (по умолчанию 0 — все).
- *
- * Примеры:
- * [vertical_menu]
- * [vertical_menu location="header_1"]
- * [vertical_menu location="offcanvas"]
- * [vertical_menu menu="main" class="nav flex-column"]
- *
- * @param array $atts Атрибуты шорткода
- * @return string HTML меню
- */
-add_shortcode('vertical_menu', function ($atts) {
-	$atts = shortcode_atts([
-		'location' => 'header_1',
-		'menu'     => '',
-		'class'    => 'nav flex-column',
-		'depth'    => 0,
-	], $atts, 'vertical_menu');
-
-	$args = [
-		'menu_class'      => $atts['class'],
-		'menu_id'         => 'vertical-menu-' . ( $atts['location'] ?: $atts['menu'] ?: 'main' ),
-		'container'       => 'nav',
-		'container_class' => 'vertical-menu-wrapper',
-		'echo'            => false,
-		'depth'           => (int) $atts['depth'],
-		'fallback_cb'     => false,
-	];
-
-	if ( ! empty( $atts['location'] ) ) {
-		// theme_location в теме всегда в нижнем регистре (header_1, offcanvas, footer...)
-		$args['theme_location'] = strtolower( $atts['location'] );
-	} elseif ( ! empty( $atts['menu'] ) ) {
-		$args['menu'] = $atts['menu'];
-	} else {
-		$args['theme_location'] = 'header_1';
-	}
-
-	$output = wp_nav_menu( $args );
-	return $output ? $output : '';
-});
-
-/**
  * Шорткод [menu_list] выводит список всех меню сайта (ID, slug, название и привязка к областям).
- * Помогает подобрать значение для [vertical_menu location="..."], [vertical_menu menu="..."].
  *
  * Параметры:
  * - format: list (маркированный список) или table (таблица). По умолчанию list.
