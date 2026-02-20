@@ -12,8 +12,9 @@ if (class_exists('Redux')) {
 	$footer_social_size = Redux::get_option($opt_name, 'social-button-size-footer', 'md');
 	$footer_social_style = Redux::get_option($opt_name, 'social-button-style-footer', 'circle');
 }
+$footer_text_inverse = !empty($GLOBALS['codeweber_footer_use_text_inverse']) ? ' text-inverse' : '';
 ?>
-<footer class="bg-dark">
+<footer class="bg-dark<?= esc_attr($footer_text_inverse); ?>">
    <div class="container py-13 py-md-15">
       <div class="row gy-6 gy-lg-0">
          <div class="col-md-4 col-lg-3">

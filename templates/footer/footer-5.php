@@ -27,6 +27,9 @@ if ($footer_color_text === 'dark') {
    $text_class_array[] = 'text-reset';
    $text_inverse = '';
 }
+if (!empty($GLOBALS['codeweber_footer_use_text_inverse'])) {
+   $text_inverse = 'text-inverse';
+}
 $text_class = implode(' ', $text_class_array);
 
 // Получаем настройки соцсетей для футера
@@ -90,7 +93,7 @@ $link_class = ($footer_color_text === 'dark') ? 'text-white' : 'link-body';
 
 ?>
 
-<footer class="<?= esc_attr($footer_bg_class); ?>">
+<footer class="<?= esc_attr($footer_bg_class); ?> <?= esc_attr($text_inverse ?? ''); ?>">
   <div class="container">
     <div class="row">
       <div class="col-xl-11 col-xxl-10 mx-auto">
