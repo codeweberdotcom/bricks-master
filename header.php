@@ -17,6 +17,7 @@
 </head>
 
 <body <?php body_class(); ?>>
+    <?php get_loader(); ?>
 
     <main class="content-wrapper">
         <?php

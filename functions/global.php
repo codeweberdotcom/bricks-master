@@ -1155,3 +1155,20 @@ function codeweber_footer_column($widget_id, $column_classes, $default_content) 
         echo '<!-- /column -->';
     }
 }
+
+/**
+ * Page Loader — выводит прелоадер, если включён в настройках Redux.
+ */
+function get_loader()
+{
+    if (!class_exists('Redux')) {
+        return;
+    }
+    global $opt_name;
+    if (empty($opt_name)) {
+        $opt_name = 'redux_demo';
+    }
+    if (Redux::get_option($opt_name, 'page-loader', false)) {
+        echo '<div class="page-loader"></div>';
+    }
+}
