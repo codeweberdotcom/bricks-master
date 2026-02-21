@@ -723,12 +723,16 @@ $dropdown-font-weight: 700 !default;
 
 @media (max-width: 991.98px) {
   .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link,
-  .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link.active,
   .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link:focus,
   .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link:hover,
   .navbar-expand-lg .navbar-collapse.offcanvas-light .show > .nav-link,
   .navbar-expand-lg .navbar-collapse.offcanvas-light .dropdown-menu .dropdown-item {
     color: #343f52 !important;
+  }
+  /* активный пункт в мобильном меню — primary */
+  .navbar-expand-lg .navbar-collapse.offcanvas-light .nav-link.active,
+  .navbar-expand-lg .navbar-collapse.offcanvas-light .list-unstyled li.current-menu-item > a {
+    color: var(--#{$prefix}primary) !important;
   }
 }
 
