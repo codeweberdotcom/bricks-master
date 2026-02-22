@@ -7,7 +7,6 @@ $figure_class = ($card_radius_class === 'rounded-0') ? '' : 'card-img-top';
 ?>
 <section id="post-<?php the_ID(); ?>" <?php post_class('blog single'); ?>>
 	<div class="card <?php echo esc_attr($card_radius_class); ?>">
-
 		<figure<?php echo $figure_class !== '' ? ' class="' . esc_attr($figure_class) . '"' : ''; ?>>
 			<?php
 			// Получаем ID миниатюры текущего поста
@@ -23,7 +22,7 @@ $figure_class = ($card_radius_class === 'rounded-0') ? '' : 'card-img-top';
 				</a>
 			<?php endif; ?>
 		</figure>
-
+		<!-- /.figure -->
 		<div class="card-body">
 			<div class="classic-view">
 				<article class="post">
@@ -31,148 +30,26 @@ $figure_class = ($card_radius_class === 'rounded-0') ? '' : 'card-img-top';
 						<?php the_content(); ?>
 					</div>
 					<!-- /.post-content -->
-					<div class="post-footer d-md-flex flex-md-row justify-content-md-between align-items-center mt-8">
-						<div>
-							<?php
-							$tags = get_the_tags();
-
-							if ($tags) : ?>
-								<ul class="list-unstyled tag-list mb-0">
-									<?php foreach ($tags as $tag) : ?>
-										<li>
-											<a
-												href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>"
-												class="btn btn-soft-ash btn-sm mb-0<?php echo getThemeButton(); ?>">
-												<?php echo esc_html($tag->name); ?>
-											</a>
-										</li>
-									<?php endforeach; ?>
-								</ul>
-							<?php endif; ?>
-						</div>
-						<div class="mb-0 mb-md-2">
-							<?php codeweber_share_page(['region' => 'ru', 'button_class' => 'has-ripple btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0' . (function_exists('getThemeButton') ? getThemeButton() : '')]); ?>
-						</div>
-					</div>
+					<?php codeweber_single_post_footer(); ?>
 					<!-- /.post-footer -->
 				</article>
 				<!-- /.post -->
 			</div>
 			<!-- /.classic-view -->
 			<hr class="mt-5 mb-5">
-			<div>
-				<?php
-
-				wp_link_pages(
-					array(
-						'before'        => '<nav class="nav"><span class="nav-link">' . esc_html__('Part:', 'codeweber') . '</span>',
-						'after'         => '</nav>',
-						'link_before'   => '<span class="nav-link">',
-						'link_after'    => '</span>',
-					)
-				);
-
-				?>
-
-			</div>
-			<div class="author-info d-md-flex align-items-center mb-3">
-				<div class="d-flex align-items-center">
-					<?php
-					$user_id = get_the_author_meta('ID');
-
-					// Проверяем оба возможных ключа
-					$avatar_id = get_user_meta($user_id, 'avatar_id', true);
-					if (empty($avatar_id)) {
-						$avatar_id = get_user_meta($user_id, 'custom_avatar_id', true);
-					}
-
-					if (!empty($avatar_id)) :
-						$avatar_src = wp_get_attachment_image_src($avatar_id, 'thumbnail');
-					?>
-						<figure class="user-avatar">
-							<img class="rounded-circle" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
-						</figure>
-					<?php else : ?>
-						<figure class="user-avatar">
-							<?php echo get_avatar(get_the_author_meta('user_email'), 96, '', '', ['class' => 'rounded-circle']); ?>
-						</figure>
-					<?php endif; ?>
-
-					<div>
-						<h6>
-							<a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="link-dark">
-								<?php the_author_meta('first_name'); ?> <?php the_author_meta('last_name'); ?>
-							</a>
-						</h6>
-
-						<?php
-						$job_title = get_user_meta($user_id, 'user_position', true);
-						if (empty($job_title)) {
-							$job_title = __('Writer', 'codeweber');
-						}
-						?>
-						<span class="post-meta fs-15"><?php echo esc_html($job_title); ?></span>
-					</div>
-				</div>
-
-				<div class="mt-3 mt-md-0 ms-auto">
-					<a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="btn btn-sm btn-soft-ash <?php echo esc_attr(function_exists('getThemeButton') ? getThemeButton(' rounded mt-2') : ' rounded mt-2'); ?> btn-icon btn-icon-start mb-0 has-ripple">
-						<i class="uil uil-file-alt"></i> <?php esc_html_e('All Posts', 'codeweber'); ?>
-					</a>
-				</div>
-			</div>
+			<?php codeweber_single_link_pages(); ?>
+			<!-- /.link-pages -->
+			<?php codeweber_single_post_author(); ?>
 			<!-- /.author-info -->
-
-			<?php $bio = get_user_meta($user_id, 'description', true); ?>
-			<?php
-			if (!empty($bio)) : ?>
-				<p><?php echo esc_html($bio); ?></p>
-			<?php endif; ?>
-			<!-- /.author-bio -->
-
-			<?php
-			if (function_exists('social_links')) {
-				echo social_links('', 'type3', 'sm', 'primary', 'solid', 'circle');
-			}
-			?>
+			<?php echo codeweber_single_social_links(); ?>
 			<!-- /.social -->
-
 			<hr class="my-5">
-
-			<h3 class="mb-6"><?php echo esc_html__('You Might Also Like', 'codeweber'); ?></h3>
-
-			<?php
-			if (function_exists('cw_blog_posts_slider')) {
-				echo cw_blog_posts_slider([
-					'posts_per_page' => 6,
-					'template' => 'default',
-					'enable_hover_scale' => true,
-					'show_title' => true,
-					'show_date' => true,
-					'show_category' => true,
-					'show_comments' => true,
-					'title_tag' => 'h3',
-					'title_length' => 50,
-					'image_size' => 'codeweber_post_560-350',
-					'items_xl' => '2',
-					'items_lg' => '2',
-					'items_md' => '2',
-					'items_sm' => '1',
-					'items_xs' => '1',
-					'items_xxs' => '1',
-				]);
-			}
-			?>
-			
-			<?php
-			if (comments_open() || get_comments_number()) { ?>
-				<hr class="my-5" />
-			<?php
-				comments_template();
-			}
-			?>
+			<?php codeweber_single_related('post'); ?>
+			<!-- /.related -->
+			<?php codeweber_single_comments(); ?>
+			<!-- /.comments -->
 		</div>
-
+		<!-- /.card-body -->
 	</div>
-
+	<!-- /.card -->
 </section> <!-- #post-<?php the_ID(); ?> -->

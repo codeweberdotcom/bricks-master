@@ -10,6 +10,7 @@
 require 'bootstrap/bootstrap_pagination.php';
 require 'bootstrap/bootstrap_post-nav.php';
 require 'bootstrap/bootstrap_share-page.php';
+require 'bootstrap/bootstrap-single-parts.php';
 require 'bootstrap/bootstrap_nav-menu.php';
 require 'bootstrap/bootstrap_floating-social-widget.php';
 
@@ -321,6 +322,45 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 	}
 	
 	return $output;
+}
+
+/**
+ * Единые соцссылки для single-страниц (блог, legal и т.д.).
+ * Дефолты соответствуют single post (блог): type3, sm, primary, solid, circle.
+ *
+ * @param array $args {
+ *     Опционально. Параметры, передаваемые в social_links().
+ *     @type string $class       Доп. CSS-классы для обёртки. По умолчанию ''.
+ *     @type string $type        Тип отображения. По умолчанию 'type3'.
+ *     @type string $size        Размер: 'lg', 'md', 'sm'. По умолчанию 'sm'.
+ *     @type string $button_color Цвет кнопки для type8. По умолчанию 'primary'.
+ *     @type string $buttonstyle  solid|outline для type8. По умолчанию 'solid'.
+ *     @type string $button_form  circle|block. По умолчанию 'circle'.
+ * }
+ * @return string HTML соцссылок или пустая строка, если social_links не существует.
+ */
+function codeweber_single_social_links($args = [])
+{
+	if (!function_exists('social_links')) {
+		return '';
+	}
+	$defaults = [
+		'class'        => '',
+		'type'         => 'type3',
+		'size'         => 'sm',
+		'button_color' => 'primary',
+		'buttonstyle'  => 'solid',
+		'button_form'  => 'circle',
+	];
+	$r = wp_parse_args($args, $defaults);
+	return social_links(
+		$r['class'],
+		$r['type'],
+		$r['size'],
+		$r['button_color'],
+		$r['buttonstyle'],
+		$r['button_form']
+	);
 }
 
 /**
@@ -1158,6 +1198,8 @@ function codeweber_footer_column($widget_id, $column_classes, $default_content) 
 
 /**
  * Page Loader — выводит прелоадер, если включён в настройках Redux.
+ *
+ * Типы: default (спиннер), logo-light, logo-dark, custom (SVG).
  */
 function get_loader()
 {
@@ -1168,7 +1210,39 @@ function get_loader()
     if (empty($opt_name)) {
         $opt_name = 'redux_demo';
     }
-    if (Redux::get_option($opt_name, 'page-loader', false)) {
-        echo '<div class="page-loader"></div>';
+    if (!Redux::get_option($opt_name, 'page-loader', false)) {
+        return;
     }
+
+    $type         = Redux::get_option($opt_name, 'page-loader-type', 'default');
+    $custom_class = trim(Redux::get_option($opt_name, 'page-loader-custom-class', ''));
+
+    if ($custom_class) {
+        $cls = 'page-loader ' . esc_attr($custom_class);
+    } else {
+        $bg  = Redux::get_option($opt_name, 'page-loader-bg', 'white');
+        $cls = 'page-loader' . ($bg ? ' bg-' . esc_attr($bg) : '');
+    }
+
+    $logo_url = '';
+    switch ($type) {
+        case 'logo-light':
+            $logo_data = Redux::get_option($opt_name, 'opt-light-logo', '');
+            $logo_url  = is_array($logo_data) ? ($logo_data['url'] ?? '') : $logo_data;
+            break;
+        case 'logo-dark':
+            $logo_data = Redux::get_option($opt_name, 'opt-dark-logo', '');
+            $logo_url  = is_array($logo_data) ? ($logo_data['url'] ?? '') : $logo_data;
+            break;
+        case 'custom':
+            $logo_data = Redux::get_option($opt_name, 'page-loader-custom-logo', '');
+            $logo_url  = is_array($logo_data) ? ($logo_data['url'] ?? '') : $logo_data;
+            break;
+    }
+
+    echo '<div class="' . $cls . '">';
+    if ($logo_url) {
+        echo '<img class="page-loader-logo" src="' . esc_url($logo_url) . '" alt="Loading...">';
+    }
+    echo '</div>';
 }

@@ -1,4 +1,4 @@
-	</div> <!-- #content-wrapper -->
+	</main> <!-- /.content-wrapper -->
 
 	<?php
 	// Плавающий виджет соцсетей (выводим перед футером)
@@ -166,6 +166,21 @@
 	}
 	?>
 	
+	<?php
+	// Закрываем page-frame обёртку, если она была открыта в header.php
+	$codeweber_page_frame_footer = false;
+	if (class_exists('Redux')) {
+		global $opt_name;
+		if (empty($opt_name)) {
+			$opt_name = 'redux_demo';
+		}
+		$codeweber_page_frame_footer = (bool) Redux::get_option($opt_name, 'page-frame', false);
+	}
+	if ($codeweber_page_frame_footer) {
+		echo '</div><!-- /.page-frame -->';
+	}
+	?>
+
 	<?php 
 	// Выводим модальное окно перед wp_footer()
 	if (function_exists('codeweber_universal_modal_container')) {

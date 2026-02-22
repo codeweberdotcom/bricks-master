@@ -846,13 +846,15 @@ mark {
     padding: 1.25rem;
     section,
     footer,
+    header nav,
     .video-wrapper,
     .video-wrapper:after,
     .video-wrapper video {
       border-radius: 1rem;
     }
     section,
-    footer {
+    footer,
+    header nav {
       padding-left: 1.5rem;
       padding-right: 1.5rem;
       border-radius: 1rem;

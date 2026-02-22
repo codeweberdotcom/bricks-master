@@ -587,6 +587,7 @@ function ajax_search_form_shortcode($atts)
    $form_id = !empty($atts['id']) ? esc_attr($atts['id']) : uniqid('search-form-');
    $input_id = $form_id . '-input';
 
+   $form_radius = function_exists('getThemeFormRadius') ? getThemeFormRadius() : ' rounded';
    ob_start();
 ?>
    <div class="position-relative <?php echo esc_attr($atts['class']); ?>">
@@ -594,7 +595,7 @@ function ajax_search_form_shortcode($atts)
          <input
             type="text"
             id="<?php echo $input_id; ?>"
-            class="search-form form-control"
+            class="search-form form-control<?php echo esc_attr($form_radius); ?>"
             placeholder="<?php echo esc_attr($atts['placeholder']); ?>"
             autocomplete="off"
             data-posts-per-page="<?php echo esc_attr($atts['posts_per_page']); ?>"

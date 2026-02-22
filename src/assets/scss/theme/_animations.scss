@@ -90,13 +90,29 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: $body-bg;
   z-index: 9999;
   transition: 0.5s all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &.done {
     visibility: hidden;
     opacity: 0;
   }
+}
+.page-loader-logo {
+  max-width: 12rem;
+  max-height: 6rem;
+  width: auto;
+  height: auto;
+  animation: loader-fade-pulse 1.8s ease-in-out infinite;
+}
+@keyframes loader-fade-pulse {
+  0%, 100% { opacity: .4; }
+  50%      { opacity: 1; }
+}
+.page-loader:has(.page-loader-logo):before {
+  display: none;
 }
 .page-loader:before,
 .swiper-hero:before,

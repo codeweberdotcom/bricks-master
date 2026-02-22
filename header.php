@@ -19,6 +19,26 @@
 <body <?php body_class(); ?>>
     <?php get_loader(); ?>
 
+    <?php
+    $codeweber_page_frame = false;
+    $codeweber_page_frame_class = 'page-frame';
+    if (class_exists('Redux')) {
+        global $opt_name;
+        if (empty($opt_name)) {
+            $opt_name = 'redux_demo';
+        }
+        $codeweber_page_frame = (bool) Redux::get_option($opt_name, 'page-frame', false);
+        if ($codeweber_page_frame) {
+            $frame_bg = Redux::get_option($opt_name, 'page-frame-bg', 'light');
+            $frame_type = Redux::get_option($opt_name, 'page-frame-bg-type', 'solid');
+            $codeweber_page_frame_class .= $frame_bg ? ' bg-' . ($frame_type === 'soft' ? 'soft-' : '') . esc_attr($frame_bg) : '';
+        }
+    }
+    if ($codeweber_page_frame) {
+        echo '<div class="' . esc_attr(trim($codeweber_page_frame_class)) . '">';
+    }
+    ?>
+
     <main class="content-wrapper">
         <?php
         // Получаем тип контента и ID

@@ -127,10 +127,89 @@ Redux::set_section(
 				'default'  => false,
 			),
 			array(
+				'id'       => 'page-frame-bg',
+				'type'     => 'select',
+				'title'    => esc_html__('Page-frame Background Color', 'codeweber'),
+				'options'  => call_user_func(function () {
+					$opts = array();
+					$file = get_template_directory() . '/components/colors.json';
+					if (file_exists($file)) {
+						$data = json_decode(file_get_contents($file), true);
+						if (is_array($data)) {
+							foreach ($data as $c) {
+								$opts[$c['value']] = esc_html__($c['label'], 'codeweber');
+							}
+						}
+					}
+					return $opts;
+				}),
+				'default'  => 'light',
+				'required' => array('page-frame', '=', true),
+			),
+			array(
+				'id'       => 'page-frame-bg-type',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Page-frame Color Type', 'codeweber'),
+				'options'  => array(
+					'solid' => esc_html__('Solid', 'codeweber'),
+					'soft'  => esc_html__('Soft', 'codeweber'),
+				),
+				'default'  => 'solid',
+				'required' => array('page-frame', '=', true),
+			),
+			array(
 				'id'       => 'page-loader',
 				'type'     => 'switch',
-				'title'    => esc_html__('Page-loader', 'codeweber'),
+				'title'    => esc_html__('Page Loader', 'codeweber'),
 				'default'  => false,
+			),
+			array(
+				'id'       => 'page-loader-type',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Loader Type', 'codeweber'),
+				'options'  => array(
+					'default'    => esc_html__('Default', 'codeweber'),
+					'logo-light' => esc_html__('Theme Logo Light', 'codeweber'),
+					'logo-dark'  => esc_html__('Theme Logo Dark', 'codeweber'),
+					'custom'     => esc_html__('Custom Logo', 'codeweber'),
+				),
+				'default'  => 'default',
+				'required' => array('page-loader', '=', true),
+			),
+			array(
+				'id'       => 'page-loader-custom-logo',
+				'type'     => 'media',
+				'title'    => esc_html__('Custom Loader Logo (SVG)', 'codeweber'),
+				'subtitle' => esc_html__('Upload SVG image', 'codeweber'),
+				'required' => array('page-loader-type', '=', 'custom'),
+			),
+			array(
+				'id'       => 'page-loader-custom-class',
+				'type'     => 'text',
+				'title'    => esc_html__('Custom Class', 'codeweber'),
+				'subtitle' => esc_html__('If filled, the background color below will not be applied', 'codeweber'),
+				'default'  => '',
+				'required' => array('page-loader', '=', true),
+			),
+			array(
+				'id'       => 'page-loader-bg',
+				'type'     => 'select',
+				'title'    => esc_html__('Loader Background Color', 'codeweber'),
+				'options'  => call_user_func(function () {
+					$opts = array();
+					$file = get_template_directory() . '/components/colors.json';
+					if (file_exists($file)) {
+						$data = json_decode(file_get_contents($file), true);
+						if (is_array($data)) {
+							foreach ($data as $c) {
+								$opts[$c['value']] = esc_html__($c['label'], 'codeweber');
+							}
+						}
+					}
+					return $opts;
+				}),
+				'default'  => 'white',
+				'required' => array('page-loader', '=', true),
 			),
 
 			array(
