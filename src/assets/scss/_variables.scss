@@ -653,6 +653,19 @@ $btn-active-bg-shade-amount: 0% !default;
 $btn-active-bg-tint-amount: 0% !default;
 $btn-active-border-shade-amount: 0% !default;
 $btn-active-border-tint-amount: 0% !default;
+// .btn-circle и .btn-block — общая шкала размеров (width/height + font)
+$btn-circle-size:         2.2rem !default;
+$btn-circle-size-xs:      1.4rem !default;
+$btn-circle-size-sm:      1.8rem !default;
+$btn-circle-size-lg:      3rem !default;
+$btn-circle-size-elg:     4rem !default;
+$btn-circle-size-play:    3.5rem !default;
+$btn-circle-font:         1rem !default;
+$btn-circle-font-xs:      0.65rem !default;
+$btn-circle-font-sm:      0.8rem !default;
+$btn-circle-font-lg:      1.3rem !default;
+$btn-circle-font-elg:     1.5rem !default;
+$btn-circle-font-play:    2.3rem !default;
 //----------------------------------------------------------//
 //	FORMS
 //----------------------------------------------------------//

@@ -170,3 +170,234 @@ add_shortcode( 'menu_list', function ( $atts ) {
 	$out .= '<p><strong>' . esc_html__( 'Registered theme locations (for location="..."):', 'codeweber' ) . '</strong> <code>header</code>, <code>header_1</code>, <code>offcanvas</code>, <code>footer</code>, <code>footer_1</code>, <code>footer_2</code>, <code>footer_3</code>, <code>footer_4</code></p>';
 	return $out;
 } );
+
+/**
+ * Демо-пункты меню для шорткода [menu_collapse] при demo=true.
+ * Фильтр wp_nav_menu_objects подставляет эти пункты, все атрибуты шорткода применяются к выводу.
+ *
+ * @param array    $sorted_menu_items Элементы меню.
+ * @param \stdClass $args             Аргументы wp_nav_menu.
+ * @return array
+ */
+function codeweber_menu_collapse_demo_items( $sorted_menu_items, $args ) {
+	if ( empty( $args->demo ) ) {
+		return $sorted_menu_items;
+	}
+	// 4 уровня: Home → 1.1 → 1.1.1 → 1.1.1.1 (current); Services → 2.1 → 2.1.1; About, Contact без детей. Порядок: depth-first для Walker.
+	$demo = array(
+		(object) array(
+			'ID'                    => 90001,
+			'db_id'                 => 90001,
+			'menu_item_parent'      => 0,
+			'url'                   => '#',
+			'title'                 => __( 'Home', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90002,
+			'db_id'                 => 90002,
+			'menu_item_parent'      => 0,
+			'url'                   => '#',
+			'title'                 => __( 'Services', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90003,
+			'db_id'                 => 90003,
+			'menu_item_parent'      => 0,
+			'url'                   => '#',
+			'title'                 => __( 'About', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90004,
+			'db_id'                 => 90004,
+			'menu_item_parent'      => 0,
+			'url'                   => '#',
+			'title'                 => __( 'Contact', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90005,
+			'db_id'                 => 90005,
+			'menu_item_parent'      => 90001,
+			'url'                   => '#',
+			'title'                 => __( 'Subitem 1.1', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90006,
+			'db_id'                 => 90006,
+			'menu_item_parent'      => 90001,
+			'url'                   => '#',
+			'title'                 => __( 'Subitem 1.2', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90007,
+			'db_id'                 => 90007,
+			'menu_item_parent'      => 90002,
+			'url'                   => '#',
+			'title'                 => __( 'Subitem 2.1', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90008,
+			'db_id'                 => 90008,
+			'menu_item_parent'      => 90005,
+			'url'                   => '#',
+			'title'                 => __( 'Subitem 1.1.1', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90009,
+			'db_id'                 => 90009,
+			'menu_item_parent'      => 90005,
+			'url'                   => '#',
+			'title'                 => __( 'Subitem 1.1.2', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90010,
+			'db_id'                 => 90010,
+			'menu_item_parent'      => 90007,
+			'url'                   => '#',
+			'title'                 => __( 'Subitem 2.1.1', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90011,
+			'db_id'                 => 90011,
+			'menu_item_parent'      => 90008,
+			'url'                   => '#',
+			'title'                 => __( 'Subitem 1.1.1.1', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+		(object) array(
+			'ID'                    => 90012,
+			'db_id'                 => 90012,
+			'menu_item_parent'      => 90008,
+			'url'                   => '#',
+			'title'                 => __( 'Subitem 1.1.1.2', 'codeweber' ),
+			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
+			'current'               => false,
+			'current_item_ancestor' => false,
+		),
+	);
+	return $demo;
+}
+add_filter( 'wp_nav_menu_objects', 'codeweber_menu_collapse_demo_items', 10, 2 );
+
+/**
+ * Шорткод [menu_collapse] — вертикальное меню с Bootstrap Collapse (accordion).
+ *
+ * Параметры:
+ * - menu (обязательный при demo=false): ID или slug меню (например 4 или "main-menu")
+ * - demo: true — вывести демо-меню (menu не нужен), все атрибуты применяются. По умолчанию false
+ * - depth: глубина вложенности (0 = без ограничения). По умолчанию 0
+ * - theme: цвет текста — default | dark | light (как в блоке Menu). default = без класса, dark = text-white, light = text-dark
+ * - container_class: дополнительные классы для контейнера <nav>
+ * - top_level_class: дополнительные классы только для пунктов меню верхнего уровня (depth 0)
+ * - item_class: дополнительные классы для всех пунктов <li>
+ * - link_class: дополнительные классы для ссылок <a>
+ *
+ * Примеры:
+ * [menu_collapse menu="4"]
+ * [menu_collapse demo="true" theme="dark"]
+ * [menu_collapse menu="main-menu" depth="3" theme="dark"]
+ */
+add_shortcode( 'menu_collapse', function ( $atts ) {
+	$atts = shortcode_atts( array(
+		'menu'            => '',
+		'demo'            => false,
+		'depth'           => 0,
+		'theme'           => 'default',
+		'container_class' => '',
+		'top_level_class' => '',
+		'item_class'      => '',
+		'link_class'      => '',
+	), $atts, 'menu_collapse' );
+
+	$is_demo = filter_var( $atts['demo'], FILTER_VALIDATE_BOOLEAN );
+	if ( ! $is_demo && empty( $atts['menu'] ) ) {
+		return '<p>' . esc_html__( 'Shortcode [menu_collapse]: specify menu= (ID or slug) or demo="true".', 'codeweber' ) . '</p>';
+	}
+
+	// Класс темы (цвет), как в блоке Menu
+	$theme_class = '';
+	if ( 'dark' === $atts['theme'] ) {
+		$theme_class = 'text-white';
+	} elseif ( 'light' === $atts['theme'] ) {
+		$theme_class = 'text-dark';
+	}
+
+	// Общий счётчик с блоком Menu (collapse), чтобы id не дублировались на странице
+	global $codeweber_menu_collapse_instance;
+	if ( ! isset( $codeweber_menu_collapse_instance ) ) {
+		$codeweber_menu_collapse_instance = 0;
+	}
+	$codeweber_menu_collapse_instance++;
+	$suffix = (string) $codeweber_menu_collapse_instance;
+
+	$menu_id = $is_demo ? 999999 : $atts['menu'];
+	$menu_id = is_numeric( $menu_id ) ? (int) $menu_id : $menu_id;
+	$wrapper_id = 'menu-collapse-walker-' . ( $is_demo ? 'demo' : ( is_numeric( $menu_id ) ? $menu_id : preg_replace( '/[^a-z0-9_-]/i', '-', $menu_id ) ) ) . '-' . $suffix;
+
+	$list_classes   = array( 'list-unstyled', 'mb-0', 'd-flex', 'flex-column' );
+	$list_class_str = implode( ' ', $list_classes );
+
+	$container_class = 'menu-collapse-nav';
+	if ( ! empty( trim( (string) $atts['container_class'] ) ) ) {
+		$container_class .= ' ' . trim( (string) $atts['container_class'] );
+	}
+
+	$nav_args = array(
+		'menu'             => $menu_id,
+		'depth'            => (int) $atts['depth'],
+		'container'        => 'nav',
+		'container_class'  => $container_class,
+		'container_id'     => $wrapper_id,
+		'menu_class'       => $list_class_str,
+		'menu_id'          => '',
+		'fallback_cb'      => false,
+		'echo'             => false,
+		'items_wrap'       => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+		'item_spacing'     => 'discard',
+		'walker'           => new CodeWeber_Menu_Collapse_Walker(),
+		'wrapper_id'       => $wrapper_id,
+		'instance_suffix'  => $suffix,
+		'theme_class'      => $theme_class,
+		'top_level_class'  => trim( (string) $atts['top_level_class'] ),
+		'item_class'       => trim( (string) $atts['item_class'] ),
+		'link_class'       => trim( (string) $atts['link_class'] ),
+		'demo'             => $is_demo,
+	);
+
+	$output = wp_nav_menu( $nav_args );
+	if ( ! $is_demo && empty( trim( strip_tags( $output ) ) ) ) {
+		return '<p>' . esc_html__( 'Menu not found or empty.', 'codeweber' ) . '</p>';
+	}
+	return $output;
+} );

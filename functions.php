@@ -28,6 +28,7 @@ require_once get_template_directory() . '/functions/pdf-thumbnail-js.php';
 require_once get_template_directory() . '/functions/navmenus.php';
 require_once get_template_directory() . '/functions/sidebars.php';
 require_once get_template_directory() . '/functions/lib/class-wp-bootstrap-navwalker.php';
+require_once get_template_directory() . '/functions/lib/class-codeweber-menu-collapse-walker.php';
 require_once get_template_directory() . '/functions/global.php';
 require_once get_template_directory() . '/functions/breadcrumbs.php';
 require_once get_template_directory() . '/functions/cleanup.php';
