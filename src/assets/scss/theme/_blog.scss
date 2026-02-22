@@ -62,6 +62,31 @@ footer [class*="col-"] .widget + .widget {
     color: var(--#{$prefix}primary) !important;
   }
 }
+
+// Collapse menu в сайдбаре: кнопка раскрытия (как toggle_block на Allcorp3)
+.menu-collapse-nav .btn-collapse {
+  padding: 0.25rem 0.5rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  &:hover,
+  &:focus {
+    color: inherit;
+    background: transparent;
+    border: 0;
+  }
+  .toggle_block {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 //----------------------------------------------------------//
 //	COMMENTS
 //----------------------------------------------------------//
