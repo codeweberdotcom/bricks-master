@@ -7,7 +7,8 @@
  * при наличии детей — div.collapse > ul > ...
  *
  * Передавать в wp_nav_menu(): 'walker' => new CodeWeber_Menu_Collapse_Walker(),
- * и кастомные аргументы: wrapper_id, instance_suffix, item_class, link_class, theme_class, top_level_class, depth.
+ * и кастомные аргументы: wrapper_id, instance_suffix, item_class, link_class, theme_class,
+ * top_level_class, top_level_class_start, top_level_class_end, top_level_count, depth.
  *
  * @package Codeweber
  */
@@ -53,6 +54,18 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 		/** @var string Классы только для пунктов верхнего уровня (depth 0) */
 		private $top_level_class = '';
 
+		/** @var string Классы только для первого пункта верхнего уровня */
+		private $top_level_class_start = '';
+
+		/** @var string Классы только для последнего пункта верхнего уровня */
+		private $top_level_class_end = '';
+
+		/** @var int Количество пунктов верхнего уровня (передаётся в $args) */
+		private $top_level_count = 0;
+
+		/** @var int Текущий индекс пункта верхнего уровня (0-based) */
+		private $top_level_index = 0;
+
 		/**
 		 * Инициализация кастомных аргументов из $args при первом вызове start_el (wp_nav_menu передаёт их в объекте $args).
 		 */
@@ -60,13 +73,16 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 			if ( '' !== $this->wrapper_id ) {
 				return;
 			}
-			$this->wrapper_id      = isset( $args->wrapper_id ) ? $args->wrapper_id : '';
-			$this->instance_suffix = isset( $args->instance_suffix ) ? (string) $args->instance_suffix : '';
-			$this->depth_limit     = isset( $args->depth ) ? (int) $args->depth : 0;
-			$this->theme_class       = isset( $args->theme_class ) ? $args->theme_class : '';
-			$this->item_class        = isset( $args->item_class ) ? $args->item_class : '';
-			$this->link_class        = isset( $args->link_class ) ? $args->link_class : '';
-			$this->top_level_class   = isset( $args->top_level_class ) ? $args->top_level_class : '';
+			$this->wrapper_id           = isset( $args->wrapper_id ) ? $args->wrapper_id : '';
+			$this->instance_suffix      = isset( $args->instance_suffix ) ? (string) $args->instance_suffix : '';
+			$this->depth_limit          = isset( $args->depth ) ? (int) $args->depth : 0;
+			$this->theme_class          = isset( $args->theme_class ) ? $args->theme_class : '';
+			$this->item_class           = isset( $args->item_class ) ? $args->item_class : '';
+			$this->link_class           = isset( $args->link_class ) ? $args->link_class : '';
+			$this->top_level_class      = isset( $args->top_level_class ) ? trim( (string) $args->top_level_class ) : '';
+			$this->top_level_class_start = isset( $args->top_level_class_start ) ? trim( (string) $args->top_level_class_start ) : '';
+			$this->top_level_class_end  = isset( $args->top_level_class_end ) ? trim( (string) $args->top_level_class_end ) : '';
+			$this->top_level_count      = isset( $args->top_level_count ) ? (int) $args->top_level_count : 0;
 		}
 
 		/**
@@ -148,9 +164,17 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 			$li_classes = array( 'parent-collapse-item' );
 			if ( 0 === $depth ) {
 				$li_classes[] = 'parent-item';
-				if ( $this->top_level_class ) {
-					$li_classes = array_merge( $li_classes, array_filter( explode( ' ', trim( $this->top_level_class ) ) ) );
+				// Первый — top_level_class_start (если задан), последний — top_level_class_end (если задан), иначе top_level_class
+				$is_first = ( 0 === $this->top_level_index );
+				$is_last  = ( $this->top_level_count > 0 && $this->top_level_index === $this->top_level_count - 1 );
+				if ( $is_first && $this->top_level_class_start !== '' ) {
+					$li_classes = array_merge( $li_classes, array_filter( explode( ' ', $this->top_level_class_start ) ) );
+				} elseif ( $is_last && $this->top_level_class_end !== '' ) {
+					$li_classes = array_merge( $li_classes, array_filter( explode( ' ', $this->top_level_class_end ) ) );
+				} elseif ( $this->top_level_class !== '' ) {
+					$li_classes = array_merge( $li_classes, array_filter( explode( ' ', $this->top_level_class ) ) );
 				}
+				$this->top_level_index++;
 			}
 			if ( $this->item_class ) {
 				$li_classes = array_merge( $li_classes, array_filter( explode( ' ', trim( $this->item_class ) ) ) );

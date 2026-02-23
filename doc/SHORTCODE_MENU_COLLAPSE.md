@@ -25,7 +25,9 @@
 | **depth** | `0` | Глубина вложенности. `0` = без ограничения | 0, 1, 2, 3… |
 | **theme** | `default` | Цвет текста (как в блоке Menu) | `default` / `dark` / `light` |
 | **container_class** | `""` | Доп. CSS-классы для контейнера `<nav>` | любые классы |
-| **top_level_class** | `""` | Доп. CSS-классы только для пунктов меню верхнего уровня (depth 0) | любые классы |
+| **top_level_class** | `""` | Доп. CSS-классы только для пунктов верхнего уровня (depth 0). Не применяется к первому/последнему, если заданы start/end | любые классы |
+| **top_level_class_start** | `""` | Класс только для первого пункта верхнего уровня; если задан, для него не применяется top_level_class | любые классы |
+| **top_level_class_end** | `""` | Класс только для последнего пункта верхнего уровня; если задан, для него не применяется top_level_class | любые классы |
 | **item_class** | `""` | Доп. CSS-классы для всех пунктов `<li>` | любые классы |
 | **link_class** | `""` | Доп. CSS-классы для ссылок `<a>` | любые классы |
 
@@ -53,19 +55,21 @@ echo do_shortcode( '[menu_collapse demo="true" depth="3" theme="dark" container_
 ```php
 <?php
 wp_nav_menu( array(
-	'menu'             => 999999,
-	'depth'            => 3,
-	'container'        => 'nav',
-	'container_class'  => 'menu-collapse-nav mb-4 p-3 rounded',
-	'container_id'     => 'menu-collapse-demo-1',
-	'walker'           => new CodeWeber_Menu_Collapse_Walker(),
-	'theme_class'      => 'text-white',
-	'top_level_class'  => 'border-bottom border-secondary mb-2 pb-2',
-	'item_class'       => 'py-1',
-	'link_class'       => 'fw-bold',
-	'wrapper_id'       => 'menu-collapse-demo-1',
-	'instance_suffix'  => '1',
-	'demo'             => true,
+	'menu'                 => 999999,
+	'depth'                => 3,
+	'container'            => 'nav',
+	'container_class'      => 'menu-collapse-nav mb-4 p-3 rounded',
+	'container_id'         => 'menu-collapse-demo-1',
+	'walker'               => new CodeWeber_Menu_Collapse_Walker(),
+	'theme_class'          => 'text-white',
+	'top_level_class'      => 'border-bottom border-secondary mb-2 pb-2',
+	'top_level_class_start'=> '',
+	'top_level_class_end'   => '',
+	'item_class'           => 'py-1',
+	'link_class'           => 'fw-bold',
+	'wrapper_id'           => 'menu-collapse-demo-1',
+	'instance_suffix'      => '1',
+	'demo'                 => true,
 ) );
 ?>
 ```
@@ -88,19 +92,21 @@ echo do_shortcode( '[menu_collapse demo="true" depth="3" theme="light" container
 ```php
 <?php
 wp_nav_menu( array(
-	'menu'             => 999999,
-	'depth'            => 3,
-	'container'        => 'nav',
-	'container_class'  => 'menu-collapse-nav mb-4 p-3 border rounded',
-	'container_id'     => 'menu-collapse-demo-2',
-	'walker'           => new CodeWeber_Menu_Collapse_Walker(),
-	'theme_class'      => 'text-dark',
-	'top_level_class'  => 'border-bottom mb-2 pb-2',
-	'item_class'       => 'py-1',
-	'link_class'       => 'fw-bold',
-	'wrapper_id'       => 'menu-collapse-demo-2',
-	'instance_suffix'  => '2',
-	'demo'             => true,
+	'menu'                 => 999999,
+	'depth'                => 3,
+	'container'            => 'nav',
+	'container_class'      => 'menu-collapse-nav mb-4 p-3 border rounded',
+	'container_id'         => 'menu-collapse-demo-2',
+	'walker'               => new CodeWeber_Menu_Collapse_Walker(),
+	'theme_class'          => 'text-dark',
+	'top_level_class'      => 'border-bottom mb-2 pb-2',
+	'top_level_class_start'=> '',
+	'top_level_class_end'   => '',
+	'item_class'           => 'py-1',
+	'link_class'           => 'fw-bold',
+	'wrapper_id'           => 'menu-collapse-demo-2',
+	'instance_suffix'      => '2',
+	'demo'                 => true,
 ) );
 ?>
 ```
@@ -123,19 +129,53 @@ echo do_shortcode( '[menu_collapse demo="true" depth="3" theme="light" container
 ```php
 <?php
 wp_nav_menu( array(
-	'menu'             => 999999,
-	'depth'            => 3,
-	'container'        => 'nav',
-	'container_class'  => 'menu-collapse-nav mb-4',
-	'container_id'     => 'menu-collapse-demo-3',
-	'walker'           => new CodeWeber_Menu_Collapse_Walker(),
-	'theme_class'      => 'text-dark',
-	'top_level_class'  => 'border-bottom border-dark mb-1',
-	'item_class'       => 'py-1',
-	'link_class'       => 'text-decoration-none',
-	'wrapper_id'       => 'menu-collapse-demo-3',
-	'instance_suffix'  => '3',
-	'demo'             => true,
+	'menu'                 => 999999,
+	'depth'                => 3,
+	'container'            => 'nav',
+	'container_class'      => 'menu-collapse-nav mb-4',
+	'container_id'         => 'menu-collapse-demo-3',
+	'walker'               => new CodeWeber_Menu_Collapse_Walker(),
+	'theme_class'          => 'text-dark',
+	'top_level_class'      => 'border-bottom border-dark mb-1',
+	'top_level_class_start'=> '',
+	'top_level_class_end'   => '',
+	'item_class'           => 'py-1',
+	'link_class'           => 'text-decoration-none',
+	'wrapper_id'           => 'menu-collapse-demo-3',
+	'instance_suffix'      => '3',
+	'demo'                 => true,
+) );
+?>
+```
+
+---
+
+### 4. С top_level_class_start / top_level_class_end (первый и последний пункт верхнего уровня)
+
+**Shortcode:**
+```
+[menu_collapse demo="true" depth="4" theme="dark" container_class="border border-secondary px-3 rounded" top_level_class="border-bottom border-secondary py-3" item_class="pt-3" link_class="fw-bold" top_level_class_start="" top_level_class_end="py-3"]
+```
+
+**PHP (wp_nav_menu):**
+```php
+<?php
+wp_nav_menu( array(
+	'menu'                 => 999999,
+	'depth'                => 4,
+	'container'            => 'nav',
+	'container_class'      => 'menu-collapse-nav border border-primary p-3 rounded',
+	'container_id'         => 'menu-collapse-demo-1',
+	'walker'               => new CodeWeber_Menu_Collapse_Walker(),
+	'theme_class'          => 'text-white',
+	'top_level_class'      => 'border-bottom border-secondary py-3',
+	'top_level_class_start'=> '',
+	'top_level_class_end'   => 'py-3',
+	'item_class'           => 'pt-3',
+	'link_class'           => 'fw-bold',
+	'wrapper_id'           => 'menu-collapse-demo-1',
+	'instance_suffix'      => '1',
+	'demo'                 => true,
 ) );
 ?>
 ```
@@ -180,16 +220,18 @@ echo do_shortcode( '[menu_collapse demo="true" depth="2" theme="dark"]' );
 ```php
 <?php
 wp_nav_menu( array(
-	'menu'             => 999999,
-	'depth'            => 2,
-	'container'        => 'nav',
-	'container_class'  => 'menu-collapse-nav',
-	'container_id'     => 'menu-collapse-demo-sidebar',
-	'walker'           => new CodeWeber_Menu_Collapse_Walker(),
-	'theme_class'      => 'text-white',
-	'wrapper_id'       => 'menu-collapse-demo-sidebar',
-	'instance_suffix'  => '1',
-	'demo'             => true,
+	'menu'                 => 999999,
+	'depth'                => 2,
+	'container'            => 'nav',
+	'container_class'      => 'menu-collapse-nav',
+	'container_id'         => 'menu-collapse-demo-sidebar',
+	'walker'               => new CodeWeber_Menu_Collapse_Walker(),
+	'theme_class'          => 'text-white',
+	'top_level_class_start'=> '',
+	'top_level_class_end'   => '',
+	'wrapper_id'           => 'menu-collapse-demo-sidebar',
+	'instance_suffix'      => '1',
+	'demo'                 => true,
 ) );
 ?>
 ```

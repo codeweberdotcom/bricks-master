@@ -320,6 +320,8 @@ add_filter( 'wp_nav_menu_objects', 'codeweber_menu_collapse_demo_items', 10, 2 )
  * - theme: цвет текста — default | dark | light (как в блоке Menu). default = без класса, dark = text-white, light = text-dark
  * - container_class: дополнительные классы для контейнера <nav>
  * - top_level_class: дополнительные классы только для пунктов меню верхнего уровня (depth 0)
+ * - top_level_class_start: класс только для первого пункта верхнего уровня (если задан, top_level_class для него не применяется)
+ * - top_level_class_end: класс только для последнего пункта верхнего уровня (если задан, top_level_class для него не применяется)
  * - item_class: дополнительные классы для всех пунктов <li>
  * - link_class: дополнительные классы для ссылок <a>
  *
@@ -330,14 +332,16 @@ add_filter( 'wp_nav_menu_objects', 'codeweber_menu_collapse_demo_items', 10, 2 )
  */
 add_shortcode( 'menu_collapse', function ( $atts ) {
 	$atts = shortcode_atts( array(
-		'menu'            => '',
-		'demo'            => false,
-		'depth'           => 0,
-		'theme'           => 'default',
-		'container_class' => '',
-		'top_level_class' => '',
-		'item_class'      => '',
-		'link_class'      => '',
+		'menu'                 => '',
+		'demo'                 => false,
+		'depth'                => 0,
+		'theme'                => 'default',
+		'container_class'      => '',
+		'top_level_class'      => '',
+		'top_level_class_start' => '',
+		'top_level_class_end'  => '',
+		'item_class'           => '',
+		'link_class'           => '',
 	), $atts, 'menu_collapse' );
 
 	$is_demo = filter_var( $atts['demo'], FILTER_VALIDATE_BOOLEAN );
@@ -373,6 +377,31 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 		$container_class .= ' ' . trim( (string) $atts['container_class'] );
 	}
 
+	// Количество пунктов верхнего уровня для Walker (первый/последний)
+	$top_level_count = 0;
+	if ( ! $is_demo ) {
+		$menu_items = wp_get_nav_menu_items( $menu_id );
+		if ( is_array( $menu_items ) ) {
+			foreach ( $menu_items as $mi ) {
+				if ( 0 === (int) $mi->menu_item_parent ) {
+					$top_level_count++;
+				}
+			}
+		}
+	} else {
+		// demo: пункты подставляются фильтром wp_nav_menu_objects — считаем после применения фильтра
+		$menu_items = wp_get_nav_menu_items( 999999 );
+		$demo_args  = (object) array( 'menu' => 999999, 'demo' => true );
+		$menu_items = apply_filters( 'wp_nav_menu_objects', is_array( $menu_items ) ? $menu_items : array(), $demo_args );
+		if ( is_array( $menu_items ) ) {
+			foreach ( $menu_items as $mi ) {
+				if ( 0 === (int) $mi->menu_item_parent ) {
+					$top_level_count++;
+				}
+			}
+		}
+	}
+
 	$nav_args = array(
 		'menu'             => $menu_id,
 		'depth'            => (int) $atts['depth'],
@@ -386,13 +415,16 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 		'items_wrap'       => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 		'item_spacing'     => 'discard',
 		'walker'           => new CodeWeber_Menu_Collapse_Walker(),
-		'wrapper_id'       => $wrapper_id,
-		'instance_suffix'  => $suffix,
-		'theme_class'      => $theme_class,
-		'top_level_class'  => trim( (string) $atts['top_level_class'] ),
-		'item_class'       => trim( (string) $atts['item_class'] ),
-		'link_class'       => trim( (string) $atts['link_class'] ),
-		'demo'             => $is_demo,
+		'wrapper_id'             => $wrapper_id,
+		'instance_suffix'        => $suffix,
+		'theme_class'            => $theme_class,
+		'top_level_class'        => trim( (string) $atts['top_level_class'] ),
+		'top_level_class_start'  => trim( (string) $atts['top_level_class_start'] ),
+		'top_level_class_end'   => trim( (string) $atts['top_level_class_end'] ),
+		'top_level_count'       => $top_level_count,
+		'item_class'             => trim( (string) $atts['item_class'] ),
+		'link_class'             => trim( (string) $atts['link_class'] ),
+		'demo'                   => $is_demo,
 	);
 
 	$output = wp_nav_menu( $nav_args );
