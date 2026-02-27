@@ -1,6 +1,9 @@
 //----------------------------------------------------------//
 //	ALERTS
 //----------------------------------------------------------//
+.alert.rounded-0 {
+  border-radius: 0;
+}
 .alert-dismissible {
   .btn-close {
     position: absolute !important;

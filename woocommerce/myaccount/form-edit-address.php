@@ -22,7 +22,9 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 	$form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
 	?>
 
-	<form method="post" class="woocommerce-EditAddressForm contact-form<?php echo esc_attr( $form_radius ); ?>" novalidate>
+	<form method="post" class="woocommerce-EditAddressForm contact-form<?php echo esc_attr( $form_radius ); ?>" novalidate
+		data-state-select-classes="form-select<?php echo esc_attr( $form_radius ); ?>"
+		data-state-input-classes="form-control<?php echo esc_attr( $form_radius ); ?> state_select">
 
 		<h3 class="mb-6"><?php echo apply_filters( 'woocommerce_my_account_edit_address_title', $page_title, $load_address ); ?></h3><?php // @codingStandardsIgnoreLine ?>
 
@@ -50,14 +52,14 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 							$custom_attrs[] = esc_attr( $attr ) . '="' . esc_attr( $val ) . '"';
 						}
 					}
-					// Чтобы при смене страны WooCommerce (country-select.js) подставлял наши классы в новое поле state.
+					// Классы для поля state при смене страны (WooCommerce country-select.js). Скрипт темы поправит класс после замены.
 					if ( 'state' === $field['type'] ) {
 						$country_key_attr = $load_address . '_country';
 						$country_val_attr = isset( $address[ $country_key_attr ]['value'] ) ? wc_get_post_data_by_key( $country_key_attr, $address[ $country_key_attr ]['value'] ) : WC()->countries->get_base_country();
 						$states_for_attr  = WC()->countries->get_states( $country_val_attr );
 						$custom_attrs[]   = is_array( $states_for_attr ) && ! empty( $states_for_attr )
-							? 'data-input-classes="form-select"'
-							: 'data-input-classes="form-control state_select"';
+							? 'data-input-classes="form-select' . esc_attr( $form_radius ) . '"'
+							: 'data-input-classes="form-control' . esc_attr( $form_radius ) . ' state_select"';
 					}
 					$custom_attrs_str = implode( ' ', $custom_attrs );
 					$required_mark = ! empty( $field['required'] ) ? ' <span class="required" aria-hidden="true">*</span>' : '';
@@ -83,14 +85,14 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 									<input type="hidden" name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" value="<?php echo esc_attr( $c_key ); ?>" class="country_to_state" readonly="readonly" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
 								</div>
 							<?php else : ?>
-								<label for="<?php echo esc_attr( $field['id'] ); ?>" class="form-label"><?php echo wp_kses_post( $field['label'] ); ?><?php echo $required_mark; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></label>
-								<div class="form-select-wrapper">
-									<select name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" class="form-select<?php echo esc_attr( $form_radius ); ?> country_to_state country_select" data-placeholder="<?php echo esc_attr( $field['placeholder'] ? esc_attr( $field['placeholder'] ) : esc_attr__( 'Select a country / region…', 'woocommerce' ) ); ?>" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+								<div class="form-floating">
+									<select name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" class="form-select<?php echo esc_attr( $form_radius ); ?> country_to_state country_select" aria-label="<?php echo esc_attr( $field['label'] ); ?>" data-placeholder="<?php echo esc_attr( $field['placeholder'] ? esc_attr( $field['placeholder'] ) : esc_attr__( 'Select a country / region…', 'woocommerce' ) ); ?>" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 										<option value=""><?php echo esc_html( $field['placeholder'] ? $field['placeholder'] : __( 'Select a country / region…', 'woocommerce' ) ); ?></option>
 										<?php foreach ( $countries as $ckey => $cvalue ) : ?>
 											<option value="<?php echo esc_attr( $ckey ); ?>" <?php selected( $value, $ckey ); ?>><?php echo esc_html( $cvalue ); ?></option>
 										<?php endforeach; ?>
 									</select>
+									<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo wp_kses_post( $field['label'] ); ?><?php echo $required_mark; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></label>
 								</div>
 							<?php endif; ?>
 						<?php elseif ( 'state' === $field['type'] ) : ?>
@@ -99,7 +101,7 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 								<input type="hidden" name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" value="" class="state_select" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
 							<?php elseif ( is_array( $states ) && ! empty( $states ) ) : ?>
 								<div class="form-floating">
-									<select name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" class="form-select state_select" aria-label="<?php echo esc_attr( $field['label'] ); ?>" data-placeholder="<?php echo esc_attr( $field['placeholder'] ? $field['placeholder'] : esc_attr__( 'Select an option…', 'woocommerce' ) ); ?>" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+									<select name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" class="form-select<?php echo esc_attr( $form_radius ); ?> state_select" aria-label="<?php echo esc_attr( $field['label'] ); ?>" data-placeholder="<?php echo esc_attr( $field['placeholder'] ? $field['placeholder'] : esc_attr__( 'Select an option…', 'woocommerce' ) ); ?>" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 										<option value=""><?php echo esc_html( $field['placeholder'] ? $field['placeholder'] : __( 'Select an option…', 'woocommerce' ) ); ?></option>
 										<?php foreach ( $states as $skey => $svalue ) : ?>
 											<option value="<?php echo esc_attr( $skey ); ?>" <?php selected( $value, $skey ); ?>><?php echo esc_html( $svalue ); ?></option>
@@ -138,6 +140,28 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 		</div>
 
 	</form>
+
+	<script>
+	(function() {
+		var form = document.querySelector('.woocommerce-EditAddressForm');
+		if (!form) return;
+		var selectClasses = form.getAttribute('data-state-select-classes') || 'form-select';
+		var inputClasses = form.getAttribute('data-state-input-classes') || 'form-control state_select';
+		function fixStateFieldClass() {
+			var stateEl = form.querySelector('#billing_state, #shipping_state');
+			if (!stateEl) return;
+			stateEl.setAttribute('class', 'state_select ' + (stateEl.matches('select') ? selectClasses : inputClasses));
+		}
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', fixStateFieldClass);
+		} else {
+			fixStateFieldClass();
+		}
+		if (typeof jQuery !== 'undefined') {
+			jQuery(document.body).on('country_to_state_changed', fixStateFieldClass);
+		}
+	})();
+	</script>
 
 <?php endif; ?>
 

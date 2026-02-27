@@ -252,66 +252,12 @@ form.dark-fields .form-control {
 }
 
 //----------------------------------------------------------//
-//  WooCommerce Edit Address — граница полей (не чёрная от WC)
-//  Переопределяем --wc-form-border-color и фокус — как у полей темы.
+//  WooCommerce Edit Address — только переопределение переменных WC
+//  Чтобы границы и текст не подменялись чёрным от .woocommerce form .form-row .input-text/select.
+//  Остальное — встроенные стили Bootstrap (.form-floating, .form-control, .form-select).
 //----------------------------------------------------------//
 .woocommerce-EditAddressForm,
 .woocommerce-address-fields {
   --wc-form-border-color: #{$input-border-color};
   --wc-form-color-text: #{$gray-600};
-
-  // При фокусе — цвет границы и тень как у .form-control в теме (не чёрные)
-  .input-text:focus,
-  select:focus,
-  .form-floating .form-control:focus,
-  .form-floating .input-text:focus {
-    border-color: $input-focus-border-color;
-    box-shadow: $input-focus-box-shadow;
-    outline: 0;
-  }
-}
-
-//----------------------------------------------------------//
-//  WooCommerce Edit Address — поля form-floating (input, textarea, select)
-//  Цвет текста как у остальных полей, высота единая, лейбл «всплывает» при выборе/вводе.
-//----------------------------------------------------------//
-.woocommerce-EditAddressForm,
-.woocommerce-address-fields {
-  .form-floating .form-control,
-  .form-floating input.form-control {
-    height: $form-floating-height;
-    min-height: $form-floating-height;
-    line-height: $form-floating-line-height;
-    padding: 0.6rem 1rem;
-    padding-top: 0.6rem;
-    padding-bottom: 0.6rem;
-    color: $gray-600 !important;
-    &::placeholder {
-      color: $input-placeholder-color;
-    }
-    &:focus,
-    &:not(:placeholder-shown) {
-      padding-top: $form-floating-input-padding-t + 0.3rem;
-    }
-  }
-  .form-floating .form-select {
-    height: $form-floating-height;
-    min-height: $form-floating-height;
-    padding-top: $form-floating-input-padding-t;
-    padding-bottom: $form-floating-input-padding-b;
-    color: $gray-600 !important;
-  }
-}
-
-//----------------------------------------------------------//
-//  WooCommerce Edit Address — нативный select в .form-select-wrapper (без Select2)
-//  Разметка: .form-select-wrapper > .form-select (см. form-edit-address.php).
-//----------------------------------------------------------//
-.woocommerce-EditAddressForm,
-.woocommerce-address-fields {
-  .form-select-wrapper {
-    .form-select {
-      width: 100%;
-    }
-  }
 }
