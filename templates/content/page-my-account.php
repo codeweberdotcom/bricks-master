@@ -10,6 +10,14 @@ if (class_exists('WooCommerce')) :
       if ( empty( $page_header_title_class ) ) {
          $page_header_title_class = 'display-1';
       }
+      // На подстраницах (Заказы, Адреса и т.д.) — заголовок эндпоинта, иначе заголовок страницы.
+      $endpoint = function_exists('WC') && WC()->query ? WC()->query->get_current_endpoint() : '';
+      if ( $endpoint && function_exists('wc_get_account_menu_items') ) {
+         $menu_items = wc_get_account_menu_items();
+         $page_title = isset( $menu_items[ $endpoint ] ) ? $menu_items[ $endpoint ] : universal_title( false, false );
+      } else {
+         $page_title = universal_title( false, false );
+      }
 ?>
 
       <section class="wrapper bg-navy text-white">
@@ -17,7 +25,7 @@ if (class_exists('WooCommerce')) :
             <div class="row">
                <div class="col-lg-12">
                   <?php get_breadcrumbs('start', 'white'); ?>
-                  <h1 class="<?php echo esc_attr( $page_header_title_class ); ?> text-white mb-3"><?= universal_title(false, false); ?></h1>
+                  <h1 class="<?php echo esc_attr( $page_header_title_class ); ?> text-white mb-3"><?php echo esc_html( $page_title ); ?></h1>
                </div>
             </div>
          </div>

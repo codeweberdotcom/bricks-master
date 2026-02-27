@@ -260,24 +260,32 @@ if (!function_exists('get_breadcrumbs')) {
 }
 
 /**
- * WooCommerce: добавляем «Заказы» в крошки на странице просмотра заказа (view-order).
- * Итог: Главная → Мой аккаунт → Заказы → Заказ № XXX
+ * WooCommerce My Account: исправляем крошки и заголовки.
+ * - Второй пункт крошек — всегда заголовок страницы «Мой аккаунт», не эндпоинта.
+ * - На view-order добавляем «Заказы» перед номером заказа: Главная → Мой аккаунт → Заказы → Заказ № XXX
  */
 if (class_exists('WooCommerce')) {
    add_filter('woocommerce_get_breadcrumb', function ($crumbs, $breadcrumb) {
       if (!is_account_page() || empty($crumbs)) {
          return $crumbs;
       }
-      $endpoint = WC()->query->get_current_endpoint();
-      if ($endpoint !== 'view-order') {
-         return $crumbs;
+      $myaccount_page_id = wc_get_page_id('myaccount');
+      $myaccount_title   = $myaccount_page_id ? get_the_title($myaccount_page_id) : _x('My account', 'breadcrumb', 'woocommerce');
+
+      // Второй пункт (ссылка на my-account) — подменяем заголовок на заголовок страницы.
+      if (isset($crumbs[1]) && is_array($crumbs[1])) {
+         $crumbs[1][0] = $myaccount_title;
       }
-      $orders_url = wc_get_account_endpoint_url('orders');
-      $orders_label = __('Orders', 'woocommerce');
-      $orders_crumb = array($orders_label, $orders_url);
-      $last = array_pop($crumbs);
-      $crumbs[] = $orders_crumb;
-      $crumbs[] = $last;
+
+      $endpoint = WC()->query->get_current_endpoint();
+      if ($endpoint === 'view-order') {
+         $orders_url   = wc_get_account_endpoint_url('orders');
+         $orders_label = __('Orders', 'woocommerce');
+         $orders_crumb = array($orders_label, $orders_url);
+         $last         = array_pop($crumbs);
+         $crumbs[]     = $orders_crumb;
+         $crumbs[]     = $last;
+      }
       return $crumbs;
    }, 10, 2);
 }
