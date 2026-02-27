@@ -1,5 +1,11 @@
 <?php
 
+// Регионы РФ для WooCommerce (на английском, с возможностью перевода).
+add_filter( 'woocommerce_states', function ( $states ) {
+	$states['RU'] = require get_template_directory() . '/functions/woocommerce-states-ru.php';
+	return $states;
+} );
+
 // Тестовый режим способов оплаты: подключается только при включённой опции в Redux (WooCommerce → Payment methods test mode).
 add_filter( 'woocommerce_payment_gateways', function ( $gateways ) {
 	global $opt_name;

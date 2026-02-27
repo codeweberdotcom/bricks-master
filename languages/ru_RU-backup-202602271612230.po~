@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-02-22 09:55+0000\n"
+"PO-Revision-Date: 2026-02-22 10:17+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -2056,9 +2056,8 @@ msgid "Consents"
 msgstr "Согласия"
 
 #: functions/cpt/cpt-offices.php:113
-#, fuzzy
 msgid "Contact Details"
-msgstr "Контактные данные"
+msgstr "Контактные Данные"
 
 #: functions/integrations/cf7.php:532
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:160
@@ -2105,9 +2104,9 @@ msgid "Contact Form 7 submission data anonymized"
 msgstr "Данные отправки формы Contact Form 7 анонимизированы."
 
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:559
-#, fuzzy, php-format
+#, php-format
 msgid "Contact Form 7: %s"
-msgstr "Контактная форма 7: %s"
+msgstr "CF 7: %s"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1752
 msgid "Contact Form 7: Request Callback"
@@ -3544,18 +3543,14 @@ msgid "Email address (required)"
 msgstr "Адрес Email  (обязательно)"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:231
-#, fuzzy
 msgid "Email address used as sender for form submission emails."
 msgstr ""
-"Адрес электронной почты, используемый в качестве отправителя для писем, "
-"отправляемых при подаче форм."
+"Email, используемый в качестве отправителя для писем, отправляемых при "
+"отправке форм."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:225
-#, fuzzy
 msgid "Email address where form submissions will be sent by default."
-msgstr ""
-"Адрес электронной почты, на который будут отправляться подписки формы по "
-"умолчанию."
+msgstr "Email , на который будут отправляться подписки формы по умолчанию."
 
 #: functions/integrations/personal-data-v2/test-providers.php:189
 msgid "Email Address:"
@@ -8179,7 +8174,7 @@ msgstr "Порт"
 #: templates/archives/vacancies/vacancies_1.php:101
 #: templates/archives/vacancies/vacancies_1.php:102
 msgid "Position"
-msgstr "Должность"
+msgstr "Позиция"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:264
 msgid "Position of sidebar on map"
@@ -11961,7 +11956,7 @@ msgstr "Пользователь #"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:125
 msgid "User Account"
-msgstr "Аккаунт"
+msgstr "Аккаунт Пользователя"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:602
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:121
@@ -12675,7 +12670,7 @@ msgstr "Вордпресс-коммерция"
 
 #: functions/cpt/cpt-notifications.php:269
 msgid "WooCommerce Order Success"
-msgstr "Успешная заказ WooCommerce"
+msgstr "Успешный заказ WooCommerce"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:8
 #, fuzzy
@@ -13003,3 +12998,339 @@ msgstr "← Назад к разделу Отправленные"
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:999
 msgid "← Back to Subscriptions"
 msgstr "← Назад к подпискам"
+
+#: woocommerce/myaccount/form-edit-address.php
+msgid "Select an option…"
+msgstr "Выберите параметр…"
+
+#: functions/woocommerce-states-ru.php
+msgid "Adygea"
+msgstr "Адыгея"
+
+#: functions/woocommerce-states-ru.php
+msgid "Altai Republic"
+msgstr "Республика Алтай"
+
+#: functions/woocommerce-states-ru.php
+msgid "Altai Krai"
+msgstr "Алтайский край"
+
+#: functions/woocommerce-states-ru.php
+msgid "Amur Oblast"
+msgstr "Амурская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Arkhangelsk Oblast"
+msgstr "Архангельская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Astrakhan Oblast"
+msgstr "Астраханская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Bashkortostan"
+msgstr "Республика Башкортостан"
+
+#: functions/woocommerce-states-ru.php
+msgid "Belgorod Oblast"
+msgstr "Белгородская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Bryansk Oblast"
+msgstr "Брянская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Buryatia"
+msgstr "Республика Бурятия"
+
+#: functions/woocommerce-states-ru.php
+msgid "Chechnya"
+msgstr "Чеченская Республика"
+
+#: functions/woocommerce-states-ru.php
+msgid "Chelyabinsk Oblast"
+msgstr "Челябинская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Chukotka Autonomous Okrug"
+msgstr "Чукотский автономный округ"
+
+#: functions/woocommerce-states-ru.php
+msgid "Chuvashia"
+msgstr "Чувашская Республика"
+
+#: functions/woocommerce-states-ru.php
+msgid "Dagestan"
+msgstr "Республика Дагестан"
+
+#: functions/woocommerce-states-ru.php
+msgid "Ingushetia"
+msgstr "Республика Ингушетия"
+
+#: functions/woocommerce-states-ru.php
+msgid "Irkutsk Oblast"
+msgstr "Иркутская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Ivanovo Oblast"
+msgstr "Ивановская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kabardino-Balkaria"
+msgstr "Кабардино-Балкарская Республика"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kaliningrad Oblast"
+msgstr "Калининградская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kalmykia"
+msgstr "Республика Калмыкия"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kaluga Oblast"
+msgstr "Калужская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kamchatka Krai"
+msgstr "Камчатский край"
+
+#: functions/woocommerce-states-ru.php
+msgid "Karachay-Cherkessia"
+msgstr "Карачаево-Черкесская Республика"
+
+#: functions/woocommerce-states-ru.php
+msgid "Karelia"
+msgstr "Республика Карелия"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kemerovo Oblast"
+msgstr "Кемеровская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Khabarovsk Krai"
+msgstr "Хабаровский край"
+
+#: functions/woocommerce-states-ru.php
+msgid "Khakassia"
+msgstr "Республика Хакасия"
+
+#: functions/woocommerce-states-ru.php
+msgid "Khanty-Mansi Autonomous Okrug"
+msgstr "Ханты-Мансийский автономный округ — Югра"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kirov Oblast"
+msgstr "Кировская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Komi Republic"
+msgstr "Республика Коми"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kostroma Oblast"
+msgstr "Костромская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Krasnodar Krai"
+msgstr "Краснодарский край"
+
+#: functions/woocommerce-states-ru.php
+msgid "Krasnoyarsk Krai"
+msgstr "Красноярский край"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kurgan Oblast"
+msgstr "Курганская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Kursk Oblast"
+msgstr "Курская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Leningrad Oblast"
+msgstr "Ленинградская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Lipetsk Oblast"
+msgstr "Липецкая область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Magadan Oblast"
+msgstr "Магаданская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Mari El"
+msgstr "Республика Марий Эл"
+
+#: functions/woocommerce-states-ru.php
+msgid "Mordovia"
+msgstr "Республика Мордовия"
+
+#: functions/woocommerce-states-ru.php
+msgid "Moscow Oblast"
+msgstr "Московская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Moscow"
+msgstr "Москва"
+
+#: functions/woocommerce-states-ru.php
+msgid "Murmansk Oblast"
+msgstr "Мурманская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Nenets Autonomous Okrug"
+msgstr "Ненецкий автономный округ"
+
+#: functions/woocommerce-states-ru.php
+msgid "Nizhny Novgorod Oblast"
+msgstr "Нижегородская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Novgorod Oblast"
+msgstr "Новгородская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Novosibirsk Oblast"
+msgstr "Новосибирская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Omsk Oblast"
+msgstr "Омская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Orenburg Oblast"
+msgstr "Оренбургская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Oryol Oblast"
+msgstr "Орловская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Penza Oblast"
+msgstr "Пензенская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Perm Krai"
+msgstr "Пермский край"
+
+#: functions/woocommerce-states-ru.php
+msgid "Primorsky Krai"
+msgstr "Приморский край"
+
+#: functions/woocommerce-states-ru.php
+msgid "Pskov Oblast"
+msgstr "Псковская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Rostov Oblast"
+msgstr "Ростовская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Ryazan Oblast"
+msgstr "Рязанская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Sakha (Yakutia)"
+msgstr "Республика Саха (Якутия)"
+
+#: functions/woocommerce-states-ru.php
+msgid "Sakhalin Oblast"
+msgstr "Сахалинская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Samara Oblast"
+msgstr "Самарская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Saint Petersburg"
+msgstr "Санкт-Петербург"
+
+#: functions/woocommerce-states-ru.php
+msgid "Saratov Oblast"
+msgstr "Саратовская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "North Ossetia–Alania"
+msgstr "Республика Северная Осетия — Алания"
+
+#: functions/woocommerce-states-ru.php
+msgid "Smolensk Oblast"
+msgstr "Смоленская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Stavropol Krai"
+msgstr "Ставропольский край"
+
+#: functions/woocommerce-states-ru.php
+msgid "Sverdlovsk Oblast"
+msgstr "Свердловская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Tambov Oblast"
+msgstr "Тамбовская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Tatarstan"
+msgstr "Республика Татарстан"
+
+#: functions/woocommerce-states-ru.php
+msgid "Tomsk Oblast"
+msgstr "Томская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Tula Oblast"
+msgstr "Тульская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Tver Oblast"
+msgstr "Тверская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Tyumen Oblast"
+msgstr "Тюменская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Tuva"
+msgstr "Республика Тыва"
+
+#: functions/woocommerce-states-ru.php
+msgid "Udmurtia"
+msgstr "Удмуртская Республика"
+
+#: functions/woocommerce-states-ru.php
+msgid "Ulyanovsk Oblast"
+msgstr "Ульяновская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Vladimir Oblast"
+msgstr "Владимирская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Volgograd Oblast"
+msgstr "Волгоградская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Vologda Oblast"
+msgstr "Вологодская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Voronezh Oblast"
+msgstr "Воронежская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Yamalo-Nenets Autonomous Okrug"
+msgstr "Ямало-Ненецкий автономный округ"
+
+#: functions/woocommerce-states-ru.php
+msgid "Yaroslavl Oblast"
+msgstr "Ярославская область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Jewish Autonomous Oblast"
+msgstr "Еврейская автономная область"
+
+#: functions/woocommerce-states-ru.php
+msgid "Zabaykalsky Krai"
+msgstr "Забайкальский край"

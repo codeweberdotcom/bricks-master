@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-02-22 09:56+0000\n"
+"PO-Revision-Date: 2026-02-27 16:15+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -2056,9 +2056,8 @@ msgid "Consents"
 msgstr "Согласия"
 
 #: functions/cpt/cpt-offices.php:113
-#, fuzzy
 msgid "Contact Details"
-msgstr "Контактные данные"
+msgstr "Контактные Данные"
 
 #: functions/integrations/cf7.php:532
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:160
@@ -2105,9 +2104,9 @@ msgid "Contact Form 7 submission data anonymized"
 msgstr "Данные отправки формы Contact Form 7 анонимизированы."
 
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:559
-#, fuzzy, php-format
+#, php-format
 msgid "Contact Form 7: %s"
-msgstr "Контактная форма 7: %s"
+msgstr "CF 7: %s"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1752
 msgid "Contact Form 7: Request Callback"
@@ -3948,7 +3947,6 @@ msgid "Errors:"
 msgstr "Ошибка:"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1120
-#, fuzzy
 msgid "Event"
 msgstr "Событие"
 
@@ -5812,7 +5810,6 @@ msgid "iTunes"
 msgstr "Итунес"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:388
-#, fuzzy
 msgid "JavaScript events"
 msgstr "События JavaScript"
 
@@ -6200,7 +6197,6 @@ msgstr "Долгота"
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:64
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:80
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:96
-#, fuzzy
 msgid "Look, it's on!"
 msgstr "Смотрите, это началось!"
 
@@ -6792,7 +6788,6 @@ msgid "Next"
 msgstr "Следующий"
 
 #: functions/integrations/personal-data-v2/test-providers.php:246
-#, fuzzy
 msgid "Next Steps:"
 msgstr "Следующие шаги:"
 
@@ -8127,7 +8122,6 @@ msgstr "Пожалуйста, перезагрузите страницу, чт�
 
 #: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:178
 #: functions/integrations/codeweber-forms/blocks/form-selector/render.php:24
-#, fuzzy
 msgid "Please select a form in the block settings."
 msgstr "Пожалуйста, выберите форму в настройках блока."
 
@@ -8175,7 +8169,7 @@ msgstr "Порт"
 #: templates/archives/vacancies/vacancies_1.php:101
 #: templates/archives/vacancies/vacancies_1.php:102
 msgid "Position"
-msgstr "Должность"
+msgstr "Позиция"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:264
 msgid "Position of sidebar on map"
@@ -9306,7 +9300,6 @@ msgid "Select a CSV file to import. Maximum file size:"
 msgstr "Выберите CSV-файл для импорта. Максимальный размер файла:"
 
 #: functions/cpt/cpt-notifications.php:149
-#, fuzzy
 msgid "Select a modal to display for this notification"
 msgstr "Выберите модальное окно для отображения этого уведомления."
 
@@ -9446,21 +9439,18 @@ msgid "Select Image"
 msgstr "Выберите изображение"
 
 #: functions/cpt/cpt-notifications.php:359
-#, fuzzy
 msgid "Select Item"
-msgstr "Выберите предмет"
+msgstr "Выберите элемент"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:321
 msgid "Select main button display type"
 msgstr "Выберите тип отображения основной кнопки"
 
 #: functions/cpt/cpt-offices.php:639
-#, fuzzy
 msgid "Select Office Image"
 msgstr "Выберите изображение офиса"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:656
-#, fuzzy
 msgid "Select option"
 msgstr "Выберите вариант"
 
@@ -9529,12 +9519,10 @@ msgid "Select Solid Color"
 msgstr "Выберите Solid цвет"
 
 #: functions/cpt/cpt-notifications.php:413
-#, fuzzy
 msgid "Select specific page/post/archive"
 msgstr "Выберите конкретную страницу/пост/архив"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:391
-#, fuzzy
 msgid "Select style for icon elements (applies only to Icon type)"
 msgstr "Выберите стиль для элементов иконок (применяется только к типу Иконка)"
 
@@ -9551,7 +9539,6 @@ msgid "Select the parent theme"
 msgstr "Выберите родительскую тему"
 
 #: redux-framework/sample/metaboxes.php:504
-#, fuzzy
 msgid "Select the size of the modal window"
 msgstr "Выберите размер модального окна"
 
@@ -9560,17 +9547,14 @@ msgid "Select the status of this testimonial"
 msgstr "Выберите статус этого отзыва"
 
 #: functions/cpt/cpt-notifications.php:276
-#, fuzzy
 msgid "Select the trigger type for opening the modal"
 msgstr "Выберите тип триггера для открытия модального окна."
 
 #: functions/cpt/cpt-notifications.php:353
-#, fuzzy
 msgid "Select the type of page/post/archive"
 msgstr "Выберите тип страницы/поста/архива"
 
 #: functions/integrations/cf7.php:517
-#, fuzzy
 msgid ""
 "Select the type of this form. This will add a data-form-type attribute to "
 "the form wrapper, similar to codeweber forms."
@@ -9600,7 +9584,6 @@ msgid "Select widget side position"
 msgstr "Выберите боковую позицию виджета"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:659
-#, fuzzy
 msgid "Select..."
 msgstr "Выбрать..."
 
@@ -10211,7 +10194,6 @@ msgid "Skype"
 msgstr "Скайп"
 
 #: functions/fetch/getPostCardTemplates.php:98
-#, fuzzy
 msgid "Slider"
 msgstr "Слайдер"
 
@@ -10220,9 +10202,8 @@ msgid "Slider / Spinner"
 msgstr "Слайдер / Спиннер"
 
 #: functions/fetch/getPostCardTemplates.php:98
-#, fuzzy
 msgid "Slider layout with category on image and excerpt"
-msgstr "Слайдер с категорией на изображении и извлечением"
+msgstr "Слайдер с категорией на изображении и описанием"
 
 #: redux-framework/sample/sections/codeweber/footer.php:183
 #: redux-framework/sample/sections/codeweber/header.php:260
@@ -10259,9 +10240,8 @@ msgstr "SMTP Настройки"
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:146
 #: redux-framework/sample/sections/codeweber/socials.php:172
 #: redux-framework/sample/sections/extensions/users.php:182
-#, fuzzy
 msgid "Snapchat"
-msgstr "Снэпчат"
+msgstr "Snapchat"
 
 #: redux-framework/sample/sections/codeweber/footer.php:181
 #: redux-framework/sample/sections/codeweber/header.php:258
@@ -11164,7 +11144,6 @@ msgid "The field desc is NOT visible in customizer."
 msgstr "Поле desc не видно в настраивателе."
 
 #: functions/integrations/image-licenses/image-licenses.php:309
-#, fuzzy
 #| msgid "The following images use this license:"
 msgid "The following media files use this license:"
 msgstr "Следующие изображения используют эту лицензию:"
@@ -11448,7 +11427,6 @@ msgid "Today's Searches"
 msgstr "Сегодняшние поиски"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:255
-#, fuzzy
 msgid "Too many submissions. Please try again in %d minutes."
 msgstr "Слишком много попыток. Пожалуйста, повторите попытку через %d минут."
 
@@ -11957,7 +11935,7 @@ msgstr "Пользователь #"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:125
 msgid "User Account"
-msgstr "Аккаунт"
+msgstr "Аккаунт Пользователя"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:602
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:121
@@ -12671,7 +12649,7 @@ msgstr "Вордпресс-коммерция"
 
 #: functions/cpt/cpt-notifications.php:269
 msgid "WooCommerce Order Success"
-msgstr "Успешная заказ WooCommerce"
+msgstr "Успешный заказ WooCommerce"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:8
 #, fuzzy

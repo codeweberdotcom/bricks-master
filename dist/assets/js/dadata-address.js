@@ -39,12 +39,11 @@
     if (!el) return;
     value = value || '';
     if (el.tagName === 'SELECT') {
-      var opt = Array.prototype.find.call(el.options, function (o) { return o.value === value; });
-      if (opt) {
-        el.value = value;
-        el.dispatchEvent(new Event('change', { bubbles: true }));
-      } else {
-        el.value = value;
+      el.value = value;
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+      // WooCommerce state/country используют Select2 — через jQuery виджет обновит отображение
+      if (typeof jQuery !== 'undefined') {
+        jQuery(el).val(value).trigger('change');
       }
     } else {
       el.value = value;
@@ -125,17 +124,54 @@
         onSelect: function (suggestion) {
           if (debug) log('onSelect:', suggestion.value);
           var d = suggestion.data || {};
+          // Город: город или населённый пункт (село, деревня). Улица+дом — в address_1.
+          var cityDisplay = (d.city || d.settlement || '').trim();
+          var city = (d.city && typeof d.city === 'string') ? d.city : '';
+          var region = (d.region && typeof d.region === 'string') ? d.region : '';
+          var regionIso = (d.region_iso_code && typeof d.region_iso_code === 'string') ? d.region_iso_code : '';
+          var stateCode;
+          if (regionIso === 'UA-43' || (region && region.indexOf('Крым') >= 0)) {
+            stateCode = 'CR';
+          } else if (region && (region.indexOf('Донецк') >= 0 || region.indexOf('ДНР') >= 0)) {
+            stateCode = 'DNR';
+          } else if (region && (region.indexOf('Луганск') >= 0 || region.indexOf('ЛНР') >= 0)) {
+            stateCode = 'LNR';
+          } else if ((region && region.indexOf('Севастополь') >= 0) || (cityDisplay && cityDisplay.indexOf('Севастополь') >= 0) || (regionIso === 'UA-40' && (region.indexOf('Севастополь') >= 0 || (cityDisplay && cityDisplay.indexOf('Севастополь') >= 0)))) {
+            stateCode = 'SEV';
+          } else if (region && (region.indexOf('Запорож') >= 0 || region.indexOf('Запорожська') >= 0) || regionIso === 'UA-40') {
+            stateCode = 'ZAP';
+          } else if (region && (region.indexOf('Херсон') >= 0 || region.indexOf('Херсонська') >= 0) || regionIso === 'UA-65') {
+            stateCode = 'KHE';
+          } else if (regionIso) {
+            stateCode = regionIso.replace(/^RU\-/i, '');
+          } else {
+            stateCode = region;
+          }
+          var stateField = getField(prefix, 'state');
+          log('[Область/район] DaData region:', d.region, 'region_iso_code:', d.region_iso_code, '→ stateCode:', stateCode);
+          log('[Область/район] Поле state:', stateField ? (stateField.tagName + (stateField.id ? '#' + stateField.id : '') + (stateField.name ? ' name=' + stateField.name : '')) : 'не найдено');
+          if (stateField && stateField.tagName === 'SELECT') {
+            var opts = [].map.call(stateField.options, function (o) { return o.value; }).filter(Boolean);
+            log('[Область/район] Варианты в select:', opts.slice(0, 15).join(', ') + (opts.length > 15 ? '… (' + opts.length + ')' : ''));
+            log('[Область/район] stateCode в списке?', opts.indexOf(stateCode) !== -1);
+          }
+          var address1Parts = [d.street_with_type, d.house, d.block].filter(Boolean).map(function (s) { return String(s).trim(); }).filter(Boolean);
+          var address1Line = address1Parts.join(', ');
           if (prefix === 'billing') {
-            jQuery('#billing_city').val(d.city || '');
-            jQuery('#billing_state').val(d.region || '');
+            jQuery('#billing_city').val(cityDisplay);
+            setFieldValue(stateField, stateCode);
+            log('[Область/район] После setFieldValue value=', stateField ? stateField.value : '-');
             jQuery('#billing_postcode').val(d.postal_code || '');
             if (d.country_iso_code) setFieldValue(getField('billing', 'country'), d.country_iso_code);
+            setFieldValue(getField('billing', 'address_1'), address1Line);
             if (d.flat) setFieldValue(getField('billing', 'address_2'), d.flat);
           } else {
-            jQuery('#shipping_city').val(d.city || '');
-            jQuery('#shipping_state').val(d.region || '');
+            jQuery('#shipping_city').val(cityDisplay);
+            setFieldValue(stateField, stateCode);
+            log('[Область/район] После setFieldValue value=', stateField ? stateField.value : '-');
             jQuery('#shipping_postcode').val(d.postal_code || '');
             if (d.country_iso_code) setFieldValue(getField('shipping', 'country'), d.country_iso_code);
+            setFieldValue(getField('shipping', 'address_1'), address1Line);
             if (d.flat) setFieldValue(getField('shipping', 'address_2'), d.flat);
           }
         }

@@ -15,10 +15,11 @@ if ( ! $notices ) {
 	return;
 }
 
+$card_radius = function_exists( 'getThemeCardImageRadius' ) ? getThemeCardImageRadius() : '';
 ?>
 
 <?php foreach ( $notices as $notice ) : ?>
-	<div class="alert alert-danger alert-icon alert-dismissible fade show card-border-top border-red"<?php echo wc_get_notice_data_attr( $notice ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> role="alert">
+	<div class="alert alert-danger alert-icon alert-dismissible fade show card-border-top border-red <?php echo esc_attr( $card_radius ); ?>"<?php echo wc_get_notice_data_attr( $notice ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> role="alert">
 		<i class="uil uil-times-circle text-red"></i>
 		<?php echo wc_kses_notice( $notice['notice'] ); ?>
 		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

@@ -44,6 +44,8 @@
     border-bottom-style: solid;
     border-top-color: inherit;
     border-bottom-color: transparent;
+  }
+  &:not(.rounded-0):after {
     border-top-left-radius: $card-border-radius;
     border-top-right-radius: $card-border-radius;
   }
@@ -52,8 +54,6 @@
     border-bottom-width: calc(#{$card-border-radius} - #{$border-width * 6});
   }
   &.rounded-0:after {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
     border-bottom-width: 0;
   }
 }
@@ -69,6 +69,8 @@
     border-top-style: solid;
     border-bottom-color: inherit;
     border-top-color: transparent;
+  }
+  &:not(.rounded-0):after {
     border-bottom-left-radius: $card-border-radius;
     border-bottom-right-radius: $card-border-radius;
   }
@@ -77,8 +79,6 @@
     border-top-width: calc(#{$card-border-radius} - #{$border-width * 6});
   }
   &.rounded-0:after {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
     border-top-width: 0;
   }
 }
@@ -93,6 +93,8 @@
     border-right-style: solid;
     border-left-color: inherit;
     border-right-color: transparent;
+  }
+  &:not(.rounded-0):after {
     border-top-left-radius: $card-border-radius;
     border-bottom-left-radius: $card-border-radius;
   }
@@ -101,8 +103,6 @@
     border-right-width: calc(#{$card-border-radius} - #{$border-width * 6});
   }
   &.rounded-0:after {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
     border-right-width: 0;
   }
 }
@@ -117,6 +117,8 @@
     border-left-style: solid;
     border-right-color: inherit;
     border-left-color: transparent;
+  }
+  &:not(.rounded-0):after {
     border-top-right-radius: $card-border-radius;
     border-bottom-right-radius: $card-border-radius;
   }
@@ -125,8 +127,6 @@
     border-left-width: calc(#{$card-border-radius} - #{$border-width * 6});
   }
   &.rounded-0:after {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
     border-left-width: 0;
   }
 }

@@ -96,13 +96,16 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 								</div>
 							<?php endif; ?>
 						<?php elseif ( 'state' === $field['type'] ) : ?>
-							<?php $states = $states_arr_s; ?>
+							<?php
+							$states = $states_arr_s;
+							$state_placeholder = $field['placeholder'] ? $field['placeholder'] : __( 'Select an option…', 'codeweber' );
+							?>
 							<?php if ( is_array( $states ) && empty( $states ) ) : ?>
 								<input type="hidden" name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" value="" class="state_select" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> />
 							<?php elseif ( is_array( $states ) && ! empty( $states ) ) : ?>
 								<div class="form-floating">
-									<select name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" class="form-select<?php echo esc_attr( $form_radius ); ?> state_select" aria-label="<?php echo esc_attr( $field['label'] ); ?>" data-placeholder="<?php echo esc_attr( $field['placeholder'] ? $field['placeholder'] : esc_attr__( 'Select an option…', 'woocommerce' ) ); ?>" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-										<option value=""><?php echo esc_html( $field['placeholder'] ? $field['placeholder'] : __( 'Select an option…', 'woocommerce' ) ); ?></option>
+									<select name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" class="form-select<?php echo esc_attr( $form_radius ); ?> state_select" aria-label="<?php echo esc_attr( $field['label'] ); ?>" data-placeholder="<?php echo esc_attr( $state_placeholder ); ?>" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+										<option value=""><?php echo esc_html( $state_placeholder ); ?></option>
 										<?php foreach ( $states as $skey => $svalue ) : ?>
 											<option value="<?php echo esc_attr( $skey ); ?>" <?php selected( $value, $skey ); ?>><?php echo esc_html( $svalue ); ?></option>
 										<?php endforeach; ?>

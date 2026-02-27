@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-22 09:17+0000\n"
+"POT-Creation-Date: 2026-02-27 16:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -15,6 +15,11 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.8.0; wp-6.8.2; php-8.1.10\n"
 "X-Domain: codeweber"
+
+#: woocommerce/order/order-details.php:50
+#, php-format
+msgid " from %1$s order status %2$s."
+msgstr ""
 
 #: functions/demo/demo-offices.php:68
 #, php-format
@@ -296,7 +301,7 @@ msgid ""
 "View: %s"
 msgstr ""
 
-#: templates/singles/staff/staff_2.php:197
+#: functions/shortcodes.php:213 templates/singles/staff/staff_2.php:197
 #: templates/singles/staff/staff_3.php:188
 #: templates/singles/staff/staff_4.php:217
 #: templates/singles/staff/staff_5.php:241
@@ -661,6 +666,10 @@ msgstr ""
 msgid "Advanced Settings"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:13
+msgid "Adygea"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:515
 msgid ""
 "After adding a font, this field will display a code for managing the font's "
@@ -863,6 +872,18 @@ msgstr ""
 msgid "Already have an account?"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:15
+msgid "Altai Krai"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:14
+msgid "Altai Republic"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:16
+msgid "Amur Oblast"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:508
 #: redux-framework/sample/sections/codeweber/demo.php:84
 #: redux-framework/sample/sections/codeweber/demo.php:124
@@ -931,6 +952,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:6
 msgid "API"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:24
+msgid "API ключ из кабинета DaData"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:251
@@ -1038,8 +1063,16 @@ msgstr ""
 msgid "Are you sure?"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:17
+msgid "Arkhangelsk Oblast"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:285
 msgid "Ash"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:18
+msgid "Astrakhan Oblast"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:429
@@ -1213,6 +1246,10 @@ msgstr ""
 msgid "Base Settings"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:19
+msgid "Bashkortostan"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:22
 msgid "Basic data"
 msgstr ""
@@ -1252,6 +1289,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/socials.php:147
 #: redux-framework/sample/sections/extensions/users.php:157
 msgid "Behance"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:20
+msgid "Belgorod Oblast"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:1149
@@ -1382,6 +1423,10 @@ msgstr ""
 msgid "Browser User Agent"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:21
+msgid "Bryansk Oblast"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:355
 msgid "Build DEV"
 msgstr ""
@@ -1393,6 +1438,10 @@ msgstr ""
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:370
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:429
 msgid "Build Route"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:22
+msgid "Buryatia"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:323
@@ -1549,6 +1598,10 @@ msgstr ""
 msgid "CF7 Forms"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:23
+msgid "Chechnya"
+msgstr ""
+
 #: functions/integrations/personal-data-v2/test-providers.php:194
 msgid "Check Data"
 msgstr ""
@@ -1573,6 +1626,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:231
 msgid "Checking..."
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:24
+msgid "Chelyabinsk Oblast"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:329
@@ -1620,6 +1677,14 @@ msgid ""
 "Choose which blocks are available in the Gutenberg editor when creating "
 "forms. \"Minimal\" mode allows only form and form-field blocks, while \"All "
 "Codeweber Blocks\" allows all blocks from Codeweber Gutenberg Blocks plugin."
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:25
+msgid "Chukotka Autonomous Okrug"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:26
+msgid "Chuvashia"
 msgstr ""
 
 #: functions/fetch/getPostCardTemplates.php:72
@@ -1685,6 +1750,11 @@ msgstr ""
 msgid "Clearing..."
 msgstr ""
 
+#: functions/woocommerce-gateway-test.php:45
+msgid ""
+"Click \"Add payment method\" below to save a test card. No real payment."
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:11 functions/cpt/cpt-clients.php:23
 msgid "Client"
 msgstr ""
@@ -1738,7 +1808,7 @@ msgstr ""
 msgid "Clusterer Settings"
 msgstr ""
 
-#: functions/woocommerce.php:38 functions/woocommerce.php:39
+#: functions/woocommerce.php:98 functions/woocommerce.php:99
 msgid "Code from SMS"
 msgstr ""
 
@@ -1898,7 +1968,7 @@ msgstr ""
 msgid "Configure SMTP settings for sending emails from your website."
 msgstr ""
 
-#: functions/woocommerce.php:40
+#: functions/woocommerce.php:100
 msgid "Confirm"
 msgstr ""
 
@@ -2002,6 +2072,10 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:27
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1099
 msgid "Consents"
+msgstr ""
+
+#: functions/shortcodes.php:223
+msgid "Contact"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:113
@@ -2488,8 +2562,20 @@ msgstr ""
 msgid "Customizer Only Option"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:23
+msgid "DaData API Token"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:30
+msgid "DaData Secret (X-Secret)"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/api.php:16
-msgid "DaDaTa Settings"
+msgid "DaData: включить стандартизацию адресов"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:27
+msgid "Dagestan"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:203
@@ -3123,6 +3209,10 @@ msgstr ""
 msgid "Don't have an account?"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:98
+msgid "Donetsk People's Republic"
+msgstr ""
+
 #: templates/post-cards/documents/card_download.php:84
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:699
 msgid "Download"
@@ -3546,6 +3636,10 @@ msgstr ""
 msgid "Enable SMTP"
 msgstr ""
 
+#: functions/woocommerce-gateway-test.php:37
+msgid "Enable test gateway"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:740
 msgid "Enable Testimonial Reply"
 msgstr ""
@@ -3758,6 +3852,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/childtheme.php:141
 msgid "Existing Child Themes"
+msgstr ""
+
+#: functions/lib/class-codeweber-menu-collapse-walker.php:208
+msgid "Expand submenu"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:672
@@ -4320,6 +4418,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/repeater.php:15
 msgid "For full documentation on this field, visit: "
+msgstr ""
+
+#: functions/woocommerce-gateway-test.php:23
+msgid "For testing: add a fake saved payment method."
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:270
@@ -4897,7 +4999,7 @@ msgstr ""
 msgid "Higher values appear on top. Min: 100, Max: 9999, Default: 999"
 msgstr ""
 
-#: functions/breadcrumbs.php:149
+#: functions/breadcrumbs.php:175 functions/shortcodes.php:193
 msgid "Home"
 msgstr ""
 
@@ -5114,7 +5216,7 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:48
+#: redux-framework/sample/sections/codeweber/woocommerce.php:56
 msgid "Image for Login page"
 msgstr ""
 
@@ -5172,6 +5274,10 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:140
 msgid "Info:"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:28
+msgid "Ingushetia"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:387
@@ -5383,6 +5489,10 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:29
+msgid "Irkutsk Oblast"
+msgstr ""
+
 #: templates/content/loop-none.php:10
 msgid ""
 "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
@@ -5402,8 +5512,16 @@ msgstr ""
 msgid "iTunes"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:30
+msgid "Ivanovo Oblast"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:388
 msgid "JavaScript events"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:94
+msgid "Jewish Autonomous Oblast"
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:212 templates/singles/staff/default.php:143
@@ -5425,8 +5543,84 @@ msgstr ""
 msgid "Junior level"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:31
+msgid "Kabardino-Balkaria"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:32
+msgid "Kaliningrad Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:33
+msgid "Kalmykia"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:34
+msgid "Kaluga Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:35
+msgid "Kamchatka Krai"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:36
+msgid "Karachay-Cherkessia"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:37
+msgid "Karelia"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:38
+msgid "Kemerovo Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:39
+msgid "Khabarovsk Krai"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:40
+msgid "Khakassia"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:41
+msgid "Khanty-Mansi Autonomous Okrug"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:101
+msgid "Kherson Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:42
+msgid "Kirov Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:43
+msgid "Komi Republic"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:44
+msgid "Kostroma Oblast"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:64
 msgid "KPP"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:45
+msgid "Krasnodar Krai"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:46
+msgid "Krasnoyarsk Krai"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:47
+msgid "Kurgan Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:48
+msgid "Kursk Oblast"
 msgstr ""
 
 #: functions/integrations/cf7-consents-panel.php:88
@@ -5577,6 +5771,10 @@ msgstr ""
 msgid "Legal Updated"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:49
+msgid "Leningrad Oblast"
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:492
 msgid "License"
 msgstr ""
@@ -5652,11 +5850,11 @@ msgstr ""
 msgid "Light Logo"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:35
+#: redux-framework/sample/sections/codeweber/api.php:60
 msgid "Link to SMS RU Documentation"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:26
+#: redux-framework/sample/sections/codeweber/api.php:51
 msgid "Link to Yandex Developer Console"
 msgstr ""
 
@@ -5675,6 +5873,10 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:267
 msgid "LinkedIn URL"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:50
+msgid "Lipetsk Oblast"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:131
@@ -5776,6 +5978,14 @@ msgstr ""
 msgid "Looks good!"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:99
+msgid "Luhansk People's Republic"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:51
+msgid "Magadan Oblast"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:28
 msgid "Mail.ru"
 msgstr ""
@@ -5830,6 +6040,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:104
 msgid "Map Controls"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:52
+msgid "Mari El"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:80
@@ -5943,6 +6157,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:301
 #: redux-framework/sample/sections/codeweber/header.php:357
 msgid "Menu"
+msgstr ""
+
+#: functions/shortcodes.php:442
+msgid "Menu not found or empty."
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:356
@@ -6073,6 +6291,18 @@ msgstr ""
 msgid "Mon-Fri: 9:00-18:00"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:53
+msgid "Mordovia"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:55
+msgid "Moscow"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:54
+msgid "Moscow Oblast"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:190
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:313
 msgid "moved to trash"
@@ -6081,6 +6311,10 @@ msgstr ""
 #: functions/cpt/cpt-notifications.php:200
 #: functions/cpt/cpt-notifications.php:294
 msgid "ms"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:56
+msgid "Murmansk Oblast"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:288
@@ -6124,6 +6358,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:286
 msgid "Navy"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:57
+msgid "Nenets Autonomous Okrug"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:279
@@ -6314,6 +6552,10 @@ msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:246
 msgid "Next Steps:"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:58
+msgid "Nizhny Novgorod Oblast"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:212
@@ -6727,6 +6969,10 @@ msgstr ""
 msgid "none"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:75
+msgid "North Ossetia–Alania"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:569
 msgid "Not Active"
 msgstr ""
@@ -6788,6 +7034,14 @@ msgstr ""
 #: functions/cpt/cpt-notifications.php:12
 #: functions/cpt/cpt-notifications.php:25
 msgid "Notifications"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:59
+msgid "Novgorod Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:60
+msgid "Novosibirsk Oblast"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:592
@@ -6883,6 +7137,10 @@ msgstr ""
 msgid "OGRN/OGRNIP Date registration"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:61
+msgid "Omsk Oblast"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/page-header.php:287
 msgid "On"
 msgstr ""
@@ -6971,9 +7229,22 @@ msgstr ""
 msgid "Orange"
 msgstr ""
 
+#: woocommerce/order/order-details.php:46
+#, php-format
+msgid "Order info #%s"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/footer.php:290
 #: redux-framework/sample/sections/codeweber/header.php:346
 msgid "Order items in side menu"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:62
+msgid "Orenburg Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:63
+msgid "Oryol Oblast"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:95
@@ -7100,7 +7371,7 @@ msgstr ""
 msgid "Page Not Found"
 msgstr ""
 
-#: functions/breadcrumbs.php:226
+#: functions/breadcrumbs.php:252
 msgid "Page not found"
 msgstr ""
 
@@ -7279,6 +7550,10 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/woocommerce.php:47
+msgid "Payment methods test mode"
+msgstr ""
+
 #: functions/integrations/personal-data-v2/test-providers.php:24
 msgid "PD Providers Test"
 msgstr ""
@@ -7305,6 +7580,14 @@ msgstr ""
 
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:499
 msgid "Pending Confirmation"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:64
+msgid "Penza Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:65
+msgid "Perm Krai"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:265
@@ -7445,20 +7728,20 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: functions/woocommerce.php:30 functions/woocommerce.php:50
+#: functions/woocommerce.php:90 functions/woocommerce.php:110
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1348
 msgid "Phone number"
 msgstr ""
 
-#: functions/woocommerce.php:19
+#: functions/woocommerce.php:79
 msgid "Phone number is not specified"
 msgstr ""
 
-#: functions/woocommerce.php:23
+#: functions/woocommerce.php:83
 msgid "Phone number is not verified"
 msgstr ""
 
-#: functions/woocommerce.php:21
+#: functions/woocommerce.php:81
 msgid "Phone number is verified"
 msgstr ""
 
@@ -7741,6 +8024,10 @@ msgstr ""
 msgid "Primary font must be selected in the first column"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:66
+msgid "Primorsky Krai"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:182
 msgid "Privacy Data"
 msgstr ""
@@ -7809,6 +8096,10 @@ msgstr ""
 msgid "Provider Name"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:67
+msgid "Pskov Oblast"
+msgstr ""
+
 #: functions/admin/admin_privacy.php:1705
 msgid "Public Offer Agreement"
 msgstr ""
@@ -7836,10 +8127,6 @@ msgstr ""
 msgid "Purpose of processing"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:17
-msgid "Put DaDaTa API key"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:71
 msgid "Put Facebook Pixel Code"
 msgstr ""
@@ -7860,11 +8147,11 @@ msgstr ""
 msgid "Put Other Analytics Code"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:34
+#: redux-framework/sample/sections/codeweber/api.php:59
 msgid "Put SMS RU API Map key"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:25
+#: redux-framework/sample/sections/codeweber/api.php:50
 msgid "Put Yandex API Map key"
 msgstr ""
 
@@ -8158,6 +8445,10 @@ msgstr ""
 msgid "Replace existing label text with default text for this document?"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:96
+msgid "Republic of Crimea"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:233
 msgid "Required"
 msgstr ""
@@ -8302,6 +8593,10 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:68
+msgid "Rostov Oblast"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:189
 #: redux-framework/sample/sections/codeweber/header.php:88
 msgid "rounded"
@@ -8348,8 +8643,32 @@ msgstr ""
 msgid "Rutube"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:69
+msgid "Ryazan Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:73
+msgid "Saint Petersburg"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:70
+msgid "Sakha (Yakutia)"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:71
+msgid "Sakhalin Oblast"
+msgstr ""
+
 #: functions/cpt/cpt-vacancies.php:243
 msgid "Salary"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:72
+msgid "Samara Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:74
+msgid "Saratov Oblast"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:64
@@ -8514,7 +8833,7 @@ msgstr ""
 msgid "Search query saved"
 msgstr ""
 
-#: functions/breadcrumbs.php:224
+#: functions/breadcrumbs.php:250
 #, php-format
 msgid "Search results for \"%s\""
 msgstr ""
@@ -8644,6 +8963,10 @@ msgstr ""
 msgid ""
 "Select a registered user. Their name, email, and avatar will be used "
 "automatically."
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-address.php:101
+msgid "Select an option…"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:404
@@ -9064,9 +9387,9 @@ msgstr ""
 msgid "Service updated"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:808 functions/cpt/cpt-services.php:9
-#: functions/cpt/cpt-services.php:11 functions/cpt/cpt-services.php:12
-#: functions/cpt/cpt-services.php:38
+#: functions/shortcodes.php:203 functions/cpt/cpt-offices.php:808
+#: functions/cpt/cpt-services.php:9 functions/cpt/cpt-services.php:11
+#: functions/cpt/cpt-services.php:12 functions/cpt/cpt-services.php:38
 msgid "Services"
 msgstr ""
 
@@ -9163,6 +9486,10 @@ msgstr ""
 msgid "Settlement Account"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:97
+msgid "Sevastopol"
+msgstr ""
+
 #: functions/bootstrap/bootstrap_share-page.php:98
 msgid "Share"
 msgstr ""
@@ -9180,6 +9507,10 @@ msgstr ""
 #: functions/cpt/cpt-html_blocks.php:99
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:191
 msgid "Shortcode"
+msgstr ""
+
+#: functions/shortcodes.php:350
+msgid "Shortcode [menu_collapse]: specify menu= (ID or slug) or demo=\"true\"."
 msgstr ""
 
 #. Заголовок страницы
@@ -9281,6 +9612,12 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:111
 msgid "Show \"My location\" button on the map"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php:48
+msgid ""
+"Show \"Payment methods\" in My Account and enable test gateway (no "
+"registration)."
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:91
@@ -9485,7 +9822,11 @@ msgstr ""
 msgid "Small (modal-sm)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:33
+#: functions/woocommerce-states-ru.php:76
+msgid "Smolensk Oblast"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:58
 msgid "SMS RU Settings"
 msgstr ""
 
@@ -9697,6 +10038,10 @@ msgstr ""
 msgid "Status:"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:77
+msgid "Stavropol Krai"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:157
 #: redux-framework/sample/sections/codeweber/socials.php:241
 #: redux-framework/sample/sections/extensions/users.php:251
@@ -9723,6 +10068,38 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:233
 msgid "Style of cluster icons"
+msgstr ""
+
+#: functions/shortcodes.php:233
+msgid "Subitem 1.1"
+msgstr ""
+
+#: functions/shortcodes.php:263
+msgid "Subitem 1.1.1"
+msgstr ""
+
+#: functions/shortcodes.php:293
+msgid "Subitem 1.1.1.1"
+msgstr ""
+
+#: functions/shortcodes.php:303
+msgid "Subitem 1.1.1.2"
+msgstr ""
+
+#: functions/shortcodes.php:273
+msgid "Subitem 1.1.2"
+msgstr ""
+
+#: functions/shortcodes.php:243
+msgid "Subitem 1.2"
+msgstr ""
+
+#: functions/shortcodes.php:253
+msgid "Subitem 2.1"
+msgstr ""
+
+#: functions/shortcodes.php:283
+msgid "Subitem 2.1.1"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:358
@@ -10042,6 +10419,10 @@ msgstr ""
 msgid "Surname"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:78
+msgid "Sverdlovsk Oblast"
+msgstr ""
+
 #: functions/integrations/redux_framework/redux_framework.php:92
 #: redux-framework/sample/sections/codeweber/legal.php:147
 msgid "Systematization Data"
@@ -10068,12 +10449,20 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:79
+msgid "Tambov Oblast"
+msgstr ""
+
 #: functions/integrations/project-gallery-metabox.php:148
 msgid "Tap to cancel"
 msgstr ""
 
 #: functions/integrations/project-gallery-metabox.php:149
 msgid "Tap to undo"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:80
+msgid "Tatarstan"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:87
@@ -10124,6 +10513,10 @@ msgstr ""
 msgid "Terms of Use"
 msgstr ""
 
+#: functions/woocommerce-gateway-test.php:20
+msgid "Test (no registration)"
+msgstr ""
+
 #: functions/integrations/personal-data-v2/test-providers.php:249
 msgid "Test data anonymization (use test email only!)"
 msgstr ""
@@ -10150,6 +10543,15 @@ msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:248
 msgid "Test Export"
+msgstr ""
+
+#: functions/woocommerce-gateway-test.php:21
+msgid ""
+"Test gateway to add payment methods in My Account. No API or signup required."
+msgstr ""
+
+#: functions/woocommerce-gateway-test.php:22
+msgid "Test payment"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:223
@@ -10603,6 +11005,10 @@ msgstr ""
 msgid "Today's Searches"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:81
+msgid "Tomsk Oblast"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:255
 msgid "Too many submissions. Please try again in %d minutes."
 msgstr ""
@@ -10695,10 +11101,22 @@ msgstr ""
 msgid "Trigger Type"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:82
+msgid "Tula Oblast"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:153
 #: redux-framework/sample/sections/codeweber/socials.php:216
 #: redux-framework/sample/sections/extensions/users.php:226
 msgid "Tumblr"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:85
+msgid "Tuva"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:83
+msgid "Tver Oblast"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:149
@@ -10783,6 +11201,18 @@ msgstr ""
 
 #: functions/cpt/cpt-services.php:110 functions/cpt/cpt-services.php:115
 msgid "Types"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:84
+msgid "Tyumen Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:86
+msgid "Udmurtia"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:87
+msgid "Ulyanovsk Oblast"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:83
@@ -11287,7 +11717,7 @@ msgstr ""
 msgid "Verified"
 msgstr ""
 
-#: functions/woocommerce.php:31
+#: functions/woocommerce.php:91
 msgid "Verify"
 msgstr ""
 
@@ -11566,6 +11996,22 @@ msgstr ""
 msgid "Vkontakte"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:88
+msgid "Vladimir Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:89
+msgid "Volgograd Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:90
+msgid "Vologda Oblast"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:91
+msgid "Voronezh Oblast"
+msgstr ""
+
 #: functions/integrations/ajax-search-module/search-statistics.php:680
 msgid "Warning:"
 msgstr ""
@@ -11802,12 +12248,16 @@ msgstr ""
 msgid "Yahoo"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:92
+msgid "Yamalo-Nenets Autonomous Okrug"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:26
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:15
 msgid "Yandex"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:24
+#: redux-framework/sample/sections/codeweber/api.php:49
 msgid "Yandex API Map Settings"
 msgstr ""
 
@@ -11841,6 +12291,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:22
 msgid "Yandex Metric Settings"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:93
+msgid "Yaroslavl Oblast"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:273
@@ -11978,6 +12432,14 @@ msgstr ""
 msgid "Z-Index"
 msgstr ""
 
+#: functions/woocommerce-states-ru.php:95
+msgid "Zabaykalsky Krai"
+msgstr ""
+
+#: functions/woocommerce-states-ru.php:100
+msgid "Zaporizhzhia Oblast"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:31
 msgid "Zoho"
 msgstr ""
@@ -11989,6 +12451,79 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:118
 msgid "Zoom level of the map"
+msgstr ""
+
+#: functions/enqueues.php:537
+msgid "Введите адрес в поле «Адрес» и нажмите кнопку проверки."
+msgstr ""
+
+#: functions/integrations/dadata/class-codeweber-dadata.php:109
+#: functions/integrations/dadata/dadata-ajax.php:33
+msgid "Введите адрес для проверки."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:38
+msgid "Выберите страницы с формой адреса"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:37
+msgid "Где показывать кнопку «Проверить адрес»"
+msgstr ""
+
+#: functions/integrations/dadata/class-codeweber-dadata.php:178
+msgid "Не удалось разобрать адрес. Проверьте ввод или введите адрес вручную."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:42
+msgid "Оформление заказа (чекаут)"
+msgstr ""
+
+#: functions/integrations/dadata/dadata-ajax.php:19
+msgid "Ошибка безопасности. Обновите страницу и попробуйте снова."
+msgstr ""
+
+#: functions/enqueues.php:539
+msgid "Ошибка сети. Попробуйте позже."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:17
+msgid "Проверка и автозаполнение адреса через DaData (только Россия)"
+msgstr ""
+
+#: functions/enqueues.php:538
+msgid "Проверка…"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:41
+msgid "Редактирование адреса (Мой аккаунт)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:31
+msgid "Секретный ключ для clean/address (не передаётся в браузер)"
+msgstr ""
+
+#: functions/integrations/dadata/class-codeweber-dadata.php:258
+#: functions/integrations/dadata/class-codeweber-dadata.php:300
+#: functions/integrations/dadata/class-codeweber-dadata.php:314
+#: functions/integrations/dadata/class-codeweber-dadata.php:322
+msgid "Сервис подсказок адресов временно недоступен."
+msgstr ""
+
+#: functions/integrations/dadata/class-codeweber-dadata.php:100
+#: functions/integrations/dadata/class-codeweber-dadata.php:141
+#: functions/integrations/dadata/class-codeweber-dadata.php:153
+#: functions/integrations/dadata/class-codeweber-dadata.php:169
+#: functions/integrations/dadata/dadata-ajax.php:25
+msgid "Сервис проверки адреса временно недоступен."
+msgstr ""
+
+#: functions/integrations/dadata/dadata-ajax.php:28
+msgid "Сервис проверки адреса отключён."
+msgstr ""
+
+#: functions/integrations/dadata/class-codeweber-dadata.php:161
+#: functions/integrations/dadata/class-codeweber-dadata.php:313
+msgid "Слишком много запросов. Повторите через несколько секунд."
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:576

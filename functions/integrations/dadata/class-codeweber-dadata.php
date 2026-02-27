@@ -197,8 +197,27 @@ class Codeweber_Dadata {
 	 */
 	protected function map_dadata_to_woocommerce( $item ) {
 		$country_iso = isset( $item['country_iso_code'] ) ? $item['country_iso_code'] : 'RU';
-		$region      = isset( $item['region'] ) ? $item['region'] : '';
+		$region_name = isset( $item['region'] ) ? $item['region'] : '';
+		$region_iso  = isset( $item['region_iso_code'] ) ? $item['region_iso_code'] : '';
 		$city        = isset( $item['city'] ) ? $item['city'] : '';
+		// Крым, Севастополь (приоритет перед UA-40), ДНР, ЛНР, Запорожская, Херсонская — маппинг в коды WooCommerce.
+		if ( $region_iso === 'UA-43' || ( $region_name && strpos( $region_name, 'Крым' ) !== false ) ) {
+			$region = 'CR';
+		} elseif ( ( $region_name && strpos( $region_name, 'Севастополь' ) !== false ) || ( $city && strpos( $city, 'Севастополь' ) !== false ) ) {
+			$region = 'SEV';
+		} elseif ( $region_name && ( strpos( $region_name, 'Донецк' ) !== false || strpos( $region_name, 'ДНР' ) !== false ) ) {
+			$region = 'DNR';
+		} elseif ( $region_name && ( strpos( $region_name, 'Луганск' ) !== false || strpos( $region_name, 'ЛНР' ) !== false ) ) {
+			$region = 'LNR';
+		} elseif ( ( $region_name && ( strpos( $region_name, 'Запорож' ) !== false || strpos( $region_name, 'Запорожська' ) !== false ) ) || $region_iso === 'UA-40' ) {
+			$region = 'ZAP';
+		} elseif ( ( $region_name && ( strpos( $region_name, 'Херсон' ) !== false || strpos( $region_name, 'Херсонська' ) !== false ) ) || $region_iso === 'UA-65' ) {
+			$region = 'KHE';
+		} elseif ( $region_iso !== '' ) {
+			$region = preg_replace( '/^RU\-/i', '', $region_iso );
+		} else {
+			$region = $region_name;
+		}
 		if ( empty( $city ) && ! empty( $item['settlement'] ) ) {
 			$city = $item['settlement'];
 		}
