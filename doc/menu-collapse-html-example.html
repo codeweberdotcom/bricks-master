@@ -1,0 +1,66 @@
+<!--
+  Пример разметки вертикального collapse-меню (navbar-vertical).
+  Без классов Bootstrap: все стили в theme/_nav.scss, переменные в _variables.scss (NAVBAR VERTICAL).
+  Классы: navbar-vertical, navbar-nav, nav-item, nav-link, menu-collapse-1 / menu-collapse-2.
+  Для темы (цвет): navbar-vertical-light или navbar-vertical-dark на nav.
+  Класс "collapse" / "collapse show" оставлен для Bootstrap JS.
+-->
+
+<!-- Вариант 1: компактный (menu-collapse-1), светлая тема -->
+<nav id="menu-collapse-walker-demo-1" class="navbar-vertical menu-collapse-nav navbar-vertical-light">
+  <ul class="navbar-nav menu-collapse-1">
+    <li class="nav-item parent-collapse-item parent-item collapse-has-children">
+      <div class="menu-collapse-row">
+        <a href="#" class="nav-link">Главная</a>
+        <button type="button" class="btn-collapse" data-bs-toggle="collapse" data-bs-target="#menu-collapse-item-90001-1" aria-expanded="false" aria-controls="menu-collapse-item-90001-1" aria-label="Expand submenu">
+          <span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span>
+        </button>
+      </div>
+      <div class="collapse" id="menu-collapse-item-90001-1" data-bs-parent="#menu-collapse-walker-demo-1">
+        <ul class="navbar-nav menu-collapse-1">
+          <li class="nav-item parent-collapse-item"><a href="#" class="nav-link">Subitem 1.1</a></li>
+          <li class="nav-item parent-collapse-item"><a href="#" class="nav-link">Subitem 1.2</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item parent-collapse-item parent-item collapse-has-children">
+      <div class="menu-collapse-row">
+        <a href="#" class="nav-link">Услуги</a>
+        <button type="button" class="btn-collapse" data-bs-toggle="collapse" data-bs-target="#menu-collapse-item-90002-1" aria-expanded="false" aria-controls="menu-collapse-item-90002-1" aria-label="Expand submenu">
+          <span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span>
+        </button>
+      </div>
+      <div class="collapse" id="menu-collapse-item-90002-1" data-bs-parent="#menu-collapse-walker-demo-1">
+        <ul class="navbar-nav menu-collapse-1">
+          <li class="nav-item parent-collapse-item"><a href="#" class="nav-link">Subitem 2.1</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link">О нас</a></li>
+    <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Вариант 2: с рамками (menu-collapse-2), светлая тема -->
+<nav id="menu-collapse-walker-demo-2" class="navbar-vertical menu-collapse-nav navbar-vertical-light">
+  <ul class="navbar-nav menu-collapse-2">
+    <li class="nav-item parent-collapse-item parent-item">
+      <a href="/legal/" class="nav-link">Юридические документы</a>
+    </li>
+    <li class="nav-item parent-collapse-item parent-item collapse-has-children">
+      <div class="menu-collapse-row">
+        <a href="/colors/" class="nav-link">Colors</a>
+        <button type="button" class="btn-collapse" data-bs-toggle="collapse" data-bs-target="#menu-collapse-item-2008-2" aria-expanded="false" aria-controls="menu-collapse-item-2008-2" aria-label="Expand submenu">
+          <span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span>
+        </button>
+      </div>
+      <div class="collapse" id="menu-collapse-item-2008-2" data-bs-parent="#menu-collapse-walker-demo-2">
+        <ul class="navbar-nav menu-collapse-2">
+          <li class="nav-item parent-collapse-item"><a href="/typography/" class="nav-link">Typography</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item parent-collapse-item parent-item"><a href="/blog/" class="nav-link">Blog</a></li>
+    <li class="nav-item parent-collapse-item parent-item"><a href="/vacancies/" class="nav-link">Все вакансии</a></li>
+  </ul>
+</nav>

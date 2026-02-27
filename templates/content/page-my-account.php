@@ -6,14 +6,18 @@ if (class_exists('WooCommerce')) :
       the_post();
       global $opt_name;
       $login_page_image = Redux::get_option($opt_name, 'image_login_page')['url'];
+      $page_header_title_class = Redux::get_option($opt_name, 'opt-select-title-size');
+      if ( empty( $page_header_title_class ) ) {
+         $page_header_title_class = 'display-1';
+      }
 ?>
 
       <section class="wrapper bg-navy text-white">
-         <div class="container pt-18 pt-md-16 pb-21 pb-md-21">
+         <div class="container pt-8 pt-md-12 pb-21 pb-md-21">
             <div class="row">
                <div class="col-lg-12">
-                  <h1 class="display-1 text-white mb-3"><?= universal_title(false, false); ?></h1>
-                  <?php get_breadcrumbs('start', 'white', 'mb-0'); ?>
+                  <?php get_breadcrumbs('start', 'white'); ?>
+                  <h1 class="<?php echo esc_attr( $page_header_title_class ); ?> text-white mb-3"><?= universal_title(false, false); ?></h1>
                </div>
             </div>
          </div>
@@ -32,7 +36,7 @@ if (class_exists('WooCommerce')) :
                               $login_page_image = get_template_directory_uri() . '/dist/assets/img/photos/tm3.jpg';
                            }
                            ?>
-                           <div class="col image-wrapper bg-image bg-cover rounded-top rounded-lg-start d-none d-md-block" data-image-src="<?php echo esc_url($login_page_image); ?>">
+                           <div class="col image-wrapper bg-image bg-cover rounded-top rounded-lg-start d-none d-md-block<?php echo $myaccount_card_radius ? ' ' . esc_attr( $myaccount_card_radius ) : ''; ?>" data-image-src="<?php echo esc_url($login_page_image); ?>">
                            </div>
                         <?php endif; ?>
                         <div class="col">

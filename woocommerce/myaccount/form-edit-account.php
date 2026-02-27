@@ -18,6 +18,8 @@
 
 defined('ABSPATH') || exit;
 
+$form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
+
 /**
  * Hook - woocommerce_before_edit_account_form.
  *
@@ -35,28 +37,28 @@ do_action('woocommerce_before_edit_account_form');
 		<h3 class="mb-6"><?php esc_html_e('Personal data', 'codeweber'); ?></h3>
 		<div class="col-md-6">
 			<div class="form-floating mb-4">
-				<input type="text" class="form-control" name="account_first_name" id="account_first_name" placeholder="<?php esc_attr_e('First name', 'woocommerce'); ?>" autocomplete="given-name" value="<?php echo esc_attr($user->first_name); ?>" aria-required="true">
+				<input type="text" class="form-control<?php echo esc_attr( $form_radius ); ?>" name="account_first_name" id="account_first_name" placeholder="<?php esc_attr_e('First name', 'woocommerce'); ?>" autocomplete="given-name" value="<?php echo esc_attr($user->first_name); ?>" aria-required="true">
 				<label for="account_first_name"><?php esc_html_e('First name', 'woocommerce'); ?> *</label>
 			</div>
 		</div>
 
 		<div class="col-md-6">
 			<div class="form-floating mb-4">
-				<input type="text" class="form-control" name="account_last_name" id="account_last_name" placeholder="<?php esc_attr_e('Last name', 'woocommerce'); ?>" autocomplete="family-name" value="<?php echo esc_attr($user->last_name); ?>" aria-required="true">
+				<input type="text" class="form-control<?php echo esc_attr( $form_radius ); ?>" name="account_last_name" id="account_last_name" placeholder="<?php esc_attr_e('Last name', 'woocommerce'); ?>" autocomplete="family-name" value="<?php echo esc_attr($user->last_name); ?>" aria-required="true">
 				<label for="account_last_name"><?php esc_html_e('Last name', 'woocommerce'); ?> *</label>
 			</div>
 		</div>
 
 		<div class="col-md-6">
 			<div class="form-floating mb-4">
-				<input type="text" class="form-control" name="account_display_name" id="account_display_name" placeholder="<?php esc_attr_e('Display name', 'woocommerce'); ?>" value="<?php echo esc_attr($user->display_name); ?>" aria-required="true">
+				<input type="text" class="form-control<?php echo esc_attr( $form_radius ); ?>" name="account_display_name" id="account_display_name" placeholder="<?php esc_attr_e('Display name', 'woocommerce'); ?>" value="<?php echo esc_attr($user->display_name); ?>" aria-required="true">
 				<label for="account_display_name"><?php esc_html_e('Display name', 'woocommerce'); ?> *</label>
 			</div>
 		</div>
 
 		<div class="col-md-6">
 			<div class="form-floating mb-4">
-				<input type="email" class="form-control" name="account_email" id="account_email" placeholder="<?php esc_attr_e('Email address', 'woocommerce'); ?>" autocomplete="email" value="<?php echo esc_attr($user->user_email); ?>" aria-required="true">
+				<input type="email" class="form-control<?php echo esc_attr( $form_radius ); ?>" name="account_email" id="account_email" placeholder="<?php esc_attr_e('Email address', 'woocommerce'); ?>" autocomplete="email" value="<?php echo esc_attr($user->user_email); ?>" aria-required="true">
 				<label for="account_email"><?php esc_html_e('Email address', 'woocommerce'); ?> *</label>
 			</div>
 		</div>
@@ -80,7 +82,7 @@ do_action('woocommerce_before_edit_account_form');
 		<div class="form-floating mb-4 password-field">
 			<input
 				type="password"
-				class="form-control"
+				class="form-control<?php echo esc_attr( $form_radius ); ?>"
 				name="password_current"
 				id="password_current"
 				autocomplete="current-password"
@@ -92,7 +94,7 @@ do_action('woocommerce_before_edit_account_form');
 		<div class="form-floating mb-4 password-field">
 			<input
 				type="password"
-				class="form-control"
+				class="form-control<?php echo esc_attr( $form_radius ); ?>"
 				name="password_1"
 				id="password_1"
 				autocomplete="off"
@@ -104,7 +106,7 @@ do_action('woocommerce_before_edit_account_form');
 		<div class="form-floating mb-4 password-field">
 			<input
 				type="password"
-				class="form-control"
+				class="form-control<?php echo esc_attr( $form_radius ); ?>"
 				name="password_2"
 				id="password_2"
 				autocomplete="new-password"

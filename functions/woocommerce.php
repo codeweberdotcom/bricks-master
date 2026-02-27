@@ -67,6 +67,8 @@ add_action('woocommerce_edit_account_form_fields', function () {
    $phone    = get_user_meta($user_id, 'phone', true);
    $verified = get_user_meta($user_id, 'phone_verified', true);
 
+   $form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
+
    global $opt_name;
    $woophonenumber     = Redux::get_option($opt_name, 'woophonenumber');
    $woophonenumbersms  = Redux::get_option($opt_name, 'woophonenumbersms');
@@ -86,7 +88,7 @@ add_action('woocommerce_edit_account_form_fields', function () {
          <div class="col-md-6">
 
             <div class="form-floating mb-2 d-flex align-items-start gap-2">
-               <input type="text" name="account_phone" id="account_phone" class="form-control phone-mask" placeholder="+7(000)000-00-00" value="<?php echo esc_attr($phone); ?>">
+               <input type="text" name="account_phone" id="account_phone" class="form-control<?php echo esc_attr( $form_radius ); ?> phone-mask" placeholder="+7(000)000-00-00" value="<?php echo esc_attr($phone); ?>">
                <label for="account_phone"><?php esc_html_e('Phone number', 'codeweber'); ?></label>
                <button type="button" class="btn btn-navy btn-lg" id="send-verification-code"><span class="d-block d-md-none"><i class="uil uil-angle-right"></i></span><span class="d-none d-md-block"><?php esc_html_e('Verify', 'codeweber'); ?></span></button>
             </div>
@@ -95,7 +97,7 @@ add_action('woocommerce_edit_account_form_fields', function () {
 
          <div id="verify-section" class="mb-3 col-md-6" style="display: none;">
             <div class="form-floating mb-2 d-flex align-items-start gap-2">
-               <input type="text" id="phone_verification_code" class="form-control" placeholder="<?php esc_attr_e('Code from SMS', 'codeweber'); ?>">
+               <input type="text" id="phone_verification_code" class="form-control<?php echo esc_attr( $form_radius ); ?>" placeholder="<?php esc_attr_e('Code from SMS', 'codeweber'); ?>">
                <label for="phone_verification_code"><?php esc_html_e('Code from SMS', 'codeweber'); ?></label>
                <button type="button" class="btn btn-green btn-lg" id="confirm-verification-code"><?php esc_html_e('Confirm', 'codeweber'); ?></button>
             </div>
@@ -106,7 +108,7 @@ add_action('woocommerce_edit_account_form_fields', function () {
    <?php } elseif ($woophonenumber && !$woophonenumbersms) {
    ?>
       <div class="form-floating mb-4">
-         <input type="text" class="form-control phone-mask" name="account_phone" id="account_phone" value="<?php echo esc_attr($phone); ?>" placeholder="+7 (___) ___-__-__">
+         <input type="text" class="form-control<?php echo esc_attr( $form_radius ); ?> phone-mask" name="account_phone" id="account_phone" value="<?php echo esc_attr($phone); ?>" placeholder="+7 (___) ___-__-__">
          <label for="account_phone"><?php esc_html_e('Phone number', 'codeweber'); ?></label>
       </div>
 

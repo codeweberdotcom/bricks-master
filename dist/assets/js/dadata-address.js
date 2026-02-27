@@ -155,15 +155,13 @@
             log('[Область/район] Варианты в select:', opts.slice(0, 15).join(', ') + (opts.length > 15 ? '… (' + opts.length + ')' : ''));
             log('[Область/район] stateCode в списке?', opts.indexOf(stateCode) !== -1);
           }
-          var address1Parts = [d.street_with_type, d.house, d.block].filter(Boolean).map(function (s) { return String(s).trim(); }).filter(Boolean);
-          var address1Line = address1Parts.join(', ');
+          // address_1 не трогаем — виджет сам подставляет полный адрес (suggestion.value), и список закрывается
           if (prefix === 'billing') {
             jQuery('#billing_city').val(cityDisplay);
             setFieldValue(stateField, stateCode);
             log('[Область/район] После setFieldValue value=', stateField ? stateField.value : '-');
             jQuery('#billing_postcode').val(d.postal_code || '');
             if (d.country_iso_code) setFieldValue(getField('billing', 'country'), d.country_iso_code);
-            setFieldValue(getField('billing', 'address_1'), address1Line);
             if (d.flat) setFieldValue(getField('billing', 'address_2'), d.flat);
           } else {
             jQuery('#shipping_city').val(cityDisplay);
@@ -171,7 +169,6 @@
             log('[Область/район] После setFieldValue value=', stateField ? stateField.value : '-');
             jQuery('#shipping_postcode').val(d.postal_code || '');
             if (d.country_iso_code) setFieldValue(getField('shipping', 'country'), d.country_iso_code);
-            setFieldValue(getField('shipping', 'address_1'), address1Line);
             if (d.flat) setFieldValue(getField('shipping', 'address_2'), d.flat);
           }
         }

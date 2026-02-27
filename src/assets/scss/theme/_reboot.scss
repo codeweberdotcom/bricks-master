@@ -802,14 +802,14 @@ mark {
   @include border-radius($border-radius);
 }
 @media (min-width: 992px) {
-  .map.rounded-lg-start iframe,
-  .image-wrapper.rounded-lg-start {
+  .map.rounded-lg-start:not(.rounded-0) iframe,
+  .image-wrapper.rounded-lg-start:not(.rounded-0) {
     border-bottom-left-radius: $border-radius !important;
     border-top-left-radius: $border-radius !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
   }
-  .image-wrapper.rounded-4-lg-start {
+  .image-wrapper.rounded-4-lg-start:not(.rounded-0) {
     border-bottom-left-radius: $border-radius-xl !important;
     border-top-left-radius: $border-radius-xl !important;
     border-top-right-radius: 0 !important;
