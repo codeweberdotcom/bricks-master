@@ -23,11 +23,24 @@ if (! defined('ABSPATH')) {
 do_action('woocommerce_before_account_navigation');
 ?>
 
-<nav id="sidebar-nav" class="woocommerce-MyAccount-navigation" aria-label="<?php esc_html_e('Account pages', 'woocommerce'); ?>">
-	<ul class="list-unstyled text-reset">
+<nav id="sidebar-nav" class="navbar-vertical menu-collapse-nav navbar-vertical-light" aria-label="<?php esc_html_e('Account pages', 'woocommerce'); ?>">
+	<ul class="navbar-nav list-unstyled text-reset menu-collapse-1">
 		<?php foreach (wc_get_account_menu_items() as $endpoint => $label) : ?>
-			<li class="<?php echo wc_get_account_menu_item_classes($endpoint); ?>">
-				<a href="<?php echo esc_url(wc_get_account_endpoint_url($endpoint)); ?>" <?php echo wc_is_current_account_menu_item($endpoint) ? 'aria-current="page"' : ''; ?>>
+			<?php
+			$wc_classes = wc_get_account_menu_item_classes($endpoint);
+			$is_current = wc_is_current_account_menu_item($endpoint);
+			$li_classes = array_filter(array_merge(
+				array('nav-item', 'parent-collapse-item', 'parent-item'),
+				explode(' ', $wc_classes),
+				$is_current ? array('current-menu-item') : array()
+			));
+			$link_classes = array_filter(array_merge(
+				array('nav-link'),
+				$is_current ? array('current-menu-item') : array()
+			));
+			?>
+			<li class="<?php echo esc_attr(implode(' ', $li_classes)); ?>">
+				<a href="<?php echo esc_url(wc_get_account_endpoint_url($endpoint)); ?>" class="<?php echo esc_attr(implode(' ', $link_classes)); ?>" <?php echo $is_current ? ' aria-current="page"' : ''; ?>>
 					<?php echo esc_html($label); ?>
 				</a>
 			</li>

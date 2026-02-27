@@ -11,12 +11,37 @@ Redux::set_section(
 		'fields'     => array(
 
 			array(
+				'id'       => 'dadata_enabled',
+				'type'     => 'switch',
+				'title'    => esc_html__('DaData: включить стандартизацию адресов', 'codeweber'),
+				'subtitle' => esc_html__('Проверка и автозаполнение адреса через DaData (только Россия)', 'codeweber'),
+				'default'  => false,
+			),
+			array(
 				'id'       => 'dadata',
 				'type'     => 'password',
-				'title'    => esc_html__('DaDaTa Settings', 'codeweber'),
-				'subtitle' => esc_html__('Put DaDaTa API key', 'codeweber'),
-				//'desc'     => esc_html__('This is the description field, again good for additional info.', 'codeweber'),
-				//'default'  => 'Default Text',
+				'title'    => esc_html__('DaData API Token', 'codeweber'),
+				'subtitle' => esc_html__('API ключ из кабинета DaData', 'codeweber'),
+				'required' => array( 'dadata_enabled', '=', true ),
+			),
+			array(
+				'id'       => 'dadata_secret',
+				'type'     => 'password',
+				'title'    => esc_html__('DaData Secret (X-Secret)', 'codeweber'),
+				'subtitle' => esc_html__('Секретный ключ для clean/address (не передаётся в браузер)', 'codeweber'),
+				'required' => array( 'dadata_enabled', '=', true ),
+			),
+			array(
+				'id'       => 'dadata_scenarios',
+				'type'     => 'checkbox',
+				'title'    => esc_html__('Где показывать кнопку «Проверить адрес»', 'codeweber'),
+				'subtitle' => esc_html__('Выберите страницы с формой адреса', 'codeweber'),
+				'required' => array( 'dadata_enabled', '=', true ),
+				'options'  => array(
+					'edit_address' => esc_html__('Редактирование адреса (Мой аккаунт)', 'codeweber'),
+					'checkout'     => esc_html__('Оформление заказа (чекаут)', 'codeweber'),
+				),
+				'default'  => array( 'edit_address' => true, 'checkout' => false ),
 			),
 			array(
 				'id'       => 'yandexapi',

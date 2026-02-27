@@ -2,15 +2,7 @@
 /**
  * Orders
  *
- * Shows orders on the account page.
- *
- * This template can be overridden by copying it to yourtheme/woocommerce/myaccount/orders.php.
- *
- * HOWEVER, on occasion WooCommerce will need to update template files and you
- * (the theme developer) will need to copy the new files to your theme to
- * maintain compatibility. We try to do this as little as possible, but it does
- * happen. When this occurs the version of the template file will be bumped and
- * the readme will list any important changes.
+ * Shows orders on the account page. Styled for theme (btn, getThemeButton).
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
@@ -18,6 +10,12 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+if ( ! isset( $wp_button_class ) ) {
+	$wp_button_class = wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '';
+}
+
+$theme_btn = function_exists( 'getThemeButton' ) ? getThemeButton() : '';
 
 do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
@@ -53,7 +51,7 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
 							<?php elseif ( $is_order_number ) : ?>
 								<?php /* translators: %s: the order number, usually accompanied by a leading # */ ?>
-								<a href="<?php echo esc_url( $order->get_view_order_url() ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'View order number %s', 'woocommerce' ), $order->get_order_number() ) ); ?>">
+								<a href="<?php echo esc_url( $order->get_view_order_url() ); ?>" class="text-body text-decoration-none fw-semibold" aria-label="<?php echo esc_attr( sprintf( __( 'View order number %s', 'woocommerce' ), $order->get_order_number() ) ); ?>">
 									<?php echo esc_html( _x( '#', 'hash before order number', 'woocommerce' ) . $order->get_order_number() ); ?>
 								</a>
 
@@ -76,13 +74,17 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 								if ( ! empty( $actions ) ) {
 									foreach ( $actions as $key => $action ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 										if ( empty( $action['aria-label'] ) ) {
-											// Generate the aria-label based on the action name.
 											/* translators: %1$s Action name, %2$s Order number. */
 											$action_aria_label = sprintf( __( '%1$s order number %2$s', 'woocommerce' ), $action['name'], $order->get_order_number() );
 										} else {
 											$action_aria_label = $action['aria-label'];
 										}
-										echo '<a href="' . esc_url( $action['url'] ) . '" class="woocommerce-button' . esc_attr( $wp_button_class ) . ' button ' . sanitize_html_class( $key ) . '" aria-label="' . esc_attr( $action_aria_label ) . '">' . esc_html( $action['name'] ) . '</a>';
+										if ( 'view' === $key ) {
+											$btn_class = 'btn btn-primary btn-xs rounded-0 ' . sanitize_html_class( $key );
+										} else {
+											$btn_class = 'btn btn-outline-secondary btn-sm' . ( $theme_btn ? ' ' . trim( $theme_btn ) : '' ) . ( $wp_button_class ?: '' ) . ' ' . sanitize_html_class( $key );
+										}
+										echo '<a href="' . esc_url( $action['url'] ) . '" class="' . esc_attr( $btn_class ) . '" aria-label="' . esc_attr( $action_aria_label ) . '">' . esc_html( $action['name'] ) . '</a> ';
 										unset( $action_aria_label );
 									}
 								}
@@ -105,20 +107,23 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 	<?php do_action( 'woocommerce_before_account_orders_pagination' ); ?>
 
 	<?php if ( 1 < $customer_orders->max_num_pages ) : ?>
-		<div class="woocommerce-pagination woocommerce-pagination--without-numbers woocommerce-Pagination">
+		<div class="woocommerce-pagination woocommerce-pagination--without-numbers woocommerce-Pagination mt-4 d-flex flex-wrap gap-2">
 			<?php if ( 1 !== $current_page ) : ?>
-				<a class="woocommerce-button woocommerce-button--previous woocommerce-Button woocommerce-Button--previous button<?php echo esc_attr( $wp_button_class ); ?>" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page - 1 ) ); ?>"><?php esc_html_e( 'Previous', 'woocommerce' ); ?></a>
+				<a class="btn btn-outline-secondary btn-sm<?php echo $theme_btn ? ' ' . esc_attr( trim( $theme_btn ) ) : ''; ?><?php echo esc_attr( $wp_button_class ); ?>" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page - 1 ) ); ?>"><?php esc_html_e( 'Previous', 'woocommerce' ); ?></a>
 			<?php endif; ?>
 
 			<?php if ( intval( $customer_orders->max_num_pages ) !== $current_page ) : ?>
-				<a class="woocommerce-button woocommerce-button--next woocommerce-Button woocommerce-Button--next button<?php echo esc_attr( $wp_button_class ); ?>" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page + 1 ) ); ?>"><?php esc_html_e( 'Next', 'woocommerce' ); ?></a>
+				<a class="btn btn-outline-secondary btn-sm<?php echo $theme_btn ? ' ' . esc_attr( trim( $theme_btn ) ) : ''; ?><?php echo esc_attr( $wp_button_class ); ?>" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page + 1 ) ); ?>"><?php esc_html_e( 'Next', 'woocommerce' ); ?></a>
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 
 <?php else : ?>
 
-	<?php wc_print_notice( esc_html__( 'No order has been made yet.', 'woocommerce' ) . ' <a class="woocommerce-Button wc-forward float-end btn btn-navy text-white ' . esc_attr( $wp_button_class ) . '" href="' . esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ) . '">' . esc_html__( 'Browse products', 'woocommerce' ) . '</a>', 'notice' ); // phpcs:ignore WooCommerce.Commenting.CommentHooks.MissingHookComment ?>
+	<?php
+	$browse_class = 'btn btn-primary btn-sm wc-forward' . ( $theme_btn ? ' ' . esc_attr( trim( $theme_btn ) ) : '' ) . $wp_button_class;
+	wc_print_notice( esc_html__( 'No order has been made yet.', 'woocommerce' ) . ' <a class="' . esc_attr( $browse_class ) . '" href="' . esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ) . '">' . esc_html__( 'Browse products', 'woocommerce' ) . '</a>', 'notice' ); // phpcs:ignore WooCommerce.Commenting.CommentHooks.MissingHookComment
+	?>
 
 <?php endif; ?>
 

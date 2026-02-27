@@ -50,6 +50,32 @@ if (!function_exists('get_breadcrumbs')) {
       $wrap_before = '<nav class="d-inline-block w-100" aria-label="breadcrumb"><ol class="' . esc_attr($classes_str) . '">';
       $wrap_after  = '</ol></nav>';
 
+      // WooCommerce: на странице My Account используем крошки WooCommerce в стиле темы
+      if (class_exists('WooCommerce') && function_exists('is_account_page') && is_account_page()) {
+         $breadcrumbs = new WC_Breadcrumb();
+         $breadcrumbs->add_crumb(
+            _x('Home', 'breadcrumb', 'woocommerce'),
+            apply_filters('woocommerce_breadcrumb_home_url', home_url())
+         );
+         $crumbs = $breadcrumbs->generate();
+         if (!empty($crumbs)) {
+            echo $wrap_before;
+            $total = count($crumbs);
+            foreach ($crumbs as $key => $crumb) {
+               $is_last = ($key === $total - 1);
+               $title   = isset($crumb[0]) ? $crumb[0] : '';
+               $url     = isset($crumb[1]) ? $crumb[1] : '';
+               if ($is_last || empty($url)) {
+                  echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html($title) . '</li>';
+               } else {
+                  echo '<li class="breadcrumb-item"><a href="' . esc_url($url) . '">' . esc_html($title) . '</a></li>';
+               }
+            }
+            echo $wrap_after;
+         }
+         return;
+      }
+
       // Если доступна Rank Math
       if (function_exists('rank_math_the_breadcrumbs')) {
          $args = [
@@ -233,6 +259,28 @@ if (!function_exists('get_breadcrumbs')) {
    }
 }
 
+/**
+ * WooCommerce: добавляем «Заказы» в крошки на странице просмотра заказа (view-order).
+ * Итог: Главная → Мой аккаунт → Заказы → Заказ № XXX
+ */
+if (class_exists('WooCommerce')) {
+   add_filter('woocommerce_get_breadcrumb', function ($crumbs, $breadcrumb) {
+      if (!is_account_page() || empty($crumbs)) {
+         return $crumbs;
+      }
+      $endpoint = WC()->query->get_current_endpoint();
+      if ($endpoint !== 'view-order') {
+         return $crumbs;
+      }
+      $orders_url = wc_get_account_endpoint_url('orders');
+      $orders_label = __('Orders', 'woocommerce');
+      $orders_crumb = array($orders_label, $orders_url);
+      $last = array_pop($crumbs);
+      $crumbs[] = $orders_crumb;
+      $crumbs[] = $last;
+      return $crumbs;
+   }, 10, 2);
+}
 
 /**
  * Шорткод для вывода хлебных крошек

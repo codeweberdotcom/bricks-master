@@ -113,7 +113,7 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 			}
 
 			$list_class = isset( $args->menu_class ) ? $args->menu_class : '';
-			$output   .= $n . $indent . '<ul class="' . esc_attr( $list_class ) . ' ps-3">' . $n;
+			$output   .= $n . $indent . '<ul class="' . esc_attr( $list_class ) . '">' . $n;
 		}
 
 		/**
@@ -161,7 +161,7 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 				$this->next_collapse_show  = $expand;
 			}
 
-			$li_classes = array( 'parent-collapse-item' );
+			$li_classes = array( 'nav-item', 'parent-collapse-item' );
 			if ( 0 === $depth ) {
 				$li_classes[] = 'parent-item';
 				// Первый — top_level_class_start (если задан), последний — top_level_class_end (если задан), иначе top_level_class
@@ -190,13 +190,7 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 
 			$output .= $indent . '<li' . $class_attr . '>';
 
-			$link_classes = array( 'nav-link', 'd-block' );
-			if ( $has_children ) {
-				$link_classes[] = 'flex-grow-1';
-			}
-			if ( $this->theme_class ) {
-				$link_classes[] = $this->theme_class;
-			}
+			$link_classes = array( 'nav-link' );
 			if ( $this->link_class ) {
 				$link_classes = array_merge( $link_classes, array_filter( explode( ' ', trim( $this->link_class ) ) ) );
 			}
@@ -208,12 +202,9 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 			$title        = apply_filters( 'the_title', $item->title, $item->ID );
 
 			if ( $has_children ) {
-				$output .= '<div class="menu-collapse-row d-flex align-items-center justify-content-between">';
+				$output .= '<div class="menu-collapse-row">';
 				$output .= '<a href="' . esc_url( $item->url ) . '" class="' . esc_attr( implode( ' ', $link_classes ) ) . '"' . $aria_current . '>' . esc_html( $title ) . '</a>';
-				$btn_classes = array( 'btn-collapse', 'w-5', 'h-5' );
-				if ( $this->theme_class ) {
-					$btn_classes[] = $this->theme_class;
-				}
+				$btn_classes = array( 'btn-collapse' );
 				$output .= '<button type="button" class="' . esc_attr( implode( ' ', $btn_classes ) ) . '" data-bs-toggle="collapse" data-bs-target="#' . esc_attr( $collapse_id ) . '" aria-expanded="' . ( $expand ? 'true' : 'false' ) . '" aria-controls="' . esc_attr( $collapse_id ) . '" aria-label="' . esc_attr__( 'Expand submenu', 'codeweber' ) . '">';
 				$output .= '<span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span>';
 				$output .= '</button>';

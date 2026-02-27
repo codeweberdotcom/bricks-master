@@ -23,7 +23,8 @@ if (class_exists('WooCommerce')) :
          <div class="container pb-14 pb-md-16">
             <div class="row">
                <div class="col mt-n19">
-                  <div class="card shadow-lg">
+                  <?php $myaccount_card_radius = function_exists( 'getThemeCardImageRadius' ) ? getThemeCardImageRadius() : ''; ?>
+                  <div class="card shadow-lg<?php echo $myaccount_card_radius ? ' ' . esc_attr( $myaccount_card_radius ) : ''; ?>">
                      <div class="row gx-0">
                         <?php if (!is_user_logged_in()) : ?>
                            <?php

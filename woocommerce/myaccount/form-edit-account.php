@@ -13,7 +13,7 @@
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
- * @version 9.7.0
+ * @version 10.5.0
  */
 
 defined('ABSPATH') || exit;
@@ -32,7 +32,7 @@ do_action('woocommerce_before_edit_account_form');
 	<?php do_action('woocommerce_edit_account_form_start'); ?>
 
 	<div class="row">
-		<h2 class="display-6 mb-6"><?php esc_html_e('Personal data', 'codeweber'); ?></h2>
+		<h3 class="mb-6"><?php esc_html_e('Personal data', 'codeweber'); ?></h3>
 		<div class="col-md-6">
 			<div class="form-floating mb-4">
 				<input type="text" class="form-control" name="account_first_name" id="account_first_name" placeholder="<?php esc_attr_e('First name', 'woocommerce'); ?>" autocomplete="given-name" value="<?php echo esc_attr($user->first_name); ?>" aria-required="true">
@@ -75,7 +75,7 @@ do_action('woocommerce_before_edit_account_form');
 	?>
 
 	<fieldset class="mt-6">
-		<h2 class="display-6 mb-6"><?php esc_html_e('Password change', 'woocommerce'); ?></h2>
+		<h3 class="mb-6"><?php esc_html_e('Password change', 'woocommerce'); ?></h3>
 
 		<div class="form-floating mb-4 password-field">
 			<input
@@ -83,7 +83,7 @@ do_action('woocommerce_before_edit_account_form');
 				class="form-control"
 				name="password_current"
 				id="password_current"
-				autocomplete="off"
+				autocomplete="current-password"
 				placeholder="<?php esc_attr_e('Current password (leave blank to leave unchanged)', 'woocommerce'); ?>" />
 			<span class="password-toggle"><i class="uil uil-eye"></i></span>
 			<label for="password_current"><?php esc_html_e('Current password (leave blank to leave unchanged)', 'woocommerce'); ?></label>
@@ -107,7 +107,7 @@ do_action('woocommerce_before_edit_account_form');
 				class="form-control"
 				name="password_2"
 				id="password_2"
-				autocomplete="off"
+				autocomplete="new-password"
 				placeholder="<?php esc_attr_e('Confirm new password', 'woocommerce'); ?>" />
 			<span class="password-toggle"><i class="uil uil-eye"></i></span>
 			<label for="password_2"><?php esc_html_e('Confirm new password', 'woocommerce'); ?></label>
@@ -127,11 +127,7 @@ do_action('woocommerce_before_edit_account_form');
 
 	<div class="mb-3">
 		<?php wp_nonce_field('save_account_details', 'save-account-details-nonce'); ?>
-		<button
-			type="submit"
-			class="btn btn-primary <?php getThemeButton(); ?> <?php echo esc_attr(wc_wp_theme_get_element_class_name('button') ? wc_wp_theme_get_element_class_name('button') : ''); ?>"
-			name="save_account_details"
-			value="<?php esc_attr_e('Save changes', 'woocommerce'); ?>">
+		<button type="submit" name="save_account_details" value="<?php esc_attr_e('Save changes', 'woocommerce'); ?>" class="btn btn-sm btn-primary<?php echo function_exists('getThemeButton') ? ' ' . esc_attr(trim(getThemeButton())) : ''; ?><?php echo wc_wp_theme_get_element_class_name('button') ? ' ' . esc_attr(wc_wp_theme_get_element_class_name('button')) : ''; ?>">
 			<?php esc_html_e('Save changes', 'woocommerce'); ?>
 		</button>
 		<input type="hidden" name="action" value="save_account_details" />

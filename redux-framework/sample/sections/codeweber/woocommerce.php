@@ -42,6 +42,14 @@ Redux::set_section(
 			),
 
 			array(
+				'id'       => 'payment_methods_test_mode',
+				'type'     => 'switch',
+				'title'    => esc_html__('Payment methods test mode', 'codeweber'),
+				'subtitle' => esc_html__('Show "Payment methods" in My Account and enable test gateway (no registration).', 'codeweber'),
+				'default'  => false,
+			),
+
+			array(
 				'id'           => 'image_login_page',
 				'type'         => 'media',
 				'url'          => true,

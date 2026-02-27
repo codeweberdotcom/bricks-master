@@ -45,6 +45,10 @@ if (class_exists('WooCommerce')) {
 	require_once get_template_directory() . '/functions/woocommerce.php';
 }
 
+// DaData: стандартизация адресов (clean/address)
+require_once get_template_directory() . '/functions/integrations/dadata/class-codeweber-dadata.php';
+require_once get_template_directory() . '/functions/integrations/dadata/dadata-ajax.php';
+
 // Подключаем модуль персональных данных Cyr-to-Lat
 require_once get_template_directory() . '/functions/user.php';
 

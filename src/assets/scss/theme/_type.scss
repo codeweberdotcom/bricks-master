@@ -178,7 +178,7 @@ blockquote {
     }
   }
 }
-.widget .list-unstyled:not(.tag-list) li + li,
+.widget .list-unstyled:not(.tag-list):not(.navbar-nav) li + li,
 .unordered-list li + li,
 .icon-list:not(.row) li + li {
   margin-top: 0.35rem;
@@ -189,7 +189,10 @@ blockquote {
 .list-unstyled li a.active,
 .list-unstyled li.current-menu-item > a,
 .list-unstyled li.current-menu-item > div > a {
-  color: var(--#{$prefix}primary) !important;
+  color: $list-unstyled-active-link-color !important;
+}
+.woocommerce-account .list-unstyled li.is-active a {
+  color: $list-unstyled-active-link-color !important;
 }
 //----------------------------------------------------------//
 //	FILTER LIST

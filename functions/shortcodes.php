@@ -336,6 +336,7 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 		'demo'                 => false,
 		'depth'                => 0,
 		'theme'                => 'default',
+		'list_type'            => '1',
 		'container_class'      => '',
 		'top_level_class'      => '',
 		'top_level_class_start' => '',
@@ -369,10 +370,19 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 	$menu_id = is_numeric( $menu_id ) ? (int) $menu_id : $menu_id;
 	$wrapper_id = 'menu-collapse-walker-' . ( $is_demo ? 'demo' : ( is_numeric( $menu_id ) ? $menu_id : preg_replace( '/[^a-z0-9_-]/i', '-', $menu_id ) ) ) . '-' . $suffix;
 
-	$list_classes   = array( 'list-unstyled', 'mb-0', 'd-flex', 'flex-column' );
+	$list_type_sanitized = preg_replace( '/[^a-z0-9_-]/i', '', (string) $atts['list_type'] );
+	if ( '' === $list_type_sanitized ) {
+		$list_type_sanitized = '1';
+	}
+	$list_classes   = array( 'navbar-nav', 'list-unstyled', 'menu-collapse-' . $list_type_sanitized );
 	$list_class_str = implode( ' ', $list_classes );
 
-	$container_class = 'menu-collapse-nav';
+	$container_class = 'navbar-vertical menu-collapse-nav';
+	if ( 'dark' === $atts['theme'] ) {
+		$container_class .= ' navbar-vertical-dark';
+	} elseif ( 'light' === $atts['theme'] ) {
+		$container_class .= ' navbar-vertical-light';
+	}
 	if ( ! empty( trim( (string) $atts['container_class'] ) ) ) {
 		$container_class .= ' ' . trim( (string) $atts['container_class'] );
 	}

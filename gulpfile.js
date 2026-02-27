@@ -216,6 +216,7 @@ var path = {
     cf7acceptancerequiredjs: srcPrefix + "/assets/js/cf7-acceptance-required.js",
     cf7successmessagejs: srcPrefix + "/assets/js/cf7-success-message.js",
     cf7utmtrackingjs: srcPrefix + "/assets/js/cf7-utm-tracking.js",
+    dadataaddressjs: srcPrefix + "/assets/js/dadata-address.js",
     style: srcPrefix + "/assets/scss/style.scss",
     fontcss: srcPrefix + "/assets/scss/fonts/*.*",
     // When building for child theme: use child's style.scss if it exists (ensures child's _user-variables with correct fonts)
@@ -555,6 +556,28 @@ gulp.task("cf7utmtrackingjs:dist", function () {
   );
 });
 
+gulp.task("dadataaddressjs:dev", function () {
+  return gulp
+    .src(path.src.dadataaddressjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("dadataaddressjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.dadataaddressjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
 // Compile html
 gulp.task('html:dev', function () {
   return gulp.src(path.src.html)
@@ -846,6 +869,7 @@ gulp.task(
       "cf7acceptancerequiredjs:dev",
       "cf7successmessagejs:dev",
       "cf7utmtrackingjs:dev",
+      "dadataaddressjs:dev",
       "themejs:dev",
       "fonts:dev",
       "media:dev",
@@ -877,6 +901,7 @@ gulp.task(
       "cf7acceptancerequiredjs:dist",
       "cf7successmessagejs:dist",
       "cf7utmtrackingjs:dist",
+      "dadataaddressjs:dist",
       "themejs:dist",
       "fonts:dist",
       "media:dist",
@@ -906,6 +931,7 @@ gulp.task('watch', function () {
     gulp.watch(path.src.cf7acceptancerequiredjs, gulp.series('cf7acceptancerequiredjs:dist'));
     gulp.watch(path.src.cf7successmessagejs, gulp.series('cf7successmessagejs:dist'));
     gulp.watch(path.src.cf7utmtrackingjs, gulp.series('cf7utmtrackingjs:dist'));
+    gulp.watch(path.src.dadataaddressjs, gulp.series('dadataaddressjs:dist'));
     gulp.watch(path.watch.img, gulp.series('image:dist'));
     gulp.watch(path.watch.fonts, gulp.series('fonts:dist'));
     gulp.watch(path.watch.media, gulp.series('media:dist'));

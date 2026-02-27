@@ -1,0 +1,59 @@
+/* DaData jQuery Suggestions widget (как в плагине dadata-ru) */
+.suggestions-nowrap { white-space: nowrap; }
+.suggestions-input {
+  box-sizing: border-box;
+  width: 100%;
+  &::-ms-clear { display: none; }
+}
+.suggestions-wrapper {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+.suggestions-suggestions {
+  background: #fff;
+  border: 1px solid #999;
+  box-sizing: border-box;
+  cursor: default;
+  left: 0;
+  min-width: 100%;
+  position: absolute;
+  z-index: 9999;
+  strong { font-weight: 400; color: #39f; }
+  &.suggestions-mobile {
+    border-style: none;
+    .suggestions-suggestion { border-bottom: 1px solid #ddd; }
+  }
+}
+.suggestions-suggestion {
+  padding: 4px 8px;
+  overflow: hidden;
+  &:hover { background: #f7f7f7; }
+}
+.suggestions-selected { background: #f0f0f0; }
+.suggestions-hint {
+  padding: 4px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #777;
+  font-size: 85%;
+  line-height: 20px;
+}
+.suggestions-subtext { color: #777; }
+.suggestions-value[data-suggestion-status="LIQUIDATED"] {
+  position: relative;
+  &:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    border-top: 1px solid rgba(0, 0, 0, 0.4);
+    content: "";
+  }
+}
+
+/* Скрыть логотип DaData в конце списка подсказок */
+.suggestions-promo {
+  display: none !important;
+}

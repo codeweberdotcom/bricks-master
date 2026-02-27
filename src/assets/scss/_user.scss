@@ -819,3 +819,10 @@ textarea[rows="10"] {
 .lh-sm { line-height: 1.2 !important; }
 .lh-md { line-height: 1.4 !important; }
 .lh-lg { line-height: 1.6 !important; }
+
+// Убрать обводку фокуса у алертов (WooCommerce notices и др.)
+.alert:focus,
+.alert:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

@@ -1,5 +1,59 @@
 <?php
 
+// Тестовый режим способов оплаты: подключается только при включённой опции в Redux (WooCommerce → Payment methods test mode).
+add_filter( 'woocommerce_payment_gateways', function ( $gateways ) {
+	global $opt_name;
+	if ( class_exists( 'Redux' ) && Redux::get_option( $opt_name, 'payment_methods_test_mode' ) ) {
+		require_once get_template_directory() . '/functions/woocommerce-gateway-test.php';
+		$gateways[] = 'WC_Gateway_Codeweber_Test';
+	}
+	return $gateways;
+} );
+
+// Стилизация полей формы «Редактировать адрес» (form-control, колонки).
+add_filter( 'woocommerce_form_field_args', function ( $args, $key, $value = null ) {
+	if ( ! is_wc_endpoint_url( 'edit-address' ) ) {
+		return $args;
+	}
+	$is_address_field = ( strpos( $key, 'billing_' ) === 0 || strpos( $key, 'shipping_' ) === 0 );
+	if ( ! $is_address_field ) {
+		return $args;
+	}
+	if ( ! is_array( $args['input_class'] ) ) {
+		$args['input_class'] = array_filter( array( $args['input_class'] ) );
+	}
+	$args['input_class'][] = 'form-control';
+	$wrap_class = isset( $args['class'] ) ? $args['class'] : array();
+	if ( ! is_array( $wrap_class ) ) {
+		$wrap_class = array_filter( array( $wrap_class ) );
+	}
+	$wrap_wide = in_array( 'form-row-wide', $wrap_class, true );
+	$half_width_keys = array( 'billing_phone', 'billing_email', 'billing_city', 'billing_postcode', 'shipping_phone', 'shipping_email', 'shipping_city', 'shipping_postcode' );
+	$use_half = ! $wrap_wide || in_array( $key, $half_width_keys, true );
+	$wrap_class[] = $use_half ? 'col-md-6' : 'col-12';
+	$args['class'] = $wrap_class;
+	return $args;
+}, 10, 3 );
+
+// На странице «Редактировать адрес» используем нативный select (form-select-wrapper + form-select), без Select2.
+add_action( 'wp_enqueue_scripts', function () {
+	if ( is_account_page() && is_wc_endpoint_url( 'edit-address' ) ) {
+		wp_dequeue_script( 'selectWoo' );
+		wp_dequeue_style( 'select2' );
+	}
+}, 20 );
+
+// Порядок полей: Адрес → Страна → Штат/область → остальные.
+add_filter( 'woocommerce_default_address_fields', function ( $fields ) {
+	if ( isset( $fields['address_1'], $fields['country'] ) ) {
+		$fields['address_1']['priority'] = 38;
+		$fields['country']['priority']   = 45;
+	}
+	if ( isset( $fields['state'] ) ) {
+		$fields['state']['priority'] = 46;
+	}
+	return $fields;
+} );
 
 // Добавление поля телефона и интерфейса в личный кабинет
 add_action('woocommerce_edit_account_form_fields', function () {
@@ -343,8 +397,82 @@ function remove_downloads_tab_my_account($items)
    return $items; // ✅ всегда возвращаем $items
 }
 
+/**
+ * При включённом «Payment methods test mode» в Redux: показывать пункт «Способы оплаты» в меню даже если ни один шлюз не поддерживает добавление метода.
+ */
+add_filter('woocommerce_account_menu_items', function ($items) {
+	global $opt_name;
+	if ( ! class_exists( 'Redux' ) || ! Redux::get_option( $opt_name, 'payment_methods_test_mode' ) ) {
+		return $items;
+	}
+	if ( ! isset( $items['payment-methods'] ) ) {
+		$items['payment-methods'] = __('Payment methods', 'woocommerce');
+		$order = array( 'dashboard', 'orders', 'downloads', 'edit-address', 'payment-methods', 'edit-account', 'customer-logout' );
+		$ordered = array();
+		foreach ( $order as $key ) {
+			if ( isset( $items[ $key ] ) ) {
+				$ordered[ $key ] = $items[ $key ];
+			}
+		}
+		$items = $ordered;
+	}
+	return $items;
+}, 15);
 
-
+/**
+ * Иконки для карточек дашборда «Мой аккаунт» (endpoint => Unicons class).
+ * Добавление пунктов меню через woocommerce_account_menu_items автоматически даёт карточку; иконку можно задать фильтром.
+ */
+function codeweber_my_account_dashboard_cards()
+{
+   if (!function_exists('wc_get_account_menu_items')) {
+      return;
+   }
+   $items = wc_get_account_menu_items();
+   unset($items['dashboard'], $items['customer-logout']);
+   if (empty($items)) {
+      return;
+   }
+   $icon_map = array(
+      'orders'          => 'uil-shopping-bag',
+      'downloads'       => 'uil-import',
+      'edit-address'    => 'uil-map-marker',
+      'payment-methods' => 'uil-credit-card',
+      'edit-account'    => 'uil-file-edit-alt',
+   );
+   $card_items = array();
+   foreach ($items as $endpoint => $label) {
+      $card_items[$endpoint] = array(
+         'label' => $label,
+         'icon'  => isset($icon_map[$endpoint]) ? $icon_map[$endpoint] : 'uil-apps',
+      );
+   }
+   $card_items = apply_filters('codeweber_my_account_dashboard_card_items', $card_items);
+   $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+   $card_class = 'card lift text-decoration-none text-body d-block' . ($card_radius ? ' ' . esc_attr($card_radius) : '');
+   ?>
+   <div class="row g-3 g-md-3 mt-4">
+      <?php foreach ($card_items as $endpoint => $data) :
+         $url = wc_get_account_endpoint_url($endpoint);
+         $icon_class = esc_attr($data['icon']);
+         $label = esc_html($data['label']);
+      ?>
+         <div class="col-md-4">
+            <a href="<?php echo esc_url($url); ?>" class="<?php echo $card_class; ?>">
+               <div class="card-body p-6 text-center">
+                  <div class="icon text-primary">
+                     <i class="uil <?php echo $icon_class; ?> text-primary fs-35"></i>
+                  </div>
+                  <div class="d-flex flex-column">
+                     <div class="text-left h4"><?php echo $label; ?></div>
+                  </div>
+               </div>
+            </a>
+         </div>
+      <?php endforeach; ?>
+   </div>
+   <?php
+}
 
 add_action('woocommerce_before_account_navigation', function () {
    echo '<div class="row gx-0">';

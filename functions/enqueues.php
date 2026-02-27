@@ -448,3 +448,115 @@ function codeweber_enqueue_share_buttons() {
 	);
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_share_buttons', 20);
+
+/**
+ * Enqueue DaData address script on edit-address and checkout when enabled in Redux.
+ */
+function codeweber_enqueue_dadata_address() {
+	$debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
+
+	if ( ! class_exists( 'WooCommerce' ) || ! class_exists( 'Redux' ) ) {
+		if ( $debug ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( '[DaData] Enqueue пропущен: WooCommerce=' . ( class_exists( 'WooCommerce' ) ? 'yes' : 'no' ) . ', Redux=' . ( class_exists( 'Redux' ) ? 'yes' : 'no' ) );
+		}
+		return;
+	}
+	global $opt_name;
+	$enabled = Redux::get_option( $opt_name, 'dadata_enabled' );
+	if ( ! $enabled ) {
+		if ( $debug ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( '[DaData] Enqueue пропущен: dadata_enabled выключен в Redux' );
+		}
+		return;
+	}
+	$scenarios = Redux::get_option( $opt_name, 'dadata_scenarios' );
+	if ( ! is_array( $scenarios ) ) {
+		$scenarios = array( 'edit_address' => true, 'checkout' => false );
+	}
+	$on_edit    = ( is_wc_endpoint_url( 'edit-address' ) || ( function_exists( 'is_account_page' ) && is_account_page() ) ) && ! empty( $scenarios['edit_address'] );
+	$on_checkout = function_exists( 'is_checkout' ) && is_checkout() && ! empty( $scenarios['checkout'] );
+	if ( ! $on_edit && ! $on_checkout ) {
+		if ( $debug ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( '[DaData] Enqueue пропущен: не account/edit-address и не checkout. is_edit=' . ( is_wc_endpoint_url( 'edit-address' ) ? '1' : '0' ) . ', is_account=' . ( function_exists( 'is_account_page' ) && is_account_page() ? '1' : '0' ) . ', scenario_edit=' . ( ! empty( $scenarios['edit_address'] ) ? '1' : '0' ) . ', is_checkout=' . ( function_exists( 'is_checkout' ) && is_checkout() ? '1' : '0' ) . ', scenario_checkout=' . ( ! empty( $scenarios['checkout'] ) ? '1' : '0' ) );
+		}
+		return;
+	}
+
+	// Виджет DaData jQuery Suggestions (как в плагине dadata-ru) — из src
+	$vendor_suggestions     = get_template_directory() . '/src/assets/js/dadata/jquery.suggestions.min.js';
+	$vendor_suggestions_url = get_template_directory_uri() . '/src/assets/js/dadata/jquery.suggestions.min.js';
+	$vendor_exists          = file_exists( $vendor_suggestions );
+	if ( $vendor_exists ) {
+		wp_enqueue_script(
+			'dadata-jquery-suggestions',
+			$vendor_suggestions_url,
+			array( 'jquery' ),
+			filemtime( $vendor_suggestions ),
+			true
+		);
+	}
+
+	$dist_path = brk_get_dist_file_path( 'dist/assets/js/dadata-address.js' );
+	$dist_url  = brk_get_dist_file_url( 'dist/assets/js/dadata-address.js' );
+	if ( $dist_path && $dist_url ) {
+		$script_path = $dist_path;
+		$script_url  = $dist_url;
+	} else {
+		$src_path = get_template_directory() . '/src/assets/js/dadata-address.js';
+		$src_url  = get_template_directory_uri() . '/src/assets/js/dadata-address.js';
+		if ( file_exists( $src_path ) ) {
+			$script_path = $src_path;
+			$script_url  = $src_url;
+		} else {
+			return;
+		}
+	}
+
+	$deps = array( 'jquery' );
+	if ( wp_script_is( 'dadata-jquery-suggestions', 'registered' ) ) {
+		$deps[] = 'dadata-jquery-suggestions';
+	}
+	wp_enqueue_script(
+		'dadata-address',
+		$script_url,
+		$deps,
+		filemtime( $script_path ),
+		true
+	);
+
+	$token = Redux::get_option( $opt_name, 'dadata' );
+
+	$localize = array(
+		'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
+		'nonce'         => wp_create_nonce( 'codeweber_dadata_clean' ),
+		'addressPrefix' => 'billing',
+		'messages'      => array(
+			'enterAddress' => __( 'Введите адрес в поле «Адрес» и нажмите кнопку проверки.', 'codeweber' ),
+			'loading'      => __( 'Проверка…', 'codeweber' ),
+			'error'        => __( 'Ошибка сети. Попробуйте позже.', 'codeweber' ),
+		),
+	);
+	if ( ! empty( $token ) ) {
+		$localize['dadataToken'] = $token;
+	}
+	if ( $debug ) {
+		$localize['debug'] = true;
+		$localize['debugEnqueue'] = array(
+			'on_edit'           => $on_edit,
+			'on_checkout'       => $on_checkout,
+			'vendor_script'     => $vendor_exists ? 'enqueued' : 'file_not_found',
+			'token_set'         => ! empty( $token ),
+			'script_source'     => ( $dist_path && $dist_url ) ? 'dist' : 'src',
+			'dadata_address_js' => isset( $script_url ) ? $script_url : '',
+		);
+		if ( ! $vendor_exists ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( '[DaData] Файл виджета не найден: ' . $vendor_suggestions );
+		}
+	}
+	wp_localize_script( 'dadata-address', 'codeweberDadata', $localize );
+}
+add_action( 'wp_enqueue_scripts', 'codeweber_enqueue_dadata_address', 25 );
