@@ -17,11 +17,98 @@ class CodeweberFormsEmailTemplates {
     
     public function __construct() {
         add_action('admin_init', [$this, 'register_settings']);
-        // Меню добавляется в CodeweberFormsAdmin
-        
-        // Настройка TinyMCE для разрешения всех HTML тегов
+        add_action('wp_ajax_codeweber_forms_email_preview', [$this, 'ajax_email_preview']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_email_templates_assets']);
         add_filter('tiny_mce_before_init', [$this, 'configure_tinymce_for_templates'], 10, 2);
         add_filter('wp_kses_allowed_html', [$this, 'allow_all_html_in_templates'], 10, 2);
+    }
+
+    /**
+     * List of template items for sidebar (id => label).
+     *
+     * @return array
+     */
+    public function get_template_items() {
+        return [
+            'admin_notification'   => __('Admin Notification', 'codeweber'),
+            'auto_reply'           => __('Auto-Reply', 'codeweber'),
+            'testimonial_reply'    => __('Testimonial Reply', 'codeweber'),
+            'resume_reply'         => __('Resume Reply', 'codeweber'),
+            'newsletter_reply'     => __('Newsletter Reply', 'codeweber'),
+        ];
+    }
+
+    /**
+     * AJAX: return preview HTML for an email template (variables replaced with sample data).
+     */
+    public function ajax_email_preview() {
+        check_ajax_referer('codeweber_forms_email_preview', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => 'Forbidden'], 403);
+        }
+        $template_id = isset($_POST['template_id']) ? sanitize_key($_POST['template_id']) : '';
+        $items = $this->get_template_items();
+        if (!isset($items[$template_id])) {
+            wp_send_json_error(['message' => 'Invalid template'], 400);
+        }
+        $html = isset($_POST['html']) ? wp_unslash($_POST['html']) : '';
+        if ($html === '') {
+            $option_key = $template_id . '_template';
+            $html = $this->get_option($option_key, $this->get_default_template_by_id($template_id));
+        }
+        $preview_html = $this->replace_variables_for_preview($html);
+        wp_send_json_success(['html' => $preview_html]);
+    }
+
+    /**
+     * Get default template content by template id.
+     *
+     * @param string $template_id
+     * @return string
+     */
+    private function get_default_template_by_id($template_id) {
+        $map = [
+            'admin_notification' => 'get_default_admin_template',
+            'auto_reply'         => 'get_default_auto_reply_template',
+            'testimonial_reply'  => 'get_default_testimonial_reply_template',
+            'resume_reply'       => 'get_default_resume_reply_template',
+            'newsletter_reply'   => 'get_default_newsletter_reply_template',
+        ];
+        $method = isset($map[$template_id]) ? $map[$template_id] : '';
+        if ($method && is_callable([$this, $method])) {
+            return $this->$method();
+        }
+        return '';
+    }
+
+    /**
+     * Replace template variables with sample data for preview.
+     *
+     * @param string $content
+     * @return string
+     */
+    private function replace_variables_for_preview($content) {
+        $sample_fields = '<table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#f5f5f5;"><th style="padding:10px;border:1px solid #ddd;">' . __('Field', 'codeweber') . '</th><th style="padding:10px;border:1px solid #ddd;">' . __('Value', 'codeweber') . '</th></tr></thead><tbody>';
+        $sample_fields .= '<tr><td style="padding:10px;border:1px solid #ddd;">' . __('Name', 'codeweber') . '</td><td style="padding:10px;border:1px solid #ddd;">' . __('Sample User', 'codeweber') . '</td></tr>';
+        $sample_fields .= '<tr><td style="padding:10px;border:1px solid #ddd;">' . __('Email', 'codeweber') . '</td><td style="padding:10px;border:1px solid #ddd;">sample@example.com</td></tr>';
+        $sample_fields .= '<tr><td style="padding:10px;border:1px solid #ddd;">' . __('Message', 'codeweber') . '</td><td style="padding:10px;border:1px solid #ddd;">' . __('Sample message text.', 'codeweber') . '</td></tr></tbody></table>';
+        $replacements = [
+            '{form_name}'       => __('Contact form', 'codeweber'),
+            '{form_fields}'     => $sample_fields,
+            '{user_name}'       => __('Sample User', 'codeweber'),
+            '{user_email}'      => 'sample@example.com',
+            '{submission_date}' => date_i18n(get_option('date_format'), time()),
+            '{submission_time}' => date('H:i', time()),
+            '{user_ip}'         => '127.0.0.1',
+            '{user_agent}'      => 'Mozilla/5.0 (Preview)',
+            '{site_name}'       => get_bloginfo('name'),
+            '{site_url}'        => home_url(),
+            '{unsubscribe_url}' => home_url('/unsubscribe/?token=sample'),
+        ];
+        foreach ($replacements as $key => $value) {
+            $content = str_replace($key, $value, $content);
+        }
+        return $content;
     }
     
     /**
@@ -234,7 +321,8 @@ class CodeweberFormsEmailTemplates {
             'admin_notification_template',
             'auto_reply_template',
             'testimonial_reply_template',
-            'resume_reply_template'
+            'resume_reply_template',
+            'newsletter_reply_template',
         ];
         
         if (!in_array($editor_id, $template_fields)) {
@@ -542,431 +630,194 @@ class CodeweberFormsEmailTemplates {
         $newsletter_reply_template = $this->get_option('newsletter_reply_template', $this->get_default_newsletter_reply_template());
         
         $variables = $this->get_available_variables();
-        
+        $template_items = $this->get_template_items();
+        $current_template = isset($_GET['template']) && isset($template_items[$_GET['template']]) ? sanitize_key($_GET['template']) : array_key_first($template_items);
+        $base_url = remove_query_arg(['template']);
+        $option_name = $this->option_name;
+
+        $this->localize_email_templates_script($current_template);
+
         ?>
         <div class="wrap">
             <h1><?php _e('Email Templates', 'codeweber'); ?></h1>
-            
             <?php settings_errors('codeweber_forms_email_templates'); ?>
-            
-            <form method="post" action="options.php">
-                <?php settings_fields($this->option_group); ?>
-                
-                <div class="codeweber-forms-email-templates">
-                    <!-- Available Variables -->
-                    <div class="card" style="max-width: 100%; margin-bottom: 20px;">
-                        <h2><?php _e('Available Variables', 'codeweber'); ?></h2>
-                        <p><?php _e('You can use these variables in your email templates:', 'codeweber'); ?></p>
-                        <table class="widefat">
-                            <thead>
-                                <tr>
-                                    <th><?php _e('Variable', 'codeweber'); ?></th>
-                                    <th><?php _e('Description', 'codeweber'); ?></th>
-                                </tr>
-                            </thead>
+
+            <div class="codeweber-email-templates-layout">
+                <aside class="codeweber-email-templates-sidebar">
+                    <nav class="codeweber-email-templates-nav" aria-label="<?php esc_attr_e('Email types', 'codeweber'); ?>">
+                        <ul>
+                            <?php foreach ($template_items as $id => $label) : ?>
+                                <li>
+                                    <a href="<?php echo esc_url(add_query_arg('template', $id, $base_url)); ?>" class="<?php echo $id === $current_template ? 'active' : ''; ?>"><?php echo esc_html($label); ?></a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </nav>
+                    <details class="codeweber-email-templates-variables" style="margin-top:16px;">
+                        <summary><?php _e('Available Variables', 'codeweber'); ?></summary>
+                        <p style="margin:8px 0 4px;"><?php _e('You can use these variables in your email templates:', 'codeweber'); ?></p>
+                        <table class="widefat" style="font-size:12px;">
                             <tbody>
-                                <?php foreach ($variables as $var => $desc): ?>
-                                    <tr>
-                                        <td><code><?php echo esc_html($var); ?></code></td>
-                                        <td><?php echo esc_html($desc); ?></td>
-                                    </tr>
+                                <?php foreach ($variables as $var => $desc) : ?>
+                                    <tr><td><code><?php echo esc_html($var); ?></code></td><td><?php echo esc_html($desc); ?></td></tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                    </div>
-                    
-                    <!-- Admin Notification Template -->
-                    <div class="card" style="max-width: 100%; margin-bottom: 20px;">
-                        <h2><?php _e('Admin Notification Template', 'codeweber'); ?></h2>
-                        <p><?php _e('This template is used for emails sent to administrators when a form is submitted.', 'codeweber'); ?></p>
-                        
-                        <table class="form-table">
-                            <tr>
-                                <th scope="row">
-                                    <label for="admin_notification_enabled">
-                                        <?php _e('Enable Admin Notifications', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" 
-                                               name="<?php echo $this->option_name; ?>[admin_notification_enabled]" 
-                                               value="1" 
-                                               id="admin_notification_enabled"
-                                               <?php checked($admin_enabled, true); ?>>
-                                        <?php _e('Send email notifications to administrators', 'codeweber'); ?>
-                                    </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="admin_notification_subject">
-                                        <?php _e('Email Subject', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <input type="text" 
-                                           name="<?php echo $this->option_name; ?>[admin_notification_subject]" 
-                                           id="admin_notification_subject"
-                                           value="<?php echo esc_attr($admin_subject); ?>" 
-                                           class="regular-text">
-                                    <p class="description">
-                                        <?php _e('Subject line for admin notification emails. You can use variables like {form_name}.', 'codeweber'); ?>
+                    </details>
+                </aside>
+
+                <div class="codeweber-email-templates-main">
+                    <form method="post" action="options.php">
+                        <?php settings_fields($this->option_group); ?>
+                        <input type="hidden" name="template" value="<?php echo esc_attr($current_template); ?>">
+
+                        <?php
+                        $panels = [
+                            'admin_notification' => [
+                                'enabled'  => $admin_enabled,
+                                'subject'  => $admin_subject,
+                                'template' => $admin_template,
+                                'desc'     => __('This template is used for emails sent to administrators when a form is submitted.', 'codeweber'),
+                                'enable_label' => __('Enable Admin Notifications', 'codeweber'),
+                                'enable_help'  => __('Send email notifications to administrators', 'codeweber'),
+                                'subject_help' => __('Subject line for admin notification emails. You can use variables like {form_name}.', 'codeweber'),
+                            ],
+                            'auto_reply' => [
+                                'enabled'  => $auto_reply_enabled,
+                                'subject'  => $auto_reply_subject,
+                                'template' => $auto_reply_template,
+                                'desc'     => __('This template is used for automatic reply emails sent to users after form submission.', 'codeweber'),
+                                'enable_label' => __('Enable Auto-Reply', 'codeweber'),
+                                'enable_help'  => __('Send automatic reply emails to users', 'codeweber') . ' ' . __('Note: Auto-reply will only be sent if the form contains an email field.', 'codeweber'),
+                                'subject_help' => __('Subject line for auto-reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'),
+                            ],
+                            'testimonial_reply' => [
+                                'enabled'  => $testimonial_reply_enabled,
+                                'subject'  => $testimonial_reply_subject,
+                                'template' => $testimonial_reply_template,
+                                'desc'     => __('This template is used for automatic reply emails sent to users after testimonial submission.', 'codeweber'),
+                                'enable_label' => __('Enable Testimonial Reply', 'codeweber'),
+                                'enable_help'  => __('Send automatic reply emails for testimonials', 'codeweber') . ' ' . __('Note: Reply will be sent if form name contains "testimonial" or "отзыв".', 'codeweber'),
+                                'subject_help' => __('Subject line for testimonial reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'),
+                            ],
+                            'resume_reply' => [
+                                'enabled'  => $resume_reply_enabled,
+                                'subject'  => $resume_reply_subject,
+                                'template' => $resume_reply_template,
+                                'desc'     => __('This template is used for automatic reply emails sent to users after resume/CV submission.', 'codeweber'),
+                                'enable_label' => __('Enable Resume Reply', 'codeweber'),
+                                'enable_help'  => __('Send automatic reply emails for resumes', 'codeweber') . ' ' . __('Note: Reply will be sent if form name contains "resume", "резюме", "cv" or "вакансия".', 'codeweber'),
+                                'subject_help' => __('Subject line for resume reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'),
+                            ],
+                            'newsletter_reply' => [
+                                'enabled'  => $newsletter_reply_enabled,
+                                'subject'  => $newsletter_reply_subject,
+                                'template' => $newsletter_reply_template,
+                                'desc'     => __('This template is used for automatic reply emails sent to users after newsletter subscription.', 'codeweber'),
+                                'enable_label' => __('Enable Newsletter Reply', 'codeweber'),
+                                'enable_help'  => __('Send automatic reply emails for newsletter subscriptions', 'codeweber') . ' ' . __('Note: Reply will be sent if form name contains "newsletter" or "подписк".', 'codeweber'),
+                                'subject_help' => __('Subject line for newsletter reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'),
+                            ],
+                        ];
+                        $field_keys = [
+                            'admin_notification'   => ['enabled' => 'admin_notification_enabled', 'subject' => 'admin_notification_subject', 'template' => 'admin_notification_template'],
+                            'auto_reply'           => ['enabled' => 'auto_reply_enabled', 'subject' => 'auto_reply_subject', 'template' => 'auto_reply_template'],
+                            'testimonial_reply'    => ['enabled' => 'testimonial_reply_enabled', 'subject' => 'testimonial_reply_subject', 'template' => 'testimonial_reply_template'],
+                            'resume_reply'         => ['enabled' => 'resume_reply_enabled', 'subject' => 'resume_reply_subject', 'template' => 'resume_reply_template'],
+                            'newsletter_reply'     => ['enabled' => 'newsletter_reply_enabled', 'subject' => 'newsletter_reply_subject', 'template' => 'newsletter_reply_template'],
+                        ];
+                        foreach ($template_items as $id => $label) :
+                            $p = $panels[$id] ?? null;
+                            $k = $field_keys[$id] ?? null;
+                            if (!$p || !$k) continue;
+                        ?>
+                        <div class="codeweber-email-templates-panel <?php echo $id === $current_template ? 'is-active' : ''; ?>" id="panel-<?php echo esc_attr($id); ?>" data-template="<?php echo esc_attr($id); ?>">
+                            <div class="codeweber-email-templates-editor card bg-light">
+                                <h2 class="codeweber-email-templates-panel-title"><?php echo esc_html($label); ?></h2>
+                                <p class="description"><?php echo esc_html($p['desc']); ?></p>
+                                <table class="form-table">
+                                    <tr>
+                                        <th scope="row"><label for="<?php echo esc_attr($k['enabled']); ?>"><?php echo esc_html($p['enable_label']); ?></label></th>
+                                        <td>
+                                            <label>
+                                                <input type="checkbox" name="<?php echo esc_attr($option_name); ?>[<?php echo esc_attr($k['enabled']); ?>]" value="1" id="<?php echo esc_attr($k['enabled']); ?>" <?php checked(!empty($p['enabled'])); ?>>
+                                                <?php echo esc_html($p['enable_help']); ?>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><label for="<?php echo esc_attr($k['subject']); ?>"><?php _e('Email Subject', 'codeweber'); ?></label></th>
+                                        <td>
+                                            <input type="text" name="<?php echo esc_attr($option_name); ?>[<?php echo esc_attr($k['subject']); ?>]" id="<?php echo esc_attr($k['subject']); ?>" value="<?php echo esc_attr($p['subject']); ?>" class="regular-text">
+                                            <p class="description"><?php echo esc_html($p['subject_help']); ?></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><label for="<?php echo esc_attr($k['template']); ?>"><?php _e('Email Template', 'codeweber'); ?></label></th>
+                                        <td>
+                                            <?php
+                                            wp_editor($p['template'], $k['template'], [
+                                                'textarea_name' => $option_name . '[' . $k['template'] . ']',
+                                                'textarea_rows' => 16,
+                                                'media_buttons' => false,
+                                                'teeny' => false,
+                                                'quicktags' => true,
+                                                'tinymce' => [
+                                                    'entity_encoding' => 'raw',
+                                                    'remove_linebreaks' => false,
+                                                    'forced_root_block' => false,
+                                                    'force_br_newlines' => false,
+                                                    'force_p_newlines' => false,
+                                                ],
+                                            ]);
+                                            ?>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="codeweber-email-templates-preview-wrap">
+                                    <p>
+                                        <button type="button" class="button button-secondary codeweber-email-preview-btn"><?php _e('Update preview', 'codeweber'); ?></button>
                                     </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="admin_notification_template">
-                                        <?php _e('Email Template', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <?php
-                                    wp_editor(
-                                        $admin_template,
-                                        'admin_notification_template',
-                                        [
-                                            'textarea_name' => $this->option_name . '[admin_notification_template]',
-                                            'textarea_rows' => 20,
-                                            'media_buttons' => false,
-                                            'teeny' => false,
-                                            'quicktags' => true,
-                                            'tinymce' => [
-                                                'entity_encoding' => 'raw',
-                                                'remove_linebreaks' => false,
-                                                'forced_root_block' => false,
-                                                'force_br_newlines' => false,
-                                                'force_p_newlines' => false,
-                                            ],
-                                        ]
-                                    );
-                                    ?>
-                                    <p class="description">
-                                        <?php _e('HTML template for admin notification emails. Use variables from the list above.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <!-- Auto-Reply Template -->
-                    <div class="card" style="max-width: 100%; margin-bottom: 20px;">
-                        <h2><?php _e('Auto-Reply Template', 'codeweber'); ?></h2>
-                        <p><?php _e('This template is used for automatic reply emails sent to users after form submission.', 'codeweber'); ?></p>
-                        
-                        <table class="form-table">
-                            <tr>
-                                <th scope="row">
-                                    <label for="auto_reply_enabled">
-                                        <?php _e('Enable Auto-Reply', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" 
-                                               name="<?php echo $this->option_name; ?>[auto_reply_enabled]" 
-                                               value="1" 
-                                               id="auto_reply_enabled"
-                                               <?php checked($auto_reply_enabled, true); ?>>
-                                        <?php _e('Send automatic reply emails to users', 'codeweber'); ?>
-                                    </label>
-                                    <p class="description">
-                                        <?php _e('Note: Auto-reply will only be sent if the form contains an email field.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="auto_reply_subject">
-                                        <?php _e('Email Subject', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <input type="text" 
-                                           name="<?php echo $this->option_name; ?>[auto_reply_subject]" 
-                                           id="auto_reply_subject"
-                                           value="<?php echo esc_attr($auto_reply_subject); ?>" 
-                                           class="regular-text">
-                                    <p class="description">
-                                        <?php _e('Subject line for auto-reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="auto_reply_template">
-                                        <?php _e('Email Template', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <?php
-                                    wp_editor(
-                                        $auto_reply_template,
-                                        'auto_reply_template',
-                                        [
-                                            'textarea_name' => $this->option_name . '[auto_reply_template]',
-                                            'textarea_rows' => 20,
-                                            'media_buttons' => false,
-                                            'teeny' => false,
-                                            'quicktags' => true,
-                                            'tinymce' => [
-                                                'entity_encoding' => 'raw',
-                                                'remove_linebreaks' => false,
-                                                'forced_root_block' => false,
-                                                'force_br_newlines' => false,
-                                                'force_p_newlines' => false,
-                                            ],
-                                        ]
-                                    );
-                                    ?>
-                                    <p class="description">
-                                        <?php _e('HTML template for auto-reply emails. Use variables from the list above.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <!-- Testimonial Reply Template -->
-                    <div class="card" style="max-width: 100%; margin-bottom: 20px;">
-                        <h2><?php _e('Testimonial Reply Template', 'codeweber'); ?></h2>
-                        <p><?php _e('This template is used for automatic reply emails sent to users after testimonial submission.', 'codeweber'); ?></p>
-                        
-                        <table class="form-table">
-                            <tr>
-                                <th scope="row">
-                                    <label for="testimonial_reply_enabled">
-                                        <?php _e('Enable Testimonial Reply', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" 
-                                               name="<?php echo $this->option_name; ?>[testimonial_reply_enabled]" 
-                                               value="1" 
-                                               id="testimonial_reply_enabled"
-                                               <?php checked($testimonial_reply_enabled, true); ?>>
-                                        <?php _e('Send automatic reply emails for testimonials', 'codeweber'); ?>
-                                    </label>
-                                    <p class="description">
-                                        <?php _e('Note: Reply will be sent if form name contains "testimonial" or "отзыв".', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="testimonial_reply_subject">
-                                        <?php _e('Email Subject', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <input type="text" 
-                                           name="<?php echo $this->option_name; ?>[testimonial_reply_subject]" 
-                                           id="testimonial_reply_subject"
-                                           value="<?php echo esc_attr($testimonial_reply_subject); ?>" 
-                                           class="regular-text">
-                                    <p class="description">
-                                        <?php _e('Subject line for testimonial reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="testimonial_reply_template">
-                                        <?php _e('Email Template', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <?php
-                                    wp_editor(
-                                        $testimonial_reply_template,
-                                        'testimonial_reply_template',
-                                        [
-                                            'textarea_name' => $this->option_name . '[testimonial_reply_template]',
-                                            'textarea_rows' => 20,
-                                            'media_buttons' => false,
-                                            'teeny' => false,
-                                            'quicktags' => true,
-                                            'tinymce' => [
-                                                'entity_encoding' => 'raw',
-                                                'remove_linebreaks' => false,
-                                                'forced_root_block' => false,
-                                                'force_br_newlines' => false,
-                                                'force_p_newlines' => false,
-                                            ],
-                                        ]
-                                    );
-                                    ?>
-                                    <p class="description">
-                                        <?php _e('HTML template for testimonial reply emails. Use variables from the list above.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <!-- Resume Reply Template -->
-                    <div class="card" style="max-width: 100%; margin-bottom: 20px;">
-                        <h2><?php _e('Resume Reply Template', 'codeweber'); ?></h2>
-                        <p><?php _e('This template is used for automatic reply emails sent to users after resume/CV submission.', 'codeweber'); ?></p>
-                        
-                        <table class="form-table">
-                            <tr>
-                                <th scope="row">
-                                    <label for="resume_reply_enabled">
-                                        <?php _e('Enable Resume Reply', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" 
-                                               name="<?php echo $this->option_name; ?>[resume_reply_enabled]" 
-                                               value="1" 
-                                               id="resume_reply_enabled"
-                                               <?php checked($resume_reply_enabled, true); ?>>
-                                        <?php _e('Send automatic reply emails for resumes', 'codeweber'); ?>
-                                    </label>
-                                    <p class="description">
-                                        <?php _e('Note: Reply will be sent if form name contains "resume", "резюме", "cv" or "вакансия".', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="resume_reply_subject">
-                                        <?php _e('Email Subject', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <input type="text" 
-                                           name="<?php echo $this->option_name; ?>[resume_reply_subject]" 
-                                           id="resume_reply_subject"
-                                           value="<?php echo esc_attr($resume_reply_subject); ?>" 
-                                           class="regular-text">
-                                    <p class="description">
-                                        <?php _e('Subject line for resume reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="resume_reply_template">
-                                        <?php _e('Email Template', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <?php
-                                    wp_editor(
-                                        $resume_reply_template,
-                                        'resume_reply_template',
-                                        [
-                                            'textarea_name' => $this->option_name . '[resume_reply_template]',
-                                            'textarea_rows' => 20,
-                                            'media_buttons' => false,
-                                            'teeny' => false,
-                                            'quicktags' => true,
-                                            'tinymce' => [
-                                                'entity_encoding' => 'raw',
-                                                'remove_linebreaks' => false,
-                                                'forced_root_block' => false,
-                                                'force_br_newlines' => false,
-                                                'force_p_newlines' => false,
-                                            ],
-                                        ]
-                                    );
-                                    ?>
-                                    <p class="description">
-                                        <?php _e('HTML template for resume reply emails. Use variables from the list above.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <!-- Newsletter Reply Template -->
-                    <div class="card" style="max-width: 100%; margin-bottom: 20px;">
-                        <h2><?php _e('Newsletter Reply Template', 'codeweber'); ?></h2>
-                        <p><?php _e('This template is used for automatic reply emails sent to users after newsletter subscription.', 'codeweber'); ?></p>
-                        
-                        <table class="form-table">
-                            <tr>
-                                <th scope="row">
-                                    <label for="newsletter_reply_enabled">
-                                        <?php _e('Enable Newsletter Reply', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" 
-                                               name="<?php echo $this->option_name; ?>[newsletter_reply_enabled]" 
-                                               value="1" 
-                                               id="newsletter_reply_enabled"
-                                               <?php checked($newsletter_reply_enabled, true); ?>>
-                                        <?php _e('Send automatic reply emails for newsletter subscriptions', 'codeweber'); ?>
-                                    </label>
-                                    <p class="description">
-                                        <?php _e('Note: Reply will be sent if form name contains "newsletter" or "подписк".', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="newsletter_reply_subject">
-                                        <?php _e('Email Subject', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <input type="text" 
-                                           name="<?php echo $this->option_name; ?>[newsletter_reply_subject]" 
-                                           id="newsletter_reply_subject"
-                                           value="<?php echo esc_attr($newsletter_reply_subject); ?>" 
-                                           class="regular-text">
-                                    <p class="description">
-                                        <?php _e('Subject line for newsletter reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label for="newsletter_reply_template">
-                                        <?php _e('Email Template', 'codeweber'); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <?php
-                                    wp_editor(
-                                        $newsletter_reply_template,
-                                        'newsletter_reply_template',
-                                        [
-                                            'textarea_name' => $this->option_name . '[newsletter_reply_template]',
-                                            'textarea_rows' => 20,
-                                            'media_buttons' => false,
-                                            'teeny' => false,
-                                            'quicktags' => true,
-                                            'tinymce' => [
-                                                'entity_encoding' => 'raw',
-                                                'remove_linebreaks' => false,
-                                                'forced_root_block' => false,
-                                                'force_br_newlines' => false,
-                                                'force_p_newlines' => false,
-                                            ],
-                                        ]
-                                    );
-                                    ?>
-                                    <p class="description">
-                                        <?php _e('HTML template for newsletter reply emails. Use variables from the list above.', 'codeweber'); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                                    <iframe class="codeweber-email-preview-iframe" title="<?php esc_attr_e('Email preview', 'codeweber'); ?>" style="width:100%; min-height:400px; border:1px solid #c3c4c7; background:#fff;"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+
+                        <?php submit_button(); ?>
+                    </form>
                 </div>
-                
-                <?php submit_button(); ?>
-            </form>
+            </div>
         </div>
         <?php
     }
-}
 
+    /**
+     * Enqueue CSS/JS for the email templates page (sidebar + preview).
+     */
+    public function enqueue_email_templates_assets($hook) {
+        $is_email_templates = ( $hook === 'codeweber_form_page_codeweber-forms-email-templates' )
+            || ( strpos( (string) $hook, 'codeweber-forms-email-templates' ) !== false )
+            || ( isset( $_GET['page'] ) && $_GET['page'] === 'codeweber-forms-email-templates' );
+        if ( ! $is_email_templates ) {
+            return;
+        }
+        wp_enqueue_style('codeweber-forms-email-templates', CODEWEBER_FORMS_URL . '/admin/assets/email-templates.css', [], CODEWEBER_FORMS_VERSION);
+        wp_enqueue_script('codeweber-forms-email-templates', CODEWEBER_FORMS_URL . '/admin/assets/email-templates.js', ['jquery'], CODEWEBER_FORMS_VERSION, true);
+    }
+
+    private function localize_email_templates_script($current_template) {
+        wp_localize_script('codeweber-forms-email-templates', 'codeweberEmailTemplates', [
+            'ajaxUrl'   => admin_url('admin-ajax.php'),
+            'nonce'     => wp_create_nonce('codeweber_forms_email_preview'),
+            'current'   => $current_template,
+            'editorIds' => [
+                'admin_notification' => 'admin_notification_template',
+                'auto_reply'         => 'auto_reply_template',
+                'testimonial_reply'  => 'testimonial_reply_template',
+                'resume_reply'       => 'resume_reply_template',
+                'newsletter_reply'   => 'newsletter_reply_template',
+            ],
+        ]);
+    }
+}

@@ -1,0 +1,86 @@
+/* Email Templates page: sidebar + editor + preview */
+.codeweber-email-templates-layout {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    min-height: 60vh;
+}
+
+.codeweber-email-templates-sidebar {
+    flex: 0 0 220px;
+    background: #f0f0f1;
+    padding: 16px;
+    border-radius: 4px;
+    height: fit-content;
+}
+
+.codeweber-email-templates-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.codeweber-email-templates-nav li {
+    margin: 0;
+    padding: 0;
+}
+
+.codeweber-email-templates-nav a {
+    display: block;
+    padding: 10px 12px;
+    text-decoration: none;
+    color: #1d2327;
+    border-radius: 4px;
+}
+
+.codeweber-email-templates-nav a:hover {
+    background: #fff;
+}
+
+.codeweber-email-templates-nav a.active {
+    background: #2271b1;
+    color: #fff;
+}
+
+.codeweber-email-templates-variables summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.codeweber-email-templates-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.codeweber-email-templates-panel {
+    display: none;
+}
+
+.codeweber-email-templates-panel.is-active {
+    display: block;
+}
+
+.codeweber-email-templates-editor.card {
+    max-width: none;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.codeweber-email-templates-editor.card.bg-light {
+    background-color: #f0f0f1;
+}
+
+.codeweber-email-templates-panel-title {
+    margin-top: 0;
+}
+
+.codeweber-email-templates-preview-wrap {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #c3c4c7;
+}
+
+.codeweber-email-preview-iframe {
+    display: block;
+    min-height: 420px;
+}
