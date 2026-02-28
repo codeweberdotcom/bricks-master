@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-27 16:58+0000\n"
+"POT-Creation-Date: 2026-02-28 10:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -620,6 +620,8 @@ msgstr ""
 #: templates/header/header-extended.php:313
 #: templates/header/header-fancy-center-logo.php:289
 #: templates/header/header-fancy.php:302
+#: woocommerce/order/order-details-customer.php:33
+#: woocommerce/order/order-details-customer.php:72
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:377
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:436
 #: templates/singles/offices/default.php:104
@@ -868,7 +870,7 @@ msgstr ""
 msgid "Allow zooming by double-clicking on the map"
 msgstr ""
 
-#: woocommerce/myaccount/form-login.php:122
+#: woocommerce/myaccount/form-login.php:125
 msgid "Already have an account?"
 msgstr ""
 
@@ -948,6 +950,11 @@ msgstr ""
 
 #: templates/archives/vacancies/vacancies_2.php:47
 msgid "Anywhere"
+msgstr ""
+
+#: woocommerce/order/order-details-customer.php:34
+#: woocommerce/order/order-details-customer.php:73
+msgid "Apartment, suite, etc."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:6
@@ -1313,6 +1320,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:341
 msgid "Bicycle"
+msgstr ""
+
+#: woocommerce/order/order-details-customer.php:23
+msgid "Billing address"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:394
@@ -1717,6 +1728,8 @@ msgstr ""
 
 #: functions/cpt/cpt-offices.php:202 functions/cpt/cpt-offices.php:803
 #: functions/cpt/cpt-staff.php:221
+#: woocommerce/order/order-details-customer.php:35
+#: woocommerce/order/order-details-customer.php:74
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:376
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:435
 #: redux-framework/sample/sections/codeweber/company-details.php:65
@@ -1808,7 +1821,7 @@ msgstr ""
 msgid "Clusterer Settings"
 msgstr ""
 
-#: functions/woocommerce.php:98 functions/woocommerce.php:99
+#: functions/woocommerce.php:100 functions/woocommerce.php:101
 msgid "Code from SMS"
 msgstr ""
 
@@ -1902,6 +1915,8 @@ msgstr ""
 
 #: functions/cpt/cpt-staff.php:197 functions/cpt/cpt-testimonials.php:542
 #: functions/cpt/cpt-vacancies.php:227
+#: woocommerce/order/order-details-customer.php:32
+#: woocommerce/order/order-details-customer.php:71
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:103
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:350
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:800
@@ -1968,7 +1983,7 @@ msgstr ""
 msgid "Configure SMTP settings for sending emails from your website."
 msgstr ""
 
-#: functions/woocommerce.php:100
+#: functions/woocommerce.php:102
 msgid "Confirm"
 msgstr ""
 
@@ -2224,6 +2239,8 @@ msgid "Could not read file."
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:196 functions/cpt/cpt-staff.php:215
+#: woocommerce/order/order-details-customer.php:38
+#: woocommerce/order/order-details-customer.php:77
 #: redux-framework/sample/sections/codeweber/company-details.php:51
 #: redux-framework/sample/sections/codeweber/company-details.php:113
 msgid "Country"
@@ -3205,7 +3222,7 @@ msgstr ""
 msgid "Documents List"
 msgstr ""
 
-#: woocommerce/myaccount/form-login.php:72
+#: woocommerce/myaccount/form-login.php:75
 msgid "Don't have an account?"
 msgstr ""
 
@@ -3420,6 +3437,7 @@ msgstr ""
 #: functions/bootstrap/bootstrap_share-page.php:219
 #: functions/bootstrap/bootstrap_share-page.php:261
 #: functions/cpt/cpt-offices.php:283 functions/cpt/cpt-offices.php:805
+#: woocommerce/order/order-details-customer.php:40
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:254
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:348
 #: templates/singles/offices/offices_1.php:227
@@ -4184,7 +4202,7 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: woocommerce/myaccount/form-login.php:38
+#: woocommerce/myaccount/form-login.php:41
 msgid "Fill your email and password to sign in."
 msgstr ""
 
@@ -4646,6 +4664,15 @@ msgstr ""
 msgid "From Name"
 msgstr ""
 
+#. 1: Orders URL 2: Edit address URL 3: Edit account URL.
+#: woocommerce/myaccount/dashboard.php:45
+#, php-format
+msgid ""
+"From your account dashboard you can view your <a href=\"%1$s\">recent "
+"orders</a>, manage your <a href=\"%2$s\">billing and shipping addresses</a>, "
+"and <a href=\"%3$s\">edit your password and account details</a>."
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1690
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:351
 msgid "From:"
@@ -4957,6 +4984,12 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:326
 msgid "Hello"
+msgstr ""
+
+#. 1: user display name (wrapped in strong), 2: logout link
+#: woocommerce/myaccount/dashboard.php:35
+#, php-format
+msgid "Hello %1$s (not %1$s? %2$s)"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:386
@@ -5921,6 +5954,10 @@ msgstr ""
 msgid "Location & Map"
 msgstr ""
 
+#: woocommerce/myaccount/dashboard.php:37
+msgid "Log out"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:145
 msgid "Logo"
 msgstr ""
@@ -6331,6 +6368,8 @@ msgid "My Price Lists"
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:185 functions/cpt/cpt-staff.php:420
+#: woocommerce/order/order-details-customer.php:31
+#: woocommerce/order/order-details-customer.php:70
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:347
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:928
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:790
@@ -7599,7 +7638,7 @@ msgstr ""
 msgid "Person or company who obtained the license"
 msgstr ""
 
-#: woocommerce/myaccount/form-edit-account.php:35
+#: woocommerce/myaccount/form-edit-account.php:37
 msgid "Personal data"
 msgstr ""
 
@@ -7662,6 +7701,8 @@ msgstr ""
 #: templates/header/header-extended.php:294
 #: templates/header/header-fancy-center-logo.php:270
 #: templates/header/header-fancy.php:283
+#: woocommerce/order/order-details-customer.php:39
+#: woocommerce/order/order-details-customer.php:78
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:357
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:378
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:437
@@ -7728,20 +7769,20 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: functions/woocommerce.php:90 functions/woocommerce.php:110
+#: functions/woocommerce.php:92 functions/woocommerce.php:112
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1348
 msgid "Phone number"
 msgstr ""
 
-#: functions/woocommerce.php:79
+#: functions/woocommerce.php:81
 msgid "Phone number is not specified"
 msgstr ""
 
-#: functions/woocommerce.php:83
+#: functions/woocommerce.php:85
 msgid "Phone number is not verified"
 msgstr ""
 
-#: functions/woocommerce.php:81
+#: functions/woocommerce.php:83
 msgid "Phone number is verified"
 msgstr ""
 
@@ -7910,6 +7951,11 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/company-details.php:93
 #: redux-framework/sample/sections/codeweber/company-details.php:155
 msgid "Postal Code"
+msgstr ""
+
+#: woocommerce/order/order-details-customer.php:37
+#: woocommerce/order/order-details-customer.php:76
+msgid "Postcode / ZIP"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:23
@@ -8357,7 +8403,7 @@ msgstr ""
 msgid "Registered User"
 msgstr ""
 
-#: woocommerce/myaccount/form-login.php:85
+#: woocommerce/myaccount/form-login.php:88
 msgid "Registration takes less than a minute."
 msgstr ""
 
@@ -9494,6 +9540,10 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
+#: woocommerce/order/order-details-customer.php:64
+msgid "Shipping address"
+msgstr ""
+
 #: functions/global.php:790
 msgid "Shop"
 msgstr ""
@@ -9726,7 +9776,7 @@ msgstr ""
 msgid "Sidebar Title"
 msgstr ""
 
-#: woocommerce/myaccount/form-login.php:73
+#: woocommerce/myaccount/form-login.php:76
 msgid "Sign up"
 msgstr ""
 
@@ -10011,6 +10061,11 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:624
 msgid "Start date"
+msgstr ""
+
+#: woocommerce/order/order-details-customer.php:36
+#: woocommerce/order/order-details-customer.php:75
+msgid "State / County"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:544
@@ -11717,7 +11772,7 @@ msgstr ""
 msgid "Verified"
 msgstr ""
 
-#: functions/woocommerce.php:91
+#: functions/woocommerce.php:93
 msgid "Verify"
 msgstr ""
 
