@@ -11,6 +11,9 @@
 
 defined('ABSPATH') || exit;
 
+$form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
+$theme_btn  = function_exists( 'getThemeButton' ) ? ' ' . esc_attr( trim( getThemeButton() ) ) : '';
+
 do_action('woocommerce_before_lost_password_form');
 ?>
 
@@ -24,7 +27,7 @@ do_action('woocommerce_before_lost_password_form');
 	<div class="form-floating mb-4">
 		<input
 			type="text"
-			class="form-control"
+			class="form-control<?php echo esc_attr( $form_radius ); ?>"
 			name="user_login"
 			id="user_login"
 			placeholder="<?php esc_attr_e('Username or email', 'woocommerce'); ?>"
@@ -39,7 +42,7 @@ do_action('woocommerce_before_lost_password_form');
 	<input type="hidden" name="wc_reset_password" value="true" />
 
 	<p class="form-row">
-		<button type="submit" class="btn btn-primary <?php getThemeButton(); ?>">
+		<button type="submit" class="btn btn-primary<?php echo $theme_btn; ?>">
 			<?php esc_html_e('Reset password', 'woocommerce'); ?>
 		</button>
 	</p>

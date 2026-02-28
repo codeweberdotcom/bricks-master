@@ -59,7 +59,7 @@ $col    = 1;
 
 	<div class="u-column<?php echo $col < 0 ? 1 : 2; ?> col-<?php echo $oldcol < 0 ? 1 : 2; ?> woocommerce-Address">
 		<header class="woocommerce-Address-title title">
-			<h2 class="mb-6"><?php echo esc_html( $address_title ); ?></h2>
+			<h3 class="mb-6"><?php echo esc_html( $address_title ); ?></h3>
 		</header>
 		<address>
 			<?php

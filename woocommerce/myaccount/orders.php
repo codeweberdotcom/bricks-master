@@ -19,6 +19,8 @@ $theme_btn = function_exists( 'getThemeButton' ) ? getThemeButton() : '';
 
 do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
+<h3 class="mb-6"><?php esc_html_e( 'Order list', 'codeweber' ); ?></h3>
+
 <?php if ( $has_orders ) : ?>
 
 	<table class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table">

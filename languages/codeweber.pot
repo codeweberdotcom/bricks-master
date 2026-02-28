@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-28 10:56+0000\n"
+"POT-Creation-Date: 2026-02-28 12:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -7278,6 +7278,10 @@ msgstr ""
 msgid "Order items in side menu"
 msgstr ""
 
+#: woocommerce/myaccount/orders.php:22
+msgid "Order list"
+msgstr ""
+
 #: functions/woocommerce-states-ru.php:62
 msgid "Orenburg Oblast"
 msgstr ""
@@ -8995,6 +8999,11 @@ msgstr ""
 #: functions/demo/demo-ajax.php:590 functions/demo/demo-ajax.php:611
 #: functions/demo/demo-ajax.php:633 functions/demo/demo-ajax.php:654
 msgid "Security error. Please refresh the page and try again."
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-address.php:89
+#: woocommerce/myaccount/form-edit-address.php:90
+msgid "Select a country / region…"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1384

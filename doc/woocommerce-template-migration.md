@@ -58,6 +58,17 @@
 | `woocommerce/order/order-details-customer.php` | 8.7.0 | завершена | Заголовки адресов h3.mb-3 |
 | `woocommerce/myaccount/navigation.php` | 9.0.0 | завершена | Класс woocommerce-MyAccount-navigation снят с nav |
 | `woocommerce/myaccount/form-edit-address.php` | 9.3.0 | завершена | contact-form, h3.mb-6, row/col, form-control, btn + getThemeButton() |
+| `woocommerce/myaccount/my-account.php` | — | завершена | Обёртка личного кабинета |
+| `woocommerce/myaccount/form-login.php` | 9.9.0 | завершена | Вход/регистрация: getThemeFormRadius, getThemeButton, form-control, form-check |
+| `woocommerce/myaccount/form-lost-password.php` | 9.2.0 | завершена | getThemeFormRadius, getThemeButton на полях и кнопке |
+| `woocommerce/myaccount/form-reset-password.php` | 9.2.0 | завершена | getThemeFormRadius, getThemeButton на полях и кнопке «Сохранить» |
+| `woocommerce/myaccount/lost-password-confirmation.php` | 3.9.0 | завершена | Текст «Письмо для сброса пароля отправлено» |
+| `woocommerce/myaccount/my-address.php` | — | завершена | Список адресов |
+| `woocommerce/myaccount/downloads.php` | — | завершена | Загрузки |
+| `woocommerce/myaccount/my-orders.php` | — | завершена | Список заказов (подшаблон) |
+| `woocommerce/notices/success.php` | 8.6.0 | завершена | Уведомления успеха: card-border-top, getThemeCardImageRadius |
+| `woocommerce/notices/error.php` | 8.6.0 | завершена | Уведомления ошибок: card-border-top, getThemeCardImageRadius |
+| `woocommerce/notices/notice.php` | 10.4.0 | завершена | Информационные уведомления: getThemeCardImageRadius |
 
 - [x] dashboard.php — миграция завершена
 - [x] orders.php — миграция завершена
@@ -69,6 +80,35 @@
 - [x] order-details-customer.php — миграция завершена
 - [x] navigation.php — миграция завершена
 - [x] form-edit-address.php — миграция завершена
+- [x] my-account.php — миграция завершена
+- [x] form-login.php — миграция завершена
+- [x] form-lost-password.php — миграция завершена
+- [x] form-reset-password.php — миграция завершена
+- [x] lost-password-confirmation.php — миграция завершена
+- [x] my-address.php — миграция завершена
+- [x] downloads.php — миграция завершена
+- [x] my-orders.php — миграция завершена
+- [x] notices/success.php — миграция завершена
+- [x] notices/error.php — миграция завершена
+- [x] notices/notice.php — миграция завершена
+
+### 1.5. Невыполненные пункты (обновлённый список)
+
+**My Account (ещё не в отчёте / не проверены):**
+
+- [x] `woocommerce/myaccount/my-downloads.php` — удалён (deprecated с WC 2.6.0, не использовался).
+
+**Письма (emails):**
+
+- [ ] Этап 2: выбрать стратегию (удалить переопределения или обновить шаблоны).
+- [ ] Этап 3: при стратегии «удалить» — удалить папки `woocommerce/emails/`, `emails/plain/`, `emails/block/` и проверить письма.
+- [ ] Этап 4: при стратегии «обновить» — обновить перечисленные в плане email-шаблоны (header, footer, styles, order-details, order-items, addresses, downloads, customer-*, admin-*, plain/*, block/*).
+
+**Подготовка и финал:**
+
+- [ ] Этап 0: бэкап темы, бэкап БД, актуальная версия WooCommerce, зафиксировать переопределения.
+- [ ] Этап 5: финальная проверка (Статус → Шаблоны, личный кабинет, письма, при необходимости мобильная вёрстка).
+- [ ] Этап 6: документирование (какие шаблоны переопределены и зачем, напоминание проверять шаблоны после обновления WC).
 
 ---
 

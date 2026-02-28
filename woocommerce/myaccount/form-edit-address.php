@@ -86,8 +86,8 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 								</div>
 							<?php else : ?>
 								<div class="form-floating">
-									<select name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" class="form-select<?php echo esc_attr( $form_radius ); ?> country_to_state country_select" aria-label="<?php echo esc_attr( $field['label'] ); ?>" data-placeholder="<?php echo esc_attr( $field['placeholder'] ? esc_attr( $field['placeholder'] ) : esc_attr__( 'Select a country / region…', 'woocommerce' ) ); ?>" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-										<option value=""><?php echo esc_html( $field['placeholder'] ? $field['placeholder'] : __( 'Select a country / region…', 'woocommerce' ) ); ?></option>
+									<select name="<?php echo esc_attr( $key ); ?>" id="<?php echo esc_attr( $field['id'] ); ?>" class="form-select<?php echo esc_attr( $form_radius ); ?> country_to_state country_select" aria-label="<?php echo esc_attr( $field['label'] ); ?>" data-placeholder="<?php echo esc_attr( $field['placeholder'] ? esc_attr( $field['placeholder'] ) : esc_attr__( 'Select a country / region…', 'codeweber' ) ); ?>" <?php echo $custom_attrs_str; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+										<option value=""><?php echo esc_html( $field['placeholder'] ? $field['placeholder'] : __( 'Select a country / region…', 'codeweber' ) ); ?></option>
 										<?php foreach ( $countries as $ckey => $cvalue ) : ?>
 											<option value="<?php echo esc_attr( $ckey ); ?>" <?php selected( $value, $ckey ); ?>><?php echo esc_html( $cvalue ); ?></option>
 										<?php endforeach; ?>

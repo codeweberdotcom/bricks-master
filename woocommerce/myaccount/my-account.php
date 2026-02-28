@@ -27,12 +27,13 @@ defined('ABSPATH') || exit;
 do_action('woocommerce_account_navigation'); ?>
 
 <div class="woocommerce-MyAccount-content col-xl-9">
-			<?php
-			/**
-			 * My Account content.
-			 *
-			 * @since 2.6.0
-			 */
-			do_action('woocommerce_account_content');
-			?>
-	</div>
+	<div class="woocommerce-notices-wrapper"></div>
+	<?php
+	/**
+	 * My Account content.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action('woocommerce_account_content');
+	?>
+</div>

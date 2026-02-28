@@ -456,8 +456,7 @@ function codeweber_my_account_dashboard_cards()
       );
    }
    $card_items = apply_filters('codeweber_my_account_dashboard_card_items', $card_items);
-   $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
-   $card_class = 'card lift text-decoration-none text-body d-block' . ($card_radius ? ' ' . esc_attr($card_radius) : '');
+   $card_class = 'card lift text-decoration-none text-body d-block rounded-0';
    ?>
    <div class="row g-3 g-md-3 mt-4">
       <?php foreach ($card_items as $endpoint => $data) :
@@ -466,7 +465,7 @@ function codeweber_my_account_dashboard_cards()
          $label = esc_html($data['label']);
       ?>
          <div class="col-md-4">
-            <a href="<?php echo esc_url($url); ?>" class="<?php echo $card_class; ?>">
+            <a href="<?php echo esc_url($url); ?>" class="<?php echo esc_attr( $card_class ); ?>">
                <div class="card-body p-6 text-center">
                   <div class="icon text-primary">
                      <i class="uil <?php echo $icon_class; ?> text-primary fs-35"></i>

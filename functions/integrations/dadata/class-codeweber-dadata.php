@@ -239,7 +239,7 @@ class Codeweber_Dadata {
 			'state'     => $region,
 			'city'      => $city,
 			'address_1' => $address_1,
-			'address_2' => $flat,
+			'address_2' => '',
 			'postcode'  => $postal,
 		);
 	}

@@ -18,6 +18,10 @@
 
 
 defined('ABSPATH') || exit;
+
+$form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
+$theme_btn  = function_exists( 'getThemeButton' ) ? ' ' . esc_attr( trim( getThemeButton() ) ) : '';
+
 do_action('woocommerce_before_reset_password_form');
 ?>
 
@@ -26,12 +30,12 @@ do_action('woocommerce_before_reset_password_form');
 	<p><?php echo apply_filters('woocommerce_reset_password_message', esc_html__('Enter a new password below.', 'woocommerce')); ?></p>
 
 	<div class="form-floating mb-4">
-		<input type="password" name="password_1" id="password_1" class="form-control" placeholder="<?php esc_attr_e('New password', 'woocommerce'); ?>" autocomplete="new-password" required aria-required="true">
+		<input type="password" name="password_1" id="password_1" class="form-control<?php echo esc_attr( $form_radius ); ?>" placeholder="<?php esc_attr_e('New password', 'woocommerce'); ?>" autocomplete="new-password" required aria-required="true">
 		<label for="password_1"><?php esc_html_e('New password', 'woocommerce'); ?></label>
 	</div>
 
 	<div class="form-floating mb-4">
-		<input type="password" name="password_2" id="password_2" class="form-control" placeholder="<?php esc_attr_e('Re-enter new password', 'woocommerce'); ?>" autocomplete="new-password" required aria-required="true">
+		<input type="password" name="password_2" id="password_2" class="form-control<?php echo esc_attr( $form_radius ); ?>" placeholder="<?php esc_attr_e('Re-enter new password', 'woocommerce'); ?>" autocomplete="new-password" required aria-required="true">
 		<label for="password_2"><?php esc_html_e('Re-enter new password', 'woocommerce'); ?></label>
 	</div>
 
@@ -42,7 +46,7 @@ do_action('woocommerce_before_reset_password_form');
 
 	<p class="woocommerce-form-row form-row">
 		<input type="hidden" name="wc_reset_password" value="true" />
-		<button type="submit" class="woocommerce-Button <?php getThemeButton(); ?> btn btn-primary <?php echo esc_attr(wc_wp_theme_get_element_class_name('button') ? ' ' . wc_wp_theme_get_element_class_name('button') : ''); ?>" value="<?php esc_attr_e('Save', 'woocommerce'); ?>"><?php esc_html_e('Save', 'woocommerce'); ?></button>
+		<button type="submit" class="woocommerce-Button btn btn-primary<?php echo $theme_btn; ?><?php echo wc_wp_theme_get_element_class_name('button') ? ' ' . esc_attr(wc_wp_theme_get_element_class_name('button')) : ''; ?>" value="<?php esc_attr_e('Save', 'woocommerce'); ?>"><?php esc_html_e('Save', 'woocommerce'); ?></button>
 	</p>
 
 	<?php wp_nonce_field('reset_password', 'woocommerce-reset-password-nonce'); ?>

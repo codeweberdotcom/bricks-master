@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-02-28 11:01+0000\n"
+"PO-Revision-Date: 2026-02-28 12:25+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -2259,7 +2259,6 @@ msgid "Cookie Data"
 msgstr "Cookie Данные"
 
 #: redux-framework/sample/sections/codeweber/legal.php:725
-#, fuzzy
 #| msgid "Сookie Expiration Date"
 msgid "Cookie Expiration Date"
 msgstr "Срок действия Cookie-файла*"
@@ -2846,14 +2845,12 @@ msgid "Default Email Subject"
 msgstr "Тема E-Mail письма по умолчанию"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:495
-#, fuzzy
 msgid "Default Footer"
-msgstr "Стандартный нижний колонтитул"
+msgstr "Стандартный Футер"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:455
-#, fuzzy
 msgid "Default Header"
-msgstr "Стандартный заголовок"
+msgstr "Стандартный Хедер"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:73
 msgid "Default Height"
@@ -6293,12 +6290,10 @@ msgid "Light Logo"
 msgstr "Светлый Логотип"
 
 #: redux-framework/sample/sections/codeweber/api.php:60
-#, fuzzy
 msgid "Link to SMS RU Documentation"
 msgstr "Ссылка на документацию SMS RU"
 
 #: redux-framework/sample/sections/codeweber/api.php:51
-#, fuzzy
 msgid "Link to Yandex Developer Console"
 msgstr "Ссылка на консоль разработчика Yandex"
 
@@ -6617,7 +6612,6 @@ msgstr "Медиа-лицензии"
 #: redux-framework/sample/sections/codeweber/footer.php:184
 #: redux-framework/sample/sections/codeweber/header.php:261
 #: redux-framework/sample/sections/codeweber/header.php:336
-#, fuzzy
 msgid "Medium"
 msgstr "Средний"
 
@@ -6693,7 +6687,6 @@ msgid "Microsoft Excel"
 msgstr "Микрофт Эксел"
 
 #: templates/post-cards/vacancies/card.php:72
-#, fuzzy
 msgid "Mid level"
 msgstr "Средний уровень"
 
@@ -7802,6 +7795,10 @@ msgstr "Информация о заказе №%s"
 #: redux-framework/sample/sections/codeweber/header.php:346
 msgid "Order items in side menu"
 msgstr "Порядок Элементов"
+
+#: woocommerce/myaccount/orders.php:22
+msgid "Order list"
+msgstr "Список заказов"
 
 #: functions/woocommerce-states-ru.php:62
 msgid "Orenburg Oblast"
@@ -9023,7 +9020,6 @@ msgstr "Регистрация занимает меньше минуты."
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1825
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:156
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:520
-#, fuzzy
 msgid "Regular Form"
 msgstr "Стандартная форма"
 
@@ -9221,12 +9217,10 @@ msgid "Revision ID"
 msgstr "ID ревизии"
 
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:357
-#, fuzzy
 msgid "Revoked"
 msgstr "Отозвано"
 
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:372
-#, fuzzy
 msgid "Revoked consents"
 msgstr "Отозванные согласия"
 
@@ -9335,9 +9329,8 @@ msgid "Saratov Oblast"
 msgstr "Саратовская область"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:64
-#, fuzzy
 msgid "Satellite"
-msgstr "Спутниковый"
+msgstr "Спутник"
 
 #: functions/integrations/personal-data-v2/test-providers.php:90
 msgid "Save Retention Settings"
@@ -9630,6 +9623,11 @@ msgstr "Ошибка безопасности"
 #: functions/demo/demo-ajax.php:633 functions/demo/demo-ajax.php:654
 msgid "Security error. Please refresh the page and try again."
 msgstr "Ошибка безопасности. Обновите страницу и попробуйте снова."
+
+#: woocommerce/myaccount/form-edit-address.php:89
+#: woocommerce/myaccount/form-edit-address.php:90
+msgid "Select a country / region…"
+msgstr "Выберите страну или регион…"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1384
 msgid "Select a CSV file to import. Maximum file size:"
@@ -10018,7 +10016,6 @@ msgid "Sending..."
 msgstr "Отправка..."
 
 #: templates/post-cards/vacancies/card.php:66
-#, fuzzy
 msgid "Senior level"
 msgstr "Старший уровень"
 
@@ -12136,7 +12133,6 @@ msgid "Unsubscribe Error"
 msgstr "Ошибка отписки"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:382
-#, fuzzy
 msgid "Unsubscribe link"
 msgstr "Ссылка на отписку"
 
@@ -12164,7 +12160,6 @@ msgid "Unsubscribed only"
 msgstr "Только отписавшиеся"
 
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:288
-#, fuzzy
 msgid "Unsubscribed via page"
 msgstr "Отписался через страницу"
 
