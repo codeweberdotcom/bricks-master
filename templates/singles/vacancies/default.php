@@ -30,6 +30,26 @@ $social_type = 'type' . ($social_icon_type ? $social_icon_type : '1'); // По �
          <div class="post-content mb-5">
             <?php if ($vacancy_data) : ?>
 
+               <div class="mb-6">
+                  <h3 class="mb-3"><?php esc_html_e('О вакансии', 'codeweber'); ?></h3>
+                  <div class="">
+                     <span class="h6 mb-1"><?php esc_html_e('Должность:', 'codeweber'); ?> </span>
+                     <span><?php echo esc_html(get_the_title()); ?></span>
+                  </div>
+                  <?php if (!empty($vacancy_data['company'])) : ?>
+                  <div class="align-self-start">
+                     <span class="h6 mb-1"><?php esc_html_e('Компания:', 'codeweber'); ?> </span>
+                     <span><?php echo esc_html($vacancy_data['company']); ?></span>
+                  </div>
+                  <?php endif; ?>
+                  <?php if (!empty($vacancy_data['salary'])) : ?>
+                  <div class="align-self-start">
+                     <span class="h6 mb-1"><?php esc_html_e('Заработная плата:', 'codeweber'); ?> </span>
+                     <span><?php echo esc_html($vacancy_data['salary']); ?></span>
+                  </div>
+                  <?php endif; ?>
+               </div>
+
                <?php if (!empty($vacancy_data['introduction'])) : ?>
                   <div class="mb-6"><?php echo wp_kses_post($vacancy_data['introduction']); ?></div>
                <?php endif; ?>
@@ -51,6 +71,17 @@ $social_type = 'type' . ($social_icon_type ? $social_icon_type : '1'); // По �
                      <ul class="unordered-list bullet-primary">
                         <?php foreach ($vacancy_data['responsibilities'] as $responsibility) : ?>
                            <li><?php echo esc_html($responsibility); ?></li>
+                        <?php endforeach; ?>
+                     </ul>
+                  </div>
+               <?php endif; ?>
+
+               <?php if (!empty($vacancy_data['skills']) && is_array($vacancy_data['skills'])) : ?>
+                  <div class="mb-6">
+                     <h3 class="mb-3"><?php _e('Skills', 'codeweber'); ?></h3>
+                     <ul class="unordered-list bullet-primary">
+                        <?php foreach ($vacancy_data['skills'] as $skill) : ?>
+                           <li><?php echo esc_html($skill); ?></li>
                         <?php endforeach; ?>
                      </ul>
                   </div>

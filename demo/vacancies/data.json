@@ -3,22 +3,12 @@
   "post_type": "vacancies",
   "description": "Demo данные для CPT Vacancies",
   "source_images": "src/assets/img/photos/",
-  "vacancy_types": [
-    {
-      "name_en": "Full-time",
-      "name_ru": "Полная занятость",
-      "slug": "full-time"
-    },
-    {
-      "name_en": "Part-time",
-      "name_ru": "Частичная занятость",
-      "slug": "part-time"
-    },
-    {
-      "name_en": "Remote",
-      "name_ru": "Удаленная работа",
-      "slug": "remote"
-    }
+  "vacancy_schedules": [
+    { "name_en": "5/2 — five working, two days off", "name_ru": "5/2 — пять рабочих, два выходных", "slug": "5-2" },
+    { "name_en": "2/2 — two working, two days off", "name_ru": "2/2 — два рабочих, два выходных", "slug": "2-2" },
+    { "name_en": "Flexible schedule", "name_ru": "Гибкий график", "slug": "gibkiy-grafik" },
+    { "name_en": "Remote", "name_ru": "Удалённо", "slug": "udalenno" },
+    { "name_en": "Shift work", "name_ru": "Вахтовый метод", "slug": "vahtovyy-metod" }
   ],
   "items": [
     {
@@ -39,11 +29,15 @@
       "employment_type": "full-time",
       "experience": "5+ years",
       "education": "Bachelor's degree",
+      "languages_en": ["English (fluent)", "Russian (native)"],
+      "languages_ru": ["Английский (свободно)", "Русский (родной)"],
       "linkedin_url": "https://linkedin.com/company/sandbox",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "We are looking for an experienced Senior Web Developer to join our team. You will be responsible for developing and maintaining web applications using modern technologies.",
-      "introduction_ru": "Мы ищем опытного ведущего веб-разработчика для нашей команды. Вы будете отвечать за разработку и поддержку веб-приложений с использованием современных технологий.",
+      "introduction_en": "We are looking for an experienced Senior Web Developer to join our team. You will be responsible for developing and maintaining web applications using modern technologies. You will work closely with designers and product managers, participate in code reviews, and help mentor junior developers. Our stack includes PHP, JavaScript, React, and WordPress; we offer a flexible schedule and opportunities for professional growth.",
+      "introduction_ru": "Мы ищем опытного ведущего веб-разработчика для нашей команды. Вы будете отвечать за разработку и поддержку веб-приложений с использованием современных технологий, тесно взаимодействовать с дизайнерами и менеджерами продукта, участвовать в код-ревью и помогать в наставничестве младших разработчиков. В нашем стеке — PHP, JavaScript, React и WordPress; мы предлагаем гибкий график и возможности для профессионального роста.",
+      "additional_info_en": "We provide a modern office, health insurance, and annual training budget. Remote work is possible 2 days per week after the trial period.",
+      "additional_info_ru": "Мы предоставляем современный офис, ДМС и годовой бюджет на обучение. Удалённая работа возможна 2 дня в неделю после испытательного срока.",
       "requirements_en": [
         "5+ years of experience in web development",
         "Strong knowledge of PHP, JavaScript, and MySQL",
@@ -72,7 +66,9 @@
         "Проведение code review",
         "Менторство младших разработчиков"
       ],
-      "vacancy_type_slug": "full-time",
+      "skills_en": ["PHP", "JavaScript", "React", "WordPress", "MySQL", "Git"],
+      "skills_ru": ["PHP", "JavaScript", "React", "WordPress", "MySQL", "Git"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
@@ -93,11 +89,15 @@
       "employment_type": "full-time",
       "experience": "3+ years",
       "education": "Bachelor's degree in Design or related field",
+      "languages_en": ["English (fluent)", "Russian (native)"],
+      "languages_ru": ["Английский (свободно)", "Русский (родной)"],
       "linkedin_url": "",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "We are seeking a talented UX/UI Designer to create engaging and intuitive user experiences for our digital products.",
-      "introduction_ru": "Мы ищем талантливого UX/UI дизайнера для создания привлекательного и интуитивного пользовательского опыта для наших цифровых продуктов.",
+      "introduction_en": "We are seeking a talented UX/UI Designer to create engaging and intuitive user experiences for our digital products. You will own the design process from research and wireframes to high-fidelity prototypes, work with developers on implementation, and help maintain our design system. We use Figma daily and value accessibility and data-driven decisions.",
+      "introduction_ru": "Мы ищем талантливого UX/UI дизайнера для создания привлекательного и интуитивного пользовательского опыта для наших цифровых продуктов. Вы будете вести процесс от исследований и вайрфреймов до финальных прототипов, работать с разработчиками над внедрением и поддерживать дизайн-систему. В работе используем Figma; важны доступность и решения на основе данных.",
+      "additional_info_en": "Design team works in a hybrid mode. We provide a MacBook, software licenses, and access to design conferences.",
+      "additional_info_ru": "Команда дизайна работает в гибридном формате. Предоставляем MacBook, лицензии на ПО и возможность посещения конференций.",
       "requirements_en": [
         "3+ years of UX/UI design experience",
         "Proficiency in Figma, Adobe XD, or Sketch",
@@ -126,7 +126,9 @@
         "Взаимодействие с разработчиками и менеджерами продукта",
         "Поддержка дизайн-систем и руководств по стилю"
       ],
-      "vacancy_type_slug": "full-time",
+      "skills_en": ["Figma", "Adobe XD", "Sketch", "UI design", "Prototyping", "User research"],
+      "skills_ru": ["Figma", "Adobe XD", "Sketch", "UI-дизайн", "Прототипирование", "User research"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
@@ -147,11 +149,15 @@
       "employment_type": "full-time",
       "experience": "4+ years",
       "education": "Bachelor's degree or equivalent experience",
+      "languages_en": ["English (fluent)"],
+      "languages_ru": ["Английский (свободно)"],
       "linkedin_url": "",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "Join our distributed team as a Remote Frontend Developer. Work from anywhere and help us build amazing user experiences.",
-      "introduction_ru": "Присоединяйтесь к нашей распределенной команде в качестве Frontend разработчика. Работайте из любой точки мира и помогите нам создавать потрясающий пользовательский опыт.",
+      "introduction_en": "Join our distributed team as a Remote Frontend Developer. Work from anywhere and help us build amazing user experiences. You will develop responsive interfaces with React or Vue, collaborate with backend and design via async communication, and take part in sprint planning and demos. We use modern tooling, CI/CD, and focus on performance and accessibility.",
+      "introduction_ru": "Присоединяйтесь к нашей распределенной команде в качестве Frontend разработчика. Работайте из любой точки мира и помогите нам создавать потрясающий пользовательский опыт. Вы будете разрабатывать адаптивные интерфейсы на React или Vue, взаимодействовать с бэкендом и дизайном в асинхронном режиме и участвовать в планировании спринтов и демо. Используем современный инструментарий, CI/CD и делаем акцент на производительности и доступности.",
+      "additional_info_en": "Fully remote position. We cover co-working or home office expenses and organize annual team meetups.",
+      "additional_info_ru": "Полностью удалённая позиция. Компенсируем коворкинг или обустройство домашнего офиса, проводим ежегодные офлайн-встречи команды.",
       "requirements_en": [
         "4+ years of frontend development experience",
         "Expert knowledge of JavaScript (ES6+), HTML5, CSS3",
@@ -180,7 +186,9 @@
         "Участие в code review и командных встречах",
         "Отслеживание новых технологий"
       ],
-      "vacancy_type_slug": "remote",
+      "skills_en": ["React", "Vue.js", "JavaScript", "HTML/CSS", "Git", "Responsive design"],
+      "skills_ru": ["React", "Vue.js", "JavaScript", "HTML/CSS", "Git", "Адаптивная вёрстка"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
@@ -201,11 +209,15 @@
       "employment_type": "full-time",
       "experience": "4+ years",
       "education": "Bachelor's degree in Computer Science",
+      "languages_en": ["English (fluent)", "Russian (native)"],
+      "languages_ru": ["Английский (свободно)", "Русский (родной)"],
       "linkedin_url": "",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "We are looking for a skilled Backend Developer to build robust and scalable server-side applications.",
-      "introduction_ru": "Мы ищем опытного Backend разработчика для создания надежных и масштабируемых серверных приложений.",
+      "introduction_en": "We are looking for a skilled Backend Developer to build robust and scalable server-side applications. You will design APIs, work with databases and caching, integrate with third-party services, and ensure security and performance. Our backend is mainly PHP (Laravel) and Node.js; we use Docker, message queues, and automated tests.",
+      "introduction_ru": "Мы ищем опытного Backend разработчика для создания надёжных и масштабируемых серверных приложений. В зоне ответственности — проектирование API, работа с БД и кэшем, интеграции с внешними сервисами, безопасность и производительность. Основной стек — PHP (Laravel) и Node.js; используем Docker, очереди сообщений и автотесты.",
+      "additional_info_en": "Backend team has core hours but flexible start. We provide training budget and support open-source contributions.",
+      "additional_info_ru": "У бэкенд-команды фиксированные «ядровые» часы при гибком начале дня. Есть бюджет на обучение и поддержка опенсорс-контрибуций.",
       "requirements_en": [
         "4+ years of backend development experience",
         "Strong knowledge of PHP, Python, or Node.js",
@@ -234,7 +246,9 @@
         "Взаимодействие с frontend разработчиками",
         "Написание технической документации"
       ],
-      "vacancy_type_slug": "full-time",
+      "skills_en": ["PHP", "Laravel", "Node.js", "MySQL", "API design", "Docker"],
+      "skills_ru": ["PHP", "Laravel", "Node.js", "MySQL", "API", "Docker"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
@@ -255,11 +269,15 @@
       "employment_type": "full-time",
       "experience": "2+ years",
       "education": "Bachelor's degree in Marketing or related field",
+      "languages_en": ["English (fluent)", "Russian (fluent)"],
+      "languages_ru": ["Английский (свободно)", "Русский (свободно)"],
       "linkedin_url": "",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "Join our marketing team as a Digital Marketing Specialist and help us grow our online presence.",
-      "introduction_ru": "Присоединяйтесь к нашей маркетинговой команде в качестве специалиста по цифровому маркетингу и помогите нам развивать онлайн-присутствие.",
+      "introduction_en": "Join our marketing team as a Digital Marketing Specialist and help us grow our online presence. You will run paid and organic campaigns, analyze metrics, work with content and design, and suggest improvements. We use Google Analytics, CRM, and various ad platforms; experience with SEO, SMM, and email marketing is welcome.",
+      "introduction_ru": "Присоединяйтесь к нашей маркетинговой команде в качестве специалиста по цифровому маркетингу и помогите нам развивать онлайн-присутствие. Вы будете вести платные и органические кампании, анализировать метрики, работать с контентом и дизайном и предлагать улучшения. Используем Google Analytics, CRM и рекламные платформы; приветствуется опыт в SEO, SMM и email-маркетинге.",
+      "additional_info_en": "Marketing works in a hybrid model. We offer courses and certifications budget and participation in industry events.",
+      "additional_info_ru": "Маркетинг работает в гибридном формате. Предоставляем бюджет на курсы и сертификации и участие в отраслевых мероприятиях.",
       "requirements_en": [
         "2+ years of digital marketing experience",
         "Knowledge of SEO, SEM, and social media marketing",
@@ -288,7 +306,9 @@
         "Создание привлекательного контента для различных платформ",
         "Взаимодействие с отделами продаж и дизайна"
       ],
-      "vacancy_type_slug": "full-time",
+      "skills_en": ["SEO", "SMM", "Google Analytics", "Content marketing", "CRM", "PPC"],
+      "skills_ru": ["SEO", "SMM", "Google Analytics", "Контент-маркетинг", "CRM", "Таргет"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
@@ -309,11 +329,15 @@
       "employment_type": "part-time",
       "experience": "1+ years",
       "education": "Bachelor's degree in Journalism, Communications, or related field",
+      "languages_en": ["English (native)", "Russian (fluent)"],
+      "languages_ru": ["Английский (родной)", "Русский (свободно)"],
       "linkedin_url": "",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "We are looking for a creative Content Writer to join our team on a part-time basis. Perfect for freelancers or students.",
-      "introduction_ru": "Мы ищем творческого контент-райтера для работы в нашей команде на условиях частичной занятости. Отлично подходит для фрилансеров или студентов.",
+      "introduction_en": "We are looking for a creative Content Writer to join our team on a part-time basis. Perfect for freelancers or students. You will write and edit articles, landing pages, and marketing copy; align with SEO and brand guidelines; and collaborate with marketing and design. We value clarity, tone of voice, and the ability to meet deadlines.",
+      "introduction_ru": "Мы ищем творческого контент-райтера для работы в нашей команде на условиях частичной занятости. Отлично подходит для фрилансеров или студентов. Вы будете писать и редактировать статьи, лендинги и маркетинговые тексты, соблюдать SEO и гайдлайны бренда и взаимодействовать с маркетингом и дизайном. Важны ясность, тон коммуникации и соблюдение дедлайнов.",
+      "additional_info_en": "Part-time, flexible schedule. Remote possible. Payment per project or hourly; we can adapt to your availability.",
+      "additional_info_ru": "Частичная занятость, гибкий график. Возможна удалённая работа. Оплата за проект или почасово; подстроимся под вашу загрузку.",
       "requirements_en": [
         "1+ years of content writing experience",
         "Excellent writing and editing skills",
@@ -342,7 +366,9 @@
         "Исследование трендов и тем в отрасли",
         "Соблюдение дедлайнов по контенту"
       ],
-      "vacancy_type_slug": "part-time",
+      "skills_en": ["Copywriting", "SEO", "Editing", "Research", "CMS", "Social media"],
+      "skills_ru": ["Копирайтинг", "SEO", "Редактирование", "Исследования", "CMS", "Соцсети"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
@@ -363,11 +389,15 @@
       "employment_type": "full-time",
       "experience": "5+ years",
       "education": "Bachelor's degree in Computer Science or related field",
+      "languages_en": ["English (fluent)", "Russian (basic)"],
+      "languages_ru": ["Английский (свободно)", "Русский (базовый)"],
       "linkedin_url": "",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "We are seeking an experienced DevOps Engineer to manage our infrastructure and deployment processes.",
-      "introduction_ru": "Мы ищем опытного DevOps инженера для управления нашей инфраструктурой и процессами развертывания.",
+      "introduction_en": "We are seeking an experienced DevOps Engineer to manage our infrastructure and deployment processes. You will maintain CI/CD pipelines, cloud and container environments, monitoring and logging, and work with developers on reliability and cost optimization. We use AWS or similar, Kubernetes, Terraform, and modern DevOps practices.",
+      "introduction_ru": "Мы ищем опытного DevOps инженера для управления нашей инфраструктурой и процессами развёртывания. В зоне ответственности — CI/CD, облака и контейнеры, мониторинг и логирование, взаимодействие с разработчиками по надёжности и оптимизации затрат. Используем AWS или аналоги, Kubernetes, Terraform и современные практики DevOps.",
+      "additional_info_en": "Infrastructure team has on-call rotation with extra pay. We support certifications (AWS, Kubernetes, etc.) and home office setup.",
+      "additional_info_ru": "В инфраструктурной команде есть дежурства с доплатой. Поддерживаем получение сертификатов (AWS, Kubernetes и др.) и обустройство домашнего офиса.",
       "requirements_en": [
         "5+ years of DevOps or System Administration experience",
         "Strong knowledge of Linux/Unix systems",
@@ -396,7 +426,9 @@
         "Автоматизация процессов развертывания и масштабирования",
         "Обеспечение соблюдения лучших практик безопасности"
       ],
-      "vacancy_type_slug": "full-time",
+      "skills_en": ["AWS", "Kubernetes", "Docker", "CI/CD", "Terraform", "Linux"],
+      "skills_ru": ["AWS", "Kubernetes", "Docker", "CI/CD", "Terraform", "Linux"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
@@ -417,11 +449,15 @@
       "employment_type": "full-time",
       "experience": "3+ years",
       "education": "Bachelor's degree in Business, Management, or related field",
+      "languages_en": ["English (fluent)", "Russian (fluent)"],
+      "languages_ru": ["Английский (свободно)", "Русский (свободно)"],
       "linkedin_url": "",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "We are looking for an organized and proactive Project Manager to lead our development projects.",
-      "introduction_ru": "Мы ищем организованного и проактивного менеджера проектов для руководства нашими проектами разработки.",
+      "introduction_en": "We are looking for an organized and proactive Project Manager to lead our development projects. You will plan sprints, track progress, facilitate meetings, and keep stakeholders informed. We use Jira, Confluence, and agile frameworks; experience with risk management and resource planning is important.",
+      "introduction_ru": "Мы ищем организованного и проактивного менеджера проектов для руководства нашими проектами разработки. Вы будете планировать спринты, отслеживать прогресс, проводить встречи и держать стейкхолдеров в курсе. Работаем в Jira, Confluence и в agile-подходах; важны опыт управления рисками и планирования ресурсов.",
+      "additional_info_en": "PM team works hybrid. We cover PMP or similar certification and team leadership training.",
+      "additional_info_ru": "Команда PM работает в гибридном формате. Оплачиваем сертификацию PMP или аналог и тренинги по управлению командой.",
       "requirements_en": [
         "3+ years of project management experience",
         "Experience in Agile/Scrum methodologies",
@@ -450,7 +486,9 @@
         "Управление бюджетами и сроками проектов",
         "Проведение встреч и стендапов"
       ],
-      "vacancy_type_slug": "full-time",
+      "skills_en": ["Jira", "Agile", "Scrum", "Leadership", "Risk management", "Confluence"],
+      "skills_ru": ["Jira", "Agile", "Scrum", "Лидерство", "Управление рисками", "Confluence"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
@@ -471,11 +509,15 @@
       "employment_type": "full-time",
       "experience": "2+ years",
       "education": "Bachelor's degree in Computer Science or related field",
+      "languages_en": ["English (fluent)"],
+      "languages_ru": ["Английский (свободно)"],
       "linkedin_url": "",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "Join our QA team and help ensure the quality and reliability of our software products.",
-      "introduction_ru": "Присоединяйтесь к нашей команде QA и помогите обеспечить качество и надежность наших программных продуктов.",
+      "introduction_en": "Join our QA team and help ensure the quality and reliability of our software products. You will design and run test cases, manual and automated, report bugs clearly, and work with developers on fixes. We use Jira, Selenium/Cypress, and value attention to detail and structured testing approach.",
+      "introduction_ru": "Присоединяйтесь к нашей команде QA и помогите обеспечить качество и надёжность наших программных продуктов. Вы будете разрабатывать и выполнять тест-кейсы (ручные и автотесты), фиксировать баги и взаимодействовать с разработчиками. Используем Jira, Selenium/Cypress; важны внимательность и системный подход к тестированию.",
+      "additional_info_en": "QA has flexible hours and option to work from home. We support learning test automation and testing certifications.",
+      "additional_info_ru": "У QA гибкий график и возможность работать из дома. Поддерживаем обучение по автотестам и сертификации по тестированию.",
       "requirements_en": [
         "2+ years of QA testing experience",
         "Knowledge of testing methodologies and techniques",
@@ -504,7 +546,9 @@
         "Взаимодействие с командой разработки",
         "Обеспечение стандартов качества продукта"
       ],
-      "vacancy_type_slug": "full-time",
+      "skills_en": ["Manual testing", "Selenium", "Cypress", "Jira", "Test cases", "Bug tracking"],
+      "skills_ru": ["Ручное тестирование", "Selenium", "Cypress", "Jira", "Тест-кейсы", "Bug tracking"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     },
     {
@@ -525,11 +569,15 @@
       "employment_type": "full-time",
       "experience": "2+ years",
       "education": "Bachelor's degree in Business, Sales, or related field",
+      "languages_en": ["English (fluent)", "Russian (native)"],
+      "languages_ru": ["Английский (свободно)", "Русский (родной)"],
       "linkedin_url": "",
       "telegram_url": "https://t.me/sandbox_careers",
       "whatsapp_url": "https://wa.me/1234567890",
-      "introduction_en": "We are looking for a motivated Sales Manager to drive revenue growth and build lasting client relationships.",
-      "introduction_ru": "Мы ищем мотивированного менеджера по продажам для увеличения доходов и построения долгосрочных отношений с клиентами.",
+      "introduction_en": "We are looking for a motivated Sales Manager to drive revenue growth and build lasting client relationships. You will prospect, negotiate, close deals, and maintain accounts; use CRM and reports; and coordinate with marketing and product. We offer competitive base salary plus commission and clear career progression.",
+      "introduction_ru": "Мы ищем мотивированного менеджера по продажам для увеличения доходов и построения долгосрочных отношений с клиентами. Вы будете вести воронку от лидов до сделок, вести переговоры и вести клиентскую базу; работать в CRM и отчётах; взаимодействовать с маркетингом и продуктом. Предлагаем оклад плюс комиссия и понятный карьерный рост.",
+      "additional_info_en": "Sales team works from office with travel. We provide car allowance or transport compensation and sales training.",
+      "additional_info_ru": "Отдел продаж работает из офиса с выездами. Предоставляем компенсацию за авто или транспорт и обучение по продажам.",
       "requirements_en": [
         "2+ years of sales experience",
         "Excellent communication and negotiation skills",
@@ -558,7 +606,9 @@
         "Ведение переговоров и заключение сделок",
         "Достижение или превышение целевых показателей продаж"
       ],
-      "vacancy_type_slug": "full-time",
+      "skills_en": ["CRM", "Negotiation", "B2B sales", "Communication", "Presentation", "Closing deals"],
+      "skills_ru": ["CRM", "Переговоры", "B2B продажи", "Коммуникация", "Презентации", "Закрытие сделок"],
+      "vacancy_schedule_slug": "5-2",
       "pdf": "HCA-HR_job-listing_Accounting-Tax-Consultant (6).pdf"
     }
   ]

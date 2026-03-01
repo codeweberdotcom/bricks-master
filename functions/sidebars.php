@@ -283,16 +283,8 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
 
         $vacancy_data = get_vacancy_data_array();
 
-        // Массив переводов для типа занятости
-        $employment_types = array(
-            'full-time'  => __('Full-time', 'codeweber'),
-            'part-time'  => __('Part-time', 'codeweber'),
-            'internship' => __('Internship', 'codeweber'),
-            'contract'   => __('Contract', 'codeweber')
-        );
-
-        $type = $vacancy_data['employment_type'] ?? '';
-        $display_type = isset($employment_types[$type]) ? $employment_types[$type] : $type;
+        $type_term = !empty($vacancy_data['vacancy_types']) && !is_wp_error($vacancy_data['vacancy_types']) ? $vacancy_data['vacancy_types'][0] : null;
+        $schedule_term = !empty($vacancy_data['vacancy_schedules']) && !is_wp_error($vacancy_data['vacancy_schedules']) ? $vacancy_data['vacancy_schedules'][0] : null;
 
         $user_id = get_the_author_meta('ID');
         
@@ -332,7 +324,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
 
                 <div class="card-body">
                     <div class="mb-6">
-                        <h3 class="mb-4"><?php _e('Details', 'codeweber'); ?></h3>
+                        <h3 class="mb-4"><?php esc_html_e('Детально', 'codeweber'); ?></h3>
 
                         <?php if (!empty($vacancy_data['location'])) : ?>
                             <p class="mb-1 d-flex align-items-center">
@@ -341,10 +333,31 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                             </p>
                         <?php endif; ?>
 
-                        <?php if (!empty($vacancy_data['employment_type'])) : ?>
+                        <?php if ($type_term) : ?>
+                            <p class="mb-1 d-flex align-items-center">
+                                <i class="uil uil-briefcase-alt text-primary me-2"></i>
+                                <span><?php echo esc_html($type_term->name); ?></span>
+                            </p>
+                        <?php endif; ?>
+
+                        <?php if ($schedule_term) : ?>
                             <p class="mb-1 d-flex align-items-center">
                                 <i class="uil uil-calendar-alt text-primary me-2"></i>
-                                <span><?php echo esc_html($display_type); ?></span>
+                                <span><?php echo esc_html($schedule_term->name); ?></span>
+                            </p>
+                        <?php endif; ?>
+
+                        <?php if (!empty($vacancy_data['experience'])) : ?>
+                            <p class="mb-1 d-flex align-items-center">
+                                <i class="uil uil-clock text-primary me-2"></i>
+                                <span><?php echo esc_html($vacancy_data['experience']); ?></span>
+                            </p>
+                        <?php endif; ?>
+
+                        <?php if (!empty($vacancy_data['education'])) : ?>
+                            <p class="mb-1 d-flex align-items-center">
+                                <i class="uil uil-graduation-cap text-primary me-2"></i>
+                                <span><?php echo esc_html($vacancy_data['education']); ?></span>
                             </p>
                         <?php endif; ?>
 

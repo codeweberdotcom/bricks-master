@@ -58,36 +58,36 @@ function cptui_register_my_cpts_vacancies()
 
 add_action('init', 'cptui_register_my_cpts_vacancies');
 
-// Таксономия: Vacancy Type
+// Таксономия: Тип занятости
 function cptui_register_my_taxes_vacancy_type()
 {
    /**
-    * Taxonomy: Vacancy Types.
+    * Taxonomy: Тип занятости.
     */
 
    $labels = [
-      "name" => esc_html__("Vacancy Types", "codeweber"),
-      "singular_name" => esc_html__("Vacancy Type", "codeweber"),
-      "menu_name" => esc_html__("Vacancy Types", "codeweber"),
-      "all_items" => esc_html__("All Vacancy Types", "codeweber"),
-      "edit_item" => esc_html__("Edit Vacancy Type", "codeweber"),
-      "view_item" => esc_html__("View Vacancy Type", "codeweber"),
-      "update_item" => esc_html__("Update Vacancy Type", "codeweber"),
-      "add_new_item" => esc_html__("Add New Vacancy Type", "codeweber"),
-      "new_item_name" => esc_html__("New Vacancy Type Name", "codeweber"),
-      "search_items" => esc_html__("Search Vacancy Types", "codeweber"),
-      "popular_items" => esc_html__("Popular Vacancy Types", "codeweber"),
-      "separate_items_with_commas" => esc_html__("Separate vacancy types with commas", "codeweber"),
-      "add_or_remove_items" => esc_html__("Add or remove vacancy types", "codeweber"),
-      "choose_from_most_used" => esc_html__("Choose from the most used vacancy types", "codeweber"),
-      "not_found" => esc_html__("No vacancy types found", "codeweber"),
-      "no_terms" => esc_html__("No vacancy types", "codeweber"),
-      "items_list_navigation" => esc_html__("Vacancy types list navigation", "codeweber"),
-      "items_list" => esc_html__("Vacancy types list", "codeweber"),
+      "name" => esc_html__("Тип занятости", "codeweber"),
+      "singular_name" => esc_html__("Тип занятости", "codeweber"),
+      "menu_name" => esc_html__("Тип занятости", "codeweber"),
+      "all_items" => esc_html__("Все типы занятости", "codeweber"),
+      "edit_item" => esc_html__("Редактировать тип занятости", "codeweber"),
+      "view_item" => esc_html__("Просмотр типа занятости", "codeweber"),
+      "update_item" => esc_html__("Обновить тип занятости", "codeweber"),
+      "add_new_item" => esc_html__("Добавить тип занятости", "codeweber"),
+      "new_item_name" => esc_html__("Название типа занятости", "codeweber"),
+      "search_items" => esc_html__("Искать типы занятости", "codeweber"),
+      "popular_items" => esc_html__("Часто используемые", "codeweber"),
+      "separate_items_with_commas" => esc_html__("Разделяйте запятыми", "codeweber"),
+      "add_or_remove_items" => esc_html__("Добавить или удалить", "codeweber"),
+      "choose_from_most_used" => esc_html__("Выбрать из часто используемых", "codeweber"),
+      "not_found" => esc_html__("Не найдено", "codeweber"),
+      "no_terms" => esc_html__("Нет типов занятости", "codeweber"),
+      "items_list_navigation" => esc_html__("Навигация по списку", "codeweber"),
+      "items_list" => esc_html__("Список типов занятости", "codeweber"),
    ];
 
    $args = [
-      "label" => esc_html__("Vacancy Types", "codeweber"),
+      "label" => esc_html__("Тип занятости", "codeweber"),
       "labels" => $labels,
       "public" => false,
       "publicly_queryable" => false,
@@ -112,6 +112,57 @@ function cptui_register_my_taxes_vacancy_type()
 }
 
 add_action('init', 'cptui_register_my_taxes_vacancy_type');
+
+// Таксономия: График работы
+function cptui_register_my_taxes_vacancy_schedule()
+{
+   $labels = [
+      "name" => esc_html__("График работы", "codeweber"),
+      "singular_name" => esc_html__("График работы", "codeweber"),
+      "menu_name" => esc_html__("График работы", "codeweber"),
+      "all_items" => esc_html__("Все варианты графика", "codeweber"),
+      "edit_item" => esc_html__("Редактировать", "codeweber"),
+      "view_item" => esc_html__("Просмотр", "codeweber"),
+      "update_item" => esc_html__("Обновить", "codeweber"),
+      "add_new_item" => esc_html__("Добавить график", "codeweber"),
+      "new_item_name" => esc_html__("Название графика", "codeweber"),
+      "search_items" => esc_html__("Искать", "codeweber"),
+      "popular_items" => esc_html__("Часто используемые", "codeweber"),
+      "separate_items_with_commas" => esc_html__("Разделяйте запятыми", "codeweber"),
+      "add_or_remove_items" => esc_html__("Добавить или удалить", "codeweber"),
+      "choose_from_most_used" => esc_html__("Выбрать из часто используемых", "codeweber"),
+      "not_found" => esc_html__("Не найдено", "codeweber"),
+      "no_terms" => esc_html__("Нет вариантов графика", "codeweber"),
+      "items_list_navigation" => esc_html__("Навигация по списку", "codeweber"),
+      "items_list" => esc_html__("Список графиков", "codeweber"),
+   ];
+
+   $args = [
+      "label" => esc_html__("График работы", "codeweber"),
+      "labels" => $labels,
+      "public" => true,
+      "publicly_queryable" => true,
+      "hierarchical" => false,
+      "show_ui" => true,
+      "show_in_menu" => true,
+      "show_in_nav_menus" => true,
+      "query_var" => true,
+      "rewrite" => ["slug" => "schedule", "with_front" => true],
+      "show_admin_column" => true,
+      "show_in_rest" => true,
+      "show_tagcloud" => false,
+      "rest_base" => "vacancy_schedule",
+      "rest_controller_class" => "WP_REST_Terms_Controller",
+      "rest_namespace" => "wp/v2",
+      "show_in_quick_edit" => true,
+      "sort" => true,
+      "show_in_graphql" => false,
+   ];
+
+   register_taxonomy("vacancy_schedule", ["vacancies"], $args);
+}
+
+add_action('init', 'cptui_register_my_taxes_vacancy_schedule');
 
 // Включение классического редактора для Vacancies
 function enable_classic_editor_for_vacancies($use_block_editor, $post_type)
@@ -200,6 +251,13 @@ function vacancies_meta_boxes()
    );
 }
 add_action('add_meta_boxes', 'vacancies_meta_boxes');
+
+// Убираем стандартные метабоксы таксономий из сайдбара — выбор только в «Атрибуты вакансии»
+function vacancy_remove_taxonomy_meta_boxes() {
+   remove_meta_box('vacancy_typediv', 'vacancies', 'side');
+   remove_meta_box('vacancy_schedulediv', 'vacancies', 'side');
+}
+add_action('add_meta_boxes', 'vacancy_remove_taxonomy_meta_boxes', 20);
 
 // Колбэк для основной информации
 function vacancy_basic_info_callback($post)
@@ -459,7 +517,6 @@ function vacancy_content_callback($post)
 // Колбэк для атрибутов вакансии
 function vacancy_attributes_callback($post)
 {
-   $employment_type = get_post_meta($post->ID, '_vacancy_employment_type', true);
    $experience = get_post_meta($post->ID, '_vacancy_experience', true);
    $education = get_post_meta($post->ID, '_vacancy_education', true);
    $languages = get_post_meta($post->ID, '_vacancy_languages', true);
@@ -468,20 +525,48 @@ function vacancy_attributes_callback($post)
    if (!is_array($languages)) $languages = [''];
    if (!is_array($skills)) $skills = [''];
 
+   $taxonomies = get_object_taxonomies('vacancies', 'objects');
+   $type_terms = array();
+   $schedule_terms = array();
+   if (isset($taxonomies['vacancy_type'])) {
+      $type_terms = get_terms(array('taxonomy' => 'vacancy_type', 'hide_empty' => false));
+   }
+   if (isset($taxonomies['vacancy_schedule'])) {
+      $schedule_terms = get_terms(array('taxonomy' => 'vacancy_schedule', 'hide_empty' => false));
+   }
+   $current_type = wp_get_object_terms($post->ID, 'vacancy_type');
+   $current_schedule = wp_get_object_terms($post->ID, 'vacancy_schedule');
+   $current_type_id = !empty($current_type) && !is_wp_error($current_type) ? (int) $current_type[0]->term_id : 0;
+   $current_schedule_id = !empty($current_schedule) && !is_wp_error($current_schedule) ? (int) $current_schedule[0]->term_id : 0;
 ?>
    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <?php if (!empty($type_terms) && !is_wp_error($type_terms)) : ?>
       <div>
-         <label for="vacancy_employment_type" style="display: block; margin-bottom: 5px; font-weight: bold;">
-            <?php _e('Employment Type', 'codeweber'); ?>
+         <label for="vacancy_tax_type" style="display: block; margin-bottom: 5px; font-weight: bold;">
+            <?php echo esc_html($taxonomies['vacancy_type']->labels->singular_name); ?>
          </label>
-         <select id="vacancy_employment_type" name="vacancy_employment_type" style="width: 100%; padding: 8px;">
+         <select id="vacancy_tax_type" name="tax_input[vacancy_type][]" style="width: 100%; padding: 8px;">
             <option value=""><?php _e('Select type', 'codeweber'); ?></option>
-            <option value="full-time" <?php selected($employment_type, 'full-time'); ?>><?php _e('Full-time', 'codeweber'); ?></option>
-            <option value="part-time" <?php selected($employment_type, 'part-time'); ?>><?php _e('Part-time', 'codeweber'); ?></option>
-            <option value="internship" <?php selected($employment_type, 'internship'); ?>><?php _e('Internship', 'codeweber'); ?></option>
-            <option value="contract" <?php selected($employment_type, 'contract'); ?>><?php _e('Contract', 'codeweber'); ?></option>
+            <?php foreach ($type_terms as $term) : ?>
+               <option value="<?php echo esc_attr($term->term_id); ?>" <?php selected($current_type_id, $term->term_id); ?>><?php echo esc_html($term->name); ?></option>
+            <?php endforeach; ?>
          </select>
       </div>
+      <?php endif; ?>
+
+      <?php if (!empty($schedule_terms) && !is_wp_error($schedule_terms)) : ?>
+      <div>
+         <label for="vacancy_tax_schedule" style="display: block; margin-bottom: 5px; font-weight: bold;">
+            <?php echo esc_html($taxonomies['vacancy_schedule']->labels->singular_name); ?>
+         </label>
+         <select id="vacancy_tax_schedule" name="tax_input[vacancy_schedule][]" style="width: 100%; padding: 8px;">
+            <option value=""><?php _e('Select schedule', 'codeweber'); ?></option>
+            <?php foreach ($schedule_terms as $term) : ?>
+               <option value="<?php echo esc_attr($term->term_id); ?>" <?php selected($current_schedule_id, $term->term_id); ?>><?php echo esc_html($term->name); ?></option>
+            <?php endforeach; ?>
+         </select>
+      </div>
+      <?php endif; ?>
 
       <div>
          <label for="vacancy_experience" style="display: block; margin-bottom: 5px; font-weight: bold;">
@@ -716,6 +801,21 @@ function save_vacancy_meta($post_id)
    if (isset($_POST['vacancy_pdf_id'])) {
       update_post_meta($post_id, '_vacancy_pdf', intval($_POST['vacancy_pdf_id']));
    }
+
+   // Таксономии: «Атрибуты вакансии» (Тип занятости, График работы)
+   if (!empty($_POST['tax_input']) && is_array($_POST['tax_input'])) {
+      foreach (array('vacancy_type', 'vacancy_schedule') as $tax) {
+         if (!taxonomy_exists($tax)) {
+            continue;
+         }
+         $terms = isset($_POST['tax_input'][$tax]) ? $_POST['tax_input'][$tax] : array();
+         $terms = array_map('intval', (array) $terms);
+         $terms = array_filter($terms);
+         // Один термин на таксономию (если два поля с одним именем — берём первый)
+         $terms = array_slice(array_values($terms), 0, 1);
+         wp_set_object_terms($post_id, $terms, $tax);
+      }
+   }
 }
 add_action('save_post', 'save_vacancy_meta');
 
@@ -768,7 +868,8 @@ function get_vacancy_data_array($post_id = null)
       'languages' => get_post_meta($post_id, '_vacancy_languages', true),
       'skills' => get_post_meta($post_id, '_vacancy_skills', true),
       'pdf_url' => get_post_meta($post_id, '_vacancy_pdf', true) ? wp_get_attachment_url(get_post_meta($post_id, '_vacancy_pdf', true)) : '',
-      'vacancy_types' => get_the_terms($post_id, 'vacancy_type')
+      'vacancy_types' => get_the_terms($post_id, 'vacancy_type'),
+      'vacancy_schedules' => get_the_terms($post_id, 'vacancy_schedule')
    ];
 }
 

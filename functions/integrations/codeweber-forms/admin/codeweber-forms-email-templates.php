@@ -636,12 +636,12 @@ class CodeweberFormsEmailTemplates {
         $option_name = $this->option_name;
 
         $this->localize_email_templates_script($current_template);
-
+        
         ?>
         <div class="wrap">
             <h1><?php _e('Email Templates', 'codeweber'); ?></h1>
             <?php settings_errors('codeweber_forms_email_templates'); ?>
-
+            
             <div class="codeweber-email-templates-layout">
                 <aside class="codeweber-email-templates-sidebar">
                     <nav class="codeweber-email-templates-nav" aria-label="<?php esc_attr_e('Email types', 'codeweber'); ?>">
@@ -671,7 +671,7 @@ class CodeweberFormsEmailTemplates {
                         <?php settings_fields($this->option_group); ?>
                         <input type="hidden" name="template" value="<?php echo esc_attr($current_template); ?>">
 
-                        <?php
+                                    <?php
                         $panels = [
                             'admin_notification' => [
                                 'enabled'  => $admin_enabled,
@@ -735,57 +735,57 @@ class CodeweberFormsEmailTemplates {
                             <div class="codeweber-email-templates-editor card bg-light">
                                 <h2 class="codeweber-email-templates-panel-title"><?php echo esc_html($label); ?></h2>
                                 <p class="description"><?php echo esc_html($p['desc']); ?></p>
-                                <table class="form-table">
-                                    <tr>
+                        <table class="form-table">
+                            <tr>
                                         <th scope="row"><label for="<?php echo esc_attr($k['enabled']); ?>"><?php echo esc_html($p['enable_label']); ?></label></th>
-                                        <td>
-                                            <label>
+                                <td>
+                                    <label>
                                                 <input type="checkbox" name="<?php echo esc_attr($option_name); ?>[<?php echo esc_attr($k['enabled']); ?>]" value="1" id="<?php echo esc_attr($k['enabled']); ?>" <?php checked(!empty($p['enabled'])); ?>>
                                                 <?php echo esc_html($p['enable_help']); ?>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
                                         <th scope="row"><label for="<?php echo esc_attr($k['subject']); ?>"><?php _e('Email Subject', 'codeweber'); ?></label></th>
                                         <td>
                                             <input type="text" name="<?php echo esc_attr($option_name); ?>[<?php echo esc_attr($k['subject']); ?>]" id="<?php echo esc_attr($k['subject']); ?>" value="<?php echo esc_attr($p['subject']); ?>" class="regular-text">
                                             <p class="description"><?php echo esc_html($p['subject_help']); ?></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                </td>
+                            </tr>
+                            <tr>
                                         <th scope="row"><label for="<?php echo esc_attr($k['template']); ?>"><?php _e('Email Template', 'codeweber'); ?></label></th>
-                                        <td>
-                                            <?php
+                                <td>
+                                    <?php
                                             wp_editor($p['template'], $k['template'], [
                                                 'textarea_name' => $option_name . '[' . $k['template'] . ']',
                                                 'textarea_rows' => 16,
-                                                'media_buttons' => false,
-                                                'teeny' => false,
-                                                'quicktags' => true,
-                                                'tinymce' => [
-                                                    'entity_encoding' => 'raw',
-                                                    'remove_linebreaks' => false,
-                                                    'forced_root_block' => false,
-                                                    'force_br_newlines' => false,
-                                                    'force_p_newlines' => false,
-                                                ],
+                                            'media_buttons' => false,
+                                            'teeny' => false,
+                                            'quicktags' => true,
+                                            'tinymce' => [
+                                                'entity_encoding' => 'raw',
+                                                'remove_linebreaks' => false,
+                                                'forced_root_block' => false,
+                                                'force_br_newlines' => false,
+                                                'force_p_newlines' => false,
+                                            ],
                                             ]);
-                                            ?>
-                                        </td>
-                                    </tr>
-                                </table>
+                                    ?>
+                                </td>
+                            </tr>
+                        </table>
                                 <div class="codeweber-email-templates-preview-wrap">
                                     <p>
                                         <button type="button" class="button button-secondary codeweber-email-preview-btn"><?php _e('Update preview', 'codeweber'); ?></button>
                                     </p>
                                     <iframe class="codeweber-email-preview-iframe" title="<?php esc_attr_e('Email preview', 'codeweber'); ?>" style="width:100%; min-height:400px; border:1px solid #c3c4c7; background:#fff;"></iframe>
-                                </div>
-                            </div>
+                    </div>
+                </div>
                         </div>
                         <?php endforeach; ?>
-
-                        <?php submit_button(); ?>
-                    </form>
+                
+                <?php submit_button(); ?>
+            </form>
                 </div>
             </div>
         </div>

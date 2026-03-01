@@ -17,12 +17,21 @@ if (!defined('ABSPATH')) {
  * @return array|false Массив данных или false при ошибке
  */
 function cw_demo_get_vacancies_data() {
-    $json_path = get_template_directory() . '/demo/vacancies/data.json';
-    
+    $locale = get_locale();
+    $is_russian = (strpos($locale, 'ru') === 0);
+    $dir = get_template_directory() . '/demo/vacancies/';
+
+    // Русский — data.json, английский — data-en.json (если есть)
+    if ($is_russian) {
+        $json_path = $dir . 'data.json';
+    } else {
+        $json_path = file_exists($dir . 'data-en.json') ? $dir . 'data-en.json' : $dir . 'data.json';
+    }
+
     if (!file_exists($json_path)) {
         return false;
     }
-    
+
     $json_content = file_get_contents($json_path);
     $data = json_decode($json_content, true);
     
@@ -30,11 +39,7 @@ function cw_demo_get_vacancies_data() {
         error_log('Demo Vacancies: Ошибка парсинга JSON - ' . json_last_error_msg());
         return false;
     }
-    
-    // Определяем язык сайта
-    $locale = get_locale();
-    $is_russian = (strpos($locale, 'ru') === 0);
-    
+
     // Адаптируем данные в зависимости от языка
     if (!empty($data['items'])) {
         foreach ($data['items'] as &$item) {
@@ -48,6 +53,8 @@ function cw_demo_get_vacancies_data() {
                 $item['responsibilities'] = !empty($item['responsibilities_ru']) ? $item['responsibilities_ru'] : $item['responsibilities_en'];
                 $item['image_alt'] = !empty($item['image_alt_ru']) ? $item['image_alt_ru'] : $item['image_alt_en'];
                 $item['salary'] = !empty($item['salary_ru']) ? $item['salary_ru'] : (!empty($item['salary_en']) ? $item['salary_en'] : '');
+                $item['languages'] = !empty($item['languages_ru']) ? $item['languages_ru'] : (isset($item['languages_en']) ? $item['languages_en'] : (isset($item['languages']) ? $item['languages'] : array()));
+                $item['skills'] = !empty($item['skills_ru']) ? $item['skills_ru'] : (isset($item['skills_en']) ? $item['skills_en'] : (isset($item['skills']) ? $item['skills'] : array()));
             } else {
                 $item['title'] = $item['title_en'];
                 $item['company'] = $item['company_en'];
@@ -58,21 +65,23 @@ function cw_demo_get_vacancies_data() {
                 $item['responsibilities'] = $item['responsibilities_en'];
                 $item['image_alt'] = $item['image_alt_en'];
                 $item['salary'] = !empty($item['salary_en']) ? $item['salary_en'] : '';
+                $item['languages'] = !empty($item['languages_en']) ? $item['languages_en'] : (isset($item['languages']) ? $item['languages'] : array());
+                $item['skills'] = !empty($item['skills_en']) ? $item['skills_en'] : (isset($item['skills']) ? $item['skills'] : array());
             }
         }
         unset($item); // Сбрасываем ссылку
     }
     
-    // Адаптируем vacancy_types
-    if (isset($data['vacancy_types'])) {
-        foreach ($data['vacancy_types'] as &$type) {
+    // Адаптируем vacancy_schedules по языку
+    if (isset($data['vacancy_schedules'])) {
+        foreach ($data['vacancy_schedules'] as &$schedule) {
             if ($is_russian) {
-                $type['name'] = !empty($type['name_ru']) ? $type['name_ru'] : $type['name_en'];
+                $schedule['name'] = !empty($schedule['name_ru']) ? $schedule['name_ru'] : $schedule['name_en'];
             } else {
-                $type['name'] = $type['name_en'];
+                $schedule['name'] = $schedule['name_en'];
             }
         }
-        unset($type);
+        unset($schedule);
     }
     
     return $data;
@@ -210,41 +219,32 @@ function cw_demo_import_vacancy_pdf($pdf_filename, $post_id) {
 }
 
 /**
- * Создать или получить тип вакансии (vacancy_type)
- * 
- * @param array $type_data Данные типа из JSON
- * @return int|false ID типа или false при ошибке
+ * Создать или получить термин графика работы (vacancy_schedule).
+ * Не создаёт запись с именем или slug «153».
+ *
+ * @param array $schedule_data Данные из JSON: name_ru, name_en, slug
+ * @return int|false ID термина или false при ошибке / пропуске
  */
-function cw_demo_get_or_create_vacancy_type($type_data) {
-    $taxonomy = 'vacancy_type';
-    
-    // Определяем язык сайта
+function cw_demo_get_or_create_vacancy_schedule($schedule_data) {
+    $taxonomy = 'vacancy_schedule';
+    $slug = isset($schedule_data['slug']) ? $schedule_data['slug'] : '';
+    $name_ru = isset($schedule_data['name_ru']) ? $schedule_data['name_ru'] : '';
+    $name_en = isset($schedule_data['name_en']) ? $schedule_data['name_en'] : '';
+    if ($slug === '153' || $name_ru === '153' || $name_en === '153') {
+        return false;
+    }
     $locale = get_locale();
     $is_russian = (strpos($locale, 'ru') === 0);
-    $type_name = $is_russian && !empty($type_data['name_ru']) ? $type_data['name_ru'] : $type_data['name_en'];
-    
-    // Проверяем, существует ли тип
-    $term = get_term_by('slug', $type_data['slug'], $taxonomy);
-    
+    $name = $is_russian && $name_ru !== '' ? $name_ru : $name_en;
+    $term = get_term_by('slug', $slug, $taxonomy);
     if ($term) {
         return $term->term_id;
     }
-    
-    // Создаем новый тип
-    $term_data = wp_insert_term(
-        $type_name,
-        $taxonomy,
-        array(
-            'description' => '',
-            'slug' => $type_data['slug']
-        )
-    );
-    
+    $term_data = wp_insert_term($name, $taxonomy, array('slug' => $slug));
     if (is_wp_error($term_data)) {
-        error_log('Demo Vacancies: Ошибка создания типа - ' . $term_data->get_error_message());
+        error_log('Demo Vacancies: Ошибка создания графика - ' . $term_data->get_error_message());
         return false;
     }
-    
     return $term_data['term_id'];
 }
 
@@ -321,11 +321,11 @@ function cw_demo_create_vacancy_post($vacancy_data) {
         }
     }
     
-    // Назначаем тип вакансии, если указан
-    if (!empty($vacancy_data['vacancy_type_slug'])) {
-        $term = get_term_by('slug', $vacancy_data['vacancy_type_slug'], 'vacancy_type');
+    // Назначаем график работы, если указан
+    if (!empty($vacancy_data['vacancy_schedule_slug'])) {
+        $term = get_term_by('slug', $vacancy_data['vacancy_schedule_slug'], 'vacancy_schedule');
         if ($term) {
-            wp_set_post_terms($post_id, array($term->term_id), 'vacancy_type');
+            wp_set_post_terms($post_id, array($term->term_id), 'vacancy_schedule');
         }
     }
     
@@ -372,22 +372,21 @@ function cw_demo_create_vacancies() {
     
     $created = 0;
     $errors = array();
-    $types_created = array();
-    
-    // Сначала создаем типы вакансий
-    if (!empty($data['vacancy_types'])) {
-        foreach ($data['vacancy_types'] as $type) {
-            $type_id = cw_demo_get_or_create_vacancy_type($type);
-            if ($type_id) {
-                $locale = get_locale();
-                $is_russian = (strpos($locale, 'ru') === 0);
-                $type_name = $is_russian && !empty($type['name_ru']) ? $type['name_ru'] : $type['name_en'];
-                $types_created[] = $type_name;
+
+    // Создаём термины графика работы (кроме записи с именем/slug «153»)
+    if (!empty($data['vacancy_schedules'])) {
+        foreach ($data['vacancy_schedules'] as $schedule) {
+            $slug = isset($schedule['slug']) ? $schedule['slug'] : '';
+            $name_ru = isset($schedule['name_ru']) ? $schedule['name_ru'] : '';
+            $name_en = isset($schedule['name_en']) ? $schedule['name_en'] : '';
+            if ($slug === '153' || $name_ru === '153' || $name_en === '153') {
+                continue;
             }
+            cw_demo_get_or_create_vacancy_schedule($schedule);
         }
     }
     
-    // Затем создаем записи vacancies
+    // Создаем записи vacancies
     foreach ($data['items'] as $item) {
         $post_id = cw_demo_create_vacancy_post($item);
         
@@ -399,16 +398,12 @@ function cw_demo_create_vacancies() {
     }
     
     $message = sprintf(__('%1$d of %2$d entries created', 'codeweber'), $created, count($data['items']));
-    if (!empty($types_created)) {
-        $message .= '. Типы вакансий: ' . implode(', ', $types_created);
-    }
     
     return array(
         'success' => true,
         'message' => $message,
         'created' => $created,
         'total' => count($data['items']),
-        'types' => $types_created,
         'errors' => $errors
     );
 }
