@@ -170,11 +170,11 @@ function codeweber_office_basic_info_callback($post)
    $working_hours = get_post_meta($post->ID, '_office_working_hours', true);
    $manager_id = get_post_meta($post->ID, '_office_manager', true);
 
-   // Получаем выбранный термин таксономии towns
+   // Get selected term from towns taxonomy
    $town_terms = wp_get_post_terms($post->ID, 'towns', array('fields' => 'ids'));
    $selected_town_id = !empty($town_terms) && !is_wp_error($town_terms) ? $town_terms[0] : '';
 
-   // Получаем список терминов таксономии towns
+   // Get list of towns taxonomy terms
    $towns = get_terms(array(
       'taxonomy' => 'towns',
       'hide_empty' => false,
@@ -182,7 +182,7 @@ function codeweber_office_basic_info_callback($post)
       'order' => 'ASC'
    ));
 
-   // Получаем список сотрудников
+   // Get list of staff members
    $staff_posts = get_posts(array(
       'post_type' => 'staff',
       'post_status' => 'publish',
@@ -298,7 +298,7 @@ function codeweber_office_contact_callback($post)
  */
 function codeweber_office_location_callback($post)
 {
-   // Получаем API ключ из Redux
+   // Get API key from Redux
    global $opt_name;
    if (empty($opt_name)) {
       $opt_name = 'redux_demo';
@@ -313,7 +313,7 @@ function codeweber_office_location_callback($post)
    $zoom = get_post_meta($post->ID, '_office_zoom', true);
    $address = get_post_meta($post->ID, '_office_yandex_address', true);
 
-   // Формируем координаты в формате строки для карты
+   // Format coordinates as string for map
    $coordinates = '';
    if (!empty($latitude) && !empty($longitude)) {
       $coordinates = $latitude . ', ' . $longitude;
@@ -341,7 +341,7 @@ function codeweber_office_location_callback($post)
                   var zoomField = document.querySelector("input[name='office_zoom']");
                   var addressField = document.querySelector("input[name='office_yandex_address']");
 
-                  // Получаем координаты из поля или используем значения по умолчанию
+                  // Get coordinates from field or use default values
                   var coords = [];
                   if (coordinatesField && coordinatesField.value) {
                      coords = coordinatesField.value.split(',').map(function(coord) {
@@ -351,25 +351,25 @@ function codeweber_office_location_callback($post)
                      coords = [parseFloat(latitudeField.value), parseFloat(longitudeField.value)];
                   }
 
-                  // Проверяем валидность координат
+                  // Check coordinates validity
                   if (!coords || coords.length !== 2 || coords.some(isNaN)) {
-                     coords = [55.76, 37.64]; // Москва по умолчанию
+                     coords = [55.76, 37.64]; // Moscow by default
                   }
 
                   var zoom = parseInt(zoomField?.value || "<?php echo esc_js($zoom); ?>") || 10;
 
-                  // Создаем карту
+                  // Create map
                   var map = new ymaps.Map("office-yandex-map", {
                      center: coords,
                      zoom: zoom,
                      controls: ["zoomControl", "searchControl"]
                   });
 
-                  // Создаем перетаскиваемый маркер
+                  // Create draggable marker
                   var placemark = new ymaps.Placemark(coords, {}, { draggable: true });
                   map.geoObjects.add(placemark);
 
-                  // Функция обновления полей
+                  // Function to update fields
                   function updateFields(coords, addressText = null) {
                      var coordString = coords[0] + ", " + coords[1];
 
@@ -398,7 +398,7 @@ function codeweber_office_location_callback($post)
                            addressField.value = addressText;
                            addressField.dispatchEvent(new Event("input", { bubbles: true }));
                         } else {
-                           // Автоматическое определение адреса по координатам
+                           // Automatic address detection by coordinates
                            ymaps.geocode(coords).then(function (res) {
                               var first = res.geoObjects.get(0);
                               if (first) {
@@ -410,20 +410,20 @@ function codeweber_office_location_callback($post)
                      }
                   }
 
-                  // Обработчик перетаскивания маркера
+                  // Marker drag handler
                   placemark.events.add("dragend", function () {
                      var newCoords = placemark.geometry.getCoordinates();
                      updateFields(newCoords);
                   });
 
-                  // Обработчик клика по карте
+                  // Map click handler
                   map.events.add("click", function (e) {
                      var coords = e.get("coords");
                      placemark.geometry.setCoordinates(coords);
                      updateFields(coords);
                   });
 
-                  // Обновление zoom при изменении масштаба
+                  // Update zoom on scale change
                   map.events.add("boundschange", function () {
                      if (zoomField) {
                         zoomField.value = map.getZoom();
@@ -431,7 +431,7 @@ function codeweber_office_location_callback($post)
                      }
                   });
 
-                  // Обработчик поиска по адресу
+                  // Address search handler
                   var searchControl = map.controls.get("searchControl");
                   searchControl.events.add("resultselect", function (e) {
                      var results = searchControl.getResultsArray();
@@ -446,7 +446,7 @@ function codeweber_office_location_callback($post)
                      }
                   });
 
-                  // Инициализация полей при загрузке
+                  // Initialize fields on load
                   updateFields(coords);
                });
             });
@@ -459,7 +459,7 @@ function codeweber_office_location_callback($post)
    </div>
 
    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px;">
-      <!-- Скрытое поле для координат в формате строки (для совместимости) -->
+      <!-- Hidden field for coordinates in string format (for compatibility) -->
       <input type="hidden" id="office_coordinates" name="office_coordinates" value="<?php echo esc_attr($coordinates); ?>">
 
       <div>
@@ -504,7 +504,7 @@ function codeweber_office_vacancy_callback($post)
 {
    $vacancy_id = get_post_meta($post->ID, '_office_vacancy', true);
 
-   // Получаем список вакансий
+   // Get list of vacancies
    $vacancy_posts = get_posts(array(
       'post_type' => 'vacancies',
       'post_status' => 'publish',
@@ -548,7 +548,7 @@ function codeweber_office_services_callback($post)
       $selected_services = array();
    }
 
-   // Получаем список услуг
+   // Get list of services
    $service_posts = get_posts(array(
       'post_type' => 'services',
       'post_status' => 'publish',

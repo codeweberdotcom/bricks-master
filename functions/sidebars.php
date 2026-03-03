@@ -302,29 +302,30 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
         // Получаем стиль кнопок из Redux
         $button_style = function_exists('getThemeButton') ? getThemeButton('') : '';
         $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+        $sidebar_disable_image = !empty($vacancy_data['sidebar_disable_image']);
+        $sidebar_hide_author   = !empty($vacancy_data['sidebar_hide_author']);
 ?>
         <div class="widget">
             <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
-                <?php 
-                $thumbnail_id = get_post_thumbnail_id();
-                $image_url = '';
-                if ($thumbnail_id) {
-                    // Используем специальный размер для вакансий
-                    $image_url = wp_get_attachment_image_url($thumbnail_id, 'codeweber_vacancy');
-                }
-                
-                // Если нет картинки, используем fallback
-                if (empty($image_url)) {
-                    $image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
-                }
+                <?php
+                if (!$sidebar_disable_image) :
+                    $thumbnail_id = get_post_thumbnail_id();
+                    $image_url = '';
+                    if ($thumbnail_id) {
+                        $image_url = wp_get_attachment_image_url($thumbnail_id, 'codeweber_vacancy');
+                    }
+                    if (empty($image_url)) {
+                        $image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
+                    }
                 ?>
                 <figure<?php echo $card_radius ? ' class="' . esc_attr($card_radius) . '"' : ''; ?>>
                     <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="img-fluid">
                 </figure>
+                <?php endif; ?>
 
                 <div class="card-body">
                     <div class="mb-6">
-                        <h3 class="mb-4"><?php esc_html_e('Детально', 'codeweber'); ?></h3>
+                        <h3 class="mb-4"><?php esc_html_e('Details', 'codeweber'); ?></h3>
 
                         <?php if (!empty($vacancy_data['location'])) : ?>
                             <p class="mb-1 d-flex align-items-center">
@@ -369,6 +370,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                         <?php endif; ?>
                     </div>
 
+                    <?php if (!$sidebar_hide_author) : ?>
                     <div class="mb-6">
                         <div class="author-info d-flex align-items-center">
                             <div class="d-flex align-items-center">
@@ -394,6 +396,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
 
                     <div data-group="page-title-buttons">
                         <?php if (!empty($vacancy_data['pdf_url'])) : ?>
@@ -435,6 +438,52 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
             <!--/.card -->
         </div>
         <!--/.widget -->
+
+        <?php
+        // Вывод карты через общий модуль Яндекс.Карт (с Loader и единым JS)
+        $show_map = isset($vacancy_data['show_map']) ? $vacancy_data['show_map'] : '';
+        $latitude = isset($vacancy_data['latitude']) ? $vacancy_data['latitude'] : '';
+        $longitude = isset($vacancy_data['longitude']) ? $vacancy_data['longitude'] : '';
+        $yandex_address = isset($vacancy_data['yandex_address']) ? $vacancy_data['yandex_address'] : '';
+        
+        if ($show_map === '1' && !empty($latitude) && !empty($longitude) && class_exists('Codeweber_Yandex_Maps')) :
+            $yandex_maps = Codeweber_Yandex_Maps::get_instance();
+            if ($yandex_maps->has_api_key()) :
+                $zoom = isset($vacancy_data['zoom']) && !empty($vacancy_data['zoom']) ? absint($vacancy_data['zoom']) : 15;
+                $lat = floatval($latitude);
+                $lon = floatval($longitude);
+                $args = array(
+                    'map_id'           => 'vacancy-sidebar-map',
+                    'center'           => array($lat, $lon),
+                    'zoom'             => $zoom,
+                    'height'           => 250,
+                    'width'            => '100%',
+                    'controls'         => array('zoomControl'),
+                    'enable_scroll_zoom' => false,
+                    'show_sidebar'     => false,
+                    'show_route'       => false,
+                    'clusterer'        => false,
+                    'marker_auto_open_balloon' => false,
+                );
+                $markers = array(
+                    array(
+                        'latitude'  => $lat,
+                        'longitude' => $lon,
+                        'hintContent' => !empty($yandex_address) ? $yandex_address : '',
+                    ),
+                );
+                ?>
+            <div class="widget">
+                <h3 class="mb-3"><?php esc_html_e('On the map', 'codeweber'); ?></h3>
+                <div class="card rounded-0">
+                    <?php echo $yandex_maps->render_map($args, $markers); ?>
+                </div>
+            </div>
+            <?php
+            endif;
+        endif;
+        ?>
+        
         <?php
 }
 add_action('codeweber_after_widget', 'codeweber_sidebar_widget_vacancies');

@@ -130,9 +130,9 @@ function disable_gutenberg_for_documents($current_status, $post_type)
 
 
 /**
- * Добавляет мета-бокс для загрузки файлов к custom post type 'documents'
+ * Adds meta box for file uploads to custom post type 'documents'
  * 
- * Функция создает мета-бокс в интерфейсе редактирования документов
+ * Function creates meta box in document editing interface
  * для загрузки и управления файлами документов.
  * 
  * @hook add_meta_boxes

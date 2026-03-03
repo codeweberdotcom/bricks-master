@@ -1,6 +1,6 @@
 <?php
 
-// Регистрация CPT FAQ и таксономий (ваш существующий код)
+// Registration of CPT FAQ and taxonomies (your existing code)
 function cptui_register_my_cpts_faq()
 {
 	/**
@@ -65,16 +65,16 @@ function cptui_register_my_taxes_faq_categories()
 		"label" => esc_html__("FAQ Categories", "codeweber"),
 		"labels" => $labels,
 		"public" => false,
-		"publicly_queryable" => false, // Не доступна для запросов
+		"publicly_queryable" => false, // Not available for queries
 		"hierarchical" => true,
 		"show_ui" => true,
 		"show_in_menu" => true,
-		"show_in_nav_menus" => false, // Не показывать в меню навигации
-		"query_var" => false, // Отключаем query var
-		"rewrite" => false, // Отключаем перезапись URL
+		"show_in_nav_menus" => false, // Don't show in navigation menu
+		"query_var" => false, // Disable query var
+		"rewrite" => false, // Disable URL rewrite
 		"show_admin_column" => true,
 		"show_in_rest" => true,
-		"show_tagcloud" => false, // Отключаем облако тегов
+		"show_tagcloud" => false, // Disable tag cloud
 		"rest_base" => "faq_categories",
 		"rest_controller_class" => "WP_REST_Terms_Controller",
 		"show_in_quick_edit" => true,

@@ -180,7 +180,8 @@ add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_filter', 20);
 
 #### Шаблоны рендеринга
 
-- `vacancies_1` - Список вакансий, сгруппированных по типам
+- `vacancies_1` — список вакансий, сгруппированных по типам (специальная разметка в PHP).
+- `vacancies_2` и `vacancies_3` — для вывода используется **тот же шаблон архива**, что и на странице архива: в обработчике временно подменяется глобальный `$wp_query` на отфильтрованный запрос, вызывается `get_template_part('templates/archives/vacancies/vacancies_2')` или `vacancies_3`, затем запрос восстанавливается. Сетка и разметка совпадают с архивной страницей.
 
 ### Статьи (post)
 
@@ -311,15 +312,8 @@ function codeweber_apply_staff_filters($args, $filters)
 
 #### Рендеринг вакансий
 
-```php
-function codeweber_render_vacancies_filtered($query, $filters)
-```
-
-Генерирует HTML для отфильтрованных вакансий по шаблону `vacancies_1`.
-
-**Параметры:**
-- `$query` (WP_Query) - Объект запроса с результатами
-- `$filters` (array) - Примененные фильтры
+- **vacancies_1:** `codeweber_render_vacancies_filtered($query, $filters)` — генерирует HTML для списка, сгруппированного по типам.
+- **vacancies_2 и vacancies_3:** рендеринг выполняется через **тот же шаблон архива**, что и на странице: в обработчике подменяется `$GLOBALS['wp_query']` на объект отфильтрованного запроса, вызывается `get_template_part('templates/archives/vacancies/vacancies_2')` или `vacancies_3`, затем глобальный запрос восстанавливается. Отдельных функций рендеринга для этих шаблонов нет.
 
 ## JavaScript API
 

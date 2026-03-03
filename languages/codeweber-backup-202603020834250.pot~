@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-28 10:56+0000\n"
+"POT-Creation-Date: 2026-03-02 07:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -27,7 +27,7 @@ msgid "%1$d of %2$d cities created"
 msgstr ""
 
 #: functions/demo/demo-clients.php:310 functions/demo/demo-staff.php:399
-#: functions/demo/demo-vacancies.php:401
+#: functions/demo/demo-vacancies.php:417
 #, php-format
 msgid "%1$d of %2$d entries created"
 msgstr ""
@@ -68,7 +68,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: functions/demo/demo-faq.php:451 functions/demo/demo-staff.php:456
-#: functions/demo/demo-vacancies.php:458
+#: functions/demo/demo-vacancies.php:470
 msgid "%d entries deleted"
 msgstr ""
 
@@ -302,7 +302,7 @@ msgid ""
 msgstr ""
 
 #: functions/shortcodes.php:213 templates/singles/staff/staff_2.php:197
-#: templates/singles/staff/staff_3.php:188
+#: templates/singles/staff/staff_3.php:193
 #: templates/singles/staff/staff_4.php:217
 #: templates/singles/staff/staff_5.php:241
 msgid "About"
@@ -311,6 +311,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/company-details.php:15
 #: redux-framework/sample/sections/codeweber/company-details.php:21
 msgid "About Company"
+msgstr ""
+
+#: templates/singles/vacancies/default.php:37
+msgid "About the vacancy"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_cookie.php:44
@@ -402,6 +406,10 @@ msgstr ""
 msgid "Add Document"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:76
+msgid "Add Employment Type"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:48
 msgid "Add form"
 msgstr ""
@@ -420,7 +428,7 @@ msgid ""
 "Add images via the upload area below. Drag items in the grid to reorder."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:515
+#: functions/cpt/cpt-vacancies.php:609
 msgid "Add Language"
 msgstr ""
 
@@ -544,10 +552,6 @@ msgstr ""
 msgid "Add New Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:76
-msgid "Add New Vacancy Type"
-msgstr ""
-
 #: functions/cpt/cpt-clients.php:83
 msgid "Add or remove categories"
 msgstr ""
@@ -556,19 +560,19 @@ msgstr ""
 msgid "Add or remove departments"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:81
-msgid "Add or remove vacancy types"
+#: functions/cpt/cpt-vacancies.php:81 functions/cpt/cpt-vacancies.php:132
+msgid "Add or remove items"
 msgstr ""
 
 #: functions/cpt/cpt-projects.php:13
 msgid "Add Project"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:412
+#: functions/cpt/cpt-vacancies.php:479
 msgid "Add Requirement"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:397
+#: functions/cpt/cpt-vacancies.php:464
 msgid "Add Responsibility"
 msgstr ""
 
@@ -576,11 +580,15 @@ msgstr ""
 msgid "Add row"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:127
+msgid "Add Schedule"
+msgstr ""
+
 #: functions/cpt/cpt-services.php:13
 msgid "Add Service"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:530
+#: functions/cpt/cpt-vacancies.php:624
 msgid "Add Skill"
 msgstr ""
 
@@ -600,7 +608,7 @@ msgstr ""
 msgid "additional CSS classes"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:149 functions/cpt/cpt-vacancies.php:417
+#: functions/cpt/cpt-offices.php:149 functions/cpt/cpt-vacancies.php:484
 msgid "Additional Information"
 msgstr ""
 
@@ -639,8 +647,12 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:488
+#: functions/cpt/cpt-offices.php:488 functions/cpt/cpt-vacancies.php:877
 msgid "Address (from map)"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:881
+msgid "Address is automatically detected when you click on the map"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:492
@@ -651,8 +663,8 @@ msgstr ""
 msgid "Address Shortcode"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:580
-msgid "Admin Notification Template"
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:33
+msgid "Admin Notification"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:874
@@ -678,7 +690,7 @@ msgid ""
 "individual properties."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:418
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:506
 msgid "After moderation, your testimonial will be published on our website."
 msgstr ""
 
@@ -755,6 +767,10 @@ msgstr ""
 msgid "All Documents"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:72
+msgid "All Employment Types"
+msgstr ""
+
 #: functions/cpt/cpt-faq.php:55
 msgid "All FAQ Categories"
 msgstr ""
@@ -763,11 +779,11 @@ msgstr ""
 msgid "All FAQ Tags"
 msgstr ""
 
-#: functions/sidebars.php:501 functions/cpt/cpt-faq.php:22
+#: functions/sidebars.php:560 functions/cpt/cpt-faq.php:22
 msgid "All FAQs"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:502
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:590
 msgid "All form fields in table format"
 msgstr ""
 
@@ -834,6 +850,10 @@ msgstr ""
 msgid "All Projects"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:123
+msgid "All Schedule Options"
+msgstr ""
+
 #: functions/cpt/cpt-staff.php:15
 msgid "All Staff"
 msgstr ""
@@ -856,10 +876,6 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:13
 msgid "All Vacancies"
-msgstr ""
-
-#: functions/cpt/cpt-vacancies.php:72
-msgid "All Vacancy Types"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:328
@@ -965,11 +981,11 @@ msgstr ""
 msgid "API ключ из кабинета DaData"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:251
+#: functions/cpt/cpt-vacancies.php:318
 msgid "Application Email"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:259
+#: functions/cpt/cpt-vacancies.php:326
 msgid "Application URL"
 msgstr ""
 
@@ -1019,7 +1035,8 @@ msgstr ""
 msgid "Archive Template for %s"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:629
+#: functions/cpt/cpt-vacancies.php:723
+#: templates/singles/vacancies/default.php:79
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:281
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:648
 msgid "Archived"
@@ -1157,12 +1174,12 @@ msgstr ""
 msgid "Auto Open First Balloon"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1587
-msgid "Auto-reply is disabled."
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:34
+msgid "Auto-Reply"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:655
-msgid "Auto-Reply Template"
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1587
+msgid "Auto-reply is disabled."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:209
@@ -1177,7 +1194,7 @@ msgstr ""
 msgid "Available Services"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:558
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:657
 msgid "Available Variables"
 msgstr ""
 
@@ -1280,7 +1297,7 @@ msgstr ""
 msgid "Basic Usage"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:159
+#: functions/cpt/cpt-vacancies.php:210
 msgid "Basic Vacancy Information"
 msgstr ""
 
@@ -1306,10 +1323,10 @@ msgstr ""
 msgid "Best regards"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:388
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:419
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:454
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:485
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:476
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:507
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:542
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:573
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:342
 msgid "Best regards,"
 msgstr ""
@@ -1330,6 +1347,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:171
 #: redux-framework/sample/sections/codeweber/header.php:249
 #: redux-framework/sample/sections/codeweber/header.php:324
+#: redux-framework/sample/sections/codeweber/style.php:284
 msgid "Block"
 msgstr ""
 
@@ -1350,7 +1368,7 @@ msgstr ""
 msgid "Blockquote"
 msgstr ""
 
-#: functions/global.php:805
+#: functions/global.php:686
 msgid "Blog"
 msgstr ""
 
@@ -1629,8 +1647,8 @@ msgstr ""
 msgid "Check that the export includes data from registered providers"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:222
-#: functions/bootstrap/bootstrap_share-page.php:264
+#: functions/bootstrap/bootstrap_share-page.php:224
+#: functions/bootstrap/bootstrap_share-page.php:266
 #, php-format
 msgid "Check this out: %s"
 msgstr ""
@@ -1655,7 +1673,7 @@ msgstr ""
 msgid "Child Theme Name"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:538
+#: functions/cpt/cpt-vacancies.php:632
 msgid "Chinese (native)"
 msgstr ""
 
@@ -1671,16 +1689,16 @@ msgstr ""
 msgid "Choose from Bootstrap modal size options"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:82 functions/cpt/cpt-vacancies.php:133
+msgid "Choose from the most used"
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:84
 msgid "Choose from the most used categories"
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:92
 msgid "Choose from the most used departments"
-msgstr ""
-
-#: functions/cpt/cpt-vacancies.php:82
-msgid "Choose from the most used vacancy types"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:290
@@ -1703,6 +1721,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:170
 #: redux-framework/sample/sections/codeweber/header.php:248
 #: redux-framework/sample/sections/codeweber/header.php:323
+#: redux-framework/sample/sections/codeweber/style.php:283
 msgid "Circle"
 msgstr ""
 
@@ -1768,6 +1787,10 @@ msgid ""
 "Click \"Add payment method\" below to save a test card. No real payment."
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:762
+msgid "Click on the map to set the location or use the search field."
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:11 functions/cpt/cpt-clients.php:23
 msgid "Client"
 msgstr ""
@@ -1809,7 +1832,8 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:628
+#: functions/cpt/cpt-vacancies.php:722
+#: templates/singles/vacancies/default.php:78
 msgid "Closed"
 msgstr ""
 
@@ -1838,7 +1862,7 @@ msgstr ""
 msgid "Codeweber"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:324
+#: functions/cpt/cpt-vacancies.php:391
 msgid "CodeWeber Form"
 msgstr ""
 
@@ -1914,7 +1938,7 @@ msgid "One reply on &ldquo;%s&rdquo;"
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:197 functions/cpt/cpt-testimonials.php:542
-#: functions/cpt/cpt-vacancies.php:227
+#: functions/cpt/cpt-vacancies.php:294
 #: woocommerce/order/order-details-customer.php:32
 #: woocommerce/order/order-details-customer.php:71
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:103
@@ -1952,6 +1976,7 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:212
 #: functions/cpt/cpt-testimonials.php:275
+#: templates/singles/vacancies/default.php:44
 msgid "Company:"
 msgstr ""
 
@@ -2103,7 +2128,11 @@ msgstr ""
 msgid "Contact Form"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:275
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:96
+msgid "Contact form"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:342
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:144
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:563
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:348
@@ -2121,7 +2150,7 @@ msgstr ""
 msgid "Contact Form 7 plugin is not active."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:317
+#: functions/cpt/cpt-vacancies.php:384
 msgid ""
 "Contact Form 7 plugin is not active. Please activate the plugin to use this "
 "feature."
@@ -2182,10 +2211,10 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: functions/ajax-filter.php:354 functions/sidebars.php:291
-#: functions/cpt/cpt-vacancies.php:482
+#: functions/ajax-filter.php:354
 #: templates/archives/vacancies/vacancies_2.php:34
 #: templates/post-cards/vacancies/card.php:54
+#: templates/singles/vacancies/default.php:55
 msgid "Contract"
 msgstr ""
 
@@ -2668,7 +2697,7 @@ msgid ""
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1689
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:350
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:438
 msgid "Date:"
 msgstr ""
 
@@ -2764,6 +2793,10 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1391
 msgid "Default Status"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:264
+msgid "Default style for social/contact icons across the theme."
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:243
@@ -2995,7 +3028,6 @@ msgstr ""
 #: functions/integrations/personal-data-v2/test-providers.php:107
 #: templates/singles/offices/offices_2.php:269
 #: templates/singles/offices/offices_5.php:232
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:564
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:234
 #: redux-framework/sample/sections/codeweber/childtheme.php:28
 #: redux-framework/sample/sections/codeweber/footer.php:295
@@ -3020,7 +3052,7 @@ msgstr ""
 msgid "Detailed guide for creating and configuring email newsletter forms."
 msgstr ""
 
-#: functions/sidebars.php:335
+#: functions/sidebars.php:327
 msgid "Details"
 msgstr ""
 
@@ -3239,7 +3271,7 @@ msgstr ""
 msgid "Download date:"
 msgstr ""
 
-#: functions/sidebars.php:390
+#: functions/sidebars.php:403
 msgid "Download document"
 msgstr ""
 
@@ -3313,7 +3345,7 @@ msgstr ""
 msgid "Each FAQ item"
 msgstr ""
 
-#: functions/lib/comments-helper.php:49
+#: functions/cpt/cpt-vacancies.php:124 functions/lib/comments-helper.php:49
 msgid "Edit"
 msgstr ""
 
@@ -3331,6 +3363,10 @@ msgstr ""
 
 #: functions/cpt/cpt-documents.php:12
 msgid "Edit Document"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:73
+msgid "Edit Employment Type"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:15
@@ -3426,16 +3462,12 @@ msgstr ""
 msgid "Edit Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:73
-msgid "Edit Vacancy Type"
-msgstr ""
-
-#: functions/cpt/cpt-vacancies.php:496
+#: functions/cpt/cpt-vacancies.php:590
 msgid "Education / Qualification"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:219
-#: functions/bootstrap/bootstrap_share-page.php:261
+#: functions/bootstrap/bootstrap_share-page.php:221
+#: functions/bootstrap/bootstrap_share-page.php:263
 #: functions/cpt/cpt-offices.php:283 functions/cpt/cpt-offices.php:805
 #: woocommerce/order/order-details-customer.php:40
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:254
@@ -3444,10 +3476,11 @@ msgstr ""
 #: templates/singles/offices/offices_2.php:186
 #: templates/singles/offices/offices_5.php:155
 #: templates/singles/staff/staff_2.php:114
-#: templates/singles/staff/staff_3.php:116
+#: templates/singles/staff/staff_3.php:121
 #: templates/singles/staff/staff_4.php:137
 #: templates/singles/staff/staff_5.php:151
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:929
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:93
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:115
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1007
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:477
@@ -3504,6 +3537,10 @@ msgstr ""
 msgid "Email or phone is required"
 msgstr ""
 
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:781
+msgid "Email preview"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1477
 msgid "Email sending failed."
 msgstr ""
@@ -3512,11 +3549,7 @@ msgstr ""
 msgid "Email Settings"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:604
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:682
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:760
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:838
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:916
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:749
 msgid "Email Subject"
 msgstr ""
 
@@ -3528,19 +3561,19 @@ msgstr ""
 msgid "Email successfully subscribed to newsletter"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:621
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:699
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:777
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:855
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:933
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:756
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:279
 msgid "Email Template"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:66
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:67
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:548
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:642
 msgid "Email Templates"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:647
+msgid "Email types"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:50
@@ -3548,8 +3581,21 @@ msgstr ""
 msgid "Email User"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:475
+#: functions/cpt/cpt-vacancies.php:69 functions/cpt/cpt-vacancies.php:70
+#: functions/cpt/cpt-vacancies.php:71 functions/cpt/cpt-vacancies.php:90
 msgid "Employment Type"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:77
+msgid "Employment Type Name"
+msgstr ""
+
+#: templates/singles/vacancies/default.php:50
+msgid "Employment type:"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:86
+msgid "Employment types list"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:581 functions/cpt/cpt-faq.php:587
@@ -3565,11 +3611,11 @@ msgstr ""
 msgid "Empty trash? This will permanently delete items."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:587
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:681
 msgid "Enable Admin Notifications"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:662
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:690
 msgid "Enable Auto-Reply"
 msgstr ""
 
@@ -3618,7 +3664,7 @@ msgstr ""
 msgid "Enable multi-touch gestures on mobile devices"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:896
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:717
 msgid "Enable Newsletter Reply"
 msgstr ""
 
@@ -3634,7 +3680,7 @@ msgstr ""
 msgid "Enable rate limiting for form submissions"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:818
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:708
 msgid "Enable Resume Reply"
 msgstr ""
 
@@ -3658,7 +3704,7 @@ msgstr ""
 msgid "Enable test gateway"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:740
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:699
 msgid "Enable Testimonial Reply"
 msgstr ""
 
@@ -3710,11 +3756,11 @@ msgstr ""
 msgid "Enter recipient email for test:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:406 functions/cpt/cpt-vacancies.php:442
+#: functions/cpt/cpt-vacancies.php:473 functions/cpt/cpt-vacancies.php:509
 msgid "Enter requirement..."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:391 functions/cpt/cpt-vacancies.php:433
+#: functions/cpt/cpt-vacancies.php:458 functions/cpt/cpt-vacancies.php:500
 msgid "Enter responsibility..."
 msgstr ""
 
@@ -3767,7 +3813,7 @@ msgstr ""
 
 #: functions/demo/demo-clients.php:220 functions/demo/demo-faq.php:310
 #: functions/demo/demo-forms.php:215 functions/demo/demo-offices.php:209
-#: functions/demo/demo-staff.php:283 functions/demo/demo-vacancies.php:277
+#: functions/demo/demo-staff.php:283 functions/demo/demo-vacancies.php:281
 msgid "Error creating record"
 msgstr ""
 
@@ -3906,7 +3952,7 @@ msgstr ""
 msgid "Extraction Data"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:209
+#: functions/bootstrap/bootstrap_share-page.php:211
 #: templates/singles/staff/staff_4.php:171
 #: templates/singles/staff/staff_5.php:194
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:131
@@ -3976,7 +4022,7 @@ msgstr ""
 #: functions/demo/demo-clients.php:361 functions/demo/demo-faq.php:445
 #: functions/demo/demo-forms.php:341 functions/demo/demo-offices.php:360
 #: functions/demo/demo-staff.php:450 functions/demo/demo-testimonials.php:525
-#: functions/demo/demo-vacancies.php:452
+#: functions/demo/demo-vacancies.php:464
 msgid "Failed to delete record ID: %d"
 msgstr ""
 
@@ -4116,6 +4162,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:189
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:540
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:723
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:91
 msgid "Field"
 msgstr ""
 
@@ -4303,7 +4350,7 @@ msgstr ""
 msgid "Font uploaded successfully!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:253
+#: redux-framework/sample/sections/codeweber/style.php:306
 msgid "Fonts"
 msgstr ""
 
@@ -4503,7 +4550,7 @@ msgid "Form Fields"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1692
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:354
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:442
 msgid "Form Fields:"
 msgstr ""
 
@@ -4557,7 +4604,7 @@ msgid "Form Name"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:45
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:497
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:585
 msgid "Form name"
 msgstr ""
 
@@ -4612,7 +4659,7 @@ msgid "Form type"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1688
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:349
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:437
 msgid "Form:"
 msgstr ""
 
@@ -4647,6 +4694,10 @@ msgstr ""
 msgid "Found"
 msgstr ""
 
+#: templates/singles/vacancies/default.php:56
+msgid "Freelance"
+msgstr ""
+
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:371
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:430
 msgid "From"
@@ -4674,7 +4725,7 @@ msgid ""
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1690
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:351
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:439
 msgid "From:"
 msgstr ""
 
@@ -4736,8 +4787,8 @@ msgstr ""
 msgid "Full time"
 msgstr ""
 
-#: functions/sidebars.php:288 functions/cpt/cpt-vacancies.php:479
 #: templates/post-cards/vacancies/card.php:51
+#: templates/singles/vacancies/default.php:53
 msgid "Full-time"
 msgstr ""
 
@@ -4789,6 +4840,16 @@ msgstr ""
 
 #. Author of the theme
 msgid "Gladkov Denis"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:258
+msgid ""
+"Global icon settings (social links, vacancy sidebar, etc.). Header and "
+"footer can have their own overrides."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:254
+msgid "Global Social Style"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:27
@@ -4864,7 +4925,7 @@ msgstr ""
 msgid "Guest"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:263
+#: redux-framework/sample/sections/codeweber/style.php:317
 msgid "Gulp"
 msgstr ""
 
@@ -4992,10 +5053,10 @@ msgstr ""
 msgid "Hello %1$s (not %1$s? %2$s)"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:386
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:416
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:448
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:482
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:474
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:504
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:536
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:570
 msgid "Hello,"
 msgstr ""
 
@@ -5057,7 +5118,7 @@ msgstr ""
 msgid "How to Test"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:485
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:573
 msgid "HR Department"
 msgstr ""
 
@@ -5086,34 +5147,8 @@ msgstr ""
 msgid "HTML form structure"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:646
-msgid ""
-"HTML template for admin notification emails. Use variables from the list "
-"above."
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:724
-msgid "HTML template for auto-reply emails. Use variables from the list above."
-msgstr ""
-
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:280
 msgid "HTML template for confirmation emails:"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:958
-msgid ""
-"HTML template for newsletter reply emails. Use variables from the list above."
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:880
-msgid ""
-"HTML template for resume reply emails. Use variables from the list above."
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:802
-msgid ""
-"HTML template for testimonial reply emails. Use variables from the list "
-"above."
 msgstr ""
 
 #. URI of the theme
@@ -5218,11 +5253,15 @@ msgstr ""
 msgid "ID: %s | Type: %s"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:891
+msgid "If enabled, map will be displayed in the sidebar of the vacancy page"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/style.php:190
 msgid "If filled, the background color below will not be applied"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:451
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:539
 msgid "If you did not subscribe to our newsletter, please ignore this email."
 msgstr ""
 
@@ -5241,7 +5280,7 @@ msgstr ""
 msgid "If you want to unsubscribe from the newsletter, click the button below:"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:484
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:572
 msgid "If your candidacy interests us, we will contact you soon."
 msgstr ""
 
@@ -5393,12 +5432,12 @@ msgstr ""
 msgid "Integration Status"
 msgstr ""
 
-#: functions/sidebars.php:290 functions/cpt/cpt-vacancies.php:481
 #: templates/post-cards/vacancies/card.php:55
+#: templates/singles/vacancies/default.php:57
 msgid "Internship"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:373
+#: functions/cpt/cpt-vacancies.php:440
 msgid "Introduction / Short Description"
 msgstr ""
 
@@ -5536,6 +5575,10 @@ msgstr ""
 msgid "Item URL:"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:85 functions/cpt/cpt-vacancies.php:136
+msgid "Items list navigation"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/socials.php:135
 #: redux-framework/sample/sections/extensions/users.php:145
 msgid "Itunes"
@@ -5667,13 +5710,18 @@ msgstr ""
 msgid "Landing Page"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:505
+#: functions/cpt/cpt-vacancies.php:599
 msgid "Languages"
+msgstr ""
+
+#: templates/singles/vacancies/default.php:68
+msgid "Languages:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:185
 #: redux-framework/sample/sections/codeweber/header.php:262
 #: redux-framework/sample/sections/codeweber/header.php:337
+#: redux-framework/sample/sections/codeweber/style.php:295
 msgid "Large"
 msgstr ""
 
@@ -5704,7 +5752,7 @@ msgstr ""
 msgid "Lastname"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:467
+#: functions/cpt/cpt-offices.php:467 functions/cpt/cpt-vacancies.php:856
 msgid "Latitude"
 msgstr ""
 
@@ -5895,7 +5943,7 @@ msgstr ""
 msgid "Linked User Account"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:197
+#: functions/bootstrap/bootstrap_share-page.php:199
 #: templates/singles/staff/staff_4.php:183
 #: templates/singles/staff/staff_5.php:206
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:145
@@ -5904,7 +5952,7 @@ msgstr ""
 msgid "LinkedIn"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:267
+#: functions/cpt/cpt-vacancies.php:334
 msgid "LinkedIn URL"
 msgstr ""
 
@@ -5944,7 +5992,7 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:235
+#: functions/cpt/cpt-vacancies.php:302
 #: templates/archives/vacancies/vacancies_1.php:124
 #: templates/archives/vacancies/vacancies_1.php:125
 msgid "Location"
@@ -5998,7 +6046,7 @@ msgstr ""
 msgid "Logs all Matomo tracking events to WordPress debug log"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:474
+#: functions/cpt/cpt-offices.php:474 functions/cpt/cpt-vacancies.php:863
 msgid "Longitude"
 msgstr ""
 
@@ -6064,11 +6112,18 @@ msgstr ""
 msgid "Manager"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:329
+#: functions/cpt/cpt-offices.php:329 functions/cpt/cpt-vacancies.php:766
 #: redux-framework/sample/sections/codeweber/footer.php:297
 #: redux-framework/sample/sections/codeweber/header.php:353
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:63
 msgid "Map"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:766
+msgid ""
+"Map is disabled for this vacancy. Enable \"Show map on frontend\" in the "
+"\"Enable/disable elements\" block to display the map here and on the "
+"frontend."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:82
@@ -6182,6 +6237,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:184
 #: redux-framework/sample/sections/codeweber/header.php:261
 #: redux-framework/sample/sections/codeweber/header.php:336
+#: redux-framework/sample/sections/codeweber/style.php:294
 msgid "Medium"
 msgstr ""
 
@@ -6203,6 +6259,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:356
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:931
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:806
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:94
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:145
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:349
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:761
@@ -6247,7 +6304,7 @@ msgstr ""
 msgid "Method of processing personal data:"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:546
+#: functions/cpt/cpt-vacancies.php:640
 msgid "Microsoft Excel"
 msgstr ""
 
@@ -6373,6 +6430,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:347
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:928
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:790
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:92
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1020
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:756
 msgid "Name"
@@ -6449,8 +6507,8 @@ msgstr ""
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1393
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1685
 #: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:606
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:345
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:525
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:433
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:613
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:241
 msgid "New Form Submission"
 msgstr ""
@@ -6524,10 +6582,6 @@ msgstr ""
 msgid "New Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:77
-msgid "New Vacancy Type Name"
-msgstr ""
-
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:296
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:935
 msgid "Newsletter Consents"
@@ -6537,8 +6591,8 @@ msgstr ""
 msgid "Newsletter Form Creation Instructions"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:889
-msgid "Newsletter Reply Template"
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:37
+msgid "Newsletter Reply"
 msgstr ""
 
 #: functions/integrations/cf7.php:529
@@ -6584,7 +6638,7 @@ msgstr ""
 msgid "Newsletter Subscriptions"
 msgstr ""
 
-#: functions/global.php:1058 functions/global.php:1062
+#: functions/global.php:939 functions/global.php:943
 #: functions/bootstrap/bootstrap_post-nav.php:30
 msgid "Next"
 msgstr ""
@@ -6641,7 +6695,7 @@ msgstr ""
 msgid "No Contact Form 7 data found for this email"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:312
+#: functions/cpt/cpt-vacancies.php:379
 msgid "No Contact Form 7 forms found. Please create a form first."
 msgstr ""
 
@@ -6700,7 +6754,7 @@ msgid "No data found"
 msgstr ""
 
 #: functions/demo/demo-clients.php:273 functions/demo/demo-faq.php:364
-#: functions/demo/demo-staff.php:365 functions/demo/demo-vacancies.php:367
+#: functions/demo/demo-staff.php:365 functions/demo/demo-vacancies.php:384
 msgid "No data found or file is corrupted"
 msgstr ""
 
@@ -6718,6 +6772,10 @@ msgstr ""
 
 #: functions/cpt/cpt-documents.php:18
 msgid "No documents found in Trash"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:84
+msgid "No employment types"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:168
@@ -6894,7 +6952,7 @@ msgstr ""
 msgid "no PDF"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:565
+#: functions/cpt/cpt-vacancies.php:659
 msgid "No PDF selected"
 msgstr ""
 
@@ -6923,13 +6981,17 @@ msgstr ""
 msgid "No providers registered!"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:350
+#: functions/cpt/cpt-vacancies.php:417
 msgid ""
 "No published CodeWeber forms found. Please create and publish a form first."
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:80
 msgid "No results found"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:135
+msgid "No schedule options"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:576
@@ -6986,14 +7048,6 @@ msgstr ""
 msgid "No vacancies found. Please create vacancies first."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:84
-msgid "No vacancy types"
-msgstr ""
-
-#: functions/cpt/cpt-vacancies.php:83
-msgid "No vacancy types found"
-msgstr ""
-
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:263
 msgid "No valid consents to save"
 msgstr ""
@@ -7016,6 +7070,7 @@ msgstr ""
 msgid "Not Active"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:83 functions/cpt/cpt-vacancies.php:134
 #: functions/integrations/image-licenses/image-licenses.php:65
 msgid "Not found"
 msgstr ""
@@ -7037,22 +7092,22 @@ msgstr ""
 msgid "Note:"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:675
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:691
 msgid "Note: Auto-reply will only be sent if the form contains an email field."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:909
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:718
 msgid ""
 "Note: Reply will be sent if form name contains \"newsletter\" or \"подписк\"."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:831
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:709
 msgid ""
 "Note: Reply will be sent if form name contains \"resume\", \"резюме\", "
 "\"cv\" or \"вакансия\"."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:753
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:700
 msgid ""
 "Note: Reply will be sent if form name contains \"testimonial\" or \"отзыв\"."
 msgstr ""
@@ -7095,7 +7150,7 @@ msgstr ""
 msgid "Number of subscribers:"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:251
+#: functions/bootstrap/bootstrap_share-page.php:253
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:125
 #: redux-framework/sample/sections/codeweber/socials.php:45
 #: redux-framework/sample/sections/extensions/users.php:59
@@ -7194,6 +7249,10 @@ msgstr ""
 msgid "On Map"
 msgstr ""
 
+#: functions/sidebars.php:474
+msgid "On the map"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-gutenberg-restrictions.php:124
 msgid ""
 "Only Codeweber Gutenberg Blocks are available in this editor. Add a \"Form\" "
@@ -7212,7 +7271,8 @@ msgstr ""
 msgid "Oops! Page Not Found."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:627
+#: functions/cpt/cpt-vacancies.php:721
+#: templates/singles/vacancies/default.php:77
 msgid "Open"
 msgstr ""
 
@@ -7278,6 +7338,10 @@ msgstr ""
 msgid "Order items in side menu"
 msgstr ""
 
+#: woocommerce/myaccount/orders.php:22
+msgid "Order list"
+msgstr ""
+
 #: functions/woocommerce-states-ru.php:62
 msgid "Orenburg Oblast"
 msgstr ""
@@ -7298,7 +7362,7 @@ msgstr ""
 msgid "Other documents"
 msgstr ""
 
-#: archive-faq.php:192 functions/sidebars.php:490
+#: archive-faq.php:192 functions/sidebars.php:549
 msgid "Other Questions"
 msgstr ""
 
@@ -7406,7 +7470,7 @@ msgstr ""
 msgid "Page Loader"
 msgstr ""
 
-#: functions/global.php:812
+#: functions/global.php:693
 msgid "Page Not Found"
 msgstr ""
 
@@ -7561,8 +7625,8 @@ msgstr ""
 msgid "Part time"
 msgstr ""
 
-#: functions/sidebars.php:289 functions/cpt/cpt-vacancies.php:480
 #: templates/post-cards/vacancies/card.php:52
+#: templates/singles/vacancies/default.php:54
 msgid "Part-time"
 msgstr ""
 
@@ -7601,7 +7665,7 @@ msgstr ""
 msgid "PDF File"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:821 functions/cpt/cpt-vacancies.php:832
+#: functions/cpt/cpt-vacancies.php:1117 functions/cpt/cpt-vacancies.php:1128
 msgid "PDF file not found for this vacancy"
 msgstr ""
 
@@ -7718,7 +7782,7 @@ msgstr ""
 #: templates/singles/staff/default.php:129
 #: templates/singles/staff/staff_1.php:129
 #: templates/singles/staff/staff_2.php:126
-#: templates/singles/staff/staff_3.php:128
+#: templates/singles/staff/staff_3.php:133
 #: templates/singles/staff/staff_4.php:131
 #: templates/singles/staff/staff_5.php:141
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:930
@@ -7897,8 +7961,8 @@ msgstr ""
 msgid "Popular Departments"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:79
-msgid "Popular Vacancy Types"
+#: functions/cpt/cpt-vacancies.php:79 functions/cpt/cpt-vacancies.php:130
+msgid "Popular Items"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:133
@@ -7919,6 +7983,10 @@ msgstr ""
 
 #: functions/cpt/cpt-notifications.php:233
 msgid "Position of the modal window on the screen"
+msgstr ""
+
+#: templates/singles/vacancies/default.php:39
+msgid "Position:"
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:333
@@ -7962,7 +8030,7 @@ msgstr ""
 msgid "Presets"
 msgstr ""
 
-#: functions/global.php:1005 functions/global.php:1009
+#: functions/global.php:886 functions/global.php:890
 #: functions/bootstrap/bootstrap_post-nav.php:22
 msgid "Previous"
 msgstr ""
@@ -8154,7 +8222,7 @@ msgstr ""
 msgid "Public Transport"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:633
+#: functions/cpt/cpt-vacancies.php:727
 msgid "Publish Date"
 msgstr ""
 
@@ -8214,9 +8282,9 @@ msgstr ""
 #: functions/cpt/cpt-staff.php:260 templates/singles/staff/staff_2.php:166
 #: templates/singles/staff/staff_2.php:167
 #: templates/singles/staff/staff_2.php:168
-#: templates/singles/staff/staff_3.php:157
-#: templates/singles/staff/staff_3.php:158
-#: templates/singles/staff/staff_3.php:159
+#: templates/singles/staff/staff_3.php:162
+#: templates/singles/staff/staff_3.php:163
+#: templates/singles/staff/staff_3.php:164
 #: templates/singles/staff/staff_4.php:200
 #: templates/singles/staff/staff_4.php:201
 #: templates/singles/staff/staff_5.php:223
@@ -8437,8 +8505,8 @@ msgstr ""
 msgid "Remote"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:393 functions/cpt/cpt-vacancies.php:408
-#: functions/cpt/cpt-vacancies.php:435 functions/cpt/cpt-vacancies.php:444
+#: functions/cpt/cpt-vacancies.php:460 functions/cpt/cpt-vacancies.php:475
+#: functions/cpt/cpt-vacancies.php:502 functions/cpt/cpt-vacancies.php:511
 #: functions/integrations/cf7-consents-panel.php:87
 #: functions/integrations/cf7-consents-panel.php:316
 #: functions/integrations/project-gallery-metabox.php:65
@@ -8482,7 +8550,7 @@ msgstr ""
 msgid "Remove Image"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:569
+#: functions/cpt/cpt-vacancies.php:663
 msgid "Remove PDF"
 msgstr ""
 
@@ -8506,8 +8574,8 @@ msgstr ""
 msgid "Required (form cannot be submitted without this consent)"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:401
-#: templates/singles/vacancies/default.php:39
+#: functions/cpt/cpt-vacancies.php:468
+#: templates/singles/vacancies/default.php:99
 msgid "Requirements"
 msgstr ""
 
@@ -8520,8 +8588,8 @@ msgstr ""
 msgid "Resize columns"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:386
-#: templates/singles/vacancies/default.php:50
+#: functions/cpt/cpt-vacancies.php:453
+#: templates/singles/vacancies/default.php:110
 msgid "Responsibilities"
 msgstr ""
 
@@ -8582,8 +8650,8 @@ msgstr ""
 msgid "Resume form"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:811
-msgid "Resume Reply Template"
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:36
+msgid "Resume Reply"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:72
@@ -8705,12 +8773,25 @@ msgstr ""
 msgid "Sakhalin Oblast"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:243
+#: functions/cpt/cpt-vacancies.php:310
 msgid "Salary"
+msgstr ""
+
+#: templates/singles/vacancies/default.php:87
+msgid "Salary:"
 msgstr ""
 
 #: functions/woocommerce-states-ru.php:72
 msgid "Samara Oblast"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:94
+msgid "Sample message text."
+msgstr ""
+
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:92
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:98
+msgid "Sample User"
 msgstr ""
 
 #: functions/woocommerce-states-ru.php:74
@@ -8736,7 +8817,7 @@ msgid "Save the project as draft first, then you can add gallery images."
 msgstr ""
 
 #: templates/singles/staff/staff_2.php:189
-#: templates/singles/staff/staff_3.php:180
+#: templates/singles/staff/staff_3.php:185
 #: templates/singles/staff/staff_4.php:211
 #: templates/singles/staff/staff_5.php:235
 msgid "Save to Contacts"
@@ -8759,6 +8840,14 @@ msgstr ""
 msgid "Scan Frontend Cookies"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:137
+msgid "Schedule list"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:128
+msgid "Schedule Name"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:393
 msgid "Screen Reader Support"
 msgstr ""
@@ -8771,7 +8860,7 @@ msgstr ""
 msgid "Scroll to Middle"
 msgstr ""
 
-#: searchform.php:3
+#: searchform.php:3 functions/cpt/cpt-vacancies.php:129
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:26
 #: functions/integrations/ajax-search-module/search-statistics.php:639
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:354
@@ -8800,6 +8889,10 @@ msgstr ""
 
 #: functions/cpt/cpt-documents.php:16
 msgid "Search Document"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:78
+msgid "Search Employment Types"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:60
@@ -8884,7 +8977,7 @@ msgstr ""
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: functions/global.php:810
+#: functions/global.php:691
 #, php-format
 msgid "Search Results for: %s"
 msgstr ""
@@ -8920,10 +9013,6 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:20
 msgid "Search Vacancy"
-msgstr ""
-
-#: functions/cpt/cpt-vacancies.php:78
-msgid "Search Vacancy Types"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:574
@@ -8995,6 +9084,11 @@ msgstr ""
 #: functions/demo/demo-ajax.php:590 functions/demo/demo-ajax.php:611
 #: functions/demo/demo-ajax.php:633 functions/demo/demo-ajax.php:654
 msgid "Security error. Please refresh the page and try again."
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-address.php:89
+#: woocommerce/myaccount/form-edit-address.php:90
+msgid "Select a country / region…"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1384
@@ -9191,13 +9285,17 @@ msgstr ""
 msgid "Select PDF"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:586
+#: functions/cpt/cpt-vacancies.php:680
 #: functions/integrations/image-licenses/image-licenses.php:171
 msgid "Select PDF File"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:284
 msgid "Select rating"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:572
+msgid "Select schedule"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:436
@@ -9264,7 +9362,7 @@ msgid ""
 "the form wrapper, similar to codeweber forms."
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:478
+#: functions/cpt/cpt-vacancies.php:558
 msgid "Select type"
 msgstr ""
 
@@ -9301,19 +9399,19 @@ msgstr ""
 msgid "Seller Information"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:906
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:718
 msgid "Send automatic reply emails for newsletter subscriptions"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:828
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:709
 msgid "Send automatic reply emails for resumes"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:750
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:700
 msgid "Send automatic reply emails for testimonials"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:672
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:691
 msgid "Send automatic reply emails to users"
 msgstr ""
 
@@ -9325,7 +9423,7 @@ msgstr ""
 msgid "Send Document by Email"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:597
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:682
 msgid "Send email notifications to administrators"
 msgstr ""
 
@@ -9385,8 +9483,8 @@ msgstr ""
 msgid "Separate departments with commas"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:80
-msgid "Separate vacancy types with commas"
+#: functions/cpt/cpt-vacancies.php:80 functions/cpt/cpt-vacancies.php:131
+msgid "Separate items with commas"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:117
@@ -9536,7 +9634,7 @@ msgstr ""
 msgid "Sevastopol"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:98
+#: functions/bootstrap/bootstrap_share-page.php:100
 msgid "Share"
 msgstr ""
 
@@ -9544,7 +9642,7 @@ msgstr ""
 msgid "Shipping address"
 msgstr ""
 
-#: functions/global.php:790
+#: functions/global.php:671
 msgid "Shop"
 msgstr ""
 
@@ -9716,6 +9814,10 @@ msgstr ""
 msgid "Show icon type instead of button on mobile devices (<768px)"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:888
+msgid "Show map on frontend"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:117
 msgid "Show Route Button"
 msgstr ""
@@ -9819,11 +9921,11 @@ msgstr ""
 msgid "Single Template for %s"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:505
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:593
 msgid "Site name"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:506
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:594
 msgid "Site URL"
 msgstr ""
 
@@ -9831,10 +9933,11 @@ msgstr ""
 msgid "Size of logo in marker (pixels)"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:520 templates/singles/staff/staff_2.php:206
-#: templates/singles/staff/staff_3.php:197
+#: functions/cpt/cpt-vacancies.php:614 templates/singles/staff/staff_2.php:206
+#: templates/singles/staff/staff_3.php:202
 #: templates/singles/staff/staff_4.php:226
 #: templates/singles/staff/staff_5.php:250
+#: templates/singles/vacancies/default.php:121
 msgid "Skills"
 msgstr ""
 
@@ -9865,6 +9968,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:183
 #: redux-framework/sample/sections/codeweber/header.php:260
 #: redux-framework/sample/sections/codeweber/header.php:335
+#: redux-framework/sample/sections/codeweber/style.php:293
 msgid "Small"
 msgstr ""
 
@@ -9908,14 +10012,26 @@ msgstr ""
 msgid "Social Button Size"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/style.php:291
+msgid "Social Button Size (global)"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/footer.php:168
 #: redux-framework/sample/sections/codeweber/header.php:246
 #: redux-framework/sample/sections/codeweber/header.php:321
 msgid "Social Button Style"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/style.php:281
+msgid "Social Button Style (global)"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/header.php:302
 msgid "Social Icon Type"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:263
+msgid "Social Icon Type (global)"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:148
@@ -10090,6 +10206,7 @@ msgid "Status for subscribers without status field in CSV"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:388
+#: templates/singles/vacancies/default.php:74
 msgid "Status:"
 msgstr ""
 
@@ -10165,7 +10282,7 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:614
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:683
 msgid ""
 "Subject line for admin notification emails. You can use variables like "
 "{form_name}."
@@ -10177,19 +10294,19 @@ msgid ""
 "{user_name}."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:926
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:719
 msgid ""
 "Subject line for newsletter reply emails. You can use variables like "
 "{form_name}, {user_name}."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:848
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:710
 msgid ""
 "Subject line for resume reply emails. You can use variables like {form_name},"
 " {user_name}."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:770
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:701
 msgid ""
 "Subject line for testimonial reply emails. You can use variables like "
 "{form_name}, {user_name}."
@@ -10215,7 +10332,7 @@ msgstr ""
 msgid "Submission Date"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:500
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:588
 msgid "Submission date"
 msgstr ""
 
@@ -10232,7 +10349,7 @@ msgstr ""
 msgid "Submission not found."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:501
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:589
 msgid "Submission time (24h format)"
 msgstr ""
 
@@ -10244,7 +10361,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: functions/sidebars.php:402 functions/sidebars.php:414
+#: functions/sidebars.php:415 functions/sidebars.php:427
 msgid "Submit a request"
 msgstr ""
 
@@ -10542,7 +10659,7 @@ msgstr ""
 msgid "Team"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:241
+#: functions/bootstrap/bootstrap_share-page.php:243
 #: templates/singles/staff/staff_4.php:153
 #: templates/singles/staff/staff_5.php:176
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:121
@@ -10554,6 +10671,10 @@ msgstr ""
 
 #: functions/cpt/cpt-faq.php:641
 msgid "Template Structure"
+msgstr ""
+
+#: templates/singles/vacancies/default.php:58
+msgid "Temporary"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1272
@@ -10695,8 +10816,8 @@ msgstr ""
 msgid "Testimonial published privately"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:733
-msgid "Testimonial Reply Template"
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:35
+msgid "Testimonial Reply"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:37
@@ -10759,18 +10880,18 @@ msgstr ""
 msgid "Text for paragraph 5.3 of the personal data processing policy"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:417
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:505
 msgid ""
 "Thank you for leaving a testimonial. Your opinion is very important to us!"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1408
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:445
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:541
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:533
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:629
 msgid "Thank you for subscribing"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:449
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:537
 msgid "Thank you for subscribing to our newsletter!"
 msgstr ""
 
@@ -10784,8 +10905,8 @@ msgid ""
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1414
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:383
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:529
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:471
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:617
 msgid "Thank you for your message"
 msgstr ""
 
@@ -10799,8 +10920,8 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:874
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1398
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:413
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:533
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:501
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:621
 msgid "Thank you for your testimonial"
 msgstr ""
 
@@ -10958,31 +11079,31 @@ msgstr ""
 msgid "This Post Settings"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:656
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:689
 msgid ""
 "This template is used for automatic reply emails sent to users after form "
 "submission."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:890
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:716
 msgid ""
 "This template is used for automatic reply emails sent to users after "
 "newsletter subscription."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:812
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:707
 msgid ""
 "This template is used for automatic reply emails sent to users after "
 "resume/CV submission."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:734
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:698
 msgid ""
 "This template is used for automatic reply emails sent to users after "
 "testimonial submission."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:581
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:680
 msgid ""
 "This template is used for emails sent to administrators when a form is "
 "submitted."
@@ -11180,7 +11301,7 @@ msgstr ""
 msgid "Twitch"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:202
+#: functions/bootstrap/bootstrap_share-page.php:204
 #: templates/singles/staff/staff_4.php:177
 #: templates/singles/staff/staff_5.php:200
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:152
@@ -11199,54 +11320,63 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:150
 #: redux-framework/sample/sections/codeweber/header.php:229
 #: redux-framework/sample/sections/codeweber/header.php:304
+#: redux-framework/sample/sections/codeweber/style.php:266
 msgid "Type 1"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:151
 #: redux-framework/sample/sections/codeweber/header.php:230
 #: redux-framework/sample/sections/codeweber/header.php:305
+#: redux-framework/sample/sections/codeweber/style.php:267
 msgid "Type 2"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:152
 #: redux-framework/sample/sections/codeweber/header.php:231
 #: redux-framework/sample/sections/codeweber/header.php:306
+#: redux-framework/sample/sections/codeweber/style.php:268
 msgid "Type 3"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:153
 #: redux-framework/sample/sections/codeweber/header.php:232
 #: redux-framework/sample/sections/codeweber/header.php:307
+#: redux-framework/sample/sections/codeweber/style.php:269
 msgid "Type 4"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:154
 #: redux-framework/sample/sections/codeweber/header.php:233
 #: redux-framework/sample/sections/codeweber/header.php:308
+#: redux-framework/sample/sections/codeweber/style.php:270
 msgid "Type 5"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:155
 #: redux-framework/sample/sections/codeweber/header.php:234
 #: redux-framework/sample/sections/codeweber/header.php:309
+#: redux-framework/sample/sections/codeweber/style.php:271
 msgid "Type 6"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:156
 #: redux-framework/sample/sections/codeweber/header.php:235
 #: redux-framework/sample/sections/codeweber/header.php:310
+#: redux-framework/sample/sections/codeweber/style.php:272
 msgid "Type 7"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:157
 #: redux-framework/sample/sections/codeweber/header.php:236
 #: redux-framework/sample/sections/codeweber/header.php:311
+#: redux-framework/sample/sections/codeweber/style.php:273
 msgid "Type 8"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:158
 #: redux-framework/sample/sections/codeweber/header.php:237
 #: redux-framework/sample/sections/codeweber/header.php:312
+#: redux-framework/sample/sections/codeweber/style.php:274
 msgid "Type 9"
 msgstr ""
 
@@ -11337,7 +11467,7 @@ msgstr ""
 msgid "Unsubscribe link"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:507
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:595
 msgid "Unsubscribe link for newsletter subscriptions"
 msgstr ""
 
@@ -11364,12 +11494,20 @@ msgstr ""
 msgid "Unsubscribed via page"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:126
+msgid "Update"
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:75
 msgid "Update Category"
 msgstr ""
 
 #: functions/cpt/cpt-staff.php:83
 msgid "Update Department"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:75
+msgid "Update Employment Type"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:98
@@ -11384,8 +11522,8 @@ msgstr ""
 msgid "Update Licensor Author"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:75
-msgid "Update Vacancy Type"
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:779
+msgid "Update preview"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:193
@@ -11437,7 +11575,7 @@ msgstr ""
 msgid "Upload New Font"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:567
+#: functions/cpt/cpt-vacancies.php:661
 msgid "Upload PDF"
 msgstr ""
 
@@ -11542,7 +11680,7 @@ msgstr ""
 msgid "Use this image"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:588
+#: functions/cpt/cpt-vacancies.php:682
 msgid "Use this PDF"
 msgstr ""
 
@@ -11550,7 +11688,7 @@ msgstr ""
 msgid "Use WordPress Privacy Tools to export full data"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:638
+#: functions/cpt/cpt-vacancies.php:732
 msgid "Use WordPress publish date"
 msgstr ""
 
@@ -11580,7 +11718,7 @@ msgstr ""
 msgid "User agent/browser info"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:504
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:592
 msgid "User browser/agent"
 msgstr ""
 
@@ -11605,7 +11743,7 @@ msgstr ""
 msgid "User consents retained (within %d-day retention period)"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:499
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:587
 msgid "User email from form"
 msgstr ""
 
@@ -11623,11 +11761,11 @@ msgstr ""
 msgid "User IP"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:503
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:591
 msgid "User IP address"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:498
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:586
 msgid "User name from form"
 msgstr ""
 
@@ -11699,7 +11837,7 @@ msgstr ""
 msgid "Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:177
+#: functions/cpt/cpt-vacancies.php:228
 msgid "Vacancy Attributes"
 msgstr ""
 
@@ -11707,15 +11845,15 @@ msgstr ""
 msgid "Vacancy card template"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:168
+#: functions/cpt/cpt-vacancies.php:219
 msgid "Vacancy Content"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:810
+#: functions/cpt/cpt-vacancies.php:1106
 msgid "Vacancy not found"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:186
+#: functions/cpt/cpt-vacancies.php:237
 msgid "Vacancy PDF File"
 msgstr ""
 
@@ -11723,29 +11861,16 @@ msgstr ""
 msgid "Vacancy published"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:195 functions/cpt/cpt-vacancies.php:624
+#: functions/cpt/cpt-vacancies.php:246 functions/cpt/cpt-vacancies.php:718
 msgid "Vacancy Status"
-msgstr ""
-
-#: functions/cpt/cpt-vacancies.php:70
-msgid "Vacancy Type"
-msgstr ""
-
-#: functions/cpt/cpt-vacancies.php:69 functions/cpt/cpt-vacancies.php:71
-#: functions/cpt/cpt-vacancies.php:90
-msgid "Vacancy Types"
-msgstr ""
-
-#: functions/cpt/cpt-vacancies.php:86
-msgid "Vacancy types list"
-msgstr ""
-
-#: functions/cpt/cpt-vacancies.php:85
-msgid "Vacancy types list navigation"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:26
 msgid "Vacancy updated"
+msgstr ""
+
+#: functions/global.php:562
+msgid "Vacancy URL"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:116
@@ -11761,11 +11886,8 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:541
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:724
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:904
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:91
 msgid "Value"
-msgstr ""
-
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:563
-msgid "Variable"
 msgstr ""
 
 #: functions/admin/admin_user_profil.php:17
@@ -11796,13 +11918,14 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:256
+#: functions/bootstrap/bootstrap_share-page.php:258
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:123
 #: redux-framework/sample/sections/codeweber/socials.php:33
 #: redux-framework/sample/sections/extensions/users.php:49
 msgid "Viber"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:125
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:708
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:631
 msgid "View"
@@ -11837,6 +11960,10 @@ msgstr ""
 
 #: functions/cpt/cpt-documents.php:15
 msgid "View Documents"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:74
+msgid "View Employment Type"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:17
@@ -11995,10 +12122,6 @@ msgstr ""
 msgid "View Vacancy"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:74
-msgid "View Vacancy Type"
-msgstr ""
-
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:280
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:647
 msgid "Viewed"
@@ -12039,7 +12162,7 @@ msgstr ""
 msgid "VK Video"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:234
+#: functions/bootstrap/bootstrap_share-page.php:236
 #: templates/singles/staff/staff_4.php:165
 #: templates/singles/staff/staff_5.php:188
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:124
@@ -12063,6 +12186,10 @@ msgstr ""
 msgid "Vologda Oblast"
 msgstr ""
 
+#: templates/singles/vacancies/default.php:59
+msgid "Volunteer"
+msgstr ""
+
 #: functions/woocommerce-states-ru.php:91
 msgid "Voronezh Oblast"
 msgstr ""
@@ -12071,11 +12198,11 @@ msgstr ""
 msgid "Warning:"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:387
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:475
 msgid "We have received your message and will contact you soon."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:483
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:571
 msgid "We have received your resume and will review it carefully."
 msgstr ""
 
@@ -12116,8 +12243,8 @@ msgstr ""
 msgid "Welcome Text Cookie Banner"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:214
-#: functions/bootstrap/bootstrap_share-page.php:246
+#: functions/bootstrap/bootstrap_share-page.php:216
+#: functions/bootstrap/bootstrap_share-page.php:248
 #: templates/singles/staff/staff_4.php:159
 #: templates/singles/staff/staff_5.php:182
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:122
@@ -12255,15 +12382,20 @@ msgstr ""
 msgid "WordPress Privacy Tools Integration"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:488
+#: functions/cpt/cpt-vacancies.php:582
 msgid "Work Experience"
 msgstr ""
 
 #: templates/singles/staff/staff_2.php:138
-#: templates/singles/staff/staff_3.php:140
+#: templates/singles/staff/staff_3.php:145
 #: templates/singles/staff/staff_4.php:125
 #: templates/singles/staff/staff_5.php:131
 msgid "Work Phone"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:120 functions/cpt/cpt-vacancies.php:121
+#: functions/cpt/cpt-vacancies.php:122 functions/cpt/cpt-vacancies.php:141
+msgid "Work Schedule"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:223
@@ -12286,12 +12418,12 @@ msgstr ""
 msgid "Would you like to share your thoughts?"
 msgstr ""
 
-#: functions/sidebars.php:307 functions/user.php:347
+#: functions/sidebars.php:299 functions/user.php:347
 #: templates/content/single-parts/post-author.php:42
 msgid "Writer"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_share-page.php:227
+#: functions/bootstrap/bootstrap_share-page.php:229
 msgid "Xing"
 msgstr ""
 
@@ -12312,6 +12444,12 @@ msgstr ""
 msgid "Yandex"
 msgstr ""
 
+#: functions/cpt/cpt-vacancies.php:848
+msgid ""
+"Yandex API key is not set. Please configure it in Theme Options > API > "
+"Yandex API Key."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/api.php:49
 msgid "Yandex API Map Settings"
 msgstr ""
@@ -12324,6 +12462,34 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:19
 msgid "Yandex Map"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:255
+msgid "Yandex Map Location"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:264
+msgid "Enable/disable elements"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:912
+msgid "Hide Author in sidebar on frontend"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:920
+msgid "Disable image in sidebar"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:910
+msgid "If disabled, the map is not displayed on the frontend and in the admin (in this vacancy's map block)."
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:919
+msgid "When enabled, the author block is hidden in the vacancy sidebar on the frontend."
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:928
+msgid "When enabled, the sidebar image (vacancy thumbnail) is hidden on the frontend."
 msgstr ""
 
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:479
@@ -12380,7 +12546,7 @@ msgid ""
 "{document_title_url}\\\""
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:559
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:658
 msgid "You can use these variables in your email templates:"
 msgstr ""
 
@@ -12389,7 +12555,7 @@ msgid "You do not have permission to run this migration."
 msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:36
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:516
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:604
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:300
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:139
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:177
@@ -12414,7 +12580,7 @@ msgid ""
 "old browsers"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:450
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:538
 msgid "You will now receive our latest news, updates, and special offers."
 msgstr ""
 
@@ -12460,8 +12626,8 @@ msgid "Your position"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1403
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:479
-#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:537
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:567
+#: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:625
 msgid "Your resume has been received"
 msgstr ""
 
@@ -12497,6 +12663,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:31
 msgid "Zoho"
+msgstr ""
+
+#: functions/cpt/cpt-vacancies.php:870
+msgid "Zoom"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:481
@@ -12600,7 +12770,7 @@ msgstr ""
 msgid "— Select City —"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:303 functions/cpt/cpt-vacancies.php:341
+#: functions/cpt/cpt-vacancies.php:370 functions/cpt/cpt-vacancies.php:408
 msgid "— Select Form —"
 msgstr ""
 

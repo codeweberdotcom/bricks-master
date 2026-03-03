@@ -17,8 +17,8 @@
  * 
  * Пример:
  * <form class="codeweber-filter-form" data-post-type="vacancies" data-template="vacancies_1" data-container=".vacancies-results">
- *   <select name="position" data-filter-name="position">
- *     <option value="">All</option>
+ *   <select name="vacancy_type" data-filter-name="vacancy_type">
+ *     <option value="">Vacancy Type</option>
  *   </select>
  * </form>
  * <div class="vacancies-results">...</div>
@@ -100,6 +100,11 @@
             e.preventDefault();
             performFilter(form, postType, template, container);
         });
+
+        // Первая загрузка: если задан data-load-on-init="true", сразу запросить данные (заполнит контейнер при выводе формы вне архива)
+        if (form.getAttribute('data-load-on-init') === 'true') {
+            performFilter(form, postType, template, container);
+        }
     }
     
     /**
@@ -204,23 +209,42 @@
     }
     
     /**
-     * Показывает индикатор загрузки
+     * Показывает индикатор загрузки (тот же .spinner.spinner-overlay, что и у Yandex Map)
      */
     function showLoading(container) {
-        container.style.opacity = '0.5';
-        container.style.pointerEvents = 'none';
-        
-        // Добавляем класс для стилизации
         container.classList.add('filter-loading');
+        container.style.pointerEvents = 'none';
+        var position = window.getComputedStyle(container).position;
+        if (position === 'static' || !position) {
+            container.style.position = 'relative';
+        }
+        var loader = container.querySelector('.spinner.spinner-overlay');
+        if (loader) {
+            loader.classList.remove('done');
+            loader.style.display = '';
+            return;
+        }
+        loader = document.createElement('div');
+        loader.className = 'spinner spinner-overlay';
+        loader.setAttribute('aria-hidden', 'false');
+        container.appendChild(loader);
     }
     
     /**
      * Скрывает индикатор загрузки
      */
     function hideLoading(container) {
-        container.style.opacity = '1';
         container.style.pointerEvents = 'auto';
         container.classList.remove('filter-loading');
+        var loader = container.querySelector('.spinner.spinner-overlay');
+        if (loader) {
+            loader.classList.add('done');
+            setTimeout(function() {
+                if (loader.parentNode) {
+                    loader.parentNode.removeChild(loader);
+                }
+            }, 300);
+        }
     }
     
     /**

@@ -53,8 +53,8 @@ $staff_post_id = get_the_ID();
 
 // Получаем тип соцсетей из Redux
 global $opt_name;
-$social_icon_type = Redux::get_option($opt_name, 'social-icon-type');
-$social_type = 'type' . ($social_icon_type ? $social_icon_type : '1'); // По умолчанию type1
+$social_icon_type = Redux::get_option($opt_name, 'global-social-icon-type', Redux::get_option($opt_name, 'social-icon-type', '1'));
+$social_type = 'type' . ($social_icon_type ? $social_icon_type : '1');
 
 // Получаем биографию
 $bio = get_post_meta(get_the_ID(), '_staff_bio', true);
@@ -180,7 +180,7 @@ if (empty($full_name)) {
                 <?php 
                 // Выводим соцсети используя функцию staff_social_links с настройкой из Redux
                 if (function_exists('staff_social_links')) {
-                    echo staff_social_links($staff_post_id, 'gap-1 w-100', $social_type, 'sm');
+                    echo staff_social_links($staff_post_id, 'gap-1 w-100', $social_type, $social_size, 'primary', 'solid', $social_button_style);
                 }
                 ?>
             </div>

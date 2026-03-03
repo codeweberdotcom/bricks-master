@@ -58,36 +58,36 @@ function cptui_register_my_cpts_vacancies()
 
 add_action('init', 'cptui_register_my_cpts_vacancies');
 
-// Таксономия: Тип занятости
+// Taxonomy: Employment Type
 function cptui_register_my_taxes_vacancy_type()
 {
    /**
-    * Taxonomy: Тип занятости.
+    * Taxonomy: Employment Type.
     */
 
    $labels = [
-      "name" => esc_html__("Тип занятости", "codeweber"),
-      "singular_name" => esc_html__("Тип занятости", "codeweber"),
-      "menu_name" => esc_html__("Тип занятости", "codeweber"),
-      "all_items" => esc_html__("Все типы занятости", "codeweber"),
-      "edit_item" => esc_html__("Редактировать тип занятости", "codeweber"),
-      "view_item" => esc_html__("Просмотр типа занятости", "codeweber"),
-      "update_item" => esc_html__("Обновить тип занятости", "codeweber"),
-      "add_new_item" => esc_html__("Добавить тип занятости", "codeweber"),
-      "new_item_name" => esc_html__("Название типа занятости", "codeweber"),
-      "search_items" => esc_html__("Искать типы занятости", "codeweber"),
-      "popular_items" => esc_html__("Часто используемые", "codeweber"),
-      "separate_items_with_commas" => esc_html__("Разделяйте запятыми", "codeweber"),
-      "add_or_remove_items" => esc_html__("Добавить или удалить", "codeweber"),
-      "choose_from_most_used" => esc_html__("Выбрать из часто используемых", "codeweber"),
-      "not_found" => esc_html__("Не найдено", "codeweber"),
-      "no_terms" => esc_html__("Нет типов занятости", "codeweber"),
-      "items_list_navigation" => esc_html__("Навигация по списку", "codeweber"),
-      "items_list" => esc_html__("Список типов занятости", "codeweber"),
+      "name" => esc_html__("Employment Type", "codeweber"),
+      "singular_name" => esc_html__("Employment Type", "codeweber"),
+      "menu_name" => esc_html__("Employment Type", "codeweber"),
+      "all_items" => esc_html__("All Employment Types", "codeweber"),
+      "edit_item" => esc_html__("Edit Employment Type", "codeweber"),
+      "view_item" => esc_html__("View Employment Type", "codeweber"),
+      "update_item" => esc_html__("Update Employment Type", "codeweber"),
+      "add_new_item" => esc_html__("Add Employment Type", "codeweber"),
+      "new_item_name" => esc_html__("Employment Type Name", "codeweber"),
+      "search_items" => esc_html__("Search Employment Types", "codeweber"),
+      "popular_items" => esc_html__("Popular Items", "codeweber"),
+      "separate_items_with_commas" => esc_html__("Separate items with commas", "codeweber"),
+      "add_or_remove_items" => esc_html__("Add or remove items", "codeweber"),
+      "choose_from_most_used" => esc_html__("Choose from the most used", "codeweber"),
+      "not_found" => esc_html__("Not found", "codeweber"),
+      "no_terms" => esc_html__("No employment types", "codeweber"),
+      "items_list_navigation" => esc_html__("Items list navigation", "codeweber"),
+      "items_list" => esc_html__("Employment types list", "codeweber"),
    ];
 
    $args = [
-      "label" => esc_html__("Тип занятости", "codeweber"),
+      "label" => esc_html__("Employment Type", "codeweber"),
       "labels" => $labels,
       "public" => false,
       "publicly_queryable" => false,
@@ -113,32 +113,32 @@ function cptui_register_my_taxes_vacancy_type()
 
 add_action('init', 'cptui_register_my_taxes_vacancy_type');
 
-// Таксономия: График работы
+// Taxonomy: Work Schedule
 function cptui_register_my_taxes_vacancy_schedule()
 {
    $labels = [
-      "name" => esc_html__("График работы", "codeweber"),
-      "singular_name" => esc_html__("График работы", "codeweber"),
-      "menu_name" => esc_html__("График работы", "codeweber"),
-      "all_items" => esc_html__("Все варианты графика", "codeweber"),
-      "edit_item" => esc_html__("Редактировать", "codeweber"),
-      "view_item" => esc_html__("Просмотр", "codeweber"),
-      "update_item" => esc_html__("Обновить", "codeweber"),
-      "add_new_item" => esc_html__("Добавить график", "codeweber"),
-      "new_item_name" => esc_html__("Название графика", "codeweber"),
-      "search_items" => esc_html__("Искать", "codeweber"),
-      "popular_items" => esc_html__("Часто используемые", "codeweber"),
-      "separate_items_with_commas" => esc_html__("Разделяйте запятыми", "codeweber"),
-      "add_or_remove_items" => esc_html__("Добавить или удалить", "codeweber"),
-      "choose_from_most_used" => esc_html__("Выбрать из часто используемых", "codeweber"),
-      "not_found" => esc_html__("Не найдено", "codeweber"),
-      "no_terms" => esc_html__("Нет вариантов графика", "codeweber"),
-      "items_list_navigation" => esc_html__("Навигация по списку", "codeweber"),
-      "items_list" => esc_html__("Список графиков", "codeweber"),
+      "name" => esc_html__("Work Schedule", "codeweber"),
+      "singular_name" => esc_html__("Work Schedule", "codeweber"),
+      "menu_name" => esc_html__("Work Schedule", "codeweber"),
+      "all_items" => esc_html__("All Schedule Options", "codeweber"),
+      "edit_item" => esc_html__("Edit", "codeweber"),
+      "view_item" => esc_html__("View", "codeweber"),
+      "update_item" => esc_html__("Update", "codeweber"),
+      "add_new_item" => esc_html__("Add Schedule", "codeweber"),
+      "new_item_name" => esc_html__("Schedule Name", "codeweber"),
+      "search_items" => esc_html__("Search", "codeweber"),
+      "popular_items" => esc_html__("Popular Items", "codeweber"),
+      "separate_items_with_commas" => esc_html__("Separate items with commas", "codeweber"),
+      "add_or_remove_items" => esc_html__("Add or remove items", "codeweber"),
+      "choose_from_most_used" => esc_html__("Choose from the most used", "codeweber"),
+      "not_found" => esc_html__("Not found", "codeweber"),
+      "no_terms" => esc_html__("No schedule options", "codeweber"),
+      "items_list_navigation" => esc_html__("Items list navigation", "codeweber"),
+      "items_list" => esc_html__("Schedule list", "codeweber"),
    ];
 
    $args = [
-      "label" => esc_html__("График работы", "codeweber"),
+      "label" => esc_html__("Work Schedule", "codeweber"),
       "labels" => $labels,
       "public" => true,
       "publicly_queryable" => true,
@@ -164,7 +164,7 @@ function cptui_register_my_taxes_vacancy_schedule()
 
 add_action('init', 'cptui_register_my_taxes_vacancy_schedule');
 
-// Включение классического редактора для Vacancies
+// Enable classic editor for Vacancies
 function enable_classic_editor_for_vacancies($use_block_editor, $post_type)
 {
    if ($post_type === 'vacancies') {
@@ -189,7 +189,7 @@ function disable_gutenberg_for_vacancies($can_edit, $post)
 add_filter('gutenberg_can_edit_post_type', 'disable_gutenberg_for_vacancies', 10, 2);
 add_filter('use_block_editor_for_post', 'disable_gutenberg_for_vacancies', 10, 2);
 
-// Подключение классического редактора
+// Connect classic editor
 function add_classic_editor_support()
 {
    add_filter('user_can_richedit', function ($can) {
@@ -202,7 +202,7 @@ function add_classic_editor_support()
 }
 add_action('admin_init', 'add_classic_editor_support');
 
-// Метабоксы для вакансий
+// Meta boxes for vacancies
 function vacancies_meta_boxes()
 {
    add_meta_box(
@@ -249,20 +249,38 @@ function vacancies_meta_boxes()
       'side',
       'high'
    );
+
+   add_meta_box(
+      'vacancy_map',
+      __('Yandex Map Location', 'codeweber'),
+      'vacancy_map_callback',
+      'vacancies',
+      'normal',
+      'default'
+   );
+
+   add_meta_box(
+      'vacancy_elements_toggle',
+      __('Enable/disable elements', 'codeweber'),
+      'vacancy_elements_toggle_callback',
+      'vacancies',
+      'normal',
+      'default'
+   );
 }
 add_action('add_meta_boxes', 'vacancies_meta_boxes');
 
-// Убираем стандартные метабоксы таксономий из сайдбара — выбор только в «Атрибуты вакансии»
+// Remove standard taxonomy meta boxes from sidebar — selection only in "Vacancy Attributes"
 function vacancy_remove_taxonomy_meta_boxes() {
    remove_meta_box('vacancy_typediv', 'vacancies', 'side');
    remove_meta_box('vacancy_schedulediv', 'vacancies', 'side');
 }
 add_action('add_meta_boxes', 'vacancy_remove_taxonomy_meta_boxes', 20);
 
-// Колбэк для основной информации
+// Callback for basic information
 function vacancy_basic_info_callback($post)
 {
-   // Подключаем функцию проверки активности плагина, если мы в админке
+   // Include plugin activity check function if we are in admin
    if (!function_exists('is_plugin_active') && is_admin()) {
       require_once ABSPATH . 'wp-admin/includes/plugin.php';
    }
@@ -274,9 +292,9 @@ function vacancy_basic_info_callback($post)
    $email = get_post_meta($post->ID, '_vacancy_email', true);
    $apply_url = get_post_meta($post->ID, '_vacancy_apply_url', true);
    $salary = get_post_meta($post->ID, '_vacancy_salary', true);
-   $linkedin_url = get_post_meta($post->ID, '_vacancy_linkedin_url', true); // Новое поле LinkedIn
-   $cf7_form_id = get_post_meta($post->ID, '_vacancy_cf7_form_id', true); // Поле для выбора формы CF7
-   $codeweber_form_id = get_post_meta($post->ID, '_vacancy_codeweber_form_id', true); // Поле для выбора формы codeweber_form
+   $linkedin_url = get_post_meta($post->ID, '_vacancy_linkedin_url', true); // New LinkedIn field
+   $cf7_form_id = get_post_meta($post->ID, '_vacancy_cf7_form_id', true); // Field for CF7 form selection
+   $codeweber_form_id = get_post_meta($post->ID, '_vacancy_codeweber_form_id', true); // Field for codeweber_form selection
 
 ?>
    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -333,16 +351,16 @@ function vacancy_basic_info_callback($post)
             <?php _e('Contact Form 7', 'codeweber'); ?>
          </label>
          <?php
-         // Проверяем, активирован ли плагин CF7
+         // Check if CF7 plugin is activated
          $cf7_plugin_active = false;
          if (function_exists('is_plugin_active')) {
             $cf7_plugin_active = is_plugin_active('contact-form-7/wp-contact-form-7.php');
          } else {
-            // Если функция недоступна, проверяем через класс
+            // If function is not available, check through class
             $cf7_plugin_active = class_exists('WPCF7_ContactForm');
          }
          
-         // Получаем список форм CF7 только если плагин активирован
+         // Get CF7 forms list only if plugin is activated
          $cf7_forms = array();
          if ($cf7_plugin_active && class_exists('WPCF7_ContactForm')) {
             $cf7_posts = get_posts(array(
@@ -382,7 +400,7 @@ function vacancy_basic_info_callback($post)
             <?php _e('CodeWeber Form', 'codeweber'); ?>
          </label>
          <?php
-         // Получаем список опубликованных форм codeweber_form
+         // Get list of published codeweber_form forms
          $codeweber_forms = array();
          $codeweber_posts = get_posts(array(
             'post_type' => 'codeweber_form',
@@ -413,7 +431,7 @@ function vacancy_basic_info_callback($post)
 <?php
 }
 
-// Колбэк для контента вакансии
+// Callback for vacancy content
 function vacancy_content_callback($post)
 {
    $introduction = get_post_meta($post->ID, '_vacancy_introduction', true);
@@ -514,7 +532,7 @@ function vacancy_content_callback($post)
 <?php
 }
 
-// Колбэк для атрибутов вакансии
+// Callback for vacancy attributes
 function vacancy_attributes_callback($post)
 {
    $experience = get_post_meta($post->ID, '_vacancy_experience', true);
@@ -638,7 +656,7 @@ function vacancy_attributes_callback($post)
 <?php
 }
 
-// Колбэк для загрузки PDF
+// Callback for PDF upload
 function vacancy_pdf_callback($post)
 {
    $pdf_id = get_post_meta($post->ID, '_vacancy_pdf', true);
@@ -698,7 +716,7 @@ function vacancy_pdf_callback($post)
 <?php
 }
 
-// Колбэк для статуса вакансии
+// Callback for vacancy status
 function vacancy_status_callback($post)
 {
    $status = get_post_meta($post->ID, '_vacancy_status', true);
@@ -711,7 +729,6 @@ function vacancy_status_callback($post)
       <select id="vacancy_status" name="vacancy_status" style="width: 100%; padding: 8px; margin-bottom: 15px;">
          <option value="open" <?php selected($status, 'open'); ?>><?php _e('Open', 'codeweber'); ?></option>
          <option value="closed" <?php selected($status, 'closed'); ?>><?php _e('Closed', 'codeweber'); ?></option>
-         <option value="archived" <?php selected($status, 'archived'); ?>><?php _e('Archived', 'codeweber'); ?></option>
       </select>
 
       <label for="vacancy_publish_date" style="display: block; margin-bottom: 5px; font-weight: bold;">
@@ -726,7 +743,197 @@ function vacancy_status_callback($post)
 <?php
 }
 
-// Сохранение метаполей
+// Callback for Yandex map
+function vacancy_map_callback($post)
+{
+   global $opt_name;
+   $yandex_api_key = class_exists('Redux') ? Redux::get_option($opt_name, 'yandexapi') : '';
+   $show_map = get_post_meta($post->ID, '_vacancy_show_map', true);
+
+   $latitude = get_post_meta($post->ID, '_vacancy_latitude', true);
+   $longitude = get_post_meta($post->ID, '_vacancy_longitude', true);
+   $zoom = get_post_meta($post->ID, '_vacancy_zoom', true);
+   $address = get_post_meta($post->ID, '_vacancy_yandex_address', true);
+
+   if (empty($latitude)) $latitude = '55.7558';
+   if (empty($longitude)) $longitude = '37.6173';
+   if (empty($zoom)) $zoom = '15';
+
+?>
+   <?php if ($show_map !== '1') : ?>
+   <p style="font-size: 13px; color: #856404; background: #fff3cd; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+      <?php _e('Map is disabled for this vacancy. Enable "Show map on frontend" in the "Enable/disable elements" block to display the map here and on the frontend.', 'codeweber'); ?>
+   </p>
+   <?php else : ?>
+   <div style="margin-bottom: 15px;">
+      <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+         <?php _e('Click on the map to set the location or use the search field.', 'codeweber'); ?>
+      </p>
+      <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+         <?php echo esc_html__('Map', 'codeweber'); ?>
+      </label>
+      <div id="vacancy-yandex-map" style="width: 100%; height: 400px; margin-bottom: 15px;"></div>
+
+      <?php if (!empty($yandex_api_key)) : ?>
+         <script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr($yandex_api_key); ?>&lang=ru_RU"></script>
+         <script>
+         jQuery(document).ready(function($) {
+            ymaps.ready(function() {
+               // Get values from fields
+               var lat = parseFloat($('#vacancy_latitude').val()) || 55.7558;
+               var lon = parseFloat($('#vacancy_longitude').val()) || 37.6173;
+               var zoom = parseInt($('#vacancy_zoom').val()) || 15;
+               
+               // Create map
+               var map = new ymaps.Map("vacancy-yandex-map", {
+                  center: [lat, lon],
+                  zoom: zoom
+               });
+
+               // Add marker
+               var placemark = new ymaps.Placemark([lat, lon], {}, { 
+                  draggable: true 
+               });
+               map.geoObjects.add(placemark);
+
+               // Marker drag handler
+               placemark.events.add('dragend', function() {
+                  var coords = placemark.geometry.getCoordinates();
+                  $('#vacancy_latitude').val(coords[0].toFixed(6));
+                  $('#vacancy_longitude').val(coords[1].toFixed(6));
+                  
+                  // Get address
+                  ymaps.geocode(coords).then(function(res) {
+                     var first = res.geoObjects.get(0);
+                     if (first) {
+                        $('#vacancy_yandex_address').val(first.properties.get('name'));
+                     }
+                  });
+               });
+
+               // Map click handler
+               map.events.add('click', function(e) {
+                  var coords = e.get('coords');
+                  placemark.geometry.setCoordinates(coords);
+                  $('#vacancy_latitude').val(coords[0].toFixed(6));
+                  $('#vacancy_longitude').val(coords[1].toFixed(6));
+                  
+                  // Get address
+                  ymaps.geocode(coords).then(function(res) {
+                     var first = res.geoObjects.get(0);
+                     if (first) {
+                        $('#vacancy_yandex_address').val(first.properties.get('name'));
+                     }
+                  });
+               });
+
+               // Search
+               var searchControl = map.controls.get('searchControl');
+               if (searchControl) {
+                  searchControl.events.add('resultselect', function(e) {
+                     var index = e.get('index');
+                     searchControl.getResult(index).then(function(res) {
+                        var coords = res.geometry.getCoordinates();
+                        placemark.geometry.setCoordinates(coords);
+                        $('#vacancy_latitude').val(coords[0].toFixed(6));
+                        $('#vacancy_longitude').val(coords[1].toFixed(6));
+                        $('#vacancy_yandex_address').val(res.properties.get('name'));
+                        map.setCenter(coords, 16);
+                     });
+                  });
+               }
+
+               // Update zoom on change
+               map.events.add('boundschange', function() {
+                  $('#vacancy_zoom').val(map.getZoom());
+               });
+            });
+         });
+         </script>
+      <?php else : ?>
+         <p style="color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 4px;">
+            <?php _e('Yandex API key is not set. Please configure it in Theme Options > API > Yandex API Key.', 'codeweber'); ?>
+         </p>
+      <?php endif; ?>
+   </div>
+   <?php endif; ?>
+
+   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+         <label for="vacancy_latitude" style="display: block; margin-bottom: 5px; font-weight: bold;">
+            <?php echo esc_html__('Latitude', 'codeweber'); ?>
+         </label>
+         <input type="number" step="any" id="vacancy_latitude" name="vacancy_latitude" value="<?php echo esc_attr($latitude); ?>" style="width: 100%; padding: 8px;" placeholder="55.7558">
+      </div>
+
+      <div>
+         <label for="vacancy_longitude" style="display: block; margin-bottom: 5px; font-weight: bold;">
+            <?php echo esc_html__('Longitude', 'codeweber'); ?>
+         </label>
+         <input type="number" step="any" id="vacancy_longitude" name="vacancy_longitude" value="<?php echo esc_attr($longitude); ?>" style="width: 100%; padding: 8px;" placeholder="37.6173">
+      </div>
+
+      <div>
+         <label for="vacancy_zoom" style="display: block; margin-bottom: 5px; font-weight: bold;">
+            <?php echo esc_html__('Zoom', 'codeweber'); ?>
+         </label>
+         <input type="number" step="1" min="1" max="19" id="vacancy_zoom" name="vacancy_zoom" value="<?php echo esc_attr($zoom); ?>" style="width: 100%; padding: 8px;" placeholder="15">
+      </div>
+
+      <div>
+         <label for="vacancy_yandex_address" style="display: block; margin-bottom: 5px; font-weight: bold;">
+            <?php echo esc_html__('Address (from map)', 'codeweber'); ?>
+         </label>
+         <input type="text" id="vacancy_yandex_address" name="vacancy_yandex_address" value="<?php echo esc_attr($address); ?>" style="width: 100%; padding: 8px;" readonly>
+         <p style="font-size: 12px; color: #666; margin-top: 5px;">
+            <?php _e('Address is automatically detected when you click on the map', 'codeweber'); ?>
+         </p>
+      </div>
+
+   </div>
+<?php
+}
+
+// Callback for "Enable/disable elements" metabox (Single vacancy)
+function vacancy_elements_toggle_callback($post)
+{
+   $show_map = get_post_meta($post->ID, '_vacancy_show_map', true);
+   $sidebar_hide_author = get_post_meta($post->ID, '_vacancy_sidebar_hide_author', true);
+   $sidebar_disable_image = get_post_meta($post->ID, '_vacancy_sidebar_disable_image', true);
+?>
+   <div class="vacancy-elements-toggle" style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="padding: 12px; background: #f5f5f5; border-radius: 4px;">
+         <label for="vacancy_show_map" style="display: flex; align-items: center; cursor: pointer;">
+            <input type="checkbox" id="vacancy_show_map" name="vacancy_show_map" value="1" <?php checked($show_map, '1'); ?> style="margin-right: 10px;">
+            <strong><?php echo esc_html__('Show map on frontend', 'codeweber'); ?></strong>
+         </label>
+         <p style="font-size: 12px; color: #666; margin: 5px 0 0 24px;">
+            <?php _e('If disabled, the map is not displayed on the frontend and in the admin (in this vacancy\'s map block).', 'codeweber'); ?>
+         </p>
+      </div>
+      <div style="padding: 12px; background: #f5f5f5; border-radius: 4px;">
+         <label for="vacancy_sidebar_hide_author" style="display: flex; align-items: center; cursor: pointer;">
+            <input type="checkbox" id="vacancy_sidebar_hide_author" name="vacancy_sidebar_hide_author" value="1" <?php checked($sidebar_hide_author, '1'); ?> style="margin-right: 10px;">
+            <strong><?php echo esc_html__('Hide Author in sidebar on frontend', 'codeweber'); ?></strong>
+         </label>
+         <p style="font-size: 12px; color: #666; margin: 5px 0 0 24px;">
+            <?php _e('When enabled, the author block is hidden in the vacancy sidebar on the frontend.', 'codeweber'); ?>
+         </p>
+      </div>
+      <div style="padding: 12px; background: #f5f5f5; border-radius: 4px;">
+         <label for="vacancy_sidebar_disable_image" style="display: flex; align-items: center; cursor: pointer;">
+            <input type="checkbox" id="vacancy_sidebar_disable_image" name="vacancy_sidebar_disable_image" value="1" <?php checked($sidebar_disable_image, '1'); ?> style="margin-right: 10px;">
+            <strong><?php echo esc_html__('Disable image in sidebar', 'codeweber'); ?></strong>
+         </label>
+         <p style="font-size: 12px; color: #666; margin: 5px 0 0 24px;">
+            <?php _e('When enabled, the sidebar image (vacancy thumbnail) is hidden on the frontend.', 'codeweber'); ?>
+         </p>
+      </div>
+   </div>
+<?php
+}
+
+// Save meta fields
 function save_vacancy_meta($post_id)
 {
    if (!isset($_POST['vacancy_nonce']) || !wp_verify_nonce($_POST['vacancy_nonce'], 'vacancy_save_data')) {
@@ -745,7 +952,7 @@ function save_vacancy_meta($post_id)
       return;
    }
 
-   // Основные поля
+   // Basic fields
    $fields = [
       'vacancy_company',
       'vacancy_location',
@@ -762,15 +969,28 @@ function save_vacancy_meta($post_id)
       'vacancy_education',
       'vacancy_status',
       'vacancy_cf7_form_id',
-      'vacancy_codeweber_form_id'
+      'vacancy_codeweber_form_id',
+      'vacancy_latitude',
+      'vacancy_longitude',
+      'vacancy_zoom',
+      'vacancy_yandex_address',
+      'vacancy_show_map'
    ];
 
    foreach ($fields as $field) {
       if (isset($_POST[$field])) {
-         // Для ID форм используем intval
+         // For form IDs use intval
          if ($field === 'vacancy_cf7_form_id' || $field === 'vacancy_codeweber_form_id') {
             $value = isset($_POST[$field]) && !empty($_POST[$field]) ? intval($_POST[$field]) : '';
             if ($value) {
+               update_post_meta($post_id, '_' . $field, $value);
+            } else {
+               delete_post_meta($post_id, '_' . $field);
+            }
+         // For map coordinates use floatval
+         } elseif ($field === 'vacancy_latitude' || $field === 'vacancy_longitude' || $field === 'vacancy_zoom') {
+            $value = isset($_POST[$field]) && !empty($_POST[$field]) ? floatval($_POST[$field]) : '';
+            if ($value !== '') {
                update_post_meta($post_id, '_' . $field, $value);
             } else {
                delete_post_meta($post_id, '_' . $field);
@@ -781,7 +1001,7 @@ function save_vacancy_meta($post_id)
       }
    }
 
-   // Массивы
+   // Arrays
    $array_fields = [
       'vacancy_responsibilities',
       'vacancy_requirements',
@@ -797,12 +1017,23 @@ function save_vacancy_meta($post_id)
       }
    }
 
-   // PDF файл
+   // Checkboxes from "Enable/disable elements" metabox
+   update_post_meta($post_id, '_vacancy_sidebar_hide_author', isset($_POST['vacancy_sidebar_hide_author']) ? '1' : '');
+   update_post_meta($post_id, '_vacancy_sidebar_disable_image', isset($_POST['vacancy_sidebar_disable_image']) ? '1' : '');
+
+   // Map display checkbox
+   if (isset($_POST['vacancy_show_map']) && $_POST['vacancy_show_map'] == '1') {
+      update_post_meta($post_id, '_vacancy_show_map', '1');
+   } else {
+      delete_post_meta($post_id, '_vacancy_show_map');
+   }
+
+   // PDF file
    if (isset($_POST['vacancy_pdf_id'])) {
       update_post_meta($post_id, '_vacancy_pdf', intval($_POST['vacancy_pdf_id']));
    }
 
-   // Таксономии: «Атрибуты вакансии» (Тип занятости, График работы)
+   // Taxonomies: "Vacancy Attributes" (Employment Type, Work Schedule)
    if (!empty($_POST['tax_input']) && is_array($_POST['tax_input'])) {
       foreach (array('vacancy_type', 'vacancy_schedule') as $tax) {
          if (!taxonomy_exists($tax)) {
@@ -811,7 +1042,7 @@ function save_vacancy_meta($post_id)
          $terms = isset($_POST['tax_input'][$tax]) ? $_POST['tax_input'][$tax] : array();
          $terms = array_map('intval', (array) $terms);
          $terms = array_filter($terms);
-         // Один термин на таксономию (если два поля с одним именем — берём первый)
+         // One term per taxonomy (if two fields with same name - take first)
          $terms = array_slice(array_values($terms), 0, 1);
          wp_set_object_terms($post_id, $terms, $tax);
       }
@@ -819,7 +1050,7 @@ function save_vacancy_meta($post_id)
 }
 add_action('save_post', 'save_vacancy_meta');
 
-// Подключение скриптов для медиазагрузчика
+// Include scripts for media uploader
 function vacancy_admin_scripts()
 {
    global $post_type;
@@ -856,7 +1087,7 @@ function get_vacancy_data_array($post_id = null)
       'email' => get_post_meta($post_id, '_vacancy_email', true),
       'apply_url' => get_post_meta($post_id, '_vacancy_apply_url', true),
       'salary' => get_post_meta($post_id, '_vacancy_salary', true),
-      'linkedin_url' => get_post_meta($post_id, '_vacancy_linkedin_url', true), // Новое поле LinkedIn
+      'linkedin_url' => get_post_meta($post_id, '_vacancy_linkedin_url', true),
       'introduction' => get_post_meta($post_id, '_vacancy_introduction', true),
       'additional_info' => get_post_meta($post_id, '_vacancy_additional_info', true),
       'employment_type' => get_post_meta($post_id, '_vacancy_employment_type', true),
@@ -869,12 +1100,20 @@ function get_vacancy_data_array($post_id = null)
       'skills' => get_post_meta($post_id, '_vacancy_skills', true),
       'pdf_url' => get_post_meta($post_id, '_vacancy_pdf', true) ? wp_get_attachment_url(get_post_meta($post_id, '_vacancy_pdf', true)) : '',
       'vacancy_types' => get_the_terms($post_id, 'vacancy_type'),
-      'vacancy_schedules' => get_the_terms($post_id, 'vacancy_schedule')
+      'vacancy_schedules' => get_the_terms($post_id, 'vacancy_schedule'),
+      // Map data
+      'latitude' => get_post_meta($post_id, '_vacancy_latitude', true),
+      'longitude' => get_post_meta($post_id, '_vacancy_longitude', true),
+      'zoom' => get_post_meta($post_id, '_vacancy_zoom', true),
+      'yandex_address' => get_post_meta($post_id, '_vacancy_yandex_address', true),
+      'show_map' => get_post_meta($post_id, '_vacancy_show_map', true),
+      'sidebar_hide_author' => get_post_meta($post_id, '_vacancy_sidebar_hide_author', true),
+      'sidebar_disable_image' => get_post_meta($post_id, '_vacancy_sidebar_disable_image', true),
    ];
 }
 
 /**
- * REST API endpoint для получения URL PDF файла вакансии для AJAX загрузки
+ * REST API endpoint for getting vacancy PDF file URL for AJAX download
  */
 function register_vacancy_download_endpoint() {
    register_rest_route('codeweber/v1', '/vacancies/(?P<id>\d+)/download-url', [
@@ -895,7 +1134,7 @@ function register_vacancy_download_endpoint() {
 add_action('rest_api_init', 'register_vacancy_download_endpoint');
 
 /**
- * Callback для получения URL PDF файла вакансии
+ * Callback for getting vacancy PDF file URL
  * 
  * @param WP_REST_Request $request
  * @return WP_REST_Response|WP_Error
@@ -903,7 +1142,7 @@ add_action('rest_api_init', 'register_vacancy_download_endpoint');
 function get_vacancy_download_url($request) {
    $post_id = $request->get_param('id');
    
-   // Проверяем, что пост существует и это vacancies
+   // Check that post exists and it's vacancies
    $post = get_post($post_id);
    if (!$post || $post->post_type !== 'vacancies') {
       return new WP_Error(
@@ -913,7 +1152,7 @@ function get_vacancy_download_url($request) {
       );
    }
    
-   // Получаем ID вложения PDF файла
+   // Get PDF file attachment ID
    $pdf_id = get_post_meta($post_id, '_vacancy_pdf', true);
    
    if (empty($pdf_id)) {
@@ -924,7 +1163,7 @@ function get_vacancy_download_url($request) {
       );
    }
    
-   // Получаем URL файла
+   // Get file URL
    $file_url = wp_get_attachment_url($pdf_id);
    
    if (empty($file_url)) {
@@ -935,13 +1174,13 @@ function get_vacancy_download_url($request) {
       );
    }
    
-   // Получаем имя файла
+   // Get file name
    $file_name = basename(get_attached_file($pdf_id));
    if (empty($file_name)) {
       $file_name = 'vacancy-' . $post_id . '.pdf';
    }
    
-   // Опционально: логирование загрузки
+   // Optional: download logging
    do_action('vacancy_downloaded', $post_id);
    
    return new WP_REST_Response([

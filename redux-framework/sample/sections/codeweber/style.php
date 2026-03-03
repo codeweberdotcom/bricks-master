@@ -247,22 +247,77 @@ Redux::set_section(
 );
 
 
+// Подсекция: Global Social Style — глобальные настройки иконок (соцсети, кнопки)
 Redux::set_section(
 	$opt_name,
 	array(
-		'title'    => esc_html__('Fonts', 'codeweber'),
-		'id'       => 'themefonts',
-		'subsection' => true,   // <-- вот это делает её субсекцией
-		'fields'   => $font_fields,
+		'title'       => esc_html__('Global Social Style', 'codeweber'),
+		'id'          => 'codeweber-icons',
+		'subsection'  => true,
+		'parent'      => 'themestyle',
+		'desc'        => esc_html__('Global icon settings (social links, vacancy sidebar, etc.). Header and footer can have their own overrides.', 'codeweber'),
+		'fields'      => array(
+			array(
+				'id'       => 'global-social-icon-type',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Icon Type (global)', 'codeweber'),
+				'subtitle' => esc_html__('Default style for social/contact icons across the theme.', 'codeweber'),
+				'options'  => array(
+					'1' => esc_html__('Type 1', 'codeweber'),
+					'2' => esc_html__('Type 2', 'codeweber'),
+					'3' => esc_html__('Type 3', 'codeweber'),
+					'4' => esc_html__('Type 4', 'codeweber'),
+					'5' => esc_html__('Type 5', 'codeweber'),
+					'6' => esc_html__('Type 6', 'codeweber'),
+					'7' => esc_html__('Type 7', 'codeweber'),
+					'8' => esc_html__('Type 8', 'codeweber'),
+					'9' => esc_html__('Type 9', 'codeweber'),
+				),
+				'default'  => '1',
+			),
+			array(
+				'id'       => 'global-social-button-style',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Button Style (global)', 'codeweber'),
+				'options'  => array(
+					'circle' => esc_html__('Circle', 'codeweber'),
+					'block'  => esc_html__('Block', 'codeweber'),
+				),
+				'default'  => 'circle',
+			),
+			array(
+				'id'       => 'global-social-button-size',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Social Button Size (global)', 'codeweber'),
+				'options'  => array(
+					'sm' => esc_html__('Small', 'codeweber'),
+					'md' => esc_html__('Medium', 'codeweber'),
+					'lg' => esc_html__('Large', 'codeweber'),
+				),
+				'default'  => 'md',
+			),
+		),
 	)
 );
 
 Redux::set_section(
 	$opt_name,
 	array(
-		'title'    => esc_html__('Gulp', 'codeweber'),
-		'id'       => 'themegulp',
-		'subsection' => true,   // <-- вот это делает её субсекцией
-		'fields'   => $theme_gulp,
+		'title'       => esc_html__('Fonts', 'codeweber'),
+		'id'          => 'themefonts',
+		'subsection'  => true,
+		'parent'      => 'themestyle',
+		'fields'      => $font_fields,
+	)
+);
+
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'       => esc_html__('Gulp', 'codeweber'),
+		'id'          => 'themegulp',
+		'subsection'  => true,
+		'parent'      => 'themestyle',
+		'fields'      => $theme_gulp,
 	)
 );

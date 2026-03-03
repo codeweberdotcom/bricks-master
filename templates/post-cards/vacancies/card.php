@@ -2,7 +2,7 @@
 /**
  * Template: Vacancy Post Card
  * 
- * Карточка вакансии в стиле Amazon job posting
+ * Vacancy card in Amazon job posting style
  * 
  * @package Codeweber
  */
@@ -12,51 +12,40 @@ $vacancy_data = get_vacancy_data_array($post_id);
 $title = get_the_title($post_id);
 $link = get_permalink($post_id);
 
-// Компания
+// Company
 $company = !empty($vacancy_data['company']) ? $vacancy_data['company'] : '';
 
-// Получаем изображение вакансии (featured image)
+// Get vacancy image (featured image)
 $vacancy_image_url = get_the_post_thumbnail_url($post_id, 'thumbnail');
 
-// Если нет изображения вакансии, получаем логотип сайта из Redux
+// If no vacancy image, get site logo from Redux
 if (!$vacancy_image_url) {
     global $opt_name;
     $options = get_option($opt_name);
     
-    // Проверяем кастомный логотип для поста
+    // Check custom logo for post
     $custom_dark_logo = get_post_meta($post_id, 'custom-logo-dark-header', true);
     if (!empty($custom_dark_logo['url'])) {
         $vacancy_image_url = $custom_dark_logo['url'];
     } elseif (!empty($options['opt-dark-logo']['url'])) {
-        // Логотип из Redux настроек
+        // Logo from Redux settings
         $vacancy_image_url = $options['opt-dark-logo']['url'];
     } else {
-        // Дефолтный логотип из темы
+        // Default logo from theme
         $vacancy_image_url = get_template_directory_uri() . '/dist/assets/img/logo-dark.png';
     }
 }
 
-// Определяем, является ли изображение SVG
+// Determine if image is SVG
 $is_svg = false;
 if ($vacancy_image_url) {
     $image_extension = strtolower(pathinfo(parse_url($vacancy_image_url, PHP_URL_PATH), PATHINFO_EXTENSION));
     $is_svg = ($image_extension === 'svg');
 }
 
-// Локация (будет использоваться вместо даты)
+// Location (will be used instead of date)
 
-// Тип занятости
-$employment_type = !empty($vacancy_data['employment_type']) ? $vacancy_data['employment_type'] : '';
-$employment_types = array(
-    'full-time' => __('Full-time', 'codeweber'),
-    'part-time' => __('Part-time', 'codeweber'),
-    'remote' => __('Remote', 'codeweber'),
-    'contract' => __('Contract', 'codeweber'),
-    'internship' => __('Internship', 'codeweber')
-);
-$display_employment_type = isset($employment_types[$employment_type]) ? $employment_types[$employment_type] : $employment_type;
-
-// Уровень (senior, junior, etc.) - можно получить из таксономии или метаполя
+// Level (senior, junior, etc.) - can be obtained from taxonomy or meta field
 $vacancy_types = !empty($vacancy_data['vacancy_types']) && !is_wp_error($vacancy_data['vacancy_types']) ? $vacancy_data['vacancy_types'] : array();
 $level_badge = '';
 if (!empty($vacancy_types)) {
@@ -75,13 +64,13 @@ if (!empty($vacancy_types)) {
     }
 }
 
-// Зарплата
+// Salary
 $salary = !empty($vacancy_data['salary']) ? $vacancy_data['salary'] : '';
 
-// Локация
+// Location
 $location = !empty($vacancy_data['location']) ? $vacancy_data['location'] : '';
 
-// Получаем стили из настроек темы
+// Get styles from theme settings
 $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
 $button_style = function_exists('getThemeButton') ? getThemeButton() : ' rounded-pill';
 ?>
@@ -119,15 +108,12 @@ $button_style = function_exists('getThemeButton') ? getThemeButton() : ' rounded
                 </a>
             </h4>
             
+            <?php if ($level_badge) : ?>
             <!-- Badges -->
             <div class="mb-3">
-                <?php if ($display_employment_type) : ?>
-                    <span class="badge bg-pale-blue text-blue rounded py-1 me-2 mb-2"><?php echo esc_html($display_employment_type); ?></span>
-                <?php endif; ?>
-                <?php if ($level_badge) : ?>
-                    <span class="badge bg-pale-violet text-violet rounded py-1 me-2 mb-2"><?php echo esc_html($level_badge); ?></span>
-                <?php endif; ?>
+                <span class="badge bg-pale-violet text-violet rounded py-1 me-2 mb-2"><?php echo esc_html($level_badge); ?></span>
             </div>
+            <?php endif; ?>
             
             <!-- Salary -->
             <?php if ($salary) : ?>

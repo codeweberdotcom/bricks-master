@@ -1,6 +1,6 @@
 <?php
 
-// Подключаем функции для работы с QR кодами
+// Include functions for working with QR codes
 require_once get_template_directory() . '/functions/qr-code.php';
 
 function cptui_register_my_cpts_staff()
@@ -346,7 +346,7 @@ function codeweber_save_staff_meta($post_id)
 
 	foreach ($fields as $field) {
 		if (isset($_POST[$field])) {
-			// Для URL полей (соцсети и website) используем esc_url_raw
+			// For URL fields (social media and website) use esc_url_raw
 			$social_fields = ['staff_facebook', 'staff_twitter', 'staff_linkedin', 'staff_instagram', 'staff_telegram', 'staff_vk', 'staff_whatsapp', 'staff_skype', 'staff_website'];
 			if (in_array($field, $social_fields)) {
 				update_post_meta($post_id, '_' . $field, esc_url_raw($_POST[$field]));
@@ -359,20 +359,20 @@ function codeweber_save_staff_meta($post_id)
 		}
 	}
 	
-	// Сохраняем QR код ID, если передан
+	// Save QR code ID if passed
 	if (isset($_POST['staff_qrcode_id'])) {
 		update_post_meta($post_id, '_staff_qrcode_id', intval($_POST['staff_qrcode_id']));
 	}
 	
-	// Автоматическая генерация QR кода при сохранении
+	// Automatic QR code generation on save
 	if (function_exists('codeweber_staff_generate_qrcode')) {
-		// Удаляем старый QR код, если есть
+		// Remove old QR code if exists
 		$old_qrcode_id = get_post_meta($post_id, '_staff_qrcode_id', true);
 		if ($old_qrcode_id) {
 			wp_delete_attachment($old_qrcode_id, true);
 		}
 		
-		// Генерируем новый QR код
+		// Generate new QR code
 		codeweber_staff_generate_qrcode($post_id);
 	}
 }
@@ -466,7 +466,7 @@ function codeweber_make_staff_columns_sortable($columns)
 add_filter('manage_edit-staff_sortable_columns', 'codeweber_make_staff_columns_sortable');
 
 /**
- * REST API endpoint для скачивания VCF файла сотрудника
+ * REST API endpoint for downloading staff VCF file
  */
 function register_staff_vcf_download_endpoint() {
 	register_rest_route('codeweber/v1', '/staff/(?P<id>\d+)/download-vcf', [
@@ -487,7 +487,7 @@ function register_staff_vcf_download_endpoint() {
 add_action('rest_api_init', 'register_staff_vcf_download_endpoint');
 
 /**
- * Callback для скачивания VCF файла сотрудника
+ * Callback for downloading staff VCF file
  * 
  * @param WP_REST_Request $request
  * @return WP_REST_Response|WP_Error
@@ -495,16 +495,16 @@ add_action('rest_api_init', 'register_staff_vcf_download_endpoint');
 function get_staff_vcf_download($request) {
 	$post_id = intval($request->get_param('id'));
 	
-	// Проверяем, что запись существует и это staff
+	// Check that record exists and it's staff
 	$post = get_post($post_id);
 	if (!$post || $post->post_type !== 'staff') {
 		return new WP_Error('not_found', 'Staff member not found', ['status' => 404]);
 	}
 	
-	// Генерируем vCard
+	// Generate vCard
 	$vcard = codeweber_staff_generate_vcard($post_id);
 	
-	// Формируем имя файла
+	// Form filename
 	$name = get_post_meta($post_id, '_staff_name', true);
 	$surname = get_post_meta($post_id, '_staff_surname', true);
 	$full_name = trim($name . ' ' . $surname);
@@ -515,7 +515,7 @@ function get_staff_vcf_download($request) {
 	}
 	$filename = $full_name . '.vcf';
 	
-	// Возвращаем данные для скачивания
+	// Return data for download
 	return rest_ensure_response([
 		'file_content' => base64_encode($vcard),
 		'file_name' => $filename,
@@ -525,10 +525,10 @@ function get_staff_vcf_download($request) {
 }
 
 /**
- * Регистрация REST API полей для staff метаданных
+ * Registration of REST API fields for staff metadata
  */
 function codeweber_register_staff_rest_fields() {
-	// Список метаполей staff, которые нужно добавить в REST API
+	// List of staff meta fields to add to REST API
 	$meta_fields = [
 		'_staff_position',
 		'_staff_company',
@@ -543,7 +543,7 @@ function codeweber_register_staff_rest_fields() {
 			'get_callback' => function($post) use ($meta_field) {
 				return get_post_meta($post['id'], $meta_field, true);
 			},
-			'update_callback' => null, // Только для чтения
+			'update_callback' => null, // Read only
 			'schema' => [
 				'description' => sprintf(__('Staff meta field: %s', 'codeweber'), $meta_field),
 				'type' => 'string',

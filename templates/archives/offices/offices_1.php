@@ -24,8 +24,10 @@ $post_id = absint(get_the_ID());
         if (!empty($town_terms) && !is_wp_error($town_terms)) {
             $city = $town_terms[0];
         }
+        $fallback_card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+        $fallback_btn_style   = function_exists('getThemeButton') ? getThemeButton() : ' rounded-pill';
         ?>
-        <div class="card shadow shadow-lg lift h-100">
+        <div class="card shadow shadow-lg lift h-100<?php echo $fallback_card_radius ? ' ' . esc_attr($fallback_card_radius) : ''; ?>">
             <div class="card-body">
                 <h4 class="mb-3">
                     <a href="<?php echo esc_url($link); ?>" class="link-dark">
@@ -35,7 +37,7 @@ $post_id = absint(get_the_ID());
                 <?php if ($city) : ?>
                     <p class="text-muted mb-3"><?php echo esc_html($city); ?></p>
                 <?php endif; ?>
-                <a href="<?php echo esc_url($link); ?>" class="btn btn-outline-primary rounded-pill w-100 has-ripple">
+                <a href="<?php echo esc_url($link); ?>" class="btn btn-outline-primary<?php echo esc_attr($fallback_btn_style); ?> w-100 has-ripple">
                     <?php _e('View Details', 'codeweber'); ?>
                 </a>
             </div>

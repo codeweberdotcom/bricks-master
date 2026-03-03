@@ -91,9 +91,11 @@ if (!function_exists('codeweber_share_page')) {
     */
    function codeweber_share_page($args = [])
    {
+      $dropdown_radius = (function_exists('getThemeCardImageRadius')) ? getThemeCardImageRadius() : '';
+      $dropdown_class  = 'dropdown-menu' . ($dropdown_radius ? ' ' . esc_attr($dropdown_radius) : '');
       $defaults = [
          'button_class'   => 'btn btn-red btn-icon btn-icon-start dropdown-toggle mb-0 me-0 ' . getThemeButton(),
-         'dropdown_class' => 'dropdown-menu',
+         'dropdown_class' => $dropdown_class,
          'item_class'     => 'dropdown-item',
          'button_text'    => __('Share', 'codeweber'),
          'button_icon'    => 'uil uil-share-alt',

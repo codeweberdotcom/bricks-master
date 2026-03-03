@@ -17,6 +17,65 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
+// Горизонтальная карточка: figure слева, card-body справа (без row)
+.card-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  > .card-img {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+    overflow: hidden;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    > a {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+    img {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      object-fit: cover;
+    }
+    &.rounded-start img {
+      border-top-left-radius: $card-inner-border-radius;
+      border-bottom-left-radius: $card-inner-border-radius;
+    }
+  }
+  > .card-body {
+    flex: 1;
+    min-width: 0;
+  }
+  @media (max-width: 767.98px) {
+    flex-direction: column;
+    > .card-img {
+      flex: 0 0 auto;
+      max-width: none;
+      display: block;
+      > a {
+        display: block;
+      }
+      img {
+        height: auto;
+        flex: none;
+        min-height: 0;
+      }
+      &.rounded-start img {
+        border-top-left-radius: $card-inner-border-radius;
+        border-top-right-radius: $card-inner-border-radius;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+}
+
 @media (max-width: 991.98px) {
   .card-md-none {
     background: none;

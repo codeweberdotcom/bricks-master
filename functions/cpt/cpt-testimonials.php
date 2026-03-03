@@ -1137,20 +1137,20 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
     // Default arguments
     $defaults = [
         'show_company' => false,
-        'show_avatar' => true, // Показывать аватар/инициалы (если false - не показывать ни аватар, ни инициалы)
+        'show_avatar' => true, // Show avatar/initials (if false - don't show avatar or initials)
         'avatar_size' => 'w-11',
         'avatar_bg' => 'bg-primary',
         'avatar_text' => 'text-white',
         'initials_count' => 2,
-        'info_class' => '', // Дополнительный класс для info (например, 'ps-0' или 'p-0')
-        'title_tag' => 'div', // Тег для имени автора (h1-h6, p, div, span)
-        'title_class' => 'h6 mb-0', // Класс для имени (если пусто — используется дефолт по контексту)
+        'info_class' => '', // Additional class for info (e.g., 'ps-0' or 'p-0')
+        'title_tag' => 'div', // Tag for author name (h1-h6, p, div, span)
+        'title_class' => 'h6 mb-0', // Class for name (if empty - uses default by context)
         'echo' => true,
     ];
     
     $args = wp_parse_args($args, $defaults);
     
-    // Если передан массив данных (из post-cards шаблонов)
+    // If array data is passed (from post-cards templates)
     if (is_array($post_id_or_data) && isset($post_id_or_data['id'])) {
         $post_data = $post_id_or_data;
         $post_id = $post_data['id'];
@@ -1159,11 +1159,11 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
         $author_role = !empty($post_data['author_role']) ? esc_html($post_data['author_role']) : '';
         $company = !empty($post_data['company']) ? esc_html($post_data['company']) : '';
         
-        // Используем аватар из post_data
+        // Use avatar from post_data
         $avatar_url = !empty($post_data['avatar_url']) ? esc_url($post_data['avatar_url']) : '';
         $avatar_url_2x = !empty($post_data['avatar_url_2x']) ? esc_url($post_data['avatar_url_2x']) : '';
     } else {
-        // Обычный режим - получаем данные из поста
+        // Normal mode - get data from post
         $post_id = $post_id_or_data ? $post_id_or_data : get_the_ID();
         
         $testimonial_data = codeweber_get_testimonial_data($post_id);
@@ -1195,15 +1195,15 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
         }
     }
     
-    // Generate initials if no avatar (только если show_avatar включен)
+    // Generate initials if no avatar (only if show_avatar is enabled)
     $initials = '';
     if ($args['show_avatar'] && empty($avatar_url) && !empty($author_name)) {
         $name_parts = explode(' ', trim($author_name));
         if ($args['initials_count'] === 1) {
-            // Первая буква имени
+            // First letter of name
             $initials = strtoupper(mb_substr($name_parts[0], 0, 1, 'UTF-8'));
         } else {
-            // Первые буквы имени и фамилии (или первые две буквы имени)
+            // First letters of first and last name (or first two letters of name)
             if (count($name_parts) >= 2) {
                 $initials = strtoupper(mb_substr($name_parts[0], 0, 1, 'UTF-8') . mb_substr($name_parts[1], 0, 1, 'UTF-8'));
             } else {
@@ -1212,24 +1212,24 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
         }
     }
     
-    // Определяем класс для info
-    // Если указан явно info_class И есть аватар/инициалы, используем его
-    // Если нет аватара/инициалов, всегда используем p-0 (даже если указан другой класс)
+    // Determine class for info
+    // If info_class is explicitly specified AND there's avatar/initials, use it
+    // If no avatar/initials, always use p-0 (even if another class is specified)
     if (!$args['show_avatar'] || (empty($avatar_url) && empty($initials))) {
-        // Когда нет аватара, всегда используем p-0
+        // When no avatar, always use p-0
         $info_class = ' p-0';
     } elseif (!empty($args['info_class'])) {
-        // Когда есть аватар и указан явный класс, используем его
+        // When there's avatar and explicit class is specified, use it
         $info_class = ' ' . esc_attr($args['info_class']);
     } else {
-        // По умолчанию без дополнительных классов
+        // Default without additional classes
         $info_class = '';
     }
     
-    // Получаем класс высоты из класса ширины (w-10 -> h-10, w-12 -> h-12, w-15 -> h-15)
+    // Get height class from width class (w-10 -> h-10, w-12 -> h-12, w-15 -> h-15)
     $avatar_height = str_replace('w-', 'h-', $args['avatar_size']);
 
-    // Тег и класс для имени автора (из настроек блока Post Grid)
+    // Tag and class for author name (from Post Grid block settings)
     $allowed_title_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span'];
     $author_tag = !empty($args['title_tag']) && in_array($args['title_tag'], $allowed_title_tags, true) ? $args['title_tag'] : 'div';
     $author_class = isset($args['title_class']) && $args['title_class'] !== '' ? esc_attr($args['title_class']) : 'h6 mb-0';
@@ -1241,7 +1241,7 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
     <div class="blockquote-details">
         <?php if ($args['show_avatar'] && ($avatar_url || $initials)) : ?>
             <?php if ($avatar_url) : ?>
-                <!-- Аватар с картинкой -->
+                <!-- Avatar with image -->
                 <div class="d-flex align-items-center">
                     <figure class="user-avatar">
                         <img 
@@ -1266,7 +1266,7 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
                     </div>
                 </div>
             <?php elseif ($initials) : ?>
-                <!-- Аватар с инициалами -->
+                <!-- Avatar with initials -->
                 <div class="d-flex align-items-center">
                     <span class="avatar <?php echo esc_attr($args['avatar_bg'] . ' ' . $args['avatar_text'] . ' ' . $args['avatar_size'] . ' ' . $avatar_height); ?>">
                         <span><?php echo esc_html($initials); ?></span>
@@ -1285,7 +1285,7 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
                 </div>
             <?php endif; ?>
         <?php else : ?>
-            <!-- Без аватара -->
+            <!-- Without avatar -->
             <div class="info<?php echo esc_attr($info_class); ?>">
                 <?php if ($author_name) : ?>
                     <<?php echo $author_tag; ?> class="<?php echo $author_class_alt; ?>"><?php echo $author_name; ?></<?php echo $author_tag; ?>>
@@ -1313,7 +1313,7 @@ function codeweber_testimonial_blockquote_details($post_id_or_data = null, $args
  * Register testimonial meta fields for REST API
  */
 function codeweber_register_testimonial_rest_fields() {
-    // Регистрируем метаполя для REST API
+    // Register meta fields for REST API
     $meta_fields = [
         '_testimonial_text',
         '_testimonial_author_type',
@@ -1331,7 +1331,7 @@ function codeweber_register_testimonial_rest_fields() {
             'get_callback' => function($post) use ($meta_field) {
                 return get_post_meta($post['id'], $meta_field, true);
             },
-            'update_callback' => null, // Только для чтения
+            'update_callback' => null, // Read only
             'schema' => [
                 'description' => sprintf(__('Testimonial meta field: %s', 'codeweber'), $meta_field),
                 'type' => 'string',
@@ -1343,7 +1343,7 @@ function codeweber_register_testimonial_rest_fields() {
 add_action('rest_api_init', 'codeweber_register_testimonial_rest_fields');
 
 /**
- * Отключаем single Testimonials страницы - возвращаем 404
+ * Disable single Testimonials pages - return 404
  */
 add_action('template_redirect', function() {
 	if (is_singular('testimonials')) {

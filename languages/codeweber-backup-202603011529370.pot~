@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-28 10:49+0000\n"
+"POT-Creation-Date: 2026-02-28 12:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -4664,6 +4664,15 @@ msgstr ""
 msgid "From Name"
 msgstr ""
 
+#. 1: Orders URL 2: Edit address URL 3: Edit account URL.
+#: woocommerce/myaccount/dashboard.php:45
+#, php-format
+msgid ""
+"From your account dashboard you can view your <a href=\"%1$s\">recent "
+"orders</a>, manage your <a href=\"%2$s\">billing and shipping addresses</a>, "
+"and <a href=\"%3$s\">edit your password and account details</a>."
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1690
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:351
 msgid "From:"
@@ -4975,6 +4984,12 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:326
 msgid "Hello"
+msgstr ""
+
+#. 1: user display name (wrapped in strong), 2: logout link
+#: woocommerce/myaccount/dashboard.php:35
+#, php-format
+msgid "Hello %1$s (not %1$s? %2$s)"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:386
@@ -5937,6 +5952,10 @@ msgstr ""
 
 #: functions/cpt/cpt-offices.php:122
 msgid "Location & Map"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:37
+msgid "Log out"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:145
@@ -7257,6 +7276,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:290
 #: redux-framework/sample/sections/codeweber/header.php:346
 msgid "Order items in side menu"
+msgstr ""
+
+#: woocommerce/myaccount/orders.php:22
+msgid "Order list"
 msgstr ""
 
 #: functions/woocommerce-states-ru.php:62
@@ -8976,6 +8999,11 @@ msgstr ""
 #: functions/demo/demo-ajax.php:590 functions/demo/demo-ajax.php:611
 #: functions/demo/demo-ajax.php:633 functions/demo/demo-ajax.php:654
 msgid "Security error. Please refresh the page and try again."
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-address.php:89
+#: woocommerce/myaccount/form-edit-address.php:90
+msgid "Select a country / region…"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1384

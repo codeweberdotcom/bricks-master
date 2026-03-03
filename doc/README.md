@@ -8,35 +8,92 @@
 
 ```
 doc/
+├── Shortcodes/              # Документация по шорткодам
+│   ├── SHORTCODE_SOCIAL_LINKS.md
+│   ├── SHORTCODE_MENU_COLLAPSE.md
+│   ├── SHORTCODE_CW_BLOG_POSTS_SLIDER.md
+│   └── menu-collapse-shortcode-php-examples.md
+│
+├── Functions/               # Документация по функциям
+│   ├── FUNCTION_SOCIAL_LINKS.md
+│   ├── FUNCTION_CODEWEBER_SINGLE_SOCIAL_LINKS.md
+│   ├── FUNCTION_STAFF_SOCIAL_LINKS.md
+│   └── FUNCTION_VACANCY_SOCIAL_LINKS.md
+│
+├── Integrations/            # Документация по интеграциям
+│   ├── dadata-integration.md
+│   ├── dadata-integration-plan.md
+│   └── woocommerce-template-migration.md
+│
+├── Other/                   # Разное
+│   └── GULP.md
+│
+├── Tasks/                   # Задачи и чеклисты
+│
+├── Analysis/                # Анализ и отчеты
+│
 ├── ajax/                    # AJAX функциональность
-│   ├── AJAX_FILTER.md      # Универсальный AJAX фильтр
+│   ├── AJAX_FILTER.md
 │   └── AJAX_DOWNLOAD_IMPLEMENTATION.md
 │
 ├── modules/                 # Документация по модулям
-│   ├── CPT_CREATION.md     # Создание новых CPT
-│   ├── SIDEBARS.md         # Добавление сайдбаров
-│   ├── ARCHIVE_TEMPLATES.md # Создание архивных страниц
-│   ├── METAFIELDS.md       # Добавление метаполей
-│   ├── SINGLE_TEMPLATES.md # Создание single шаблонов
-│   ├── REDUX_CPT_OPTIONS.md # Redux настройки для CPT
-│   └── YANDEX_MAPS.md      # Интеграция Яндекс карт
+│   ├── CPT_CREATION.md
+│   ├── SIDEBARS.md
+│   ├── ARCHIVE_TEMPLATES.md
+│   ├── METAFIELDS.md
+│   ├── SINGLE_TEMPLATES.md
+│   ├── REDUX_CPT_OPTIONS.md
+│   └── YANDEX_MAPS.md
 │
 ├── images/                  # Работа с изображениями
-│   └── IMAGE_CREATION_GUIDE.md      # Подробное руководство по созданию изображений
+│   └── IMAGE_CREATION_GUIDE.md
 │
 ├── install/                 # Установка и настройка
 │   └── GHOSTSCRIPT_INSTALL.md
 │
-└── GULP.md                 # Руководство по Gulp сборке
+├── ARCHIVE_AND_CARD_TEMPLATES.md
+└── README.md
 ```
 
+## Шорткоды
+
+Документация по всем шорткодам темы:
+
+- **[social_links](Shortcodes/SHORTCODE_SOCIAL_LINKS.md)** - Вывод социальных иконок
+- **[menu_collapse](Shortcodes/SHORTCODE_MENU_COLLAPSE.md)** - Меню с Bootstrap Collapse
+
+## Функции
+
+Документация по основным функциям темы:
+
+### Социальные сети
+
+- **[social_links()](Functions/FUNCTION_SOCIAL_LINKS.md)** - Основная функция вывода социальных иконок
+- **[codeweber_single_social_links()](Functions/FUNCTION_CODEWEBER_SINGLE_SOCIAL_LINKS.md)** - Для single-страниц
+- **[staff_social_links()](Functions/FUNCTION_STAFF_SOCIAL_LINKS.md)** - Для сотрудников
+- **[vacancy_social_links()](Functions/FUNCTION_VACANCY_SOCIAL_LINKS.md)** - Для вакансий
+
 ## 🚀 Быстрый старт
+
+### Шорткоды
+
+- **[social_links](Shortcodes/SHORTCODE_SOCIAL_LINKS.md)** - Вывод социальных иконок с различными стилями
+- **[menu_collapse](Shortcodes/SHORTCODE_MENU_COLLAPSE.md)** - Меню с Bootstrap Collapse
+- **[cw_blog_posts_slider](Shortcodes/SHORTCODE_CW_BLOG_POSTS_SLIDER.md)** - Слайдер постов блога
+
+### Функции
+
+- **[social_links()](Functions/FUNCTION_SOCIAL_LINKS.md)** - Основная функция вывода социальных иконок
+- **[codeweber_single_social_links()](Functions/FUNCTION_CODEWEBER_SINGLE_SOCIAL_LINKS.md)** - Обёртка для single-страниц
+- **[staff_social_links()](Functions/FUNCTION_STAFF_SOCIAL_LINKS.md)** - Для сотрудников (из метаполей)
+- **[vacancy_social_links()](Functions/FUNCTION_VACANCY_SOCIAL_LINKS.md)** - Для вакансий
 
 ### Модули и разработка
 
 - **[Создание новых CPT](modules/CPT_CREATION.md)** - Полное руководство по созданию Custom Post Types
 - **[Добавление сайдбаров](modules/SIDEBARS.md)** - Как добавлять новые сайдбары в тему
 - **[Архивные страницы](modules/ARCHIVE_TEMPLATES.md)** - Создание архивных страниц и шаблонов (пример staff)
+- **[Архивы и карточки: логика шаблонов](ARCHIVE_AND_CARD_TEMPLATES.md)** - Разделение архив/карточка, использование в AJAX для всех типов записей
 - **[Метаполя](modules/METAFIELDS.md)** - Как и куда добавлять метаполя к single записям
 - **[Single шаблоны](modules/SINGLE_TEMPLATES.md)** - Создание шаблонов Single записей на примере staff
 - **[Redux настройки CPT](modules/REDUX_CPT_OPTIONS.md)** - Управление CPT через Redux Framework (шаблоны, сайдбары, заголовки)

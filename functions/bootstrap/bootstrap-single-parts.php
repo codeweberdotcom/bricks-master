@@ -21,7 +21,7 @@ function codeweber_single_share_args()
 		$button_class .= getThemeButton();
 	}
 	return [
-		'region'       => 'ru',
+		'region'       => 'auto',
 		'button_class' => $button_class,
 	];
 }

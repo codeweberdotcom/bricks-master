@@ -80,6 +80,11 @@ function codeweber_ajax_filter() {
         // Загружаем соответствующий шаблон
         if ($post_type === 'vacancies' && $template === 'vacancies_1') {
             codeweber_render_vacancies_filtered($query, $filters);
+        } elseif ($post_type === 'vacancies' && in_array($template, array('vacancies_2', 'vacancies_3', 'vacancies_4', 'vacancies_5', 'vacancies_6'), true)) {
+            $backup_query = $GLOBALS['wp_query'];
+            $GLOBALS['wp_query'] = $query;
+            get_template_part('templates/archives/vacancies/' . $template);
+            $GLOBALS['wp_query'] = $backup_query;
         } elseif ($post_type === 'post' && $template) {
             codeweber_render_posts_filtered($query, $filters, $template);
         } elseif ($post_type === 'products' && $template) {
@@ -115,20 +120,12 @@ function codeweber_apply_vacancy_filters($args, $filters) {
     $tax_query = array();
     
     // Фильтр по типу вакансии (taxonomy)
-    if (!empty($filters['position'])) {
+    $vacancy_type_id = !empty($filters['vacancy_type']) ? $filters['vacancy_type'] : (!empty($filters['position']) ? $filters['position'] : null);
+    if (!empty($vacancy_type_id)) {
         $tax_query[] = array(
             'taxonomy' => 'vacancy_type',
             'field' => 'term_id',
-            'terms' => intval($filters['position']),
-        );
-    }
-    
-    // Фильтр по типу занятости (meta)
-    if (!empty($filters['type'])) {
-        $meta_query[] = array(
-            'key' => '_vacancy_employment_type',
-            'value' => sanitize_text_field($filters['type']),
-            'compare' => '='
+            'terms' => intval($vacancy_type_id),
         );
     }
     
@@ -312,6 +309,7 @@ function codeweber_render_vacancies_filtered($query, $filters) {
     // Массив цветов для аватаров
     $avatar_colors = array('bg-red', 'bg-green', 'bg-yellow', 'bg-purple', 'bg-orange', 'bg-pink', 'bg-blue');
     $color_index = 0;
+    $archive_card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
     
     if (!empty($vacancies_by_type)) {
         foreach ($vacancies_by_type as $type_id => $type_data) {
@@ -326,66 +324,14 @@ function codeweber_render_vacancies_filtered($query, $filters) {
                 <?php endif; ?>
                 
                 <?php foreach ($vacancies_list as $vacancy) :
-                    $post_id = $vacancy['post_id'];
-                    $vacancy_data = $vacancy['data'];
-                    $title = get_the_title($post_id);
-                    $link = get_permalink($post_id);
-                    
-                    // Генерируем инициалы для аватара
-                    $words = explode(' ', $title);
-                    $initials = '';
-                    if (count($words) >= 2) {
-                        $initials = mb_substr($words[0], 0, 1) . mb_substr($words[1], 0, 1);
-                    } else {
-                        $initials = mb_substr($title, 0, 2);
-                    }
-                    $initials = strtoupper($initials);
-                    
-                    // Получаем цвет для аватара
                     $avatar_color = $avatar_colors[$color_index % count($avatar_colors)];
                     $color_index++;
-                    
-                    // Тип занятости
-                    $employment_type = !empty($vacancy_data['employment_type']) ? $vacancy_data['employment_type'] : '';
-                    $employment_types = array(
-                        'full-time' => __('Full time', 'codeweber'),
-                        'part-time' => __('Part time', 'codeweber'),
-                        'remote' => __('Remote', 'codeweber'),
-                        'contract' => __('Contract', 'codeweber')
-                    );
-                    $display_employment_type = isset($employment_types[$employment_type]) ? $employment_types[$employment_type] : $employment_type;
-                    
-                    // Локация
-                    $location = !empty($vacancy_data['location']) ? $vacancy_data['location'] : '';
-                ?>
-                    <a href="<?php echo esc_url($link); ?>" class="card mb-4 lift vacancy-item">
-                        <div class="card-body p-5">
-                            <span class="row justify-content-between align-items-center">
-                                <span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
-                                    <span class="avatar <?php echo esc_attr($avatar_color); ?> text-white w-9 h-9 fs-17 me-3"><?php echo esc_html($initials); ?></span>
-                                    <?php echo esc_html($title); ?>
-                                </span>
-                                <?php if ($display_employment_type) : ?>
-                                    <span class="col-5 col-md-3 text-body d-flex align-items-center">
-                                        <i class="uil uil-clock me-1"></i>
-                                        <?php echo esc_html($display_employment_type); ?>
-                                    </span>
-                                <?php endif; ?>
-                                <?php if ($location) : ?>
-                                    <span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
-                                        <i class="uil uil-location-arrow me-1"></i>
-                                        <?php echo esc_html($location); ?>
-                                    </span>
-                                <?php endif; ?>
-                                <span class="d-none d-lg-block col-1 text-center text-body">
-                                    <i class="uil uil-angle-right-b"></i>
-                                </span>
-                            </span>
-                        </div>
-                        <!-- /.card-body -->
-                    </a>
-                    <!-- /.card -->
-                <?php endforeach; ?>
+                    set_query_var('vacancy_list_item_post_id', $vacancy['post_id']);
+                    set_query_var('vacancy_list_item_data', $vacancy['data']);
+                    set_query_var('vacancy_list_item_avatar_color', $avatar_color);
+                    set_query_var('vacancy_list_item_card_radius', $archive_card_radius);
+                    get_template_part('templates/post-cards/vacancies/list-item');
+                endforeach; ?>
             </div>
         <?php
         }

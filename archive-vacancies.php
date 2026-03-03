@@ -44,30 +44,12 @@ get_pageheader();
               
               <div class="<?php echo esc_attr($content_class); ?>">
           
-          <?php if ($templateloop === 'vacancies_2') : ?>
-              <div class="row gy-6 mb-5">
-                  <?php while (have_posts()) : 
-                    the_post();
-                    
-                    // Используем выбранный шаблон
-                    if (locate_template($template_file)) {
-                        get_template_part("templates/archives/vacancies/{$templateloop}");
-                    }
-                  endwhile; ?>
-              </div>
-              <!-- /.row -->
-          <?php elseif ($templateloop === 'vacancies_3') : ?>
-              <div class="row g-3 mb-5">
-                  <?php while (have_posts()) : 
-                    the_post();
-                    
-                    // Используем выбранный шаблон
-                    if (locate_template($template_file)) {
-                        get_template_part("templates/archives/vacancies/{$templateloop}");
-                    }
-                  endwhile; ?>
-              </div>
-              <!-- /.row -->
+          <?php if (in_array($templateloop, array('vacancies_2', 'vacancies_3', 'vacancies_4', 'vacancies_5', 'vacancies_6'), true)) : ?>
+              <?php
+              if (locate_template($template_file)) {
+                  get_template_part("templates/archives/vacancies/{$templateloop}");
+              }
+              ?>
           <?php else : ?>
               <div class="grid mb-5">
                   <div class="row isotope g-3">
