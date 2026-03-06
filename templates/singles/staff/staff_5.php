@@ -106,7 +106,11 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
         <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
         <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
             <div class="card-body">
-                <h2 class="mb-1"><?php echo esc_html($full_name); ?></h2>
+                <?php if (function_exists('get_breadcrumbs')) : ?>
+                    <?php get_breadcrumbs('left', 'muted', 'mb-0'); ?>
+                <?php endif; ?>
+
+                <h1 class="display-3 mb-1"><?php echo esc_html($full_name); ?></h1>
                 
                 <?php 
                 // Объединяем должность и компанию
@@ -116,7 +120,7 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
                 }
                 if (!empty($position_with_company)) : 
                 ?>
-                    <p class="text-muted mb-4"><?php echo esc_html($position_with_company); ?></p>
+                    <p class="text-muted mb-4 lead"><?php echo esc_html($position_with_company); ?></p>
                 <?php endif; ?>
                 
                 <hr class="my-4">

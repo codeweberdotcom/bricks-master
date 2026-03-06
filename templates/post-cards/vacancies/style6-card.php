@@ -87,7 +87,7 @@ $img_class      = 'img-fluid' . $img_radius;
 			<?php endif; ?>
 		</ul>
 		<div class="hover_card_button position-absolute p-7 top-0 end-0">
-			<span class="btn btn-circle btn-outline-primary opacity-0"><i class="uil uil-arrow-right"></i></span>
+			<i class="fs-25 uil uil-arrow-right lh-1"></i>
 		</div>
 	</div>
 	<!-- /.card-body -->

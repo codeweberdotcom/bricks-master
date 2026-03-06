@@ -79,12 +79,8 @@ footer.bg-dark,
   &.bg-overlay-light-600:before {
     background: rgba(var(--#{$prefix}white-rgb), 0.6);
   }
-  &.bg-overlay:not(.bg-content) *:not(.swiper-container):not(.swiper):not(.swiper-wrapper):not(.swiper-slide):not(.swiper-controls):not(.swiper-navigation):not(.swiper-button):not(.swiper-pagination):not(.swiper-pagination-bullet):not(.overlay *),
+  &.bg-overlay:not(.bg-content) *,
   &.bg-overlay.bg-content .content {
-    position: relative;
-    z-index: 2;
-  }
-  &.bg-overlay:not(.bg-content) .card-body {
     position: relative;
     z-index: 2;
   }

@@ -78,6 +78,7 @@ jQuery(document).ready(function ($) {
     handleGulpButton('#run-gulp-dist', 'run_gulp_dist', 'PROD build', 'PROD build completed successfully!');
     handleGulpButton('#run-gulp-css', 'run_gulp_css', 'CSS build', 'CSS build completed successfully!');
     handleGulpButton('#run-gulp-js', 'run_gulp_js', 'JS build', 'JS build completed successfully!');
+    handleGulpButton('#run-gulp-html', 'run_gulp_html', 'HTML build', 'HTML build completed successfully!');
 
     // Старая кнопка (для обратной совместимости)
     $("#run-gulp-build").on("click", function (e) {

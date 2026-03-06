@@ -7,6 +7,7 @@
 @import "type";
 @import "forms";
 @import "buttons";
+@import "ripple";
 @import "animations";
 @import "dropdown";
 @import "nav";
@@ -47,21 +48,33 @@
 
 .bg-frost {
   background-color: rgba(255, 255, 255, 0.05) !important;
-  backdrop-filter: blur(1rem) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(1rem) saturate(180%) !important;
+  backdrop-filter: blur(1rem) !important;
+  -webkit-backdrop-filter: blur(1rem) !important;
+}
+
+.bg-soft-frost {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(0.3rem) !important;
+  -webkit-backdrop-filter: blur(1rem) !important;
+}
+
+.bg-pale-frost {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(0.1rem) !important;
+  -webkit-backdrop-filter: blur(1rem) !important;
 }
 
 .text-frost {
   color: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(1rem) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(1rem) saturate(180%) !important;
+  backdrop-filter: blur(1rem) !important;
+  -webkit-backdrop-filter: blur(1rem) !important;
 }
 
 // btn-frost: после buttons, с !important чтобы перебить --bs-btn-bg
 .btn-frost {
   background-color: rgba(255, 255, 255, 0.05) !important;
-  backdrop-filter: blur(1rem) saturate(180%);
-  -webkit-backdrop-filter: blur(1rem) saturate(180%);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
   border-color: rgba(255, 255, 255, 0) !important;
   color: rgba(255, 255, 255, 0.95) !important;
   &:hover {

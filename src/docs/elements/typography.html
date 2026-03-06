@@ -56,7 +56,7 @@
         <!-- /column -->
         <div class="col-xl-8 order-xl-2" data-bs-root-margin="-50px">
           <section class="wrapper pt-16 mb-n12">
-            <div class="alert alert-primary alert-icon" role="alert"><i class="uil uil-exclamation-circle" style="margin-top: 4px;"></i> You can apply any Sandbox color you see <a href="@@webRoot/docs/styleguide/colors.html#snippet-4" class="internal bg-primary text-white">here</a> to your text.</div>
+            <div class="alert alert-primary alert-icon" role="alert"><i class="uil uil-exclamation-circle" style="margin-top: 4px;"></i> You can apply any Codeweber color you see <a href="@@webRoot/docs/styleguide/colors.html#snippet-4" class="internal bg-primary text-white">here</a> to your text.</div>
           </section>
           <section id="snippet-1" class="wrapper pt-16">
             <h2 class="mb-5">Headings</h2>
@@ -161,6 +161,14 @@
                     <h2 class="fs-15 text-uppercase text-line text-navy mb-0">Tiny Heading with Line</h2>
                   </div>
                   <!--/column -->
+                  <div class="col-md-6">
+                    <h2 class="fs-15 text-uppercase text-line-primary text-navy mb-0">Tiny Heading with Primary Line</h2>
+                  </div>
+                  <!--/column -->
+                  <div class="col-md-6">
+                    <h2 class="fs-15 text-uppercase text-navy text-line-full mb-0">Tiny Heading with Full Line</h2>
+                  </div>
+                  <!--/column -->
                 </div>
                 <!--/.row -->
               </div>
@@ -173,7 +181,9 @@
                 <div class="code-wrapper">
                   <div class="code-wrapper-inner">
 <pre class="language-html"><code>&lt;h2 class=&quot;fs-15 text-uppercase text-navy&quot;&gt;Tiny heading&lt;/h2&gt;
-&lt;h2 class=&quot;fs-15 text-uppercase text-line text-navy&quot;&gt;Tiny heading with line&lt;/h2&gt;</code></pre>
+&lt;h2 class=&quot;fs-15 text-uppercase text-line text-navy&quot;&gt;Tiny heading with line&lt;/h2&gt;
+&lt;h2 class=&quot;fs-15 text-uppercase text-line-primary text-navy&quot;&gt;Tiny heading with primary line&lt;/h2&gt;
+&lt;h2 class=&quot;fs-15 text-uppercase text-navy text-line-full&quot;&gt;Tiny heading with full line&lt;/h2&gt;</code></pre>
                   </div>
                   <!--/.code-wrapper-inner -->
                 </div>
@@ -394,20 +404,25 @@
           <section id="snippet-8" class="wrapper py-16">
             <h2 class="mb-3">Links</h2>
             <p class="lead">Available options:</p>
-            <p class="lead mb-8"><code class="code">link-body</code>, <code class="code">link-aqua</code>, <code class="code">link-green</code>, <code class="code">link-leaf</code>, <code class="code">link-navy</code>, <code class="code">link-orange</code>, <code class="code">link-pink</code>, <code class="code">link-purple</code>, <code class="code">link-red</code>, <code class="code">link-violet</code>, <code class="code">link-yellow</code>, <code class="code">link-fuchsia</code>, <code class="code">link-sky</code>, <code class="code">link-grape</code>.</p>
+            <p class="lead mb-4"><code class="code">link-body</code>, <code class="code">link-aqua</code>, <code class="code">link-green</code>, <code class="code">link-leaf</code>, <code class="code">link-navy</code>, <code class="code">link-orange</code>, <code class="code">link-pink</code>, <code class="code">link-purple</code>, <code class="code">link-red</code>, <code class="code">link-violet</code>, <code class="code">link-yellow</code>, <code class="code">link-fuchsia</code>, <code class="code">link-sky</code>, <code class="code">link-grape</code>.</p>
+            <p class="lead mb-8">Hover styles: <code class="code">hover</code>, <code class="code">hover-2</code>, <code class="code">hover-3</code>, <code class="code">hover-8</code>, <code class="code">hover-9</code>. Modifiers (e.g. with <code class="code">hover-3</code>): <code class="code">more</code>, <code class="code">next</code> (arrow right), <code class="code">previous</code>, <code class="code">more-left</code> (arrow/icon left).</p>
             <div class="card">
               <div class="card-body">
                 <a href="#" class="hover link-body me-4 ms-1 mb-5">Link example</a>
                 <a href="#" class="hover me-4 mb-5">Link example</a>
+                <a href="#" class="hover more-left me-4 mb-5">Link example</a>
                 <a href="#" class="hover more me-4 mb-5">Link example</a>
                 <br>
                 <a href="#" class="hover-2 link-body me-4 mb-5">Link example</a>
                 <a href="#" class="hover-2 me-4 mb-5">Link example</a>
                 <a href="#" class="hover-2 more me-4 mb-5">Link example</a>
                 <br>
-                <a href="#" class="hover-3 link-body me-4">Link example</a>
-                <a href="#" class="hover-3 me-4">Link example</a>
-                <a href="#" class="hover-3 more me-4">Link example</a>
+                <a href="#" class="hover-3 link-body me-4 mb-5">Link example</a>
+                <a href="#" class="hover-3 me-4 mb-5">Link example</a>
+                <a href="#" class="hover-3 more me-4 mb-5">Link example</a>
+                <br>
+                <a href="#" class="hover-8 link-body me-4 mb-5">Link example</a>
+                <a href="#" class="hover-9 me-4 mb-5">Link example</a>
               </div>
               <!--/.card-body -->
               <div class="card-footer position-relative">
@@ -419,15 +434,19 @@
                   <div class="code-wrapper-inner">
 <pre class="language-html"><code>&lt;a href=&quot;#&quot; class=&quot;hover link-body&quot;&gt;Link example&lt;/a&gt;
 &lt;a href=&quot;#&quot; class=&quot;hover&quot;&gt;Link example&lt;/a&gt;
+&lt;a href=&quot;#&quot; class=&quot;hover more-left&quot;&gt;Link example&lt;/a&gt;
 &lt;a href=&quot;#&quot; class=&quot;hover more&quot;&gt;Link example&lt;/a&gt;
-  
+
 &lt;a href=&quot;#&quot; class=&quot;hover-2 link-body&quot;&gt;Link example&lt;/a&gt;
 &lt;a href=&quot;#&quot; class=&quot;hover-2&quot;&gt;Link example&lt;/a&gt;
 &lt;a href=&quot;#&quot; class=&quot;hover-2 more&quot;&gt;Link example&lt;/a&gt;
-  
+
 &lt;a href=&quot;#&quot; class=&quot;hover-3 link-body&quot;&gt;Link example&lt;/a&gt;
 &lt;a href=&quot;#&quot; class=&quot;hover-3&quot;&gt;Link example&lt;/a&gt;
-&lt;a href=&quot;#&quot; class=&quot;hover-3 more&quot;&gt;Link example&lt;/a&gt;</code></pre>
+&lt;a href=&quot;#&quot; class=&quot;hover-3 more&quot;&gt;Link example&lt;/a&gt;
+
+&lt;a href=&quot;#&quot; class=&quot;hover-8 link-body&quot;&gt;Link example&lt;/a&gt;
+&lt;a href=&quot;#&quot; class=&quot;hover-9&quot;&gt;Link example&lt;/a&gt;</code></pre>
                   </div>
                   <!--/.code-wrapper-inner -->
                 </div>

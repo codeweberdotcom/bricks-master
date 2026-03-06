@@ -94,7 +94,11 @@ if (empty($full_name)) {
         <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
         <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
             <div class="card-body">
-                <h2 class="mb-1"><?php echo esc_html($full_name); ?></h2>
+                <?php if (function_exists('get_breadcrumbs')) : ?>
+                    <?php get_breadcrumbs('left', 'muted', 'mb-0'); ?>
+                <?php endif; ?>
+
+                <h1 class="display-3 mb-1"><?php echo esc_html($full_name); ?></h1>
                 
                 <?php 
                 // Объединяем должность и компанию
@@ -104,7 +108,7 @@ if (empty($full_name)) {
                 }
                 if (!empty($position_with_company)) : 
                 ?>
-                    <p class="text-muted mb-4"><?php echo esc_html($position_with_company); ?></p>
+                    <p class="text-muted mb-4 lead"><?php echo esc_html($position_with_company); ?></p>
                 <?php endif; ?>
                 
                 <hr class="my-4">
@@ -137,7 +141,7 @@ if (empty($full_name)) {
                         <?php endif; ?>
 
                         <?php if (!empty($job_phone)) : ?>
-                            <div class="d-flex align-items-center mb-4">
+                            <div class="d-flex align-items-center mb-0">
                                 <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
                                     <i class="uil uil-phone-alt"></i>
                                 </div>
@@ -174,9 +178,9 @@ if (empty($full_name)) {
                 <div class="row g-4 mb-0">
                     <div class="col-md-6 align-self-end">
                         <?php 
-                        // Выводим соцсети используя функцию staff_social_links с настройкой из Redux
+                        // Выводим соцсети используя функцию staff_social_links (фиксированный размер md)
                         if (function_exists('staff_social_links')) {
-                            echo staff_social_links($staff_post_id, 'w-100', $social_type, $social_size, 'primary', 'solid', $social_button_style);
+                            echo staff_social_links($staff_post_id, 'w-100', $social_type, 'md', 'primary', 'solid', $social_button_style);
                         }
                         ?>
                     </div>

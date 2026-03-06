@@ -839,7 +839,13 @@ gulp.task('clean:dev', function () {
   return del(path.clean.dev);
 });
 gulp.task('clean:dist', function () {
-  return del(path.clean.dist, { force: true });
+  return del(path.clean.dist, { force: true }).catch(function (err) {
+    if (err.code === 'EPERM' || (err.message && err.message.includes('EPERM'))) {
+      console.warn('⚠ clean:dist — не удалось удалить некоторые файлы (файл занят). Закройте плеер/проводник и повторите или удалите dist вручную. Сборка продолжается.');
+      return Promise.resolve();
+    }
+    throw err;
+  });
 });
 
 // Clear cache
@@ -853,7 +859,7 @@ gulp.task(
   gulp.series(
     "clean:dev",
     gulp.parallel(
-      //"html:dev",
+      "html:dev",
       "css:dev",
       "fontcss:dev",
       //"colorcss:dev",
@@ -885,7 +891,7 @@ gulp.task(
   gulp.series(
     "clean:dist",
     gulp.parallel(
-      //"html:dist",
+      "html:dist",
       "css:dist",
       "fontcss:dist",
       //"colorcss:dist",
@@ -910,6 +916,10 @@ gulp.task(
     )
   )
 );
+
+// Assembly HTML only
+gulp.task('build:html:dev', gulp.series('html:dev'));
+gulp.task('build:html', gulp.series('html:dist'));
 
 
 // Launching tasks when files change

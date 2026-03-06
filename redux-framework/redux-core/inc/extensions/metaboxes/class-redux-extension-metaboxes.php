@@ -614,17 +614,17 @@ if ( ! class_exists( 'Redux_Extension_Metaboxes', false ) ) {
 		 * @return int|mixed|void
 		 */
 		private function url_to_postid( string $url ) {
-			global $wp_rewrite, $pagenow;
+			global $wp_rewrite, $pagenow, $post;
 
 			if ( ! empty( $this->post_id ) ) {
 				return $this->post_id;
 			}
 
 			if ( isset( $_GET['post'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification
-				$post = (int) sanitize_text_field( wp_unslash( $_GET['post'] ) );  // phpcs:ignore WordPress.Security.NonceVerification
+				$post_id = (int) sanitize_text_field( wp_unslash( $_GET['post'] ) );  // phpcs:ignore WordPress.Security.NonceVerification
 
-				if ( ! empty( $post ) ) {
-					return $post;
+				if ( ! empty( $post_id ) ) {
+					return $post_id;
 				}
 			}
 
@@ -632,12 +632,21 @@ if ( ! class_exists( 'Redux_Extension_Metaboxes', false ) ) {
 				return;
 			}
 
-			if ( is_admin() && 'post.php' === $pagenow && isset( $_POST['post_ID'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-				$post_id = sanitize_text_field( wp_unslash( $_POST['post_ID'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			if ( is_admin() ) {
+				if ( 'post.php' === $pagenow && isset( $_POST['post_ID'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+					$post_id = sanitize_text_field( wp_unslash( $_POST['post_ID'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 
-				if ( ! empty( $post_id ) && is_numeric( $post_id ) ) {
-					return $post_id;
+					if ( ! empty( $post_id ) && is_numeric( $post_id ) ) {
+						return $post_id;
+					}
 				}
+
+				if ( ! empty( $post ) && is_object( $post ) && ! empty( $post->ID ) ) {
+					return (int) $post->ID;
+				}
+
+				// In admin context, do not rely on URL parsing for post ID.
+				return 0;
 			}
 
 			$post_id = url_to_postid( $url );
@@ -685,28 +694,30 @@ if ( ! class_exists( 'Redux_Extension_Metaboxes', false ) ) {
 						$url_query = explode( '=', $url_query[1] );
 
 						if ( isset( $url_query[0] ) && isset( $url_query[1] ) ) {
-							$args = array(
+							$args  = array(
 								'name'      => $url_query[1],
 								'post_type' => $url_query[0],
 								'showposts' => 1,
 							);
+							$posts = get_posts( $args );
 
-							if ( get_posts( $args ) === $post ) {
-								return $post[0]->ID;
+							if ( ! empty( $posts ) && isset( $posts[0] ) ) {
+								return $posts[0]->ID;
 							}
 						}
 					}
 
 					foreach ( $GLOBALS['wp_post_types'] as $key => $value ) {
 						if ( ! empty( $_GET[ $key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-							$args = array(
+							$args  = array(
 								'name'      => sanitize_text_field( wp_unslash( $_GET[ $key ] ) ), // phpcs:ignore WordPress.Security.NonceVerification
 								'post_type' => $key,
 								'showposts' => 1,
 							);
+							$posts = get_posts( $args );
 
-							if ( get_posts( $args ) === $post ) {
-								return $post[0]->ID;
+							if ( ! empty( $posts ) && isset( $posts[0] ) ) {
+								return $posts[0]->ID;
 							}
 						}
 					}
@@ -761,6 +772,10 @@ if ( ! class_exists( 'Redux_Extension_Metaboxes', false ) ) {
 
 			// Look for matches.
 			$request_match = $request;
+
+			if ( empty( $rewrite ) || ! is_array( $rewrite ) ) {
+				return 0;
+			}
 
 			foreach ( $rewrite as $match => $query ) {
 				// If the requesting file is the anchor of the match, prepend it
@@ -855,14 +870,15 @@ if ( ! class_exists( 'Redux_Extension_Metaboxes', false ) ) {
 
 					// Do the query.
 					if ( ! empty( $query['pagename'] ) ) {
-						$args = array(
+						$args  = array(
 							'name'      => $query['pagename'],
 							'post_type' => 'page',
 							'showposts' => 1,
 						);
+						$posts = get_posts( $args );
 
-						if ( isset( $post ) && get_posts( $args ) === $post ) {
-							return $post[0]->ID;
+						if ( ! empty( $posts ) && isset( $posts[0] ) ) {
+							return $posts[0]->ID;
 						}
 					}
 

@@ -66,6 +66,7 @@ add_action('wp_ajax_run_gulp_dev', 'run_gulp_dev_callback');
 add_action('wp_ajax_run_gulp_dist', 'run_gulp_dist_callback');
 add_action('wp_ajax_run_gulp_css', 'run_gulp_css_callback');
 add_action('wp_ajax_run_gulp_js', 'run_gulp_js_callback');
+add_action('wp_ajax_run_gulp_html', 'run_gulp_html_callback');
 
 // Загрузка содержимого _user-variables.scss и активного шрифта из активной темы (НЕ трогает Gulp!)
 function load_user_variables_callback()
@@ -273,6 +274,28 @@ function run_gulp_js_callback()
 	}
 }
 
+function run_gulp_html_callback()
+{
+	if (!isset($_POST['_ajax_nonce']) || !wp_verify_nonce($_POST['_ajax_nonce'], 'gulp_build_nonce')) {
+		wp_send_json_error(['message' => 'Nonce verification failed.']);
+		return;
+	}
+
+	// Для единообразия также записываем SCSS переменные
+	$write_result = write_scss_variables();
+	if (!$write_result['success']) {
+		wp_send_json_error(['message' => $write_result['message']]);
+		return;
+	}
+
+	$result = run_gulp_command('gulp build:html');
+	if ($result['success']) {
+		wp_send_json_success(['output' => $result['output']]);
+	} else {
+		wp_send_json_error(['output' => $result['output']]);
+	}
+}
+
 // Функция для получения пути к файлу шрифта (для загрузки: активная тема → родительская)
 function redux_get_font_file_path($filename)
 {
@@ -368,6 +391,11 @@ $gulp_buttons_html = '
         <button id="run-gulp-js" class="button button-secondary gulp-button">
             <span class="dashicons dashicons-editor-code"></span>
             ' . esc_html__('Only JS', 'codeweber') . '
+        </button>
+
+        <button id="run-gulp-html" class="button button-secondary gulp-button">
+            <span class="dashicons dashicons-media-text"></span>
+            ' . esc_html__('Only HTML', 'codeweber') . '
         </button>
 
         <button id="clear-gulp-log" class="button button-link gulp-button">

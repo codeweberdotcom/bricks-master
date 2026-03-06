@@ -43,7 +43,6 @@ $img_class      = 'img-fluid' . $img_radius;
 	<figure class="card-img overlay overlay-1 hover-scale<?php echo $figure_radius_horizontal ? ' ' . esc_attr(trim($figure_radius_horizontal)) : ''; ?>">
 		<a href="<?php echo esc_url($link); ?>">
 			<img src="<?php echo esc_url($vacancy_image_url); ?>" alt="<?php echo esc_attr($title); ?>" class="<?php echo esc_attr(trim($img_class)); ?>">
-			<span class="bg"></span>
 		</a>
 		<figcaption>
 			<h5 class="from-top mb-0"><?php esc_html_e('Read More', 'codeweber'); ?></h5>

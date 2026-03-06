@@ -60,24 +60,76 @@
             <h2 class="mb-5">Image Background</h2>
             <div class="card">
               <div class="card-body">
-                <section class="wrapper image-wrapper bg-image bg-overlay text-white" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
-                  <div class="container py-14 py-md-16">
-                    <h2 class="display-5 mb-0 text-center text-white">Content goes here</h2>
-                  </div>
-                  <!-- /.container -->
-                </section>
-                <!-- /section -->
-                <p class="mt-6"><code class="code">.image-wrapper</code> class enables <code class="code">background-attachment: fixed;</code> to disable image from scrolling with the page; along with <code class="code">background-size: cover;</code> which scales the image as large as possible to fill the container. You can use the following classes along with <code class="code">.image-wrapper</code> to change these behaviors:</p>
+                <p class="mb-4"><code class="code">.image-wrapper</code> class enables <code class="code">background-attachment: fixed;</code> to disable image from scrolling with the page; along with <code class="code">background-size: cover;</code> which scales the image as large as possible to fill the container. You can use the following classes along with <code class="code">.image-wrapper</code> to change these behaviors:</p>
                 <ul class="list-unstyled mb-6">
                   <li><code class="code bg-pale-primary">.bg-auto</code> Disables fixed background, changes <mark class="doc">background-size</mark> to <mark class="doc">auto</mark>.</li>
                   <li><code class="code bg-pale-primary">.bg-full</code> Disables fixed background, changes <mark class="doc">background-size</mark> to <mark class="doc">100%</mark>.</li>
                   <li><code class="code bg-pale-primary">.bg-cover</code> Disables fixed background, but keeps <mark class="doc">background-size</mark> as <mark class="doc">cover</mark>.</li>
                 </ul>
-                <p>To add overlay on the background images use <code class="code">.bg-overlay</code> class:</p>
+                <p class="mb-4">To add overlay on the background images use <code class="code">.bg-overlay</code> with optional modifier classes. Each example below (dark overlay 30% → 80%, then light):</p>
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-300 text-white mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center text-white">Content goes here (30%)</h2>
+                  </div>
+                </section>
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-400 text-white mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center text-white">Content goes here (40%)</h2>
+                  </div>
+                </section>
+                <section class="wrapper image-wrapper bg-image bg-overlay text-white mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center text-white">Content goes here (50%)</h2>
+                  </div>
+                </section>
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-600 text-white mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center text-white">Content goes here (60%)</h2>
+                  </div>
+                </section>
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-700 text-white mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center text-white">Content goes here (70%)</h2>
+                  </div>
+                </section>
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-800 text-white mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center text-white">Content goes here (80%)</h2>
+                  </div>
+                </section>
+                <p class="mt-4 mb-2"><strong>Light overlay</strong> (white overlay, use on darker images):</p>
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-light-300 mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center">Content goes here (light 30%)</h2>
+                  </div>
+                </section>
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-light-400 mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center">Content goes here (light 40%)</h2>
+                  </div>
+                </section>
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-light-500 mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center">Content goes here (light 50%)</h2>
+                  </div>
+                </section>
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-light-600 mb-4" data-image-src="@@webRoot/assets/img/photos/bg1.jpg">
+                  <div class="container py-8 py-md-10">
+                    <h2 class="display-6 mb-0 text-center">Content goes here (light 60%)</h2>
+                  </div>
+                </section>
+                <p class="mt-6 mb-2">Available <code class="code">.bg-overlay</code> modifier classes:</p>
                 <ul class="list-unstyled mb-0">
-                  <li><code class="code bg-pale-primary">.bg-overlay</code> Adds 50% overlay. </li>
-                  <li><code class="code bg-pale-primary">.bg-overlay.bg-overlay-300</code> Adds 30% overlay.</li>
-                  <li><code class="code bg-pale-primary">.bg-overlay.bg-overlay-400</code> Adds 40% overlay.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay</code> Dark overlay 50%.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay-300</code> Dark overlay 30%.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay-400</code> Dark overlay 40%.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay-600</code> Dark overlay 60%.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay-700</code> Dark overlay 70%.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay-800</code> Dark overlay 80%.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay-light-300</code> Light overlay 30%.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay-light-400</code> Light overlay 40%.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay-light-500</code> Light overlay 50%.</li>
+                  <li><code class="code bg-pale-primary">.bg-overlay-light-600</code> Light overlay 60%.</li>
                 </ul>
               </div>
               <!--/.card-body -->
@@ -88,9 +140,23 @@
               <div id="collapse-0" class="card-footer bg-dark p-0 accordion-collapse collapse">
                 <div class="code-wrapper">
                   <div class="code-wrapper-inner">
-<pre class="language-html"><code>&lt;section class=&quot;wrapper image-wrapper bg-image bg-overlay text-white&quot; data-image-src=&quot;./assets/img/photos/bg1.jpg&quot;&gt;&lt;/section&gt;
-  
-&lt;section class=&quot;wrapper image-wrapper bg-image bg-full bg-overlay text-white&quot; data-image-src=&quot;./assets/img/photos/bg1.jpg&quot;&gt;&lt;/section&gt;</code></pre>
+<pre class="language-html"><code>&lt;section class=&quot;wrapper image-wrapper bg-image bg-overlay text-white&quot; data-image-src=&quot;./assets/img/photos/bg1.jpg&quot;&gt;
+  &lt;div class=&quot;container py-14 py-md-16&quot;&gt;
+    &lt;h2 class=&quot;display-5 mb-0 text-center text-white&quot;&gt;Content goes here (50%)&lt;/h2&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;wrapper image-wrapper bg-image bg-overlay bg-overlay-400 text-white&quot; data-image-src=&quot;./assets/img/photos/bg1.jpg&quot;&gt;
+  &lt;div class=&quot;container py-14 py-md-16&quot;&gt;
+    &lt;h2 class=&quot;display-5 mb-0 text-center text-white&quot;&gt;Content goes here (40%)&lt;/h2&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;wrapper image-wrapper bg-image bg-overlay bg-overlay-800 text-white&quot; data-image-src=&quot;./assets/img/photos/bg1.jpg&quot;&gt;
+  &lt;div class=&quot;container py-14 py-md-16&quot;&gt;
+    &lt;h2 class=&quot;display-5 mb-0 text-center text-white&quot;&gt;Content goes here (80%)&lt;/h2&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
                   </div>
                   <!--/.code-wrapper-inner -->
                 </div>

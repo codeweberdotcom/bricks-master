@@ -74,11 +74,18 @@ if (!empty($image_url)) {
     }
 }
 
-$staff_title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h3';
+$staff_title_tag  = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h3';
 $staff_title_class = !empty($display['title_class']) ? esc_attr($display['title_class']) : 'h4 mb-1';
-// Имя (без ссылки, так как вся карточка в ссылке)
+$link_classes = 'text-decoration-none link-body';
+// Заголовок — кликабельный
 if (!empty($post_data['title'])) {
-    echo '<' . $staff_title_tag . ' class="' . $staff_title_class . '">' . esc_html($post_data['title']) . '</' . $staff_title_tag . '>';
+    if ($enable_link) {
+        echo '<' . $staff_title_tag . ' class="' . $staff_title_class . '">';
+        echo '<a href="' . esc_url($staff_url) . '" class="' . esc_attr($link_classes) . '">' . esc_html($post_data['title']) . '</a>';
+        echo '</' . $staff_title_tag . '>';
+    } else {
+        echo '<' . $staff_title_tag . ' class="' . $staff_title_class . '">' . esc_html($post_data['title']) . '</' . $staff_title_tag . '>';
+    }
 }
 
 // Должность
@@ -86,28 +93,18 @@ if (!empty($post_data['position'])) {
     echo '<div class="meta mb-1">' . esc_html($post_data['position']) . '</div>';
 }
 
-// Компания (под должностью) - в формате badge
-if (!empty($post_data['company'])) {
-    $badge_class = 'badge badge-lg bg-gray-300 mb-0 rounded-pill';
-    if (function_exists('getThemeButton')) {
-        $badge_class .= getThemeButton();
-    } else {
-        $badge_class .= ' rounded-pill';
-    }
-    echo '<div class="' . esc_attr($badge_class) . '">' . esc_html($post_data['company']) . '</div>';
-}
-
 // Описание (excerpt)
 if ($template_args['show_description'] && !empty($post_data['excerpt'])) {
     echo '<p class="mb-2">' . wp_kses_post($post_data['excerpt']) . '</p>';
 }
 
-// Социальные иконки
-// ВАЖНО: проверяем явно, чтобы убедиться что параметр передается
-$show_social_flag = isset($template_args['show_social']) ? (bool) $template_args['show_social'] : true; // По умолчанию true для circle_center_alt
+// Социальные иконки (стили из Redux → Глобальный социальный стиль)
+$show_social_flag = isset($template_args['show_social']) ? (bool) $template_args['show_social'] : true;
 
-if ($show_social_flag && function_exists('staff_social_links')) {
-    $social_html = staff_social_links($post_data['id'], 'justify-content-center text-center mb-0', 'type2', 'sm');
+if ($show_social_flag && function_exists('staff_social_links') && function_exists('codeweber_global_social_style')) {
+    $social_style = codeweber_global_social_style();
+    // Добавляем gap-0, чтобы убрать стандартный gap-2 из nav
+    $social_html = staff_social_links($post_data['id'], 'justify-content-center text-center mb-0 gap-0', $social_style['type'], $social_style['size'], 'primary', 'solid', $social_style['button_form']);
     if (!empty($social_html)) {
         echo '<div class="mt-3 mb-5">' . $social_html . '</div>';
     }

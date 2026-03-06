@@ -394,6 +394,30 @@ function codeweber_single_social_links($args = [])
 }
 
 /**
+ * Возвращает параметры глобального стиля соцсетей из Redux (Theme Style → Global Social Style).
+ * Используется в карточках staff на архивах и в синглах.
+ *
+ * @return array [ 'type' => string, 'size' => string, 'button_form' => string ]
+ */
+function codeweber_global_social_style()
+{
+	$type = 'type1';
+	$size = 'md';
+	$button_form = 'circle';
+	if (class_exists('Redux')) {
+		global $opt_name;
+		if (empty($opt_name)) {
+			$opt_name = 'redux_demo';
+		}
+		$icon_type = Redux::get_option($opt_name, 'global-social-icon-type', Redux::get_option($opt_name, 'social-icon-type', '1'));
+		$type = 'type' . ($icon_type ? $icon_type : '1');
+		$size = Redux::get_option($opt_name, 'global-social-button-size', 'md');
+		$button_form = Redux::get_option($opt_name, 'global-social-button-style', 'circle');
+	}
+	return compact('type', 'size', 'button_form');
+}
+
+/**
  * Выводит список ссылок на социальные сети для staff из метаполей записи.
  * Строится на базе social_links(): собирает массив ссылок из метаполей _staff_* и передаёт в social_links().
  *

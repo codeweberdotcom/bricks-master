@@ -74,6 +74,13 @@
       }
     }
   }
+  .hover_card_button i {
+    color: $text-muted;
+    transition: color 0.2s ease;
+  }
+  &:hover .hover_card_button i {
+    color: $primary;
+  }
 }
 
 @media (max-width: 991.98px) {

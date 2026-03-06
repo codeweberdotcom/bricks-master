@@ -2,10 +2,10 @@
   <div class="col-md-4 col-lg-3">
     <div class="widget">
       @@if (!context.lightText) {
-        <img class="mb-4" src="@@webRoot/assets/img/logo-dark.png" srcset="@@webRoot/assets/img/logo-dark@2x.png 2x" alt="" />
+        <img class="mb-4" src="@@webRoot/assets/img/logo-dark.png" srcset="@@webRoot/assets/img/info@codeweber.com 2x" alt="" />
       }
       @@if (context.lightText) {
-        <img class="mb-4" src="@@webRoot/assets/img/logo-light.png" srcset="@@webRoot/assets/img/logo-light@2x.png 2x" alt="" />
+        <img class="mb-4" src="@@webRoot/assets/img/logo-light.png" srcset="@@webRoot/assets/img/info@codeweber.com 2x" alt="" />
       }
       <p class="mb-4">@@include('_copyright.html') <br class="d-none d-lg-block" />All rights reserved.</p>
       <nav class="nav social @@if (context.lightText) {social-white}">
@@ -24,7 +24,7 @@
     <div class="widget">
       <h4 class="widget-title @@if (context.lightText) {text-white} mb-3">Get in Touch</h4>
       <address class="pe-xl-15 pe-xxl-17">Moonshine St. 14/05 Light City, London, United Kingdom</address>
-      <a href="mailto:#" @@if (!context.lightText) {class="link-body"}>info@email.com</a><br /> 00 (123) 456 78 90
+      <a href="mailto:info@codeweber.com" @@if (!context.lightText) {class="link-body"}>info@codeweber.com</a><br /> 00 (123) 456 78 90
     </div>
     <!-- /.widget -->
   </div>

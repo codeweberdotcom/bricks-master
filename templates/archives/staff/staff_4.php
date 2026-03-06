@@ -11,7 +11,7 @@ $post_id = absint(get_the_ID());
 $card_html = cw_render_post_card(get_post(), 'circle_center', [], [
     'show_description' => true,
     'show_social' => true, // Показываем социальные иконки
-    'enable_link' => true, // На архивных страницах ссылка не нужна
+    'enable_link' => true, // Карточка кликабельна: аватар + имя + должность
     'image_size' => 'codeweber_staff',
     'avatar_size' => 'w-20',
 ]);

@@ -51,10 +51,15 @@ $website = get_post_meta(get_the_ID(), '_staff_website', true);
 // Получаем ID записи для функции staff_social_links
 $staff_post_id = get_the_ID();
 
-// Получаем тип соцсетей из Redux
+// Получаем тип и стили соцсетей из Redux (Theme Style → Codeweber Icons)
 global $opt_name;
-$social_icon_type = Redux::get_option($opt_name, 'global-social-icon-type', Redux::get_option($opt_name, 'social-icon-type', '1'));
-$social_type = 'type' . ($social_icon_type ? $social_icon_type : '1');
+if (empty($opt_name)) {
+    $opt_name = 'redux_demo';
+}
+$social_icon_type    = Redux::get_option($opt_name, 'global-social-icon-type', Redux::get_option($opt_name, 'social-icon-type', '1'));
+$social_type         = 'type' . ($social_icon_type ? $social_icon_type : '1');
+$social_button_style = Redux::get_option($opt_name, 'global-social-button-style', 'circle');
+$social_size         = Redux::get_option($opt_name, 'global-social-button-size', 'md');
 
 // Получаем биографию
 $bio = get_post_meta(get_the_ID(), '_staff_bio', true);
@@ -87,7 +92,11 @@ if (empty($full_name)) {
 
     <div class="col-md-7">
         <div class="p-md-8">
-            <h2 class="mb-1"><?php echo esc_html($full_name); ?></h2>
+            <?php if (function_exists('get_breadcrumbs')) : ?>
+                <?php get_breadcrumbs('left', 'muted', 'mb-0'); ?>
+            <?php endif; ?>
+
+            <h1 class="display-3 mb-1"><?php echo esc_html($full_name); ?></h1>
             
             <?php 
             // Объединяем должность и компанию
@@ -97,7 +106,7 @@ if (empty($full_name)) {
             }
             if (!empty($position_with_company)) : 
             ?>
-                <p class="text-muted mb-4"><?php echo esc_html($position_with_company); ?></p>
+                <p class="text-muted mb-4 lead"><?php echo esc_html($position_with_company); ?></p>
             <?php endif; ?>
             
             <hr class="my-4">
@@ -130,7 +139,7 @@ if (empty($full_name)) {
                 <?php endif; ?>
 
                 <?php if (!empty($job_phone)) : ?>
-                    <div class="d-flex align-items-center mb-4">
+                    <div class="d-flex align-items-center mb-0">
                         <div class="icon btn btn-circle btn-md btn-soft-primary me-3 flex-shrink-0">
                             <i class="uil uil-phone-alt"></i>
                         </div>
@@ -178,9 +187,9 @@ if (empty($full_name)) {
         <div class="row g-4 mb-8">
             <div class="col-md-6 align-self-end">
                 <?php 
-                // Выводим соцсети используя функцию staff_social_links с настройкой из Redux
+                // Выводим соцсети используя функцию staff_social_links (фиксированный размер md)
                 if (function_exists('staff_social_links')) {
-                    echo staff_social_links($staff_post_id, 'gap-1 w-100', $social_type, $social_size, 'primary', 'solid', $social_button_style);
+                    echo staff_social_links($staff_post_id, 'gap-1 w-100', $social_type, 'md', 'primary', 'solid', $social_button_style);
                 }
                 ?>
             </div>

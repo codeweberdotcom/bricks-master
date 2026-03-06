@@ -41,10 +41,9 @@ $thumbnail_id = get_post_thumbnail_id();
     <div class="row g-3">
         <!-- Левая колонка - Изображение -->
         <div class="col-lg-4 mb-10 mb-lg-0">
-            <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
-            <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
+            <div class="card h-100 rounded-0">
                 <?php if ($thumbnail_id) : ?>
-                    <figure class="card-img-top<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
+                    <figure class="card-img-top rounded-0">
                         <?php 
                         $large_image_url = wp_get_attachment_image_src($thumbnail_id, 'codeweber_extralarge');
                         if ($large_image_url) :
@@ -64,22 +63,21 @@ $thumbnail_id = get_post_thumbnail_id();
 
         <!-- Правая колонка - Информация о сотруднике, контакты и адрес -->
         <div class="col-lg-8">
-            <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
-            <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
-                <div class="card-body px-6 py-5">
+            <div class="card h-100 rounded-0">
+                <div class="card-body">
                     <!-- Информация о сотруднике -->
-                    <?php if (!empty($name) || !empty($surname)) : ?>
-                        <h2 class="mb-1">
-                            <?php 
-                            $name_val = !empty($name) ? $name : '';
-                            $surname_val = !empty($surname) ? $surname : '';
-                            $full_name = trim($name_val . ' ' . $surname_val);
-                            echo esc_html(!empty($full_name) ? $full_name : get_the_title());
-                            ?>
-                        </h2>
-                    <?php else : ?>
-                        <h2 class="mb-1"><?php the_title(); ?></h2>
+                    <?php if (function_exists('get_breadcrumbs')) : ?>
+                        <?php get_breadcrumbs('left', 'muted', 'mb-0'); ?>
                     <?php endif; ?>
+
+                    <?php 
+                    $name_val = !empty($name) ? $name : '';
+                    $surname_val = !empty($surname) ? $surname : '';
+                    $full_name = trim($name_val . ' ' . $surname_val);
+                    ?>
+                    <h1 class="display-3 mb-1">
+                        <?php echo esc_html(!empty($full_name) ? $full_name : get_the_title()); ?>
+                    </h1>
 
                     <?php 
                     // Объединяем должность и компанию
@@ -89,7 +87,7 @@ $thumbnail_id = get_post_thumbnail_id();
                     }
                     if (!empty($position_with_company)) : 
                     ?>
-                        <p class="text-muted mb-4"><?php echo esc_html($position_with_company); ?></p>
+                        <p class="text-muted mb-4 lead"><?php echo esc_html($position_with_company); ?></p>
                     <?php endif; ?>
 
                     <hr class="my-6">
