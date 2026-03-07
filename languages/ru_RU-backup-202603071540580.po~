@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-03-02 10:05+0000\n"
+"PO-Revision-Date: 2026-03-02 17:06+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -687,7 +687,6 @@ msgid "Address Shortcode"
 msgstr "Адрес шорткод"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:33
-#, fuzzy
 msgid "Admin Notification"
 msgstr "Уведомление администратора"
 
@@ -1005,7 +1004,6 @@ msgid "API"
 msgstr "API"
 
 #: redux-framework/sample/sections/codeweber/api.php:24
-#, fuzzy
 msgid "API ключ из кабинета DaData"
 msgstr "API key from the DaData cabinet"
 
@@ -1204,7 +1202,6 @@ msgid "Auto Open First Balloon"
 msgstr "Автоматически открывать первый балун"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:34
-#, fuzzy
 msgid "Auto-Reply"
 msgstr "Автоматический ответ"
 
@@ -1424,7 +1421,6 @@ msgid "Bottom Center (Default)"
 msgstr "Нижний центр (по умолчанию)"
 
 #: functions/sidebars.php:204
-#, fuzzy
 msgid "Bottom Footer"
 msgstr "Снизу Footer"
 
@@ -2297,8 +2293,53 @@ msgstr "Политика в отношении использования фай
 msgid "Cookie Scanner"
 msgstr "Cookie Сканер"
 
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Analytics"
+msgstr "Аналитические"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Cookie type"
+msgstr "Тип cookie"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Functional"
+msgstr "Функциональные"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Identifier"
+msgstr "Идентификатор"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Marketing"
+msgstr "Маркетинговые"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Necessary"
+msgstr "Необходимые"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Other"
+msgstr "Прочие"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Owner"
+msgstr "Назначение"
+
+#: functions/integrations/redux_framework/redux_scanner_cookie.php
+msgid "Purpose"
+msgstr "Назначение"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Storage duration"
+msgstr "Срок хранения"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Value"
+msgstr "Значение"
+
 #: redux-framework/sample/sections/codeweber/map_geo.php:110
 msgid "Coordinates"
+msgstr "Координаты"
 msgstr "Координаты"
 
 #: functions/cpt/cpt-html_blocks.php:125
@@ -9857,6 +9898,31 @@ msgstr "Выберите Родительскую тему"
 msgid "Select PDF"
 msgstr "Выбрать PDF"
 
+#: functions/integrations/image-licenses/image-licenses.php:329
+msgid "Select media files"
+msgstr "Выбрать медиафайлы"
+
+#: functions/integrations/image-licenses/image-licenses.php:332
+msgid "Save the license first, or select files and save to attach them."
+msgstr "Сначала сохраните лицензию или выберите файлы и сохраните, чтобы прикрепить их."
+
+#: functions/integrations/image-licenses/image-licenses.php:357
+msgid "Select media files to attach to this license"
+msgstr "Выберите медиафайлы для прикрепления к этой лицензии"
+
+#: functions/integrations/image-licenses/image-licenses.php:358
+msgid "Attach selected"
+msgstr "Прикрепить выбранные"
+
+#: functions/integrations/image-licenses/image-licenses.php:390
+msgid "1 file selected. Save the license to attach it."
+msgstr "Выбран 1 файл. Сохраните лицензию, чтобы прикрепить его."
+
+#: functions/integrations/image-licenses/image-licenses.php:390
+#, php-format
+msgid "%s files selected. Save the license to attach them."
+msgstr "Выбрано файлов: %s. Сохраните лицензию, чтобы прикрепить их."
+
 #: functions/cpt/cpt-vacancies.php:689
 #: functions/integrations/image-licenses/image-licenses.php:171
 msgid "Select PDF File"
@@ -12623,7 +12689,7 @@ msgstr "Статус вакансии"
 #: templates/archives/vacancies/vacancies_1.php:86
 #: templates/archives/vacancies/vacancies_1.php:87
 msgid "Vacancy Type"
-msgstr ""
+msgstr "Тип Вакансии"
 
 #: functions/cpt/cpt-vacancies.php:26
 msgid "Vacancy updated"

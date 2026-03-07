@@ -823,7 +823,7 @@ $navbar-vertical-1-nav-link-padding-right: 0 !default;
 $navbar-vertical-1-nav-link-padding-bottom: 0 !default;
 $navbar-vertical-1-nav-link-padding-left: 0 !default;
 $navbar-vertical-1-nav-link-font-size: inherit !default;
-$navbar-vertical-1-nav-link-font-weight: $font-weight-bold !default;
+$navbar-vertical-1-nav-link-font-weight: inherit !default;
 $navbar-vertical-1-nav-link-color: inherit !default;
 // Type 2: with borders (single variable for nav-link padding; change this to adjust all related spacing)
 $navbar-vertical-2-nav-link-padding: 0.75rem !default;
@@ -842,7 +842,7 @@ $navbar-vertical-2-btn-collapse-margin-right: $navbar-vertical-2-nav-link-paddin
 $navbar-vertical-3-padding: 0.75rem !default;
 $navbar-vertical-3-nav-link-padding: $navbar-vertical-3-padding !default;
 $navbar-vertical-3-nav-link-font-size: inherit !default;
-$navbar-vertical-3-nav-link-font-weight: $font-weight-bold !default;
+$navbar-vertical-3-nav-link-font-weight: inherit !default;
 $navbar-vertical-3-nav-link-color: inherit !default;
 $navbar-vertical-3-item-border-width: $border-width !default;
 $navbar-vertical-3-item-border-style: solid !default;

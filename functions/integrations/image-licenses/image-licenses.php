@@ -81,13 +81,11 @@ function register_media_license_cpt()
       'labels'                => $labels,
       'public'                => false,
       'show_ui'               => true,
-      'show_in_menu'          => true,
+      'show_in_menu'          => 'upload.php',
       'query_var'             => true,
       'capability_type'       => 'post',
       'has_archive'           => false,
       'hierarchical'          => false,
-      'menu_position'         => 21,
-      'menu_icon'             => 'dashicons-media-document',
       'supports'              => array('title'),
       'show_in_rest'          => false,
       'taxonomies'            => array('licensor_author'),
@@ -96,6 +94,25 @@ function register_media_license_cpt()
    register_post_type('media_license', $args);
 }
 add_action('init', 'register_media_license_cpt');
+
+// Ensure "Авторы-лицензиары" appears under Медиафайлы (upload.php)
+function media_license_add_licensor_author_submenu()
+{
+   add_submenu_page(
+      'upload.php',
+      __('Licensor Authors', 'codeweber'),
+      __('Licensor Authors', 'codeweber'),
+      'edit_posts',
+      'licensor_author_terms',
+      'media_license_redirect_to_licensor_author'
+   );
+}
+function media_license_redirect_to_licensor_author()
+{
+   wp_safe_redirect(admin_url('edit-tags.php?taxonomy=licensor_author&post_type=media_license'));
+   exit;
+}
+add_action('admin_menu', 'media_license_add_licensor_author_submenu', 20);
 
 // Add meta boxes for license fields
 function add_license_meta_boxes()
@@ -301,41 +318,109 @@ function render_license_details_meta_box($post)
 // Meta box for displaying attached media files
 function render_license_attachments_meta_box($post)
 {
+   wp_nonce_field('license_attachments', 'license_attachments_nonce');
    $attachments = get_attachments_with_license($post->ID);
-
-   echo '<div class="license-attachments">';
-
-   if (!empty($attachments)) {
-      echo '<p>' . __('The following media files use this license:', 'codeweber') . '</p>';
-      echo '<ul style="max-height: 300px; overflow-y: auto;">';
-
-      foreach ($attachments as $attachment) {
-         $edit_url = get_edit_post_link($attachment->ID);
-         $thumb_url = wp_get_attachment_thumb_url($attachment->ID);
-         $file_type = wp_check_filetype($attachment->guid);
-         $file_icon = get_file_icon($file_type['ext']);
-
-         echo '<li style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; display: flex; align-items: center;">';
-         echo '<div style="margin-right: 15px;">';
-         if ($thumb_url) {
-            echo '<img src="' . esc_url($thumb_url) . '" style="max-width: 60px; height: auto;">';
+   $license_id = (int) $post->ID;
+   $is_new = empty($license_id);
+?>
+   <div class="license-attachments">
+      <p>
+         <button type="button" class="button button-secondary" id="license_select_media">
+            <?php _e('Select media files', 'codeweber'); ?>
+         </button>
+         <?php if ($is_new) : ?>
+            <span class="description"><?php _e('Save the license first, or select files and save to attach them.', 'codeweber'); ?></span>
+         <?php endif; ?>
+      </p>
+      <div id="license_attach_ids_container"></div>
+      <ul id="license_attachments_list" style="max-height: 300px; overflow-y: auto; list-style: none; margin: 0; padding: 0;">
+         <?php
+         if (!empty($attachments)) {
+            foreach ($attachments as $attachment) {
+               echo license_attachment_list_item($attachment);
+            }
          } else {
-            echo '<span class="dashicons ' . esc_attr($file_icon) . '" style="font-size: 40px; width: 40px; height: 40px;"></span>';
+            echo '<li class="license-attachments-empty">' . __('No attached media files.', 'codeweber') . '</li>';
          }
-         echo '</div>';
-         echo '<div>';
-         echo '<strong><a href="' . esc_url($edit_url) . '" target="_blank">' . esc_html(get_the_title($attachment->ID)) . '</a></strong><br>';
-         echo '<span style="font-size: 12px; color: #666;">' . sprintf(__('ID: %s | Type: %s', 'codeweber'), $attachment->ID, $file_type['ext']) . '</span>';
-         echo '</div>';
-         echo '</li>';
-      }
+         ?>
+      </ul>
+   </div>
+   <script>
+   jQuery(function($) {
+      var licenseId = <?php echo $license_id ? (int) $license_id : '0'; ?>;
+      var frame;
 
-      echo '</ul>';
-   } else {
-      echo '<p>' . __('No attached media files.', 'codeweber') . '</p>';
-   }
+      $('#license_select_media').on('click', function(e) {
+         e.preventDefault();
+         if (frame) { frame.open(); return; }
+         frame = wp.media({
+            title: '<?php echo esc_js(__('Select media files to attach to this license', 'codeweber')); ?>',
+            button: { text: '<?php echo esc_js(__('Attach selected', 'codeweber')); ?>' },
+            multiple: true,
+            library: { type: '' },
+            state: 'library'
+         });
+         frame.on('select', function() {
+            var selection = frame.state().get('selection');
+            var ids = selection.map(function(a) { return a.id; });
+            if (licenseId) {
+               $.post(ajaxurl, {
+                  action: 'license_attach_media',
+                  license_id: licenseId,
+                  attachment_ids: ids,
+                  nonce: '<?php echo esc_js(wp_create_nonce('license_attach_media')); ?>'
+               }, function(resp) {
+                  if (resp && resp.success && resp.data && resp.data.items) {
+                     $('#license_attachments_list').html(resp.data.items.join(''));
+                  }
+               });
+            } else {
+               var existing = $('#license_attach_ids_container input').map(function() { return $(this).val(); }).get();
+               ids.forEach(function(id) {
+                  if (existing.indexOf(String(id)) === -1) {
+                     $('#license_attach_ids_container').append(
+                        $('<input>').attr({ type: 'hidden', name: 'license_attach_ids[]', value: id })
+                     );
+                     existing.push(String(id));
+                  }
+               });
+               var n = $('#license_attach_ids_container input').length;
+               var msg = $('#license_attach_ids_container .license-pending-msg');
+               if (msg.length) msg.remove();
+               var text = n === 1 ? '<?php echo esc_js(__('1 file selected. Save the license to attach it.', 'codeweber')); ?>' : ('<?php echo esc_js(__('%s files selected. Save the license to attach them.', 'codeweber')); ?>'.replace('%s', n));
+               $('#license_attach_ids_container').append($('<p class="description license-pending-msg">').text(text));
+            }
+         });
+         frame.open();
+      });
+   });
+   </script>
+<?php
+}
 
-   echo '</div>';
+function license_attachment_list_item($attachment)
+{
+   $edit_url = get_edit_post_link($attachment->ID);
+   $thumb_url = wp_get_attachment_thumb_url($attachment->ID);
+   $file_type = wp_check_filetype($attachment->guid);
+   $file_icon = get_file_icon($file_type['ext']);
+   ob_start();
+?>
+   <li style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; display: flex; align-items: center;">
+      <div style="margin-right: 15px;">
+         <?php if ($thumb_url) : ?>
+            <img src="<?php echo esc_url($thumb_url); ?>" style="max-width: 60px; height: auto;">
+         <?php else : ?>
+            <span class="dashicons <?php echo esc_attr($file_icon); ?>" style="font-size: 40px; width: 40px; height: 40px;"></span>
+         <?php endif; ?>
+      </div>
+      <div>
+         <strong><a href="<?php echo esc_url($edit_url); ?>" target="_blank"><?php echo esc_html(get_the_title($attachment->ID)); ?></a></strong><br>
+         <span style="font-size: 12px; color: #666;"><?php echo esc_html(sprintf(__('ID: %s | Type: %s', 'codeweber'), $attachment->ID, $file_type['ext'])); ?></span>
+      </div>
+   </li>
+<?php
+   return ob_get_clean();
 }
 
 // Helper function to get file type icon
@@ -410,6 +495,15 @@ function save_license_meta($post_id)
             $value = esc_url_raw($value);
          }
          update_post_meta($post_id, $meta_key, $value);
+      }
+   }
+
+   // Attach media selected on new license (before first save)
+   if (isset($_POST['license_attachments_nonce']) && wp_verify_nonce($_POST['license_attachments_nonce'], 'license_attachments') && !empty($_POST['license_attach_ids']) && is_array($_POST['license_attach_ids'])) {
+      foreach (array_map('intval', $_POST['license_attach_ids']) as $att_id) {
+         if ($att_id && get_post_type($att_id) === 'attachment') {
+            update_post_meta($att_id, '_media_license_id', $post_id);
+         }
       }
    }
 }
@@ -611,6 +705,35 @@ function save_media_license_field($post, $attachment)
    return $post;
 }
 add_filter('attachment_fields_to_save', 'save_media_license_field', 10, 2);
+
+// AJAX: attach selected media to license
+function ajax_license_attach_media()
+{
+   if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'license_attach_media')) {
+      wp_send_json_error(array('message' => 'Invalid nonce'));
+   }
+   $license_id = isset($_POST['license_id']) ? (int) $_POST['license_id'] : 0;
+   if (!$license_id || get_post_type($license_id) !== 'media_license') {
+      wp_send_json_error(array('message' => 'Invalid license'));
+   }
+   if (!current_user_can('edit_post', $license_id)) {
+      wp_send_json_error(array('message' => 'Permission denied'));
+   }
+   $ids = isset($_POST['attachment_ids']) ? array_map('intval', (array) $_POST['attachment_ids']) : array();
+   $ids = array_filter($ids);
+   foreach ($ids as $att_id) {
+      if (get_post_type($att_id) === 'attachment') {
+         update_post_meta($att_id, '_media_license_id', $license_id);
+      }
+   }
+   $attachments = get_attachments_with_license($license_id);
+   $items = array();
+   foreach ($attachments as $a) {
+      $items[] = license_attachment_list_item($a);
+   }
+   wp_send_json_success(array('items' => $items));
+}
+add_action('wp_ajax_license_attach_media', 'ajax_license_attach_media');
 
 // Helper function to get media files with specific license
 function get_attachments_with_license($license_id, $count_only = false)

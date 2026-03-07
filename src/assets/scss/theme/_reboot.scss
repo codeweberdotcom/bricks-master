@@ -373,36 +373,70 @@ hr.double {
 }
 .divider-icon {
   border: 0;
-  position: relative;
-  margin: $hr-margin-y 0;
-}
-.divider-icon i {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  @include font-size(1.2rem);
-  color: $hr-color;
+  display: flex;
+  align-items: center;
+  color: $hr-color; // по умолчанию; переопределяется через text-primary, text-soft-* и т.д. как у .divider-text
+  // Отступы задавать утилитами my-8, my-10 и т.д. (margin не задаём, иначе перекрывает утилиты)
+  // Размер иконки/SVG — любой; линии подстраиваются (flex), отступ от иконки — через margin псевдоэлементов
 }
 .divider-icon:before,
 .divider-icon:after {
-  position: absolute;
-  top: 50%;
   content: "";
+  flex: 1;
+  min-width: 0;
   border-top: 1px solid $hr-color;
-  width: calc(50% - 1.5rem);
-}
-.divider-icon:before {
-  left: 0;
+  border-top-color: currentColor;
+  margin-right: 0.5rem; // отступ до иконки
+  margin-left: 0;
 }
 .divider-icon:after {
-  right: 0;
+  margin-right: 0;
+  margin-left: 0.5rem;
 }
+.divider-icon.icon-left {
+  &:before {
+    display: none;
+  }
+  &:after {
+    margin-left: 0.5rem; // отступ от иконки до линии
+  }
+}
+.divider-icon.icon-end {
+  &:after {
+    display: none;
+  }
+  &:before {
+    margin-right: 0.5rem; // отступ от линии до иконки
+  }
+}
+.divider-icon > i,
+.divider-icon > span {
+  flex-shrink: 0;
+  color: inherit;
+}
+.divider-icon i {
+  @include font-size(1.2rem);
+}
+.divider-icon span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.divider-icon span svg {
+  fill: currentColor;
+  display: block;
+  width: auto;
+  height: 1.5rem; // высота по умолчанию; переопределить через класс на span/svg или inline
+}
+.w-15 { width: 1.5rem !important; }
+.h-15 { height: 1.5rem !important; }
 .divider-text {
   border: 0;
   position: relative;
   display: flex;
   align-items: center;
+  color: $hr-color; // как у .divider-icon по умолчанию; переопределяется через .text-primary и др.
   
   &::before,
   &::after {
@@ -410,7 +444,6 @@ hr.double {
     flex: 1;
     height: 1px;
     border-top: 1px solid $hr-color;
-    // Наследование цвета текста для линий
     border-top-color: currentColor;
   }
   

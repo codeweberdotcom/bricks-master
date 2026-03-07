@@ -1,27 +1,92 @@
 {
-  "sbjs_migrations": {
-    "owner": "Woocommerce",
-    "storage_duration": "Сессия",
-    "type": "Аналитические"
-  },
-  "sbjs_current_add": {
-    "owner": "Woocommerce",
-    "storage_duration": "Сессия",
-    "type": "Аналитические"
-  },
-  "sbjs_first_add": {
-    "owner": "Woocommerce",
-    "storage_duration": "Session",
-    "type": "Аналитические"
-  },
-  "sbjs_current": {
-    "owner": "Woocommerce",
-    "storage_duration": "Сессия",
-    "type": "Аналитические"
-  },
-  "woocommerce_items_in_cart": {
-    "owner": "Woocommerce",
-    "storage_duration": "Сессия",
-    "type": "Необходимые"
-  }
+    "user_cookie_consent_aad5d974609d6f4436a188039b836f20": {
+        "owner": "Site",
+        "storage_duration": "1 year",
+        "type": "necessary",
+        "description": "Remembers user's consent to cookie usage so the banner doesn't appear again"
+    },
+    "woocommerce_items_in_cart": {
+        "owner": "WooCommerce",
+        "storage_duration": "Session",
+        "type": "functional",
+        "description": "Stores information about items in the cart (needed for cart icon display)"
+    },
+    "woocommerce_cart_hash": {
+        "owner": "WooCommerce",
+        "storage_duration": "Session",
+        "type": "functional",
+        "description": "Hash sum of cart contents, helps the site track changes in the cart"
+    },
+    "sbjs_current": {
+        "owner": "Analytics",
+        "storage_duration": "Session",
+        "type": "analytics",
+        "description": "Collects data about the current visit (traffic source, campaign)"
+    },
+    "sbjs_first": {
+        "owner": "Analytics",
+        "storage_duration": "Session",
+        "type": "analytics",
+        "description": "Remembers information about the user's first visit to the site"
+    },
+    "sbjs_session": {
+        "owner": "Analytics",
+        "storage_duration": "Session",
+        "type": "analytics",
+        "description": "Tracks current session data (time on site, page views)"
+    },
+    "sbjs_udata": {
+        "owner": "Analytics",
+        "storage_duration": "Session",
+        "type": "analytics",
+        "description": "Collects technical data about the user (browser, OS, language)"
+    },
+    "sbjs_current_add": {
+        "owner": "Analytics",
+        "storage_duration": "Session",
+        "type": "analytics",
+        "description": "Additional parameters of the current visit for analytics"
+    },
+    "sbjs_first_add": {
+        "owner": "Analytics",
+        "storage_duration": "Session",
+        "type": "analytics",
+        "description": "Additional parameters of the first visit for analytics"
+    },
+    "sbjs_migrations": {
+        "owner": "Analytics",
+        "storage_duration": "Session",
+        "type": "analytics",
+        "description": "Service cookie for analytics script updates"
+    },
+    "tk_ai": {
+        "owner": "Jetpack",
+        "storage_duration": "Session",
+        "type": "analytics",
+        "description": "Unique user identifier for WordPress/JetPack statistics"
+    },
+    "tk_qs": {
+        "owner": "Jetpack",
+        "storage_duration": "Session",
+        "type": "analytics",
+        "description": "Timestamp for internal search functionality on the site"
+    },
+    "_ym_uid": {
+        "owner": "Yandex.Metrika",
+        "storage_duration": "Usually 1 year",
+        "type": "analytics",
+        "description": "Unique user identifier for Yandex.Metrika statistics"
+    },
+    "_ym_d": {
+        "owner": "Yandex.Metrika",
+        "storage_duration": "Usually 1 year",
+        "type": "analytics",
+        "description": "First visit date (timestamp) for distinguishing new and returning users"
+    },
+    "_ym_isad": {
+        "owner": "Yandex.Metrika",
+        "storage_duration": "Usually 1 year",
+        "type": "analytics",
+        "description": "Indicates whether the user came from advertising (for tracking ad campaign effectiveness)"
+    }
 }

@@ -748,8 +748,6 @@ if ($image_url) {
 
 ## 🔗 Связанные документы
 
-- [IMAGE_SIZES_BY_POST_TYPE_REPORT.md](IMAGE_SIZES_BY_POST_TYPE_REPORT.md) - Отчет о системе размеров
-- [AD_IMAGE_SIZE_ANALYSIS.md](AD_IMAGE_SIZE_ANALYSIS.md) - Анализ размеров изображений
 - [CPT_CREATION.md](../modules/CPT_CREATION.md) - Создание новых CPT
 - [ARCHIVE_TEMPLATES.md](../modules/ARCHIVE_TEMPLATES.md) - Использование в архивных шаблонах
 - [SINGLE_TEMPLATES.md](../modules/SINGLE_TEMPLATES.md) - Использование в single шаблонах

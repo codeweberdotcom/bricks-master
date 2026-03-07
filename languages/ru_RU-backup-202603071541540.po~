@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-03-02 10:06+0000\n"
+"PO-Revision-Date: 2026-03-07 15:40+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -148,6 +148,11 @@ msgstr[0] "%d запись отзыва удалена"
 msgstr[1] "%d отзывов удалено"
 msgstr[2] "%d отзывов удалено"
 
+#: functions/integrations/image-licenses/image-licenses.php:390
+#, php-format
+msgid "%s files selected. Save the license to attach them."
+msgstr "Выбрано файлов: %s. Сохраните лицензию, чтобы прикрепить их."
+
 #: redux-framework/sample/sections/codeweber/cpt-type.php:600
 #, php-format
 msgid "%s Footer Settings"
@@ -225,6 +230,10 @@ msgstr "-- Выберите пользователя --"
 msgid ""
 "0 days means delete all consents immediately when erasing personal data."
 msgstr "0 дней — удалить все согласия сразу при очистке персональных данных."
+
+#: functions/integrations/image-licenses/image-licenses.php:390
+msgid "1 file selected. Save the license to attach it."
+msgstr "Выбран 1 файл. Сохраните лицензию, чтобы прикрепить его."
 
 #: functions/cpt/cpt-faq.php:615
 msgid "1. Basic usage"
@@ -318,10 +327,10 @@ msgstr ""
 "\n"
 "Просмотр: %s"
 
-#: functions/shortcodes.php:213 templates/singles/staff/staff_2.php:197
-#: templates/singles/staff/staff_3.php:193
-#: templates/singles/staff/staff_4.php:217
-#: templates/singles/staff/staff_5.php:241
+#: functions/shortcodes.php:213 templates/singles/staff/staff_2.php:206
+#: templates/singles/staff/staff_3.php:197
+#: templates/singles/staff/staff_4.php:221
+#: templates/singles/staff/staff_5.php:245
 msgid "About"
 msgstr "О нас"
 
@@ -521,7 +530,7 @@ msgid "Add New Legal"
 msgstr "Добавить"
 
 #: functions/integrations/image-licenses/image-licenses.php:57
-#: functions/integrations/image-licenses/image-licenses.php:595
+#: functions/integrations/image-licenses/image-licenses.php:689
 msgid "Add New License"
 msgstr "Добавить лицензию"
 
@@ -687,7 +696,6 @@ msgid "Address Shortcode"
 msgstr "Адрес шорткод"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:33
-#, fuzzy
 msgid "Admin Notification"
 msgstr "Уведомление администратора"
 
@@ -709,7 +717,7 @@ msgstr "Дополнительные настройки"
 msgid "Adygea"
 msgstr "Республика Адыгея"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:515
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:543
 msgid ""
 "After adding a font, this field will display a code for managing the font's "
 "individual properties."
@@ -963,6 +971,10 @@ msgstr "Произошла ошибка"
 msgid "An error occurred. Please try again."
 msgstr "Произошла ошибка. Пожалуйста, попробуйте снова."
 
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Analytics"
+msgstr "Аналитические"
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:403
 msgid "Animation Type"
 msgstr "Тип Анимации"
@@ -991,7 +1003,7 @@ msgstr "Содержание ответа"
 msgid "Any other format recognized by strtotime()"
 msgstr "Любой формат, strtotime()"
 
-#: templates/archives/vacancies/vacancies_2.php:30
+#: templates/post-cards/vacancies/grid-card.php:30
 msgid "Anywhere"
 msgstr "В любом месте"
 
@@ -1005,7 +1017,6 @@ msgid "API"
 msgstr "API"
 
 #: redux-framework/sample/sections/codeweber/api.php:24
-#, fuzzy
 msgid "API ключ из кабинета DaData"
 msgstr "API key from the DaData cabinet"
 
@@ -1024,10 +1035,6 @@ msgstr "Применено!"
 #: functions/cpt/cpt-documents.php:295 functions/cpt/cpt-documents.php:840
 msgid "Apply"
 msgstr "Применить"
-
-#: templates/archives/vacancies/vacancies_3.php:32
-msgid "Apply now"
-msgstr "Применить сейчас"
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:848
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:991
@@ -1127,7 +1134,11 @@ msgstr "Ash"
 msgid "Astrakhan Oblast"
 msgstr "Астраханская область"
 
-#: functions/integrations/image-licenses/image-licenses.php:429
+#: functions/integrations/image-licenses/image-licenses.php:358
+msgid "Attach selected"
+msgstr "Прикрепить выбранные"
+
+#: functions/integrations/image-licenses/image-licenses.php:523
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:624
 #| msgid "Attached Images"
 msgid "Attached Files"
@@ -1137,7 +1148,7 @@ msgstr "Прикрепленные файлы"
 msgid "Attached Form Files"
 msgstr "Прикрепленные к формам файлы"
 
-#: functions/integrations/image-licenses/image-licenses.php:126
+#: functions/integrations/image-licenses/image-licenses.php:143
 msgid "Attached Media Files"
 msgstr "Прикрепленные медиа-файлы"
 
@@ -1204,7 +1215,6 @@ msgid "Auto Open First Balloon"
 msgstr "Автоматически открывать первый балун"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:34
-#, fuzzy
 msgid "Auto-Reply"
 msgstr "Автоматический ответ"
 
@@ -1331,7 +1341,7 @@ msgstr "Базовое использование"
 msgid "Basic Vacancy Information"
 msgstr "Основная информация о вакансиях"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:529
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:557
 msgid "Before starting the build Gulp, save the Redux settings."
 msgstr "Перед началом сборки Gulp сохраните настройки Redux."
 
@@ -1398,7 +1408,7 @@ msgstr "блокирование"
 msgid "Blockquote"
 msgstr "Цитата"
 
-#: functions/global.php:686
+#: functions/global.php:614
 msgid "Blog"
 msgstr "Блог"
 
@@ -1424,7 +1434,6 @@ msgid "Bottom Center (Default)"
 msgstr "Нижний центр (по умолчанию)"
 
 #: functions/sidebars.php:204
-#, fuzzy
 msgid "Bottom Footer"
 msgstr "Снизу Footer"
 
@@ -1487,11 +1496,11 @@ msgstr "User Agent браузера"
 msgid "Bryansk Oblast"
 msgstr "Брянская область"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:355
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:378
 msgid "Build DEV"
 msgstr "Build DEV"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:360
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:383
 msgid "Build DIST"
 msgstr "Build DIST"
 
@@ -1810,7 +1819,7 @@ msgstr "Очистить данные"
 msgid "Clear Data (AJAX)"
 msgstr "Очистить данные (AJAX)"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:374
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:402
 msgid "Clear LOG"
 msgstr "Очистить Лог"
 
@@ -2138,10 +2147,6 @@ msgstr "Настройки срока хранения согласий"
 msgid "Consent Text"
 msgstr "Текст согласия"
 
-#: functions/admin/admin_privacy.php:1643
-msgid "Consent to Data Processing"
-msgstr "Согласие на Обработку Персональных Данных"
-
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:215
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:272
 msgid "Consent to data processing"
@@ -2250,8 +2255,8 @@ msgid "Contact forms created with CodeWeber Forms"
 msgstr "Контактные формы, созданные с помощью CodeWeber Forms"
 
 #: templates/singles/offices/default.php:176
-#: templates/singles/staff/default.php:108
-#: templates/singles/staff/staff_1.php:108
+#: templates/singles/staff/default.php:106
+#: templates/singles/staff/staff_1.php:106
 msgid "Contact Information"
 msgstr "Контактная информация"
 
@@ -2289,13 +2294,13 @@ msgstr "Cookie Данные"
 msgid "Cookie Expiration Date"
 msgstr "Срок действия Cookie-файла*"
 
-#: functions/admin/admin_privacy.php:1379
-msgid "Cookie Policy"
-msgstr "Политика в отношении использования файлов Куки(Сookie)"
-
-#: redux-framework/sample/sections/codeweber/legal.php:768
+#: redux-framework/sample/sections/codeweber/legal.php:790
 msgid "Cookie Scanner"
 msgstr "Cookie Сканер"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Cookie type"
+msgstr "Тип cookie"
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:110
 msgid "Coordinates"
@@ -2329,7 +2334,7 @@ msgstr "Не удалось создать style.css"
 msgid "Could not create theme directory"
 msgstr "Не удалось создать каталог темы."
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:90
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:91
 msgid "Could not read file."
 msgstr "Не удалось прочитать файл."
 
@@ -2340,10 +2345,6 @@ msgstr "Не удалось прочитать файл."
 #: redux-framework/sample/sections/codeweber/company-details.php:113
 msgid "Country"
 msgstr "Страна"
-
-#: functions/admin/admin_privacy.php:109
-msgid "Create"
-msgstr "Создать"
 
 #: redux-framework/sample/sections/codeweber/demo.php:261
 msgid ""
@@ -2695,7 +2696,7 @@ msgstr "Тип Записи"
 msgid "Custom Post Types"
 msgstr "Типы Записей"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:500
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:528
 msgid "Custom SCSS / Code"
 msgstr "Пользовательский SCSS / Код"
 
@@ -3108,10 +3109,6 @@ msgstr "Удаление форм..."
 msgid "Deletion Data"
 msgstr "удаление"
 
-#: functions/admin/admin_privacy.php:1717
-msgid "Delivery Terms"
-msgstr "Условия доставки"
-
 #: redux-framework/sample/sections/codeweber/demo.php:13
 msgid "Demo"
 msgstr "Демо"
@@ -3436,7 +3433,7 @@ msgstr "Донецкая Народная Республика"
 msgid "Download"
 msgstr "Скачать"
 
-#: functions/integrations/image-licenses/image-licenses.php:280
+#: functions/integrations/image-licenses/image-licenses.php:297
 msgid "Download date:"
 msgstr "Дата загрузки:"
 
@@ -3483,8 +3480,8 @@ msgstr "Обработка дубликатов"
 
 #: functions/cpt/cpt-staff.php:191 functions/cpt/cpt-staff.php:422
 #: templates/singles/offices/default.php:223
-#: templates/singles/staff/default.php:115
-#: templates/singles/staff/staff_1.php:115
+#: templates/singles/staff/default.php:113
+#: templates/singles/staff/staff_1.php:113
 #: redux-framework/sample/sections/codeweber/contacts.php:15
 msgid "E-Mail"
 msgstr "E-Mail"
@@ -3512,7 +3509,7 @@ msgstr ""
 msgid "E-mail Responsible Person"
 msgstr "Электронная почта ответственного лица"
 
-#: functions/integrations/image-licenses/image-licenses.php:233
+#: functions/integrations/image-licenses/image-licenses.php:250
 msgid "e.g., Royalty-free, Rights-managed, Creative Commons"
 msgstr ""
 "например, Безвозмездное использование, Управление правами, Creative Commons"
@@ -3586,7 +3583,7 @@ msgid "Edit Legal"
 msgstr "Редактировать Юридические документы"
 
 #: functions/integrations/image-licenses/image-licenses.php:60
-#: functions/integrations/image-licenses/image-licenses.php:516
+#: functions/integrations/image-licenses/image-licenses.php:610
 msgid "Edit License"
 msgstr "Редактивровать Лицензию"
 
@@ -3658,10 +3655,10 @@ msgstr "Образование/Квалификация"
 #: templates/singles/offices/offices_1.php:227
 #: templates/singles/offices/offices_2.php:186
 #: templates/singles/offices/offices_5.php:155
-#: templates/singles/staff/staff_2.php:114
-#: templates/singles/staff/staff_3.php:121
-#: templates/singles/staff/staff_4.php:137
-#: templates/singles/staff/staff_5.php:151
+#: templates/singles/staff/staff_2.php:123
+#: templates/singles/staff/staff_3.php:125
+#: templates/singles/staff/staff_4.php:141
+#: templates/singles/staff/staff_5.php:155
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:929
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:93
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:115
@@ -3713,10 +3710,6 @@ msgstr "Email обязателен"
 #: redux-framework/sample/sections/codeweber/smtp.php:201
 msgid "Email is required."
 msgstr "E-Mail обязателен для заполнения"
-
-#: functions/admin/admin_privacy.php:1729
-msgid "Email Marketing Consent"
-msgstr "Согласие на получение информационной и рекламной рассылки"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:66
 msgid "Email or phone is required"
@@ -3961,7 +3954,7 @@ msgstr "Примите на себя ответственность..."
 msgid "Enter the company website URL"
 msgstr "Введите URL-адрес сайта компании."
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:484
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:512
 msgid "Enter the font file name (with or without .scss extension)"
 msgstr "Введите имя файла шрифта (с или без расширения .scss)"
 
@@ -4141,6 +4134,11 @@ msgstr "Экспорт подписчиков"
 msgid "Export to CSV"
 msgstr "Экспорт в CSV"
 
+#: redux-framework/sample/sections/codeweber/legal.php:810
+#, fuzzy
+msgid "Export to JSON"
+msgstr "Экспорт в JSON"
+
 #: redux-framework/sample/metaboxes.php:510
 #, fuzzy
 msgid "Extra Large (modal-xl)"
@@ -4152,8 +4150,8 @@ msgid "Extraction Data"
 msgstr "извлечение"
 
 #: functions/bootstrap/bootstrap_share-page.php:211
-#: templates/singles/staff/staff_4.php:171
-#: templates/singles/staff/staff_5.php:194
+#: templates/singles/staff/staff_4.php:175
+#: templates/singles/staff/staff_5.php:198
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:131
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:292
 #: redux-framework/sample/sections/codeweber/socials.php:81
@@ -4421,7 +4419,7 @@ msgstr "Figma"
 msgid "File"
 msgstr "Файл"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:84
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:85
 msgid "File _user-variables.scss not found in active theme."
 msgstr "Файл _user-variables.scss не найден в активном теме."
 
@@ -4562,12 +4560,12 @@ msgstr "Каталог шрифтов не найден"
 msgid "Font Family Name"
 msgstr "Название семейства шрифтов"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:483
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:511
 #, fuzzy
 msgid "Font File Name"
 msgstr "Имя файла шрифта"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:514
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:542
 msgid "Font individual / Code"
 msgstr "Индивидуальный шрифт / код"
 
@@ -4738,7 +4736,7 @@ msgstr "Для полной документации по этому полю п
 msgid "For testing: add a fake saved payment method."
 msgstr "Для тестирования: добавить фейковый сохраненный способ оплаты."
 
-#: functions/integrations/image-licenses/image-licenses.php:270
+#: functions/integrations/image-licenses/image-licenses.php:287
 msgid "For the item:"
 msgstr "Для данного товара:"
 
@@ -5063,6 +5061,10 @@ msgstr "Полный экран ниже XXL"
 msgid "Fully clickable card with lift effect"
 msgstr "Полностью кликабельная карточка с эффектом подъема"
 
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Functional"
+msgstr "Функциональные"
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:48
 msgid "General Module Settings"
 msgstr "Общие настройки модуля"
@@ -5135,6 +5137,8 @@ msgid "Gmail"
 msgstr "Гmailл"
 
 #: templates/content/loop-legal.php:33 templates/archives/legal/legal_1.php:29
+#: templates/post-cards/vacancies/style4-card.php:96
+#: templates/post-cards/vacancies/style5-card.php:56
 msgid "Go"
 msgstr "Перейти"
 
@@ -5218,7 +5222,7 @@ msgstr "Гость"
 msgid "Gulp"
 msgstr "Gulp"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:528
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:556
 msgid "Gulp Run"
 msgstr "Запуск сборщика Gulp"
 
@@ -5377,22 +5381,16 @@ msgstr "Скрыть автора в сайдбаре на фронтенде"
 msgid "Hide Download Menu"
 msgstr "Скрыть меню Загрузки"
 
-#: functions/admin/admin_privacy.php:2054
-msgid "Hide from Archive"
-msgstr "Скрыть на архивной странице"
-
-#: functions/admin/admin_privacy.php:114
-msgid "Hide from archive"
-msgstr "Скрыть в Архиве"
-
-#: functions/admin/admin_privacy.php:2070
-msgid "Hide this document from archive"
-msgstr "Скрыть этот документ на архивной странице"
-
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:664
 msgid "Higher values appear on top. Min: 100, Max: 9999, Default: 999"
 msgstr ""
 "Большие значения отображаются сверху. Мин: 100, Макс: 9999, По умолчанию: 999"
+
+#: templates/post-cards/vacancies/style4-card.php:52
+#: templates/post-cards/vacancies/style6-card.php:47
+#, fuzzy
+msgid "HIT"
+msgstr "ХИТ"
 
 #: functions/breadcrumbs.php:175 functions/shortcodes.php:193
 msgid "Home"
@@ -5571,10 +5569,14 @@ msgstr ""
 "ID элемента, который должен появиться в области видимости для запуска "
 "уведомления (с или без #)"
 
-#: functions/integrations/image-licenses/image-licenses.php:328
+#: functions/integrations/image-licenses/image-licenses.php:419
 #, php-format
 msgid "ID: %s | Type: %s"
 msgstr "ID: %s | Тип: %s"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Identifier"
+msgstr "Идентификатор"
 
 #: functions/cpt/cpt-vacancies.php:911
 msgid ""
@@ -5668,7 +5670,7 @@ msgstr "Импортированные подписки"
 msgid "Improve accessibility for screen readers"
 msgstr "Улучшить доступность для экранных дикторов"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:501
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:529
 msgid ""
 "In this window, you can add SCSS code that will be written to the GULP _user-"
 "variables.scss file during the build process."
@@ -5723,8 +5725,8 @@ msgstr "Вставить в Тарифный план"
 msgid "Insert into testimonial"
 msgstr "Вставить в отзыв"
 
-#: templates/singles/staff/staff_4.php:189
-#: templates/singles/staff/staff_5.php:212
+#: templates/singles/staff/staff_4.php:193
+#: templates/singles/staff/staff_5.php:216
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:130
 #: redux-framework/sample/sections/codeweber/socials.php:75
 #: redux-framework/sample/sections/extensions/users.php:85
@@ -5932,7 +5934,7 @@ msgid ""
 "searching can help."
 msgstr "Похоже, мы не можем найти то, что вы ищете. Возможно, поиск поможет."
 
-#: functions/integrations/image-licenses/image-licenses.php:289
+#: functions/integrations/image-licenses/image-licenses.php:306
 msgid "Item URL:"
 msgstr "URL-адрес товара:"
 
@@ -5963,8 +5965,8 @@ msgstr "События JavaScript"
 msgid "Jewish Autonomous Oblast"
 msgstr "Еврейская автономная область"
 
-#: functions/cpt/cpt-staff.php:212 templates/singles/staff/default.php:143
-#: templates/singles/staff/staff_1.php:143
+#: functions/cpt/cpt-staff.php:212 templates/singles/staff/default.php:141
+#: templates/singles/staff/staff_1.php:141
 msgid "Job Phone"
 msgstr "Рабочий телефон"
 
@@ -5979,6 +5981,7 @@ msgid "Join"
 msgstr "Подписаться"
 
 #: templates/post-cards/vacancies/card.php:58
+#: templates/post-cards/vacancies/style3-card.php:49
 #, fuzzy
 msgid "Junior level"
 msgstr "Начинающий уровень"
@@ -6191,11 +6194,6 @@ msgstr "Юридические документы Архив"
 msgid "Legal Document"
 msgstr "Юридический документ"
 
-#: functions/admin/admin_privacy.php:143
-#, fuzzy
-msgid "Legal Documents Settings"
-msgstr "Настройки юридических документов"
-
 #: redux-framework/sample/sections/codeweber/legal.php:31
 #| msgid "Legal Entity (Company Name)"
 msgid "Legal Entity (Company Name) "
@@ -6213,13 +6211,6 @@ msgstr "Юридическое название (Компания) Сокращ�
 msgid "Legal Published"
 msgstr "Юридический документ опубликован"
 
-#. <-- родительское меню = твой CPT
-#. Заголовок страницы
-#: functions/admin/admin_privacy.php:136 functions/admin/admin_privacy.php:137
-#: functions/admin/admin_privacy.php:536
-msgid "Legal Settings"
-msgstr "Настройки"
-
 #: functions/cpt/cpt-legal.php:20
 msgid "Legal Updated"
 msgstr "Юридические документы обновлены"
@@ -6228,13 +6219,9 @@ msgstr "Юридические документы обновлены"
 msgid "Leningrad Oblast"
 msgstr "Ленинградская область"
 
-#: functions/integrations/image-licenses/image-licenses.php:492
+#: functions/integrations/image-licenses/image-licenses.php:586
 msgid "License"
 msgstr "Лицензия"
-
-#: functions/admin/admin_privacy.php:1764
-msgid "License Agreement"
-msgstr "Лицензионное соглашение"
 
 #: functions/integrations/image-licenses/image-licenses.php:53
 msgid "License Archives"
@@ -6244,27 +6231,27 @@ msgstr "Архивы лицензий"
 msgid "License Attributes"
 msgstr "Атрибуты лицензии"
 
-#: functions/integrations/image-licenses/image-licenses.php:116
+#: functions/integrations/image-licenses/image-licenses.php:133
 msgid "License Details"
 msgstr "Сведения о лицензии"
 
-#: functions/integrations/image-licenses/image-licenses.php:574
+#: functions/integrations/image-licenses/image-licenses.php:668
 msgid "License PDF"
 msgstr "Лицензия в формате PDF"
 
-#: functions/integrations/image-licenses/image-licenses.php:106
+#: functions/integrations/image-licenses/image-licenses.php:123
 msgid "License PDF File"
 msgstr "PDF-файл Лицензии"
 
-#: functions/integrations/image-licenses/image-licenses.php:426
+#: functions/integrations/image-licenses/image-licenses.php:520
 msgid "License Type"
 msgstr "Тип лицензии"
 
-#: functions/integrations/image-licenses/image-licenses.php:229
+#: functions/integrations/image-licenses/image-licenses.php:246
 msgid "License type:"
 msgstr "Тип лицензии:"
 
-#: functions/integrations/image-licenses/image-licenses.php:260
+#: functions/integrations/image-licenses/image-licenses.php:277
 msgid "Licensee:"
 msgstr "Лицензиат:"
 
@@ -6276,15 +6263,17 @@ msgstr "Список лицензий"
 msgid "Licenses list navigation"
 msgstr "Навигация по списку лицензий"
 
-#: functions/integrations/image-licenses/image-licenses.php:427
+#: functions/integrations/image-licenses/image-licenses.php:521
 msgid "Licensor Author"
 msgstr "Автор-лицензиар"
 
 #: functions/integrations/image-licenses/image-licenses.php:28
+#: functions/integrations/image-licenses/image-licenses.php:103
+#: functions/integrations/image-licenses/image-licenses.php:104
 msgid "Licensor Authors"
 msgstr "Авторы-лицензиары"
 
-#: functions/integrations/image-licenses/image-licenses.php:239
+#: functions/integrations/image-licenses/image-licenses.php:256
 msgid "Licensor's author:"
 msgstr "Автор лицензиара:"
 
@@ -6317,8 +6306,8 @@ msgid "Linked User Account"
 msgstr "Связанная учетная запись пользователя"
 
 #: functions/bootstrap/bootstrap_share-page.php:199
-#: templates/singles/staff/staff_4.php:183
-#: templates/singles/staff/staff_5.php:206
+#: templates/singles/staff/staff_4.php:187
+#: templates/singles/staff/staff_5.php:210
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:145
 #: redux-framework/sample/sections/codeweber/socials.php:165
 #: redux-framework/sample/sections/extensions/users.php:175
@@ -6349,7 +6338,7 @@ msgstr "Перечень собираемых персональных данн�
 msgid "List of personal data processed:"
 msgstr "Перечень обрабатываемых персональных данных:"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:494
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:522
 msgid "Load _user-variables and active font from the currently active theme"
 msgstr ""
 "Загрузить _user-variables и активный шрифт из текущей активированной темы"
@@ -6484,7 +6473,7 @@ msgstr "Главный сайдбар"
 msgid "Main wrapper"
 msgstr "Основная обертка"
 
-#: functions/integrations/image-licenses/image-licenses.php:252
+#: functions/integrations/image-licenses/image-licenses.php:269
 msgid "Manage authors"
 msgstr "Управление авторами"
 
@@ -6562,6 +6551,10 @@ msgstr "Пресет маркера"
 msgid "Marker Settings"
 msgstr "Настройки маркеров"
 
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Marketing"
+msgstr "Маркетинговые"
+
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:508
 #, fuzzy
 msgid "Matomo Forms Integration"
@@ -6625,7 +6618,7 @@ msgstr "Максимальная ширина балуна в пикселях"
 
 #: functions/integrations/image-licenses/image-licenses.php:52
 #: functions/integrations/image-licenses/image-licenses.php:79
-#: functions/integrations/image-licenses/image-licenses.php:563
+#: functions/integrations/image-licenses/image-licenses.php:657
 msgid "Media License"
 msgstr "Медиа-лицензия"
 
@@ -6713,6 +6706,7 @@ msgid "Microsoft Excel"
 msgstr "Микрофт Эксел"
 
 #: templates/post-cards/vacancies/card.php:61
+#: templates/post-cards/vacancies/style3-card.php:52
 msgid "Mid level"
 msgstr "Средний уровень"
 
@@ -6875,6 +6869,10 @@ msgstr "Навигация"
 #, fuzzy
 msgid "Navy"
 msgstr "Нави"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Necessary"
+msgstr "Необходимые"
 
 #: functions/woocommerce-states-ru.php:57
 msgid "Nenets Autonomous Okrug"
@@ -7067,7 +7065,7 @@ msgstr "Подписка на рассылку новостей: персона�
 msgid "Newsletter Subscriptions"
 msgstr "Подписки на рассылку"
 
-#: functions/global.php:939 functions/global.php:943
+#: functions/global.php:867 functions/global.php:871
 #: functions/bootstrap/bootstrap_post-nav.php:30
 msgid "Next"
 msgstr "Следующий"
@@ -7089,7 +7087,7 @@ msgstr "Нижегородская область"
 msgid "No"
 msgstr "Нет"
 
-#: functions/integrations/image-licenses/image-licenses.php:335
+#: functions/integrations/image-licenses/image-licenses.php:343
 #, fuzzy
 msgid "No attached media files."
 msgstr "Нет прикрепленных файлов медиа."
@@ -7325,7 +7323,7 @@ msgstr "Не найдено Хедера в корзине"
 msgid "No Html Blocks found"
 msgstr "Блоки HTML не найдены."
 
-#: functions/ajax-filter.php:95
+#: functions/ajax-filter.php:100
 #, fuzzy
 msgid "No items found."
 msgstr "Ничего не найдено."
@@ -7401,7 +7399,7 @@ msgstr "Заголовки в корзине не найдены."
 msgid "No parent themes found"
 msgstr "Родительские темы не найдены."
 
-#: functions/integrations/image-licenses/image-licenses.php:518
+#: functions/integrations/image-licenses/image-licenses.php:612
 msgid "no PDF"
 msgstr "нет PDF-файла"
 
@@ -7500,8 +7498,8 @@ msgstr "Вакансии не найдены"
 msgid "No Vacancies found in trash"
 msgstr "Вакансий в корзине не найдено"
 
-#: archive-vacancies.php:114 functions/ajax-filter.php:369
-#: templates/archives/vacancies/vacancies_1.php:175
+#: archive-vacancies.php:96 functions/ajax-filter.php:339
+#: templates/archives/vacancies/vacancies_1.php:138
 #, fuzzy
 msgid "No vacancies found."
 msgstr "Нет найденных вакансий."
@@ -7743,11 +7741,16 @@ msgstr ""
 "В этом редакторе доступны только блоки Codeweber Gutenberg Blocks. Добавьте "
 "блок \"Form\" и внутри него блоки \"Form Field\" для создания формы."
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:365
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:388
 msgid "Only CSS"
 msgstr "Только CSS"
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:370
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:398
+#, fuzzy
+msgid "Only HTML"
+msgstr "Только HTML"
+
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:393
 msgid "Only JS"
 msgstr "Только JS"
 
@@ -7759,6 +7762,16 @@ msgstr "Страница не найдена."
 #: templates/singles/vacancies/default.php:67
 msgid "Open"
 msgstr "Открыта"
+
+#: redux-framework/sample/sections/codeweber/legal.php:800
+#, fuzzy
+msgid ""
+"Open a page in a popup to read cookies set on that page. Use the homepage, "
+"cart, checkout, or any URL of your site."
+msgstr ""
+"Открыть страницу во всплывающем окне для чтения установленных на ней файлов "
+"cookie. Используйте главную страницу, корзину, оформление заказа или любой "
+"URL вашего сайта."
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:201
 msgid "Open Balloon on Click"
@@ -7835,6 +7848,10 @@ msgstr "Оренбургская область"
 msgid "Oryol Oblast"
 msgstr "Орловская область"
 
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Other"
+msgstr "Прочие"
+
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:95
 #, fuzzy
 msgid "Other Analytics"
@@ -7855,7 +7872,7 @@ msgstr "Другие документы"
 msgid "Other Questions"
 msgstr "Другие вопросы"
 
-#: functions/ajax-filter.php:317
+#: functions/ajax-filter.php:323
 #: templates/archives/vacancies/vacancies_1.php:122
 #, fuzzy
 msgid "Other Vacancies"
@@ -7878,6 +7895,10 @@ msgstr "Поверхность 5"
 #: functions/fetch/getPostCardTemplates.php:100
 msgid "Overlay effect with 90% opacity and bottom overlay for date"
 msgstr "Эффект наложения с 90% прозрачностью и даты"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Owner"
+msgstr "Назначение"
 
 #: functions/cpt/cpt-notifications.php:330
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:45
@@ -7965,7 +7986,7 @@ msgstr "Заголовки"
 msgid "Page Loader"
 msgstr "Загрузчик страниц"
 
-#: functions/global.php:693
+#: functions/global.php:621
 msgid "Page Not Found"
 msgstr "Страница не найдена"
 
@@ -8153,7 +8174,7 @@ msgstr "Тестовый режим платежных методов"
 msgid "PD Providers Test"
 msgstr "Тест Операторов ПД"
 
-#: functions/integrations/image-licenses/image-licenses.php:428
+#: functions/integrations/image-licenses/image-licenses.php:522
 msgid "PDF File"
 msgstr "PDF-файл"
 
@@ -8192,7 +8213,7 @@ msgstr "Пермский край"
 msgid "Permission denied."
 msgstr "Доступ запрещен."
 
-#: functions/integrations/image-licenses/image-licenses.php:264
+#: functions/integrations/image-licenses/image-licenses.php:281
 msgid "Person or company who obtained the license"
 msgstr "Физическое лицо или компания, получившие лицензию"
 
@@ -8276,12 +8297,12 @@ msgstr "Тест Операторов Персональных данных V2"
 #: templates/singles/offices/offices_2.php:198
 #: templates/singles/offices/offices_5.php:135
 #: templates/singles/offices/offices_5.php:282
-#: templates/singles/staff/default.php:129
-#: templates/singles/staff/staff_1.php:129
-#: templates/singles/staff/staff_2.php:126
-#: templates/singles/staff/staff_3.php:133
-#: templates/singles/staff/staff_4.php:131
-#: templates/singles/staff/staff_5.php:141
+#: templates/singles/staff/default.php:127
+#: templates/singles/staff/staff_1.php:127
+#: templates/singles/staff/staff_2.php:135
+#: templates/singles/staff/staff_3.php:137
+#: templates/singles/staff/staff_4.php:135
+#: templates/singles/staff/staff_5.php:145
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:930
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:796
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:118
@@ -8547,7 +8568,7 @@ msgstr "Почтовый индекс"
 msgid "Presets"
 msgstr "Пресеты"
 
-#: functions/global.php:886 functions/global.php:890
+#: functions/global.php:814 functions/global.php:818
 #: functions/bootstrap/bootstrap_post-nav.php:22
 msgid "Previous"
 msgstr "Предыдущий"
@@ -8667,7 +8688,6 @@ msgstr "Приморский край"
 msgid "Privacy Data"
 msgstr "Данные для Политики"
 
-#: functions/admin/admin_privacy.php:553
 #: functions/integrations/cf7-consents-panel.php:423
 msgid "Privacy Policy"
 msgstr "Политика в отношении обработки персональных данных"
@@ -8747,10 +8767,6 @@ msgstr "Имя поставщика"
 msgid "Pskov Oblast"
 msgstr "Псковская область"
 
-#: functions/admin/admin_privacy.php:1705
-msgid "Public Offer Agreement"
-msgstr "Договор публичной оферты"
-
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:340
 msgid "Public Transport"
 msgstr "Общественный транспорт"
@@ -8816,16 +8832,16 @@ msgstr ""
 "английского на русский. Пожалуйста, предоставьте текст, который вы хотите "
 "перевести."
 
-#: functions/cpt/cpt-staff.php:260 templates/singles/staff/staff_2.php:166
-#: templates/singles/staff/staff_2.php:167
-#: templates/singles/staff/staff_2.php:168
-#: templates/singles/staff/staff_3.php:162
-#: templates/singles/staff/staff_3.php:163
-#: templates/singles/staff/staff_3.php:164
-#: templates/singles/staff/staff_4.php:200
-#: templates/singles/staff/staff_4.php:201
-#: templates/singles/staff/staff_5.php:223
-#: templates/singles/staff/staff_5.php:224
+#: functions/cpt/cpt-staff.php:260 templates/singles/staff/staff_2.php:175
+#: templates/singles/staff/staff_2.php:176
+#: templates/singles/staff/staff_2.php:177
+#: templates/singles/staff/staff_3.php:166
+#: templates/singles/staff/staff_3.php:167
+#: templates/singles/staff/staff_3.php:168
+#: templates/singles/staff/staff_4.php:204
+#: templates/singles/staff/staff_4.php:205
+#: templates/singles/staff/staff_5.php:227
+#: templates/singles/staff/staff_5.php:228
 msgid "QR Code"
 msgstr "QR код"
 
@@ -8929,6 +8945,7 @@ msgstr "Читать"
 #: templates/post-cards/post/card-content.php:64
 #: templates/post-cards/post/card.php:53
 #: templates/post-cards/post/default.php:58
+#: templates/post-cards/vacancies/style4-card.php:48
 msgid "Read More"
 msgstr "Подробнее"
 
@@ -8937,6 +8954,7 @@ msgstr "Подробнее"
 #: templates/post-cards/post/overlay-5.php:77
 #: templates/post-cards/post/slider.php:99
 #: templates/post-cards/vacancies/card.php:129
+#: templates/post-cards/vacancies/style3-card.php:108
 msgid "Read more"
 msgstr "Подробнее"
 
@@ -9056,7 +9074,7 @@ msgstr "Связанные вакансии"
 #: functions/integrations/cf7-consents-panel.php:316
 #: functions/integrations/project-gallery-metabox.php:65
 #: functions/integrations/project-gallery-metabox.php:138
-#: functions/integrations/image-licenses/image-licenses.php:147
+#: functions/integrations/image-licenses/image-licenses.php:164
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:136
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:256
 msgid "Remove"
@@ -9211,10 +9229,6 @@ msgstr "Срок хранения (дней)"
 msgid "Retention settings saved."
 msgstr "Настройки срока хранения сохранены."
 
-#: functions/admin/admin_privacy.php:1723
-msgid "Return Policy"
-msgstr "Условия возврата"
-
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:909
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1206
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:319
@@ -9364,6 +9378,12 @@ msgstr "Сохранить настройки срока хранения"
 msgid "Save Settings"
 msgstr "Сохранить настройки"
 
+#: functions/integrations/image-licenses/image-licenses.php:332
+msgid "Save the license first, or select files and save to attach them."
+msgstr ""
+"Сначала сохраните лицензию или выберите файлы и сохраните, чтобы прикрепить "
+"их."
+
 #: functions/integrations/project-gallery-metabox.php:53
 #: functions/integrations/project-gallery-metabox.php:142
 msgid "Save the project as draft first, then you can add gallery images."
@@ -9371,28 +9391,38 @@ msgstr ""
 "Сначала сохраните проект как черновик, затем можно добавить изображения в "
 "галерею."
 
-#: templates/singles/staff/staff_2.php:189
-#: templates/singles/staff/staff_3.php:185
-#: templates/singles/staff/staff_4.php:211
-#: templates/singles/staff/staff_5.php:235
+#: templates/singles/staff/staff_2.php:198
+#: templates/singles/staff/staff_3.php:189
+#: templates/singles/staff/staff_4.php:215
+#: templates/singles/staff/staff_5.php:239
 msgid "Save to Contacts"
 msgstr "Сохранить в контакты"
+
+#: redux-framework/sample/sections/codeweber/legal.php:811
+#, fuzzy
+msgid "Save to cookies-found.json"
+msgstr "Сохранить в cookies-found.json"
 
 #: functions/cpt/cpt-documents.php:284
 msgid "Save to file"
 msgstr "Сохранить в файл"
+
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:68
+#, fuzzy
+msgid "Saved to components/cookies-found.json"
+msgstr "Сохранено в components/cookies-found.json"
 
 #: functions/lib/comments-helper.php:32
 #, fuzzy
 msgid "says:"
 msgstr "говорит:"
 
-#: redux-framework/sample/sections/codeweber/legal.php:770
+#: redux-framework/sample/sections/codeweber/legal.php:792
 msgid "Scan and display browser cookies."
 msgstr "Сканировать и отображать файлы cookie браузера."
 
-#: redux-framework/sample/sections/codeweber/legal.php:776
-#: redux-framework/sample/sections/codeweber/legal.php:779
+#: redux-framework/sample/sections/codeweber/legal.php:798
+#: redux-framework/sample/sections/codeweber/legal.php:806
 msgid "Scan Frontend Cookies"
 msgstr "Сканирование файлов cookie интерфейса"
 
@@ -9538,7 +9568,7 @@ msgstr "Поисковый запрос сохранен"
 msgid "Search results for \"%s\""
 msgstr "Результаты поиска для \"%s\""
 
-#: functions/global.php:691
+#: functions/global.php:619
 #, php-format
 msgid "Search Results for: %s"
 msgstr "Результаты Поиска для \"%s\""
@@ -9816,6 +9846,14 @@ msgstr "Выберите элемент"
 msgid "Select main button display type"
 msgstr "Выберите тип отображения основной кнопки"
 
+#: functions/integrations/image-licenses/image-licenses.php:329
+msgid "Select media files"
+msgstr "Выбрать медиафайлы"
+
+#: functions/integrations/image-licenses/image-licenses.php:357
+msgid "Select media files to attach to this license"
+msgstr "Выберите медиафайлы для прикрепления к этой лицензии"
+
 #: functions/cpt/cpt-offices.php:639
 msgid "Select Office Image"
 msgstr "Выберите изображение офиса"
@@ -9823,10 +9861,6 @@ msgstr "Выберите изображение офиса"
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:656
 msgid "Select option"
 msgstr "Выберите вариант"
-
-#: functions/admin/admin_privacy.php:93
-msgid "Select or create pages for legal documents..."
-msgstr "Выберите или создайте страницы для юридических документов..."
 
 #: redux-framework/sample/metaboxes.php:393
 msgid "Select Page Header"
@@ -9853,12 +9887,12 @@ msgstr "Выбрать Тип Заголовка"
 msgid "Select Parent Theme"
 msgstr "Выберите Родительскую тему"
 
-#: functions/integrations/image-licenses/image-licenses.php:146
+#: functions/integrations/image-licenses/image-licenses.php:163
 msgid "Select PDF"
 msgstr "Выбрать PDF"
 
 #: functions/cpt/cpt-vacancies.php:689
-#: functions/integrations/image-licenses/image-licenses.php:171
+#: functions/integrations/image-licenses/image-licenses.php:188
 msgid "Select PDF File"
 msgstr "Выбрать PDF-файл"
 
@@ -9970,10 +10004,6 @@ msgstr "Адрес выбранной на карте точки"
 msgid "Selected point coordinates"
 msgstr "Координаты выбранной точки"
 
-#: functions/admin/admin_privacy.php:1770
-msgid "Seller Information"
-msgstr "Информация об организации"
-
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:718
 msgid "Send automatic reply emails for newsletter subscriptions"
 msgstr ""
@@ -10052,6 +10082,7 @@ msgid "Sending..."
 msgstr "Отправка..."
 
 #: templates/post-cards/vacancies/card.php:55
+#: templates/post-cards/vacancies/style3-card.php:46
 msgid "Senior level"
 msgstr "Старший уровень"
 
@@ -10241,7 +10272,7 @@ msgstr "Поделиться"
 msgid "Shipping address"
 msgstr "Адрес доставки"
 
-#: functions/global.php:671
+#: functions/global.php:599
 #, fuzzy
 msgid "Shop"
 msgstr "Магазин"
@@ -10270,10 +10301,6 @@ msgstr ""
 #, fuzzy
 msgid "Shortcode Docs"
 msgstr "Документация по коротким кодам"
-
-#: functions/admin/admin_privacy.php:119
-msgid "Shortcode:"
-msgstr "Shortcode:"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:218
 msgid "Shortcode: [redux_option key=\"bank-bank-address\"]"
@@ -10556,10 +10583,10 @@ msgstr "URL-сайта"
 msgid "Size of logo in marker (pixels)"
 msgstr "Размер логотипа в маркере (пиксели)"
 
-#: functions/cpt/cpt-vacancies.php:623 templates/singles/staff/staff_2.php:206
-#: templates/singles/staff/staff_3.php:202
-#: templates/singles/staff/staff_4.php:226
-#: templates/singles/staff/staff_5.php:250
+#: functions/cpt/cpt-vacancies.php:623 templates/singles/staff/staff_2.php:215
+#: templates/singles/staff/staff_3.php:206
+#: templates/singles/staff/staff_4.php:230
+#: templates/singles/staff/staff_5.php:254
 #: templates/singles/vacancies/default.php:110
 msgid "Skills"
 msgstr "Навыки"
@@ -10569,8 +10596,8 @@ msgstr "Навыки"
 msgid "Sky"
 msgstr "Небо"
 
-#: templates/singles/staff/staff_4.php:195
-#: templates/singles/staff/staff_5.php:218
+#: templates/singles/staff/staff_4.php:199
+#: templates/singles/staff/staff_5.php:222
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:147
 #: redux-framework/sample/sections/codeweber/socials.php:178
 #: redux-framework/sample/sections/extensions/users.php:188
@@ -10752,7 +10779,7 @@ msgstr "Обнаружен спам"
 msgid "Spam detected."
 msgstr "Обнаружен спам."
 
-#: functions/integrations/image-licenses/image-licenses.php:274
+#: functions/integrations/image-licenses/image-licenses.php:291
 msgid "Specific item or project the license is for"
 msgstr "Конкретный элемент или проект, на который выдана лицензия"
 
@@ -10866,6 +10893,10 @@ msgstr "Steam"
 #: redux-framework/sample/sections/codeweber/legal.php:149
 msgid "Storage Data"
 msgstr "хранение"
+
+#: redux-framework/sample/sections/codeweber/legal.php:819
+msgid "Storage duration"
+msgstr "Срок хранения"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:72
 #: redux-framework/sample/sections/codeweber/company-details.php:134
@@ -11341,8 +11372,8 @@ msgid "Team"
 msgstr "Команда"
 
 #: functions/bootstrap/bootstrap_share-page.php:243
-#: templates/singles/staff/staff_4.php:153
-#: templates/singles/staff/staff_5.php:176
+#: templates/singles/staff/staff_4.php:157
+#: templates/singles/staff/staff_5.php:180
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:121
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:293
 #: redux-framework/sample/sections/codeweber/socials.php:21
@@ -11361,10 +11392,6 @@ msgstr "Временный каталог не доступен для запи�
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1242
 msgid "Temporary file not found."
 msgstr "Временный файл не найден."
-
-#: functions/admin/admin_privacy.php:1103
-msgid "Terms of Use"
-msgstr "Пользовательское соглашение"
 
 #: functions/woocommerce-gateway-test.php:20
 #, fuzzy
@@ -11628,11 +11655,6 @@ msgstr "Спасибо! Ваше ссообщение отправлено."
 #, fuzzy
 msgid "The field desc is NOT visible in customizer."
 msgstr "Поле desc не видно в настраивателе."
-
-#: functions/integrations/image-licenses/image-licenses.php:309
-#| msgid "The following images use this license:"
-msgid "The following media files use this license:"
-msgstr "Следующие изображения используют эту лицензию:"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:191
 msgid ""
@@ -12034,8 +12056,8 @@ msgid "Twitch"
 msgstr "Twitch"
 
 #: functions/bootstrap/bootstrap_share-page.php:204
-#: templates/singles/staff/staff_4.php:177
-#: templates/singles/staff/staff_5.php:200
+#: templates/singles/staff/staff_4.php:181
+#: templates/singles/staff/staff_5.php:204
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:152
 #: redux-framework/sample/sections/codeweber/socials.php:209
 #: redux-framework/sample/sections/extensions/users.php:219
@@ -12376,7 +12398,12 @@ msgstr "Загрузка..."
 msgid "URL"
 msgstr "URL"
 
-#: functions/integrations/image-licenses/image-licenses.php:293
+#: redux-framework/sample/sections/codeweber/legal.php:802
+#, fuzzy
+msgid "URL to scan:"
+msgstr "URL для сканирования:"
+
+#: functions/integrations/image-licenses/image-licenses.php:310
 msgid "URL to the licensed item if available online"
 msgstr "URL-адрес лицензионного товара, если он доступен в Интернете"
 
@@ -12418,7 +12445,7 @@ msgstr "Используйте шорткод [address] для вывода по
 msgid "Use the following shortcode to display FAQ accordion:"
 msgstr "Используйте следующий шорткод для отображения аккордеона FAQ:"
 
-#: functions/integrations/image-licenses/image-licenses.php:173
+#: functions/integrations/image-licenses/image-licenses.php:190
 #, fuzzy
 msgid "Use this file"
 msgstr "Используйте этот файл."
@@ -12629,7 +12656,7 @@ msgstr "Тип Вакансии"
 msgid "Vacancy updated"
 msgstr "Вакансия обновлена"
 
-#: functions/global.php:562
+#: functions/global.php:490
 #, fuzzy
 msgid "Vacancy URL"
 msgstr "URL вакансии"
@@ -12650,6 +12677,7 @@ msgstr "Ошибка валидации, ошибки сервера, обнар
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:724
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:904
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:91
+#: redux-framework/sample/sections/codeweber/legal.php:819
 msgid "Value"
 msgstr "Значение"
 
@@ -12715,8 +12743,8 @@ msgstr "Просмотр отдела"
 
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:380
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:439
-#: templates/archives/offices/offices_1.php:39
-#: templates/archives/offices/offices_2.php:39
+#: templates/archives/offices/offices_1.php:41
+#: templates/archives/offices/offices_2.php:41
 #, fuzzy
 msgid "View Details"
 msgstr "Посмотреть подробности"
@@ -12793,8 +12821,8 @@ msgid "View Legal"
 msgstr "Показать Юридические документы"
 
 #: functions/integrations/image-licenses/image-licenses.php:62
-#: functions/integrations/image-licenses/image-licenses.php:515
-#: functions/integrations/image-licenses/image-licenses.php:576
+#: functions/integrations/image-licenses/image-licenses.php:609
+#: functions/integrations/image-licenses/image-licenses.php:670
 msgid "View License"
 msgstr "Просмотр лицензии"
 
@@ -12829,8 +12857,8 @@ msgstr "Просмотр заголовка страницы"
 msgid "View Page Headers"
 msgstr "Просмотр заголовков страниц"
 
-#: functions/integrations/image-licenses/image-licenses.php:152
-#: functions/integrations/image-licenses/image-licenses.php:461
+#: functions/integrations/image-licenses/image-licenses.php:169
+#: functions/integrations/image-licenses/image-licenses.php:555
 msgid "View PDF"
 msgstr "Показать PDF"
 
@@ -12939,8 +12967,8 @@ msgid "VK Video"
 msgstr "VK Видео"
 
 #: functions/bootstrap/bootstrap_share-page.php:236
-#: templates/singles/staff/staff_4.php:165
-#: templates/singles/staff/staff_5.php:188
+#: templates/singles/staff/staff_4.php:169
+#: templates/singles/staff/staff_5.php:192
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:124
 msgid "VKontakte"
 msgstr "ВКонтакте"
@@ -12995,9 +13023,9 @@ msgstr ""
 #: functions/cpt/cpt-offices.php:289
 #: templates/singles/offices/offices_1.php:254
 #: templates/singles/offices/offices_5.php:168
-#: templates/singles/staff/staff_2.php:150
-#: templates/singles/staff/staff_4.php:143
-#: templates/singles/staff/staff_5.php:164
+#: templates/singles/staff/staff_2.php:159
+#: templates/singles/staff/staff_4.php:147
+#: templates/singles/staff/staff_5.php:168
 msgid "Website"
 msgstr "Вебсайт"
 
@@ -13005,10 +13033,6 @@ msgstr "Вебсайт"
 #, fuzzy
 msgid "Website name"
 msgstr "Название сайта"
-
-#: functions/admin/admin_privacy.php:1711
-msgid "Website Usage Rules"
-msgstr "Правила использования сайта"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:150
 #: redux-framework/sample/sections/codeweber/socials.php:196
@@ -13023,8 +13047,8 @@ msgstr "Приветственный текстовый Cookie-баннер"
 
 #: functions/bootstrap/bootstrap_share-page.php:216
 #: functions/bootstrap/bootstrap_share-page.php:248
-#: templates/singles/staff/staff_4.php:159
-#: templates/singles/staff/staff_5.php:182
+#: templates/singles/staff/staff_4.php:163
+#: templates/singles/staff/staff_5.php:186
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:122
 #, fuzzy
 msgid "WhatsApp"
@@ -13195,10 +13219,10 @@ msgstr "Интеграция инструментов конфиденциаль
 msgid "Work Experience"
 msgstr "Опыт работы"
 
-#: templates/singles/staff/staff_2.php:138
-#: templates/singles/staff/staff_3.php:145
-#: templates/singles/staff/staff_4.php:125
-#: templates/singles/staff/staff_5.php:131
+#: templates/singles/staff/staff_2.php:147
+#: templates/singles/staff/staff_3.php:149
+#: templates/singles/staff/staff_4.php:129
+#: templates/singles/staff/staff_5.php:135
 msgid "Work Phone"
 msgstr "Рабочий телефон"
 
@@ -13509,6 +13533,22 @@ msgstr "Select pages with address form"
 msgid "Где показывать кнопку «Проверить адрес»"
 msgstr "Where to show the \"Check Address\" button"
 
+#: functions/documentation.php:19 functions/documentation.php:20
+#: functions/documentation.php:42
+#, fuzzy
+msgid "Документация Сайта"
+msgstr "Сайт Документация"
+
+#: functions/documentation.php:42
+#, fuzzy
+msgid "Документация темы Codeweber"
+msgstr "Codeweber Тема Документация"
+
+#: functions/documentation.php:92
+#, fuzzy
+msgid "Начало"
+msgstr "Home"
+
 #: functions/integrations/dadata/class-codeweber-dadata.php:178
 #, fuzzy
 msgid "Не удалось разобрать адрес. Проверьте ввод или введите адрес вручную."
@@ -13578,6 +13618,12 @@ msgstr "Address verification service is disabled."
 msgid "Слишком много запросов. Повторите через несколько секунд."
 msgstr "Too many requests. Try again in a few seconds."
 
+#: functions/documentation.php:27 functions/documentation.php:28
+#: functions/documentation.php:50 functions/documentation.php:50
+#, fuzzy
+msgid "Функционал Сайта"
+msgstr "Сайт Функционал"
+
 #: functions/cpt/cpt-testimonials.php:576
 #: functions/cpt/cpt-testimonials.php:579
 #: functions/cpt/cpt-testimonials.php:591
@@ -13585,11 +13631,11 @@ msgstr "Too many requests. Try again in a few seconds."
 msgid "—"
 msgstr "—"
 
-#: functions/integrations/image-licenses/image-licenses.php:557
+#: functions/integrations/image-licenses/image-licenses.php:651
 msgid "— No License —"
 msgstr "— Нет лицензии —"
 
-#: functions/integrations/image-licenses/image-licenses.php:243
+#: functions/integrations/image-licenses/image-licenses.php:260
 msgid "— Select Author —"
 msgstr "— Выберите автора —"
 
@@ -13621,7 +13667,6 @@ msgstr "- Выберите тип -"
 msgid "— Select Vacancy —"
 msgstr "— Выберите вакансию —"
 
-#: functions/admin/admin_privacy.php:38
 #: functions/integrations/cf7-consents-panel.php:92
 #: functions/integrations/cf7-consents-panel.php:330
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:116

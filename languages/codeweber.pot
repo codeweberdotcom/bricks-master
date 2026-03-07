@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-02 10:05+0000\n"
+"POT-Creation-Date: 2026-03-07 15:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -143,6 +143,11 @@ msgid_plural "%d testimonial entries deleted"
 msgstr[0] ""
 msgstr[1] ""
 
+#: functions/integrations/image-licenses/image-licenses.php:390
+#, php-format
+msgid "%s files selected. Save the license to attach them."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/cpt-type.php:600
 #, php-format
 msgid "%s Footer Settings"
@@ -218,6 +223,10 @@ msgstr ""
 #: functions/integrations/personal-data-v2/test-providers.php:83
 msgid ""
 "0 days means delete all consents immediately when erasing personal data."
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:390
+msgid "1 file selected. Save the license to attach it."
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:615
@@ -301,10 +310,10 @@ msgid ""
 "View: %s"
 msgstr ""
 
-#: functions/shortcodes.php:213 templates/singles/staff/staff_2.php:197
-#: templates/singles/staff/staff_3.php:193
-#: templates/singles/staff/staff_4.php:217
-#: templates/singles/staff/staff_5.php:241
+#: functions/shortcodes.php:213 templates/singles/staff/staff_2.php:206
+#: templates/singles/staff/staff_3.php:197
+#: templates/singles/staff/staff_4.php:221
+#: templates/singles/staff/staff_5.php:245
 msgid "About"
 msgstr ""
 
@@ -499,7 +508,7 @@ msgid "Add New Legal"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:57
-#: functions/integrations/image-licenses/image-licenses.php:595
+#: functions/integrations/image-licenses/image-licenses.php:689
 msgid "Add New License"
 msgstr ""
 
@@ -684,7 +693,7 @@ msgstr ""
 msgid "Adygea"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:515
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:543
 msgid ""
 "After adding a font, this field will display a code for managing the font's "
 "individual properties."
@@ -936,6 +945,11 @@ msgstr ""
 msgid "An error occurred. Please try again."
 msgstr ""
 
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:142
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Analytics"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:403
 msgid "Animation Type"
 msgstr ""
@@ -964,7 +978,7 @@ msgstr ""
 msgid "Any other format recognized by strtotime()"
 msgstr ""
 
-#: templates/archives/vacancies/vacancies_2.php:30
+#: templates/post-cards/vacancies/grid-card.php:30
 msgid "Anywhere"
 msgstr ""
 
@@ -995,10 +1009,6 @@ msgstr ""
 
 #: functions/cpt/cpt-documents.php:295 functions/cpt/cpt-documents.php:840
 msgid "Apply"
-msgstr ""
-
-#: templates/archives/vacancies/vacancies_3.php:32
-msgid "Apply now"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:848
@@ -1097,7 +1107,11 @@ msgstr ""
 msgid "Astrakhan Oblast"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:429
+#: functions/integrations/image-licenses/image-licenses.php:358
+msgid "Attach selected"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:523
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:624
 msgid "Attached Files"
 msgstr ""
@@ -1106,7 +1120,7 @@ msgstr ""
 msgid "Attached Form Files"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:126
+#: functions/integrations/image-licenses/image-licenses.php:143
 msgid "Attached Media Files"
 msgstr ""
 
@@ -1299,7 +1313,7 @@ msgstr ""
 msgid "Basic Vacancy Information"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:529
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:557
 msgid "Before starting the build Gulp, save the Redux settings."
 msgstr ""
 
@@ -1366,7 +1380,7 @@ msgstr ""
 msgid "Blockquote"
 msgstr ""
 
-#: functions/global.php:686
+#: functions/global.php:614
 msgid "Blog"
 msgstr ""
 
@@ -1454,11 +1468,11 @@ msgstr ""
 msgid "Bryansk Oblast"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:355
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:378
 msgid "Build DEV"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:360
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:383
 msgid "Build DIST"
 msgstr ""
 
@@ -1754,6 +1768,11 @@ msgstr ""
 msgid "City"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/legal.php:826
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Clear all"
+msgstr ""
+
 #: functions/integrations/ajax-search-module/search-statistics.php:689
 msgid "Clear All Data"
 msgstr ""
@@ -1767,7 +1786,7 @@ msgstr ""
 msgid "Clear Data (AJAX)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:374
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:402
 msgid "Clear LOG"
 msgstr ""
 
@@ -2077,10 +2096,6 @@ msgstr ""
 msgid "Consent Text"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1643
-msgid "Consent to Data Processing"
-msgstr ""
-
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:215
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:272
 msgid "Consent to data processing"
@@ -2181,8 +2196,8 @@ msgid "Contact forms created with CodeWeber Forms"
 msgstr ""
 
 #: templates/singles/offices/default.php:176
-#: templates/singles/staff/default.php:108
-#: templates/singles/staff/staff_1.php:108
+#: templates/singles/staff/default.php:106
+#: templates/singles/staff/staff_1.php:106
 msgid "Contact Information"
 msgstr ""
 
@@ -2217,12 +2232,13 @@ msgstr ""
 msgid "Cookie Expiration Date"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1379
-msgid "Cookie Policy"
+#: redux-framework/sample/sections/codeweber/legal.php:804
+msgid "Cookie Scanner"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:768
-msgid "Cookie Scanner"
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:153
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Cookie type"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:110
@@ -2254,7 +2270,7 @@ msgstr ""
 msgid "Could not create theme directory"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:90
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:91
 msgid "Could not read file."
 msgstr ""
 
@@ -2264,10 +2280,6 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/company-details.php:51
 #: redux-framework/sample/sections/codeweber/company-details.php:113
 msgid "Country"
-msgstr ""
-
-#: functions/admin/admin_privacy.php:109
-msgid "Create"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:261
@@ -2564,7 +2576,7 @@ msgstr ""
 msgid "Custom Post Types"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:500
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:528
 msgid "Custom SCSS / Code"
 msgstr ""
 
@@ -2837,6 +2849,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:84
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:709
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:708
+#: redux-framework/sample/sections/codeweber/legal.php:834
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:828
 msgid "Delete"
 msgstr ""
@@ -2948,10 +2961,6 @@ msgstr ""
 #: functions/integrations/redux_framework/redux_framework.php:100
 #: redux-framework/sample/sections/codeweber/legal.php:155
 msgid "Deletion Data"
-msgstr ""
-
-#: functions/admin/admin_privacy.php:1717
-msgid "Delivery Terms"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:13
@@ -3262,7 +3271,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:280
+#: functions/integrations/image-licenses/image-licenses.php:297
 msgid "Download date:"
 msgstr ""
 
@@ -3305,8 +3314,8 @@ msgstr ""
 
 #: functions/cpt/cpt-staff.php:191 functions/cpt/cpt-staff.php:422
 #: templates/singles/offices/default.php:223
-#: templates/singles/staff/default.php:115
-#: templates/singles/staff/staff_1.php:115
+#: templates/singles/staff/default.php:113
+#: templates/singles/staff/staff_1.php:113
 #: redux-framework/sample/sections/codeweber/contacts.php:15
 msgid "E-Mail"
 msgstr ""
@@ -3332,7 +3341,7 @@ msgstr ""
 msgid "E-mail Responsible Person"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:233
+#: functions/integrations/image-licenses/image-licenses.php:250
 msgid "e.g., Royalty-free, Rights-managed, Creative Commons"
 msgstr ""
 
@@ -3401,7 +3410,7 @@ msgid "Edit Legal"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:60
-#: functions/integrations/image-licenses/image-licenses.php:516
+#: functions/integrations/image-licenses/image-licenses.php:610
 msgid "Edit License"
 msgstr ""
 
@@ -3470,10 +3479,10 @@ msgstr ""
 #: templates/singles/offices/offices_1.php:227
 #: templates/singles/offices/offices_2.php:186
 #: templates/singles/offices/offices_5.php:155
-#: templates/singles/staff/staff_2.php:114
-#: templates/singles/staff/staff_3.php:121
-#: templates/singles/staff/staff_4.php:137
-#: templates/singles/staff/staff_5.php:151
+#: templates/singles/staff/staff_2.php:123
+#: templates/singles/staff/staff_3.php:125
+#: templates/singles/staff/staff_4.php:141
+#: templates/singles/staff/staff_5.php:155
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:929
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:93
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:115
@@ -3522,10 +3531,6 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:201
 msgid "Email is required."
-msgstr ""
-
-#: functions/admin/admin_privacy.php:1729
-msgid "Email Marketing Consent"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:66
@@ -3763,7 +3768,7 @@ msgstr ""
 msgid "Enter the company website URL"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:484
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:512
 msgid "Enter the font file name (with or without .scss extension)"
 msgstr ""
 
@@ -3938,6 +3943,10 @@ msgstr ""
 msgid "Export to CSV"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/legal.php:824
+msgid "Export to JSON"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:510
 msgid "Extra Large (modal-xl)"
 msgstr ""
@@ -3948,8 +3957,8 @@ msgid "Extraction Data"
 msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:211
-#: templates/singles/staff/staff_4.php:171
-#: templates/singles/staff/staff_5.php:194
+#: templates/singles/staff/staff_4.php:175
+#: templates/singles/staff/staff_5.php:198
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:131
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:292
 #: redux-framework/sample/sections/codeweber/socials.php:81
@@ -4186,7 +4195,7 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:84
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:85
 msgid "File _user-variables.scss not found in active theme."
 msgstr ""
 
@@ -4324,11 +4333,11 @@ msgstr ""
 msgid "Font Family Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:483
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:511
 msgid "Font File Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:514
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:542
 msgid "Font individual / Code"
 msgstr ""
 
@@ -4484,7 +4493,7 @@ msgstr ""
 msgid "For testing: add a fake saved payment method."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:270
+#: functions/integrations/image-licenses/image-licenses.php:287
 msgid "For the item:"
 msgstr ""
 
@@ -4774,6 +4783,11 @@ msgstr ""
 msgid "Fully clickable card with lift effect"
 msgstr ""
 
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:144
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Functional"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:48
 msgid "General Module Settings"
 msgstr ""
@@ -4835,6 +4849,8 @@ msgid "Gmail"
 msgstr ""
 
 #: templates/content/loop-legal.php:33 templates/archives/legal/legal_1.php:29
+#: templates/post-cards/vacancies/style4-card.php:96
+#: templates/post-cards/vacancies/style5-card.php:56
 msgid "Go"
 msgstr ""
 
@@ -4907,7 +4923,7 @@ msgstr ""
 msgid "Gulp"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:528
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:556
 msgid "Gulp Run"
 msgstr ""
 
@@ -5059,20 +5075,13 @@ msgstr ""
 msgid "Hide Download Menu"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:2054
-msgid "Hide from Archive"
-msgstr ""
-
-#: functions/admin/admin_privacy.php:114
-msgid "Hide from archive"
-msgstr ""
-
-#: functions/admin/admin_privacy.php:2070
-msgid "Hide this document from archive"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:664
 msgid "Higher values appear on top. Min: 100, Max: 9999, Default: 999"
+msgstr ""
+
+#: templates/post-cards/vacancies/style4-card.php:52
+#: templates/post-cards/vacancies/style6-card.php:47
+msgid "HIT"
 msgstr ""
 
 #: functions/breadcrumbs.php:175 functions/shortcodes.php:193
@@ -5230,9 +5239,14 @@ msgid ""
 "without #)"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:328
+#: functions/integrations/image-licenses/image-licenses.php:419
 #, php-format
 msgid "ID: %s | Type: %s"
+msgstr ""
+
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:150
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Identifier"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:911
@@ -5314,7 +5328,7 @@ msgstr ""
 msgid "Improve accessibility for screen readers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:501
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:529
 msgid ""
 "In this window, you can add SCSS code that will be written to the GULP _user-"
 "variables.scss file during the build process."
@@ -5364,8 +5378,8 @@ msgstr ""
 msgid "Insert into testimonial"
 msgstr ""
 
-#: templates/singles/staff/staff_4.php:189
-#: templates/singles/staff/staff_5.php:212
+#: templates/singles/staff/staff_4.php:193
+#: templates/singles/staff/staff_5.php:216
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:130
 #: redux-framework/sample/sections/codeweber/socials.php:75
 #: redux-framework/sample/sections/extensions/users.php:85
@@ -5550,7 +5564,7 @@ msgid ""
 "searching can help."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:289
+#: functions/integrations/image-licenses/image-licenses.php:306
 msgid "Item URL:"
 msgstr ""
 
@@ -5579,8 +5593,8 @@ msgstr ""
 msgid "Jewish Autonomous Oblast"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:212 templates/singles/staff/default.php:143
-#: templates/singles/staff/staff_1.php:143
+#: functions/cpt/cpt-staff.php:212 templates/singles/staff/default.php:141
+#: templates/singles/staff/staff_1.php:141
 msgid "Job Phone"
 msgstr ""
 
@@ -5595,6 +5609,7 @@ msgid "Join"
 msgstr ""
 
 #: templates/post-cards/vacancies/card.php:58
+#: templates/post-cards/vacancies/style3-card.php:49
 msgid "Junior level"
 msgstr ""
 
@@ -5800,10 +5815,6 @@ msgstr ""
 msgid "Legal Document"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:143
-msgid "Legal Documents Settings"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/legal.php:31
 msgid "Legal Entity (Company Name) "
 msgstr ""
@@ -5820,13 +5831,6 @@ msgstr ""
 msgid "Legal Published"
 msgstr ""
 
-#. <-- родительское меню = твой CPT
-#. Заголовок страницы
-#: functions/admin/admin_privacy.php:136 functions/admin/admin_privacy.php:137
-#: functions/admin/admin_privacy.php:536
-msgid "Legal Settings"
-msgstr ""
-
 #: functions/cpt/cpt-legal.php:20
 msgid "Legal Updated"
 msgstr ""
@@ -5835,12 +5839,8 @@ msgstr ""
 msgid "Leningrad Oblast"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:492
+#: functions/integrations/image-licenses/image-licenses.php:586
 msgid "License"
-msgstr ""
-
-#: functions/admin/admin_privacy.php:1764
-msgid "License Agreement"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:53
@@ -5851,27 +5851,27 @@ msgstr ""
 msgid "License Attributes"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:116
+#: functions/integrations/image-licenses/image-licenses.php:133
 msgid "License Details"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:574
+#: functions/integrations/image-licenses/image-licenses.php:668
 msgid "License PDF"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:106
+#: functions/integrations/image-licenses/image-licenses.php:123
 msgid "License PDF File"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:426
+#: functions/integrations/image-licenses/image-licenses.php:520
 msgid "License Type"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:229
+#: functions/integrations/image-licenses/image-licenses.php:246
 msgid "License type:"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:260
+#: functions/integrations/image-licenses/image-licenses.php:277
 msgid "Licensee:"
 msgstr ""
 
@@ -5883,15 +5883,17 @@ msgstr ""
 msgid "Licenses list navigation"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:427
+#: functions/integrations/image-licenses/image-licenses.php:521
 msgid "Licensor Author"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:28
+#: functions/integrations/image-licenses/image-licenses.php:103
+#: functions/integrations/image-licenses/image-licenses.php:104
 msgid "Licensor Authors"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:239
+#: functions/integrations/image-licenses/image-licenses.php:256
 msgid "Licensor's author:"
 msgstr ""
 
@@ -5923,8 +5925,8 @@ msgid "Linked User Account"
 msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:199
-#: templates/singles/staff/staff_4.php:183
-#: templates/singles/staff/staff_5.php:206
+#: templates/singles/staff/staff_4.php:187
+#: templates/singles/staff/staff_5.php:210
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:145
 #: redux-framework/sample/sections/codeweber/socials.php:165
 #: redux-framework/sample/sections/extensions/users.php:175
@@ -5954,7 +5956,7 @@ msgstr ""
 msgid "List of personal data processed:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:494
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:522
 msgid "Load _user-variables and active font from the currently active theme"
 msgstr ""
 
@@ -6079,7 +6081,7 @@ msgstr ""
 msgid "Main wrapper"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:252
+#: functions/integrations/image-licenses/image-licenses.php:269
 msgid "Manage authors"
 msgstr ""
 
@@ -6151,6 +6153,11 @@ msgstr ""
 msgid "Marker Settings"
 msgstr ""
 
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:143
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Marketing"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:508
 msgid "Matomo Forms Integration"
 msgstr ""
@@ -6205,7 +6212,7 @@ msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:52
 #: functions/integrations/image-licenses/image-licenses.php:79
-#: functions/integrations/image-licenses/image-licenses.php:563
+#: functions/integrations/image-licenses/image-licenses.php:657
 msgid "Media License"
 msgstr ""
 
@@ -6288,6 +6295,7 @@ msgid "Microsoft Excel"
 msgstr ""
 
 #: templates/post-cards/vacancies/card.php:61
+#: templates/post-cards/vacancies/style3-card.php:52
 msgid "Mid level"
 msgstr ""
 
@@ -6434,6 +6442,11 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:286
 msgid "Navy"
+msgstr ""
+
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:141
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Necessary"
 msgstr ""
 
 #: functions/woocommerce-states-ru.php:57
@@ -6617,7 +6630,7 @@ msgstr ""
 msgid "Newsletter Subscriptions"
 msgstr ""
 
-#: functions/global.php:939 functions/global.php:943
+#: functions/global.php:867 functions/global.php:871
 #: functions/bootstrap/bootstrap_post-nav.php:30
 msgid "Next"
 msgstr ""
@@ -6638,7 +6651,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:335
+#: functions/integrations/image-licenses/image-licenses.php:343
 msgid "No attached media files."
 msgstr ""
 
@@ -6676,6 +6689,10 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:388
 msgid "No Contact Form 7 forms found. Please create a form first."
+msgstr ""
+
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:137
+msgid "No cookie data available."
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:73
@@ -6857,7 +6874,7 @@ msgstr ""
 msgid "No Html Blocks found"
 msgstr ""
 
-#: functions/ajax-filter.php:95
+#: functions/ajax-filter.php:100
 msgid "No items found."
 msgstr ""
 
@@ -6927,7 +6944,7 @@ msgstr ""
 msgid "No parent themes found"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:518
+#: functions/integrations/image-licenses/image-licenses.php:612
 msgid "no PDF"
 msgstr ""
 
@@ -7018,8 +7035,8 @@ msgstr ""
 msgid "No Vacancies found in trash"
 msgstr ""
 
-#: archive-vacancies.php:114 functions/ajax-filter.php:369
-#: templates/archives/vacancies/vacancies_1.php:175
+#: archive-vacancies.php:96 functions/ajax-filter.php:339
+#: templates/archives/vacancies/vacancies_1.php:138
 msgid "No vacancies found."
 msgstr ""
 
@@ -7238,11 +7255,15 @@ msgid ""
 "block and \"Form Field\" blocks inside it to build the form."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:365
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:388
 msgid "Only CSS"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/theme_gulp.php:370
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:398
+msgid "Only HTML"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/theme_gulp.php:393
 msgid "Only JS"
 msgstr ""
 
@@ -7253,6 +7274,12 @@ msgstr ""
 #: functions/cpt/cpt-vacancies.php:730
 #: templates/singles/vacancies/default.php:67
 msgid "Open"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/legal.php:814
+msgid ""
+"Open a page in a popup to read cookies set on that page. Use the homepage, "
+"cart, checkout, or any URL of your site."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:201
@@ -7329,6 +7356,11 @@ msgstr ""
 msgid "Oryol Oblast"
 msgstr ""
 
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:145
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Other"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:95
 msgid "Other Analytics"
 msgstr ""
@@ -7345,7 +7377,7 @@ msgstr ""
 msgid "Other Questions"
 msgstr ""
 
-#: functions/ajax-filter.php:317
+#: functions/ajax-filter.php:323
 #: templates/archives/vacancies/vacancies_1.php:122
 msgid "Other Vacancies"
 msgstr ""
@@ -7365,6 +7397,10 @@ msgstr ""
 
 #: functions/fetch/getPostCardTemplates.php:100
 msgid "Overlay effect with 90% opacity and bottom overlay for date"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Owner"
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:330
@@ -7449,7 +7485,7 @@ msgstr ""
 msgid "Page Loader"
 msgstr ""
 
-#: functions/global.php:693
+#: functions/global.php:621
 msgid "Page Not Found"
 msgstr ""
 
@@ -7627,7 +7663,7 @@ msgstr ""
 msgid "PD Providers Test"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:428
+#: functions/integrations/image-licenses/image-licenses.php:522
 msgid "PDF File"
 msgstr ""
 
@@ -7664,7 +7700,7 @@ msgstr ""
 msgid "Permission denied."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:264
+#: functions/integrations/image-licenses/image-licenses.php:281
 msgid "Person or company who obtained the license"
 msgstr ""
 
@@ -7745,12 +7781,12 @@ msgstr ""
 #: templates/singles/offices/offices_2.php:198
 #: templates/singles/offices/offices_5.php:135
 #: templates/singles/offices/offices_5.php:282
-#: templates/singles/staff/default.php:129
-#: templates/singles/staff/staff_1.php:129
-#: templates/singles/staff/staff_2.php:126
-#: templates/singles/staff/staff_3.php:133
-#: templates/singles/staff/staff_4.php:131
-#: templates/singles/staff/staff_5.php:141
+#: templates/singles/staff/default.php:127
+#: templates/singles/staff/staff_1.php:127
+#: templates/singles/staff/staff_2.php:135
+#: templates/singles/staff/staff_3.php:137
+#: templates/singles/staff/staff_4.php:135
+#: templates/singles/staff/staff_5.php:145
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:930
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:796
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:118
@@ -7994,7 +8030,7 @@ msgstr ""
 msgid "Presets"
 msgstr ""
 
-#: functions/global.php:886 functions/global.php:890
+#: functions/global.php:814 functions/global.php:818
 #: functions/bootstrap/bootstrap_post-nav.php:22
 msgid "Previous"
 msgstr ""
@@ -8110,7 +8146,6 @@ msgstr ""
 msgid "Privacy Data"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:553
 #: functions/integrations/cf7-consents-panel.php:423
 msgid "Privacy Policy"
 msgstr ""
@@ -8178,10 +8213,6 @@ msgstr ""
 msgid "Pskov Oblast"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1705
-msgid "Public Offer Agreement"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:340
 msgid "Public Transport"
 msgstr ""
@@ -8192,6 +8223,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:279
 msgid "Purple"
+msgstr ""
+
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:151
+msgid "Purpose"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:224
@@ -8243,16 +8278,16 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:260 templates/singles/staff/staff_2.php:166
-#: templates/singles/staff/staff_2.php:167
-#: templates/singles/staff/staff_2.php:168
-#: templates/singles/staff/staff_3.php:162
-#: templates/singles/staff/staff_3.php:163
-#: templates/singles/staff/staff_3.php:164
-#: templates/singles/staff/staff_4.php:200
-#: templates/singles/staff/staff_4.php:201
-#: templates/singles/staff/staff_5.php:223
-#: templates/singles/staff/staff_5.php:224
+#: functions/cpt/cpt-staff.php:260 templates/singles/staff/staff_2.php:175
+#: templates/singles/staff/staff_2.php:176
+#: templates/singles/staff/staff_2.php:177
+#: templates/singles/staff/staff_3.php:166
+#: templates/singles/staff/staff_3.php:167
+#: templates/singles/staff/staff_3.php:168
+#: templates/singles/staff/staff_4.php:204
+#: templates/singles/staff/staff_4.php:205
+#: templates/singles/staff/staff_5.php:227
+#: templates/singles/staff/staff_5.php:228
 msgid "QR Code"
 msgstr ""
 
@@ -8351,6 +8386,7 @@ msgstr ""
 #: templates/post-cards/post/card-content.php:64
 #: templates/post-cards/post/card.php:53
 #: templates/post-cards/post/default.php:58
+#: templates/post-cards/vacancies/style4-card.php:48
 msgid "Read More"
 msgstr ""
 
@@ -8359,6 +8395,7 @@ msgstr ""
 #: templates/post-cards/post/overlay-5.php:77
 #: templates/post-cards/post/slider.php:99
 #: templates/post-cards/vacancies/card.php:129
+#: templates/post-cards/vacancies/style3-card.php:108
 msgid "Read more"
 msgstr ""
 
@@ -8469,7 +8506,7 @@ msgstr ""
 #: functions/integrations/cf7-consents-panel.php:316
 #: functions/integrations/project-gallery-metabox.php:65
 #: functions/integrations/project-gallery-metabox.php:138
-#: functions/integrations/image-licenses/image-licenses.php:147
+#: functions/integrations/image-licenses/image-licenses.php:164
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:136
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:256
 msgid "Remove"
@@ -8620,10 +8657,6 @@ msgstr ""
 msgid "Retention settings saved."
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1723
-msgid "Return Policy"
-msgstr ""
-
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:909
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1206
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:319
@@ -8769,15 +8802,24 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:332
+msgid "Save the license first, or select files and save to attach them."
+msgstr ""
+
 #: functions/integrations/project-gallery-metabox.php:53
 #: functions/integrations/project-gallery-metabox.php:142
 msgid "Save the project as draft first, then you can add gallery images."
 msgstr ""
 
-#: templates/singles/staff/staff_2.php:189
-#: templates/singles/staff/staff_3.php:185
-#: templates/singles/staff/staff_4.php:211
-#: templates/singles/staff/staff_5.php:235
+#: redux-framework/sample/sections/codeweber/legal.php:825
+#, php-format
+msgid "Save to %s"
+msgstr ""
+
+#: templates/singles/staff/staff_2.php:198
+#: templates/singles/staff/staff_3.php:189
+#: templates/singles/staff/staff_4.php:215
+#: templates/singles/staff/staff_5.php:239
 msgid "Save to Contacts"
 msgstr ""
 
@@ -8785,16 +8827,21 @@ msgstr ""
 msgid "Save to file"
 msgstr ""
 
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:87
+#, php-format
+msgid "Saved to components/%s"
+msgstr ""
+
 #: functions/lib/comments-helper.php:32
 msgid "says:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:770
+#: redux-framework/sample/sections/codeweber/legal.php:806
 msgid "Scan and display browser cookies."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:776
-#: redux-framework/sample/sections/codeweber/legal.php:779
+#: redux-framework/sample/sections/codeweber/legal.php:812
+#: redux-framework/sample/sections/codeweber/legal.php:820
 msgid "Scan Frontend Cookies"
 msgstr ""
 
@@ -8935,7 +8982,7 @@ msgstr ""
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: functions/global.php:691
+#: functions/global.php:619
 #, php-format
 msgid "Search Results for: %s"
 msgstr ""
@@ -9202,16 +9249,20 @@ msgstr ""
 msgid "Select main button display type"
 msgstr ""
 
+#: functions/integrations/image-licenses/image-licenses.php:329
+msgid "Select media files"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:357
+msgid "Select media files to attach to this license"
+msgstr ""
+
 #: functions/cpt/cpt-offices.php:639
 msgid "Select Office Image"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:656
 msgid "Select option"
-msgstr ""
-
-#: functions/admin/admin_privacy.php:93
-msgid "Select or create pages for legal documents..."
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:393
@@ -9239,12 +9290,12 @@ msgstr ""
 msgid "Select Parent Theme"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:146
+#: functions/integrations/image-licenses/image-licenses.php:163
 msgid "Select PDF"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:689
-#: functions/integrations/image-licenses/image-licenses.php:171
+#: functions/integrations/image-licenses/image-licenses.php:188
 msgid "Select PDF File"
 msgstr ""
 
@@ -9353,10 +9404,6 @@ msgstr ""
 msgid "Selected point coordinates"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:1770
-msgid "Seller Information"
-msgstr ""
-
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:718
 msgid "Send automatic reply emails for newsletter subscriptions"
 msgstr ""
@@ -9425,6 +9472,7 @@ msgid "Sending..."
 msgstr ""
 
 #: templates/post-cards/vacancies/card.php:55
+#: templates/post-cards/vacancies/style3-card.php:46
 msgid "Senior level"
 msgstr ""
 
@@ -9600,7 +9648,7 @@ msgstr ""
 msgid "Shipping address"
 msgstr ""
 
-#: functions/global.php:671
+#: functions/global.php:599
 msgid "Shop"
 msgstr ""
 
@@ -9622,10 +9670,6 @@ msgstr ""
 #. Заголовок страницы
 #: functions/cpt/cpt-faq.php:543
 msgid "Shortcode Docs"
-msgstr ""
-
-#: functions/admin/admin_privacy.php:119
-msgid "Shortcode:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/company-details.php:218
@@ -9891,10 +9935,10 @@ msgstr ""
 msgid "Size of logo in marker (pixels)"
 msgstr ""
 
-#: functions/cpt/cpt-vacancies.php:623 templates/singles/staff/staff_2.php:206
-#: templates/singles/staff/staff_3.php:202
-#: templates/singles/staff/staff_4.php:226
-#: templates/singles/staff/staff_5.php:250
+#: functions/cpt/cpt-vacancies.php:623 templates/singles/staff/staff_2.php:215
+#: templates/singles/staff/staff_3.php:206
+#: templates/singles/staff/staff_4.php:230
+#: templates/singles/staff/staff_5.php:254
 #: templates/singles/vacancies/default.php:110
 msgid "Skills"
 msgstr ""
@@ -9903,8 +9947,8 @@ msgstr ""
 msgid "Sky"
 msgstr ""
 
-#: templates/singles/staff/staff_4.php:195
-#: templates/singles/staff/staff_5.php:218
+#: templates/singles/staff/staff_4.php:199
+#: templates/singles/staff/staff_5.php:222
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:147
 #: redux-framework/sample/sections/codeweber/socials.php:178
 #: redux-framework/sample/sections/extensions/users.php:188
@@ -10074,7 +10118,7 @@ msgstr ""
 msgid "Spam detected."
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:274
+#: functions/integrations/image-licenses/image-licenses.php:291
 msgid "Specific item or project the license is for"
 msgstr ""
 
@@ -10181,6 +10225,11 @@ msgstr ""
 #: functions/integrations/redux_framework/redux_framework.php:94
 #: redux-framework/sample/sections/codeweber/legal.php:149
 msgid "Storage Data"
+msgstr ""
+
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:152
+#: redux-framework/sample/sections/codeweber/legal.php:834
+msgid "Storage duration"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/company-details.php:72
@@ -10618,8 +10667,8 @@ msgid "Team"
 msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:243
-#: templates/singles/staff/staff_4.php:153
-#: templates/singles/staff/staff_5.php:176
+#: templates/singles/staff/staff_4.php:157
+#: templates/singles/staff/staff_5.php:180
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:121
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:293
 #: redux-framework/sample/sections/codeweber/socials.php:21
@@ -10637,10 +10686,6 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1242
 msgid "Temporary file not found."
-msgstr ""
-
-#: functions/admin/admin_privacy.php:1103
-msgid "Terms of Use"
 msgstr ""
 
 #: functions/woocommerce-gateway-test.php:20
@@ -10895,10 +10940,6 @@ msgstr ""
 
 #: redux-framework/sample-config.php:574
 msgid "The field desc is NOT visible in customizer."
-msgstr ""
-
-#: functions/integrations/image-licenses/image-licenses.php:309
-msgid "The following media files use this license:"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:191
@@ -11256,8 +11297,8 @@ msgid "Twitch"
 msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:204
-#: templates/singles/staff/staff_4.php:177
-#: templates/singles/staff/staff_5.php:200
+#: templates/singles/staff/staff_4.php:181
+#: templates/singles/staff/staff_5.php:204
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:152
 #: redux-framework/sample/sections/codeweber/socials.php:209
 #: redux-framework/sample/sections/extensions/users.php:219
@@ -11585,7 +11626,11 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:293
+#: redux-framework/sample/sections/codeweber/legal.php:816
+msgid "URL to scan:"
+msgstr ""
+
+#: functions/integrations/image-licenses/image-licenses.php:310
 msgid "URL to the licensed item if available online"
 msgstr ""
 
@@ -11624,7 +11669,7 @@ msgstr ""
 msgid "Use the following shortcode to display FAQ accordion:"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:173
+#: functions/integrations/image-licenses/image-licenses.php:190
 msgid "Use this file"
 msgstr ""
 
@@ -11826,7 +11871,7 @@ msgstr ""
 msgid "Vacancy updated"
 msgstr ""
 
-#: functions/global.php:562
+#: functions/global.php:490
 msgid "Vacancy URL"
 msgstr ""
 
@@ -11844,6 +11889,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:724
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:904
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:91
+#: redux-framework/sample/sections/codeweber/legal.php:834
 msgid "Value"
 msgstr ""
 
@@ -11906,8 +11952,8 @@ msgstr ""
 
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:380
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:439
-#: templates/archives/offices/offices_1.php:39
-#: templates/archives/offices/offices_2.php:39
+#: templates/archives/offices/offices_1.php:41
+#: templates/archives/offices/offices_2.php:41
 msgid "View Details"
 msgstr ""
 
@@ -11980,8 +12026,8 @@ msgid "View Legal"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:62
-#: functions/integrations/image-licenses/image-licenses.php:515
-#: functions/integrations/image-licenses/image-licenses.php:576
+#: functions/integrations/image-licenses/image-licenses.php:609
+#: functions/integrations/image-licenses/image-licenses.php:670
 msgid "View License"
 msgstr ""
 
@@ -12013,8 +12059,8 @@ msgstr ""
 msgid "View Page Headers"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:152
-#: functions/integrations/image-licenses/image-licenses.php:461
+#: functions/integrations/image-licenses/image-licenses.php:169
+#: functions/integrations/image-licenses/image-licenses.php:555
 msgid "View PDF"
 msgstr ""
 
@@ -12120,8 +12166,8 @@ msgid "VK Video"
 msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:236
-#: templates/singles/staff/staff_4.php:165
-#: templates/singles/staff/staff_5.php:188
+#: templates/singles/staff/staff_4.php:169
+#: templates/singles/staff/staff_5.php:192
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:124
 msgid "VKontakte"
 msgstr ""
@@ -12172,18 +12218,14 @@ msgstr ""
 #: functions/cpt/cpt-offices.php:289
 #: templates/singles/offices/offices_1.php:254
 #: templates/singles/offices/offices_5.php:168
-#: templates/singles/staff/staff_2.php:150
-#: templates/singles/staff/staff_4.php:143
-#: templates/singles/staff/staff_5.php:164
+#: templates/singles/staff/staff_2.php:159
+#: templates/singles/staff/staff_4.php:147
+#: templates/singles/staff/staff_5.php:168
 msgid "Website"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:383
 msgid "Website name"
-msgstr ""
-
-#: functions/admin/admin_privacy.php:1711
-msgid "Website Usage Rules"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:150
@@ -12198,8 +12240,8 @@ msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:216
 #: functions/bootstrap/bootstrap_share-page.php:248
-#: templates/singles/staff/staff_4.php:159
-#: templates/singles/staff/staff_5.php:182
+#: templates/singles/staff/staff_4.php:163
+#: templates/singles/staff/staff_5.php:186
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:122
 msgid "WhatsApp"
 msgstr ""
@@ -12351,10 +12393,10 @@ msgstr ""
 msgid "Work Experience"
 msgstr ""
 
-#: templates/singles/staff/staff_2.php:138
-#: templates/singles/staff/staff_3.php:145
-#: templates/singles/staff/staff_4.php:125
-#: templates/singles/staff/staff_5.php:131
+#: templates/singles/staff/staff_2.php:147
+#: templates/singles/staff/staff_3.php:149
+#: templates/singles/staff/staff_4.php:129
+#: templates/singles/staff/staff_5.php:135
 msgid "Work Phone"
 msgstr ""
 
@@ -12640,6 +12682,19 @@ msgstr ""
 msgid "Где показывать кнопку «Проверить адрес»"
 msgstr ""
 
+#: functions/documentation.php:19 functions/documentation.php:20
+#: functions/documentation.php:42
+msgid "Документация Сайта"
+msgstr ""
+
+#: functions/documentation.php:42
+msgid "Документация темы Codeweber"
+msgstr ""
+
+#: functions/documentation.php:92
+msgid "Начало"
+msgstr ""
+
 #: functions/integrations/dadata/class-codeweber-dadata.php:178
 msgid "Не удалось разобрать адрес. Проверьте ввод или введите адрес вручную."
 msgstr ""
@@ -12696,6 +12751,11 @@ msgstr ""
 msgid "Слишком много запросов. Повторите через несколько секунд."
 msgstr ""
 
+#: functions/documentation.php:27 functions/documentation.php:28
+#: functions/documentation.php:50 functions/documentation.php:50
+msgid "Функционал Сайта"
+msgstr ""
+
 #: functions/cpt/cpt-testimonials.php:576
 #: functions/cpt/cpt-testimonials.php:579
 #: functions/cpt/cpt-testimonials.php:591
@@ -12703,11 +12763,11 @@ msgstr ""
 msgid "—"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:557
+#: functions/integrations/image-licenses/image-licenses.php:651
 msgid "— No License —"
 msgstr ""
 
-#: functions/integrations/image-licenses/image-licenses.php:243
+#: functions/integrations/image-licenses/image-licenses.php:260
 msgid "— Select Author —"
 msgstr ""
 
@@ -12739,7 +12799,6 @@ msgstr ""
 msgid "— Select Vacancy —"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:38
 #: functions/integrations/cf7-consents-panel.php:92
 #: functions/integrations/cf7-consents-panel.php:330
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:116

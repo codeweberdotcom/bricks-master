@@ -17,9 +17,13 @@ require 'redux_custom_logos.php';
  */
 require 'redux_scanner_cookie.php';
 
+/**
+ *  Redux Tracking & Metrics — вывод кодов метрик в wp_head
+ */
+require 'redux_tracking_output.php';
 
 /**
- *  Redux Scanner Cookie
+ *  Redux Pageheader
  */
 require 'redux_pageheader.php';
 

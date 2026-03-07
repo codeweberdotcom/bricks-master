@@ -72,7 +72,16 @@ function codeweber_admin_styles_scripts()
 	if (empty($opt_name)) {
 		$opt_name = 'redux_demo';
 	}
-	
+
+	// Переопределения Redux (меню групп и т.д.) — на всех страницах админки (в т.ч. при редактировании записи с метабоксами)
+	wp_enqueue_style(
+		'codeweber-redux-admin-overrides',
+		get_template_directory_uri() . '/redux-framework/theme-settings/redux-admin-overrides.css',
+		array(),
+		wp_get_theme()->get('Version'),
+		'all'
+	);
+
 	// Проверяем, что текущая страница - это страница Redux настроек
 	if (isset($_GET['page']) && ($_GET['page'] === $opt_name || $_GET['page'] === 'redux_demo')) {
 		// Подключаем файл стилей только для этой страницы

@@ -8,10 +8,25 @@
 
 ```
 doc/
-├── Shortcodes/              # Документация по шорткодам
-│   ├── SHORTCODE_SOCIAL_LINKS.md
-│   ├── SHORTCODE_MENU_COLLAPSE.md
+├── Shortcodes/              # Документация по шорткодам (19 файлов)
+│   ├── SHORTCODE_ADDRESS.md
+│   ├── SHORTCODE_AJAX_SEARCH_FORM.md
+│   ├── SHORTCODE_BREADCRUMBS.md
+│   ├── SHORTCODE_CODEWEBER_FORM.md
 │   ├── SHORTCODE_CW_BLOG_POSTS_SLIDER.md
+│   ├── SHORTCODE_FAQ_ACCORDION.md
+│   ├── SHORTCODE_GET_CONTACT.md
+│   ├── SHORTCODE_GETTHEMEBUTTON.md
+│   ├── SHORTCODE_GETTHEMEFORM.md
+│   ├── SHORTCODE_HTML_BLOCK.md
+│   ├── SHORTCODE_MENU_COLLAPSE.md
+│   ├── SHORTCODE_MENU_LIST.md
+│   ├── SHORTCODE_PDN_SECTIONS.md
+│   ├── SHORTCODE_REDUX_OPTION.md
+│   ├── SHORTCODE_SITE_DOMAIN.md
+│   ├── SHORTCODE_SITE_DOMAIN_LINK.md
+│   ├── SHORTCODE_SOCIAL_LINKS.md
+│   ├── SHORTCODE_UNIVERSAL_TITLE.md
 │   └── menu-collapse-shortcode-php-examples.md
 │
 ├── Functions/               # Документация по функциям
@@ -25,12 +40,8 @@ doc/
 │   ├── dadata-integration-plan.md
 │   └── woocommerce-template-migration.md
 │
-├── Other/                   # Разное
+├── Other/                   # Сборка и инструменты
 │   └── GULP.md
-│
-├── Tasks/                   # Задачи и чеклисты
-│
-├── Analysis/                # Анализ и отчеты
 │
 ├── ajax/                    # AJAX функциональность
 │   ├── AJAX_FILTER.md
@@ -52,6 +63,7 @@ doc/
 │   └── GHOSTSCRIPT_INSTALL.md
 │
 ├── ARCHIVE_AND_CARD_TEMPLATES.md
+├── NAV_WALKER_USAGE.md                 # Руководство: WP_Bootstrap_Navwalker и CodeWeber_Menu_Collapse_Walker
 └── README.md
 ```
 
@@ -59,8 +71,27 @@ doc/
 
 Документация по всем шорткодам темы:
 
-- **[social_links](Shortcodes/SHORTCODE_SOCIAL_LINKS.md)** - Вывод социальных иконок
-- **[menu_collapse](Shortcodes/SHORTCODE_MENU_COLLAPSE.md)** - Меню с Bootstrap Collapse
+| Шорткод | Описание |
+|---------|----------|
+| [address](Shortcodes/SHORTCODE_ADDRESS.md) | Адрес из Redux |
+| [ajax_search_form](Shortcodes/SHORTCODE_AJAX_SEARCH_FORM.md) | Форма AJAX-поиска |
+| [breadcrumbs](Shortcodes/SHORTCODE_BREADCRUMBS.md) | Хлебные крошки |
+| [codeweber_form](Shortcodes/SHORTCODE_CODEWEBER_FORM.md) | Формы (стили для CF7) |
+| [cw_blog_posts_slider](Shortcodes/SHORTCODE_CW_BLOG_POSTS_SLIDER.md) | Слайдер постов блога |
+| [faq_accordion](Shortcodes/SHORTCODE_FAQ_ACCORDION.md) | FAQ-аккордеон |
+| [get_contact](Shortcodes/SHORTCODE_GET_CONTACT.md) | Контактные данные |
+| [getthemebutton](Shortcodes/SHORTCODE_GETTHEMEBUTTON.md) | Стиль кнопки для форм |
+| [getthemeform](Shortcodes/SHORTCODE_GETTHEMEFORM.md) | Стиль полей для форм |
+| [html_block](Shortcodes/SHORTCODE_HTML_BLOCK.md) | Вывод HTML-блока из Redux |
+| [menu_collapse](Shortcodes/SHORTCODE_MENU_COLLAPSE.md) | Меню с Bootstrap Collapse |
+| [menu_list](Shortcodes/SHORTCODE_MENU_LIST.md) | Список пунктов меню |
+| [pdn_sections](Shortcodes/SHORTCODE_PDN_SECTIONS.md) | Секции PDN |
+| [redux_option](Shortcodes/SHORTCODE_REDUX_OPTION.md) | Вывод опции Redux |
+| [site_domain](Shortcodes/SHORTCODE_SITE_DOMAIN.md) | Домен сайта |
+| [site_domain_link](Shortcodes/SHORTCODE_SITE_DOMAIN_LINK.md) | Ссылка на главную |
+| [social_links](Shortcodes/SHORTCODE_SOCIAL_LINKS.md) | Социальные иконки |
+| [universal_title](Shortcodes/SHORTCODE_UNIVERSAL_TITLE.md) | Универсальный заголовок |
+| [menu_collapse — примеры PHP](Shortcodes/menu-collapse-shortcode-php-examples.md) | Примеры вызова из PHP |
 
 ## Функции
 
@@ -98,6 +129,7 @@ doc/
 - **[Single шаблоны](modules/SINGLE_TEMPLATES.md)** - Создание шаблонов Single записей на примере staff
 - **[Redux настройки CPT](modules/REDUX_CPT_OPTIONS.md)** - Управление CPT через Redux Framework (шаблоны, сайдбары, заголовки)
 - **[Yandex Maps](modules/YANDEX_MAPS.md)** - Интеграция Яндекс карт с автоматическим спиннером загрузки
+- **[Использование Nav Walker](NAV_WALKER_USAGE.md)** — руководство по WP_Bootstrap_Navwalker и CodeWeber_Menu_Collapse_Walker: вызов wp_nav_menu(), параметры, примеры
 
 ### AJAX функциональность
 
@@ -114,7 +146,7 @@ doc/
 
 ### Сборка и разработка
 
-- **[Gulp руководство](GULP.md)** - Подробное руководство по системе сборки Gulp
+- **[Gulp руководство](Other/GULP.md)** - Подробное руководство по системе сборки Gulp
 
 ## 📚 Основные разделы
 
@@ -193,7 +225,7 @@ npm install
 npm run build
 ```
 
-**Подробная документация:** [Gulp руководство](GULP.md)
+**Подробная документация:** [Gulp руководство](Other/GULP.md)
 
 ### JavaScript модули
 
@@ -242,14 +274,21 @@ define('WP_DEBUG_LOG', true);
 - PHP ошибки: `wp-content/debug.log`
 - JavaScript ошибки: Консоль браузера (F12)
 
-## 📝 Контрибуция
+## 📝 Контрибуция и правила структуры
 
 При добавлении новой функциональности:
 
-1. Создайте соответствующий файл документации
-2. Разместите в правильной категории
-3. Обновите этот README.md
-4. Следуйте существующему формату документации
+1. Создайте соответствующий файл документации в нужной категории:
+   - **Shortcodes/** — один файл на шорткод, имя `SHORTCODE_<NAME>.md`
+   - **Functions/** — функции темы, имя `FUNCTION_<NAME>.md`
+   - **modules/** — CPT, шаблоны, сайдбары, метаполя, интеграции с сервисами
+   - **ajax/** — всё, что связано с AJAX
+   - **Integrations/** — сторонние сервисы (платежи, карты, CRM и т.п.)
+   - **images/** — работа с медиа и размерами изображений
+   - **install/** — пошаговая установка софта (например, Ghostscript)
+   - **Other/** — сборка, Gulp, прочие инструменты
+2. Обновите этот README.md (структуру и при необходимости раздел «Шорткоды» / «Функции»).
+3. Ссылки на другие документы указывайте относительными путями (например `../modules/CPT_CREATION.md`).
 
 ## 📞 Поддержка
 

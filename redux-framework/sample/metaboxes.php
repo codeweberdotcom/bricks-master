@@ -96,7 +96,7 @@ Redux_Metaboxes::set_box(
 	array(
 		'id'         => 'opt-metaboxes',
 		'title'      => esc_html__( 'This Post Settings', 'codeweber' ),
-		'post_types' => array( 'page', 'post', 'faq', 'projects', 'services', 'staff', 'clients', 'offices', 'legal', 'product' ),
+		'post_types' => array( 'page', 'post', 'faq', 'projects', 'services', 'staff', 'clients', 'offices', 'legal', 'product', 'vacancies', 'documents', 'price', 'testimonials' ),
 		'position'   => 'normal', // normal, advanced, side.
 		'priority'   => 'high', // high, core, default, low.
 		'sections'   => array(
@@ -460,7 +460,7 @@ Redux_Metaboxes::set_box(
 	$opt_name,
 	array(
 		'id'         => 'opt-metaboxes-3',
-		'post_types' => array('page', 'post', 'faq', 'projects', 'services', 'staff', 'clients', 'offices', 'legal', 'product'),
+		'post_types' => array( 'page', 'post', 'faq', 'projects', 'services', 'staff', 'clients', 'offices', 'legal', 'product', 'vacancies', 'documents', 'price', 'testimonials' ),
 		'position'   => 'side', // normal, advanced, side.
 		'priority'   => 'high', // high, core, default, low.
 		'sections'   => array(

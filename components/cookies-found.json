@@ -1,0 +1,57 @@
+{
+    "user_cookie_consent_aad5d974609d6f4436a188039b836f20": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "sbjs_migrations": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "sbjs_current_add": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "sbjs_first_add": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "sbjs_current": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "sbjs_first": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "sbjs_udata": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "tk_ai": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "woocommerce_items_in_cart": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "woocommerce_cart_hash": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "sbjs_session": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    }
+}

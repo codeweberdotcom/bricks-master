@@ -1,0 +1,92 @@
+{
+    "user_cookie_consent_aad5d974609d6f4436a188039b836f20": {
+        "owner": "Сайт",
+        "storage_duration": "1 год",
+        "type": "necessary",
+        "description": "Запоминает согласие пользователя на использование cookie, чтобы баннер не показывался повторно"
+    },
+    "woocommerce_items_in_cart": {
+        "owner": "WooCommerce",
+        "storage_duration": "Сессия",
+        "type": "functional",
+        "description": "Хранит данные о товарах в корзине (для отображения иконки корзины)"
+    },
+    "woocommerce_cart_hash": {
+        "owner": "WooCommerce",
+        "storage_duration": "Сессия",
+        "type": "functional",
+        "description": "Контрольная сумма содержимого корзины для отслеживания изменений"
+    },
+    "sbjs_current": {
+        "owner": "Аналитика",
+        "storage_duration": "Сессия",
+        "type": "analytics",
+        "description": "Данные о текущем визите (источник перехода, кампания)"
+    },
+    "sbjs_first": {
+        "owner": "Аналитика",
+        "storage_duration": "Сессия",
+        "type": "analytics",
+        "description": "Данные о первом визите пользователя на сайт"
+    },
+    "sbjs_session": {
+        "owner": "Аналитика",
+        "storage_duration": "Сессия",
+        "type": "analytics",
+        "description": "Данные текущей сессии (время на сайте, просмотры страниц)"
+    },
+    "sbjs_udata": {
+        "owner": "Аналитика",
+        "storage_duration": "Сессия",
+        "type": "analytics",
+        "description": "Технические данные о пользователе (браузер, ОС, язык)"
+    },
+    "sbjs_current_add": {
+        "owner": "Аналитика",
+        "storage_duration": "Сессия",
+        "type": "analytics",
+        "description": "Дополнительные параметры текущего визита для аналитики"
+    },
+    "sbjs_first_add": {
+        "owner": "Аналитика",
+        "storage_duration": "Сессия",
+        "type": "analytics",
+        "description": "Дополнительные параметры первого визита для аналитики"
+    },
+    "sbjs_migrations": {
+        "owner": "Аналитика",
+        "storage_duration": "Сессия",
+        "type": "analytics",
+        "description": "Служебный cookie для обновлений скрипта аналитики"
+    },
+    "tk_ai": {
+        "owner": "Jetpack",
+        "storage_duration": "Сессия",
+        "type": "analytics",
+        "description": "Уникальный идентификатор пользователя для статистики WordPress/Jetpack"
+    },
+    "tk_qs": {
+        "owner": "Jetpack",
+        "storage_duration": "Сессия",
+        "type": "analytics",
+        "description": "Метка времени для внутреннего поиска на сайте"
+    },
+    "_ym_uid": {
+        "owner": "Яндекс.Метрика",
+        "storage_duration": "Обычно 1 год",
+        "type": "analytics",
+        "description": "Уникальный идентификатор пользователя для сбора статистики в Яндекс.Метрике"
+    },
+    "_ym_d": {
+        "owner": "Яндекс.Метрика",
+        "storage_duration": "Обычно 1 год",
+        "type": "analytics",
+        "description": "Дата первого посещения сайта (временная метка) для определения новых и возвращающихся пользователей"
+    },
+    "_ym_isad": {
+        "owner": "Яндекс.Метрика",
+        "storage_duration": "Обычно 1 год",
+        "type": "analytics",
+        "description": "Показывает, пришёл ли пользователь с рекламы (для отслеживания эффективности рекламных кампаний)"
+    }
+}

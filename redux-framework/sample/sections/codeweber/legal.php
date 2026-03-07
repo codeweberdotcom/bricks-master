@@ -752,16 +752,52 @@ Redux::set_section(
 
 defined('ABSPATH') || exit;
 
-// Загружаем файл JSON с куками, если есть
-$known_cookies_file = get_template_directory() . '/components/cookies-known.json';
+// Суффикс файлов cookie по языку: '' (английский/по умолчанию) или '-ru' (русский)
+function codeweber_cookie_scanner_file_suffix() {
+    return (strpos(get_locale(), 'ru') !== false) ? '-ru' : '';
+}
+
+$cookie_scanner_suffix = codeweber_cookie_scanner_file_suffix();
+$components_dir = get_template_directory() . '/components';
+
+// Библиотека: название → назначение (только чтение). Файл по языку: cookies-known.json или cookies-known-ru.json
+$known_cookies_file = $components_dir . '/cookies-known' . $cookie_scanner_suffix . '.json';
+if (!file_exists($known_cookies_file)) {
+    $known_cookies_file = $components_dir . '/cookies-known.json';
+}
 $known_cookies = [];
 if (file_exists($known_cookies_file)) {
     $json_content = file_get_contents($known_cookies_file);
     $known_cookies = json_decode($json_content, true);
     if (!is_array($known_cookies)) {
-        $known_cookies = []; // на случай ошибок парсинга JSON
+        $known_cookies = [];
     }
 }
+
+// Результаты сканов по языку: cookies-found.json или cookies-found-ru.json
+$found_cookies_file = $components_dir . '/cookies-found' . $cookie_scanner_suffix . '.json';
+if (!file_exists($found_cookies_file)) {
+    $found_cookies_file = $components_dir . '/cookies-found.json';
+}
+$found_cookies = [];
+if (file_exists($found_cookies_file)) {
+    $found_content = file_get_contents($found_cookies_file);
+    $found_cookies = json_decode($found_content, true);
+    if (!is_array($found_cookies)) {
+        $found_cookies = [];
+    }
+}
+
+// Куки админки/WordPress/Redux — не показывать в сканере фронта (на фронте их быть не должно для политики)
+$cookie_scanner_admin_blocklist = [
+    'redux',
+    'wp-settings',
+    'wordpress_logged_in',
+    'wordpress_sec',
+    'wordpress_test_cookie',
+    'wp-postpass',
+    'wp-settings-',
+];
 
 // Код внутри Redux::set_section
 Redux::set_section($opt_name, [
@@ -775,61 +811,194 @@ Redux::set_section($opt_name, [
             'type'    => 'raw',
             'title'   => __('Scan Frontend Cookies', 'codeweber'),
             'content' => '
+                <p class="description">' . esc_html__('Open a page in a popup to read cookies set on that page. Use the homepage, cart, checkout, or any URL of your site.', 'codeweber') . '</p>
+                <p style="margin-bottom:8px;">
+                    <label for="cookie-scan-url" style="margin-right:8px;">' . esc_html__('URL to scan:', 'codeweber') . '</label>
+                    <input type="text" id="cookie-scan-url" value="/" placeholder="/" style="width:320px;" />
+                </p>
                 <button type="button" class="button button-primary" id="scan-frontend-cookies-btn">' .
                     __('Scan Frontend Cookies', 'codeweber') .
                 '</button>
-                <div id="cookie-frontend-results" style="margin-top:15px; max-height: 300px; overflow-y: auto; font-family: monospace;"></div>
+                <div id="cookie-frontend-results" style="margin-top:15px; max-height: 300px; overflow-x: auto; overflow-y: auto; font-family: monospace; width: 100%;"></div>
+                <p id="cookie-export-actions" style="margin-top:12px; display:none;">
+                    <button type="button" class="button" id="cookie-export-json-btn">' . esc_html__('Export to JSON', 'codeweber') . '</button>
+                    <button type="button" class="button" id="cookie-save-file-btn">' . esc_html(sprintf(__('Save to %s', 'codeweber'), 'cookies-found' . $cookie_scanner_suffix . '.json')) . '</button>
+                    <button type="button" class="button" id="cookie-clear-all-btn" style="margin-left:8px;">' . esc_html__('Clear all', 'codeweber') . '</button>
+                    <span id="cookie-save-message" style="margin-left:8px;"></span>
+                </p>
+                <textarea id="cookie-export-json" readonly style="display:none; width:100%; height:120px; margin-top:8px; font-family: monospace; font-size: 12px;"></textarea>
 
                 <script>
-                    // Передаем PHP-массив known_cookies в JS в виде объекта
                     const knownCookies = ' . json_encode($known_cookies, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) . ';
+                    const foundCookies = ' . json_encode($found_cookies, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) . ';
+                    var cookieScannerI18n = { id: "' . esc_js(__('Identifier', 'codeweber')) . '", value: "' . esc_js(__('Value', 'codeweber')) . '", owner: "' . esc_js(__('Owner', 'codeweber')) . '", storage: "' . esc_js(__('Storage duration', 'codeweber')) . '", type: "' . esc_js(__('Cookie type', 'codeweber')) . '", necessary: "' . esc_js(__('Necessary', 'codeweber')) . '", analytics: "' . esc_js(__('Analytics', 'codeweber')) . '", marketing: "' . esc_js(__('Marketing', 'codeweber')) . '", functional: "' . esc_js(__('Functional', 'codeweber')) . '", other: "' . esc_js(__('Other', 'codeweber')) . '", delete: "' . esc_js(__('Delete', 'codeweber')) . '", clearAll: "' . esc_js(__('Clear all', 'codeweber')) . '" };
+                    var cookieScannerDeletedKeys = [];
+                    var cookieScannerAjaxUrl = "' . esc_js(admin_url('admin-ajax.php')) . '";
+                    var cookieScannerSaveNonce = "' . esc_js(wp_create_nonce('codeweber_save_known_cookies')) . '";
+                    var cookieScannerAdminBlocklist = ' . json_encode(array_values($cookie_scanner_admin_blocklist)) . ';
+
+                    function cookieScannerEsc(s) {
+                        if (s == null) return "";
+                        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/\'/g, "&#39;");
+                    }
+                    function cookieScannerParseList(cookieStr) {
+                        var raw = (cookieStr || "").trim();
+                        if (!raw) return [];
+                        return raw.split(";").map(function(part) {
+                            part = part.trim();
+                            var idx = part.indexOf("=");
+                            if (idx < 0) return { name: part, value: "" };
+                            return { name: part.slice(0, idx).trim(), value: part.slice(idx + 1).trim() };
+                        }).filter(function(p) { return p.name !== ""; });
+                    }
+                    function cookieScannerDecodeValue(str) {
+                        try { return decodeURIComponent(str || ""); } catch (e) { return str || ""; }
+                    }
+                    var typeMap = { necessary: "necessary", analytics: "analytics", marketing: "marketing", functional: "functional", other: "other", "Необходимые": "necessary", "Аналитические": "analytics", "Маркетинговые": "marketing", "Функциональные": "functional", "Other": "other" };
+
+                    function cookieScannerRenderTable(list) {
+                        cookieScannerDeletedKeys = [];
+                        var html = "<table style=\\"width:100%; min-width:100%; border-collapse:collapse;\\"><thead><tr>" +
+                            "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;\\">" + cookieScannerEsc(cookieScannerI18n.id) + "</th>" +
+                            "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;\\">" + cookieScannerEsc(cookieScannerI18n.value) + "</th>" +
+                            "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;min-width:80px;\\">" + cookieScannerEsc(cookieScannerI18n.owner) + "</th>" +
+                            "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;min-width:120px;\\">" + cookieScannerEsc(cookieScannerI18n.storage) + "</th>" +
+                            "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;min-width:80px;\\">" + cookieScannerEsc(cookieScannerI18n.type) + "</th>" +
+                            "<th style=\\"border:1px solid #ddd;padding:8px;text-align:center;white-space:nowrap;width:70px;\\"></th></tr></thead><tbody>";
+                        list.forEach(function(item) {
+                            var info = knownCookies[item.name] || foundCookies[item.name] || {};
+                            var normalizedType = typeMap[info.type] || typeMap[info.type && info.type.trim()] || "other";
+                            var valueDisplay = item.value ? cookieScannerDecodeValue(item.value) : "";
+                            html += "<tr><td style=\\"border:1px solid #ddd;padding:8px;\\">" + cookieScannerEsc(item.name) + "</td>" +
+                                "<td style=\\"border:1px solid #ddd;padding:8px;\\">" + cookieScannerEsc(valueDisplay) + "</td>" +
+                                "<td style=\\"border:1px solid #ddd;padding:8px;min-width:200px;\\"><input type=\'text\' value=\'" + cookieScannerEsc(info.description || info.owner || "") + "\' placeholder=\'" + cookieScannerEsc(cookieScannerI18n.owner) + "\' style=\'width:100%;min-width:180px;box-sizing:border-box;\'></td>" +
+                                "<td style=\\"border:1px solid #ddd;padding:8px;\\"><input type=\'text\' value=\'" + cookieScannerEsc(info.storage_duration || "") + "\' placeholder=\'" + cookieScannerEsc(cookieScannerI18n.storage) + "\' style=\'width:auto;min-width:100px;box-sizing:border-box;\'></td>" +
+                                "<td style=\\"border:1px solid #ddd;padding:8px;\\"><select style=\'width:auto;min-width:70px;box-sizing:border-box;\'>" +
+                                    "<option value=\'necessary\' " + (normalizedType === "necessary" ? "selected" : "") + ">" + cookieScannerEsc(cookieScannerI18n.necessary) + "</option>" +
+                                    "<option value=\'analytics\' " + (normalizedType === "analytics" ? "selected" : "") + ">" + cookieScannerEsc(cookieScannerI18n.analytics) + "</option>" +
+                                    "<option value=\'marketing\' " + (normalizedType === "marketing" ? "selected" : "") + ">" + cookieScannerEsc(cookieScannerI18n.marketing) + "</option>" +
+                                    "<option value=\'functional\' " + (normalizedType === "functional" ? "selected" : "") + ">" + cookieScannerEsc(cookieScannerI18n.functional) + "</option>" +
+                                    "<option value=\'other\' " + (normalizedType === "other" ? "selected" : "") + ">" + cookieScannerEsc(cookieScannerI18n.other) + "</option></select></td>" +
+                                "<td style=\\"border:1px solid #ddd;padding:8px;text-align:center;\\"><button type=\'button\' class=\'button button-small cookie-row-delete\' data-name=\'" + cookieScannerEsc(item.name) + "\'>" + cookieScannerEsc(cookieScannerI18n.delete) + "</button></td></tr>";
+                        });
+                        html += "</tbody></table>";
+                        document.getElementById("cookie-frontend-results").innerHTML = html;
+                        document.getElementById("cookie-export-actions").style.display = "block";
+                        document.getElementById("cookie-export-json").style.display = "none";
+                        document.getElementById("cookie-save-message").textContent = "";
+                        document.getElementById("cookie-frontend-results").querySelectorAll(".cookie-row-delete").forEach(function(btn) {
+                            btn.addEventListener("click", function() {
+                                var name = btn.getAttribute("data-name");
+                                if (name) cookieScannerDeletedKeys.push(name);
+                                var tr = btn.closest("tr");
+                                if (tr) tr.parentNode.removeChild(tr);
+                            });
+                        });
+                    }
+
+                    (function loadSavedCookiesTable() {
+                        var names = Object.keys(foundCookies);
+                        if (names.length > 0) {
+                            var list = names.map(function(name) { return { name: name, value: "" }; });
+                            cookieScannerRenderTable(list);
+                        }
+                    })();
 
                     document.getElementById("scan-frontend-cookies-btn").addEventListener("click", function() {
-                        const popup = window.open("/", "cookieScanner", "width=800,height=600");
-
+                        var u = (document.getElementById("cookie-scan-url").value || "").trim() || "/";
+                        if (u.indexOf("http") !== 0) u = window.location.origin + (u.indexOf("/") === 0 ? u : "/" + u);
+                        var popup = window.open(u, "cookieScanner", "width=800,height=600");
                         window.addEventListener("message", function(event) {
                             if (event.origin !== window.location.origin) return;
                             if (!event.data || event.data.type !== "frontend_cookies") return;
 
-                            const cookies = event.data.cookies.split(";").map(c => c.trim().split("="));
-                            let html = "<table style=\\"border-collapse:collapse;\\">";
-                            html += "<thead><tr>" +
-                                "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;\\">Идентификатор</th>" +
-                                "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;\\">Значение</th>" +
-                                "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;min-width:80px;\\">Владелец</th>" +
-                                "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;min-width:120px;\\">Время хранения Куки</th>" +
-                                "<th style=\\"border:1px solid #ddd;padding:8px;text-align:left;white-space:nowrap;min-width:80px;\\">Тип Куки</th>" +
-                                "</tr></thead><tbody>";
-
-                            cookies.forEach(function(pair) {
-                                const name = pair[0];
-                                const value = decodeURIComponent(pair[1] || "");
-                                const info = knownCookies[name] || {};
-
-                                html += "<tr>" +
-                                    "<td style=\\"border:1px solid #ddd;padding:8px;\\">" + name + "</td>" +
-                                    "<td style=\\"border:1px solid #ddd;padding:8px;\\">" + value + "</td>" +
-                                    "<td style=\\"border:1px solid #ddd;padding:8px;\\"><input type=\'text\' value=\'" + (info.owner || "") + "\' placeholder=\'Owner\' style=\'width:auto; min-width: 70px; box-sizing: border-box;\'></td>" +
-                                    "<td style=\\"border:1px solid #ddd;padding:8px;\\"><input type=\'text\' value=\'" + (info.storage_duration || "") + "\' placeholder=\'Storage Duration\' style=\'width:auto; min-width: 100px; box-sizing: border-box;\'></td>" +
-                                    "<td style=\\"border:1px solid #ddd;padding:8px;\\"><select style=\'width:auto; min-width: 70px; box-sizing: border-box;\'>" +
-                                        "<option value=\'necessary\' " + ((info.type === "necessary") ? "selected" : "") + ">Необходимые</option>" +
-                                        "<option value=\'analytics\' " + ((info.type === "analytics") ? "selected" : "") + ">Аналитические</option>" +
-                                        "<option value=\'marketing\' " + ((info.type === "marketing") ? "selected" : "") + ">Маркетинговые</option>" +
-                                        "<option value=\'functional\' " + ((info.type === "functional") ? "selected" : "") + ">Функциональные</option>" +
-                                        "<option value=\'other\' " + ((info.type === "other") ? "selected" : "") + ">Other</option>" +
-                                    "</select></td>" +
-                                    "</tr>";
+                            var list = cookieScannerParseList(event.data.cookies);
+                            list = list.filter(function(item) {
+                                return !cookieScannerAdminBlocklist.some(function(prefix) { return item.name.indexOf(prefix) === 0; });
                             });
-
-                            html += "</tbody></table>";
-                            document.getElementById("cookie-frontend-results").innerHTML = html;
-
-							// --- Добавлено закрытие окна без ломания кода ---
-    if (popup && !popup.closed) {
-        popup.close();
-    }
-
+                            cookieScannerRenderTable(list);
+                            if (popup && !popup.closed) popup.close();
                         }, { once: true });
+                    });
+
+                    function cookieScannerCollectTable() {
+                        var out = {};
+                        var rows = document.querySelectorAll("#cookie-frontend-results tbody tr");
+                        rows.forEach(function(tr) {
+                            var name = (tr.cells[0] && tr.cells[0].textContent) ? tr.cells[0].textContent.trim() : "";
+                            if (!name) return;
+                            var inputs = tr.querySelectorAll("input[type=text]");
+                            var sel = tr.querySelector("select");
+                            out[name] = {
+                                owner: inputs[0] ? inputs[0].value.trim() : "",
+                                storage_duration: inputs[1] ? inputs[1].value.trim() : "",
+                                type: sel ? sel.value : "other"
+                            };
+                        });
+                        return out;
+                    }
+
+                    document.getElementById("cookie-export-json-btn").addEventListener("click", function() {
+                        var data = cookieScannerCollectTable();
+                        var json = JSON.stringify(data, null, 2);
+                        var ta = document.getElementById("cookie-export-json");
+                        ta.value = json;
+                        ta.style.display = "block";
+                        ta.select();
+                        try { document.execCommand("copy"); } catch (e) {}
+                    });
+
+                    document.getElementById("cookie-save-file-btn").addEventListener("click", function() {
+                        var data = cookieScannerCollectTable();
+                        var msgEl = document.getElementById("cookie-save-message");
+                        var btn = document.getElementById("cookie-save-file-btn");
+                        btn.disabled = true;
+                        msgEl.textContent = "";
+                        var formData = new FormData();
+                        formData.append("action", "codeweber_save_known_cookies");
+                        formData.append("nonce", cookieScannerSaveNonce);
+                        formData.append("cookies_json", JSON.stringify(data));
+                        formData.append("deleted_keys", JSON.stringify(cookieScannerDeletedKeys));
+                        fetch(cookieScannerAjaxUrl, { method: "POST", body: formData, credentials: "same-origin" })
+                            .then(function(r) { return r.json(); })
+                            .then(function(res) {
+                                if (res.success) {
+                                    cookieScannerDeletedKeys = [];
+                                    msgEl.style.color = "green";
+                                    msgEl.textContent = res.data && res.data.message ? res.data.message : "Saved.";
+                                } else {
+                                    msgEl.style.color = "#b32d2e";
+                                    msgEl.textContent = res.data && res.data.message ? res.data.message : "Error.";
+                                }
+                            })
+                            .catch(function() {
+                                msgEl.style.color = "#b32d2e";
+                                msgEl.textContent = "Request failed.";
+                            })
+                            .then(function() { btn.disabled = false; });
+                    });
+
+                    document.getElementById("cookie-clear-all-btn").addEventListener("click", function() {
+                        if (!confirm(cookieScannerI18n.clearAll + "?")) return;
+                        var btn = document.getElementById("cookie-clear-all-btn");
+                        btn.disabled = true;
+                        var formData = new FormData();
+                        formData.append("action", "codeweber_save_known_cookies");
+                        formData.append("nonce", cookieScannerSaveNonce);
+                        formData.append("cookies_json", "{}");
+                        formData.append("replace_entirely", "1");
+                        fetch(cookieScannerAjaxUrl, { method: "POST", body: formData, credentials: "same-origin" })
+                            .then(function(r) { return r.json(); })
+                            .then(function(res) {
+                                if (res.success) {
+                                    document.getElementById("cookie-frontend-results").innerHTML = "";
+                                    document.getElementById("cookie-export-actions").style.display = "none";
+                                    document.getElementById("cookie-save-message").textContent = res.data && res.data.message ? res.data.message : "";
+                                    document.getElementById("cookie-save-message").style.color = "green";
+                                    cookieScannerDeletedKeys = [];
+                                }
+                            })
+                            .then(function() { btn.disabled = false; });
                     });
                 </script>
             ',
