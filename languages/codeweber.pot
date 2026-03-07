@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-07 15:42+0000\n"
+"POT-Creation-Date: 2026-03-07 16:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -330,7 +330,7 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:93
+#: functions/integrations/redux_framework/redux_framework.php:97
 #: redux-framework/sample/sections/codeweber/legal.php:148
 msgid "Accumulation Data"
 msgstr ""
@@ -1371,7 +1371,7 @@ msgstr ""
 msgid "Block with quote and icon"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:99
+#: functions/integrations/redux_framework/redux_framework.php:103
 #: redux-framework/sample/sections/codeweber/legal.php:154
 msgid "Blocking Data"
 msgstr ""
@@ -1915,7 +1915,7 @@ msgstr ""
 msgid "Codeweber Forms submission data anonymized"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:90
+#: functions/integrations/redux_framework/redux_framework.php:94
 #: redux-framework/sample/sections/codeweber/legal.php:145
 msgid "Collection Data"
 msgstr ""
@@ -2958,7 +2958,7 @@ msgstr ""
 msgid "Deleting forms..."
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:100
+#: functions/integrations/redux_framework/redux_framework.php:104
 #: redux-framework/sample/sections/codeweber/legal.php:155
 msgid "Deletion Data"
 msgstr ""
@@ -3043,7 +3043,7 @@ msgstr ""
 msgid "Desktop Optimized"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:101
+#: functions/integrations/redux_framework/redux_framework.php:105
 #: redux-framework/sample/sections/codeweber/legal.php:156
 msgid "Destruction Data"
 msgstr ""
@@ -3951,7 +3951,7 @@ msgstr ""
 msgid "Extra Large (modal-xl)"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:96
+#: functions/integrations/redux_framework/redux_framework.php:100
 #: redux-framework/sample/sections/codeweber/legal.php:151
 msgid "Extraction Data"
 msgstr ""
@@ -8410,7 +8410,7 @@ msgstr ""
 msgid "Record ID"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:91
+#: functions/integrations/redux_framework/redux_framework.php:95
 #: redux-framework/sample/sections/codeweber/legal.php:146
 msgid "Recording Data"
 msgstr ""
@@ -10222,7 +10222,7 @@ msgstr ""
 msgid "Steam"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:94
+#: functions/integrations/redux_framework/redux_framework.php:98
 #: redux-framework/sample/sections/codeweber/legal.php:149
 msgid "Storage Data"
 msgstr ""
@@ -10602,7 +10602,7 @@ msgstr ""
 msgid "Sverdlovsk Oblast"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:92
+#: functions/integrations/redux_framework/redux_framework.php:96
 #: redux-framework/sample/sections/codeweber/legal.php:147
 msgid "Systematization Data"
 msgstr ""
@@ -11246,7 +11246,7 @@ msgstr ""
 msgid "Tracks: Form Opened, Form Submission, Form Errors"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:98
+#: functions/integrations/redux_framework/redux_framework.php:102
 #: redux-framework/sample/sections/codeweber/legal.php:153
 msgid "Transfer (distribution, provision, access) Data"
 msgstr ""
@@ -11524,7 +11524,7 @@ msgstr ""
 msgid "updated"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:95
+#: functions/integrations/redux_framework/redux_framework.php:99
 #: redux-framework/sample/sections/codeweber/legal.php:150
 msgid "Updating (clarification, modification) Data"
 msgstr ""
@@ -11634,7 +11634,7 @@ msgstr ""
 msgid "URL to the licensed item if available online"
 msgstr ""
 
-#: functions/integrations/redux_framework/redux_framework.php:97
+#: functions/integrations/redux_framework/redux_framework.php:101
 #: redux-framework/sample/sections/codeweber/legal.php:152
 msgid "Usage Data"
 msgstr ""

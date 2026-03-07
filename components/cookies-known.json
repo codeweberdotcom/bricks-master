@@ -73,19 +73,19 @@
     },
     "_ym_uid": {
         "owner": "Yandex.Metrika",
-        "storage_duration": "Usually 1 year",
+        "storage_duration": "1 year",
         "type": "analytics",
         "description": "Unique user identifier for Yandex.Metrika statistics"
     },
     "_ym_d": {
         "owner": "Yandex.Metrika",
-        "storage_duration": "Usually 1 year",
+        "storage_duration": "1 year",
         "type": "analytics",
         "description": "First visit date (timestamp) for distinguishing new and returning users"
     },
     "_ym_isad": {
         "owner": "Yandex.Metrika",
-        "storage_duration": "Usually 1 year",
+        "storage_duration": "1 year",
         "type": "analytics",
         "description": "Indicates whether the user came from advertising (for tracking ad campaign effectiveness)"
     }

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-03-07 15:42+0000\n"
+"PO-Revision-Date: 2026-03-07 16:16+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -2154,6 +2154,11 @@ msgstr "Настройки срока хранения согласий"
 msgid "Consent Text"
 msgstr "Текст согласия"
 
+#: functions/admin/admin_privacy.php:1659
+#, fuzzy
+msgid "Consent to Data Processing"
+msgstr "Согласие на обработку данных"
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:215
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:272
 msgid "Consent to data processing"
@@ -2301,6 +2306,11 @@ msgstr "Cookie Данные"
 msgid "Cookie Expiration Date"
 msgstr "Срок действия Cookie-файла*"
 
+#: functions/admin/admin_privacy.php:1379
+#, fuzzy
+msgid "Cookie Policy"
+msgstr "Политика использования файлов cookie"
+
 #: redux-framework/sample/sections/codeweber/legal.php:804
 msgid "Cookie Scanner"
 msgstr "Cookie Сканер"
@@ -2353,6 +2363,11 @@ msgstr "Не удалось прочитать файл."
 #: redux-framework/sample/sections/codeweber/company-details.php:113
 msgid "Country"
 msgstr "Страна"
+
+#: functions/admin/admin_privacy.php:109
+#, fuzzy
+msgid "Create"
+msgstr "Создать"
 
 #: redux-framework/sample/sections/codeweber/demo.php:261
 msgid ""
@@ -3118,6 +3133,11 @@ msgstr "Удаление форм..."
 msgid "Deletion Data"
 msgstr "удаление"
 
+#: functions/admin/admin_privacy.php:1733
+#, fuzzy
+msgid "Delivery Terms"
+msgstr "Условия доставки"
+
 #: redux-framework/sample/sections/codeweber/demo.php:13
 msgid "Demo"
 msgstr "Демо"
@@ -3719,6 +3739,11 @@ msgstr "Email обязателен"
 #: redux-framework/sample/sections/codeweber/smtp.php:201
 msgid "Email is required."
 msgstr "E-Mail обязателен для заполнения"
+
+#: functions/admin/admin_privacy.php:1745
+#, fuzzy
+msgid "Email Marketing Consent"
+msgstr "Согласие на email-маркетинг"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:66
 msgid "Email or phone is required"
@@ -5391,6 +5416,21 @@ msgstr "Скрыть автора в сайдбаре на фронтенде"
 msgid "Hide Download Menu"
 msgstr "Скрыть меню Загрузки"
 
+#: functions/admin/admin_privacy.php:2070
+#, fuzzy
+msgid "Hide from Archive"
+msgstr "Скрыть из архива"
+
+#: functions/admin/admin_privacy.php:114
+#, fuzzy
+msgid "Hide from archive"
+msgstr "Скрыть из архива"
+
+#: functions/admin/admin_privacy.php:2086
+#, fuzzy
+msgid "Hide this document from archive"
+msgstr "Скрыть этот документ из архива"
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:664
 msgid "Higher values appear on top. Min: 100, Max: 9999, Default: 999"
 msgstr ""
@@ -6204,6 +6244,10 @@ msgstr "Юридические документы Архив"
 msgid "Legal Document"
 msgstr "Юридический документ"
 
+#: functions/admin/admin_privacy.php:141
+msgid "Legal Documents Settings"
+msgstr "Настройки юридических документов"
+
 #: redux-framework/sample/sections/codeweber/legal.php:31
 #| msgid "Legal Entity (Company Name)"
 msgid "Legal Entity (Company Name) "
@@ -6221,6 +6265,11 @@ msgstr "Юридическое название (Компания) Сокращ�
 msgid "Legal Published"
 msgstr "Юридический документ опубликован"
 
+#: functions/admin/admin_privacy.php:134 functions/admin/admin_privacy.php:135
+#: functions/admin/admin_privacy.php:536
+msgid "Legal Settings"
+msgstr "Юридические настройки"
+
 #: functions/cpt/cpt-legal.php:20
 msgid "Legal Updated"
 msgstr "Юридические документы обновлены"
@@ -6232,6 +6281,11 @@ msgstr "Ленинградская область"
 #: functions/integrations/image-licenses/image-licenses.php:586
 msgid "License"
 msgstr "Лицензия"
+
+#: functions/admin/admin_privacy.php:1780
+#, fuzzy
+msgid "License Agreement"
+msgstr "Лицензионное соглашение"
 
 #: functions/integrations/image-licenses/image-licenses.php:53
 msgid "License Archives"
@@ -8706,7 +8760,7 @@ msgstr "Приморский край"
 msgid "Privacy Data"
 msgstr "Данные для Политики"
 
-#: functions/integrations/cf7-consents-panel.php:423
+#: functions/admin/admin_privacy.php:553
 msgid "Privacy Policy"
 msgstr "Политика в отношении обработки персональных данных"
 
@@ -8784,6 +8838,11 @@ msgstr "Имя поставщика"
 #: functions/woocommerce-states-ru.php:67
 msgid "Pskov Oblast"
 msgstr "Псковская область"
+
+#: functions/admin/admin_privacy.php:1721
+#, fuzzy
+msgid "Public Offer Agreement"
+msgstr "Публичная оферта"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:340
 msgid "Public Transport"
@@ -9252,6 +9311,11 @@ msgstr "Срок хранения (дней)"
 msgid "Retention settings saved."
 msgstr "Настройки срока хранения сохранены."
 
+#: functions/admin/admin_privacy.php:1739
+#, fuzzy
+msgid "Return Policy"
+msgstr "Политика возврата"
+
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:909
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1206
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:319
@@ -9443,6 +9507,15 @@ msgstr "говорит:"
 #: redux-framework/sample/sections/codeweber/legal.php:806
 msgid "Scan and display browser cookies."
 msgstr "Сканировать и отображать файлы cookie браузера."
+
+msgid "Output cookie table on the site"
+msgstr "Вывод таблицы cookie на сайте"
+
+msgid "To display the list of cookies (from the library and scan results) on any page or post, use the shortcode:"
+msgstr "Чтобы вывести список cookie (из библиотеки и результатов сканирования) на любой странице или в записи, используйте шорткод:"
+
+msgid "Insert this shortcode into the content of the page (e.g. Cookie Policy). The table will show cookies for the current site language (cookies-known.json / cookies-found.json or their -ru variants)."
+msgstr "Вставьте этот шорткод в контент страницы (например, «Политика cookie»). Таблица покажет cookie для текущего языка сайта (cookies-known.json / cookies-found.json или их варианты -ru)."
 
 #: redux-framework/sample/sections/codeweber/legal.php:812
 #: redux-framework/sample/sections/codeweber/legal.php:820
@@ -9885,6 +9958,11 @@ msgstr "Выберите изображение офиса"
 msgid "Select option"
 msgstr "Выберите вариант"
 
+#: functions/admin/admin_privacy.php:93
+#, fuzzy
+msgid "Select or create pages for legal documents..."
+msgstr "Выберите или создайте страницы для юридических документов..."
+
 #: redux-framework/sample/metaboxes.php:393
 msgid "Select Page Header"
 msgstr "Выберите тип Заголовка"
@@ -10026,6 +10104,11 @@ msgstr "Адрес выбранной на карте точки"
 #: redux-framework/sample/sections/codeweber/map_geo.php:111
 msgid "Selected point coordinates"
 msgstr "Координаты выбранной точки"
+
+#: functions/admin/admin_privacy.php:1786
+#, fuzzy
+msgid "Seller Information"
+msgstr "Информация о продавце"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:718
 msgid "Send automatic reply emails for newsletter subscriptions"
@@ -10323,6 +10406,11 @@ msgstr ""
 #, fuzzy
 msgid "Shortcode Docs"
 msgstr "Документация по коротким кодам"
+
+#: functions/admin/admin_privacy.php:119
+#, fuzzy
+msgid "Shortcode:"
+msgstr "Шорткод:"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:218
 msgid "Shortcode: [redux_option key=\"bank-bank-address\"]"
@@ -11414,6 +11502,11 @@ msgstr "Временный каталог не доступен для запи�
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1242
 msgid "Temporary file not found."
 msgstr "Временный файл не найден."
+
+#: functions/admin/admin_privacy.php:1103
+#, fuzzy
+msgid "Terms of Use"
+msgstr "Условия использования"
 
 #: functions/woocommerce-gateway-test.php:20
 #, fuzzy
@@ -13055,6 +13148,11 @@ msgstr "Вебсайт"
 #, fuzzy
 msgid "Website name"
 msgstr "Название сайта"
+
+#: functions/admin/admin_privacy.php:1727
+#, fuzzy
+msgid "Website Usage Rules"
+msgstr "Правила использования сайта"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:150
 #: redux-framework/sample/sections/codeweber/socials.php:196

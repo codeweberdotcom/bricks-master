@@ -1,1 +1,72 @@
-[]
+{
+    "user_cookie_consent_aad5d974609d6f4436a188039b836f20": {
+        "owner": "Запоминает согласие пользователя на использование cookie, чтобы баннер не показывался повторно",
+        "storage_duration": "1 год",
+        "type": "necessary"
+    },
+    "sbjs_migrations": {
+        "owner": "Служебный cookie для обновлений скрипта аналитики",
+        "storage_duration": "Сессия",
+        "type": "analytics"
+    },
+    "sbjs_current_add": {
+        "owner": "Дополнительные параметры текущего визита для аналитики",
+        "storage_duration": "Сессия",
+        "type": "analytics"
+    },
+    "sbjs_first_add": {
+        "owner": "Дополнительные параметры первого визита для аналитики",
+        "storage_duration": "Сессия",
+        "type": "analytics"
+    },
+    "sbjs_current": {
+        "owner": "Данные о текущем визите (источник перехода, кампания)",
+        "storage_duration": "Сессия",
+        "type": "analytics"
+    },
+    "sbjs_first": {
+        "owner": "Данные о первом визите пользователя на сайт",
+        "storage_duration": "Сессия",
+        "type": "analytics"
+    },
+    "sbjs_udata": {
+        "owner": "Технические данные о пользователе (браузер, ОС, язык)",
+        "storage_duration": "Сессия",
+        "type": "analytics"
+    },
+    "tk_ai": {
+        "owner": "Уникальный идентификатор пользователя для статистики WordPress\/Jetpack",
+        "storage_duration": "Сессия",
+        "type": "analytics"
+    },
+    "woocommerce_items_in_cart": {
+        "owner": "Хранит данные о товарах в корзине (для отображения иконки корзины)",
+        "storage_duration": "Сессия",
+        "type": "functional"
+    },
+    "woocommerce_cart_hash": {
+        "owner": "Контрольная сумма содержимого корзины для отслеживания изменений",
+        "storage_duration": "Сессия",
+        "type": "functional"
+    },
+    "_ym_uid": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "_ym_d": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "_ym_isad": {
+        "owner": "",
+        "storage_duration": "",
+        "type": "other"
+    },
+    "sbjs_session": {
+        "owner": "Данные текущей сессии (время на сайте, просмотры страниц)",
+        "storage_duration": "Сессия",
+        "type": "analytics"
+    }
+}

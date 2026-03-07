@@ -807,6 +807,15 @@ Redux::set_section($opt_name, [
     'subsection' => true,
     'fields'     => [
         [
+            'id'      => 'cookie_scanner_shortcode_info',
+            'type'    => 'info',
+            'style'   => 'info',
+            'title'   => __('Output cookie table on the site', 'codeweber'),
+            'desc'    => '<p>' . __('To display the list of cookies (from the library and scan results) on any page or post, use the shortcode:', 'codeweber') . '</p>' .
+                '<p><code>[codeweber_cookie_table]</code></p>' .
+                '<p>' . __('Insert this shortcode into the content of the page (e.g. Cookie Policy). The table will show cookies for the current site language (cookies-known.json / cookies-found.json or their -ru variants).', 'codeweber') . '</p>',
+        ],
+        [
             'id'      => 'cookie_scan_raw',
             'type'    => 'raw',
             'title'   => __('Scan Frontend Cookies', 'codeweber'),
