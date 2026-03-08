@@ -1,0 +1,74 @@
+<?php
+/**
+ * Template Name: Single Legal
+ * Шаблон для одиночной записи типа Legal (без блока автора и комментариев).
+ *
+ * @package Codeweber
+ */
+
+get_header();
+
+while (have_posts()) :
+	the_post();
+	get_pageheader();
+
+	$post_type = 'legal';
+	$post_type_lc = 'legal';
+	global $opt_name;
+	if (empty($opt_name)) {
+		$opt_name = 'redux_demo';
+	}
+	$sidebar_position = get_sidebar_position($opt_name);
+
+	$content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-md-8';
+	$pageheader_name = Redux::get_option($opt_name, 'global_page_header_model');
+	$single_pageheader_id = Redux::get_option($opt_name, 'single_page_header_select_' . $post_type);
+	$show_universal_title = ($pageheader_name === '1' && $single_pageheader_id !== 'disabled');
+?>
+
+	<section class="wrapper">
+		<div class="container">
+			<?php do_action('before_single_content', $post_type); ?>
+			<div class="row gx-lg-8 gx-xl-12">
+				<?php get_sidebar('left'); ?>
+
+				<div id="article-wrapper" class="<?php echo $content_class; ?> py-14">
+					<?php if ($show_universal_title) { ?>
+						<h1 class="display-4 mb-10"><?php echo universal_title(); ?></h1>
+					<?php } ?>
+
+					<?php
+					$templatesingle = Redux::get_option($opt_name, 'single_template_select_' . $post_type);
+					$template_file = "templates/singles/{$post_type_lc}/{$templatesingle}.php";
+					$template_loaded = false;
+
+					if (!empty($templatesingle) && locate_template($template_file)) {
+						get_template_part("templates/singles/{$post_type_lc}/{$templatesingle}");
+						$template_loaded = true;
+					}
+
+					if (!$template_loaded) {
+						$default_template = "templates/singles/{$post_type_lc}/default.php";
+						if (locate_template($default_template)) {
+							get_template_part("templates/singles/{$post_type_lc}/default");
+							$template_loaded = true;
+						}
+					}
+
+					if (!$template_loaded) {
+						get_template_part("templates/content/single", '');
+					}
+					?>
+
+					<?php codeweber_posts_nav(); ?>
+				</div>
+
+				<?php get_sidebar('right'); ?>
+				<?php do_action('after_single_content', $post_type); ?>
+			</div>
+		</div>
+	</section>
+	<?php do_action('after_single_post', $post_type); ?>
+<?php
+endwhile;
+get_footer();

@@ -47,17 +47,10 @@ if (!defined('ABSPATH')) {
             <!-- /.post -->
          </div>
          <!-- /.classic-view -->
-         <hr class="mt-5 mb-5">
          <?php codeweber_single_link_pages(); ?>
          <!-- /.link-pages -->
-         <?php codeweber_single_post_author(); ?>
-         <!-- /.author-info -->
-         <?php echo codeweber_single_social_links(); ?>
-         <!-- /.social -->
          <?php codeweber_single_related('legal'); ?>
          <!-- /.related -->
-         <?php codeweber_single_comments(); ?>
-         <!-- /.comments -->
       </div>
       <!-- /.card-body -->
    </div>

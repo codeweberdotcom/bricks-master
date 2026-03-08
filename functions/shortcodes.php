@@ -184,127 +184,113 @@ function codeweber_menu_collapse_demo_items( $sorted_menu_items, $args ) {
 		return $sorted_menu_items;
 	}
 	// 4 уровня: Home → 1.1 → 1.1.1 → 1.1.1.1 (current); Services → 2.1 → 2.1.1; About, Contact без детей. Порядок: depth-first для Walker.
+	// Свойства object, type, attr_title, target, xfn нужны для WP_Bootstrap_Navwalker (в т.ч. list_type=5).
+	$demo_item_base = array(
+		'object'               => 'custom',
+		'type'                 => 'custom',
+		'attr_title'           => '',
+		'target'               => '',
+		'xfn'                  => '',
+		'current'              => false,
+		'current_item_ancestor' => false,
+	);
 	$demo = array(
-		(object) array(
-			'ID'                    => 90001,
-			'db_id'                 => 90001,
-			'menu_item_parent'      => 0,
-			'url'                   => '#',
-			'title'                 => __( 'Home', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90002,
-			'db_id'                 => 90002,
-			'menu_item_parent'      => 0,
-			'url'                   => '#',
-			'title'                 => __( 'Services', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90003,
-			'db_id'                 => 90003,
-			'menu_item_parent'      => 0,
-			'url'                   => '#',
-			'title'                 => __( 'About', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90004,
-			'db_id'                 => 90004,
-			'menu_item_parent'      => 0,
-			'url'                   => '#',
-			'title'                 => __( 'Contact', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90005,
-			'db_id'                 => 90005,
-			'menu_item_parent'      => 90001,
-			'url'                   => '#',
-			'title'                 => __( 'Subitem 1.1', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90006,
-			'db_id'                 => 90006,
-			'menu_item_parent'      => 90001,
-			'url'                   => '#',
-			'title'                 => __( 'Subitem 1.2', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90007,
-			'db_id'                 => 90007,
-			'menu_item_parent'      => 90002,
-			'url'                   => '#',
-			'title'                 => __( 'Subitem 2.1', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90008,
-			'db_id'                 => 90008,
-			'menu_item_parent'      => 90005,
-			'url'                   => '#',
-			'title'                 => __( 'Subitem 1.1.1', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90009,
-			'db_id'                 => 90009,
-			'menu_item_parent'      => 90005,
-			'url'                   => '#',
-			'title'                 => __( 'Subitem 1.1.2', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90010,
-			'db_id'                 => 90010,
-			'menu_item_parent'      => 90007,
-			'url'                   => '#',
-			'title'                 => __( 'Subitem 2.1.1', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90011,
-			'db_id'                 => 90011,
-			'menu_item_parent'      => 90008,
-			'url'                   => '#',
-			'title'                 => __( 'Subitem 1.1.1.1', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
-		(object) array(
-			'ID'                    => 90012,
-			'db_id'                 => 90012,
-			'menu_item_parent'      => 90008,
-			'url'                   => '#',
-			'title'                 => __( 'Subitem 1.1.1.2', 'codeweber' ),
-			'classes'               => array( 'menu-item', 'menu-item-type-custom' ),
-			'current'               => false,
-			'current_item_ancestor' => false,
-		),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90001,
+			'db_id'            => 90001,
+			'menu_item_parent' => 0,
+			'url'              => '#',
+			'title'            => __( 'Home', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90002,
+			'db_id'            => 90002,
+			'menu_item_parent' => 0,
+			'url'              => '#',
+			'title'            => __( 'Services', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90003,
+			'db_id'            => 90003,
+			'menu_item_parent' => 0,
+			'url'              => '#',
+			'title'            => __( 'About', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90004,
+			'db_id'            => 90004,
+			'menu_item_parent' => 0,
+			'url'              => '#',
+			'title'            => __( 'Contact', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90005,
+			'db_id'            => 90005,
+			'menu_item_parent' => 90001,
+			'url'              => '#',
+			'title'            => __( 'Subitem 1.1', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90006,
+			'db_id'            => 90006,
+			'menu_item_parent' => 90001,
+			'url'              => '#',
+			'title'            => __( 'Subitem 1.2', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90007,
+			'db_id'            => 90007,
+			'menu_item_parent' => 90002,
+			'url'              => '#',
+			'title'            => __( 'Subitem 2.1', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90008,
+			'db_id'            => 90008,
+			'menu_item_parent' => 90005,
+			'url'              => '#',
+			'title'            => __( 'Subitem 1.1.1', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom', 'menu-item-has-children' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90009,
+			'db_id'            => 90009,
+			'menu_item_parent' => 90005,
+			'url'              => '#',
+			'title'            => __( 'Subitem 1.1.2', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90010,
+			'db_id'            => 90010,
+			'menu_item_parent' => 90007,
+			'url'              => '#',
+			'title'            => __( 'Subitem 2.1.1', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90011,
+			'db_id'            => 90011,
+			'menu_item_parent' => 90008,
+			'url'              => '#',
+			'title'            => __( 'Subitem 1.1.1.1', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom' ),
+		) ),
+		(object) array_merge( $demo_item_base, array(
+			'ID'               => 90012,
+			'db_id'            => 90012,
+			'menu_item_parent' => 90008,
+			'url'              => '#',
+			'title'            => __( 'Subitem 1.1.1.2', 'codeweber' ),
+			'classes'          => array( 'menu-item', 'menu-item-type-custom' ),
+		) ),
 	);
 	return $demo;
 }
@@ -318,6 +304,7 @@ add_filter( 'wp_nav_menu_objects', 'codeweber_menu_collapse_demo_items', 10, 2 )
  * - demo: true — вывести демо-меню (menu не нужен), все атрибуты применяются. По умолчанию false
  * - depth: глубина вложенности (0 = без ограничения). По умолчанию 0
  * - theme: цвет текста — default | dark | light (как в блоке Menu). default = без класса, dark = text-white, light = text-dark
+ * - list_type: 1 | 2 | 3 | 4 | 5. 1–3 = collapse (стили), 4 = простой список, 5 = вертикальное меню с выпаданием вправо (dropend)
  * - container_class: дополнительные классы для контейнера <nav>
  * - top_level_class: дополнительные классы только для пунктов меню верхнего уровня (depth 0)
  * - top_level_class_start: класс только для первого пункта верхнего уровня (если задан, top_level_class для него не применяется)
@@ -374,17 +361,35 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 	if ( '' === $list_type_sanitized ) {
 		$list_type_sanitized = '1';
 	}
-	$list_classes   = array( 'navbar-nav', 'list-unstyled', 'menu-collapse-' . $list_type_sanitized );
-	$list_class_str = implode( ' ', $list_classes );
-
-	$container_class = 'navbar-vertical menu-collapse-nav';
-	if ( 'dark' === $atts['theme'] ) {
-		$container_class .= ' navbar-vertical-dark';
-	} elseif ( 'light' === $atts['theme'] ) {
-		$container_class .= ' navbar-vertical-light';
-	}
-	if ( ! empty( trim( (string) $atts['container_class'] ) ) ) {
-		$container_class .= ' ' . trim( (string) $atts['container_class'] );
+	if ( '4' === $list_type_sanitized ) {
+		$list_class_str = 'list-unstyled text-reset';
+		$container_class = ( 'dark' === $atts['theme'] ) ? 'navbar-vertical-dark' : ( ( 'light' === $atts['theme'] ) ? 'navbar-vertical-light' : '' );
+		if ( ! empty( trim( (string) $atts['container_class'] ) ) ) {
+			$container_class .= ( $container_class !== '' ? ' ' : '' ) . trim( (string) $atts['container_class'] );
+		}
+	} elseif ( '5' === $list_type_sanitized ) {
+		$list_class_str = 'navbar-nav flex-column';
+		$container_class = 'navbar-vertical navbar-vertical-dropdown';
+		if ( 'dark' === $atts['theme'] ) {
+			$container_class .= ' navbar-vertical-dark';
+		} elseif ( 'light' === $atts['theme'] ) {
+			$container_class .= ' navbar-vertical-light';
+		}
+		if ( ! empty( trim( (string) $atts['container_class'] ) ) ) {
+			$container_class .= ' ' . trim( (string) $atts['container_class'] );
+		}
+	} else {
+		$list_classes   = array( 'navbar-nav', 'list-unstyled', 'menu-collapse-' . $list_type_sanitized );
+		$list_class_str = implode( ' ', $list_classes );
+		$container_class = 'navbar-vertical menu-collapse-nav';
+		if ( 'dark' === $atts['theme'] ) {
+			$container_class .= ' navbar-vertical-dark';
+		} elseif ( 'light' === $atts['theme'] ) {
+			$container_class .= ' navbar-vertical-light';
+		}
+		if ( ! empty( trim( (string) $atts['container_class'] ) ) ) {
+			$container_class .= ' ' . trim( (string) $atts['container_class'] );
+		}
 	}
 
 	// Количество пунктов верхнего уровня для Walker (первый/последний)
@@ -412,6 +417,7 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 		}
 	}
 
+	$use_dropdown_walker = ( '5' === $list_type_sanitized );
 	$nav_args = array(
 		'menu'             => $menu_id,
 		'depth'            => (int) $atts['depth'],
@@ -420,14 +426,15 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 		'container_id'     => $wrapper_id,
 		'menu_class'       => $list_class_str,
 		'menu_id'          => '',
-		'fallback_cb'      => false,
+		'fallback_cb'      => $use_dropdown_walker ? 'WP_Bootstrap_Navwalker::fallback' : false,
 		'echo'             => false,
 		'items_wrap'       => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 		'item_spacing'     => 'discard',
-		'walker'           => new CodeWeber_Menu_Collapse_Walker(),
+		'walker'           => $use_dropdown_walker ? new CodeWeber_Vertical_Dropdown_Walker() : new CodeWeber_Menu_Collapse_Walker(),
 		'wrapper_id'             => $wrapper_id,
 		'instance_suffix'        => $suffix,
 		'theme_class'            => $theme_class,
+		'list_type'               => $list_type_sanitized,
 		'top_level_class'        => trim( (string) $atts['top_level_class'] ),
 		'top_level_class_start'  => trim( (string) $atts['top_level_class_start'] ),
 		'top_level_class_end'   => trim( (string) $atts['top_level_class_end'] ),

@@ -114,13 +114,12 @@
             <div class="d-lg-none mt-auto pt-6 pb-6 order-4">
                <a href="mailto:first.last@email.com" class="link-inverse">info@email.com</a>
                <br /> 00 (123) 456 78 90 <br />
-               <nav class="nav social social-white mt-4">
-                  <a href="#"><i class="uil uil-twitter"></i></a>
-                  <a href="#"><i class="uil uil-facebook-f"></i></a>
-                  <a href="#"><i class="uil uil-dribbble"></i></a>
-                  <a href="#"><i class="uil uil-instagram"></i></a>
-                  <a href="#"><i class="uil uil-youtube"></i></a>
-               </nav>
+               <?php
+               if (function_exists('social_links')) {
+                  // Простые нецветные/тёмные иконки (type2 = social-muted) под светлый фон
+                  echo social_links('mt-4', 'type2', 'md', 'primary', 'solid', 'circle');
+               }
+               ?>
                <!-- /.social -->
             </div>
             <!-- /offcanvas-nav-other -->

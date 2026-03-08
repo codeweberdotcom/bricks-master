@@ -148,7 +148,7 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			}
 
 			// Mega Menu: html_blocks child outputs post content instead of link.
-			$is_mega_menu_content = ($depth === 1 && $item->object === 'html_blocks' && !empty($item->parent_is_mega_menu));
+			$is_mega_menu_content = ($depth === 1 && isset($item->object) && $item->object === 'html_blocks' && !empty($item->parent_is_mega_menu));
 
 			if ($is_mega_menu_content) {
 				$classes[] = 'dropdown-mega-content';

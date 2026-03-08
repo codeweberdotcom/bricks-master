@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-03-07 15:40+0000\n"
+"PO-Revision-Date: 2026-03-07 16:38+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -347,7 +347,7 @@ msgstr "О вакансии"
 msgid "Accept"
 msgstr "Согласен"
 
-#: functions/integrations/redux_framework/redux_framework.php:93
+#: functions/integrations/redux_framework/redux_framework.php:97
 #: redux-framework/sample/sections/codeweber/legal.php:148
 msgid "Accumulation Data"
 msgstr "накопление"
@@ -971,7 +971,8 @@ msgstr "Произошла ошибка"
 msgid "An error occurred. Please try again."
 msgstr "Произошла ошибка. Пожалуйста, попробуйте снова."
 
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:142
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Analytics"
 msgstr "Аналитические"
 
@@ -1399,7 +1400,7 @@ msgstr "Режим ограничения блокировки"
 msgid "Block with quote and icon"
 msgstr "Блок с цитатой и иконкой"
 
-#: functions/integrations/redux_framework/redux_framework.php:99
+#: functions/integrations/redux_framework/redux_framework.php:103
 #: redux-framework/sample/sections/codeweber/legal.php:154
 msgid "Blocking Data"
 msgstr "блокирование"
@@ -1806,6 +1807,12 @@ msgstr "Круглый аватар с социальными ссылками"
 msgid "City"
 msgstr "Город"
 
+#: redux-framework/sample/sections/codeweber/legal.php:835
+#: redux-framework/sample/sections/codeweber/legal.php:843
+#, fuzzy
+msgid "Clear all"
+msgstr "Очистить все"
+
 #: functions/integrations/ajax-search-module/search-statistics.php:689
 msgid "Clear All Data"
 msgstr "Очистить все данные"
@@ -1955,7 +1962,7 @@ msgstr "Отправка форм"
 msgid "Codeweber Forms submission data anonymized"
 msgstr "Данные, отправленные через формы Codeweber, анонимизированы."
 
-#: functions/integrations/redux_framework/redux_framework.php:90
+#: functions/integrations/redux_framework/redux_framework.php:94
 #: redux-framework/sample/sections/codeweber/legal.php:145
 msgid "Collection Data"
 msgstr "сбор"
@@ -2294,11 +2301,12 @@ msgstr "Cookie Данные"
 msgid "Cookie Expiration Date"
 msgstr "Срок действия Cookie-файла*"
 
-#: redux-framework/sample/sections/codeweber/legal.php:790
+#: redux-framework/sample/sections/codeweber/legal.php:804
 msgid "Cookie Scanner"
 msgstr "Cookie Сканер"
 
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:153
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Cookie type"
 msgstr "Тип cookie"
 
@@ -2989,6 +2997,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:84
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:709
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:708
+#: redux-framework/sample/sections/codeweber/legal.php:843
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:828
 msgid "Delete"
 msgstr "Удалить"
@@ -3104,7 +3113,7 @@ msgstr "Удаление записей..."
 msgid "Deleting forms..."
 msgstr "Удаление форм..."
 
-#: functions/integrations/redux_framework/redux_framework.php:100
+#: functions/integrations/redux_framework/redux_framework.php:104
 #: redux-framework/sample/sections/codeweber/legal.php:155
 msgid "Deletion Data"
 msgstr "удаление"
@@ -3192,7 +3201,7 @@ msgstr "Отступы для настольных устройств"
 msgid "Desktop Optimized"
 msgstr "Оптимизировано для десктопа"
 
-#: functions/integrations/redux_framework/redux_framework.php:101
+#: functions/integrations/redux_framework/redux_framework.php:105
 #: redux-framework/sample/sections/codeweber/legal.php:156
 msgid "Destruction Data"
 msgstr "уничтожение"
@@ -4134,7 +4143,7 @@ msgstr "Экспорт подписчиков"
 msgid "Export to CSV"
 msgstr "Экспорт в CSV"
 
-#: redux-framework/sample/sections/codeweber/legal.php:810
+#: redux-framework/sample/sections/codeweber/legal.php:833
 #, fuzzy
 msgid "Export to JSON"
 msgstr "Экспорт в JSON"
@@ -4144,7 +4153,7 @@ msgstr "Экспорт в JSON"
 msgid "Extra Large (modal-xl)"
 msgstr "Дополнительно большой (modal-xl)"
 
-#: functions/integrations/redux_framework/redux_framework.php:96
+#: functions/integrations/redux_framework/redux_framework.php:100
 #: redux-framework/sample/sections/codeweber/legal.php:151
 msgid "Extraction Data"
 msgstr "извлечение"
@@ -5061,7 +5070,8 @@ msgstr "Полный экран ниже XXL"
 msgid "Fully clickable card with lift effect"
 msgstr "Полностью кликабельная карточка с эффектом подъема"
 
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:144
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Functional"
 msgstr "Функциональные"
 
@@ -5574,7 +5584,8 @@ msgstr ""
 msgid "ID: %s | Type: %s"
 msgstr "ID: %s | Тип: %s"
 
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:150
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Identifier"
 msgstr "Идентификатор"
 
@@ -5724,6 +5735,16 @@ msgstr "Вставить в Тарифный план"
 #: functions/cpt/cpt-testimonials.php:26
 msgid "Insert into testimonial"
 msgstr "Вставить в отзыв"
+
+#: redux-framework/sample/sections/codeweber/legal.php:816
+msgid ""
+"Insert this shortcode into the content of the page (e.g. Cookie Policy). The "
+"table will show cookies for the current site language (cookies-known.json / "
+"cookies-found.json or their -ru variants)."
+msgstr ""
+"Вставьте этот шорткод в контент страницы (например, «Политика cookie»). "
+"Таблица покажет cookie для текущего языка сайта (cookies-known.json / "
+"cookies-found.json или их варианты -ru)."
 
 #: templates/singles/staff/staff_4.php:193
 #: templates/singles/staff/staff_5.php:216
@@ -6082,7 +6103,6 @@ msgid "Languages"
 msgstr "Языки"
 
 #: templates/singles/vacancies/default.php:58
-#, fuzzy
 msgid "Languages:"
 msgstr "Языки:"
 
@@ -6551,7 +6571,8 @@ msgstr "Пресет маркера"
 msgid "Marker Settings"
 msgstr "Настройки маркеров"
 
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:143
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Marketing"
 msgstr "Маркетинговые"
 
@@ -6870,7 +6891,8 @@ msgstr "Навигация"
 msgid "Navy"
 msgstr "Нави"
 
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:141
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Necessary"
 msgstr "Необходимые"
 
@@ -7135,6 +7157,11 @@ msgstr "Данные формы Contact Form 7 не найдены для это
 msgid "No Contact Form 7 forms found. Please create a form first."
 msgstr ""
 "Не найдено ни одной формы Contact Form 7. Пожалуйста, сначала создайте форму."
+
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:137
+#, fuzzy
+msgid "No cookie data available."
+msgstr "Нет данных о файлах cookie."
 
 #: redux-framework/sample/metaboxes.php:73
 #: redux-framework/sample/sections/codeweber/footer.php:53
@@ -7763,7 +7790,7 @@ msgstr "Страница не найдена."
 msgid "Open"
 msgstr "Открыта"
 
-#: redux-framework/sample/sections/codeweber/legal.php:800
+#: redux-framework/sample/sections/codeweber/legal.php:823
 #, fuzzy
 msgid ""
 "Open a page in a popup to read cookies set on that page. Use the homepage, "
@@ -7848,7 +7875,8 @@ msgstr "Оренбургская область"
 msgid "Oryol Oblast"
 msgstr "Орловская область"
 
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:145
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Other"
 msgstr "Прочие"
 
@@ -7887,6 +7915,10 @@ msgstr "Подписка на новости"
 msgid "Outlook"
 msgstr "Outlook"
 
+#: redux-framework/sample/sections/codeweber/legal.php:813
+msgid "Output cookie table on the site"
+msgstr "Вывод таблицы cookie на сайте"
+
 #: functions/fetch/getPostCardTemplates.php:100
 #, fuzzy
 msgid "Overlay 5"
@@ -7896,7 +7928,7 @@ msgstr "Поверхность 5"
 msgid "Overlay effect with 90% opacity and bottom overlay for date"
 msgstr "Эффект наложения с 90% прозрачностью и даты"
 
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Owner"
 msgstr "Назначение"
 
@@ -8779,6 +8811,11 @@ msgstr "Дата публикации"
 msgid "Purple"
 msgstr "Purple"
 
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:151
+#, fuzzy
+msgid "Purpose"
+msgstr "Назначение"
+
 #: redux-framework/sample/sections/codeweber/legal.php:224
 #: redux-framework/sample/sections/codeweber/legal.php:285
 #: redux-framework/sample/sections/codeweber/legal.php:345
@@ -8969,7 +9006,7 @@ msgstr "Недавние поиски"
 msgid "Record ID"
 msgstr "ID записи"
 
-#: functions/integrations/redux_framework/redux_framework.php:91
+#: functions/integrations/redux_framework/redux_framework.php:95
 #: redux-framework/sample/sections/codeweber/legal.php:146
 msgid "Recording Data"
 msgstr "запись"
@@ -9391,6 +9428,11 @@ msgstr ""
 "Сначала сохраните проект как черновик, затем можно добавить изображения в "
 "галерею."
 
+#: redux-framework/sample/sections/codeweber/legal.php:834
+#, fuzzy, php-format
+msgid "Save to %s"
+msgstr "Сохранить в %s"
+
 #: templates/singles/staff/staff_2.php:198
 #: templates/singles/staff/staff_3.php:189
 #: templates/singles/staff/staff_4.php:215
@@ -9398,31 +9440,26 @@ msgstr ""
 msgid "Save to Contacts"
 msgstr "Сохранить в контакты"
 
-#: redux-framework/sample/sections/codeweber/legal.php:811
-#, fuzzy
-msgid "Save to cookies-found.json"
-msgstr "Сохранить в cookies-found.json"
-
 #: functions/cpt/cpt-documents.php:284
 msgid "Save to file"
 msgstr "Сохранить в файл"
 
-#: functions/integrations/redux_framework/redux_scanner_cookie.php:68
-#, fuzzy
-msgid "Saved to components/cookies-found.json"
-msgstr "Сохранено в components/cookies-found.json"
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:87
+#, fuzzy, php-format
+msgid "Saved to components/%s"
+msgstr "Сохранено в компонентах/%s"
 
 #: functions/lib/comments-helper.php:32
 #, fuzzy
 msgid "says:"
 msgstr "говорит:"
 
-#: redux-framework/sample/sections/codeweber/legal.php:792
+#: redux-framework/sample/sections/codeweber/legal.php:806
 msgid "Scan and display browser cookies."
 msgstr "Сканировать и отображать файлы cookie браузера."
 
-#: redux-framework/sample/sections/codeweber/legal.php:798
-#: redux-framework/sample/sections/codeweber/legal.php:806
+#: redux-framework/sample/sections/codeweber/legal.php:821
+#: redux-framework/sample/sections/codeweber/legal.php:829
 msgid "Scan Frontend Cookies"
 msgstr "Сканирование файлов cookie интерфейса"
 
@@ -10291,10 +10328,9 @@ msgid "Shortcode"
 msgstr "Shortcode"
 
 #: functions/shortcodes.php:350
-#, fuzzy
 msgid "Shortcode [menu_collapse]: specify menu= (ID or slug) or demo=\"true\"."
 msgstr ""
-"Шорткод [menu_collapse]: укажите menu= (ID или слаг) или demo=\"true\"."
+"Shortcode [menu_collapse]: укажите menu= (ID или слаг) или demo=\"true\"."
 
 #. Заголовок страницы
 #: functions/cpt/cpt-faq.php:543
@@ -10558,6 +10594,11 @@ msgstr "Простой логотип для слайдера Swiper"
 #: redux-framework/sample/sections/codeweber/cpt-type.php:619
 msgid "Single"
 msgstr "Одиночный"
+
+#. Name of the template
+#: single-legal.php:2
+msgid "Single Legal"
+msgstr ""
 
 #. Name of the template
 #: single-staff.php:2
@@ -10849,7 +10890,6 @@ msgstr "Дата начала:"
 
 #: woocommerce/order/order-details-customer.php:36
 #: woocommerce/order/order-details-customer.php:75
-#, fuzzy
 msgid "State / County"
 msgstr "Штат / Округ"
 
@@ -10889,12 +10929,13 @@ msgstr "Ставропольский край"
 msgid "Steam"
 msgstr "Steam"
 
-#: functions/integrations/redux_framework/redux_framework.php:94
+#: functions/integrations/redux_framework/redux_framework.php:98
 #: redux-framework/sample/sections/codeweber/legal.php:149
 msgid "Storage Data"
 msgstr "хранение"
 
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: functions/integrations/redux_framework/redux_scanner_cookie.php:152
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Storage duration"
 msgstr "Срок хранения"
 
@@ -11307,7 +11348,7 @@ msgstr "Фамилия"
 msgid "Sverdlovsk Oblast"
 msgstr "Свердловская область"
 
-#: functions/integrations/redux_framework/redux_framework.php:92
+#: functions/integrations/redux_framework/redux_framework.php:96
 #: redux-framework/sample/sections/codeweber/legal.php:147
 msgid "Systematization Data"
 msgstr "систематизация"
@@ -11928,6 +11969,14 @@ msgstr "Размер заголовка в Page Header"
 msgid "To"
 msgstr "В"
 
+#: redux-framework/sample/sections/codeweber/legal.php:814
+msgid ""
+"To display the list of cookies (from the library and scan results) on any "
+"page or post, use the shortcode:"
+msgstr ""
+"Чтобы вывести список cookie (из библиотеки и результатов сканирования) на "
+"любой странице или в записи, используйте шорткод:"
+
 #: functions/integrations/ajax-search-module/search-statistics.php:597
 msgid "Today's Searches"
 msgstr "Сегодняшние поиски"
@@ -12004,7 +12053,7 @@ msgstr "Отслеживание и метрики"
 msgid "Tracks: Form Opened, Form Submission, Form Errors"
 msgstr "Трекинг: Форма открыта, Отправка формы, Ошибки формы"
 
-#: functions/integrations/redux_framework/redux_framework.php:98
+#: functions/integrations/redux_framework/redux_framework.php:102
 #: redux-framework/sample/sections/codeweber/legal.php:153
 msgid "Transfer (distribution, provision, access) Data"
 msgstr "передача (распространение, предоставление, доступ)"
@@ -12291,7 +12340,7 @@ msgstr "Обновить превью"
 msgid "updated"
 msgstr "обновлено"
 
-#: functions/integrations/redux_framework/redux_framework.php:95
+#: functions/integrations/redux_framework/redux_framework.php:99
 #: redux-framework/sample/sections/codeweber/legal.php:150
 msgid "Updating (clarification, modification) Data"
 msgstr "уточнение (обновление, изменение)"
@@ -12398,7 +12447,7 @@ msgstr "Загрузка..."
 msgid "URL"
 msgstr "URL"
 
-#: redux-framework/sample/sections/codeweber/legal.php:802
+#: redux-framework/sample/sections/codeweber/legal.php:825
 #, fuzzy
 msgid "URL to scan:"
 msgstr "URL для сканирования:"
@@ -12407,7 +12456,7 @@ msgstr "URL для сканирования:"
 msgid "URL to the licensed item if available online"
 msgstr "URL-адрес лицензионного товара, если он доступен в Интернете"
 
-#: functions/integrations/redux_framework/redux_framework.php:97
+#: functions/integrations/redux_framework/redux_framework.php:101
 #: redux-framework/sample/sections/codeweber/legal.php:152
 msgid "Usage Data"
 msgstr "использование"
@@ -12677,7 +12726,7 @@ msgstr "Ошибка валидации, ошибки сервера, обнар
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:724
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:904
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:91
-#: redux-framework/sample/sections/codeweber/legal.php:819
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Value"
 msgstr "Значение"
 

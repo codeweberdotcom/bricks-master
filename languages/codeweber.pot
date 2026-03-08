@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-07 16:15+0000\n"
+"POT-Creation-Date: 2026-03-07 16:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -946,7 +946,7 @@ msgid "An error occurred. Please try again."
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:142
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Analytics"
 msgstr ""
 
@@ -1768,8 +1768,8 @@ msgstr ""
 msgid "City"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:826
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:835
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Clear all"
 msgstr ""
 
@@ -2237,7 +2237,7 @@ msgid "Cookie Scanner"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:153
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Cookie type"
 msgstr ""
 
@@ -2849,7 +2849,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:84
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:709
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:708
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:828
 msgid "Delete"
 msgstr ""
@@ -3943,7 +3943,7 @@ msgstr ""
 msgid "Export to CSV"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:824
+#: redux-framework/sample/sections/codeweber/legal.php:833
 msgid "Export to JSON"
 msgstr ""
 
@@ -4784,7 +4784,7 @@ msgid "Fully clickable card with lift effect"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:144
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Functional"
 msgstr ""
 
@@ -5245,7 +5245,7 @@ msgid "ID: %s | Type: %s"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:150
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Identifier"
 msgstr ""
 
@@ -5376,6 +5376,13 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:26
 msgid "Insert into testimonial"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/legal.php:816
+msgid ""
+"Insert this shortcode into the content of the page (e.g. Cookie Policy). The "
+"table will show cookies for the current site language (cookies-known.json / "
+"cookies-found.json or their -ru variants)."
 msgstr ""
 
 #: templates/singles/staff/staff_4.php:193
@@ -6154,7 +6161,7 @@ msgid "Marker Settings"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:143
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Marketing"
 msgstr ""
 
@@ -6445,7 +6452,7 @@ msgid "Navy"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:141
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Necessary"
 msgstr ""
 
@@ -7276,7 +7283,7 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:814
+#: redux-framework/sample/sections/codeweber/legal.php:823
 msgid ""
 "Open a page in a popup to read cookies set on that page. Use the homepage, "
 "cart, checkout, or any URL of your site."
@@ -7357,7 +7364,7 @@ msgid "Oryol Oblast"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:145
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Other"
 msgstr ""
 
@@ -7391,6 +7398,10 @@ msgstr ""
 msgid "Outlook"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/legal.php:813
+msgid "Output cookie table on the site"
+msgstr ""
+
 #: functions/fetch/getPostCardTemplates.php:100
 msgid "Overlay 5"
 msgstr ""
@@ -7399,7 +7410,7 @@ msgstr ""
 msgid "Overlay effect with 90% opacity and bottom overlay for date"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Owner"
 msgstr ""
 
@@ -8811,7 +8822,7 @@ msgstr ""
 msgid "Save the project as draft first, then you can add gallery images."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:825
+#: redux-framework/sample/sections/codeweber/legal.php:834
 #, php-format
 msgid "Save to %s"
 msgstr ""
@@ -8840,8 +8851,8 @@ msgstr ""
 msgid "Scan and display browser cookies."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:812
-#: redux-framework/sample/sections/codeweber/legal.php:820
+#: redux-framework/sample/sections/codeweber/legal.php:821
+#: redux-framework/sample/sections/codeweber/legal.php:829
 msgid "Scan Frontend Cookies"
 msgstr ""
 
@@ -9914,6 +9925,11 @@ msgid "Single"
 msgstr ""
 
 #. Name of the template
+#: single-legal.php:2
+msgid "Single Legal"
+msgstr ""
+
+#. Name of the template
 #: single-staff.php:2
 msgid "Single Staff"
 msgstr ""
@@ -10228,7 +10244,7 @@ msgid "Storage Data"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:152
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Storage duration"
 msgstr ""
 
@@ -11172,6 +11188,12 @@ msgstr ""
 msgid "To"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/legal.php:814
+msgid ""
+"To display the list of cookies (from the library and scan results) on any "
+"page or post, use the shortcode:"
+msgstr ""
+
 #: functions/integrations/ajax-search-module/search-statistics.php:597
 msgid "Today's Searches"
 msgstr ""
@@ -11626,7 +11648,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/legal.php:816
+#: redux-framework/sample/sections/codeweber/legal.php:825
 msgid "URL to scan:"
 msgstr ""
 
@@ -11889,7 +11911,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:724
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:904
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:91
-#: redux-framework/sample/sections/codeweber/legal.php:834
+#: redux-framework/sample/sections/codeweber/legal.php:843
 msgid "Value"
 msgstr ""
 

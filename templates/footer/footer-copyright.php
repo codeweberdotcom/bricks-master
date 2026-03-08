@@ -3,12 +3,11 @@
 <p class="mb-2 mb-lg-0"><a class="text-white" href="<?php echo esc_attr(wp_get_theme()->get('ThemeURI')); ?>" target="_blank">
 			Made with Codeweber
 		</a></p>
-<nav class="nav social  text-md-end">
-		<a href="#"><i class="uil uil-twitter"></i></a>
-		<a href="#"><i class="uil uil-facebook-f"></i></a>
-		<a href="#"><i class="uil uil-dribbble"></i></a>
-		<a href="#"><i class="uil uil-instagram"></i></a>
-		<a href="#"><i class="uil uil-youtube"></i></a>
-	</nav>
+<?php
+if (function_exists('social_links')) {
+	// Простые цветные иконки без обводок и фона (type3)
+	echo social_links('text-md-end', 'type3', 'md', 'primary', 'solid', 'circle');
+}
+?>
 	<!-- /.social -->
 </div>

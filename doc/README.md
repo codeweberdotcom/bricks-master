@@ -30,6 +30,7 @@ doc/
 │   └── menu-collapse-shortcode-php-examples.md
 │
 ├── Functions/               # Документация по функциям
+│   ├── FUNCTION_CODEWEBER_NAV.md
 │   ├── FUNCTION_SOCIAL_LINKS.md
 │   ├── FUNCTION_CODEWEBER_SINGLE_SOCIAL_LINKS.md
 │   ├── FUNCTION_STAFF_SOCIAL_LINKS.md
@@ -99,6 +100,7 @@ doc/
 
 ### Социальные сети
 
+- **[codeweber_nav()](Functions/FUNCTION_CODEWEBER_NAV.md)** - Навигация из таксономии или CPT (collapse-вёрстка)
 - **[social_links()](Functions/FUNCTION_SOCIAL_LINKS.md)** - Основная функция вывода социальных иконок
 - **[codeweber_single_social_links()](Functions/FUNCTION_CODEWEBER_SINGLE_SOCIAL_LINKS.md)** - Для single-страниц
 - **[staff_social_links()](Functions/FUNCTION_STAFF_SOCIAL_LINKS.md)** - Для сотрудников
@@ -114,6 +116,7 @@ doc/
 
 ### Функции
 
+- **[codeweber_nav()](Functions/FUNCTION_CODEWEBER_NAV.md)** - Навигация из таксономии или CPT (collapse-вёрстка)
 - **[social_links()](Functions/FUNCTION_SOCIAL_LINKS.md)** - Основная функция вывода социальных иконок
 - **[codeweber_single_social_links()](Functions/FUNCTION_CODEWEBER_SINGLE_SOCIAL_LINKS.md)** - Обёртка для single-страниц
 - **[staff_social_links()](Functions/FUNCTION_STAFF_SOCIAL_LINKS.md)** - Для сотрудников (из метаполей)

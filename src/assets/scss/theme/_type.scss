@@ -178,10 +178,21 @@ blockquote {
     }
   }
 }
-.widget .list-unstyled:not(.tag-list):not(.navbar-nav) li + li,
+.widget .list-unstyled:not(.tag-list):not(.navbar-nav):not(.menu-list-type-4):not(.menu-type-4-sub) li + li,
 .unordered-list li + li,
 .icon-list:not(.row) li + li {
   margin-top: 0.35rem;
+}
+// Тип меню 4: отступы и иерархия (вложенные уровни)
+.menu-list-type-4 li + li {
+  margin-top: 0.35rem;
+}
+.menu-type-4-sub {
+  padding-left: 1rem;
+  margin-top: 0.25rem;
+  li + li {
+    margin-top: 0.35rem;
+  }
 }
 //----------------------------------------------------------//
 //	UNSTYLED LIST

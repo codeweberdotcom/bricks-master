@@ -66,6 +66,9 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 		/** @var int Текущий индекс пункта верхнего уровня (0-based) */
 		private $top_level_index = 0;
 
+		/** @var bool Режим «простой список» (тип 4): без collapse, только ul > li > a */
+		private $simple_list = false;
+
 		/**
 		 * Инициализация кастомных аргументов из $args при первом вызове start_el (wp_nav_menu передаёт их в объекте $args).
 		 */
@@ -73,16 +76,20 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 			if ( '' !== $this->wrapper_id ) {
 				return;
 			}
-			$this->wrapper_id           = isset( $args->wrapper_id ) ? $args->wrapper_id : '';
-			$this->instance_suffix      = isset( $args->instance_suffix ) ? (string) $args->instance_suffix : '';
-			$this->depth_limit          = isset( $args->depth ) ? (int) $args->depth : 0;
-			$this->theme_class          = isset( $args->theme_class ) ? $args->theme_class : '';
-			$this->item_class           = isset( $args->item_class ) ? $args->item_class : '';
-			$this->link_class           = isset( $args->link_class ) ? $args->link_class : '';
-			$this->top_level_class      = isset( $args->top_level_class ) ? trim( (string) $args->top_level_class ) : '';
+			$this->wrapper_id            = isset( $args->wrapper_id ) ? $args->wrapper_id : '';
+			$this->instance_suffix       = isset( $args->instance_suffix ) ? (string) $args->instance_suffix : '';
+			$this->depth_limit           = isset( $args->depth ) ? (int) $args->depth : 0;
+			$this->theme_class           = isset( $args->theme_class ) ? $args->theme_class : '';
+			$this->item_class            = isset( $args->item_class ) ? $args->item_class : '';
+			$this->link_class            = isset( $args->link_class ) ? $args->link_class : '';
+			$this->top_level_class       = isset( $args->top_level_class ) ? trim( (string) $args->top_level_class ) : '';
 			$this->top_level_class_start = isset( $args->top_level_class_start ) ? trim( (string) $args->top_level_class_start ) : '';
-			$this->top_level_class_end  = isset( $args->top_level_class_end ) ? trim( (string) $args->top_level_class_end ) : '';
-			$this->top_level_count      = isset( $args->top_level_count ) ? (int) $args->top_level_count : 0;
+			$this->top_level_class_end   = isset( $args->top_level_class_end ) ? trim( (string) $args->top_level_class_end ) : '';
+			$this->top_level_count       = isset( $args->top_level_count ) ? (int) $args->top_level_count : 0;
+			$this->simple_list           = isset( $args->list_type ) && (string) $args->list_type === '4';
+			if ( ! $this->simple_list && isset( $args->simple_list ) ) {
+				$this->simple_list = (bool) $args->simple_list;
+			}
 		}
 
 		/**
@@ -106,7 +113,7 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 			$this->next_collapse_parent = null;
 			$this->next_collapse_show   = false;
 
-			if ( $collapse_id && $collapse_parent ) {
+			if ( ! $this->simple_list && $collapse_id && $collapse_parent ) {
 				$show_class = $collapse_show ? ' collapse show' : ' collapse';
 				$output   .= $n . $indent . '<div class="' . esc_attr( trim( $show_class ) ) . '" id="' . esc_attr( $collapse_id ) . '" data-bs-parent="#' . esc_attr( $collapse_parent ) . '">';
 				$this->parent_collapse_stack[] = $collapse_id;
@@ -129,7 +136,7 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 			}
 			$indent = str_repeat( $t, $depth );
 			$output .= $indent . '</ul>' . $n;
-			if ( ! empty( $this->parent_collapse_stack ) ) {
+			if ( ! $this->simple_list && ! empty( $this->parent_collapse_stack ) ) {
 				array_pop( $this->parent_collapse_stack );
 				$output .= $indent . '</div>' . $n;
 			}
@@ -155,10 +162,27 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 			$expand         = $has_children && $is_ancestor;
 
 			$collapse_id = 'menu-collapse-item-' . $item->ID . ( $this->instance_suffix !== '' ? '-' . $this->instance_suffix : '' );
-			if ( $has_children ) {
+			if ( ! $this->simple_list && $has_children ) {
 				$this->next_collapse_id     = $collapse_id;
 				$this->next_collapse_parent = ( 0 === $depth ) ? $this->wrapper_id : ( ! empty( $this->parent_collapse_stack ) ? end( $this->parent_collapse_stack ) : $this->wrapper_id );
 				$this->next_collapse_show  = $expand;
+			}
+
+			if ( $this->simple_list ) {
+				$output .= $indent . '<li>';
+				$link_classes = $this->theme_class ? array_filter( explode( ' ', trim( $this->theme_class ) ) ) : array();
+				if ( $this->link_class ) {
+					$link_classes = array_merge( $link_classes, array_filter( explode( ' ', trim( $this->link_class ) ) ) );
+				}
+				if ( in_array( 'current-menu-item', $item->classes, true ) ) {
+					$link_classes[] = 'active';
+				}
+				$link_classes   = array_filter( $link_classes );
+				$aria_current   = in_array( 'current-menu-item', $item->classes, true ) ? ' aria-current="page"' : '';
+				$title          = apply_filters( 'the_title', $item->title, $item->ID );
+				$link_class_attr = ! empty( $link_classes ) ? ' class="' . esc_attr( implode( ' ', $link_classes ) ) . '"' : '';
+				$output .= '<a href="' . esc_url( $item->url ) . '"' . $link_class_attr . $aria_current . '>' . esc_html( $title ) . '</a>';
+				return;
 			}
 
 			$li_classes = array( 'nav-item', 'parent-collapse-item' );
