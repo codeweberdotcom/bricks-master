@@ -49,10 +49,10 @@ class CodeWeber_Vertical_Dropdown_Walker extends WP_Bootstrap_Navwalker {
 		if ( ! self::$rendering_vertical || $depth !== 0 ) {
 			return $classes;
 		}
-		if ( ! in_array( 'menu-item-has-children', $classes, true ) ) {
-			return $classes;
+		$classes[] = 'parent-item';
+		if ( in_array( 'menu-item-has-children', $classes, true ) ) {
+			$classes[] = 'dropend';
 		}
-		$classes[] = 'dropend';
 		return $classes;
 	}
 

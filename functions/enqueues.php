@@ -290,7 +290,7 @@ function theme_enqueue_fetch_assets()
 		wp_enqueue_script(
 			'fetch-handler',
 			$script_url,
-			['wp-util'], // или ['jquery'] если нужно
+			[],
 			filemtime($script_path),
 			true // загрузка в футере
 		);
@@ -317,7 +317,7 @@ function codeweber_enqueue_testimonial_form() {
 		wp_enqueue_script(
 			'codeweber',
 			$universal_script_url,
-			['jquery'],
+			[],
 			filemtime($universal_script_path),
 			true
 		);

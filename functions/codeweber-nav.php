@@ -177,7 +177,7 @@ function codeweber_nav_has_current_in_subtree( array $by_parent, $parent_id ) {
 function codeweber_nav_render_simple( array $by_parent, $parent_id, array $args, $current_lvl = 1 ) {
 	$children   = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : array();
 	$depth_limit = isset( $args['depth'] ) ? (int) $args['depth'] : 0;
-	$list_class  = isset( $args['menu_class'] ) ? $args['menu_class'] : 'list-unstyled fs-sm lh-sm text-reset';
+	$list_class  = ( $current_lvl > 1 && ! empty( $args['menu_class_sub'] ) ) ? $args['menu_class_sub'] : ( isset( $args['menu_class'] ) ? $args['menu_class'] : 'list-unstyled fs-sm lh-sm' );
 	$link_class  = isset( $args['link_class'] ) ? trim( (string) $args['link_class'] ) : '';
 	$theme_class = isset( $args['theme_class'] ) ? trim( (string) $args['theme_class'] ) : '';
 
@@ -193,8 +193,83 @@ function codeweber_nav_render_simple( array $by_parent, $parent_id, array $args,
 		$aria_current = $is_current ? ' aria-current="page"' : '';
 		$html        .= '<li><a href="' . esc_url( $item['url'] ) . '"' . $a_class . $aria_current . '>' . esc_html( $item['text'] ) . '</a>';
 		if ( $has_children ) {
-			$html .= '<ul class="' . esc_attr( $list_class ) . '">';
+			$sub_list_class = ( $current_lvl >= 1 && ! empty( $args['menu_class_sub'] ) ) ? $args['menu_class_sub'] : $list_class;
+			$html .= '<ul class="' . esc_attr( $sub_list_class ) . '">';
 			$html .= codeweber_nav_render_simple( $by_parent, $item['wp_id'], $args, $current_lvl + 1 );
+			$html .= '</ul>';
+		}
+		$html .= '</li>';
+	}
+	return $html;
+}
+
+/**
+ * Рендер вертикального меню с выпаданием вправо (Bootstrap dropdown/dropend).
+ * Разметка как у WP меню с CodeWeber_Vertical_Dropdown_Walker: nav-item, dropdown, dropend, dropdown-submenu, nav-link dropdown-toggle, dropdown-item dropdown-toggle, dropdown-menu.
+ *
+ * @param array $by_parent  Дерево по parent_id.
+ * @param int   $parent_id  ID родителя (0 — корень).
+ * @param array $args       Аргументы (depth, link_class, theme_class).
+ * @param int   $current_lvl Текущий уровень (1 = верхний).
+ * @return string HTML фрагмент.
+ */
+function codeweber_nav_render_dropdown( array $by_parent, $parent_id, array $args, $current_lvl = 1 ) {
+	$children    = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : array();
+	$depth_limit = isset( $args['depth'] ) ? (int) $args['depth'] : 0;
+	$link_class  = isset( $args['link_class'] ) ? trim( (string) $args['link_class'] ) : '';
+	$theme_class = isset( $args['theme_class'] ) ? trim( (string) $args['theme_class'] ) : '';
+
+	if ( empty( $children ) ) {
+		return '';
+	}
+	$html = '';
+	foreach ( $children as $item ) {
+		$has_children = ( $depth_limit === 0 || $current_lvl < $depth_limit ) && isset( $by_parent[ $item['wp_id'] ] ) && ! empty( $by_parent[ $item['wp_id'] ] );
+		$is_current   = ! empty( $item['current'] );
+
+		$li_classes = array( 'nav-item' );
+		if ( $current_lvl === 1 ) {
+			$li_classes[] = 'parent-item';
+		}
+		if ( $has_children ) {
+			$li_classes[] = 'dropdown';
+			$li_classes[] = 'dropend';
+			if ( $current_lvl >= 1 ) {
+				$li_classes[] = 'dropdown-submenu';
+			}
+		}
+		if ( $is_current ) {
+			$li_classes[] = 'current-menu-item';
+		}
+		$html .= '<li class="' . esc_attr( implode( ' ', $li_classes ) ) . '">';
+
+		if ( $current_lvl === 1 ) {
+			$a_classes = array( 'nav-link' );
+		} else {
+			$a_classes = array( 'dropdown-item' );
+		}
+		if ( $has_children ) {
+			$a_classes[] = 'dropdown-toggle';
+		}
+		if ( $link_class !== '' ) {
+			$a_classes = array_merge( $a_classes, array_filter( explode( ' ', $link_class ) ) );
+		}
+		if ( $theme_class !== '' ) {
+			$a_classes[] = $theme_class;
+		}
+		if ( $is_current ) {
+			$a_classes[] = 'active';
+		}
+		$a_classes = array_filter( $a_classes );
+
+		$href     = $has_children ? '#' : $item['url'];
+		$aria     = $has_children ? ' data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"' : '';
+		$aria_cur = $is_current ? ' aria-current="page"' : '';
+		$html    .= '<a href="' . esc_url( $href ) . '" class="' . esc_attr( implode( ' ', $a_classes ) ) . '"' . $aria . $aria_cur . '>' . esc_html( $item['text'] ) . '</a>';
+
+		if ( $has_children ) {
+			$html .= '<ul class="dropdown-menu" role="menu">';
+			$html .= codeweber_nav_render_dropdown( $by_parent, $item['wp_id'], $args, $current_lvl + 1 );
 			$html .= '</ul>';
 		}
 		$html .= '</li>';
@@ -332,21 +407,16 @@ function codeweber_nav( $source, $name, $args = array() ) {
 	}
 	$args['instance_suffix'] = $suffix;
 
-	$list_type  = preg_replace( '/[^1-4]/', '', (string) $args['list_type'] );
+	$list_type  = preg_replace( '/[^1-5]/', '', (string) $args['list_type'] );
 	$list_type  = $list_type !== '' ? $list_type : '1';
-	$list_class = $list_type === '4' ? 'list-unstyled text-reset' : 'navbar-nav list-unstyled menu-collapse-' . $list_type;
+	$list_class = $list_type === '5' ? 'navbar-nav flex-column' : ( $list_type === '4' ? 'list-unstyled menu-list-type-4' : 'navbar-nav list-unstyled menu-collapse-' . $list_type );
 	if ( (string) $args['menu_class'] !== '' ) {
 		$list_class = trim( (string) $args['menu_class'] );
 	}
 	$args['menu_class'] = $list_class;
 
-	$theme_class = '';
-	if ( $args['theme'] === 'dark' ) {
-		$theme_class = 'text-white';
-	} elseif ( $args['theme'] === 'light' ) {
-		$theme_class = 'text-dark';
-	}
-	$args['theme_class'] = $theme_class;
+	// Цвет задаётся темой через .navbar-light/.navbar-dark .nav-link
+	$args['theme_class'] = '';
 
 	if ( $source === 'tax' ) {
 		$by_parent = codeweber_nav_build_tree_tax( $name, $args );
@@ -361,32 +431,39 @@ function codeweber_nav( $source, $name, $args = array() ) {
 	$top_level_count = count( $by_parent[0] );
 	$top_level_index = 0;
 
+	$theme_nav_class = ( $args['theme'] === 'dark' ) ? 'navbar-dark' : ( ( $args['theme'] === 'light' ) ? 'navbar-light' : '' );
 	if ( $list_type === '4' ) {
-		$container_class = '';
-		if ( $args['theme'] === 'dark' ) {
-			$container_class = 'navbar-vertical-dark';
-		} elseif ( $args['theme'] === 'light' ) {
-			$container_class = 'navbar-vertical-light';
-		}
+		$container_class = 'navbar-vertical' . ( $theme_nav_class !== '' ? ' ' . $theme_nav_class : '' );
 		if ( (string) $args['container_class'] !== '' ) {
-			$container_class .= ( $container_class !== '' ? ' ' : '' ) . trim( (string) $args['container_class'] );
+			$container_class .= ' ' . trim( (string) $args['container_class'] );
 		}
-		$nav_id    = esc_attr( $args['wrapper_id'] );
-		$nav_class = $container_class !== '' ? ' class="' . esc_attr( $container_class ) . '"' : '';
-		$ul_class  = esc_attr( $list_class );
-		$html      = '<nav id="' . $nav_id . '"' . $nav_class . '>';
-		$html     .= '<ul class="' . $ul_class . '">';
-		$html     .= codeweber_nav_render_simple( $by_parent, 0, $args, 1 );
+		$args['menu_class_sub'] = 'list-unstyled menu-type-4-sub';
+		$nav_id                 = esc_attr( $args['wrapper_id'] );
+		$nav_class              = ' class="' . esc_attr( trim( $container_class ) ) . '"';
+		$ul_class               = esc_attr( $list_class );
+		$html                   = '<nav id="' . $nav_id . '"' . $nav_class . '>';
+		$html                  .= '<ul class="' . $ul_class . '">';
+		$html                  .= codeweber_nav_render_simple( $by_parent, 0, $args, 1 );
 		$html     .= '</ul></nav>';
 		return $html;
 	}
 
-	$container_class = 'navbar-vertical menu-collapse-nav';
-	if ( $args['theme'] === 'dark' ) {
-		$container_class .= ' navbar-vertical-dark';
-	} elseif ( $args['theme'] === 'light' ) {
-		$container_class .= ' navbar-vertical-light';
+	if ( $list_type === '5' ) {
+		$container_class = 'navbar-vertical navbar-vertical-dropdown' . ( $theme_nav_class !== '' ? ' ' . $theme_nav_class : '' );
+		if ( (string) $args['container_class'] !== '' ) {
+			$container_class .= ' ' . trim( (string) $args['container_class'] );
+		}
+		$nav_id    = esc_attr( $args['wrapper_id'] );
+		$nav_class = esc_attr( $container_class );
+		$ul_class  = esc_attr( $list_class );
+		$html      = '<nav id="' . $nav_id . '" class="' . $nav_class . '">';
+		$html     .= '<ul class="' . $ul_class . '">';
+		$html     .= codeweber_nav_render_dropdown( $by_parent, 0, $args, 1 );
+		$html     .= '</ul></nav>';
+		return $html;
 	}
+
+	$container_class = 'navbar-vertical menu-collapse-nav' . ( $theme_nav_class !== '' ? ' ' . $theme_nav_class : '' );
 	if ( (string) $args['container_class'] !== '' ) {
 		$container_class .= ' ' . trim( (string) $args['container_class'] );
 	}

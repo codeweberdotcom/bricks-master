@@ -7,7 +7,7 @@
  * при наличии детей — div.collapse > ul > ...
  *
  * Передавать в wp_nav_menu(): 'walker' => new CodeWeber_Menu_Collapse_Walker(),
- * и кастомные аргументы: wrapper_id, instance_suffix, item_class, link_class, theme_class,
+ * и кастомные аргументы: wrapper_id, instance_suffix, item_class, link_class, theme_class (обычно пусто — цвет из .navbar-light/.navbar-dark),
  * top_level_class, top_level_class_start, top_level_class_end, top_level_count, depth.
  *
  * @package Codeweber
@@ -42,7 +42,7 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 		/** @var int Лимит глубины (0 = без ограничения) */
 		private $depth_limit = 0;
 
-		/** @var string Доп. класс для ссылок (тема: text-dark, text-white и т.д.) */
+		/** @var string Доп. класс для ссылок (обычно пусто; цвет задаётся темой .navbar-light/.navbar-dark .nav-link) */
 		private $theme_class = '';
 
 		/** @var string Классы для li */

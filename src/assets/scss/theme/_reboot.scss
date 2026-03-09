@@ -544,6 +544,17 @@ hr.double {
     right: 0;
   }
 }
+
+// Gutenberg Divider block — wave divider
+.cwgb-divider-block {
+  .divider {
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+}
 //----------------------------------------------------------//
 //	HEADING
 //----------------------------------------------------------//

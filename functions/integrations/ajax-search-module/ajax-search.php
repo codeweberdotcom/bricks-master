@@ -63,7 +63,7 @@ function enqueue_ajax_search_scripts()
    wp_enqueue_script(
       'ajax-search',
       get_template_directory_uri() . '/functions/integrations/ajax-search-module/assets/js/ajax-search.js',
-      array('jquery'),
+      [],
       time(),
       true
    );

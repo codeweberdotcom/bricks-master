@@ -657,8 +657,7 @@
                 <li><a class="nav-link scroll" href="#snippet-2">Type 2 — with borders</a></li>
                 <li><a class="nav-link scroll" href="#snippet-3">Type 3 — border and padding</a></li>
                 <li><a class="nav-link scroll" href="#snippet-4">Type 4 — simple list</a></li>
-                <li><a class="nav-link scroll" href="#snippet-5">Dark theme</a></li>
-                <li><a class="nav-link scroll" href="#snippet-6">Dark + container class</a></li>
+                <li><a class="nav-link scroll" href="#snippet-5">Type 5 — dropdown right</a></li>
               </ul>
             </nav>
           </div>
@@ -666,37 +665,75 @@
         <div class="col-xl-8 order-xl-2">
           <section id="snippet-1" class="wrapper pt-16">
             <h2 class="mb-3">Type 1 — compact list</h2>
-            <p class="lead mb-8">Минимальные отступы, без границ. В блоке Menu выберите <strong>Menu Style: 1</strong>. Контейнер меню получает класс <code class="code">navbar-vertical menu-collapse-nav</code>, список — <code class="code">navbar-nav list-unstyled menu-collapse-1</code>.</p>
+            <p class="lead mb-8">Минимальные отступы, без границ. В блоке Menu выберите <strong>Menu Style: 1</strong>. Контейнер: <code class="code">navbar-vertical menu-collapse-nav navbar-light</code> или <code class="code">navbar-dark</code>, список — <code class="code">navbar-nav list-unstyled menu-collapse-1</code>.</p>
             <div class="card">
               <div class="card-body">
-                <div class="card rounded-0">
-                  <div class="card-body">
-                    <nav id="menu-collapse-doc-1" class="navbar-vertical menu-collapse-nav">
-                      <ul class="navbar-nav list-unstyled menu-collapse-1">
-                        <li class="nav-item parent-collapse-item parent-item collapse-has-children">
-                          <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                            <a href="#" class="nav-link d-block flex-grow-1">Menu item 1</a>
-                            <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-1-item-51" aria-expanded="false" aria-controls="menu-doc-1-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                          </div>
-                          <div class="collapse" id="menu-doc-1-item-51" data-bs-parent="#menu-collapse-doc-1">
-                            <ul class="navbar-nav list-unstyled menu-collapse-1">
-                              <li class="nav-item parent-collapse-item collapse-has-children">
-                                <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                                  <a href="#" class="nav-link d-block flex-grow-1">Submenu item 1.1</a>
-                                  <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-1-item-52" aria-expanded="false" aria-controls="menu-doc-1-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                                </div>
-                                <div class="collapse" id="menu-doc-1-item-52" data-bs-parent="#menu-doc-1-item-51">
-                                  <ul class="navbar-nav list-unstyled menu-collapse-1">
-                                    <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block current-menu-item" aria-current="page">Submenu item 1.2</a></li>
-                                  </ul>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block">Menu item 2</a></li>
-                      </ul>
-                    </nav>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="card rounded-0">
+                      <div class="card-body">
+                        <p class="small text-muted mb-2">navbar-light</p>
+                        <nav id="menu-collapse-doc-1" class="navbar-vertical menu-collapse-nav navbar-light">
+                          <ul class="navbar-nav list-unstyled menu-collapse-1">
+                            <li class="nav-item parent-collapse-item parent-item collapse-has-children">
+                              <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                <a href="#" class="nav-link d-block flex-grow-1">Menu item 1</a>
+                                <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-1-item-51" aria-expanded="false" aria-controls="menu-doc-1-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                              </div>
+                              <div class="collapse" id="menu-doc-1-item-51" data-bs-parent="#menu-collapse-doc-1">
+                                <ul class="navbar-nav list-unstyled menu-collapse-1">
+                                  <li class="nav-item parent-collapse-item collapse-has-children">
+                                    <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                      <a href="#" class="nav-link d-block flex-grow-1">Submenu item 1.1</a>
+                                      <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-1-item-52" aria-expanded="false" aria-controls="menu-doc-1-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                                    </div>
+                                    <div class="collapse" id="menu-doc-1-item-52" data-bs-parent="#menu-doc-1-item-51">
+                                      <ul class="navbar-nav list-unstyled menu-collapse-1">
+                                        <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block current-menu-item" aria-current="page">Submenu item 1.2</a></li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </li>
+                            <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block">Menu item 2</a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="card bg-dark rounded-0">
+                      <div class="card-body">
+                        <p class="small text-white-50 mb-2">navbar-dark</p>
+                        <nav id="menu-collapse-doc-1-dark" class="navbar-vertical menu-collapse-nav navbar-dark">
+                          <ul class="navbar-nav list-unstyled menu-collapse-1">
+                            <li class="nav-item parent-collapse-item parent-item collapse-has-children">
+                              <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                <a href="#" class="nav-link d-block flex-grow-1">Menu item 1</a>
+                                <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-1-dark-item-51" aria-expanded="false" aria-controls="menu-doc-1-dark-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                              </div>
+                              <div class="collapse" id="menu-doc-1-dark-item-51" data-bs-parent="#menu-collapse-doc-1-dark">
+                                <ul class="navbar-nav list-unstyled menu-collapse-1">
+                                  <li class="nav-item parent-collapse-item collapse-has-children">
+                                    <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                      <a href="#" class="nav-link d-block flex-grow-1">Submenu item 1.1</a>
+                                      <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-1-dark-item-52" aria-expanded="false" aria-controls="menu-doc-1-dark-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                                    </div>
+                                    <div class="collapse" id="menu-doc-1-dark-item-52" data-bs-parent="#menu-doc-1-dark-item-51">
+                                      <ul class="navbar-nav list-unstyled menu-collapse-1">
+                                        <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block">Submenu item 1.2</a></li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </li>
+                            <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block">Menu item 2</a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -706,7 +743,8 @@
               <div id="collapse-doc-1" class="card-footer bg-dark p-0 accordion-collapse collapse">
                 <div class="code-wrapper">
                   <div class="code-wrapper-inner">
-                    <pre class="language-html"><code>&lt;nav class="navbar-vertical menu-collapse-nav" id="menu-collapse-doc-1"&gt;
+                    <pre class="language-html"><code>&lt;!-- Светлая тема --&gt;
+&lt;nav class="navbar-vertical menu-collapse-nav navbar-light" id="menu-collapse-doc-1"&gt;
   &lt;ul class="navbar-nav list-unstyled menu-collapse-1"&gt;
     &lt;li class="nav-item parent-collapse-item parent-item collapse-has-children"&gt;
       &lt;div class="menu-collapse-row d-flex align-items-center justify-content-between"&gt;
@@ -763,12 +801,13 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '1' ] );</code></pre>
   'menu'            => 19,
   'depth'           => 0,
   'container'       => 'nav',
-  'container_class' => 'navbar-vertical menu-collapse-nav',
+  'container_class' => 'navbar-vertical menu-collapse-nav navbar-light',
   'menu_class'      => 'navbar-nav list-unstyled menu-collapse-1',
   'walker'          => new CodeWeber_Menu_Collapse_Walker(),
   'fallback_cb'     => false,
   'echo'            => true,
-) );</code></pre>
+) );
+// Тёмная тема: theme =&gt; 'dark' даёт navbar-dark в container_class</code></pre>
                   </div>
                 </div>
               </div>
@@ -786,37 +825,75 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '1' ] );</code></pre>
           </section>
           <section id="snippet-2" class="wrapper pt-16">
             <h2 class="mb-3">Type 2 — with borders (card style)</h2>
-            <p class="lead mb-8">Пункты верхнего уровня с рамкой сверху и по бокам. В блоке Menu выберите <strong>Menu Style: 2</strong>. Список использует класс <code class="code">menu-collapse-2</code>; стили задают границы для <code class="code">.nav-item.parent-item</code>.</p>
+            <p class="lead mb-8">Пункты верхнего уровня с рамкой сверху и по бокам. В блоке Menu выберите <strong>Menu Style: 2</strong>. Контейнер: <code class="code">navbar-vertical menu-collapse-nav navbar-light</code> или <code class="code">navbar-dark</code>, список — <code class="code">menu-collapse-2</code>.</p>
             <div class="card">
               <div class="card-body">
-                <div class="card rounded-0">
-                  <div class="card-body">
-                    <nav id="menu-collapse-doc-2" class="navbar-vertical menu-collapse-nav">
-                      <ul class="navbar-nav list-unstyled menu-collapse-2">
-                        <li class="nav-item parent-collapse-item parent-item collapse-has-children">
-                          <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                            <a href="#" class="nav-link d-block flex-grow-1">Menu item 1</a>
-                            <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-2-item-51" aria-expanded="false" aria-controls="menu-doc-2-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                          </div>
-                          <div class="collapse" id="menu-doc-2-item-51" data-bs-parent="#menu-collapse-doc-2">
-                            <ul class="navbar-nav list-unstyled menu-collapse-2">
-                              <li class="nav-item parent-collapse-item collapse-has-children">
-                                <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                                  <a href="#" class="nav-link d-block flex-grow-1">Submenu item 1.1</a>
-                                  <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-2-item-52" aria-expanded="false" aria-controls="menu-doc-2-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                                </div>
-                                <div class="collapse" id="menu-doc-2-item-52" data-bs-parent="#menu-doc-2-item-51">
-                                  <ul class="navbar-nav list-unstyled menu-collapse-2">
-                                    <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block">Submenu item 1.2</a></li>
-                                  </ul>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block">Menu item 2</a></li>
-                      </ul>
-                    </nav>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="card rounded-0">
+                      <div class="card-body">
+                        <p class="small text-muted mb-2">navbar-light</p>
+                        <nav id="menu-collapse-doc-2" class="navbar-vertical menu-collapse-nav navbar-light">
+                          <ul class="navbar-nav list-unstyled menu-collapse-2">
+                            <li class="nav-item parent-collapse-item parent-item collapse-has-children">
+                              <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                <a href="#" class="nav-link d-block flex-grow-1">Menu item 1</a>
+                                <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-2-item-51" aria-expanded="false" aria-controls="menu-doc-2-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                              </div>
+                              <div class="collapse" id="menu-doc-2-item-51" data-bs-parent="#menu-collapse-doc-2">
+                                <ul class="navbar-nav list-unstyled menu-collapse-2">
+                                  <li class="nav-item parent-collapse-item collapse-has-children">
+                                    <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                      <a href="#" class="nav-link d-block flex-grow-1">Submenu item 1.1</a>
+                                      <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-2-item-52" aria-expanded="false" aria-controls="menu-doc-2-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                                    </div>
+                                    <div class="collapse" id="menu-doc-2-item-52" data-bs-parent="#menu-doc-2-item-51">
+                                      <ul class="navbar-nav list-unstyled menu-collapse-2">
+                                        <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block">Submenu item 1.2</a></li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </li>
+                            <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block">Menu item 2</a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="card bg-dark rounded-0">
+                      <div class="card-body">
+                        <p class="small text-white-50 mb-2">navbar-dark</p>
+                        <nav id="menu-collapse-doc-2-dark" class="navbar-vertical menu-collapse-nav navbar-dark">
+                          <ul class="navbar-nav list-unstyled menu-collapse-2">
+                            <li class="nav-item parent-collapse-item parent-item collapse-has-children">
+                              <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                <a href="#" class="nav-link d-block flex-grow-1">Menu item 1</a>
+                                <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-2-dark-item-51" aria-expanded="false" aria-controls="menu-doc-2-dark-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                              </div>
+                              <div class="collapse" id="menu-doc-2-dark-item-51" data-bs-parent="#menu-collapse-doc-2-dark">
+                                <ul class="navbar-nav list-unstyled menu-collapse-2">
+                                  <li class="nav-item parent-collapse-item collapse-has-children">
+                                    <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                      <a href="#" class="nav-link d-block flex-grow-1">Submenu item 1.1</a>
+                                      <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-2-dark-item-52" aria-expanded="false" aria-controls="menu-doc-2-dark-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                                    </div>
+                                    <div class="collapse" id="menu-doc-2-dark-item-52" data-bs-parent="#menu-doc-2-dark-item-51">
+                                      <ul class="navbar-nav list-unstyled menu-collapse-2">
+                                        <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block">Submenu item 1.2</a></li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </li>
+                            <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block">Menu item 2</a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -826,7 +903,7 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '1' ] );</code></pre>
               <div id="collapse-doc-2" class="card-footer bg-dark p-0 accordion-collapse collapse">
                 <div class="code-wrapper">
                   <div class="code-wrapper-inner">
-                    <pre class="language-html"><code>&lt;nav class="navbar-vertical menu-collapse-nav" id="menu-collapse-doc-2"&gt;
+                    <pre class="language-html"><code>&lt;nav class="navbar-vertical menu-collapse-nav navbar-light" id="menu-collapse-doc-2"&gt;
   &lt;ul class="navbar-nav list-unstyled menu-collapse-2"&gt;
     &lt;li class="nav-item parent-collapse-item parent-item collapse-has-children"&gt;
       &lt;div class="menu-collapse-row d-flex align-items-center justify-content-between"&gt;
@@ -881,7 +958,7 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '2' ] );</code></pre>
   'menu'            => 19,
   'depth'           => 0,
   'container'       => 'nav',
-  'container_class' => 'navbar-vertical menu-collapse-nav',
+  'container_class' => 'navbar-vertical menu-collapse-nav navbar-light',
   'menu_class'      => 'navbar-nav list-unstyled menu-collapse-2',
   'walker'          => new CodeWeber_Menu_Collapse_Walker(),
   'fallback_cb'     => false,
@@ -904,37 +981,75 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '2' ] );</code></pre>
           </section>
           <section id="snippet-3" class="wrapper pt-16">
             <h2 class="mb-3">Type 3 — container border and padding</h2>
-            <p class="lead mb-8">Внешняя рамка у <code class="code">nav</code>, разделители между пунктами верхнего уровня, увеличенные отступы. В блоке Menu выберите <strong>Menu Style: 3</strong>. Список — <code class="code">menu-collapse-3</code>; у контейнера при этом типе тема добавляет общую рамку и скругление.</p>
+            <p class="lead mb-8">Внешняя рамка у <code class="code">nav</code>, разделители между пунктами верхнего уровня, увеличенные отступы. В блоке Menu выберите <strong>Menu Style: 3</strong>. Контейнер: <code class="code">navbar-vertical menu-collapse-nav navbar-light</code> или <code class="code">navbar-dark</code>, список — <code class="code">menu-collapse-3</code>.</p>
             <div class="card">
               <div class="card-body">
-                <div class="card rounded-0">
-                  <div class="card-body">
-                    <nav id="menu-collapse-doc-3" class="navbar-vertical menu-collapse-nav">
-                      <ul class="navbar-nav list-unstyled menu-collapse-3">
-                        <li class="nav-item parent-collapse-item parent-item collapse-has-children">
-                          <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                            <a href="#" class="nav-link d-block flex-grow-1">Menu item 1</a>
-                            <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-3-item-51" aria-expanded="false" aria-controls="menu-doc-3-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                          </div>
-                          <div class="collapse" id="menu-doc-3-item-51" data-bs-parent="#menu-collapse-doc-3">
-                            <ul class="navbar-nav list-unstyled menu-collapse-3">
-                              <li class="nav-item parent-collapse-item collapse-has-children">
-                                <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                                  <a href="#" class="nav-link d-block flex-grow-1">Submenu item 1.1</a>
-                                  <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-3-item-52" aria-expanded="false" aria-controls="menu-doc-3-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                                </div>
-                                <div class="collapse" id="menu-doc-3-item-52" data-bs-parent="#menu-doc-3-item-51">
-                                  <ul class="navbar-nav list-unstyled menu-collapse-3">
-                                    <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block">Submenu item 1.2</a></li>
-                                  </ul>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block">Menu item 2</a></li>
-                      </ul>
-                    </nav>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="card rounded-0">
+                      <div class="card-body">
+                        <p class="small text-muted mb-2">navbar-light</p>
+                        <nav id="menu-collapse-doc-3" class="navbar-vertical menu-collapse-nav navbar-light">
+                          <ul class="navbar-nav list-unstyled menu-collapse-3">
+                            <li class="nav-item parent-collapse-item parent-item collapse-has-children">
+                              <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                <a href="#" class="nav-link d-block flex-grow-1">Menu item 1</a>
+                                <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-3-item-51" aria-expanded="false" aria-controls="menu-doc-3-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                              </div>
+                              <div class="collapse" id="menu-doc-3-item-51" data-bs-parent="#menu-collapse-doc-3">
+                                <ul class="navbar-nav list-unstyled menu-collapse-3">
+                                  <li class="nav-item parent-collapse-item collapse-has-children">
+                                    <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                      <a href="#" class="nav-link d-block flex-grow-1">Submenu item 1.1</a>
+                                      <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-3-item-52" aria-expanded="false" aria-controls="menu-doc-3-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                                    </div>
+                                    <div class="collapse" id="menu-doc-3-item-52" data-bs-parent="#menu-doc-3-item-51">
+                                      <ul class="navbar-nav list-unstyled menu-collapse-3">
+                                        <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block">Submenu item 1.2</a></li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </li>
+                            <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block">Menu item 2</a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="card bg-dark rounded-0">
+                      <div class="card-body">
+                        <p class="small text-white-50 mb-2">navbar-dark</p>
+                        <nav id="menu-collapse-doc-3-dark" class="navbar-vertical menu-collapse-nav navbar-dark">
+                          <ul class="navbar-nav list-unstyled menu-collapse-3">
+                            <li class="nav-item parent-collapse-item parent-item collapse-has-children">
+                              <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                <a href="#" class="nav-link d-block flex-grow-1">Menu item 1</a>
+                                <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-3-dark-item-51" aria-expanded="false" aria-controls="menu-doc-3-dark-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                              </div>
+                              <div class="collapse" id="menu-doc-3-dark-item-51" data-bs-parent="#menu-collapse-doc-3-dark">
+                                <ul class="navbar-nav list-unstyled menu-collapse-3">
+                                  <li class="nav-item parent-collapse-item collapse-has-children">
+                                    <div class="menu-collapse-row d-flex align-items-center justify-content-between">
+                                      <a href="#" class="nav-link d-block flex-grow-1">Submenu item 1.1</a>
+                                      <button type="button" class="btn-collapse w-5 h-5 collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-3-dark-item-52" aria-expanded="false" aria-controls="menu-doc-3-dark-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
+                                    </div>
+                                    <div class="collapse" id="menu-doc-3-dark-item-52" data-bs-parent="#menu-doc-3-dark-item-51">
+                                      <ul class="navbar-nav list-unstyled menu-collapse-3">
+                                        <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block">Submenu item 1.2</a></li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </li>
+                            <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block">Menu item 2</a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -944,7 +1059,7 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '2' ] );</code></pre>
               <div id="collapse-doc-3" class="card-footer bg-dark p-0 accordion-collapse collapse">
                 <div class="code-wrapper">
                   <div class="code-wrapper-inner">
-                    <pre class="language-html"><code>&lt;nav class="navbar-vertical menu-collapse-nav" id="menu-collapse-doc-3"&gt;
+                    <pre class="language-html"><code>&lt;nav class="navbar-vertical menu-collapse-nav navbar-light" id="menu-collapse-doc-3"&gt;
   &lt;ul class="navbar-nav list-unstyled menu-collapse-3"&gt;
     &lt;li class="nav-item parent-collapse-item parent-item collapse-has-children"&gt;
       &lt;div class="menu-collapse-row d-flex align-items-center justify-content-between"&gt;
@@ -999,7 +1114,7 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '3' ] );</code></pre>
   'menu'            => 19,
   'depth'           => 0,
   'container'       => 'nav',
-  'container_class' => 'navbar-vertical menu-collapse-nav',
+  'container_class' => 'navbar-vertical menu-collapse-nav navbar-light',
   'menu_class'      => 'navbar-nav list-unstyled menu-collapse-3',
   'walker'          => new CodeWeber_Menu_Collapse_Walker(),
   'fallback_cb'     => false,
@@ -1022,335 +1137,168 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '3' ] );</code></pre>
           </section>
           <section id="snippet-4" class="wrapper pt-16">
             <h2 class="mb-3">Type 4 — simple list</h2>
-            <p class="lead mb-8">Простой список без collapse: корневой <code class="code">ul</code> с классами <code class="code">list-unstyled text-reset menu-list-type-4</code>, вложенные уровни — <code class="code">list-unstyled text-reset menu-type-4-sub</code> (отступ и margin задаются темой). В блоке Menu выберите <strong>Menu Style: 4</strong>. Подходит для сайдбара и многоуровневых списков ссылок.</p>
+            <p class="lead mb-8">Простой список без collapse: контейнер <code class="code">navbar-vertical navbar-light</code> или <code class="code">navbar-dark</code>, корневой <code class="code">ul</code> — <code class="code">list-unstyled menu-list-type-4</code>, вложенные — <code class="code">list-unstyled menu-type-4-sub</code>. В блоке Menu выберите <strong>Menu Style: 4</strong>.</p>
             <div class="card">
               <div class="card-body">
-                <div class="card rounded-0">
-                  <div class="card-body">
-                    <nav id="collapse-usage">
-                      <ul class="list-unstyled text-reset menu-list-type-4">
-                        <li><a href="../docs/index.html" class="active">Get Started</a></li>
-                        <li><a href="../docs/forms.html">Forms</a></li>
-                        <li>
-                          <a href="../docs/faq.html">FAQ</a>
-                          <ul class="list-unstyled text-reset menu-type-4-sub">
-                            <li><a href="../docs/faq.html#general">General</a></li>
-                            <li><a href="../docs/faq.html#technical">Technical</a></li>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="card rounded-0">
+                      <div class="card-body">
+                        <p class="small text-muted mb-2">navbar-light</p>
+                        <nav id="collapse-usage" class="navbar-vertical navbar-light">
+                          <ul class="list-unstyled menu-list-type-4">
+                            <li><a href="../docs/index.html" class="active">Get Started</a></li>
+                            <li><a href="../docs/forms.html">Forms</a></li>
+                            <li>
+                              <a href="../docs/faq.html">FAQ</a>
+                              <ul class="list-unstyled menu-type-4-sub">
+                                <li><a href="../docs/faq.html#general">General</a></li>
+                                <li><a href="../docs/faq.html#technical">Technical</a></li>
+                              </ul>
+                            </li>
+                            <li><a href="../docs/changelog.html">Changelog</a></li>
+                            <li><a href="../docs/credits.html">Credits</a></li>
                           </ul>
-                        </li>
-                        <li><a href="../docs/changelog.html">Changelog</a></li>
-                        <li><a href="../docs/credits.html">Credits</a></li>
-                      </ul>
-                    </nav>
+                        </nav>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-4-html">Показать пример кода</a>
-              </div>
-              <div id="collapse-doc-4-html" class="card-footer bg-dark p-0 accordion-collapse collapse">
-                <div class="code-wrapper">
-                  <div class="code-wrapper-inner">
-                    <pre class="language-html"><code>&lt;nav id="collapse-usage"&gt;
-  &lt;ul class="list-unstyled text-reset menu-list-type-4"&gt;
-    &lt;li&gt;&lt;a href="../docs/index.html" class="active"&gt;Get Started&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href="../docs/forms.html"&gt;Forms&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;
-      &lt;a href="../docs/faq.html"&gt;FAQ&lt;/a&gt;
-      &lt;ul class="list-unstyled text-reset menu-type-4-sub"&gt;
-        &lt;li&gt;&lt;a href="../docs/faq.html#general"&gt;General&lt;/a&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;a href="../docs/faq.html#technical"&gt;Technical&lt;/a&gt;&lt;/li&gt;
-      &lt;/ul&gt;
-    &lt;/li&gt;
-    &lt;li&gt;&lt;a href="../docs/changelog.html"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href="../docs/credits.html"&gt;Credits&lt;/a&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/nav&gt;</code></pre>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-4-nav">Показать пример кода (codeweber_nav)</a>
-              </div>
-              <div id="collapse-doc-4-nav" class="card-footer bg-dark p-0 accordion-collapse collapse">
-                <div class="code-wrapper">
-                  <div class="code-wrapper-inner">
-                    <pre class="language-php"><code>echo codeweber_nav( 'tax', 'category', [ 'list_type' => '4' ] );
-// или
-echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '4' ] );</code></pre>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-4-wpnav">Показать пример кода (wp_nav_menu)</a>
-              </div>
-              <div id="collapse-doc-4-wpnav" class="card-footer bg-dark p-0 accordion-collapse collapse">
-                <div class="code-wrapper">
-                  <div class="code-wrapper-inner">
-                    <pre class="language-php"><code>wp_nav_menu( array(
-  'menu'            => 19,
-  'depth'           => 2,
-  'container'       => 'nav',
-  'container_id'    => 'collapse-usage',
-  'container_class' => '',
-  'menu_class'      => 'list-unstyled text-reset menu-list-type-4',
-  'walker'          => new CodeWeber_Menu_Collapse_Walker(),
-  'list_type'       => '4',
-  'fallback_cb'     => false,
-  'echo'            => true,
-) );</code></pre>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-4-shortcode">Показать пример кода (шорткод)</a>
-              </div>
-              <div id="collapse-doc-4-shortcode" class="card-footer bg-dark p-0 accordion-collapse collapse">
-                <div class="code-wrapper">
-                  <div class="code-wrapper-inner">
-                    <pre class="language-html"><code>[menu_collapse menu="19" list_type="4" depth="2"]</code></pre>
+                  <div class="col-12 col-md-6">
+                    <div class="card bg-dark rounded-0">
+                      <div class="card-body">
+                        <p class="small text-white-50 mb-2">navbar-dark</p>
+                        <nav id="collapse-usage-dark" class="navbar-vertical navbar-dark">
+                          <ul class="list-unstyled menu-list-type-4">
+                            <li><a href="../docs/index.html" class="active">Get Started</a></li>
+                            <li><a href="../docs/forms.html">Forms</a></li>
+                            <li>
+                              <a href="../docs/faq.html">FAQ</a>
+                              <ul class="list-unstyled menu-type-4-sub">
+                                <li><a href="../docs/faq.html#general">General</a></li>
+                                <li><a href="../docs/faq.html#technical">Technical</a></li>
+                              </ul>
+                            </li>
+                            <li><a href="../docs/changelog.html">Changelog</a></li>
+                            <li><a href="../docs/credits.html">Credits</a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </section>
-          <section id="snippet-5" class="wrapper pt-16">
-            <h2 class="mb-3">Dark theme</h2>
-            <p class="lead mb-8">Для тёмного фона в блоке Menu выберите <strong>Theme: Dark</strong>. К контейнеру меню добавляется класс <code class="code">navbar-vertical-dark</code>, к ссылкам и кнопке — <code class="code">text-white</code>. Оберните блок в карточку с <code class="code">card bg-dark</code> для контраста.</p>
+          <section id="snippet-5" class="wrapper py-16">
+            <h2 class="mb-3">Type 5 — dropdown right</h2>
+            <p class="lead mb-8">Вертикальное меню с выпадающими подменю вправо (Bootstrap <code class="code">dropend</code>). Открытие по наведению, каретка справа. Контейнер: <code class="code">navbar-vertical navbar-vertical-dropdown</code>, список: <code class="code">navbar-nav flex-column</code>. Шорткод: <code class="code">list_type="5"</code>.</p>
             <div class="card">
               <div class="card-body">
-                <div class="card bg-dark rounded-0">
-                  <div class="card-body">
-                    <nav id="menu-collapse-doc-4" class="navbar-vertical menu-collapse-nav navbar-vertical-dark">
-                      <ul class="navbar-nav list-unstyled menu-collapse-3">
-                        <li class="nav-item parent-collapse-item parent-item collapse-has-children">
-                          <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                            <a href="#" class="nav-link d-block flex-grow-1 text-white">Menu item 1</a>
-                            <button type="button" class="btn-collapse w-5 h-5 text-white collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-4-item-51" aria-expanded="false" aria-controls="menu-doc-4-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                          </div>
-                          <div class="collapse" id="menu-doc-4-item-51" data-bs-parent="#menu-collapse-doc-4">
-                            <ul class="navbar-nav list-unstyled menu-collapse-3">
-                              <li class="nav-item parent-collapse-item collapse-has-children">
-                                <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                                  <a href="#" class="nav-link d-block flex-grow-1 text-white">Submenu item 1.1</a>
-                                  <button type="button" class="btn-collapse w-5 h-5 text-white collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-4-item-52" aria-expanded="false" aria-controls="menu-doc-4-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                                </div>
-                                <div class="collapse" id="menu-doc-4-item-52" data-bs-parent="#menu-doc-4-item-51">
-                                  <ul class="navbar-nav list-unstyled menu-collapse-3">
-                                    <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block text-white">Submenu item 1.2</a></li>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="card rounded-0">
+                      <div class="card-body">
+                        <p class="small text-muted mb-2">navbar-light</p>
+                        <nav class="navbar-vertical navbar-light navbar-vertical-dropdown">
+                          <ul class="navbar-nav flex-column">
+                            <li class="nav-item"><a href="#" class="nav-link">Пункт без подменю</a></li>
+                            <li class="nav-item dropdown dropend">
+                              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Пункт с подменю</a>
+                              <ul class="dropdown-menu rounded-0">
+                                <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 1</a></li>
+                                <li class="nav-item dropdown dropend">
+                                  <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Вложенное</a>
+                                  <ul class="dropdown-menu rounded-0">
+                                    <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 2.1</a></li>
                                   </ul>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block text-white">Menu item 2</a></li>
-                      </ul>
-                    </nav>
+                                </li>
+                              </ul>
+                            </li>
+                            <li class="nav-item"><a href="#" class="nav-link">Ещё пункт</a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="card bg-dark rounded-0">
+                      <div class="card-body">
+                        <p class="small text-white-50 mb-2">navbar-dark</p>
+                        <nav class="navbar-vertical navbar-dark navbar-vertical-dropdown">
+                          <ul class="navbar-nav flex-column">
+                            <li class="nav-item"><a href="#" class="nav-link">Пункт без подменю</a></li>
+                            <li class="nav-item dropdown dropend">
+                              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Пункт с подменю</a>
+                              <ul class="dropdown-menu rounded-0">
+                                <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 1</a></li>
+                                <li class="nav-item dropdown dropend">
+                                  <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Вложенное</a>
+                                  <ul class="dropdown-menu rounded-0">
+                                    <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 2.1</a></li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                            <li class="nav-item"><a href="#" class="nav-link">Ещё пункт</a></li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-5">Показать пример кода</a>
+                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-5-type5-html">Показать пример кода</a>
               </div>
-              <div id="collapse-doc-5" class="card-footer bg-dark p-0 accordion-collapse collapse">
+              <div id="collapse-doc-5-type5-html" class="card-footer bg-dark p-0 accordion-collapse collapse">
                 <div class="code-wrapper">
                   <div class="code-wrapper-inner">
-                    <pre class="language-html"><code>&lt;div class="card bg-dark rounded-0"&gt;
-  &lt;div class="card-body"&gt;
-    &lt;nav class="navbar-vertical menu-collapse-nav navbar-vertical-dark" id="menu-collapse-doc-4"&gt;
-      &lt;ul class="navbar-nav list-unstyled menu-collapse-3"&gt;
-        &lt;li class="nav-item parent-collapse-item parent-item collapse-has-children"&gt;
-          &lt;div class="menu-collapse-row d-flex align-items-center justify-content-between"&gt;
-            &lt;a href="#" class="nav-link d-block flex-grow-1 text-white"&gt;Menu item 1&lt;/a&gt;
-            &lt;button type="button" class="btn-collapse w-5 h-5 text-white collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-4-item-51" aria-expanded="false" aria-controls="menu-doc-4-item-51" aria-label="Expand submenu"&gt;
-              &lt;span class="toggle_block" aria-hidden="true"&gt;&lt;i class="uil uil-angle-down sidebar-catalog-icon"&gt;&lt;/i&gt;&lt;/span&gt;
-            &lt;/button&gt;
-          &lt;/div&gt;
-          &lt;div class="collapse" id="menu-doc-4-item-51" data-bs-parent="#menu-collapse-doc-4"&gt;
-            &lt;ul class="navbar-nav list-unstyled menu-collapse-3"&gt;
-              &lt;li class="nav-item parent-collapse-item collapse-has-children"&gt;
-                &lt;div class="menu-collapse-row d-flex align-items-center justify-content-between"&gt;
-                  &lt;a href="#" class="nav-link d-block flex-grow-1 text-white"&gt;Submenu item 1.1&lt;/a&gt;
-                  &lt;button type="button" class="btn-collapse w-5 h-5 text-white collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-4-item-52" aria-expanded="false" aria-controls="menu-doc-4-item-52" aria-label="Expand submenu"&gt;
-                    &lt;span class="toggle_block" aria-hidden="true"&gt;&lt;i class="uil uil-angle-down sidebar-catalog-icon"&gt;&lt;/i&gt;&lt;/span&gt;
-                  &lt;/button&gt;
-                &lt;/div&gt;
-                &lt;div class="collapse" id="menu-doc-4-item-52" data-bs-parent="#menu-doc-4-item-51"&gt;
-                  &lt;ul class="navbar-nav list-unstyled menu-collapse-3"&gt;
-                    &lt;li class="nav-item parent-collapse-item"&gt;&lt;a href="#" class="nav-link d-block text-white"&gt;Submenu item 1.2&lt;/a&gt;&lt;/li&gt;
-                  &lt;/ul&gt;
-                &lt;/div&gt;
-              &lt;/li&gt;
-            &lt;/ul&gt;
-          &lt;/div&gt;
+                    <pre class="language-html"><code>&lt;!-- Светлая тема --&gt;
+&lt;nav class="navbar-vertical navbar-light navbar-vertical-dropdown"&gt;
+  &lt;ul class="navbar-nav flex-column"&gt;
+    &lt;li class="nav-item"&gt;&lt;a href="#" class="nav-link"&gt;Пункт без подменю&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="nav-item dropdown dropend"&gt;
+      &lt;a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"&gt;Пункт с подменю&lt;/a&gt;
+      &lt;ul class="dropdown-menu rounded-0" role="menu"&gt;
+        &lt;li class="nav-item"&gt;&lt;a href="#" class="dropdown-item"&gt;Подпункт 1&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-item dropdown dropend dropdown-submenu"&gt;
+          &lt;a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"&gt;Вложенное&lt;/a&gt;
+          &lt;ul class="dropdown-menu rounded-0" role="menu"&gt;
+            &lt;li class="nav-item"&gt;&lt;a href="#" class="dropdown-item"&gt;Подпункт 2.1&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
         &lt;/li&gt;
-        &lt;li class="nav-item parent-collapse-item parent-item"&gt;&lt;a href="#" class="nav-link d-block text-white"&gt;Menu item 2&lt;/a&gt;&lt;/li&gt;
       &lt;/ul&gt;
-    &lt;/nav&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-5-nav">Показать пример кода (codeweber_nav)</a>
-              </div>
-              <div id="collapse-doc-5-nav" class="card-footer bg-dark p-0 accordion-collapse collapse">
-                <div class="code-wrapper">
-                  <div class="code-wrapper-inner">
-                    <pre class="language-php"><code>echo codeweber_nav( 'tax', 'category', [ 'list_type' => '3', 'theme' => 'dark' ] );
-// или
-echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '3', 'theme' => 'dark' ] );</code></pre>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-5-wpnav">Показать пример кода (wp_nav_menu)</a>
-              </div>
-              <div id="collapse-doc-5-wpnav" class="card-footer bg-dark p-0 accordion-collapse collapse">
-                <div class="code-wrapper">
-                  <div class="code-wrapper-inner">
-                    <pre class="language-php"><code>wp_nav_menu( array(
-  'menu'            => 19,
-  'depth'           => 0,
-  'container'       => 'nav',
-  'container_class' => 'navbar-vertical menu-collapse-nav navbar-vertical-dark',
-  'menu_class'      => 'navbar-nav list-unstyled menu-collapse-3',
-  'walker'          => new CodeWeber_Menu_Collapse_Walker(),
-  'theme_class'     => 'navbar-vertical-dark',
-  'fallback_cb'     => false,
-  'echo'            => true,
-) );</code></pre>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-5-shortcode">Показать пример кода (шорткод)</a>
-              </div>
-              <div id="collapse-doc-5-shortcode" class="card-footer bg-dark p-0 accordion-collapse collapse">
-                <div class="code-wrapper">
-                  <div class="code-wrapper-inner">
-                    <pre class="language-html"><code>[menu_collapse menu="19" list_type="3" theme="dark"]</code></pre>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section id="snippet-6" class="wrapper py-16">
-            <h2 class="mb-3">Dark theme with container class</h2>
-            <p class="lead mb-8">Дополнительные классы для контейнера меню задаются в блоке Menu в поле <strong>Container class</strong>. Например, <code class="code">border px-5</code> добавляет рамку и горизонтальные отступы к самому <code class="code">nav</code>. Удобно для выделения блока на тёмном фоне.</p>
-            <div class="card">
-              <div class="card-body">
-                <div class="card bg-dark rounded-0">
-                  <div class="card-body">
-                    <nav id="menu-collapse-doc-5" class="navbar-vertical menu-collapse-nav navbar-vertical-dark border px-5">
-                      <ul class="navbar-nav list-unstyled menu-collapse-3">
-                        <li class="nav-item parent-collapse-item parent-item collapse-has-children">
-                          <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                            <a href="#" class="nav-link d-block flex-grow-1 text-white">Menu item 1</a>
-                            <button type="button" class="btn-collapse w-5 h-5 text-white collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-5-item-51" aria-expanded="false" aria-controls="menu-doc-5-item-51" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                          </div>
-                          <div class="collapse" id="menu-doc-5-item-51" data-bs-parent="#menu-collapse-doc-5">
-                            <ul class="navbar-nav list-unstyled menu-collapse-3">
-                              <li class="nav-item parent-collapse-item collapse-has-children">
-                                <div class="menu-collapse-row d-flex align-items-center justify-content-between">
-                                  <a href="#" class="nav-link d-block flex-grow-1 text-white">Submenu item 1.1</a>
-                                  <button type="button" class="btn-collapse w-5 h-5 text-white collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-5-item-52" aria-expanded="false" aria-controls="menu-doc-5-item-52" aria-label="Expand submenu"><span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span></button>
-                                </div>
-                                <div class="collapse" id="menu-doc-5-item-52" data-bs-parent="#menu-doc-5-item-51">
-                                  <ul class="navbar-nav list-unstyled menu-collapse-3">
-                                    <li class="nav-item parent-collapse-item"><a href="#" class="nav-link d-block text-white">Submenu item 1.2</a></li>
-                                  </ul>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </li>
-                        <li class="nav-item parent-collapse-item parent-item"><a href="#" class="nav-link d-block text-white">Menu item 2</a></li>
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-6">Показать пример кода</a>
-              </div>
-              <div id="collapse-doc-6" class="card-footer bg-dark p-0 accordion-collapse collapse">
-                <div class="code-wrapper">
-                  <div class="code-wrapper-inner">
-                    <pre class="language-html"><code>&lt;nav class="navbar-vertical menu-collapse-nav navbar-vertical-dark border px-5" id="menu-collapse-doc-5"&gt;
-  &lt;ul class="navbar-nav list-unstyled menu-collapse-3"&gt;
-    &lt;li class="nav-item parent-collapse-item parent-item collapse-has-children"&gt;
-      &lt;div class="menu-collapse-row d-flex align-items-center justify-content-between"&gt;
-        &lt;a href="#" class="nav-link d-block flex-grow-1 text-white"&gt;Menu item 1&lt;/a&gt;
-        &lt;button type="button" class="btn-collapse w-5 h-5 text-white collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-5-item-51" aria-expanded="false" aria-controls="menu-doc-5-item-51" aria-label="Expand submenu"&gt;
-          &lt;span class="toggle_block" aria-hidden="true"&gt;&lt;i class="uil uil-angle-down sidebar-catalog-icon"&gt;&lt;/i&gt;&lt;/span&gt;
-        &lt;/button&gt;
-      &lt;/div&gt;
-      &lt;div class="collapse" id="menu-doc-5-item-51" data-bs-parent="#menu-collapse-doc-5"&gt;
-        &lt;ul class="navbar-nav list-unstyled menu-collapse-3"&gt;
-          &lt;li class="nav-item parent-collapse-item collapse-has-children"&gt;
-            &lt;div class="menu-collapse-row d-flex align-items-center justify-content-between"&gt;
-              &lt;a href="#" class="nav-link d-block flex-grow-1 text-white"&gt;Submenu item 1.1&lt;/a&gt;
-              &lt;button type="button" class="btn-collapse w-5 h-5 text-white collapsed" data-bs-toggle="collapse" data-bs-target="#menu-doc-5-item-52" aria-expanded="false" aria-controls="menu-doc-5-item-52" aria-label="Expand submenu"&gt;
-                &lt;span class="toggle_block" aria-hidden="true"&gt;&lt;i class="uil uil-angle-down sidebar-catalog-icon"&gt;&lt;/i&gt;&lt;/span&gt;
-              &lt;/button&gt;
-            &lt;/div&gt;
-            &lt;div class="collapse" id="menu-doc-5-item-52" data-bs-parent="#menu-doc-5-item-51"&gt;
-              &lt;ul class="navbar-nav list-unstyled menu-collapse-3"&gt;
-                &lt;li class="nav-item parent-collapse-item"&gt;&lt;a href="#" class="nav-link d-block text-white"&gt;Submenu item 1.2&lt;/a&gt;&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/div&gt;
-          &lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/div&gt;
     &lt;/li&gt;
-    &lt;li class="nav-item parent-collapse-item parent-item"&gt;&lt;a href="#" class="nav-link d-block text-white"&gt;Menu item 2&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="nav-item"&gt;&lt;a href="#" class="nav-link"&gt;Ещё пункт&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/nav&gt;</code></pre>
                   </div>
                 </div>
               </div>
               <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-6-nav">Показать пример кода (codeweber_nav)</a>
+                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-5-type5-nav">Показать пример кода (codeweber_nav)</a>
               </div>
-              <div id="collapse-doc-6-nav" class="card-footer bg-dark p-0 accordion-collapse collapse">
+              <div id="collapse-doc-5-type5-nav" class="card-footer bg-dark p-0 accordion-collapse collapse">
                 <div class="code-wrapper">
                   <div class="code-wrapper-inner">
-                    <pre class="language-php"><code>echo codeweber_nav( 'tax', 'category', [ 'list_type' => '3', 'theme' => 'dark', 'container_class' => 'border px-5' ] );
+                    <pre class="language-php"><code>echo codeweber_nav( 'tax', 'category', [ 'list_type' => '5' ] );
 // или
-echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '3', 'theme' => 'dark', 'container_class' => 'border px-5' ] );</code></pre>
+echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '5' ] );
+// с глубиной и темой:
+echo codeweber_nav( 'tax', 'category', [ 'list_type' => '5', 'depth' => 3, 'theme' => 'dark' ] );</code></pre>
                   </div>
                 </div>
               </div>
               <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-6-wpnav">Показать пример кода (wp_nav_menu)</a>
+                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-5-type5">Показать пример кода (шорткод)</a>
               </div>
-              <div id="collapse-doc-6-wpnav" class="card-footer bg-dark p-0 accordion-collapse collapse">
+              <div id="collapse-doc-5-type5" class="card-footer bg-dark p-0 accordion-collapse collapse">
                 <div class="code-wrapper">
                   <div class="code-wrapper-inner">
-                    <pre class="language-php"><code>wp_nav_menu( array(
-  'menu'            => 19,
-  'depth'           => 0,
-  'container'       => 'nav',
-  'container_class' => 'navbar-vertical menu-collapse-nav navbar-vertical-dark border px-5',
-  'menu_class'      => 'navbar-nav list-unstyled menu-collapse-3',
-  'walker'          => new CodeWeber_Menu_Collapse_Walker(),
-  'theme_class'     => 'navbar-vertical-dark',
-  'fallback_cb'     => false,
-  'echo'            => true,
-) );</code></pre>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer position-relative">
-                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-doc-6-shortcode">Показать пример кода (шорткод)</a>
-              </div>
-              <div id="collapse-doc-6-shortcode" class="card-footer bg-dark p-0 accordion-collapse collapse">
-                <div class="code-wrapper">
-                  <div class="code-wrapper-inner">
-                    <pre class="language-html"><code>[menu_collapse menu="19" list_type="3" theme="dark" container_class="border px-5"]</code></pre>
+                    <pre class="language-html"><code>[menu_collapse menu="19" list_type="5"]
+[menu_collapse menu="main-menu" list_type="5" theme="dark"]
+[menu_collapse demo="true" list_type="5"]
+[menu_collapse menu="19" list_type="5" depth="3"]</code></pre>
                   </div>
                 </div>
               </div>

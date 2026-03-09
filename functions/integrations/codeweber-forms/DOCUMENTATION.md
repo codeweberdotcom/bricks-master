@@ -1,5 +1,7 @@
 # CodeWeber Forms Module - Полная документация
 
+> **Документация обновлена:** Claude (claude-sonnet-4-6), 09.03.2026
+
 ## Содержание
 
 1. [Введение](#введение)
@@ -1238,7 +1240,7 @@ codeweber-forms/
 │   ├── css/
 │   │   └── forms.css                       # Стили форм
 │   └── js/
-│       └── form-submit.js                  # JavaScript для отправки
+│       └── form-submit-universal.js        # Универсальный JS для отправки форм (без зависимости от jQuery)
 ├── languages/
 │   ├── codeweber-forms-ru_RU.po            # Переводы (PO файл)
 │   ├── codeweber-forms-ru_RU.mo            # Переводы (скомпилированный)

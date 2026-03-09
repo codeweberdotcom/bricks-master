@@ -55,25 +55,17 @@
 
                 // Закрываем модальное окно через 2 секунды
                 setTimeout(function() {
-                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                        const bsModal = bootstrap.Modal.getInstance(modal);
-                        if (bsModal) {
-                            bsModal.hide();
-                        }
-                    } else if (typeof jQuery !== 'undefined' && jQuery(modal).modal) {
-                        jQuery(modal).modal('hide');
+                    const bsModal = bootstrap.Modal.getInstance(modal);
+                    if (bsModal) {
+                        bsModal.hide();
                     }
                 }, 2000);
             } else {
                 // Fallback: просто закрываем модальное окно
                 setTimeout(function() {
-                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                        const bsModal = bootstrap.Modal.getInstance(modal);
-                        if (bsModal) {
-                            bsModal.hide();
-                        }
-                    } else if (typeof jQuery !== 'undefined' && jQuery(modal).modal) {
-                        jQuery(modal).modal('hide');
+                    const bsModal = bootstrap.Modal.getInstance(modal);
+                    if (bsModal) {
+                        bsModal.hide();
                     }
                 }, 500);
             }
@@ -82,13 +74,9 @@
             console.error('[Testimonial Form] Error loading success template:', error);
             // Fallback: закрываем модальное окно
             setTimeout(function() {
-                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                    const bsModal = bootstrap.Modal.getInstance(modal);
-                    if (bsModal) {
-                        bsModal.hide();
-                    }
-                } else if (typeof jQuery !== 'undefined' && jQuery(modal).modal) {
-                    jQuery(modal).modal('hide');
+                const bsModal = bootstrap.Modal.getInstance(modal);
+                if (bsModal) {
+                    bsModal.hide();
                 }
             }, 500);
         });

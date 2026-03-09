@@ -303,7 +303,7 @@ add_filter( 'wp_nav_menu_objects', 'codeweber_menu_collapse_demo_items', 10, 2 )
  * - menu (обязательный при demo=false): ID или slug меню (например 4 или "main-menu")
  * - demo: true — вывести демо-меню (menu не нужен), все атрибуты применяются. По умолчанию false
  * - depth: глубина вложенности (0 = без ограничения). По умолчанию 0
- * - theme: цвет текста — default | dark | light (как в блоке Menu). default = без класса, dark = text-white, light = text-dark
+ * - theme: цвет меню — default | dark | light. default = без класса, dark = navbar-dark, light = navbar-light (два варианта, как в горизонтальном меню)
  * - list_type: 1 | 2 | 3 | 4 | 5. 1–3 = collapse (стили), 4 = простой список, 5 = вертикальное меню с выпаданием вправо (dropend)
  * - container_class: дополнительные классы для контейнера <nav>
  * - top_level_class: дополнительные классы только для пунктов меню верхнего уровня (depth 0)
@@ -313,9 +313,10 @@ add_filter( 'wp_nav_menu_objects', 'codeweber_menu_collapse_demo_items', 10, 2 )
  * - link_class: дополнительные классы для ссылок <a>
  *
  * Примеры:
- * [menu_collapse menu="4"]
- * [menu_collapse demo="true" theme="dark"]
- * [menu_collapse menu="main-menu" depth="3" theme="dark"]
+ * [menu_collapse menu="4" list_type="5"]
+ * [menu_collapse menu="main-menu" list_type="5" theme="dark"]
+ * [menu_collapse demo="true" list_type="5"]
+ * [menu_collapse menu="4" list_type="5" depth="3"]
  */
 add_shortcode( 'menu_collapse', function ( $atts ) {
 	$atts = shortcode_atts( array(
@@ -337,13 +338,9 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 		return '<p>' . esc_html__( 'Shortcode [menu_collapse]: specify menu= (ID or slug) or demo="true".', 'codeweber' ) . '</p>';
 	}
 
-	// Класс темы (цвет), как в блоке Menu
+	// Цвет задаётся темой через .navbar-light/.navbar-dark .nav-link, text-dark/text-white не добавляем
 	$theme_class = '';
-	if ( 'dark' === $atts['theme'] ) {
-		$theme_class = 'text-white';
-	} elseif ( 'light' === $atts['theme'] ) {
-		$theme_class = 'text-dark';
-	}
+	$theme_nav_class = ( 'dark' === $atts['theme'] ) ? 'navbar-dark' : ( ( 'light' === $atts['theme'] ) ? 'navbar-light' : '' );
 
 	// Общий счётчик с блоком Menu (collapse), чтобы id не дублировались на странице
 	global $codeweber_menu_collapse_instance;
@@ -362,31 +359,21 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 		$list_type_sanitized = '1';
 	}
 	if ( '4' === $list_type_sanitized ) {
-		$list_class_str = 'list-unstyled text-reset';
-		$container_class = ( 'dark' === $atts['theme'] ) ? 'navbar-vertical-dark' : ( ( 'light' === $atts['theme'] ) ? 'navbar-vertical-light' : '' );
+		$list_class_str = 'list-unstyled menu-list-type-4';
+		$container_class = 'navbar-vertical' . ( $theme_nav_class !== '' ? ' ' . $theme_nav_class : '' );
 		if ( ! empty( trim( (string) $atts['container_class'] ) ) ) {
-			$container_class .= ( $container_class !== '' ? ' ' : '' ) . trim( (string) $atts['container_class'] );
+			$container_class .= ' ' . trim( (string) $atts['container_class'] );
 		}
 	} elseif ( '5' === $list_type_sanitized ) {
 		$list_class_str = 'navbar-nav flex-column';
-		$container_class = 'navbar-vertical navbar-vertical-dropdown';
-		if ( 'dark' === $atts['theme'] ) {
-			$container_class .= ' navbar-vertical-dark';
-		} elseif ( 'light' === $atts['theme'] ) {
-			$container_class .= ' navbar-vertical-light';
-		}
+		$container_class = 'navbar-vertical navbar-vertical-dropdown' . ( $theme_nav_class !== '' ? ' ' . $theme_nav_class : '' );
 		if ( ! empty( trim( (string) $atts['container_class'] ) ) ) {
 			$container_class .= ' ' . trim( (string) $atts['container_class'] );
 		}
 	} else {
 		$list_classes   = array( 'navbar-nav', 'list-unstyled', 'menu-collapse-' . $list_type_sanitized );
 		$list_class_str = implode( ' ', $list_classes );
-		$container_class = 'navbar-vertical menu-collapse-nav';
-		if ( 'dark' === $atts['theme'] ) {
-			$container_class .= ' navbar-vertical-dark';
-		} elseif ( 'light' === $atts['theme'] ) {
-			$container_class .= ' navbar-vertical-light';
-		}
+		$container_class = 'navbar-vertical menu-collapse-nav' . ( $theme_nav_class !== '' ? ' ' . $theme_nav_class : '' );
 		if ( ! empty( trim( (string) $atts['container_class'] ) ) ) {
 			$container_class .= ' ' . trim( (string) $atts['container_class'] );
 		}

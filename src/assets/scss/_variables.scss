@@ -818,7 +818,9 @@ $navbar-light-toggler-border-color: transparent !default;
 // Type 1: compact, no borders
 $navbar-vertical-1-item-padding-y: 0.25rem !default;
 $navbar-vertical-1-item-padding-x: 0 !default;
-$navbar-vertical-1-top-level-padding-y: 0.25rem !default;
+// Общий отступ сверху/снизу для верхнего уровня: menu-collapse-1 и navbar-vertical-dropdown (type 5)
+$nav-parent-item-padding-y: 0.25rem !default;
+$navbar-vertical-1-top-level-padding-y: $nav-parent-item-padding-y !default;
 $navbar-vertical-1-nav-link-padding-top: 0 !default;
 $navbar-vertical-1-nav-link-padding-right: 0 !default;
 $navbar-vertical-1-nav-link-padding-bottom: 0 !default;
@@ -856,6 +858,10 @@ $navbar-vertical-sub-padding-inline-start: 1rem !default;
 $navbar-vertical-btn-size: 1.25rem !default;
 $navbar-vertical-dark-color: $navbar-dark-color !default;
 $navbar-vertical-light-color: $navbar-light-color !default;
+// Type 5: vertical dropdown (dropend) — отступ подменю, ширина hover-мостика, цвет активной ссылки
+$navbar-vertical-dropdown-menu-offset: 0.5rem !default;
+$navbar-vertical-dropdown-hover-bridge-width: 1rem !default;
+$navbar-vertical-dropdown-active-link-color: $list-unstyled-active-link-color !default;
 //----------------------------------------------------------//
 //	DROPDOWN
 //----------------------------------------------------------//

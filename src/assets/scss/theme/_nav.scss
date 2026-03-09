@@ -216,10 +216,22 @@
       justify-content: center;
     }
   }
+  // Смена цвета: navbar-dark / navbar-light (как в горизонтальном меню), плюс старые классы для совместимости
+  // Переменная --bs-nav-link-color для типа 4 (var(--bs-nav-link-color))
+  &.navbar-dark {
+    --#{$prefix}nav-link-color: #{$navbar-vertical-dark-color};
+  }
+  &.navbar-light {
+    --#{$prefix}nav-link-color: #{$navbar-vertical-light-color};
+  }
+  &.navbar-dark .nav-link,
+  &.navbar-dark .btn-collapse,
   &.navbar-vertical-dark .nav-link,
   &.navbar-vertical-dark .btn-collapse {
     color: $navbar-vertical-dark-color;
   }
+  &.navbar-light .nav-link,
+  &.navbar-light .btn-collapse,
   &.navbar-vertical-light .nav-link,
   &.navbar-vertical-light .btn-collapse {
     color: $navbar-vertical-light-color;
@@ -228,26 +240,29 @@
   .menu-collapse-1 .nav-item {
     padding: $navbar-vertical-1-item-padding-y $navbar-vertical-1-item-padding-x;
   }
-  .menu-collapse-1 .nav-item.parent-item {
-    padding-top: $navbar-vertical-1-top-level-padding-y;
-    padding-bottom: $navbar-vertical-1-top-level-padding-y;
+  .menu-collapse-1 .nav-item.parent-item,
+  &.navbar-vertical-dropdown .nav-item.parent-item {
+    padding-top: $nav-parent-item-padding-y;
+    padding-bottom: $nav-parent-item-padding-y;
   }
+  // Type 1: типографика как у типа 5 и горизонтального (размер, толщина); цвет — из .navbar-light/.navbar-dark
   .menu-collapse-1 {
     --#{$prefix}navbar-vertical-nav-link-padding-top: #{$navbar-vertical-1-nav-link-padding-top};
     --#{$prefix}navbar-vertical-nav-link-padding-right: #{$navbar-vertical-1-nav-link-padding-right};
     --#{$prefix}navbar-vertical-nav-link-padding-bottom: #{$navbar-vertical-1-nav-link-padding-bottom};
     --#{$prefix}navbar-vertical-nav-link-padding-left: #{$navbar-vertical-1-nav-link-padding-left};
-    --#{$prefix}navbar-vertical-nav-link-font-size: #{$navbar-vertical-1-nav-link-font-size};
+    --#{$prefix}navbar-vertical-nav-link-font-size: #{$nav-link-font-size};
+    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$nav-link-font-weight};
     --#{$prefix}navbar-vertical-nav-link-color: #{$navbar-vertical-1-nav-link-color};
   }
-  // Type 2: with borders, card-like
+  // Type 2: типографика как у типа 5; цвет — из .navbar-light/.navbar-dark
   .menu-collapse-2 {
     --#{$prefix}navbar-vertical-nav-link-padding-top: #{$navbar-vertical-2-nav-link-padding-top};
     --#{$prefix}navbar-vertical-nav-link-padding-right: #{$navbar-vertical-2-nav-link-padding-right};
     --#{$prefix}navbar-vertical-nav-link-padding-bottom: #{$navbar-vertical-2-nav-link-padding-bottom};
     --#{$prefix}navbar-vertical-nav-link-padding-left: #{$navbar-vertical-2-nav-link-padding-left};
-    --#{$prefix}navbar-vertical-nav-link-font-size: #{$navbar-vertical-2-nav-link-font-size};
-    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$navbar-vertical-2-nav-link-font-weight};
+    --#{$prefix}navbar-vertical-nav-link-font-size: #{$nav-link-font-size};
+    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$nav-link-font-weight};
     --#{$prefix}navbar-vertical-nav-link-color: #{$navbar-vertical-2-nav-link-color};
   }
   .menu-collapse-2 .nav-item {
@@ -271,12 +286,14 @@
     padding-left: $navbar-vertical-3-padding;
     padding-right: $navbar-vertical-3-padding;
   }
+  // Type 3: типографика как у типа 5; цвет — из .navbar-light/.navbar-dark
   .menu-collapse-3 {
     --#{$prefix}navbar-vertical-nav-link-padding-top: #{$navbar-vertical-3-nav-link-padding};
     --#{$prefix}navbar-vertical-nav-link-padding-right: 0;
     --#{$prefix}navbar-vertical-nav-link-padding-bottom: #{$navbar-vertical-3-nav-link-padding};
     --#{$prefix}navbar-vertical-nav-link-padding-left: 0;
-    --#{$prefix}navbar-vertical-nav-link-font-size: #{$navbar-vertical-3-nav-link-font-size};
+    --#{$prefix}navbar-vertical-nav-link-font-size: #{$nav-link-font-size};
+    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$nav-link-font-weight};
     --#{$prefix}navbar-vertical-nav-link-color: #{$navbar-vertical-3-nav-link-color};
   }
   .menu-collapse-3 .nav-item.parent-item {
@@ -292,5 +309,43 @@
   }
   .menu-collapse-3 .btn-collapse {
     margin-right: $navbar-vertical-3-btn-collapse-margin-right;
+  }
+  // Второй и ниже уровни (collapse/dropdown): размер и толщина как у пунктов dropdown в горизонтальном меню
+  .collapse .nav-link,
+  .collapsing .nav-link {
+    font-size: $dropdown-font-size;
+    font-weight: $dropdown-font-weight;
+  }
+
+  // Type 4: простой список без .nav-link; цвет и типографика через .navbar-light/.navbar-dark, первый уровень = nav-link, вложенные = dropdown
+  .menu-list-type-4 > li > a {
+    font-size: $nav-link-font-size;
+    font-weight: $nav-link-font-weight;
+  }
+  .menu-type-4-sub a {
+    font-size: $dropdown-font-size;
+    font-weight: $dropdown-font-weight;
+  }
+  &.navbar-light .menu-list-type-4 a,
+  &.navbar-light .menu-type-4-sub a {
+    color: var(--#{$prefix}nav-link-color);
+    &:hover,
+    &:focus {
+      color: $navbar-light-hover-color;
+    }
+  }
+  &.navbar-dark .menu-list-type-4 a,
+  &.navbar-dark .menu-type-4-sub a {
+    color: var(--#{$prefix}nav-link-color);
+    &:hover,
+    &:focus {
+      color: $navbar-dark-hover-color;
+    }
+  }
+
+  // Type 5: dropdown (hover), типографика как у горизонтального nav-link; отступ .nav-item.parent-item задаётся выше общим правилом
+  &.navbar-vertical-dropdown {
+    --#{$prefix}navbar-vertical-nav-link-font-size: #{$nav-link-font-size};
+    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$nav-link-font-weight};
   }
 }
