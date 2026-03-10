@@ -24,7 +24,12 @@ if (! function_exists('codeweber_setup_theme')) {
 		// Включаем обновление виджетов через кастомизатор
 		add_theme_support('customize-selective-refresh-widgets');
 
+		// Поддержка WooCommerce
 		add_theme_support('woocommerce');
+
+		// Включаем поддержку хлебных крошек Rank Math и Yoast SEO
+		add_theme_support('rank-math-breadcrumbs');
+		add_theme_support('yoast-seo-breadcrumbs');
 
 		// Устанавливаем максимальную ширину контента (встраиваемое содержимое)
 		if (! isset($content_width)) {

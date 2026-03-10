@@ -30,12 +30,6 @@ Redux::set_section(
 		'icon'             => 'el el-home',
 		'fields'           => array(
 			array(
-				'id'       => 'themestylecolor',
-				'type'     => 'accordion',
-				'title'    => esc_html__('Theme style', 'codeweber'),
-				'position' => 'start',
-			),
-			array(
 				'id'       => 'opt-select-color-theme',
 				'type'     => 'select',
 				'title'    => esc_html__('Theme color', 'codeweber'),
@@ -212,36 +206,6 @@ Redux::set_section(
 				'required' => array('page-loader', '=', true),
 			),
 
-			array(
-				'id'       => 'themepageheader',
-				'type'     => 'accordion',
-				'title'    => esc_html__('Page Header', 'codeweber'),
-				'position' => 'start',
-			),
-
-			array(
-				'id'       => 'opt-select-title-size',
-				'type'     => 'select',
-				'title'    => esc_html__('Title size', 'codeweber'),
-				'options'  => array(
-					// Display classes
-					'display-1' => 'Display 1',
-					'display-2' => 'Display 2',
-					'display-3' => 'Display 3',
-					'display-4' => 'Display 4',
-					'display-5' => 'Display 5',
-					'display-6' => 'Display 6',
-
-					// HTML headings
-					'h1' => 'Heading 1',
-					'h2' => 'Heading 2',
-					'h3' => 'Heading 3',
-					'h4' => 'Heading 4',
-					'h5' => 'Heading 5',
-					'h6' => 'Heading 6',
-				),
-				'default'  => 'display-1',
-			),
 		),
 	)
 );
@@ -295,6 +259,42 @@ Redux::set_section(
 					'lg' => esc_html__('Large', 'codeweber'),
 				),
 				'default'  => 'md',
+			),
+		),
+	)
+);
+
+// Подсекция: Page Header — настройки заголовка страницы как отдельное подменю
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__('Page Header', 'codeweber'),
+		'id'         => 'theme-page-header',
+		'subsection' => true,
+		'parent'     => 'themestyle',
+		'fields'     => array(
+			array(
+				'id'       => 'opt-select-title-size',
+				'type'     => 'select',
+				'title'    => esc_html__('Title size', 'codeweber'),
+				'options'  => array(
+					// Display classes
+					'display-1' => 'Display 1',
+					'display-2' => 'Display 2',
+					'display-3' => 'Display 3',
+					'display-4' => 'Display 4',
+					'display-5' => 'Display 5',
+					'display-6' => 'Display 6',
+
+					// HTML headings
+					'h1' => 'Heading 1',
+					'h2' => 'Heading 2',
+					'h3' => 'Heading 3',
+					'h4' => 'Heading 4',
+					'h5' => 'Heading 5',
+					'h6' => 'Heading 6',
+				),
+				'default'  => 'display-1',
 			),
 		),
 	)

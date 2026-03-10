@@ -45,6 +45,7 @@
         $post_type = universal_get_post_type();
         $post_id = get_the_ID();
         $header_post_id = '';
+        $global_header_type = '';
 
         if (class_exists('Redux')) {
             global $opt_name;
@@ -55,18 +56,51 @@
             // Проверяем, что Redux экземпляр инициализирован
             $redux_instance = Redux_Instances::get_instance($opt_name);
             // #region agent log
-            $log_data = json_encode(['location' => 'header.php:28', 'message' => 'Header render start', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'class_exists_Redux' => class_exists('Redux'), 'redux_instance_exists' => $redux_instance !== null, 'post_type' => $post_type, 'post_id' => $post_id], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
+            $log_data = json_encode([
+                'location' => 'header.php:28',
+                'message' => 'Header render start',
+                'data' => [
+                    'opt_name' => $opt_name ?? 'NOT_SET',
+                    'class_exists_Redux' => class_exists('Redux'),
+                    'redux_instance_exists' => $redux_instance !== null,
+                    'post_type' => $post_type,
+                    'post_id' => $post_id,
+                ],
+                'timestamp' => time() * 1000,
+                'sessionId' => 'debug-session',
+                'runId' => 'run1',
+                'hypothesisId' => 'A',
+            ]);
             $log_file = ABSPATH . '.cursor/debug.log';
             @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
+            // Дополнительный лог для debug-сессии df0f0f
+            $debug_log_file = ABSPATH . 'debug-df0f0f.log';
+            $debug_entry = json_encode([
+                'sessionId' => 'df0f0f',
+                'runId' => 'run1',
+                'hypothesisId' => 'H1',
+                'location' => 'header.php:28',
+                'message' => 'Header render start (df0f0f)',
+                'data' => [
+                    'post_type' => $post_type,
+                    'post_id' => $post_id,
+                ],
+                'timestamp' => time() * 1000,
+            ]) . "\n";
+            @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
             // #endregion
+
             if ($redux_instance !== null) {
+                // Сразу получаем тип глобального хедера (Base / Custom)
+                $global_header_type = Redux::get_option($opt_name, 'global-header-type');
+
                 if (is_single() || is_singular($post_type)) {
                     // Проверяем индивидуальные настройки записи
                     $this_header_type = Redux::get_post_meta($opt_name, $post_id, 'this-header-type');
                     if ($this_header_type === '3') {
                         return; // Disable - не выводим header
                     }
-                    
+
                     // Если выбран тип '4' (Base Settings), используем индивидуальные настройки
                     if ($this_header_type === '4') {
                         // Пропускаем выбор кастомного хедера и используем Base Settings
@@ -80,7 +114,34 @@
                         }
                     }
                 } elseif (is_archive() || is_post_type_archive($post_type)) {
-                    $header_post_id = Redux::get_option($opt_name, 'archive_header_select_' . $post_type);
+                    // Для архивов учитываем archive_header_select_* ТОЛЬКО когда глобальный тип = Base.
+                    // Если в Redux выбран глобальный «Пользовательский» хедер, он должен перекрывать
+                    // archive_header_select_* и срабатывать для рубрик и архивов.
+                    $archive_header_option = null;
+                    if ($global_header_type !== '2') {
+                        $archive_header_option = Redux::get_option($opt_name, 'archive_header_select_' . $post_type);
+                        $header_post_id = $archive_header_option;
+                    }
+                    // #region agent log
+                    $debug_log_file = ABSPATH . 'debug-df0f0f.log';
+                    $debug_entry = json_encode([
+                        'sessionId' => 'df0f0f',
+                        'runId' => 'run1',
+                        'hypothesisId' => 'H2',
+                        'location' => 'header.php:70',
+                        'message' => 'Archive header selection',
+                        'data' => [
+                            'is_archive' => is_archive(),
+                            'is_category' => is_category(),
+                            'post_type' => $post_type,
+                            'global_header_type' => $global_header_type,
+                            'archive_header_option' => $archive_header_option,
+                            'header_post_id_after_archive' => $header_post_id,
+                        ],
+                        'timestamp' => time() * 1000,
+                    ]) . "\n";
+                    @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
+                    // #endregion
                 }
 
                 // Если не задан хедер для страницы — используем глобальный «Пользовательский Хедер»
@@ -91,15 +152,52 @@
                         $use_global_custom = false; // Запись использует Base Settings
                     }
                 }
+
                 if ($use_global_custom && (empty($header_post_id) || $header_post_id === 'default')) {
-                    $global_header_type = Redux::get_option($opt_name, 'global-header-type');
                     if ($global_header_type === '2') {
                         $global_custom_header = Redux::get_option($opt_name, 'custom-header');
+                        // #region agent log
+                        $debug_log_file = ABSPATH . 'debug-df0f0f.log';
+                        $debug_entry = json_encode([
+                            'sessionId' => 'df0f0f',
+                            'runId' => 'run1',
+                            'hypothesisId' => 'H3',
+                            'location' => 'header.php:94',
+                            'message' => 'Global custom header check',
+                            'data' => [
+                                'global_header_type' => $global_header_type,
+                                'global_custom_header' => $global_custom_header,
+                                'header_post_id_before_global_custom' => $header_post_id,
+                            ],
+                            'timestamp' => time() * 1000,
+                        ]) . "\n";
+                        @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
+                        // #endregion
                         if (!empty($global_custom_header)) {
                             $header_post_id = $global_custom_header;
                         }
                     }
                 }
+
+                // #region agent log
+                $debug_log_file = ABSPATH . 'debug-df0f0f.log';
+                $debug_entry = json_encode([
+                    'sessionId' => 'df0f0f',
+                    'runId' => 'run1',
+                    'hypothesisId' => 'H4',
+                    'location' => 'header.php:103',
+                    'message' => 'Header post id after Redux logic',
+                    'data' => [
+                        'post_type' => $post_type,
+                        'is_archive' => is_archive(),
+                        'is_category' => is_category(),
+                        'global_header_type' => $global_header_type,
+                        'header_post_id_final' => $header_post_id,
+                    ],
+                    'timestamp' => time() * 1000,
+                ]) . "\n";
+                @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
+                // #endregion
             }
         }
 
@@ -110,12 +208,46 @@
 
         // Проверяем, не отключен ли header
         if ($header_post_id === 'disable') {
+            // #region agent log
+            $debug_log_file = ABSPATH . 'debug-df0f0f.log';
+            $debug_entry = json_encode([
+                'sessionId' => 'df0f0f',
+                'runId' => 'run1',
+                'hypothesisId' => 'H5',
+                'location' => 'header.php:112',
+                'message' => 'Header explicitly disabled',
+                'data' => [
+                    'post_type' => $post_type,
+                    'is_archive' => is_archive(),
+                    'is_category' => is_category(),
+                ],
+                'timestamp' => time() * 1000,
+            ]) . "\n";
+            @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
+            // #endregion
             return; // Не выводим header
         }
 
         $header_post = null;
         if (!empty($header_post_id) && $header_post_id !== 'default') {
             $header_post = get_post($header_post_id);
+            // #region agent log
+            $debug_log_file = ABSPATH . 'debug-df0f0f.log';
+            $debug_entry = json_encode([
+                'sessionId' => 'df0f0f',
+                'runId' => 'run1',
+                'hypothesisId' => 'H6',
+                'location' => 'header.php:117',
+                'message' => 'Header post resolved',
+                'data' => [
+                    'header_post_id' => $header_post_id,
+                    'header_post_exists' => (bool) $header_post,
+                    'header_post_status' => $header_post ? $header_post->post_status : null,
+                ],
+                'timestamp' => time() * 1000,
+            ]) . "\n";
+            @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
+            // #endregion
             if ($header_post) {
                 setup_postdata($header_post);
                 the_content(); // Выводим контент записи (с поддержкой шорткодов, HTML и т.д.)

@@ -236,6 +236,8 @@
   &.navbar-vertical-light .btn-collapse {
     color: $navbar-vertical-light-color;
   }
+
+  // Далее типы 1–5...
   // Type 1: compact, no borders
   .menu-collapse-1 .nav-item {
     padding: $navbar-vertical-1-item-padding-y $navbar-vertical-1-item-padding-x;
@@ -347,5 +349,82 @@
   &.navbar-vertical-dropdown {
     --#{$prefix}navbar-vertical-nav-link-font-size: #{$nav-link-font-size};
     --#{$prefix}navbar-vertical-nav-link-font-weight: #{$nav-link-font-weight};
+  }
+}
+
+// ----------------------------------------------------------//
+//  COLLAPSE-MENU THEMING ПО САМОЙ ТЕМЕ МЕНЮ
+// ----------------------------------------------------------//
+
+// ТЁМНОЕ collapse-меню (menu-collapse-nav navbar-dark) — независимо от родителя.
+.navbar-vertical.menu-collapse-nav.navbar-dark {
+  // Цвет иконки-кнопки раскрытия
+  .btn-collapse,
+  .btn-collapse .sidebar-catalog-icon {
+    color: $navbar-vertical-dark-color; // белая иконка
+  }
+  // Ховер под иконкой
+  .menu-collapse-row:hover .btn-collapse,
+  .menu-collapse-row .btn-collapse:focus-visible {
+    background-color: $dropdown-dark-link-hover-bg; // заметный фон на bg-dark
+  }
+  // Ссылки и элементы меню: как у .navbar-vertical-dropdown.navbar-dark
+  .nav-link,
+  .dropdown-item,
+  .dropdown-toggle {
+    color: $navbar-vertical-dark-color;
+  }
+  .dropdown-item,
+  .dropdown-toggle {
+    background: transparent;
+  }
+  .nav-link:hover,
+  .nav-link:focus,
+  .dropdown-item:hover,
+  .dropdown-item:focus,
+  .dropdown-toggle:hover,
+  .dropdown-toggle:focus {
+    color: $navbar-dark-hover-color;
+  }
+  // Активный пункт — как в горизонтальном navbar-dark.
+  // .list-unstyled включён в селектор, чтобы перебивать правило из _type.scss.
+  .list-unstyled li.current-menu-item > a,
+  .list-unstyled li a.active,
+  li.current-menu-item > a,
+  li a.active {
+    color: $navbar-dark-active-color !important;
+  }
+}
+
+// СВЕТЛОЕ collapse-меню (menu-collapse-nav navbar-light) — независимо от родителя.
+.navbar-vertical.menu-collapse-nav.navbar-light {
+  // Цвет иконки-кнопки раскрытия
+  .btn-collapse,
+  .btn-collapse .sidebar-catalog-icon {
+    color: $navbar-vertical-light-color; // тёмная иконка
+  }
+  // Ховер под иконкой
+  .menu-collapse-row:hover .btn-collapse,
+  .menu-collapse-row .btn-collapse:focus-visible {
+    background-color: color-mix(in srgb, currentColor 8%, transparent); // мягкий полупрозрачный фон
+  }
+  // Ссылки и элементы меню: как у .navbar-vertical-dropdown.navbar-light
+  .nav-link,
+  .dropdown-item,
+  .dropdown-toggle {
+    color: $navbar-vertical-light-color;
+  }
+  .nav-link:hover,
+  .nav-link:focus,
+  .dropdown-item:hover,
+  .dropdown-item:focus,
+  .dropdown-toggle:hover,
+  .dropdown-toggle:focus {
+    color: $navbar-light-hover-color;
+  }
+  // Активный пункт — как в .list-unstyled/type.scss (primary)
+  li.current-menu-item > a,
+  li a.active {
+    color: $list-unstyled-active-link-color !important;
   }
 }

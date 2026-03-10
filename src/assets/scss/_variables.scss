@@ -812,6 +812,9 @@ $navbar-light-active-color: var(--#{$prefix}primary) !default;
 $navbar-light-disabled-color: rgba($main-dark, 0.3) !default;
 $navbar-light-toggler-icon-bg: url("data:image/svg+xml,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' width='45' height='32' viewBox='0 0 45 32'><path fill='#{$main-color}' d='M26.88 29.888c-1.076 1.289-2.683 2.103-4.48 2.103s-3.404-0.814-4.472-2.093l-0.008-0.009-5.12-7.040-8.192-10.048-3.52-4.608c-0.646-0.848-1.036-1.922-1.036-3.087 0-2.828 2.292-5.12 5.12-5.12 0.139 0 0.277 0.006 0.413 0.016l-0.018-0.001h33.664c0.118-0.010 0.256-0.015 0.396-0.015 2.828 0 5.12 2.292 5.12 5.12 0 1.165-0.389 2.239-1.045 3.1l0.009-0.013-3.52 4.608-7.872 10.048z'/></svg>") !default;
 $navbar-light-toggler-border-color: transparent !default;
+// Горизонтальное меню: отступы иконки dropdown у пунктов с подменю (.nav-item.parent-link .dropdown-toggle)
+$navbar-parent-link-dropdown-toggle-padding-left: 0.3rem !default;
+$navbar-parent-link-dropdown-toggle-padding-right: var(--#{$prefix}navbar-nav-link-padding-x) !default;
 //----------------------------------------------------------//
 //	NAVBAR VERTICAL (collapse menu)
 //----------------------------------------------------------//
@@ -858,10 +861,16 @@ $navbar-vertical-sub-padding-inline-start: 1rem !default;
 $navbar-vertical-btn-size: 1.25rem !default;
 $navbar-vertical-dark-color: $navbar-dark-color !default;
 $navbar-vertical-light-color: $navbar-light-color !default;
-// Type 5: vertical dropdown (dropend) — отступ подменю, ширина hover-мостика, цвет активной ссылки
+// Type 5: vertical dropdown (dropend) — отступ подменю, ширина hover-мостика, цвет активной ссылки, отступы иконки каретки
 $navbar-vertical-dropdown-menu-offset: 0.5rem !default;
 $navbar-vertical-dropdown-hover-bridge-width: 1rem !default;
 $navbar-vertical-dropdown-active-link-color: $list-unstyled-active-link-color !default;
+// Верхний уровень: отступы иконки каретки .dropdown-toggle::after
+$navbar-vertical-dropdown-toggle-margin-left: 0 !default;
+$navbar-vertical-dropdown-toggle-margin-right: 0 !default;
+// Вложенные пункты (дети): отступы иконки каретки
+$navbar-vertical-dropdown-toggle-margin-left-children: 0 !default;
+$navbar-vertical-dropdown-toggle-margin-right-children: 1rem !default;
 //----------------------------------------------------------//
 //	DROPDOWN
 //----------------------------------------------------------//

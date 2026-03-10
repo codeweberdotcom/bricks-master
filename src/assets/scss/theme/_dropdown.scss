@@ -10,6 +10,7 @@
   &:hover,
   &:focus {
     outline: 0;
+    background: transparent;
   }
 }
 .dropdown-header {
@@ -247,15 +248,19 @@
         &.extended.navbar-bg-light:not(.fixed) {
           background: none !important;
         }
-        &.extended:not(.fixed) .navbar-collapse .nav-link {
+        &.extended:not(.fixed) .navbar-collapse > .navbar-nav > .nav-item > .nav-link {
           padding-top: 1.15rem;
           padding-bottom: 1.15rem;
         }
-        &.fancy:not(.fixed) .navbar-collapse .nav-link {
+        &.fancy:not(.fixed) .navbar-collapse > .navbar-nav > .nav-item > .nav-link {
           padding-top: 1.25rem;
           padding-bottom: 1.25rem;
         }
-        &[class*="navbar-bg-"]:not(.fancy):not(.extended):not(.fixed) .navbar-collapse .nav-link {
+        &[class*="navbar-bg-"]:not(.fancy):not(.extended):not(.fixed)
+          .navbar-collapse
+          > .navbar-nav
+          > .nav-item
+          > .nav-link {
           padding-top: 1.7rem;
           padding-bottom: 1.7rem;
         }
@@ -306,7 +311,8 @@
               padding-right: 0 !important;
             }
             .dropdown-toggle {
-              padding-left: 0 !important;
+              padding-left: $navbar-parent-link-dropdown-toggle-padding-left !important;
+              padding-right: $navbar-parent-link-dropdown-toggle-padding-right;
             }
           }
         }
@@ -345,6 +351,45 @@
             padding-right: 0;
           }
         }
+        // Внутри мегаменю collapse-меню со своей темой — цвета только по собственному классу.
+        .mega-menu-content {
+          nav.navbar-vertical.menu-collapse-nav.navbar-light {
+            .nav-link,
+            .dropdown-item,
+            .dropdown-toggle {
+              color: $navbar-vertical-light-color;
+            }
+            .nav-link:hover,
+            .nav-link:focus,
+            .dropdown-item:hover,
+            .dropdown-item:focus,
+            .dropdown-toggle:hover,
+            .dropdown-toggle:focus {
+              color: $navbar-light-hover-color;
+            }
+          }
+          nav.navbar-vertical.menu-collapse-nav.navbar-dark {
+            .nav-link,
+            .dropdown-item,
+            .dropdown-toggle {
+              color: $navbar-vertical-dark-color;
+            }
+            .nav-link:hover,
+            .nav-link:focus,
+            .dropdown-item:hover,
+            .dropdown-item:focus,
+            .dropdown-toggle:hover,
+            .dropdown-toggle:focus {
+              color: $navbar-dark-hover-color;
+            }
+            .list-unstyled li.current-menu-item > a,
+            .list-unstyled li a.active,
+            li.current-menu-item > a,
+            li a.active {
+              color: $navbar-dark-active-color !important;
+            }
+          }
+        }
         &.caret-none .dropdown:not(.dropdown-submenu) > .dropdown-toggle:after {
           display: none;
         }
@@ -355,11 +400,25 @@
 //----------------------------------------------------------//
 //	MEGA MENU
 //----------------------------------------------------------//
-.dropdown-mega .dropdown-menu {
-  left: 0 !important;
-  right: 0 !important;
-  width: auto !important;
-  max-width: none !important
+// Горизонтальное меню: мегаменю на всю ширину navbar
+@media (min-width: 992px) {
+  .navbar.navbar-expand-lg .dropdown-mega .dropdown-menu.mega-menu {
+    left: 0 !important;
+    right: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-vertical .dropdown-mega .dropdown-menu.mega-menu {
+    left: 100% !important;
+    right: 0 !important;
+    top: 0;
+    min-width: 50rem;
+    width: auto;
+    max-width: none;
+  }
 }
 .mega-menu-scroll {
   @extend .scrollbar-hidden;
@@ -398,6 +457,61 @@
 @media (min-width: 992px) and (max-width: 1199.98px) {
   .mega-menu-scroll {
     height: 21.8rem;
+  }
+}
+// ВЕРТИКАЛЬНОЕ МЕНЮ С МЕГАМЕНЮ:
+// внутри .navbar-vertical-dropdown.* мегаменю может содержать своё вертикальное меню
+// с противоположной темой (light ↔ dark). Чтобы вложенное меню не наследовало цвета
+// родительской темы, переопределяем цвета ссылок и hover.
+// Эти правила должны идти ПОСЛЕ блока .navbar-vertical-dropdown, чтобы перебивать его стили.
+@media (min-width: 992px) {
+  // Родитель тёмный, внутри мегаменю — вертикальное меню со светлой темой
+  .navbar-vertical-dropdown.navbar-dark .mega-menu-content nav.navbar-vertical.menu-collapse-nav.navbar-light {
+    .nav-link,
+    .dropdown-item,
+    .dropdown-toggle {
+      color: $navbar-vertical-light-color;
+    }
+    .nav-link:hover,
+    .nav-link:focus,
+    .dropdown-item:hover,
+    .dropdown-item:focus,
+    .dropdown-toggle:hover,
+    .dropdown-toggle:focus {
+      color: $navbar-light-hover-color;
+    }
+  }
+
+  // Родитель светлый, внутри мегаменю — вертикальное меню с тёмной темой
+  .navbar-vertical-dropdown.navbar-light .mega-menu-content nav.navbar-vertical.menu-collapse-nav.navbar-dark {
+    .nav-link,
+    .dropdown-item,
+    .dropdown-toggle {
+      color: $navbar-vertical-dark-color;
+    }
+    .nav-link:hover,
+    .nav-link:focus,
+    .dropdown-item:hover,
+    .dropdown-item:focus,
+    .dropdown-toggle:hover,
+    .dropdown-toggle:focus {
+      color: $navbar-dark-hover-color;
+    }
+    .list-unstyled li.current-menu-item > a,
+    .list-unstyled li a.active,
+    li.current-menu-item > a,
+    li a.active {
+      color: $navbar-dark-active-color !important;
+    }
+  }
+  // Родитель тёмный, внутри мегаменю — вертикальное меню со светлой темой: активный пункт
+  .navbar-vertical-dropdown.navbar-dark .mega-menu-content nav.navbar-vertical.menu-collapse-nav.navbar-light {
+    .list-unstyled li.current-menu-item > a,
+    .list-unstyled li a.active,
+    li.current-menu-item > a,
+    li a.active {
+      color: $list-unstyled-active-link-color !important;
+    }
   }
 }
 //----------------------------------------------------------//
@@ -521,6 +635,20 @@
   .nav-item.dropdown-submenu {
     position: relative;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .nav-item.dropdown > .nav-link,
+  .nav-item.dropdown > .dropdown-item,
+  .nav-item.dropdown-submenu > .dropdown-item {
+    flex: 1;
+    min-width: 0;
+  }
+  .nav-item.dropdown > .dropdown-toggle,
+  .nav-item.dropdown-submenu > .dropdown-toggle {
+    flex-shrink: 0;
   }
   .nav-link.dropdown-toggle,
   .dropdown-item.dropdown-toggle {
@@ -528,9 +656,13 @@
     align-items: center;
     width: 100%;
   }
-  .dropdown-toggle::after {
-    margin-left: auto;
-    margin-right: 0;
+  .nav-item.dropdown:not(.dropdown-submenu) > .dropdown-toggle::after {
+    margin-left: $navbar-vertical-dropdown-toggle-margin-left;
+    margin-right: $navbar-vertical-dropdown-toggle-margin-right;
+  }
+  .nav-item.dropdown-submenu > .dropdown-toggle::after {
+    margin-left: $navbar-vertical-dropdown-toggle-margin-left-children;
+    margin-right: $navbar-vertical-dropdown-toggle-margin-right-children;
   }
   .dropdown-menu {
     position: absolute;
@@ -563,22 +695,24 @@
     opacity: 1;
     pointer-events: auto;
   }
-  // Активная/текущая страница — primary цвет (как у .list-unstyled в type.scss)
-  li.current-menu-item > a,
-  li a.active {
-    color: $list-unstyled-active-link-color !important;
-  }
   // Тёмная тема: navbar-dark или navbar-vertical-dark (как у горизонтального меню)
   &.navbar-dark,
   &.navbar-vertical-dark {
     .nav-link,
-    .dropdown-item {
+    .dropdown-item,
+    .dropdown-toggle {
       color: $navbar-vertical-dark-color;
+    }
+    .dropdown-item,
+    .dropdown-toggle {
+      background: transparent;
     }
     .nav-link:hover,
     .nav-link:focus,
     .dropdown-item:hover,
-    .dropdown-item:focus {
+    .dropdown-item:focus,
+    .dropdown-toggle:hover,
+    .dropdown-toggle:focus {
       color: $navbar-dark-hover-color;
     }
     .dropdown-menu {
@@ -586,11 +720,12 @@
     }
     .dropdown-item:hover,
     .dropdown-item:focus {
-      background: $dropdown-dark-link-hover-bg;
+      background: transparent;
     }
+    // Активный пункт в тёмной теме: как у горизонтального navbar-dark
     li.current-menu-item > a,
     li a.active {
-      color: $list-unstyled-active-link-color !important;
+      color: $navbar-dark-active-color !important;
     }
   }
   // Светлая тема: navbar-light или navbar-vertical-light
@@ -606,6 +741,7 @@
     .dropdown-item:focus {
       color: $navbar-light-hover-color;
     }
+    // Активный пункт в светлой теме: primary (как в .list-unstyled/type.scss)
     li.current-menu-item > a,
     li a.active {
       color: $list-unstyled-active-link-color !important;

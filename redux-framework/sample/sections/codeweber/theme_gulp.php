@@ -13,8 +13,17 @@ function save_scss_to_file($options, $changed_values)
 	if (isset($redux_options['opt-gulp-sass-variation'])) {
 		$scss_content = $redux_options['opt-gulp-sass-variation'];
 
-		// Путь к файлу _user-variables.scss — в активной теме (child или parent)
+		// Путь к файлу _user-variables.scss — только в активной теме (дочерней или родительской)
 		$file_path = get_stylesheet_directory() . '/src/assets/scss/_user-variables.scss';
+
+		// При дочерней теме не перезаписывать файл родительской темы
+		if ( is_child_theme() ) {
+			$parent_dir = realpath( get_template_directory() );
+			$target_dir = realpath( dirname( $file_path ) );
+			if ( $parent_dir && $target_dir && strpos( $target_dir . DIRECTORY_SEPARATOR, $parent_dir . DIRECTORY_SEPARATOR ) === 0 ) {
+				return;
+			}
+		}
 
 		// Проверяем возможность записи
 		if (file_exists($file_path) && !is_writable($file_path)) {
@@ -142,9 +151,18 @@ function write_scss_variables()
 	global $opt_name;
 	$global_header_model = Redux::get_option($opt_name, 'opt-gulp-sass-variation');
 
-	// Путь к файлу _user-variables.scss — в активной теме
+	// Путь к файлу _user-variables.scss — только в активной теме
 	$scss_dir = get_stylesheet_directory() . '/src/assets/scss/';
 	$scss_file_path = $scss_dir . '_user-variables.scss';
+
+	// При дочерней теме не перезаписывать файл родительской темы
+	if ( is_child_theme() ) {
+		$parent_dir = realpath( get_template_directory() );
+		$target_dir = realpath( $scss_dir );
+		if ( $parent_dir && $target_dir && strpos( $target_dir . DIRECTORY_SEPARATOR, $parent_dir . DIRECTORY_SEPARATOR ) === 0 ) {
+			return [ 'success' => false, 'message' => 'Запись только в активную тему.' ];
+		}
+	}
 
 	// Создаём директорию, если её нет
 	if (!file_exists($scss_dir)) {

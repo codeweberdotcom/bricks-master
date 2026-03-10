@@ -238,32 +238,23 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			$atts['target'] = !empty($item->target) ? $item->target : '';
 			$atts['rel']    = !empty($item->xfn) ? $item->xfn : '';
 
-			// If item has_children add atts to <a> — one link with dropdown-toggle (Bootstrap standard).
-			if ($show_dropdown && isset($args->has_children) && $args->has_children && 0 === $depth) {
-				$atts['href']            = '#';
-				$atts['data-bs-toggle']  = 'dropdown';
-				$atts['aria-haspopup']  = 'true';
-				$atts['aria-expanded']  = 'false';
-				$atts['class']          = 'nav-link dropdown-toggle';
-				$atts['id']             = 'menu-item-dropdown-' . $item->ID;
+			// Items with children: link only (no data-bs-toggle); dropdown opens on hover. Id for aria-labelledby on .dropdown-menu.
+			$has_children = $show_dropdown && isset($args->has_children) && $args->has_children;
+			if ($has_children && 0 === $depth) {
+				$atts['href']   = !empty($item->url) ? $item->url : '#';
+				$atts['class']  = 'nav-link ' . $custom_class;
+				$atts['id']     = 'menu-item-link-' . $item->ID;
+			} elseif ($has_children && $depth > 0) {
+				$atts['href']   = !empty($item->url) ? $item->url : '#';
+				$atts['class']  = 'dropdown-item';
+				$atts['id']     = 'menu-item-link-' . $item->ID;
 			} else {
 				$atts['href'] = !empty($item->url) ? $item->url : '#';
-				// Items in dropdowns use .dropdown-item instead of .nav-link.
 				if ($depth > 0) {
 					$atts['class'] = 'dropdown-item';
 				} else {
 					$atts['class'] = 'nav-link ' . $custom_class;
 				}
-			}
-
-			if ($show_dropdown && isset($args->has_children) && $args->has_children) {
-				$atts['data-bs-toggle'] = 'dropdown';
-				$atts['aria-expanded']  = 'false';
-			}
-
-			if ($show_dropdown && isset($args->has_children) && $args->has_children && $depth > 0) {
-				$atts['href']  = '#';
-				$atts['class'] = 'dropdown-item dropdown-toggle';
 			}
 
 			$atts['aria-current'] = $item->current ? 'page' : '';
@@ -362,6 +353,10 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			} else {
 				// With no link mod type set this must be a standard <a> tag.
 				$item_output .= '</a>';
+				// Separate dropdown icon (hover opens menu; no data-bs-toggle).
+				if ($has_children) {
+					$item_output .= '<span class="dropdown-toggle" aria-hidden="true"></span>';
+				}
 			}
 
 			$item_output .= isset($args->after) ? $args->after : '';

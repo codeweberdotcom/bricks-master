@@ -202,6 +202,12 @@ blockquote {
 .list-unstyled li.current-menu-item > div > a {
   color: $list-unstyled-active-link-color !important;
 }
+// В тёмных collapse-меню активный пункт — серый (как у горизонтального navbar-dark), не primary.
+.navbar-dark.menu-collapse-nav .list-unstyled li a.active,
+.navbar-dark.menu-collapse-nav .list-unstyled li.current-menu-item > a,
+.navbar-dark.menu-collapse-nav .list-unstyled li.current-menu-item > div > a {
+  color: $navbar-dark-active-color !important;
+}
 .woocommerce-account .list-unstyled li.is-active a {
   color: $list-unstyled-active-link-color !important;
 }
