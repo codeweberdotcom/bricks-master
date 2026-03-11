@@ -1,5 +1,5 @@
 ---
-name: init
+name: setup-claude-md
 description: Initialize CLAUDE.md at WordPress root — create or add imports from theme and plugin
 ---
 
