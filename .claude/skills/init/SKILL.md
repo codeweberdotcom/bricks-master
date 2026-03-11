@@ -1,36 +1,46 @@
 ---
 name: init
-description: Инициализировать CLAUDE.md в корне WordPress — создать или добавить импорт из темы
+description: Initialize CLAUDE.md at WordPress root — create or add imports from theme and plugin
 ---
 
-Настрой `CLAUDE.md` в корне WordPress-проекта.
+Set up `CLAUDE.md` at the WordPress project root.
 
-**Корень WordPress:** `c:/laragon/www/codeweber2026/` (или текущая рабочая директория)
+**WordPress root:** current working directory (e.g. `c:/laragon/www/codeweber2026/`)
 
-## Шаг 1: Проверь наличие файла
+## Step 1: Find all CLAUDE.md files in the project
 
-Проверь существует ли файл `CLAUDE.md` в корне WordPress.
+Check which of these exist:
+- `wp-content/themes/codeweber/CLAUDE.md`
+- `wp-content/plugins/codeweber-gutenberg-blocks/CLAUDE.md`
 
-## Шаг 2: Если файл НЕ существует
+Only add imports for files that actually exist.
 
-Создай `CLAUDE.md` в корне WordPress со следующим содержимым:
+## Step 2: Check root CLAUDE.md
+
+Check if `CLAUDE.md` exists at the WordPress root.
+
+## Step 3: If root CLAUDE.md does NOT exist
+
+Create it with `@` imports for all found CLAUDE.md files:
 
 ```markdown
 # CLAUDE.md
 
 @wp-content/themes/codeweber/CLAUDE.md
+@wp-content/plugins/codeweber-gutenberg-blocks/CLAUDE.md
 ```
 
-## Шаг 3: Если файл существует
+(Only include lines for files that actually exist.)
 
-Прочитай его и проверь наличие строки:
-```
-@wp-content/themes/codeweber/CLAUDE.md
-```
+## Step 4: If root CLAUDE.md EXISTS
 
-- Если строка уже есть — сообщи что всё готово, ничего не меняй.
-- Если строки нет — добавь её в начало файла (после заголовка если есть, или в самое начало).
+Read it and check for each import line:
+- `@wp-content/themes/codeweber/CLAUDE.md`
+- `@wp-content/plugins/codeweber-gutenberg-blocks/CLAUDE.md`
 
-## Итог
+For each missing import (where the source file exists) — add the line after the existing imports.
+If all imports are already present — report everything is ready, make no changes.
 
-Сообщи что сделано: создан / обновлён / уже настроен.
+## Result
+
+Report: created / updated / already configured — and which import lines were added.
