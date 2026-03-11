@@ -579,93 +579,28 @@ function codeweber_cf7_save_form_type($contact_form) {
  * @return array Массив атрибутов с добавленным data-form-type
  */
 function codeweber_cf7_add_form_type_attribute($atts) {
-    // #region agent log
-    $log_file = 'c:\laragon\www\bricksnew\.cursor\debug.log';
-    $log_entry = json_encode([
-        'sessionId' => 'debug-session',
-        'runId' => 'post-fix',
-        'hypothesisId' => 'FIX',
-        'location' => 'cf7.php:581',
-        'message' => 'Function called with wpcf7_form_additional_atts',
-        'data' => ['atts' => $atts, 'atts_type' => gettype($atts)],
-        'timestamp' => time() * 1000
-    ]) . "\n";
-    file_put_contents($log_file, $log_entry, FILE_APPEND);
-    // #endregion
-    
     // Получаем текущую форму CF7
     $contact_form = WPCF7_ContactForm::get_current();
-    
-    // #region agent log
-    $log_entry = json_encode([
-        'sessionId' => 'debug-session',
-        'runId' => 'post-fix',
-        'hypothesisId' => 'FIX',
-        'location' => 'cf7.php:590',
-        'message' => 'get_current result',
-        'data' => ['has_contact_form' => ($contact_form !== null), 'form_id' => $contact_form ? $contact_form->id() : null],
-        'timestamp' => time() * 1000
-    ]) . "\n";
-    file_put_contents($log_file, $log_entry, FILE_APPEND);
-    // #endregion
-    
+
     if (!$contact_form) {
-        // #region agent log
-        $log_entry = json_encode([
-            'sessionId' => 'debug-session',
-            'runId' => 'post-fix',
-            'hypothesisId' => 'FIX',
-            'location' => 'cf7.php:595',
-            'message' => 'Early return - no contact form',
-            'data' => [],
-            'timestamp' => time() * 1000
-        ]) . "\n";
-        file_put_contents($log_file, $log_entry, FILE_APPEND);
-        // #endregion
         return $atts;
     }
-    
+
     $form_id = $contact_form->id();
     $form_type = get_post_meta($form_id, '_cf7_form_type', true);
-    
-    // #region agent log
-    $log_entry = json_encode([
-        'sessionId' => 'debug-session',
-        'runId' => 'post-fix',
-        'hypothesisId' => 'FIX',
-        'location' => 'cf7.php:603',
-        'message' => 'Form type from meta',
-        'data' => ['form_id' => $form_id, 'form_type' => $form_type, 'form_type_empty' => empty($form_type)],
-        'timestamp' => time() * 1000
-    ]) . "\n";
-    file_put_contents($log_file, $log_entry, FILE_APPEND);
-    // #endregion
-    
+
     // Если тип не задан, используем 'form' по умолчанию
     if (empty($form_type)) {
         $form_type = 'form';
     }
-    
+
     // Убеждаемся, что $atts - массив
     if (!is_array($atts)) {
         $atts = [];
     }
-    
+
     // Добавляем data-form-type атрибут
     $atts['data-form-type'] = $form_type;
-    
-    // #region agent log
-    $log_entry = json_encode([
-        'sessionId' => 'debug-session',
-        'runId' => 'post-fix',
-        'hypothesisId' => 'FIX',
-        'location' => 'cf7.php:625',
-        'message' => 'Added data-form-type to atts',
-        'data' => ['form_type' => $form_type, 'final_atts' => $atts],
-        'timestamp' => time() * 1000
-    ]) . "\n";
-    file_put_contents($log_file, $log_entry, FILE_APPEND);
-    // #endregion
-    
+
     return $atts;
 }
