@@ -27,11 +27,9 @@ class CodeweberFormsAPI {
                 // Для публичных форм разрешаем доступ, но проверяем nonce
                 $nonce = $request->get_header('X-WP-Nonce');
                 if (empty($nonce)) {
-                    // Если nonce нет, все равно разрешаем (для тестирования)
-                    // В продакшене лучше вернуть false
-                    return true;
+                    return false;
                 }
-                return wp_verify_nonce($nonce, 'wp_rest');
+                return (bool) wp_verify_nonce($nonce, 'wp_rest');
             },
             'args' => [
                 'form_id' => [

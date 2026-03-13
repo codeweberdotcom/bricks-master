@@ -2,39 +2,17 @@
 
 	<?php
 	// Плавающий виджет соцсетей (выводим перед футером)
-	// Новая версия с поддержкой множественных соцсетей
-	// #region agent log
-	$log_data = json_encode(['location' => 'footer.php:widget_before_footer', 'message' => 'Footer widget section entry', 'data' => ['function_exists_new' => function_exists('codeweber_floating_social_widget_new'), 'function_exists_old' => function_exists('codeweber_floating_social_widget')], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-	@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-	// #endregion
-	
-	if (function_exists('codeweber_floating_social_widget_new')) {
-		// Не передаем шаблон - метод render() сам выберет на основе widget_type из Redux
+	if ( function_exists( 'codeweber_floating_social_widget_new' ) ) {
 		$widget_output = codeweber_floating_social_widget_new();
-		
-		// #region agent log
-		$log_data = json_encode(['location' => 'footer.php:widget_before_footer_output', 'message' => 'Widget output received in footer', 'data' => ['output_length' => strlen($widget_output), 'output_empty' => empty($widget_output), 'output_preview' => substr($widget_output, 0, 100)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-		@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-		// #endregion
-		
-		if (!empty($widget_output)) {
-			// Временный тестовый комментарий для проверки вывода
-			echo '<!-- FLOATING WIDGET START: ' . strlen($widget_output) . ' bytes -->';
+		if ( ! empty( $widget_output ) ) {
 			echo $widget_output;
-			echo '<!-- FLOATING WIDGET END -->';
-			// #region agent log
-			$log_data = json_encode(['location' => 'footer.php:widget_before_footer_echoed', 'message' => 'Widget output echoed', 'data' => ['output_length' => strlen($widget_output)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
-		} elseif (defined('WP_DEBUG') && WP_DEBUG) {
-			// Временный тестовый вывод для отладки
+		} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			echo '<!-- Floating Social Widget: функция вызвана, но вывод пустой -->';
 		}
-	} elseif (function_exists('codeweber_floating_social_widget')) {
+	} elseif ( function_exists( 'codeweber_floating_social_widget' ) ) {
 		// Старая версия для обратной совместимости
 		echo codeweber_floating_social_widget();
-	} elseif (defined('WP_DEBUG') && WP_DEBUG) {
-		// Временный тестовый вывод для отладки
+	} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 		echo '<!-- Floating Social Widget: функции не найдены -->';
 	}
 	?>
@@ -45,149 +23,108 @@
 		</svg>
 	</div>
 
-	
 	<?php
-
-
-	if (class_exists('Redux')) {
-		global $opt_name;
-		// Убеждаемся, что $opt_name установлена
-		if (empty($opt_name)) {
-			$opt_name = 'redux_demo';
-		}
-		// Проверяем, что Redux экземпляр инициализирован
-		$redux_instance = Redux_Instances::get_instance($opt_name);
+	if ( Codeweber_Options::is_ready() ) {
 		$post_type = universal_get_post_type();
-		$post_id = get_the_ID();
-		
-		// Если Redux не инициализирован, выходим
-		if ($redux_instance === null) {
-			get_template_part('templates/footer/footer');
-			return;
-		}
+		$post_id   = get_the_ID();
 
-		$global_footer_type = Redux::get_option($opt_name, 'global_footer_type');
-		$global_template_footer = Redux::get_option($opt_name, 'global-footer-model');
-		$global_custom_template_footer = Redux::get_option($opt_name, 'custom-footer');
+		$global_footer_type            = Codeweber_Options::get( 'global_footer_type' );
+		$global_template_footer        = Codeweber_Options::get( 'global-footer-model' );
+		$global_custom_template_footer = Codeweber_Options::get( 'custom-footer' );
 
-		$single_footer_id = Redux::get_option($opt_name, 'single_footer_select_' . $post_type);
-		$archive_footer_id = Redux::get_option($opt_name, 'archive_footer_select_' . $post_type);
+		$single_footer_id  = Codeweber_Options::get( 'single_footer_select_' . $post_type );
+		$archive_footer_id = Codeweber_Options::get( 'archive_footer_select_' . $post_type );
 
-		$footer_for_this_page_bool = Redux::get_post_meta($opt_name, $post_id, 'this-post-footer-type');
-		$footer_for_this_page_id = Redux::get_post_meta($opt_name, $post_id, 'custom-post-footer');
+		$footer_for_this_page_bool = Codeweber_Options::get_post_meta( $post_id, 'this-post-footer-type' );
+		$footer_for_this_page_id   = Codeweber_Options::get_post_meta( $post_id, 'custom-post-footer' );
 
 		// Определяем тип страницы (одиночная или архив)
-		if (is_single() || is_singular($post_type)) {
-			// Проверяем индивидуальные настройки записи
-			if ($footer_for_this_page_bool === '3') {
-				return; // Disable - не выводим footer
+		if ( is_single() || is_singular( $post_type ) ) {
+			if ( $footer_for_this_page_bool === '3' ) {
+				return; // Disable — не выводим footer
 			}
-			
-			// Проверяем, не отключен ли footer
-			if ($single_footer_id === 'disable') {
-				return; // Не выводим footer
+			if ( $single_footer_id === 'disable' ) {
+				return;
 			}
 
-			if (!empty($footer_for_this_page_id) && $footer_for_this_page_bool == '2') {
+			if ( ! empty( $footer_for_this_page_id ) && $footer_for_this_page_bool == '2' ) {
 				$template_footer_id = $footer_for_this_page_id;
-			} elseif (!empty($single_footer_id) && $single_footer_id !== 'default' && $footer_for_this_page_bool == '1') {
+			} elseif ( ! empty( $single_footer_id ) && $single_footer_id !== 'default' && $footer_for_this_page_bool == '1' ) {
 				$template_footer_id = $single_footer_id;
-			} elseif ($global_footer_type === '2') {
+			} elseif ( $global_footer_type === '2' ) {
 				$template_footer_id = $global_custom_template_footer;
 			} else {
 				$template_footer_id = '';
 			}
-		} elseif (is_archive() || is_post_type_archive($post_type)) {
-			// Проверяем, не отключен ли footer
-			if ($archive_footer_id === 'disable') {
-				return; // Не выводим footer
+		} elseif ( is_archive() || is_post_type_archive( $post_type ) ) {
+			if ( $archive_footer_id === 'disable' ) {
+				return;
 			}
 
-			if (!empty($archive_footer_id) && $archive_footer_id !== 'default') {
-				$template_footer_id = Redux::get_option($opt_name, 'archive_footer_select_' . $post_type);
-			} elseif ($global_footer_type === '2') {
+			if ( ! empty( $archive_footer_id ) && $archive_footer_id !== 'default' ) {
+				$template_footer_id = Codeweber_Options::get( 'archive_footer_select_' . $post_type );
+			} elseif ( $global_footer_type === '2' ) {
 				$template_footer_id = $global_custom_template_footer;
 			} else {
 				$template_footer_id = '';
 			}
 		} else {
-			// Другие случаи (главная «Последние записи», 404 и т.д.) — учитываем глобальный пользовательский футер
-			if ($global_footer_type === '2' && !empty($global_custom_template_footer)) {
+			// Главная «Последние записи», 404 и т.д.
+			if ( $global_footer_type === '2' && ! empty( $global_custom_template_footer ) ) {
 				$template_footer_id = $global_custom_template_footer;
 			} else {
 				$template_footer_id = '';
 			}
 		}
 
-		// Функция подготовки всех необходимых переменных для pageheader
-		if (!function_exists('get_footer_vars')) {
-			function get_footer_vars()
-			{
-				if (!class_exists('Redux')) {
-					return [];
-				}
-				global $opt_name;
-
-				// Заголовок и стили
-				$footer_color_text = Redux::get_option($opt_name, 'footer_color_text') ?? '';
-				$footer_background = Redux::get_option($opt_name, 'footer_background') ?? '';
-				$footer_solid_color = Redux::get_option($opt_name, 'footer_solid_color') ?? '';
-				$footer_soft_color = Redux::get_option($opt_name, 'footer_soft_color') ?? '';
-
+		// Переменные стилизации для шаблона футера
+		if ( ! function_exists( 'get_footer_vars' ) ) {
+			function get_footer_vars() {
 				return [
-					'footer_color_text' => $footer_color_text,
-					'footer_background' => $footer_background,
-					'footer_solid_color' => $footer_solid_color,
-					'footer_soft_color' => $footer_soft_color,
+					'footer_color_text'  => Codeweber_Options::get( 'footer_color_text' ),
+					'footer_background'  => Codeweber_Options::get( 'footer_background' ),
+					'footer_solid_color' => Codeweber_Options::get( 'footer_solid_color' ),
+					'footer_soft_color'  => Codeweber_Options::get( 'footer_soft_color' ),
 				];
 			}
 		}
 
-		// Получаем переменные для шаблона
 		$footer_vars = get_footer_vars();
 
-		if ($template_footer_id) {
-			$post = get_post($template_footer_id);
+		if ( $template_footer_id ) {
+			$post    = get_post( $template_footer_id );
 			$content = $post->post_content;
-			$content = apply_filters('the_content', $content);
-			$content = do_shortcode($content); // Обрабатываем шорткоды
+			$content = apply_filters( 'the_content', $content );
+			$content = do_shortcode( $content );
 			echo $content;
 		} else {
-			if (!empty($global_template_footer)) {
-				$template_part = get_theme_file_path("templates/footer/footer-{$global_template_footer}.php");
-				if (file_exists($template_part)) {
-					// Подключаем шаблон с переменными
+			if ( ! empty( $global_template_footer ) ) {
+				$template_part = get_theme_file_path( "templates/footer/footer-{$global_template_footer}.php" );
+				if ( file_exists( $template_part ) ) {
 					require $template_part;
 				}
 			}
 		}
 	} else {
-		get_template_part('templates/footer/footer');
+		get_template_part( 'templates/footer/footer' );
 	}
 	?>
-	
+
 	<?php
 	// Закрываем page-frame обёртку, если она была открыта в header.php
-	$codeweber_page_frame_footer = false;
-	if (class_exists('Redux')) {
-		global $opt_name;
-		if (empty($opt_name)) {
-			$opt_name = 'redux_demo';
-		}
-		$codeweber_page_frame_footer = (bool) Redux::get_option($opt_name, 'page-frame', false);
-	}
-	if ($codeweber_page_frame_footer) {
+	if ( (bool) Codeweber_Options::get( 'page-frame', false ) ) {
 		echo '</div><!-- /.page-frame -->';
 	}
 	?>
 
-	<?php 
+	<?php
 	// Выводим модальное окно перед wp_footer()
-	if (function_exists('codeweber_universal_modal_container')) {
+	if ( function_exists( 'codeweber_universal_modal_container' ) ) {
 		codeweber_universal_modal_container();
 	}
 	?>
-	
+
 	<?php wp_footer(); ?>
-	
+
 	</body>
+</html>

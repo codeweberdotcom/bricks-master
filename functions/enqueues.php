@@ -64,6 +64,22 @@ if (!function_exists('brk_get_dist_file_path')) {
 	}
 }
 
+/**
+ * Возвращает версию ассета: filemtime в режиме отладки, версию темы — в продакшене.
+ * Предотвращает лишние stat()-вызовы при каждом запросе на продакшене.
+ *
+ * @param string|false $file_path Абсолютный путь к файлу (или false).
+ * @return string|int|null
+ */
+if (!function_exists('codeweber_asset_version')) {
+	function codeweber_asset_version($file_path) {
+		if (defined('WP_DEBUG') && WP_DEBUG && $file_path && file_exists($file_path)) {
+			return filemtime($file_path);
+		}
+		return wp_get_theme()->get('Version');
+	}
+}
+
 if (!function_exists('brk_styles_scripts')) {
 	function brk_styles_scripts()
 	{
@@ -193,7 +209,7 @@ if (! function_exists('brk_styles_scripts_gutenberg')) {
 add_action('enqueue_block_editor_assets', 'brk_styles_scripts_gutenberg');
 
 
-function enqueue_my_custom_script()
+function codeweber_enqueue_restapi_script()
 {
 	// Load on all pages (needed for ajax-download and other REST API features)
 	$restapi_url = brk_get_dist_file_url('dist/assets/js/restapi.js');
@@ -202,7 +218,7 @@ function enqueue_my_custom_script()
 	}
 	
 	$restapi_path = brk_get_dist_file_path('dist/assets/js/restapi.js');
-	$version = $restapi_path ? filemtime($restapi_path) : null;
+	$version = codeweber_asset_version($restapi_path);
 	
 	// Проверяем, загружен ли plugins-scripts (для Bootstrap)
 	$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
@@ -212,7 +228,7 @@ function enqueue_my_custom_script()
 	}
 	
 	wp_enqueue_script(
-		'my-custom-script',
+		'codeweber-restapi',
 		$restapi_url,
 		$dependencies,
 		$version,
@@ -220,7 +236,7 @@ function enqueue_my_custom_script()
 	);
 
 		$current_user_id = get_current_user_id();
-		wp_localize_script('my-custom-script', 'wpApiSettings', array(
+		wp_localize_script('codeweber-restapi', 'wpApiSettings', array(
 			'root' => esc_url_raw(rest_url()),
 			'nonce' => wp_create_nonce('wp_rest'),
 			'currentUserId' => $current_user_id,
@@ -228,20 +244,20 @@ function enqueue_my_custom_script()
 		));
 		
 		// Локализация для загрузки документов
-		wp_localize_script('my-custom-script', 'codeweberDownload', array(
+		wp_localize_script('codeweber-restapi', 'codeweberDownload', array(
 			'loadingText' => __('Loading...', 'codeweber'),
 			'errorText' => __('Error downloading file. Please try again.', 'codeweber')
 		));
 		
 		// Локализация для отправки документов на email
-		wp_localize_script('my-custom-script', 'codeweberDocumentEmail', array(
+		wp_localize_script('codeweber-restapi', 'codeweberDocumentEmail', array(
 			'sendingText' => __('Sending...', 'codeweber'),
 			'successText' => __('Document sent successfully!', 'codeweber'),
 			'errorText' => __('Error sending email. Please try again.', 'codeweber'),
 			'serverError' => __('Server error', 'codeweber')
 		));
 }
-add_action('wp_enqueue_scripts', 'enqueue_my_custom_script', 20);
+add_action('wp_enqueue_scripts', 'codeweber_enqueue_restapi_script', 20);
 
 /**
  * Enqueue notification triggers script
@@ -256,16 +272,16 @@ function codeweber_enqueue_notification_triggers()
 	}
 	
 	$notification_triggers_path = brk_get_dist_file_path('dist/assets/js/notification-triggers.js');
-	$version = $notification_triggers_path ? filemtime($notification_triggers_path) : null;
+	$version = codeweber_asset_version($notification_triggers_path);
 	
-	// Dependencies: plugins-scripts (Bootstrap) and my-custom-script (restapi.js)
+	// Dependencies: plugins-scripts (Bootstrap) and codeweber-restapi (restapi.js)
 	$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
 	$dependencies = array();
 	if ($plugins_scripts_url) {
 		$dependencies[] = 'plugins-scripts';
 	}
-	if (wp_script_is('my-custom-script', 'registered')) {
-		$dependencies[] = 'my-custom-script';
+	if (wp_script_is('codeweber-restapi', 'registered')) {
+		$dependencies[] = 'codeweber-restapi';
 	}
 	
 	wp_enqueue_script(
@@ -291,13 +307,14 @@ function theme_enqueue_fetch_assets()
 			'fetch-handler',
 			$script_url,
 			[],
-			filemtime($script_path),
+			codeweber_asset_version($script_path),
 			true // загрузка в футере
 		);
 
 		// Передаем переменные JS
 		wp_localize_script('fetch-handler', 'fetch_vars', [
 			'ajaxurl' => admin_url('admin-ajax.php'),
+			'nonce'   => wp_create_nonce('fetch_action_nonce'),
 		]);
 	}
 }
@@ -318,7 +335,7 @@ function codeweber_enqueue_testimonial_form() {
 			'codeweber',
 			$universal_script_url,
 			[],
-			filemtime($universal_script_path),
+			codeweber_asset_version($universal_script_path),
 			true
 		);
 		
@@ -334,12 +351,7 @@ function codeweber_enqueue_testimonial_form() {
 		'restUrl' => rest_url('codeweber/v1/submit-testimonial'),
 		'nonce' => wp_create_nonce('wp_rest'),
 	]);
-	
-	// Add wpApiSettings for REST API access (needed for success message template)
-	wp_localize_script('codeweber', 'wpApiSettings', [
-		'root' => esc_url_raw(rest_url()),
-		'nonce' => wp_create_nonce('wp_rest'),
-	]);
+	// wpApiSettings уже передаётся в codeweber_enqueue_restapi_script() — дублировать не нужно.
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_testimonial_form', 20); // Priority 20 to run after codeweber-forms-core
 
@@ -359,12 +371,12 @@ function codeweber_enqueue_ajax_download() {
 	wp_enqueue_script(
 		'ajax-download',
 		$dist_url,
-		['my-custom-script'], // Зависимость от restapi.js для wpApiSettings
-		filemtime($dist_path),
+		['codeweber-restapi'], // Зависимость от restapi.js для wpApiSettings
+		codeweber_asset_version($dist_path),
 		true // Load in footer
 	);
 	
-	// wpApiSettings уже подключен в enqueue_my_custom_script() для всех страниц
+	// wpApiSettings уже подключен в codeweber_enqueue_restapi_script() для всех страниц
 	// Поэтому дополнительная локализация не требуется
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_download', 25);
@@ -398,7 +410,7 @@ function codeweber_enqueue_ajax_filter() {
 		'ajax-filter',
 		$script_url,
 		[], // Dependencies
-		filemtime($script_path),
+		codeweber_asset_version($script_path),
 		true // Load in footer
 	);
 	
@@ -443,7 +455,7 @@ function codeweber_enqueue_share_buttons() {
 		'share-buttons',
 		$script_url,
 		[], // No dependencies
-		filemtime($script_path),
+		codeweber_asset_version($script_path),
 		true // Load in footer
 	);
 }
@@ -494,7 +506,7 @@ function codeweber_enqueue_dadata_address() {
 			'dadata-jquery-suggestions',
 			$vendor_suggestions_url,
 			array( 'jquery' ),
-			filemtime( $vendor_suggestions ),
+			codeweber_asset_version( $vendor_suggestions ),
 			true
 		);
 	}
@@ -523,7 +535,7 @@ function codeweber_enqueue_dadata_address() {
 		'dadata-address',
 		$script_url,
 		$deps,
-		filemtime( $script_path ),
+		codeweber_asset_version( $script_path ),
 		true
 	);
 

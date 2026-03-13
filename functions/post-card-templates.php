@@ -38,60 +38,47 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
     // Определяем тип записи
     $post_type = is_object($post) ? $post->post_type : get_post_type($post);
     
-    // Определяем папку для шаблонов
+    // Маппинг префиксов шаблонов на папки шаблонов
+    $prefix_to_dir = apply_filters('codeweber_template_prefix_map', [
+        'client-'      => 'clients',
+        'testimonial-' => 'testimonials',
+        'document-'    => 'documents',
+        'faq-'         => 'faq',
+        'staff-'       => 'staff',
+        'office-'      => 'offices',
+        'vacancy-'     => 'post',
+    ]);
+
+    // Маппинг типов записей на папки шаблонов
+    $post_type_to_dir = apply_filters('codeweber_post_type_template_map', [
+        'clients'      => 'clients',
+        'testimonials' => 'testimonials',
+        'documents'    => 'documents',
+        'faq'          => 'faq',
+        'staff'        => 'staff',
+        'offices'      => 'offices',
+        'vacancies'    => 'post',
+    ]);
+
+    // Определяем папку и файл из префикса
     $template_dir = 'post'; // По умолчанию
     $template_file = sanitize_file_name($template_name);
-    
-    // Если шаблон начинается с "client-", это шаблон для clients
-    if (strpos($template_name, 'client-') === 0) {
-        $template_dir = 'clients';
-        $template_file = str_replace('client-', '', $template_file);
-    } elseif (strpos($template_name, 'testimonial-') === 0) {
-        // Если шаблон начинается с "testimonial-", это шаблон для testimonials
-        $template_dir = 'testimonials';
-        $template_file = str_replace('testimonial-', '', $template_file);
-    } elseif (strpos($template_name, 'document-') === 0) {
-        // Если шаблон начинается с "document-", это шаблон для documents
-        $template_dir = 'documents';
-        $template_file = str_replace('document-', '', $template_file);
-    } elseif (strpos($template_name, 'faq-') === 0) {
-        // Если шаблон начинается с "faq-", это шаблон для faq
-        $template_dir = 'faq';
-        $template_file = str_replace('faq-', '', $template_file);
-    } elseif (strpos($template_name, 'staff-') === 0) {
-        // Если шаблон начинается с "staff-", это шаблон для staff
-        $template_dir = 'staff';
-        $template_file = str_replace('staff-', '', $template_file);
-    } elseif (strpos($template_name, 'office-') === 0) {
-        // Если шаблон начинается с "office-", это шаблон для offices
-        $template_dir = 'offices';
-        $template_file = str_replace('office-', '', $template_file);
-    } elseif ($post_type === 'clients') {
-        // Если тип записи clients, ищем в папке clients
-        $template_dir = 'clients';
-    } elseif ($post_type === 'testimonials') {
-        // Если тип записи testimonials, ищем в папке testimonials
-        $template_dir = 'testimonials';
-    } elseif ($post_type === 'documents') {
-        // Если тип записи documents, ищем в папке documents
-        $template_dir = 'documents';
-    } elseif ($post_type === 'faq') {
-        // Если тип записи faq, ищем в папке faq
-        $template_dir = 'faq';
-    } elseif ($post_type === 'staff') {
-        // Если тип записи staff, ищем в папке staff
-        $template_dir = 'staff';
-    } elseif ($post_type === 'offices') {
-        // Если тип записи offices, ищем в папке offices
-        $template_dir = 'offices';
-    } elseif (strpos($template_name, 'vacancy-') === 0) {
-        // Если шаблон начинается с "vacancy-", это шаблон для vacancies
-        $template_dir = 'post';
-        $template_file = str_replace('vacancy-', '', $template_file);
-    } elseif ($post_type === 'vacancies') {
-        // Если тип записи vacancies, используем шаблоны из post
-        $template_dir = 'post';
+
+    foreach ($prefix_to_dir as $prefix => $dir) {
+        if (strpos($template_name, $prefix) === 0) {
+            $template_dir = $dir;
+            $template_file = str_replace($prefix, '', $template_file);
+            break;
+        }
     }
+
+    // Если префикс не найден, проверяем тип записи
+    if ($template_file === sanitize_file_name($template_name) && isset($post_type_to_dir[$post_type])) {
+        $template_dir = $post_type_to_dir[$post_type];
+    }
+
+    // Фильтр для полной переопределения папки (дочерняя тема может перекрыть логику выше)
+    $template_dir = apply_filters('codeweber_post_card_template_dir', $template_dir, $template_name, $post_type, $post_data);
     
     // Путь к шаблону: сначала дочерняя тема, затем родительская (get_theme_file_path)
     $template_path = get_theme_file_path('templates/post-cards/' . $template_dir . '/' . $template_file . '.php');

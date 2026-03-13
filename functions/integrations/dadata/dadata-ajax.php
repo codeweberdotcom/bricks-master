@@ -9,6 +9,22 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Rate-limit DaData AJAX requests: max 30 per minute per IP.
+ * Sends JSON error and exits if limit exceeded.
+ */
+function codeweber_dadata_check_rate_limit() {
+	$ip  = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+	$key = 'dadata_rl_' . md5( $ip );
+
+	$count = (int) get_transient( $key );
+	if ( $count >= 30 ) {
+		wp_send_json_error( array( 'message' => __( 'Too many requests. Please try again later.', 'codeweber' ) ), 429 );
+	}
+
+	set_transient( $key, $count + 1, MINUTE_IN_SECONDS );
+}
+
+/**
  * Handle AJAX: clean address and return WooCommerce-style fields.
  */
 function codeweber_dadata_ajax_clean_address() {
@@ -19,6 +35,8 @@ function codeweber_dadata_ajax_clean_address() {
 			'error'   => __( 'Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber' ),
 		) );
 	}
+
+	codeweber_dadata_check_rate_limit();
 
 	global $opt_name;
 	if ( ! class_exists( 'Redux' ) ) {
@@ -61,6 +79,8 @@ function codeweber_dadata_ajax_suggest_address() {
 	if ( ! wp_verify_nonce( $nonce, 'codeweber_dadata_clean' ) ) {
 		wp_send_json( array( 'success' => false, 'suggestions' => array() ) );
 	}
+
+	codeweber_dadata_check_rate_limit();
 
 	global $opt_name;
 	if ( ! class_exists( 'Redux' ) ) {

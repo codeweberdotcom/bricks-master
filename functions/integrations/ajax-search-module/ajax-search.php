@@ -57,14 +57,15 @@
  * <?php echo do_shortcode('[ajax_search_form placeholder="Поиск..." id="custom-id"]'); ?>
  */
 
-add_action('wp_enqueue_scripts', 'enqueue_ajax_search_scripts');
-function enqueue_ajax_search_scripts()
+add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_search_scripts');
+function codeweber_enqueue_ajax_search_scripts()
 {
+   $script_path = get_template_directory() . '/functions/integrations/ajax-search-module/assets/js/ajax-search.js';
    wp_enqueue_script(
       'ajax-search',
       get_template_directory_uri() . '/functions/integrations/ajax-search-module/assets/js/ajax-search.js',
       [],
-      time(),
+      codeweber_asset_version($script_path),
       true
    );
 
@@ -102,11 +103,11 @@ add_action('wp_ajax_nopriv_ajax_search_load_all', 'handle_ajax_search_load_all')
 
 function handle_ajax_search_load_all()
 {
-   if (!wp_verify_nonce($_POST['nonce'], 'ajax-search_nonce')) {
+   if (!wp_verify_nonce(wp_unslash($_POST['nonce'] ?? ''), 'ajax-search_nonce')) {
       wp_send_json_error(__('Security error', 'codeweber'));
    }
 
-   $query = sanitize_text_field($_POST['search_query']);
+   $query = sanitize_text_field(wp_unslash($_POST['search_query'] ?? ''));
 
    if (empty($query) || strlen($query) < 3) {
       wp_send_json_error(__('Query too short. Minimum 3 characters required.', 'codeweber'));
@@ -152,11 +153,11 @@ add_action('wp_ajax_nopriv_ajax_search', 'handle_ajax_search');
 
 function handle_ajax_search()
 {
-   if (!wp_verify_nonce($_POST['nonce'], 'ajax-search_nonce')) {
+   if (!wp_verify_nonce(wp_unslash($_POST['nonce'] ?? ''), 'ajax-search_nonce')) {
       wp_send_json_error(__('Security error', 'codeweber'));
    }
 
-   $query = sanitize_text_field($_POST['search_query']);
+   $query = sanitize_text_field(wp_unslash($_POST['search_query'] ?? ''));
 
    if (empty($query) || strlen($query) < 3) {
       wp_send_json_error(__('Query too short. Minimum 3 characters required.', 'codeweber'));

@@ -366,20 +366,16 @@ function codeweber_single_social_links($args = [])
 		'button_form'  => 'circle',
 	];
 	// Стили из Redux (Theme Style → Codeweber Icons), если не переданы в $args
-	if (class_exists('Redux')) {
-		global $opt_name;
-		if (empty($opt_name)) {
-			$opt_name = 'redux_demo';
-		}
+	if (Codeweber_Options::is_ready()) {
 		if (!isset($args['type']) || $args['type'] === '') {
-			$icon_type = Redux::get_option($opt_name, 'global-social-icon-type', Redux::get_option($opt_name, 'social-icon-type', '1'));
+			$icon_type = Codeweber_Options::get('global-social-icon-type', Codeweber_Options::get('social-icon-type', '1'));
 			$defaults['type'] = 'type' . ($icon_type ? $icon_type : '1');
 		}
 		if (!isset($args['size']) || $args['size'] === '') {
-			$defaults['size'] = Redux::get_option($opt_name, 'global-social-button-size', 'md');
+			$defaults['size'] = Codeweber_Options::get('global-social-button-size', 'md');
 		}
 		if (!isset($args['button_form']) || $args['button_form'] === '') {
-			$defaults['button_form'] = Redux::get_option($opt_name, 'global-social-button-style', 'circle');
+			$defaults['button_form'] = Codeweber_Options::get('global-social-button-style', 'circle');
 		}
 	}
 	$r = wp_parse_args($args, $defaults);
@@ -404,15 +400,11 @@ function codeweber_global_social_style()
 	$type = 'type1';
 	$size = 'md';
 	$button_form = 'circle';
-	if (class_exists('Redux')) {
-		global $opt_name;
-		if (empty($opt_name)) {
-			$opt_name = 'redux_demo';
-		}
-		$icon_type = Redux::get_option($opt_name, 'global-social-icon-type', Redux::get_option($opt_name, 'social-icon-type', '1'));
+	if (Codeweber_Options::is_ready()) {
+		$icon_type = Codeweber_Options::get('global-social-icon-type', Codeweber_Options::get('social-icon-type', '1'));
 		$type = 'type' . ($icon_type ? $icon_type : '1');
-		$size = Redux::get_option($opt_name, 'global-social-button-size', 'md');
-		$button_form = Redux::get_option($opt_name, 'global-social-button-style', 'circle');
+		$size = Codeweber_Options::get('global-social-button-size', 'md');
+		$button_form = Codeweber_Options::get('global-social-button-style', 'circle');
 	}
 	return compact('type', 'size', 'button_form');
 }
@@ -632,9 +624,8 @@ function universal_title($tag = false, $theme = false)
 
 	// Определяем класс для тега
 	if ($theme === 'theme') {
-		// Получаем класс из Redux
-		global $opt_name;
-		$title_class = Redux::get_option($opt_name, 'opt-select-title-size');
+		// Получаем класс из Redux через Codeweber_Options
+		$title_class = Codeweber_Options::get('opt-select-title-size', '');
 	} elseif ($theme !== false) {
 		// Используем переданный класс
 		$title_class = $theme;
@@ -689,11 +680,6 @@ add_shortcode('universal_title', 'universal_title_shortcode');
  */
 if (!function_exists('codeweber_get_header_option')) {
     function codeweber_get_header_option($option_name, $default = '') {
-        global $opt_name;
-        if (empty($opt_name)) {
-            $opt_name = 'redux_demo';
-        }
-        
         // Проверяем, используется ли тип '4' для текущей страницы
         if (!empty($GLOBALS['codeweber_use_this_header_settings']) && $GLOBALS['codeweber_use_this_header_settings'] === true) {
             // Маппинг глобальных опций на индивидуальные
@@ -704,7 +690,7 @@ if (!function_exists('codeweber_get_header_option')) {
                 'solid-color-header' => 'codeweber_this_solid_color_header',
                 'soft-color-header' => 'codeweber_this_soft_color_header',
             );
-            
+
             if (isset($option_map[$option_name])) {
                 $global_var_name = $option_map[$option_name];
                 // Проверяем, установлена ли глобальная переменная
@@ -718,12 +704,9 @@ if (!function_exists('codeweber_get_header_option')) {
                 }
             }
         }
-        
-        // Возвращаем глобальную настройку
-        if (class_exists('Redux')) {
-            return Redux::get_option($opt_name, $option_name, $default);
-        }
-        return $default;
+
+        // Возвращаем глобальную настройку через Codeweber_Options
+        return Codeweber_Options::get($option_name, $default);
     }
 }
 
@@ -938,26 +921,21 @@ function universal_get_post_type()
 function codeweber_get_address($type = 'fact', $separator = ', ', $fallback = 'Moonshine St. 14/05 Light City, London, United Kingdom')
 {
 	// Проверяем наличие Redux Framework
-	if (!class_exists('Redux')) {
-		return $fallback;
-	}
-
-	global $opt_name;
-	if (empty($opt_name)) {
+	if (!Codeweber_Options::is_ready()) {
 		return $fallback;
 	}
 
 	// Определяем префикс для полей адреса
 	$prefix = ($type === 'juri') ? 'juri' : 'fact';
 
-	// Получаем данные адреса из Redux
-	$country = Redux::get_option($opt_name, $prefix . '-country', '');
-	$region = Redux::get_option($opt_name, $prefix . '-region', '');
-	$city = Redux::get_option($opt_name, $prefix . '-city', '');
-	$street = Redux::get_option($opt_name, $prefix . '-street', '');
-	$house = Redux::get_option($opt_name, $prefix . '-house', '');
-	$office = Redux::get_option($opt_name, $prefix . '-office', '');
-	$postal = Redux::get_option($opt_name, $prefix . '-postal', '');
+	// Получаем данные адреса из Redux через Codeweber_Options
+	$country = Codeweber_Options::get($prefix . '-country', '');
+	$region = Codeweber_Options::get($prefix . '-region', '');
+	$city = Codeweber_Options::get($prefix . '-city', '');
+	$street = Codeweber_Options::get($prefix . '-street', '');
+	$house = Codeweber_Options::get($prefix . '-house', '');
+	$office = Codeweber_Options::get($prefix . '-office', '');
+	$postal = Codeweber_Options::get($prefix . '-postal', '');
 
 	// Формируем строку улицы с домом и офисом
 	$street_line = trim(implode(' ', array_filter([$street, $house, $office])), ' ,');
@@ -1012,39 +990,36 @@ function codeweber_footer_column($widget_id, $column_classes, $default_content) 
  */
 function get_loader()
 {
-    if (!class_exists('Redux')) {
-        return;
-    }
-    global $opt_name;
-    if (empty($opt_name)) {
-        $opt_name = 'redux_demo';
-    }
-    if (!Redux::get_option($opt_name, 'page-loader', false)) {
+    if (!Codeweber_Options::is_ready()) {
         return;
     }
 
-    $type         = Redux::get_option($opt_name, 'page-loader-type', 'default');
-    $custom_class = trim(Redux::get_option($opt_name, 'page-loader-custom-class', ''));
+    if (!Codeweber_Options::get('page-loader', false)) {
+        return;
+    }
+
+    $type         = Codeweber_Options::get('page-loader-type', 'default');
+    $custom_class = trim(Codeweber_Options::get('page-loader-custom-class', ''));
 
     if ($custom_class) {
         $cls = 'page-loader ' . esc_attr($custom_class);
     } else {
-        $bg  = Redux::get_option($opt_name, 'page-loader-bg', 'white');
+        $bg  = Codeweber_Options::get('page-loader-bg', 'white');
         $cls = 'page-loader' . ($bg ? ' bg-' . esc_attr($bg) : '');
     }
 
     $logo_url = '';
     switch ($type) {
         case 'logo-light':
-            $logo_data = Redux::get_option($opt_name, 'opt-light-logo', '');
+            $logo_data = Codeweber_Options::get('opt-light-logo', '');
             $logo_url  = is_array($logo_data) ? ($logo_data['url'] ?? '') : $logo_data;
             break;
         case 'logo-dark':
-            $logo_data = Redux::get_option($opt_name, 'opt-dark-logo', '');
+            $logo_data = Codeweber_Options::get('opt-dark-logo', '');
             $logo_url  = is_array($logo_data) ? ($logo_data['url'] ?? '') : $logo_data;
             break;
         case 'custom':
-            $logo_data = Redux::get_option($opt_name, 'page-loader-custom-logo', '');
+            $logo_data = Codeweber_Options::get('page-loader-custom-logo', '');
             $logo_url  = is_array($logo_data) ? ($logo_data['url'] ?? '') : $logo_data;
             break;
     }

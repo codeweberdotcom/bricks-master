@@ -32,6 +32,7 @@ document.querySelectorAll("[data-fetch]").forEach((button) => {
     formData.append("action", "fetch_action");
     formData.append("actionType", action);
     formData.append("params", JSON.stringify(params));
+    formData.append("nonce", fetch_vars.nonce);
 
     try {
       const response = await fetch(fetch_vars.ajaxurl, {

@@ -20,341 +20,196 @@
     <?php get_loader(); ?>
 
     <?php
-    $codeweber_page_frame = false;
+    $codeweber_page_frame       = (bool) Codeweber_Options::get( 'page-frame', false );
     $codeweber_page_frame_class = 'page-frame';
-    if (class_exists('Redux')) {
-        global $opt_name;
-        if (empty($opt_name)) {
-            $opt_name = 'redux_demo';
-        }
-        $codeweber_page_frame = (bool) Redux::get_option($opt_name, 'page-frame', false);
-        if ($codeweber_page_frame) {
-            $frame_bg = Redux::get_option($opt_name, 'page-frame-bg', 'light');
-            $frame_type = Redux::get_option($opt_name, 'page-frame-bg-type', 'solid');
-            $codeweber_page_frame_class .= $frame_bg ? ' bg-' . ($frame_type === 'soft' ? 'soft-' : '') . esc_attr($frame_bg) : '';
-        }
+    if ( $codeweber_page_frame ) {
+        $frame_bg   = Codeweber_Options::get( 'page-frame-bg', 'light' );
+        $frame_type = Codeweber_Options::get( 'page-frame-bg-type', 'solid' );
+        $codeweber_page_frame_class .= $frame_bg ? ' bg-' . ( $frame_type === 'soft' ? 'soft-' : '' ) . esc_attr( $frame_bg ) : '';
     }
-    if ($codeweber_page_frame) {
-        echo '<div class="' . esc_attr(trim($codeweber_page_frame_class)) . '">';
+    if ( $codeweber_page_frame ) {
+        echo '<div class="' . esc_attr( trim( $codeweber_page_frame_class ) ) . '">';
     }
     ?>
 
     <main class="content-wrapper">
         <?php
         // Получаем тип контента и ID
-        $post_type = universal_get_post_type();
-        $post_id = get_the_ID();
-        $header_post_id = '';
+        $post_type          = universal_get_post_type();
+        $post_id            = get_the_ID();
+        $header_post_id     = '';
         $global_header_type = '';
 
-        if (class_exists('Redux')) {
-            global $opt_name;
-            // Убеждаемся, что $opt_name установлена
-            if (empty($opt_name)) {
-                $opt_name = 'redux_demo';
-            }
-            // Проверяем, что Redux экземпляр инициализирован
-            $redux_instance = Redux_Instances::get_instance($opt_name);
-            // #region agent log
-            $log_data = json_encode([
-                'location' => 'header.php:28',
-                'message' => 'Header render start',
-                'data' => [
-                    'opt_name' => $opt_name ?? 'NOT_SET',
-                    'class_exists_Redux' => class_exists('Redux'),
-                    'redux_instance_exists' => $redux_instance !== null,
-                    'post_type' => $post_type,
-                    'post_id' => $post_id,
-                ],
-                'timestamp' => time() * 1000,
-                'sessionId' => 'debug-session',
-                'runId' => 'run1',
-                'hypothesisId' => 'A',
-            ]);
-            $log_file = ABSPATH . '.cursor/debug.log';
-            @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-            // Дополнительный лог для debug-сессии df0f0f
-            $debug_log_file = ABSPATH . 'debug-df0f0f.log';
-            $debug_entry = json_encode([
-                'sessionId' => 'df0f0f',
-                'runId' => 'run1',
-                'hypothesisId' => 'H1',
-                'location' => 'header.php:28',
-                'message' => 'Header render start (df0f0f)',
-                'data' => [
-                    'post_type' => $post_type,
-                    'post_id' => $post_id,
-                ],
-                'timestamp' => time() * 1000,
-            ]) . "\n";
-            @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
-            // #endregion
+        if ( Codeweber_Options::is_ready() ) {
+            // Получаем тип глобального хедера (Base / Custom)
+            $global_header_type = Codeweber_Options::get( 'global-header-type' );
 
-            if ($redux_instance !== null) {
-                // Сразу получаем тип глобального хедера (Base / Custom)
-                $global_header_type = Redux::get_option($opt_name, 'global-header-type');
+            if ( is_single() || is_singular( $post_type ) ) {
+                // Проверяем индивидуальные настройки записи
+                $this_header_type = Codeweber_Options::get_post_meta( $post_id, 'this-header-type' );
+                if ( $this_header_type === '3' ) {
+                    return; // Disable — не выводим header
+                }
 
-                if (is_single() || is_singular($post_type)) {
-                    // Проверяем индивидуальные настройки записи
-                    $this_header_type = Redux::get_post_meta($opt_name, $post_id, 'this-header-type');
-                    if ($this_header_type === '3') {
-                        return; // Disable - не выводим header
-                    }
-
-                    // Если выбран тип '4' (Base Settings), используем индивидуальные настройки
-                    if ($this_header_type === '4') {
-                        // Пропускаем выбор кастомного хедера и используем Base Settings
-                        $header_post_id = '';
+                if ( $this_header_type === '4' ) {
+                    // Пропускаем кастомный хедер — используем Base Settings
+                    $header_post_id = '';
+                } else {
+                    $this_header_post_id = Codeweber_Options::get_post_meta( $post_id, 'this-custom-post-header' );
+                    if ( ! empty( $this_header_post_id ) ) {
+                        $header_post_id = $this_header_post_id;
                     } else {
-                        $this_header_post_id = Redux::get_post_meta($opt_name, $post_id, 'this-custom-post-header');
-                        if (!empty($this_header_post_id)) {
-                            $header_post_id = $this_header_post_id;
-                        } else {
-                            $header_post_id = Redux::get_option($opt_name, 'single_header_select_' . $post_type);
-                        }
-                    }
-                } elseif (is_archive() || is_post_type_archive($post_type)) {
-                    // Для архивов учитываем archive_header_select_* ТОЛЬКО когда глобальный тип = Base.
-                    // Если в Redux выбран глобальный «Пользовательский» хедер, он должен перекрывать
-                    // archive_header_select_* и срабатывать для рубрик и архивов.
-                    $archive_header_option = null;
-                    if ($global_header_type !== '2') {
-                        $archive_header_option = Redux::get_option($opt_name, 'archive_header_select_' . $post_type);
-                        $header_post_id = $archive_header_option;
-                    }
-                    // #region agent log
-                    $debug_log_file = ABSPATH . 'debug-df0f0f.log';
-                    $debug_entry = json_encode([
-                        'sessionId' => 'df0f0f',
-                        'runId' => 'run1',
-                        'hypothesisId' => 'H2',
-                        'location' => 'header.php:70',
-                        'message' => 'Archive header selection',
-                        'data' => [
-                            'is_archive' => is_archive(),
-                            'is_category' => is_category(),
-                            'post_type' => $post_type,
-                            'global_header_type' => $global_header_type,
-                            'archive_header_option' => $archive_header_option,
-                            'header_post_id_after_archive' => $header_post_id,
-                        ],
-                        'timestamp' => time() * 1000,
-                    ]) . "\n";
-                    @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
-                    // #endregion
-                }
-
-                // Если не задан хедер для страницы — используем глобальный «Пользовательский Хедер»
-                $use_global_custom = true;
-                if (is_single() || is_singular($post_type)) {
-                    $this_header_type_check = Redux::get_post_meta($opt_name, $post_id, 'this-header-type');
-                    if ($this_header_type_check === '4') {
-                        $use_global_custom = false; // Запись использует Base Settings
+                        $header_post_id = Codeweber_Options::get( 'single_header_select_' . $post_type );
                     }
                 }
+            } elseif ( is_archive() || is_post_type_archive( $post_type ) ) {
+                // Для архивов archive_header_select_* учитываем только когда глобальный тип = Base.
+                // Если выбран глобальный «Пользовательский» хедер — он перекрывает archive_header_select_*.
+                if ( $global_header_type !== '2' ) {
+                    $header_post_id = Codeweber_Options::get( 'archive_header_select_' . $post_type );
+                }
+            }
 
-                if ($use_global_custom && (empty($header_post_id) || $header_post_id === 'default')) {
-                    if ($global_header_type === '2') {
-                        $global_custom_header = Redux::get_option($opt_name, 'custom-header');
-                        // #region agent log
-                        $debug_log_file = ABSPATH . 'debug-df0f0f.log';
-                        $debug_entry = json_encode([
-                            'sessionId' => 'df0f0f',
-                            'runId' => 'run1',
-                            'hypothesisId' => 'H3',
-                            'location' => 'header.php:94',
-                            'message' => 'Global custom header check',
-                            'data' => [
-                                'global_header_type' => $global_header_type,
-                                'global_custom_header' => $global_custom_header,
-                                'header_post_id_before_global_custom' => $header_post_id,
-                            ],
-                            'timestamp' => time() * 1000,
-                        ]) . "\n";
-                        @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
-                        // #endregion
-                        if (!empty($global_custom_header)) {
-                            $header_post_id = $global_custom_header;
-                        }
+            // Если хедер для страницы не задан — используем глобальный «Пользовательский Хедер»
+            $use_global_custom = true;
+            if ( is_single() || is_singular( $post_type ) ) {
+                $this_header_type_check = Codeweber_Options::get_post_meta( $post_id, 'this-header-type' );
+                if ( $this_header_type_check === '4' ) {
+                    $use_global_custom = false; // Запись использует Base Settings
+                }
+            }
+
+            if ( $use_global_custom && ( empty( $header_post_id ) || $header_post_id === 'default' ) ) {
+                if ( $global_header_type === '2' ) {
+                    $global_custom_header = Codeweber_Options::get( 'custom-header' );
+                    if ( ! empty( $global_custom_header ) ) {
+                        $header_post_id = $global_custom_header;
                     }
                 }
-
-                // #region agent log
-                $debug_log_file = ABSPATH . 'debug-df0f0f.log';
-                $debug_entry = json_encode([
-                    'sessionId' => 'df0f0f',
-                    'runId' => 'run1',
-                    'hypothesisId' => 'H4',
-                    'location' => 'header.php:103',
-                    'message' => 'Header post id after Redux logic',
-                    'data' => [
-                        'post_type' => $post_type,
-                        'is_archive' => is_archive(),
-                        'is_category' => is_category(),
-                        'global_header_type' => $global_header_type,
-                        'header_post_id_final' => $header_post_id,
-                    ],
-                    'timestamp' => time() * 1000,
-                ]) . "\n";
-                @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
-                // #endregion
             }
         }
 
         // На 404 всегда используем дефолтный header (модель из Redux), без кастомного поста
-        if (is_404()) {
+        if ( is_404() ) {
             $header_post_id = '';
         }
 
-        // Проверяем, не отключен ли header
-        if ($header_post_id === 'disable') {
-            // #region agent log
-            $debug_log_file = ABSPATH . 'debug-df0f0f.log';
-            $debug_entry = json_encode([
-                'sessionId' => 'df0f0f',
-                'runId' => 'run1',
-                'hypothesisId' => 'H5',
-                'location' => 'header.php:112',
-                'message' => 'Header explicitly disabled',
-                'data' => [
-                    'post_type' => $post_type,
-                    'is_archive' => is_archive(),
-                    'is_category' => is_category(),
-                ],
-                'timestamp' => time() * 1000,
-            ]) . "\n";
-            @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
-            // #endregion
+        // Фильтр для дочерней темы: переопределить header_post_id
+        $header_post_id = apply_filters(
+            'codeweber_header_post_id',
+            $header_post_id,
+            [
+                'post_type' => $post_type,
+                'post_id'   => $post_id,
+                'is_single' => is_single() || is_singular( $post_type ),
+                'is_archive' => is_archive() || is_post_type_archive( $post_type ),
+                'is_404'    => is_404(),
+            ]
+        );
+
+        // Проверяем, не отключён ли header
+        if ( $header_post_id === 'disable' ) {
             return; // Не выводим header
         }
 
         $header_post = null;
-        if (!empty($header_post_id) && $header_post_id !== 'default') {
-            $header_post = get_post($header_post_id);
-            // #region agent log
-            $debug_log_file = ABSPATH . 'debug-df0f0f.log';
-            $debug_entry = json_encode([
-                'sessionId' => 'df0f0f',
-                'runId' => 'run1',
-                'hypothesisId' => 'H6',
-                'location' => 'header.php:117',
-                'message' => 'Header post resolved',
-                'data' => [
-                    'header_post_id' => $header_post_id,
-                    'header_post_exists' => (bool) $header_post,
-                    'header_post_status' => $header_post ? $header_post->post_status : null,
-                ],
-                'timestamp' => time() * 1000,
-            ]) . "\n";
-            @file_put_contents($debug_log_file, $debug_entry, FILE_APPEND);
-            // #endregion
-            if ($header_post) {
-                setup_postdata($header_post);
+        if ( ! empty( $header_post_id ) && $header_post_id !== 'default' ) {
+            $header_post = get_post( $header_post_id );
+            if ( $header_post ) {
+                setup_postdata( $header_post ); // setup_postdata() устанавливает глобали автоматически
                 the_content(); // Выводим контент записи (с поддержкой шорткодов, HTML и т.д.)
-                wp_reset_postdata(); // Важно: сбрасываем глобальные данные
+                wp_reset_postdata(); // Сбрасываем глобальные данные
             } else {
-                // Пост хедера не найден (удалён/неверный ID) или 404 — показываем дефолтный header
+                // Пост хедера не найден (удалён/неверный ID) — показываем дефолтный header
                 $header_post_id = '';
             }
         }
-        if (empty($header_post_id) || $header_post_id === 'default') {
 
-            if (class_exists('Redux')) {
-                global $opt_name;
-                if (empty($opt_name)) {
-                    $opt_name = 'redux_demo';
+        if ( empty( $header_post_id ) || $header_post_id === 'default' ) {
+
+            if ( Codeweber_Options::is_ready() ) {
+                // Очищаем глобальные переменные для индивидуальных настроек хедера
+                $GLOBALS['codeweber_use_this_header_settings'] = false;
+                unset( $GLOBALS['codeweber_this_header_rounded'] );
+                unset( $GLOBALS['codeweber_this_header_color_text'] );
+                unset( $GLOBALS['codeweber_this_header_background'] );
+                unset( $GLOBALS['codeweber_this_solid_color_header'] );
+                unset( $GLOBALS['codeweber_this_soft_color_header'] );
+
+                // Проверяем, выбран ли тип '4' (Base Settings) для этой страницы
+                $this_header_type = '';
+                if ( is_single() || is_singular( $post_type ) ) {
+                    $this_header_type = Codeweber_Options::get_post_meta( $post_id, 'this-header-type' );
                 }
-                $redux_instance = Redux_Instances::get_instance($opt_name);
-                if ($redux_instance !== null) {
-                    // Очищаем глобальные переменные для индивидуальных настроек хедера
-                    $GLOBALS['codeweber_use_this_header_settings'] = false;
-                    unset($GLOBALS['codeweber_this_header_rounded']);
-                    unset($GLOBALS['codeweber_this_header_color_text']);
-                    unset($GLOBALS['codeweber_this_header_background']);
-                    unset($GLOBALS['codeweber_this_solid_color_header']);
-                    unset($GLOBALS['codeweber_this_soft_color_header']);
-                    
-                    // Проверяем, выбран ли тип '4' (Base Settings) для этой страницы
-                    $this_header_type = '';
-                    if (is_single() || is_singular($post_type)) {
-                        $this_header_type = Redux::get_post_meta($opt_name, $post_id, 'this-header-type');
+
+                // Получаем модель хедера
+                $global_header_model = '';
+                if ( $this_header_type === '4' ) {
+                    // Индивидуальные настройки страницы
+                    $global_header_model = Codeweber_Options::get_post_meta( $post_id, 'this-global-header-model' );
+
+                    $rounded_value = Codeweber_Options::get_post_meta( $post_id, 'this-header-rounded' );
+                    if ( $rounded_value !== false && $rounded_value !== '' ) {
+                        $GLOBALS['codeweber_this_header_rounded'] = $rounded_value;
                     }
-                    
-                    // Получаем модель хедера
-                    $global_header_model = '';
-                    if ($this_header_type === '4') {
-                        // Если выбран тип '4', используем индивидуальные настройки страницы
-                        $global_header_model = Redux::get_post_meta($opt_name, $post_id, 'this-global-header-model');
-                        // Получаем индивидуальные настройки и сохраняем в глобальные переменные для использования в шаблонах
-                        $rounded_value = Redux::get_post_meta($opt_name, $post_id, 'this-header-rounded');
-                        if ($rounded_value !== false && $rounded_value !== '') {
-                            $GLOBALS['codeweber_this_header_rounded'] = $rounded_value;
-                        }
-                        
-                        $color_text_value = Redux::get_post_meta($opt_name, $post_id, 'this-header-color-text');
-                        if ($color_text_value !== false && $color_text_value !== '') {
-                            $GLOBALS['codeweber_this_header_color_text'] = $color_text_value;
-                        }
-                        
-                        $background_value = Redux::get_post_meta($opt_name, $post_id, 'this-header-background');
-                        if ($background_value !== false && $background_value !== '') {
-                            $GLOBALS['codeweber_this_header_background'] = $background_value;
-                        }
-                        
-                        $solid_color_value = Redux::get_post_meta($opt_name, $post_id, 'this-solid-color-header');
-                        if ($solid_color_value !== false && $solid_color_value !== '') {
-                            $GLOBALS['codeweber_this_solid_color_header'] = $solid_color_value;
-                        }
-                        
-                        $soft_color_value = Redux::get_post_meta($opt_name, $post_id, 'this-soft-color-header');
-                        if ($soft_color_value !== false && $soft_color_value !== '') {
-                            $GLOBALS['codeweber_this_soft_color_header'] = $soft_color_value;
-                        }
-                        
-                        $GLOBALS['codeweber_use_this_header_settings'] = true;
-                    } else {
-                        $global_header_model = Redux::get_option($opt_name, 'global-header-model');
+
+                    $color_text_value = Codeweber_Options::get_post_meta( $post_id, 'this-header-color-text' );
+                    if ( $color_text_value !== false && $color_text_value !== '' ) {
+                        $GLOBALS['codeweber_this_header_color_text'] = $color_text_value;
                     }
-                    
-                    // Если индивидуальная модель не задана, используем глобальную
-                    if (empty($global_header_model)) {
-                        $global_header_model = Redux::get_option($opt_name, 'global-header-model');
+
+                    $background_value = Codeweber_Options::get_post_meta( $post_id, 'this-header-background' );
+                    if ( $background_value !== false && $background_value !== '' ) {
+                        $GLOBALS['codeweber_this_header_background'] = $background_value;
                     }
+
+                    $solid_color_value = Codeweber_Options::get_post_meta( $post_id, 'this-solid-color-header' );
+                    if ( $solid_color_value !== false && $solid_color_value !== '' ) {
+                        $GLOBALS['codeweber_this_solid_color_header'] = $solid_color_value;
+                    }
+
+                    $soft_color_value = Codeweber_Options::get_post_meta( $post_id, 'this-soft-color-header' );
+                    if ( $soft_color_value !== false && $soft_color_value !== '' ) {
+                        $GLOBALS['codeweber_this_soft_color_header'] = $soft_color_value;
+                    }
+
+                    $GLOBALS['codeweber_use_this_header_settings'] = true;
                 } else {
-                    $global_header_model = '';
+                    $global_header_model = Codeweber_Options::get( 'global-header-model' );
                 }
-                // #region agent log
-                $log_data = json_encode(['location' => 'header.php:60', 'message' => 'Global header model check', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'global_header_model' => $global_header_model, 'header_post_id' => $header_post_id ?? 'EMPTY', 'redux_instance_exists' => $redux_instance !== null], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'B']);
-                $log_file = ABSPATH . '.cursor/debug.log';
-                @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-                // #endregion
-                switch ($global_header_model) {
+
+                // Если индивидуальная модель не задана — используем глобальную
+                if ( empty( $global_header_model ) ) {
+                    $global_header_model = Codeweber_Options::get( 'global-header-model' );
+                }
+
+                switch ( $global_header_model ) {
                     case '1':
                     case '2':
-                        get_template_part('templates/header/header', 'classic');
+                        get_template_part( 'templates/header/header', 'classic' );
                         break;
                     case '3':
-                        get_template_part('templates/header/header', 'center-logo');
+                        get_template_part( 'templates/header/header', 'center-logo' );
                         break;
                     case '4':
                     case '5':
-                        get_template_part('templates/header/header', 'fancy');
+                        get_template_part( 'templates/header/header', 'fancy' );
                         break;
                     case '6':
-                        get_template_part('templates/header/header', 'fancy-center-logo');
+                        get_template_part( 'templates/header/header', 'fancy-center-logo' );
                         break;
                     case '7':
-                        get_template_part('templates/header/header', 'extended');
+                        get_template_part( 'templates/header/header', 'extended' );
                         break;
                     case '8':
-                        get_template_part('templates/header/header', 'extended-center-logo');
+                        get_template_part( 'templates/header/header', 'extended-center-logo' );
                         break;
                     default:
                         // Заголовок по умолчанию, если ничего не выбрано
-                        get_template_part('templates/header/header');
+                        get_template_part( 'templates/header/header' );
                 }
             } else {
-                get_template_part('templates/header/header');
+                get_template_part( 'templates/header/header' );
             }
         }
         ?>

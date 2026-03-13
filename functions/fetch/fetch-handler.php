@@ -15,8 +15,12 @@ add_action('wp_ajax_nopriv_fetch_action', 'Codeweber\\Functions\\Fetch\\handle_f
 
 function handle_fetch_action()
 {
-   $actionType = $_POST['actionType'] ?? null;
-   $params = json_decode(stripslashes($_POST['params'] ?? '[]'), true);
+   if (!check_ajax_referer('fetch_action_nonce', 'nonce', false)) {
+      wp_send_json_error(['message' => 'Security check failed.'], 403);
+   }
+
+   $actionType = sanitize_text_field(wp_unslash($_POST['actionType'] ?? ''));
+   $params = json_decode(wp_unslash($_POST['params'] ?? '[]'), true);
 
    if ($actionType === 'exampleFunction') {
       $response = exampleFunction($params);

@@ -65,19 +65,21 @@ add_filter('jpeg_quality', 'codeweber_image_quality');
 
 /**
  * Универсальная функция для получения разрешённых размеров изображений с кэшированием
- * 
+ * Использует WordPress Object Cache (wp_cache_*) для кроссзапросной кэширования.
+ *
  * @param string $post_type Тип записи
  * @param int $post_id ID записи (опционально)
  * @return array Массив разрешённых размеров
  */
 function codeweber_get_allowed_image_sizes($post_type = '', $post_id = 0)
 {
-	static $cache = [];
+	$cache_key = 'allowed_sizes_' . md5($post_type . '_' . $post_id);
+	$cache_group = 'codeweber_image_sizes';
 
-	$cache_key = md5($post_type . '_' . $post_id);
-
-	if (isset($cache[$cache_key])) {
-		return $cache[$cache_key];
+	// Проверяем кэш (работает и в памяти, и в Redis/Memcached)
+	$cached_result = wp_cache_get($cache_key, $cache_group);
+	if ($cached_result !== false) {
+		return $cached_result;
 	}
 
 	// Базовые настройки размеров по типам записей
@@ -101,7 +103,8 @@ function codeweber_get_allowed_image_sizes($post_type = '', $post_id = 0)
 		$result = apply_filters("codeweber_allowed_image_sizes_default", $sizes['default'], $post_id);
 	}
 
-	$cache[$cache_key] = $result;
+	// Сохраняем в кэш с TTL 1 час
+	wp_cache_set($cache_key, $result, $cache_group, HOUR_IN_SECONDS);
 	return $result;
 }
 

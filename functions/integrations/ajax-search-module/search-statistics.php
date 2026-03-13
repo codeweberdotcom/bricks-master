@@ -570,12 +570,15 @@ function display_search_statistics_page()
    }
 
    // Получаем размер таблицы в базе данных
-   $table_size = $wpdb->get_var("
-        SELECT ROUND((data_length + index_length) / 1024 / 1024, 2) 
-        FROM information_schema.TABLES 
-        WHERE table_schema = '" . DB_NAME . "' 
-        AND table_name = '$table_name'
-    ");
+   $table_size = $wpdb->get_var(
+      $wpdb->prepare(
+         "SELECT ROUND((data_length + index_length) / 1024 / 1024, 2)
+          FROM information_schema.TABLES
+          WHERE table_schema = %s AND table_name = %s",
+         DB_NAME,
+         $table_name
+      )
+   );
 
    // Получаем список всех форм для фильтра
    $forms_list = get_search_forms_list();
