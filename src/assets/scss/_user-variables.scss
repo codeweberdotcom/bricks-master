@@ -24,14 +24,12 @@ $font-family-sans-serif: Montserrat, Arial, sans-serif;  // (было: Manrope)
 $font-size-root: 15px;          // (было: 20px)
 $font-size-base: 1rem;          // (было: 0.8rem)
 $font-weight-normal: 400;       // (было: 500)
-$line-height-base: 1.667;       // (было: 1.7)
 
 $h1-font-size: 2.8rem;          // 42px
 $h2-font-size: 2rem;            // 30px
 $h4-font-size: 1.375rem;        // 20.6px
 
 // ── Кнопки ──
-$input-btn-line-height: 1.43;   // (было: 1.7 = $line-height-base) — влияет на высоту кнопок и инпутов
 $btn-border-width: 1px;         // (было: 2px)
 $btn-font-weight: 700;          // (было: $font-weight-bold / 700) — совпадает
 
@@ -66,23 +64,53 @@ $btn-padding-y-elg: 1.067rem;
 $btn-padding-x-elg: 1.733rem;
 $btn-font-size-elg: 1.067rem;   // 16px
 
+$line-height-base: 1.667;       // (было: 1.7)
+$input-btn-line-height: 1.43;   // (было: 1.7 = $line-height-base) — влияет на высоту кнопок и инпутов
+
 // ── Формы ──
-$input-font-size:     0.933rem;  // (было: 0.75rem) — 14px
-$input-bg:            #f8f8f8;   // (было: body-bg / white)
-$input-border-color:  #e5e5e5;   // (было: rgba($shadow-border, 0.07))
-$input-padding-y:     0.867rem;  // (было: 0.6rem) — 13px, даёт высоту 48px для обычных инпутов
-$input-padding-x:     0.8rem;    // (было: 1rem)
-$input-focus-border-color: #e5e5e5;  // (было: $focus-border / голубой) — не менять бордер при focus, как на AllCorp3
-$input-focus-box-shadow:   none;     // (было: unset) — убрать тень при focus
+$input-font-size:           0.933rem;  // (было: 0.75rem) — 14px
+$input-bg:                  #f8f8f8;   // (было: body-bg / white)
+$input-border-color:        #e5e5e5;   // (было: rgba($shadow-border, 0.07))
+$input-padding-y:           0.867rem;  // (было: 0.6rem) — 13px, даёт высоту 48px для обычных инпутов
+$input-padding-x:           0.8rem;    // (было: 1rem)
+$input-box-shadow:          none;      // (было: $box-shadow) — убрать дефолтную тень с инпутов
+$input-hover-bg:            #ffffff;   // (было: null) — белый фон при hover, как на AllCorp3
+$input-focus-bg:            #ffffff;   // (было: $input-bg) — белый фон при focus, как на AllCorp3
+$input-focus-border-color:  #999999;   // (было: $focus-border / голубой) — серый бордер при focus, как на AllCorp3
+$input-focus-box-shadow:    inset 0 1px 1px rgba(0,0,0,.015);  // лёгкая внутренняя тень при focus
 $form-floating-height: calc(3.067rem + 2px);  // (было: 2.5rem + border) — 48px как на AllCorp3
 
 // ── Breadcrumb ──
 $breadcrumb-divider-color: #dddddd;  // (было: rgba($gray-600, 0.35))
 $breadcrumb-active-color:  $body-color;
 
-// ── Навигация ──
-$nav-link-font-size:   1rem;     // (было: 0.8rem) — 15px
-$nav-link-font-weight: 400;     // (было: $font-weight-bold / 700)
+// ── Навигация (горизонтальное меню, верхний уровень) ──
+$nav-link-font-size:       0.8rem;       // (было: 0.8rem) — 12px, как на AllCorp3
+$nav-link-font-weight:     700;          // (было: $font-weight-bold / 700) — совпадает
+$nav-link-text-transform:  uppercase;    // (было: none) — UPPERCASE на AllCorp3
+$nav-link-letter-spacing:  0.064rem;     // (было: $letter-spacing) — 0.96px на AllCorp3
+
+// ── Навигация (dropdown / дети) ──
+$dropdown-font-size:       1rem;         // (было: $font-size-base * 0.9375 / ~14px) — 15px на AllCorp3
+$dropdown-font-weight:     400;          // (было: $font-weight-bold / 700) — обычный на AllCorp3
+$dropdown-text-transform:  none;         // (было: none) — совпадает
+$dropdown-letter-spacing:  normal;       // (было: normal) — совпадает
+
+// ── Вертикальное меню Type 2 (sidebar, как AllCorp3) ──
+$navbar-vertical-2-nav-link-padding-top:    1.133rem;   // 17px
+$navbar-vertical-2-nav-link-padding-right:  3.133rem;   // 47px
+$navbar-vertical-2-nav-link-padding-bottom: 1.067rem;   // 16px
+$navbar-vertical-2-nav-link-padding-left:   1.533rem;   // 23px
+$navbar-vertical-2-nav-link-font-size:      1rem;       // 15px (не как в хедере)
+$navbar-vertical-2-nav-link-font-weight:    400;        // обычный, 700 только у активного
+$navbar-vertical-2-border-radius:           2rem;       // rounded-4
+$navbar-vertical-2-hover-bg:                rgba(0, 0, 0, 0.03);
+$navbar-vertical-2-active-font-weight:      700;
+// Sub-items (дети)
+$navbar-vertical-2-sub-nav-link-padding-y:  0.2rem;     // 3px
+$navbar-vertical-2-sub-nav-link-padding-x:  1.467rem;   // 22px
+$navbar-vertical-2-sub-nav-link-font-size:  0.933rem;   // 14px
+$navbar-vertical-2-sub-nav-link-font-weight: 400;
 
 //START IMPORT FONTS
 @import "fonts/Montserrat";

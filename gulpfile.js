@@ -35,27 +35,32 @@ function getActiveChildTheme() {
   }
   
   try {
-    // Находим PHP
+    // Находим PHP с расширением mysqli
     var phpCommand = 'php';
-    if (process.platform === 'win32') {
-      // На Windows пробуем разные варианты
-      var possiblePhpPaths = [
-        'php',
-        'C:\\laragon\\bin\\php\\php-8.1.10-Win32-vs16-x64\\php.exe',
-        'C:\\laragon\\bin\\php\\php-8.2.12-Win32-vs16-x64\\php.exe',
-        'C:\\laragon\\bin\\php\\php-8.3.0-Win32-vs16-x64\\php.exe',
-        'C:\\xampp\\php\\php.exe',
-        process.env.PHP_BIN || 'php'
-      ];
-      for (var i = 0; i < possiblePhpPaths.length; i++) {
-        try {
-          execSync(possiblePhpPaths[i] + ' --version', { stdio: 'ignore' });
-          phpCommand = possiblePhpPaths[i];
+    var candidates = [];
+
+    // 1. Переменная окружения PHP_BIN
+    if (process.env.PHP_BIN) {
+      candidates.push(process.env.PHP_BIN);
+    }
+
+    // 2. Все PHP в PATH (where на Windows, which -a на Unix)
+    try {
+      var whereCmd = process.platform === 'win32' ? 'where php' : 'which -a php';
+      var found = execSync(whereCmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim().split(/\r?\n/);
+      candidates = candidates.concat(found);
+    } catch (e) {}
+
+    // 3. Выбираем первый PHP с mysqli
+    for (var i = 0; i < candidates.length; i++) {
+      try {
+        var candidate = candidates[i].trim();
+        var modules = execSync('"' + candidate + '" -m', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+        if (modules.indexOf('mysqli') !== -1) {
+          phpCommand = candidate;
           break;
-        } catch (e) {
-          // Пробуем следующий путь
         }
-      }
+      } catch (e) {}
     }
     
     // Выполняем PHP скрипт

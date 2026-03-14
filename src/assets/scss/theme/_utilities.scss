@@ -76,3 +76,59 @@ $utilities: map-merge($utilities,
       )
     ),
   ));
+
+//----------------------------------------------------------//
+//	BACKDROP-FILTER UTILITIES
+//----------------------------------------------------------//
+.bg-matte-color {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1rem) saturate(180%);
+  -webkit-backdrop-filter: blur(1rem) saturate(180%);
+}
+.bg-matte {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+}
+
+//----------------------------------------------------------//
+//	GRAY COLOR UTILITIES
+//----------------------------------------------------------//
+$custom-grays: (
+  "100": $gray-100,
+  "200": $gray-200,
+  "300": $gray-300,
+  "400": $gray-400,
+  "500": $gray-500,
+  "600": $gray-600,
+  "700": $gray-700,
+  "800": $gray-800,
+  "900": $gray-900
+);
+@each $name, $value in $custom-grays {
+  .bg-gray-#{$name} {
+    background-color: $value !important;
+  }
+  .text-gray-#{$name} {
+    color: $value !important;
+  }
+  .border-gray-#{$name} {
+    border-color: $value !important;
+  }
+}
+@each $name, $value in $custom-grays {
+  .hover-bg-gray-#{$name}:hover {
+    background-color: $value !important;
+  }
+  .hover-text-gray-#{$name}:hover {
+    color: $value !important;
+  }
+}
+
+//----------------------------------------------------------//
+//  CUSTOM UTILITY CLASSES
+//----------------------------------------------------------//
+// Width max-content utility
+.width-auto {
+  width: max-content !important;
+}

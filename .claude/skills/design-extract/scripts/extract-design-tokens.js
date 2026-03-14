@@ -244,7 +244,46 @@
   result.forms.styles = [...inputStyleMap.values()];
   result.forms.count = result.forms.styles.length;
 
-  // Focus styles — focus first visible input and compare
+  // Interactive states — check CSS rules for hover, focus, active on .form-control
+  // (getComputedStyle with programmatic focus/hover doesn't always reflect :pseudo-class rules)
+  const interactiveStates = { hover: {}, focus: {}, active: {} };
+  try {
+    const sheets = [...document.styleSheets];
+    sheets.forEach(sheet => {
+      try {
+        [...sheet.cssRules].forEach(rule => {
+          if (!rule.selectorText) return;
+          const sel = rule.selectorText;
+          const isFormControl = sel.includes('.form-control') || sel.includes('input[type');
+          if (!isFormControl) return;
+
+          ['hover', 'focus', 'active'].forEach(state => {
+            if (sel.includes(':' + state)) {
+              const s = rule.style;
+              if (s.backgroundColor) {
+                // Resolve CSS variables
+                let bg = s.backgroundColor;
+                if (bg.startsWith('var(')) {
+                  const varName = bg.match(/var\(([^)]+)\)/);
+                  if (varName) {
+                    const resolved = getComputedStyle(document.body).getPropertyValue(varName[1]).trim();
+                    if (resolved) bg = resolved;
+                  }
+                }
+                interactiveStates[state].backgroundColor = bg;
+              }
+              if (s.borderColor) interactiveStates[state].borderColor = s.borderColor;
+              if (s.boxShadow && s.boxShadow !== 'none') interactiveStates[state].boxShadow = s.boxShadow;
+              if (s.color) interactiveStates[state].color = s.color;
+              if (s.outline) interactiveStates[state].outline = s.outline;
+            }
+          });
+        });
+      } catch(e) { /* cross-origin sheet */ }
+    });
+  } catch(e) {}
+
+  // Also try programmatic focus for computed values
   const firstInput = document.querySelector(inputSelectors);
   if (firstInput && firstInput.getBoundingClientRect().height > 0) {
     const blurStyle = window.getComputedStyle(firstInput);
@@ -253,7 +292,7 @@
     const blurShadow = blurStyle.boxShadow;
     firstInput.focus();
     const focusStyle = window.getComputedStyle(firstInput);
-    result.forms.focus = {
+    const focusComputed = {
       backgroundColor: rgbToHex(focusStyle.backgroundColor),
       borderColor: rgbToHex(focusStyle.borderTopColor),
       boxShadow: focusStyle.boxShadow !== 'none' ? focusStyle.boxShadow : null,
@@ -263,6 +302,20 @@
       shadowChanged: focusStyle.boxShadow !== blurShadow,
     };
     firstInput.blur();
+
+    // Merge: CSS rules take priority (they show what browser actually applies)
+    result.forms.focus = {
+      ...focusComputed,
+      ...(Object.keys(interactiveStates.focus).length > 0 ? { cssRule: interactiveStates.focus } : {}),
+    };
+  }
+
+  // Hover and active from CSS rules only (can't programmatically trigger :hover/:active)
+  if (Object.keys(interactiveStates.hover).length > 0) {
+    result.forms.hover = interactiveStates.hover;
+  }
+  if (Object.keys(interactiveStates.active).length > 0) {
+    result.forms.active = interactiveStates.active;
   }
 
   // ── 5. Extract Breadcrumb ──

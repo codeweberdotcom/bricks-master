@@ -672,3 +672,28 @@ $value in $colors-pale {
     @include font-size(0.05rem*$i !important);
   }
 }
+//----------------------------------------------------------//
+//  UNORDERED LIST
+//----------------------------------------------------------//
+.unordered-list {
+  @include list-unstyled();
+  li {
+    position: relative;
+    padding-left: $unordered-list-padding-left;
+  }
+  > li:before {
+    font-family: $unordered-list-dot-font-family;
+    @include font-size($unordered-list-dot-font-size);
+    font-weight: $unordered-list-dot-font-weight;
+    position: absolute;
+    top: $unordered-list-dot-top;
+    left: $unordered-list-dot-left;
+    content: $unordered-list-dot-content;
+  }
+  @each $color,
+  $value in $colors {
+    &.bullet-#{$color} li:before {
+      color: var(--#{$prefix}#{$color});
+    }
+  }
+}

@@ -463,17 +463,34 @@ $value in $gradients {
 //----------------------------------------------------------//
 //	BUTTON SIZES
 //----------------------------------------------------------//
-.btn-lg {
-  @include button-size($btn-padding-y-lg,
-    $btn-padding-x-lg,
-    $btn-font-size-lg,
-    $btn-border-radius-lg);
+.btn-xs {
+  @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $btn-font-size-xs, $btn-border-radius-xs);
+  font-weight: $btn-font-weight-xs;
+  line-height: $input-btn-line-height;
 }
+
 .btn-sm {
-  @include button-size($btn-padding-y-sm,
-    $btn-padding-x-sm,
-    $btn-font-size-sm,
-    $btn-border-radius-sm);
+  @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, $btn-border-radius-sm);
+  font-weight: $btn-font-weight-sm;
+  line-height: $input-btn-line-height;
+}
+
+.btn-md {
+  @include button-size($btn-padding-y-md, $btn-padding-x-md, $btn-font-size-md, $btn-border-radius-md);
+  font-weight: $btn-font-weight-md;
+  line-height: $input-btn-line-height;
+}
+
+.btn-lg {
+  @include button-size($btn-padding-y-lg, $btn-padding-x-lg, $btn-font-size-lg, $btn-border-radius-lg);
+  font-weight: $btn-font-weight-lg;
+  line-height: $input-btn-line-height;
+}
+
+.btn-elg {
+  @include button-size($btn-padding-y-elg, $btn-padding-x-elg, $btn-font-size-elg, $btn-border-radius-elg);
+  font-weight: $btn-font-weight-elg;
+  line-height: $input-btn-line-height;
 }
 //----------------------------------------------------------//
 //	BUTTON WITH ICON
@@ -663,4 +680,59 @@ $value in $brand-colors {
   letter-spacing: $letter-spacing;
   border-radius: 100%;
   height: auto;
+}
+//----------------------------------------------------------//
+//  LOGIN BUTTON SENDING STATE
+//----------------------------------------------------------//
+.btn-login {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-login.sending::after {
+  content: "Отправка...";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.btn-login.sending::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #000,
+    #000 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.btn-login.sending .letter {
+  position: absolute;
+  width: 20px;
+  height: 14px;
+  background: #f0f0f0;
+  border: 1px solid #000;
+  border-radius: 2px;
+  bottom: 6px;
+  animation: letterMove 2s linear infinite;
+}
+
+@keyframes letterMove {
+  0% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
 }

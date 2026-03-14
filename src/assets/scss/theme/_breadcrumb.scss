@@ -48,5 +48,13 @@
   }
 }
 .breadcrumb.text-white .breadcrumb-item + .breadcrumb-item::before {
-  color: rgba(var(--#{$prefix}white-rgb), 0.5);
+  color: rgba(var(--bs-black), 0.5);
+}
+.breadcrumb.text-dark .breadcrumb-item a {
+  color: var(--bs-dark);
+}
+
+.breadcrumb.text-dark .breadcrumb-item.active,
+.breadcrumb.text-dark .breadcrumb-item:hover {
+  color: var(--bs-black);
 }

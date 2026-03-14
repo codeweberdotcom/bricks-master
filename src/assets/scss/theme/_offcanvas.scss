@@ -69,3 +69,14 @@
   margin-top: auto;
   padding: $offcanvas-padding-y 0;
 }
+//----------------------------------------------------------//
+//  OFFCANVAS LIGHT
+//----------------------------------------------------------//
+.offcanvas-light {
+  background-color: #ffffff !important;
+  color: #1e2228 !important;
+}
+
+.offcanvas-light .logo-dark {
+  display: block !important;
+}

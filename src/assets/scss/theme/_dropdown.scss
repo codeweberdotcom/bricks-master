@@ -6,7 +6,8 @@
 }
 .dropdown-item {
   font-weight: $dropdown-font-weight;
-  letter-spacing: $letter-spacing;
+  text-transform: $dropdown-text-transform;
+  letter-spacing: $dropdown-letter-spacing;
   &:hover,
   &:focus {
     outline: 0;
