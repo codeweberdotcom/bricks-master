@@ -1,5 +1,5 @@
 <article id="<?= $post->post_name; ?>" <?php post_class('post'); ?>>
-	<?php $card_radius = getThemeCardImageRadius(); ?>
+	<?php $card_radius = Codeweber_Options::style('card-radius'); ?>
 	<div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
 		<figure class="card-img-top overlay overlay-1 hover-scale<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
 			<a href="<?php the_permalink(); ?>">

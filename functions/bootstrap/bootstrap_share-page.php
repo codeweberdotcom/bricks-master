@@ -12,7 +12,7 @@
  * @param array $args {
  *     Опционально. Массив параметров конфигурации.
  *
- *     @type string   $button_class    CSS классы для основной кнопки. По умолчанию 'btn btn-red btn-icon btn-icon-start dropdown-toggle mb-0 me-0 ' + getThemeButton()
+ *     @type string   $button_class    CSS классы для основной кнопки. По умолчанию 'btn btn-red btn-icon btn-icon-start dropdown-toggle mb-0 me-0 ' + Codeweber_Options::style('button')
  *     @type string   $dropdown_class  CSS классы для выпадающего меню. По умолчанию 'dropdown-menu'
  *     @type string   $item_class      CSS классы для элементов меню. По умолчанию 'dropdown-item'
  *     @type string   $button_text     Текст на кнопке. По умолчанию __('Share', 'codeweber')
@@ -91,10 +91,10 @@ if (!function_exists('codeweber_share_page')) {
     */
    function codeweber_share_page($args = [])
    {
-      $dropdown_radius = (function_exists('getThemeCardImageRadius')) ? getThemeCardImageRadius() : '';
+      $dropdown_radius = (class_exists('Codeweber_Options')) ? Codeweber_Options::style('card-radius') : '';
       $dropdown_class  = 'dropdown-menu' . ($dropdown_radius ? ' ' . esc_attr($dropdown_radius) : '');
       $defaults = [
-         'button_class'   => 'btn btn-red btn-icon btn-icon-start dropdown-toggle mb-0 me-0 ' . getThemeButton(),
+         'button_class'   => 'btn btn-red btn-icon btn-icon-start dropdown-toggle mb-0 me-0 ' . Codeweber_Options::style('button'),
          'dropdown_class' => $dropdown_class,
          'item_class'     => 'dropdown-item',
          'button_text'    => __('Share', 'codeweber'),

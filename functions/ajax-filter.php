@@ -309,7 +309,7 @@ function codeweber_render_vacancies_filtered($query, $filters) {
     // Массив цветов для аватаров
     $avatar_colors = array('bg-red', 'bg-green', 'bg-yellow', 'bg-purple', 'bg-orange', 'bg-pink', 'bg-blue');
     $color_index = 0;
-    $archive_card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+    $archive_card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
     
     if (!empty($vacancies_by_type)) {
         foreach ($vacancies_by_type as $type_id => $type_data) {

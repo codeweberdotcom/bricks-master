@@ -33,7 +33,7 @@ if (empty($vacancy_image_url)) {
     $vacancy_image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
 }
 
-$card_radius    = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+$card_radius    = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 $show_hit_badge = get_post_meta($post_id, '_vacancy_featured', true) || get_post_meta($post_id, '_vacancy_hit', true);
 $img_radius     = $card_radius ? ' ' . esc_attr($card_radius) : '';
 $figure_radius_horizontal = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start' : $img_radius;

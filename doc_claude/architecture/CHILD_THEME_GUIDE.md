@@ -69,14 +69,14 @@ if (!defined('ABSPATH')) {
 
 /**
  * Load parent theme styles
- * Using brk_get_dist_file_url for child-first asset resolution
+ * Using codeweber_get_dist_file_url for child-first asset resolution
  */
 add_action('wp_enqueue_scripts', function() {
     // Parent theme styles loaded by parent (no need to duplicate)
 
     // Child theme custom styles
-    $child_style_path = brk_get_dist_file_path('dist/assets/css/style.css');
-    $child_style_url = brk_get_dist_file_url('dist/assets/css/style.css');
+    $child_style_path = codeweber_get_dist_file_path('dist/assets/css/style.css');
+    $child_style_url = codeweber_get_dist_file_url('dist/assets/css/style.css');
 
     if ($child_style_url) {
         wp_enqueue_style('my-awesome-site', $child_style_url, [],
@@ -97,7 +97,7 @@ add_action('after_setup_theme', function() {
 
 **Key points:**
 - Parent theme functions load automatically — don't call `parent_functions()`
-- Use `brk_get_dist_file_url()` for child-first asset resolution
+- Use `codeweber_get_dist_file_url()` for child-first asset resolution
 - Child theme's `functions.php` loads AFTER parent's
 - Use `get_stylesheet_directory()` for child paths, `get_template_directory()` for parent
 
@@ -465,8 +465,8 @@ Enqueue child-specific scripts in `functions.php`:
 
 ```php
 add_action('wp_enqueue_scripts', function() {
-    $js_path = brk_get_dist_file_path('dist/assets/js/script.js');
-    $js_url = brk_get_dist_file_url('dist/assets/js/script.js');
+    $js_path = codeweber_get_dist_file_path('dist/assets/js/script.js');
+    $js_url = codeweber_get_dist_file_url('dist/assets/js/script.js');
 
     if ($js_url) {
         wp_enqueue_script('my-awesome-site-js', $js_url,
@@ -482,8 +482,8 @@ Override parent CSS by using higher specificity or enqueuing after parent:
 ```php
 add_action('wp_enqueue_scripts', function() {
     // Child CSS enqueues after parent (higher priority)
-    $css_path = brk_get_dist_file_path('dist/assets/css/style.css');
-    $css_url = brk_get_dist_file_url('dist/assets/css/style.css');
+    $css_path = codeweber_get_dist_file_path('dist/assets/css/style.css');
+    $css_url = codeweber_get_dist_file_url('dist/assets/css/style.css');
 
     if ($css_url) {
         wp_enqueue_style('my-awesome-site', $css_url,

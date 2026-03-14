@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  */
 function codeweber_universal_modal_container()
 {
-    $card_radius = getThemeCardImageRadius();
+    $card_radius = Codeweber_Options::style('card-radius');
     
     // Проверяем активное уведомление
     $active_notification = codeweber_get_active_notification_modal();

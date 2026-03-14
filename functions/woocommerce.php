@@ -67,7 +67,7 @@ add_action('woocommerce_edit_account_form_fields', function () {
    $phone    = get_user_meta($user_id, 'phone', true);
    $verified = get_user_meta($user_id, 'phone_verified', true);
 
-   $form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
+   $form_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style('form-radius') : ' rounded';
 
    global $opt_name;
    $woophonenumber     = Redux::get_option($opt_name, 'woophonenumber');

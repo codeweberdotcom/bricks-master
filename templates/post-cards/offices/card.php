@@ -75,7 +75,7 @@ if ($office_image_url) {
 }
 
 // Получаем стили из настроек темы
-$card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+$card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 ?>
 
 <div class="card shadow shadow-lg lift h-100 rounded-0">

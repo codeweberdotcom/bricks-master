@@ -1,0 +1,89 @@
+//--------------------------------------------------------------
+// User Variables — переопределения для конкретного проекта
+// Извлечено из: https://allcorp3-demo.ru/info/more/buttons/
+// Дата: 2026-03-14
+//--------------------------------------------------------------
+
+// ── Основные цвета ──
+$blue:    #365edc;              // (было: #3f78e0)
+$navy:    #333333;              // (было: #343f52)
+$sky:     #0ca9e3;              // (было: #5eb9f0) — Info
+$red:     #dc130d;              // (было: #e2626b) — Danger
+$orange:  #f38b04;              // (было: #f78b77) — Warning
+$green:   #84bc29;              // (было: #45c4a0) — Success
+
+$body-color: #555555;           // (было: зависит от $navy)
+$dark: #333333;                 // (было: $navy / #343f52)
+$headings-color: #333333;
+
+// Глобальное скругление
+$border-radius: 0.267rem;       // (было: 0.4rem) — 4px при root 15px
+
+// ── Типографика ──
+$font-family-sans-serif: Montserrat, Arial, sans-serif;  // (было: Manrope)
+$font-size-root: 15px;          // (было: 20px)
+$font-size-base: 1rem;          // (было: 0.8rem)
+$font-weight-normal: 400;       // (было: 500)
+$line-height-base: 1.667;       // (было: 1.7)
+
+$h1-font-size: 2.8rem;          // 42px
+$h2-font-size: 2rem;            // 30px
+$h4-font-size: 1.375rem;        // 20.6px
+
+// ── Кнопки ──
+$input-btn-line-height: 1.43;   // (было: 1.7 = $line-height-base) — влияет на высоту кнопок и инпутов
+$btn-border-width: 1px;         // (было: 2px)
+$btn-font-weight: 700;          // (было: $font-weight-bold / 700) — совпадает
+
+// Default
+$btn-padding-y:     0.6rem;     // (было: 0.5rem)
+$btn-padding-x:     1.333rem;   // (было: 1.2rem)
+$btn-font-size:     0.933rem;   // 14px
+
+// Extra Small (XS)
+$btn-padding-y-xs:  0.6rem;
+$btn-padding-x-xs:  0.933rem;
+$btn-font-size-xs:  0.733rem;   // 11px
+$btn-font-weight-xs: 400;
+
+// Small (SM)
+$btn-padding-y-sm:  0.6rem;     // (было: 0.35rem)
+$btn-padding-x-sm:  1rem;       // (было: 0.9rem)
+$btn-font-size-sm:  0.8rem;     // 12px
+
+// Medium (MD)
+$btn-padding-y-md:  0.6rem;
+$btn-padding-x-md:  1rem;
+$btn-font-size-md:  0.867rem;   // 13px
+
+// Large (LG)
+$btn-padding-y-lg:  0.867rem;   // (было: 0.65rem)
+$btn-padding-x-lg:  1.6rem;     // (было: 1.4rem)
+$btn-font-size-lg:  1rem;       // 15px
+
+// Extra Large (ELG)
+$btn-padding-y-elg: 1.067rem;
+$btn-padding-x-elg: 1.733rem;
+$btn-font-size-elg: 1.067rem;   // 16px
+
+// ── Формы ──
+$input-font-size:     0.933rem;  // (было: 0.75rem) — 14px
+$input-bg:            #f8f8f8;   // (было: body-bg / white)
+$input-border-color:  #e5e5e5;   // (было: rgba($shadow-border, 0.07))
+$input-padding-y:     0.867rem;  // (было: 0.6rem) — 13px, даёт высоту 48px для обычных инпутов
+$input-padding-x:     0.8rem;    // (было: 1rem)
+$input-focus-border-color: #e5e5e5;  // (было: $focus-border / голубой) — не менять бордер при focus, как на AllCorp3
+$input-focus-box-shadow:   none;     // (было: unset) — убрать тень при focus
+$form-floating-height: calc(3.067rem + 2px);  // (было: 2.5rem + border) — 48px как на AllCorp3
+
+// ── Breadcrumb ──
+$breadcrumb-divider-color: #dddddd;  // (было: rgba($gray-600, 0.35))
+$breadcrumb-active-color:  $body-color;
+
+// ── Навигация ──
+$nav-link-font-size:   1rem;     // (было: 0.8rem) — 15px
+$nav-link-font-weight: 400;     // (было: $font-weight-bold / 700)
+
+//START IMPORT FONTS
+@import "fonts/Montserrat";
+//END IMPORT FONTS

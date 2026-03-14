@@ -459,7 +459,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
     protected function column_form_type($item)
     {
         // #region agent log
-        $log_file = 'c:\laragon\www\bricksnew\.cursor\debug.log';
+        $log_file = 'c:\laragon\www\codeweber2026\.cursor\debug.log';
         $log_entry = json_encode([
             'sessionId' => 'debug-session',
             'runId' => 'post-fix',
@@ -481,7 +481,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             $cf7_form_id = str_replace('cf7_', '', $item->form_id);
             if (is_numeric($cf7_form_id) && (int) $cf7_form_id > 0) {
                 // #region agent log
-                $log_file = 'c:\laragon\www\bricksnew\.cursor\debug.log';
+                $log_file = 'c:\laragon\www\codeweber2026\.cursor\debug.log';
                 $log_entry = json_encode([
                     'sessionId' => 'debug-session',
                     'runId' => 'post-fix-v2',

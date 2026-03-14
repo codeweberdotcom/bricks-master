@@ -85,14 +85,14 @@ if (empty($full_name)) {
 }
 
 // Получаем класс для кнопок из темы
-$button_class = function_exists('getThemeButton') ? getThemeButton() : '';
+$button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
 ?>
 
 <div class="row g-3">
     <div class="col-md-5">
         <?php if ($image_url) : ?>
             <?php 
-            $figure_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : 'rounded';
+            $figure_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : 'rounded';
             $figure_radius = $figure_radius ?: 'rounded'; // Fallback если функция вернула пустую строку
             ?>
             <figure class="mb-8 mb-md-0 <?php echo esc_attr($figure_radius); ?>">
@@ -103,7 +103,7 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
     <!--/column -->
 
     <div class="col-md-7">
-        <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
+        <?php $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : ''; ?>
         <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
             <div class="card-body">
                 <?php if (function_exists('get_breadcrumbs')) : ?>

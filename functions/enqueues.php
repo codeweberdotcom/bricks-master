@@ -10,8 +10,8 @@
  * @param string $file_path Относительный путь к файлу от корня темы (например: '/dist/assets/css/style.css')
  * @return string|false URL файла или false, если файл не найден
  */
-if (!function_exists('brk_get_dist_file_url')) {
-	function brk_get_dist_file_url($file_path) {
+if (!function_exists('codeweber_get_dist_file_url')) {
+	function codeweber_get_dist_file_url($file_path) {
 		// Убираем начальный слэш, если есть
 		$file_path = ltrim($file_path, '/');
 		
@@ -40,8 +40,8 @@ if (!function_exists('brk_get_dist_file_url')) {
  * @param string $file_path Относительный путь к файлу от корня темы (например: '/dist/assets/css/style.css')
  * @return string|false Полный путь к файлу или false, если файл не найден
  */
-if (!function_exists('brk_get_dist_file_path')) {
-	function brk_get_dist_file_path($file_path) {
+if (!function_exists('codeweber_get_dist_file_path')) {
+	function codeweber_get_dist_file_path($file_path) {
 		// Убираем начальный слэш, если есть
 		$file_path = ltrim($file_path, '/');
 		
@@ -80,19 +80,19 @@ if (!function_exists('codeweber_asset_version')) {
 	}
 }
 
-if (!function_exists('brk_styles_scripts')) {
-	function brk_styles_scripts()
+if (!function_exists('codeweber_styles_scripts')) {
+	function codeweber_styles_scripts()
 	{
 		$theme_version = wp_get_theme()->get('Version');
 
 		// --- CSS ---
-		//wp_enqueue_style('google-fonts', brk_get_dist_file_url('dist/assets/css/fonts/urbanist.css'), false, $theme_version, 'all');
-		$plugin_styles_url = brk_get_dist_file_url('dist/assets/css/plugins.css');
+		//wp_enqueue_style('google-fonts', codeweber_get_dist_file_url('dist/assets/css/fonts/urbanist.css'), false, $theme_version, 'all');
+		$plugin_styles_url = codeweber_get_dist_file_url('dist/assets/css/plugins.css');
 		if ($plugin_styles_url) {
 			wp_enqueue_style('plugin-styles', $plugin_styles_url, false, $theme_version, 'all');
 		}
 		
-		$theme_styles_url = brk_get_dist_file_url('dist/assets/css/style.css');
+		$theme_styles_url = codeweber_get_dist_file_url('dist/assets/css/style.css');
 		if ($theme_styles_url) {
 			wp_enqueue_style('codeweber-style', $theme_styles_url, false, $theme_version, 'all');
 		}
@@ -109,7 +109,7 @@ if (!function_exists('brk_styles_scripts')) {
 
 		// --- Если выбрана тема не "default" — подключаем соответствующий файл из /dist/assets/assets/css/colors/ ---
 		if ($theme_color && $theme_color !== 'default') {
-			$color_styles_url = brk_get_dist_file_url('dist/assets/css/colors/' . $theme_color . '.css');
+			$color_styles_url = codeweber_get_dist_file_url('dist/assets/css/colors/' . $theme_color . '.css');
 			if ($color_styles_url) {
 				wp_enqueue_style(
 					'theme-color-style',
@@ -127,12 +127,12 @@ if (!function_exists('brk_styles_scripts')) {
 		if (is_singular() and comments_open() and (get_option('thread_comments') == 1)) wp_enqueue_script('comment-reply');
 
 		/*dist add codeweber theme scripts */
-		$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+		$plugins_scripts_url = codeweber_get_dist_file_url('dist/assets/js/plugins.js');
 		if ($plugins_scripts_url) {
 			wp_enqueue_script('plugins-scripts', $plugins_scripts_url, false, $theme_version, true);
 		}
 		
-		$theme_scripts_url = brk_get_dist_file_url('dist/assets/js/theme.js');
+		$theme_scripts_url = codeweber_get_dist_file_url('dist/assets/js/theme.js');
 		if ($theme_scripts_url) {
 			wp_enqueue_script('theme-scripts', $theme_scripts_url, array('plugins-scripts'), $theme_version, true);
 			
@@ -146,7 +146,7 @@ if (!function_exists('brk_styles_scripts')) {
 		}
 
 		// Header search dropdown: run after Bootstrap, before theme.js, so our capture listener runs first.
-		$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+		$plugins_scripts_url = codeweber_get_dist_file_url('dist/assets/js/plugins.js');
 		if ($plugins_scripts_url) {
 			wp_enqueue_script('codeweber-search-dropdown', false, array('plugins-scripts'), $theme_version, true);
 		$search_dropdown_inline = <<<'JS'
@@ -175,53 +175,53 @@ JS;
 		}
 	}
 }
-add_action('wp_enqueue_scripts', 'brk_styles_scripts');
+add_action('wp_enqueue_scripts', 'codeweber_styles_scripts');
 
 // --- Unicons ACF admin styles and Blocks Gutenberg ---
-if (! function_exists('brk_styles_scripts_gutenberg')) {
-	function brk_styles_scripts_gutenberg()
+if (! function_exists('codeweber_styles_scripts_gutenberg')) {
+	function codeweber_styles_scripts_gutenberg()
 	{
 		$theme_version = wp_get_theme()->get('Version');
 
 		// --- CSS ---
-		$plugin_styles_url = brk_get_dist_file_url('dist/assets/css/plugins.css');
+		$plugin_styles_url = codeweber_get_dist_file_url('dist/assets/css/plugins.css');
 		if ($plugin_styles_url) {
 			wp_enqueue_style('plugin-styles1', $plugin_styles_url, array(), $theme_version, 'all');
 		}
 		
-		$theme_styles_url = brk_get_dist_file_url('dist/assets/css/style.css');
+		$theme_styles_url = codeweber_get_dist_file_url('dist/assets/css/style.css');
 		if ($theme_styles_url) {
 			wp_enqueue_style('theme-styles1', $theme_styles_url, array(), $theme_version, 'all');
 		}
 
 		// --- JS ---
-		$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+		$plugins_scripts_url = codeweber_get_dist_file_url('dist/assets/js/plugins.js');
 		if ($plugins_scripts_url) {
 			wp_enqueue_script('plugins-scripts2', $plugins_scripts_url, array(), $theme_version, true);
 		}
 		
-		$theme_scripts_url = brk_get_dist_file_url('dist/assets/js/theme.js');
+		$theme_scripts_url = codeweber_get_dist_file_url('dist/assets/js/theme.js');
 		if ($theme_scripts_url) {
 			wp_enqueue_script('theme-scripts2', $theme_scripts_url, array(), $theme_version, true);
 		}
 	}
 }
-add_action('enqueue_block_editor_assets', 'brk_styles_scripts_gutenberg');
+add_action('enqueue_block_editor_assets', 'codeweber_styles_scripts_gutenberg');
 
 
 function codeweber_enqueue_restapi_script()
 {
 	// Load on all pages (needed for ajax-download and other REST API features)
-	$restapi_url = brk_get_dist_file_url('dist/assets/js/restapi.js');
+	$restapi_url = codeweber_get_dist_file_url('dist/assets/js/restapi.js');
 	if (!$restapi_url) {
 		return; // File doesn't exist
 	}
 	
-	$restapi_path = brk_get_dist_file_path('dist/assets/js/restapi.js');
+	$restapi_path = codeweber_get_dist_file_path('dist/assets/js/restapi.js');
 	$version = codeweber_asset_version($restapi_path);
 	
 	// Проверяем, загружен ли plugins-scripts (для Bootstrap)
-	$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+	$plugins_scripts_url = codeweber_get_dist_file_url('dist/assets/js/plugins.js');
 	$dependencies = array();
 	if ($plugins_scripts_url) {
 		$dependencies[] = 'plugins-scripts';
@@ -266,16 +266,16 @@ add_action('wp_enqueue_scripts', 'codeweber_enqueue_restapi_script', 20);
 function codeweber_enqueue_notification_triggers()
 {
 	// Load on all pages (needed for notification triggers)
-	$notification_triggers_url = brk_get_dist_file_url('dist/assets/js/notification-triggers.js');
+	$notification_triggers_url = codeweber_get_dist_file_url('dist/assets/js/notification-triggers.js');
 	if (!$notification_triggers_url) {
 		return; // File doesn't exist
 	}
 	
-	$notification_triggers_path = brk_get_dist_file_path('dist/assets/js/notification-triggers.js');
+	$notification_triggers_path = codeweber_get_dist_file_path('dist/assets/js/notification-triggers.js');
 	$version = codeweber_asset_version($notification_triggers_path);
 	
 	// Dependencies: plugins-scripts (Bootstrap) and codeweber-restapi (restapi.js)
-	$plugins_scripts_url = brk_get_dist_file_url('dist/assets/js/plugins.js');
+	$plugins_scripts_url = codeweber_get_dist_file_url('dist/assets/js/plugins.js');
 	$dependencies = array();
 	if ($plugins_scripts_url) {
 		$dependencies[] = 'plugins-scripts';
@@ -361,8 +361,8 @@ add_action('wp_enqueue_scripts', 'codeweber_enqueue_testimonial_form', 20); // P
  */
 function codeweber_enqueue_ajax_download() {
 	// Load only from dist
-	$dist_path = brk_get_dist_file_path('dist/assets/js/ajax-download.js');
-	$dist_url = brk_get_dist_file_url('dist/assets/js/ajax-download.js');
+	$dist_path = codeweber_get_dist_file_path('dist/assets/js/ajax-download.js');
+	$dist_url = codeweber_get_dist_file_url('dist/assets/js/ajax-download.js');
 	
 	if (!$dist_path || !$dist_url) {
 		return; // File doesn't exist in dist
@@ -387,8 +387,8 @@ add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_download', 25);
  */
 function codeweber_enqueue_ajax_filter() {
 	// Prefer dist version, fallback to src
-	$dist_path = brk_get_dist_file_path('dist/assets/js/ajax-filter.js');
-	$dist_url = brk_get_dist_file_url('dist/assets/js/ajax-filter.js');
+	$dist_path = codeweber_get_dist_file_path('dist/assets/js/ajax-filter.js');
+	$dist_url = codeweber_get_dist_file_url('dist/assets/js/ajax-filter.js');
 	
 	if ($dist_path && $dist_url) {
 		$script_path = $dist_path;
@@ -432,8 +432,8 @@ add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_filter', 20);
  */
 function codeweber_enqueue_share_buttons() {
 	// Prefer dist version, fallback to src
-	$dist_path = brk_get_dist_file_path('dist/assets/js/share-buttons.js');
-	$dist_url = brk_get_dist_file_url('dist/assets/js/share-buttons.js');
+	$dist_path = codeweber_get_dist_file_path('dist/assets/js/share-buttons.js');
+	$dist_url = codeweber_get_dist_file_url('dist/assets/js/share-buttons.js');
 	
 	if ($dist_path && $dist_url) {
 		$script_path = $dist_path;
@@ -511,8 +511,8 @@ function codeweber_enqueue_dadata_address() {
 		);
 	}
 
-	$dist_path = brk_get_dist_file_path( 'dist/assets/js/dadata-address.js' );
-	$dist_url  = brk_get_dist_file_url( 'dist/assets/js/dadata-address.js' );
+	$dist_path = codeweber_get_dist_file_path( 'dist/assets/js/dadata-address.js' );
+	$dist_url  = codeweber_get_dist_file_url( 'dist/assets/js/dadata-address.js' );
 	if ( $dist_path && $dist_url ) {
 		$script_path = $dist_path;
 		$script_url  = $dist_url;

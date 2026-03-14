@@ -136,8 +136,8 @@ $display_location = implode(', ', $location_parts);
                 $search_control_enabled = (bool) $search_control_option;
             }
             
-            $figure_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : 'rounded';
-            $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+            $figure_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : 'rounded';
+            $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
             echo '<div class="card h-100' . ($card_radius ? ' ' . esc_attr($card_radius) : '') . '">';
             echo '<div class="card-body p-0 h-100 d-flex flex-column">';
             echo '<div class="flex-grow-1">';

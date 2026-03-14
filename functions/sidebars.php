@@ -300,8 +300,8 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
         }
         
         // Получаем стиль кнопок из Redux
-        $button_style = function_exists('getThemeButton') ? getThemeButton('') : '';
-        $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+        $button_style = class_exists('Codeweber_Options') ? Codeweber_Options::style('button', '') : '';
+        $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
         $sidebar_disable_image = !empty($vacancy_data['sidebar_disable_image']);
         $sidebar_hide_author   = !empty($vacancy_data['sidebar_hide_author']);
 ?>

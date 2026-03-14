@@ -302,7 +302,7 @@ function codeweber_forms_render_consent_checkbox($consent, $field_name = 'consen
     $checkbox_id = 'consent-' . $document_id . '-' . uniqid();
     
     // Получаем класс скругления формы из темы
-    $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
+    $form_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('form-radius') : '';
     
     $html = '<div class="form-check small-checkbox small-chekbox mb-1">';
     // Используем формат с подчеркиванием: form_consents_ID (вместо form_consents[ID])

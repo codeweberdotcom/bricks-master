@@ -15,7 +15,7 @@ if ( ! isset( $wp_button_class ) ) {
 	$wp_button_class = wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '';
 }
 
-$theme_btn = function_exists( 'getThemeButton' ) ? getThemeButton() : '';
+$theme_btn = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style('button') : '';
 
 do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 

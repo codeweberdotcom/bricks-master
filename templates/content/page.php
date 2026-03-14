@@ -21,7 +21,7 @@
 
 		wp_link_pages(
 			array(
-				'before'        => '<nav class="nav"><span class="nav-link">' . esc_html__('Part:', 'bricks') . '</span>',
+				'before'        => '<nav class="nav"><span class="nav-link">' . esc_html__('Part:', 'codeweber') . '</span>',
 				'after'         => '</nav>',
 				'link_before'   => '<span class="nav-link">',
 				'link_after'    => '</span>',

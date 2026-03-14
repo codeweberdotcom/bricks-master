@@ -22,7 +22,7 @@ $location     = !empty($vacancy_data['location']) ? $vacancy_data['location'] : 
 $vacancy_schedules = !empty($vacancy_data['vacancy_schedules']) && !is_wp_error($vacancy_data['vacancy_schedules']) ? $vacancy_data['vacancy_schedules'] : array();
 $schedule_name = !empty($vacancy_schedules) ? $vacancy_schedules[0]->name : '';
 
-$card_radius  = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+$card_radius  = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 ?>
 <div class="card shadow shadow-lg h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
 	<div class="card-body d-flex flex-column justify-content-between h-100">

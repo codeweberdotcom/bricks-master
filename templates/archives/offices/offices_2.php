@@ -24,8 +24,8 @@ $post_id = absint(get_the_ID());
         if (!empty($town_terms) && !is_wp_error($town_terms)) {
             $city = $town_terms[0];
         }
-        $fallback_card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
-        $fallback_btn_style   = function_exists('getThemeButton') ? getThemeButton() : ' rounded-pill';
+        $fallback_card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
+        $fallback_btn_style   = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded-pill';
         ?>
         <div class="card shadow shadow-lg lift h-100<?php echo $fallback_card_radius ? ' ' . esc_attr($fallback_card_radius) : ''; ?>">
             <div class="card-body">

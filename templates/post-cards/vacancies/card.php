@@ -71,8 +71,8 @@ $salary = !empty($vacancy_data['salary']) ? $vacancy_data['salary'] : '';
 $location = !empty($vacancy_data['location']) ? $vacancy_data['location'] : '';
 
 // Get styles from theme settings
-$card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
-$button_style = function_exists('getThemeButton') ? getThemeButton() : ' rounded-pill';
+$card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
+$button_style = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded-pill';
 ?>
 
 <div class="col-md-6 col-lg-4">

@@ -179,18 +179,18 @@
     "global-page-header-bg-solid-color": "light",
     "global-page-header-bg-soft-color": "soft-navy",
     "global-page-header-image": {
-        "url": "https:\/\/bricksnew.test\/wp-content\/uploads\/2025\/04\/photo_2024-11-29_11-15-35-3.jpg",
+        "url": "https:\/\/codeweber.com\/wp-content\/uploads\/2025\/04\/photo_2024-11-29_11-15-35-3.jpg",
         "id": "248",
         "height": "849",
         "width": "1280",
-        "thumbnail": "https:\/\/bricksnew.test\/wp-content\/uploads\/2025\/04\/photo_2024-11-29_11-15-35-3-150x150.jpg"
+        "thumbnail": "https:\/\/codeweber.com\/wp-content\/uploads\/2025\/04\/photo_2024-11-29_11-15-35-3-150x150.jpg"
     },
     "global-page-header-pattern": {
-        "url": "https:\/\/bricksnew.test\/wp-content\/uploads\/2025\/04\/pattern.png",
+        "url": "https:\/\/codeweber.com\/wp-content\/uploads\/2025\/04\/pattern.png",
         "id": "342",
         "height": "400",
         "width": "400",
-        "thumbnail": "https:\/\/bricksnew.test\/wp-content\/uploads\/2025\/04\/pattern-150x150.png"
+        "thumbnail": "https:\/\/codeweber.com\/wp-content\/uploads\/2025\/04\/pattern-150x150.png"
     },
     "global-page-header-breadcrumb-enable": "1",
     "global-bredcrumbs-aligns": "1",
@@ -560,24 +560,24 @@
     "smsruapi": "6F9BD5B8-06FB-8633-ED27-F8E526EE8C1B",
     "child_theme_name": "horizons",
     "child_theme_description": "",
-    "child_theme_author": "bricksnew",
-    "child_theme_author_uri": "https:\/\/bricksnew.test",
+    "child_theme_author": "codeweber",
+    "child_theme_author_uri": "https:\/\/codeweber.com",
     "child_theme_version": "1.0.0",
     "child_theme_template": "codeweber",
     "opt-select-color-theme": "default",
     "opt-dark-logo": {
-        "url": "https:\/\/bricksnew.test\/wp-content\/uploads\/2025\/09\/logo-d.svg",
+        "url": "https:\/\/codeweber.com\/wp-content\/uploads\/2025\/09\/logo-d.svg",
         "id": "1966",
         "height": "",
         "width": "",
-        "thumbnail": "https:\/\/bricksnew.test\/wp-content\/uploads\/2025\/09\/logo-d.svg"
+        "thumbnail": "https:\/\/codeweber.com\/wp-content\/uploads\/2025\/09\/logo-d.svg"
     },
     "opt-light-logo": {
-        "url": "https:\/\/bricksnew.test\/wp-content\/uploads\/2025\/09\/logo-l.svg",
+        "url": "https:\/\/codeweber.com\/wp-content\/uploads\/2025\/09\/logo-l.svg",
         "id": "1969",
         "height": "",
         "width": "",
-        "thumbnail": "https:\/\/bricksnew.test\/wp-content\/uploads\/2025\/09\/logo-l.svg"
+        "thumbnail": "https:\/\/codeweber.com\/wp-content\/uploads\/2025\/09\/logo-l.svg"
     },
     "opt_button_select_style": "2",
     "opt_card_image_border_radius": "4",

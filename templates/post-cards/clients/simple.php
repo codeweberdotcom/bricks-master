@@ -17,7 +17,7 @@ $template_args = wp_parse_args($template_args ?? [], [
     'enable_link' => false, // По умолчанию без ссылки
 ]);
 
-$card_radius = getThemeCardImageRadius();
+$card_radius = Codeweber_Options::style('card-radius');
 
 if ($post_data['image_url']) : ?>
     <?php if ($template_args['enable_link'] && !empty($post_data['link'])) : ?>

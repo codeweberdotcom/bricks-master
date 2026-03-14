@@ -24,7 +24,7 @@ $share_args = isset($args['share_args']) ? $args['share_args'] : [];
 					<li>
 						<a
 							href="<?php echo esc_url(get_tag_link($tag->term_id)); ?>"
-							class="btn btn-soft-ash btn-sm mb-0<?php echo function_exists('getThemeButton') ? getThemeButton() : ''; ?>">
+							class="btn btn-soft-ash btn-sm mb-0<?php echo class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ''; ?>">
 							<?php echo esc_html($tag->name); ?>
 						</a>
 					</li>

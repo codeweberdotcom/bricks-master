@@ -15,7 +15,7 @@ if (!isset($post_data) || !$post_data) {
 }
 
 $display = cw_get_post_card_display_settings($display_settings ?? []);
-$card_radius = getThemeCardImageRadius();
+$card_radius = Codeweber_Options::style('card-radius');
 $template_args = wp_parse_args($template_args ?? [], [
     'hover_classes' => 'overlay overlay-5',
     'show_figcaption' => true,
@@ -76,7 +76,7 @@ $document_file_name = $document_file_url ? basename($document_file_url) : '';
                         
                         <?php if ($document_file_url) : ?>
                             <a href="javascript:void(0)"
-                               class="btn btn-primary btn-icon btn-icon-start btn-sm d-flex<?php echo getThemeButton(); ?>"
+                               class="btn btn-primary btn-icon btn-icon-start btn-sm d-flex<?php echo Codeweber_Options::style('button'); ?>"
                                data-bs-toggle="download"
                                data-value="doc-<?php echo esc_attr($post_data['id']); ?>"
                                data-loading-text="<?php esc_attr_e('Loading...', 'codeweber'); ?>">

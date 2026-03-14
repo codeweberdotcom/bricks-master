@@ -7,9 +7,9 @@
 | Префикс | Статус | Примеры |
 |---------|--------|--------|
 | `codeweber_` | ✅ Актуальный | `codeweber_asset_version()`, `codeweber_enqueue_restapi_script()` |
-| `brk_` | ⚠ Устаревший | `brk_styles_scripts()`, `brk_get_dist_file_url()` |
+| `codeweber_` | ⚠ Устаревший | `codeweber_styles_scripts()`, `codeweber_get_dist_file_url()` |
 | `cw_` | ⚠ Устаревший | `cw_render_post_card()` |
-| `brk_` | ⚠ Устаревший | `brk_get_dist_file_url()` |
+| `codeweber_` | ⚠ Устаревший | `codeweber_get_dist_file_url()` |
 | без префикса | ❌ Недопустимо для новых | `social_links()`, `enqueue_my_custom_script()` (переименована) |
 
 > **Правило:** Любая новая функция, не являющаяся методом класса, обязана иметь префикс `codeweber_`.
@@ -240,8 +240,8 @@ require_once get_template_directory() . '/functions/integrations/my-module/my-mo
 
 ```php
 function codeweber_enqueue_my_module() {
-    $dist_path = brk_get_dist_file_path('dist/assets/js/my-module.js');
-    $dist_url  = brk_get_dist_file_url('dist/assets/js/my-module.js');
+    $dist_path = codeweber_get_dist_file_path('dist/assets/js/my-module.js');
+    $dist_url  = codeweber_get_dist_file_url('dist/assets/js/my-module.js');
 
     if (!$dist_path || !$dist_url) {
         return;

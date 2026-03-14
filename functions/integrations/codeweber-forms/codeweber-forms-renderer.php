@@ -403,7 +403,7 @@ class CodeweberFormsRenderer {
                 
                 <?php
                 // Получаем класс скругления кнопки из темы
-                $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';
+                $button_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
                 
                 // Рендерим кнопки из блоков submit-button (добавленных в редакторе Gutenberg)
                 // $submit_buttons уже получены из $config в начале метода render_from_config
@@ -515,7 +515,7 @@ class CodeweberFormsRenderer {
         $min_length = !empty($field['minLength']) ? intval($field['minLength']) : 0;
         
         // Получаем класс скругления формы из темы
-        $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
+        $form_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('form-radius') : '';
         
         // Генерируем классы col-* из fieldColumns* атрибутов
         $get_col_classes = function($field) {
@@ -796,8 +796,8 @@ class CodeweberFormsRenderer {
                     
                     // Получаем класс скругления кнопки из темы
                     $button_radius_class_newsletter = '';
-                    if (function_exists('getThemeButton')) {
-                        $button_radius_class_newsletter = getThemeButton();
+                    if (class_exists('Codeweber_Options')) {
+                        $button_radius_class_newsletter = Codeweber_Options::style('button');
                     }
                     $button_class_final = trim($button_class_newsletter . ' ' . $button_radius_class_newsletter);
                     

@@ -194,7 +194,7 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 
 	// Стиль скругления из темы (getThemeButton) применяем только для btn-block; для circle не меняем
 	if ($button_form === 'block') {
-		$theme_btn_form = function_exists('getThemeButton') ? getThemeButton() : '';
+		$theme_btn_form = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
 		$btn_form_class = 'btn-block' . $theme_btn_form;
 	} else {
 		$btn_form_class = 'btn-circle';
@@ -778,7 +778,7 @@ if (!function_exists('codeweber_posts_pagination')) {
         $args = wp_parse_args($args, $defaults);
         
         // Получаем стиль кнопок из настроек темы
-        $button_style = getThemeButton();
+        $button_style = Codeweber_Options::style('button');
         
         $total_pages = $wp_query->max_num_pages;
         $current_page = max(1, get_query_var('paged'));

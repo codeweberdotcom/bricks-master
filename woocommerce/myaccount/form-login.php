@@ -29,8 +29,8 @@ $registration_enabled = get_option('woocommerce_enable_myaccount_registration') 
 // Проверяем, есть ли в URL параметр register=1
 $show_register = $registration_enabled && isset($_GET['register']) && $_GET['register'] == '1';
 
-$form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
-$theme_btn   = function_exists( 'getThemeButton' ) ? ' ' . esc_attr( trim( getThemeButton() ) ) : '';
+$form_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style('form-radius') : ' rounded';
+$theme_btn   = class_exists( 'Codeweber_Options' ) ? ' ' . esc_attr( trim( Codeweber_Options::style('button') ) ) : '';
 ?>
 
 <div class="row" id="customer_login">

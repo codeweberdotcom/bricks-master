@@ -128,6 +128,101 @@ function load_user_variables_callback()
 	wp_send_json_success($response_data);
 }
 
+/**
+ * Определить пути к PHP, Node.js и npm для exec().
+ *
+ * Apache (mod_php) не наследует пользовательский PATH, поэтому
+ * gulp/node/php могут быть недоступны. Эта функция автоматически
+ * находит нужные пути через ABSPATH → корень dev-сервера.
+ *
+ * Поддерживает: Laragon, nvm (Linux/Win), стандартные /usr/local/bin.
+ * Можно переопределить через константу CODEWEBER_GULP_PATH в wp-config.php.
+ */
+function codeweber_resolve_exec_paths()
+{
+	static $resolved = null;
+	if ($resolved !== null) {
+		return $resolved;
+	}
+
+	// Ручное переопределение через wp-config.php
+	if (defined('CODEWEBER_GULP_PATH')) {
+		$resolved = explode(PATH_SEPARATOR, CODEWEBER_GULP_PATH);
+		return $resolved;
+	}
+
+	$resolved = array();
+	$is_win = (DIRECTORY_SEPARATOR === '\\');
+
+	// Локальный gulp из node_modules темы
+	$local_bin = get_template_directory() . DIRECTORY_SEPARATOR . 'node_modules' . DIRECTORY_SEPARATOR . '.bin';
+	if (is_dir($local_bin)) {
+		$resolved[] = $local_bin;
+	}
+
+	// Определяем корень dev-сервера из ABSPATH (C:\laragon\www\site\ → C:\laragon\)
+	$abspath = str_replace('/', DIRECTORY_SEPARATOR, ABSPATH);
+
+	if ($is_win) {
+		// Ищем паттерн: <root>\www\ в ABSPATH — работает для Laragon, XAMPP, OpenServer
+		if (preg_match('#^(.+?\\\\)www\\\\#i', $abspath, $m)) {
+			$server_root = $m[1]; // e.g. C:\laragon\
+
+			// PHP: <root>\bin\php\php-*\
+			$php_dirs = glob($server_root . 'bin' . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . 'php-*', GLOB_ONLYDIR);
+			if ($php_dirs) {
+				usort($php_dirs, function ($a, $b) { return strnatcasecmp($b, $a); });
+				$resolved[] = $php_dirs[0];
+			}
+
+			// Node.js: <root>\bin\nodejs\node-*\
+			$node_dirs = glob($server_root . 'bin' . DIRECTORY_SEPARATOR . 'nodejs' . DIRECTORY_SEPARATOR . 'node-*', GLOB_ONLYDIR);
+			if ($node_dirs) {
+				usort($node_dirs, function ($a, $b) { return strnatcasecmp($b, $a); });
+				$resolved[] = $node_dirs[0];
+			}
+		}
+
+		// nvm for Windows
+		$nvm_symlink = getenv('NVM_SYMLINK');
+		if ($nvm_symlink && is_dir($nvm_symlink)) {
+			$resolved[] = $nvm_symlink;
+		} elseif (is_dir('C:\\nvm4w\\nodejs')) {
+			$resolved[] = 'C:\\nvm4w\\nodejs';
+		}
+
+		// npm global (gulp)
+		$userprofile = getenv('USERPROFILE');
+		if ($userprofile) {
+			$npm_global = $userprofile . '\\AppData\\Roaming\\npm';
+		} else {
+			$npm_global = 'C:\\Users\\' . get_current_user() . '\\AppData\\Roaming\\npm';
+		}
+		if (is_dir($npm_global)) {
+			$resolved[] = $npm_global;
+		}
+	} else {
+		// Linux / macOS
+		$home = getenv('HOME') ?: ('/home/' . get_current_user());
+
+		// nvm
+		$nvm_nodes = glob($home . '/.nvm/versions/node/v*/bin');
+		if ($nvm_nodes) {
+			usort($nvm_nodes, function ($a, $b) { return strnatcasecmp($b, $a); });
+			$resolved[] = $nvm_nodes[0];
+		}
+
+		foreach (array('/usr/local/bin', '/usr/bin') as $dir) {
+			if (is_dir($dir)) {
+				$resolved[] = $dir;
+			}
+		}
+	}
+
+	$resolved = array_unique(array_filter($resolved));
+	return $resolved;
+}
+
 // Общая функция для выполнения Gulp команд
 function run_gulp_command($command)
 {
@@ -135,9 +230,21 @@ function run_gulp_command($command)
 	$output = array();
 	$return_var = 0;
 
+	// Расширяем PATH — Apache может не иметь node/php/gulp в окружении
+	$extra_paths = codeweber_resolve_exec_paths();
+	$current_path = getenv('PATH') ?: '';
+
+	if (!empty($extra_paths)) {
+		$new_path = implode(PATH_SEPARATOR, $extra_paths) . PATH_SEPARATOR . $current_path;
+		putenv('PATH=' . $new_path);
+	}
+
 	// Переходим в директорию темы и выполняем команду
 	chdir($theme_path);
 	exec($command . ' 2>&1', $output, $return_var);
+
+	// Восстанавливаем PATH
+	putenv('PATH=' . $current_path);
 
 	return [
 		'success' => $return_var === 0,

@@ -56,7 +56,7 @@ do_action( 'woocommerce_before_account_payment_methods', $has_methods ); ?>
 					</td>
 					<td class="woocommerce-PaymentMethod woocommerce-PaymentMethod--actions payment-method-actions" data-title="&nbsp;">
 						<?php
-						$theme_btn = function_exists( 'getThemeButton' ) ? getThemeButton() : '';
+						$theme_btn = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style('button') : '';
 						foreach ( $method['actions'] as $key => $action ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 							$btn_class = 'delete' === $key ? 'btn btn-outline-red btn-sm delete' : 'btn btn-outline-secondary btn-sm ' . sanitize_html_class( $key );
 							echo '<a href="' . esc_url( $action['url'] ) . '" class="' . esc_attr( $btn_class . ( $theme_btn ? ' ' . trim( $theme_btn ) : '' ) ) . '">' . esc_html( $action['name'] ) . '</a>&nbsp;';
@@ -78,5 +78,5 @@ do_action( 'woocommerce_before_account_payment_methods', $has_methods ); ?>
 <?php do_action( 'woocommerce_after_account_payment_methods', $has_methods ); ?>
 
 <?php if ( WC()->payment_gateways->get_available_payment_gateways() ) : ?>
-	<a href="<?php echo esc_url( wc_get_endpoint_url( 'add-payment-method' ) ); ?>" class="btn btn-primary btn-sm<?php echo function_exists( 'getThemeButton' ) ? ' ' . esc_attr( trim( getThemeButton() ) ) : ''; ?>"><?php esc_html_e( 'Add payment method', 'woocommerce' ); ?></a>
+	<a href="<?php echo esc_url( wc_get_endpoint_url( 'add-payment-method' ) ); ?>" class="btn btn-primary btn-sm<?php echo class_exists( 'Codeweber_Options' ) ? ' ' . esc_attr( trim( Codeweber_Options::style('button') ) ) : ''; ?>"><?php esc_html_e( 'Add payment method', 'woocommerce' ); ?></a>
 <?php endif; ?>

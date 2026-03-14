@@ -29,7 +29,7 @@ add_action('wp_footer', function () {
    // Условия показа баннера
    if ($cookieBool && !$is_bot && !isset($_COOKIE[$cookie_name]) && $current_url !== $cookie_policy_url) {
 ?>
-      <?php $card_radius = getThemeCardImageRadius(); ?>
+      <?php $card_radius = Codeweber_Options::style('card-radius'); ?>
       <!-- Cookie Modal -->
       <div class="modal fade modal-popup modal-bottom-center" id="cookieModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
          <div class="modal-dialog modal-xl">
@@ -40,7 +40,7 @@ add_action('wp_footer', function () {
                         <div class="cookie-modal-text fs-13"><?php echo $cookietext; ?></div>
                      </div>
                      <div class="col-md-5 col-lg-2 text-lg-end my-auto">
-                        <a href="#" class="btn btn-primary<?php echo getThemeButton(); ?>" id="acceptCookie" data-bs-dismiss="modal" aria-label="<?php esc_attr_e('Close', 'codeweber'); ?>">
+                        <a href="#" class="btn btn-primary<?php echo Codeweber_Options::style('button'); ?>" id="acceptCookie" data-bs-dismiss="modal" aria-label="<?php esc_attr_e('Close', 'codeweber'); ?>">
                            <?php _e('Accept', 'codeweber'); ?>
                         </a>
                      </div>

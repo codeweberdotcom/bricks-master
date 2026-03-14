@@ -6,7 +6,7 @@ add_shortcode('getthemebutton', function ($atts) {
       'default' => ' rounded-pill',
    ], $atts);
 
-   return getThemeButton($atts['default']);
+   return Codeweber_Options::style('button', $atts['default']);
 });
 
 // Регистрируем шорткод для CF7 [getthemeform default=" ... "]
@@ -15,5 +15,5 @@ add_shortcode('getthemeform', function ($atts) {
       'default' => ' rounded',
    ], $atts);
 
-   return getThemeFormRadius($atts['default']);
+   return Codeweber_Options::style('form-radius', $atts['default']);
 });

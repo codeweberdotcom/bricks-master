@@ -1,4 +1,4 @@
-<?php $card_radius = getThemeCardImageRadius(); ?>
+<?php $card_radius = Codeweber_Options::style('card-radius'); ?>
 <article id="<?= $post->post_name; ?>" <?php post_class('post'); ?>>
    <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
       <figure class="card-img-top overlay overlay-1 hover-scale">

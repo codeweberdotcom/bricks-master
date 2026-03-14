@@ -74,8 +74,8 @@ endwhile;
 ?>
 
 <?php
-$archive_form_radius = function_exists('getThemeFormRadius') ? getThemeFormRadius() : ' rounded';
-$archive_card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+$archive_form_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('form-radius') : ' rounded';
+$archive_card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 ?>
 <div class="row">
     <div class="col-12">

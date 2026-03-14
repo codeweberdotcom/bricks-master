@@ -78,7 +78,7 @@ if ($country) $location_parts[] = $country;
 $display_location = implode(', ', $location_parts);
 
 // Получаем класс для кнопок из темы
-$button_class = function_exists('getThemeButton') ? getThemeButton() : '';
+$button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
 ?>
 
 <div class="row g-3">
@@ -120,8 +120,8 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
                 $search_control_enabled = (bool) $search_control_option;
             }
             
-            $figure_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : 'rounded';
-            $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+            $figure_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : 'rounded';
+            $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
             echo '<div class="card h-100' . ($card_radius ? ' ' . esc_attr($card_radius) : '') . '">';
             echo '<div class="card-body p-0 h-100 d-flex flex-column">';
             echo '<div class="flex-grow-1">';
@@ -149,7 +149,7 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
     <!--/column -->
 
     <div class="col-md-7">
-        <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
+        <?php $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : ''; ?>
         <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
             <div class="card-body">
                 <h2 class="mb-1"><?php the_title(); ?></h2>

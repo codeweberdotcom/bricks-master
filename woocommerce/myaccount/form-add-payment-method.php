@@ -15,7 +15,7 @@ $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 
 if ( $available_gateways ) : ?>
 	<form id="add_payment_method" method="post" class="contact-form">
-		<?php $payment_card_class = function_exists( 'getThemeCardImageRadius' ) ? getThemeCardImageRadius() : ''; ?>
+		<?php $payment_card_class = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style('card-radius') : ''; ?>
 		<div id="payment" class="woocommerce-Payment card<?php echo $payment_card_class ? ' ' . esc_attr( $payment_card_class ) : ''; ?> card-body">
 			<ul class="woocommerce-PaymentMethods payment_methods methods list-unstyled">
 				<?php
@@ -46,7 +46,7 @@ if ( $available_gateways ) : ?>
 
 			<div class="form-row mt-4">
 				<?php wp_nonce_field( 'woocommerce-add-payment-method', 'woocommerce-add-payment-method-nonce' ); ?>
-				<button type="submit" class="btn btn-primary btn-sm<?php echo function_exists( 'getThemeButton' ) ? ' ' . esc_attr( trim( getThemeButton() ) ) : ''; ?><?php echo wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ) : ''; ?>" id="place_order" value="<?php esc_attr_e( 'Add payment method', 'woocommerce' ); ?>"><?php esc_html_e( 'Add payment method', 'woocommerce' ); ?></button>
+				<button type="submit" class="btn btn-primary btn-sm<?php echo class_exists( 'Codeweber_Options' ) ? ' ' . esc_attr( trim( Codeweber_Options::style('button') ) ) : ''; ?><?php echo wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ) : ''; ?>" id="place_order" value="<?php esc_attr_e( 'Add payment method', 'woocommerce' ); ?>"><?php esc_html_e( 'Add payment method', 'woocommerce' ); ?></button>
 				<input type="hidden" name="woocommerce_add_payment_method" id="woocommerce_add_payment_method" value="1" />
 			</div>
 		</div>

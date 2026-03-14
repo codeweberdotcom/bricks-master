@@ -19,7 +19,7 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 <?php if ( ! $load_address ) : ?>
 	<?php wc_get_template( 'myaccount/my-address.php' ); ?>
 <?php else :
-	$form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
+	$form_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style('form-radius') : ' rounded';
 	?>
 
 	<form method="post" class="woocommerce-EditAddressForm contact-form<?php echo esc_attr( $form_radius ); ?>" novalidate
@@ -136,7 +136,7 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 			<?php do_action( "woocommerce_after_edit_address_form_{$load_address}" ); ?>
 
 			<div class="mb-3">
-				<button type="submit" class="btn btn-sm btn-primary<?php echo function_exists( 'getThemeButton' ) ? ' ' . esc_attr( trim( getThemeButton() ) ) : ''; ?><?php echo wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ) : ''; ?>" name="save_address" value="<?php esc_attr_e( 'Save address', 'woocommerce' ); ?>"><?php esc_html_e( 'Save address', 'woocommerce' ); ?></button>
+				<button type="submit" class="btn btn-sm btn-primary<?php echo class_exists( 'Codeweber_Options' ) ? ' ' . esc_attr( trim( Codeweber_Options::style('button') ) ) : ''; ?><?php echo wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ) : ''; ?>" name="save_address" value="<?php esc_attr_e( 'Save address', 'woocommerce' ); ?>"><?php esc_html_e( 'Save address', 'woocommerce' ); ?></button>
 				<?php wp_nonce_field( 'woocommerce-edit_address', 'woocommerce-edit-address-nonce' ); ?>
 				<input type="hidden" name="action" value="edit_address" />
 			</div>

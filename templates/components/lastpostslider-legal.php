@@ -19,7 +19,7 @@ $myposts = $my_posts->query(array(
          foreach ($myposts as $post_single) {
             setup_postdata($post_single);
          ?>
-            <?php $card_radius = getThemeCardImageRadius(); ?>
+            <?php $card_radius = Codeweber_Options::style('card-radius'); ?>
             <div class="swiper-slide m-1 card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                <article class="card-body p-6">
                   

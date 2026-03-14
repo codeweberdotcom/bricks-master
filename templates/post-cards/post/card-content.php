@@ -16,7 +16,7 @@ if (!isset($post_data) || !$post_data) {
 $display = cw_get_post_card_display_settings($display_settings ?? []);
 $template_args = wp_parse_args($template_args ?? [], [
     'hover_classes' => 'overlay overlay-1 hover-scale',
-    'border_radius' => getThemeCardImageRadius() ?: '',
+    'border_radius' => Codeweber_Options::style('card-radius') ?: '',
     'show_figcaption' => true,
 ]);
 

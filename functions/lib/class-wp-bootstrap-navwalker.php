@@ -59,8 +59,8 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			}
 
 			// Добавляем скругление из Redux, если выбрано "square" (rounded-0)
-			if (function_exists('getThemeCardImageRadius')) {
-				$radius_class = getThemeCardImageRadius('');
+			if (class_exists('Codeweber_Options')) {
+				$radius_class = Codeweber_Options::style('card-radius', '');
 				if (!empty($radius_class) && $radius_class === 'rounded-0') {
 					$classes[] = 'rounded-0';
 				}

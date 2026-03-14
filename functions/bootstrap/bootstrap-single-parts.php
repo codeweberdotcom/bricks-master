@@ -17,8 +17,8 @@ if (!defined('ABSPATH')) {
 function codeweber_single_share_args()
 {
 	$button_class = 'has-ripple btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0';
-	if (function_exists('getThemeButton')) {
-		$button_class .= getThemeButton();
+	if (class_exists('Codeweber_Options')) {
+		$button_class .= Codeweber_Options::style('button');
 	}
 	return [
 		'region'       => 'auto',

@@ -15,7 +15,7 @@ if ( ! $notices ) {
 	return;
 }
 
-$card_radius = function_exists( 'getThemeCardImageRadius' ) ? getThemeCardImageRadius() : '';
+$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style('card-radius') : '';
 ?>
 
 <?php foreach ( $notices as $notice ) : ?>

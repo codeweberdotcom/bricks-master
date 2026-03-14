@@ -140,7 +140,7 @@ $font-family-base: 'Urbanist', sans-serif;
 
 ## Подключение ассетов в WordPress
 
-### `brk_get_dist_file_url($file_path)` / `brk_get_dist_file_path($file_path)`
+### `codeweber_get_dist_file_url($file_path)` / `codeweber_get_dist_file_path($file_path)`
 
 Функции из `functions/enqueues.php` — реализуют паттерн child-first:
 
@@ -173,7 +173,7 @@ function codeweber_asset_version($file_path) {
 
 | Приоритет | Функция | Что подключает |
 |-----------|---------|---------------|
-| default (10) | `brk_styles_scripts()` | `plugins.css`, `style.css`, `plugins.js`, `theme.js` |
+| default (10) | `codeweber_styles_scripts()` | `plugins.css`, `style.css`, `plugins.js`, `theme.js` |
 | 20 | `codeweber_enqueue_restapi_script()` | `restapi.js` + `wpApiSettings` |
 | 20 | `codeweber_enqueue_testimonial_form()` | `form-submit-universal.js` + локализация |
 | 20 | `codeweber_enqueue_ajax_filter()` | `ajax-filter.js` + `codeweberFilter` |
@@ -195,7 +195,7 @@ function codeweber_asset_version($file_path) {
 
 4. Добавить в `gulp.watch`.
 
-5. В `enqueues.php` подключить через `brk_get_dist_file_url`.
+5. В `enqueues.php` подключить через `codeweber_get_dist_file_url`.
 
 ---
 

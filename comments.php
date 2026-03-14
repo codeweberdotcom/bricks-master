@@ -128,8 +128,8 @@ if (comments_open() || pings_open()) {
 }
 
 	/** Theme form radius and button style for comment form */
-	$comment_form_radius = function_exists('getThemeFormRadius') ? getThemeFormRadius() : ' rounded';
-	$comment_submit_btn  = function_exists('getThemeButton') ? getThemeButton() : '';
+	$comment_form_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('form-radius') : ' rounded';
+	$comment_submit_btn  = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
 
 	/** Change Comment form fields */
 	comment_form(

@@ -18,7 +18,7 @@
 
 defined('ABSPATH') || exit;
 
-$form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
+$form_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style('form-radius') : ' rounded';
 
 /**
  * Hook - woocommerce_before_edit_account_form.
@@ -129,7 +129,7 @@ do_action('woocommerce_before_edit_account_form');
 
 	<div class="mb-3">
 		<?php wp_nonce_field('save_account_details', 'save-account-details-nonce'); ?>
-		<button type="submit" name="save_account_details" value="<?php esc_attr_e('Save changes', 'woocommerce'); ?>" class="btn btn-sm btn-primary<?php echo function_exists('getThemeButton') ? ' ' . esc_attr(trim(getThemeButton())) : ''; ?><?php echo wc_wp_theme_get_element_class_name('button') ? ' ' . esc_attr(wc_wp_theme_get_element_class_name('button')) : ''; ?>">
+		<button type="submit" name="save_account_details" value="<?php esc_attr_e('Save changes', 'woocommerce'); ?>" class="btn btn-sm btn-primary<?php echo class_exists('Codeweber_Options') ? ' ' . esc_attr(trim(Codeweber_Options::style('button'))) : ''; ?><?php echo wc_wp_theme_get_element_class_name('button') ? ' ' . esc_attr(wc_wp_theme_get_element_class_name('button')) : ''; ?>">
 			<?php esc_html_e('Save changes', 'woocommerce'); ?>
 		</button>
 		<input type="hidden" name="action" value="save_account_details" />

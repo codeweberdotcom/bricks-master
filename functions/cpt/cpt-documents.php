@@ -968,7 +968,7 @@ function get_document_email_modal($request) {
 			<div class="form-floating mb-4">
 				<input 
 					type="email" 
-					class="form-control<?php echo getThemeFormRadius(); ?>" 
+					class="form-control<?php echo Codeweber_Options::style('form-radius'); ?>" 
 					name="email" 
 					id="document_email" 
 					placeholder="<?php esc_attr_e('Your email', 'codeweber'); ?>"
@@ -978,7 +978,7 @@ function get_document_email_modal($request) {
 			</div>
 			
 			<div class="modal-footer text-center justify-content-center mt-4 pt-0 pb-0">
-				<button type="submit" class="btn btn-primary<?php echo getThemeButton(); ?>" data-loading-text="<?php esc_attr_e('Sending...', 'codeweber'); ?>">
+				<button type="submit" class="btn btn-primary<?php echo Codeweber_Options::style('button'); ?>" data-loading-text="<?php esc_attr_e('Sending...', 'codeweber'); ?>">
 					<?php esc_html_e('Send Document', 'codeweber'); ?>
 				</button>
 			</div>

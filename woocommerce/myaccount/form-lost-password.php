@@ -11,8 +11,8 @@
 
 defined('ABSPATH') || exit;
 
-$form_radius = function_exists( 'getThemeFormRadius' ) ? getThemeFormRadius() : ' rounded';
-$theme_btn  = function_exists( 'getThemeButton' ) ? ' ' . esc_attr( trim( getThemeButton() ) ) : '';
+$form_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style('form-radius') : ' rounded';
+$theme_btn  = class_exists( 'Codeweber_Options' ) ? ' ' . esc_attr( trim( Codeweber_Options::style('button') ) ) : '';
 
 do_action('woocommerce_before_lost_password_form');
 ?>

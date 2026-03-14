@@ -1,5 +1,5 @@
 <?php
-$card_radius_class = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius('rounded') : 'rounded';
+$card_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius', 'rounded') : 'rounded';
 if (empty(trim($card_radius_class))) {
 	$card_radius_class = 'rounded';
 }

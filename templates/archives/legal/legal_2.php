@@ -1,4 +1,4 @@
-<?php $card_radius = getThemeCardImageRadius(); ?>
+<?php $card_radius = Codeweber_Options::style('card-radius'); ?>
 <a href="<?php the_permalink(); ?>" id="<?php echo $post->post_name; ?>" <?php post_class('post mb-3'); ?>>
    <div class="card lift<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
       <div class="card-body">

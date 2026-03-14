@@ -100,7 +100,7 @@ $link_class = ($footer_color_text === 'dark') ? 'text-white' : 'link-body';
         <div class="card image-wrapper bg-full bg-image bg-overlay bg-overlay-400 mt-n50p mb-n5"<?= !empty($cta_bg_image_url) ? ' style="background-image: url(' . esc_url($cta_bg_image_url) . ');"' : ' data-image-src="' . esc_url(get_template_directory_uri() . '/dist/assets/img/photos/bg3.jpg') . '"'; ?>>
           <div class="card-body p-6 p-md-11 d-lg-flex flex-row align-items-lg-center justify-content-md-between text-center text-lg-start">
             <div class="h3 display-6 mb-6 mb-lg-0 pe-lg-15 pe-xxl-18 text-white"><?= esc_html($cta_text); ?></div>
-            <a href="<?= esc_url($cta_button_url); ?>" class="btn btn-white<?= function_exists('getThemeButton') ? ' ' . esc_attr(trim(getThemeButton())) : ' rounded-pill'; ?> mb-0 text-nowrap"><?= esc_html($cta_button_text); ?></a>
+            <a href="<?= esc_url($cta_button_url); ?>" class="btn btn-white<?= class_exists('Codeweber_Options') ? ' ' . esc_attr(trim(Codeweber_Options::style('button'))) : ' rounded-pill'; ?> mb-0 text-nowrap"><?= esc_html($cta_button_text); ?></a>
           </div>
           <!--/.card-body -->
         </div>

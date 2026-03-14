@@ -96,14 +96,14 @@ if ($country) $location_parts[] = $country;
 $display_location = implode(', ', $location_parts);
 
 // Получаем класс для кнопок из темы
-$button_class = function_exists('getThemeButton') ? getThemeButton() : '';
+$button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
 ?>
 
 <div class="row g-3">
     <div class="col-md-5">
         <?php if (!empty($yandex_api_key) && !empty($latitude) && !empty($longitude)) : ?>
             <?php 
-            $figure_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : 'rounded';
+            $figure_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : 'rounded';
             $figure_radius = $figure_radius ?: 'rounded';
             ?>
             <div class="mb-8 mb-md-0 <?php echo esc_attr($figure_radius); ?>">
@@ -114,7 +114,7 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
     <!--/column -->
 
     <div class="col-md-7">
-        <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
+        <?php $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : ''; ?>
         <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
             <div class="card-body">
                 <h2 class="mb-1"><?php the_title(); ?></h2>

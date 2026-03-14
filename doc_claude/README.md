@@ -99,7 +99,7 @@ $val = Codeweber_Options::get('setting_key', 'default_value');
 
 ### Child-First Pattern
 Asset resolution prioritizes child theme over parent:
-- `brk_get_dist_file_url()` — checks child dist/ first
+- `codeweber_get_dist_file_url()` — checks child dist/ first
 - `get_theme_file_path()` — WordPress native child-first lookup
 
 ### Custom Post Types (18 total)
@@ -130,7 +130,7 @@ Each documentation file is:
 | Component | File | Purpose |
 |-----------|------|---------|
 | `Codeweber_Options` | `functions/class-codeweber-options.php` | Redux wrapper with get/get_post_meta/is_ready |
-| `brk_get_dist_file_url()` | `functions/enqueues.php` | Child-first asset URL resolution |
+| `codeweber_get_dist_file_url()` | `functions/enqueues.php` | Child-first asset URL resolution |
 | `cw_render_post_card()` | `functions/post-card-templates.php` | Post card rendering with template system |
 | `handle_fetch_action()` | `functions/fetch/fetch-handler.php` | AJAX dispatcher for Codeweber\Functions\Fetch namespace |
 | Redux Panels | `redux-framework/sample/theme-config.php` | Theme settings panels |

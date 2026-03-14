@@ -84,13 +84,13 @@ if (empty($full_name)) {
 }
 
 // Получаем класс для кнопок из темы
-$button_class = function_exists('getThemeButton') ? getThemeButton() : '';
+$button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
 ?>
 
 <div class="row g-3">
     <div class="col-md-5">
         <?php if ($image_url) : ?>
-            <?php $figure_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : 'rounded'; ?>
+            <?php $figure_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : 'rounded'; ?>
             <figure class="mb-8 mb-md-0<?php echo $figure_radius ? ' ' . esc_attr($figure_radius) : ''; ?>">
                 <img src="<?php echo esc_url($image_url); ?>" srcset="<?php echo esc_url($image_url); ?> 2x" alt="<?php echo esc_attr($full_name); ?>" />
             </figure>
@@ -99,7 +99,7 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
     <!--/column -->
 
     <div class="col-md-7">
-        <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
+        <?php $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : ''; ?>
         <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
             <div class="card-body">
                 <?php if (function_exists('get_breadcrumbs')) : ?>
@@ -211,7 +211,7 @@ $button_class = function_exists('getThemeButton') ? getThemeButton() : '';
 
                 <hr class="my-4">
                 <div class="d-flex justify-content-end">
-                    <a href="javascript:void(0)" class="btn btn-icon btn-icon-start btn-outline-primary justify-content-between d-flex has-ripple<?php echo function_exists('getThemeButton') ? getThemeButton() : ' rounded'; ?>" data-bs-toggle="download" data-value="staff-<?php echo esc_attr($staff_post_id); ?>">
+                    <a href="javascript:void(0)" class="btn btn-icon btn-icon-start btn-outline-primary justify-content-between d-flex has-ripple<?php echo class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded'; ?>" data-bs-toggle="download" data-value="staff-<?php echo esc_attr($staff_post_id); ?>">
                         <i class="uil uil-import"></i> <?php esc_html_e('Save to Contacts', 'codeweber'); ?>
                     </a>
                 </div>

@@ -58,8 +58,8 @@ if (!empty($vacancy_types)) {
 $salary   = !empty($vacancy_data['salary']) ? $vacancy_data['salary'] : '';
 $location = !empty($vacancy_data['location']) ? $vacancy_data['location'] : '';
 
-$card_radius   = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
-$button_style  = function_exists('getThemeButton') ? getThemeButton() : ' rounded-pill';
+$card_radius   = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
+$button_style  = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded-pill';
 ?>
 <div class="card shadow shadow-lg lift h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
     <div class="card-body">

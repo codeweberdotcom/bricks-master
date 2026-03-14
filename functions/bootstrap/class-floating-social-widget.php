@@ -868,7 +868,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			// Get button color from settings
 			$button_color = !empty($this->settings['button_color']) ? esc_attr($this->settings['button_color']) : 'primary';
 			$widget_type = !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'icon';
-			$btn_style = function_exists('getThemeButton') ? getThemeButton() : ' rounded-pill';
+			$btn_style = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded-pill';
 
 			// #region agent log
 			$log_data = json_encode(['location' => 'class-floating-social-widget.php:515', 'message' => 'Button color for rendering', 'data' => ['button_color' => $button_color, 'button_class' => 'btn-' . $button_color, 'widget_type' => $widget_type], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
@@ -1220,7 +1220,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			// Get button color from settings
 			$button_color = !empty($this->settings['button_color']) ? esc_attr($this->settings['button_color']) : 'primary';
 			$widget_type = !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'icon';
-			$btn_style = function_exists('getThemeButton') ? getThemeButton() : ' rounded-pill';
+			$btn_style = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded-pill';
 
 			// Main button - разная верстка для разных типов виджета
 			if ($widget_type === 'button') {

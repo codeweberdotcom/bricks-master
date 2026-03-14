@@ -588,7 +588,7 @@ function ajax_search_form_shortcode($atts)
    $form_id = !empty($atts['id']) ? esc_attr($atts['id']) : uniqid('search-form-');
    $input_id = $form_id . '-input';
 
-   $form_radius = function_exists('getThemeFormRadius') ? getThemeFormRadius() : ' rounded';
+   $form_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('form-radius') : ' rounded';
    ob_start();
 ?>
    <div class="position-relative <?php echo esc_attr($atts['class']); ?>">

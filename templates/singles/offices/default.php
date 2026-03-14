@@ -82,7 +82,7 @@ $display_location = implode(', ', $location_parts);
     <div class="row g-3">
         <!-- Левая колонка - Карта -->
         <div class="col-lg-4 mb-10 mb-lg-0">
-            <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
+            <?php $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : ''; ?>
             <?php if (!empty($latitude) && !empty($longitude)) : ?>
                 <?php
                 // Подготавливаем маркер для карты
@@ -150,7 +150,7 @@ $display_location = implode(', ', $location_parts);
 
         <!-- Правая колонка - Информация об офисе -->
         <div class="col-lg-8">
-            <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
+            <?php $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : ''; ?>
             <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                 <div class="card-body px-6 py-5">
                     <!-- Заголовок -->

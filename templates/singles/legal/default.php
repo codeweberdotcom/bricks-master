@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 }
 ?>
 <section id="post-<?php the_ID(); ?>" <?php post_class('blog single'); ?>>
-   <?php $card_radius = getThemeCardImageRadius(); ?>
+   <?php $card_radius = Codeweber_Options::style('card-radius'); ?>
    <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
       <figure class="card-img-top<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
          <?php

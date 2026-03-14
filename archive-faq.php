@@ -114,7 +114,7 @@ get_pageheader();
                       
                       if ($category_faqs->have_posts()) :
                           $section_class = ($category_index === 1) ? 'wrapper' : 'wrapper pt-5';
-                          $card_radius = getThemeCardImageRadius();
+                          $card_radius = Codeweber_Options::style('card-radius');
               ?>
                           <section id="<?php echo esc_attr($category_id); ?>" class="<?php echo esc_attr($section_class); ?>">
                               <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
@@ -184,7 +184,7 @@ get_pageheader();
                   ));
                   
                   if ($uncategorized_faqs->have_posts()) :
-                      $card_radius = getThemeCardImageRadius();
+                      $card_radius = Codeweber_Options::style('card-radius');
               ?>
                       <section id="faq-uncategorized" class="wrapper pt-5">
                           <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
@@ -235,7 +235,7 @@ get_pageheader();
                   endif;
               else :
                   // No categories, show all FAQs in one accordion
-                  $card_radius = getThemeCardImageRadius();
+                  $card_radius = Codeweber_Options::style('card-radius');
               ?>
                   <section id="faq-all" class="wrapper">
                       <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
@@ -281,7 +281,7 @@ get_pageheader();
                   </section>
               <?php endif; ?>
           <?php else : ?>
-              <?php $card_radius = getThemeCardImageRadius(); ?>
+              <?php $card_radius = Codeweber_Options::style('card-radius'); ?>
               <section class="wrapper">
                   <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                       <div class="card-body p-10">

@@ -44,7 +44,7 @@ if (!empty($post_data['image_url_2x'])) {
 }
 
 // Получаем радиус скругления из настроек темы
-$card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+$card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 
 // Формируем классы для карточки
 $card_classes = 'card h-100';

@@ -14,7 +14,7 @@
 				<p class="lead mb-7 px-md-12 px-lg-5 px-xl-7">
 					<?php echo esc_html__('The page you are looking for is not available or has been moved. Try a different page or go to homepage with the button below.', 'codeweber'); ?>
 				</p>
-				<a href="<?php echo esc_url(home_url()); ?>" class="btn btn-primary<?php echo function_exists('getThemeButton') ? ' ' . esc_attr(trim(getThemeButton())) : ''; ?>">
+				<a href="<?php echo esc_url(home_url()); ?>" class="btn btn-primary<?php echo class_exists('Codeweber_Options') ? ' ' . esc_attr(trim(Codeweber_Options::style('button'))) : ''; ?>">
 					<?php echo esc_html__('Go to Homepage', 'codeweber'); ?>
 				</a>
 			</div>

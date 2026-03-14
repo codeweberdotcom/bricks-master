@@ -24,7 +24,7 @@ Complete guide to the CodeWeber theme's design, structure, and how all component
         ↓             ↓              ↓              ↓
    ┌─────────────────────────────────────────────────────────┐
    │          Enqueues: Scripts & Styles                     │
-   │  (Child-first resolution via brk_get_dist_file_url)   │
+   │  (Child-first resolution via codeweber_get_dist_file_url)   │
    └─────────────────────────────────────────────────────────┘
         ↓
    ┌─────────────────────────────────────────────────────────┐
@@ -272,13 +272,13 @@ wp-content/themes/codeweber/
 └── [other template files]
 ```
 
-## Asset Resolution Pattern (brk_get_dist_file_url)
+## Asset Resolution Pattern (codeweber_get_dist_file_url)
 
 All assets are resolved with **child-first** pattern:
 
 ```php
 // In functions/enqueues.php
-function brk_get_dist_file_url($file_path) {
+function codeweber_get_dist_file_url($file_path) {
     if (is_child_theme()) {
         $child_file = get_stylesheet_directory() . '/' . $file_path;
         if (file_exists($child_file)) {
@@ -298,7 +298,7 @@ function brk_get_dist_file_url($file_path) {
 **Usage:**
 ```php
 // Automatically checks child theme dist/ first, then parent
-$css_url = brk_get_dist_file_url('dist/assets/css/style.css');
+$css_url = codeweber_get_dist_file_url('dist/assets/css/style.css');
 wp_enqueue_style('codeweber-style', $css_url);
 ```
 
@@ -491,7 +491,7 @@ Child Theme/
     └── assets/images/
 ```
 
-Asset enqueue checks child first via `brk_get_dist_file_url()`.
+Asset enqueue checks child first via `codeweber_get_dist_file_url()`.
 
 ## File Paths Summary
 

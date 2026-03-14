@@ -31,7 +31,7 @@ if (empty($vacancy_image_url)) {
     $vacancy_image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
 }
 
-$card_radius    = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+$card_radius    = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 $show_hit_badge = get_post_meta($post_id, '_vacancy_featured', true) || get_post_meta($post_id, '_vacancy_hit', true);
 $img_radius     = $card_radius ? ' ' . esc_attr($card_radius) : '';
 $figure_radius  = $img_radius;
@@ -92,7 +92,7 @@ $img_class      = 'img-fluid' . $img_radius;
 				<?php endif; ?>
 			</ul>
 		<div data-group="page-title-buttons" class="text-end">
-			<a href="<?php echo esc_url($link); ?>" class="btn btn-primary btn-icon btn-icon-start has-ripple<?php echo function_exists('getThemeButton') ? ' ' . esc_attr(trim(getThemeButton())) : ''; ?>">
+			<a href="<?php echo esc_url($link); ?>" class="btn btn-primary btn-icon btn-icon-start has-ripple<?php echo class_exists('Codeweber_Options') ? ' ' . esc_attr(trim(Codeweber_Options::style('button'))) : ''; ?>">
 				<i class="uil uil-arrow-right"></i><?php _e('Go', 'codeweber'); ?>
 			</a>
 		</div>

@@ -61,8 +61,8 @@ class CodeweberFormsDefaultForms {
         $form_unique_id = 'form-0-' . self::$global_form_instance_counter;
         
         // Получаем классы скругления из темы
-        $form_radius_class = function_exists('getThemeFormRadius') ? getThemeFormRadius() : '';
-        $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';
+        $form_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('form-radius') : '';
+        $button_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
         
         // Генерируем nonce поле (для REST API используем wp_create_nonce)
         $nonce_value = wp_create_nonce('submit_testimonial');
@@ -238,7 +238,7 @@ class CodeweberFormsDefaultForms {
         $form_unique_id = 'form-0-' . self::$global_form_instance_counter;
         
         // Получаем классы скругления из темы (используем getThemeButton для обоих элементов)
-        $button_radius_class = function_exists('getThemeButton') ? getThemeButton() : '';
+        $button_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
         
         // Генерируем nonce поле (для REST API используем wp_create_nonce)
         $nonce_value = wp_create_nonce('codeweber_form_submit');

@@ -73,8 +73,8 @@ function codeweber_cf7_custom_scripts() {
 
     // Подключаем валидацию форм (для CF7 форм с классом needs-validation)
     // Prefer dist version, fallback to src
-    $form_validation_path = brk_get_dist_file_path('dist/assets/js/form-validation.js');
-    $form_validation_url = brk_get_dist_file_url('dist/assets/js/form-validation.js');
+    $form_validation_path = codeweber_get_dist_file_path('dist/assets/js/form-validation.js');
+    $form_validation_url = codeweber_get_dist_file_url('dist/assets/js/form-validation.js');
     
     if ($form_validation_path && $form_validation_url) {
         $script_path = $form_validation_path;
@@ -101,8 +101,8 @@ function codeweber_cf7_custom_scripts() {
     );
 
     // Подключаем кастомную логику для CF7 acceptance чекбоксов
-    $cf7_acceptance_path = brk_get_dist_file_path('dist/assets/js/cf7-acceptance-required.js');
-    $cf7_acceptance_url = brk_get_dist_file_url('dist/assets/js/cf7-acceptance-required.js');
+    $cf7_acceptance_path = codeweber_get_dist_file_path('dist/assets/js/cf7-acceptance-required.js');
+    $cf7_acceptance_url = codeweber_get_dist_file_url('dist/assets/js/cf7-acceptance-required.js');
     
     if ($cf7_acceptance_path && $cf7_acceptance_url) {
         $acceptance_path = $cf7_acceptance_path;
@@ -129,8 +129,8 @@ function codeweber_cf7_custom_scripts() {
     );
 
     // Подключаем показ успешного сообщения через механизм codeweber forms
-    $cf7_success_path = brk_get_dist_file_path('dist/assets/js/cf7-success-message.js');
-    $cf7_success_url = brk_get_dist_file_url('dist/assets/js/cf7-success-message.js');
+    $cf7_success_path = codeweber_get_dist_file_path('dist/assets/js/cf7-success-message.js');
+    $cf7_success_url = codeweber_get_dist_file_url('dist/assets/js/cf7-success-message.js');
     
     if ($cf7_success_path && $cf7_success_url) {
         $success_path = $cf7_success_path;
@@ -157,8 +157,8 @@ function codeweber_cf7_custom_scripts() {
     );
 
     // Подключаем UTM tracking для CF7 форм
-    $cf7_utm_path = brk_get_dist_file_path('dist/assets/js/cf7-utm-tracking.js');
-    $cf7_utm_url = brk_get_dist_file_url('dist/assets/js/cf7-utm-tracking.js');
+    $cf7_utm_path = codeweber_get_dist_file_path('dist/assets/js/cf7-utm-tracking.js');
+    $cf7_utm_url = codeweber_get_dist_file_url('dist/assets/js/cf7-utm-tracking.js');
     
     if ($cf7_utm_path && $cf7_utm_url) {
         $utm_path = $cf7_utm_path;

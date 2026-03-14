@@ -74,7 +74,7 @@ $col    = 1;
 				do_action( 'woocommerce_my_account_after_my_address', $name );
 			?>
 		</address>
-		<a href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address', $name ) ); ?>" class="edit btn btn-primary btn-sm<?php echo function_exists( 'getThemeButton' ) ? ' ' . esc_attr( trim( getThemeButton() ) ) : ''; ?>">
+		<a href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address', $name ) ); ?>" class="edit btn btn-primary btn-sm<?php echo class_exists( 'Codeweber_Options' ) ? ' ' . esc_attr( trim( Codeweber_Options::style('button') ) ) : ''; ?>">
 			<?php
 				printf(
 					/* translators: %s: Address title */
