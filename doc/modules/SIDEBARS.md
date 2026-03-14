@@ -240,8 +240,8 @@ add_action('codeweber_after_sidebar', function ($sidebar_id) {
         $vacancy_data = get_vacancy_data_array();
         
         // Получаем стили из Redux
-        $button_style = function_exists('getThemeButton') ? getThemeButton('') : '';
-        $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+        $button_style = class_exists('Codeweber_Options') ? Codeweber_Options::style('button', '') : '';
+        $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
         ?>
         <div class="widget">
             <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
@@ -310,7 +310,7 @@ add_action('codeweber_after_sidebar', function ($sidebar_id) {
         $email = get_post_meta(get_the_ID(), '_staff_email', true);
         $phone = get_post_meta(get_the_ID(), '_staff_phone', true);
         
-        $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+        $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
         ?>
         <div class="widget">
             <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
@@ -404,7 +404,7 @@ add_action('codeweber_after_sidebar', function ($sidebar_id) {
 
 1. **Проверяйте существование CPT** - Всегда проверяйте `post_type_exists()` перед использованием
 2. **Проверяйте контекст** - Используйте `is_singular()`, `is_archive()` для проверки типа страницы
-3. **Используйте правильные функции темы** - `getThemeCardImageRadius()`, `getThemeButton()` и т.д.
+3. **Используйте правильные функции темы** - `Codeweber_Options::style('card-radius')`, `Codeweber_Options::style('button')` и т.д.
 4. **Экранирование данных** - Всегда используйте `esc_html()`, `esc_attr()`, `esc_url()`
 5. **Структура виджета** - Оберните контент в `<div class="widget">` для единообразия
 6. **Проверка данных** - Проверяйте наличие данных перед выводом

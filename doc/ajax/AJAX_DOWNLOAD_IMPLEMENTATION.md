@@ -47,7 +47,7 @@
 
 ```php
 <a href="javascript:void(0)" 
-   class="btn btn-primary ajax-download<?php echo getThemeButton(); ?>"
+   class="btn btn-primary ajax-download<?php echo Codeweber_Options::style('button'); ?>"
    data-post-id="<?php echo esc_attr($post_id); ?>"
    data-file-name="<?php echo esc_attr($file_name); ?>"
    data-loading-text="<?php esc_attr_e('Loading...', 'codeweber'); ?>">

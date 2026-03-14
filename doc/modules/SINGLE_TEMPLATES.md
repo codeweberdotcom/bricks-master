@@ -100,7 +100,7 @@ $thumbnail_id = get_post_thumbnail_id();
         <!-- Левая колонка - Изображение -->
         <?php if ($thumbnail_id) : ?>
         <div class="col-lg-4 mb-10 mb-lg-0">
-            <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
+            <?php $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : ''; ?>
             <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                 <figure class="card-img-top<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                     <?php the_post_thumbnail('codeweber_extralarge', array('class' => 'img-fluid')); ?>
@@ -111,7 +111,7 @@ $thumbnail_id = get_post_thumbnail_id();
 
         <!-- Правая колонка - Контент -->
         <div class="col-lg-8">
-            <?php $card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : ''; ?>
+            <?php $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : ''; ?>
             <div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                 <div class="card-body px-6 py-5">
                     <h1 class="mb-4"><?php the_title(); ?></h1>
@@ -170,7 +170,7 @@ if ($departments && !is_wp_error($departments) && !empty($departments)) {
 }
 
 $thumbnail_id = get_post_thumbnail_id();
-$card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+$card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 ?>
 
 <section id="post-<?php the_ID(); ?>" <?php post_class('staff single'); ?>>
@@ -384,7 +384,7 @@ get_footer();
 2. **Создавайте default.php** - Всегда создавайте шаблон по умолчанию
 3. **Экранирование данных** - Используйте `esc_html()`, `esc_attr()`, `esc_url()` для всех выводимых данных
 4. **Проверка существования** - Проверяйте наличие метаполей перед выводом
-5. **Используйте функции темы** - Используйте `getThemeCardImageRadius()` и другие функции темы
+5. **Используйте функции темы** - Используйте `Codeweber_Options::style('card-radius')` и другие функции темы
 6. **Поддержка изображений** - Всегда проверяйте наличие миниатюры перед выводом
 7. **Адаптивность** - Используйте Bootstrap классы для адаптивности
 

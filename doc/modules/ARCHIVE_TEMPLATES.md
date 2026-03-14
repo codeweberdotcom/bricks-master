@@ -185,7 +185,7 @@ if ($departments && !is_wp_error($departments) && !empty($departments)) {
 }
 
 $thumbnail_id = get_post_thumbnail_id();
-$card_radius = function_exists('getThemeCardImageRadius') ? getThemeCardImageRadius() : '';
+$card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 ?>
 
 <div class="item col-md-6 col-xl-4">

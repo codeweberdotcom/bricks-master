@@ -49,26 +49,26 @@
 | Файл темы | Версия | Миграция | Примечание |
 |-----------|--------|----------|------------|
 | `woocommerce/myaccount/dashboard.php` | 4.4.0 | завершена | Выравнивание с плагином |
-| `woocommerce/myaccount/orders.php` | 9.5.0 | завершена | Стилизация: btn, getThemeButton, кнопка «Посмотреть» btn-xs rounded-0 |
+| `woocommerce/myaccount/orders.php` | 9.5.0 | завершена | Стилизация: btn, Codeweber_Options::style('button'), кнопка «Посмотреть» btn-xs rounded-0 |
 | `woocommerce/myaccount/view-order.php` | 10.1.0 | завершена | Текст статуса в order-details; в view-order — заметки и хук |
-| `woocommerce/myaccount/form-edit-account.php` | 10.5.0 | завершена | Заголовки h3.mb-6, кнопка btn-sm + getThemeButton |
-| `woocommerce/myaccount/form-add-payment-method.php` | 7.8.0 | завершена | Карточка getThemeCardImageRadius, btn, form-check |
-| `woocommerce/myaccount/payment-methods.php` | 8.9.0 | завершена | Таблица с tbody, кнопки btn + getThemeButton |
+| `woocommerce/myaccount/form-edit-account.php` | 10.5.0 | завершена | Заголовки h3.mb-6, кнопка btn-sm + Codeweber_Options::style('button') |
+| `woocommerce/myaccount/form-add-payment-method.php` | 7.8.0 | завершена | Карточка Codeweber_Options::style('card-radius'), btn, form-check |
+| `woocommerce/myaccount/payment-methods.php` | 8.9.0 | завершена | Таблица с tbody, кнопки btn + Codeweber_Options::style('button') |
 | `woocommerce/order/order-details.php` | 10.1.0 | завершена | Заголовок h3.mb-1, абзац с датой/статусом p.mb-3 |
 | `woocommerce/order/order-details-customer.php` | 8.7.0 | завершена | Заголовки адресов h3.mb-3 |
 | `woocommerce/myaccount/navigation.php` | 9.0.0 | завершена | Класс woocommerce-MyAccount-navigation снят с nav |
-| `woocommerce/myaccount/form-edit-address.php` | 9.3.0 | завершена | contact-form, h3.mb-6, row/col, form-control, btn + getThemeButton() |
+| `woocommerce/myaccount/form-edit-address.php` | 9.3.0 | завершена | contact-form, h3.mb-6, row/col, form-control, btn + Codeweber_Options::style('button') |
 | `woocommerce/myaccount/my-account.php` | — | завершена | Обёртка личного кабинета |
-| `woocommerce/myaccount/form-login.php` | 9.9.0 | завершена | Вход/регистрация: getThemeFormRadius, getThemeButton, form-control, form-check |
-| `woocommerce/myaccount/form-lost-password.php` | 9.2.0 | завершена | getThemeFormRadius, getThemeButton на полях и кнопке |
-| `woocommerce/myaccount/form-reset-password.php` | 9.2.0 | завершена | getThemeFormRadius, getThemeButton на полях и кнопке «Сохранить» |
+| `woocommerce/myaccount/form-login.php` | 9.9.0 | завершена | Вход/регистрация: Codeweber_Options::style('form-radius'), Codeweber_Options::style('button'), form-control, form-check |
+| `woocommerce/myaccount/form-lost-password.php` | 9.2.0 | завершена | Codeweber_Options::style('form-radius'), Codeweber_Options::style('button') на полях и кнопке |
+| `woocommerce/myaccount/form-reset-password.php` | 9.2.0 | завершена | Codeweber_Options::style('form-radius'), Codeweber_Options::style('button') на полях и кнопке «Сохранить» |
 | `woocommerce/myaccount/lost-password-confirmation.php` | 3.9.0 | завершена | Текст «Письмо для сброса пароля отправлено» |
 | `woocommerce/myaccount/my-address.php` | — | завершена | Список адресов |
 | `woocommerce/myaccount/downloads.php` | — | завершена | Загрузки |
 | `woocommerce/myaccount/my-orders.php` | — | завершена | Список заказов (подшаблон) |
-| `woocommerce/notices/success.php` | 8.6.0 | завершена | Уведомления успеха: card-border-top, getThemeCardImageRadius |
-| `woocommerce/notices/error.php` | 8.6.0 | завершена | Уведомления ошибок: card-border-top, getThemeCardImageRadius |
-| `woocommerce/notices/notice.php` | 10.4.0 | завершена | Информационные уведомления: getThemeCardImageRadius |
+| `woocommerce/notices/success.php` | 8.6.0 | завершена | Уведомления успеха: card-border-top, Codeweber_Options::style('card-radius') |
+| `woocommerce/notices/error.php` | 8.6.0 | завершена | Уведомления ошибок: card-border-top, Codeweber_Options::style('card-radius') |
+| `woocommerce/notices/notice.php` | 10.4.0 | завершена | Информационные уведомления: Codeweber_Options::style('card-radius') |
 
 - [x] dashboard.php — миграция завершена
 - [x] orders.php — миграция завершена

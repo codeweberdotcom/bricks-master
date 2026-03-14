@@ -16,7 +16,7 @@ add_shortcode('getthemebutton', function ($atts) {
         'default' => ' rounded-pill',
     ], $atts);
 
-    return getThemeButton($atts['default']);
+    return Codeweber_Options::style('button', $atts['default']);
 });
 ```
 
@@ -39,16 +39,18 @@ add_shortcode('getthemebutton', function ($atts) {
 
 ---
 
-## Функция getThemeButton()
+## API: `Codeweber_Options::style('button')`
 
-Функция `getThemeButton()` возвращает CSS-класс для кнопок из настроек темы.
+Метод `Codeweber_Options::style('button')` возвращает CSS-класс для кнопок из настроек темы.
 
-**Определение:**
+**Вызов:**
 ```php
-function getThemeButton($default = '') {
-    // Логика получения класса из Redux
-}
+$btn_class = Codeweber_Options::style('button');           // По умолчанию ' rounded-pill'
+$btn_class = Codeweber_Options::style('button', '');       // Пустая строка как fallback
+$btn_class = Codeweber_Options::style('button', ' rounded mt-2'); // Кастомный fallback
 ```
+
+Все опции загружаются за один `get_option('redux_demo')` и кэшируются на весь запрос.
 
 ---
 

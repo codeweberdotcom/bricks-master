@@ -73,7 +73,7 @@ wp_nav_menu(
 
 - В админке WordPress (Внешний вид → Меню) у пунктов верхнего уровня есть чекбокс «Mega Menu» (логика в `functions/menu.php` и `functions/admin/admin_menu.php`).
 - Если у пункта включён Mega Menu, Walker выводит подменю в разметке Mega Menu (dropdown-mega, контент из html_blocks и т.д.).
-- Дополнительные классы для dropdown (например скругление) могут браться из Redux (`getThemeCardImageRadius`).
+- Дополнительные классы для dropdown (например скругление) могут браться из Redux (`Codeweber_Options::style('card-radius')`).
 
 ---
 

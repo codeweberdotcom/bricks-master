@@ -16,7 +16,7 @@ add_shortcode('getthemeform', function ($atts) {
         'default' => ' rounded',
     ], $atts);
 
-    return getThemeFormRadius($atts['default']);
+    return Codeweber_Options::style('form-radius', $atts['default']);
 });
 ```
 
@@ -39,16 +39,17 @@ add_shortcode('getthemeform', function ($atts) {
 
 ---
 
-## Функция getThemeFormRadius()
+## API: `Codeweber_Options::style('form-radius')`
 
-Функция `getThemeFormRadius()` возвращает CSS-класс для скругления полей формы из настроек темы.
+Метод `Codeweber_Options::style('form-radius')` возвращает CSS-класс для скругления полей формы из настроек темы.
 
-**Определение:**
+**Вызов:**
 ```php
-function getThemeFormRadius($default = '') {
-    // Логика получения класса из Redux
-}
+$form_class = Codeweber_Options::style('form-radius');        // По умолчанию ' rounded'
+$form_class = Codeweber_Options::style('form-radius', '');    // Пустая строка как fallback
 ```
+
+Все опции загружаются за один `get_option('redux_demo')` и кэшируются на весь запрос.
 
 ---
 
