@@ -29,13 +29,7 @@ require 'redux_pageheader.php';
 
 
 /**
- *  Redux Style
- */
-require 'redux_style.php';
-
-
-/**
- *  Redux Style
+ *  Redux CF7 Shortcodes
  */
 require 'redux_cf7.php';
 
