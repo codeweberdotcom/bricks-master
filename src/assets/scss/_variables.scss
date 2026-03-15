@@ -947,6 +947,8 @@ $navbar-vertical-nav-link-line-height:     $line-height-base !default;
 $navbar-vertical-nav-link-text-transform:  none !default;
 $navbar-vertical-nav-link-letter-spacing:  normal !default;
 // Дети (collapse / вложенные уровни) — все типы
+$dropdown-font-size: $font-size-base * 0.9375 !default;
+$dropdown-font-weight: $font-weight-bold !default;
 $navbar-vertical-sub-nav-link-font-size:   $dropdown-font-size !default;
 $navbar-vertical-sub-nav-link-font-weight: $dropdown-font-weight !default;
 $navbar-vertical-sub-nav-link-padding-y:   null !default;
