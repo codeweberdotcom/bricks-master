@@ -641,6 +641,9 @@ $hr-margin-y: 0rem !default;
 $hr-color: $border-light !default;
 $hr-height: $border-width !default;
 $hr-opacity: 1 !default;
+$text-line-height: 0.05rem !default;
+$text-line-width: 0.75rem !default;
+$text-line-color: var(--#{$prefix}primary) !default;
 //----------------------------------------------------------//
 //	BUTTONS
 //----------------------------------------------------------//

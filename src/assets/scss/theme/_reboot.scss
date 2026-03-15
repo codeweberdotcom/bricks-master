@@ -653,9 +653,9 @@ h6 {
     top: 50%;
     transform: translateY(-60%);
     left: 0;
-    width: 0.75rem;
-    height: 0.05rem;
-    background: var(--#{$prefix}primary);
+    width: $text-line-width;
+    height: $text-line-height;
+    background: $text-line-color;
   }
   @each $color,
   $value in $colors {
@@ -678,8 +678,8 @@ h6 {
   top: 50%;
   transform: translateY(-60%);
   left: 0;
-  width: .75rem;
-  height: .05rem;
+  width: $text-line-width;
+  height: $text-line-height;
     background: var(--#{$prefix}primary) !important;
   }
 }
@@ -690,10 +690,13 @@ h6 {
   &::after {
     content: "";
     flex: 1;
-    height: 0.05rem;
+    height: $text-line-height;
     background-color: $border-light;
     margin-left: 1rem;
   }
+}
+.list-unstyled .text-line {
+  width: 100%;
 }
 
 .text-primary {
@@ -1069,6 +1072,22 @@ figure img {
     li {
       display: inline-block;
       width: 100%;
+    }
+  }
+  ol.cc-2,
+  ol.cc-3 {
+    list-style: none;
+    padding-left: 0;
+    counter-reset: ol-counter;
+    li {
+      counter-increment: ol-counter;
+      padding-left: 1.5em;
+      position: relative;
+      &::before {
+        content: counter(ol-counter) ".";
+        position: absolute;
+        left: 0;
+      }
     }
   }
 }
