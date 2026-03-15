@@ -325,6 +325,182 @@ function {$theme_slug}_enqueue_styles() {
 		copy($screenshot_path, $theme_dir . '/screenshot.png');
 	}
 
+	// Create src/assets/scss/_user-variables.scss
+	wp_mkdir_p($theme_dir . '/src/assets/scss');
+	$current_date    = date('Y-m-d');
+	$scss_header     =
+		"//--------------------------------------------------------------\n" .
+		"// User Variables — {$name}\n" .
+		"// Child тема: {$template}\n" .
+		"// Дата: {$current_date}\n" .
+		"//--------------------------------------------------------------\n" .
+		"// Все переменные темы хранятся здесь.\n" .
+		"// Порядок импорта: _theme-colors → _user-variables → _variables\n" .
+		"//\n" .
+		"// ВАЖНО: \$primary и \$white недоступны в этом файле!\n" .
+		"//         Используй \$blue вместо \$primary, #ffffff вместо \$white.\n" .
+		"//--------------------------------------------------------------\n\n";
+	$scss_body       = <<<'SCSS'
+// ── Основные цвета ──
+// $primary: #365edc;              // (было: $blue / #3f78e0)
+// $navy:    #333333;              // (было: #343f52)
+// $sky:     #0ca9e3;              // Info
+// $red:     #dc130d;              // Danger
+// $orange:  #f38b04;              // Warning
+// $green:   #84bc29;              // Success
+
+// $body-color: #555555;
+// $dark: #333333;
+// $headings-color: #333333;
+
+// Глобальное скругление
+// $border-radius: 0.267rem;       // 4px при root 15px
+
+// ── Типографика ──
+// $font-family-sans-serif: Montserrat, Arial, sans-serif;
+// $font-size-root: 15px;
+// $font-size-base: 1rem;
+// $font-weight-normal: 400;
+// $line-height-base: 1.667;
+
+// $h1-font-size: 2.8rem;          // 42px
+// $h2-font-size: 2rem;            // 30px
+// $h4-font-size: 1.375rem;        // 20.6px
+
+// ── Навигация (горизонтальное меню) ──
+// $nav-link-font-size:       0.8rem;
+// $nav-link-font-weight:     700;
+// $nav-link-text-transform:  uppercase;
+// $nav-link-letter-spacing:  0.064rem;
+
+// ── Навигация (dropdown) ──
+// $dropdown-min-width: 14rem;
+// $dropdown-font-size: 1rem;
+
+// ── Кнопки ──
+// $btn-border-width: 1px;
+// $btn-font-weight: 700;
+// $btn-padding-y:   0.6rem;
+// $btn-padding-x:   1.333rem;
+// $btn-font-size:   0.933rem;
+// $input-btn-line-height: 1.43;
+
+// ── Формы ──
+// $input-font-size:          0.933rem;
+// $input-bg:                 #f8f8f8;
+// $input-border-color:       #e5e5e5;
+// $input-padding-y:          0.867rem;
+// $input-padding-x:          0.8rem;
+// $input-focus-border-color: #999999;
+
+// ── Аккордеон ──
+// $accordion-button-font-size:   1.2rem;
+// $accordion-button-font-weight: 700;
+// $accordion-icon-color:         #555555;
+
+// ── Табы (nav-pills) ──
+// $nav-pills-padding:           0.933rem 1.467rem;
+// $nav-pills-bg:                #fafafa;
+// $nav-pills-active-box-shadow: inset 0 2px 0 $blue;
+// $nav-pills-hover-bg:          #ffffff;
+// $nav-pills-hover-color:       #333333;
+
+// ── Списки ──
+// $text-line-color:  #666666;     // цвет маркера-бара в .text-line
+// $text-line-height: 1px;         // высота маркера (min 1px чтобы рендерился)
+// .list-unstyled .text-line,
+// ul li { margin-bottom: 8px; }
+
+// ── Breadcrumb ──
+// $breadcrumb-divider-color: #dddddd;
+// $breadcrumb-active-color:  $body-color;
+
+//START IMPORT FONTS
+// @import "fonts/FontName";
+//END IMPORT FONTS
+SCSS;
+	file_put_contents($theme_dir . '/src/assets/scss/_user-variables.scss', $scss_header . $scss_body);
+
+	// Create CLAUDE.md
+	$claude_md = <<<CLAUDE_MD
+# CLAUDE.md — {$name}
+
+Дочерняя тема **{$template}**. Создана {$current_date}.
+
+---
+
+## Главное правило стилизации
+
+**Весь стайлинг — только через `src/assets/scss/_user-variables.scss` в ЭТОЙ теме.**
+
+- ✅ Редактировать: `src/assets/scss/_user-variables.scss` (в этой папке)
+- ❌ Никогда не трогать: `../{$template}/src/assets/scss/_user-variables.scss`
+
+### Порядок импорта SCSS
+
+```
+_theme-colors.scss  →  _user-variables.scss  →  _variables.scss
+```
+
+`\$primary` и `\$white` **недоступны** в `_user-variables.scss`.
+Используй `\$blue` вместо `\$primary`, `#ffffff` вместо `\$white`.
+
+---
+
+## Сборка
+
+Gulp запускается **из директории parent темы**:
+
+```bash
+cd ../{$template}
+npm run build       # продакшен
+npm start           # режим разработки
+```
+
+Или через скилл `/build`.
+
+Gulp автоматически определяет активную child тему через WordPress и выводит файлы в `dist/`.
+
+**Требование:** Laragon должен быть запущен (MySQL). Без БД — ошибка `WordPress not loaded`.
+
+---
+
+## Git-правила
+
+Перед любыми правками:
+1. Проверить `git status`
+2. Если есть незакоммиченные изменения — предложить коммит
+3. Только после коммита (или явного отказа) приступать к изменениям
+
+---
+
+## Справочник переменных
+
+Полный справочник переменных и паттерны извлечения дизайна:
+`.claude/skills/design-extract/SKILL.md`
+
+Полная документация parent (локально):
+`../{$template}/doc_claude/`
+
+---
+
+## Архитектура (унаследована от {$template})
+
+Child тема наследует всю архитектуру parent:
+- CPT, Redux Framework, Nav-walkers, AJAX, CF7, DaData — в parent
+- Для переопределения шаблонов — создай такую же структуру в child
+- Функции enqueue — сначала ищет файл в child, потом в parent
+CLAUDE_MD;
+	wp_mkdir_p($theme_dir . '/.claude');
+	file_put_contents($theme_dir . '/CLAUDE.md', $claude_md);
+
+	// Copy init skill from parent so `/init` is available immediately
+	$parent_init_skill = get_theme_root() . '/' . $template . '/.claude/skills/init/SKILL.md';
+	if (file_exists($parent_init_skill)) {
+		wp_mkdir_p($theme_dir . '/.claude/skills/init');
+		copy($parent_init_skill, $theme_dir . '/.claude/skills/init/SKILL.md');
+	}
+
 	wp_send_json_success(array(
 		'message' => esc_html__('Child theme created successfully!', 'codeweber'),
 		'theme_dir' => $theme_dir
