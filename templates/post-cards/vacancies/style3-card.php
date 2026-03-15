@@ -22,11 +22,11 @@ if (!$vacancy_image_url) {
     global $opt_name;
     $options = get_option($opt_name);
     $custom_dark_logo = get_post_meta($post_id, 'custom-logo-dark-header', true);
-    if (!empty($custom_dark_logo['url'])) {
-        $vacancy_image_url = $custom_dark_logo['url'];
-    } elseif (!empty($options['opt-dark-logo']['url'])) {
-        $vacancy_image_url = $options['opt-dark-logo']['url'];
-    } else {
+    $vacancy_image_url = codeweber_get_media_url($custom_dark_logo);
+    if (empty($vacancy_image_url) && !empty($options['opt-dark-logo'])) {
+        $vacancy_image_url = codeweber_get_media_url($options['opt-dark-logo']);
+    }
+    if (empty($vacancy_image_url)) {
         $vacancy_image_url = get_template_directory_uri() . '/dist/assets/img/logo-dark.png';
     }
 }

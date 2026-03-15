@@ -1011,16 +1011,13 @@ function get_loader()
     $logo_url = '';
     switch ($type) {
         case 'logo-light':
-            $logo_data = Codeweber_Options::get('opt-light-logo', '');
-            $logo_url  = is_array($logo_data) ? ($logo_data['url'] ?? '') : $logo_data;
+            $logo_url = Codeweber_Options::media_url('opt-light-logo');
             break;
         case 'logo-dark':
-            $logo_data = Codeweber_Options::get('opt-dark-logo', '');
-            $logo_url  = is_array($logo_data) ? ($logo_data['url'] ?? '') : $logo_data;
+            $logo_url = Codeweber_Options::media_url('opt-dark-logo');
             break;
         case 'custom':
-            $logo_data = Codeweber_Options::get('page-loader-custom-logo', '');
-            $logo_url  = is_array($logo_data) ? ($logo_data['url'] ?? '') : $logo_data;
+            $logo_url = Codeweber_Options::media_url('page-loader-custom-logo');
             break;
     }
 

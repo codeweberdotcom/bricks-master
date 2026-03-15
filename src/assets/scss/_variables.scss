@@ -807,6 +807,11 @@ $nav-link-letter-spacing: $letter-spacing !default;
 $nav-link-color: $main-dark !default;
 $nav-link-hover-color: var(--#{$prefix}primary) !default;
 $nav-link-transition: color 0.2s ease-in-out !default;
+
+// Nav fancy (верхний уровень навигации)
+$nav-link-padding-y-lg: 1.25rem !default;
+$nav-link-padding-x-lg: 1.25rem !default;
+$navbar-expand-lg-margin-top: 2.25rem !default;
 $nav-link-disabled-color: $gray-500 !default;
 $nav-tabs-border-color: $border-light !default;
 $nav-tabs-border-radius: $border-radius !default;
@@ -932,6 +937,18 @@ $navbar-parent-link-dropdown-toggle-padding-right: var(--#{$prefix}navbar-nav-li
 //----------------------------------------------------------//
 //	NAVBAR VERTICAL (collapse menu)
 //----------------------------------------------------------//
+// Общие переменные типографики для ВСЕХ вертикальных типов (1–5)
+$navbar-vertical-nav-link-font-size:       $nav-link-font-size !default;
+$navbar-vertical-nav-link-font-weight:     $nav-link-font-weight !default;
+$navbar-vertical-nav-link-line-height:     $line-height-base !default;
+$navbar-vertical-nav-link-text-transform:  none !default;
+$navbar-vertical-nav-link-letter-spacing:  normal !default;
+// Дети (collapse / вложенные уровни) — все типы
+$navbar-vertical-sub-nav-link-font-size:   $dropdown-font-size !default;
+$navbar-vertical-sub-nav-link-font-weight: $dropdown-font-weight !default;
+$navbar-vertical-sub-nav-link-padding-y:   null !default;
+$navbar-vertical-sub-nav-link-padding-x:   null !default;
+
 // Type 1: compact, no borders
 $navbar-vertical-1-item-padding-y: 0.25rem !default;
 $navbar-vertical-1-item-padding-x: 0 !default;
@@ -942,10 +959,10 @@ $navbar-vertical-1-nav-link-padding-top: 0 !default;
 $navbar-vertical-1-nav-link-padding-right: 0 !default;
 $navbar-vertical-1-nav-link-padding-bottom: 0 !default;
 $navbar-vertical-1-nav-link-padding-left: 0 !default;
-$navbar-vertical-1-nav-link-font-size: inherit !default;
-$navbar-vertical-1-nav-link-font-weight: inherit !default;
-$navbar-vertical-1-nav-link-text-transform: none !default;
-$navbar-vertical-1-nav-link-letter-spacing: normal !default;
+$navbar-vertical-1-nav-link-font-size: $navbar-vertical-nav-link-font-size !default;
+$navbar-vertical-1-nav-link-font-weight: $navbar-vertical-nav-link-font-weight !default;
+$navbar-vertical-1-nav-link-text-transform: $navbar-vertical-nav-link-text-transform !default;
+$navbar-vertical-1-nav-link-letter-spacing: $navbar-vertical-nav-link-letter-spacing !default;
 $navbar-vertical-1-nav-link-color: inherit !default;
 // Type 2: with borders (single variable for nav-link padding; change this to adjust all related spacing)
 $navbar-vertical-2-nav-link-padding: 0.75rem !default;
@@ -953,10 +970,10 @@ $navbar-vertical-2-nav-link-padding-top: $navbar-vertical-2-nav-link-padding !de
 $navbar-vertical-2-nav-link-padding-right: 0 !default;
 $navbar-vertical-2-nav-link-padding-bottom: $navbar-vertical-2-nav-link-padding !default;
 $navbar-vertical-2-nav-link-padding-left: $navbar-vertical-2-nav-link-padding !default;
-$navbar-vertical-2-nav-link-font-size: $nav-link-font-size !default;
-$navbar-vertical-2-nav-link-font-weight: $nav-link-font-weight !default;
-$navbar-vertical-2-nav-link-text-transform: none !default;
-$navbar-vertical-2-nav-link-letter-spacing: normal !default;
+$navbar-vertical-2-nav-link-font-size: $navbar-vertical-nav-link-font-size !default;
+$navbar-vertical-2-nav-link-font-weight: $navbar-vertical-nav-link-font-weight !default;
+$navbar-vertical-2-nav-link-text-transform: $navbar-vertical-nav-link-text-transform !default;
+$navbar-vertical-2-nav-link-letter-spacing: $navbar-vertical-nav-link-letter-spacing !default;
 $navbar-vertical-2-nav-link-color: inherit !default;
 $navbar-vertical-2-top-level-border-width: $border-width !default;
 $navbar-vertical-2-top-level-border-style: solid !default;
@@ -973,10 +990,10 @@ $navbar-vertical-2-sub-nav-link-font-weight: null !default;
 // Type 3: bordered nav container, item borders, single padding variable (py-3/pt-3 style)
 $navbar-vertical-3-padding: 0.75rem !default;
 $navbar-vertical-3-nav-link-padding: $navbar-vertical-3-padding !default;
-$navbar-vertical-3-nav-link-font-size: inherit !default;
-$navbar-vertical-3-nav-link-font-weight: inherit !default;
-$navbar-vertical-3-nav-link-text-transform: none !default;
-$navbar-vertical-3-nav-link-letter-spacing: normal !default;
+$navbar-vertical-3-nav-link-font-size: $navbar-vertical-nav-link-font-size !default;
+$navbar-vertical-3-nav-link-font-weight: $navbar-vertical-nav-link-font-weight !default;
+$navbar-vertical-3-nav-link-text-transform: $navbar-vertical-nav-link-text-transform !default;
+$navbar-vertical-3-nav-link-letter-spacing: $navbar-vertical-nav-link-letter-spacing !default;
 $navbar-vertical-3-nav-link-color: inherit !default;
 $navbar-vertical-3-item-border-width: $border-width !default;
 $navbar-vertical-3-item-border-style: solid !default;
@@ -999,6 +1016,17 @@ $navbar-vertical-dropdown-toggle-margin-right: 0 !default;
 // Вложенные пункты (дети): отступы иконки каретки
 $navbar-vertical-dropdown-toggle-margin-left-children: 0 !default;
 $navbar-vertical-dropdown-toggle-margin-right-children: 1rem !default;
+// Type 5: dropdown-menu (дети) — светлая тема
+$navbar-vertical-dropdown-bg:              var(--#{$prefix}white) !default;
+$navbar-vertical-dropdown-color:           $navbar-vertical-light-color !default;
+$navbar-vertical-dropdown-hover-color:     $navbar-light-hover-color !default;
+$navbar-vertical-dropdown-link-hover-bg:   transparent !default;
+$navbar-vertical-dropdown-link-active-bg:  null !default;
+// Type 5: dropdown-menu (дети) — тёмная тема
+$navbar-vertical-dropdown-dark-bg:             #2e353e !default;
+$navbar-vertical-dropdown-dark-color:          $navbar-vertical-dark-color !default;
+$navbar-vertical-dropdown-dark-hover-color:    $navbar-dark-hover-color !default;
+$navbar-vertical-dropdown-dark-link-hover-bg:  transparent !default;
 //----------------------------------------------------------//
 //	DROPDOWN
 //----------------------------------------------------------//
@@ -1296,10 +1324,16 @@ $accordion-card-body-padding-right: 0 1.1rem 0 0 !default;
 $accordion-card-header-padding: 0 0 0.8rem 0 !default;
 $accordion-card-header-padding-default: 0 !default;
 
-// Отступ для кнопки в шапке аккордеона (по умолчанию)
-$accordion-card-header-button-padding: 0.9rem 2.6rem 0.85rem !default;
+// Отступ для кнопки в шапке аккордеона (card-стиль, без .plain)
+$accordion-card-header-button-padding: 0.9rem 2.9rem 0.85rem !default;
+$accordion-card-header-button-padding-right: 0.9rem 2.6rem 0.85rem 1.3rem !default;
 
-// две переменные для разных положений кнопки
+// Card-стиль — border и shadow
+$accordion-card-border: 0 !default;
+$accordion-card-box-shadow: null !default; // null = используется $box-shadow-with-border из card
+$accordion-card-border-radius: null !default; // null = используется $border-radius
+
+// две переменные для разных положений кнопки (plain-стиль)
 $accordion-button-padding-left: 0 0 0 1rem !default;
 $accordion-button-padding-right: 0 1rem 0 0 !default;
 
@@ -1311,6 +1345,7 @@ $accordion-button-font-size: 0.85rem !default;
 $accordion-button-font-weight: $font-weight-bold !default;
 $accordion-icon-font-size: 1.15rem !default;
 $accordion-icon-color: var(--#{$prefix}primary) !default;
+$accordion-icon-margin-top: -0.3rem !default;
 
 $accordion-body-padding-icon: 0 1.25rem 0.25rem 2.8rem !default;
 $accordion-button-icon-span: 1.3rem !default;
@@ -1338,14 +1373,17 @@ $accordion-icon-opened-rotate: 180deg !default;
 
 // Hover эффекты
 $accordion-card-hover-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !default;
-$accordion-card-hover-transition: background ease 0.3s, box-shadow ease 0.3s !default;
+$accordion-card-hover-transition: background ease 0.3s, box-shadow ease 0.3s, border ease 0.3s !default;
+
+// Цвета состояний кнопки
+$accordion-button-collapsed-color: $main-dark !default; // Цвет текста в закрытом состоянии
+$accordion-button-active-color: var(--#{$prefix}primary) !default; // Цвет текста в открытом состоянии
+$accordion-icon-active-color: null !default; // Цвет иконки в открытом состоянии (null = наследует $accordion-icon-color)
 
 // Hover цвета
 $accordion-button-hover-color: var(--#{$prefix}primary) !default;
 $accordion-icon-hover-color: var(--#{$prefix}primary) !default;
-
-// Цвет текста в открытом состоянии
-$accordion-button-active-color: var(--#{$prefix}primary) !default;
+$accordion-icon-hover-scale: null !default; // Масштаб иконки при hover (напр. 1.1), null = без scale
 
 // Значения по умолчанию (для класса .icon-left)
 $accordion-button-padding: $accordion-button-padding-left !default;

@@ -5,7 +5,7 @@
 //--------------------------------------------------------------
 
 // ── Основные цвета ──
-$blue:    #365edc;              // (было: #3f78e0)
+$primary: #365edc;              // (было: $blue / #3f78e0)
 $navy:    #333333;              // (было: #343f52)
 $sky:     #0ca9e3;              // (было: #5eb9f0) — Info
 $red:     #dc130d;              // (было: #e2626b) — Danger
@@ -18,6 +18,47 @@ $headings-color: #333333;
 
 // Глобальное скругление
 $border-radius: 0.267rem;       // (было: 0.4rem) — 4px при root 15px
+
+// ── Навигация (горизонтальное меню, верхний уровень) ──
+$nav-link-font-size:       0.8rem;       // (было: 0.8rem) — 12px, как на AllCorp3
+$nav-link-font-weight:     700;          // (было: $font-weight-bold / 700) — совпадает
+$nav-link-text-transform:  uppercase;    // (было: none) — UPPERCASE на AllCorp3
+$nav-link-letter-spacing:  0.064rem;     // (было: $letter-spacing) — 0.96px на AllCorp3
+
+// ── Навигация (dropdown) ──
+$dropdown-min-width: 14rem;        // (было: 10rem / 150px) — шире для 15px шрифта
+
+// ── Навигация (dropdown / дети) ──
+$dropdown-font-size:       1rem;         // (было: $font-size-base * 0.9375 / ~14px) — 15px на AllCorp3
+$dropdown-font-weight:     400;
+$dropdown-text-transform:  none;
+$dropdown-letter-spacing:  normal;
+
+// ── Вертикальное меню — общие для всех типов (1–5) ──
+$navbar-vertical-nav-link-font-size:       1rem;      // 15px — верхний уровень
+$navbar-vertical-nav-link-font-weight:     400;
+$navbar-vertical-nav-link-line-height:     1.667;
+// Дети
+$navbar-vertical-sub-nav-link-font-size:   0.933rem;  // 14px
+$navbar-vertical-sub-nav-link-font-weight: 400;
+$navbar-vertical-sub-nav-link-padding-y:   0.2rem;    // 3px
+$navbar-vertical-sub-nav-link-padding-x:   0;
+
+// ── Вертикальное меню Type 2 (sidebar, как AllCorp3) ──
+$navbar-vertical-2-nav-link-padding-top:    1.133rem;   // 17px
+$navbar-vertical-2-nav-link-padding-right:  3.133rem;   // 47px
+$navbar-vertical-2-nav-link-padding-bottom: 1.067rem;   // 16px
+$navbar-vertical-2-nav-link-padding-left:   1.533rem;   // 23px
+$navbar-vertical-2-nav-link-font-size:      1rem;       // 15px
+$navbar-vertical-2-nav-link-font-weight:    400;
+$navbar-vertical-2-border-radius:           2rem;       // rounded-4
+$navbar-vertical-2-hover-bg:                rgba(0, 0, 0, 0.03);
+$navbar-vertical-2-active-font-weight:      700;
+// Sub-items (дети)
+$navbar-vertical-2-sub-nav-link-padding-y:  0.2rem;     // 3px
+$navbar-vertical-2-sub-nav-link-padding-x:  1.467rem;   // 22px
+$navbar-vertical-2-sub-nav-link-font-size:  0.933rem;   // 14px
+$navbar-vertical-2-sub-nav-link-font-weight: 400;
 
 // ── Типографика ──
 $font-family-sans-serif: Montserrat, Arial, sans-serif;  // (было: Manrope)
@@ -80,37 +121,57 @@ $input-focus-border-color:  #999999;   // (было: $focus-border / голуб�
 $input-focus-box-shadow:    inset 0 1px 1px rgba(0,0,0,.015);  // лёгкая внутренняя тень при focus
 $form-floating-height: calc(3.067rem + 2px);  // (было: 2.5rem + border) — 48px как на AllCorp3
 
+// ── Аккордеон ──
+// Извлечено из: https://allcorp3-demo.ru/info/more/elements/ (2026-03-15)
+//
+// Общие (все типы: card и plain)
+$accordion-button-font-size:    1.2rem;         // (было: 0.85rem) — 18px на AllCorp3 (текст внутри span)
+$accordion-button-font-weight:  700;            // (было: $font-weight-bold / 700) — bold как на AllCorp3
+$accordion-icon-font-size:      1.5rem;         // (было: 1.15rem) — 22.5px иконка
+$accordion-icon-color:          #555555;        // (было: var(--primary)) — серая иконка, не primary
+$accordion-icon-margin-top:     0;              // (было: -0.3rem) — без смещения при равных padding
+$accordion-margin-bottom:       -1px;           // (было: 1.25rem) — items перекрывают бордер (-1px как на AllCorp3)
+
+// Цвета состояний
+$accordion-button-collapsed-color: $body-color; // (было: $main-dark / #333) — на AllCorp3 #555555
+$accordion-button-active-color:    $body-color;  // цвет текста при открытии — не меняется (#555)
+$accordion-icon-active-color:      $primary;    // цвет иконки при открытии — primary
+
+// Hover
+$accordion-button-hover-color:  $body-color;    // (было: var(--primary)) — на AllCorp3 цвет не меняется при hover
+$accordion-icon-hover-color:    $primary;       // иконка меняется на primary при hover
+$accordion-icon-hover-scale:    1.1;            // (было: null) — иконка увеличивается на 10% при hover
+
+// Иконки — одна иконка с поворотом (как стрелка на AllCorp3)
+$accordion-icon-type: "one";                    // (было: "two") — одна иконка с поворотом
+$accordion-icon-one: "\ec5d";                   // (было: $icon-caret-down) — uil-plus, поворотом превращается в ×
+$accordion-icon-closed-rotate:  -45deg;         // (было: 0deg) — начальный поворот
+$accordion-icon-opened-rotate:  135deg;         // (было: 180deg) — поворот при открытии
+
+// Card стиль — на AllCorp3 card с бордером, без тени
+$accordion-card-border:        1px solid #e5e5e5;  // (было: 0) — бордер как на AllCorp3
+$accordion-card-box-shadow:    none;               // (было: null = $box-shadow-with-border) — убрать тень
+$accordion-card-border-radius: $border-radius $border-radius 0 0; // 4px 4px 0 0
+$accordion-card-hover-shadow:  0 5px 20px rgba(0, 0, 0, 0.1); // тень при hover — эффект "увеличения" карточки
+
+// Card стиль — padding кнопки (icon-left / icon-right), вертикальные равные
+$accordion-card-header-button-padding:       1.667rem 2.533rem 1.667rem 5rem;     // (было: 0.9rem 2.9rem 0.85rem) — 25px top/bottom равные
+$accordion-card-header-button-padding-right: 1.667rem 5.733rem 1.667rem 2.267rem; // (было: 0.9rem 2.6rem 0.85rem 1.3rem) — 25px top/bottom равные
+
+// Plain стиль — padding header, вертикальные равные
+$accordion-card-header-padding: 1.667rem 2.267rem 1.667rem; // (было: 0 0 0.8rem 0) — 25px top/bottom равные
+
+// Plain стиль — padding кнопки
+$accordion-button-padding-right: 0 5.733rem 0 0; // (было: 0 1rem 0 0) — большой отступ для иконки справа
+$accordion-button-padding-left:  0 0 0 5rem;     // (было: 0 0 0 1rem) — большой отступ для иконки слева
+
+// Padding body (для card и plain)
+$accordion-body-padding-right:  0 2.2rem 0.5rem 2.2rem;  // (было: 0 2.35rem 0.25rem 1.25rem) — 0 33px 8px 33px
+$accordion-body-padding-left:   0 2.2rem 0.5rem 2.2rem;  // (было: 0 1.25rem 0.25rem 2.6rem)
+
 // ── Breadcrumb ──
 $breadcrumb-divider-color: #dddddd;  // (было: rgba($gray-600, 0.35))
 $breadcrumb-active-color:  $body-color;
-
-// ── Навигация (горизонтальное меню, верхний уровень) ──
-$nav-link-font-size:       0.8rem;       // (было: 0.8rem) — 12px, как на AllCorp3
-$nav-link-font-weight:     700;          // (было: $font-weight-bold / 700) — совпадает
-$nav-link-text-transform:  uppercase;    // (было: none) — UPPERCASE на AllCorp3
-$nav-link-letter-spacing:  0.064rem;     // (было: $letter-spacing) — 0.96px на AllCorp3
-
-// ── Навигация (dropdown / дети) ──
-$dropdown-font-size:       1rem;         // (было: $font-size-base * 0.9375 / ~14px) — 15px на AllCorp3
-$dropdown-font-weight:     400;          // (было: $font-weight-bold / 700) — обычный на AllCorp3
-$dropdown-text-transform:  none;         // (было: none) — совпадает
-$dropdown-letter-spacing:  normal;       // (было: normal) — совпадает
-
-// ── Вертикальное меню Type 2 (sidebar, как AllCorp3) ──
-$navbar-vertical-2-nav-link-padding-top:    1.133rem;   // 17px
-$navbar-vertical-2-nav-link-padding-right:  3.133rem;   // 47px
-$navbar-vertical-2-nav-link-padding-bottom: 1.067rem;   // 16px
-$navbar-vertical-2-nav-link-padding-left:   1.533rem;   // 23px
-$navbar-vertical-2-nav-link-font-size:      1rem;       // 15px (не как в хедере)
-$navbar-vertical-2-nav-link-font-weight:    400;        // обычный, 700 только у активного
-$navbar-vertical-2-border-radius:           2rem;       // rounded-4
-$navbar-vertical-2-hover-bg:                rgba(0, 0, 0, 0.03);
-$navbar-vertical-2-active-font-weight:      700;
-// Sub-items (дети)
-$navbar-vertical-2-sub-nav-link-padding-y:  0.2rem;     // 3px
-$navbar-vertical-2-sub-nav-link-padding-x:  1.467rem;   // 22px
-$navbar-vertical-2-sub-nav-link-font-size:  0.933rem;   // 14px
-$navbar-vertical-2-sub-nav-link-font-weight: 400;
 
 //START IMPORT FONTS
 @import "fonts/Montserrat";

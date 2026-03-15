@@ -56,13 +56,11 @@ if (!$office_image_url) {
     
     // Проверяем кастомный логотип для поста
     $custom_dark_logo = get_post_meta($post_id, 'custom-logo-dark-header', true);
-    if (!empty($custom_dark_logo['url'])) {
-        $office_image_url = $custom_dark_logo['url'];
-    } elseif (!empty($options['opt-dark-logo']['url'])) {
-        // Логотип из Redux настроек
-        $office_image_url = $options['opt-dark-logo']['url'];
-    } else {
-        // Дефолтный логотип из темы
+    $office_image_url = codeweber_get_media_url($custom_dark_logo);
+    if (empty($office_image_url) && !empty($options['opt-dark-logo'])) {
+        $office_image_url = codeweber_get_media_url($options['opt-dark-logo']);
+    }
+    if (empty($office_image_url)) {
         $office_image_url = get_template_directory_uri() . '/dist/assets/img/logo-dark.png';
     }
 }

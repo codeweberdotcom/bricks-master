@@ -281,9 +281,6 @@ blockquote {
 .icon-list.bullet-bg i {
   top: .25rem
 }
-.accordion-wrapper .card-header button:before {
-  margin-top: -.2rem
-}
 .form-floating>label {
   padding-top: .65rem
 }

@@ -18,6 +18,25 @@
   .card {
     margin-bottom: $accordion-margin-bottom;
 
+    @if $accordion-card-border != 0 {
+      border: $accordion-card-border;
+    }
+    @if $accordion-card-box-shadow != null {
+      box-shadow: $accordion-card-box-shadow;
+    }
+    @if $accordion-card-border-radius != null {
+      border-radius: $accordion-card-border-radius;
+    }
+    transition: $accordion-card-hover-transition;
+
+    &:not(.plain):hover {
+      @if $accordion-card-hover-shadow != none {
+        box-shadow: $accordion-card-hover-shadow;
+        border-color: transparent;
+        z-index: 1;
+      }
+    }
+
     &.plain {
       background: none;
       border: 0;
@@ -61,6 +80,9 @@
           }
 
           &:not(.collapsed):before {
+            @if $accordion-icon-active-color != null {
+              color: $accordion-icon-active-color;
+            }
             // Вариант с одной иконкой (поворот)
             @if $accordion-icon-type == "one" {
               content: $accordion-icon-one;
@@ -87,13 +109,13 @@
     button {
       cursor: pointer;
       width: 100%;
-      padding: .9rem 2.9rem .85rem;
+      padding: $accordion-card-header-button-padding;
       text-align: left;
       margin: 0;
       border: 0;
       @include font-size($accordion-button-font-size);
       font-weight: $accordion-button-font-weight;
-      color: var(--#{$prefix}primary);
+      color: $accordion-button-active-color;
       @include transition(all 150ms ease-in-out);
       background: none;
       position: relative;
@@ -104,9 +126,10 @@
         position: absolute;
         @include font-size($accordion-icon-font-size);
         font-weight: normal;
-        width: 1rem;
+        width: $accordion-icon-font-size;
         display: inline-block;
         color: $accordion-icon-color;
+        margin-top: $accordion-icon-margin-top;
         @include transition(all 0.25s ease);
         left: $accordion-button-icon-span;
         right: auto;
@@ -117,7 +140,7 @@
 
       // Увеличиваем специфичность
       &.collapsed {
-        color: $main-dark;
+        color: $accordion-button-collapsed-color;
 
         &:before {
           // Вариант с одной иконкой (поворот)
@@ -134,9 +157,12 @@
       }
 
       &:not(.collapsed) {
-        color: var(--#{$prefix}primary);
+        color: $accordion-button-active-color;
 
         &:before {
+          @if $accordion-icon-active-color != null {
+            color: $accordion-icon-active-color;
+          }
           // Вариант с одной иконкой (поворот)
           @if $accordion-icon-type == "one" {
             content: $accordion-icon-one;
@@ -155,6 +181,18 @@
 
         &:before {
           color: $accordion-icon-hover-color;
+          @if $accordion-icon-hover-scale != null {
+            transform: translateY(-50%) scale($accordion-icon-hover-scale);
+          }
+        }
+
+        // При открытом аккордеоне hover добавляет scale к rotate
+        &:not(.collapsed):before {
+          @if $accordion-icon-hover-scale != null {
+            @if $accordion-icon-type == "one" {
+              transform: translateY(-50%) rotate($accordion-icon-opened-rotate) scale($accordion-icon-hover-scale);
+            }
+          }
         }
       }
     }
@@ -379,7 +417,7 @@
 
     .card-header {
       button {
-        padding: 0.9rem 2.6rem 0.85rem 1.3rem;
+        padding: $accordion-card-header-button-padding-right;
 
         &:before {
           right: 1.3rem;
@@ -406,7 +444,7 @@
     }
 
     .accordion-item.icon button {
-      padding: 0.9rem 2.6rem 0.85rem 1.3rem;
+      padding: $accordion-card-header-button-padding-right;
     }
 
     .accordion-item.icon button > .icon {

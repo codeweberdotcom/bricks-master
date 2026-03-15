@@ -1,8 +1,32 @@
 <?php
 
 /**
+ * Получает URL из массива Redux media-поля, используя attachment ID.
+ *
+ * Использует wp_get_attachment_url() по ID вложения, что возвращает URL
+ * с текущим доменом сайта. Это позволяет безболезненно переносить сайт
+ * на другой домен без потери логотипов и медиа.
+ *
+ * @param array|string $media_data Данные из Redux media-поля (массив с 'id' и 'url') или строка URL.
+ * @return string URL файла или пустая строка.
+ */
+function codeweber_get_media_url($media_data)
+{
+   if (!is_array($media_data)) {
+      return (string) $media_data;
+   }
+   if (!empty($media_data['id'])) {
+      $url = wp_get_attachment_url($media_data['id']);
+      if ($url) {
+         return $url;
+      }
+   }
+   return $media_data['url'] ?? '';
+}
+
+/**
  * Получает пользовательские логотипы из Redux Framework.
- * 
+ *
  * Функция возвращает логотип в светлом, темном варианте или оба сразу.
  * Если пользовательские логотипы не заданы, используются стандартные изображения.
  *
@@ -24,23 +48,31 @@ function get_custom_logo_type($type = 'both')
    );
 
    // Если кастомные лого заданы, используем их, иначе берем из Redux или дефолт
-   $dark_logo = !empty($custom_dark_logo['url'])
-      ? $custom_dark_logo['url']
-      : (!empty($options['opt-dark-logo']['url']) ? $options['opt-dark-logo']['url'] : $default_logos['dark']);
+   $dark_logo_url = codeweber_get_media_url($custom_dark_logo);
+   if (empty($dark_logo_url)) {
+      $dark_logo_url = !empty($options['opt-dark-logo']) ? codeweber_get_media_url($options['opt-dark-logo']) : '';
+   }
+   if (empty($dark_logo_url)) {
+      $dark_logo_url = $default_logos['dark'];
+   }
 
-   $light_logo = !empty($custom_light_logo['url'])
-      ? $custom_light_logo['url']
-      : (!empty($options['opt-light-logo']['url']) ? $options['opt-light-logo']['url'] : $default_logos['light']);
+   $light_logo_url = codeweber_get_media_url($custom_light_logo);
+   if (empty($light_logo_url)) {
+      $light_logo_url = !empty($options['opt-light-logo']) ? codeweber_get_media_url($options['opt-light-logo']) : '';
+   }
+   if (empty($light_logo_url)) {
+      $light_logo_url = $default_logos['light'];
+   }
 
    // Формируем HTML
    $dark_logo_html = sprintf(
       '<img class="logo-dark" src="%s" alt="">',
-      esc_url($dark_logo)
+      esc_url($dark_logo_url)
    );
 
    $light_logo_html = sprintf(
       '<img class="logo-light" src="%s" alt="">',
-      esc_url($light_logo)
+      esc_url($light_logo_url)
    );
 
    if ($type === 'dark') {

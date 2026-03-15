@@ -115,7 +115,7 @@
 }
 body {
   font-family: Montserrat, sans-serif;
-  font-size: .85rem
+  font-size: 1rem
 }
 .btn,
 .dropdown-item,
@@ -127,42 +127,42 @@ body {
 .nav-link,
 .nav-link p,
 .navbar .btn-sm {
-  font-size: .85rem
+  font-size: 1rem
 }
 .dropdown-menu {
-  font-size: .8rem
+  font-size: .95rem
 }
 .btn-group-sm>.btn,
 .btn-sm,
 .post-meta,
 .share-dropdown .dropdown-menu .dropdown-item {
-  font-size: .75rem
+  font-size: .9rem
 }
 .filter,
 .filter ul li a,
 .meta,
 .post-category {
-  font-size: .7rem
+  font-size: .85rem
 }
 .post-header .post-meta {
-  font-size: .85rem
+  font-size: 1rem
 }
 .accordion-wrapper .card-header button,
 .collapse-link,
 .nav-tabs .nav-link {
-  font-size: .9rem
+  font-size: 1.05rem
 }
 blockquote {
-  font-size: .9rem
+  font-size: 1.05rem
 }
 .blockquote-footer {
-  font-size: .65rem
+  font-size: .8rem
 }
 .blockquote-details p {
-  font-size: .85rem
+  font-size: 1rem
 }
 .counter-wrapper p {
-  font-size: .85rem
+  font-size: 1rem
 }
 .counter-wrapper .counter {
   font-size: calc(1.33rem + .96vw)
@@ -182,9 +182,6 @@ blockquote {
 }
 .icon-list.bullet-bg i {
   top: .25rem
-}
-.accordion-wrapper .card-header button:before {
-  margin-top: -.2rem
 }
 .form-floating>label {
   padding-top: .65rem

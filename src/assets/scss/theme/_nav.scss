@@ -9,7 +9,8 @@
   }
 }
 // Верхний уровень горизонтального меню: text-transform и letter-spacing
-.navbar-nav > .nav-item > .nav-link {
+// Исключаем вертикальное меню — у него свои CSS custom properties
+:not(.navbar-vertical) > .navbar-nav > .nav-item > .nav-link {
   text-transform: $nav-link-text-transform;
   letter-spacing: $nav-link-letter-spacing;
 }
@@ -330,6 +331,7 @@
     padding: var(--#{$prefix}navbar-vertical-nav-link-padding-top) var(--#{$prefix}navbar-vertical-nav-link-padding-right) var(--#{$prefix}navbar-vertical-nav-link-padding-bottom) var(--#{$prefix}navbar-vertical-nav-link-padding-left);
     font-size: var(--#{$prefix}navbar-vertical-nav-link-font-size);
     font-weight: var(--#{$prefix}navbar-vertical-nav-link-font-weight);
+    line-height: $navbar-vertical-nav-link-line-height;
     text-transform: var(--#{$prefix}navbar-vertical-nav-link-text-transform);
     letter-spacing: var(--#{$prefix}navbar-vertical-nav-link-letter-spacing);
     color: var(--#{$prefix}navbar-vertical-nav-link-color);
@@ -419,8 +421,8 @@
     --#{$prefix}navbar-vertical-nav-link-padding-right: #{$navbar-vertical-1-nav-link-padding-right};
     --#{$prefix}navbar-vertical-nav-link-padding-bottom: #{$navbar-vertical-1-nav-link-padding-bottom};
     --#{$prefix}navbar-vertical-nav-link-padding-left: #{$navbar-vertical-1-nav-link-padding-left};
-    --#{$prefix}navbar-vertical-nav-link-font-size: #{$nav-link-font-size};
-    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$nav-link-font-weight};
+    --#{$prefix}navbar-vertical-nav-link-font-size: #{$navbar-vertical-1-nav-link-font-size};
+    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$navbar-vertical-1-nav-link-font-weight};
     --#{$prefix}navbar-vertical-nav-link-text-transform: #{$navbar-vertical-1-nav-link-text-transform};
     --#{$prefix}navbar-vertical-nav-link-letter-spacing: #{$navbar-vertical-1-nav-link-letter-spacing};
     --#{$prefix}navbar-vertical-nav-link-color: #{$navbar-vertical-1-nav-link-color};
@@ -504,8 +506,8 @@
     --#{$prefix}navbar-vertical-nav-link-padding-right: 0;
     --#{$prefix}navbar-vertical-nav-link-padding-bottom: #{$navbar-vertical-3-nav-link-padding};
     --#{$prefix}navbar-vertical-nav-link-padding-left: 0;
-    --#{$prefix}navbar-vertical-nav-link-font-size: #{$nav-link-font-size};
-    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$nav-link-font-weight};
+    --#{$prefix}navbar-vertical-nav-link-font-size: #{$navbar-vertical-3-nav-link-font-size};
+    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$navbar-vertical-3-nav-link-font-weight};
     --#{$prefix}navbar-vertical-nav-link-text-transform: #{$navbar-vertical-3-nav-link-text-transform};
     --#{$prefix}navbar-vertical-nav-link-letter-spacing: #{$navbar-vertical-3-nav-link-letter-spacing};
     --#{$prefix}navbar-vertical-nav-link-color: #{$navbar-vertical-3-nav-link-color};
@@ -524,21 +526,31 @@
   .menu-collapse-3 .btn-collapse {
     margin-right: $navbar-vertical-3-btn-collapse-margin-right;
   }
-  // Второй и ниже уровни (collapse/dropdown): размер и толщина как у пунктов dropdown в горизонтальном меню
+  // Второй и ниже уровни (collapse/dropdown): общие переменные для всех вертикальных типов
   .collapse .nav-link,
   .collapsing .nav-link {
-    font-size: $dropdown-font-size;
-    font-weight: $dropdown-font-weight;
+    font-size: $navbar-vertical-sub-nav-link-font-size;
+    font-weight: $navbar-vertical-sub-nav-link-font-weight;
+    text-transform: $navbar-vertical-nav-link-text-transform;
+    letter-spacing: $navbar-vertical-nav-link-letter-spacing;
+    @if $navbar-vertical-sub-nav-link-padding-y {
+      padding-top: $navbar-vertical-sub-nav-link-padding-y;
+      padding-bottom: $navbar-vertical-sub-nav-link-padding-y;
+    }
+    @if $navbar-vertical-sub-nav-link-padding-x {
+      padding-right: $navbar-vertical-sub-nav-link-padding-x;
+      padding-left: $navbar-vertical-sub-nav-link-padding-x;
+    }
   }
 
   // Type 4: простой список без .nav-link; цвет и типографика через .navbar-light/.navbar-dark, первый уровень = nav-link, вложенные = dropdown
   .menu-list-type-4 > li > a {
-    font-size: $nav-link-font-size;
-    font-weight: $nav-link-font-weight;
+    font-size: $navbar-vertical-nav-link-font-size;
+    font-weight: $navbar-vertical-nav-link-font-weight;
   }
   .menu-type-4-sub a {
-    font-size: $dropdown-font-size;
-    font-weight: $dropdown-font-weight;
+    font-size: $navbar-vertical-sub-nav-link-font-size;
+    font-weight: $navbar-vertical-sub-nav-link-font-weight;
   }
   &.navbar-light .menu-list-type-4 a,
   &.navbar-light .menu-type-4-sub a {
@@ -559,10 +571,14 @@
 
   // Type 5: dropdown (hover), типографика как у горизонтального nav-link; отступ .nav-item.parent-item задаётся выше общим правилом
   &.navbar-vertical-dropdown {
-    --#{$prefix}navbar-vertical-nav-link-font-size: #{$nav-link-font-size};
-    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$nav-link-font-weight};
-    --#{$prefix}navbar-vertical-nav-link-text-transform: #{$nav-link-text-transform};
-    --#{$prefix}navbar-vertical-nav-link-letter-spacing: #{$nav-link-letter-spacing};
+    --#{$prefix}navbar-vertical-nav-link-font-size: #{$navbar-vertical-nav-link-font-size};
+    --#{$prefix}navbar-vertical-nav-link-font-weight: #{$navbar-vertical-nav-link-font-weight};
+    --#{$prefix}navbar-vertical-nav-link-text-transform: #{$navbar-vertical-nav-link-text-transform};
+    --#{$prefix}navbar-vertical-nav-link-letter-spacing: #{$navbar-vertical-nav-link-letter-spacing};
+
+    .dropdown-submenu > .dropdown-item {
+      flex-shrink: 0;
+    }
   }
 }
 
@@ -666,4 +682,20 @@
 //----------------------------------------------------------//
 .navbar.transparent.navbar-light .logo-dark {
   display: block !important;
+}
+
+//----------------------------------------------------------//
+//  NAV FANCY
+//----------------------------------------------------------//
+@media (min-width: 992px) {
+  .navbar-expand-lg.fancy:not(.fixed) .navbar-collapse .nav-link {
+    padding: $nav-link-padding-y-lg $nav-link-padding-x-lg;
+  }
+}
+
+@media (min-width: 992px) {
+  .navbar-expand-lg.fancy:not(.fixed) .navbar-collapse-wrapper {
+      padding: 0 1.5rem 0 1.5rem;
+      margin-top: $navbar-expand-lg-margin-top;
+  }
 }

@@ -136,7 +136,7 @@
 // Font Variables
 $font-family-base: "Montserrat", sans-serif;
 $font-family-secondary: "Montserrat", sans-serif;
-$font-size-base: 0.85rem;
+$font-size-base: 1rem;
 
 // Font Specific Settings
 * {
@@ -203,9 +203,6 @@ blockquote {
 }
 .icon-list.bullet-bg i {
   top: 0.25rem;
-}
-.accordion-wrapper .card-header button:before {
-  margin-top: -0.2rem;
 }
 .form-floating > label {
   padding-top: 0.65rem;

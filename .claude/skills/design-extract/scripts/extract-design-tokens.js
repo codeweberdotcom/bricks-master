@@ -14,6 +14,7 @@
     forms: {},
     breadcrumb: {},
     navigation: {},
+    accordion: {},
     meta: {
       extractedAt: new Date().toISOString(),
       viewportWidth: window.innerWidth,
@@ -361,6 +362,243 @@
         letterSpacing: ns.letterSpacing,
       };
     }
+  }
+
+  // ── 7. Extract Accordion Styles ──
+
+  const accordionSelectors = [
+    '.accordion', '.accordion-wrapper', '[class*="accordion"]',
+    '.collapse-wrapper', '.faq', '[class*="toggle"]', '.panel-group',
+  ];
+
+  let accordionContainer = null;
+  for (const sel of accordionSelectors) {
+    accordionContainer = document.querySelector(sel);
+    if (accordionContainer) break;
+  }
+
+  if (accordionContainer) {
+    // Find all accordion containers for variant detection
+    const allAccordions = document.querySelectorAll(accordionSelectors.join(', '));
+
+    // --- Header / Button ---
+    const headerSelectors = [
+      '.accordion-button', '.card-header button', '.card-header a',
+      '.accordion-header button', '.accordion-header a',
+      '.panel-heading a', '.panel-title a',
+      '[data-toggle="collapse"]', '[data-bs-toggle="collapse"]',
+      '.collapse-link', '.toggle-title',
+    ];
+
+    let firstHeader = null;
+    for (const sel of headerSelectors) {
+      firstHeader = accordionContainer.querySelector(sel);
+      if (firstHeader) break;
+    }
+
+    if (firstHeader) {
+      const hs = window.getComputedStyle(firstHeader);
+
+      // IMPORTANT: Check inner text elements (span, a, strong) — they may have
+      // different font-size/weight than the container element itself.
+      const innerTextEl = firstHeader.querySelector('span, a, strong, b, em');
+      let textFontSize = hs.fontSize;
+      let textFontSizeRem = pxToRem(hs.fontSize, rootFontSize);
+      let textFontWeight = hs.fontWeight;
+      if (innerTextEl) {
+        const its = window.getComputedStyle(innerTextEl);
+        textFontSize = its.fontSize;
+        textFontSizeRem = pxToRem(its.fontSize, rootFontSize);
+        textFontWeight = its.fontWeight;
+      }
+
+      result.accordion.button = {
+        fontSize: textFontSize,
+        fontSizeRem: textFontSizeRem,
+        fontWeight: textFontWeight,
+        containerFontSize: hs.fontSize,
+        containerFontWeight: hs.fontWeight,
+        hasInnerTextEl: !!innerTextEl,
+        color: rgbToHex(hs.color),
+        backgroundColor: rgbToHex(hs.backgroundColor),
+        padding: {
+          top: hs.paddingTop,
+          right: hs.paddingRight,
+          bottom: hs.paddingBottom,
+          left: hs.paddingLeft,
+        },
+        paddingRem: {
+          top: pxToRem(hs.paddingTop, rootFontSize),
+          right: pxToRem(hs.paddingRight, rootFontSize),
+          bottom: pxToRem(hs.paddingBottom, rootFontSize),
+          left: pxToRem(hs.paddingLeft, rootFontSize),
+        },
+        paddingYEqual: hs.paddingTop === hs.paddingBottom,
+        textTransform: hs.textTransform,
+        letterSpacing: hs.letterSpacing,
+        lineHeight: hs.lineHeight,
+      };
+
+      // --- Icon (::before or ::after pseudo-element) ---
+      const beforeStyle = window.getComputedStyle(firstHeader, '::before');
+      const afterStyle = window.getComputedStyle(firstHeader, '::after');
+
+      // Determine which pseudo-element is the icon
+      let iconPseudo = null;
+      let iconPosition = 'none';
+
+      const beforeContent = beforeStyle.getPropertyValue('content');
+      const afterContent = afterStyle.getPropertyValue('content');
+      const hasBeforeIcon = beforeContent && beforeContent !== 'none' && beforeContent !== '""' && beforeContent !== "''";
+      const hasAfterIcon = afterContent && afterContent !== 'none' && afterContent !== '""' && afterContent !== "''";
+
+      if (hasBeforeIcon) {
+        iconPseudo = beforeStyle;
+        iconPosition = 'left';
+      } else if (hasAfterIcon) {
+        iconPseudo = afterStyle;
+        iconPosition = 'right';
+      }
+
+      // Check for <i> or <svg> icon inside the button
+      const iconEl = firstHeader.querySelector('i, svg, [class*="icon"], [class*="fa-"]');
+      if (iconEl && !iconPseudo) {
+        const iconS = window.getComputedStyle(iconEl);
+        const iconRect = iconEl.getBoundingClientRect();
+        const headerRect = firstHeader.getBoundingClientRect();
+        // Determine position based on element location
+        const iconCenterX = iconRect.left + iconRect.width / 2;
+        const headerCenterX = headerRect.left + headerRect.width / 2;
+        iconPosition = iconCenterX < headerCenterX ? 'left' : 'right';
+
+        result.accordion.icon = {
+          type: 'element',
+          position: iconPosition,
+          classes: iconEl.className || null,
+          tag: iconEl.tagName.toLowerCase(),
+          fontSize: iconS.fontSize,
+          fontSizeRem: pxToRem(iconS.fontSize, rootFontSize),
+          width: iconRect.width + 'px',
+          widthRem: pxToRem(iconRect.width + 'px', rootFontSize),
+          color: rgbToHex(iconS.color),
+        };
+      } else if (iconPseudo) {
+        const iconFs = iconPseudo.getPropertyValue('font-size');
+        result.accordion.icon = {
+          type: 'pseudo',
+          position: iconPosition,
+          pseudoElement: hasBeforeIcon ? '::before' : '::after',
+          content: iconPseudo.getPropertyValue('content'),
+          fontFamily: iconPseudo.getPropertyValue('font-family'),
+          fontSize: iconFs,
+          fontSizeRem: pxToRem(iconFs, rootFontSize),
+          width: iconPseudo.getPropertyValue('width'),
+          widthRem: pxToRem(iconPseudo.getPropertyValue('width'), rootFontSize),
+          color: rgbToHex(iconPseudo.getPropertyValue('color')),
+          transform: iconPseudo.getPropertyValue('transform'),
+          marginTop: iconPseudo.getPropertyValue('margin-top'),
+        };
+      }
+
+      // --- Hover color from CSS rules ---
+      try {
+        const sheets = [...document.styleSheets];
+        sheets.forEach(sheet => {
+          try {
+            [...sheet.cssRules].forEach(rule => {
+              if (!rule.selectorText) return;
+              const sel = rule.selectorText;
+              const isAccordionBtn = sel.includes('accordion') || sel.includes('card-header') || sel.includes('panel-title') || sel.includes('collapse');
+              if (!isAccordionBtn) return;
+
+              if (sel.includes(':hover')) {
+                if (rule.style.color) {
+                  result.accordion.hoverColor = rule.style.color;
+                }
+                if (rule.style.backgroundColor) {
+                  result.accordion.hoverBg = rule.style.backgroundColor;
+                }
+              }
+            });
+          } catch(e) { /* cross-origin */ }
+        });
+      } catch(e) {}
+    }
+
+    // --- Body / Content ---
+    const bodySelectors = [
+      '.accordion-body', '.accordion-collapse .card-body', '.card-body',
+      '.panel-body', '.panel-collapse .panel-body',
+      '.accordion-content', '.toggle-content',
+    ];
+
+    let firstBody = null;
+    for (const sel of bodySelectors) {
+      firstBody = accordionContainer.querySelector(sel);
+      if (firstBody) break;
+    }
+
+    if (firstBody) {
+      const bs = window.getComputedStyle(firstBody);
+      result.accordion.body = {
+        fontSize: bs.fontSize,
+        fontSizeRem: pxToRem(bs.fontSize, rootFontSize),
+        fontWeight: bs.fontWeight,
+        color: rgbToHex(bs.color),
+        backgroundColor: rgbToHex(bs.backgroundColor),
+        padding: {
+          top: bs.paddingTop,
+          right: bs.paddingRight,
+          bottom: bs.paddingBottom,
+          left: bs.paddingLeft,
+        },
+        paddingRem: {
+          top: pxToRem(bs.paddingTop, rootFontSize),
+          right: pxToRem(bs.paddingRight, rootFontSize),
+          bottom: pxToRem(bs.paddingBottom, rootFontSize),
+          left: pxToRem(bs.paddingLeft, rootFontSize),
+        },
+      };
+    }
+
+    // --- Item / Card wrapper ---
+    const itemSelectors = [
+      '.accordion-item', '.accordion-wrapper .card', '.card',
+      '.panel', '.accordion-group',
+    ];
+
+    let firstItem = null;
+    for (const sel of itemSelectors) {
+      firstItem = accordionContainer.querySelector(sel);
+      if (firstItem) break;
+    }
+
+    if (firstItem) {
+      const its = window.getComputedStyle(firstItem);
+      const itemRect = firstItem.getBoundingClientRect();
+      result.accordion.item = {
+        backgroundColor: rgbToHex(its.backgroundColor),
+        borderColor: rgbToHex(its.borderTopColor),
+        borderWidth: its.borderTopWidth,
+        borderStyle: its.borderTopStyle,
+        borderRadius: its.borderRadius,
+        borderRadiusRem: pxToRem(its.borderRadius, rootFontSize),
+        boxShadow: its.boxShadow !== 'none' ? its.boxShadow : null,
+        marginBottom: its.marginBottom,
+        marginBottomRem: pxToRem(its.marginBottom, rootFontSize),
+        height: Math.round(itemRect.height),
+      };
+
+      // Check if "plain" style (no background, no border, no shadow)
+      const bgIsTransparent = !rgbToHex(its.backgroundColor) || rgbToHex(its.backgroundColor) === '#ffffff' || its.backgroundColor === 'rgba(0, 0, 0, 0)';
+      const noBorder = its.borderTopWidth === '0px' || its.borderTopStyle === 'none';
+      const noShadow = its.boxShadow === 'none';
+      result.accordion.style = (bgIsTransparent && noBorder && noShadow) ? 'plain' : 'card';
+    }
+
+    // --- Variant detection ---
+    result.accordion.variantsFound = allAccordions.length;
+    result.accordion.containerClasses = accordionContainer.className;
   }
 
   return result;

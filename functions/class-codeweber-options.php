@@ -143,6 +143,23 @@ if ( ! class_exists( 'Codeweber_Options' ) ) {
 		}
 
 		/**
+		 * Получить URL из Redux media-поля по attachment ID.
+		 *
+		 * Использует wp_get_attachment_url() по ID вложения, что возвращает URL
+		 * с текущим доменом сайта. Это позволяет безболезненно переносить сайт
+		 * на другой домен без пересохранения настроек.
+		 *
+		 * @param string $key     Ключ настройки Redux (media-поле).
+		 * @param string $default URL по умолчанию.
+		 * @return string URL файла или $default.
+		 */
+		public static function media_url( string $key, string $default = '' ): string {
+			$data = self::get( $key, '' );
+			$url  = codeweber_get_media_url( $data );
+			return $url !== '' ? $url : $default;
+		}
+
+		/**
 		 * Проверить, инициализирован ли экземпляр Redux.
 		 * Используется вместо: Redux_Instances::get_instance($opt_name) !== null
 		 *
