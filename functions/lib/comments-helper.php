@@ -71,7 +71,7 @@ if (!class_exists('codeweber_Walker_Comment')) {
 
             if ($comment_reply_link) {
                // Только к <a class="..."> применяем нужные классы
-               $custom_classes = 'do-not-scroll btn btn-soft-ash btn-sm ' . GetThemeButton() . ' btn-icon btn-icon-start mb-0';
+               $custom_classes = 'do-not-scroll btn btn-soft-ash btn-sm ' . ( class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '' ) . ' btn-icon btn-icon-start mb-0';
 
                $comment_reply_link = preg_replace_callback(
                   '/<a\s+([^>]*class=")([^"]*)(")/i',

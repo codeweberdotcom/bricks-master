@@ -348,7 +348,7 @@ if (!function_exists('codeweber_author_info')) {
         }
         
         // Default button classes
-        $default_button_class = 'btn btn-sm btn-soft-ash ' . GetThemeButton('rounded mt-2') . ' btn-icon btn-icon-start mb-0';
+        $default_button_class = 'btn btn-sm btn-soft-ash ' . ( class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button', 'rounded mt-2' ) : 'rounded mt-2' ) . ' btn-icon btn-icon-start mb-0';
         $final_button_class = $button_class ? $button_class : $default_button_class;
         ?>
         
