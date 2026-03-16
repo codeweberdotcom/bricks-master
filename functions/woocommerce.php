@@ -557,5 +557,31 @@ add_action('woocommerce_after_account_navigation', function () {
    echo '</div></aside><!-- .myaccount-nav-wrapper -->';
 }, 10);
 
+/**
+ * Подключить shop-pjax.js на страницах магазина.
+ * Отдельный файл — не входит в theme.js/plugins.js.
+ * Загружается только при активном WooCommerce.
+ */
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_shop() && ! is_product_category() && ! is_product_tag() ) {
+		return;
+	}
+
+	$dist_path = codeweber_get_dist_file_path( 'dist/assets/js/shop-pjax.js' );
+	$dist_url  = codeweber_get_dist_file_url( 'dist/assets/js/shop-pjax.js' );
+
+	if ( ! $dist_path || ! $dist_url ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'shop-pjax',
+		$dist_url,
+		[],
+		codeweber_asset_version( $dist_path ),
+		true
+	);
+}, 30 );
+
 
 

@@ -239,42 +239,17 @@
 }
 .shop-per-row-btn {
   display: inline-flex;
-  flex-wrap: wrap;
-  gap: 2px;
-  padding: 5px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
   border-radius: 4px;
   cursor: pointer;
-  transition: background .2s;
+  transition: color .2s, background .2s;
   color: $ash;
   text-decoration: none;
-  width: 28px;
-  height: 28px;
-  align-content: center;
-  justify-content: center;
-
-  span {
-    display: block;
-    background: currentColor;
-    border-radius: 1px;
-  }
-
-  // 2 колонки — два прямоугольника в ряд
-  &:nth-child(1) span {
-    width: 7px;
-    height: 10px;
-  }
-
-  // 3 колонки — три узких прямоугольника
-  &:nth-child(2) span {
-    width: 4px;
-    height: 10px;
-  }
-
-  // 4 колонки — четыре маленьких квадрата
-  &:nth-child(3) span {
-    width: 4px;
-    height: 4px;
-  }
+  width: 30px;
+  height: 30px;
+  font-size: 1.1rem;
 
   &:hover {
     color: $main-dark;
@@ -283,6 +258,17 @@
 
   &.active {
     color: $main-dark;
+  }
+}
+//----------------------------------------------------------//
+//	SHOP PJAX LOADING STATE
+//----------------------------------------------------------//
+#shop-pjax-container {
+  transition: opacity 0.2s ease;
+
+  &.shop-pjax-loading {
+    opacity: 0.4;
+    pointer-events: none;
   }
 }
 //----------------------------------------------------------//

@@ -4,9 +4,14 @@
  * Style: shop2 (sidebar left, isotope grid)
  *
  * Переопределяет woocommerce/archive-product.php из плагина WooCommerce.
+ * Поддерживает PJAX: при заголовке X-PJAX возвращает только контент колонки
+ * товаров (#shop-pjax-container) без header/footer.
  */
 
 defined( 'ABSPATH' ) || exit;
+
+// PJAX-запрос: заголовок X-PJAX: true
+$is_pjax = ! empty( $_SERVER['HTTP_X_PJAX'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 
 // Количество колонок (per_row): 2, 3 или 4. По умолчанию — 3.
 $allowed_per_row = [ 2, 3, 4 ];
@@ -18,6 +23,13 @@ $row_cols_map = [
 	3 => 'row-cols-1 row-cols-sm-2 row-cols-lg-3',
 	4 => 'row-cols-2 row-cols-sm-2 row-cols-lg-4',
 ];
+
+// Иконки Unicons для кнопок переключателя колонок
+$per_row_icons = [
+	2 => 'uil-columns',
+	3 => 'uil-grid',
+	4 => 'uil-apps',
+];
 $row_cols_class = $row_cols_map[ $per_row ];
 
 // Базовый URL для кнопок-переключателей (без per_row, сохраняем остальные params)
@@ -25,19 +37,26 @@ $base_query_args = $_GET; // phpcs:ignore WordPress.Security.NonceVerification
 unset( $base_query_args['per_row'] );
 $base_url = add_query_arg( $base_query_args, get_pagenum_link( 1 ) );
 
-get_header();
-get_pageheader();
+if ( ! $is_pjax ) {
+	get_header();
+	get_pageheader();
+}
 ?>
 
+<?php if ( ! $is_pjax ) : ?>
 <section class="wrapper bg-light">
 	<div class="container pb-14 pb-md-16 pt-12">
 
 		<?php if ( woocommerce_product_loop() ) : ?>
 
 		<div class="row gy-10">
+<?php endif; ?>
+<?php endif; ?>
 
-			<!-- Колонка с товарами -->
-			<div class="col-lg-9 order-lg-2">
+<?php if ( woocommerce_product_loop() ) : ?>
+
+			<!-- Колонка с товарами (PJAX-контейнер) -->
+			<div id="shop-pjax-container" <?php echo $is_pjax ? '' : 'class="col-lg-9 order-lg-2"'; ?>>
 
 				<!-- Сортировка + результаты + переключатель колонок -->
 				<div class="row align-items-center mb-10 position-relative zindex-1">
@@ -52,9 +71,9 @@ get_pageheader();
 							<div class="shop-per-row d-none d-sm-flex gap-1">
 								<?php foreach ( $allowed_per_row as $cols ) : ?>
 									<a href="<?php echo esc_url( add_query_arg( 'per_row', $cols, $base_url ) ); ?>"
-									   class="shop-per-row-btn<?php echo $per_row === $cols ? ' active' : ''; ?>"
+									   class="shop-per-row-btn pjax-link<?php echo $per_row === $cols ? ' active' : ''; ?>"
 									   title="<?php echo esc_attr( sprintf( _n( '%d column', '%d columns', $cols, 'codeweber' ), $cols ) ); ?>">
-										<?php for ( $i = 0; $i < $cols; $i++ ) : ?><span></span><?php endfor; ?>
+										<i class="uil <?php echo esc_attr( $per_row_icons[ $cols ] ); ?>"></i>
 									</a>
 								<?php endforeach; ?>
 							</div>
@@ -83,7 +102,19 @@ get_pageheader();
 				<?php woocommerce_pagination(); ?>
 
 			</div>
-			<!-- /column -->
+			<!-- /#shop-pjax-container -->
+
+<?php endif; // woocommerce_product_loop ?>
+
+<?php if ( ! $is_pjax ) : ?>
+
+		<?php if ( ! woocommerce_product_loop() ) : ?>
+		<div class="row">
+			<div class="col-12 py-14">
+				<?php do_action( 'woocommerce_no_products_found' ); ?>
+			</div>
+		</div>
+		<?php else : ?>
 
 			<!-- Сайдбар -->
 			<aside class="col-lg-3 sidebar">
@@ -96,14 +127,6 @@ get_pageheader();
 		</div>
 		<!-- /.row -->
 
-		<?php else : ?>
-
-		<div class="row">
-			<div class="col-12 py-14">
-				<?php do_action( 'woocommerce_no_products_found' ); ?>
-			</div>
-		</div>
-
 		<?php endif; ?>
 
 	</div>
@@ -112,3 +135,4 @@ get_pageheader();
 <!-- /section -->
 
 <?php get_footer(); ?>
+<?php endif; ?>

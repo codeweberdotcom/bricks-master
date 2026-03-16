@@ -222,6 +222,7 @@ var path = {
     cf7successmessagejs: srcPrefix + "/assets/js/cf7-success-message.js",
     cf7utmtrackingjs: srcPrefix + "/assets/js/cf7-utm-tracking.js",
     dadataaddressjs: srcPrefix + "/assets/js/dadata-address.js",
+    shoppjaxjs: srcPrefix + "/assets/js/shop-pjax.js",
     style: srcPrefix + "/assets/scss/style.scss",
     fontcss: srcPrefix + "/assets/scss/fonts/*.*",
     // When building for child theme: use child's style.scss if it exists (ensures child's _user-variables with correct fonts)
@@ -583,6 +584,28 @@ gulp.task("dadataaddressjs:dist", function () {
   );
 });
 
+gulp.task("shoppjaxjs:dev", function () {
+  return gulp
+    .src(path.src.shoppjaxjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("shoppjaxjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.shoppjaxjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
 // Compile html
 gulp.task('html:dev', function () {
   return gulp.src(path.src.html)
@@ -881,6 +904,7 @@ gulp.task(
       "cf7successmessagejs:dev",
       "cf7utmtrackingjs:dev",
       "dadataaddressjs:dev",
+      "shoppjaxjs:dev",
       "themejs:dev",
       "fonts:dev",
       "media:dev",
@@ -913,6 +937,7 @@ gulp.task(
       "cf7successmessagejs:dist",
       "cf7utmtrackingjs:dist",
       "dadataaddressjs:dist",
+      "shoppjaxjs:dist",
       "themejs:dist",
       "fonts:dist",
       "media:dist",
