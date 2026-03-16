@@ -13,7 +13,30 @@
 
 	var CONTAINER_ID = 'shop-pjax-container';
 	var LOADING_CLASS = 'shop-pjax-loading';
+	var SPINNER_CLASS = 'shop-pjax-spinner';
 	var PJAX_HEADER = 'X-PJAX';
+
+	/**
+	 * Показать spinner поверх viewport.
+	 * @returns {HTMLElement}
+	 */
+	function showSpinner() {
+		var el = document.createElement( 'div' );
+		el.className = SPINNER_CLASS;
+		el.innerHTML = '<div class="spinner"></div>';
+		document.body.appendChild( el );
+		return el;
+	}
+
+	/**
+	 * Убрать spinner.
+	 * @param {HTMLElement} el
+	 */
+	function hideSpinner( el ) {
+		if ( el && el.parentNode ) {
+			el.parentNode.removeChild( el );
+		}
+	}
 
 	/**
 	 * Найти контейнер PJAX.
@@ -35,6 +58,7 @@
 		}
 
 		container.classList.add( LOADING_CLASS );
+		var spinner = showSpinner();
 
 		fetch( url, {
 			headers: {
@@ -53,6 +77,7 @@
 				container.innerHTML = html;
 				history.pushState( { pjax: true, url: url }, '', url );
 				container.classList.remove( LOADING_CLASS );
+				hideSpinner( spinner );
 				initIsotope( container );
 				// Скролл к началу контейнера с поправкой на sticky-хедер
 				var stickyHeader = document.querySelector( '.navbar.fixed-top, .navbar.sticky-top, header.fixed-top, header.sticky-top' );
@@ -61,6 +86,7 @@
 				window.scrollTo( { top: containerTop, behavior: 'smooth' } );
 			} )
 			.catch( function () {
+				hideSpinner( spinner );
 				// Fallback: обычная навигация
 				window.location.href = url;
 			} );
