@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__git__git_status",
+      "mcp__git__git_diff_unstaged",
+      "mcp__git__git_diff_staged",
+      "mcp__git__git_add",
+      "mcp__git__git_commit",
+      "mcp__git__git_log"
+    ]
+  }
+}
