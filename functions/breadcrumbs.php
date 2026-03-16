@@ -250,6 +250,28 @@ if (!function_exists('get_breadcrumbs')) {
             echo '<li class="breadcrumb-item active" aria-current="page">' . sprintf(__('Search results for "%s"', 'codeweber'), get_search_query()) . '</li>';
          } elseif (is_404()) {
             echo '<li class="breadcrumb-item active" aria-current="page">' . __('Page not found', 'codeweber') . '</li>';
+         } elseif ( function_exists( 'is_product_category' ) && is_product_category() ) {
+            // WooCommerce product category: Главная > Каталог > [родители] > Категория
+            $shop_id    = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : 0;
+            $shop_url   = $shop_id > 0 ? get_permalink( $shop_id ) : home_url( '/' );
+            $shop_title = $shop_id > 0 ? get_the_title( $shop_id ) : __( 'Shop', 'woocommerce' );
+            echo '<li class="breadcrumb-item"><a href="' . esc_url( $shop_url ) . '">' . esc_html( $shop_title ) . '</a></li>';
+            $current_term = get_queried_object();
+            if ( $current_term ) {
+               $ancestors = array_reverse( get_ancestors( $current_term->term_id, 'product_cat' ) );
+               foreach ( $ancestors as $ancestor_id ) {
+                  $ancestor = get_term( $ancestor_id, 'product_cat' );
+                  echo '<li class="breadcrumb-item"><a href="' . esc_url( get_term_link( $ancestor ) ) . '">' . esc_html( $ancestor->name ) . '</a></li>';
+               }
+               echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html( $current_term->name ) . '</li>';
+            }
+         } elseif ( function_exists( 'is_product_tag' ) && is_product_tag() ) {
+            // WooCommerce product tag: Главная > Каталог > Метка
+            $shop_id    = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : 0;
+            $shop_url   = $shop_id > 0 ? get_permalink( $shop_id ) : home_url( '/' );
+            $shop_title = $shop_id > 0 ? get_the_title( $shop_id ) : __( 'Shop', 'woocommerce' );
+            echo '<li class="breadcrumb-item"><a href="' . esc_url( $shop_url ) . '">' . esc_html( $shop_title ) . '</a></li>';
+            echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html( single_term_title( '', false ) ) . '</li>';
          } elseif (is_archive()) {
             echo '<li class="breadcrumb-item active" aria-current="page">' . get_the_archive_title() . '</li>';
          }

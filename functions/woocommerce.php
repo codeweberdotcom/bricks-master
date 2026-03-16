@@ -1,5 +1,63 @@
 <?php
 
+// Rank Math: вставляем страницу магазина в крошки для product_cat и product_tag.
+// Было: Home → Косметика
+// Стало: Home → Каталог → Косметика
+add_filter( 'rank_math/frontend/breadcrumb/items', function ( $crumbs ) {
+	if ( ! function_exists( 'is_product_category' ) ) {
+		return $crumbs;
+	}
+	if ( ! is_product_category() && ! is_product_tag() ) {
+		return $crumbs;
+	}
+	$shop_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : 0;
+	if ( $shop_id < 1 ) {
+		return $crumbs;
+	}
+	// Rank Math crumb format: [0 => name, 1 => url, 'hide_in_schema' => bool]
+	$shop_crumb = array( get_the_title( $shop_id ), get_permalink( $shop_id ), 'hide_in_schema' => false );
+	// Вставляем после первого элемента (Home → индекс 0)
+	array_splice( $crumbs, 1, 0, array( $shop_crumb ) );
+	return $crumbs;
+} );
+
+// Yoast SEO: вставляем страницу магазина в крошки для product_cat и product_tag.
+// Было: Главная > Косметика
+// Стало: Главная > Каталог > Косметика
+add_filter( 'wpseo_breadcrumb_links', function ( $crumbs ) {
+	if ( ! function_exists( 'is_product_category' ) ) {
+		return $crumbs;
+	}
+	if ( ! is_product_category() && ! is_product_tag() ) {
+		return $crumbs;
+	}
+	$shop_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : 0;
+	if ( $shop_id < 1 ) {
+		return $crumbs;
+	}
+	$shop_crumb = array(
+		'url'  => get_permalink( $shop_id ),
+		'text' => get_the_title( $shop_id ),
+	);
+	// Вставляем после первого элемента (Главная → индекс 0)
+	array_splice( $crumbs, 1, 0, array( $shop_crumb ) );
+	return $crumbs;
+} );
+
+// Убираем префикс «Категория:» / «Category:» из заголовка архива product_cat и product_tag.
+// Используется в get_the_archive_title() и в fallback-крошках.
+add_filter( 'get_the_archive_title', function ( $title ) {
+	if ( is_product_category() || is_product_tag() ) {
+		return single_term_title( '', false );
+	}
+	return $title;
+} );
+
+// Плейсхолдер изображения товара — используем тематический вместо стандартного WooCommerce.
+add_filter( 'woocommerce_placeholder_img_src', function () {
+	return get_template_directory_uri() . '/dist/assets/img/image-placeholder.jpg';
+} );
+
 // Регионы РФ для WooCommerce (на английском, с возможностью перевода).
 add_filter( 'woocommerce_states', function ( $states ) {
 	$states['RU'] = require get_template_directory() . '/functions/woocommerce-states-ru.php';
