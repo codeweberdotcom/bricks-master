@@ -17,13 +17,37 @@
 	var PJAX_HEADER = 'X-PJAX';
 
 	/**
-	 * Показать spinner поверх viewport.
+	 * Получить высоту sticky-хедера.
+	 * @returns {number}
+	 */
+	function getHeaderOffset() {
+		var stickyHeader = document.querySelector(
+			'.navbar.fixed-top, .navbar.sticky-top, header.fixed-top, header.sticky-top'
+		);
+		return stickyHeader ? stickyHeader.offsetHeight : 0;
+	}
+
+	/**
+	 * Показать spinner в центре видимой части контейнера.
+	 * @param {HTMLElement} container
 	 * @returns {HTMLElement}
 	 */
-	function showSpinner() {
+	function showSpinner( container ) {
 		var el = document.createElement( 'div' );
 		el.className = SPINNER_CLASS;
 		el.innerHTML = '<div class="spinner"></div>';
+
+		// Рассчитать центр видимой части контейнера
+		var rect = container.getBoundingClientRect();
+		var headerOffset = getHeaderOffset();
+		var visibleTop = Math.max( headerOffset, rect.top );
+		var visibleBottom = Math.min( window.innerHeight, rect.bottom );
+		var centerY = ( visibleTop + visibleBottom ) / 2;
+		var centerX = rect.left + rect.width / 2;
+
+		el.style.top = centerY + 'px';
+		el.style.left = centerX + 'px';
+
 		document.body.appendChild( el );
 		return el;
 	}
@@ -58,7 +82,7 @@
 		}
 
 		container.classList.add( LOADING_CLASS );
-		var spinner = showSpinner();
+		var spinner = showSpinner( container );
 
 		fetch( url, {
 			headers: {
@@ -79,11 +103,16 @@
 				container.classList.remove( LOADING_CLASS );
 				hideSpinner( spinner );
 				initIsotope( container );
-				// Скролл к началу контейнера с поправкой на sticky-хедер
-				var stickyHeader = document.querySelector( '.navbar.fixed-top, .navbar.sticky-top, header.fixed-top, header.sticky-top' );
-				var headerOffset = stickyHeader ? stickyHeader.offsetHeight : 0;
-				var containerTop = container.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-				window.scrollTo( { top: containerTop, behavior: 'smooth' } );
+
+				// Скроллить только если верх контейнера скрыт за хедером
+				var headerOffset = getHeaderOffset();
+				var containerTop = container.getBoundingClientRect().top;
+				if ( containerTop < headerOffset ) {
+					window.scrollTo( {
+						top: window.pageYOffset + containerTop - headerOffset,
+						behavior: 'smooth',
+					} );
+				}
 			} )
 			.catch( function () {
 				hideSpinner( spinner );
