@@ -142,6 +142,29 @@
 	}
 
 	/**
+	 * Делегированный обработчик submit формы сортировки WooCommerce.
+	 * Перехватывает стандартный GET и отправляет через PJAX.
+	 */
+	document.addEventListener( 'submit', function ( e ) {
+		var form = e.target.closest( '.woocommerce-ordering' );
+		if ( ! form ) return;
+		e.preventDefault();
+		var url = form.action || window.location.href;
+		var params = new URLSearchParams( new FormData( form ) );
+		pjaxLoad( url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + params.toString() );
+	} );
+
+	/**
+	 * При смене значения select — сразу отправить форму (без кнопки submit).
+	 */
+	document.addEventListener( 'change', function ( e ) {
+		var select = e.target.closest( 'select.orderby' );
+		if ( ! select ) return;
+		var form = select.closest( 'form' );
+		if ( form ) form.dispatchEvent( new Event( 'submit', { bubbles: true } ) );
+	} );
+
+	/**
 	 * Делегированный обработчик кликов — работает и после PJAX-замены контента.
 	 */
 	document.addEventListener( 'click', function ( e ) {
