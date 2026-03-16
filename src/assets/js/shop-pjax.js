@@ -104,15 +104,9 @@
 				hideSpinner( spinner );
 				initIsotope( container );
 
-				// Скроллить только если верх контейнера скрыт за хедером
-				var headerOffset = getHeaderOffset();
-				var containerTop = container.getBoundingClientRect().top;
-				if ( containerTop < headerOffset ) {
-					window.scrollTo( {
-						top: window.pageYOffset + containerTop - headerOffset,
-						behavior: 'smooth',
-					} );
-				}
+				// Скролл к верху контейнера с отступом под sticky-хедер
+				var containerTop = container.getBoundingClientRect().top + window.pageYOffset - 75;
+				window.scrollTo( { top: containerTop, behavior: 'smooth' } );
 			} )
 			.catch( function () {
 				hideSpinner( spinner );
