@@ -142,27 +142,21 @@
 	}
 
 	/**
-	 * Делегированный обработчик submit формы сортировки WooCommerce.
-	 * Перехватывает стандартный GET и отправляет через PJAX.
-	 */
-	document.addEventListener( 'submit', function ( e ) {
-		var form = e.target.closest( '.woocommerce-ordering' );
-		if ( ! form ) return;
-		e.preventDefault();
-		var url = form.action || window.location.href;
-		var params = new URLSearchParams( new FormData( form ) );
-		pjaxLoad( url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + params.toString() );
-	} );
-
-	/**
-	 * При смене значения select — сразу отправить форму (без кнопки submit).
+	 * Перехват сортировки WooCommerce через PJAX.
+	 * Используем capture=true, чтобы сработать ДО jQuery-обработчика WC,
+	 * который вызывает нативный form.submit() (не триггерит addEventListener 'submit').
 	 */
 	document.addEventListener( 'change', function ( e ) {
 		var select = e.target.closest( 'select.orderby' );
 		if ( ! select ) return;
+		// Останавливаем событие — WC не получит его и не вызовет form.submit()
+		e.stopPropagation();
 		var form = select.closest( 'form' );
-		if ( form ) form.dispatchEvent( new Event( 'submit', { bubbles: true } ) );
-	} );
+		if ( ! form ) return;
+		var params = new URLSearchParams( new FormData( form ) );
+		var base = form.action || window.location.pathname;
+		pjaxLoad( base + '?' + params.toString() );
+	}, true ); // capture phase
 
 	/**
 	 * Делегированный обработчик кликов — работает и после PJAX-замены контента.
