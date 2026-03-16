@@ -9,7 +9,7 @@ argument-hint: [описание задачи — опционально]
 Правила репозитория:
 - Репозиторий находится в `wp-content/themes/codeweber/`
 - Коммитить только файлы темы (не wp-config.php, не плагины)
-- Не коммитить: `node_modules/`, `src/`, `*.log`, `.cursor/`
+- Не коммитить: `node_modules/`, `*.log`, `.cursor/`
 
 Шаги:
 1. Запусти `git status` и `git diff --stat` — посмотри что изменено

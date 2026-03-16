@@ -586,24 +586,26 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '3' ] );</code></pre>
                     <div class="card rounded-0">
                       <div class="card-body">
                         <p class="small text-muted mb-2">navbar-light</p>
-                        <nav class="navbar-vertical navbar-light navbar-vertical-dropdown">
-                      <ul class="navbar-nav flex-column">
-                        <li class="nav-item"><a href="#" class="nav-link">Пункт без подменю</a></li>
-                        <li class="nav-item dropdown dropend">
-                          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Пункт с подменю</a>
-                          <ul class="dropdown-menu rounded-0">
-                            <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 1</a></li>
-                            <li class="nav-item dropdown dropend">
-                              <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Вложенное</a>
-                              <ul class="dropdown-menu rounded-0">
-                                <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 2.1</a></li>
+                        <nav class="navbar-vertical navbar-vertical-dropdown navbar-light">
+                          <ul class="navbar-nav flex-column">
+                            <li class="nav-item parent-item"><a href="#" class="nav-link">Пункт без подменю</a></li>
+                            <li class="nav-item parent-item dropdown parent-link dropend">
+                              <a href="#" class="nav-link" id="menu-item-link-1">Пункт с подменю</a>
+                              <span class="dropdown-toggle" aria-hidden="true"></span>
+                              <ul class="dropdown-menu rounded-0" aria-labelledby="menu-item-link-1" role="menu">
+                                <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 1</a></li>
+                                <li class="nav-item dropdown dropend parent-link dropdown-submenu">
+                                  <a href="#" class="dropdown-item" id="menu-item-link-2">Вложенное</a>
+                                  <span class="dropdown-toggle" aria-hidden="true"></span>
+                                  <ul class="dropdown-menu rounded-0" aria-labelledby="menu-item-link-2" role="menu">
+                                    <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 2.1</a></li>
+                                  </ul>
+                                </li>
                               </ul>
                             </li>
+                            <li class="nav-item parent-item"><a href="#" class="nav-link">Ещё пункт</a></li>
                           </ul>
-                        </li>
-                        <li class="nav-item"><a href="#" class="nav-link">Ещё пункт</a></li>
-                      </ul>
-                    </nav>
+                        </nav>
                       </div>
                     </div>
                   </div>
@@ -611,22 +613,24 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '3' ] );</code></pre>
                     <div class="card bg-dark rounded-0">
                       <div class="card-body">
                         <p class="small text-white-50 mb-2">navbar-dark</p>
-                        <nav class="navbar-vertical navbar-dark navbar-vertical-dropdown">
+                        <nav class="navbar-vertical navbar-vertical-dropdown navbar-dark">
                           <ul class="navbar-nav flex-column">
-                            <li class="nav-item"><a href="#" class="nav-link">Пункт без подменю</a></li>
-                            <li class="nav-item dropdown dropend">
-                              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Пункт с подменю</a>
-                              <ul class="dropdown-menu rounded-0">
+                            <li class="nav-item parent-item"><a href="#" class="nav-link">Пункт без подменю</a></li>
+                            <li class="nav-item parent-item dropdown parent-link dropend">
+                              <a href="#" class="nav-link" id="menu-item-link-3">Пункт с подменю</a>
+                              <span class="dropdown-toggle" aria-hidden="true"></span>
+                              <ul class="dropdown-menu rounded-0" aria-labelledby="menu-item-link-3" role="menu">
                                 <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 1</a></li>
-                                <li class="nav-item dropdown dropend">
-                                  <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Вложенное</a>
-                                  <ul class="dropdown-menu rounded-0">
+                                <li class="nav-item dropdown dropend parent-link dropdown-submenu">
+                                  <a href="#" class="dropdown-item" id="menu-item-link-4">Вложенное</a>
+                                  <span class="dropdown-toggle" aria-hidden="true"></span>
+                                  <ul class="dropdown-menu rounded-0" aria-labelledby="menu-item-link-4" role="menu">
                                     <li class="nav-item"><a href="#" class="dropdown-item">Подпункт 2.1</a></li>
                                   </ul>
                                 </li>
                               </ul>
                             </li>
-                            <li class="nav-item"><a href="#" class="nav-link">Ещё пункт</a></li>
+                            <li class="nav-item parent-item"><a href="#" class="nav-link">Ещё пункт</a></li>
                           </ul>
                         </nav>
                       </div>
@@ -641,22 +645,24 @@ echo codeweber_nav( 'cpt', 'page', [ 'list_type' => '3' ] );</code></pre>
                 <div class="code-wrapper">
                   <div class="code-wrapper-inner">
 <pre class="language-html"><code>&lt;!-- Светлая тема --&gt;
-&lt;nav class="navbar-vertical navbar-light navbar-vertical-dropdown"&gt;
+&lt;nav class="navbar-vertical navbar-vertical-dropdown navbar-light"&gt;
   &lt;ul class="navbar-nav flex-column"&gt;
-    &lt;li class="nav-item"&gt;&lt;a href="#" class="nav-link"&gt;Пункт без подменю&lt;/a&gt;&lt;/li&gt;
-    &lt;li class="nav-item dropdown dropend"&gt;
-      &lt;a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"&gt;Пункт с подменю&lt;/a&gt;
-      &lt;ul class="dropdown-menu rounded-0" role="menu"&gt;
+    &lt;li class="nav-item parent-item"&gt;&lt;a href="#" class="nav-link"&gt;Пункт без подменю&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="nav-item parent-item dropdown parent-link dropend"&gt;
+      &lt;a href="#" class="nav-link" id="menu-item-link-1"&gt;Пункт с подменю&lt;/a&gt;
+      &lt;span class="dropdown-toggle" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;ul class="dropdown-menu rounded-0" aria-labelledby="menu-item-link-1" role="menu"&gt;
         &lt;li class="nav-item"&gt;&lt;a href="#" class="dropdown-item"&gt;Подпункт 1&lt;/a&gt;&lt;/li&gt;
-        &lt;li class="nav-item dropdown dropend dropdown-submenu"&gt;
-          &lt;a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"&gt;Вложенное&lt;/a&gt;
-          &lt;ul class="dropdown-menu rounded-0" role="menu"&gt;
+        &lt;li class="nav-item dropdown dropend parent-link dropdown-submenu"&gt;
+          &lt;a href="#" class="dropdown-item" id="menu-item-link-2"&gt;Вложенное&lt;/a&gt;
+          &lt;span class="dropdown-toggle" aria-hidden="true"&gt;&lt;/span&gt;
+          &lt;ul class="dropdown-menu rounded-0" aria-labelledby="menu-item-link-2" role="menu"&gt;
             &lt;li class="nav-item"&gt;&lt;a href="#" class="dropdown-item"&gt;Подпункт 2.1&lt;/a&gt;&lt;/li&gt;
           &lt;/ul&gt;
         &lt;/li&gt;
       &lt;/ul&gt;
     &lt;/li&gt;
-    &lt;li class="nav-item"&gt;&lt;a href="#" class="nav-link"&gt;Ещё пункт&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="nav-item parent-item"&gt;&lt;a href="#" class="nav-link"&gt;Ещё пункт&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/nav&gt;</code></pre>
                 </div>
