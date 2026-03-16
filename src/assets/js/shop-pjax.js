@@ -54,8 +54,11 @@
 				history.pushState( { pjax: true, url: url }, '', url );
 				container.classList.remove( LOADING_CLASS );
 				initIsotope( container );
-				// Скролл к началу сетки товаров
-				container.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+				// Скролл к началу контейнера с поправкой на sticky-хедер
+				var stickyHeader = document.querySelector( '.navbar.fixed-top, .navbar.sticky-top, header.fixed-top, header.sticky-top' );
+				var headerOffset = stickyHeader ? stickyHeader.offsetHeight : 0;
+				var containerTop = container.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+				window.scrollTo( { top: containerTop, behavior: 'smooth' } );
 			} )
 			.catch( function () {
 				// Fallback: обычная навигация
