@@ -231,6 +231,24 @@
   overflow: hidden;
   transform: translate3d(0px, 0px, 0px);
 }
+//----------------------------------------------------------//
+//	PRODUCT HOVER IMAGE SWAP
+//----------------------------------------------------------//
+.item figure {
+  .product-hover-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .4s ease-in-out;
+    pointer-events: none;
+  }
+  &:hover .product-hover-img {
+    opacity: 1;
+  }
+}
 .price {
   margin: 0;
   del {

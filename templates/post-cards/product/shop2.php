@@ -22,6 +22,18 @@ $product_url = get_permalink( $product_id );
 // Изображение
 $image_html = $product->get_image( 'woocommerce_thumbnail', [ 'class' => '' ] );
 
+// Второе фото из галереи (для hover-свопа)
+$hover_img_html  = '';
+$gallery_ids     = $product->get_gallery_image_ids();
+if ( ! empty( $gallery_ids ) ) {
+	$hover_img_html = wp_get_attachment_image(
+		$gallery_ids[0],
+		'woocommerce_thumbnail',
+		false,
+		[ 'class' => 'product-hover-img', 'alt' => '' ]
+	);
+}
+
 // Категория (верхнеуровневая)
 $categories    = get_the_terms( $product_id, 'product_cat' );
 $category_name = '';
@@ -59,6 +71,10 @@ if ( $product->is_on_sale() ) {
 	<figure class="rounded mb-6">
 
 		<a href="<?php echo esc_url( $product_url ); ?>"><?php echo $image_html; ?></a>
+
+		<?php if ( $hover_img_html ) : ?>
+			<?php echo $hover_img_html; ?>
+		<?php endif; ?>
 
 		<?php do_action( 'yith_wcwl_add_to_wishlist' ); ?>
 		<a class="item-like" href="<?php echo esc_url( $product_url ); ?>"
