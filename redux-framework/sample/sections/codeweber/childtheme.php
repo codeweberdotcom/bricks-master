@@ -474,6 +474,10 @@ Gulp автоматически определяет активную child те
 
 ---
 
+## Правила разработки
+
+**Перед любой задачей** прочитай `.claude/RULES.md` — там базовые правила именования, безопасности, переводов и ссылки на документацию.
+
 ## Справочник переменных
 
 Полный справочник переменных и паттерны извлечения дизайна:
@@ -493,6 +497,55 @@ Child тема наследует всю архитектуру parent:
 CLAUDE_MD;
 	wp_mkdir_p($theme_dir . '/.claude');
 	file_put_contents($theme_dir . '/CLAUDE.md', $claude_md);
+
+	// Create CHANGELOG.md
+	$changelog_content = "# Changelog — {$name}\n\nAll notable changes to this project will be documented in this file.\n\nThe format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),\nand this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).\n\n## [1.0.0] — {$current_date}\n\n### Added\n\n- Дочерняя тема создана на базе {$template}\n";
+	file_put_contents($theme_dir . '/CHANGELOG.md', $changelog_content);
+
+	// Create languages directory with POT and ru_RU.po
+	wp_mkdir_p( $theme_dir . '/languages' );
+
+	$pot_content = "# Translation template for {$name}\n" .
+		"# Copyright (C) {$current_date} {$author}\n" .
+		"# This file is distributed under the same license as the {$name} package.\n" .
+		"#, fuzzy\n" .
+		"msgid \"\"\n" .
+		"msgstr \"\"\n" .
+		"\"Project-Id-Version: {$name}\\n\"\n" .
+		"\"Report-Msgid-Bugs-To: \\n\"\n" .
+		"\"POT-Creation-Date: {$current_date}\\n\"\n" .
+		"\"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n\"\n" .
+		"\"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n\"\n" .
+		"\"Language-Team: English\\n\"\n" .
+		"\"Language: \\n\"\n" .
+		"\"Plural-Forms: nplurals=2; plural=(n != 1);\\n\"\n" .
+		"\"MIME-Version: 1.0\\n\"\n" .
+		"\"Content-Type: text/plain; charset=UTF-8\\n\"\n" .
+		"\"Content-Transfer-Encoding: 8bit\\n\"\n" .
+		"\"X-Domain: {$theme_slug}\\n\"\n";
+	file_put_contents( $theme_dir . '/languages/' . $theme_slug . '.pot', $pot_content );
+
+	$ru_po_content = "msgid \"\"\n" .
+		"msgstr \"\"\n" .
+		"\"Project-Id-Version: {$name}\\n\"\n" .
+		"\"Report-Msgid-Bugs-To: \\n\"\n" .
+		"\"POT-Creation-Date: {$current_date}\\n\"\n" .
+		"\"PO-Revision-Date: {$current_date}\\n\"\n" .
+		"\"Last-Translator: \\n\"\n" .
+		"\"Language-Team: Русский\\n\"\n" .
+		"\"Language: ru_RU\\n\"\n" .
+		"\"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\\n\"\n" .
+		"\"MIME-Version: 1.0\\n\"\n" .
+		"\"Content-Type: text/plain; charset=UTF-8\\n\"\n" .
+		"\"Content-Transfer-Encoding: 8bit\\n\"\n" .
+		"\"X-Domain: {$theme_slug}\\n\"\n";
+	file_put_contents( $theme_dir . '/languages/ru_RU.po', $ru_po_content );
+
+	// Copy RULES.md from parent
+	$parent_rules = get_theme_root() . '/' . $template . '/.claude/RULES.md';
+	if ( file_exists( $parent_rules ) ) {
+		copy( $parent_rules, $theme_dir . '/.claude/RULES.md' );
+	}
 
 	// Copy init skill from parent so `/init` is available immediately
 	$parent_init_skill = get_theme_root() . '/' . $template . '/.claude/skills/init/SKILL.md';

@@ -1,121 +1,9 @@
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-Black.woff2) format("woff2"), url(Montserrat/Montserrat-Black.woff) format("woff");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-BlackItalic.woff2) format("woff2"), url(Montserrat/Montserrat-BlackItalic.woff) format("woff");
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-ExtraBold.woff2) format("woff2"), url(Montserrat/Montserrat-ExtraBold.woff) format("woff");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-ExtraBoldItalic.woff2) format("woff2"), url(Montserrat/Montserrat-ExtraBoldItalic.woff) format("woff");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-ExtraLight.woff2) format("woff2"), url(Montserrat/Montserrat-ExtraLight.woff) format("woff");
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-ExtraLightItalic.woff2) format("woff2"), url(Montserrat/Montserrat-ExtraLightItalic.woff) format("woff");
-  font-weight: 200;
-  font-style: italic;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-Italic.woff2) format("woff2"), url(Montserrat/Montserrat-Italic.woff) format("woff");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-Light.woff2) format("woff2"), url(Montserrat/Montserrat-Light.woff) format("woff");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-LightItalic.woff2) format("woff2"), url(Montserrat/Montserrat-LightItalic.woff) format("woff");
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-Medium.woff2) format("woff2"), url(Montserrat/Montserrat-Medium.woff) format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-MediumItalic.woff2) format("woff2"), url(Montserrat/Montserrat-MediumItalic.woff) format("woff");
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-Regular.woff2) format("woff2"), url(Montserrat/Montserrat-Regular.woff) format("woff");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-SemiBold.woff2) format("woff2"), url(Montserrat/Montserrat-SemiBold.woff) format("woff");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-SemiBoldItalic.woff2) format("woff2"), url(Montserrat/Montserrat-SemiBoldItalic.woff) format("woff");
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-Thin.woff2) format("woff2"), url(Montserrat/Montserrat-Thin.woff) format("woff");
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap
-}
-@font-face {
-  font-family: Montserrat;
-  src: url(Montserrat/Montserrat-ThinItalic.woff2) format("woff2"), url(Montserrat/Montserrat-ThinItalic.woff) format("woff");
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap
-}
 * {
   word-spacing: normal !important
 }
 body {
   font-family: Montserrat, sans-serif;
-  font-size: 1rem
+  font-size: .85rem
 }
 .btn,
 .dropdown-item,
@@ -127,42 +15,42 @@ body {
 .nav-link,
 .nav-link p,
 .navbar .btn-sm {
-  font-size: 1rem
+  font-size: .85rem
 }
 .dropdown-menu {
-  font-size: .95rem
+  font-size: .8rem
 }
 .btn-group-sm>.btn,
 .btn-sm,
 .post-meta,
 .share-dropdown .dropdown-menu .dropdown-item {
-  font-size: .9rem
+  font-size: .75rem
 }
 .filter,
 .filter ul li a,
 .meta,
 .post-category {
-  font-size: .85rem
+  font-size: .7rem
 }
 .post-header .post-meta {
-  font-size: 1rem
+  font-size: .85rem
 }
 .accordion-wrapper .card-header button,
 .collapse-link,
 .nav-tabs .nav-link {
-  font-size: 1.05rem
+  font-size: .9rem
 }
 blockquote {
-  font-size: 1.05rem
+  font-size: .9rem
 }
 .blockquote-footer {
-  font-size: .8rem
+  font-size: .65rem
 }
 .blockquote-details p {
-  font-size: 1rem
+  font-size: .85rem
 }
 .counter-wrapper p {
-  font-size: 1rem
+  font-size: .85rem
 }
 .counter-wrapper .counter {
   font-size: calc(1.33rem + .96vw)
@@ -182,6 +70,9 @@ blockquote {
 }
 .icon-list.bullet-bg i {
   top: .25rem
+}
+.accordion-wrapper .card-header button:before {
+  margin-top: -.2rem
 }
 .form-floating>label {
   padding-top: .65rem
