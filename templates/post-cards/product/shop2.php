@@ -66,7 +66,7 @@ if ( $product->is_on_sale() ) {
 }
 ?>
 
-<div id="product-<?php echo esc_attr( $product_id ); ?>" class="project item col-md-6 col-xl-4">
+<div id="product-<?php echo esc_attr( $product_id ); ?>" class="project item col">
 
 	<figure class="rounded mb-6">
 
