@@ -65,9 +65,12 @@ if ( ! $is_pjax ) {
 
 				<!-- Результаты + переключатели + сортировка -->
 				<div class="row align-items-center mb-10 position-relative zindex-1">
-					<div class="col-md-7 col-xl-8 pe-xl-20">
-						<div class="d-flex align-items-center gap-3">
-							<?php woocommerce_result_count(); ?>
+					<div class="col-md-4">
+						<?php woocommerce_result_count(); ?>
+					</div>
+					<!--/column -->
+					<div class="col-md-8 ms-md-auto mt-5 mt-md-0">
+						<div class="d-flex align-items-center justify-content-md-end gap-3">
 
 							<!-- Переключатель количества товаров на странице -->
 							<div class="shop-per-page d-none d-sm-flex gap-1 align-items-center">
@@ -89,14 +92,12 @@ if ( ! $is_pjax ) {
 									</a>
 								<?php endforeach; ?>
 							</div>
+
+							<div class="form-select-wrapper">
+								<?php woocommerce_catalog_ordering(); ?>
+							</div>
+							<!--/.form-select-wrapper -->
 						</div>
-					</div>
-					<!--/column -->
-					<div class="col-md-5 col-xl-4 ms-md-auto text-md-end mt-5 mt-md-0">
-						<div class="form-select-wrapper">
-							<?php woocommerce_catalog_ordering(); ?>
-						</div>
-						<!--/.form-select-wrapper -->
 					</div>
 					<!--/column -->
 				</div>
