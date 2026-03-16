@@ -261,6 +261,36 @@
   }
 }
 //----------------------------------------------------------//
+//	SHOP PER-PAGE SWITCHER
+//----------------------------------------------------------//
+.shop-per-page {
+  align-items: center;
+}
+.shop-per-page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color .2s, background .2s;
+  color: $ash;
+  text-decoration: none;
+  font-size: 0.8rem;
+  height: 30px;
+  white-space: nowrap;
+
+  &:hover {
+    color: $main-dark;
+    background: rgba($main-dark, 0.06);
+  }
+
+  &.active {
+    color: $main-dark;
+    font-weight: 500;
+  }
+}
+//----------------------------------------------------------//
 //	SHOP PJAX LOADING STATE
 //----------------------------------------------------------//
 #shop-pjax-container {

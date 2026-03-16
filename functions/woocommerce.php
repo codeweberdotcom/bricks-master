@@ -1,5 +1,17 @@
 <?php
 
+// Количество товаров на странице через URL-параметр ?per_page=N (12 / 24 / 48).
+add_filter( 'loop_shop_per_page', function ( $default ) {
+	$allowed = [ 12, 24, 48 ];
+	if ( isset( $_GET['per_page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		$requested = (int) $_GET['per_page']; // phpcs:ignore WordPress.Security.NonceVerification
+		if ( in_array( $requested, $allowed, true ) ) {
+			return $requested;
+		}
+	}
+	return $default;
+}, 20 );
+
 // Rank Math: вставляем страницу магазина в крошки для product_cat и product_tag.
 // Было: Home → Косметика
 // Стало: Home → Каталог → Косметика
