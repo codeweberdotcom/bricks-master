@@ -50,7 +50,37 @@ Domain Path: /languages
 - `Theme Name` — your child theme name (displays in WordPress)
 - `Version` — for asset cache-busting
 
-## Step 3: Create functions.php
+## Step 3: Create CLAUDE.md и settings.json
+
+Создай два файла для Claude Code, чтобы разрешения работали на любом компьютере через git.
+
+**Файл**: `/wp-content/themes/my-awesome-site/CLAUDE.md`
+
+```markdown
+# CLAUDE.md — Child Theme: My Awesome Site
+
+Child theme of CodeWeber.
+```
+
+**Файл**: `/wp-content/themes/my-awesome-site/.claude/settings.json`
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit(**/*.md)",
+      "Write(**/*.md)"
+    ]
+  }
+}
+```
+
+> Оба файла коммитятся в git — разрешения сохраняются при клонировании на другой машине.
+
+---
+
+## Step 4: Create functions.php
 
 Child theme functions file that loads parent theme first:
 
@@ -101,7 +131,7 @@ add_action('after_setup_theme', function() {
 - Child theme's `functions.php` loads AFTER parent's
 - Use `get_stylesheet_directory()` for child paths, `get_template_directory()` for parent
 
-## Step 4: Create Directory Structure
+## Step 5: Create Directory Structure
 
 Child theme can override ANY parent theme file by replicating the same path.
 
@@ -147,7 +177,7 @@ my-awesome-site/
 - Parent theme's `functions.php` (instead, add filters/actions in child's `functions.php`)
 - Redux Framework configuration (modify via filters instead)
 
-## Step 5: Setup Gulp for Child Theme
+## Step 6: Setup Gulp for Child Theme
 
 Copy Gulp configuration from parent and adapt for child:
 
@@ -250,7 +280,7 @@ body {
 }
 ```
 
-## Step 6: package.json Scripts
+## Step 7: package.json Scripts
 
 Update `package.json` for convenient development:
 
@@ -286,7 +316,7 @@ npm run build  # Production build
 npm run watch  # Watch files without BrowserSync
 ```
 
-## Step 7: Activate in WordPress
+## Step 8: Activate in WordPress
 
 1. Go to WordPress Admin → Appearance → Themes
 2. Find "My Awesome Site" (child theme)
@@ -294,7 +324,7 @@ npm run watch  # Watch files without BrowserSync
 
 Child theme is now active. Any files in child theme override parent.
 
-## Step 8: Override Parent Files
+## Step 9: Override Parent Files
 
 ### Override a Template
 

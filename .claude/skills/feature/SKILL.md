@@ -60,6 +60,16 @@ argument-hint: [описание нового функционала]
 - Строки — оборачивай в `__()` / `_e()` с text domain из `style.css`
 - Frontend — только Bootstrap-классы, без кастомных стилей для того что покрыто темой
 
+**Паттерны именования** (если добавляются PHP-функции или meta keys):
+
+| Элемент | Паттерн |
+|---------|---------|
+| Функция темы | `codeweber_{feature}_*()` |
+| AJAX action | `codeweber_{feature}_{action}` |
+| Meta key | `_{feature}_{field}` |
+| Option key | `codeweber_{feature}_{key}` |
+| CSS класс | `cwgb-{feature}-*` или Bootstrap |
+
 ---
 
 ## Шаг 5: Отчёт
@@ -84,7 +94,48 @@ argument-hint: [описание нового функционала]
 
 ---
 
-## Шаг 7: Коммит + Changelog
+## Шаг 7: Переводы
+
+Если в новом коде есть строки в `__()` / `_e()` — добавь их в языковые файлы.
+
+Файлы: `./languages/codeweber.pot` и `./languages/ru_RU.po`
+
+```po
+# codeweber.pot — source (msgstr пустой)
+msgid "New string"
+msgstr ""
+
+# ru_RU.po — с переводом
+msgid "New string"
+msgstr "Новая строка"
+```
+
+Скомпилировать:
+```bash
+wp i18n make-mo languages/ru_RU.po
+```
+
+> Пропусти шаг если новых переводимых строк нет.
+
+---
+
+## Шаг 8: Обновить doc_claude/
+
+Если функционал затрагивает документированные области — обнови соответствующий файл:
+
+| Что изменилось | Документ |
+|----------------|----------|
+| Новый CPT | `doc_claude/cpt/CPT_CATALOG.md` |
+| Новый шаблон / переопределение | `doc_claude/templates/ARCHIVE_SINGLE_PATTERNS.md` |
+| Новый AJAX endpoint | `doc_claude/api/AJAX_FETCH_SYSTEM.md` |
+| Новые Redux-настройки | `doc_claude/settings/REDUX_OPTIONS.md` |
+| Новый хук (action/filter) | `doc_claude/api/HOOKS_REFERENCE.md` |
+
+> Пропусти шаг если изменения не затрагивают документацию.
+
+---
+
+## Шаг 9: Коммит + Changelog
 
 1. Добавь запись в `CHANGELOG.md` в секцию `Unreleased`:
    ```markdown
@@ -95,4 +146,4 @@ argument-hint: [описание нового функционала]
 2. Создай коммит:
    - Тип: `feat`
    - Формат: `feat: краткое описание`
-   - Включи все изменённые файлы и `CHANGELOG.md`
+   - Включи все изменённые файлы, языковые файлы и `CHANGELOG.md`

@@ -1,6 +1,9 @@
 {
   "permissions": {
     "allow": [
+      "Read",
+      "Edit(**/*.md)",
+      "Write(**/*.md)",
       "mcp__git__git_status",
       "mcp__git__git_diff_unstaged",
       "mcp__git__git_diff_staged",
