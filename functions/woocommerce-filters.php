@@ -173,6 +173,23 @@ function cw_get_active_filter_params() {
 		}
 	}
 
+	// Product tag filter
+	if ( ! empty( $_GET['filter_product_tag'] ) ) {
+		$tag_slugs = array_filter( array_map( 'sanitize_key', explode( ',', sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ) ) ) ) );
+		foreach ( $tag_slugs as $slug ) {
+			$term = get_term_by( 'slug', $slug, 'product_tag' );
+			if ( ! $term ) {
+				continue;
+			}
+			$active[] = [
+				'param'      => 'filter_product_tag',
+				'value'      => $slug,
+				'label'      => $term->name,
+				'remove_url' => cw_get_filter_url( 'filter_product_tag', $slug ),
+			];
+		}
+	}
+
 	// Stock filter
 	if ( ! empty( $_GET['filter_stock_status'] ) ) {
 		$stock_labels = [
@@ -374,6 +391,38 @@ function cw_get_stock_filter_options() {
 	];
 }
 
+/**
+ * Get product tags for the filter.
+ *
+ * @param bool $show_count Whether to include product count.
+ * @return array{ term: WP_Term, count: int, is_active: bool, url: string }[]
+ */
+function cw_get_tag_filter_terms( $show_count = true ) {
+	$param = 'filter_product_tag';
+
+	$terms = get_terms( [
+		'taxonomy'   => 'product_tag',
+		'hide_empty' => true,
+		'orderby'    => 'name',
+	] );
+
+	if ( is_wp_error( $terms ) || empty( $terms ) ) {
+		return [];
+	}
+
+	$result = [];
+	foreach ( $terms as $term ) {
+		$result[] = [
+			'term'      => $term,
+			'count'     => (int) $term->count,
+			'is_active' => cw_is_filter_active( $param, $term->slug ),
+			'url'       => cw_get_filter_url( $param, $term->slug ),
+		];
+	}
+
+	return $result;
+}
+
 // =============================================================================
 // STOCK STATUS QUERY HOOK
 // =============================================================================
@@ -404,9 +453,194 @@ add_action( 'woocommerce_product_query', function ( WP_Query $q ) {
 	$q->set( 'meta_query', $meta_query );
 }, 10 );
 
+/**
+ * Apply product tag filter to the main WC product query.
+ * Triggered by ?filter_product_tag=slug1,slug2.
+ */
+add_action( 'woocommerce_product_query', function ( WP_Query $q ) {
+	// phpcs:ignore WordPress.Security.NonceVerification
+	if ( empty( $_GET['filter_product_tag'] ) ) {
+		return;
+	}
+
+	// phpcs:ignore WordPress.Security.NonceVerification
+	$tag_slugs = array_filter(
+		array_map( 'sanitize_key', explode( ',', sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ) ) ) )
+	);
+
+	if ( empty( $tag_slugs ) ) {
+		return;
+	}
+
+	$tax_query   = (array) $q->get( 'tax_query' );
+	$tax_query[] = [
+		'taxonomy' => 'product_tag',
+		'field'    => 'slug',
+		'terms'    => $tag_slugs,
+		'operator' => 'IN',
+	];
+	$q->set( 'tax_query', $tax_query );
+}, 10 );
+
 // =============================================================================
 // MAIN RENDER FUNCTION
 // =============================================================================
+
+/**
+ * Render filter panel items from the Gutenberg block's repeater structure.
+ *
+ * Each item in $items can be:
+ *   type=filter         → accordion section with a specific filter
+ *   type=reset_button   → "Сбросить все фильтры" link (shown only when filters active)
+ *   type=active_chips   → active filter chips list
+ *
+ * @param array $items Array of item objects from block.json 'items' attribute.
+ */
+function cw_render_filter_items( $items ) {
+	if ( ! function_exists( 'WC' ) || empty( $items ) || ! is_array( $items ) ) {
+		return;
+	}
+
+	$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
+
+	foreach ( $items as $item ) {
+		$item_type = $item['type'] ?? 'filter';
+
+		// ── Reset button ──────────────────────────────────────────────────────
+		if ( 'reset_button' === $item_type ) {
+			if ( function_exists( 'cw_has_active_filters' ) && cw_has_active_filters() ) {
+				echo '<div class="cw-filter-reset-wrap mb-2">';
+				echo '<a href="' . esc_url( cw_get_clear_filters_url() ) . '" class="btn btn-sm btn-outline-secondary w-100 pjax-link">';
+				esc_html_e( 'Сбросить все фильтры', 'codeweber' );
+				echo '</a>';
+				echo '</div>';
+			}
+			continue;
+		}
+
+		// ── Active chips ──────────────────────────────────────────────────────
+		if ( 'active_chips' === $item_type ) {
+			$active = cw_get_active_filter_params();
+			if ( ! empty( $active ) ) {
+				include $filters_dir . 'filter-active.php';
+			}
+			continue;
+		}
+
+		// ── Filter section ────────────────────────────────────────────────────
+		if ( 'filter' !== $item_type ) {
+			continue;
+		}
+
+		$filter_type  = $item['filterType'] ?? 'price';
+		$label        = isset( $item['label'] ) ? sanitize_text_field( $item['label'] ) : '';
+		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'list', 'button' ], true )
+			? $item['displayMode'] : 'checkbox';
+		$show_count   = isset( $item['showCount'] ) ? (bool) $item['showCount'] : true;
+		$taxonomy     = isset( $item['taxonomy'] ) ? sanitize_key( $item['taxonomy'] ) : '';
+		$section_id   = 'cw-filter-' . sanitize_html_class( $item['id'] ?? uniqid() );
+
+		$section_label   = $label;
+		$section_content = '';
+		$has_content     = true;
+
+		ob_start();
+
+		switch ( $filter_type ) {
+
+			case 'price':
+				if ( ! $section_label ) {
+					$section_label = __( 'Цена', 'codeweber' );
+				}
+				include $filters_dir . 'filter-price.php';
+				break;
+
+			case 'categories':
+				if ( ! $section_label ) {
+					$section_label = __( 'Категории', 'codeweber' );
+				}
+				$terms_data = cw_get_category_filter_terms( 0, $show_count );
+				if ( empty( $terms_data ) ) {
+					$has_content = false;
+				} else {
+					include $filters_dir . 'filter-category.php';
+				}
+				break;
+
+			case 'tags':
+				if ( ! $section_label ) {
+					$section_label = __( 'Метки', 'codeweber' );
+				}
+				$terms_data = cw_get_tag_filter_terms( $show_count );
+				if ( empty( $terms_data ) ) {
+					$has_content = false;
+				} else {
+					include $filters_dir . 'filter-attribute.php';
+				}
+				break;
+
+			case 'rating':
+				if ( ! $section_label ) {
+					$section_label = __( 'Рейтинг', 'codeweber' );
+				}
+				$options = cw_get_rating_filter_options();
+				include $filters_dir . 'filter-rating.php';
+				break;
+
+			case 'stock':
+				if ( ! $section_label ) {
+					$section_label = __( 'Наличие', 'codeweber' );
+				}
+				$options = cw_get_stock_filter_options();
+				include $filters_dir . 'filter-stock.php';
+				break;
+
+			case 'attributes':
+				if ( ! $taxonomy || ! taxonomy_exists( $taxonomy ) ) {
+					$has_content = false;
+					break;
+				}
+				if ( ! $section_label ) {
+					$attr_id       = wc_attribute_taxonomy_id_by_name( $taxonomy );
+					$attr_obj      = $attr_id ? wc_get_attribute( $attr_id ) : null;
+					$section_label = $attr_obj ? $attr_obj->name : $taxonomy;
+				}
+				$terms_data = cw_get_attribute_filter_terms( $taxonomy, $show_count );
+				if ( empty( $terms_data ) ) {
+					$has_content = false;
+				} else {
+					include $filters_dir . 'filter-attribute.php';
+				}
+				break;
+
+			default:
+				$has_content = false;
+				break;
+		}
+
+		$section_content = ob_get_clean();
+
+		if ( ! $has_content || '' === trim( $section_content ) ) {
+			continue;
+		}
+		?>
+		<div class="cw-filter-section">
+			<button class="cw-filter-section__toggle" type="button"
+				data-bs-toggle="collapse"
+				data-bs-target="#<?php echo esc_attr( $section_id ); ?>"
+				aria-expanded="true"
+				aria-controls="<?php echo esc_attr( $section_id ); ?>">
+				<?php echo esc_html( $section_label ); ?>
+			</button>
+			<div id="<?php echo esc_attr( $section_id ); ?>" class="collapse show">
+				<div class="cw-filter-section__body">
+					<?php echo $section_content; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+}
 
 /**
  * Render the filter panel HTML.
