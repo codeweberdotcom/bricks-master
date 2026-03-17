@@ -130,7 +130,7 @@ get_pageheader();
       endif;
       ?>
       
-      <div class="row g-3 mb-5">
+      <div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> mb-5">
           <?php 
           while (have_posts()) : 
             the_post();

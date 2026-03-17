@@ -70,6 +70,11 @@ if ( ! class_exists( 'Codeweber_Options' ) ) {
 				],
 				'fallback' => '',
 			],
+			// Пресеты: compact=g-3, normal=g-6, wide=gy-10 gx-md-8, spacious=gy-10 gy-md-13 gx-md-8, custom=4 поля.
+			'grid-gap' => [
+				'computed' => true,
+				'fallback' => 'gy-10 gy-md-13 gx-md-8',
+			],
 		];
 
 		/**
@@ -92,7 +97,7 @@ if ( ! class_exists( 'Codeweber_Options' ) ) {
 		 *
 		 * Все стили загружаются за один вызов get_option() и кэшируются на весь запрос.
 		 *
-		 * Доступные ключи: 'button', 'card-radius', 'form-radius', 'accordion-radius'.
+		 * Доступные ключи: 'button', 'card-radius', 'form-radius', 'accordion-radius', 'grid-gap'.
 		 *
 		 * @param string      $key     Ключ стиля.
 		 * @param string|null $default Значение по умолчанию (если null — из конфига).
@@ -122,9 +127,45 @@ if ( ! class_exists( 'Codeweber_Options' ) ) {
 			$all_options = get_option( self::$opt, [] );
 
 			foreach ( self::$style_config as $key => $cfg ) {
-				$style_key = $all_options[ $cfg['option'] ] ?? $cfg['default'];
-				self::$style_cache[ $key ] = $cfg['map'][ $style_key ] ?? $cfg['fallback'];
+				if ( ! empty( $cfg['computed'] ) ) {
+					self::$style_cache[ $key ] = self::compute_grid_gap( $all_options );
+				} else {
+					$style_key = $all_options[ $cfg['option'] ] ?? $cfg['default'];
+					self::$style_cache[ $key ] = $cfg['map'][ $style_key ] ?? $cfg['fallback'];
+				}
 			}
+		}
+
+		/**
+		 * Вернуть строку Bootstrap gap-классов по пресету или custom-полям.
+		 */
+		private static function compute_grid_gap( array $opts ): string {
+			$preset = $opts['opt_grid_gap_preset'] ?? 'spacious';
+
+			$presets = [
+				'compact'  => 'g-3',
+				'normal'   => 'g-6',
+				'wide'     => 'gy-10 gx-md-8',
+				'spacious' => 'gy-10 gy-md-13 gx-md-8',
+			];
+
+			if ( isset( $presets[ $preset ] ) ) {
+				return $presets[ $preset ];
+			}
+
+			// custom
+			$gx    = $opts['opt_grid_gap_x']    ?? '';
+			$gx_md = $opts['opt_grid_gap_x_md'] ?? '';
+			$gy    = $opts['opt_grid_gap_y']    ?? '';
+			$gy_md = $opts['opt_grid_gap_y_md'] ?? '';
+
+			$classes = [];
+			if ( $gx !== '' )    $classes[] = 'gx-' . (int) $gx;
+			if ( $gx_md !== '' ) $classes[] = 'gx-md-' . (int) $gx_md;
+			if ( $gy !== '' )    $classes[] = 'gy-' . (int) $gy;
+			if ( $gy_md !== '' ) $classes[] = 'gy-md-' . (int) $gy_md;
+
+			return $classes ? implode( ' ', $classes ) : 'gy-10 gy-md-13 gx-md-8';
 		}
 
 		/**

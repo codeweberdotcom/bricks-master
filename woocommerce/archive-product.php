@@ -228,7 +228,7 @@ if ( ! $is_pjax ) {
 
 						<!-- Сетка товаров -->
 						<div class="grid grid-view projects-masonry shop mb-13">
-							<div class="row gx-md-8 gy-10 gy-md-13 isotope cwgb-load-more-items <?php echo esc_attr( $row_cols_class ); ?>">
+							<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> isotope cwgb-load-more-items <?php echo esc_attr( $row_cols_class ); ?>">
 								<?php while ( have_posts() ) : the_post(); ?>
 									<?php wc_get_template_part( 'content', 'product' ); ?>
 								<?php endwhile; ?>
@@ -258,7 +258,7 @@ if ( ! $is_pjax ) {
 
 					<!-- Сетка товаров -->
 					<div class="grid grid-view projects-masonry shop mb-13">
-						<div class="row gx-md-8 gy-10 gy-md-13 isotope <?php echo esc_attr( $row_cols_class ); ?>">
+						<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> isotope <?php echo esc_attr( $row_cols_class ); ?>">
 							<?php while ( have_posts() ) : the_post(); ?>
 								<?php wc_get_template_part( 'content', 'product' ); ?>
 							<?php endwhile; ?>

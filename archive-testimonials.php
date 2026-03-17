@@ -32,7 +32,7 @@ get_pageheader();
           <div class="<?php echo esc_attr($content_class); ?>">
       
       <?php if ($use_row_cols) : ?>
-          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-5">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> mb-5">
               <?php while (have_posts()) : 
                 the_post();
                 

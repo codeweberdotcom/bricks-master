@@ -38,7 +38,8 @@ get_pageheader();
       
       <?php if ($use_row_cols) : ?>
           <?php
-          $row_cols_class = ($templateloop === 'staff_3') ? 'row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3 mb-5' : 'row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-5';
+          $_gap = Codeweber_Options::style( 'grid-gap' );
+          $row_cols_class = ($templateloop === 'staff_3') ? 'row row-cols-1 row-cols-md-3 row-cols-lg-4 ' . $_gap . ' mb-5' : 'row row-cols-1 row-cols-md-2 row-cols-lg-3 ' . $_gap . ' mb-5';
           ?>
           <div class="<?php echo esc_attr($row_cols_class); ?>">
               <?php while (have_posts()) : 
@@ -53,7 +54,7 @@ get_pageheader();
           <!-- /.row -->
       <?php else : ?>
           <div class="grid mb-5">
-              <div class="row isotope g-3">
+              <div class="row isotope <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?>">
                   <?php 
                   while (have_posts()) : 
                     the_post();

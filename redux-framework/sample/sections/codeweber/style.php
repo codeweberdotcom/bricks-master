@@ -300,6 +300,137 @@ Redux::set_section(
 	)
 );
 
+// ── Подсекция: Grid Gutters ────────────────────────────────────────────
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Grid Gutters', 'codeweber' ),
+		'id'         => 'theme-grid-gutters',
+		'subsection' => true,
+		'parent'     => 'themestyle',
+		'desc'       => esc_html__( 'Global Bootstrap grid gap used in shop, archives and Gutenberg blocks with "Theme" gap type.', 'codeweber' ),
+		'fields'     => array(
+
+			array(
+				'id'       => 'opt_grid_gap_preset',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Grid Gap Preset', 'codeweber' ),
+				'subtitle' => esc_html__( 'Choose a preset or set custom values below.', 'codeweber' ),
+				'options'  => array(
+					'compact'  => esc_html__( 'Compact — g-3 (15px)', 'codeweber' ),
+					'normal'   => esc_html__( 'Normal — g-6 (30px)', 'codeweber' ),
+					'wide'     => esc_html__( 'Wide — gy-10 gx-md-8', 'codeweber' ),
+					'spacious' => esc_html__( 'Spacious — gy-10 gy-md-13 gx-md-8', 'codeweber' ),
+					'custom'   => esc_html__( 'Custom', 'codeweber' ),
+				),
+				'default'  => 'spacious',
+			),
+
+			array(
+				'id'       => 'opt_grid_gap_x',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Horizontal Gap (xs)', 'codeweber' ),
+				'subtitle' => esc_html__( 'gx-* — all breakpoints. Leave empty to skip.', 'codeweber' ),
+				'options'  => array(
+					''   => esc_html__( '— none —', 'codeweber' ),
+					'0'  => '0',
+					'2'  => '2 (10px)',
+					'3'  => '3 (15px)',
+					'4'  => '4 (20px)',
+					'5'  => '5 (25px)',
+					'6'  => '6 (30px)',
+					'7'  => '7 (35px)',
+					'8'  => '8 (40px)',
+					'9'  => '9 (45px)',
+					'10' => '10 (50px)',
+					'11' => '11 (60px)',
+					'12' => '12 (70px)',
+					'13' => '13 (80px)',
+				),
+				'default'  => '',
+				'required' => [ 'opt_grid_gap_preset', '=', 'custom' ],
+			),
+
+			array(
+				'id'       => 'opt_grid_gap_x_md',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Horizontal Gap (md+)', 'codeweber' ),
+				'subtitle' => esc_html__( 'gx-md-* — overrides horizontal gap from ≥768px.', 'codeweber' ),
+				'options'  => array(
+					''   => esc_html__( '— none —', 'codeweber' ),
+					'0'  => '0',
+					'2'  => '2 (10px)',
+					'3'  => '3 (15px)',
+					'4'  => '4 (20px)',
+					'5'  => '5 (25px)',
+					'6'  => '6 (30px)',
+					'7'  => '7 (35px)',
+					'8'  => '8 (40px)',
+					'9'  => '9 (45px)',
+					'10' => '10 (50px)',
+					'11' => '11 (60px)',
+					'12' => '12 (70px)',
+					'13' => '13 (80px)',
+				),
+				'default'  => '',
+				'required' => [ 'opt_grid_gap_preset', '=', 'custom' ],
+			),
+
+			array(
+				'id'       => 'opt_grid_gap_y',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Vertical Gap (xs)', 'codeweber' ),
+				'subtitle' => esc_html__( 'gy-* — vertical gap at all breakpoints.', 'codeweber' ),
+				'options'  => array(
+					''   => esc_html__( '— none —', 'codeweber' ),
+					'0'  => '0',
+					'2'  => '2 (10px)',
+					'3'  => '3 (15px)',
+					'4'  => '4 (20px)',
+					'5'  => '5 (25px)',
+					'6'  => '6 (30px)',
+					'7'  => '7 (35px)',
+					'8'  => '8 (40px)',
+					'9'  => '9 (45px)',
+					'10' => '10 (50px)',
+					'11' => '11 (60px)',
+					'12' => '12 (70px)',
+					'13' => '13 (80px)',
+				),
+				'default'  => '',
+				'required' => [ 'opt_grid_gap_preset', '=', 'custom' ],
+			),
+
+			array(
+				'id'       => 'opt_grid_gap_y_md',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Vertical Gap (md+)', 'codeweber' ),
+				'subtitle' => esc_html__( 'gy-md-* — overrides vertical gap from ≥768px.', 'codeweber' ),
+				'options'  => array(
+					''   => esc_html__( '— none —', 'codeweber' ),
+					'0'  => '0',
+					'2'  => '2 (10px)',
+					'3'  => '3 (15px)',
+					'4'  => '4 (20px)',
+					'5'  => '5 (25px)',
+					'6'  => '6 (30px)',
+					'7'  => '7 (35px)',
+					'8'  => '8 (40px)',
+					'9'  => '9 (45px)',
+					'10' => '10 (50px)',
+					'11' => '11 (60px)',
+					'12' => '12 (70px)',
+					'13' => '13 (80px)',
+				),
+				'default'  => '',
+				'required' => [ 'opt_grid_gap_preset', '=', 'custom' ],
+			),
+
+		),
+	)
+);
+
+
 Redux::set_section(
 	$opt_name,
 	array(
