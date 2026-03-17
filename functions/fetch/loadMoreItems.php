@@ -106,6 +106,24 @@ function loadMoreItems($params) {
         }
     }
     
+    // WooCommerce shop loop
+    if ($block_type === 'wc-shop' && $block_attributes_json) {
+        $result = $load_more_api->load_more_wc_shop($block_attributes_json, $offset, $count);
+
+        if (isset($result['success']) && $result['success']) {
+            return [
+                'status' => 'success',
+                'data'   => $result['data'] ?? $result,
+            ];
+        } else {
+            return [
+                'status'  => 'error',
+                'message' => $result['message'] ?? 'Failed to load products',
+                'data'    => $result['data'] ?? [ 'html' => '', 'has_more' => false, 'offset' => $offset ],
+            ];
+        }
+    }
+
     // Для других типов блоков или если тип не указан
     return [
         'status' => 'error',
