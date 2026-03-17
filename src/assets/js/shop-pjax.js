@@ -139,7 +139,9 @@
 	}
 
 	/**
-	 * Инициализировать Isotope в контейнере после PJAX-замены.
+	 * Инициализировать Isotope в контейнере.
+	 * Уничтожает существующий инстанс (masonry из theme.js), затем создаёт
+	 * fitRows и дожидается imagesLoaded перед финальным layout.
 	 * @param {HTMLElement} container
 	 */
 	function initIsotope( container ) {
@@ -147,6 +149,12 @@
 		if ( ! grid ) return;
 
 		if ( typeof window.Isotope === 'undefined' ) return;
+
+		// Уничтожаем инстанс masonry, созданный theme.js при первой загрузке
+		var existing = window.Isotope.data( grid );
+		if ( existing ) {
+			existing.destroy();
+		}
 
 		var doLayout = function () {
 			new window.Isotope( grid, {
@@ -161,6 +169,24 @@
 			doLayout();
 		}
 	}
+
+	/**
+	 * Инициализация при первой загрузке страницы.
+	 * Ждём document.fonts.ready чтобы шрифты были готовы до расчёта высот,
+	 * иначе двухстрочные заголовки ломают masonry-раскладку из theme.js.
+	 */
+	document.addEventListener( 'DOMContentLoaded', function () {
+		var container = getContainer();
+		if ( ! container ) return;
+
+		var run = function () { initIsotope( container ); };
+
+		if ( document.fonts && document.fonts.ready ) {
+			document.fonts.ready.then( run );
+		} else {
+			run();
+		}
+	} );
 
 	/**
 	 * Перехват сортировки WooCommerce через PJAX.
