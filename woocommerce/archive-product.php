@@ -297,9 +297,82 @@ if ( ! $is_pjax ) {
 
 				<!-- Колонка с сообщением «нет товаров» -->
 				<div class="col-lg-9 order-lg-2">
+
+					<!-- Результаты + переключатели + сортировка -->
+					<div class="row align-items-center mb-10 position-relative zindex-1">
+
+						<?php if ( $show_archive_title ) : ?>
+						<div class="col-md-7 col-xl-6 pe-xl-10">
+							<h1 class="display-6 mb-1"><?php echo esc_html( is_product_tag() || is_product_category() ? single_term_title( '', false ) : woocommerce_page_title( false ) ); ?></h1>
+							<?php woocommerce_result_count(); ?>
+						</div>
+						<?php else : ?>
+						<div class="col-md-4">
+							<?php woocommerce_result_count(); ?>
+						</div>
+						<?php endif; ?>
+
+						<div class="<?php echo $show_archive_title ? 'col-md-5 col-xl-6' : 'col-md-8'; ?> ms-md-auto mt-5 mt-md-0">
+							<div class="d-flex align-items-center justify-content-md-end gap-3">
+
+								<?php if ( $show_per_page ) : ?>
+								<div class="shop-per-page d-none d-sm-flex gap-1 align-items-center">
+									<?php foreach ( $allowed_per_page as $count ) : ?>
+										<a href="<?php echo esc_url( add_query_arg( [ 'per_page' => $count, 'per_row' => $per_row ], $base_url ) ); ?>"
+										   class="shop-per-page-btn pjax-link<?php echo $per_page === $count ? ' active' : ''; ?>">
+											<?php echo esc_html( $count ); ?>
+										</a>
+									<?php endforeach; ?>
+								</div>
+								<?php endif; ?>
+
+								<?php if ( $show_per_row ) : ?>
+								<div class="shop-per-row d-none d-sm-flex gap-1">
+									<?php foreach ( $allowed_per_row as $cols ) : ?>
+										<a href="<?php echo esc_url( add_query_arg( [ 'per_row' => $cols, 'per_page' => $per_page ], $base_url ) ); ?>"
+										   class="shop-per-row-btn pjax-link<?php echo $per_row === $cols ? ' active' : ''; ?>"
+										   title="<?php echo esc_attr( sprintf( _n( '%d column', '%d columns', $cols, 'codeweber' ), $cols ) ); ?>">
+											<?php echo $per_row_icons[ $cols ]; // phpcs:ignore WordPress.Security.EscapeOutput -- hardcoded SVG ?>
+										</a>
+									<?php endforeach; ?>
+								</div>
+								<?php endif; ?>
+
+								<?php if ( $show_ordering ) : ?>
+								<div class="form-select-wrapper">
+									<?php
+									$_cw_ordering_filter = null;
+									if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
+										$_cw_checked = Redux::get_option( $opt_name, 'woo_ordering_options', [] );
+										if ( is_array( $_cw_checked ) && ! empty( $_cw_checked ) ) {
+											$_cw_ordering_filter = function ( $options ) use ( $_cw_checked ) {
+												foreach ( array_keys( $options ) as $key ) {
+													if ( empty( $_cw_checked[ $key ] ) ) {
+														unset( $options[ $key ] );
+													}
+												}
+												return $options ?: [ 'menu_order' => __( 'Default sorting', 'woocommerce' ) ];
+											};
+											add_filter( 'woocommerce_catalog_orderby', $_cw_ordering_filter, 999 );
+										}
+									}
+									woocommerce_catalog_ordering();
+									if ( $_cw_ordering_filter ) {
+										remove_filter( 'woocommerce_catalog_orderby', $_cw_ordering_filter, 999 );
+									}
+									?>
+								</div>
+								<?php endif; ?>
+
+							</div>
+						</div>
+					</div>
+					<!--/.row controls -->
+
 					<div class="py-6">
 						<?php do_action( 'woocommerce_no_products_found' ); ?>
 					</div>
+
 				</div>
 				<!-- /.col -->
 
