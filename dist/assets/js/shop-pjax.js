@@ -6,6 +6,9 @@
  * #shop-pjax-wrapper (page header + товары + сайдбар) без полной перезагрузки.
  *
  * document.title обновляется из атрибута data-page-title нового контента.
+ *
+ * После замены DOM диспатчит событие 'cw:pjax:complete' для реинициализации
+ * модулей (price slider и др.).
  */
 (function () {
 	'use strict';
@@ -127,6 +130,10 @@
 				container.classList.remove( LOADING_CLASS );
 				hideSpinner( spinner );
 				initIsotope( container );
+				initPriceSliders();
+
+				// Оповещаем другие модули о завершении PJAX-навигации
+				document.dispatchEvent( new CustomEvent( 'cw:pjax:complete', { bubbles: true } ) );
 
 				// Скролл к верху контейнера с отступом под sticky-хедер
 				var containerTop = container.getBoundingClientRect().top + window.pageYOffset - getHeaderOffset() - 16;
@@ -170,6 +177,100 @@
 		}
 	}
 
+	// ==========================================================================
+	// Price range slider (native dual <input type="range">)
+	// ==========================================================================
+
+	/**
+	 * Инициализировать все ценовые слайдеры на странице.
+	 * Безопасно вызывается повторно после PJAX-обновления.
+	 */
+	function initPriceSliders() {
+		var panels = document.querySelectorAll( '.cw-filter-price' );
+		panels.forEach( initSinglePriceSlider );
+	}
+
+	/**
+	 * Инициализировать один ценовой слайдер.
+	 * @param {HTMLElement} panel
+	 */
+	function initSinglePriceSlider( panel ) {
+		var rangeMin   = panel.querySelector( '.cw-range-min' );
+		var rangeMax   = panel.querySelector( '.cw-range-max' );
+		var rangeBar   = panel.querySelector( '.cw-price-range' );
+		var displayMin = panel.querySelector( '.cw-price-display--min' );
+		var displayMax = panel.querySelector( '.cw-price-display--max' );
+		var applyBtn   = panel.querySelector( '.cw-price-apply' );
+
+		if ( ! rangeMin || ! rangeMax ) return;
+
+		// Помечаем как инициализированный
+		if ( panel.dataset.sliderInit ) return;
+		panel.dataset.sliderInit = '1';
+
+		var absMin = parseFloat( panel.dataset.min ) || 0;
+		var absMax = parseFloat( panel.dataset.max ) || 100;
+
+		/** Пересчитать позицию цветной полосы и обновить ссылку Apply */
+		function update() {
+			var min = parseFloat( rangeMin.value );
+			var max = parseFloat( rangeMax.value );
+
+			// Не позволяем пересечься
+			if ( min > max ) {
+				rangeMin.value = max;
+				min = max;
+			}
+			if ( max < min ) {
+				rangeMax.value = min;
+				max = min;
+			}
+
+			var pctMin = ( ( min - absMin ) / ( absMax - absMin ) ) * 100;
+			var pctMax = ( ( max - absMin ) / ( absMax - absMin ) ) * 100;
+
+			if ( rangeBar ) {
+				rangeBar.style.left  = pctMin + '%';
+				rangeBar.style.width = ( pctMax - pctMin ) + '%';
+			}
+
+			// Обновляем текстовые метки (простое форматирование)
+			if ( displayMin ) displayMin.textContent = formatPrice( min );
+			if ( displayMax ) displayMax.textContent = formatPrice( max );
+
+			// Обновляем href кнопки Apply
+			if ( applyBtn ) {
+				var base = applyBtn.dataset.baseUrl || window.location.pathname;
+				var params = new URLSearchParams( window.location.search );
+				params.set( 'min_price', Math.round( min ) );
+				params.set( 'max_price', Math.round( max ) );
+				params.delete( 'paged' );
+				params.delete( 'page' );
+				applyBtn.href = base + ( params.toString() ? '?' + params.toString() : '' );
+			}
+		}
+
+		rangeMin.addEventListener( 'input', update );
+		rangeMax.addEventListener( 'input', update );
+
+		// Первичная расстановка
+		update();
+	}
+
+	/**
+	 * Простое форматирование цены (используется только для live-отображения).
+	 * Полное форматирование через wc_price() остаётся на сервере.
+	 * @param {number} value
+	 * @returns {string}
+	 */
+	function formatPrice( value ) {
+		return Math.round( value ).toLocaleString( document.documentElement.lang || 'ru' );
+	}
+
+	// ==========================================================================
+	// Init
+	// ==========================================================================
+
 	/**
 	 * Инициализация при первой загрузке страницы.
 	 * Ждём document.fonts.ready чтобы шрифты были готовы до расчёта высот,
@@ -186,6 +287,8 @@
 		} else {
 			run();
 		}
+
+		initPriceSliders();
 	} );
 
 	/**

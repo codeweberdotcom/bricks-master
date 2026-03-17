@@ -684,3 +684,6 @@ add_shortcode( 'cw_shop_categories', function ( $atts ) {
 
 	return $html;
 } );
+
+// ── WooCommerce Filters ────────────────────────────────────────────────────────
+require_once get_template_directory() . '/functions/woocommerce-filters.php';
