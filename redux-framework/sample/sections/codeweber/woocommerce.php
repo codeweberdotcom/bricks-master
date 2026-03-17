@@ -49,6 +49,14 @@ Redux::set_section(
 			),
 
 			array(
+				'id'       => 'woo_shop_load_more',
+				'type'     => 'switch',
+				'title'    => esc_html__('Load More Button', 'codeweber'),
+				'subtitle' => esc_html__('Show "Load More" button instead of pagination on shop pages', 'codeweber'),
+				'default'  => false,
+			),
+
+			array(
 				'id'       => 'shop-archive-settings',
 				'type'     => 'accordion',
 				'position' => 'end',

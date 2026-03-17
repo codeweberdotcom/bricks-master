@@ -42,6 +42,24 @@ $base_query_args = $_GET; // phpcs:ignore WordPress.Security.NonceVerification
 unset( $base_query_args['per_row'], $base_query_args['per_page'] );
 $base_url = add_query_arg( $base_query_args, get_pagenum_link( 1 ) );
 
+// Redux: включена ли кнопка Load More
+global $opt_name;
+$load_more_enabled = false;
+if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
+	$load_more_enabled = (bool) Redux::get_option( $opt_name, 'woo_shop_load_more', false );
+}
+
+// Текущий orderby из URL
+$orderby = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'menu_order'; // phpcs:ignore WordPress.Security.NonceVerification
+
+// Данные контекста для Load More API
+$queried_object_id   = 0;
+$queried_object_type = '';
+if ( is_product_category() || is_product_tag() ) {
+	$queried_object_id   = get_queried_object_id();
+	$queried_object_type = is_product_category() ? 'product_cat' : 'product_tag';
+}
+
 if ( ! $is_pjax ) {
 	get_header();
 	get_pageheader();
@@ -103,6 +121,49 @@ if ( ! $is_pjax ) {
 				</div>
 				<!--/.row -->
 
+				<?php if ( $load_more_enabled ) :
+					global $wp_query;
+					$total_products  = (int) $wp_query->found_posts;
+					$has_more        = $total_products > $per_page;
+					$load_more_attrs = wp_json_encode( [
+						'orderby'             => $orderby,
+						'queried_object_id'   => $queried_object_id,
+						'queried_object_type' => $queried_object_type,
+					] );
+				?>
+				<!-- Load More: обёртка контейнера -->
+				<div class="cwgb-load-more-container"
+				     data-block-id="wc-shop-<?php echo esc_attr( get_queried_object_id() ?: 'all' ); ?>"
+				     data-block-type="wc-shop"
+				     data-block-attributes="<?php echo esc_attr( $load_more_attrs ); ?>"
+				     data-current-offset="<?php echo esc_attr( $per_page ); ?>"
+				     data-load-count="<?php echo esc_attr( $per_page ); ?>">
+
+					<!-- Сетка товаров -->
+					<div class="grid grid-view projects-masonry shop mb-13">
+						<div class="row gx-md-8 gy-10 gy-md-13 isotope cwgb-load-more-items <?php echo esc_attr( $row_cols_class ); ?>">
+							<?php while ( have_posts() ) : the_post(); ?>
+								<?php wc_get_template_part( 'content', 'product' ); ?>
+							<?php endwhile; ?>
+						</div>
+						<!-- /.row -->
+					</div>
+					<!-- /.grid -->
+
+					<?php if ( $has_more ) : ?>
+					<div class="text-center mt-10">
+						<button type="button" class="btn btn-primary rounded-pill cwgb-load-more-btn"
+						        data-loading-text="<?php esc_attr_e( 'Loading...', 'codeweber' ); ?>">
+							<?php esc_html_e( 'Show More', 'codeweber' ); ?>
+						</button>
+					</div>
+					<?php endif; ?>
+
+				</div>
+				<!-- /.cwgb-load-more-container -->
+
+				<?php else : ?>
+
 				<!-- Сетка товаров -->
 				<div class="grid grid-view projects-masonry shop mb-13">
 					<div class="row gx-md-8 gy-10 gy-md-13 isotope <?php echo esc_attr( $row_cols_class ); ?>">
@@ -115,6 +176,8 @@ if ( ! $is_pjax ) {
 				<!-- /.grid -->
 
 				<?php woocommerce_pagination(); ?>
+
+				<?php endif; ?>
 
 			</div>
 			<!-- /#shop-pjax-container -->
