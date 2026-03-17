@@ -78,6 +78,7 @@ if (!function_exists('get_breadcrumbs')) {
 
       // Если доступна Rank Math
       if (function_exists('rank_math_the_breadcrumbs')) {
+
          $args = [
             'delimiter'   => '',
             'separator'   => '',
@@ -89,6 +90,17 @@ if (!function_exists('get_breadcrumbs')) {
 
          add_filter('rank_math/frontend/breadcrumb/args', function () use ($args) {
             return $args;
+         });
+
+         // WooCommerce product tag: крошка содержит "Products tagged «tagname»" — оставляем только название тега
+         add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) {
+            if (function_exists('is_product_tag') && is_product_tag()) {
+               $last = count($crumbs) - 1;
+               if (isset($crumbs[$last][0])) {
+                  $crumbs[$last][0] = single_term_title('', false);
+               }
+            }
+            return $crumbs;
          });
 
          add_filter('rank_math/frontend/breadcrumb/html', function ($html, $crumbs, $class) use ($color) {
