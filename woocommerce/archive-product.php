@@ -293,12 +293,28 @@ if ( ! $is_pjax ) {
 
 	<section class="wrapper bg-light">
 		<div class="container pb-14 pb-md-16 pt-12">
-			<div class="row">
-				<div class="col-12 py-14">
-					<?php do_action( 'woocommerce_no_products_found' ); ?>
+			<div class="row gy-10">
+
+				<!-- Колонка с сообщением «нет товаров» -->
+				<div class="col-lg-9 order-lg-2">
+					<div class="py-6">
+						<?php do_action( 'woocommerce_no_products_found' ); ?>
+					</div>
 				</div>
+				<!-- /.col -->
+
+				<!-- Сайдбар -->
+				<aside class="col-lg-3 sidebar">
+					<?php if ( is_active_sidebar( 'sidebar-woo' ) ) : ?>
+						<?php dynamic_sidebar( 'sidebar-woo' ); ?>
+					<?php endif; ?>
+				</aside>
+				<!-- /aside.sidebar -->
+
 			</div>
+			<!-- /.row -->
 		</div>
+		<!-- /.container -->
 	</section>
 
 	<?php endif; // woocommerce_product_loop ?>
