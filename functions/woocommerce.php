@@ -1,8 +1,25 @@
 <?php
 
-// Количество товаров на странице через URL-параметр ?per_page=N (12 / 24 / 48).
+/**
+ * Вспомогательная функция: получить допустимые значения per_page из Redux.
+ */
+function codeweber_get_allowed_per_page() {
+	global $opt_name;
+	if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
+		$raw = Redux::get_option( $opt_name, 'woo_per_page_values', '12,24,48' );
+		if ( ! empty( $raw ) ) {
+			$parsed = array_values( array_filter( array_map( 'intval', explode( ',', $raw ) ) ) );
+			if ( ! empty( $parsed ) ) {
+				return $parsed;
+			}
+		}
+	}
+	return [ 12, 24, 48 ];
+}
+
+// Количество товаров на странице через URL-параметр ?per_page=N (значения из Redux).
 add_filter( 'loop_shop_per_page', function ( $default ) {
-	$allowed = [ 12, 24, 48 ];
+	$allowed = codeweber_get_allowed_per_page();
 	if ( isset( $_GET['per_page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 		$requested = (int) $_GET['per_page']; // phpcs:ignore WordPress.Security.NonceVerification
 		if ( in_array( $requested, $allowed, true ) ) {
@@ -417,9 +434,6 @@ add_action('wp_footer', function () {
 });
 
 
-
-
-
 add_action('wp_ajax_reset_phone_verification', function () {
    $user_id = get_current_user_id();
    if ($user_id) {
@@ -447,7 +461,7 @@ add_action('wp_ajax_check_phone_unique', function () {
 
    // Проверяем есть ли у другого пользователя такой номер
    $query = $wpdb->prepare("
-        SELECT user_id FROM $meta_table 
+        SELECT user_id FROM $meta_table
         WHERE meta_key = %s AND meta_value = %s AND user_id != %d
         LIMIT 1
     ", $phone_meta_key, $phone, $user_id);
@@ -596,4 +610,77 @@ add_action( 'wp_enqueue_scripts', function () {
 }, 30 );
 
 
+// ── Shortcode: категории магазина ─────────────────────────────────────────────
+// Использование: [cw_shop_categories]
+// Атрибуты:
+//   hide_empty  — скрывать пустые категории (1/0, по умолч. 1)
+//   parent      — ID родительской категории (0 = верхний уровень, по умолч. 0)
+//   orderby     — сортировка: name, count, slug (по умолч. name)
+//   order       — ASC или DESC (по умолч. ASC)
+//   style       — класс неактивной кнопки Bootstrap (по умолч. btn-outline-secondary)
+//   active_style — класс активной кнопки Bootstrap (по умолч. btn-secondary)
+//   show_all    — показывать кнопку «Все» (1/0, по умолч. 1)
+add_shortcode( 'cw_shop_categories', function ( $atts ) {
+	if ( ! function_exists( 'wc_get_page_id' ) ) {
+		return '';
+	}
 
+	$atts = shortcode_atts(
+		[
+			'hide_empty'   => 1,
+			'parent'       => 0,
+			'orderby'      => 'name',
+			'order'        => 'ASC',
+			'style'        => 'btn-outline-secondary',
+			'active_style' => 'btn-secondary',
+			'show_all'     => 1,
+		],
+		$atts,
+		'cw_shop_categories'
+	);
+
+	$terms = get_terms(
+		[
+			'taxonomy'   => 'product_cat',
+			'hide_empty' => (bool) $atts['hide_empty'],
+			'parent'     => (int) $atts['parent'],
+			'orderby'    => sanitize_key( $atts['orderby'] ),
+			'order'      => in_array( strtoupper( $atts['order'] ), [ 'ASC', 'DESC' ], true )
+				? strtoupper( $atts['order'] ) : 'ASC',
+		]
+	);
+
+	if ( is_wp_error( $terms ) || empty( $terms ) ) {
+		return '';
+	}
+
+	$btn        = esc_attr( $atts['style'] );
+	$btn_active = esc_attr( $atts['active_style'] );
+	$shop_url   = get_permalink( wc_get_page_id( 'shop' ) );
+
+	$html = '<div class="shop-category-filter d-flex flex-wrap gap-2">';
+
+	if ( $atts['show_all'] ) {
+		$is_active = is_shop();
+		$html     .= sprintf(
+			'<a href="%s" class="btn btn-sm pjax-link %s">%s</a>',
+			esc_url( $shop_url ),
+			$is_active ? $btn_active : $btn,
+			esc_html__( 'Все', 'codeweber' )
+		);
+	}
+
+	foreach ( $terms as $term ) {
+		$is_active = is_product_category( $term->slug );
+		$html     .= sprintf(
+			'<a href="%s" class="btn btn-sm pjax-link %s">%s</a>',
+			esc_url( get_term_link( $term ) ),
+			$is_active ? $btn_active : $btn,
+			esc_html( $term->name )
+		);
+	}
+
+	$html .= '</div>';
+
+	return $html;
+} );

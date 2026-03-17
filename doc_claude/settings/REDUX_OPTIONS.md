@@ -671,10 +671,47 @@ Legal page configuration, privacy policy links, GDPR consent settings
 
 ### WooCommerce
 
-**File:** `woocommerce.php`
-- Shop page layout
-- Product catalog settings
-- Cart/checkout customization
+**Section ID:** `woocommerce-settings` (parent), `woocommerce-archive` (subsection)
+**File:** `redux-framework/sample/sections/codeweber/woocommerce.php`
+
+#### Archive — Default Columns per Breakpoint
+
+```php
+'woo_cols_xs' => '1' | '2'          // Mobile < 576px.  Default: '1'
+'woo_cols_sm' => '1' | '2'          // SM ≥ 576px.       Default: '2'
+'woo_cols_md' => '1' | '2' | '3'    // MD ≥ 768px.       Default: '2'
+'woo_cols_lg' => '1' | '2' | '3' | '4'  // LG ≥ 992px.  Default: '3'
+'woo_cols_xl' => '1' | '2' | '3' | '4'  // XL ≥ 1200px. Default: '4'
+```
+
+Значения применяются в `woocommerce/archive-product.php` как дефолтный Bootstrap-класс сетки:
+
+```php
+// Результирующий класс:
+"row-cols-{xs} row-cols-sm-{sm} row-cols-md-{md} row-cols-lg-{lg} row-cols-xl-{xl}"
+```
+
+Применяется только когда в URL нет параметра `?per_row=N`. При его наличии — используется фиксированный маппинг переключателя (2/3/4 колонки).
+
+#### Archive — остальные настройки
+
+```php
+'archive_template_select_product' => 'shop2' | ...
+// Шаблон карточки товара (сканирует templates/post-cards/product/)
+
+'woo_show_archive_title' => true | false   // Заголовок над сеткой. Default: false
+
+'woo_shop_load_more' => 'pagination' | 'load_more' | 'both'  // Default: 'pagination'
+
+'woo_show_per_page' => true | false        // Переключатель кол-ва товаров. Default: true
+'woo_per_page_values' => '12,24,48'        // Допустимые значения. Default: '12,24,48'
+
+'woo_show_per_row' => true | false         // Переключатель колонок. Default: true
+'woo_per_row_values' => ['2'=>'1','3'=>'1','4'=>'1']  // Доступные варианты
+
+'woo_show_ordering' => true | false        // Сортировка. Default: true
+'woo_ordering_options' => [...]            // Варианты сортировки
+```
 
 ### Email (SMTP)
 

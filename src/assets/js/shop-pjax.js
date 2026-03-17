@@ -2,19 +2,17 @@
  * Shop PJAX
  *
  * Перехватывает клики по ссылкам с классом .pjax-link на страницах магазина,
- * загружает контент через fetch с заголовком X-PJAX и заменяет
- * содержимое #shop-pjax-container без полной перезагрузки страницы.
+ * загружает контент через fetch с заголовком X-PJAX и заменяет содержимое
+ * #shop-pjax-wrapper (page header + товары + сайдбар) без полной перезагрузки.
  *
- * Расширяемость: любая ссылка с классом .pjax-link (фильтры, сортировка,
- * пагинация) будет автоматически работать через PJAX.
+ * document.title обновляется из атрибута data-page-title нового контента.
  */
 (function () {
 	'use strict';
 
-	var CONTAINER_ID = 'shop-pjax-container';
-	var LOADING_CLASS = 'shop-pjax-loading';
-	var SPINNER_CLASS = 'shop-pjax-spinner';
-	var PJAX_HEADER = 'X-PJAX';
+	var CONTAINER_ID   = 'shop-pjax-wrapper';
+	var LOADING_CLASS  = 'shop-pjax-loading';
+	var SPINNER_CLASS  = 'shop-pjax-spinner';
 
 	/**
 	 * Получить высоту sticky-хедера.
@@ -37,15 +35,14 @@
 		el.className = SPINNER_CLASS;
 		el.innerHTML = '<div class="spinner"></div>';
 
-		// Рассчитать центр видимой части контейнера
-		var rect = container.getBoundingClientRect();
+		var rect        = container.getBoundingClientRect();
 		var headerOffset = getHeaderOffset();
-		var visibleTop = Math.max( headerOffset, rect.top );
+		var visibleTop  = Math.max( headerOffset, rect.top );
 		var visibleBottom = Math.min( window.innerHeight, rect.bottom );
-		var centerY = ( visibleTop + visibleBottom ) / 2;
-		var centerX = rect.left + rect.width / 2;
+		var centerY     = ( visibleTop + visibleBottom ) / 2;
+		var centerX     = rect.left + rect.width / 2;
 
-		el.style.top = centerY + 'px';
+		el.style.top  = centerY + 'px';
 		el.style.left = centerX + 'px';
 
 		document.body.appendChild( el );
@@ -63,11 +60,22 @@
 	}
 
 	/**
-	 * Найти контейнер PJAX.
+	 * Найти PJAX-контейнер.
 	 * @returns {HTMLElement|null}
 	 */
 	function getContainer() {
 		return document.getElementById( CONTAINER_ID );
+	}
+
+	/**
+	 * Обновить document.title из атрибута data-page-title нового контейнера.
+	 * @param {HTMLElement} container
+	 */
+	function updateDocTitle( container ) {
+		var title = container.getAttribute( 'data-page-title' );
+		if ( title ) {
+			document.title = title;
+		}
 	}
 
 	/**
@@ -98,19 +106,34 @@
 				return response.text();
 			} )
 			.then( function ( html ) {
-				container.innerHTML = html;
-				history.pushState( { pjax: true, url: url }, '', url );
+				// Парсим ответ и извлекаем новый контейнер
+				var tmp = document.createElement( 'div' );
+				tmp.innerHTML = html;
+				var newContainer = tmp.firstElementChild;
+
+				// Заменяем содержимое
+				container.innerHTML = newContainer ? newContainer.innerHTML : html;
+
+				// Обновляем data-page-title и document.title
+				if ( newContainer ) {
+					var newTitle = newContainer.getAttribute( 'data-page-title' );
+					if ( newTitle ) {
+						container.setAttribute( 'data-page-title', newTitle );
+						document.title = newTitle;
+					}
+				}
+
+				history.pushState( { pjax: true, url: url }, document.title, url );
 				container.classList.remove( LOADING_CLASS );
 				hideSpinner( spinner );
 				initIsotope( container );
 
 				// Скролл к верху контейнера с отступом под sticky-хедер
-				var containerTop = container.getBoundingClientRect().top + window.pageYOffset - 75;
+				var containerTop = container.getBoundingClientRect().top + window.pageYOffset - getHeaderOffset() - 16;
 				window.scrollTo( { top: containerTop, behavior: 'smooth' } );
 			} )
 			.catch( function () {
 				hideSpinner( spinner );
-				// Fallback: обычная навигация
 				window.location.href = url;
 			} );
 	}
@@ -123,7 +146,6 @@
 		var grid = container.querySelector( '.isotope' );
 		if ( ! grid ) return;
 
-		// Если Isotope не загружен — выходим (макет уже корректный через CSS)
 		if ( typeof window.Isotope === 'undefined' ) return;
 
 		var doLayout = function () {
@@ -133,7 +155,6 @@
 			} );
 		};
 
-		// Ждём загрузки изображений перед расчётом позиций
 		if ( typeof window.imagesLoaded !== 'undefined' ) {
 			window.imagesLoaded( grid, doLayout );
 		} else {
@@ -143,19 +164,16 @@
 
 	/**
 	 * Перехват сортировки WooCommerce через PJAX.
-	 * Используем capture=true, чтобы сработать ДО jQuery-обработчика WC,
-	 * который вызывает нативный form.submit() (не триггерит addEventListener 'submit').
 	 */
 	document.addEventListener( 'change', function ( e ) {
 		var select = e.target.closest( 'select.orderby' );
 		if ( ! select ) return;
-		// Останавливаем событие — WC не получит его и не вызовет form.submit()
 		e.stopPropagation();
 		var form = select.closest( 'form' );
 		if ( ! form ) return;
-		var params = new URLSearchParams( new FormData( form ) );
-		var base = form.action || window.location.pathname;
-		pjaxLoad( base + '?' + params.toString() );
+		var url = new URL( form.action || window.location.href );
+		url.search = new URLSearchParams( new FormData( form ) ).toString();
+		pjaxLoad( url.toString() );
 	}, true ); // capture phase
 
 	/**
@@ -165,7 +183,6 @@
 		var link = e.target.closest( '.pjax-link' );
 		if ( ! link ) return;
 
-		// Игнорируем внешние ссылки и ссылки с модификаторами
 		if ( link.hostname !== window.location.hostname ) return;
 		if ( e.ctrlKey || e.metaKey || e.shiftKey ) return;
 

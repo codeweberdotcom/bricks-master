@@ -231,6 +231,12 @@
   overflow: hidden;
   transform: translate3d(0px, 0px, 0px);
 }
+.shop .post-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 //----------------------------------------------------------//
 //	SHOP PER-ROW SWITCHER
 //----------------------------------------------------------//
@@ -250,6 +256,12 @@
   width: 30px;
   height: 30px;
   font-size: 1.1rem;
+
+  svg {
+    display: block;
+    flex-shrink: 0;
+    overflow: visible;
+  }
 
   &:hover {
     color: $main-dark;
@@ -305,7 +317,7 @@
   pointer-events: none;
   transform: translate(-50%, -50%);
 }
-#shop-pjax-container {
+#shop-pjax-wrapper {
   transition: opacity 0.2s ease;
 
   &.shop-pjax-loading {
