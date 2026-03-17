@@ -572,3 +572,78 @@ function codeweber_enqueue_dadata_address() {
 	wp_localize_script( 'dadata-address', 'codeweberDadata', $localize );
 }
 add_action( 'wp_enqueue_scripts', 'codeweber_enqueue_dadata_address', 25 );
+
+// ── Gutenberg: CSS для класса cwgb-grid-gap-theme ───────────────────────────
+add_action(
+	'wp_head',
+	function () {
+		if ( ! class_exists( 'Codeweber_Options' ) ) {
+			return;
+		}
+		$classes = Codeweber_Options::style( 'grid-gap' );
+		if ( ! $classes ) {
+			return;
+		}
+
+		// Карта spacer-значений темы (соответствует Bootstrap-переменным).
+		$spacers = [
+			0 => '0px', 1 => '5px', 2 => '10px', 3 => '15px', 4 => '20px',
+			5 => '25px', 6 => '30px', 7 => '35px', 8 => '40px', 9 => '45px',
+			10 => '50px', 11 => '60px', 12 => '70px', 13 => '80px',
+		];
+		$breakpoints = [
+			'sm' => '576px', 'md' => '768px', 'lg' => '992px',
+			'xl' => '1200px', 'xxl' => '1400px',
+		];
+
+		$base_css  = [];
+		$media_css = [];
+
+		foreach ( explode( ' ', $classes ) as $token ) {
+			if ( preg_match( '/^g-(\d+)$/', $token, $m ) ) {
+				$v = $spacers[ (int) $m[1] ] ?? null;
+				if ( $v ) { $base_css['--bs-gutter-x'] = $v; $base_css['--bs-gutter-y'] = $v; }
+			} elseif ( preg_match( '/^gx-(\d+)$/', $token, $m ) ) {
+				$v = $spacers[ (int) $m[1] ] ?? null;
+				if ( $v ) { $base_css['--bs-gutter-x'] = $v; }
+			} elseif ( preg_match( '/^gy-(\d+)$/', $token, $m ) ) {
+				$v = $spacers[ (int) $m[1] ] ?? null;
+				if ( $v ) { $base_css['--bs-gutter-y'] = $v; }
+			} elseif ( preg_match( '/^g-(sm|md|lg|xl|xxl)-(\d+)$/', $token, $m ) ) {
+				$v = $spacers[ (int) $m[2] ] ?? null;
+				if ( $v ) { $media_css[ $m[1] ]['--bs-gutter-x'] = $v; $media_css[ $m[1] ]['--bs-gutter-y'] = $v; }
+			} elseif ( preg_match( '/^gx-(sm|md|lg|xl|xxl)-(\d+)$/', $token, $m ) ) {
+				$v = $spacers[ (int) $m[2] ] ?? null;
+				if ( $v ) { $media_css[ $m[1] ]['--bs-gutter-x'] = $v; }
+			} elseif ( preg_match( '/^gy-(sm|md|lg|xl|xxl)-(\d+)$/', $token, $m ) ) {
+				$v = $spacers[ (int) $m[2] ] ?? null;
+				if ( $v ) { $media_css[ $m[1] ]['--bs-gutter-y'] = $v; }
+			}
+		}
+
+		if ( empty( $base_css ) && empty( $media_css ) ) {
+			return;
+		}
+
+		$css = '.cwgb-grid-gap-theme {';
+		foreach ( $base_css as $prop => $val ) {
+			$css .= ' ' . $prop . ': ' . $val . ';';
+		}
+		$css .= ' }' . "
+";
+
+		foreach ( $media_css as $bp => $props ) {
+			$css .= '@media (min-width: ' . esc_attr( $breakpoints[ $bp ] ) . ') { .cwgb-grid-gap-theme {';
+			foreach ( $props as $prop => $val ) {
+				$css .= ' ' . $prop . ': ' . $val . ';';
+			}
+			$css .= ' } }' . "
+";
+		}
+
+		echo '<style id="cwgb-grid-gap-theme">' . "
+" . $css . '</style>' . "
+";
+	},
+	99
+);
