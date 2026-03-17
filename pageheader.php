@@ -247,8 +247,24 @@ if (!is_front_page() && !is_404()) {
       }
    }
 
+   // WooCommerce: если включён заголовок в контенте — принудительно pageheader-1
+   if (
+      class_exists( 'WooCommerce' ) &&
+      ( is_shop() || is_product_category() || is_product_tag() ) &&
+      class_exists( 'Redux' ) && ! empty( $opt_name ) &&
+      (bool) Redux::get_option( $opt_name, 'woo_show_archive_title', false )
+   ) {
+      $template_pageheader_id   = '';
+      $global_template_pageheader = '1';
+   }
+
    // Получаем переменные для шаблона
    $pageheader_vars = get_pageheader_vars();
+
+   // Синхронизируем модель в vars с возможным переопределением выше
+   if ( isset( $global_template_pageheader ) ) {
+      $pageheader_vars['global_page_header_model'] = $global_template_pageheader;
+   }
 
    if ($template_pageheader_id && $template_pageheader_id !== 'default') {
       $post = get_post($template_pageheader_id);
