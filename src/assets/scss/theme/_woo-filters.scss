@@ -63,84 +63,56 @@
   }
 }
 
-// ── Filter list (links mode) — стиль вертикального меню ──────────────────────
+// ── Checkbox link (form-check style, но как ссылка для PJAX) ─────────────────
 
-.cw-filter-list {
-  &__item {
-    + .cw-filter-list__item {
-      margin-top: .35rem;
-    }
-
-    &.active > .cw-filter-list__link {
-      color: $primary;
-      font-weight: $font-weight-semibold;
-    }
-  }
-
-  &__link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0;
-    font-size: $nav-link-font-size;
-    font-weight: $nav-link-font-weight;
-    color: $body-color;
-    text-decoration: none;
-    transition: color .2s ease-in-out;
-
-    &:hover {
-      color: $primary;
-    }
-
-    .cw-filter-count {
-      margin-left: auto;
-    }
-  }
-}
-
-// ── Checkbox filter (styled links) ────────────────────────────────────────────
-
-.cw-filter-checkbox-list {
-  &__item {
-    + .cw-filter-checkbox-list__item {
-      margin-top: .25rem;
-    }
-  }
-}
-
-.cw-filter-checkbox-link {
-  font-size: $font-size-sm;
+.cw-check-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
   color: $body-color;
   text-decoration: none;
-  transition: color .15s ease;
+  cursor: pointer;
+  transition: color .15s ease-in-out;
 
   &:hover {
     color: $primary;
+
+    .cw-check-box {
+      border-color: $primary;
+    }
+  }
+
+  &.active {
+    color: $primary;
+
+    .cw-check-box {
+      background-color: $primary;
+      border-color: $primary;
+      // Checkmark SVG (Bootstrap 5 default)
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+      background-size: .65em;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
   }
 }
 
-.cw-checkbox {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+// Fake checkbox box — same visual as Bootstrap .form-check-input
+.cw-check-box {
   flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-  border: 1.5px solid $border-color;
-  border-radius: 3px;
-  background: $white;
-  color: $white;
-  transition: background-color .15s ease, border-color .15s ease;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: $form-check-input-bg;
+  border: $form-check-input-border;
+  border-radius: $form-check-input-border-radius;
+  transition: background-color .15s ease-in-out, border-color .15s ease-in-out;
+}
 
-  .cw-filter-checkbox-link.checked & {
-    background-color: $primary;
-    border-color: $primary;
-    color: $white;
-  }
-
-  .cw-filter-checkbox-link:hover & {
-    border-color: $primary;
-  }
+.cw-check-label {
+  font-size: $form-label-font-size;
+  font-weight: $form-label-font-weight;
+  line-height: $line-height-base;
 }
 
 // ── Button / chip mode ─────────────────────────────────────────────────────────
