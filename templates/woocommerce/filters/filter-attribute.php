@@ -96,7 +96,10 @@ if ( 'disable' === $empty_behavior ) {
 			$inline_style = implode( ';', array_filter( [ $size_style, $bg_style ] ) );
 
 			// Grid mode: no .w-8 .h-8 (size comes from grid cell)
-			$classes = [ 'cw-swatch', 'cw-swatch--' . $display_mode, $swatch_shape ];
+			$classes = [ 'cw-swatch', 'cw-swatch--' . $display_mode ];
+			if ( $swatch_shape ) {
+				$classes[] = $swatch_shape;
+			}
 			if ( ! $use_grid ) {
 				$classes[] = 'w-8';
 				$classes[] = 'h-8';

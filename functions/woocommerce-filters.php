@@ -1178,7 +1178,8 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 			? ( $item['swatchShape'] ?? 'default' ) : 'default';
 		if ( 'theme' === $swatch_shape_raw ) {
 			// Use the same resolved button shape as the button display mode uses.
-			$swatch_shape = trim( $panel_atts['button_shape'] ?? '' ) ?: 'avatar';
+			// May be empty string when Redux option is 'standard' — handled in template.
+			$swatch_shape = trim( $panel_atts['button_shape'] ?? '' );
 		} elseif ( 'default' === $swatch_shape_raw ) {
 			$swatch_shape = 'avatar';
 		} else {
