@@ -141,7 +141,8 @@ if ( 'disable' === $empty_behavior ) {
 			if ( 'default' === $empty_behavior ) { $is_empty = false; }
 			elseif ( 'hide' === $empty_behavior && $is_empty ) { continue; }
 			?>
-			<?php if ( $is_empty ) : // 'disable' — no link ?>
+			<?php $is_clickable_muted = ( 'disable_clickable' === $empty_behavior && $is_empty ); ?>
+		<?php if ( $is_empty && ! $is_clickable_muted ) : ?>
 				<span class="btn has-ripple <?php echo esc_attr( $button_class ); ?> disabled opacity-50"
 					aria-disabled="true"
 					<?php if ( $show_count ) : ?>title="(0)"<?php endif; ?>>
@@ -149,7 +150,7 @@ if ( 'disable' === $empty_behavior ) {
 				</span>
 			<?php else : ?>
 				<a href="<?php echo esc_url( $item['url'] ); ?>"
-					class="btn has-ripple pjax-link <?php echo $is_active ? esc_attr( $button_active_class ) : esc_attr( $button_class ); ?><?php echo ( 'disable_clickable' === $empty_behavior && ( $item['is_empty'] ?? false ) && ! $is_active ) ? ' opacity-50' : ''; ?>"
+					class="btn has-ripple pjax-link <?php echo $is_active ? esc_attr( $button_active_class ) : esc_attr( $button_class ); ?><?php echo $is_clickable_muted ? ' opacity-50' : ''; ?>"
 					<?php if ( $show_count ) : ?>title="(<?php echo esc_attr( $count ); ?>)"<?php endif; ?>>
 					<?php echo esc_html( $term->name ); ?>
 				</a>
