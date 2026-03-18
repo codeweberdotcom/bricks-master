@@ -394,12 +394,157 @@ add_action( 'save_post_product', function() {
 } );
 
 /**
- * Get terms for a WooCommerce product attribute taxonomy.
- * Returns products counts if WC product meta lookup table is available.
+ * Get filtered product count per term for a given taxonomy.
+ *
+ * Uses the same filter conditions as cw_get_price_filter_range() but returns
+ * a map of term_id → product count instead of MIN/MAX price.
+ *
+ * @param string $taxonomy         Full taxonomy slug (e.g. 'pa_color', 'product_cat').
+ * @param string $exclude_taxonomy Taxonomy to skip in WHERE (use the attribute itself for OR-mode).
+ * @return array<int, int> Map of term_id => product count.
+ */
+function cw_get_filtered_term_counts( $taxonomy, $exclude_taxonomy = '' ) {
+	global $wpdb;
+
+	// phpcs:disable WordPress.Security.NonceVerification
+	$cache_key = 'cw_term_counts_' . md5( wp_json_encode( [
+		'tax'   => $taxonomy,
+		'excl'  => $exclude_taxonomy,
+		'cat'   => is_product_category() ? get_queried_object_id() : 0,
+		'attrs' => class_exists( 'WC_Query' ) ? WC_Query::get_layered_nav_chosen_attributes() : [],
+		'tag'   => sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ?? '' ) ),
+		'stock' => sanitize_key( wp_unslash( $_GET['filter_stock_status'] ?? '' ) ),
+		'rate'  => sanitize_text_field( wp_unslash( $_GET['rating_filter'] ?? '' ) ),
+	] ) );
+	// phpcs:enable
+
+	$cached = wp_cache_get( $cache_key, 'cw_filters' );
+	if ( false !== $cached ) {
+		return $cached;
+	}
+
+	$meta_table = $wpdb->prefix . 'wc_product_meta_lookup';
+
+	$joins = [
+		"INNER JOIN {$wpdb->posts} AS p ON p.ID = lookup.product_id AND p.post_type = 'product' AND p.post_status = 'publish'",
+	];
+	$where = [];
+
+	// ── Category archive (incl. child categories) ──────────────────────────
+	if ( is_product_category() ) {
+		$cat_term = get_queried_object();
+		if ( $cat_term && ! is_wp_error( $cat_term ) ) {
+			$term_ids = array_merge(
+				[ (int) $cat_term->term_id ],
+				array_map( 'intval', get_term_children( $cat_term->term_id, 'product_cat' ) )
+			);
+			$ids_list = implode( ',', $term_ids );
+			$where[]  = "lookup.product_id IN (
+				SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+				INNER JOIN {$wpdb->term_taxonomy} tt
+					ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_cat'
+				WHERE tt.term_id IN ({$ids_list})
+			)";
+		}
+	}
+
+	// ── WC attribute filters (skip $exclude_taxonomy) ──────────────────────
+	// phpcs:disable WordPress.Security.NonceVerification
+	if ( class_exists( 'WC_Query' ) ) {
+		foreach ( WC_Query::get_layered_nav_chosen_attributes() as $attr_tax => $data ) {
+			if ( $attr_tax === $exclude_taxonomy || empty( $data['terms'] ) ) {
+				continue;
+			}
+			$tax_safe  = esc_sql( $attr_tax );
+			$slug_list = implode( ',', array_map( function( $s ) use ( $wpdb ) {
+				return $wpdb->prepare( '%s', $s );
+			}, $data['terms'] ) );
+
+			if ( 'and' === $data['query_type'] ) {
+				$term_count = count( $data['terms'] );
+				$where[]    = "lookup.product_id IN (
+					SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+					INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = '{$tax_safe}'
+					INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+					GROUP BY tr.object_id HAVING COUNT(DISTINCT t.term_id) = {$term_count}
+				)";
+			} else {
+				$where[] = "lookup.product_id IN (
+					SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+					INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = '{$tax_safe}'
+					INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+				)";
+			}
+		}
+	}
+
+	// ── Product tag filter ─────────────────────────────────────────────────
+	if ( 'product_tag' !== $exclude_taxonomy && ! empty( $_GET['filter_product_tag'] ) ) {
+		$tag_slugs = array_filter(
+			array_map( 'sanitize_key', explode( ',', sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ) ) ) )
+		);
+		if ( $tag_slugs ) {
+			$slug_list = implode( ',', array_map( function( $s ) use ( $wpdb ) {
+				return $wpdb->prepare( '%s', $s );
+			}, $tag_slugs ) );
+			$where[] = "lookup.product_id IN (
+				SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+				INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_tag'
+				INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+			)";
+		}
+	}
+
+	// ── Stock status ────────────────────────────────────────────────────────
+	if ( ! empty( $_GET['filter_stock_status'] ) ) {
+		$status = sanitize_key( wp_unslash( $_GET['filter_stock_status'] ) );
+		if ( in_array( $status, [ 'instock', 'outofstock', 'onbackorder' ], true ) ) {
+			$where[] = $wpdb->prepare( 'lookup.stock_status = %s', $status );
+		}
+	}
+
+	// ── Rating ──────────────────────────────────────────────────────────────
+	if ( ! empty( $_GET['rating_filter'] ) ) {
+		$ratings = array_filter( array_map( 'absint', explode( ',', sanitize_text_field( wp_unslash( $_GET['rating_filter'] ) ) ) ) );
+		if ( $ratings ) {
+			$where[] = $wpdb->prepare( 'FLOOR(lookup.average_rating) >= %d', min( $ratings ) );
+		}
+	}
+	// phpcs:enable
+
+	$joins_sql = implode( ' ', $joins );
+	$where_sql = $where ? 'WHERE ' . implode( ' AND ', $where ) : '';
+	$tax_safe  = esc_sql( $taxonomy );
+
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$rows = $wpdb->get_results(
+		"SELECT tt_main.term_id, COUNT(DISTINCT lookup.product_id) AS cnt
+		FROM `{$meta_table}` AS lookup
+		{$joins_sql}
+		INNER JOIN {$wpdb->term_relationships} tr_main ON tr_main.object_id = lookup.product_id
+		INNER JOIN {$wpdb->term_taxonomy} tt_main
+			ON tt_main.term_taxonomy_id = tr_main.term_taxonomy_id AND tt_main.taxonomy = '{$tax_safe}'
+		{$where_sql}
+		GROUP BY tt_main.term_id"
+	);
+	// phpcs:enable
+
+	$counts = [];
+	foreach ( $rows as $row ) {
+		$counts[ (int) $row->term_id ] = (int) $row->cnt;
+	}
+
+	wp_cache_set( $cache_key, $counts, 'cw_filters', 5 * MINUTE_IN_SECONDS );
+
+	return $counts;
+}
+
+/**
+ * Get terms for a WooCommerce product attribute taxonomy with filtered counts.
  *
  * @param string $taxonomy   Full taxonomy slug (e.g. 'pa_color').
  * @param bool   $show_count Whether to include product count.
- * @return array{ term: WP_Term, count: int, is_active: bool, url: string }[]
+ * @return array{ term: WP_Term, count: int, is_active: bool, is_empty: bool, url: string }[]
  */
 function cw_get_attribute_filter_terms( $taxonomy, $show_count = true ) {
 	$param = 'filter_' . wc_attribute_taxonomy_slug( $taxonomy );
@@ -414,12 +559,21 @@ function cw_get_attribute_filter_terms( $taxonomy, $show_count = true ) {
 		return [];
 	}
 
+	// OR-mode: exclude this taxonomy's own filter when computing counts (show all options).
+	// AND-mode: keep this taxonomy's filter (show only compatible options).
+	$chosen_attrs = class_exists( 'WC_Query' ) ? WC_Query::get_layered_nav_chosen_attributes() : [];
+	$query_type   = $chosen_attrs[ $taxonomy ]['query_type'] ?? 'or';
+	$exclude      = ( 'or' === $query_type ) ? $taxonomy : '';
+	$counts       = cw_get_filtered_term_counts( $taxonomy, $exclude );
+
 	$result = [];
 	foreach ( $terms as $term ) {
+		$filtered_count = $counts[ (int) $term->term_id ] ?? 0;
 		$result[] = [
 			'term'      => $term,
-			'count'     => (int) $term->count,
+			'count'     => $filtered_count,
 			'is_active' => cw_is_filter_active( $param, $term->slug ),
+			'is_empty'  => ( 0 === $filtered_count ),
 			'url'       => cw_get_filter_url( $param, $term->slug ),
 		];
 	}
@@ -428,11 +582,11 @@ function cw_get_attribute_filter_terms( $taxonomy, $show_count = true ) {
 }
 
 /**
- * Get product categories for the filter.
+ * Get product categories for the filter with filtered counts.
  *
  * @param int  $parent     Parent category ID (0 = top-level).
  * @param bool $show_count Whether to include product count.
- * @return array{ term: WP_Term, is_active: bool, children: array }[]
+ * @return array{ term: WP_Term, count: int, is_active: bool, is_empty: bool, children: array }[]
  */
 function cw_get_category_filter_terms( $parent = 0, $show_count = true ) {
 	$queried = is_product_category() ? get_queried_object() : null;
@@ -448,11 +602,16 @@ function cw_get_category_filter_terms( $parent = 0, $show_count = true ) {
 		return [];
 	}
 
+	$counts = cw_get_filtered_term_counts( 'product_cat', '' );
+
 	$result = [];
 	foreach ( $terms as $term ) {
+		$filtered_count = $counts[ (int) $term->term_id ] ?? 0;
 		$result[] = [
 			'term'      => $term,
+			'count'     => $filtered_count,
 			'is_active' => ( $queried && (int) $queried->term_id === (int) $term->term_id ),
+			'is_empty'  => ( 0 === $filtered_count ),
 			'url'       => get_term_link( $term ),
 			'children'  => [],
 		];
@@ -509,10 +668,10 @@ function cw_get_stock_filter_options() {
 }
 
 /**
- * Get product tags for the filter.
+ * Get product tags for the filter with filtered counts.
  *
  * @param bool $show_count Whether to include product count.
- * @return array{ term: WP_Term, count: int, is_active: bool, url: string }[]
+ * @return array{ term: WP_Term, count: int, is_active: bool, is_empty: bool, url: string }[]
  */
 function cw_get_tag_filter_terms( $show_count = true ) {
 	$param = 'filter_product_tag';
@@ -527,12 +686,17 @@ function cw_get_tag_filter_terms( $show_count = true ) {
 		return [];
 	}
 
+	// OR-mode tags: exclude the tag filter itself when computing per-tag counts.
+	$counts = cw_get_filtered_term_counts( 'product_tag', 'product_tag' );
+
 	$result = [];
 	foreach ( $terms as $term ) {
+		$filtered_count = $counts[ (int) $term->term_id ] ?? 0;
 		$result[] = [
 			'term'      => $term,
-			'count'     => (int) $term->count,
+			'count'     => $filtered_count,
 			'is_active' => cw_is_filter_active( $param, $term->slug ),
+			'is_empty'  => ( 0 === $filtered_count ),
 			'url'       => cw_get_filter_url( $param, $term->slug ),
 		];
 	}
