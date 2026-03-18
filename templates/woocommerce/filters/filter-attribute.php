@@ -24,6 +24,7 @@ $button_class        = $button_class ?? 'btn-outline-secondary';
 $button_active_class = $button_active_class ?? 'btn-secondary';
 $checkbox_size_class = $checkbox_size_class ?? '';
 $checkbox_item_class = $checkbox_item_class ?? '';
+$checkbox_columns    = $checkbox_columns ?? 1;
 ?>
 
 <?php if ( 'button' === $display_mode ) : ?>
@@ -65,28 +66,32 @@ $checkbox_item_class = $checkbox_item_class ?? '';
 
 <?php else : // checkbox — default ?>
 
-	<?php foreach ( $terms_data as $item ) :
-		$term      = $item['term'];
-		$is_active = $item['is_active'];
-		$count     = $item['count'];
-		$uid       = 'cw-term-' . sanitize_html_class( $term->slug );
-		?>
-		<div class="form-check mb-1 cw-filter-check<?php echo esc_attr( $checkbox_size_class ); ?><?php echo $checkbox_item_class ? ' ' . esc_attr( $checkbox_item_class ) : ''; ?>">
-			<input class="form-check-input"
-				type="checkbox"
-				id="<?php echo esc_attr( $uid ); ?>"
-				<?php checked( $is_active ); ?>
-				tabindex="-1"
-				aria-hidden="true">
-			<a href="<?php echo esc_url( $item['url'] ); ?>"
-				class="form-check-label pjax-link"
-				aria-pressed="<?php echo $is_active ? 'true' : 'false'; ?>">
-				<?php echo esc_html( $term->name ); ?>
-				<?php if ( $show_count ) : ?>
-					<span class="fs-sm text-muted ms-1">(<?php echo esc_html( $count ); ?>)</span>
-				<?php endif; ?>
-			</a>
-		</div>
-	<?php endforeach; ?>
+	<ul class="list-unstyled ps-0 mb-0<?php echo 2 === $checkbox_columns ? ' cc-2' : ''; ?>">
+		<?php foreach ( $terms_data as $item ) :
+			$term      = $item['term'];
+			$is_active = $item['is_active'];
+			$count     = $item['count'];
+			$uid       = 'cw-term-' . sanitize_html_class( $term->slug );
+			?>
+			<li>
+				<div class="form-check mb-1 cw-filter-check<?php echo esc_attr( $checkbox_size_class ); ?><?php echo $checkbox_item_class ? ' ' . esc_attr( $checkbox_item_class ) : ''; ?>">
+					<input class="form-check-input"
+						type="checkbox"
+						id="<?php echo esc_attr( $uid ); ?>"
+						<?php checked( $is_active ); ?>
+						tabindex="-1"
+						aria-hidden="true">
+					<a href="<?php echo esc_url( $item['url'] ); ?>"
+						class="form-check-label pjax-link"
+						aria-pressed="<?php echo $is_active ? 'true' : 'false'; ?>">
+						<?php echo esc_html( $term->name ); ?>
+						<?php if ( $show_count ) : ?>
+							<span class="fs-sm text-muted ms-1">(<?php echo esc_html( $count ); ?>)</span>
+						<?php endif; ?>
+					</a>
+				</div>
+			</li>
+		<?php endforeach; ?>
+	</ul>
 
 <?php endif; ?>

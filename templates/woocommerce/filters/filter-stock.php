@@ -18,22 +18,27 @@ if ( empty( $options ) ) {
 
 $checkbox_size_class = $checkbox_size_class ?? '';
 $checkbox_item_class = $checkbox_item_class ?? '';
+$checkbox_columns    = $checkbox_columns ?? 1;
 ?>
 
+<ul class="list-unstyled ps-0 mb-0<?php echo 2 === $checkbox_columns ? ' cc-2' : ''; ?>">
 <?php foreach ( $options as $opt ) :
 	$uid = 'cw-stock-' . sanitize_html_class( $opt['value'] );
 	?>
-	<div class="form-check mb-1 cw-filter-check<?php echo esc_attr( $checkbox_size_class ); ?><?php echo $checkbox_item_class ? ' ' . esc_attr( $checkbox_item_class ) : ''; ?>">
-		<input class="form-check-input"
-			type="checkbox"
-			id="<?php echo esc_attr( $uid ); ?>"
-			<?php checked( $opt['is_active'] ); ?>
-			tabindex="-1"
-			aria-hidden="true">
-		<a href="<?php echo esc_url( $opt['url'] ); ?>"
-			class="form-check-label pjax-link"
-			aria-pressed="<?php echo $opt['is_active'] ? 'true' : 'false'; ?>">
-			<?php echo esc_html( $opt['label'] ); ?>
-		</a>
-	</div>
+	<li>
+		<div class="form-check mb-1 cw-filter-check<?php echo esc_attr( $checkbox_size_class ); ?><?php echo $checkbox_item_class ? ' ' . esc_attr( $checkbox_item_class ) : ''; ?>">
+			<input class="form-check-input"
+				type="checkbox"
+				id="<?php echo esc_attr( $uid ); ?>"
+				<?php checked( $opt['is_active'] ); ?>
+				tabindex="-1"
+				aria-hidden="true">
+			<a href="<?php echo esc_url( $opt['url'] ); ?>"
+				class="form-check-label pjax-link"
+				aria-pressed="<?php echo $opt['is_active'] ? 'true' : 'false'; ?>">
+				<?php echo esc_html( $opt['label'] ); ?>
+			</a>
+		</div>
+	</li>
 <?php endforeach; ?>
+</ul>

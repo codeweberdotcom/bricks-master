@@ -554,8 +554,9 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'list', 'button' ], true )
 			? $item['displayMode'] : 'checkbox';
 		$show_count   = isset( $item['showCount'] ) ? (bool) $item['showCount'] : true;
-		$taxonomy     = isset( $item['taxonomy'] ) ? sanitize_key( $item['taxonomy'] ) : '';
-		$section_id   = 'cw-filter-' . sanitize_html_class( $item['id'] ?? uniqid() );
+		$taxonomy         = isset( $item['taxonomy'] ) ? sanitize_key( $item['taxonomy'] ) : '';
+		$checkbox_columns = isset( $item['checkboxColumns'] ) ? (int) $item['checkboxColumns'] : 1;
+		$section_id       = 'cw-filter-' . sanitize_html_class( $item['id'] ?? uniqid() );
 
 		$section_label   = $label;
 		$section_content = '';
