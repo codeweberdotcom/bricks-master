@@ -33,6 +33,7 @@ $radio_name          = $radio_name ?? 'cw_filter_radio';
 $empty_behavior      = $empty_behavior ?? 'disable';
 $swatch_columns      = isset( $swatch_columns ) ? (int) $swatch_columns : 0;
 $swatch_item_class   = isset( $swatch_item_class ) ? (string) $swatch_item_class : '';
+$single_select       = $single_select ?? false;
 
 // When multiple attribute filters are active, WooCommerce returns 0 products for any
 // term in a 3rd+ attribute (AND intersection). 'disable' would render all those terms
@@ -241,7 +242,7 @@ if ( 'disable' === $empty_behavior ) {
 		<?php endforeach; ?>
 	</ul>
 
-<?php else : // checkbox — default ?>
+<?php else : // checkbox — default (or single-select rendered as radio) ?>
 
 	<ul class="list-unstyled ps-0 mb-0<?php echo 2 === $checkbox_columns ? ' cc-2' : ''; ?>">
 		<?php foreach ( $terms_data as $item ) :
@@ -259,7 +260,8 @@ if ( 'disable' === $empty_behavior ) {
 			<li>
 				<div class="form-check mb-1 cw-filter-check<?php echo esc_attr( $checkbox_size_class ); ?><?php echo $checkbox_item_class ? ' ' . esc_attr( $checkbox_item_class ) : ''; ?><?php echo $is_empty ? ' opacity-50' : ''; ?>">
 					<input class="form-check-input"
-						type="checkbox"
+						type="<?php echo $single_select ? 'radio' : 'checkbox'; ?>"
+						<?php if ( $single_select ) : ?>name="<?php echo esc_attr( $radio_name ); ?>"<?php endif; ?>
 						id="<?php echo esc_attr( $uid ); ?>"
 						<?php checked( $is_active ); ?>
 						<?php if ( $is_empty && ! $is_clickable_muted ) { disabled( true ); } ?>

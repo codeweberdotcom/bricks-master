@@ -57,6 +57,27 @@ function cw_get_filter_url( $param, $value ) {
 }
 
 /**
+ * Build URL that sets exactly one filter value (single-select / radio behaviour).
+ *
+ * If the value is already active — removes the filter entirely (deselect).
+ * Otherwise — replaces any existing values with only this one.
+ *
+ * @param string $param  Query parameter name (e.g. 'filter_color').
+ * @param string $value  Term slug to select.
+ * @return string Absolute URL.
+ */
+function cw_get_filter_url_single( $param, $value ) {
+	$current_values = cw_get_current_filter_values( $param );
+	$base           = cw_filter_base_url();
+
+	if ( in_array( $value, $current_values, true ) ) {
+		return esc_url( remove_query_arg( $param, $base ) );
+	}
+
+	return esc_url( add_query_arg( $param, $value, $base ) );
+}
+
+/**
  * Build URL that sets min/max price.
  *
  * @param int|float $min
@@ -550,7 +571,7 @@ function cw_get_filtered_term_counts( $taxonomy, $exclude_taxonomy = '' ) {
  * @param bool   $show_count Whether to include product count.
  * @return array{ term: WP_Term, count: int, is_active: bool, is_empty: bool, url: string }[]
  */
-function cw_get_attribute_filter_terms( $taxonomy, $show_count = true ) {
+function cw_get_attribute_filter_terms( $taxonomy, $show_count = true, $single_select = false ) {
 	$param = 'filter_' . wc_attribute_taxonomy_slug( $taxonomy );
 
 	$terms = get_terms( [
@@ -578,7 +599,9 @@ function cw_get_attribute_filter_terms( $taxonomy, $show_count = true ) {
 			'count'     => $filtered_count,
 			'is_active' => cw_is_filter_active( $param, $term->slug ),
 			'is_empty'  => ( 0 === $filtered_count ),
-			'url'       => cw_get_filter_url( $param, $term->slug ),
+			'url'       => $single_select
+				? cw_get_filter_url_single( $param, $term->slug )
+				: cw_get_filter_url( $param, $term->slug ),
 		];
 	}
 
@@ -1151,6 +1174,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		$checkbox_columns = isset( $item['checkboxColumns'] ) ? (int) $item['checkboxColumns'] : 1;
 		$swatch_columns   = isset( $item['swatchColumns'] ) ? max( 0, (int) $item['swatchColumns'] ) : 0;
 		$swatch_item_class = isset( $item['swatchItemClass'] ) ? esc_attr( $item['swatchItemClass'] ) : '';
+		$single_select     = isset( $item['singleSelect'] ) ? (bool) $item['singleSelect'] : false;
 		$empty_behavior_raw = $item['emptyBehavior'] ?? 'disable';
 		$empty_behavior     = in_array( $empty_behavior_raw, [ 'default', 'hide', 'disable', 'disable_clickable', 'hide_block' ], true ) ? $empty_behavior_raw : 'disable';
 		$section_id       = 'cw-filter-' . sanitize_html_class( $item['id'] ?? uniqid() );
@@ -1247,7 +1271,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 					$attr_obj      = $attr_id ? wc_get_attribute( $attr_id ) : null;
 					$section_label = $attr_obj ? $attr_obj->name : $taxonomy;
 				}
-				$terms_data = cw_get_attribute_filter_terms( $taxonomy, $show_count );
+				$terms_data = cw_get_attribute_filter_terms( $taxonomy, $show_count, $single_select );
 				$radio_name = 'cw_filter_radio_' . $taxonomy;
 				if ( empty( $terms_data ) ) {
 					$has_content = false;
