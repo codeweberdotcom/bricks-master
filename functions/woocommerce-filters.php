@@ -530,6 +530,10 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 			$button_class        = $btn_size_prefix . 'btn-' . $btn_color;
 			$button_active_class = $btn_size_prefix . 'btn-soft-' . $btn_color;
 		}
+		// Append button shape class
+		$btn_shape = isset( $panel_atts['button_shape'] ) ? ' ' . $panel_atts['button_shape'] : '';
+		$button_class        .= $btn_shape;
+		$button_active_class .= $btn_shape;
 	} else {
 		$button_class        = isset( $panel_atts['button_class'] ) ? esc_attr( $panel_atts['button_class'] ) : 'btn-outline-secondary';
 		$button_active_class = isset( $panel_atts['button_active_class'] ) ? esc_attr( $panel_atts['button_active_class'] ) : 'btn-secondary';
