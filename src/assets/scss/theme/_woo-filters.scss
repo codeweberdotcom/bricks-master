@@ -31,22 +31,6 @@
   }
 }
 
-// ── form-check-sm ──────────────────────────────────────────────────────────────
-// Bootstrap 5 не имеет размерного модификатора для form-check.
-// font-size управляет em-based размером чекбокса и отступами.
-
-.form-check-sm {
-  font-size: $font-size-sm;
-  padding-left: 1.5em;
-
-  .form-check-input {
-    width: 1em;
-    height: 1em;
-    margin-top: .2em;
-    margin-left: -1.5em;
-  }
-}
-
 // ── form-check как PJAX-ссылка (.cw-filter-check) ─────────────────────────────
 // Структура: div.form-check.cw-filter-check > input.form-check-input + a.form-check-label.pjax-link
 // input — только визуальный (pointer-events:none), a — перехватывает клик через stretched-link
