@@ -34,11 +34,12 @@ $empty_behavior      = $empty_behavior ?? 'disable';
 $swatch_columns      = isset( $swatch_columns ) ? (int) $swatch_columns : 0;
 $swatch_item_class   = isset( $swatch_item_class ) ? (string) $swatch_item_class : '';
 
-// For swatch display modes, 'disable' (non-clickable) silently blocks the user
-// from selecting a 3rd+ attribute when the current combination yields 0 products.
-// Treat 'disable' as 'disable_clickable' so empty swatches remain navigable
+// When multiple attribute filters are active, WooCommerce returns 0 products for any
+// term in a 3rd+ attribute (AND intersection). 'disable' would render all those terms
+// as non-clickable <span> elements, making it impossible to change or add the selection.
+// Always treat 'disable' as 'disable_clickable' so empty terms remain navigable
 // (greyed out but still linkable — consistent with WooCommerce's own layered nav).
-if ( in_array( $display_mode, [ 'color', 'image' ], true ) && 'disable' === $empty_behavior ) {
+if ( 'disable' === $empty_behavior ) {
 	$empty_behavior = 'disable_clickable';
 }
 ?>
