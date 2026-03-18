@@ -534,7 +534,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		if ( 'reset_button' === $item_type ) {
 			if ( function_exists( 'cw_has_active_filters' ) && cw_has_active_filters() ) {
 				$reset_text = $reset_label ?: __( 'Сбросить все фильтры', 'codeweber' );
-				echo '<div class="mb-2">';
+				echo '<div class="' . esc_attr( $wrapper_class ) . '">';
 				echo '<a href="' . esc_url( cw_get_clear_filters_url() ) . '" class="btn btn-sm btn-outline-secondary w-100 pjax-link">';
 				echo esc_html( $reset_text );
 				echo '</a>';
