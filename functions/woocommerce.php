@@ -611,3 +611,34 @@ add_action( 'wp_enqueue_scripts', function () {
 
 // ── WooCommerce Filters ────────────────────────────────────────────────────────
 require_once get_template_directory() . '/functions/woocommerce-filters.php';
+
+/**
+ * Variation Swatches JS — загружается только на странице одиночного товара.
+ */
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_product() ) {
+		return;
+	}
+
+	$dist_path = codeweber_get_dist_file_path( 'dist/assets/js/woo-swatches.js' );
+	$dist_url  = codeweber_get_dist_file_url( 'dist/assets/js/woo-swatches.js' );
+
+	if ( ! $dist_path || ! $dist_url ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'cw-woo-swatches',
+		$dist_url,
+		[ 'jquery', 'wc-add-to-cart-variation' ],
+		codeweber_asset_version( $dist_path ),
+		true
+	);
+
+	wp_localize_script( 'cw-woo-swatches', 'cwSwatchesSettings', [
+		'oos_behavior' => cw_swatches_get_oos_behavior(),
+	] );
+}, 30 );
+
+// ── WooCommerce Variation Swatches ─────────────────────────────────────────────
+require_once get_template_directory() . '/functions/woocommerce-swatches.php';
