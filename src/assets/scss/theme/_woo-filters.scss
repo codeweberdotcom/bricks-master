@@ -146,10 +146,14 @@
   }
 }
 
-.cw-price-display {
-  white-space: nowrap;
+.cw-price-input {
+  min-width: 0;
+  text-align: center;
 
-  .woocommerce-Price-amount {
-    font-weight: $font-weight-semibold;
+  // Hide browser spin buttons
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
   }
 }

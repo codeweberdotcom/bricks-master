@@ -255,15 +255,123 @@ function cw_get_price_filter_range() {
 		return $range;
 	}
 
+	// Build a cache key from the active filter state.
+	// phpcs:disable WordPress.Security.NonceVerification
+	$cache_key = 'cw_price_range_' . md5( wp_json_encode( [
+		'cat'   => is_product_category() ? get_queried_object_id() : 0,
+		'attrs' => class_exists( 'WC_Query' ) ? WC_Query::get_layered_nav_chosen_attributes() : [],
+		'tag'   => sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ?? '' ) ),
+		'stock' => sanitize_key( wp_unslash( $_GET['filter_stock_status'] ?? '' ) ),
+		'rate'  => sanitize_text_field( wp_unslash( $_GET['rating_filter'] ?? '' ) ),
+	] ) );
+	// phpcs:enable
+
+	$cached = wp_cache_get( $cache_key, 'cw_filters' );
+	if ( false !== $cached ) {
+		$range = $cached;
+		return $range;
+	}
+
 	$meta_table = $wpdb->prefix . 'wc_product_meta_lookup';
 
-	// phpcs:disable WordPress.DB.DirectDatabaseQuery
-	$min = (float) $wpdb->get_var( "SELECT MIN(min_price) FROM `{$meta_table}` WHERE min_price IS NOT NULL" );
-	$max = (float) $wpdb->get_var( "SELECT MAX(max_price) FROM `{$meta_table}` WHERE max_price IS NOT NULL" );
+	// Start with a JOIN to wp_posts so we only count published products.
+	$joins = [
+		"INNER JOIN {$wpdb->posts} AS p ON p.ID = lookup.product_id AND p.post_type = 'product' AND p.post_status = 'publish'",
+	];
+	$where = [];
+
+	// ── Category archive (incl. child categories) ──────────────────────────
+	if ( is_product_category() ) {
+		$term = get_queried_object();
+		if ( $term && ! is_wp_error( $term ) ) {
+			$term_ids = array_merge(
+				[ (int) $term->term_id ],
+				array_map( 'intval', get_term_children( $term->term_id, 'product_cat' ) )
+			);
+			$ids_list = implode( ',', $term_ids );
+			$where[]  = "lookup.product_id IN (
+				SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+				INNER JOIN {$wpdb->term_taxonomy} tt
+					ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_cat'
+				WHERE tt.term_id IN ({$ids_list})
+			)";
+		}
+	}
+
+	// ── WC attribute filters (pa_color, pa_size …) ─────────────────────────
+	// phpcs:disable WordPress.Security.NonceVerification
+	if ( class_exists( 'WC_Query' ) ) {
+		foreach ( WC_Query::get_layered_nav_chosen_attributes() as $taxonomy => $data ) {
+			if ( empty( $data['terms'] ) ) {
+				continue;
+			}
+			$tax_safe    = esc_sql( $taxonomy );
+			$slug_list   = implode( ',', array_map( function( $s ) use ( $wpdb ) {
+				return $wpdb->prepare( '%s', $s );
+			}, $data['terms'] ) );
+
+			if ( 'and' === $data['query_type'] ) {
+				$term_count = count( $data['terms'] );
+				$where[]    = "lookup.product_id IN (
+					SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+					INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = '{$tax_safe}'
+					INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+					GROUP BY tr.object_id HAVING COUNT(DISTINCT t.term_id) = {$term_count}
+				)";
+			} else {
+				$where[] = "lookup.product_id IN (
+					SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+					INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = '{$tax_safe}'
+					INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+				)";
+			}
+		}
+	}
+
+	// ── Product tag filter ─────────────────────────────────────────────────
+	if ( ! empty( $_GET['filter_product_tag'] ) ) {
+		$tag_slugs = array_filter(
+			array_map( 'sanitize_key', explode( ',', sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ) ) ) )
+		);
+		if ( $tag_slugs ) {
+			$slug_list = implode( ',', array_map( function( $s ) use ( $wpdb ) {
+				return $wpdb->prepare( '%s', $s );
+			}, $tag_slugs ) );
+			$where[]   = "lookup.product_id IN (
+				SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+				INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_tag'
+				INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+			)";
+		}
+	}
+
+	// ── Stock status — lookup table has stock_status column (WC ≥ 3.6) ─────
+	if ( ! empty( $_GET['filter_stock_status'] ) ) {
+		$status = sanitize_key( wp_unslash( $_GET['filter_stock_status'] ) );
+		if ( in_array( $status, [ 'instock', 'outofstock', 'onbackorder' ], true ) ) {
+			$where[] = $wpdb->prepare( 'lookup.stock_status = %s', $status );
+		}
+	}
+
+	// ── Rating — lookup table has average_rating column (WC ≥ 3.6) ─────────
+	if ( ! empty( $_GET['rating_filter'] ) ) {
+		$ratings = array_filter( array_map( 'absint', explode( ',', sanitize_text_field( wp_unslash( $_GET['rating_filter'] ) ) ) ) );
+		if ( $ratings ) {
+			$where[] = $wpdb->prepare( 'FLOOR(lookup.average_rating) >= %d', min( $ratings ) );
+		}
+	}
+	// phpcs:enable
+
+	$joins_sql = implode( ' ', $joins );
+	$where_sql = $where ? 'WHERE ' . implode( ' AND ', $where ) : '';
+
+	// Two aggregates, zero PHP arrays — all done in the DB.
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$min = (float) $wpdb->get_var( "SELECT MIN(lookup.min_price) FROM `{$meta_table}` AS lookup {$joins_sql} {$where_sql}" );
+	$max = (float) $wpdb->get_var( "SELECT MAX(lookup.max_price) FROM `{$meta_table}` AS lookup {$joins_sql} {$where_sql}" );
 	// phpcs:enable
 
 	if ( 0 === (int) $min && 0 === (int) $max ) {
-		// Fallback: scan postmeta
 		$min = (float) get_option( 'woocommerce_price_filter_range_min', 0 );
 		$max = (float) get_option( 'woocommerce_price_filter_range_max', 10000 );
 	}
@@ -273,8 +381,17 @@ function cw_get_price_filter_range() {
 		'max' => ceil( $max ),
 	];
 
+	wp_cache_set( $cache_key, $range, 'cw_filters', 5 * MINUTE_IN_SECONDS );
+
 	return $range;
 }
+
+/**
+ * Invalidate price range cache when a product is saved.
+ */
+add_action( 'save_post_product', function() {
+	wp_cache_flush_group( 'cw_filters' );
+} );
 
 /**
  * Get terms for a WooCommerce product attribute taxonomy.
@@ -537,6 +654,12 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 	} else {
 		$button_class        = isset( $panel_atts['button_class'] ) ? esc_attr( $panel_atts['button_class'] ) : 'btn-outline-secondary';
 		$button_active_class = isset( $panel_atts['button_active_class'] ) ? esc_attr( $panel_atts['button_active_class'] ) : 'btn-secondary';
+	}
+	// Append extra class (e.g. 'has-ripple my-custom-class')
+	$button_extra_class = isset( $panel_atts['button_extra_class'] ) ? trim( esc_attr( $panel_atts['button_extra_class'] ) ) : '';
+	if ( $button_extra_class ) {
+		$button_class        .= ' ' . $button_extra_class;
+		$button_active_class .= ' ' . $button_extra_class;
 	}
 	$reset_label         = isset( $panel_atts['reset_label'] ) ? sanitize_text_field( $panel_atts['reset_label'] ) : '';
 

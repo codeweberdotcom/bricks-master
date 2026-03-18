@@ -195,12 +195,11 @@
 	 * @param {HTMLElement} panel
 	 */
 	function initSinglePriceSlider( panel ) {
-		var rangeMin   = panel.querySelector( '.cw-range-min' );
-		var rangeMax   = panel.querySelector( '.cw-range-max' );
-		var rangeBar   = panel.querySelector( '.cw-price-range' );
-		var displayMin = panel.querySelector( '.cw-price-display--min' );
-		var displayMax = panel.querySelector( '.cw-price-display--max' );
-		var applyBtn   = panel.querySelector( '.cw-price-apply' );
+		var rangeMin = panel.querySelector( '.cw-range-min' );
+		var rangeMax = panel.querySelector( '.cw-range-max' );
+		var rangeBar = panel.querySelector( '.cw-price-range' );
+		var inputMin = panel.querySelector( '.cw-price-input--min' );
+		var inputMax = panel.querySelector( '.cw-price-input--max' );
 
 		if ( ! rangeMin || ! rangeMax ) return;
 
@@ -211,50 +210,78 @@
 		var absMin = parseFloat( panel.dataset.min ) || 0;
 		var absMax = parseFloat( panel.dataset.max ) || 100;
 
-		/** Пересчитать позицию цветной полосы и обновить ссылку Apply */
-		function update() {
+		/** Построить URL с текущими min/max ценами */
+		function buildUrl( min, max ) {
+			var params = new URLSearchParams( window.location.search );
+			params.set( 'min_price', Math.round( min ) );
+			params.set( 'max_price', Math.round( max ) );
+			params.delete( 'paged' );
+			params.delete( 'page' );
+			return window.location.pathname + '?' + params.toString();
+		}
+
+		/** Обновить цветную полосу трека */
+		function updateBar( min, max ) {
+			if ( ! rangeBar ) return;
+			var pctMin = ( ( min - absMin ) / ( absMax - absMin ) ) * 100;
+			var pctMax = ( ( max - absMin ) / ( absMax - absMin ) ) * 100;
+			rangeBar.style.left  = pctMin + '%';
+			rangeBar.style.width = ( pctMax - pctMin ) + '%';
+		}
+
+		/** Слайдер двигается — обновить поля и полосу (без навигации) */
+		function onSliderInput() {
 			var min = parseFloat( rangeMin.value );
 			var max = parseFloat( rangeMax.value );
 
-			// Не позволяем пересечься
-			if ( min > max ) {
-				rangeMin.value = max;
-				min = max;
-			}
-			if ( max < min ) {
-				rangeMax.value = min;
-				max = min;
-			}
+			if ( min > max ) { rangeMin.value = max; min = max; }
+			if ( max < min ) { rangeMax.value = min; max = min; }
 
-			var pctMin = ( ( min - absMin ) / ( absMax - absMin ) ) * 100;
-			var pctMax = ( ( max - absMin ) / ( absMax - absMin ) ) * 100;
+			updateBar( min, max );
 
-			if ( rangeBar ) {
-				rangeBar.style.left  = pctMin + '%';
-				rangeBar.style.width = ( pctMax - pctMin ) + '%';
-			}
-
-			// Обновляем текстовые метки (простое форматирование)
-			if ( displayMin ) displayMin.textContent = formatPrice( min );
-			if ( displayMax ) displayMax.textContent = formatPrice( max );
-
-			// Обновляем href кнопки Apply
-			if ( applyBtn ) {
-				var base = applyBtn.dataset.baseUrl || window.location.pathname;
-				var params = new URLSearchParams( window.location.search );
-				params.set( 'min_price', Math.round( min ) );
-				params.set( 'max_price', Math.round( max ) );
-				params.delete( 'paged' );
-				params.delete( 'page' );
-				applyBtn.href = base + ( params.toString() ? '?' + params.toString() : '' );
-			}
+			if ( inputMin ) inputMin.value = Math.round( min );
+			if ( inputMax ) inputMax.value = Math.round( max );
 		}
 
-		rangeMin.addEventListener( 'input', update );
-		rangeMax.addEventListener( 'input', update );
+		/** Слайдер отпущен — навигация */
+		function onSliderChange() {
+			var min = parseFloat( rangeMin.value );
+			var max = parseFloat( rangeMax.value );
+			pjaxLoad( buildUrl( min, max ) );
+		}
 
-		// Первичная расстановка
-		update();
+		/** Поле ввода изменено — обновить слайдер и перейти */
+		function onInputChange() {
+			var min = Math.max( absMin, Math.min( absMax, parseFloat( inputMin ? inputMin.value : rangeMin.value ) || absMin ) );
+			var max = Math.max( absMin, Math.min( absMax, parseFloat( inputMax ? inputMax.value : rangeMax.value ) || absMax ) );
+
+			if ( min > max ) { min = max; }
+
+			rangeMin.value = min;
+			rangeMax.value = max;
+			if ( inputMin ) inputMin.value = Math.round( min );
+			if ( inputMax ) inputMax.value = Math.round( max );
+
+			updateBar( min, max );
+			pjaxLoad( buildUrl( min, max ) );
+		}
+
+		rangeMin.addEventListener( 'input',  onSliderInput );
+		rangeMax.addEventListener( 'input',  onSliderInput );
+		rangeMin.addEventListener( 'change', onSliderChange );
+		rangeMax.addEventListener( 'change', onSliderChange );
+
+		if ( inputMin ) {
+			inputMin.addEventListener( 'change', onInputChange );
+			inputMin.addEventListener( 'keydown', function( e ) { if ( e.key === 'Enter' ) { e.preventDefault(); onInputChange(); } } );
+		}
+		if ( inputMax ) {
+			inputMax.addEventListener( 'change', onInputChange );
+			inputMax.addEventListener( 'keydown', function( e ) { if ( e.key === 'Enter' ) { e.preventDefault(); onInputChange(); } } );
+		}
+
+		// Первичная расстановка полосы
+		updateBar( parseFloat( rangeMin.value ), parseFloat( rangeMax.value ) );
 	}
 
 	/**

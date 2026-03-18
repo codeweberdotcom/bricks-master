@@ -26,7 +26,6 @@ $current_max = isset( $_GET['max_price'] ) ? (int) $_GET['max_price'] : $range['
 $current_min = max( $range['min'], min( $current_max, $current_min ) );
 $current_max = min( $range['max'], max( $current_min, $current_max ) );
 
-$apply_url = cw_get_price_filter_url( $current_min, $current_max );
 ?>
 
 <div class="cw-filter-price"
@@ -58,19 +57,21 @@ $apply_url = cw_get_price_filter_url( $current_min, $current_max );
 	</div>
 
 	<div class="cw-price-inputs d-flex align-items-center gap-2 mt-2">
-		<span class="cw-price-display cw-price-display--min">
-			<?php echo wp_kses_post( wc_price( $current_min ) ); ?>
-		</span>
-		<span class="text-muted">—</span>
-		<span class="cw-price-display cw-price-display--max">
-			<?php echo wp_kses_post( wc_price( $current_max ) ); ?>
-		</span>
+		<input type="number"
+			class="form-control form-control-sm cw-price-input cw-price-input--min"
+			min="<?php echo esc_attr( $range['min'] ); ?>"
+			max="<?php echo esc_attr( $range['max'] ); ?>"
+			value="<?php echo esc_attr( $current_min ); ?>"
+			step="1"
+			aria-label="<?php esc_attr_e( 'Цена от', 'codeweber' ); ?>">
+		<span class="text-muted flex-shrink-0">—</span>
+		<input type="number"
+			class="form-control form-control-sm cw-price-input cw-price-input--max"
+			min="<?php echo esc_attr( $range['min'] ); ?>"
+			max="<?php echo esc_attr( $range['max'] ); ?>"
+			value="<?php echo esc_attr( $current_max ); ?>"
+			step="1"
+			aria-label="<?php esc_attr_e( 'Цена до', 'codeweber' ); ?>">
 	</div>
-
-	<a href="<?php echo esc_url( $apply_url ); ?>"
-		class="btn btn-sm btn-primary pjax-link cw-price-apply mt-3 w-100"
-		data-base-url="<?php echo esc_url( cw_filter_base_url() ); ?>">
-		<?php esc_html_e( 'Применить', 'codeweber' ); ?>
-	</a>
 
 </div><!-- .cw-filter-price -->
