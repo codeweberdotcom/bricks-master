@@ -36,18 +36,18 @@ $swatch_item_class   = isset( $swatch_item_class ) ? (string) $swatch_item_class
 ?>
 
 <?php if ( 'color' === $display_mode || 'image' === $display_mode ) :
-	// Swatch type — uses same visual classes as single product page swatches.
-	// Each term is a link (<a>) that toggles the filter URL.
-	// Container: d-flex flex-wrap gap-2; optional max-width to enforce N per row.
-	$container_style = '';
-	if ( $swatch_columns > 0 ) {
-		// Each swatch: w-8 = 2rem, gap-2 = 0.5rem
-		// N swatches width = N * 2rem + (N-1) * 0.5rem = N * 2.5rem - 0.5rem
-		$container_style = ' style="max-width:calc(' . $swatch_columns . '*2.5rem - 0.5rem)"';
-	}
-	?>
+	// When swatchColumns > 0: CSS Grid — each swatch auto-sizes to fit N per row.
+	// When swatchColumns = 0: flex-wrap with fixed .w-8 .h-8 (2rem) swatches.
+	$use_grid = $swatch_columns > 0;
 
-	<div class="d-flex flex-wrap gap-2"<?php echo $container_style; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
+	if ( $use_grid ) {
+		$container_style = 'display:grid;grid-template-columns:repeat(' . $swatch_columns . ',1fr);gap:0.5rem';
+		$container_tag   = '<div style="' . esc_attr( $container_style ) . '">';
+	} else {
+		$container_tag   = '<div class="d-flex flex-wrap gap-2">';
+	}
+	echo $container_tag; // phpcs:ignore WordPress.Security.EscapeOutput
+	?>
 		<?php foreach ( $terms_data as $item ) :
 			$term      = $item['term'];
 			$is_active = $item['is_active'];
@@ -57,9 +57,9 @@ $swatch_item_class   = isset( $swatch_item_class ) ? (string) $swatch_item_class
 			if ( 'default' === $empty_behavior ) { $is_empty = false; }
 			elseif ( 'hide' === $empty_behavior && $is_empty ) { continue; }
 
-			// Build swatch visual data
-			$swatch_data = function_exists( 'cw_get_term_swatch_data' ) ? cw_get_term_swatch_data( $term->term_id ) : [];
-			$inline_style = '';
+			// Build swatch background style
+			$swatch_data  = function_exists( 'cw_get_term_swatch_data' ) ? cw_get_term_swatch_data( $term->term_id ) : [];
+			$bg_style     = '';
 
 			if ( 'color' === $display_mode && ! empty( $swatch_data['color'] ) ) {
 				$c = sanitize_hex_color( $swatch_data['color'] );
@@ -67,19 +67,29 @@ $swatch_item_class   = isset( $swatch_item_class ) ? (string) $swatch_item_class
 					if ( ! empty( $swatch_data['is_dual'] ) && ! empty( $swatch_data['secondary'] ) ) {
 						$c2    = sanitize_hex_color( $swatch_data['secondary'] ) ?: '#000000';
 						$angle = absint( $swatch_data['dual_angle'] ?? 45 );
-						$inline_style = sprintf( 'background:linear-gradient(%ddeg,%s 50%%,%s 50%%)', $angle, $c, $c2 );
+						$bg_style = sprintf( 'background:linear-gradient(%ddeg,%s 50%%,%s 50%%)', $angle, $c, $c2 );
 					} else {
-						$inline_style = 'background-color:' . $c;
+						$bg_style = 'background-color:' . $c;
 					}
 				}
 			} elseif ( 'image' === $display_mode && ! empty( $swatch_data['image_id'] ) ) {
 				$img_url = wp_get_attachment_image_url( (int) $swatch_data['image_id'], 'codeweber_post_100-100' );
 				if ( $img_url ) {
-					$inline_style = 'background-image:url(' . esc_url( $img_url ) . ');background-size:cover;background-position:center';
+					$bg_style = 'background-image:url(' . esc_url( $img_url ) . ');background-size:cover;background-position:center';
 				}
 			}
 
-			$classes = [ 'cw-swatch', 'cw-swatch--' . $display_mode, 'avatar', 'w-8', 'h-8' ];
+			// In grid mode: swatch fills the cell (width:100%; aspect-ratio:1).
+			// In flex mode: .w-8 .h-8 provide the fixed 2rem size.
+			$size_style   = $use_grid ? 'width:100%;aspect-ratio:1' : '';
+			$inline_style = implode( ';', array_filter( [ $size_style, $bg_style ] ) );
+
+			// Grid mode: no .w-8 .h-8 (size comes from grid cell)
+			$classes = [ 'cw-swatch', 'cw-swatch--' . $display_mode, 'avatar' ];
+			if ( ! $use_grid ) {
+				$classes[] = 'w-8';
+				$classes[] = 'h-8';
+			}
 			if ( $is_active ) {
 				$classes[] = 'selected';
 			}
@@ -95,14 +105,14 @@ $swatch_item_class   = isset( $swatch_item_class ) ? (string) $swatch_item_class
 			?>
 			<?php if ( $is_empty && 'disable_clickable' !== $empty_behavior ) : ?>
 				<span class="<?php echo esc_attr( $class_attr ); ?> disabled opacity-50"
-					<?php if ( $inline_style ) : ?>style="<?php echo $inline_style; // phpcs:ignore WordPress.Security.EscapeOutput ?>"<?php endif; ?>
+					style="<?php echo esc_attr( $inline_style ); ?>"
 					aria-disabled="true"
 					title="<?php echo esc_attr( $title_attr ); ?>">
 				</span>
 			<?php else : ?>
 				<a href="<?php echo esc_url( $item['url'] ); ?>"
 					class="<?php echo esc_attr( $class_attr ); ?> pjax-link<?php echo ( 'disable_clickable' === $empty_behavior && $is_empty && ! $is_active ) ? ' opacity-50' : ''; ?>"
-					<?php if ( $inline_style ) : ?>style="<?php echo $inline_style; // phpcs:ignore WordPress.Security.EscapeOutput ?>"<?php endif; ?>
+					style="<?php echo esc_attr( $inline_style ); ?>"
 					title="<?php echo esc_attr( $title_attr ); ?>"
 					aria-pressed="<?php echo $is_active ? 'true' : 'false'; ?>">
 				</a>
