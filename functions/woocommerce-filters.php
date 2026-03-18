@@ -1135,11 +1135,13 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 		$filter_type  = $item['filterType'] ?? 'price';
 		$label        = isset( $item['label'] ) ? sanitize_text_field( $item['label'] ) : '';
-		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'radio', 'list', 'button' ], true )
+		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'radio', 'list', 'button', 'color', 'image' ], true )
 			? $item['displayMode'] : 'checkbox';
 		$show_count       = isset( $item['showCount'] ) ? (bool) $item['showCount'] : true;
 		$taxonomy         = isset( $item['taxonomy'] ) ? sanitize_key( $item['taxonomy'] ) : '';
 		$checkbox_columns = isset( $item['checkboxColumns'] ) ? (int) $item['checkboxColumns'] : 1;
+		$swatch_columns   = isset( $item['swatchColumns'] ) ? max( 0, (int) $item['swatchColumns'] ) : 0;
+		$swatch_item_class = isset( $item['swatchItemClass'] ) ? esc_attr( $item['swatchItemClass'] ) : '';
 		$empty_behavior_raw = $item['emptyBehavior'] ?? 'disable';
 		$empty_behavior     = in_array( $empty_behavior_raw, [ 'default', 'hide', 'disable', 'disable_clickable', 'hide_block' ], true ) ? $empty_behavior_raw : 'disable';
 		$section_id       = 'cw-filter-' . sanitize_html_class( $item['id'] ?? uniqid() );
