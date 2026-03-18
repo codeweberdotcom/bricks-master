@@ -511,11 +511,15 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 	$checkbox_size       = in_array( $panel_atts['checkbox_size'] ?? '', [ '', 'sm' ], true )
 		? $panel_atts['checkbox_size'] : '';
 	$checkbox_item_class = isset( $panel_atts['checkbox_item_class'] ) ? esc_attr( $panel_atts['checkbox_item_class'] ) : '';
+	$radio_size          = in_array( $panel_atts['radio_size'] ?? '', [ '', 'sm' ], true )
+		? $panel_atts['radio_size'] : '';
+	$radio_item_class    = isset( $panel_atts['radio_item_class'] ) ? esc_attr( $panel_atts['radio_item_class'] ) : '';
 	$button_class        = isset( $panel_atts['button_class'] ) ? esc_attr( $panel_atts['button_class'] ) : 'btn-outline-secondary';
 	$button_active_class = isset( $panel_atts['button_active_class'] ) ? esc_attr( $panel_atts['button_active_class'] ) : 'btn-secondary';
 	$reset_label         = isset( $panel_atts['reset_label'] ) ? sanitize_text_field( $panel_atts['reset_label'] ) : '';
 
 	$checkbox_size_class = 'sm' === $checkbox_size ? ' form-check-sm' : '';
+	$radio_size_class    = 'sm' === $radio_size ? ' form-check-sm' : '';
 
 	$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
 
@@ -555,7 +559,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 		$filter_type  = $item['filterType'] ?? 'price';
 		$label        = isset( $item['label'] ) ? sanitize_text_field( $item['label'] ) : '';
-		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'list', 'button' ], true )
+		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'radio', 'list', 'button' ], true )
 			? $item['displayMode'] : 'checkbox';
 		$show_count   = isset( $item['showCount'] ) ? (bool) $item['showCount'] : true;
 		$taxonomy         = isset( $item['taxonomy'] ) ? sanitize_key( $item['taxonomy'] ) : '';
@@ -594,6 +598,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 					$section_label = __( 'Метки', 'codeweber' );
 				}
 				$terms_data = cw_get_tag_filter_terms( $show_count );
+				$radio_name = 'cw_filter_radio_tags';
 				if ( empty( $terms_data ) ) {
 					$has_content = false;
 				} else {
@@ -628,6 +633,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 					$section_label = $attr_obj ? $attr_obj->name : $taxonomy;
 				}
 				$terms_data = cw_get_attribute_filter_terms( $taxonomy, $show_count );
+				$radio_name = 'cw_filter_radio_' . $taxonomy;
 				if ( empty( $terms_data ) ) {
 					$has_content = false;
 				} else {
