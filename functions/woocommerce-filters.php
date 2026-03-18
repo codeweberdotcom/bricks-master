@@ -586,6 +586,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 					$section_label = __( 'Категории', 'codeweber' );
 				}
 				$terms_data = cw_get_category_filter_terms( 0, $show_count );
+				$radio_name = 'cw_filter_radio_cat';
 				if ( empty( $terms_data ) ) {
 					$has_content = false;
 				} else {
