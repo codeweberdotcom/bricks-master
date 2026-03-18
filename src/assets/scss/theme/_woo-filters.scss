@@ -157,3 +157,62 @@
     margin: 0;
   }
 }
+
+// ── Filter limit: show-more by count or height ─────────────────────────────
+
+.cw-filter-limit {
+  // Скрытые элементы (count-режим) — явно перебиваем любые конфликты
+  li[hidden],
+  .d-flex > [hidden] {
+    display: none !important;
+  }
+
+  position: relative;
+
+  // ── Height mode ─────────────────────────────────────────────────────────
+  &[data-limit-type="height"] {
+    overflow: hidden;
+    transition: max-height .3s ease;
+
+    // fade gradient at the bottom edge
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2.5rem;
+      background: linear-gradient(to bottom, transparent, var(--cw-filter-bg, var(--bs-body-bg, #fff)));
+      pointer-events: none;
+      transition: opacity .2s ease;
+    }
+
+    &.is-open::after {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  // ── Show-more button ─────────────────────────────────────────────────────
+  .cw-filter-more-btn {
+    display: block;
+    padding: .25rem 0;
+    background: none;
+    border: none;
+    font-size: .8125rem; // ~13px
+    color: $primary;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      color: darken($primary, 8%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+  }
+}

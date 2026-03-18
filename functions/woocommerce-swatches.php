@@ -122,6 +122,57 @@ add_action( 'admin_footer', function () {
 } );
 
 // =============================================================================
+// ADMIN — PRODUCT ATTRIBUTE VALUES SELECTOR
+// =============================================================================
+
+/**
+ * Render the Select2 terms dropdown for custom swatch types on the product
+ * edit page. WooCommerce only renders this for 'select' type by default.
+ *
+ * @param stdClass             $attribute_taxonomy  Attribute taxonomy object.
+ * @param int                  $i                   Loop index.
+ * @param WC_Product_Attribute $attribute           Current attribute.
+ */
+add_action( 'woocommerce_product_option_terms', 'cw_swatches_product_option_terms', 10, 3 );
+
+function cw_swatches_product_option_terms( $attribute_taxonomy, $i, $attribute ) {
+	if ( ! in_array( $attribute_taxonomy->attribute_type, [ 'button', 'color', 'image' ], true ) ) {
+		return;
+	}
+
+	$taxonomy  = wc_attribute_taxonomy_name( $attribute_taxonomy->attribute_name );
+	$all_terms = get_terms( [
+		'taxonomy'   => $taxonomy,
+		'orderby'    => 'name',
+		'hide_empty' => 0,
+	] );
+	?>
+	<select multiple="multiple"
+		data-placeholder="<?php esc_attr_e( 'Select terms', 'woocommerce' ); ?>"
+		class="multiselect attribute_values wc-enhanced-select"
+		name="attribute_values[<?php echo esc_attr( $i ); ?>][]">
+		<?php if ( ! is_wp_error( $all_terms ) ) : ?>
+			<?php foreach ( $all_terms as $term ) : ?>
+				<option value="<?php echo esc_attr( $term->term_id ); ?>"
+					<?php echo wc_selected( $term->term_id, $attribute->get_options() ); ?>>
+					<?php echo esc_html( $term->name ); ?>
+				</option>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</select>
+	<button class="button plus select_all_attributes">
+		<?php esc_html_e( 'Select all', 'woocommerce' ); ?>
+	</button>
+	<button class="button minus select_none_attributes">
+		<?php esc_html_e( 'Select none', 'woocommerce' ); ?>
+	</button>
+	<button class="button fr plus add_new_attribute">
+		<?php esc_html_e( 'Add new', 'woocommerce' ); ?>
+	</button>
+	<?php
+}
+
+// =============================================================================
 // ADMIN — TERM META FIELDS
 // =============================================================================
 
@@ -158,7 +209,7 @@ function cw_swatches_render_term_fields( $term_id, $type ) {
 	$dual_angle = $term_id ? (int) get_term_meta( $term_id, 'dual_color_angle', true ) : 45;
 	$dual_angle = $dual_angle ?: 45;
 	$image_id   = $term_id ? (int) get_term_meta( $term_id, 'product_attribute_image', true ) : 0;
-	$image_url  = $image_id ? wp_get_attachment_image_url( $image_id, 'thumbnail' ) : '';
+	$image_url  = $image_id ? wp_get_attachment_image_url( $image_id, 'codeweber_post_100-100' ) : '';
 
 	if ( 'color' === $type ) {
 		?>
@@ -329,13 +380,14 @@ function cw_swatches_save_term_meta( $term_id ) {
  * @return string            'button' | 'color' | 'image' | 'select'
  */
 function cw_get_swatch_type( $taxonomy ) {
-	$attr = wc_get_attribute_taxonomy_by_name( $taxonomy );
-	if ( ! $attr ) {
-		return 'select';
+	foreach ( wc_get_attribute_taxonomies() as $tax ) {
+		if ( wc_attribute_taxonomy_name( $tax->attribute_name ) === $taxonomy ) {
+			return in_array( $tax->attribute_type, [ 'button', 'color', 'image' ], true )
+				? $tax->attribute_type
+				: 'select';
+		}
 	}
-	return in_array( $attr->attribute_type, [ 'button', 'color', 'image' ], true )
-		? $attr->attribute_type
-		: 'select';
+	return 'select';
 }
 
 /**
@@ -396,7 +448,9 @@ function cw_swatches_render_dropdown( $html, $args ) {
 	$options  = $args['options'] ?? [];
 	$product  = $args['product'] ?? null;
 	$selected = $args['selected'] ?? '';
-	$name     = $args['name']; // e.g. 'attribute_pa_color'
+	// WooCommerce computes $name locally and does NOT store it back in $args,
+	// so $args['name'] may be empty — mirror WooCommerce's own fallback (line 3541).
+	$name     = ! empty( $args['name'] ) ? $args['name'] : 'attribute_' . sanitize_title( $taxonomy );
 
 	if ( empty( $options ) || ! $product ) {
 		return $html;
@@ -413,7 +467,7 @@ function cw_swatches_render_dropdown( $html, $args ) {
 
 	ob_start();
 	?>
-	<div class="cw-swatches cw-swatches--<?php echo esc_attr( $type ); ?>"
+	<div class="cw-swatches cw-swatches--<?php echo esc_attr( $type ); ?> d-flex flex-wrap gap-2 align-items-center"
 		data-attribute_name="<?php echo esc_attr( $name ); ?>"
 		data-attribute_taxonomy="<?php echo esc_attr( $taxonomy ); ?>"
 		role="group"
@@ -429,9 +483,20 @@ function cw_swatches_render_dropdown( $html, $args ) {
 			// We mark all as enabled initially; JS adds/removes .disabled on variation change.
 			$is_selected = ( (string) $selected === (string) $slug );
 
-			$classes = [ 'cw-swatch', 'cw-swatch--' . $type ];
-			if ( $is_selected ) {
-				$classes[] = 'selected';
+			// Button swatches — Bootstrap .btn classes, no custom CSS needed.
+			// Color/image swatches — theme .avatar + .w-8 .h-8 for size/shape,
+			// only inline-style (background-color / background-image) added per-item.
+			if ( 'button' === $type ) {
+				$classes = [ 'cw-swatch', 'cw-swatch--button', 'btn', 'btn-sm', 'btn-outline-secondary' ];
+				if ( $is_selected ) {
+					$classes[] = 'selected';
+					$classes[] = 'active';
+				}
+			} else {
+				$classes = [ 'cw-swatch', 'cw-swatch--' . $type, 'avatar', 'w-8', 'h-8' ];
+				if ( $is_selected ) {
+					$classes[] = 'selected';
+				}
 			}
 
 			// Build inline style safely
@@ -451,7 +516,7 @@ function cw_swatches_render_dropdown( $html, $args ) {
 					}
 				}
 			} elseif ( 'image' === $type && ! empty( $data['image_id'] ) ) {
-				$img_url = wp_get_attachment_image_url( (int) $data['image_id'], [ 50, 50 ] );
+				$img_url = wp_get_attachment_image_url( (int) $data['image_id'], 'codeweber_post_100-100' );
 				if ( $img_url ) {
 					$inline_style = 'background-image:url(' . esc_url( $img_url ) . ');background-size:cover;background-position:center';
 				}

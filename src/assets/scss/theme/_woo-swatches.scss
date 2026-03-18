@@ -1,20 +1,15 @@
 // =============================================================================
 // WooCommerce Variation Swatches
-// Bootstrap 5 переменные доступны ($primary, $border-color, $white и др.)
+//
+// Markup classes used:
+//   button → .btn .btn-sm .btn-outline-secondary  (Bootstrap)
+//   color  → .avatar .w-8 .h-8  (theme)  + inline style="background-color:..."
+//   image  → .avatar .w-8 .h-8  (theme)  + inline style="background-image:..."
+//   container → .d-flex .flex-wrap .gap-2 .align-items-center  (Bootstrap)
+//
+// Custom CSS here covers only what the above utilities can't provide:
+//   — border, selected ring, tick/cross overlays, disabled states.
 // =============================================================================
-
-// ── CSS Variables (overridable per theme/child-theme) ─────────────────────────
-
-:root {
-  --cw-swatch-size:        32px;
-  --cw-swatch-radius:      4px;
-  --cw-swatch-gap:         6px;
-  --cw-swatch-border:      #{$border-color};
-  --cw-swatch-border-width: 1px;
-  --cw-swatch-selected-border: #{$primary};
-  --cw-swatch-selected-border-width: 2px;
-  --cw-swatch-font-size:   .8125rem; // 13px
-}
 
 // ── Hidden select (WooCommerce JS compatibility) ───────────────────────────────
 
@@ -22,139 +17,65 @@
   display: none !important; // stylelint-disable-line declaration-no-important
 }
 
-// ── Swatches container ─────────────────────────────────────────────────────────
+// ── Color & Image: border + interaction states ─────────────────────────────────
+// .avatar already provides: display:flex, align-items/justify-content:center,
+// border-radius:100%, flex layout.
+// .w-8/.h-8 provide: width/height:2rem.
 
-.cw-swatches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--cw-swatch-gap);
-  align-items: center;
-}
-
-// ── Base swatch ────────────────────────────────────────────────────────────────
-
-.cw-swatch {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--cw-swatch-size);
-  height: var(--cw-swatch-size);
-  border-radius: var(--cw-swatch-radius);
-  border: var(--cw-swatch-border-width) solid var(--cw-swatch-border);
+.cw-swatch--color,
+.cw-swatch--image {
+  border: 1px solid rgba(0, 0, 0, .12);
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: border-color .15s ease, box-shadow .15s ease, opacity .15s ease;
+  transition: box-shadow .15s ease, opacity .15s ease;
   user-select: none;
   outline: none;
-  flex-shrink: 0;
 
   &:focus-visible {
-    box-shadow: 0 0 0 3px rgba($primary, .3);
+    box-shadow: 0 0 0 3px rgba(var(--bs-primary-rgb), .3);
   }
 
-  &:hover:not(.disabled) {
-    border-color: $primary;
-  }
-
-  // ── Selected state ──────────────────────────────────────────────────────────
+  // ── Selected: ring ──────────────────────────────────────────────────────────
   &.selected {
-    border-color: var(--cw-swatch-selected-border);
-    border-width: var(--cw-swatch-selected-border-width);
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--bs-primary);
+    border-color: transparent;
 
-    // Tick mark overlay for color/image swatches
-    .cw-swatches--color &,
-    .cw-swatches--image & {
-      &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, .25)
-          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M2 7l3.5 3.5L12 3'/%3E%3C/svg%3E")
-          no-repeat center;
-      }
+    // Tick overlay
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .25)
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M2 7l3.5 3.5L12 3'/%3E%3C/svg%3E")
+        no-repeat center;
     }
   }
 
-  // ── Disabled / out-of-stock ─────────────────────────────────────────────────
+  // ── Disabled ────────────────────────────────────────────────────────────────
   &.disabled {
     cursor: not-allowed;
+    opacity: .5;
 
-    &:hover {
-      border-color: var(--cw-swatch-border);
-    }
-
-    // OOS behavior: blur
     &.oos-blur {
-      opacity: .45;
       filter: blur(1px);
     }
 
-    // OOS behavior: cross
     &.oos-cross::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba($white, .5)
+      background: rgba(255, 255, 255, .5)
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath stroke='%23c00' stroke-width='1.5' stroke-linecap='round' d='M3 3l10 10M13 3L3 13'/%3E%3C/svg%3E")
         no-repeat center;
     }
   }
 }
 
-// ── Color swatch specifics ─────────────────────────────────────────────────────
-
-.cw-swatch--color {
-  border-color: rgba(0, 0, 0, .12); // subtle border against any background color
-
-  &.selected {
-    box-shadow: 0 0 0 2px $white, 0 0 0 4px $primary;
-    border-color: transparent;
-  }
-
-  &.disabled:not(.oos-blur) {
-    opacity: .5;
-  }
-}
-
-// ── Image swatch specifics ─────────────────────────────────────────────────────
-
-.cw-swatch--image {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
-// ── Button swatch specifics ────────────────────────────────────────────────────
+// ── Button: only disabled (hover/active/focus handled by .btn) ─────────────────
 
 .cw-swatch--button {
-  width: auto;
-  min-width: var(--cw-swatch-size);
-  padding: 0 .625rem; // ~10px
-  font-size: var(--cw-swatch-font-size);
-  font-weight: $font-weight-medium;
-  color: $body-color;
-  background: $white;
-  white-space: nowrap;
-
-  &.selected {
-    background: $primary;
-    border-color: $primary;
-    color: $white;
-  }
-
   &.disabled {
-    opacity: .45;
     text-decoration: line-through;
-  }
-}
-
-// ── Round variant (can be toggled via Redux option class on body) ──────────────
-
-.wvs-style-round .cw-swatch {
-  --cw-swatch-radius: 50%;
-
-  &.cw-swatch--button {
-    --cw-swatch-radius: 999px;
   }
 }

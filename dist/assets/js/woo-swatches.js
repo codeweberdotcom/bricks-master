@@ -40,13 +40,13 @@
 
 			if ( $swatch.hasClass( 'selected' ) ) {
 				// Deselect on second click
-				$swatch.removeClass( 'selected' ).attr( 'aria-pressed', 'false' );
+				$swatch.removeClass( 'selected active' ).attr( 'aria-pressed', 'false' );
 				$select.val( '' ).trigger( 'change' );
 			} else {
 				$swatches.find( '.cw-swatch.selected' )
-					.removeClass( 'selected' )
+					.removeClass( 'selected active' )
 					.attr( 'aria-pressed', 'false' );
-				$swatch.addClass( 'selected' ).attr( 'aria-pressed', 'true' );
+				$swatch.addClass( 'selected active' ).attr( 'aria-pressed', 'true' );
 				$select.val( value ).trigger( 'change' );
 			}
 		} );
@@ -74,22 +74,40 @@
 			}
 
 			$swatches.find( '.cw-swatch' )
-				.removeClass( 'selected' )
+				.removeClass( 'selected active' )
 				.attr( 'aria-pressed', 'false' );
 
 			if ( val ) {
 				$swatches.find( '.cw-swatch[data-value="' + val + '"]' )
-					.addClass( 'selected' )
+					.addClass( 'selected active' )
 					.attr( 'aria-pressed', 'true' );
 			}
 		} );
 
-		// ── Reset all swatches on WooCommerce "Clear" ─────────────────────────
+		// ── Sync swatches on WooCommerce reset_data ───────────────────────────
+		// Fires when WooCommerce can't find a variation (partial selection) OR
+		// when the "Clear" link is clicked (all selects become empty).
+		// We sync visual state with the actual select values so that attributes
+		// still carrying a value keep their selection ring.
 
 		$form.on( 'reset_data', function () {
-			$form.find( '.cw-swatch.selected' )
-				.removeClass( 'selected' )
-				.attr( 'aria-pressed', 'false' );
+			$form.find( '.cw-swatches' ).each( function () {
+				var $swatches = $( this );
+				var attrName  = $swatches.data( 'attribute_name' );
+				var $select   = $form.find( '[name="' + attrName + '"]' );
+				var val       = $select.val();
+
+				$swatches.find( '.cw-swatch' )
+					.removeClass( 'selected active' )
+					.attr( 'aria-pressed', 'false' );
+
+				if ( val ) {
+					$swatches.find( '.cw-swatch[data-value="' + val + '"]' )
+						.addClass( 'selected active' )
+						.attr( 'aria-pressed', 'true' );
+				}
+			} );
+
 			$form.find( '.cw-swatch.disabled' )
 				.removeClass( 'disabled oos-blur oos-cross' );
 		} );

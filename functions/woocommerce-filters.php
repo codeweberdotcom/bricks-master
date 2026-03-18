@@ -1110,7 +1110,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		if ( 'reset_button' === $item_type ) {
 			if ( function_exists( 'cw_has_active_filters' ) && cw_has_active_filters() ) {
 				$reset_text = $reset_label ?: __( 'Сбросить все фильтры', 'codeweber' );
-				echo '<div class="' . esc_attr( $wrapper_class ) . '">';
+				echo '<div class="' . esc_attr( $wrapper_class . ( $item_class ? ' ' . $item_class : '' ) ) . '">';
 				echo '<a href="' . esc_url( cw_get_clear_filters_url() ) . '" class="btn btn-sm btn-outline-secondary w-100 pjax-link">';
 				echo esc_html( $reset_text );
 				echo '</a>';
@@ -1140,9 +1140,14 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		$show_count       = isset( $item['showCount'] ) ? (bool) $item['showCount'] : true;
 		$taxonomy         = isset( $item['taxonomy'] ) ? sanitize_key( $item['taxonomy'] ) : '';
 		$checkbox_columns = isset( $item['checkboxColumns'] ) ? (int) $item['checkboxColumns'] : 1;
-		$empty_behavior   = in_array( $item['emptyBehavior'] ?? 'disable', [ 'default', 'hide', 'disable', 'disable_clickable' ], true )
-			? $item['emptyBehavior'] : 'disable';
+		$empty_behavior_raw = $item['emptyBehavior'] ?? 'disable';
+		$empty_behavior     = in_array( $empty_behavior_raw, [ 'default', 'hide', 'disable', 'disable_clickable', 'hide_block' ], true ) ? $empty_behavior_raw : 'disable';
 		$section_id       = 'cw-filter-' . sanitize_html_class( $item['id'] ?? uniqid() );
+		$item_class        = isset( $item['itemClass'] ) ? sanitize_text_field( $item['itemClass'] ) : '';
+		$limit_type        = in_array( $item['limitType'] ?? 'none', [ 'none', 'count', 'height' ], true ) ? ( $item['limitType'] ?? 'none' ) : 'none';
+		$limit_value       = isset( $item['limitValue'] ) ? max( 1, (int) $item['limitValue'] ) : 5;
+		$show_more_text    = isset( $item['showMoreText'] ) && '' !== trim( $item['showMoreText'] ) ? sanitize_text_field( $item['showMoreText'] ) : __( 'Показать ещё', 'codeweber' );
+		$show_less_text    = isset( $item['showLessText'] ) && '' !== trim( $item['showLessText'] ) ? sanitize_text_field( $item['showLessText'] ) : __( 'Свернуть', 'codeweber' );
 
 		$section_label   = $label;
 		$section_content = '';
@@ -1168,6 +1173,11 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 				if ( empty( $terms_data ) ) {
 					$has_content = false;
 				} else {
+					if ( 'hide_block' === $empty_behavior ) {
+						$all_empty = ! array_filter( $terms_data, fn( $t ) => ! ( $t['is_empty'] ?? false ) );
+						if ( $all_empty ) { $has_content = false; break; }
+						$empty_behavior = 'disable';
+					}
 					include $filters_dir . 'filter-category.php';
 				}
 				break;
@@ -1181,6 +1191,11 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 				if ( empty( $terms_data ) ) {
 					$has_content = false;
 				} else {
+					if ( 'hide_block' === $empty_behavior ) {
+						$all_empty = ! array_filter( $terms_data, fn( $t ) => ! ( $t['is_empty'] ?? false ) );
+						if ( $all_empty ) { $has_content = false; break; }
+						$empty_behavior = 'disable';
+					}
 					include $filters_dir . 'filter-attribute.php';
 				}
 				break;
@@ -1190,6 +1205,11 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 					$section_label = __( 'Рейтинг', 'codeweber' );
 				}
 				$options = cw_get_rating_filter_options();
+				if ( 'hide_block' === $empty_behavior ) {
+					$all_empty = ! array_filter( $options, fn( $o ) => ! ( $o['is_empty'] ?? false ) );
+					if ( $all_empty ) { $has_content = false; break; }
+					$empty_behavior = 'disable';
+				}
 				include $filters_dir . 'filter-rating.php';
 				break;
 
@@ -1198,6 +1218,11 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 					$section_label = __( 'Наличие', 'codeweber' );
 				}
 				$options = cw_get_stock_filter_options();
+				if ( 'hide_block' === $empty_behavior ) {
+					$all_empty = ! array_filter( $options, fn( $o ) => ! ( $o['is_empty'] ?? false ) );
+					if ( $all_empty ) { $has_content = false; break; }
+					$empty_behavior = 'disable';
+				}
 				include $filters_dir . 'filter-stock.php';
 				break;
 
@@ -1216,6 +1241,11 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 				if ( empty( $terms_data ) ) {
 					$has_content = false;
 				} else {
+					if ( 'hide_block' === $empty_behavior ) {
+						$all_empty = ! array_filter( $terms_data, fn( $t ) => ! ( $t['is_empty'] ?? false ) );
+						if ( $all_empty ) { $has_content = false; break; }
+						$empty_behavior = 'disable';
+					}
 					include $filters_dir . 'filter-attribute.php';
 				}
 				break;
@@ -1231,9 +1261,38 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 			continue;
 		}
 
+		if ( 'none' !== $limit_type ) {
+			$limit_div_id = 'cw-fl-' . $section_id;
+			$pre_style    = '';
+			$style_attr   = '';
+
+			if ( 'height' === $limit_type ) {
+				// Inline max-height: скрывает сразу при загрузке, без FOUC
+				$style_attr = ' style="max-height:' . (int) $limit_value . 'px;overflow:hidden"';
+			} elseif ( 'count' === $limit_type ) {
+				// CSS :nth-child скрывает лишние элементы до инициализации JS
+				$nth       = (int) $limit_value + 1;
+				$lid_esc   = esc_attr( $limit_div_id );
+				$pre_style = '<style id="' . $lid_esc . '-css">'
+					. '#' . $lid_esc . '>ul>li:nth-child(n+' . $nth . '),'
+					. '#' . $lid_esc . '>div>*:nth-child(n+' . $nth . ')'
+					. '{display:none}</style>';
+			}
+
+			$section_content = $pre_style
+				. '<div id="' . esc_attr( $limit_div_id ) . '" class="cw-filter-limit"'
+				. ' data-limit-type="' . esc_attr( $limit_type ) . '"'
+				. ' data-limit="' . esc_attr( (string) $limit_value ) . '"'
+				. ' data-show-more="' . esc_attr( $show_more_text ) . '"'
+				. ' data-show-less="' . esc_attr( $show_less_text ) . '"'
+				. $style_attr . '>'
+				. $section_content
+				. '</div>';
+		}
+
 		if ( 'accordion' === $section_style ) {
 			?>
-			<div class="border-bottom">
+			<div class="border-bottom<?php echo $item_class ? ' ' . esc_attr( $item_class ) : ''; ?>">
 				<button class="cw-collapse-toggle btn btn-link px-0 py-3 d-flex w-100 justify-content-between align-items-center text-body text-decoration-none fw-semibold small"
 					type="button"
 					data-bs-toggle="collapse"
@@ -1250,7 +1309,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 			</div>
 			<?php
 		} else {
-			echo '<div class="' . esc_attr( $wrapper_class ) . '">';
+			echo '<div class="' . esc_attr( $wrapper_class . ( $item_class ? ' ' . $item_class : '' ) ) . '">';
 			echo '<' . $heading_tag . ' class="' . esc_attr( $heading_class ) . '">' . esc_html( $section_label ) . '</' . $heading_tag . '>';
 			echo $section_content; // phpcs:ignore WordPress.Security.EscapeOutput
 			echo '</div>';
