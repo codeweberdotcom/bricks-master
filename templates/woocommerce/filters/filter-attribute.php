@@ -33,6 +33,14 @@ $radio_name          = $radio_name ?? 'cw_filter_radio';
 $empty_behavior      = $empty_behavior ?? 'disable';
 $swatch_columns      = isset( $swatch_columns ) ? (int) $swatch_columns : 0;
 $swatch_item_class   = isset( $swatch_item_class ) ? (string) $swatch_item_class : '';
+
+// For swatch display modes, 'disable' (non-clickable) silently blocks the user
+// from selecting a 3rd+ attribute when the current combination yields 0 products.
+// Treat 'disable' as 'disable_clickable' so empty swatches remain navigable
+// (greyed out but still linkable — consistent with WooCommerce's own layered nav).
+if ( in_array( $display_mode, [ 'color', 'image' ], true ) && 'disable' === $empty_behavior ) {
+	$empty_behavior = 'disable_clickable';
+}
 ?>
 
 <?php if ( 'color' === $display_mode || 'image' === $display_mode ) :
