@@ -1137,9 +1137,11 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		$label        = isset( $item['label'] ) ? sanitize_text_field( $item['label'] ) : '';
 		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'radio', 'list', 'button' ], true )
 			? $item['displayMode'] : 'checkbox';
-		$show_count   = isset( $item['showCount'] ) ? (bool) $item['showCount'] : true;
+		$show_count       = isset( $item['showCount'] ) ? (bool) $item['showCount'] : true;
 		$taxonomy         = isset( $item['taxonomy'] ) ? sanitize_key( $item['taxonomy'] ) : '';
 		$checkbox_columns = isset( $item['checkboxColumns'] ) ? (int) $item['checkboxColumns'] : 1;
+		$empty_behavior   = in_array( $item['emptyBehavior'] ?? 'disable', [ 'default', 'hide', 'disable', 'disable_clickable' ], true )
+			? $item['emptyBehavior'] : 'disable';
 		$section_id       = 'cw-filter-' . sanitize_html_class( $item['id'] ?? uniqid() );
 
 		$section_label   = $label;
