@@ -18,8 +18,12 @@ if ( empty( $terms_data ) ) {
 	return;
 }
 
-$display_mode = $display_mode ?? 'checkbox';
-$show_count   = $show_count ?? true;
+$display_mode        = $display_mode ?? 'checkbox';
+$show_count          = $show_count ?? true;
+$button_class        = $button_class ?? 'btn-outline-secondary';
+$button_active_class = $button_active_class ?? 'btn-secondary';
+$checkbox_size_class = $checkbox_size_class ?? '';
+$checkbox_item_class = $checkbox_item_class ?? '';
 ?>
 
 <?php if ( 'button' === $display_mode ) : ?>
@@ -31,7 +35,7 @@ $show_count   = $show_count ?? true;
 			$count     = $item['count'];
 			?>
 			<a href="<?php echo esc_url( $item['url'] ); ?>"
-				class="btn btn-sm pjax-link <?php echo $is_active ? 'btn-secondary' : 'btn-outline-secondary'; ?>"
+				class="btn btn-sm pjax-link <?php echo $is_active ? esc_attr( $button_active_class ) : esc_attr( $button_class ); ?>"
 				<?php if ( $show_count ) : ?>title="(<?php echo esc_attr( $count ); ?>)"<?php endif; ?>>
 				<?php echo esc_html( $term->name ); ?>
 			</a>
@@ -67,7 +71,7 @@ $show_count   = $show_count ?? true;
 		$count     = $item['count'];
 		$uid       = 'cw-term-' . sanitize_html_class( $term->slug );
 		?>
-		<div class="form-check mb-1 cw-filter-check">
+		<div class="form-check mb-1 cw-filter-check<?php echo esc_attr( $checkbox_size_class ); ?><?php echo $checkbox_item_class ? ' ' . esc_attr( $checkbox_item_class ) : ''; ?>">
 			<input class="form-check-input"
 				type="checkbox"
 				id="<?php echo esc_attr( $uid ); ?>"

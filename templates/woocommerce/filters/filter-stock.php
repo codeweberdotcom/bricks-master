@@ -15,12 +15,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( empty( $options ) ) {
 	return;
 }
+
+$checkbox_size_class = $checkbox_size_class ?? '';
+$checkbox_item_class = $checkbox_item_class ?? '';
 ?>
 
 <?php foreach ( $options as $opt ) :
 	$uid = 'cw-stock-' . sanitize_html_class( $opt['value'] );
 	?>
-	<div class="form-check mb-1 cw-filter-check">
+	<div class="form-check mb-1 cw-filter-check<?php echo esc_attr( $checkbox_size_class ); ?><?php echo $checkbox_item_class ? ' ' . esc_attr( $checkbox_item_class ) : ''; ?>">
 		<input class="form-check-input"
 			type="checkbox"
 			id="<?php echo esc_attr( $uid ); ?>"

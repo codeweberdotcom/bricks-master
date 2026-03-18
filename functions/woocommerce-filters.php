@@ -496,10 +496,26 @@ add_action( 'woocommerce_product_query', function ( WP_Query $q ) {
  *
  * @param array $items Array of item objects from block.json 'items' attribute.
  */
-function cw_render_filter_items( $items ) {
+function cw_render_filter_items( $items, $panel_atts = [] ) {
 	if ( ! function_exists( 'WC' ) || empty( $items ) || ! is_array( $items ) ) {
 		return;
 	}
+
+	$section_style       = in_array( $panel_atts['section_style'] ?? 'plain', [ 'plain', 'accordion' ], true )
+		? $panel_atts['section_style'] : 'plain';
+	$sections_open       = isset( $panel_atts['sections_open'] ) ? (bool) $panel_atts['sections_open'] : true;
+	$wrapper_class       = isset( $panel_atts['wrapper_class'] ) ? esc_attr( $panel_atts['wrapper_class'] ) : 'widget';
+	$heading_tag         = in_array( $panel_atts['heading_tag'] ?? 'h4', [ 'h2', 'h3', 'h4', 'h5', 'h6', 'p' ], true )
+		? $panel_atts['heading_tag'] : 'h4';
+	$heading_class       = isset( $panel_atts['heading_class'] ) ? esc_attr( $panel_atts['heading_class'] ) : 'widget-title mb-3';
+	$checkbox_size       = in_array( $panel_atts['checkbox_size'] ?? '', [ '', 'sm' ], true )
+		? $panel_atts['checkbox_size'] : '';
+	$checkbox_item_class = isset( $panel_atts['checkbox_item_class'] ) ? esc_attr( $panel_atts['checkbox_item_class'] ) : '';
+	$button_class        = isset( $panel_atts['button_class'] ) ? esc_attr( $panel_atts['button_class'] ) : 'btn-outline-secondary';
+	$button_active_class = isset( $panel_atts['button_active_class'] ) ? esc_attr( $panel_atts['button_active_class'] ) : 'btn-secondary';
+	$reset_label         = isset( $panel_atts['reset_label'] ) ? sanitize_text_field( $panel_atts['reset_label'] ) : '';
+
+	$checkbox_size_class = 'sm' === $checkbox_size ? ' form-check-sm' : '';
 
 	$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
 
@@ -509,9 +525,10 @@ function cw_render_filter_items( $items ) {
 		// ── Reset button ──────────────────────────────────────────────────────
 		if ( 'reset_button' === $item_type ) {
 			if ( function_exists( 'cw_has_active_filters' ) && cw_has_active_filters() ) {
+				$reset_text = $reset_label ?: __( 'Сбросить все фильтры', 'codeweber' );
 				echo '<div class="cw-filter-reset-wrap mb-2">';
 				echo '<a href="' . esc_url( cw_get_clear_filters_url() ) . '" class="btn btn-sm btn-outline-secondary w-100 pjax-link">';
-				esc_html_e( 'Сбросить все фильтры', 'codeweber' );
+				echo esc_html( $reset_text );
 				echo '</a>';
 				echo '</div>';
 			}
@@ -623,22 +640,30 @@ function cw_render_filter_items( $items ) {
 		if ( ! $has_content || '' === trim( $section_content ) ) {
 			continue;
 		}
-		?>
-		<div class="cw-filter-section">
-			<button class="cw-filter-section__toggle" type="button"
-				data-bs-toggle="collapse"
-				data-bs-target="#<?php echo esc_attr( $section_id ); ?>"
-				aria-expanded="true"
-				aria-controls="<?php echo esc_attr( $section_id ); ?>">
-				<?php echo esc_html( $section_label ); ?>
-			</button>
-			<div id="<?php echo esc_attr( $section_id ); ?>" class="collapse show">
-				<div class="cw-filter-section__body">
-					<?php echo $section_content; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+
+		if ( 'accordion' === $section_style ) {
+			?>
+			<div class="cw-filter-section">
+				<button class="cw-filter-section__toggle" type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#<?php echo esc_attr( $section_id ); ?>"
+					aria-expanded="<?php echo $sections_open ? 'true' : 'false'; ?>"
+					aria-controls="<?php echo esc_attr( $section_id ); ?>">
+					<?php echo esc_html( $section_label ); ?>
+				</button>
+				<div id="<?php echo esc_attr( $section_id ); ?>" class="collapse<?php echo $sections_open ? ' show' : ''; ?>">
+					<div class="cw-filter-section__body">
+						<?php echo $section_content; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+					</div>
 				</div>
 			</div>
-		</div>
-		<?php
+			<?php
+		} else {
+			echo '<div class="' . esc_attr( $wrapper_class ) . '">';
+			echo '<' . $heading_tag . ' class="' . esc_attr( $heading_class ) . '">' . esc_html( $section_label ) . '</' . $heading_tag . '>';
+			echo $section_content; // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '</div>';
+		}
 	}
 }
 
