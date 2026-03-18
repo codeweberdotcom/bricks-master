@@ -520,6 +520,10 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 	$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
 
 	foreach ( $items as $item ) {
+		if ( isset( $item['enabled'] ) && false === (bool) $item['enabled'] ) {
+			continue;
+		}
+
 		$item_type = $item['type'] ?? 'filter';
 
 		// ── Reset button ──────────────────────────────────────────────────────
