@@ -1174,6 +1174,16 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		$checkbox_columns = isset( $item['checkboxColumns'] ) ? (int) $item['checkboxColumns'] : 1;
 		$swatch_columns   = isset( $item['swatchColumns'] ) ? max( 0, (int) $item['swatchColumns'] ) : 0;
 		$swatch_item_class = isset( $item['swatchItemClass'] ) ? esc_attr( $item['swatchItemClass'] ) : '';
+		$swatch_shape_raw  = in_array( $item['swatchShape'] ?? 'default', [ 'default', 'theme', 'rounded', 'rounded-0' ], true )
+			? ( $item['swatchShape'] ?? 'default' ) : 'default';
+		if ( 'theme' === $swatch_shape_raw ) {
+			$resolved = class_exists( 'Codeweber_Options' ) ? trim( Codeweber_Options::style( 'button' ) ) : '';
+			$swatch_shape = $resolved ?: 'avatar';
+		} elseif ( 'default' === $swatch_shape_raw ) {
+			$swatch_shape = 'avatar';
+		} else {
+			$swatch_shape = $swatch_shape_raw; // 'rounded' | 'rounded-0'
+		}
 		$single_select     = isset( $item['singleSelect'] ) ? (bool) $item['singleSelect'] : false;
 		$empty_behavior_raw = $item['emptyBehavior'] ?? 'disable';
 		$empty_behavior     = in_array( $empty_behavior_raw, [ 'default', 'hide', 'disable', 'disable_clickable', 'hide_block' ], true ) ? $empty_behavior_raw : 'disable';

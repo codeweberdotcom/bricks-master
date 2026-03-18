@@ -33,6 +33,7 @@ $radio_name          = $radio_name ?? 'cw_filter_radio';
 $empty_behavior      = $empty_behavior ?? 'disable';
 $swatch_columns      = isset( $swatch_columns ) ? (int) $swatch_columns : 0;
 $swatch_item_class   = isset( $swatch_item_class ) ? (string) $swatch_item_class : '';
+$swatch_shape        = $swatch_shape ?? 'avatar';
 $single_select       = $single_select ?? false;
 
 // When multiple attribute filters are active, WooCommerce returns 0 products for any
@@ -95,7 +96,7 @@ if ( 'disable' === $empty_behavior ) {
 			$inline_style = implode( ';', array_filter( [ $size_style, $bg_style ] ) );
 
 			// Grid mode: no .w-8 .h-8 (size comes from grid cell)
-			$classes = [ 'cw-swatch', 'cw-swatch--' . $display_mode, 'avatar' ];
+			$classes = [ 'cw-swatch', 'cw-swatch--' . $display_mode, $swatch_shape ];
 			if ( ! $use_grid ) {
 				$classes[] = 'w-8';
 				$classes[] = 'h-8';
