@@ -39,7 +39,7 @@ $radio_name          = $radio_name ?? 'cw_filter_radio_cat';
 			$count     = (int) $term->count;
 			?>
 			<a href="<?php echo esc_url( $item['url'] ); ?>"
-				class="btn btn-sm pjax-link <?php echo $is_active ? esc_attr( $button_active_class ) : esc_attr( $button_class ); ?>"
+				class="btn pjax-link <?php echo $is_active ? esc_attr( $button_active_class ) : esc_attr( $button_class ); ?>"
 				<?php if ( $show_count ) : ?>title="(<?php echo esc_attr( $count ); ?>)"<?php endif; ?>>
 				<?php echo esc_html( $term->name ); ?>
 			</a>
