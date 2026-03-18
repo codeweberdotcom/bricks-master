@@ -621,17 +621,284 @@ function cw_get_category_filter_terms( $parent = 0, $show_count = true ) {
 }
 
 /**
- * Get rating options (1–5 stars).
+ * Get filtered product count per stock status.
  *
- * @return array{ value: string, label: string, is_active: bool, url: string }[]
+ * Applies all active filters EXCEPT the stock filter itself (OR-mode).
+ * Returns map: stock_status => product count.
+ *
+ * @return array<string, int>
+ */
+function cw_get_filtered_stock_counts() {
+	global $wpdb;
+
+	// phpcs:disable WordPress.Security.NonceVerification
+	$cache_key = 'cw_stock_counts_' . md5( wp_json_encode( [
+		'cat'   => is_product_category() ? get_queried_object_id() : 0,
+		'attrs' => class_exists( 'WC_Query' ) ? WC_Query::get_layered_nav_chosen_attributes() : [],
+		'tag'   => sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ?? '' ) ),
+		'rate'  => sanitize_text_field( wp_unslash( $_GET['rating_filter'] ?? '' ) ),
+	] ) );
+	// phpcs:enable
+
+	$cached = wp_cache_get( $cache_key, 'cw_filters' );
+	if ( false !== $cached ) {
+		return $cached;
+	}
+
+	$meta_table = $wpdb->prefix . 'wc_product_meta_lookup';
+	$joins      = [
+		"INNER JOIN {$wpdb->posts} AS p ON p.ID = lookup.product_id AND p.post_type = 'product' AND p.post_status = 'publish'",
+	];
+	$where = [];
+
+	// ── Category archive ────────────────────────────────────────────────────
+	if ( is_product_category() ) {
+		$cat_term = get_queried_object();
+		if ( $cat_term && ! is_wp_error( $cat_term ) ) {
+			$term_ids = array_merge(
+				[ (int) $cat_term->term_id ],
+				array_map( 'intval', get_term_children( $cat_term->term_id, 'product_cat' ) )
+			);
+			$ids_list = implode( ',', $term_ids );
+			$where[]  = "lookup.product_id IN (
+				SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+				INNER JOIN {$wpdb->term_taxonomy} tt
+					ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_cat'
+				WHERE tt.term_id IN ({$ids_list})
+			)";
+		}
+	}
+
+	// ── Attribute filters ───────────────────────────────────────────────────
+	// phpcs:disable WordPress.Security.NonceVerification
+	if ( class_exists( 'WC_Query' ) ) {
+		foreach ( WC_Query::get_layered_nav_chosen_attributes() as $attr_tax => $data ) {
+			if ( empty( $data['terms'] ) ) {
+				continue;
+			}
+			$tax_safe  = esc_sql( $attr_tax );
+			$slug_list = implode( ',', array_map( function( $s ) use ( $wpdb ) {
+				return $wpdb->prepare( '%s', $s );
+			}, $data['terms'] ) );
+			if ( 'and' === $data['query_type'] ) {
+				$n       = count( $data['terms'] );
+				$where[] = "lookup.product_id IN (
+					SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+					INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = '{$tax_safe}'
+					INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+					GROUP BY tr.object_id HAVING COUNT(DISTINCT t.term_id) = {$n}
+				)";
+			} else {
+				$where[] = "lookup.product_id IN (
+					SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+					INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = '{$tax_safe}'
+					INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+				)";
+			}
+		}
+	}
+
+	// ── Product tag filter ─────────────────────────────────────────────────
+	if ( ! empty( $_GET['filter_product_tag'] ) ) {
+		$tag_slugs = array_filter(
+			array_map( 'sanitize_key', explode( ',', sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ) ) ) )
+		);
+		if ( $tag_slugs ) {
+			$slug_list = implode( ',', array_map( function( $s ) use ( $wpdb ) {
+				return $wpdb->prepare( '%s', $s );
+			}, $tag_slugs ) );
+			$where[] = "lookup.product_id IN (
+				SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+				INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_tag'
+				INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+			)";
+		}
+	}
+
+	// ── Rating (applied — we are excluding STOCK, not rating) ──────────────
+	if ( ! empty( $_GET['rating_filter'] ) ) {
+		$ratings = array_filter( array_map( 'absint', explode( ',', sanitize_text_field( wp_unslash( $_GET['rating_filter'] ) ) ) ) );
+		if ( $ratings ) {
+			$where[] = $wpdb->prepare( 'FLOOR(lookup.average_rating) >= %d', min( $ratings ) );
+		}
+	}
+	// phpcs:enable
+
+	$joins_sql = implode( ' ', $joins );
+	$where_sql = $where ? 'WHERE ' . implode( ' AND ', $where ) : '';
+
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$rows = $wpdb->get_results(
+		"SELECT lookup.stock_status, COUNT(DISTINCT lookup.product_id) AS cnt
+		FROM `{$meta_table}` AS lookup {$joins_sql} {$where_sql}
+		GROUP BY lookup.stock_status"
+	);
+	// phpcs:enable
+
+	$counts = [];
+	foreach ( $rows as $row ) {
+		$counts[ $row->stock_status ] = (int) $row->cnt;
+	}
+
+	wp_cache_set( $cache_key, $counts, 'cw_filters', 5 * MINUTE_IN_SECONDS );
+
+	return $counts;
+}
+
+/**
+ * Get filtered product count for each "N stars and above" rating option.
+ *
+ * Applies all active filters EXCEPT the rating filter itself (OR-mode).
+ * Returns map: N (1–5) => count of products with average_rating >= N.
+ *
+ * @return array<int, int>
+ */
+function cw_get_filtered_rating_counts() {
+	global $wpdb;
+
+	// phpcs:disable WordPress.Security.NonceVerification
+	$cache_key = 'cw_rating_counts_' . md5( wp_json_encode( [
+		'cat'   => is_product_category() ? get_queried_object_id() : 0,
+		'attrs' => class_exists( 'WC_Query' ) ? WC_Query::get_layered_nav_chosen_attributes() : [],
+		'tag'   => sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ?? '' ) ),
+		'stock' => sanitize_key( wp_unslash( $_GET['filter_stock_status'] ?? '' ) ),
+	] ) );
+	// phpcs:enable
+
+	$cached = wp_cache_get( $cache_key, 'cw_filters' );
+	if ( false !== $cached ) {
+		return $cached;
+	}
+
+	$meta_table = $wpdb->prefix . 'wc_product_meta_lookup';
+	$joins      = [
+		"INNER JOIN {$wpdb->posts} AS p ON p.ID = lookup.product_id AND p.post_type = 'product' AND p.post_status = 'publish'",
+	];
+	$where = [];
+
+	// ── Category archive ────────────────────────────────────────────────────
+	if ( is_product_category() ) {
+		$cat_term = get_queried_object();
+		if ( $cat_term && ! is_wp_error( $cat_term ) ) {
+			$term_ids = array_merge(
+				[ (int) $cat_term->term_id ],
+				array_map( 'intval', get_term_children( $cat_term->term_id, 'product_cat' ) )
+			);
+			$ids_list = implode( ',', $term_ids );
+			$where[]  = "lookup.product_id IN (
+				SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+				INNER JOIN {$wpdb->term_taxonomy} tt
+					ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_cat'
+				WHERE tt.term_id IN ({$ids_list})
+			)";
+		}
+	}
+
+	// ── Attribute filters ───────────────────────────────────────────────────
+	// phpcs:disable WordPress.Security.NonceVerification
+	if ( class_exists( 'WC_Query' ) ) {
+		foreach ( WC_Query::get_layered_nav_chosen_attributes() as $attr_tax => $data ) {
+			if ( empty( $data['terms'] ) ) {
+				continue;
+			}
+			$tax_safe  = esc_sql( $attr_tax );
+			$slug_list = implode( ',', array_map( function( $s ) use ( $wpdb ) {
+				return $wpdb->prepare( '%s', $s );
+			}, $data['terms'] ) );
+			if ( 'and' === $data['query_type'] ) {
+				$n       = count( $data['terms'] );
+				$where[] = "lookup.product_id IN (
+					SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+					INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = '{$tax_safe}'
+					INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+					GROUP BY tr.object_id HAVING COUNT(DISTINCT t.term_id) = {$n}
+				)";
+			} else {
+				$where[] = "lookup.product_id IN (
+					SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+					INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = '{$tax_safe}'
+					INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+				)";
+			}
+		}
+	}
+
+	// ── Product tag filter ─────────────────────────────────────────────────
+	if ( ! empty( $_GET['filter_product_tag'] ) ) {
+		$tag_slugs = array_filter(
+			array_map( 'sanitize_key', explode( ',', sanitize_text_field( wp_unslash( $_GET['filter_product_tag'] ) ) ) )
+		);
+		if ( $tag_slugs ) {
+			$slug_list = implode( ',', array_map( function( $s ) use ( $wpdb ) {
+				return $wpdb->prepare( '%s', $s );
+			}, $tag_slugs ) );
+			$where[] = "lookup.product_id IN (
+				SELECT tr.object_id FROM {$wpdb->term_relationships} tr
+				INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'product_tag'
+				INNER JOIN {$wpdb->terms} t ON t.term_id = tt.term_id AND t.slug IN ({$slug_list})
+			)";
+		}
+	}
+
+	// ── Stock status (applied — we are excluding RATING, not stock) ─────────
+	if ( ! empty( $_GET['filter_stock_status'] ) ) {
+		$status = sanitize_key( wp_unslash( $_GET['filter_stock_status'] ) );
+		if ( in_array( $status, [ 'instock', 'outofstock', 'onbackorder' ], true ) ) {
+			$where[] = $wpdb->prepare( 'lookup.stock_status = %s', $status );
+		}
+	}
+	// phpcs:enable
+
+	$joins_sql = implode( ' ', $joins );
+	$where_sql = $where ? 'WHERE ' . implode( ' AND ', $where ) : '';
+
+	// Count products per exact integer rating; compute cumulative below.
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$rows = $wpdb->get_results(
+		"SELECT FLOOR(lookup.average_rating) AS rating, COUNT(DISTINCT lookup.product_id) AS cnt
+		FROM `{$meta_table}` AS lookup {$joins_sql} {$where_sql}
+		GROUP BY FLOOR(lookup.average_rating)"
+	);
+	// phpcs:enable
+
+	// Build per-exact-rating map.
+	$per_rating = [ 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0 ];
+	foreach ( $rows as $row ) {
+		$r = (int) $row->rating;
+		if ( $r >= 1 && $r <= 5 ) {
+			$per_rating[ $r ] = (int) $row->cnt;
+		}
+	}
+
+	// Convert to "N stars and above" cumulative counts.
+	$counts = [];
+	for ( $n = 1; $n <= 5; $n++ ) {
+		$counts[ $n ] = 0;
+		for ( $r = $n; $r <= 5; $r++ ) {
+			$counts[ $n ] += $per_rating[ $r ];
+		}
+	}
+
+	wp_cache_set( $cache_key, $counts, 'cw_filters', 5 * MINUTE_IN_SECONDS );
+
+	return $counts;
+}
+
+/**
+ * Get rating options (1–5 stars) with is_empty flag for disabled state.
+ *
+ * @return array{ value: string, label: int, is_active: bool, is_empty: bool, url: string }[]
  */
 function cw_get_rating_filter_options() {
+	$counts  = cw_get_filtered_rating_counts();
 	$options = [];
 	for ( $i = 5; $i >= 1; $i-- ) {
+		$is_active = cw_is_filter_active( 'rating_filter', (string) $i );
 		$options[] = [
 			'value'     => (string) $i,
 			'label'     => $i,
-			'is_active' => cw_is_filter_active( 'rating_filter', (string) $i ),
+			'is_active' => $is_active,
+			'is_empty'  => ( ! $is_active && 0 === ( $counts[ $i ] ?? 0 ) ),
 			'url'       => cw_get_filter_url( 'rating_filter', (string) $i ),
 		];
 	}
@@ -639,32 +906,32 @@ function cw_get_rating_filter_options() {
 }
 
 /**
- * Get stock status filter options.
+ * Get stock status filter options with is_empty flag for disabled state.
  *
- * @return array{ value: string, label: string, is_active: bool, url: string }[]
+ * @return array{ value: string, label: string, is_active: bool, is_empty: bool, url: string }[]
  */
 function cw_get_stock_filter_options() {
-	$param = 'filter_stock_status';
-	return [
-		[
-			'value'     => 'instock',
-			'label'     => __( 'В наличии', 'codeweber' ),
-			'is_active' => cw_is_filter_active( $param, 'instock' ),
-			'url'       => cw_get_filter_url( $param, 'instock' ),
-		],
-		[
-			'value'     => 'outofstock',
-			'label'     => __( 'Нет в наличии', 'codeweber' ),
-			'is_active' => cw_is_filter_active( $param, 'outofstock' ),
-			'url'       => cw_get_filter_url( $param, 'outofstock' ),
-		],
-		[
-			'value'     => 'onbackorder',
-			'label'     => __( 'Под заказ', 'codeweber' ),
-			'is_active' => cw_is_filter_active( $param, 'onbackorder' ),
-			'url'       => cw_get_filter_url( $param, 'onbackorder' ),
-		],
+	$param  = 'filter_stock_status';
+	$counts = cw_get_filtered_stock_counts();
+
+	$statuses = [
+		'instock'     => __( 'В наличии', 'codeweber' ),
+		'outofstock'  => __( 'Нет в наличии', 'codeweber' ),
+		'onbackorder' => __( 'Под заказ', 'codeweber' ),
 	];
+
+	$options = [];
+	foreach ( $statuses as $value => $label ) {
+		$is_active = cw_is_filter_active( $param, $value );
+		$options[] = [
+			'value'     => $value,
+			'label'     => $label,
+			'is_active' => $is_active,
+			'is_empty'  => ( ! $is_active && 0 === ( $counts[ $value ] ?? 0 ) ),
+			'url'       => cw_get_filter_url( $param, $value ),
+		];
+	}
+	return $options;
 }
 
 /**
