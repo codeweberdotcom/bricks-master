@@ -45,6 +45,7 @@
   .form-check-label.pjax-link {
     text-decoration: none;
     cursor: pointer;
+    color: inherit;
 
     // растягиваем ссылку на весь .form-check чтобы клик по чекбоксу тоже работал
     &::after {
