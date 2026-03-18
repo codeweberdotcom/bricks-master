@@ -262,11 +262,13 @@ form.dark-fields .form-control {
 .form-check-sm {
   font-size: .7rem;
   min-height: 1rem;
+  padding-left: 1.2rem;
 
   .form-check-input {
     width: .7rem;
     height: .7rem;
     margin-top: .4em;
+    margin-left: -1.1rem;
   }
 }
 .small-chekbox .form-check-input {
