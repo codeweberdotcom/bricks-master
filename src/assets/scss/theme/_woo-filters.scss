@@ -63,56 +63,32 @@
   }
 }
 
-// ── Checkbox link (form-check style, но как ссылка для PJAX) ─────────────────
+// ── form-check как PJAX-ссылка (.cw-filter-check) ─────────────────────────────
+// Структура: div.form-check.cw-filter-check > input.form-check-input + a.form-check-label.pjax-link
+// input — только визуальный (pointer-events:none), a — перехватывает клик через stretched-link
 
-.cw-check-link {
-  display: inline-flex;
-  align-items: center;
-  gap: .5em;
-  color: $body-color;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color .15s ease-in-out;
+.cw-filter-check {
+  position: relative;
 
-  &:hover {
-    color: $primary;
-
-    .cw-check-box {
-      border-color: $primary;
-    }
+  .form-check-input {
+    pointer-events: none; // клик проходит к ссылке
   }
 
-  &.active {
-    color: $primary;
+  .form-check-label.pjax-link {
+    text-decoration: none;
+    cursor: pointer;
 
-    .cw-check-box {
-      background-color: $primary;
-      border-color: $primary;
-      // Checkmark SVG (Bootstrap 5 default)
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
-      background-size: .65em;
-      background-repeat: no-repeat;
-      background-position: center;
+    // растягиваем ссылку на весь .form-check чтобы клик по чекбоксу тоже работал
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
+    &:hover {
+      color: $primary;
     }
   }
-}
-
-// Fake checkbox box — same visual as Bootstrap .form-check-input
-.cw-check-box {
-  flex-shrink: 0;
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  background-color: $form-check-input-bg;
-  border: $form-check-input-border;
-  border-radius: $form-check-input-border-radius;
-  transition: background-color .15s ease-in-out, border-color .15s ease-in-out;
-}
-
-.cw-check-label {
-  font-size: $form-label-font-size;
-  font-weight: $form-label-font-weight;
-  line-height: $line-height-base;
 }
 
 // ── Button / chip mode ─────────────────────────────────────────────────────────

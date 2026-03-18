@@ -1,6 +1,6 @@
 <?php
 /**
- * Attribute / tag filter — shop2.html Bootstrap style.
+ * Attribute / tag filter — Bootstrap form-check style (shop2.html).
  *
  * Expected variables:
  *   $terms_data   array  — from cw_get_attribute_filter_terms() or cw_get_tag_filter_terms()
@@ -65,18 +65,22 @@ $show_count   = $show_count ?? true;
 		$term      = $item['term'];
 		$is_active = $item['is_active'];
 		$count     = $item['count'];
+		$uid       = 'cw-term-' . sanitize_html_class( $term->slug );
 		?>
-		<div class="mb-1">
+		<div class="form-check mb-1 cw-filter-check">
+			<input class="form-check-input"
+				type="checkbox"
+				id="<?php echo esc_attr( $uid ); ?>"
+				<?php checked( $is_active ); ?>
+				tabindex="-1"
+				aria-hidden="true">
 			<a href="<?php echo esc_url( $item['url'] ); ?>"
-				class="cw-check-link pjax-link<?php echo $is_active ? ' active' : ''; ?>"
+				class="form-check-label pjax-link"
 				aria-pressed="<?php echo $is_active ? 'true' : 'false'; ?>">
-				<span class="cw-check-box" aria-hidden="true"></span>
-				<span class="cw-check-label">
-					<?php echo esc_html( $term->name ); ?>
-					<?php if ( $show_count ) : ?>
-						<span class="fs-sm text-muted ms-1">(<?php echo esc_html( $count ); ?>)</span>
-					<?php endif; ?>
-				</span>
+				<?php echo esc_html( $term->name ); ?>
+				<?php if ( $show_count ) : ?>
+					<span class="fs-sm text-muted ms-1">(<?php echo esc_html( $count ); ?>)</span>
+				<?php endif; ?>
 			</a>
 		</div>
 	<?php endforeach; ?>

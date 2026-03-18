@@ -1,6 +1,6 @@
 <?php
 /**
- * Stock status filter — shop2.html style (form-check mb-1).
+ * Stock status filter — Bootstrap form-check style (shop2.html).
  *
  * Expected variables:
  *   $options  array — from cw_get_stock_filter_options()
@@ -17,13 +17,20 @@ if ( empty( $options ) ) {
 }
 ?>
 
-<?php foreach ( $options as $opt ) : ?>
-	<div class="mb-1">
+<?php foreach ( $options as $opt ) :
+	$uid = 'cw-stock-' . sanitize_html_class( $opt['value'] );
+	?>
+	<div class="form-check mb-1 cw-filter-check">
+		<input class="form-check-input"
+			type="checkbox"
+			id="<?php echo esc_attr( $uid ); ?>"
+			<?php checked( $opt['is_active'] ); ?>
+			tabindex="-1"
+			aria-hidden="true">
 		<a href="<?php echo esc_url( $opt['url'] ); ?>"
-			class="cw-check-link pjax-link<?php echo $opt['is_active'] ? ' active' : ''; ?>"
+			class="form-check-label pjax-link"
 			aria-pressed="<?php echo $opt['is_active'] ? 'true' : 'false'; ?>">
-			<span class="cw-check-box" aria-hidden="true"></span>
-			<span class="cw-check-label"><?php echo esc_html( $opt['label'] ); ?></span>
+			<?php echo esc_html( $opt['label'] ); ?>
 		</a>
 	</div>
 <?php endforeach; ?>

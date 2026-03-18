@@ -1,6 +1,6 @@
 <?php
 /**
- * Rating filter — shop2.html style (mb-1 items, SVG stars).
+ * Rating filter — Bootstrap form-check style with SVG stars.
  *
  * Expected variables:
  *   $options  array — from cw_get_rating_filter_options()
@@ -17,13 +17,21 @@ if ( empty( $options ) ) {
 }
 ?>
 
-<?php foreach ( $options as $opt ) : ?>
-	<div class="mb-1">
+<?php foreach ( $options as $opt ) :
+	$uid = 'cw-rating-' . (int) $opt['value'];
+	?>
+	<div class="form-check mb-1 cw-filter-check">
+		<input class="form-check-input"
+			type="radio"
+			name="cw_rating_filter"
+			id="<?php echo esc_attr( $uid ); ?>"
+			<?php checked( $opt['is_active'] ); ?>
+			tabindex="-1"
+			aria-hidden="true">
 		<a href="<?php echo esc_url( $opt['url'] ); ?>"
-			class="cw-check-link cw-rating-link pjax-link<?php echo $opt['is_active'] ? ' active' : ''; ?>"
-			aria-pressed="<?php echo $opt['is_active'] ? 'true' : 'false'; ?>"
-			aria-label="<?php echo esc_attr( sprintf( _n( '%d звезда', '%d звёзд', (int) $opt['value'], 'codeweber' ), (int) $opt['value'] ) ); ?>">
-			<span class="cw-check-box" aria-hidden="true"></span>
+			class="form-check-label pjax-link"
+			aria-label="<?php echo esc_attr( sprintf( _n( '%d звезда и выше', '%d звёзды и выше', (int) $opt['value'], 'codeweber' ), (int) $opt['value'] ) ); ?>"
+			aria-pressed="<?php echo $opt['is_active'] ? 'true' : 'false'; ?>">
 			<span class="cw-stars d-inline-flex gap-1 align-items-center" aria-hidden="true">
 				<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
 					<?php if ( $i <= (int) $opt['value'] ) : ?>
