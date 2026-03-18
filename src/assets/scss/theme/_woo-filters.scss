@@ -113,8 +113,8 @@
     appearance: none;
     -webkit-appearance: none;
     pointer-events: all;
-    width: 18px;
-    height: 18px;
+    width: var(--cw-thumb-size, 18px);
+    height: var(--cw-thumb-size, 18px);
     border-radius: 50%;
     background: $white;
     border: 2px solid $primary;
@@ -130,8 +130,8 @@
 
   &::-moz-range-thumb {
     pointer-events: all;
-    width: 18px;
-    height: 18px;
+    width: var(--cw-thumb-size, 18px);
+    height: var(--cw-thumb-size, 18px);
     border-radius: 50%;
     background: $white;
     border: 2px solid $primary;

@@ -235,7 +235,11 @@ function cw_get_current_filter_values( $param ) {
  * @return string
  */
 function cw_filter_base_url() {
-	return remove_query_arg( [ 'paged', 'page' ], get_pagenum_link( 1 ) );
+	// Use $escape=false to get a raw URL (esc_url_raw, plain & separators).
+	// get_pagenum_link(1) with default $escape=true returns &#038; encoded &,
+	// which causes add_query_arg() to split the URL at the literal # in &#038;,
+	// corrupting all query params that follow into a URL fragment.
+	return remove_query_arg( [ 'paged', 'page' ], get_pagenum_link( 1, false ) );
 }
 
 // =============================================================================
@@ -1096,6 +1100,11 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 	$checkbox_size_class = 'sm' === $checkbox_size ? ' form-check-sm' : '';
 	$radio_size_class    = 'sm' === $radio_size ? ' form-check-sm' : '';
+
+	// Price slider thumb size: lg=18px, md=14px, sm=10px
+	$slider_size_map = [ 'lg' => 18, 'md' => 14, 'sm' => 10 ];
+	$slider_size_raw = $panel_atts['slider_size'] ?? 'lg';
+	$slider_size_px  = $slider_size_map[ array_key_exists( $slider_size_raw, $slider_size_map ) ? $slider_size_raw : 'lg' ];
 
 	$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
 

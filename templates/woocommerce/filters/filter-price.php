@@ -28,9 +28,13 @@ $current_max = min( $range['max'], max( $current_min, $current_max ) );
 
 ?>
 
+<?php
+$slider_thumb_px   = isset( $slider_size_px ) ? (int) $slider_size_px : 18;
+$slider_size_style = ( 18 !== $slider_thumb_px ) ? ' style="--cw-thumb-size:' . $slider_thumb_px . 'px"' : '';
+?>
 <div class="cw-filter-price"
 	data-min="<?php echo esc_attr( $range['min'] ); ?>"
-	data-max="<?php echo esc_attr( $range['max'] ); ?>">
+	data-max="<?php echo esc_attr( $range['max'] ); ?>"<?php echo $slider_size_style; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 
 	<div class="cw-price-slider-wrap">
 		<div class="cw-price-track">
