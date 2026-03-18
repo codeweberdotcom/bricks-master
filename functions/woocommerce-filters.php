@@ -514,8 +514,26 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 	$radio_size          = in_array( $panel_atts['radio_size'] ?? '', [ '', 'sm' ], true )
 		? $panel_atts['radio_size'] : '';
 	$radio_item_class    = isset( $panel_atts['radio_item_class'] ) ? esc_attr( $panel_atts['radio_item_class'] ) : '';
-	$button_class        = isset( $panel_atts['button_class'] ) ? esc_attr( $panel_atts['button_class'] ) : 'btn-outline-secondary';
-	$button_active_class = isset( $panel_atts['button_active_class'] ) ? esc_attr( $panel_atts['button_active_class'] ) : 'btn-secondary';
+	// Button class generation from size + style + color (new API)
+	if ( isset( $panel_atts['button_size'] ) || isset( $panel_atts['button_style'] ) || isset( $panel_atts['button_color'] ) ) {
+		$btn_size  = $panel_atts['button_size'] ?? 'btn-sm';
+		$btn_style = $panel_atts['button_style'] ?? 'outline';
+		$btn_color = $panel_atts['button_color'] ?? 'secondary';
+		$btn_size_prefix = $btn_size ? $btn_size . ' ' : '';
+		if ( 'outline' === $btn_style ) {
+			$button_class        = $btn_size_prefix . 'btn-outline-' . $btn_color;
+			$button_active_class = $btn_size_prefix . 'btn-' . $btn_color;
+		} elseif ( 'soft' === $btn_style ) {
+			$button_class        = $btn_size_prefix . 'btn-soft-' . $btn_color;
+			$button_active_class = $btn_size_prefix . 'btn-' . $btn_color;
+		} else { // solid
+			$button_class        = $btn_size_prefix . 'btn-' . $btn_color;
+			$button_active_class = $btn_size_prefix . 'btn-soft-' . $btn_color;
+		}
+	} else {
+		$button_class        = isset( $panel_atts['button_class'] ) ? esc_attr( $panel_atts['button_class'] ) : 'btn-outline-secondary';
+		$button_active_class = isset( $panel_atts['button_active_class'] ) ? esc_attr( $panel_atts['button_active_class'] ) : 'btn-secondary';
+	}
 	$reset_label         = isset( $panel_atts['reset_label'] ) ? sanitize_text_field( $panel_atts['reset_label'] ) : '';
 
 	$checkbox_size_class = 'sm' === $checkbox_size ? ' form-check-sm' : '';
