@@ -526,7 +526,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		if ( 'reset_button' === $item_type ) {
 			if ( function_exists( 'cw_has_active_filters' ) && cw_has_active_filters() ) {
 				$reset_text = $reset_label ?: __( 'Сбросить все фильтры', 'codeweber' );
-				echo '<div class="cw-filter-reset-wrap mb-2">';
+				echo '<div class="mb-2">';
 				echo '<a href="' . esc_url( cw_get_clear_filters_url() ) . '" class="btn btn-sm btn-outline-secondary w-100 pjax-link">';
 				echo esc_html( $reset_text );
 				echo '</a>';
@@ -643,8 +643,9 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 		if ( 'accordion' === $section_style ) {
 			?>
-			<div class="cw-filter-section">
-				<button class="cw-filter-section__toggle" type="button"
+			<div class="border-bottom">
+				<button class="cw-collapse-toggle btn btn-link px-0 py-3 d-flex w-100 justify-content-between align-items-center text-body text-decoration-none fw-semibold small"
+					type="button"
 					data-bs-toggle="collapse"
 					data-bs-target="#<?php echo esc_attr( $section_id ); ?>"
 					aria-expanded="<?php echo $sections_open ? 'true' : 'false'; ?>"
@@ -652,7 +653,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 					<?php echo esc_html( $section_label ); ?>
 				</button>
 				<div id="<?php echo esc_attr( $section_id ); ?>" class="collapse<?php echo $sections_open ? ' show' : ''; ?>">
-					<div class="cw-filter-section__body">
+					<div class="pb-3">
 						<?php echo $section_content; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					</div>
 				</div>
