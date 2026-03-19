@@ -1177,9 +1177,9 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		$swatch_shape_raw  = in_array( $item['swatchShape'] ?? 'default', [ 'default', 'theme', 'rounded', 'rounded-0' ], true )
 			? ( $item['swatchShape'] ?? 'default' ) : 'default';
 		if ( 'theme' === $swatch_shape_raw ) {
-			// Use the same resolved button shape as the button display mode uses.
-			// May be empty string when Redux option is 'standard' — handled in template.
-			$swatch_shape = trim( $panel_atts['button_shape'] ?? '' );
+			$raw_shape = trim( $panel_atts['button_shape'] ?? '' );
+			// '' = standard Bootstrap rounded — buttons need no extra class but swatches do.
+			$swatch_shape = '' !== $raw_shape ? $raw_shape : 'rounded';
 		} elseif ( 'default' === $swatch_shape_raw ) {
 			$swatch_shape = 'avatar';
 		} else {
