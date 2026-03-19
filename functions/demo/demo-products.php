@@ -1427,57 +1427,40 @@ function cw_demo_set_category_image( $image_filename, $term_id ) {
  * @return int|false
  */
 function cw_demo_create_simple_product( $item, $cat_id, $tag_ids ) {
-	$post_id = wp_insert_post( array(
-		'post_title'   => sanitize_text_field( $item['title'] ),
-		'post_content' => wp_kses_post( $item['desc'] ?? '' ),
-		'post_status'  => 'publish',
-		'post_type'    => 'product',
-		'post_author'  => get_current_user_id(),
-	) );
+	$product = new WC_Product_Simple();
+	$product->set_name( sanitize_text_field( $item['title'] ) );
+	$product->set_description( wp_kses_post( $item['desc'] ?? '' ) );
+	$product->set_status( 'publish' );
+	$product->set_regular_price( sanitize_text_field( $item['regular_price'] ?? '' ) );
+	if ( ! empty( $item['sale_price'] ) ) {
+		$product->set_sale_price( sanitize_text_field( $item['sale_price'] ) );
+	}
+	if ( ! empty( $item['sku_base'] ) ) {
+		$product->set_sku( sanitize_text_field( $item['sku_base'] ) );
+	}
+	$product->set_stock_status( 'instock' );
+	if ( ! empty( $item['featured'] ) ) {
+		$product->set_featured( true );
+	}
+	if ( $cat_id ) {
+		$product->set_category_ids( array( $cat_id ) );
+	}
+	if ( $tag_ids ) {
+		$product->set_tag_ids( $tag_ids );
+	}
 
-	if ( is_wp_error( $post_id ) ) {
+	$post_id = $product->save();
+	if ( ! $post_id ) {
 		return false;
 	}
 
 	update_post_meta( $post_id, '_demo_created', true );
-	wp_set_object_terms( $post_id, 'simple', 'product_type' );
 
-	$regular_price = sanitize_text_field( $item['regular_price'] ?? '' );
-	$sale_price    = sanitize_text_field( $item['sale_price'] ?? '' );
-
-	update_post_meta( $post_id, '_regular_price', $regular_price );
-	update_post_meta( $post_id, '_price', $sale_price !== '' ? $sale_price : $regular_price );
-
-	if ( $sale_price !== '' ) {
-		update_post_meta( $post_id, '_sale_price', $sale_price );
-		update_post_meta( $post_id, '_on_sale', 'yes' );
-	}
-
-	if ( ! empty( $item['sku_base'] ) ) {
-		update_post_meta( $post_id, '_sku', sanitize_text_field( $item['sku_base'] ) );
-	}
-
-	update_post_meta( $post_id, '_visibility', 'visible' );
-	update_post_meta( $post_id, '_stock_status', 'instock' );
-
-	if ( ! empty( $item['featured'] ) ) {
-		update_post_meta( $post_id, '_featured', 'yes' );
-		wp_set_object_terms( $post_id, 'featured', 'product_visibility' );
-	}
-
-	if ( $cat_id ) {
-		wp_set_post_terms( $post_id, array( $cat_id ), 'product_cat' );
-	}
-	if ( $tag_ids ) {
-		wp_set_post_terms( $post_id, $tag_ids, 'product_tag' );
-	}
 	if ( ! empty( $item['image'] ) ) {
 		cw_demo_import_product_image( $item['image'], $post_id );
 	}
 
-	if ( function_exists( 'wc_delete_product_transients' ) ) {
-		wc_delete_product_transients( $post_id );
-	}
+	wc_delete_product_transients( $post_id );
 
 	return $post_id;
 }
@@ -1485,164 +1468,149 @@ function cw_demo_create_simple_product( $item, $cat_id, $tag_ids ) {
 /**
  * Создать вариативный demo товар с атрибутами и вариациями.
  *
- * @param array  $item    Данные товара.
- * @param int    $cat_id  ID категории.
- * @param array  $tag_ids Массив ID тегов.
- * @param array  $attr_config Конфиг атрибутов (label, values).
+ * @param array  $item        Данные товара.
+ * @param int    $cat_id      ID категории.
+ * @param array  $tag_ids     Массив ID тегов.
+ * @param array  $attr_config Конфиг атрибутов (label, type, values, meta).
  * @return int|false
  */
 function cw_demo_create_variable_product( $item, $cat_id, $tag_ids, $attr_config ) {
-	$post_id = wp_insert_post( array(
-		'post_title'   => sanitize_text_field( $item['title'] ),
-		'post_content' => wp_kses_post( $item['desc'] ?? '' ),
-		'post_status'  => 'publish',
-		'post_type'    => 'product',
-		'post_author'  => get_current_user_id(),
-	) );
-
-	if ( is_wp_error( $post_id ) ) {
-		return false;
+	$product = new WC_Product_Variable();
+	$product->set_name( sanitize_text_field( $item['title'] ) );
+	$product->set_description( wp_kses_post( $item['desc'] ?? '' ) );
+	$product->set_status( 'publish' );
+	if ( ! empty( $item['sku_base'] ) ) {
+		$product->set_sku( sanitize_text_field( $item['sku_base'] ) );
 	}
-
-	update_post_meta( $post_id, '_demo_created', true );
-	wp_set_object_terms( $post_id, 'variable', 'product_type' );
-
+	$product->set_stock_status( 'instock' );
+	if ( ! empty( $item['featured'] ) ) {
+		$product->set_featured( true );
+	}
 	if ( $cat_id ) {
-		wp_set_post_terms( $post_id, array( $cat_id ), 'product_cat' );
+		$product->set_category_ids( array( $cat_id ) );
 	}
 	if ( $tag_ids ) {
-		wp_set_post_terms( $post_id, $tag_ids, 'product_tag' );
-	}
-	if ( ! empty( $item['featured'] ) ) {
-		update_post_meta( $post_id, '_featured', 'yes' );
-		wp_set_object_terms( $post_id, 'featured', 'product_visibility' );
-	}
-
-	update_post_meta( $post_id, '_visibility', 'visible' );
-	update_post_meta( $post_id, '_stock_status', 'instock' );
-	update_post_meta( $post_id, '_manage_stock', 'no' );
-
-	if ( ! empty( $item['sku_base'] ) ) {
-		update_post_meta( $post_id, '_sku', sanitize_text_field( $item['sku_base'] ) );
+		$product->set_tag_ids( $tag_ids );
 	}
 
 	// ── Атрибуты ────────────────────────────────────────────────────────
-	$product_attributes  = array();
+	$wc_attributes       = array();
 	$variation_attr_data = array(); // taxonomy => [ slugs ]
 	$position            = 0;
 
 	foreach ( $item['attributes'] as $attr_slug => $values ) {
 		$label     = $attr_config[ $attr_slug ]['label'] ?? ucfirst( $attr_slug );
 		$attr_type = $attr_config[ $attr_slug ]['type']  ?? 'select';
+		$attr_meta = $attr_config[ $attr_slug ]['meta']  ?? array();
 
 		$taxonomy = cw_demo_ensure_wc_attribute( $label, $attr_slug, $attr_type );
 		if ( ! $taxonomy ) {
 			continue;
 		}
 
+		// ID глобального атрибута
+		$attribute_id = 0;
+		foreach ( wc_get_attribute_taxonomies() as $attr_tax ) {
+			if ( 'pa_' . $attr_tax->attribute_name === $taxonomy ) {
+				$attribute_id = (int) $attr_tax->attribute_id;
+				break;
+			}
+		}
+
+		// Создать/получить термины, собрать ID и slugs
+		$term_ids   = array();
 		$term_slugs = array();
-		$attr_meta  = $attr_config[ $attr_slug ]['meta'] ?? array();
 		foreach ( $values as $value ) {
 			$term_meta = $attr_meta[ $value ] ?? array();
 			$slug      = cw_demo_ensure_attribute_term( $value, $taxonomy, $attr_type, $term_meta );
 			if ( $slug ) {
-				$term_slugs[] = $slug;
+				$term = get_term_by( 'slug', $slug, $taxonomy );
+				if ( $term ) {
+					$term_ids[]   = $term->term_id;
+					$term_slugs[] = $slug;
+				}
 			}
 		}
 
-		// Привязать термины к товару
-		wp_set_post_terms( $post_id, $term_slugs, $taxonomy );
-
-		$product_attributes[ $taxonomy ] = array(
-			'name'         => $taxonomy,
-			'value'        => '',
-			'position'     => $position++,
-			'is_visible'   => 1,
-			'is_variation' => 1,
-			'is_taxonomy'  => 1,
-		);
-
+		$wc_attr = new WC_Product_Attribute();
+		$wc_attr->set_id( $attribute_id );
+		$wc_attr->set_name( $taxonomy );
+		$wc_attr->set_options( $term_ids );
+		$wc_attr->set_position( $position++ );
+		$wc_attr->set_visible( true );
+		$wc_attr->set_variation( true );
+		$wc_attributes[]                  = $wc_attr;
 		$variation_attr_data[ $taxonomy ] = $term_slugs;
 	}
 
-	update_post_meta( $post_id, '_product_attributes', $product_attributes );
+	$product->set_attributes( $wc_attributes );
+	$post_id = $product->save();
+	if ( ! $post_id ) {
+		return false;
+	}
+
+	update_post_meta( $post_id, '_demo_created', true );
 
 	// ── Вариации ─────────────────────────────────────────────────────────
-	// Создаём вариации как произведение первых двух атрибутов (или только первого)
-	$attr_keys   = array_keys( $variation_attr_data );
+	// Создаём вариации как произведение первых двух атрибутов
+	$attr_keys     = array_keys( $variation_attr_data );
 	$regular_price = sanitize_text_field( $item['regular_price'] ?? '' );
 	$sale_price    = sanitize_text_field( $item['sale_price'] ?? '' );
-	$price_actual  = $sale_price !== '' ? $sale_price : $regular_price;
 	$sku_base      = sanitize_text_field( $item['sku_base'] ?? '' );
 	$var_index     = 0;
 
-	$first_attr   = $attr_keys[0] ?? null;
-	$second_attr  = $attr_keys[1] ?? null;
-	$first_values = $first_attr ? $variation_attr_data[ $first_attr ] : array();
+	$first_attr    = $attr_keys[0] ?? null;
+	$second_attr   = $attr_keys[1] ?? null;
+	$first_values  = $first_attr ? $variation_attr_data[ $first_attr ] : array();
 	$second_values = $second_attr ? $variation_attr_data[ $second_attr ] : array( '' );
 
 	foreach ( $first_values as $val1 ) {
 		foreach ( $second_values as $val2 ) {
-			$variation_id = wp_insert_post( array(
-				'post_title'  => sanitize_text_field( $item['title'] ) . ' — variation',
-				'post_status' => 'publish',
-				'post_parent' => $post_id,
-				'post_type'   => 'product_variation',
-				'menu_order'  => $var_index,
-			) );
-
-			if ( is_wp_error( $variation_id ) ) {
-				continue;
-			}
-
-			update_post_meta( $variation_id, '_demo_created', true );
-			update_post_meta( $variation_id, '_regular_price', $regular_price );
-			update_post_meta( $variation_id, '_price', $price_actual );
+			$variation = new WC_Product_Variation();
+			$variation->set_parent_id( $post_id );
+			$variation->set_status( 'publish' );
+			$variation->set_regular_price( $regular_price );
 			if ( $sale_price !== '' ) {
-				update_post_meta( $variation_id, '_sale_price', $sale_price );
+				$variation->set_sale_price( $sale_price );
 			}
-			update_post_meta( $variation_id, '_stock_status', 'instock' );
-			update_post_meta( $variation_id, '_manage_stock', 'no' );
-
+			$variation->set_stock_status( 'instock' );
+			$variation->set_manage_stock( false );
 			if ( $sku_base ) {
-				update_post_meta( $variation_id, '_sku', $sku_base . '-VAR-' . ( $var_index + 1 ) );
+				$variation->set_sku( $sku_base . '-VAR-' . ( $var_index + 1 ) );
 			}
 
-			// Значения атрибутов для этой вариации
+			// Атрибуты вариации: taxonomy => slug
+			$var_attrs = array();
 			if ( $first_attr ) {
-				update_post_meta( $variation_id, 'attribute_' . $first_attr, $val1 );
+				$var_attrs[ $first_attr ] = $val1;
 			}
 			if ( $second_attr && $val2 !== '' ) {
-				update_post_meta( $variation_id, 'attribute_' . $second_attr, $val2 );
+				$var_attrs[ $second_attr ] = $val2;
 			}
-			// Остальные атрибуты — «любое значение» (пустая строка = любой)
+			// Дополнительные атрибуты — «любое значение»
 			foreach ( array_slice( $attr_keys, 2 ) as $extra_attr ) {
-				update_post_meta( $variation_id, 'attribute_' . $extra_attr, '' );
+				$var_attrs[ $extra_attr ] = '';
+			}
+			$variation->set_attributes( $var_attrs );
+
+			$variation_id = $variation->save();
+			if ( $variation_id ) {
+				update_post_meta( $variation_id, '_demo_created', true );
 			}
 
 			$var_index++;
 		}
 	}
 
-	// Обновляем ценовой диапазон на родительском товаре
-	update_post_meta( $post_id, '_price', $price_actual );
-	update_post_meta( $post_id, '_regular_price', $regular_price );
-	if ( $sale_price !== '' ) {
-		update_post_meta( $post_id, '_sale_price', $sale_price );
-	}
-	update_post_meta( $post_id, '_min_variation_price', $price_actual );
-	update_post_meta( $post_id, '_max_variation_price', $price_actual );
-	update_post_meta( $post_id, '_min_variation_regular_price', $regular_price );
-	update_post_meta( $post_id, '_max_variation_regular_price', $regular_price );
+	// Синхронизировать ценовой диапазон родительского товара
+	WC_Product_Variable::sync( $post_id );
 
 	// Изображение
 	if ( ! empty( $item['image'] ) ) {
 		cw_demo_import_product_image( $item['image'], $post_id );
 	}
 
-	if ( function_exists( 'wc_delete_product_transients' ) ) {
-		wc_delete_product_transients( $post_id );
-	}
+	wc_delete_product_transients( $post_id );
 
 	return $post_id;
 }
