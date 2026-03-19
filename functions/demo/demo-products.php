@@ -57,10 +57,58 @@ function cw_demo_get_products_data() {
 				'спорт', 'подарок', 'лимитед', 'тренд', 'сезонное',
 			),
 			'attributes' => array(
-				'color'    => array( 'label' => 'Цвет',     'type' => 'color',  'values' => array( 'Красный','Синий','Чёрный','Белый','Зелёный' ) ),
-				'size'     => array( 'label' => 'Размер',   'type' => 'button', 'values' => array( 'XS','S','M','L','XL','XXL' ) ),
-				'material' => array( 'label' => 'Материал', 'type' => 'select', 'values' => array( 'Хлопок','Шерсть','Полиэстер','Кожа','Лён' ) ),
-				'print'    => array( 'label' => 'Принт',    'type' => 'image',  'values' => array( 'Полоска','Клетка','Цветочный','Абстракция' ) ),
+				'color' => array(
+					'label'  => 'Цвет',
+					'type'   => 'color',
+					'values' => array( 'Красный','Синий','Чёрный','Белый','Зелёный','Серый','Коричневый','Бежевый' ),
+					'meta'   => array(
+						'Красный'    => array( 'color' => '#e74c3c' ),
+						'Синий'      => array( 'color' => '#3498db' ),
+						'Чёрный'     => array( 'color' => '#1a1a1a' ),
+						'Белый'      => array( 'color' => '#f8f9fa' ),
+						'Зелёный'    => array( 'color' => '#2ecc71' ),
+						'Серый'      => array( 'color' => '#7f8c8d' ),
+						'Коричневый' => array( 'color' => '#8b4513' ),
+						'Бежевый'    => array( 'color' => '#d2b48c' ),
+					),
+				),
+				'size' => array(
+					'label'  => 'Размер',
+					'type'   => 'button',
+					'values' => array( 'XS','S','M','L','XL','XXL' ),
+				),
+				'material' => array(
+					'label'  => 'Материал',
+					'type'   => 'image',
+					'values' => array( 'Хлопок','Шерсть','Полиэстер','Кожа','Лён' ),
+					'meta'   => array(
+						'Хлопок'         => array( 'image' => 'sh5.jpg' ),
+						'Шерсть'         => array( 'image' => 'sh6.jpg' ),
+						'Полиэстер'      => array( 'image' => 'sh7.jpg' ),
+						'Кожа'           => array( 'image' => 'sh8.jpg' ),
+						'Лён'            => array( 'image' => 'sh9.jpg' ),
+						'Золото'         => array( 'image' => 'sh1.jpg' ),
+						'Серебро'        => array( 'image' => 'sh2.jpg' ),
+						'Розовое золото' => array( 'image' => 'sh3.jpg' ),
+					),
+				),
+				'print' => array(
+					'label'  => 'Принт',
+					'type'   => 'select',
+					'values' => array( 'Полоска','Клетка','Цветочный','Абстракция' ),
+				),
+			),
+			'brands' => array(
+				array( 'name' => 'УрбанФит',     'logo' => 'c1.png' ),
+				array( 'name' => 'Нордик',        'logo' => 'c2.png' ),
+				array( 'name' => 'НатурВэр',      'logo' => 'c3.png' ),
+				array( 'name' => 'СпортЛайн',     'logo' => 'c4.png' ),
+				array( 'name' => 'ЮвелирАрт',     'logo' => 'c5.png' ),
+				array( 'name' => 'БьютиЭссенс',   'logo' => 'c6.png' ),
+				array( 'name' => 'ДомДекор',       'logo' => 'c7.png' ),
+				array( 'name' => 'ТехПульс',       'logo' => 'c8.png' ),
+				array( 'name' => 'ДетскийМир',     'logo' => 'c9.png' ),
+				array( 'name' => 'КнижныйДом',     'logo' => 'c10.png' ),
 			),
 			'items' => array(
 				// ── Одежда (5) ──────────────────────────────────────────
@@ -68,6 +116,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Футболка базовая', 'desc' => 'Классическая футболка из 100% хлопка.',
 					'image' => $img(0), 'category' => 'Женская одежда', 'tags' => array('популярное','новинка'),
 					'regular_price' => '1290', 'sale_price' => '', 'sku_base' => 'DEMO-TSHIRT',
+				'brand' => 'УрбанФит',
 					'type' => 'variable',
 					'attributes' => array(
 						'color'  => array('Белый','Чёрный','Синий'),
@@ -79,6 +128,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Джинсы классические', 'desc' => 'Прямые джинсы из плотного денима.',
 					'image' => $img(1), 'category' => 'Женская одежда', 'tags' => array('хит','популярное'),
 					'regular_price' => '3990', 'sale_price' => '2990', 'sku_base' => 'DEMO-JEANS',
+				'brand' => 'Нордик',
 					'type' => 'variable',
 					'attributes' => array(
 						'color' => array('Синий','Чёрный'),
@@ -89,6 +139,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Платье летнее', 'desc' => 'Лёгкое платье из льна для тёплых дней.',
 					'image' => $img(2), 'category' => 'Платья', 'tags' => array('новинка','тренд'),
 					'regular_price' => '4500', 'sale_price' => '3200', 'sku_base' => 'DEMO-DRESS',
+				'brand' => 'НатурВэр',
 					'type' => 'variable',
 					'attributes' => array(
 						'color'    => array('Белый','Зелёный','Красный'),
@@ -100,12 +151,14 @@ function cw_demo_get_products_data() {
 					'title' => 'Куртка демисезонная', 'desc' => 'Водоотталкивающая куртка для весны и осени.',
 					'image' => $img(3), 'category' => 'Верхняя одежда', 'tags' => array('хит','сезонное'),
 					'regular_price' => '12500', 'sale_price' => '', 'sku_base' => 'DEMO-JACKET',
+				'brand' => 'УрбанФит',
 					'type' => 'simple', 'featured' => true,
 				),
 				array(
 					'title' => 'Свитер шерстяной', 'desc' => 'Тёплый свитер из натуральной шерсти.',
 					'image' => $img(4), 'category' => 'Женская одежда', 'tags' => array('премиум','сезонное'),
 					'regular_price' => '5990', 'sale_price' => '', 'sku_base' => 'DEMO-SWEATER',
+				'brand' => 'Нордик',
 					'type' => 'simple',
 				),
 				// ── Обувь (5) ───────────────────────────────────────────
@@ -113,6 +166,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Кроссовки беговые', 'desc' => 'Лёгкие беговые кроссовки с амортизирующей подошвой.',
 					'image' => $img(5), 'category' => 'Спортивная обувь', 'tags' => array('спорт','популярное'),
 					'regular_price' => '7500', 'sale_price' => '5900', 'sku_base' => 'DEMO-RUN',
+				'brand' => 'СпортЛайн',
 					'type' => 'variable',
 					'attributes' => array(
 						'color' => array('Белый','Чёрный','Синий'),
@@ -123,6 +177,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Кеды повседневные', 'desc' => 'Удобные кеды на резиновой подошве.',
 					'image' => $img(6), 'category' => 'Спортивная обувь', 'tags' => array('популярное','распродажа'),
 					'regular_price' => '4900', 'sale_price' => '3500', 'sku_base' => 'DEMO-SNEAK',
+				'brand' => 'СпортЛайн',
 					'type' => 'variable',
 					'attributes' => array(
 						'color' => array('Белый','Чёрный','Красный'),
@@ -133,18 +188,21 @@ function cw_demo_get_products_data() {
 					'title' => 'Ботинки кожаные', 'desc' => 'Классические ботинки из натуральной кожи.',
 					'image' => $img(7), 'category' => 'Классическая обувь', 'tags' => array('премиум','хит'),
 					'regular_price' => '9900', 'sale_price' => '', 'sku_base' => 'DEMO-BOOT',
+				'brand' => 'НатурВэр',
 					'type' => 'simple', 'featured' => true,
 				),
 				array(
 					'title' => 'Сандалии летние', 'desc' => 'Открытые сандалии для пляжа и города.',
 					'image' => $img(8), 'category' => 'Классическая обувь', 'tags' => array('новинка','сезонное'),
 					'regular_price' => '2990', 'sale_price' => '1990', 'sku_base' => 'DEMO-SAND',
+				'brand' => 'СпортЛайн',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Мокасины замшевые', 'desc' => 'Мягкие мокасины из замши на каждый день.',
 					'image' => $img(0), 'category' => 'Классическая обувь', 'tags' => array('тренд'),
 					'regular_price' => '6500', 'sale_price' => '', 'sku_base' => 'DEMO-MOC',
+				'brand' => 'НатурВэр',
 					'type' => 'simple',
 				),
 				// ── Аксессуары (5) ──────────────────────────────────────
@@ -152,6 +210,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Кожаная сумка', 'desc' => 'Стильная сумка ручной работы из кожи.',
 					'image' => $img(1), 'category' => 'Аксессуары', 'tags' => array('премиум','хит'),
 					'regular_price' => '9900', 'sale_price' => '', 'sku_base' => 'DEMO-BAG',
+				'brand' => 'УрбанФит',
 					'type' => 'variable',
 					'attributes' => array(
 						'color'    => array('Чёрный','Коричневый','Бежевый'),
@@ -163,18 +222,21 @@ function cw_demo_get_products_data() {
 					'title' => 'Солнцезащитные очки', 'desc' => 'Очки с UV400 защитой в металлической оправе.',
 					'image' => $img(2), 'category' => 'Аксессуары', 'tags' => array('тренд','лимитед'),
 					'regular_price' => '4500', 'sale_price' => '', 'sku_base' => 'DEMO-GLASS',
+				'brand' => 'УрбанФит',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Наручные часы', 'desc' => 'Элегантные часы с кожаным ремешком.',
 					'image' => $img(3), 'category' => 'Аксессуары', 'tags' => array('премиум','подарок'),
 					'regular_price' => '15900', 'sale_price' => '12900', 'sku_base' => 'DEMO-WATCH',
+				'brand' => 'ЮвелирАрт',
 					'type' => 'simple', 'featured' => true,
 				),
 				array(
 					'title' => 'Шарф кашемировый', 'desc' => 'Мягкий шарф из кашемира 100%.',
 					'image' => $img(4), 'category' => 'Аксессуары', 'tags' => array('премиум','сезонное'),
 					'regular_price' => '3990', 'sale_price' => '', 'sku_base' => 'DEMO-SCARF',
+				'brand' => 'Нордик',
 					'type' => 'variable',
 					'attributes' => array(
 						'color' => array('Серый','Синий','Бежевый'),
@@ -184,6 +246,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Ремень кожаный', 'desc' => 'Классический кожаный ремень с металлической пряжкой.',
 					'image' => $img(5), 'category' => 'Аксессуары', 'tags' => array('хит'),
 					'regular_price' => '2490', 'sale_price' => '', 'sku_base' => 'DEMO-BELT',
+				'brand' => 'НатурВэр',
 					'type' => 'simple',
 				),
 				// ── Косметика (5) ───────────────────────────────────────
@@ -191,30 +254,35 @@ function cw_demo_get_products_data() {
 					'title' => 'Парфюм женский', 'desc' => 'Аромат с нотами бергамота и белых цветов.',
 					'image' => $img(6), 'category' => 'Косметика', 'tags' => array('премиум','подарок'),
 					'regular_price' => '4990', 'sale_price' => '', 'sku_base' => 'DEMO-PERF-W',
+				'brand' => 'БьютиЭссенс',
 					'type' => 'simple', 'featured' => true,
 				),
 				array(
 					'title' => 'Набор по уходу за кожей', 'desc' => 'Крем, сыворотка и тоник в подарочной коробке.',
 					'image' => $img(7), 'category' => 'Косметика', 'tags' => array('подарок','хит','новинка'),
 					'regular_price' => '6900', 'sale_price' => '', 'sku_base' => 'DEMO-COSM',
+				'brand' => 'БьютиЭссенс',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Крем увлажняющий SPF30', 'desc' => 'Дневной крем с защитой от солнца.',
 					'image' => $img(8), 'category' => 'Косметика', 'tags' => array('популярное'),
 					'regular_price' => '1990', 'sale_price' => '1590', 'sku_base' => 'DEMO-CREAM',
+				'brand' => 'БьютиЭссенс',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Тушь для ресниц', 'desc' => 'Объёмная тушь с эффектом накладных ресниц.',
 					'image' => $img(0), 'category' => 'Косметика', 'tags' => array('тренд','новинка'),
 					'regular_price' => '990', 'sale_price' => '', 'sku_base' => 'DEMO-MASCARA',
+				'brand' => 'БьютиЭссенс',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Помада стойкая', 'desc' => 'Стойкая помада на 24 часа без пересыхания.',
 					'image' => $img(1), 'category' => 'Косметика', 'tags' => array('хит','распродажа'),
 					'regular_price' => '790', 'sale_price' => '590', 'sku_base' => 'DEMO-LIPSTICK',
+				'brand' => 'БьютиЭссенс',
 					'type' => 'simple',
 				),
 				// ── Дом и сад (5) ───────────────────────────────────────
@@ -222,6 +290,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Плед флисовый', 'desc' => 'Мягкий флисовый плед 150×200 см.',
 					'image' => $img(2), 'category' => 'Текстиль', 'tags' => array('популярное','сезонное'),
 					'regular_price' => '2490', 'sale_price' => '', 'sku_base' => 'DEMO-BLANKET',
+				'brand' => 'ДомДекор',
 					'type' => 'variable',
 					'attributes' => array(
 						'color'    => array('Серый','Бежевый','Синий'),
@@ -232,24 +301,28 @@ function cw_demo_get_products_data() {
 					'title' => 'Набор кухонных полотенец', 'desc' => '6 полотенец из хлопка в подарочной упаковке.',
 					'image' => $img(3), 'category' => 'Текстиль', 'tags' => array('подарок','новинка'),
 					'regular_price' => '1290', 'sale_price' => '', 'sku_base' => 'DEMO-TOWEL',
+				'brand' => 'ДомДекор',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Ваза декоративная', 'desc' => 'Керамическая ваза ручной работы.',
 					'image' => $img(4), 'category' => 'Декор', 'tags' => array('тренд','лимитед'),
 					'regular_price' => '3490', 'sale_price' => '', 'sku_base' => 'DEMO-VASE',
+				'brand' => 'ДомДекор',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Ароматические свечи (набор)', 'desc' => 'Набор из 3 свечей с разными ароматами.',
 					'image' => $img(5), 'category' => 'Декор', 'tags' => array('подарок','хит'),
 					'regular_price' => '1890', 'sale_price' => '1490', 'sku_base' => 'DEMO-CANDLE',
+				'brand' => 'ДомДекор',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Рамка для фото', 'desc' => 'Деревянная рамка 20×30 в скандинавском стиле.',
 					'image' => $img(6), 'category' => 'Декор', 'tags' => array('новинка'),
 					'regular_price' => '990', 'sale_price' => '', 'sku_base' => 'DEMO-FRAME',
+				'brand' => 'ДомДекор',
 					'type' => 'simple',
 				),
 				// ── Электроника (5) ─────────────────────────────────────
@@ -257,6 +330,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Беспроводные наушники', 'desc' => 'Накладные наушники Bluetooth 5.0, 30 ч работы.',
 					'image' => $img(7), 'category' => 'Электроника', 'tags' => array('хит','популярное'),
 					'regular_price' => '7990', 'sale_price' => '5990', 'sku_base' => 'DEMO-HEADP',
+				'brand' => 'ТехПульс',
 					'type' => 'variable',
 					'attributes' => array(
 						'color' => array('Чёрный','Белый'),
@@ -267,24 +341,28 @@ function cw_demo_get_products_data() {
 					'title' => 'Умные часы', 'desc' => 'Смарт-часы с мониторингом здоровья и GPS.',
 					'image' => $img(8), 'category' => 'Электроника', 'tags' => array('новинка','тренд'),
 					'regular_price' => '14990', 'sale_price' => '', 'sku_base' => 'DEMO-SMART',
+				'brand' => 'ТехПульс',
 					'type' => 'simple', 'featured' => true,
 				),
 				array(
 					'title' => 'Портативная колонка', 'desc' => 'Bluetooth-колонка с защитой от воды IPX5.',
 					'image' => $img(0), 'category' => 'Электроника', 'tags' => array('популярное','спорт'),
 					'regular_price' => '4490', 'sale_price' => '', 'sku_base' => 'DEMO-SPEAK',
+				'brand' => 'ТехПульс',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Power Bank 20000 мАч', 'desc' => 'Ёмкий аккумулятор с быстрой зарядкой.',
 					'image' => $img(1), 'category' => 'Электроника', 'tags' => array('хит'),
 					'regular_price' => '3490', 'sale_price' => '2790', 'sku_base' => 'DEMO-POWER',
+				'brand' => 'ТехПульс',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Кабель USB-C 2м', 'desc' => 'Нейлоновый кабель с зарядкой 100 Вт.',
 					'image' => $img(2), 'category' => 'Электроника', 'tags' => array('популярное'),
 					'regular_price' => '790', 'sale_price' => '', 'sku_base' => 'DEMO-CABLE',
+				'brand' => 'ТехПульс',
 					'type' => 'simple',
 				),
 				// ── Спорт (5) ───────────────────────────────────────────
@@ -292,6 +370,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Леггинсы спортивные', 'desc' => 'Компрессионные леггинсы для фитнеса.',
 					'image' => $img(3), 'category' => 'Спорт', 'tags' => array('спорт','популярное'),
 					'regular_price' => '2490', 'sale_price' => '', 'sku_base' => 'DEMO-LEGG',
+				'brand' => 'СпортЛайн',
 					'type' => 'variable',
 					'attributes' => array(
 						'color' => array('Чёрный','Синий','Серый'),
@@ -302,6 +381,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Спортивная футболка Dry-Fit', 'desc' => 'Дышащая футболка для тренировок.',
 					'image' => $img(4), 'category' => 'Спорт', 'tags' => array('спорт','новинка'),
 					'regular_price' => '1590', 'sale_price' => '', 'sku_base' => 'DEMO-DRY',
+				'brand' => 'СпортЛайн',
 					'type' => 'variable',
 					'attributes' => array(
 						'color' => array('Белый','Синий','Красный'),
@@ -312,18 +392,21 @@ function cw_demo_get_products_data() {
 					'title' => 'Бутылка для воды 750 мл', 'desc' => 'Термобутылка из нержавеющей стали.',
 					'image' => $img(5), 'category' => 'Спорт', 'tags' => array('спорт','хит'),
 					'regular_price' => '1290', 'sale_price' => '', 'sku_base' => 'DEMO-BOTTLE',
+				'brand' => 'СпортЛайн',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Коврик для йоги', 'desc' => 'Нескользящий коврик 180×60 см, толщина 6 мм.',
 					'image' => $img(6), 'category' => 'Спорт', 'tags' => array('спорт','популярное'),
 					'regular_price' => '1990', 'sale_price' => '1590', 'sku_base' => 'DEMO-YOGA',
+				'brand' => 'СпортЛайн',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Гантели разборные (пара)', 'desc' => 'Регулируемые гантели 2–10 кг.',
 					'image' => $img(7), 'category' => 'Спорт', 'tags' => array('спорт','хит'),
 					'regular_price' => '5990', 'sale_price' => '', 'sku_base' => 'DEMO-DUMB',
+				'brand' => 'СпортЛайн',
 					'type' => 'simple',
 				),
 				// ── Детское (5) ─────────────────────────────────────────
@@ -331,6 +414,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Костюм детский спортивный', 'desc' => 'Комфортный костюм для активных детей.',
 					'image' => $img(8), 'category' => 'Детская одежда', 'tags' => array('новинка','популярное'),
 					'regular_price' => '2990', 'sale_price' => '', 'sku_base' => 'DEMO-KSUIT',
+				'brand' => 'ДетскийМир',
 					'type' => 'variable',
 					'attributes' => array(
 						'color' => array('Синий','Красный','Зелёный'),
@@ -341,6 +425,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Кроссовки детские', 'desc' => 'Лёгкие кроссовки с застёжкой-липучкой.',
 					'image' => $img(0), 'category' => 'Детская одежда', 'tags' => array('хит','новинка'),
 					'regular_price' => '2490', 'sale_price' => '1990', 'sku_base' => 'DEMO-KSHOE',
+				'brand' => 'ДетскийМир',
 					'type' => 'variable',
 					'attributes' => array(
 						'color' => array('Белый','Синий'),
@@ -351,18 +436,21 @@ function cw_demo_get_products_data() {
 					'title' => 'Рюкзак школьный', 'desc' => 'Ортопедический рюкзак с USB-разъёмом.',
 					'image' => $img(1), 'category' => 'Детское', 'tags' => array('популярное','подарок'),
 					'regular_price' => '3490', 'sale_price' => '', 'sku_base' => 'DEMO-KBAG',
+				'brand' => 'ДетскийМир',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Набор пластилина (12 цветов)', 'desc' => 'Безопасный пластилин для лепки от 3 лет.',
 					'image' => $img(2), 'category' => 'Детское', 'tags' => array('подарок'),
 					'regular_price' => '490', 'sale_price' => '', 'sku_base' => 'DEMO-CLAY',
+				'brand' => 'ДетскийМир',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Конструктор деревянный', 'desc' => 'Набор из 100 деревянных деталей.',
 					'image' => $img(3), 'category' => 'Детское', 'tags' => array('подарок','хит'),
 					'regular_price' => '2190', 'sale_price' => '', 'sku_base' => 'DEMO-BUILD',
+				'brand' => 'ДетскийМир',
 					'type' => 'simple',
 				),
 				// ── Украшения (5) ───────────────────────────────────────
@@ -370,6 +458,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Серьги-кольца золотые', 'desc' => 'Серьги-кольца из позолоченного серебра.',
 					'image' => $img(4), 'category' => 'Украшения', 'tags' => array('премиум','подарок'),
 					'regular_price' => '2990', 'sale_price' => '', 'sku_base' => 'DEMO-EARR',
+				'brand' => 'ЮвелирАрт',
 					'type' => 'variable',
 					'attributes' => array(
 						'material' => array('Золото','Серебро','Розовое золото'),
@@ -380,6 +469,7 @@ function cw_demo_get_products_data() {
 					'title' => 'Браслет плетёный', 'desc' => 'Ручная работа, натуральный камень.',
 					'image' => $img(5), 'category' => 'Украшения', 'tags' => array('лимитед','тренд'),
 					'regular_price' => '1490', 'sale_price' => '', 'sku_base' => 'DEMO-BRAC',
+				'brand' => 'ЮвелирАрт',
 					'type' => 'variable',
 					'attributes' => array(
 						'color'    => array('Чёрный','Коричневый','Бежевый'),
@@ -390,18 +480,21 @@ function cw_demo_get_products_data() {
 					'title' => 'Кулон-сердце', 'desc' => 'Подвеска в форме сердца на цепочке 45 см.',
 					'image' => $img(6), 'category' => 'Украшения', 'tags' => array('подарок','тренд'),
 					'regular_price' => '1990', 'sale_price' => '1590', 'sku_base' => 'DEMO-PEND',
+				'brand' => 'ЮвелирАрт',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Кольцо с камнем', 'desc' => 'Серебряное кольцо с голубым топазом.',
 					'image' => $img(7), 'category' => 'Украшения', 'tags' => array('премиум','лимитед'),
 					'regular_price' => '5990', 'sale_price' => '', 'sku_base' => 'DEMO-RING',
+				'brand' => 'ЮвелирАрт',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Чокер бархатный', 'desc' => 'Чокер из бархата с металлической подвеской.',
 					'image' => $img(8), 'category' => 'Украшения', 'tags' => array('новинка','тренд'),
 					'regular_price' => '890', 'sale_price' => '', 'sku_base' => 'DEMO-CHOK',
+				'brand' => 'ЮвелирАрт',
 					'type' => 'simple',
 				),
 				// ── Книги (5) ───────────────────────────────────────────
@@ -409,30 +502,35 @@ function cw_demo_get_products_data() {
 					'title' => 'Маркетинг без бюджета', 'desc' => 'Практическое руководство по продвижению.',
 					'image' => $img(0), 'category' => 'Книги', 'tags' => array('хит','популярное'),
 					'regular_price' => '990', 'sale_price' => '790', 'sku_base' => 'DEMO-BOOK1',
+				'brand' => 'КнижныйДом',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Психология влияния', 'desc' => 'Роберт Чалдини. Классика о механизмах убеждения.',
 					'image' => $img(1), 'category' => 'Книги', 'tags' => array('премиум','хит'),
 					'regular_price' => '1190', 'sale_price' => '', 'sku_base' => 'DEMO-BOOK2',
+					'brand' => 'КнижныйДом',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Дизайн привычных вещей', 'desc' => 'Норман Дон. Об интуитивно понятном дизайне.',
 					'image' => $img(2), 'category' => 'Книги', 'tags' => array('новинка','тренд'),
 					'regular_price' => '1490', 'sale_price' => '', 'sku_base' => 'DEMO-BOOK3',
+					'brand' => 'КнижныйДом',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Чистый код', 'desc' => 'Роберт Мартин. Создание, анализ и рефакторинг.',
 					'image' => $img(3), 'category' => 'Книги', 'tags' => array('популярное'),
 					'regular_price' => '1590', 'sale_price' => '1290', 'sku_base' => 'DEMO-BOOK4',
+					'brand' => 'КнижныйДом',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Атомные привычки', 'desc' => 'Джеймс Клир. Маленькие изменения — большие результаты.',
 					'image' => $img(4), 'category' => 'Книги', 'tags' => array('хит','популярное'),
 					'regular_price' => '990', 'sale_price' => '', 'sku_base' => 'DEMO-BOOK5',
+					'brand' => 'КнижныйДом',
 					'type' => 'simple',
 				),
 			),
@@ -471,16 +569,65 @@ function cw_demo_get_products_data() {
 			'sport', 'gift-idea', 'limited', 'trending', 'seasonal',
 		),
 		'attributes' => array(
-			'color'    => array( 'label' => 'Color',    'type' => 'color',  'values' => array( 'Red','Blue','Black','White','Green' ) ),
-			'size'     => array( 'label' => 'Size',     'type' => 'button', 'values' => array( 'XS','S','M','L','XL','XXL' ) ),
-			'material' => array( 'label' => 'Material', 'type' => 'select', 'values' => array( 'Cotton','Wool','Polyester','Leather','Linen' ) ),
-			'print'    => array( 'label' => 'Print',    'type' => 'image',  'values' => array( 'Stripes','Plaid','Floral','Abstract' ) ),
+			'color' => array(
+				'label'  => 'Color',
+				'type'   => 'color',
+				'values' => array( 'Red','Blue','Black','White','Green','Grey','Brown','Beige' ),
+				'meta'   => array(
+					'Red'   => array( 'color' => '#e74c3c' ),
+					'Blue'  => array( 'color' => '#3498db' ),
+					'Black' => array( 'color' => '#1a1a1a' ),
+					'White' => array( 'color' => '#f8f9fa' ),
+					'Green' => array( 'color' => '#2ecc71' ),
+					'Grey'  => array( 'color' => '#7f8c8d' ),
+					'Brown' => array( 'color' => '#8b4513' ),
+					'Beige' => array( 'color' => '#d2b48c' ),
+				),
+			),
+			'size' => array(
+				'label'  => 'Size',
+				'type'   => 'button',
+				'values' => array( 'XS','S','M','L','XL','XXL' ),
+			),
+			'material' => array(
+				'label'  => 'Material',
+				'type'   => 'image',
+				'values' => array( 'Cotton','Wool','Polyester','Leather','Linen' ),
+				'meta'   => array(
+					'Cotton'     => array( 'image' => 'sh5.jpg' ),
+					'Wool'       => array( 'image' => 'sh6.jpg' ),
+					'Polyester'  => array( 'image' => 'sh7.jpg' ),
+					'Leather'    => array( 'image' => 'sh8.jpg' ),
+					'Linen'      => array( 'image' => 'sh9.jpg' ),
+					'Gold'       => array( 'image' => 'sh1.jpg' ),
+					'Silver'     => array( 'image' => 'sh2.jpg' ),
+					'Rose Gold'  => array( 'image' => 'sh3.jpg' ),
+				),
+			),
+			'print' => array(
+				'label'  => 'Print',
+				'type'   => 'select',
+				'values' => array( 'Stripes','Plaid','Floral','Abstract' ),
+			),
+		),
+		'brands' => array(
+			array( 'name' => 'UrbanFit',        'logo' => 'c1.png' ),
+			array( 'name' => 'Nordic',          'logo' => 'c2.png' ),
+			array( 'name' => 'NaturWear',       'logo' => 'c3.png' ),
+			array( 'name' => 'SportLine',       'logo' => 'c4.png' ),
+			array( 'name' => 'JewelArt',        'logo' => 'c5.png' ),
+			array( 'name' => 'BeautyEssence',   'logo' => 'c6.png' ),
+			array( 'name' => 'HomeDecor',       'logo' => 'c7.png' ),
+			array( 'name' => 'TechPulse',       'logo' => 'c8.png' ),
+			array( 'name' => 'KidsWorld',       'logo' => 'c9.png' ),
+			array( 'name' => 'BookHouse',       'logo' => 'c10.png' ),
 		),
 		'items' => array(
 			array(
 				'title' => 'Basic T-Shirt', 'desc' => 'Classic 100% cotton t-shirt.',
 				'image' => $img(0), 'category' => "Women's Clothing", 'tags' => array('popular','new-arrival'),
 				'regular_price' => '19.99', 'sale_price' => '', 'sku_base' => 'DEMO-TSHIRT',
+				'brand' => 'UrbanFit',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('White','Black','Blue'),
@@ -492,6 +639,7 @@ function cw_demo_get_products_data() {
 				'title' => 'Classic Jeans', 'desc' => 'Straight-cut jeans from heavy denim.',
 				'image' => $img(1), 'category' => "Women's Clothing", 'tags' => array('bestseller','popular'),
 				'regular_price' => '59.99', 'sale_price' => '44.99', 'sku_base' => 'DEMO-JEANS',
+				'brand' => 'Nordic',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('Blue','Black'),
@@ -502,6 +650,7 @@ function cw_demo_get_products_data() {
 				'title' => 'Summer Dress', 'desc' => 'Light linen dress for warm days.',
 				'image' => $img(2), 'category' => 'Dresses', 'tags' => array('new-arrival','trending'),
 				'regular_price' => '69.99', 'sale_price' => '49.99', 'sku_base' => 'DEMO-DRESS',
+				'brand' => 'NaturWear',
 				'type' => 'variable',
 				'attributes' => array(
 					'color'    => array('White','Green','Red'),
@@ -513,18 +662,21 @@ function cw_demo_get_products_data() {
 				'title' => 'Autumn Jacket', 'desc' => 'Water-repellent jacket for spring and autumn.',
 				'image' => $img(3), 'category' => 'Outerwear', 'tags' => array('bestseller','seasonal'),
 				'regular_price' => '189.00', 'sale_price' => '', 'sku_base' => 'DEMO-JACKET',
+				'brand' => 'UrbanFit',
 				'type' => 'simple', 'featured' => true,
 			),
 			array(
 				'title' => 'Wool Sweater', 'desc' => 'Warm sweater from natural wool.',
 				'image' => $img(4), 'category' => "Women's Clothing", 'tags' => array('premium','seasonal'),
 				'regular_price' => '89.00', 'sale_price' => '', 'sku_base' => 'DEMO-SWEATER',
+				'brand' => 'Nordic',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Running Shoes', 'desc' => 'Lightweight running shoes with cushioned sole.',
 				'image' => $img(5), 'category' => 'Athletic Footwear', 'tags' => array('sport','popular'),
 				'regular_price' => '120.00', 'sale_price' => '89.00', 'sku_base' => 'DEMO-RUN',
+				'brand' => 'SportLine',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('White','Black','Blue'),
@@ -535,6 +687,7 @@ function cw_demo_get_products_data() {
 				'title' => 'Casual Sneakers', 'desc' => 'Comfortable everyday sneakers.',
 				'image' => $img(6), 'category' => 'Athletic Footwear', 'tags' => array('popular','sale'),
 				'regular_price' => '79.00', 'sale_price' => '59.00', 'sku_base' => 'DEMO-SNEAK',
+				'brand' => 'SportLine',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('White','Black','Red'),
@@ -545,24 +698,28 @@ function cw_demo_get_products_data() {
 				'title' => 'Leather Boots', 'desc' => 'Classic boots from genuine leather.',
 				'image' => $img(7), 'category' => 'Classic Footwear', 'tags' => array('premium','bestseller'),
 				'regular_price' => '149.00', 'sale_price' => '', 'sku_base' => 'DEMO-BOOT',
+				'brand' => 'NaturWear',
 				'type' => 'simple', 'featured' => true,
 			),
 			array(
 				'title' => 'Summer Sandals', 'desc' => 'Open sandals for beach and city.',
 				'image' => $img(8), 'category' => 'Classic Footwear', 'tags' => array('new-arrival','seasonal'),
 				'regular_price' => '49.00', 'sale_price' => '35.00', 'sku_base' => 'DEMO-SAND',
+				'brand' => 'SportLine',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Suede Moccasins', 'desc' => 'Soft suede moccasins for everyday wear.',
 				'image' => $img(0), 'category' => 'Classic Footwear', 'tags' => array('trending'),
 				'regular_price' => '99.00', 'sale_price' => '', 'sku_base' => 'DEMO-MOC',
+				'brand' => 'NaturWear',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Leather Bag', 'desc' => 'Stylish handcrafted leather bag.',
 				'image' => $img(1), 'category' => 'Accessories', 'tags' => array('premium','bestseller'),
 				'regular_price' => '149.99', 'sale_price' => '', 'sku_base' => 'DEMO-BAG',
+				'brand' => 'UrbanFit',
 				'type' => 'variable',
 				'attributes' => array(
 					'color'    => array('Black','Brown','Beige'),
@@ -574,18 +731,21 @@ function cw_demo_get_products_data() {
 				'title' => 'Sunglasses', 'desc' => 'UV400 sunglasses in metal frame.',
 				'image' => $img(2), 'category' => 'Accessories', 'tags' => array('trending','limited'),
 				'regular_price' => '79.00', 'sale_price' => '', 'sku_base' => 'DEMO-GLASS',
+				'brand' => 'UrbanFit',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Wrist Watch', 'desc' => 'Elegant watch with leather strap.',
 				'image' => $img(3), 'category' => 'Accessories', 'tags' => array('premium','gift-idea'),
 				'regular_price' => '249.00', 'sale_price' => '199.00', 'sku_base' => 'DEMO-WATCH',
+				'brand' => 'JewelArt',
 				'type' => 'simple', 'featured' => true,
 			),
 			array(
 				'title' => 'Cashmere Scarf', 'desc' => '100% cashmere scarf.',
 				'image' => $img(4), 'category' => 'Accessories', 'tags' => array('premium','seasonal'),
 				'regular_price' => '59.00', 'sale_price' => '', 'sku_base' => 'DEMO-SCARF',
+				'brand' => 'Nordic',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('Grey','Blue','Beige'),
@@ -595,42 +755,49 @@ function cw_demo_get_products_data() {
 				'title' => 'Leather Belt', 'desc' => 'Classic leather belt with metal buckle.',
 				'image' => $img(5), 'category' => 'Accessories', 'tags' => array('bestseller'),
 				'regular_price' => '39.00', 'sale_price' => '', 'sku_base' => 'DEMO-BELT',
+				'brand' => 'NaturWear',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Women\'s Perfume', 'desc' => 'Fragrance with notes of bergamot and white flowers.',
 				'image' => $img(6), 'category' => 'Cosmetics', 'tags' => array('premium','gift-idea'),
 				'regular_price' => '75.00', 'sale_price' => '', 'sku_base' => 'DEMO-PERF-W',
+				'brand' => 'BeautyEssence',
 				'type' => 'simple', 'featured' => true,
 			),
 			array(
 				'title' => 'Skincare Gift Set', 'desc' => 'Cream, serum and toner in gift box.',
 				'image' => $img(7), 'category' => 'Cosmetics', 'tags' => array('gift-idea','bestseller','new-arrival'),
 				'regular_price' => '99.00', 'sale_price' => '', 'sku_base' => 'DEMO-COSM',
+				'brand' => 'BeautyEssence',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'SPF30 Moisturiser', 'desc' => 'Day cream with UV protection.',
 				'image' => $img(8), 'category' => 'Cosmetics', 'tags' => array('popular'),
 				'regular_price' => '29.99', 'sale_price' => '24.99', 'sku_base' => 'DEMO-CREAM',
+				'brand' => 'BeautyEssence',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Volumising Mascara', 'desc' => 'Mascara with false-lash effect.',
 				'image' => $img(0), 'category' => 'Cosmetics', 'tags' => array('trending','new-arrival'),
 				'regular_price' => '14.99', 'sale_price' => '', 'sku_base' => 'DEMO-MASCARA',
+				'brand' => 'BeautyEssence',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Long-Lasting Lipstick', 'desc' => '24-hour wear without drying.',
 				'image' => $img(1), 'category' => 'Cosmetics', 'tags' => array('bestseller','sale'),
 				'regular_price' => '12.99', 'sale_price' => '9.99', 'sku_base' => 'DEMO-LIPSTICK',
+				'brand' => 'BeautyEssence',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Fleece Blanket', 'desc' => 'Soft fleece blanket 150×200 cm.',
 				'image' => $img(2), 'category' => 'Textiles', 'tags' => array('popular','seasonal'),
 				'regular_price' => '39.00', 'sale_price' => '', 'sku_base' => 'DEMO-BLANKET',
+				'brand' => 'HomeDecor',
 				'type' => 'variable',
 				'attributes' => array(
 					'color'    => array('Grey','Beige','Blue'),
@@ -641,30 +808,35 @@ function cw_demo_get_products_data() {
 				'title' => 'Kitchen Towel Set', 'desc' => '6 cotton towels in gift wrapping.',
 				'image' => $img(3), 'category' => 'Textiles', 'tags' => array('gift-idea','new-arrival'),
 				'regular_price' => '19.99', 'sale_price' => '', 'sku_base' => 'DEMO-TOWEL',
+				'brand' => 'HomeDecor',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Decorative Vase', 'desc' => 'Handmade ceramic vase.',
 				'image' => $img(4), 'category' => 'Decor', 'tags' => array('trending','limited'),
 				'regular_price' => '54.00', 'sale_price' => '', 'sku_base' => 'DEMO-VASE',
+				'brand' => 'HomeDecor',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Scented Candle Set', 'desc' => 'Set of 3 candles with different scents.',
 				'image' => $img(5), 'category' => 'Decor', 'tags' => array('gift-idea','bestseller'),
 				'regular_price' => '29.00', 'sale_price' => '24.00', 'sku_base' => 'DEMO-CANDLE',
+				'brand' => 'HomeDecor',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Photo Frame', 'desc' => 'Wooden frame 20×30 in Scandinavian style.',
 				'image' => $img(6), 'category' => 'Decor', 'tags' => array('new-arrival'),
 				'regular_price' => '15.99', 'sale_price' => '', 'sku_base' => 'DEMO-FRAME',
+				'brand' => 'HomeDecor',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Wireless Headphones', 'desc' => 'Over-ear Bluetooth 5.0 headphones, 30h battery.',
 				'image' => $img(7), 'category' => 'Electronics', 'tags' => array('bestseller','popular'),
 				'regular_price' => '119.00', 'sale_price' => '89.00', 'sku_base' => 'DEMO-HEADP',
+				'brand' => 'TechPulse',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('Black','White'),
@@ -675,30 +847,35 @@ function cw_demo_get_products_data() {
 				'title' => 'Smart Watch', 'desc' => 'Smartwatch with health monitoring and GPS.',
 				'image' => $img(8), 'category' => 'Electronics', 'tags' => array('new-arrival','trending'),
 				'regular_price' => '229.00', 'sale_price' => '', 'sku_base' => 'DEMO-SMART',
+				'brand' => 'TechPulse',
 				'type' => 'simple', 'featured' => true,
 			),
 			array(
 				'title' => 'Portable Speaker', 'desc' => 'Bluetooth speaker with IPX5 water resistance.',
 				'image' => $img(0), 'category' => 'Electronics', 'tags' => array('popular','sport'),
 				'regular_price' => '69.00', 'sale_price' => '', 'sku_base' => 'DEMO-SPEAK',
+				'brand' => 'TechPulse',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Power Bank 20000 mAh', 'desc' => 'High-capacity battery with fast charging.',
 				'image' => $img(1), 'category' => 'Electronics', 'tags' => array('bestseller'),
 				'regular_price' => '54.00', 'sale_price' => '44.00', 'sku_base' => 'DEMO-POWER',
+				'brand' => 'TechPulse',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'USB-C Cable 2m', 'desc' => 'Braided cable with 100W fast charging.',
 				'image' => $img(2), 'category' => 'Electronics', 'tags' => array('popular'),
 				'regular_price' => '12.99', 'sale_price' => '', 'sku_base' => 'DEMO-CABLE',
+				'brand' => 'TechPulse',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Sports Leggings', 'desc' => 'Compression leggings for fitness.',
 				'image' => $img(3), 'category' => 'Sports', 'tags' => array('sport','popular'),
 				'regular_price' => '39.00', 'sale_price' => '', 'sku_base' => 'DEMO-LEGG',
+				'brand' => 'SportLine',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('Black','Blue','Grey'),
@@ -709,6 +886,7 @@ function cw_demo_get_products_data() {
 				'title' => 'Dry-Fit T-Shirt', 'desc' => 'Breathable training t-shirt.',
 				'image' => $img(4), 'category' => 'Sports', 'tags' => array('sport','new-arrival'),
 				'regular_price' => '24.99', 'sale_price' => '', 'sku_base' => 'DEMO-DRY',
+				'brand' => 'SportLine',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('White','Blue','Red'),
@@ -719,24 +897,28 @@ function cw_demo_get_products_data() {
 				'title' => 'Water Bottle 750ml', 'desc' => 'Stainless steel insulated bottle.',
 				'image' => $img(5), 'category' => 'Sports', 'tags' => array('sport','bestseller'),
 				'regular_price' => '19.99', 'sale_price' => '', 'sku_base' => 'DEMO-BOTTLE',
+				'brand' => 'SportLine',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Yoga Mat', 'desc' => 'Non-slip mat 180×60 cm, 6mm thick.',
 				'image' => $img(6), 'category' => 'Sports', 'tags' => array('sport','popular'),
 				'regular_price' => '29.99', 'sale_price' => '24.99', 'sku_base' => 'DEMO-YOGA',
+				'brand' => 'SportLine',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Adjustable Dumbbells (pair)', 'desc' => 'Adjustable dumbbells 2–10 kg.',
 				'image' => $img(7), 'category' => 'Sports', 'tags' => array('sport','bestseller'),
 				'regular_price' => '89.00', 'sale_price' => '', 'sku_base' => 'DEMO-DUMB',
+				'brand' => 'SportLine',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Kids Tracksuit', 'desc' => 'Comfortable tracksuit for active kids.',
 				'image' => $img(8), 'category' => "Kids' Clothing", 'tags' => array('new-arrival','popular'),
 				'regular_price' => '44.99', 'sale_price' => '', 'sku_base' => 'DEMO-KSUIT',
+				'brand' => 'KidsWorld',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('Blue','Red','Green'),
@@ -747,6 +929,7 @@ function cw_demo_get_products_data() {
 				'title' => 'Kids Sneakers', 'desc' => 'Lightweight sneakers with velcro strap.',
 				'image' => $img(0), 'category' => "Kids' Clothing", 'tags' => array('bestseller','new-arrival'),
 				'regular_price' => '39.00', 'sale_price' => '32.00', 'sku_base' => 'DEMO-KSHOE',
+				'brand' => 'KidsWorld',
 				'type' => 'variable',
 				'attributes' => array(
 					'color' => array('White','Blue'),
@@ -757,24 +940,28 @@ function cw_demo_get_products_data() {
 				'title' => 'School Backpack', 'desc' => 'Ergonomic backpack with USB port.',
 				'image' => $img(1), 'category' => 'Kids', 'tags' => array('popular','gift-idea'),
 				'regular_price' => '54.00', 'sale_price' => '', 'sku_base' => 'DEMO-KBAG',
+				'brand' => 'KidsWorld',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Plasticine Set (12 colours)', 'desc' => 'Safe modelling clay for ages 3+.',
 				'image' => $img(2), 'category' => 'Kids', 'tags' => array('gift-idea'),
 				'regular_price' => '7.99', 'sale_price' => '', 'sku_base' => 'DEMO-CLAY',
+				'brand' => 'KidsWorld',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Wooden Building Set', 'desc' => 'Set of 100 wooden pieces.',
 				'image' => $img(3), 'category' => 'Kids', 'tags' => array('gift-idea','bestseller'),
 				'regular_price' => '34.99', 'sale_price' => '', 'sku_base' => 'DEMO-BUILD',
+				'brand' => 'KidsWorld',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Gold Hoop Earrings', 'desc' => 'Gold-plated silver hoop earrings.',
 				'image' => $img(4), 'category' => 'Jewelry', 'tags' => array('premium','gift-idea'),
 				'regular_price' => '44.99', 'sale_price' => '', 'sku_base' => 'DEMO-EARR',
+				'brand' => 'JewelArt',
 				'type' => 'variable',
 				'attributes' => array(
 					'material' => array('Gold','Silver','Rose Gold'),
@@ -785,6 +972,7 @@ function cw_demo_get_products_data() {
 				'title' => 'Woven Bracelet', 'desc' => 'Handmade bracelet with natural stone.',
 				'image' => $img(5), 'category' => 'Jewelry', 'tags' => array('limited','trending'),
 				'regular_price' => '22.99', 'sale_price' => '', 'sku_base' => 'DEMO-BRAC',
+				'brand' => 'JewelArt',
 				'type' => 'variable',
 				'attributes' => array(
 					'color'    => array('Black','Brown','Beige'),
@@ -795,48 +983,56 @@ function cw_demo_get_products_data() {
 				'title' => 'Heart Pendant', 'desc' => 'Heart pendant on a 45 cm chain.',
 				'image' => $img(6), 'category' => 'Jewelry', 'tags' => array('gift-idea','trending'),
 				'regular_price' => '29.99', 'sale_price' => '24.99', 'sku_base' => 'DEMO-PEND',
+				'brand' => 'JewelArt',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Gemstone Ring', 'desc' => 'Silver ring with blue topaz.',
 				'image' => $img(7), 'category' => 'Jewelry', 'tags' => array('premium','limited'),
 				'regular_price' => '89.00', 'sale_price' => '', 'sku_base' => 'DEMO-RING',
+				'brand' => 'JewelArt',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Velvet Choker', 'desc' => 'Velvet choker with metal charm.',
 				'image' => $img(8), 'category' => 'Jewelry', 'tags' => array('new-arrival','trending'),
 				'regular_price' => '13.99', 'sale_price' => '', 'sku_base' => 'DEMO-CHOK',
+				'brand' => 'JewelArt',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Marketing on a Budget', 'desc' => 'Practical guide to zero-budget promotion.',
 				'image' => $img(0), 'category' => 'Books', 'tags' => array('bestseller','popular'),
 				'regular_price' => '14.99', 'sale_price' => '11.99', 'sku_base' => 'DEMO-BOOK1',
+				'brand' => 'BookHouse',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Influence', 'desc' => 'Robert Cialdini. The psychology of persuasion.',
 				'image' => $img(1), 'category' => 'Books', 'tags' => array('premium','bestseller'),
 				'regular_price' => '17.99', 'sale_price' => '', 'sku_base' => 'DEMO-BOOK2',
+				'brand' => 'BookHouse',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'The Design of Everyday Things', 'desc' => 'Don Norman on intuitive design.',
 				'image' => $img(2), 'category' => 'Books', 'tags' => array('new-arrival','trending'),
 				'regular_price' => '22.99', 'sale_price' => '', 'sku_base' => 'DEMO-BOOK3',
+				'brand' => 'BookHouse',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Clean Code', 'desc' => 'Robert Martin. Creating, analysing, refactoring.',
 				'image' => $img(3), 'category' => 'Books', 'tags' => array('popular'),
 				'regular_price' => '24.99', 'sale_price' => '19.99', 'sku_base' => 'DEMO-BOOK4',
+				'brand' => 'BookHouse',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Atomic Habits', 'desc' => 'James Clear. Small changes, remarkable results.',
 				'image' => $img(4), 'category' => 'Books', 'tags' => array('bestseller','popular'),
 				'regular_price' => '14.99', 'sale_price' => '', 'sku_base' => 'DEMO-BOOK5',
+				'brand' => 'BookHouse',
 				'type' => 'simple',
 			),
 		),
@@ -913,27 +1109,142 @@ function cw_demo_ensure_wc_attribute( $label, $slug, $type = 'select' ) {
 }
 
 /**
- * Получить или создать термин в таксономии атрибута.
+ * Получить или создать термин в таксономии атрибута и задать мета-данные (цвет / изображение).
  *
- * @param string $value    Значение (название термина).
- * @param string $taxonomy Таксономия (pa_*).
+ * @param string $value     Значение (название термина).
+ * @param string $taxonomy  Таксономия (pa_*).
+ * @param string $attr_type Тип атрибута: 'color', 'image', 'button', 'select'.
+ * @param array  $meta      Мета-данные: ['color' => '#hex'] или ['image' => 'sh1.jpg'].
  * @return string slug термина или пустая строка при ошибке.
  */
-function cw_demo_ensure_attribute_term( $value, $taxonomy ) {
+function cw_demo_ensure_attribute_term( $value, $taxonomy, $attr_type = 'select', $meta = array() ) {
 	$slug = sanitize_title( $value );
 	$term = get_term_by( 'slug', $slug, $taxonomy );
 
 	if ( $term ) {
-		return $slug;
+		$term_id = $term->term_id;
+	} else {
+		$result = wp_insert_term( $value, $taxonomy, array( 'slug' => $slug ) );
+		if ( is_wp_error( $result ) ) {
+			return '';
+		}
+		$term_id = $result['term_id'];
 	}
 
-	$result = wp_insert_term( $value, $taxonomy, array( 'slug' => $slug ) );
+	// Цвет атрибута — устанавливаем всегда (перезаписываем демо-данными)
+	if ( 'color' === $attr_type ) {
+		$hex = $meta['color'] ?? cw_demo_get_color_hex( $value );
+		if ( $hex ) {
+			update_term_meta( $term_id, 'product_attribute_color', $hex );
+		}
+	}
 
-	if ( is_wp_error( $result ) ) {
-		return '';
+	// Изображение атрибута — устанавливаем если ещё не задано
+	if ( ! empty( $meta['image'] ) && ! get_term_meta( $term_id, 'thumbnail_id', true ) ) {
+		cw_demo_set_category_image( $meta['image'], $term_id );
 	}
 
 	return $slug;
+}
+
+/**
+ * Fallback hex colour for a named colour term (covers RU + EN names).
+ *
+ * @param string $name Term label.
+ * @return string Hex colour or empty string if unknown.
+ */
+function cw_demo_get_color_hex( $name ) {
+	$map = array(
+		'красный'    => '#e74c3c', 'red'    => '#e74c3c',
+		'синий'      => '#3498db', 'blue'   => '#3498db',
+		'чёрный'     => '#1a1a1a', 'black'  => '#1a1a1a',
+		'белый'      => '#f8f9fa', 'white'  => '#f8f9fa',
+		'зелёный'    => '#2ecc71', 'green'  => '#2ecc71',
+		'серый'      => '#7f8c8d', 'grey'   => '#7f8c8d', 'gray' => '#7f8c8d',
+		'коричневый' => '#8b4513', 'brown'  => '#8b4513',
+		'бежевый'    => '#d2b48c', 'beige'  => '#d2b48c',
+		'розовый'    => '#ff69b4', 'pink'   => '#ff69b4',
+		'фиолетовый' => '#9b59b6', 'purple' => '#9b59b6',
+		'оранжевый'  => '#e67e22', 'orange' => '#e67e22',
+		'жёлтый'     => '#f1c40f', 'yellow' => '#f1c40f',
+	);
+	return $map[ mb_strtolower( $name ) ] ?? '';
+}
+
+/**
+ * Создать бренды из массива данных и вернуть map[name => term_id].
+ *
+ * @param array $brands Массив array('name' => ..., 'logo' => ...).
+ * @return array
+ */
+function cw_demo_create_brands( $brands ) {
+	if ( ! taxonomy_exists( 'product_brand' ) ) {
+		return array();
+	}
+
+	$name_to_id = array();
+
+	foreach ( $brands as $brand ) {
+		$term_id = cw_demo_get_or_create_product_term( $brand['name'], 'product_brand' );
+		if ( $term_id ) {
+			$name_to_id[ $brand['name'] ] = $term_id;
+
+			// Логотип бренда из src/assets/img/brands/
+			if ( ! empty( $brand['logo'] ) && ! get_term_meta( $term_id, 'thumbnail_id', true ) ) {
+				cw_demo_set_brand_image( $brand['logo'], $term_id );
+			}
+		}
+	}
+
+	return $name_to_id;
+}
+
+/**
+ * Импортировать логотип бренда в медиабиблиотеку и присвоить термину.
+ *
+ * @param string $logo_filename Имя файла из src/assets/img/brands/.
+ * @param int    $term_id       ID термина бренда.
+ * @return int|false ID attachment или false при ошибке.
+ */
+function cw_demo_set_brand_image( $logo_filename, $term_id ) {
+	$source_path = get_template_directory() . '/src/assets/img/brands/' . $logo_filename;
+	if ( ! file_exists( $source_path ) ) {
+		return false;
+	}
+
+	$file_type = wp_check_filetype( basename( $source_path ), null );
+	if ( ! $file_type['type'] ) {
+		return false;
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+
+	$upload_dir = wp_upload_dir();
+	$dest_path  = $upload_dir['path'] . '/brand-' . $term_id . '-' . basename( $source_path );
+
+	if ( ! copy( $source_path, $dest_path ) ) {
+		return false;
+	}
+
+	$attachment_id = media_handle_sideload(
+		array( 'name' => basename( $source_path ), 'tmp_name' => $dest_path ),
+		0
+	);
+
+	if ( file_exists( $dest_path ) ) {
+		@unlink( $dest_path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+	}
+
+	if ( is_wp_error( $attachment_id ) ) {
+		return false;
+	}
+
+	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, get_attached_file( $attachment_id ) ) );
+	update_term_meta( $term_id, 'thumbnail_id', $attachment_id );
+
+	return $attachment_id;
 }
 
 /**
@@ -1230,8 +1541,10 @@ function cw_demo_create_variable_product( $item, $cat_id, $tag_ids, $attr_config
 		}
 
 		$term_slugs = array();
+		$attr_meta  = $attr_config[ $attr_slug ]['meta'] ?? array();
 		foreach ( $values as $value ) {
-			$slug = cw_demo_ensure_attribute_term( $value, $taxonomy );
+			$term_meta = $attr_meta[ $value ] ?? array();
+			$slug      = cw_demo_ensure_attribute_term( $value, $taxonomy, $attr_type, $term_meta );
 			if ( $slug ) {
 				$term_slugs[] = $slug;
 			}
@@ -1371,6 +1684,11 @@ function cw_demo_create_products() {
 		? cw_demo_create_categories( $data['categories'] )
 		: array();
 
+	// Создаём бренды и строим map[name => term_id]
+	$brand_map = ! empty( $data['brands'] )
+		? cw_demo_create_brands( $data['brands'] )
+		: array();
+
 	foreach ( $data['items'] as $item ) {
 		// Категория — ищем по map, чтобы учесть иерархию
 		$cat_id = false;
@@ -1401,6 +1719,15 @@ function cw_demo_create_products() {
 			$post_id = cw_demo_create_variable_product( $item, $cat_id, $tag_ids, $attr_config );
 		} else {
 			$post_id = cw_demo_create_simple_product( $item, $cat_id, $tag_ids );
+		}
+
+		// Бренд товара
+		if ( $post_id && ! empty( $item['brand'] ) && taxonomy_exists( 'product_brand' ) ) {
+			$brand_name = sanitize_text_field( $item['brand'] );
+			$brand_id   = $brand_map[ $brand_name ] ?? cw_demo_get_or_create_product_term( $brand_name, 'product_brand' );
+			if ( $brand_id ) {
+				wp_set_post_terms( $post_id, array( $brand_id ), 'product_brand' );
+			}
 		}
 
 		if ( $post_id ) {
@@ -1457,14 +1784,19 @@ function cw_demo_delete_products() {
 		}
 	}
 
-	// Чистим пустые demo-термины (удаляем attachment картинки категорий)
-	foreach ( array( 'product_cat', 'product_tag' ) as $taxonomy ) {
+	// Чистим пустые demo-термины (удаляем attachment картинки категорий и брендов)
+	$cleanup_taxonomies = array( 'product_cat', 'product_tag' );
+	if ( taxonomy_exists( 'product_brand' ) ) {
+		$cleanup_taxonomies[] = 'product_brand';
+	}
+
+	foreach ( $cleanup_taxonomies as $taxonomy ) {
 		$terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => false, 'fields' => 'all' ) );
 		if ( ! is_wp_error( $terms ) ) {
 			foreach ( $terms as $term ) {
 				if ( 0 === $term->count ) {
-					// Удалить attachment картинки категории перед удалением термина
-					if ( 'product_cat' === $taxonomy ) {
+					// Удалить attachment (картинка категории или логотип бренда)
+					if ( in_array( $taxonomy, array( 'product_cat', 'product_brand' ), true ) ) {
 						$thumb_id = get_term_meta( $term->term_id, 'thumbnail_id', true );
 						if ( $thumb_id ) {
 							wp_delete_attachment( (int) $thumb_id, true );
