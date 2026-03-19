@@ -355,7 +355,9 @@ $badge_item_class    = $badge_item_class ?? '';
 			return $html;
 		};
 
-		// Recursive renderer for Type 5 — Bootstrap dropend (submenu opens to the right).
+		// Recursive renderer for Type 5 — Bootstrap dropend (submenu opens to the right, hover-based).
+		// Markup mirrors the theme's vertical-menu type 5: separate <span class="dropdown-toggle">
+		// so the <a> stays navigable; opening is CSS hover, not JS click.
 		$render_cat_dropdown5 = function ( $tree, $pid, $lvl = 1 ) use ( &$render_cat_dropdown5, $show_count, $empty_behavior ) {
 			$children = $tree[ $pid ] ?? [];
 			if ( empty( $children ) ) {
@@ -377,33 +379,37 @@ $badge_item_class    = $badge_item_class ?? '';
 				$is_clickable_muted = ( 'disable_clickable' === $empty_behavior && $is_empty && ! $is_active );
 				$count_html         = $show_count ? '<span class="fs-sm text-muted ms-1">(' . (int) $ci['count'] . ')</span>' : '';
 
+				// Unique id for aria-labelledby
+				$link_id = 'cw-d5-' . $ci['wp_id'];
+
 				if ( 1 === $lvl ) {
-					// Root level — nav-item
-					$li_cls = array_filter( [ 'nav-item', 'parent-item', $has_sub ? 'dropend' : '', $is_active ? 'current-menu-item' : '' ] );
+					// Root level
+					$li_cls = array_filter( [ 'nav-item', 'parent-item', $has_sub ? 'dropdown parent-link dropend' : '', $is_active ? 'current-menu-item' : '' ] );
 					$html  .= '<li class="' . esc_attr( implode( ' ', $li_cls ) ) . '">';
-					$a_cls  = array_filter( [ 'nav-link', 'pjax-link', $has_sub ? 'dropdown-toggle' : '', $is_active ? 'fw-semibold current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					$a_cls  = array_filter( [ 'nav-link', 'pjax-link', $is_active ? 'fw-semibold current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
 					if ( $is_disabled ) {
 						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
 					} else {
-						$toggle_attr = $has_sub ? ' data-bs-toggle="dropdown" aria-expanded="false"' : '';
-						$html .= '<a href="' . esc_url( $ci['url'] ) . '" class="' . esc_attr( implode( ' ', $a_cls ) ) . '"' . $toggle_attr . ( $is_active ? ' aria-current="page"' : '' ) . '>' . esc_html( $ci['term']->name ) . $count_html . '</a>';
+						$id_attr = $has_sub ? ' id="' . esc_attr( $link_id ) . '"' : '';
+						$html .= '<a href="' . esc_url( $ci['url'] ) . '" class="' . esc_attr( implode( ' ', $a_cls ) ) . '"' . $id_attr . ( $is_active ? ' aria-current="page"' : '' ) . '>' . esc_html( $ci['term']->name ) . $count_html . '</a>';
 					}
 				} else {
-					// Nested level — dropdown-item
-					$li_cls     = array_filter( [ $has_sub ? 'dropend' : '', $is_active ? 'current-menu-item' : '' ] );
-					$li_cls_str = ! empty( $li_cls ) ? ' class="' . esc_attr( implode( ' ', $li_cls ) ) . '"' : '';
-					$html      .= '<li' . $li_cls_str . '>';
-					$a_cls      = array_filter( [ 'dropdown-item', 'pjax-link', $has_sub ? 'dropdown-toggle' : '', $is_active ? 'fw-semibold current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					// Nested level
+					$li_cls = array_filter( [ 'nav-item', $has_sub ? 'dropdown dropend parent-link dropdown-submenu' : '', $is_active ? 'current-menu-item' : '' ] );
+					$html  .= '<li class="' . esc_attr( implode( ' ', $li_cls ) ) . '">';
+					$a_cls  = array_filter( [ 'dropdown-item', 'pjax-link', $is_active ? 'fw-semibold current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
 					if ( $is_disabled ) {
 						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
 					} else {
-						$toggle_attr = $has_sub ? ' data-bs-toggle="dropdown" aria-expanded="false"' : '';
-						$html .= '<a href="' . esc_url( $ci['url'] ) . '" class="' . esc_attr( implode( ' ', $a_cls ) ) . '"' . $toggle_attr . ( $is_active ? ' aria-current="page"' : '' ) . '>' . esc_html( $ci['term']->name ) . $count_html . '</a>';
+						$id_attr = $has_sub ? ' id="' . esc_attr( $link_id ) . '"' : '';
+						$html .= '<a href="' . esc_url( $ci['url'] ) . '" class="' . esc_attr( implode( ' ', $a_cls ) ) . '"' . $id_attr . ( $is_active ? ' aria-current="page"' : '' ) . '>' . esc_html( $ci['term']->name ) . $count_html . '</a>';
 					}
 				}
 
 				if ( $has_sub ) {
-					$html .= '<ul class="dropdown-menu">';
+					// Separate toggle span — keeps the <a> navigable (hover opens via CSS)
+					$html .= '<span class="dropdown-toggle" aria-hidden="true"></span>';
+					$html .= '<ul class="dropdown-menu rounded-0" aria-labelledby="' . esc_attr( $link_id ) . '" role="menu">';
 					$html .= $render_cat_dropdown5( $tree, $ci['wp_id'], $lvl + 1 );
 					$html .= '</ul>';
 				}
