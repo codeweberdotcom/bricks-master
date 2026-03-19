@@ -1030,6 +1030,8 @@ function cw_demo_get_or_create_product_term( $name, $taxonomy, $parent_id = 0 ) 
  */
 function cw_demo_create_categories( $categories ) {
 	$name_to_id = array();
+	$shop_imgs   = array( 'sh1.jpg','sh2.jpg','sh3.jpg','sh4.jpg','sh5.jpg','sh6.jpg','sh7.jpg','sh8.jpg','sh9.jpg' );
+	$img_index   = 0;
 
 	foreach ( $categories as $cat ) {
 		$parent_id = 0;
@@ -1040,10 +1042,69 @@ function cw_demo_create_categories( $categories ) {
 		$term_id = cw_demo_get_or_create_product_term( $cat['name'], 'product_cat', $parent_id );
 		if ( $term_id ) {
 			$name_to_id[ $cat['name'] ] = $term_id;
+
+			// Назначить картинку если ещё не назначена
+			$image_file = $cat['image'] ?? $shop_imgs[ $img_index % count( $shop_imgs ) ];
+			cw_demo_set_category_image( $image_file, $term_id );
 		}
+
+		$img_index++;
 	}
 
 	return $name_to_id;
+}
+
+/**
+ * Импортировать изображение в медиабиблиотеку и присвоить категории товара.
+ *
+ * @param string $image_filename Имя файла из src/assets/img/photos/.
+ * @param int    $term_id        ID категории.
+ * @return int|false ID attachment или false при ошибке.
+ */
+function cw_demo_set_category_image( $image_filename, $term_id ) {
+	// Пропустить если изображение уже назначено
+	if ( get_term_meta( $term_id, 'thumbnail_id', true ) ) {
+		return true;
+	}
+
+	$source_path = get_template_directory() . '/src/assets/img/photos/' . $image_filename;
+	if ( ! file_exists( $source_path ) ) {
+		return false;
+	}
+
+	$file_type = wp_check_filetype( basename( $source_path ), null );
+	if ( ! $file_type['type'] ) {
+		return false;
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+
+	$upload_dir = wp_upload_dir();
+	$dest_path  = $upload_dir['path'] . '/' . 'cat-' . $term_id . '-' . basename( $source_path );
+
+	if ( ! copy( $source_path, $dest_path ) ) {
+		return false;
+	}
+
+	$attachment_id = media_handle_sideload(
+		array( 'name' => basename( $source_path ), 'tmp_name' => $dest_path ),
+		0
+	);
+
+	if ( file_exists( $dest_path ) ) {
+		@unlink( $dest_path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+	}
+
+	if ( is_wp_error( $attachment_id ) ) {
+		return false;
+	}
+
+	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, get_attached_file( $attachment_id ) ) );
+	update_term_meta( $term_id, 'thumbnail_id', $attachment_id );
+
+	return $attachment_id;
 }
 
 /**
@@ -1396,12 +1457,19 @@ function cw_demo_delete_products() {
 		}
 	}
 
-	// Чистим пустые demo-термины
+	// Чистим пустые demo-термины (удаляем attachment картинки категорий)
 	foreach ( array( 'product_cat', 'product_tag' ) as $taxonomy ) {
 		$terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => false, 'fields' => 'all' ) );
 		if ( ! is_wp_error( $terms ) ) {
 			foreach ( $terms as $term ) {
 				if ( 0 === $term->count ) {
+					// Удалить attachment картинки категории перед удалением термина
+					if ( 'product_cat' === $taxonomy ) {
+						$thumb_id = get_term_meta( $term->term_id, 'thumbnail_id', true );
+						if ( $thumb_id ) {
+							wp_delete_attachment( (int) $thumb_id, true );
+						}
+					}
 					wp_delete_term( $term->term_id, $taxonomy );
 				}
 			}
