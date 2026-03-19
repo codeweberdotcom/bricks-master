@@ -28,8 +28,29 @@ function cw_demo_get_products_data() {
 	if ( $is_russian ) {
 		return array(
 			'categories' => array(
-				'Одежда', 'Обувь', 'Аксессуары', 'Косметика', 'Дом и сад',
-				'Электроника', 'Спорт', 'Детское', 'Украшения', 'Книги',
+				// 3 уровня: Одежда → Женская одежда → Платья
+				array( 'name' => 'Одежда',             'parent' => '' ),
+				array( 'name' => 'Женская одежда',     'parent' => 'Одежда' ),
+				array( 'name' => 'Платья',             'parent' => 'Женская одежда' ),
+				array( 'name' => 'Верхняя одежда',     'parent' => 'Одежда' ),
+				// 2 уровня: Обувь → Спортивная / Классическая
+				array( 'name' => 'Обувь',              'parent' => '' ),
+				array( 'name' => 'Спортивная обувь',   'parent' => 'Обувь' ),
+				array( 'name' => 'Классическая обувь', 'parent' => 'Обувь' ),
+				// 2 уровня: Дом и сад → Текстиль / Декор
+				array( 'name' => 'Дом и сад',          'parent' => '' ),
+				array( 'name' => 'Текстиль',           'parent' => 'Дом и сад' ),
+				array( 'name' => 'Декор',              'parent' => 'Дом и сад' ),
+				// 2 уровня: Детское → Детская одежда
+				array( 'name' => 'Детское',            'parent' => '' ),
+				array( 'name' => 'Детская одежда',     'parent' => 'Детское' ),
+				// Одноуровневые
+				array( 'name' => 'Аксессуары',         'parent' => '' ),
+				array( 'name' => 'Косметика',          'parent' => '' ),
+				array( 'name' => 'Электроника',        'parent' => '' ),
+				array( 'name' => 'Спорт',              'parent' => '' ),
+				array( 'name' => 'Украшения',          'parent' => '' ),
+				array( 'name' => 'Книги',              'parent' => '' ),
 			),
 			'tags' => array(
 				'новинка', 'популярное', 'распродажа', 'хит', 'премиум',
@@ -45,7 +66,7 @@ function cw_demo_get_products_data() {
 				// ── Одежда (5) ──────────────────────────────────────────
 				array(
 					'title' => 'Футболка базовая', 'desc' => 'Классическая футболка из 100% хлопка.',
-					'image' => $img(0), 'category' => 'Одежда', 'tags' => array('популярное','новинка'),
+					'image' => $img(0), 'category' => 'Женская одежда', 'tags' => array('популярное','новинка'),
 					'regular_price' => '1290', 'sale_price' => '', 'sku_base' => 'DEMO-TSHIRT',
 					'type' => 'variable',
 					'attributes' => array(
@@ -56,7 +77,7 @@ function cw_demo_get_products_data() {
 				),
 				array(
 					'title' => 'Джинсы классические', 'desc' => 'Прямые джинсы из плотного денима.',
-					'image' => $img(1), 'category' => 'Одежда', 'tags' => array('хит','популярное'),
+					'image' => $img(1), 'category' => 'Женская одежда', 'tags' => array('хит','популярное'),
 					'regular_price' => '3990', 'sale_price' => '2990', 'sku_base' => 'DEMO-JEANS',
 					'type' => 'variable',
 					'attributes' => array(
@@ -66,7 +87,7 @@ function cw_demo_get_products_data() {
 				),
 				array(
 					'title' => 'Платье летнее', 'desc' => 'Лёгкое платье из льна для тёплых дней.',
-					'image' => $img(2), 'category' => 'Одежда', 'tags' => array('новинка','тренд'),
+					'image' => $img(2), 'category' => 'Платья', 'tags' => array('новинка','тренд'),
 					'regular_price' => '4500', 'sale_price' => '3200', 'sku_base' => 'DEMO-DRESS',
 					'type' => 'variable',
 					'attributes' => array(
@@ -77,20 +98,20 @@ function cw_demo_get_products_data() {
 				),
 				array(
 					'title' => 'Куртка демисезонная', 'desc' => 'Водоотталкивающая куртка для весны и осени.',
-					'image' => $img(3), 'category' => 'Одежда', 'tags' => array('хит','сезонное'),
+					'image' => $img(3), 'category' => 'Верхняя одежда', 'tags' => array('хит','сезонное'),
 					'regular_price' => '12500', 'sale_price' => '', 'sku_base' => 'DEMO-JACKET',
 					'type' => 'simple', 'featured' => true,
 				),
 				array(
 					'title' => 'Свитер шерстяной', 'desc' => 'Тёплый свитер из натуральной шерсти.',
-					'image' => $img(4), 'category' => 'Одежда', 'tags' => array('премиум','сезонное'),
+					'image' => $img(4), 'category' => 'Женская одежда', 'tags' => array('премиум','сезонное'),
 					'regular_price' => '5990', 'sale_price' => '', 'sku_base' => 'DEMO-SWEATER',
 					'type' => 'simple',
 				),
 				// ── Обувь (5) ───────────────────────────────────────────
 				array(
 					'title' => 'Кроссовки беговые', 'desc' => 'Лёгкие беговые кроссовки с амортизирующей подошвой.',
-					'image' => $img(5), 'category' => 'Обувь', 'tags' => array('спорт','популярное'),
+					'image' => $img(5), 'category' => 'Спортивная обувь', 'tags' => array('спорт','популярное'),
 					'regular_price' => '7500', 'sale_price' => '5900', 'sku_base' => 'DEMO-RUN',
 					'type' => 'variable',
 					'attributes' => array(
@@ -100,7 +121,7 @@ function cw_demo_get_products_data() {
 				),
 				array(
 					'title' => 'Кеды повседневные', 'desc' => 'Удобные кеды на резиновой подошве.',
-					'image' => $img(6), 'category' => 'Обувь', 'tags' => array('популярное','распродажа'),
+					'image' => $img(6), 'category' => 'Спортивная обувь', 'tags' => array('популярное','распродажа'),
 					'regular_price' => '4900', 'sale_price' => '3500', 'sku_base' => 'DEMO-SNEAK',
 					'type' => 'variable',
 					'attributes' => array(
@@ -110,19 +131,19 @@ function cw_demo_get_products_data() {
 				),
 				array(
 					'title' => 'Ботинки кожаные', 'desc' => 'Классические ботинки из натуральной кожи.',
-					'image' => $img(7), 'category' => 'Обувь', 'tags' => array('премиум','хит'),
+					'image' => $img(7), 'category' => 'Классическая обувь', 'tags' => array('премиум','хит'),
 					'regular_price' => '9900', 'sale_price' => '', 'sku_base' => 'DEMO-BOOT',
 					'type' => 'simple', 'featured' => true,
 				),
 				array(
 					'title' => 'Сандалии летние', 'desc' => 'Открытые сандалии для пляжа и города.',
-					'image' => $img(8), 'category' => 'Обувь', 'tags' => array('новинка','сезонное'),
+					'image' => $img(8), 'category' => 'Классическая обувь', 'tags' => array('новинка','сезонное'),
 					'regular_price' => '2990', 'sale_price' => '1990', 'sku_base' => 'DEMO-SAND',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Мокасины замшевые', 'desc' => 'Мягкие мокасины из замши на каждый день.',
-					'image' => $img(0), 'category' => 'Обувь', 'tags' => array('тренд'),
+					'image' => $img(0), 'category' => 'Классическая обувь', 'tags' => array('тренд'),
 					'regular_price' => '6500', 'sale_price' => '', 'sku_base' => 'DEMO-MOC',
 					'type' => 'simple',
 				),
@@ -199,7 +220,7 @@ function cw_demo_get_products_data() {
 				// ── Дом и сад (5) ───────────────────────────────────────
 				array(
 					'title' => 'Плед флисовый', 'desc' => 'Мягкий флисовый плед 150×200 см.',
-					'image' => $img(2), 'category' => 'Дом и сад', 'tags' => array('популярное','сезонное'),
+					'image' => $img(2), 'category' => 'Текстиль', 'tags' => array('популярное','сезонное'),
 					'regular_price' => '2490', 'sale_price' => '', 'sku_base' => 'DEMO-BLANKET',
 					'type' => 'variable',
 					'attributes' => array(
@@ -209,25 +230,25 @@ function cw_demo_get_products_data() {
 				),
 				array(
 					'title' => 'Набор кухонных полотенец', 'desc' => '6 полотенец из хлопка в подарочной упаковке.',
-					'image' => $img(3), 'category' => 'Дом и сад', 'tags' => array('подарок','новинка'),
+					'image' => $img(3), 'category' => 'Текстиль', 'tags' => array('подарок','новинка'),
 					'regular_price' => '1290', 'sale_price' => '', 'sku_base' => 'DEMO-TOWEL',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Ваза декоративная', 'desc' => 'Керамическая ваза ручной работы.',
-					'image' => $img(4), 'category' => 'Дом и сад', 'tags' => array('тренд','лимитед'),
+					'image' => $img(4), 'category' => 'Декор', 'tags' => array('тренд','лимитед'),
 					'regular_price' => '3490', 'sale_price' => '', 'sku_base' => 'DEMO-VASE',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Ароматические свечи (набор)', 'desc' => 'Набор из 3 свечей с разными ароматами.',
-					'image' => $img(5), 'category' => 'Дом и сад', 'tags' => array('подарок','хит'),
+					'image' => $img(5), 'category' => 'Декор', 'tags' => array('подарок','хит'),
 					'regular_price' => '1890', 'sale_price' => '1490', 'sku_base' => 'DEMO-CANDLE',
 					'type' => 'simple',
 				),
 				array(
 					'title' => 'Рамка для фото', 'desc' => 'Деревянная рамка 20×30 в скандинавском стиле.',
-					'image' => $img(6), 'category' => 'Дом и сад', 'tags' => array('новинка'),
+					'image' => $img(6), 'category' => 'Декор', 'tags' => array('новинка'),
 					'regular_price' => '990', 'sale_price' => '', 'sku_base' => 'DEMO-FRAME',
 					'type' => 'simple',
 				),
@@ -308,7 +329,7 @@ function cw_demo_get_products_data() {
 				// ── Детское (5) ─────────────────────────────────────────
 				array(
 					'title' => 'Костюм детский спортивный', 'desc' => 'Комфортный костюм для активных детей.',
-					'image' => $img(8), 'category' => 'Детское', 'tags' => array('новинка','популярное'),
+					'image' => $img(8), 'category' => 'Детская одежда', 'tags' => array('новинка','популярное'),
 					'regular_price' => '2990', 'sale_price' => '', 'sku_base' => 'DEMO-KSUIT',
 					'type' => 'variable',
 					'attributes' => array(
@@ -318,7 +339,7 @@ function cw_demo_get_products_data() {
 				),
 				array(
 					'title' => 'Кроссовки детские', 'desc' => 'Лёгкие кроссовки с застёжкой-липучкой.',
-					'image' => $img(0), 'category' => 'Детское', 'tags' => array('хит','новинка'),
+					'image' => $img(0), 'category' => 'Детская одежда', 'tags' => array('хит','новинка'),
 					'regular_price' => '2490', 'sale_price' => '1990', 'sku_base' => 'DEMO-KSHOE',
 					'type' => 'variable',
 					'attributes' => array(
@@ -421,8 +442,29 @@ function cw_demo_get_products_data() {
 	// ── English locale ──────────────────────────────────────────────────────
 	return array(
 		'categories' => array(
-			'Clothing', 'Footwear', 'Accessories', 'Cosmetics', 'Home & Garden',
-			'Electronics', 'Sports', 'Kids', 'Jewelry', 'Books',
+			// 3 levels: Clothing → Women's Clothing → Dresses
+			array( 'name' => 'Clothing',           'parent' => '' ),
+			array( 'name' => "Women's Clothing",   'parent' => 'Clothing' ),
+			array( 'name' => 'Dresses',            'parent' => "Women's Clothing" ),
+			array( 'name' => 'Outerwear',          'parent' => 'Clothing' ),
+			// 2 levels: Footwear → Athletic / Classic
+			array( 'name' => 'Footwear',           'parent' => '' ),
+			array( 'name' => 'Athletic Footwear',  'parent' => 'Footwear' ),
+			array( 'name' => 'Classic Footwear',   'parent' => 'Footwear' ),
+			// 2 levels: Home & Garden → Textiles / Décor
+			array( 'name' => 'Home & Garden',      'parent' => '' ),
+			array( 'name' => 'Textiles',           'parent' => 'Home & Garden' ),
+			array( 'name' => 'Décor',              'parent' => 'Home & Garden' ),
+			// 2 levels: Kids → Kids' Clothing
+			array( 'name' => 'Kids',               'parent' => '' ),
+			array( 'name' => "Kids' Clothing",     'parent' => 'Kids' ),
+			// Flat
+			array( 'name' => 'Accessories',        'parent' => '' ),
+			array( 'name' => 'Cosmetics',          'parent' => '' ),
+			array( 'name' => 'Electronics',        'parent' => '' ),
+			array( 'name' => 'Sports',             'parent' => '' ),
+			array( 'name' => 'Jewelry',            'parent' => '' ),
+			array( 'name' => 'Books',              'parent' => '' ),
 		),
 		'tags' => array(
 			'new-arrival', 'popular', 'sale', 'bestseller', 'premium',
@@ -437,7 +479,7 @@ function cw_demo_get_products_data() {
 		'items' => array(
 			array(
 				'title' => 'Basic T-Shirt', 'desc' => 'Classic 100% cotton t-shirt.',
-				'image' => $img(0), 'category' => 'Clothing', 'tags' => array('popular','new-arrival'),
+				'image' => $img(0), 'category' => "Women's Clothing", 'tags' => array('popular','new-arrival'),
 				'regular_price' => '19.99', 'sale_price' => '', 'sku_base' => 'DEMO-TSHIRT',
 				'type' => 'variable',
 				'attributes' => array(
@@ -448,7 +490,7 @@ function cw_demo_get_products_data() {
 			),
 			array(
 				'title' => 'Classic Jeans', 'desc' => 'Straight-cut jeans from heavy denim.',
-				'image' => $img(1), 'category' => 'Clothing', 'tags' => array('bestseller','popular'),
+				'image' => $img(1), 'category' => "Women's Clothing", 'tags' => array('bestseller','popular'),
 				'regular_price' => '59.99', 'sale_price' => '44.99', 'sku_base' => 'DEMO-JEANS',
 				'type' => 'variable',
 				'attributes' => array(
@@ -458,7 +500,7 @@ function cw_demo_get_products_data() {
 			),
 			array(
 				'title' => 'Summer Dress', 'desc' => 'Light linen dress for warm days.',
-				'image' => $img(2), 'category' => 'Clothing', 'tags' => array('new-arrival','trending'),
+				'image' => $img(2), 'category' => 'Dresses', 'tags' => array('new-arrival','trending'),
 				'regular_price' => '69.99', 'sale_price' => '49.99', 'sku_base' => 'DEMO-DRESS',
 				'type' => 'variable',
 				'attributes' => array(
@@ -469,19 +511,19 @@ function cw_demo_get_products_data() {
 			),
 			array(
 				'title' => 'Autumn Jacket', 'desc' => 'Water-repellent jacket for spring and autumn.',
-				'image' => $img(3), 'category' => 'Clothing', 'tags' => array('bestseller','seasonal'),
+				'image' => $img(3), 'category' => 'Outerwear', 'tags' => array('bestseller','seasonal'),
 				'regular_price' => '189.00', 'sale_price' => '', 'sku_base' => 'DEMO-JACKET',
 				'type' => 'simple', 'featured' => true,
 			),
 			array(
 				'title' => 'Wool Sweater', 'desc' => 'Warm sweater from natural wool.',
-				'image' => $img(4), 'category' => 'Clothing', 'tags' => array('premium','seasonal'),
+				'image' => $img(4), 'category' => "Women's Clothing", 'tags' => array('premium','seasonal'),
 				'regular_price' => '89.00', 'sale_price' => '', 'sku_base' => 'DEMO-SWEATER',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Running Shoes', 'desc' => 'Lightweight running shoes with cushioned sole.',
-				'image' => $img(5), 'category' => 'Footwear', 'tags' => array('sport','popular'),
+				'image' => $img(5), 'category' => 'Athletic Footwear', 'tags' => array('sport','popular'),
 				'regular_price' => '120.00', 'sale_price' => '89.00', 'sku_base' => 'DEMO-RUN',
 				'type' => 'variable',
 				'attributes' => array(
@@ -491,7 +533,7 @@ function cw_demo_get_products_data() {
 			),
 			array(
 				'title' => 'Casual Sneakers', 'desc' => 'Comfortable everyday sneakers.',
-				'image' => $img(6), 'category' => 'Footwear', 'tags' => array('popular','sale'),
+				'image' => $img(6), 'category' => 'Athletic Footwear', 'tags' => array('popular','sale'),
 				'regular_price' => '79.00', 'sale_price' => '59.00', 'sku_base' => 'DEMO-SNEAK',
 				'type' => 'variable',
 				'attributes' => array(
@@ -501,19 +543,19 @@ function cw_demo_get_products_data() {
 			),
 			array(
 				'title' => 'Leather Boots', 'desc' => 'Classic boots from genuine leather.',
-				'image' => $img(7), 'category' => 'Footwear', 'tags' => array('premium','bestseller'),
+				'image' => $img(7), 'category' => 'Classic Footwear', 'tags' => array('premium','bestseller'),
 				'regular_price' => '149.00', 'sale_price' => '', 'sku_base' => 'DEMO-BOOT',
 				'type' => 'simple', 'featured' => true,
 			),
 			array(
 				'title' => 'Summer Sandals', 'desc' => 'Open sandals for beach and city.',
-				'image' => $img(8), 'category' => 'Footwear', 'tags' => array('new-arrival','seasonal'),
+				'image' => $img(8), 'category' => 'Classic Footwear', 'tags' => array('new-arrival','seasonal'),
 				'regular_price' => '49.00', 'sale_price' => '35.00', 'sku_base' => 'DEMO-SAND',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Suede Moccasins', 'desc' => 'Soft suede moccasins for everyday wear.',
-				'image' => $img(0), 'category' => 'Footwear', 'tags' => array('trending'),
+				'image' => $img(0), 'category' => 'Classic Footwear', 'tags' => array('trending'),
 				'regular_price' => '99.00', 'sale_price' => '', 'sku_base' => 'DEMO-MOC',
 				'type' => 'simple',
 			),
@@ -587,7 +629,7 @@ function cw_demo_get_products_data() {
 			),
 			array(
 				'title' => 'Fleece Blanket', 'desc' => 'Soft fleece blanket 150×200 cm.',
-				'image' => $img(2), 'category' => 'Home & Garden', 'tags' => array('popular','seasonal'),
+				'image' => $img(2), 'category' => 'Textiles', 'tags' => array('popular','seasonal'),
 				'regular_price' => '39.00', 'sale_price' => '', 'sku_base' => 'DEMO-BLANKET',
 				'type' => 'variable',
 				'attributes' => array(
@@ -597,25 +639,25 @@ function cw_demo_get_products_data() {
 			),
 			array(
 				'title' => 'Kitchen Towel Set', 'desc' => '6 cotton towels in gift wrapping.',
-				'image' => $img(3), 'category' => 'Home & Garden', 'tags' => array('gift-idea','new-arrival'),
+				'image' => $img(3), 'category' => 'Textiles', 'tags' => array('gift-idea','new-arrival'),
 				'regular_price' => '19.99', 'sale_price' => '', 'sku_base' => 'DEMO-TOWEL',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Decorative Vase', 'desc' => 'Handmade ceramic vase.',
-				'image' => $img(4), 'category' => 'Home & Garden', 'tags' => array('trending','limited'),
+				'image' => $img(4), 'category' => 'Decor', 'tags' => array('trending','limited'),
 				'regular_price' => '54.00', 'sale_price' => '', 'sku_base' => 'DEMO-VASE',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Scented Candle Set', 'desc' => 'Set of 3 candles with different scents.',
-				'image' => $img(5), 'category' => 'Home & Garden', 'tags' => array('gift-idea','bestseller'),
+				'image' => $img(5), 'category' => 'Decor', 'tags' => array('gift-idea','bestseller'),
 				'regular_price' => '29.00', 'sale_price' => '24.00', 'sku_base' => 'DEMO-CANDLE',
 				'type' => 'simple',
 			),
 			array(
 				'title' => 'Photo Frame', 'desc' => 'Wooden frame 20×30 in Scandinavian style.',
-				'image' => $img(6), 'category' => 'Home & Garden', 'tags' => array('new-arrival'),
+				'image' => $img(6), 'category' => 'Decor', 'tags' => array('new-arrival'),
 				'regular_price' => '15.99', 'sale_price' => '', 'sku_base' => 'DEMO-FRAME',
 				'type' => 'simple',
 			),
@@ -693,7 +735,7 @@ function cw_demo_get_products_data() {
 			),
 			array(
 				'title' => 'Kids Tracksuit', 'desc' => 'Comfortable tracksuit for active kids.',
-				'image' => $img(8), 'category' => 'Kids', 'tags' => array('new-arrival','popular'),
+				'image' => $img(8), 'category' => "Kids' Clothing", 'tags' => array('new-arrival','popular'),
 				'regular_price' => '44.99', 'sale_price' => '', 'sku_base' => 'DEMO-KSUIT',
 				'type' => 'variable',
 				'attributes' => array(
@@ -703,7 +745,7 @@ function cw_demo_get_products_data() {
 			),
 			array(
 				'title' => 'Kids Sneakers', 'desc' => 'Lightweight sneakers with velcro strap.',
-				'image' => $img(0), 'category' => 'Kids', 'tags' => array('bestseller','new-arrival'),
+				'image' => $img(0), 'category' => "Kids' Clothing", 'tags' => array('bestseller','new-arrival'),
 				'regular_price' => '39.00', 'sale_price' => '32.00', 'sku_base' => 'DEMO-KSHOE',
 				'type' => 'variable',
 				'attributes' => array(
@@ -947,22 +989,61 @@ function cw_demo_import_product_image( $image_filename, $post_id ) {
 /**
  * Получить или создать термин таксономии.
  *
- * @param string $name     Название.
- * @param string $taxonomy Таксономия.
+ * @param string $name      Название.
+ * @param string $taxonomy  Таксономия.
+ * @param int    $parent_id ID родительского термина (0 = корень).
  * @return int|false
  */
-function cw_demo_get_or_create_product_term( $name, $taxonomy ) {
-	$term = get_term_by( 'name', $name, $taxonomy );
-	if ( $term ) {
-		return $term->term_id;
+function cw_demo_get_or_create_product_term( $name, $taxonomy, $parent_id = 0 ) {
+	// Поиск с учётом родителя, чтобы не перепутать одноимённые категории разных уровней
+	$search_args = array( 'taxonomy' => $taxonomy, 'hide_empty' => false, 'number' => 0 );
+	if ( $parent_id ) {
+		$search_args['parent'] = $parent_id;
+	}
+	$terms = get_terms( $search_args );
+	if ( ! is_wp_error( $terms ) ) {
+		foreach ( $terms as $term ) {
+			if ( $term->name === $name ) {
+				return $term->term_id;
+			}
+		}
 	}
 
-	$result = wp_insert_term( $name, $taxonomy, array( 'slug' => sanitize_title( $name ) ) );
+	$insert_args = array( 'slug' => sanitize_title( $name ) );
+	if ( $parent_id ) {
+		$insert_args['parent'] = $parent_id;
+	}
+
+	$result = wp_insert_term( $name, $taxonomy, $insert_args );
 	if ( is_wp_error( $result ) ) {
 		return false;
 	}
 
 	return $result['term_id'];
+}
+
+/**
+ * Создать иерархические категории товаров и вернуть map[name => term_id].
+ *
+ * @param array $categories Массив array('name' => ..., 'parent' => ...).
+ * @return array
+ */
+function cw_demo_create_categories( $categories ) {
+	$name_to_id = array();
+
+	foreach ( $categories as $cat ) {
+		$parent_id = 0;
+		if ( ! empty( $cat['parent'] ) && isset( $name_to_id[ $cat['parent'] ] ) ) {
+			$parent_id = $name_to_id[ $cat['parent'] ];
+		}
+
+		$term_id = cw_demo_get_or_create_product_term( $cat['name'], 'product_cat', $parent_id );
+		if ( $term_id ) {
+			$name_to_id[ $cat['name'] ] = $term_id;
+		}
+	}
+
+	return $name_to_id;
 }
 
 /**
@@ -1224,11 +1305,22 @@ function cw_demo_create_products() {
 	$created     = 0;
 	$errors      = array();
 
+	// Создаём иерархические категории и строим map[name => term_id]
+	$cat_map = ! empty( $data['categories'] )
+		? cw_demo_create_categories( $data['categories'] )
+		: array();
+
 	foreach ( $data['items'] as $item ) {
-		// Категория
-		$cat_id = ! empty( $item['category'] )
-			? cw_demo_get_or_create_product_term( $item['category'], 'product_cat' )
-			: false;
+		// Категория — ищем по map, чтобы учесть иерархию
+		$cat_id = false;
+		if ( ! empty( $item['category'] ) ) {
+			if ( isset( $cat_map[ $item['category'] ] ) ) {
+				$cat_id = $cat_map[ $item['category'] ];
+			} else {
+				// Запасной вариант: создать плоскую категорию
+				$cat_id = cw_demo_get_or_create_product_term( $item['category'], 'product_cat' );
+			}
+		}
 
 		// Теги
 		$tag_ids = array();
