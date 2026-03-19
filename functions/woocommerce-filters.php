@@ -1079,7 +1079,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 	$section_style       = in_array( $panel_atts['section_style'] ?? 'plain', [ 'plain', 'accordion' ], true )
 		? $panel_atts['section_style'] : 'plain';
 	$sections_open       = isset( $panel_atts['sections_open'] ) ? (bool) $panel_atts['sections_open'] : true;
-	$wrapper_class       = isset( $panel_atts['wrapper_class'] ) ? esc_attr( $panel_atts['wrapper_class'] ) : 'widget';
+	$wrapper_class       = isset( $panel_atts['wrapper_class'] ) ? esc_attr( $panel_atts['wrapper_class'] ) : 'mb-4';
 	$heading_tag         = in_array( $panel_atts['heading_tag'] ?? 'h4', [ 'h2', 'h3', 'h4', 'h5', 'h6', 'p' ], true )
 		? $panel_atts['heading_tag'] : 'h4';
 	$heading_class       = isset( $panel_atts['heading_class'] ) ? esc_attr( $panel_atts['heading_class'] ) : 'widget-title mb-3';
