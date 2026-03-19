@@ -36,9 +36,10 @@ function cw_demo_get_products_data() {
 				'спорт', 'подарок', 'лимитед', 'тренд', 'сезонное',
 			),
 			'attributes' => array(
-				'color'    => array( 'label' => 'Цвет',     'values' => array( 'Красный','Синий','Чёрный','Белый','Зелёный' ) ),
-				'size'     => array( 'label' => 'Размер',   'values' => array( 'XS','S','M','L','XL','XXL' ) ),
-				'material' => array( 'label' => 'Материал', 'values' => array( 'Хлопок','Шерсть','Полиэстер','Кожа','Лён' ) ),
+				'color'    => array( 'label' => 'Цвет',     'type' => 'color',  'values' => array( 'Красный','Синий','Чёрный','Белый','Зелёный' ) ),
+				'size'     => array( 'label' => 'Размер',   'type' => 'button', 'values' => array( 'XS','S','M','L','XL','XXL' ) ),
+				'material' => array( 'label' => 'Материал', 'type' => 'select', 'values' => array( 'Хлопок','Шерсть','Полиэстер','Кожа','Лён' ) ),
+				'print'    => array( 'label' => 'Принт',    'type' => 'image',  'values' => array( 'Полоска','Клетка','Цветочный','Абстракция' ) ),
 			),
 			'items' => array(
 				// ── Одежда (5) ──────────────────────────────────────────
@@ -50,6 +51,7 @@ function cw_demo_get_products_data() {
 					'attributes' => array(
 						'color'  => array('Белый','Чёрный','Синий'),
 						'size'   => array('S','M','L','XL'),
+						'print'  => array('Полоска','Абстракция'),
 					),
 				),
 				array(
@@ -70,6 +72,7 @@ function cw_demo_get_products_data() {
 					'attributes' => array(
 						'color'    => array('Белый','Зелёный','Красный'),
 						'material' => array('Лён','Хлопок'),
+						'print'    => array('Цветочный','Клетка'),
 					),
 				),
 				array(
@@ -426,9 +429,10 @@ function cw_demo_get_products_data() {
 			'sport', 'gift-idea', 'limited', 'trending', 'seasonal',
 		),
 		'attributes' => array(
-			'color'    => array( 'label' => 'Color',    'values' => array( 'Red','Blue','Black','White','Green' ) ),
-			'size'     => array( 'label' => 'Size',     'values' => array( 'XS','S','M','L','XL','XXL' ) ),
-			'material' => array( 'label' => 'Material', 'values' => array( 'Cotton','Wool','Polyester','Leather','Linen' ) ),
+			'color'    => array( 'label' => 'Color',    'type' => 'color',  'values' => array( 'Red','Blue','Black','White','Green' ) ),
+			'size'     => array( 'label' => 'Size',     'type' => 'button', 'values' => array( 'XS','S','M','L','XL','XXL' ) ),
+			'material' => array( 'label' => 'Material', 'type' => 'select', 'values' => array( 'Cotton','Wool','Polyester','Leather','Linen' ) ),
+			'print'    => array( 'label' => 'Print',    'type' => 'image',  'values' => array( 'Stripes','Plaid','Floral','Abstract' ) ),
 		),
 		'items' => array(
 			array(
@@ -439,6 +443,7 @@ function cw_demo_get_products_data() {
 				'attributes' => array(
 					'color' => array('White','Black','Blue'),
 					'size'  => array('S','M','L','XL'),
+					'print' => array('Stripes','Abstract'),
 				),
 			),
 			array(
@@ -459,6 +464,7 @@ function cw_demo_get_products_data() {
 				'attributes' => array(
 					'color'    => array('White','Green','Red'),
 					'material' => array('Linen','Cotton'),
+					'print'    => array('Floral','Plaid'),
 				),
 			),
 			array(
@@ -803,7 +809,10 @@ function cw_demo_get_products_data() {
  * @param string $slug  Slug атрибута (без префикса pa_).
  * @return string|false
  */
-function cw_demo_ensure_wc_attribute( $label, $slug ) {
+function cw_demo_ensure_wc_attribute( $label, $slug, $type = 'select' ) {
+	$allowed_types = array( 'select', 'button', 'color', 'image' );
+	$type          = in_array( $type, $allowed_types, true ) ? $type : 'select';
+
 	if ( ! function_exists( 'wc_create_attribute' ) ) {
 		return false;
 	}
@@ -814,6 +823,17 @@ function cw_demo_ensure_wc_attribute( $label, $slug ) {
 	$existing = wc_get_attribute_taxonomies();
 	foreach ( $existing as $attr ) {
 		if ( $attr->attribute_name === $slug ) {
+			// Обновляем тип если он отличается
+			if ( $attr->attribute_type !== $type && function_exists( 'wc_update_attribute' ) ) {
+				wc_update_attribute( $attr->attribute_id, array(
+					'name'         => $attr->attribute_label,
+					'slug'         => $slug,
+					'type'         => $type,
+					'order_by'     => $attr->attribute_orderby,
+					'has_archives' => (bool) $attr->attribute_public,
+				) );
+				delete_transient( 'wc_attribute_taxonomies' );
+			}
 			return $taxonomy;
 		}
 	}
@@ -822,7 +842,7 @@ function cw_demo_ensure_wc_attribute( $label, $slug ) {
 	$id = wc_create_attribute( array(
 		'name'         => $label,
 		'slug'         => $slug,
-		'type'         => 'select',
+		'type'         => $type,
 		'order_by'     => 'menu_order',
 		'has_archives' => false,
 	) );
@@ -1059,9 +1079,10 @@ function cw_demo_create_variable_product( $item, $cat_id, $tag_ids, $attr_config
 	$position            = 0;
 
 	foreach ( $item['attributes'] as $attr_slug => $values ) {
-		$label = $attr_config[ $attr_slug ]['label'] ?? ucfirst( $attr_slug );
+		$label     = $attr_config[ $attr_slug ]['label'] ?? ucfirst( $attr_slug );
+		$attr_type = $attr_config[ $attr_slug ]['type']  ?? 'select';
 
-		$taxonomy = cw_demo_ensure_wc_attribute( $label, $attr_slug );
+		$taxonomy = cw_demo_ensure_wc_attribute( $label, $attr_slug, $attr_type );
 		if ( ! $taxonomy ) {
 			continue;
 		}
