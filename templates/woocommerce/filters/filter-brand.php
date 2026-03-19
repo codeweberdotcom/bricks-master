@@ -86,9 +86,9 @@ foreach ( $terms_data as $item ) :
 		$title_attr .= ' (' . ( $is_empty ? 0 : $count ) . ')';
 	}
 
-	// Logo <img> — object-fit:contain keeps the full logo visible, never crops.
+	// Logo <img> — max-width/max-height keeps it within the swatch, never overflows.
 	$logo_html = $img_url
-		? '<img src="' . esc_url( $img_url ) . '" alt="' . $img_alt . '" style="width:100%;height:100%;object-fit:contain;display:block;" loading="lazy">'
+		? '<img src="' . esc_url( $img_url ) . '" alt="' . $img_alt . '" style="max-width:100%;max-height:100%;display:block;" loading="lazy">'
 		: '<span class="visually-hidden">' . esc_html( $term->name ) . '</span>';
 
 	if ( $is_empty && 'disable_clickable' !== $empty_behavior ) :

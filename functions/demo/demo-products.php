@@ -1109,6 +1109,55 @@ function cw_demo_ensure_wc_attribute( $label, $slug, $type = 'select' ) {
 }
 
 /**
+ * Импортировать изображение в медиабиблиотеку и назначить термину атрибута.
+ * Использует мета-ключ product_attribute_image (см. functions/woocommerce-swatches.php).
+ *
+ * @param string $image_filename Имя файла из src/assets/img/photos/.
+ * @param int    $term_id        ID термина атрибута.
+ * @return int|false ID attachment или false при ошибке.
+ */
+function cw_demo_set_attribute_term_image( $image_filename, $term_id ) {
+	$source_path = get_template_directory() . '/src/assets/img/photos/' . $image_filename;
+	if ( ! file_exists( $source_path ) ) {
+		return false;
+	}
+
+	$file_type = wp_check_filetype( basename( $source_path ), null );
+	if ( ! $file_type['type'] ) {
+		return false;
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+
+	$upload_dir = wp_upload_dir();
+	$dest_path  = $upload_dir['path'] . '/attr-' . $term_id . '-' . basename( $source_path );
+
+	if ( ! copy( $source_path, $dest_path ) ) {
+		return false;
+	}
+
+	$attachment_id = media_handle_sideload(
+		array( 'name' => basename( $source_path ), 'tmp_name' => $dest_path ),
+		0
+	);
+
+	if ( file_exists( $dest_path ) ) {
+		@unlink( $dest_path ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+	}
+
+	if ( is_wp_error( $attachment_id ) ) {
+		return false;
+	}
+
+	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, get_attached_file( $attachment_id ) ) );
+	update_term_meta( $term_id, 'product_attribute_image', $attachment_id );
+
+	return $attachment_id;
+}
+
+/**
  * Получить или создать термин в таксономии атрибута и задать мета-данные (цвет / изображение).
  *
  * @param string $value     Значение (название термина).
@@ -1139,9 +1188,9 @@ function cw_demo_ensure_attribute_term( $value, $taxonomy, $attr_type = 'select'
 		}
 	}
 
-	// Изображение атрибута — устанавливаем если ещё не задано
-	if ( ! empty( $meta['image'] ) && ! get_term_meta( $term_id, 'thumbnail_id', true ) ) {
-		cw_demo_set_category_image( $meta['image'], $term_id );
+	// Изображение атрибута — мета-ключ product_attribute_image (woocommerce-swatches.php)
+	if ( ! empty( $meta['image'] ) && ! get_term_meta( $term_id, 'product_attribute_image', true ) ) {
+		cw_demo_set_attribute_term_image( $meta['image'], $term_id );
 	}
 
 	return $slug;
