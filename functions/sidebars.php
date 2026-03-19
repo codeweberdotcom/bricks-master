@@ -12,7 +12,7 @@ if (!function_exists('codeweber_sidebars')) {
             'name'          => esc_html__($sidebar_name, 'codeweber'),
             'id'            => $sidebar_id,
             'description'   => esc_html__($sidebar_description, 'codeweber'),
-            'before_widget' => '<div class="widget mb-4 %2$s clearfix">',
+            'before_widget' => '<div class="widget %2$s clearfix">',
             'after_widget'  => '</div>',
             'before_title'  => "<{$title_tag} class=\"{$title_class}\">",
             'after_title'   => "</{$title_tag}>",
