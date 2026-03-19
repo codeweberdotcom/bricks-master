@@ -1173,7 +1173,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 		$filter_type  = $item['filterType'] ?? 'price';
 		$label        = isset( $item['label'] ) ? sanitize_text_field( $item['label'] ) : '';
-		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'radio', 'list', 'button', 'badge', 'color', 'image' ], true )
+		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'radio', 'list', 'button', 'badge', 'color', 'image', 'collapse' ], true )
 			? $item['displayMode'] : 'checkbox';
 		$show_count       = isset( $item['showCount'] ) ? (bool) $item['showCount'] : true;
 		$taxonomy         = isset( $item['taxonomy'] ) ? sanitize_key( $item['taxonomy'] ) : '';
@@ -1202,6 +1202,11 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		$limit_value       = isset( $item['limitValue'] ) ? max( 1, (int) $item['limitValue'] ) : 5;
 		$show_more_text    = isset( $item['showMoreText'] ) && '' !== trim( $item['showMoreText'] ) ? sanitize_text_field( $item['showMoreText'] ) : __( 'Показать ещё', 'codeweber' );
 		$show_less_text    = isset( $item['showLessText'] ) && '' !== trim( $item['showLessText'] ) ? sanitize_text_field( $item['showLessText'] ) : __( 'Свернуть', 'codeweber' );
+
+		$collapse_list_type = preg_replace( '/[^1-4]/', '', (string) ( $item['collapseListType'] ?? '1' ) );
+		if ( '' === $collapse_list_type ) {
+			$collapse_list_type = '1';
+		}
 
 		$section_label   = $label;
 		$section_content = '';

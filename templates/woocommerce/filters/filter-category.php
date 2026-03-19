@@ -205,7 +205,172 @@ $badge_item_class    = $badge_item_class ?? '';
 		<?php endforeach; ?>
 	</div>
 
-<?php else : // list — default ?>
+<?php elseif ( 'collapse' === $display_mode ) :
+
+	// Fetch ALL product_cat terms (all hierarchy levels) for tree building.
+	$all_cat_terms = get_terms( [
+		'taxonomy'   => 'product_cat',
+		'hide_empty' => true,
+		'orderby'    => 'name',
+		'order'      => 'ASC',
+		'number'     => 0,
+	] );
+
+	if ( ! is_wp_error( $all_cat_terms ) && ! empty( $all_cat_terms ) ) :
+		$cat_counts     = cw_get_filtered_term_counts( 'product_cat', '' );
+		$queried_cat    = is_product_category() ? get_queried_object() : null;
+		$queried_cat_id = ( $queried_cat && isset( $queried_cat->term_id ) ) ? (int) $queried_cat->term_id : 0;
+
+		// Group terms by parent ID into a tree array.
+		$cat_tree = [];
+		foreach ( $all_cat_terms as $cat_term ) {
+			$pid = (int) $cat_term->parent;
+			if ( ! isset( $cat_tree[ $pid ] ) ) {
+				$cat_tree[ $pid ] = [];
+			}
+			$filtered_count = $cat_counts[ (int) $cat_term->term_id ] ?? 0;
+			$term_link      = get_term_link( $cat_term );
+			$cat_tree[ $pid ][] = [
+				'term'      => $cat_term,
+				'wp_id'     => (int) $cat_term->term_id,
+				'url'       => is_wp_error( $term_link ) ? '#' : $term_link,
+				'count'     => $filtered_count,
+				'is_active' => ( $queried_cat_id > 0 && (int) $cat_term->term_id === $queried_cat_id ),
+				'is_empty'  => ( 0 === $filtered_count ),
+			];
+		}
+
+		$cl_type          = $collapse_list_type ?? '1';
+		$collapse_wrap_id = esc_attr( $section_id ) . '-cmenu';
+
+		// Checks recursively whether any item in the subtree is the current category.
+		$cat_subtree_has_current = function ( $tree, $pid ) use ( &$cat_subtree_has_current ) {
+			foreach ( $tree[ $pid ] ?? [] as $child ) {
+				if ( $child['is_active'] ) {
+					return true;
+				}
+				if ( isset( $tree[ $child['wp_id'] ] ) && $cat_subtree_has_current( $tree, $child['wp_id'] ) ) {
+					return true;
+				}
+			}
+			return false;
+		};
+
+		// Recursive renderer for Bootstrap Collapse styles (types 1–3).
+		$render_cat_collapse = function ( $tree, $pid, $root_id, $list_type, $lvl = 1 ) use ( &$render_cat_collapse, &$cat_subtree_has_current, $show_count, $empty_behavior ) {
+			$children = $tree[ $pid ] ?? [];
+			if ( empty( $children ) ) {
+				return '';
+			}
+			$html = '';
+			foreach ( $children as $ci ) {
+				$has_sub   = isset( $tree[ $ci['wp_id'] ] ) && ! empty( $tree[ $ci['wp_id'] ] );
+				$is_active = $ci['is_active'];
+				$is_empty  = $ci['is_empty'];
+
+				if ( 'default' === $empty_behavior ) {
+					$is_empty = false;
+				} elseif ( 'hide' === $empty_behavior && $is_empty && ! $is_active ) {
+					continue;
+				}
+
+				$is_disabled        = ( 'disable' === $empty_behavior && $is_empty && ! $is_active );
+				$is_clickable_muted = ( 'disable_clickable' === $empty_behavior && $is_empty && ! $is_active );
+				$expand             = $has_sub && $cat_subtree_has_current( $tree, $ci['wp_id'] );
+				$cid                = $root_id . '-' . $ci['wp_id'];
+
+				$li_cls = array_filter( [ 'nav-item', 'parent-collapse-item', 1 === $lvl ? 'parent-item' : '', $has_sub ? 'collapse-has-children' : '', $is_active ? 'current-menu-item' : '' ] );
+				$html  .= '<li class="' . esc_attr( implode( ' ', $li_cls ) ) . '">';
+
+				$count_html = $show_count ? '<span class="fs-sm text-muted ms-1">(' . (int) $ci['count'] . ')</span>' : '';
+
+				if ( $has_sub ) {
+					$a_cls = array_filter( [ 'nav-link', 'd-block', 'flex-grow-1', 'pjax-link', $is_active ? 'fw-semibold' : '', $is_active ? 'current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					$html .= '<div class="menu-collapse-row d-flex align-items-center justify-content-between">';
+					if ( $is_disabled ) {
+						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
+					} else {
+						$html .= '<a href="' . esc_url( $ci['url'] ) . '" class="' . esc_attr( implode( ' ', $a_cls ) ) . '"' . ( $is_active ? ' aria-current="page"' : '' ) . '>' . esc_html( $ci['term']->name ) . $count_html . '</a>';
+					}
+					$btn_cls = array_filter( [ 'btn-collapse', 'w-5', 'h-5', $expand ? '' : 'collapsed' ] );
+					$html   .= '<button type="button" class="' . esc_attr( implode( ' ', $btn_cls ) ) . '" data-bs-toggle="collapse" data-bs-target="#' . esc_attr( $cid ) . '" aria-expanded="' . ( $expand ? 'true' : 'false' ) . '" aria-controls="' . esc_attr( $cid ) . '" aria-label="' . esc_attr__( 'Expand submenu', 'codeweber' ) . '">';
+					$html   .= '<span class="toggle_block" aria-hidden="true"><i class="uil uil-angle-down sidebar-catalog-icon"></i></span>';
+					$html   .= '</button></div>';
+					$sub_cls = 'navbar-nav list-unstyled menu-collapse-' . $list_type;
+					$html   .= '<div class="collapse' . ( $expand ? ' show' : '' ) . '" id="' . esc_attr( $cid ) . '" data-bs-parent="#' . esc_attr( $root_id ) . '">';
+					$html   .= '<ul class="' . esc_attr( $sub_cls ) . '">';
+					$html   .= $render_cat_collapse( $tree, $ci['wp_id'], $root_id, $list_type, $lvl + 1 );
+					$html   .= '</ul></div>';
+				} else {
+					$a_cls = array_filter( [ 'nav-link', 'd-block', 'pjax-link', $is_active ? 'fw-semibold' : '', $is_active ? 'current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					if ( $is_disabled ) {
+						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
+					} else {
+						$html .= '<a href="' . esc_url( $ci['url'] ) . '" class="' . esc_attr( implode( ' ', $a_cls ) ) . '"' . ( $is_active ? ' aria-current="page"' : '' ) . '>' . esc_html( $ci['term']->name ) . $count_html . '</a>';
+					}
+				}
+
+				$html .= '</li>';
+			}
+			return $html;
+		};
+
+		// Recursive renderer for Type 4 — simple nested list without Bootstrap Collapse.
+		$render_cat_list4 = function ( $tree, $pid ) use ( &$render_cat_list4, $show_count, $empty_behavior ) {
+			$children = $tree[ $pid ] ?? [];
+			if ( empty( $children ) ) {
+				return '';
+			}
+			$html = '';
+			foreach ( $children as $ci ) {
+				$has_sub   = isset( $tree[ $ci['wp_id'] ] ) && ! empty( $tree[ $ci['wp_id'] ] );
+				$is_active = $ci['is_active'];
+				$is_empty  = $ci['is_empty'];
+
+				if ( 'default' === $empty_behavior ) {
+					$is_empty = false;
+				} elseif ( 'hide' === $empty_behavior && $is_empty && ! $is_active ) {
+					continue;
+				}
+
+				$is_disabled        = ( 'disable' === $empty_behavior && $is_empty && ! $is_active );
+				$is_clickable_muted = ( 'disable_clickable' === $empty_behavior && $is_empty && ! $is_active );
+
+				$count_html = $show_count ? '<span class="fs-sm text-muted ms-1">(' . (int) $ci['count'] . ')</span>' : '';
+				$a_cls      = array_filter( [ 'pjax-link', $is_active ? 'fw-semibold' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+
+				$html .= '<li>';
+				if ( $is_disabled ) {
+					$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
+				} else {
+					$html .= '<a href="' . esc_url( $ci['url'] ) . '" class="' . esc_attr( implode( ' ', $a_cls ) ) . '"' . ( $is_active ? ' aria-current="page"' : '' ) . '>' . esc_html( $ci['term']->name ) . $count_html . '</a>';
+				}
+				if ( $has_sub ) {
+					$html .= '<ul class="list-unstyled menu-type-4-sub">';
+					$html .= $render_cat_list4( $tree, $ci['wp_id'] );
+					$html .= '</ul>';
+				}
+				$html .= '</li>';
+			}
+			return $html;
+		};
+
+		if ( '4' === $cl_type ) :
+			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical navbar-light">';
+			echo '<ul class="list-unstyled menu-list-type-4">';
+			echo $render_cat_list4( $cat_tree, 0 ); // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '</ul></nav>';
+		else :
+			$nav_list_cls = 'navbar-nav list-unstyled menu-collapse-' . $cl_type;
+			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical menu-collapse-nav navbar-light">';
+			echo '<ul class="' . esc_attr( $nav_list_cls ) . '">';
+			echo $render_cat_collapse( $cat_tree, 0, $collapse_wrap_id, $cl_type ); // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '</ul></nav>';
+		endif;
+
+	endif; // end if !is_wp_error
+
+?><?php else : // list — default ?>
 
 	<ul class="list-unstyled ps-0 mb-0">
 		<?php foreach ( $terms_data as $item ) :
