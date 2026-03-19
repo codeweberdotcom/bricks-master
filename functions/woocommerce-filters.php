@@ -571,6 +571,53 @@ function cw_get_filtered_term_counts( $taxonomy, $exclude_taxonomy = '' ) {
  * @param bool   $show_count Whether to include product count.
  * @return array{ term: WP_Term, count: int, is_active: bool, is_empty: bool, url: string }[]
  */
+/**
+ * Get brand terms for the filter with filtered counts.
+ *
+ * Uses the built-in WooCommerce `product_brand` taxonomy.
+ *
+ * @param bool $show_count   Whether to include product count.
+ * @param bool $single_select Whether to build single-select (radio) URLs.
+ * @return array{ term: WP_Term, count: int, is_active: bool, is_empty: bool, url: string, thumbnail_id: int }[]
+ */
+function cw_get_brand_filter_terms( $show_count = true, $single_select = false ) {
+	$taxonomy = 'product_brand';
+	if ( ! taxonomy_exists( $taxonomy ) ) {
+		return [];
+	}
+
+	$param = 'filter_' . $taxonomy;
+
+	$terms = get_terms( [
+		'taxonomy'   => $taxonomy,
+		'hide_empty' => true,
+		'orderby'    => 'name',
+	] );
+
+	if ( is_wp_error( $terms ) || empty( $terms ) ) {
+		return [];
+	}
+
+	$counts = cw_get_filtered_term_counts( $taxonomy, $taxonomy );
+
+	$result = [];
+	foreach ( $terms as $term ) {
+		$filtered_count = $counts[ (int) $term->term_id ] ?? 0;
+		$result[] = [
+			'term'         => $term,
+			'count'        => $filtered_count,
+			'is_active'    => cw_is_filter_active( $param, $term->slug ),
+			'is_empty'     => ( 0 === $filtered_count ),
+			'url'          => $single_select
+				? cw_get_filter_url_single( $param, $term->slug )
+				: cw_get_filter_url( $param, $term->slug ),
+			'thumbnail_id' => (int) get_term_meta( (int) $term->term_id, 'thumbnail_id', true ),
+		];
+	}
+
+	return $result;
+}
+
 function cw_get_attribute_filter_terms( $taxonomy, $show_count = true, $single_select = false ) {
 	$param = 'filter_' . wc_attribute_taxonomy_slug( $taxonomy );
 
@@ -1284,6 +1331,28 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 					$empty_behavior = 'disable';
 				}
 				include $filters_dir . 'filter-stock.php';
+				break;
+
+			case 'brands':
+				if ( ! $section_label ) {
+					$section_label = __( 'Бренды', 'codeweber' );
+				}
+				if ( ! taxonomy_exists( 'product_brand' ) ) {
+					$has_content = false;
+					break;
+				}
+				$terms_data = cw_get_brand_filter_terms( $show_count, $single_select );
+				$radio_name = 'cw_filter_radio_brand';
+				if ( empty( $terms_data ) ) {
+					$has_content = false;
+				} else {
+					if ( 'hide_block' === $empty_behavior ) {
+						$all_empty = ! array_filter( $terms_data, fn( $t ) => ! ( $t['is_empty'] ?? false ) );
+						if ( $all_empty ) { $has_content = false; break; }
+						$empty_behavior = 'disable';
+					}
+					include $filters_dir . 'filter-brand.php';
+				}
 				break;
 
 			case 'attributes':
