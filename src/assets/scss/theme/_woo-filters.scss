@@ -216,3 +216,32 @@
     }
   }
 }
+
+// ── Color / image swatches ─────────────────────────────────────────────────────
+
+.cw-swatch {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+// Empty swatch: diagonal line + primary border instead of opacity
+.cw-swatch--unavailable {
+  box-shadow: inset 0 0 0 1.5px $primary;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top left,
+      transparent calc(50% - 1px),
+      $primary calc(50% - 1px),
+      $primary calc(50% + 1px),
+      transparent calc(50% + 1px)
+    );
+    pointer-events: none;
+  }
+}

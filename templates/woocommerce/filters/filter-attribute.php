@@ -123,14 +123,14 @@ if ( 'disable' === $empty_behavior ) {
 			}
 			?>
 			<?php if ( $is_empty && 'disable_clickable' !== $empty_behavior ) : ?>
-				<span class="<?php echo esc_attr( $class_attr ); ?> disabled opacity-50"
+				<span class="<?php echo esc_attr( $class_attr ); ?> disabled cw-swatch--unavailable"
 					style="<?php echo esc_attr( $inline_style ); ?>"
 					aria-disabled="true"
 					title="<?php echo esc_attr( $title_attr ); ?>">
 				</span>
 			<?php else : ?>
 				<a href="<?php echo esc_url( $item['url'] ); ?>"
-					class="<?php echo esc_attr( $class_attr ); ?> pjax-link<?php echo ( 'disable_clickable' === $empty_behavior && $is_empty && ! $is_active ) ? ' opacity-50' : ''; ?>"
+					class="<?php echo esc_attr( $class_attr ); ?> pjax-link<?php echo ( 'disable_clickable' === $empty_behavior && $is_empty && ! $is_active ) ? ' cw-swatch--unavailable' : ''; ?>"
 					style="<?php echo esc_attr( $inline_style ); ?>"
 					title="<?php echo esc_attr( $title_attr ); ?>"
 					aria-pressed="<?php echo $is_active ? 'true' : 'false'; ?>">

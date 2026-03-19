@@ -615,7 +615,7 @@ function cw_get_attribute_filter_terms( $taxonomy, $show_count = true, $single_s
  * @param bool $show_count Whether to include product count.
  * @return array{ term: WP_Term, count: int, is_active: bool, is_empty: bool, children: array }[]
  */
-function cw_get_category_filter_terms( $parent = 0, $show_count = true ) {
+function cw_get_category_filter_terms( $parent = 0, $show_count = true, $count_unfiltered = false ) {
 	$queried = is_product_category() ? get_queried_object() : null;
 
 	$terms = get_terms( [
@@ -636,7 +636,7 @@ function cw_get_category_filter_terms( $parent = 0, $show_count = true ) {
 		$filtered_count = $counts[ (int) $term->term_id ] ?? 0;
 		$result[] = [
 			'term'      => $term,
-			'count'     => $filtered_count,
+			'count'     => $count_unfiltered ? (int) $term->count : $filtered_count,
 			'is_active' => ( $queried && (int) $queried->term_id === (int) $term->term_id ),
 			'is_empty'  => ( 0 === $filtered_count ),
 			'url'       => get_term_link( $term ),
@@ -1193,6 +1193,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 			$swatch_shape = $swatch_shape_raw; // 'rounded' | 'rounded-0'
 		}
 		$single_select     = isset( $item['singleSelect'] ) ? (bool) $item['singleSelect'] : false;
+		$count_unfiltered  = isset( $item['countUnfiltered'] ) ? (bool) $item['countUnfiltered'] : false;
 		$empty_behavior_raw = $item['emptyBehavior'] ?? 'disable';
 		$empty_behavior     = in_array( $empty_behavior_raw, [ 'default', 'hide', 'disable', 'disable_clickable', 'hide_block' ], true ) ? $empty_behavior_raw : 'disable';
 		$section_id       = 'cw-filter-' . sanitize_html_class( $item['id'] ?? uniqid() );
@@ -1221,7 +1222,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 				if ( ! $section_label ) {
 					$section_label = __( 'Категории', 'codeweber' );
 				}
-				$terms_data = cw_get_category_filter_terms( 0, $show_count );
+				$terms_data = cw_get_category_filter_terms( 0, $show_count, $count_unfiltered );
 				$radio_name = 'cw_filter_radio_cat';
 				if ( empty( $terms_data ) ) {
 					$has_content = false;
