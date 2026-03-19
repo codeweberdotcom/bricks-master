@@ -59,19 +59,13 @@ foreach ( $terms_data as $item ) :
 	}
 
 	$thumbnail_id = (int) ( $item['thumbnail_id'] ?? 0 );
-	$bg_style     = '';
-
-	if ( $thumbnail_id ) {
-		$img_url = wp_get_attachment_image_url( $thumbnail_id, 'codeweber_post_100-100' );
-		if ( $img_url ) {
-			$bg_style = 'background-image:url(' . esc_url( $img_url ) . ');background-size:contain;background-repeat:no-repeat;background-position:center';
-		}
-	}
+	$img_url      = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_post_100-100' ) : '';
+	$img_alt      = esc_attr( $term->name );
 
 	$size_style   = $use_grid ? 'width:100%;aspect-ratio:1' : '';
-	$inline_style = implode( ';', array_filter( [ $size_style, $bg_style ] ) );
+	$inline_style = $size_style; // no background — logo rendered as <img> inside
 
-	$classes = [ 'cw-swatch', 'cw-swatch--image', 'cw-swatch--brand' ];
+	$classes = [ 'cw-swatch', 'cw-swatch--image', 'cw-swatch--brand', 'd-flex', 'align-items-center', 'justify-content-center', 'p-1' ];
 	if ( $swatch_shape ) {
 		$classes[] = $swatch_shape;
 	}
@@ -92,12 +86,18 @@ foreach ( $terms_data as $item ) :
 		$title_attr .= ' (' . ( $is_empty ? 0 : $count ) . ')';
 	}
 
+	// Logo <img> — object-fit:contain keeps the full logo visible, never crops.
+	$logo_html = $img_url
+		? '<img src="' . esc_url( $img_url ) . '" alt="' . $img_alt . '" style="width:100%;height:100%;object-fit:contain;display:block;" loading="lazy">'
+		: '<span class="visually-hidden">' . esc_html( $term->name ) . '</span>';
+
 	if ( $is_empty && 'disable_clickable' !== $empty_behavior ) :
 		?>
 		<span class="<?php echo esc_attr( $class_attr ); ?> disabled cw-swatch--unavailable"
 			style="<?php echo esc_attr( $inline_style ); ?>"
 			aria-disabled="true"
 			title="<?php echo esc_attr( $title_attr ); ?>">
+			<?php echo $logo_html; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</span>
 		<?php
 	else :
@@ -107,6 +107,7 @@ foreach ( $terms_data as $item ) :
 			style="<?php echo esc_attr( $inline_style ); ?>"
 			title="<?php echo esc_attr( $title_attr ); ?>"
 			aria-pressed="<?php echo $is_active ? 'true' : 'false'; ?>">
+			<?php echo $logo_html; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		</a>
 		<?php
 	endif;
