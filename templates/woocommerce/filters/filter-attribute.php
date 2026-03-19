@@ -35,6 +35,11 @@ $swatch_columns      = isset( $swatch_columns ) ? (int) $swatch_columns : 0;
 $swatch_item_class   = isset( $swatch_item_class ) ? (string) $swatch_item_class : '';
 $swatch_shape        = $swatch_shape ?? 'avatar';
 $single_select       = $single_select ?? false;
+$badge_size          = $badge_size ?? '';
+$badge_shape         = $badge_shape ?? 'rounded-pill';
+$badge_color         = $badge_color ?? 'primary';
+$badge_extra_class   = $badge_extra_class ?? '';
+$badge_item_class    = $badge_item_class ?? '';
 
 // When multiple attribute filters are active, WooCommerce returns 0 products for any
 // term in a 3rd+ attribute (AND intersection). 'disable' would render all those terms
@@ -245,6 +250,53 @@ if ( 'disable' === $empty_behavior ) {
 			</li>
 		<?php endforeach; ?>
 	</ul>
+
+<?php elseif ( 'badge' === $display_mode ) : ?>
+
+	<div class="d-flex flex-wrap gap-1">
+		<?php foreach ( $terms_data as $item ) :
+			$term      = $item['term'];
+			$is_active = $item['is_active'];
+			$is_empty  = ! $is_active && ( $item['is_empty'] ?? false );
+			$count     = $item['count'];
+
+			if ( 'default' === $empty_behavior ) { $is_empty = false; }
+			elseif ( 'hide' === $empty_behavior && $is_empty ) { continue; }
+
+			$badge_cls = 'badge' . ( $badge_color ? ' bg-' . $badge_color : '' );
+			if ( $badge_size ) {
+				$badge_cls .= ' ' . $badge_size;
+			}
+			if ( $badge_shape ) {
+				$badge_cls .= ' ' . $badge_shape;
+			}
+			if ( $badge_extra_class ) {
+				$badge_cls .= ' ' . $badge_extra_class;
+			}
+			if ( $badge_item_class ) {
+				$badge_cls .= ' ' . $badge_item_class;
+			}
+			if ( $is_active ) {
+				$badge_cls .= ' active';
+			}
+
+			$is_clickable_muted = ( 'disable_clickable' === $empty_behavior && $is_empty );
+			?>
+			<?php if ( $is_empty && ! $is_clickable_muted ) : ?>
+				<span class="<?php echo esc_attr( $badge_cls ); ?> disabled opacity-50"
+					aria-disabled="true"
+					<?php if ( $show_count ) : ?>title="(0)"<?php endif; ?>>
+					<?php echo esc_html( $term->name ); ?>
+				</span>
+			<?php else : ?>
+				<a href="<?php echo esc_url( $item['url'] ); ?>"
+					class="<?php echo esc_attr( $badge_cls ); ?> pjax-link<?php echo $is_clickable_muted ? ' opacity-50' : ''; ?>"
+					<?php if ( $show_count ) : ?>title="(<?php echo esc_attr( $count ); ?>)"<?php endif; ?>>
+					<?php echo esc_html( $term->name ); ?>
+				</a>
+			<?php endif; ?>
+		<?php endforeach; ?>
+	</div>
 
 <?php else : // checkbox — default (or single-select rendered as radio) ?>
 

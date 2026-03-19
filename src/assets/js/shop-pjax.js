@@ -408,26 +408,30 @@
 				// Set initial max-height
 				el.style.maxHeight = limit + 'px';
 
-				// No overflow — no button needed
+				// No overflow — no link needed
 				if ( el.scrollHeight <= limit ) return;
 
-				btn.textContent = moreText;
+				var link = document.createElement( 'a' );
+				link.href = '#';
+				link.className = 'cw-filter-more-btn';
+				link.textContent = moreText;
 
-				btn.addEventListener( 'click', function () {
+				link.addEventListener( 'click', function ( e ) {
+					e.preventDefault();
 					var isOpen = el.classList.contains( 'is-open' );
 					if ( isOpen ) {
 						el.classList.remove( 'is-open' );
 						el.style.maxHeight = limit + 'px';
-						btn.textContent = moreText;
+						link.textContent = moreText;
 					} else {
 						el.classList.add( 'is-open' );
 						el.style.maxHeight = el.scrollHeight + 'px';
-						btn.textContent = lessText;
+						link.textContent = lessText;
 					}
 				} );
 
-				// Кнопка — ПОСЛЕ контейнера (overflow:hidden обрезал бы её внутри)
-				el.insertAdjacentElement( 'afterend', btn );
+				// Ссылка — ПОСЛЕ контейнера (overflow:hidden обрезал бы её внутри)
+				el.insertAdjacentElement( 'afterend', link );
 			}
 		} );
 	}

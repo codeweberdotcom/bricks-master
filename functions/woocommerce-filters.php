@@ -1089,6 +1089,12 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 	$radio_size          = in_array( $panel_atts['radio_size'] ?? '', [ '', 'sm' ], true )
 		? $panel_atts['radio_size'] : '';
 	$radio_item_class    = isset( $panel_atts['radio_item_class'] ) ? esc_attr( $panel_atts['radio_item_class'] ) : '';
+	// Badge settings
+	$badge_size        = in_array( $panel_atts['badge_size'] ?? '', [ '', 'badge-lg' ], true )
+		? ( $panel_atts['badge_size'] ?? '' ) : '';
+	$badge_shape       = isset( $panel_atts['badge_shape'] ) ? esc_attr( $panel_atts['badge_shape'] ) : 'rounded-pill';
+	$badge_color       = isset( $panel_atts['badge_color'] ) ? sanitize_html_class( $panel_atts['badge_color'] ) : 'primary';
+	$badge_extra_class = isset( $panel_atts['badge_extra_class'] ) ? esc_attr( $panel_atts['badge_extra_class'] ) : '';
 	// Button class generation from size + style + color (new API)
 	if ( isset( $panel_atts['button_size'] ) || isset( $panel_atts['button_style'] ) || isset( $panel_atts['button_color'] ) ) {
 		$btn_size  = $panel_atts['button_size'] ?? 'btn-sm';
@@ -1167,13 +1173,14 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 		$filter_type  = $item['filterType'] ?? 'price';
 		$label        = isset( $item['label'] ) ? sanitize_text_field( $item['label'] ) : '';
-		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'radio', 'list', 'button', 'color', 'image' ], true )
+		$display_mode = in_array( $item['displayMode'] ?? '', [ 'checkbox', 'radio', 'list', 'button', 'badge', 'color', 'image' ], true )
 			? $item['displayMode'] : 'checkbox';
 		$show_count       = isset( $item['showCount'] ) ? (bool) $item['showCount'] : true;
 		$taxonomy         = isset( $item['taxonomy'] ) ? sanitize_key( $item['taxonomy'] ) : '';
 		$checkbox_columns = isset( $item['checkboxColumns'] ) ? (int) $item['checkboxColumns'] : 1;
 		$swatch_columns   = isset( $item['swatchColumns'] ) ? max( 0, (int) $item['swatchColumns'] ) : 0;
 		$swatch_item_class = isset( $item['swatchItemClass'] ) ? esc_attr( $item['swatchItemClass'] ) : '';
+		$badge_item_class  = isset( $item['badgeItemClass'] ) ? esc_attr( $item['badgeItemClass'] ) : '';
 		$swatch_shape_raw  = in_array( $item['swatchShape'] ?? 'default', [ 'default', 'theme', 'rounded', 'rounded-0' ], true )
 			? ( $item['swatchShape'] ?? 'default' ) : 'default';
 		if ( 'theme' === $swatch_shape_raw ) {
