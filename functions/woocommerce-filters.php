@@ -1203,10 +1203,11 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		$show_more_text    = isset( $item['showMoreText'] ) && '' !== trim( $item['showMoreText'] ) ? sanitize_text_field( $item['showMoreText'] ) : __( 'Показать ещё', 'codeweber' );
 		$show_less_text    = isset( $item['showLessText'] ) && '' !== trim( $item['showLessText'] ) ? sanitize_text_field( $item['showLessText'] ) : __( 'Свернуть', 'codeweber' );
 
-		$collapse_list_type = preg_replace( '/[^1-5]/', '', (string) ( $item['collapseListType'] ?? '1' ) );
+		$collapse_list_type  = preg_replace( '/[^1-5]/', '', (string) ( $item['collapseListType'] ?? '1' ) );
 		if ( '' === $collapse_list_type ) {
 			$collapse_list_type = '1';
 		}
+		$count_with_children = 'categories' === $filter_type && isset( $item['countWithChildren'] ) ? (bool) $item['countWithChildren'] : false;
 
 		$section_label   = $label;
 		$section_content = '';

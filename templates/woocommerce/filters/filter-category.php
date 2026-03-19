@@ -240,6 +240,24 @@ $badge_item_class    = $badge_item_class ?? '';
 			];
 		}
 
+		// Optionally sum descendant product counts into each parent's count.
+		if ( ! empty( $count_with_children ) ) {
+			$sum_descendants = function ( $tree, $wp_id ) use ( &$sum_descendants, $cat_counts ) {
+				$total = $cat_counts[ $wp_id ] ?? 0;
+				foreach ( $tree[ $wp_id ] ?? [] as $child ) {
+					$total += $sum_descendants( $tree, $child['wp_id'] );
+				}
+				return $total;
+			};
+			foreach ( $cat_tree as &$cat_siblings ) {
+				foreach ( $cat_siblings as &$ci ) {
+					$ci['count']    = $sum_descendants( $cat_tree, $ci['wp_id'] );
+					$ci['is_empty'] = ( 0 === $ci['count'] );
+				}
+			}
+			unset( $cat_siblings, $ci );
+		}
+
 		$cl_type          = $collapse_list_type ?? '1';
 		$collapse_wrap_id = esc_attr( $section_id ) . '-cmenu';
 
