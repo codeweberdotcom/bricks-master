@@ -355,7 +355,69 @@ $badge_item_class    = $badge_item_class ?? '';
 			return $html;
 		};
 
-		if ( '4' === $cl_type ) :
+		// Recursive renderer for Type 5 — Bootstrap dropend (submenu opens to the right).
+		$render_cat_dropdown5 = function ( $tree, $pid, $lvl = 1 ) use ( &$render_cat_dropdown5, $show_count, $empty_behavior ) {
+			$children = $tree[ $pid ] ?? [];
+			if ( empty( $children ) ) {
+				return '';
+			}
+			$html = '';
+			foreach ( $children as $ci ) {
+				$has_sub   = isset( $tree[ $ci['wp_id'] ] ) && ! empty( $tree[ $ci['wp_id'] ] );
+				$is_active = $ci['is_active'];
+				$is_empty  = $ci['is_empty'];
+
+				if ( 'default' === $empty_behavior ) {
+					$is_empty = false;
+				} elseif ( 'hide' === $empty_behavior && $is_empty && ! $is_active ) {
+					continue;
+				}
+
+				$is_disabled        = ( 'disable' === $empty_behavior && $is_empty && ! $is_active );
+				$is_clickable_muted = ( 'disable_clickable' === $empty_behavior && $is_empty && ! $is_active );
+				$count_html         = $show_count ? '<span class="fs-sm text-muted ms-1">(' . (int) $ci['count'] . ')</span>' : '';
+
+				if ( 1 === $lvl ) {
+					// Root level — nav-item
+					$li_cls = array_filter( [ 'nav-item', 'parent-item', $has_sub ? 'dropend' : '', $is_active ? 'current-menu-item' : '' ] );
+					$html  .= '<li class="' . esc_attr( implode( ' ', $li_cls ) ) . '">';
+					$a_cls  = array_filter( [ 'nav-link', 'pjax-link', $has_sub ? 'dropdown-toggle' : '', $is_active ? 'fw-semibold current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					if ( $is_disabled ) {
+						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
+					} else {
+						$toggle_attr = $has_sub ? ' data-bs-toggle="dropdown" aria-expanded="false"' : '';
+						$html .= '<a href="' . esc_url( $ci['url'] ) . '" class="' . esc_attr( implode( ' ', $a_cls ) ) . '"' . $toggle_attr . ( $is_active ? ' aria-current="page"' : '' ) . '>' . esc_html( $ci['term']->name ) . $count_html . '</a>';
+					}
+				} else {
+					// Nested level — dropdown-item
+					$li_cls     = array_filter( [ $has_sub ? 'dropend' : '', $is_active ? 'current-menu-item' : '' ] );
+					$li_cls_str = ! empty( $li_cls ) ? ' class="' . esc_attr( implode( ' ', $li_cls ) ) . '"' : '';
+					$html      .= '<li' . $li_cls_str . '>';
+					$a_cls      = array_filter( [ 'dropdown-item', 'pjax-link', $has_sub ? 'dropdown-toggle' : '', $is_active ? 'fw-semibold current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					if ( $is_disabled ) {
+						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
+					} else {
+						$toggle_attr = $has_sub ? ' data-bs-toggle="dropdown" aria-expanded="false"' : '';
+						$html .= '<a href="' . esc_url( $ci['url'] ) . '" class="' . esc_attr( implode( ' ', $a_cls ) ) . '"' . $toggle_attr . ( $is_active ? ' aria-current="page"' : '' ) . '>' . esc_html( $ci['term']->name ) . $count_html . '</a>';
+					}
+				}
+
+				if ( $has_sub ) {
+					$html .= '<ul class="dropdown-menu">';
+					$html .= $render_cat_dropdown5( $tree, $ci['wp_id'], $lvl + 1 );
+					$html .= '</ul>';
+				}
+				$html .= '</li>';
+			}
+			return $html;
+		};
+
+		if ( '5' === $cl_type ) :
+			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical navbar-vertical-dropdown navbar-light">';
+			echo '<ul class="navbar-nav flex-column">';
+			echo $render_cat_dropdown5( $cat_tree, 0 ); // phpcs:ignore WordPress.Security.EscapeOutput
+			echo '</ul></nav>';
+		elseif ( '4' === $cl_type ) :
 			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical navbar-light">';
 			echo '<ul class="list-unstyled menu-list-type-4">';
 			echo $render_cat_list4( $cat_tree, 0 ); // phpcs:ignore WordPress.Security.EscapeOutput
