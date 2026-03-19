@@ -1320,16 +1320,20 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 			continue;
 		}
 
+		// Type 5 (dropend): height-limit uses overflow:hidden which clips absolutely
+		// positioned dropdown-menu elements. Skip it — dropend menus are always compact.
+		if ( 'collapse' === $display_mode && '5' === $collapse_list_type && 'height' === $limit_type ) {
+			$limit_type = 'none';
+		}
+
 		if ( 'none' !== $limit_type ) {
 			$limit_div_id = 'cw-fl-' . $section_id;
 			$pre_style    = '';
 			$style_attr   = '';
 
 			if ( 'height' === $limit_type ) {
-				// Inline max-height: скрывает сразу при загрузке, без FOUC.
-				// Type 5 (dropend): overflow:visible — иначе абсолютные dropdown-menu обрезаются.
-				$overflow_val = ( 'collapse' === $display_mode && '5' === $collapse_list_type ) ? 'visible' : 'hidden';
-				$style_attr   = ' style="max-height:' . (int) $limit_value . 'px;overflow:' . $overflow_val . '"';
+				// Inline max-height: скрывает сразу при загрузке, без FOUC
+				$style_attr = ' style="max-height:' . (int) $limit_value . 'px;overflow:hidden"';
 			} elseif ( 'count' === $limit_type ) {
 				// CSS :nth-child скрывает лишние элементы до инициализации JS
 				$nth       = (int) $limit_value + 1;
