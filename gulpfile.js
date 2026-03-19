@@ -224,6 +224,7 @@ var path = {
     dadataaddressjs: srcPrefix + "/assets/js/dadata-address.js",
     shoppjaxjs: srcPrefix + "/assets/js/shop-pjax.js",
     wooswatchesjs: srcPrefix + "/assets/js/woo-swatches.js",
+    wooquickviewjs: srcPrefix + "/assets/js/woo-quick-view.js",
     style: srcPrefix + "/assets/scss/style.scss",
     fontcss: srcPrefix + "/assets/scss/fonts/*.*",
     // When building for child theme: use child's style.scss if it exists (ensures child's _user-variables with correct fonts)
@@ -629,6 +630,28 @@ gulp.task("wooswatchesjs:dist", function () {
   );
 });
 
+gulp.task("wooquickviewjs:dev", function () {
+  return gulp
+    .src(path.src.wooquickviewjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("wooquickviewjs:dist", function () {
+  return (
+    gulp
+      .src(path.src.wooquickviewjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
 // Compile html
 gulp.task('html:dev', function () {
   return gulp.src(path.src.html)
@@ -929,6 +952,7 @@ gulp.task(
       "dadataaddressjs:dev",
       "shoppjaxjs:dev",
       "wooswatchesjs:dev",
+      "wooquickviewjs:dev",
       "themejs:dev",
       "fonts:dev",
       "media:dev",
@@ -963,6 +987,7 @@ gulp.task(
       "dadataaddressjs:dist",
       "shoppjaxjs:dist",
       "wooswatchesjs:dist",
+      "wooquickviewjs:dist",
       "themejs:dist",
       "fonts:dist",
       "media:dist",
@@ -998,6 +1023,7 @@ gulp.task('watch', function () {
     gulp.watch(path.src.cf7utmtrackingjs, gulp.series('cf7utmtrackingjs:dist'));
     gulp.watch(path.src.dadataaddressjs, gulp.series('dadataaddressjs:dist'));
     gulp.watch(path.src.wooswatchesjs, gulp.series('wooswatchesjs:dist'));
+    gulp.watch(path.src.wooquickviewjs, gulp.series('wooquickviewjs:dist'));
     gulp.watch(path.watch.img, gulp.series('image:dist'));
     gulp.watch(path.watch.fonts, gulp.series('fonts:dist'));
     gulp.watch(path.watch.media, gulp.series('media:dist'));

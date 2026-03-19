@@ -76,14 +76,30 @@ if ( $product->is_on_sale() ) {
 			<?php echo $hover_img_html; ?>
 		<?php endif; ?>
 
-		<?php do_action( 'yith_wcwl_add_to_wishlist' ); ?>
-		<a class="item-like" href="<?php echo esc_url( $product_url ); ?>"
+		<?php
+		$cw_in_wishlist = function_exists( 'cw_get_wishlist_url' ) && class_exists( 'CW_Wishlist_Item' );
+		$cw_active      = false;
+		if ( $cw_in_wishlist ) {
+			global $cw_wishlist_instance;
+			if ( $cw_wishlist_instance instanceof CW_Wishlist_Item ) {
+				$cw_active = $cw_wishlist_instance->is_in_wishlist( $product_id );
+			}
+		}
+		$cw_wl_href  = $cw_active ? esc_url( cw_get_wishlist_url() ) : '#';
+		$cw_wl_class = 'item-like cw-wishlist-btn' . ( $cw_active ? ' cw-wishlist-btn--active' : '' );
+		$cw_wl_title = $cw_active ? __( 'В избранном', 'codeweber' ) : __( 'В избранное', 'codeweber' );
+		?>
+		<a class="<?php echo esc_attr( $cw_wl_class ); ?>"
+		   href="<?php echo $cw_wl_href; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"
+		   data-product-id="<?php echo esc_attr( $product_id ); ?>"
 		   data-bs-toggle="white-tooltip"
-		   title="<?php esc_attr_e( 'Add to wishlist', 'codeweber' ); ?>">
+		   title="<?php echo esc_attr( $cw_wl_title ); ?>"
+		   aria-label="<?php echo esc_attr( $cw_wl_title ); ?>">
 			<i class="uil uil-heart"></i>
 		</a>
 
 		<a class="item-view" href="<?php echo esc_url( $product_url ); ?>"
+		   data-product-id="<?php echo esc_attr( $product_id ); ?>"
 		   data-bs-toggle="white-tooltip"
 		   title="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
 			<i class="uil uil-eye"></i>

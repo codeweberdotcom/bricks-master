@@ -642,3 +642,6 @@ add_action( 'wp_enqueue_scripts', function () {
 
 // ── WooCommerce Variation Swatches ─────────────────────────────────────────────
 require_once get_template_directory() . '/functions/woocommerce-swatches.php';
+
+// ── WooCommerce Quick View ──────────────────────────────────────────────────────
+require_once get_template_directory() . '/functions/woocommerce-quick-view.php';
