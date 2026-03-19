@@ -139,4 +139,5 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | CodeWeber Forms | `doc_claude/forms/CODEWEBER_FORMS.md` |
 | Contact Form 7 | `doc_claude/forms/CF7_INTEGRATION.md` |
 | DaData, Яндекс Карты, SMS.ru и др. | `doc_claude/integrations/` |
+| WooCommerce фильтры (функции, шаблоны, JS, CSS) | `doc_claude/integrations/WC_FILTERS.md` |
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |
