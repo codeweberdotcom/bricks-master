@@ -1326,8 +1326,10 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 			$style_attr   = '';
 
 			if ( 'height' === $limit_type ) {
-				// Inline max-height: скрывает сразу при загрузке, без FOUC
-				$style_attr = ' style="max-height:' . (int) $limit_value . 'px;overflow:hidden"';
+				// Inline max-height: скрывает сразу при загрузке, без FOUC.
+				// Type 5 (dropend): overflow:visible — иначе абсолютные dropdown-menu обрезаются.
+				$overflow_val = ( 'collapse' === $display_mode && '5' === $collapse_list_type ) ? 'visible' : 'hidden';
+				$style_attr   = ' style="max-height:' . (int) $limit_value . 'px;overflow:' . $overflow_val . '"';
 			} elseif ( 'count' === $limit_type ) {
 				// CSS :nth-child скрывает лишние элементы до инициализации JS
 				$nth       = (int) $limit_value + 1;
