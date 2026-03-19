@@ -163,6 +163,7 @@ var theme = {
         var grid = g.querySelector(".isotope");
         var filtersElem = g.querySelector(".isotope-filter");
         var buttonGroups = g.querySelectorAll(".isotope-filter");
+        grid.style.opacity = "0";
         var iso = new Isotope(grid, {
           itemSelector: ".item",
           layoutMode: "masonry",
@@ -172,14 +173,19 @@ var theme = {
           percentPosition: true,
           transitionDuration: "0.7s",
         });
-        imagesLoaded(grid).on("progress", function () {
-          iso.layout({
-            masonry: {
-              columnWidth: grid.offsetWidth / 12,
-            },
+        imagesLoaded(grid)
+          .on("progress", function () {
+            iso.layout({
+              masonry: {
+                columnWidth: grid.offsetWidth / 12,
+              },
+            });
+          })
+          .on("always", function () {
+            grid.style.transition = "opacity 0.4s";
+            grid.style.opacity = "1";
           });
-        }),
-          window.addEventListener(
+        window.addEventListener(
             "resize",
             function () {
               iso.arrange({
