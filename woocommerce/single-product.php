@@ -1,0 +1,337 @@
+<?php
+/**
+ * WooCommerce Single Product Page
+ *
+ * Переопределяет woocommerce/single-product.php из плагина WooCommerce.
+ * Стиль: Bootstrap 5, структура по образцу dist/shop-product.html.
+ *
+ * Структура:
+ *  - Этап 1: Хлебные крошки (bg-gray)
+ *  - Этапы 2+6: Блок товара — правая колонка данных + левая галерея (bg-light)
+ *  - Этап 3: Bootstrap-вкладки (описание, атрибуты) — внутри bg-light
+ *  - Этап 4: Похожие товары — Swiper (bg-gray)
+ *  - Этап 5: Отзывы — рейтинги + комментарии (bg-light)
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+get_header();
+
+while ( have_posts() ) :
+	the_post();
+
+	global $product;
+
+	if ( ! $product instanceof WC_Product ) {
+		continue;
+	}
+
+	do_action( 'woocommerce_before_single_product' );
+
+	// ── ЭТАП 1: Хлебные крошки ────────────────────────────────────────────────
+	$breadcrumb_wc = new WC_Breadcrumb();
+	$crumbs        = $breadcrumb_wc->generate();
+	?>
+
+	<section class="wrapper bg-gray">
+		<div class="container py-3 py-md-5">
+			<nav class="d-inline-block" aria-label="breadcrumb">
+				<ol class="breadcrumb mb-0">
+					<?php foreach ( $crumbs as $key => $crumb ) :
+						$is_last = ( $key === count( $crumbs ) - 1 );
+					?>
+					<li class="breadcrumb-item<?php echo $is_last ? ' active text-muted' : ''; ?>"<?php echo $is_last ? ' aria-current="page"' : ''; ?>>
+						<?php if ( ! empty( $crumb[1] ) && ! $is_last ) : ?>
+							<a href="<?php echo esc_url( $crumb[1] ); ?>"><?php echo esc_html( $crumb[0] ); ?></a>
+						<?php else : ?>
+							<?php echo esc_html( $crumb[0] ); ?>
+						<?php endif; ?>
+					</li>
+					<?php endforeach; ?>
+				</ol>
+			</nav>
+		</div>
+		<!-- /.container -->
+	</section>
+	<!-- /section breadcrumb -->
+
+	<?php
+	// ── ЭТАПЫ 2 + 6: Блок товара (галерея + данные) ──────────────────────────
+
+	// Данные галереи
+	$main_image_id = $product->get_image_id();
+	$gallery_ids   = $product->get_gallery_image_ids();
+	$all_image_ids = array_merge(
+		$main_image_id ? [ $main_image_id ] : [],
+		$gallery_ids
+	);
+	$has_gallery = count( $all_image_ids ) > 1;
+	?>
+
+	<section class="wrapper bg-light">
+		<div class="container py-14 py-md-16">
+			<div class="row gx-md-8 gx-xl-12 gy-8">
+
+				<?php // ── ЭТАП 6: Галерея (левая колонка) ──────────────────── ?>
+				<div class="col-lg-6">
+
+					<?php if ( $has_gallery ) : ?>
+
+					<div class="swiper-container swiper-thumbs-container" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true">
+						<div class="swiper">
+							<div class="swiper-wrapper">
+								<?php foreach ( $all_image_ids as $img_id ) :
+									$full_url = wp_get_attachment_image_url( $img_id, 'full' );
+								?>
+								<div class="swiper-slide">
+									<figure class="rounded">
+										<?php echo wp_get_attachment_image( $img_id, 'woocommerce_single', false, [ 'class' => 'img-fluid' ] ); ?>
+										<?php if ( $full_url ) : ?>
+										<a class="item-link"
+										   href="<?php echo esc_url( $full_url ); ?>"
+										   data-glightbox
+										   data-gallery="product-<?php echo esc_attr( $product->get_id() ); ?>">
+											<i class="uil uil-focus-add"></i>
+										</a>
+										<?php endif; ?>
+									</figure>
+								</div>
+								<?php endforeach; ?>
+							</div>
+							<!-- /.swiper-wrapper -->
+						</div>
+						<!-- /.swiper (main) -->
+
+						<div class="swiper swiper-thumbs">
+							<div class="swiper-wrapper">
+								<?php foreach ( $all_image_ids as $img_id ) : ?>
+								<div class="swiper-slide">
+									<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => 'rounded' ] ); ?>
+								</div>
+								<?php endforeach; ?>
+							</div>
+							<!-- /.swiper-wrapper -->
+						</div>
+						<!-- /.swiper (thumbs) -->
+					</div>
+					<!-- /.swiper-container -->
+
+					<?php elseif ( $main_image_id ) :
+						$full_url = wp_get_attachment_image_url( $main_image_id, 'full' );
+					?>
+
+					<figure class="rounded">
+						<?php echo wp_get_attachment_image( $main_image_id, 'woocommerce_single', false, [ 'class' => 'img-fluid' ] ); ?>
+						<?php if ( $full_url ) : ?>
+						<a class="item-link"
+						   href="<?php echo esc_url( $full_url ); ?>"
+						   data-glightbox
+						   data-gallery="product-<?php echo esc_attr( $product->get_id() ); ?>">
+							<i class="uil uil-focus-add"></i>
+						</a>
+						<?php endif; ?>
+					</figure>
+
+					<?php else : ?>
+
+					<figure class="rounded">
+						<?php echo wc_placeholder_img( 'woocommerce_single' ); ?>
+					</figure>
+
+					<?php endif; ?>
+
+				</div>
+				<!-- /col gallery -->
+
+				<?php // ── ЭТАП 2: Данные товара (правая колонка) ────────────── ?>
+				<div class="col-lg-6">
+
+					<div class="post-header mb-5">
+						<?php the_title( '<h1 class="post-title display-5">', '</h1>' ); ?>
+						<?php woocommerce_template_single_price(); ?>
+						<?php woocommerce_template_single_rating(); ?>
+					</div>
+					<!-- /.post-header -->
+
+					<?php woocommerce_template_single_excerpt(); ?>
+
+					<?php woocommerce_template_single_add_to_cart(); ?>
+
+					<?php woocommerce_template_single_meta(); ?>
+
+				</div>
+				<!-- /col summary -->
+
+			</div>
+			<!-- /.row -->
+
+			<?php
+			// ── ЭТАП 3: Bootstrap-вкладки ─────────────────────────────────────
+			$tabs = apply_filters( 'woocommerce_product_tabs', [] );
+			unset( $tabs['reviews'] ); // Отзывы выводим в отдельной секции
+			?>
+
+			<?php if ( ! empty( $tabs ) ) : ?>
+
+			<ul class="nav nav-tabs nav-tabs-basic mt-12" role="tablist">
+				<?php $first_tab = true; foreach ( $tabs as $key => $tab ) : ?>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link<?php echo $first_tab ? ' active' : ''; ?>"
+					   id="tab-title-<?php echo esc_attr( $key ); ?>"
+					   data-bs-toggle="tab"
+					   href="#tab-<?php echo esc_attr( $key ); ?>"
+					   role="tab"
+					   aria-controls="tab-<?php echo esc_attr( $key ); ?>"
+					   aria-selected="<?php echo $first_tab ? 'true' : 'false'; ?>">
+						<?php echo wp_kses_post( apply_filters( 'woocommerce_product_' . $key . '_tab_title', $tab['title'], $key ) ); ?>
+					</a>
+				</li>
+				<?php $first_tab = false; endforeach; ?>
+			</ul>
+			<!-- /.nav-tabs -->
+
+			<div class="tab-content mt-0 mt-md-5">
+				<?php $first_tab = true; foreach ( $tabs as $key => $tab ) : ?>
+				<div class="tab-pane fade<?php echo $first_tab ? ' show active' : ''; ?>"
+				     id="tab-<?php echo esc_attr( $key ); ?>"
+				     role="tabpanel"
+				     aria-labelledby="tab-title-<?php echo esc_attr( $key ); ?>">
+					<?php
+					if ( isset( $tab['callback'] ) ) {
+						call_user_func( $tab['callback'], $key, $tab );
+					}
+					?>
+				</div>
+				<!--/.tab-pane -->
+				<?php $first_tab = false; endforeach; ?>
+			</div>
+			<!-- /.tab-content -->
+
+			<?php endif; ?>
+
+		</div>
+		<!-- /.container -->
+	</section>
+	<!-- /section product -->
+
+	<?php
+	// ── ЭТАП 4: Похожие товары ────────────────────────────────────────────────
+	$related_ids = wc_get_related_products( $product->get_id(), 5 );
+
+	if ( ! empty( $related_ids ) ) :
+	?>
+
+	<section class="wrapper bg-gray">
+		<div class="container py-14 py-md-16">
+			<h3 class="h2 mb-6 text-center"><?php esc_html_e( 'You Might Also Like', 'codeweber' ); ?></h3>
+			<div class="swiper-container blog grid-view shop mb-6"
+			     data-margin="30"
+			     data-dots="true"
+			     data-items-xl="3"
+			     data-items-md="2"
+			     data-items-xs="1">
+				<div class="swiper">
+					<div class="swiper-wrapper">
+						<?php
+						foreach ( $related_ids as $related_id ) {
+							$related_post = get_post( $related_id );
+							if ( ! $related_post ) {
+								continue;
+							}
+							setup_postdata( $GLOBALS['post'] = $related_post ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
+							echo '<div class="swiper-slide project item">';
+							wc_get_template_part( 'content', 'product' );
+							echo '</div>';
+						}
+						wp_reset_postdata();
+						?>
+					</div>
+					<!-- /.swiper-wrapper -->
+				</div>
+				<!-- /.swiper -->
+			</div>
+			<!-- /.swiper-container -->
+		</div>
+		<!-- /.container -->
+	</section>
+	<!-- /section related -->
+
+	<?php endif; ?>
+
+	<?php
+	// ── ЭТАП 5: Отзывы ────────────────────────────────────────────────────────
+	if ( comments_open() || get_comments_number() ) :
+
+		$rating_counts  = $product->get_rating_counts();
+		$average_rating = (float) $product->get_average_rating();
+		$review_count   = (int) $product->get_review_count();
+		$total_for_bars = max( 1, array_sum( $rating_counts ) );
+		$star_words     = [ 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five' ];
+		$rating_class   = $star_words[ min( 5, max( 1, (int) round( $average_rating ) ) ) ] ?? '';
+	?>
+
+	<section class="wrapper bg-light">
+		<div class="container py-14 py-md-16">
+			<div class="row gx-md-8 gx-xl-12 gy-10">
+
+				<aside class="col-lg-4 sidebar">
+
+					<?php if ( $review_count > 0 ) : ?>
+					<div class="widget mt-1">
+						<h4 class="widget-title mb-3"><?php esc_html_e( 'Ratings Distribution', 'codeweber' ); ?></h4>
+						<div class="mb-5">
+							<span class="ratings <?php echo esc_attr( $rating_class ); ?>"></span>
+							<span>
+								<?php
+								echo esc_html( number_format_i18n( $average_rating, 1 ) )
+									. ' ' . esc_html__( 'out of 5', 'codeweber' );
+								?>
+							</span>
+						</div>
+						<ul class="progress-list">
+							<?php for ( $star = 5; $star >= 1; $star-- ) :
+								$count   = isset( $rating_counts[ $star ] ) ? (int) $rating_counts[ $star ] : 0;
+								$percent = (int) round( ( $count / $total_for_bars ) * 100 );
+							?>
+							<li>
+								<p><?php echo esc_html( $star ) . ' ' . esc_html_x( 'Stars', 'rating label', 'codeweber' ); ?></p>
+								<div class="progressbar line blue" data-value="<?php echo esc_attr( $percent ); ?>"></div>
+							</li>
+							<?php endfor; ?>
+						</ul>
+						<!-- /.progress-list -->
+					</div>
+					<!-- /.widget -->
+					<?php endif; ?>
+
+					<div class="widget mt-10">
+						<h4 class="widget-title mb-3"><?php esc_html_e( 'Review this product', 'codeweber' ); ?></h4>
+						<p class="mb-5"><?php esc_html_e( 'Share your experience and help other customers.', 'codeweber' ); ?></p>
+						<a href="#review_form" class="btn btn-primary rounded w-100">
+							<?php esc_html_e( 'Write a Review', 'codeweber' ); ?>
+						</a>
+					</div>
+					<!-- /.widget -->
+
+				</aside>
+				<!-- /aside.sidebar -->
+
+				<div class="col-lg-8">
+					<?php comments_template(); ?>
+				</div>
+				<!-- /col reviews -->
+
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container -->
+	</section>
+	<!-- /section reviews -->
+
+	<?php endif; ?>
+
+	<?php do_action( 'woocommerce_after_single_product' ); ?>
+
+<?php endwhile; ?>
+
+<?php get_footer(); ?>

@@ -165,7 +165,7 @@
 		removeCard: function (productId) {
 			var $card = $('.cw-wishlist-card[data-product-id="' + productId + '"]');
 			if ($card.length) {
-				$card.closest('.col').fadeOut(200, function () {
+				$card.fadeOut(200, function () {
 					$(this).remove();
 					if ($('.cw-wishlist-card').length === 0) {
 						CWWishlist.showEmptyState();
