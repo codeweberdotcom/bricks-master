@@ -32,7 +32,7 @@
 
 		// Показываем модал со спиннером
 		body.innerHTML =
-			'<div class="cw-qv-spinner d-flex align-items-center justify-content-center" style="min-height:320px;">' +
+			'<div class="d-flex align-items-center justify-content-center" style="min-height:320px;">' +
 				'<div class="spinner-border text-primary" role="status">' +
 					'<span class="visually-hidden">' + cwQuickView.i18n.loading + '</span>' +
 				'</div>' +

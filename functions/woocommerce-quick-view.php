@@ -61,10 +61,10 @@ function cw_quick_view_modal_container() {
 	?>
 	<div class="modal fade" id="cw-quick-view-modal" tabindex="-1" aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>" aria-hidden="true">
 		<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content cw-qv-modal-content">
-				<button type="button" class="btn-close cw-qv-close" data-bs-dismiss="modal" aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
+			<div class="modal-content position-relative overflow-hidden">
+				<button type="button" class="btn-close position-absolute top-0 end-0 m-3" style="z-index:5" data-bs-dismiss="modal" aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
 				<div class="modal-body p-0" id="cw-quick-view-body">
-					<div class="cw-qv-spinner d-flex align-items-center justify-content-center" style="min-height:320px;">
+					<div class="d-flex align-items-center justify-content-center" style="min-height:320px;">
 						<div class="spinner-border text-primary" role="status">
 							<span class="visually-hidden"><?php esc_html_e( 'Loading...', 'codeweber' ); ?></span>
 						</div>
