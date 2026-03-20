@@ -6,6 +6,72 @@
 // и нельзя закрыть через PHP-шаблон.
 // ─────────────────────────────────────────────────────────────────
 
+// ── cw-qty-v (вертикальные кнопки ±) ─────────────────────────────
+// CSS из demo/qty-input.html — перенесён сюда как глобальный компонент
+.cw-qty-v {
+  display: inline-flex;
+  align-items: stretch;
+
+  input {
+    text-align: center;
+    height: auto !important;
+    border: 1px solid var(--bs-border-color);
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    &:focus {
+      border-color: var(--bs-border-color);
+      box-shadow: none;
+      z-index: 1;
+    }
+  }
+}
+
+.cw-qty-v__btns {
+  display: flex;
+  flex-direction: column;
+
+  .btn {
+    flex: 1 1 50%;
+    padding: 0 .5rem;
+    line-height: 1;
+    border-radius: 0;
+    border: 1px solid var(--bs-border-color);
+    color: var(--bs-body-color);
+    background: transparent;
+
+    &:hover, &:focus {
+      background: var(--bs-tertiary-bg);
+    }
+
+    &:first-child {
+      border-bottom-width: .5px;
+      border-top-right-radius: var(--bs-border-radius);
+    }
+
+    &:last-child {
+      border-top-width: .5px;
+      border-bottom-right-radius: var(--bs-border-radius);
+    }
+  }
+
+  .uil { display: block; line-height: 1; }
+}
+
+// Когда в Redux выбран стиль кнопок "без скругления" — снимаем радиусы и с qty-компонента
+.cw-qty-v.rounded-0 {
+  input {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .cw-qty-v__btns .btn {
+    &:first-child { border-top-right-radius: 0 !important; }
+    &:last-child  { border-bottom-right-radius: 0 !important; }
+  }
+}
+
 // WC JS добавляет класс .loading на кнопку во время запроса
 .single_add_to_cart_button.loading {
   pointer-events: none;

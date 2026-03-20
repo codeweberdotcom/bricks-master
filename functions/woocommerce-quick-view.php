@@ -47,6 +47,14 @@ function cw_quick_view_handler() {
 	wp_send_json_success( $html );
 }
 
+// ── Helper: текущая страница — страница вишлиста ─────────────────────────────
+
+function cw_is_wishlist_page() {
+	$opts    = get_option( 'redux_demo', array() );
+	$page_id = (int) ( $opts['wishlist_page'] ?? 0 );
+	return $page_id && is_page( $page_id );
+}
+
 // ── Modal container в footer ─────────────────────────────────────────────────
 
 add_action( 'wp_footer', 'cw_quick_view_modal_container' );
@@ -55,7 +63,7 @@ function cw_quick_view_modal_container() {
 	if ( ! function_exists( 'is_woocommerce' ) ) {
 		return;
 	}
-	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() ) {
+	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() ) {
 		return;
 	}
 	?>
@@ -84,7 +92,7 @@ function cw_quick_view_enqueue() {
 	if ( ! function_exists( 'is_woocommerce' ) ) {
 		return;
 	}
-	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() ) {
+	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() ) {
 		return;
 	}
 

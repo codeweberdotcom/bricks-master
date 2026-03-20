@@ -11,6 +11,8 @@
 defined( 'ABSPATH' ) || exit;
 
 global $product;
+
+$btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded';
 ?>
 
 <div class="woocommerce-variation-add-to-cart variations_button">
@@ -36,7 +38,7 @@ global $product;
 
 			<div class="flex-grow-1">
 				<button type="submit"
-				        class="btn btn-primary btn-icon btn-icon-start rounded w-100 single_add_to_cart_button">
+				        class="btn btn-primary btn-icon btn-icon-start has-ripple<?php echo esc_attr( $btn_style ); ?> w-100 single_add_to_cart_button">
 					<i class="uil uil-shopping-bag"></i>
 					<?php echo esc_html( $product->single_add_to_cart_text() ); ?>
 				</button>

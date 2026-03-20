@@ -640,6 +640,16 @@ add_action( 'wp_enqueue_scripts', function () {
 	] );
 }, 30 );
 
+// ── WooCommerce Brand meta — Bootstrap-стили ─────────────────────────────────
+// WC_Brands::show_brand() выводит <span class="posted_in">…</span> без Bootstrap-классов.
+// Приводим к единому виду со SKU/categories/tags через фильтр.
+add_filter( 'woocommerce_product_brands_output', function ( $html ) {
+	if ( empty( $html ) ) {
+		return $html;
+	}
+	return str_replace( '<span class="posted_in">', '<span class="d-block text-muted mb-1 posted_in">', trim( $html ) );
+} );
+
 // ── WooCommerce Variation Swatches ─────────────────────────────────────────────
 require_once get_template_directory() . '/functions/woocommerce-swatches.php';
 

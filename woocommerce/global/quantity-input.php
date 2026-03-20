@@ -3,7 +3,7 @@
  * Product quantity input
  *
  * Переопределяет global/quantity-input.php.
- * Добавляет Bootstrap-класс form-control к input.
+ * cw-qty-v — вертикальные кнопки +/−.
  *
  * @version 10.1.0
  */
@@ -17,9 +17,12 @@ $label = ! empty( $args['product_name'] )
 
 $classes[] = 'form-control';
 $classes[] = 'text-center';
+
+$btn_style      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
+$qty_extra_class = ( trim( $btn_style ) === 'rounded-0' ) ? ' rounded-0' : '';
 ?>
 
-<div class="quantity" style="width:5rem">
+<div class="quantity cw-qty-v<?php echo esc_attr( $qty_extra_class ); ?>">
 	<?php do_action( 'woocommerce_before_quantity_input_field' ); ?>
 
 	<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>">
@@ -27,24 +30,38 @@ $classes[] = 'text-center';
 	</label>
 
 	<input
-		type="<?php echo esc_attr( $type ); ?>"
+		type="text"
 		<?php echo $readonly ? 'readonly="readonly"' : ''; ?>
 		id="<?php echo esc_attr( $input_id ); ?>"
 		class="<?php echo esc_attr( implode( ' ', (array) $classes ) ); ?>"
 		name="<?php echo esc_attr( $input_name ); ?>"
 		value="<?php echo esc_attr( $input_value ); ?>"
 		aria-label="<?php esc_attr_e( 'Product quantity', 'woocommerce' ); ?>"
-		min="<?php echo esc_attr( $min_value ); ?>"
+		data-min="<?php echo esc_attr( $min_value ); ?>"
 		<?php if ( 0 < $max_value ) : ?>
-			max="<?php echo esc_attr( $max_value ); ?>"
+			data-max="<?php echo esc_attr( $max_value ); ?>"
 		<?php endif; ?>
 		<?php if ( ! $readonly ) : ?>
-			step="<?php echo esc_attr( $step ); ?>"
+			inputmode="numeric"
+			pattern="[0-9]*"
 			placeholder="<?php echo esc_attr( $placeholder ); ?>"
-			inputmode="<?php echo esc_attr( $inputmode ); ?>"
 			autocomplete="<?php echo esc_attr( isset( $autocomplete ) ? $autocomplete : 'on' ); ?>"
 		<?php endif; ?>
+		style="width:4rem"
 	/>
+
+	<?php if ( ! $readonly ) : ?>
+	<div class="cw-qty-v__btns">
+		<button class="btn" type="button" data-qty-inc
+			aria-label="<?php esc_attr_e( 'Increase quantity', 'woocommerce' ); ?>">
+			<i class="uil uil-plus"></i>
+		</button>
+		<button class="btn" type="button" data-qty-dec
+			aria-label="<?php esc_attr_e( 'Decrease quantity', 'woocommerce' ); ?>">
+			<i class="uil uil-minus"></i>
+		</button>
+	</div>
+	<?php endif; ?>
 
 	<?php do_action( 'woocommerce_after_quantity_input_field' ); ?>
 </div>

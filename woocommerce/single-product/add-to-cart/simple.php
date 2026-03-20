@@ -47,10 +47,11 @@ if ( $product->is_in_stock() ) : ?>
 				<?php do_action( 'woocommerce_after_add_to_cart_quantity' ); ?>
 
 				<div class="flex-grow-1">
+					<?php $btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded'; ?>
 					<button type="submit"
 					        name="add-to-cart"
 					        value="<?php echo esc_attr( $product->get_id() ); ?>"
-					        class="btn btn-primary btn-icon btn-icon-start rounded w-100 single_add_to_cart_button">
+					        class="btn btn-primary btn-icon btn-icon-start has-ripple<?php echo esc_attr( $btn_style ); ?> w-100 single_add_to_cart_button">
 						<i class="uil uil-shopping-bag"></i>
 						<?php echo esc_html( $product->single_add_to_cart_text() ); ?>
 					</button>

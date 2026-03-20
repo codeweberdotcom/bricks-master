@@ -45,6 +45,10 @@ class CW_Wishlist_UI {
 		// Шорткод страницы вишлиста.
 		add_shortcode( 'cw_wishlist', array( $this, 'render_wishlist_page' ) );
 
+		// На странице вишлиста сообщаем WooCommerce, что это WC-страница,
+		// чтобы WC загрузил свои скрипты/стили (прайсы, ajax_add_to_cart, фрагменты корзины).
+		add_filter( 'is_woocommerce', array( $this, 'is_woocommerce_on_wishlist' ) );
+
 		// Enqueue JS + локализация.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
@@ -257,6 +261,20 @@ class CW_Wishlist_UI {
 		}
 
 		return '<i class="uil uil-heart" aria-hidden="true"></i>';
+	}
+
+	/**
+	 * Возвращает true на странице вишлиста, чтобы WooCommerce загружал свои скрипты/стили.
+	 *
+	 * @param bool $is_wc Текущее значение.
+	 * @return bool
+	 */
+	public function is_woocommerce_on_wishlist( $is_wc ) {
+		if ( $is_wc ) {
+			return true;
+		}
+		$wishlist_page = (int) $this->get_opt( 'wishlist_page' );
+		return $wishlist_page && is_page( $wishlist_page );
 	}
 
 	/**

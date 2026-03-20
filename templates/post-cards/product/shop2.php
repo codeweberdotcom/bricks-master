@@ -108,7 +108,16 @@ if ( $sale_badge_on && $product->is_on_sale() ) {
 }
 ?>
 
-<div id="product-<?php echo esc_attr( $product_id ); ?>" class="project item col">
+
+<?php
+// Wishlist page mode: adds cw-wishlist-card class, data-product-id, fixed col sizes.
+$cw_wl_mode  = ! empty( $GLOBALS['cw_wishlist_render'] );
+$cw_col      = $cw_wl_mode ? 'col-6 col-md-4 col-xl-3 cw-wishlist-card' : 'col';
+$cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"' : '';
+?>
+<div id="product-<?php echo esc_attr( $product_id ); ?>" class="project item <?php echo esc_attr( $cw_col ); ?>"<?php echo $cw_wl_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+
+<?php if ( $cw_wl_mode ) : ?><div class="card p-3"><?php endif; ?>
 
 	<figure class="rounded mb-6">
 
@@ -186,6 +195,8 @@ if ( $sale_badge_on && $product->is_on_sale() ) {
 
 	</div>
 	<!-- /.post-header -->
+
+<?php if ( $cw_wl_mode ) : ?></div><!-- /.card --><?php endif; ?>
 
 </div>
 <!-- /.item -->

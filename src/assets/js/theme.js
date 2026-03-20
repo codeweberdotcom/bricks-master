@@ -1646,6 +1646,7 @@ var custom = {
   init: function () {
     custom.rippleEffect();
     custom.addTelMask();
+    custom.qtyInput();
   },
 
 
@@ -1734,6 +1735,29 @@ var custom = {
     });
   },
 
+
+  /**
+   * Qty Input (+/- buttons)
+   * Handles cw-qty-v and cw-qty-h quantity input components.
+   * Reads data-min / data-max from the input element.
+   */
+  qtyInput: () => {
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-qty-inc],[data-qty-dec]');
+      if (!btn) return;
+      var wrap = btn.closest('.input-group, .cw-qty-v');
+      if (!wrap) return;
+      var input = wrap.querySelector('input');
+      if (!input) return;
+      var val = parseInt(input.value, 10) || 1;
+      var min = parseInt(input.dataset.min, 10) || 1;
+      var max = parseInt(input.dataset.max, 10) || Infinity;
+      if (btn.hasAttribute('data-qty-inc')) val = Math.min(max, val + 1);
+      if (btn.hasAttribute('data-qty-dec')) val = Math.max(min, val - 1);
+      input.value = val;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  },
 
   rippleEffect: () => {
     document.querySelectorAll(".has-ripple").forEach((button) => {
