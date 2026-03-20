@@ -43,9 +43,9 @@
 			if (!productId) { return; }
 
 			var feedback        = cwWishlist.feedbackType || 'spinner';
-			var showSpinner     = (feedback === 'spinner' || feedback === 'both');
-			var showCardSpinner = (feedback === 'card' || feedback === 'card-toast');
-			var showToast       = (feedback === 'toast' || feedback === 'both' || feedback === 'card-toast');
+			var showSpinner     = (feedback === 'spinner');
+			var showCardSpinner = (feedback === 'card');
+			var showToast       = (cwWishlist.showToast === 'yes');
 
 			var $card = null;
 			if (showCardSpinner) {
@@ -134,7 +134,8 @@
 						CWWishlist.removeCard(productId);
 						CWWishlist.updateCountWidget(response.data.count);
 
-						if (typeof CWNotify !== 'undefined') {
+						var showToast = (cwWishlist.showToast === 'yes');
+						if (showToast && typeof CWNotify !== 'undefined') {
 							CWNotify.show(cwWishlist.i18n.removed, { type: 'info', event: 'wishlist' });
 						}
 					}
@@ -175,9 +176,9 @@
 		showEmptyState: function () {
 			$('.cw-wishlist-grid').replaceWith(
 				'<div class="cw-wishlist-empty">' +
-					'<p>' + (cwWishlist.i18n.emptyText || 'В избранном пока ничего нет.') + '</p>' +
+					'<p>' + (cwWishlist.i18n.emptyText || 'Your wishlist is empty.') + '</p>' +
 					'<a href="' + (cwWishlist.shopUrl || '/shop/') + '" class="btn btn-primary">' +
-						(cwWishlist.i18n.goToShop || 'Перейти в каталог') +
+						(cwWishlist.i18n.goToShop || 'Go to Shop') +
 					'</a>' +
 				'</div>'
 			);

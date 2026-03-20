@@ -6,6 +6,26 @@
 // и нельзя закрыть через PHP-шаблон.
 // ─────────────────────────────────────────────────────────────────
 
+// ── Single product: standalone figure (одно фото без swiper-slide) ────────────
+// .item-link hover-стили из _projects.scss работают только внутри .item/.swiper-slide.
+// Для одиночного фото на странице товара повторяем паттерн через figure:hover.
+
+.cw-product-gallery figure {
+  position: relative;
+
+  .item-link {
+    opacity: 0;
+    right: 0;
+    bottom: 1rem;
+    transition: all .3s ease-in-out;
+  }
+
+  &:hover .item-link {
+    opacity: 1;
+    right: 1rem;
+  }
+}
+
 // ── cw-qty-v (вертикальные кнопки ±) ─────────────────────────────
 // CSS из demo/qty-input.html — перенесён сюда как глобальный компонент
 .cw-qty-v {
@@ -16,7 +36,6 @@
     text-align: center;
     height: auto !important;
     border: 1px solid var(--bs-border-color);
-    border-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 
@@ -28,16 +47,23 @@
   }
 }
 
+// Контейнер кнопок: граница снаружи, без левой (её даёт правый бордер инпута)
 .cw-qty-v__btns {
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--bs-border-color);
+  border-left: 0;
+  border-top-right-radius: var(--bs-border-radius);
+  border-bottom-right-radius: var(--bs-border-radius);
+  overflow: hidden;
 
   .btn {
     flex: 1 1 50%;
     padding: 0 .5rem;
     line-height: 1;
     border-radius: 0;
-    border: 1px solid var(--bs-border-color);
+    border: 0;
+    border-bottom: 1px solid var(--bs-border-color);
     color: var(--bs-body-color);
     background: transparent;
 
@@ -45,14 +71,8 @@
       background: var(--bs-tertiary-bg);
     }
 
-    &:first-child {
-      border-bottom-width: .5px;
-      border-top-right-radius: var(--bs-border-radius);
-    }
-
     &:last-child {
-      border-top-width: .5px;
-      border-bottom-right-radius: var(--bs-border-radius);
+      border-bottom: 0;
     }
   }
 
@@ -66,14 +86,66 @@
     border-bottom-left-radius: 0 !important;
   }
 
-  .cw-qty-v__btns .btn {
-    &:first-child { border-top-right-radius: 0 !important; }
-    &:last-child  { border-bottom-right-radius: 0 !important; }
+  .cw-qty-v__btns {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
   }
 }
 
-// WC JS добавляет класс .loading на кнопку во время запроса
+// ── WC review form stars — жёлтый цвет как у .ratings (#fcc032) ───────────────
+// WC использует свой icon-font (WooCommerce.woff2), \e020 = ★, \e021 = ☆.
+// Цвет не задан в WC CSS — наследуется серым. Перекрываем здесь.
+
+.comment-form-rating {
+  p.stars {
+    margin-bottom: 0;
+  }
+}
+
+.comment-form-rating p.stars {
+  a::before {
+    color: rgba(#000, .15); // пустые звёзды
+  }
+
+  &:hover a::before {
+    color: #fcc032; // все звёзды жёлтые при наведении на группу
+  }
+
+  a:hover ~ a::before {
+    color: rgba(#000, .15); // звёзды после курсора — серые
+  }
+
+  &.selected a.active::before,
+  &.selected a:not(.active)::before {
+    color: #fcc032; // выбранные звёзды — жёлтые
+  }
+
+  &.selected a.active ~ a::before {
+    color: rgba(#000, .15); // после выбранной — серые
+  }
+}
+
+// ── WC JS добавляет класс .loading на кнопку во время запроса
 .single_add_to_cart_button.loading {
+  pointer-events: none;
+  opacity: 0.8;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    width: 0.85rem;
+    height: 0.85rem;
+    border: 2px solid rgba(#fff, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: cw-spin 0.6s linear infinite;
+    margin-left: 0.35rem;
+    vertical-align: middle;
+  }
+}
+
+// ── Кнопка отправки отзыва — спиннер во время AJAX-запроса ───────────────────
+#review_form [type="submit"].loading {
   pointer-events: none;
   opacity: 0.8;
 

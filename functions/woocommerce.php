@@ -650,8 +650,53 @@ add_filter( 'woocommerce_product_brands_output', function ( $html ) {
 	return str_replace( '<span class="posted_in">', '<span class="d-block text-muted mb-1 posted_in">', trim( $html ) );
 } );
 
+// ── Отключить дефолтные WC-стили кнопок — тема использует собственные ──────────
+// Класс woocommerce-block-theme-has-button-styles сообщает WC, что тема
+// управляет стилями кнопок сама: WC пропускает все правила вида
+// :not(.woocommerce-block-theme-has-button-styles).
+add_filter( 'body_class', function ( $classes ) {
+	$classes[] = 'woocommerce-block-theme-has-button-styles';
+	return $classes;
+} );
+
 // ── WooCommerce Variation Swatches ─────────────────────────────────────────────
 require_once get_template_directory() . '/functions/woocommerce-swatches.php';
+
+// ── WooCommerce AJAX Review ─────────────────────────────────────────────────────
+require_once get_template_directory() . '/functions/integrations/woo-ajax-review.php';
+
+/**
+ * woo-review.js — загружается только на странице товара.
+ */
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_product() ) {
+		return;
+	}
+
+	$dist_path = codeweber_get_dist_file_path( 'dist/assets/js/woo-review.js' );
+	$dist_url  = codeweber_get_dist_file_url( 'dist/assets/js/woo-review.js' );
+
+	if ( ! $dist_path || ! $dist_url ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'cw-woo-review',
+		$dist_url,
+		[],
+		codeweber_asset_version( $dist_path ),
+		true
+	);
+
+	wp_localize_script( 'cw-woo-review', 'cwReview', [
+		'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+		'nonce'   => wp_create_nonce( 'cw_review_nonce' ),
+		'i18n'    => [
+			'ratingRequired' => __( 'Please select a rating.', 'woocommerce' ),
+			'error'          => __( 'Something went wrong. Please try again.', 'codeweber' ),
+		],
+	] );
+}, 30 );
 
 // ── WooCommerce Quick View ──────────────────────────────────────────────────────
 require_once get_template_directory() . '/functions/woocommerce-quick-view.php';

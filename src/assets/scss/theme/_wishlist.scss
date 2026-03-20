@@ -14,14 +14,29 @@
     outline-offset: 2px;
   }
 
-  // Loading state — спиннер через анимацию иконки
+  // Loading state — скрываем иконку, показываем border-спиннер того же размера
   &--loading {
     pointer-events: none;
 
     i.uil {
-      opacity: 0.4;
+      opacity: 0;
+    }
+
+    .cw-wishlist-icon::after {
+      content: '';
+      position: absolute;
+      width: 1em;
+      height: 1em;
+      border: 0.125em solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
       animation: cw-wishlist-spin 0.7s linear infinite;
     }
+  }
+
+  // item-like (loop-кнопка на карточке) — спиннер красный
+  &.item-like#{&}--loading {
+    color: var(--bs-red, #e2626b);
   }
 
   // Active: товар уже в избранном
@@ -56,6 +71,7 @@
 
 // Иконка сердца
 .cw-wishlist-icon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;

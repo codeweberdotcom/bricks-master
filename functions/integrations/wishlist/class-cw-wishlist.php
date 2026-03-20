@@ -101,7 +101,7 @@ class CW_Wishlist {
 		// Проверяем гостевой доступ.
 		if ( ! is_user_logged_in() && ! $this->guests_allowed() ) {
 			wp_send_json_error( array(
-				'message'  => __( 'Войдите, чтобы добавить товар в избранное.', 'codeweber' ),
+				'message'  => __( 'Please log in to add items to your wishlist.', 'codeweber' ),
 				'redirect' => wc_get_page_permalink( 'myaccount' ),
 			) );
 		}
@@ -134,7 +134,7 @@ class CW_Wishlist {
 		}
 
 		if ( ! is_user_logged_in() && ! $this->guests_allowed() ) {
-			wp_send_json_error( array( 'message' => __( 'Не авторизован', 'codeweber' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Unauthorized', 'codeweber' ) ) );
 		}
 
 		$wishlist = new CW_Wishlist_Item();

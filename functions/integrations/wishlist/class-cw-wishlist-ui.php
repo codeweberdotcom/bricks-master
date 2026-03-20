@@ -81,12 +81,13 @@ class CW_Wishlist_UI {
 			'loginUrl'       => wc_get_page_permalink( 'myaccount' ),
 			'count'          => $this->wishlist ? $this->wishlist->get_count() : 0,
 			'feedbackType'   => $this->get_opt( 'wishlist_feedback', 'spinner' ),
+			'showToast'      => $this->get_opt( 'wishlist_toast', 0 ) ? 'yes' : 'no',
 			'i18n'           => array(
-				'added'        => __( 'В избранном', 'codeweber' ),
-				'add'          => __( 'В избранное', 'codeweber' ),
-				'removed'      => __( 'Убрано из избранного', 'codeweber' ),
-				'loginNotice'  => __( 'Войдите, чтобы сохранить товар в избранное.', 'codeweber' ),
-				'removeNotice' => __( 'Убрать из избранного?', 'codeweber' ),
+				'added'        => __( 'In Wishlist', 'codeweber' ),
+				'add'          => __( 'Add to Wishlist', 'codeweber' ),
+				'removed'      => __( 'Removed from Wishlist', 'codeweber' ),
+				'loginNotice'  => __( 'Please log in to save items to your wishlist.', 'codeweber' ),
+				'removeNotice' => __( 'Remove from Wishlist?', 'codeweber' ),
 			),
 		) );
 	}
@@ -103,15 +104,16 @@ class CW_Wishlist_UI {
 	 */
 	public function render_single_button() {
 		$btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
-		$this->render_button( 'cw-wishlist-btn--single btn btn-outline-red btn-icon-start' . $btn_style );
+		$this->render_button( 'cw-wishlist-btn--single btn btn-outline-red btn-icon px-3 h-100' . $btn_style, false );
 	}
 
 	/**
 	 * Render wishlist button HTML.
 	 *
 	 * @param string $extra_classes Additional CSS classes.
+	 * @param bool   $show_label    Whether to show the text label.
 	 */
-	public function render_button( $extra_classes = '' ) {
+	public function render_button( $extra_classes = '', $show_label = true ) {
 		$product_id  = get_the_ID();
 		$in_wishlist = $this->wishlist ? $this->wishlist->is_in_wishlist( $product_id ) : false;
 		$classes     = 'cw-wishlist-btn ' . esc_attr( $extra_classes );
@@ -121,8 +123,8 @@ class CW_Wishlist_UI {
 		}
 
 		$label = $in_wishlist
-			? __( 'В избранном', 'codeweber' )
-			: __( 'В избранное', 'codeweber' );
+			? __( 'In Wishlist', 'codeweber' )
+			: __( 'Add to Wishlist', 'codeweber' );
 
 		$href = $in_wishlist
 			? esc_url( cw_get_wishlist_url() )
@@ -139,7 +141,9 @@ class CW_Wishlist_UI {
 			<span class="cw-wishlist-icon">
 				<?php echo $this->get_heart_icon( $in_wishlist ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</span>
+			<?php if ( $show_label ) : ?>
 			<span class="cw-wishlist-label"><?php echo esc_html( $label ); ?></span>
+			<?php endif; ?>
 		</a>
 		<?php
 	}
@@ -159,9 +163,9 @@ class CW_Wishlist_UI {
 		<div class="cw-wishlist-page">
 			<?php if ( empty( $product_ids ) ) : ?>
 				<div class="cw-wishlist-empty">
-					<p><?php esc_html_e( 'В избранном пока ничего нет.', 'codeweber' ); ?></p>
+					<p><?php esc_html_e( 'Your wishlist is empty.', 'codeweber' ); ?></p>
 					<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary rounded-pill">
-						<?php esc_html_e( 'Перейти в каталог', 'codeweber' ); ?>
+						<?php esc_html_e( 'Go to Shop', 'codeweber' ); ?>
 					</a>
 				</div>
 			<?php else : ?>
@@ -212,7 +216,7 @@ class CW_Wishlist_UI {
 			unset( $items['customer-logout'] );
 		}
 
-		$items['cw-wishlist'] = __( 'Избранное', 'codeweber' );
+		$items['cw-wishlist'] = __( 'Wishlist', 'codeweber' );
 		$items               += $logout;
 
 		return $items;

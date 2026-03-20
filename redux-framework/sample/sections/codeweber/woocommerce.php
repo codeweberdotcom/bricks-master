@@ -496,13 +496,19 @@ Redux::set_section(
 				'subtitle' => esc_html__( 'Visual feedback when adding a product to wishlist', 'codeweber' ),
 				'default'  => 'spinner',
 				'options'  => array(
-					'spinner'    => esc_html__( 'Spinner on button', 'codeweber' ),
-					'card'       => esc_html__( 'Spinner on card', 'codeweber' ),
-					'toast'      => esc_html__( 'Toast notification', 'codeweber' ),
-					'both'       => esc_html__( 'Spinner + Toast', 'codeweber' ),
-					'card-toast' => esc_html__( 'Spinner on card + Toast', 'codeweber' ),
-					'none'       => esc_html__( 'None', 'codeweber' ),
+					'spinner' => esc_html__( 'Spinner on button', 'codeweber' ),
+					'card'    => esc_html__( 'Spinner on card', 'codeweber' ),
+					'none'    => esc_html__( 'None', 'codeweber' ),
 				),
+				'required' => array( 'wishlist_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'wishlist_toast',
+				'type'     => 'checkbox',
+				'title'    => esc_html__( 'Toast Notification', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show toast when adding or removing from wishlist', 'codeweber' ),
+				'default'  => '0',
 				'required' => array( 'wishlist_enable', '=', true ),
 			),
 

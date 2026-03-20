@@ -81,7 +81,7 @@ while ( have_posts() ) :
 			<div class="row gx-md-8 gx-xl-12 gy-8">
 
 				<?php // ── ЭТАП 6: Галерея (левая колонка) ──────────────────── ?>
-				<div class="col-lg-6">
+				<div class="col-lg-6 cw-product-gallery">
 
 					<?php if ( $has_gallery ) : ?>
 
@@ -296,13 +296,30 @@ while ( have_posts() ) :
 								?>
 							</span>
 						</div>
+						<?php
+						$star_labels = [
+							5 => __( 'Perfect', 'woocommerce' ),
+							4 => __( 'Good', 'woocommerce' ),
+							3 => __( 'Average', 'woocommerce' ),
+							2 => __( 'Not that bad', 'woocommerce' ),
+							1 => __( 'Very poor', 'woocommerce' ),
+						];
+						?>
 						<ul class="progress-list">
 							<?php for ( $star = 5; $star >= 1; $star-- ) :
 								$count   = isset( $rating_counts[ $star ] ) ? (int) $rating_counts[ $star ] : 0;
 								$percent = (int) round( ( $count / $total_for_bars ) * 100 );
 							?>
 							<li>
-								<p><?php echo esc_html( $star ) . ' ' . esc_html_x( 'Stars', 'rating label', 'codeweber' ); ?></p>
+								<p>
+									<?php
+									echo esc_html( $star ) . ' ';
+									echo $star === 1
+										? esc_html_x( 'Star', 'rating label singular', 'codeweber' )
+										: esc_html_x( 'Stars', 'rating label plural', 'codeweber' );
+									echo ' <span class="text-muted fs-14">— ' . esc_html( $star_labels[ $star ] ) . '</span>';
+									?>
+								</p>
 								<div class="progressbar line blue" data-value="<?php echo esc_attr( $percent ); ?>"></div>
 							</li>
 							<?php endfor; ?>
@@ -312,10 +329,11 @@ while ( have_posts() ) :
 					<!-- /.widget -->
 					<?php endif; ?>
 
-					<div class="widget mt-10">
+					<div class="widget mt-10 d-lg-none">
 						<h4 class="widget-title mb-3"><?php esc_html_e( 'Review this product', 'codeweber' ); ?></h4>
 						<p class="mb-5"><?php esc_html_e( 'Share your experience and help other customers.', 'codeweber' ); ?></p>
-						<a href="#review_form" class="btn btn-primary rounded w-100">
+						<?php $btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ''; ?>
+						<a href="#review_form" class="btn btn-primary<?php echo esc_attr( $btn_style ); ?> w-100">
 							<?php esc_html_e( 'Write a Review', 'codeweber' ); ?>
 						</a>
 					</div>

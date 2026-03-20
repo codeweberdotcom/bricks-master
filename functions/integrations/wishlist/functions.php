@@ -166,8 +166,8 @@ if ( ! function_exists( 'cw_render_wishlist_icon' ) ) {
 		<a
 			href="<?php echo esc_url( $url ); ?>"
 			class="cw-wishlist-widget d-flex align-items-center text-decoration-none"
-			title="<?php esc_attr_e( 'Избранное', 'codeweber' ); ?>"
-			aria-label="<?php esc_attr_e( 'Избранное', 'codeweber' ); ?>"
+			title="<?php esc_attr_e( 'Wishlist', 'codeweber' ); ?>"
+			aria-label="<?php esc_attr_e( 'Wishlist', 'codeweber' ); ?>"
 		>
 			<span class="cw-wishlist-widget__icon position-relative">
 				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
@@ -181,7 +181,7 @@ if ( ! function_exists( 'cw_render_wishlist_icon' ) ) {
 			</span>
 			<?php if ( $args['show_label'] ) : ?>
 				<span class="cw-wishlist-widget__label ms-1">
-					<?php esc_html_e( 'Избранное', 'codeweber' ); ?>
+					<?php esc_html_e( 'Wishlist', 'codeweber' ); ?>
 				</span>
 			<?php endif; ?>
 		</a>

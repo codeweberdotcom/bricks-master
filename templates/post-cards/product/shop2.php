@@ -70,6 +70,8 @@ $badge_position = ( isset( $cw_opts['woo_badge_position'] ) && $cw_opts['woo_bad
 	? 'top:1rem;right:1rem;'
 	: 'top:1rem;left:1rem;';
 
+$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+
 $badge           = '';
 $sale_badge_on   = ! isset( $cw_opts['woo_badge_sale_enable'] ) || (bool) $cw_opts['woo_badge_sale_enable'];
 $new_badge_on    = ! isset( $cw_opts['woo_badge_new_enable'] ) || (bool) $cw_opts['woo_badge_new_enable'];
@@ -118,15 +120,15 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 <div id="product-<?php echo esc_attr( $product_id ); ?>" class="project item <?php echo esc_attr( $cw_col ); ?>"<?php echo $cw_wl_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 
 <?php if ( $cw_wl_mode ) : ?>
-<div class="card p-3">
+<div class="card <?php echo esc_attr( $card_radius ); ?> p-3">
 	<a href="#"
 	   class="cw-wishlist-remove ms-auto mb-2 lh-1 text-ash"
 	   data-product-id="<?php echo esc_attr( $product_id ); ?>"
-	   aria-label="<?php esc_attr_e( 'Убрать из избранного', 'codeweber' ); ?>"
+	   aria-label="<?php esc_attr_e( 'Remove from Wishlist', 'codeweber' ); ?>"
 	><i class="uil uil-times"></i></a>
 <?php endif; ?>
 
-	<figure class="rounded mb-6">
+	<figure class="<?php echo esc_attr( $card_radius ); ?> mb-6">
 
 		<a href="<?php echo esc_url( $product_url ); ?>"><?php echo $image_html; ?></a>
 
@@ -145,7 +147,7 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 		}
 		$cw_wl_href  = $cw_active ? esc_url( cw_get_wishlist_url() ) : '#';
 		$cw_wl_class = 'item-like cw-wishlist-btn' . ( $cw_active ? ' cw-wishlist-btn--active' : '' );
-		$cw_wl_title = $cw_active ? __( 'В избранном', 'codeweber' ) : __( 'В избранное', 'codeweber' );
+		$cw_wl_title = $cw_active ? __( 'In Wishlist', 'codeweber' ) : __( 'Add to Wishlist', 'codeweber' );
 		?>
 		<a class="<?php echo esc_attr( $cw_wl_class ); ?>"
 		   href="<?php echo $cw_wl_href; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"
@@ -153,7 +155,7 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 		   data-bs-toggle="white-tooltip"
 		   title="<?php echo esc_attr( $cw_wl_title ); ?>"
 		   aria-label="<?php echo esc_attr( $cw_wl_title ); ?>">
-			<i class="uil uil-heart"></i>
+			<span class="cw-wishlist-icon"><i class="uil uil-heart"></i></span>
 		</a>
 
 		<a class="item-view" href="<?php echo esc_url( $product_url ); ?>"
