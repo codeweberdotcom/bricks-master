@@ -23,7 +23,12 @@
 
 		handleToggle: function ($btn) {
 			if ($btn.hasClass('cw-wishlist-btn--active')) {
-				window.location.href = cwWishlist.wishlistUrl;
+				// В каталоге (loop) — убрать из избранного; на странице товара — перейти
+				if ($btn.hasClass('cw-wishlist-btn--single')) {
+					window.location.href = cwWishlist.wishlistUrl;
+				} else {
+					CWWishlist.handleRemove($btn);
+				}
 				return;
 			}
 
@@ -141,7 +146,12 @@
 					}
 				});
 			}
-			$('.cw-wishlist-btn[data-product-id="' + productId + '"]').removeClass('cw-wishlist-btn--active');
+			$('.cw-wishlist-btn[data-product-id="' + productId + '"]')
+				.removeClass('cw-wishlist-btn--active')
+				.attr('href', '#')
+				.attr('title', cwWishlist.i18n.add)
+				.attr('aria-label', cwWishlist.i18n.add)
+				.find('.cw-wishlist-label').text(cwWishlist.i18n.add);
 		},
 
 		showEmptyState: function () {
