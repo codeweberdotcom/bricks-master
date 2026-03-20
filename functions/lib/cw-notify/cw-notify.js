@@ -103,7 +103,13 @@
 				'</div>'
 			);
 
-			$container.append($alert);
+			// bottom-позиции: prepend — новый тост сверху стека, старые не прыгают
+			// top-позиции: append — новый тост снизу стека, старые не прыгают
+			if (position.indexOf('bottom') === 0) {
+				$container.prepend($alert);
+			} else {
+				$container.append($alert);
+			}
 
 			// Авто-скрытие
 			if (delay > 0) {
