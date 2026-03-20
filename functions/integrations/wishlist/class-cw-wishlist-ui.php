@@ -98,7 +98,7 @@ class CW_Wishlist_UI {
 	 * Render wishlist button on single product page.
 	 */
 	public function render_single_button() {
-		$this->render_button( 'cw-wishlist-btn--single btn btn-outline-secondary' );
+		$this->render_button( 'cw-wishlist-btn--single btn btn-outline-red btn-icon-start' );
 	}
 
 	/**

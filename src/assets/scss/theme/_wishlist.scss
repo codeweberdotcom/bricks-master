@@ -25,9 +25,21 @@
   }
 
   // Active: товар уже в избранном
+  // Для loop-кнопки — только красная иконка
   &--active {
     i.uil {
-      color: var(--bs-danger, #dc3545);
+      color: var(--bs-red, #e2626b);
+    }
+  }
+
+  // Для single-кнопки (btn-outline-red) — переход в заливку как btn-red
+  &--single#{&}--active {
+    background-color: var(--bs-red, #e2626b);
+    border-color: var(--bs-red, #e2626b);
+    color: #fff;
+
+    i.uil {
+      color: #fff;
     }
   }
 
