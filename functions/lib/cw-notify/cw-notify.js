@@ -41,6 +41,14 @@
 		'top-start':    'top-0 start-0',
 	};
 
+	// animate.css класс появления по позиции (используем встроенные анимации темы)
+	var ENTER_ANIMATIONS = {
+		'bottom-end':   'animate__slideInUp',
+		'bottom-start': 'animate__slideInUp',
+		'top-end':      'animate__slideInDown',
+		'top-start':    'animate__slideInDown',
+	};
+
 	var CWNotify = {
 
 		/**
@@ -83,10 +91,13 @@
 				$('body').append($container);
 			}
 
+			// Анимация появления из animate.css (встроена в тему)
+			var enterAnim = ENTER_ANIMATIONS[position] || ENTER_ANIMATIONS['bottom-end'];
+
 			// Сборка алерта
 			var delayStyle = delay > 0 ? ' style="--cw-notify-delay:' + delay + 'ms"' : '';
 			var $alert = $(
-				'<div class="alert alert-' + type + ' alert-icon alert-dismissible fade show cw-notify-item"' + delayStyle + ' role="alert">' +
+				'<div class="alert alert-' + type + ' alert-icon alert-dismissible fade show cw-notify-item animate__animated ' + enterAnim + '"' + delayStyle + ' role="alert">' +
 					'<i class="uil ' + icon + '"></i> ' + message +
 					'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
 				'</div>'

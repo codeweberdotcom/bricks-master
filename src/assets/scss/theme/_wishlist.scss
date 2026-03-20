@@ -113,9 +113,9 @@
   max-width: 420px;
 }
 
-// Элемент уведомления — появление + progress bar
+// Элемент уведомления — animate.css управляет появлением через JS,
+// здесь только progress bar (линия убывания времени показа)
 .cw-notify-item {
-  animation: cw-notify-slidein 0.3s ease both;
   overflow: hidden; // чтобы ::after не вылезал за border-radius
 
   // Линия прогресса внизу уведомления
@@ -130,18 +130,6 @@
     opacity: 0.35;
     animation: cw-notify-progress var(--cw-notify-delay, 3000ms) linear forwards;
     transform-origin: left center;
-  }
-}
-
-// Появление снизу вверх (для bottom-end / bottom-start)
-@keyframes cw-notify-slidein {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
