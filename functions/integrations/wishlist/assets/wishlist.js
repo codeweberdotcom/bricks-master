@@ -38,9 +38,24 @@
 			var productId = $btn.data('product-id');
 			if (!productId) { return; }
 
-			var feedback    = cwWishlist.feedbackType || 'spinner';
-			var showSpinner = (feedback === 'spinner' || feedback === 'both');
-			var showToast   = (feedback === 'toast'   || feedback === 'both');
+			var feedback     = cwWishlist.feedbackType || 'spinner';
+			var showSpinner  = (feedback === 'spinner' || feedback === 'both');
+			var showCardSpinner = (feedback === 'card' || feedback === 'card-toast');
+			var showToast    = (feedback === 'toast' || feedback === 'both' || feedback === 'card-toast');
+
+			// Найти карточку товара для card-спиннера
+			var $card = null;
+			if (showCardSpinner) {
+				$card = $btn.closest('li.product, .product, li');
+				if ($card.length) {
+					$card.css('position', 'relative');
+					$card.append('<div class="cw-card-spinner spinner spinner-overlay"></div>');
+				} else {
+					// Нет карточки (напр. страница товара) — fallback на спиннер кнопки
+					showCardSpinner = false;
+					$btn.addClass('cw-wishlist-btn--loading').prop('disabled', true);
+				}
+			}
 
 			if (showSpinner) {
 				$btn.addClass('cw-wishlist-btn--loading').prop('disabled', true);
@@ -65,6 +80,12 @@
 					}
 				},
 				complete: function () {
+					if (showCardSpinner && $card && $card.length) {
+						$card.find('.cw-card-spinner').addClass('done');
+						setTimeout(function () {
+							$card.find('.cw-card-spinner').remove();
+						}, 300);
+					}
 					if (showSpinner) {
 						$btn.removeClass('cw-wishlist-btn--loading').prop('disabled', false);
 					}
