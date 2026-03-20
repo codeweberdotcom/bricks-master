@@ -163,6 +163,8 @@ class CW_Wishlist_UI {
 				<div class="grid grid-view projects-masonry shop">
 					<div class="row <?php echo esc_attr( class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13' ); ?> cw-wishlist-grid">
 						<?php
+						$card_tpl = get_template_directory() . '/templates/post-cards/product/shop2.php';
+
 						foreach ( $product_ids as $pid ) {
 							$pid     = (int) $pid;
 							$product = wc_get_product( $pid );
@@ -171,7 +173,12 @@ class CW_Wishlist_UI {
 								continue;
 							}
 
-							$this->render_wishlist_card( $product );
+							$post = get_post( $pid );
+							setup_postdata( $post );
+							$GLOBALS['cw_wishlist_render'] = true;
+							include $card_tpl;
+							unset( $GLOBALS['cw_wishlist_render'] );
+							wp_reset_postdata();
 						}
 						?>
 					</div>
@@ -181,80 +188,6 @@ class CW_Wishlist_UI {
 		<?php
 
 		return ob_get_clean();
-	}
-
-	/**
-	 * Render single product card on wishlist page.
-	 *
-	 * @param \WC_Product $product WooCommerce product.
-	 */
-	private function render_wishlist_card( $product ) {
-		$pid   = $product->get_id();
-		$image = $product->get_image( 'woocommerce_thumbnail', array( 'class' => '' ) );
-		$title = $product->get_name();
-		$price = $product->get_price_html();
-		$link  = get_permalink( $pid );
-
-		$is_simple       = $product->is_type( 'simple' );
-		$add_to_cart_url = $product->add_to_cart_url();
-		$add_to_cart_text = $product->add_to_cart_text();
-
-		// Badge (Sale / New)
-		$badge = '';
-		if ( $product->is_on_sale() ) {
-			$badge = '<span class="avatar bg-pink text-white w-10 h-10 position-absolute text-uppercase fs-13" style="top:1rem;left:1rem;"><span>' . esc_html__( 'Sale!', 'woocommerce' ) . '</span></span>';
-		} elseif ( $product->is_featured() ) {
-			$badge = '<span class="avatar bg-aqua text-white w-10 h-10 position-absolute text-uppercase fs-13" style="top:1rem;left:1rem;"><span>' . esc_html__( 'New!', 'codeweber' ) . '</span></span>';
-		}
-
-		?>
-		<div class="project item col-6 col-md-4 col-xl-3 cw-wishlist-card" data-product-id="<?php echo esc_attr( $pid ); ?>">
-			<div class="card p-3">
-
-			<figure class="rounded mb-4">
-				<a href="<?php echo esc_url( $link ); ?>"><?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></a>
-
-				<a class="item-like cw-wishlist-remove cw-wishlist-btn--active"
-				   href="#"
-				   data-product-id="<?php echo esc_attr( $pid ); ?>"
-				   data-bs-toggle="white-tooltip"
-				   title="<?php esc_attr_e( 'Убрать из избранного', 'codeweber' ); ?>"
-				   aria-label="<?php esc_attr_e( 'Убрать из избранного', 'codeweber' ); ?>">
-					<i class="uil uil-heart-alt" aria-hidden="true"></i>
-				</a>
-
-				<?php if ( $is_simple ) : ?>
-					<a href="<?php echo esc_url( $add_to_cart_url ); ?>"
-					   class="item-cart ajax_add_to_cart"
-					   data-product_id="<?php echo esc_attr( $pid ); ?>"
-					   data-product_sku="<?php echo esc_attr( $product->get_sku() ); ?>"
-					   data-quantity="1"
-					   rel="nofollow">
-						<i class="uil uil-shopping-bag" aria-hidden="true"></i>
-						<?php echo esc_html( $add_to_cart_text ); ?>
-					</a>
-				<?php else : ?>
-					<a href="<?php echo esc_url( $link ); ?>" class="item-cart">
-						<i class="uil uil-shopping-bag" aria-hidden="true"></i>
-						<?php echo esc_html( $add_to_cart_text ); ?>
-					</a>
-				<?php endif; ?>
-
-				<?php echo $badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			</figure>
-
-			<div class="post-header">
-				<h2 class="post-title h3 fs-18">
-					<a href="<?php echo esc_url( $link ); ?>" class="link-dark">
-						<?php echo esc_html( $title ); ?>
-					</a>
-				</h2>
-				<p class="price"><?php echo $price; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
-			</div>
-
-			</div><!-- /.card -->
-		</div>
-		<?php
 	}
 
 	/**

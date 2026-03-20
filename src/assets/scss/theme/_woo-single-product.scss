@@ -1,329 +1,37 @@
 // ─────────────────────────────────────────────────────────────────
-// WooCommerce Single Product — стиль в духе темы Bootstrap 5
-// Рейтинг + форма «В корзину»
+// WooCommerce Single Product — минимальные стили
+//
+// Всё что можно — через Bootstrap/тема классы в шаблонах.
+// Здесь только то, что WooCommerce JS добавляет динамически
+// и нельзя закрыть через PHP-шаблон.
 // ─────────────────────────────────────────────────────────────────
 
-// ──── Рейтинг товара (.woocommerce-product-rating) ───────────────────────────
-.woocommerce-product-rating {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+// WC JS добавляет класс .loading на кнопку во время запроса
+.single_add_to_cart_button.loading {
+  pointer-events: none;
+  opacity: 0.8;
 
-  // Заменяем WC-звёзды на тот же стиль, что у .ratings в теме
-  .star-rating {
+  &::after {
+    content: "";
     display: inline-block;
-    position: relative;
-    width: 5rem;
-    height: 0.8rem;
-    font-size: 0.9rem;
-    line-height: 1;
-    overflow: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol";
-
-    // Фон — серые звёзды
-    &::before {
-      content: "\2605\2605\2605\2605\2605";
-      color: rgba($dark, 0.1);
-      display: inline-block;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    // Span занимает % ширины — жёлтые звёзды обрезаются clipом
-    > span {
-      display: block;
-      overflow: hidden;
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-
-      &::before {
-        content: "\2605\2605\2605\2605\2605";
-        color: #fcc032;
-        display: inline-block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        white-space: nowrap;
-      }
-
-      // WC вставляет текст внутри span — скрываем, он есть в aria-label
-      strong,
-      span {
-        display: none;
-      }
-    }
-  }
-
-  // Ссылка «(N отзывов)»
-  .woocommerce-review-link {
-    font-size: 0.8rem;
-    color: var(--#{$prefix}body-color);
-    text-decoration: none;
-
-    &:hover {
-      color: var(--#{$prefix}primary);
-    }
+    width: 0.85rem;
+    height: 0.85rem;
+    border: 2px solid rgba(#fff, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: cw-spin 0.6s linear infinite;
+    margin-left: 0.35rem;
+    vertical-align: middle;
   }
 }
 
-// ──── Форма «В корзину» (form.cart) ─────────────────────────────────────────
-form.cart {
-  display: flex;
-  align-items: stretch;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-
-  // Поле количества
-  .quantity {
-    flex: 0 0 5rem;
-
-    input.qty {
-      width: 5rem;
-      height: 2.75rem;
-      padding: 0.375rem 0.5rem;
-      border: 1px solid var(--#{$prefix}border-color, #dee2e6);
-      border-radius: var(--#{$prefix}border-radius, 0.375rem);
-      text-align: center;
-      font-size: 1rem;
-      background-color: #fff;
-      color: var(--#{$prefix}body-color);
-      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      -moz-appearance: textfield;
-
-      &:focus {
-        border-color: var(--#{$prefix}primary);
-        outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(var(--#{$prefix}primary-rgb), 0.25);
-      }
-
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-    }
-  }
-
-  // Кнопка «В корзину» / «Add to cart»
-  .single_add_to_cart_button {
-    flex: 1 1 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.375rem;
-    height: 2.75rem;
-    padding: 0.375rem 1.5rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    line-height: 1.5;
-    color: #fff;
-    background-color: var(--#{$prefix}primary);
-    border: 1px solid var(--#{$prefix}primary);
-    border-radius: var(--#{$prefix}border-radius, 0.375rem);
-    cursor: pointer;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-
-    // Иконка корзины через Unicons
-    &::before {
-      font-family: "Unicons";
-      speak: none;
-      font-style: normal;
-      font-weight: normal;
-      content: "\e95f"; // uil-shopping-bag
-      font-size: 1.1rem;
-      line-height: 1;
-    }
-
-    &:hover,
-    &:focus-visible {
-      background-color: shade-color($primary, 10%);
-      border-color: shade-color($primary, 12%);
-      color: #fff;
-    }
-
-    // Состояние загрузки (WooCommerce добавляет .loading)
-    &.loading {
-      opacity: 0.75;
-      pointer-events: none;
-
-      &::after {
-        content: "";
-        display: inline-block;
-        width: 0.9rem;
-        height: 0.9rem;
-        border: 2px solid rgba(#fff, 0.4);
-        border-top-color: #fff;
-        border-radius: 50%;
-        animation: cw-spin 0.6s linear infinite;
-        margin-left: 0.25rem;
-      }
-    }
-
-    // После добавления WC показывает ссылку «View Cart» — прячем кнопку
-    &.added {
-      display: none;
-    }
-  }
-
-  // Ссылка «Просмотреть корзину» появляется после клика
-  .added_to_cart {
-    display: inline-flex;
-    align-items: center;
-    height: 2.75rem;
-    padding: 0 1rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--#{$prefix}primary);
-    text-decoration: none;
-    border: 1px solid var(--#{$prefix}primary);
-    border-radius: var(--#{$prefix}border-radius, 0.375rem);
-    white-space: nowrap;
-
-    &:hover {
-      background-color: var(--#{$prefix}primary);
-      color: #fff;
-    }
-  }
+// WC JS вставляет эту ссылку динамически после добавления в корзину
+.added_to_cart {
+  @extend .btn;
+  @extend .btn-outline-primary;
+  white-space: nowrap;
 }
 
 @keyframes cw-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-// ──── Variable product: враппер для quantity + кнопки ────────────────────────
-// У variable product quantity и кнопка вложены в .woocommerce-variation-add-to-cart
-.woocommerce-variation-add-to-cart {
-  display: flex;
-  align-items: stretch;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-// ──── Таблица вариаций (цвет, материал и т.д.) ───────────────────────────────
-table.variations {
-  width: 100%;
-  border: none;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin-bottom: 0.5rem;
-
-  tbody tr {
-    border: none;
-  }
-
-  th.label {
-    padding: 0.6rem 1rem 0.6rem 0;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--#{$prefix}body-color);
-    white-space: nowrap;
-    vertical-align: middle;
-    width: 1%;
-
-    label {
-      margin: 0;
-      cursor: default;
-    }
-  }
-
-  td.value {
-    padding: 0.6rem 0;
-    vertical-align: middle;
-  }
-
-  // Ссылка «Очистить» рядом со свотчами
-  .reset_variations {
-    display: inline-block;
-    margin-left: 0.75rem;
-    font-size: 0.75rem;
-    color: var(--#{$prefix}secondary, #6c757d);
-    text-decoration: none;
-    opacity: 0.7;
-    vertical-align: middle;
-    transition: opacity 0.15s;
-
-    &:hover {
-      opacity: 1;
-      color: var(--#{$prefix}primary);
-    }
-
-    &[style*="display:none"],
-    &[style*="display: none"] {
-      display: none !important;
-    }
-  }
-}
-
-// ──── Мета-информация о товаре (артикул, категория, метки) ───────────────────
-.product_meta {
-  margin-top: 1.25rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--#{$prefix}border-color, #dee2e6);
-  font-size: 0.8rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-
-  span {
-    color: var(--#{$prefix}body-color);
-
-    // Метка (артикул, категория...)
-    &::first-line {
-      color: var(--#{$prefix}body-color);
-    }
-  }
-
-  .sku_wrapper,
-  .posted_in,
-  .tagged_as {
-    display: block;
-    color: rgba(var(--#{$prefix}body-color-rgb, 52, 63, 82), 0.7);
-
-    .sku,
-    a {
-      color: var(--#{$prefix}body-color);
-      font-weight: 600;
-      text-decoration: none;
-
-      &:hover {
-        color: var(--#{$prefix}primary);
-      }
-    }
-  }
-}
-
-// ──── Цена товара в шапке (крупная) ─────────────────────────────────────────
-.post-header .price,
-.woocommerce-product-details__short-description + .price {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: var(--#{$prefix}body-color);
-
-  del {
-    opacity: 0.5;
-    font-weight: 400;
-    font-size: 1rem;
-    margin-right: 0.4rem;
-  }
-
-  ins {
-    text-decoration: none;
-    color: var(--#{$prefix}primary);
-  }
+  to { transform: rotate(360deg); }
 }

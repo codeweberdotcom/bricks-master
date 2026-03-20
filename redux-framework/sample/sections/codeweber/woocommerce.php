@@ -456,7 +456,7 @@ Redux::set_section(
 				'id'       => 'wishlist_page',
 				'type'     => 'select',
 				'title'    => esc_html__( 'Wishlist Page', 'codeweber' ),
-				'subtitle' => esc_html__( 'Page with [cw_wishlist] shortcode. Create the page first, then select it here.', 'codeweber' ),
+				'subtitle' => esc_html__( 'Page with [cw_wishlist] shortcode. Use the "Create Wishlist Page" button to generate it automatically.', 'codeweber' ),
 				'data'     => 'pages',
 				'default'  => '',
 				'required' => array( 'wishlist_enable', '=', true ),
