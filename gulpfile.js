@@ -610,7 +610,8 @@ gulp.task("shoppjaxjs:dist", function () {
   );
 });
 
-gulp.task("wooswatchesjs:dev", function () {
+gulp.task("wooswatchesjs:dev", function (cb) {
+  if (!isWooActive) { return cb(); }
   return gulp
     .src(path.src.wooswatchesjs)
     .pipe(gulp.dest(path.dev.js))
@@ -619,7 +620,8 @@ gulp.task("wooswatchesjs:dev", function () {
     .pipe(touch());
 });
 
-gulp.task("wooswatchesjs:dist", function () {
+gulp.task("wooswatchesjs:dist", function (cb) {
+  if (!isWooActive) { return cb(); }
   return (
     gulp
       .src(path.src.wooswatchesjs)
@@ -632,7 +634,8 @@ gulp.task("wooswatchesjs:dist", function () {
   );
 });
 
-gulp.task("wooquickviewjs:dev", function () {
+gulp.task("wooquickviewjs:dev", function (cb) {
+  if (!isWooActive) { return cb(); }
   return gulp
     .src(path.src.wooquickviewjs)
     .pipe(gulp.dest(path.dev.js))
@@ -641,7 +644,8 @@ gulp.task("wooquickviewjs:dev", function () {
     .pipe(touch());
 });
 
-gulp.task("wooquickviewjs:dist", function () {
+gulp.task("wooquickviewjs:dist", function (cb) {
+  if (!isWooActive) { return cb(); }
   return (
     gulp
       .src(path.src.wooquickviewjs)
@@ -1024,8 +1028,10 @@ gulp.task('watch', function () {
     gulp.watch(path.src.cf7successmessagejs, gulp.series('cf7successmessagejs:dist'));
     gulp.watch(path.src.cf7utmtrackingjs, gulp.series('cf7utmtrackingjs:dist'));
     gulp.watch(path.src.dadataaddressjs, gulp.series('dadataaddressjs:dist'));
-    gulp.watch(path.src.wooswatchesjs, gulp.series('wooswatchesjs:dist'));
-    gulp.watch(path.src.wooquickviewjs, gulp.series('wooquickviewjs:dist'));
+    if (isWooActive) {
+      gulp.watch(path.src.wooswatchesjs, gulp.series('wooswatchesjs:dist'));
+      gulp.watch(path.src.wooquickviewjs, gulp.series('wooquickviewjs:dist'));
+    }
     gulp.watch(path.watch.img, gulp.series('image:dist'));
     gulp.watch(path.watch.fonts, gulp.series('fonts:dist'));
     gulp.watch(path.watch.media, gulp.series('media:dist'));
