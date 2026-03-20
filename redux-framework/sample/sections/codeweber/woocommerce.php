@@ -212,11 +212,20 @@ Redux::set_section(
 
 			// ── Форма и позиция ───────────────────────────────────────────────
 			array(
-				'id'      => 'woo_badge_shape',
-				'type'    => 'image_select',
-				'title'   => esc_html__( 'Badge Shape', 'codeweber' ),
-				'subtitle' => esc_html__( 'Matches the global Button Style options.', 'codeweber' ),
-				'options' => array(
+				'id'       => 'woo_badge_shape_use_theme',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Badge Shape', 'codeweber' ),
+				'subtitle' => esc_html__( 'Follow the global Button Style from Theme Style settings.', 'codeweber' ),
+				'on'       => esc_html__( 'Theme', 'codeweber' ),
+				'off'      => esc_html__( 'Custom', 'codeweber' ),
+				'default'  => true,
+			),
+
+			array(
+				'id'       => 'woo_badge_shape',
+				'type'     => 'image_select',
+				'title'    => esc_html__( 'Custom Shape', 'codeweber' ),
+				'options'  => array(
 					'1' => array(
 						'alt' => 'Pill',
 						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/pill.jpg',
@@ -234,7 +243,8 @@ Redux::set_section(
 						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/square.jpg',
 					),
 				),
-				'default' => '1',
+				'default'  => '1',
+				'required' => array( 'woo_badge_shape_use_theme', '=', false ),
 			),
 
 			array(

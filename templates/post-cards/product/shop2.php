@@ -61,7 +61,11 @@ $badge_shape_map = array(
 	'3' => 'rounded-3',
 	'4' => 'rounded-0',
 );
-$badge_shape    = $badge_shape_map[ $cw_opts['woo_badge_shape'] ?? '1' ] ?? 'rounded-pill';
+$use_theme_shape = ! isset( $cw_opts['woo_badge_shape_use_theme'] ) || (bool) $cw_opts['woo_badge_shape_use_theme'];
+$shape_key       = $use_theme_shape
+	? ( $cw_opts['opt_button_select_style'] ?? '1' )
+	: ( $cw_opts['woo_badge_shape'] ?? '1' );
+$badge_shape     = $badge_shape_map[ $shape_key ] ?? 'rounded-pill';
 $badge_position = ( isset( $cw_opts['woo_badge_position'] ) && $cw_opts['woo_badge_position'] === 'top-right' )
 	? 'top:1rem;right:1rem;'
 	: 'top:1rem;left:1rem;';
