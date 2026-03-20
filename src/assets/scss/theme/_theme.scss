@@ -40,10 +40,7 @@
 @import "wrappers";
 @import "toast";
 @import "dadata-suggestions";
-@if $cw-woocommerce {
-  @import "woo-quick-view";
-  @import "woo-single-product";
-}
+@import "woo-active";
 
 // Frost: glass effect (backdrop blur + semi-transparent white)
 .border-frost {
@@ -92,9 +89,4 @@
     border-color: rgba(255, 255, 255, 0) !important;
     color: #fff !important;
   }
-}
-@if $cw-woocommerce {
-  @import "woo-filters";
-  @import "woo-swatches";
-  @import "wishlist";
 }

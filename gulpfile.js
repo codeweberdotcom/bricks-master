@@ -141,6 +141,23 @@ if (isChild) {
 console.log('  _user-variables.scss: ' + userVarsUsedPath);
 console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
+/* Generate _woo-active.scss — list of WooCommerce SCSS imports.
+ * Add/remove entries here when adding new WC-specific SCSS files.
+ * File is regenerated on every Gulp start based on WooCommerce active state. */
+var wooScssImports = [
+  'woo-quick-view',
+  'woo-single-product',
+  'woo-filters',
+  'woo-swatches',
+  'wishlist',
+];
+var wooScssPath = path_module.join(parentThemePath, 'src', 'assets', 'scss', 'theme', '_woo-active.scss');
+var wooScssContent = isWooActive
+  ? wooScssImports.map(function (name) { return '@import "' + name + '";'; }).join('\n') + '\n'
+  : '// WooCommerce not active — imports excluded from build\n';
+fs.writeFileSync(wooScssPath, wooScssContent);
+console.log('  WooCommerce: ' + (isWooActive ? 'активен — WC стили включены' : 'не активен — WC стили исключены'));
+
 /* Check if src exists in current theme, otherwise use parent */
 function getSrcPath(relativePath) {
   var currentSrc = path_module.join(currentThemePath, relativePath);
@@ -304,7 +321,6 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     sourcemaps = require('gulp-sourcemaps'),
     sass = require('gulp-sass')(require('sass')),
-    sassWooData = '$cw-woocommerce: ' + (isWooActive ? 'true' : 'false') + ';',
     sassUnicode = require('gulp-sass-unicode'),
     autoprefixer = require('gulp-autoprefixer'),
     cleanCSS = require('gulp-clean-css'),
@@ -684,7 +700,7 @@ gulp.task('css:dev', function () {
   return gulp.src(path.src.styleEntry)
     .pipe(newer(path.dev.style))
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -701,7 +717,7 @@ gulp.task('css:dist', function () {
     .pipe(newer(path.dist.style))
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -736,7 +752,7 @@ gulp.task('fontcss:dev', function () {
   return gulp.src(path.src.fontcss)
     .pipe(newer(path.dev.fontcss))
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -753,7 +769,7 @@ gulp.task('fontcss:dist', function () {
   return gulp.src(path.src.fontcss)
     .pipe(newer(path.dist.fontcss))
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -772,7 +788,7 @@ gulp.task('fontcss:dist', function () {
 gulp.task('colorcss:dev', function () {
   return gulp.src(path.src.colorcss)
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -787,7 +803,7 @@ gulp.task('colorcss:dev', function () {
 gulp.task('colorcss:dist', function () {
   return gulp.src(path.src.colorcss)
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
+    .pipe(sass({ includePaths: sassIncludePaths })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
