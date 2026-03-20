@@ -32,9 +32,9 @@ class CW_Wishlist_UI {
 		// Кнопка на карточке в каталоге рендерится прямо в шаблоне shop2.php,
 		// поэтому хук через woocommerce_after_shop_loop_item не используем.
 
-		// Кнопка на странице товара.
+		// Кнопка на странице товара (после кнопки «В корзину» в форме add-to-cart).
 		if ( $this->get_opt( 'wishlist_btn_on_single', 1 ) ) {
-			add_action( 'woocommerce_single_product_summary', array( $this, 'render_single_button' ), 35 );
+			add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'render_single_button' ) );
 		}
 
 		// Ссылка «Избранное» в меню «Мой аккаунт».
