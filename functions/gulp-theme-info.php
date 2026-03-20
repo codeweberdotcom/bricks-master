@@ -144,6 +144,7 @@ $result = [
     'active_theme_name' => $active_theme->get('Name'),
     'stylesheet' => $active_theme->get_stylesheet(),
     'template' => $active_theme->get_template(),
+    'is_woocommerce_active' => class_exists( 'WooCommerce' ),
 ];
 
 // Очищаем весь буфер и выводим только JSON

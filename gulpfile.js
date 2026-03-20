@@ -109,6 +109,7 @@ function getActiveChildTheme() {
 /* Determine paths based on theme type */
 var themeInfo = getActiveChildTheme();
 var isChild = themeInfo.is_child;
+var isWooActive = !!themeInfo.is_woocommerce_active;
 var currentThemePath = path_module.resolve(path_module.normalize(isChild ? themeInfo.child_theme_path : themeInfo.parent_theme_path));
 var parentThemePath = path_module.resolve(path_module.normalize(themeInfo.parent_theme_path));
 
@@ -303,6 +304,7 @@ var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     sourcemaps = require('gulp-sourcemaps'),
     sass = require('gulp-sass')(require('sass')),
+    sassWooData = '$cw-woocommerce: ' + (isWooActive ? 'true' : 'false') + ';',
     sassUnicode = require('gulp-sass-unicode'),
     autoprefixer = require('gulp-autoprefixer'),
     cleanCSS = require('gulp-clean-css'),
@@ -678,7 +680,7 @@ gulp.task('css:dev', function () {
   return gulp.src(path.src.styleEntry)
     .pipe(newer(path.dev.style))
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -695,7 +697,7 @@ gulp.task('css:dist', function () {
     .pipe(newer(path.dist.style))
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -730,7 +732,7 @@ gulp.task('fontcss:dev', function () {
   return gulp.src(path.src.fontcss)
     .pipe(newer(path.dev.fontcss))
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -747,7 +749,7 @@ gulp.task('fontcss:dist', function () {
   return gulp.src(path.src.fontcss)
     .pipe(newer(path.dist.fontcss))
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -766,7 +768,7 @@ gulp.task('fontcss:dist', function () {
 gulp.task('colorcss:dev', function () {
   return gulp.src(path.src.colorcss)
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -781,7 +783,7 @@ gulp.task('colorcss:dev', function () {
 gulp.task('colorcss:dist', function () {
   return gulp.src(path.src.colorcss)
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(sass({ includePaths: sassIncludePaths, additionalData: sassWooData })
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');

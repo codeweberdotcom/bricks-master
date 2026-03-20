@@ -93,6 +93,8 @@
     color: #fff !important;
   }
 }
-@import "woo-filters";
-@import "woo-swatches";
-@import "wishlist";
+@if $cw-woocommerce {
+  @import "woo-filters";
+  @import "woo-swatches";
+  @import "wishlist";
+}
