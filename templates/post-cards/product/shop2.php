@@ -72,9 +72,30 @@ $badge_position = ( isset( $cw_opts['woo_badge_position'] ) && $cw_opts['woo_bad
 
 $badge = '';
 if ( $product->is_on_sale() ) {
-	$bg    = ! empty( $cw_opts['woo_badge_sale_bg'] ) ? $cw_opts['woo_badge_sale_bg'] : '#d16b86';
-	$color = ! empty( $cw_opts['woo_badge_sale_color'] ) ? $cw_opts['woo_badge_sale_color'] : '#ffffff';
-	$text  = ! empty( $cw_opts['woo_badge_sale_text'] ) ? $cw_opts['woo_badge_sale_text'] : __( 'Распродажа!', 'codeweber' );
+	$bg         = ! empty( $cw_opts['woo_badge_sale_bg'] ) ? $cw_opts['woo_badge_sale_bg'] : '#d16b86';
+	$color      = ! empty( $cw_opts['woo_badge_sale_color'] ) ? $cw_opts['woo_badge_sale_color'] : '#ffffff';
+	$sale_type  = $cw_opts['woo_badge_sale_type'] ?? 'text';
+
+	if ( 'percent' === $sale_type ) {
+		$percent = 0;
+		if ( $product->is_type( 'variable' ) ) {
+			$regular = (float) $product->get_variation_regular_price( 'max' );
+			$sale    = (float) $product->get_variation_sale_price( 'min' );
+			if ( $regular > 0 ) {
+				$percent = round( ( $regular - $sale ) / $regular * 100 );
+			}
+		} else {
+			$regular = (float) $product->get_regular_price();
+			$sale    = (float) $product->get_sale_price();
+			if ( $regular > 0 ) {
+				$percent = round( ( $regular - $sale ) / $regular * 100 );
+			}
+		}
+		$text = $percent > 0 ? '−' . $percent . '%' : ( ! empty( $cw_opts['woo_badge_sale_text'] ) ? $cw_opts['woo_badge_sale_text'] : __( 'Распродажа!', 'codeweber' ) );
+	} else {
+		$text = ! empty( $cw_opts['woo_badge_sale_text'] ) ? $cw_opts['woo_badge_sale_text'] : __( 'Распродажа!', 'codeweber' );
+	}
+
 	$badge = '<span class="' . esc_attr( $badge_shape ) . ' w-10 h-10 position-absolute text-uppercase fs-13 d-flex align-items-center justify-content-center text-center lh-sm" style="' . esc_attr( $badge_position ) . 'background-color:' . esc_attr( $bg ) . ';color:' . esc_attr( $color ) . ';"><span>' . esc_html( $text ) . '</span></span>';
 } elseif ( $product->is_featured() ) {
 	$bg    = ! empty( $cw_opts['woo_badge_new_bg'] ) ? $cw_opts['woo_badge_new_bg'] : '#54a8c7';

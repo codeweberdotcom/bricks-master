@@ -268,10 +268,22 @@ Redux::set_section(
 			),
 
 			array(
-				'id'      => 'woo_badge_sale_text',
-				'type'    => 'text',
-				'title'   => esc_html__( 'Sale Text', 'codeweber' ),
-				'default' => esc_html__( 'Распродажа!', 'codeweber' ),
+				'id'      => 'woo_badge_sale_type',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'Sale Label Content', 'codeweber' ),
+				'options' => array(
+					'text'    => esc_html__( 'Text', 'codeweber' ),
+					'percent' => esc_html__( '−% Discount', 'codeweber' ),
+				),
+				'default' => 'text',
+			),
+
+			array(
+				'id'       => 'woo_badge_sale_text',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Sale Text', 'codeweber' ),
+				'default'  => esc_html__( 'Распродажа!', 'codeweber' ),
+				'required' => array( 'woo_badge_sale_type', '=', 'text' ),
 			),
 
 			array(
