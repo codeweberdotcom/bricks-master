@@ -105,12 +105,26 @@
   to   { transform: rotate(360deg); }
 }
 
+// Спиннер на карточке товара (wishlist card spinner)
+.cw-card-spinner.spinner-overlay {
+  background: rgba(255, 255, 255, .5);
+}
+
 // ── CWNotify — уведомления ────────────────────────────────────────────────────
 
 // Контейнер уведомлений
 .cw-notify-container {
   min-width: 300px;
   max-width: 420px;
+}
+
+// Все тосты — белый фон, тёмный текст
+.cw-notify-item {
+  background-color: var(--bs-white) !important;
+  color: var(--bs-dark) !important;
+  border-color: rgba(0, 0, 0, .1) !important;
+
+  .btn-close { filter: none; }
 }
 
 // Элемент уведомления — animate.css управляет появлением через JS,

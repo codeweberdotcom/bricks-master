@@ -43,26 +43,34 @@
 			var productId = $btn.data('product-id');
 			if (!productId) { return; }
 
-			var feedback     = cwWishlist.feedbackType || 'spinner';
-			var showSpinner  = (feedback === 'spinner' || feedback === 'both');
+			var feedback        = cwWishlist.feedbackType || 'spinner';
+			var showSpinner     = (feedback === 'spinner' || feedback === 'both');
 			var showCardSpinner = (feedback === 'card' || feedback === 'card-toast');
-			var showToast    = (feedback === 'toast' || feedback === 'both' || feedback === 'card-toast');
+			var showToast       = (feedback === 'toast' || feedback === 'both' || feedback === 'card-toast');
 
-			// Найти карточку товара для card-спиннера
+			// Найти карточку для card-спиннера
+			// shop2.php: кнопка внутри <figure> внутри <div id="product-X" class="project item col">
 			var $card = null;
 			if (showCardSpinner) {
-				$card = $btn.closest('li.product, .product, li');
+				$card = $btn.closest('figure');
+				if (!$card.length) { $card = $btn.closest('[id^="product-"]'); }
+				if (!$card.length) { $card = $btn.closest('li.product, article.product, .product, li'); }
+
 				if ($card.length) {
-					$card.css('position', 'relative');
 					$card.append('<div class="cw-card-spinner spinner spinner-overlay"></div>');
 				} else {
-					// Нет карточки (напр. страница товара) — fallback на спиннер кнопки
+					// Нет карточки — fallback на кнопочный спиннер
 					showCardSpinner = false;
-					$btn.addClass('cw-wishlist-btn--loading').prop('disabled', true);
+					showSpinner = true;
 				}
 			}
 
-			if (showSpinner) {
+			// Блокируем кнопку от повторных кликов.
+			// Card-режим: только disabled (без анимации иконки).
+			// Button-режим: disabled + класс с анимацией иконки.
+			if (showCardSpinner && $card && $card.length) {
+				$btn.prop('disabled', true);
+			} else if (showSpinner) {
 				$btn.addClass('cw-wishlist-btn--loading').prop('disabled', true);
 			}
 
@@ -86,14 +94,9 @@
 				},
 				complete: function () {
 					if (showCardSpinner && $card && $card.length) {
-						$card.find('.cw-card-spinner').addClass('done');
-						setTimeout(function () {
-							$card.find('.cw-card-spinner').remove();
-						}, 300);
+						$card.find('.cw-card-spinner').remove();
 					}
-					if (showSpinner) {
-						$btn.removeClass('cw-wishlist-btn--loading').prop('disabled', false);
-					}
+					$btn.removeClass('cw-wishlist-btn--loading').prop('disabled', false);
 				},
 			});
 		},
@@ -102,14 +105,34 @@
 			var productId = $btn.data('product-id');
 			if (!productId) { return; }
 
-			$btn.addClass('cw-wishlist-btn--loading').prop('disabled', true);
+			var feedback        = cwWishlist.feedbackType || 'spinner';
+			var showCardSpinner = (feedback === 'card' || feedback === 'card-toast');
+
+			// Ищем карточку — та же логика, что в handleToggle
+			var $card = null;
+			if (showCardSpinner) {
+				$card = $btn.closest('figure');
+				if (!$card.length) { $card = $btn.closest('[id^="product-"]'); }
+				if (!$card.length) { $card = $btn.closest('li.product, article.product, .product, li'); }
+
+				if ($card.length) {
+					$card.append('<div class="cw-card-spinner spinner spinner-overlay"></div>');
+				}
+			}
+
+			// Блокируем кнопку без анимации иконки в card-режиме
+			if (showCardSpinner && $card && $card.length) {
+				$btn.prop('disabled', true);
+			} else {
+				$btn.addClass('cw-wishlist-btn--loading').prop('disabled', true);
+			}
 
 			$.ajax({
 				url: cwWishlist.ajaxUrl,
 				method: 'POST',
 				data: {
-					action: 'cw_remove_from_wishlist',
-					nonce: cwWishlist.nonce,
+					action:     'cw_remove_from_wishlist',
+					nonce:      cwWishlist.nonce,
 					product_id: productId,
 				},
 				success: function (response) {
@@ -123,6 +146,9 @@
 					}
 				},
 				complete: function () {
+					if (showCardSpinner && $card && $card.length) {
+						$card.find('.cw-card-spinner').remove();
+					}
 					$btn.removeClass('cw-wishlist-btn--loading').prop('disabled', false);
 				},
 			});

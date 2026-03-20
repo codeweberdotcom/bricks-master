@@ -85,7 +85,7 @@
 			if (!$container.length) {
 				$container = $('<div>', {
 					id:    containerId,
-					class: 'position-fixed ' + posClass + ' p-3 d-flex flex-column gap-2 cw-notify-container',
+					class: 'position-fixed ' + posClass + ' p-3 d-flex flex-column gap-1 cw-notify-container',
 					css:   { zIndex: 9999 },
 				});
 				$('body').append($container);
