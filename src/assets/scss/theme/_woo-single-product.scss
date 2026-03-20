@@ -202,3 +202,128 @@ form.cart {
     transform: rotate(360deg);
   }
 }
+
+// ──── Variable product: враппер для quantity + кнопки ────────────────────────
+// У variable product quantity и кнопка вложены в .woocommerce-variation-add-to-cart
+.woocommerce-variation-add-to-cart {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+// ──── Таблица вариаций (цвет, материал и т.д.) ───────────────────────────────
+table.variations {
+  width: 100%;
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0.5rem;
+
+  tbody tr {
+    border: none;
+  }
+
+  th.label {
+    padding: 0.6rem 1rem 0.6rem 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--#{$prefix}body-color);
+    white-space: nowrap;
+    vertical-align: middle;
+    width: 1%;
+
+    label {
+      margin: 0;
+      cursor: default;
+    }
+  }
+
+  td.value {
+    padding: 0.6rem 0;
+    vertical-align: middle;
+  }
+
+  // Ссылка «Очистить» рядом со свотчами
+  .reset_variations {
+    display: inline-block;
+    margin-left: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--#{$prefix}secondary, #6c757d);
+    text-decoration: none;
+    opacity: 0.7;
+    vertical-align: middle;
+    transition: opacity 0.15s;
+
+    &:hover {
+      opacity: 1;
+      color: var(--#{$prefix}primary);
+    }
+
+    &[style*="display:none"],
+    &[style*="display: none"] {
+      display: none !important;
+    }
+  }
+}
+
+// ──── Мета-информация о товаре (артикул, категория, метки) ───────────────────
+.product_meta {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--#{$prefix}border-color, #dee2e6);
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  span {
+    color: var(--#{$prefix}body-color);
+
+    // Метка (артикул, категория...)
+    &::first-line {
+      color: var(--#{$prefix}body-color);
+    }
+  }
+
+  .sku_wrapper,
+  .posted_in,
+  .tagged_as {
+    display: block;
+    color: rgba(var(--#{$prefix}body-color-rgb, 52, 63, 82), 0.7);
+
+    .sku,
+    a {
+      color: var(--#{$prefix}body-color);
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--#{$prefix}primary);
+      }
+    }
+  }
+}
+
+// ──── Цена товара в шапке (крупная) ─────────────────────────────────────────
+.post-header .price,
+.woocommerce-product-details__short-description + .price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--#{$prefix}body-color);
+
+  del {
+    opacity: 0.5;
+    font-weight: 400;
+    font-size: 1rem;
+    margin-right: 0.4rem;
+  }
+
+  ins {
+    text-decoration: none;
+    color: var(--#{$prefix}primary);
+  }
+}
