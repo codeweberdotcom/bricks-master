@@ -53,16 +53,30 @@ $add_to_cart_url  = $product->add_to_cart_url();
 $add_to_cart_text = $product->add_to_cart_text();
 $is_simple        = $product->is_type( 'simple' );
 
-// Значок Sale / New
+// Значок Sale / New — настройки из Redux
+$cw_opts         = get_option( 'redux_demo', array() );
+$badge_shape_map = array(
+	'1' => 'rounded-pill',
+	'2' => 'rounded',
+	'3' => 'rounded-3',
+	'4' => 'rounded-0',
+);
+$badge_shape    = $badge_shape_map[ $cw_opts['woo_badge_shape'] ?? '1' ] ?? 'rounded-pill';
+$badge_position = ( isset( $cw_opts['woo_badge_position'] ) && $cw_opts['woo_badge_position'] === 'top-right' )
+	? 'top:1rem;right:1rem;'
+	: 'top:1rem;left:1rem;';
+
 $badge = '';
 if ( $product->is_on_sale() ) {
-	$badge = '<span class="avatar bg-pink text-white w-10 h-10 position-absolute text-uppercase fs-13" style="top:1rem;left:1rem;"><span>'
-		. esc_html__( 'Sale!', 'woocommerce' )
-		. '</span></span>';
+	$bg    = ! empty( $cw_opts['woo_badge_sale_bg'] ) ? $cw_opts['woo_badge_sale_bg'] : '#d16b86';
+	$color = ! empty( $cw_opts['woo_badge_sale_color'] ) ? $cw_opts['woo_badge_sale_color'] : '#ffffff';
+	$text  = ! empty( $cw_opts['woo_badge_sale_text'] ) ? $cw_opts['woo_badge_sale_text'] : __( 'Распродажа!', 'codeweber' );
+	$badge = '<span class="' . esc_attr( $badge_shape ) . ' w-10 h-10 position-absolute text-uppercase fs-13 d-flex align-items-center justify-content-center text-center lh-sm" style="' . esc_attr( $badge_position ) . 'background-color:' . esc_attr( $bg ) . ';color:' . esc_attr( $color ) . ';"><span>' . esc_html( $text ) . '</span></span>';
 } elseif ( $product->is_featured() ) {
-	$badge = '<span class="avatar bg-aqua text-white w-10 h-10 position-absolute text-uppercase fs-13" style="top:1rem;left:1rem;"><span>'
-		. esc_html__( 'New!', 'codeweber' )
-		. '</span></span>';
+	$bg    = ! empty( $cw_opts['woo_badge_new_bg'] ) ? $cw_opts['woo_badge_new_bg'] : '#54a8c7';
+	$color = ! empty( $cw_opts['woo_badge_new_color'] ) ? $cw_opts['woo_badge_new_color'] : '#ffffff';
+	$text  = ! empty( $cw_opts['woo_badge_new_text'] ) ? $cw_opts['woo_badge_new_text'] : __( 'Новинка!', 'codeweber' );
+	$badge = '<span class="' . esc_attr( $badge_shape ) . ' w-10 h-10 position-absolute text-uppercase fs-13 d-flex align-items-center justify-content-center text-center lh-sm" style="' . esc_attr( $badge_position ) . 'background-color:' . esc_attr( $bg ) . ';color:' . esc_attr( $color ) . ';"><span>' . esc_html( $text ) . '</span></span>';
 }
 ?>
 

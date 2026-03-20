@@ -201,6 +201,121 @@ Redux::set_section(
 	)
 );
 
+// ── Badges ────────────────────────────────────────────────────────────────────
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Badges', 'codeweber' ),
+		'id'         => 'woocommerce-badges',
+		'subsection' => true,
+		'fields'     => array(
+
+			// ── Форма и позиция ───────────────────────────────────────────────
+			array(
+				'id'      => 'woo_badge_shape',
+				'type'    => 'image_select',
+				'title'   => esc_html__( 'Badge Shape', 'codeweber' ),
+				'subtitle' => esc_html__( 'Matches the global Button Style options.', 'codeweber' ),
+				'options' => array(
+					'1' => array(
+						'alt' => 'Pill',
+						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/pill.jpg',
+					),
+					'2' => array(
+						'alt' => 'Rounded',
+						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/rounded.jpg',
+					),
+					'3' => array(
+						'alt' => 'Rounder',
+						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/rounder.jpg',
+					),
+					'4' => array(
+						'alt' => 'Square',
+						'img' => get_template_directory_uri() . '/redux-framework/sample/patterns/square.jpg',
+					),
+				),
+				'default' => '1',
+			),
+
+			array(
+				'id'      => 'woo_badge_position',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'Badge Position', 'codeweber' ),
+				'options' => array(
+					'top-left'  => esc_html__( 'Top Left', 'codeweber' ),
+					'top-right' => esc_html__( 'Top Right', 'codeweber' ),
+				),
+				'default' => 'top-left',
+			),
+
+			// ── Sale ──────────────────────────────────────────────────────────
+			array(
+				'id'    => 'woo_badge_sale_info',
+				'type'  => 'info',
+				'style' => 'info',
+				'title' => esc_html__( 'Sale Badge', 'codeweber' ),
+				'desc'  => esc_html__( 'Shown when product is on sale (WooCommerce).', 'codeweber' ),
+			),
+
+			array(
+				'id'      => 'woo_badge_sale_text',
+				'type'    => 'text',
+				'title'   => esc_html__( 'Sale Text', 'codeweber' ),
+				'default' => esc_html__( 'Распродажа!', 'codeweber' ),
+			),
+
+			array(
+				'id'       => 'woo_badge_sale_bg',
+				'type'     => 'color',
+				'title'    => esc_html__( 'Sale Background', 'codeweber' ),
+				'default'  => '#d16b86',
+				'class'    => 'xts-col-6',
+			),
+
+			array(
+				'id'      => 'woo_badge_sale_color',
+				'type'    => 'color',
+				'title'   => esc_html__( 'Sale Text Color', 'codeweber' ),
+				'default' => '#ffffff',
+				'class'   => 'xts-col-6',
+			),
+
+			// ── New ───────────────────────────────────────────────────────────
+			array(
+				'id'    => 'woo_badge_new_info',
+				'type'  => 'info',
+				'style' => 'info',
+				'title' => esc_html__( 'New Badge', 'codeweber' ),
+				'desc'  => esc_html__( 'Shown for featured products (WooCommerce "Featured" flag).', 'codeweber' ),
+			),
+
+			array(
+				'id'      => 'woo_badge_new_text',
+				'type'    => 'text',
+				'title'   => esc_html__( 'New Text', 'codeweber' ),
+				'default' => esc_html__( 'Новинка!', 'codeweber' ),
+			),
+
+			array(
+				'id'      => 'woo_badge_new_bg',
+				'type'    => 'color',
+				'title'   => esc_html__( 'New Background', 'codeweber' ),
+				'default' => '#54a8c7',
+				'class'   => 'xts-col-6',
+			),
+
+			array(
+				'id'      => 'woo_badge_new_color',
+				'type'    => 'color',
+				'title'   => esc_html__( 'New Text Color', 'codeweber' ),
+				'default' => '#ffffff',
+				'class'   => 'xts-col-6',
+			),
+
+		),
+	)
+);
+
 // ── Single ────────────────────────────────────────────────────────────────────
 Redux::set_section(
 	$opt_name,
