@@ -117,7 +117,14 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 ?>
 <div id="product-<?php echo esc_attr( $product_id ); ?>" class="project item <?php echo esc_attr( $cw_col ); ?>"<?php echo $cw_wl_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 
-<?php if ( $cw_wl_mode ) : ?><div class="card p-3"><?php endif; ?>
+<?php if ( $cw_wl_mode ) : ?>
+<div class="card p-3">
+	<a href="#"
+	   class="cw-wishlist-remove ms-auto mb-2 lh-1 text-ash"
+	   data-product-id="<?php echo esc_attr( $product_id ); ?>"
+	   aria-label="<?php esc_attr_e( 'Убрать из избранного', 'codeweber' ); ?>"
+	><i class="uil uil-times"></i></a>
+<?php endif; ?>
 
 	<figure class="rounded mb-6">
 

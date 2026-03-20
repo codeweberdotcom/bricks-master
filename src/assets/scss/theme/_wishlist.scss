@@ -93,9 +93,6 @@
 
 // ── Страница вишлиста ─────────────────────────────────────────────────────────
 
-.cw-wishlist-page {
-  padding: 1rem 0;
-}
 
 .cw-wishlist-empty {
   text-align: center;
@@ -174,5 +171,5 @@
 
 // Цена в карточке вишлиста
 .cw-wishlist-page .post-header .price {
-  font-size: 1rem !important;
+  font-size: 0.8rem !important;
 }

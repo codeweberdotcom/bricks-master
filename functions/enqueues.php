@@ -89,12 +89,12 @@ if (!function_exists('codeweber_styles_scripts')) {
 		//wp_enqueue_style('google-fonts', codeweber_get_dist_file_url('dist/assets/css/fonts/urbanist.css'), false, $theme_version, 'all');
 		$plugin_styles_url = codeweber_get_dist_file_url('dist/assets/css/plugins.css');
 		if ($plugin_styles_url) {
-			wp_enqueue_style('plugin-styles', $plugin_styles_url, false, $theme_version, 'all');
+			wp_enqueue_style('plugin-styles', $plugin_styles_url, false, codeweber_asset_version(codeweber_get_dist_file_path('dist/assets/css/plugins.css')), 'all');
 		}
-		
+
 		$theme_styles_url = codeweber_get_dist_file_url('dist/assets/css/style.css');
 		if ($theme_styles_url) {
-			wp_enqueue_style('codeweber-style', $theme_styles_url, false, $theme_version, 'all');
+			wp_enqueue_style('codeweber-style', $theme_styles_url, false, codeweber_asset_version(codeweber_get_dist_file_path('dist/assets/css/style.css')), 'all');
 		}
 
 		if (class_exists('Redux')) {

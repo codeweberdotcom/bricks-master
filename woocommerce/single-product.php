@@ -30,7 +30,15 @@ while ( have_posts() ) :
 
 	// ── ЭТАП 1: Хлебные крошки ────────────────────────────────────────────────
 	$breadcrumb_wc = new WC_Breadcrumb();
-	$crumbs        = $breadcrumb_wc->generate();
+	$breadcrumb_wc->add_crumb(
+		_x( 'Главная', 'breadcrumb', 'codeweber' ),
+		apply_filters( 'woocommerce_breadcrumb_home_url', home_url() )
+	);
+	$shop_id = wc_get_page_id( 'shop' );
+	if ( $shop_id > 0 ) {
+		$breadcrumb_wc->add_crumb( get_the_title( $shop_id ), get_permalink( $shop_id ) );
+	}
+	$crumbs = $breadcrumb_wc->generate();
 	?>
 
 	<section class="wrapper bg-gray">

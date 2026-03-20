@@ -487,7 +487,7 @@ function cw_swatches_render_dropdown( $html, $args ) {
 			// Color/image swatches — theme .avatar + .w-8 .h-8 for size/shape,
 			// only inline-style (background-color / background-image) added per-item.
 			if ( 'button' === $type ) {
-				$classes = [ 'cw-swatch', 'cw-swatch--button', 'btn', 'btn-sm', 'btn-outline-secondary' ];
+				$classes = [ 'cw-swatch', 'cw-swatch--button', 'btn', 'btn-sm', 'btn-outline-primary' ];
 				if ( $is_selected ) {
 					$classes[] = 'selected';
 					$classes[] = 'active';
