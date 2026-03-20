@@ -1,4 +1,4 @@
-/* global cwWishlist, bootstrap */
+/* global cwWishlist, CWNotify */
 (function ($) {
 	'use strict';
 
@@ -28,7 +28,9 @@
 			}
 
 			if (cwWishlist.isLoggedIn !== 'yes' && cwWishlist.guestsAllowed !== 'yes') {
-				alert(cwWishlist.i18n.loginNotice);
+				if (typeof CWNotify !== 'undefined') {
+					CWNotify.show(cwWishlist.i18n.loginNotice, { type: 'warning', event: 'wishlist' });
+				}
 				window.location.href = cwWishlist.loginUrl;
 				return;
 			}
@@ -36,8 +38,9 @@
 			var productId = $btn.data('product-id');
 			if (!productId) { return; }
 
-			var feedback = cwWishlist.feedbackType || 'spinner';
+			var feedback    = cwWishlist.feedbackType || 'spinner';
 			var showSpinner = (feedback === 'spinner' || feedback === 'both');
+			var showToast   = (feedback === 'toast'   || feedback === 'both');
 
 			if (showSpinner) {
 				$btn.addClass('cw-wishlist-btn--loading').prop('disabled', true);
@@ -47,8 +50,8 @@
 				url: cwWishlist.ajaxUrl,
 				method: 'POST',
 				data: {
-					action: 'cw_add_to_wishlist',
-					nonce: cwWishlist.nonce,
+					action:     'cw_add_to_wishlist',
+					nonce:      cwWishlist.nonce,
 					product_id: productId,
 				},
 				success: function (response) {
@@ -56,9 +59,8 @@
 						CWWishlist.markAdded($btn);
 						CWWishlist.updateCountWidget(response.data.count);
 
-						var showToast = (feedback === 'toast' || feedback === 'both');
-						if (showToast) {
-							CWWishlist.showToast(cwWishlist.i18n.added, 'success');
+						if (showToast && typeof CWNotify !== 'undefined') {
+							CWNotify.show(cwWishlist.i18n.added, { type: 'success', event: 'wishlist' });
 						}
 					}
 				},
@@ -66,7 +68,7 @@
 					if (showSpinner) {
 						$btn.removeClass('cw-wishlist-btn--loading').prop('disabled', false);
 					}
-				}
+				},
 			});
 		},
 
@@ -126,48 +128,6 @@
 					'</a>' +
 				'</div>'
 			);
-		},
-
-		/**
-		 * Bootstrap 5 toast.
-		 *
-		 * @param {string} message
-		 * @param {string} type  'success' | 'danger' | 'info'
-		 */
-		showToast: function (message, type) {
-			type = type || 'success';
-
-			var $container = $('#cw-toast-container');
-			if (!$container.length) {
-				$container = $('<div id="cw-toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index:9999;"></div>');
-				$('body').append($container);
-			}
-
-			var id = 'cw-toast-' + Date.now();
-			var bgClass = type === 'success' ? 'text-bg-success' : (type === 'danger' ? 'text-bg-danger' : 'text-bg-secondary');
-
-			var $toast = $(
-				'<div id="' + id + '" class="toast align-items-center ' + bgClass + ' border-0" role="alert" aria-live="assertive" aria-atomic="true">' +
-					'<div class="d-flex">' +
-						'<div class="toast-body">' + message + '</div>' +
-						'<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>' +
-					'</div>' +
-				'</div>'
-			);
-
-			$container.append($toast);
-
-			if (typeof bootstrap !== 'undefined' && bootstrap.Toast) {
-				var toast = new bootstrap.Toast($toast[0], { delay: 2500, autohide: true });
-				toast.show();
-				$toast[0].addEventListener('hidden.bs.toast', function () {
-					$toast.remove();
-				});
-			} else {
-				// Fallback без Bootstrap JS
-				$toast.addClass('show');
-				setTimeout(function () { $toast.remove(); }, 2500);
-			}
 		},
 
 		updateCountWidget: function (count) {

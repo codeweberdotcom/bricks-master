@@ -26,12 +26,6 @@
 
   // Active: товар уже в избранном
   &--active {
-    .cw-wishlist-icon svg {
-      fill: var(--bs-danger, #dc3545);
-      stroke: var(--bs-danger, #dc3545);
-    }
-
-    // Иконочный шрифт (uil-heart в shop2.php)
     i.uil {
       color: var(--bs-danger, #dc3545);
     }
@@ -109,6 +103,52 @@
 @keyframes cw-wishlist-spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
+}
+
+// ── CWNotify — уведомления ────────────────────────────────────────────────────
+
+// Контейнер уведомлений
+.cw-notify-container {
+  min-width: 300px;
+  max-width: 420px;
+}
+
+// Элемент уведомления — появление + progress bar
+.cw-notify-item {
+  animation: cw-notify-slidein 0.3s ease both;
+  overflow: hidden; // чтобы ::after не вылезал за border-radius
+
+  // Линия прогресса внизу уведомления
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: currentColor;
+    opacity: 0.35;
+    animation: cw-notify-progress var(--cw-notify-delay, 3000ms) linear forwards;
+    transform-origin: left center;
+  }
+}
+
+// Появление снизу вверх (для bottom-end / bottom-start)
+@keyframes cw-notify-slidein {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Убывающая полоса (100% → 0%)
+@keyframes cw-notify-progress {
+  from { width: 100%; }
+  to   { width: 0%; }
 }
 
 // Карточка товара на странице вишлиста

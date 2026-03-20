@@ -31,6 +31,7 @@ require_once get_template_directory() . '/functions/sidebars.php';
 require_once get_template_directory() . '/functions/documentation.php';
 require_once get_template_directory() . '/functions/lib/class-wp-bootstrap-navwalker.php';
 require_once get_template_directory() . '/functions/lib/class-codeweber-vertical-dropdown-walker.php';
+require_once get_template_directory() . '/functions/lib/cw-notify/class-cw-notify.php';
 require_once get_template_directory() . '/functions/lib/class-codeweber-menu-collapse-walker.php';
 require_once get_template_directory() . '/functions/codeweber-nav.php';
 require_once get_template_directory() . '/functions/global.php';
@@ -64,6 +65,11 @@ if (class_exists('WooCommerce')) {
 		new CW_Wishlist();
 	}, 40 );
 }
+
+// CWNotify — универсальный менеджер уведомлений (инит после Redux, priority 40).
+add_action( 'after_setup_theme', function () {
+	new CW_Notify();
+}, 40 );
 
 // DaData: стандартизация адресов (clean/address)
 require_once get_template_directory() . '/functions/integrations/dadata/class-codeweber-dadata.php';

@@ -339,6 +339,7 @@ require_once Redux_Core::$dir . '../sample/sections/codeweber/company-details.ph
 require_once Redux_Core::$dir . '../sample/sections/codeweber/legal.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/smtp.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/tracking-metrics.php';
+require_once Redux_Core::$dir . '../sample/sections/codeweber/notifications.php';
 
 
 if (class_exists('WooCommerce')) {
