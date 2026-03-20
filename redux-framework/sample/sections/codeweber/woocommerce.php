@@ -268,14 +268,22 @@ Redux::set_section(
 			),
 
 			array(
-				'id'      => 'woo_badge_sale_type',
-				'type'    => 'button_set',
-				'title'   => esc_html__( 'Sale Label Content', 'codeweber' ),
-				'options' => array(
+				'id'      => 'woo_badge_sale_enable',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Show Sale Badge', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'       => 'woo_badge_sale_type',
+				'type'     => 'button_set',
+				'title'    => esc_html__( 'Sale Label Content', 'codeweber' ),
+				'options'  => array(
 					'text'    => esc_html__( 'Text', 'codeweber' ),
 					'percent' => esc_html__( '−% Discount', 'codeweber' ),
 				),
-				'default' => 'text',
+				'default'  => 'text',
+				'required' => array( 'woo_badge_sale_enable', '=', true ),
 			),
 
 			array(
@@ -292,14 +300,16 @@ Redux::set_section(
 				'title'    => esc_html__( 'Sale Background', 'codeweber' ),
 				'default'  => '#d16b86',
 				'class'    => 'xts-col-6',
+				'required' => array( 'woo_badge_sale_enable', '=', true ),
 			),
 
 			array(
-				'id'      => 'woo_badge_sale_color',
-				'type'    => 'color',
-				'title'   => esc_html__( 'Sale Text Color', 'codeweber' ),
-				'default' => '#ffffff',
-				'class'   => 'xts-col-6',
+				'id'       => 'woo_badge_sale_color',
+				'type'     => 'color',
+				'title'    => esc_html__( 'Sale Text Color', 'codeweber' ),
+				'default'  => '#ffffff',
+				'class'    => 'xts-col-6',
+				'required' => array( 'woo_badge_sale_enable', '=', true ),
 			),
 
 			// ── New ───────────────────────────────────────────────────────────
@@ -312,26 +322,36 @@ Redux::set_section(
 			),
 
 			array(
-				'id'      => 'woo_badge_new_text',
-				'type'    => 'text',
-				'title'   => esc_html__( 'New Text', 'codeweber' ),
-				'default' => esc_html__( 'Новинка!', 'codeweber' ),
+				'id'      => 'woo_badge_new_enable',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Show New Badge', 'codeweber' ),
+				'default' => true,
 			),
 
 			array(
-				'id'      => 'woo_badge_new_bg',
-				'type'    => 'color',
-				'title'   => esc_html__( 'New Background', 'codeweber' ),
-				'default' => '#54a8c7',
-				'class'   => 'xts-col-6',
+				'id'       => 'woo_badge_new_text',
+				'type'     => 'text',
+				'title'    => esc_html__( 'New Text', 'codeweber' ),
+				'default'  => esc_html__( 'Новинка!', 'codeweber' ),
+				'required' => array( 'woo_badge_new_enable', '=', true ),
 			),
 
 			array(
-				'id'      => 'woo_badge_new_color',
-				'type'    => 'color',
-				'title'   => esc_html__( 'New Text Color', 'codeweber' ),
-				'default' => '#ffffff',
-				'class'   => 'xts-col-6',
+				'id'       => 'woo_badge_new_bg',
+				'type'     => 'color',
+				'title'    => esc_html__( 'New Background', 'codeweber' ),
+				'default'  => '#54a8c7',
+				'class'    => 'xts-col-6',
+				'required' => array( 'woo_badge_new_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'woo_badge_new_color',
+				'type'     => 'color',
+				'title'    => esc_html__( 'New Text Color', 'codeweber' ),
+				'default'  => '#ffffff',
+				'class'    => 'xts-col-6',
+				'required' => array( 'woo_badge_new_enable', '=', true ),
 			),
 
 		),

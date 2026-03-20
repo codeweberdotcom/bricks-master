@@ -70,8 +70,11 @@ $badge_position = ( isset( $cw_opts['woo_badge_position'] ) && $cw_opts['woo_bad
 	? 'top:1rem;right:1rem;'
 	: 'top:1rem;left:1rem;';
 
-$badge = '';
-if ( $product->is_on_sale() ) {
+$badge           = '';
+$sale_badge_on   = ! isset( $cw_opts['woo_badge_sale_enable'] ) || (bool) $cw_opts['woo_badge_sale_enable'];
+$new_badge_on    = ! isset( $cw_opts['woo_badge_new_enable'] ) || (bool) $cw_opts['woo_badge_new_enable'];
+
+if ( $sale_badge_on && $product->is_on_sale() ) {
 	$bg         = ! empty( $cw_opts['woo_badge_sale_bg'] ) ? $cw_opts['woo_badge_sale_bg'] : '#d16b86';
 	$color      = ! empty( $cw_opts['woo_badge_sale_color'] ) ? $cw_opts['woo_badge_sale_color'] : '#ffffff';
 	$sale_type  = $cw_opts['woo_badge_sale_type'] ?? 'text';
@@ -97,7 +100,7 @@ if ( $product->is_on_sale() ) {
 	}
 
 	$badge = '<span class="' . esc_attr( $badge_shape ) . ' w-10 h-10 position-absolute text-uppercase fs-13 d-flex align-items-center justify-content-center text-center lh-sm" style="' . esc_attr( $badge_position ) . 'background-color:' . esc_attr( $bg ) . ';color:' . esc_attr( $color ) . ';"><span>' . esc_html( $text ) . '</span></span>';
-} elseif ( $product->is_featured() ) {
+} elseif ( $new_badge_on && $product->is_featured() ) {
 	$bg    = ! empty( $cw_opts['woo_badge_new_bg'] ) ? $cw_opts['woo_badge_new_bg'] : '#54a8c7';
 	$color = ! empty( $cw_opts['woo_badge_new_color'] ) ? $cw_opts['woo_badge_new_color'] : '#ffffff';
 	$text  = ! empty( $cw_opts['woo_badge_new_text'] ) ? $cw_opts['woo_badge_new_text'] : __( 'Новинка!', 'codeweber' );
