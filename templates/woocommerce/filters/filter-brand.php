@@ -59,11 +59,14 @@ foreach ( $terms_data as $item ) :
 	}
 
 	$thumbnail_id = (int) ( $item['thumbnail_id'] ?? 0 );
-	$img_url      = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_post_100-100' ) : '';
+	$img_url      = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'full' ) : '';
 	$img_alt      = esc_attr( $term->name );
 
 	$size_style   = $use_grid ? 'width:100%;aspect-ratio:1' : '';
-	$inline_style = $size_style; // no background — logo rendered as <img> inside
+	$bg_style     = $img_url
+		? 'background-image:url(' . esc_url( $img_url ) . ');background-size:contain;background-repeat:no-repeat;background-position:center'
+		: '';
+	$inline_style = implode( ';', array_filter( [ $size_style, $bg_style ] ) );
 
 	$classes = [ 'cw-swatch', 'cw-swatch--image', 'cw-swatch--brand', 'd-flex', 'align-items-center', 'justify-content-center', 'p-1' ];
 	if ( $swatch_shape ) {
@@ -86,10 +89,9 @@ foreach ( $terms_data as $item ) :
 		$title_attr .= ' (' . ( $is_empty ? 0 : $count ) . ')';
 	}
 
-	// Logo <img> — max-width/max-height keeps it within the swatch, never overflows.
-	$logo_html = $img_url
-		? '<img src="' . esc_url( $img_url ) . '" alt="' . $img_alt . '" style="max-width:100%;max-height:100%;display:block;" loading="lazy">'
-		: '<span class="visually-hidden">' . esc_html( $term->name ) . '</span>';
+	// Logo via background-image on the swatch element itself — never clipped by overflow:hidden.
+	// Child <span> for accessibility only.
+	$logo_html = '<span class="visually-hidden">' . esc_html( $term->name ) . '</span>';
 
 	if ( $is_empty && 'disable_clickable' !== $empty_behavior ) :
 		?>

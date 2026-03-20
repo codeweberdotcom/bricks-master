@@ -278,6 +278,79 @@ Redux::set_section(
 	)
 );
 
+// ── Wishlist ──────────────────────────────────────────────────────────────────
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Wishlist', 'codeweber' ),
+		'id'         => 'woocommerce-wishlist',
+		'subsection' => true,
+		'fields'     => array(
+
+			array(
+				'id'       => 'wishlist_enable',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Enable Wishlist', 'codeweber' ),
+				'subtitle' => esc_html__( 'Activate wishlist functionality (requires WooCommerce)', 'codeweber' ),
+				'default'  => false,
+			),
+
+			array(
+				'id'       => 'wishlist_page',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Wishlist Page', 'codeweber' ),
+				'subtitle' => esc_html__( 'Page with [cw_wishlist] shortcode. Create the page first, then select it here.', 'codeweber' ),
+				'data'     => 'pages',
+				'default'  => '',
+				'required' => array( 'wishlist_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'wishlist_guests',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Allow Guests', 'codeweber' ),
+				'subtitle' => esc_html__( 'Guests can add products to wishlist (stored in cookie). Products move to DB after login.', 'codeweber' ),
+				'default'  => true,
+				'required' => array( 'wishlist_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'wishlist_btn_on_loop',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Button on Product Cards', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show «Add to Wishlist» button on product cards in catalog', 'codeweber' ),
+				'default'  => true,
+				'required' => array( 'wishlist_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'wishlist_btn_on_single',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Button on Single Product', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show «Add to Wishlist» button on single product page', 'codeweber' ),
+				'default'  => true,
+				'required' => array( 'wishlist_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'wishlist_feedback',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Add Feedback', 'codeweber' ),
+				'subtitle' => esc_html__( 'Visual feedback when adding a product to wishlist', 'codeweber' ),
+				'default'  => 'spinner',
+				'options'  => array(
+					'spinner' => esc_html__( 'Spinner on button', 'codeweber' ),
+					'toast'   => esc_html__( 'Toast notification', 'codeweber' ),
+					'both'    => esc_html__( 'Spinner + Toast', 'codeweber' ),
+					'none'    => esc_html__( 'None', 'codeweber' ),
+				),
+				'required' => array( 'wishlist_enable', '=', true ),
+			),
+
+		),
+	)
+);
+
 // ── Demo Products (только если WooCommerce активен) ───────────────────────────
 if ( class_exists( 'WooCommerce' ) ) {
 	Redux::set_section(

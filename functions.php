@@ -49,6 +49,22 @@ if (class_exists('WooCommerce')) {
 	require_once get_template_directory() . '/functions/woocommerce.php';
 }
 
+// Wishlist
+if (class_exists('WooCommerce')) {
+	require_once get_template_directory() . '/functions/integrations/wishlist/functions.php';
+	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-storage-interface.php';
+	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-cookie-storage.php';
+	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-session-storage.php';
+	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-db-storage.php';
+	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-wishlist-item.php';
+	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-wishlist-ui.php';
+	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-wishlist.php';
+	// Инициализируем после Redux (priority 30), чтобы is_enabled() мог прочитать настройки.
+	add_action( 'after_setup_theme', function () {
+		new CW_Wishlist();
+	}, 40 );
+}
+
 // DaData: стандартизация адресов (clean/address)
 require_once get_template_directory() . '/functions/integrations/dadata/class-codeweber-dadata.php';
 require_once get_template_directory() . '/functions/integrations/dadata/dadata-ajax.php';

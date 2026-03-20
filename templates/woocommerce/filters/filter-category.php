@@ -221,6 +221,16 @@ $badge_item_class    = $badge_item_class ?? '';
 		$queried_cat    = is_product_category() ? get_queried_object() : null;
 		$queried_cat_id = ( $queried_cat && isset( $queried_cat->term_id ) ) ? (int) $queried_cat->term_id : 0;
 
+		// When showing unfiltered totals, build a counts map from WordPress term->count.
+		if ( ! empty( $count_unfiltered ) ) {
+			$cat_display_counts = [];
+			foreach ( $all_cat_terms as $_ct ) {
+				$cat_display_counts[ (int) $_ct->term_id ] = (int) $_ct->count;
+			}
+		} else {
+			$cat_display_counts = $cat_counts;
+		}
+
 		// Group terms by parent ID into a tree array.
 		$cat_tree = [];
 		foreach ( $all_cat_terms as $cat_term ) {
@@ -229,12 +239,13 @@ $badge_item_class    = $badge_item_class ?? '';
 				$cat_tree[ $pid ] = [];
 			}
 			$filtered_count = $cat_counts[ (int) $cat_term->term_id ] ?? 0;
+			$display_count  = $cat_display_counts[ (int) $cat_term->term_id ] ?? 0;
 			$term_link      = get_term_link( $cat_term );
 			$cat_tree[ $pid ][] = [
 				'term'      => $cat_term,
 				'wp_id'     => (int) $cat_term->term_id,
 				'url'       => is_wp_error( $term_link ) ? '#' : $term_link,
-				'count'     => $filtered_count,
+				'count'     => $display_count,
 				'is_active' => ( $queried_cat_id > 0 && (int) $cat_term->term_id === $queried_cat_id ),
 				'is_empty'  => ( 0 === $filtered_count ),
 			];
@@ -242,8 +253,8 @@ $badge_item_class    = $badge_item_class ?? '';
 
 		// Optionally sum descendant product counts into each parent's count.
 		if ( ! empty( $count_with_children ) ) {
-			$sum_descendants = function ( $tree, $wp_id ) use ( &$sum_descendants, $cat_counts ) {
-				$total = $cat_counts[ $wp_id ] ?? 0;
+			$sum_descendants = function ( $tree, $wp_id ) use ( &$sum_descendants, $cat_display_counts ) {
+				$total = $cat_display_counts[ $wp_id ] ?? 0;
 				foreach ( $tree[ $wp_id ] ?? [] as $child ) {
 					$total += $sum_descendants( $tree, $child['wp_id'] );
 				}
