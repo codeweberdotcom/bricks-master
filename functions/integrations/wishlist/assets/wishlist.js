@@ -90,11 +90,15 @@
 					if (response.success) {
 						CWWishlist.removeCard(productId);
 						CWWishlist.updateCountWidget(response.data.count);
+
+						if (typeof CWNotify !== 'undefined') {
+							CWNotify.show(cwWishlist.i18n.removed, { type: 'info', event: 'wishlist' });
+						}
 					}
 				},
 				complete: function () {
 					$btn.removeClass('cw-wishlist-btn--loading').prop('disabled', false);
-				}
+				},
 			});
 		},
 

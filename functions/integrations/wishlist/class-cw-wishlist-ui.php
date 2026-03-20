@@ -80,6 +80,7 @@ class CW_Wishlist_UI {
 			'i18n'           => array(
 				'added'        => __( 'В избранном', 'codeweber' ),
 				'add'          => __( 'В избранное', 'codeweber' ),
+				'removed'      => __( 'Убрано из избранного', 'codeweber' ),
 				'loginNotice'  => __( 'Войдите, чтобы сохранить товар в избранное.', 'codeweber' ),
 				'removeNotice' => __( 'Убрать из избранного?', 'codeweber' ),
 			),
@@ -301,7 +302,7 @@ class CW_Wishlist_UI {
 	 */
 	private function get_heart_icon( $filled = false ) {
 		if ( $filled ) {
-			return '<i class="uil uil-favorite" aria-hidden="true"></i>';
+			return '<i class="uil uil-heart-alt" aria-hidden="true"></i>';
 		}
 
 		return '<i class="uil uil-heart" aria-hidden="true"></i>';
