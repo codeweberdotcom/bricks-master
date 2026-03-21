@@ -68,7 +68,6 @@ function cw_ajax_add_to_cart() {
 		wp_send_json_error( array( 'message' => $message ) );
 	}
 
-	WC()->cart->calculate_totals();
 	wc_clear_notices();
 
 	// Возвращаем фрагменты сразу — JS не делает второй запрос

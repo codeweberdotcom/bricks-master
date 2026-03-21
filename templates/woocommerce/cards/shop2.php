@@ -116,7 +116,8 @@ if ( $sale_badge_on && $product->is_on_sale() ) {
 $cw_wl_mode  = ! empty( $GLOBALS['cw_wishlist_render'] );
 $cw_col      = $cw_wl_mode
 	? 'col-6 col-md-4 col-xl-3 cw-wishlist-card'
-	: ( ! empty( $GLOBALS['cw_shop_col_class'] ) ? $GLOBALS['cw_shop_col_class'] : 'col-12 col-sm-6 col-lg-4' );
+	: ( ! empty( $GLOBALS['cw_swiper_loop'] ) ? 'w-100'
+	: ( ! empty( $GLOBALS['cw_shop_col_class'] ) ? $GLOBALS['cw_shop_col_class'] : 'col-12 col-sm-6 col-lg-4' ) );
 $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"' : '';
 ?>
 <div id="product-<?php echo esc_attr( $product_id ); ?>" class="project item <?php echo esc_attr( $cw_col ); ?>"<?php echo $cw_wl_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

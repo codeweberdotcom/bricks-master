@@ -244,16 +244,18 @@ while ( have_posts() ) :
 				<div class="swiper">
 					<div class="swiper-wrapper">
 						<?php
+						$GLOBALS['cw_swiper_loop'] = true;
 						foreach ( $related_ids as $related_id ) {
 							$related_post = get_post( $related_id );
 							if ( ! $related_post ) {
 								continue;
 							}
 							setup_postdata( $GLOBALS['post'] = $related_post ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride
-							echo '<div class="swiper-slide project item">';
+							echo '<div class="swiper-slide">';
 							wc_get_template_part( 'content', 'product' );
 							echo '</div>';
 						}
+						unset( $GLOBALS['cw_swiper_loop'] );
 						wp_reset_postdata();
 						?>
 					</div>
@@ -287,7 +289,6 @@ while ( have_posts() ) :
 
 				<aside class="col-lg-4 sidebar">
 
-					<?php if ( $review_count > 0 ) : ?>
 					<div class="widget mt-1">
 						<h4 class="widget-title mb-3"><?php esc_html_e( 'Ratings Distribution', 'codeweber' ); ?></h4>
 						<div class="mb-5">
@@ -330,7 +331,6 @@ while ( have_posts() ) :
 						<!-- /.progress-list -->
 					</div>
 					<!-- /.widget -->
-					<?php endif; ?>
 
 					<div class="widget mt-10 d-lg-none">
 						<h4 class="widget-title mb-3"><?php esc_html_e( 'Review this product', 'codeweber' ); ?></h4>
