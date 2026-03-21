@@ -126,8 +126,8 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 	   data-product-id="<?php echo esc_attr( $product_id ); ?>"
 	   data-bs-toggle="tooltip"
 	   data-bs-placement="left"
-	   title="<?php esc_attr_e( 'Remove from Wishlist', 'codeweber' ); ?>"
-	   aria-label="<?php esc_attr_e( 'Remove from Wishlist', 'codeweber' ); ?>"
+	   title="<?php esc_attr_e( 'Удалить', 'codeweber' ); ?>"
+	   aria-label="<?php esc_attr_e( 'Удалить', 'codeweber' ); ?>"
 	><i class="uil uil-times"></i></a>
 <?php endif; ?>
 
