@@ -238,14 +238,14 @@
 				'<div class="modal-dialog modal-dialog-centered modal-sm">' +
 					'<div class="modal-content">' +
 						'<div class="modal-body text-center p-5">' +
-							'<div class="mb-4 cw-wishlist-modal__icon"><i class="uil uil-heart-alt" aria-hidden="true"></i></div>' +
+							'<div class="mb-4"><i class="uil uil-heart-alt fs-60 text-red" aria-hidden="true"></i></div>' +
 							'<h5 class="mb-1">' + ( i18n.addedTitle || 'Added to Wishlist' ) + '</h5>' +
-							'<p class="text-ash mb-5 cw-wishlist-modal__name"></p>' +
+							'<p class="text-ash text-break mb-5 cw-wishlist-modal__name"></p>' +
 							'<div class="d-flex gap-2 justify-content-center flex-wrap">' +
-								'<button type="button" class="btn btn-outline-secondary ' + btnShape + '" data-bs-dismiss="modal">' +
+								'<button type="button" class="btn btn-sm btn-outline-ash ' + btnShape + '" data-bs-dismiss="modal">' +
 									( i18n.continueShopping || 'Continue Shopping' ) +
 								'</button>' +
-								'<a href="' + cwWishlist.wishlistUrl + '" class="btn btn-primary ' + btnShape + '">' +
+								'<a href="' + cwWishlist.wishlistUrl + '" class="btn btn-sm btn-primary ' + btnShape + '">' +
 									( i18n.goToWishlist || 'Go to Wishlist' ) +
 								'</a>' +
 							'</div>' +
