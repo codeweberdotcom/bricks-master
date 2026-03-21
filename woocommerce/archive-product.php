@@ -235,7 +235,7 @@ if ( ! $is_pjax ) {
 					     data-load-count="<?php echo esc_attr( $per_page ); ?>">
 
 						<!-- Сетка товаров -->
-						<div class="grid-view projects-masonry shop mb-13">
+						<div class="shop mb-13">
 							<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> cwgb-load-more-items">
 								<?php while ( have_posts() ) : the_post(); ?>
 									<?php wc_get_template_part( 'content', 'product' ); ?>
@@ -265,7 +265,7 @@ if ( ! $is_pjax ) {
 					<?php else : ?>
 
 					<!-- Сетка товаров -->
-					<div class="grid-view projects-masonry shop mb-13">
+					<div class="shop mb-13">
 						<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?>">
 							<?php while ( have_posts() ) : the_post(); ?>
 								<?php wc_get_template_part( 'content', 'product' ); ?>
