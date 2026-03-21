@@ -127,6 +127,7 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | Сборка Gulp, SCSS, ассеты | `doc_claude/development/BUILD_SYSTEM.md` |
 | Локальная разработка, WP-CLI | `doc_claude/development/LOCAL_SETUP.md` |
 | Соглашения по коду, безопасность | `doc_claude/development/CODING_STANDARDS.md` |
+| Все data-атрибуты темы (модалы, слайдер, анимации, формы, медиа) | `doc_claude/development/DATA_ATTRIBUTES.md` |
 | Добавить новый CPT | `doc_claude/cpt/CPT_HOW_TO_ADD.md` |
 | Каталог всех CPT | `doc_claude/cpt/CPT_CATALOG.md` |
 | Шаблоны archive/single | `doc_claude/templates/ARCHIVE_SINGLE_PATTERNS.md` |
