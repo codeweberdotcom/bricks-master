@@ -82,12 +82,16 @@ class CW_Wishlist_UI {
 			'count'          => $this->wishlist ? $this->wishlist->get_count() : 0,
 			'feedbackType'   => $this->get_opt( 'wishlist_feedback', 'spinner' ),
 			'showToast'      => $this->get_opt( 'wishlist_toast', 0 ) ? 'yes' : 'no',
+			'btnShape'       => class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '',
 			'i18n'           => array(
-				'added'        => __( 'In Wishlist', 'codeweber' ),
-				'add'          => __( 'Add to Wishlist', 'codeweber' ),
-				'removed'      => __( 'Removed from Wishlist', 'codeweber' ),
-				'loginNotice'  => __( 'Please log in to save items to your wishlist.', 'codeweber' ),
-				'removeNotice' => __( 'Remove from Wishlist?', 'codeweber' ),
+				'added'            => __( 'In Wishlist', 'codeweber' ),
+				'add'              => __( 'Add to Wishlist', 'codeweber' ),
+				'removed'          => __( 'Removed from Wishlist', 'codeweber' ),
+				'loginNotice'      => __( 'Please log in to save items to your wishlist.', 'codeweber' ),
+				'removeNotice'     => __( 'Remove from Wishlist?', 'codeweber' ),
+				'addedTitle'       => __( 'Added to Wishlist', 'codeweber' ),
+				'continueShopping' => __( 'Continue Shopping', 'codeweber' ),
+				'goToWishlist'     => __( 'Go to Wishlist', 'codeweber' ),
 			),
 		) );
 	}

@@ -62,8 +62,9 @@
 			if ( ! productId ) return;
 
 			var feedback        = cwWishlist.feedbackType || 'spinner';
-			var showSpinner     = ( feedback === 'spinner' );
+			var showSpinner     = ( feedback === 'spinner' || feedback === 'modal' );
 			var showCardSpinner = ( feedback === 'card' );
+			var showModal       = ( feedback === 'modal' );
 			var showToast       = ( cwWishlist.showToast === 'yes' );
 
 			var card = null;
@@ -103,7 +104,9 @@
 					if ( response.success ) {
 						CWWishlist.markAdded( btn );
 						CWWishlist.updateCountWidget( response.data.count );
-						if ( showToast && typeof CWNotify !== 'undefined' ) {
+						if ( showModal ) {
+							CWWishlist.showWishlistModal( response.data.product_name || '' );
+						} else if ( showToast && typeof CWNotify !== 'undefined' ) {
 							CWNotify.show( cwWishlist.i18n.added, { type: 'success', event: 'wishlist' } );
 						}
 					}
@@ -219,6 +222,50 @@
 					( cwWishlist.i18n.goToShop || 'Go to Shop' ) +
 				'</a>';
 			grid.replaceWith( empty );
+		},
+
+		getModal: function () {
+			if ( this._modal ) return this._modal;
+
+			var i18n      = cwWishlist.i18n || {};
+			var btnShape  = cwWishlist.btnShape || '';
+			var el        = document.createElement( 'div' );
+			el.className  = 'modal fade';
+			el.id         = 'cwWishlistModal';
+			el.tabIndex   = -1;
+			el.setAttribute( 'aria-hidden', 'true' );
+			el.innerHTML  =
+				'<div class="modal-dialog modal-dialog-centered modal-sm">' +
+					'<div class="modal-content">' +
+						'<div class="modal-body text-center p-5">' +
+							'<div class="mb-4 cw-wishlist-modal__icon"><i class="uil uil-heart-alt" aria-hidden="true"></i></div>' +
+							'<h5 class="mb-1">' + ( i18n.addedTitle || 'Added to Wishlist' ) + '</h5>' +
+							'<p class="text-ash mb-5 cw-wishlist-modal__name"></p>' +
+							'<div class="d-flex gap-2 justify-content-center flex-wrap">' +
+								'<button type="button" class="btn btn-outline-secondary ' + btnShape + '" data-bs-dismiss="modal">' +
+									( i18n.continueShopping || 'Continue Shopping' ) +
+								'</button>' +
+								'<a href="' + cwWishlist.wishlistUrl + '" class="btn btn-primary ' + btnShape + '">' +
+									( i18n.goToWishlist || 'Go to Wishlist' ) +
+								'</a>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>';
+
+			document.body.appendChild( el );
+			this._modal = el;
+			return el;
+		},
+
+		showWishlistModal: function ( productName ) {
+			var el     = this.getModal();
+			var nameEl = el.querySelector( '.cw-wishlist-modal__name' );
+			if ( nameEl ) nameEl.textContent = productName || '';
+
+			if ( typeof bootstrap !== 'undefined' && bootstrap.Modal ) {
+				bootstrap.Modal.getOrCreateInstance( el ).show();
+			}
 		},
 
 		updateCountWidget: function ( count ) {

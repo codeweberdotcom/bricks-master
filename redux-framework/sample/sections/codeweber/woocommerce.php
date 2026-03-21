@@ -498,6 +498,7 @@ Redux::set_section(
 				'options'  => array(
 					'spinner' => esc_html__( 'Spinner on button', 'codeweber' ),
 					'card'    => esc_html__( 'Spinner on card', 'codeweber' ),
+					'modal'   => esc_html__( 'Modal confirmation', 'codeweber' ),
 					'none'    => esc_html__( 'None', 'codeweber' ),
 				),
 				'required' => array( 'wishlist_enable', '=', true ),

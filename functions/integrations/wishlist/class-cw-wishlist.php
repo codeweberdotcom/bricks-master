@@ -111,9 +111,13 @@ class CW_Wishlist {
 
 		$wishlist->update_count_cookie();
 
+		$product      = wc_get_product( $product_id );
+		$product_name = $product ? $product->get_name() : '';
+
 		wp_send_json_success( array(
-			'added' => $added,
-			'count' => $wishlist->get_count(),
+			'added'        => $added,
+			'count'        => $wishlist->get_count(),
+			'product_name' => $product_name,
 		) );
 	}
 

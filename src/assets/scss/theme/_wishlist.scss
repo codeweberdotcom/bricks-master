@@ -178,6 +178,22 @@
   to   { width: 100%; }
 }
 
+// ── Модальное окно подтверждения добавления ───────────────────────────────────
+
+#cwWishlistModal {
+  .cw-wishlist-modal__icon {
+    i {
+      font-size: 3rem;
+      color: var(--bs-red, #e2626b);
+    }
+  }
+
+  .cw-wishlist-modal__name {
+    font-size: 0.9375rem;
+    word-break: break-word;
+  }
+}
+
 // Кнопка удаления на странице вишлиста (.item-like с активным состоянием)
 // Всегда показываем (не только на hover), т.к. все товары уже в избранном
 .cw-wishlist-page .item-like {
