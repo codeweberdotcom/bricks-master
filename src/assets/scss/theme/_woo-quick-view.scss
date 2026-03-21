@@ -5,3 +5,18 @@
   pointer-events: none;
   opacity: .5;
 }
+
+// Правая колонка summary скролится независимо от галереи
+#cw-quick-view-modal {
+  .modal-body {
+    overflow: hidden;
+  }
+
+  .row.g-0 {
+    height: 100%;
+
+    .col-md-6:last-child {
+      overflow-y: auto;
+    }
+  }
+}

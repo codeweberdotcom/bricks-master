@@ -36,7 +36,7 @@ $has_gallery   = count( $all_image_ids ) > 1;
 
 		<?php if ( ! empty( $all_image_ids ) ) : ?>
 
-			<div class="swiper-container"
+			<div class="swiper-container dots-over"
 			     data-margin="0"
 			     data-dots="<?php echo $has_gallery ? 'true' : 'false'; ?>"
 			     data-nav="<?php echo $has_gallery ? 'true' : 'false'; ?>">
@@ -46,9 +46,7 @@ $has_gallery   = count( $all_image_ids ) > 1;
 						<?php foreach ( $all_image_ids as $img_id ) : ?>
 							<div class="swiper-slide">
 								<figure class="rounded m-0">
-									<a href="<?php echo esc_url( $product_url ); ?>">
-										<?php echo wp_get_attachment_image( $img_id, 'woocommerce_single', false, array( 'class' => 'w-100' ) ); ?>
-									</a>
+									<?php echo wp_get_attachment_image( $img_id, 'woocommerce_single', false, array( 'class' => 'w-100' ) ); ?>
 								</figure>
 							</div>
 						<?php endforeach; ?>
