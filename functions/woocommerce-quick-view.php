@@ -8,6 +8,17 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// ── Проверка: quick view включён в Redux ─────────────────────────────────────
+
+function cw_is_quick_view_enabled() {
+	$opts = get_option( 'redux_demo', array() );
+	return (bool) ( $opts['quick_view_enable'] ?? true );
+}
+
+if ( ! cw_is_quick_view_enabled() ) {
+	return;
+}
+
 // ── AJAX-обработчик ─────────────────────────────────────────────────────────
 
 add_action( 'wp_ajax_cw_quick_view',        'cw_quick_view_handler' );

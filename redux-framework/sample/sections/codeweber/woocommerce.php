@@ -435,6 +435,27 @@ Redux::set_section(
 	)
 );
 
+// ── Quick View ────────────────────────────────────────────────────────────────
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Quick View', 'codeweber' ),
+		'id'         => 'woocommerce-quick-view',
+		'subsection' => true,
+		'fields'     => array(
+
+			array(
+				'id'       => 'quick_view_enable',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Enable Quick View', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show Quick View button on product cards (Bootstrap Modal with gallery, variations support)', 'codeweber' ),
+				'default'  => true,
+			),
+
+		),
+	)
+);
+
 // ── Wishlist ──────────────────────────────────────────────────────────────────
 Redux::set_section(
 	$opt_name,
