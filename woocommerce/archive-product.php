@@ -85,8 +85,8 @@ $per_page         = in_array( $per_page, $allowed_per_page, true ) ? $per_page :
 
 // Базовый URL для кнопок-переключателей (без per_row и per_page, сохраняем остальные params)
 $base_query_args = $_GET; // phpcs:ignore WordPress.Security.NonceVerification
-unset( $base_query_args['per_row'], $base_query_args['per_page'] );
-$base_url = add_query_arg( $base_query_args, get_pagenum_link( 1 ) );
+unset( $base_query_args['per_row'], $base_query_args['per_page'], $base_query_args['add-to-cart'], $base_query_args['paged'] );
+$base_url = add_query_arg( $base_query_args, remove_query_arg( 'per_page', get_pagenum_link( 1 ) ) );
 
 // ── Redux: настройки видимости элементов ──────────────────────────────────────
 $shop_nav_mode = 'pagination';
