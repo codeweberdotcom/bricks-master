@@ -102,6 +102,11 @@
   }
 }
 
+#comment-form-rating-label {
+  padding-bottom: 20px;
+  margin-right: 10px;
+}
+
 .comment-form-rating p.stars {
   a::before {
     color: rgba(#000, .15); // пустые звёзды

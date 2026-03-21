@@ -57,18 +57,18 @@ class CW_Wishlist_UI {
 	 * Enqueue wishlist JS and localize vars.
 	 */
 	public function enqueue_scripts() {
-		$js_path = get_template_directory() . '/functions/integrations/wishlist/assets/wishlist.js';
-		$js_url  = get_template_directory_uri() . '/functions/integrations/wishlist/assets/wishlist.js';
+		$js_path = codeweber_get_dist_file_path( 'dist/assets/js/wishlist.js' );
+		$js_url  = codeweber_get_dist_file_url( 'dist/assets/js/wishlist.js' );
 
-		if ( ! file_exists( $js_path ) ) {
+		if ( ! $js_path || ! $js_url ) {
 			return;
 		}
 
 		wp_enqueue_script(
 			'cw-wishlist',
 			$js_url,
-			array( 'jquery' ),
-			filemtime( $js_path ),
+			array(),
+			codeweber_asset_version( $js_path ),
 			true
 		);
 

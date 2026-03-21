@@ -66,6 +66,9 @@ while ( have_posts() ) :
 	<?php
 	// ── ЭТАПЫ 2 + 6: Блок товара (галерея + данные) ──────────────────────────
 
+	// Стиль скругления карточек из Redux
+	$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+
 	// Данные галереи
 	$main_image_id = $product->get_image_id();
 	$gallery_ids   = $product->get_gallery_image_ids();
@@ -92,7 +95,7 @@ while ( have_posts() ) :
 									$full_url = wp_get_attachment_image_url( $img_id, 'full' );
 								?>
 								<div class="swiper-slide">
-									<figure class="rounded">
+									<figure class="<?php echo esc_attr( $card_radius ); ?>">
 										<?php echo wp_get_attachment_image( $img_id, 'woocommerce_single', false, [ 'class' => 'img-fluid' ] ); ?>
 										<?php if ( $full_url ) : ?>
 										<a class="item-link"
@@ -114,7 +117,7 @@ while ( have_posts() ) :
 							<div class="swiper-wrapper">
 								<?php foreach ( $all_image_ids as $img_id ) : ?>
 								<div class="swiper-slide">
-									<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => 'rounded' ] ); ?>
+									<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => esc_attr( $card_radius ) ] ); ?>
 								</div>
 								<?php endforeach; ?>
 							</div>
@@ -128,7 +131,7 @@ while ( have_posts() ) :
 						$full_url = wp_get_attachment_image_url( $main_image_id, 'full' );
 					?>
 
-					<figure class="rounded">
+					<figure class="<?php echo esc_attr( $card_radius ); ?>">
 						<?php echo wp_get_attachment_image( $main_image_id, 'woocommerce_single', false, [ 'class' => 'img-fluid' ] ); ?>
 						<?php if ( $full_url ) : ?>
 						<a class="item-link"
@@ -142,7 +145,7 @@ while ( have_posts() ) :
 
 					<?php else : ?>
 
-					<figure class="rounded">
+					<figure class="<?php echo esc_attr( $card_radius ); ?>">
 						<?php echo wc_placeholder_img( 'woocommerce_single' ); ?>
 					</figure>
 

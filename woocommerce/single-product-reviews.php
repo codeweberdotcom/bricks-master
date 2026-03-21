@@ -34,16 +34,17 @@ $commenter    = wp_get_current_commenter();
 			$pages = paginate_comments_links( [
 				'echo'      => false,
 				'type'      => 'array',
-				'prev_text' => '',
+				'prev_text' => '<i class="uil uil-arrow-left"></i>',
 				'next_text' => '',
 			] );
 			if ( is_array( $pages ) ) :
+				$pag_btn = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
 		?>
 		<nav class="d-flex mt-10" aria-label="<?php esc_attr_e( 'Reviews navigation', 'woocommerce' ); ?>">
 			<ul class="pagination mb-0">
 				<?php foreach ( $pages as $page ) :
 					$active = strpos( $page, 'current' ) !== false;
-					$page   = str_replace( 'page-numbers', 'page-link', $page );
+					$page   = str_replace( 'page-numbers', 'page-link' . esc_attr( $pag_btn ), $page );
 					echo '<li class="page-item' . ( $active ? ' active' : '' ) . '">' . $page . '</li>'; // phpcs:ignore
 				endforeach; ?>
 			</ul>

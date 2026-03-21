@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-03-20 22:57+0000\n"
+"PO-Revision-Date: 2026-03-21 00:13+0000\n"
 "Last-Translator: Codeweber\n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -678,6 +678,7 @@ msgstr "Добавьте теги, разделенные запятыми."
 
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:87
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:127
+#: templates/post-cards/product/shop2.php:153
 msgid "Add to Wishlist"
 msgstr "Добавить в Закладки"
 
@@ -6070,6 +6071,7 @@ msgstr ""
 
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:86
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:126
+#: templates/post-cards/product/shop2.php:153
 #, fuzzy
 msgid "In Wishlist"
 msgstr "В списке желаний"
@@ -8982,6 +8984,11 @@ msgstr "Введите ваше Имя"
 msgid "Please fill in all required SMTP fields."
 msgstr "Пожалуйста, заполните все обязательные поля SMTP."
 
+#: functions/integrations/woo-ajax-review.php:35
+#, fuzzy
+msgid "Please fill in required fields."
+msgstr "Пожалуйста, заполните обязательные поля."
+
 #: functions/cpt/cpt-documents.php:1144
 msgid ""
 "Please find the document attached to this email.\n"
@@ -9485,7 +9492,7 @@ msgid "Question header"
 msgstr "Заголовок вопроса"
 
 #: functions/woocommerce-quick-view.php:70
-#: templates/post-cards/product/shop2.php:164
+#: templates/post-cards/product/shop2.php:167
 #, fuzzy
 msgid "Quick view"
 msgstr "Быстрый просмотр"
@@ -9713,6 +9720,12 @@ msgstr "Удалить изображение этого сотрудника."
 #: functions/cpt/cpt-documents.php:278
 msgid "Remove file"
 msgstr "Удалить файл"
+
+#: templates/post-cards/product/shop2.php:129
+#: templates/post-cards/product/shop2.php:130
+#, fuzzy
+msgid "Remove from Wishlist"
+msgstr "Удалить из списка желаний"
 
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:90
 #, fuzzy
@@ -11344,11 +11357,6 @@ msgstr "Небо"
 msgid "Skype"
 msgstr "Скайп"
 
-#: woocommerce/content-quick-view.php:60
-#, fuzzy
-msgid "Slide %d"
-msgstr "Слайд %d"
-
 #: functions/fetch/getPostCardTemplates.php:98
 msgid "Slider"
 msgstr "Слайдер"
@@ -11496,7 +11504,7 @@ msgstr "Solid"
 msgid "Solid-Color"
 msgstr "Цвет Solid"
 
-#: functions/woocommerce.php:694
+#: functions/woocommerce.php:696
 #, fuzzy
 msgid "Something went wrong. Please try again."
 msgstr "Произошла ошибка. Пожалуйста, повторите попытку."
@@ -13625,7 +13633,7 @@ msgstr "Показать Футеры"
 msgid "View form"
 msgstr "Просмотр формы"
 
-#: woocommerce/content-quick-view.php:94
+#: woocommerce/content-quick-view.php:87
 #, fuzzy
 msgid "View full details"
 msgstr "Посмотреть полные сведения"
@@ -14353,6 +14361,11 @@ msgstr "Ваш резюме было отправлено."
 msgid "Your Review"
 msgstr "Ваш отзыв"
 
+#: functions/integrations/woo-ajax-review.php:97
+#, fuzzy
+msgid "Your review has been submitted. Thank you!"
+msgstr "Ваш отзыв отправлен. Спасибо!"
+
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:105
 msgid "Your testimonial text"
 msgstr "Текст вашего отзыва"
@@ -14410,16 +14423,6 @@ msgstr "Атрибут:"
 #, fuzzy
 msgid "Бренды"
 msgstr "Бренды"
-
-#: templates/post-cards/product/shop2.php:150
-#, fuzzy
-msgid "В избранное"
-msgstr "Add to Wishlist"
-
-#: templates/post-cards/product/shop2.php:150
-#, fuzzy
-msgid "В избранном"
-msgstr "В избранном"
 
 #: functions/woocommerce-filters.php:217 functions/woocommerce-filters.php:992
 #, fuzzy
@@ -14757,11 +14760,6 @@ msgstr "Список категорий товаров для фильтраци
 #, fuzzy
 msgid "Список ссылок"
 msgstr "Список ссылок"
-
-#: templates/post-cards/product/shop2.php:127
-#, fuzzy
-msgid "Убрать из избранного"
-msgstr "Remove from Wishlist"
 
 #: templates/woocommerce/filters/filter-active.php:26
 #, fuzzy

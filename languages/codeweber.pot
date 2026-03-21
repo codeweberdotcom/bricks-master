@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-20 22:54+0000\n"
+"POT-Creation-Date: 2026-03-21 00:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -646,6 +646,7 @@ msgstr ""
 
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:87
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:127
+#: templates/post-cards/product/shop2.php:153
 msgid "Add to Wishlist"
 msgstr ""
 
@@ -5636,6 +5637,7 @@ msgstr ""
 
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:86
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:126
+#: templates/post-cards/product/shop2.php:153
 msgid "In Wishlist"
 msgstr ""
 
@@ -8330,6 +8332,10 @@ msgstr ""
 msgid "Please fill in all required SMTP fields."
 msgstr ""
 
+#: functions/integrations/woo-ajax-review.php:35
+msgid "Please fill in required fields."
+msgstr ""
+
 #: functions/cpt/cpt-documents.php:1144
 msgid ""
 "Please find the document attached to this email.\n"
@@ -8788,7 +8794,7 @@ msgid "Question header"
 msgstr ""
 
 #: functions/woocommerce-quick-view.php:70
-#: templates/post-cards/product/shop2.php:164
+#: templates/post-cards/product/shop2.php:167
 msgid "Quick view"
 msgstr ""
 
@@ -9000,6 +9006,11 @@ msgstr ""
 
 #: functions/cpt/cpt-documents.php:278
 msgid "Remove file"
+msgstr ""
+
+#: templates/post-cards/product/shop2.php:129
+#: templates/post-cards/product/shop2.php:130
+msgid "Remove from Wishlist"
 msgstr ""
 
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:90
@@ -10524,10 +10535,6 @@ msgstr ""
 msgid "Skype"
 msgstr ""
 
-#: woocommerce/content-quick-view.php:60
-msgid "Slide %d"
-msgstr ""
-
 #: functions/fetch/getPostCardTemplates.php:98
 msgid "Slider"
 msgstr ""
@@ -10668,7 +10675,7 @@ msgstr ""
 msgid "Solid-Color"
 msgstr ""
 
-#: functions/woocommerce.php:694
+#: functions/woocommerce.php:696
 msgid "Something went wrong. Please try again."
 msgstr ""
 
@@ -12644,7 +12651,7 @@ msgstr ""
 msgid "View form"
 msgstr ""
 
-#: woocommerce/content-quick-view.php:94
+#: woocommerce/content-quick-view.php:87
 msgid "View full details"
 msgstr ""
 
@@ -13311,6 +13318,10 @@ msgstr ""
 msgid "Your Review"
 msgstr ""
 
+#: functions/integrations/woo-ajax-review.php:97
+msgid "Your review has been submitted. Thank you!"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:105
 msgid "Your testimonial text"
 msgstr ""
@@ -13364,14 +13375,6 @@ msgstr ""
 
 #: functions/woocommerce-filters.php:1338
 msgid "Бренды"
-msgstr ""
-
-#: templates/post-cards/product/shop2.php:150
-msgid "В избранное"
-msgstr ""
-
-#: templates/post-cards/product/shop2.php:150
-msgid "В избранном"
 msgstr ""
 
 #: functions/woocommerce-filters.php:217 functions/woocommerce-filters.php:992
@@ -13649,10 +13652,6 @@ msgstr ""
 
 #: functions/woocommerce-filters.php:1633
 msgid "Список ссылок"
-msgstr ""
-
-#: templates/post-cards/product/shop2.php:127
-msgid "Убрать из избранного"
 msgstr ""
 
 #: templates/woocommerce/filters/filter-active.php:26

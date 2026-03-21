@@ -244,6 +244,7 @@ var path = {
     wooswatchesjs: srcPrefix + "/assets/js/woo-swatches.js",
     wooquickviewjs: srcPrefix + "/assets/js/woo-quick-view.js",
     wooreviewjs: srcPrefix + "/assets/js/woo-review.js",
+    wishlistjs: srcPrefix + "/assets/js/wishlist.js",
     style: srcPrefix + "/assets/scss/style.scss",
     fontcss: srcPrefix + "/assets/scss/fonts/*.*",
     // When building for child theme: use child's style.scss if it exists (ensures child's _user-variables with correct fonts)
@@ -699,6 +700,30 @@ gulp.task("wooreviewjs:dist", function (cb) {
   );
 });
 
+gulp.task("wishlistjs:dev", function (cb) {
+  if (!isWooActive) { return cb(); }
+  return gulp
+    .src(path.src.wishlistjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("wishlistjs:dist", function (cb) {
+  if (!isWooActive) { return cb(); }
+  return (
+    gulp
+      .src(path.src.wishlistjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
 // Compile html
 gulp.task('html:dev', function () {
   return gulp.src(path.src.html)
@@ -1001,6 +1026,7 @@ gulp.task(
       "wooswatchesjs:dev",
       "wooquickviewjs:dev",
       "wooreviewjs:dev",
+      "wishlistjs:dev",
       "themejs:dev",
       "fonts:dev",
       "media:dev",
@@ -1037,6 +1063,7 @@ gulp.task(
       "wooswatchesjs:dist",
       "wooquickviewjs:dist",
       "wooreviewjs:dist",
+      "wishlistjs:dist",
       "themejs:dist",
       "fonts:dist",
       "media:dist",
@@ -1075,6 +1102,7 @@ gulp.task('watch', function () {
       gulp.watch(path.src.wooswatchesjs, gulp.series('wooswatchesjs:dist'));
       gulp.watch(path.src.wooquickviewjs, gulp.series('wooquickviewjs:dist'));
       gulp.watch(path.src.wooreviewjs, gulp.series('wooreviewjs:dist'));
+      gulp.watch(path.src.wishlistjs, gulp.series('wishlistjs:dist'));
     }
     gulp.watch(path.watch.img, gulp.series('image:dist'));
     gulp.watch(path.watch.fonts, gulp.series('fonts:dist'));
