@@ -114,6 +114,10 @@ class CW_Wishlist {
 		$product      = wc_get_product( $product_id );
 		$product_name = $product ? $product->get_name() : '';
 
+		if ( $added ) {
+			$this->track_matomo_wishlist_add( $product_id, $product_name );
+		}
+
 		wp_send_json_success( array(
 			'added'        => $added,
 			'count'        => $wishlist->get_count(),
@@ -251,5 +255,60 @@ class CW_Wishlist {
 	private function guests_allowed() {
 		global $opt_name;
 		return (bool) Redux::get_option( $opt_name, 'wishlist_guests', 1 );
+	}
+
+	/**
+	 * Send "Add to Wishlist" event to Matomo.
+	 *
+	 * @param int    $product_id   Product ID.
+	 * @param string $product_name Product name.
+	 */
+	private function track_matomo_wishlist_add( $product_id, $product_name ) {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		if ( ! is_plugin_active( 'matomo/matomo.php' ) ) {
+			return;
+		}
+
+		// Visitor ID из cookie Matomo (_pk_id_*), fallback: md5(IP+UA).
+		$visitor_id = '';
+		foreach ( $_COOKIE as $name => $value ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+			if ( strpos( $name, '_pk_id_' ) === 0 ) {
+				$parts = explode( '.', $value );
+				if ( ! empty( $parts[0] ) && strlen( $parts[0] ) === 16 ) {
+					$visitor_id = $parts[0];
+					break;
+				}
+			}
+		}
+		if ( empty( $visitor_id ) ) {
+			$visitor_id = substr( md5( ( $_SERVER['REMOTE_ADDR'] ?? '' ) . ( $_SERVER['HTTP_USER_AGENT'] ?? '' ) ), 0, 16 );
+		}
+
+		$params = array(
+			'idsite'     => defined( 'MATOMO_SITE_ID' ) ? MATOMO_SITE_ID : 1,
+			'rec'        => 1,
+			'ua'         => sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] ?? '' ),
+			'_id'        => $visitor_id,
+			'e_c'        => 'Wishlist',
+			'e_a'        => 'Add to Wishlist',
+			'e_n'        => $product_name,
+			'e_v'        => $product_id,
+			'url'        => home_url( $_SERVER['REQUEST_URI'] ?? '/' ), // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+			'urlref'     => $_SERVER['HTTP_REFERER'] ?? home_url(),
+			'send_image' => 0,
+		);
+
+		wp_remote_post(
+			home_url( '/wp-json/matomo/v1/hit/' ),
+			array(
+				'timeout'   => 2,
+				'blocking'  => false,
+				'sslverify' => false,
+				'body'      => $params,
+			)
+		);
 	}
 }
