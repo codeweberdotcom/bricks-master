@@ -226,22 +226,41 @@ if (codeweber_forms_matomo_is_plugin_active()) {
     }
     
     // ========== 2. ОТСЛЕЖИВАНИЕ УСПЕШНОЙ ОТПРАВКИ ==========
-    
-    // Работает для обеих систем через универсальный хук
+
+    // Для Codeweber Forms: через универсальный хук
     add_action('codeweber_form_after_send', 'codeweber_forms_matomo_track_submission', 10, 3);
     function codeweber_forms_matomo_track_submission($form_id, $form_settings, $submission_id) {
         $form_type = codeweber_forms_matomo_get_form_type($form_id, $form_settings);
         $form_name = codeweber_forms_matomo_get_form_name($form_id, $form_settings);
         $current_url = $_SERVER['HTTP_REFERER'] ?? home_url();
-        
+
         codeweber_forms_matomo_track_form_event(
-            $form_id, 
-            $form_name, 
-            $form_type, 
-            'Form Submission', 
-            1, 
+            $form_id,
+            $form_name,
+            $form_type,
+            'Form Submission',
+            1,
             $current_url
         );
+    }
+
+    // Для CF7: через wpcf7_mail_sent (codeweber_form_after_send для CF7 не срабатывает)
+    if (class_exists('WPCF7')) {
+        add_action('wpcf7_mail_sent', 'codeweber_forms_matomo_track_cf7_submission', 10, 1);
+        function codeweber_forms_matomo_track_cf7_submission($contact_form) {
+            $form_id   = $contact_form->id();
+            $form_name = $contact_form->title();
+            $current_url = $_SERVER['HTTP_REFERER'] ?? home_url();
+
+            codeweber_forms_matomo_track_form_event(
+                $form_id,
+                $form_name,
+                'cf7',
+                'Form Submission',
+                1,
+                $current_url
+            );
+        }
     }
     
     // ========== 3. ОТСЛЕЖИВАНИЕ ОШИБОК ==========
