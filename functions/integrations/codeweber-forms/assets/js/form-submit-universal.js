@@ -1551,7 +1551,7 @@
                 tempButton.type = 'submit';
                 tempButton.className = originalInputClass + ' btn-icon btn-icon-start';
                 tempButton.disabled = true;
-                tempButton.innerHTML = '<i class="uil uil-spinner-alt uil-spin fs-13 me-1"></i>' + loadingText;
+                tempButton.innerHTML = '<i class="uil uil-envelope-upload fs-13 me-1"></i>' + loadingText;
                 
                 // Сохраняем ссылку на оригинальный input для восстановления
                 // Копируем dataset правильно
@@ -1599,7 +1599,7 @@
                     newButton.dataset[key] = originalButtonDataset[key];
                 }
                 // Добавляем спиннер через innerHTML (как в newsletter)
-                newButton.innerHTML = '<i class="uil uil-spinner-alt uil-spin fs-13 me-1"></i>' + loadingText;
+                newButton.innerHTML = '<i class="uil uil-envelope-upload fs-13 me-1"></i>' + loadingText;
                 
                 // Заменяем старый button на новый
                 submitBtn.parentNode.replaceChild(newButton, submitBtn);

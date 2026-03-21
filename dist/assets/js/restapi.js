@@ -431,6 +431,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /**
+   * Единая функция отображения success-сообщения в модалке.
+   * Используется CF7 (cf7-success-message.js) и может быть вызвана из любого места.
+   * @param {string} [message] - текст сообщения; пустая строка → используется серверный перевод
+   */
+  function showModalSuccess(message) {
+    if (typeof wpApiSettings === 'undefined') return;
+    if (!createModal()) return;
+
+    // Показываем модалку, если ещё не открыта
+    if (!modalElement.classList.contains('show')) {
+      modalInstance.show();
+    }
+
+    // Немедленно показываем skeleton — убираем форму / кнопку с «Отправлено»
+    modalContent.innerHTML = getModalSkeleton('');
+
+    // Запрашиваем шаблон успеха
+    let url = wpApiSettings.root + 'codeweber/v1/success-message-template?icon_type=svg';
+    if (message) url += '&message=' + encodeURIComponent(message);
+
+    fetch(url, { headers: { 'X-WP-Nonce': wpApiSettings.nonce } })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success && data.html) {
+          modalContent.innerHTML = data.html;
+        }
+        setTimeout(() => { if (modalInstance) modalInstance.hide(); }, 3000);
+      })
+      .catch(() => {
+        setTimeout(() => { if (modalInstance) modalInstance.hide(); }, 1000);
+      });
+  }
+
+  // Публичный API для внешних скриптов (cf7-success-message.js и др.)
+  window.codeweberModal = { showSuccess: showModalSuccess };
+
+  /**
    * Apply modal size class to modal-dialog
    * @param {string} sizeClass - Modal size class (modal-sm, modal-lg, etc.)
    */
