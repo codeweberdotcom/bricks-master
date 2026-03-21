@@ -48,6 +48,7 @@ require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
 
 if (class_exists('WooCommerce')) {
 	require_once get_template_directory() . '/functions/woocommerce.php';
+	require_once get_template_directory() . '/functions/woocommerce-cart-offcanvas.php';
 }
 
 // Wishlist

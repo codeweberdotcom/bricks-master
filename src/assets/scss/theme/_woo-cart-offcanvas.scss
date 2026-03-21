@@ -1,0 +1,38 @@
+//----------------------------------------------------------//
+//	WOO CART OFFCANVAS
+//----------------------------------------------------------//
+
+// Миниатюра товара в корзине
+.cw-cart-item-thumb {
+  width: 4.5rem;
+  height: 4.5rem;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Список товаров — занимает доступное пространство, остаток уходит в footer
+.cw-offcanvas-cart-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+// Кнопка удаления — плавное появление при наведении на элемент
+.shopping-cart-item {
+  .cw-cart-remove {
+    opacity: .5;
+    transition: opacity .15s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

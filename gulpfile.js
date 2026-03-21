@@ -149,6 +149,7 @@ var wooScssImports = [
   'woo-single-product',
   'woo-filters',
   'woo-swatches',
+  'woo-cart-offcanvas',
   'wishlist',
 ];
 var wooScssPath = path_module.join(parentThemePath, 'src', 'assets', 'scss', 'theme', '_woo-active.scss');
@@ -244,6 +245,7 @@ var path = {
     wooswatchesjs: srcPrefix + "/assets/js/woo-swatches.js",
     wooquickviewjs: srcPrefix + "/assets/js/woo-quick-view.js",
     wooreviewjs: srcPrefix + "/assets/js/woo-review.js",
+    woocartoffcanvasjs: srcPrefix + "/assets/js/woo-cart-offcanvas.js",
     wishlistjs: srcPrefix + "/assets/js/wishlist.js",
     style: srcPrefix + "/assets/scss/style.scss",
     fontcss: srcPrefix + "/assets/scss/fonts/*.*",
@@ -700,6 +702,30 @@ gulp.task("wooreviewjs:dist", function (cb) {
   );
 });
 
+gulp.task("woocartoffcanvasjs:dev", function (cb) {
+  if (!isWooActive) { return cb(); }
+  return gulp
+    .src(path.src.woocartoffcanvasjs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("woocartoffcanvasjs:dist", function (cb) {
+  if (!isWooActive) { return cb(); }
+  return (
+    gulp
+      .src(path.src.woocartoffcanvasjs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
 gulp.task("wishlistjs:dev", function (cb) {
   if (!isWooActive) { return cb(); }
   return gulp
@@ -1026,6 +1052,7 @@ gulp.task(
       "wooswatchesjs:dev",
       "wooquickviewjs:dev",
       "wooreviewjs:dev",
+      "woocartoffcanvasjs:dev",
       "wishlistjs:dev",
       "themejs:dev",
       "fonts:dev",
@@ -1063,6 +1090,7 @@ gulp.task(
       "wooswatchesjs:dist",
       "wooquickviewjs:dist",
       "wooreviewjs:dist",
+      "woocartoffcanvasjs:dist",
       "wishlistjs:dist",
       "themejs:dist",
       "fonts:dist",
@@ -1102,6 +1130,7 @@ gulp.task('watch', function () {
       gulp.watch(path.src.wooswatchesjs, gulp.series('wooswatchesjs:dist'));
       gulp.watch(path.src.wooquickviewjs, gulp.series('wooquickviewjs:dist'));
       gulp.watch(path.src.wooreviewjs, gulp.series('wooreviewjs:dist'));
+      gulp.watch(path.src.woocartoffcanvasjs, gulp.series('woocartoffcanvasjs:dist'));
       gulp.watch(path.src.wishlistjs, gulp.series('wishlistjs:dist'));
     }
     gulp.watch(path.watch.img, gulp.series('image:dist'));
