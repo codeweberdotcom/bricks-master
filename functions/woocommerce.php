@@ -613,10 +613,11 @@ add_action( 'wp_enqueue_scripts', function () {
 require_once get_template_directory() . '/functions/woocommerce-filters.php';
 
 /**
- * Variation Swatches JS — загружается только на странице одиночного товара.
+ * Variation Swatches JS — загружается на странице товара и WooCommerce-архивах
+ * (магазин, категории, теги, вишлист) для поддержки Quick View.
  */
 add_action( 'wp_enqueue_scripts', function () {
-	if ( ! is_product() ) {
+	if ( ! is_product() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() ) {
 		return;
 	}
 

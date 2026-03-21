@@ -21,6 +21,11 @@
 		} );
 	} );
 
+	// Динамическая инициализация — для AJAX-контента (quick view и др.)
+	$( document.body ).on( 'cw_init_swatches', function ( e, $form ) {
+		initSwatchForm( $form );
+	} );
+
 	/**
 	 * Bind all swatch events for one variation form.
 	 *

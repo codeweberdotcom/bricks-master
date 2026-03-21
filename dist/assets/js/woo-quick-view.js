@@ -19,6 +19,7 @@
 		var $form = jQuery(container).find('.variations_form');
 		if (!$form.length) return;
 		$form.wc_variation_form();
+		jQuery(document.body).trigger('cw_init_swatches', [$form]);
 		$form.find('.variations select:eq(0)').trigger('change');
 	}
 
