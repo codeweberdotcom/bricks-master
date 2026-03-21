@@ -9689,6 +9689,8 @@ msgstr "Связанные вакансии"
 #: functions/integrations/image-licenses/image-licenses.php:164
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:136
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:256
+#: templates/woocommerce/cards/shop2.php:129
+#: templates/woocommerce/cards/shop2.php:130
 msgid "Remove"
 msgstr "Удалить"
 
@@ -9721,8 +9723,6 @@ msgstr "Удалить изображение этого сотрудника."
 msgid "Remove file"
 msgstr "Удалить файл"
 
-#: templates/post-cards/product/shop2.php:129
-#: templates/post-cards/product/shop2.php:130
 #, fuzzy
 msgid "Remove from Wishlist"
 msgstr "Удалить из списка желаний"
