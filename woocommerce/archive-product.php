@@ -15,9 +15,9 @@ $is_pjax = ! empty( $_SERVER['HTTP_X_PJAX'] ); // phpcs:ignore WordPress.Securit
 
 // ── Количество колонок (per_row) ──────────────────────────────────────────────
 $per_row_cols_map = [
-	2 => 'row-cols-1 row-cols-sm-2',
-	3 => 'row-cols-1 row-cols-sm-2 row-cols-lg-3',
-	4 => 'row-cols-2 row-cols-sm-2 row-cols-lg-4',
+	2 => 'col-12 col-sm-6',
+	3 => 'col-12 col-sm-6 col-lg-4',
+	4 => 'col-6 col-sm-6 col-lg-3',
 ];
 
 // Иконки колонок — inline SVG с fill="currentColor" (цвет через CSS)
@@ -28,7 +28,7 @@ $per_row_icons_map = [
 ];
 
 // ── Дефолтный класс колонок из Redux (per-breakpoint) ────────────────────────
-$default_row_cols_class = 'row-cols-1 row-cols-sm-2 row-cols-lg-3';
+$default_row_cols_class = 'col-12 col-sm-6 col-lg-4';
 global $opt_name;
 if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
 	$c_xs = max( 1, min( 4, (int) Redux::get_option( $opt_name, 'woo_cols_xs', 1 ) ) );
@@ -36,7 +36,11 @@ if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
 	$c_md = max( 1, min( 4, (int) Redux::get_option( $opt_name, 'woo_cols_md', 2 ) ) );
 	$c_lg = max( 1, min( 4, (int) Redux::get_option( $opt_name, 'woo_cols_lg', 3 ) ) );
 	$c_xl = max( 1, min( 4, (int) Redux::get_option( $opt_name, 'woo_cols_xl', 4 ) ) );
-	$default_row_cols_class = "row-cols-{$c_xs} row-cols-sm-{$c_sm} row-cols-md-{$c_md} row-cols-lg-{$c_lg} row-cols-xl-{$c_xl}";
+	$default_row_cols_class = 'col-' . (int) ( 12 / $c_xs )
+		. ' col-sm-' . (int) ( 12 / $c_sm )
+		. ' col-md-' . (int) ( 12 / $c_md )
+		. ' col-lg-' . (int) ( 12 / $c_lg )
+		. ' col-xl-' . (int) ( 12 / $c_xl );
 }
 
 // Допустимые значения — из Redux или дефолт [2,3,4]
@@ -228,10 +232,17 @@ if ( ! $is_pjax ) {
 
 						<!-- Сетка товаров -->
 						<div class="grid-view projects-masonry shop mb-13">
-							<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> cwgb-load-more-items <?php echo esc_attr( $row_cols_class ); ?>">
-								<?php while ( have_posts() ) : the_post(); ?>
-									<?php wc_get_template_part( 'content', 'product' ); ?>
-								<?php endwhile; ?>
+							<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> cwgb-load-more-items">
+								<?php
+								$_cw_col_fn = function( $classes ) use ( $row_cols_class ) {
+									return array_merge( $classes, array_filter( explode( ' ', $row_cols_class ) ) );
+								};
+								add_filter( 'woocommerce_post_class', $_cw_col_fn );
+								while ( have_posts() ) : the_post();
+									wc_get_template_part( 'content', 'product' );
+								endwhile;
+								remove_filter( 'woocommerce_post_class', $_cw_col_fn );
+								?>
 							</div>
 							<!-- /.row -->
 						</div>
@@ -258,10 +269,17 @@ if ( ! $is_pjax ) {
 
 					<!-- Сетка товаров -->
 					<div class="grid-view projects-masonry shop mb-13">
-						<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> <?php echo esc_attr( $row_cols_class ); ?>">
-							<?php while ( have_posts() ) : the_post(); ?>
-								<?php wc_get_template_part( 'content', 'product' ); ?>
-							<?php endwhile; ?>
+						<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?>">
+							<?php
+							$_cw_col_fn = function( $classes ) use ( $row_cols_class ) {
+								return array_merge( $classes, array_filter( explode( ' ', $row_cols_class ) ) );
+							};
+							add_filter( 'woocommerce_post_class', $_cw_col_fn );
+							while ( have_posts() ) : the_post();
+								wc_get_template_part( 'content', 'product' );
+							endwhile;
+							remove_filter( 'woocommerce_post_class', $_cw_col_fn );
+							?>
 						</div>
 						<!-- /.row -->
 					</div>
