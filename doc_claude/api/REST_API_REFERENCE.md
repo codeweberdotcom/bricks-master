@@ -473,31 +473,33 @@ curl -X POST https://example.com/wp-json/codeweber/v1/documents/send-email \
 
 ## Modal Endpoints (`wp/v2` with custom extensions)
 
+> Подробная документация по всей системе модальных окон: [MODAL_SYSTEM.md](MODAL_SYSTEM.md)
+
 ### Get Modal Content
 
-**Endpoint:** `GET /wp-json/wp/v2/modal/doc-{id}`
+**Endpoint:** `GET /wp-json/wp/v2/modal/{id}`
 
-**Authentication:** None
+**Authentication:** None (публичный). Cookies включаются автоматически (`credentials: 'include'`) для залогиненных пользователей.
 
 **Parameters:**
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `id` | integer | ✓ | Modal post ID (without "doc-" prefix in actual requests) |
+| Name      | Type    | Required | Description                                                            |
+|-----------|---------|----------|------------------------------------------------------------------------|
+| `id`      | integer | ✓        | Post ID из CPT `modals` (JS обрезает префикс `modal-` из `data-value`) |
+| `user_id` | integer |          | ID текущего пользователя (для персонализации контента)                 |
 
 **Response:**
 
 ```json
 {
   "id": 123,
-  "title": {
-    "rendered": "Modal Title"
-  },
-  "content": {
-    "rendered": "<div class=\"modal-content\">...</div>"
-  }
+  "title": { "rendered": "Modal Title" },
+  "content": { "rendered": "<div>...</div>" },
+  "modal_size": "modal-lg"
 }
 ```
+
+Поле `modal_size` — кастомное мета-поле поста CPT `modals`. Применяется через `applyModalSize()` в `restapi.js`.
 
 ---
 
@@ -551,27 +553,34 @@ curl -X POST https://example.com/wp-json/wp/v2/modal/add-testimonial \
 
 **Endpoint:** `GET /wp-json/codeweber/v1/success-message-template`
 
-**Authentication:** None
+**Authentication:** Рекомендован `X-WP-Nonce` (используется из `wpApiSettings.nonce`)
 
 **Parameters:**
 
-| Name | Type | Description |
-|------|------|-------------|
-| `type` | string | Message type (form_submitted, document_sent, etc.) |
-| `form_id` | integer | Form ID (if applicable) |
+| Name        | Type   | Description                                                               |
+|-------------|--------|---------------------------------------------------------------------------|
+| `icon_type` | string | Тип иконки: `svg` (рекомендуется)                                         |
+| `message`   | string | Кастомный текст (опционально; пустая строка → серверный перевод)          |
+
+**Пример запроса:**
+
+```http
+GET /wp-json/codeweber/v1/success-message-template?icon_type=svg
+GET /wp-json/codeweber/v1/success-message-template?icon_type=svg&message=Спасибо%21
+```
 
 **Response:**
 
 ```json
 {
   "success": true,
-  "data": {
-    "template": "<div class=\"success-alert\">Thank you!</div>",
-    "title": "Success",
-    "message": "Your request has been processed"
-  }
+  "html": "<div class=\"success-message\"><svg>...</svg><p>Ваша заявка отправлена</p></div>"
 }
 ```
+
+**Используется:** `restapi.js → showModalSuccess()`, вызывается как CF7 (`cf7-success-message.js`), так и CodeWeber Forms (`form-submit-universal.js`) через `window.codeweberModal.showSuccess()`.
+
+Подробнее: [MODAL_SYSTEM.md](MODAL_SYSTEM.md#10-успешная-отправка-формы)
 
 ---
 

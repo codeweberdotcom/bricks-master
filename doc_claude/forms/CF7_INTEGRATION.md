@@ -14,7 +14,7 @@
 |--------|--------|------------|-----------|
 | `dist/assets/js/form-validation.js` | `codeweber-form-validation` | — | Bootstrap 5 валидация форм с классом `needs-validation` |
 | `dist/assets/js/cf7-acceptance-required.js` | `codeweber-cf7-acceptance-required` | `contact-form-7`, `codeweber-form-validation` | Управление required для acceptance-полей |
-| `dist/assets/js/cf7-success-message.js` | `codeweber-cf7-success-message` | `contact-form-7` | Показ success-сообщения через Bootstrap modal |
+| `dist/assets/js/cf7-success-message.js` | `codeweber-cf7-success-message` | `contact-form-7` | Слушает `wpcf7mailsent` → делегирует в `window.codeweberModal.showSuccess()` (restapi.js) |
 | `dist/assets/js/cf7-utm-tracking.js` | `codeweber-cf7-utm-tracking` | `contact-form-7` | UTM-параметры в скрытые поля формы |
 
 Все скрипты используют patten: dist → fallback src.
@@ -169,14 +169,38 @@ GET /wp-json/custom/v1/cf7-title/{id}
 
 ---
 
+## Успешная отправка CF7
+
+После отправки формы CF7 генерирует событие `wpcf7mailsent`. Обработчик в `cf7-success-message.js`:
+
+```js
+document.addEventListener('wpcf7mailsent', function(event) {
+    // Делегируем в единый success-обработчик модальной системы
+    if (window.codeweberModal && window.codeweberModal.showSuccess) {
+        window.codeweberModal.showSuccess('');
+    }
+    // Очищаем классы валидации формы
+    event.target.classList.remove('was-validated');
+    event.target.querySelectorAll('.form-control, .form-check-input')
+        .forEach(el => { el.classList.remove('is-valid', 'is-invalid'); });
+});
+```
+
+`showSuccess('')` (пустая строка) → серверный перевод из REST endpoint `codeweber/v1/success-message-template`.
+
+Подробнее о потоке: [MODAL_SYSTEM.md](../api/MODAL_SYSTEM.md#10-успешная-отправка-формы).
+
+---
+
 ## Связь с другими модулями
 
 | Модуль | Связь |
 |--------|-------|
 | **Personal Data V2** | `CF7_Data_Provider` экспортирует данные Flamingo для GDPR |
-| **CodeWeber Forms** | Независимы; общий JS `form-submit-universal.js` только для CF |
+| **CodeWeber Forms** | Независимы; оба используют `window.codeweberModal.showSuccess()` для показа результата |
 | **Matomo** | `matomo-forms-integration.php` отслеживает CF7-события через REST + JS |
 | **Newsletter** | Тип формы `newsletter` — JS-хук для подписки после submit CF7 |
+| **Modal System** | `cf7-success-message.js` → `window.codeweberModal.showSuccess()` → `restapi.js` |
 
 ---
 

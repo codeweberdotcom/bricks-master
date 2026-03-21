@@ -126,6 +126,24 @@ document.dispatchEvent(
 );
 ```
 
+### Step 5а: Success в модале
+
+Если форма была открыта в модальном окне, при успешной отправке вызывается:
+
+```js
+// form-submit-universal.js → replaceModalContentWithEnvelope(form, message)
+// внутри:
+window.codeweberModal.showSuccess(message || '');
+```
+
+Это запускает единый success-поток модальной системы:
+
+1. Skeleton-loader заменяет форму мгновенно
+2. Загружается шаблон из `codeweber/v1/success-message-template`
+3. Модал автоматически закрывается через 3 секунды
+
+Подробнее: [MODAL_SYSTEM.md](../api/MODAL_SYSTEM.md#10-успешная-отправка-формы)
+
 ### Step 6: Admin Review
 
 Admins review submissions:
