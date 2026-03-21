@@ -223,6 +223,7 @@ if ( ! $is_pjax ) {
 							'orderby'             => $orderby,
 							'queried_object_id'   => $queried_object_id,
 							'queried_object_type' => $queried_object_type,
+							'col_class'           => $row_cols_class,
 						] );
 					?>
 					<!-- Load More: обёртка контейнера -->
