@@ -65,6 +65,9 @@ $row_cols_map   = array_intersect_key( $per_row_cols_map, array_flip( $allowed_p
 $per_row_icons  = array_intersect_key( $per_row_icons_map, array_flip( $allowed_per_row ) );
 $row_cols_class = $per_row > 0 ? ( $row_cols_map[ $per_row ] ?? $default_row_cols_class ) : $default_row_cols_class;
 
+// Передаём класс колонки в шаблон карточки (shop2.php и др.)
+$GLOBALS['cw_shop_col_class'] = $row_cols_class;
+
 // ── Количество товаров на странице (per_page) ─────────────────────────────────
 $allowed_per_page = [ 12, 24, 48 ];
 if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
@@ -233,16 +236,9 @@ if ( ! $is_pjax ) {
 						<!-- Сетка товаров -->
 						<div class="grid-view projects-masonry shop mb-13">
 							<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> cwgb-load-more-items">
-								<?php
-								$_cw_col_fn = function( $classes ) use ( $row_cols_class ) {
-									return array_merge( $classes, array_filter( explode( ' ', $row_cols_class ) ) );
-								};
-								add_filter( 'woocommerce_post_class', $_cw_col_fn );
-								while ( have_posts() ) : the_post();
-									wc_get_template_part( 'content', 'product' );
-								endwhile;
-								remove_filter( 'woocommerce_post_class', $_cw_col_fn );
-								?>
+								<?php while ( have_posts() ) : the_post(); ?>
+									<?php wc_get_template_part( 'content', 'product' ); ?>
+								<?php endwhile; ?>
 							</div>
 							<!-- /.row -->
 						</div>
@@ -270,16 +266,9 @@ if ( ! $is_pjax ) {
 					<!-- Сетка товаров -->
 					<div class="grid-view projects-masonry shop mb-13">
 						<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?>">
-							<?php
-							$_cw_col_fn = function( $classes ) use ( $row_cols_class ) {
-								return array_merge( $classes, array_filter( explode( ' ', $row_cols_class ) ) );
-							};
-							add_filter( 'woocommerce_post_class', $_cw_col_fn );
-							while ( have_posts() ) : the_post();
-								wc_get_template_part( 'content', 'product' );
-							endwhile;
-							remove_filter( 'woocommerce_post_class', $_cw_col_fn );
-							?>
+							<?php while ( have_posts() ) : the_post(); ?>
+								<?php wc_get_template_part( 'content', 'product' ); ?>
+							<?php endwhile; ?>
 						</div>
 						<!-- /.row -->
 					</div>
