@@ -1,26 +1,4 @@
-// ─────────────────────────────────────────────────────────────────
-// Quick View — только то, чего нет в Bootstrap
-// ─────────────────────────────────────────────────────────────────
-
-#cw-quick-view-modal {
-  // Фиксированная высота изображения товара с сохранением пропорций
-  .carousel-item img {
-    height: 400px;
-    object-fit: contain;
-  }
-
-  // Активная миниатюра — бордер в цвет темы
-  .cw-qv-thumb {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-    transition: outline-color .15s;
-
-    &.active,
-    &:hover {
-      outline-color: var(--#{$prefix}primary);
-    }
-  }
-}
+// Quick View — только то, чего нет в Bootstrap и теме
 
 // Состояние загрузки на кнопке карточки
 .item-view.cw-qv-loading {

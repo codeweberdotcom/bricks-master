@@ -27,8 +27,6 @@ $all_image_ids = array_merge(
 	$gallery_ids
 );
 $has_gallery   = count( $all_image_ids ) > 1;
-
-$carousel_id = 'cw-qv-carousel-' . $product_id;
 ?>
 
 <div class="row g-0">
@@ -38,31 +36,39 @@ $carousel_id = 'cw-qv-carousel-' . $product_id;
 
 		<?php if ( ! empty( $all_image_ids ) ) : ?>
 
-			<div id="<?php echo esc_attr( $carousel_id ); ?>" class="carousel slide" data-bs-ride="false">
-				<div class="carousel-inner">
-					<?php foreach ( $all_image_ids as $i => $img_id ) : ?>
-						<div class="carousel-item<?php echo 0 === $i ? ' active' : ''; ?>">
-							<a href="<?php echo esc_url( $product_url ); ?>">
-								<?php echo wp_get_attachment_image( $img_id, 'woocommerce_single', false, array( 'class' => 'd-block w-100' ) ); ?>
-							</a>
-						</div>
-					<?php endforeach; ?>
-				</div>
-			</div>
+			<div class="swiper-container swiper-thumbs-container dots-over"
+			     data-margin="10"
+			     data-dots="false"
+			     data-nav="<?php echo $has_gallery ? 'true' : 'false'; ?>"
+			     data-thumbs="<?php echo $has_gallery ? 'true' : 'false'; ?>">
 
-			<?php if ( $has_gallery ) : ?>
-				<div class="d-flex gap-2 flex-wrap p-3 pt-0">
-					<?php foreach ( $all_image_ids as $i => $img_id ) : ?>
-						<button type="button"
-						        class="cw-qv-thumb p-0 border-0 bg-transparent rounded overflow-hidden<?php echo 0 === $i ? ' active' : ''; ?>"
-						        data-bs-target="#<?php echo esc_attr( $carousel_id ); ?>"
-						        data-bs-slide-to="<?php echo esc_attr( $i ); ?>"
-						        aria-label="<?php echo esc_attr( sprintf( __( 'Slide %d', 'codeweber' ), $i + 1 ) ); ?>">
-							<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, array( 'class' => 'd-block' ) ); ?>
-						</button>
-					<?php endforeach; ?>
+				<div class="swiper">
+					<div class="swiper-wrapper">
+						<?php foreach ( $all_image_ids as $img_id ) : ?>
+							<div class="swiper-slide">
+								<figure class="rounded m-0">
+									<a href="<?php echo esc_url( $product_url ); ?>">
+										<?php echo wp_get_attachment_image( $img_id, 'woocommerce_single', false, array( 'class' => 'w-100' ) ); ?>
+									</a>
+								</figure>
+							</div>
+						<?php endforeach; ?>
+					</div>
 				</div>
-			<?php endif; ?>
+
+				<?php if ( $has_gallery ) : ?>
+					<div class="swiper swiper-thumbs">
+						<div class="swiper-wrapper">
+							<?php foreach ( $all_image_ids as $img_id ) : ?>
+								<div class="swiper-slide">
+									<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, array( 'class' => 'rounded' ) ); ?>
+								</div>
+							<?php endforeach; ?>
+						</div>
+					</div>
+				<?php endif; ?>
+
+			</div>
 
 		<?php else : ?>
 			<div class="d-flex align-items-center justify-content-center" style="min-height:300px;">

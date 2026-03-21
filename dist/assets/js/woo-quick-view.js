@@ -1,4 +1,4 @@
-/* global cwQuickView, bootstrap */
+/* global cwQuickView, bootstrap, Swiper */
 (function () {
 	'use strict';
 
@@ -23,6 +23,72 @@
 	}
 
 	/**
+	 * Инициализируем Swiper с миниатюрами — повторяет логику theme.swiperSlider()
+	 * но только для переданного контейнера.
+	 */
+	function initSwiper(container) {
+		var slider1 = container.querySelector('.swiper-container');
+		if (!slider1) return;
+
+		var swiperEl   = slider1.querySelector('.swiper:not(.swiper-thumbs)');
+		var swiperThEl = slider1.querySelector('.swiper-thumbs');
+		if (!swiperEl) return;
+
+		// Создаём контролы навигации (как в theme.swiperSlider)
+		var controls = document.createElement('div');
+		controls.className = 'swiper-controls';
+		var navi = document.createElement('div');
+		navi.className = 'swiper-navigation';
+		var prev = document.createElement('div');
+		prev.className = 'swiper-button swiper-button-prev';
+		var next = document.createElement('div');
+		next.className = 'swiper-button swiper-button-next';
+		navi.appendChild(prev);
+		navi.appendChild(next);
+		controls.appendChild(navi);
+		slider1.appendChild(controls);
+
+		var thumbsSwiper = null;
+
+		if (swiperThEl && slider1.getAttribute('data-thumbs') === 'true') {
+			thumbsSwiper = new Swiper(swiperThEl, {
+				slidesPerView: 5,
+				spaceBetween: 10,
+				loop: false,
+				threshold: 2,
+				slideToClickedSlide: true,
+			});
+
+			// Оборачиваем основной swiper в swiper-main, контролы переносим туда
+			var swiperMain = document.createElement('div');
+			swiperMain.className = 'swiper-main';
+			swiperEl.parentNode.insertBefore(swiperMain, swiperEl);
+			swiperMain.appendChild(swiperEl);
+			slider1.removeChild(controls);
+			swiperMain.appendChild(controls);
+		}
+
+		new Swiper(swiperEl, {
+			loop: false,
+			slidesPerView: 1,
+			spaceBetween: Number(slider1.getAttribute('data-margin') || 10),
+			grabCursor: true,
+			navigation: {
+				prevEl: prev,
+				nextEl: next,
+			},
+			thumbs: {
+				swiper: thumbsSwiper,
+			},
+			on: {
+				init: function () {
+					this.update();
+				},
+			},
+		});
+	}
+
+	/**
 	 * Загружаем контент товара через AJAX и показываем модал.
 	 */
 	function loadProduct(productId, triggerBtn) {
@@ -30,7 +96,6 @@
 		var body   = document.getElementById('cw-quick-view-body');
 		if (!modal || !body) return;
 
-		// Показываем модал со спиннером
 		body.innerHTML =
 			'<div class="d-flex align-items-center justify-content-center" style="min-height:320px;">' +
 				'<div class="spinner-border text-primary" role="status">' +
@@ -54,13 +119,9 @@
 				if (data && data.success && data.data) {
 					body.innerHTML = data.data;
 
-					// Активируем carousel thumbnail-кнопки
-					initThumbSync(body);
-
-					// Инициализируем форму вариаций
+					initSwiper(body);
 					initVariationForm(body);
 
-					// Сообщаем WooCommerce о новом контенте
 					if (typeof jQuery !== 'undefined') {
 						jQuery(document.body).trigger('wc_fragment_refresh');
 					}
@@ -74,21 +135,6 @@
 			.finally(function () {
 				if (triggerBtn) triggerBtn.classList.remove('cw-qv-loading');
 			});
-	}
-
-	/**
-	 * Синхронизируем активный класс миниатюр с Bootstrap Carousel.
-	 */
-	function initThumbSync(container) {
-		var carousel = container.querySelector('.cw-qv-carousel');
-		if (!carousel) return;
-
-		carousel.addEventListener('slide.bs.carousel', function (e) {
-			var thumbs = container.querySelectorAll('.cw-qv-thumb');
-			thumbs.forEach(function (t, i) {
-				t.classList.toggle('active', i === e.to);
-			});
-		});
 	}
 
 	/**

@@ -683,7 +683,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script(
 		'cw-woo-review',
 		$dist_url,
-		[],
+		[ 'jquery' ],
 		codeweber_asset_version( $dist_path ),
 		true
 	);
@@ -696,6 +696,12 @@ add_action( 'wp_enqueue_scripts', function () {
 			'error'          => __( 'Something went wrong. Please try again.', 'codeweber' ),
 		],
 	] );
+
+	// Отключаем нативный alert WooCommerce для рейтинга — валидация на нашей стороне (JS + PHP).
+	wp_add_inline_script(
+		'wc-single-product',
+		'if(typeof wc_single_product_params!=="undefined"){wc_single_product_params.review_rating_required="no";}'
+	);
 }, 30 );
 
 // ── WooCommerce Quick View ──────────────────────────────────────────────────────

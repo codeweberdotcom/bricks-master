@@ -124,6 +124,9 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 	<a href="#"
 	   class="cw-wishlist-remove ms-auto mb-2 lh-1 text-ash"
 	   data-product-id="<?php echo esc_attr( $product_id ); ?>"
+	   data-bs-toggle="tooltip"
+	   data-bs-placement="left"
+	   title="<?php esc_attr_e( 'Remove from Wishlist', 'codeweber' ); ?>"
 	   aria-label="<?php esc_attr_e( 'Remove from Wishlist', 'codeweber' ); ?>"
 	><i class="uil uil-times"></i></a>
 <?php endif; ?>
