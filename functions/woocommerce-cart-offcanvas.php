@@ -9,18 +9,25 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// ── Cart Fragment ─────────────────────────────────────────────────────────────
-// Ключ '.cw-offcanvas-cart-inner' — CSS-селектор элемента в DOM.
-// WC заменяет элемент в DOM при каждом обновлении корзины (added_to_cart, wc_fragment_refresh).
+// ── Cart Fragments ────────────────────────────────────────────────────────────
+// Регистрируем два фрагмента:
+//   1. '.cw-offcanvas-cart-inner'  — список товаров + итого
+//   2. '.badge-cart'               — счётчик товаров в шапке
+// WC заменяет эти элементы в DOM при каждом изменении корзины.
 
 add_filter( 'woocommerce_add_to_cart_fragments', 'cw_cart_offcanvas_fragment' );
 
 function cw_cart_offcanvas_fragment( $fragments ) {
+	// Фрагмент 1: содержимое корзины
 	ob_start();
 	get_template_part( 'templates/woocommerce/offcanvas-cart-items' );
-	$html = ob_get_clean();
+	$fragments['.cw-offcanvas-cart-inner'] = ob_get_clean();
 
-	$fragments['.cw-offcanvas-cart-inner'] = $html;
+	// Фрагмент 2: счётчик товаров (.badge-cart в шапке)
+	$count = WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
+	$fragments['.badge-cart'] = '<span class="badge badge-cart bg-primary"'
+		. ( 0 === $count ? ' style="display:none"' : '' )
+		. '>' . esc_html( $count ) . '</span>';
 
 	return $fragments;
 }
@@ -64,30 +71,27 @@ function cw_ajax_add_to_cart() {
 	WC()->cart->calculate_totals();
 	wc_clear_notices();
 
+	// Возвращаем фрагменты сразу — JS не делает второй запрос
+	ob_start();
+	get_template_part( 'templates/woocommerce/offcanvas-cart-items' );
+	$cart_html = ob_get_clean();
+
+	$count = WC()->cart->get_cart_contents_count();
+
 	wp_send_json_success( array(
-		'cart_count' => WC()->cart->get_cart_contents_count(),
+		'cart_html'  => $cart_html,
+		'cart_count' => $count,
 		'cart_hash'  => WC()->cart->get_cart_hash(),
 	) );
 }
 
 // ── Footer: offcanvas container ───────────────────────────────────────────────
-// Только на WooCommerce-страницах — по образцу cw_quick_view_modal_container.
+// Рендерим на ВСЕХ страницах — кнопка корзины есть в шапке везде.
 
 add_action( 'wp_footer', 'cw_cart_offcanvas_container' );
 
 function cw_cart_offcanvas_container() {
-	if ( ! function_exists( 'is_woocommerce' ) ) {
-		return;
-	}
-	if (
-		! is_woocommerce() &&
-		! is_shop() &&
-		! is_product_category() &&
-		! is_product_tag() &&
-		! is_cart() &&
-		! is_checkout() &&
-		! ( function_exists( 'cw_is_wishlist_page' ) && cw_is_wishlist_page() )
-	) {
+	if ( ! function_exists( 'WC' ) ) {
 		return;
 	}
 	?>
@@ -118,22 +122,12 @@ function cw_cart_offcanvas_container() {
 }
 
 // ── Enqueue JS ────────────────────────────────────────────────────────────────
+// Грузим на ВСЕХ страницах — offcanvas и слушатели событий нужны везде.
 
 add_action( 'wp_enqueue_scripts', 'cw_cart_offcanvas_enqueue', 36 );
 
 function cw_cart_offcanvas_enqueue() {
-	if ( ! function_exists( 'is_woocommerce' ) ) {
-		return;
-	}
-	if (
-		! is_woocommerce() &&
-		! is_shop() &&
-		! is_product_category() &&
-		! is_product_tag() &&
-		! is_cart() &&
-		! is_checkout() &&
-		! ( function_exists( 'cw_is_wishlist_page' ) && cw_is_wishlist_page() )
-	) {
+	if ( ! function_exists( 'WC' ) ) {
 		return;
 	}
 
@@ -144,10 +138,11 @@ function cw_cart_offcanvas_enqueue() {
 		return;
 	}
 
+	// Зависимость wc-add-to-cart нужна для события added_to_cart на архивах
 	wp_enqueue_script(
 		'cw-cart-offcanvas',
 		$dist_url,
-		array( 'jquery', 'wc-cart-fragments' ),
+		array( 'jquery', 'wc-add-to-cart' ),
 		codeweber_asset_version( $dist_path ),
 		true
 	);
