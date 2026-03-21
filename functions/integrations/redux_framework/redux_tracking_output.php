@@ -22,6 +22,16 @@ add_action('wp_head', function () {
    // Отладка: раскомментируйте, чтобы в исходном коде страницы увидеть, доходят ли опции.
    // echo "\n<!-- redux_tracking: keys=" . implode(',', array_keys(array_intersect_key($opts, array_flip(['yandex-on','google-analytics-on','google-tag-manager-on','facebook-pixel-on','hotjar-on','other-analytics-on'])))) . " -->\n";
 
+   // GDPR-режим: не выводить трекинг до согласия пользователя
+   if ( isset( $opts['cookie_compliance_mode'] ) && $opts['cookie_compliance_mode'] === 'gdpr' ) {
+      $host        = parse_url( home_url(), PHP_URL_HOST );
+      $version     = ! empty( $opts['cookie_version'] ) ? (int) $opts['cookie_version'] : 1;
+      $cookie_name = 'user_cookie_consent_' . md5( $host ) . '_v' . $version;
+      if ( empty( $_COOKIE[ $cookie_name ] ) ) {
+         return;
+      }
+   }
+
    $codes = [];
 
    if (!empty($opts['yandex-on'])) {

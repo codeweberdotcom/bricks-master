@@ -720,6 +720,27 @@ Redux::set_section(
 			),
 
 			array(
+				'id'      => 'cookie_compliance_mode',
+				'type'    => 'select',
+				'title'   => __('Compliance Mode', 'codeweber'),
+				'desc'    => __('РФ — баннер информирует, трекинг работает сразу. GDPR — трекинг блокируется до согласия пользователя.', 'codeweber'),
+				'options' => array(
+					'ru'   => __('РФ (152-ФЗ)', 'codeweber'),
+					'gdpr' => __('GDPR (EU)', 'codeweber'),
+				),
+				'default' => 'ru',
+			),
+
+			array(
+				'id'         => 'cookie_version',
+				'type'       => 'text',
+				'title'      => __('Cookie Version', 'codeweber'),
+				'desc'       => __('Увеличьте значение, чтобы показать баннер повторно всем посетителям (например, при обновлении политики).', 'codeweber'),
+				'default'    => '1',
+				'attributes' => array( 'type' => 'number' ),
+			),
+
+			array(
 				'id'      => 'cookie_expiration_date',
 				'type'    => 'text',
 				'title'   => __('Cookie Expiration Date', 'codeweber'),

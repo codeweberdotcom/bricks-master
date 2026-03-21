@@ -13,9 +13,10 @@ add_action('wp_footer', function () {
    $cookie_days = (int) Redux::get_option($opt_name, 'cookie_expiration_date');
    if ($cookie_days <= 0) $cookie_days = 180;
 
-   // Уникальное имя куки (на основе домена)
+   // Уникальное имя куки (на основе домена + версии)
    $host = parse_url(home_url(), PHP_URL_HOST);
-   $cookie_name = 'user_cookie_consent_' . md5($host);
+   $cookie_version = (int) Redux::get_option($opt_name, 'cookie_version') ?: 1;
+   $cookie_name = 'user_cookie_consent_' . md5($host) . '_v' . $cookie_version;
 
    // Текущий URL
    $current_url = home_url(add_query_arg([], $_SERVER['REQUEST_URI']));
