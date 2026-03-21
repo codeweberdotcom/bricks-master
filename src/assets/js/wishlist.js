@@ -106,7 +106,8 @@
 						CWWishlist.updateCountWidget( response.data.count );
 						if ( showModal ) {
 							CWWishlist.showWishlistModal( response.data.product_name || '' );
-						} else if ( showToast && typeof CWNotify !== 'undefined' ) {
+						}
+						if ( showToast && typeof CWNotify !== 'undefined' ) {
 							CWNotify.show( cwWishlist.i18n.added, { type: 'success', event: 'wishlist' } );
 						}
 					}
@@ -242,10 +243,10 @@
 							'<h5 class="mb-1">' + ( i18n.addedTitle || 'Added to Wishlist' ) + '</h5>' +
 							'<p class="text-ash text-break mb-5 cw-wishlist-modal__name"></p>' +
 							'<div class="d-flex gap-2 justify-content-center flex-wrap">' +
-								'<button type="button" class="btn btn-sm btn-outline-ash ' + btnShape + '" data-bs-dismiss="modal">' +
+								'<button type="button" class="btn btn-sm btn-outline-ash has-ripple' + (btnShape ? ' ' + btnShape : '') + '" data-bs-dismiss="modal">' +
 									( i18n.continueShopping || 'Continue Shopping' ) +
 								'</button>' +
-								'<a href="' + cwWishlist.wishlistUrl + '" class="btn btn-sm btn-primary ' + btnShape + '">' +
+								'<a href="' + cwWishlist.wishlistUrl + '" class="btn btn-sm btn-primary has-ripple' + (btnShape ? ' ' + btnShape : '') + '">' +
 									( i18n.goToWishlist || 'Go to Wishlist' ) +
 								'</a>' +
 							'</div>' +
