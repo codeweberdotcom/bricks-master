@@ -211,6 +211,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let modalInstance = null;
   if (modalElement && modalContent && modalDialog && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
     modalInstance = new bootstrap.Modal(modalElement);
+
+    // Сброс контента после закрытия — предотвращает показ устаревшего содержимого
+    // (сообщение "заявка отправлена", предыдущая форма) при следующем открытии
+    modalElement.addEventListener('hidden.bs.modal', () => {
+      modalContent.innerHTML = '<div class="modal-loader"></div>';
+      applyModalSize('');
+    });
   }
   
   // ============================================
@@ -588,6 +595,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (cachedSize) {
               applyModalSize(cachedSize);
             }
+            // Сбрасываем контент перед открытием — показываем лоадер вместо старого содержимого
+            modalContent.innerHTML = '<div class="modal-loader"></div>';
             // Open modal
             modalInstance.show();
           }
@@ -608,7 +617,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cachedSize) {
         applyModalSize(cachedSize);
       }
-      
+
+      // Сбрасываем контент перед открытием — показываем лоадер вместо старого содержимого
+      modalContent.innerHTML = '<div class="modal-loader"></div>';
+
       // Open modal immediately
       modalInstance.show();
       
