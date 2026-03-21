@@ -403,6 +403,47 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
+   * Returns skeleton HTML based on modal data-value type.
+   * Forms (cf7-, cf-, add-testimonial) → form skeleton.
+   * Everything else (CPT modals, notifications) → generic content skeleton.
+   * @param {string} dataValue
+   * @returns {string}
+   */
+  const getModalSkeleton = (dataValue) => {
+    const isForm = dataValue && (
+      dataValue.startsWith('cf7-') ||
+      dataValue.startsWith('cf-') ||
+      dataValue === 'add-testimonial'
+    );
+
+    if (isForm) {
+      return (
+        '<div class="p-2">' +
+          '<div class="cw-skeleton-block mb-4" style="height:1.4em;width:55%"></div>' +
+          '<div class="cw-skeleton-block mb-3" style="height:2.6em;width:100%"></div>' +
+          '<div class="cw-skeleton-block mb-3" style="height:2.6em;width:100%"></div>' +
+          '<div class="cw-skeleton-block mb-4" style="height:5em;width:100%"></div>' +
+          '<div class="cw-skeleton-block" style="height:2.8em;width:40%"></div>' +
+        '</div>'
+      );
+    }
+
+    // Generic content skeleton — CPT modals, notifications, etc.
+    return (
+      '<div class="p-2">' +
+        '<div class="cw-skeleton-block mb-3" style="height:1.4em;width:65%"></div>' +
+        '<div class="cw-skeleton-block mb-2" style="height:.8em;width:100%"></div>' +
+        '<div class="cw-skeleton-block mb-2" style="height:.8em;width:92%"></div>' +
+        '<div class="cw-skeleton-block mb-2" style="height:.8em;width:85%"></div>' +
+        '<div class="cw-skeleton-block mb-4" style="height:.8em;width:68%"></div>' +
+        '<div class="cw-skeleton-block mb-2" style="height:.8em;width:100%"></div>' +
+        '<div class="cw-skeleton-block mb-2" style="height:.8em;width:88%"></div>' +
+        '<div class="cw-skeleton-block" style="height:.8em;width:55%"></div>' +
+      '</div>'
+    );
+  };
+
+  /**
    * Initialize testimonial rating stars
    */
   function initTestimonialRatingStars() {
@@ -595,8 +636,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (cachedSize) {
               applyModalSize(cachedSize);
             }
-            // Сбрасываем контент перед открытием — показываем лоадер вместо старого содержимого
-            modalContent.innerHTML = '<div class="modal-loader"></div>';
+            // Показываем скелетон перед открытием (тип зависит от data-value)
+            modalContent.innerHTML = getModalSkeleton(dataValue);
             // Open modal
             modalInstance.show();
           }
@@ -618,8 +659,8 @@ document.addEventListener("DOMContentLoaded", () => {
         applyModalSize(cachedSize);
       }
 
-      // Сбрасываем контент перед открытием — показываем лоадер вместо старого содержимого
-      modalContent.innerHTML = '<div class="modal-loader"></div>';
+      // Показываем скелетон перед открытием (тип зависит от data-value)
+      modalContent.innerHTML = getModalSkeleton(dataValue);
 
       // Open modal immediately
       modalInstance.show();
