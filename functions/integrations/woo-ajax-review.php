@@ -32,7 +32,7 @@ function cw_ajax_submit_review() {
 
 	// ── Базовая валидация ─────────────────────────────────────────────────────
 	if ( ! $post_id || empty( $content ) ) {
-		wp_send_json_error( [ 'message' => __( 'Please fill in required fields.', 'woocommerce' ) ] );
+		wp_send_json_error( [ 'message' => __( 'Please fill in required fields.', 'codeweber' ) ] );
 	}
 
 	$product = wc_get_product( $post_id );

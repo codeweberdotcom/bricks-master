@@ -36,11 +36,10 @@ $has_gallery   = count( $all_image_ids ) > 1;
 
 		<?php if ( ! empty( $all_image_ids ) ) : ?>
 
-			<div class="swiper-container swiper-thumbs-container dots-over"
-			     data-margin="10"
-			     data-dots="false"
-			     data-nav="<?php echo $has_gallery ? 'true' : 'false'; ?>"
-			     data-thumbs="<?php echo $has_gallery ? 'true' : 'false'; ?>">
+			<div class="swiper-container"
+			     data-margin="0"
+			     data-dots="<?php echo $has_gallery ? 'true' : 'false'; ?>"
+			     data-nav="<?php echo $has_gallery ? 'true' : 'false'; ?>">
 
 				<div class="swiper">
 					<div class="swiper-wrapper">
@@ -55,18 +54,6 @@ $has_gallery   = count( $all_image_ids ) > 1;
 						<?php endforeach; ?>
 					</div>
 				</div>
-
-				<?php if ( $has_gallery ) : ?>
-					<div class="swiper swiper-thumbs">
-						<div class="swiper-wrapper">
-							<?php foreach ( $all_image_ids as $img_id ) : ?>
-								<div class="swiper-slide">
-									<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, array( 'class' => 'rounded' ) ); ?>
-								</div>
-							<?php endforeach; ?>
-						</div>
-					</div>
-				<?php endif; ?>
 
 			</div>
 

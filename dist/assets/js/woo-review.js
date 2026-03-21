@@ -1,93 +1,99 @@
+/* global cwReview, CWNotify, wc_single_product_params */
 /**
  * WooCommerce AJAX Review Submission
  *
- * Перехватывает форму отзыва и отправляет через admin-ajax.php.
- * Локализованный объект: cwReview { ajaxUrl, nonce, errorText }
+ * Паттерн: wishlist.js (jQuery + CWNotify)
+ * Перехват в capture-фазе — блокирует нативный alert() WooCommerce.
  */
-( function () {
+( function ( $ ) {
 	'use strict';
 
-	const form = document.querySelector( '#review_form .comment-form' );
-	if ( ! form ) return;
+	var $form = $( '#review_form .comment-form' );
+	if ( ! $form.length ) return;
 
-	form.addEventListener( 'submit', function ( e ) {
+	// Отключаем браузерную нативную валидацию (required-тултипы у кнопки).
+	// Всю валидацию берём на себя — JS + сервер.
+	$form.attr( 'novalidate', 'novalidate' );
+
+	// capture:true — наш обработчик срабатывает ДО jQuery-хендлера WooCommerce
+	$form[ 0 ].addEventListener( 'submit', function ( e ) {
 		e.preventDefault();
+		e.stopPropagation();
 
-		const submitBtn = form.querySelector( '[type="submit"]' );
-		submitBtn.disabled = true;
-		submitBtn.classList.add( 'loading' );
+		var ratingVal  = $form.find( '#rating' ).val();
+		var isRequired = ( typeof wc_single_product_params !== 'undefined' )
+			? wc_single_product_params.review_rating_required === 'yes'
+			: true;
 
-		const data = new FormData();
-		data.append( 'action',          'cw_submit_review' );
-		data.append( 'nonce',           cwReview.nonce );
-		data.append( 'comment_post_ID', form.querySelector( '#comment_post_ID' )?.value || '' );
-		data.append( 'comment',         form.querySelector( '#comment' )?.value || '' );
-		data.append( 'rating',          form.querySelector( '#rating' )?.value || '' );
-		data.append( 'author',          form.querySelector( '#author' )?.value || '' );
-		data.append( 'email',           form.querySelector( '#email' )?.value || '' );
+		if ( isRequired && ! ratingVal ) {
+			if ( typeof CWNotify !== 'undefined' ) {
+				CWNotify.show( cwReview.i18n.ratingRequired, { type: 'danger', event: 'review' } );
+			}
+			return;
+		}
 
-		fetch( cwReview.ajaxUrl, { method: 'POST', body: data } )
-			.then( function ( res ) { return res.json(); } )
-			.then( function ( json ) {
-				submitBtn.disabled = false;
-				submitBtn.classList.remove( 'loading' );
+		var $submitBtn = $form.find( '[type="submit"]' );
+		$submitBtn.prop( 'disabled', true ).addClass( 'loading' );
 
-				if ( json.success ) {
-					showMessage( form, json.data.message, 'success' );
+		$.ajax( {
+			url:    cwReview.ajaxUrl,
+			method: 'POST',
+			data:   {
+				action:          'cw_submit_review',
+				nonce:           cwReview.nonce,
+				comment_post_ID: $form.find( '#comment_post_ID' ).val(),
+				comment:         $form.find( '#comment' ).val(),
+				rating:          ratingVal,
+				author:          $form.find( '#author' ).val(),
+				email:           $form.find( '#email' ).val(),
+			},
+			success: function ( response ) {
+				if ( response.success ) {
+					if ( typeof CWNotify !== 'undefined' ) {
+						CWNotify.show( response.data.message, { type: 'success', event: 'review' } );
+					}
 
-					if ( json.data.status === 'approved' && json.data.html ) {
-						var commentList = document.querySelector( '.commentlist' );
-						if ( commentList ) {
-							commentList.insertAdjacentHTML( 'afterbegin', json.data.html );
+					if ( response.data.status === 'approved' && response.data.html ) {
+						var $list = $( '.commentlist' );
+						if ( $list.length ) {
+							$list.prepend( response.data.html );
 						} else {
-							var listEl = document.createElement( 'ol' );
-							listEl.className = 'commentlist';
-							listEl.innerHTML = json.data.html;
-							var noReviews = document.querySelector( '.woocommerce-noreviews' );
-							if ( noReviews ) {
-								noReviews.replaceWith( listEl );
+							var $newList = $( '<ol class="commentlist"></ol>' ).html( response.data.html );
+							var $noReviews = $( '.woocommerce-noreviews' );
+							if ( $noReviews.length ) {
+								$noReviews.replaceWith( $newList );
 							} else {
-								var commentsDiv = document.querySelector( '#comments' );
-								if ( commentsDiv ) commentsDiv.prepend( listEl );
+								$( '#comments' ).prepend( $newList );
 							}
 						}
 					}
 
-					form.reset();
+					$form[ 0 ].reset();
 
-					// Сбросить WC stars UI
-					var stars = form.querySelector( '.stars' );
-					if ( stars ) {
-						stars.classList.remove( 'selected' );
-						stars.querySelectorAll( 'a' ).forEach( function ( a ) {
-							a.classList.remove( 'active' );
-						} );
-					}
+					// Сброс WC stars UI
+					$form.find( '.stars' )
+						.removeClass( 'selected' )
+						.find( 'a' ).removeClass( 'active' );
 
 				} else {
-					showMessage( form, ( json.data && json.data.message ) ? json.data.message : cwReview.errorText, 'danger' );
+					var errMsg = ( response.data && response.data.message )
+						? response.data.message
+						: cwReview.i18n.error;
+					if ( typeof CWNotify !== 'undefined' ) {
+						CWNotify.show( errMsg, { type: 'danger', event: 'review' } );
+					}
 				}
-			} )
-			.catch( function () {
-				submitBtn.disabled = false;
-				submitBtn.classList.remove( 'loading' );
-				showMessage( form, cwReview.errorText, 'danger' );
-			} );
-	} );
+			},
+			error: function () {
+				if ( typeof CWNotify !== 'undefined' ) {
+					CWNotify.show( cwReview.i18n.error, { type: 'danger', event: 'review' } );
+				}
+			},
+			complete: function () {
+				$submitBtn.prop( 'disabled', false ).removeClass( 'loading' );
+			},
+		} );
 
-	function showMessage( form, text, type ) {
-		var old = form.querySelector( '.cw-review-notice' );
-		if ( old ) old.remove();
+	}, true ); // true = capture phase
 
-		var div = document.createElement( 'div' );
-		div.className = 'alert alert-' + type + ' cw-review-notice mt-3';
-		div.textContent = text;
-
-		var submitWrap = form.querySelector( '.form-submit' );
-		if ( submitWrap ) {
-			submitWrap.insertAdjacentElement( 'beforebegin', div );
-		} else {
-			form.appendChild( div );
-		}
-	}
-} )();
+} )( jQuery );

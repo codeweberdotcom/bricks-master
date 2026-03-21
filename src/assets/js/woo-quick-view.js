@@ -23,20 +23,21 @@
 	}
 
 	/**
-	 * Инициализируем Swiper с миниатюрами — повторяет логику theme.swiperSlider()
+	 * Инициализируем Swiper галерею — повторяет логику theme.swiperSlider()
 	 * но только для переданного контейнера.
 	 */
 	function initSwiper(container) {
 		var slider1 = container.querySelector('.swiper-container');
 		if (!slider1) return;
 
-		var swiperEl   = slider1.querySelector('.swiper:not(.swiper-thumbs)');
-		var swiperThEl = slider1.querySelector('.swiper-thumbs');
+		var swiperEl = slider1.querySelector('.swiper');
 		if (!swiperEl) return;
 
 		// Создаём контролы навигации (как в theme.swiperSlider)
 		var controls = document.createElement('div');
 		controls.className = 'swiper-controls';
+		var pagi = document.createElement('div');
+		pagi.className = 'swiper-pagination';
 		var navi = document.createElement('div');
 		navi.className = 'swiper-navigation';
 		var prev = document.createElement('div');
@@ -46,41 +47,28 @@
 		navi.appendChild(prev);
 		navi.appendChild(next);
 		controls.appendChild(navi);
+		controls.appendChild(pagi);
 		slider1.appendChild(controls);
-
-		var thumbsSwiper = null;
-
-		if (swiperThEl && slider1.getAttribute('data-thumbs') === 'true') {
-			thumbsSwiper = new Swiper(swiperThEl, {
-				slidesPerView: 5,
-				spaceBetween: 10,
-				loop: false,
-				threshold: 2,
-				slideToClickedSlide: true,
-			});
-
-			// Оборачиваем основной swiper в swiper-main, контролы переносим туда
-			var swiperMain = document.createElement('div');
-			swiperMain.className = 'swiper-main';
-			swiperEl.parentNode.insertBefore(swiperMain, swiperEl);
-			swiperMain.appendChild(swiperEl);
-			slider1.removeChild(controls);
-			swiperMain.appendChild(controls);
-		}
 
 		new Swiper(swiperEl, {
 			loop: false,
 			slidesPerView: 1,
-			spaceBetween: Number(slider1.getAttribute('data-margin') || 10),
+			spaceBetween: Number(slider1.getAttribute('data-margin') || 0),
 			grabCursor: true,
 			navigation: {
 				prevEl: prev,
 				nextEl: next,
 			},
-			thumbs: {
-				swiper: thumbsSwiper,
+			pagination: {
+				el: pagi,
+				clickable: true,
 			},
 			on: {
+				beforeInit: function () {
+					if (slider1.getAttribute('data-nav') !== 'true') navi.remove();
+					if (slider1.getAttribute('data-dots') !== 'true') pagi.remove();
+					if (slider1.getAttribute('data-nav') !== 'true' && slider1.getAttribute('data-dots') !== 'true') controls.remove();
+				},
 				init: function () {
 					this.update();
 				},

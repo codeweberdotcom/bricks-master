@@ -7,6 +7,20 @@
 		init: function () {
 			this.updateCountWidget( cwWishlist.count || 0 );
 			this.bindEvents();
+			this.initTooltips();
+		},
+
+		initTooltips: function () {
+			if (typeof bootstrap === 'undefined' || typeof bootstrap.Tooltip === 'undefined') { return; }
+			document.querySelectorAll('.cw-wishlist-card [data-bs-toggle="white-tooltip"], .cw-wishlist-card [data-bs-toggle="tooltip"]').forEach(function (el) {
+				var existing = bootstrap.Tooltip.getInstance(el);
+				if (existing) { existing.dispose(); }
+				new bootstrap.Tooltip(el, {
+					customClass: el.getAttribute('data-bs-toggle') === 'white-tooltip' ? 'white-tooltip' : '',
+					trigger: 'hover',
+					placement: el.dataset.bsPlacement || 'left',
+				});
+			});
 		},
 
 		bindEvents: function () {

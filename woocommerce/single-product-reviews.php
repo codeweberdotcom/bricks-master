@@ -34,8 +34,8 @@ $commenter    = wp_get_current_commenter();
 			$pages = paginate_comments_links( [
 				'echo'      => false,
 				'type'      => 'array',
-				'prev_text' => '<span aria-hidden="true"><i class="uil uil-arrow-left"></i></span>',
-				'next_text' => '<span aria-hidden="true"><i class="uil uil-arrow-right"></i></span>',
+				'prev_text' => '',
+				'next_text' => '',
 			] );
 			if ( is_array( $pages ) ) :
 		?>
