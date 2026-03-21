@@ -25,4 +25,4 @@ if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
 	}
 }
 
-get_template_part( 'templates/post-cards/product/' . $template );
+get_template_part( 'templates/woocommerce/cards/' . $template );
