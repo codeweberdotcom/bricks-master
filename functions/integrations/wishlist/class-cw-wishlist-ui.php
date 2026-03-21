@@ -176,7 +176,7 @@ class CW_Wishlist_UI {
 				<div class="grid grid-view projects-masonry shop">
 					<div class="row <?php echo esc_attr( class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13' ); ?> cw-wishlist-grid">
 						<?php
-						$card_tpl = get_template_directory() . '/templates/post-cards/product/shop2.php';
+						$card_tpl = get_template_directory() . '/templates/woocommerce/cards/shop2.php';
 
 						foreach ( $product_ids as $pid ) {
 							$pid     = (int) $pid;
