@@ -209,42 +209,22 @@
     }
     
     /**
-     * Показывает индикатор загрузки (тот же .spinner.spinner-overlay, что и у Yandex Map)
+     * Показывает shimmer-overlay через CSS-класс .filter-loading
      */
     function showLoading(container) {
-        container.classList.add('filter-loading');
-        container.style.pointerEvents = 'none';
         var position = window.getComputedStyle(container).position;
         if (position === 'static' || !position) {
             container.style.position = 'relative';
         }
-        var loader = container.querySelector('.spinner.spinner-overlay');
-        if (loader) {
-            loader.classList.remove('done');
-            loader.style.display = '';
-            return;
-        }
-        loader = document.createElement('div');
-        loader.className = 'spinner spinner-overlay';
-        loader.setAttribute('aria-hidden', 'false');
-        container.appendChild(loader);
+        container.classList.add('filter-loading');
     }
-    
+
     /**
-     * Скрывает индикатор загрузки
+     * Убирает shimmer-overlay
      */
     function hideLoading(container) {
-        container.style.pointerEvents = 'auto';
         container.classList.remove('filter-loading');
-        var loader = container.querySelector('.spinner.spinner-overlay');
-        if (loader) {
-            loader.classList.add('done');
-            setTimeout(function() {
-                if (loader.parentNode) {
-                    loader.parentNode.removeChild(loader);
-                }
-            }, 300);
-        }
+        container.style.pointerEvents = '';
     }
     
     /**

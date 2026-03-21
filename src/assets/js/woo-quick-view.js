@@ -86,9 +86,59 @@
 		if (!modal || !body) return;
 
 		body.innerHTML =
-			'<div class="d-flex align-items-center justify-content-center" style="min-height:320px;">' +
-				'<div class="spinner-border text-primary" role="status">' +
-					'<span class="visually-hidden">' + cwQuickView.i18n.loading + '</span>' +
+			'<div class="row g-0">' +
+
+				// Левая колонка: изображение (квадрат)
+				'<div class="col-md-6 bg-light">' +
+					'<div class="cw-skeleton-block w-100" style="aspect-ratio:1/1;min-height:280px;border-radius:0;"></div>' +
+				'</div>' +
+
+				// Правая колонка: summary — p-4 p-lg-5 как в шаблоне
+				'<div class="col-md-6 p-4 p-lg-5">' +
+
+					// Заголовок (2 строки)
+					'<div class="cw-skeleton-block mb-2" style="height:1.5em;width:80%"></div>' +
+					'<div class="cw-skeleton-block mb-4" style="height:1.5em;width:55%"></div>' +
+
+					// Рейтинг: 5 звёзд + текст
+					'<div class="d-flex gap-1 align-items-center mb-3">' +
+						'<div class="cw-skeleton-block" style="height:.95em;width:.95em;flex-shrink:0;"></div>' +
+						'<div class="cw-skeleton-block" style="height:.95em;width:.95em;flex-shrink:0;"></div>' +
+						'<div class="cw-skeleton-block" style="height:.95em;width:.95em;flex-shrink:0;"></div>' +
+						'<div class="cw-skeleton-block" style="height:.95em;width:.95em;flex-shrink:0;"></div>' +
+						'<div class="cw-skeleton-block" style="height:.95em;width:.95em;flex-shrink:0;"></div>' +
+						'<div class="cw-skeleton-block ms-2" style="height:.8em;width:55px;"></div>' +
+					'</div>' +
+
+					// Цена
+					'<div class="cw-skeleton-block mb-4" style="height:1.8em;width:28%"></div>' +
+
+					// Атрибут 1 (label + controls)
+					'<div class="cw-skeleton-block mb-2" style="height:.8em;width:30%"></div>' +
+					'<div class="d-flex gap-2 mb-3">' +
+						'<div class="cw-skeleton-block" style="height:2em;width:2em;flex-shrink:0;"></div>' +
+						'<div class="cw-skeleton-block" style="height:2em;width:2em;flex-shrink:0;"></div>' +
+						'<div class="cw-skeleton-block" style="height:2em;width:2em;flex-shrink:0;"></div>' +
+						'<div class="cw-skeleton-block" style="height:2em;width:2em;flex-shrink:0;"></div>' +
+					'</div>' +
+
+					// Атрибут 2 (label + dropdown)
+					'<div class="cw-skeleton-block mb-2" style="height:.8em;width:25%"></div>' +
+					'<div class="cw-skeleton-block mb-4" style="height:2.2em;width:55%"></div>' +
+
+					// Кнопка «В корзину» (qty + button)
+					'<div class="d-flex gap-2 mb-4">' +
+						'<div class="cw-skeleton-block" style="height:2.6em;width:65px;flex-shrink:0;"></div>' +
+						'<div class="cw-skeleton-block" style="height:2.6em;width:150px;flex-shrink:0;"></div>' +
+					'</div>' +
+
+					// Категории и метки
+					'<div class="cw-skeleton-block mb-2" style="height:.75em;width:60%"></div>' +
+					'<div class="cw-skeleton-block mb-3" style="height:.75em;width:45%"></div>' +
+
+					// Ссылка «Подробнее»
+					'<div class="cw-skeleton-block" style="height:1.8em;width:40%"></div>' +
+
 				'</div>' +
 			'</div>';
 

@@ -19,13 +19,15 @@ document.querySelectorAll("[data-fetch]").forEach((button) => {
       return;
     }
 
-    // Показываем лоадер до запроса
+    // Показываем skeleton до запроса
     if (wrapperElement) {
-      wrapperElement.innerHTML = `
-        <div class="fetch-loader" style="text-align:center;padding:1em;">
-          <span class="spinner" style="display:inline-block;width:36px;height:36px;border:5px solid #ccc;border-top-color:#000;border-radius:50%;animation:spin 1s linear infinite;"></span>
-        </div>
-      `;
+      wrapperElement.innerHTML =
+        '<div class="p-4">' +
+          '<div class="cw-skeleton-block mb-3" style="height:1.1em;width:55%"></div>' +
+          '<div class="cw-skeleton-block mb-2" style="height:.85em;width:100%"></div>' +
+          '<div class="cw-skeleton-block mb-2" style="height:.85em;width:80%"></div>' +
+          '<div class="cw-skeleton-block"      style="height:.85em;width:65%"></div>' +
+        '</div>';
     }
 
     const formData = new FormData();
