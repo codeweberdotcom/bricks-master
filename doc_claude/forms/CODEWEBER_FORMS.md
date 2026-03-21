@@ -142,6 +142,14 @@ window.codeweberModal.showSuccess(message || '');
 2. Загружается шаблон из `codeweber/v1/success-message-template`
 3. Модал автоматически закрывается через 3 секунды
 
+Этот же путь используется во **всех** сценариях завершения:
+
+- Успешная отправка обычной формы
+- Успешная отправка newsletter-формы
+- Ответ `already_subscribed` для newsletter-форм (пользователь уже подписан)
+
+> **Важно:** `form-submit-universal.js` **не создаёт модальные окна самостоятельно** — никакого `#newsletter-success-modal`, `#codeweber-form-success-modal` и т.д. Вся логика открытия/показа делегируется в `replaceModalContentWithEnvelope` → `window.codeweberModal.showSuccess()`.
+
 Подробнее: [MODAL_SYSTEM.md](../api/MODAL_SYSTEM.md#10-успешная-отправка-формы)
 
 ### Step 6: Admin Review

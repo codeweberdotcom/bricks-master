@@ -1692,58 +1692,8 @@
                                     formMessages.innerHTML = '';
                                 }
 
-                                // Ищем (или создаем) модальное окно
-                                let modal = form.closest('#modal') || document.getElementById('modal');
-
-                                if (!modal) {
-                                    const oldModal = document.getElementById('newsletter-success-modal');
-                                    if (oldModal) {
-                                        oldModal.remove();
-                                    }
-
-                                    const modalHtml = `
-                                        <div class="modal fade" id="newsletter-success-modal" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-body"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    `;
-                                    document.body.insertAdjacentHTML('beforeend', modalHtml);
-                                    modal = document.getElementById('newsletter-success-modal');
-
-                                    // Проверяем, не открыт ли cookie modal (самый высокий приоритет)
-                                    const cookieModal = document.getElementById('cookieModal');
-                                    if (cookieModal && cookieModal.classList.contains('show')) {
-                                        console.log('[Codeweber Forms] Cookie modal is open, cannot show newsletter success modal');
-                                        return; // Блокируем открытие
-                                    }
-                                    
-                                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                                        const bsModal = new bootstrap.Modal(modal);
-                                        bsModal.show();
-                                    }
-                                } else {
-                                    // Проверяем, не открыт ли cookie modal (самый высокий приоритет)
-                                    const cookieModal = document.getElementById('cookieModal');
-                                    if (cookieModal && cookieModal.classList.contains('show')) {
-                                        console.log('[Codeweber Forms] Cookie modal is open, cannot show newsletter success modal');
-                                        return; // Блокируем открытие
-                                    }
-                                    
-                                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                                        const bsModal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
-                                        bsModal.show();
-                                    }
-                                }
-
-                                // Показываем сообщение "уже подписан" внутри модалки с тем же оформлением конверта
-                                if (modal && modal.id === 'newsletter-success-modal') {
-                                    replaceModalContentWithEnvelope(modal, errorMessage);
-                                } else {
-                                    replaceModalContentWithEnvelope(form, errorMessage);
-                                }
+                                // Показываем сообщение "уже подписан" через единую функцию модальной системы
+                                replaceModalContentWithEnvelope(form, errorMessage);
 
                                 // Дополнительное событие для кастомных обработчиков
                                 const alreadySubscribedEvent = new CustomEvent('codeweberNewsletterAlreadySubscribed', {
@@ -2432,63 +2382,8 @@
                 formMessages.innerHTML = '';
             }
             
-            // ВСЕГДА показываем модальное окно с сообщением об успехе для всех форм
-            let modal = form.closest('#modal') || document.getElementById('modal');
-            
-            // Если модального окна нет, создаем его динамически
-            if (!modal) {
-                // Удаляем старое модальное окно, если оно есть
-                const oldModal = document.getElementById('codeweber-form-success-modal');
-                if (oldModal) {
-                    oldModal.remove();
-                }
-                
-                // Создаем модальное окно
-                const modalHtml = `
-                    <div class="modal fade" id="codeweber-form-success-modal" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-body"></div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.insertAdjacentHTML('beforeend', modalHtml);
-                modal = document.getElementById('codeweber-form-success-modal');
-                
-                // Проверяем, не открыт ли cookie modal (самый высокий приоритет)
-                const cookieModal = document.getElementById('cookieModal');
-                if (cookieModal && cookieModal.classList.contains('show')) {
-                    console.log('[Codeweber Forms] Cookie modal is open, cannot show form success modal');
-                    return; // Блокируем открытие
-                }
-                
-                // Показываем модальное окно
-                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                    const bsModal = new bootstrap.Modal(modal);
-                    bsModal.show();
-                }
-            } else {
-                // Проверяем, не открыт ли cookie modal (самый высокий приоритет)
-                const cookieModal = document.getElementById('cookieModal');
-                if (cookieModal && cookieModal.classList.contains('show')) {
-                    console.log('[Codeweber Forms] Cookie modal is open, cannot show form success modal');
-                    return; // Блокируем открытие
-                }
-                // Используем существующее модальное окно - показываем его
-                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                    const bsModal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
-                    bsModal.show();
-                }
-            }
-            
-            // Заменяем содержимое модального окна на конверт с сообщением
-            if (modal) {
-                replaceModalContentWithEnvelope(modal, message);
-            } else {
-                // Если модального окна нет, заменяем содержимое формы
-                replaceModalContentWithEnvelope(form, message);
-            }
+            // Показываем success через единую функцию модальной системы
+            replaceModalContentWithEnvelope(form, message);
             
             // Очистка FilePond после успешной отправки - выполняем с задержкой, чтобы не мешать показу модального окна
             // Используем флаг, чтобы не вызывать очистку дважды

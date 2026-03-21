@@ -316,6 +316,20 @@ window.codeweberModal.showSuccess(message)
 showModalSuccess() в restapi.js
 ```
 
+### Поток Newsletter (already_subscribed)
+
+```
+AJAX submit → ответ already_subscribed
+      ↓
+form-submit-universal.js → replaceModalContentWithEnvelope(form, errorMessage)
+      ↓
+window.codeweberModal.showSuccess(errorMessage)
+      ↓
+showModalSuccess() в restapi.js
+```
+
+> `form-submit-universal.js` **не создаёт модальные окна самостоятельно** — ни `#newsletter-success-modal`, ни `#codeweber-form-success-modal`. Все три сценария делегируют в `replaceModalContentWithEnvelope` → `showSuccess()`.
+
 ### Что делает showModalSuccess()
 
 ```js

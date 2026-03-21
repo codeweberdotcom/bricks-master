@@ -53,7 +53,10 @@ src/assets/
 │   ├── share-buttons.js
 │   ├── form-validation.js
 │   ├── cf7-*.js            # CF7-специфичные скрипты
-│   └── dadata-address.js   # DaData виджет
+│   ├── dadata-address.js   # DaData виджет
+│   ├── woo-quick-view.js   # WooCommerce Quick View (только WC-страницы + вишлист)
+│   ├── woo-swatches.js     # Вариационные свотчи (is_product + магазин + вишлист)
+│   └── wishlist.js         # Вишлист (vanilla JS, только WooCommerce)
 ├── fonts/                  # Шрифтовые файлы
 ├── img/                    # Изображения (оптимизируются)
 └── media/                  # Прочие медиафайлы
@@ -97,6 +100,9 @@ dist/assets/               # Скомпилированный вывод
 | `pluginsjs:dist` | Bootstrap + vendor → plugins.js | jsImport → concat → **uglify** |
 | `themejs:dist` | theme.js | Копирование (uglify закомментирован) |
 | `restapijs:dist` | restapi.js | Копирование |
+| `wooswatchesjs:dist` | woo-swatches.js | Копирование (WC-свотчи) |
+| `wooquickviewjs:dist` | woo-quick-view.js | Копирование (Quick View) |
+| `wishlistjs:dist` | wishlist.js | Копирование (Wishlist, vanilla JS) |
 | `*js:dist` | Остальные JS-файлы | Копирование (uglify закомментирован) |
 | `image:dist` | Изображения | imagemin (jpeg-recompress max 90, pngquant) |
 | `fonts:dist` | Шрифты | Копирование (с `newer`) |
@@ -181,6 +187,9 @@ function codeweber_asset_version($file_path) {
 | 25 | `codeweber_enqueue_notification_triggers()` | `notification-triggers.js` |
 | 25 | `codeweber_enqueue_dadata_address()` | `dadata-address.js` (только WooCommerce) |
 | default (10) | `theme_enqueue_fetch_assets()` | `fetch-handler.js` + `fetch_vars` |
+| 30 | `cw_enqueue_woo_swatches()` | `woo-swatches.js` (is_product + shop + archive + wishlist) |
+| 35 | `cw_quick_view_enqueue()` | `woo-quick-view.js` + `cwQuickView` (WC-страницы + wishlist) |
+| default (10) | `CW_Wishlist_UI::enqueue_scripts()` | `wishlist.js` + `cwWishlist` (WooCommerce) |
 
 ### Добавление нового JS-файла из src/
 
