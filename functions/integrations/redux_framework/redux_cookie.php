@@ -1,5 +1,60 @@
 <?php
 
+/**
+ * AJAX-обработчик: трекинг события согласия с куки в Matomo.
+ * Вызывается из JS при нажатии Accept — работает в обоих режимах (РФ и GDPR).
+ */
+add_action('wp_ajax_nopriv_codeweber_cookie_consent', 'codeweber_cookie_consent_track_matomo');
+add_action('wp_ajax_codeweber_cookie_consent',        'codeweber_cookie_consent_track_matomo');
+
+function codeweber_cookie_consent_track_matomo() {
+   check_ajax_referer('codeweber_cookie_consent_nonce', 'nonce');
+
+   // Только если Matomo-плагин активен
+   if (!function_exists('is_plugin_active') || !is_plugin_active('matomo/matomo.php')) {
+      wp_send_json_success();
+   }
+
+   $current_url = isset($_POST['url']) ? esc_url_raw(wp_unslash($_POST['url'])) : home_url();
+   $referrer    = isset($_POST['ref']) ? esc_url_raw(wp_unslash($_POST['ref'])) : home_url();
+
+   // Visitor ID из куки Matomo (_pk_id_*) или фоллбэк по IP+UA
+   $visitor_id = '';
+   foreach ($_COOKIE as $name => $value) {
+      if (strpos($name, '_pk_id_') === 0) {
+         $parts = explode('.', sanitize_text_field($value));
+         if (!empty($parts[0]) && strlen($parts[0]) === 16) {
+            $visitor_id = $parts[0];
+            break;
+         }
+      }
+   }
+   if (empty($visitor_id)) {
+      $visitor_id = substr(md5(($_SERVER['REMOTE_ADDR'] ?? '') . ($_SERVER['HTTP_USER_AGENT'] ?? '')), 0, 16);
+   }
+
+   wp_remote_post(home_url('/wp-json/matomo/v1/hit/'), [
+      'timeout'   => 2,
+      'blocking'  => false,
+      'sslverify' => false,
+      'body'      => [
+         'idsite'     => defined('CODEWEBER_FORMS_MATOMO_SITE_ID') ? CODEWEBER_FORMS_MATOMO_SITE_ID : 1,
+         'rec'        => 1,
+         'ua'         => sanitize_text_field($_SERVER['HTTP_USER_AGENT'] ?? ''),
+         '_id'        => $visitor_id,
+         'e_c'        => __('Cookie Consent', 'codeweber'),
+         'e_a'        => __('Accept', 'codeweber'),
+         'e_n'        => $current_url,
+         'e_v'        => 1,
+         'url'        => $current_url,
+         'urlref'     => $referrer,
+         'send_image' => 0,
+      ],
+   ]);
+
+   wp_send_json_success();
+}
+
 add_action('wp_footer', function () {
    global $opt_name;
 
@@ -56,12 +111,29 @@ add_action('wp_footer', function () {
          document.getElementById('acceptCookie')?.addEventListener('click', function() {
             const days = <?php echo (int) $cookie_days; ?>;
             const now = new Date();
-            const fd = now.toISOString().replace('T', ' ').substring(0, 19); // Дата согласия
-            const ep = location.href; // Страница согласия
-            const rf = document.referrer; // Откуда пришёл
+            const fd = now.toISOString().replace('T', ' ').substring(0, 19);
+            const ep = location.href;
+            const rf = document.referrer;
             const value = `fd=${fd}|||ep=${ep}|||rf=${rf}`;
             const expires = new Date(Date.now() + days * 864e5).toUTCString();
             document.cookie = "<?php echo $cookie_name; ?>=" + encodeURIComponent(value) + "; expires=" + expires + "; path=/";
+
+            // Matomo: клиентский трекинг (РФ-режим — _paq уже загружен)
+            if (typeof _paq !== 'undefined') {
+               _paq.push(['trackEvent', '<?php echo esc_js(__('Cookie Consent', 'codeweber')); ?>', '<?php echo esc_js(__('Accept', 'codeweber')); ?>', ep]);
+            }
+
+            // Matomo: серверный трекинг через AJAX (GDPR-режим — _paq ещё не загружен)
+            const formData = new FormData();
+            formData.append('action', 'codeweber_cookie_consent');
+            formData.append('nonce',  '<?php echo esc_js(wp_create_nonce('codeweber_cookie_consent_nonce')); ?>');
+            formData.append('url',    ep);
+            formData.append('ref',    rf);
+            fetch('<?php echo esc_js(admin_url('admin-ajax.php')); ?>', {
+               method: 'POST',
+               body:   formData,
+               keepalive: true,
+            });
          });
       </script>
 <?php
