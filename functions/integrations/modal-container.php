@@ -90,20 +90,10 @@ function codeweber_universal_modal_container()
         </div>
     <?php endif; ?>
     
-    <!-- Universal Modal Container (for REST API, CF7, etc.) -->
-    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
-                <!-- Content will be loaded dynamically via REST API -->
-                <div class="modal-body">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php echo esc_attr__('Close', 'codeweber'); ?>"></button>
-                    <div id="modal-content">
-                        <div class="modal-loader"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Config for dynamically created universal modal (created by restapi.js on demand) -->
+    <meta id="cw-modal-config"
+          data-card-radius="<?php echo esc_attr($card_radius); ?>"
+          data-close-label="<?php echo esc_attr__('Close', 'codeweber'); ?>">
     <?php
 }
 // Убрали хук wp_footer - теперь функция вызывается напрямую в footer.php перед wp_footer()

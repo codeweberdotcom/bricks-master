@@ -2,9 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const ENABLE_CACHE = false;
   const modalButtons = document.querySelectorAll('a[data-bs-toggle="modal"]');
   const downloadButtons = document.querySelectorAll('a[data-bs-toggle="download"]');
-  const modalElement = document.getElementById("modal");
-  const modalContent = document.getElementById("modal-content");
-  const modalDialog = modalElement ? modalElement.querySelector(".modal-dialog") : null;
+  // Динамически создаётся по требованию через createModal(), уничтожается после hidden.bs.modal
+  let modalElement = null;
+  let modalContent = null;
+  let modalDialog = null;
   
   // Функция для получения базового URL плагина
   function getPluginBaseUrl() {
@@ -207,18 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   
-  // Инициализация модального окна (если есть)
   let modalInstance = null;
-  if (modalElement && modalContent && modalDialog && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-    modalInstance = new bootstrap.Modal(modalElement);
-
-    // Сброс контента после закрытия — предотвращает показ устаревшего содержимого
-    // (сообщение "заявка отправлена", предыдущая форма) при следующем открытии
-    modalElement.addEventListener('hidden.bs.modal', () => {
-      modalContent.innerHTML = '<div class="modal-loader"></div>';
-      applyModalSize('');
-    });
-  }
   
   // ============================================
   // Обработчик для data-bs-toggle="download"
@@ -382,6 +372,65 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /**
+   * Создаёт #modal в DOM, инициализирует Bootstrap Modal, навешивает события.
+   * Идемпотентен: при повторном вызове возвращает существующий экземпляр.
+   * После hidden.bs.modal — уничтожает элемент и обнуляет переменные.
+   */
+  function createModal() {
+    if (modalInstance) return modalInstance;
+    if (typeof bootstrap === 'undefined' || !bootstrap.Modal) return null;
+
+    const config = document.getElementById('cw-modal-config');
+    const cardRadiusClass = config ? (config.dataset.cardRadius || '') : '';
+    const closeLabel = config ? (config.dataset.closeLabel || 'Close') : 'Close';
+
+    const el = document.createElement('div');
+    el.className = 'modal fade';
+    el.id = 'modal';
+    el.tabIndex = -1;
+    el.setAttribute('aria-labelledby', 'modalLabel');
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML =
+      '<div class="modal-dialog modal-dialog-centered">' +
+        '<div class="modal-content' + (cardRadiusClass ? ' ' + cardRadiusClass : '') + '">' +
+          '<div class="modal-body">' +
+            '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' + closeLabel + '"></button>' +
+            '<div id="modal-content"></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(el);
+
+    modalElement = el;
+    modalContent = el.querySelector('#modal-content');
+    modalDialog  = el.querySelector('.modal-dialog');
+    modalInstance = new bootstrap.Modal(el);
+
+    // shown.bs.modal — переинициализация CF7 и компонентов после показа
+    el.addEventListener('shown.bs.modal', function () {
+      const formElement = modalContent.querySelector('form.wpcf7-form');
+      if (formElement && typeof wpcf7 !== 'undefined') {
+        wpcf7.init(formElement);
+      }
+      initTestimonialRatingStars();
+      initDocumentEmailForm();
+    });
+
+    // hidden.bs.modal — уничтожаем DOM и обнуляем состояние
+    el.addEventListener('hidden.bs.modal', () => {
+      modalInstance.dispose();
+      el.remove();
+      modalElement = null;
+      modalContent  = null;
+      modalDialog   = null;
+      modalInstance = null;
+    });
+
+    return modalInstance;
+  }
+
+  /**
    * Apply modal size class to modal-dialog
    * @param {string} sizeClass - Modal size class (modal-sm, modal-lg, etc.)
    */
@@ -394,8 +443,9 @@ document.addEventListener("DOMContentLoaded", () => {
       'modal-fullscreen-xl-down', 'modal-fullscreen-xxl-down'
     ];
     
+    if (!modalDialog) return;
     sizeClasses.forEach(cls => modalDialog.classList.remove(cls));
-    
+
     // Add new size class if provided
     if (sizeClass && sizeClass.trim() !== '') {
       modalDialog.classList.add(sizeClass);
@@ -615,8 +665,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const cachedContent = localStorage.getItem(dataValue);
       const cachedTime = localStorage.getItem(`${dataValue}_time`);
       const cachedSize = localStorage.getItem(`${dataValue}_size`);
-      
-      // Show modal immediately (standard loader already exists in modal-container.php)
+
+      // Создаём DOM модалки (идемпотентно — если уже существует, ничего не делает)
+      if (!createModal()) return;
+
       // Check if cookie modal is open (highest priority)
       const cookieModal = document.getElementById('cookieModal');
       if (cookieModal && cookieModal.classList.contains('show')) {
@@ -980,13 +1032,13 @@ document.addEventListener("DOMContentLoaded", () => {
               
               // Закрываем модальное окно через 2 секунды
               setTimeout(function() {
-                modalInstance.hide();
+                if (modalInstance) modalInstance.hide();
               }, 2000);
             } else {
               // Fallback на простой шаблон
               modalContent.innerHTML = '<div class="text-center p-5"><div class="mb-3"><i class="uil uil-check-circle text-success" style="font-size: 3rem;"></i></div><h5>' + message + '</h5></div>';
               setTimeout(function() {
-                modalInstance.hide();
+                if (modalInstance) modalInstance.hide();
               }, 2000);
             }
           })
@@ -1033,16 +1085,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  modalElement.addEventListener("shown.bs.modal", function () {
-    const formElement = modalContent.querySelector("form.wpcf7-form");
-    if (formElement && typeof wpcf7 !== "undefined") {
-      wpcf7.init(formElement);
-    }
-    
-    // Initialize rating stars if present
-    initTestimonialRatingStars();
-    
-    // Инициализируем обработчик формы отправки документа на email
-    initDocumentEmailForm();
-  });
+  // shown.bs.modal обработчик теперь регистрируется в createModal()
 });
