@@ -135,9 +135,11 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | Страницы в админке | `doc_claude/settings/ADMIN_PANELS.md` |
 | AJAX fetch-архитектура | `doc_claude/api/AJAX_FETCH_SYSTEM.md` |
 | REST API endpoints | `doc_claude/api/REST_API_REFERENCE.md` |
+| Модальные окна (архитектура, жизненный цикл, API) | `doc_claude/api/MODAL_SYSTEM.md` |
 | Хуки фильтров и actions | `doc_claude/api/HOOKS_REFERENCE.md` |
 | CodeWeber Forms | `doc_claude/forms/CODEWEBER_FORMS.md` |
 | Contact Form 7 | `doc_claude/forms/CF7_INTEGRATION.md` |
+| Куки-баннер (архитектура, GDPR/РФ, версионирование) | `doc_claude/integrations/COOKIE_BANNER.md` |
 | DaData, Яндекс Карты, SMS.ru и др. | `doc_claude/integrations/` |
 | WooCommerce фильтры (функции, шаблоны, JS, CSS) | `doc_claude/integrations/WC_FILTERS.md` |
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |

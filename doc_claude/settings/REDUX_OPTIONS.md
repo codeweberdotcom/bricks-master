@@ -658,16 +658,72 @@ For `testimonials` CPT:
 
 ### Legal Settings
 
-**File:** `legal.php`
-Legal page configuration, privacy policy links, GDPR consent settings
+**File:** `redux-framework/sample/sections/codeweber/legal.php`
+**Путь в админке:** `Theme Options → Personal Data & Privacy`
+**Section ID:** `cf7_consent` (parent), подсекции: `consent_data`, `privacy_data`, `cookie_data`
+
+#### Personal Data & Privacy (cf7_consent) — основная секция
+
+Данные оператора персональных данных для генерации политик и форм согласия (152-ФЗ):
+
+| Ключ | Тип | Описание |
+| --- | --- | --- |
+| `legal_entity` | textarea | Полное наименование юрлица/ИП |
+| `legal_entity_short` | textarea | Краткое наименование |
+| `legal_entity_dative` | textarea | Наименование в дательном падеже |
+| `legal_ogrnip` | text | ОГРН/ОГРНИП |
+| `legal_kpp` | text | КПП |
+| `legal_ogrnip_date` | date | Дата регистрации |
+| `taxpayer_identification_number` | text | ИНН |
+| `responsible_person` | text | ФИО ответственного за ПД |
+| `phone_responsible_person` | text | Телефон ответственного |
+| `email_responsible_person` | text | Email ответственного |
+| `storage_address` | textarea | Адрес хранения данных |
+
+Все поля доступны через шорткод: `[redux_option key="legal_entity"]`
+
+#### Consent Data (consent_data) — подсекция
+
+| Ключ | Тип | Описание |
+| --- | --- | --- |
+| `list_of_personal_data` | textarea | Перечень собираемых ПД (для формы согласия) |
+| `personal_data_actions` | checkbox | Действия с ПД (сбор, хранение, передача и др.) |
+
+Шорткоды: `[redux_option key="consent_purpose" list="inline"]`, `[redux_option key="consent_purpose" list="ul"]`
+
+#### Privacy Data (privacy_data) — подсекция
+
+Содержит 8 блоков `7.2.1`–`7.2.8` для описания целей обработки ПД в политике конфиденциальности. Каждый блок включает поля: `title_pdn_data72N`, `cat_sub_pdn_data72N`, `list_pdn_data72N`, `cat_pdn_data72N`, `method_pdn_data72N`, `period_pdn_data72N`, `destruction_pdn_data72N`.
+
+#### Cookie Data (cookie_data) — подсекция
+
+| Ключ | Тип | По умолчанию | Описание |
+| --- | --- | --- | --- |
+| `enable_cookie_banner` | switch | `true` | Включить баннер |
+| `cookie_compliance_mode` | select | `'ru'` | Режим: `'ru'` (152-ФЗ) или `'gdpr'` (EU) |
+| `cookie_version` | number | `'1'` | Версия политики. Увеличение сбрасывает согласие у всех |
+| `cookie_expiration_date` | text | `'365'` | Срок хранения куки в днях |
+| `welcome_text_cookie_banneer` | editor | (текст) | Текст баннера (поддерживает шорткоды) |
+
+> Примечание: ключ `welcome_text_cookie_banneer` содержит опечатку (двойное `e`) — историческое имя, не менять.
+
+Подробная документация по куки-баннеру: `doc_claude/integrations/COOKIE_BANNER.md`
 
 ### Tracking & Metrics
 
 **File:** `tracking-metrics.php`
-- Google Analytics tracking IDs
-- Yandex Metrica IDs
-- Custom pixel codes (Facebook, etc.)
-- Heatmap tracking (Hotjar, etc.)
+**Файл вывода:** `functions/integrations/redux_framework/redux_tracking_output.php`
+
+Коды аналитики выводятся в `wp_head` (priority 5). В **GDPR-режиме** (`cookie_compliance_mode = 'gdpr'`) не выводятся до получения согласия пользователя.
+
+| Ключ включения | Ключ кода | Трекер |
+| --- | --- | --- |
+| `yandex-on` | `yandex-metrics` | Яндекс.Метрика |
+| `google-analytics-on` | `google-analytics` | Google Analytics |
+| `google-tag-manager-on` | `google-tag-manager` | Google Tag Manager |
+| `facebook-pixel-on` | `facebook-pixel` | Facebook Pixel |
+| `hotjar-on` | `hotjar` | Hotjar |
+| `other-analytics-on` | `other-analytics-code` | Произвольный код |
 
 ### WooCommerce
 
