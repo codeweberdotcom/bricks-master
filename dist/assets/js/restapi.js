@@ -341,12 +341,20 @@ document.addEventListener("DOMContentLoaded", () => {
               button.style.minHeight = '';
             }
             
-            // Аналитика
+            // Аналитика — Google Analytics
             if (typeof gtag !== 'undefined') {
               gtag('event', 'file_download', {
                 'file_name': data.file_name,
                 'post_id': data.post_id
               });
+            }
+
+            // Аналитика — Matomo
+            if (typeof _paq !== 'undefined') {
+              const matomoCategory = apiEndpoint === 'staff'     ? 'Staff VCF Download'
+                                   : apiEndpoint === 'vacancies' ? 'Vacancy PDF Download'
+                                   :                               'Document Download';
+              _paq.push(['trackEvent', matomoCategory, 'Download', data.file_name || String(data.post_id)]);
             }
           } else {
             throw new Error('Invalid response from server');
