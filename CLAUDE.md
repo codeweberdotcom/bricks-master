@@ -123,6 +123,7 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | Архитектура, точка входа, паттерны | `doc_claude/architecture/THEME_OVERVIEW.md` |
 | Порядок загрузки файлов | `doc_claude/architecture/FILE_LOADING_ORDER.md` |
 | Дочерняя тема | `doc_claude/architecture/CHILD_THEME_GUIDE.md` |
+| Правила AI для дочерней темы (CPT, шаблоны, блоки, WooCommerce) | `doc_claude/architecture/CHILD_THEME_AI_RULES.md` |
 | Сборка Gulp, SCSS, ассеты | `doc_claude/development/BUILD_SYSTEM.md` |
 | Локальная разработка, WP-CLI | `doc_claude/development/LOCAL_SETUP.md` |
 | Соглашения по коду, безопасность | `doc_claude/development/CODING_STANDARDS.md` |
@@ -142,4 +143,6 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | Куки-баннер (архитектура, GDPR/РФ, версионирование) | `doc_claude/integrations/COOKIE_BANNER.md` |
 | DaData, Яндекс Карты, SMS.ru и др. | `doc_claude/integrations/` |
 | WooCommerce фильтры (функции, шаблоны, JS, CSS) | `doc_claude/integrations/WC_FILTERS.md` |
+| WooCommerce Quick View (AJAX, Modal, Swiper, вариации, свотчи) | `doc_claude/integrations/WC_QUICK_VIEW.md` |
+| Wishlist (архитектура, AJAX, JS, modal, Redux) | `doc_claude/integrations/WISHLIST.md` |
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |
