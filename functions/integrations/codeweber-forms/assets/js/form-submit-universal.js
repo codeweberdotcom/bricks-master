@@ -90,78 +90,9 @@
      * @param {string} message - Сообщение для отображения
      */
     function replaceModalContentWithEnvelope(form, message) {
-        // Если передан модальный элемент напрямую, используем его
-        let modal = form.classList && form.classList.contains('modal') ? form : 
-                    (form.closest('#modal') || document.getElementById('modal'));
-        const modalContent = modal ? modal.querySelector('.modal-body') : null;
-
-        if (!modal || !modalContent) {
-            return; // Модального окна нет
+        if (window.codeweberModal && window.codeweberModal.showSuccess) {
+            window.codeweberModal.showSuccess(message || '');
         }
-
-        // Получаем шаблон успешной отправки через REST API
-        let apiRoot = '/wp-json/';
-        let apiNonce = '';
-
-        if (typeof wpApiSettings !== 'undefined') {
-            apiRoot = wpApiSettings.root;
-            apiNonce = wpApiSettings.nonce;
-        } else {
-            // Пытаемся получить nonce из мета-тега
-            const nonceMeta = document.querySelector('meta[name="wp-api-nonce"]');
-            if (nonceMeta) {
-                apiNonce = nonceMeta.getAttribute('content');
-            }
-        }
-
-        fetch(apiRoot + 'codeweber/v1/success-message-template?message=' + encodeURIComponent(message) + '&icon_type=svg', {
-            method: 'GET',
-            headers: {
-                'X-WP-Nonce': apiNonce,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(templateData) {
-            if (templateData.success && templateData.html) {
-                // Заменяем содержимое модального окна на шаблон с конвертом
-                modalContent.innerHTML = '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' + templateData.html;
-
-                // Закрываем модальное окно через 5 секунд
-                setTimeout(function() {
-                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                        const bsModal = bootstrap.Modal.getInstance(modal);
-                        if (bsModal) {
-                            bsModal.hide();
-                        }
-                    }
-                }, 5000);
-            } else {
-                // Fallback: просто закрываем модальное окно
-                setTimeout(function() {
-                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                        const bsModal = bootstrap.Modal.getInstance(modal);
-                        if (bsModal) {
-                            bsModal.hide();
-                        }
-                    }
-                }, 500);
-            }
-        })
-        .catch(function(error) {
-            console.error('[Forms] Error loading success template:', error);
-            // Fallback: закрываем модальное окно
-            setTimeout(function() {
-                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                    const bsModal = bootstrap.Modal.getInstance(modal);
-                    if (bsModal) {
-                        bsModal.hide();
-                    }
-                }
-            }, 500);
-        });
     }
 
     /**
