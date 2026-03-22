@@ -76,7 +76,8 @@ $count       = count( $compare_ids );
 			<?php esc_html_e( 'Сравнить', 'codeweber' ); ?>
 			<span class="badge bg-white text-primary ms-1"><?php echo esc_html( $count ); ?></span>
 		</a>
-		<button type="button" class="cw-compare-clear btn btn-outline-secondary btn-sm">
+		<button type="button" class="cw-compare-clear btn btn-outline-danger btn-sm">
+			<i class="uil uil-trash-alt me-1" aria-hidden="true"></i>
 			<?php esc_html_e( 'Очистить', 'codeweber' ); ?>
 		</button>
 	</div>
