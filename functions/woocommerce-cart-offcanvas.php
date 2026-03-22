@@ -12,6 +12,23 @@ defined( 'ABSPATH' ) || exit;
 // Отключаем встроенный WC AJAX для архивов — используем свой механизм
 add_filter( 'pre_option_woocommerce_enable_ajax_add_to_cart', '__return_false' );
 
+// ── Предотвращаем двойное добавление ─────────────────────────────────────────
+// WC_Form_Handler::add_to_cart_action() подключён к wp_loaded priority 20
+// и обрабатывает $_POST['add-to-cart'] на ЛЮБОМ запросе, включая наш AJAX.
+// Это приводит к тому, что товар добавляется дважды: сначала WC (при wp_loaded),
+// потом наш обработчик. Отцепляем WC-хук для наших AJAX-запросов.
+
+add_action( 'wp_loaded', function() {
+	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
+		return;
+	}
+	$our_actions = array( 'cw_add_to_cart', 'cw_remove_from_cart' );
+	// phpcs:ignore WordPress.Security.NonceVerification
+	if ( isset( $_POST['action'] ) && in_array( $_POST['action'], $our_actions, true ) ) {
+		remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'add_to_cart_action' ), 20 );
+	}
+}, 1 );
+
 // ── Атрибуты вариации в корзине ───────────────────────────────────────────────
 // wc_get_formatted_cart_item_data() пропускает атрибуты если они уже в названии.
 // Принудительно добавляем их для показа под названием товара.
@@ -144,9 +161,15 @@ function cw_ajax_remove_from_cart() {
 
 	$count = WC()->cart->get_cart_contents_count();
 
+	// Totals для AJAX-обновления страницы корзины
+	ob_start();
+	woocommerce_cart_totals();
+	$cart_totals_html = ob_get_clean();
+
 	wp_send_json_success( array(
-		'cart_html'  => $cart_html,
-		'cart_count' => $count,
+		'cart_html'        => $cart_html,
+		'cart_count'       => $count,
+		'cart_totals_html' => $cart_totals_html,
 	) );
 }
 

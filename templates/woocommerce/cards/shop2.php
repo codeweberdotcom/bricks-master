@@ -172,7 +172,7 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 		</a>
 
 		<?php if ( $is_simple ) : ?>
-			<a href="<?php echo esc_url( $add_to_cart_url ); ?>"
+			<a href="<?php echo esc_url( $product_url ); ?>"
 			   class="item-cart ajax_add_to_cart"
 			   data-product_id="<?php echo esc_attr( $product_id ); ?>"
 			   data-product_sku="<?php echo esc_attr( $product->get_sku() ); ?>"

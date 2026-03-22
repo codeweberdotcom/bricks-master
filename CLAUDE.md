@@ -145,5 +145,6 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | DaData, Яндекс Карты, SMS.ru и др. | `doc_claude/integrations/` |
 | WooCommerce фильтры (функции, шаблоны, JS, CSS) | `doc_claude/integrations/WC_FILTERS.md` |
 | WooCommerce Quick View (AJAX, Modal, Swiper, вариации, свотчи) | `doc_claude/integrations/WC_QUICK_VIEW.md` |
+| WooCommerce Offcanvas Cart (AJAX, fragments, двойное добавление, CSS) | `doc_claude/integrations/WC_CART_OFFCANVAS.md` |
 | Wishlist (архитектура, AJAX, JS, modal, Redux) | `doc_claude/integrations/WISHLIST.md` |
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |

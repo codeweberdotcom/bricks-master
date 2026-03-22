@@ -32,6 +32,10 @@
 			inner.innerHTML = newInner.innerHTML;
 			inner.className  = newInner.className;
 		}
+		// Переинициализируем ripple на новых кнопках
+		if (typeof custom !== 'undefined' && typeof custom.rippleEffect === 'function') {
+			custom.rippleEffect();
+		}
 	}
 
 	function setCartLoading(loading) {
@@ -153,17 +157,19 @@
 			});
 	});
 
-	// ── Удаление товара из корзины ────────────────────────────────────────────
+	// ── Удаление товара на странице корзины (AJAX) ───────────────────────────
 
-	$(document).on('click', '.cw-cart-remove', function (e) {
+	$(document).on('click', '.woocommerce-cart-form .pe-0 [data-product_id]', function (e) {
+		var href  = $(this).attr('href') || '';
+		var match = href.match(/[?&]remove_item=([a-f0-9]+)/);
+		if (!match) return;
+
 		e.preventDefault();
 
-		var $item = $(this).closest('.shopping-cart-item');
-		var key   = $(this).data('cart-item-key');
+		var key  = match[1];
+		var $row = $(this).closest('tr');
 
-		if (!key) return;
-
-		$item.addClass('cw-item-removing');
+		$row.css('opacity', '0.4');
 
 		$.post(cwCartOffcanvas.ajaxUrl, {
 			action:        'cw_remove_from_cart',
@@ -172,16 +178,90 @@
 		})
 			.done(function (response) {
 				if (response.success) {
-					updateCartHtml(response.data.cart_html);
+					// Если корзина пуста — перезагружаем страницу для empty-state
+					if (response.data.cart_count === 0) {
+						window.location.reload();
+						return;
+					}
+					$row.remove();
 					updateBadge(response.data.cart_count);
+					updateCartHtml(response.data.cart_html);
+					if (response.data.cart_totals_html) {
+						$('.cart_totals').replaceWith(response.data.cart_totals_html);
+					}
 					$(document.body).trigger('wc_fragment_refresh');
 				} else {
-					$item.removeClass('cw-item-removing');
+					$row.css('opacity', '');
 				}
 			})
 			.fail(function () {
-				$item.removeClass('cw-item-removing');
+				$row.css('opacity', '');
 			});
+	});
+
+	// ── Удаление товара из корзины (offcanvas) ────────────────────────────────
+	// Очередь: запросы последовательные, иначе параллельные ответы перезаписывают
+	// друг друга и уничтожают DOM-узлы ещё удаляющихся элементов.
+
+	var removeQueue      = [];
+	var removeInProgress = false;
+
+	function processRemoveQueue() {
+		if (removeInProgress || removeQueue.length === 0) return;
+
+		var key = removeQueue[0];
+		removeInProgress = true;
+
+		$.post(cwCartOffcanvas.ajaxUrl, {
+			action:        'cw_remove_from_cart',
+			nonce:         cwCartOffcanvas.nonce,
+			cart_item_key: key,
+		})
+			.done(function (response) {
+				removeQueue.shift();
+				if (response.success) {
+					updateCartHtml(response.data.cart_html);
+					updateBadge(response.data.cart_count);
+					// Восстановить класс для ещё ожидающих элементов
+					removeQueue.forEach(function (pendingKey) {
+						$('.shopping-cart-item[data-cart-item-key="' + pendingKey + '"]')
+							.addClass('cw-item-removing');
+					});
+					$(document.body).trigger('wc_fragment_refresh');
+				} else {
+					$('.shopping-cart-item[data-cart-item-key="' + key + '"]')
+						.removeClass('cw-item-removing');
+				}
+			})
+			.fail(function () {
+				removeQueue.shift();
+				$('.shopping-cart-item[data-cart-item-key="' + key + '"]')
+					.removeClass('cw-item-removing');
+			})
+			.always(function () {
+				removeInProgress = false;
+				processRemoveQueue();
+			});
+	}
+
+	$(document).on('click', '.cw-cart-remove', function (e) {
+		e.preventDefault();
+
+		var key   = $(this).data('cart-item-key');
+		var $item = $(this).closest('.shopping-cart-item');
+
+		if (!key || $item.hasClass('cw-item-removing') || removeQueue.indexOf(key) !== -1) return;
+
+		$item.addClass('cw-item-removing');
+		removeQueue.push(key);
+		processRemoveQueue();
+	});
+
+	// Реинициализируем ripple после WC fragment refresh (WC обновляет DOM при загрузке)
+	$(document.body).on('wc_fragments_refreshed wc_fragments_loaded', function () {
+		if (typeof custom !== 'undefined' && typeof custom.rippleEffect === 'function') {
+			custom.rippleEffect();
+		}
 	});
 
 }(jQuery));
