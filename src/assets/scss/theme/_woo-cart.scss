@@ -71,10 +71,19 @@ table.woocommerce-cart-form__contents {
   .form-row {
     margin-bottom: 1rem;
 
-    label {
+    // Лейблы для select-полей (без form-floating)
+    > .woocommerce-input-wrapper > label,
+    > label {
       display: block;
       margin-bottom: 0.35rem;
       font-size: .875rem;
+    }
+
+    // form-floating: сброс наших стилей — Bootstrap управляет лейблом сам
+    .form-floating > label {
+      display: revert;
+      margin-bottom: 0;
+      font-size: 1rem;
     }
 
     input.input-text,
@@ -88,6 +97,12 @@ table.woocommerce-cart-form__contents {
     select {
       appearance: auto;
     }
+  }
+
+  // Тонкое focus-кольцо для полей чекаута
+  .form-control:focus,
+  .form-select:focus {
+    box-shadow: 0 0 0 1px rgba(var(--bs-primary-rgb), 0.4);
   }
 
   // Два поля рядом (first_name / last_name)
@@ -111,6 +126,49 @@ table.woocommerce-cart-form__contents {
   .woocommerce-error {
     @extend .alert;
     @extend .alert-danger;
+  }
+
+  // FOUC: скрываем нативный select до инициализации select2
+  select.country_select,
+  select.country_to_state {
+    display: none;
+  }
+
+  // Country / State → select2 styled as .form-select
+  .select2-container--default {
+    width: 100% !important;
+
+    .select2-selection--single {
+      height: calc(1.5em + 0.75rem + calc(var(--bs-border-width) * 2));
+      padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+      font-size: .75rem;
+      line-height: 1.5;
+      color: var(--bs-body-color);
+      background-color: var(--bs-body-bg);
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 16px 12px;
+      border: var(--bs-border-width) solid var(--bs-border-color);
+      border-radius: var(--bs-border-radius);
+
+      .select2-selection__rendered {
+        padding: 0;
+        line-height: 1.5;
+        color: inherit;
+      }
+
+      .select2-selection__arrow {
+        display: none;
+      }
+    }
+
+    &.select2-container--open .select2-selection--single,
+    &.select2-container--focus .select2-selection--single {
+      border-color: #86b7fe;
+      outline: 0;
+      box-shadow: 0 0 0 1px rgba(var(--bs-primary-rgb), 0.4);
+    }
   }
 
   // Платёжные методы

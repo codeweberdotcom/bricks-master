@@ -63,7 +63,7 @@
 		if (!productId || $btn.hasClass('loading')) return;
 
 		$btn.addClass('loading');
-		openCart();
+		if (cwCartOffcanvas.autoOpen) openCart();
 		setCartLoading(true);
 
 		$.post(cwCartOffcanvas.ajaxUrl, {
@@ -105,7 +105,7 @@
 
 		// ── 1. Мгновенно: блокируем кнопку, открываем offcanvas с текущим содержимым
 		$btn.addClass('loading').prop('disabled', true);
-		openCart();
+		if (cwCartOffcanvas.autoOpen) openCart();
 		setCartLoading(true);
 
 		// ── 2. Параллельно: AJAX добавляет товар

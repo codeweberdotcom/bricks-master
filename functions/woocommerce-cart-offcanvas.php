@@ -9,6 +9,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// ── Redux-настройки корзины ───────────────────────────────────────────────────
+$_cw_opts                = get_option( 'redux_demo', array() );
+$_cw_offcanvas_enable    = ! isset( $_cw_opts['woo_offcanvas_enable'] ) || (bool) $_cw_opts['woo_offcanvas_enable'];
+$_cw_offcanvas_auto_open = ! isset( $_cw_opts['woo_offcanvas_auto_open'] ) || (bool) $_cw_opts['woo_offcanvas_auto_open'];
+$_cw_offcanvas_scroll    = ! isset( $_cw_opts['woo_offcanvas_scroll'] ) || (bool) $_cw_opts['woo_offcanvas_scroll'];
+
+if ( ! $_cw_offcanvas_enable ) {
+	return; // Offcanvas выключен — всё ниже не регистрируем, WC работает штатно
+}
+
 // Отключаем встроенный WC AJAX для архивов — используем свой механизм
 add_filter( 'pre_option_woocommerce_enable_ajax_add_to_cart', '__return_false' );
 
@@ -182,10 +192,12 @@ function cw_cart_offcanvas_container() {
 	if ( ! function_exists( 'WC' ) ) {
 		return;
 	}
+	$opts   = get_option( 'redux_demo', array() );
+	$scroll = ! isset( $opts['woo_offcanvas_scroll'] ) || (bool) $opts['woo_offcanvas_scroll'];
 	?>
 	<div class="offcanvas offcanvas-end bg-light"
 	     id="offcanvas-cart"
-	     data-bs-scroll="true"
+	     data-bs-scroll="<?php echo $scroll ? 'true' : 'false'; ?>"
 	     tabindex="-1"
 	     aria-labelledby="offcanvas-cart-label">
 
@@ -235,14 +247,18 @@ function cw_cart_offcanvas_enqueue() {
 		true
 	);
 
+	$opts      = get_option( 'redux_demo', array() );
+	$auto_open = ! isset( $opts['woo_offcanvas_auto_open'] ) || (bool) $opts['woo_offcanvas_auto_open'];
+
 	wp_localize_script(
 		'cw-cart-offcanvas',
 		'cwCartOffcanvas',
 		array(
-			'ajaxUrl' => esc_url( admin_url( 'admin-ajax.php' ) ),
-			'nonce'   => wp_create_nonce( 'cw_add_to_cart' ),
-			'action'  => 'cw_add_to_cart',
-			'i18n'    => array(
+			'ajaxUrl'  => esc_url( admin_url( 'admin-ajax.php' ) ),
+			'nonce'    => wp_create_nonce( 'cw_add_to_cart' ),
+			'action'   => 'cw_add_to_cart',
+			'autoOpen' => $auto_open,
+			'i18n'     => array(
 				'error' => esc_html__( 'Не удалось добавить товар в корзину.', 'codeweber' ),
 			),
 		)
