@@ -1,0 +1,117 @@
+// ── Compare Bar ──────────────────────────────────────────────────────────────
+
+.cw-compare-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    transition: transform .3s ease;
+
+    &.is-visible {
+        transform: translateY(0);
+    }
+}
+
+// ── Compare Slots ─────────────────────────────────────────────────────────────
+
+.cw-compare-slot {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: inherit;
+        display: block;
+    }
+
+    &--empty {
+        border-style: dashed !important;
+        opacity: .4;
+    }
+}
+
+// ── Compare Button на карточке ────────────────────────────────────────────────
+
+.item-compare {
+    // Позиционирование — аналогично .item-like и .item-view
+}
+
+.cw-compare-btn {
+    &--active {
+        color: var(--bs-primary) !important;
+    }
+
+    &--loading {
+        pointer-events: none;
+        opacity: .5;
+    }
+}
+
+// ── Compare Button на single product ─────────────────────────────────────────
+
+.cw-compare-btn--single {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+
+    &.cw-compare-btn--active {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+        color: #fff !important;
+    }
+}
+
+// ── Compare Table ─────────────────────────────────────────────────────────────
+
+.cw-compare-table-wrap {
+    // Горизонтальный скролл на мобиле встроен через Bootstrap .table-responsive
+}
+
+.cw-compare-table {
+    min-width: 560px;
+
+    .cw-compare-label-col {
+        width: 140px;
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+
+    .cw-compare-product-col {
+        min-width: 160px;
+        vertical-align: top;
+    }
+
+    .cw-compare-product-img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto .5rem;
+    }
+
+    // Строки с одинаковыми значениями (управляются JS-переключателем)
+    .cw-compare-row--same {
+        // display: none управляется через JS toggle
+    }
+}
+
+// ── Compare Empty State ───────────────────────────────────────────────────────
+
+.cw-compare-empty {
+    .uil-balance-scale {
+        font-size: 3.75rem; // fs-60
+        color: var(--bs-secondary-color, #9499a3);
+    }
+}
+
+// ── На странице сравнения: бар слегка поднять над контентом ──────────────────
+
+.cw-compare-page {
+    .cw-compare-table {
+        font-size: .9rem;
+    }
+}

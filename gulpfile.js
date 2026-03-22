@@ -152,6 +152,7 @@ var wooScssImports = [
   'woo-cart-offcanvas',
   'woo-cart',
   'wishlist',
+  'woo-compare',
 ];
 var wooScssPath = path_module.join(parentThemePath, 'src', 'assets', 'scss', 'theme', '_woo-active.scss');
 var wooScssContent = isWooActive
@@ -248,6 +249,7 @@ var path = {
     wooreviewjs: srcPrefix + "/assets/js/woo-review.js",
     woocartoffcanvasjs: srcPrefix + "/assets/js/woo-cart-offcanvas.js",
     wishlistjs: srcPrefix + "/assets/js/wishlist.js",
+    woocomparejs: srcPrefix + "/assets/js/woo-compare.js",
     style: srcPrefix + "/assets/scss/style.scss",
     fontcss: srcPrefix + "/assets/scss/fonts/*.*",
     // When building for child theme: use child's style.scss if it exists (ensures child's _user-variables with correct fonts)
@@ -751,6 +753,30 @@ gulp.task("wishlistjs:dist", function (cb) {
   );
 });
 
+gulp.task("woocomparejs:dev", function (cb) {
+  if (!isWooActive) { return cb(); }
+  return gulp
+    .src(path.src.woocomparejs)
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(plumber())
+    .pipe(gulp.dest(path.dev.js))
+    .pipe(touch());
+});
+
+gulp.task("woocomparejs:dist", function (cb) {
+  if (!isWooActive) { return cb(); }
+  return (
+    gulp
+      .src(path.src.woocomparejs)
+      .pipe(gulp.dest(path.dist.js))
+      .pipe(plumber())
+      .pipe(gulp.dest(path.dist.js))
+      .on("end", () => {
+        reload();
+      })
+  );
+});
+
 // Compile html
 gulp.task('html:dev', function () {
   return gulp.src(path.src.html)
@@ -1055,6 +1081,7 @@ gulp.task(
       "wooreviewjs:dev",
       "woocartoffcanvasjs:dev",
       "wishlistjs:dev",
+      "woocomparejs:dev",
       "themejs:dev",
       "fonts:dev",
       "media:dev",
@@ -1093,6 +1120,7 @@ gulp.task(
       "wooreviewjs:dist",
       "woocartoffcanvasjs:dist",
       "wishlistjs:dist",
+      "woocomparejs:dist",
       "themejs:dist",
       "fonts:dist",
       "media:dist",
@@ -1133,6 +1161,7 @@ gulp.task('watch', function () {
       gulp.watch(path.src.wooreviewjs, gulp.series('wooreviewjs:dist'));
       gulp.watch(path.src.woocartoffcanvasjs, gulp.series('woocartoffcanvasjs:dist'));
       gulp.watch(path.src.wishlistjs, gulp.series('wishlistjs:dist'));
+      gulp.watch(path.src.woocomparejs, gulp.series('woocomparejs:dist'));
     }
     gulp.watch(path.watch.img, gulp.series('image:dist'));
     gulp.watch(path.watch.fonts, gulp.series('fonts:dist'));

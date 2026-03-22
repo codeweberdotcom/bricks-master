@@ -68,6 +68,19 @@ if (class_exists('WooCommerce')) {
 	}, 40 );
 }
 
+// Compare
+if (class_exists('WooCommerce')) {
+	require_once get_template_directory() . '/functions/integrations/compare/functions.php';
+	require_once get_template_directory() . '/functions/integrations/compare/class-cw-compare-storage.php';
+	require_once get_template_directory() . '/functions/integrations/compare/class-cw-compare-table.php';
+	require_once get_template_directory() . '/functions/integrations/compare/class-cw-compare-ui.php';
+	require_once get_template_directory() . '/functions/integrations/compare/class-cw-compare.php';
+	// Инициализируем после Redux (priority 40), чтобы is_enabled() мог прочитать настройки.
+	add_action( 'after_setup_theme', function () {
+		new CW_Compare();
+	}, 40 );
+}
+
 // CWNotify — универсальный менеджер уведомлений (инит после Redux, priority 40).
 add_action( 'after_setup_theme', function () {
 	new CW_Notify();

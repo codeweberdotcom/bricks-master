@@ -434,11 +434,11 @@ $_co_billing_defs   = array(
 	// key          label                        enabled  required  width
 	array( 'first_name', __( 'First Name',    'codeweber' ), true,  true,  'half' ),
 	array( 'last_name',  __( 'Last Name',     'codeweber' ), true,  true,  'half' ),
-	array( 'company',    __( 'Company',       'codeweber' ), true,  false, 'full' ),
-	array( 'country',    __( 'Country',       'codeweber' ), true,  true,  'full' ),
-	array( 'address_1',  __( 'Address',       'codeweber' ), true,  true,  'full' ),
-	array( 'address_2',  __( 'Address 2',     'codeweber' ), true,  false, 'full' ),
-	array( 'city',       __( 'City',          'codeweber' ), true,  true,  'full' ),
+	array( 'company',    __( 'Company',       'codeweber' ), true,  false, 'half' ),
+	array( 'country',    __( 'Country',       'codeweber' ), true,  true,  'half' ),
+	array( 'address_1',  __( 'Address',       'codeweber' ), true,  true,  'half' ),
+	array( 'address_2',  __( 'Address 2',     'codeweber' ), true,  false, 'half' ),
+	array( 'city',       __( 'City',          'codeweber' ), true,  true,  'half' ),
 	array( 'state',      __( 'State / Region','codeweber' ), true,  false, 'half' ),
 	array( 'postcode',   __( 'Postcode',      'codeweber' ), true,  true,  'half' ),
 	array( 'email',      __( 'Email',         'codeweber' ), true,  true,  'half' ),
@@ -466,11 +466,11 @@ $_co_shipping_fields = array();
 $_co_shipping_defs   = array(
 	array( 'first_name', __( 'First Name',    'codeweber' ), true,  false, 'half' ),
 	array( 'last_name',  __( 'Last Name',     'codeweber' ), true,  false, 'half' ),
-	array( 'company',    __( 'Company',       'codeweber' ), true,  false, 'full' ),
-	array( 'country',    __( 'Country',       'codeweber' ), true,  false, 'full' ),
-	array( 'address_1',  __( 'Address',       'codeweber' ), true,  false, 'full' ),
-	array( 'address_2',  __( 'Address 2',     'codeweber' ), true,  false, 'full' ),
-	array( 'city',       __( 'City',          'codeweber' ), true,  false, 'full' ),
+	array( 'company',    __( 'Company',       'codeweber' ), true,  false, 'half' ),
+	array( 'country',    __( 'Country',       'codeweber' ), true,  false, 'half' ),
+	array( 'address_1',  __( 'Address',       'codeweber' ), true,  false, 'half' ),
+	array( 'address_2',  __( 'Address 2',     'codeweber' ), true,  false, 'half' ),
+	array( 'city',       __( 'City',          'codeweber' ), true,  false, 'half' ),
 	array( 'state',      __( 'State / Region','codeweber' ), true,  false, 'half' ),
 	array( 'postcode',   __( 'Postcode',      'codeweber' ), true,  false, 'half' ),
 );
@@ -656,6 +656,100 @@ Redux::set_section(
 				'subtitle' => esc_html__( 'Show toast when adding or removing from wishlist', 'codeweber' ),
 				'default'  => '0',
 				'required' => array( 'wishlist_enable', '=', true ),
+			),
+
+		),
+	)
+);
+
+// ── Compare ───────────────────────────────────────────────────────────────────
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Compare', 'codeweber' ),
+		'id'         => 'woocommerce-compare',
+		'subsection' => true,
+		'fields'     => array(
+
+			array(
+				'id'       => 'compare_enable',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Enable Compare', 'codeweber' ),
+				'subtitle' => esc_html__( 'Activate product comparison (cookie-based, no auth required)', 'codeweber' ),
+				'default'  => false,
+			),
+
+			array(
+				'id'       => 'compare_page',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Compare Page', 'codeweber' ),
+				'subtitle' => esc_html__( 'Page with [cw_compare] shortcode. Use "Create Compare Page" button to generate it automatically.', 'codeweber' ),
+				'data'     => 'pages',
+				'default'  => '',
+				'required' => array( 'compare_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'compare_limit',
+				'type'     => 'slider',
+				'title'    => esc_html__( 'Products Limit', 'codeweber' ),
+				'subtitle' => esc_html__( 'Maximum number of products in comparison (2–6)', 'codeweber' ),
+				'default'  => 4,
+				'min'      => 2,
+				'max'      => 6,
+				'step'     => 1,
+				'required' => array( 'compare_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'compare_btn_loop',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Button on Product Cards', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show «Compare» button on product cards in catalog (alongside Wishlist and Quick View)', 'codeweber' ),
+				'default'  => true,
+				'required' => array( 'compare_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'compare_btn_single',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Button on Single Product', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show «Compare» button on single product page (after Add to Cart). On variable products the selected variation ID is used.', 'codeweber' ),
+				'default'  => true,
+				'required' => array( 'compare_enable', '=', true ),
+			),
+
+			array(
+				'id'    => 'compare_table_info',
+				'type'  => 'info',
+				'style' => 'info',
+				'title' => esc_html__( 'Table Rows', 'codeweber' ),
+				'desc'  => esc_html__( 'Choose which rows to display in the comparison table', 'codeweber' ),
+				'required' => array( 'compare_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'compare_show_rating',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Show Rating Row', 'codeweber' ),
+				'default'  => true,
+				'required' => array( 'compare_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'compare_show_stock',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Show Stock Row', 'codeweber' ),
+				'default'  => true,
+				'required' => array( 'compare_enable', '=', true ),
+			),
+
+			array(
+				'id'       => 'compare_show_sku',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Show SKU Row', 'codeweber' ),
+				'default'  => true,
+				'required' => array( 'compare_enable', '=', true ),
 			),
 
 		),
