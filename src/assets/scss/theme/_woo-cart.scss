@@ -139,15 +139,14 @@ table.woocommerce-cart-form__contents {
     width: 100% !important;
 
     .select2-selection--single {
-      height: calc(1.5em + 0.75rem + calc(var(--bs-border-width) * 2));
-      padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+      padding: .6rem 2rem .6rem 1rem;
       font-size: .75rem;
       line-height: 1.5;
       color: var(--bs-body-color);
       background-color: var(--bs-body-bg);
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
       background-repeat: no-repeat;
-      background-position: right 0.75rem center;
+      background-position: right .75rem center;
       background-size: 16px 12px;
       border: var(--bs-border-width) solid var(--bs-border-color);
       border-radius: var(--bs-border-radius);
