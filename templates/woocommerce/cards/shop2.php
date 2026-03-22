@@ -176,6 +176,7 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 			   class="item-cart ajax_add_to_cart"
 			   data-product_id="<?php echo esc_attr( $product_id ); ?>"
 			   data-product_sku="<?php echo esc_attr( $product->get_sku() ); ?>"
+			   data-quantity="1"
 			   rel="nofollow">
 				<i class="uil uil-shopping-bag"></i>
 				<?php echo esc_html( $add_to_cart_text ); ?>

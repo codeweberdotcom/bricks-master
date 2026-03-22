@@ -16,6 +16,7 @@ $label = ! empty( $args['product_name'] )
 	: esc_html__( 'Quantity', 'woocommerce' );
 
 $classes[] = 'form-control';
+$classes[] = 'form-control-sm';
 $classes[] = 'text-center';
 
 $btn_style      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
@@ -47,16 +48,16 @@ $qty_extra_class = ( trim( $btn_style ) === 'rounded-0' ) ? ' rounded-0' : '';
 			placeholder="<?php echo esc_attr( $placeholder ); ?>"
 			autocomplete="<?php echo esc_attr( isset( $autocomplete ) ? $autocomplete : 'on' ); ?>"
 		<?php endif; ?>
-		style="width:4rem"
+		style="width:3rem"
 	/>
 
 	<?php if ( ! $readonly ) : ?>
 	<div class="cw-qty-v__btns">
-		<button class="btn" type="button" data-qty-inc
+		<button class="btn btn-outline-secondary" type="button" data-qty-inc
 			aria-label="<?php esc_attr_e( 'Increase quantity', 'woocommerce' ); ?>">
 			<i class="uil uil-plus"></i>
 		</button>
-		<button class="btn" type="button" data-qty-dec
+		<button class="btn btn-outline-secondary" type="button" data-qty-dec
 			aria-label="<?php esc_attr_e( 'Decrease quantity', 'woocommerce' ); ?>">
 			<i class="uil uil-minus"></i>
 		</button>

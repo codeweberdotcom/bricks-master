@@ -126,4 +126,3 @@ $cart_items = WC()->cart ? WC()->cart->get_cart() : array();
 	<?php endif; ?>
 
 </div>
-<!-- /.cw-offcanvas-cart-inner -->

@@ -150,6 +150,7 @@ var wooScssImports = [
   'woo-filters',
   'woo-swatches',
   'woo-cart-offcanvas',
+  'woo-cart',
   'wishlist',
 ];
 var wooScssPath = path_module.join(parentThemePath, 'src', 'assets', 'scss', 'theme', '_woo-active.scss');

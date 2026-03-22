@@ -24,8 +24,13 @@
 
 	function updateCartHtml(html) {
 		var inner = document.querySelector('.cw-offcanvas-cart-inner');
-		if (inner && html) {
-			inner.outerHTML = html;
+		if (!inner || !html) return;
+		var tmp = document.createElement('div');
+		tmp.innerHTML = html;
+		var newInner = tmp.querySelector('.cw-offcanvas-cart-inner');
+		if (newInner) {
+			inner.innerHTML = newInner.innerHTML;
+			inner.className  = newInner.className;
 		}
 	}
 
@@ -39,10 +44,47 @@
 		}
 	}
 
-	// ── Архив: встроенный WC AJAX ─────────────────────────────────────────────
+	// ── Архив: свой AJAX (перехват клика на .ajax_add_to_cart) ───────────────
 
-	$(document.body).on('added_to_cart', function () {
+	$(document).on('click', '.ajax_add_to_cart', function (e) {
+		// Single product: форма form.cart обрабатывает сабмит сама
+		if ($(this).closest('form.cart').length) return;
+
+		e.preventDefault();
+
+		var $btn       = $(this);
+		var productId  = $btn.data('product_id');
+		var quantity   = $btn.data('quantity') || 1;
+
+		if (!productId || $btn.hasClass('loading')) return;
+
+		$btn.addClass('loading');
 		openCart();
+		setCartLoading(true);
+
+		$.post(cwCartOffcanvas.ajaxUrl, {
+			action:     cwCartOffcanvas.action,
+			nonce:      cwCartOffcanvas.nonce,
+			'add-to-cart': productId,
+			quantity:   quantity,
+		})
+			.done(function (response) {
+				if (response.success) {
+					updateCartHtml(response.data.cart_html);
+					updateBadge(response.data.cart_count);
+					$(document.body).trigger('wc_fragment_refresh');
+				} else {
+					setCartLoading(false);
+					getOffcanvas() && getOffcanvas().hide();
+				}
+			})
+			.fail(function () {
+				setCartLoading(false);
+				getOffcanvas() && getOffcanvas().hide();
+			})
+			.always(function () {
+				$btn.removeClass('loading');
+			});
 	});
 
 	// ── Single product: перехват form.cart ───────────────────────────────────
@@ -117,21 +159,28 @@
 		e.preventDefault();
 
 		var $item = $(this).closest('.shopping-cart-item');
-		var href  = $(this).attr('href');
+		var key   = $(this).data('cart-item-key');
 
-		if (!href || href === '#') return;
+		if (!key) return;
 
-		$item.css({ opacity: '0.4', pointerEvents: 'none' });
+		$item.addClass('cw-item-removing');
 
-		fetch(href, {
-			headers: { 'X-Requested-With': 'XMLHttpRequest' },
-			redirect: 'follow',
+		$.post(cwCartOffcanvas.ajaxUrl, {
+			action:        'cw_remove_from_cart',
+			nonce:         cwCartOffcanvas.nonce,
+			cart_item_key: key,
 		})
-			.then(function () {
-				$(document.body).trigger('wc_fragment_refresh');
+			.done(function (response) {
+				if (response.success) {
+					updateCartHtml(response.data.cart_html);
+					updateBadge(response.data.cart_count);
+					$(document.body).trigger('wc_fragment_refresh');
+				} else {
+					$item.removeClass('cw-item-removing');
+				}
 			})
-			.catch(function () {
-				$item.css({ opacity: '', pointerEvents: '' });
+			.fail(function () {
+				$item.removeClass('cw-item-removing');
 			});
 	});
 

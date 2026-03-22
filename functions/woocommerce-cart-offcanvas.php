@@ -9,6 +9,44 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// Отключаем встроенный WC AJAX для архивов — используем свой механизм
+add_filter( 'pre_option_woocommerce_enable_ajax_add_to_cart', '__return_false' );
+
+// ── Атрибуты вариации в корзине ───────────────────────────────────────────────
+// wc_get_formatted_cart_item_data() пропускает атрибуты если они уже в названии.
+// Принудительно добавляем их для показа под названием товара.
+
+add_filter( 'woocommerce_get_item_data', 'cw_force_variation_data_in_cart', 10, 2 );
+
+function cw_force_variation_data_in_cart( $item_data, $cart_item ) {
+	if ( ! empty( $item_data ) ) {
+		return $item_data;
+	}
+	if ( ! $cart_item['data']->is_type( 'variation' ) || empty( $cart_item['variation'] ) ) {
+		return $item_data;
+	}
+	foreach ( $cart_item['variation'] as $name => $value ) {
+		if ( '' === $value ) {
+			continue;
+		}
+		$taxonomy = str_replace( 'attribute_', '', sanitize_title( $name ) ); // pa_color
+		if ( taxonomy_exists( $taxonomy ) ) {
+			$term = get_term_by( 'slug', $value, $taxonomy );
+			if ( ! is_wp_error( $term ) && $term && $term->name ) {
+				$value = $term->name;
+			}
+			$label = wc_attribute_label( $taxonomy );
+		} else {
+			$label = wc_attribute_label( str_replace( 'attribute_', '', $name ), $cart_item['data'] );
+		}
+		$item_data[] = array(
+			'key'   => $label,
+			'value' => $value,
+		);
+	}
+	return $item_data;
+}
+
 // ── Cart Fragments ────────────────────────────────────────────────────────────
 // Регистрируем два фрагмента:
 //   1. '.cw-offcanvas-cart-inner'  — список товаров + итого
@@ -81,6 +119,34 @@ function cw_ajax_add_to_cart() {
 		'cart_html'  => $cart_html,
 		'cart_count' => $count,
 		'cart_hash'  => WC()->cart->get_cart_hash(),
+	) );
+}
+
+// ── AJAX: удаление из корзины ─────────────────────────────────────────────────
+
+add_action( 'wp_ajax_cw_remove_from_cart',        'cw_ajax_remove_from_cart' );
+add_action( 'wp_ajax_nopriv_cw_remove_from_cart', 'cw_ajax_remove_from_cart' );
+
+function cw_ajax_remove_from_cart() {
+	check_ajax_referer( 'cw_add_to_cart', 'nonce' );
+
+	$cart_item_key = sanitize_key( wp_unslash( $_POST['cart_item_key'] ?? '' ) );
+
+	if ( ! $cart_item_key ) {
+		wp_send_json_error( array( 'message' => 'Invalid key.' ) );
+	}
+
+	WC()->cart->remove_cart_item( $cart_item_key );
+
+	ob_start();
+	get_template_part( 'templates/woocommerce/offcanvas-cart-items' );
+	$cart_html = ob_get_clean();
+
+	$count = WC()->cart->get_cart_contents_count();
+
+	wp_send_json_success( array(
+		'cart_html'  => $cart_html,
+		'cart_count' => $count,
 	) );
 }
 
@@ -158,4 +224,16 @@ function cw_cart_offcanvas_enqueue() {
 			),
 		)
 	);
+
+	// Авто-обновление корзины при изменении количества товара
+	if ( is_cart() ) {
+		wp_add_inline_script(
+			'cw-cart-offcanvas',
+			'jQuery(function($){
+				$(document).on("change", "form.woocommerce-cart-form .qty", function(){
+					$("[name=\'update_cart\']").prop("disabled", false).trigger("click");
+				});
+			});'
+		);
+	}
 }

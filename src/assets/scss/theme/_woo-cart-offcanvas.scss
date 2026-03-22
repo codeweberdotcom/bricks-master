@@ -76,6 +76,27 @@
   to { transform: rotate(360deg); }
 }
 
+// Спиннер на кнопке «В корзину» в архиве товаров
+.item-cart.loading {
+  pointer-events: none;
+  color: transparent !important;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1em;
+    height: 1em;
+    margin: -.5em 0 0 -.5em;
+    border: 2px solid #fff;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: cw-btn-spin .6s linear infinite;
+  }
+}
+
 // Кнопка удаления — плавное появление при наведении на элемент
 .shopping-cart-item {
   position: relative;
