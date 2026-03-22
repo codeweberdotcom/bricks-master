@@ -68,7 +68,17 @@ wp_ajax_cw_remove_from_cart
 wp_ajax_nopriv_cw_remove_from_cart
 ```
 
-Читает `cart_item_key` из `$_POST`. Возвращает обновлённый `cart_html` и `cart_count`.
+Читает `cart_item_key` из `$_POST`. Возвращает:
+
+```json
+{
+  "cart_html": "...",
+  "cart_count": 2,
+  "cart_totals_html": "<div class=\"cart_totals\">...</div>"
+}
+```
+
+`cart_totals_html` используется JS на странице корзины для замены блока `.cart_totals` без перезагрузки страницы. В offcanvas это поле игнорируется.
 
 ---
 
@@ -188,11 +198,79 @@ if ($(this).closest('form.cart').length) return;
 
 ---
 
-## Вариации в offcanvas
+## Вариации в корзине и offcanvas
 
 Фильтр `woocommerce_get_item_data` → `cw_force_variation_data_in_cart()`.
 
-`wc_get_formatted_cart_item_data()` пропускает атрибуты если они уже включены в название товара. Наш фильтр принудительно добавляет их для отображения под названием в offcanvas.
+**Проблема:** `wc_get_formatted_cart_item_data()` вызывает `wc_is_attribute_in_product_name()` и **пропускает** атрибуты вариации, если они уже включены в название товара (например «Браслет — Чёрный, Кожа»).
+
+**Решение:** Фильтр принудительно добавляет все атрибуты в `$item_data` когда массив пустой:
+
+```php
+add_filter( 'woocommerce_get_item_data', 'cw_force_variation_data_in_cart', 10, 2 );
+
+function cw_force_variation_data_in_cart( $item_data, $cart_item ) {
+    if ( ! empty( $item_data ) ) return $item_data;
+    if ( ! $cart_item['data']->is_type( 'variation' ) || empty( $cart_item['variation'] ) ) return $item_data;
+    foreach ( $cart_item['variation'] as $name => $value ) {
+        $taxonomy = str_replace( 'attribute_', '', sanitize_title( $name ) ); // pa_color
+        if ( taxonomy_exists( $taxonomy ) ) {
+            $term = get_term_by( 'slug', $value, $taxonomy );
+            if ( $term && $term->name ) $value = $term->name; // slug → читаемое название
+            $label = wc_attribute_label( $taxonomy );
+        } else {
+            $label = wc_attribute_label( str_replace( 'attribute_', '', $name ), $cart_item['data'] );
+        }
+        $item_data[] = [ 'key' => $label, 'value' => $value ];
+    }
+    return $item_data;
+}
+```
+
+Работает как в offcanvas, так и на странице корзины (`cart.php`) — `wc_get_formatted_cart_item_data()` используется в обоих местах.
+
+---
+
+## AJAX удаление на странице корзины
+
+JS-обработчик в `woo-cart-offcanvas.js` (тот же файл, что и offcanvas):
+
+```js
+$(document).on('click', '.woocommerce-cart-form .pe-0 [data-product_id]', function(e) { ... })
+```
+
+- Извлекает ключ из `href` через `/[?&]remove_item=([a-f0-9]+)/`
+- При `cart_count === 0` → `window.location.reload()` (показывает empty state)
+- Иначе: удаляет `<tr>`, обновляет badge + offcanvas HTML + `.cart_totals`
+
+Подробнее: [`doc_claude/integrations/WC_CART.md`](WC_CART.md).
+
+---
+
+## Ripple на кнопках offcanvas
+
+Кнопкам в `templates/woocommerce/offcanvas-cart-items.php` добавлен класс `has-ripple`.
+
+**Проблема:** WC fragment refresh заменяет HTML после инициализации `theme.js` → ripple не инициализируется на новых кнопках.
+
+**Решение — два места:**
+
+```js
+// 1. После каждого updateCartHtml()
+function updateCartHtml(html) {
+    // ... обновляем DOM ...
+    if (typeof custom !== 'undefined' && typeof custom.rippleEffect === 'function') {
+        custom.rippleEffect();
+    }
+}
+
+// 2. После WC fragment refresh (первичная загрузка и обновления)
+$(document.body).on('wc_fragments_refreshed wc_fragments_loaded', function() {
+    if (typeof custom !== 'undefined' && typeof custom.rippleEffect === 'function') {
+        custom.rippleEffect();
+    }
+});
+```
 
 ---
 
