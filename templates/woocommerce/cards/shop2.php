@@ -174,6 +174,7 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 		<?php
 		$cw_compare_on = class_exists( 'CW_Compare_Storage' )
 			&& class_exists( 'Redux' )
+			&& ( (bool) Redux::get_option( 'redux_demo', 'compare_enable', true ) )
 			&& ( (bool) Redux::get_option( 'redux_demo', 'compare_btn_loop', true ) );
 		if ( $cw_compare_on ) {
 			CW_Compare_UI::render_loop_button( $product_id );

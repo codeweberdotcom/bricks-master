@@ -36,10 +36,6 @@
 
 // ── Compare Button на карточке ────────────────────────────────────────────────
 
-.item-compare {
-    // Позиционирование — аналогично .item-like и .item-view
-}
-
 .cw-compare-btn {
     &--active {
         color: var(--bs-primary) !important;
