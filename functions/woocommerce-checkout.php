@@ -121,6 +121,93 @@ function cw_checkout_field_select( $field, $key, $args, $value ) {
 		. '</p>';
 }
 
+// ── Redux: управление полями чекаута ─────────────────────────────────────────
+// Фильтр читает Redux-настройки и для каждого поля: включает/выключает,
+// устанавливает required, применяет ширину (full/half с авто-парением).
+
+add_filter( 'woocommerce_checkout_fields', 'cw_checkout_fields_from_redux', 20 );
+
+function cw_checkout_fields_from_redux( $fields ) {
+	$opts = get_option( 'redux_demo', array() );
+
+	// Дефолты (зеркало Redux-дефолтов) — используются если Redux ещё не сохранён
+	$defaults = array(
+		'billing'  => array(
+			'first_name' => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
+			'last_name'  => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
+			'company'    => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
+			'country'    => array( 'enabled' => true,  'required' => true,  'width' => 'full' ),
+			'address_1'  => array( 'enabled' => true,  'required' => true,  'width' => 'full' ),
+			'address_2'  => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
+			'city'       => array( 'enabled' => true,  'required' => true,  'width' => 'full' ),
+			'state'      => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'postcode'   => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
+			'email'      => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
+			'phone'      => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
+		),
+		'shipping' => array(
+			'first_name' => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'last_name'  => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'company'    => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
+			'country'    => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
+			'address_1'  => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
+			'address_2'  => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
+			'city'       => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
+			'state'      => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'postcode'   => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+		),
+	);
+
+	foreach ( $defaults as $group => $keys ) {
+		$half_counter = 0;
+
+		foreach ( $keys as $key => $def ) {
+			$field_key = "{$group}_{$key}";
+			$id_base   = "woo_co_{$group}_{$key}";
+
+			if ( ! isset( $fields[ $group ][ $field_key ] ) ) {
+				continue;
+			}
+
+			// Enable / disable
+			$enabled = isset( $opts["{$id_base}_enable"] ) ? (bool) $opts["{$id_base}_enable"] : $def['enabled'];
+			if ( ! $enabled ) {
+				unset( $fields[ $group ][ $field_key ] );
+				continue;
+			}
+
+			// Required
+			$required = isset( $opts["{$id_base}_required"] ) ? (bool) $opts["{$id_base}_required"] : $def['required'];
+			$fields[ $group ][ $field_key ]['required'] = $required;
+
+			// Width
+			$width = isset( $opts["{$id_base}_width"] ) ? $opts["{$id_base}_width"] : $def['width'];
+			$class = (array) ( $fields[ $group ][ $field_key ]['class'] ?? array() );
+
+			if ( 'full' === $width ) {
+				$class   = array_diff( $class, array( 'form-row-first', 'form-row-last' ) );
+				$class[] = 'form-row-wide';
+			} elseif ( 'half' === $width ) {
+				$class        = array_diff( $class, array( 'form-row-wide' ) );
+				$class[]      = ( 0 === $half_counter % 2 ) ? 'form-row-first' : 'form-row-last';
+				$half_counter++;
+			}
+
+			$fields[ $group ][ $field_key ]['class'] = array_values( array_unique( $class ) );
+		}
+	}
+
+	// Order Notes
+	$notes_enabled = isset( $opts['woo_co_order_comments_enable'] )
+		? (bool) $opts['woo_co_order_comments_enable']
+		: true;
+	if ( ! $notes_enabled && isset( $fields['order']['order_comments'] ) ) {
+		unset( $fields['order']['order_comments'] );
+	}
+
+	return $fields;
+}
+
 // ── Country / State → добавляем form-select класс (WC рендерит сам) ───────────
 
 add_filter( 'woocommerce_form_field_args', 'cw_checkout_country_state_args', 10, 3 );

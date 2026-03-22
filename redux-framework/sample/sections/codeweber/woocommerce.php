@@ -380,6 +380,130 @@ Redux::set_section(
 	)
 );
 
+// ── Checkout helpers ──────────────────────────────────────────────────────────
+// Генерирует 3 Redux-поля (enable / required / width) для одного поля чекаута.
+
+if ( ! function_exists( 'cw_redux_checkout_field_rows' ) ) {
+	function cw_redux_checkout_field_rows( $prefix, $key, $label, $default_enabled, $default_required, $default_width, $show_required = true ) {
+		$id   = "woo_co_{$prefix}_{$key}";
+		$rows = array(
+			array(
+				'id'    => "{$id}_sep",
+				'type'  => 'info',
+				'style' => 'default',
+				'title' => esc_html( $label ),
+			),
+			array(
+				'id'      => "{$id}_enable",
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Enable', 'codeweber' ),
+				'default' => $default_enabled,
+				'class'   => 'xts-col-4',
+			),
+		);
+		if ( $show_required ) {
+			$rows[] = array(
+				'id'       => "{$id}_required",
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Required', 'codeweber' ),
+				'default'  => $default_required,
+				'class'    => 'xts-col-4',
+				'required' => array( "{$id}_enable", '=', true ),
+			);
+		}
+		$rows[] = array(
+			'id'       => "{$id}_width",
+			'type'     => 'button_set',
+			'title'    => esc_html__( 'Width', 'codeweber' ),
+			'default'  => $default_width,
+			'class'    => 'xts-col-4',
+			'options'  => array(
+				'full' => esc_html__( 'Full', 'codeweber' ),
+				'half' => esc_html__( 'Half', 'codeweber' ),
+			),
+			'required' => array( "{$id}_enable", '=', true ),
+		);
+		return $rows;
+	}
+}
+
+// ── Checkout: Billing ──────────────────────────────────────────────────────────
+
+$_co_billing_fields = array();
+$_co_billing_defs   = array(
+	// key          label                        enabled  required  width
+	array( 'first_name', __( 'First Name',    'codeweber' ), true,  true,  'half' ),
+	array( 'last_name',  __( 'Last Name',     'codeweber' ), true,  true,  'half' ),
+	array( 'company',    __( 'Company',       'codeweber' ), true,  false, 'full' ),
+	array( 'country',    __( 'Country',       'codeweber' ), true,  true,  'full' ),
+	array( 'address_1',  __( 'Address',       'codeweber' ), true,  true,  'full' ),
+	array( 'address_2',  __( 'Address 2',     'codeweber' ), true,  false, 'full' ),
+	array( 'city',       __( 'City',          'codeweber' ), true,  true,  'full' ),
+	array( 'state',      __( 'State / Region','codeweber' ), true,  false, 'half' ),
+	array( 'postcode',   __( 'Postcode',      'codeweber' ), true,  true,  'half' ),
+	array( 'email',      __( 'Email',         'codeweber' ), true,  true,  'half' ),
+	array( 'phone',      __( 'Phone',         'codeweber' ), true,  true,  'half' ),
+);
+foreach ( $_co_billing_defs as $_d ) {
+	foreach ( cw_redux_checkout_field_rows( 'billing', $_d[0], $_d[1], $_d[2], $_d[3], $_d[4] ) as $_f ) {
+		$_co_billing_fields[] = $_f;
+	}
+}
+
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Checkout: Billing', 'codeweber' ),
+		'id'         => 'woocommerce-checkout-billing',
+		'subsection' => true,
+		'fields'     => $_co_billing_fields,
+	)
+);
+
+// ── Checkout: Shipping ────────────────────────────────────────────────────────
+
+$_co_shipping_fields = array();
+$_co_shipping_defs   = array(
+	array( 'first_name', __( 'First Name',    'codeweber' ), true,  false, 'half' ),
+	array( 'last_name',  __( 'Last Name',     'codeweber' ), true,  false, 'half' ),
+	array( 'company',    __( 'Company',       'codeweber' ), true,  false, 'full' ),
+	array( 'country',    __( 'Country',       'codeweber' ), true,  false, 'full' ),
+	array( 'address_1',  __( 'Address',       'codeweber' ), true,  false, 'full' ),
+	array( 'address_2',  __( 'Address 2',     'codeweber' ), true,  false, 'full' ),
+	array( 'city',       __( 'City',          'codeweber' ), true,  false, 'full' ),
+	array( 'state',      __( 'State / Region','codeweber' ), true,  false, 'half' ),
+	array( 'postcode',   __( 'Postcode',      'codeweber' ), true,  false, 'half' ),
+);
+foreach ( $_co_shipping_defs as $_d ) {
+	foreach ( cw_redux_checkout_field_rows( 'shipping', $_d[0], $_d[1], $_d[2], $_d[3], $_d[4] ) as $_f ) {
+		$_co_shipping_fields[] = $_f;
+	}
+}
+
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Checkout: Shipping', 'codeweber' ),
+		'id'         => 'woocommerce-checkout-shipping',
+		'subsection' => true,
+		'fields'     => $_co_shipping_fields,
+	)
+);
+
+// ── Checkout: Additional ──────────────────────────────────────────────────────
+
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Checkout: Additional', 'codeweber' ),
+		'id'         => 'woocommerce-checkout-additional',
+		'subsection' => true,
+		'fields'     => array_merge(
+			cw_redux_checkout_field_rows( 'order', 'comments', __( 'Order Notes', 'codeweber' ), true, false, 'full', false )
+		),
+	)
+);
+
 // ── Account ───────────────────────────────────────────────────────────────────
 Redux::set_section(
 	$opt_name,
