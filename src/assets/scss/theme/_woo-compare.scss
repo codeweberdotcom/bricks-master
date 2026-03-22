@@ -41,10 +41,37 @@
         color: var(--bs-primary) !important;
     }
 
+    // Loading state — скрываем иконку, показываем border-спиннер
     &--loading {
         pointer-events: none;
-        opacity: .5;
+
+        i.uil {
+            opacity: 0;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 1em;
+            height: 1em;
+            border: 0.125em solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: cw-compare-spin 0.7s linear infinite;
+        }
     }
+
+    // item-compare (loop-кнопка на карточке) — спиннер цвета primary
+    &.item-compare#{&}--loading {
+        color: var(--bs-primary);
+    }
+}
+
+@keyframes cw-compare-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }
 
 // ── Compare Button на single product ─────────────────────────────────────────
