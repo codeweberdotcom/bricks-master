@@ -90,6 +90,30 @@ function codeweber_universal_modal_container()
         </div>
     <?php endif; ?>
     
+    <!-- Universal REST API modal — статично в DOM, Bootstrap не крашит делегированный обработчик.
+         restapi.js переиспользует этот элемент: наполняет контентом и уничтожает Bootstrap-инстанс после закрытия. -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php echo esc_attr__('Close', 'codeweber'); ?>"></button>
+                    <div id="modal-content">
+                        <div class="p-2">
+                            <div class="cw-skeleton-block mb-3" style="height:1.4em;width:65%"></div>
+                            <div class="cw-skeleton-block mb-2" style="height:.8em;width:100%"></div>
+                            <div class="cw-skeleton-block mb-2" style="height:.8em;width:92%"></div>
+                            <div class="cw-skeleton-block mb-2" style="height:.8em;width:85%"></div>
+                            <div class="cw-skeleton-block mb-4" style="height:.8em;width:68%"></div>
+                            <div class="cw-skeleton-block mb-2" style="height:.8em;width:100%"></div>
+                            <div class="cw-skeleton-block mb-2" style="height:.8em;width:88%"></div>
+                            <div class="cw-skeleton-block" style="height:.8em;width:55%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Config for dynamically created universal modal (created by restapi.js on demand) -->
     <meta id="cw-modal-config"
           data-card-radius="<?php echo esc_attr($card_radius); ?>"

@@ -392,48 +392,58 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardRadiusClass = config ? (config.dataset.cardRadius || '') : '';
     const closeLabel = config ? (config.dataset.closeLabel || 'Close') : 'Close';
 
-    const el = document.createElement('div');
-    el.className = 'modal fade';
-    el.id = 'modal';
-    el.tabIndex = -1;
-    el.setAttribute('aria-labelledby', 'modalLabel');
-    el.setAttribute('aria-hidden', 'true');
-    el.innerHTML =
-      '<div class="modal-dialog modal-dialog-centered">' +
-        '<div class="modal-content' + (cardRadiusClass ? ' ' + cardRadiusClass : '') + '">' +
-          '<div class="modal-body">' +
-            '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' + closeLabel + '"></button>' +
-            '<div id="modal-content"></div>' +
+    // Переиспользуем статичный #modal из DOM (modal-container.php), иначе создаём новый
+    let el = document.getElementById('modal');
+    if (!el) {
+      el = document.createElement('div');
+      el.className = 'modal fade';
+      el.id = 'modal';
+      el.tabIndex = -1;
+      el.setAttribute('aria-labelledby', 'modalLabel');
+      el.setAttribute('aria-hidden', 'true');
+      el.innerHTML =
+        '<div class="modal-dialog modal-dialog-centered">' +
+          '<div class="modal-content' + (cardRadiusClass ? ' ' + cardRadiusClass : '') + '">' +
+            '<div class="modal-body">' +
+              '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' + closeLabel + '"></button>' +
+              '<div id="modal-content"></div>' +
+            '</div>' +
           '</div>' +
-        '</div>' +
-      '</div>';
-
-    document.body.appendChild(el);
+        '</div>';
+      document.body.appendChild(el);
+    }
 
     modalElement = el;
     modalContent = el.querySelector('#modal-content');
     modalDialog  = el.querySelector('.modal-dialog');
     modalInstance = new bootstrap.Modal(el);
 
-    // shown.bs.modal — переинициализация CF7 и компонентов после показа
-    el.addEventListener('shown.bs.modal', function () {
-      const formElement = modalContent.querySelector('form.wpcf7-form');
-      if (formElement && typeof wpcf7 !== 'undefined') {
-        wpcf7.init(formElement);
-      }
-      initTestimonialRatingStars();
-      initDocumentEmailForm();
-    });
+    // Навешиваем слушатели только один раз на элемент (при переиспользовании не дублируем)
+    if (!el.dataset.cwModalListeners) {
+      el.dataset.cwModalListeners = '1';
 
-    // hidden.bs.modal — уничтожаем DOM и обнуляем состояние
-    el.addEventListener('hidden.bs.modal', () => {
-      modalInstance.dispose();
-      el.remove();
-      modalElement = null;
-      modalContent  = null;
-      modalDialog   = null;
-      modalInstance = null;
-    });
+      // shown.bs.modal — переинициализация CF7 и компонентов после показа
+      el.addEventListener('shown.bs.modal', function () {
+        const formElement = modalContent.querySelector('form.wpcf7-form');
+        if (formElement && typeof wpcf7 !== 'undefined') {
+          wpcf7.init(formElement);
+        }
+        initTestimonialRatingStars();
+        initDocumentEmailForm();
+      });
+
+      // hidden.bs.modal — восстанавливаем скелетон, обнуляем состояние (элемент остаётся в DOM)
+      el.addEventListener('hidden.bs.modal', () => {
+        if (modalContent) {
+          modalContent.innerHTML = getModalSkeleton('');
+        }
+        modalInstance.dispose();
+        modalElement = null;
+        modalContent  = null;
+        modalDialog   = null;
+        modalInstance = null;
+      });
+    }
 
     return modalInstance;
   }
@@ -508,7 +518,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const isForm = dataValue && (
       dataValue.startsWith('cf7-') ||
       dataValue.startsWith('cf-') ||
-      dataValue === 'add-testimonial'
+      dataValue === 'add-testimonial' ||
+      dataValue.startsWith('event-reg-')
     );
 
     if (isForm) {
