@@ -1,16 +1,16 @@
 <?php
 /**
- * Compare Bar — inner content (заменяется через AJAX).
+ * Compare Bar — inner content (replaced via AJAX).
  *
- * Переменные: $compare_ids (int[]), $limit (int)
- * Передаются через get_template_part() args или get_template_part + extract.
+ * Variables: $compare_ids (int[]), $limit (int)
+ * Passed via get_template_part() args (WP 5.5+).
  *
  * @package CodeWeber
  */
 
 defined( 'ABSPATH' ) || exit;
 
-// Поддержка передачи через args (WP 5.5+)
+// Support args passed via get_template_part() (WP 5.5+).
 if ( ! isset( $compare_ids ) ) {
 	$args        = $args ?? array();
 	$compare_ids = $args['compare_ids'] ?? array();
@@ -25,7 +25,7 @@ $card_radius  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 
 ?>
 <div class="cw-compare-bar-inner w-100 d-flex align-items-center gap-2 gap-sm-3 flex-wrap">
 
-	<!-- Слоты -->
+	<!-- Slots -->
 	<div class="cw-compare-slots d-flex align-items-center gap-2 flex-grow-1">
 
 		<?php foreach ( $compare_ids as $pid ) :
@@ -54,8 +54,8 @@ $card_radius  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 
 					type="button"
 					class="cw-compare-slot-remove position-absolute top-0 end-0 btn btn-link p-0 lh-1"
 					data-product-id="<?php echo esc_attr( $pid ); ?>"
-					aria-label="<?php esc_attr_e( 'Убрать из сравнения', 'codeweber' ); ?>"
-					title="<?php esc_attr_e( 'Убрать', 'codeweber' ); ?>"
+					aria-label="<?php esc_attr_e( 'Remove from compare', 'codeweber' ); ?>"
+					title="<?php esc_attr_e( 'Remove', 'codeweber' ); ?>"
 					style="width:18px;height:18px;top:-6px;right:-6px;background:rgba(0,0,0,.6);border-radius:50%;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;">
 					<i class="uil uil-times" aria-hidden="true"></i>
 				</button>
@@ -72,17 +72,17 @@ $card_radius  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 
 	</div>
 	<!-- /.cw-compare-slots -->
 
-	<!-- Действия -->
+	<!-- Actions -->
 	<div class="cw-compare-actions d-flex gap-2 align-items-center flex-shrink-0">
 		<a href="<?php echo esc_url( cw_get_compare_url() ); ?>"
 			class="btn btn-primary btn-sm has-ripple <?php echo esc_attr( $btn_style ); ?>">
 			<i class="uil uil-exchange" aria-hidden="true"></i>
-			<span class="d-none d-sm-inline ms-1"><?php esc_html_e( 'Сравнить', 'codeweber' ); ?></span>
+			<span class="d-none d-sm-inline ms-1"><?php esc_html_e( 'Compare', 'codeweber' ); ?></span>
 			<span class="badge bg-white text-primary ms-1"><?php echo esc_html( $count ); ?></span>
 		</a>
 		<button type="button" class="cw-compare-clear btn btn-outline-danger btn-sm <?php echo esc_attr( $btn_style ); ?>">
 			<i class="uil uil-trash-alt me-1" aria-hidden="true"></i>
-			<?php esc_html_e( 'Очистить', 'codeweber' ); ?>
+			<?php esc_html_e( 'Clear', 'codeweber' ); ?>
 		</button>
 	</div>
 

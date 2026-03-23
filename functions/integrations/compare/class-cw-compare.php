@@ -1,6 +1,6 @@
 <?php
 /**
- * Compare — главный класс: AJAX, инициализация.
+ * Compare — main class: AJAX handlers, initialization.
  *
  * @package CodeWeber
  */
@@ -59,7 +59,7 @@ class CW_Compare {
 			wp_send_json_error( array( 'message' => __( 'Invalid product_id', 'codeweber' ) ) );
 		}
 
-		// Проверяем существование товара
+		// Validate product exists.
 		$product = wc_get_product( $product_id );
 		if ( ! $product ) {
 			wp_send_json_error( array( 'message' => __( 'Product not found', 'codeweber' ) ) );
@@ -68,10 +68,9 @@ class CW_Compare {
 		$limit  = cw_get_compare_limit();
 		$added  = false;
 
-		// Если клиент передал текущий список — синхронизируем куку с ним.
-		// Это исключает race condition при быстрых кликах: клиент всегда
-		// передаёт актуальный state.ids, который уже включает результат
-		// предыдущего запроса.
+		// If client sent current IDs — sync the cookie with them before toggle.
+		// This prevents race conditions on fast clicks: the client always sends
+		// the authoritative state.ids reflecting the result of previous requests.
 		if ( isset( $_POST['current_ids'] ) && '' !== $_POST['current_ids'] ) {
 			$client_ids = array_map( 'absint', explode( ',', sanitize_text_field( wp_unslash( $_POST['current_ids'] ) ) ) );
 			$client_ids = array_filter( $client_ids );
@@ -79,16 +78,16 @@ class CW_Compare {
 		}
 
 		if ( CW_Compare_Storage::has( $product_id ) ) {
-			// Уже есть — удаляем
+			// Already in list — remove it.
 			CW_Compare_Storage::remove( $product_id );
 			$added = false;
 		} else {
-			// Добавляем
+			// Add to list.
 			$result = CW_Compare_Storage::add( $product_id, $limit );
 
 			if ( ! $result ) {
 				wp_send_json_error( array(
-					'message'       => __( 'Достигнут лимит товаров для сравнения', 'codeweber' ),
+					'message'       => __( 'Compare limit reached', 'codeweber' ),
 					'limit_reached' => true,
 				) );
 			}
@@ -99,10 +98,10 @@ class CW_Compare {
 		$ids   = CW_Compare_Storage::get_ids();
 		$count = count( $ids );
 
-		// Рендерим inner-контент бара
+		// Render bar inner HTML for the response.
 		$bar_html = $this->render_bar_inner( $ids, $limit );
 
-		// Matomo tracking
+		// Matomo tracking.
 		if ( $added ) {
 			$this->track_matomo_compare_add( $product_id, $product->get_name() );
 		}

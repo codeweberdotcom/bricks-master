@@ -1,9 +1,9 @@
 <?php
 /**
- * Compare Table — HTML-таблица сравнения товаров.
- * Подключается из CW_Compare_Table::render() через ob_start + include.
+ * Compare Table — HTML comparison table for products.
+ * Included from CW_Compare_Table::render() via ob_start + include.
  *
- * Доступно: $this (CW_Compare_Table), $attrs (array label=>string), $products (WC_Product[])
+ * Available: $this (CW_Compare_Table), $attrs (array label=>string), $products (WC_Product[])
  *
  * @package CodeWeber
  */
@@ -23,19 +23,19 @@ if ( empty( $products ) ) {
 <div class="table-responsive cw-compare-table-wrap">
 <table class="cw-compare-table table table-bordered align-middle text-center">
 
-	<!-- ── Шапка: изображения + названия ───────────────────────────────────── -->
+	<!-- ── Header: images + names ──────────────────────────────────────────── -->
 	<thead>
 		<tr>
 			<th class="cw-compare-label-col text-start text-muted fw-normal small"></th>
 			<?php foreach ( $products as $product ) : ?>
 				<th class="cw-compare-product-col" data-product-id="<?php echo esc_attr( $product->get_id() ); ?>">
 
-					<!-- Фото -->
+					<!-- Image -->
 					<a href="<?php echo esc_url( $this->get_url( $product ) ); ?>">
 						<?php echo $this->get_image( $product, 100, $card_radius ); // phpcs:ignore ?>
 					</a>
 
-					<!-- Название -->
+					<!-- Name -->
 					<div class="mt-2 mb-1">
 						<a href="<?php echo esc_url( $this->get_url( $product ) ); ?>"
 							class="fw-semibold text-dark text-decoration-none fs-15 link-hover-primary">
@@ -43,14 +43,14 @@ if ( empty( $products ) ) {
 						</a>
 					</div>
 
-					<!-- Удалить из сравнения -->
+					<!-- Remove from compare -->
 					<button
 						type="button"
 						class="cw-compare-remove-product btn btn-link btn-sm text-muted p-0 text-decoration-none"
 						data-product-id="<?php echo esc_attr( $product->get_id() ); ?>"
-						aria-label="<?php esc_attr_e( 'Убрать из сравнения', 'codeweber' ); ?>">
+						aria-label="<?php esc_attr_e( 'Remove from compare', 'codeweber' ); ?>">
 						<i class="uil uil-times me-1" aria-hidden="true"></i>
-						<span class="small"><?php esc_html_e( 'Убрать', 'codeweber' ); ?></span>
+						<span class="small"><?php esc_html_e( 'Remove', 'codeweber' ); ?></span>
 					</button>
 
 				</th>
@@ -60,18 +60,18 @@ if ( empty( $products ) ) {
 
 	<tbody>
 
-		<!-- ── Цена ─────────────────────────────────────────────────────────── -->
+		<!-- ── Price ─────────────────────────────────────────────────────── -->
 		<tr class="cw-compare-row" data-row="price">
-			<td class="cw-compare-label-col text-start text-muted small"><?php esc_html_e( 'Цена', 'codeweber' ); ?></td>
+			<td class="cw-compare-label-col text-start text-muted small"><?php esc_html_e( 'Price', 'codeweber' ); ?></td>
 			<?php foreach ( $products as $product ) : ?>
 				<td><?php echo $product->get_price_html(); // phpcs:ignore ?></td>
 			<?php endforeach; ?>
 		</tr>
 
-		<!-- ── Рейтинг ──────────────────────────────────────────────────────── -->
+		<!-- ── Rating ────────────────────────────────────────────────────── -->
 		<?php if ( $this->show_rating() ) : ?>
 		<tr class="cw-compare-row" data-row="rating">
-			<td class="cw-compare-label-col text-start text-muted small"><?php esc_html_e( 'Рейтинг', 'codeweber' ); ?></td>
+			<td class="cw-compare-label-col text-start text-muted small"><?php esc_html_e( 'Rating', 'codeweber' ); ?></td>
 			<?php foreach ( $products as $product ) :
 				$parent_id = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
 				$rating    = get_post_meta( $parent_id, '_wc_average_rating', true );
@@ -88,10 +88,10 @@ if ( empty( $products ) ) {
 		</tr>
 		<?php endif; ?>
 
-		<!-- ── Наличие ──────────────────────────────────────────────────────── -->
+		<!-- ── Stock ─────────────────────────────────────────────────────── -->
 		<?php if ( $this->show_stock() ) : ?>
 		<tr class="cw-compare-row" data-row="stock">
-			<td class="cw-compare-label-col text-start text-muted small"><?php esc_html_e( 'Наличие', 'codeweber' ); ?></td>
+			<td class="cw-compare-label-col text-start text-muted small"><?php esc_html_e( 'Availability', 'codeweber' ); ?></td>
 			<?php foreach ( $products as $product ) :
 				$avail = $product->get_availability();
 				$class = ! empty( $avail['class'] ) ? ' text-' . esc_attr( $avail['class'] ) : '';
@@ -100,14 +100,14 @@ if ( empty( $products ) ) {
 					<?php if ( ! empty( $avail['availability'] ) ) : ?>
 						<span class="small<?php echo $class; // phpcs:ignore ?>"><?php echo esc_html( $avail['availability'] ); ?></span>
 					<?php else : ?>
-						<span class="text-success small"><?php esc_html_e( 'В наличии', 'codeweber' ); ?></span>
+						<span class="text-success small"><?php esc_html_e( 'In stock', 'codeweber' ); ?></span>
 					<?php endif; ?>
 				</td>
 			<?php endforeach; ?>
 		</tr>
 		<?php endif; ?>
 
-		<!-- ── SKU ──────────────────────────────────────────────────────────── -->
+		<!-- ── SKU ───────────────────────────────────────────────────────── -->
 		<?php if ( $this->show_sku() ) : ?>
 		<tr class="cw-compare-row" data-row="sku">
 			<td class="cw-compare-label-col text-start text-muted small">SKU</td>
@@ -117,11 +117,11 @@ if ( empty( $products ) ) {
 		</tr>
 		<?php endif; ?>
 
-		<!-- ── В корзину ────────────────────────────────────────────────────── -->
+		<!-- ── Add to cart ───────────────────────────────────────────────── -->
 		<tr class="cw-compare-row" data-row="add_to_cart">
 			<td class="cw-compare-label-col text-start text-muted small"></td>
 			<?php foreach ( $products as $product ) :
-				// Для вариации ссылаемся на родительский товар
+				// For variations: link to the parent product.
 				$link_product = $product->is_type( 'variation' )
 					? wc_get_product( $product->get_parent_id() )
 					: $product;
@@ -162,17 +162,17 @@ if ( empty( $products ) ) {
 			<?php endforeach; ?>
 		</tr>
 
-		<!-- ── Атрибуты ─────────────────────────────────────────────────────── -->
+		<!-- ── Attributes ────────────────────────────────────────────────── -->
 		<?php if ( ! empty( $attrs ) ) : ?>
 		<tr>
 			<td colspan="<?php echo count( $products ) + 1; ?>"
 				class="text-start text-muted small bg-light fw-semibold py-2 px-3">
-				<?php esc_html_e( 'Характеристики', 'codeweber' ); ?>
+				<?php esc_html_e( 'Specifications', 'codeweber' ); ?>
 			</td>
 		</tr>
 
 		<?php foreach ( $attrs as $attr_key => $attr_label ) :
-			// Все одинаковые → класс для JS-скрытия
+			// All values identical — mark row for JS "diff only" toggle.
 			$same       = $this->all_same( $attr_key );
 			$row_class  = 'cw-compare-row' . ( $same ? ' cw-compare-row--same' : '' );
 			?>

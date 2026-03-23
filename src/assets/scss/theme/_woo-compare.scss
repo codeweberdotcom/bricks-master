@@ -71,14 +71,14 @@
     }
 }
 
-// ── Compare Button на карточке ────────────────────────────────────────────────
+// ── Compare Button on product card ────────────────────────────────────────────
 
 .cw-compare-btn {
     &--active {
         color: var(--bs-primary) !important;
     }
 
-    // Loading state — скрываем иконку, показываем border-спиннер
+    // Loading state — hide icon, show border spinner
     &--loading {
         pointer-events: none;
 
@@ -100,7 +100,7 @@
         }
     }
 
-    // item-compare (loop-кнопка на карточке) — спиннер цвета primary
+    // item-compare (loop card button) — spinner uses primary color
     &.item-compare#{&}--loading {
         color: var(--bs-primary);
     }
@@ -143,7 +143,7 @@
     to   { transform: rotate(360deg); }
 }
 
-// ── Compare Button на single product ─────────────────────────────────────────
+// ── Compare Button on single product page ─────────────────────────────────────
 
 .cw-compare-btn--single {
     display: inline-flex;
@@ -160,7 +160,7 @@
 // ── Compare Table ─────────────────────────────────────────────────────────────
 
 .cw-compare-table-wrap {
-    // Горизонтальный скролл на мобиле встроен через Bootstrap .table-responsive
+    // Horizontal scroll on mobile is provided by Bootstrap .table-responsive
 }
 
 .cw-compare-table {
@@ -185,9 +185,9 @@
         margin: 0 auto .5rem;
     }
 
-    // Строки с одинаковыми значениями (управляются JS-переключателем)
+    // Rows with identical values — visibility controlled by JS toggle
     .cw-compare-row--same {
-        // display: none управляется через JS toggle
+        // display: none toggled via JS
     }
 }
 
@@ -200,7 +200,7 @@
     }
 }
 
-// ── На странице сравнения: бар слегка поднять над контентом ──────────────────
+// ── On compare page: slight font size reduction ───────────────────────────────
 
 .cw-compare-page {
     .cw-compare-table {

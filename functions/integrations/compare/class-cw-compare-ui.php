@@ -1,6 +1,6 @@
 <?php
 /**
- * Compare UI — кнопки на карточках/single, нижний бар, шорткод, enqueue.
+ * Compare UI — buttons on cards/single product, bottom bar, shortcode, enqueue.
  *
  * @package CodeWeber
  */
@@ -18,21 +18,21 @@ class CW_Compare_UI {
 	 * Constructor.
 	 */
 	public function __construct() {
-		// Кнопка на странице товара
+		// Button on single product page.
 		if ( $this->get_opt( 'compare_btn_single', true ) ) {
 			add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'render_single_button' ), 25 );
 		}
 
-		// Нижний бар
+		// Bottom bar.
 		add_action( 'wp_footer', array( $this, 'render_bar_container' ) );
 
-		// Шорткод
+		// Shortcode.
 		add_shortcode( 'cw_compare', array( $this, 'render_shortcode' ) );
 
-		// На странице сравнения WooCommerce должен грузить свои скрипты
+		// Tell WooCommerce to load its scripts on the compare page.
 		add_filter( 'is_woocommerce', array( $this, 'is_woocommerce_on_compare' ) );
 
-		// Enqueue
+		// Enqueue assets.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 35 );
 	}
 
@@ -69,13 +69,13 @@ class CW_Compare_UI {
 			'limit'      => cw_get_compare_limit(),
 			'ids'        => CW_Compare_Storage::get_ids(),
 			'i18n'       => array(
-				'limitReached' => __( 'Достигнут лимит товаров для сравнения', 'codeweber' ),
-				'add'          => __( 'Добавить к сравнению', 'codeweber' ),
-				'added'        => __( 'В сравнении', 'codeweber' ),
-				'removed'      => __( 'Удалён из сравнения', 'codeweber' ),
-				'compare'      => __( 'Сравнить', 'codeweber' ),
-				'clear'        => __( 'Очистить', 'codeweber' ),
-				'emptySlot'    => __( 'Добавьте товар', 'codeweber' ),
+				'limitReached' => __( 'Compare limit reached', 'codeweber' ),
+				'add'          => __( 'Add to compare', 'codeweber' ),
+				'added'        => __( 'In compare', 'codeweber' ),
+				'removed'      => __( 'Removed from compare', 'codeweber' ),
+				'compare'      => __( 'Compare', 'codeweber' ),
+				'clear'        => __( 'Clear', 'codeweber' ),
+				'emptySlot'    => __( 'Add a product', 'codeweber' ),
 			),
 		) );
 	}
@@ -93,7 +93,7 @@ class CW_Compare_UI {
 
 		$product_id = $product->get_id();
 		$in_compare = CW_Compare_Storage::has( $product_id );
-		$label      = $in_compare ? __( 'В сравнении', 'codeweber' ) : __( 'Добавить к сравнению', 'codeweber' );
+		$label      = $in_compare ? __( 'In compare', 'codeweber' ) : __( 'Add to compare', 'codeweber' );
 		$btn_style  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
 		$active     = $in_compare ? ' cw-compare-btn--active' : '';
 
@@ -120,7 +120,7 @@ class CW_Compare_UI {
 	 */
 	public static function render_loop_button( $product_id ) {
 		$in_compare = CW_Compare_Storage::has( $product_id );
-		$label      = $in_compare ? __( 'В сравнении', 'codeweber' ) : __( 'Добавить к сравнению', 'codeweber' );
+		$label      = $in_compare ? __( 'In compare', 'codeweber' ) : __( 'Add to compare', 'codeweber' );
 		$active     = $in_compare ? ' cw-compare-btn--active' : '';
 
 		printf(
@@ -189,9 +189,9 @@ class CW_Compare_UI {
 			?>
 			<div class="cw-compare-empty text-center py-16">
 				<i class="uil uil-exchange fs-60 text-ash mb-4 d-block" aria-hidden="true"></i>
-				<p class="mb-4"><?php esc_html_e( 'Добавьте товары для сравнения', 'codeweber' ); ?></p>
+				<p class="mb-4"><?php esc_html_e( 'Add products to compare', 'codeweber' ); ?></p>
 				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary has-ripple <?php echo esc_attr( $btn_style ); ?>">
-					<?php esc_html_e( 'В каталог', 'codeweber' ); ?>
+					<?php esc_html_e( 'Go to catalog', 'codeweber' ); ?>
 				</a>
 			</div>
 			<?php
@@ -203,34 +203,34 @@ class CW_Compare_UI {
 			?>
 			<div class="cw-compare-empty text-center py-16">
 				<i class="uil uil-exchange fs-60 text-ash mb-4 d-block" aria-hidden="true"></i>
-				<p class="mb-4"><?php esc_html_e( 'Добавьте ещё хотя бы один товар для сравнения', 'codeweber' ); ?></p>
+				<p class="mb-4"><?php esc_html_e( 'Add at least one more product to compare', 'codeweber' ); ?></p>
 				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary has-ripple <?php echo esc_attr( $btn_style ); ?>">
-					<?php esc_html_e( 'В каталог', 'codeweber' ); ?>
+					<?php esc_html_e( 'Go to catalog', 'codeweber' ); ?>
 				</a>
 			</div>
 			<?php
 			return ob_get_clean();
 		}
 
-		$table       = new CW_Compare_Table( $ids );
-		$btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
+		$table     = new CW_Compare_Table( $ids );
+		$btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
 
 		ob_start();
 		?>
 		<div class="cw-compare-page">
 
-			<!-- Переключатель "только различия" -->
+			<!-- "Show differences only" toggle -->
 			<?php if ( count( $table->get_products() ) >= 2 ) : ?>
 			<div class="d-flex align-items-center justify-content-between mb-6 flex-wrap gap-3">
 				<div class="form-check form-switch mb-0">
 					<input class="form-check-input" type="checkbox" id="cw-compare-diff-only" role="switch">
 					<label class="form-check-label" for="cw-compare-diff-only">
-						<?php esc_html_e( 'Показать только различия', 'codeweber' ); ?>
+						<?php esc_html_e( 'Show differences only', 'codeweber' ); ?>
 					</label>
 				</div>
 				<button class="cw-compare-clear btn btn-sm btn-outline-danger <?php echo esc_attr( $btn_style ); ?>">
 					<i class="uil uil-trash-alt me-1" aria-hidden="true"></i>
-					<?php esc_html_e( 'Очистить всё', 'codeweber' ); ?>
+					<?php esc_html_e( 'Clear all', 'codeweber' ); ?>
 				</button>
 			</div>
 			<?php endif; ?>

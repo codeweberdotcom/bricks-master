@@ -1,7 +1,7 @@
 <?php
 /**
  * Compare Storage — cookie CRUD.
- * Хранит массив ID товаров (parent или variation) в cookie cw_compare.
+ * Stores an array of product/variation IDs in cookie cw_compare.
  *
  * @package CodeWeber
  */
@@ -50,11 +50,11 @@ class CW_Compare_Storage {
 		$ids = self::get_ids();
 
 		if ( in_array( $id, $ids, true ) ) {
-			return true; // уже есть
+			return true; // already in list
 		}
 
 		if ( count( $ids ) >= $limit ) {
-			return false; // лимит
+			return false; // limit reached
 		}
 
 		$ids[] = $id;
@@ -76,7 +76,7 @@ class CW_Compare_Storage {
 		$new = array_values( array_filter( $ids, fn( $i ) => $i !== $id ) );
 
 		if ( count( $new ) === count( $ids ) ) {
-			return false; // не было в списке
+			return false; // was not in list
 		}
 
 		self::save( $new );
@@ -130,7 +130,7 @@ class CW_Compare_Storage {
 
 		setcookie( self::COOKIE_NAME, $value, $expires, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), false );
 
-		// Обновляем суперглобальный массив для текущего запроса
+		// Update superglobal for current request.
 		$_COOKIE[ self::COOKIE_NAME ] = $value;
 	}
 }

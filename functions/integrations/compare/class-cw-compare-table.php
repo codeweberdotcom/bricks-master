@@ -1,6 +1,6 @@
 <?php
 /**
- * Compare Table — строит HTML-таблицу сравнения для шорткода [cw_compare].
+ * Compare Table — builds the HTML comparison table for the [cw_compare] shortcode.
  *
  * @package CodeWeber
  */
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CW_Compare_Table {
 
 	/**
-	 * WC_Product[] — могут быть WC_Product_Simple, WC_Product_Variable, WC_Product_Variation.
+	 * Products to compare — may be WC_Product_Simple, WC_Product_Variable, or WC_Product_Variation.
 	 *
 	 * @var WC_Product[]
 	 */
@@ -43,7 +43,7 @@ class CW_Compare_Table {
 				continue;
 			}
 
-			// Для вариации проверяем, что родитель опубликован
+			// For variations: verify the parent is published.
 			if ( $product->is_type( 'variation' ) ) {
 				$parent = wc_get_product( $product->get_parent_id() );
 				if ( ! $parent || 'publish' !== $parent->get_status() ) {
@@ -122,7 +122,7 @@ class CW_Compare_Table {
 
 		foreach ( $attributes as $key => $attribute ) {
 			if ( $attribute instanceof WC_Product_Attribute ) {
-				// Обычный атрибут товара
+				// Standard product attribute.
 				if ( ! $attribute->get_visible() ) {
 					continue;
 				}
@@ -143,7 +143,7 @@ class CW_Compare_Table {
 					'value' => implode( ', ', array_filter( $values ) ),
 				);
 			} elseif ( is_string( $attribute ) ) {
-				// Атрибут вариации (строковое значение выбранного варианта)
+				// Variation attribute (string value of the selected option).
 				$label          = wc_attribute_label( $key );
 				$result[ $key ] = array(
 					'label' => $label,
@@ -184,8 +184,9 @@ class CW_Compare_Table {
 	/**
 	 * Get product image HTML (thumbnail size).
 	 *
-	 * @param WC_Product $product Product.
-	 * @param int        $size    Image size.
+	 * @param WC_Product $product     Product.
+	 * @param int        $size        Image size in pixels.
+	 * @param string     $extra_class Extra CSS class(es).
 	 * @return string
 	 */
 	public function get_image( WC_Product $product, $size = 100, $extra_class = '' ) {
@@ -205,7 +206,7 @@ class CW_Compare_Table {
 	}
 
 	/**
-	 * Get product URL (parent for variations).
+	 * Get product URL (parent URL for variations).
 	 *
 	 * @param WC_Product $product Product.
 	 * @return string

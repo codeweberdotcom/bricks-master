@@ -1,12 +1,12 @@
 /**
- * CW Compare — модуль сравнения товаров.
+ * CW Compare — product comparison module.
  *
- * Логика:
- * - Кнопки .cw-compare-btn[data-product-id] на карточках и странице товара
- * - На single product: обновляет data-product-id при выборе вариации
- * - Нижний бар #cw-compare-bar с миниатюрами и кнопкой «Сравнить»
+ * Logic:
+ * - Buttons .cw-compare-btn[data-product-id] on cards and single product page
+ * - On single product: updates data-product-id when a variation is selected
+ * - Bottom bar #cw-compare-bar with thumbnails and "Compare" button
  * - AJAX: cw_compare_toggle, cw_compare_clear
- * - Переключатель «только различия» на странице сравнения
+ * - "Show differences only" toggle on the compare page
  */
 (function () {
     'use strict';
@@ -17,7 +17,7 @@
     var bar   = document.getElementById('cw-compare-bar');
     var state = { ids: cfg.ids || [], limit: cfg.limit || 4 };
 
-    /* ── Request queue (предотвращает race condition при быстрых кликах) ─────── */
+    /* ── Request queue (prevents race condition on fast clicks) ──────────────── */
 
     var queue = [];
     var queueRunning = false;
@@ -33,7 +33,7 @@
         queue.shift()(runQueue);
     }
 
-    /* ── Инициализация ──────────────────────────────────────────────────────── */
+    /* ── Init ───────────────────────────────────────────────────────────────── */
 
     function init() {
         syncButtons(state.ids);
@@ -42,15 +42,15 @@
         initVariationSync();
     }
 
-    /* ── Привязка событий ───────────────────────────────────────────────────── */
+    /* ── Event bindings ─────────────────────────────────────────────────────── */
 
     function bindEvents() {
-        // Клики по кнопке «добавить к сравнению» на карточке / single
+        // Clicks on "add to compare" button on card / single product
         document.addEventListener('click', function (e) {
             var btn = e.target.closest('.cw-compare-btn[data-product-id]');
             if (!btn) return;
 
-            // На странице сравнения — кнопки не переключают, только уводят на сравнение
+            // On compare page — buttons do not toggle, they just link to compare
             if (btn.classList.contains('cw-compare-btn--single') && window.location.href.indexOf(cfg.compareUrl) !== -1) {
                 return;
             }
@@ -59,7 +59,7 @@
             toggleCompare(btn);
         });
 
-        // Удаление из слота бара
+        // Remove from bar slot
         document.addEventListener('click', function (e) {
             var btn = e.target.closest('.cw-compare-slot-remove[data-product-id]');
             if (!btn) return;
@@ -69,7 +69,7 @@
             removeFromCompare(parseInt(btn.dataset.productId, 10));
         });
 
-        // Удаление с кнопки в таблице
+        // Remove via button in table header
         document.addEventListener('click', function (e) {
             var btn = e.target.closest('.cw-compare-remove-product[data-product-id]');
             if (!btn) return;
@@ -80,7 +80,7 @@
             removeFromCompare(parseInt(btn.dataset.productId, 10));
         });
 
-        // Очистить всё
+        // Clear all
         document.addEventListener('click', function (e) {
             var btn = e.target.closest('.cw-compare-clear');
             if (!btn) return;
@@ -105,7 +105,7 @@
 
                 if (!res.success) {
                     if (res.data && res.data.limit_reached) {
-                        showNotice(cfg.i18n.limitReached || 'Лимит достигнут');
+                        showNotice(cfg.i18n.limitReached || 'Limit reached');
                         if (state.ids.length > 0) {
                             showBar();
                         }
@@ -124,7 +124,7 @@
         });
     }
 
-    /* ── Remove (из бара или таблицы) ──────────────────────────────────────── */
+    /* ── Remove (from bar or table) ─────────────────────────────────────────── */
 
     function removeFromCompare(id) {
         postAjax('cw_compare_toggle', { product_id: id }, function (res) {
@@ -136,27 +136,24 @@
             syncButtons(state.ids);
             updateBar(data.bar_html, data.count);
 
-            // На странице сравнения — убрать колонку товара из таблицы
+            // On compare page — remove product column from table
             var col = document.querySelector('.cw-compare-product-col[data-product-id="' + id + '"]');
             if (col) {
-                // Убираем <th> в заголовке
                 var colIdx = Array.from(col.parentNode.children).indexOf(col);
                 if (colIdx > -1) {
-                    // Заголовок
+                    // Remove header cell
                     col.remove();
-                    // Все <td> в той же колонке
+                    // Remove corresponding <td> in each body row (colIdx - 1 to skip label col)
                     document.querySelectorAll('.cw-compare-table tbody tr').forEach(function (row) {
                         var cells = row.querySelectorAll('td');
-                        // colIdx - 1 (минус label-col)
                         var cellIdx = colIdx - 1;
                         if (cells[cellIdx]) cells[cellIdx].remove();
                     });
                 }
             }
 
-            // Если осталось 0 товаров — редирект в каталог
+            // If no products remain — redirect to catalog
             if (state.ids.length === 0) {
-                // Небольшая задержка для плавности
                 setTimeout(function () {
                     window.location.href = cfg.compareUrl || '/';
                 }, 400);
@@ -174,7 +171,7 @@
             syncButtons([]);
             hideBar();
 
-            // На странице сравнения — редирект в каталог
+            // On compare page — redirect to shop
             if (document.querySelector('.cw-compare-page, .cw-compare-empty')) {
                 var shopUrl = (typeof woocommerce_params !== 'undefined' && woocommerce_params.shop_url)
                     ? woocommerce_params.shop_url
@@ -189,7 +186,7 @@
     function updateBar(barHtml, count) {
         if (!bar) return;
 
-        // Заменяем inner контент
+        // Replace inner content
         if (barHtml !== undefined) {
             bar.innerHTML = barHtml;
         }
@@ -204,7 +201,7 @@
     function showBar() {
         if (!bar) return;
         bar.style.display = '';
-        // Небольшая задержка чтобы display успел применяться до transition
+        // Small delay so display takes effect before transition starts
         requestAnimationFrame(function () {
             bar.classList.add('is-visible');
         });
@@ -232,7 +229,7 @@
     }
 
     function markButton(btn, active) {
-        var label = active ? (cfg.i18n.added || 'В сравнении') : (cfg.i18n.add || 'Добавить к сравнению');
+        var label = active ? (cfg.i18n.added || 'In compare') : (cfg.i18n.add || 'Add to compare');
 
         if (active) {
             btn.classList.add('cw-compare-btn--active');
@@ -240,19 +237,18 @@
             btn.classList.remove('cw-compare-btn--active');
         }
 
-        // Обновляем title/aria-label
+        // Update title / aria-label
         btn.setAttribute('title', label);
         btn.setAttribute('aria-label', label);
 
-        // Обновляем текст label внутри кнопки (single product)
+        // Update text inside button (single product)
         var labelEl = btn.querySelector('.cw-compare-label');
         if (labelEl) labelEl.textContent = label;
 
-        // Tooltip Bootstrap (если инициализирован)
+        // Bootstrap tooltip (if initialized)
         if (window.bootstrap && window.bootstrap.Tooltip) {
             var tt = window.bootstrap.Tooltip.getInstance(btn);
             if (tt) {
-                // Обновить атрибут и переинициализировать подсказку
                 btn.setAttribute('data-bs-original-title', label);
             }
         }
@@ -269,7 +265,7 @@
     /* ── Variation sync (single product page) ───────────────────────────────── */
 
     function initVariationSync() {
-        // При выборе вариации: обновляем data-product-id кнопки на ID вариации
+        // When a variation is selected: update data-product-id to variation ID
         document.querySelectorAll('.variations_form').forEach(function (form) {
             form.addEventListener('found_variation.wc-variation-form', function (e, variation) {
                 if (!variation) return;
@@ -278,7 +274,7 @@
 
                 btn.dataset.productId = variation.variation_id;
 
-                // Синхронизируем active-состояние
+                // Sync active state
                 var inList = state.ids.indexOf(variation.variation_id) !== -1;
                 markButton(btn, inList);
             });
@@ -287,7 +283,7 @@
                 var btn = document.querySelector('.cw-compare-btn--single');
                 if (!btn) return;
 
-                // Возвращаем parent ID
+                // Restore parent ID
                 var parentId = parseInt(form.dataset.product_id, 10);
                 if (parentId) {
                     btn.dataset.productId = parentId;
@@ -297,7 +293,7 @@
             });
         });
 
-        // jQuery fallback для WC variation events (если vanilla не ловит)
+        // jQuery fallback for WC variation events
         if (window.jQuery) {
             jQuery(document.body).on('found_variation', function (e, variation) {
                 if (!variation) return;
@@ -322,7 +318,7 @@
         }
     }
 
-    /* ── «Только различия» (страница сравнения) ────────────────────────────── */
+    /* ── "Differences only" toggle (compare page) ───────────────────────────── */
 
     function initDiffOnly() {
         var toggle = document.getElementById('cw-compare-diff-only');
@@ -336,7 +332,7 @@
         });
     }
 
-    /* ── Notice (простой alert, можно заменить на CWNotify) ────────────────── */
+    /* ── Notice (simple alert, replaced by CWNotify when available) ─────────── */
 
     function showNotice(message) {
         if (window.CWNotify) {
