@@ -1673,13 +1673,14 @@
                 let responseData;
                 
                 if (!response.ok) {
+                    let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
                     try {
                         const errorData = await response.json();
                         console.error('[Form Submit Debug] Server error response:', errorData);
-                        
+
                         // Handle WordPress REST API validation errors
-                        let errorMessage = errorData.message || errorData.data?.message || errorData.code || `HTTP ${response.status}: ${response.statusText}`;
-                        
+                        errorMessage = errorData.message || errorData.data?.message || errorData.code || errorMessage;
+
                         // If there are specific parameter errors, add them to the message
                         if (errorData.data?.params && typeof errorData.data.params === 'object') {
                             const paramErrors = Object.values(errorData.data.params).filter(msg => msg);
@@ -1687,7 +1688,7 @@
                                 errorMessage = paramErrors.join('. ');
                             }
                         }
-                        
+
                         // Translate common error codes to user-friendly messages
                         if (errorData.code === 'rest_invalid_param') {
                             errorMessage = errorMessage || __('Please check the form fields and try again.', 'codeweber');
@@ -1700,7 +1701,7 @@
                             // а не стандартное сообщение об ошибке / HTTP 400.
                             const isNewsletter = form.classList.contains('newsletter-subscription-form') ||
                                                  config.formId === '6119' || config.formId === 6119;
-                            
+
                             if (isNewsletter) {
                                 // Скрываем стандартный контейнер сообщений
                                 if (formMessages) {
@@ -1727,13 +1728,12 @@
                                 return;
                             }
                         }
-                        
-                        throw new Error(errorMessage);
                     } catch (parseError) {
-                        // If JSON parsing failed, use status text
-                        console.error('[Form Submit Debug] Failed to parse error response:', parseError);
-                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        // JSON parsing failed — используем дефолтное HTTP-сообщение
+                        console.error('[Form Submit Debug] Failed to parse error response as JSON');
                     }
+                    // throw вынесен за try-catch, чтобы реальное сообщение сервера не терялось
+                    throw new Error(errorMessage);
                 }
 
                 try {
@@ -1798,11 +1798,13 @@
                 }
 
             } catch (error) {
-                // Не показываем сообщения об ошибках валидации - используем только Bootstrap валидацию
-                // Ошибки валидации обрабатываются через HTML5 валидацию и классы is-invalid
-                // Сообщения об ошибках не показываются - только визуальные индикаторы через Bootstrap
-                
-                // JavaScript событие: ошибка (для внешних обработчиков, но без показа сообщений)
+                // Показываем сообщение об ошибке если у формы есть контейнер сообщений
+                if (config.messagesContainer && formMessages) {
+                    formMessages.innerHTML = '<div class="alert alert-danger mt-2">' + (error.message || 'An error occurred.') + '</div>';
+                    formMessages.style.display = '';
+                }
+
+                // JavaScript событие: ошибка (для внешних обработчиков)
                 const networkErrorEvent = new CustomEvent('codeweberFormError', {
                     detail: {
                         formId: config.formId,
