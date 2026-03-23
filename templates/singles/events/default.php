@@ -104,7 +104,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 					<div class="swiper swiper-thumbs">
 						<div class="swiper-wrapper">
 							<?php foreach ( $gallery_ids as $i => $aid ) :
-								$_th_url = wp_get_attachment_image_url( $aid, 'codeweber_event_96-60' );
+								$_th_url = wp_get_attachment_image_url( $aid, 'codeweber_event_140-88' );
 								if ( ! $_th_url ) continue;
 							?>
 							<div class="swiper-slide">
