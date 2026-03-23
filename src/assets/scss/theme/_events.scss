@@ -41,6 +41,17 @@
 	.fc {
 		font-family: inherit;
 
+		// Replace FullCalendar icon font with Unicons
+		.fc-icon-chevron-left::before {
+			font-family: $font-family-unicons;
+			content: "\e92f";
+		}
+
+		.fc-icon-chevron-right::before {
+			font-family: $font-family-unicons;
+			content: "\e931";
+		}
+
 		.fc-toolbar-title {
 			font-size: 1.125rem;
 			font-weight: 600;
