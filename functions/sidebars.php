@@ -325,45 +325,67 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
 
                 <div class="card-body">
                     <div class="mb-6">
+                        <?php
+                        $vac_types  = $vacancy_data['vacancy_types'] ?? [];
+                        $vac_status = $vacancy_data['status'] ?? '';
+                        $vac_status_map = [
+                            'open'   => 'badge bg-soft-green text-green rounded-pill',
+                            'closed' => 'badge bg-red text-white rounded-pill',
+                        ];
+                        $vac_status_labels = [
+                            'open'   => __( 'Open', 'codeweber' ),
+                            'closed' => __( 'Closed', 'codeweber' ),
+                        ];
+                        $has_badges = ( $vac_types && ! is_wp_error( $vac_types ) ) || ! empty( $vac_status );
+                        if ( $has_badges ) : ?>
+                            <div class="mb-3">
+                                <?php if ( $vac_types && ! is_wp_error( $vac_types ) ) : ?>
+                                    <?php foreach ( $vac_types as $term ) : ?>
+                                        <a href="<?php echo esc_url( get_term_link( $term ) ); ?>" class="badge bg-soft-primary text-primary rounded-pill me-1">
+                                            <?php echo esc_html( $term->name ); ?>
+                                        </a>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                                <?php if ( ! empty( $vac_status ) && isset( $vac_status_map[ $vac_status ] ) ) : ?>
+                                    <span class="<?php echo esc_attr( $vac_status_map[ $vac_status ] ); ?> me-1">
+                                        <?php echo esc_html( $vac_status_labels[ $vac_status ] ); ?>
+                                    </span>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
                         <h3 class="mb-4"><?php esc_html_e('Details', 'codeweber'); ?></h3>
 
                         <?php if (!empty($vacancy_data['location'])) : ?>
-                            <p class="mb-1 d-flex align-items-center">
+                            <p class="mb-1 d-flex align-items-baseline">
                                 <i class="uil uil-map-marker-alt text-primary me-2"></i>
                                 <span><?php echo esc_html($vacancy_data['location']); ?></span>
                             </p>
                         <?php endif; ?>
 
-                        <?php if ($type_term) : ?>
-                            <p class="mb-1 d-flex align-items-center">
-                                <i class="uil uil-briefcase-alt text-primary me-2"></i>
-                                <span><?php echo esc_html($type_term->name); ?></span>
-                            </p>
-                        <?php endif; ?>
 
                         <?php if ($schedule_term) : ?>
-                            <p class="mb-1 d-flex align-items-center">
+                            <p class="mb-1 d-flex align-items-baseline">
                                 <i class="uil uil-calendar-alt text-primary me-2"></i>
                                 <span><?php echo esc_html($schedule_term->name); ?></span>
                             </p>
                         <?php endif; ?>
 
                         <?php if (!empty($vacancy_data['experience'])) : ?>
-                            <p class="mb-1 d-flex align-items-center">
+                            <p class="mb-1 d-flex align-items-baseline">
                                 <i class="uil uil-clock text-primary me-2"></i>
                                 <span><?php echo esc_html($vacancy_data['experience']); ?></span>
                             </p>
                         <?php endif; ?>
 
                         <?php if (!empty($vacancy_data['education'])) : ?>
-                            <p class="mb-1 d-flex align-items-center">
+                            <p class="mb-1 d-flex align-items-baseline">
                                 <i class="uil uil-graduation-cap text-primary me-2"></i>
                                 <span><?php echo esc_html($vacancy_data['education']); ?></span>
                             </p>
                         <?php endif; ?>
 
                         <?php if (!empty($vacancy_data['salary'])) : ?>
-                            <p class="mb-1 d-flex align-items-center">
+                            <p class="mb-1 d-flex align-items-baseline">
                                 <i class="uil uil-money-stack text-primary me-2"></i>
                                 <span><?php echo esc_html($vacancy_data['salary']); ?></span>
                             </p>

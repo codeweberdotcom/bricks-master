@@ -196,8 +196,29 @@ function codeweber_events_add_meta_boxes() {
 		'normal',
 		'default'
 	);
+	add_meta_box(
+		'codeweber_event_map',
+		__( 'Event Map', 'codeweber' ),
+		'codeweber_events_render_map_metabox',
+		'events',
+		'normal',
+		'default'
+	);
+	add_meta_box(
+		'codeweber_event_elements',
+		__( 'Enable / Disable Elements', 'codeweber' ),
+		'codeweber_events_render_elements_metabox',
+		'events',
+		'side',
+		'default'
+	);
 }
 add_action( 'add_meta_boxes', 'codeweber_events_add_meta_boxes' );
+
+// Disable Gutenberg for events — traditional metaboxes + wp_editor() require classic editor.
+add_filter( 'use_block_editor_for_post_type', function ( bool $enabled, string $post_type ): bool {
+	return $post_type === 'events' ? false : $enabled;
+}, 10, 2 );
 
 // ---------------------------------------------------------------------------
 // Metabox: Dates
@@ -326,6 +347,62 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 					value="<?php echo esc_attr( $reg_url ); ?>" class="regular-text"
 					placeholder="https://">
 				<p class="description"><?php esc_html_e( 'If set, overrides built-in form with a link button.', 'codeweber' ); ?></p>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="_event_reg_form_title"><?php esc_html_e( 'Form Heading', 'codeweber' ); ?></label></th>
+			<td>
+				<?php
+				$_reg_form_title = get_post_meta( $post->ID, '_event_reg_form_title', true );
+				$_reg_title_options = [
+					'Register'              => __( 'Register', 'codeweber' ),
+					'Submit an Application' => __( 'Submit an Application', 'codeweber' ),
+					'Book Now'              => __( 'Book Now', 'codeweber' ),
+					'Reserve a Spot'        => __( 'Reserve a Spot', 'codeweber' ),
+					'Get Access'            => __( 'Get Access', 'codeweber' ),
+					'Sign Up'               => __( 'Sign Up', 'codeweber' ),
+					'Buy a Ticket'          => __( 'Buy a Ticket', 'codeweber' ),
+					'Enroll'                => __( 'Enroll', 'codeweber' ),
+					'Join the Event'        => __( 'Join the Event', 'codeweber' ),
+				];
+				?>
+				<select id="_event_reg_form_title" name="_event_reg_form_title">
+					<option value=""><?php esc_html_e( '— No heading —', 'codeweber' ); ?></option>
+					<?php foreach ( $_reg_title_options as $val => $label ) : ?>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $_reg_form_title, $val ); ?>>
+						<?php echo esc_html( $label ); ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="_event_reg_button_label"><?php esc_html_e( 'Button Label', 'codeweber' ); ?></label></th>
+			<td>
+				<?php
+				$_reg_btn_label = get_post_meta( $post->ID, '_event_reg_button_label', true );
+				$_reg_btn_options = [
+					'Register'            => __( 'Register', 'codeweber' ),
+					'Submit Application'  => __( 'Submit Application', 'codeweber' ),
+					'Book Now'            => __( 'Book Now', 'codeweber' ),
+					'Reserve a Spot'      => __( 'Reserve a Spot', 'codeweber' ),
+					'Get Access'          => __( 'Get Access', 'codeweber' ),
+					'Sign Up'             => __( 'Sign Up', 'codeweber' ),
+					'Buy a Ticket'        => __( 'Buy a Ticket', 'codeweber' ),
+					'Enroll Now'          => __( 'Enroll Now', 'codeweber' ),
+					'Join Now'            => __( 'Join Now', 'codeweber' ),
+					'Send Request'        => __( 'Send Request', 'codeweber' ),
+				];
+				?>
+				<select id="_event_reg_button_label" name="_event_reg_button_label">
+					<option value=""><?php esc_html_e( '— Default —', 'codeweber' ); ?></option>
+					<?php foreach ( $_reg_btn_options as $val => $label ) : ?>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $_reg_btn_label, $val ); ?>>
+						<?php echo esc_html( $label ); ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+				<p class="description"><?php esc_html_e( 'If not set, the default label based on registration status is used.', 'codeweber' ); ?></p>
 			</td>
 		</tr>
 	</table>
@@ -463,6 +540,198 @@ function codeweber_events_render_report_metabox( \WP_Post $post ): void {
 }
 
 // ---------------------------------------------------------------------------
+// Metabox: Map
+// ---------------------------------------------------------------------------
+
+function codeweber_events_render_map_metabox( WP_Post $post ): void {
+	global $opt_name;
+	$yandex_api_key = class_exists( 'Redux' ) ? Redux::get_option( $opt_name, 'yandexapi' ) : '';
+	$show_map       = get_post_meta( $post->ID, '_event_show_map', true );
+	$latitude       = get_post_meta( $post->ID, '_event_latitude', true );
+	$longitude      = get_post_meta( $post->ID, '_event_longitude', true );
+	$zoom           = get_post_meta( $post->ID, '_event_zoom', true );
+	$address        = get_post_meta( $post->ID, '_event_yandex_address', true );
+
+	if ( empty( $latitude ) ) $latitude = '55.7558';
+	if ( empty( $longitude ) ) $longitude = '37.6173';
+	if ( empty( $zoom ) ) $zoom = '15';
+	?>
+	<?php if ( $show_map !== '1' ) : ?>
+	<p style="font-size: 13px; color: #856404; background: #fff3cd; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+		<?php esc_html_e( 'Map is disabled for this event. Enable &ldquo;Show map on frontend&rdquo; in the &ldquo;Enable / Disable Elements&rdquo; block to display the map here and on the frontend.', 'codeweber' ); ?>
+	</p>
+	<?php else : ?>
+	<div style="margin-bottom: 15px;">
+		<p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+			<?php esc_html_e( 'Click on the map to set the location or use the search field.', 'codeweber' ); ?>
+		</p>
+		<label style="display: block; margin-bottom: 5px; font-weight: bold;">
+			<?php esc_html_e( 'Map', 'codeweber' ); ?>
+		</label>
+		<div id="event-yandex-map" style="width: 100%; height: 400px; margin-bottom: 15px;"></div>
+
+		<?php if ( ! empty( $yandex_api_key ) ) : ?>
+		<script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr( $yandex_api_key ); ?>&lang=ru_RU"></script>
+		<script>
+		jQuery(document).ready(function($) {
+			ymaps.ready(function() {
+				var lat  = parseFloat($('#_event_latitude').val()) || 55.7558;
+				var lon  = parseFloat($('#_event_longitude').val()) || 37.6173;
+				var zoom = parseInt($('#_event_zoom').val()) || 15;
+
+				var map = new ymaps.Map('event-yandex-map', {
+					center: [lat, lon],
+					zoom: zoom
+				});
+
+				var placemark = new ymaps.Placemark([lat, lon], {}, { draggable: true });
+				map.geoObjects.add(placemark);
+
+				function updateFields(coords) {
+					$('#_event_latitude').val(coords[0].toFixed(6));
+					$('#_event_longitude').val(coords[1].toFixed(6));
+					ymaps.geocode(coords).then(function(res) {
+						var first = res.geoObjects.get(0);
+						if (first) {
+							$('#_event_yandex_address').val(first.properties.get('name'));
+						}
+					});
+				}
+
+				placemark.events.add('dragend', function() {
+					updateFields(placemark.geometry.getCoordinates());
+				});
+
+				map.events.add('click', function(e) {
+					var coords = e.get('coords');
+					placemark.geometry.setCoordinates(coords);
+					updateFields(coords);
+				});
+
+				var searchControl = map.controls.get('searchControl');
+				if (searchControl) {
+					searchControl.events.add('resultselect', function(e) {
+						var index = e.get('index');
+						searchControl.getResult(index).then(function(res) {
+							var coords = res.geometry.getCoordinates();
+							placemark.geometry.setCoordinates(coords);
+							$('#_event_latitude').val(coords[0].toFixed(6));
+							$('#_event_longitude').val(coords[1].toFixed(6));
+							$('#_event_yandex_address').val(res.properties.get('name'));
+							map.setCenter(coords, 16);
+						});
+					});
+				}
+
+				map.events.add('boundschange', function() {
+					$('#_event_zoom').val(map.getZoom());
+				});
+			});
+		});
+		</script>
+		<?php else : ?>
+		<p style="color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 4px;">
+			<?php esc_html_e( 'Yandex API key is not set. Please configure it in Theme Options > API > Yandex API Key.', 'codeweber' ); ?>
+		</p>
+		<?php endif; ?>
+	</div>
+	<?php endif; ?>
+
+	<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+		<div>
+			<label for="_event_latitude" style="display: block; margin-bottom: 5px; font-weight: bold;">
+				<?php esc_html_e( 'Latitude', 'codeweber' ); ?>
+			</label>
+			<input type="number" step="any" id="_event_latitude" name="_event_latitude"
+				value="<?php echo esc_attr( $latitude ); ?>"
+				style="width: 100%; padding: 8px;" placeholder="55.7558">
+		</div>
+		<div>
+			<label for="_event_longitude" style="display: block; margin-bottom: 5px; font-weight: bold;">
+				<?php esc_html_e( 'Longitude', 'codeweber' ); ?>
+			</label>
+			<input type="number" step="any" id="_event_longitude" name="_event_longitude"
+				value="<?php echo esc_attr( $longitude ); ?>"
+				style="width: 100%; padding: 8px;" placeholder="37.6173">
+		</div>
+		<div>
+			<label for="_event_zoom" style="display: block; margin-bottom: 5px; font-weight: bold;">
+				<?php esc_html_e( 'Zoom', 'codeweber' ); ?>
+			</label>
+			<input type="number" step="1" min="1" max="19" id="_event_zoom" name="_event_zoom"
+				value="<?php echo esc_attr( $zoom ); ?>"
+				style="width: 100%; padding: 8px;" placeholder="15">
+		</div>
+		<div>
+			<label for="_event_yandex_address" style="display: block; margin-bottom: 5px; font-weight: bold;">
+				<?php esc_html_e( 'Address (from map)', 'codeweber' ); ?>
+			</label>
+			<input type="text" id="_event_yandex_address" name="_event_yandex_address"
+				value="<?php echo esc_attr( $address ); ?>"
+				style="width: 100%; padding: 8px;" readonly>
+			<p style="font-size: 12px; color: #666; margin-top: 5px;">
+				<?php esc_html_e( 'Address is automatically detected when you click on the map', 'codeweber' ); ?>
+			</p>
+		</div>
+	</div>
+	<?php
+}
+
+// ---------------------------------------------------------------------------
+// Metabox: Enable / Disable Elements
+// ---------------------------------------------------------------------------
+
+function codeweber_events_render_elements_metabox( \WP_Post $post ): void {
+	$show_map              = get_post_meta( $post->ID, '_event_show_map', true );
+	$sidebar_hide_author   = get_post_meta( $post->ID, '_event_sidebar_hide_author', true );
+	$sidebar_disable_image = get_post_meta( $post->ID, '_event_sidebar_disable_image', true );
+	?>
+	<div style="display:flex;flex-direction:column;gap:12px;">
+		<div style="padding:12px;background:#f5f5f5;border-radius:4px;">
+			<label for="event_show_map" style="display:flex;align-items:center;cursor:pointer;">
+				<input type="checkbox" id="event_show_map" name="event_show_map" value="1"
+					<?php checked( $show_map, '1' ); ?> style="margin-right:10px;">
+				<strong><?php esc_html_e( 'Show map on frontend', 'codeweber' ); ?></strong>
+			</label>
+			<p style="font-size:12px;color:#666;margin:5px 0 0 24px;">
+				<?php esc_html_e( 'If disabled, the map is not displayed on the frontend.', 'codeweber' ); ?>
+			</p>
+		</div>
+		<div style="padding:12px;background:#f5f5f5;border-radius:4px;">
+			<label for="event_sidebar_hide_author" style="display:flex;align-items:center;cursor:pointer;">
+				<input type="checkbox" id="event_sidebar_hide_author" name="event_sidebar_hide_author" value="1"
+					<?php checked( $sidebar_hide_author, '1' ); ?> style="margin-right:10px;">
+				<strong><?php esc_html_e( 'Hide author in sidebar', 'codeweber' ); ?></strong>
+			</label>
+			<p style="font-size:12px;color:#666;margin:5px 0 0 24px;">
+				<?php esc_html_e( 'When enabled, the author block is hidden in the event sidebar on the frontend.', 'codeweber' ); ?>
+			</p>
+		</div>
+		<div style="padding:12px;background:#f5f5f5;border-radius:4px;">
+			<label for="event_sidebar_disable_image" style="display:flex;align-items:center;cursor:pointer;">
+				<input type="checkbox" id="event_sidebar_disable_image" name="event_sidebar_disable_image" value="1"
+					<?php checked( $sidebar_disable_image, '1' ); ?> style="margin-right:10px;">
+				<strong><?php esc_html_e( 'Disable image in sidebar', 'codeweber' ); ?></strong>
+			</label>
+			<p style="font-size:12px;color:#666;margin:5px 0 0 24px;">
+				<?php esc_html_e( 'When enabled, the event thumbnail in the sidebar is hidden on the frontend.', 'codeweber' ); ?>
+			</p>
+		</div>
+		<div style="padding:12px;background:#f5f5f5;border-radius:4px;">
+			<label for="event_hide_seats_counter" style="display:flex;align-items:center;cursor:pointer;">
+				<input type="checkbox" id="event_hide_seats_counter" name="event_hide_seats_counter" value="1"
+					<?php checked( get_post_meta( $post->ID, '_event_hide_seats_counter', true ), '1' ); ?> style="margin-right:10px;">
+				<strong><?php esc_html_e( 'Hide seats counter', 'codeweber' ); ?></strong>
+			</label>
+			<p style="font-size:12px;color:#666;margin:5px 0 0 24px;">
+				<?php esc_html_e( 'When enabled, the seats counter and progress bar are hidden in the sidebar.', 'codeweber' ); ?>
+			</p>
+		</div>
+	</div>
+	<?php
+}
+
+// ---------------------------------------------------------------------------
 // Save Meta
 // ---------------------------------------------------------------------------
 
@@ -497,6 +766,11 @@ function codeweber_events_save_meta( int $post_id, \WP_Post $post ): void {
 		'_event_price',
 		'_event_video_url',
 		'_event_video_type',
+		'_event_latitude',
+		'_event_longitude',
+		'_event_yandex_address',
+		'_event_reg_form_title',
+		'_event_reg_button_label',
 	];
 	foreach ( $text_fields as $field ) {
 		if ( isset( $_POST[ $field ] ) ) {
@@ -516,7 +790,7 @@ function codeweber_events_save_meta( int $post_id, \WP_Post $post ): void {
 		update_post_meta( $post_id, '_event_report_text', wp_kses_post( wp_unslash( $_POST['_event_report_text'] ) ) );
 	}
 
-	$int_fields = [ '_event_max_participants', '_event_fake_registered', '_event_video_file' ];
+	$int_fields = [ '_event_max_participants', '_event_fake_registered', '_event_video_file', '_event_zoom' ];
 	foreach ( $int_fields as $field ) {
 		if ( isset( $_POST[ $field ] ) ) {
 			update_post_meta( $post_id, $field, absint( $_POST[ $field ] ) );
@@ -525,6 +799,15 @@ function codeweber_events_save_meta( int $post_id, \WP_Post $post ): void {
 
 	update_post_meta( $post_id, '_event_registration_enabled',
 		isset( $_POST['_event_registration_enabled'] ) ? '1' : '0' );
+
+	update_post_meta( $post_id, '_event_show_map',
+		isset( $_POST['event_show_map'] ) ? '1' : '' );
+	update_post_meta( $post_id, '_event_sidebar_hide_author',
+		isset( $_POST['event_sidebar_hide_author'] ) ? '1' : '' );
+	update_post_meta( $post_id, '_event_sidebar_disable_image',
+		isset( $_POST['event_sidebar_disable_image'] ) ? '1' : '' );
+	update_post_meta( $post_id, '_event_hide_seats_counter',
+		isset( $_POST['event_hide_seats_counter'] ) ? '1' : '' );
 }
 add_action( 'save_post_events', 'codeweber_events_save_meta', 10, 2 );
 
@@ -643,7 +926,7 @@ function codeweber_events_get_video_glightbox( int $event_id ): ?array {
 		if ( ! $url ) {
 			return null;
 		}
-		return [ 'href' => $url, 'type' => 'video', 'inline_html' => '' ];
+		return [ 'href' => $url, 'glightbox' => 'type: video', 'inline_html' => '' ];
 	}
 
 	$url = get_post_meta( $event_id, '_event_video_url', true );
@@ -651,38 +934,53 @@ function codeweber_events_get_video_glightbox( int $event_id ): ?array {
 		return null;
 	}
 
-	// YouTube
-	if ( preg_match( '/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_\-]{11})/', $url, $m ) ) {
-		return [ 'href' => $url, 'type' => 'youtube', 'inline_html' => '' ];
+	// YouTube — auto-detected by GLightbox from URL
+	if ( preg_match( '/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_\-]{11})/', $url ) ) {
+		return [ 'href' => $url, 'glightbox' => '', 'inline_html' => '' ];
 	}
 
-	// Vimeo
-	if ( preg_match( '/vimeo\.com\/(\d+)/', $url, $m ) ) {
-		return [ 'href' => $url, 'type' => 'vimeo', 'inline_html' => '' ];
+	// Vimeo — auto-detected by GLightbox from URL
+	if ( preg_match( '/vimeo\.com\/(\d+)/', $url ) ) {
+		return [ 'href' => $url, 'glightbox' => '', 'inline_html' => '' ];
 	}
 
-	// Rutube
-	if ( preg_match( '/rutube\.ru\/video\/([a-zA-Z0-9]+)/', $url, $m ) ) {
-		$embed_url  = 'https://rutube.ru/play/embed/' . $m[1];
-		$inline_id  = 'event-video-rutube-' . $event_id;
+	// Rutube — hidden iframe div pattern (same as blocks plugin button)
+	$rutube_id = '';
+	if ( preg_match( '#rutube\.ru/play/embed/([a-zA-Z0-9]+)#', $url, $m ) ) {
+		$rutube_id = $m[1];
+	} elseif ( preg_match( '#rutube\.ru/video/([a-zA-Z0-9]+)#', $url, $m ) ) {
+		$rutube_id = $m[1];
+	}
+	if ( $rutube_id ) {
+		$embed_url   = 'https://rutube.ru/play/embed/' . $rutube_id . '?autoplay=1';
+		$inline_id   = 'event-video-rutube-' . $event_id;
 		$inline_html = '<div id="' . esc_attr( $inline_id ) . '" style="display:none;">'
-			. '<iframe src="' . esc_url( $embed_url ) . '" width="720" height="405" frameborder="0" allowfullscreen></iframe>'
+			. '<iframe src="' . esc_url( $embed_url ) . '" allow="clipboard-write; autoplay;" allowfullscreen'
+			. ' style="border:none;width:720px;height:405px;"></iframe>'
 			. '</div>';
-		return [ 'href' => '#' . $inline_id, 'type' => 'inline', 'inline_html' => $inline_html ];
+		return [ 'href' => '#' . $inline_id, 'glightbox' => 'width: auto;', 'inline_html' => $inline_html ];
 	}
 
-	// VK Video
-	if ( preg_match( '/vk\.com\/video(-?\d+_\d+)/', $url, $m ) ) {
-		$embed_url  = 'https://vk.com/video_ext.php?oid=' . explode( '_', ltrim( $m[1], '-' ) )[0] . '&id=' . explode( '_', $m[1] )[1];
-		$inline_id  = 'event-video-vk-' . $event_id;
+	// VK Video — hidden iframe div pattern (same as blocks plugin button)
+	$vk_embed_url = '';
+	if ( preg_match( '#vkvideo\.ru/video_ext\.php#', $url ) ) {
+		// Already an embed URL — use as-is
+		$vk_embed_url = $url;
+	} elseif ( preg_match( '#vk\.com/video(-?\d+)_(\d+)#', $url, $m ) ) {
+		$vk_embed_url = 'https://vkvideo.ru/video_ext.php?oid=' . $m[1] . '&id=' . $m[2];
+	}
+	if ( $vk_embed_url ) {
+		$inline_id   = 'event-video-vk-' . $event_id;
 		$inline_html = '<div id="' . esc_attr( $inline_id ) . '" style="display:none;">'
-			. '<iframe src="' . esc_url( $embed_url ) . '" width="720" height="405" frameborder="0" allowfullscreen></iframe>'
+			. '<iframe src="' . esc_url( $vk_embed_url ) . '"'
+			. ' allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" allowfullscreen'
+			. ' style="border:none;width:720px;height:405px;"></iframe>'
 			. '</div>';
-		return [ 'href' => '#' . $inline_id, 'type' => 'inline', 'inline_html' => $inline_html ];
+		return [ 'href' => '#' . $inline_id, 'glightbox' => 'width: auto;', 'inline_html' => $inline_html ];
 	}
 
 	// Generic URL (html5 video or other)
-	return [ 'href' => $url, 'type' => 'video', 'inline_html' => '' ];
+	return [ 'href' => $url, 'glightbox' => 'type: video', 'inline_html' => '' ];
 }
 
 // ---------------------------------------------------------------------------
@@ -705,25 +1003,14 @@ function codeweber_enqueue_events_assets(): void {
 		return;
 	}
 
-	// FullCalendar v6 CDN — только на архиве / таксономии
+	// FullCalendar v6 CDN — только на архиве / таксономии.
+	// CSS не нужен — глобальный бандл v6 инжектирует стили через JS.
+	// Локаль встроена в бандл, используется через опцию locale: 'ru' в JS.
 	if ( is_post_type_archive( 'events' ) || is_tax( [ 'event_category', 'event_format' ] ) ) {
-		wp_enqueue_style(
-			'fullcalendar',
-			'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css',
-			[],
-			'6.1.11'
-		);
 		wp_enqueue_script(
 			'fullcalendar',
 			'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js',
 			[],
-			'6.1.11',
-			true
-		);
-		wp_enqueue_script(
-			'fullcalendar-ru',
-			'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/locales/ru.global.min.js',
-			[ 'fullcalendar' ],
 			'6.1.11',
 			true
 		);

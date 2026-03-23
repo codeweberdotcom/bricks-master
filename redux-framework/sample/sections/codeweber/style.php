@@ -115,6 +115,13 @@ Redux::set_section(
 				'default'  => '2',
 			),
 			array(
+				'id'       => 'opt_phone_mask',
+				'type'     => 'text',
+				'title'    => esc_html__('Phone mask', 'codeweber'),
+				'subtitle' => esc_html__('Mask for phone input fields in built-in forms. Use _ for digit positions. Example: +7 (___) ___-__-__', 'codeweber'),
+				'default'  => '+7 (___) ___-__-__',
+			),
+			array(
 				'id'       => 'page-frame',
 				'type'     => 'switch',
 				'title'    => esc_html__('Page-frame', 'codeweber'),

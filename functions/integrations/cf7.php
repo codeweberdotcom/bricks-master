@@ -604,3 +604,32 @@ function codeweber_cf7_add_form_type_attribute($atts) {
 
     return $atts;
 }
+
+/**
+ * Добавляет data-mask к полям type="tel" в формах CF7.
+ * Маска берётся из настройки Redux «Phone mask» (opt_phone_mask).
+ */
+if ( class_exists( 'WPCF7' ) ) {
+	add_filter( 'wpcf7_form_elements', function ( string $html ): string {
+		if ( ! class_exists( 'Codeweber_Options' ) ) {
+			return $html;
+		}
+		$mask = Codeweber_Options::get( 'opt_phone_mask', '' );
+		if ( empty( $mask ) ) {
+			return $html;
+		}
+		// Инжектим data-mask только в input[type=tel] без уже существующего data-mask
+		$html = preg_replace_callback(
+			'/<input([^>]+type=["\']tel["\'][^>]*?)(\s*\/>)/i',
+			function ( array $m ) use ( $mask ): string {
+				// Не дублируем, если data-mask уже есть
+				if ( strpos( $m[1], 'data-mask' ) !== false ) {
+					return $m[0];
+				}
+				return '<input' . $m[1] . ' data-mask="' . esc_attr( $mask ) . '"' . $m[2];
+			},
+			$html
+		);
+		return $html;
+	} );
+}

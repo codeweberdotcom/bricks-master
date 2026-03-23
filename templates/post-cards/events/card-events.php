@@ -74,11 +74,11 @@ $formats    = get_the_terms( $post_id, 'event_format' );
 				<?php // Status badge ?>
 				<?php
 				$badge_map = [
-					'open'                => 'status-open',
-					'not_open_yet'        => 'status-not-open-yet',
-					'registration_closed' => 'status-closed',
-					'no_seats'            => 'status-no-seats',
-					'event_ended'         => 'status-ended',
+					'open'                => 'badge bg-soft-green text-green rounded-pill',
+					'not_open_yet'        => 'badge bg-soft-yellow text-yellow rounded-pill',
+					'registration_closed' => 'badge bg-soft-ash text-muted rounded-pill',
+					'no_seats'            => 'badge bg-soft-red text-red rounded-pill',
+					'event_ended'         => 'badge bg-soft-ash text-muted rounded-pill',
 				];
 				$badge_class = $badge_map[ $reg_status['status'] ] ?? '';
 				if ( $badge_class && $reg_status['label'] ) : ?>

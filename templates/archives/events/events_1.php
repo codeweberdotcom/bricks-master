@@ -91,11 +91,11 @@ $calendar_api_url = rest_url( 'codeweber/v1/events/calendar' );
 									</a>
 									<?php
 									$status_class = [
-										'open'                 => 'status-open',
-										'not_open_yet'         => 'status-not-open-yet',
-										'registration_closed'  => 'status-closed',
-										'no_seats'             => 'status-no-seats',
-										'event_ended'          => 'status-ended',
+										'open'                 => 'badge bg-soft-green text-green rounded-pill',
+										'not_open_yet'         => 'badge bg-soft-yellow text-yellow rounded-pill',
+										'registration_closed'  => 'badge bg-soft-ash text-muted rounded-pill',
+										'no_seats'             => 'badge bg-soft-red text-red rounded-pill',
+										'event_ended'          => 'badge bg-soft-ash text-muted rounded-pill',
 									][ $reg_status['status'] ] ?? '';
 									if ( $status_class && $reg_status['label'] ) :
 									?>
@@ -130,7 +130,7 @@ $calendar_api_url = rest_url( 'codeweber/v1/events/calendar' );
 					</table>
 				</div>
 
-				<?php the_posts_pagination( [ 'screen_reader_text' => __( 'Events pagination', 'codeweber' ) ] ); ?>
+				<?php codeweber_pagination(); ?>
 
 			<?php else : ?>
 				<p class="text-muted"><?php esc_html_e( 'No events found.', 'codeweber' ); ?></p>

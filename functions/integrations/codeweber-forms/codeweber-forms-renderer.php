@@ -868,6 +868,9 @@ class CodeweberFormsRenderer {
                     $mask_attrs = '';
                     if ($field_type === 'tel') {
                         $phone_mask = $field['phoneMask'] ?? '';
+                        if (empty($phone_mask)) {
+                            $phone_mask = class_exists('Codeweber_Options') ? Codeweber_Options::get('opt_phone_mask', '') : '';
+                        }
                         $phone_mask_caret = $field['phoneMaskCaret'] ?? '';
                         $phone_mask_soft_caret = $field['phoneMaskSoftCaret'] ?? '';
                         
