@@ -312,7 +312,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                     $thumbnail_id = get_post_thumbnail_id();
                     $image_url = '';
                     if ($thumbnail_id) {
-                        $image_url = wp_get_attachment_image_url($thumbnail_id, 'codeweber_vacancy');
+                        $image_url = wp_get_attachment_image_url($thumbnail_id, 'codeweber_vacancy_383-250');
                     }
                     if (empty($image_url)) {
                         $image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
