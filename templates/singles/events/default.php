@@ -238,14 +238,21 @@ $seats_pct         = ( $max_participants > 0 ) ? min( 100, round( ( $registered_
 					<?php endif; ?>
 				</ul>
 
-				<?php // Seats counter ?>
-				<?php if ( $max_participants > 0 && ( $show_seats_taken || $show_seats_left || $show_seats_bar ) ) : ?>
+				<?php // Seats counter
+				// Progress bar + "seats left" require max_participants > 0.
+				// "X registered" shows for any event that has registrations.
+				$show_bar        = $max_participants > 0 && $show_seats_bar;
+				$show_left       = $max_participants > 0 && $show_seats_left && $seats_left !== null;
+				$show_taken      = $show_seats_taken && $registered_count > 0;
+				$show_any_seats  = $show_bar || $show_left || $show_taken;
+				?>
+				<?php if ( $show_any_seats ) : ?>
 					<div class="event-seats-counter mb-5"
 						data-event-seats-counter="<?php echo esc_attr( $event_id ); ?>"
 						data-seats-taken="<?php echo esc_attr( $registered_count ); ?>"
 						data-seats-max="<?php echo esc_attr( $max_participants ); ?>">
 
-						<?php if ( $show_seats_bar ) : ?>
+						<?php if ( $show_bar ) : ?>
 							<div class="progress event-seats-progress mb-2" role="progressbar"
 								aria-valuenow="<?php echo esc_attr( $seats_pct ); ?>" aria-valuemin="0" aria-valuemax="100">
 								<div class="progress-bar bg-primary event-seats-bar"
@@ -254,17 +261,17 @@ $seats_pct         = ( $max_participants > 0 ) ? min( 100, round( ( $registered_
 						<?php endif; ?>
 
 						<p class="event-seats-label mb-0 small">
-							<?php if ( $show_seats_taken ) : ?>
+							<?php if ( $show_taken ) : ?>
 								<?php printf(
 									/* translators: %s: count */
 									esc_html__( '%s registered', 'codeweber' ),
 									'<strong><span class="event-seats-taken">' . esc_html( $registered_count ) . '</span></strong>'
 								); ?>
 							<?php endif; ?>
-							<?php if ( $show_seats_taken && $show_seats_left ) : ?>
+							<?php if ( $show_taken && $show_left ) : ?>
 								&nbsp;&middot;&nbsp;
 							<?php endif; ?>
-							<?php if ( $show_seats_left && $seats_left !== null ) : ?>
+							<?php if ( $show_left ) : ?>
 								<?php printf(
 									/* translators: %s: count */
 									esc_html__( '%s seats left', 'codeweber' ),

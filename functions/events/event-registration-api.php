@@ -260,25 +260,62 @@ class Codeweber_Event_Registration_API {
 			return;
 		}
 
-		$name      = get_post_meta( $reg_id, '_reg_name', true );
-		$email     = get_post_meta( $reg_id, '_reg_email', true );
-		$phone     = get_post_meta( $reg_id, '_reg_phone', true );
-		$event_url = get_edit_post_link( $event_id, 'raw' );
-		$reg_url   = get_edit_post_link( $reg_id, 'raw' );
+		$name        = get_post_meta( $reg_id, '_reg_name', true );
+		$email       = get_post_meta( $reg_id, '_reg_email', true );
+		$phone       = get_post_meta( $reg_id, '_reg_phone', true );
+		$msg         = get_post_meta( $reg_id, '_reg_message', true );
+		$event_title = get_the_title( $event_id );
+		$event_url   = get_edit_post_link( $event_id, 'raw' );
+		$reg_url     = get_edit_post_link( $reg_id, 'raw' );
 
 		/* translators: %s: event title */
-		$subject = sprintf( __( 'New registration: %s', 'codeweber' ), get_the_title( $event_id ) );
+		$subject = sprintf( __( 'New registration: %s', 'codeweber' ), $event_title );
 
-		$body  = sprintf( __( 'New registration for event: %s', 'codeweber' ), get_the_title( $event_id ) ) . "\n";
-		$body .= $event_url . "\n\n";
-		$body .= __( 'Name:', 'codeweber' ) . ' ' . $name . "\n";
-		$body .= __( 'Email:', 'codeweber' ) . ' ' . $email . "\n";
+		$from_name  = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+		$from_email = get_option( 'admin_email' );
+		$headers    = [
+			'Content-Type: text/html; charset=UTF-8',
+			'From: ' . $from_name . ' <' . $from_email . '>',
+		];
+
+		$rows = '';
+		$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0">' . esc_html__( 'Name', 'codeweber' ) . ':</th><td>' . esc_html( $name ) . '</td></tr>';
+		$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0">' . esc_html__( 'Email', 'codeweber' ) . ':</th><td><a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a></td></tr>';
 		if ( $phone ) {
-			$body .= __( 'Phone:', 'codeweber' ) . ' ' . $phone . "\n";
+			$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0">' . esc_html__( 'Phone', 'codeweber' ) . ':</th><td>' . esc_html( $phone ) . '</td></tr>';
 		}
-		$body .= "\n" . __( 'View registration:', 'codeweber' ) . ' ' . $reg_url;
+		if ( $msg ) {
+			$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0;vertical-align:top">' . esc_html__( 'Comment', 'codeweber' ) . ':</th><td>' . nl2br( esc_html( $msg ) ) . '</td></tr>';
+		}
 
-		wp_mail( $to, $subject, $body );
+		$body  = '<p>' . sprintf(
+			/* translators: %s: event title */
+			esc_html__( 'New registration for event: %s', 'codeweber' ),
+			'<strong>' . esc_html( $event_title ) . '</strong>'
+		) . '</p>';
+		$body .= '<table style="border-collapse:collapse">' . $rows . '</table>';
+		$body .= '<p style="margin-top:16px">';
+		$body .= '<a href="' . esc_url( $reg_url ) . '">' . esc_html__( 'View registration in admin', 'codeweber' ) . '</a>';
+		$body .= ' &nbsp;|&nbsp; ';
+		$body .= '<a href="' . esc_url( $event_url ) . '">' . esc_html__( 'View event', 'codeweber' ) . '</a>';
+		$body .= '</p>';
+
+		// Log failures (both via return value and wp_mail_failed hook).
+		$mail_error = null;
+		$fail_cb    = function( \WP_Error $err ) use ( &$mail_error ) {
+			$mail_error = $err;
+		};
+		add_action( 'wp_mail_failed', $fail_cb );
+
+		$sent = wp_mail( $to, $subject, $body, $headers );
+
+		remove_action( 'wp_mail_failed', $fail_cb );
+
+		if ( ! $sent || $mail_error ) {
+			$error_msg = $mail_error ? $mail_error->get_error_message() : 'wp_mail() returned false';
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( '[Events] Notification email failed. To: ' . $to . ' | Error: ' . $error_msg );
+		}
 	}
 }
 

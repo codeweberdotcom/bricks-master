@@ -184,6 +184,58 @@ function codeweber_events_settings_sanitize( array $input ): array {
 }
 
 // ---------------------------------------------------------------------------
+// Test email
+// ---------------------------------------------------------------------------
+
+add_action( 'admin_post_codeweber_events_test_email', 'codeweber_events_send_test_email' );
+
+function codeweber_events_send_test_email(): void {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions.', 'codeweber' ) );
+	}
+	check_admin_referer( 'codeweber_events_test_email' );
+
+	$settings   = get_option( 'codeweber_events_settings', [] );
+	$to         = ! empty( $settings['notify_email'] ) ? $settings['notify_email'] : get_option( 'admin_email' );
+	$from_name  = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+	$from_email = get_option( 'admin_email' );
+	$headers    = [
+		'Content-Type: text/html; charset=UTF-8',
+		'From: ' . $from_name . ' <' . $from_email . '>',
+	];
+
+	$mail_error = null;
+	$fail_cb    = function( \WP_Error $err ) use ( &$mail_error ) {
+		$mail_error = $err;
+	};
+	add_action( 'wp_mail_failed', $fail_cb );
+
+	$sent = wp_mail(
+		$to,
+		/* translators: %s: site name */
+		sprintf( __( 'Test email from %s Events', 'codeweber' ), get_bloginfo( 'name' ) ),
+		'<p>' . esc_html__( 'This is a test email from the Events module. If you received this, email delivery is working correctly.', 'codeweber' ) . '</p>',
+		$headers
+	);
+
+	remove_action( 'wp_mail_failed', $fail_cb );
+
+	$status  = ( $sent && ! $mail_error ) ? 'sent' : 'failed';
+	$err_msg = $mail_error ? $mail_error->get_error_message() : '';
+
+	wp_safe_redirect( add_query_arg(
+		array_filter( [
+			'page'       => 'codeweber-events-settings',
+			'test_email' => $status,
+			'email_to'   => rawurlencode( $to ),
+			'email_err'  => $err_msg ? rawurlencode( $err_msg ) : '',
+		] ),
+		admin_url( 'edit.php?post_type=events' )
+	) );
+	exit;
+}
+
+// ---------------------------------------------------------------------------
 // Page render
 // ---------------------------------------------------------------------------
 
@@ -191,6 +243,30 @@ function codeweber_events_settings_render_page(): void {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
+
+	// Test email result notice
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended
+	if ( ! empty( $_GET['test_email'] ) ) {
+		$test_status = sanitize_key( $_GET['test_email'] );
+		$email_to    = sanitize_email( rawurldecode( $_GET['email_to'] ?? '' ) );
+		$email_err   = sanitize_text_field( rawurldecode( $_GET['email_err'] ?? '' ) );
+		if ( $test_status === 'sent' ) {
+			echo '<div class="notice notice-success is-dismissible"><p>'
+				. sprintf(
+					/* translators: %s: email address */
+					esc_html__( 'Test email successfully sent to %s.', 'codeweber' ),
+					'<strong>' . esc_html( $email_to ) . '</strong>'
+				) . '</p></div>';
+		} else {
+			echo '<div class="notice notice-error is-dismissible"><p>'
+				. esc_html__( 'Failed to send test email.', 'codeweber' );
+			if ( $email_err ) {
+				echo ' <strong>' . esc_html( $email_err ) . '</strong>';
+			}
+			echo '</p></div>';
+		}
+	}
+	// phpcs:enable
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Events Settings', 'codeweber' ); ?></h1>
@@ -200,6 +276,23 @@ function codeweber_events_settings_render_page(): void {
 			do_settings_sections( 'codeweber-events-settings' );
 			submit_button();
 			?>
+		</form>
+
+		<hr>
+		<h2><?php esc_html_e( 'Email Delivery Test', 'codeweber' ); ?></h2>
+		<?php
+		$settings   = get_option( 'codeweber_events_settings', [] );
+		$test_to    = ! empty( $settings['notify_email'] ) ? $settings['notify_email'] : get_option( 'admin_email' );
+		?>
+		<p><?php printf(
+			/* translators: %s: email address */
+			esc_html__( 'Send a test email to %s to verify your mail server is configured correctly.', 'codeweber' ),
+			'<strong>' . esc_html( $test_to ) . '</strong>'
+		); ?></p>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<input type="hidden" name="action" value="codeweber_events_test_email">
+			<?php wp_nonce_field( 'codeweber_events_test_email' ); ?>
+			<?php submit_button( __( 'Send Test Email', 'codeweber' ), 'secondary', 'submit', false ); ?>
 		</form>
 	</div>
 	<?php
