@@ -379,15 +379,13 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 					<a href="<?php echo esc_url( $external_reg_url ); ?>" target="_blank" rel="noopener"
 						class="btn btn-primary btn-icon btn-icon-start has-ripple w-100<?php echo esc_attr( $button_style ); ?>">
 						<i class="uil uil-external-link-alt"></i>
-						<?php echo esc_html( ! empty( $reg_button_label ) ? __( $reg_button_label, 'codeweber' ) : $reg_status['label'] ); ?>
+						<?php echo esc_html( __( ! empty( $reg_button_label ) ? $reg_button_label : 'Register', 'codeweber' ) ); ?>
 					</a>
 
 				<?php elseif ( $reg_status['show_form'] ) : ?>
 					<?php $nonce = wp_create_nonce( 'codeweber_event_register' ); ?>
 					<div class="event-registration-wrap">
-						<?php if ( ! empty( $reg_form_title ) ) : ?>
-						<h3 class="mb-4"><?php echo esc_html( __( $reg_form_title, 'codeweber' ) ); ?></h3>
-						<?php endif; ?>
+						<h3 class="mb-4"><?php echo esc_html( __( ! empty( $reg_form_title ) ? $reg_form_title : 'Register', 'codeweber' ) ); ?></h3>
 						<form class="event-registration-form needs-validation"
 							data-event-id="<?php echo esc_attr( $event_id ); ?>"
 							novalidate>
@@ -425,7 +423,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 							<button type="submit"
 								class="btn btn-primary has-ripple w-100<?php echo esc_attr( $button_style ); ?>"
 								data-loading-text="<?php esc_attr_e( 'Sending...', 'codeweber' ); ?>">
-								<?php echo esc_html( ! empty( $reg_button_label ) ? __( $reg_button_label, 'codeweber' ) : $reg_status['label'] ); ?>
+								<?php echo esc_html( __( ! empty( $reg_button_label ) ? $reg_button_label : 'Register', 'codeweber' ) ); ?>
 							</button>
 						</form>
 					</div>

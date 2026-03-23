@@ -369,7 +369,7 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 				<select id="_event_reg_form_title" name="_event_reg_form_title">
 					<option value=""><?php esc_html_e( '— No heading —', 'codeweber' ); ?></option>
 					<?php foreach ( $_reg_title_options as $val => $label ) : ?>
-					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $_reg_form_title, $val ); ?>>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( empty( $_reg_form_title ) ? 'Register' : $_reg_form_title, $val ); ?>>
 						<?php echo esc_html( $label ); ?>
 					</option>
 					<?php endforeach; ?>
@@ -397,7 +397,7 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 				<select id="_event_reg_button_label" name="_event_reg_button_label">
 					<option value=""><?php esc_html_e( '— Default —', 'codeweber' ); ?></option>
 					<?php foreach ( $_reg_btn_options as $val => $label ) : ?>
-					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $_reg_btn_label, $val ); ?>>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( empty( $_reg_btn_label ) ? 'Register' : $_reg_btn_label, $val ); ?>>
 						<?php echo esc_html( $label ); ?>
 					</option>
 					<?php endforeach; ?>
