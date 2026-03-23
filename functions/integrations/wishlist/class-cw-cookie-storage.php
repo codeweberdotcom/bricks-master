@@ -1,6 +1,6 @@
 <?php
 /**
- * Wishlist cookie storage — для незалогиненных пользователей.
+ * Wishlist cookie storage — for non-logged-in users.
  *
  * @package CodeWeber
  */

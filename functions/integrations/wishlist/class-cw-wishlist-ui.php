@@ -1,6 +1,6 @@
 <?php
 /**
- * Wishlist UI — кнопки, страница вишлиста, меню аккаунта, шорткод.
+ * Wishlist UI — buttons, wishlist page, account menu item, shortcode.
  *
  * @package CodeWeber
  */
@@ -29,27 +29,27 @@ class CW_Wishlist_UI {
 	public function __construct( $wishlist = null ) {
 		$this->wishlist = $wishlist;
 
-		// Кнопка на карточке в каталоге рендерится прямо в шаблоне shop2.php,
-		// поэтому хук через woocommerce_after_shop_loop_item не используем.
+		// Loop card button is rendered directly in shop2.php template,
+		// so we don't use the woocommerce_after_shop_loop_item hook.
 
-		// Кнопка на странице товара (после кнопки «В корзину» в форме add-to-cart).
+		// Button on single product page (after "Add to Cart" button).
 		if ( $this->get_opt( 'wishlist_btn_on_single', 1 ) ) {
 			add_action( 'woocommerce_after_add_to_cart_button', array( $this, 'render_single_button' ) );
 		}
 
-		// Ссылка «Избранное» в меню «Мой аккаунт».
+		// "Wishlist" link in My Account menu.
 		add_filter( 'woocommerce_account_menu_items', array( $this, 'add_account_menu_item' ), 15 );
 		add_filter( 'woocommerce_get_endpoint_url', array( $this, 'account_menu_url' ), 15, 4 );
 		add_filter( 'woocommerce_account_menu_item_classes', array( $this, 'account_menu_active_class' ), 15, 2 );
 
-		// Шорткод страницы вишлиста.
+		// Wishlist page shortcode.
 		add_shortcode( 'cw_wishlist', array( $this, 'render_wishlist_page' ) );
 
-		// На странице вишлиста сообщаем WooCommerce, что это WC-страница,
-		// чтобы WC загрузил свои скрипты/стили (прайсы, ajax_add_to_cart, фрагменты корзины).
+		// Tell WooCommerce this is a WC page on the wishlist page,
+		// so WC loads its scripts/styles (prices, ajax_add_to_cart, cart fragments).
 		add_filter( 'is_woocommerce', array( $this, 'is_woocommerce_on_wishlist' ) );
 
-		// Enqueue JS + локализация.
+		// Enqueue JS + localize vars.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -273,9 +273,9 @@ class CW_Wishlist_UI {
 	}
 
 	/**
-	 * Возвращает true на странице вишлиста, чтобы WooCommerce загружал свои скрипты/стили.
+	 * Returns true on the wishlist page so WooCommerce loads its scripts/styles.
 	 *
-	 * @param bool $is_wc Текущее значение.
+	 * @param bool $is_wc Current value.
 	 * @return bool
 	 */
 	public function is_woocommerce_on_wishlist( $is_wc ) {

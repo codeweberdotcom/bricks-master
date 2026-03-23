@@ -1,6 +1,6 @@
 <?php
 /**
- * Wishlist item — объект вишлиста конкретного пользователя.
+ * Wishlist item — represents the wishlist for a specific user.
  *
  * @package CodeWeber
  */
@@ -97,7 +97,7 @@ class CW_Wishlist_Item {
 	}
 
 	/**
-	 * Update the count in cookie (для JS-виджета в хедере).
+	 * Update the count in cookie (for the JS widget in the header).
 	 */
 	public function update_count_cookie() {
 		$expire = time() + ( 7 * DAY_IN_SECONDS );

@@ -1,6 +1,6 @@
 <?php
 /**
- * Wishlist database storage — для залогиненных пользователей.
+ * Wishlist database storage — for logged-in users.
  *
  * @package CodeWeber
  */

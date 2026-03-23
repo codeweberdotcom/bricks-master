@@ -1,6 +1,6 @@
 <?php
 /**
- * Wishlist session storage — для незалогиненных пользователей через WC_Session.
+ * Wishlist session storage — for non-logged-in users via WC_Session.
  *
  * @package CodeWeber
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Wishlist main class — установка таблиц, AJAX, инициализация.
+ * Wishlist main class — table setup, AJAX handlers, initialization.
  *
  * @package CodeWeber
  */
@@ -56,7 +56,7 @@ class CW_Wishlist {
 	 * Initialize wishlist object and UI.
 	 */
 	public function init() {
-		// Создаём таблицы при первом обращении — upgrade.php доступен всегда.
+		// Create tables on first access — upgrade.php is always available.
 		if ( ! get_option( 'cw_wishlist_installed' ) ) {
 			if ( ! function_exists( 'dbDelta' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -69,7 +69,7 @@ class CW_Wishlist {
 			$GLOBALS['cw_wishlist_instance'] = $this->wishlist;
 		}
 
-		// UI (и шорткод) регистрируем всегда — иначе [cw_wishlist] не работает.
+		// Always register UI and shortcode — otherwise [cw_wishlist] won't work.
 		new CW_Wishlist_UI( $this->wishlist );
 	}
 
@@ -98,7 +98,7 @@ class CW_Wishlist {
 			wp_send_json_error( array( 'message' => __( 'Invalid product_id', 'codeweber' ) ) );
 		}
 
-		// Проверяем гостевой доступ.
+		// Check guest access.
 		if ( ! is_user_logged_in() && ! $this->guests_allowed() ) {
 			wp_send_json_error( array(
 				'message'  => __( 'Please log in to add items to your wishlist.', 'codeweber' ),
@@ -272,7 +272,7 @@ class CW_Wishlist {
 			return;
 		}
 
-		// Visitor ID из cookie Matomo (_pk_id_*), fallback: md5(IP+UA).
+		// Visitor ID from Matomo cookie (_pk_id_*), fallback: md5(IP+UA).
 		$visitor_id = '';
 		foreach ( $_COOKIE as $name => $value ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 			if ( strpos( $name, '_pk_id_' ) === 0 ) {

@@ -1,12 +1,12 @@
-// Quick View — только то, чего нет в Bootstrap и теме
+// Quick View — only styles not covered by Bootstrap or the theme
 
-// Состояние загрузки на кнопке карточки
+// Loading state on the card button
 .item-view.cw-qv-loading {
   pointer-events: none;
   opacity: .5;
 }
 
-// Правая колонка summary скролится независимо от галереи
+// Right summary column scrolls independently from the gallery
 #cw-quick-view-modal {
   .modal-body {
     overflow: hidden;
