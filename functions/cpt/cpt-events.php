@@ -542,14 +542,21 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 						btn.addEventListener('click', function() { btn.closest('.event-reg-consent-row').remove(); });
 					}
 
+					var consentLabelNonce = '<?php echo esc_js( wp_create_nonce( 'codeweber_forms_default_label' ) ); ?>';
+
 					function bindDocSelect(row) {
 						var sel = row.querySelector('select[name*="[document_id]"]');
 						var inp = row.querySelector('input[name*="[label]"]');
 						if (!sel || !inp) return;
 						sel.addEventListener('change', function() {
-							if (inp.value.trim() !== '') return;
 							if (!sel.value) return;
-							inp.value = '<?php echo esc_js( __( 'I agree to the {document_title_url}', 'codeweber' ) ); ?>';
+							if (inp.value.trim() !== '' && !confirm('<?php echo esc_js( __( 'Replace existing label text with default text for this document?', 'codeweber' ) ); ?>')) return;
+							inp.disabled = true;
+							var body = new URLSearchParams({ action: 'codeweber_forms_get_default_label', document_id: sel.value, nonce: consentLabelNonce });
+							fetch(ajaxurl, { method: 'POST', body: body })
+								.then(function(r) { return r.json(); })
+								.then(function(data) { if (data.success && data.data && data.data.label) { inp.value = data.data.label; } })
+								.finally(function() { inp.disabled = false; });
 						});
 					}
 

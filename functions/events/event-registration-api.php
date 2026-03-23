@@ -485,8 +485,10 @@ class Codeweber_Event_Registration_API {
 
 		$_evt_global_form_title = codeweber_events_settings_get( 'reg_form_title', __( 'Register', 'codeweber' ) );
 		$_evt_global_btn_label  = codeweber_events_settings_get( 'btn_register_text', __( 'Register', 'codeweber' ) );
-		$reg_form_title   = get_post_meta( $event_id, '_event_reg_form_title', true ) ?: $_evt_global_form_title;
-		$reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true ) ?: $_evt_global_btn_label;
+		$_meta_form_title   = get_post_meta( $event_id, '_event_reg_form_title', true );
+		$_meta_btn_label    = get_post_meta( $event_id, '_event_reg_button_label', true );
+		$reg_form_title     = $_meta_form_title ? __( $_meta_form_title, 'codeweber' ) : $_evt_global_form_title;
+		$reg_button_label   = $_meta_btn_label ? __( $_meta_btn_label, 'codeweber' ) : $_evt_global_btn_label;
 
 		$default_forms = new \CodeweberFormsDefaultForms();
 		$form_html     = $default_forms->get_default_event_registration_form_html( $event_id, $reg_button_label );

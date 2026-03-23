@@ -410,7 +410,11 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                                 <div>
                                     <h6 class="mb-0">
                                         <a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="link-dark">
-                                            <?php the_author_meta('first_name'); ?> <?php the_author_meta('last_name'); ?>
+                                            <?php
+                                            $first = get_the_author_meta('first_name');
+                                            $last  = get_the_author_meta('last_name');
+                                            echo esc_html(trim("$first $last") ?: get_the_author_meta('display_name'));
+                                            ?>
                                         </a>
                                     </h6>
                                     <span class="post-meta fs-15"><?php echo esc_html($job_title); ?></span>

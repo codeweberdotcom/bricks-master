@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-03-23 23:18+0000\n"
+"PO-Revision-Date: 2026-03-23 23:29+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -8978,7 +8978,7 @@ msgstr "Количество отображаемых пунктов FAQ. Исп
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:294
 msgid "Number of seats"
-msgstr ""
+msgstr "Количество мест"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:85
 #, fuzzy
@@ -9754,7 +9754,7 @@ msgstr "Телефон"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:273
 msgid "Phone *"
-msgstr ""
+msgstr "Телефон *"
 
 #: redux-framework/sample/sections/codeweber/contacts.php:24
 msgid "Phone 01"
@@ -9872,7 +9872,7 @@ msgstr "Пожалуйста, введите действительный E-Mail
 #: templates/singles/events/default.php:420
 #: templates/singles/events/registration-form.php:41
 msgid "Please enter a valid email."
-msgstr ""
+msgstr "Пожалуйста, введите корректный Email."
 
 #: functions/integrations/codeweber-forms/codeweber-forms-validator.php:42
 #, fuzzy
@@ -9895,12 +9895,12 @@ msgstr "Введите ваше Имя"
 #: templates/singles/events/default.php:413
 #: templates/singles/events/registration-form.php:34
 msgid "Please enter your name."
-msgstr ""
+msgstr "Пожалуйста, введите ваше имя."
 
 #: functions/events/event-registration-api.php:155
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:274
 msgid "Please enter your phone number."
-msgstr ""
+msgstr "Пожалуйста, введите номер телефона."
 
 #: redux-framework/sample/sections/codeweber/smtp.php:281
 msgid "Please fill in all required SMTP fields."

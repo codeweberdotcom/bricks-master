@@ -341,3 +341,93 @@ function codeweber_forms_validate_consents($submitted_consents, $required_consen
     ];
 }
 
+
+/**
+ * Get default consent label text for a given document.
+ *
+ * Shared across CF7 integration, CodeWeber Forms metabox, and Event registration metabox.
+ *
+ * @param int $document_id Document post ID.
+ * @return string Default label HTML with {document_url}/{document_title_url} placeholders.
+ */
+function codeweber_forms_get_default_consent_label( int $document_id ): string {
+	if ( empty( $document_id ) ) {
+		return '';
+	}
+
+	$document_type  = function_exists( 'codeweber_forms_get_document_type' )  ? codeweber_forms_get_document_type( $document_id )  : '';
+	$document_title = function_exists( 'codeweber_forms_get_document_title' ) ? codeweber_forms_get_document_title( $document_id ) : '';
+
+	$custom_texts = apply_filters( 'codeweber_forms_custom_consent_labels', [] );
+	if ( isset( $custom_texts[ $document_id ] ) ) {
+		return $custom_texts[ $document_id ];
+	}
+
+	if ( $document_title ) {
+		$t = mb_strtolower( $document_title, 'UTF-8' );
+
+		if ( strpos( $t, 'рассылк' ) !== false || strpos( $t, 'mailing' ) !== false ||
+		     strpos( $t, 'newsletter' ) !== false ||
+		     ( strpos( $t, 'информационн' ) !== false && strpos( $t, 'рекламн' ) !== false ) ) {
+			return __( 'I agree to <a href="{document_url}">receive informational and advertising mailings</a>.', 'codeweber' );
+		}
+		if ( strpos( $t, 'пользовательск' ) !== false || strpos( $t, 'user agreement' ) !== false ||
+		     strpos( $t, 'terms of use' ) !== false || strpos( $t, 'условия использован' ) !== false ) {
+			return __( 'I agree to the <a href="{document_url}">terms of use</a>.', 'codeweber' );
+		}
+		if ( ( strpos( $t, 'публичн' ) !== false && strpos( $t, 'оферт' ) !== false ) ||
+		     strpos( $t, 'public offer' ) !== false ||
+		     ( strpos( $t, 'договор' ) !== false && strpos( $t, 'оферт' ) !== false ) ) {
+			return __( 'I agree to the <a href="{document_url}">public offer agreement</a>.', 'codeweber' );
+		}
+		if ( strpos( $t, 'лицензионн' ) !== false || strpos( $t, 'license agreement' ) !== false ||
+		     strpos( $t, 'licensing' ) !== false ) {
+			return __( 'I agree to the <a href="{document_url}">license agreement</a>.', 'codeweber' );
+		}
+		if ( strpos( $t, 'cookie' ) !== false || strpos( $t, 'куки' ) !== false ||
+		     strpos( $t, 'файлов cookie' ) !== false ) {
+			return __( 'I agree to the <a href="{document_url}">cookie policy</a>.', 'codeweber' );
+		}
+		if ( strpos( $t, 'возврат' ) !== false || strpos( $t, 'return policy' ) !== false ||
+		     strpos( $t, 'refund' ) !== false ) {
+			return __( 'I agree to the <a href="{document_url}">return policy</a>.', 'codeweber' );
+		}
+		if ( strpos( $t, 'доставк' ) !== false || strpos( $t, 'delivery' ) !== false ||
+		     strpos( $t, 'shipping' ) !== false ) {
+			return __( 'I agree to the <a href="{document_url}">delivery terms</a>.', 'codeweber' );
+		}
+		if ( ( strpos( $t, 'согласие' ) !== false && strpos( $t, 'персональн' ) !== false ) ||
+		     ( strpos( $t, 'personal data' ) !== false && strpos( $t, 'consent' ) !== false ) ) {
+			return __( 'I <a href="{document_url}">consent</a> to the processing of my personal data.', 'codeweber' );
+		}
+	}
+
+	$type_defaults = [
+		'privacy_policy' => __( 'I have read the <a href="{document_url}">personal data processing policy document.</a>', 'codeweber' ),
+		'legal'          => __( 'I <a href="{document_url}">consent</a> to the processing of my personal data.', 'codeweber' ),
+	];
+	if ( isset( $type_defaults[ $document_type ] ) ) {
+		return $type_defaults[ $document_type ];
+	}
+
+	return __( 'I agree to the {document_title_url}.', 'codeweber' );
+}
+
+/**
+ * AJAX handler: returns default consent label for a document.
+ * action=codeweber_forms_get_default_label, nonce=codeweber_forms_default_label
+ */
+function codeweber_forms_ajax_get_default_label(): void {
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'codeweber_forms_default_label' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Security check failed', 'codeweber' ) ] );
+	}
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Unauthorized', 'codeweber' ) ] );
+	}
+	$document_id = isset( $_POST['document_id'] ) ? absint( $_POST['document_id'] ) : 0;
+	if ( ! $document_id ) {
+		wp_send_json_error( [ 'message' => __( 'Invalid document ID', 'codeweber' ) ] );
+	}
+	wp_send_json_success( [ 'label' => codeweber_forms_get_default_consent_label( $document_id ) ] );
+}
+add_action( 'wp_ajax_codeweber_forms_get_default_label', 'codeweber_forms_ajax_get_default_label' );
