@@ -231,6 +231,53 @@ function cw_demo_get_events_data() {
 }
 
 /**
+ * Вычисляет правдоподобное фиктивное число занятых мест для демо-мероприятия.
+ *
+ * Логика:
+ *  - Прошедшее событие         → 70–95% мест (с вариацией по индексу)
+ *  - Запись закрыта            → 50–80% мест
+ *  - Запись ещё не открылась   → 0
+ *  - Открытая запись           → 20–55%; каждые 7 событий — полное заполнение (→ status: no_seats)
+ *
+ * @param array $item  Элемент из cw_demo_get_events_data().
+ * @param int   $index Порядковый номер (для вариации процентов).
+ * @return int
+ */
+function cw_demo_compute_fake_registered( array $item, int $index ): int {
+	$seats = (int) $item['seats'];
+	if ( $seats <= 0 ) {
+		return 0;
+	}
+
+	$now = current_time( 'Y-m-d' );
+
+	// Прошедшее событие
+	if ( ! empty( $item['date_end'] ) && $item['date_end'] < $now ) {
+		$pct = 0.70 + ( $index % 6 ) * 0.05; // 70..95%
+		return min( $seats, (int) round( $seats * $pct ) );
+	}
+
+	// Приём заявок ещё не открылся
+	if ( ! empty( $item['reg_open'] ) && $item['reg_open'] > $now ) {
+		return 0;
+	}
+
+	// Приём заявок закрыт (событие ещё не прошло)
+	if ( ! empty( $item['reg_close'] ) && $item['reg_close'] < $now ) {
+		$pct = 0.50 + ( $index % 5 ) * 0.07; // 50..78%
+		return min( $seats, (int) round( $seats * $pct ) );
+	}
+
+	// Открытая запись: каждые 7 событий — полное заполнение → статус «мест нет»
+	if ( $index % 7 === 0 ) {
+		return $seats;
+	}
+
+	$pct = 0.20 + ( $index % 5 ) * 0.085; // 20..54%
+	return (int) round( $seats * $pct );
+}
+
+/**
  * Импортирует изображение из src/assets/img/photos/ в медиабиблиотеку.
  *
  * @param string $filename Имя файла.
@@ -351,6 +398,12 @@ function cw_demo_create_events() {
 			update_post_meta( $post_id, '_event_max_participants', absint( $e['seats'] ) );
 		}
 		update_post_meta( $post_id, '_event_registration_enabled', '1' );
+
+		// Фиктивное число занятых мест (для реалистичного отображения счётчика)
+		$fake_registered = cw_demo_compute_fake_registered( $e, $created );
+		if ( $fake_registered > 0 ) {
+			update_post_meta( $post_id, '_event_fake_registered', $fake_registered );
+		}
 
 		// Флаг demo-записи для последующего удаления
 		update_post_meta( $post_id, '_cw_demo_events', '1' );

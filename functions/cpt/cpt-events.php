@@ -281,6 +281,7 @@ function codeweber_events_render_details_metabox( \WP_Post $post ): void {
 function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 	$enabled          = get_post_meta( $post->ID, '_event_registration_enabled', true );
 	$max_participants = get_post_meta( $post->ID, '_event_max_participants', true );
+	$fake_registered  = get_post_meta( $post->ID, '_event_fake_registered', true );
 	$reg_url          = get_post_meta( $post->ID, '_event_registration_url', true );
 	?>
 	<table class="form-table">
@@ -300,6 +301,14 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 				<input type="number" id="_event_max_participants" name="_event_max_participants"
 					value="<?php echo esc_attr( $max_participants ); ?>" class="small-text" min="0">
 				<p class="description"><?php esc_html_e( 'Set to 0 for unlimited seats.', 'codeweber' ); ?></p>
+			</td>
+		</tr>
+		<tr>
+			<th><label for="_event_fake_registered"><?php esc_html_e( 'Fake Registered Count', 'codeweber' ); ?></label></th>
+			<td>
+				<input type="number" id="_event_fake_registered" name="_event_fake_registered"
+					value="<?php echo esc_attr( $fake_registered ); ?>" class="small-text" min="0">
+				<p class="description"><?php esc_html_e( 'Added to the real registration count for display purposes (useful for demos and imported events).', 'codeweber' ); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -471,7 +480,7 @@ function codeweber_events_save_meta( int $post_id, \WP_Post $post ): void {
 		}
 	}
 
-	$int_fields = [ '_event_max_participants', '_event_video_file' ];
+	$int_fields = [ '_event_max_participants', '_event_fake_registered', '_event_video_file' ];
 	foreach ( $int_fields as $field ) {
 		if ( isset( $_POST[ $field ] ) ) {
 			update_post_meta( $post_id, $field, absint( $_POST[ $field ] ) );
@@ -571,7 +580,9 @@ function codeweber_events_get_registration_count( int $event_id ): int {
 			],
 		],
 	] );
-	return (int) $query->found_posts;
+	$real = (int) $query->found_posts;
+	$fake = (int) get_post_meta( $event_id, '_event_fake_registered', true );
+	return $real + $fake;
 }
 
 // ---------------------------------------------------------------------------
