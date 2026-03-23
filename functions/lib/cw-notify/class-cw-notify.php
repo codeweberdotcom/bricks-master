@@ -37,7 +37,7 @@ class CW_Notify {
 		wp_enqueue_script(
 			'cw-notify',
 			$js_url,
-			array( 'jquery' ),
+			array( 'plugins-scripts' ),
 			filemtime( $js_path ),
 			true
 		);

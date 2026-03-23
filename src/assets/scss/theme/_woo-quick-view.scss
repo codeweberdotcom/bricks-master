@@ -6,6 +6,20 @@
   opacity: .5;
 }
 
+// Close button sits above the gallery image
+#cw-quick-view-modal .btn-close {
+  z-index: 5;
+}
+
+// Initial spinner container and no-image placeholder
+.cw-qv-loading-wrap {
+  min-height: 320px;
+}
+
+.cw-qv-no-image {
+  min-height: 300px;
+}
+
 // Right summary column scrolls independently from the gallery
 #cw-quick-view-modal {
   .modal-body {

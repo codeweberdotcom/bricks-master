@@ -98,7 +98,7 @@ class CW_Compare_UI {
 		$active     = $in_compare ? ' cw-compare-btn--active' : '';
 
 		printf(
-			'<a href="%1$s" class="cw-compare-btn cw-compare-btn--single btn btn-outline-secondary btn-icon has-ripple px-3 h-100%2$s%3$s"
+			'<a href="%1$s" class="cw-compare-btn cw-compare-btn--single d-inline-flex align-items-center gap-1 btn btn-outline-secondary btn-icon has-ripple px-3 h-100%2$s%3$s"
 				data-product-id="%4$s"
 				aria-label="%5$s"
 				title="%5$s">
@@ -155,8 +155,7 @@ class CW_Compare_UI {
 		$limit = cw_get_compare_limit();
 		?>
 		<div id="cw-compare-bar"
-			class="cw-compare-bar bg-white border-top shadow-lg py-3 px-4<?php echo $count > 0 ? ' is-visible' : ''; ?>"
-			style="z-index:1040;<?php echo $count > 0 ? '' : 'display:none;'; ?>">
+			class="cw-compare-bar position-fixed bottom-0 start-0 end-0 w-100 overflow-hidden bg-white border-top shadow-lg py-3 px-4<?php echo $count > 0 ? ' is-visible' : ' d-none'; ?>">
 			<?php $this->render_bar_inner( $ids, $limit ); ?>
 		</div>
 		<?php

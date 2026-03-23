@@ -1,12 +1,7 @@
 // ── Compare Bar ──────────────────────────────────────────────────────────────
 
 .cw-compare-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    overflow: hidden;
+    z-index: 1040;
     transform: translateY(100%);
     transition: transform .3s ease;
 
@@ -25,7 +20,6 @@
 .cw-compare-slot {
     width: 40px;
     height: 40px;
-    flex-shrink: 0;
 
     @media (min-width: 576px) {
         width: 56px;
@@ -33,11 +27,8 @@
     }
 
     img {
-        width: 100%;
-        height: 100%;
         object-fit: cover;
         border-radius: inherit;
-        display: block;
     }
 
     &--empty {
@@ -69,6 +60,17 @@
             animation: cw-compare-spin 0.7s linear infinite;
         }
     }
+}
+
+// ── Slot remove button ────────────────────────────────────────────────────────
+
+.cw-compare-slot-remove {
+    width: 18px;
+    height: 18px;
+    top: -6px !important;
+    right: -6px !important;
+    background: rgba(0, 0, 0, .6);
+    font-size: 10px;
 }
 
 // ── Compare Button on product card ────────────────────────────────────────────
@@ -110,7 +112,6 @@
 
 .cw-compare-col--removing {
     opacity: .4;
-    pointer-events: none;
     transition: opacity .25s ease;
 }
 
@@ -146,10 +147,6 @@
 // ── Compare Button on single product page ─────────────────────────────────────
 
 .cw-compare-btn--single {
-    display: inline-flex;
-    align-items: center;
-    gap: .25rem;
-
     &.cw-compare-btn--active {
         background-color: var(--bs-primary);
         border-color: var(--bs-primary);
@@ -158,10 +155,6 @@
 }
 
 // ── Compare Table ─────────────────────────────────────────────────────────────
-
-.cw-compare-table-wrap {
-    // Horizontal scroll on mobile is provided by Bootstrap .table-responsive
-}
 
 .cw-compare-table {
     min-width: 560px;
@@ -185,10 +178,7 @@
         margin: 0 auto .5rem;
     }
 
-    // Rows with identical values — visibility controlled by JS toggle
-    .cw-compare-row--same {
-        // display: none toggled via JS
-    }
+
 }
 
 // ── Compare Empty State ───────────────────────────────────────────────────────

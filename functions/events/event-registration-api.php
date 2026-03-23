@@ -20,6 +20,21 @@ class Codeweber_Event_Registration_API {
 	}
 
 	public function register_routes(): void {
+		register_rest_route( 'wp/v2', '/modal/event-reg-(?P<id>\d+)', [
+			'methods'             => 'GET',
+			'callback'            => [ $this, 'get_form_html' ],
+			'permission_callback' => '__return_true',
+			'args'                => [
+				'id' => [
+					'required'          => true,
+					'sanitize_callback' => 'absint',
+					'validate_callback' => function( $val ) {
+						return $val > 0 && get_post_type( $val ) === 'events';
+					},
+				],
+			],
+		] );
+
 		register_rest_route( 'codeweber/v1', '/events/register', [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'handle_register' ],
@@ -94,8 +109,12 @@ class Codeweber_Event_Registration_API {
 			return new \WP_REST_Response( [ 'success' => false, 'message' => __( 'Spam detected.', 'codeweber' ) ], 400 );
 		}
 
-		// Nonce
-		if ( ! wp_verify_nonce( $request->get_param( 'nonce' ), 'codeweber_event_register' ) ) {
+		// Nonce — form nonce first, fall back to REST API nonce (like testimonials)
+		$form_nonce = $request->get_param( 'nonce' );
+		$rest_nonce = $request->get_header( 'X-WP-Nonce' );
+		$nonce_valid = ( ! empty( $form_nonce ) && wp_verify_nonce( $form_nonce, 'codeweber_event_register' ) )
+			|| ( ! empty( $rest_nonce ) && wp_verify_nonce( $rest_nonce, 'wp_rest' ) );
+		if ( ! $nonce_valid ) {
 			return new \WP_REST_Response( [ 'success' => false, 'message' => __( 'Security check failed. Please reload the page.', 'codeweber' ) ], 403 );
 		}
 
@@ -103,7 +122,7 @@ class Codeweber_Event_Registration_API {
 
 		// Check registration status
 		$status = codeweber_events_get_registration_status( $event_id );
-		if ( ! $status['show_form'] ) {
+		if ( ! $status['show_form'] && $status['status'] !== 'modal' ) {
 			return new \WP_REST_Response( [ 'success' => false, 'message' => $status['label'] ], 422 );
 		}
 
@@ -316,6 +335,33 @@ class Codeweber_Event_Registration_API {
 			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			error_log( '[Events] Notification email failed. To: ' . $to . ' | Error: ' . $error_msg );
 		}
+	}
+
+	/**
+	 * GET wp/v2/modal/event-reg-{id}
+	 * Returns registration form HTML for the theme modal system.
+	 */
+	public function get_form_html( \WP_REST_Request $request ): \WP_REST_Response {
+		$event_id = absint( $request->get_param( 'id' ) );
+
+		$reg_status = codeweber_events_get_registration_status( $event_id );
+		if ( ! $reg_status['show_form'] && $reg_status['status'] !== 'modal' ) {
+			return new \WP_REST_Response( [ 'html' => '<p>' . esc_html__( 'Registration is not available.', 'codeweber' ) . '</p>' ], 200 );
+		}
+
+		$_evt_global_form_title = codeweber_events_settings_get( 'reg_form_title', __( 'Register', 'codeweber' ) );
+		$_evt_global_btn_label  = codeweber_events_settings_get( 'btn_register_text', __( 'Register', 'codeweber' ) );
+		$reg_form_title   = get_post_meta( $event_id, '_event_reg_form_title', true ) ?: $_evt_global_form_title;
+		$reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true ) ?: $_evt_global_btn_label;
+
+		$default_forms = new \CodeweberFormsDefaultForms();
+		$form_html     = $default_forms->get_default_event_registration_form_html( $event_id, $reg_button_label );
+		$html          = '<div class="event-registration-wrap">'
+			. '<h3 class="mb-4">' . esc_html( $reg_form_title ) . '</h3>'
+			. $form_html
+			. '</div>';
+
+		return new \WP_REST_Response( [ 'content' => [ 'rendered' => $html ] ], 200 );
 	}
 }
 

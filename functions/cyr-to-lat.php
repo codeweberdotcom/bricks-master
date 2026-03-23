@@ -1,8 +1,15 @@
 <?php
 add_filter('sanitize_title', 'my_cyr_to_lat_slug', 10, 3);
+add_filter('sanitize_file_name', 'my_cyr_to_lat_filename', 10, 2);
 
 function my_cyr_to_lat_slug($title, $raw_title = '', $context = 'display')
 {
+   // Не транслитерировать при query-контексте — WP использует его для поиска _wp_old_slug,
+   // транслитерация здесь ломает редиректы со старых URL.
+   if ($context === 'query') {
+      return $title;
+   }
+
    if (empty($raw_title)) {
       return $title;
    }
@@ -11,9 +18,16 @@ function my_cyr_to_lat_slug($title, $raw_title = '', $context = 'display')
       return $title;
    }
 
-   $transliterated = cyr_to_lat($raw_title);
+   return cyr_to_lat($raw_title);
+}
 
-   return $transliterated;
+function my_cyr_to_lat_filename($filename, $filename_raw = '')
+{
+   if (! preg_match('/[а-яё]/iu', $filename)) {
+      return $filename;
+   }
+
+   return cyr_to_lat($filename);
 }
 
 function cyr_to_lat($text)

@@ -43,28 +43,26 @@ $card_radius  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 
 				$name   = $parent ? $parent->get_name() : $name;
 			}
 			?>
-			<div class="cw-compare-slot position-relative border bg-light <?php echo esc_attr( $card_radius ); ?>"
+			<div class="cw-compare-slot position-relative flex-shrink-0 border bg-light <?php echo esc_attr( $card_radius ); ?>"
 				data-product-id="<?php echo esc_attr( $pid ); ?>">
 				<img src="<?php echo esc_url( $img_src ); ?>"
 					alt="<?php echo esc_attr( $name ); ?>"
 					width="56" height="56"
 					loading="lazy"
-					class="<?php echo esc_attr( $card_radius ); ?>">
+					class="d-block w-100 h-100 <?php echo esc_attr( $card_radius ); ?>">
 				<button
 					type="button"
-					class="cw-compare-slot-remove position-absolute top-0 end-0 btn btn-link p-0 lh-1"
+					class="cw-compare-slot-remove position-absolute d-flex align-items-center justify-content-center rounded-circle text-white btn btn-link p-0 lh-1"
 					data-product-id="<?php echo esc_attr( $pid ); ?>"
 					aria-label="<?php esc_attr_e( 'Remove from compare', 'codeweber' ); ?>"
-					title="<?php esc_attr_e( 'Remove', 'codeweber' ); ?>"
-					style="width:18px;height:18px;top:-6px;right:-6px;background:rgba(0,0,0,.6);border-radius:50%;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;">
+					title="<?php esc_attr_e( 'Remove', 'codeweber' ); ?>">
 					<i class="uil uil-times" aria-hidden="true"></i>
 				</button>
 			</div>
 		<?php endforeach; ?>
 
 		<?php for ( $i = $count; $i < $limit; $i++ ) : ?>
-			<div class="cw-compare-slot cw-compare-slot--empty border d-flex align-items-center justify-content-center text-muted <?php echo esc_attr( $card_radius ); ?>"
-				style="border-style:dashed !important;opacity:.45;">
+			<div class="cw-compare-slot cw-compare-slot--empty border d-flex align-items-center justify-content-center text-muted <?php echo esc_attr( $card_radius ); ?>">
 				<i class="uil uil-plus" aria-hidden="true"></i>
 			</div>
 		<?php endfor; ?>

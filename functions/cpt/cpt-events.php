@@ -309,19 +309,42 @@ function codeweber_events_render_details_metabox( \WP_Post $post ): void {
 
 function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 	$enabled          = get_post_meta( $post->ID, '_event_registration_enabled', true );
+	$modal_value      = get_post_meta( $post->ID, '_event_modal_value', true );
 	$max_participants = get_post_meta( $post->ID, '_event_max_participants', true );
 	$fake_registered  = get_post_meta( $post->ID, '_event_fake_registered', true );
 	$reg_url          = get_post_meta( $post->ID, '_event_registration_url', true );
 	?>
 	<table class="form-table">
 		<tr>
-			<th><?php esc_html_e( 'Enable Registration Form', 'codeweber' ); ?></th>
+			<th><?php esc_html_e( 'Registration Type', 'codeweber' ); ?></th>
 			<td>
-				<label>
-					<input type="checkbox" name="_event_registration_enabled" value="1"
-						<?php checked( $enabled, '1' ); ?>>
-					<?php esc_html_e( 'Show built-in registration form on event page', 'codeweber' ); ?>
-				</label>
+				<fieldset>
+					<label style="display:block;margin-bottom:6px;">
+						<input type="radio" name="_event_registration_enabled" value="0" <?php checked( $enabled === '' || $enabled === '0', true ); ?>>
+						<?php esc_html_e( 'Disabled', 'codeweber' ); ?>
+					</label>
+					<label style="display:block;margin-bottom:6px;">
+						<input type="radio" name="_event_registration_enabled" value="1" <?php checked( $enabled, '1' ); ?>>
+						<?php esc_html_e( 'Built-in form on page', 'codeweber' ); ?>
+					</label>
+					<label style="display:block;margin-bottom:6px;">
+						<input type="radio" name="_event_registration_enabled" value="modal" <?php checked( $enabled, 'modal' ); ?>>
+						<?php esc_html_e( 'Button opens modal window', 'codeweber' ); ?>
+					</label>
+				</fieldset>
+				<p id="event-modal-value-row" class="description" style="margin-top:8px;<?php echo $enabled === 'modal' ? '' : 'display:none;'; ?>">
+					<?php esc_html_e( 'The built-in registration form will open in a modal window.', 'codeweber' ); ?>
+				</p>
+				<script>
+				(function() {
+					document.querySelectorAll('input[name="_event_registration_enabled"]').forEach(function(r) {
+						r.addEventListener('change', function() {
+							document.getElementById('event-modal-value-row').style.display =
+								this.value === 'modal' ? '' : 'none';
+						});
+					});
+				}());
+				</script>
 			</td>
 		</tr>
 		<tr>
@@ -353,7 +376,8 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 			<th><label for="_event_reg_form_title"><?php esc_html_e( 'Form Heading', 'codeweber' ); ?></label></th>
 			<td>
 				<?php
-				$_reg_form_title = get_post_meta( $post->ID, '_event_reg_form_title', true );
+				$_reg_form_title         = get_post_meta( $post->ID, '_event_reg_form_title', true );
+				$_reg_form_title_default = codeweber_events_settings_get( 'reg_form_title', 'Register' );
 				$_reg_title_options = [
 					'Register'              => __( 'Register', 'codeweber' ),
 					'Submit an Application' => __( 'Submit an Application', 'codeweber' ),
@@ -369,7 +393,7 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 				<select id="_event_reg_form_title" name="_event_reg_form_title">
 					<option value=""><?php esc_html_e( '— No heading —', 'codeweber' ); ?></option>
 					<?php foreach ( $_reg_title_options as $val => $label ) : ?>
-					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( empty( $_reg_form_title ) ? 'Register' : $_reg_form_title, $val ); ?>>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $_reg_form_title ?: $_reg_form_title_default, $val ); ?>>
 						<?php echo esc_html( $label ); ?>
 					</option>
 					<?php endforeach; ?>
@@ -380,7 +404,8 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 			<th><label for="_event_reg_button_label"><?php esc_html_e( 'Button Label', 'codeweber' ); ?></label></th>
 			<td>
 				<?php
-				$_reg_btn_label = get_post_meta( $post->ID, '_event_reg_button_label', true );
+				$_reg_btn_label         = get_post_meta( $post->ID, '_event_reg_button_label', true );
+				$_reg_btn_label_default = codeweber_events_settings_get( 'btn_register_text', 'Register' );
 				$_reg_btn_options = [
 					'Register'            => __( 'Register', 'codeweber' ),
 					'Submit Application'  => __( 'Submit Application', 'codeweber' ),
@@ -397,7 +422,7 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 				<select id="_event_reg_button_label" name="_event_reg_button_label">
 					<option value=""><?php esc_html_e( '— Default —', 'codeweber' ); ?></option>
 					<?php foreach ( $_reg_btn_options as $val => $label ) : ?>
-					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( empty( $_reg_btn_label ) ? 'Register' : $_reg_btn_label, $val ); ?>>
+					<option value="<?php echo esc_attr( $val ); ?>" <?php selected( $_reg_btn_label ?: $_reg_btn_label_default, $val ); ?>>
 						<?php echo esc_html( $label ); ?>
 					</option>
 					<?php endforeach; ?>
@@ -556,12 +581,12 @@ function codeweber_events_render_map_metabox( WP_Post $post ): void {
 	if ( empty( $longitude ) ) $longitude = '37.6173';
 	if ( empty( $zoom ) ) $zoom = '15';
 	?>
-	<?php if ( $show_map !== '1' ) : ?>
-	<p style="font-size: 13px; color: #856404; background: #fff3cd; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
-		<?php esc_html_e( 'Map is disabled for this event. Enable &ldquo;Show map on frontend&rdquo; in the &ldquo;Enable / Disable Elements&rdquo; block to display the map here and on the frontend.', 'codeweber' ); ?>
-	</p>
-	<?php else : ?>
 	<div style="margin-bottom: 15px;">
+		<?php if ( $show_map !== '1' ) : ?>
+		<p style="font-size: 12px; color: #856404; background: #fff3cd; padding: 8px 10px; border-radius: 4px; margin-bottom: 10px;">
+			<?php esc_html_e( 'Map is hidden on frontend. Enable &ldquo;Show map on frontend&rdquo; to display it to visitors.', 'codeweber' ); ?>
+		</p>
+		<?php endif; ?>
 		<p style="font-size: 13px; color: #666; margin-bottom: 10px;">
 			<?php esc_html_e( 'Click on the map to set the location or use the search field.', 'codeweber' ); ?>
 		</p>
@@ -635,7 +660,6 @@ function codeweber_events_render_map_metabox( WP_Post $post ): void {
 		</p>
 		<?php endif; ?>
 	</div>
-	<?php endif; ?>
 
 	<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
 		<div>
@@ -797,8 +821,10 @@ function codeweber_events_save_meta( int $post_id, \WP_Post $post ): void {
 		}
 	}
 
-	update_post_meta( $post_id, '_event_registration_enabled',
-		isset( $_POST['_event_registration_enabled'] ) ? '1' : '0' );
+	$_reg_type = sanitize_key( $_POST['_event_registration_enabled'] ?? '0' );
+	if ( ! in_array( $_reg_type, [ '0', '1', 'modal' ], true ) ) { $_reg_type = '0'; }
+	update_post_meta( $post_id, '_event_registration_enabled', $_reg_type );
+	update_post_meta( $post_id, '_event_modal_value', sanitize_text_field( wp_unslash( $_POST['_event_modal_value'] ?? '' ) ) );
 
 	update_post_meta( $post_id, '_event_show_map',
 		isset( $_POST['event_show_map'] ) ? '1' : '' );
@@ -838,6 +864,12 @@ function codeweber_events_get_registration_status( int $event_id ): array {
 	// Внешняя ссылка — всегда показываем кнопку
 	if ( $external_url ) {
 		return [ 'status' => 'external', 'label' => __( 'Register', 'codeweber' ), 'show_form' => false, 'seats_left' => null ];
+	}
+
+	// Кнопка открывает модальное окно
+	if ( $enabled === 'modal' ) {
+		$modal_value = get_post_meta( $event_id, '_event_modal_value', true );
+		return [ 'status' => 'modal', 'label' => '', 'show_form' => false, 'seats_left' => null, 'modal_value' => $modal_value ];
 	}
 
 	// Мероприятие завершено

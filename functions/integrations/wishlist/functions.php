@@ -169,12 +169,12 @@ if ( ! function_exists( 'cw_render_wishlist_icon' ) ) {
 			title="<?php esc_attr_e( 'Wishlist', 'codeweber' ); ?>"
 			aria-label="<?php esc_attr_e( 'Wishlist', 'codeweber' ); ?>"
 		>
-			<span class="cw-wishlist-widget__icon position-relative">
+			<span class="cw-wishlist-widget__icon d-inline-flex align-items-center justify-content-center position-relative">
 				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
 					<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
 				</svg>
 				<?php if ( $args['show_count'] ) : ?>
-					<span class="cw-wishlist-widget__count badge bg-primary rounded-pill position-absolute" style="top:-6px;right:-8px;font-size:.65rem;min-width:18px;">
+					<span class="cw-wishlist-widget__count badge bg-primary rounded-pill position-absolute text-center lh-1">
 						<?php echo esc_html( $count ); ?>
 					</span>
 				<?php endif; ?>

@@ -76,7 +76,7 @@
             e.preventDefault();
             btn.disabled = true;
             var col = btn.closest('.cw-compare-product-col');
-            if (col) col.classList.add('cw-compare-col--removing');
+            if (col) col.classList.add('cw-compare-col--removing', 'pe-none');
             removeFromCompare(parseInt(btn.dataset.productId, 10));
         });
 
@@ -200,7 +200,7 @@
 
     function showBar() {
         if (!bar) return;
-        bar.style.display = '';
+        bar.classList.remove('d-none');
         // Small delay so display takes effect before transition starts
         requestAnimationFrame(function () {
             bar.classList.add('is-visible');
@@ -213,7 +213,7 @@
         bar.addEventListener('transitionend', function onEnd() {
             bar.removeEventListener('transitionend', onEnd);
             if (!bar.classList.contains('is-visible')) {
-                bar.style.display = 'none';
+                bar.classList.add('d-none');
             }
         }, { once: true });
     }

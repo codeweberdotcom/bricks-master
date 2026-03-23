@@ -142,7 +142,7 @@ class CW_Wishlist_UI {
 			aria-label="<?php echo esc_attr( $label ); ?>"
 			title="<?php echo esc_attr( $label ); ?>"
 		>
-			<span class="cw-wishlist-icon">
+			<span class="cw-wishlist-icon d-inline-flex align-items-center justify-content-center lh-1 position-relative">
 				<?php echo $this->get_heart_icon( $in_wishlist ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</span>
 			<?php if ( $show_label ) : ?>

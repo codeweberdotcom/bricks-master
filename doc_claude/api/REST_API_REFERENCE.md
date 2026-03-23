@@ -824,9 +824,99 @@ Import REST endpoints into Postman:
 
 ---
 
+## JS-клиент: кнопка скачивания (`data-bs-toggle="download"`)
+
+Реализована в `restapi.js`. Отдельный модуль — не связан с модальной системой.
+
+### Разметка
+
+```html
+<!-- Документ -->
+<a href="#" class="btn ..." data-bs-toggle="download" data-value="doc-{id}">
+    <i class="uil uil-download-alt fs-13"></i> Скачать
+</a>
+
+<!-- Сотрудник (vCard) -->
+<a href="#" data-bs-toggle="download" data-value="staff-{id}">...</a>
+
+<!-- Вакансия -->
+<a href="#" data-bs-toggle="download" data-value="vac-{id}">...</a>
+
+<!-- Просто ID (тип documents по умолчанию) -->
+<a href="#" data-bs-toggle="download" data-value="{id}">...</a>
+```
+
+### Формат `data-value` и маппинг эндпоинтов
+
+| Префикс | `apiEndpoint` | REST-эндпоинт |
+|---------|--------------|--------------|
+| `doc-{id}` | `documents` | `codeweber/v1/documents/{id}/download-url` |
+| `staff-{id}` | `staff` | `codeweber/v1/staff/{id}/vcf-url` |
+| `vac-{id}` | `vacancies` | `codeweber/v1/vacancies/{id}/download-url` |
+| `{id}` (без префикса) | `documents` | `codeweber/v1/documents/{id}/download-url` |
+
+### Поток выполнения
+
+```
+Клик на [data-bs-toggle="download"]
+  ├─ Парсит data-value → postId + apiEndpoint
+  ├─ Сохраняет button.innerHTML + размеры
+  ├─ button.disabled = true
+  ├─ Заменяет иконку: uil-spinner-alt uil-spin (сохраняет fs-* класс)
+  ├─ Меняет текст на codeweberDownload.loadingText
+  ├─ GET /wp-json/codeweber/v1/{endpoint}/{id}/... (X-WP-Nonce)
+  │    ├─ success: data.file_url
+  │    │    ├─ Создаёт <a download href={file_url}> → click → remove
+  │    │    ├─ Восстанавливает button.innerHTML + minHeight
+  │    │    ├─ gtag('event', 'file_download', { file_name, post_id })
+  │    │    └─ _paq.push(['trackEvent', category, 'Download', file_name])
+  │    └─ error
+  │         ├─ Восстанавливает кнопку
+  │         └─ alert(codeweberDownload.errorText)
+  └─ finally: восстановление уже в then/catch (не в finally)
+```
+
+### Ответ REST API (для download-url)
+
+```json
+{
+  "success": true,
+  "file_url": "https://example.com/wp-content/uploads/doc.pdf",
+  "file_name": "document.pdf",
+  "post_id": 123
+}
+```
+
+Для `vcf-url` — см. раздел [Get vCard URL](#get-vcard-url-staff) выше.
+
+### Локализация `codeweberDownload`
+
+Объект добавляется через `wp_localize_script('codeweber-restapi', 'codeweberDownload', ...)` в `functions/enqueues.php`:
+
+| Ключ | Описание |
+|------|---------|
+| `loadingText` | Текст кнопки во время загрузки (default: «Loading...») |
+| `errorText` | Текст `alert()` при ошибке (default: «Error downloading file. Please try again.») |
+
+Также доступен fallback через `button.dataset.loadingText` — можно переопределить на уровне конкретной кнопки.
+
+### Аналитика
+
+| Условие | Система | Категория Matomo |
+|---------|---------|-----------------|
+| `apiEndpoint === 'staff'` | GA4 + Matomo | `'Staff VCF Download'` |
+| `apiEndpoint === 'vacancies'` | GA4 + Matomo | `'Vacancy PDF Download'` |
+| иначе | GA4 + Matomo | `'Document Download'` |
+
+GA4: `gtag('event', 'file_download', { file_name, post_id })` — только если `typeof gtag !== 'undefined'`.
+Matomo: `_paq.push(['trackEvent', ...])` — только если `typeof _paq !== 'undefined'`.
+
+---
+
 ## Related Documentation
 
 - **[AJAX_FETCH_SYSTEM.md](AJAX_FETCH_SYSTEM.md)** — AJAX endpoints (alternative)
 - **[HOOKS_REFERENCE.md](HOOKS_REFERENCE.md)** — Filters for API customization
 - **[CODEWEBER_FORMS.md](../forms/CODEWEBER_FORMS.md)** — Form submission architecture
 - **[CPT_CATALOG.md](../cpt/CPT_CATALOG.md)** — Post types & REST endpoints
+- **[MODAL_SYSTEM.md](MODAL_SYSTEM.md)** — Модальная система (второй модуль `restapi.js`)

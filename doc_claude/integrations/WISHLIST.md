@@ -83,6 +83,9 @@ wp_cw_wishlist_products (ID, wishlist_id, product_id, date_added)
 | `ajax_add()` | `wp_ajax_cw_add_to_wishlist` — добавляет товар, возвращает `{added, count, product_name}` |
 | `ajax_remove()` | `wp_ajax_cw_remove_from_wishlist` — удаляет, возвращает `{count}` |
 | `install()` | Создаёт таблицы через `dbDelta()` |
+| `maybe_install()` | Запускает `install()` если `get_option('cw_wishlist_installed')` не установлен — вызывается при `after_setup_theme` |
+| `get_wishlist()` | Возвращает `CW_Wishlist_Item` текущего пользователя (из `$this->wishlist`) |
+| `delete_user_wishlist($user_id)` | Удаляет записи из `wp_cw_wishlists` и `wp_cw_wishlist_products` при удалении аккаунта (`delete_user` хук) |
 
 ### `CW_Wishlist_Item`
 
@@ -129,6 +132,9 @@ cw_render_wishlist_icon([
 ```
 
 Выводит `.cw-wishlist-widget` — ссылку с иконкой и обновляемым счётчиком (`.cw-wishlist-widget__count`).
+
+Позиционирование и размер badge (`top`, `right`, `font-size`) — в SCSS `.cw-wishlist-widget__count`, не inline styles.
+Иконка-обёртка `.cw-wishlist-widget__icon` получает `d-inline-flex align-items-center justify-content-center` через HTML-классы.
 
 ---
 
@@ -201,6 +207,16 @@ feedbackType === 'card'                 → overlay-спиннер .cw-card-spin
     showToast === 'yes'       → CWNotify.show(...)  ← независимо от modal
 ```
 
+### CWNotify — события вишлиста
+
+| Ситуация | Тип | Сообщение | event-ключ |
+|----------|-----|-----------|-----------|
+| Товар добавлен | `'success'` | `i18n.added` | `'wishlist'` |
+| Товар удалён | `'info'` | `i18n.removed` | `'wishlist'` |
+| Гость без права | `'warning'` | `i18n.loginNotice` | `'wishlist'` |
+
+`CWNotify.show(message, { type, event })` — глобальный объект, определяется в `theme.js`. Если недоступен — тост не показывается (fallback отсутствует, тост необязателен).
+
 ### CSS-классы на кнопке `.cw-wishlist-btn`
 
 | Модификатор | Условие |
@@ -256,18 +272,43 @@ feedbackType === 'card'                 → overlay-спиннер .cw-card-spin
 
 | Селектор | Назначение |
 |----------|-----------|
+| `.cw-wishlist-btn` | `gap: 0.375rem; transition` — нестандартный gap (7.5px, нет Bootstrap-утилиты) |
 | `.cw-wishlist-btn--loading i.uil` | `opacity: 0` — скрывает иконку во время загрузки |
-| `.cw-wishlist-btn--loading .cw-wishlist-icon::after` | CSS border-spinner того же размера/цвета |
+| `.cw-wishlist-btn--loading .cw-wishlist-icon::after` | CSS border-spinner; `.cw-wishlist-icon` должен иметь `position: relative` (в HTML через `position-relative`) |
 | `.cw-wishlist-btn.item-like.--loading` | Красный цвет спиннера для loop-кнопки |
 | `.cw-wishlist-btn--active i.uil` | Красный цвет активной иконки |
 | `.cw-wishlist-btn--single.--active` | Заливка btn-red при активном состоянии |
-| `.cw-wishlist-icon` | `position: relative` — якорь для `::after` спиннера |
-| `.cw-wishlist-widget` | Виджет в хедере |
-| `.cw-wishlist-empty` | Блок «вишлист пуст» |
+| `.cw-wishlist-widget` | Виджет в хедере: `color: inherit; text-decoration: none; transition` |
+| `.cw-wishlist-widget__count` | Позиционирование badge: `top: -6px; right: -8px; font-size: .65rem; padding; min-width` |
+| `.cw-wishlist-empty` | Блок «вишлист пуст»: `text-align: center; padding` |
 | `.cw-card-spinner.spinner-overlay` | Полупрозрачный overlay на карточке |
 | `.cw-notify-container/item` | Стили CWNotify toast-уведомлений |
 | `.cw-wishlist-page .item-like` | `opacity:1; right:1rem` — кнопка всегда видима на странице вишлиста |
 | `.cw-wishlist-page .post-header .price` | `font-size: 0.8rem` — уменьшенный размер цены |
+
+**Примечание по `.cw-wishlist-icon`:**
+Span-обёртка иконки кнопки получает классы `d-inline-flex align-items-center justify-content-center lh-1 position-relative` прямо в HTML (PHP-шаблон). CSS-правило в SCSS не нужно — `position: relative` задаётся через Bootstrap `position-relative`.
+
+---
+
+## Matomo-трекинг
+
+При каждом **добавлении** товара в вишлист (не при удалении) PHP автоматически отправляет событие в Matomo:
+
+```php
+// CW_Wishlist::track_matomo_wishlist_add($product_id, $product_name)
+// Условие: плагин 'matomo/matomo.php' активен
+POST /wp-json/matomo/v1/hit/
+{
+  "e_c": "Wishlist",
+  "e_a": "add_to_wishlist",
+  "e_n": "{product_name}",
+  "e_v": {product_id},
+  "_id": "{visitor_id}"  // из cookie _pk_id_* или md5(IP+UA)
+}
+```
+
+Трекинг срабатывает только при успешном AJAX-ответе (`ajax_add`), не при ошибках.
 
 ---
 

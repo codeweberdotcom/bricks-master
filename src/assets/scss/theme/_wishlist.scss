@@ -2,11 +2,7 @@
 
 // Кнопка «В избранное» на карточке и странице товара
 .cw-wishlist-btn {
-  display: inline-flex;
-  align-items: center;
   gap: 0.375rem;
-  cursor: pointer;
-  text-decoration: none;
   transition: color 0.15s ease, opacity 0.15s ease;
 
   &:focus-visible {
@@ -69,15 +65,6 @@
   }
 }
 
-// Иконка сердца
-.cw-wishlist-icon {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
 // ── Виджет в хедере ──────────────────────────────────────────────────────────
 
 .cw-wishlist-widget {
@@ -89,17 +76,12 @@
     opacity: 0.75;
   }
 
-  &__icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   &__count {
-    line-height: 1;
+    top: -6px;
+    right: -8px;
+    font-size: .65rem;
     padding: 2px 5px;
     min-width: 18px;
-    text-align: center;
   }
 
   &__label {
@@ -118,10 +100,6 @@
     color: var(--bs-secondary, #6c757d);
     margin-bottom: 1.25rem;
   }
-}
-
-.cw-wishlist-grid {
-  // Адаптивная сетка через Bootstrap row-cols — дополнительные стили не нужны.
 }
 
 // Анимация спиннера на кнопке
@@ -143,21 +121,12 @@
   max-width: 420px;
 }
 
-// Все тосты — белый фон, тёмный текст
+// Элемент уведомления — белый фон, цветная иконка, progress bar
 .cw-notify-item {
   background-color: var(--bs-white) !important;
   color: var(--bs-dark) !important;
-  border-color: rgba(0, 0, 0, .1) !important;
-
-  .btn-close { filter: none; }
-}
-
-// Элемент уведомления — animate.css управляет появлением через JS,
-// здесь только progress bar (линия убывания времени показа)
-.cw-notify-item {
   overflow: hidden; // чтобы ::after не вылезал за border-radius
 
-  // Линия прогресса внизу уведомления
   &::after {
     content: '';
     position: absolute;

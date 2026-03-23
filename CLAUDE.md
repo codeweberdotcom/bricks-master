@@ -94,6 +94,18 @@ npm run i18n:update  # Перегенерировать POT + скомпилир
 
 Ключ опции Redux Framework — `redux_demo`. Доступ к настройкам темы через `get_option('redux_demo')`. Настройки регистрируются в `redux-framework/sample/theme-config.php` и `redux-framework/theme-settings/theme-settings.php`.
 
+## Правило согласования плана
+
+**КРИТИЧНО — нарушение недопустимо:**
+
+Перед ЛЮБЫМ изменением файлов — изложить план пошагово и дождаться явного одобрения пользователя. Не начинать реализацию без явного «да».
+
+- Читающие действия (Read, Grep, Glob) без изменений — можно без согласования
+- Если в процессе план меняется — снова согласовать, не действовать самостоятельно
+- Никаких инициативных «заодно исправлю» — только то, что явно одобрено
+
+---
+
 ## Git-правила
 
 **ОБЯЗАТЕЛЬНО перед любыми правками в коде:**
@@ -150,3 +162,5 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | WooCommerce Checkout (form-floating, select2, CSS) | `doc_claude/integrations/WC_CHECKOUT.md` |
 | Wishlist (архитектура, AJAX, JS, modal, Redux) | `doc_claude/integrations/WISHLIST.md` |
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |
+| Социальные иконки (функции, типы, шорткод, staff/vacancy) | `doc_claude/components/SOCIAL_LINKS.md` |
+| Транслитерация кириллицы в слагах и именах файлов | `doc_claude/components/CYR_TO_LAT.md` |

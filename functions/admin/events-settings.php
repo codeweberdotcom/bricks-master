@@ -75,6 +75,14 @@ function codeweber_events_settings_register(): void {
 	);
 
 	add_settings_field(
+		'reg_form_title',
+		__( 'Registration form heading', 'codeweber' ),
+		'codeweber_events_field_reg_form_title',
+		'codeweber-events-settings',
+		'codeweber_events_registration'
+	);
+
+	add_settings_field(
 		'btn_register_text',
 		__( 'Register button text', 'codeweber' ),
 		'codeweber_events_field_btn_register_text',
@@ -146,9 +154,48 @@ function codeweber_events_field_show_seats_progress(): void {
 	echo '</label>';
 }
 
+function codeweber_events_field_reg_form_title(): void {
+	$val     = codeweber_events_settings_get( 'reg_form_title', 'Register' );
+	$options = [
+		'Register'              => __( 'Register', 'codeweber' ),
+		'Submit an Application' => __( 'Submit an Application', 'codeweber' ),
+		'Book Now'              => __( 'Book Now', 'codeweber' ),
+		'Reserve a Spot'        => __( 'Reserve a Spot', 'codeweber' ),
+		'Get Access'            => __( 'Get Access', 'codeweber' ),
+		'Sign Up'               => __( 'Sign Up', 'codeweber' ),
+		'Buy a Ticket'          => __( 'Buy a Ticket', 'codeweber' ),
+		'Enroll'                => __( 'Enroll', 'codeweber' ),
+		'Join the Event'        => __( 'Join the Event', 'codeweber' ),
+	];
+	echo '<select name="codeweber_events_settings[reg_form_title]">';
+	echo '<option value="">' . esc_html__( '— No heading —', 'codeweber' ) . '</option>';
+	foreach ( $options as $opt_val => $opt_label ) {
+		echo '<option value="' . esc_attr( $opt_val ) . '" ' . selected( $val ?: 'Register', $opt_val, false ) . '>' . esc_html( $opt_label ) . '</option>';
+	}
+	echo '</select>';
+	echo '<p class="description">' . esc_html__( 'Default heading above the registration form. Can be overridden per event.', 'codeweber' ) . '</p>';
+}
+
 function codeweber_events_field_btn_register_text(): void {
-	$val = codeweber_events_settings_get( 'btn_register_text', __( 'Register', 'codeweber' ) );
-	echo '<input type="text" name="codeweber_events_settings[btn_register_text]" value="' . esc_attr( $val ) . '" class="regular-text">';
+	$val     = codeweber_events_settings_get( 'btn_register_text', 'Register' );
+	$options = [
+		'Register'           => __( 'Register', 'codeweber' ),
+		'Submit Application' => __( 'Submit Application', 'codeweber' ),
+		'Book Now'           => __( 'Book Now', 'codeweber' ),
+		'Reserve a Spot'     => __( 'Reserve a Spot', 'codeweber' ),
+		'Get Access'         => __( 'Get Access', 'codeweber' ),
+		'Sign Up'            => __( 'Sign Up', 'codeweber' ),
+		'Buy a Ticket'       => __( 'Buy a Ticket', 'codeweber' ),
+		'Enroll Now'         => __( 'Enroll Now', 'codeweber' ),
+		'Join Now'           => __( 'Join Now', 'codeweber' ),
+		'Send Request'       => __( 'Send Request', 'codeweber' ),
+	];
+	echo '<select name="codeweber_events_settings[btn_register_text]">';
+	foreach ( $options as $opt_val => $opt_label ) {
+		echo '<option value="' . esc_attr( $opt_val ) . '" ' . selected( $val ?: 'Register', $opt_val, false ) . '>' . esc_html( $opt_label ) . '</option>';
+	}
+	echo '</select>';
+	echo '<p class="description">' . esc_html__( 'Default button label on the registration form and external link. Can be overridden per event.', 'codeweber' ) . '</p>';
 }
 
 function codeweber_events_field_no_seats_text(): void {
@@ -176,6 +223,7 @@ function codeweber_events_settings_sanitize( array $input ): array {
 	$clean['show_seats_taken']    = isset( $input['show_seats_taken'] ) ? '1' : '0';
 	$clean['show_seats_left']     = isset( $input['show_seats_left'] ) ? '1' : '0';
 	$clean['show_seats_progress'] = isset( $input['show_seats_progress'] ) ? '1' : '0';
+	$clean['reg_form_title']      = sanitize_text_field( $input['reg_form_title'] ?? '' );
 	$clean['btn_register_text']   = sanitize_text_field( $input['btn_register_text'] ?? '' );
 	$clean['no_seats_text']       = sanitize_text_field( $input['no_seats_text'] ?? '' );
 	$clean['success_message']     = sanitize_text_field( $input['success_message'] ?? '' );

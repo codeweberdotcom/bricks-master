@@ -18,6 +18,7 @@ if ( ! $product || ! $product->is_visible() ) {
 
 $product_id  = $product->get_id();
 $product_url = get_permalink( $product_id );
+$btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
 
 // Галерея: главное фото + дополнительные
 $main_image_id = $product->get_image_id();
@@ -56,7 +57,7 @@ $has_gallery   = count( $all_image_ids ) > 1;
 			</div>
 
 		<?php else : ?>
-			<div class="d-flex align-items-center justify-content-center" style="min-height:300px;">
+			<div class="cw-qv-no-image d-flex align-items-center justify-content-center">
 				<?php echo wc_placeholder_img( 'woocommerce_single' ); ?>
 			</div>
 		<?php endif; ?>
@@ -81,7 +82,7 @@ $has_gallery   = count( $all_image_ids ) > 1;
 		do_action( 'woocommerce_single_product_summary' );
 		?>
 
-		<a href="<?php echo esc_url( $product_url ); ?>" class="btn btn-soft-primary btn-sm mt-3">
+		<a href="<?php echo esc_url( $product_url ); ?>" class="btn btn-soft-primary btn-sm mt-3 <?php echo esc_attr( $btn_style ); ?>">
 			<?php esc_html_e( 'View full details', 'codeweber' ); ?>
 			<i class="uil uil-arrow-right ms-1"></i>
 		</a>

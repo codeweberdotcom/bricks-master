@@ -69,8 +69,9 @@ is_woocommerce() || is_shop() || is_product_category() || is_product_tag() || cw
 ```html
 <div class="modal fade" id="cw-quick-view-modal" ...>
   <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content position-relative overflow-hidden">
-      <button class="btn-close position-absolute top-0 end-0 m-3" style="z-index:5" data-bs-dismiss="modal">
+    <div class="modal-content position-relative overflow-hidden {$card_radius}">
+      <button class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal">
+      <!-- z-index: 5 на .btn-close — в SCSS (#cw-quick-view-modal .btn-close) -->
       <div class="modal-body p-0" id="cw-quick-view-body">
         <!-- Заменяется JS-ом: skeleton → реальный контент -->
       </div>
@@ -78,6 +79,8 @@ is_woocommerce() || is_shop() || is_product_category() || is_product_tag() || cw
   </div>
 </div>
 ```
+
+`$card_radius` = `Codeweber_Options::style('card-radius')` — применяет Redux-стиль скругления к модалу.
 
 ### Enqueue JS
 
@@ -142,7 +145,8 @@ function cw_is_wishlist_page() {
   <!-- Правая колонка: WooCommerce summary -->
   <div class="col-md-6 p-4 p-lg-5">
     <?php do_action('woocommerce_single_product_summary'); ?>
-    <a href="..." class="btn btn-soft-primary btn-sm mt-3">View full details</a>
+    <a href="..." class="btn btn-soft-primary btn-sm mt-3 {$btn_style}">View full details</a>
+    <!-- $btn_style = Codeweber_Options::style('button') — форма кнопки из Redux -->
   </div>
 
 </div>
@@ -223,9 +227,11 @@ function initVariationForm(container) {
 
 1. Рендерит детальный skeleton-loader в `#cw-quick-view-body`
 2. Открывает модал (`modal.show()`)
-3. Отправляет `fetch GET` к `admin-ajax.php`
-4. При успехе: `body.innerHTML = html` → `initSwiper()` → `initVariationForm()`
-5. Триггерит `wc_fragment_refresh` для обновления мини-корзины
+3. Добавляет `cw-qv-loading` на `triggerBtn` (кнопка `.item-view` на карточке) — `pointer-events:none; opacity:.5`
+4. Отправляет `fetch GET` к `admin-ajax.php?action=cw_quick_view&product_id=N`
+5. При успехе: `body.innerHTML = html` → `initSwiper()` → `initVariationForm()`
+6. Триггерит `wc_fragment_refresh` (jQuery) для обновления мини-корзины
+7. В `finally`: убирает `cw-qv-loading` с `triggerBtn`
 
 #### Click delegation
 
@@ -249,11 +255,20 @@ document.addEventListener('click', function(e) {
 ## SCSS: `src/assets/scss/theme/_woo-quick-view.scss`
 
 ```scss
-// Loading state
+// Loading state кнопки quick view на карточке
 .item-view.cw-qv-loading {
     pointer-events: none;
     opacity: .5;
 }
+
+// z-index кнопки закрытия поверх Swiper-галереи
+#cw-quick-view-modal .btn-close {
+    z-index: 5;
+}
+
+// Минимальная высота: skeleton-loader и placeholder без изображения
+.cw-qv-loading-wrap { min-height: 320px; }
+.cw-qv-no-image     { min-height: 300px; }
 
 // Правая колонка скроллится независимо
 #cw-quick-view-modal {
@@ -269,6 +284,12 @@ document.addEventListener('click', function(e) {
 - `modal-dialog-scrollable` делает весь `modal-body` скроллируемым — переопределяем `overflow: hidden`
 - `row` растягивается на всю высоту тела модала (`height: 100%`)
 - Только правая `.col-md-6:last-child` получает `overflow-y: auto`
+
+**Почему `z-index: 5` на `.btn-close` в SCSS, а не inline style:**
+Bootstrap z-index-утилиты идут только до `z-3`. Кнопка закрытия должна быть поверх Swiper-галереи (которая имеет свой stacking context), поэтому используем SCSS-правило вместо `style="z-index:5"`.
+
+**Почему `$card_radius` на `.modal-content`:**
+Redux-настройка формы карточек (`card-radius`) применяется и к quick view модалу — чтобы скругление углов соответствовало теме. Передаётся через `Codeweber_Options::style('card-radius')` в PHP.
 
 ---
 

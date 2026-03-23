@@ -34,6 +34,8 @@ class CodeweberFormsDefaultForms {
             case 'newsletter':
                 return $this->get_default_newsletter_form_html($is_logged_in, $user_id);
         }
+
+        // event-registration is handled via get_default_event_registration_form_html() directly
         
         if (defined('WP_DEBUG') && WP_DEBUG) {
             error_log('[Default Forms] No default form found for type: ' . $form_type);
@@ -219,6 +221,69 @@ class CodeweberFormsDefaultForms {
                 </div>';
     }
     
+    /**
+     * Get default event registration form HTML
+     *
+     * @param int    $event_id     Event post ID
+     * @param string $button_label Submit button label
+     * @return string
+     */
+    public function get_default_event_registration_form_html( $event_id, $button_label = '' ) {
+        self::$global_form_instance_counter++;
+        $form_unique_id = 'form-event-reg-' . self::$global_form_instance_counter;
+
+        $form_radius  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'form-radius' ) : '';
+        $button_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
+        $phone_mask   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'opt_phone_mask', '' ) : '';
+
+        $nonce_value  = wp_create_nonce( 'codeweber_event_register' );
+        $button_label = $button_label ?: __( 'Register', 'codeweber' );
+        $btn_class    = 'btn btn-primary has-ripple w-100' . ( $button_style ? ' ' . $button_style : '' );
+
+        $phone_mask_attr = $phone_mask ? ' data-mask="' . esc_attr( $phone_mask ) . '"' : '';
+
+        return '<form id="' . esc_attr( $form_unique_id ) . '"
+            class="codeweber-form needs-validation"
+            data-form-id="0"
+            data-form-type="event-registration"
+            data-event-id="' . esc_attr( $event_id ) . '"
+            data-handled-by="codeweber-forms-universal"
+            method="post"
+            novalidate>
+
+            <input type="hidden" name="event_id" value="' . esc_attr( $event_id ) . '">
+            <input type="hidden" name="event_reg_nonce" value="' . esc_attr( $nonce_value ) . '">
+            <input type="text"   name="event_reg_honeypot" class="d-none" tabindex="-1" autocomplete="off">
+
+            <div class="mb-3">
+                <input type="text" name="reg_name" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Your name *', 'codeweber' ) . '" required>
+                <div class="invalid-feedback">' . esc_html__( 'Please enter your name.', 'codeweber' ) . '</div>
+            </div>
+            <div class="mb-3">
+                <input type="email" name="reg_email" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Email *', 'codeweber' ) . '" required>
+                <div class="invalid-feedback">' . esc_html__( 'Please enter a valid email.', 'codeweber' ) . '</div>
+            </div>
+            <div class="mb-3">
+                <input type="tel" name="reg_phone" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Phone', 'codeweber' ) . '"' . $phone_mask_attr . '>
+            </div>
+            <div class="mb-4">
+                <textarea name="reg_message" class="form-control' . esc_attr( $form_radius ) . '" rows="3"
+                    placeholder="' . esc_attr__( 'Comment (optional)', 'codeweber' ) . '"></textarea>
+            </div>
+
+            <div class="event-reg-form-messages mb-3" style="display:none;"></div>
+
+            <button type="submit"
+                class="' . esc_attr( $btn_class ) . '"
+                data-loading-text="' . esc_attr__( 'Sending...', 'codeweber' ) . '">
+                ' . esc_html( $button_label ) . '
+            </button>
+        </form>';
+    }
+
     /**
      * Get default newsletter form HTML
      * 

@@ -129,6 +129,7 @@
 			var eventId   = form.getAttribute('data-event-id') || formData.get('event_id');
 			var restUrl   = (typeof codeweberEventReg !== 'undefined') ? codeweberEventReg.restUrl : '/wp-json/codeweber/v1/events/register';
 			var restNonce = (typeof codeweberEventReg !== 'undefined') ? codeweberEventReg.nonce : '';
+			var succeeded = false;
 
 			var payload = {
 				event_id: parseInt(eventId, 10),
@@ -153,6 +154,7 @@
 			})
 			.then(function (data) {
 				if (data.success) {
+					succeeded = true;
 					form.reset();
 					form.classList.remove('was-validated');
 
@@ -178,7 +180,7 @@
 				showMessage(formMessages, err.message || 'Network error', 'error');
 			})
 			.finally(function () {
-				if (submitBtn) {
+				if (submitBtn && !succeeded) {
 					submitBtn.disabled = false;
 					submitBtn.textContent = originalBtnText;
 				}

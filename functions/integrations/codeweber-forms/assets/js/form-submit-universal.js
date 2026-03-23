@@ -261,6 +261,15 @@
                     config.customValidation = validateTestimonialForm;
                     break;
                     
+                case 'event-registration':
+                    config.type = 'event-registration';
+                    config.apiEndpoint = (typeof codeweberEventReg !== 'undefined') ? codeweberEventReg.restUrl : '/wp-json/codeweber/v1/events/register';
+                    config.nonceField = 'event_reg_nonce';
+                    config.nonceAction = 'codeweber_event_register';
+                    config.messagesContainer = '.event-reg-form-messages';
+                    config.messagesClass = 'event-reg-form-messages';
+                    break;
+
                 case 'newsletter':
                 case 'resume':
                 case 'callback':
@@ -367,7 +376,14 @@
         }
 
         // Collect other fields based on form type
-        if (config.type === 'testimonial') {
+        if (config.type === 'event-registration') {
+            data.event_id = parseInt(formData.get('event_id') || form.dataset.eventId || '0', 10);
+            data.name     = formData.get('reg_name')    || '';
+            data.email    = formData.get('reg_email')   || '';
+            data.phone    = formData.get('reg_phone')   || '';
+            data.message  = formData.get('reg_message') || '';
+            data.honeypot = formData.get('event_reg_honeypot') || '';
+        } else if (config.type === 'testimonial') {
             // Используем стандартные имена полей: message, name, email
             const testimonialText = formData.get('message');
             if (testimonialText && testimonialText.trim()) {
