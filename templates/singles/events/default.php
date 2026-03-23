@@ -363,84 +363,82 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 					</div>
 				<?php endif; ?>
 
+				<?php // Кнопка регистрации — внизу первой карточки (modal / external) ?>
+				<?php if ( $reg_status['status'] === 'modal' || $reg_status['status'] === 'external' ) : ?>
+					<hr class="mt-4 mb-3">
+					<?php if ( $reg_status['status'] === 'external' && $external_reg_url ) : ?>
+						<a href="<?php echo esc_url( $external_reg_url ); ?>" target="_blank" rel="noopener"
+							class="btn btn-primary btn-icon btn-icon-start has-ripple w-100<?php echo esc_attr( $button_style ); ?>">
+							<i class="uil uil-external-link-alt"></i>
+							<?php echo esc_html( __( ! empty( $reg_button_label ) ? $reg_button_label : 'Register', 'codeweber' ) ); ?>
+						</a>
+					<?php elseif ( $reg_status['status'] === 'modal' ) : ?>
+						<?php
+						$modal_label = ! empty( $reg_button_label )
+							? $reg_button_label
+							: ( ! empty( $reg_status['label'] ) ? $reg_status['label'] : __( 'Register', 'codeweber' ) );
+						?>
+						<a href="javascript:void(0)"
+						   class="btn btn-primary has-ripple w-100<?php echo esc_attr( $button_style ); ?>"
+						   data-bs-toggle="modal"
+						   data-bs-target="#modal"
+						   data-value="event-reg-<?php echo esc_attr( $event_id ); ?>">
+							<?php echo esc_html( $modal_label ); ?>
+						</a>
+					<?php endif; ?>
+				<?php endif; ?>
+
 			</div>
 		</div>
 
 		<div class="sticky-top" style="top:80px;">
-		<?php if ( $reg_status['status'] === 'external' || $reg_status['show_form'] || $reg_status['status'] === 'modal' ) : ?>
+		<?php if ( $reg_status['show_form'] ) : ?>
 		<div class="card mt-4<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 			<div class="card-body">
+				<?php $nonce = wp_create_nonce( 'codeweber_event_register' ); ?>
+				<div class="event-registration-wrap">
+					<h3 class="mb-4"><?php echo esc_html( __( ! empty( $reg_form_title ) ? $reg_form_title : 'Register', 'codeweber' ) ); ?></h3>
+					<form class="event-registration-form needs-validation"
+						data-event-id="<?php echo esc_attr( $event_id ); ?>"
+						novalidate>
 
-				<?php // Registration button / form ?>
-				<?php if ( $reg_status['status'] === 'external' && $external_reg_url ) : ?>
-					<a href="<?php echo esc_url( $external_reg_url ); ?>" target="_blank" rel="noopener"
-						class="btn btn-primary btn-icon btn-icon-start has-ripple w-100<?php echo esc_attr( $button_style ); ?>">
-						<i class="uil uil-external-link-alt"></i>
-						<?php echo esc_html( __( ! empty( $reg_button_label ) ? $reg_button_label : 'Register', 'codeweber' ) ); ?>
-					</a>
+						<input type="hidden" name="event_id" value="<?php echo esc_attr( $event_id ); ?>">
+						<input type="hidden" name="event_reg_nonce" value="<?php echo esc_attr( $nonce ); ?>">
+						<input type="text" name="event_reg_honeypot" class="d-none" tabindex="-1" autocomplete="off">
 
-				<?php elseif ( $reg_status['status'] === 'modal' ) : ?>
-				<?php
-				$modal_label = ! empty( $reg_button_label )
-					? $reg_button_label
-					: ( ! empty( $reg_status['label'] ) ? $reg_status['label'] : __( 'Register', 'codeweber' ) );
-				?>
-				<a href="javascript:void(0)"
-				   class="btn btn-primary has-ripple w-100<?php echo esc_attr( $button_style ); ?>"
-				   data-bs-toggle="modal"
-				   data-bs-target="#modal"
-				   data-value="event-reg-<?php echo esc_attr( $event_id ); ?>">
-					<?php echo esc_html( $modal_label ); ?>
-				</a>
+						<div class="mb-3">
+							<input type="text" name="reg_name" class="form-control<?php echo esc_attr( $form_radius ); ?>"
+								placeholder="<?php esc_attr_e( 'Your name *', 'codeweber' ); ?>"
+								required>
+							<div class="invalid-feedback"><?php esc_html_e( 'Please enter your name.', 'codeweber' ); ?></div>
+						</div>
 
-			<?php elseif ( $reg_status['show_form'] ) : ?>
-					<?php $nonce = wp_create_nonce( 'codeweber_event_register' ); ?>
-					<div class="event-registration-wrap">
-						<h3 class="mb-4"><?php echo esc_html( __( ! empty( $reg_form_title ) ? $reg_form_title : 'Register', 'codeweber' ) ); ?></h3>
-						<form class="event-registration-form needs-validation"
-							data-event-id="<?php echo esc_attr( $event_id ); ?>"
-							novalidate>
+						<div class="mb-3">
+							<input type="email" name="reg_email" class="form-control<?php echo esc_attr( $form_radius ); ?>"
+								placeholder="<?php esc_attr_e( 'Email *', 'codeweber' ); ?>"
+								required>
+							<div class="invalid-feedback"><?php esc_html_e( 'Please enter a valid email.', 'codeweber' ); ?></div>
+						</div>
 
-							<input type="hidden" name="event_id" value="<?php echo esc_attr( $event_id ); ?>">
-							<input type="hidden" name="event_reg_nonce" value="<?php echo esc_attr( $nonce ); ?>">
-							<input type="text" name="event_reg_honeypot" class="d-none" tabindex="-1" autocomplete="off">
+						<div class="mb-3">
+							<input type="tel" name="reg_phone" class="form-control<?php echo esc_attr( $form_radius ); ?>"
+								placeholder="<?php esc_attr_e( 'Phone', 'codeweber' ); ?>"
+								<?php if ( ! empty( $phone_mask ) ) : ?>data-mask="<?php echo esc_attr( $phone_mask ); ?>"<?php endif; ?>>
+						</div>
+						<div class="mb-4">
+							<textarea name="reg_message" class="form-control<?php echo esc_attr( $form_radius ); ?>" rows="3"
+								placeholder="<?php esc_attr_e( 'Comment (optional)', 'codeweber' ); ?>"></textarea>
+						</div>
 
-							<div class="mb-3">
-								<input type="text" name="reg_name" class="form-control<?php echo esc_attr( $form_radius ); ?>"
-									placeholder="<?php esc_attr_e( 'Your name *', 'codeweber' ); ?>"
-									required>
-								<div class="invalid-feedback"><?php esc_html_e( 'Please enter your name.', 'codeweber' ); ?></div>
-							</div>
+						<div class="event-reg-form-messages mb-3"></div>
 
-							<div class="mb-3">
-								<input type="email" name="reg_email" class="form-control<?php echo esc_attr( $form_radius ); ?>"
-									placeholder="<?php esc_attr_e( 'Email *', 'codeweber' ); ?>"
-									required>
-								<div class="invalid-feedback"><?php esc_html_e( 'Please enter a valid email.', 'codeweber' ); ?></div>
-							</div>
-
-							<div class="mb-3">
-								<input type="tel" name="reg_phone" class="form-control<?php echo esc_attr( $form_radius ); ?>"
-									placeholder="<?php esc_attr_e( 'Phone', 'codeweber' ); ?>"
-									<?php if ( ! empty( $phone_mask ) ) : ?>data-mask="<?php echo esc_attr( $phone_mask ); ?>"<?php endif; ?>>
-							</div>
-							<div class="mb-4">
-								<textarea name="reg_message" class="form-control<?php echo esc_attr( $form_radius ); ?>" rows="3"
-									placeholder="<?php esc_attr_e( 'Comment (optional)', 'codeweber' ); ?>"></textarea>
-							</div>
-
-							<div class="event-reg-form-messages mb-3"></div>
-
-							<button type="submit"
-								class="btn btn-primary has-ripple w-100<?php echo esc_attr( $button_style ); ?>"
-								data-loading-text="<?php esc_attr_e( 'Sending...', 'codeweber' ); ?>">
-								<?php echo esc_html( __( ! empty( $reg_button_label ) ? $reg_button_label : 'Register', 'codeweber' ) ); ?>
-							</button>
-						</form>
-					</div>
-
-				<?php endif; ?>
-
+						<button type="submit"
+							class="btn btn-primary has-ripple w-100<?php echo esc_attr( $button_style ); ?>"
+							data-loading-text="<?php esc_attr_e( 'Sending...', 'codeweber' ); ?>">
+							<?php echo esc_html( __( ! empty( $reg_button_label ) ? $reg_button_label : 'Register', 'codeweber' ) ); ?>
+						</button>
+					</form>
+				</div>
 			</div>
 		</div>
 		<?php endif; ?>
@@ -454,9 +452,6 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 					'center'                   => [ floatval( $event_latitude ), floatval( $event_longitude ) ],
 					'zoom'                     => $_evt_zoom,
 					'height'                   => 250,
-					'width'                    => '100%',
-					'controls'                 => [ 'zoomControl' ],
-					'enable_scroll_zoom'       => false,
 					'show_sidebar'             => false,
 					'show_route'               => false,
 					'clusterer'                => false,
