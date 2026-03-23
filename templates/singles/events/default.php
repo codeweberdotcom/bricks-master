@@ -104,7 +104,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 					<div class="swiper swiper-thumbs">
 						<div class="swiper-wrapper">
 							<?php foreach ( $gallery_ids as $i => $aid ) :
-								$_th_url = wp_get_attachment_image_url( $aid, 'thumbnail' );
+								$_th_url = wp_get_attachment_image_url( $aid, 'codeweber_event_200-133' );
 								if ( ! $_th_url ) continue;
 							?>
 							<div class="swiper-slide">
@@ -305,7 +305,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 				<div class="author-info d-flex align-items-center">
 					<div class="d-flex align-items-center">
 						<?php if ( ! empty( $evt_avatar ) ) :
-							$evt_avatar_src = wp_get_attachment_image_src( $evt_avatar, 'thumbnail' ); ?>
+							$evt_avatar_src = wp_get_attachment_image_src( $evt_avatar, 'codeweber_event_200-133' ); ?>
 							<figure class="user-avatar me-3">
 								<img class="rounded-circle" alt="<?php the_author_meta( 'display_name' ); ?>"
 									src="<?php echo esc_url( $evt_avatar_src[0] ); ?>">
