@@ -432,16 +432,13 @@ document.addEventListener("DOMContentLoaded", () => {
         initDocumentEmailForm();
       });
 
-      // hidden.bs.modal — восстанавливаем скелетон, обнуляем состояние (элемент остаётся в DOM)
+      // hidden.bs.modal — восстанавливаем скелетон, instance переиспользуется (не dispose)
       el.addEventListener('hidden.bs.modal', () => {
         if (modalContent) {
           modalContent.innerHTML = getModalSkeleton('');
         }
-        modalInstance.dispose();
-        modalElement = null;
-        modalContent  = null;
-        modalDialog   = null;
-        modalInstance = null;
+        // Не вызываем dispose() — Bootstrap сам убирает backdrop в штатном цикле hide.
+        // Instance, modalElement, modalContent, modalDialog остаются живыми для переиспользования.
       });
     }
 
@@ -710,9 +707,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ✅ Стандартный обработчик клика по кнопке
   modalButtons.forEach((button) => {
+    // Убираем data-bs-toggle чтобы Bootstrap's delegated handler не перехватывал эти клики
+    button.removeAttribute('data-bs-toggle');
     button.addEventListener("click", (e) => {
       e.preventDefault(); // Prevent default link behavior
-      e.stopPropagation(); // Prevent Bootstrap delegated handler from calling toggle() on already-open modal
       const dataValue = button
         .getAttribute("data-value")
         ?.replace("modal-", "");
