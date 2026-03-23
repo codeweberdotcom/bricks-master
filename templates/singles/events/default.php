@@ -78,53 +78,45 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 		<?php if ( ! empty( $gallery_ids ) ) : ?>
 			<div class="mt-8">
 				<h4 class="mb-4"><?php esc_html_e( 'Gallery', 'codeweber' ); ?></h4>
-				<div id="eventGalleryCarousel" class="carousel slide event-gallery-carousel" data-bs-ride="false">
-					<div class="carousel-indicators">
-						<?php foreach ( $gallery_ids as $i => $aid ) : ?>
-							<button type="button" data-bs-target="#eventGalleryCarousel"
-								data-bs-slide-to="<?php echo esc_attr( $i ); ?>"
-								<?php echo $i === 0 ? 'class="active" aria-current="true"' : ''; ?>
-								aria-label="<?php echo esc_attr( sprintf( __( 'Slide %d', 'codeweber' ), $i + 1 ) ); ?>">
-							</button>
-						<?php endforeach; ?>
-					</div>
-						<div class="carousel-inner<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ' rounded'; ?>">
-						<?php foreach ( $gallery_ids as $i => $aid ) :
-							$img_url  = wp_get_attachment_image_url( $aid, 'codeweber_event_900-450' );
-							$img_full = wp_get_attachment_image_url( $aid, 'full' );
-							if ( ! $img_url ) continue;
-						?>
-							<div class="carousel-item <?php echo $i === 0 ? 'active' : ''; ?>">
-								<a href="<?php echo esc_url( $img_full ); ?>" data-glightbox="image" data-gallery="event-gallery-<?php echo esc_attr( $event_id ); ?>">
-									<img src="<?php echo esc_url( $img_url ); ?>" class="d-block w-100" alt="<?php echo esc_attr( get_post_field( 'post_excerpt', $aid ) ?: get_the_title() ); ?>">
-								</a>
+				<div class="swiper-container swiper-thumbs-container dots-over" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true">
+					<div class="swiper">
+						<div class="swiper-wrapper">
+							<?php foreach ( $gallery_ids as $i => $aid ) :
+								$_gal_url  = wp_get_attachment_image_url( $aid, 'codeweber_event_900-450' );
+								$_gal_full = wp_get_attachment_image_url( $aid, 'full' );
+								$_gal_alt  = get_post_field( 'post_excerpt', $aid ) ?: get_the_title();
+								if ( ! $_gal_url ) continue;
+							?>
+							<div class="swiper-slide">
+								<figure class="<?php echo $card_radius ? esc_attr( $card_radius ) : 'rounded'; ?>">
+									<img src="<?php echo esc_url( $_gal_url ); ?>" class="w-100" alt="<?php echo esc_attr( $_gal_alt ); ?>">
+									<a class="item-link" href="<?php echo esc_url( $_gal_full ); ?>" data-glightbox data-gallery="event-gallery-<?php echo esc_attr( $event_id ); ?>">
+										<i class="uil uil-focus-add"></i>
+									</a>
+								</figure>
 							</div>
-						<?php endforeach; ?>
+							<!--/.swiper-slide -->
+							<?php endforeach; ?>
+						</div>
+						<!--/.swiper-wrapper -->
 					</div>
-					<?php if ( count( $gallery_ids ) > 1 ) : ?>
-						<button class="carousel-control-prev" type="button" data-bs-target="#eventGalleryCarousel" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden"><?php esc_html_e( 'Previous', 'codeweber' ); ?></span>
-						</button>
-						<button class="carousel-control-next" type="button" data-bs-target="#eventGalleryCarousel" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden"><?php esc_html_e( 'Next', 'codeweber' ); ?></span>
-						</button>
-					<?php endif; ?>
+					<!-- /.swiper -->
+					<div class="swiper swiper-thumbs">
+						<div class="swiper-wrapper">
+							<?php foreach ( $gallery_ids as $i => $aid ) :
+								$_th_url = wp_get_attachment_image_url( $aid, 'thumbnail' );
+								if ( ! $_th_url ) continue;
+							?>
+							<div class="swiper-slide">
+								<img src="<?php echo esc_url( $_th_url ); ?>" class="<?php echo $card_radius ? esc_attr( $card_radius ) : 'rounded'; ?>" alt="">
+							</div>
+							<?php endforeach; ?>
+						</div>
+						<!--/.swiper-wrapper -->
+					</div>
+					<!-- /.swiper -->
 				</div>
-
-				<?php // Thumbnails with GLightbox ?>
-				<div class="event-gallery-thumbs">
-					<?php foreach ( $gallery_ids as $i => $aid ) :
-						$thumb = wp_get_attachment_image_url( $aid, 'thumbnail' );
-						$full  = wp_get_attachment_image_url( $aid, 'full' );
-						if ( ! $thumb ) continue;
-					?>
-						<a href="<?php echo esc_url( $full ); ?>" data-glightbox="image" data-gallery="event-gallery-<?php echo esc_attr( $event_id ); ?>">
-							<img src="<?php echo esc_url( $thumb ); ?>" alt="">
-						</a>
-					<?php endforeach; ?>
-				</div>
+				<!-- /.swiper-container -->
 			</div>
 		<?php endif; ?>
 
@@ -197,7 +189,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 		$show_taken     = $show_seats_taken && $registered_count > 0;
 		$show_any_seats = $show_bar || $show_left || $show_taken;
 		?>
-		<div class="card sticky-top<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>" style="top:80px;">
+		<div class="card<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 
 			<?php if ( ! $sidebar_disable_image && has_post_thumbnail() ) :
 				$sidebar_img = get_the_post_thumbnail_url( $event_id, 'codeweber_vacancy' );
@@ -370,9 +362,13 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 					</div>
 				<?php endif; ?>
 
-				<?php if ( $reg_status['status'] === 'external' || $reg_status['show_form'] ) : ?>
-					<hr class="my-4">
-				<?php endif; ?>
+			</div>
+		</div>
+
+		<div class="sticky-top" style="top:80px;">
+		<?php if ( $reg_status['status'] === 'external' || $reg_status['show_form'] ) : ?>
+		<div class="card mt-4<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+			<div class="card-body">
 
 				<?php // Registration button / form ?>
 				<?php if ( $reg_status['status'] === 'external' && $external_reg_url ) : ?>
@@ -430,9 +426,9 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 
 				<?php endif; ?>
 
-
 			</div>
 		</div>
+		<?php endif; ?>
 
 		<?php if ( $event_show_map === '1' && ! empty( $event_latitude ) && ! empty( $event_longitude ) && class_exists( 'Codeweber_Yandex_Maps' ) ) :
 			$_evt_maps = Codeweber_Yandex_Maps::get_instance();
@@ -466,6 +462,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 			<?php
 			endif;
 		endif; ?>
+		</div>
 	</div>
 
 </div>
