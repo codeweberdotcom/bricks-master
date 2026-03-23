@@ -397,12 +397,12 @@
             data.honeypot = formData.get('event_reg_honeypot') || '';
 
             // Collect consent checkboxes (reg_consent_{document_id})
-            var consents = {};
+            var eventConsents = {};
             form.querySelectorAll('input[name^="reg_consent_"]').forEach(function(cb) {
                 var docId = cb.name.replace('reg_consent_', '');
-                if (cb.checked) { consents[docId] = '1'; }
+                if (cb.checked) { eventConsents[docId] = '1'; }
             });
-            data.consents = consents;
+            data.consents = eventConsents;
         } else if (config.type === 'testimonial') {
             // Используем стандартные имена полей: message, name, email
             const testimonialText = formData.get('message');
