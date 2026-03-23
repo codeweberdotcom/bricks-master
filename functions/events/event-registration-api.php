@@ -220,6 +220,82 @@ class Codeweber_Event_Registration_API {
 		update_post_meta( $post_id, '_reg_seats',    $seats );
 		update_post_meta( $post_id, '_reg_status',   'reg_pending' );
 
+		// ----------------------------------------------------------------
+		// User creation + consents + newsletter — same pattern as codeweber forms
+		// ----------------------------------------------------------------
+
+		$_reg_email  = sanitize_email( $request->get_param( 'email' ) ?? '' );
+		$_reg_phone  = sanitize_text_field( $request->get_param( 'phone' ) ?? '' );
+		$_reg_name   = sanitize_text_field( $request->get_param( 'name' ) );
+		$_raw_consents = $request->get_param( 'consents' );
+		if ( ! is_array( $_raw_consents ) ) { $_raw_consents = []; }
+
+		// 1. Save consents to registration post meta (audit trail for admin)
+		if ( ! empty( $_raw_consents ) ) {
+			$_consents_meta = [];
+			foreach ( $_raw_consents as $_doc_id => $_val ) {
+				$_doc = get_post( (int) $_doc_id );
+				if ( ! $_doc ) { continue; }
+				$_consents_meta[] = [
+					'document_id'      => (int) $_doc_id,
+					'document_title'   => $_doc->post_title,
+					'document_version' => $_doc->post_modified,
+					'accepted'         => true,
+					'timestamp'        => current_time( 'mysql' ),
+				];
+			}
+			if ( ! empty( $_consents_meta ) ) {
+				update_post_meta( $post_id, '_reg_consents', $_consents_meta );
+			}
+		}
+
+		// 2. Get or create WP user
+		if ( function_exists( 'codeweber_forms_get_or_create_user' ) ) {
+			$_wp_user = codeweber_forms_get_or_create_user(
+				is_email( $_reg_email ) ? $_reg_email : null,
+				[ 'first_name' => $_reg_name, 'phone' => $_reg_phone ]
+			);
+
+			if ( ! is_wp_error( $_wp_user ) ) {
+				update_post_meta( $post_id, '_reg_user_id', $_wp_user->ID );
+
+				// 3. Save consents to user meta (for PII export)
+				if ( ! empty( $_raw_consents ) && function_exists( 'codeweber_forms_save_user_consents' ) ) {
+					$_consents_for_save = [];
+					foreach ( $_raw_consents as $_doc_id => $_val ) {
+						$_doc = get_post( (int) $_doc_id );
+						if ( ! $_doc ) { continue; }
+						$_consents_for_save[ (int) $_doc_id ] = [
+							'value'                      => '1',
+							'document_id'                => (int) $_doc_id,
+							'document_version'           => $_doc->post_modified,
+							'document_version_timestamp' => strtotime( $_doc->post_modified ),
+						];
+					}
+					if ( ! empty( $_consents_for_save ) ) {
+						codeweber_forms_save_user_consents( $_wp_user->ID, $_consents_for_save, [
+							'form_id'       => 'event-registration',
+							'form_name'     => get_the_title( $event_id ) . ' — ' . __( 'Event Registration', 'codeweber' ),
+							'submission_id' => $post_id,
+							'ip_address'    => sanitize_text_field( $_SERVER['REMOTE_ADDR'] ?? '' ),
+							'user_agent'    => sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] ?? '' ),
+						] );
+					}
+
+					// 4. Newsletter subscription (if mailing consent document is among submitted)
+					if ( function_exists( 'codeweber_forms_newsletter_integration' ) ) {
+						codeweber_forms_newsletter_integration( $post_id, 'event-registration', [
+							'email'         => $_reg_email,
+							'phone'         => $_reg_phone,
+							'name'          => $_reg_name,
+							'form_consents' => $_consents_for_save,
+							'_form_name'    => get_the_title( $event_id ) . ' — ' . __( 'Event Registration', 'codeweber' ),
+						] );
+					}
+				}
+			}
+		}
+
 		// Email notification
 		$this->send_admin_notification( $post_id, $event_id );
 

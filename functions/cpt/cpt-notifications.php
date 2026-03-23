@@ -86,7 +86,26 @@ function codeweber_notifications_meta_box_callback($post) {
 	if (empty($position)) {
 		$position = 'modal-bottom-center'; // Значение по умолчанию
 	}
-	
+
+	// Notification type
+	$notification_type = get_post_meta($post->ID, '_notification_type', true);
+	if (empty($notification_type)) {
+		$notification_type = 'modal';
+	}
+	$cw_message = get_post_meta($post->ID, '_notification_cw_message', true);
+	$cw_type = get_post_meta($post->ID, '_notification_cw_type', true);
+	if (empty($cw_type)) {
+		$cw_type = 'info';
+	}
+	$cw_position = get_post_meta($post->ID, '_notification_cw_position', true);
+	if (empty($cw_position)) {
+		$cw_position = 'bottom-end';
+	}
+	$cw_delay = get_post_meta($post->ID, '_notification_cw_delay', true);
+	if ($cw_delay === '') {
+		$cw_delay = 5000;
+	}
+
 	// Trigger settings
 	$trigger_type = get_post_meta($post->ID, '_notification_trigger_type', true);
 	if (empty($trigger_type)) {
@@ -130,6 +149,21 @@ function codeweber_notifications_meta_box_callback($post) {
 	?>
 	<table class="form-table">
 		<tr>
+			<th scope="row">
+				<label for="notification_type"><?php esc_html_e('Notification Type', 'codeweber'); ?></label>
+			</th>
+			<td>
+				<select id="notification_type" name="notification_type" class="regular-text">
+					<option value="modal" <?php selected($notification_type, 'modal'); ?>>
+						<?php esc_html_e('Modal Window', 'codeweber'); ?>
+					</option>
+					<option value="cw_notify" <?php selected($notification_type, 'cw_notify'); ?>>
+						<?php esc_html_e('CW Notify (Toast)', 'codeweber'); ?>
+					</option>
+				</select>
+			</td>
+		</tr>
+		<tr class="notification-type-field notification-type-modal" style="<?php echo ($notification_type !== 'modal') ? 'display:none;' : ''; ?>">
 			<th scope="row">
 				<label for="notification_modal_id"><?php esc_html_e('Modal', 'codeweber'); ?></label>
 			</th>
@@ -203,7 +237,7 @@ function codeweber_notifications_meta_box_callback($post) {
 				</p>
 			</td>
 		</tr>
-		<tr>
+		<tr class="notification-type-field notification-type-modal" style="<?php echo ($notification_type !== 'modal') ? 'display:none;' : ''; ?>">
 			<th scope="row">
 				<label for="notification_position"><?php esc_html_e('Position', 'codeweber'); ?></label>
 			</th>
@@ -232,6 +266,67 @@ function codeweber_notifications_meta_box_callback($post) {
 				<p class="description">
 					<?php esc_html_e('Position of the modal window on the screen', 'codeweber'); ?>
 				</p>
+			</td>
+		</tr>
+		<tr class="notification-type-field notification-type-cw-notify" style="<?php echo ($notification_type !== 'cw_notify') ? 'display:none;' : ''; ?>">
+			<th scope="row">
+				<label for="notification_cw_message"><?php esc_html_e('Message', 'codeweber'); ?></label>
+			</th>
+			<td>
+				<textarea
+					id="notification_cw_message"
+					name="notification_cw_message"
+					class="large-text"
+					rows="3"
+				><?php echo esc_textarea($cw_message); ?></textarea>
+				<p class="description"><?php esc_html_e('Text of the toast notification', 'codeweber'); ?></p>
+			</td>
+		</tr>
+		<tr class="notification-type-field notification-type-cw-notify" style="<?php echo ($notification_type !== 'cw_notify') ? 'display:none;' : ''; ?>">
+			<th scope="row">
+				<label for="notification_cw_type"><?php esc_html_e('Toast Type', 'codeweber'); ?></label>
+			</th>
+			<td>
+				<select id="notification_cw_type" name="notification_cw_type" class="regular-text">
+					<option value="info" <?php selected($cw_type, 'info'); ?>><?php esc_html_e('Info (Default)', 'codeweber'); ?></option>
+					<option value="success" <?php selected($cw_type, 'success'); ?>><?php esc_html_e('Success', 'codeweber'); ?></option>
+					<option value="warning" <?php selected($cw_type, 'warning'); ?>><?php esc_html_e('Warning', 'codeweber'); ?></option>
+					<option value="danger" <?php selected($cw_type, 'danger'); ?>><?php esc_html_e('Danger', 'codeweber'); ?></option>
+					<option value="primary" <?php selected($cw_type, 'primary'); ?>><?php esc_html_e('Primary', 'codeweber'); ?></option>
+				</select>
+				<p class="description"><?php esc_html_e('Visual style of the toast', 'codeweber'); ?></p>
+			</td>
+		</tr>
+		<tr class="notification-type-field notification-type-cw-notify" style="<?php echo ($notification_type !== 'cw_notify') ? 'display:none;' : ''; ?>">
+			<th scope="row">
+				<label for="notification_cw_position"><?php esc_html_e('Toast Position', 'codeweber'); ?></label>
+			</th>
+			<td>
+				<select id="notification_cw_position" name="notification_cw_position" class="regular-text">
+					<option value="bottom-end" <?php selected($cw_position, 'bottom-end'); ?>><?php esc_html_e('Bottom Right (Default)', 'codeweber'); ?></option>
+					<option value="bottom-start" <?php selected($cw_position, 'bottom-start'); ?>><?php esc_html_e('Bottom Left', 'codeweber'); ?></option>
+					<option value="top-end" <?php selected($cw_position, 'top-end'); ?>><?php esc_html_e('Top Right', 'codeweber'); ?></option>
+					<option value="top-start" <?php selected($cw_position, 'top-start'); ?>><?php esc_html_e('Top Left', 'codeweber'); ?></option>
+				</select>
+				<p class="description"><?php esc_html_e('Position of the toast on screen', 'codeweber'); ?></p>
+			</td>
+		</tr>
+		<tr class="notification-type-field notification-type-cw-notify" style="<?php echo ($notification_type !== 'cw_notify') ? 'display:none;' : ''; ?>">
+			<th scope="row">
+				<label for="notification_cw_delay"><?php esc_html_e('Auto-hide Delay', 'codeweber'); ?></label>
+			</th>
+			<td>
+				<input
+					type="number"
+					id="notification_cw_delay"
+					name="notification_cw_delay"
+					value="<?php echo esc_attr($cw_delay); ?>"
+					class="small-text"
+					min="0"
+					step="500"
+				/>
+				<span><?php esc_html_e('ms', 'codeweber'); ?></span>
+				<p class="description"><?php esc_html_e('Time before toast auto-hides (ms). 0 = do not auto-hide. Default: 5000ms', 'codeweber'); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -418,6 +513,15 @@ function codeweber_notifications_meta_box_callback($post) {
 	
 	<script>
 	jQuery(document).ready(function($) {
+		// Show/hide fields based on notification type
+		function toggleNotificationType() {
+			var notifType = $('#notification_type').val();
+			$('.notification-type-modal').toggle(notifType === 'modal');
+			$('.notification-type-cw-notify').toggle(notifType === 'cw_notify');
+		}
+
+		$('#notification_type').on('change', toggleNotificationType);
+
 		// Show/hide trigger fields based on trigger type
 		function toggleTriggerFields() {
 			var triggerType = $('#notification_trigger_type').val();
@@ -481,6 +585,7 @@ function codeweber_notifications_meta_box_callback($post) {
 		$('#notification_trigger_page_type').on('change', loadPageItems);
 		
 		// Initialize on page load
+		toggleNotificationType();
 		toggleTriggerFields();
 	});
 	</script>
@@ -635,6 +740,29 @@ function codeweber_save_notifications_meta_box($post_id) {
 	} else {
 		delete_post_meta($post_id, '_notification_trigger_page_id');
 	}
+
+	// Save notification type
+	$notif_type = isset($_POST['notification_type']) ? sanitize_text_field($_POST['notification_type']) : 'modal';
+	if (!in_array($notif_type, array('modal', 'cw_notify'))) {
+		$notif_type = 'modal';
+	}
+	update_post_meta($post_id, '_notification_type', $notif_type);
+
+	// Save cw_notify fields
+	if (isset($_POST['notification_cw_message'])) {
+		update_post_meta($post_id, '_notification_cw_message', wp_kses_post($_POST['notification_cw_message']));
+	}
+
+	$valid_cw_types = array('info', 'success', 'warning', 'danger', 'primary');
+	$cw_type_val = isset($_POST['notification_cw_type']) ? sanitize_text_field($_POST['notification_cw_type']) : 'info';
+	update_post_meta($post_id, '_notification_cw_type', in_array($cw_type_val, $valid_cw_types) ? $cw_type_val : 'info');
+
+	$valid_cw_positions = array('bottom-end', 'bottom-start', 'top-end', 'top-start');
+	$cw_pos_val = isset($_POST['notification_cw_position']) ? sanitize_text_field($_POST['notification_cw_position']) : 'bottom-end';
+	update_post_meta($post_id, '_notification_cw_position', in_array($cw_pos_val, $valid_cw_positions) ? $cw_pos_val : 'bottom-end');
+
+	$cw_delay_val = isset($_POST['notification_cw_delay']) ? absint($_POST['notification_cw_delay']) : 5000;
+	update_post_meta($post_id, '_notification_cw_delay', $cw_delay_val);
 }
 add_action('save_post', 'codeweber_save_notifications_meta_box');
 
@@ -677,12 +805,6 @@ function codeweber_get_active_notification_modal() {
 		'post_type' => 'notifications',
 		'posts_per_page' => -1,
 		'post_status' => 'publish',
-		'meta_query' => array(
-			array(
-				'key' => '_notification_modal_id',
-				'compare' => 'EXISTS'
-			),
-		)
 	));
 	
 	if ($debug_mode) {
@@ -690,6 +812,10 @@ function codeweber_get_active_notification_modal() {
 	}
 	
 	foreach ($notifications as $notification) {
+		$notification_type = get_post_meta($notification->ID, '_notification_type', true);
+		if (empty($notification_type)) {
+			$notification_type = 'modal';
+		}
 		$modal_id = get_post_meta($notification->ID, '_notification_modal_id', true);
 		$start_date = get_post_meta($notification->ID, '_notification_start_date', true);
 		$end_date = get_post_meta($notification->ID, '_notification_end_date', true);
@@ -746,11 +872,20 @@ function codeweber_get_active_notification_modal() {
 			error_log('DEBUG Notification #' . $notification->ID . ': modal_id=' . $modal_id . ', start=' . $start_date . ', end=' . $end_date);
 		}
 		
-		if (empty($modal_id)) {
+		if ($notification_type === 'modal' && empty($modal_id)) {
 			if ($debug_mode) {
-				error_log('DEBUG Notification #' . $notification->ID . ': modal_id is empty, skipping');
+				error_log('DEBUG Notification #' . $notification->ID . ': modal type but modal_id is empty, skipping');
 			}
 			continue;
+		}
+		if ($notification_type === 'cw_notify') {
+			$cw_msg_check = get_post_meta($notification->ID, '_notification_cw_message', true);
+			if (empty($cw_msg_check)) {
+				if ($debug_mode) {
+					error_log('DEBUG Notification #' . $notification->ID . ': cw_notify type but message is empty, skipping');
+				}
+				continue;
+			}
 		}
 		
 		// Проверяем даты
@@ -795,9 +930,9 @@ function codeweber_get_active_notification_modal() {
 				error_log('DEBUG Notification #' . $notification->ID . ': Date range is OK, MATCH FOUND!');
 			}
 			
-			// Получаем размер modal из Redux
+			// Получаем размер modal из Redux (только для типа modal)
 			$modal_size = '';
-			if (class_exists('Redux')) {
+			if ($notification_type === 'modal' && class_exists('Redux')) {
 				global $opt_name;
 				if (isset($opt_name)) {
 					$modal_size = Redux::get_post_meta($opt_name, $modal_id, 'modal-size');
@@ -809,17 +944,28 @@ function codeweber_get_active_notification_modal() {
 			$trigger_inactivity_delay = get_post_meta($notification->ID, '_notification_trigger_inactivity_delay', true);
 			$trigger_viewport_id = get_post_meta($notification->ID, '_notification_trigger_viewport_id', true);
 			
-			return array(
-				'notification_id' => $notification->ID,
-				'modal_id' => $modal_id,
-				'modal_content' => get_post_field('post_content', $modal_id),
-				'wait_delay' => !empty($wait_delay) ? absint($wait_delay) : 200,
-				'position' => $position,
-				'size' => $modal_size,
-				'trigger_type' => $trigger_type,
+			$result = array(
+				'notification_id'          => $notification->ID,
+				'notification_type'        => $notification_type,
+				'wait_delay'               => !empty($wait_delay) ? absint($wait_delay) : 200,
+				'trigger_type'             => $trigger_type,
 				'trigger_inactivity_delay' => !empty($trigger_inactivity_delay) ? absint($trigger_inactivity_delay) : 30000,
-				'trigger_viewport_id' => $trigger_viewport_id
+				'trigger_viewport_id'      => $trigger_viewport_id,
 			);
+
+			if ($notification_type === 'modal') {
+				$result['modal_id']      = $modal_id;
+				$result['modal_content'] = get_post_field('post_content', $modal_id);
+				$result['position']      = $position;
+				$result['size']          = $modal_size;
+			} else {
+				$result['cw_message']  = get_post_meta($notification->ID, '_notification_cw_message', true);
+				$result['cw_type']     = get_post_meta($notification->ID, '_notification_cw_type', true) ?: 'info';
+				$result['cw_position'] = get_post_meta($notification->ID, '_notification_cw_position', true) ?: 'bottom-end';
+				$result['cw_delay']    = absint(get_post_meta($notification->ID, '_notification_cw_delay', true) ?: 5000);
+			}
+
+			return $result;
 		} else {
 			if ($debug_mode) {
 				error_log('DEBUG Notification #' . $notification->ID . ': Date range is OUT OF RANGE');

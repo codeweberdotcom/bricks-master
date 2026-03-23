@@ -375,7 +375,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 					<?php elseif ( $reg_status['status'] === 'modal' ) : ?>
 						<?php
 						$modal_label = ! empty( $reg_button_label )
-							? $reg_button_label
+							? __( $reg_button_label, 'codeweber' )
 							: ( ! empty( $reg_status['label'] ) ? $reg_status['label'] : __( 'Register', 'codeweber' ) );
 						?>
 						<a href="javascript:void(0)"

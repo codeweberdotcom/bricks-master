@@ -299,12 +299,14 @@ function codeweber_event_reg_add_meta_boxes(): void {
 add_action( 'add_meta_boxes', 'codeweber_event_reg_add_meta_boxes' );
 
 function codeweber_event_reg_render_details_metabox( \WP_Post $post ): void {
-	$event_id = (int) get_post_meta( $post->ID, '_reg_event_id', true );
-	$name     = get_post_meta( $post->ID, '_reg_name', true );
-	$email    = get_post_meta( $post->ID, '_reg_email', true );
-	$phone    = get_post_meta( $post->ID, '_reg_phone', true );
-	$seats    = (int) get_post_meta( $post->ID, '_reg_seats', true );
-	$message  = get_post_meta( $post->ID, '_reg_message', true );
+	$event_id      = (int) get_post_meta( $post->ID, '_reg_event_id', true );
+	$name          = get_post_meta( $post->ID, '_reg_name', true );
+	$email         = get_post_meta( $post->ID, '_reg_email', true );
+	$phone         = get_post_meta( $post->ID, '_reg_phone', true );
+	$seats         = (int) get_post_meta( $post->ID, '_reg_seats', true );
+	$message       = get_post_meta( $post->ID, '_reg_message', true );
+	$reg_consents  = get_post_meta( $post->ID, '_reg_consents', true );
+	$reg_user_id   = (int) get_post_meta( $post->ID, '_reg_user_id', true );
 	?>
 	<table class="form-table">
 		<tr>
@@ -335,6 +337,35 @@ function codeweber_event_reg_render_details_metabox( \WP_Post $post ): void {
 			<th><?php esc_html_e( 'Message', 'codeweber' ); ?></th>
 			<td><?php echo $message ? esc_html( $message ) : '—'; ?></td>
 		</tr>
+		<?php if ( ! empty( $reg_consents ) && is_array( $reg_consents ) ) : ?>
+		<tr>
+			<th><?php esc_html_e( 'Consents', 'codeweber' ); ?></th>
+			<td>
+				<?php foreach ( $reg_consents as $_c ) : ?>
+					<div style="margin-bottom:4px;">
+						✓ <strong><?php echo esc_html( $_c['document_title'] ?? '' ); ?></strong>
+						<?php if ( ! empty( $_c['document_version'] ) ) : ?>
+							<span style="color:#666;font-size:11px;">(v. <?php echo esc_html( $_c['document_version'] ); ?>)</span>
+						<?php endif; ?>
+						<?php if ( ! empty( $_c['timestamp'] ) ) : ?>
+							<span style="color:#666;font-size:11px;">— <?php echo esc_html( $_c['timestamp'] ); ?></span>
+						<?php endif; ?>
+					</div>
+				<?php endforeach; ?>
+			</td>
+		</tr>
+		<?php endif; ?>
+		<?php if ( $reg_user_id ) : ?>
+		<tr>
+			<th><?php esc_html_e( 'WP User', 'codeweber' ); ?></th>
+			<td>
+				<a href="<?php echo esc_url( get_edit_user_link( $reg_user_id ) ); ?>">
+					<?php echo esc_html( get_the_author_meta( 'display_name', $reg_user_id ) ); ?>
+				</a>
+				<span style="color:#666;font-size:11px;">(ID: <?php echo $reg_user_id; ?>)</span>
+			</td>
+		</tr>
+		<?php endif; ?>
 	</table>
 	<?php
 }

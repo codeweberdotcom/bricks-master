@@ -541,11 +541,28 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 					function attachRemove(btn) {
 						btn.addEventListener('click', function() { btn.closest('.event-reg-consent-row').remove(); });
 					}
-					list.querySelectorAll('.event-reg-remove-consent').forEach(attachRemove);
+
+					function bindDocSelect(row) {
+						var sel = row.querySelector('select[name*="[document_id]"]');
+						var inp = row.querySelector('input[name*="[label]"]');
+						if (!sel || !inp) return;
+						sel.addEventListener('change', function() {
+							if (inp.value.trim() !== '') return;
+							if (!sel.value) return;
+							inp.value = '<?php echo esc_js( __( 'I agree to the {document_title_url}', 'codeweber' ) ); ?>';
+						});
+					}
+
+					list.querySelectorAll('.event-reg-consent-row').forEach(function(row) {
+						attachRemove(row.querySelector('.event-reg-remove-consent'));
+						bindDocSelect(row);
+					});
 
 					addBtn.addEventListener('click', function() {
 						list.insertAdjacentHTML('beforeend', makeRow(idx++));
-						list.querySelectorAll('.event-reg-consent-row:last-child .event-reg-remove-consent').forEach(attachRemove);
+						var newRow = list.querySelector('.event-reg-consent-row:last-child');
+						attachRemove(newRow.querySelector('.event-reg-remove-consent'));
+						bindDocSelect(newRow);
 					});
 				}());
 				</script>

@@ -42,7 +42,7 @@ add_action('wp_ajax_nopriv_save_search_query', 'handle_save_search_query');
 
 function handle_save_search_query()
 {
-   if (!wp_verify_nonce($_POST['nonce'], 'search_statistics_nonce')) {
+   if (!wp_verify_nonce(wp_unslash($_POST['nonce'] ?? ''), 'search_statistics_nonce')) {
       wp_send_json_error(__('Security error', 'codeweber'));
    }
 
@@ -212,8 +212,10 @@ function debug_search_data($search_query, $results_count, $form_id, $matomo_data
       ]
    ];
 
-   // Логируем в debug.log
-   error_log('SEARCH STATISTICS DEBUG: ' . print_r($debug_data, true));
+   // Логируем в debug.log только при включённом дебаге
+   if (defined('WP_DEBUG') && WP_DEBUG) {
+      error_log('SEARCH STATISTICS DEBUG: ' . print_r($debug_data, true));
+   }
 
    // Также выводим в ответе AJAX для удобства отладки
    if (defined('WP_DEBUG') && WP_DEBUG && isset($_GET['debug_search'])) {
@@ -286,7 +288,7 @@ function save_search_query_to_db($search_query, $results_count = 0, $form_id = '
    $table_name = $wpdb->prefix . 'search_statistics';
 
    $current_user = wp_get_current_user();
-   $user_ip = $_SERVER['REMOTE_ADDR'];
+   $user_ip = sanitize_text_field($_SERVER['REMOTE_ADDR'] ?? '');
 
    // Получаем реальный адрес страницы (не admin-ajax.php)
    if (isset($_SERVER['HTTP_REFERER'])) {
@@ -346,11 +348,12 @@ function clear_search_statistics_data()
 add_action('wp_enqueue_scripts', 'enqueue_search_statistics_scripts');
 function enqueue_search_statistics_scripts()
 {
+   $script_path = get_template_directory() . '/functions/integrations/ajax-search-module/assets/js/search-statistics.js';
    wp_enqueue_script(
       'search-statistics',
       get_template_directory_uri() . '/functions/integrations/ajax-search-module/assets/js/search-statistics.js',
       array('jquery'),
-      time(),
+      codeweber_asset_version($script_path),
       true
    );
 

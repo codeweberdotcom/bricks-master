@@ -241,7 +241,7 @@ function clean_text_from_html($text)
 
 function perform_enhanced_search($atts)
 {
-   $atts = shortcode_atts(array(
+   $atts = wp_parse_args($atts, array(
       'keyword' => '',
       'post_type' => '',
       'posts_per_page' => 10,
@@ -250,7 +250,7 @@ function perform_enhanced_search($atts)
       'include_taxonomies' => false,
       'search_content' => false,
       'show_excerpt' => true
-   ), $atts);
+   ));
 
    // Приводим к булевым значениям
    $atts['search_content'] = filter_var($atts['search_content'], FILTER_VALIDATE_BOOLEAN);
@@ -331,21 +331,26 @@ function perform_enhanced_search($atts)
 
    remove_filter('posts_where', $filter_callback);
 
-   // Получаем общее количество найденных записей (без ограничения posts_per_page)
-   $total_found_args = $args;
-   $total_found_args['posts_per_page'] = -1;
-   $total_found_args['fields'] = 'ids';
-
-   add_filter('posts_where', $filter_callback);
-   $total_found_query = new WP_Query($total_found_args);
-   remove_filter('posts_where', $filter_callback);
-
-   $total_found_posts = $total_found_query->found_posts;
+   // found_posts содержит общее число совпадений без учёта posts_per_page — второй запрос не нужен
+   $total_found_posts = $search_query->found_posts;
 
    $taxonomy_results = array();
    if ($atts['include_taxonomies']) {
       $taxonomy_results = search_taxonomy_terms_by_name($atts['keyword'], $atts['taxonomy']);
    }
+
+   // Функция для безопасной подсветки текста — вынесена за пределы цикла
+   $highlight_keyword = function ($text, $keyword) {
+      if (empty($keyword) || empty($text)) {
+         return $text;
+      }
+
+      return preg_replace(
+         '/(' . preg_quote($keyword, '/') . ')/i',
+         '<span class="fw-bold fs-15">$1</span>',
+         $text
+      );
+   };
 
    $grouped_posts = array();
    if ($search_query->have_posts()) {
@@ -369,19 +374,6 @@ function perform_enhanced_search($atts)
             'excerpts' => array(),
             'type' => $post_type
          );
-
-         // Функция для безопасной подсветки текста
-         $highlight_keyword = function ($text, $keyword) {
-            if (empty($keyword) || empty($text)) {
-               return $text;
-            }
-
-            return preg_replace(
-               '/(' . preg_quote($keyword, '/') . ')/i',
-               '<span class="fw-bold fs-15">$1</span>',
-               $text
-            );
-         };
 
          // Всегда подсвечиваем заголовок, если пост найден
          $post_info['title'] = $highlight_keyword(get_the_title(), $atts['keyword']);
@@ -521,16 +513,16 @@ function get_text_excerpt($text, $keyword, $context_length = 50)
    // Очищаем текст от HTML перед обработкой
    $clean_text = clean_text_from_html($text);
 
-   $keyword_pos = stripos($clean_text, $keyword);
+   $keyword_pos = mb_stripos($clean_text, $keyword, 0, 'UTF-8');
 
    if ($keyword_pos === false) {
       return '';
    }
 
    $start = max(0, $keyword_pos - $context_length);
-   $end = min(strlen($clean_text), $keyword_pos + strlen($keyword) + $context_length);
+   $end = min(mb_strlen($clean_text, 'UTF-8'), $keyword_pos + mb_strlen($keyword, 'UTF-8') + $context_length);
 
-   $excerpt = substr($clean_text, $start, $end - $start);
+   $excerpt = mb_substr($clean_text, $start, $end - $start, 'UTF-8');
 
    // Убираем начальные и конечные пробелы, пунктуацию
    $excerpt = trim($excerpt);
@@ -544,7 +536,7 @@ function get_text_excerpt($text, $keyword, $context_length = 50)
    }
 
    // Добавляем многоточие только если текст обрезан в конце
-   if ($end < strlen($clean_text)) {
+   if ($end < mb_strlen($clean_text, 'UTF-8')) {
       // Находим последнее буквенное слово в обрезанном тексте
       if (preg_match('/[a-zA-Zа-яА-Я0-9]/u', $excerpt)) {
          $excerpt = rtrim($excerpt) . '...';
@@ -592,10 +584,10 @@ function ajax_search_form_shortcode($atts)
    ob_start();
 ?>
    <div class="position-relative <?php echo esc_attr($atts['class']); ?>">
-      <form class="search-form" id="<?php echo $form_id; ?>">
+      <form class="search-form" id="<?php echo esc_attr($form_id); ?>">
          <input
             type="text"
-            id="<?php echo $input_id; ?>"
+            id="<?php echo esc_attr($input_id); ?>"
             class="search-form form-control<?php echo esc_attr($form_radius); ?>"
             placeholder="<?php echo esc_attr($atts['placeholder']); ?>"
             autocomplete="off"
@@ -612,31 +604,4 @@ function ajax_search_form_shortcode($atts)
    return ob_get_clean();
 }
 
-add_action('wp_head', 'ajax_search_css');
-function ajax_search_css()
-{
-?>
-   <style>
-      .search-results-container {
-         display: none;
-         z-index: 999 !important;
-      }
-
-      .search-results-container:not(:empty) {
-         display: block;
-      }
-
-      .search-result-item:hover {
-         background-color: #f8f9fa !important;
-      }
-
-      .hover-bg-light:hover {
-         background-color: #f8f9fa !important;
-      }
-
-      .search-loader {
-         pointer-events: none;
-      }
-   </style>
-<?php
-}
+// Стили перенесены в src/assets/scss/theme/_ajax-search.scss
