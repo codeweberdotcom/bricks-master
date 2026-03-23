@@ -313,6 +313,13 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 	$max_participants = get_post_meta( $post->ID, '_event_max_participants', true );
 	$fake_registered  = get_post_meta( $post->ID, '_event_fake_registered', true );
 	$reg_url          = get_post_meta( $post->ID, '_event_registration_url', true );
+
+	$email_required = get_post_meta( $post->ID, '_event_reg_email_required', true );
+	$phone_required = get_post_meta( $post->ID, '_event_reg_phone_required', true );
+	$show_comment   = get_post_meta( $post->ID, '_event_reg_show_comment', true );
+	$show_seats     = get_post_meta( $post->ID, '_event_reg_show_seats', true );
+	if ( $email_required === '' ) { $email_required = '1'; }
+	if ( $show_comment === '' )   { $show_comment = '1'; }
 	?>
 	<table class="form-table">
 		<tr>
@@ -428,6 +435,120 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 					<?php endforeach; ?>
 				</select>
 				<p class="description"><?php esc_html_e( 'If not set, the default label based on registration status is used.', 'codeweber' ); ?></p>
+			</td>
+		</tr>
+		<tr>
+			<th><?php esc_html_e( 'Form Fields', 'codeweber' ); ?></th>
+			<td>
+				<p style="margin:0 0 8px;color:#666;font-style:italic;"><?php esc_html_e( 'Name — always required', 'codeweber' ); ?></p>
+				<label style="display:block;margin-bottom:6px;">
+					<input type="checkbox" name="_event_reg_email_required" value="1" <?php checked( $email_required, '1' ); ?>>
+					<?php esc_html_e( 'Email — required', 'codeweber' ); ?>
+				</label>
+				<label style="display:block;margin-bottom:6px;">
+					<input type="checkbox" name="_event_reg_phone_required" value="1" <?php checked( $phone_required, '1' ); ?>>
+					<?php esc_html_e( 'Phone — required', 'codeweber' ); ?>
+				</label>
+				<p class="description" style="margin-bottom:12px;"><?php esc_html_e( 'At least one of Email or Phone must be required. If both are unchecked, Email is enforced automatically.', 'codeweber' ); ?></p>
+				<label style="display:block;margin-bottom:6px;">
+					<input type="checkbox" name="_event_reg_show_comment" value="1" <?php checked( $show_comment, '1' ); ?>>
+					<?php esc_html_e( 'Show Comment field', 'codeweber' ); ?>
+				</label>
+				<label style="display:block;margin-bottom:4px;">
+					<input type="checkbox" name="_event_reg_show_seats" value="1" <?php checked( $show_seats, '1' ); ?>>
+					<?php esc_html_e( 'Show Seats field (number of seats to reserve)', 'codeweber' ); ?>
+				</label>
+				<p class="description"><?php esc_html_e( 'If hidden, 1 seat is recorded automatically.', 'codeweber' ); ?></p>
+			</td>
+		</tr>
+		<tr>
+			<th><?php esc_html_e( 'Consent Documents', 'codeweber' ); ?></th>
+			<td>
+				<p class="description" style="margin-bottom:12px;"><?php esc_html_e( 'Add consent checkboxes to the form. Placeholders: {document_title_url}, {document_title}, {document_url}.', 'codeweber' ); ?></p>
+				<?php
+				$_reg_consents = get_post_meta( $post->ID, '_event_reg_consents', true );
+				if ( ! is_array( $_reg_consents ) ) { $_reg_consents = []; }
+				$_all_docs = function_exists( 'codeweber_forms_get_all_documents' ) ? codeweber_forms_get_all_documents() : [];
+				?>
+				<div id="event-reg-consents-list">
+				<?php foreach ( $_reg_consents as $_ci => $_consent ) : ?>
+					<div class="event-reg-consent-row" style="border:1px solid #ddd;padding:12px;margin-bottom:10px;background:#fff;border-radius:4px;">
+						<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+							<strong><?php esc_html_e( 'Consent', 'codeweber' ); ?> #<?php echo ( $_ci + 1 ); ?></strong>
+							<button type="button" class="button event-reg-remove-consent"><?php esc_html_e( 'Remove', 'codeweber' ); ?></button>
+						</div>
+						<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:10px;">
+							<div>
+								<label><strong><?php esc_html_e( 'Label Text', 'codeweber' ); ?>:</strong><br>
+									<input type="text" name="event_reg_consents[<?php echo $_ci; ?>][label]"
+										value="<?php echo esc_attr( $_consent['label'] ?? '' ); ?>"
+										class="large-text"
+										placeholder="<?php esc_attr_e( 'I agree to the {document_title_url}', 'codeweber' ); ?>">
+								</label>
+							</div>
+							<div>
+								<label><strong><?php esc_html_e( 'Document', 'codeweber' ); ?>:</strong><br>
+									<select name="event_reg_consents[<?php echo $_ci; ?>][document_id]" style="width:100%;">
+										<option value=""><?php esc_html_e( '— Select —', 'codeweber' ); ?></option>
+										<?php foreach ( $_all_docs as $_doc ) : ?>
+										<option value="<?php echo esc_attr( $_doc['id'] ); ?>" <?php selected( $_consent['document_id'] ?? '', $_doc['id'] ); ?>>
+											<?php echo esc_html( $_doc['title'] ); ?> (<?php echo esc_html( $_doc['type'] ); ?>)
+										</option>
+										<?php endforeach; ?>
+									</select>
+								</label>
+							</div>
+						</div>
+						<label>
+							<input type="checkbox" name="event_reg_consents[<?php echo $_ci; ?>][required]" value="1" <?php checked( ! empty( $_consent['required'] ) ); ?>>
+							<?php esc_html_e( 'Required', 'codeweber' ); ?>
+						</label>
+					</div>
+				<?php endforeach; ?>
+				</div>
+				<button type="button" id="event-reg-add-consent" class="button button-secondary" style="margin-top:4px;">
+					<?php esc_html_e( '+ Add Consent', 'codeweber' ); ?>
+				</button>
+				<script>
+				(function() {
+					var list = document.getElementById('event-reg-consents-list');
+					var addBtn = document.getElementById('event-reg-add-consent');
+					var allDocs = <?php echo wp_json_encode( array_values( $_all_docs ) ); ?>;
+					var idx = list.querySelectorAll('.event-reg-consent-row').length;
+
+					function makeRow(i) {
+						var opts = '<option value=""><?php echo esc_js( __( '— Select —', 'codeweber' ) ); ?></option>';
+						allDocs.forEach(function(d) {
+							opts += '<option value="' + d.id + '">' + d.title + ' (' + d.type + ')</option>';
+						});
+						return '<div class="event-reg-consent-row" style="border:1px solid #ddd;padding:12px;margin-bottom:10px;background:#fff;border-radius:4px;">'
+							+ '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">'
+							+ '<strong><?php echo esc_js( __( 'Consent', 'codeweber' ) ); ?> #' + (i + 1) + '</strong>'
+							+ '<button type="button" class="button event-reg-remove-consent"><?php echo esc_js( __( 'Remove', 'codeweber' ) ); ?></button>'
+							+ '</div>'
+							+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:10px;">'
+							+ '<div><label><strong><?php echo esc_js( __( 'Label Text', 'codeweber' ) ); ?>:</strong><br>'
+							+ '<input type="text" name="event_reg_consents[' + i + '][label]" class="large-text" placeholder="<?php echo esc_js( __( 'I agree to the {document_title_url}', 'codeweber' ) ); ?>">'
+							+ '</label></div>'
+							+ '<div><label><strong><?php echo esc_js( __( 'Document', 'codeweber' ) ); ?>:</strong><br>'
+							+ '<select name="event_reg_consents[' + i + '][document_id]" style="width:100%;">' + opts + '</select>'
+							+ '</label></div>'
+							+ '</div>'
+							+ '<label><input type="checkbox" name="event_reg_consents[' + i + '][required]" value="1"> <?php echo esc_js( __( 'Required', 'codeweber' ) ); ?></label>'
+							+ '</div>';
+					}
+
+					function attachRemove(btn) {
+						btn.addEventListener('click', function() { btn.closest('.event-reg-consent-row').remove(); });
+					}
+					list.querySelectorAll('.event-reg-remove-consent').forEach(attachRemove);
+
+					addBtn.addEventListener('click', function() {
+						list.insertAdjacentHTML('beforeend', makeRow(idx++));
+						list.querySelectorAll('.event-reg-consent-row:last-child .event-reg-remove-consent').forEach(attachRemove);
+					});
+				}());
+				</script>
 			</td>
 		</tr>
 	</table>
@@ -825,6 +946,31 @@ function codeweber_events_save_meta( int $post_id, \WP_Post $post ): void {
 	if ( ! in_array( $_reg_type, [ '0', '1', 'modal' ], true ) ) { $_reg_type = '0'; }
 	update_post_meta( $post_id, '_event_registration_enabled', $_reg_type );
 	update_post_meta( $post_id, '_event_modal_value', sanitize_text_field( wp_unslash( $_POST['_event_modal_value'] ?? '' ) ) );
+
+	// Form field controls
+	$email_req = isset( $_POST['_event_reg_email_required'] ) ? '1' : '0';
+	$phone_req = isset( $_POST['_event_reg_phone_required'] ) ? '1' : '0';
+	if ( $email_req === '0' && $phone_req === '0' ) { $email_req = '1'; }
+	update_post_meta( $post_id, '_event_reg_email_required', $email_req );
+	update_post_meta( $post_id, '_event_reg_phone_required', $phone_req );
+	update_post_meta( $post_id, '_event_reg_show_comment',   isset( $_POST['_event_reg_show_comment'] ) ? '1' : '0' );
+	update_post_meta( $post_id, '_event_reg_show_seats',     isset( $_POST['_event_reg_show_seats'] )   ? '1' : '0' );
+
+	// Consent documents
+	$_consents_to_save = [];
+	if ( isset( $_POST['event_reg_consents'] ) && is_array( $_POST['event_reg_consents'] ) ) {
+		foreach ( $_POST['event_reg_consents'] as $_cd ) {
+			if ( empty( $_cd['label'] ) || empty( $_cd['document_id'] ) ) {
+				continue;
+			}
+			$_consents_to_save[] = [
+				'label'       => wp_kses_post( wp_unslash( $_cd['label'] ) ),
+				'document_id' => absint( $_cd['document_id'] ),
+				'required'    => ! empty( $_cd['required'] ),
+			];
+		}
+	}
+	update_post_meta( $post_id, '_event_reg_consents', $_consents_to_save );
 
 	update_post_meta( $post_id, '_event_show_map',
 		isset( $_POST['event_show_map'] ) ? '1' : '' );

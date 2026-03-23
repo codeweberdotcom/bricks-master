@@ -90,6 +90,17 @@
      * @param {string} message - Сообщение для отображения
      */
     function replaceModalContentWithEnvelope(form, message) {
+        // Закрываем родительский модал формы, чтобы не оставался backdrop
+        var parentModal = form ? form.closest('.modal') : null;
+        if (parentModal) {
+            var bsParentModal = (typeof bootstrap !== 'undefined') && bootstrap.Modal
+                ? bootstrap.Modal.getInstance(parentModal)
+                : null;
+            if (bsParentModal) {
+                bsParentModal.hide();
+            }
+        }
+
         if (window.codeweberModal && window.codeweberModal.showSuccess) {
             window.codeweberModal.showSuccess(message || '');
         }
@@ -382,7 +393,16 @@
             data.email    = formData.get('reg_email')   || '';
             data.phone    = formData.get('reg_phone')   || '';
             data.message  = formData.get('reg_message') || '';
+            data.seats    = parseInt(formData.get('reg_seats') || '1', 10);
             data.honeypot = formData.get('event_reg_honeypot') || '';
+
+            // Collect consent checkboxes (reg_consent_{document_id})
+            var consents = {};
+            form.querySelectorAll('input[name^="reg_consent_"]').forEach(function(cb) {
+                var docId = cb.name.replace('reg_consent_', '');
+                if (cb.checked) { consents[docId] = '1'; }
+            });
+            data.consents = consents;
         } else if (config.type === 'testimonial') {
             // Используем стандартные имена полей: message, name, email
             const testimonialText = formData.get('message');
@@ -1782,9 +1802,13 @@
                         config.onSuccess(form, responseData, formMessages);
                     }
                 } else {
-                    // Не показываем сообщения об ошибках - используем только Bootstrap валидацию
-                    // Все ошибки валидации обрабатываются через HTML5 валидацию и классы is-invalid
-                    
+                    // Для event-registration показываем серверное сообщение (уже зарегистрирован, согласия и т.д.)
+                    if (config.type === 'event-registration' && responseData.message && formMessages) {
+                        formMessages.innerHTML = '<div class="alert alert-danger mb-0">' + responseData.message + '</div>';
+                        formMessages.style.display = '';
+                        formMessages.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+
                     // JavaScript событие: ошибка отправки (для внешних обработчиков, но без показа сообщений)
                     const errorEvent = new CustomEvent('codeweberFormError', {
                         detail: {

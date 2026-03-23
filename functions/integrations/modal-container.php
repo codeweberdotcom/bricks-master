@@ -22,30 +22,25 @@ function codeweber_universal_modal_container()
     
     // Проверяем активное уведомление
     $active_notification = codeweber_get_active_notification_modal();
-    $modal_popup_class = $active_notification ? ' modal-popup' : '';
-    $data_wait = $active_notification ? ' data-wait="' . esc_attr($active_notification['wait_delay']) . '"' : '';
-    $position_class = $active_notification && isset($active_notification['position']) ? ' ' . esc_attr($active_notification['position']) : '';
-    
-    // Trigger data attributes
-    $data_trigger_type = $active_notification && isset($active_notification['trigger_type']) ? ' data-trigger-type="' . esc_attr($active_notification['trigger_type']) . '"' : '';
-    $data_trigger_inactivity = $active_notification && isset($active_notification['trigger_inactivity_delay']) ? ' data-trigger-inactivity="' . esc_attr($active_notification['trigger_inactivity_delay']) . '"' : '';
-    $data_trigger_viewport = $active_notification && isset($active_notification['trigger_viewport_id']) && !empty($active_notification['trigger_viewport_id']) ? ' data-trigger-viewport="' . esc_attr($active_notification['trigger_viewport_id']) . '"' : '';
-    
-    // Получаем размер modal
-    $modal_size_class = '';
-    if ($active_notification && isset($active_notification['size']) && !empty($active_notification['size'])) {
-        $modal_size_class = ' ' . esc_attr($active_notification['size']);
-    }
-    
-    // Определяем, нужно ли центрирование (для угловых позиций убираем центрирование)
-    $dialog_centered_class = '';
-    if ($active_notification && isset($active_notification['position'])) {
+    $notif_type = $active_notification ? ($active_notification['notification_type'] ?? 'modal') : '';
+
+    // Общие data-атрибуты (триггеры — одинаковы для обоих типов)
+    $data_wait             = $active_notification ? ' data-wait="' . esc_attr($active_notification['wait_delay']) . '"' : '';
+    $data_trigger_type     = $active_notification ? ' data-trigger-type="' . esc_attr($active_notification['trigger_type']) . '"' : '';
+    $data_trigger_inactivity = $active_notification ? ' data-trigger-inactivity="' . esc_attr($active_notification['trigger_inactivity_delay']) . '"' : '';
+    $data_trigger_viewport = ($active_notification && !empty($active_notification['trigger_viewport_id'])) ? ' data-trigger-viewport="' . esc_attr($active_notification['trigger_viewport_id']) . '"' : '';
+
+    // Переменные только для типа modal
+    $modal_popup_class    = ($notif_type === 'modal') ? ' modal-popup' : '';
+    $position_class       = ($notif_type === 'modal' && isset($active_notification['position'])) ? ' ' . esc_attr($active_notification['position']) : '';
+    $modal_size_class     = ($notif_type === 'modal' && !empty($active_notification['size'])) ? ' ' . esc_attr($active_notification['size']) : '';
+
+    $dialog_centered_class = ' modal-dialog-centered';
+    if ($notif_type === 'modal' && isset($active_notification['position'])) {
         $corner_positions = array('modal-bottom-start', 'modal-bottom-end', 'modal-top-start', 'modal-top-end');
-        if (!in_array($active_notification['position'], $corner_positions)) {
-            $dialog_centered_class = ' modal-dialog-centered';
+        if (in_array($active_notification['position'], $corner_positions)) {
+            $dialog_centered_class = '';
         }
-    } else {
-        $dialog_centered_class = ' modal-dialog-centered';
     }
     
     // Отладка (можно удалить после проверки)
@@ -69,14 +64,15 @@ function codeweber_universal_modal_container()
             echo '<!-- Notification #' . $notif->ID . ': modal_id=' . $modal_id . ', start=' . $start_date . ', end=' . $end_date . ' -->';
         }
         
-        echo '<!-- active_notification = ' . ($active_notification ? 'FOUND (modal_id: ' . $active_notification['modal_id'] . ')' : 'NOT FOUND') . ' -->';
+        $debug_notif_info = $active_notification ? 'FOUND (type: ' . ($active_notification['notification_type'] ?? 'modal') . ', id: ' . $active_notification['notification_id'] . ')' : 'NOT FOUND';
+        echo '<!-- active_notification = ' . esc_html($debug_notif_info) . ' -->';
         echo '<!-- Debug Notifications END -->';
     }
     
     ?>
     <!-- Universal Modal Container -->
-    <?php if ($active_notification): ?>
-        <!-- Notification Modal (separate from universal modal) -->
+    <?php if ($active_notification && $notif_type === 'modal'): ?>
+        <!-- Notification Modal -->
         <div class="modal fade<?php echo esc_attr($modal_popup_class . $position_class); ?>" id="notification-modal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true"<?php echo $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport; ?>>
             <div class="modal-dialog<?php echo esc_attr($dialog_centered_class . $modal_size_class); ?>">
                 <div class="modal-content<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
@@ -88,6 +84,15 @@ function codeweber_universal_modal_container()
                 </div>
             </div>
         </div>
+    <?php elseif ($active_notification && $notif_type === 'cw_notify'): ?>
+        <!-- CW Notify Toast Notification (hidden data carrier) -->
+        <div id="notification-modal" class="d-none"
+            data-notification-type="cw_notify"
+            data-cw-message="<?php echo esc_attr($active_notification['cw_message']); ?>"
+            data-cw-type="<?php echo esc_attr($active_notification['cw_type']); ?>"
+            data-cw-position="<?php echo esc_attr($active_notification['cw_position']); ?>"
+            data-cw-delay="<?php echo esc_attr($active_notification['cw_delay']); ?>"
+            <?php echo $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport; ?>></div>
     <?php endif; ?>
     
     <!-- Universal REST API modal — статично в DOM, Bootstrap не крашит делегированный обработчик.

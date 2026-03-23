@@ -242,6 +242,82 @@ class CodeweberFormsDefaultForms {
 
         $phone_mask_attr = $phone_mask ? ' data-mask="' . esc_attr( $phone_mask ) . '"' : '';
 
+        // Field visibility settings from event meta
+        $email_required = get_post_meta( $event_id, '_event_reg_email_required', true );
+        $phone_required = get_post_meta( $event_id, '_event_reg_phone_required', true );
+        $show_comment   = get_post_meta( $event_id, '_event_reg_show_comment', true );
+        $show_seats     = get_post_meta( $event_id, '_event_reg_show_seats', true );
+        if ( $email_required === '' ) { $email_required = '1'; }
+        if ( $show_comment === '' )   { $show_comment = '1'; }
+
+        $email_required = $email_required === '1';
+        $phone_required = $phone_required === '1';
+        $show_comment   = $show_comment === '1';
+        $show_seats     = $show_seats === '1';
+
+        $fields = '';
+
+        // Email
+        if ( $email_required ) {
+            $fields .= '<div class="mb-3">
+                <input type="email" name="reg_email" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Email *', 'codeweber' ) . '" required>
+                <div class="invalid-feedback">' . esc_html__( 'Please enter a valid email.', 'codeweber' ) . '</div>
+            </div>';
+        }
+
+        // Phone
+        if ( $phone_required ) {
+            $fields .= '<div class="mb-3">
+                <input type="tel" name="reg_phone" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Phone *', 'codeweber' ) . '"' . $phone_mask_attr . ' required>
+                <div class="invalid-feedback">' . esc_html__( 'Please enter your phone number.', 'codeweber' ) . '</div>
+            </div>';
+        } elseif ( ! $email_required ) {
+            // Если email не требуется и телефон не требуется — показываем телефон необязательным
+            $fields .= '<div class="mb-3">
+                <input type="tel" name="reg_phone" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Phone', 'codeweber' ) . '"' . $phone_mask_attr . '>
+            </div>';
+        } else {
+            // Email требуется, телефон — необязательный
+            $fields .= '<div class="mb-3">
+                <input type="tel" name="reg_phone" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Phone', 'codeweber' ) . '"' . $phone_mask_attr . '>
+            </div>';
+        }
+
+        // Seats
+        if ( $show_seats ) {
+            $fields .= '<div class="mb-3">
+                <input type="number" name="reg_seats" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Number of seats', 'codeweber' ) . '" min="1" value="1">
+            </div>';
+        }
+
+        // Comment
+        if ( $show_comment ) {
+            $fields .= '<div class="mb-4">
+                <textarea name="reg_message" class="form-control' . esc_attr( $form_radius ) . '" rows="3"
+                    placeholder="' . esc_attr__( 'Comment (optional)', 'codeweber' ) . '"></textarea>
+            </div>';
+        }
+
+        // Consent checkboxes
+        $reg_consents = get_post_meta( $event_id, '_event_reg_consents', true );
+        if ( is_array( $reg_consents ) && ! empty( $reg_consents ) && function_exists( 'codeweber_forms_render_consent_checkbox' ) ) {
+            $consent_html = '';
+            foreach ( $reg_consents as $consent ) {
+                if ( empty( $consent['document_id'] ) || empty( $consent['label'] ) ) {
+                    continue;
+                }
+                $consent_html .= codeweber_forms_render_consent_checkbox( $consent, 'reg_consent', 0 );
+            }
+            if ( $consent_html ) {
+                $fields .= '<div class="mb-3">' . $consent_html . '</div>';
+            }
+        }
+
         return '<form id="' . esc_attr( $form_unique_id ) . '"
             class="codeweber-form needs-validation"
             data-form-id="0"
@@ -260,20 +336,7 @@ class CodeweberFormsDefaultForms {
                     placeholder="' . esc_attr__( 'Your name *', 'codeweber' ) . '" required>
                 <div class="invalid-feedback">' . esc_html__( 'Please enter your name.', 'codeweber' ) . '</div>
             </div>
-            <div class="mb-3">
-                <input type="email" name="reg_email" class="form-control' . esc_attr( $form_radius ) . '"
-                    placeholder="' . esc_attr__( 'Email *', 'codeweber' ) . '" required>
-                <div class="invalid-feedback">' . esc_html__( 'Please enter a valid email.', 'codeweber' ) . '</div>
-            </div>
-            <div class="mb-3">
-                <input type="tel" name="reg_phone" class="form-control' . esc_attr( $form_radius ) . '"
-                    placeholder="' . esc_attr__( 'Phone', 'codeweber' ) . '"' . $phone_mask_attr . '>
-            </div>
-            <div class="mb-4">
-                <textarea name="reg_message" class="form-control' . esc_attr( $form_radius ) . '" rows="3"
-                    placeholder="' . esc_attr__( 'Comment (optional)', 'codeweber' ) . '"></textarea>
-            </div>
-
+            ' . $fields . '
             <div class="event-reg-form-messages mb-3" style="display:none;"></div>
 
             <button type="submit"

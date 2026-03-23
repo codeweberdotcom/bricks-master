@@ -137,6 +137,7 @@
 				email:    formData.get('reg_email')   || '',
 				phone:    formData.get('reg_phone')   || '',
 				message:  formData.get('reg_message') || '',
+				seats:    parseInt(formData.get('reg_seats') || '1', 10),
 				nonce:    formData.get('event_reg_nonce') || restNonce,
 				honeypot: formData.get('event_reg_honeypot') || '',
 			};

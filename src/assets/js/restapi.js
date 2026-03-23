@@ -712,6 +712,7 @@ document.addEventListener("DOMContentLoaded", () => {
   modalButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
       e.preventDefault(); // Prevent default link behavior
+      e.stopPropagation(); // Prevent Bootstrap delegated handler from calling toggle() on already-open modal
       const dataValue = button
         .getAttribute("data-value")
         ?.replace("modal-", "");

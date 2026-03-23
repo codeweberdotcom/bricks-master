@@ -5,24 +5,99 @@
 
 document.addEventListener("DOMContentLoaded", function() {
     const modalElement = document.getElementById("notification-modal");
-    
+
     if (!modalElement) {
         return;
     }
-    
+
     // Get trigger data from modal element
     const triggerType = modalElement.getAttribute('data-trigger-type');
     const triggerInactivity = modalElement.getAttribute('data-trigger-inactivity');
     const triggerViewport = modalElement.getAttribute('data-trigger-viewport');
     const waitDelay = modalElement.getAttribute('data-wait') || 200;
-    
+
+    // --- CW Notify (Toast) type ---
+    const notificationType = modalElement.getAttribute('data-notification-type');
+    if (notificationType === 'cw_notify') {
+        if (!triggerType) return;
+        const cwMessage  = modalElement.getAttribute('data-cw-message') || '';
+        const cwType     = modalElement.getAttribute('data-cw-type')    || 'info';
+        const cwPosition = modalElement.getAttribute('data-cw-position') || 'bottom-end';
+        const cwDelay    = parseInt(modalElement.getAttribute('data-cw-delay') || '5000', 10);
+
+        function showCwNotify() {
+            if (typeof window.CWNotify === 'undefined') return;
+            window.CWNotify.show(cwMessage, { type: cwType, position: cwPosition, delay: cwDelay });
+        }
+
+        function initCwNotifyTriggers() {
+            if (triggerType === 'delay') {
+                setTimeout(showCwNotify, parseInt(waitDelay));
+            } else if (triggerType === 'inactivity') {
+                var inactivityDelay = triggerInactivity ? parseInt(triggerInactivity) : 30000;
+                var inactivityTimer;
+                function resetTimer() {
+                    clearTimeout(inactivityTimer);
+                    inactivityTimer = setTimeout(showCwNotify, inactivityDelay);
+                }
+                ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(function(evt) {
+                    document.addEventListener(evt, resetTimer, true);
+                });
+                resetTimer();
+            } else if (triggerType === 'viewport' && triggerViewport) {
+                var elementId = triggerViewport.replace('#', '');
+                var targetEl = document.getElementById(elementId) || document.querySelector(triggerViewport);
+                if (targetEl) {
+                    var obs = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) { showCwNotify(); obs.disconnect(); }
+                        });
+                    }, { threshold: 0.1 });
+                    obs.observe(targetEl);
+                }
+            } else if (triggerType === 'scroll_middle') {
+                var triggered = false;
+                function checkMid() {
+                    if (triggered) return;
+                    var pct = (window.pageYOffset + window.innerHeight) / document.documentElement.scrollHeight;
+                    if (pct >= 0.5) { triggered = true; showCwNotify(); }
+                }
+                checkMid();
+                window.addEventListener('scroll', checkMid, { passive: true });
+            } else if (triggerType === 'scroll_end') {
+                var triggeredEnd = false;
+                function checkEnd() {
+                    if (triggeredEnd) return;
+                    var pct = (window.pageYOffset + window.innerHeight) / document.documentElement.scrollHeight;
+                    if (pct >= 0.95) { triggeredEnd = true; showCwNotify(); }
+                }
+                checkEnd();
+                window.addEventListener('scroll', checkEnd, { passive: true });
+            } else if (triggerType === 'codeweber_form') {
+                document.addEventListener('codeweber_form_success', showCwNotify);
+            } else if (triggerType === 'cf7_form') {
+                document.addEventListener('wpcf7mailsent', showCwNotify);
+                document.addEventListener('cf7_form_success', showCwNotify);
+            } else if (triggerType === 'woocommerce_order') {
+                if (document.body.classList.contains('woocommerce-order-received')) { showCwNotify(); }
+                document.addEventListener('woocommerce_order_success', showCwNotify);
+            } else if (triggerType === 'page') {
+                setTimeout(showCwNotify, parseInt(waitDelay));
+            }
+        }
+
+        initCwNotifyTriggers();
+        return; // не инициализируем Bootstrap Modal
+    }
+
+    // --- Modal type ---
     // Check if modal has notification content (modal-popup class)
     const isNotification = modalElement.classList.contains('modal-popup');
-    
+
     if (!isNotification || !triggerType) {
         return;
     }
-    
+
     // Initialize Bootstrap modal
     let modal;
     try {

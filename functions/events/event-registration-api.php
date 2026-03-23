@@ -71,6 +71,24 @@ class Codeweber_Event_Registration_API {
 					'required'          => true,
 					'sanitize_callback' => 'sanitize_text_field',
 				],
+				'seats' => [
+					'required'          => false,
+					'sanitize_callback' => 'absint',
+					'validate_callback' => function( $val ) {
+						return $val === null || (int) $val >= 1;
+					},
+				],
+				'consents' => [
+					'required'          => false,
+					'sanitize_callback' => function( $val ) {
+						if ( ! is_array( $val ) ) { return []; }
+						$clean = [];
+						foreach ( $val as $k => $v ) {
+							$clean[ (string) absint( $k ) ] = '1';
+						}
+						return $clean;
+					},
+				],
 				'honeypot' => [
 					'required'          => false,
 					'sanitize_callback' => 'sanitize_text_field',
@@ -120,6 +138,36 @@ class Codeweber_Event_Registration_API {
 
 		$event_id = $request->get_param( 'event_id' );
 
+		// Validate required fields based on event settings
+		$email_required = get_post_meta( $event_id, '_event_reg_email_required', true );
+		$phone_required = get_post_meta( $event_id, '_event_reg_phone_required', true );
+		if ( $email_required === '' ) { $email_required = '1'; }
+
+		if ( $email_required === '1' ) {
+			$email_val = $request->get_param( 'email' );
+			if ( empty( $email_val ) || ! is_email( $email_val ) ) {
+				return new \WP_REST_Response( [ 'success' => false, 'message' => __( 'Please enter a valid email.', 'codeweber' ) ], 422 );
+			}
+		}
+		if ( $phone_required === '1' ) {
+			$phone_val = $request->get_param( 'phone' );
+			if ( empty( trim( $phone_val ?? '' ) ) ) {
+				return new \WP_REST_Response( [ 'success' => false, 'message' => __( 'Please enter your phone number.', 'codeweber' ) ], 422 );
+			}
+		}
+
+		// Validate required consents
+		$event_consents = get_post_meta( $event_id, '_event_reg_consents', true );
+		if ( is_array( $event_consents ) && ! empty( $event_consents ) ) {
+			$submitted_consents = $request->get_param( 'consents' );
+			if ( ! is_array( $submitted_consents ) ) { $submitted_consents = []; }
+			foreach ( $event_consents as $ec ) {
+				if ( ! empty( $ec['required'] ) && empty( $submitted_consents[ (string) $ec['document_id'] ] ) ) {
+					return new \WP_REST_Response( [ 'success' => false, 'message' => __( 'Please accept all required consents.', 'codeweber' ) ], 422 );
+				}
+			}
+		}
+
 		// Check registration status
 		$status = codeweber_events_get_registration_status( $event_id );
 		if ( ! $status['show_form'] && $status['status'] !== 'modal' ) {
@@ -159,11 +207,17 @@ class Codeweber_Event_Registration_API {
 			return new \WP_REST_Response( [ 'success' => false, 'message' => __( 'Failed to save registration. Please try again.', 'codeweber' ) ], 500 );
 		}
 
+		$show_seats = get_post_meta( $event_id, '_event_reg_show_seats', true );
+		$seats      = ( $show_seats === '1' && $request->get_param( 'seats' ) )
+			? max( 1, (int) $request->get_param( 'seats' ) )
+			: 1;
+
 		update_post_meta( $post_id, '_reg_event_id', $event_id );
 		update_post_meta( $post_id, '_reg_name',     sanitize_text_field( $request->get_param( 'name' ) ) );
 		update_post_meta( $post_id, '_reg_email',    sanitize_email( $request->get_param( 'email' ) ) );
 		update_post_meta( $post_id, '_reg_phone',    sanitize_text_field( $request->get_param( 'phone' ) ?? '' ) );
 		update_post_meta( $post_id, '_reg_message',  sanitize_textarea_field( $request->get_param( 'message' ) ?? '' ) );
+		update_post_meta( $post_id, '_reg_seats',    $seats );
 		update_post_meta( $post_id, '_reg_status',   'reg_pending' );
 
 		// Email notification
@@ -282,6 +336,7 @@ class Codeweber_Event_Registration_API {
 		$name        = get_post_meta( $reg_id, '_reg_name', true );
 		$email       = get_post_meta( $reg_id, '_reg_email', true );
 		$phone       = get_post_meta( $reg_id, '_reg_phone', true );
+		$seats       = (int) get_post_meta( $reg_id, '_reg_seats', true );
 		$msg         = get_post_meta( $reg_id, '_reg_message', true );
 		$event_title = get_the_title( $event_id );
 		$event_url   = get_edit_post_link( $event_id, 'raw' );
@@ -302,6 +357,9 @@ class Codeweber_Event_Registration_API {
 		$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0">' . esc_html__( 'Email', 'codeweber' ) . ':</th><td><a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a></td></tr>';
 		if ( $phone ) {
 			$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0">' . esc_html__( 'Phone', 'codeweber' ) . ':</th><td>' . esc_html( $phone ) . '</td></tr>';
+		}
+		if ( $seats > 1 ) {
+			$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0">' . esc_html__( 'Seats', 'codeweber' ) . ':</th><td>' . esc_html( $seats ) . '</td></tr>';
 		}
 		if ( $msg ) {
 			$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0;vertical-align:top">' . esc_html__( 'Comment', 'codeweber' ) . ':</th><td>' . nl2br( esc_html( $msg ) ) . '</td></tr>';

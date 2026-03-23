@@ -112,6 +112,7 @@ function codeweber_event_reg_columns( array $columns ): array {
 		'reg_name'     => __( 'Name', 'codeweber' ),
 		'reg_email'    => __( 'Email', 'codeweber' ),
 		'reg_phone'    => __( 'Phone', 'codeweber' ),
+		'reg_seats'    => __( 'Seats', 'codeweber' ),
 		'reg_status'   => __( 'Status', 'codeweber' ),
 		'date'         => __( 'Date', 'codeweber' ),
 	];
@@ -144,6 +145,11 @@ function codeweber_event_reg_column_content( string $column, int $post_id ): voi
 
 		case 'reg_phone':
 			echo esc_html( get_post_meta( $post_id, '_reg_phone', true ) ?: '—' );
+			break;
+
+		case 'reg_seats':
+			$seats = (int) get_post_meta( $post_id, '_reg_seats', true );
+			echo esc_html( $seats > 0 ? $seats : 1 );
 			break;
 
 		case 'reg_status':
@@ -229,6 +235,21 @@ function codeweber_event_reg_filter_query( \WP_Query $query ): void {
 }
 add_action( 'parse_query', 'codeweber_event_reg_filter_query' );
 
+function codeweber_event_reg_all_statuses_query( \WP_Query $query ): void {
+	global $pagenow, $typenow;
+	if ( ! is_admin() || $pagenow !== 'edit.php' || $typenow !== 'event_registrations' ) {
+		return;
+	}
+	if ( ! $query->is_main_query() ) {
+		return;
+	}
+	// Если статус не задан явно (режим "Все") — показывать все кастомные статусы
+	if ( empty( $_GET['post_status'] ) ) {
+		$query->set( 'post_status', [ 'reg_pending', 'reg_confirmed', 'reg_cancelled', 'reg_awaiting' ] );
+	}
+}
+add_action( 'pre_get_posts', 'codeweber_event_reg_all_statuses_query' );
+
 // ---------------------------------------------------------------------------
 // Admin: bulk actions
 // ---------------------------------------------------------------------------
@@ -282,6 +303,7 @@ function codeweber_event_reg_render_details_metabox( \WP_Post $post ): void {
 	$name     = get_post_meta( $post->ID, '_reg_name', true );
 	$email    = get_post_meta( $post->ID, '_reg_email', true );
 	$phone    = get_post_meta( $post->ID, '_reg_phone', true );
+	$seats    = (int) get_post_meta( $post->ID, '_reg_seats', true );
 	$message  = get_post_meta( $post->ID, '_reg_message', true );
 	?>
 	<table class="form-table">
@@ -304,6 +326,10 @@ function codeweber_event_reg_render_details_metabox( \WP_Post $post ): void {
 		<tr>
 			<th><?php esc_html_e( 'Phone', 'codeweber' ); ?></th>
 			<td><?php echo esc_html( $phone ?: '—' ); ?></td>
+		</tr>
+		<tr>
+			<th><?php esc_html_e( 'Seats', 'codeweber' ); ?></th>
+			<td><?php echo esc_html( $seats > 0 ? $seats : 1 ); ?></td>
 		</tr>
 		<tr>
 			<th><?php esc_html_e( 'Message', 'codeweber' ); ?></th>
