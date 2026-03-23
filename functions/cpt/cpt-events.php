@@ -188,6 +188,14 @@ function codeweber_events_add_meta_boxes() {
 		'normal',
 		'default'
 	);
+	add_meta_box(
+		'codeweber_event_report',
+		__( 'Event Report Text', 'codeweber' ),
+		'codeweber_events_render_report_metabox',
+		'events',
+		'normal',
+		'default'
+	);
 }
 add_action( 'add_meta_boxes', 'codeweber_events_add_meta_boxes' );
 
@@ -432,6 +440,29 @@ function codeweber_events_render_video_metabox( \WP_Post $post ): void {
 }
 
 // ---------------------------------------------------------------------------
+// Metabox: Report Text
+// ---------------------------------------------------------------------------
+
+function codeweber_events_render_report_metabox( \WP_Post $post ): void {
+	$report_text = get_post_meta( $post->ID, '_event_report_text', true );
+	?>
+	<p class="description" style="margin-bottom:8px;">
+		<?php esc_html_e( 'Shown instead of the main content when the event has ended. Use for post-event reports, summaries, or photo descriptions.', 'codeweber' ); ?>
+	</p>
+	<?php
+	wp_editor(
+		$report_text,
+		'event_report_text',
+		[
+			'textarea_name' => '_event_report_text',
+			'textarea_rows' => 8,
+			'media_buttons' => true,
+			'teeny'         => false,
+		]
+	);
+}
+
+// ---------------------------------------------------------------------------
 // Save Meta
 // ---------------------------------------------------------------------------
 
@@ -478,6 +509,11 @@ function codeweber_events_save_meta( int $post_id, \WP_Post $post ): void {
 		if ( isset( $_POST[ $field ] ) ) {
 			update_post_meta( $post_id, $field, esc_url_raw( wp_unslash( $_POST[ $field ] ) ) );
 		}
+	}
+
+	// Report text — allow post-level HTML (paragraphs, links, images)
+	if ( isset( $_POST['_event_report_text'] ) ) {
+		update_post_meta( $post_id, '_event_report_text', wp_kses_post( wp_unslash( $_POST['_event_report_text'] ) ) );
 	}
 
 	$int_fields = [ '_event_max_participants', '_event_fake_registered', '_event_video_file' ];

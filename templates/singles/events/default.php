@@ -22,6 +22,9 @@ $gallery_ids       = codeweber_get_event_gallery_ids( $event_id );
 $video             = codeweber_events_get_video_glightbox( $event_id );
 $formats           = get_the_terms( $event_id, 'event_format' );
 $categories        = get_the_terms( $event_id, 'event_category' );
+$report_text       = get_post_meta( $event_id, '_event_report_text', true );
+$is_ended          = $date_end && strtotime( $date_end ) < current_time( 'timestamp' );
+$show_report       = $is_ended && ! empty( $report_text );
 $settings          = get_option( 'codeweber_events_settings', [] );
 $show_seats_taken  = ( $settings['show_seats_taken'] ?? '1' ) === '1';
 $show_seats_left   = ( $settings['show_seats_left'] ?? '1' ) === '1';
@@ -69,9 +72,13 @@ $seats_pct         = ( $max_participants > 0 ) ? min( 100, round( ( $registered_
 			</figure>
 		<?php endif; ?>
 
-		<?php // Content ?>
+		<?php // Content (or post-event report if available) ?>
 		<div class="post-content">
-			<?php the_content(); ?>
+			<?php if ( $show_report ) : ?>
+				<?php echo wp_kses_post( $report_text ); ?>
+			<?php else : ?>
+				<?php the_content(); ?>
+			<?php endif; ?>
 		</div>
 
 		<?php // ---- Gallery ------------------------------------------ ?>
