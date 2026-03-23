@@ -90,17 +90,9 @@
      * @param {string} message - Сообщение для отображения
      */
     function replaceModalContentWithEnvelope(form, message) {
-        // Закрываем родительский модал формы, чтобы не оставался backdrop
-        var parentModal = form ? form.closest('.modal') : null;
-        if (parentModal) {
-            var bsParentModal = (typeof bootstrap !== 'undefined') && bootstrap.Modal
-                ? bootstrap.Modal.getInstance(parentModal)
-                : null;
-            if (bsParentModal) {
-                bsParentModal.hide();
-            }
-        }
-
+        // Не закрываем модал — showSuccess заменяет контент прямо в открытом #modal,
+        // затем сам вызывает hide() через 3с. Вызов hide() здесь приводил к тому, что
+        // hidden.bs.modal сбрасывал skeleton поверх уже загруженного success-контента.
         if (window.codeweberModal && window.codeweberModal.showSuccess) {
             window.codeweberModal.showSuccess(message || '');
         }
