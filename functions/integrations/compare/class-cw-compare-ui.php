@@ -98,12 +98,11 @@ class CW_Compare_UI {
 		$active     = $in_compare ? ' cw-compare-btn--active' : '';
 
 		printf(
-			'<a href="%1$s" class="cw-compare-btn cw-compare-btn--single btn btn-outline-secondary btn-icon px-3 h-100%2$s%3$s"
+			'<a href="%1$s" class="cw-compare-btn cw-compare-btn--single btn btn-outline-secondary btn-icon has-ripple px-3 h-100%2$s%3$s"
 				data-product-id="%4$s"
 				aria-label="%5$s"
 				title="%5$s">
-				<i class="uil uil-balance-scale" aria-hidden="true"></i>
-				<span class="cw-compare-label ms-1">%5$s</span>
+				<i class="uil uil-exchange" aria-hidden="true"></i>
 			</a>',
 			esc_url( cw_get_compare_url() ),
 			esc_attr( $btn_style ? ' ' . $btn_style : '' ),
@@ -130,7 +129,7 @@ class CW_Compare_UI {
 				data-bs-toggle="white-tooltip"
 				title="%4$s"
 				aria-label="%4$s">
-				<i class="uil uil-balance-scale" aria-hidden="true"></i>
+				<i class="uil uil-exchange" aria-hidden="true"></i>
 			</a>',
 			esc_url( cw_get_compare_url() ),
 			esc_attr( $active ),
@@ -188,7 +187,7 @@ class CW_Compare_UI {
 			ob_start();
 			?>
 			<div class="cw-compare-empty text-center py-16">
-				<i class="uil uil-balance-scale fs-60 text-ash mb-4 d-block" aria-hidden="true"></i>
+				<i class="uil uil-exchange fs-60 text-ash mb-4 d-block" aria-hidden="true"></i>
 				<p class="mb-4"><?php esc_html_e( 'Добавьте товары для сравнения', 'codeweber' ); ?></p>
 				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary rounded-pill">
 					<?php esc_html_e( 'В каталог', 'codeweber' ); ?>
@@ -202,7 +201,7 @@ class CW_Compare_UI {
 			ob_start();
 			?>
 			<div class="cw-compare-empty text-center py-16">
-				<i class="uil uil-balance-scale fs-60 text-ash mb-4 d-block" aria-hidden="true"></i>
+				<i class="uil uil-exchange fs-60 text-ash mb-4 d-block" aria-hidden="true"></i>
 				<p class="mb-4"><?php esc_html_e( 'Добавьте ещё хотя бы один товар для сравнения', 'codeweber' ); ?></p>
 				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary rounded-pill">
 					<?php esc_html_e( 'В каталог', 'codeweber' ); ?>
@@ -227,7 +226,7 @@ class CW_Compare_UI {
 						<?php esc_html_e( 'Показать только различия', 'codeweber' ); ?>
 					</label>
 				</div>
-				<button class="cw-compare-clear btn btn-sm btn-outline-secondary">
+				<button class="cw-compare-clear btn btn-sm btn-outline-danger">
 					<i class="uil uil-trash-alt me-1" aria-hidden="true"></i>
 					<?php esc_html_e( 'Очистить всё', 'codeweber' ); ?>
 				</button>

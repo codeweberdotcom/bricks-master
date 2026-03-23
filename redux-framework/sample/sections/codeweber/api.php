@@ -41,7 +41,15 @@ Redux::set_section(
 					'edit_address' => esc_html__('Редактирование адреса (Мой аккаунт)', 'codeweber'),
 					'checkout'     => esc_html__('Оформление заказа (чекаут)', 'codeweber'),
 				),
-				'default'  => array( 'edit_address' => true, 'checkout' => false ),
+				'default'  => array( 'edit_address' => true, 'checkout' => true ),
+			),
+			array(
+				'id'       => 'dadata_checkout_phone_mask',
+				'type'     => 'switch',
+				'title'    => esc_html__('Чекаут: маска телефона', 'codeweber'),
+				'subtitle' => esc_html__('Форматирование поля телефона: +7 (xxx) xxx-xx-xx', 'codeweber'),
+				'required' => array( 'dadata_enabled', '=', true ),
+				'default'  => true,
 			),
 			array(
 				'id'       => 'yandexapi',

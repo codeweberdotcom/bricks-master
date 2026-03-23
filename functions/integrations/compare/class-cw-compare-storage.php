@@ -111,6 +111,15 @@ class CW_Compare_Storage {
 	}
 
 	/**
+	 * Overwrite the stored list with provided IDs (used to sync with client state).
+	 *
+	 * @param int[] $ids Array of IDs.
+	 */
+	public static function set_ids( array $ids ) {
+		self::save( array_values( array_filter( array_map( 'absint', $ids ) ) ) );
+	}
+
+	/**
 	 * Save IDs array to cookie.
 	 *
 	 * @param int[] $ids Array of IDs.

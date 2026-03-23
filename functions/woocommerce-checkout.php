@@ -6,6 +6,10 @@
  * Текстовые поля → Bootstrap form-floating.
  * Select-поля     → form-select-wrapper + form-select.
  * Country/State   → WC рендерит сам (select2), добавляем только form-select класс.
+ *
+ * Важно: обёртка полей — <div class="form-row">, НЕ <p>.
+ * <div class="form-floating"> внутри <p> — невалидный HTML, браузер выталкивает
+ * div наружу, и p остаётся пустым, ломая layout.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -52,7 +56,7 @@ function cw_checkout_field_text( $field, $key, $args, $value ) {
 		. $custom_attrs
 		. '>';
 
-	return '<p class="form-row ' . esc_attr( implode( ' ', $args['class'] ) ) . '"'
+	return '<div class="form-row ' . esc_attr( implode( ' ', $args['class'] ) ) . '"'
 		. ' id="' . esc_attr( $id ) . '_field"'
 		. ' data-priority="' . esc_attr( $sort ) . '">'
 		. '<span class="woocommerce-input-wrapper">'
@@ -61,7 +65,7 @@ function cw_checkout_field_text( $field, $key, $args, $value ) {
 		. $label
 		. '</div>'
 		. '</span>'
-		. '</p>';
+		. '</div>';
 }
 
 // ── Select → form-select-wrapper ──────────────────────────────────────────────
@@ -103,7 +107,7 @@ function cw_checkout_field_select( $field, $key, $args, $value ) {
 			. '>' . esc_html( $option_text ) . '</option>';
 	}
 
-	return '<p class="form-row ' . esc_attr( implode( ' ', $args['class'] ) ) . '"'
+	return '<div class="form-row ' . esc_attr( implode( ' ', $args['class'] ) ) . '"'
 		. ' id="' . esc_attr( $id ) . '_field"'
 		. ' data-priority="' . esc_attr( $sort ) . '">'
 		. $label
@@ -118,7 +122,7 @@ function cw_checkout_field_select( $field, $key, $args, $value ) {
 		. '</select>'
 		. '</div>'
 		. '</span>'
-		. '</p>';
+		. '</div>';
 }
 
 // ── Redux: управление полями чекаута ─────────────────────────────────────────
@@ -135,11 +139,11 @@ function cw_checkout_fields_from_redux( $fields ) {
 		'billing'  => array(
 			'first_name' => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
 			'last_name'  => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
-			'company'    => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
-			'country'    => array( 'enabled' => true,  'required' => true,  'width' => 'full' ),
-			'address_1'  => array( 'enabled' => true,  'required' => true,  'width' => 'full' ),
-			'address_2'  => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
-			'city'       => array( 'enabled' => true,  'required' => true,  'width' => 'full' ),
+			'company'    => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'country'    => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
+			'address_1'  => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
+			'address_2'  => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'city'       => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
 			'state'      => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
 			'postcode'   => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
 			'email'      => array( 'enabled' => true,  'required' => true,  'width' => 'half' ),
@@ -148,11 +152,11 @@ function cw_checkout_fields_from_redux( $fields ) {
 		'shipping' => array(
 			'first_name' => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
 			'last_name'  => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
-			'company'    => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
-			'country'    => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
-			'address_1'  => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
-			'address_2'  => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
-			'city'       => array( 'enabled' => true,  'required' => false, 'width' => 'full' ),
+			'company'    => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'country'    => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'address_1'  => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'address_2'  => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
+			'city'       => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
 			'state'      => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
 			'postcode'   => array( 'enabled' => true,  'required' => false, 'width' => 'half' ),
 		),
@@ -188,8 +192,8 @@ function cw_checkout_fields_from_redux( $fields ) {
 				$class   = array_diff( $class, array( 'form-row-first', 'form-row-last' ) );
 				$class[] = 'form-row-wide';
 			} elseif ( 'half' === $width ) {
-				$class        = array_diff( $class, array( 'form-row-wide' ) );
-				$class[]      = ( 0 === $half_counter % 2 ) ? 'form-row-first' : 'form-row-last';
+				$class   = array_diff( $class, array( 'form-row-wide' ) );
+				$class[] = ( 0 === $half_counter % 2 ) ? 'form-row-first' : 'form-row-last';
 				$half_counter++;
 			}
 
@@ -217,6 +221,22 @@ function cw_checkout_country_state_args( $args, $key, $value ) {
 		$args['input_class'][] = 'form-select';
 	}
 	return $args;
+}
+
+// ── Locale: убираем class-overrides WC для всех стран ─────────────────────────
+// WC address-i18n.js применяет form-row-wide к address-полям при смене страны
+// (данные берёт из wc_address_i18n_params.locale).
+// Убираем ключ 'class' из locale — JS не трогает классы, наши PHP-классы остаются.
+
+add_filter( 'woocommerce_get_country_locale', 'cw_checkout_strip_locale_classes' );
+
+function cw_checkout_strip_locale_classes( $locale ) {
+	foreach ( $locale as $country => $fields ) {
+		foreach ( $fields as $field => $data ) {
+			unset( $locale[ $country ][ $field ]['class'] );
+		}
+	}
+	return $locale;
 }
 
 // ── Textarea → form-floating ───────────────────────────────────────────────────
@@ -250,7 +270,7 @@ function cw_checkout_field_textarea( $field, $key, $args, $value ) {
 		}
 	}
 
-	return '<p class="form-row ' . esc_attr( implode( ' ', $args['class'] ) ) . '"'
+	return '<div class="form-row ' . esc_attr( implode( ' ', $args['class'] ) ) . '"'
 		. ' id="' . esc_attr( $id ) . '_field"'
 		. ' data-priority="' . esc_attr( $sort ) . '">'
 		. '<span class="woocommerce-input-wrapper">'
@@ -265,5 +285,5 @@ function cw_checkout_field_textarea( $field, $key, $args, $value ) {
 		. $label
 		. '</div>'
 		. '</span>'
-		. '</p>';
+		. '</div>';
 }

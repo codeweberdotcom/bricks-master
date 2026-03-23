@@ -485,7 +485,7 @@ function codeweber_enqueue_dadata_address() {
 	}
 	$scenarios = Redux::get_option( $opt_name, 'dadata_scenarios' );
 	if ( ! is_array( $scenarios ) ) {
-		$scenarios = array( 'edit_address' => true, 'checkout' => false );
+		$scenarios = array( 'edit_address' => true, 'checkout' => true );
 	}
 	$on_edit    = ( is_wc_endpoint_url( 'edit-address' ) || ( function_exists( 'is_account_page' ) && is_account_page() ) ) && ! empty( $scenarios['edit_address'] );
 	$on_checkout = function_exists( 'is_checkout' ) && is_checkout() && ! empty( $scenarios['checkout'] );
@@ -539,13 +539,16 @@ function codeweber_enqueue_dadata_address() {
 		true
 	);
 
-	$token = Redux::get_option( $opt_name, 'dadata' );
+	$token               = Redux::get_option( $opt_name, 'dadata' );
+	$checkout_phone_mask = (bool) Redux::get_option( $opt_name, 'dadata_checkout_phone_mask' );
 
 	$localize = array(
-		'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
-		'nonce'         => wp_create_nonce( 'codeweber_dadata_clean' ),
-		'addressPrefix' => 'billing',
-		'messages'      => array(
+		'ajaxUrl'           => admin_url( 'admin-ajax.php' ),
+		'nonce'             => wp_create_nonce( 'codeweber_dadata_clean' ),
+		'addressPrefix'     => 'billing',
+		'isCheckout'        => $on_checkout,
+		'checkoutPhoneMask' => $checkout_phone_mask,
+		'messages'          => array(
 			'enterAddress' => __( 'Введите адрес в поле «Адрес» и нажмите кнопку проверки.', 'codeweber' ),
 			'loading'      => __( 'Проверка…', 'codeweber' ),
 			'error'        => __( 'Ошибка сети. Попробуйте позже.', 'codeweber' ),

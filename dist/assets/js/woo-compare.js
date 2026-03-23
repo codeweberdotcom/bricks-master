@@ -17,6 +17,22 @@
     var bar   = document.getElementById('cw-compare-bar');
     var state = { ids: cfg.ids || [], limit: cfg.limit || 4 };
 
+    /* ── Request queue (предотвращает race condition при быстрых кликах) ─────── */
+
+    var queue = [];
+    var queueRunning = false;
+
+    function enqueue(fn) {
+        queue.push(fn);
+        if (!queueRunning) runQueue();
+    }
+
+    function runQueue() {
+        if (!queue.length) { queueRunning = false; return; }
+        queueRunning = true;
+        queue.shift()(runQueue);
+    }
+
     /* ── Инициализация ──────────────────────────────────────────────────────── */
 
     function init() {
@@ -48,6 +64,8 @@
             var btn = e.target.closest('.cw-compare-slot-remove[data-product-id]');
             if (!btn) return;
             e.preventDefault();
+            var slot = btn.closest('.cw-compare-slot');
+            if (slot) slot.classList.add('cw-compare-slot--loading');
             removeFromCompare(parseInt(btn.dataset.productId, 10));
         });
 
@@ -61,8 +79,11 @@
 
         // Очистить всё
         document.addEventListener('click', function (e) {
-            if (!e.target.closest('.cw-compare-clear')) return;
+            var btn = e.target.closest('.cw-compare-clear');
+            if (!btn) return;
             e.preventDefault();
+            btn.classList.add('cw-compare-clear--loading');
+            btn.disabled = true;
             clearCompare();
         });
     }
@@ -75,21 +96,25 @@
 
         setLoading(btn, true);
 
-        postAjax('cw_compare_toggle', { product_id: id }, function (res) {
-            setLoading(btn, false);
+        enqueue(function (done) {
+            postAjax('cw_compare_toggle', { product_id: id, current_ids: state.ids.join(',') }, function (res) {
+                setLoading(btn, false);
 
-            if (!res.success) {
-                if (res.data && res.data.limit_reached) {
-                    showNotice(cfg.i18n.limitReached || 'Лимит достигнут');
+                if (!res.success) {
+                    if (res.data && res.data.limit_reached) {
+                        showNotice(cfg.i18n.limitReached || 'Лимит достигнут');
+                    }
+                    done();
+                    return;
                 }
-                return;
-            }
 
-            var data = res.data;
-            state.ids = data.ids || [];
+                var data = res.data;
+                state.ids = data.ids || [];
 
-            syncButtons(state.ids);
-            updateBar(data.bar_html, data.count);
+                syncButtons(state.ids);
+                updateBar(data.bar_html, data.count);
+                done();
+            });
         });
     }
 
@@ -309,7 +334,7 @@
 
     function showNotice(message) {
         if (window.CWNotify) {
-            CWNotify.show({ type: 'warning', message: message });
+            CWNotify.show(message, { type: 'warning', event: 'compare' });
         } else {
             alert(message);
         }

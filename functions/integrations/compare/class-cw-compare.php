@@ -68,6 +68,16 @@ class CW_Compare {
 		$limit  = cw_get_compare_limit();
 		$added  = false;
 
+		// Если клиент передал текущий список — синхронизируем куку с ним.
+		// Это исключает race condition при быстрых кликах: клиент всегда
+		// передаёт актуальный state.ids, который уже включает результат
+		// предыдущего запроса.
+		if ( isset( $_POST['current_ids'] ) && '' !== $_POST['current_ids'] ) {
+			$client_ids = array_map( 'absint', explode( ',', sanitize_text_field( wp_unslash( $_POST['current_ids'] ) ) ) );
+			$client_ids = array_filter( $client_ids );
+			CW_Compare_Storage::set_ids( $client_ids );
+		}
+
 		if ( CW_Compare_Storage::has( $product_id ) ) {
 			// Уже есть — удаляем
 			CW_Compare_Storage::remove( $product_id );

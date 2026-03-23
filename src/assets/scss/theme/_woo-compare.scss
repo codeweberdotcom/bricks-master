@@ -32,6 +32,31 @@
         border-style: dashed !important;
         opacity: .4;
     }
+
+    &--loading {
+        pointer-events: none;
+
+        img {
+            opacity: .3;
+        }
+
+        .cw-compare-slot-remove {
+            opacity: 0;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 1.25em;
+            height: 1.25em;
+            border: 0.15em solid rgba(0, 0, 0, .5);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: cw-compare-spin 0.7s linear infinite;
+        }
+    }
 }
 
 // ── Compare Button на карточке ────────────────────────────────────────────────
@@ -66,6 +91,30 @@
     // item-compare (loop-кнопка на карточке) — спиннер цвета primary
     &.item-compare#{&}--loading {
         color: var(--bs-primary);
+    }
+}
+
+// ── Clear button loading ──────────────────────────────────────────────────────
+
+.cw-compare-clear--loading {
+    pointer-events: none;
+    opacity: .65;
+
+    i.uil {
+        opacity: 0;
+    }
+
+    &::after {
+        content: '';
+        display: inline-block;
+        width: .85em;
+        height: .85em;
+        margin-left: .35rem;
+        vertical-align: middle;
+        border: 0.13em solid currentColor;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: cw-compare-spin 0.7s linear infinite;
     }
 }
 

@@ -57,3 +57,20 @@
 .suggestions-promo {
   display: none !important;
 }
+
+/* Bootstrap form-floating fix:
+   .suggestions-wrapper внутри form-floating не должен занимать место в потоке —
+   иначе label сдвигается вниз и ломается форматирование. */
+.form-floating > .suggestions-wrapper {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 100%;
+  z-index: 9999;
+  pointer-events: none;
+
+  > .suggestions-suggestions {
+    pointer-events: auto;
+    position: static;
+  }
+}

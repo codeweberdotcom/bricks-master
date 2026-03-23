@@ -13,6 +13,8 @@
   var minChars = typeof config.minChars === 'number' ? config.minChars : 2;
   var count = typeof config.count === 'number' ? config.count : 10;
   var debug = !!(config.debug);
+  var isCheckout = !!(config.isCheckout);
+  var checkoutPhoneMask = config.checkoutPhoneMask !== false;
 
   function log() {
     if (typeof console !== 'undefined' && console.log) {
@@ -235,9 +237,58 @@
     });
   }
 
+  // ── Phone mask (checkout only) ────────────────────────────────────────────
+
+  function initPhoneMask() {
+    if (!isCheckout || !checkoutPhoneMask) return;
+    var phoneInputs = document.querySelectorAll('input#billing_phone');
+    if (!phoneInputs.length) return;
+
+    function getNumbers(input) { return input.value.replace(/\D/g, ''); }
+
+    function onPaste(e) {
+      var pasted = e.clipboardData || window.clipboardData;
+      if (pasted && /\D/g.test(pasted.getData('Text'))) {
+        e.target.value = getNumbers(e.target);
+      }
+    }
+
+    function onKeyDown(e) {
+      if (e.keyCode === 8 && getNumbers(e.target).length === 1) e.target.value = '';
+    }
+
+    function onInput(e) {
+      var input = e.target, nums = getNumbers(input), sel = input.selectionStart, formatted = '';
+      if (!nums) { input.value = ''; return; }
+      if (input.value.length !== sel) {
+        if (e.data && /\D/g.test(e.data)) input.value = nums;
+        return;
+      }
+      if (['7', '8', '9'].indexOf(nums[0]) > -1) {
+        if (nums[0] === '9') nums = '7' + nums;
+        formatted = (nums[0] === '8' ? '8' : '+7') + ' ';
+        if (nums.length > 1) formatted += '(' + nums.substring(1, 4);
+        if (nums.length >= 5) formatted += ') ' + nums.substring(4, 7);
+        if (nums.length >= 8) formatted += '-' + nums.substring(7, 9);
+        if (nums.length >= 10) formatted += '-' + nums.substring(9, 11);
+      } else {
+        formatted = '+' + nums.substring(0, 16);
+      }
+      input.value = formatted;
+    }
+
+    [].forEach.call(phoneInputs, function (input) {
+      input.addEventListener('keydown', onKeyDown);
+      input.addEventListener('input', onInput);
+      input.addEventListener('paste', onPaste);
+    });
+    if (debug) log('Маска телефона инициализирована для', phoneInputs.length, 'полей');
+  }
+
   function init() {
     initSuggestionsWidget();
     initButtons();
+    initPhoneMask();
   }
 
   function run() {
