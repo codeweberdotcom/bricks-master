@@ -192,7 +192,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 		<div class="card<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 
 			<?php if ( ! $sidebar_disable_image && has_post_thumbnail() ) :
-				$sidebar_img = get_the_post_thumbnail_url( $event_id, 'codeweber_vacancy' );
+				$sidebar_img = get_the_post_thumbnail_url( $event_id, 'codeweber_event_383-250' );
 				if ( $sidebar_img ) : ?>
 				<figure<?php echo $card_radius ? ' class="' . esc_attr( $card_radius ) . '"' : ''; ?>>
 					<img src="<?php echo esc_url( $sidebar_img ); ?>"
