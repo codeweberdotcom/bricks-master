@@ -21,6 +21,10 @@ if (! function_exists('codeweber_image_settings')) {
 		//CPT Vacancies (600x400 - пропорционально увеличенный размер 382x255)
 		add_image_size('codeweber_vacancy', 600, 400, true);
 
+		// CPT Events
+		add_image_size('codeweber_event_900-450', 900, 450, true);
+		add_image_size('codeweber_event_400-267', 400, 267, true);
+
 		//CPT Clients
 		add_image_size('codeweber_clients_115-60', 115, 60, false);
 		add_image_size('codeweber_clients_200-60', 200, 60, false);

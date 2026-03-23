@@ -576,6 +576,57 @@ function codeweber_enqueue_dadata_address() {
 }
 add_action( 'wp_enqueue_scripts', 'codeweber_enqueue_dadata_address', 25 );
 
+// ── Events: FullCalendar (archive) + registration form (single) ─────────────
+
+function codeweber_enqueue_events_assets(): void {
+	if ( ! is_post_type_archive( 'events' ) && ! is_tax( [ 'event_category', 'event_format' ] ) && ! is_singular( 'events' ) ) {
+		return;
+	}
+
+	// FullCalendar v6 CDN — только на архиве
+	if ( is_post_type_archive( 'events' ) || is_tax( [ 'event_category', 'event_format' ] ) ) {
+		wp_enqueue_style(
+			'fullcalendar',
+			'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css',
+			[],
+			'6.1.11'
+		);
+		wp_enqueue_script(
+			'fullcalendar',
+			'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js',
+			[],
+			'6.1.11',
+			true
+		);
+		wp_enqueue_script(
+			'fullcalendar-ru',
+			'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/locales/ru.global.min.js',
+			[ 'fullcalendar' ],
+			'6.1.11',
+			true
+		);
+	}
+
+	// Registration form JS — только на single
+	if ( is_singular( 'events' ) ) {
+		$src_path = get_template_directory() . '/src/assets/js/event-registration-form.js';
+		$dist_path = codeweber_get_dist_file_path( 'dist/assets/js/event-registration-form.js' );
+		if ( $dist_path ) {
+			$script_url = codeweber_get_dist_file_url( 'dist/assets/js/event-registration-form.js' );
+		} else {
+			$script_url = get_template_directory_uri() . '/src/assets/js/event-registration-form.js';
+		}
+		wp_enqueue_script(
+			'codeweber-event-registration-form',
+			$script_url,
+			[ 'jquery' ],
+			file_exists( $src_path ) ? (string) filemtime( $src_path ) : '1.0',
+			true
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'codeweber_enqueue_events_assets', 20 );
+
 // ── Gutenberg: CSS для класса cwgb-grid-gap-theme ───────────────────────────
 add_action(
 	'wp_head',

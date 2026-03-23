@@ -557,6 +557,107 @@ echo do_shortcode('[price_packages columns="3"]');
 
 ---
 
+## Events & Registrations CPTs
+
+### Events
+
+**File:** `functions/cpt/cpt-events.php`
+
+| Property | Value |
+|----------|-------|
+| **Slug** | `events` |
+| **Public** | ✅ true |
+| **Publicly Queryable** | ✅ true |
+| **Has Archive** | ✅ true (`/events/`) |
+| **Supports** | title, editor, thumbnail, excerpt, revisions, author |
+| **Hierarchical** | ❌ false |
+| **REST API** | ✅ yes |
+| **Icon** | dashicons-calendar-alt |
+
+**Taxonomies:**
+- `event_category` — иерархическая (конференция, семинар, вебинар…)
+- `event_format` — плоская (офлайн, онлайн, гибрид)
+
+**Meta Fields:**
+| Meta key | Тип | Описание |
+|---|---|---|
+| `_event_date_start` | datetime | Начало мероприятия |
+| `_event_date_end` | datetime | Окончание мероприятия |
+| `_event_registration_open` | datetime | Начало приёма заявок |
+| `_event_registration_close` | datetime | Окончание приёма заявок |
+| `_event_location` | text | Место проведения |
+| `_event_address` | text | Адрес |
+| `_event_organizer` | text | Организатор |
+| `_event_price` | text | Стоимость |
+| `_event_registration_enabled` | bool | Включить встроенную форму |
+| `_event_max_participants` | int | Максимальное число мест (0 = без ограничений) |
+| `_event_registration_url` | url | Внешняя ссылка регистрации |
+| `_event_video_type` | select: url/upload | Тип видео |
+| `_event_video_url` | url | Ссылка на видео (YouTube/Vimeo/Rutube/VK) |
+| `_event_video_file` | attachment ID | Загруженный видеофайл |
+| `_event_gallery` | int[] | Галерея (attachment IDs, FilePond + SortableJS) |
+
+**Helper functions:**
+- `codeweber_events_get_registration_status($event_id)` — статус регистрации + label + show_form
+- `codeweber_events_get_registration_count($event_id)` — кол-во заявок
+- `codeweber_events_get_video_glightbox($event_id)` — данные для GLightbox
+- `codeweber_get_event_gallery_ids($event_id)` — IDs галереи в порядке
+
+**REST endpoints (codeweber/v1):**
+- `POST /events/register` — подать заявку
+- `GET /events/calendar` — FullCalendar feed (params: start, end, category)
+
+**Settings:** `get_option('codeweber_events_settings')` — страница «Мероприятия → Настройки»
+
+**Related Files:**
+- `functions/events/event-registration-api.php` — REST API
+- `functions/admin/events-settings.php` — страница настроек
+- `functions/integrations/event-gallery-metabox.php` — галерея FilePond
+- `archive-events.php` — архив с dual view (FullCalendar / Table)
+- `single-events.php` — страница мероприятия
+- `templates/post-cards/events/card-events.php` — карточка
+
+---
+
+### Event Registrations
+
+**File:** `functions/cpt/cpt-event-registrations.php`
+
+| Property | Value |
+|----------|-------|
+| **Slug** | `event_registrations` |
+| **Public** | ❌ false (admin only) |
+| **Publicly Queryable** | ❌ false |
+| **Has Archive** | ❌ false |
+| **Show in menu** | под «Мероприятия» (`edit.php?post_type=events`) |
+| **Supports** | title |
+
+**Custom Post Statuses:**
+| Slug | Label | Цвет |
+|---|---|---|
+| `reg_pending` | Новая | жёлтый |
+| `reg_confirmed` | Подтверждена | зелёный |
+| `reg_cancelled` | Отменена | красный |
+| `reg_awaiting` | Ожидает оплаты | синий |
+
+**Meta Fields:**
+| Meta key | Описание |
+|---|---|
+| `_reg_event_id` | ID мероприятия |
+| `_reg_name` | Имя участника |
+| `_reg_email` | Email |
+| `_reg_phone` | Телефон |
+| `_reg_message` | Комментарий |
+
+**Admin features:**
+- Кастомные колонки: мероприятие, имя, email, телефон, статус, дата
+- Фильтрация по мероприятию (dropdown)
+- Bulk actions: подтвердить / отменить
+- Badge в меню с кол-вом новых заявок
+- Метабокс смены статуса на странице заявки
+
+---
+
 ## Summary Table
 
 | CPT | Type | Public | Archive | Taxonomy | Supports |

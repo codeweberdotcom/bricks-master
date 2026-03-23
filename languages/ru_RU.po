@@ -14956,3 +14956,396 @@ msgstr "← Назад к подпискам"
 #, fuzzy
 msgid "−% Discount"
 msgstr "−% Скидка"
+
+# --- CPT Events ---
+
+msgid "Events"
+msgstr "Мероприятия"
+
+msgid "Event"
+msgstr "Мероприятие"
+
+msgid "All Events"
+msgstr "Все мероприятия"
+
+msgid "Add Event"
+msgstr "Добавить мероприятие"
+
+msgid "Add New Event"
+msgstr "Добавить новое мероприятие"
+
+msgid "Edit Event"
+msgstr "Редактировать мероприятие"
+
+msgid "New Event"
+msgstr "Новое мероприятие"
+
+msgid "View Event"
+msgstr "Просмотр мероприятия"
+
+msgid "View Events"
+msgstr "Просмотр мероприятий"
+
+msgid "Search Events"
+msgstr "Поиск мероприятий"
+
+msgid "No events found"
+msgstr "Мероприятия не найдены"
+
+msgid "No events found in trash"
+msgstr "Мероприятия не найдены в корзине"
+
+msgid "Event published"
+msgstr "Мероприятие опубликовано"
+
+msgid "Event updated"
+msgstr "Мероприятие обновлено"
+
+msgid "Event Categories"
+msgstr "Категории мероприятий"
+
+msgid "Event Category"
+msgstr "Категория мероприятия"
+
+msgid "Event Formats"
+msgstr "Форматы мероприятий"
+
+msgid "Event Format"
+msgstr "Формат мероприятия"
+
+msgid "Event Dates"
+msgstr "Даты мероприятия"
+
+msgid "Event Details"
+msgstr "Детали мероприятия"
+
+msgid "Registration Settings"
+msgstr "Настройки регистрации"
+
+msgid "Event Video"
+msgstr "Видео мероприятия"
+
+msgid "Start Date & Time"
+msgstr "Дата и время начала"
+
+msgid "End Date & Time"
+msgstr "Дата и время окончания"
+
+msgid "Registration Opens"
+msgstr "Начало приёма заявок"
+
+msgid "Registration Closes"
+msgstr "Окончание приёма заявок"
+
+msgid "When registration becomes available. Leave empty to open immediately."
+msgstr "Когда открывается регистрация. Оставьте пустым, чтобы открыть немедленно."
+
+msgid "When registration stops. Leave empty to close when event starts."
+msgstr "Когда закрывается регистрация. Оставьте пустым, чтобы закрыть в момент начала."
+
+msgid "Location Name"
+msgstr "Название места"
+
+msgid "Address"
+msgstr "Адрес"
+
+msgid "Organizer"
+msgstr "Организатор"
+
+msgid "Price"
+msgstr "Стоимость"
+
+msgid "Enter amount or \"Free\". Shown on archive and single pages."
+msgstr "Введите сумму или «Бесплатно». Отображается на странице архива и мероприятия."
+
+msgid "Enable Registration Form"
+msgstr "Включить форму записи"
+
+msgid "Show built-in registration form on event page"
+msgstr "Показать встроенную форму записи на странице мероприятия"
+
+msgid "Max Participants"
+msgstr "Максимальное число участников"
+
+msgid "Set to 0 for unlimited seats."
+msgstr "Установите 0 для неограниченного числа мест."
+
+msgid "External Registration URL"
+msgstr "Внешняя ссылка для регистрации"
+
+msgid "If set, overrides built-in form with a link button."
+msgstr "Если указана, заменяет встроенную форму кнопкой-ссылкой."
+
+msgid "Video Type"
+msgstr "Тип видео"
+
+msgid "URL (YouTube / Vimeo / Rutube / VK)"
+msgstr "Ссылка (YouTube / Vimeo / Rutube / VK)"
+
+msgid "Upload video file"
+msgstr "Загрузить видеофайл"
+
+msgid "Video URL"
+msgstr "Ссылка на видео"
+
+msgid "Paste a YouTube, Vimeo, Rutube or VK Video URL."
+msgstr "Вставьте ссылку YouTube, Vimeo, Rutube или VK Video."
+
+msgid "Select Video"
+msgstr "Выбрать видео"
+
+msgid "Use this video"
+msgstr "Использовать это видео"
+
+msgid "Replace Video"
+msgstr "Заменить видео"
+
+msgid "Upload Video"
+msgstr "Загрузить видео"
+
+msgid "Remove"
+msgstr "Удалить"
+
+# --- CPT Event Registrations ---
+
+msgid "Registrations"
+msgstr "Заявки"
+
+msgid "Registration"
+msgstr "Заявка"
+
+msgid "All Registrations"
+msgstr "Все заявки"
+
+msgid "Add Registration"
+msgstr "Добавить заявку"
+
+msgid "Edit Registration"
+msgstr "Редактировать заявку"
+
+msgid "View Registration"
+msgstr "Просмотр заявки"
+
+msgid "Search Registrations"
+msgstr "Поиск заявок"
+
+msgid "No registrations found"
+msgstr "Заявки не найдены"
+
+msgid "No registrations in trash"
+msgstr "Заявок в корзине нет"
+
+msgid "New"
+msgstr "Новая"
+
+msgid "Confirmed"
+msgstr "Подтверждена"
+
+msgid "Cancelled"
+msgstr "Отменена"
+
+msgid "Awaiting Payment"
+msgstr "Ожидает оплаты"
+
+msgid "All events"
+msgstr "Все мероприятия"
+
+msgid "Confirm selected"
+msgstr "Подтвердить выбранные"
+
+msgid "Cancel selected"
+msgstr "Отменить выбранные"
+
+msgid "Registration Details"
+msgstr "Детали заявки"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Save changes to update status."
+msgstr "Сохраните для обновления статуса."
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Message"
+msgstr "Комментарий"
+
+# --- REST API / Frontend ---
+
+msgid "Spam detected."
+msgstr "Обнаружен спам."
+
+msgid "Security check failed. Please reload the page."
+msgstr "Ошибка безопасности. Перезагрузите страницу."
+
+msgid "You are already registered for this event."
+msgstr "Вы уже зарегистрированы на это мероприятие."
+
+msgid "Failed to save registration. Please try again."
+msgstr "Не удалось сохранить заявку. Попробуйте ещё раз."
+
+msgid "You have successfully registered for the event. We will contact you shortly."
+msgstr "Вы успешно зарегистрированы на мероприятие. Мы свяжемся с вами в ближайшее время."
+
+msgid "Event completed"
+msgstr "Мероприятие завершено"
+
+msgid "Registration opens %s"
+msgstr "Регистрация откроется %s"
+
+msgid "Registration closed"
+msgstr "Приём заявок закрыт"
+
+msgid "No seats available"
+msgstr "Мест нет"
+
+msgid "Register"
+msgstr "Записаться"
+
+# --- Settings page ---
+
+msgid "Events Settings"
+msgstr "Настройки мероприятий"
+
+msgid "Frontend Display"
+msgstr "Отображение на сайте"
+
+msgid "Show booked seats count"
+msgstr "Показывать кол-во забронированных мест"
+
+msgid "Show how many seats are already taken"
+msgstr "Показывать сколько мест уже занято"
+
+msgid "Show available seats count"
+msgstr "Показывать кол-во свободных мест"
+
+msgid "Show how many seats are still available"
+msgstr "Показывать сколько мест ещё доступно"
+
+msgid "Show seats progress bar"
+msgstr "Показывать прогресс-бар заполнения"
+
+msgid "Show a Bootstrap progress bar for seat capacity"
+msgstr "Показывать Bootstrap прогресс-бар заполнения мест"
+
+msgid "Registration Form"
+msgstr "Форма регистрации"
+
+msgid "Register button text"
+msgstr "Текст кнопки регистрации"
+
+msgid "Text when no seats available"
+msgstr "Текст при отсутствии мест"
+
+msgid "Success message after registration"
+msgstr "Сообщение об успешной регистрации"
+
+msgid "Notifications"
+msgstr "Уведомления"
+
+msgid "Notification email for new registrations"
+msgstr "Email для уведомлений о новых заявках"
+
+msgid "Leave empty to use admin email."
+msgstr "Оставьте пустым для использования email администратора."
+
+# --- Frontend single/archive ---
+
+msgid "Home"
+msgstr "Главная"
+
+msgid "Start"
+msgstr "Начало"
+
+msgid "End"
+msgstr "Конец"
+
+msgid "Location"
+msgstr "Место"
+
+msgid "Format"
+msgstr "Формат"
+
+msgid "Gallery"
+msgstr "Галерея"
+
+msgid "Watch video"
+msgstr "Смотреть видео"
+
+msgid "Share:"
+msgstr "Поделиться:"
+
+msgid "%s registered"
+msgstr "Зарегистрировано: %s"
+
+msgid "%s seats left"
+msgstr "Свободных мест: %s"
+
+msgid "Your name *"
+msgstr "Ваше имя *"
+
+msgid "Email *"
+msgstr "Email *"
+
+msgid "Comment (optional)"
+msgstr "Комментарий (необязательно)"
+
+msgid "Sending..."
+msgstr "Отправка..."
+
+msgid "Details"
+msgstr "Подробнее"
+
+msgid "All"
+msgstr "Все"
+
+msgid "Calendar"
+msgstr "Календарь"
+
+msgid "List"
+msgstr "Список"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "No events found."
+msgstr "Мероприятия не найдены."
+
+# --- Gallery metabox ---
+
+msgid "Event Gallery"
+msgstr "Галерея мероприятия"
+
+msgid "Add images via the upload area below. Drag items in the grid to reorder."
+msgstr "Добавляйте изображения через область загрузки. Перетаскивайте для изменения порядка."
+
+msgid "Save the event as draft first, then you can add gallery images."
+msgstr "Сначала сохраните мероприятие как черновик, затем добавьте изображения."
+
+msgid "Upload failed"
+msgstr "Ошибка загрузки"
+
+msgid "Security check failed. Reload the page and try again."
+msgstr "Ошибка безопасности. Перезагрузите страницу и попробуйте снова."
+
+msgid "Invalid request."
+msgstr "Некорректный запрос."
+
+msgid "No file received."
+msgstr "Файл не получен."
+
+msgid "New registration: %s"
+msgstr "Новая заявка: %s"
+
+msgid "New registration for event: %s"
+msgstr "Новая заявка на мероприятие: %s"
+
+msgid "View registration:"
+msgstr "Просмотреть заявку:"

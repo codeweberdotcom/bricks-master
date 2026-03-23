@@ -4,6 +4,24 @@
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- **CPT Events (Мероприятия)**: полный модуль мероприятий — регистрация CPT `events` с таксономиями `event_category` и `event_format`, мета-поля дат (начало/конец события, открытие/закрытие приёма заявок), местоположение, адрес, организатор, цена, внешняя ссылка, количество мест
+- **CPT Event Registrations (Заявки)**: приватный CPT `event_registrations` с кастомными статусами (Новая/Подтверждена/Отменена/Ожидает оплаты), admin-колонки, фильтр по мероприятию, массовые действия, счётчик-бейдж в меню
+- **Event Registration REST API**: `POST codeweber/v1/events/register` — запись на мероприятие с honeypot+nonce, проверкой статуса, дубликатов и уведомлением на email; `GET codeweber/v1/events/calendar` — фид FullCalendar
+- **archive-events.php**: архив мероприятий с двойным видом (FullCalendar v6 / Bootstrap-таблица), переключатель с сохранением в localStorage, фильтр по категориям
+- **single-events.php**: страница мероприятия — галерея (Bootstrap carousel + GLightbox), видео (YouTube/Vimeo/Rutube/VK Video/загрузка), форма записи с envelope-анимацией, счётчик мест с progress-bar, кнопка «Поделиться»
+- **Event Gallery Metabox**: FilePond + SortableJS массовая загрузка фото (паттерн Projects)
+- **Events Settings Page**: страница настроек в меню мероприятий — показ мест, текст кнопки, success-сообщение, email уведомлений
+- **`codeweber_events_get_registration_status()`**: центральный PHP-хелпер статуса записи с логикой дат и мест
+- **`codeweber_events_get_video_glightbox()`**: хелпер определения типа видео (YouTube/Vimeo/Rutube/VK/файл) с GLightbox-данными
+- **`src/assets/scss/theme/_events.scss`**: стили для архива, карточек, single-страницы, формы, галереи, счётчика мест
+- **Переводы**: добавлены ~120 строк русского перевода для всего модуля мероприятий
+
+---
+
 ## [1.0.5] - 2025-04-26
 
 ### Added
