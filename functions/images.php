@@ -43,6 +43,7 @@ if (! function_exists('codeweber_image_settings')) {
 
 		//Universal
 		add_image_size('codeweber_extralarge', 1600, 1200, true); 
+		add_image_size('codeweber_avatar',     200,  200,  true); // Global: avatar/organizer (1:1)
 		//add_image_size('codeweber_big', 1400, 800, true );
 		//add_image_size('codeweber_square', 400, 400, true );
 		//add_image_size( 'codeweber_single', 800, 500, true );
@@ -92,7 +93,7 @@ function codeweber_get_allowed_image_sizes($post_type = '', $post_id = 0)
 		'projects' => ['codeweber_project_900-900', 'codeweber_project_900-718', 'codeweber_extralarge', 'codeweber_project_900-800', 'woocommerce_gallery_thumbnail'],
 		'staff' => ['codeweber_staff', 'woocommerce_gallery_thumbnail'],
 		'vacancies' => ['codeweber_vacancy', 'woocommerce_gallery_thumbnail'],
-			'events'    => ['codeweber_event_900-450', 'codeweber_event_400-267', 'codeweber_event_200-133', 'codeweber_vacancy', 'woocommerce_gallery_thumbnail'],
+		'events'    => ['codeweber_event_900-450', 'codeweber_event_400-267', 'codeweber_event_200-133', 'codeweber_vacancy', 'codeweber_avatar', 'woocommerce_gallery_thumbnail'],
 		'clients' => ['codeweber_clients_115-60', 'codeweber_clients_200-60', 'codeweber_clients_300-200', 'codeweber_clients_400-267', 'woocommerce_gallery_thumbnail'],
 		'post' => ['codeweber_post_960-600', 'codeweber_post_600-600', 'codeweber_post_560-350', 'codeweber_post_100-100', 'codeweber_extralarge', 'woocommerce_gallery_thumbnail'],
 		'default' => [] // По умолчанию пустой массив - не удаляем никакие размеры
