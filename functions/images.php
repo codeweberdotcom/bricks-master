@@ -41,12 +41,7 @@ if (! function_exists('codeweber_image_settings')) {
 		
 
 		//Universal
-		add_image_size('codeweber_extralarge', 1600, 1200, true);
-		add_image_size('codeweber_wide',       1200, 600,  true);
-		add_image_size('codeweber_landscape',  900,  600,  true);
-		add_image_size('codeweber_square',     600,  600,  true);
-		add_image_size('codeweber_portrait',   600,  800,  true);
-		add_image_size('codeweber_thumb',      200,  200,  true); 
+		add_image_size('codeweber_extralarge', 1600, 1200, true); 
 		//add_image_size('codeweber_big', 1400, 800, true );
 		//add_image_size('codeweber_square', 400, 400, true );
 		//add_image_size( 'codeweber_single', 800, 500, true );
