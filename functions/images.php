@@ -53,12 +53,6 @@ if (! function_exists('codeweber_image_settings')) {
 		//add_image_size('codeweber_square', 400, 400, true );
 		//add_image_size( 'codeweber_single', 800, 500, true );
 
-		remove_image_size('large');
-		remove_image_size('thumbnail');
-		remove_image_size('medium');
-		remove_image_size('medium_large');
-		remove_image_size('1536x1536');
-		remove_image_size('2048x2048');
 	}
 }
 add_action('after_setup_theme', 'codeweber_image_settings');
