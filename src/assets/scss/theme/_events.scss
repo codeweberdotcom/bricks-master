@@ -128,23 +128,6 @@
 
 
 
-// -----------------------------------------------------------------------------
-// Gallery (Bootstrap carousel)
-// -----------------------------------------------------------------------------
-
-.event-gallery-carousel {
-	.carousel-item img {
-		object-fit: cover;
-		max-height: 480px;
-		width: 100%;
-	}
-
-	.carousel-indicators [data-bs-target] {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-	}
-}
 
 .event-gallery-thumbs {
 	display: flex;
