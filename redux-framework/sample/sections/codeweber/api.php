@@ -52,12 +52,29 @@ Redux::set_section(
 				'default'  => true,
 			),
 			array(
+				'id'        => 'dadata_test_btn',
+				'type'      => 'raw',
+				'full_width' => false,
+				'title'     => esc_html__('Тест DaData', 'codeweber'),
+				'subtitle'  => esc_html__('Проверить соединение с DaData API (Suggest)', 'codeweber'),
+				'required'  => array( 'dadata_enabled', '=', true ),
+				'content'   => '<button type="button" class="button cw-api-test-btn" data-action="codeweber_api_test_dadata" data-field="dadata">' . esc_html__( 'Тест', 'codeweber' ) . '</button><span class="cw-api-test-result"></span>',
+			),
+
+			array(
 				'id'       => 'yandexapi',
 				'type'     => 'password',
 				'title'    => esc_html__('Yandex API Map Settings', 'codeweber'),
 				'subtitle' => esc_html__('Put Yandex API Map key', 'codeweber'),
 				'desc'     => '<a href="https://developer.tech.yandex.ru/services/3" target="_blank" >'. esc_html__('Link to Yandex Developer Console', 'codeweber'). '</a>',
-				//'default'  => 'Default Text',
+			),
+			array(
+				'id'        => 'yandexapi_test_btn',
+				'type'      => 'raw',
+				'full_width' => false,
+				'title'     => esc_html__('Тест Yandex Maps', 'codeweber'),
+				'subtitle'  => esc_html__('Проверить API ключ через Geocoder API', 'codeweber'),
+				'content'   => '<button type="button" class="button cw-api-test-btn" data-action="codeweber_api_test_yandex" data-field="yandexapi">' . esc_html__( 'Тест', 'codeweber' ) . '</button><span class="cw-api-test-result"></span>',
 			),
 
 			array(
@@ -66,7 +83,14 @@ Redux::set_section(
 				'title'    => esc_html__('SMS RU Settings', 'codeweber'),
 				'subtitle' => esc_html__('Put SMS RU API Map key', 'codeweber'),
 				'desc'     => '<a href="https://sms.ru/?panel=api" target="_blank" >' . esc_html__('Link to SMS RU Documentation', 'codeweber') . '</a>',
-				//'default'  => 'Default Text',
+			),
+			array(
+				'id'        => 'smsruapi_test_btn',
+				'type'      => 'raw',
+				'full_width' => false,
+				'title'     => esc_html__('Тест SMS.RU', 'codeweber'),
+				'subtitle'  => esc_html__('Проверить авторизацию SMS.RU API', 'codeweber'),
+				'content'   => '<button type="button" class="button cw-api-test-btn" data-action="codeweber_api_test_smsru" data-field="smsruapi">' . esc_html__( 'Тест', 'codeweber' ) . '</button><span class="cw-api-test-result"></span>',
 			),
 
 		),
