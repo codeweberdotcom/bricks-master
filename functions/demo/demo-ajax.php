@@ -709,3 +709,48 @@ function cw_demo_ajax_delete_products() {
 	wp_send_json_error( array( 'message' => $result['message'] ) );
 }
 add_action( 'wp_ajax_cw_demo_delete_products', 'cw_demo_ajax_delete_products' );
+
+/**
+ * AJAX обработчик для создания demo мероприятий
+ */
+function cw_demo_ajax_create_events() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Insufficient permissions to perform this action.', 'codeweber' ) ] );
+	}
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_demo_create_events' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Security error. Please refresh the page and try again.', 'codeweber' ) ] );
+	}
+	$result = cw_demo_create_events();
+	if ( $result['success'] ) {
+		wp_send_json_success( [
+			'message' => $result['message'],
+			'created' => $result['created'],
+			'total'   => $result['total'],
+			'errors'  => $result['errors'],
+		] );
+	}
+	wp_send_json_error( [ 'message' => $result['message'] ] );
+}
+add_action( 'wp_ajax_cw_demo_create_events', 'cw_demo_ajax_create_events' );
+
+/**
+ * AJAX обработчик для удаления demo мероприятий
+ */
+function cw_demo_ajax_delete_events() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Insufficient permissions to perform this action.', 'codeweber' ) ] );
+	}
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_demo_delete_events' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Security error. Please refresh the page and try again.', 'codeweber' ) ] );
+	}
+	$result = cw_demo_delete_events();
+	if ( $result['success'] ) {
+		wp_send_json_success( [
+			'message' => $result['message'],
+			'deleted' => $result['deleted'],
+			'errors'  => $result['errors'],
+		] );
+	}
+	wp_send_json_error( [ 'message' => $result['message'] ] );
+}
+add_action( 'wp_ajax_cw_demo_delete_events', 'cw_demo_ajax_delete_events' );
