@@ -61,7 +61,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 		<?php // Featured image ?>
 		<?php if ( has_post_thumbnail() && $sidebar_disable_image ) : ?>
 			<figure class="mb-6 overflow-hidden<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ' rounded'; ?>">
-				<?php the_post_thumbnail( 'codeweber_event_900-450', [ 'class' => 'img-fluid w-100' ] ); ?>
+				<?php the_post_thumbnail( 'codeweber_event_1070-668', [ 'class' => 'img-fluid w-100' ] ); ?>
 			</figure>
 		<?php endif; ?>
 
@@ -82,7 +82,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 					<div class="swiper">
 						<div class="swiper-wrapper">
 							<?php foreach ( $gallery_ids as $i => $aid ) :
-								$_gal_url  = wp_get_attachment_image_url( $aid, 'codeweber_event_900-450' );
+								$_gal_url  = wp_get_attachment_image_url( $aid, 'codeweber_event_1070-668' );
 								$_gal_full = wp_get_attachment_image_url( $aid, 'full' );
 								$_gal_alt  = get_post_field( 'post_excerpt', $aid ) ?: get_the_title();
 								if ( ! $_gal_url ) continue;
@@ -104,7 +104,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 					<div class="swiper swiper-thumbs">
 						<div class="swiper-wrapper">
 							<?php foreach ( $gallery_ids as $i => $aid ) :
-								$_th_url = wp_get_attachment_image_url( $aid, 'codeweber_event_200-133' );
+								$_th_url = wp_get_attachment_image_url( $aid, 'codeweber_event_96-60' );
 								if ( ! $_th_url ) continue;
 							?>
 							<div class="swiper-slide">
