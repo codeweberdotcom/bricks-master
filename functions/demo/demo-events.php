@@ -338,18 +338,19 @@ function cw_demo_create_events() {
 		update_post_meta( $post_id, '_event_date_start', $e['date_start'] );
 		update_post_meta( $post_id, '_event_date_end',   $e['date_end'] );
 		if ( $e['reg_open'] ) {
-			update_post_meta( $post_id, '_event_reg_open', $e['reg_open'] );
+			update_post_meta( $post_id, '_event_registration_open', $e['reg_open'] );
 		}
 		if ( $e['reg_close'] ) {
-			update_post_meta( $post_id, '_event_reg_close', $e['reg_close'] );
+			update_post_meta( $post_id, '_event_registration_close', $e['reg_close'] );
 		}
 		update_post_meta( $post_id, '_event_location',  sanitize_text_field( $e['location'] ) );
 		update_post_meta( $post_id, '_event_address',   sanitize_text_field( $e['address'] ) );
 		update_post_meta( $post_id, '_event_organizer', sanitize_text_field( $e['organizer'] ) );
 		update_post_meta( $post_id, '_event_price',     sanitize_text_field( $e['price'] ) );
 		if ( $e['seats'] > 0 ) {
-			update_post_meta( $post_id, '_event_seats', absint( $e['seats'] ) );
+			update_post_meta( $post_id, '_event_max_participants', absint( $e['seats'] ) );
 		}
+		update_post_meta( $post_id, '_event_registration_enabled', '1' );
 
 		// Флаг demo-записи для последующего удаления
 		update_post_meta( $post_id, '_cw_demo_events', '1' );

@@ -637,3 +637,80 @@ function codeweber_events_get_video_glightbox( int $event_id ): ?array {
 	// Generic URL (html5 video or other)
 	return [ 'href' => $url, 'type' => 'video', 'inline_html' => '' ];
 }
+
+// ---------------------------------------------------------------------------
+// Admin: load wp.media for video metabox
+// ---------------------------------------------------------------------------
+
+add_action( 'admin_enqueue_scripts', function (): void {
+	$screen = get_current_screen();
+	if ( $screen && $screen->post_type === 'events' ) {
+		wp_enqueue_media();
+	}
+} );
+
+// ---------------------------------------------------------------------------
+// Frontend assets (FullCalendar on archive, registration form on single)
+// ---------------------------------------------------------------------------
+
+function codeweber_enqueue_events_assets(): void {
+	if ( ! is_post_type_archive( 'events' ) && ! is_tax( [ 'event_category', 'event_format' ] ) && ! is_singular( 'events' ) ) {
+		return;
+	}
+
+	// FullCalendar v6 CDN — только на архиве / таксономии
+	if ( is_post_type_archive( 'events' ) || is_tax( [ 'event_category', 'event_format' ] ) ) {
+		wp_enqueue_style(
+			'fullcalendar',
+			'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css',
+			[],
+			'6.1.11'
+		);
+		wp_enqueue_script(
+			'fullcalendar',
+			'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js',
+			[],
+			'6.1.11',
+			true
+		);
+		wp_enqueue_script(
+			'fullcalendar-ru',
+			'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/locales/ru.global.min.js',
+			[ 'fullcalendar' ],
+			'6.1.11',
+			true
+		);
+	}
+
+	// Registration form JS — только на single
+	if ( is_singular( 'events' ) ) {
+		$src_path  = get_template_directory() . '/src/assets/js/event-registration-form.js';
+		$dist_path = codeweber_get_dist_file_path( 'dist/assets/js/event-registration-form.js' );
+		if ( $dist_path ) {
+			$script_url = codeweber_get_dist_file_url( 'dist/assets/js/event-registration-form.js' );
+		} else {
+			$script_url = get_template_directory_uri() . '/src/assets/js/event-registration-form.js';
+		}
+		wp_enqueue_script(
+			'codeweber-event-registration-form',
+			$script_url,
+			[ 'jquery' ],
+			file_exists( $src_path ) ? (string) filemtime( $src_path ) : '1.0',
+			true
+		);
+		wp_localize_script( 'codeweber-event-registration-form', 'codeweberEventReg', [
+			'restUrl' => rest_url( 'codeweber/v1/events/register' ),
+			'nonce'   => wp_create_nonce( 'wp_rest' ),
+		] );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'codeweber_enqueue_events_assets', 20 );
+
+// ---------------------------------------------------------------------------
+// Supporting modules (loaded here so toggling CPT disables everything)
+// ---------------------------------------------------------------------------
+
+require_once get_template_directory() . '/functions/events/event-registrations.php';
+require_once get_template_directory() . '/functions/events/event-registration-api.php';
+require_once get_template_directory() . '/functions/admin/events-settings.php';
+require_once get_template_directory() . '/functions/integrations/event-gallery-metabox.php';

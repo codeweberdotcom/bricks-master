@@ -12,11 +12,6 @@ require_once get_template_directory() . '/functions/cpt/cpt-modals.php';
 require_once get_template_directory() . '/functions/cpt/cpt-html_blocks.php';
 require_once get_template_directory() . '/functions/cpt/cpt-clients.php';
 require_once get_template_directory() . '/functions/cpt/cpt-notifications.php';
-require_once get_template_directory() . '/functions/cpt/cpt-events.php';
-require_once get_template_directory() . '/functions/cpt/cpt-event-registrations.php';
-require_once get_template_directory() . '/functions/events/event-registration-api.php';
-require_once get_template_directory() . '/functions/admin/events-settings.php';
-require_once get_template_directory() . '/functions/integrations/event-gallery-metabox.php';
 
 require_once get_template_directory() . '/functions/setup.php';
 require_once get_template_directory() . '/functions/roles.php';
