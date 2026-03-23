@@ -188,8 +188,9 @@ class CW_Compare_Table {
 	 * @param int        $size    Image size.
 	 * @return string
 	 */
-	public function get_image( WC_Product $product, $size = 100 ) {
+	public function get_image( WC_Product $product, $size = 100, $extra_class = '' ) {
 		$img_id = $product->get_image_id();
+		$class  = trim( 'cw-compare-product-img ' . $extra_class );
 
 		if ( ! $img_id ) {
 			return wc_placeholder_img( array( $size, $size ) );
@@ -199,7 +200,7 @@ class CW_Compare_Table {
 			$img_id,
 			array( $size, $size ),
 			false,
-			array( 'class' => 'cw-compare-product-img' )
+			array( 'class' => $class )
 		);
 	}
 

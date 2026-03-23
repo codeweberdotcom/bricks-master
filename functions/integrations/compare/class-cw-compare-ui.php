@@ -155,7 +155,7 @@ class CW_Compare_UI {
 		$limit = cw_get_compare_limit();
 		?>
 		<div id="cw-compare-bar"
-			class="cw-compare-bar bg-white border-top shadow-lg py-3 px-4"
+			class="cw-compare-bar bg-white border-top shadow-lg py-3 px-4<?php echo $count > 0 ? ' is-visible' : ''; ?>"
 			style="z-index:1040;<?php echo $count > 0 ? '' : 'display:none;'; ?>">
 			<?php $this->render_bar_inner( $ids, $limit ); ?>
 		</div>
@@ -181,7 +181,8 @@ class CW_Compare_UI {
 	 * @return string
 	 */
 	public function render_shortcode() {
-		$ids = CW_Compare_Storage::get_ids();
+		$ids       = CW_Compare_Storage::get_ids();
+		$btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
 
 		if ( empty( $ids ) ) {
 			ob_start();
@@ -189,7 +190,7 @@ class CW_Compare_UI {
 			<div class="cw-compare-empty text-center py-16">
 				<i class="uil uil-exchange fs-60 text-ash mb-4 d-block" aria-hidden="true"></i>
 				<p class="mb-4"><?php esc_html_e( 'Добавьте товары для сравнения', 'codeweber' ); ?></p>
-				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary rounded-pill">
+				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary has-ripple <?php echo esc_attr( $btn_style ); ?>">
 					<?php esc_html_e( 'В каталог', 'codeweber' ); ?>
 				</a>
 			</div>
@@ -203,7 +204,7 @@ class CW_Compare_UI {
 			<div class="cw-compare-empty text-center py-16">
 				<i class="uil uil-exchange fs-60 text-ash mb-4 d-block" aria-hidden="true"></i>
 				<p class="mb-4"><?php esc_html_e( 'Добавьте ещё хотя бы один товар для сравнения', 'codeweber' ); ?></p>
-				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary rounded-pill">
+				<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary has-ripple <?php echo esc_attr( $btn_style ); ?>">
 					<?php esc_html_e( 'В каталог', 'codeweber' ); ?>
 				</a>
 			</div>
@@ -211,7 +212,8 @@ class CW_Compare_UI {
 			return ob_get_clean();
 		}
 
-		$table = new CW_Compare_Table( $ids );
+		$table       = new CW_Compare_Table( $ids );
+		$btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
 
 		ob_start();
 		?>
@@ -226,7 +228,7 @@ class CW_Compare_UI {
 						<?php esc_html_e( 'Показать только различия', 'codeweber' ); ?>
 					</label>
 				</div>
-				<button class="cw-compare-clear btn btn-sm btn-outline-danger">
+				<button class="cw-compare-clear btn btn-sm btn-outline-danger <?php echo esc_attr( $btn_style ); ?>">
 					<i class="uil uil-trash-alt me-1" aria-hidden="true"></i>
 					<?php esc_html_e( 'Очистить всё', 'codeweber' ); ?>
 				</button>

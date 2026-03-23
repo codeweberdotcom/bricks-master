@@ -5,8 +5,15 @@
     bottom: 0;
     left: 0;
     right: 0;
+    width: 100%;
+    overflow: hidden;
     transform: translateY(100%);
     transition: transform .3s ease;
+
+    @media (max-width: 575.98px) {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
 
     &.is-visible {
         transform: translateY(0);
@@ -16,9 +23,14 @@
 // ── Compare Slots ─────────────────────────────────────────────────────────────
 
 .cw-compare-slot {
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
+
+    @media (min-width: 576px) {
+        width: 56px;
+        height: 56px;
+    }
 
     img {
         width: 100%;
@@ -92,6 +104,14 @@
     &.item-compare#{&}--loading {
         color: var(--bs-primary);
     }
+}
+
+// ── Table column removing state ───────────────────────────────────────────────
+
+.cw-compare-col--removing {
+    opacity: .4;
+    pointer-events: none;
+    transition: opacity .25s ease;
 }
 
 // ── Clear button loading ──────────────────────────────────────────────────────

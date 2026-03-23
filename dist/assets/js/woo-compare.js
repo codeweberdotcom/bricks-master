@@ -74,6 +74,9 @@
             var btn = e.target.closest('.cw-compare-remove-product[data-product-id]');
             if (!btn) return;
             e.preventDefault();
+            btn.disabled = true;
+            var col = btn.closest('.cw-compare-product-col');
+            if (col) col.classList.add('cw-compare-col--removing');
             removeFromCompare(parseInt(btn.dataset.productId, 10));
         });
 
@@ -103,6 +106,9 @@
                 if (!res.success) {
                     if (res.data && res.data.limit_reached) {
                         showNotice(cfg.i18n.limitReached || 'Лимит достигнут');
+                        if (state.ids.length > 0) {
+                            showBar();
+                        }
                     }
                     done();
                     return;

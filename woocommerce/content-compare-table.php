@@ -11,8 +11,10 @@
 defined( 'ABSPATH' ) || exit;
 
 /** @var CW_Compare_Table $this */
-$products = $this->get_products();
-$attrs    = $this->collect_attributes();
+$products    = $this->get_products();
+$attrs       = $this->collect_attributes();
+$btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : '';
+$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
 
 if ( empty( $products ) ) {
 	return;
@@ -30,7 +32,7 @@ if ( empty( $products ) ) {
 
 					<!-- Фото -->
 					<a href="<?php echo esc_url( $this->get_url( $product ) ); ?>">
-						<?php echo $this->get_image( $product, 100 ); // phpcs:ignore ?>
+						<?php echo $this->get_image( $product, 100, $card_radius ); // phpcs:ignore ?>
 					</a>
 
 					<!-- Название -->
@@ -133,7 +135,7 @@ if ( empty( $products ) ) {
 					$link_args = array(
 						'quantity'   => 1,
 						'class'      => implode( ' ', array_filter( array(
-							'btn btn-sm btn-primary has-ripple',
+							'btn btn-sm btn-primary has-ripple ' . $btn_style,
 							$link_product->is_type( 'simple' ) ? 'ajax_add_to_cart' : '',
 						) ) ),
 						'attributes' => array(
