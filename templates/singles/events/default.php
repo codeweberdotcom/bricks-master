@@ -367,7 +367,7 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 		</div>
 
 		<div class="sticky-top" style="top:80px;">
-		<?php if ( $reg_status['status'] === 'external' || $reg_status['show_form'] ) : ?>
+		<?php if ( $reg_status['status'] === 'external' || $reg_status['show_form'] || $reg_status['status'] === 'modal' ) : ?>
 		<div class="card mt-4<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 			<div class="card-body">
 
@@ -379,7 +379,21 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 						<?php echo esc_html( __( ! empty( $reg_button_label ) ? $reg_button_label : 'Register', 'codeweber' ) ); ?>
 					</a>
 
-				<?php elseif ( $reg_status['show_form'] ) : ?>
+				<?php elseif ( $reg_status['status'] === 'modal' ) : ?>
+				<?php
+				$modal_label = ! empty( $reg_button_label )
+					? $reg_button_label
+					: ( ! empty( $reg_status['label'] ) ? $reg_status['label'] : __( 'Register', 'codeweber' ) );
+				?>
+				<a href="javascript:void(0)"
+				   class="btn btn-primary has-ripple w-100<?php echo esc_attr( $button_style ); ?>"
+				   data-bs-toggle="modal"
+				   data-bs-target="#modal"
+				   data-value="event-reg-<?php echo esc_attr( $event_id ); ?>">
+					<?php echo esc_html( $modal_label ); ?>
+				</a>
+
+			<?php elseif ( $reg_status['show_form'] ) : ?>
 					<?php $nonce = wp_create_nonce( 'codeweber_event_register' ); ?>
 					<div class="event-registration-wrap">
 						<h3 class="mb-4"><?php echo esc_html( __( ! empty( $reg_form_title ) ? $reg_form_title : 'Register', 'codeweber' ) ); ?></h3>
