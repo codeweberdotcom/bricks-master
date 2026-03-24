@@ -70,17 +70,19 @@
 		}
 
 		.fc-event {
-			cursor: pointer;
-			font-size: 0.8125rem;
-			border-radius: 4px;
+			background-color: var(--event-color, var(--bs-primary));
+			border-color:     var(--event-color, var(--bs-primary));
+			color:            #fff;
+			cursor:           pointer;
+			white-space:      normal;
 
-			&:hover {
-				opacity: 0.88;
+			&:hover,
+			&:focus {
+				background-color: var(--event-color, var(--bs-primary));
+				border-color:     var(--event-color, var(--bs-primary));
+				color:            #fff;
+				filter:           brightness(0.88);
 			}
-		}
-
-		.fc-daygrid-event {
-			padding: 2px 4px;
 		}
 	}
 }

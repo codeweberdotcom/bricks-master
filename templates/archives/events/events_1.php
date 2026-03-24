@@ -204,7 +204,16 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 					window.location.href = info.event.url;
 				}
 			},
+			eventClassNames: function () {
+				return ['btn', 'btn-xs'];
+			},
 			eventDidMount: function (info) {
+				// Remove FC inline styles — color is applied via --event-color CSS var
+				info.el.style.removeProperty('background-color');
+				info.el.style.removeProperty('border-color');
+				if (info.event.backgroundColor) {
+					info.el.style.setProperty('--event-color', info.event.backgroundColor);
+				}
 				if (info.event.extendedProps.location) {
 					info.el.setAttribute('title', info.event.extendedProps.location);
 				}
