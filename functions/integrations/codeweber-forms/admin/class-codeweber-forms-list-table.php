@@ -458,19 +458,6 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     protected function column_form_type($item)
     {
-        // #region agent log
-        $log_file = 'c:\laragon\www\codeweber2026\.cursor\debug.log';
-        $log_entry = json_encode([
-            'sessionId' => 'debug-session',
-            'runId' => 'post-fix',
-            'hypothesisId' => 'FIX',
-            'location' => 'class-codeweber-forms-list-table.php:460',
-            'message' => 'column_form_type called',
-            'data' => ['form_id' => $item->form_id ?? 'N/A', 'form_type_from_db' => $item->form_type ?? 'N/A', 'form_id_type' => gettype($item->form_id ?? null)],
-            'timestamp' => time() * 1000
-        ]) . "\n";
-        @file_put_contents($log_file, $log_entry, FILE_APPEND);
-        // #endregion
         
         // ПРИОРИТЕТ 1: Получаем тип формы из базы данных
         $form_type = !empty($item->form_type) ? $item->form_type : null;
@@ -480,52 +467,15 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         if (!empty($item->form_id) && is_string($item->form_id) && strpos($item->form_id, 'cf7_') === 0) {
             $cf7_form_id = str_replace('cf7_', '', $item->form_id);
             if (is_numeric($cf7_form_id) && (int) $cf7_form_id > 0) {
-                // #region agent log
-                $log_file = 'c:\laragon\www\codeweber2026\.cursor\debug.log';
-                $log_entry = json_encode([
-                    'sessionId' => 'debug-session',
-                    'runId' => 'post-fix-v2',
-                    'hypothesisId' => 'FIX',
-                    'location' => 'class-codeweber-forms-list-table.php:481',
-                    'message' => 'CF7 form detected - checking meta',
-                    'data' => ['cf7_form_id' => (int) $cf7_form_id, 'form_id' => $item->form_id, 'form_type_from_db' => $form_type],
-                    'timestamp' => time() * 1000
-                ]) . "\n";
-                @file_put_contents($log_file, $log_entry, FILE_APPEND);
-                // #endregion
                 
                 // Получаем тип формы из метаполя CF7 формы
                 $cf7_form_type = get_post_meta((int) $cf7_form_id, '_cf7_form_type', true);
                 
-                // #region agent log
-                $log_entry = json_encode([
-                    'sessionId' => 'debug-session',
-                    'runId' => 'post-fix-v2',
-                    'hypothesisId' => 'FIX',
-                    'location' => 'class-codeweber-forms-list-table.php:495',
-                    'message' => 'CF7 form type from meta',
-                    'data' => ['cf7_form_id' => (int) $cf7_form_id, 'cf7_form_type' => $cf7_form_type, 'form_type_empty' => empty($cf7_form_type)],
-                    'timestamp' => time() * 1000
-                ]) . "\n";
-                @file_put_contents($log_file, $log_entry, FILE_APPEND);
-                // #endregion
                 
                 if (!empty($cf7_form_type)) {
                     // Используем тип из метаполя CF7 формы
                     $form_type = $cf7_form_type;
                     
-                    // #region agent log
-                    $log_entry = json_encode([
-                        'sessionId' => 'debug-session',
-                        'runId' => 'post-fix-v2',
-                        'hypothesisId' => 'FIX',
-                        'location' => 'class-codeweber-forms-list-table.php:505',
-                        'message' => 'Using CF7 form type from meta',
-                        'data' => ['form_type' => $form_type],
-                        'timestamp' => time() * 1000
-                    ]) . "\n";
-                    @file_put_contents($log_file, $log_entry, FILE_APPEND);
-                    // #endregion
                 } elseif (empty($form_type)) {
                     // Если тип не задан в CF7 и не сохранен в БД, используем 'cf7' как дефолт
                     $form_type = 'cf7';
@@ -592,18 +542,6 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         
         $type_label = isset($type_labels[$form_type]) ? $type_labels[$form_type] : $form_type;
         
-        // #region agent log
-        $log_entry = json_encode([
-            'sessionId' => 'debug-session',
-            'runId' => 'post-fix',
-            'hypothesisId' => 'FIX',
-            'location' => 'class-codeweber-forms-list-table.php:590',
-            'message' => 'Final type label',
-            'data' => ['form_type' => $form_type, 'type_label' => $type_label, 'form_id' => $item->form_id ?? 'N/A', 'has_in_labels' => isset($type_labels[$form_type])],
-            'timestamp' => time() * 1000
-        ]) . "\n";
-        @file_put_contents($log_file, $log_entry, FILE_APPEND);
-        // #endregion
         
         $type_badge_color = array(
             'form' => '#2271b1',

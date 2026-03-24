@@ -50,17 +50,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				);
 			}
 			
-			// #region agent log
-			$sample_urls = array();
-			$test_socials = array('telegram', 'max', 'whatsapp', 'vk');
-			foreach ($test_socials as $test_social) {
-				if (isset($this->socials_urls[$test_social])) {
-					$sample_urls[$test_social] = $this->socials_urls[$test_social];
-				}
-			}
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:48', 'message' => 'Constructor called', 'data' => ['opt_name' => $this->opt_name, 'socials_urls_count' => count($this->socials_urls), 'class_exists_Redux' => class_exists('Redux'), 'sample_urls' => $sample_urls], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'C']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			$this->load_settings();
 		}
 		
@@ -104,17 +94,11 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		 * @return void
 		 */
 		private function load_settings() {
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:51', 'message' => 'load_settings entry', 'data' => ['class_exists_Redux' => class_exists('Redux')], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			if (!class_exists('Redux')) {
 				$this->settings = array();
-				// #region agent log
-				$log_data = json_encode(['location' => 'class-floating-social-widget.php:54', 'message' => 'Redux class not found', 'data' => [], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-				// #endregion
+
 				return;
 			}
 			
@@ -141,24 +125,15 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				$enabled_normalized = false;
 			}
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:normalize_enabled', 'message' => 'Enabled normalization', 'data' => ['enabled_raw' => $enabled_raw, 'enabled_raw_type' => gettype($enabled_raw), 'enabled_normalized' => $enabled_normalized], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'FIX']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:70', 'message' => 'Redux options retrieved', 'data' => ['enabled_raw' => $enabled_raw, 'enabled_type' => gettype($enabled_raw), 'enabled_normalized' => $enabled_normalized, 'socials_raw_type' => gettype($socials_raw), 'socials_raw_empty' => empty($socials_raw), 'socials_raw_is_array' => is_array($socials_raw), 'socials_raw_count' => is_array($socials_raw) ? count($socials_raw) : 0, 'socials_raw_structure' => is_array($socials_raw) ? array_map(function($item) { return ['type' => gettype($item), 'is_array' => is_array($item), 'keys' => is_array($item) ? array_keys($item) : []]; }, array_slice($socials_raw, 0, 3)) : null], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			// Обрабатываем данные repeater с group_values
 			// Структура: ['social_network' => [0 => 'telegram', 1 => 'max', ...], 'redux_repeater_data' => [...]]
 			$socials = array();
 			if (!empty($socials_raw) && is_array($socials_raw)) {
-				// #region agent log
-				$log_data = json_encode(['location' => 'class-floating-social-widget.php:72', 'message' => 'Processing socials_raw', 'data' => ['keys' => array_keys($socials_raw), 'has_social_network_key' => isset($socials_raw['social_network'])], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
-				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-				// #endregion
+
 				
 				// Если это структура с group_values, где social_network - это массив значений
 				if (isset($socials_raw['social_network']) && is_array($socials_raw['social_network'])) {
@@ -173,19 +148,13 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 							}
 							
 							$socials[] = $social_item;
-							// #region agent log
-							$log_data = json_encode(['location' => 'class-floating-social-widget.php:80', 'message' => 'Added social from group_values', 'data' => ['index' => $index, 'social_id' => $social_id, 'has_custom_text' => isset($social_item['custom_text'])], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
-							@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-							// #endregion
+
 						}
 					}
 				} else {
 					// Старая структура - массив массивов
 					foreach ($socials_raw as $key => $item) {
-						// #region agent log
-						$log_data = json_encode(['location' => 'class-floating-social-widget.php:88', 'message' => 'Processing social item (old structure)', 'data' => ['key' => $key, 'item_type' => gettype($item), 'item_is_array' => is_array($item), 'item_keys' => is_array($item) ? array_keys($item) : []], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
-						@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-						// #endregion
+
 						
 						if (is_array($item)) {
 							// Проверяем разные возможные структуры
@@ -209,17 +178,11 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				}
 			}
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:78', 'message' => 'Socials processed', 'data' => ['socials_count' => count($socials), 'socials' => $socials], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'B']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			$icon_raw = Redux::get_option($this->opt_name, 'floating_widget_icon');
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:187', 'message' => 'Icon retrieved from Redux', 'data' => ['icon_raw' => $icon_raw, 'icon_type' => gettype($icon_raw), 'icon_is_array' => is_array($icon_raw)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			// Обрабатываем иконку - теперь это просто строка (имя иконки без префикса uil-)
 			$icon_name = '';
@@ -234,10 +197,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$icon_name = str_replace('uil-', '', $icon_name);
 			$icon_name = trim($icon_name);
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:202', 'message' => 'Icon name processed', 'data' => ['icon_raw' => $icon_raw, 'icon_name' => $icon_name], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			// Если значение пустое, используем значение по умолчанию
 			if (empty($icon_name)) {
@@ -254,10 +214,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$widget_position_side = Redux::get_option($this->opt_name, 'floating_widget_position_side');
 			$icon_style = Redux::get_option($this->opt_name, 'floating_widget_icon_style');
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:220', 'message' => 'Settings retrieved from Redux', 'data' => ['button_color' => $button_color, 'button_color_type' => gettype($button_color), 'animation_type' => $animation_type, 'animation_type_type' => gettype($animation_type), 'widget_type' => $widget_type, 'widget_type_type' => gettype($widget_type), 'widget_item_type' => $widget_item_type, 'button_text' => $button_text], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			// Нормализуем цвет кнопки - если пусто, используем primary
 			if (empty($button_color)) {
@@ -329,10 +286,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				'z_index' => Redux::get_option($this->opt_name, 'floating_widget_z_index'),
 			);
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:254', 'message' => 'Icon processed', 'data' => ['icon_name' => $icon_name, 'icon_final' => $this->settings['icon']], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			// Используем демоданные ТОЛЬКО если Redux данные полностью отсутствуют (для тестирования)
 			// Если enabled включен, но socials пустые - это ошибка конфигурации, не используем демо
@@ -340,16 +294,10 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			if ($use_demo) {
 				$demo_data = $this->get_demo_data();
 				$this->settings = array_merge($this->settings, $demo_data);
-				// #region agent log
-				$log_data = json_encode(['location' => 'class-floating-social-widget.php:120', 'message' => 'Using demo data', 'data' => ['demo_enabled' => $demo_data['enabled'], 'demo_socials_count' => count($demo_data['socials'])], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
-				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-				// #endregion
+
 			}
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:110', 'message' => 'Settings loaded', 'data' => ['enabled' => $this->settings['enabled'], 'socials_count' => count($this->settings['socials']), 'socials_urls_count' => count($this->socials_urls), 'use_demo' => $use_demo], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 		}
 		
 		/**
@@ -362,10 +310,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$enabled = isset($this->settings['enabled']) && $this->settings['enabled'] === true;
 			$has_socials = !empty($this->settings['socials']) && is_array($this->settings['socials']) && count($this->settings['socials']) > 0;
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:108', 'message' => 'is_enabled check', 'data' => ['enabled' => $enabled, 'has_socials' => $has_socials, 'enabled_raw' => $this->settings['enabled'], 'enabled_type' => gettype($this->settings['enabled']), 'socials_count' => count($this->settings['socials']), 'result' => $enabled && $has_socials], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			return $enabled && $has_socials;
 		}
@@ -384,10 +329,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			
 			// Проверяем, что это строка
 			if (!is_string($social_id) || empty($social_id)) {
-				// #region agent log
-				$log_data = json_encode(['location' => 'class-floating-social-widget.php:120', 'message' => 'get_social_url invalid social_id', 'data' => ['social_id_type' => gettype($social_id)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
-				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-				// #endregion
+
 				return false;
 			}
 			
@@ -400,10 +342,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$url_exists = isset($this->socials_urls[$social_id]) && !empty($this->socials_urls[$social_id]);
 			$url_value = $url_exists ? $this->socials_urls[$social_id] : null;
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:130', 'message' => 'get_social_url check', 'data' => ['social_id' => $social_id, 'url_exists' => $url_exists, 'url_value' => $url_value, 'available_socials' => array_keys($this->socials_urls)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'C']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			if (!$url_exists) {
 				return false;
@@ -717,25 +656,16 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		 * @return string HTML output
 		 */
 		public function render_template_1() {
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:260', 'message' => 'render_template_1 entry', 'data' => [], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			if (!$this->is_enabled()) {
-				// #region agent log
-				$log_data = json_encode(['location' => 'class-floating-social-widget.php:264', 'message' => 'Widget not enabled', 'data' => [], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
-				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-				// #endregion
+
 				return '';
 			}
 			
 			$socials = $this->settings['socials'];
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:270', 'message' => 'render_template_1 socials check', 'data' => ['socials_type' => gettype($socials), 'socials_empty' => empty($socials), 'socials_is_array' => is_array($socials), 'socials_count' => is_array($socials) ? count($socials) : 0], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'B']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			if (empty($socials) || !is_array($socials)) {
 				return '';
@@ -751,10 +681,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			// Убираем префикс uil- если он есть (может быть уже обработан в load_settings, но на всякий случай)
 			$main_icon = str_replace('uil-', '', $main_icon_raw);
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:465', 'message' => 'Main icon for rendering', 'data' => ['main_icon_raw' => $main_icon_raw, 'main_icon' => $main_icon, 'settings_icon' => $this->settings['icon'], 'final_output' => 'uil ' . $main_icon], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			// Get width
 			$width = !empty($this->settings['width']) ? esc_attr($this->settings['width']) : '180px';
@@ -850,10 +777,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$widget_type = !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'icon';
 			$widget_classes .= ' widget-main-' . esc_attr($widget_type) . '-elements-' . esc_attr($widget_item_type);
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:530', 'message' => 'Animation type for rendering', 'data' => ['animation_type' => $animation_type, 'widget_classes' => $widget_classes, 'widget_item_type' => $widget_item_type, 'widget_type' => $widget_type], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			// Start output
 			$output = '';
@@ -870,10 +794,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			$widget_type = !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'icon';
 			$btn_style = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded-pill';
 
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:515', 'message' => 'Button color for rendering', 'data' => ['button_color' => $button_color, 'button_class' => 'btn-' . $button_color, 'widget_type' => $widget_type], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			// Main button - разная верстка для разных типов виджета
 			if ($widget_type === 'button') {
@@ -936,10 +857,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				
 				$social_url = $this->get_social_url($social_id);
 				
-				// #region agent log
-				$log_data = json_encode(['location' => 'class-floating-social-widget.php:496', 'message' => 'Social URL retrieved for rendering', 'data' => ['social_id' => $social_id, 'social_url' => $social_url], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'C']);
-				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-				// #endregion
+
 				
 				if (!$social_url) {
 					continue;
@@ -1072,10 +990,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			
 			$output .= '</div>';
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:360', 'message' => 'render_template_1 exit', 'data' => ['output_length' => strlen($output), 'buttons_count' => substr_count($output, 'widget-social')], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			return $output;
 		}
@@ -1086,26 +1001,17 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		 * @return string HTML output
 		 */
 		public function render_template_2() {
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:650', 'message' => 'render_template_2 entry', 'data' => ['is_enabled' => $this->is_enabled(), 'socials_count' => !empty($this->settings['socials']) ? count($this->settings['socials']) : 0, 'settings_keys' => array_keys($this->settings)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			// Проверяем, включен ли виджет
 			if (!$this->is_enabled()) {
-				// #region agent log
-				$log_data = json_encode(['location' => 'class-floating-social-widget.php:656', 'message' => 'render_template_2: widget not enabled', 'data' => [], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-				// #endregion
+
 				return '';
 			}
 			
 			$socials = $this->settings['socials'];
 			if (empty($socials)) {
-				// #region agent log
-				$log_data = json_encode(['location' => 'class-floating-social-widget.php:664', 'message' => 'render_template_2: socials empty', 'data' => ['socials' => $socials], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-				// #endregion
+
 				return '';
 			}
 			
@@ -1409,10 +1315,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			
 			$output .= '</div>';
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:720', 'message' => 'render_template_2 exit', 'data' => ['output_length' => strlen($output), 'buttons_count' => substr_count($output, 'widget-social')], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			return $output;
 		}
@@ -1429,16 +1332,10 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				$widget_type = !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'icon';
 				$template = ($widget_type === 'icon') ? 'template_2' : 'template_1';
 				
-				// #region agent log
-				$log_data = json_encode(['location' => 'class-floating-social-widget.php:760', 'message' => 'Template selection based on widget_type', 'data' => ['widget_type' => $widget_type, 'template' => $template, 'settings_widget_type' => $this->settings['widget_type']], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-				@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-				// #endregion
+
 			}
 			
-			// #region agent log
-			$log_data = json_encode(['location' => 'class-floating-social-widget.php:768', 'message' => 'Render method called', 'data' => ['template' => $template, 'widget_type' => !empty($this->settings['widget_type']) ? $this->settings['widget_type'] : 'not_set'], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']);
-			@file_put_contents(ABSPATH . '.cursor/debug.log', $log_data . "\n", FILE_APPEND);
-			// #endregion
+
 			
 			switch ($template) {
 				case 'template_1':

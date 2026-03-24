@@ -48,31 +48,14 @@ global $opt_name;
 if (empty($opt_name)) {
     $opt_name = 'redux_demo';
 }
-// #region agent log
-$log_data = json_encode(['location' => 'offices_5.php:47', 'message' => 'Redux check start', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'class_exists_Redux' => class_exists('Redux')], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
-$log_file = ABSPATH . '.cursor/debug.log';
-@file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-// #endregion
 $yandex_api_key = '';
 $show_directions_button = false;
 if (class_exists('Redux')) {
     $yandex_api_key = Redux::get_option($opt_name, 'yandexapi');
     $route_button_option = Redux::get_option($opt_name, 'yandex_maps_route_button');
-    // #region agent log
-    $log_data = json_encode(['location' => 'offices_5.php:55', 'message' => 'Route button option retrieved', 'data' => ['route_button_option' => $route_button_option, 'route_button_option_type' => gettype($route_button_option), 'route_button_option_empty' => empty($route_button_option), 'route_button_option_bool' => (bool)$route_button_option], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
-    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-    // #endregion
     // Проверяем, что опция включена
     $show_directions_button = !empty($route_button_option);
-    // #region agent log
-    $log_data = json_encode(['location' => 'offices_5.php:58', 'message' => 'Show directions button calculated', 'data' => ['show_directions_button' => $show_directions_button, 'show_directions_button_type' => gettype($show_directions_button)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']);
-    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-    // #endregion
 } else {
-    // #region agent log
-    $log_data = json_encode(['location' => 'offices_5.php:62', 'message' => 'Redux class not found', 'data' => [], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'C']);
-    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-    // #endregion
 }
 
 // Формируем полный адрес для отображения
@@ -184,19 +167,11 @@ $button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('bu
                                     <div class="mb-1 h6"><?php esc_html_e('Address', 'codeweber'); ?></div>
                                     <p class="mb-0"><?php echo esc_html($display_address); ?></p>
                                     <?php 
-                                    // #region agent log
-                                    $log_data = json_encode(['location' => 'offices_5.php:168', 'message' => 'Checking show_directions_button condition', 'data' => ['show_directions_button' => $show_directions_button, 'show_directions_button_type' => gettype($show_directions_button), 'condition_result' => (bool)$show_directions_button, 'display_address' => $display_address], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
-                                    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-                                    // #endregion
                                     if ($show_directions_button) : ?>
                                         <a href="https://yandex.ru/maps/?text=<?php echo urlencode($display_address); ?>" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary mt-2<?php echo esc_attr($button_class); ?>">
                                             <i class="uil uil-directions me-1"></i> <?php esc_html_e('Get Directions', 'codeweber'); ?>
                                         </a>
                                     <?php 
-                                    // #region agent log
-                                    $log_data = json_encode(['location' => 'offices_5.php:173', 'message' => 'Directions button rendered', 'data' => [], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']);
-                                    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-                                    // #endregion
                                     endif; ?>
                                 </div>
                             </div>

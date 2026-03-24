@@ -606,20 +606,12 @@ function get_sidebar_position($opt_name)
 {
     $post_type = universal_get_post_type();
     $post_id = get_the_ID();
-    // #region agent log
-    $log_data = json_encode(['location' => 'sidebars.php:246', 'message' => 'Sidebar position check', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'post_type' => $post_type, 'post_id' => $post_id, 'is_singular' => is_singular($post_type)], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'F']);
-    $log_file = ABSPATH . '.cursor/debug.log';
-    @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-    // #endregion
+
 
     // Для архивов сразу возвращаем глобальную настройку
     if (!is_singular($post_type)) {
         $position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
-        // #region agent log
-        $log_data = json_encode(['location' => 'sidebars.php:250', 'message' => 'Sidebar position archive', 'data' => ['opt_name' => $opt_name ?? 'NOT_SET', 'position' => $position ?? 'EMPTY', 'option_key' => 'sidebar_position_archive_' . $post_type], 'timestamp' => time() * 1000, 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'F']);
-        $log_file = ABSPATH . '.cursor/debug.log';
-        @file_put_contents($log_file, $log_data . "\n", FILE_APPEND);
-        // #endregion
+
         return $position;
     }
 
