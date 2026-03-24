@@ -129,9 +129,6 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 require_once get_template_directory() . '/functions/integrations/codeweber-forms/codeweber-forms-init.php';
 require_once get_template_directory() . '/functions/integrations/yandex-maps/yandex-maps-init.php';
 
-// Подключение универсального AJAX фильтра
-require_once get_template_directory() . '/functions/ajax-filter.php';
-
 // Подключение demo функций (только в режиме разработки)
 if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 	require_once get_template_directory() . '/functions/demo/demo-clients.php';

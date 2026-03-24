@@ -414,19 +414,17 @@ function codeweber_enqueue_ajax_filter() {
 	wp_enqueue_script(
 		'ajax-filter',
 		$script_url,
-		[], // Dependencies
+		['fetch-handler'],
 		codeweber_asset_version($script_path),
 		true // Load in footer
 	);
-	
-	// Localize script
+
+	// Localize script: only translations (nonce/ajaxUrl come from fetch_vars via fetch-handler)
 	wp_localize_script('ajax-filter', 'codeweberFilter', [
-		'ajaxUrl' => admin_url('admin-ajax.php'),
-		'nonce' => wp_create_nonce('codeweber_filter_nonce'),
 		'translations' => [
-			'error' => __('Error', 'codeweber'),
+			'error'   => __('Error', 'codeweber'),
 			'loading' => __('Loading...', 'codeweber'),
-		]
+		],
 	]);
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_ajax_filter', 20);
