@@ -45,7 +45,7 @@ function codeweber_ajax_filter() {
     $container_selector = isset($_POST['container_selector']) ? sanitize_text_field($_POST['container_selector']) : '';
     
     // Валидация post_type
-    $allowed_post_types = array('post', 'vacancies', 'products', 'staff');
+    $allowed_post_types = array('post', 'vacancies', 'products', 'staff', 'events');
     if (!in_array($post_type, $allowed_post_types)) {
         wp_send_json_error(array(
             'message' => __('Invalid post type', 'codeweber')
@@ -68,6 +68,8 @@ function codeweber_ajax_filter() {
         $args = codeweber_apply_product_filters($args, $filters);
     } elseif ($post_type === 'staff') {
         $args = codeweber_apply_staff_filters($args, $filters);
+    } elseif ($post_type === 'events') {
+        $args = codeweber_apply_events_filters($args, $filters);
     }
     
     // Выполняем запрос
@@ -89,6 +91,8 @@ function codeweber_ajax_filter() {
             codeweber_render_posts_filtered($query, $filters, $template);
         } elseif ($post_type === 'products' && $template) {
             codeweber_render_products_filtered($query, $filters, $template);
+        } elseif ($post_type === 'events') {
+            codeweber_render_events_filtered($query, $filters);
         } else {
             // Дефолтный вывод
             while ($query->have_posts()) {
@@ -360,5 +364,125 @@ function codeweber_render_products_filtered($query, $filters, $template) {
         $query->the_post();
         wc_get_template_part('content', 'product');
     }
+}
+
+/**
+ * Применяет фильтры для событий
+ */
+function codeweber_apply_events_filters($args, $filters) {
+    $tax_query = array();
+
+    if (!empty($filters['event_category'])) {
+        $tax_query[] = array(
+            'taxonomy' => 'event_category',
+            'field'    => 'term_id',
+            'terms'    => intval($filters['event_category']),
+        );
+    }
+
+    if (!empty($tax_query)) {
+        $args['tax_query'] = $tax_query;
+    }
+
+    // Сортировка по дате начала события
+    $args['meta_key'] = '_event_date_start';
+    $args['orderby']  = 'meta_value';
+    $args['order']    = 'ASC';
+
+    return $args;
+}
+
+/**
+ * Рендерит отфильтрованные события (таблица для events_1)
+ */
+function codeweber_render_events_filtered($query, $filters) {
+    if (!function_exists('codeweber_events_get_registration_status')) {
+        echo '<p>' . esc_html__('No events found.', 'codeweber') . '</p>';
+        return;
+    }
+
+    echo '<div class="table-responsive">';
+    echo '<table class="table table-hover align-middle events-table">';
+    echo '<thead class="table-light"><tr>';
+    echo '<th>' . esc_html__('Date', 'codeweber') . '</th>';
+    echo '<th>' . esc_html__('Event', 'codeweber') . '</th>';
+    echo '<th class="d-none d-md-table-cell">' . esc_html__('Location', 'codeweber') . '</th>';
+    echo '<th class="d-none d-lg-table-cell">' . esc_html__('Format', 'codeweber') . '</th>';
+    echo '<th class="d-none d-md-table-cell">' . esc_html__('Price', 'codeweber') . '</th>';
+    echo '<th></th>';
+    echo '</tr></thead>';
+    echo '<tbody>';
+
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id    = get_the_ID();
+        $date_start = get_post_meta($post_id, '_event_date_start', true);
+        $date_end   = get_post_meta($post_id, '_event_date_end', true);
+        $location   = get_post_meta($post_id, '_event_location', true);
+        $price      = get_post_meta($post_id, '_event_price', true);
+        $reg_status = codeweber_events_get_registration_status($post_id);
+        $formats    = get_the_terms($post_id, 'event_format');
+
+        $status_map = array(
+            'open'                => 'badge bg-soft-green text-green rounded-pill',
+            'not_open_yet'        => 'badge bg-soft-yellow text-yellow rounded-pill',
+            'registration_closed' => 'badge bg-soft-ash text-muted rounded-pill',
+            'no_seats'            => 'badge bg-soft-red text-red rounded-pill',
+            'event_ended'         => 'badge bg-soft-ash text-muted rounded-pill',
+        );
+        $status_class = isset($status_map[$reg_status['status']]) ? $status_map[$reg_status['status']] : '';
+
+        echo '<tr>';
+
+        // Date
+        echo '<td class="event-date-cell">';
+        if ($date_start) {
+            echo '<span class="fw-semibold">' . esc_html(date_i18n(get_option('date_format'), strtotime($date_start))) . '</span>';
+            if ($date_end && $date_end !== $date_start) {
+                echo '<br><small class="text-muted">' . esc_html(date_i18n(get_option('date_format'), strtotime($date_end))) . '</small>';
+            }
+        } else {
+            echo '<span class="text-muted">—</span>';
+        }
+        echo '</td>';
+
+        // Title + status badge
+        echo '<td>';
+        echo '<a href="' . esc_url(get_permalink()) . '" class="fw-semibold text-reset text-decoration-none">' . esc_html(get_the_title()) . '</a>';
+        if ($status_class && !empty($reg_status['label'])) {
+            echo '<br><span class="event-status-badge ' . esc_attr($status_class) . ' mt-1">' . esc_html($reg_status['label']) . '</span>';
+        }
+        echo '</td>';
+
+        // Location
+        echo '<td class="d-none d-md-table-cell">';
+        echo $location ? esc_html($location) : '<span class="text-muted">—</span>';
+        echo '</td>';
+
+        // Format
+        echo '<td class="d-none d-lg-table-cell">';
+        if ($formats && !is_wp_error($formats)) {
+            foreach ($formats as $fmt) {
+                echo '<span class="badge bg-soft-ash text-navy event-format-badge">' . esc_html($fmt->name) . '</span> ';
+            }
+        } else {
+            echo '<span class="text-muted">—</span>';
+        }
+        echo '</td>';
+
+        // Price
+        echo '<td class="d-none d-md-table-cell event-card-price">';
+        echo $price ? esc_html($price) : '<span class="text-muted">—</span>';
+        echo '</td>';
+
+        // Details button
+        echo '<td class="text-end">';
+        echo '<a href="' . esc_url(get_permalink()) . '" class="btn btn-sm btn-primary rounded-pill">' . esc_html__('Details', 'codeweber') . '</a>';
+        echo '</td>';
+
+        echo '</tr>';
+    }
+
+    echo '</tbody></table></div>';
 }
 
