@@ -223,15 +223,4 @@ require_once get_template_directory() . '/functions/integrations/success-message
  */
 require_once get_template_directory() . '/functions/testimonials/testimonial-form-api.php';
 
-/**
- * Фикс deprecated: strip_tags(null) в admin-header.php на новых версиях PHP.
- * Гарантируем, что глобальный $title всегда строка к моменту вызова strip_tags().
- */
-add_action('current_screen', function () {
-	global $title;
-
-	if ($title === null) {
-		$title = '';
-	}
-});
 

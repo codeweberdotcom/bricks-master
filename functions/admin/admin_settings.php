@@ -11,3 +11,14 @@ require_once get_template_directory() . '/functions/admin/admin_media.php'; // -
 
 require_once get_template_directory() . '/functions/admin/admin-gutenberg.php'; // --- Admin menu settings Media Library ---
 
+/**
+ * Фикс deprecated: strip_tags(null) в admin-header.php на новых версиях PHP.
+ * Гарантируем, что глобальный $title всегда строка к моменту вызова strip_tags().
+ */
+add_action( 'current_screen', function () {
+	global $title;
+	if ( $title === null ) {
+		$title = '';
+	}
+} );
+
