@@ -20,7 +20,7 @@ if (empty($templateloop)) {
 $template_file = "templates/archives/staff/{$templateloop}.php";
 
 // Шаблоны, которые управляют своим циклом и вёрсткой самостоятельно
-$self_contained = [ 'staff_7' ];
+$self_contained = [ 'staff_1' ];
 ?>
 
 <?php if ( in_array( $templateloop, $self_contained, true ) ) : ?>

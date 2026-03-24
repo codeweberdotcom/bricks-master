@@ -48,7 +48,7 @@ function filterPosts( $params ) {
 			$wp_query = $query; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			get_template_part( 'templates/archives/vacancies/' . $template );
 			wp_reset_query();
-		} elseif ( $post_type === 'staff' && $template === 'staff_7' ) {
+		} elseif ( $post_type === 'staff' && $template === 'staff_1' ) {
 			_fp_render_staff_horizontal( $query );
 		} elseif ( $post_type === 'events' && $template === 'events_3' ) {
 			_fp_render_events_cards( $query );
