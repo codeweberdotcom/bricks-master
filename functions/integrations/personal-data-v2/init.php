@@ -36,6 +36,32 @@ function personal_data_v2_init() {
 // Инициализируем модуль с приоритетом 5 (раньше других модулей)
 add_action('init', 'personal_data_v2_init', 5);
 
+// Регистрация провайдеров
+add_action( 'personal_data_v2_ready', function ( $manager ) {
+    $providers_path = PERSONAL_DATA_V2_PATH . '/providers';
+
+    $providers = [
+        $providers_path . '/class-cf7-provider.php'          => 'CF7_Data_Provider',
+        $providers_path . '/class-testimonials-provider.php' => 'Testimonials_Data_Provider',
+        $providers_path . '/class-consent-provider.php'      => 'Consent_Data_Provider',
+    ];
+
+    foreach ( $providers as $file => $class ) {
+        if ( file_exists( $file ) ) {
+            require_once $file;
+            $manager->register_provider( new $class() );
+        }
+    }
+}, 10 );
+
+// Тестовый скрипт для проверки провайдеров (удалите после тестирования)
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+    $test_file = PERSONAL_DATA_V2_PATH . '/test-providers.php';
+    if ( file_exists( $test_file ) ) {
+        require_once $test_file;
+    }
+}
+
 /**
  * Вспомогательная функция для получения менеджера
  * 

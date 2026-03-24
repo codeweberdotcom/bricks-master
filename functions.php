@@ -109,34 +109,6 @@ require_once get_template_directory() . '/functions/integrations/personal-data-v
 // Подключение модуля newsletter subscription
 require_once get_template_directory() . '/functions/integrations/newsletter-subscription/newsletter-init.php';
 
-// Регистрация провайдеров Personal Data V2
-add_action('personal_data_v2_ready', function($manager) {
-    // CF7 Provider
-    if (file_exists(get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-cf7-provider.php')) {
-        require_once get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-cf7-provider.php';
-        $provider = new CF7_Data_Provider();
-        $manager->register_provider($provider);
-    }
-    
-    // Testimonials Provider
-    if (file_exists(get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-testimonials-provider.php')) {
-        require_once get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-testimonials-provider.php';
-        $provider = new Testimonials_Data_Provider();
-        $manager->register_provider($provider);
-    }
-    
-    // Consent Provider
-    if (file_exists(get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-consent-provider.php')) {
-        require_once get_template_directory() . '/functions/integrations/personal-data-v2/providers/class-consent-provider.php';
-        $provider = new Consent_Data_Provider();
-        $manager->register_provider($provider);
-    }
-}, 10);
-
-// Тестовый скрипт для проверки провайдеров (удалите после тестирования)
-if (defined('WP_DEBUG') && WP_DEBUG) {
-    require_once get_template_directory() . '/functions/integrations/personal-data-v2/test-providers.php';
-}
 
 
 /**
