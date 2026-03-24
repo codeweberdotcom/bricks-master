@@ -1331,6 +1331,9 @@ function cw_demo_create_events() {
 			update_post_meta( $post_id, '_event_hide_add_to_calendar', '1' );
 		}
 
+		// Disable featured image in sidebar (always on for demo events)
+		update_post_meta( $post_id, '_event_sidebar_disable_image', '1' );
+
 		// Yandex map coordinates (by city)
 		$city_coords = [
 			'Москва'           => [ 55.7558, 37.6173 ],
