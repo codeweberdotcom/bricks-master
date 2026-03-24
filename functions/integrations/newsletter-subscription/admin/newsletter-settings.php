@@ -69,7 +69,7 @@ class NewsletterSubscriptionSettings
 
    public function legal_dropdown_callback($args)
    {
-      $options = get_option($this->options_name, array());
+      $options = get_option($this->options_name, []);
       $selected = isset($options[$args['name']]) ? $options[$args['name']] : $args['default'];
 
       $legal_documents = get_posts(array(
@@ -96,7 +96,7 @@ class NewsletterSubscriptionSettings
 
    public function textarea_field_callback($args)
    {
-      $options = get_option($this->options_name, array());
+      $options = get_option($this->options_name, []);
       $value = isset($options[$args['name']]) ? $options[$args['name']] : $args['default'];
 
       echo '<textarea name="' . $this->options_name . '[' . $args['name'] . ']" 
@@ -115,7 +115,7 @@ class NewsletterSubscriptionSettings
 
    public function checkbox_field_callback($args)
    {
-      $options = get_option($this->options_name, array());
+      $options = get_option($this->options_name, []);
       $value = isset($options[$args['name']]) ? $options[$args['name']] : $args['default'];
 
       echo '<label>';
@@ -126,7 +126,7 @@ class NewsletterSubscriptionSettings
 
    public function text_field_callback($args)
    {
-      $options = get_option($this->options_name, array());
+      $options = get_option($this->options_name, []);
       $value = isset($options[$args['name']]) ? $options[$args['name']] : $args['default'];
 
       echo '<input type="text" name="' . $this->options_name . '[' . $args['name'] . ']" value="' . esc_attr($value) . '" placeholder="' . esc_attr($args['placeholder']) . '" class="regular-text" />';

@@ -325,12 +325,12 @@ class Codeweber_Dadata {
 		}
 
 		$decoded = json_decode( $body_response, true );
-		$suggestions_raw = isset( $decoded['suggestions'] ) && is_array( $decoded['suggestions'] ) ? $decoded['suggestions'] : array();
-		$suggestions = array();
+		$suggestions_raw = isset( $decoded['suggestions'] ) && is_array( $decoded['suggestions'] ) ? $decoded['suggestions'] : [];
+		$suggestions = [];
 		foreach ( $suggestions_raw as $s ) {
 			$value = isset( $s['value'] ) ? $s['value'] : '';
-			$data  = isset( $s['data'] ) && is_array( $s['data'] ) ? $s['data'] : array();
-			$wc    = ! empty( $data ) ? $this->map_dadata_to_woocommerce( $data ) : array();
+			$data  = isset( $s['data'] ) && is_array( $s['data'] ) ? $s['data'] : [];
+			$wc    = ! empty( $data ) ? $this->map_dadata_to_woocommerce( $data ) : [];
 			$suggestions[] = array(
 				'value' => $value,
 				'data'  => $data,

@@ -137,7 +137,7 @@ class CW_DB_Storage implements CW_Wishlist_Storage {
 		global $wpdb;
 
 		if ( ! $this->wishlist_id ) {
-			return array();
+			return [];
 		}
 
 		$cache = get_user_meta( $this->user_id, $this->cache_key, true );
@@ -155,7 +155,7 @@ class CW_DB_Storage implements CW_Wishlist_Storage {
 		);
 
 		if ( $products === null ) {
-			return array();
+			return [];
 		}
 
 		update_user_meta(

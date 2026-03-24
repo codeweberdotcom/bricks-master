@@ -61,7 +61,7 @@ class Newsletter_Subscription_List_Table extends WP_List_Table
     */
    protected function get_sortable_columns()
    {
-      $sortable = array();
+      $sortable = [];
       
       // Get all available columns except 'actions', 'cb', and computed columns
       $available_columns = $this->admin_instance->get_available_columns();
@@ -90,7 +90,7 @@ class Newsletter_Subscription_List_Table extends WP_List_Table
     */
    protected function get_bulk_actions()
    {
-      $actions = array();
+      $actions = [];
       
       // Check if we're viewing trash
       $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
@@ -225,7 +225,7 @@ class Newsletter_Subscription_List_Table extends WP_List_Table
       
       // Ensure items is an array and convert to objects if needed
       if (!is_array($items)) {
-         $this->items = array();
+         $this->items = [];
       } else {
          // Ensure all items are objects
          $this->items = array_map(function($item) {
@@ -267,7 +267,7 @@ class Newsletter_Subscription_List_Table extends WP_List_Table
       
       $status = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
       
-      $views = array();
+      $views = [];
       
       // All (excluding trash)
       $all_count = $wpdb->get_var("SELECT COUNT(*) FROM {$this->table_name} WHERE status != 'trash'");
@@ -393,7 +393,7 @@ class Newsletter_Subscription_List_Table extends WP_List_Table
       $redirect_url = admin_url('admin.php?page=newsletter-subscriptions');
       
       // Preserve filter parameters
-      $params = array();
+      $params = [];
       if (isset($_POST['status']) && !empty($_POST['status'])) {
          $params['status'] = sanitize_text_field($_POST['status']);
       }

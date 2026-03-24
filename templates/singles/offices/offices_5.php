@@ -59,7 +59,7 @@ if (class_exists('Redux')) {
 }
 
 // Формируем полный адрес для отображения
-$address_parts = array();
+$address_parts = [];
 if ($full_address) {
     $address_parts[] = $full_address;
 } else {
@@ -72,7 +72,7 @@ if ($full_address) {
 $display_address = implode(', ', $address_parts);
 
 // Формируем локацию для подзаголовка
-$location_parts = array();
+$location_parts = [];
 if ($city) $location_parts[] = $city;
 if ($region) $location_parts[] = $region;
 if ($country) $location_parts[] = $country;

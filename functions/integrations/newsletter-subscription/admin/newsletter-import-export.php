@@ -175,7 +175,7 @@ class NewsletterSubscriptionImportExport
       $imported = 0;
       $updated = 0;
       $skipped = 0;
-      $errors = array();
+      $errors = [];
 
       $row_number = 1;
       while (($row = fgetcsv($handle, 0, ';')) !== false) {
@@ -331,7 +331,7 @@ class NewsletterSubscriptionImportExport
       return in_array($status, $valid_statuses) ? $status : 'confirmed';
    }
 
-   private function set_import_result($success, $message, $details = array())
+   private function set_import_result($success, $message, $details = [])
    {
       set_transient('newsletter_import_results', array(
          'success' => $success,

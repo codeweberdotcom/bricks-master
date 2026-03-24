@@ -19,14 +19,14 @@ class CW_Compare_Table {
 	 *
 	 * @var WC_Product[]
 	 */
-	private $products = array();
+	private $products = [];
 
 	/**
 	 * Redux options cache.
 	 *
 	 * @var array
 	 */
-	private $opts = array();
+	private $opts = [];
 
 	/**
 	 * Constructor.
@@ -34,7 +34,7 @@ class CW_Compare_Table {
 	 * @param int[] $ids Product or variation IDs.
 	 */
 	public function __construct( array $ids ) {
-		$this->opts = get_option( 'redux_demo', array() );
+		$this->opts = get_option( 'redux_demo', [] );
 
 		foreach ( $ids as $id ) {
 			$product = wc_get_product( $id );
@@ -96,7 +96,7 @@ class CW_Compare_Table {
 	 * @return array Array of [ 'label' => string, 'key' => string ]
 	 */
 	public function collect_attributes() {
-		$all = array();
+		$all = [];
 
 		foreach ( $this->products as $product ) {
 			foreach ( $this->get_product_attributes( $product ) as $key => $attr ) {
@@ -116,7 +116,7 @@ class CW_Compare_Table {
 	 * @return array Keyed by attribute taxonomy/name, value = ['label'=>string, 'value'=>string]
 	 */
 	public function get_product_attributes( WC_Product $product ) {
-		$result = array();
+		$result = [];
 
 		$attributes = $product->get_attributes();
 
@@ -127,7 +127,7 @@ class CW_Compare_Table {
 					continue;
 				}
 				$label  = wc_attribute_label( $attribute->get_name() );
-				$values = array();
+				$values = [];
 				if ( $attribute->is_taxonomy() ) {
 					$terms = $attribute->get_terms();
 					if ( $terms ) {
@@ -174,7 +174,7 @@ class CW_Compare_Table {
 	 * @return bool
 	 */
 	public function all_same( $key ) {
-		$values = array();
+		$values = [];
 		foreach ( $this->products as $product ) {
 			$values[] = $this->get_attribute_value( $product, $key );
 		}
@@ -228,7 +228,7 @@ class CW_Compare_Table {
 		if ( $product->is_type( 'variation' ) ) {
 			$parent = wc_get_product( $product->get_parent_id() );
 			$parent_name = $parent ? $parent->get_name() : '';
-			$variation_attrs = array();
+			$variation_attrs = [];
 			foreach ( $product->get_variation_attributes() as $key => $value ) {
 				if ( $value ) {
 					$term = get_term_by( 'slug', $value, str_replace( 'attribute_', '', $key ) );

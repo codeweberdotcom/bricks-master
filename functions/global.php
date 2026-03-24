@@ -754,7 +754,7 @@ if (!function_exists('codeweber_get_header_option')) {
  * @since 1.0.0
  */
 if (!function_exists('codeweber_posts_pagination')) {
-    function codeweber_posts_pagination($args = array()) {
+    function codeweber_posts_pagination($args = []) {
         global $wp_query, $wp_rewrite;
         
         // Default arguments

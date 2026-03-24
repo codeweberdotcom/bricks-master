@@ -344,7 +344,7 @@ class Codeweber_Yandex_Maps {
             wp_enqueue_script(
                 'yandex-maps-api',
                 'https://api-maps.yandex.ru/2.1/?apikey=' . esc_attr($this->api_key) . '&lang=' . esc_attr($this->default_settings['language']),
-                array(),
+                [],
                 null,
                 true
             );
@@ -385,7 +385,7 @@ class Codeweber_Yandex_Maps {
         wp_enqueue_style(
             'codeweber-yandex-maps',
             $this->url . '/assets/css/yandex-maps.css',
-            array(),
+            [],
             $this->version
         );
     }
@@ -402,7 +402,7 @@ class Codeweber_Yandex_Maps {
         wp_enqueue_script(
             'yandex-maps-api',
             'https://api-maps.yandex.ru/2.1/?apikey=' . esc_attr($this->api_key) . '&lang=' . esc_attr($this->default_settings['language']),
-            array(),
+            [],
             null,
             true
         );
@@ -416,7 +416,7 @@ class Codeweber_Yandex_Maps {
         wp_enqueue_style(
             'codeweber-yandex-maps',
             $this->url . '/assets/css/yandex-maps.css',
-            array(),
+            [],
             $this->version
         );
         wp_localize_script('codeweber-yandex-maps', 'codeweberYandexMaps', array(
@@ -474,7 +474,7 @@ class Codeweber_Yandex_Maps {
      * @param array $markers Массив маркеров
      * @return string HTML код карты
      */
-    public function render_map(array $args = array(), array $markers = array()): string {
+    public function render_map(array $args = [], array $markers = []): string {
         if (!$this->has_api_key()) {
             return '<div class="alert alert-warning">' . __('Yandex Maps API key is not configured.', 'codeweber') . '</div>';
         }
@@ -606,7 +606,7 @@ class Codeweber_Yandex_Maps {
      * @return array Подготовленные маркеры
      */
     private function prepare_markers(array $markers, array $settings): array {
-        $prepared = array();
+        $prepared = [];
 
         foreach ($markers as $marker) {
             // Проверяем обязательные поля

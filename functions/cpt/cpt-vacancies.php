@@ -361,7 +361,7 @@ function vacancy_basic_info_callback($post)
          }
          
          // Get CF7 forms list only if plugin is activated
-         $cf7_forms = array();
+         $cf7_forms = [];
          if ($cf7_plugin_active && class_exists('WPCF7_ContactForm')) {
             $cf7_posts = get_posts(array(
                'post_type' => 'wpcf7_contact_form',
@@ -401,7 +401,7 @@ function vacancy_basic_info_callback($post)
          </label>
          <?php
          // Get list of published codeweber_form forms
-         $codeweber_forms = array();
+         $codeweber_forms = [];
          $codeweber_posts = get_posts(array(
             'post_type' => 'codeweber_form',
             'post_status' => 'publish',
@@ -544,8 +544,8 @@ function vacancy_attributes_callback($post)
    if (!is_array($skills)) $skills = [''];
 
    $taxonomies = get_object_taxonomies('vacancies', 'objects');
-   $type_terms = array();
-   $schedule_terms = array();
+   $type_terms = [];
+   $schedule_terms = [];
    if (isset($taxonomies['vacancy_type'])) {
       $type_terms = get_terms(array('taxonomy' => 'vacancy_type', 'hide_empty' => false));
    }
@@ -1039,7 +1039,7 @@ function save_vacancy_meta($post_id)
          if (!taxonomy_exists($tax)) {
             continue;
          }
-         $terms = isset($_POST['tax_input'][$tax]) ? $_POST['tax_input'][$tax] : array();
+         $terms = isset($_POST['tax_input'][$tax]) ? $_POST['tax_input'][$tax] : [];
          $terms = array_map('intval', (array) $terms);
          $terms = array_filter($terms);
          // One term per taxonomy (if two fields with same name - take first)

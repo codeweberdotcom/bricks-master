@@ -281,7 +281,7 @@ function get_search_results_count($search_query, $search_params)
 }
 
 // Функция сохранения поискового запроса в базу данных
-function save_search_query_to_db($search_query, $results_count = 0, $form_id = '', $search_params = array())
+function save_search_query_to_db($search_query, $results_count = 0, $form_id = '', $search_params = [])
 {
    global $wpdb;
 
@@ -403,7 +403,7 @@ function enqueue_search_statistics_admin_styles($hook)
    wp_enqueue_style(
       'search-statistics-admin',
       get_template_directory_uri() . '/functions/integrations/ajax-search-module/assets/css/admin.css',
-      array(),
+      [],
       '1.0.0'
    );
 }
@@ -463,7 +463,7 @@ function get_search_forms_list()
         ORDER BY form_id
     ");
 
-   $forms_list = array();
+   $forms_list = [];
    foreach ($forms as $form) {
       $forms_list[] = $form->form_id;
    }
@@ -504,8 +504,8 @@ function display_search_statistics_page()
    }
 
    // Строим WHERE условие для фильтрации
-   $where_conditions = array();
-   $query_params = array();
+   $where_conditions = [];
+   $query_params = [];
 
    if (!empty($start_date)) {
       $where_conditions[] = "DATE(search_date) >= %s";
@@ -780,8 +780,8 @@ function export_search_statistics_to_csv()
    $form_id = isset($_POST['export_form_id']) ? sanitize_text_field($_POST['export_form_id']) : '';
 
    // Строим WHERE условие для фильтрации
-   $where_conditions = array();
-   $query_params = array();
+   $where_conditions = [];
+   $query_params = [];
 
    if (!empty($start_date)) {
       $where_conditions[] = "DATE(search_date) >= %s";

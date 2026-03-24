@@ -72,7 +72,7 @@ if (!function_exists('codeweber_floating_social_widget')) {
 		}
 		
 		// Получаем URL соцсети
-		$socials = get_option('socials_urls', array());
+		$socials = get_option('socials_urls', []);
 		if (empty($socials[$social_key])) {
 			return '';
 		}
@@ -111,7 +111,7 @@ if (!function_exists('codeweber_floating_social_widget')) {
 		$btn_class_attr = implode(' ', $btn_classes);
 		
 		// Формируем inline стили только для позиционирования и кастомных значений
-		$styles = array();
+		$styles = [];
 		$styles[] = 'position: fixed';
 		$styles[] = $position . ': ' . intval($offset_horizontal) . 'px';
 		$styles[] = 'bottom: ' . intval($offset_vertical) . 'px';
@@ -200,7 +200,7 @@ if (!function_exists('codeweber_floating_button')) {
 	 * @param array $config Configuration array
 	 * @return string HTML output
 	 */
-	function codeweber_floating_button($config = array()) {
+	function codeweber_floating_button($config = []) {
 		if (!class_exists('CodeWeber_Floating_Button')) {
 			return '';
 		}

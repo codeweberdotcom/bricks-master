@@ -545,7 +545,7 @@ function codeweber_office_services_callback($post)
 {
    $selected_services = get_post_meta($post->ID, '_office_services', true);
    if (!is_array($selected_services)) {
-      $selected_services = array();
+      $selected_services = [];
    }
 
    // Get list of services
@@ -699,7 +699,7 @@ function codeweber_save_office_meta($post_id)
          }
       } else {
          // Удаляем все термины towns для поста
-         wp_set_object_terms($post_id, array(), 'towns');
+         wp_set_object_terms($post_id, [], 'towns');
          delete_post_meta($post_id, '_office_city');
       }
    }
@@ -763,7 +763,7 @@ function codeweber_save_office_meta($post_id)
       $services = array_map('intval', $_POST['office_services']);
       update_post_meta($post_id, '_office_services', $services);
    } else {
-      update_post_meta($post_id, '_office_services', array());
+      update_post_meta($post_id, '_office_services', []);
    }
 
    // Save image
@@ -866,7 +866,7 @@ function codeweber_fill_offices_admin_columns($column, $post_id)
       case 'office_services':
          $services = get_post_meta($post_id, '_office_services', true);
          if (!empty($services) && is_array($services)) {
-            $service_titles = array();
+            $service_titles = [];
             foreach ($services as $service_id) {
                $service_titles[] = get_the_title($service_id);
             }

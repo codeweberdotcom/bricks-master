@@ -36,7 +36,7 @@ function cw_demo_create_towns() {
     );
     
     $created = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($towns as $town_name) {
         // Проверяем, существует ли уже такой термин
@@ -292,12 +292,12 @@ function cw_demo_create_offices() {
             'success' => false,
             'message' => 'Данные офисов не найдены',
             'created' => 0,
-            'errors' => array()
+            'errors' => []
         );
     }
     
     $created = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($offices_data as $office_data) {
         $post_id = cw_demo_create_office_post($office_data);
@@ -315,7 +315,7 @@ function cw_demo_create_offices() {
     }
     
     // Объединяем ошибки
-    $all_errors = array_merge($towns_result['errors'] ?? array(), $errors);
+    $all_errors = array_merge($towns_result['errors'] ?? [], $errors);
     
     return array(
         'success' => true,
@@ -348,7 +348,7 @@ function cw_demo_delete_offices() {
     
     $posts = get_posts($args);
     $deleted = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($posts as $post_id) {
         // Удаляем запись

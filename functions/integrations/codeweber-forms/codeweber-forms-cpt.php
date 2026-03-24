@@ -480,7 +480,7 @@ class CodeweberFormsCPT {
         // Добавляем мета-запрос для фильтрации по типу формы
         $meta_query = $query->get('meta_query');
         if (!is_array($meta_query)) {
-            $meta_query = array();
+            $meta_query = [];
         }
         
         $meta_query[] = array(

@@ -29,7 +29,7 @@ function codeweber_disable_emojis() {
 		if ( is_array( $plugins ) ) {
 			return array_diff( $plugins, array( 'wpemoji' ) );
 		} else {
-			return array();
+			return [];
 		}
 	}
 }

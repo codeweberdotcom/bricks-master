@@ -272,13 +272,13 @@ function cw_demo_create_clients() {
             'success' => false,
             'message' => __('No data found or file is corrupted', 'codeweber'),
             'created' => 0,
-            'errors' => array()
+            'errors' => []
         );
     }
     
     $created = 0;
-    $errors = array();
-    $categories_created = array();
+    $errors = [];
+    $categories_created = [];
     
     // Определяем язык для категорий
     $locale = get_locale();
@@ -343,7 +343,7 @@ function cw_demo_delete_clients() {
     
     $posts = get_posts($args);
     $deleted = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($posts as $post_id) {
         // Удаляем featured image

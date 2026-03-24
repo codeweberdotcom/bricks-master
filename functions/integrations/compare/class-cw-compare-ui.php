@@ -57,7 +57,7 @@ class CW_Compare_UI {
 		wp_enqueue_script(
 			'cw-compare',
 			$js_url,
-			array(),
+			[],
 			codeweber_asset_version( $js_path ),
 			true
 		);

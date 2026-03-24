@@ -12,15 +12,16 @@ $date_start = get_post_meta( $post_id, '_event_date_start', true );
 $location   = get_post_meta( $post_id, '_event_location', true );
 $price      = get_post_meta( $post_id, '_event_price', true );
 $reg_status = codeweber_events_get_registration_status( $post_id );
-$formats    = get_the_terms( $post_id, 'event_format' );
+$formats     = get_the_terms( $post_id, 'event_format' );
+$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';
 ?>
 
 <div class="col-md-6 col-lg-4">
-	<div class="card event-card h-100 shadow-sm">
+	<a href="<?php the_permalink(); ?>" class="card event-card h-100 lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 
 		<?php if ( has_post_thumbnail() ) : ?>
-			<figure class="card-img-top overflow-hidden m-0" style="height:200px;">
-				<?php the_post_thumbnail( 'codeweber_event_400-267', [ 'class' => 'w-100 h-100 object-fit-cover' ] ); ?>
+			<figure>
+				<?php the_post_thumbnail( 'codeweber_event_400-267', [ 'class' => 'w-100 object-fit-cover' ] ); ?>
 			</figure>
 		<?php endif; ?>
 
@@ -46,27 +47,23 @@ $formats    = get_the_terms( $post_id, 'event_format' );
 			<?php endif; ?>
 
 			<?php // Title ?>
-			<h5 class="card-title mb-2">
-				<a href="<?php the_permalink(); ?>" class="text-reset text-decoration-none stretched-link">
-					<?php the_title(); ?>
-				</a>
-			</h5>
+			<h5 class="card-title mb-2"><?php the_title(); ?></h5>
 
 			<?php // Excerpt ?>
 			<?php if ( has_excerpt() ) : ?>
-				<p class="card-text text-muted small mb-3"><?php echo wp_trim_words( get_the_excerpt(), 18 ); ?></p>
+				<p class="card-text text-muted mb-3"><?php echo wp_trim_words( get_the_excerpt(), 18 ); ?></p>
 			<?php endif; ?>
 
 			<div class="mt-auto d-flex justify-content-between align-items-center flex-wrap gap-2">
 
 				<?php // Price ?>
 				<?php if ( $price ) : ?>
-					<span class="event-card-price small"><?php echo esc_html( $price ); ?></span>
+					<span class="event-card-price"><?php echo esc_html( $price ); ?></span>
 				<?php endif; ?>
 
 				<?php // Location ?>
 				<?php if ( $location ) : ?>
-					<span class="event-card-location text-muted small">
+					<span class="event-card-location text-muted">
 						<i class="uil uil-map-marker me-1"></i><?php echo esc_html( $location ); ?>
 					</span>
 				<?php endif; ?>
@@ -88,5 +85,5 @@ $formats    = get_the_terms( $post_id, 'event_format' );
 				<?php endif; ?>
 			</div>
 		</div>
-	</div>
+	</a>
 </div>

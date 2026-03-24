@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 // ── Проверка: quick view включён в Redux ─────────────────────────────────────
 
 function cw_is_quick_view_enabled() {
-	$opts = get_option( 'redux_demo', array() );
+	$opts = get_option( 'redux_demo', [] );
 	return (bool) ( $opts['quick_view_enable'] ?? true );
 }
 
@@ -61,7 +61,7 @@ function cw_quick_view_handler() {
 // ── Helper: текущая страница — страница вишлиста ─────────────────────────────
 
 function cw_is_wishlist_page() {
-	$opts    = get_option( 'redux_demo', array() );
+	$opts    = get_option( 'redux_demo', [] );
 	$page_id = (int) ( $opts['wishlist_page'] ?? 0 );
 	return $page_id && is_page( $page_id );
 }

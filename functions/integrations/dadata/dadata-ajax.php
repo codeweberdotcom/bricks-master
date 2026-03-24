@@ -77,17 +77,17 @@ add_action( 'wp_ajax_nopriv_dadata_clean_address', 'codeweber_dadata_ajax_clean_
 function codeweber_dadata_ajax_suggest_address() {
 	$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
 	if ( ! wp_verify_nonce( $nonce, 'codeweber_dadata_clean' ) ) {
-		wp_send_json( array( 'success' => false, 'suggestions' => array() ) );
+		wp_send_json( array( 'success' => false, 'suggestions' => [] ) );
 	}
 
 	codeweber_dadata_check_rate_limit();
 
 	global $opt_name;
 	if ( ! class_exists( 'Redux' ) ) {
-		wp_send_json( array( 'success' => false, 'suggestions' => array() ) );
+		wp_send_json( array( 'success' => false, 'suggestions' => [] ) );
 	}
 	if ( ! Redux::get_option( $opt_name, 'dadata_enabled' ) ) {
-		wp_send_json( array( 'success' => false, 'suggestions' => array() ) );
+		wp_send_json( array( 'success' => false, 'suggestions' => [] ) );
 	}
 
 	$query = isset( $_POST['query'] ) ? sanitize_text_field( wp_unslash( $_POST['query'] ) ) : '';
@@ -99,14 +99,14 @@ function codeweber_dadata_ajax_suggest_address() {
 	if ( ! $result['success'] ) {
 		wp_send_json( array(
 			'success'     => false,
-			'suggestions' => array(),
+			'suggestions' => [],
 			'error'       => isset( $result['error'] ) ? $result['error'] : '',
 		) );
 	}
 
 	wp_send_json( array(
 		'success'     => true,
-		'suggestions' => isset( $result['suggestions'] ) ? $result['suggestions'] : array(),
+		'suggestions' => isset( $result['suggestions'] ) ? $result['suggestions'] : [],
 	) );
 }
 

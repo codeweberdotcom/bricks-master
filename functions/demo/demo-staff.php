@@ -59,7 +59,7 @@ function cw_demo_get_staff_data() {
                     $item['social'] = $item['social_ru'];
                 } elseif (!empty($item['social_en'])) {
                     // Если русских нет, используем английские, но исключаем Facebook, LinkedIn, Instagram
-                    $item['social'] = array();
+                    $item['social'] = [];
                     if (!empty($item['social_en']['twitter'])) {
                         $item['social']['twitter'] = $item['social_en']['twitter'];
                     }
@@ -108,7 +108,7 @@ function cw_demo_get_staff_data() {
                     $item['social'] = $item['social_en'];
                 } elseif (!empty($item['social_ru'])) {
                     // Если английских нет, используем русские, но исключаем VK
-                    $item['social'] = array();
+                    $item['social'] = [];
                     if (!empty($item['social_ru']['telegram'])) {
                         $item['social']['telegram'] = $item['social_ru']['telegram'];
                     }
@@ -364,13 +364,13 @@ function cw_demo_create_staff() {
             'success' => false,
             'message' => __('No data found or file is corrupted', 'codeweber'),
             'created' => 0,
-            'errors' => array()
+            'errors' => []
         );
     }
     
     $created = 0;
-    $errors = array();
-    $departments_created = array();
+    $errors = [];
+    $departments_created = [];
     
     // Сначала создаем отделы
     if (!empty($data['departments'])) {
@@ -432,7 +432,7 @@ function cw_demo_delete_staff() {
     
     $posts = get_posts($args);
     $deleted = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($posts as $post_id) {
         // Удаляем featured image

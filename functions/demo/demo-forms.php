@@ -280,12 +280,12 @@ function cw_demo_create_forms() {
             'success' => false,
             'message' => __('No data found', 'codeweber'),
             'created' => 0,
-            'errors' => array()
+            'errors' => []
         );
     }
     
     $created = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($data as $item) {
         $post_id = cw_demo_create_form_post($item);
@@ -329,7 +329,7 @@ function cw_demo_delete_forms() {
     
     $posts = get_posts($args);
     $deleted = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($posts as $post_id) {
         // Удаляем запись

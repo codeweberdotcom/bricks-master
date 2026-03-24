@@ -116,7 +116,7 @@ add_filter( 'woocommerce_form_field_args', function ( $args, $key, $value = null
 		$args['input_class'] = array_filter( array( $args['input_class'] ) );
 	}
 	$args['input_class'][] = 'form-control';
-	$wrap_class = isset( $args['class'] ) ? $args['class'] : array();
+	$wrap_class = isset( $args['class'] ) ? $args['class'] : [];
 	if ( ! is_array( $wrap_class ) ) {
 		$wrap_class = array_filter( array( $wrap_class ) );
 	}
@@ -500,7 +500,7 @@ add_filter('woocommerce_account_menu_items', function ($items) {
 	if ( ! isset( $items['payment-methods'] ) ) {
 		$items['payment-methods'] = __('Payment methods', 'woocommerce');
 		$order = array( 'dashboard', 'orders', 'downloads', 'edit-address', 'payment-methods', 'edit-account', 'customer-logout' );
-		$ordered = array();
+		$ordered = [];
 		foreach ( $order as $key ) {
 			if ( isset( $items[ $key ] ) ) {
 				$ordered[ $key ] = $items[ $key ];
@@ -532,7 +532,7 @@ function codeweber_my_account_dashboard_cards()
       'payment-methods' => 'uil-credit-card',
       'edit-account'    => 'uil-file-edit-alt',
    );
-   $card_items = array();
+   $card_items = [];
    foreach ($items as $endpoint => $label) {
       $card_items[$endpoint] = array(
          'label' => $label,

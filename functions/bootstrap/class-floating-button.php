@@ -24,7 +24,7 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 		 * 
 		 * @param array $config Configuration array
 		 */
-		public function __construct($config = array()) {
+		public function __construct($config = []) {
 			$this->config = wp_parse_args($config, array(
 				'icon' => '',              // Класс иконки (например, 'uil uil-comment-dots')
 				'icon_color' => '',        // Цвет иконки (CSS color)
@@ -39,7 +39,7 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 				'z_index' => 0,            // z-index (0 = не добавлять)
 				'id' => '',                // HTML id атрибут
 				'class' => '',             // Дополнительные CSS классы (строка или массив)
-				'data' => array(),         // data-атрибуты ['toggle' => 'modal', 'target' => '#myModal']
+				'data' => [],         // data-атрибуты ['toggle' => 'modal', 'target' => '#myModal']
 				'href' => '',             // URL для ссылки (если пусто, будет button)
 				'target' => '',            // target для ссылки ('_blank', '_self' и т.д.)
 				'rel' => '',               // rel для ссылки ('noopener', 'noreferrer' и т.д.)
@@ -50,7 +50,7 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 			'tag' => 'auto',           // HTML тег: 'a', 'button' или 'auto' (определяется по href)
 			'type' => 'button',        // type для button ('button', 'submit', 'reset')
 			'disabled' => false,       // disabled атрибут для button
-			'style' => array(),        // Дополнительные inline стили ['margin' => '10px']
+			'style' => [],        // Дополнительные inline стили ['margin' => '10px']
 			'button_style' => 'btn-circle', // Стиль кнопки: 'btn-circle' или 'btn-block'
 			'radius_class' => '',     // Класс скругления из темы (getThemeButton): rounded-pill, rounded, rounded-xl, rounded-0
 		));
@@ -166,7 +166,7 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 		 * @return string
 		 */
 		private function get_styles() {
-			$styles = array();
+			$styles = [];
 			
 			// Проверяем, есть ли offsets (top, right, bottom, left)
 			$has_offsets = false;
@@ -225,7 +225,7 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 		 * @return array
 		 */
 		private function get_attributes() {
-			$attributes = array();
+			$attributes = [];
 			
 			// ID
 			if (!empty($this->config['id'])) {
@@ -305,7 +305,7 @@ if (!class_exists('CodeWeber_Floating_Button')) {
 		 * @return string
 		 */
 		private function build_attributes_string($attributes) {
-			$output = array();
+			$output = [];
 			foreach ($attributes as $key => $value) {
 				if ($value === '' || $value === null) {
 					continue;

@@ -281,7 +281,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
             return;
         }
 
-        $vacancy_data = get_vacancy_data_array();
+        $vacancy_data = get_vacancy_data_[];
 
         $type_term = !empty($vacancy_data['vacancy_types']) && !is_wp_error($vacancy_data['vacancy_types']) ? $vacancy_data['vacancy_types'][0] : null;
         $schedule_term = !empty($vacancy_data['vacancy_schedules']) && !is_wp_error($vacancy_data['vacancy_schedules']) ? $vacancy_data['vacancy_schedules'][0] : null;

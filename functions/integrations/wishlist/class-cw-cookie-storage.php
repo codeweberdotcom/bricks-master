@@ -75,13 +75,13 @@ class CW_Cookie_Storage implements CW_Wishlist_Storage {
 	 */
 	public function get_all() {
 		if ( ! isset( $_COOKIE[ $this->cookie_products ] ) ) {
-			return array();
+			return [];
 		}
 
 		$raw = sanitize_text_field( wp_unslash( $_COOKIE[ $this->cookie_products ] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 		$decoded = json_decode( $raw, true );
 
-		return is_array( $decoded ) ? $decoded : array();
+		return is_array( $decoded ) ? $decoded : [];
 	}
 
 	/**

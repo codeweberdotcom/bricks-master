@@ -131,7 +131,7 @@ add_action('init', 'cptui_register_my_taxes_faq_tag');
  */
 function add_faq_admin_columns($columns)
 {
-	$new_columns = array();
+	$new_columns = [];
 
 	foreach ($columns as $key => $value) {
 		$new_columns[$key] = $value;
@@ -161,7 +161,7 @@ function fill_faq_admin_columns($column, $post_id)
 		case 'faq_categories':
 			$terms = get_the_terms($post_id, 'faq_categories');
 			if ($terms && !is_wp_error($terms)) {
-				$term_links = array();
+				$term_links = [];
 				foreach ($terms as $term) {
 					$term_links[] = sprintf(
 						'<a href="%s">%s</a>',
@@ -178,7 +178,7 @@ function fill_faq_admin_columns($column, $post_id)
 		case 'faq_tag':
 			$terms = get_the_terms($post_id, 'faq_tag');
 			if ($terms && !is_wp_error($terms)) {
-				$term_links = array();
+				$term_links = [];
 				foreach ($terms as $term) {
 					$term_links[] = sprintf(
 						'<a href="%s">%s</a>',
@@ -292,7 +292,7 @@ function add_faq_quick_edit_fields($column_name, $post_type)
 					'taxonomy' => 'faq_tag',
 					'hide_empty' => false
 				));
-				$term_names = array();
+				$term_names = [];
 				foreach ($terms as $term) {
 					$term_names[] = $term->name;
 				}
@@ -449,7 +449,7 @@ function faq_accordion_shortcode($atts)
 	);
 
 	// Add taxonomy filters if provided
-	$tax_query = array();
+	$tax_query = [];
 
 	if (!empty($atts['category'])) {
 		$tax_query[] = array(

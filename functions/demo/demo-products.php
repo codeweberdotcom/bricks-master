@@ -1166,7 +1166,7 @@ function cw_demo_set_attribute_term_image( $image_filename, $term_id ) {
  * @param array  $meta      Мета-данные: ['color' => '#hex'] или ['image' => 'sh1.jpg'].
  * @return string slug термина или пустая строка при ошибке.
  */
-function cw_demo_ensure_attribute_term( $value, $taxonomy, $attr_type = 'select', $meta = array() ) {
+function cw_demo_ensure_attribute_term( $value, $taxonomy, $attr_type = 'select', $meta = [] ) {
 	$slug = sanitize_title( $value );
 	$term = get_term_by( 'slug', $slug, $taxonomy );
 
@@ -1228,10 +1228,10 @@ function cw_demo_get_color_hex( $name ) {
  */
 function cw_demo_create_brands( $brands ) {
 	if ( ! taxonomy_exists( 'product_brand' ) ) {
-		return array();
+		return [];
 	}
 
-	$name_to_id = array();
+	$name_to_id = [];
 
 	foreach ( $brands as $brand ) {
 		$term_id = cw_demo_get_or_create_product_term( $brand['name'], 'product_brand' );
@@ -1389,7 +1389,7 @@ function cw_demo_get_or_create_product_term( $name, $taxonomy, $parent_id = 0 ) 
  * @return array
  */
 function cw_demo_create_categories( $categories ) {
-	$name_to_id = array();
+	$name_to_id = [];
 	$shop_imgs   = array( 'sh1.jpg','sh2.jpg','sh3.jpg','sh4.jpg','sh5.jpg','sh6.jpg','sh7.jpg','sh8.jpg','sh9.jpg' );
 	$img_index   = 0;
 
@@ -1543,14 +1543,14 @@ function cw_demo_create_variable_product( $item, $cat_id, $tag_ids, $attr_config
 	}
 
 	// ── Атрибуты ────────────────────────────────────────────────────────
-	$wc_attributes       = array();
-	$variation_attr_data = array(); // taxonomy => [ slugs ]
+	$wc_attributes       = [];
+	$variation_attr_data = []; // taxonomy => [ slugs ]
 	$position            = 0;
 
 	foreach ( $item['attributes'] as $attr_slug => $values ) {
 		$label     = $attr_config[ $attr_slug ]['label'] ?? ucfirst( $attr_slug );
 		$attr_type = $attr_config[ $attr_slug ]['type']  ?? 'select';
-		$attr_meta = $attr_config[ $attr_slug ]['meta']  ?? array();
+		$attr_meta = $attr_config[ $attr_slug ]['meta']  ?? [];
 
 		$taxonomy = cw_demo_ensure_wc_attribute( $label, $attr_slug, $attr_type );
 		if ( ! $taxonomy ) {
@@ -1567,10 +1567,10 @@ function cw_demo_create_variable_product( $item, $cat_id, $tag_ids, $attr_config
 		}
 
 		// Создать/получить термины, собрать ID и slugs
-		$term_ids   = array();
-		$term_slugs = array();
+		$term_ids   = [];
+		$term_slugs = [];
 		foreach ( $values as $value ) {
-			$term_meta = $attr_meta[ $value ] ?? array();
+			$term_meta = $attr_meta[ $value ] ?? [];
 			$slug      = cw_demo_ensure_attribute_term( $value, $taxonomy, $attr_type, $term_meta );
 			if ( $slug ) {
 				$term = get_term_by( 'slug', $slug, $taxonomy );
@@ -1610,7 +1610,7 @@ function cw_demo_create_variable_product( $item, $cat_id, $tag_ids, $attr_config
 
 	$first_attr    = $attr_keys[0] ?? null;
 	$second_attr   = $attr_keys[1] ?? null;
-	$first_values  = $first_attr ? $variation_attr_data[ $first_attr ] : array();
+	$first_values  = $first_attr ? $variation_attr_data[ $first_attr ] : [];
 	$second_values = $second_attr ? $variation_attr_data[ $second_attr ] : array( '' );
 
 	foreach ( $first_values as $val1 ) {
@@ -1629,7 +1629,7 @@ function cw_demo_create_variable_product( $item, $cat_id, $tag_ids, $attr_config
 			}
 
 			// Атрибуты вариации: taxonomy => slug
-			$var_attrs = array();
+			$var_attrs = [];
 			if ( $first_attr ) {
 				$var_attrs[ $first_attr ] = $val1;
 			}
@@ -1676,7 +1676,7 @@ function cw_demo_create_products() {
 			'message' => __( 'WooCommerce is not active.', 'codeweber' ),
 			'created' => 0,
 			'total'   => 0,
-			'errors'  => array(),
+			'errors'  => [],
 		);
 	}
 
@@ -1688,23 +1688,23 @@ function cw_demo_create_products() {
 			'message' => __( 'No product data found.', 'codeweber' ),
 			'created' => 0,
 			'total'   => 0,
-			'errors'  => array(),
+			'errors'  => [],
 		);
 	}
 
-	$attr_config = $data['attributes'] ?? array();
+	$attr_config = $data['attributes'] ?? [];
 	$created     = 0;
-	$errors      = array();
+	$errors      = [];
 
 	// Создаём иерархические категории и строим map[name => term_id]
 	$cat_map = ! empty( $data['categories'] )
 		? cw_demo_create_categories( $data['categories'] )
-		: array();
+		: [];
 
 	// Создаём бренды и строим map[name => term_id]
 	$brand_map = ! empty( $data['brands'] )
 		? cw_demo_create_brands( $data['brands'] )
-		: array();
+		: [];
 
 	foreach ( $data['items'] as $item ) {
 		// Категория — ищем по map, чтобы учесть иерархию
@@ -1719,7 +1719,7 @@ function cw_demo_create_products() {
 		}
 
 		// Теги
-		$tag_ids = array();
+		$tag_ids = [];
 		if ( ! empty( $item['tags'] ) ) {
 			foreach ( $item['tags'] as $tag ) {
 				$id = cw_demo_get_or_create_product_term( sanitize_text_field( $tag ), 'product_tag' );
@@ -1785,7 +1785,7 @@ function cw_demo_delete_products() {
 	) );
 
 	$deleted = 0;
-	$errors  = array();
+	$errors  = [];
 
 	foreach ( $posts as $post_id ) {
 		$thumbnail_id = get_post_thumbnail_id( $post_id );

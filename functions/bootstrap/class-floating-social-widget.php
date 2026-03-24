@@ -39,7 +39,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		public function __construct() {
 			global $opt_name;
 			$this->opt_name = !empty($opt_name) ? $opt_name : 'redux_demo';
-			$this->socials_urls = get_option('socials_urls', array());
+			$this->socials_urls = get_option('socials_urls', []);
 			
 			// Добавляем демо URL для тестирования, если их нет
 			if (empty($this->socials_urls)) {
@@ -97,7 +97,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 
 			
 			if (!class_exists('Redux')) {
-				$this->settings = array();
+				$this->settings = [];
 
 				return;
 			}
@@ -133,7 +133,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			
 			// Обрабатываем данные repeater с group_values
 			// Структура: ['social_network' => [0 => 'telegram', 1 => 'max', ...], 'redux_repeater_data' => [...]]
-			$socials = array();
+			$socials = [];
 			if (!empty($socials_raw) && is_array($socials_raw)) {
 
 				

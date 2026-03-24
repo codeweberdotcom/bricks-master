@@ -19,12 +19,12 @@ $link         = get_permalink($post_id);
 $company      = !empty($vacancy_data['company']) ? $vacancy_data['company'] : '';
 $salary       = !empty($vacancy_data['salary']) ? $vacancy_data['salary'] : '';
 $location     = !empty($vacancy_data['location']) ? $vacancy_data['location'] : '';
-$vacancy_schedules = !empty($vacancy_data['vacancy_schedules']) && !is_wp_error($vacancy_data['vacancy_schedules']) ? $vacancy_data['vacancy_schedules'] : array();
+$vacancy_schedules = !empty($vacancy_data['vacancy_schedules']) && !is_wp_error($vacancy_data['vacancy_schedules']) ? $vacancy_data['vacancy_schedules'] : [];
 $schedule_name = !empty($vacancy_schedules) ? $vacancy_schedules[0]->name : '';
 
 $card_radius  = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 ?>
-<div class="card shadow shadow-lg h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
+<div class="card h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
 	<div class="card-body d-flex flex-column justify-content-between h-100">
 		<div>
 			<?php if ($company) : ?>

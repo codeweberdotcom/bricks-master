@@ -26,7 +26,7 @@ $all_vacancies = get_posts(array(
     'post_status' => 'publish',
 ));
 
-$locations = array();
+$locations = [];
 foreach ($all_vacancies as $vacancy) {
     $vacancy_data = get_vacancy_data_array($vacancy->ID);
     if (!empty($vacancy_data['location'])) {
@@ -37,7 +37,7 @@ $locations = array_unique($locations);
 sort($locations);
 
 // Group vacancies by types
-$vacancies_by_type = array();
+$vacancies_by_type = [];
 while (have_posts()) : 
     the_post();
     $post_id = get_the_ID();
@@ -49,7 +49,7 @@ while (have_posts()) :
             if (!isset($vacancies_by_type[$type->term_id])) {
                 $vacancies_by_type[$type->term_id] = array(
                     'term' => $type,
-                    'vacancies' => array()
+                    'vacancies' => []
                 );
             }
             $vacancies_by_type[$type->term_id]['vacancies'][] = array(
@@ -62,7 +62,7 @@ while (have_posts()) :
         if (!isset($vacancies_by_type['no-type'])) {
             $vacancies_by_type['no-type'] = array(
                 'term' => null,
-                'vacancies' => array()
+                'vacancies' => []
             );
         }
         $vacancies_by_type['no-type']['vacancies'][] = array(

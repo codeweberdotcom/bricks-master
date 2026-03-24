@@ -46,7 +46,7 @@ class NewsletterSubscriptionFrontend
    public function unsubscribe_notice()
    {
       if (isset($_GET['unsubscribe'])) {
-         $options = get_option($this->options_name, array());
+         $options = get_option($this->options_name, []);
 
          $unsubscribe_success = isset($options['unsubscribe_success']) && !empty($options['unsubscribe_success'])
             ? $options['unsubscribe_success']
@@ -233,7 +233,7 @@ class NewsletterSubscriptionFrontend
 
    public function send_confirmation_email($email, $first_name, $last_name, $unsubscribe_token)
    {
-      $options = get_option($this->options_name, array());
+      $options = get_option($this->options_name, []);
 
       $subject = isset($options['email_subject']) && !empty($options['email_subject'])
          ? $options['email_subject']

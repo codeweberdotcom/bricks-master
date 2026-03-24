@@ -258,7 +258,7 @@ function perform_enhanced_search($atts)
    $atts['include_taxonomies'] = filter_var($atts['include_taxonomies'], FILTER_VALIDATE_BOOLEAN);
 
    if (empty($atts['keyword'])) {
-      return array('all_results' => array());
+      return array('all_results' => []);
    }
 
    // Типы записей, которые нужно исключить из поиска
@@ -282,7 +282,7 @@ function perform_enhanced_search($atts)
 
       // Если после фильтрации не осталось типов, возвращаем пустой результат
       if (empty($post_types)) {
-         return array('all_results' => array());
+         return array('all_results' => []);
       }
    }
 
@@ -311,7 +311,7 @@ function perform_enhanced_search($atts)
    $filter_callback = function ($where) use ($atts) {
       global $wpdb;
 
-      $search_conditions = array();
+      $search_conditions = [];
 
       $search_conditions[] = "{$wpdb->posts}.post_title LIKE '%" . esc_sql($wpdb->esc_like($atts['keyword'])) . "%'";
 
@@ -334,7 +334,7 @@ function perform_enhanced_search($atts)
    // found_posts содержит общее число совпадений без учёта posts_per_page — второй запрос не нужен
    $total_found_posts = $search_query->found_posts;
 
-   $taxonomy_results = array();
+   $taxonomy_results = [];
    if ($atts['include_taxonomies']) {
       $taxonomy_results = search_taxonomy_terms_by_name($atts['keyword'], $atts['taxonomy']);
    }
@@ -352,7 +352,7 @@ function perform_enhanced_search($atts)
       );
    };
 
-   $grouped_posts = array();
+   $grouped_posts = [];
    if ($search_query->have_posts()) {
       while ($search_query->have_posts()) {
          $search_query->the_post();
@@ -362,7 +362,7 @@ function perform_enhanced_search($atts)
          if (!isset($grouped_posts[$post_type])) {
             $grouped_posts[$post_type] = array(
                'label' => $post_type_obj->labels->name,
-               'posts' => array(),
+               'posts' => [],
                'total_found' => 0
             );
          }
@@ -370,8 +370,8 @@ function perform_enhanced_search($atts)
          $post_info = array(
             'title' => get_the_title(),
             'permalink' => get_permalink(),
-            'found_locations' => array(),
-            'excerpts' => array(),
+            'found_locations' => [],
+            'excerpts' => [],
             'type' => $post_type
          );
 
@@ -424,7 +424,7 @@ function perform_enhanced_search($atts)
       $grouped_posts[$post_type]['total_found'] = $total_for_type_query->found_posts;
    }
 
-   $grouped_taxonomies = array();
+   $grouped_taxonomies = [];
    if (!empty($taxonomy_results)) {
       foreach ($taxonomy_results as $term) {
          $taxonomy_obj = get_taxonomy($term->taxonomy);
@@ -432,7 +432,7 @@ function perform_enhanced_search($atts)
 
          if (!isset($grouped_taxonomies[$taxonomy_label])) {
             $grouped_taxonomies[$taxonomy_label] = array(
-               'items' => array(),
+               'items' => [],
                'total_found' => 0
             );
          }
@@ -450,7 +450,7 @@ function perform_enhanced_search($atts)
       $grouped_taxonomies[$taxonomy_label]['total_found'] = count($group['items']);
    }
 
-   $all_results = array();
+   $all_results = [];
 
    foreach ($grouped_posts as $post_type => $group) {
       $all_results[$group['label']] = array(
@@ -482,7 +482,7 @@ function perform_enhanced_search($atts)
 
 function search_taxonomy_terms_by_name($keyword, $specific_taxonomy = '')
 {
-   $taxonomies = array();
+   $taxonomies = [];
 
    if (!empty($specific_taxonomy)) {
       $taxonomies = array($specific_taxonomy);
@@ -490,7 +490,7 @@ function search_taxonomy_terms_by_name($keyword, $specific_taxonomy = '')
       $taxonomies = get_taxonomies(array('public' => true));
    }
 
-   $found_terms = array();
+   $found_terms = [];
 
    foreach ($taxonomies as $taxonomy) {
       $terms = get_terms(array(

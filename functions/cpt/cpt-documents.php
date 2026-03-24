@@ -1152,7 +1152,7 @@ function send_document_email($request) {
 	$headers = array('Content-Type: text/html; charset=UTF-8');
 	
 	// Если файл существует, добавляем его как вложение
-	$attachments = array();
+	$attachments = [];
 	if ($file_path && file_exists($file_path)) {
 		$attachments[] = $file_path;
 	}

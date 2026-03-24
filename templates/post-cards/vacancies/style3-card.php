@@ -37,7 +37,7 @@ if ($vacancy_image_url) {
     $is_svg = ($image_extension === 'svg');
 }
 
-$vacancy_types = !empty($vacancy_data['vacancy_types']) && !is_wp_error($vacancy_data['vacancy_types']) ? $vacancy_data['vacancy_types'] : array();
+$vacancy_types = !empty($vacancy_data['vacancy_types']) && !is_wp_error($vacancy_data['vacancy_types']) ? $vacancy_data['vacancy_types'] : [];
 $level_badge = '';
 if (!empty($vacancy_types)) {
     foreach ($vacancy_types as $type) {
@@ -61,7 +61,7 @@ $location = !empty($vacancy_data['location']) ? $vacancy_data['location'] : '';
 $card_radius   = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 $button_style  = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded-pill';
 ?>
-<div class="card shadow shadow-lg lift h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
+<div class="card lift h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
     <div class="card-body">
             <div class="d-flex align-items-center mb-3">
                 <?php if ($vacancy_image_url) : ?>

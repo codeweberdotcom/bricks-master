@@ -44,7 +44,7 @@ if ($vacancy_image_url) {
 // Location (will be used instead of date)
 
 // Level (senior, junior, etc.) - can be obtained from taxonomy or meta field
-$vacancy_types = !empty($vacancy_data['vacancy_types']) && !is_wp_error($vacancy_data['vacancy_types']) ? $vacancy_data['vacancy_types'] : array();
+$vacancy_types = !empty($vacancy_data['vacancy_types']) && !is_wp_error($vacancy_data['vacancy_types']) ? $vacancy_data['vacancy_types'] : [];
 $level_badge = '';
 if (!empty($vacancy_types)) {
     foreach ($vacancy_types as $type) {
@@ -74,7 +74,7 @@ $button_style = class_exists('Codeweber_Options') ? Codeweber_Options::style('bu
 ?>
 
 <div class="col-md-6 col-lg-4">
-    <div class="card shadow shadow-lg lift h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
+    <div class="card lift h-100<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
         <div class="card-body">
             <!-- Header: Logo and Company -->
             <div class="d-flex align-items-center mb-3">

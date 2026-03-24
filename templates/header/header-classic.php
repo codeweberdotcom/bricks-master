@@ -122,8 +122,8 @@ if ($header_background === '3') {
 
 
 
-$header_navbar_class = array();
-$navbar_collapse_class = array();
+$header_navbar_class = [];
+$navbar_collapse_class = [];
 if ($config['navbar-transparent'] === true) {
     $header_navbar_class[] = 'transparent position-absolute';
 }

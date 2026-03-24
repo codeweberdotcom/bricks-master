@@ -67,7 +67,7 @@ class CW_Wishlist_UI {
 		wp_enqueue_script(
 			'cw-wishlist',
 			$js_url,
-			array(),
+			[],
 			codeweber_asset_version( $js_path ),
 			true
 		);
@@ -160,7 +160,7 @@ class CW_Wishlist_UI {
 	public function render_wishlist_page() {
 		ob_start();
 
-		$products    = $this->wishlist ? $this->wishlist->get_all() : array();
+		$products    = $this->wishlist ? $this->wishlist->get_all() : [];
 		$product_ids = array_column( $products, 'product_id' );
 
 		?>
@@ -214,7 +214,7 @@ class CW_Wishlist_UI {
 			return $items;
 		}
 
-		$logout = array();
+		$logout = [];
 		if ( isset( $items['customer-logout'] ) ) {
 			$logout = array( 'customer-logout' => $items['customer-logout'] );
 			unset( $items['customer-logout'] );

@@ -33,10 +33,10 @@ if ( empty( $vacancy_image_url ) ) {
 $card_radius    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';
 $show_hit_badge = get_post_meta( $post_id, '_vacancy_featured', true ) || get_post_meta( $post_id, '_vacancy_hit', true );
 ?>
-<div class="card h-100 shadow-sm<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?><?php echo $show_hit_badge ? ' position-relative' : ''; ?>">
+<a href="<?php echo esc_url( $link ); ?>" class="card h-100 lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?><?php echo $show_hit_badge ? ' position-relative' : ''; ?>">
 
-	<figure class="card-img-top overflow-hidden m-0" style="height:210px;">
-		<img src="<?php echo esc_url( $vacancy_image_url ); ?>" alt="<?php echo esc_attr( $title ); ?>" class="w-100 h-100 object-fit-cover">
+	<figure>
+		<img src="<?php echo esc_url( $vacancy_image_url ); ?>" alt="<?php echo esc_attr( $title ); ?>" class="w-100 object-fit-cover">
 	</figure>
 
 	<?php if ( $show_hit_badge ) : ?>
@@ -44,11 +44,7 @@ $show_hit_badge = get_post_meta( $post_id, '_vacancy_featured', true ) || get_po
 	<?php endif; ?>
 
 	<div class="card-body d-flex flex-column p-4">
-		<h5 class="card-title mb-3">
-			<a href="<?php echo esc_url( $link ); ?>" class="text-reset text-decoration-none stretched-link">
-				<?php echo esc_html( $title ); ?>
-			</a>
-		</h5>
+		<h5 class="card-title mb-3"><?php echo esc_html( $title ); ?></h5>
 		<ul class="list-unstyled mb-0 mt-auto">
 			<?php if ( $location ) : ?>
 				<li class="mb-1 d-flex align-items-center">
@@ -88,4 +84,4 @@ $show_hit_badge = get_post_meta( $post_id, '_vacancy_featured', true ) || get_po
 			<?php endif; ?>
 		</ul>
 	</div><!-- /.card-body -->
-</div><!-- /.card -->
+</a><!-- /.card -->

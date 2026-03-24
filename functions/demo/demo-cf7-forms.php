@@ -20,13 +20,13 @@ function cw_demo_create_cf7_forms() {
             'success' => false,
             'message' => __('Contact Form 7 is not active', 'codeweber'),
             'created' => 0,
-            'errors' => array()
+            'errors' => []
         );
     }
 
     $created = 0;
-    $errors = array();
-    $forms = array();
+    $errors = [];
+    $forms = [];
 
     // Форма 1: Форма обратной связи
     $form1_slug = 'forma-obratnoj-svyazi';
@@ -222,12 +222,12 @@ function cw_demo_delete_cf7_forms() {
             'success' => false,
             'message' => __('Contact Form 7 is not active', 'codeweber'),
             'deleted' => 0,
-            'errors' => array()
+            'errors' => []
         );
     }
 
     $deleted = 0;
-    $errors = array();
+    $errors = [];
     
     // Находим все формы с мета-полем _demo_created
     $forms = get_posts(array(

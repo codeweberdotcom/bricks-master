@@ -82,7 +82,7 @@ function add_mega_menu_meta_to_menu_items($items, $args)
    if (!is_array($items) || empty($items)) {
       return $items;
    }
-   $items_by_id = array();
+   $items_by_id = [];
    foreach ($items as $item) {
       $items_by_id[$item->ID] = $item;
       $item->is_mega_menu = get_post_meta($item->ID, '_mega_menu', true) ?: false;

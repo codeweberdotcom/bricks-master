@@ -55,8 +55,8 @@ function cw_demo_get_vacancies_data() {
                 $item['salary'] = !empty($item['salary_ru']) ? $item['salary_ru'] : (!empty($item['salary_en']) ? $item['salary_en'] : '');
                 $item['experience'] = !empty($item['experience_ru']) ? $item['experience_ru'] : (isset($item['experience']) ? $item['experience'] : '');
                 $item['education'] = !empty($item['education_ru']) ? $item['education_ru'] : (isset($item['education']) ? $item['education'] : '');
-                $item['languages'] = !empty($item['languages_ru']) ? $item['languages_ru'] : (isset($item['languages_en']) ? $item['languages_en'] : (isset($item['languages']) ? $item['languages'] : array()));
-                $item['skills'] = !empty($item['skills_ru']) ? $item['skills_ru'] : (isset($item['skills_en']) ? $item['skills_en'] : (isset($item['skills']) ? $item['skills'] : array()));
+                $item['languages'] = !empty($item['languages_ru']) ? $item['languages_ru'] : (isset($item['languages_en']) ? $item['languages_en'] : (isset($item['languages']) ? $item['languages'] : []));
+                $item['skills'] = !empty($item['skills_ru']) ? $item['skills_ru'] : (isset($item['skills_en']) ? $item['skills_en'] : (isset($item['skills']) ? $item['skills'] : []));
             } else {
                 $item['title'] = $item['title_en'];
                 $item['company'] = $item['company_en'];
@@ -69,8 +69,8 @@ function cw_demo_get_vacancies_data() {
                 $item['salary'] = !empty($item['salary_en']) ? $item['salary_en'] : '';
                 $item['experience'] = !empty($item['experience_en']) ? $item['experience_en'] : (isset($item['experience']) ? $item['experience'] : '');
                 $item['education'] = !empty($item['education_en']) ? $item['education_en'] : (isset($item['education']) ? $item['education'] : '');
-                $item['languages'] = !empty($item['languages_en']) ? $item['languages_en'] : (isset($item['languages']) ? $item['languages'] : array());
-                $item['skills'] = !empty($item['skills_en']) ? $item['skills_en'] : (isset($item['skills']) ? $item['skills'] : array());
+                $item['languages'] = !empty($item['languages_en']) ? $item['languages_en'] : (isset($item['languages']) ? $item['languages'] : []);
+                $item['skills'] = !empty($item['skills_en']) ? $item['skills_en'] : (isset($item['skills']) ? $item['skills'] : []);
             }
         }
         unset($item); // Сбрасываем ссылку
@@ -78,7 +78,7 @@ function cw_demo_get_vacancies_data() {
     
     // Адаптируем vacancy_schedules по языку (только валидные элементы: массив с name_ru/name_en)
     if (isset($data['vacancy_schedules']) && is_array($data['vacancy_schedules'])) {
-        $valid_schedules = array();
+        $valid_schedules = [];
         foreach ($data['vacancy_schedules'] as $schedule) {
             if (!is_array($schedule)) {
                 continue;
@@ -99,7 +99,7 @@ function cw_demo_get_vacancies_data() {
 
     // Адаптируем vacancy_types по языку (только валидные элементы)
     if (isset($data['vacancy_types']) && is_array($data['vacancy_types'])) {
-        $valid_types = array();
+        $valid_types = [];
         foreach ($data['vacancy_types'] as $type) {
             if (!is_array($type)) {
                 continue;
@@ -392,10 +392,10 @@ function cw_demo_create_vacancy_post($vacancy_data) {
     
     // Сохраняем массивы
     $array_fields = array(
-        'vacancy_requirements' => !empty($vacancy_data['requirements']) && is_array($vacancy_data['requirements']) ? $vacancy_data['requirements'] : array(),
-        'vacancy_responsibilities' => !empty($vacancy_data['responsibilities']) && is_array($vacancy_data['responsibilities']) ? $vacancy_data['responsibilities'] : array(),
-        'vacancy_languages' => !empty($vacancy_data['languages']) && is_array($vacancy_data['languages']) ? $vacancy_data['languages'] : array(),
-        'vacancy_skills' => !empty($vacancy_data['skills']) && is_array($vacancy_data['skills']) ? $vacancy_data['skills'] : array(),
+        'vacancy_requirements' => !empty($vacancy_data['requirements']) && is_array($vacancy_data['requirements']) ? $vacancy_data['requirements'] : [],
+        'vacancy_responsibilities' => !empty($vacancy_data['responsibilities']) && is_array($vacancy_data['responsibilities']) ? $vacancy_data['responsibilities'] : [],
+        'vacancy_languages' => !empty($vacancy_data['languages']) && is_array($vacancy_data['languages']) ? $vacancy_data['languages'] : [],
+        'vacancy_skills' => !empty($vacancy_data['skills']) && is_array($vacancy_data['skills']) ? $vacancy_data['skills'] : [],
     );
     
     foreach ($array_fields as $key => $value) {
@@ -472,12 +472,12 @@ function cw_demo_create_vacancies() {
             'success' => false,
             'message' => __('No data found or file is corrupted', 'codeweber'),
             'created' => 0,
-            'errors' => array()
+            'errors' => []
         );
     }
     
     $created = 0;
-    $errors = array();
+    $errors = [];
 
     // Создаём термины графика только из валидных объектов (name_ru/name_en + slug не число); данные уже отфильтрованы в cw_demo_get_vacancies_data
     if (!empty($data['vacancy_schedules']) && is_array($data['vacancy_schedules'])) {
@@ -542,7 +542,7 @@ function cw_demo_delete_vacancies() {
     
     $posts = get_posts($args);
     $deleted = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($posts as $post_id) {
         // Удаляем featured image

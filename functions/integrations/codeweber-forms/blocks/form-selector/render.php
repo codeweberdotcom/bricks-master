@@ -15,6 +15,21 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+$form_provider = isset($attributes['formProvider']) ? $attributes['formProvider'] : 'codeweber';
+
+// CF7
+if ($form_provider === 'cf7') {
+    $cf7_id = intval($attributes['cf7FormId'] ?? 0);
+    if ($cf7_id > 0) {
+        echo do_shortcode('[contact-form-7 id="' . $cf7_id . '"]');
+    } elseif (current_user_can('edit_posts')) {
+        echo '<p style="padding: 20px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px;">';
+        echo esc_html__('Please select a CF7 form in the block settings.', 'codeweber');
+        echo '</p>';
+    }
+    return;
+}
+
 // Получаем ID формы
 $form_id = isset($attributes['formId']) ? $attributes['formId'] : '';
 

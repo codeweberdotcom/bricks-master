@@ -148,7 +148,7 @@ if ( ! function_exists( 'cw_render_wishlist_icon' ) ) {
 	 *     @type bool $show_label Show text label. Default false.
 	 * }
 	 */
-	function cw_render_wishlist_icon( $args = array() ) {
+	function cw_render_wishlist_icon( $args = [] ) {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return;
 		}

@@ -30,7 +30,7 @@ $email = get_post_meta($post_id, '_office_email', true);
 $working_hours = get_post_meta($post_id, '_office_working_hours', true);
 
 // Формируем локацию
-$location_parts = array();
+$location_parts = [];
 if ($city) {
     $location_parts[] = $city;
 }

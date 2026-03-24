@@ -44,12 +44,12 @@ $page_header_pattern_image_url = Redux::get_option($opt_name, 'global-page-heade
 $global_header_model = Redux::get_option($opt_name, 'global-header-model');
 $header_background = Redux::get_option($opt_name, 'header-background');
 
-$container_class = array();
-$section_class = array();
-$col_class = array();
-$title_class = array();
-$subtitle_class = array();
-$data_section = array();
+$container_class = [];
+$section_class = [];
+$col_class = [];
+$title_class = [];
+$subtitle_class = [];
+$data_section = [];
 
 
 if ($global_header_model === '7' || $global_header_model === '8') {

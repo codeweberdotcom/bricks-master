@@ -40,7 +40,7 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 		 * @param int      $depth  Depth of menu item. Used for padding.
 		 * @param stdClass $args   An object of wp_nav_menu() arguments.
 		 */
-		public function start_lvl(&$output, $depth = 0, $args = array())
+		public function start_lvl(&$output, $depth = 0, $args = [])
 		{
 			if (isset($args->item_spacing) && 'discard' === $args->item_spacing) {
 				$t = '';
@@ -94,7 +94,7 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			$output .= "{$n}{$indent}<ul$class_names $labelledby role=\"menu\">{$n}";
 		}
 
-		public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0)
+		public function start_el(&$output, $item, $depth = 0, $args = [], $id = 0)
 		{
 			if (isset($args->item_spacing) && 'discard' === $args->item_spacing) {
 				$t = '';
@@ -105,12 +105,12 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			}
 			$indent = ($depth) ? str_repeat($t, $depth) : '';
 
-			$classes = empty($item->classes) ? array() : (array) $item->classes;
+			$classes = empty($item->classes) ? [] : (array) $item->classes;
 
 			// Initialize some holder variables to store specially handled item
 			// wrappers and icons.
-			$linkmod_classes = array();
-			$icon_classes    = array();
+			$linkmod_classes = [];
+			$icon_classes    = [];
 
 			/**
 			 * Get an updated $classes array without linkmod or icon classes.
@@ -223,7 +223,7 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 			}
 
 			// initialize array for holding the $atts for the link item.
-			$atts = array();
+			$atts = [];
 
 			// Set title from item to the $atts array - if title is empty then
 			// default to item title.
@@ -515,7 +515,7 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 		 *
 		 * @return string                empty for default, a linkmod type string otherwise.
 		 */
-		private function get_linkmod_type($linkmod_classes = array())
+		private function get_linkmod_type($linkmod_classes = [])
 		{
 			$linkmod_type = '';
 			// Loop through array of linkmod classes to handle their $atts.
@@ -547,7 +547,7 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 		 *
 		 * @return array                 maybe updated array of attributes for item.
 		 */
-		private function update_atts_for_linkmod_type($atts = array(), $linkmod_classes = array())
+		private function update_atts_for_linkmod_type($atts = [], $linkmod_classes = [])
 		{
 			if (!empty($linkmod_classes)) {
 				foreach ($linkmod_classes as $link_class) {

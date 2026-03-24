@@ -30,7 +30,7 @@ $avatar_color  = $avatar_colors[$color_index];
 $location = !empty($vacancy_data['location']) ? $vacancy_data['location'] : __('Anywhere', 'codeweber');
 $salary   = !empty($vacancy_data['salary']) ? $vacancy_data['salary'] : '';
 ?>
-<a href="<?php echo esc_url($link); ?>" class="card shadow-lg lift h-100<?php echo $archive_card_radius ? ' ' . esc_attr($archive_card_radius) : ''; ?>">
+<a href="<?php echo esc_url($link); ?>" class="card lift h-100<?php echo $archive_card_radius ? ' ' . esc_attr($archive_card_radius) : ''; ?>">
     <div class="card-body p-5 d-flex flex-row">
         <div class="flex-shrink-0">
             <span class="avatar <?php echo esc_attr($avatar_color); ?> text-white w-11 h-11 fs-20 me-4"><?php echo esc_html($initials); ?></span>

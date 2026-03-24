@@ -154,11 +154,11 @@ function codeweber_doc_get_tree( $doc_dir = null ) {
 	}
 	$doc_dir = rtrim( $doc_dir, '/\\' );
 	if ( ! is_dir( $doc_dir ) ) {
-		return array();
+		return [];
 	}
 
-	$tree = array();
-	$root_files = array();
+	$tree = [];
+	$root_files = [];
 
 	$doc_dir_sep = $doc_dir . DIRECTORY_SEPARATOR;
 	$iterator = new RecursiveIteratorIterator(
@@ -185,7 +185,7 @@ function codeweber_doc_get_tree( $doc_dir = null ) {
 		$dir   = $parts[0];
 
 		if ( ! isset( $tree[ $dir ] ) ) {
-			$tree[ $dir ] = array( 'label' => $dir, 'children' => array() );
+			$tree[ $dir ] = array( 'label' => $dir, 'children' => [] );
 		}
 		$tree[ $dir ]['children'][] = array( 'path' => $rel, 'name' => $name );
 	}

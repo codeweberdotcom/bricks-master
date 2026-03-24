@@ -105,10 +105,10 @@ $phone1 = Redux::get_option($opt_name, 'phone_01') . '<br>';
 $phone2 = Redux::get_option($opt_name, 'phone_02') . '<br>';
 $email = Redux::get_option($opt_name, 'e-mail') . '<br>';
 
-$header_navbar_class = array();
-$header_navbar_wrapper_class = array();
-$navbar_collapse_class = array();
-$header_class = array();
+$header_navbar_class = [];
+$header_navbar_wrapper_class = [];
+$navbar_collapse_class = [];
+$header_class = [];
 $logo = 'light';
 
 

@@ -330,7 +330,7 @@ function cw_demo_create_faq_post($faq_data) {
     
     // Назначаем теги, если указаны
     if (!empty($faq_data['tags']) && is_array($faq_data['tags'])) {
-        $tag_ids = array();
+        $tag_ids = [];
         foreach ($faq_data['tags'] as $tag_name) {
             $tag = get_term_by('name', $tag_name, 'faq_tag');
             if (!$tag) {
@@ -363,16 +363,16 @@ function cw_demo_create_faq() {
             'success' => false,
             'message' => __('No data found or file is corrupted', 'codeweber'),
             'created' => 0,
-            'errors' => array()
+            'errors' => []
         );
     }
     
     $created = 0;
-    $errors = array();
-    $categories_created = array();
+    $errors = [];
+    $categories_created = [];
     
     // Собираем уникальные категории
-    $unique_categories = array();
+    $unique_categories = [];
     foreach ($data['items'] as $item) {
         if (!empty($item['category'])) {
             $unique_categories[$item['category']] = true;
@@ -433,7 +433,7 @@ function cw_demo_delete_faq() {
     
     $posts = get_posts($args);
     $deleted = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($posts as $post_id) {
         // Удаляем запись

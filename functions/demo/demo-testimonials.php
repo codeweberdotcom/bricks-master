@@ -425,7 +425,7 @@ function cw_demo_import_testimonial_avatar($image_filename, $post_id) {
 function cw_demo_create_testimonials() {
     $testimonials_data = cw_demo_get_testimonials_data();
     $created = 0;
-    $errors = array();
+    $errors = [];
     
     foreach ($testimonials_data as $index => $testimonial_data) {
         // Создаем запись
@@ -499,7 +499,7 @@ function cw_demo_create_testimonials() {
  */
 function cw_demo_delete_testimonials() {
     $deleted = 0;
-    $errors = array();
+    $errors = [];
     
     // Получаем все записи testimonials
     $testimonials = get_posts(array(

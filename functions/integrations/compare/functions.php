@@ -41,7 +41,7 @@ if ( ! function_exists( 'cw_get_compare_ids' ) ) {
 		if ( class_exists( 'CW_Compare_Storage' ) ) {
 			return CW_Compare_Storage::get_ids();
 		}
-		return array();
+		return [];
 	}
 }
 

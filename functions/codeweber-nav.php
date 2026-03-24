@@ -46,7 +46,7 @@ function codeweber_nav_default_args() {
  */
 function codeweber_nav_build_tree_tax( $name, array $args ) {
 	if ( ! taxonomy_exists( $name ) ) {
-		return array();
+		return [];
 	}
 	$hide_empty = ! empty( $args['hide_empty'] );
 	$terms      = get_terms( array(
@@ -56,18 +56,18 @@ function codeweber_nav_build_tree_tax( $name, array $args ) {
 		'order'      => 'ASC',
 	) );
 	if ( is_wp_error( $terms ) || empty( $terms ) ) {
-		return array();
+		return [];
 	}
 	$queried_term_id = 0;
 	$obj             = get_queried_object();
 	if ( $obj && isset( $obj->term_id ) ) {
 		$queried_term_id = (int) $obj->term_id;
 	}
-	$by_parent = array();
+	$by_parent = [];
 	foreach ( $terms as $term ) {
 		$parent_id = (int) $term->parent;
 		if ( ! isset( $by_parent[ $parent_id ] ) ) {
-			$by_parent[ $parent_id ] = array();
+			$by_parent[ $parent_id ] = [];
 		}
 		$link = get_term_link( $term );
 		$url  = is_wp_error( $link ) ? '#' : $link;
@@ -98,7 +98,7 @@ function codeweber_nav_build_tree_tax( $name, array $args ) {
 function codeweber_nav_build_tree_cpt( $name, array $args ) {
 	$post_type_object = get_post_type_object( $name );
 	if ( ! $post_type_object || ! $post_type_object->public ) {
-		return array();
+		return [];
 	}
 	$is_hierarchical = is_post_type_hierarchical( $name );
 	$posts           = get_posts( array(
@@ -109,14 +109,14 @@ function codeweber_nav_build_tree_cpt( $name, array $args ) {
 		'post_status'    => 'publish',
 	) );
 	if ( empty( $posts ) ) {
-		return array();
+		return [];
 	}
 	$current_id = (int) get_queried_object_id();
-	$by_parent  = array();
+	$by_parent  = [];
 	foreach ( $posts as $post ) {
 		$parent_id = $is_hierarchical ? (int) $post->post_parent : 0;
 		if ( ! isset( $by_parent[ $parent_id ] ) ) {
-			$by_parent[ $parent_id ] = array();
+			$by_parent[ $parent_id ] = [];
 		}
 		$by_parent[ $parent_id ][] = array(
 			'id'      => 'post-' . $post->ID,
@@ -142,7 +142,7 @@ function codeweber_nav_build_tree_cpt( $name, array $args ) {
  * @return bool
  */
 function codeweber_nav_has_current_in_subtree( array $by_parent, $parent_id ) {
-	$children = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : array();
+	$children = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : [];
 	foreach ( $children as $item ) {
 		if ( ! empty( $item['current'] ) ) {
 			return true;
@@ -175,7 +175,7 @@ function codeweber_nav_has_current_in_subtree( array $by_parent, $parent_id ) {
  * @return string HTML фрагмент.
  */
 function codeweber_nav_render_simple( array $by_parent, $parent_id, array $args, $current_lvl = 1 ) {
-	$children   = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : array();
+	$children   = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : [];
 	$depth_limit = isset( $args['depth'] ) ? (int) $args['depth'] : 0;
 	$list_class  = ( $current_lvl > 1 && ! empty( $args['menu_class_sub'] ) ) ? $args['menu_class_sub'] : ( isset( $args['menu_class'] ) ? $args['menu_class'] : 'list-unstyled fs-sm lh-sm' );
 	$link_class  = isset( $args['link_class'] ) ? trim( (string) $args['link_class'] ) : '';
@@ -188,7 +188,7 @@ function codeweber_nav_render_simple( array $by_parent, $parent_id, array $args,
 	foreach ( $children as $item ) {
 		$has_children = ( $depth_limit === 0 || $current_lvl < $depth_limit ) && isset( $by_parent[ $item['wp_id'] ] ) && ! empty( $by_parent[ $item['wp_id'] ] );
 		$is_current   = ! empty( $item['current'] );
-		$link_classes = array_filter( array_merge( $theme_class ? explode( ' ', $theme_class ) : array(), $link_class ? explode( ' ', $link_class ) : array(), $is_current ? array( 'active' ) : array() ) );
+		$link_classes = array_filter( array_merge( $theme_class ? explode( ' ', $theme_class ) : [], $link_class ? explode( ' ', $link_class ) : [], $is_current ? array( 'active' ) : [] ) );
 		$a_class      = ! empty( $link_classes ) ? ' class="' . esc_attr( implode( ' ', $link_classes ) ) . '"' : '';
 		$aria_current = $is_current ? ' aria-current="page"' : '';
 		$html        .= '<li><a href="' . esc_url( $item['url'] ) . '"' . $a_class . $aria_current . '>' . esc_html( $item['text'] ) . '</a>';
@@ -214,7 +214,7 @@ function codeweber_nav_render_simple( array $by_parent, $parent_id, array $args,
  * @return string HTML фрагмент.
  */
 function codeweber_nav_render_dropdown( array $by_parent, $parent_id, array $args, $current_lvl = 1 ) {
-	$children    = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : array();
+	$children    = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : [];
 	$depth_limit = isset( $args['depth'] ) ? (int) $args['depth'] : 0;
 	$link_class  = isset( $args['link_class'] ) ? trim( (string) $args['link_class'] ) : '';
 	$theme_class = isset( $args['theme_class'] ) ? trim( (string) $args['theme_class'] ) : '';
@@ -278,7 +278,7 @@ function codeweber_nav_render_dropdown( array $by_parent, $parent_id, array $arg
 }
 
 function codeweber_nav_render_collapse( array $by_parent, $parent_id, array $args, $current_lvl = 1, $top_level_count = 0, &$top_level_index = 0, $parent_collapse_id = '' ) {
-	$children   = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : array();
+	$children   = isset( $by_parent[ $parent_id ] ) ? $by_parent[ $parent_id ] : [];
 	$depth_limit = isset( $args['depth'] ) ? (int) $args['depth'] : 0;
 	$wrapper_id  = isset( $args['wrapper_id'] ) ? $args['wrapper_id'] : '';
 	$suffix      = isset( $args['instance_suffix'] ) ? $args['instance_suffix'] : '';
@@ -371,7 +371,7 @@ function codeweber_nav_render_collapse( array $by_parent, $parent_id, array $arg
  * @param array|string $args   Необязательный массив аргументов. См. codeweber_nav_default_args().
  * @return string HTML навигации или пустая строка.
  */
-function codeweber_nav( $source, $name, $args = array() ) {
+function codeweber_nav( $source, $name, $args = [] ) {
 	$source = strtolower( (string) $source );
 	$name   = (string) $name;
 	if ( $name === '' ) {
@@ -382,7 +382,7 @@ function codeweber_nav( $source, $name, $args = array() ) {
 	}
 
 	$defaults = codeweber_nav_default_args();
-	$args     = is_array( $args ) ? $args : array();
+	$args     = is_array( $args ) ? $args : [];
 	$args     = array_merge( $defaults, $args );
 
 	if ( $source === 'tax' && ! taxonomy_exists( $name ) ) {

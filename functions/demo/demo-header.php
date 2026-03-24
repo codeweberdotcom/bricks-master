@@ -125,12 +125,12 @@ function cw_demo_create_headers() {
 			'success' => false,
 			'message' => __( 'No data found', 'codeweber' ),
 			'created' => 0,
-			'errors'  => array(),
+			'errors'  => [],
 		);
 	}
 
 	$created = 0;
-	$errors  = array();
+	$errors  = [];
 
 	foreach ( $data as $item ) {
 		$post_id = cw_demo_create_header_post( $item );
@@ -184,6 +184,6 @@ function cw_demo_delete_headers() {
 		'success' => true,
 		'message' => sprintf( __( '%d headers deleted', 'codeweber' ), $deleted ),
 		'deleted' => $deleted,
-		'errors'  => array(),
+		'errors'  => [],
 	);
 }

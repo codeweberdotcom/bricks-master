@@ -271,7 +271,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
      */
     protected function get_views()
     {
-        $views = array();
+        $views = [];
         $current = isset($_GET['status']) ? $_GET['status'] : 'all';
 
         $statuses = array(

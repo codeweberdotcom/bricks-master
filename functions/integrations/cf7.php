@@ -95,7 +95,7 @@ function codeweber_cf7_custom_scripts() {
     wp_enqueue_script(
         'codeweber-form-validation',
         $script_url,
-        array(),
+        [],
         filemtime($script_path),
         true
     );

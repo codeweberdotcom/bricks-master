@@ -66,7 +66,7 @@ class CodeWeber_Vertical_Dropdown_Walker extends WP_Bootstrap_Navwalker {
 	 * @param stdClass $args   An object of wp_nav_menu() arguments.
 	 * @param int      $id     Current item ID.
 	 */
-	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $item, $depth = 0, $args = [], $id = 0 ) {
 		self::$rendering_vertical = true;
 		parent::start_el( $output, $item, $depth, $args, $id );
 		self::$rendering_vertical = false;

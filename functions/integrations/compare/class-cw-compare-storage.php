@@ -25,14 +25,14 @@ class CW_Compare_Storage {
 	 */
 	public static function get_ids() {
 		if ( ! isset( $_COOKIE[ self::COOKIE_NAME ] ) ) {
-			return array();
+			return [];
 		}
 
 		$raw  = stripslashes( sanitize_text_field( wp_unslash( $_COOKIE[ self::COOKIE_NAME ] ) ) );
 		$data = json_decode( $raw, true );
 
 		if ( ! is_array( $data ) ) {
-			return array();
+			return [];
 		}
 
 		return array_values( array_filter( array_map( 'absint', $data ) ) );
@@ -88,7 +88,7 @@ class CW_Compare_Storage {
 	 * Clear all IDs from cookie.
 	 */
 	public static function clear() {
-		self::save( array() );
+		self::save( [] );
 	}
 
 	/**

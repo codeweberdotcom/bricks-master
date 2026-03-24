@@ -191,23 +191,23 @@ if (! function_exists('codeweber_styles_scripts_gutenberg')) {
 		// --- CSS ---
 		$plugin_styles_url = codeweber_get_dist_file_url('dist/assets/css/plugins.css');
 		if ($plugin_styles_url) {
-			wp_enqueue_style('plugin-styles1', $plugin_styles_url, array(), $theme_version, 'all');
+			wp_enqueue_style('plugin-styles1', $plugin_styles_url, [], $theme_version, 'all');
 		}
 		
 		$theme_styles_url = codeweber_get_dist_file_url('dist/assets/css/style.css');
 		if ($theme_styles_url) {
-			wp_enqueue_style('theme-styles1', $theme_styles_url, array(), $theme_version, 'all');
+			wp_enqueue_style('theme-styles1', $theme_styles_url, [], $theme_version, 'all');
 		}
 
 		// --- JS ---
 		$plugins_scripts_url = codeweber_get_dist_file_url('dist/assets/js/plugins.js');
 		if ($plugins_scripts_url) {
-			wp_enqueue_script('plugins-scripts2', $plugins_scripts_url, array(), $theme_version, true);
+			wp_enqueue_script('plugins-scripts2', $plugins_scripts_url, [], $theme_version, true);
 		}
 		
 		$theme_scripts_url = codeweber_get_dist_file_url('dist/assets/js/theme.js');
 		if ($theme_scripts_url) {
-			wp_enqueue_script('theme-scripts2', $theme_scripts_url, array(), $theme_version, true);
+			wp_enqueue_script('theme-scripts2', $theme_scripts_url, [], $theme_version, true);
 		}
 	}
 }
@@ -227,7 +227,7 @@ function codeweber_enqueue_restapi_script()
 	
 	// Проверяем, загружен ли plugins-scripts (для Bootstrap)
 	$plugins_scripts_url = codeweber_get_dist_file_url('dist/assets/js/plugins.js');
-	$dependencies = array();
+	$dependencies = [];
 	if ($plugins_scripts_url) {
 		$dependencies[] = 'plugins-scripts';
 	}
@@ -281,7 +281,7 @@ function codeweber_enqueue_notification_triggers()
 	
 	// Dependencies: plugins-scripts (Bootstrap) and codeweber-restapi (restapi.js)
 	$plugins_scripts_url = codeweber_get_dist_file_url('dist/assets/js/plugins.js');
-	$dependencies = array();
+	$dependencies = [];
 	if ($plugins_scripts_url) {
 		$dependencies[] = 'plugins-scripts';
 	}

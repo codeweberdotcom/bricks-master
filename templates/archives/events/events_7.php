@@ -40,10 +40,10 @@ $grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 					][ $reg_status['status'] ] ?? '';
 				?>
 				<div class="col-12 col-sm-6 col-lg-4">
-					<div class="card h-100 shadow-sm<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+					<a href="<?php the_permalink(); ?>" class="card h-100 lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 
-						<figure class="card-img-top overflow-hidden m-0" style="height:210px;">
-							<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-100 h-100 object-fit-cover">
+						<figure>
+							<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-100 object-fit-cover">
 						</figure>
 
 						<div class="card-body d-flex flex-column p-4">
@@ -59,7 +59,7 @@ $grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 							<?php endif; ?>
 
 							<?php if ( $date_start ) : ?>
-								<p class="mb-1 text-muted small">
+								<p class="mb-1 text-muted">
 									<i class="uil uil-calendar-alt me-1"></i>
 									<?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $date_start ) ) ); ?>
 									<?php if ( $date_end && $date_end !== $date_start ) : ?>
@@ -68,11 +68,7 @@ $grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 								</p>
 							<?php endif; ?>
 
-							<h5 class="card-title mb-2">
-								<a href="<?php the_permalink(); ?>" class="text-reset text-decoration-none stretched-link">
-									<?php the_title(); ?>
-								</a>
-							</h5>
+							<h5 class="card-title mb-2"><?php the_title(); ?></h5>
 
 							<div class="mt-auto pt-3 d-flex flex-wrap align-items-center gap-2">
 
@@ -83,20 +79,20 @@ $grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 								<?php endif; ?>
 
 								<?php if ( $location ) : ?>
-									<span class="text-muted small">
+									<span class="text-muted">
 										<i class="uil uil-map-marker-alt me-1"></i><?php echo esc_html( $location ); ?>
 									</span>
 								<?php endif; ?>
 
 								<?php if ( $price ) : ?>
-									<span class="small">
+									<span class="">
 										<i class="uil uil-tag-alt me-1"></i><?php echo esc_html( $price ); ?>
 									</span>
 								<?php endif; ?>
 
 							</div>
 						</div><!-- /.card-body -->
-					</div><!-- /.card -->
+					</a><!-- /.card -->
 				</div>
 				<?php endwhile; ?>
 			</div>

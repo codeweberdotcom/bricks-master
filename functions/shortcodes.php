@@ -394,7 +394,7 @@ add_shortcode( 'menu_collapse', function ( $atts ) {
 		// demo: пункты подставляются фильтром wp_nav_menu_objects — считаем после применения фильтра
 		$menu_items = wp_get_nav_menu_items( 999999 );
 		$demo_args  = (object) array( 'menu' => 999999, 'demo' => true );
-		$menu_items = apply_filters( 'wp_nav_menu_objects', is_array( $menu_items ) ? $menu_items : array(), $demo_args );
+		$menu_items = apply_filters( 'wp_nav_menu_objects', is_array( $menu_items ) ? $menu_items : [], $demo_args );
 		if ( is_array( $menu_items ) ) {
 			foreach ( $menu_items as $mi ) {
 				if ( 0 === (int) $mi->menu_item_parent ) {

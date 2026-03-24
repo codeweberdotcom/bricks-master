@@ -10,7 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // ── Redux-настройки корзины ───────────────────────────────────────────────────
-$_cw_opts                = get_option( 'redux_demo', array() );
+$_cw_opts                = get_option( 'redux_demo', [] );
 $_cw_offcanvas_enable    = ! isset( $_cw_opts['woo_offcanvas_enable'] ) || (bool) $_cw_opts['woo_offcanvas_enable'];
 $_cw_offcanvas_auto_open = ! isset( $_cw_opts['woo_offcanvas_auto_open'] ) || (bool) $_cw_opts['woo_offcanvas_auto_open'];
 $_cw_offcanvas_scroll    = ! isset( $_cw_opts['woo_offcanvas_scroll'] ) || (bool) $_cw_opts['woo_offcanvas_scroll'];
@@ -111,7 +111,7 @@ function cw_ajax_add_to_cart() {
 	$variation_id = absint( wp_unslash( $_POST['variation_id'] ?? 0 ) );
 
 	// Атрибуты вариации: поля с префиксом attribute_
-	$variation = array();
+	$variation = [];
 	foreach ( $_POST as $key => $value ) { // phpcs:ignore WordPress.Security.NonceVerification
 		if ( strpos( $key, 'attribute_' ) === 0 ) {
 			$variation[ sanitize_key( $key ) ] = sanitize_text_field( wp_unslash( $value ) );
@@ -192,7 +192,7 @@ function cw_cart_offcanvas_container() {
 	if ( ! function_exists( 'WC' ) ) {
 		return;
 	}
-	$opts   = get_option( 'redux_demo', array() );
+	$opts   = get_option( 'redux_demo', [] );
 	$scroll = ! isset( $opts['woo_offcanvas_scroll'] ) || (bool) $opts['woo_offcanvas_scroll'];
 	?>
 	<div class="offcanvas offcanvas-end bg-light"
@@ -247,7 +247,7 @@ function cw_cart_offcanvas_enqueue() {
 		true
 	);
 
-	$opts      = get_option( 'redux_demo', array() );
+	$opts      = get_option( 'redux_demo', [] );
 	$auto_open = ! isset( $opts['woo_offcanvas_auto_open'] ) || (bool) $opts['woo_offcanvas_auto_open'];
 
 	wp_localize_script(

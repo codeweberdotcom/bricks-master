@@ -475,7 +475,7 @@ function save_license_meta($post_id)
       if ($author_id > 0) {
          wp_set_object_terms($post_id, array($author_id), 'licensor_author', false);
       } else {
-         wp_set_object_terms($post_id, array(), 'licensor_author', false);
+         wp_set_object_terms($post_id, [], 'licensor_author', false);
       }
    }
 
@@ -512,7 +512,7 @@ add_action('save_post', 'save_license_meta');
 // Add columns to licenses list
 function add_license_columns($columns)
 {
-   $new_columns = array();
+   $new_columns = [];
 
    foreach ($columns as $key => $value) {
       $new_columns[$key] = $value;
@@ -539,7 +539,7 @@ function populate_license_columns($column, $post_id)
       case 'licensor_author':
          $terms = get_the_terms($post_id, 'licensor_author');
          if ($terms && !is_wp_error($terms)) {
-            $term_names = array();
+            $term_names = [];
             foreach ($terms as $term) {
                $term_names[] = $term->name;
             }
@@ -578,7 +578,7 @@ add_filter('manage_edit-media_license_sortable_columns', 'make_license_columns_s
 // Add license column to media library
 function add_media_license_column($columns)
 {
-   $new_columns = array();
+   $new_columns = [];
 
    foreach ($columns as $key => $value) {
       $new_columns[$key] = $value;
@@ -719,7 +719,7 @@ function ajax_license_attach_media()
    if (!current_user_can('edit_post', $license_id)) {
       wp_send_json_error(array('message' => 'Permission denied'));
    }
-   $ids = isset($_POST['attachment_ids']) ? array_map('intval', (array) $_POST['attachment_ids']) : array();
+   $ids = isset($_POST['attachment_ids']) ? array_map('intval', (array) $_POST['attachment_ids']) : [];
    $ids = array_filter($ids);
    foreach ($ids as $att_id) {
       if (get_post_type($att_id) === 'attachment') {
@@ -727,7 +727,7 @@ function ajax_license_attach_media()
       }
    }
    $attachments = get_attachments_with_license($license_id);
-   $items = array();
+   $items = [];
    foreach ($attachments as $a) {
       $items[] = license_attachment_list_item($a);
    }

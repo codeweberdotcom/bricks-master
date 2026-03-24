@@ -12,7 +12,7 @@
  */
 
 $post_id       = (int) get_query_var('vacancy_list_item_post_id', 0);
-$vacancy_data  = get_query_var('vacancy_list_item_data', array());
+$vacancy_data  = get_query_var('vacancy_list_item_data', []);
 $avatar_color  = get_query_var('vacancy_list_item_avatar_color', 'bg-red');
 $card_radius   = get_query_var('vacancy_list_item_card_radius', '');
 

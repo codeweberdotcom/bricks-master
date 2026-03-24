@@ -381,7 +381,7 @@
         // Frame ---------------------------------------------------------------
         // Cache of initial frames.
          
-        public static $frames = array();
+        public static $frames = [];
 
         /** --------------------------------------------------------------------
          * Put a finder pattern.

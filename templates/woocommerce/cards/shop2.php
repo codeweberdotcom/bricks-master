@@ -54,7 +54,7 @@ $add_to_cart_text = $product->add_to_cart_text();
 $is_simple        = $product->is_type( 'simple' );
 
 // Значок Sale / New — настройки из Redux
-$cw_opts         = get_option( 'redux_demo', array() );
+$cw_opts         = get_option( 'redux_demo', [] );
 $badge_shape_map = array(
 	'1' => 'rounded-pill',
 	'2' => 'rounded',

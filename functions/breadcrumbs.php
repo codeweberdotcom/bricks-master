@@ -24,7 +24,7 @@ if (!function_exists('get_breadcrumbs')) {
       // Классы для <ol>
       $ol_classes = ['breadcrumb'];
 
-      $class_nav = array();
+      $class_nav = [];
       if (!empty($class)) {
          $class_nav[] = $class;
       }

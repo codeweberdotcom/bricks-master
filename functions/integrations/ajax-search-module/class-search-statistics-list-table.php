@@ -157,8 +157,8 @@ class Search_Statistics_List_Table extends WP_List_Table
         $orderby = preg_replace('/[^a-z0-9_]/i', '', $orderby);
 
         // Build WHERE clause
-        $where_conditions = array();
-        $query_params = array();
+        $where_conditions = [];
+        $query_params = [];
         $use_prepare = false;
 
         if (!empty($start_date)) {

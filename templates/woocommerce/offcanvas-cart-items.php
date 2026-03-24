@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$cart_items = WC()->cart ? WC()->cart->get_cart() : array();
+$cart_items = WC()->cart ? WC()->cart->get_cart() : [];
 ?>
 <div class="cw-offcanvas-cart-inner">
 

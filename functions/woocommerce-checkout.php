@@ -132,7 +132,7 @@ function cw_checkout_field_select( $field, $key, $args, $value ) {
 add_filter( 'woocommerce_checkout_fields', 'cw_checkout_fields_from_redux', 20 );
 
 function cw_checkout_fields_from_redux( $fields ) {
-	$opts = get_option( 'redux_demo', array() );
+	$opts = get_option( 'redux_demo', [] );
 
 	// Дефолты (зеркало Redux-дефолтов) — используются если Redux ещё не сохранён
 	$defaults = array(
@@ -186,7 +186,7 @@ function cw_checkout_fields_from_redux( $fields ) {
 
 			// Width
 			$width = isset( $opts["{$id_base}_width"] ) ? $opts["{$id_base}_width"] : $def['width'];
-			$class = (array) ( $fields[ $group ][ $field_key ]['class'] ?? array() );
+			$class = (array) ( $fields[ $group ][ $field_key ]['class'] ?? [] );
 
 			if ( 'full' === $width ) {
 				$class   = array_diff( $class, array( 'form-row-first', 'form-row-last' ) );

@@ -124,7 +124,7 @@ class CW_Compare {
 		CW_Compare_Storage::clear();
 
 		wp_send_json_success( array(
-			'ids'   => array(),
+			'ids'   => [],
 			'count' => 0,
 		) );
 	}

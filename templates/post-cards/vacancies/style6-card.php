@@ -22,8 +22,8 @@ $company      = !empty($vacancy_data['company']) ? $vacancy_data['company'] : ''
 $salary       = !empty($vacancy_data['salary']) ? $vacancy_data['salary'] : '';
 $location     = !empty($vacancy_data['location']) ? $vacancy_data['location'] : '';
 $experience   = !empty($vacancy_data['experience']) ? $vacancy_data['experience'] : '';
-$vacancy_types = !empty($vacancy_data['vacancy_types']) && !is_wp_error($vacancy_data['vacancy_types']) ? $vacancy_data['vacancy_types'] : array();
-$vacancy_schedules = !empty($vacancy_data['vacancy_schedules']) && !is_wp_error($vacancy_data['vacancy_schedules']) ? $vacancy_data['vacancy_schedules'] : array();
+$vacancy_types = !empty($vacancy_data['vacancy_types']) && !is_wp_error($vacancy_data['vacancy_types']) ? $vacancy_data['vacancy_types'] : [];
+$vacancy_schedules = !empty($vacancy_data['vacancy_schedules']) && !is_wp_error($vacancy_data['vacancy_schedules']) ? $vacancy_data['vacancy_schedules'] : [];
 $category_name = !empty($vacancy_types) ? $vacancy_types[0]->name : '';
 $schedule_name = !empty($vacancy_schedules) ? $vacancy_schedules[0]->name : '';
 

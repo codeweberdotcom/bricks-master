@@ -29,12 +29,12 @@ function codeweber_ajax_filter() {
     $post_type = isset($_POST['post_type']) ? sanitize_text_field($_POST['post_type']) : 'post';
     
     // Обрабатываем filters - может быть JSON строка или массив
-    $filters = array();
+    $filters = [];
     if ( isset( $_POST['filters'] ) ) {
         $raw_filters = wp_unslash( $_POST['filters'] );
         if ( is_string( $raw_filters ) ) {
             $decoded = json_decode( $raw_filters, true );
-            $filters = is_array( $decoded ) ? $decoded : array();
+            $filters = is_array( $decoded ) ? $decoded : [];
         } elseif ( is_array( $raw_filters ) ) {
             $filters = $raw_filters;
         }
@@ -123,8 +123,8 @@ add_action('wp_ajax_nopriv_codeweber_filter', 'codeweber_ajax_filter');
  * Применяет фильтры для вакансий
  */
 function codeweber_apply_vacancy_filters($args, $filters) {
-    $meta_query = array();
-    $tax_query = array();
+    $meta_query = [];
+    $tax_query = [];
     
     // Фильтр по типу вакансии (taxonomy)
     $vacancy_type_id = !empty($filters['vacancy_type']) ? $filters['vacancy_type'] : (!empty($filters['position']) ? $filters['position'] : null);
@@ -166,7 +166,7 @@ function codeweber_apply_vacancy_filters($args, $filters) {
  * Применяет фильтры для статей
  */
 function codeweber_apply_post_filters($args, $filters) {
-    $tax_query = array();
+    $tax_query = [];
     
     // Фильтр по категории
     if (!empty($filters['category'])) {
@@ -200,8 +200,8 @@ function codeweber_apply_post_filters($args, $filters) {
  * Применяет фильтры для товаров WooCommerce
  */
 function codeweber_apply_product_filters($args, $filters) {
-    $tax_query = array();
-    $meta_query = array();
+    $tax_query = [];
+    $meta_query = [];
     
     // Фильтр по категории товара
     if (!empty($filters['category'])) {
@@ -255,7 +255,7 @@ function codeweber_apply_product_filters($args, $filters) {
  * Применяет фильтры для staff
  */
 function codeweber_apply_staff_filters($args, $filters) {
-    $tax_query = array();
+    $tax_query = [];
     
     // Фильтр по департаменту
     if (!empty($filters['department'])) {
@@ -278,7 +278,7 @@ function codeweber_apply_staff_filters($args, $filters) {
  */
 function codeweber_render_vacancies_filtered($query, $filters) {
     // Группируем вакансии по типам
-    $vacancies_by_type = array();
+    $vacancies_by_type = [];
     
     while ($query->have_posts()) {
         $query->the_post();
@@ -291,7 +291,7 @@ function codeweber_render_vacancies_filtered($query, $filters) {
                 if (!isset($vacancies_by_type[$type->term_id])) {
                     $vacancies_by_type[$type->term_id] = array(
                         'term' => $type,
-                        'vacancies' => array()
+                        'vacancies' => []
                     );
                 }
                 $vacancies_by_type[$type->term_id]['vacancies'][] = array(
@@ -303,7 +303,7 @@ function codeweber_render_vacancies_filtered($query, $filters) {
             if (!isset($vacancies_by_type['no-type'])) {
                 $vacancies_by_type['no-type'] = array(
                     'term' => null,
-                    'vacancies' => array()
+                    'vacancies' => []
                 );
             }
             $vacancies_by_type['no-type']['vacancies'][] = array(
@@ -373,7 +373,7 @@ function codeweber_render_products_filtered($query, $filters, $template) {
  * Применяет фильтры для событий
  */
 function codeweber_apply_events_filters($args, $filters) {
-    $tax_query = array();
+    $tax_query = [];
 
     if (!empty($filters['event_category'])) {
         $tax_query[] = array(

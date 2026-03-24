@@ -28,7 +28,7 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 		private $instance_suffix = '';
 
 		/** @var string[] Стек id collapse-родителей для вложенных уровней */
-		private $parent_collapse_stack = array();
+		private $parent_collapse_stack = [];
 
 		/** @var string|null ID следующего div.collapse (заполняется в start_el, используется в start_lvl) */
 		private $next_collapse_id = null;
@@ -170,7 +170,7 @@ if ( ! class_exists( 'CodeWeber_Menu_Collapse_Walker' ) ) {
 
 			if ( $this->simple_list ) {
 				$output .= $indent . '<li>';
-				$link_classes = $this->theme_class ? array_filter( explode( ' ', trim( $this->theme_class ) ) ) : array();
+				$link_classes = $this->theme_class ? array_filter( explode( ' ', trim( $this->theme_class ) ) ) : [];
 				if ( $this->link_class ) {
 					$link_classes = array_merge( $link_classes, array_filter( explode( ' ', trim( $this->link_class ) ) ) );
 				}

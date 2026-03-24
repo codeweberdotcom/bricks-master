@@ -87,12 +87,12 @@ class CW_Session_Storage implements CW_Wishlist_Storage {
 	 */
 	private function get_map() {
 		if ( ! $this->session_available() ) {
-			return array();
+			return [];
 		}
 
 		$data = WC()->session->get( self::SESSION_KEY );
 
-		return is_array( $data ) ? $data : array();
+		return is_array( $data ) ? $data : [];
 	}
 
 	/**

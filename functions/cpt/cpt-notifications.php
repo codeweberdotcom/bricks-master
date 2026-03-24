@@ -1001,7 +1001,7 @@ function codeweber_get_posts_for_trigger_handler() {
 		'order' => 'ASC'
 	));
 	
-	$result = array();
+	$result = [];
 	foreach ($posts as $post) {
 		$result[$post->ID] = $post->post_title;
 	}

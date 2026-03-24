@@ -142,7 +142,7 @@ class NewsletterSubscriptionAdmin
       wp_enqueue_style(
          'newsletter-subscription-admin',
          get_template_directory_uri() . '/functions/integrations/newsletter-subscription/admin/css/admin.css',
-         array(),
+         [],
          '1.0.0'
       );
       
@@ -627,7 +627,7 @@ jQuery(document).ready(function($) {
          case 'actions':
             $view_url = admin_url('admin.php?page=newsletter-subscriptions&action=view&email=' . urlencode($subscription->email));
             
-            $actions = array();
+            $actions = [];
             $actions['view'] = '<a href="' . esc_url($view_url) . '">' . __('View', 'codeweber') . '</a>';
             
             // Use JavaScript to submit POST forms (can't nest forms)
@@ -1525,7 +1525,7 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
       $imported = 0;
       $updated = 0;
       $skipped = 0;
-      $errors = array();
+      $errors = [];
 
       $row_number = 1;
       while (($row = fgetcsv($handle, 0, ';')) !== false) {
@@ -1686,7 +1686,7 @@ user2@example.com;Jane;Smith;;imported;192.168.1.2;Chrome/120.0.0.0;unsubscribed
       return wp_hash($email . 'unsubscribe_salt' . time() . wp_rand());
    }
 
-   private function set_import_result($success, $message, $details = array())
+   private function set_import_result($success, $message, $details = [])
    {
       set_transient('newsletter_import_results', array(
          'success' => $success,

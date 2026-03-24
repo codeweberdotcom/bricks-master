@@ -5,7 +5,7 @@
  * https://github.com/talentedaamer/Bootstrap-wordpress-pagination/blob/master/wp_bootstrap_pagination.php
  */
 
-function codeweber_pagination($args = array())
+function codeweber_pagination($args = [])
 {
 
    $defaults = array(

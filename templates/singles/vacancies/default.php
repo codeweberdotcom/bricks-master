@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$vacancy_data = get_vacancy_data_array();
+$vacancy_data = get_vacancy_data_[];
 
 // Получаем ID записи для функции vacancy_social_links
 $vacancy_post_id = get_the_ID();
