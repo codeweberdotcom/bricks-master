@@ -25,15 +25,12 @@
      * Edit component
      */
     function Edit({ attributes, setAttributes }) {
-        const { formId } = attributes;
+        const { formId, formProvider, cf7FormId } = attributes;
         const [forms, setForms] = useState([]);
         const [loading, setLoading] = useState(true);
+        const [cf7Forms, setCf7Forms] = useState([]);
+        const [cf7Loading, setCf7Loading] = useState(false);
         
-        // Отладка атрибутов
-        if (typeof console !== 'undefined' && console.log) {
-            console.log('Form Selector Block - Attributes:', attributes);
-            console.log('Form Selector Block - formId:', formId);
-        }
 
         // Загружаем список форм при монтировании компонента
         useEffect(function() {
@@ -67,6 +64,27 @@
 
             fetchForms();
         }, []);
+
+        // Загружаем CF7 формы
+        useEffect(function() {
+            if (formProvider !== 'cf7') return;
+            setCf7Loading(true);
+            var nonce = (typeof codeweberFormsBlock !== 'undefined' && codeweberFormsBlock.nonce)
+                ? codeweberFormsBlock.nonce
+                : ((typeof wpApiSettings !== 'undefined' && wpApiSettings.nonce) ? wpApiSettings.nonce : '');
+            fetch('/wp-json/contact-form-7/v1/contact-forms?per_page=100', {
+                headers: { 'X-WP-Nonce': nonce },
+            })
+                .then(function(r) { return r.json(); })
+                .then(function(res) {
+                    var items = (res && res.items) ? res.items : (Array.isArray(res) ? res : []);
+                    setCf7Forms(items.map(function(f) {
+                        return { label: f.title || String(f.id), value: String(f.id) };
+                    }));
+                })
+                .catch(function() { setCf7Forms([]); })
+                .finally(function() { setCf7Loading(false); });
+        }, [formProvider]);
 
         // Формируем опции для SelectControl
         const formOptions = [
@@ -138,20 +156,48 @@
                 wp.element.createElement(
                     PanelBody,
                     { title: __('Form Settings', 'codeweber'), initialOpen: true },
-                    loading ? wp.element.createElement(Spinner) : wp.element.createElement(
+                    wp.element.createElement(
+                        SelectControl,
+                        {
+                            label: __('Form Provider', 'codeweber'),
+                            value: formProvider || 'codeweber',
+                            options: [
+                                { label: 'CodeWeber Form', value: 'codeweber' },
+                                { label: 'Contact Form 7', value: 'cf7' },
+                            ],
+                            onChange: function(value) {
+                                setAttributes({ formProvider: value });
+                            },
+                        }
+                    ),
+                    formProvider === 'cf7' ? (
+                        cf7Loading ? wp.element.createElement(Spinner) : wp.element.createElement(
+                            SelectControl,
+                            {
+                                label: __('Select CF7 Form', 'codeweber'),
+                                value: cf7FormId || '',
+                                options: [
+                                    { label: __('Select a form...', 'codeweber'), value: '' },
+                                    ...cf7Forms,
+                                ],
+                                onChange: function(value) {
+                                    setAttributes({ cf7FormId: value });
+                                },
+                            }
+                        )
+                    ) : loading ? wp.element.createElement(Spinner) : wp.element.createElement(
                         SelectControl,
                         {
                             label: __('Select Form', 'codeweber'),
                             value: formId || '',
                             options: formOptions,
                             onChange: function(value) {
-                                console.log('Setting formId to:', value);
                                 setAttributes({ formId: value });
                             },
                             help: __('Choose a form from Forms CPT to display', 'codeweber'),
                         }
                     ),
-                    selectedForm && wp.element.createElement(
+                    formProvider !== 'cf7' && selectedForm && wp.element.createElement(
                         'p',
                         { style: { marginTop: '10px', fontSize: '12px', color: '#666' } },
                         wp.element.createElement('strong', null, __('Shortcode:', 'codeweber')),
@@ -181,7 +227,7 @@
             wp.element.createElement(
                 'div',
                 blockProps,
-                !formId ? wp.element.createElement(
+                (formProvider === 'cf7' ? !cf7FormId : !formId) ? wp.element.createElement(
                     'div',
                     { style: { textAlign: 'center', color: '#666', padding: '20px' } },
                     wp.element.createElement('p', null, __('Select a form from the sidebar to display it here', 'codeweber'))
@@ -190,7 +236,8 @@
                     {
                         block: 'codeweber-blocks/form-selector',
                         attributes: attributes,
-                        httpMethod: 'GET',
+                        httpMethod: 'POST',
+                        key: (formProvider === 'cf7' ? 'cf7-' + cf7FormId : 'cw-' + formId),
                     }
                 ) : wp.element.createElement(
                     'div',
@@ -209,48 +256,33 @@
         return null;
     }
 
-    // Проверяем, зарегистрирован ли блок уже в PHP (через block.json)
-    const existingBlock = wp.blocks.getBlockType('codeweber-blocks/form-selector');
-    
-    if (existingBlock) {
-        // Блок уже зарегистрирован в PHP через block.json
-        // Просто обновляем edit компонент, сохраняя остальные настройки
-        // Используем правильный API для обновления блока
-        wp.hooks.addFilter(
-            'blocks.registerBlockType',
-            'codeweber-forms/form-selector-update-edit',
-            function(settings, name) {
-                if (name === 'codeweber-blocks/form-selector') {
-                    return {
-                        ...settings,
-                        edit: Edit,
-                        save: Save,
-                    };
-                }
-                return settings;
-            }
-        );
-    } else {
-        // Блок не зарегистрирован в PHP, регистрируем его в JavaScript
-        registerBlockType('codeweber-blocks/form-selector', {
-            apiVersion: 2,
-            title: __('Form Selector', 'codeweber'),
-            icon: 'feedback',
-            category: 'codeweber-gutenberg-blocks',
-            description: __('Display a form from Forms CPT', 'codeweber'),
-            supports: {
-                html: false,
-                customClassName: true,
-                anchor: true,
-            },
-            attributes: {
-                formId: {
-                    type: 'string',
-                    default: '',
-                },
-            },
-            edit: Edit,
-            save: Save,
-        });
-    }
+    const newAttributes = {
+        formProvider: { type: 'string', default: 'codeweber' },
+        cf7FormId: { type: 'string', default: '' },
+        formId: { type: 'string', default: '' },
+    };
+
+    wp.domReady(function() {
+        var existing = wp.blocks.getBlockType('codeweber-blocks/form-selector');
+        if (existing) {
+            wp.blocks.unregisterBlockType('codeweber-blocks/form-selector');
+            registerBlockType('codeweber-blocks/form-selector', Object.assign({}, existing, {
+                attributes: Object.assign({}, existing.attributes, newAttributes),
+                edit: Edit,
+                save: Save,
+            }));
+        } else {
+            registerBlockType('codeweber-blocks/form-selector', {
+                apiVersion: 2,
+                title: __('Form Selector', 'codeweber'),
+                icon: 'feedback',
+                category: 'codeweber-gutenberg-blocks',
+                description: __('Display a form from Forms CPT', 'codeweber'),
+                supports: { html: false, customClassName: true, anchor: true },
+                attributes: newAttributes,
+                edit: Edit,
+                save: Save,
+            });
+        }
+    });
 })();

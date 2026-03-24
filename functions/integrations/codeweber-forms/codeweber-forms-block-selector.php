@@ -40,6 +40,14 @@ class CodeweberFormsBlockSelector {
         $block_type = register_block_type('codeweber-blocks/form-selector', [
             'api_version' => 2,
             'attributes' => [
+                'formProvider' => [
+                    'type' => 'string',
+                    'default' => 'codeweber',
+                ],
+                'cf7FormId' => [
+                    'type' => 'string',
+                    'default' => '',
+                ],
                 'formId' => [
                     'type' => 'string',
                     'default' => '',
@@ -151,6 +159,21 @@ class CodeweberFormsBlockSelector {
             error_log('Block: ' . (is_object($block) ? get_class($block) : 'null'));
         }
         
+        // CF7
+        $form_provider = isset($attributes['formProvider']) ? $attributes['formProvider'] : 'codeweber';
+        if ($form_provider === 'cf7') {
+            $cf7_id = intval($attributes['cf7FormId'] ?? 0);
+            if ($cf7_id > 0) {
+                return do_shortcode('[contact-form-7 id="' . $cf7_id . '"]');
+            }
+            if (current_user_can('edit_posts')) {
+                return '<p style="padding: 20px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px;">'
+                    . esc_html__('Please select a CF7 form in the block settings.', 'codeweber')
+                    . '</p>';
+            }
+            return '';
+        }
+
         // Получаем formId из атрибутов (проверяем разные варианты)
         $form_id = '';
         if (isset($attributes['formId'])) {
