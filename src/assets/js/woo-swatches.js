@@ -11,7 +11,7 @@
 	'use strict';
 
 	// OOS behavior setting passed from PHP via wp_localize_script
-	var cwSwatchesSettings = window.cwSwatchesSettings || { oos_behavior: 'cross' };
+	const cwSwatchesSettings = window.cwSwatchesSettings || { oos_behavior: 'cross' };
 
 	// ── Init ──────────────────────────────────────────────────────────────────
 
@@ -37,11 +37,11 @@
 
 		$form.on( 'click', '.cw-swatch:not(.disabled)', function ( e ) {
 			e.preventDefault();
-			var $swatch = $( this );
-			var $swatches = $swatch.closest( '.cw-swatches' );
-			var attrName  = $swatches.data( 'attribute_name' ); // e.g. "attribute_pa_color"
-			var value     = $swatch.data( 'value' );
-			var $select   = $form.find( '[name="' + attrName + '"]' );
+			const $swatch = $( this );
+			const $swatches = $swatch.closest( '.cw-swatches' );
+			const attrName  = $swatches.data( 'attribute_name' ); // e.g. "attribute_pa_color"
+			const value     = $swatch.data( 'value' );
+			const $select   = $form.find( '[name="' + attrName + '"]' );
 
 			if ( $swatch.hasClass( 'selected' ) ) {
 				// Deselect on second click
@@ -69,10 +69,10 @@
 		// Covers: page load with pre-selected value, WooCommerce reset, URL hash.
 
 		$form.on( 'change', 'select', function () {
-			var $select   = $( this );
-			var attrName  = $select.attr( 'name' );
-			var val       = $select.val();
-			var $swatches = $form.find( '.cw-swatches[data-attribute_name="' + attrName + '"]' );
+			const $select   = $( this );
+			const attrName  = $select.attr( 'name' );
+			const val       = $select.val();
+			const $swatches = $form.find( '.cw-swatches[data-attribute_name="' + attrName + '"]' );
 
 			if ( ! $swatches.length ) {
 				return;
@@ -97,10 +97,10 @@
 
 		$form.on( 'reset_data', function () {
 			$form.find( '.cw-swatches' ).each( function () {
-				var $swatches = $( this );
-				var attrName  = $swatches.data( 'attribute_name' );
-				var $select   = $form.find( '[name="' + attrName + '"]' );
-				var val       = $select.val();
+				const $swatches = $( this );
+				const attrName  = $swatches.data( 'attribute_name' );
+				const $select   = $form.find( '[name="' + attrName + '"]' );
+				const val       = $select.val();
 
 				$swatches.find( '.cw-swatch' )
 					.removeClass( 'selected active' )
@@ -140,7 +140,7 @@
 	 * @param {jQuery} $form
 	 */
 	function updateDisabledSwatches( $form ) {
-		var variationData = $form.data( 'product_variations' );
+		const variationData = $form.data( 'product_variations' );
 
 		// AJAX mode: variation data not yet available — skip (WooCommerce will
 		// call woocommerce_variation_has_changed when data arrives).
@@ -149,19 +149,19 @@
 		}
 
 		// Build map: taxonomy → Set of available slugs
-		var available = {};
+		const available = {};
 
-		for ( var i = 0; i < variationData.length; i++ ) {
-			var v = variationData[ i ];
+		for ( let i = 0; i < variationData.length; i++ ) {
+			const v = variationData[ i ];
 			if ( ! v.is_purchasable ) {
 				continue;
 			}
-			var attrs = v.attributes; // { attribute_pa_color: 'red', ... }
-			for ( var key in attrs ) {
+			const attrs = v.attributes; // { attribute_pa_color: 'red', ... }
+			for ( const key in attrs ) {
 				if ( ! attrs.hasOwnProperty( key ) ) {
 					continue;
 				}
-				var slug = attrs[ key ];
+				const slug = attrs[ key ];
 				if ( ! available[ key ] ) {
 					available[ key ] = {};
 				}
@@ -174,17 +174,17 @@
 			}
 		}
 
-		var oosClass  = 'oos-' + cwSwatchesSettings.oos_behavior;
+		const oosClass  = 'oos-' + cwSwatchesSettings.oos_behavior;
 
 		$form.find( '.cw-swatches' ).each( function () {
-			var $swatches = $( this );
-			var attrName  = $swatches.data( 'attribute_name' ); // "attribute_pa_color"
-			var attrMap   = available[ attrName ];
+			const $swatches = $( this );
+			const attrName  = $swatches.data( 'attribute_name' ); // "attribute_pa_color"
+			const attrMap   = available[ attrName ];
 
 			$swatches.find( '.cw-swatch' ).each( function () {
-				var $swatch = $( this );
-				var slug    = $swatch.data( 'value' );
-				var isOos   = false;
+				const $swatch = $( this );
+				const slug    = $swatch.data( 'value' );
+				let isOos   = false;
 
 				if ( attrMap ) {
 					isOos = ! attrMap.__any && ! attrMap[ slug ];

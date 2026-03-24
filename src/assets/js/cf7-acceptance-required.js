@@ -80,7 +80,7 @@
    * Отслеживание статуса формы и изменение текста кнопки
    */
   function initFormSubmittingWatcher() {
-    var forms = document.getElementsByClassName("wpcf7-form");
+    const forms = document.getElementsByClassName("wpcf7-form");
 
     Array.prototype.forEach.call(forms, function (form) {
       // Проверяем, не инициализирована ли форма уже
@@ -89,7 +89,7 @@
       }
 
       // Найти кнопку отправки внутри формы
-      var submitButton = form.querySelector(
+      const submitButton = form.querySelector(
         'button[type="submit"], input[type="submit"], div[type="submit"], span[type="submit"]'
       );
 
@@ -105,13 +105,13 @@
         }
       }
 
-      var observer = new MutationObserver(function (mutationsList) {
+      const observer = new MutationObserver(function (mutationsList) {
         mutationsList.forEach(function (mutation) {
           if (mutation.attributeName === "class") {
             if (form.classList.contains("submitting")) {
               // Если форма отправляется — меняем текст
               if (submitButton) {
-                var loadingText =
+                const loadingText =
                   'Отправка... <i class="uil uil-envelope-upload ms-2"></i>';
                 if (submitButton.tagName.toLowerCase() === "input") {
                   submitButton.value = "Отправка...";
@@ -125,7 +125,7 @@
             ) {
               // Если форма вернула invalid или unaccepted — возвращаем оригинальный текст
               if (submitButton) {
-                var originalText =
+                const originalText =
                   submitButton.getAttribute("data-original-text");
                 if (submitButton.tagName.toLowerCase() === "input") {
                   submitButton.value = originalText;
@@ -136,7 +136,7 @@
             } else if (form.classList.contains("sent")) {
               // Если форма успешно отправлена — меняем текст на "Отправлено"
               if (submitButton) {
-                var successText =
+                const successText =
                   'Отправлено <i class="uil uil-check-circle ms-2"></i>';
                 if (submitButton.tagName.toLowerCase() === "input") {
                   submitButton.value = "Отправлено";
