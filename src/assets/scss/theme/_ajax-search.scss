@@ -1,0 +1,17 @@
+.search-results-container {
+  display: none;
+  z-index: 999 !important;
+
+  &:not(:empty) {
+    display: block;
+  }
+}
+
+.search-result-item:hover,
+.hover-bg-light:hover {
+  background-color: #f8f9fa !important;
+}
+
+.search-loader {
+  pointer-events: none;
+}
