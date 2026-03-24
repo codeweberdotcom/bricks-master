@@ -102,8 +102,10 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				return;
 			}
 			
-			$enabled_raw = Redux::get_option($this->opt_name, 'floating_widget_enabled');
-			$socials_raw = Redux::get_option($this->opt_name, 'floating_widget_socials');
+			$opts = get_option( $this->opt_name, [] );
+
+			$enabled_raw = $opts['floating_widget_enabled'] ?? null;
+			$socials_raw = $opts['floating_widget_socials'] ?? null;
 			
 			// Нормализуем значение enabled - может быть строкой "1"/"0", boolean, или числом
 			// Redux switch может возвращать разные типы в зависимости от версии
@@ -180,7 +182,7 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 			
 
 			
-			$icon_raw = Redux::get_option($this->opt_name, 'floating_widget_icon');
+			$icon_raw = $opts['floating_widget_icon'] ?? null;
 			
 
 			
@@ -204,15 +206,15 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				$icon_name = 'comment-dots';
 			}
 			
-			$button_color = Redux::get_option($this->opt_name, 'floating_widget_button_color');
-			$animation_type = Redux::get_option($this->opt_name, 'floating_widget_animation_type');
-			$widget_type = Redux::get_option($this->opt_name, 'floating_widget_type');
-			$widget_item_type = Redux::get_option($this->opt_name, 'floating_widget_item_type');
-			$button_text = Redux::get_option($this->opt_name, 'floating_widget_button_text');
-			$button_action_type = Redux::get_option($this->opt_name, 'floating_widget_button_action_type');
-			$show_icon_mobile = Redux::get_option($this->opt_name, 'floating_widget_show_icon_mobile');
-			$widget_position_side = Redux::get_option($this->opt_name, 'floating_widget_position_side');
-			$icon_style = Redux::get_option($this->opt_name, 'floating_widget_icon_style');
+			$button_color = $opts['floating_widget_button_color'] ?? '';
+			$animation_type = $opts['floating_widget_animation_type'] ?? '';
+			$widget_type = $opts['floating_widget_type'] ?? '';
+			$widget_item_type = $opts['floating_widget_item_type'] ?? '';
+			$button_text = $opts['floating_widget_button_text'] ?? '';
+			$button_action_type = $opts['floating_widget_button_action_type'] ?? '';
+			$show_icon_mobile = $opts['floating_widget_show_icon_mobile'] ?? null;
+			$widget_position_side = $opts['floating_widget_position_side'] ?? '';
+			$icon_style = $opts['floating_widget_icon_style'] ?? '';
 			
 
 			
@@ -267,23 +269,23 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				'show_icon_mobile' => !empty($show_icon_mobile) ? true : false,
 				'widget_position_side' => !empty($widget_position_side) ? $widget_position_side : 'right',
 				'icon_style' => $icon_style,
-				'width' => Redux::get_option($this->opt_name, 'floating_widget_width'),
+				'width' => $opts['floating_widget_width'] ?? null,
 				// Desktop offsets
-				'right_offset_desktop' => Redux::get_option($this->opt_name, 'floating_widget_right_offset_desktop'),
-				'left_offset_desktop' => Redux::get_option($this->opt_name, 'floating_widget_left_offset_desktop'),
-				'top_offset_desktop' => Redux::get_option($this->opt_name, 'floating_widget_top_offset_desktop'),
-				'bottom_offset_desktop' => Redux::get_option($this->opt_name, 'floating_widget_bottom_offset_desktop'),
+				'right_offset_desktop' => $opts['floating_widget_right_offset_desktop'] ?? null,
+				'left_offset_desktop' => $opts['floating_widget_left_offset_desktop'] ?? null,
+				'top_offset_desktop' => $opts['floating_widget_top_offset_desktop'] ?? null,
+				'bottom_offset_desktop' => $opts['floating_widget_bottom_offset_desktop'] ?? null,
 				// Tablet offsets
-				'right_offset_tablet' => Redux::get_option($this->opt_name, 'floating_widget_right_offset_tablet'),
-				'left_offset_tablet' => Redux::get_option($this->opt_name, 'floating_widget_left_offset_tablet'),
-				'top_offset_tablet' => Redux::get_option($this->opt_name, 'floating_widget_top_offset_tablet'),
-				'bottom_offset_tablet' => Redux::get_option($this->opt_name, 'floating_widget_bottom_offset_tablet'),
+				'right_offset_tablet' => $opts['floating_widget_right_offset_tablet'] ?? null,
+				'left_offset_tablet' => $opts['floating_widget_left_offset_tablet'] ?? null,
+				'top_offset_tablet' => $opts['floating_widget_top_offset_tablet'] ?? null,
+				'bottom_offset_tablet' => $opts['floating_widget_bottom_offset_tablet'] ?? null,
 				// Mobile offsets
-				'right_offset_mobile' => Redux::get_option($this->opt_name, 'floating_widget_right_offset_mobile'),
-				'left_offset_mobile' => Redux::get_option($this->opt_name, 'floating_widget_left_offset_mobile'),
-				'top_offset_mobile' => Redux::get_option($this->opt_name, 'floating_widget_top_offset_mobile'),
-				'bottom_offset_mobile' => Redux::get_option($this->opt_name, 'floating_widget_bottom_offset_mobile'),
-				'z_index' => Redux::get_option($this->opt_name, 'floating_widget_z_index'),
+				'right_offset_mobile' => $opts['floating_widget_right_offset_mobile'] ?? null,
+				'left_offset_mobile' => $opts['floating_widget_left_offset_mobile'] ?? null,
+				'top_offset_mobile' => $opts['floating_widget_top_offset_mobile'] ?? null,
+				'bottom_offset_mobile' => $opts['floating_widget_bottom_offset_mobile'] ?? null,
+				'z_index' => $opts['floating_widget_z_index'] ?? null,
 			);
 			
 
