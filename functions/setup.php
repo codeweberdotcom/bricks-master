@@ -60,3 +60,9 @@ function load_codeweber_translations()
 	load_theme_textdomain('codeweber', get_template_directory() . '/languages');
 }
 add_action('after_setup_theme', 'load_codeweber_translations', 10);
+
+/**
+ * Сброс permalink'ов при активации темы.
+ * Предотвращает 404 для CPT-маршрутов сразу после смены темы.
+ */
+add_action( 'after_switch_theme', 'flush_rewrite_rules' );
