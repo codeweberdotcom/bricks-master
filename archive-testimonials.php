@@ -150,7 +150,7 @@ get_pageheader();
         <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
           <div class="card-body p-6 p-md-11 d-lg-flex flex-row align-items-lg-center justify-content-md-between text-center text-lg-start">
             <h3 class="display-6 mb-6 mb-lg-0 pe-lg-10 pe-xl-5 pe-xxl-18"><?php esc_html_e('We would love to hear about your experience with us. Your feedback helps us improve and helps others make better decisions.', 'codeweber'); ?></h3>
-            <a href="javascript:void(0)" id="submit-testimonial-btn" class="btn btn-primary<?php echo Codeweber_Options::style('button'); ?> mb-0 text-nowrap" data-bs-toggle="modal" data-bs-target="#modal" data-value="add-testimonial"><?php esc_html_e('Leave a Review', 'codeweber'); ?></a>
+            <a href="javascript:void(0)" id="submit-testimonial-btn" class="btn btn-primary<?php echo esc_attr( Codeweber_Options::style( 'button' ) ); ?> mb-0 text-nowrap" data-bs-toggle="modal" data-bs-target="#modal" data-value="add-testimonial"><?php esc_html_e('Leave a Review', 'codeweber'); ?></a>
           </div>
           <!--/.card-body -->
         </div>

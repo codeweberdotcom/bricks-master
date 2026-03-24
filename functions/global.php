@@ -301,15 +301,15 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 		}
 
 		if ($type === 'type1') {
-			$output .= '<a href="' . esc_url($url) . '" class="btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple ' . esc_attr($btn_size_class) . ' btn-' . esc_attr($btn_social) . '"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple ' . esc_attr($btn_size_class) . ' btn-' . esc_attr($btn_social) . '"' . $target_attr . '><i class="' . esc_attr( $icon_class ) . '"></i></a>';
 		} elseif ($type === 'type5') {
-			$output .= '<a href="' . esc_url($url) . '" class="btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple ' . esc_attr($btn_size_class) . ' btn-dark"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple ' . esc_attr($btn_size_class) . ' btn-dark"' . $target_attr . '><i class="' . esc_attr( $icon_class ) . '"></i></a>';
 		} elseif ($type === 'type2' || $type === 'type3' || $type === 'type4') {
-			$output .= '<a href="' . esc_url($url) . '" class="lh-1 has-ripple"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="lh-1 has-ripple"' . $target_attr . '><i class="' . esc_attr( $icon_class ) . '"></i></a>';
 		} elseif ($type === 'type6') {
-			$output .= '<a role="button" href="' . esc_url($url) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 fs-16 lh-1 has-ripple"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
+			$output .= '<a role="button" href="' . esc_url($url) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm border btn-icon-start btn-white justify-content-between w-100 fs-16 lh-1 has-ripple"><i class="fs-20 ' . esc_attr( $icon_class ) . '"></i>' . $btnlabel . '</a>';
 		} elseif ($type === 'type7') {
-			$output .= '<a role="button" href="' . esc_url($url) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . esc_attr($btn_social_type7) . ' justify-content-between w-100 lh-1 has-ripple"><i class="fs-20 ' . $icon_class . '"></i>' . $btnlabel . '</a>';
+			$output .= '<a role="button" href="' . esc_url($url) . '"' . $target_attr . ' title="' . esc_attr($label) . '" class="btn btn-icon btn-sm btn-icon-start btn-' . esc_attr($btn_social_type7) . ' justify-content-between w-100 lh-1 has-ripple"><i class="fs-20 ' . esc_attr( $icon_class ) . '"></i>' . $btnlabel . '</a>';
 		} elseif ($type === 'type8') {
 			$btn_color_val = !empty($button_color) ? esc_attr($button_color) : 'primary';
 			$btn_style = ($buttonstyle === 'outline') ? 'outline' : 'solid';
@@ -318,12 +318,12 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
 			} else {
 				$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-' . $btn_color_val . ' ' . esc_attr($btn_size_class);
 			}
-			$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '"' . $target_attr . ' title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '"' . $target_attr . ' title="' . esc_attr($label) . '"><i class="' . esc_attr( $icon_class ) . '"></i></a>';
 		} elseif ($type === 'type9') {
 			$btn_class = 'btn ' . esc_attr($btn_form_class) . ' lh-1 has-ripple btn-outline-primary ' . esc_attr($btn_size_class);
-			$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '"' . $target_attr . ' title="' . esc_attr($label) . '"><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="' . $btn_class . '"' . $target_attr . ' title="' . esc_attr($label) . '"><i class="' . esc_attr( $icon_class ) . '"></i></a>';
 		} else {
-			$output .= '<a href="' . esc_url($url) . '" class="lh-1 has-ripple"' . $target_attr . '><i class="' . $icon_class . '"></i></a>';
+			$output .= '<a href="' . esc_url($url) . '" class="lh-1 has-ripple"' . $target_attr . '><i class="' . esc_attr( $icon_class ) . '"></i></a>';
 		}
 	}
 	

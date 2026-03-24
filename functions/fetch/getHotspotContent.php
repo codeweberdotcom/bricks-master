@@ -108,7 +108,7 @@ function getHotspotContent($params) {
 
     // Оборачиваем весь контент в div с классом, если указан wrapperClass
     if (!empty($wrapper_class)) {
-        $content = '<div class="' . $wrapper_class . '">' . $content . '</div>';
+        $content = '<div class="' . esc_attr( $wrapper_class ) . '">' . $content . '</div>';
     }
 
     return [
