@@ -124,7 +124,7 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 										<?php echo $price ? esc_html( $price ) : '<span class="text-muted">—</span>'; ?>
 									</td>
 									<td class="text-end">
-										<a href="<?php the_permalink(); ?>" class="btn btn-sm btn-primary rounded-pill">
+										<a href="<?php the_permalink(); ?>" class="btn btn-sm btn-primary<?php echo esc_attr( $btn_style ); ?>">
 											<?php esc_html_e( 'Details', 'codeweber' ); ?>
 										</a>
 									</td>
