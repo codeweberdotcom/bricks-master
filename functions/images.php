@@ -228,13 +228,25 @@ function codeweber_filter_attachment_sizes_by_post_type($metadata, $attachment_i
 	// Фильтрация размеров изображений (только если есть разрешённые размеры)
 	if (!empty($allowed_sizes)) {
 		$upload_dir = wp_upload_dir();
+		$base_dir   = $upload_dir['basedir'] . '/' . dirname($metadata['file']);
+
+		// Список файлов, используемых разрешёнными размерами — их нельзя удалять.
+		// Разные CPT могут регистрировать одинаковые размеры (например, codeweber_event_600-600
+		// и codeweber_post_600-600 оба генерируют *-600x600.jpg). Удаление неразрешённого
+		// размера иначе уничтожит файл, который нужен разрешённому.
+		$protected_files = [];
+		foreach ($metadata['sizes'] as $size_name => $size_info) {
+			if (in_array($size_name, $allowed_sizes, true)) {
+				$protected_files[] = $size_info['file'];
+			}
+		}
 
 		foreach ($metadata['sizes'] as $size_name => $size_info) {
 			if (!in_array($size_name, $allowed_sizes, true)) {
-				$file_path = path_join($upload_dir['basedir'], dirname($metadata['file']) . '/' . $size_info['file']);
-
-				// Безопасное удаление файла
-				codeweber_safe_file_delete($file_path);
+				// Удаляем файл только если ни один разрешённый размер его не использует
+				if (!in_array($size_info['file'], $protected_files, true)) {
+					codeweber_safe_file_delete( path_join($base_dir, $size_info['file']) );
+				}
 				unset($metadata['sizes'][$size_name]);
 			}
 		}
