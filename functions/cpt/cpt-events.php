@@ -550,7 +550,6 @@ function codeweber_events_render_registration_metabox( \WP_Post $post ): void {
 						if (!sel || !inp) return;
 						sel.addEventListener('change', function() {
 							if (!sel.value) return;
-							if (inp.value.trim() !== '' && !confirm('<?php echo esc_js( __( 'Replace existing label text with default text for this document?', 'codeweber' ) ); ?>')) return;
 							inp.disabled = true;
 							var body = new URLSearchParams({ action: 'codeweber_forms_get_default_label', document_id: sel.value, nonce: consentLabelNonce });
 							fetch(ajaxurl, { method: 'POST', body: body })
@@ -896,6 +895,16 @@ function codeweber_events_render_elements_metabox( \WP_Post $post ): void {
 				<?php esc_html_e( 'When enabled, the seats counter and progress bar are hidden in the sidebar.', 'codeweber' ); ?>
 			</p>
 		</div>
+		<div style="padding:12px;background:#f5f5f5;border-radius:4px;">
+			<label for="event_hide_add_to_calendar" style="display:flex;align-items:center;cursor:pointer;">
+				<input type="checkbox" id="event_hide_add_to_calendar" name="event_hide_add_to_calendar" value="1"
+					<?php checked( get_post_meta( $post->ID, '_event_hide_add_to_calendar', true ), '1' ); ?> style="margin-right:10px;">
+				<strong><?php esc_html_e( 'Hide "Add to Calendar" button', 'codeweber' ); ?></strong>
+			</label>
+			<p style="font-size:12px;color:#666;margin:5px 0 0 24px;">
+				<?php esc_html_e( 'When enabled, the "Add to Calendar" dropdown button is hidden in the event sidebar.', 'codeweber' ); ?>
+			</p>
+		</div>
 	</div>
 	<?php
 }
@@ -1004,6 +1013,8 @@ function codeweber_events_save_meta( int $post_id, \WP_Post $post ): void {
 		isset( $_POST['event_sidebar_disable_image'] ) ? '1' : '' );
 	update_post_meta( $post_id, '_event_hide_seats_counter',
 		isset( $_POST['event_hide_seats_counter'] ) ? '1' : '' );
+	update_post_meta( $post_id, '_event_hide_add_to_calendar',
+		isset( $_POST['event_hide_add_to_calendar'] ) ? '1' : '' );
 }
 add_action( 'save_post_events', 'codeweber_events_save_meta', 10, 2 );
 
@@ -1248,5 +1259,6 @@ add_action( 'wp_enqueue_scripts', 'codeweber_enqueue_events_assets', 20 );
 
 require_once get_template_directory() . '/functions/events/event-registrations.php';
 require_once get_template_directory() . '/functions/events/event-registration-api.php';
+require_once get_template_directory() . '/functions/events/event-ics.php';
 require_once get_template_directory() . '/functions/admin/events-settings.php';
 require_once get_template_directory() . '/functions/integrations/event-gallery-metabox.php';

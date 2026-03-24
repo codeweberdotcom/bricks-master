@@ -293,6 +293,39 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 						</p>
 					<?php endif; ?>
 
+					<?php if ( $date_start && ! get_post_meta( $event_id, '_event_hide_add_to_calendar', true ) ) :
+						$tz       = wp_timezone();
+						$_ics_fmt = static function ( string $d ) use ( $tz ): string {
+							return ( new DateTime( $d, $tz ) )->setTimezone( new DateTimeZone( 'UTC' ) )->format( 'Ymd\THis\Z' );
+						};
+						$gc_start = $_ics_fmt( $date_start );
+						$gc_end   = $_ics_fmt( $date_end ?: $date_start );
+						$gc_loc   = trim( implode( ', ', array_filter( [ $location, $address ] ) ) );
+						$gc_url   = 'https://calendar.google.com/calendar/render?' . http_build_query( [
+							'action'   => 'TEMPLATE',
+							'text'     => get_the_title(),
+							'dates'    => $gc_start . '/' . $gc_end,
+							'details'  => wp_strip_all_tags( get_the_excerpt() ),
+							'location' => $gc_loc,
+						] );
+						$ics_url  = add_query_arg( 'ics', '1', get_permalink() );
+					?>
+
+					<div class="mt-3 pt-3 border-top">
+						<div class="d-flex gap-2 flex-wrap">
+							<a href="<?php echo esc_url( $ics_url ); ?>"
+								class="btn btn-apple btn-xs rounded-pill">
+								<i class="uil uil-apple me-1"></i>Apple Calendar
+							</a>
+							<a href="<?php echo esc_url( $gc_url ); ?>" target="_blank" rel="noopener noreferrer"
+								class="btn btn-google btn-xs rounded-pill">
+								<i class="uil uil-google me-1"></i>Google Calendar
+							</a>
+						</div>
+					</div>
+
+					<?php endif; ?>
+
 					</div>
 
 				<?php
