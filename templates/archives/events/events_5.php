@@ -70,7 +70,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 							</figure>
 							<div class="card-body position-relative">
 								<?php if ( $date_start ) : ?>
-									<p class="mb-1 text-muted small">
+									<p class="mb-1 text-muted">
 										<i class="uil uil-calendar-alt me-1"></i>
 										<?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $date_start ) ) ); ?>
 										<?php if ( $date_end && $date_end !== $date_start ) : ?>

@@ -1,8 +1,8 @@
 <?php
 /**
- * Archive template: Events — view 6 (horizontal card, whole card clickable, no filter)
+ * Archive template: Events — view 7 (horizontal card, whole card clickable, no filter, square photo)
  *
- * Same as events_5 but without category filter and AJAX.
+ * Same as events_6 but uses square image size (600×600).
  *
  * @package Codeweber
  */
@@ -28,7 +28,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 					$formats    = get_the_terms( $post_id, 'event_format' );
 
 					$thumbnail_id = get_post_thumbnail_id( $post_id );
-					$image_url    = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_event_400-267' ) : '';
+					$image_url    = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_event_600-600' ) : '';
 					if ( empty( $image_url ) ) {
 						$image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
 					}
