@@ -39,9 +39,9 @@ require_once get_template_directory() . '/functions/breadcrumbs.php';
 require_once get_template_directory() . '/functions/cleanup.php';
 require_once get_template_directory() . '/functions/custom.php';
 
-if (class_exists('WPCF7')) {
-	require_once get_template_directory() . '/functions/integrations/cf7.php';
-};
+if ( class_exists( 'WPCF7' ) ) {
+	require_once get_template_directory() . '/functions/integrations/cf7/cf7.php';
+}
 
 require_once get_template_directory() . '/functions/admin/admin_settings.php';
 require_once get_template_directory() . '/functions/admin/media-regenerate.php';
@@ -120,20 +120,8 @@ if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 	require_once get_template_directory() . '/functions/demo/demo-ajax.php';
 }
 
-/**
- * Подключение универсального модального контейнера
- */
-require_once get_template_directory() . '/functions/integrations/modal-container.php';
-
-/**
- * Подключение REST API расширений для модальных окон
- */
-require_once get_template_directory() . '/functions/integrations/modal-rest-api.php';
-
-/**
- * Подключение единого шаблона сообщения об успешной отправке
- */
-require_once get_template_directory() . '/functions/integrations/success-message-template.php';
+// Modal: контейнер, REST API, шаблон успешной отправки
+require_once get_template_directory() . '/functions/integrations/modal/init.php';
 
 /**
  * Подключение API для формы отправки отзывов

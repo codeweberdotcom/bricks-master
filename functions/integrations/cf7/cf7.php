@@ -4,7 +4,7 @@
  * Подключение панели согласий для CF7
  */
 if (class_exists('WPCF7')) {
-    require_once get_template_directory() . '/functions/integrations/cf7-consents-panel.php';
+    require_once get_template_directory() . '/functions/integrations/cf7/cf7-consents-panel.php';
 }
 
 /**
