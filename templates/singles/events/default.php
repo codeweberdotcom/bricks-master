@@ -315,11 +315,11 @@ $reg_button_label = get_post_meta( $event_id, '_event_reg_button_label', true );
 						<div class="d-flex gap-2 flex-wrap">
 							<a href="<?php echo esc_url( $ics_url ); ?>"
 								class="btn btn-apple btn-xs rounded-pill">
-								<i class="uil uil-apple me-1"></i>Apple Calendar
+								<i class="uil uil-apple me-1"></i><?php esc_html_e( 'Apple Calendar', 'codeweber' ); ?>
 							</a>
 							<a href="<?php echo esc_url( $gc_url ); ?>" target="_blank" rel="noopener noreferrer"
 								class="btn btn-google btn-xs rounded-pill">
-								<i class="uil uil-google me-1"></i>Google Calendar
+								<i class="uil uil-google me-1"></i><?php esc_html_e( 'Google Calendar', 'codeweber' ); ?>
 							</a>
 						</div>
 					</div>
