@@ -186,20 +186,22 @@ require_once get_template_directory() . '/functions/integrations/yandex-maps/yan
 // Подключение универсального AJAX фильтра
 require_once get_template_directory() . '/functions/ajax-filter.php';
 
-// Подключение demo функций
-require_once get_template_directory() . '/functions/demo/demo-clients.php';
-require_once get_template_directory() . '/functions/demo/demo-faq.php';
-require_once get_template_directory() . '/functions/demo/demo-testimonials.php';
-require_once get_template_directory() . '/functions/demo/demo-staff.php';
-require_once get_template_directory() . '/functions/demo/demo-vacancies.php';
-require_once get_template_directory() . '/functions/demo/demo-forms.php';
-require_once get_template_directory() . '/functions/demo/demo-cf7-forms.php';
-require_once get_template_directory() . '/functions/demo/demo-offices.php';
-require_once get_template_directory() . '/functions/demo/demo-footer.php';
-require_once get_template_directory() . '/functions/demo/demo-header.php';
-require_once get_template_directory() . '/functions/demo/demo-products.php';
-require_once get_template_directory() . '/functions/demo/demo-events.php';
-require_once get_template_directory() . '/functions/demo/demo-ajax.php';
+// Подключение demo функций (только в режиме разработки)
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+	require_once get_template_directory() . '/functions/demo/demo-clients.php';
+	require_once get_template_directory() . '/functions/demo/demo-faq.php';
+	require_once get_template_directory() . '/functions/demo/demo-testimonials.php';
+	require_once get_template_directory() . '/functions/demo/demo-staff.php';
+	require_once get_template_directory() . '/functions/demo/demo-vacancies.php';
+	require_once get_template_directory() . '/functions/demo/demo-forms.php';
+	require_once get_template_directory() . '/functions/demo/demo-cf7-forms.php';
+	require_once get_template_directory() . '/functions/demo/demo-offices.php';
+	require_once get_template_directory() . '/functions/demo/demo-footer.php';
+	require_once get_template_directory() . '/functions/demo/demo-header.php';
+	require_once get_template_directory() . '/functions/demo/demo-products.php';
+	require_once get_template_directory() . '/functions/demo/demo-events.php';
+	require_once get_template_directory() . '/functions/demo/demo-ajax.php';
+}
 
 /**
  * Подключение универсального модального контейнера
