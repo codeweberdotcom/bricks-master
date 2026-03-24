@@ -10,7 +10,6 @@
 $card_radius  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';
 $grid_gap     = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-6';
 
-$figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start' : ( $card_radius ? ' ' . trim( $card_radius ) : '' );
 ?>
 
 <section id="content-wrapper" class="wrapper bg-light">
@@ -42,11 +41,15 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 					][ $reg_status['status'] ] ?? '';
 				?>
 				<div class="col-12">
-					<a href="<?php the_permalink(); ?>" class="card card-horizontal lift text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
-						<figure class="card-img mb-0<?php echo $figure_radius ? ' ' . esc_attr( trim( $figure_radius ) ) : ''; ?>">
-							<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="img-fluid<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
-						</figure>
-						<div class="card-body position-relative">
+					<a href="<?php the_permalink(); ?>" class="card lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+						<div class="row g-0 h-100">
+							<div class="col-3">
+								<figure class="mb-0 h-100">
+									<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-100 h-100 object-fit-cover">
+								</figure>
+							</div>
+							<div class="col-9">
+								<div class="card-body position-relative">
 							<?php if ( $date_start ) : ?>
 								<p class="mb-1 text-muted">
 									<i class="uil uil-calendar-alt me-1"></i>
@@ -87,7 +90,9 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 							<div class="hover_card_button position-absolute p-7 top-0 end-0">
 								<i class="fs-25 uil uil-arrow-right lh-1"></i>
 							</div>
-						</div><!-- /.card-body -->
+								</div><!-- /.card-body -->
+							</div><!-- /.col-9 -->
+						</div><!-- /.row -->
 					</a><!-- /.card -->
 				</div>
 				<?php endwhile; ?>

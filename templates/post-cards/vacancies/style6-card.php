@@ -35,18 +35,19 @@ if (empty($vacancy_image_url)) {
 
 $card_radius    = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 $show_hit_badge = get_post_meta($post_id, '_vacancy_featured', true) || get_post_meta($post_id, '_vacancy_hit', true);
-$img_radius     = $card_radius ? ' ' . esc_attr($card_radius) : '';
-$figure_radius_horizontal = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start' : $img_radius;
-$img_class      = 'img-fluid' . $img_radius;
 ?>
-<a href="<?php echo esc_url($link); ?>" class="card card-horizontal lift text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?><?php echo $show_hit_badge ? ' position-relative' : ''; ?>">
-	<figure class="card-img mb-0<?php echo $figure_radius_horizontal ? ' ' . esc_attr(trim($figure_radius_horizontal)) : ''; ?>">
-		<img src="<?php echo esc_url($vacancy_image_url); ?>" alt="<?php echo esc_attr($title); ?>" class="<?php echo esc_attr(trim($img_class)); ?>">
-	</figure>
+<a href="<?php echo esc_url($link); ?>" class="card lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?><?php echo $show_hit_badge ? ' position-relative' : ''; ?>">
 	<?php if ($show_hit_badge) : ?>
 		<span class="position-absolute top-0 start-0 m-2 badge bg-warning text-dark px-2 py-1"><?php _e('HIT', 'codeweber'); ?></span>
 	<?php endif; ?>
-	<div class="card-body position-relative">
+	<div class="row g-0 h-100">
+		<div class="col-3">
+			<figure class="mb-0 h-100">
+				<img src="<?php echo esc_url($vacancy_image_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-100 h-100 object-fit-cover">
+			</figure>
+		</div>
+		<div class="col-9">
+			<div class="card-body position-relative">
 		<h2 class="mb-4 display-6"><?php echo esc_html($title); ?></h2>
 		<ul class="list-unstyled cc-2 mb-0">
 			<?php if ($location) : ?>
@@ -89,7 +90,8 @@ $img_class      = 'img-fluid' . $img_radius;
 		<div class="hover_card_button position-absolute p-7 top-0 end-0">
 			<i class="fs-25 uil uil-arrow-right lh-1"></i>
 		</div>
-	</div>
-	<!-- /.card-body -->
+		</div><!-- /.card-body -->
+		</div><!-- /.col-9 -->
+	</div><!-- /.row -->
 </a>
 <!-- /.card -->
