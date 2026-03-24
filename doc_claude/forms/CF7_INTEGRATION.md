@@ -78,9 +78,12 @@ add_filter('wpcf7_form_elements', 'dd_wpcf7_remove_required_from_optional_accept
 ### Маска телефона
 
 ```php
-// Добавляет data-mask="+7 (___) ___-__-__" к полям wpcf7-tel
-add_filter('wpcf7_form_elements', function($content) { ... }, 20);
+// Добавляет data-mask из Redux (opt_phone_mask) к input[type=tel]
+// Если маска не задана в Redux — фильтр ничего не делает
+add_filter('wpcf7_form_elements', function(string $html): string { ... });
 ```
+
+Маска берётся из **Настройки темы → Phone mask** (`opt_phone_mask`). Менять маску в шорткоде не нужно — она применяется ко всем CF7-формам автоматически. JS `addTelMask()` подхватывает `input[data-mask]` и инициализирует библиотеку `PhoneMask`.
 
 ---
 
@@ -164,7 +167,7 @@ GET /wp-json/custom/v1/cf7-title/{id}
 | 10 (default) | Анонимная (wrapper-спаны) | Убирает `wpcf7-list-item` и `wpcf7-acceptance` обёртки |
 | 10 (default) | `wpcf7_form_elements` (control-wrap) | Убирает `wpcf7-form-control-wrap` |
 | 10 (default) | Анонимная (чекбоксы) | Добавляет `required` к чекбоксам (кроме `class="optional"`) |
-| 20 | Анонимная (маска телефона) | Добавляет `data-mask` к `wpcf7-tel` |
+| 10 (default) | Анонимная (маска телефона) | Добавляет `data-mask` из `opt_phone_mask` к `input[type=tel]` |
 | 999 | `dd_wpcf7_remove_required_from_optional_acceptance` | Удаляет `required` у опциональных согласий |
 
 ---
