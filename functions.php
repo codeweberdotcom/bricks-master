@@ -234,3 +234,9 @@ add_action('current_screen', function () {
 		$title = '';
 	}
 });
+
+/**
+ * Сброс permalink'ов при активации темы.
+ * Предотвращает 404 для CPT-маршрутов сразу после смены темы.
+ */
+add_action( 'after_switch_theme', 'flush_rewrite_rules' );
