@@ -351,6 +351,7 @@ require_once Redux_Core::$dir . '../sample/sections/codeweber/yandex-maps-settin
 require_once Redux_Core::$dir . '../sample/sections/codeweber/api.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/childtheme.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/style.php';
+require_once Redux_Core::$dir . '../sample/sections/codeweber/media.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/demo.php';
 
 

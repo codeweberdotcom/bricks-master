@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-03-23 23:29+0000\n"
+"PO-Revision-Date: 2026-03-24 11:58+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -86,7 +86,7 @@ msgstr[2] "Создано %d демонстрационных отзывов"
 msgid "%d entries deleted"
 msgstr "%d записей удалено"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:837
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:775
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:809
 msgid "%d file"
 msgid_plural "%d files"
@@ -94,7 +94,7 @@ msgstr[0] "%d файл"
 msgstr[1] "%d файла"
 msgstr[2] "%d файлов"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:737
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:675
 msgid "%d file attached"
 msgid_plural "%d files attached"
 msgstr[0] "%d файл прикреплен"
@@ -203,13 +203,13 @@ msgid "%s Page Header Settings"
 msgstr "Настройки Заголовка Записи %s"
 
 #. %s: count
-#: templates/singles/events/default.php:350
+#: templates/singles/events/default.php:387
 #, php-format
 msgid "%s registered"
 msgstr "Зарегистрировано: %s"
 
 #. %s: count
-#: templates/singles/events/default.php:358
+#: templates/singles/events/default.php:395
 #, php-format
 msgid "%s seats left"
 msgstr "Свободных мест: %s"
@@ -252,6 +252,17 @@ msgstr "(например, Сотрудник не найден)"
 msgid "(Email)"
 msgstr "(Email)"
 
+#: functions/admin/media-regenerate.php:77
+#, fuzzy
+msgid "(no parent)"
+msgstr "(нет родителя)"
+
+#: functions/admin/media-regenerate.php:75
+#, fuzzy
+msgid "(unknown)"
+msgstr "(неизвестно)"
+
+#: functions/admin/testimonials-settings.php:128
 #: functions/cpt/cpt-events.php:510
 #, fuzzy
 msgid "+ Add Consent"
@@ -354,7 +365,7 @@ msgstr "Пользовательский тип записи для управл
 msgid "A modular WordPress starter theme powered by Bootstrap 5 and Gulp"
 msgstr "Модульная стартовая тема WordPress, работающая на Bootstrap 5 и Gulp"
 
-#: functions/testimonials/testimonial-form-api.php:873
+#: functions/testimonials/testimonial-form-api.php:898
 #, php-format
 msgid ""
 "A new testimonial has been submitted and is pending review.\n"
@@ -803,8 +814,8 @@ msgstr "Дополнительные Типы"
 #: templates/singles/offices/offices_1.php:313
 #: templates/singles/offices/offices_2.php:120
 #: templates/singles/offices/offices_2.php:227
-#: templates/singles/offices/offices_5.php:184
-#: templates/singles/offices/offices_5.php:279
+#: templates/singles/offices/offices_5.php:167
+#: templates/singles/offices/offices_5.php:254
 #: redux-framework/sample/sections/codeweber/footer.php:302
 #: redux-framework/sample/sections/codeweber/header.php:358
 #: redux-framework/sample/sections/codeweber/map_geo.php:124
@@ -813,7 +824,7 @@ msgstr "Дополнительные Типы"
 msgid "Address"
 msgstr "Адрес"
 
-#: functions/cpt/cpt-events.php:829 functions/cpt/cpt-offices.php:488
+#: functions/cpt/cpt-events.php:835 functions/cpt/cpt-offices.php:488
 #: functions/cpt/cpt-vacancies.php:885
 msgid "Address (from map)"
 msgstr "Адрес (с карты)"
@@ -824,7 +835,7 @@ msgstr "Адрес (с карты)"
 msgid "Address 2"
 msgstr "Адрес 2"
 
-#: functions/cpt/cpt-events.php:835 functions/cpt/cpt-vacancies.php:889
+#: functions/cpt/cpt-events.php:841 functions/cpt/cpt-vacancies.php:889
 msgid "Address is automatically detected when you click on the map"
 msgstr "Адрес определяется автоматически при клике по карте"
 
@@ -905,14 +916,18 @@ msgstr "Ошибка AJAX:"
 #: redux-framework/sample/sections/codeweber/demo.php:1073
 #: redux-framework/sample/sections/codeweber/demo.php:1151
 #: redux-framework/sample/sections/codeweber/demo.php:1191
-#: redux-framework/sample/sections/codeweber/demo.php:1270
-#: redux-framework/sample/sections/codeweber/demo.php:1310
+#: redux-framework/sample/sections/codeweber/demo.php:1287
+#: redux-framework/sample/sections/codeweber/demo.php:1330
 #: redux-framework/sample/sections/codeweber/woocommerce.php:800
 #: redux-framework/sample/sections/codeweber/woocommerce.php:810
 msgid "AJAX request error"
 msgstr "Ошибка AJAX-запроса"
 
-#: templates/archives/events/events_1.php:26
+#: templates/archives/events/events_1.php:28
+#: templates/archives/events/events_2.php:22
+#: templates/archives/events/events_3.php:27
+#: templates/archives/events/events_4.php:28
+#: templates/archives/events/events_5.php:28
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:278
 msgid "All"
 msgstr "Все"
@@ -968,7 +983,7 @@ msgstr "Все категории FAQ"
 msgid "All FAQ Tags"
 msgstr "Все теги FAQ"
 
-#: functions/sidebars.php:585 functions/cpt/cpt-faq.php:22
+#: functions/sidebars.php:589 functions/cpt/cpt-faq.php:22
 msgid "All FAQs"
 msgstr "Все FAQ"
 
@@ -1126,8 +1141,8 @@ msgstr "Амурская область"
 #: redux-framework/sample/sections/codeweber/demo.php:1068
 #: redux-framework/sample/sections/codeweber/demo.php:1146
 #: redux-framework/sample/sections/codeweber/demo.php:1186
-#: redux-framework/sample/sections/codeweber/demo.php:1265
-#: redux-framework/sample/sections/codeweber/demo.php:1305
+#: redux-framework/sample/sections/codeweber/demo.php:1263
+#: redux-framework/sample/sections/codeweber/demo.php:1325
 #: redux-framework/sample/sections/codeweber/woocommerce.php:799
 #: redux-framework/sample/sections/codeweber/woocommerce.php:809
 msgid "An error occurred"
@@ -1193,6 +1208,11 @@ msgstr "API"
 msgid "API ключ из кабинета DaData"
 msgstr "API key from the DaData cabinet"
 
+#: templates/singles/events/default.php:318
+#, fuzzy
+msgid "Apple Calendar"
+msgstr "Календарь Apple"
+
 #: functions/cpt/cpt-vacancies.php:327
 msgid "Application Email"
 msgstr "Электронная почта для отправки резюме"
@@ -1251,7 +1271,7 @@ msgid "Archive Title"
 msgstr "Название архива"
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:281
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:648
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:586
 msgid "Archived"
 msgstr "В архиве"
 
@@ -1298,7 +1318,7 @@ msgid "Are you sure you want to unsubscribe this user?"
 msgstr "Вы уверены, что хотите отписать этого пользователя?"
 
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:331
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:709
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:647
 msgid "Are you sure?"
 msgstr "Вы уверены?"
 
@@ -1341,7 +1361,7 @@ msgid "Attached Media Files"
 msgstr "Прикрепленные медиа-файлы"
 
 #: functions/cpt/cpt-testimonials.php:541
-#: templates/singles/events/default.php:303
+#: templates/singles/events/default.php:336
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1096
 #: redux-framework/sample/sections/codeweber/childtheme.php:35
 msgid "Author"
@@ -1733,7 +1753,7 @@ msgstr "Выравнивание хлебных крошек"
 msgid "Brief description of the child theme"
 msgstr "Краткое описание Дочерней темы"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:751
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:773
 msgid "Browse"
 msgstr "Выбрать"
 
@@ -1832,11 +1852,11 @@ msgstr ""
 "обработки персональных данных  и даете Согласие на обработку ваших "
 "Персонлаьных данных."
 
-#: templates/archives/events/events_1.php:40
+#: templates/archives/events/events_1.php:42
 msgid "Calendar"
 msgstr "Календарь"
 
-#: templates/archives/events/events_1.php:39
+#: templates/archives/events/events_1.php:41
 #, fuzzy
 msgid "Calendar view"
 msgstr "Календарь"
@@ -1850,7 +1870,7 @@ msgstr "Календарь"
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:554
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:352
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:440
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:590
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:540
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:747
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1829
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1843
@@ -2208,7 +2228,7 @@ msgstr ""
 "Нажмите «Добавить способ оплаты» ниже, чтобы сохранить тестовую карту. "
 "Оплата не настоящая."
 
-#: functions/cpt/cpt-events.php:729 functions/cpt/cpt-vacancies.php:770
+#: functions/cpt/cpt-events.php:735 functions/cpt/cpt-vacancies.php:770
 #, fuzzy
 msgid "Click on the map to set the location or use the search field."
 msgstr ""
@@ -2358,8 +2378,8 @@ msgstr "Список значений через запятую, наприме�
 msgid "Comment"
 msgstr "Комментарий"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:302
-#: templates/singles/events/default.php:430
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:316
+#: templates/singles/events/default.php:467
 #: templates/singles/events/registration-form.php:52
 msgid "Comment (optional)"
 msgstr "Комментарий (необязательно)"
@@ -2400,6 +2420,7 @@ msgstr "Компактный - g-3 (15px)"
 #: woocommerce/order/order-details-customer.php:71
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:105
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:350
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:514
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:800
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:763
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:117
@@ -2422,6 +2443,7 @@ msgid "Company Name"
 msgstr "Название компании"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:111
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:524
 msgid "Company name"
 msgstr "Название компании"
 
@@ -2555,6 +2577,8 @@ msgstr "Ошибка подключения:"
 msgid "Connection successful!"
 msgstr "Подключение успешно установлено!"
 
+#: functions/admin/testimonials-settings.php:93
+#: functions/admin/testimonials-settings.php:149
 #: functions/cpt/cpt-events.php:477 functions/cpt/cpt-events.php:526
 #: functions/integrations/cf7-consents-panel.php:86
 #: functions/integrations/cf7-consents-panel.php:315
@@ -2563,9 +2587,18 @@ msgstr "Подключение успешно установлено!"
 msgid "Consent"
 msgstr "Согласие"
 
-#: functions/integrations/cf7-consents-panel.php:982
+#: functions/integrations/cf7-consents-panel.php:892
 msgid "Consent checkboxes shortcode added to form template."
 msgstr "Добавлен Shortcode для чекбоксов согласия в шаблон формы."
+
+#: functions/admin/testimonials-settings.php:53
+#, fuzzy
+msgid ""
+"Consent checkboxes shown in the built-in testimonial form (leave a review "
+"modal)."
+msgstr ""
+"Флажки согласия, отображаемые во встроенной форме отзывов (модальное окно "
+"\"Оставить отзыв\")."
 
 #: redux-framework/sample/sections/codeweber/legal.php:122
 msgid "Consent Data"
@@ -2621,8 +2654,8 @@ msgstr "Документ согласия"
 #: functions/events/event-registrations.php:342
 #: functions/integrations/cf7-consents-panel.php:255
 #: functions/integrations/cf7-consents-panel.php:281
-#: functions/integrations/cf7-consents-panel.php:950
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:936
+#: functions/integrations/cf7-consents-panel.php:860
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:874
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:784
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:27
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1099
@@ -2653,7 +2686,7 @@ msgstr "Форма обратной связи"
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:144
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:582
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:348
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:586
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:536
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:34
 msgid "Contact Form 7"
 msgstr "Contact Form 7"
@@ -2711,9 +2744,9 @@ msgstr "Контактные формы, созданные с помощью Co
 msgid "Contact Information"
 msgstr "Контактная информация"
 
-#: functions/bootstrap/class-floating-social-widget.php:284
-#: functions/bootstrap/class-floating-social-widget.php:881
-#: functions/bootstrap/class-floating-social-widget.php:1228
+#: functions/bootstrap/class-floating-social-widget.php:243
+#: functions/bootstrap/class-floating-social-widget.php:804
+#: functions/bootstrap/class-floating-social-widget.php:1136
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:357
 msgid "Contact us"
 msgstr "Связаться с нами"
@@ -2849,8 +2882,11 @@ msgstr ""
 "не открыта. Используйте фотографии из src/assets/img/photos/."
 
 #: redux-framework/sample/sections/codeweber/demo.php:1237
+#, fuzzy
 msgid "Create 50 demo events? This may take a while (image import)."
 msgstr ""
+"Создать 50 демонстрационных событий? Это может занять некоторое время "
+"(импорт изображений)."
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:775
 #, fuzzy
@@ -2882,8 +2918,9 @@ msgstr "Создать дочернюю тему"
 
 #: functions/integrations/compare/functions.php:150
 #: functions/integrations/compare/functions.php:174
+#, fuzzy
 msgid "Create Compare Page"
-msgstr ""
+msgstr "Создать страницу сравнения"
 
 #: redux-framework/sample/metaboxes.php:74
 #: redux-framework/sample/sections/codeweber/footer.php:54
@@ -2985,8 +3022,9 @@ msgstr ""
 "photos"
 
 #: redux-framework/sample/sections/codeweber/demo.php:1208
+#, fuzzy
 msgid "Create Demo Events"
-msgstr ""
+msgstr "Создать демонстрационные события"
 
 #: redux-framework/sample/sections/codeweber/demo.php:146
 msgid "Create Demo FAQ"
@@ -3098,10 +3136,17 @@ msgstr "Создать Заголовок"
 msgid "Create Wishlist Page"
 msgstr "Создать страницу списка желаний"
 
+#. 1: created so far, 2: total
+#: functions/demo/demo-events.php:1441
+#, fuzzy, php-format
+msgid "Created %1$d of %2$d events…"
+msgstr "Создано %1$d из %2$d событий…"
+
 #. %d: number of created events
-#: functions/demo/demo-events.php:431
+#: functions/demo/demo-events.php:1436
+#, fuzzy
 msgid "Created %d demo events."
-msgstr ""
+msgstr "Создано %d демонстрационных событий."
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1066
 msgid "Created At"
@@ -3124,8 +3169,9 @@ msgid "Creating entries..."
 msgstr "Создание записей..."
 
 #: redux-framework/sample/sections/codeweber/demo.php:1242
+#, fuzzy
 msgid "Creating events..."
-msgstr ""
+msgstr "Создание событий..."
 
 #: redux-framework/sample/sections/codeweber/demo.php:652
 #: redux-framework/sample/sections/codeweber/demo.php:770
@@ -3290,8 +3336,9 @@ msgid "Customizer Only Option"
 msgstr "Только для Кастомайзера"
 
 #: functions/cpt/cpt-notifications.php:161
+#, fuzzy
 msgid "CW Notify (Toast)"
-msgstr ""
+msgstr "CW Уведомление (Всплывающее)"
 
 #: functions/woocommerce-filters.php:1820
 #, fuzzy
@@ -3348,8 +3395,9 @@ msgid "Dagestan"
 msgstr "Республика Дагестан"
 
 #: functions/cpt/cpt-notifications.php:294
+#, fuzzy
 msgid "Danger"
-msgstr ""
+msgstr "Опасно"
 
 #: redux-framework/sample/metaboxes.php:203
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:271
@@ -3400,9 +3448,11 @@ msgstr "Размер базы данных"
 msgid "Database table:"
 msgstr "Таблица базы данных:"
 
-#: functions/cpt/cpt-faq.php:148 functions/events/event-registrations.php:117
+#: functions/ajax-filter.php:410 functions/cpt/cpt-faq.php:148
+#: functions/events/event-registrations.php:117
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:42
-#: templates/archives/events/events_1.php:60
+#: templates/archives/events/events_1.php:64
+#: templates/archives/events/events_2.php:40
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:51
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:594
 msgid "Date"
@@ -3435,8 +3485,9 @@ msgid "Date:"
 msgstr "Дата:"
 
 #: templates/singles/events/default.php:235
+#, fuzzy
 msgid "days"
-msgstr ""
+msgstr "дни"
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:145
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:551
@@ -3463,10 +3514,13 @@ msgid "Default (Preset)"
 msgstr "По умолчанию (предуначерленное)"
 
 #: functions/admin/events-settings.php:198
+#, fuzzy
 msgid ""
 "Default button label on the registration form and external link. Can be "
 "overridden per event."
 msgstr ""
+"Метка кнопки по умолчанию в форме регистрации и внешней ссылке. Может быть "
+"переопределена для каждого события."
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:40
 msgid "Default Center"
@@ -3495,9 +3549,12 @@ msgid "Default Header"
 msgstr "Стандартный Хедер"
 
 #: functions/admin/events-settings.php:176
+#, fuzzy
 msgid ""
 "Default heading above the registration form. Can be overridden per event."
 msgstr ""
+"Заголовок по умолчанию над формой регистрации. Может быть переопределен для "
+"каждого события."
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:73
 msgid "Default Height"
@@ -3524,7 +3581,7 @@ msgstr "Тип маркера по умолчанию"
 msgid "Default Messages"
 msgstr "По умолчанию"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:403
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:417
 msgid "Default Newsletter Form"
 msgstr "Форма для рассылок по умолчанию"
 
@@ -3579,7 +3636,8 @@ msgstr "Форма подписки по умолчанию"
 msgid "Default Template"
 msgstr "Шаблон по умолчанию"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:119
+#: functions/admin/testimonials-settings.php:50
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:133
 msgid "Default Testimonial Form"
 msgstr "Форма отзывов по умолчанию"
 
@@ -3612,7 +3670,7 @@ msgstr ""
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:71
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:331
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:84
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:709
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:647
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:708
 #: redux-framework/sample/sections/codeweber/legal.php:864
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:828
@@ -3627,9 +3685,10 @@ msgstr "Удалить Демо формы CF7? Это действие нель
 msgid "Delete all demo client entries? This action cannot be undone."
 msgstr "Удалить все записи Демо Клиентов? Это действие необратимо."
 
-#: redux-framework/sample/sections/codeweber/demo.php:1278
+#: redux-framework/sample/sections/codeweber/demo.php:1298
+#, fuzzy
 msgid "Delete all demo events? This action cannot be undone."
-msgstr ""
+msgstr "Удалить все демонстрационные события? Это действие нельзя отменить."
 
 #: redux-framework/sample/sections/codeweber/demo.php:215
 #, fuzzy
@@ -3684,8 +3743,9 @@ msgid "Delete Demo Clients"
 msgstr "Удалить Демо Клиентов"
 
 #: redux-framework/sample/sections/codeweber/demo.php:1211
+#, fuzzy
 msgid "Delete Demo Events"
-msgstr ""
+msgstr "Удалить демонстрационные события"
 
 #: redux-framework/sample/sections/codeweber/demo.php:149
 msgid "Delete Demo FAQ"
@@ -3733,9 +3793,10 @@ msgid "Delete QR code"
 msgstr "Удалить QR-код"
 
 #. %d: number of deleted events
-#: functions/demo/demo-events.php:479
+#: functions/demo/demo-events.php:1494
+#, fuzzy
 msgid "Deleted %d demo events."
-msgstr ""
+msgstr "Удалено %d демонстрационных событий."
 
 #: functions/demo/demo-products.php:1832
 #, fuzzy
@@ -3753,9 +3814,10 @@ msgstr "Удалено %d товаров."
 msgid "Deleting entries..."
 msgstr "Удаление записей..."
 
-#: redux-framework/sample/sections/codeweber/demo.php:1283
+#: redux-framework/sample/sections/codeweber/demo.php:1303
+#, fuzzy
 msgid "Deleting events..."
-msgstr ""
+msgstr "Удаление событий..."
 
 #: redux-framework/sample/sections/codeweber/demo.php:692
 #: redux-framework/sample/sections/codeweber/demo.php:810
@@ -3773,8 +3835,9 @@ msgid "Deletion Data"
 msgstr "удаление"
 
 #: functions/admin/admin_privacy.php:1733
+#, fuzzy
 msgid "Delivery Terms"
-msgstr ""
+msgstr "Условия доставки"
 
 #: redux-framework/sample/sections/codeweber/demo.php:13
 msgid "Demo"
@@ -3785,8 +3848,9 @@ msgid "Demo Clients"
 msgstr "Демо Клиенты"
 
 #: redux-framework/sample/sections/codeweber/demo.php:1204
+#, fuzzy
 msgid "Demo Events (Мероприятия)"
-msgstr ""
+msgstr "Демо-мероприятия"
 
 #: redux-framework/sample/sections/codeweber/demo.php:142
 msgid "Demo FAQ"
@@ -3857,7 +3921,7 @@ msgstr "Навигация по списку отделов"
 #: functions/cpt/cpt-faq.php:572 functions/cpt/cpt-offices.php:599
 #: functions/integrations/personal-data-v2/test-providers.php:107
 #: templates/singles/offices/offices_2.php:269
-#: templates/singles/offices/offices_5.php:232
+#: templates/singles/offices/offices_5.php:207
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:234
 #: redux-framework/sample/sections/codeweber/childtheme.php:28
 #: redux-framework/sample/sections/codeweber/footer.php:295
@@ -3882,7 +3946,10 @@ msgstr "уничтожение"
 msgid "Detailed guide for creating and configuring email newsletter forms."
 msgstr "Подробное руководство по созданию и настройке форм email-рассылок."
 
-#: functions/sidebars.php:356 templates/archives/events/events_1.php:124
+#: functions/ajax-filter.php:484 functions/ajax-filter.php:680
+#: functions/sidebars.php:356 templates/archives/events/events_1.php:128
+#: templates/archives/events/events_2.php:104
+#: templates/archives/events/events_4.php:116
 msgid "Details"
 msgstr "Детально"
 
@@ -3918,7 +3985,7 @@ msgstr "Отключить Хедер"
 msgid "Disable - Hide Page Header"
 msgstr "Отключить Заголовок страницы"
 
-#: functions/cpt/cpt-events.php:876 functions/cpt/cpt-vacancies.php:926
+#: functions/cpt/cpt-events.php:882 functions/cpt/cpt-vacancies.php:926
 msgid "Disable image in sidebar"
 msgstr "Отключить изображение в сайдбаре"
 
@@ -3990,6 +4057,8 @@ msgstr "Расстояние от правого края (введите чис
 msgid "Distance from top edge (enter number in px or \"auto\")"
 msgstr "Расстояние от верхнего края (введите число в px или \"auto\")"
 
+#: functions/admin/testimonials-settings.php:106
+#: functions/admin/testimonials-settings.php:157
 #: functions/cpt/cpt-documents.php:7 functions/cpt/cpt-documents.php:26
 #: functions/cpt/cpt-events.php:490 functions/cpt/cpt-events.php:533
 msgid "Document"
@@ -4017,7 +4086,7 @@ msgstr "Категории Документов"
 msgid "Document Category"
 msgstr "Категория Документов"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:900
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:838
 #, fuzzy
 msgid "Document ID: %d"
 msgstr "Документ ID: %d"
@@ -4055,7 +4124,7 @@ msgstr "Документ запланирован"
 msgid "Document sent successfully to your email."
 msgstr "Документ успешно отправлен на ваш email."
 
-#: functions/enqueues.php:255
+#: functions/enqueues.php:260
 msgid "Document sent successfully!"
 msgstr "Документ успешно отправлен!"
 
@@ -4098,6 +4167,11 @@ msgstr "Документация"
 msgid "Documents"
 msgstr "Документы"
 
+#: functions/admin/testimonials-settings.php:61
+#, fuzzy
+msgid "Documents / Consents"
+msgstr "Документы / Согласия"
+
 #: functions/cpt/cpt-documents.php:25
 msgid "Documents List"
 msgstr "Список Документов"
@@ -4125,7 +4199,7 @@ msgstr "Скачать"
 msgid "Download date:"
 msgstr "Дата загрузки:"
 
-#: functions/sidebars.php:428
+#: functions/sidebars.php:432
 msgid "Download document"
 msgstr "Скачать документ"
 
@@ -4204,12 +4278,14 @@ msgid "E-mail Responsible Person"
 msgstr "Электронная почта ответственного лица"
 
 #: functions/cpt/cpt-events.php:298
+#, fuzzy
 msgid "e.g. 1500 ₽ or Free"
-msgstr ""
+msgstr "например 1500 ₽ или Бесплатно"
 
 #: functions/cpt/cpt-events.php:280
+#, fuzzy
 msgid "e.g. Conference Hall A"
-msgstr ""
+msgstr "например, Конференц-зал А"
 
 #: functions/integrations/image-licenses/image-licenses.php:250
 msgid "e.g., Royalty-free, Rights-managed, Creative Commons"
@@ -4363,16 +4439,16 @@ msgstr "Образование/Квалификация"
 #: functions/events/event-registrations.php:113
 #: functions/events/event-registrations.php:325
 #: woocommerce/order/order-details-customer.php:40
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:382
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:396
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:348
 #: templates/singles/offices/offices_1.php:227
 #: templates/singles/offices/offices_2.php:186
-#: templates/singles/offices/offices_5.php:155
+#: templates/singles/offices/offices_5.php:138
 #: templates/singles/staff/staff_2.php:123
 #: templates/singles/staff/staff_3.php:125
 #: templates/singles/staff/staff_4.php:141
 #: templates/singles/staff/staff_5.php:155
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:929
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:867
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:93
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:115
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1007
@@ -4382,16 +4458,16 @@ msgid "Email"
 msgstr "Email"
 
 #: comments.php:151
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:264
-#: templates/singles/events/default.php:418
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:278
+#: templates/singles/events/default.php:455
 #: templates/singles/events/registration-form.php:39
 msgid "Email *"
 msgstr "Email *"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:383
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:397
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:282
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:283
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:790
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:812
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:755
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:98
 msgid "Email Address"
@@ -4421,8 +4497,9 @@ msgid "Email Admin"
 msgstr "Электронная почта администратору"
 
 #: functions/admin/events-settings.php:330
+#, fuzzy
 msgid "Email Delivery Test"
-msgstr ""
+msgstr "Тест доставки электронной почты"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1036
 msgid "Email is required"
@@ -4433,8 +4510,9 @@ msgid "Email is required."
 msgstr "E-Mail обязателен для заполнения"
 
 #: functions/admin/admin_privacy.php:1745
+#, fuzzy
 msgid "Email Marketing Consent"
-msgstr ""
+msgstr "Согласие на email-маркетинг"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:66
 msgid "Email or phone is required"
@@ -4485,8 +4563,9 @@ msgid "Email User"
 msgstr "Пользователь Email"
 
 #: functions/cpt/cpt-events.php:446
+#, fuzzy
 msgid "Email — required"
-msgstr ""
+msgstr "Email - обязательно"
 
 #: functions/cpt/cpt-vacancies.php:69 functions/cpt/cpt-vacancies.php:70
 #: functions/cpt/cpt-vacancies.php:71 functions/cpt/cpt-vacancies.php:90
@@ -4515,12 +4594,14 @@ msgid "Empty trash? This will permanently delete items."
 msgstr "Очистить корзину? Это навсегда удалит элементы."
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:399
+#, fuzzy
 msgid "Enable"
-msgstr ""
+msgstr "Включить"
 
 #: functions/cpt/cpt-events.php:209
+#, fuzzy
 msgid "Enable / Disable Elements"
-msgstr ""
+msgstr "Включить / Отключить элементы"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:681
 msgid "Enable Admin Notifications"
@@ -4543,8 +4624,9 @@ msgid "Enable Clusterer"
 msgstr "Включить кластеризацию"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:677
+#, fuzzy
 msgid "Enable Compare"
-msgstr ""
+msgstr "Включить сравнение"
 
 #: redux-framework/sample/metaboxes.php:113
 msgid "Enable container for content"
@@ -4589,8 +4671,9 @@ msgid "Enable phone field in registration/account"
 msgstr "Включить поле телефона в регистрации/аккаунте"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:574
+#, fuzzy
 msgid "Enable Quick View"
-msgstr ""
+msgstr "Включить Быстрый просмотр"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:78
 msgid "Enable Rate Limiting"
@@ -4661,16 +4744,19 @@ msgid "End Date & Time"
 msgstr "Дата и время окончания"
 
 #: templates/singles/events/default.php:269
+#, fuzzy
 msgid "End:"
-msgstr ""
+msgstr "Конец:"
 
 #: functions/admin/events-settings.php:167 functions/cpt/cpt-events.php:396
+#, fuzzy
 msgid "Enroll"
-msgstr ""
+msgstr "Записаться"
 
 #: functions/admin/events-settings.php:189 functions/cpt/cpt-events.php:424
+#, fuzzy
 msgid "Enroll Now"
-msgstr ""
+msgstr "Записаться сейчас"
 
 #: functions/user.php:27
 msgid ""
@@ -4709,8 +4795,9 @@ msgstr ""
 "к документации редактора стилей Yandex Maps."
 
 #: woocommerce/cart/cart.php:159
+#, fuzzy
 msgid "Enter promo code"
-msgstr ""
+msgstr "Введите промокод"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:197
 msgid "Enter recipient email for test:"
@@ -4753,7 +4840,7 @@ msgstr "Введите должность пользователя"
 msgid "Enter your admin password to confirm:"
 msgstr "Введите пароль администратора для подтверждения:"
 
-#: functions/enqueues.php:422
+#: functions/enqueues.php:427
 msgid "Error"
 msgstr "Ошибка"
 
@@ -4790,9 +4877,15 @@ msgstr "Ошибка при создании файла SCSS:"
 msgid "Error deleting font."
 msgstr "Ошибка при удалении шрифта."
 
-#: functions/enqueues.php:249
+#: functions/enqueues.php:254
 msgid "Error downloading file. Please try again."
 msgstr "Ошибка загрузки файла. Попробуйте еще раз."
+
+#. 1: attachment ID, 2: error message
+#: functions/admin/media-regenerate.php:93
+#, fuzzy, php-format
+msgid "Error for #%d: %s"
+msgstr "Ошибка для #%d: %s"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:118
 #, fuzzy
@@ -4803,7 +4896,7 @@ msgstr "Сообщение об ошибке"
 msgid "Error saving fonts: "
 msgstr "Ошибка при сохранении шрифтов:"
 
-#: functions/enqueues.php:256
+#: functions/enqueues.php:261
 msgid "Error sending email. Please try again."
 msgstr "Ошибка отправки email. Попробуйте еще раз."
 
@@ -4842,16 +4935,17 @@ msgstr "Ошибка:"
 #: redux-framework/sample/sections/codeweber/demo.php:1060
 #: redux-framework/sample/sections/codeweber/demo.php:1138
 #: redux-framework/sample/sections/codeweber/demo.php:1178
-#: redux-framework/sample/sections/codeweber/demo.php:1257
-#: redux-framework/sample/sections/codeweber/demo.php:1297
+#: redux-framework/sample/sections/codeweber/demo.php:1274
+#: redux-framework/sample/sections/codeweber/demo.php:1317
 #, fuzzy
 msgid "Errors:"
 msgstr "Ошибка:"
 
-#: functions/cpt/cpt-events.php:25 functions/cpt/cpt-events.php:38
-#: functions/events/event-registrations.php:111
+#: functions/ajax-filter.php:411 functions/cpt/cpt-events.php:25
+#: functions/cpt/cpt-events.php:38 functions/events/event-registrations.php:111
 #: functions/events/event-registrations.php:313
-#: templates/archives/events/events_1.php:61
+#: templates/archives/events/events_1.php:65
+#: templates/archives/events/events_2.php:41
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1120
 msgid "Event"
 msgstr "Событие"
@@ -4864,7 +4958,7 @@ msgstr "Категории мероприятий"
 msgid "Event Category"
 msgstr "Категория мероприятия"
 
-#: functions/cpt/cpt-events.php:1040
+#: functions/cpt/cpt-events.php:1058
 msgid "Event completed"
 msgstr "Мероприятие завершено"
 
@@ -4893,8 +4987,9 @@ msgid "Event Gallery"
 msgstr "Галерея мероприятия"
 
 #: functions/cpt/cpt-events.php:201
+#, fuzzy
 msgid "Event Map"
-msgstr ""
+msgstr "Карта Мероприятий"
 
 #: functions/cpt/cpt-events.php:39
 msgid "Event published"
@@ -4902,32 +4997,38 @@ msgstr "Мероприятие опубликовано"
 
 #: functions/events/event-registration-api.php:278
 #: functions/events/event-registration-api.php:292
+#, fuzzy
 msgid "Event Registration"
-msgstr ""
+msgstr "Регистрация на мероприятие"
 
 #: functions/events/event-registrations.php:50
+#, fuzzy
 msgctxt "event registration status"
 msgid "Awaiting Payment"
-msgstr ""
+msgstr "Ожидание оплаты"
 
 #: functions/events/event-registrations.php:41
+#, fuzzy
 msgctxt "event registration status"
 msgid "Cancelled"
-msgstr ""
+msgstr "Отменено"
 
 #: functions/events/event-registrations.php:32
+#, fuzzy
 msgctxt "event registration status"
 msgid "Confirmed"
-msgstr ""
+msgstr "Подтверждено"
 
 #: functions/events/event-registrations.php:23
+#, fuzzy
 msgctxt "event registration status"
 msgid "New"
-msgstr ""
+msgstr "Новый"
 
 #: functions/cpt/cpt-events.php:193
+#, fuzzy
 msgid "Event Report Text"
-msgstr ""
+msgstr "Отчет о событии"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1092
 msgid "Event Type"
@@ -4948,8 +5049,9 @@ msgid "Events"
 msgstr "События"
 
 #: functions/cpt/cpt-events.php:37
+#, fuzzy
 msgid "Events list"
-msgstr ""
+msgstr "Список событий"
 
 #: functions/admin/events-settings.php:18
 #: functions/admin/events-settings.php:320
@@ -5057,7 +5159,7 @@ msgstr "Не удалось создать город:"
 msgid "Failed to create form \"Feedback form\":"
 msgstr "Не удалось создать форму \"Форма обратной связи\":"
 
-#: functions/testimonials/testimonial-form-api.php:573
+#: functions/testimonials/testimonial-form-api.php:598
 msgid "Failed to create testimonial. Please try again."
 msgstr "Не удалось создать отзыв. Попробуйте снова."
 
@@ -5176,8 +5278,9 @@ msgid "Failed to send email. Please try again."
 msgstr "Не удалось отправить письмо. Пожалуйста, попробуйте снова."
 
 #: functions/admin/events-settings.php:310
+#, fuzzy
 msgid "Failed to send test email."
-msgstr ""
+msgstr "Не удалось отправить тестовое письмо."
 
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:65
 msgid "Failed to unsubscribe from the newsletter. The link may have expired."
@@ -5185,8 +5288,9 @@ msgstr ""
 "Не удалось отписаться от рассылки. Возможно, срок действия ссылки истёк."
 
 #: functions/cpt/cpt-events.php:366
+#, fuzzy
 msgid "Fake Registered Count"
-msgstr ""
+msgstr "Фальшивое количество зарегистрированных"
 
 #: functions/cpt/cpt-faq.php:11 functions/cpt/cpt-faq.php:29
 msgid "FAQ"
@@ -5251,7 +5355,7 @@ msgstr "Вопросы и ответы"
 
 #: functions/cpt/cpt-offices.php:286 templates/singles/offices/default.php:237
 #: templates/singles/offices/offices_1.php:264
-#: templates/singles/offices/offices_5.php:219
+#: templates/singles/offices/offices_5.php:194
 msgid "Fax"
 msgstr "Факс"
 
@@ -5334,6 +5438,12 @@ msgstr "Название файла"
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:679
 msgid "File not found"
 msgstr "Файл не найден"
+
+#. %d: attachment ID
+#: functions/admin/media-regenerate.php:84
+#, fuzzy
+msgid "File not found for attachment #%d"
+msgstr "Файл не найден для вложения #%d"
 
 #: functions/cpt/cpt-documents.php:948 functions/cpt/cpt-documents.php:1094
 #: functions/cpt/cpt-documents.php:1207
@@ -5713,8 +5823,9 @@ msgid "Form Fields:"
 msgstr "Поля Формы:"
 
 #: functions/cpt/cpt-events.php:383
+#, fuzzy
 msgid "Form Heading"
-msgstr ""
+msgstr "Заголовок формы"
 
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:44
 #: functions/integrations/ajax-search-module/search-statistics.php:840
@@ -5829,7 +5940,8 @@ msgstr "Тип формы"
 msgid "Form:"
 msgstr "Форма:"
 
-#: templates/archives/events/events_1.php:63
+#: functions/ajax-filter.php:413 templates/archives/events/events_1.php:67
+#: templates/archives/events/events_2.php:43
 msgid "Format"
 msgstr "Формат"
 
@@ -5842,8 +5954,9 @@ msgid "Format +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 msgstr "Формат +7(495)XXX-XX-XX, 8(800)XXX-XX-XX, XXX"
 
 #: functions/cpt/cpt-events.php:125
+#, fuzzy
 msgid "Formats"
-msgstr ""
+msgstr "Форматы"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:45
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:47
@@ -5915,8 +6028,9 @@ msgid "Fuchsia"
 msgstr "Fuchsia"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:421
+#, fuzzy
 msgid "Full"
-msgstr ""
+msgstr "Полный"
 
 #: functions/cpt/cpt-offices.php:220
 #, fuzzy
@@ -5924,8 +6038,9 @@ msgid "Full Address"
 msgstr "Полный адрес"
 
 #: functions/cpt/cpt-events.php:286
+#, fuzzy
 msgid "Full address"
-msgstr ""
+msgstr "Полный адрес"
 
 #: redux-framework/sample/sections/codeweber/legal.php:50
 msgid ""
@@ -5996,8 +6111,9 @@ msgid "Gallery"
 msgstr "Галерея"
 
 #: redux-framework/sample/sections/codeweber/legal.php:729
+#, fuzzy
 msgid "GDPR (EU)"
-msgstr ""
+msgstr "GDPR (ЕС)"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:48
 msgid "General Module Settings"
@@ -6024,11 +6140,12 @@ msgstr "Геоданные и карты"
 #: functions/admin/events-settings.php:164
 #: functions/admin/events-settings.php:186 functions/cpt/cpt-events.php:393
 #: functions/cpt/cpt-events.php:421
+#, fuzzy
 msgid "Get Access"
-msgstr ""
+msgstr "Получить доступ"
 
 #: templates/singles/offices/offices_1.php:185
-#: templates/singles/offices/offices_5.php:193
+#: templates/singles/offices/offices_5.php:172
 #, fuzzy
 msgid "Get Directions"
 msgstr "Получить направления"
@@ -6112,8 +6229,9 @@ msgstr ""
 "Перейдите в Инструменты → Экспорт личных данных в администраторе WordPress."
 
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:94
+#, fuzzy
 msgid "Go to Wishlist"
-msgstr ""
+msgstr "Перейти в список желаний"
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:31
 #, fuzzy
@@ -6124,6 +6242,11 @@ msgstr "Гугл Аналитика"
 #, fuzzy
 msgid "Google Analytics Settings"
 msgstr "Настройки Google Analytics"
+
+#: templates/singles/events/default.php:322
+#, fuzzy
+msgid "Google Calendar"
+msgstr "Google Календарь"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:135
 #: redux-framework/sample/sections/codeweber/socials.php:105
@@ -6237,8 +6360,9 @@ msgid "gy-md-* — overrides vertical gap from ≥768px."
 msgstr "gy-md-\\* - переопределяет вертикальный отступ от ≥768px."
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:422
+#, fuzzy
 msgid "Half"
-msgstr ""
+msgstr "Половина"
 
 #: functions/integrations/personal-data-v2/test-providers.php:205
 #, fuzzy
@@ -6382,9 +6506,15 @@ msgstr ""
 msgid "Hide"
 msgstr "Скрыть"
 
-#: functions/cpt/cpt-events.php:866
+#: functions/cpt/cpt-events.php:902
+#, fuzzy
+msgid "Hide \"Add to Calendar\" button"
+msgstr "Скрыть кнопку \"Добавить в календарь\""
+
+#: functions/cpt/cpt-events.php:872
+#, fuzzy
 msgid "Hide author in sidebar"
-msgstr ""
+msgstr "Скрыть автора в боковой панели"
 
 #: functions/cpt/cpt-vacancies.php:917
 msgid "Hide Author in sidebar on frontend"
@@ -6396,16 +6526,19 @@ msgid "Hide Downloads Menu"
 msgstr "Скрыть меню Загрузки"
 
 #: functions/admin/admin_privacy.php:2070
+#, fuzzy
 msgid "Hide from Archive"
-msgstr ""
+msgstr "Скрыть из архива"
 
 #: functions/admin/admin_privacy.php:114
+#, fuzzy
 msgid "Hide from archive"
-msgstr ""
+msgstr "Скрыть из архива"
 
-#: functions/cpt/cpt-events.php:886
+#: functions/cpt/cpt-events.php:892
+#, fuzzy
 msgid "Hide seats counter"
-msgstr ""
+msgstr "Скрыть счетчик мест"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:537
 #, fuzzy
@@ -6413,8 +6546,9 @@ msgid "Hide the \"Downloads\" tab in My Account sidebar"
 msgstr "Скрыть вкладку «Загрузки» в боковой панели «Мой аккаунт»"
 
 #: functions/admin/admin_privacy.php:2086
+#, fuzzy
 msgid "Hide this document from archive"
-msgstr ""
+msgstr "Скрыть этот документ из архива"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:664
 msgid "Higher values appear on top. Min: 100, Max: 9999, Default: 999"
@@ -6423,6 +6557,7 @@ msgstr ""
 
 #: templates/post-cards/vacancies/style4-card.php:52
 #: templates/post-cards/vacancies/style6-card.php:47
+#: templates/post-cards/vacancies/style7-card.php:44
 #, fuzzy
 msgid "HIT"
 msgstr "ХИТ"
@@ -6470,8 +6605,9 @@ msgid "HR Department"
 msgstr "Отдел кадров"
 
 #: templates/singles/events/default.php:240
+#, fuzzy
 msgid "hrs"
-msgstr ""
+msgstr "час."
 
 #: functions/cpt/cpt-html_blocks.php:11 functions/cpt/cpt-html_blocks.php:23
 msgid "Html Block"
@@ -6522,8 +6658,8 @@ msgstr ""
 msgid "Hybrid"
 msgstr "Гибридный"
 
-#: functions/integrations/cf7-consents-panel.php:540
-#: functions/integrations/cf7-consents-panel.php:547
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:401
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:407
 msgid ""
 "I <a href=\"{document_url}\">consent</a> to the processing of my personal "
 "data."
@@ -6531,7 +6667,7 @@ msgstr ""
 "Я даю свое <a href=\"{document_url}\">согласие</a> на обработку моих "
 "персональных данных."
 
-#: functions/integrations/cf7-consents-panel.php:491
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:372
 msgid ""
 "I agree to <a href=\"{document_url}\">receive informational and advertising "
 "mailings</a>."
@@ -6539,40 +6675,42 @@ msgstr ""
 "Я согласен <a href=\"{document_url}\">получать информационные и рекламные "
 "рассылки</a>."
 
-#: functions/integrations/cf7-consents-panel.php:520
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:389
 msgid "I agree to the <a href=\"{document_url}\">cookie policy</a>."
 msgstr ""
 "Я согласен с <a href=\"{document_url}\">политикой использования файлов "
 "Cookie</a>."
 
-#: functions/integrations/cf7-consents-panel.php:534
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:397
 msgid "I agree to the <a href=\"{document_url}\">delivery terms</a>."
 msgstr "Я согласен с <a href=\"{document_url}\">условиями доставки</a>."
 
-#: functions/integrations/cf7-consents-panel.php:513
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:385
 msgid "I agree to the <a href=\"{document_url}\">license agreement</a>."
 msgstr "Я согласен с <a href=\"{document_url}\">лицензионным соглашением</a>."
 
-#: functions/integrations/cf7-consents-panel.php:506
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:381
 msgid "I agree to the <a href=\"{document_url}\">public offer agreement</a>."
 msgstr ""
 "Я согласен с <a href=\"{document_url}\">договором публичной оферты</a>."
 
-#: functions/integrations/cf7-consents-panel.php:527
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:393
 msgid "I agree to the <a href=\"{document_url}\">return policy</a>."
 msgstr "Я согласен с <a href=\"{document_url}\">условиями возврата</a>."
 
-#: functions/integrations/cf7-consents-panel.php:499
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:376
 msgid "I agree to the <a href=\"{document_url}\">terms of use</a>."
 msgstr "Я согласен с <a href=\"{document_url}\">условиями использования</a>."
 
+#: functions/admin/testimonials-settings.php:102
+#: functions/admin/testimonials-settings.php:154
 #: functions/cpt/cpt-events.php:486 functions/cpt/cpt-events.php:531
-#: functions/cpt/cpt-events.php:552
+#, fuzzy
 msgid "I agree to the {document_title_url}"
-msgstr ""
+msgstr "Я согласен с {document_title_url}"
 
-#: functions/integrations/cf7-consents-panel.php:469
-#: functions/integrations/cf7-consents-panel.php:555
+#: functions/integrations/cf7-consents-panel.php:465
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:413
 msgid "I agree to the {document_title_url}."
 msgstr "Я согласен с {document_title_url}."
 
@@ -6583,7 +6721,7 @@ msgstr "Я согласен с {document_title_url}."
 msgid "I agree to the {document_title}"
 msgstr "Я согласен с {document_title}"
 
-#: functions/integrations/cf7-consents-panel.php:546
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:406
 msgid ""
 "I have read the <a href=\"{document_url}\">personal data processing policy "
 "document.</a>"
@@ -6640,21 +6778,26 @@ msgstr ""
 "Если отключено, карта не отображается на фронтенде и в админке (в блоке "
 "карты этой вакансии)."
 
-#: functions/cpt/cpt-events.php:859
+#: functions/cpt/cpt-events.php:865
+#, fuzzy
 msgid "If disabled, the map is not displayed on the frontend."
-msgstr ""
+msgstr "Если отключено, карта не отображается на фронтенде."
 
 #: redux-framework/sample/sections/codeweber/style.php:191
 msgid "If filled, the background color below will not be applied"
 msgstr "Если заполнено, цвет фона ниже не будет применен"
 
 #: functions/cpt/cpt-events.php:461
+#, fuzzy
 msgid "If hidden, 1 seat is recorded automatically."
-msgstr ""
+msgstr "Если скрыто, 1 место записывается автоматически."
 
 #: functions/cpt/cpt-events.php:437
+#, fuzzy
 msgid "If not set, the default label based on registration status is used."
 msgstr ""
+"Если не установлено, используется метка по умолчанию, основанная на статусе "
+"регистрации."
 
 #: functions/cpt/cpt-events.php:379
 msgid "If set, overrides built-in form with a link button."
@@ -6782,8 +6925,9 @@ msgid "Inactivity Delay"
 msgstr "Задержка из-за неактивности"
 
 #: functions/cpt/cpt-notifications.php:291
+#, fuzzy
 msgid "Info (Default)"
-msgstr ""
+msgstr "Информация (По умолчанию)"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:140
 #, fuzzy
@@ -6807,7 +6951,7 @@ msgstr ""
 msgid "Initialize maps only when they become visible"
 msgstr "Инициализировать карты только когда они становятся видимыми"
 
-#: functions/integrations/cf7-consents-panel.php:942
+#: functions/integrations/cf7-consents-panel.php:852
 msgid "Insert consent checkboxes shortcode"
 msgstr "Вставить Shortcode для чекбоксов согласия"
 
@@ -6892,11 +7036,13 @@ msgstr "Недостаточные права для импорта"
 #: functions/demo/demo-ajax.php:587 functions/demo/demo-ajax.php:608
 #: functions/demo/demo-ajax.php:630 functions/demo/demo-ajax.php:651
 #: functions/demo/demo-ajax.php:673 functions/demo/demo-ajax.php:696
-#: functions/demo/demo-ajax.php:718 functions/demo/demo-ajax.php:741
+#: functions/demo/demo-ajax.php:718 functions/demo/demo-ajax.php:746
 msgid "Insufficient permissions to perform this action."
 msgstr "Недостаточно прав для выполнения операции"
 
 #: functions/admin/events-settings.php:242
+#: functions/admin/media-regenerate.php:15
+#: functions/admin/media-regenerate.php:39
 #: functions/integrations/compare/functions.php:103
 #: functions/integrations/wishlist/functions.php:56
 #, fuzzy
@@ -6922,7 +7068,8 @@ msgstr "Недействительные данные о согласии"
 msgid "Invalid CSV format"
 msgstr "Неверный формат CSV"
 
-#: functions/integrations/cf7-consents-panel.php:575
+#: functions/integrations/cf7-consents-panel.php:485
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:429
 #, fuzzy
 msgid "Invalid document ID"
 msgstr "Недействительный идентификатор документа"
@@ -7000,7 +7147,7 @@ msgstr "Неверный пароль"
 msgid "Invalid password!"
 msgstr "Неверный пароль!"
 
-#: functions/ajax-filter.php:51
+#: functions/ajax-filter.php:50
 #, fuzzy
 msgid "Invalid post type"
 msgstr "Недопустимый тип записи"
@@ -7109,17 +7256,19 @@ msgstr "Иван Иванов"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:179
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:185
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:794
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:816
 msgid "Join"
 msgstr "Подписаться"
 
 #: functions/admin/events-settings.php:190 functions/cpt/cpt-events.php:425
+#, fuzzy
 msgid "Join Now"
-msgstr ""
+msgstr "Присоединиться сейчас"
 
 #: functions/admin/events-settings.php:168 functions/cpt/cpt-events.php:397
+#, fuzzy
 msgid "Join the Event"
-msgstr ""
+msgstr "Присоединиться к событию"
 
 #: templates/post-cards/vacancies/card.php:56
 #: templates/post-cards/vacancies/style3-card.php:49
@@ -7207,6 +7356,12 @@ msgstr "Курганская область"
 msgid "Kursk Oblast"
 msgstr "Курская область"
 
+#: functions/admin/testimonials-settings.php:97
+#: functions/admin/testimonials-settings.php:153
+#, fuzzy
+msgid "Label"
+msgstr "Метка"
+
 #: functions/cpt/cpt-events.php:482 functions/cpt/cpt-events.php:530
 #: functions/integrations/cf7-consents-panel.php:88
 #: functions/integrations/cf7-consents-panel.php:321
@@ -7262,7 +7417,7 @@ msgstr ""
 "Фамилия, имя, отчество, адрес электронной почты, возраст, стаж вождения, "
 "номер телефона, данные водительского удостоверения."
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:933
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:871
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:792
 msgid "Lastname"
 msgstr "Фамилия"
@@ -7272,7 +7427,7 @@ msgstr "Фамилия"
 msgid "Latest"
 msgstr "Последние"
 
-#: functions/cpt/cpt-events.php:805 functions/cpt/cpt-offices.php:467
+#: functions/cpt/cpt-events.php:811 functions/cpt/cpt-offices.php:467
 #: functions/cpt/cpt-vacancies.php:864
 msgid "Latitude"
 msgstr "Широта"
@@ -7294,7 +7449,7 @@ msgstr "Подробнее"
 msgid "Leave a comment"
 msgstr "Оставить комментарий"
 
-#: archive-testimonials.php:153
+#: archive-testimonials.php:162
 msgid "Leave a Review"
 msgstr "Оставить отзыв"
 
@@ -7302,8 +7457,8 @@ msgstr "Оставить отзыв"
 msgid "Leave empty to use admin email."
 msgstr "Оставьте пустым для использования email администратора."
 
-#: functions/testimonials/testimonial-form-api.php:142
-#: functions/testimonials/testimonial-form-api.php:183
+#: functions/testimonials/testimonial-form-api.php:167
+#: functions/testimonials/testimonial-form-api.php:208
 msgid "Leave Your Testimonial"
 msgstr "Оставьте свой отзыв"
 
@@ -7348,8 +7503,9 @@ msgid "Legal Document"
 msgstr "Юридический документ"
 
 #: functions/admin/admin_privacy.php:143
+#, fuzzy
 msgid "Legal Documents Settings"
-msgstr ""
+msgstr "Настройки юридических документов"
 
 #: redux-framework/sample/sections/codeweber/legal.php:31
 msgid "Legal Entity (Company Name) "
@@ -7371,8 +7527,9 @@ msgstr "Юридический документ опубликован"
 #. Заголовок страницы
 #: functions/admin/admin_privacy.php:136 functions/admin/admin_privacy.php:137
 #: functions/admin/admin_privacy.php:536
+#, fuzzy
 msgid "Legal Settings"
-msgstr ""
+msgstr "Юридические настройки"
 
 #: functions/cpt/cpt-legal.php:20
 msgid "Legal Updated"
@@ -7392,8 +7549,9 @@ msgid "License"
 msgstr "Лицензия"
 
 #: functions/admin/admin_privacy.php:1780
+#, fuzzy
 msgid "License Agreement"
-msgstr ""
+msgstr "Лицензионное соглашение"
 
 #: functions/integrations/image-licenses/image-licenses.php:53
 msgid "License Archives"
@@ -7495,7 +7653,7 @@ msgstr "URL в LinkedIn"
 msgid "Lipetsk Oblast"
 msgstr "Липецкая область"
 
-#: templates/archives/events/events_1.php:43
+#: templates/archives/events/events_1.php:45
 msgid "List"
 msgstr "Список"
 
@@ -7514,7 +7672,7 @@ msgstr "Перечень собираемых персональных данн�
 msgid "List of personal data processed:"
 msgstr "Перечень обрабатываемых персональных данных:"
 
-#: templates/archives/events/events_1.php:42
+#: templates/archives/events/events_1.php:44
 msgid "List view"
 msgstr "Вид списком"
 
@@ -7536,15 +7694,16 @@ msgstr "Цвет фона загрузчика"
 msgid "Loader Type"
 msgstr "Тип загрузчика"
 
-#: functions/enqueues.php:248 functions/enqueues.php:423
+#: functions/enqueues.php:253 functions/enqueues.php:428
 #: functions/woocommerce-quick-view.php:89
 #: functions/woocommerce-quick-view.php:133 woocommerce/archive-product.php:252
 #: templates/post-cards/documents/card_download.php:82
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: functions/cpt/cpt-vacancies.php:311
-#: templates/archives/events/events_1.php:62
+#: functions/ajax-filter.php:412 functions/cpt/cpt-vacancies.php:311
+#: templates/archives/events/events_1.php:66
+#: templates/archives/events/events_2.php:42
 #: templates/archives/vacancies/vacancies_1.php:96
 #: templates/archives/vacancies/vacancies_1.php:97
 msgid "Location"
@@ -7609,7 +7768,7 @@ msgstr "Логотип вместо маркера"
 msgid "Logs all Matomo tracking events to WordPress debug log"
 msgstr "Записывает все события отслеживания Matomo в журнал отладки WordPress."
 
-#: functions/cpt/cpt-events.php:813 functions/cpt/cpt-offices.php:474
+#: functions/cpt/cpt-events.php:819 functions/cpt/cpt-offices.php:474
 #: functions/cpt/cpt-vacancies.php:871
 #, fuzzy
 msgid "Longitude"
@@ -7679,7 +7838,7 @@ msgstr "Управляйте лицензиями на изображения и
 msgid "Manager"
 msgstr "Менеджер"
 
-#: functions/cpt/cpt-events.php:732 functions/cpt/cpt-offices.php:329
+#: functions/cpt/cpt-events.php:738 functions/cpt/cpt-offices.php:329
 #: functions/cpt/cpt-vacancies.php:773
 #: redux-framework/sample/sections/codeweber/footer.php:297
 #: redux-framework/sample/sections/codeweber/header.php:353
@@ -7706,7 +7865,7 @@ msgstr ""
 "в блоке «Включение отключение элементов», чтобы отображать карту здесь и на "
 "фронтенде."
 
-#: functions/cpt/cpt-events.php:725
+#: functions/cpt/cpt-events.php:731
 #, fuzzy
 msgid ""
 "Map is hidden on frontend. Enable &ldquo;Show map on frontend&rdquo; to "
@@ -7760,10 +7919,13 @@ msgid "Marketing"
 msgstr "Маркетинговые"
 
 #: redux-framework/sample/sections/codeweber/style.php:121
+#, fuzzy
 msgid ""
 "Mask for phone input fields in built-in forms. Use _ for digit positions. "
 "Example: +7 (___) ___-__-__"
 msgstr ""
+"Маска для полей ввода телефона во встроенных формах. Используйте _ для "
+"позиций цифр. Пример: +7 (___) ___-__-__"
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:527
 #, fuzzy
@@ -7822,8 +7984,9 @@ msgid "Maximum length is %d characters."
 msgstr "Максимальная длина %d символов."
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:696
+#, fuzzy
 msgid "Maximum number of products in comparison (2–6)"
-msgstr ""
+msgstr "Максимальное количество товаров для сравнения (2-6)"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:257
 #, fuzzy
@@ -7875,7 +8038,7 @@ msgstr "Меню не найдено или пусто."
 #: functions/cpt/cpt-notifications.php:273
 #: functions/events/event-registrations.php:337
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:356
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:931
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:869
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:806
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:94
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:145
@@ -7941,8 +8104,9 @@ msgid "Migration completed: %d total, %d updated, %d skipped, %d errors."
 msgstr "Миграция завершена: %d всего, %d обновлено, %d пропущено, %d ошибок."
 
 #: templates/singles/events/default.php:245
+#, fuzzy
 msgid "min"
-msgstr ""
+msgstr "мин"
 
 #: functions/cpt/cpt-documents.php:293
 msgid "min. px"
@@ -7998,8 +8162,9 @@ msgid "Modal"
 msgstr "Модальное окно"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:646
+#, fuzzy
 msgid "Modal confirmation"
-msgstr ""
+msgstr "Модальное подтверждение"
 
 #: redux-framework/sample/metaboxes.php:490
 #, fuzzy
@@ -8012,8 +8177,9 @@ msgid "Modal Size"
 msgstr "Размер модального окна"
 
 #: functions/cpt/cpt-notifications.php:158
+#, fuzzy
 msgid "Modal Window"
-msgstr ""
+msgstr "Модальное окно"
 
 #: functions/integrations/modal-rest-api.php:27
 #, fuzzy
@@ -8041,6 +8207,11 @@ msgstr "Пн-Пт: 9:00-18:00"
 #: functions/woocommerce-states-ru.php:53
 msgid "Mordovia"
 msgstr "Республика Мордовия"
+
+#: templates/archives/testimonials/testimonials_5.php:17
+#, fuzzy
+msgid "More"
+msgstr "Больше"
 
 #: functions/woocommerce-states-ru.php:55
 msgid "Moscow"
@@ -8082,7 +8253,7 @@ msgstr "Мои Прайс-листы"
 #: woocommerce/order/order-details-customer.php:31
 #: woocommerce/order/order-details-customer.php:70
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:347
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:928
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:866
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:790
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:92
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1020
@@ -8095,7 +8266,7 @@ msgstr "Имя"
 msgid "Name *"
 msgstr "Имя *"
 
-#: functions/testimonials/testimonial-form-api.php:380
+#: functions/testimonials/testimonial-form-api.php:405
 #, fuzzy
 msgid "Name and email are required."
 msgstr "Имя и email-адрес обязательны."
@@ -8108,8 +8279,9 @@ msgstr ""
 "при подаче форм."
 
 #: functions/cpt/cpt-events.php:443
+#, fuzzy
 msgid "Name — always required"
-msgstr ""
+msgstr "Имя - обязательно"
 
 #: templates/footer/footer-1.php:106 templates/footer/footer-3.php:119
 #: templates/footer/footer.php:68
@@ -8135,7 +8307,7 @@ msgstr "Ненецкий автономный округ"
 #: functions/events/event-registrations.php:377
 #: functions/events/event-registrations.php:459
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:279
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:646
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:584
 msgid "New"
 msgstr "Новый"
 
@@ -8212,8 +8384,9 @@ msgid "New Form Submission"
 msgstr "Новая отправка формы"
 
 #: functions/cpt/cpt-events.php:128
+#, fuzzy
 msgid "New Format Name"
-msgstr ""
+msgstr "Новое имя формата"
 
 #: functions/cpt/cpt-header.php:16
 msgid "New Header"
@@ -8290,7 +8463,7 @@ msgstr "Новый Сотрудник"
 msgid "New Testimonial"
 msgstr "Новый Отзыв"
 
-#: functions/testimonials/testimonial-form-api.php:871
+#: functions/testimonials/testimonial-form-api.php:896
 #, php-format
 msgid "New Testimonial Submission from %s"
 msgstr "Новый отзыв от %s"
@@ -8310,7 +8483,7 @@ msgid "New Vacancy"
 msgstr "Новая вакансия"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:296
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:935
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:873
 msgid "Newsletter Consents"
 msgstr "Согласия на рассылку"
 
@@ -8332,7 +8505,7 @@ msgstr "Ответ на рассылку"
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:552
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:349
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:437
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:587
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:537
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:744
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:995
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1826
@@ -8542,7 +8715,14 @@ msgstr "Мероприятия не найдены"
 msgid "No events found in trash"
 msgstr "Мероприятия не найдены в корзине"
 
-#: templates/archives/events/events_1.php:136
+#: functions/ajax-filter.php:403 functions/ajax-filter.php:498
+#: functions/ajax-filter.php:582 templates/archives/events/events_1.php:140
+#: templates/archives/events/events_2.php:116
+#: templates/archives/events/events_3.php:128
+#: templates/archives/events/events_4.php:128
+#: templates/archives/events/events_5.php:121
+#: templates/archives/events/events_6.php:99
+#: templates/archives/events/events_7.php:99
 msgid "No events found."
 msgstr "Мероприятия не найдены."
 
@@ -8588,7 +8768,7 @@ msgstr "Нет предоставленных полей."
 msgid "No file received."
 msgstr "Файл не получен."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:750
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:772
 msgid "No file selected"
 msgstr "Файл не выбран"
 
@@ -8628,8 +8808,9 @@ msgid "No Form ID"
 msgstr "Нет ID Формы"
 
 #: functions/cpt/cpt-events.php:130
+#, fuzzy
 msgid "No formats found"
-msgstr ""
+msgstr "Форматы не найдены"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:54
 msgid "No forms found"
@@ -8651,7 +8832,7 @@ msgstr "Не найдено Хедера в корзине"
 msgid "No Html Blocks found"
 msgstr "Блоки HTML не найдены."
 
-#: functions/ajax-filter.php:100
+#: functions/ajax-filter.php:107
 #, fuzzy
 msgid "No items found."
 msgstr "Ничего не найдено."
@@ -8788,7 +8969,7 @@ msgstr "Нет результатов"
 msgid "No schedule options"
 msgstr "Нет вариантов графика"
 
-#: functions/admin/events-settings.php:202 functions/cpt/cpt-events.php:1067
+#: functions/admin/events-settings.php:202 functions/cpt/cpt-events.php:1085
 msgid "No seats available"
 msgstr "Мест нет"
 
@@ -8843,7 +9024,7 @@ msgstr "Вакансии не найдены"
 msgid "No Vacancies found in trash"
 msgstr "Вакансий в корзине не найдено"
 
-#: archive-vacancies.php:96 functions/ajax-filter.php:339
+#: archive-vacancies.php:96 functions/ajax-filter.php:346
 #: templates/archives/vacancies/vacancies_1.php:138
 #, fuzzy
 msgid "No vacancies found."
@@ -8954,8 +9135,9 @@ msgid "Notification Settings"
 msgstr "Настройки уведомлений"
 
 #: functions/cpt/cpt-notifications.php:153
+#, fuzzy
 msgid "Notification Type"
-msgstr ""
+msgstr "Тип уведомления"
 
 #: functions/admin/events-settings.php:112
 #: functions/cpt/cpt-notifications.php:10
@@ -8976,7 +9158,7 @@ msgstr "Новосибирская область"
 msgid "Number of FAQ items to display. Use -1 for all items"
 msgstr "Количество отображаемых пунктов FAQ. Используйте -1 для всех пунктов."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:294
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:308
 msgid "Number of seats"
 msgstr "Количество мест"
 
@@ -9093,7 +9275,7 @@ msgstr "Вкл."
 msgid "On Map"
 msgstr "На карте"
 
-#: functions/sidebars.php:499 templates/singles/events/default.php:467
+#: functions/sidebars.php:503 templates/singles/events/default.php:504
 msgid "On the map"
 msgstr "На карте"
 
@@ -9145,7 +9327,7 @@ msgstr "Открывать балун по клику"
 msgid "Open balloon when marker is clicked"
 msgstr "Открывать балун при клике на маркер"
 
-#: functions/bootstrap/bootstrap_floating-social-widget.php:173
+#: functions/bootstrap/bootstrap_floating-social-widget.php:161
 msgid "Open social network"
 msgstr "Откройте социальную сеть"
 
@@ -9205,8 +9387,9 @@ msgid "Order list"
 msgstr "Список заказов"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:502
+#, fuzzy
 msgid "Order Notes"
-msgstr ""
+msgstr "Заметки к заказу"
 
 #: functions/woocommerce-states-ru.php:62
 msgid "Orenburg Oblast"
@@ -9240,12 +9423,12 @@ msgstr "Другие сервисы аналитики"
 msgid "Other documents"
 msgstr "Другие документы"
 
-#: archive-faq.php:192 functions/sidebars.php:574
+#: archive-faq.php:192 functions/sidebars.php:578
 #, fuzzy
 msgid "Other Questions"
 msgstr "Другие вопросы"
 
-#: functions/ajax-filter.php:323
+#: functions/ajax-filter.php:330
 #: templates/archives/vacancies/vacancies_1.php:122
 #, fuzzy
 msgid "Other Vacancies"
@@ -9401,10 +9584,13 @@ msgid "Page URL"
 msgstr "URL страницы"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:686
+#, fuzzy
 msgid ""
 "Page with [cw_compare] shortcode. Use \"Create Compare Page\" button to "
 "generate it automatically."
 msgstr ""
+"Страница с шорткодом [cw_compare]. Используйте кнопку «Создать страницу "
+"сравнения», чтобы сгенерировать ее автоматически."
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:604
 #, fuzzy
@@ -9560,7 +9746,7 @@ msgstr "Часть:"
 msgid "Password"
 msgstr "Пароль"
 
-#: functions/cpt/cpt-events.php:607
+#: functions/cpt/cpt-events.php:613
 msgid "Paste a YouTube, Vimeo, Rutube or VK Video URL."
 msgstr "Вставьте ссылку YouTube, Vimeo, Rutube или VK Video."
 
@@ -9571,7 +9757,7 @@ msgstr "Вставьте ссылку YouTube, Vimeo, Rutube или VK Video."
 msgid "Patreon"
 msgstr "Патреон"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:934
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:872
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:794
 msgid "Patronymic"
 msgstr "Отчество"
@@ -9713,12 +9899,12 @@ msgstr "Тест Операторов Персональных данных V2"
 #: templates/header/header-fancy.php:283
 #: woocommerce/order/order-details-customer.php:39
 #: woocommerce/order/order-details-customer.php:78
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:280
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:286
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:294
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:300
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:357
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:378
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:437
-#: templates/singles/events/default.php:425
+#: templates/singles/events/default.php:462
 #: templates/singles/events/registration-form.php:46
 #: templates/singles/offices/default.php:107
 #: templates/singles/offices/default.php:195
@@ -9727,15 +9913,15 @@ msgstr "Тест Операторов Персональных данных V2"
 #: templates/singles/offices/offices_1.php:316
 #: templates/singles/offices/offices_2.php:123
 #: templates/singles/offices/offices_2.php:198
-#: templates/singles/offices/offices_5.php:135
-#: templates/singles/offices/offices_5.php:282
+#: templates/singles/offices/offices_5.php:118
+#: templates/singles/offices/offices_5.php:257
 #: templates/singles/staff/default.php:127
 #: templates/singles/staff/staff_1.php:127
 #: templates/singles/staff/staff_2.php:135
 #: templates/singles/staff/staff_3.php:137
 #: templates/singles/staff/staff_4.php:135
 #: templates/singles/staff/staff_5.php:145
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:930
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:868
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:796
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:118
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1026
@@ -9752,7 +9938,7 @@ msgstr "Тест Операторов Персональных данных V2"
 msgid "Phone"
 msgstr "Телефон"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:273
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:287
 msgid "Phone *"
 msgstr "Телефон *"
 
@@ -9779,13 +9965,14 @@ msgstr "Телефон 05"
 #: functions/cpt/cpt-offices.php:280 templates/singles/offices/default.php:209
 #: templates/singles/offices/offices_1.php:241
 #: templates/singles/offices/offices_2.php:210
-#: templates/singles/offices/offices_5.php:145
+#: templates/singles/offices/offices_5.php:128
 msgid "Phone 2"
 msgstr "Телефон 2"
 
 #: redux-framework/sample/sections/codeweber/style.php:120
+#, fuzzy
 msgid "Phone mask"
-msgstr ""
+msgstr "Маска телефона"
 
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:192
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:480
@@ -9822,8 +10009,9 @@ msgid "Phone Responsible Person"
 msgstr "Телефон ответственного лица"
 
 #: functions/cpt/cpt-events.php:450
+#, fuzzy
 msgid "Phone — required"
-msgstr ""
+msgstr "Телефон - обязательно"
 
 #: redux-framework/sample/sections/codeweber/footer.php:296
 #: redux-framework/sample/sections/codeweber/header.php:352
@@ -9852,7 +10040,7 @@ msgid "Pinterest"
 msgstr "Пинтерест"
 
 #: functions/events/event-registration-api.php:166
-#: functions/testimonials/testimonial-form-api.php:472
+#: functions/testimonials/testimonial-form-api.php:497
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:331
 #, fuzzy
 msgid "Please accept all required consents."
@@ -9868,8 +10056,8 @@ msgid "Please enter a valid email address."
 msgstr "Пожалуйста, введите действительный E-Mail"
 
 #: functions/events/event-registration-api.php:149
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:265
-#: templates/singles/events/default.php:420
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:279
+#: templates/singles/events/default.php:457
 #: templates/singles/events/registration-form.php:41
 msgid "Please enter a valid email."
 msgstr "Пожалуйста, введите корректный Email."
@@ -9891,14 +10079,14 @@ msgstr "Введите ваш E-Mail."
 msgid "Please enter your first name."
 msgstr "Введите ваше Имя"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:337
-#: templates/singles/events/default.php:413
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:351
+#: templates/singles/events/default.php:450
 #: templates/singles/events/registration-form.php:34
 msgid "Please enter your name."
 msgstr "Пожалуйста, введите ваше имя."
 
 #: functions/events/event-registration-api.php:155
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:274
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:288
 msgid "Please enter your phone number."
 msgstr "Пожалуйста, введите номер телефона."
 
@@ -9929,7 +10117,7 @@ msgid "Please log in to save items to your wishlist."
 msgstr ""
 "Пожалуйста, войдите в систему, чтобы сохранить товары в списке желаний."
 
-#: functions/testimonials/testimonial-form-api.php:388
+#: functions/testimonials/testimonial-form-api.php:413
 #, fuzzy
 msgid "Please provide a valid email address."
 msgstr "Пожалуйста, предоставьте действительный адрес электронной почты."
@@ -9990,6 +10178,7 @@ msgstr "Порт"
 #: functions/user.php:257 functions/user.php:289
 #: functions/cpt/cpt-notifications.php:242 functions/cpt/cpt-staff.php:182
 #: functions/cpt/cpt-staff.php:419
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:515
 msgid "Position"
 msgstr "Позиция"
 
@@ -10002,8 +10191,9 @@ msgid "Position of the modal window on the screen"
 msgstr "Позиция модального окна на экране"
 
 #: functions/cpt/cpt-notifications.php:311
+#, fuzzy
 msgid "Position of the toast on screen"
-msgstr ""
+msgstr "Положение уведомления на экране"
 
 #: templates/singles/vacancies/default.php:39
 msgid "Position:"
@@ -10047,8 +10237,9 @@ msgstr "Почтовый индекс"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:443
 #: redux-framework/sample/sections/codeweber/woocommerce.php:475
+#, fuzzy
 msgid "Postcode"
-msgstr ""
+msgstr "Почтовый индекс"
 
 #: woocommerce/order/order-details-customer.php:37
 #: woocommerce/order/order-details-customer.php:76
@@ -10065,8 +10256,9 @@ msgstr "Пресеты"
 msgid "Previous"
 msgstr "Предыдущий"
 
-#: woocommerce/content-compare-table.php:65 functions/cpt/cpt-events.php:294
-#: templates/archives/events/events_1.php:64
+#: functions/ajax-filter.php:414 woocommerce/content-compare-table.php:65
+#: functions/cpt/cpt-events.php:294 templates/archives/events/events_1.php:68
+#: templates/archives/events/events_2.php:44
 msgid "Price"
 msgstr "Стоимость"
 
@@ -10206,12 +10398,14 @@ msgid "Product Card Template"
 msgstr "Шаблон карточки товара"
 
 #: functions/integrations/compare/class-cw-compare.php:65
+#, fuzzy
 msgid "Product not found"
-msgstr ""
+msgstr "Товар не найден"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:695
+#, fuzzy
 msgid "Products Limit"
-msgstr ""
+msgstr "Лимит товаров"
 
 #: woocommerce/loop/pagination.php:65
 #, fuzzy
@@ -10292,8 +10486,9 @@ msgid "Pskov Oblast"
 msgstr "Псковская область"
 
 #: functions/admin/admin_privacy.php:1721
+#, fuzzy
 msgid "Public Offer Agreement"
-msgstr ""
+msgstr "Публичная оферта"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:340
 msgid "Public Transport"
@@ -10437,8 +10632,9 @@ msgid "Question header"
 msgstr "Заголовок вопроса"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:566
+#, fuzzy
 msgid "Quick View"
-msgstr ""
+msgstr "Быстрый просмотр"
 
 #: functions/woocommerce-quick-view.php:82
 #: templates/woocommerce/cards/shop2.php:170
@@ -10501,7 +10697,8 @@ msgstr "Распределение оценок"
 msgid "Read"
 msgstr "Читать"
 
-#: templates/content/loop-legal.php:20 templates/content/loop.php:20
+#: functions/ajax-filter.php:671 templates/content/loop-legal.php:20
+#: templates/content/loop.php:20 templates/archives/events/events_4.php:73
 #: templates/archives/legal/legal_1.php:16
 #: templates/post-cards/post/card-content.php:64
 #: templates/post-cards/post/card.php:53
@@ -10574,15 +10771,15 @@ msgstr "Регион"
 
 #: functions/admin/events-settings.php:160
 #: functions/admin/events-settings.php:182 functions/cpt/cpt-events.php:389
-#: functions/cpt/cpt-events.php:417 functions/cpt/cpt-events.php:1029
-#: functions/cpt/cpt-events.php:1072
+#: functions/cpt/cpt-events.php:417 functions/cpt/cpt-events.php:1047
+#: functions/cpt/cpt-events.php:1090
 #: functions/events/event-registration-api.php:486
 #: functions/events/event-registration-api.php:487
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:240
-#: templates/singles/events/default.php:373
-#: templates/singles/events/default.php:379
-#: templates/singles/events/default.php:400
-#: templates/singles/events/default.php:438
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:254
+#: templates/singles/events/default.php:410
+#: templates/singles/events/default.php:416
+#: templates/singles/events/default.php:437
+#: templates/singles/events/default.php:475
 msgid "Register"
 msgstr "Записаться"
 
@@ -10622,7 +10819,7 @@ msgstr "Зарегистрированный пользователь"
 msgid "Registration"
 msgstr "Заявка"
 
-#: functions/cpt/cpt-events.php:1058
+#: functions/cpt/cpt-events.php:1076
 msgid "Registration closed"
 msgstr "Приём заявок закрыт"
 
@@ -10631,8 +10828,9 @@ msgid "Registration Closes"
 msgstr "Окончание приёма заявок"
 
 #: templates/singles/events/default.php:175
+#, fuzzy
 msgid "Registration closes:"
-msgstr ""
+msgstr "Регистрация закрывается:"
 
 #: functions/events/event-registrations.php:284
 msgid "Registration Details"
@@ -10643,25 +10841,28 @@ msgid "Registration Form"
 msgstr "Форма регистрации"
 
 #: functions/admin/events-settings.php:79
+#, fuzzy
 msgid "Registration form heading"
-msgstr ""
+msgstr "Форма регистрации"
 
 #: functions/events/event-registration-api.php:483
+#, fuzzy
 msgid "Registration is not available."
-msgstr ""
+msgstr "Регистрация недоступна."
 
 #: functions/cpt/cpt-events.php:246
 msgid "Registration Opens"
 msgstr "Начало приёма заявок"
 
-#: functions/cpt/cpt-events.php:1048
+#: functions/cpt/cpt-events.php:1066
 #, php-format
 msgid "Registration opens %s"
 msgstr "Регистрация откроется %s"
 
 #: templates/singles/events/default.php:182
+#, fuzzy
 msgid "Registration opens:"
-msgstr ""
+msgstr "Регистрация открывается:"
 
 #: functions/cpt/cpt-events.php:177
 msgid "Registration Settings"
@@ -10672,8 +10873,9 @@ msgid "Registration takes less than a minute."
 msgstr "Регистрация занимает меньше минуты."
 
 #: functions/cpt/cpt-events.php:326
+#, fuzzy
 msgid "Registration Type"
-msgstr ""
+msgstr "Тип регистрации"
 
 #: functions/events/event-registrations.php:66
 #: functions/events/event-registrations.php:68
@@ -10685,7 +10887,7 @@ msgstr "Заявки"
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:217
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:536
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:347
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:585
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:535
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1825
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:156
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:520
@@ -10708,10 +10910,13 @@ msgstr "Связанные вакансии"
 
 #: functions/woocommerce-swatches.php:273
 #: woocommerce/content-compare-bar.php:58
-#: woocommerce/content-compare-table.php:53 functions/cpt/cpt-events.php:478
-#: functions/cpt/cpt-events.php:527 functions/cpt/cpt-events.php:625
-#: functions/cpt/cpt-vacancies.php:469 functions/cpt/cpt-vacancies.php:484
-#: functions/cpt/cpt-vacancies.php:511 functions/cpt/cpt-vacancies.php:520
+#: woocommerce/content-compare-table.php:53
+#: functions/admin/testimonials-settings.php:94
+#: functions/admin/testimonials-settings.php:150
+#: functions/cpt/cpt-events.php:478 functions/cpt/cpt-events.php:527
+#: functions/cpt/cpt-events.php:631 functions/cpt/cpt-vacancies.php:469
+#: functions/cpt/cpt-vacancies.php:484 functions/cpt/cpt-vacancies.php:511
+#: functions/cpt/cpt-vacancies.php:520
 #: functions/integrations/cf7-consents-panel.php:87
 #: functions/integrations/cf7-consents-panel.php:316
 #: functions/integrations/event-gallery-metabox.php:55
@@ -10788,7 +10993,7 @@ msgid "Replace existing label text with default text for this document?"
 msgstr ""
 "Заменить существующий текст метки на текст по умолчанию для этого документа?"
 
-#: functions/cpt/cpt-events.php:662
+#: functions/cpt/cpt-events.php:668
 msgid "Replace Video"
 msgstr "Заменить видео"
 
@@ -10796,6 +11001,8 @@ msgstr "Заменить видео"
 msgid "Republic of Crimea"
 msgstr "Республика Крым"
 
+#: functions/admin/testimonials-settings.php:121
+#: functions/admin/testimonials-settings.php:160
 #: functions/cpt/cpt-events.php:504 functions/cpt/cpt-events.php:537
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:233
 #: redux-framework/sample/sections/codeweber/woocommerce.php:408
@@ -10817,8 +11024,9 @@ msgstr "Требования"
 #: functions/admin/events-settings.php:163
 #: functions/admin/events-settings.php:185 functions/cpt/cpt-events.php:392
 #: functions/cpt/cpt-events.php:420
+#, fuzzy
 msgid "Reserve a Spot"
-msgstr ""
+msgstr "Забронировать место"
 
 #: functions/integrations/ajax-search-module/search-statistics.php:642
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:485
@@ -10877,7 +11085,7 @@ msgstr "Результаты для:"
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:553
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:351
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:439
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:589
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:539
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:746
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1828
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1842
@@ -10907,15 +11115,16 @@ msgid "Retention settings saved."
 msgstr "Настройки срока хранения сохранены."
 
 #: functions/admin/admin_privacy.php:1739
+#, fuzzy
 msgid "Return Policy"
-msgstr ""
+msgstr "Политика возврата"
 
 #: woocommerce/single-product.php:336
 #, fuzzy
 msgid "Review this product"
 msgstr "Оцените этот товар"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:909
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:847
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1206
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:319
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:278
@@ -11225,8 +11434,9 @@ msgid "Search Footers"
 msgstr "Найти Футер"
 
 #: functions/cpt/cpt-events.php:129
+#, fuzzy
 msgid "Search Formats"
-msgstr ""
+msgstr "Форматы поиска"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:53
 msgid "Search forms"
@@ -11358,12 +11568,14 @@ msgstr "Ищем..."
 #: functions/events/event-registration-api.php:438
 #: functions/events/event-registrations.php:115
 #: functions/events/event-registrations.php:333
+#, fuzzy
 msgid "Seats"
-msgstr ""
+msgstr "Места"
 
 #: templates/singles/events/default.php:250
+#, fuzzy
 msgid "sec"
-msgstr ""
+msgstr "сек"
 
 #: functions/woocommerce-swatches.php:236
 #, fuzzy
@@ -11376,7 +11588,8 @@ msgid "Section via hook"
 msgstr "Раздел через хук"
 
 #: functions/ajax-filter.php:24
-#: functions/integrations/cf7-consents-panel.php:564
+#: functions/integrations/cf7-consents-panel.php:474
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:422
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:141
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:231
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:287
@@ -11397,7 +11610,7 @@ msgstr "Ошибка безопасности при сохранении нас
 msgid "Security check failed."
 msgstr "Проверка безопасности не прошла."
 
-#: functions/testimonials/testimonial-form-api.php:237
+#: functions/testimonials/testimonial-form-api.php:262
 msgid "Security check failed. Please refresh the page and try again."
 msgstr ""
 "Проверка безопасности не пройдена. Обновите страницу и попробуйте снова."
@@ -11425,18 +11638,20 @@ msgstr ""
 msgid "Security error"
 msgstr "Ошибка безопасности"
 
-#: functions/demo/demo-ajax.php:26 functions/demo/demo-ajax.php:62
-#: functions/demo/demo-ajax.php:97 functions/demo/demo-ajax.php:133
-#: functions/demo/demo-ajax.php:168 functions/demo/demo-ajax.php:204
-#: functions/demo/demo-ajax.php:239 functions/demo/demo-ajax.php:275
-#: functions/demo/demo-ajax.php:310 functions/demo/demo-ajax.php:346
-#: functions/demo/demo-ajax.php:381 functions/demo/demo-ajax.php:417
-#: functions/demo/demo-ajax.php:452 functions/demo/demo-ajax.php:489
-#: functions/demo/demo-ajax.php:524 functions/demo/demo-ajax.php:561
-#: functions/demo/demo-ajax.php:590 functions/demo/demo-ajax.php:611
-#: functions/demo/demo-ajax.php:633 functions/demo/demo-ajax.php:654
-#: functions/demo/demo-ajax.php:676 functions/demo/demo-ajax.php:699
-#: functions/demo/demo-ajax.php:721 functions/demo/demo-ajax.php:744
+#: functions/admin/media-regenerate.php:18
+#: functions/admin/media-regenerate.php:42 functions/demo/demo-ajax.php:26
+#: functions/demo/demo-ajax.php:62 functions/demo/demo-ajax.php:97
+#: functions/demo/demo-ajax.php:133 functions/demo/demo-ajax.php:168
+#: functions/demo/demo-ajax.php:204 functions/demo/demo-ajax.php:239
+#: functions/demo/demo-ajax.php:275 functions/demo/demo-ajax.php:310
+#: functions/demo/demo-ajax.php:346 functions/demo/demo-ajax.php:381
+#: functions/demo/demo-ajax.php:417 functions/demo/demo-ajax.php:452
+#: functions/demo/demo-ajax.php:489 functions/demo/demo-ajax.php:524
+#: functions/demo/demo-ajax.php:561 functions/demo/demo-ajax.php:590
+#: functions/demo/demo-ajax.php:611 functions/demo/demo-ajax.php:633
+#: functions/demo/demo-ajax.php:654 functions/demo/demo-ajax.php:676
+#: functions/demo/demo-ajax.php:699 functions/demo/demo-ajax.php:721
+#: functions/demo/demo-ajax.php:749
 msgid "Security error. Please refresh the page and try again."
 msgstr "Ошибка безопасности. Обновите страницу и попробуйте снова."
 
@@ -11618,13 +11833,14 @@ msgstr "Выберите медиафайлы для прикрепления к
 msgid "Select Office Image"
 msgstr "Выберите изображение офиса"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:656
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:678
 msgid "Select option"
 msgstr "Выберите вариант"
 
 #: functions/admin/admin_privacy.php:93
+#, fuzzy
 msgid "Select or create pages for legal documents..."
-msgstr ""
+msgstr "Выберите или создайте страницы для юридических документов..."
 
 #: redux-framework/sample/metaboxes.php:393
 msgid "Select Page Header"
@@ -11757,7 +11973,7 @@ msgstr "Тип бэкграунда Хедера"
 msgid "Select User:"
 msgstr "Выбрать пользователя:"
 
-#: functions/cpt/cpt-events.php:652
+#: functions/cpt/cpt-events.php:658
 msgid "Select Video"
 msgstr "Выбрать видео"
 
@@ -11765,7 +11981,7 @@ msgstr "Выбрать видео"
 msgid "Select widget side position"
 msgstr "Выберите боковую позицию виджета"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:659
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:681
 msgid "Select..."
 msgstr "Выбрать..."
 
@@ -11778,15 +11994,18 @@ msgid "Selected point coordinates"
 msgstr "Координаты выбранной точки"
 
 #: functions/admin/admin_privacy.php:1786
+#, fuzzy
 msgid "Seller Information"
-msgstr ""
+msgstr "Информация о продавце"
 
 #. %s: email address
 #: functions/admin/events-settings.php:337
-#, php-format
+#, fuzzy, php-format
 msgid ""
 "Send a test email to %s to verify your mail server is configured correctly."
 msgstr ""
+"Отправить тестовое письмо на %s, чтобы проверить правильность настройки "
+"вашего почтового сервера."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:718
 msgid "Send automatic reply emails for newsletter subscriptions"
@@ -11835,8 +12054,9 @@ msgid "Send Message"
 msgstr "Отправить сообщение"
 
 #: functions/admin/events-settings.php:191 functions/cpt/cpt-events.php:426
+#, fuzzy
 msgid "Send Request"
-msgstr ""
+msgstr "Отправить запрос"
 
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:141
 #, fuzzy
@@ -11857,17 +12077,17 @@ msgstr "Отправить Тестовый Email"
 msgid "Send to Email"
 msgstr "Отправить на Email"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:148
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:162
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:423
 #, fuzzy
 msgid "Sending"
 msgstr "Отправка"
 
-#: functions/enqueues.php:254 functions/cpt/cpt-documents.php:981
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:344
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:385
-#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:827
-#: templates/singles/events/default.php:437
+#: functions/enqueues.php:259 functions/cpt/cpt-documents.php:981
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:358
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:399
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:849
+#: templates/singles/events/default.php:474
 #: templates/singles/events/registration-form.php:59
 #: redux-framework/sample/sections/codeweber/smtp.php:193
 msgid "Sending..."
@@ -11902,7 +12122,7 @@ msgstr "Разделяйте запятыми"
 msgid "Server Error"
 msgstr "Ошибка сервера"
 
-#: functions/enqueues.php:257
+#: functions/enqueues.php:262
 msgid "Server error"
 msgstr "Ошибка сервера"
 
@@ -11981,7 +12201,9 @@ msgstr "Установить изображение для этого сотру
 msgid "Set to 0 for unlimited seats."
 msgstr "Установите 0 для неограниченного числа мест."
 
-#: functions/admin/events-settings.php:19 functions/cpt/cpt-documents.php:832
+#: functions/admin/events-settings.php:19
+#: functions/admin/testimonials-settings.php:25
+#: functions/cpt/cpt-documents.php:832
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:132
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:537
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:57
@@ -12108,8 +12330,9 @@ msgid "Shortcode Docs"
 msgstr "Документация по коротким кодам"
 
 #: functions/admin/admin_privacy.php:119
+#, fuzzy
 msgid "Shortcode:"
-msgstr ""
+msgstr "Шорткод:"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:218
 msgid "Shortcode: [redux_option key=\"bank-bank-address\"]"
@@ -12217,7 +12440,7 @@ msgid "Show a Bootstrap progress bar for seat capacity"
 msgstr "Показывать Bootstrap прогресс-бар заполнения мест"
 
 #: functions/integrations/ajax-search-module/ajax-search.php:92
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:777
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:715
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:374
 msgid "Show all"
 msgstr "Показать все"
@@ -12258,8 +12481,9 @@ msgid "Show close button on balloon"
 msgstr "Показать кнопку закрытия на балуне"
 
 #: functions/cpt/cpt-events.php:455
+#, fuzzy
 msgid "Show Comment field"
-msgstr ""
+msgstr "Показать поле комментария"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-document-version.php:130
 #, fuzzy
@@ -12304,7 +12528,7 @@ msgstr "Показать иконку на мобильных устройств
 msgid "Show icon type instead of button on mobile devices (<768px)"
 msgstr "Показать тип иконки вместо кнопки на мобильных устройствах (<768px)"
 
-#: functions/cpt/cpt-events.php:856 functions/cpt/cpt-vacancies.php:908
+#: functions/cpt/cpt-events.php:862 functions/cpt/cpt-vacancies.php:908
 msgid "Show map on frontend"
 msgstr "Показывать карту на фронтенде"
 
@@ -12319,14 +12543,18 @@ msgid "Show New Badge"
 msgstr "Показать значок \"Новинка\""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:575
+#, fuzzy
 msgid ""
 "Show Quick View button on product cards (Bootstrap Modal with gallery, "
 "variations support)"
 msgstr ""
+"Показывать кнопку \"Быстрый просмотр\" на карточках товаров (модальное окно "
+"Bootstrap с галереей, поддержка вариаций)"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:734
+#, fuzzy
 msgid "Show Rating Row"
-msgstr ""
+msgstr "Показать строку рейтинга"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:117
 msgid "Show Route Button"
@@ -12346,8 +12574,9 @@ msgid "Show Search Control"
 msgstr "Показать поиск"
 
 #: functions/cpt/cpt-events.php:459
+#, fuzzy
 msgid "Show Seats field (number of seats to reserve)"
-msgstr ""
+msgstr "Показать поле \"Места\" (количество мест для бронирования)"
 
 #: functions/admin/events-settings.php:63
 msgid "Show seats progress bar"
@@ -12358,12 +12587,14 @@ msgid "Show sidebar with list of markers"
 msgstr "Показать боковую панель со списком маркеров"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:750
+#, fuzzy
 msgid "Show SKU Row"
-msgstr ""
+msgstr "Показать строку SKU"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:742
+#, fuzzy
 msgid "Show Stock Row"
-msgstr ""
+msgstr "Показать строку наличия"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:172
 #, fuzzy
@@ -12385,16 +12616,22 @@ msgid "Show «Add to Wishlist» button on single product page"
 msgstr "Показывать кнопку «Добавить в Закладки» на странице отдельного товара"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:708
+#, fuzzy
 msgid ""
 "Show «Compare» button on product cards in catalog (alongside Wishlist and "
 "Quick View)"
 msgstr ""
+"Показывать кнопку «Сравнить» на карточках товаров в каталоге (рядом с «В "
+"избранное» и «Быстрый просмотр»)"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:717
+#, fuzzy
 msgid ""
 "Show «Compare» button on single product page (after Add to Cart). On "
 "variable products the selected variation ID is used."
 msgstr ""
+"Показывать кнопку «Сравнить» на странице отдельного товара (после кнопки «В "
+"корзину»). Для вариативных товаров используется ID выбранной вариации."
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:313
 msgid "Show/hide floating social widget"
@@ -12421,11 +12658,14 @@ msgstr ""
 "Отображается для рекомендуемых товаров (флаг \"Рекомендуемый\" в WooCommerce)"
 "."
 
-#: functions/cpt/cpt-events.php:690
+#: functions/cpt/cpt-events.php:696
+#, fuzzy
 msgid ""
 "Shown instead of the main content when the event has ended. Use for post-"
 "event reports, summaries, or photo descriptions."
 msgstr ""
+"Отображается вместо основного контента, когда событие завершилось. "
+"Используйте для отчетов после мероприятия, сводок или описаний фотографий."
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:267
 #, fuzzy
@@ -12464,8 +12704,9 @@ msgstr "Заголовок боковой панели"
 #: functions/admin/events-settings.php:165
 #: functions/admin/events-settings.php:187 functions/cpt/cpt-events.php:394
 #: functions/cpt/cpt-events.php:422
+#, fuzzy
 msgid "Sign Up"
-msgstr ""
+msgstr "Регистрация"
 
 #: woocommerce/myaccount/form-login.php:76
 msgid "Sign up"
@@ -12844,8 +13085,9 @@ msgid "Start Date & Time"
 msgstr "Дата и время начала"
 
 #: templates/singles/events/default.php:259
+#, fuzzy
 msgid "Start:"
-msgstr ""
+msgstr "Начать:"
 
 #: woocommerce/order/order-details-customer.php:36
 #: woocommerce/order/order-details-customer.php:75
@@ -12854,8 +13096,9 @@ msgstr "Штат / Округ"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:442
 #: redux-framework/sample/sections/codeweber/woocommerce.php:474
+#, fuzzy
 msgid "State / Region"
-msgstr ""
+msgstr "Область / Регион"
 
 #: functions/cpt/cpt-testimonials.php:544
 #: functions/events/event-registrations.php:116
@@ -12963,7 +13206,7 @@ msgid "Subitem 2.1.1"
 msgstr "Подпункт 2.1.1"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:358
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:932
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:870
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:124
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:347
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:762
@@ -13067,23 +13310,25 @@ msgstr "Подачи"
 msgid "Submit"
 msgstr "Отправить"
 
-#: functions/sidebars.php:440 functions/sidebars.php:452
+#: functions/sidebars.php:444 functions/sidebars.php:456
 msgid "Submit a request"
 msgstr "Отправить заявку"
 
 #: functions/admin/events-settings.php:161 functions/cpt/cpt-events.php:390
+#, fuzzy
 msgid "Submit an Application"
-msgstr ""
+msgstr "Подать заявку"
 
 #: functions/admin/events-settings.php:183 functions/cpt/cpt-events.php:418
+#, fuzzy
 msgid "Submit Application"
-msgstr ""
+msgstr "Отправить заявку"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:112
 msgid "Submit Testimonial"
 msgstr "Отправить отзыв"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:384
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:398
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1116
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:221
 msgid "Subscribe"
@@ -13296,8 +13541,9 @@ msgid "Subtitle"
 msgstr "Подзаголовок"
 
 #: functions/cpt/cpt-notifications.php:292
+#, fuzzy
 msgid "Success"
-msgstr ""
+msgstr "Успех"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:110
 #, fuzzy
@@ -13346,8 +13592,9 @@ msgid "Table"
 msgstr "Таблица"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:726
+#, fuzzy
 msgid "Table Rows"
-msgstr ""
+msgstr "Строки таблицы"
 
 #: functions/cpt/cpt-documents.php:289 functions/cpt/cpt-documents.php:831
 msgid "Table settings"
@@ -13427,8 +13674,9 @@ msgid "Temporary file not found."
 msgstr "Временный файл не найден."
 
 #: functions/admin/admin_privacy.php:1103
+#, fuzzy
 msgid "Terms of Use"
-msgstr ""
+msgstr "Условия использования"
 
 #: functions/woocommerce-gateway-test.php:20
 #, fuzzy
@@ -13449,9 +13697,9 @@ msgstr "Тестирование удаления через Инструмен�
 
 #. %s: site name
 #: functions/admin/events-settings.php:264
-#, php-format
+#, fuzzy, php-format
 msgid "Test email from %s Events"
-msgstr ""
+msgstr "Тестовое письмо от %s События"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:372
 msgid "Test Email from SMTP Settings"
@@ -13463,9 +13711,9 @@ msgstr "Тестовое письмо успешно отправлено!"
 
 #. %s: email address
 #: functions/admin/events-settings.php:305
-#, php-format
+#, fuzzy, php-format
 msgid "Test email successfully sent to %s."
-msgstr ""
+msgstr "Тестовое письмо успешно отправлено на %s."
 
 #: functions/integrations/personal-data-v2/test-providers.php:249
 msgid "Test Erasure"
@@ -13506,15 +13754,15 @@ msgid "Testimonial Attributes"
 msgstr "Атрибуты отзыва"
 
 #: functions/integrations/cf7.php:530
-#: functions/testimonials/testimonial-form-api.php:629
-#: functions/testimonials/testimonial-form-api.php:642
-#: functions/testimonials/testimonial-form-api.php:673
-#: functions/testimonials/testimonial-form-api.php:767
-#: functions/testimonials/testimonial-form-api.php:834
-#: functions/testimonials/testimonial-form-api.php:849
-#: functions/testimonials/testimonial-form-api.php:946
-#: functions/testimonials/testimonial-form-api.php:965
-#: functions/testimonials/testimonial-form-api.php:980
+#: functions/testimonials/testimonial-form-api.php:654
+#: functions/testimonials/testimonial-form-api.php:667
+#: functions/testimonials/testimonial-form-api.php:698
+#: functions/testimonials/testimonial-form-api.php:792
+#: functions/testimonials/testimonial-form-api.php:859
+#: functions/testimonials/testimonial-form-api.php:874
+#: functions/testimonials/testimonial-form-api.php:971
+#: functions/testimonials/testimonial-form-api.php:990
+#: functions/testimonials/testimonial-form-api.php:1005
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:681
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:974
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:219
@@ -13523,7 +13771,7 @@ msgstr "Атрибуты отзыва"
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:551
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:350
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:438
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:588
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:538
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:552
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:745
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1827
@@ -13540,11 +13788,11 @@ msgstr "Форма отзыва"
 msgid "Testimonial form"
 msgstr "Форма отзыва"
 
-#: functions/testimonials/testimonial-form-api.php:207
+#: functions/testimonials/testimonial-form-api.php:232
 msgid "Testimonial form not found."
 msgstr "Форма отзывов не найдена."
 
-#: functions/testimonials/testimonial-form-api.php:539
+#: functions/testimonials/testimonial-form-api.php:564
 #, php-format
 msgid "Testimonial from %s"
 msgstr "Отзыв от %s"
@@ -13627,6 +13875,12 @@ msgstr "Список отзывов"
 msgid "Testimonials list navigation"
 msgstr "Навигация по списку отзывов"
 
+#: functions/admin/testimonials-settings.php:24
+#: functions/admin/testimonials-settings.php:247
+#, fuzzy
+msgid "Testimonials Settings"
+msgstr "Настройки отзывов"
+
 #: redux-framework/sample-config.php:727
 msgid "Testing filter hook!"
 msgstr "Проверка работы фильтрующего хука!"
@@ -13646,8 +13900,9 @@ msgstr ""
 "Текст для пункта 5.3. политики в отношении обработки персональных данных"
 
 #: functions/cpt/cpt-notifications.php:282
+#, fuzzy
 msgid "Text of the toast notification"
-msgstr ""
+msgstr "Текст уведомления (тоста)"
 
 #: functions/admin/events-settings.php:95
 msgid "Text when no seats available"
@@ -13688,7 +13943,7 @@ msgstr "Спасибо за ваше сообщение!"
 msgid "Thank you for your request"
 msgstr "Спасибо за ваш запрос."
 
-#: functions/testimonials/testimonial-form-api.php:248
+#: functions/testimonials/testimonial-form-api.php:273
 msgid "Thank you for your submission."
 msgstr "Спасибо за вашу заявку."
 
@@ -13699,7 +13954,7 @@ msgstr "Спасибо за вашу заявку."
 msgid "Thank you for your testimonial"
 msgstr "Спасибо за ваш отзыв!"
 
-#: functions/testimonials/testimonial-form-api.php:701
+#: functions/testimonials/testimonial-form-api.php:726
 msgid "Thank you for your testimonial! It will be reviewed and published soon."
 msgstr "Спасибо за ваш отзыв! "
 
@@ -13714,8 +13969,9 @@ msgid "Thank you! Your message has been sent."
 msgstr "Спасибо! Ваше ссообщение отправлено."
 
 #: functions/cpt/cpt-events.php:343
+#, fuzzy
 msgid "The built-in registration form will open in a modal window."
-msgstr ""
+msgstr "Встроенная форма регистрации откроется в модальном окне."
 
 #: redux-framework/sample-config.php:574
 #, fuzzy
@@ -13853,10 +14109,13 @@ msgstr ""
 "параметров."
 
 #: functions/admin/events-settings.php:265
+#, fuzzy
 msgid ""
 "This is a test email from the Events module. If you received this, email "
 "delivery is working correctly."
 msgstr ""
+"Это тестовое письмо из модуля События. Если вы получили это письмо, значит "
+"доставка электронной почты работает правильно."
 
 #: redux-framework/sample/sections/codeweber/smtp.php:373
 msgid "This is a test email sent to confirm SMTP settings are correct."
@@ -13958,9 +14217,12 @@ msgid "TikTok"
 msgstr "TikTok"
 
 #: functions/cpt/cpt-notifications.php:329
+#, fuzzy
 msgid ""
 "Time before toast auto-hides (ms). 0 = do not auto-hide. Default: 5000ms"
 msgstr ""
+"Время до автоматического скрытия уведомления (мс). 0 = не скрывать "
+"автоматически. По умолчанию: 5000 мс"
 
 #: functions/cpt/cpt-notifications.php:391
 msgid ""
@@ -14023,12 +14285,14 @@ msgid "Toast Notification"
 msgstr "Всплывающее уведомление"
 
 #: functions/cpt/cpt-notifications.php:302
+#, fuzzy
 msgid "Toast Position"
-msgstr ""
+msgstr "Позиция уведомления"
 
 #: functions/cpt/cpt-notifications.php:287
+#, fuzzy
 msgid "Toast Type"
-msgstr ""
+msgstr "Тип тоста"
 
 #: functions/integrations/ajax-search-module/search-statistics.php:603
 msgid "Today's Searches"
@@ -14047,7 +14311,7 @@ msgstr "Слишком много запросов. Пожалуйста, пов
 msgid "Too many submissions. Please try again in %d minutes."
 msgstr "Слишком много попыток. Пожалуйста, повторите попытку через %d минут."
 
-#: functions/testimonials/testimonial-form-api.php:326
+#: functions/testimonials/testimonial-form-api.php:351
 msgid "Too many submissions. Please try again later."
 msgstr "Слишком много отправок. Попробуйте позже."
 
@@ -14126,7 +14390,7 @@ msgid "Transparent"
 msgstr "Прозрачный"
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:282
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:649
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:587
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:661
 msgid "Trash"
 msgstr "Корзина"
@@ -14272,7 +14536,8 @@ msgstr "Разархивировать"
 msgid "unarchived"
 msgstr "разархивировано"
 
-#: functions/integrations/cf7-consents-panel.php:569
+#: functions/integrations/cf7-consents-panel.php:479
+#: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:425
 #: functions/integrations/wishlist/class-cw-wishlist.php:145
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:14
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:84
@@ -14473,11 +14738,11 @@ msgstr "Загрузить в этот Прайс-лист"
 msgid "Upload to this Price Package"
 msgstr "Загрузить в этот Тарифный план"
 
-#: functions/cpt/cpt-events.php:621 functions/cpt/cpt-events.php:673
+#: functions/cpt/cpt-events.php:627 functions/cpt/cpt-events.php:679
 msgid "Upload Video"
 msgstr "Загрузить видео"
 
-#: functions/cpt/cpt-events.php:597
+#: functions/cpt/cpt-events.php:603
 msgid "Upload video file"
 msgstr "Загрузить видеофайл"
 
@@ -14524,7 +14789,7 @@ msgstr "Загрузка..."
 msgid "URL"
 msgstr "URL"
 
-#: functions/cpt/cpt-events.php:592
+#: functions/cpt/cpt-events.php:598
 msgid "URL (YouTube / Vimeo / Rutube / VK)"
 msgstr "Ссылка (YouTube / Vimeo / Rutube / VK)"
 
@@ -14589,7 +14854,7 @@ msgstr "Использовать это изображение"
 msgid "Use this PDF"
 msgstr "Использовать этот PDF"
 
-#: functions/cpt/cpt-events.php:653
+#: functions/cpt/cpt-events.php:659
 msgid "Use this video"
 msgstr "Использовать это видео"
 
@@ -14603,6 +14868,13 @@ msgstr ""
 #: functions/cpt/cpt-vacancies.php:740
 msgid "Use WordPress publish date"
 msgstr "Используйте дату публикации WordPress."
+
+#: functions/admin/testimonials-settings.php:200
+#, fuzzy
+msgid ""
+"Use {document_title_url} in the label to auto-insert a link to the document. "
+"Example: I agree to the {document_title_url}."
+msgstr "Я согласен с {document_title_url}."
 
 #: functions/cpt/cpt-testimonials.php:574
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:41
@@ -14825,7 +15097,7 @@ msgstr "Подтверждено"
 msgid "Verify"
 msgstr "Проверка"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:905
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:843
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:857
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1213
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:326
@@ -14864,24 +15136,26 @@ msgid "Viber"
 msgstr "Вайбер"
 
 #: templates/singles/events/default.php:129
+#, fuzzy
 msgid "Video"
-msgstr ""
+msgstr "Видео"
 
-#: functions/cpt/cpt-events.php:611
+#: functions/cpt/cpt-events.php:617
+#, fuzzy
 msgid "Video File"
-msgstr ""
+msgstr "Видеофайл"
 
-#: functions/cpt/cpt-events.php:587
+#: functions/cpt/cpt-events.php:593
 msgid "Video Type"
 msgstr "Тип видео"
 
-#: functions/cpt/cpt-events.php:602
+#: functions/cpt/cpt-events.php:608
 msgid "Video URL"
 msgstr "Ссылка на видео"
 
 #: functions/cpt/cpt-vacancies.php:125
-#: templates/archives/events/events_1.php:38
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:708
+#: templates/archives/events/events_1.php:40
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:646
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:631
 msgid "View"
 msgstr "Просмотр"
@@ -14928,8 +15202,9 @@ msgid "View Event"
 msgstr "Просмотр мероприятия"
 
 #: functions/events/event-registration-api.php:453
+#, fuzzy
 msgid "View event"
-msgstr ""
+msgstr "Посмотреть событие"
 
 #: functions/cpt/cpt-events.php:33
 msgid "View Events"
@@ -15071,8 +15346,9 @@ msgid "View Registration"
 msgstr "Просмотр заявки"
 
 #: functions/events/event-registration-api.php:451
+#, fuzzy
 msgid "View registration in admin"
-msgstr ""
+msgstr "Просмотр регистрации в админке"
 
 #: functions/cpt/cpt-services.php:17
 msgid "View Service"
@@ -15113,7 +15389,7 @@ msgid "View Vacancy"
 msgstr "Посмотреть вакансию"
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:280
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:647
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:585
 msgid "Viewed"
 msgstr "Просмотрено"
 
@@ -15146,8 +15422,9 @@ msgid "Visual feedback when adding a product to wishlist"
 msgstr "Визуальная обратная связь при добавлении товара в Закладки"
 
 #: functions/cpt/cpt-notifications.php:297
+#, fuzzy
 msgid "Visual style of the toast"
-msgstr ""
+msgstr "Визуальный стиль уведомления"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:129
 #: redux-framework/sample/sections/codeweber/socials.php:69
@@ -15190,8 +15467,9 @@ msgid "Voronezh Oblast"
 msgstr "Воронежская область"
 
 #: functions/cpt/cpt-notifications.php:293
+#, fuzzy
 msgid "Warning"
-msgstr ""
+msgstr "Предупреждение"
 
 #: functions/integrations/ajax-search-module/search-statistics.php:686
 msgid "Warning:"
@@ -15215,7 +15493,7 @@ msgstr "Мы получили ваше резюме и тщательно его
 msgid "We will no longer send you email notifications."
 msgstr "Мы больше не будем отправлять вам уведомления по электронной почте."
 
-#: archive-testimonials.php:152
+#: archive-testimonials.php:161
 msgid ""
 "We would love to hear about your experience with us. Your feedback helps us "
 "improve and helps others make better decisions."
@@ -15225,7 +15503,7 @@ msgstr ""
 
 #: functions/cpt/cpt-offices.php:289
 #: templates/singles/offices/offices_1.php:254
-#: templates/singles/offices/offices_5.php:168
+#: templates/singles/offices/offices_5.php:151
 #: templates/singles/staff/staff_2.php:159
 #: templates/singles/staff/staff_4.php:147
 #: templates/singles/staff/staff_5.php:168
@@ -15238,8 +15516,9 @@ msgid "Website name"
 msgstr "Название сайта"
 
 #: functions/admin/admin_privacy.php:1727
+#, fuzzy
 msgid "Website Usage Rules"
-msgstr ""
+msgstr "Правила использования сайта"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:150
 #: redux-framework/sample/sections/codeweber/socials.php:196
@@ -15267,11 +15546,22 @@ msgstr "Ватсап"
 msgid "Whatsapp"
 msgstr "Ватсап"
 
-#: functions/cpt/cpt-events.php:869
+#: functions/cpt/cpt-events.php:905
+#, fuzzy
+msgid ""
+"When enabled, the \"Add to Calendar\" dropdown button is hidden in the event "
+"sidebar."
+msgstr ""
+"При включении этой опции кнопка раскрывающегося списка «Добавить в "
+"календарь» скрывается на боковой панели события."
+
+#: functions/cpt/cpt-events.php:875
+#, fuzzy
 msgid ""
 "When enabled, the author block is hidden in the event sidebar on the "
 "frontend."
 msgstr ""
+"При включении блок автора скрывается в боковой панели события на фронтенде."
 
 #: functions/cpt/cpt-vacancies.php:920
 msgid ""
@@ -15279,15 +15569,20 @@ msgid ""
 "frontend."
 msgstr "При включении блок автора скрывается в сайдбаре вакансии на фронтенде."
 
-#: functions/cpt/cpt-events.php:879
+#: functions/cpt/cpt-events.php:885
+#, fuzzy
 msgid ""
 "When enabled, the event thumbnail in the sidebar is hidden on the frontend."
 msgstr ""
+"При включении миниатюра события в боковой панели скрывается на фронтенде."
 
-#: functions/cpt/cpt-events.php:889
+#: functions/cpt/cpt-events.php:895
+#, fuzzy
 msgid ""
 "When enabled, the seats counter and progress bar are hidden in the sidebar."
 msgstr ""
+"При включении счетчик мест и индикатор выполнения скрываются на боковой "
+"панели."
 
 #: functions/cpt/cpt-vacancies.php:929
 msgid ""
@@ -15428,8 +15723,9 @@ msgid "Widget width in pixels"
 msgstr "Ширина виджета в пикселях"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:417
+#, fuzzy
 msgid "Width"
-msgstr ""
+msgstr "Ширина"
 
 #: functions/integrations/wishlist/class-cw-wishlist-ui.php:223
 #: functions/integrations/wishlist/functions.php:67
@@ -15512,8 +15808,8 @@ msgstr "График работы:"
 #: templates/singles/offices/offices_1.php:319
 #: templates/singles/offices/offices_2.php:126
 #: templates/singles/offices/offices_2.php:239
-#: templates/singles/offices/offices_5.php:209
-#: templates/singles/offices/offices_5.php:285
+#: templates/singles/offices/offices_5.php:184
+#: templates/singles/offices/offices_5.php:260
 msgid "Working Hours"
 msgstr "График работы"
 
@@ -15522,8 +15818,9 @@ msgid "Would you like to share your thoughts?"
 msgstr "Хотите поделиться своими мыслями?"
 
 #: functions/events/event-registrations.php:360
+#, fuzzy
 msgid "WP User"
-msgstr ""
+msgstr "Пользователь WP"
 
 #: woocommerce/single-product.php:340
 #, fuzzy
@@ -15561,7 +15858,7 @@ msgstr "Ямало-Ненецкий автономный округ"
 msgid "Yandex"
 msgstr "Яндекс"
 
-#: functions/cpt/cpt-events.php:797 functions/cpt/cpt-vacancies.php:855
+#: functions/cpt/cpt-events.php:803 functions/cpt/cpt-vacancies.php:855
 #, fuzzy
 msgid ""
 "Yandex API key is not set. Please configure it in Theme Options > API > "
@@ -15743,8 +16040,8 @@ msgstr "Ваше имя *"
 msgid "Your name"
 msgstr "Ваше имя"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:336
-#: templates/singles/events/default.php:411
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:350
+#: templates/singles/events/default.php:448
 #: templates/singles/events/registration-form.php:32
 msgid "Your name *"
 msgstr "Ваше имя *"
@@ -15754,6 +16051,7 @@ msgid "Your Position"
 msgstr "Ваша должность"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:110
+#: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:525
 msgid "Your position"
 msgstr "Ваша должность"
 
@@ -15806,7 +16104,7 @@ msgstr "Запорожская область"
 msgid "Zoho"
 msgstr "Zoho"
 
-#: functions/cpt/cpt-events.php:821 functions/cpt/cpt-vacancies.php:878
+#: functions/cpt/cpt-events.php:827 functions/cpt/cpt-vacancies.php:878
 msgid "Zoom"
 msgstr "Масштаб"
 
@@ -15835,8 +16133,9 @@ msgid "Бренды"
 msgstr "Бренды"
 
 #: templates/woocommerce/offcanvas-cart-items.php:25
+#, fuzzy
 msgid "В каталог"
-msgstr ""
+msgstr "В каталог"
 
 #: functions/woocommerce-filters.php:217 functions/woocommerce-filters.php:992
 #, fuzzy
@@ -15845,14 +16144,16 @@ msgstr "In Stock"
 
 #: woocommerce/cart/cart-totals.php:17
 #: woocommerce/checkout/form-checkout.php:43
+#, fuzzy
 msgid "Ваш заказ"
-msgstr ""
+msgstr "Your Order"
 
 #: templates/woocommerce/offcanvas-cart-items.php:22
+#, fuzzy
 msgid "Ваша корзина пуста"
-msgstr ""
+msgstr "Your cart is empty"
 
-#: functions/enqueues.php:552
+#: functions/enqueues.php:557
 #, fuzzy
 msgid "Введите адрес в поле «Адрес» и нажмите кнопку проверки."
 msgstr "Введите адрес в поле «Адрес» и нажмите кнопку проверки."
@@ -15921,6 +16222,16 @@ msgstr "Where to show the \"Check Address\" button"
 msgid "Глобальное включение / отключение всех уведомлений."
 msgstr "Глобальное включение / выключение всех уведомлений."
 
+#: redux-framework/sample/sections/codeweber/media.php:125
+#, fuzzy
+msgid "Готово! Все миниатюры успешно регенерированы."
+msgstr "Done! All thumbnails have been successfully regenerated."
+
+#: redux-framework/sample/sections/codeweber/media.php:46
+#, fuzzy
+msgid "Действия"
+msgstr "Actions"
+
 #: functions/documentation.php:19 functions/documentation.php:20
 #: functions/documentation.php:42
 #, fuzzy
@@ -15943,22 +16254,50 @@ msgid "Заголовок:"
 msgstr "Заголовок:"
 
 #: functions/woocommerce-cart-offcanvas.php:211
+#, fuzzy
 msgid "Закрыть"
-msgstr ""
+msgstr "Close"
+
+#: redux-framework/sample/sections/codeweber/media.php:39
+#, fuzzy
+msgid "Записи в базе данных есть, но файлы на диске отсутствуют."
+msgstr "Записи в базе данных существуют, но файлы на диске отсутствуют."
+
+#: redux-framework/sample/sections/codeweber/media.php:45
+#, fuzzy
+msgid "Запись"
+msgstr "Post"
 
 #: redux-framework/sample/sections/codeweber/notifications.php:90
 #, fuzzy
 msgid "Избранное (Wishlist)"
 msgstr "Избранное"
 
+#: redux-framework/sample/sections/codeweber/media.php:78
+#, fuzzy
+msgid "Изменить"
+msgstr "Change"
+
+#: redux-framework/sample/sections/codeweber/media.php:167
+#, fuzzy
+msgid "Изображений не найдено."
+msgstr "No images found."
+
+#: redux-framework/sample/sections/codeweber/media.php:15
+#, fuzzy
+msgid "Инструменты для работы с медиафайлами"
+msgstr "Медиаинструменты"
+
 #: woocommerce/cart/cart-totals.php:86
 #: woocommerce/checkout/review-order.php:115
+#, fuzzy
 msgid "Итого"
-msgstr ""
+msgstr "Total"
 
 #: templates/woocommerce/offcanvas-cart-items.php:107
+#, fuzzy
 msgid "Итого:"
-msgstr ""
+msgstr "Total:"
 
 #: functions/woocommerce-filters.php:1276
 #: functions/woocommerce-filters.php:1674
@@ -15974,8 +16313,9 @@ msgid "Кнопки"
 msgstr "Buttons"
 
 #: templates/woocommerce/offcanvas-cart-items.php:84
+#, fuzzy
 msgid "Кол-во:"
-msgstr ""
+msgstr "Кол-во:"
 
 #: redux-framework/sample/sections/codeweber/notifications.php:140
 #, fuzzy
@@ -15983,8 +16323,9 @@ msgid "Копирование (Image Licenses и др.)"
 msgstr "Копирование (Лицензии на изображения и др.)"
 
 #: functions/woocommerce-cart-offcanvas.php:206
+#, fuzzy
 msgid "Корзина"
-msgstr ""
+msgstr "Cart"
 
 #: redux-framework/sample/sections/codeweber/notifications.php:100
 #, fuzzy
@@ -15995,6 +16336,11 @@ msgstr "Корзина"
 #, fuzzy
 msgid "Максимальная цена"
 msgstr "Maximum Price"
+
+#: redux-framework/sample/sections/codeweber/media.php:13
+#, fuzzy
+msgid "Медиа"
+msgstr "Медиафайлы"
 
 #: functions/woocommerce-filters.php:1294
 #, fuzzy
@@ -16021,8 +16367,9 @@ msgstr "Home"
 
 #: functions/woocommerce-cart-offcanvas.php:132
 #: functions/woocommerce-cart-offcanvas.php:262
+#, fuzzy
 msgid "Не удалось добавить товар в корзину."
-msgstr ""
+msgstr "Failed to add product to cart."
 
 #: functions/integrations/dadata/class-codeweber-dadata.php:178
 #, fuzzy
@@ -16031,8 +16378,9 @@ msgstr ""
 "Could not parse address. Check your input or enter the address manually."
 
 #: functions/woocommerce-cart-offcanvas.php:122
+#, fuzzy
 msgid "Неверный товар."
-msgstr ""
+msgstr "Неправильный товар."
 
 #: functions/woocommerce-filters.php:218 functions/woocommerce-filters.php:993
 #, fuzzy
@@ -16045,6 +16393,16 @@ msgstr "Out of stock"
 msgid "Новинка!"
 msgstr "New!"
 
+#: redux-framework/sample/sections/codeweber/media.php:66
+#, fuzzy
+msgid "Обработано"
+msgstr "Processed"
+
+#: redux-framework/sample/sections/codeweber/media.php:173
+#, fuzzy
+msgid "Обработка..."
+msgstr "Processing..."
+
 #: redux-framework/sample/sections/codeweber/notifications.php:30
 #, fuzzy
 msgid "Основные"
@@ -16056,31 +16414,49 @@ msgid "Отображение:"
 msgstr "Display:"
 
 #: templates/woocommerce/offcanvas-cart-items.php:116
+#, fuzzy
 msgid "Оформить заказ"
-msgstr ""
+msgstr "Place Order"
 
 #: redux-framework/sample/sections/codeweber/api.php:42
 #, fuzzy
 msgid "Оформление заказа (чекаут)"
 msgstr "Checkout"
 
+#: redux-framework/sample/sections/codeweber/media.php:136
+#: redux-framework/sample/sections/codeweber/media.php:177
+#, fuzzy
+msgid "Ошибка AJAX-запроса. Попробуйте ещё раз."
+msgstr "AJAX-запрос не удался. Попробуйте еще раз."
+
 #: functions/integrations/dadata/dadata-ajax.php:35
 #, fuzzy
 msgid "Ошибка безопасности. Обновите страницу и попробуйте снова."
 msgstr "Security error. Refresh the page and try again."
 
-#: functions/enqueues.php:554
+#: functions/enqueues.php:559
 #, fuzzy
 msgid "Ошибка сети. Попробуйте позже."
 msgstr "Сетевая ошибка. Попробуйте позже."
 
-#: templates/woocommerce/offcanvas-cart-items.php:121
-msgid "Перейти в корзину"
+#: redux-framework/sample/sections/codeweber/media.php:24
+#, fuzzy
+msgid ""
+"Перегенерирует все размеры изображений для файлов в медиатеке. Нужно "
+"запускать после изменения зарегистрированных размеров."
 msgstr ""
+"Regenerate all image sizes for files in the media library. Should be run "
+"after changing registered sizes."
+
+#: templates/woocommerce/offcanvas-cart-items.php:121
+#, fuzzy
+msgid "Перейти в корзину"
+msgstr "Go to cart"
 
 #: woocommerce/cart/proceed-to-checkout-button.php:16
+#, fuzzy
 msgid "Перейти к оформлению"
-msgstr ""
+msgstr "Proceed to checkout"
 
 #: functions/woocommerce-filters.php:219 functions/woocommerce-filters.php:994
 #, fuzzy
@@ -16091,6 +16467,11 @@ msgstr "On backorder"
 #, fuzzy
 msgid "Подписка на рассылку"
 msgstr "Newsletter Subscription"
+
+#: redux-framework/sample/sections/codeweber/media.php:153
+#, fuzzy
+msgid "Подсчёт изображений..."
+msgstr "Image count..."
 
 #: redux-framework/sample/sections/codeweber/notifications.php:48
 #, fuzzy
@@ -16113,37 +16494,54 @@ msgstr "Displays applied filters with a reset button."
 msgid "Показывать кол-во товаров"
 msgstr "Show product count"
 
+#: redux-framework/sample/sections/codeweber/media.php:38
+#, fuzzy
+msgid "Потерянные файлы"
+msgstr "Lost files"
+
+#: redux-framework/sample/sections/codeweber/media.php:127
+#, fuzzy
+msgid "Потерянных файлов:"
+msgstr "Потерянных файлов:"
+
 #: redux-framework/sample/sections/codeweber/api.php:76
+#, fuzzy
 msgid "Проверить API ключ через Geocoder API"
-msgstr ""
+msgstr "Verify API key via Geocoder API"
 
 #: redux-framework/sample/sections/codeweber/api.php:92
+#, fuzzy
 msgid "Проверить авторизацию SMS.RU API"
-msgstr ""
+msgstr "Проверить авторизацию SMS.RU API"
 
 #: redux-framework/sample/sections/codeweber/api.php:59
+#, fuzzy
 msgid "Проверить соединение с DaData API (Suggest)"
-msgstr ""
+msgstr "Check connection to DaData API (Suggest)"
 
 #: redux-framework/sample/sections/codeweber/api.php:17
 #, fuzzy
 msgid "Проверка и автозаполнение адреса через DaData (только Россия)"
 msgstr "Address validation and autofill via DaData (Russia only)"
 
-#: functions/enqueues.php:553
+#: functions/enqueues.php:558
 #, fuzzy
 msgid "Проверка…"
 msgstr "Checking..."
 
 #: redux-framework/sample/sections/codeweber/legal.php:728
+#, fuzzy
 msgid "РФ (152-ФЗ)"
-msgstr ""
+msgstr "РФ (152-ФЗ)"
 
 #: redux-framework/sample/sections/codeweber/legal.php:726
+#, fuzzy
 msgid ""
 "РФ — баннер информирует, трекинг работает сразу. GDPR — трекинг блокируется "
 "до согласия пользователя."
 msgstr ""
+"РФ - баннер информирует, трекинг работает сразу. GDPR - трекинг блокируется "
+"до согласия пользователя."
 
 #: templates/woocommerce/cards/shop2.php:99
 #: templates/woocommerce/cards/shop2.php:101
@@ -16151,6 +16549,21 @@ msgstr ""
 #, fuzzy
 msgid "Распродажа!"
 msgstr "Sale!"
+
+#: redux-framework/sample/sections/codeweber/media.php:23
+#, fuzzy
+msgid "Регенерация миниатюр"
+msgstr "Regenerate Thumbnails"
+
+#: redux-framework/sample/sections/codeweber/media.php:144
+#, fuzzy
+msgid "Регенерировать все миниатюры? Это может занять некоторое время."
+msgstr "Regenerate all thumbnails? This may take some time."
+
+#: redux-framework/sample/sections/codeweber/media.php:27
+#, fuzzy
+msgid "Регенерировать миниатюры"
+msgstr "Regenerate Thumbnails"
 
 #: redux-framework/sample/sections/codeweber/api.php:41
 #, fuzzy
@@ -16251,20 +16664,24 @@ msgstr "Список ссылок"
 #: redux-framework/sample/sections/codeweber/api.php:61
 #: redux-framework/sample/sections/codeweber/api.php:77
 #: redux-framework/sample/sections/codeweber/api.php:93
+#, fuzzy
 msgid "Тест"
-msgstr ""
+msgstr "Test"
 
 #: redux-framework/sample/sections/codeweber/api.php:58
+#, fuzzy
 msgid "Тест DaData"
-msgstr ""
+msgstr "DaData Тест"
 
 #: redux-framework/sample/sections/codeweber/api.php:91
+#, fuzzy
 msgid "Тест SMS.RU"
-msgstr ""
+msgstr "Тест SMS.RU"
 
 #: redux-framework/sample/sections/codeweber/api.php:75
+#, fuzzy
 msgid "Тест Yandex Maps"
-msgstr ""
+msgstr "Yandex Maps Test"
 
 #: templates/woocommerce/filters/filter-active.php:26
 #, fuzzy
@@ -16316,10 +16733,13 @@ msgid "Уведомления"
 msgstr "Notifications"
 
 #: redux-framework/sample/sections/codeweber/legal.php:738
+#, fuzzy
 msgid ""
 "Увеличьте значение, чтобы показать баннер повторно всем посетителям "
 "(например, при обновлении политики)."
 msgstr ""
+"Увеличьте значение, чтобы снова показать баннер всем посетителям (например, "
+"при обновлении политики)."
 
 #: redux-framework/sample/sections/codeweber/notifications.php:49
 #, fuzzy
@@ -16327,13 +16747,19 @@ msgid "Угол экрана, в котором появляются уведо�
 msgstr "Screen corner where notifications appear."
 
 #: templates/woocommerce/offcanvas-cart-items.php:93
+#, fuzzy
 msgid "Удалить из корзины"
-msgstr ""
+msgstr "Remove from cart"
 
 #: redux-framework/sample/sections/codeweber/notifications.php:19
 #, fuzzy
 msgid "Управление всплывающими уведомлениями на сайте."
 msgstr "Managing pop-up notifications on the site."
+
+#: redux-framework/sample/sections/codeweber/media.php:44
+#, fuzzy
+msgid "Файл"
+msgstr "File"
 
 #: functions/woocommerce-filters.php:1563
 #, fuzzy
@@ -16351,8 +16777,9 @@ msgid "Фильтр товаров по статусу наличия."
 msgstr "Product filter by availability status."
 
 #: redux-framework/sample/sections/codeweber/api.php:50
+#, fuzzy
 msgid "Форматирование поля телефона: +7 (xxx) xxx-xx-xx"
-msgstr ""
+msgstr "Phone field formatting: +7 (xxx) xxx-xx-xx"
 
 #: redux-framework/sample/sections/codeweber/notifications.php:110
 #, fuzzy
@@ -16395,13 +16822,19 @@ msgid "Ценовой слайдер для страниц каталога WooC
 msgstr "Price slider for WooCommerce catalog pages."
 
 #: redux-framework/sample/sections/codeweber/api.php:49
+#, fuzzy
 msgid "Чекаут: маска телефона"
-msgstr ""
+msgstr "Checkout: Phone Mask"
 
 #: functions/woocommerce-filters.php:1632
 #, fuzzy
 msgid "Чекбоксы"
 msgstr "Checkboxes"
+
+#: redux-framework/sample/sections/codeweber/media.php:66
+#, fuzzy
+msgid "из"
+msgstr "from"
 
 #: functions/cpt/cpt-testimonials.php:576
 #: functions/cpt/cpt-testimonials.php:579
@@ -16411,12 +16844,14 @@ msgid "—"
 msgstr "—"
 
 #: functions/cpt/cpt-events.php:430
+#, fuzzy
 msgid "— Default —"
-msgstr ""
+msgstr "- По умолчанию -"
 
 #: functions/admin/events-settings.php:171 functions/cpt/cpt-events.php:401
+#, fuzzy
 msgid "— No heading —"
-msgstr ""
+msgstr "- Без заголовка -"
 
 #: functions/integrations/image-licenses/image-licenses.php:651
 msgid "— No License —"
@@ -16462,8 +16897,10 @@ msgstr "- Выберите тип -"
 msgid "— Select Vacancy —"
 msgstr "— Выберите вакансию —"
 
-#: functions/admin/admin_privacy.php:38 functions/cpt/cpt-events.php:492
-#: functions/cpt/cpt-events.php:520
+#: functions/admin/admin_privacy.php:38
+#: functions/admin/testimonials-settings.php:108
+#: functions/admin/testimonials-settings.php:139
+#: functions/cpt/cpt-events.php:492 functions/cpt/cpt-events.php:520
 #: functions/integrations/cf7-consents-panel.php:92
 #: functions/integrations/cf7-consents-panel.php:330
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:116

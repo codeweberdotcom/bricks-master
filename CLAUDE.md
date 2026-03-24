@@ -165,3 +165,4 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |
 | Социальные иконки (функции, типы, шорткод, staff/vacancy) | `doc_claude/components/SOCIAL_LINKS.md` |
 | Транслитерация кириллицы в слагах и именах файлов | `doc_claude/components/CYR_TO_LAT.md` |
+| Размеры изображений, фильтрация по CPT, регенерация миниатюр (Redux UI, AJAX, логирование) | `doc_claude/media/MEDIA_TOOLS.md` |
