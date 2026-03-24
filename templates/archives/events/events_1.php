@@ -24,12 +24,12 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 			<?php if ( ! empty( $event_categories ) && ! is_wp_error( $event_categories ) ) : ?>
 				<div class="d-flex flex-wrap gap-2 events-category-filters">
 					<button type="button" data-cat-id="0"
-						class="btn btn-xs btn-soft-primary<?php echo esc_attr( $btn_style ); ?> <?php echo ! is_tax( 'event_category' ) ? 'active' : ''; ?>">
+						class="btn btn-xs btn-soft-primary has-ripple<?php echo esc_attr( $btn_style ); ?> <?php echo ! is_tax( 'event_category' ) ? 'active' : ''; ?>">
 						<?php esc_html_e( 'All', 'codeweber' ); ?>
 					</button>
 					<?php foreach ( $event_categories as $cat ) : ?>
 						<button type="button" data-cat-id="<?php echo esc_attr( $cat->term_id ); ?>"
-							class="btn btn-xs btn-soft-primary<?php echo esc_attr( $btn_style ); ?> <?php echo is_tax( 'event_category', $cat->term_id ) ? 'active' : ''; ?>">
+							class="btn btn-xs btn-soft-primary has-ripple<?php echo esc_attr( $btn_style ); ?> <?php echo is_tax( 'event_category', $cat->term_id ) ? 'active' : ''; ?>">
 							<?php echo esc_html( $cat->name ); ?>
 						</button>
 					<?php endforeach; ?>
@@ -38,10 +38,10 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 
 			<?php // View toggle ?>
 			<div class="btn-group events-view-toggle" role="group" aria-label="<?php esc_attr_e( 'View', 'codeweber' ); ?>">
-				<button type="button" class="btn btn-sm btn-outline-primary<?php echo esc_attr( $btn_style ); ?>" id="events-view-calendar" title="<?php esc_attr_e( 'Calendar view', 'codeweber' ); ?>">
+				<button type="button" class="btn btn-sm btn-outline-primary has-ripple<?php echo esc_attr( $btn_style ); ?>" id="events-view-calendar" title="<?php esc_attr_e( 'Calendar view', 'codeweber' ); ?>">
 					<i class="uil uil-calender"></i> <?php esc_html_e( 'Calendar', 'codeweber' ); ?>
 				</button>
-				<button type="button" class="btn btn-sm btn-outline-primary<?php echo esc_attr( $btn_style ); ?>" id="events-view-table" title="<?php esc_attr_e( 'List view', 'codeweber' ); ?>">
+				<button type="button" class="btn btn-sm btn-outline-primary has-ripple<?php echo esc_attr( $btn_style ); ?>" id="events-view-table" title="<?php esc_attr_e( 'List view', 'codeweber' ); ?>">
 					<i class="uil uil-list-ul"></i> <?php esc_html_e( 'List', 'codeweber' ); ?>
 				</button>
 			</div>
@@ -124,7 +124,7 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 										<?php echo $price ? esc_html( $price ) : '<span class="text-muted">—</span>'; ?>
 									</td>
 									<td class="text-end">
-										<a href="<?php the_permalink(); ?>" class="btn btn-sm btn-primary<?php echo esc_attr( $btn_style ); ?>">
+										<a href="<?php the_permalink(); ?>" class="btn btn-sm btn-primary has-ripple<?php echo esc_attr( $btn_style ); ?>">
 											<?php esc_html_e( 'Details', 'codeweber' ); ?>
 										</a>
 									</td>
