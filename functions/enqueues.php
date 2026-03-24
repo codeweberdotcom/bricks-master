@@ -143,6 +143,11 @@ if (!function_exists('codeweber_styles_scripts')) {
 					'message_sent' => __('Message successfully sent.', 'codeweber'),
 				)
 			));
+
+			$phone_mask_value = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'opt_phone_mask', '' ) : '';
+			wp_localize_script( 'theme-scripts', 'codeweberTheme', array(
+				'phoneMask' => $phone_mask_value,
+			) );
 		}
 
 		// Header search dropdown: run after Bootstrap, before theme.js, so our capture listener runs first.

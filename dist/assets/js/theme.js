@@ -1651,6 +1651,16 @@ var custom = {
 
 
   addTelMask: function () {
+    // Для полей с data-mask-use-theme="true" подставляем маску из настроек темы
+    const themeMask = (window.codeweberTheme && window.codeweberTheme.phoneMask) || '';
+    if (themeMask) {
+      document.querySelectorAll('input[data-mask-use-theme="true"]').forEach((input) => {
+        if (!input.dataset.phoneMaskInitialized) {
+          input.dataset.mask = themeMask;
+        }
+      });
+    }
+
     const telInputs = document.querySelectorAll("input[data-mask]");
 
     telInputs.forEach((input) => {
