@@ -10,7 +10,6 @@
 $post_id   = absint( get_the_ID() );
 $card_html = cw_render_post_card( get_post(), 'horizontal', [], [
 	'show_description' => true,
-	'show_social'      => true,
 	'image_size'       => 'codeweber_staff',
 ] );
 

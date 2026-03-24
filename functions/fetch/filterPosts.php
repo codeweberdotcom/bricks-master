@@ -48,6 +48,8 @@ function filterPosts( $params ) {
 			$wp_query = $query; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			get_template_part( 'templates/archives/vacancies/' . $template );
 			wp_reset_query();
+		} elseif ( $post_type === 'staff' && $template === 'staff_7' ) {
+			_fp_render_staff_horizontal( $query );
 		} elseif ( $post_type === 'events' && $template === 'events_3' ) {
 			_fp_render_events_cards( $query );
 		} elseif ( $post_type === 'events' && in_array( $template, [ 'events_4', 'events_5' ], true ) ) {
@@ -207,7 +209,80 @@ function _fp_apply_staff_filters( $args, $filters ) {
 		];
 	}
 
+	if ( ! empty( $filters['city'] ) ) {
+		$matching_ids = _fp_resolve_staff_ids_by_city( sanitize_text_field( $filters['city'] ) );
+		$args['post__in'] = ! empty( $matching_ids ) ? $matching_ids : [ 0 ];
+	}
+
 	return $args;
+}
+
+/**
+ * Resolve staff IDs by city name.
+ * Priority: office's towns taxonomy → staff's own _staff_city meta.
+ */
+function _fp_resolve_staff_ids_by_city( $city_name ) {
+	$matching_ids = [];
+
+	// 1. Staff linked to an office whose towns term matches the city
+	if ( post_type_exists( 'offices' ) ) {
+		$towns = get_terms( [
+			'taxonomy'   => 'towns',
+			'name'       => $city_name,
+			'hide_empty' => false,
+		] );
+
+		if ( ! empty( $towns ) && ! is_wp_error( $towns ) ) {
+			$town_ids = wp_list_pluck( $towns, 'term_id' );
+			$offices  = get_posts( [
+				'post_type'      => 'offices',
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'tax_query'      => [ [
+					'taxonomy' => 'towns',
+					'field'    => 'term_id',
+					'terms'    => $town_ids,
+					'operator' => 'IN',
+				] ],
+			] );
+
+			if ( ! empty( $offices ) ) {
+				$via_office = get_posts( [
+					'post_type'      => 'staff',
+					'post_status'    => 'publish',
+					'posts_per_page' => -1,
+					'fields'         => 'ids',
+					'meta_query'     => [ [
+						'key'     => '_staff_office',
+						'value'   => $offices,
+						'compare' => 'IN',
+						'type'    => 'NUMERIC',
+					] ],
+				] );
+				$matching_ids = array_merge( $matching_ids, $via_office );
+			}
+		}
+	}
+
+	// 2. Staff without an office whose _staff_city matches
+	$direct = get_posts( [
+		'post_type'      => 'staff',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'fields'         => 'ids',
+		'meta_query'     => [
+			'relation' => 'AND',
+			[ 'key' => '_staff_city', 'value' => $city_name, 'compare' => '=' ],
+			[ 'relation' => 'OR',
+				[ 'key' => '_staff_office', 'compare' => 'NOT EXISTS' ],
+				[ 'key' => '_staff_office', 'value' => '', 'compare' => '=' ],
+			],
+		],
+	] );
+	$matching_ids = array_merge( $matching_ids, $direct );
+
+	return array_unique( array_map( 'intval', $matching_ids ) );
 }
 
 function _fp_apply_events_filters( $args, $filters ) {
@@ -451,6 +526,29 @@ function _fp_render_events_cards( $query ) {
 		</a>
 		<?php
 	}
+}
+
+function _fp_render_staff_horizontal( $query ) {
+	$grid_gap = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-6';
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . ' mb-5">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id   = get_the_ID();
+		$card_html = cw_render_post_card( get_post(), 'horizontal', [], [
+			'show_description' => true,
+			'image_size'       => 'codeweber_staff',
+		] );
+
+		if ( empty( $card_html ) ) {
+			continue;
+		}
+
+		echo '<div id="' . esc_attr( $post_id ) . '" class="col-12">' . $card_html . '</div>';
+	}
+
+	echo '</div>';
 }
 
 function _fp_render_events_horizontal( $query, $template ) {

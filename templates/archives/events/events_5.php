@@ -63,7 +63,7 @@ $grid_gap         = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 						][ $reg_status['status'] ] ?? '';
 					?>
 					<div class="col-12">
-						<a href="<?php the_permalink(); ?>" class="card lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+						<a href="<?php the_permalink(); ?>" class="card card-interactive lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 							<div class="row g-0 h-100">
 								<div class="col-3">
 									<figure class="mb-0 h-100">

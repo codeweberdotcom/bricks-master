@@ -145,8 +145,58 @@ function codeweber_add_staff_meta_boxes()
 		'normal',
 		'high'
 	);
+
+	if ( post_type_exists( 'offices' ) ) {
+		add_meta_box(
+			'staff_office',
+			esc_html__('Office', 'codeweber'),
+			'codeweber_staff_office_callback',
+			'staff',
+			'side',
+			'default'
+		);
+	}
 }
 add_action('add_meta_boxes', 'codeweber_add_staff_meta_boxes');
+
+/**
+ * Callback function for office selection metabox
+ */
+function codeweber_staff_office_callback($post)
+{
+	$selected_office_id = get_post_meta($post->ID, '_staff_office', true);
+
+	$offices = get_posts(array(
+		'post_type'      => 'offices',
+		'post_status'    => 'any',
+		'posts_per_page' => -1,
+		'orderby'        => 'title',
+		'order'          => 'ASC',
+	));
+?>
+	<div>
+		<select id="staff_office" name="staff_office" style="width: 100%; padding: 6px;">
+			<option value=""><?php echo esc_html__('— Select Office —', 'codeweber'); ?></option>
+			<?php foreach ($offices as $office) :
+				$town_terms = wp_get_post_terms($office->ID, 'towns', array('fields' => 'names'));
+				$city = !empty($town_terms) && !is_wp_error($town_terms) ? ' (' . $town_terms[0] . ')' : '';
+			?>
+				<option value="<?php echo esc_attr($office->ID); ?>" <?php selected($selected_office_id, $office->ID); ?>>
+					<?php echo esc_html(get_the_title($office->ID) . $city); ?>
+					<?php if ($office->post_status !== 'publish') : ?>
+						[<?php echo esc_html($office->post_status); ?>]
+					<?php endif; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php if (empty($offices)) : ?>
+			<p style="margin-top: 5px; color: #666; font-size: 12px;">
+				<?php echo esc_html__('No offices found.', 'codeweber'); ?>
+			</p>
+		<?php endif; ?>
+	</div>
+<?php
+}
 
 /**
  * Callback function for displaying the metabox
@@ -318,12 +368,21 @@ function codeweber_save_staff_meta($post_id)
 		return;
 	}
 
+	// Save office selection (only if offices CPT is active)
+	if ( post_type_exists( 'offices' ) ) {
+		if ( ! empty( $_POST['staff_office'] ) ) {
+			update_post_meta( $post_id, '_staff_office', intval( $_POST['staff_office'] ) );
+		} else {
+			delete_post_meta( $post_id, '_staff_office' );
+		}
+	}
+
 	// Save fields
 	$fields = [
-		'staff_position', 
-		'staff_name', 
-		'staff_surname', 
-		'staff_email', 
+		'staff_position',
+		'staff_name',
+		'staff_surname',
+		'staff_email',
 		'staff_phone',
 		'staff_company',
 		'staff_department',
@@ -421,8 +480,14 @@ function codeweber_add_staff_admin_columns($columns)
 		'staff_surname' => esc_html__('Surname', 'codeweber'),
 		'staff_email' => esc_html__('E-Mail', 'codeweber'),
 		'staff_phone' => esc_html__('Phone', 'codeweber'),
-		'date' => $columns['date']
 	];
+
+	if ( post_type_exists( 'offices' ) ) {
+		$new_columns['staff_office'] = esc_html__('Office', 'codeweber');
+	}
+
+	$new_columns['date'] = $columns['date'];
+
 	return $new_columns;
 }
 add_filter('manage_staff_posts_columns', 'codeweber_add_staff_admin_columns');
@@ -447,6 +512,19 @@ function codeweber_fill_staff_admin_columns($column, $post_id)
 			break;
 		case 'staff_phone':
 			echo esc_html(get_post_meta($post_id, '_staff_phone', true));
+			break;
+		case 'staff_office':
+			$office_id = get_post_meta($post_id, '_staff_office', true);
+			if ( $office_id ) {
+				$office = get_post( $office_id );
+				if ( $office ) {
+					$town_terms = wp_get_post_terms( $office_id, 'towns', array('fields' => 'names') );
+					$city = !empty($town_terms) && !is_wp_error($town_terms) ? ' (' . $town_terms[0] . ')' : '';
+					echo esc_html( $office->post_title . $city );
+				}
+			} else {
+				echo '—';
+			}
 			break;
 	}
 }

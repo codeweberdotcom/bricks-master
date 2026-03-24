@@ -45,6 +45,7 @@
                 <li><a class="nav-link scroll" href="#snippet-4">Cursor</a></li>
                 <li><a class="nav-link scroll" href="#snippet-4-custom-icon">Custom Icon</a></li>
                 <li><a class="nav-link scroll" href="#snippet-4-custom-overlay">Custom Overlay and Icon</a></li>
+                <li><a class="nav-link scroll" href="#snippet-7-hover-card-button">Hover Card Button</a></li>
               </ul>
             </nav>
           <!-- /nav -->
@@ -643,6 +644,196 @@
     &lt;a class=&quot;item-link&quot; href=&quot;...@2x.jpg&quot; data-glightbox data-gallery=&quot;product-group&quot;&gt;&lt;i class=&quot;uil uil-plus&quot;&gt;&lt;/i&gt;&lt;/a&gt;
   &lt;/figure&gt;
 &lt;/div&gt;</code></pre>
+                  </div>
+                  <!--/.code-wrapper-inner -->
+                </div>
+                <!--/.code-wrapper -->
+              </div>
+              <!--/.card-footer -->
+            </div>
+            <!--/.card -->
+          </section>
+          <section id="snippet-7-hover-card-button" class="wrapper py-16">
+            <h2 class="mb-2">Hover Card Button</h2>
+            <p class="mb-5 text-muted">Иконка-стрелка в правом верхнем углу карточки. Два варианта: всегда видна <code>.hover_card_button</code>, скрыта и появляется <code>.hover_card_button_hide</code>. Для тёмного фона добавить <code>.dark-bg</code> к карточке.</p>
+            <div class="card">
+              <div class="card-body">
+                <div class="row gy-6">
+                  <div class="col-md-6">
+                    <a href="#" class="card card-interactive lift overflow-hidden text-inherit text-decoration-none">
+                      <div class="row g-0 h-100">
+                        <div class="col-3">
+                          <figure class="mb-0 h-100">
+                            <img src="@@webRoot/assets/img/photos/p1.jpg" alt="" class="w-100 h-100 object-fit-cover">
+                          </figure>
+                        </div>
+                        <div class="col-9">
+                          <div class="card-body position-relative">
+                            <p class="mb-1 text-muted">Должность</p>
+                            <h4 class="mb-0">Имя Фамилия</h4>
+                            <div class="hover_card_button position-absolute p-4 top-0 end-0">
+                              <i class="fs-25 uil uil-arrow-right lh-1"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <!--/column -->
+                  <div class="col-md-6">
+                    <a href="#" class="card card-interactive lift overflow-hidden text-inherit text-decoration-none">
+                      <div class="row g-0 h-100">
+                        <div class="col-3">
+                          <figure class="mb-0 h-100">
+                            <img src="@@webRoot/assets/img/photos/p3.jpg" alt="" class="w-100 h-100 object-fit-cover">
+                          </figure>
+                        </div>
+                        <div class="col-9">
+                          <div class="card-body position-relative">
+                            <p class="mb-1 text-muted">Должность</p>
+                            <h4 class="mb-0">Имя Фамилия</h4>
+                            <div class="hover_card_button_hide position-absolute p-4 top-0 end-0">
+                              <i class="fs-25 uil uil-arrow-right lh-1"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <!--/column -->
+                  <div class="col-md-6">
+                    <a href="#" class="card card-interactive dark-bg bg-dark lift overflow-hidden text-white text-decoration-none">
+                      <div class="row g-0 h-100">
+                        <div class="col-3">
+                          <figure class="mb-0 h-100">
+                            <img src="@@webRoot/assets/img/photos/p2.jpg" alt="" class="w-100 h-100 object-fit-cover">
+                          </figure>
+                        </div>
+                        <div class="col-9">
+                          <div class="card-body position-relative">
+                            <p class="mb-1 text-white-50">Должность</p>
+                            <h4 class="mb-0 text-white">Имя Фамилия</h4>
+                            <div class="hover_card_button position-absolute p-4 top-0 end-0">
+                              <i class="fs-25 uil uil-arrow-right lh-1"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <!--/column -->
+                  <div class="col-md-6">
+                    <a href="#" class="card card-interactive dark-bg bg-dark lift overflow-hidden text-white text-decoration-none">
+                      <div class="row g-0 h-100">
+                        <div class="col-3">
+                          <figure class="mb-0 h-100">
+                            <img src="@@webRoot/assets/img/photos/p4.jpg" alt="" class="w-100 h-100 object-fit-cover">
+                          </figure>
+                        </div>
+                        <div class="col-9">
+                          <div class="card-body position-relative">
+                            <p class="mb-1 text-white-50">Должность</p>
+                            <h4 class="mb-0 text-white">Имя Фамилия</h4>
+                            <div class="hover_card_button_hide position-absolute p-4 top-0 end-0">
+                              <i class="fs-25 uil uil-arrow-right lh-1"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <!--/column -->
+                </div>
+                <!--/.row -->
+              </div>
+              <!--/.card-body -->
+              <div class="card-footer position-relative">
+                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-7-hover-card-button">Показать примеры кода</a>
+              </div>
+              <!--/.card-footer -->
+              <div id="collapse-7-hover-card-button" class="card-footer bg-dark p-0 accordion-collapse collapse">
+                <div class="code-wrapper">
+                  <div class="code-wrapper-inner">
+<pre class="language-html"><code>&lt;!-- 1. Иконка всегда видна — светлый фон --&gt;
+&lt;a href=&quot;#&quot; class=&quot;card card-interactive lift overflow-hidden text-inherit text-decoration-none&quot;&gt;
+  &lt;div class=&quot;row g-0 h-100&quot;&gt;
+    &lt;div class=&quot;col-3&quot;&gt;
+      &lt;figure class=&quot;mb-0 h-100&quot;&gt;
+        &lt;img src=&quot;...&quot; alt=&quot;&quot; class=&quot;w-100 h-100 object-fit-cover&quot;&gt;
+      &lt;/figure&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-9&quot;&gt;
+      &lt;div class=&quot;card-body position-relative&quot;&gt;
+        &lt;p class=&quot;mb-1 text-muted&quot;&gt;Должность&lt;/p&gt;
+        &lt;h4 class=&quot;mb-0&quot;&gt;Имя Фамилия&lt;/h4&gt;
+        &lt;div class=&quot;hover_card_button position-absolute p-4 top-0 end-0&quot;&gt;
+          &lt;i class=&quot;fs-25 uil uil-arrow-right lh-1&quot;&gt;&lt;/i&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+
+&lt;!-- 2. Иконка всегда видна — тёмный фон (.dark-bg) --&gt;
+&lt;a href=&quot;#&quot; class=&quot;card card-interactive dark-bg bg-dark lift overflow-hidden text-white text-decoration-none&quot;&gt;
+  &lt;div class=&quot;row g-0 h-100&quot;&gt;
+    &lt;div class=&quot;col-3&quot;&gt;
+      &lt;figure class=&quot;mb-0 h-100&quot;&gt;
+        &lt;img src=&quot;...&quot; alt=&quot;&quot; class=&quot;w-100 h-100 object-fit-cover&quot;&gt;
+      &lt;/figure&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-9&quot;&gt;
+      &lt;div class=&quot;card-body position-relative&quot;&gt;
+        &lt;p class=&quot;mb-1 text-white-50&quot;&gt;Должность&lt;/p&gt;
+        &lt;h4 class=&quot;mb-0 text-white&quot;&gt;Имя Фамилия&lt;/h4&gt;
+        &lt;div class=&quot;hover_card_button position-absolute p-4 top-0 end-0&quot;&gt;
+          &lt;i class=&quot;fs-25 uil uil-arrow-right lh-1&quot;&gt;&lt;/i&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+
+&lt;!-- 3. Иконка скрыта, появляется (fade) — светлый фон --&gt;
+&lt;a href=&quot;#&quot; class=&quot;card card-interactive lift overflow-hidden text-inherit text-decoration-none&quot;&gt;
+  &lt;div class=&quot;row g-0 h-100&quot;&gt;
+    &lt;div class=&quot;col-3&quot;&gt;
+      &lt;figure class=&quot;mb-0 h-100&quot;&gt;
+        &lt;img src=&quot;...&quot; alt=&quot;&quot; class=&quot;w-100 h-100 object-fit-cover&quot;&gt;
+      &lt;/figure&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-9&quot;&gt;
+      &lt;div class=&quot;card-body position-relative&quot;&gt;
+        &lt;p class=&quot;mb-1 text-muted&quot;&gt;Должность&lt;/p&gt;
+        &lt;h4 class=&quot;mb-0&quot;&gt;Имя Фамилия&lt;/h4&gt;
+        &lt;div class=&quot;hover_card_button_hide position-absolute p-4 top-0 end-0&quot;&gt;
+          &lt;i class=&quot;fs-25 uil uil-arrow-right lh-1&quot;&gt;&lt;/i&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+
+&lt;!-- 4. Иконка скрыта, появляется (fade) — тёмный фон (.dark-bg) --&gt;
+&lt;a href=&quot;#&quot; class=&quot;card card-interactive dark-bg bg-dark lift overflow-hidden text-white text-decoration-none&quot;&gt;
+  &lt;div class=&quot;row g-0 h-100&quot;&gt;
+    &lt;div class=&quot;col-3&quot;&gt;
+      &lt;figure class=&quot;mb-0 h-100&quot;&gt;
+        &lt;img src=&quot;...&quot; alt=&quot;&quot; class=&quot;w-100 h-100 object-fit-cover&quot;&gt;
+      &lt;/figure&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-9&quot;&gt;
+      &lt;div class=&quot;card-body position-relative&quot;&gt;
+        &lt;p class=&quot;mb-1 text-white-50&quot;&gt;Должность&lt;/p&gt;
+        &lt;h4 class=&quot;mb-0 text-white&quot;&gt;Имя Фамилия&lt;/h4&gt;
+        &lt;div class=&quot;hover_card_button_hide position-absolute p-4 top-0 end-0&quot;&gt;
+          &lt;i class=&quot;fs-25 uil uil-arrow-right lh-1&quot;&gt;&lt;/i&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/a&gt;
+</code></pre>
                   </div>
                   <!--/.code-wrapper-inner -->
                 </div>

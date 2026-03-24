@@ -36,7 +36,7 @@ if (empty($vacancy_image_url)) {
 $card_radius    = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
 $show_hit_badge = get_post_meta($post_id, '_vacancy_featured', true) || get_post_meta($post_id, '_vacancy_hit', true);
 ?>
-<a href="<?php echo esc_url($link); ?>" class="card lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?><?php echo $show_hit_badge ? ' position-relative' : ''; ?>">
+<a href="<?php echo esc_url($link); ?>" class="card card-interactive lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?><?php echo $show_hit_badge ? ' position-relative' : ''; ?>">
 	<?php if ($show_hit_badge) : ?>
 		<span class="position-absolute top-0 start-0 m-2 badge bg-warning text-dark px-2 py-1"><?php _e('HIT', 'codeweber'); ?></span>
 	<?php endif; ?>
