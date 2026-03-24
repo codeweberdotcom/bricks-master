@@ -69,7 +69,18 @@
 			font-weight: 600;
 		}
 
-		.fc-event {
+		// Toolbar buttons: Bootstrap .btn added via JS — neutralise FC button vars
+		// so Bootstrap styles win; keep only active-state border override
+		.fc-button.btn {
+			line-height: var(--bs-btn-line-height, 1.5);
+
+			&.fc-button-active {
+				box-shadow: var(--bs-btn-active-shadow);
+			}
+		}
+
+		// dayGrid events only — list-view events are <tr> and should NOT get btn styles
+		.fc-daygrid-event.btn {
 			background-color: var(--event-color, var(--bs-primary));
 			border-color:     var(--event-color, var(--bs-primary));
 			color:            #fff;

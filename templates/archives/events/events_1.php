@@ -177,6 +177,7 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 		var calendarEl   = document.getElementById('events-fullcalendar');
 		var apiUrl       = <?php echo wp_json_encode( $calendar_api_url ); ?>;
 		var currentCat   = <?php echo wp_json_encode( is_tax( 'event_category' ) ? get_queried_object_id() : 0 ); ?>;
+		var btnStyleCls  = <?php echo wp_json_encode( array_values( array_filter( explode( ' ', trim( $btn_style ) ) ) ) ); ?>;
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			initialView:  'dayGridMonth',
@@ -204,18 +205,27 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 					window.location.href = info.event.url;
 				}
 			},
-			eventClassNames: function () {
-				return ['btn', 'btn-xs'];
+			eventClassNames: function (info) {
+				// btn classes only for dayGrid — list view renders as <tr>, not a button
+				if (info.view.type !== 'dayGridMonth') return [];
+				return ['btn', 'btn-xs', 'has-ripple'].concat(btnStyleCls);
 			},
 			eventDidMount: function (info) {
-				// Remove FC inline styles — color is applied via --event-color CSS var
-				info.el.style.removeProperty('background-color');
-				info.el.style.removeProperty('border-color');
-				if (info.event.backgroundColor) {
-					info.el.style.setProperty('--event-color', info.event.backgroundColor);
+				if (info.view.type === 'dayGridMonth') {
+					// Remove FC inline styles — color applied via --event-color CSS var
+					info.el.style.removeProperty('background-color');
+					info.el.style.removeProperty('border-color');
+					if (info.event.backgroundColor) {
+						info.el.style.setProperty('--event-color', info.event.backgroundColor);
+					}
 				}
 				if (info.event.extendedProps.location) {
 					info.el.setAttribute('title', info.event.extendedProps.location);
+				}
+			},
+			eventsSet: function () {
+				if (typeof custom !== 'undefined' && typeof custom.rippleEffect === 'function') {
+					custom.rippleEffect();
 				}
 			},
 			loading: function (isLoading) {
@@ -234,6 +244,18 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 		});
 
 		calendar.render();
+
+		// Apply Bootstrap + theme classes to FC toolbar buttons
+		calendarEl.querySelectorAll('.fc-button-group').forEach(function (grp) {
+			grp.classList.add('btn-group');
+		});
+		calendarEl.querySelectorAll('.fc-button').forEach(function (btn) {
+			btn.classList.add('btn', 'btn-sm', 'has-ripple');
+			btnStyleCls.forEach(function (cls) { btn.classList.add(cls); });
+		});
+		if (typeof custom !== 'undefined' && typeof custom.rippleEffect === 'function') {
+			custom.rippleEffect();
+		}
 	}
 
 	if (btnCal) btnCal.addEventListener('click', function () { setView('calendar'); });
