@@ -69,6 +69,13 @@
 			font-weight: 600;
 		}
 
+		// Override FC's grey focus ring with Bootstrap primary
+		.fc-button-primary:focus,
+		.fc-button-primary:not(:disabled).fc-button-active:focus,
+		.fc-button-primary:not(:disabled):active:focus {
+			box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+		}
+
 		// Toolbar buttons: Bootstrap .btn added via JS — neutralise FC button vars
 		// so Bootstrap styles win; keep only active-state border override
 		.fc-button.btn {
