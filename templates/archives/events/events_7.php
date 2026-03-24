@@ -1,16 +1,14 @@
 <?php
 /**
- * Archive template: Events — view 7 (horizontal card, whole card clickable, no filter, square photo)
+ * Archive template: Events — view 7 (column grid, image top, whole card clickable)
  *
- * Same as events_6 but uses square image size (600×600).
+ * 3 cards per row on desktop, 2 on tablet, 1 on mobile.
  *
  * @package Codeweber
  */
 
-$card_radius  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';
-$grid_gap     = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-6';
-
-$figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start' : ( $card_radius ? ' ' . trim( $card_radius ) : '' );
+$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';
+$grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-6';
 ?>
 
 <section id="content-wrapper" class="wrapper bg-light">
@@ -28,27 +26,40 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 					$formats    = get_the_terms( $post_id, 'event_format' );
 
 					$thumbnail_id = get_post_thumbnail_id( $post_id );
-					$image_url    = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_event_600-600' ) : '';
+					$image_url    = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_event_400-267' ) : '';
 					if ( empty( $image_url ) ) {
 						$image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
 					}
 
 					$status_class = [
-						'open'                 => 'badge bg-soft-green text-green rounded-pill',
-						'not_open_yet'         => 'badge bg-soft-yellow text-yellow rounded-pill',
-						'registration_closed'  => 'badge bg-soft-ash text-muted rounded-pill',
-						'no_seats'             => 'badge bg-soft-red text-red rounded-pill',
-						'event_ended'          => 'badge bg-soft-ash text-muted rounded-pill',
+						'open'                => 'badge bg-soft-green text-green rounded-pill',
+						'not_open_yet'        => 'badge bg-soft-yellow text-yellow rounded-pill',
+						'registration_closed' => 'badge bg-soft-ash text-muted rounded-pill',
+						'no_seats'            => 'badge bg-soft-red text-red rounded-pill',
+						'event_ended'         => 'badge bg-soft-ash text-muted rounded-pill',
 					][ $reg_status['status'] ] ?? '';
 				?>
-				<div class="col-12">
-					<a href="<?php the_permalink(); ?>" class="card card-horizontal lift text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
-						<figure class="card-img mb-0<?php echo $figure_radius ? ' ' . esc_attr( trim( $figure_radius ) ) : ''; ?>">
-							<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="img-fluid<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+				<div class="col-12 col-sm-6 col-lg-4">
+					<div class="card h-100 shadow-sm<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+
+						<figure class="card-img-top overflow-hidden m-0" style="height:210px;">
+							<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-100 h-100 object-fit-cover">
 						</figure>
-						<div class="card-body position-relative">
+
+						<div class="card-body d-flex flex-column p-4">
+
+							<?php if ( $formats && ! is_wp_error( $formats ) ) : ?>
+								<div class="mb-2">
+									<?php foreach ( $formats as $fmt ) : ?>
+										<span class="badge bg-soft-primary text-primary rounded-pill me-1">
+											<?php echo esc_html( $fmt->name ); ?>
+										</span>
+									<?php endforeach; ?>
+								</div>
+							<?php endif; ?>
+
 							<?php if ( $date_start ) : ?>
-								<p class="mb-1 text-muted">
+								<p class="mb-1 text-muted small">
 									<i class="uil uil-calendar-alt me-1"></i>
 									<?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $date_start ) ) ); ?>
 									<?php if ( $date_end && $date_end !== $date_start ) : ?>
@@ -56,39 +67,36 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 									<?php endif; ?>
 								</p>
 							<?php endif; ?>
-							<h2 class="mb-3 display-6"><?php the_title(); ?></h2>
-							<?php if ( $status_class && $reg_status['label'] ) : ?>
-								<p class="mb-3">
+
+							<h5 class="card-title mb-2">
+								<a href="<?php the_permalink(); ?>" class="text-reset text-decoration-none stretched-link">
+									<?php the_title(); ?>
+								</a>
+							</h5>
+
+							<div class="mt-auto pt-3 d-flex flex-wrap align-items-center gap-2">
+
+								<?php if ( $status_class && $reg_status['label'] ) : ?>
 									<span class="event-status-badge <?php echo esc_attr( $status_class ); ?>">
 										<?php echo esc_html( $reg_status['label'] ); ?>
 									</span>
-								</p>
-							<?php endif; ?>
-							<ul class="list-unstyled cc-2 mb-0">
+								<?php endif; ?>
+
 								<?php if ( $location ) : ?>
-									<li class="mb-1 d-flex align-items-center">
-										<i class="uil uil-map-marker-alt text-primary me-2"></i>
-										<span><?php echo esc_html( $location ); ?></span>
-									</li>
+									<span class="text-muted small">
+										<i class="uil uil-map-marker-alt me-1"></i><?php echo esc_html( $location ); ?>
+									</span>
 								<?php endif; ?>
-								<?php if ( $formats && ! is_wp_error( $formats ) ) : ?>
-									<li class="mb-1 d-flex align-items-center">
-										<i class="uil uil-presentation text-primary me-2"></i>
-										<span><?php echo esc_html( implode( ', ', wp_list_pluck( $formats, 'name' ) ) ); ?></span>
-									</li>
-								<?php endif; ?>
+
 								<?php if ( $price ) : ?>
-									<li class="mb-1 d-flex align-items-center">
-										<i class="uil uil-tag-alt text-primary me-2"></i>
-										<span><?php echo esc_html( $price ); ?></span>
-									</li>
+									<span class="small">
+										<i class="uil uil-tag-alt me-1"></i><?php echo esc_html( $price ); ?>
+									</span>
 								<?php endif; ?>
-							</ul>
-							<div class="hover_card_button position-absolute p-7 top-0 end-0">
-								<i class="fs-25 uil uil-arrow-right lh-1"></i>
+
 							</div>
 						</div><!-- /.card-body -->
-					</a><!-- /.card -->
+					</div><!-- /.card -->
 				</div>
 				<?php endwhile; ?>
 			</div>
