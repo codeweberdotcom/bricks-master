@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 namespace Codeweber\Functions\Fetch;
 
 function getPosts($params)
