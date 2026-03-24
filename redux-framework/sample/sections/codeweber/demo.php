@@ -1241,7 +1241,8 @@ Redux::set_section(
 						setButtonsState(true);
 						showStatus("' . esc_js( __( 'Creating events...', 'codeweber' ) ) . '", "info");
 
-						var batchLimit = 5;
+						var batchLimit = 1; // тест: 1 событие; для полного импорта → 5
+							var totalLimit  = 1; // тест: 1 событие; для полного импорта → 0
 						var allErrors = [];
 
 						function runBatch(offset) {
@@ -1253,7 +1254,8 @@ Redux::set_section(
 									action: "cw_demo_create_events",
 									nonce: createNonce,
 									offset: offset,
-									limit: batchLimit
+									limit: batchLimit,
+									total_limit: totalLimit
 								},
 								success: function(response) {
 									if (!response.success) {

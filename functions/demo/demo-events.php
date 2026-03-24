@@ -1255,7 +1255,7 @@ function cw_demo_get_or_create_event_term( $name, $taxonomy ) {
 // Create / Delete
 // ---------------------------------------------------------------------------
 
-function cw_demo_create_events( int $offset = 0, int $limit = 5 ) {
+function cw_demo_create_events( int $offset = 0, int $limit = 5, int $total_limit = 0 ) {
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -1268,8 +1268,9 @@ function cw_demo_create_events( int $offset = 0, int $limit = 5 ) {
 		? cw_demo_get_events_data()
 		: cw_demo_get_events_data_en();
 
-	$total  = count( $items );
-	$batch  = array_slice( $items, $offset, $limit );
+	$total       = $total_limit > 0 ? min( $total_limit, count( $items ) ) : count( $items );
+	$batch_limit = min( $limit, max( 0, $total - $offset ) );
+	$batch       = array_slice( $items, $offset, $batch_limit );
 	$created = 0;
 	$errors  = [];
 	$now     = current_time( 'Y-m-d' );
