@@ -166,16 +166,17 @@ $calendar_api_url = rest_url( 'codeweber/v1/events/calendar' );
 	}
 
 	function initCalendar() {
-		calInited = true;
 		if (typeof FullCalendar === 'undefined') return;
+		calInited = true;
 
 		var calendarEl   = document.getElementById('events-fullcalendar');
 		var apiUrl       = <?php echo wp_json_encode( $calendar_api_url ); ?>;
 		var currentCat   = <?php echo wp_json_encode( is_tax( 'event_category' ) ? get_queried_object_id() : 0 ); ?>;
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-			initialView: 'dayGridMonth',
-			locale:      'ru',
+			initialView:  'dayGridMonth',
+			locale:       'ru',
+			aspectRatio:  2,
 			headerToolbar: {
 				left:   'prev,next today',
 				center: 'title',
@@ -211,8 +212,10 @@ $calendar_api_url = rest_url( 'codeweber/v1/events/calendar' );
 	if (btnCal) btnCal.addEventListener('click', function () { setView('calendar'); });
 	if (btnTbl) btnTbl.addEventListener('click', function () { setView('table'); });
 
-	// Restore last view
-	var saved = localStorage.getItem(STORAGE_KEY) || 'table';
-	setView(saved);
+	// Restore last view — wait for footer scripts (FullCalendar) to load first
+	window.addEventListener('load', function() {
+		var saved = localStorage.getItem(STORAGE_KEY) || 'table';
+		setView(saved);
+	});
 })();
 </script>

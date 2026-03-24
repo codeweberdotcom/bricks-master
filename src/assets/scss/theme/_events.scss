@@ -38,6 +38,18 @@
 // -----------------------------------------------------------------------------
 
 .events-calendar-wrap {
+	// FullCalendar CSS variables — Bootstrap theme integration
+	--fc-border-color:               var(--bs-border-color, #dee2e6);
+	--fc-today-bg-color:             rgba(var(--bs-primary-rgb, 13 110 253), 0.08);
+	--fc-list-event-hover-bg-color:  var(--bs-light, #f8f9fa);
+	--fc-button-text-color:          #fff;
+	--fc-button-bg-color:            var(--bs-primary, #0d6efd);
+	--fc-button-border-color:        var(--bs-primary, #0d6efd);
+	--fc-button-hover-bg-color:      #0b5ed7;
+	--fc-button-hover-border-color:  #0a58ca;
+	--fc-button-active-bg-color:     #0b5ed7;
+	--fc-button-active-border-color: #0a58ca;
+
 	.fc {
 		font-family: inherit;
 
@@ -69,11 +81,6 @@
 
 		.fc-daygrid-event {
 			padding: 2px 4px;
-		}
-
-		// List view
-		.fc-list-event:hover td {
-			background-color: var(--bs-light, #f8f9fa);
 		}
 	}
 }

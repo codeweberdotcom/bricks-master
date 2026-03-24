@@ -161,6 +161,7 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | WooCommerce Cart Page (Bootstrap макет, AJAX удаление, CSS) | `doc_claude/integrations/WC_CART.md` |
 | WooCommerce Checkout (form-floating, select2, CSS) | `doc_claude/integrations/WC_CHECKOUT.md` |
 | Wishlist (архитектура, AJAX, JS, modal, Redux) | `doc_claude/integrations/WISHLIST.md` |
+| Events (CPT, регистрации, REST API, FullCalendar, ICS, галерея, карта) | `doc_claude/integrations/EVENTS.md` |
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |
 | Социальные иконки (функции, типы, шорткод, staff/vacancy) | `doc_claude/components/SOCIAL_LINKS.md` |
 | Транслитерация кириллицы в слагах и именах файлов | `doc_claude/components/CYR_TO_LAT.md` |
