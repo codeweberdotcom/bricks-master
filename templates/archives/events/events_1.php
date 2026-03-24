@@ -38,10 +38,10 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 
 			<?php // View toggle ?>
 			<div class="btn-group events-view-toggle" role="group" aria-label="<?php esc_attr_e( 'View', 'codeweber' ); ?>">
-				<button type="button" class="btn btn-sm btn-outline-primary" id="events-view-calendar" title="<?php esc_attr_e( 'Calendar view', 'codeweber' ); ?>">
+				<button type="button" class="btn btn-sm btn-outline-primary<?php echo esc_attr( $btn_style ); ?>" id="events-view-calendar" title="<?php esc_attr_e( 'Calendar view', 'codeweber' ); ?>">
 					<i class="uil uil-calender"></i> <?php esc_html_e( 'Calendar', 'codeweber' ); ?>
 				</button>
-				<button type="button" class="btn btn-sm btn-outline-primary" id="events-view-table" title="<?php esc_attr_e( 'List view', 'codeweber' ); ?>">
+				<button type="button" class="btn btn-sm btn-outline-primary<?php echo esc_attr( $btn_style ); ?>" id="events-view-table" title="<?php esc_attr_e( 'List view', 'codeweber' ); ?>">
 					<i class="uil uil-list-ul"></i> <?php esc_html_e( 'List', 'codeweber' ); ?>
 				</button>
 			</div>
@@ -228,6 +228,21 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 					custom.rippleEffect();
 				}
 			},
+			// datesSet fires after every view render (including view switch) —
+			// FullCalendar may recreate toolbar buttons, so re-apply classes here
+			datesSet: function () {
+				calendarEl.querySelectorAll('.fc-button-group').forEach(function (grp) {
+					grp.classList.add('btn-group');
+				});
+				calendarEl.querySelectorAll('.fc-button').forEach(function (btn) {
+					if (btn.classList.contains('btn')) return;
+					btn.classList.add('btn', 'btn-sm', 'has-ripple');
+					btnStyleCls.forEach(function (cls) { btn.classList.add(cls); });
+				});
+				if (typeof custom !== 'undefined' && typeof custom.rippleEffect === 'function') {
+					custom.rippleEffect();
+				}
+			},
 			loading: function (isLoading) {
 				var loader = document.getElementById('events-calendar-loader');
 				if (!loader) return;
@@ -244,18 +259,6 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 		});
 
 		calendar.render();
-
-		// Apply Bootstrap + theme classes to FC toolbar buttons
-		calendarEl.querySelectorAll('.fc-button-group').forEach(function (grp) {
-			grp.classList.add('btn-group');
-		});
-		calendarEl.querySelectorAll('.fc-button').forEach(function (btn) {
-			btn.classList.add('btn', 'btn-sm', 'has-ripple');
-			btnStyleCls.forEach(function (cls) { btn.classList.add(cls); });
-		});
-		if (typeof custom !== 'undefined' && typeof custom.rippleEffect === 'function') {
-			custom.rippleEffect();
-		}
 	}
 
 	if (btnCal) btnCal.addEventListener('click', function () { setView('calendar'); });
