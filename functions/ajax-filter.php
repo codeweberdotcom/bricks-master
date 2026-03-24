@@ -30,14 +30,13 @@ function codeweber_ajax_filter() {
     
     // Обрабатываем filters - может быть JSON строка или массив
     $filters = array();
-    if (isset($_POST['filters'])) {
-        if (is_string($_POST['filters'])) {
-            $filters = json_decode(stripslashes($_POST['filters']), true);
-            if (!is_array($filters)) {
-                $filters = array();
-            }
-        } elseif (is_array($_POST['filters'])) {
-            $filters = $_POST['filters'];
+    if ( isset( $_POST['filters'] ) ) {
+        $raw_filters = wp_unslash( $_POST['filters'] );
+        if ( is_string( $raw_filters ) ) {
+            $decoded = json_decode( $raw_filters, true );
+            $filters = is_array( $decoded ) ? $decoded : array();
+        } elseif ( is_array( $raw_filters ) ) {
+            $filters = $raw_filters;
         }
     }
     
@@ -83,10 +82,10 @@ function codeweber_ajax_filter() {
         if ($post_type === 'vacancies' && $template === 'vacancies_1') {
             codeweber_render_vacancies_filtered($query, $filters);
         } elseif ($post_type === 'vacancies' && in_array($template, array('vacancies_2', 'vacancies_3', 'vacancies_4', 'vacancies_5', 'vacancies_6'), true)) {
-            $backup_query = $GLOBALS['wp_query'];
-            $GLOBALS['wp_query'] = $query;
+            global $wp_query;
+            $wp_query = $query; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
             get_template_part('templates/archives/vacancies/' . $template);
-            $GLOBALS['wp_query'] = $backup_query;
+            wp_reset_query();
         } elseif ($post_type === 'post' && $template) {
             codeweber_render_posts_filtered($query, $filters, $template);
         } elseif ($post_type === 'products' && $template) {
