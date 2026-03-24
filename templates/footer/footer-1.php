@@ -57,7 +57,7 @@ $link_class = ($footer_color_text === 'dark') ? 'text-white' : 'link-body';
           <p class="mb-4 <?= $text_class; ?>">
             <?= do_shortcode('[redux_option key="text-about-company"]'); ?>
           </p>
-          <?= social_links($social_class, $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
+          <?= codeweber_social_links($social_class, $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
           <!-- /.social -->
         </div>
         <!-- /.widget -->

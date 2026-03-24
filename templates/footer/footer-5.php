@@ -178,7 +178,7 @@ $link_class = ($footer_color_text === 'dark') ? 'text-white' : 'link-body';
         <!--/.row -->
         <p class="<?= $text_class; ?>">© <?= date('Y'); ?> <?= get_bloginfo('name'); ?>. All rights reserved.</p>
         <nav class="nav <?= esc_attr($social_class); ?> justify-content-center">
-          <?= social_links('', $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
+          <?= codeweber_social_links('', $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
         </nav>
         <!-- /.social -->
       </div>

@@ -23,7 +23,7 @@ $footer_text_inverse = !empty($GLOBALS['codeweber_footer_use_text_inverse']) ? '
                <p class="mb-4">© <script>
                      document.write(new Date().getUTCFullYear());
                   </script> Sandbox. <br class="d-none d-lg-block" />All rights reserved.</p>
-               <?php echo social_links($footer_social_class, $footer_social_type, $footer_social_size, 'primary', 'solid', $footer_social_style); ?>
+               <?php echo codeweber_social_links($footer_social_class, $footer_social_type, $footer_social_size, 'primary', 'solid', $footer_social_style); ?>
                <!-- /.social -->
             </div>
             <!-- /.widget -->

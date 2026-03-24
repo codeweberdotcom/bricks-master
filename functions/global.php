@@ -132,7 +132,7 @@ function codeweber_thumbnail_alt()
  * @param string $digits Входной текст, содержащий номер телефона.
  * @return string Очищенный номер, содержащий только цифры.
  */
-function cleanNumber($digits)
+function codeweber_clean_number($digits)
 {
 	// Удаляем все символы, кроме цифр
 	return preg_replace('/\D/', '', $digits);
@@ -176,7 +176,7 @@ function cleanNumber($digits)
  *
  * @return string HTML-код со ссылками на соцсети.
  */
-function social_links($class, $type, $size = 'md', $button_color = 'primary', $buttonstyle = 'solid', $button_form = 'circle', $custom_socials = null)
+function codeweber_social_links($class, $type, $size = 'md', $button_color = 'primary', $buttonstyle = 'solid', $button_form = 'circle', $custom_socials = null)
 {
 	$socials = ($custom_socials !== null && is_array($custom_socials)) ? $custom_socials : get_option('socials_urls');
 	if (empty($socials)) {
@@ -354,7 +354,7 @@ function social_links($class, $type, $size = 'md', $button_color = 'primary', $b
  */
 function codeweber_single_social_links($args = [])
 {
-	if (!function_exists('social_links')) {
+	if (!function_exists('codeweber_social_links')) {
 		return '';
 	}
 	$defaults = [
@@ -379,7 +379,7 @@ function codeweber_single_social_links($args = [])
 		}
 	}
 	$r = wp_parse_args($args, $defaults);
-	return social_links(
+	return codeweber_social_links(
 		$r['class'],
 		$r['type'],
 		$r['size'],
@@ -456,7 +456,7 @@ function staff_social_links($post_id, $class = '', $type = 'type1', $size = 'sm'
 		return '';
 	}
 
-	return social_links($class, $type, $size, $button_color, $buttonstyle, $button_form, $custom_socials);
+	return codeweber_social_links($class, $type, $size, $button_color, $buttonstyle, $button_form, $custom_socials);
 }
 
 /**
@@ -503,7 +503,7 @@ function vacancy_social_links($post_id, $class = '', $type = 'type1', $size = 's
 		return '';
 	}
 
-	return social_links($class, $type, $size, $button_color, $buttonstyle, $button_form, $custom_socials);
+	return codeweber_social_links($class, $type, $size, $button_color, $buttonstyle, $button_form, $custom_socials);
 }
 
 

@@ -69,7 +69,7 @@ $cta_button_url = Redux::get_option($opt_name, 'footer-cta-button-url', '#');
             © <?= date('Y'); ?> <?= get_bloginfo('name'); ?>. <br class="d-none d-lg-block" />All rights reserved.
           </p>
           <nav class="nav <?= esc_attr($social_class); ?>">
-            <?= social_links('', $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
+            <?= codeweber_social_links('', $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
           </nav>
           <!-- /.social -->
         </div>

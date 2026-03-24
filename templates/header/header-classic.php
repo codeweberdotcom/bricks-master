@@ -220,9 +220,9 @@ if ($config['navbar-center-nav'] === true) {
                     <?php } else {; ?>
                         <div class="d-lg-none mt-auto pt-6 pb-6 order-4">
                             <a href="mailto:<?php $email; ?>"><?php $email; ?></a>
-                            <a href="tel:<?php cleanNumber($phone1); ?>"><?= $phone1; ?></a>
-                            <a href="tel:<?php cleanNumber($phone2); ?>"><?= $phone2; ?></a>
-                            <?= social_links('mt-2', $config['social-type-mobile-menu'], $config['social-button-size-mobile-menu'], 'primary', 'solid', $config['social-button-style-mobile-menu']); ?>
+                            <a href="tel:<?php codeweber_clean_number($phone1); ?>"><?= $phone1; ?></a>
+                            <a href="tel:<?php codeweber_clean_number($phone2); ?>"><?= $phone2; ?></a>
+                            <?= codeweber_social_links('mt-2', $config['social-type-mobile-menu'], $config['social-button-size-mobile-menu'], 'primary', 'solid', $config['social-button-style-mobile-menu']); ?>
                         </div>
                         <!-- /offcanvas-nav-other -->
                     <?php } ?>
@@ -309,8 +309,8 @@ if ($config['navbar-center-nav'] === true) {
                                 echo '<div class="widget mb-5">
                                       <div>
                                       <div class="mb-1 h5">' . esc_html__('Phone', 'codeweber') . '</div>
-                                      <a href="tel:' . cleanNumber($phone1) . '">' . $phone1 . '</a>
-                                      <a href="tel:' . cleanNumber($phone2) . '">' . $phone2 . '</a>
+                                      <a href="tel:' . codeweber_clean_number($phone1) . '">' . $phone1 . '</a>
+                                      <a href="tel:' . codeweber_clean_number($phone2) . '">' . $phone2 . '</a>
                                       </div>
                                       </div>
                                       <!-- /.widget -->
@@ -387,7 +387,7 @@ if ($config['navbar-center-nav'] === true) {
                             case 'socials':
                                 echo '<div class="widget mb-5">
                                        <div class="widget-title mb-3 h4">' . esc_html__('Social Media', 'codeweber') . ' </div>';
-                                echo social_links('', $config['social-type'], $config['social-button-size-offcanvas'], 'primary', 'solid', $config['social-button-style-offcanvas']);
+                                echo codeweber_social_links('', $config['social-type'], $config['social-button-size-offcanvas'], 'primary', 'solid', $config['social-button-style-offcanvas']);
                                 echo '</div>';
                                 break;
 

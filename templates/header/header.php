@@ -115,9 +115,9 @@
                <a href="mailto:first.last@email.com" class="link-inverse">info@email.com</a>
                <br /> 00 (123) 456 78 90 <br />
                <?php
-               if (function_exists('social_links')) {
+               if (function_exists('codeweber_social_links')) {
                   // Простые нецветные/тёмные иконки (type2 = social-muted) под светлый фон
-                  echo social_links('mt-4', 'type2', 'md', 'primary', 'solid', 'circle');
+                  echo codeweber_social_links('mt-4', 'type2', 'md', 'primary', 'solid', 'circle');
                }
                ?>
                <!-- /.social -->

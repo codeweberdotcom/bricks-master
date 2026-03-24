@@ -64,8 +64,8 @@ add_shortcode('site_domain_link', function () {
  */
 add_shortcode('social_links', function ($atts) {
 	// Проверяем, что функция social_links существует
-	if (!function_exists('social_links')) {
-		return '<!-- Функция social_links не найдена -->';
+	if (!function_exists('codeweber_social_links')) {
+		return '<!-- Функция codeweber_social_links не найдена -->';
 	}
 	
 	// Парсим атрибуты
@@ -78,7 +78,7 @@ add_shortcode('social_links', function ($atts) {
 	), $atts, 'social_links');
 	
 	// Вызываем функцию social_links с новыми параметрами для type8
-	return social_links($atts['class'], $atts['type'], $atts['size'], $atts['button-color'], $atts['buttonstyle']);
+	return codeweber_social_links($atts['class'], $atts['type'], $atts['size'], $atts['button-color'], $atts['buttonstyle']);
 });
 
 /**

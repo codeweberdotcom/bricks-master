@@ -4,9 +4,9 @@
 			Made with Codeweber
 		</a></p>
 <?php
-if (function_exists('social_links')) {
+if (function_exists('codeweber_social_links')) {
 	// Простые цветные иконки без обводок и фона (type3)
-	echo social_links('text-md-end', 'type3', 'md', 'primary', 'solid', 'circle');
+	echo codeweber_social_links('text-md-end', 'type3', 'md', 'primary', 'solid', 'circle');
 }
 ?>
 	<!-- /.social -->

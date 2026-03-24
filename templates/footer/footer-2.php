@@ -149,7 +149,7 @@ $social_class = ($footer_background_color === 'dark' || $footer_color_text === '
         </a>
       </p>
       <nav class="nav <?= esc_attr($social_class); ?> mb-0 text-md-end">
-        <?= social_links('', $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
+        <?= codeweber_social_links('', $social_type_footer, $social_size_footer, 'primary', 'solid', $social_button_style_footer); ?>
       </nav>
       <!-- /.social -->
     </div>
