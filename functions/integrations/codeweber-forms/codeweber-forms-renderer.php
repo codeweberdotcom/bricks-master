@@ -892,12 +892,19 @@ class CodeweberFormsRenderer {
                     // Подготовка data-атрибутов для phone-mask (только для tel)
                     $mask_attrs = '';
                     if ($field_type === 'tel') {
-                        $phone_mask = $field['phoneMask'] ?? '';
-                        if (empty($phone_mask)) {
+                        $use_theme_mask = !empty($field['useThemeMask']);
+                        if ($use_theme_mask) {
                             $phone_mask = class_exists('Codeweber_Options') ? Codeweber_Options::get('opt_phone_mask', '') : '';
+                            $phone_mask_caret = '';
+                            $phone_mask_soft_caret = '';
+                        } else {
+                            $phone_mask = $field['phoneMask'] ?? '';
+                            if (empty($phone_mask)) {
+                                $phone_mask = class_exists('Codeweber_Options') ? Codeweber_Options::get('opt_phone_mask', '') : '';
+                            }
+                            $phone_mask_caret = $field['phoneMaskCaret'] ?? '';
+                            $phone_mask_soft_caret = $field['phoneMaskSoftCaret'] ?? '';
                         }
-                        $phone_mask_caret = $field['phoneMaskCaret'] ?? '';
-                        $phone_mask_soft_caret = $field['phoneMaskSoftCaret'] ?? '';
                         
                         if (!empty($phone_mask)) {
                             $mask_attrs .= ' data-mask="' . esc_attr($phone_mask) . '"';
