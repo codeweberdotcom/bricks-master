@@ -22,14 +22,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 // ---------------------------------------------------------------------------
 
 function cw_demo_get_events_data(): array {
+	// Все фото ≥ 1070px шириной — для корректной генерации codeweber_event_1070-668
 	$photos = [
-		'about2.jpg','about3.jpg','about4.jpg','about5.jpg','about6.jpg',
-		'about7.jpg','about8.jpg','about9.jpg','about10.jpg','about11.jpg',
-		'about12.jpg','about13.jpg','about14.jpg','about15.jpg','about16.jpg',
-		'about17.jpg','about18.jpg','about19.jpg','about20.jpg','about21.jpg',
-		'about22.jpg','about23.jpg','about24.jpg','about25.jpg','about27.jpg',
-		'about28.jpg','about29.jpg','about30.jpg','about31.jpg','about32.jpg',
-		'about33.jpg','about34.jpg','about35.jpg','about36.jpg','about37.jpg',
+		'bg28.jpg','bg29.jpg','bg30.jpg','bg31.jpg','bg32.jpg',
+		'bg33.jpg','bg34.jpg','bg35.jpg','bg36.jpg','bg38.jpg',
+		'cf1.jpg','cf2.jpg','cf3.jpg','cf4.jpg','cf5.jpg','cf6.jpg',
+		'pp7.jpg','pp8.jpg','pp9.jpg',
+		'is1.jpg','is2.jpg','is3.jpg',
+		'about5.jpg','about6.jpg','about16.jpg','about18.jpg',
+		'about31.jpg','about32.jpg',
+		'bg1.jpg','bg2.jpg','bg3.jpg','bg10.jpg','bg26.jpg','bg27.jpg',
 	];
 	$total_photos = count( $photos );
 	$items        = [];
@@ -569,14 +571,16 @@ function cw_demo_get_events_data(): array {
 // ---------------------------------------------------------------------------
 
 function cw_demo_get_events_data_en(): array {
+	// All photos ≥ 1070px wide — for correct codeweber_event_1070-668 generation
 	$photos = [
-		'about2.jpg','about3.jpg','about4.jpg','about5.jpg','about6.jpg',
-		'about7.jpg','about8.jpg','about9.jpg','about10.jpg','about11.jpg',
-		'about12.jpg','about13.jpg','about14.jpg','about15.jpg','about16.jpg',
-		'about17.jpg','about18.jpg','about19.jpg','about20.jpg','about21.jpg',
-		'about22.jpg','about23.jpg','about24.jpg','about25.jpg','about27.jpg',
-		'about28.jpg','about29.jpg','about30.jpg','about31.jpg','about32.jpg',
-		'about33.jpg','about34.jpg','about35.jpg','about36.jpg','about37.jpg',
+		'bg28.jpg','bg29.jpg','bg30.jpg','bg31.jpg','bg32.jpg',
+		'bg33.jpg','bg34.jpg','bg35.jpg','bg36.jpg','bg38.jpg',
+		'cf1.jpg','cf2.jpg','cf3.jpg','cf4.jpg','cf5.jpg','cf6.jpg',
+		'pp7.jpg','pp8.jpg','pp9.jpg',
+		'is1.jpg','is2.jpg','is3.jpg',
+		'about5.jpg','about6.jpg','about16.jpg','about18.jpg',
+		'about31.jpg','about32.jpg',
+		'bg1.jpg','bg2.jpg','bg3.jpg','bg10.jpg','bg26.jpg','bg27.jpg',
 	];
 	$total_photos = count( $photos );
 	$items        = [];
@@ -1377,17 +1381,18 @@ function cw_demo_create_events() {
 
 		// Gallery for past events (photo report)
 		if ( $is_past ) {
+			// Photos ≥ 1070px wide for correct 1070×668 crop
 			$gallery_sets = [
-				[ 'cs1-full.jpg',  'cs4-full.jpg',  'cs7-full.jpg'  ],
-				[ 'cs2-full.jpg',  'cs5-full.jpg',  'cs8-full.jpg'  ],
-				[ 'cs3-full.jpg',  'cs6-full.jpg',  'cs9-full.jpg'  ],
-				[ 'cs10-full.jpg', 'cs11-full.jpg', 'cs12-full.jpg' ],
-				[ 'pf1-full.jpg',  'pf4-full.jpg',  'pf7-full.jpg'  ],
-				[ 'pf2-full.jpg',  'pf5-full.jpg',  'pf8-full.jpg'  ],
-				[ 'pf3-full.jpg',  'pf6-full.jpg',  'pf9-full.jpg'  ],
-				[ 'pf10-full.jpg', 'pf11-full.jpg', 'pf12-full.jpg' ],
-				[ 'pd7-full.jpg',  'pd8-full.jpg',  'pd9-full.jpg'  ],
-				[ 'pd10-full.jpg', 'pd11-full.jpg', 'pd12-full.jpg' ],
+				[ 'cf1.jpg',         'cf2.jpg',         'cf3.jpg'         ],
+				[ 'cf4.jpg',         'cf5.jpg',         'cf6.jpg'         ],
+				[ 'pp7.jpg',         'pp8.jpg',         'pp9.jpg'         ],
+				[ 'is1.jpg',         'is2.jpg',         'is3.jpg'         ],
+				[ 'pf1-full.jpg',    'pf6-full.jpg',    'pf7-full.jpg'    ],
+				[ 'cs13-full.jpg',   'cs14-full.jpg',   'cs15-full.jpg'   ],
+				[ 'cf1.jpg',         'pp7.jpg',          'is1.jpg'        ],
+				[ 'cf4.jpg',         'pp8.jpg',          'is2.jpg'        ],
+				[ 'cf2.jpg',         'cs13-full.jpg',    'pf6-full.jpg'   ],
+				[ 'cf5.jpg',         'cs15-full.jpg',    'pf7-full.jpg'   ],
 			];
 			$gallery_files = $gallery_sets[ $created % count( $gallery_sets ) ];
 			$gallery_ids   = cw_demo_import_event_gallery( $gallery_files, $post_id );
