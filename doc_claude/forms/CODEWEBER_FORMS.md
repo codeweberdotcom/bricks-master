@@ -286,12 +286,23 @@ if (class_exists('CodeweberFormsRenderer')) {
     'validation' => 'email',  // Auto-validated
 ]
 
-// Phone/Tel
+// Phone/Tel — с маской темы
 [
     'type' => 'tel',
     'name' => 'phone',
     'label' => 'Phone Number',
     'validation' => 'tel',  // Phone format
+    'useThemeMask' => true,  // использовать opt_phone_mask из Redux
+]
+
+// Phone/Tel — с кастомной маской
+[
+    'type' => 'tel',
+    'name' => 'phone',
+    'label' => 'Phone Number',
+    'phoneMask' => '+7 (___) ___-__-__',  // символ _ — позиция цифры
+    'phoneMaskCaret' => '_',              // символ курсора (по умолчанию _)
+    'phoneMaskSoftCaret' => '_',          // символ-заглушка (по умолчанию _)
 ]
 
 // URL
@@ -311,6 +322,50 @@ if (class_exists('CodeweberFormsRenderer')) {
     'max' => 100,
 ]
 ```
+
+### Phone Mask
+
+Поле типа `tel` поддерживает два режима маски:
+
+**1. Маска темы (`useThemeMask: true`)**
+
+Берёт маску из Redux → Внешний вид → Phone mask (`opt_phone_mask`). При изменении настройки в Redux все формы с этим флагом автоматически подхватывают новую маску — без пересохранения блоков.
+
+```php
+[
+    'type' => 'tel',
+    'name' => 'phone',
+    'label' => 'Phone Number',
+    'useThemeMask' => true,
+]
+```
+
+В Gutenberg-редакторе: Inspector → Phone mask → тоггл **"Use theme mask"**.
+
+**2. Кастомная маска (атрибуты `phoneMask`)**
+
+```php
+[
+    'type' => 'tel',
+    'phoneMask' => '+7 (___) ___-__-__',  // _ — позиция для цифры
+    'phoneMaskCaret' => '_',              // символ курсора (опционально)
+    'phoneMaskSoftCaret' => '_',          // заглушка в маске (опционально)
+]
+```
+
+**Приоритет:**
+
+- `useThemeMask=true` → всегда берёт `opt_phone_mask` из Redux, `phoneMask` игнорируется
+- `useThemeMask=false` + `phoneMask` задан → используется кастомная маска
+- `useThemeMask=false` + `phoneMask` пустой → фоллбэк на `opt_phone_mask` (поведение по умолчанию для PHP-renderer)
+
+**Где применяется:**
+
+- `save.js` (статический HTML Gutenberg) — при `useThemeMask=true` записывает `data-mask-use-theme="true"`, тема JS (`addTelMask()`) подставляет значение из `window.codeweberTheme.phoneMask`
+- `codeweber-forms-renderer.php` (shortcode / PHP-рендер) — напрямую читает `Codeweber_Options::get('opt_phone_mask')`
+- `render.php` в плагине (inline button путь) — аналогично PHP
+
+---
 
 ### Text Area
 
