@@ -1241,8 +1241,8 @@ Redux::set_section(
 						setButtonsState(true);
 						showStatus("' . esc_js( __( 'Creating events...', 'codeweber' ) ) . '", "info");
 
-						var batchLimit = 1; // тест: 1 событие; для полного импорта → 5
-							var totalLimit  = 1; // тест: 1 событие; для полного импорта → 0
+						var batchLimit = 5;
+							var totalLimit  = 0;
 						var allErrors = [];
 
 						function runBatch(offset) {
