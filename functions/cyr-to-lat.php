@@ -27,7 +27,15 @@ function my_cyr_to_lat_filename($filename, $filename_raw = '')
       return $filename;
    }
 
-   return cyr_to_lat($filename);
+   $ext    = pathinfo($filename, PATHINFO_EXTENSION);
+   $base   = pathinfo($filename, PATHINFO_FILENAME);
+   $result = cyr_to_lat($base);
+
+   if ($ext) {
+      $result .= '.' . strtolower($ext);
+   }
+
+   return $result;
 }
 
 function cyr_to_lat($text)
