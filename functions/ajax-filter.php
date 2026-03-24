@@ -91,6 +91,8 @@ function codeweber_ajax_filter() {
             codeweber_render_posts_filtered($query, $filters, $template);
         } elseif ($post_type === 'products' && $template) {
             codeweber_render_products_filtered($query, $filters, $template);
+        } elseif ($post_type === 'events' && $template === 'events_3') {
+            codeweber_render_events_cards_filtered($query);
         } elseif ($post_type === 'events') {
             codeweber_render_events_filtered($query, $filters);
         } else {
@@ -476,13 +478,94 @@ function codeweber_render_events_filtered($query, $filters) {
         echo '</td>';
 
         // Details button
+        $btn_style = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded-pill';
         echo '<td class="text-end">';
-        echo '<a href="' . esc_url(get_permalink()) . '" class="btn btn-sm btn-primary rounded-pill">' . esc_html__('Details', 'codeweber') . '</a>';
+        echo '<a href="' . esc_url(get_permalink()) . '" class="btn btn-sm btn-primary has-ripple' . esc_attr($btn_style) . '">' . esc_html__('Details', 'codeweber') . '</a>';
         echo '</td>';
 
         echo '</tr>';
     }
 
     echo '</tbody></table></div>';
+}
+
+/**
+ * Рендерит отфильтрованные события в виде карточек (events_3)
+ */
+function codeweber_render_events_cards_filtered($query) {
+    if (!function_exists('codeweber_events_get_registration_status')) {
+        echo '<p>' . esc_html__('No events found.', 'codeweber') . '</p>';
+        return;
+    }
+
+    $avatar_colors = array('red', 'green', 'yellow', 'purple', 'orange', 'pink', 'blue', 'grape', 'violet', 'fuchsia');
+    $card_radius   = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
+
+    $status_map = array(
+        'open'                => 'badge bg-soft-green text-green rounded-pill',
+        'not_open_yet'        => 'badge bg-soft-yellow text-yellow rounded-pill',
+        'registration_closed' => 'badge bg-soft-ash text-muted rounded-pill',
+        'no_seats'            => 'badge bg-soft-red text-red rounded-pill',
+        'event_ended'         => 'badge bg-soft-ash text-muted rounded-pill',
+    );
+
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id    = get_the_ID();
+        $date_start = get_post_meta($post_id, '_event_date_start', true);
+        $location   = get_post_meta($post_id, '_event_location', true);
+        $price      = get_post_meta($post_id, '_event_price', true);
+        $reg_status = codeweber_events_get_registration_status($post_id);
+        $formats    = get_the_terms($post_id, 'event_format');
+        $cats       = get_the_terms($post_id, 'event_category');
+
+        $cat_index    = ($cats && !is_wp_error($cats)) ? ($cats[0]->term_id % count($avatar_colors)) : 0;
+        $avatar_color = $avatar_colors[$cat_index];
+        $avatar_label = $date_start ? date_i18n('j', strtotime($date_start)) : '?';
+        $month_label  = $date_start ? date_i18n('M', strtotime($date_start)) : '';
+        $status_class = isset($status_map[$reg_status['status']]) ? $status_map[$reg_status['status']] : '';
+
+        $format_str = ($formats && !is_wp_error($formats)) ? implode(', ', wp_list_pluck($formats, 'name')) : '';
+        ?>
+        <a href="<?php echo esc_url(get_permalink()); ?>" class="card mb-4 lift<?php echo $card_radius ? ' ' . esc_attr(trim($card_radius)) : ''; ?>">
+            <div class="card-body p-5">
+                <span class="row justify-content-between align-items-center">
+                    <span class="col-md-5 mb-2 mb-md-0 d-flex align-items-center text-body">
+                        <span class="avatar bg-<?php echo esc_attr($avatar_color); ?> text-white w-9 h-9 fs-17 me-3 flex-shrink-0">
+                            <?php echo esc_html($avatar_label); ?>
+                        </span>
+                        <span>
+                            <?php echo esc_html(get_the_title()); ?>
+                            <?php if ($month_label) : ?>
+                                <small class="text-muted ms-1"><?php echo esc_html($month_label); ?></small>
+                            <?php endif; ?>
+                            <?php if ($status_class && !empty($reg_status['label'])) : ?>
+                                <br><span class="event-status-badge <?php echo esc_attr($status_class); ?> mt-1">
+                                    <?php echo esc_html($reg_status['label']); ?>
+                                </span>
+                            <?php endif; ?>
+                        </span>
+                    </span>
+                    <span class="col-5 col-md-3 text-body d-flex align-items-center">
+                        <i class="uil uil-presentation me-1"></i>
+                        <?php echo $format_str ? esc_html($format_str) : '<span class="text-muted">—</span>'; ?>
+                    </span>
+                    <span class="col-7 col-md-4 col-lg-3 text-body d-flex align-items-center">
+                        <?php if ($location) : ?>
+                            <i class="uil uil-location-arrow me-1"></i><?php echo esc_html($location); ?>
+                        <?php elseif ($price) : ?>
+                            <i class="uil uil-tag-alt me-1"></i><?php echo esc_html($price); ?>
+                        <?php else : ?>
+                            <span class="text-muted">—</span>
+                        <?php endif; ?>
+                    </span>
+                    <span class="d-none d-lg-block col-1 text-center text-body">
+                        <i class="uil uil-angle-right-b"></i>
+                    </span>
+                </span>
+            </div>
+        </a>
+        <?php
+    }
 }
 
