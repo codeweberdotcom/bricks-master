@@ -401,38 +401,6 @@ add_filter('wpcf7_form_elements', function ($content) {
 }
 
 
-/**
- * Добавляет атрибут data-mask к полям телефона в формах CF7.
- * 
- * Ищет поля по классу wpcf7-tel, который CF7 автоматически добавляет к полям [tel*].
- * Поскольку CF7 не поддерживает произвольные data-атрибуты в синтаксисе тегов,
- * мы добавляем их программно через фильтр после рендеринга формы.
- *
- * @param string $content HTML-код формы CF7.
- * @return string Модифицированный HTML с добавленным data-mask у полей телефона.
- */
-if (class_exists('WPCF7')) {
-    add_filter('wpcf7_form_elements', function ($content) {
-   // Добавляем data-mask ко всем input с классом wpcf7-tel
-   $content = preg_replace_callback(
-      '/<input([^>]*class=["\'][^"\']*wpcf7-tel[^"\']*["\'][^>]*)>/i',
-      function ($matches) {
-         $input_attrs = $matches[1];
-         
-         // Проверяем, нет ли уже data-mask
-         if (strpos($input_attrs, 'data-mask') !== false) {
-            return '<input' . $input_attrs . '>';
-         }
-         
-         // Добавляем data-mask перед закрывающей скобкой
-         return '<input' . $input_attrs . ' data-mask="+7 (___) ___-__-__">';
-      },
-      $content
-   );
-   
-   return $content;
-    }, 20); // Приоритет 20, чтобы сработать после других фильтров
-}
 
 
 
