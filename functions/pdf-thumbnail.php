@@ -137,7 +137,7 @@ function codeweber_generate_pdf_thumbnail($pdf_path, $output_format = 'jpg', $qu
 					}
 				} else {
 					// Для системных путей проверяем через exec
-					$test = @exec("$gs_path -v 2>&1", $output, $return_var);
+					$test = @exec( escapeshellcmd( $gs_path ) . ' -v 2>&1', $output, $return_var );
 					if ($return_var === 0) {
 						$gs_command = $gs_path;
 						break;
@@ -153,7 +153,7 @@ function codeweber_generate_pdf_thumbnail($pdf_path, $output_format = 'jpg', $qu
 			// Команда Ghostscript для конвертации первой страницы
 			$cmd = sprintf(
 				'%s -dNOPAUSE -dBATCH -sDEVICE=%s -r%d -dFirstPage=1 -dLastPage=1 -sOutputFile="%s" "%s"',
-				$gs_command,
+				escapeshellcmd( $gs_command ),
 				$output_format === 'png' ? 'png16m' : 'jpeg',
 				$dpi,
 				escapeshellarg($temp_output),

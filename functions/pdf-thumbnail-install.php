@@ -48,7 +48,7 @@ function codeweber_detect_ghostscript() {
 	];
 	
 	foreach ($gs_paths as $gs_path) {
-		$test = @exec("$gs_path -v 2>&1", $output, $return_var);
+		$test = @exec( escapeshellcmd( $gs_path ) . ' -v 2>&1', $output, $return_var );
 		if ($return_var === 0) {
 			return $gs_path;
 		}
