@@ -48,33 +48,7 @@ require_once get_template_directory() . '/functions/admin/media-regenerate.php';
 require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
 
 if ( class_exists( 'WooCommerce' ) ) {
-	// WooCommerce core
-	require_once get_template_directory() . '/functions/woocommerce.php';
-	require_once get_template_directory() . '/functions/woocommerce-cart-offcanvas.php';
-	require_once get_template_directory() . '/functions/woocommerce-checkout.php';
-
-	// Wishlist
-	require_once get_template_directory() . '/functions/integrations/wishlist/functions.php';
-	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-storage-interface.php';
-	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-cookie-storage.php';
-	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-session-storage.php';
-	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-db-storage.php';
-	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-wishlist-item.php';
-	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-wishlist-ui.php';
-	require_once get_template_directory() . '/functions/integrations/wishlist/class-cw-wishlist.php';
-
-	// Compare
-	require_once get_template_directory() . '/functions/integrations/compare/functions.php';
-	require_once get_template_directory() . '/functions/integrations/compare/class-cw-compare-storage.php';
-	require_once get_template_directory() . '/functions/integrations/compare/class-cw-compare-table.php';
-	require_once get_template_directory() . '/functions/integrations/compare/class-cw-compare-ui.php';
-	require_once get_template_directory() . '/functions/integrations/compare/class-cw-compare.php';
-
-	// Инициализируем после Redux (priority 40), чтобы is_enabled() мог прочитать настройки.
-	add_action( 'after_setup_theme', function () {
-		new CW_Wishlist();
-		new CW_Compare();
-	}, 40 );
+	require_once get_template_directory() . '/functions/woocommerce/init.php';
 }
 
 // CWNotify — универсальный менеджер уведомлений (инит после Redux, priority 40).
