@@ -9,33 +9,39 @@ get_header();
 get_pageheader();
 ?>
 
-<?php if (have_posts()) : ?>
+<?php
+// Получаем выбранный шаблон из настроек Redux
+$post_type = 'staff';
+global $opt_name;
+$templateloop = Redux::get_option($opt_name, 'archive_template_select_' . $post_type);
+if (empty($templateloop)) {
+    $templateloop = 'staff_1';
+}
+$template_file = "templates/archives/staff/{$templateloop}.php";
+
+// Шаблоны, которые управляют своим циклом и вёрсткой самостоятельно
+$self_contained = [ 'staff_7' ];
+?>
+
+<?php if ( in_array( $templateloop, $self_contained, true ) ) : ?>
+    <?php get_template_part( "templates/archives/staff/{$templateloop}" ); ?>
+<?php elseif (have_posts()) : ?>
 <section id="content-wrapper" class="wrapper bg-light">
   <div class="container">
-      <?php 
-      // Получаем выбранный шаблон из настроек Redux
-      $post_type = 'staff';
-      global $opt_name;
-      $templateloop = Redux::get_option($opt_name, 'archive_template_select_' . $post_type);
-      // Если шаблон не выбран, используем по умолчанию staff_1
-      if (empty($templateloop)) {
-          $templateloop = 'staff_1';
-      }
-      $template_file = "templates/archives/staff/{$templateloop}.php";
-      
+      <?php
       // Получаем позицию сайдбара
       $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
       $content_class = ($sidebar_position === 'none') ? 'col-12 py-14' : 'col-xl-9 pt-14';
-      
+
       // Для staff_3, staff_4, staff_5, staff_6 используем row-cols структуру, для остальных - grid/isotope
       $use_row_cols = in_array( $templateloop, ['staff_3', 'staff_4', 'staff_5', 'staff_6'] );
       ?>
-      
+
       <div class="row">
           <?php get_sidebar('left'); ?>
-          
+
           <div class="<?php echo esc_attr($content_class); ?>">
-      
+
       <?php if ($use_row_cols) : ?>
           <?php
           $_gap = Codeweber_Options::style( 'grid-gap' );
@@ -48,10 +54,8 @@ get_pageheader();
           }
           ?>
           <div class="<?php echo esc_attr($row_cols_class); ?>">
-              <?php while (have_posts()) : 
+              <?php while (have_posts()) :
                 the_post();
-                
-                // Используем выбранный шаблон (staff_3 или staff_4)
                 if (locate_template($template_file)) {
                     get_template_part("templates/archives/staff/{$templateloop}");
                 }
@@ -61,15 +65,12 @@ get_pageheader();
       <?php else : ?>
           <div class="grid mb-5">
               <div class="row isotope <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?>">
-                  <?php 
-                  while (have_posts()) : 
+                  <?php
+                  while (have_posts()) :
                     the_post();
-                    
-                    // Используем шаблоны из папки templates/archives/staff
                     if (!empty($templateloop) && locate_template($template_file)) {
                         get_template_part("templates/archives/staff/{$templateloop}");
                     } else {
-                        // Fallback: используем шаблон по умолчанию (staff_1)
                         if (locate_template("templates/archives/staff/staff_1.php")) {
                             get_template_part("templates/archives/staff/staff_1");
                         }
@@ -80,14 +81,11 @@ get_pageheader();
           </div>
           <!-- /.grid -->
       <?php endif; ?>
-      
-      <?php 
-      // Pagination
-      codeweber_posts_pagination();
-      ?>
+
+      <?php codeweber_posts_pagination(); ?>
           </div>
           <!-- /column -->
-          
+
           <?php get_sidebar('right'); ?>
       </div>
       <!-- /.row -->

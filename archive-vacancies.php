@@ -44,7 +44,7 @@ get_pageheader();
               
               <div class="<?php echo esc_attr($content_class); ?>">
           
-          <?php if (in_array($templateloop, array('vacancies_2', 'vacancies_3', 'vacancies_4', 'vacancies_5', 'vacancies_6'), true)) : ?>
+          <?php if (in_array($templateloop, array('vacancies_2', 'vacancies_3', 'vacancies_4', 'vacancies_5', 'vacancies_6', 'vacancies_7'), true)) : ?>
               <?php
               if (locate_template($template_file)) {
                   get_template_part("templates/archives/vacancies/{$templateloop}");

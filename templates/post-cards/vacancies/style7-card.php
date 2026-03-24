@@ -1,6 +1,8 @@
 <?php
 /**
- * Template: Vacancy Style 7 card (column, image top, whole card clickable).
+ * Template: Vacancy Style 7 card (horizontal, whole card clickable, square 1:1 photo).
+ *
+ * Identical to style6-card but figure uses ratio ratio-1x1 for a square photo.
  *
  * @package Codeweber
  */
@@ -25,7 +27,7 @@ $category_name     = ! empty( $vacancy_types )     ? $vacancy_types[0]->name    
 $schedule_name     = ! empty( $vacancy_schedules ) ? $vacancy_schedules[0]->name : '';
 
 $thumbnail_id      = get_post_thumbnail_id( $post_id );
-$vacancy_image_url = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_vacancy_400-267' ) : '';
+$vacancy_image_url = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_vacancy_600-600' ) : '';
 if ( empty( $vacancy_image_url ) ) {
 	$vacancy_image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
 }
@@ -33,55 +35,61 @@ if ( empty( $vacancy_image_url ) ) {
 $card_radius    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';
 $show_hit_badge = get_post_meta( $post_id, '_vacancy_featured', true ) || get_post_meta( $post_id, '_vacancy_hit', true );
 ?>
-<a href="<?php echo esc_url( $link ); ?>" class="card h-100 lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?><?php echo $show_hit_badge ? ' position-relative' : ''; ?>">
-
-	<figure>
-		<img src="<?php echo esc_url( $vacancy_image_url ); ?>" alt="<?php echo esc_attr( $title ); ?>" class="w-100 object-fit-cover">
-	</figure>
-
+<a href="<?php echo esc_url( $link ); ?>" class="card card-interactive lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?><?php echo $show_hit_badge ? ' position-relative' : ''; ?>">
 	<?php if ( $show_hit_badge ) : ?>
 		<span class="position-absolute top-0 start-0 m-2 badge bg-warning text-dark px-2 py-1"><?php esc_html_e( 'HIT', 'codeweber' ); ?></span>
 	<?php endif; ?>
-
-	<div class="card-body d-flex flex-column p-4">
-		<h5 class="card-title mb-3"><?php echo esc_html( $title ); ?></h5>
-		<ul class="list-unstyled mb-0 mt-auto">
-			<?php if ( $location ) : ?>
-				<li class="mb-1 d-flex align-items-center">
-					<i class="uil uil-map-marker-alt text-primary me-2"></i>
-					<span><?php echo esc_html( $location ); ?></span>
-				</li>
-			<?php endif; ?>
-			<?php if ( $category_name ) : ?>
-				<li class="mb-1 d-flex align-items-center">
-					<i class="uil uil-briefcase-alt text-primary me-2"></i>
-					<span><?php echo esc_html( $category_name ); ?></span>
-				</li>
-			<?php endif; ?>
-			<?php if ( $schedule_name ) : ?>
-				<li class="mb-1 d-flex align-items-center">
-					<i class="uil uil-calendar-alt text-primary me-2"></i>
-					<span><?php echo esc_html( $schedule_name ); ?></span>
-				</li>
-			<?php endif; ?>
-			<?php if ( $experience ) : ?>
-				<li class="mb-1 d-flex align-items-center">
-					<i class="uil uil-clock text-primary me-2"></i>
-					<span><?php echo esc_html( $experience ); ?></span>
-				</li>
-			<?php endif; ?>
-			<?php if ( $company ) : ?>
-				<li class="mb-1 d-flex align-items-center">
-					<i class="uil uil-graduation-cap text-primary me-2"></i>
-					<span><?php echo esc_html( $company ); ?></span>
-				</li>
-			<?php endif; ?>
-			<?php if ( $salary ) : ?>
-				<li class="mb-1 d-flex align-items-center">
-					<i class="uil uil-money-stack text-primary me-2"></i>
-					<span><?php echo esc_html( $salary ); ?></span>
-				</li>
-			<?php endif; ?>
-		</ul>
-	</div><!-- /.card-body -->
+	<div class="row g-0">
+		<div class="col-3">
+			<figure class="mb-0 ratio ratio-1x1">
+				<img src="<?php echo esc_url( $vacancy_image_url ); ?>" alt="<?php echo esc_attr( $title ); ?>" class="object-fit-cover">
+			</figure>
+		</div>
+		<div class="col-9">
+			<div class="card-body position-relative">
+				<h2 class="mb-4 display-6"><?php echo esc_html( $title ); ?></h2>
+				<ul class="list-unstyled cc-2 mb-0">
+					<?php if ( $location ) : ?>
+					<li class="mb-1 d-flex align-items-center">
+						<i class="uil uil-map-marker-alt text-primary me-2"></i>
+						<span><?php echo esc_html( $location ); ?></span>
+					</li>
+					<?php endif; ?>
+					<?php if ( $category_name ) : ?>
+					<li class="mb-1 d-flex align-items-center">
+						<i class="uil uil-briefcase-alt text-primary me-2"></i>
+						<span><?php echo esc_html( $category_name ); ?></span>
+					</li>
+					<?php endif; ?>
+					<?php if ( $schedule_name ) : ?>
+					<li class="mb-1 d-flex align-items-center">
+						<i class="uil uil-calendar-alt text-primary me-2"></i>
+						<span><?php echo esc_html( $schedule_name ); ?></span>
+					</li>
+					<?php endif; ?>
+					<?php if ( $experience ) : ?>
+					<li class="mb-1 d-flex align-items-center">
+						<i class="uil uil-clock text-primary me-2"></i>
+						<span><?php echo esc_html( $experience ); ?></span>
+					</li>
+					<?php endif; ?>
+					<?php if ( $company ) : ?>
+					<li class="mb-1 d-flex align-items-center">
+						<i class="uil uil-graduation-cap text-primary me-2"></i>
+						<span><?php echo esc_html( $company ); ?></span>
+					</li>
+					<?php endif; ?>
+					<?php if ( $salary ) : ?>
+					<li class="mb-1 d-flex align-items-center">
+						<i class="uil uil-money-stack text-primary me-2"></i>
+						<span><?php echo esc_html( $salary ); ?></span>
+					</li>
+					<?php endif; ?>
+				</ul>
+				<div class="hover_card_button position-absolute p-7 top-0 end-0">
+					<i class="fs-25 uil uil-arrow-right lh-1"></i>
+				</div>
+			</div><!-- /.card-body -->
+		</div><!-- /.col-9 -->
+	</div><!-- /.row -->
 </a><!-- /.card -->

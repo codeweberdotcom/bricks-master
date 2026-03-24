@@ -65,8 +65,6 @@ $row_cols_map   = array_intersect_key( $per_row_cols_map, array_flip( $allowed_p
 $per_row_icons  = array_intersect_key( $per_row_icons_map, array_flip( $allowed_per_row ) );
 $row_cols_class = $per_row > 0 ? ( $row_cols_map[ $per_row ] ?? $default_row_cols_class ) : $default_row_cols_class;
 
-// Передаём класс колонки в шаблон карточки (обновляется ниже при view=list)
-$GLOBALS['cw_shop_col_class'] = $row_cols_class;
 
 // ── Количество товаров на странице (per_page) ─────────────────────────────────
 $allowed_per_page = [ 12, 24, 48 ];
@@ -90,8 +88,9 @@ if ( $shop_view === 'list' ) {
 	$row_cols_class = 'col-12';
 }
 
-// Передаём вид в шаблон карточки
-$GLOBALS['cw_shop_view'] = $shop_view;
+// Передаём вид и класс колонки в шаблон карточки
+$GLOBALS['cw_shop_view']      = $shop_view;
+$GLOBALS['cw_shop_col_class'] = $row_cols_class;
 
 // Базовый URL для кнопок-переключателей (без per_row, per_page, view, сохраняем остальные params)
 $base_query_args = $_GET; // phpcs:ignore WordPress.Security.NonceVerification
@@ -178,30 +177,21 @@ if ( ! $is_pjax ) {
 								</div>
 								<?php endif; ?>
 
-								<!-- Переключатель вида: grid / list -->
+								<!-- Переключатель колонок + вид списком -->
+								<?php if ( $show_per_row ) : ?>
 								<div class="shop-per-row d-none d-sm-flex gap-1">
-									<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'grid', 'per_row' => $per_row, 'per_page' => $per_page ], $base_url ) ); ?>"
-									   class="shop-per-row-btn pjax-link<?php echo $shop_view === 'grid' ? ' active' : ''; ?>"
-									   title="<?php esc_attr_e( 'Grid view', 'codeweber' ); ?>">
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M0 0v3h3V0H0zm5 0v3h3V0H5zM0 5v3h3V5H0zm5 0v3h3V5H5z"/></svg>
-									</a>
+									<?php foreach ( $allowed_per_row as $cols ) : ?>
+										<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'grid', 'per_row' => $cols, 'per_page' => $per_page ], $base_url ) ); ?>"
+										   class="shop-per-row-btn pjax-link<?php echo ( $shop_view === 'grid' && $per_row === $cols ) ? ' active' : ''; ?>"
+										   title="<?php echo esc_attr( sprintf( _n( '%d column', '%d columns', $cols, 'codeweber' ), $cols ) ); ?>">
+											<?php echo $per_row_icons[ $cols ]; // phpcs:ignore WordPress.Security.EscapeOutput -- hardcoded SVG ?>
+										</a>
+									<?php endforeach; ?>
 									<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'list', 'per_page' => $per_page ], $base_url ) ); ?>"
 									   class="shop-per-row-btn pjax-link<?php echo $shop_view === 'list' ? ' active' : ''; ?>"
 									   title="<?php esc_attr_e( 'List view', 'codeweber' ); ?>">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M0 0v2h8V0H0zm0 3v2h8V3H0zm0 3v2h8V6H0z"/></svg>
 									</a>
-								</div>
-
-								<!-- Переключатель колонок (скрывается в режиме list) -->
-								<?php if ( $show_per_row && $shop_view === 'grid' ) : ?>
-								<div class="shop-per-row d-none d-sm-flex gap-1">
-									<?php foreach ( $allowed_per_row as $cols ) : ?>
-										<a href="<?php echo esc_url( add_query_arg( [ 'per_row' => $cols, 'per_page' => $per_page ], $base_url ) ); ?>"
-										   class="shop-per-row-btn pjax-link<?php echo $per_row === $cols ? ' active' : ''; ?>"
-										   title="<?php echo esc_attr( sprintf( _n( '%d column', '%d columns', $cols, 'codeweber' ), $cols ) ); ?>">
-											<?php echo $per_row_icons[ $cols ]; // phpcs:ignore WordPress.Security.EscapeOutput -- hardcoded SVG ?>
-										</a>
-									<?php endforeach; ?>
 								</div>
 								<?php endif; ?>
 
@@ -248,6 +238,7 @@ if ( ! $is_pjax ) {
 							'queried_object_id'   => $queried_object_id,
 							'queried_object_type' => $queried_object_type,
 							'col_class'           => $row_cols_class,
+					'shop_view'           => $shop_view,
 						] );
 					?>
 					<!-- Load More: обёртка контейнера -->
@@ -358,29 +349,21 @@ if ( ! $is_pjax ) {
 								</div>
 								<?php endif; ?>
 
-								<!-- Переключатель вида: grid / list -->
+								<!-- Переключатель колонок + вид списком -->
+								<?php if ( $show_per_row ) : ?>
 								<div class="shop-per-row d-none d-sm-flex gap-1">
-									<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'grid', 'per_row' => $per_row, 'per_page' => $per_page ], $base_url ) ); ?>"
-									   class="shop-per-row-btn pjax-link<?php echo $shop_view === 'grid' ? ' active' : ''; ?>"
-									   title="<?php esc_attr_e( 'Grid view', 'codeweber' ); ?>">
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M0 0v3h3V0H0zm5 0v3h3V0H5zM0 5v3h3V5H0zm5 0v3h3V5H5z"/></svg>
-									</a>
+									<?php foreach ( $allowed_per_row as $cols ) : ?>
+										<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'grid', 'per_row' => $cols, 'per_page' => $per_page ], $base_url ) ); ?>"
+										   class="shop-per-row-btn pjax-link<?php echo ( $shop_view === 'grid' && $per_row === $cols ) ? ' active' : ''; ?>"
+										   title="<?php echo esc_attr( sprintf( _n( '%d column', '%d columns', $cols, 'codeweber' ), $cols ) ); ?>">
+											<?php echo $per_row_icons[ $cols ]; // phpcs:ignore WordPress.Security.EscapeOutput -- hardcoded SVG ?>
+										</a>
+									<?php endforeach; ?>
 									<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'list', 'per_page' => $per_page ], $base_url ) ); ?>"
 									   class="shop-per-row-btn pjax-link<?php echo $shop_view === 'list' ? ' active' : ''; ?>"
 									   title="<?php esc_attr_e( 'List view', 'codeweber' ); ?>">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M0 0v2h8V0H0zm0 3v2h8V3H0zm0 3v2h8V6H0z"/></svg>
 									</a>
-								</div>
-
-								<?php if ( $show_per_row && $shop_view === 'grid' ) : ?>
-								<div class="shop-per-row d-none d-sm-flex gap-1">
-									<?php foreach ( $allowed_per_row as $cols ) : ?>
-										<a href="<?php echo esc_url( add_query_arg( [ 'per_row' => $cols, 'per_page' => $per_page ], $base_url ) ); ?>"
-										   class="shop-per-row-btn pjax-link<?php echo $per_row === $cols ? ' active' : ''; ?>"
-										   title="<?php echo esc_attr( sprintf( _n( '%d column', '%d columns', $cols, 'codeweber' ), $cols ) ); ?>">
-											<?php echo $per_row_icons[ $cols ]; // phpcs:ignore WordPress.Security.EscapeOutput -- hardcoded SVG ?>
-										</a>
-									<?php endforeach; ?>
 								</div>
 								<?php endif; ?>
 

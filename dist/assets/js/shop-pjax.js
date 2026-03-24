@@ -13,16 +13,16 @@
 (function () {
 	'use strict';
 
-	var CONTAINER_ID   = 'shop-pjax-wrapper';
-	var LOADING_CLASS  = 'shop-pjax-loading';
-	var SPINNER_CLASS  = 'shop-pjax-spinner';
+	const CONTAINER_ID   = 'shop-pjax-wrapper';
+	const LOADING_CLASS  = 'shop-pjax-loading';
+	const SPINNER_CLASS  = 'shop-pjax-spinner';
 
 	/**
 	 * Получить высоту sticky-хедера.
 	 * @returns {number}
 	 */
 	function getHeaderOffset() {
-		var stickyHeader = document.querySelector(
+		const stickyHeader = document.querySelector(
 			'.navbar.fixed-top, .navbar.sticky-top, header.fixed-top, header.sticky-top'
 		);
 		return stickyHeader ? stickyHeader.offsetHeight : 0;
@@ -34,16 +34,16 @@
 	 * @returns {HTMLElement}
 	 */
 	function showSpinner( container ) {
-		var el = document.createElement( 'div' );
+		const el = document.createElement( 'div' );
 		el.className = SPINNER_CLASS;
 		el.innerHTML = '<div class="spinner"></div>';
 
-		var rect        = container.getBoundingClientRect();
-		var headerOffset = getHeaderOffset();
-		var visibleTop  = Math.max( headerOffset, rect.top );
-		var visibleBottom = Math.min( window.innerHeight, rect.bottom );
-		var centerY     = ( visibleTop + visibleBottom ) / 2;
-		var centerX     = rect.left + rect.width / 2;
+		const rect        = container.getBoundingClientRect();
+		const headerOffset = getHeaderOffset();
+		const visibleTop  = Math.max( headerOffset, rect.top );
+		const visibleBottom = Math.min( window.innerHeight, rect.bottom );
+		const centerY     = ( visibleTop + visibleBottom ) / 2;
+		const centerX     = rect.left + rect.width / 2;
 
 		el.style.top  = centerY + 'px';
 		el.style.left = centerX + 'px';
@@ -75,7 +75,7 @@
 	 * @param {HTMLElement} container
 	 */
 	function updateDocTitle( container ) {
-		var title = container.getAttribute( 'data-page-title' );
+		const title = container.getAttribute( 'data-page-title' );
 		if ( title ) {
 			document.title = title;
 		}
@@ -86,14 +86,14 @@
 	 * @param {string} url
 	 */
 	function pjaxLoad( url ) {
-		var container = getContainer();
+		const container = getContainer();
 		if ( ! container ) {
 			window.location.href = url;
 			return;
 		}
 
 		container.classList.add( LOADING_CLASS );
-		var spinner = showSpinner( container );
+		const spinner = showSpinner( container );
 
 		fetch( url, {
 			headers: {
@@ -110,16 +110,16 @@
 			} )
 			.then( function ( html ) {
 				// Парсим ответ и извлекаем новый контейнер
-				var tmp = document.createElement( 'div' );
+				const tmp = document.createElement( 'div' );
 				tmp.innerHTML = html;
-				var newContainer = tmp.firstElementChild;
+				const newContainer = tmp.firstElementChild;
 
 				// Заменяем содержимое
 				container.innerHTML = newContainer ? newContainer.innerHTML : html;
 
 				// Обновляем data-page-title и document.title
 				if ( newContainer ) {
-					var newTitle = newContainer.getAttribute( 'data-page-title' );
+					const newTitle = newContainer.getAttribute( 'data-page-title' );
 					if ( newTitle ) {
 						container.setAttribute( 'data-page-title', newTitle );
 						document.title = newTitle;
@@ -136,7 +136,7 @@
 				document.dispatchEvent( new CustomEvent( 'cw:pjax:complete', { bubbles: true } ) );
 
 				// Скролл к верху контейнера с отступом под sticky-хедер
-				var containerTop = container.getBoundingClientRect().top + window.pageYOffset - getHeaderOffset() - 16;
+				const containerTop = container.getBoundingClientRect().top + window.pageYOffset - getHeaderOffset() - 16;
 				window.scrollTo( { top: containerTop, behavior: 'smooth' } );
 			} )
 			.catch( function () {
@@ -152,18 +152,18 @@
 	 * @param {HTMLElement} container
 	 */
 	function initIsotope( container ) {
-		var grid = container.querySelector( '.isotope' );
+		const grid = container.querySelector( '.isotope' );
 		if ( ! grid ) return;
 
 		if ( typeof window.Isotope === 'undefined' ) return;
 
 		// Уничтожаем инстанс masonry, созданный theme.js при первой загрузке
-		var existing = window.Isotope.data( grid );
+		const existing = window.Isotope.data( grid );
 		if ( existing ) {
 			existing.destroy();
 		}
 
-		var doLayout = function () {
+		const doLayout = function () {
 			new window.Isotope( grid, {
 				itemSelector: '.item',
 				layoutMode: 'fitRows',
@@ -186,7 +186,7 @@
 	 * Безопасно вызывается повторно после PJAX-обновления.
 	 */
 	function initPriceSliders() {
-		var panels = document.querySelectorAll( '.cw-filter-price' );
+		const panels = document.querySelectorAll( '.cw-filter-price' );
 		panels.forEach( initSinglePriceSlider );
 	}
 
@@ -195,11 +195,11 @@
 	 * @param {HTMLElement} panel
 	 */
 	function initSinglePriceSlider( panel ) {
-		var rangeMin = panel.querySelector( '.cw-range-min' );
-		var rangeMax = panel.querySelector( '.cw-range-max' );
-		var rangeBar = panel.querySelector( '.cw-price-range' );
-		var inputMin = panel.querySelector( '.cw-price-input--min' );
-		var inputMax = panel.querySelector( '.cw-price-input--max' );
+		const rangeMin = panel.querySelector( '.cw-range-min' );
+		const rangeMax = panel.querySelector( '.cw-range-max' );
+		const rangeBar = panel.querySelector( '.cw-price-range' );
+		const inputMin = panel.querySelector( '.cw-price-input--min' );
+		const inputMax = panel.querySelector( '.cw-price-input--max' );
 
 		if ( ! rangeMin || ! rangeMax ) return;
 
@@ -207,12 +207,12 @@
 		if ( panel.dataset.sliderInit ) return;
 		panel.dataset.sliderInit = '1';
 
-		var absMin = parseFloat( panel.dataset.min ) || 0;
-		var absMax = parseFloat( panel.dataset.max ) || 100;
+		const absMin = parseFloat( panel.dataset.min ) || 0;
+		const absMax = parseFloat( panel.dataset.max ) || 100;
 
 		/** Построить URL с текущими min/max ценами */
 		function buildUrl( min, max ) {
-			var params = new URLSearchParams( window.location.search );
+			const params = new URLSearchParams( window.location.search );
 			params.set( 'min_price', Math.round( min ) );
 			params.set( 'max_price', Math.round( max ) );
 			params.delete( 'paged' );
@@ -223,16 +223,16 @@
 		/** Обновить цветную полосу трека */
 		function updateBar( min, max ) {
 			if ( ! rangeBar ) return;
-			var pctMin = ( ( min - absMin ) / ( absMax - absMin ) ) * 100;
-			var pctMax = ( ( max - absMin ) / ( absMax - absMin ) ) * 100;
+			const pctMin = ( ( min - absMin ) / ( absMax - absMin ) ) * 100;
+			const pctMax = ( ( max - absMin ) / ( absMax - absMin ) ) * 100;
 			rangeBar.style.left  = pctMin + '%';
 			rangeBar.style.width = ( pctMax - pctMin ) + '%';
 		}
 
 		/** Слайдер двигается — обновить поля и полосу (без навигации) */
 		function onSliderInput() {
-			var min = parseFloat( rangeMin.value );
-			var max = parseFloat( rangeMax.value );
+			let min = parseFloat( rangeMin.value );
+			let max = parseFloat( rangeMax.value );
 
 			if ( min > max ) { rangeMin.value = max; min = max; }
 			if ( max < min ) { rangeMax.value = min; max = min; }
@@ -245,15 +245,15 @@
 
 		/** Слайдер отпущен — навигация */
 		function onSliderChange() {
-			var min = parseFloat( rangeMin.value );
-			var max = parseFloat( rangeMax.value );
+			const min = parseFloat( rangeMin.value );
+			const max = parseFloat( rangeMax.value );
 			pjaxLoad( buildUrl( min, max ) );
 		}
 
 		/** Поле ввода изменено — обновить слайдер и перейти */
 		function onInputChange() {
-			var min = Math.max( absMin, Math.min( absMax, parseFloat( inputMin ? inputMin.value : rangeMin.value ) || absMin ) );
-			var max = Math.max( absMin, Math.min( absMax, parseFloat( inputMax ? inputMax.value : rangeMax.value ) || absMax ) );
+			let min = Math.max( absMin, Math.min( absMax, parseFloat( inputMin ? inputMin.value : rangeMin.value ) || absMin ) );
+			const max = Math.max( absMin, Math.min( absMax, parseFloat( inputMax ? inputMax.value : rangeMax.value ) || absMax ) );
 
 			if ( min > max ) { min = max; }
 
@@ -304,9 +304,9 @@
 	 * иначе двухстрочные заголовки ломают masonry-раскладку из theme.js.
 	 */
 	document.addEventListener( 'DOMContentLoaded', function () {
-		var container = getContainer();
+		const container = getContainer();
 		if ( container ) {
-			var run = function () { initIsotope( container ); };
+			const run = function () { initIsotope( container ); };
 
 			if ( document.fonts && document.fonts.ready ) {
 				document.fonts.ready.then( run );
@@ -325,12 +325,12 @@
 	 * Перехват сортировки WooCommerce через PJAX.
 	 */
 	document.addEventListener( 'change', function ( e ) {
-		var select = e.target.closest( 'select.orderby' );
+		const select = e.target.closest( 'select.orderby' );
 		if ( ! select ) return;
 		e.stopPropagation();
-		var form = select.closest( 'form' );
+		const form = select.closest( 'form' );
 		if ( ! form ) return;
-		var url = new URL( form.action || window.location.href );
+		const url = new URL( form.action || window.location.href );
 		url.search = new URLSearchParams( new FormData( form ) ).toString();
 		pjaxLoad( url.toString() );
 	}, true ); // capture phase
@@ -339,7 +339,7 @@
 	 * Делегированный обработчик кликов — работает и после PJAX-замены контента.
 	 */
 	document.addEventListener( 'click', function ( e ) {
-		var link = e.target.closest( '.pjax-link' );
+		const link = e.target.closest( '.pjax-link' );
 		if ( ! link ) return;
 
 		if ( link.hostname !== window.location.hostname ) return;
@@ -370,24 +370,24 @@
 			if ( el.dataset.cwLimitInit ) return;
 			el.dataset.cwLimitInit = '1';
 
-			var type      = el.dataset.limitType;
-			var limit     = parseInt( el.dataset.limit, 10 );
-			var moreText  = el.dataset.showMore || 'Показать ещё';
-			var lessText  = el.dataset.showLess || 'Свернуть';
+			const type      = el.dataset.limitType;
+			const limit     = parseInt( el.dataset.limit, 10 );
+			const moreText  = el.dataset.showMore || 'Показать ещё';
+			const lessText  = el.dataset.showLess || 'Свернуть';
 
 			if ( isNaN( limit ) || limit <= 0 ) return;
 
-			var btn = document.createElement( 'button' );
+			const btn = document.createElement( 'button' );
 			btn.type = 'button';
 			btn.className = 'cw-filter-more-btn';
 
 			if ( type === 'count' ) {
 				// Убираем pre-render CSS (PHP добавил для скрытия без FOUC), JS берёт управление
-				var preStyle = el.id ? document.getElementById( el.id + '-css' ) : null;
+				const preStyle = el.id ? document.getElementById( el.id + '-css' ) : null;
 				if ( preStyle ) { preStyle.parentNode.removeChild( preStyle ); }
 
-				var items = el.querySelectorAll( ':scope > ul > li, :scope > .d-flex > *' );
-				var hideable = Array.prototype.slice.call( items, limit );
+				const items = el.querySelectorAll( ':scope > ul > li, :scope > .d-flex > *' );
+				const hideable = Array.prototype.slice.call( items, limit );
 
 				if ( hideable.length === 0 ) return;
 
@@ -395,7 +395,7 @@
 				btn.textContent = moreText + ' (' + hideable.length + ')';
 
 				btn.addEventListener( 'click', function () {
-					var isOpen = ! hideable[ 0 ].hidden;
+					const isOpen = ! hideable[ 0 ].hidden;
 					hideable.forEach( function ( item ) { item.hidden = isOpen; } );
 					btn.textContent = isOpen
 						? moreText + ' (' + hideable.length + ')'
@@ -411,14 +411,14 @@
 				// No overflow — no link needed
 				if ( el.scrollHeight <= limit ) return;
 
-				var link = document.createElement( 'a' );
+				const link = document.createElement( 'a' );
 				link.href = '#';
 				link.className = 'cw-filter-more-btn';
 				link.textContent = moreText;
 
 				link.addEventListener( 'click', function ( e ) {
 					e.preventDefault();
-					var isOpen = el.classList.contains( 'is-open' );
+					const isOpen = el.classList.contains( 'is-open' );
 					if ( isOpen ) {
 						el.classList.remove( 'is-open' );
 						el.style.maxHeight = limit + 'px';

@@ -2,7 +2,7 @@
 
 /**
  * Возвращает список доступных шаблонов карточек товаров.
- * Автоматически сканирует templates/post-cards/product/.
+ * Автоматически сканирует templates/woocommerce/cards/.
  */
 if ( ! function_exists( 'codeweber_get_product_card_options' ) ) {
 	function codeweber_get_product_card_options() {

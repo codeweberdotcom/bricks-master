@@ -14,7 +14,7 @@ if (have_posts()) :
 	while (have_posts()) :
 		the_post();
 		?>
-		<div class="col-12 col-sm-6 col-lg-4">
+		<div class="col-12">
 			<?php get_template_part('templates/post-cards/vacancies/style7-card'); ?>
 		</div>
 		<?php
