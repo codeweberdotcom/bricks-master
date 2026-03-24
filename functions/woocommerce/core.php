@@ -89,7 +89,7 @@ add_filter( 'woocommerce_placeholder_img_src', function () {
 
 // Регионы РФ для WooCommerce (на английском, с возможностью перевода).
 add_filter( 'woocommerce_states', function ( $states ) {
-	$states['RU'] = require get_template_directory() . '/functions/woocommerce-states-ru.php';
+	$states['RU'] = require get_template_directory() . '/functions/woocommerce/states-ru.php';
 	return $states;
 } );
 
@@ -97,7 +97,7 @@ add_filter( 'woocommerce_states', function ( $states ) {
 add_filter( 'woocommerce_payment_gateways', function ( $gateways ) {
 	global $opt_name;
 	if ( class_exists( 'Redux' ) && Redux::get_option( $opt_name, 'payment_methods_test_mode' ) ) {
-		require_once get_template_directory() . '/functions/woocommerce-gateway-test.php';
+		require_once get_template_directory() . '/functions/woocommerce/gateway-test.php';
 		$gateways[] = 'WC_Gateway_Codeweber_Test';
 	}
 	return $gateways;
@@ -610,7 +610,7 @@ add_action( 'wp_enqueue_scripts', function () {
 }, 30 );
 
 // ── WooCommerce Filters ────────────────────────────────────────────────────────
-require_once get_template_directory() . '/functions/woocommerce-filters.php';
+require_once get_template_directory() . '/functions/woocommerce/filters.php';
 
 /**
  * Variation Swatches JS — загружается на странице товара и WooCommerce-архивах
@@ -661,10 +661,10 @@ add_filter( 'body_class', function ( $classes ) {
 } );
 
 // ── WooCommerce Variation Swatches ─────────────────────────────────────────────
-require_once get_template_directory() . '/functions/woocommerce-swatches.php';
+require_once get_template_directory() . '/functions/woocommerce/swatches.php';
 
 // ── WooCommerce AJAX Review ─────────────────────────────────────────────────────
-require_once get_template_directory() . '/functions/integrations/woo-ajax-review.php';
+require_once get_template_directory() . '/functions/woocommerce/ajax-review.php';
 
 /**
  * woo-review.js — загружается только на странице товара.
@@ -706,4 +706,4 @@ add_action( 'wp_enqueue_scripts', function () {
 }, 30 );
 
 // ── WooCommerce Quick View ──────────────────────────────────────────────────────
-require_once get_template_directory() . '/functions/woocommerce-quick-view.php';
+require_once get_template_directory() . '/functions/woocommerce/quick-view.php';
