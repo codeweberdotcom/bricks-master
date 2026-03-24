@@ -22,8 +22,9 @@ get_pageheader();
       $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
       $content_class = ($sidebar_position === 'none') ? 'col-12 pt-14 pt-md-16' : 'col-xl-9 pt-14';
       
-      // Для testimonials_4 используем row-cols структуру, для остальных - grid/isotope
-      $use_row_cols = ($templateloop === 'testimonials_4');
+      // Для testimonials_4 используем row-cols структуру, для testimonials_5 — col-12 full-width, для остальных - grid/isotope
+      $use_row_cols   = ($templateloop === 'testimonials_4');
+      $use_full_width = ($templateloop === 'testimonials_5');
       ?>
       
       <div class="row gx-lg-8 gx-xl-12">
@@ -33,12 +34,20 @@ get_pageheader();
       
       <?php if ($use_row_cols) : ?>
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> mb-5">
-              <?php while (have_posts()) : 
+              <?php while (have_posts()) :
                 the_post();
-                
-                // Используем шаблон testimonials_4
                 if (locate_template("templates/archives/testimonials/testimonials_4.php")) {
                     get_template_part("templates/archives/testimonials/testimonials_4");
+                }
+              endwhile; ?>
+          </div>
+          <!-- /.row -->
+      <?php elseif ($use_full_width) : ?>
+          <div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> mb-5">
+              <?php while (have_posts()) :
+                the_post();
+                if (locate_template("templates/archives/testimonials/testimonials_5.php")) {
+                    get_template_part("templates/archives/testimonials/testimonials_5");
                 }
               endwhile; ?>
           </div>

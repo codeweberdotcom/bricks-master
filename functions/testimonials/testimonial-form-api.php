@@ -136,13 +136,38 @@ class TestimonialFormAPI {
             if (class_exists('CodeweberFormsRenderer')) {
                 $renderer = new CodeweberFormsRenderer();
                 $form_html = $renderer->render($cpt_form->ID, $cpt_form);
-                
+
+                // Инжектируем глобальные согласия из настроек отзывов перед </form>
+                $builtin_consents    = get_option('builtin_form_consents', []);
+                $testimonial_consents = isset($builtin_consents['testimonial']) ? $builtin_consents['testimonial'] : [];
+                if (
+                    is_array($testimonial_consents) && ! empty($testimonial_consents)
+                    && function_exists('codeweber_forms_render_consent_checkbox')
+                ) {
+                    $consent_html = '';
+                    foreach ($testimonial_consents as $consent) {
+                        if (empty($consent['document_id']) || empty($consent['label'])) {
+                            continue;
+                        }
+                        $consent_html .= codeweber_forms_render_consent_checkbox($consent, 'form_consents', 0);
+                    }
+                    if ($consent_html) {
+                        $consent_block = '<div class="mt-3">' . $consent_html . '</div>';
+                        // Вставляем перед кнопкой отправки
+                        if (strpos($form_html, 'form-submit-wrapper') !== false) {
+                            $form_html = preg_replace('/<div[^>]+class="[^"]*form-submit-wrapper[^"]*"/', $consent_block . '$0', $form_html, 1);
+                        } else {
+                            $form_html = str_replace('</form>', $consent_block . '</form>', $form_html);
+                        }
+                    }
+                }
+
                 // Обертываем в структуру модального окна
-                $wrapped_html = '<div class="testimonial-form-modal text-start">' . 
-                    '<h3 class="modal-title mb-4">' . esc_html__('Leave Your Testimonial', 'codeweber') . '</h3>' . 
-                    $form_html . 
+                $wrapped_html = '<div class="testimonial-form-modal text-start">' .
+                    '<h3 class="modal-title mb-4">' . esc_html__('Leave Your Testimonial', 'codeweber') . '</h3>' .
+                    $form_html .
                     '</div>';
-                
+
                 return new WP_REST_Response([
                     'content' => [
                         'rendered' => $wrapped_html

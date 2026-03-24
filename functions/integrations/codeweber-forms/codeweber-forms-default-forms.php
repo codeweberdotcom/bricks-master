@@ -116,13 +116,27 @@ class CodeweberFormsDefaultForms {
         $guest_fields_html = $this->get_guest_fields_html($form_radius_class, $label_name, $label_email, $label_role, $label_company, $placeholder_name, $placeholder_email, $placeholder_role, $placeholder_company);
         
         // Основной HTML шаблон
+        // Consent checkboxes from testimonials settings
+        $consent_html = '';
+        $builtin_consents = get_option( 'builtin_form_consents', [] );
+        $testimonial_consents = isset( $builtin_consents['testimonial'] ) ? $builtin_consents['testimonial'] : [];
+        if ( is_array( $testimonial_consents ) && ! empty( $testimonial_consents ) && function_exists( 'codeweber_forms_render_consent_checkbox' ) ) {
+            foreach ( $testimonial_consents as $consent ) {
+                if ( empty( $consent['document_id'] ) || empty( $consent['label'] ) ) {
+                    continue;
+                }
+                $consent_html .= codeweber_forms_render_consent_checkbox( $consent, 'form_consents', 0 );
+            }
+        }
+        $consent_block = $consent_html ? '<div class="mt-3">' . $consent_html . '</div>' : '';
+
         $html = '<form id="' . esc_attr($form_unique_id) . '" class="codeweber-form needs-validation" data-form-id="0" data-form-type="testimonial" data-form-name="' . esc_attr(__('Default Testimonial Form', 'codeweber')) . '" data-handled-by="codeweber-forms-universal" method="post" enctype="multipart/form-data" novalidate="">
             ' . $nonce_field . '
             <input type="hidden" name="form_id" value="0">
             ' . $user_id_field . '
             <input type="hidden" name="form_honeypot" value="">
             <div class="testimonial-form-messages" style="display: none;"></div>
-            
+
             <div class="row g-4">
                 <!-- Поле message (textarea, required) -->
                 <div class="col-12">
@@ -133,17 +147,17 @@ class CodeweberFormsDefaultForms {
                         </label>
                     </div>
                 </div>
-                
+
                 <!-- GUEST_ONLY_START -->
                 ' . $guest_fields_html . '
                 <!-- GUEST_ONLY_END -->
-                
+
                 <!-- Поле rating (rating, required) -->
                 <div class="col-12">
                     ' . $rating_field_html . '
                 </div>
             </div>
-            
+            ' . $consent_block . '
             <div class="form-submit-wrapper mt-4">
                 <button type="submit" class="' . esc_attr($button_class) . ' btn-icon btn-icon-start" data-loading-text="' . esc_attr(__('Sending', 'codeweber')) . '">
                     <i class="uil uil-send fs-13"></i>

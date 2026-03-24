@@ -92,6 +92,8 @@ function codeweber_ajax_filter() {
             codeweber_render_products_filtered($query, $filters, $template);
         } elseif ($post_type === 'events' && $template === 'events_3') {
             codeweber_render_events_cards_filtered($query);
+        } elseif ($post_type === 'events' && ($template === 'events_4' || $template === 'events_5')) {
+            codeweber_render_events_horizontal_filtered($query, $template);
         } elseif ($post_type === 'events') {
             codeweber_render_events_filtered($query, $filters);
         } else {
@@ -512,6 +514,7 @@ function codeweber_render_events_cards_filtered($query) {
         $query->the_post();
         $post_id    = get_the_ID();
         $date_start = get_post_meta($post_id, '_event_date_start', true);
+        $date_end   = get_post_meta($post_id, '_event_date_end', true);
         $location   = get_post_meta($post_id, '_event_location', true);
         $price      = get_post_meta($post_id, '_event_price', true);
         $reg_status = codeweber_events_get_registration_status($post_id);
@@ -566,5 +569,123 @@ function codeweber_render_events_cards_filtered($query) {
         </a>
         <?php
     }
+}
+
+/**
+ * Рендерит горизонтальные карточки событий (events_4 — с кнопкой, events_5 — вся карточка ссылка)
+ *
+ * @param WP_Query $query
+ * @param string   $template 'events_4' | 'events_5'
+ */
+function codeweber_render_events_horizontal_filtered($query, $template) {
+    if (!function_exists('codeweber_events_get_registration_status')) {
+        echo '<p>' . esc_html__('No events found.', 'codeweber') . '</p>';
+        return;
+    }
+
+    $btn_style   = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded-pill';
+    $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
+    $grid_gap    = class_exists('Codeweber_Options') ? Codeweber_Options::style('grid-gap') : 'gx-md-8 gy-6';
+    $is_style5   = ($template === 'events_5');
+
+    $figure_radius = ($card_radius && $card_radius !== 'rounded-0') ? ' rounded-start' : ($card_radius ? ' ' . trim($card_radius) : '');
+
+    $status_map = array(
+        'open'                => 'badge bg-soft-green text-green rounded-pill',
+        'not_open_yet'        => 'badge bg-soft-yellow text-yellow rounded-pill',
+        'registration_closed' => 'badge bg-soft-ash text-muted rounded-pill',
+        'no_seats'            => 'badge bg-soft-red text-red rounded-pill',
+        'event_ended'         => 'badge bg-soft-ash text-muted rounded-pill',
+    );
+
+    echo '<div class="row ' . esc_attr($grid_gap) . ' mb-5">';
+
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id    = get_the_ID();
+        $date_start = get_post_meta($post_id, '_event_date_start', true);
+        $date_end   = get_post_meta($post_id, '_event_date_end', true);
+        $location   = get_post_meta($post_id, '_event_location', true);
+        $price      = get_post_meta($post_id, '_event_price', true);
+        $reg_status = codeweber_events_get_registration_status($post_id);
+        $formats    = get_the_terms($post_id, 'event_format');
+
+        $thumbnail_id = get_post_thumbnail_id($post_id);
+        $image_url    = $thumbnail_id ? wp_get_attachment_image_url($thumbnail_id, 'codeweber_event_400-267') : '';
+        if (empty($image_url)) {
+            $image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
+        }
+
+        $status_class = isset($status_map[$reg_status['status']]) ? $status_map[$reg_status['status']] : '';
+        $format_str   = ($formats && !is_wp_error($formats)) ? implode(', ', wp_list_pluck($formats, 'name')) : '';
+        $link         = esc_url(get_permalink());
+        $title        = esc_html(get_the_title());
+        $radius_cls   = $card_radius ? ' ' . esc_attr($card_radius) : '';
+        $fig_cls      = $figure_radius ? ' ' . esc_attr(trim($figure_radius)) : '';
+        $img_cls      = 'img-fluid' . $radius_cls;
+
+        $date_html = '';
+        if ($date_start) {
+            $date_html = '<p class="mb-1 text-muted small"><i class="uil uil-calendar-alt me-1"></i>'
+                . esc_html(date_i18n(get_option('date_format'), strtotime($date_start)));
+            if ($date_end && $date_end !== $date_start) {
+                $date_html .= ' — ' . esc_html(date_i18n(get_option('date_format'), strtotime($date_end)));
+            }
+            $date_html .= '</p>';
+        }
+
+        $status_html = ($status_class && !empty($reg_status['label']))
+            ? '<p class="mb-3"><span class="event-status-badge ' . esc_attr($status_class) . '">' . esc_html($reg_status['label']) . '</span></p>'
+            : '';
+
+        $list_html = '';
+        if ($location) {
+            $list_html .= '<li class="mb-1 d-flex align-items-center"><i class="uil uil-map-marker-alt text-primary me-2"></i><span>' . esc_html($location) . '</span></li>';
+        }
+        if ($format_str) {
+            $list_html .= '<li class="mb-1 d-flex align-items-center"><i class="uil uil-presentation text-primary me-2"></i><span>' . esc_html($format_str) . '</span></li>';
+        }
+        if ($price) {
+            $list_html .= '<li class="mb-1 d-flex align-items-center"><i class="uil uil-tag-alt text-primary me-2"></i><span>' . esc_html($price) . '</span></li>';
+        }
+
+        echo '<div class="col-12">';
+
+        if ($is_style5) {
+            echo '<a href="' . $link . '" class="card card-horizontal lift text-inherit text-decoration-none' . $radius_cls . '">';
+            echo '<figure class="card-img mb-0' . $fig_cls . '">';
+            echo '<img src="' . esc_url($image_url) . '" alt="' . $title . '" class="' . esc_attr(trim($img_cls)) . '">';
+            echo '</figure>';
+            echo '<div class="card-body position-relative">';
+            echo $date_html;
+            echo '<h2 class="mb-3 display-6">' . $title . '</h2>';
+            echo $status_html;
+            echo '<ul class="list-unstyled cc-2 mb-0">' . $list_html . '</ul>';
+            echo '<div class="hover_card_button position-absolute p-7 top-0 end-0"><i class="fs-25 uil uil-arrow-right lh-1"></i></div>';
+            echo '</div>';
+            echo '</a>';
+        } else {
+            echo '<div class="card card-horizontal' . $radius_cls . '">';
+            echo '<figure class="card-img overlay overlay-1 hover-scale' . $fig_cls . '">';
+            echo '<a href="' . $link . '"><img src="' . esc_url($image_url) . '" alt="' . $title . '" class="' . esc_attr(trim($img_cls)) . '"></a>';
+            echo '<figcaption><h5 class="from-top mb-0">' . esc_html__('Read More', 'codeweber') . '</h5></figcaption>';
+            echo '</figure>';
+            echo '<div class="card-body">';
+            echo $date_html;
+            echo '<h2 class="mb-3 display-6">' . $title . '</h2>';
+            echo $status_html;
+            echo '<ul class="list-unstyled cc-2 mb-4">' . $list_html . '</ul>';
+            echo '<div data-group="page-title-buttons" class="text-end">';
+            echo '<a href="' . $link . '" class="btn btn-primary btn-icon btn-icon-start has-ripple' . esc_attr($btn_style) . '">';
+            echo '<i class="uil uil-arrow-right"></i>' . esc_html__('Details', 'codeweber');
+            echo '</a></div>';
+            echo '</div>';
+            echo '</div>';
+        }
+
+        echo '</div>';
+    }
+
+    echo '</div>';
 }
 

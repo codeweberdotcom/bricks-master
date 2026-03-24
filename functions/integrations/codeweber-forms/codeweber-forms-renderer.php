@@ -507,6 +507,28 @@ class CodeweberFormsRenderer {
         
         $field_label = $field['fieldLabel'] ?? '';
         $placeholder = $field['placeholder'] ?? '';
+
+        // Fallback labels for known field types when label is empty
+        if ($field_label === '') {
+            $type_label_defaults = [
+                'company'     => __('Company', 'codeweber'),
+                'author_role' => __('Position', 'codeweber'),
+            ];
+            if (isset($type_label_defaults[$field_type])) {
+                $field_label = $type_label_defaults[$field_type];
+            }
+        }
+        // Fallback placeholders for known field types when placeholder is empty
+        if ($placeholder === '') {
+            $type_placeholder_defaults = [
+                'company'     => __('Company name', 'codeweber'),
+                'author_role' => __('Your position', 'codeweber'),
+            ];
+            if (isset($type_placeholder_defaults[$field_type])) {
+                $placeholder = $type_placeholder_defaults[$field_type];
+            }
+        }
+
         $is_required = !empty($field['isRequired']);
         $width = $field['width'] ?? 'col-12';
         $help_text = $field['helpText'] ?? '';
@@ -837,9 +859,11 @@ class CodeweberFormsRenderer {
                     }
                     ?>
                     <div<?php echo $block_class ? ' class="' . $block_class . '"' : ''; ?>>
+                        <?php if ($field_label) : ?>
                         <label class="form-label d-block mb-2">
-                            <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>
+                            <?php echo esc_html($field_label); ?>
                         </label>
+                        <?php endif; ?>
                         <input
                             type="hidden"
                             id="<?php echo esc_attr($field_id); ?>"
@@ -857,6 +881,7 @@ class CodeweberFormsRenderer {
                                     style="cursor: pointer;"
                                 >★</span>
                             <?php endfor; ?>
+                            <?php echo $required_mark; ?>
                         </div>
                     </div>
                     <?php
