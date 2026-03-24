@@ -7,11 +7,12 @@
 if ( ! function_exists( 'codeweber_get_product_card_options' ) ) {
 	function codeweber_get_product_card_options() {
 		$options = [];
-		$dir     = get_template_directory() . '/templates/post-cards/product/';
+		$dir     = get_template_directory() . '/templates/woocommerce/cards/';
 
 		if ( is_dir( $dir ) ) {
 			foreach ( scandir( $dir ) as $file ) {
-				if ( pathinfo( $file, PATHINFO_EXTENSION ) === 'php' ) {
+				// Пропускаем вспомогательные файлы (начинаются с _)
+				if ( pathinfo( $file, PATHINFO_EXTENSION ) === 'php' && substr( $file, 0, 1 ) !== '_' ) {
 					$name           = pathinfo( $file, PATHINFO_FILENAME );
 					$options[$name] = $name;
 				}

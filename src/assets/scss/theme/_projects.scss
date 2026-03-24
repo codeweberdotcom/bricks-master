@@ -372,3 +372,27 @@ table.shopping-cart {
     padding-bottom: 1.2rem;
   }
 }
+//----------------------------------------------------------//
+//	PRODUCT BADGE POSITION
+//----------------------------------------------------------//
+.cw-badge--left {
+  top: 1rem;
+  left: 1rem;
+}
+.cw-badge--right {
+  top: 1rem;
+  right: 1rem;
+}
+//----------------------------------------------------------//
+//	PRODUCT LIST VIEW (shop-list card)
+//----------------------------------------------------------//
+.shop-list-view .item {
+  .card-horizontal figure.card-img {
+    flex: 0 0 25%;
+    max-width: 25%;
+    @media (max-width: 575.98px) {
+      flex: 0 0 auto;
+      max-width: none;
+    }
+  }
+}

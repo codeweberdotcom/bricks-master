@@ -65,7 +65,7 @@ $row_cols_map   = array_intersect_key( $per_row_cols_map, array_flip( $allowed_p
 $per_row_icons  = array_intersect_key( $per_row_icons_map, array_flip( $allowed_per_row ) );
 $row_cols_class = $per_row > 0 ? ( $row_cols_map[ $per_row ] ?? $default_row_cols_class ) : $default_row_cols_class;
 
-// Передаём класс колонки в шаблон карточки (shop2.php и др.)
+// Передаём класс колонки в шаблон карточки (обновляется ниже при view=list)
 $GLOBALS['cw_shop_col_class'] = $row_cols_class;
 
 // ── Количество товаров на странице (per_page) ─────────────────────────────────
@@ -83,9 +83,19 @@ $per_page_default = $allowed_per_page[0];
 $per_page         = isset( $_GET['per_page'] ) ? (int) $_GET['per_page'] : $per_page_default; // phpcs:ignore WordPress.Security.NonceVerification
 $per_page         = in_array( $per_page, $allowed_per_page, true ) ? $per_page : $per_page_default;
 
-// Базовый URL для кнопок-переключателей (без per_row и per_page, сохраняем остальные params)
+// ── Вид: grid / list ──────────────────────────────────────────────────────────
+// phpcs:ignore WordPress.Security.NonceVerification
+$shop_view = ( isset( $_GET['view'] ) && $_GET['view'] === 'list' ) ? 'list' : 'grid';
+if ( $shop_view === 'list' ) {
+	$row_cols_class = 'col-12';
+}
+
+// Передаём вид в шаблон карточки
+$GLOBALS['cw_shop_view'] = $shop_view;
+
+// Базовый URL для кнопок-переключателей (без per_row, per_page, view, сохраняем остальные params)
 $base_query_args = $_GET; // phpcs:ignore WordPress.Security.NonceVerification
-unset( $base_query_args['per_row'], $base_query_args['per_page'], $base_query_args['add-to-cart'], $base_query_args['paged'] );
+unset( $base_query_args['per_row'], $base_query_args['per_page'], $base_query_args['view'], $base_query_args['add-to-cart'], $base_query_args['paged'] );
 $base_url = add_query_arg( $base_query_args, remove_query_arg( 'per_page', get_pagenum_link( 1 ) ) );
 
 // ── Redux: настройки видимости элементов ──────────────────────────────────────
@@ -168,8 +178,22 @@ if ( ! $is_pjax ) {
 								</div>
 								<?php endif; ?>
 
-								<!-- Переключатель колонок -->
-								<?php if ( $show_per_row ) : ?>
+								<!-- Переключатель вида: grid / list -->
+								<div class="shop-per-row d-none d-sm-flex gap-1">
+									<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'grid', 'per_row' => $per_row, 'per_page' => $per_page ], $base_url ) ); ?>"
+									   class="shop-per-row-btn pjax-link<?php echo $shop_view === 'grid' ? ' active' : ''; ?>"
+									   title="<?php esc_attr_e( 'Grid view', 'codeweber' ); ?>">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M0 0v3h3V0H0zm5 0v3h3V0H5zM0 5v3h3V5H0zm5 0v3h3V5H5z"/></svg>
+									</a>
+									<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'list', 'per_page' => $per_page ], $base_url ) ); ?>"
+									   class="shop-per-row-btn pjax-link<?php echo $shop_view === 'list' ? ' active' : ''; ?>"
+									   title="<?php esc_attr_e( 'List view', 'codeweber' ); ?>">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M0 0v2h8V0H0zm0 3v2h8V3H0zm0 3v2h8V6H0z"/></svg>
+									</a>
+								</div>
+
+								<!-- Переключатель колонок (скрывается в режиме list) -->
+								<?php if ( $show_per_row && $shop_view === 'grid' ) : ?>
 								<div class="shop-per-row d-none d-sm-flex gap-1">
 									<?php foreach ( $allowed_per_row as $cols ) : ?>
 										<a href="<?php echo esc_url( add_query_arg( [ 'per_row' => $cols, 'per_page' => $per_page ], $base_url ) ); ?>"
@@ -265,7 +289,7 @@ if ( ! $is_pjax ) {
 					<?php else : ?>
 
 					<!-- Сетка товаров -->
-					<div class="shop mb-13">
+					<div class="shop mb-13<?php echo $shop_view === 'list' ? ' shop-list-view' : ''; ?>">
 						<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?>">
 							<?php while ( have_posts() ) : the_post(); ?>
 								<?php wc_get_template_part( 'content', 'product' ); ?>
@@ -334,7 +358,21 @@ if ( ! $is_pjax ) {
 								</div>
 								<?php endif; ?>
 
-								<?php if ( $show_per_row ) : ?>
+								<!-- Переключатель вида: grid / list -->
+								<div class="shop-per-row d-none d-sm-flex gap-1">
+									<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'grid', 'per_row' => $per_row, 'per_page' => $per_page ], $base_url ) ); ?>"
+									   class="shop-per-row-btn pjax-link<?php echo $shop_view === 'grid' ? ' active' : ''; ?>"
+									   title="<?php esc_attr_e( 'Grid view', 'codeweber' ); ?>">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M0 0v3h3V0H0zm5 0v3h3V0H5zM0 5v3h3V5H0zm5 0v3h3V5H5z"/></svg>
+									</a>
+									<a href="<?php echo esc_url( add_query_arg( [ 'view' => 'list', 'per_page' => $per_page ], $base_url ) ); ?>"
+									   class="shop-per-row-btn pjax-link<?php echo $shop_view === 'list' ? ' active' : ''; ?>"
+									   title="<?php esc_attr_e( 'List view', 'codeweber' ); ?>">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true"><path d="M0 0v2h8V0H0zm0 3v2h8V3H0zm0 3v2h8V6H0z"/></svg>
+									</a>
+								</div>
+
+								<?php if ( $show_per_row && $shop_view === 'grid' ) : ?>
 								<div class="shop-per-row d-none d-sm-flex gap-1">
 									<?php foreach ( $allowed_per_row as $cols ) : ?>
 										<a href="<?php echo esc_url( add_query_arg( [ 'per_row' => $cols, 'per_page' => $per_page ], $base_url ) ); ?>"

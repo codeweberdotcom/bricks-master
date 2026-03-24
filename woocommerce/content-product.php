@@ -16,12 +16,16 @@ if ( ! $product || ! $product->is_visible() ) {
 	return;
 }
 
-$template = 'shop2';
-
-if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
-	$redux_template = Redux::get_option( $opt_name, 'archive_template_select_product' );
-	if ( ! empty( $redux_template ) ) {
-		$template = $redux_template;
+// В режиме list-вида — принудительно shop-list, иначе — шаблон из Redux
+if ( ! empty( $GLOBALS['cw_shop_view'] ) && $GLOBALS['cw_shop_view'] === 'list' ) {
+	$template = 'shop-list';
+} else {
+	$template = 'shop2';
+	if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
+		$redux_template = Redux::get_option( $opt_name, 'archive_template_select_product' );
+		if ( ! empty( $redux_template ) ) {
+			$template = $redux_template;
+		}
 	}
 }
 
