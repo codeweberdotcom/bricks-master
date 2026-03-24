@@ -47,6 +47,10 @@ if ( ! isset( $product_id ) ) {
 			<i class="uil uil-eye"></i>
 		</a>
 
+		<?php if ( $cw_compare_on ) : ?>
+			<?php CW_Compare_UI::render_loop_button( $product_id ); ?>
+		<?php endif; ?>
+
 		<?php if ( $is_simple ) : ?>
 			<a href="<?php echo esc_url( $add_to_cart_url ); ?>"
 			   class="item-cart ajax_add_to_cart"
