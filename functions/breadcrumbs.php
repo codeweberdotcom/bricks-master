@@ -88,32 +88,37 @@ if (!function_exists('get_breadcrumbs')) {
             'after'       => '</li>',
          ];
 
-         add_filter('rank_math/frontend/breadcrumb/args', function () use ($args) {
-            return $args;
-         });
+         static $rank_math_filters_registered = false;
+         if ( ! $rank_math_filters_registered ) {
+            $rank_math_filters_registered = true;
 
-         // WooCommerce product tag: крошка содержит "Products tagged «tagname»" — оставляем только название тега
-         add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) {
-            if (function_exists('is_product_tag') && is_product_tag()) {
-               $last = count($crumbs) - 1;
-               if (isset($crumbs[$last][0])) {
-                  $crumbs[$last][0] = single_term_title('', false);
+            add_filter('rank_math/frontend/breadcrumb/args', function () use ($args) {
+               return $args;
+            });
+
+            // WooCommerce product tag: крошка содержит "Products tagged «tagname»" — оставляем только название тега
+            add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) {
+               if (function_exists('is_product_tag') && is_product_tag()) {
+                  $last = count($crumbs) - 1;
+                  if (isset($crumbs[$last][0])) {
+                     $crumbs[$last][0] = single_term_title('', false);
+                  }
                }
-            }
-            return $crumbs;
-         });
+               return $crumbs;
+            });
 
-         add_filter('rank_math/frontend/breadcrumb/html', function ($html, $crumbs, $class) use ($color) {
-            $html = str_replace(['<span class="separator">', '</span>', '<span class="text-muted">'], '', $html);
+            add_filter('rank_math/frontend/breadcrumb/html', function ($html, $crumbs, $class) use ($color) {
+               $html = str_replace(['<span class="separator">', '</span>', '<span class="text-muted">'], '', $html);
 
-            // Применяем стили только если цвет указан
-            if ($color === 'white') {
-               $html = str_replace('<span class="last">', '<span class="text-white">', $html);
-               $html = str_replace('<a class="last"', '<a class="text-white"', $html);
-            }
+               // Применяем стили только если цвет указан
+               if ($color === 'white') {
+                  $html = str_replace('<span class="last">', '<span class="text-white">', $html);
+                  $html = str_replace('<a class="last"', '<a class="text-white"', $html);
+               }
 
-            return $html;
-         }, 10, 3);
+               return $html;
+            }, 10, 3);
+         }
 
          rank_math_the_breadcrumbs();
       }
