@@ -1263,6 +1263,13 @@ function cw_demo_create_events( int $offset = 0, int $limit = 5, int $total_limi
 	@set_time_limit( 0 );
 	add_filter( 'big_image_size_threshold', '__return_false' );
 
+	// Ограничить генерацию только нужными event-размерами (ускоряет импорт в 3-4 раза)
+	$cw_event_sizes = [ 'thumbnail', 'codeweber_event_1070-668', 'codeweber_event_600-600', 'codeweber_event_400-267', 'codeweber_event_383-250', 'codeweber_event_140-88' ];
+	$cw_limit_sizes = static function( array $sizes ) use ( $cw_event_sizes ): array {
+		return array_intersect_key( $sizes, array_flip( $cw_event_sizes ) );
+	};
+	add_filter( 'intermediate_image_sizes_advanced', $cw_limit_sizes );
+
 	$locale = get_locale();
 	$items  = strncmp( $locale, 'ru', 2 ) === 0
 		? cw_demo_get_events_data()
@@ -1417,6 +1424,8 @@ function cw_demo_create_events( int $offset = 0, int $limit = 5, int $total_limi
 
 		$created++;
 	}
+
+	remove_filter( 'intermediate_image_sizes_advanced', $cw_limit_sizes );
 
 	$next_offset = $offset + $created;
 	$done        = $next_offset >= $total;
