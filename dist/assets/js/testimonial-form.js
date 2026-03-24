@@ -305,21 +305,16 @@
             // If user is logged in, send user_id; otherwise send name and email
             if (isLoggedIn && userId) {
                 data.user_id = parseInt(userId, 10); // Ensure it's a number
-                console.log('[Testimonial Form] User logged in, sending user_id:', userId);
             } else {
                 data.author_name = formData.get('author_name');
                 data.author_email = formData.get('author_email');
                 data.author_role = formData.get('author_role') || '';
                 data.company = formData.get('company') || '';
-                console.log('[Testimonial Form] User not logged in, sending guest data');
             }
 
             // Get REST API URL and nonce
             const restUrl = codeweberTestimonialForm?.restUrl || '/wp-json/codeweber/v1/submit-testimonial';
             const restNonce = codeweberTestimonialForm?.nonce || '';
-            console.log('[Testimonial Form] REST URL:', restUrl);
-            console.log('[Testimonial Form] REST Nonce:', restNonce);
-            console.log('[Testimonial Form] Data to send:', JSON.stringify(data, null, 2));
 
             // Send AJAX request
             fetch(restUrl, {

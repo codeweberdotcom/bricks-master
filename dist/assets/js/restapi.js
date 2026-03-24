@@ -197,12 +197,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof FilePond !== 'undefined') {
         const fileInputs = modalContent ? modalContent.querySelectorAll('input[type="file"][data-filepond="true"]:not([data-filepond-initialized])') : [];
         if (fileInputs.length > 0) {
-          console.log('[REST API DEBUG] Loading FilePond init script immediately for', fileInputs.length, 'input(s)');
           loadFilePondInitScript();
         }
       } else {
         // FilePond библиотека не загружена - загружаем скрипты сразу
-        console.log('[REST API DEBUG] FilePond library not loaded, loading scripts immediately...');
         loadFilePondScripts();
       }
     }
@@ -781,7 +779,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         // Use cached content
         modalContent.innerHTML = cachedContent;
-        console.log('[REST API] Cached content loaded, initializing rating stars...');
         
         // КРИТИЧНО: Добавляем временный обработчик submit с preventDefault() СРАЗУ для кэшированного контента
         const cachedCodeweberForms = modalContent.querySelectorAll('.codeweber-form');
@@ -791,7 +788,6 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-            console.warn('[REST API] Form submit prevented - form not yet initialized (cached). Form ID:', form.id || form.dataset.formId || 'unknown');
             return false;
           };
           form.addEventListener('submit', tempSubmitHandler, true); // Используем capture phase
@@ -808,7 +804,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Initialize rating stars if present (with small delay to ensure DOM is ready)
         setTimeout(function() {
-          console.log('[REST API] Calling initTestimonialRatingStars after timeout (cached)');
           initTestimonialRatingStars();
         }, 50);
         
@@ -827,7 +822,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // Инициализируем Codeweber формы СРАЗУ для кэшированного контента
         // Формы будут инициализированы через shown.bs.modal и MutationObserver в form-submit-universal.js
         if (cachedCodeweberForms.length > 0) {
-          console.log('[REST API] Found', cachedCodeweberForms.length, 'Codeweber form(s) in cached content');
         }
         
         // Инициализируем FilePond для кэшированного контента
@@ -866,25 +860,21 @@ document.addEventListener("DOMContentLoaded", () => {
               }
               
               modalContent.innerHTML = data.content.rendered;
-              console.log('[REST API] Content loaded, initializing rating stars...');
               
               // КРИТИЧНО: Добавляем временный обработчик submit с preventDefault() СРАЗУ после загрузки контента
               // Это предотвратит обычную отправку формы до инициализации AJAX обработчика
               const codeweberForms = modalContent.querySelectorAll('.codeweber-form');
-              console.log('[REST API] Found', codeweberForms.length, 'Codeweber form(s) in modal, adding temporary submit handlers');
               codeweberForms.forEach(function(form) {
                 // Добавляем временный обработчик, который будет удален после инициализации
                 const tempSubmitHandler = function(e) {
                   e.preventDefault();
                   e.stopPropagation();
                   e.stopImmediatePropagation();
-                  console.warn('[REST API] Form submit prevented - form not yet initialized. Form ID:', form.id || form.dataset.formId || 'unknown', 'Initialized:', form.dataset.initialized);
                   return false;
                 };
                 form.addEventListener('submit', tempSubmitHandler, true); // Используем capture phase
                 // Сохраняем ссылку на обработчик для последующего удаления
                 form._tempSubmitHandler = tempSubmitHandler;
-                console.log('[REST API] Temporary submit handler added to form:', form.id || form.dataset.formId || 'unknown');
                 // Удаляем обработчик после инициализации (проверяем каждые 100ms)
                 const checkAndRemoveHandler = function(attempts) {
                   if (attempts > 20) {
@@ -892,7 +882,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (form._tempSubmitHandler) {
                       form.removeEventListener('submit', form._tempSubmitHandler, true);
                       delete form._tempSubmitHandler;
-                      console.log('[REST API] Temporary submit handler removed (timeout) for form:', form.id || form.dataset.formId || 'unknown');
                     }
                     return;
                   }
@@ -901,7 +890,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (form._tempSubmitHandler) {
                       form.removeEventListener('submit', form._tempSubmitHandler, true);
                       delete form._tempSubmitHandler;
-                      console.log('[REST API] Temporary submit handler removed (form initialized) for form:', form.id || form.dataset.formId || 'unknown');
                     }
                   } else {
                     // Проверяем снова через 100ms
@@ -916,7 +904,6 @@ document.addEventListener("DOMContentLoaded", () => {
               
               // Initialize rating stars if present (with small delay to ensure DOM is ready)
               setTimeout(function() {
-                console.log('[REST API] Calling initTestimonialRatingStars after timeout');
                 initTestimonialRatingStars();
               }, 50);
               
@@ -944,21 +931,17 @@ document.addEventListener("DOMContentLoaded", () => {
               // MutationObserver в form-submit-universal.js должен сработать автоматически,
               // но для надежности вызываем инициализацию явно
               if (codeweberForms.length > 0) {
-                console.log('[REST API] Found', codeweberForms.length, 'Codeweber form(s), triggering initialization...');
                 // Используем requestAnimationFrame для гарантии, что DOM готов
                 requestAnimationFrame(function() {
                   // Вызываем initForms() явно, если она доступна
                   if (typeof window.initForms === 'function') {
-                    console.log('[REST API] Calling window.initForms() explicitly');
                     window.initForms();
                   } else {
-                    console.warn('[REST API] window.initForms is not available, MutationObserver should handle initialization');
                   }
                   // Проверяем через небольшую задержку, инициализированы ли формы
                   setTimeout(function() {
                     const uninitializedForms = Array.from(codeweberForms).filter(f => !f.dataset.initialized || f.dataset.initialized === 'false');
                     if (uninitializedForms.length > 0) {
-                      console.warn('[REST API]', uninitializedForms.length, 'form(s) still not initialized after explicit initForms call');
                     }
                   }, 200);
                 });
@@ -998,7 +981,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       e.stopPropagation();
       
-      console.log('[Document Email] Form submitted');
       
       const formData = new FormData(newForm);
       const submitButton = newForm.querySelector('button[type="submit"]');
@@ -1040,8 +1022,6 @@ document.addEventListener("DOMContentLoaded", () => {
         email: formData.get('email')
       };
       
-      console.log('[Document Email] Sending request:', requestData);
-      console.log('[Document Email] Using nonce:', wpApiSettings.nonce);
       
       fetch(wpApiSettings.root + 'codeweber/v1/documents/send-email', {
         method: 'POST',
@@ -1053,7 +1033,6 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(requestData)
       })
       .then(function(response) {
-        console.log('[Document Email] Response status:', response.status);
         if (!response.ok) {
           return response.json().then(function(err) {
             const serverErrorText = typeof codeweberDocumentEmail !== 'undefined' ? codeweberDocumentEmail.serverError : 'Server error';
@@ -1063,7 +1042,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
       })
       .then(function(data) {
-        console.log('[Document Email] Response data:', data);
         
         if (data.success) {
           // Получаем шаблон успешной отправки через REST API

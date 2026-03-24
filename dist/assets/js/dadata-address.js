@@ -16,10 +16,7 @@
   var isCheckout = !!(config.isCheckout);
   var checkoutPhoneMask = config.checkoutPhoneMask !== false;
 
-  function log() {
-    if (typeof console !== 'undefined' && console.log) {
-      console.log.apply(console, ['[DaData]'].concat(Array.prototype.slice.call(arguments)));
-    }
+  function log() {}
   }
 
   function getForm() {

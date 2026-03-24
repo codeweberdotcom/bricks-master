@@ -178,7 +178,6 @@
             const downloadBtn = e.target.closest('.ajax-download');
             
             if (downloadBtn) {
-                console.log('AJAX Download: Button clicked', downloadBtn);
                 
                 // ОСТАНОВКА ВСПЫТИЯ И ПРЕДОТВРАЩЕНИЕ ПЕРЕХОДА - ДОЛЖНО БЫТЬ ПЕРВЫМ
                 e.preventDefault();
@@ -199,7 +198,6 @@
                         downloadBtn,
                         function(data) {
                             // Опционально: показать уведомление об успехе
-                            console.log('File downloaded:', data.file_name);
                             
                             // Можно добавить аналитику
                             if (typeof gtag !== 'undefined') {

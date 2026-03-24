@@ -901,7 +901,7 @@ var theme = {
           bootstrap.Modal.prototype.show = function() {
             // Если cookie modal открыт, блокируем открытие других модальных окон
             if (cookieModal.classList.contains('show') && this._element && this._element.id !== 'cookieModal') {
-              console.log('[Modal Priority] Blocked opening modal ' + (this._element.id || 'unknown') + ' because cookie modal is open');
+
               return;
             }
             // Вызываем оригинальную функцию
@@ -1032,7 +1032,7 @@ var theme = {
                         }
                       })
                       .catch((err) => {
-                        console.log(err);
+                        console.error(err);
                       });
                   }
                 }
