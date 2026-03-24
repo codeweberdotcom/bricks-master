@@ -1260,6 +1260,9 @@ function cw_demo_create_events() {
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 
+	@set_time_limit( 0 );
+	add_filter( 'big_image_size_threshold', '__return_false' );
+
 	$locale = get_locale();
 	$items  = strncmp( $locale, 'ru', 2 ) === 0
 		? cw_demo_get_events_data()
@@ -1273,10 +1276,15 @@ function cw_demo_create_events() {
 		$post_id = wp_insert_post( [
 			'post_type'    => 'events',
 			'post_title'   => sanitize_text_field( $e['title'] ),
-			'post_content' => sprintf(
-				'<p>%s — this is an opportunity to discover the latest trends, exchange experience with peers and build valuable professional connections.</p><p>The programme includes talks by leading experts, hands-on workshops and networking sessions. Places are limited — register early.</p>',
-				esc_html( $e['title'] )
-			),
+			'post_content' => strncmp( $locale, 'ru', 2 ) === 0
+				? sprintf(
+					'<p>%s — возможность узнать последние тенденции, обменяться опытом и наладить профессиональные контакты.</p><p>В программе — доклады ведущих экспертов, практические воркшопы и нетворкинг-сессии. Места ограничены — регистрируйтесь заранее.</p>',
+					esc_html( $e['title'] )
+				)
+				: sprintf(
+					'<p>%s — an opportunity to discover the latest trends, exchange experience with peers and build valuable professional connections.</p><p>The programme includes talks by leading experts, hands-on workshops and networking sessions. Places are limited — register early.</p>',
+					esc_html( $e['title'] )
+				),
 			'post_excerpt' => '',
 			'post_status'  => 'publish',
 			'post_author'  => get_current_user_id(),
