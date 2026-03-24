@@ -144,7 +144,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 			catBtns.forEach(function (b) { b.classList.remove('active'); });
 			btn.classList.add('active');
 
-			if (!resultsWrap || typeof codeweberFilter === 'undefined') return;
+			if (!resultsWrap || typeof fetch_vars === 'undefined') return;
 
 			resultsWrap.style.opacity       = '0.5';
 			resultsWrap.style.pointerEvents = 'none';
@@ -155,16 +155,15 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 			}
 
 			var body = new FormData();
-			body.append('action',    'codeweber_filter');
-			body.append('nonce',     codeweberFilter.nonce);
-			body.append('post_type', 'events');
-			body.append('template',  'events_4');
-			body.append('filters',   JSON.stringify(filters));
+			body.append('action',     'fetch_action');
+			body.append('nonce',      fetch_vars.nonce);
+			body.append('actionType', 'filterPosts');
+			body.append('params',     JSON.stringify({ post_type: 'events', template: 'events_4', filters: filters }));
 
-			fetch(codeweberFilter.ajaxUrl, { method: 'POST', body: body })
+			fetch(fetch_vars.ajaxurl, { method: 'POST', body: body })
 				.then(function (r) { return r.json(); })
 				.then(function (data) {
-					if (data.success && resultsWrap) {
+					if (data.status === 'success' && resultsWrap) {
 						resultsWrap.innerHTML = data.data.html;
 					}
 				})

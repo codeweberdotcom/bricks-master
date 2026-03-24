@@ -287,7 +287,7 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 				setView('table');
 			}
 
-			if (!resultsWrap || typeof codeweberFilter === 'undefined') return;
+			if (!resultsWrap || typeof fetch_vars === 'undefined') return;
 
 			// Loading state
 			resultsWrap.style.opacity       = '0.5';
@@ -299,16 +299,15 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 			}
 
 			var body = new FormData();
-			body.append('action',    'codeweber_filter');
-			body.append('nonce',     codeweberFilter.nonce);
-			body.append('post_type', 'events');
-			body.append('template',  'events_1');
-			body.append('filters',   JSON.stringify(filters));
+			body.append('action',     'fetch_action');
+			body.append('nonce',      fetch_vars.nonce);
+			body.append('actionType', 'filterPosts');
+			body.append('params',     JSON.stringify({ post_type: 'events', template: 'events_1', filters: filters }));
 
-			fetch(codeweberFilter.ajaxUrl, { method: 'POST', body: body })
+			fetch(fetch_vars.ajaxurl, { method: 'POST', body: body })
 				.then(function (r) { return r.json(); })
 				.then(function (data) {
-					if (data.success && resultsWrap) {
+					if (data.status === 'success' && resultsWrap) {
 						resultsWrap.innerHTML = data.data.html;
 					}
 				})
