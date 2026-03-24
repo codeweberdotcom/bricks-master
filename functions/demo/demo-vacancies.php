@@ -545,12 +545,18 @@ function cw_demo_delete_vacancies() {
     $errors = [];
     
     foreach ($posts as $post_id) {
-        // Удаляем featured image
-        $thumbnail_id = get_post_thumbnail_id($post_id);
-        if ($thumbnail_id) {
-            wp_delete_attachment($thumbnail_id, true);
+        // Удаляем все вложения (featured image + прочие дети)
+        $attachments = get_posts( [
+            'post_type'      => 'attachment',
+            'post_parent'    => $post_id,
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+        ] );
+        foreach ( $attachments as $att_id ) {
+            wp_delete_attachment( $att_id, true );
         }
-        
+
         // Удаляем запись
         $result = wp_delete_post($post_id, true);
         
