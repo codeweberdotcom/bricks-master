@@ -23,9 +23,7 @@ require_once get_template_directory() . '/plugins/tgm/plugins_autoinstall.php';
 require_once get_template_directory() . '/functions/class-codeweber-options.php';
 require_once get_template_directory() . '/functions/enqueues.php';
 require_once get_template_directory() . '/functions/images.php';
-require_once get_template_directory() . '/functions/pdf-thumbnail-install.php';
-require_once get_template_directory() . '/functions/pdf-thumbnail.php';
-require_once get_template_directory() . '/functions/pdf-thumbnail-js.php';
+require_once get_template_directory() . '/functions/lib/pdf-thumbnail/init.php';
 require_once get_template_directory() . '/functions/navmenus.php';
 require_once get_template_directory() . '/functions/sidebars.php';
 require_once get_template_directory() . '/functions/documentation.php';
@@ -87,14 +85,8 @@ require_once get_template_directory() . '/functions/integrations/newsletter-subs
  */
 require_once get_template_directory() . '/functions/integrations/image-licenses/image-licenses.php';
 
-/**
- * Подключение модуля поиска и статистики
- */
-require_once get_template_directory() . '/functions/integrations/ajax-search-module/ajax-search.php';
-
-require_once get_template_directory() . '/functions/integrations/ajax-search-module/search-statistics.php';
-
-require_once get_template_directory() . '/functions/integrations/ajax-search-module/matomo-search-integration.php';
+// Ajax Search: поиск, статистика, Matomo
+require_once get_template_directory() . '/functions/integrations/ajax-search-module/init.php';
 
 
 /**
