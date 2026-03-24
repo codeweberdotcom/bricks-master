@@ -106,27 +106,6 @@ require_once get_template_directory() . '/functions/integrations/newsletter-subs
 
 
 
-/**
- * Инициализация Redux Framework
- */
-function codeweber_initialize_redux()
-{
-	if (!class_exists('Redux')) {
-		require_once get_template_directory() . '/redux-framework/redux-core/framework.php';
-	}
-
-	global $opt_name;
-	$opt_name = 'redux_demo';
-	require_once get_template_directory() . '/redux-framework/sample/theme-config.php';
-	require_once get_template_directory() . '/functions/cpt/redux_cpt.php';
-	require_once get_template_directory() . '/functions/sidebars-redux.php';
-	
-	// Подключаем theme-settings.php с настройками Redux
-	if (file_exists(get_template_directory() . '/redux-framework/theme-settings/theme-settings.php')) {
-		require_once get_template_directory() . '/redux-framework/theme-settings/theme-settings.php';
-	}
-}
-add_action('after_setup_theme', 'codeweber_initialize_redux', 30);
 
 
 /**
