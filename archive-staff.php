@@ -27,8 +27,8 @@ get_pageheader();
       $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
       $content_class = ($sidebar_position === 'none') ? 'col-12 py-14' : 'col-xl-9 pt-14';
       
-      // Для staff_3, staff_4 и staff_5 используем row-cols структуру, для остальных - grid/isotope
-      $use_row_cols = ($templateloop === 'staff_3' || $templateloop === 'staff_4' || $templateloop === 'staff_5');
+      // Для staff_3, staff_4, staff_5, staff_6 используем row-cols структуру, для остальных - grid/isotope
+      $use_row_cols = in_array( $templateloop, ['staff_3', 'staff_4', 'staff_5', 'staff_6'] );
       ?>
       
       <div class="row">
@@ -39,7 +39,13 @@ get_pageheader();
       <?php if ($use_row_cols) : ?>
           <?php
           $_gap = Codeweber_Options::style( 'grid-gap' );
-          $row_cols_class = ($templateloop === 'staff_3') ? 'row row-cols-1 row-cols-md-3 row-cols-lg-4 ' . $_gap . ' mb-5' : 'row row-cols-1 row-cols-md-2 row-cols-lg-3 ' . $_gap . ' mb-5';
+          if ( $templateloop === 'staff_3' ) {
+              $row_cols_class = 'row row-cols-1 row-cols-md-3 row-cols-lg-4 ' . $_gap . ' mb-5';
+          } elseif ( $templateloop === 'staff_6' ) {
+              $row_cols_class = 'row ' . $_gap . ' mb-5';
+          } else {
+              $row_cols_class = 'row row-cols-1 row-cols-md-2 row-cols-lg-3 ' . $_gap . ' mb-5';
+          }
           ?>
           <div class="<?php echo esc_attr($row_cols_class); ?>">
               <?php while (have_posts()) : 
