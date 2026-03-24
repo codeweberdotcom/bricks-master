@@ -50,7 +50,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 						$formats    = get_the_terms( $post_id, 'event_format' );
 
 						$thumbnail_id  = get_post_thumbnail_id( $post_id );
-						$image_url     = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_event_400-267' ) : '';
+						$image_url     = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_event_600-600' ) : '';
 						if ( empty( $image_url ) ) {
 							$image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
 						}

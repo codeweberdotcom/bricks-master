@@ -28,7 +28,7 @@ $category_name = !empty($vacancy_types) ? $vacancy_types[0]->name : '';
 $schedule_name = !empty($vacancy_schedules) ? $vacancy_schedules[0]->name : '';
 
 $thumbnail_id = get_post_thumbnail_id($post_id);
-$vacancy_image_url = $thumbnail_id ? wp_get_attachment_image_url($thumbnail_id, 'codeweber_vacancy_400-267') : '';
+$vacancy_image_url = $thumbnail_id ? wp_get_attachment_image_url($thumbnail_id, 'codeweber_vacancy_600-600') : '';
 if (empty($vacancy_image_url)) {
     $vacancy_image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
 }
