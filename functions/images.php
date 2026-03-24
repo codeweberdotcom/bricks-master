@@ -305,3 +305,55 @@ function codeweber_force_attachment_parent_before_upload($data, $postarr)
 
 	return $data;
 }
+
+// ── SVG ───────────────────────────────────────────────────────────────────────
+
+/**
+ * Разрешает загрузку файлов форматов SVG и SVGZ в WordPress.
+ *
+ * По умолчанию WordPress запрещает загрузку SVG из соображений безопасности.
+ * Эта функция добавляет поддержку MIME-типов для SVG и SVGZ.
+ *
+ * @param array $mimes Массив разрешенных типов файлов.
+ * @return array Обновленный массив MIME-типов с добавленной поддержкой SVG.
+ */
+function codeweber_svg_upload($mimes)
+{
+	$mimes['svg']  = 'image/svg+xml';
+	$mimes['svgz'] = 'image/svg+xml';
+
+	return $mimes;
+}
+add_filter('upload_mimes', 'codeweber_svg_upload');
+
+
+/**
+ * Устанавливает корректный MIME-тип для SVG-файлов.
+ *
+ * WordPress по умолчанию блокирует загрузку SVG из соображений безопасности.
+ * Эта функция исправляет MIME-тип, чтобы разрешить загрузку SVG и SVGZ файлов.
+ *
+ * @param array|null  $data     Данные о файле (тип, расширение).
+ * @param string|null $file     Полный путь к файлу (необязательно).
+ * @param string|null $filename Имя файла.
+ * @param array|null  $mimes    Список разрешенных MIME-типов.
+ * @return array|null Массив данных о файле с исправленным MIME-типом.
+ */
+function codeweber_svg_mimetype($data = null, $file = null, $filename = null, $mimes = null)
+{
+	$ext = isset($data['ext']) ? $data['ext'] : '';
+	if (strlen($ext) < 1) {
+		$exploded = explode('.', $filename);
+		$ext      = strtolower(end($exploded));
+	}
+	if ('svg' === $ext) {
+		$data['type'] = 'image/svg+xml';
+		$data['ext']  = 'svg';
+	} elseif ('svgz' === $ext) {
+		$data['type'] = 'image/svg+xml';
+		$data['ext']  = 'svgz';
+	}
+
+	return $data;
+}
+add_filter('wp_check_filetype_and_ext', 'codeweber_svg_mimetype', 10, 4);
