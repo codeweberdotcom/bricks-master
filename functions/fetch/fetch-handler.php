@@ -1,8 +1,8 @@
 <?php
 
-defined( 'ABSPATH' ) || exit;
-
 namespace Codeweber\Functions\Fetch;
+
+defined( 'ABSPATH' ) || exit;
 
 require_once __DIR__ . '/Fetch.php';
 require_once __DIR__ . '/exampleFunction.php';

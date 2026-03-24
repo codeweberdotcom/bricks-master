@@ -1,8 +1,8 @@
 <?php
 
-defined( 'ABSPATH' ) || exit;
-
 namespace Codeweber\Functions\Fetch;
+
+defined( 'ABSPATH' ) || exit;
 
 class Fetch
 {
