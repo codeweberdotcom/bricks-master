@@ -1145,6 +1145,50 @@ function cw_demo_compute_fake_registered( array $item, int $index ): int {
 	return (int) round( $seats * $pct );
 }
 
+/**
+ * Импортирует несколько фото из src/ в медиатеку как галерею события.
+ *
+ * @param string[] $filenames  Имена файлов из src/assets/img/photos/
+ * @param int      $post_id
+ * @return int[]   Attachment IDs
+ */
+function cw_demo_import_event_gallery( array $filenames, int $post_id ): array {
+	$ids = [];
+	foreach ( $filenames as $filename ) {
+		$source_path = get_template_directory() . '/src/assets/img/photos/' . $filename;
+		if ( ! file_exists( $source_path ) ) {
+			continue;
+		}
+		$file_type = wp_check_filetype( basename( $source_path ), null );
+		if ( ! $file_type['type'] ) {
+			continue;
+		}
+		$upload_dir = wp_upload_dir();
+		$file_name  = 'event-gallery-demo-' . $filename;
+		$file_path  = $upload_dir['path'] . '/' . $file_name;
+		if ( ! copy( $source_path, $file_path ) ) {
+			continue;
+		}
+		$attachment_id = media_handle_sideload(
+			[ 'name' => $file_name, 'tmp_name' => $file_path ],
+			$post_id
+		);
+		if ( file_exists( $file_path ) ) {
+			@unlink( $file_path );
+		}
+		if ( is_wp_error( $attachment_id ) ) {
+			continue;
+		}
+		wp_update_post( [ 'ID' => $attachment_id, 'post_parent' => $post_id ] );
+		wp_update_attachment_metadata(
+			$attachment_id,
+			wp_generate_attachment_metadata( $attachment_id, get_attached_file( $attachment_id ) )
+		);
+		$ids[] = $attachment_id;
+	}
+	return $ids;
+}
+
 function cw_demo_import_event_image( $filename, $post_id ) {
 	$source_path = get_template_directory() . '/src/assets/img/photos/' . $filename;
 
@@ -1275,6 +1319,38 @@ function cw_demo_create_events() {
 			update_post_meta( $post_id, '_event_hide_add_to_calendar', '1' );
 		}
 
+		// Yandex map coordinates (by city)
+		$city_coords = [
+			'Москва'           => [ 55.7558, 37.6173 ],
+			'Санкт-Петербург'  => [ 59.9343, 30.3351 ],
+			'Казань'           => [ 55.7968, 49.1070 ],
+			'Новосибирск'      => [ 54.9884, 82.9057 ],
+			'Сочи'             => [ 43.5992, 39.7257 ],
+			'Екатеринбург'     => [ 56.8389, 60.6057 ],
+			'Нижний Новгород'  => [ 56.3269, 44.0059 ],
+			'London'           => [ 51.5080,   0.0353 ],
+			'New York'         => [ 40.7576, -74.0003 ],
+			'Berlin'           => [ 52.5069,  13.2818 ],
+			'Amsterdam'        => [ 52.3398,   4.8893 ],
+			'San Francisco'    => [ 37.7843, -122.4009 ],
+			'Dubai'            => [ 25.2116,  55.2838 ],
+			'Toronto'          => [ 43.6601, -79.3877 ],
+			'Washington DC'    => [ 38.8951, -77.0365 ],
+			'Singapore'        => [  1.2834, 103.8607 ],
+			'Paris'            => [ 48.8637,   2.2966 ],
+			'Zurich'           => [ 47.3769,   8.5417 ],
+			'Dublin'           => [ 53.3498,  -6.2603 ],
+			'Manchester'       => [ 53.4808,  -2.2426 ],
+			'Barcelona'        => [ 41.3851,   2.1734 ],
+			'Lisbon'           => [ 38.7223,  -9.1393 ],
+		];
+		$coords = $city_coords[ $e['location'] ] ?? null;
+		if ( $coords ) {
+			update_post_meta( $post_id, '_event_latitude',  $coords[0] );
+			update_post_meta( $post_id, '_event_longitude', $coords[1] );
+			update_post_meta( $post_id, '_event_show_map',  '1' );
+		}
+
 		// Fake registered count for realistic seat counter display
 		$fake_registered = cw_demo_compute_fake_registered( $e, $created );
 		if ( $fake_registered > 0 ) {
@@ -1297,6 +1373,27 @@ function cw_demo_create_events() {
 		// Featured image
 		if ( ! empty( $e['image'] ) ) {
 			cw_demo_import_event_image( $e['image'], $post_id );
+		}
+
+		// Gallery for past events (photo report)
+		if ( $is_past ) {
+			$gallery_sets = [
+				[ 'cs1-full.jpg',  'cs4-full.jpg',  'cs7-full.jpg'  ],
+				[ 'cs2-full.jpg',  'cs5-full.jpg',  'cs8-full.jpg'  ],
+				[ 'cs3-full.jpg',  'cs6-full.jpg',  'cs9-full.jpg'  ],
+				[ 'cs10-full.jpg', 'cs11-full.jpg', 'cs12-full.jpg' ],
+				[ 'pf1-full.jpg',  'pf4-full.jpg',  'pf7-full.jpg'  ],
+				[ 'pf2-full.jpg',  'pf5-full.jpg',  'pf8-full.jpg'  ],
+				[ 'pf3-full.jpg',  'pf6-full.jpg',  'pf9-full.jpg'  ],
+				[ 'pf10-full.jpg', 'pf11-full.jpg', 'pf12-full.jpg' ],
+				[ 'pd7-full.jpg',  'pd8-full.jpg',  'pd9-full.jpg'  ],
+				[ 'pd10-full.jpg', 'pd11-full.jpg', 'pd12-full.jpg' ],
+			];
+			$gallery_files = $gallery_sets[ $created % count( $gallery_sets ) ];
+			$gallery_ids   = cw_demo_import_event_gallery( $gallery_files, $post_id );
+			if ( $gallery_ids ) {
+				update_post_meta( $post_id, '_event_gallery', $gallery_ids );
+			}
 		}
 
 		$created++;
@@ -1334,6 +1431,14 @@ function cw_demo_delete_events() {
 		$thumbnail_id = get_post_thumbnail_id( $post_id );
 		if ( $thumbnail_id ) {
 			wp_delete_attachment( $thumbnail_id, true );
+		}
+
+		// Delete gallery attachments
+		$gallery_ids = get_post_meta( $post_id, '_event_gallery', true );
+		if ( is_array( $gallery_ids ) ) {
+			foreach ( $gallery_ids as $gid ) {
+				wp_delete_attachment( (int) $gid, true );
+			}
 		}
 
 		$result = wp_delete_post( $post_id, true );
