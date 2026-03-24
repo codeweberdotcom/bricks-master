@@ -1255,7 +1255,7 @@ function cw_demo_get_or_create_event_term( $name, $taxonomy ) {
 // Create / Delete
 // ---------------------------------------------------------------------------
 
-function cw_demo_create_events() {
+function cw_demo_create_events( int $offset = 0, int $limit = 5 ) {
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -1268,11 +1268,13 @@ function cw_demo_create_events() {
 		? cw_demo_get_events_data()
 		: cw_demo_get_events_data_en();
 
+	$total  = count( $items );
+	$batch  = array_slice( $items, $offset, $limit );
 	$created = 0;
 	$errors  = [];
 	$now     = current_time( 'Y-m-d' );
 
-	foreach ( $items as $e ) {
+	foreach ( $batch as $e ) {
 		$post_id = wp_insert_post( [
 			'post_type'    => 'events',
 			'post_title'   => sanitize_text_field( $e['title'] ),
@@ -1405,7 +1407,7 @@ function cw_demo_create_events() {
 				[ 'cf2.jpg',         'cs13-full.jpg',    'pf6-full.jpg'   ],
 				[ 'cf5.jpg',         'cs15-full.jpg',    'pf7-full.jpg'   ],
 			];
-			$gallery_files = $gallery_sets[ $created % count( $gallery_sets ) ];
+			$gallery_files = $gallery_sets[ ( $offset + $created ) % count( $gallery_sets ) ];
 			$gallery_ids   = cw_demo_import_event_gallery( $gallery_files, $post_id );
 			if ( $gallery_ids ) {
 				update_post_meta( $post_id, '_event_gallery', $gallery_ids );
@@ -1415,18 +1417,30 @@ function cw_demo_create_events() {
 		$created++;
 	}
 
-	$message = sprintf(
-		/* translators: %d: number of created events */
-		__( 'Created %d demo events.', 'codeweber' ),
-		$created
-	);
+	$next_offset = $offset + $created;
+	$done        = $next_offset >= $total;
+
+	$message = $done
+		? sprintf(
+			/* translators: %d: number of created events */
+			__( 'Created %d demo events.', 'codeweber' ),
+			$next_offset
+		)
+		: sprintf(
+			/* translators: 1: created so far, 2: total */
+			__( 'Created %1$d of %2$d events…', 'codeweber' ),
+			$next_offset,
+			$total
+		);
 
 	return [
-		'success' => true,
-		'message' => $message,
-		'created' => $created,
-		'total'   => count( $items ),
-		'errors'  => $errors,
+		'success'     => true,
+		'message'     => $message,
+		'created'     => $created,
+		'total'       => $total,
+		'next_offset' => $next_offset,
+		'done'        => $done,
+		'errors'      => $errors,
 	];
 }
 

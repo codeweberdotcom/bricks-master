@@ -720,13 +720,17 @@ function cw_demo_ajax_create_events() {
 	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_demo_create_events' ) ) {
 		wp_send_json_error( [ 'message' => __( 'Security error. Please refresh the page and try again.', 'codeweber' ) ] );
 	}
-	$result = cw_demo_create_events();
+	$offset = isset( $_POST['offset'] ) ? absint( $_POST['offset'] ) : 0;
+	$limit  = isset( $_POST['limit'] )  ? absint( $_POST['limit'] )  : 5;
+	$result = cw_demo_create_events( $offset, $limit );
 	if ( $result['success'] ) {
 		wp_send_json_success( [
-			'message' => $result['message'],
-			'created' => $result['created'],
-			'total'   => $result['total'],
-			'errors'  => $result['errors'],
+			'message'     => $result['message'],
+			'created'     => $result['created'],
+			'total'       => $result['total'],
+			'next_offset' => $result['next_offset'],
+			'done'        => $result['done'],
+			'errors'      => $result['errors'],
 		] );
 	}
 	wp_send_json_error( [ 'message' => $result['message'] ] );

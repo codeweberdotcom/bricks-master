@@ -1241,35 +1241,53 @@ Redux::set_section(
 						setButtonsState(true);
 						showStatus("' . esc_js( __( 'Creating events...', 'codeweber' ) ) . '", "info");
 
-						$.ajax({
-							url: ajaxurl,
-							type: "POST",
-							timeout: 120000,
-							data: {
-								action: "cw_demo_create_events",
-								nonce: createNonce
-							},
-							success: function(response) {
-								setButtonsState(false);
-								if (response.success) {
-									var message = response.data.message;
-									if (response.data.errors && response.data.errors.length > 0) {
-										message += "<br><strong>' . esc_js( __( 'Errors:', 'codeweber' ) ) . ':</strong><ul>";
-										response.data.errors.forEach(function(error) {
-											message += "<li>" + error + "</li>";
-										});
-										message += "</ul>";
+						var batchLimit = 5;
+						var allErrors = [];
+
+						function runBatch(offset) {
+							$.ajax({
+								url: ajaxurl,
+								type: "POST",
+								timeout: 120000,
+								data: {
+									action: "cw_demo_create_events",
+									nonce: createNonce,
+									offset: offset,
+									limit: batchLimit
+								},
+								success: function(response) {
+									if (!response.success) {
+										setButtonsState(false);
+										showStatus(response.data.message || "' . esc_js( __( 'An error occurred', 'codeweber' ) ) . '", "error");
+										return;
 									}
-									showStatus(message, "success");
-								} else {
-									showStatus(response.data.message || "' . esc_js( __( 'An error occurred', 'codeweber' ) ) . '", "error");
+									if (response.data.errors && response.data.errors.length > 0) {
+										allErrors = allErrors.concat(response.data.errors);
+									}
+									showStatus(response.data.message, "info");
+									if (response.data.done) {
+										setButtonsState(false);
+										var message = response.data.message;
+										if (allErrors.length > 0) {
+											message += "<br><strong>' . esc_js( __( 'Errors:', 'codeweber' ) ) . ':</strong><ul>";
+											allErrors.forEach(function(error) {
+												message += "<li>" + error + "</li>";
+											});
+											message += "</ul>";
+										}
+										showStatus(message, "success");
+									} else {
+										runBatch(response.data.next_offset);
+									}
+								},
+								error: function() {
+									setButtonsState(false);
+									showStatus("' . esc_js( __( 'AJAX request error', 'codeweber' ) ) . '", "error");
 								}
-							},
-							error: function() {
-								setButtonsState(false);
-								showStatus("' . esc_js( __( 'AJAX request error', 'codeweber' ) ) . '", "error");
-							}
-						});
+							});
+						}
+
+						runBatch(0);
 					});
 
 					$("#cw-demo-delete-events").on("click", function(e) {
