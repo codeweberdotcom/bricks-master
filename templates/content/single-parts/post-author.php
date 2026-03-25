@@ -21,11 +21,11 @@ if (empty($avatar_id)) {
 		<?php if (!empty($avatar_id)) :
 			$avatar_src = wp_get_attachment_image_src($avatar_id, 'thumbnail');
 		?>
-			<figure class="user-avatar me-3">
+			<figure class="user-avatar shadow me-3">
 				<img class="rounded-circle" alt="<?php the_author_meta('display_name'); ?>" src="<?php echo esc_url($avatar_src[0]); ?>">
 			</figure>
 		<?php else : ?>
-			<figure class="user-avatar me-3">
+			<figure class="user-avatar shadow me-3">
 				<?php echo get_avatar(get_the_author_meta('user_email'), 96, '', '', ['class' => 'rounded-circle']); ?>
 			</figure>
 		<?php endif; ?>

@@ -268,7 +268,13 @@ var path = {
     ],
     vendorcss: srcPrefix + "/assets/css/vendor/*.*",
     img: srcPrefix + "/assets/img/**/*.*",
-    fonts: srcPrefix + "/assets/fonts/**/*.*",
+    fonts: (function() {
+      var p = [srcPrefix + "/assets/fonts/**/*.*"];
+      if (isChild && fs.existsSync(path_module.join(currentThemePath, 'src', 'assets', 'fonts'))) {
+        p.push(path_module.join(currentThemePath, 'src/assets/fonts/**/*.*').replace(/\\/g, '/'));
+      }
+      return p;
+    })(),
     media: srcPrefix + "/assets/media/**/*.*",
     php: srcPrefix + "/assets/php/**/*.*",
   },
@@ -304,7 +310,13 @@ var path = {
     ],
     vendorcss: srcPrefix + "/assets/css/vendor/*.*",
     img: srcPrefix + "/assets/img/**/*.*",
-    fonts: srcPrefix + "/assets/fonts/**/*.*",
+    fonts: (function() {
+      var p = [srcPrefix + "/assets/fonts/**/*.*"];
+      if (isChild && fs.existsSync(path_module.join(currentThemePath, 'src', 'assets', 'fonts'))) {
+        p.push(path_module.join(currentThemePath, 'src/assets/fonts/**/*.*').replace(/\\/g, '/'));
+      }
+      return p;
+    })(),
     media: srcPrefix + "/assets/media/**/*.*",
     php: srcPrefix + "/assets/php/",
     user: srcPrefix + "/assets/scss/_user-variables.scss",
@@ -572,7 +584,7 @@ gulp.task("cf7successmessagejs:dist", function () {
 gulp.task("cf7utmtrackingjs:dev", function () {
   return gulp
     .src(path.src.cf7utmtrackingjs)
-    .pipe(gulp.dest(path.dest.js));
+    .pipe(gulp.dest(path.dev.js));
 });
 
 gulp.task("cf7utmtrackingjs:dist", function () {

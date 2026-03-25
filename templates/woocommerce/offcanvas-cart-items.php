@@ -21,7 +21,7 @@ $cart_items = WC()->cart ? WC()->cart->get_cart() : [];
 			<i class="uil uil-shopping-cart fs-48 text-muted mb-3 d-block"></i>
 			<p class="text-muted mb-4"><?php esc_html_e( 'Ваша корзина пуста', 'codeweber' ); ?></p>
 			<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"
-			   class="btn btn-primary btn-sm rounded has-ripple">
+			   class="btn btn-primary btn-sm<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded'; ?> has-ripple">
 				<?php esc_html_e( 'В каталог', 'codeweber' ); ?>
 			</a>
 		</div>
@@ -111,13 +111,13 @@ $cart_items = WC()->cart ? WC()->cart->get_cart() : [];
 			</div>
 
 			<a href="<?php echo esc_url( wc_get_checkout_url() ); ?>"
-			   class="btn btn-primary btn-icon btn-icon-start rounded w-100 mb-3 has-ripple">
+			   class="btn btn-primary btn-icon btn-icon-start<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded'; ?> w-100 mb-3 has-ripple">
 				<i class="uil uil-credit-card fs-18"></i>
 				<?php esc_html_e( 'Оформить заказ', 'codeweber' ); ?>
 			</a>
 
 			<a href="<?php echo esc_url( wc_get_cart_url() ); ?>"
-			   class="btn btn-outline-primary rounded w-100 has-ripple">
+			   class="btn btn-outline-primary<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded'; ?> w-100 has-ripple">
 				<?php esc_html_e( 'Перейти в корзину', 'codeweber' ); ?>
 			</a>
 		</div>
