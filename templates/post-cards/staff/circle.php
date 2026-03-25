@@ -21,17 +21,17 @@ $template_args = wp_parse_args($template_args ?? [], [
     'enable_link' => true, // Обернуть в ссылку (для гутенберг блоков), false для архивов
     'enable_lift' => false, // Включить/выключить lift эффект
     'image_size' => 'codeweber_staff',
-    'avatar_size' => 'w-15', // w-15 по умолчанию (как в примере)
+    'avatar_size' => 'w-15 h-15', // w-15 h-15 по умолчанию (5rem × 5rem)
 ]);
 
 // Явно проверяем enable_link и enable_lift (wp_parse_args может не сохранить boolean значения)
 $enable_link = (bool) $template_args['enable_link'];
 $enable_lift = (bool) $template_args['enable_lift'];
 
-// Для шаблона circle по умолчанию используем w-15, но не переопределяем явно переданный размер
+// Для шаблона circle по умолчанию используем w-15 h-15, но не переопределяем явно переданный размер
 // Переопределяем avatar_size только если он не указан (пустой)
 if (empty($template_args['avatar_size'])) {
-    $template_args['avatar_size'] = 'w-15';
+    $template_args['avatar_size'] = 'w-15 h-15';
 }
 
 // Получаем изображение с правильным размером
