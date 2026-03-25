@@ -80,25 +80,12 @@
         color: var(--bs-primary) !important;
     }
 
-    // Loading state — hide icon, show border spinner
+    // Loading state — скрываем иконку, спиннер через общий cw-btn-spin в _wishlist.scss
     &--loading {
         pointer-events: none;
 
         i.uil {
             opacity: 0;
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            margin: auto;
-            width: 1em;
-            height: 1em;
-            border: 0.125em solid currentColor;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: cw-compare-spin 0.7s linear infinite;
         }
     }
 
@@ -135,13 +122,8 @@
         border: 0.13em solid currentColor;
         border-top-color: transparent;
         border-radius: 50%;
-        animation: cw-compare-spin 0.7s linear infinite;
+        animation: cw-btn-spin 0.7s linear infinite;
     }
-}
-
-@keyframes cw-compare-spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
 }
 
 // ── Compare Button on single product page ─────────────────────────────────────

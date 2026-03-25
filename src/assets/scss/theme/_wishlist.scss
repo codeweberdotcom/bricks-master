@@ -10,23 +10,12 @@
     outline-offset: 2px;
   }
 
-  // Loading state — скрываем иконку, показываем border-спиннер того же размера
+  // Loading state — скрываем иконку, спиннер через общий cw-btn-spin
   &--loading {
     pointer-events: none;
 
     i.uil {
       opacity: 0;
-    }
-
-    .cw-wishlist-icon::after {
-      content: '';
-      position: absolute;
-      width: 1em;
-      height: 1em;
-      border: 0.125em solid currentColor;
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: cw-wishlist-spin 0.7s linear infinite;
     }
   }
 
@@ -102,8 +91,22 @@
   }
 }
 
-// Анимация спиннера на кнопке
-@keyframes cw-wishlist-spin {
+// Общий спиннер для кнопок wishlist и compare на карточке
+.cw-wishlist-btn--loading .cw-wishlist-icon::after,
+.cw-compare-btn--loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 1em;
+  height: 1em;
+  border: 0.125em solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: cw-btn-spin 0.7s linear infinite;
+}
+
+@keyframes cw-btn-spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }

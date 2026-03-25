@@ -695,6 +695,10 @@ $value in $brand-colors {
   border-radius: 100%;
   height: auto;
 }
+.user-avatar {
+  border-radius: 100%;
+  overflow: hidden;
+}
 //----------------------------------------------------------//
 //  LOGIN BUTTON SENDING STATE
 //----------------------------------------------------------//
