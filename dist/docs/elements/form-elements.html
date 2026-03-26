@@ -664,6 +664,7 @@
                 <li><a class="nav-link scroll" href="#snippet-4">Radios</a></li>
                 <li><a class="nav-link scroll" href="#snippet-5">Disabled</a></li>
                 <li><a class="nav-link scroll" href="#snippet-6">Select</a></li>
+                <li><a class="nav-link scroll" href="#snippet-7">Dark Background</a></li>
               </ul>
             </nav>
             <!-- /nav -->
@@ -897,7 +898,7 @@
             </div>
             <!--/.card -->
           </section>
-          <section id="snippet-6" class="wrapper py-16">
+          <section id="snippet-6" class="wrapper pt-16">
             <h2 class="mb-5">Select</h2>
             <div class="card">
               <div class="card-body">
@@ -925,6 +926,101 @@
     &lt;option value=&quot;2&quot;&gt;Two&lt;/option&gt;
     &lt;option value=&quot;3&quot;&gt;Three&lt;/option&gt;
   &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+                  </div>
+                  <!--/.code-wrapper-inner -->
+                </div>
+                <!--/.code-wrapper -->
+              </div>
+              <!--/.card-footer -->
+            </div>
+            <!--/.card -->
+          </section>
+          <section id="snippet-7" class="wrapper py-16">
+            <h2 class="mb-5">Dark Background</h2>
+            <p class="lead mb-8">Формы на тёмном фоне. Оберните контейнер в <code class="code">bg-dark</code> и добавьте <code class="code">data-bs-theme="dark"</code> для автоматической инверсии цветов элементов форм.</p>
+            <div class="card">
+              <div class="card-body bg-dark rounded-top" data-bs-theme="dark">
+                <div class="form-floating mb-4">
+                  <input id="darkTextInput" type="text" class="form-control" placeholder="Text Input">
+                  <label for="darkTextInput">Text Input</label>
+                </div>
+                <!-- /.form-floating -->
+                <div class="form-floating mb-4">
+                  <textarea id="darkTextarea" class="form-control" placeholder="Textarea" style="height: 150px"></textarea>
+                  <label for="darkTextarea">Textarea</label>
+                </div>
+                <!-- /.form-floating -->
+                <div class="form-select-wrapper mb-4">
+                  <select class="form-select" aria-label="Dark select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+                <!-- /.form-select-wrapper -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="darkCheckDefault">
+                  <label class="form-check-label" for="darkCheckDefault"> Default checkbox </label>
+                </div>
+                <div class="form-check mb-4">
+                  <input class="form-check-input" type="checkbox" value="" id="darkCheckChecked" checked>
+                  <label class="form-check-label" for="darkCheckChecked"> Checked checkbox </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="darkRadio" id="darkRadio1">
+                  <label class="form-check-label" for="darkRadio1"> Default radio </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="darkRadio" id="darkRadio2" checked>
+                  <label class="form-check-label" for="darkRadio2"> Checked radio </label>
+                </div>
+              </div>
+              <!--/.card-body -->
+              <div class="card-footer position-relative">
+                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-7">Показать примеры кода</a>
+              </div>
+              <!--/.card-footer -->
+              <div id="collapse-7" class="card-footer bg-dark p-0 accordion-collapse collapse">
+                <div class="code-wrapper">
+                  <div class="code-wrapper-inner">
+                    <pre class="language-html"><code>&lt;div class=&quot;bg-dark p-6 rounded&quot; data-bs-theme=&quot;dark&quot;&gt;
+  &lt;div class=&quot;form-floating mb-4&quot;&gt;
+    &lt;input id=&quot;darkTextInput&quot; type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;Text Input&quot;&gt;
+    &lt;label for=&quot;darkTextInput&quot;&gt;Text Input&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;!-- /.form-floating --&gt;
+  &lt;div class=&quot;form-floating mb-4&quot;&gt;
+    &lt;textarea id=&quot;darkTextarea&quot; class=&quot;form-control&quot; placeholder=&quot;Textarea&quot; style=&quot;height: 150px&quot;&gt;&lt;/textarea&gt;
+    &lt;label for=&quot;darkTextarea&quot;&gt;Textarea&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;!-- /.form-floating --&gt;
+  &lt;div class=&quot;form-select-wrapper mb-4&quot;&gt;
+    &lt;select class=&quot;form-select&quot; aria-label=&quot;Dark select example&quot;&gt;
+      &lt;option selected&gt;Open this select menu&lt;/option&gt;
+      &lt;option value=&quot;1&quot;&gt;One&lt;/option&gt;
+      &lt;option value=&quot;2&quot;&gt;Two&lt;/option&gt;
+      &lt;option value=&quot;3&quot;&gt;Three&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;!-- /.form-select-wrapper --&gt;
+  &lt;div class=&quot;form-check&quot;&gt;
+    &lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; value=&quot;&quot; id=&quot;darkCheckDefault&quot;&gt;
+    &lt;label class=&quot;form-check-label&quot; for=&quot;darkCheckDefault&quot;&gt; Default checkbox &lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;form-check mb-4&quot;&gt;
+    &lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; value=&quot;&quot; id=&quot;darkCheckChecked&quot; checked&gt;
+    &lt;label class=&quot;form-check-label&quot; for=&quot;darkCheckChecked&quot;&gt; Checked checkbox &lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;form-check&quot;&gt;
+    &lt;input class=&quot;form-check-input&quot; type=&quot;radio&quot; name=&quot;darkRadio&quot; id=&quot;darkRadio1&quot;&gt;
+    &lt;label class=&quot;form-check-label&quot; for=&quot;darkRadio1&quot;&gt; Default radio &lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;form-check&quot;&gt;
+    &lt;input class=&quot;form-check-input&quot; type=&quot;radio&quot; name=&quot;darkRadio&quot; id=&quot;darkRadio2&quot; checked&gt;
+    &lt;label class=&quot;form-check-label&quot; for=&quot;darkRadio2&quot;&gt; Checked radio &lt;/label&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
                   </div>
                   <!--/.code-wrapper-inner -->
