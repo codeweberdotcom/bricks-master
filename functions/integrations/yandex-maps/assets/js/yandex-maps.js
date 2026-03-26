@@ -352,12 +352,12 @@
             if (!mapElement) return;
 
             const sidebar = document.createElement('div');
-            sidebar.className = `codeweber-map-sidebar codeweber-map-sidebar-${this.config.sidebar.position}`;
-            
+            sidebar.className = `codeweber-map-sidebar codeweber-map-sidebar-${this.config.sidebar.position} bg-white rounded shadow overflow-auto`;
+
             // Заголовок
             if (this.config.sidebar.title) {
                 const title = document.createElement('div');
-                title.className = 'codeweber-map-sidebar-title';
+                title.className = 'codeweber-map-sidebar-title d-flex justify-content-between align-items-center border-bottom p-3 sticky-top bg-white';
                 title.textContent = this.config.sidebar.title;
                 sidebar.appendChild(title);
             }
@@ -376,7 +376,7 @@
 
             // Кнопка закрытия для мобильных
             const closeBtn = document.createElement('button');
-            closeBtn.className = 'codeweber-map-sidebar-close d-md-none';
+            closeBtn.className = 'codeweber-map-sidebar-close d-md-none btn btn-link btn-sm p-0 text-secondary';
             closeBtn.innerHTML = '<i class="uil uil-times"></i>';
             closeBtn.addEventListener('click', () => {
                 sidebar.classList.remove('active');
@@ -401,7 +401,7 @@
          */
         createSidebarItem(marker) {
             const item = document.createElement('div');
-            item.className = 'codeweber-map-sidebar-item';
+            item.className = 'codeweber-map-sidebar-item border-bottom px-3 py-3';
             item.dataset.markerId = marker.id;
             item.dataset.city = marker.city || '';
             item.dataset.category = marker.category || '';
@@ -417,22 +417,22 @@
 
             let html = '';
             if (marker.title) {
-                html += `<h6>${marker.title}</h6>`;
+                html += `<div class="h6 mb-1">${marker.title}</div>`;
             }
             if (sidebarFields.showDescription && marker.description && marker.description.trim() !== '') {
-                html += `<p style="font-size: 13px; color: #666; margin-bottom: 8px;">${marker.description}</p>`;
+                html += `<p class="small text-muted mb-2">${marker.description}</p>`;
             }
             if (sidebarFields.showCity && marker.city) {
-                html += `<p><i class="uil uil-location-pin-alt me-1"></i> ${marker.city}</p>`;
+                html += `<p class="small text-muted mb-1"><i class="uil uil-location-pin-alt me-1"></i> ${marker.city}</p>`;
             }
             if (sidebarFields.showAddress && marker.address) {
-                html += `<p><i class="uil uil-map-marker me-1"></i> ${marker.address}</p>`;
+                html += `<p class="small text-muted mb-1"><i class="uil uil-map-marker me-1"></i> ${marker.address}</p>`;
             }
             if (sidebarFields.showPhone && marker.phone) {
-                html += `<p><i class="uil uil-phone me-1"></i> <a href="tel:${marker.phone.replace(/[^0-9+]/g, '')}">${marker.phone}</a></p>`;
+                html += `<p class="small text-muted mb-1"><i class="uil uil-phone me-1"></i> <a href="tel:${marker.phone.replace(/[^0-9+]/g, '')}">${marker.phone}</a></p>`;
             }
             if (sidebarFields.showWorkingHours && marker.workingHours) {
-                html += `<p><i class="uil uil-clock me-1"></i> ${marker.workingHours}</p>`;
+                html += `<p class="small text-muted mb-0"><i class="uil uil-clock me-1"></i> ${marker.workingHours}</p>`;
             }
 
             item.innerHTML = html;
@@ -524,9 +524,10 @@
             if (cities.size === 0) return;
 
             const filterContainer = document.createElement('div');
-            filterContainer.className = 'codeweber-map-filter';
+            filterContainer.className = 'codeweber-map-filter p-3 border-bottom';
             
             const label = document.createElement('label');
+            label.className = 'form-label small';
             label.textContent = codeweberYandexMaps.i18n.filterByCity;
             label.setAttribute('for', `${this.config.id}-city-filter`);
 
