@@ -352,7 +352,7 @@
             if (!mapElement) return;
 
             const sidebar = document.createElement('div');
-            sidebar.className = `codeweber-map-sidebar codeweber-map-sidebar-${this.config.sidebar.position} bg-white rounded shadow overflow-auto`;
+            sidebar.className = `codeweber-map-sidebar codeweber-map-sidebar-${this.config.sidebar.position} bg-white rounded shadow overflow-auto d-none d-md-block`;
 
             // Заголовок
             if (this.config.sidebar.title) {
@@ -379,7 +379,7 @@
             closeBtn.className = 'codeweber-map-sidebar-close d-md-none btn btn-link btn-sm p-0 text-secondary';
             closeBtn.innerHTML = '<i class="uil uil-times"></i>';
             closeBtn.addEventListener('click', () => {
-                sidebar.classList.remove('active');
+                sidebar.classList.remove('d-block');
             });
             sidebar.appendChild(closeBtn);
 
@@ -388,7 +388,7 @@
             toggleBtn.className = 'codeweber-map-sidebar-toggle btn-icon btn-icon-start btn btn-sm btn-primary d-md-none';
             toggleBtn.innerHTML = `<i class="uil uil-list-ul"></i> ${codeweberYandexMaps.i18n.offices}`;
             toggleBtn.addEventListener('click', () => {
-                sidebar.classList.add('active');
+                sidebar.classList.add('d-block');
             });
 
             mapElement.parentElement.appendChild(sidebar);
@@ -463,7 +463,7 @@
             // Закрываем сайдбар на мобильных
             if (window.innerWidth < 768 && this.sidebar) {
                 setTimeout(() => {
-                    this.sidebar.classList.remove('active');
+                    this.sidebar.classList.remove('d-block');
                 }, 500);
             }
         }

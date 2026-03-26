@@ -17,17 +17,10 @@
     max-width: 300px;
     max-height: calc(100% - 103px);
     z-index: 1000;
-    display: none;
 }
 
 .codeweber-map-sidebar-left  { left: 10px; }
 .codeweber-map-sidebar-right { right: 10px; }
-
-@media (min-width: 768px) {
-    .codeweber-map-sidebar { display: block; }
-}
-
-.codeweber-map-sidebar.active { display: block; }
 
 /* Items — только интерактивность */
 .codeweber-map-sidebar-item {
