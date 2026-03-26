@@ -163,6 +163,7 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | Wishlist (архитектура, AJAX, JS, modal, Redux) | `doc_claude/integrations/WISHLIST.md` |
 | Events (CPT, регистрации, REST API, FullCalendar, ICS, галерея, карта) | `doc_claude/integrations/EVENTS.md` |
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |
+| Sidebar-виджеты CPT (архитектура, хуки, управление из child theme) | `doc_claude/components/SIDEBAR_WIDGETS.md` |
 | Социальные иконки (функции, типы, шорткод, staff/vacancy) | `doc_claude/components/SOCIAL_LINKS.md` |
 | Транслитерация кириллицы в слагах и именах файлов | `doc_claude/components/CYR_TO_LAT.md` |
 | Размеры изображений, фильтрация по CPT, регенерация миниатюр (Redux UI, AJAX, логирование) | `doc_claude/media/MEDIA_TOOLS.md` |

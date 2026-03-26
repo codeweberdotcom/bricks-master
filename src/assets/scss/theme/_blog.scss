@@ -115,6 +115,7 @@ footer [class*="col-"] .widget + .widget {
   height: 3rem;
   position: relative;
   border-radius: 100%;
+  box-shadow: $box-shadow;
 }
 @media (max-width: 767px) {
   #comments {

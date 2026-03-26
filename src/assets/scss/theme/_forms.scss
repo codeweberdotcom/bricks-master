@@ -16,9 +16,9 @@ select {
     background: none;
   }
   > label {
-    color: #959ca9;
-    font-size: .75rem !important;
-    line-height: 1.6 !important;
+    color: $form-floating-label-color;
+    font-size: $form-floating-label-font-size !important;
+    line-height: $form-floating-label-line-height !important;
   }
   &.input-group label {
     margin-left: 0.05rem !important;

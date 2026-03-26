@@ -659,6 +659,7 @@
               <ul class="list-unstyled fs-sm lh-sm text-reset">
                 <li><a class="nav-link scroll active" href="#snippet-1">Letters</a></li>
                 <li><a class="nav-link scroll" href="#snippet-2">Images</a></li>
+                <li><a class="nav-link scroll" href="#snippet-3">Author</a></li>
               </ul>
             </nav>
             <!-- /nav -->
@@ -709,7 +710,7 @@
             <p class="lead mb-8">Use any size between <mark class="doc">.w-1</mark> and <mark class="doc">.w-25</mark> to change the image size. Image height will change automatically. Make sure to use images with 1:1 ratio to avoid stretching.</p>
             <div class="card">
               <div class="card-body d-flex flex-row align-items-center">
-                <img class="avatar w-15 me-4" src="../../assets/img/avatars/te1.jpg" srcset="../../assets/img/avatars/te1@2x.jpg 2x" alt="" />
+                <img class="avatar w-15 me-4" src="../../assets/img/avatars/te3.jpg" srcset="../../assets/img/avatars/te3@2x.jpg 2x" alt="" />
                 <img class="avatar w-12 me-4" src="../../assets/img/avatars/te2.jpg" srcset="../../assets/img/avatars/te2@2x.jpg 2x" alt="" />
                 <img class="avatar w-10 me-4" src="../../assets/img/avatars/t3.jpg" srcset="../../assets/img/avatars/t3@2x.jpg 2x" alt="" />
               </div>
@@ -726,6 +727,60 @@
 &lt;img class=&quot;avatar w-12&quot; src=&quot;...&quot; alt=&quot;&quot; /&gt;
 
 &lt;img class=&quot;avatar w-10&quot; src=&quot;...&quot; alt=&quot;&quot; /&gt;</code></pre>
+                  </div>
+                  <!--/.code-wrapper-inner -->
+                </div>
+                <!--/.code-wrapper -->
+              </div>
+              <!--/.card-footer -->
+            </div>
+            <!--/.card -->
+          </section>
+          <section id="snippet-3" class="wrapper py-16">
+            <h2 class="mb-3">Author</h2>
+            <p class="lead mb-8">Блок автора с аватаром, именем, должностью и кнопкой. Используется в постах (<mark class="doc">.author-info</mark>).</p>
+            <div class="card">
+              <div class="card-body">
+                <div class="author-info d-md-flex align-items-center mb-3">
+                  <div class="d-flex align-items-center">
+                    <figure class="user-avatar shadow me-3">
+                      <img class="rounded-circle" alt="John Doe" src="../../assets/img/avatars/te3.jpg" srcset="../../assets/img/avatars/te3@2x.jpg 2x" width="96" height="96" />
+                    </figure>
+                    <div>
+                      <h6><a href="#" class="link-dark">John Doe</a></h6>
+                      <span class="post-meta fs-15">Писатель</span>
+                    </div>
+                  </div>
+                  <div class="mt-3 mt-md-0 ms-auto">
+                    <a href="#" class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0 has-ripple">
+                      <i class="uil uil-file-alt"></i> Все статьи </a>
+                  </div>
+                </div>
+              </div>
+              <!--/.card-body -->
+              <div class="card-footer position-relative">
+                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-3">Показать примеры кода</a>
+              </div>
+              <!--/.card-footer -->
+              <div id="collapse-3" class="card-footer bg-dark p-0 accordion-collapse collapse">
+                <div class="code-wrapper">
+                  <div class="code-wrapper-inner">
+                    <pre class="language-html"><code>&lt;div class=&quot;author-info d-md-flex align-items-center mb-3&quot;&gt;
+  &lt;div class=&quot;d-flex align-items-center&quot;&gt;
+    &lt;figure class=&quot;user-avatar shadow me-3&quot;&gt;
+      &lt;img class=&quot;rounded-circle&quot; alt=&quot;...&quot; src=&quot;...&quot; width=&quot;96&quot; height=&quot;96&quot; /&gt;
+    &lt;/figure&gt;
+    &lt;div&gt;
+      &lt;h6&gt;&lt;a href=&quot;#&quot; class=&quot;link-dark&quot;&gt;John Doe&lt;/a&gt;&lt;/h6&gt;
+      &lt;span class=&quot;post-meta fs-15&quot;&gt;Писатель&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mt-3 mt-md-0 ms-auto&quot;&gt;
+    &lt;a href=&quot;#&quot; class=&quot;btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0&quot;&gt;
+      &lt;i class=&quot;uil uil-file-alt&quot;&gt;&lt;/i&gt; Все статьи
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
                   </div>
                   <!--/.code-wrapper-inner -->
                 </div>

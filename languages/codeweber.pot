@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-24 11:57+0000\n"
+"POT-Creation-Date: 2026-03-26 07:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: codeweber\n"
@@ -67,7 +67,7 @@ msgstr ""
 msgid "%d cities created"
 msgstr ""
 
-#: woocommerce/archive-product.php:177 woocommerce/archive-product.php:342
+#: woocommerce/archive-product.php:186 woocommerce/archive-product.php:358
 msgid "%d column"
 msgid_plural "%d columns"
 msgstr[0] ""
@@ -80,18 +80,18 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: functions/demo/demo-faq.php:451 functions/demo/demo-staff.php:456
-#: functions/demo/demo-vacancies.php:566
+#: functions/demo/demo-vacancies.php:572
 msgid "%d entries deleted"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:775
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:777
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:809
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:675
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:677
 msgid "%d file attached"
 msgid_plural "%d files attached"
 msgstr[0] ""
@@ -155,7 +155,7 @@ msgid_plural "%d testimonial entries deleted"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions/woocommerce-filters.php:191
+#: functions/woocommerce/filters.php:191
 msgid "%d звезда"
 msgid_plural "%d звёзд"
 msgstr[0] ""
@@ -182,7 +182,7 @@ msgstr ""
 msgid "%s Header Settings"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1056
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1066
 #, php-format
 msgid "%s is required."
 msgstr ""
@@ -193,13 +193,13 @@ msgid "%s Page Header Settings"
 msgstr ""
 
 #. %s: count
-#: templates/singles/events/default.php:387
+#: functions/sidebars.php:906
 #, php-format
 msgid "%s registered"
 msgstr ""
 
 #. %s: count
-#: templates/singles/events/default.php:395
+#: functions/sidebars.php:914
 #, php-format
 msgid "%s seats left"
 msgstr ""
@@ -250,6 +250,7 @@ msgstr ""
 msgid "(unknown)"
 msgstr ""
 
+#: functions/admin/faq-settings.php:237
 #: functions/admin/testimonials-settings.php:128
 #: functions/cpt/cpt-events.php:510
 msgid "+ Add Consent"
@@ -381,7 +382,7 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:511
+#: redux-framework/sample/sections/codeweber/woocommerce.php:512
 msgid "Account"
 msgstr ""
 
@@ -403,11 +404,11 @@ msgstr ""
 msgid "Activate"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:678
+#: redux-framework/sample/sections/codeweber/woocommerce.php:679
 msgid "Activate product comparison (cookie-based, no auth required)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:596
+#: redux-framework/sample/sections/codeweber/woocommerce.php:597
 msgid "Activate wishlist functionality (requires WooCommerce)"
 msgstr ""
 
@@ -452,11 +453,11 @@ msgstr ""
 msgid "Add a menu"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:78
+#: functions/woocommerce/compare/class-cw-compare-ui.php:78
 msgid "Add a product"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:205
+#: functions/woocommerce/compare/class-cw-compare-ui.php:205
 msgid "Add at least one more product to compare"
 msgstr ""
 
@@ -468,7 +469,7 @@ msgstr ""
 msgid "Add column"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:297
+#: functions/integrations/cf7/cf7-consents-panel.php:297
 msgid "Add Consent"
 msgstr ""
 
@@ -500,7 +501,7 @@ msgstr ""
 msgid "Add Event"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:640
+#: redux-framework/sample/sections/codeweber/woocommerce.php:641
 msgid "Add Feedback"
 msgstr ""
 
@@ -667,7 +668,7 @@ msgstr ""
 msgid "Add or remove items"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:191
+#: functions/woocommerce/compare/class-cw-compare-ui.php:191
 msgid "Add products to compare"
 msgstr ""
 
@@ -711,15 +712,16 @@ msgstr ""
 msgid "Add tags separated by commas"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:73
-#: functions/integrations/compare/class-cw-compare-ui.php:96
-#: functions/integrations/compare/class-cw-compare-ui.php:123
+#: functions/woocommerce/compare/class-cw-compare-ui.php:73
+#: functions/woocommerce/compare/class-cw-compare-ui.php:96
+#: functions/woocommerce/compare/class-cw-compare-ui.php:123
 msgid "Add to compare"
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:88
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:131
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:88
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:131
 #: templates/woocommerce/cards/shop2.php:156
+#: templates/woocommerce/cards/_common.php:125
 msgid "Add to Wishlist"
 msgstr ""
 
@@ -733,7 +735,7 @@ msgid ""
 "and imported events)."
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:92
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:92
 msgid "Added to Wishlist"
 msgstr ""
 
@@ -778,8 +780,8 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:302
 #: redux-framework/sample/sections/codeweber/header.php:358
 #: redux-framework/sample/sections/codeweber/map_geo.php:124
-#: redux-framework/sample/sections/codeweber/woocommerce.php:439
-#: redux-framework/sample/sections/codeweber/woocommerce.php:471
+#: redux-framework/sample/sections/codeweber/woocommerce.php:440
+#: redux-framework/sample/sections/codeweber/woocommerce.php:472
 msgid "Address"
 msgstr ""
 
@@ -788,8 +790,8 @@ msgstr ""
 msgid "Address (from map)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:440
-#: redux-framework/sample/sections/codeweber/woocommerce.php:472
+#: redux-framework/sample/sections/codeweber/woocommerce.php:441
+#: redux-framework/sample/sections/codeweber/woocommerce.php:473
 msgid "Address 2"
 msgstr ""
 
@@ -822,7 +824,7 @@ msgstr ""
 msgid "Advanced Settings"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:13
+#: functions/woocommerce/states-ru.php:13
 msgid "Adygea"
 msgstr ""
 
@@ -874,8 +876,8 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/demo.php:1191
 #: redux-framework/sample/sections/codeweber/demo.php:1287
 #: redux-framework/sample/sections/codeweber/demo.php:1330
-#: redux-framework/sample/sections/codeweber/woocommerce.php:800
-#: redux-framework/sample/sections/codeweber/woocommerce.php:810
+#: redux-framework/sample/sections/codeweber/woocommerce.php:801
+#: redux-framework/sample/sections/codeweber/woocommerce.php:811
 msgid "AJAX request error"
 msgstr ""
 
@@ -883,7 +885,8 @@ msgstr ""
 #: templates/archives/events/events_2.php:22
 #: templates/archives/events/events_3.php:27
 #: templates/archives/events/events_4.php:28
-#: templates/archives/events/events_5.php:28
+#: templates/archives/events/events_5.php:27
+#: templates/archives/staff/staff_1.php:78
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:278
 msgid "All"
 msgstr ""
@@ -939,7 +942,7 @@ msgstr ""
 msgid "All FAQ Tags"
 msgstr ""
 
-#: functions/sidebars.php:589 functions/cpt/cpt-faq.php:22
+#: functions/sidebars.php:587 functions/cpt/cpt-faq.php:22
 msgid "All FAQs"
 msgstr ""
 
@@ -951,7 +954,7 @@ msgstr ""
 msgid "All Form Types"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:441
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:443
 msgid "All form types"
 msgstr ""
 
@@ -1050,7 +1053,7 @@ msgstr ""
 msgid "Allow building routes on map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:613
+#: redux-framework/sample/sections/codeweber/woocommerce.php:614
 msgid "Allow Guests"
 msgstr ""
 
@@ -1062,15 +1065,15 @@ msgstr ""
 msgid "Already have an account?"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:15
+#: functions/woocommerce/states-ru.php:15
 msgid "Altai Krai"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:14
+#: functions/woocommerce/states-ru.php:14
 msgid "Altai Republic"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:16
+#: functions/woocommerce/states-ru.php:16
 msgid "Amur Oblast"
 msgstr ""
 
@@ -1097,13 +1100,13 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/demo.php:1186
 #: redux-framework/sample/sections/codeweber/demo.php:1263
 #: redux-framework/sample/sections/codeweber/demo.php:1325
-#: redux-framework/sample/sections/codeweber/woocommerce.php:799
-#: redux-framework/sample/sections/codeweber/woocommerce.php:809
+#: redux-framework/sample/sections/codeweber/woocommerce.php:800
+#: redux-framework/sample/sections/codeweber/woocommerce.php:810
 msgid "An error occurred"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:961
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:991
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:971
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1001
 #: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:617
 #: functions/integrations/codeweber-forms/codeweber-forms-core.php:43
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:166
@@ -1162,7 +1165,7 @@ msgstr ""
 msgid "API ключ из кабинета DaData"
 msgstr ""
 
-#: templates/singles/events/default.php:318
+#: functions/sidebars.php:837
 msgid "Apple Calendar"
 msgstr ""
 
@@ -1209,7 +1212,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/cpt-type.php:591
 #: redux-framework/sample/sections/codeweber/cpt-type.php:607
 #: redux-framework/sample/sections/codeweber/cpt-type.php:623
-#: redux-framework/sample/sections/codeweber/woocommerce.php:42
+#: redux-framework/sample/sections/codeweber/woocommerce.php:43
 msgid "Archive"
 msgstr ""
 
@@ -1218,12 +1221,12 @@ msgstr ""
 msgid "Archive Template for %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:59
+#: redux-framework/sample/sections/codeweber/woocommerce.php:60
 msgid "Archive Title"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:281
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:586
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:588
 msgid "Archived"
 msgstr ""
 
@@ -1255,7 +1258,7 @@ msgstr ""
 msgid "Are you sure you want to permanently delete this subscription?"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:84
+#: functions/integrations/cf7/cf7-consents-panel.php:84
 msgid "Are you sure you want to remove this consent?"
 msgstr ""
 
@@ -1268,11 +1271,11 @@ msgid "Are you sure you want to unsubscribe this user?"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:331
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:647
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:649
 msgid "Are you sure?"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:17
+#: functions/woocommerce/states-ru.php:17
 msgid "Arkhangelsk Oblast"
 msgstr ""
 
@@ -1280,7 +1283,21 @@ msgstr ""
 msgid "Ash"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:18
+#: functions/sidebars.php:575 functions/sidebars.php:599
+#: functions/sidebars.php:617 functions/faq/faq-form-api.php:44
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:462
+msgid "Ask a Question"
+msgstr ""
+
+#: functions/admin/faq-settings.php:93
+msgid "Ask a Question Form — Consents"
+msgstr ""
+
+#: functions/admin/faq-settings.php:49
+msgid "Ask a Question Form — Fields"
+msgstr ""
+
+#: functions/woocommerce/states-ru.php:18
 msgid "Astrakhan Oblast"
 msgstr ""
 
@@ -1307,8 +1324,7 @@ msgstr ""
 msgid "Attached Media Files"
 msgstr ""
 
-#: functions/cpt/cpt-testimonials.php:541
-#: templates/singles/events/default.php:336
+#: functions/sidebars.php:855 functions/cpt/cpt-testimonials.php:541
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1096
 #: redux-framework/sample/sections/codeweber/childtheme.php:35
 msgid "Author"
@@ -1378,7 +1394,7 @@ msgstr ""
 msgid "Auto-Reply"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1585
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1595
 msgid "Auto-reply is disabled."
 msgstr ""
 
@@ -1411,7 +1427,7 @@ msgstr ""
 msgid "Avatar URL"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:184
+#: redux-framework/sample/sections/codeweber/woocommerce.php:185
 msgid "Average rating"
 msgstr ""
 
@@ -1436,15 +1452,15 @@ msgstr ""
 msgid "Back to Departments"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:253
+#: redux-framework/sample/sections/codeweber/woocommerce.php:254
 msgid "Badge Position"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:217
+#: redux-framework/sample/sections/codeweber/woocommerce.php:218
 msgid "Badge Shape"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:208
+#: redux-framework/sample/sections/codeweber/woocommerce.php:209
 msgid "Badges"
 msgstr ""
 
@@ -1503,7 +1519,7 @@ msgstr ""
 msgid "Base Settings"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:19
+#: functions/woocommerce/states-ru.php:19
 msgid "Bashkortostan"
 msgstr ""
 
@@ -1548,7 +1564,7 @@ msgstr ""
 msgid "Behance"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:20
+#: functions/woocommerce/states-ru.php:20
 msgid "Belgorod Oblast"
 msgstr ""
 
@@ -1601,7 +1617,7 @@ msgstr ""
 msgid "Blockquote"
 msgstr ""
 
-#: functions/global.php:606
+#: functions/global.php:178
 msgid "Blog"
 msgstr ""
 
@@ -1628,7 +1644,7 @@ msgstr ""
 msgid "Bootstrap Modal Options"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:72
+#: redux-framework/sample/sections/codeweber/woocommerce.php:73
 msgid "Both"
 msgstr ""
 
@@ -1705,7 +1721,7 @@ msgstr ""
 msgid "Browser User Agent"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:21
+#: functions/woocommerce/states-ru.php:21
 msgid "Bryansk Oblast"
 msgstr ""
 
@@ -1726,11 +1742,11 @@ msgstr ""
 msgid "Built-in form on page"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:22
+#: functions/woocommerce/states-ru.php:22
 msgid "Buryatia"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:35
+#: functions/woocommerce/swatches.php:35
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:323
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:380
 msgid "Button"
@@ -1748,13 +1764,13 @@ msgstr ""
 msgid "Button Label"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:622
-#: redux-framework/sample/sections/codeweber/woocommerce.php:707
+#: redux-framework/sample/sections/codeweber/woocommerce.php:623
+#: redux-framework/sample/sections/codeweber/woocommerce.php:708
 msgid "Button on Product Cards"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:631
-#: redux-framework/sample/sections/codeweber/woocommerce.php:716
+#: redux-framework/sample/sections/codeweber/woocommerce.php:632
+#: redux-framework/sample/sections/codeweber/woocommerce.php:717
 msgid "Button on Single Product"
 msgstr ""
 
@@ -1788,13 +1804,13 @@ msgstr ""
 msgid "Calendar view"
 msgstr ""
 
-#: functions/integrations/cf7.php:528
+#: functions/integrations/cf7/cf7.php:496
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:684
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:977
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:987
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:221
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:60
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:540
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:554
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:555
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:352
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:440
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:540
@@ -1809,7 +1825,7 @@ msgstr ""
 msgid "Callback Request"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:446
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:448
 msgid "Callback request"
 msgstr ""
 
@@ -1872,7 +1888,7 @@ msgstr ""
 msgid "Card with excerpt and footer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:376
+#: redux-framework/sample/sections/codeweber/woocommerce.php:377
 msgid "Cart"
 msgstr ""
 
@@ -1938,7 +1954,7 @@ msgstr ""
 msgid "CF7 Forms"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:23
+#: functions/woocommerce/states-ru.php:23
 msgid "Chechnya"
 msgstr ""
 
@@ -1968,19 +1984,19 @@ msgstr ""
 msgid "Checking..."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:498
+#: redux-framework/sample/sections/codeweber/woocommerce.php:499
 msgid "Checkout: Additional"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:456
+#: redux-framework/sample/sections/codeweber/woocommerce.php:457
 msgid "Checkout: Billing"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:486
+#: redux-framework/sample/sections/codeweber/woocommerce.php:487
 msgid "Checkout: Shipping"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:24
+#: functions/woocommerce/states-ru.php:24
 msgid "Chelyabinsk Oblast"
 msgstr ""
 
@@ -2028,7 +2044,7 @@ msgstr ""
 msgid "Choose from the most used departments"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:68
+#: redux-framework/sample/sections/codeweber/woocommerce.php:69
 msgid "Choose how products are navigated on shop pages"
 msgstr ""
 
@@ -2039,15 +2055,15 @@ msgid ""
 "Codeweber Blocks\" allows all blocks from Codeweber Gutenberg Blocks plugin."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:727
+#: redux-framework/sample/sections/codeweber/woocommerce.php:728
 msgid "Choose which rows to display in the comparison table"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:25
+#: functions/woocommerce/states-ru.php:25
 msgid "Chukotka Autonomous Okrug"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:26
+#: functions/woocommerce/states-ru.php:26
 msgid "Chuvashia"
 msgstr ""
 
@@ -2081,24 +2097,24 @@ msgid "Circular avatar with social links"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:202 functions/cpt/cpt-offices.php:803
-#: functions/cpt/cpt-staff.php:221
+#: functions/cpt/cpt-staff.php:271
 #: woocommerce/order/order-details-customer.php:35
 #: woocommerce/order/order-details-customer.php:74
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:376
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:435
 #: redux-framework/sample/sections/codeweber/company-details.php:65
 #: redux-framework/sample/sections/codeweber/company-details.php:127
-#: redux-framework/sample/sections/codeweber/woocommerce.php:441
-#: redux-framework/sample/sections/codeweber/woocommerce.php:473
+#: redux-framework/sample/sections/codeweber/woocommerce.php:442
+#: redux-framework/sample/sections/codeweber/woocommerce.php:474
 msgid "City"
 msgstr ""
 
 #: woocommerce/content-compare-bar.php:83
-#: functions/integrations/compare/class-cw-compare-ui.php:77
+#: functions/woocommerce/compare/class-cw-compare-ui.php:77
 msgid "Clear"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:232
+#: functions/woocommerce/compare/class-cw-compare-ui.php:232
 #: redux-framework/sample/sections/codeweber/legal.php:856
 #: redux-framework/sample/sections/codeweber/legal.php:864
 msgid "Clear all"
@@ -2130,7 +2146,7 @@ msgstr ""
 msgid "Clearing..."
 msgstr ""
 
-#: functions/woocommerce-gateway-test.php:45
+#: functions/woocommerce/gateway-test.php:45
 msgid ""
 "Click \"Add payment method\" below to save a test card. No real payment."
 msgstr ""
@@ -2172,16 +2188,16 @@ msgstr ""
 msgid "Clients list"
 msgstr ""
 
-#: functions/woocommerce-quick-view.php:85 functions/cpt/cpt-documents.php:829
-#: functions/integrations/modal-container.php:80
-#: functions/integrations/modal-container.php:104
-#: functions/integrations/modal-container.php:125
-#: functions/integrations/success-message-template.php:69
+#: functions/cpt/cpt-documents.php:829 functions/woocommerce/quick-view.php:85
+#: functions/integrations/modal/modal-container.php:80
+#: functions/integrations/modal/modal-container.php:104
+#: functions/integrations/modal/modal-container.php:125
+#: functions/integrations/modal/success-message-template.php:69
 #: functions/integrations/redux_framework/redux_cookie.php:99
 msgid "Close"
 msgstr ""
 
-#: functions/sidebars.php:337 functions/cpt/cpt-vacancies.php:731
+#: functions/sidebars.php:313 functions/cpt/cpt-vacancies.php:731
 #: templates/singles/vacancies/default.php:68
 msgid "Closed"
 msgstr ""
@@ -2194,7 +2210,7 @@ msgstr ""
 msgid "Clusterer Settings"
 msgstr ""
 
-#: functions/woocommerce.php:187 functions/woocommerce.php:188
+#: functions/woocommerce/core.php:187 functions/woocommerce/core.php:188
 msgid "Code from SMS"
 msgstr ""
 
@@ -2215,8 +2231,8 @@ msgstr ""
 msgid "CodeWeber Form"
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:229
-#: functions/integrations/modal-rest-api.php:348
+#: functions/integrations/modal/modal-rest-api.php:229
+#: functions/integrations/modal/modal-rest-api.php:348
 msgid "Codeweber form not found."
 msgstr ""
 
@@ -2234,8 +2250,8 @@ msgstr ""
 msgid "CodeWeber Forms Editor"
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:218
-#: functions/integrations/modal-rest-api.php:327
+#: functions/integrations/modal/modal-rest-api.php:218
+#: functions/integrations/modal/modal-rest-api.php:327
 msgid "Codeweber Forms module is not available."
 msgstr ""
 
@@ -2256,19 +2272,19 @@ msgstr ""
 msgid "Color for custom markers"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:36
+#: functions/woocommerce/swatches.php:36
 msgid "Color swatch"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:156
+#: redux-framework/sample/sections/codeweber/woocommerce.php:157
 msgid "Column Options"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:148
+#: redux-framework/sample/sections/codeweber/woocommerce.php:149
 msgid "Columns Switcher"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:90
+#: redux-framework/sample/sections/codeweber/woocommerce.php:91
 msgid "Comma-separated list of values, e.g. 12,24,48"
 msgstr ""
 
@@ -2277,8 +2293,8 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:316
-#: templates/singles/events/default.php:467
+#: functions/sidebars.php:997 functions/sidebars.php:998
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:318
 #: templates/singles/events/registration-form.php:52
 msgid "Comment (optional)"
 msgstr ""
@@ -2311,19 +2327,19 @@ msgstr ""
 msgid "Compact — g-3 (15px)"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:197 functions/cpt/cpt-testimonials.php:542
+#: functions/cpt/cpt-staff.php:247 functions/cpt/cpt-testimonials.php:542
 #: functions/cpt/cpt-vacancies.php:303
 #: woocommerce/order/order-details-customer.php:32
 #: woocommerce/order/order-details-customer.php:71
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:105
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:107
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:350
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:514
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:800
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:763
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:117
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:333
-#: redux-framework/sample/sections/codeweber/woocommerce.php:437
-#: redux-framework/sample/sections/codeweber/woocommerce.php:469
+#: redux-framework/sample/sections/codeweber/woocommerce.php:438
+#: redux-framework/sample/sections/codeweber/woocommerce.php:470
 msgid "Company"
 msgstr ""
 
@@ -2339,7 +2355,7 @@ msgstr ""
 msgid "Company Name"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:111
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:113
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:524
 msgid "Company name"
 msgstr ""
@@ -2359,21 +2375,21 @@ msgid "Company:"
 msgstr ""
 
 #: woocommerce/content-compare-bar.php:78
-#: functions/integrations/compare/class-cw-compare-ui.php:76
-#: redux-framework/sample/sections/codeweber/woocommerce.php:669
+#: functions/woocommerce/compare/class-cw-compare-ui.php:76
+#: redux-framework/sample/sections/codeweber/woocommerce.php:670
 msgid "Compare"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:72
-#: functions/integrations/compare/class-cw-compare.php:90
+#: functions/woocommerce/compare/class-cw-compare-ui.php:72
+#: functions/woocommerce/compare/class-cw-compare.php:90
 msgid "Compare limit reached"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:685
+#: redux-framework/sample/sections/codeweber/woocommerce.php:686
 msgid "Compare Page"
 msgstr ""
 
-#: functions/integrations/compare/functions.php:114
+#: functions/woocommerce/compare/functions.php:114
 msgid "Compare Products"
 msgstr ""
 
@@ -2381,7 +2397,7 @@ msgstr ""
 msgid "Compliance Mode"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:284
+#: functions/integrations/cf7/cf7-consents-panel.php:284
 msgid ""
 "Configure consent checkboxes for this form. You can add multiple consents "
 "using the repeater below."
@@ -2409,7 +2425,7 @@ msgstr ""
 msgid "Configure SMTP settings for sending emails from your website."
 msgstr ""
 
-#: functions/woocommerce.php:189
+#: functions/woocommerce/core.php:189
 msgid "Confirm"
 msgstr ""
 
@@ -2427,7 +2443,7 @@ msgstr ""
 msgid "Confirmation Email"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:527
+#: redux-framework/sample/sections/codeweber/woocommerce.php:528
 msgid "Confirmation of phone number by SMS"
 msgstr ""
 
@@ -2463,17 +2479,18 @@ msgstr ""
 msgid "Connection successful!"
 msgstr ""
 
+#: functions/admin/faq-settings.php:202 functions/admin/faq-settings.php:258
 #: functions/admin/testimonials-settings.php:93
 #: functions/admin/testimonials-settings.php:149
 #: functions/cpt/cpt-events.php:477 functions/cpt/cpt-events.php:526
-#: functions/integrations/cf7-consents-panel.php:86
-#: functions/integrations/cf7-consents-panel.php:315
+#: functions/integrations/cf7/cf7-consents-panel.php:86
+#: functions/integrations/cf7/cf7-consents-panel.php:315
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:102
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:226
 msgid "Consent"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:892
+#: functions/integrations/cf7/cf7-consents-panel.php:892
 msgid "Consent checkboxes shortcode added to form template."
 msgstr ""
 
@@ -2481,6 +2498,10 @@ msgstr ""
 msgid ""
 "Consent checkboxes shown in the built-in testimonial form (leave a review "
 "modal)."
+msgstr ""
+
+#: functions/admin/faq-settings.php:96
+msgid "Consent checkboxes shown in the FAQ question form."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:122
@@ -2533,10 +2554,10 @@ msgid "Consented Document"
 msgstr ""
 
 #: functions/events/event-registrations.php:342
-#: functions/integrations/cf7-consents-panel.php:255
-#: functions/integrations/cf7-consents-panel.php:281
-#: functions/integrations/cf7-consents-panel.php:860
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:874
+#: functions/integrations/cf7/cf7-consents-panel.php:255
+#: functions/integrations/cf7/cf7-consents-panel.php:281
+#: functions/integrations/cf7/cf7-consents-panel.php:860
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:876
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:784
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:27
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1099
@@ -2551,7 +2572,7 @@ msgstr ""
 msgid "Contact Details"
 msgstr ""
 
-#: functions/integrations/cf7.php:532
+#: functions/integrations/cf7/cf7.php:500
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:160
 #: functions/integrations/codeweber-forms/codeweber-forms-gutenberg-restrictions.php:207
 msgid "Contact Form"
@@ -2574,8 +2595,8 @@ msgstr ""
 msgid "Contact Form 7 is not active"
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:181
-#: functions/integrations/modal-rest-api.php:274
+#: functions/integrations/modal/modal-rest-api.php:181
+#: functions/integrations/modal/modal-rest-api.php:274
 msgid "Contact Form 7 plugin is not active."
 msgstr ""
 
@@ -2602,8 +2623,8 @@ msgstr ""
 msgid "Contact Form 7: Request Callback"
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:192
-#: functions/integrations/modal-rest-api.php:295
+#: functions/integrations/modal/modal-rest-api.php:192
+#: functions/integrations/modal/modal-rest-api.php:295
 msgid "Contact form not found."
 msgstr ""
 
@@ -2640,7 +2661,11 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:93
+#: functions/sidebars.php:528 functions/sidebars.php:585
+msgid "Contents"
+msgstr ""
+
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:93
 msgid "Continue Shopping"
 msgstr ""
 
@@ -2679,7 +2704,7 @@ msgid "Coordinates"
 msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:125
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:253
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:255
 msgid "Copy shortcode"
 msgstr ""
 
@@ -2707,13 +2732,13 @@ msgstr ""
 msgid "Could not read file."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:196 functions/cpt/cpt-staff.php:215
+#: functions/cpt/cpt-offices.php:196 functions/cpt/cpt-staff.php:265
 #: woocommerce/order/order-details-customer.php:38
 #: woocommerce/order/order-details-customer.php:77
 #: redux-framework/sample/sections/codeweber/company-details.php:51
 #: redux-framework/sample/sections/codeweber/company-details.php:113
-#: redux-framework/sample/sections/codeweber/woocommerce.php:438
-#: redux-framework/sample/sections/codeweber/woocommerce.php:470
+#: redux-framework/sample/sections/codeweber/woocommerce.php:439
+#: redux-framework/sample/sections/codeweber/woocommerce.php:471
 msgid "Country"
 msgstr ""
 
@@ -2742,13 +2767,13 @@ msgstr ""
 msgid "Create 50 demo events? This may take a while (image import)."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:775
+#: redux-framework/sample/sections/codeweber/woocommerce.php:776
 msgid ""
 "Create 9 demo products with categories, tags and images from the theme "
 "photos folder."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:794
+#: redux-framework/sample/sections/codeweber/woocommerce.php:795
 msgid "Create 9 demo products with categories, tags and images?"
 msgstr ""
 
@@ -2765,8 +2790,8 @@ msgstr ""
 msgid "Create Child Theme"
 msgstr ""
 
-#: functions/integrations/compare/functions.php:150
-#: functions/integrations/compare/functions.php:174
+#: functions/woocommerce/compare/functions.php:150
+#: functions/woocommerce/compare/functions.php:174
 msgid "Create Compare Page"
 msgstr ""
 
@@ -2893,7 +2918,7 @@ msgstr ""
 msgid "Create Demo Offices"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:777
+#: redux-framework/sample/sections/codeweber/woocommerce.php:778
 msgid "Create Demo Products"
 msgstr ""
 
@@ -2929,8 +2954,8 @@ msgstr ""
 msgid "Create Page Header"
 msgstr ""
 
-#: functions/integrations/wishlist/functions.php:103
-#: functions/integrations/wishlist/functions.php:128
+#: functions/woocommerce/wishlist/functions.php:103
+#: functions/woocommerce/wishlist/functions.php:128
 msgid "Create Wishlist Page"
 msgstr ""
 
@@ -2973,7 +2998,7 @@ msgstr ""
 msgid "Creating forms..."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:795
+#: redux-framework/sample/sections/codeweber/woocommerce.php:796
 msgid "Creating products..."
 msgstr ""
 
@@ -2981,8 +3006,8 @@ msgstr ""
 msgid "Creating..."
 msgstr ""
 
-#: functions/integrations/compare/functions.php:160
-#: functions/integrations/wishlist/functions.php:114
+#: functions/woocommerce/compare/functions.php:160
+#: functions/woocommerce/wishlist/functions.php:114
 msgid "Creating…"
 msgstr ""
 
@@ -3024,7 +3049,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/header.php:78
 #: redux-framework/sample/sections/codeweber/page-header.php:93
 #: redux-framework/sample/sections/codeweber/style.php:331
-#: redux-framework/sample/sections/codeweber/woocommerce.php:220
+#: redux-framework/sample/sections/codeweber/woocommerce.php:221
 msgid "Custom"
 msgstr ""
 
@@ -3084,7 +3109,7 @@ msgstr ""
 msgid "Custom SCSS / Code"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:227
+#: redux-framework/sample/sections/codeweber/woocommerce.php:228
 msgid "Custom Shape"
 msgstr ""
 
@@ -3123,27 +3148,27 @@ msgstr ""
 msgid "CW Notify (Toast)"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1820
+#: functions/woocommerce/filters.php:1820
 msgid "CW: Активные фильтры"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1562
+#: functions/woocommerce/filters.php:1562
 msgid "CW: Фильтр по атрибуту"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1664
+#: functions/woocommerce/filters.php:1664
 msgid "CW: Фильтр по категории"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1773
+#: functions/woocommerce/filters.php:1773
 msgid "CW: Фильтр по наличию"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1726
+#: functions/woocommerce/filters.php:1726
 msgid "CW: Фильтр по рейтингу"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1516
+#: functions/woocommerce/filters.php:1516
 msgid "CW: Фильтр по цене"
 msgstr ""
 
@@ -3163,7 +3188,7 @@ msgstr ""
 msgid "DaData: включить стандартизацию адресов"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:27
+#: functions/woocommerce/states-ru.php:27
 msgid "Dagestan"
 msgstr ""
 
@@ -3218,8 +3243,8 @@ msgstr ""
 msgid "Database table:"
 msgstr ""
 
-#: functions/ajax-filter.php:410 functions/cpt/cpt-faq.php:148
-#: functions/events/event-registrations.php:117
+#: functions/cpt/cpt-faq.php:148 functions/events/event-registrations.php:117
+#: functions/fetch/filterPosts.php:376
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:42
 #: templates/archives/events/events_1.php:64
 #: templates/archives/events/events_2.php:40
@@ -3246,12 +3271,12 @@ msgid ""
 "format=\"d.m.Y\"]"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1687
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1697
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:438
 msgid "Date:"
 msgstr ""
 
-#: templates/singles/events/default.php:235
+#: functions/sidebars.php:754
 msgid "days"
 msgstr ""
 
@@ -3291,7 +3316,7 @@ msgstr ""
 msgid "Default Clickable"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:100
+#: redux-framework/sample/sections/codeweber/woocommerce.php:101
 msgid "Default Columns per Screen"
 msgstr ""
 
@@ -3336,7 +3361,7 @@ msgstr ""
 msgid "Default Messages"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:417
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:520
 msgid "Default Newsletter Form"
 msgstr ""
 
@@ -3360,7 +3385,7 @@ msgstr ""
 msgid "Default Sender Name"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:182
+#: redux-framework/sample/sections/codeweber/woocommerce.php:183
 msgid "Default sorting"
 msgstr ""
 
@@ -3386,7 +3411,7 @@ msgid "Default Template"
 msgstr ""
 
 #: functions/admin/testimonials-settings.php:50
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:133
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:135
 msgid "Default Testimonial Form"
 msgstr ""
 
@@ -3418,7 +3443,7 @@ msgstr ""
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:71
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:331
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:84
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:647
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:649
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:708
 #: redux-framework/sample/sections/codeweber/legal.php:864
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:828
@@ -3457,7 +3482,7 @@ msgstr ""
 msgid "Delete all demo office entries? This action cannot be undone."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:804
+#: redux-framework/sample/sections/codeweber/woocommerce.php:805
 msgid "Delete all demo products? This action cannot be undone."
 msgstr ""
 
@@ -3505,7 +3530,7 @@ msgstr ""
 msgid "Delete Demo Offices"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:778
+#: redux-framework/sample/sections/codeweber/woocommerce.php:779
 msgid "Delete Demo Products"
 msgstr ""
 
@@ -3525,7 +3550,7 @@ msgstr ""
 msgid "Delete Permanently"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:291
+#: functions/cpt/cpt-staff.php:341
 msgid "Delete QR code"
 msgstr ""
 
@@ -3558,7 +3583,7 @@ msgstr ""
 msgid "Deleting forms..."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:805
+#: redux-framework/sample/sections/codeweber/woocommerce.php:806
 msgid "Deleting products..."
 msgstr ""
 
@@ -3603,7 +3628,7 @@ msgstr ""
 msgid "Demo Offices"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:764
+#: redux-framework/sample/sections/codeweber/woocommerce.php:765
 msgid "Demo Products"
 msgstr ""
 
@@ -3623,11 +3648,11 @@ msgstr ""
 msgid "Demo Vacancies"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:774
+#: redux-framework/sample/sections/codeweber/woocommerce.php:775
 msgid "Demo WooCommerce Products"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:78 functions/cpt/cpt-staff.php:200
+#: functions/cpt/cpt-staff.php:78 functions/cpt/cpt-staff.php:250
 msgid "Department"
 msgstr ""
 
@@ -3672,8 +3697,9 @@ msgstr ""
 msgid "Detailed guide for creating and configuring email newsletter forms."
 msgstr ""
 
-#: functions/ajax-filter.php:484 functions/ajax-filter.php:680
-#: functions/sidebars.php:356 templates/archives/events/events_1.php:128
+#: functions/sidebars.php:332 functions/fetch/filterPosts.php:445
+#: functions/fetch/filterPosts.php:653
+#: templates/archives/events/events_1.php:128
 #: templates/archives/events/events_2.php:104
 #: templates/archives/events/events_4.php:116
 msgid "Details"
@@ -3718,11 +3744,17 @@ msgstr ""
 msgid "Disable Sidebar"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:331
+#: functions/admin/faq-settings.php:152 functions/cpt/cpt-events.php:331
 #: redux-framework/sample/sections/codeweber/cpt-type.php:142
 #: redux-framework/sample/sections/codeweber/cpt-type.php:426
 #: redux-framework/sample/sections/codeweber/cpt-type.php:437
 msgid "Disabled"
+msgstr ""
+
+#: functions/admin/faq-settings.php:156
+msgid ""
+"Disabled hides the form completely. Inline displays the form in the sidebar. "
+"Modal shows a button that opens the form in a popup."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:156
@@ -3779,6 +3811,7 @@ msgstr ""
 msgid "Distance from top edge (enter number in px or \"auto\")"
 msgstr ""
 
+#: functions/admin/faq-settings.php:215 functions/admin/faq-settings.php:266
 #: functions/admin/testimonials-settings.php:106
 #: functions/admin/testimonials-settings.php:157
 #: functions/cpt/cpt-documents.php:7 functions/cpt/cpt-documents.php:26
@@ -3806,7 +3839,7 @@ msgstr ""
 msgid "Document Category"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:838
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:840
 msgid "Document ID: %d"
 msgstr ""
 
@@ -3881,6 +3914,7 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
+#: functions/admin/faq-settings.php:104
 #: functions/admin/testimonials-settings.php:61
 msgid "Documents / Consents"
 msgstr ""
@@ -3893,12 +3927,12 @@ msgstr ""
 msgid "Don't have an account?"
 msgstr ""
 
-#: functions/integrations/compare/functions.php:171
-#: functions/integrations/wishlist/functions.php:125
+#: functions/woocommerce/compare/functions.php:171
+#: functions/woocommerce/wishlist/functions.php:125
 msgid "Done"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:98
+#: functions/woocommerce/states-ru.php:98
 msgid "Donetsk People's Republic"
 msgstr ""
 
@@ -3911,7 +3945,7 @@ msgstr ""
 msgid "Download date:"
 msgstr ""
 
-#: functions/sidebars.php:432
+#: functions/sidebars.php:408
 msgid "Download document"
 msgstr ""
 
@@ -3945,7 +3979,7 @@ msgstr ""
 msgid "Dropbox"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:231
+#: functions/woocommerce/swatches.php:231
 msgid "Dual color (gradient)"
 msgstr ""
 
@@ -3953,7 +3987,7 @@ msgstr ""
 msgid "Duplicate Handling"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:191 functions/cpt/cpt-staff.php:422
+#: functions/cpt/cpt-staff.php:241 functions/cpt/cpt-staff.php:481
 #: templates/singles/offices/default.php:223
 #: templates/singles/staff/default.php:113
 #: templates/singles/staff/staff_1.php:113
@@ -4134,7 +4168,9 @@ msgstr ""
 #: functions/events/event-registrations.php:113
 #: functions/events/event-registrations.php:325
 #: woocommerce/order/order-details-customer.php:40
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:396
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:405
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:406
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:499
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:348
 #: templates/singles/offices/offices_1.php:227
 #: templates/singles/offices/offices_2.php:186
@@ -4143,23 +4179,22 @@ msgstr ""
 #: templates/singles/staff/staff_3.php:125
 #: templates/singles/staff/staff_4.php:141
 #: templates/singles/staff/staff_5.php:155
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:867
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:869
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:93
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:115
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1007
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:477
-#: redux-framework/sample/sections/codeweber/woocommerce.php:444
+#: redux-framework/sample/sections/codeweber/woocommerce.php:445
 msgid "Email"
 msgstr ""
 
-#: comments.php:151
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:278
-#: templates/singles/events/default.php:455
+#: comments.php:151 functions/sidebars.php:980 functions/sidebars.php:982
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:280
 #: templates/singles/events/registration-form.php:39
 msgid "Email *"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:397
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:500
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:282
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:283
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:812
@@ -4193,7 +4228,11 @@ msgstr ""
 msgid "Email Delivery Test"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1036
+#: functions/admin/faq-settings.php:76
+msgid "Email field"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1046
 msgid "Email is required"
 msgstr ""
 
@@ -4213,7 +4252,7 @@ msgstr ""
 msgid "Email preview"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1475
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1485
 msgid "Email sending failed."
 msgstr ""
 
@@ -4283,7 +4322,7 @@ msgstr ""
 msgid "Empty trash? This will permanently delete items."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:399
+#: redux-framework/sample/sections/codeweber/woocommerce.php:400
 msgid "Enable"
 msgstr ""
 
@@ -4311,7 +4350,7 @@ msgstr ""
 msgid "Enable Clusterer"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:677
+#: redux-framework/sample/sections/codeweber/woocommerce.php:678
 msgid "Enable Compare"
 msgstr ""
 
@@ -4352,11 +4391,11 @@ msgstr ""
 msgid "Enable Newsletter Reply"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:520
+#: redux-framework/sample/sections/codeweber/woocommerce.php:521
 msgid "Enable phone field in registration/account"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:574
+#: redux-framework/sample/sections/codeweber/woocommerce.php:575
 msgid "Enable Quick View"
 msgstr ""
 
@@ -4388,7 +4427,7 @@ msgstr ""
 msgid "Enable SMTP"
 msgstr ""
 
-#: functions/woocommerce-gateway-test.php:37
+#: functions/woocommerce/gateway-test.php:37
 msgid "Enable test gateway"
 msgstr ""
 
@@ -4396,7 +4435,7 @@ msgstr ""
 msgid "Enable Testimonial Reply"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:595
+#: redux-framework/sample/sections/codeweber/woocommerce.php:596
 msgid "Enable Wishlist"
 msgstr ""
 
@@ -4428,7 +4467,7 @@ msgstr ""
 msgid "End Date & Time"
 msgstr ""
 
-#: templates/singles/events/default.php:269
+#: functions/sidebars.php:788
 msgid "End:"
 msgstr ""
 
@@ -4513,7 +4552,7 @@ msgstr ""
 msgid "Enter your admin password to confirm:"
 msgstr ""
 
-#: functions/enqueues.php:427
+#: functions/enqueues.php:425
 msgid "Error"
 msgstr ""
 
@@ -4555,7 +4594,7 @@ msgid "Error downloading file. Please try again."
 msgstr ""
 
 #. 1: attachment ID, 2: error message
-#: functions/admin/media-regenerate.php:93
+#: functions/admin/media-regenerate.php:117
 #, php-format
 msgid "Error for #%d: %s"
 msgstr ""
@@ -4610,9 +4649,10 @@ msgstr ""
 msgid "Errors:"
 msgstr ""
 
-#: functions/ajax-filter.php:411 functions/cpt/cpt-events.php:25
-#: functions/cpt/cpt-events.php:38 functions/events/event-registrations.php:111
+#: functions/cpt/cpt-events.php:25 functions/cpt/cpt-events.php:38
+#: functions/events/event-registrations.php:111
 #: functions/events/event-registrations.php:313
+#: functions/fetch/filterPosts.php:377
 #: templates/archives/events/events_1.php:65
 #: templates/archives/events/events_2.php:41
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1120
@@ -4639,7 +4679,7 @@ msgstr ""
 msgid "Event Dates"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:169 templates/singles/events/default.php:224
+#: functions/sidebars.php:743 functions/cpt/cpt-events.php:169
 msgid "Event Details"
 msgstr ""
 
@@ -4802,7 +4842,7 @@ msgid "Facebook Pixel Settings"
 msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:166
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:377
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:379
 msgid "Failed to copy shortcode"
 msgstr ""
 
@@ -4839,11 +4879,15 @@ msgstr ""
 msgid "Failed to create: %s"
 msgstr ""
 
+#: functions/admin/media-regenerate.php:162
+msgid "Failed to delete attachment #%d"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:505
 msgid "Failed to delete file"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1337
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1347
 msgid "Failed to delete file."
 msgstr ""
 
@@ -4859,7 +4903,7 @@ msgstr ""
 #: functions/demo/demo-forms.php:341 functions/demo/demo-offices.php:360
 #: functions/demo/demo-products.php:1800 functions/demo/demo-staff.php:450
 #: functions/demo/demo-testimonials.php:525
-#: functions/demo/demo-vacancies.php:560
+#: functions/demo/demo-vacancies.php:566
 msgid "Failed to delete record ID: %d"
 msgstr ""
 
@@ -4872,7 +4916,7 @@ msgstr ""
 msgid "Failed to load avatar for \"%s\""
 msgstr ""
 
-#: functions/woocommerce-quick-view.php:134
+#: functions/woocommerce/quick-view.php:134
 msgid "Failed to load product. Please try again."
 msgstr ""
 
@@ -4881,7 +4925,7 @@ msgstr ""
 msgid "Failed to move submission to trash"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:238
+#: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:261
 msgid "Failed to render form. Please check form configuration."
 msgstr ""
 
@@ -4889,11 +4933,11 @@ msgstr ""
 msgid "Failed to save consents to user meta"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1304
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1314
 msgid "Failed to save file record."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1286
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1296
 msgid "Failed to save file."
 msgstr ""
 
@@ -4905,8 +4949,8 @@ msgstr ""
 msgid "Failed to save revoked consent"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:711
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:712
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:713
 msgid "Failed to save submission."
 msgstr ""
 
@@ -4961,6 +5005,24 @@ msgstr ""
 
 #: functions/cpt/cpt-faq.php:482
 msgid "FAQ items not found."
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:222
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:541
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:541
+msgid "FAQ Question"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:449
+msgid "FAQ question"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:446
+msgid "FAQ Question Form"
+msgstr ""
+
+#: functions/admin/faq-settings.php:23 functions/admin/faq-settings.php:363
+msgid "FAQ Settings"
 msgstr ""
 
 #. Родительское меню CPT FAQ
@@ -5052,7 +5114,7 @@ msgstr ""
 msgid "File deleted successfully"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1258
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1268
 msgid "File is too large."
 msgstr ""
 
@@ -5088,11 +5150,11 @@ msgstr ""
 msgid "File Type"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1252
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1262
 msgid "File type not allowed."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1229
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1239
 msgid "File upload error."
 msgstr ""
 
@@ -5164,8 +5226,8 @@ msgstr ""
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:757
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:176
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:478
-#: redux-framework/sample/sections/codeweber/woocommerce.php:435
-#: redux-framework/sample/sections/codeweber/woocommerce.php:467
+#: redux-framework/sample/sections/codeweber/woocommerce.php:436
+#: redux-framework/sample/sections/codeweber/woocommerce.php:468
 msgid "First Name"
 msgstr ""
 
@@ -5177,7 +5239,7 @@ msgstr ""
 msgid "Floating Social Widget"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:218
+#: redux-framework/sample/sections/codeweber/woocommerce.php:219
 msgid "Follow the global Button Style from Theme Style settings."
 msgstr ""
 
@@ -5349,7 +5411,7 @@ msgstr ""
 msgid "For full documentation on this field, visit: "
 msgstr ""
 
-#: functions/woocommerce-gateway-test.php:23
+#: functions/woocommerce/gateway-test.php:23
 msgid "For testing: add a fake saved payment method."
 msgstr ""
 
@@ -5361,7 +5423,7 @@ msgstr ""
 msgid "For the policy on the processing of personal data"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:529
+#: redux-framework/sample/sections/codeweber/woocommerce.php:530
 msgid ""
 "For this function to work, you must have a working API key from SMS.RU, it "
 "must be entered and saved in the API tab"
@@ -5388,7 +5450,7 @@ msgstr ""
 msgid "Form \"Feedback form\" already exists"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:212
+#: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:235
 msgid ""
 "Form block not found in the form. Please edit the form and add a Form block."
 msgstr ""
@@ -5399,6 +5461,10 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:34
 msgid "Form Creation Instructions"
+msgstr ""
+
+#: functions/admin/faq-settings.php:60
+msgid "Form display mode"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:115
@@ -5414,7 +5480,7 @@ msgstr ""
 msgid "Form Fields"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1690
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1700
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:442
 msgid "Form Fields:"
 msgstr ""
@@ -5464,6 +5530,10 @@ msgstr ""
 msgid "Form Integration"
 msgstr ""
 
+#: functions/faq/faq-form-api.php:36
+msgid "Form is not available."
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:786
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:135
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:539
@@ -5484,8 +5554,8 @@ msgstr ""
 msgid "Form not found."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:193
-#: functions/integrations/codeweber-forms/blocks/form-selector/render.php:35
+#: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:216
+#: functions/integrations/codeweber-forms/blocks/form-selector/render.php:50
 msgid "Form not found. Please select another form."
 msgstr ""
 
@@ -5517,8 +5587,9 @@ msgstr ""
 msgid "Form System"
 msgstr ""
 
-#: functions/integrations/cf7.php:492 functions/integrations/cf7.php:514
-#: functions/integrations/cf7.php:523
+#: functions/integrations/cf7/cf7.php:460
+#: functions/integrations/cf7/cf7.php:482
+#: functions/integrations/cf7/cf7.php:491
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:44
 msgid "Form Type"
 msgstr ""
@@ -5527,12 +5598,13 @@ msgstr ""
 msgid "Form type"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1686
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1696
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:437
 msgid "Form:"
 msgstr ""
 
-#: functions/ajax-filter.php:413 templates/archives/events/events_1.php:67
+#: functions/fetch/filterPosts.php:379
+#: templates/archives/events/events_1.php:67
 #: templates/archives/events/events_2.php:43
 msgid "Format"
 msgstr ""
@@ -5598,7 +5670,7 @@ msgid ""
 "and <a href=\"%3$s\">edit your password and account details</a>."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1688
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1698
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:439
 msgid "From:"
 msgstr ""
@@ -5611,7 +5683,7 @@ msgstr ""
 msgid "Fuchsia"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:421
+#: redux-framework/sample/sections/codeweber/woocommerce.php:422
 msgid "Full"
 msgstr ""
 
@@ -5674,7 +5746,7 @@ msgstr ""
 msgid "Functional"
 msgstr ""
 
-#: templates/singles/events/default.php:80
+#: templates/singles/events/default.php:43
 msgid "Gallery"
 msgstr ""
 
@@ -5690,11 +5762,11 @@ msgstr ""
 msgid "General Settings"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:287
+#: functions/cpt/cpt-staff.php:337
 msgid "Generate QR code"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:402
+#: functions/cpt/cpt-staff.php:461
 msgid "Generating..."
 msgstr ""
 
@@ -5755,13 +5827,13 @@ msgid "Gmail"
 msgstr ""
 
 #: templates/content/loop-legal.php:33 templates/archives/legal/legal_1.php:29
-#: templates/post-cards/vacancies/style4-card.php:96
+#: templates/post-cards/vacancies/style4-card.php:95
 #: templates/post-cards/vacancies/style5-card.php:56
 msgid "Go"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:193
-#: functions/integrations/compare/class-cw-compare-ui.php:207
+#: functions/woocommerce/compare/class-cw-compare-ui.php:193
+#: functions/woocommerce/compare/class-cw-compare-ui.php:207
 msgid "Go to catalog"
 msgstr ""
 
@@ -5769,7 +5841,7 @@ msgstr ""
 msgid "Go to Homepage"
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:172
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:172
 msgid "Go to Shop"
 msgstr ""
 
@@ -5777,7 +5849,7 @@ msgstr ""
 msgid "Go to Tools → Export Personal Data in WordPress admin"
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:94
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:94
 msgid "Go to Wishlist"
 msgstr ""
 
@@ -5789,7 +5861,7 @@ msgstr ""
 msgid "Google Analytics Settings"
 msgstr ""
 
-#: templates/singles/events/default.php:322
+#: functions/sidebars.php:841
 msgid "Google Calendar"
 msgstr ""
 
@@ -5813,7 +5885,7 @@ msgstr ""
 msgid "Google Tag Manager Settings"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:244
+#: functions/woocommerce/swatches.php:244
 msgid "Gradient angle"
 msgstr ""
 
@@ -5854,7 +5926,7 @@ msgstr ""
 msgid "Guest"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:614
+#: redux-framework/sample/sections/codeweber/woocommerce.php:615
 msgid ""
 "Guests can add products to wishlist (stored in cookie). Products move to DB "
 "after login."
@@ -5888,7 +5960,7 @@ msgstr ""
 msgid "gy-md-* — overrides vertical gap from ≥768px."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:422
+#: redux-framework/sample/sections/codeweber/woocommerce.php:423
 msgid "Half"
 msgstr ""
 
@@ -6040,7 +6112,7 @@ msgstr ""
 msgid "Hide Author in sidebar on frontend"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:536
+#: redux-framework/sample/sections/codeweber/woocommerce.php:537
 msgid "Hide Downloads Menu"
 msgstr ""
 
@@ -6056,7 +6128,7 @@ msgstr ""
 msgid "Hide seats counter"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:537
+#: redux-framework/sample/sections/codeweber/woocommerce.php:538
 msgid "Hide the \"Downloads\" tab in My Account sidebar"
 msgstr ""
 
@@ -6068,13 +6140,13 @@ msgstr ""
 msgid "Higher values appear on top. Min: 100, Max: 9999, Default: 999"
 msgstr ""
 
-#: templates/post-cards/vacancies/style4-card.php:52
-#: templates/post-cards/vacancies/style6-card.php:47
-#: templates/post-cards/vacancies/style7-card.php:44
+#: templates/post-cards/vacancies/style4-card.php:39
+#: templates/post-cards/vacancies/style6-card.php:41
+#: templates/post-cards/vacancies/style7-card.php:40
 msgid "HIT"
 msgstr ""
 
-#: functions/breadcrumbs.php:187 functions/shortcodes.php:203
+#: functions/breadcrumbs.php:192 functions/shortcodes.php:203
 msgid "Home"
 msgstr ""
 
@@ -6111,7 +6183,7 @@ msgstr ""
 msgid "HR Department"
 msgstr ""
 
-#: templates/singles/events/default.php:240
+#: functions/sidebars.php:759
 msgid "hrs"
 msgstr ""
 
@@ -6194,19 +6266,20 @@ msgstr ""
 msgid "I agree to the <a href=\"{document_url}\">terms of use</a>."
 msgstr ""
 
+#: functions/admin/faq-settings.php:211 functions/admin/faq-settings.php:263
 #: functions/admin/testimonials-settings.php:102
 #: functions/admin/testimonials-settings.php:154
 #: functions/cpt/cpt-events.php:486 functions/cpt/cpt-events.php:531
 msgid "I agree to the {document_title_url}"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:465
+#: functions/integrations/cf7/cf7-consents-panel.php:465
 #: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:413
 msgid "I agree to the {document_title_url}."
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:89
-#: functions/integrations/cf7-consents-panel.php:322
+#: functions/integrations/cf7/cf7-consents-panel.php:89
+#: functions/integrations/cf7/cf7-consents-panel.php:322
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:107
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:230
 msgid "I agree to the {document_title}"
@@ -6310,7 +6383,7 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:553
+#: redux-framework/sample/sections/codeweber/woocommerce.php:554
 msgid "Image for Login Page"
 msgstr ""
 
@@ -6318,7 +6391,7 @@ msgstr ""
 msgid "Image Sizes"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:37
+#: functions/woocommerce/swatches.php:37
 msgid "Image swatch"
 msgstr ""
 
@@ -6356,9 +6429,9 @@ msgstr ""
 msgid "Improve accessibility for screen readers"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:74
-#: functions/integrations/compare/class-cw-compare-ui.php:96
-#: functions/integrations/compare/class-cw-compare-ui.php:123
+#: functions/woocommerce/compare/class-cw-compare-ui.php:74
+#: functions/woocommerce/compare/class-cw-compare-ui.php:96
+#: functions/woocommerce/compare/class-cw-compare-ui.php:123
 msgid "In compare"
 msgstr ""
 
@@ -6372,9 +6445,10 @@ msgid ""
 "variables.scss file during the build process."
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:87
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:130
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:87
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:130
 #: templates/woocommerce/cards/shop2.php:156
+#: templates/woocommerce/cards/_common.php:125
 msgid "In Wishlist"
 msgstr ""
 
@@ -6394,11 +6468,11 @@ msgstr ""
 msgid "Info:"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:28
+#: functions/woocommerce/states-ru.php:28
 msgid "Ingushetia"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:101
+#: redux-framework/sample/sections/codeweber/woocommerce.php:102
 msgid ""
 "Initial column layout before the user switches. Applied when no column "
 "switcher is active."
@@ -6408,7 +6482,11 @@ msgstr ""
 msgid "Initialize maps only when they become visible"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:852
+#: functions/admin/faq-settings.php:153
+msgid "Inline (in sidebar)"
+msgstr ""
+
+#: functions/integrations/cf7/cf7-consents-panel.php:852
 msgid "Insert consent checkboxes shortcode"
 msgstr ""
 
@@ -6451,14 +6529,14 @@ msgstr ""
 msgid "Instructions"
 msgstr ""
 
-#: functions/pdf-thumbnail-js.php:69
+#: functions/lib/pdf-thumbnail/pdf-thumbnail-js.php:69
 msgid "Insufficient data"
 msgstr ""
 
-#: functions/pdf-thumbnail-js.php:62 functions/qr-code.php:853
-#: functions/qr-code.php:917
+#: functions/qr-code.php:853 functions/qr-code.php:917
 #: functions/integrations/ajax-search-module/search-statistics.php:234
 #: functions/integrations/ajax-search-module/search-statistics.php:446
+#: functions/lib/pdf-thumbnail/pdf-thumbnail-js.php:62
 #: redux-framework/sample/sections/codeweber/childtheme.php:241
 #: redux-framework/sample/sections/codeweber/childtheme.php:576
 msgid "Insufficient permissions"
@@ -6492,8 +6570,9 @@ msgstr ""
 #: functions/admin/events-settings.php:242
 #: functions/admin/media-regenerate.php:15
 #: functions/admin/media-regenerate.php:39
-#: functions/integrations/compare/functions.php:103
-#: functions/integrations/wishlist/functions.php:56
+#: functions/admin/media-regenerate.php:142
+#: functions/woocommerce/compare/functions.php:103
+#: functions/woocommerce/wishlist/functions.php:56
 msgid "Insufficient permissions."
 msgstr ""
 
@@ -6514,7 +6593,7 @@ msgstr ""
 msgid "Invalid CSV format"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:485
+#: functions/integrations/cf7/cf7-consents-panel.php:485
 #: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:429
 msgid "Invalid document ID"
 msgstr ""
@@ -6546,7 +6625,7 @@ msgstr ""
 msgid "Invalid file format. Please upload a CSV file."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1328
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1338
 msgid "Invalid file ID."
 msgstr ""
 
@@ -6562,8 +6641,8 @@ msgstr ""
 msgid "Invalid form configuration."
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:284
-#: functions/integrations/modal-rest-api.php:337
+#: functions/integrations/modal/modal-rest-api.php:284
+#: functions/integrations/modal/modal-rest-api.php:337
 msgid "Invalid form ID."
 msgstr ""
 
@@ -6581,13 +6660,13 @@ msgstr ""
 msgid "Invalid password!"
 msgstr ""
 
-#: functions/ajax-filter.php:50
+#: functions/fetch/filterPosts.php:14
 msgid "Invalid post type"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare.php:59
-#: functions/integrations/wishlist/class-cw-wishlist.php:98
-#: functions/integrations/wishlist/class-cw-wishlist.php:141
+#: functions/woocommerce/compare/class-cw-compare.php:59
+#: functions/woocommerce/wishlist/class-cw-wishlist.php:98
+#: functions/woocommerce/wishlist/class-cw-wishlist.php:141
 msgid "Invalid product_id"
 msgstr ""
 
@@ -6634,7 +6713,7 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:29
+#: functions/woocommerce/states-ru.php:29
 msgid "Irkutsk Oblast"
 msgstr ""
 
@@ -6661,7 +6740,7 @@ msgstr ""
 msgid "iTunes"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:30
+#: functions/woocommerce/states-ru.php:30
 msgid "Ivanovo Oblast"
 msgstr ""
 
@@ -6669,11 +6748,11 @@ msgstr ""
 msgid "JavaScript events"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:94
+#: functions/woocommerce/states-ru.php:94
 msgid "Jewish Autonomous Oblast"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:212 templates/singles/staff/default.php:141
+#: functions/cpt/cpt-staff.php:262 templates/singles/staff/default.php:141
 #: templates/singles/staff/staff_1.php:141
 msgid "Job Phone"
 msgstr ""
@@ -6701,63 +6780,63 @@ msgstr ""
 msgid "Junior level"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:31
+#: functions/woocommerce/states-ru.php:31
 msgid "Kabardino-Balkaria"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:32
+#: functions/woocommerce/states-ru.php:32
 msgid "Kaliningrad Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:33
+#: functions/woocommerce/states-ru.php:33
 msgid "Kalmykia"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:34
+#: functions/woocommerce/states-ru.php:34
 msgid "Kaluga Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:35
+#: functions/woocommerce/states-ru.php:35
 msgid "Kamchatka Krai"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:36
+#: functions/woocommerce/states-ru.php:36
 msgid "Karachay-Cherkessia"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:37
+#: functions/woocommerce/states-ru.php:37
 msgid "Karelia"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:38
+#: functions/woocommerce/states-ru.php:38
 msgid "Kemerovo Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:39
+#: functions/woocommerce/states-ru.php:39
 msgid "Khabarovsk Krai"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:40
+#: functions/woocommerce/states-ru.php:40
 msgid "Khakassia"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:41
+#: functions/woocommerce/states-ru.php:41
 msgid "Khanty-Mansi Autonomous Okrug"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:101
+#: functions/woocommerce/states-ru.php:101
 msgid "Kherson Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:42
+#: functions/woocommerce/states-ru.php:42
 msgid "Kirov Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:43
+#: functions/woocommerce/states-ru.php:43
 msgid "Komi Republic"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:44
+#: functions/woocommerce/states-ru.php:44
 msgid "Kostroma Oblast"
 msgstr ""
 
@@ -6765,30 +6844,31 @@ msgstr ""
 msgid "KPP"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:45
+#: functions/woocommerce/states-ru.php:45
 msgid "Krasnodar Krai"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:46
+#: functions/woocommerce/states-ru.php:46
 msgid "Krasnoyarsk Krai"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:47
+#: functions/woocommerce/states-ru.php:47
 msgid "Kurgan Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:48
+#: functions/woocommerce/states-ru.php:48
 msgid "Kursk Oblast"
 msgstr ""
 
+#: functions/admin/faq-settings.php:206 functions/admin/faq-settings.php:262
 #: functions/admin/testimonials-settings.php:97
 #: functions/admin/testimonials-settings.php:153
 msgid "Label"
 msgstr ""
 
 #: functions/cpt/cpt-events.php:482 functions/cpt/cpt-events.php:530
-#: functions/integrations/cf7-consents-panel.php:88
-#: functions/integrations/cf7-consents-panel.php:321
+#: functions/integrations/cf7/cf7-consents-panel.php:88
+#: functions/integrations/cf7/cf7-consents-panel.php:321
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:106
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:229
 msgid "Label Text"
@@ -6822,8 +6902,8 @@ msgstr ""
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:758
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:184
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:479
-#: redux-framework/sample/sections/codeweber/woocommerce.php:436
-#: redux-framework/sample/sections/codeweber/woocommerce.php:468
+#: redux-framework/sample/sections/codeweber/woocommerce.php:437
+#: redux-framework/sample/sections/codeweber/woocommerce.php:469
 msgid "Last Name"
 msgstr ""
 
@@ -6837,12 +6917,12 @@ msgid ""
 "telephone number, driver's license details."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:871
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:873
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:792
 msgid "Lastname"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:185
+#: redux-framework/sample/sections/codeweber/woocommerce.php:186
 msgid "Latest"
 msgstr ""
 
@@ -6871,7 +6951,7 @@ msgstr ""
 msgid "Leave a Review"
 msgstr ""
 
-#: functions/admin/events-settings.php:214
+#: functions/admin/events-settings.php:214 functions/admin/faq-settings.php:183
 msgid "Leave empty to use admin email."
 msgstr ""
 
@@ -6916,7 +6996,7 @@ msgstr ""
 msgid "Legal Archives"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:447
+#: functions/integrations/cf7/cf7-consents-panel.php:447
 msgid "Legal Document"
 msgstr ""
 
@@ -6951,11 +7031,11 @@ msgstr ""
 msgid "Legal Updated"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:49
+#: functions/woocommerce/states-ru.php:49
 msgid "Leningrad Oblast"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:131
+#: redux-framework/sample/sections/codeweber/woocommerce.php:132
 msgid "LG (≥ 992px)"
 msgstr ""
 
@@ -7061,7 +7141,7 @@ msgstr ""
 msgid "LinkedIn URL"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:50
+#: functions/woocommerce/states-ru.php:50
 msgid "Lipetsk Oblast"
 msgstr ""
 
@@ -7084,6 +7164,7 @@ msgstr ""
 msgid "List of personal data processed:"
 msgstr ""
 
+#: woocommerce/archive-product.php:192 woocommerce/archive-product.php:364
 #: templates/archives/events/events_1.php:44
 msgid "List view"
 msgstr ""
@@ -7092,7 +7173,7 @@ msgstr ""
 msgid "Load _user-variables and active font from the currently active theme"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:71
+#: redux-framework/sample/sections/codeweber/woocommerce.php:72
 msgid "Load More"
 msgstr ""
 
@@ -7104,14 +7185,14 @@ msgstr ""
 msgid "Loader Type"
 msgstr ""
 
-#: functions/enqueues.php:253 functions/enqueues.php:428
-#: functions/woocommerce-quick-view.php:89
-#: functions/woocommerce-quick-view.php:133 woocommerce/archive-product.php:252
+#: functions/enqueues.php:253 functions/enqueues.php:426
+#: woocommerce/archive-product.php:267 functions/woocommerce/quick-view.php:89
+#: functions/woocommerce/quick-view.php:133
 #: templates/post-cards/documents/card_download.php:82
 msgid "Loading..."
 msgstr ""
 
-#: functions/ajax-filter.php:412 functions/cpt/cpt-vacancies.php:311
+#: functions/cpt/cpt-vacancies.php:311 functions/fetch/filterPosts.php:378
 #: templates/archives/events/events_1.php:66
 #: templates/archives/events/events_2.php:42
 #: templates/archives/vacancies/vacancies_1.php:96
@@ -7189,11 +7270,11 @@ msgstr ""
 msgid "Looks good!"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:99
+#: functions/woocommerce/states-ru.php:99
 msgid "Luhansk People's Republic"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:51
+#: functions/woocommerce/states-ru.php:51
 msgid "Magadan Oblast"
 msgstr ""
 
@@ -7267,7 +7348,7 @@ msgid ""
 "display it to visitors."
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:52
+#: functions/woocommerce/states-ru.php:52
 msgid "Mari El"
 msgstr ""
 
@@ -7364,7 +7445,7 @@ msgstr ""
 msgid "Maximum length is %d characters."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:696
+#: redux-framework/sample/sections/codeweber/woocommerce.php:697
 msgid "Maximum number of products in comparison (2–6)"
 msgstr ""
 
@@ -7376,7 +7457,7 @@ msgstr ""
 msgid "Maximum width of balloon in pixels"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:123
+#: redux-framework/sample/sections/codeweber/woocommerce.php:124
 msgid "MD (≥ 768px)"
 msgstr ""
 
@@ -7415,7 +7496,7 @@ msgstr ""
 #: functions/cpt/cpt-notifications.php:273
 #: functions/events/event-registrations.php:337
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:356
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:869
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:871
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:806
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:94
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:145
@@ -7424,7 +7505,7 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: functions/integrations/success-message-template.php:25
+#: functions/integrations/modal/success-message-template.php:25
 msgid "Message sent successfully."
 msgstr ""
 
@@ -7475,7 +7556,7 @@ msgstr ""
 msgid "Migration completed: %d total, %d updated, %d skipped, %d errors."
 msgstr ""
 
-#: templates/singles/events/default.php:245
+#: functions/sidebars.php:764
 msgid "min"
 msgstr ""
 
@@ -7495,12 +7576,12 @@ msgstr ""
 msgid "Minimum length is %d characters."
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist.php:92
-#: functions/integrations/wishlist/class-cw-wishlist.php:135
+#: functions/woocommerce/wishlist/class-cw-wishlist.php:92
+#: functions/woocommerce/wishlist/class-cw-wishlist.php:135
 msgid "Missing product_id"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:107
+#: redux-framework/sample/sections/codeweber/woocommerce.php:108
 msgid "Mobile (< 576px)"
 msgstr ""
 
@@ -7528,7 +7609,7 @@ msgstr ""
 msgid "Modal"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:646
+#: redux-framework/sample/sections/codeweber/woocommerce.php:647
 msgid "Modal confirmation"
 msgstr ""
 
@@ -7544,7 +7625,11 @@ msgstr ""
 msgid "Modal Window"
 msgstr ""
 
-#: functions/integrations/modal-rest-api.php:27
+#: functions/admin/faq-settings.php:154
+msgid "Modal window (button in sidebar)"
+msgstr ""
+
+#: functions/integrations/modal/modal-rest-api.php:27
 msgid "Modal window size class"
 msgstr ""
 
@@ -7565,7 +7650,7 @@ msgstr ""
 msgid "Mon-Fri: 9:00-18:00"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:53
+#: functions/woocommerce/states-ru.php:53
 msgid "Mordovia"
 msgstr ""
 
@@ -7573,11 +7658,11 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:55
+#: functions/woocommerce/states-ru.php:55
 msgid "Moscow"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:54
+#: functions/woocommerce/states-ru.php:54
 msgid "Moscow Oblast"
 msgstr ""
 
@@ -7592,7 +7677,7 @@ msgstr ""
 msgid "ms"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:56
+#: functions/woocommerce/states-ru.php:56
 msgid "Murmansk Oblast"
 msgstr ""
 
@@ -7605,14 +7690,14 @@ msgstr ""
 msgid "My Price Lists"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:185 functions/cpt/cpt-staff.php:420
+#: functions/cpt/cpt-staff.php:235 functions/cpt/cpt-staff.php:479
 #: functions/events/event-registration-api.php:432
 #: functions/events/event-registrations.php:112
 #: functions/events/event-registrations.php:321
 #: woocommerce/order/order-details-customer.php:31
 #: woocommerce/order/order-details-customer.php:70
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:347
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:866
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:868
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:790
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:92
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1020
@@ -7626,6 +7711,10 @@ msgstr ""
 
 #: functions/testimonials/testimonial-form-api.php:405
 msgid "Name and email are required."
+msgstr ""
+
+#: functions/admin/faq-settings.php:68
+msgid "Name field"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:237
@@ -7650,7 +7739,7 @@ msgstr ""
 msgid "Necessary"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:57
+#: functions/woocommerce/states-ru.php:57
 msgid "Nenets Autonomous Okrug"
 msgstr ""
 
@@ -7658,7 +7747,7 @@ msgstr ""
 #: functions/events/event-registrations.php:377
 #: functions/events/event-registrations.php:459
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:279
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:584
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:586
 msgid "New"
 msgstr ""
 
@@ -7669,11 +7758,11 @@ msgid_plural "New <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:342
+#: redux-framework/sample/sections/codeweber/woocommerce.php:343
 msgid "New Background"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:320
+#: redux-framework/sample/sections/codeweber/woocommerce.php:321
 msgid "New Badge"
 msgstr ""
 
@@ -7717,10 +7806,10 @@ msgstr ""
 msgid "New form"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:951
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:989
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1391
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1683
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:961
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:999
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1401
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1693
 #: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:606
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:433
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:613
@@ -7809,11 +7898,11 @@ msgstr ""
 msgid "New Testimonial Submission from %s"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:334
+#: redux-framework/sample/sections/codeweber/woocommerce.php:335
 msgid "New Text"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:351
+#: redux-framework/sample/sections/codeweber/woocommerce.php:352
 msgid "New Text Color"
 msgstr ""
 
@@ -7822,7 +7911,7 @@ msgid "New Vacancy"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:296
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:873
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:875
 msgid "Newsletter Consents"
 msgstr ""
 
@@ -7834,13 +7923,13 @@ msgstr ""
 msgid "Newsletter Reply"
 msgstr ""
 
-#: functions/integrations/cf7.php:529
+#: functions/integrations/cf7/cf7.php:497
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:682
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:976
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:986
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:218
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:59
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:537
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:552
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:553
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:349
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:437
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:537
@@ -7858,7 +7947,7 @@ msgstr ""
 msgid "Newsletter Subscription"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:443
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:445
 msgid "Newsletter subscription"
 msgstr ""
 
@@ -7877,7 +7966,7 @@ msgstr ""
 msgid "Newsletter Subscriptions"
 msgstr ""
 
-#: functions/global.php:850 functions/global.php:854
+#: functions/global.php:405 functions/global.php:409
 #: functions/bootstrap/bootstrap_post-nav.php:30
 #: woocommerce/loop/pagination.php:94
 msgid "Next"
@@ -7887,7 +7976,7 @@ msgstr ""
 msgid "Next Steps:"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:58
+#: functions/woocommerce/states-ru.php:58
 msgid "Nizhny Novgorod Oblast"
 msgstr ""
 
@@ -7901,6 +7990,10 @@ msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:343
 msgid "No attached media files."
+msgstr ""
+
+#: functions/admin/media-regenerate.php:150
+msgid "No attachment IDs provided."
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:86 functions/cpt/cpt-events.php:92
@@ -8034,14 +8127,16 @@ msgstr ""
 msgid "No events found in trash"
 msgstr ""
 
-#: functions/ajax-filter.php:403 functions/ajax-filter.php:498
-#: functions/ajax-filter.php:582 templates/archives/events/events_1.php:140
+#: functions/fetch/filterPosts.php:369 functions/fetch/filterPosts.php:456
+#: functions/fetch/filterPosts.php:556
+#: templates/archives/events/events_1.php:140
 #: templates/archives/events/events_2.php:116
 #: templates/archives/events/events_3.php:128
 #: templates/archives/events/events_4.php:128
-#: templates/archives/events/events_5.php:121
-#: templates/archives/events/events_6.php:99
-#: templates/archives/events/events_7.php:99
+#: templates/archives/events/events_5.php:126
+#: templates/archives/events/events_6.php:104
+#: templates/archives/events/events_7.php:103
+#: templates/archives/events/events_8.php:104
 msgid "No events found."
 msgstr ""
 
@@ -8073,7 +8168,7 @@ msgstr ""
 msgid "No FAQs found."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1000
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1010
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:179
 msgid "No fields provided."
 msgstr ""
@@ -8094,7 +8189,7 @@ msgstr ""
 msgid "No file uploaded"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1203
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1213
 msgid "No file uploaded."
 msgstr ""
 
@@ -8147,7 +8242,7 @@ msgstr ""
 msgid "No Html Blocks found"
 msgstr ""
 
-#: functions/ajax-filter.php:107
+#: functions/fetch/filterPosts.php:66
 msgid "No items found."
 msgstr ""
 
@@ -8197,7 +8292,7 @@ msgstr ""
 msgid "No offices found in Trash"
 msgstr ""
 
-#: archive-offices.php:170
+#: archive-offices.php:170 functions/cpt/cpt-staff.php:194
 msgid "No offices found."
 msgstr ""
 
@@ -8287,6 +8382,10 @@ msgstr ""
 msgid "No sizes"
 msgstr ""
 
+#: templates/archives/staff/staff_1.php:112
+msgid "No staff found."
+msgstr ""
+
 #: functions/cpt/cpt-offices.php:256
 msgid "No staff members found. Please create staff members first."
 msgstr ""
@@ -8324,7 +8423,7 @@ msgstr ""
 msgid "No Vacancies found in trash"
 msgstr ""
 
-#: archive-vacancies.php:96 functions/ajax-filter.php:346
+#: archive-vacancies.php:96 functions/fetch/filterPosts.php:363
 #: templates/archives/vacancies/vacancies_1.php:138
 msgid "No vacancies found."
 msgstr ""
@@ -8339,7 +8438,7 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:219
 #: redux-framework/sample/sections/codeweber/smtp.php:143
-#: redux-framework/sample/sections/codeweber/woocommerce.php:647
+#: redux-framework/sample/sections/codeweber/woocommerce.php:648
 msgid "None"
 msgstr ""
 
@@ -8352,7 +8451,7 @@ msgstr ""
 msgid "Normal — g-6 (30px)"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:75
+#: functions/woocommerce/states-ru.php:75
 msgid "North Ossetia–Alania"
 msgstr ""
 
@@ -8410,6 +8509,10 @@ msgstr ""
 msgid "Notification"
 msgstr ""
 
+#: functions/admin/faq-settings.php:120
+msgid "Notification email"
+msgstr ""
+
 #: functions/admin/events-settings.php:119
 msgid "Notification email for new registrations"
 msgstr ""
@@ -8422,18 +8525,18 @@ msgstr ""
 msgid "Notification Type"
 msgstr ""
 
-#: functions/admin/events-settings.php:112
+#: functions/admin/events-settings.php:112 functions/admin/faq-settings.php:113
 #: functions/cpt/cpt-notifications.php:10
 #: functions/cpt/cpt-notifications.php:12
 #: functions/cpt/cpt-notifications.php:25
 msgid "Notifications"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:59
+#: functions/woocommerce/states-ru.php:59
 msgid "Novgorod Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:60
+#: functions/woocommerce/states-ru.php:60
 msgid "Novosibirsk Oblast"
 msgstr ""
 
@@ -8441,7 +8544,7 @@ msgstr ""
 msgid "Number of FAQ items to display. Use -1 for all items"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:308
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:310
 msgid "Number of seats"
 msgstr ""
 
@@ -8481,7 +8584,8 @@ msgstr ""
 msgid "Offcanvas Right Menu footer"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:12
+#: functions/cpt/cpt-offices.php:12 functions/cpt/cpt-staff.php:152
+#: functions/cpt/cpt-staff.php:486
 msgid "Office"
 msgstr ""
 
@@ -8534,7 +8638,7 @@ msgstr ""
 msgid "OGRN/OGRNIP Date registration"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:61
+#: functions/woocommerce/states-ru.php:61
 msgid "Omsk Oblast"
 msgstr ""
 
@@ -8552,7 +8656,7 @@ msgstr ""
 msgid "On Map"
 msgstr ""
 
-#: functions/sidebars.php:503 templates/singles/events/default.php:504
+#: functions/sidebars.php:479 functions/sidebars.php:1036
 msgid "On the map"
 msgstr ""
 
@@ -8578,7 +8682,7 @@ msgstr ""
 msgid "Oops! Page Not Found."
 msgstr ""
 
-#: functions/sidebars.php:336 functions/cpt/cpt-vacancies.php:730
+#: functions/sidebars.php:312 functions/cpt/cpt-vacancies.php:730
 #: templates/singles/vacancies/default.php:67
 msgid "Open"
 msgstr ""
@@ -8655,11 +8759,11 @@ msgstr ""
 msgid "Order list"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:502
+#: redux-framework/sample/sections/codeweber/woocommerce.php:503
 msgid "Order Notes"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:62
+#: functions/woocommerce/states-ru.php:62
 msgid "Orenburg Oblast"
 msgstr ""
 
@@ -8667,7 +8771,7 @@ msgstr ""
 msgid "Organizer"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:63
+#: functions/woocommerce/states-ru.php:63
 msgid "Oryol Oblast"
 msgstr ""
 
@@ -8688,11 +8792,11 @@ msgstr ""
 msgid "Other documents"
 msgstr ""
 
-#: archive-faq.php:192 functions/sidebars.php:578
+#: archive-faq.php:192 functions/sidebars.php:561
 msgid "Other Questions"
 msgstr ""
 
-#: functions/ajax-filter.php:330
+#: functions/fetch/filterPosts.php:347
 #: templates/archives/vacancies/vacancies_1.php:122
 msgid "Other Vacancies"
 msgstr ""
@@ -8735,8 +8839,8 @@ msgstr ""
 msgid "Page %d"
 msgstr ""
 
-#: functions/integrations/compare/functions.php:172
-#: functions/integrations/wishlist/functions.php:126
+#: functions/woocommerce/compare/functions.php:172
+#: functions/woocommerce/wishlist/functions.php:126
 msgid "Page created"
 msgstr ""
 
@@ -8817,11 +8921,11 @@ msgstr ""
 msgid "Page Loader"
 msgstr ""
 
-#: functions/global.php:613
+#: functions/global.php:185
 msgid "Page Not Found"
 msgstr ""
 
-#: functions/breadcrumbs.php:264
+#: functions/breadcrumbs.php:269
 msgid "Page not found"
 msgstr ""
 
@@ -8840,13 +8944,13 @@ msgstr ""
 msgid "Page URL"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:686
+#: redux-framework/sample/sections/codeweber/woocommerce.php:687
 msgid ""
 "Page with [cw_compare] shortcode. Use \"Create Compare Page\" button to "
 "generate it automatically."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:604
+#: redux-framework/sample/sections/codeweber/woocommerce.php:605
 msgid ""
 "Page with [cw_wishlist] shortcode. Use the \"Create Wishlist Page\" button "
 "to generate it automatically."
@@ -8868,7 +8972,7 @@ msgstr ""
 msgid "Page/Post/Archive"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:70
+#: redux-framework/sample/sections/codeweber/woocommerce.php:71
 msgid "Pagination"
 msgstr ""
 
@@ -8999,7 +9103,7 @@ msgstr ""
 msgid "Patreon"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:872
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:874
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:794
 msgid "Patronymic"
 msgstr ""
@@ -9008,7 +9112,7 @@ msgstr ""
 msgid "Pattern"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:544
+#: redux-framework/sample/sections/codeweber/woocommerce.php:545
 msgid "Payment Methods Test Mode"
 msgstr ""
 
@@ -9040,19 +9144,19 @@ msgstr ""
 msgid "Pending Confirmation"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:64
+#: functions/woocommerce/states-ru.php:64
 msgid "Penza Oblast"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:81
+#: redux-framework/sample/sections/codeweber/woocommerce.php:82
 msgid "Per Page Switcher"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:89
+#: redux-framework/sample/sections/codeweber/woocommerce.php:90
 msgid "Per Page Values"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:65
+#: functions/woocommerce/states-ru.php:65
 msgid "Perm Krai"
 msgstr ""
 
@@ -9116,10 +9220,11 @@ msgstr ""
 msgid "Personal Data V2 Providers Test"
 msgstr ""
 
+#: functions/sidebars.php:989 functions/sidebars.php:991
 #: functions/admin/admin_user_profil.php:24
 #: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-offices.php:277
-#: functions/cpt/cpt-offices.php:804 functions/cpt/cpt-staff.php:194
-#: functions/cpt/cpt-staff.php:423
+#: functions/cpt/cpt-offices.php:804 functions/cpt/cpt-staff.php:244
+#: functions/cpt/cpt-staff.php:482
 #: functions/events/event-registration-api.php:435
 #: functions/events/event-registrations.php:114
 #: functions/events/event-registrations.php:329
@@ -9133,12 +9238,13 @@ msgstr ""
 #: templates/header/header-fancy.php:283
 #: woocommerce/order/order-details-customer.php:39
 #: woocommerce/order/order-details-customer.php:78
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:294
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:300
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:296
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:302
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:415
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:416
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:357
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:378
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:437
-#: templates/singles/events/default.php:462
 #: templates/singles/events/registration-form.php:46
 #: templates/singles/offices/default.php:107
 #: templates/singles/offices/default.php:195
@@ -9155,7 +9261,7 @@ msgstr ""
 #: templates/singles/staff/staff_3.php:137
 #: templates/singles/staff/staff_4.php:135
 #: templates/singles/staff/staff_5.php:145
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:868
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:870
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:796
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:118
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1026
@@ -9167,12 +9273,12 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/repeater.php:14
 #: redux-framework/sample/sections/codeweber/repeater.php:21
 #: redux-framework/sample/sections/codeweber/repeater.php:23
-#: redux-framework/sample/sections/codeweber/woocommerce.php:445
-#: redux-framework/sample/sections/codeweber/woocommerce.php:519
+#: redux-framework/sample/sections/codeweber/woocommerce.php:446
+#: redux-framework/sample/sections/codeweber/woocommerce.php:520
 msgid "Phone"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:287
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:289
 msgid "Phone *"
 msgstr ""
 
@@ -9203,6 +9309,10 @@ msgstr ""
 msgid "Phone 2"
 msgstr ""
 
+#: functions/admin/faq-settings.php:84
+msgid "Phone field"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/style.php:120
 msgid "Phone mask"
 msgstr ""
@@ -9212,20 +9322,20 @@ msgstr ""
 msgid "Phone Number"
 msgstr ""
 
-#: functions/woocommerce.php:179 functions/woocommerce.php:199
+#: functions/woocommerce/core.php:179 functions/woocommerce/core.php:199
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1348
 msgid "Phone number"
 msgstr ""
 
-#: functions/woocommerce.php:168
+#: functions/woocommerce/core.php:168
 msgid "Phone number is not specified"
 msgstr ""
 
-#: functions/woocommerce.php:172
+#: functions/woocommerce/core.php:172
 msgid "Phone number is not verified"
 msgstr ""
 
-#: functions/woocommerce.php:170
+#: functions/woocommerce/core.php:170
 msgid "Phone number is verified"
 msgstr ""
 
@@ -9280,9 +9390,8 @@ msgstr ""
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: functions/events/event-registration-api.php:149
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:279
-#: templates/singles/events/default.php:457
+#: functions/sidebars.php:983 functions/events/event-registration-api.php:149
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:281
 #: templates/singles/events/registration-form.php:41
 msgid "Please enter a valid email."
 msgstr ""
@@ -9303,14 +9412,14 @@ msgstr ""
 msgid "Please enter your first name."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:351
-#: templates/singles/events/default.php:450
+#: functions/sidebars.php:974
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:353
 #: templates/singles/events/registration-form.php:34
 msgid "Please enter your name."
 msgstr ""
 
 #: functions/events/event-registration-api.php:155
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:288
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:290
 msgid "Please enter your phone number."
 msgstr ""
 
@@ -9318,7 +9427,7 @@ msgstr ""
 msgid "Please fill in all required SMTP fields."
 msgstr ""
 
-#: functions/integrations/woo-ajax-review.php:35
+#: functions/woocommerce/ajax-review.php:35
 msgid "Please fill in required fields."
 msgstr ""
 
@@ -9328,11 +9437,11 @@ msgid ""
 "\n"
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist.php:104
+#: functions/woocommerce/wishlist/class-cw-wishlist.php:104
 msgid "Please log in to add items to your wishlist."
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:90
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:90
 msgid "Please log in to save items to your wishlist."
 msgstr ""
 
@@ -9344,8 +9453,13 @@ msgstr ""
 msgid "Please reload the page to see the changes."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:178
-#: functions/integrations/codeweber-forms/blocks/form-selector/render.php:24
+#: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:171
+#: functions/integrations/codeweber-forms/blocks/form-selector/render.php:27
+msgid "Please select a CF7 form in the block settings."
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:201
+#: functions/integrations/codeweber-forms/blocks/form-selector/render.php:39
 msgid "Please select a form in the block settings."
 msgstr ""
 
@@ -9379,7 +9493,7 @@ msgstr ""
 msgid "Popular Items"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:183
+#: redux-framework/sample/sections/codeweber/woocommerce.php:184
 msgid "Popularity"
 msgstr ""
 
@@ -9388,8 +9502,8 @@ msgid "Port"
 msgstr ""
 
 #: functions/user.php:257 functions/user.php:289
-#: functions/cpt/cpt-notifications.php:242 functions/cpt/cpt-staff.php:182
-#: functions/cpt/cpt-staff.php:419
+#: functions/cpt/cpt-notifications.php:242 functions/cpt/cpt-staff.php:232
+#: functions/cpt/cpt-staff.php:478
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:515
 msgid "Position"
 msgstr ""
@@ -9436,14 +9550,14 @@ msgctxt "Post Type Singular Name"
 msgid "Media License"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:217 functions/cpt/cpt-staff.php:227
+#: functions/cpt/cpt-offices.php:217 functions/cpt/cpt-staff.php:277
 #: redux-framework/sample/sections/codeweber/company-details.php:93
 #: redux-framework/sample/sections/codeweber/company-details.php:155
 msgid "Postal Code"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:443
-#: redux-framework/sample/sections/codeweber/woocommerce.php:475
+#: redux-framework/sample/sections/codeweber/woocommerce.php:444
+#: redux-framework/sample/sections/codeweber/woocommerce.php:476
 msgid "Postcode"
 msgstr ""
 
@@ -9456,14 +9570,15 @@ msgstr ""
 msgid "Presets"
 msgstr ""
 
-#: functions/global.php:797 functions/global.php:801
+#: functions/global.php:352 functions/global.php:356
 #: functions/bootstrap/bootstrap_post-nav.php:22
 #: woocommerce/loop/pagination.php:70
 msgid "Previous"
 msgstr ""
 
-#: functions/ajax-filter.php:414 woocommerce/content-compare-table.php:65
-#: functions/cpt/cpt-events.php:294 templates/archives/events/events_1.php:68
+#: woocommerce/content-compare-table.php:65 functions/cpt/cpt-events.php:294
+#: functions/fetch/filterPosts.php:380
+#: templates/archives/events/events_1.php:68
 #: templates/archives/events/events_2.php:44
 msgid "Price"
 msgstr ""
@@ -9559,11 +9674,11 @@ msgstr ""
 msgid "Price Packages Navigation"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:187
+#: redux-framework/sample/sections/codeweber/woocommerce.php:188
 msgid "Price: high to low"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:186
+#: redux-framework/sample/sections/codeweber/woocommerce.php:187
 msgid "Price: low to high"
 msgstr ""
 
@@ -9580,7 +9695,7 @@ msgstr ""
 msgid "Primary font must be selected in the first column"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:66
+#: functions/woocommerce/states-ru.php:66
 msgid "Primorsky Krai"
 msgstr ""
 
@@ -9589,19 +9704,19 @@ msgid "Privacy Data"
 msgstr ""
 
 #: functions/admin/admin_privacy.php:553
-#: functions/integrations/cf7-consents-panel.php:423
+#: functions/integrations/cf7/cf7-consents-panel.php:423
 msgid "Privacy Policy"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:50
+#: redux-framework/sample/sections/codeweber/woocommerce.php:51
 msgid "Product Card Template"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare.php:65
+#: functions/woocommerce/compare/class-cw-compare.php:65
 msgid "Product not found"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:695
+#: redux-framework/sample/sections/codeweber/woocommerce.php:696
 msgid "Products Limit"
 msgstr ""
 
@@ -9668,7 +9783,7 @@ msgstr ""
 msgid "Provider Name"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:67
+#: functions/woocommerce/states-ru.php:67
 msgid "Pskov Oblast"
 msgstr ""
 
@@ -9741,7 +9856,7 @@ msgstr ""
 msgid "QQ"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:260 templates/singles/staff/staff_2.php:175
+#: functions/cpt/cpt-staff.php:310 templates/singles/staff/staff_2.php:175
 #: templates/singles/staff/staff_2.php:176
 #: templates/singles/staff/staff_2.php:177
 #: templates/singles/staff/staff_3.php:166
@@ -9754,23 +9869,23 @@ msgstr ""
 msgid "QR Code"
 msgstr ""
 
-#: functions/qr-code.php:948 functions/cpt/cpt-staff.php:405
+#: functions/qr-code.php:948 functions/cpt/cpt-staff.php:464
 msgid "QR code deleted successfully"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:406
+#: functions/cpt/cpt-staff.php:465
 msgid "QR code deletion error"
 msgstr ""
 
-#: functions/qr-code.php:884 functions/cpt/cpt-staff.php:403
+#: functions/qr-code.php:884 functions/cpt/cpt-staff.php:462
 msgid "QR code generated successfully"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:404
+#: functions/cpt/cpt-staff.php:463
 msgid "QR code generation error"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:276
+#: functions/cpt/cpt-staff.php:326
 msgid "QR Code ID"
 msgstr ""
 
@@ -9782,7 +9897,7 @@ msgstr ""
 msgid "QR code not found"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:281
+#: functions/cpt/cpt-staff.php:331
 msgid "QR code not generated"
 msgstr ""
 
@@ -9809,11 +9924,14 @@ msgstr ""
 msgid "Question header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:566
+#: redux-framework/sample/sections/codeweber/woocommerce.php:567
 msgid "Quick View"
 msgstr ""
 
-#: functions/woocommerce-quick-view.php:82
+#: functions/woocommerce/quick-view.php:82
+#: templates/woocommerce/cards/shop-card.php:46
+#: templates/woocommerce/cards/shop-compact.php:46
+#: templates/woocommerce/cards/shop-list.php:44
 #: templates/woocommerce/cards/shop2.php:170
 msgid "Quick view"
 msgstr ""
@@ -9832,9 +9950,9 @@ msgstr ""
 
 #: woocommerce/content-compare-table.php:74
 #: functions/cpt/cpt-testimonials.php:543
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:86
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:94
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:106
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:88
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:96
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:108
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:352
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:804
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:135
@@ -9868,7 +9986,7 @@ msgstr ""
 msgid "Read"
 msgstr ""
 
-#: functions/ajax-filter.php:671 templates/content/loop-legal.php:20
+#: functions/fetch/filterPosts.php:644 templates/content/loop-legal.php:20
 #: templates/content/loop.php:20 templates/archives/events/events_4.php:73
 #: templates/archives/legal/legal_1.php:16
 #: templates/post-cards/post/card-content.php:64
@@ -9930,23 +10048,21 @@ msgstr ""
 msgid "Reg.ru"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:199 functions/cpt/cpt-staff.php:218
+#: functions/cpt/cpt-offices.php:199 functions/cpt/cpt-staff.php:268
 #: redux-framework/sample/sections/codeweber/company-details.php:58
 #: redux-framework/sample/sections/codeweber/company-details.php:120
 msgid "Region"
 msgstr ""
 
+#: functions/sidebars.php:929 functions/sidebars.php:935
+#: functions/sidebars.php:959 functions/sidebars.php:1006
 #: functions/admin/events-settings.php:160
 #: functions/admin/events-settings.php:182 functions/cpt/cpt-events.php:389
 #: functions/cpt/cpt-events.php:417 functions/cpt/cpt-events.php:1047
 #: functions/cpt/cpt-events.php:1090
 #: functions/events/event-registration-api.php:486
 #: functions/events/event-registration-api.php:487
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:254
-#: templates/singles/events/default.php:410
-#: templates/singles/events/default.php:416
-#: templates/singles/events/default.php:437
-#: templates/singles/events/default.php:475
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:256
 msgid "Register"
 msgstr ""
 
@@ -9990,7 +10106,7 @@ msgstr ""
 msgid "Registration Closes"
 msgstr ""
 
-#: templates/singles/events/default.php:175
+#: functions/sidebars.php:693
 msgid "Registration closes:"
 msgstr ""
 
@@ -10019,7 +10135,7 @@ msgstr ""
 msgid "Registration opens %s"
 msgstr ""
 
-#: templates/singles/events/default.php:182
+#: functions/sidebars.php:700
 msgid "Registration opens:"
 msgstr ""
 
@@ -10041,7 +10157,7 @@ msgstr ""
 msgid "Registrations"
 msgstr ""
 
-#: functions/integrations/cf7.php:527
+#: functions/integrations/cf7/cf7.php:495
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:217
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:536
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:347
@@ -10052,7 +10168,7 @@ msgstr ""
 msgid "Regular Form"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:442
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:444
 msgid "Regular form"
 msgstr ""
 
@@ -10065,21 +10181,22 @@ msgstr ""
 msgid "Related Vacancy"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:273
 #: woocommerce/content-compare-bar.php:58
 #: woocommerce/content-compare-table.php:53
+#: functions/admin/faq-settings.php:203 functions/admin/faq-settings.php:259
 #: functions/admin/testimonials-settings.php:94
 #: functions/admin/testimonials-settings.php:150
 #: functions/cpt/cpt-events.php:478 functions/cpt/cpt-events.php:527
 #: functions/cpt/cpt-events.php:631 functions/cpt/cpt-vacancies.php:469
 #: functions/cpt/cpt-vacancies.php:484 functions/cpt/cpt-vacancies.php:511
 #: functions/cpt/cpt-vacancies.php:520
-#: functions/integrations/cf7-consents-panel.php:87
-#: functions/integrations/cf7-consents-panel.php:316
 #: functions/integrations/event-gallery-metabox.php:55
 #: functions/integrations/event-gallery-metabox.php:122
 #: functions/integrations/project-gallery-metabox.php:65
 #: functions/integrations/project-gallery-metabox.php:138
+#: functions/woocommerce/swatches.php:273
+#: functions/integrations/cf7/cf7-consents-panel.php:87
+#: functions/integrations/cf7/cf7-consents-panel.php:316
 #: functions/integrations/image-licenses/image-licenses.php:164
 #: templates/woocommerce/cards/shop2.php:132
 #: templates/woocommerce/cards/shop2.php:133
@@ -10122,7 +10239,7 @@ msgstr ""
 msgid "Remove from compare"
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:91
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:91
 msgid "Remove from Wishlist?"
 msgstr ""
 
@@ -10134,15 +10251,15 @@ msgstr ""
 msgid "Remove PDF"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:75
+#: functions/woocommerce/compare/class-cw-compare-ui.php:75
 msgid "Removed from compare"
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:89
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:89
 msgid "Removed from Wishlist"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:85
+#: functions/integrations/cf7/cf7-consents-panel.php:85
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:157
 msgid "Replace existing label text with default text for this document?"
 msgstr ""
@@ -10151,20 +10268,21 @@ msgstr ""
 msgid "Replace Video"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:96
+#: functions/woocommerce/states-ru.php:96
 msgid "Republic of Crimea"
 msgstr ""
 
+#: functions/admin/faq-settings.php:230 functions/admin/faq-settings.php:269
 #: functions/admin/testimonials-settings.php:121
 #: functions/admin/testimonials-settings.php:160
 #: functions/cpt/cpt-events.php:504 functions/cpt/cpt-events.php:537
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:233
-#: redux-framework/sample/sections/codeweber/woocommerce.php:408
+#: redux-framework/sample/sections/codeweber/woocommerce.php:409
 msgid "Required"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:93
-#: functions/integrations/cf7-consents-panel.php:344
+#: functions/integrations/cf7/cf7-consents-panel.php:93
+#: functions/integrations/cf7/cf7-consents-panel.php:344
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:130
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:251
 msgid "Required (form cannot be submitted without this consent)"
@@ -10227,13 +10345,13 @@ msgstr ""
 msgid "Results for:"
 msgstr ""
 
-#: functions/integrations/cf7.php:531
+#: functions/integrations/cf7/cf7.php:499
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:683
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:975
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:985
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:220
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:58
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:539
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:553
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:554
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:351
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:439
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:539
@@ -10248,7 +10366,7 @@ msgstr ""
 msgid "Resume Form"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:445
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:447
 msgid "Resume form"
 msgstr ""
 
@@ -10272,7 +10390,7 @@ msgstr ""
 msgid "Review this product"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:847
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:849
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1206
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:319
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:278
@@ -10313,7 +10431,7 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:68
+#: functions/woocommerce/states-ru.php:68
 msgid "Rostov Oblast"
 msgstr ""
 
@@ -10363,19 +10481,19 @@ msgstr ""
 msgid "Rutube"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:69
+#: functions/woocommerce/states-ru.php:69
 msgid "Ryazan Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:73
+#: functions/woocommerce/states-ru.php:73
 msgid "Saint Petersburg"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:70
+#: functions/woocommerce/states-ru.php:70
 msgid "Sakha (Yakutia)"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:71
+#: functions/woocommerce/states-ru.php:71
 msgid "Sakhalin Oblast"
 msgstr ""
 
@@ -10387,27 +10505,27 @@ msgstr ""
 msgid "Salary:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:300
+#: redux-framework/sample/sections/codeweber/woocommerce.php:301
 msgid "Sale Background"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:266
+#: redux-framework/sample/sections/codeweber/woocommerce.php:267
 msgid "Sale Badge"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:280
+#: redux-framework/sample/sections/codeweber/woocommerce.php:281
 msgid "Sale Label Content"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:292
+#: redux-framework/sample/sections/codeweber/woocommerce.php:293
 msgid "Sale Text"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:309
+#: redux-framework/sample/sections/codeweber/woocommerce.php:310
 msgid "Sale Text Color"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:72
+#: functions/woocommerce/states-ru.php:72
 msgid "Samara Oblast"
 msgstr ""
 
@@ -10420,7 +10538,7 @@ msgstr ""
 msgid "Sample User"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:74
+#: functions/woocommerce/states-ru.php:74
 msgid "Saratov Oblast"
 msgstr ""
 
@@ -10632,12 +10750,12 @@ msgstr ""
 msgid "Search Registrations"
 msgstr ""
 
-#: functions/breadcrumbs.php:262
+#: functions/breadcrumbs.php:267
 #, php-format
 msgid "Search results for \"%s\""
 msgstr ""
 
-#: functions/global.php:611
+#: functions/global.php:183
 #, php-format
 msgid "Search Results for: %s"
 msgstr ""
@@ -10697,11 +10815,11 @@ msgstr ""
 msgid "Seats"
 msgstr ""
 
-#: templates/singles/events/default.php:250
+#: functions/sidebars.php:769
 msgid "sec"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:236
+#: functions/woocommerce/swatches.php:236
 msgid "Second color"
 msgstr ""
 
@@ -10709,8 +10827,7 @@ msgstr ""
 msgid "Section via hook"
 msgstr ""
 
-#: functions/ajax-filter.php:24
-#: functions/integrations/cf7-consents-panel.php:474
+#: functions/integrations/cf7/cf7-consents-panel.php:474
 #: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:422
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:141
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:231
@@ -10726,7 +10843,7 @@ msgid "Security check failed while saving retention settings."
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:1071
-#: functions/integrations/woo-ajax-review.php:23
+#: functions/woocommerce/ajax-review.php:23
 msgid "Security check failed."
 msgstr ""
 
@@ -10756,7 +10873,8 @@ msgid "Security error"
 msgstr ""
 
 #: functions/admin/media-regenerate.php:18
-#: functions/admin/media-regenerate.php:42 functions/demo/demo-ajax.php:26
+#: functions/admin/media-regenerate.php:42
+#: functions/admin/media-regenerate.php:145 functions/demo/demo-ajax.php:26
 #: functions/demo/demo-ajax.php:62 functions/demo/demo-ajax.php:97
 #: functions/demo/demo-ajax.php:133 functions/demo/demo-ajax.php:168
 #: functions/demo/demo-ajax.php:204 functions/demo/demo-ajax.php:239
@@ -10815,7 +10933,7 @@ msgstr ""
 msgid "Select button color from theme colors"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:51
+#: redux-framework/sample/sections/codeweber/woocommerce.php:52
 msgid "Select card style for WooCommerce shop archive"
 msgstr ""
 
@@ -10827,12 +10945,12 @@ msgstr ""
 msgid "Select Custom Header"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:202
+#: functions/cpt/cpt-staff.php:252
 msgid "Select Department"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:91
-#: functions/integrations/cf7-consents-panel.php:328
+#: functions/integrations/cf7/cf7-consents-panel.php:91
+#: functions/integrations/cf7/cf7-consents-panel.php:328
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:114
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:236
 msgid "Select Document"
@@ -11026,7 +11144,7 @@ msgstr ""
 msgid "Select style for icon elements (applies only to Icon type)"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:96
+#: functions/woocommerce/swatches.php:96
 msgid "Select swatch image"
 msgstr ""
 
@@ -11058,7 +11176,7 @@ msgstr ""
 msgid "Select the type of page/post/archive"
 msgstr ""
 
-#: functions/integrations/cf7.php:517
+#: functions/integrations/cf7/cf7.php:485
 msgid ""
 "Select the type of this form. This will add a data-form-type attribute to "
 "the form wrapper, similar to codeweber forms."
@@ -11172,16 +11290,17 @@ msgstr ""
 msgid "Send to Email"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:162
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:164
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:423
 msgid "Sending"
 msgstr ""
 
-#: functions/enqueues.php:259 functions/cpt/cpt-documents.php:981
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:358
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:399
+#: functions/enqueues.php:259 functions/sidebars.php:1005
+#: functions/cpt/cpt-documents.php:981
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:360
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:461
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:502
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:849
-#: templates/singles/events/default.php:474
 #: templates/singles/events/registration-form.php:59
 #: redux-framework/sample/sections/codeweber/smtp.php:193
 msgid "Sending..."
@@ -11288,7 +11407,7 @@ msgstr ""
 msgid "Set to 0 for unlimited seats."
 msgstr ""
 
-#: functions/admin/events-settings.php:19
+#: functions/admin/events-settings.php:19 functions/admin/faq-settings.php:24
 #: functions/admin/testimonials-settings.php:25
 #: functions/cpt/cpt-documents.php:832
 #: functions/integrations/ajax-search-module/matomo-search-integration.php:132
@@ -11358,7 +11477,7 @@ msgstr ""
 msgid "Settlement Account"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:97
+#: functions/woocommerce/states-ru.php:97
 msgid "Sevastopol"
 msgstr ""
 
@@ -11374,11 +11493,11 @@ msgstr ""
 msgid "Shipping address"
 msgstr ""
 
-#: functions/global.php:591
+#: functions/global.php:163
 msgid "Shop"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:67
+#: redux-framework/sample/sections/codeweber/woocommerce.php:68
 msgid "Shop Navigation Mode"
 msgstr ""
 
@@ -11498,7 +11617,7 @@ msgstr ""
 msgid "Show \"My location\" button on the map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:545
+#: redux-framework/sample/sections/codeweber/woocommerce.php:546
 msgid ""
 "Show \"Payment methods\" in My Account and enable test gateway (no "
 "registration)."
@@ -11509,12 +11628,12 @@ msgid "Show a Bootstrap progress bar for seat capacity"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:92
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:715
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:717
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:374
 msgid "Show all"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:60
+#: redux-framework/sample/sections/codeweber/woocommerce.php:61
 msgid "Show archive title (h2) above the product grid in the content area"
 msgstr ""
 
@@ -11530,11 +11649,11 @@ msgstr ""
 msgid "Show button to build route on the map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:149
+#: redux-framework/sample/sections/codeweber/woocommerce.php:150
 msgid "Show buttons to switch number of columns"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:82
+#: redux-framework/sample/sections/codeweber/woocommerce.php:83
 msgid "Show buttons to switch number of products per page"
 msgstr ""
 
@@ -11562,8 +11681,12 @@ msgstr ""
 msgid "Show Delay (Default)"
 msgstr ""
 
-#: functions/integrations/compare/class-cw-compare-ui.php:227
+#: functions/woocommerce/compare/class-cw-compare-ui.php:227
 msgid "Show differences only"
+msgstr ""
+
+#: functions/admin/faq-settings.php:169
+msgid "Show email field"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:294
@@ -11594,21 +11717,29 @@ msgstr ""
 msgid "Show map on frontend"
 msgstr ""
 
-#: woocommerce/archive-product.php:253
+#: woocommerce/archive-product.php:268
 msgid "Show More"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:327
+#: functions/admin/faq-settings.php:162
+msgid "Show name field"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php:328
 msgid "Show New Badge"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:575
+#: functions/admin/faq-settings.php:176
+msgid "Show phone field"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/woocommerce.php:576
 msgid ""
 "Show Quick View button on product cards (Bootstrap Modal with gallery, "
 "variations support)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:734
+#: redux-framework/sample/sections/codeweber/woocommerce.php:735
 msgid "Show Rating Row"
 msgstr ""
 
@@ -11616,7 +11747,7 @@ msgstr ""
 msgid "Show Route Button"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:273
+#: redux-framework/sample/sections/codeweber/woocommerce.php:274
 msgid "Show Sale Badge"
 msgstr ""
 
@@ -11640,37 +11771,37 @@ msgstr ""
 msgid "Show sidebar with list of markers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:750
+#: redux-framework/sample/sections/codeweber/woocommerce.php:751
 msgid "Show SKU Row"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:742
+#: redux-framework/sample/sections/codeweber/woocommerce.php:743
 msgid "Show Stock Row"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:172
+#: redux-framework/sample/sections/codeweber/woocommerce.php:173
 msgid "Show the product ordering/sorting select"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:656
+#: redux-framework/sample/sections/codeweber/woocommerce.php:657
 msgid "Show toast when adding or removing from wishlist"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:623
+#: redux-framework/sample/sections/codeweber/woocommerce.php:624
 msgid "Show «Add to Wishlist» button on product cards in catalog"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:632
+#: redux-framework/sample/sections/codeweber/woocommerce.php:633
 msgid "Show «Add to Wishlist» button on single product page"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:708
+#: redux-framework/sample/sections/codeweber/woocommerce.php:709
 msgid ""
 "Show «Compare» button on product cards in catalog (alongside Wishlist and "
 "Quick View)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:717
+#: redux-framework/sample/sections/codeweber/woocommerce.php:718
 msgid ""
 "Show «Compare» button on single product page (after Add to Cart). On "
 "variable products the selected variation ID is used."
@@ -11692,7 +11823,7 @@ msgid ""
 "consent)."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:321
+#: redux-framework/sample/sections/codeweber/woocommerce.php:322
 msgid "Shown for featured products (WooCommerce \"Featured\" flag)."
 msgstr ""
 
@@ -11702,7 +11833,7 @@ msgid ""
 "event reports, summaries, or photo descriptions."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:267
+#: redux-framework/sample/sections/codeweber/woocommerce.php:268
 msgid "Shown when product is on sale (WooCommerce)."
 msgstr ""
 
@@ -11770,7 +11901,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/cpt-type.php:587
 #: redux-framework/sample/sections/codeweber/cpt-type.php:603
 #: redux-framework/sample/sections/codeweber/cpt-type.php:619
-#: redux-framework/sample/sections/codeweber/woocommerce.php:365
+#: redux-framework/sample/sections/codeweber/woocommerce.php:366
 msgid "Single"
 msgstr ""
 
@@ -11833,7 +11964,7 @@ msgstr ""
 msgid "Slider layout with category on image and excerpt"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:115
+#: redux-framework/sample/sections/codeweber/woocommerce.php:116
 msgid "SM (≥ 576px)"
 msgstr ""
 
@@ -11848,7 +11979,7 @@ msgstr ""
 msgid "Small (modal-sm)"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:76
+#: functions/woocommerce/states-ru.php:76
 msgid "Smolensk Oblast"
 msgstr ""
 
@@ -11856,7 +11987,7 @@ msgstr ""
 msgid "SMS RU Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:528
+#: redux-framework/sample/sections/codeweber/woocommerce.php:529
 msgid "SMS.RU API"
 msgstr ""
 
@@ -11914,7 +12045,7 @@ msgstr ""
 msgid "Social Icon Type Mobile Menu"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:233 templates/header/header-center-logo.php:341
+#: functions/cpt/cpt-staff.php:283 templates/header/header-center-logo.php:341
 #: templates/header/header-classic.php:389
 #: templates/header/header-extended-center-logo.php:370
 #: templates/header/header-extended-center-logo.php:514
@@ -11961,7 +12092,7 @@ msgstr ""
 msgid "Solid-Color"
 msgstr ""
 
-#: functions/woocommerce.php:697
+#: functions/woocommerce/core.php:697
 msgid "Something went wrong. Please try again."
 msgstr ""
 
@@ -11971,7 +12102,7 @@ msgid ""
 "different keywords."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1246
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1256
 msgid "Sorry, this file type is not permitted for security reasons."
 msgstr ""
 
@@ -11983,11 +12114,11 @@ msgstr ""
 msgid "Sort order: ASC (ascending) or DESC (descending)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:171
+#: redux-framework/sample/sections/codeweber/woocommerce.php:172
 msgid "Sorting Dropdown"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:179
+#: redux-framework/sample/sections/codeweber/woocommerce.php:180
 msgid "Sorting Options"
 msgstr ""
 
@@ -12013,11 +12144,11 @@ msgstr ""
 msgid "Specifications"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:644
+#: redux-framework/sample/sections/codeweber/woocommerce.php:645
 msgid "Spinner on button"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:645
+#: redux-framework/sample/sections/codeweber/woocommerce.php:646
 msgid "Spinner on card"
 msgstr ""
 
@@ -12039,7 +12170,7 @@ msgstr ""
 msgid "Staff list"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:548
+#: functions/cpt/cpt-staff.php:626
 #, php-format
 msgid "Staff meta field: %s"
 msgstr ""
@@ -12084,7 +12215,7 @@ msgstr ""
 msgid "Start Date & Time"
 msgstr ""
 
-#: templates/singles/events/default.php:259
+#: functions/sidebars.php:778
 msgid "Start:"
 msgstr ""
 
@@ -12093,8 +12224,8 @@ msgstr ""
 msgid "State / County"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:442
-#: redux-framework/sample/sections/codeweber/woocommerce.php:474
+#: redux-framework/sample/sections/codeweber/woocommerce.php:443
+#: redux-framework/sample/sections/codeweber/woocommerce.php:475
 msgid "State / Region"
 msgstr ""
 
@@ -12126,7 +12257,7 @@ msgstr ""
 msgid "Status:"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:77
+#: functions/woocommerce/states-ru.php:77
 msgid "Stavropol Krai"
 msgstr ""
 
@@ -12151,7 +12282,7 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:224
+#: functions/cpt/cpt-staff.php:274
 msgid "Street, House Number and Office"
 msgstr ""
 
@@ -12196,7 +12327,7 @@ msgid "Subitem 2.1.1"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:358
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:870
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:872
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:124
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:347
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:762
@@ -12282,7 +12413,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: functions/sidebars.php:444 functions/sidebars.php:456
+#: functions/sidebars.php:420 functions/sidebars.php:432
 msgid "Submit a request"
 msgstr ""
 
@@ -12294,11 +12425,11 @@ msgstr ""
 msgid "Submit Application"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:112
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:114
 msgid "Submit Testimonial"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:398
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:501
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1116
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:221
 msgid "Subscribe"
@@ -12508,6 +12639,10 @@ msgstr ""
 msgid "Success Message"
 msgstr ""
 
+#: functions/admin/faq-settings.php:128
+msgid "Success message"
+msgstr ""
+
 #: functions/admin/events-settings.php:103
 msgid "Success message after registration"
 msgstr ""
@@ -12524,16 +12659,16 @@ msgstr ""
 msgid "Supported date formats:"
 msgstr ""
 
-#: functions/cpt/cpt-staff.php:188 functions/cpt/cpt-staff.php:421
+#: functions/cpt/cpt-staff.php:238 functions/cpt/cpt-staff.php:480
 msgid "Surname"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:78
+#: functions/woocommerce/states-ru.php:78
 msgid "Sverdlovsk Oblast"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:293
-#: functions/woocommerce-swatches.php:313
+#: functions/woocommerce/swatches.php:293
+#: functions/woocommerce/swatches.php:313
 msgid "Swatch"
 msgstr ""
 
@@ -12546,7 +12681,7 @@ msgstr ""
 msgid "Table"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:726
+#: redux-framework/sample/sections/codeweber/woocommerce.php:727
 msgid "Table Rows"
 msgstr ""
 
@@ -12567,7 +12702,7 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:79
+#: functions/woocommerce/states-ru.php:79
 msgid "Tambov Oblast"
 msgstr ""
 
@@ -12579,7 +12714,7 @@ msgstr ""
 msgid "Tap to undo"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:80
+#: functions/woocommerce/states-ru.php:80
 msgid "Tatarstan"
 msgstr ""
 
@@ -12619,11 +12754,11 @@ msgstr ""
 msgid "Template Structure"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1270
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1280
 msgid "Temporary directory is not writable."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1240
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1250
 msgid "Temporary file not found."
 msgstr ""
 
@@ -12631,7 +12766,7 @@ msgstr ""
 msgid "Terms of Use"
 msgstr ""
 
-#: functions/woocommerce-gateway-test.php:20
+#: functions/woocommerce/gateway-test.php:20
 msgid "Test (no registration)"
 msgstr ""
 
@@ -12675,12 +12810,12 @@ msgstr ""
 msgid "Test Export"
 msgstr ""
 
-#: functions/woocommerce-gateway-test.php:21
+#: functions/woocommerce/gateway-test.php:21
 msgid ""
 "Test gateway to add payment methods in My Account. No API or signup required."
 msgstr ""
 
-#: functions/woocommerce-gateway-test.php:22
+#: functions/woocommerce/gateway-test.php:22
 msgid "Test payment"
 msgstr ""
 
@@ -12701,7 +12836,6 @@ msgstr ""
 msgid "Testimonial Attributes"
 msgstr ""
 
-#: functions/integrations/cf7.php:530
 #: functions/testimonials/testimonial-form-api.php:654
 #: functions/testimonials/testimonial-form-api.php:667
 #: functions/testimonials/testimonial-form-api.php:698
@@ -12711,12 +12845,13 @@ msgstr ""
 #: functions/testimonials/testimonial-form-api.php:971
 #: functions/testimonials/testimonial-form-api.php:990
 #: functions/testimonials/testimonial-form-api.php:1005
+#: functions/integrations/cf7/cf7.php:498
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:681
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:974
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:984
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:219
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:57
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:538
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:551
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:552
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:350
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:438
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:538
@@ -12732,7 +12867,7 @@ msgstr ""
 msgid "Testimonial Form"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:444
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:446
 msgid "Testimonial form"
 msgstr ""
 
@@ -12831,7 +12966,7 @@ msgstr ""
 msgid "Testing filter hook!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:282
+#: redux-framework/sample/sections/codeweber/woocommerce.php:283
 msgid "Text"
 msgstr ""
 
@@ -12856,7 +12991,7 @@ msgid ""
 "Thank you for leaving a testimonial. Your opinion is very important to us!"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1406
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1416
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:533
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:629
 msgid "Thank you for subscribing"
@@ -12866,7 +13001,7 @@ msgstr ""
 msgid "Thank you for subscribing to our newsletter!"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:870
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:875
 msgid "Thank you for subscribing!"
 msgstr ""
 
@@ -12875,13 +13010,18 @@ msgid ""
 "Thank you for subscribing! A confirmation email has been sent to your email."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1412
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1422
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:471
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:617
 msgid "Thank you for your message"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:874
+#: functions/admin/faq-settings.php:187
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:886
+msgid "Thank you for your question! We will answer it shortly."
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:879
 msgid "Thank you for your request"
 msgstr ""
 
@@ -12889,8 +13029,8 @@ msgstr ""
 msgid "Thank you for your submission."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:872
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1396
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:877
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1406
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:501
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:621
 msgid "Thank you for your testimonial"
@@ -12900,9 +13040,9 @@ msgstr ""
 msgid "Thank you for your testimonial! It will be reviewed and published soon."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:879
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:956
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:990
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:889
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:966
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1000
 #: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:612
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:165
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:196
@@ -12944,7 +13084,7 @@ msgid ""
 "events for this email address."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:219
+#: redux-framework/sample/sections/codeweber/woocommerce.php:220
 msgid "Theme"
 msgstr ""
 
@@ -13098,7 +13238,7 @@ msgid ""
 "policy]\">Cookie Usage Policy</a>"
 msgstr ""
 
-#: functions/integrations/cf7.php:535
+#: functions/integrations/cf7/cf7.php:503
 msgid ""
 "This will add data-form-type=\"...\" attribute to the form element, allowing "
 "JavaScript to identify the form type."
@@ -13168,7 +13308,7 @@ msgid ""
 "page or post, use the shortcode:"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:655
+#: redux-framework/sample/sections/codeweber/woocommerce.php:656
 msgid "Toast Notification"
 msgstr ""
 
@@ -13184,7 +13324,11 @@ msgstr ""
 msgid "Today's Searches"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:81
+#: functions/admin/faq-settings.php:52
+msgid "Toggle which fields are shown in the FAQ question form."
+msgstr ""
+
+#: functions/woocommerce/states-ru.php:81
 msgid "Tomsk Oblast"
 msgstr ""
 
@@ -13202,7 +13346,7 @@ msgstr ""
 
 #: functions/cpt/cpt-notifications.php:260
 #: functions/cpt/cpt-notifications.php:309
-#: redux-framework/sample/sections/codeweber/woocommerce.php:255
+#: redux-framework/sample/sections/codeweber/woocommerce.php:256
 msgid "Top Left"
 msgstr ""
 
@@ -13214,7 +13358,7 @@ msgstr ""
 
 #: functions/cpt/cpt-notifications.php:263
 #: functions/cpt/cpt-notifications.php:308
-#: redux-framework/sample/sections/codeweber/woocommerce.php:256
+#: redux-framework/sample/sections/codeweber/woocommerce.php:257
 msgid "Top Right"
 msgstr ""
 
@@ -13273,7 +13417,7 @@ msgid "Transparent"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:282
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:587
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:589
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:661
 msgid "Trash"
 msgstr ""
@@ -13288,7 +13432,7 @@ msgstr ""
 msgid "Trigger Type"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:82
+#: functions/woocommerce/states-ru.php:82
 msgid "Tula Oblast"
 msgstr ""
 
@@ -13298,11 +13442,11 @@ msgstr ""
 msgid "Tumblr"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:85
+#: functions/woocommerce/states-ru.php:85
 msgid "Tuva"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:83
+#: functions/woocommerce/states-ru.php:83
 msgid "Tver Oblast"
 msgstr ""
 
@@ -13397,15 +13541,15 @@ msgstr ""
 msgid "Types"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:84
+#: functions/woocommerce/states-ru.php:84
 msgid "Tyumen Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:86
+#: functions/woocommerce/states-ru.php:86
 msgid "Udmurtia"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:87
+#: functions/woocommerce/states-ru.php:87
 msgid "Ulyanovsk Oblast"
 msgstr ""
 
@@ -13418,9 +13562,9 @@ msgstr ""
 msgid "unarchived"
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:479
+#: functions/integrations/cf7/cf7-consents-panel.php:479
 #: functions/integrations/codeweber-forms/codeweber-forms-consent-helper.php:425
-#: functions/integrations/wishlist/class-cw-wishlist.php:145
+#: functions/woocommerce/wishlist/class-cw-wishlist.php:145
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:14
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:84
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:176
@@ -13583,7 +13727,7 @@ msgstr ""
 msgid "Upload Header Pattern Image"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:268
+#: functions/woocommerce/swatches.php:268
 msgid "Upload image"
 msgstr ""
 
@@ -13708,8 +13852,8 @@ msgstr ""
 msgid "Use this file"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:97 functions/cpt/cpt-offices.php:640
-#: functions/cpt/cpt-testimonials.php:346
+#: functions/cpt/cpt-offices.php:640 functions/cpt/cpt-testimonials.php:346
+#: functions/woocommerce/swatches.php:97
 msgid "Use this image"
 msgstr ""
 
@@ -13727,6 +13871,11 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:740
 msgid "Use WordPress publish date"
+msgstr ""
+
+#: functions/admin/faq-settings.php:309
+msgid ""
+"Use {document_title_url} in the label to auto-insert a link to the document."
 msgstr ""
 
 #: functions/admin/testimonials-settings.php:200
@@ -13917,7 +14066,7 @@ msgstr ""
 msgid "Vacancy updated"
 msgstr ""
 
-#: functions/global.php:482
+#: functions/social-links.php:351
 msgid "Vacancy URL"
 msgstr ""
 
@@ -13943,11 +14092,11 @@ msgstr ""
 msgid "Verified"
 msgstr ""
 
-#: functions/woocommerce.php:180
+#: functions/woocommerce/core.php:180
 msgid "Verify"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:843
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:845
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:857
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1213
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:326
@@ -13982,7 +14131,7 @@ msgstr ""
 msgid "Viber"
 msgstr ""
 
-#: templates/singles/events/default.php:129
+#: templates/singles/events/default.php:92
 msgid "Video"
 msgstr ""
 
@@ -14000,7 +14149,7 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:125
 #: templates/archives/events/events_1.php:40
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:646
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:648
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:631
 msgid "View"
 msgstr ""
@@ -14221,7 +14370,7 @@ msgid "View Vacancy"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:280
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:585
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:587
 msgid "Viewed"
 msgstr ""
 
@@ -14248,7 +14397,7 @@ msgstr ""
 msgid "Violet Dot"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:641
+#: redux-framework/sample/sections/codeweber/woocommerce.php:642
 msgid "Visual feedback when adding a product to wishlist"
 msgstr ""
 
@@ -14280,19 +14429,19 @@ msgstr ""
 msgid "Vkontakte"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:88
+#: functions/woocommerce/states-ru.php:88
 msgid "Vladimir Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:89
+#: functions/woocommerce/states-ru.php:89
 msgid "Volgograd Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:90
+#: functions/woocommerce/states-ru.php:90
 msgid "Vologda Oblast"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:91
+#: functions/woocommerce/states-ru.php:91
 msgid "Voronezh Oblast"
 msgstr ""
 
@@ -14304,7 +14453,7 @@ msgstr ""
 msgid "Warning:"
 msgstr ""
 
-#: templates/singles/events/default.php:134
+#: templates/singles/events/default.php:97
 msgid "Watch video"
 msgstr ""
 
@@ -14412,11 +14561,11 @@ msgstr ""
 msgid "When registration stops. Leave empty to close when event starts."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:157
+#: redux-framework/sample/sections/codeweber/woocommerce.php:158
 msgid "Which column options to display"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:180
+#: redux-framework/sample/sections/codeweber/woocommerce.php:181
 msgid "Which sort options to show in the dropdown"
 msgstr ""
 
@@ -14514,20 +14663,20 @@ msgstr ""
 msgid "Widget width in pixels"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:417
+#: redux-framework/sample/sections/codeweber/woocommerce.php:418
 msgid "Width"
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:223
-#: functions/integrations/wishlist/functions.php:67
-#: functions/integrations/wishlist/functions.php:169
-#: functions/integrations/wishlist/functions.php:170
-#: functions/integrations/wishlist/functions.php:184
-#: redux-framework/sample/sections/codeweber/woocommerce.php:587
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:223
+#: functions/woocommerce/wishlist/functions.php:67
+#: functions/woocommerce/wishlist/functions.php:169
+#: functions/woocommerce/wishlist/functions.php:170
+#: functions/woocommerce/wishlist/functions.php:184
+#: redux-framework/sample/sections/codeweber/woocommerce.php:588
 msgid "Wishlist"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:603
+#: redux-framework/sample/sections/codeweber/woocommerce.php:604
 msgid "Wishlist Page"
 msgstr ""
 
@@ -14547,7 +14696,7 @@ msgstr ""
 msgid "Woo Sidebar"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:29
+#: redux-framework/sample/sections/codeweber/woocommerce.php:30
 msgid "Woocommerce"
 msgstr ""
 
@@ -14611,7 +14760,7 @@ msgstr ""
 msgid "Write a Review"
 msgstr ""
 
-#: functions/sidebars.php:299 functions/user.php:347
+#: functions/sidebars.php:275 functions/user.php:347
 #: templates/content/single-parts/post-author.php:42
 msgid "Writer"
 msgstr ""
@@ -14620,7 +14769,7 @@ msgstr ""
 msgid "Xing"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:139
+#: redux-framework/sample/sections/codeweber/woocommerce.php:140
 msgid "XL (≥ 1200px)"
 msgstr ""
 
@@ -14632,7 +14781,7 @@ msgstr ""
 msgid "Yahoo"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:92
+#: functions/woocommerce/states-ru.php:92
 msgid "Yamalo-Nenets Autonomous Okrug"
 msgstr ""
 
@@ -14687,7 +14836,7 @@ msgstr ""
 msgid "Yandex Metric Settings"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:93
+#: functions/woocommerce/states-ru.php:93
 msgid "Yaroslavl Oblast"
 msgstr ""
 
@@ -14707,8 +14856,8 @@ msgstr ""
 msgid "You are already registered for this event."
 msgstr ""
 
-#: functions/integrations/cf7-consents-panel.php:90
-#: functions/integrations/cf7-consents-panel.php:324
+#: functions/integrations/cf7/cf7-consents-panel.php:90
+#: functions/integrations/cf7/cf7-consents-panel.php:324
 msgid ""
 "You can use placeholders: {document_url}, {document_title}, "
 "{document_title_url}, {form_id}. For example: \"I agree to the "
@@ -14780,12 +14929,12 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:103
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:105
 msgid "Your Email"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:974
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:109
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:111
 msgid "Your email"
 msgstr ""
 
@@ -14793,52 +14942,62 @@ msgstr ""
 msgid "Your Email *"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:102
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:104
 msgid "Your Name"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:108
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:110
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:395
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:396
 msgid "Your name"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:350
-#: templates/singles/events/default.php:448
+#: functions/sidebars.php:971 functions/sidebars.php:973
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:352
 #: templates/singles/events/registration-form.php:32
 msgid "Your name *"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:104
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:106
 msgid "Your Position"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:110
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:112
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:525
 msgid "Your position"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1401
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:425
+msgid "Your question"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:424
+msgid "Your question *"
+msgstr ""
+
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1411
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:567
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:625
 msgid "Your resume has been received"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:876
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:881
 msgid "Your resume has been sent"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:101
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:103
 msgid "Your Review"
 msgstr ""
 
-#: functions/integrations/woo-ajax-review.php:97
+#: functions/woocommerce/ajax-review.php:97
 msgid "Your review has been submitted. Thank you!"
 msgstr ""
 
-#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:107
+#: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:109
 msgid "Your testimonial text"
 msgstr ""
 
-#: functions/integrations/wishlist/class-cw-wishlist-ui.php:170
+#: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:170
 msgid "Your wishlist is empty."
 msgstr ""
 
@@ -14852,11 +15011,11 @@ msgstr ""
 msgid "Z-Index"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:95
+#: functions/woocommerce/states-ru.php:95
 msgid "Zabaykalsky Krai"
 msgstr ""
 
-#: functions/woocommerce-states-ru.php:100
+#: functions/woocommerce/states-ru.php:100
 msgid "Zaporizhzhia Oblast"
 msgstr ""
 
@@ -14877,15 +15036,15 @@ msgstr ""
 msgid "Zoom level of the map"
 msgstr ""
 
-#: functions/woocommerce-swatches.php:250
+#: functions/woocommerce/swatches.php:250
 msgid "°"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1616
+#: functions/woocommerce/filters.php:1616
 msgid "Атрибут:"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1338
+#: functions/woocommerce/filters.php:1338
 msgid "Бренды"
 msgstr ""
 
@@ -14893,7 +15052,7 @@ msgstr ""
 msgid "В каталог"
 msgstr ""
 
-#: functions/woocommerce-filters.php:217 functions/woocommerce-filters.php:992
+#: functions/woocommerce/filters.php:217 functions/woocommerce/filters.php:992
 msgid "В наличии"
 msgstr ""
 
@@ -14906,7 +15065,7 @@ msgstr ""
 msgid "Ваша корзина пуста"
 msgstr ""
 
-#: functions/enqueues.php:557
+#: functions/enqueues.php:555
 msgid "Введите адрес в поле «Адрес» и нажмите кнопку проверки."
 msgstr ""
 
@@ -14941,8 +15100,8 @@ msgstr ""
 msgid "Выберите, для каких действий показывать уведомления."
 msgstr ""
 
-#: functions/woocommerce-filters.php:1830
-#: functions/woocommerce-filters.php:1844
+#: functions/woocommerce/filters.php:1830
+#: functions/woocommerce/filters.php:1844
 msgid "Выбрано"
 msgstr ""
 
@@ -14964,7 +15123,7 @@ msgstr ""
 msgid "Глобальное включение / отключение всех уведомлений."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:125
+#: redux-framework/sample/sections/codeweber/media.php:185
 msgid "Готово! Все миниатюры успешно регенерированы."
 msgstr ""
 
@@ -14981,16 +15140,16 @@ msgstr ""
 msgid "Документация темы Codeweber"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1542
-#: functions/woocommerce-filters.php:1610
-#: functions/woocommerce-filters.php:1697
-#: functions/woocommerce-filters.php:1753
-#: functions/woocommerce-filters.php:1800
-#: functions/woocommerce-filters.php:1847
+#: functions/woocommerce/filters.php:1542
+#: functions/woocommerce/filters.php:1610
+#: functions/woocommerce/filters.php:1697
+#: functions/woocommerce/filters.php:1753
+#: functions/woocommerce/filters.php:1800
+#: functions/woocommerce/filters.php:1847
 msgid "Заголовок:"
 msgstr ""
 
-#: functions/woocommerce-cart-offcanvas.php:211
+#: functions/woocommerce/cart-offcanvas.php:211
 msgid "Закрыть"
 msgstr ""
 
@@ -15006,11 +15165,11 @@ msgstr ""
 msgid "Избранное (Wishlist)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:78
+#: redux-framework/sample/sections/codeweber/media.php:93
 msgid "Изменить"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:167
+#: redux-framework/sample/sections/codeweber/media.php:227
 msgid "Изображений не найдено."
 msgstr ""
 
@@ -15027,14 +15186,14 @@ msgstr ""
 msgid "Итого:"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1276
-#: functions/woocommerce-filters.php:1674
-#: functions/woocommerce-filters.php:1693
+#: functions/woocommerce/filters.php:1276
+#: functions/woocommerce/filters.php:1674
+#: functions/woocommerce/filters.php:1693
 #: templates/woocommerce/filters/filter-panel.php:69
 msgid "Категории"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1634
+#: functions/woocommerce/filters.php:1634
 msgid "Кнопки"
 msgstr ""
 
@@ -15046,7 +15205,7 @@ msgstr ""
 msgid "Копирование (Image Licenses и др.)"
 msgstr ""
 
-#: functions/woocommerce-cart-offcanvas.php:206
+#: functions/woocommerce/cart-offcanvas.php:206
 msgid "Корзина"
 msgstr ""
 
@@ -15062,7 +15221,7 @@ msgstr ""
 msgid "Медиа"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1294
+#: functions/woocommerce/filters.php:1294
 msgid "Метки"
 msgstr ""
 
@@ -15070,9 +15229,9 @@ msgstr ""
 msgid "Минимальная цена"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1325
-#: functions/woocommerce-filters.php:1783
-#: functions/woocommerce-filters.php:1797
+#: functions/woocommerce/filters.php:1325
+#: functions/woocommerce/filters.php:1783
+#: functions/woocommerce/filters.php:1797
 #: templates/woocommerce/filters/filter-panel.php:145
 msgid "Наличие"
 msgstr ""
@@ -15081,8 +15240,8 @@ msgstr ""
 msgid "Начало"
 msgstr ""
 
-#: functions/woocommerce-cart-offcanvas.php:132
-#: functions/woocommerce-cart-offcanvas.php:262
+#: functions/woocommerce/cart-offcanvas.php:132
+#: functions/woocommerce/cart-offcanvas.php:262
 msgid "Не удалось добавить товар в корзину."
 msgstr ""
 
@@ -15090,24 +15249,25 @@ msgstr ""
 msgid "Не удалось разобрать адрес. Проверьте ввод или введите адрес вручную."
 msgstr ""
 
-#: functions/woocommerce-cart-offcanvas.php:122
+#: functions/woocommerce/cart-offcanvas.php:122
 msgid "Неверный товар."
 msgstr ""
 
-#: functions/woocommerce-filters.php:218 functions/woocommerce-filters.php:993
+#: functions/woocommerce/filters.php:218 functions/woocommerce/filters.php:993
 msgid "Нет в наличии"
 msgstr ""
 
 #: templates/woocommerce/cards/shop2.php:108
-#: redux-framework/sample/sections/codeweber/woocommerce.php:335
+#: templates/woocommerce/cards/_common.php:111
+#: redux-framework/sample/sections/codeweber/woocommerce.php:336
 msgid "Новинка!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:66
+#: redux-framework/sample/sections/codeweber/media.php:72
 msgid "Обработано"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:173
+#: redux-framework/sample/sections/codeweber/media.php:233
 msgid "Обработка..."
 msgstr ""
 
@@ -15115,7 +15275,7 @@ msgstr ""
 msgid "Основные"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1629
+#: functions/woocommerce/filters.php:1629
 msgid "Отображение:"
 msgstr ""
 
@@ -15127,8 +15287,12 @@ msgstr ""
 msgid "Оформление заказа (чекаут)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:136
-#: redux-framework/sample/sections/codeweber/media.php:177
+#: redux-framework/sample/sections/codeweber/media.php:126
+msgid "Ошибка AJAX-запроса."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:196
+#: redux-framework/sample/sections/codeweber/media.php:237
 msgid "Ошибка AJAX-запроса. Попробуйте ещё раз."
 msgstr ""
 
@@ -15136,7 +15300,7 @@ msgstr ""
 msgid "Ошибка безопасности. Обновите страницу и попробуйте снова."
 msgstr ""
 
-#: functions/enqueues.php:559
+#: functions/enqueues.php:557
 msgid "Ошибка сети. Попробуйте позже."
 msgstr ""
 
@@ -15154,7 +15318,7 @@ msgstr ""
 msgid "Перейти к оформлению"
 msgstr ""
 
-#: functions/woocommerce-filters.php:219 functions/woocommerce-filters.php:994
+#: functions/woocommerce/filters.php:219 functions/woocommerce/filters.php:994
 msgid "Под заказ"
 msgstr ""
 
@@ -15162,7 +15326,7 @@ msgstr ""
 msgid "Подписка на рассылку"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:153
+#: redux-framework/sample/sections/codeweber/media.php:213
 msgid "Подсчёт изображений..."
 msgstr ""
 
@@ -15170,16 +15334,16 @@ msgstr ""
 msgid "Позиция на экране"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1250
+#: functions/woocommerce/filters.php:1250
 msgid "Показать ещё"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1821
+#: functions/woocommerce/filters.php:1821
 msgid "Показывает применённые фильтры с кнопкой сброса."
 msgstr ""
 
-#: functions/woocommerce-filters.php:1641
-#: functions/woocommerce-filters.php:1706
+#: functions/woocommerce/filters.php:1641
+#: functions/woocommerce/filters.php:1706
 msgid "Показывать кол-во товаров"
 msgstr ""
 
@@ -15187,7 +15351,7 @@ msgstr ""
 msgid "Потерянные файлы"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:127
+#: redux-framework/sample/sections/codeweber/media.php:187
 msgid "Потерянных файлов:"
 msgstr ""
 
@@ -15207,7 +15371,7 @@ msgstr ""
 msgid "Проверка и автозаполнение адреса через DaData (только Россия)"
 msgstr ""
 
-#: functions/enqueues.php:558
+#: functions/enqueues.php:556
 msgid "Проверка…"
 msgstr ""
 
@@ -15223,7 +15387,9 @@ msgstr ""
 
 #: templates/woocommerce/cards/shop2.php:99
 #: templates/woocommerce/cards/shop2.php:101
-#: redux-framework/sample/sections/codeweber/woocommerce.php:293
+#: templates/woocommerce/cards/_common.php:103
+#: templates/woocommerce/cards/_common.php:105
+#: redux-framework/sample/sections/codeweber/woocommerce.php:294
 msgid "Распродажа!"
 msgstr ""
 
@@ -15231,7 +15397,7 @@ msgstr ""
 msgid "Регенерация миниатюр"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:144
+#: redux-framework/sample/sections/codeweber/media.php:204
 msgid "Регенерировать все миниатюры? Это может занять некоторое время."
 msgstr ""
 
@@ -15243,14 +15409,14 @@ msgstr ""
 msgid "Редактирование адреса (Мой аккаунт)"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1312
-#: functions/woocommerce-filters.php:1736
-#: functions/woocommerce-filters.php:1750
+#: functions/woocommerce/filters.php:1312
+#: functions/woocommerce/filters.php:1736
+#: functions/woocommerce/filters.php:1750
 #: templates/woocommerce/filters/filter-panel.php:123
 msgid "Рейтинг"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1197
+#: functions/woocommerce/filters.php:1197
 msgid "Сбросить все фильтры"
 msgstr ""
 
@@ -15258,7 +15424,7 @@ msgstr ""
 msgid "Сбросить всё"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1251
+#: functions/woocommerce/filters.php:1251
 msgid "Свернуть"
 msgstr ""
 
@@ -15310,11 +15476,11 @@ msgstr ""
 msgid "События"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1665
+#: functions/woocommerce/filters.php:1665
 msgid "Список категорий товаров для фильтрации."
 msgstr ""
 
-#: functions/woocommerce-filters.php:1633
+#: functions/woocommerce/filters.php:1633
 msgid "Список ссылок"
 msgstr ""
 
@@ -15384,8 +15550,28 @@ msgstr ""
 msgid "Угол экрана, в котором появляются уведомления."
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:122
+msgid "Удалено:"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:95
+msgid "Удалить"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:143
+msgid "Удалить все потерянные записи из базы данных? Это действие необратимо."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:53
+msgid "Удалить все потерянные из БД"
+msgstr ""
+
 #: templates/woocommerce/offcanvas-cart-items.php:93
 msgid "Удалить из корзины"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:134
+msgid "Удалить эту запись из базы данных?"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/notifications.php:19
@@ -15396,15 +15582,15 @@ msgstr ""
 msgid "Файл"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1563
+#: functions/woocommerce/filters.php:1563
 msgid "Фильтр по атрибуту товаров WooCommerce (цвет, размер и др.)."
 msgstr ""
 
-#: functions/woocommerce-filters.php:1727
+#: functions/woocommerce/filters.php:1727
 msgid "Фильтр товаров по звёздному рейтингу."
 msgstr ""
 
-#: functions/woocommerce-filters.php:1774
+#: functions/woocommerce/filters.php:1774
 msgid "Фильтр товаров по статусу наличия."
 msgstr ""
 
@@ -15421,9 +15607,9 @@ msgstr ""
 msgid "Функционал Сайта"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1269
-#: functions/woocommerce-filters.php:1526
-#: functions/woocommerce-filters.php:1539
+#: functions/woocommerce/filters.php:1269
+#: functions/woocommerce/filters.php:1526
+#: functions/woocommerce/filters.php:1539
 #: templates/woocommerce/filters/filter-panel.php:48
 msgid "Цена"
 msgstr ""
@@ -15437,12 +15623,12 @@ msgid "Цена от"
 msgstr ""
 
 #. 1: min price, 2: max price
-#: functions/woocommerce-filters.php:170
+#: functions/woocommerce/filters.php:170
 #, php-format
 msgid "Цена: %1$s — %2$s"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1517
+#: functions/woocommerce/filters.php:1517
 msgid "Ценовой слайдер для страниц каталога WooCommerce."
 msgstr ""
 
@@ -15450,11 +15636,11 @@ msgstr ""
 msgid "Чекаут: маска телефона"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1632
+#: functions/woocommerce/filters.php:1632
 msgid "Чекбоксы"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/media.php:66
+#: redux-framework/sample/sections/codeweber/media.php:72
 msgid "из"
 msgstr ""
 
@@ -15508,6 +15694,10 @@ msgstr ""
 msgid "— Select Modal —"
 msgstr ""
 
+#: functions/cpt/cpt-staff.php:179
+msgid "— Select Office —"
+msgstr ""
+
 #: functions/cpt/cpt-notifications.php:423
 msgid "— Select Type —"
 msgstr ""
@@ -15516,19 +15706,20 @@ msgstr ""
 msgid "— Select Vacancy —"
 msgstr ""
 
-#: functions/admin/admin_privacy.php:38
+#: functions/admin/admin_privacy.php:38 functions/admin/faq-settings.php:217
+#: functions/admin/faq-settings.php:248
 #: functions/admin/testimonials-settings.php:108
 #: functions/admin/testimonials-settings.php:139
 #: functions/cpt/cpt-events.php:492 functions/cpt/cpt-events.php:520
-#: functions/integrations/cf7-consents-panel.php:92
-#: functions/integrations/cf7-consents-panel.php:330
+#: functions/integrations/cf7/cf7-consents-panel.php:92
+#: functions/integrations/cf7/cf7-consents-panel.php:330
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:116
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:238
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:84
 msgid "— Select —"
 msgstr ""
 
-#: functions/woocommerce-filters.php:1619
+#: functions/woocommerce/filters.php:1619
 msgid "— выберите —"
 msgstr ""
 
@@ -15540,6 +15731,6 @@ msgstr ""
 msgid "← Back to Subscriptions"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/woocommerce.php:283
+#: redux-framework/sample/sections/codeweber/woocommerce.php:284
 msgid "−% Discount"
 msgstr ""

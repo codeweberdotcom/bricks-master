@@ -497,6 +497,8 @@ function codeweber_cf7_render_form_type_panel($contact_form) {
                         <option value="newsletter" <?php selected($form_type, 'newsletter'); ?>><?php _e('Newsletter Subscription', 'codeweber'); ?></option>
                         <option value="testimonial" <?php selected($form_type, 'testimonial'); ?>><?php _e('Testimonial Form', 'codeweber'); ?></option>
                         <option value="resume" <?php selected($form_type, 'resume'); ?>><?php _e('Resume Form', 'codeweber'); ?></option>
+                        <option value="faq" <?php selected($form_type, 'faq'); ?>><?php _e('FAQ Question', 'codeweber'); ?></option>
+                        <option value="event-registration" <?php selected($form_type, 'event-registration'); ?>><?php _e('Event Registration', 'codeweber'); ?></option>
                         <option value="contact" <?php selected($form_type, 'contact'); ?>><?php _e('Contact Form', 'codeweber'); ?></option>
                     </select>
                     <p class="description">
@@ -529,7 +531,7 @@ function codeweber_cf7_save_form_type($contact_form) {
     $form_type = isset($_POST['cf7_form_type']) ? sanitize_text_field($_POST['cf7_form_type']) : 'form';
     
     // Валидация типа формы
-    $allowed_types = ['form', 'callback', 'newsletter', 'testimonial', 'resume', 'contact'];
+    $allowed_types = ['form', 'callback', 'newsletter', 'testimonial', 'resume', 'contact', 'faq', 'event-registration'];
     if (!in_array($form_type, $allowed_types)) {
         $form_type = 'form'; // Fallback к дефолтному типу
     }

@@ -700,6 +700,7 @@ class CodeweberFormsAPI {
             'form_id'   => $form_id,
             // form_name: приоритет - название из запроса, затем из заголовка CPT, затем из настроек
             'form_name' => $form_name_for_db,
+            'form_type' => $form_type_from_request ? sanitize_text_field( $form_type_from_request ) : '',
             'submission_data' => $sanitized_fields,
             'files_data' => null, // Will be updated after files are moved
             'ip_address' => $ip_address,
@@ -841,6 +842,10 @@ class CodeweberFormsAPI {
                 $detected_form_type = 'callback';
             } elseif ($form_type_normalized === 'resume') {
                 $detected_form_type = 'resume';
+            } elseif ($form_type_normalized === 'faq') {
+                $detected_form_type = 'faq';
+            } elseif ($form_type_normalized === 'event-registration') {
+                $detected_form_type = 'event-registration';
             }
 
             // 3) Если не пришло из запроса, пытаемся определить из содержимого/мета
@@ -854,13 +859,15 @@ class CodeweberFormsAPI {
                     $detected_form_type = 'callback';
                 } elseif ($detected_type === 'resume') {
                     $detected_form_type = 'resume';
+                } elseif ($detected_type === 'faq') {
+                    $detected_form_type = 'faq';
                 }
             }
 
             // 4) Fallback: formType в настройках формы
             if (!$detected_form_type && !empty($form_settings['formType'])) {
                 $form_type_setting = strtolower(trim((string) $form_settings['formType']));
-                if (in_array($form_type_setting, ['newsletter', 'testimonial', 'callback', 'resume'], true)) {
+                if (in_array($form_type_setting, ['newsletter', 'testimonial', 'callback', 'resume', 'faq'], true)) {
                     $detected_form_type = $form_type_setting;
                 }
             }
@@ -874,6 +881,11 @@ class CodeweberFormsAPI {
                 $success_message = __('Thank you for your request', 'codeweber');
             } elseif ($detected_form_type === 'resume') {
                 $success_message = __('Your resume has been sent', 'codeweber');
+            } elseif ($detected_form_type === 'faq') {
+                $faq_settings = get_option( 'codeweber_faq_settings', [] );
+                $success_message = ! empty( $faq_settings['success_message'] )
+                    ? $faq_settings['success_message']
+                    : __( 'Thank you for your question! We will answer it shortly.', 'codeweber' );
             } else {
                 // Для остальных типов форм - стандартное сообщение
                 $success_message = $form_settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');

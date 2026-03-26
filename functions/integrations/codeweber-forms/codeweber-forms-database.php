@@ -140,7 +140,7 @@ class CodeweberFormsDatabase {
             // Legacy: строковые ID (testimonial, newsletter, resume, callback)
             if (!is_numeric($form_id_value)) {
                 $form_id_lower = strtolower($form_id_value);
-                $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback'];
+                $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback', 'faq'];
                 if (in_array($form_id_lower, $builtin_types)) {
                     // Для legacy форм тип = ID (обратная совместимость)
                     $form_type = $form_id_lower;
@@ -576,7 +576,7 @@ class CodeweberFormsDatabase {
             // Сохраняем обратную совместимость - эти формы продолжают работать
             if (!is_numeric($submission->form_id)) {
                 $form_id_str = strtolower($submission->form_id);
-                $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback'];
+                $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback', 'faq'];
                 if (in_array($form_id_str, $builtin_types)) {
                     // Для legacy форм тип = ID
                     $form_type = $form_id_str;

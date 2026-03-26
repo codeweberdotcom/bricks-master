@@ -33,6 +33,8 @@ class CodeweberFormsDefaultForms {
                 return $this->get_default_testimonial_form_html($is_logged_in, $user_id);
             case 'newsletter':
                 return $this->get_default_newsletter_form_html($is_logged_in, $user_id);
+            case 'faq':
+                return $this->get_default_faq_form_html();
         }
 
         // event-registration is handled via get_default_event_registration_form_html() directly
@@ -357,6 +359,107 @@ class CodeweberFormsDefaultForms {
                 class="' . esc_attr( $btn_class ) . '"
                 data-loading-text="' . esc_attr__( 'Sending...', 'codeweber' ) . '">
                 ' . esc_html( $button_label ) . '
+            </button>
+        </form>';
+    }
+
+    /**
+     * Get default FAQ question form HTML
+     *
+     * @return string HTML of the form
+     */
+    public function get_default_faq_form_html() {
+        self::$global_form_instance_counter++;
+        $form_unique_id = 'form-faq-' . self::$global_form_instance_counter;
+
+        $form_radius  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'form-radius' ) : '';
+        $button_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button', '' ) : '';
+        $phone_mask   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'opt_phone_mask', '' ) : '';
+
+        $settings   = get_option( 'codeweber_faq_settings', [] );
+        $show_name  = ( $settings['show_name'] ?? '1' ) === '1';
+        $show_email = ( $settings['show_email'] ?? '1' ) === '1';
+        $show_phone = ( $settings['show_phone'] ?? '1' ) === '1';
+
+        $nonce_value    = wp_create_nonce( 'codeweber_faq_submit' );
+        $btn_class      = 'btn btn-primary has-ripple w-100' . ( $button_style ? ' ' . $button_style : '' );
+        $phone_mask_attr = $phone_mask ? ' data-mask="' . esc_attr( $phone_mask ) . '"' : '';
+
+        $fields = '';
+
+        // Name
+        if ( $show_name ) {
+            $fid = 'faq-name-' . self::$global_form_instance_counter;
+            $fields .= '<div class="form-floating mb-3">
+                <input type="text" name="name" id="' . esc_attr( $fid ) . '" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Your name', 'codeweber' ) . '">
+                <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Your name', 'codeweber' ) . '</label>
+            </div>';
+        }
+
+        // Email
+        if ( $show_email ) {
+            $fid = 'faq-email-' . self::$global_form_instance_counter;
+            $fields .= '<div class="form-floating mb-3">
+                <input type="email" name="email" id="' . esc_attr( $fid ) . '" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Email', 'codeweber' ) . '">
+                <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Email', 'codeweber' ) . '</label>
+            </div>';
+        }
+
+        // Phone
+        if ( $show_phone ) {
+            $fid = 'faq-phone-' . self::$global_form_instance_counter;
+            $fields .= '<div class="form-floating mb-3">
+                <input type="tel" name="phone" id="' . esc_attr( $fid ) . '" class="form-control' . esc_attr( $form_radius ) . '"
+                    placeholder="' . esc_attr__( 'Phone', 'codeweber' ) . '"' . $phone_mask_attr . '>
+                <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Phone', 'codeweber' ) . '</label>
+            </div>';
+        }
+
+        // Question (always shown)
+        $fid = 'faq-question-' . self::$global_form_instance_counter;
+        $fields .= '<div class="form-floating mb-4">
+            <textarea name="message" id="' . esc_attr( $fid ) . '" class="form-control' . esc_attr( $form_radius ) . '" rows="3" style="height:100px"
+                placeholder="' . esc_attr__( 'Your question *', 'codeweber' ) . '" required></textarea>
+            <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Your question', 'codeweber' ) . ' <span class="text-danger">*</span></label>
+        </div>';
+
+        // Consent checkboxes
+        $consent_html = '';
+        $builtin_consents = get_option( 'builtin_form_consents', [] );
+        $faq_consents     = isset( $builtin_consents['faq'] ) ? $builtin_consents['faq'] : [];
+        if ( is_array( $faq_consents ) && ! empty( $faq_consents ) && function_exists( 'codeweber_forms_render_consent_checkbox' ) ) {
+            foreach ( $faq_consents as $consent ) {
+                if ( empty( $consent['document_id'] ) || empty( $consent['label'] ) ) {
+                    continue;
+                }
+                $consent_html .= codeweber_forms_render_consent_checkbox( $consent, 'form_consents', 0 );
+            }
+        }
+        $consent_block = $consent_html ? '<div class="mb-3">' . $consent_html . '</div>' : '';
+
+        return '<form id="' . esc_attr( $form_unique_id ) . '"
+            class="codeweber-form needs-validation"
+            data-form-id="0"
+            data-form-type="faq"
+            data-form-name="' . esc_attr__( 'FAQ Question Form', 'codeweber' ) . '"
+            data-handled-by="codeweber-forms-universal"
+            method="post"
+            novalidate>
+
+            <input type="hidden" name="form_id" value="0">
+            <input type="hidden" name="faq_nonce" value="' . esc_attr( $nonce_value ) . '">
+            <input type="text" name="form_honeypot" class="d-none" tabindex="-1" autocomplete="off">
+
+            ' . $fields . '
+            ' . $consent_block . '
+            <div class="faq-form-messages mb-3" style="display:none;"></div>
+
+            <button type="submit"
+                class="' . esc_attr( $btn_class ) . '"
+                data-loading-text="' . esc_attr__( 'Sending...', 'codeweber' ) . '">
+                ' . esc_html__( 'Ask a Question', 'codeweber' ) . '
             </button>
         </form>';
     }

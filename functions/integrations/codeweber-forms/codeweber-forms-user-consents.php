@@ -538,8 +538,10 @@ function codeweber_forms_save_consents_on_submit($submission_id, $form_id, $form
                 'testimonial' => __('Testimonial Form', 'codeweber'),
                 'resume' => __('Resume Form', 'codeweber'),
                 'callback' => __('Callback Request', 'codeweber'),
+                'faq' => __('FAQ Question', 'codeweber'),
+                'event-registration' => __('Event Registration', 'codeweber'),
             ];
-            
+
             if (isset($type_labels[$form_type])) {
                 $form_name = $type_labels[$form_type];
             }

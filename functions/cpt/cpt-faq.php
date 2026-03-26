@@ -721,3 +721,6 @@ add_action('template_redirect', function() {
 		status_header(404);
 	}
 });
+
+require_once get_template_directory() . '/functions/admin/faq-settings.php';
+require_once get_template_directory() . '/functions/faq/faq-form-api.php';

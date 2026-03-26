@@ -788,6 +788,9 @@ $form-floating-padding-x: $input-padding-x !default;
 $form-floating-padding-y: $input-padding-y !default;
 $form-floating-input-padding-t: 1rem !default;
 $form-floating-input-padding-b: 0.2rem !default;
+$form-floating-label-color:       #959ca9 !default;
+$form-floating-label-font-size:   0.75rem !default;
+$form-floating-label-line-height: 1.6 !default;
 $form-floating-label-opacity: 1 !default;
 $form-floating-label-transform: scale(.8) translateY(-.4rem) translateX(.2rem) !default;
 $form-feedback-valid-color: $feedback-success !default;
@@ -1324,14 +1327,17 @@ $accordion-plain-border-color: none !default;
 
 $accordion-margin-bottom: 1.25rem !default;
 // две переменные для body padding в plain стиле
-$accordion-card-body-padding-left: 0 0 0 1.1rem !default;
+$accordion-card-body-padding-left: 0 0 0 1.2rem !default;
 $accordion-card-body-padding-right: 0 1.1rem 0 0 !default;
 $accordion-card-header-padding: 0 0 0.8rem 0 !default;
 $accordion-card-header-padding-default: 0 !default;
 
-// Отступ для кнопки в шапке аккордеона (card-стиль, без .plain)
-$accordion-card-header-button-padding: 0.9rem 2.9rem 0.85rem !default;
-$accordion-card-header-button-padding-right: 0.9rem 2.6rem 0.85rem 1.3rem !default;
+// Общие отступы для accordion-item (card-стиль, без .plain)
+$accordion-item-indent-left:  2.9rem !default;
+$accordion-item-indent-right: 1.3rem !default;
+$accordion-icon-right-indent: 1.3rem !default;
+$accordion-card-header-button-padding: 0.9rem $accordion-item-indent-right 0.85rem $accordion-item-indent-left !default;
+$accordion-card-header-button-padding-right: 0.9rem 2.6rem 0.85rem $accordion-icon-right-indent !default;
 
 // Card-стиль — border и shadow
 $accordion-card-border: 0 !default;
@@ -1343,8 +1349,8 @@ $accordion-button-padding-left: 0 0 0 1rem !default;
 $accordion-button-padding-right: 0 1rem 0 0 !default;
 
 // две переменные для body padding
-$accordion-body-padding-left: 0 1.25rem 0.25rem 2.6rem !default;
-$accordion-body-padding-right: 0 2.35rem 0.25rem 1.25rem !default;
+$accordion-body-padding-left: 0 $accordion-item-indent-right 0.25rem $accordion-item-indent-left !default;
+$accordion-body-padding-right: 0 2.35rem 0.25rem $accordion-icon-right-indent !default;
 
 $accordion-button-font-size: 0.85rem !default;
 $accordion-button-font-weight: $font-weight-bold !default;

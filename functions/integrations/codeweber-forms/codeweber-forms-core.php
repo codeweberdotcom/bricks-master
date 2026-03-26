@@ -115,7 +115,7 @@ class CodeweberFormsCore {
         
         // 4. Legacy: backward compatibility for built-in forms
         if (is_string($form_id) && !is_numeric($form_id)) {
-            $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback'];
+            $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback', 'faq'];
             $form_id_lower = strtolower($form_id);
             if (in_array($form_id_lower, $builtin_types, true)) {
                 return $form_id_lower;
@@ -144,7 +144,7 @@ class CodeweberFormsCore {
                 if (!empty($block['attrs']['formType'])) {
                     $form_type = sanitize_text_field($block['attrs']['formType']);
                     // Валидация: разрешенные типы
-                    $allowed_types = ['form', 'newsletter', 'testimonial', 'resume', 'callback'];
+                    $allowed_types = ['form', 'newsletter', 'testimonial', 'resume', 'callback', 'faq', 'event-registration'];
                     if (in_array($form_type, $allowed_types, true)) {
                         return $form_type;
                     }

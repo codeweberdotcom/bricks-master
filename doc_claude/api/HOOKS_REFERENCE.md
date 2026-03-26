@@ -491,17 +491,28 @@ add_action('codeweber_form_opened', function($form_id) {
 
 **Hook:** `codeweber_before_sidebar`
 
-**File:** `sidebar-left.php`, `sidebar-right.php` (line ~20)
+**File:** `sidebar-left.php`, `sidebar-right.php`
 
-**Purpose:** Runs before sidebar content is rendered.
+**Purpose:** Fires **always** before sidebar content (regardless of whether user added widgets). Used for default CPT sidebar widgets that auto-disable when user adds their own widgets to the widget area.
 
 **Parameters:**
 ```php
 do_action(
     'codeweber_before_sidebar',
-    $sidebar_id  // Sidebar identifier (e.g., 'sidebar-1', 'staff')
+    $sidebar_id  // Sidebar identifier (e.g., 'sidebar-1', 'events', 'legal')
 );
 ```
+
+**Built-in listeners (default CPT widgets):**
+
+| Function | CPT | Description |
+|----------|-----|-------------|
+| `codeweber_sidebar_widget_legal` | `legal` | Navigation list of legal documents |
+| `codeweber_sidebar_widget_vacancies` | `vacancies` | Vacancy details card (image, meta, author, map, buttons) |
+| `codeweber_sidebar_widget_faq` | `faq` | FAQ categories navigation |
+| `codeweber_sidebar_widget_events` | `events` | Event details card (countdown, seats, registration form, map) |
+
+All default widgets check `is_active_sidebar($cpt)` — if user added widgets to the area, the default widget is skipped.
 
 **Example:** Add custom content before sidebar
 
@@ -513,13 +524,19 @@ add_action('codeweber_before_sidebar', function($sidebar_id) {
 }, 10, 1);
 ```
 
+**Disable default widget from child theme:**
+
+```php
+remove_action('codeweber_before_sidebar', 'codeweber_sidebar_widget_events');
+```
+
 ---
 
 **Hook:** `codeweber_after_sidebar`
 
-**File:** `sidebar-left.php`, `sidebar-right.php` (line ~45)
+**File:** `sidebar-left.php`, `sidebar-right.php`
 
-**Purpose:** Runs after sidebar content is rendered.
+**Purpose:** Fires **always** after sidebar content (regardless of whether user added widgets).
 
 **Parameters:**
 ```php
@@ -527,30 +544,6 @@ do_action(
     'codeweber_after_sidebar',
     $sidebar_id  // Sidebar identifier
 );
-```
-
----
-
-**Hook:** `codeweber_after_widget`
-
-**File:** `sidebar-left.php`, `sidebar-right.php` (line ~60)
-
-**Purpose:** Runs after each individual widget in sidebar.
-
-**Parameters:**
-```php
-do_action(
-    'codeweber_after_widget',
-    $sidebar_id  // Sidebar identifier
-);
-```
-
-**Example:** Add separator after each widget
-
-```php
-add_action('codeweber_after_widget', function($sidebar_id) {
-    echo '<hr class="widget-separator">';
-}, 10, 1);
 ```
 
 ---

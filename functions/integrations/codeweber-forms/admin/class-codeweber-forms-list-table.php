@@ -511,7 +511,7 @@ class Codeweber_Forms_List_Table extends WP_List_Table
                     } else {
                         // Для строковых ID (legacy формы)
                         $form_id_lower = strtolower($item->form_id);
-                        $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback'];
+                        $builtin_types = ['newsletter', 'testimonial', 'resume', 'callback', 'faq'];
                         if (in_array($form_id_lower, $builtin_types)) {
                             $form_type = $form_id_lower;
                         }
@@ -538,8 +538,10 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             'testimonial' => __('Testimonial Form', 'codeweber'),
             'resume' => __('Resume Form', 'codeweber'),
             'callback' => __('Callback Request', 'codeweber'),
+            'faq' => __('FAQ Question', 'codeweber'),
+            'event-registration' => __('Event Registration', 'codeweber'),
         );
-        
+
         $type_label = isset($type_labels[$form_type]) ? $type_labels[$form_type] : $form_type;
         
         
@@ -550,8 +552,10 @@ class Codeweber_Forms_List_Table extends WP_List_Table
             'testimonial' => '#d63638',
             'resume' => '#d54e21',
             'callback' => '#826eb4',
+            'faq' => '#e65100',
+            'event-registration' => '#0277bd',
         );
-        
+
         $badge_color = isset($type_badge_color[$form_type]) ? $type_badge_color[$form_type] : '#666';
         
         return sprintf(

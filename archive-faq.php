@@ -21,7 +21,7 @@ get_pageheader();
       
       // Получаем позицию сайдбара
       $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
-      $content_class = ($sidebar_position === 'none') ? 'col-12 pt-14 pt-md-16' : 'col-xl-9 py-14';
+      $content_class = ($sidebar_position === 'none') ? 'col-12 pt-14 pt-md-16' : 'col-xl-8 py-14';
       
       // Проверяем, есть ли шаблон
       $has_template = !empty($templateloop) && locate_template($template_file);
@@ -119,7 +119,7 @@ get_pageheader();
                           <section id="<?php echo esc_attr($category_id); ?>" class="<?php echo esc_attr($section_class); ?>">
                               <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                                   <div class="card-body p-10">
-                                      <h2 class="mb-6"><?php echo esc_html($category_index); ?>. <?php echo esc_html($category->name); ?></h2>
+                                      <h2 class="h3 mb-6"><?php echo esc_html($category_index); ?>. <?php echo esc_html($category->name); ?></h2>
                                       <?php if (!empty($category->description)) : ?>
                                           <p class="lead mb-6"><?php echo esc_html($category->description); ?></p>
                                       <?php endif; ?>
@@ -189,7 +189,7 @@ get_pageheader();
                       <section id="faq-uncategorized" class="wrapper pt-5">
                           <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                               <div class="card-body p-10">
-                                  <h2 class="mb-6"><?php echo esc_html($category_index); ?>. <?php esc_html_e('Other Questions', 'codeweber'); ?></h2>
+                                  <h2 class="h3 mb-6"><?php echo esc_html($category_index); ?>. <?php esc_html_e('Other Questions', 'codeweber'); ?></h2>
                                   
                                   <div class="accordion accordion-wrapper" id="accordionFaqUncategorized">
                                       <?php

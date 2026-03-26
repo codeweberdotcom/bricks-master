@@ -1336,19 +1336,16 @@ msgstr "Ash"
 #: functions/sidebars.php:575 functions/sidebars.php:599
 #: functions/sidebars.php:617 functions/faq/faq-form-api.php:44
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:462
-#, fuzzy
 msgid "Ask a Question"
-msgstr "Задать вопрос"
+msgstr ""
 
 #: functions/admin/faq-settings.php:93
-#, fuzzy
 msgid "Ask a Question Form — Consents"
-msgstr "Форма \"Задать вопрос\" - Согласия"
+msgstr ""
 
 #: functions/admin/faq-settings.php:49
-#, fuzzy
 msgid "Ask a Question Form — Fields"
-msgstr "Форма \"Задать вопрос\" - Поля"
+msgstr ""
 
 #: functions/woocommerce/states-ru.php:18
 msgid "Astrakhan Oblast"
@@ -2621,10 +2618,8 @@ msgstr ""
 "\"Оставить отзыв\")."
 
 #: functions/admin/faq-settings.php:96
-#, fuzzy
 msgid "Consent checkboxes shown in the FAQ question form."
 msgstr ""
-"Флажки согласия, отображаемые в форме вопроса часто задаваемых вопросов."
 
 #: redux-framework/sample/sections/codeweber/legal.php:122
 msgid "Consent Data"
@@ -2796,9 +2791,8 @@ msgid "content"
 msgstr "сонтент"
 
 #: functions/sidebars.php:528 functions/sidebars.php:585
-#, fuzzy
 msgid "Contents"
-msgstr "Содержимое"
+msgstr ""
 
 #: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:93
 #, fuzzy
@@ -4033,14 +4027,10 @@ msgid "Disabled"
 msgstr "Отключено"
 
 #: functions/admin/faq-settings.php:156
-#, fuzzy
 msgid ""
 "Disabled hides the form completely. Inline displays the form in the sidebar. "
 "Modal shows a button that opens the form in a popup."
 msgstr ""
-"Отключено полностью скрывает форму. Встроенный отображает форму на боковой "
-"панели. Модальное окно показывает кнопку, которая открывает форму во "
-"всплывающем окне."
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:156
 #: redux-framework/sample/sections/codeweber/socials.php:235
@@ -4547,9 +4537,8 @@ msgid "Email Delivery Test"
 msgstr "Тест доставки электронной почты"
 
 #: functions/admin/faq-settings.php:76
-#, fuzzy
 msgid "Email field"
-msgstr "Поле Email"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1046
 msgid "Email is required"
@@ -5239,9 +5228,8 @@ msgid "Failed to create: %s"
 msgstr "Не удалось создать: %s"
 
 #: functions/admin/media-regenerate.php:162
-#, fuzzy
 msgid "Failed to delete attachment #%d"
-msgstr "Не удалось удалить вложение #%d"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:505
 #, fuzzy
@@ -5390,24 +5378,20 @@ msgstr "FAQ не найдены."
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:222
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:541
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:541
-#, fuzzy
 msgid "FAQ Question"
-msgstr "Часто задаваемые вопросы"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:449
-#, fuzzy
 msgid "FAQ question"
-msgstr "Вопрос часто задаваемых вопросов"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:446
-#, fuzzy
 msgid "FAQ Question Form"
-msgstr "Форма вопросов FAQ"
+msgstr ""
 
 #: functions/admin/faq-settings.php:23 functions/admin/faq-settings.php:363
-#, fuzzy
 msgid "FAQ Settings"
-msgstr "Настройки FAQ"
+msgstr ""
 
 #. Родительское меню CPT FAQ
 #: functions/cpt/cpt-faq.php:542
@@ -5881,9 +5865,8 @@ msgid "Form Creation Instructions"
 msgstr "Инструкции по созданию формы"
 
 #: functions/admin/faq-settings.php:60
-#, fuzzy
 msgid "Form display mode"
-msgstr "Режим отображения формы"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:115
 #, fuzzy
@@ -5953,9 +5936,8 @@ msgid "Form Integration"
 msgstr "Интеграция формы"
 
 #: functions/faq/faq-form-api.php:36
-#, fuzzy
 msgid "Form is not available."
-msgstr "Форма недоступна."
+msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:786
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:135
@@ -7044,9 +7026,8 @@ msgid "Initialize maps only when they become visible"
 msgstr "Инициализировать карты только когда они становятся видимыми"
 
 #: functions/admin/faq-settings.php:153
-#, fuzzy
 msgid "Inline (in sidebar)"
-msgstr "Встроенный (в боковой панели)"
+msgstr ""
 
 #: functions/integrations/cf7/cf7-consents-panel.php:852
 msgid "Insert consent checkboxes shortcode"
@@ -8282,9 +8263,8 @@ msgid "Modal Window"
 msgstr "Модальное окно"
 
 #: functions/admin/faq-settings.php:154
-#, fuzzy
 msgid "Modal window (button in sidebar)"
-msgstr "Модальное окно (кнопка в боковой панели)"
+msgstr ""
 
 #: functions/integrations/modal/modal-rest-api.php:27
 #, fuzzy
@@ -8377,9 +8357,8 @@ msgid "Name and email are required."
 msgstr "Имя и email-адрес обязательны."
 
 #: functions/admin/faq-settings.php:68
-#, fuzzy
 msgid "Name field"
-msgstr "Поле \"Имя\""
+msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:237
 #, fuzzy
@@ -8681,9 +8660,8 @@ msgid "No attached media files."
 msgstr "Нет прикрепленных файлов медиа."
 
 #: functions/admin/media-regenerate.php:150
-#, fuzzy
 msgid "No attachment IDs provided."
-msgstr "Не предоставлены идентификаторы вложений."
+msgstr ""
 
 #: functions/cpt/cpt-clients.php:86 functions/cpt/cpt-events.php:92
 #, fuzzy
@@ -9100,9 +9078,8 @@ msgid "No sizes"
 msgstr "Нет размеров"
 
 #: templates/archives/staff/staff_1.php:112
-#, fuzzy
 msgid "No staff found."
-msgstr "Сотрудники не найдены."
+msgstr ""
 
 #: functions/cpt/cpt-offices.php:256
 #, fuzzy
@@ -9249,9 +9226,8 @@ msgid "Notification"
 msgstr "Уведомление"
 
 #: functions/admin/faq-settings.php:120
-#, fuzzy
 msgid "Notification email"
-msgstr "Уведомление по электронной почте"
+msgstr ""
 
 #: functions/admin/events-settings.php:119
 msgid "Notification email for new registrations"
@@ -10100,9 +10076,8 @@ msgid "Phone 2"
 msgstr "Телефон 2"
 
 #: functions/admin/faq-settings.php:84
-#, fuzzy
 msgid "Phone field"
-msgstr "Поле телефона"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:120
 #, fuzzy
@@ -10263,9 +10238,8 @@ msgstr "Пожалуйста, перезагрузите страницу, чт�
 
 #: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:171
 #: functions/integrations/codeweber-forms/blocks/form-selector/render.php:27
-#, fuzzy
 msgid "Please select a CF7 form in the block settings."
-msgstr "Пожалуйста, выберите форму CF7 в настройках блока."
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-block-selector.php:201
 #: functions/integrations/codeweber-forms/blocks/form-selector/render.php:39
@@ -12650,9 +12624,8 @@ msgid "Show differences only"
 msgstr "Показать только различия"
 
 #: functions/admin/faq-settings.php:169
-#, fuzzy
 msgid "Show email field"
-msgstr "Показать поле email"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:294
 msgid "Show filters in sidebar"
@@ -12688,9 +12661,8 @@ msgid "Show More"
 msgstr "Показать еще"
 
 #: functions/admin/faq-settings.php:162
-#, fuzzy
 msgid "Show name field"
-msgstr "Показать поле \"Имя\""
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:328
 #, fuzzy
@@ -12698,9 +12670,8 @@ msgid "Show New Badge"
 msgstr "Показать значок \"Новинка\""
 
 #: functions/admin/faq-settings.php:176
-#, fuzzy
 msgid "Show phone field"
-msgstr "Показать поле телефона"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:576
 #, fuzzy
@@ -13710,9 +13681,8 @@ msgid "Success Message"
 msgstr "Сообщение о успешной операции"
 
 #: functions/admin/faq-settings.php:128
-#, fuzzy
 msgid "Success message"
-msgstr "Сообщение об успехе"
+msgstr ""
 
 #: functions/admin/events-settings.php:103
 msgid "Success message after registration"
@@ -14105,9 +14075,8 @@ msgstr "Спасибо за ваше сообщение!"
 
 #: functions/admin/faq-settings.php:187
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:886
-#, fuzzy
 msgid "Thank you for your question! We will answer it shortly."
-msgstr "Спасибо за ваш вопрос! Мы ответим на него в ближайшее время."
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:879
 msgid "Thank you for your request"
@@ -14469,9 +14438,8 @@ msgid "Today's Searches"
 msgstr "Сегодняшние поиски"
 
 #: functions/admin/faq-settings.php:52
-#, fuzzy
 msgid "Toggle which fields are shown in the FAQ question form."
-msgstr "Переключить, какие поля отображаются в форме вопроса FAQ."
+msgstr ""
 
 #: functions/woocommerce/states-ru.php:81
 msgid "Tomsk Oblast"
@@ -15045,12 +15013,9 @@ msgid "Use WordPress publish date"
 msgstr "Используйте дату публикации WordPress."
 
 #: functions/admin/faq-settings.php:309
-#, fuzzy
 msgid ""
 "Use {document_title_url} in the label to auto-insert a link to the document."
 msgstr ""
-"Используйте {document_title_url} в метке для автоматической вставки ссылки "
-"на документ."
 
 #: functions/admin/testimonials-settings.php:200
 #, fuzzy
@@ -16241,14 +16206,12 @@ msgid "Your position"
 msgstr "Ваша должность"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:425
-#, fuzzy
 msgid "Your question"
-msgstr "Ваш вопрос"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:424
-#, fuzzy
 msgid "Your question *"
-msgstr "Ваш вопрос *"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1411
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:567
@@ -16620,9 +16583,8 @@ msgid "Оформление заказа (чекаут)"
 msgstr "Checkout"
 
 #: redux-framework/sample/sections/codeweber/media.php:126
-#, fuzzy
 msgid "Ошибка AJAX-запроса."
-msgstr "AJAX-запрос не удался."
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/media.php:196
 #: redux-framework/sample/sections/codeweber/media.php:237
@@ -16950,24 +16912,20 @@ msgid "Угол экрана, в котором появляются уведо�
 msgstr "Screen corner where notifications appear."
 
 #: redux-framework/sample/sections/codeweber/media.php:122
-#, fuzzy
 msgid "Удалено:"
-msgstr "Removed:"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/media.php:95
-#, fuzzy
 msgid "Удалить"
-msgstr "Delete"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/media.php:143
-#, fuzzy
 msgid "Удалить все потерянные записи из базы данных? Это действие необратимо."
-msgstr "Удалить все потерянные записи из базы данных? Это действие необратимо."
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/media.php:53
-#, fuzzy
 msgid "Удалить все потерянные из БД"
-msgstr "Удалить все потерянные из БД"
+msgstr ""
 
 #: templates/woocommerce/offcanvas-cart-items.php:93
 #, fuzzy
@@ -16975,9 +16933,8 @@ msgid "Удалить из корзины"
 msgstr "Remove from cart"
 
 #: redux-framework/sample/sections/codeweber/media.php:134
-#, fuzzy
 msgid "Удалить эту запись из базы данных?"
-msgstr "Delete this entry from the database?"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/notifications.php:19
 #, fuzzy
@@ -17118,9 +17075,8 @@ msgid "— Select Modal —"
 msgstr "- Выбор Модального окна"
 
 #: functions/cpt/cpt-staff.php:179
-#, fuzzy
 msgid "— Select Office —"
-msgstr "- Выберите офис -"
+msgstr ""
 
 #: functions/cpt/cpt-notifications.php:423
 msgid "— Select Type —"

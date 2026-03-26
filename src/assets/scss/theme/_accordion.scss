@@ -206,11 +206,11 @@
 
   &.icon {
     .card-body {
-      padding: 0 1.25rem 0.25rem 2.6rem;
+      padding: $accordion-body-padding-default;
     }
 
     button {
-      padding: 0.9rem 2.6rem 0.85rem;
+      padding: $accordion-card-header-button-padding;
       display: flex;
       align-items: center;
       position: relative;

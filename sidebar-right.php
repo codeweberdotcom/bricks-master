@@ -21,20 +21,16 @@ if ($sidebar_position === 'right') {
       <?php
    } else {
       // Используем кастомный сайдбар для других типов записей
-      if (is_active_sidebar($post_type)) { ?>
+?>
          <aside class="col-xl-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-xl-block">
             <?php
             do_action('codeweber_before_sidebar', $post_type);
-            dynamic_sidebar($post_type);
+            if (is_active_sidebar($post_type)) {
+               dynamic_sidebar($post_type);
+            }
             do_action('codeweber_after_sidebar', $post_type);
             ?>
          </aside>
-      <?php
-      } else { ?>
-         <aside class="col-xl-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-xl-block">
-            <?php do_action('codeweber_after_widget', $post_type); ?>
-         </aside>
 <?php
-      }
    }
 }

@@ -520,6 +520,49 @@ add_filter( 'block_categories_all', function ( $categories ) {
 
 ---
 
+## Sidebar-виджеты по умолчанию для CPT
+
+Родительская тема регистрирует **программные виджеты** для сайдбаров CPT через хук `codeweber_before_sidebar`. Они показываются автоматически на single-страницах, но скрываются, если пользователь добавил свои виджеты в область виджетов.
+
+Подробнее — [SIDEBAR_WIDGETS.md](../components/SIDEBAR_WIDGETS.md).
+
+### Отключить дефолтный виджет из дочерней темы
+
+```php
+// В functions.php дочерней темы
+remove_action( 'codeweber_before_sidebar', 'codeweber_sidebar_widget_events' );
+```
+
+### Заменить виджет своим
+
+```php
+// Отключить родительский
+remove_action( 'codeweber_before_sidebar', 'codeweber_sidebar_widget_events' );
+
+// Добавить свой
+add_action( 'codeweber_before_sidebar', 'horizons_sidebar_widget_events' );
+function horizons_sidebar_widget_events( $sidebar_id ) {
+    if ( $sidebar_id !== 'events' ) return;
+    if ( is_active_sidebar( 'events' ) ) return;
+    if ( ! is_singular( 'events' ) ) return;
+    // ... свой рендер
+}
+```
+
+### Добавить виджет для нового CPT дочерней темы
+
+```php
+add_action( 'codeweber_before_sidebar', 'horizons_sidebar_widget_partners' );
+function horizons_sidebar_widget_partners( $sidebar_id ) {
+    if ( $sidebar_id !== 'partners' ) return;
+    if ( is_active_sidebar( 'partners' ) ) return;
+    if ( ! is_singular( 'partners' ) ) return;
+    // ... рендер виджета
+}
+```
+
+---
+
 ## PHP-хелперы и утилиты
 
 Все PHP-модули дочерней темы (метабоксы, хелперы, Ajax-обработчики) хранить в `includes/` и подключать циклом `foreach` из `functions.php`.

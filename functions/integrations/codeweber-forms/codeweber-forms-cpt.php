@@ -219,8 +219,10 @@ class CodeweberFormsCPT {
                 'testimonial' => __('Testimonial Form', 'codeweber'),
                 'resume' => __('Resume Form', 'codeweber'),
                 'callback' => __('Callback Request', 'codeweber'),
+                'faq' => __('FAQ Question', 'codeweber'),
+                'event-registration' => __('Event Registration', 'codeweber'),
             ];
-            
+
             $type_label = $type_labels[$form_type] ?? $form_type;
             $type_badge_color = [
                 'form' => '#2271b1',
@@ -228,8 +230,10 @@ class CodeweberFormsCPT {
                 'testimonial' => '#d63638',
                 'resume' => '#d54e21',
                 'callback' => '#826eb4',
+                'faq' => '#e65100',
+                'event-registration' => '#0277bd',
             ];
-            
+
             $badge_color = $type_badge_color[$form_type] ?? '#666';
             ?>
             <span style="display: inline-block; padding: 2px 8px; border-radius: 3px; background: <?php echo esc_attr($badge_color); ?>; color: #fff; font-size: 11px; font-weight: 500;">
@@ -325,7 +329,7 @@ class CodeweberFormsCPT {
                 if (!empty($block['attrs']['formType'])) {
                     $form_type = sanitize_text_field($block['attrs']['formType']);
                     // Валидация: разрешенные типы
-                    $allowed_types = ['form', 'newsletter', 'testimonial', 'resume', 'callback'];
+                    $allowed_types = ['form', 'newsletter', 'testimonial', 'resume', 'callback', 'faq', 'event-registration'];
                     if (in_array($form_type, $allowed_types, true)) {
                         return $form_type;
                     }
@@ -444,8 +448,10 @@ class CodeweberFormsCPT {
             'testimonial' => __('Testimonial form', 'codeweber'),
             'resume' => __('Resume form', 'codeweber'),
             'callback' => __('Callback request', 'codeweber'),
+            'faq' => __('FAQ question', 'codeweber'),
+            'event-registration' => __('Event registration', 'codeweber'),
         );
-        
+
         ?>
         <select name="form_type_filter" id="form-type-filter">
             <?php foreach ($type_labels as $type_key => $type_label): ?>
