@@ -122,9 +122,18 @@ add_filter( 'manage_event_registrations_posts_columns', 'codeweber_event_reg_col
 function codeweber_event_reg_column_content( string $column, int $post_id ): void {
 	switch ( $column ) {
 		case 'reg_event':
-			$event_id = (int) get_post_meta( $post_id, '_reg_event_id', true );
-			if ( $event_id ) {
-				echo '<a href="' . esc_url( get_edit_post_link( $event_id ) ) . '">' . esc_html( get_the_title( $event_id ) ) . '</a>';
+			$event_id    = (int) get_post_meta( $post_id, '_reg_event_id', true );
+			$edit_link   = $event_id ? get_edit_post_link( $event_id ) : null;
+			$event_title = $event_id ? get_the_title( $event_id ) : '';
+			if ( ! $event_title ) {
+				$event_title = get_post_meta( $post_id, '_reg_event_title', true ) ?: '';
+			}
+			if ( $edit_link ) {
+				echo '<a href="' . esc_url( $edit_link ) . '">' . esc_html( $event_title ) . '</a>';
+			} elseif ( $event_title ) {
+				echo esc_html( $event_title ) . ' <small>(deleted)</small>';
+			} elseif ( $event_id ) {
+				echo '#' . esc_html( $event_id ) . ' <small>(deleted)</small>';
 			} else {
 				echo '—';
 			}
@@ -312,8 +321,18 @@ function codeweber_event_reg_render_details_metabox( \WP_Post $post ): void {
 		<tr>
 			<th><?php esc_html_e( 'Event', 'codeweber' ); ?></th>
 			<td>
-				<?php if ( $event_id ) : ?>
-					<a href="<?php echo esc_url( get_edit_post_link( $event_id ) ); ?>"><?php echo esc_html( get_the_title( $event_id ) ); ?></a>
+				<?php
+				$edit_link   = $event_id ? get_edit_post_link( $event_id ) : null;
+				$event_title = $event_id ? get_the_title( $event_id ) : '';
+				if ( ! $event_title ) {
+					$event_title = get_post_meta( $post->ID, '_reg_event_title', true ) ?: '';
+				}
+				if ( $edit_link ) : ?>
+					<a href="<?php echo esc_url( $edit_link ); ?>"><?php echo esc_html( $event_title ); ?></a>
+				<?php elseif ( $event_title ) : ?>
+					<?php echo esc_html( $event_title ); ?> <small>(deleted)</small>
+				<?php elseif ( $event_id ) : ?>
+					#<?php echo esc_html( $event_id ); ?> <small>(deleted)</small>
 				<?php else : ?>—<?php endif; ?>
 			</td>
 		</tr>

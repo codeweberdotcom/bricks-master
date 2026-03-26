@@ -212,7 +212,8 @@ class Codeweber_Event_Registration_API {
 			? max( 1, (int) $request->get_param( 'seats' ) )
 			: 1;
 
-		update_post_meta( $post_id, '_reg_event_id', $event_id );
+		update_post_meta( $post_id, '_reg_event_id',    $event_id );
+		update_post_meta( $post_id, '_reg_event_title', sanitize_text_field( $event_title ) );
 		update_post_meta( $post_id, '_reg_name',     sanitize_text_field( $request->get_param( 'name' ) ) );
 		update_post_meta( $post_id, '_reg_email',    sanitize_email( $request->get_param( 'email' ) ) );
 		update_post_meta( $post_id, '_reg_phone',    sanitize_text_field( $request->get_param( 'phone' ) ?? '' ) );
