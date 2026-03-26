@@ -260,28 +260,30 @@ form.dark-fields .form-control {
 //----------------------------------------------------------//
 //  SMALL CHECKBOX & VALIDATION COLORS
 //----------------------------------------------------------//
+
+// Scale factor for .form-check-sm relative to default .form-check
+// Change this one value to proportionally resize: input, font, paddings, margins
+$form-check-sm-scale: 0.667 !default;
+
+// Derived values — all calculated from the scale and Bootstrap defaults
+$form-check-sm-input-width:   $form-check-input-width * $form-check-sm-scale;
+$form-check-sm-font-size:     1rem * $form-check-sm-scale;
+$form-check-sm-gap:           .5rem * $form-check-sm-scale;
+$form-check-sm-padding-start: $form-check-sm-input-width + $form-check-sm-gap;
+$form-check-sm-min-height:    $form-check-sm-font-size * $line-height-base;
+$form-check-sm-margin-top:    ($form-check-sm-font-size * $line-height-base - $form-check-sm-input-width) * .5;
+
 .form-check-sm {
-  font-size: .7rem;
-  min-height: 1rem;
-  padding-left: 1.1rem;
+  font-size: $form-check-sm-font-size;
+  min-height: $form-check-sm-min-height;
+  padding-left: $form-check-sm-padding-start;
 
   .form-check-input {
-    width: .7rem;
-    height: .7rem;
-    margin-top: .4em;
-    margin-left: -1.1rem;
+    width: $form-check-sm-input-width;
+    height: $form-check-sm-input-width;
+    margin-top: $form-check-sm-margin-top;
+    margin-left: -$form-check-sm-padding-start;
   }
-}
-.small-chekbox .form-check-input {
-  width: 0.8rem;
-  height: 0.8rem;
-}
-.small-chekbox input {
-  margin-top: 6px;
-}
-.small-chekbox label,
-.small-chekbox a {
-  font-size: 0.7rem !important;
 }
 .form-check-input.is-invalid ~ .form-check-label,
 .was-validated .form-check-input:invalid ~ .form-check-label,

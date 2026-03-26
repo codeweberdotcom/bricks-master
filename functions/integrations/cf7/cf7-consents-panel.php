@@ -640,7 +640,7 @@ class CF7_Consents_Panel {
             if ($for_editor) {
                 // Для редактора: полная HTML структура с оберткой и label
                 // Добавляем класс optional, если согласие необязательное
-                $wrapper_class = 'form-check mb-2 fs-12 small-chekbox wpcf7-acceptance';
+                $wrapper_class = 'form-check form-check-sm mb-2 fs-12 wpcf7-acceptance';
                 if (!$required) {
                     $wrapper_class .= ' optional';
                 }
@@ -786,7 +786,7 @@ class CF7_Consents_Panel {
                         $is_required = !empty($consent['required']);
                         
                         // Формируем класс обертки
-                        $wrapper_class = 'form-check mb-2 fs-12 small-chekbox wpcf7-acceptance';
+                        $wrapper_class = 'form-check form-check-sm mb-2 fs-12 wpcf7-acceptance';
                         if (!$is_required) {
                             $wrapper_class .= ' optional';
                         }

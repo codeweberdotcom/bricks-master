@@ -56,7 +56,7 @@ $theme_btn   = class_exists( 'Codeweber_Options' ) ? ' ' . esc_attr( trim( Codew
 
 			<?php do_action('woocommerce_login_form'); ?>
 
-			<div class="form-check mb-3 text-start small-chekbox fs-12<?php echo esc_attr( $form_radius ); ?>">
+			<div class="form-check mb-3 text-start form-check-sm fs-12<?php echo esc_attr( $form_radius ); ?>">
 				<input class="form-check-input<?php echo esc_attr( $form_radius ); ?>" name="rememberme" type="checkbox" id="rememberme" value="forever" />
 				<label class="form-check-label" for="rememberme"><?php esc_html_e('Remember me', 'woocommerce'); ?></label>
 			</div>
