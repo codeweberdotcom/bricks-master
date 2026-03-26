@@ -401,7 +401,7 @@
          */
         createSidebarItem(marker) {
             const item = document.createElement('div');
-            item.className = 'codeweber-map-sidebar-item border-bottom px-3 py-3';
+            item.className = 'codeweber-map-sidebar-item border-bottom p-5';
             item.dataset.markerId = marker.id;
             item.dataset.city = marker.city || '';
             item.dataset.category = marker.category || '';
