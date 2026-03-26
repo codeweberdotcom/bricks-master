@@ -322,7 +322,7 @@
                 content += `<div style="margin-bottom: 8px;">${markerData.description}</div>`;
             }
             if (balloonFields.showLink && markerData.link) {
-                content += `<div style="margin-top: 10px;"><a href="${markerData.link}" style="display: inline-block; padding: 6px 12px; background: #0d6efd; color: #fff; text-decoration: none; border-radius: 4px;">${codeweberYandexMaps.i18n.viewDetails}</a></div>`;
+                content += `<div class="mt-2"><a href="${markerData.link}" class="btn btn-primary btn-sm">${codeweberYandexMaps.i18n.viewDetails}</a></div>`;
             }
 
             return content || markerData.title || '';
