@@ -307,22 +307,22 @@
 
             // Стандартный шаблон балуна: ключевая информация об офисе
             if (balloonFields.showCity && markerData.city) {
-                content += `<div style="margin-bottom: 8px;"><strong>${codeweberYandexMaps.i18n.city}:</strong><br>${markerData.city}</div>`;
+                content += `<div class="mb-2"><span>${codeweberYandexMaps.i18n.city}:</span><br>${markerData.city}</div>`;
             }
             if (balloonFields.showAddress && markerData.address) {
-                content += `<div style="margin-bottom: 8px;"><strong>${codeweberYandexMaps.i18n.address}:</strong><br>${markerData.address}</div>`;
+                content += `<div class="mb-2"><span>${codeweberYandexMaps.i18n.address}:</span><br>${markerData.address}</div>`;
             }
             if (balloonFields.showPhone && markerData.phone) {
-                content += `<div style="margin-bottom: 8px;"><strong>${codeweberYandexMaps.i18n.phone}:</strong><br><a href="tel:${markerData.phone.replace(/[^0-9+]/g, '')}">${markerData.phone}</a></div>`;
+                content += `<div class="mb-2"><span>${codeweberYandexMaps.i18n.phone}:</span><br><a href="tel:${markerData.phone.replace(/[^0-9+]/g, '')}">${markerData.phone}</a></div>`;
             }
             if (balloonFields.showWorkingHours && markerData.workingHours) {
-                content += `<div style="margin-bottom: 8px;"><strong>${codeweberYandexMaps.i18n.workingHours}:</strong><br>${markerData.workingHours}</div>`;
+                content += `<div class="mb-2"><span>${codeweberYandexMaps.i18n.workingHours}:</span><br>${markerData.workingHours}</div>`;
             }
             if (balloonFields.showDescription && markerData.description) {
-                content += `<div style="margin-bottom: 8px;">${markerData.description}</div>`;
+                content += `<div class="mb-2">${markerData.description}</div>`;
             }
             if (balloonFields.showLink && markerData.link) {
-                content += `<div class="mt-2"><a href="${markerData.link}" class="btn btn-primary btn-sm">${codeweberYandexMaps.i18n.viewDetails}</a></div>`;
+                content += `<div class="mt-2"><a href="${markerData.link}" class="btn btn-primary btn-xs">${codeweberYandexMaps.i18n.viewDetails}</a></div>`;
             }
 
             return content || markerData.title || '';
