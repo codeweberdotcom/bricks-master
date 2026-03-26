@@ -590,9 +590,9 @@ class Codeweber_Yandex_Maps {
         
         ob_start();
         ?>
-        <div class="codeweber-yandex-map-wrapper" data-map-config="<?php echo esc_attr(wp_json_encode($map_data)); ?>">
+        <div class="codeweber-yandex-map-wrapper position-relative w-100" data-map-config="<?php echo esc_attr(wp_json_encode($map_data)); ?>">
             <div class="spinner spinner-overlay" id="<?php echo esc_attr($map_id); ?>-loader"></div>
-            <div id="<?php echo esc_attr($map_id); ?>" class="codeweber-yandex-map" style="<?php echo $map_style; ?>"></div>
+            <div id="<?php echo esc_attr($map_id); ?>" class="codeweber-yandex-map w-100 overflow-hidden" style="<?php echo $map_style; ?>"></div>
         </div>
         <?php
         return ob_get_clean();

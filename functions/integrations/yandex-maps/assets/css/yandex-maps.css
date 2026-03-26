@@ -6,14 +6,7 @@
  */
 
 .codeweber-yandex-map-wrapper {
-    position: relative;
-    width: 100%;
     min-height: 200px;
-}
-
-.codeweber-yandex-map {
-    width: 100%;
-    overflow: hidden;
 }
 
 /* Sidebar — только позиционирование и видимость */
