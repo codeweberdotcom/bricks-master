@@ -420,19 +420,19 @@
                 html += `<div class="h6 mb-1">${marker.title}</div>`;
             }
             if (sidebarFields.showDescription && marker.description && marker.description.trim() !== '') {
-                html += `<p class="fs-sm text-muted mb-2">${marker.description}</p>`;
+                html += `<p class="fs-sm mb-0">${marker.description}</p>`;
             }
             if (sidebarFields.showCity && marker.city) {
-                html += `<p class="fs-sm text-muted mb-1"><i class="uil uil-location-pin-alt me-1"></i> ${marker.city}</p>`;
+                html += `<p class="fs-sm mb-0"><i class="uil uil-location-pin-alt me-1"></i> ${marker.city}</p>`;
             }
             if (sidebarFields.showAddress && marker.address) {
-                html += `<p class="fs-sm text-muted mb-1"><i class="uil uil-map-marker me-1"></i> ${marker.address}</p>`;
+                html += `<p class="fs-sm mb-0"><i class="uil uil-map-marker me-1"></i> ${marker.address}</p>`;
             }
             if (sidebarFields.showPhone && marker.phone) {
-                html += `<p class="fs-sm text-muted mb-1"><i class="uil uil-phone me-1"></i> <a href="tel:${marker.phone.replace(/[^0-9+]/g, '')}">${marker.phone}</a></p>`;
+                html += `<p class="fs-sm mb-0"><i class="uil uil-phone me-1"></i> <a href="tel:${marker.phone.replace(/[^0-9+]/g, '')}">${marker.phone}</a></p>`;
             }
             if (sidebarFields.showWorkingHours && marker.workingHours) {
-                html += `<p class="fs-sm text-muted mb-0"><i class="uil uil-clock me-1"></i> ${marker.workingHours}</p>`;
+                html += `<p class="fs-sm mb-0"><i class="uil uil-clock me-1"></i> ${marker.workingHours}</p>`;
             }
 
             item.innerHTML = html;
