@@ -45,5 +45,5 @@
 
 /* Balloon */
 .ymaps-2-1-79-balloon-content__header {
-    font-weight: unset !important;
+    font-weight: inherit !important;
 }
