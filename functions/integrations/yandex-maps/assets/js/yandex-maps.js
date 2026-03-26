@@ -533,7 +533,7 @@
 
             const select = document.createElement('select');
             select.id = `${this.config.id}-city-filter`;
-            select.className = 'form-select form-select-sm';
+            select.className = 'form-select fs-sm py-1 px-2';
 
             const allOption = document.createElement('option');
             allOption.value = '';
