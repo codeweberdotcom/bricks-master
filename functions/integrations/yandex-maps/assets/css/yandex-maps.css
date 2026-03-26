@@ -45,5 +45,5 @@
 
 /* Balloon */
 .ymaps-2-1-79-balloon__content {
-    padding: 12px;
+    padding: 12px !important;
 }
