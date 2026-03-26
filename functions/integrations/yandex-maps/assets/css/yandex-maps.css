@@ -42,3 +42,8 @@
 @media (max-width: 767px) {
     .codeweber-map-sidebar { max-width: none; }
 }
+
+/* Balloon */
+.ymaps-2-1-79-balloon__content {
+    padding: 12px;
+}
