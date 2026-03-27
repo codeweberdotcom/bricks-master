@@ -221,7 +221,7 @@
 
       > .icon {
         position: absolute;
-        left: 1.3rem;
+        left: $accordion-item-indent-right;
         right: auto;
         top: 50%;
         transform: translateY(-50%);
@@ -357,7 +357,7 @@
 
     .card-header button {
       &:before {
-        left: 1.3rem;
+        left: $accordion-item-indent-right;
         right: auto;
       }
       &.collapsed:before {
@@ -420,7 +420,7 @@
         padding: $accordion-card-header-button-padding-right;
 
         &:before {
-          right: 1.3rem;
+          right: $accordion-icon-right-indent;
           left: auto;
         }
       }
@@ -448,7 +448,7 @@
     }
 
     .accordion-item.icon button > .icon {
-      right: 1.3rem;
+      right: $accordion-icon-right-indent;
       left: auto;
     }
   }

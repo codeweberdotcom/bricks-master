@@ -767,7 +767,7 @@ $form-check-input-checked-border-color: $form-check-input-checked-bg-color !defa
 $form-check-radio-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='1.5' fill='#{$form-check-input-checked-color}'/></svg>") !default;
 $form-check-input-focus-border: rgba($shadow-border, 0.1) !default;
 $form-check-input-focus-box-shadow: none !default;
-$form-select-focus-border-color:  $form-check-input-focus-border !default;
+$form-select-focus-border-color:  $input-focus-border-color !default;
 $form-select-focus-box-shadow: unset !default;
 $form-select-border-color: $input-border-color !default;
 $form-select-border-radius: $border-radius !default;
