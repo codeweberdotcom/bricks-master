@@ -665,6 +665,7 @@
                 <li><a class="nav-link scroll" href="#snippet-5">Disabled</a></li>
                 <li><a class="nav-link scroll" href="#snippet-6">Select</a></li>
                 <li><a class="nav-link scroll" href="#snippet-7">Dark Background</a></li>
+                <li><a class="nav-link scroll" href="#snippet-8">Image Background</a></li>
               </ul>
             </nav>
             <!-- /nav -->
@@ -1022,6 +1023,91 @@
     &lt;label class=&quot;form-check-label&quot; for=&quot;darkRadio2&quot;&gt; Checked radio &lt;/label&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+                  </div>
+                  <!--/.code-wrapper-inner -->
+                </div>
+                <!--/.code-wrapper -->
+              </div>
+              <!--/.card-footer -->
+            </div>
+            <!--/.card -->
+          </section>
+          <section id="snippet-8" class="wrapper py-16">
+            <h2 class="mb-5">Image Background</h2>
+            <p class="lead mb-8">Форма на фоне изображения с overlay. Поля ввода с классом <code class="code">bg-frost</code> создают эффект матового стекла.</p>
+            <div class="card">
+              <div class="card-body p-0">
+                <section class="wrapper image-wrapper bg-image bg-overlay bg-overlay-500 text-white rounded-top" data-image-src="../../assets/img/photos/b1.jpg">
+                  <div class="container py-10">
+                    <div class="row justify-content-center">
+                      <div class="col-md-8 col-lg-6">
+                        <div class="form-floating mb-4">
+                          <input id="bgTextInput" type="text" class="form-control bg-frost" placeholder="Text Input">
+                          <label for="bgTextInput">Text Input</label>
+                        </div>
+                        <!-- /.form-floating -->
+                        <div class="form-floating mb-4">
+                          <textarea id="bgTextarea" class="form-control bg-frost" placeholder="Textarea" style="height: 150px"></textarea>
+                          <label for="bgTextarea">Textarea</label>
+                        </div>
+                        <!-- /.form-floating -->
+                        <div class="form-select-wrapper mb-6">
+                          <select class="form-select bg-frost" aria-label="BG select example">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
+                        </div>
+                        <!-- /.form-select-wrapper -->
+                        <button type="button" class="btn btn-primary">Submit</button>
+                      </div>
+                      <!-- /column -->
+                    </div>
+                    <!-- /.row -->
+                  </div>
+                  <!-- /.container -->
+                </section>
+              </div>
+              <!--/.card-body -->
+              <div class="card-footer position-relative">
+                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-8">Показать примеры кода</a>
+              </div>
+              <!--/.card-footer -->
+              <div id="collapse-8" class="card-footer bg-dark p-0 accordion-collapse collapse">
+                <div class="code-wrapper">
+                  <div class="code-wrapper-inner">
+                    <pre class="language-html"><code>&lt;section class=&quot;wrapper image-wrapper bg-image bg-overlay bg-overlay-500 text-white&quot; data-image-src=&quot;./assets/img/photos/b1.jpg&quot;&gt;
+  &lt;div class=&quot;container py-10&quot;&gt;
+    &lt;div class=&quot;row justify-content-center&quot;&gt;
+      &lt;div class=&quot;col-md-8 col-lg-6&quot;&gt;
+        &lt;div class=&quot;form-floating mb-4&quot;&gt;
+          &lt;input id=&quot;bgTextInput&quot; type=&quot;text&quot; class=&quot;form-control bg-frost&quot; placeholder=&quot;Text Input&quot;&gt;
+          &lt;label for=&quot;bgTextInput&quot;&gt;Text Input&lt;/label&gt;
+        &lt;/div&gt;
+        &lt;!-- /.form-floating --&gt;
+        &lt;div class=&quot;form-floating mb-4&quot;&gt;
+          &lt;textarea id=&quot;bgTextarea&quot; class=&quot;form-control bg-frost&quot; placeholder=&quot;Textarea&quot; style=&quot;height: 150px&quot;&gt;&lt;/textarea&gt;
+          &lt;label for=&quot;bgTextarea&quot;&gt;Textarea&lt;/label&gt;
+        &lt;/div&gt;
+        &lt;!-- /.form-floating --&gt;
+        &lt;div class=&quot;form-select-wrapper mb-6&quot;&gt;
+          &lt;select class=&quot;form-select bg-frost&quot; aria-label=&quot;BG select example&quot;&gt;
+            &lt;option selected&gt;Open this select menu&lt;/option&gt;
+            &lt;option value=&quot;1&quot;&gt;One&lt;/option&gt;
+            &lt;option value=&quot;2&quot;&gt;Two&lt;/option&gt;
+            &lt;option value=&quot;3&quot;&gt;Three&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        &lt;!-- /.form-select-wrapper --&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Submit&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;!-- /column --&gt;
+    &lt;/div&gt;
+    &lt;!-- /.row --&gt;
+  &lt;/div&gt;
+  &lt;!-- /.container --&gt;
+&lt;/section&gt;</code></pre>
                   </div>
                   <!--/.code-wrapper-inner -->
                 </div>
