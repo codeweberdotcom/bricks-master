@@ -8,3 +8,6 @@ node_modules/
 .nova/
 
 **/.DS_Store
+
+# Local dev folder
+dev/
