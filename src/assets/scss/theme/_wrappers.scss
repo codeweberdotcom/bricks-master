@@ -148,9 +148,14 @@ footer.bg-dark,
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba($gray-900, 0.4);
+    background: rgba($gray-900, 0.5);
     z-index: 1;
   }
+  &.bg-overlay-300:after { background: rgba($gray-900, 0.3); }
+  &.bg-overlay-400:after { background: rgba($gray-900, 0.4); }
+  &.bg-overlay-600:after { background: rgba($gray-900, 0.6); }
+  &.bg-overlay-700:after { background: rgba($gray-900, 0.7); }
+  &.bg-overlay-800:after { background: rgba($gray-900, 0.8); }
   &.bg-overlay.bg-overlay-gradient:after {
     opacity: 0.4;
     background: linear-gradient(120deg, #542461 50%, #332487 100%);
