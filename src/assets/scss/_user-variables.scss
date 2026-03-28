@@ -1,0 +1,804 @@
+// Создаем свои цвета
+$custom-colors: (
+"neutral-50": #FFFFFF,
+"neutral-100": #FAFAFA,
+"neutral-200": #F5F5F5,
+"neutral-300": #CCCCCC,
+"neutral-400": #B3B3B3,
+"neutral-500": #999999,
+"neutral-600": #666666,
+"neutral-700": #4D4D4D,
+"neutral-800": #333333,
+"sub-white": #DDE4E6,
+"dusty-navy": #3D5567,
+"charcoal-blue": #303C42,
+"vintage-burgundy": #893B41,
+"vintage-burgundy-soft": #C49DA0,
+"muted-teal": #47878F,
+"muted-teal-soft": #A3C3C7,
+"slate-gray": #86909B,
+"slate-gray-soft": #C3C7CD,
+"olive-green": #738D50,
+"olive-green-soft": #B9C6A7,
+);
+
+$custom-theme-colors: $custom-colors;
+
+//----------------------------------------------------------//666
+//	BREACKPOINTS
+//----------------------------------------------------------//
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1400px,
+  xxl: 1500px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1320px,
+  xxl: 1400px
+);
+
+$padding-43: 43px;
+$card-spacer-y: $padding-43;
+$card-spacer-x: $padding-43;
+
+//----------------------------------------------------------//
+//	GLOBAL
+//----------------------------------------------------------//
+$primary: #FEBE10;
+$primary-soft: #FFDF87;
+$white: #ffffff; // 50
+
+$body-bg: $white;
+$body-color: #1E1E1E;
+
+$gray-100: #FAFAFA;
+$gray-200: #F5F5F5;
+$gray-300: #CCCCCC;
+$gray-400: #B3B3B3;
+$gray-500: #999999;
+$gray-600: #666666;
+$gray-700: #4D4D4D;
+$gray-800: #333333;
+$gray-900: #1E1E1E;
+
+$dark: #1E1E1E;
+$border-radius: 0;
+
+
+//----------------------------------------------------------//
+//	DROPDOWN
+//----------------------------------------------------------//
+$dropdown-font-size: 0.7rem;
+
+
+//----------------------------------------------------------//
+//	BREADCRUMB
+//----------------------------------------------------------//
+li.breadcrumb-item, .breadcrumb-item+.breadcrumb-item::before {
+    font-size: .86667em !important;
+    line-height: .86667em !important;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+$breadcrumb-divider-color: #999999;
+$breadcrumb-color:  #999999;
+$breadcrumb-hover-color: $primary;
+$breadcrumb-active-color: $primary;
+$breadcrumb-margin-bottom: 0px;
+
+//----------------------------------------------------------//
+//	CARDS
+//----------------------------------------------------------//
+
+$card-cap-padding-y: 2rem;
+$card-cap-padding-x: 3rem;
+$card-border-radius: $border-radius;
+
+//----------------------------------------------------------//
+//  ACCORDEON
+//----------------------------------------------------------//
+$accordion-margin-bottom: 0rem;
+$accordion-card-body-padding: 0 0 0 1.1rem;
+$accordion-card-header-padding-default: 0 0 0 0;
+
+$accordion-button-font-size: 0.89rem;
+$accordion-button-font-weight: 700;
+$accordion-icon-font-size: 1.15rem;
+$accordion-icon-color: $dark;
+$accordion-button-hover-color: $dark;
+$accordion-icon-hover-color: $primary;
+$accordion-button-active-color: $dark;
+
+$accordion-icon-margin-top: -0.25rem;
+$accordion-icon-margin-left: -0.3rem;
+
+// две переменные для разных положений кнопки
+$accordion-button-padding-left: 1.37rem 1.5rem 1.37rem 2.7rem;
+$accordion-button-padding-right: 1.37rem 2.7rem 1.37rem 1.5rem;
+
+// две переменные для body padding
+$accordion-body-padding-left: 0 1.37rem 0.25rem 1.5rem;
+$accordion-body-padding-right: 0 1.5rem 0.25rem 1.37rem;
+
+$accordion-icon-open: '\ec5d'; // условный код иконки вверх
+$accordion-icon-close: '\ec5d'; // код иконки вниз
+
+$accordion-body-padding-icon: 0 1.25rem 0.25rem 2.8rem;
+$accordion-button-icon-font-size: 1rem;
+
+//Расположение иконки
+$accordion-button-icon-span: 1.3rem;
+$accordion-icon-position: right; 
+
+// Переменные для углов поворота
+$accordion-icon-closed-rotate: 0deg; // Угол для закрытого состояния
+$accordion-icon-opened-rotate: 135deg; // Угол для открытого состояния
+
+//--одна иконка с поворотом
+$accordion-icon-type: "one";
+$accordion-icon-one: "\ec5d";
+$accordion-icon-opened-rotate: 135deg;
+
+//--две иконки без поворота
+//$accordion-icon-type: "two";
+//$accordion-icon-open: "\ec07";
+//$accordion-icon-close: "\ec5d";
+
+//----------------------------------------------------------//
+//  LISTS
+//----------------------------------------------------------//
+
+$unordered-list-dot-font-size:          0.7rem;
+$unordered-list-dot-top:         -0.25rem;
+
+
+//----------------------------------------------------------//
+//  NAV TABS VARIABLES
+//----------------------------------------------------------//
+
+$nav-tabs-basic-font-size:                  0.7rem;
+$nav-tabs-basic-font-weight:             600;
+$nav-tabs-basic-border-width:           1px;
+$nav-tabs-basic-border-style:            solid;
+$nav-tabs-basic-border-color:           rgba(164,174,198,.25);
+
+$nav-tabs-basic-border-top:             #{$nav-tabs-basic-border-width} #{$nav-tabs-basic-border-style} #{$nav-tabs-basic-border-color};
+$nav-tabs-basic-border-right:           #{$nav-tabs-basic-border-width} #{$nav-tabs-basic-border-style} #{$nav-tabs-basic-border-color};
+$nav-tabs-basic-border-bottom:       #{$nav-tabs-basic-border-width} #{$nav-tabs-basic-border-style} #{$nav-tabs-basic-border-color};
+$nav-tabs-basic-border-left:              #{$nav-tabs-basic-border-width} #{$nav-tabs-basic-border-style} #{$nav-tabs-basic-border-color};
+
+$nav-tabs-basic-bg:                              #fafafa;
+$nav-tabs-basic-active-bg:                   #ffffff;
+$nav-tabs-basic-margin-right:              0.5rem;
+$nav-tabs-basic-padding:                     0.555rem 1.1rem;
+$nav-tabs-basic-border-radius:              0.2rem;
+$nav-tabs-basic-hover-border-color:     rgba(164,174,198,.25);
+$nav-tabs-basic-active-border-color:    rgba(164,174,198,.25);
+
+$nav-tabs-basic-active-color:                 $primary;
+$nav-tabs-basic-color:                      #60697b;
+$nav-tabs-basic-hover-color:            #262b32;
+$nav-tabs-basic-hover-bg:               #ffffff;
+
+$nav-tabs-basic-icon-size:              0.7rem; 
+
+.nav-tabs-basic .nav-item .nav-link.active:after {
+    content: "";
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    top: -1px;
+    z-index: 1;
+    height: 2px;
+    -moz-border-radius-topleft: 3px;
+    -webkit-border-top-left-radius: 3px;
+    border-top-left-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -webkit-border-top-right-radius: 3px;
+    border-top-right-radius: 3px;
+    background: $primary;
+}
+
+.nav-tabs-basic .nav-item a.nav-link {
+    position: relative;
+}
+
+.list-unstyled li.is-active a {
+  color: $primary !important;
+}
+
+// PILLS TABS
+$nav-pills-font-size:                   0.7rem;
+$nav-pills-font-weight:                 400;
+$nav-pills-border-width:                0px;
+$nav-pills-border-style:                none;
+$nav-pills-border-color:                transparent;
+
+$nav-pills-border-top:                  #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color};
+$nav-pills-border-right:                #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color};
+$nav-pills-border-bottom:               #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color};
+$nav-pills-border-left:                 #{$nav-pills-border-width} #{$nav-pills-border-style} #{$nav-pills-border-color};
+
+$nav-pills-bg:                                transparent;
+$nav-pills-active-bg:                      $primary;
+$nav-pills-margin-right:                 0.5rem;
+$nav-pills-padding:                        0.25rem 0.8rem;
+$nav-pills-border-radius:                0.2rem;
+
+$nav-pills-color:                                $dark;
+$nav-pills-hover-color:                     $primary;
+$nav-pills-active-color:                     #ffffff;
+
+$nav-pills-hover-border-color:          transparent;
+$nav-pills-hover-bg:                          $primary-soft;
+$nav-pills-active-border-color:         transparent;
+$nav-pills-active-box-shadow:          none;
+$nav-pills-box-shadow:                     none;
+$nav-pills-icon-size:                           0.7rem; 
+
+
+//----------------------------------------------------------//
+//  BUTTONS
+//----------------------------------------------------------//
+
+$btn-border-width: 1px;
+$input-btn-line-height: 1;
+
+// Small (SM)
+$btn-padding-y-sm:        0.58rem;
+$btn-padding-x-sm:        0.8rem;
+$btn-font-size-sm:        0.58rem;
+
+// Extra Large (ELG)
+$btn-padding-y-elg:        0.92rem;
+$btn-padding-x-elg:        1.75rem;
+$btn-font-size-elg:        0.8rem;
+
+// Medium (MD)
+$btn-padding-y-md:        0.58rem;
+$btn-padding-x-md:        1.1rem;
+$btn-font-size-md:        0.65rem;
+
+// Large (LG)
+$btn-padding-y-lg:        0.75rem;
+$btn-padding-x-lg:        1.198438rem;
+$btn-font-size-lg:        0.7rem;
+
+
+// Default (без модификатора)
+$btn-padding-y:        0.63rem;
+$btn-padding-x:        1.2rem;
+$btn-font-size:        0.7rem;
+
+
+// Extra Small (XS)
+$btn-padding-y-xs:        0.45rem;
+$btn-padding-x-xs:        0.75rem;
+$btn-font-size-xs:        0.55rem;
+
+.btn {
+    text-transform: uppercase;
+}
+
+$btn-font-weight:          600;
+$btn-font-weight-xs:       600;
+$btn-font-weight-sm:       600;
+$btn-font-weight-md:       600;
+$btn-font-weight-lg:       600;
+$btn-font-weight-elg:      600;
+
+
+//----------------------------------------------------------//
+//  FORMS
+//----------------------------------------------------------//
+
+$input-font-size: 0.70rem;
+$form-floating-height: 48px;
+$form-floating-line-height: 1.25;
+$form-floating-padding-x: 1rem;
+$form-floating-padding-y: 0.6rem;
+$form-floating-input-padding-t: 1rem;
+$form-floating-input-padding-b: 0.2rem;
+
+$input-bg: #f8f8f8;
+$input-focus-border-color: #999;
+$input-focus-bg: #ffffff;
+$input-color: #555;
+//$input-border-color: #ccc;
+//$input-focus-color: #000;
+//$input-focus-box-shadow: 0 0 0 0.2rem rgba(255, 102, 0, 0.25);
+
+//----------------------------------------------------------//
+//  NAV
+//----------------------------------------------------------//
+
+$navbar-expand-lg-margin-top: 1.25rem;
+$nav-link-font-size:  0.7rem;
+$nav-link-font-weight: 400;
+$nav-link-letter-spacing: 0;
+$nav-link-padding-y-lg: 2rem;
+$nav-link-padding-x-lg: 2rem;
+$nav-link-text-transform: uppercase;
+
+//----------------------------------------------------------//
+// DROPDOWN
+//----------------------------------------------------------//
+
+$dropdown-font-weight: 400;
+
+
+//----------------------------------------------------------//
+// LINKS
+//----------------------------------------------------------//
+a.hover-4 {
+    position: relative;
+    padding: 0 0rem .05rem;
+    transition: all .3s ease-in-out;
+    z-index: 1;
+}
+
+a.hover-4:before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 1px;
+    left: 0;
+    bottom: -3px;
+    background-color: $primary;
+    transition: all .3s ease-in-out;
+}
+
+a.hover-4:hover.link-body {
+    color: inherit;
+    padding-left: 22px;
+    transition: all .3s ease-in-out;
+}
+
+a.hover-4:hover:before {
+    height: 13px;
+    width: 13px;
+    bottom: 3px;
+    transition: all .3s ease-in-out;
+}
+
+a.hover-5 {
+    position: relative;
+}
+
+a.hover-5::before {
+    content: "";
+    transform-origin: 100% 50%;
+    transform: scale3d(0, 1, 1);
+    transition: transform .3s 
+cubic-bezier(.7, 0, .2, 1);
+position: absolute;
+    width: 100%;
+    height: 1px;
+    background:$primary;
+    top: 100%;
+    left: 0;
+    pointer-events: none;
+}
+
+a.hover-5:after {
+    line-height: 1;
+    font-family: Unicons;
+    content: "\e931";
+    padding-left: .05rem;
+    font-size: .9rem;
+    font-weight: 400;
+    vertical-align: -3px;
+    margin-right: -.25rem;
+    display: inline-block;
+}
+a.hover-5:hover:before {
+    transform-origin: 0 50%;
+    transform: scale3d(1, 1, 1);
+    transition-timing-function: 
+cubic-bezier(.4, 1, .8, 1);
+}
+
+// more1 — стрелка вправо (как hover more)
+.more1 {
+    font-weight: 700;
+    letter-spacing: -0.01rem;
+    display: inline-block;
+    &:after {
+        line-height: 1;
+        font-family: Unicons;
+        content: "\e931";
+        padding-left: .05rem;
+        font-size: .9rem;
+        font-weight: normal;
+        vertical-align: -3px;
+        margin-right: -.25rem;
+        display: inline-block;
+    }
+}
+// подчёркивание .hover.more1 / .hover.more1-left — цвет $primary
+a.hover.more1::before,
+a.hover.more1-left::before {
+    background: $primary;
+}
+// more1-left — стрелка влево (как hover more-left)
+.more1-left {
+    font-weight: 700;
+    letter-spacing: -0.01rem;
+    display: inline-block;
+    position: relative;
+    padding-left: 1rem;
+    &::after {
+        content: "\e92f";
+        font-family: Unicons;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        line-height: 1;
+        font-size: .9rem;
+        font-weight: normal;
+        display: inline-block;
+    }
+}
+
+a.hover-6 {
+    position: relative;
+}
+
+a.hover-6::before {
+    content: "";
+    transform-origin: 100% 50%;
+    transform: scale3d(0, 1, 1);
+    transition: transform .3s 
+cubic-bezier(.7, 0, .2, 1);
+position: absolute;
+    width: 100%;
+    height: 1px;
+    background:$primary;
+    top: 100%;
+    left: 0;
+    pointer-events: none;
+}
+
+a.hover-6:hover:before {
+    transform-origin: 0 50%;
+    transform: scale3d(1, 1, 1);
+    transition-timing-function: 
+cubic-bezier(.4, 1, .8, 1);
+}
+
+a.hover-7 {
+    position: relative;
+    padding: 0 .2rem .05rem;
+    transition: color 0.3s ease, padding 0.3s ease;
+    z-index: 1;
+}
+
+a.hover-7:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    height: 13px;
+    width: 0;
+    left: 0;
+    bottom: 3px;
+    background-color: $primary;
+    transition: all .3s ease-in-out;
+}
+
+
+a.hover-7:hover.link-body {
+    color: inherit;
+    padding-left: 22px;
+    transition: all .3s ease-in-out;
+}
+a.hover-7 {
+    position: relative;
+    padding-left: 0;
+    transition: all .3s ease-in-out;
+    z-index: 1;
+}
+a.hover-7:hover:before {
+    height: 13px;
+    width: 13px;
+    bottom: 3px;
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    background-color: $primary;
+    transition: all .3s ease-in-out;
+}
+
+a.card:hover .hover-4 {
+    position: relative;
+    padding: 0 0 0.05rem;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    color: inherit;
+    padding-left: 22px;
+}
+
+a.card:hover .hover-4::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: 13px;
+    height: 13px;
+    left: 0;
+    bottom: 3px;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Базовые стили (без ховера) */
+.hover-4 {
+    position: relative;
+    padding: 0 0 0.05rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-4::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 1px;
+    left: 0;
+    bottom: -3px;
+    background-color: $primary;
+    transition: all 0.3s ease-in-out;
+}
+
+
+.glass-effect-before {
+  position: relative;
+  z-index: 1;
+}
+
+.glass-effect-before::before {
+  content: '';
+  height: 100%;
+  width: 200%;
+  position: absolute;
+  left: -100%;
+  top: 0;
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hover-saturate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0); /* Исходный фильтр */
+  z-index: 0;
+  transition: filter 2s ease; /* Плавное изменение */
+}
+
+.hover-saturate:hover::before {
+  filter: saturate(1); 
+}
+
+.text-line-before {
+    position: relative;
+    padding-left: 60px;
+    text-transform: uppercase;
+}
+
+.text-line-before::before {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    transform: translateY(-60%);
+    left: 0;
+    width: 30px;
+    height: .05rem;
+    background: #FEBE10 !important;
+}
+
+.text-line-before-soft {
+    position: relative;
+    padding-left: 60px;
+    text-transform: uppercase;
+}
+
+.text-line-before-soft::before {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    transform: translateY(-60%);
+    left: 0;
+    width: 30px;
+    height: .05rem;
+    background: #FFDF87 !important;
+}
+
+.text-line-after {
+    display: flex;
+    align-items: center;
+}
+
+.text-line-after:after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #DDE4E6;
+    margin-left: 30px;
+}
+
+.text-line-neutral-after {
+    display: flex;
+    align-items: center;
+}
+
+.text-line-neutral-after::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #999999;
+    margin-left: 30px;
+}
+
+.brand-square-xs {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: $primary;
+}
+
+.brand-square-sm {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background: $primary;
+}
+
+.brand-square-md {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: $primary;
+}
+
+.brand-square-lg {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background: $primary;
+}
+
+.service-link .brand-square-sm {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  transition: all .3s ease;
+}
+
+.service-link:hover .brand-square-sm {
+  opacity: 1;
+  width: 16px;
+}
+
+.w-48{
+    width: 48px;
+}
+
+.h-48{
+    height: 48px;
+}
+
+.practice-card{
+    min-height: 284.44px;
+}
+
+.practice-card .brand-square-xs {
+	transition: all 0.8s ease;
+}
+
+.practice-card:hover .brand-square-xs {
+    opacity: 1 !important;
+    transition: all 0.8s ease;
+	width: 100%;
+	height: 100%;
+	transition: all 0.8s ease;
+	z-index: -1;
+}
+
+.practice-card:hover .h4 {
+	transition: all 0.8s ease;
+	color: #fff;
+}
+
+.practice-section img {
+    filter: grayscale(100%);
+    transition: filter 0.6s ease-in-out, transform 0.6s ease;
+}
+
+.practice-section a:hover img {
+    filter: grayscale(0%);
+}
+
+.practice-section .swiper-slide {
+    transition: all 0.6s ease;
+}
+
+.text-square-before {
+  position: relative;
+  padding-left: 20px;
+}
+
+.text-square-before::before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 13px;
+  height: 13px;
+  background: #febe10 !important;
+}
+
+.staff-banner blockquote::before {
+  color: #ffffff21 !important;
+}
+
+.sidebar nav a.active::before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 13px;
+  height: 13px;
+  background: #febe10 !important;
+}
+
+.sidebar nav a {
+  position: relative;
+}
+
+.sidebar nav a.active {
+padding-left: 20px;
+}
+
+
+#partnersAccordion button {
+  font-weight: 400 !important;
+}
+
+#partnersAccordion.type-3 button:not(.collapsed)::before {
+  right: 1.3rem !important;
+}
+
+#partnersAccordion .accordion-button::before {
+  font-size: 17px;
+  width: 17px;
+  height: 17px;
+  line-height: 1;
+}
+
+
+//START IMPORT FONTS
+@import "fonts/SourceSansPro";
+//END IMPORT FONTS
