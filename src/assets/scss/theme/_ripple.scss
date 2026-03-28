@@ -8,6 +8,12 @@
   transform: translate3d(0, 0, 0);
 }
 
+// Restore absolute positioning overridden by .bg-overlay * { position: relative }
+// !important needed because _wrappers.scss is imported later (line 40 vs line 10)
+.has-ripple .a-ripple {
+  position: absolute !important;
+}
+
 .a-ripple {
   display: block;
   position: absolute;
