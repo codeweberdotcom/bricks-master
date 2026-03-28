@@ -157,3 +157,7 @@ $value in $colors-pale {
     background-color: var(--#{$prefix}pale-#{$color});
   }
 }
+
+video::-webkit-media-controls-picture-in-picture-button {
+  display: none;
+}
