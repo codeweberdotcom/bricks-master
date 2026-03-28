@@ -939,6 +939,8 @@ figure img {
 //----------------------------------------------------------//
 .img-mask {
   img {
+    -webkit-mask-mode: alpha;
+    mask-mode: alpha;
     mask-position: center center;
     mask-repeat: no-repeat;
     height: auto;
