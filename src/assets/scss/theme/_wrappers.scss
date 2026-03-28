@@ -79,6 +79,12 @@ footer.bg-dark,
   &.bg-overlay-light-600:before {
     background: rgba(var(--#{$prefix}white-rgb), 0.6);
   }
+  &.bg-overlay-light-700:before {
+    background: rgba(var(--#{$prefix}white-rgb), 0.7);
+  }
+  &.bg-overlay-light-800:before {
+    background: rgba(var(--#{$prefix}white-rgb), 0.8);
+  }
   &.bg-overlay:not(.bg-content) *,
   &.bg-overlay.bg-content .content {
     position: relative;
@@ -160,6 +166,8 @@ footer.bg-dark,
   &.bg-overlay-light-400:after { background: rgba(var(--#{$prefix}white-rgb), 0.4); }
   &.bg-overlay-light-500:after { background: rgba(var(--#{$prefix}white-rgb), 0.5); }
   &.bg-overlay-light-600:after { background: rgba(var(--#{$prefix}white-rgb), 0.6); }
+  &.bg-overlay-light-700:after { background: rgba(var(--#{$prefix}white-rgb), 0.7); }
+  &.bg-overlay-light-800:after { background: rgba(var(--#{$prefix}white-rgb), 0.8); }
   &.bg-overlay.bg-overlay-gradient:after {
     opacity: 0.4;
     background: linear-gradient(120deg, #542461 50%, #332487 100%);
