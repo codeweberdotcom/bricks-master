@@ -82,7 +82,12 @@ function codeweber_get_seo_description( ?int $post_id = null ): string {
 				$desc = $post->post_content;
 			}
 
-			$desc = wp_strip_all_tags( strip_shortcodes( $desc ) );
+			// Remove Gutenberg block comments and shortcodes.
+			$desc = preg_replace( '/<!--.*?-->/s', '', $desc );
+			$desc = strip_shortcodes( $desc );
+			// Decode entities first so strip_tags catches encoded HTML.
+			$desc = html_entity_decode( $desc, ENT_QUOTES, 'UTF-8' );
+			$desc = wp_strip_all_tags( $desc );
 			$desc = preg_replace( '/\s+/', ' ', $desc );
 			$desc = mb_substr( trim( $desc ), 0, 160 );
 		}

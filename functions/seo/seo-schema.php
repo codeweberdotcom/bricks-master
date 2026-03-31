@@ -163,8 +163,8 @@ function codeweber_schema_organization( string $site_url ): ?array {
  * @return array|null PostalAddress schema or null.
  */
 function codeweber_schema_postal_address( string $prefix ): ?array {
-	$street  = Codeweber_Options::get( $prefix . '-street', '' );
-	$city    = Codeweber_Options::get( $prefix . '-city', '' );
+	$street  = trim( Codeweber_Options::get( $prefix . '-street', '' ) );
+	$city    = trim( Codeweber_Options::get( $prefix . '-city', '' ) );
 
 	if ( empty( $street ) && empty( $city ) ) {
 		return null;
@@ -174,8 +174,8 @@ function codeweber_schema_postal_address( string $prefix ): ?array {
 		'@type' => 'PostalAddress',
 	];
 
-	$house  = Codeweber_Options::get( $prefix . '-house', '' );
-	$office = Codeweber_Options::get( $prefix . '-office', '' );
+	$house  = trim( Codeweber_Options::get( $prefix . '-house', '' ) );
+	$office = trim( Codeweber_Options::get( $prefix . '-office', '' ) );
 
 	$street_full = $street;
 	if ( ! empty( $house ) ) {
@@ -192,17 +192,17 @@ function codeweber_schema_postal_address( string $prefix ): ?array {
 		$address['addressLocality'] = $city;
 	}
 
-	$region = Codeweber_Options::get( $prefix . '-region', '' );
+	$region = trim( Codeweber_Options::get( $prefix . '-region', '' ) );
 	if ( ! empty( $region ) ) {
 		$address['addressRegion'] = $region;
 	}
 
-	$postal = Codeweber_Options::get( $prefix . '-postal', '' );
+	$postal = trim( Codeweber_Options::get( $prefix . '-postal', '' ) );
 	if ( ! empty( $postal ) ) {
 		$address['postalCode'] = $postal;
 	}
 
-	$country = Codeweber_Options::get( $prefix . '-country', '' );
+	$country = trim( Codeweber_Options::get( $prefix . '-country', '' ) );
 	if ( ! empty( $country ) ) {
 		$address['addressCountry'] = $country;
 	}
@@ -231,7 +231,7 @@ function codeweber_schema_same_as(): array {
 		}
 	}
 
-	return $urls;
+	return array_values( array_unique( $urls ) );
 }
 
 /**
