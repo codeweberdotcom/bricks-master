@@ -14,7 +14,7 @@ $postal_code  = Redux::get_option($opt_name, 'fact-postal') ?? '';
 $full_address = trim("{$city}, {$street}, {$house_number}", ' ,');
 ?>
 
-<div class="bg-primary text-white fw-bold fs-15">
+<div class="codeweber-top-header bg-primary text-white fw-bold fs-15">
 	<div class="container d-flex flex-row justify-content-between">
 		<div class="d-flex flex-row align-items-center">
 			<div class="icon text-white  mt-1 me-2"> <i class="uil uil-location-pin-alt"></i></div>
