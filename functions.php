@@ -54,6 +54,21 @@ require_once get_template_directory() . '/functions/admin/media-regenerate.php';
 // ── Fetch / AJAX ──────────────────────────────────────────────────────────────
 require_once get_template_directory() . '/functions/fetch/fetch-handler.php';
 
+// ── SEO ──────────────────────────────────────────────────────────────────────
+require_once get_template_directory() . '/functions/seo/seo-detect.php';
+require_once get_template_directory() . '/functions/seo/seo-meta-tags.php';
+require_once get_template_directory() . '/functions/seo/seo-schema.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-article.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-event.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-staff.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-vacancy.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-office.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-service.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-testimonial.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-faq.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-project.php';
+require_once get_template_directory() . '/functions/seo/schema/schema-document.php';
+
 // ── Интеграции ────────────────────────────────────────────────────────────────
 require_once get_template_directory() . '/functions/integrations/dadata/init.php';
 require_once get_template_directory() . '/functions/integrations/personal-data-v2/init.php';
