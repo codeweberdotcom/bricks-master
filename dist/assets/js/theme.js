@@ -436,6 +436,7 @@ var theme = {
     var carousel = document.querySelectorAll(".swiper-container");
     for (let i = 0; i < carousel.length; i++) {
       var slider1 = carousel[i];
+      if (slider1.querySelector(".swiper.swiper-initialized")) continue;
       slider1.classList.add("swiper-container-" + i);
       var controls = document.createElement("div");
       controls.className = "swiper-controls";
@@ -522,15 +523,23 @@ var theme = {
       var sliderCentered = slider1.getAttribute("data-centered") === "true";
       var swiper = slider1.querySelector(".swiper:not(.swiper-thumbs)");
       var swiperTh = slider1.querySelector(".swiper-thumbs");
+      var thumbsDirection = slider1.getAttribute("data-thumbs-direction") || "horizontal";
+      var thumbsItems = slider1.getAttribute("data-thumbs-items")
+        ? Number(slider1.getAttribute("data-thumbs-items"))
+        : 5;
       var sliderTh = new Swiper(swiperTh, {
-        slidesPerView: 5,
+        slidesPerView: thumbsItems,
         spaceBetween: 10,
         loop: false,
         threshold: 2,
         slideToClickedSlide: true,
+        direction: thumbsDirection,
       });
       if (slider1.getAttribute("data-thumbs") === "true") {
         var thumbsInit = sliderTh;
+        if (thumbsDirection === "vertical") {
+          slider1.classList.add("swiper-thumbs-v");
+        }
         var swiperMain = document.createElement("div");
         swiperMain.className = "swiper-main";
         swiper.parentNode.insertBefore(swiperMain, swiper);

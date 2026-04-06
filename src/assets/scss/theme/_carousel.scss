@@ -495,20 +495,61 @@
   .swiper-main {
     position: relative;
   }
-  
+
   .swiper:not(.swiper-thumbs) {
     margin-bottom: 0.5rem;
   }
-  
+
   &:not(.swiper-fullscreen) .swiper-thumbs {
     .swiper-slide {
       cursor: pointer;
       opacity: $swiper-thumb-opacity;
-      
+
       &.swiper-slide-thumb-active {
         opacity: $swiper-thumb-opacity-active;
       }
     }
+  }
+
+  // Vertical thumbs layout
+  &.swiper-thumbs-v {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 0.625rem;
+
+    .swiper-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .swiper:not(.swiper-thumbs) {
+      margin-bottom: 0;
+    }
+
+    .swiper-thumbs {
+      width: 80px;
+      flex-shrink: 0;
+      height: auto;
+
+      .swiper-slide {
+        height: auto !important;
+
+        img {
+          aspect-ratio: 1 / 1;
+          object-fit: cover;
+          width: 100%;
+          display: block;
+        }
+      }
+    }
+  }
+
+  // Square thumbs for horizontal layout too
+  .swiper-thumbs .swiper-slide img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: 100%;
+    display: block;
   }
 }
 
