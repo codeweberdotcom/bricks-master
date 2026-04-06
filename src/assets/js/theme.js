@@ -611,70 +611,71 @@ var theme = {
           var syncThumbsHeight = function() {
             var mainImg = swiper.querySelector(".swiper-slide img");
             if (mainImg && swiperTh) {
-              var setHeight = function() {
+              var calcAndApply = function() {
                 var gap = 10;
-                var thumbsW = swiperTh.offsetWidth || 100;
-                // Square main = thumbWidth * items + gaps
-                var side = thumbsW * thumbsItems + gap * (thumbsItems - 1);
-                // Force main swiper to square
-                slider1.style.setProperty("--swiper-main-side", side + "px");
-                swiper.style.height = side + "px";
-                swiper.style.maxHeight = side + "px";
+                // 1. Container width
+                var containerW = slider1.offsetWidth;
+                // 2. Main side = square. Thumb side = (mainSide - gaps) / items
+                //    thumbWidth = thumbHeight. containerW = thumbWidth + gap + mainSide
+                //    mainSide = thumbHeight * items + gap * (items - 1)
+                //    thumbHeight = mainSide / items - gap * (items-1) / items
+                //    containerW = mainSide / items - gap*(items-1)/items + gap + mainSide
+                //    Solve for mainSide:
+                //    Let thumbH = (mainSide - gap * (items - 1)) / items
+                //    containerW = thumbH + gap + mainSide
+                //    containerW = (mainSide - gap*(items-1))/items + gap + mainSide
+                //    containerW = mainSide/items - gap*(items-1)/items + gap + mainSide
+                //    containerW = mainSide * (1 + 1/items) + gap * (1 - (items-1)/items)
+                //    containerW = mainSide * (items+1)/items + gap * 1/items
+                //    mainSide = (containerW - gap/items) * items / (items + 1)
+                var mainSide = (containerW - gap / thumbsItems) * thumbsItems / (thumbsItems + 1);
+                mainSide = Math.floor(mainSide);
+                var thumbH = (mainSide - gap * (thumbsItems - 1)) / thumbsItems;
+                thumbH = Math.floor(thumbH);
+                var thumbW = thumbH;
+
+                // Apply main square
+                var swiperMainEl = swiper.parentElement;
+                if (swiperMainEl && swiperMainEl.classList.contains("swiper-main")) {
+                  swiperMainEl.style.width = mainSide + "px";
+                  swiperMainEl.style.flex = "none";
+                }
+                swiper.style.height = mainSide + "px";
                 swiper.style.overflow = "hidden";
-                // Main slides: force square on slide, figure, and img
                 var mainSlides = swiper.querySelectorAll(".swiper-slide");
                 for (var m = 0; m < mainSlides.length; m++) {
-                  mainSlides[m].style.height = side + "px";
+                  mainSlides[m].style.height = mainSide + "px";
                   var fig = mainSlides[m].querySelector("figure");
-                  if (fig) {
-                    fig.style.height = "100%";
-                    fig.style.margin = "0";
-                  }
+                  if (fig) { fig.style.height = "100%"; fig.style.margin = "0"; }
                   var img = mainSlides[m].querySelector("img");
-                  if (img) {
-                    img.style.height = "100%";
-                    img.style.width = "100%";
-                    img.style.objectFit = "cover";
-                  }
+                  if (img) { img.style.height = "100%"; img.style.width = "100%"; img.style.objectFit = "cover"; }
                 }
-                // Thumbs container same height
-                swiperTh.style.height = side + "px";
-                var slideH = (side - (thumbsItems - 1) * gap) / thumbsItems;
+
+                // Apply thumbs
+                swiperTh.style.height = mainSide + "px";
+                swiperTh.style.width = thumbW + "px";
                 var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
                 for (var t = 0; t < thumbSlides.length; t++) {
-                  thumbSlides[t].style.height = slideH + "px";
+                  thumbSlides[t].style.height = thumbH + "px";
                 }
                 sliderTh.update();
                 slider.update();
               };
               if (mainImg.complete) {
-                setHeight();
+                calcAndApply();
               } else {
-                mainImg.addEventListener("load", setHeight);
+                mainImg.addEventListener("load", calcAndApply);
               }
             }
           };
           syncThumbsHeight();
           window.addEventListener("resize", function() {
             if (swiperTh) {
-              var gap = 10;
-              var thumbsW = swiperTh.offsetWidth || 100;
-              var side = thumbsW * thumbsItems + gap * (thumbsItems - 1);
-              slider1.style.setProperty("--swiper-main-side", side + "px");
-              swiper.style.height = side + "px";
-              swiper.style.maxHeight = side + "px";
-              var mainSlides = swiper.querySelectorAll(".swiper-slide");
-              for (var m = 0; m < mainSlides.length; m++) {
-                mainSlides[m].style.height = side + "px";
-              }
-              swiperTh.style.height = side + "px";
-              var slideH = (side - (thumbsItems - 1) * gap) / thumbsItems;
-              var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
-              for (var t = 0; t < thumbSlides.length; t++) {
-                thumbSlides[t].style.height = slideH + "px";
-              }
-              sliderTh.update();
-              slider.update();
+              // Reset width to recalculate from container
+              var swiperMainEl = swiper.parentElement;
+              if (swiperMainEl) swiperMainEl.style.width = "";
+              swiperTh.style.width = "";
+              calcAndApply();
             }
           });
         }
