@@ -111,12 +111,16 @@ OG, Twitter Cards, title, description, canonical, robots — **не затраг
 | Поле Schema | Redux-ключ |
 |-------------|-----------|
 | `name` | `legal_entity_short` (fallback: `bloginfo('name')`) |
+| `legalName` | `legal_entity` |
 | `description` | `text-about-company` |
 | `logo` | `opt-dark-logo` |
 | `telephone` | `phone_01` |
 | `email` | `e-mail` |
 | `address` | `juri-street`, `juri-house`, `juri-office`, `juri-city`, `juri-region`, `juri-postal`, `juri-country` |
 | `sameAs` | `facebook`, `instagram`, `twitter`, `linkedin`, `youtube`, `tiktok`, `telegram`, `vk`, `github`, `pinterest`, `vimeo`, `odnoklassniki`, `rutube`, `yandex-dzen` |
+| `taxID` | `taxpayer_identification_number` (ИНН) |
+| `vatID` | `legal_ogrnip` (ОГРН/ОГРНИП) |
+| `openingHoursSpecification` | `opening_hours_{day}_opens_1`, `opening_hours_{day}_closes_1`, `opening_hours_{day}_opens_2`, `opening_hours_{day}_closes_2` (day = monday..sunday) |
 
 ### BreadcrumbList (все кроме главной)
 
@@ -237,8 +241,12 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 | `codeweber_schema_breadcrumblist()` | `seo-schema.php` | BreadcrumbList из контекста страницы |
 | `codeweber_schema_webpage($site_url)` | `seo-schema.php` | WebPage для текущей страницы |
 | `codeweber_schema_current_url()` | `seo-schema.php` | URL для не-singular страниц |
-| `codeweber_schema_datetime($datetime)` | `schema-event.php` | Конвертация datetime-local в ISO 8601 |
-| `codeweber_schema_event_registration_count($event_id)` | `schema-event.php` | Подсчёт регистраций на мероприятие |
+| `codeweber_schema_datetime($datetime)` | `seo-schema.php` | Конвертация datetime-local в ISO 8601 |
+| `codeweber_schema_opening_hours($hours)` | `seo-schema.php` | Конвертация структурированных часов в `openingHoursSpecification` |
+| `codeweber_schema_opening_hours_from_redux()` | `seo-schema.php` | Чтение часов из Redux и конвертация |
+| `codeweber_opening_hours_days()` | `cpt-offices.php` | Массив дней недели (key → label) |
+| `codeweber_get_office_hours($post_id)` | `cpt-offices.php` | Чтение структурированных часов офиса из meta |
+| `codeweber_format_office_hours($post_id)` | `cpt-offices.php` | Форматирование часов офиса в текст |
 | `codeweber_schema_document_url($post_id)` | `schema-document.php` | Получение URL файла документа |
 
 ---
