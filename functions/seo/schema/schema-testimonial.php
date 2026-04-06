@@ -19,57 +19,43 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		return $graph;
 	}
 
-	// Query all published testimonials for aggregate (not just current page).
-	$all = new WP_Query( [
-		'post_type'      => 'testimonials',
-		'posts_per_page' => -1,
-		'fields'         => 'ids',
-		'meta_query'     => [
-			[
-				'key'     => '_testimonial_rating',
-				'value'   => '0',
-				'compare' => '>',
-				'type'    => 'NUMERIC',
-			],
-		],
-		'no_found_rows'          => true,
-		'update_post_meta_cache' => true,
-		'update_post_term_cache' => false,
-	] );
+	// Single SQL query for aggregate rating (avoids N+1 meta reads).
+	global $wpdb;
 
-	if ( empty( $all->posts ) ) {
+	$row = $wpdb->get_row(
+		"SELECT COUNT(*) AS total, SUM(pm.meta_value) AS sum_rating
+		FROM {$wpdb->posts} p
+		INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
+		WHERE p.post_type = 'testimonials'
+		AND p.post_status = 'publish'
+		AND pm.meta_key = '_testimonial_rating'
+		AND CAST(pm.meta_value AS UNSIGNED) > 0"
+	);
+
+	if ( ! $row || (int) $row->total === 0 ) {
 		return $graph;
 	}
 
-	$total  = 0;
-	$sum    = 0;
-
-	foreach ( $all->posts as $pid ) {
-		$rating = (int) get_post_meta( $pid, '_testimonial_rating', true );
-		if ( $rating > 0 ) {
-			$sum += $rating;
-			$total++;
-		}
-	}
-
-	if ( $total === 0 ) {
-		return $graph;
-	}
+	$total = (int) $row->total;
+	$sum   = (int) $row->sum_rating;
 
 	$site_url = trailingslashit( home_url() );
+	$org_id   = $site_url . '#organization';
 
-	$graph[] = [
-		'@type'           => 'Organization',
-		'@id'             => $site_url . '#organization-rated',
-		'name'            => Codeweber_Options::get( 'legal_entity_short', get_bloginfo( 'name' ) ),
-		'aggregateRating' => [
-			'@type'       => 'AggregateRating',
-			'ratingValue' => round( $sum / $total, 1 ),
-			'reviewCount' => $total,
-			'bestRating'  => 5,
-			'worstRating' => 1,
-		],
-	];
+	// Add aggregateRating to existing Organization node.
+	foreach ( $graph as &$node ) {
+		if ( isset( $node['@id'] ) && $node['@id'] === $org_id ) {
+			$node['aggregateRating'] = [
+				'@type'       => 'AggregateRating',
+				'ratingValue' => round( $sum / $total, 1 ),
+				'reviewCount' => $total,
+				'bestRating'  => 5,
+				'worstRating' => 1,
+			];
+			break;
+		}
+	}
+	unset( $node );
 
 	return $graph;
 } );

@@ -28,7 +28,10 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 	$questions = [];
 
 	foreach ( $wp_query->posts as $post ) {
-		$answer = wp_strip_all_tags( strip_shortcodes( $post->post_content ) );
+		$answer = preg_replace( '/<!--.*?-->/s', '', $post->post_content );
+		$answer = strip_shortcodes( $answer );
+		$answer = html_entity_decode( $answer, ENT_QUOTES, 'UTF-8' );
+		$answer = wp_strip_all_tags( $answer );
 		$answer = preg_replace( '/\s+/', ' ', trim( $answer ) );
 
 		if ( empty( $answer ) ) {

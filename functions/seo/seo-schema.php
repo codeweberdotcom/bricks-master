@@ -122,9 +122,9 @@ function codeweber_schema_organization( string $site_url ): ?array {
 		];
 		if ( ! empty( $logo['id'] ) ) {
 			$meta = wp_get_attachment_metadata( $logo['id'] );
-			if ( $meta ) {
-				$org['logo']['width']  = $meta['width'] ?? 0;
-				$org['logo']['height'] = $meta['height'] ?? 0;
+			if ( $meta && ! empty( $meta['width'] ) ) {
+				$org['logo']['width']  = $meta['width'];
+				$org['logo']['height'] = $meta['height'];
 			}
 		}
 		$org['image'] = $org['logo'];
@@ -151,6 +151,24 @@ function codeweber_schema_organization( string $site_url ): ?array {
 	$same_as = codeweber_schema_same_as();
 	if ( ! empty( $same_as ) ) {
 		$org['sameAs'] = $same_as;
+	}
+
+	// Tax ID (ИНН).
+	$inn = Codeweber_Options::get( 'taxpayer_identification_number', '' );
+	if ( ! empty( $inn ) ) {
+		$org['taxID'] = $inn;
+	}
+
+	// Registration number (ОГРН/ОГРНИП).
+	$ogrn = Codeweber_Options::get( 'legal_ogrnip', '' );
+	if ( ! empty( $ogrn ) ) {
+		$org['vatID'] = $ogrn;
+	}
+
+	// Legal name (full).
+	$legal_name = Codeweber_Options::get( 'legal_entity', '' );
+	if ( ! empty( $legal_name ) ) {
+		$org['legalName'] = wp_strip_all_tags( $legal_name );
 	}
 
 	return $org;
@@ -372,9 +390,11 @@ function codeweber_schema_breadcrumblist(): ?array {
 		return null;
 	}
 
+	$breadcrumb_url = is_singular() ? get_permalink() : codeweber_schema_current_url();
+
 	return [
 		'@type'           => 'BreadcrumbList',
-		'@id'             => get_permalink() . '#breadcrumb',
+		'@id'             => $breadcrumb_url . '#breadcrumb',
 		'itemListElement' => $crumbs,
 	];
 }
@@ -454,4 +474,20 @@ function codeweber_schema_current_url(): string {
 	}
 
 	return home_url( '/' );
+}
+
+/**
+ * Convert datetime-local value to ISO 8601.
+ *
+ * @param string $datetime Value from datetime-local input (Y-m-d\TH:i or Y-m-d H:i:s).
+ * @return string ISO 8601 datetime string.
+ */
+function codeweber_schema_datetime( string $datetime ): string {
+	$ts = strtotime( $datetime );
+
+	if ( ! $ts ) {
+		return $datetime;
+	}
+
+	return wp_date( 'c', $ts );
 }

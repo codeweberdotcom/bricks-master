@@ -217,11 +217,8 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		$max = (int) get_post_meta( $post_id, '_event_max_participants', true );
 		$offer['availability'] = 'https://schema.org/InStock';
 
-		if ( $max > 0 ) {
-			// Check real + fake registrations.
-			$real_count = codeweber_schema_event_registration_count( $post_id );
-			$fake       = (int) get_post_meta( $post_id, '_event_fake_registered', true );
-			$total      = $real_count + $fake;
+		if ( $max > 0 && function_exists( 'codeweber_events_get_registration_count' ) ) {
+			$total = codeweber_events_get_registration_count( $post_id );
 
 			if ( $total >= $max ) {
 				$offer['availability'] = 'https://schema.org/SoldOut';
@@ -237,14 +234,10 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 
 	$event['offers'] = $offer;
 
-	// Event status.
-	$now        = current_time( 'timestamp' );
-	$end_ts     = ! empty( $date_end ) ? strtotime( $date_end ) : 0;
-	$start_ts   = ! empty( $date_start ) ? strtotime( $date_start ) : 0;
+	// Event status — only set for future events.
+	$start_ts = ! empty( $date_start ) ? strtotime( $date_start ) : 0;
 
-	if ( $end_ts && $now > $end_ts ) {
-		$event['eventStatus'] = 'https://schema.org/EventPostponed';
-	} elseif ( $start_ts && $now < $start_ts ) {
+	if ( $start_ts && time() < $start_ts ) {
 		$event['eventStatus'] = 'https://schema.org/EventScheduled';
 	}
 
@@ -262,43 +255,4 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 	return $graph;
 } );
 
-/**
- * Convert datetime-local value to ISO 8601.
- *
- * @param string $datetime Value from datetime-local input (Y-m-d\TH:i or Y-m-d H:i:s).
- * @return string ISO 8601 datetime string.
- */
-function codeweber_schema_datetime( string $datetime ): string {
-	$ts = strtotime( $datetime );
 
-	if ( ! $ts ) {
-		return $datetime;
-	}
-
-	return wp_date( 'c', $ts );
-}
-
-/**
- * Count real event registrations.
- *
- * @param int $event_id Event post ID.
- * @return int Registration count.
- */
-function codeweber_schema_event_registration_count( int $event_id ): int {
-	$query = new WP_Query( [
-		'post_type'      => 'event_registration',
-		'posts_per_page' => -1,
-		'fields'         => 'ids',
-		'meta_query'     => [
-			[
-				'key'   => '_reg_event_id',
-				'value' => $event_id,
-			],
-		],
-		'no_found_rows'          => true,
-		'update_post_meta_cache' => false,
-		'update_post_term_cache' => false,
-	] );
-
-	return $query->post_count;
-}
