@@ -138,7 +138,39 @@ The theme initializes modules in dependency order. This document tracks the exac
 - Cleanup non-essential WP output
 - Define custom hooks for the theme
 
-### Phase 7: Contact Form 7 Integration (Lines 41-43)
+### Phase 7: SEO Schema Module (Lines 57-70)
+
+**Order:**
+```php
+1.  seo/seo-detect.php              (SEO plugin detection + Schema suppression)
+2.  seo/seo-meta-tags.php           (Title/description helpers)
+3.  seo/seo-schema.php              (Base @graph: WebSite, Organization, BreadcrumbList, WebPage)
+4.  seo/schema/schema-article.php   (Article for posts)
+5.  seo/schema/schema-event.php     (Event for events CPT)
+6.  seo/schema/schema-staff.php     (Person for staff CPT)
+7.  seo/schema/schema-vacancy.php   (JobPosting for vacancies CPT)
+8.  seo/schema/schema-office.php    (LocalBusiness for offices CPT)
+9.  seo/schema/schema-service.php   (Service for services CPT)
+10. seo/schema/schema-testimonial.php (Review + AggregateRating for testimonials CPT)
+11. seo/schema/schema-faq.php       (FAQPage for faq CPT)
+12. seo/schema/schema-project.php   (CreativeWork for projects CPT)
+13. seo/schema/schema-document.php  (DigitalDocument for documents CPT)
+```
+
+**Dependencies:**
+- `seo-detect.php`: No dependencies (runs on `init`)
+- `seo-meta-tags.php`: Independent helpers
+- `seo-schema.php`: Depends on `Codeweber_Options` (phase 4)
+- `schema/*.php`: Depend on `seo-meta-tags.php` helpers + `seo-schema.php` filter
+
+**Purpose:**
+- Disable Schema JSON-LD from SEO plugins (OG/title/description left to plugin)
+- Generate structured data for all CPTs via `codeweber_schema_graph` filter
+- Output single `<script type="application/ld+json">` in `wp_footer`
+
+**Documentation:** `doc_claude/seo/SCHEMA_MODULE.md`
+
+### Phase 8: Contact Form 7 Integration (Lines 41-43)
 
 **Order:**
 ```php

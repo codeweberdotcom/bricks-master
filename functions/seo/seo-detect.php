@@ -48,7 +48,7 @@ function codeweber_has_seo_plugin(): bool {
 add_action( 'init', function (): void {
 	// ── Rank Math ─────────────────────────────────────────────────────────────
 	if ( class_exists( 'RankMath' ) ) {
-		add_filter( 'rank_math/json_ld', '__return_empty_array' );
+		add_filter( 'rank_math/json_ld', '__return_empty_array', 9999 );
 	}
 
 	// ── Yoast SEO ─────────────────────────────────────────────────────────────

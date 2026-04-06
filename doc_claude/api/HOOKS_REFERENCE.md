@@ -356,6 +356,55 @@ add_filter('codeweber_my_account_dashboard_card_items', function($items) {
 
 ---
 
+### Schema.org JSON-LD Graph
+
+**Hook:** `codeweber_schema_graph`
+
+**File:** `functions/seo/seo-schema.php`
+
+**Purpose:** Extend the JSON-LD `@graph` array with custom Schema.org nodes. All CPT-specific schemas use this filter.
+
+**Parameters:**
+```php
+apply_filters(
+    'codeweber_schema_graph',
+    $graph    // array — current @graph nodes (WebSite, Organization, BreadcrumbList, WebPage)
+);
+```
+
+**Example:** Add custom schema for a new CPT
+```php
+add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
+    if ( ! is_singular( 'my_cpt' ) ) {
+        return $graph;
+    }
+
+    $graph[] = [
+        '@type' => 'Thing',
+        '@id'   => get_permalink() . '#thing',
+        'name'  => get_the_title(),
+    ];
+
+    return $graph;
+} );
+```
+
+**Built-in CPT filters using this hook:**
+- `schema-article.php` → Article (post)
+- `schema-event.php` → Event (events) — single + archive ItemList
+- `schema-staff.php` → Person (staff) — single + archive ItemList
+- `schema-vacancy.php` → JobPosting (vacancies) — single + archive ItemList
+- `schema-office.php` → LocalBusiness (offices) — single + archive ItemList
+- `schema-service.php` → Service (services) — single + archive ItemList
+- `schema-testimonial.php` → Review (single) + AggregateRating (archive)
+- `schema-faq.php` → FAQPage — single + archive
+- `schema-project.php` → CreativeWork (projects) — single + archive ItemList
+- `schema-document.php` → DigitalDocument (documents) — single + archive ItemList
+
+**Documentation:** `doc_claude/seo/SCHEMA_MODULE.md`
+
+---
+
 ## Actions
 
 ### Forms: Lifecycle Hooks
