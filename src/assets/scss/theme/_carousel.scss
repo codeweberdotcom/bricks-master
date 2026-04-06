@@ -532,13 +532,11 @@
       flex-shrink: 0;
       overflow: hidden;
 
-      .swiper-slide {
-        img {
-          aspect-ratio: 1 / 1;
-          object-fit: cover;
-          width: 100%;
-          display: block;
-        }
+      .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
       }
     }
   }

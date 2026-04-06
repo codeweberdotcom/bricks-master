@@ -612,6 +612,13 @@ var theme = {
                 var h = swiper.offsetHeight;
                 if (h > 0) {
                   swiperTh.style.height = h + "px";
+                  // Calculate slide height based on visible count and gap
+                  var gap = 10;
+                  var slideH = (h - (thumbsItems - 1) * gap) / thumbsItems;
+                  var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
+                  for (var t = 0; t < thumbSlides.length; t++) {
+                    thumbSlides[t].style.height = slideH + "px";
+                  }
                   sliderTh.update();
                 }
               };
@@ -625,7 +632,14 @@ var theme = {
           syncThumbsHeight();
           window.addEventListener("resize", function() {
             if (swiperTh) {
-              swiperTh.style.height = swiper.offsetHeight + "px";
+              var h = swiper.offsetHeight;
+              swiperTh.style.height = h + "px";
+              var gap = 10;
+              var slideH = (h - (thumbsItems - 1) * gap) / thumbsItems;
+              var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
+              for (var t = 0; t < thumbSlides.length; t++) {
+                thumbSlides[t].style.height = slideH + "px";
+              }
               sliderTh.update();
             }
           });
