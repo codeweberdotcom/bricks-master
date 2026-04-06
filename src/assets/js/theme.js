@@ -669,13 +669,16 @@ var theme = {
             }
           };
           syncThumbsHeight();
+          var resizeTimer;
           window.addEventListener("resize", function() {
             if (swiperTh) {
-              // Reset width to recalculate from container
+              clearTimeout(resizeTimer);
+              // Reset widths first
               var swiperMainEl = swiper.parentElement;
               if (swiperMainEl) swiperMainEl.style.width = "";
               swiperTh.style.width = "";
-              calcAndApply();
+              // Wait for reflow then recalculate
+              resizeTimer = setTimeout(calcAndApply, 100);
             }
           });
         }
