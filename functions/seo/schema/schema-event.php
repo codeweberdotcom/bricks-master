@@ -15,62 +15,33 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Archive: ItemList of Events on current page.
  */
 add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
-	if ( ! is_post_type_archive( 'events' ) ) {
-		return $graph;
-	}
-
-	global $wp_query;
-
-	if ( empty( $wp_query->posts ) ) {
-		return $graph;
-	}
-
-	$items = [];
-	$pos   = 1;
-
-	foreach ( $wp_query->posts as $post ) {
-		$date_start = get_post_meta( $post->ID, '_event_date_start', true );
-		$location   = get_post_meta( $post->ID, '_event_location', true );
-
+	return codeweber_schema_archive_itemlist( 'events', $graph, function ( WP_Post $post ): ?array {
 		$item = [
-			'@type'    => 'ListItem',
-			'position' => $pos++,
-			'item'     => [
-				'@type' => 'Event',
-				'name'  => get_the_title( $post ),
-				'url'   => get_permalink( $post ),
-			],
+			'@type' => 'Event',
+			'name'  => get_the_title( $post ),
+			'url'   => get_permalink( $post ),
 		];
 
+		$date_start = get_post_meta( $post->ID, '_event_date_start', true );
 		if ( ! empty( $date_start ) ) {
-			$item['item']['startDate'] = codeweber_schema_datetime( $date_start );
+			$item['startDate'] = codeweber_schema_datetime( $date_start );
 		}
 
+		$location = get_post_meta( $post->ID, '_event_location', true );
 		if ( ! empty( $location ) ) {
-			$item['item']['location'] = [
+			$item['location'] = [
 				'@type' => 'Place',
 				'name'  => $location,
 			];
 		}
 
-		$thumb_id = get_post_thumbnail_id( $post->ID );
-		if ( $thumb_id ) {
-			$image_url = wp_get_attachment_url( $thumb_id );
-			if ( $image_url ) {
-				$item['item']['image'] = $image_url;
-			}
+		$image = codeweber_schema_image( $post->ID );
+		if ( $image ) {
+			$item['image'] = $image;
 		}
 
-		$items[] = $item;
-	}
-
-	$graph[] = [
-		'@type'           => 'ItemList',
-		'@id'             => get_post_type_archive_link( 'events' ) . '#itemlist',
-		'itemListElement' => $items,
-	];
-
-	return $graph;
+		return $item;
+	} );
 } );
 
 /**
@@ -242,12 +213,9 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 	}
 
 	// Image.
-	$thumb_id = get_post_thumbnail_id( $post_id );
-	if ( $thumb_id ) {
-		$image_url = wp_get_attachment_url( $thumb_id );
-		if ( $image_url ) {
-			$event['image'] = $image_url;
-		}
+	$image = codeweber_schema_image( $post_id );
+	if ( $image ) {
+		$event['image'] = $image;
 	}
 
 	$graph[] = $event;

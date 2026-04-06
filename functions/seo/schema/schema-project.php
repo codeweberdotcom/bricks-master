@@ -15,53 +15,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Archive: ItemList of CreativeWork on current page.
  */
 add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
-	if ( ! is_post_type_archive( 'projects' ) ) {
-		return $graph;
-	}
-
-	global $wp_query;
-
-	if ( empty( $wp_query->posts ) ) {
-		return $graph;
-	}
-
-	$items = [];
-	$pos   = 1;
-
-	foreach ( $wp_query->posts as $post ) {
+	return codeweber_schema_archive_itemlist( 'projects', $graph, function ( WP_Post $post ): ?array {
 		$item = [
-			'@type'    => 'ListItem',
-			'position' => $pos++,
-			'item'     => [
-				'@type' => 'CreativeWork',
-				'name'  => get_the_title( $post ),
-				'url'   => get_permalink( $post ),
-			],
+			'@type' => 'CreativeWork',
+			'name'  => get_the_title( $post ),
+			'url'   => get_permalink( $post ),
 		];
 
-		$thumb_id = get_post_thumbnail_id( $post->ID );
-		if ( $thumb_id ) {
-			$image_url = wp_get_attachment_url( $thumb_id );
-			if ( $image_url ) {
-				$item['item']['image'] = $image_url;
-			}
+		$image = codeweber_schema_image( $post->ID );
+		if ( $image ) {
+			$item['image'] = $image;
 		}
 
 		$categories = get_the_terms( $post->ID, 'projects_category' );
 		if ( $categories && ! is_wp_error( $categories ) ) {
-			$item['item']['genre'] = $categories[0]->name;
+			$item['genre'] = $categories[0]->name;
 		}
 
-		$items[] = $item;
-	}
-
-	$graph[] = [
-		'@type'           => 'ItemList',
-		'@id'             => get_post_type_archive_link( 'projects' ) . '#itemlist',
-		'itemListElement' => $items,
-	];
-
-	return $graph;
+		return $item;
+	} );
 } );
 
 /**
@@ -95,12 +67,9 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 	}
 
 	// Image.
-	$thumb_id = get_post_thumbnail_id( $post_id );
-	if ( $thumb_id ) {
-		$image_url = wp_get_attachment_url( $thumb_id );
-		if ( $image_url ) {
-			$work['image'] = $image_url;
-		}
+	$image = codeweber_schema_image( $post_id );
+	if ( $image ) {
+		$work['image'] = $image;
 	}
 
 	// Categories as keywords.

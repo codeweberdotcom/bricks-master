@@ -15,53 +15,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Archive: ItemList of Service on current page.
  */
 add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
-	if ( ! is_post_type_archive( 'services' ) ) {
-		return $graph;
-	}
-
-	global $wp_query;
-
-	if ( empty( $wp_query->posts ) ) {
-		return $graph;
-	}
-
-	$items = [];
-	$pos   = 1;
-
-	foreach ( $wp_query->posts as $post ) {
+	return codeweber_schema_archive_itemlist( 'services', $graph, function ( WP_Post $post ): ?array {
 		$item = [
-			'@type'    => 'ListItem',
-			'position' => $pos++,
-			'item'     => [
-				'@type' => 'Service',
-				'name'  => get_the_title( $post ),
-				'url'   => get_permalink( $post ),
-			],
+			'@type' => 'Service',
+			'name'  => get_the_title( $post ),
+			'url'   => get_permalink( $post ),
 		];
 
 		$short_desc = get_post_meta( $post->ID, '_service_description_short', true );
 		if ( ! empty( $short_desc ) ) {
-			$item['item']['description'] = $short_desc;
+			$item['description'] = $short_desc;
 		}
 
-		$thumb_id = get_post_thumbnail_id( $post->ID );
-		if ( $thumb_id ) {
-			$image_url = wp_get_attachment_url( $thumb_id );
-			if ( $image_url ) {
-				$item['item']['image'] = $image_url;
-			}
+		$image = codeweber_schema_image( $post->ID );
+		if ( $image ) {
+			$item['image'] = $image;
 		}
 
-		$items[] = $item;
-	}
-
-	$graph[] = [
-		'@type'           => 'ItemList',
-		'@id'             => get_post_type_archive_link( 'services' ) . '#itemlist',
-		'itemListElement' => $items,
-	];
-
-	return $graph;
+		return $item;
+	} );
 } );
 
 /**
@@ -124,12 +96,9 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 	}
 
 	// Image.
-	$thumb_id = get_post_thumbnail_id( $post_id );
-	if ( $thumb_id ) {
-		$image_url = wp_get_attachment_url( $thumb_id );
-		if ( $image_url ) {
-			$service['image'] = $image_url;
-		}
+	$image = codeweber_schema_image( $post_id );
+	if ( $image ) {
+		$service['image'] = $image;
 	}
 
 	$graph[] = $service;

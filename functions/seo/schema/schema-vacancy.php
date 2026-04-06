@@ -15,59 +15,33 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Archive: ItemList of JobPosting on current page.
  */
 add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
-	if ( ! is_post_type_archive( 'vacancies' ) ) {
-		return $graph;
-	}
-
-	global $wp_query;
-
-	if ( empty( $wp_query->posts ) ) {
-		return $graph;
-	}
-
-	$items = [];
-	$pos   = 1;
-
-	foreach ( $wp_query->posts as $post ) {
-		$location = get_post_meta( $post->ID, '_vacancy_location', true );
-		$salary   = get_post_meta( $post->ID, '_vacancy_salary', true );
-
+	return codeweber_schema_archive_itemlist( 'vacancies', $graph, function ( WP_Post $post ): ?array {
 		$item = [
-			'@type'    => 'ListItem',
-			'position' => $pos++,
-			'item'     => [
-				'@type'     => 'JobPosting',
-				'title'     => get_the_title( $post ),
-				'url'       => get_permalink( $post ),
-				'datePosted' => get_the_date( 'c', $post ),
-			],
+			'@type'      => 'JobPosting',
+			'title'      => get_the_title( $post ),
+			'url'        => get_permalink( $post ),
+			'datePosted' => get_the_date( 'c', $post ),
 		];
 
+		$location = get_post_meta( $post->ID, '_vacancy_location', true );
 		if ( ! empty( $location ) ) {
-			$item['item']['jobLocation'] = [
+			$item['jobLocation'] = [
 				'@type'   => 'Place',
 				'address' => $location,
 			];
 		}
 
+		$salary = get_post_meta( $post->ID, '_vacancy_salary', true );
 		if ( ! empty( $salary ) ) {
-			$item['item']['baseSalary'] = [
+			$item['baseSalary'] = [
 				'@type'    => 'MonetaryAmount',
 				'currency' => 'RUB',
 				'value'    => $salary,
 			];
 		}
 
-		$items[] = $item;
-	}
-
-	$graph[] = [
-		'@type'           => 'ItemList',
-		'@id'             => get_post_type_archive_link( 'vacancies' ) . '#itemlist',
-		'itemListElement' => $items,
-	];
-
-	return $graph;
+		return $item;
+	} );
 } );
 
 /**
@@ -212,12 +186,9 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 	}
 
 	// Image.
-	$thumb_id = get_post_thumbnail_id( $post_id );
-	if ( $thumb_id ) {
-		$image_url = wp_get_attachment_url( $thumb_id );
-		if ( $image_url ) {
-			$job['image'] = $image_url;
-		}
+	$image = codeweber_schema_image( $post_id );
+	if ( $image ) {
+		$job['image'] = $image;
 	}
 
 	$graph[] = $job;

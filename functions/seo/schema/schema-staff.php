@@ -15,54 +15,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Archive: ItemList of Person on current page.
  */
 add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
-	if ( ! is_post_type_archive( 'staff' ) ) {
-		return $graph;
-	}
-
-	global $wp_query;
-
-	if ( empty( $wp_query->posts ) ) {
-		return $graph;
-	}
-
-	$items = [];
-	$pos   = 1;
-
-	foreach ( $wp_query->posts as $post ) {
-		$position = get_post_meta( $post->ID, '_staff_position', true );
-
+	return codeweber_schema_archive_itemlist( 'staff', $graph, function ( WP_Post $post ): ?array {
 		$item = [
-			'@type'    => 'ListItem',
-			'position' => $pos++,
-			'item'     => [
-				'@type' => 'Person',
-				'name'  => get_the_title( $post ),
-				'url'   => get_permalink( $post ),
-			],
+			'@type' => 'Person',
+			'name'  => get_the_title( $post ),
+			'url'   => get_permalink( $post ),
 		];
 
+		$position = get_post_meta( $post->ID, '_staff_position', true );
 		if ( ! empty( $position ) ) {
-			$item['item']['jobTitle'] = $position;
+			$item['jobTitle'] = $position;
 		}
 
-		$thumb_id = get_post_thumbnail_id( $post->ID );
-		if ( $thumb_id ) {
-			$image_url = wp_get_attachment_url( $thumb_id );
-			if ( $image_url ) {
-				$item['item']['image'] = $image_url;
-			}
+		$image = codeweber_schema_image( $post->ID );
+		if ( $image ) {
+			$item['image'] = $image;
 		}
 
-		$items[] = $item;
-	}
-
-	$graph[] = [
-		'@type'           => 'ItemList',
-		'@id'             => get_post_type_archive_link( 'staff' ) . '#itemlist',
-		'itemListElement' => $items,
-	];
-
-	return $graph;
+		return $item;
+	} );
 } );
 
 /**
@@ -86,19 +57,16 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		'worksFor'         => [ '@id' => $site_url . '#organization' ],
 	];
 
-	// Description.
 	$desc = codeweber_get_seo_description( $post_id );
 	if ( ! empty( $desc ) ) {
 		$person['description'] = $desc;
 	}
 
-	// Job title.
 	$position = get_post_meta( $post_id, '_staff_position', true );
 	if ( ! empty( $position ) ) {
 		$person['jobTitle'] = $position;
 	}
 
-	// Contact.
 	$phone = get_post_meta( $post_id, '_staff_phone', true );
 	if ( ! empty( $phone ) ) {
 		$person['telephone'] = $phone;
@@ -109,16 +77,11 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		$person['email'] = $email;
 	}
 
-	// Image.
-	$thumb_id = get_post_thumbnail_id( $post_id );
-	if ( $thumb_id ) {
-		$image_url = wp_get_attachment_url( $thumb_id );
-		if ( $image_url ) {
-			$person['image'] = $image_url;
-		}
+	$image = codeweber_schema_image( $post_id );
+	if ( $image ) {
+		$person['image'] = $image;
 	}
 
-	// Address.
 	$city   = get_post_meta( $post_id, '_staff_city', true );
 	$region = get_post_meta( $post_id, '_staff_region', true );
 	if ( ! empty( $city ) || ! empty( $region ) ) {
@@ -136,7 +99,6 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		$person['address'] = $address;
 	}
 
-	// Social links (sameAs).
 	$social_keys = [
 		'_staff_facebook', '_staff_twitter', '_staff_linkedin',
 		'_staff_instagram', '_staff_telegram', '_staff_vk',
@@ -155,7 +117,6 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		$person['sameAs'] = $same_as;
 	}
 
-	// Department.
 	$departments = get_the_terms( $post_id, 'departments' );
 	if ( $departments && ! is_wp_error( $departments ) ) {
 		$person['memberOf'] = [

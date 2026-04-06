@@ -15,62 +15,33 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Archive: ItemList of LocalBusiness on current page.
  */
 add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
-	if ( ! is_post_type_archive( 'offices' ) ) {
-		return $graph;
-	}
+	return codeweber_schema_archive_itemlist( 'offices', $graph, function ( WP_Post $post ): ?array {
+		$item = [
+			'@type' => 'LocalBusiness',
+			'name'  => get_the_title( $post ),
+			'url'   => get_permalink( $post ),
+		];
 
-	global $wp_query;
-
-	if ( empty( $wp_query->posts ) ) {
-		return $graph;
-	}
-
-	$items = [];
-	$pos   = 1;
-
-	foreach ( $wp_query->posts as $post ) {
-		$phone   = get_post_meta( $post->ID, '_office_phone', true );
 		$address = get_post_meta( $post->ID, '_office_full_address', true );
 		if ( empty( $address ) ) {
 			$address = get_post_meta( $post->ID, '_office_street', true );
 		}
-
-		$item = [
-			'@type'    => 'ListItem',
-			'position' => $pos++,
-			'item'     => [
-				'@type' => 'LocalBusiness',
-				'name'  => get_the_title( $post ),
-				'url'   => get_permalink( $post ),
-			],
-		];
-
 		if ( ! empty( $address ) ) {
-			$item['item']['address'] = $address;
+			$item['address'] = $address;
 		}
 
+		$phone = get_post_meta( $post->ID, '_office_phone', true );
 		if ( ! empty( $phone ) ) {
-			$item['item']['telephone'] = $phone;
+			$item['telephone'] = $phone;
 		}
 
-		$thumb_id = get_post_thumbnail_id( $post->ID );
-		if ( $thumb_id ) {
-			$image_url = wp_get_attachment_url( $thumb_id );
-			if ( $image_url ) {
-				$item['item']['image'] = $image_url;
-			}
+		$image = codeweber_schema_image( $post->ID );
+		if ( $image ) {
+			$item['image'] = $image;
 		}
 
-		$items[] = $item;
-	}
-
-	$graph[] = [
-		'@type'           => 'ItemList',
-		'@id'             => get_post_type_archive_link( 'offices' ) . '#itemlist',
-		'itemListElement' => $items,
-	];
-
-	return $graph;
+		return $item;
+	} );
 } );
 
 /**
@@ -183,12 +154,9 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 	}
 
 	// Image.
-	$thumb_id = get_post_thumbnail_id( $post_id );
-	if ( $thumb_id ) {
-		$image_url = wp_get_attachment_url( $thumb_id );
-		if ( $image_url ) {
-			$business['image'] = $image_url;
-		}
+	$image = codeweber_schema_image( $post_id );
+	if ( $image ) {
+		$business['image'] = $image;
 	}
 
 	// Office-specific image.

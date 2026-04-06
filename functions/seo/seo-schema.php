@@ -83,7 +83,7 @@ add_action( 'wp_footer', function (): void {
 
 	printf(
 		"\n" . '<script type="application/ld+json">%s</script>' . "\n",
-		wp_json_encode( $output, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT )
+		wp_json_encode( $output, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | ( defined( 'WP_DEBUG' ) && WP_DEBUG ? JSON_PRETTY_PRINT : 0 ) )
 	);
 }, 20 );
 
@@ -710,4 +710,70 @@ function codeweber_schema_opening_hours_from_redux(): array {
 	}
 
 	return codeweber_schema_opening_hours( $hours );
+}
+
+/**
+ * Build an ItemList schema node for a post type archive.
+ *
+ * Handles the boilerplate: archive check, WP_Query access, ListItem wrapping.
+ * The caller provides a callback to build each item's data.
+ *
+ * @param string   $post_type    Post type slug.
+ * @param array    $graph        Current @graph array.
+ * @param callable $item_builder fn( WP_Post $post ): ?array — returns item data or null to skip.
+ * @return array Modified @graph.
+ */
+function codeweber_schema_archive_itemlist( string $post_type, array $graph, callable $item_builder ): array {
+	if ( ! is_post_type_archive( $post_type ) ) {
+		return $graph;
+	}
+
+	global $wp_query;
+
+	if ( empty( $wp_query->posts ) ) {
+		return $graph;
+	}
+
+	$items = [];
+	$pos   = 1;
+
+	foreach ( $wp_query->posts as $post ) {
+		$item_data = $item_builder( $post );
+
+		if ( $item_data ) {
+			$items[] = [
+				'@type'    => 'ListItem',
+				'position' => $pos++,
+				'item'     => $item_data,
+			];
+		}
+	}
+
+	if ( ! empty( $items ) ) {
+		$graph[] = [
+			'@type'           => 'ItemList',
+			'@id'             => get_post_type_archive_link( $post_type ) . '#itemlist',
+			'itemListElement' => $items,
+		];
+	}
+
+	return $graph;
+}
+
+/**
+ * Get post thumbnail as a schema-ready image URL string.
+ *
+ * @param int $post_id Post ID.
+ * @return string|null Image URL or null.
+ */
+function codeweber_schema_image( int $post_id ): ?string {
+	$thumb_id = get_post_thumbnail_id( $post_id );
+
+	if ( ! $thumb_id ) {
+		return null;
+	}
+
+	$url = wp_get_attachment_url( $thumb_id );
+
+	return $url ?: null;
 }
