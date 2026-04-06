@@ -612,28 +612,18 @@ var theme = {
             var mainImg = swiper.querySelector(".swiper-slide img");
             if (mainImg && swiperTh) {
               var calcAndApply = function() {
-                var gap = 10;
-                // 1. Container width — use parent clientWidth (excludes padding)
+                var spaceBetween = 10; // Swiper spaceBetween for thumbs
+                var flexGap = 10; // CSS gap between thumbs and main
                 var containerW = slider1.parentElement ? slider1.parentElement.clientWidth : slider1.clientWidth;
-                // 2. Main side = square. Thumb side = (mainSide - gaps) / items
-                //    thumbWidth = thumbHeight. containerW = thumbWidth + gap + mainSide
-                //    mainSide = thumbHeight * items + gap * (items - 1)
-                //    thumbHeight = mainSide / items - gap * (items-1) / items
-                //    containerW = mainSide / items - gap*(items-1)/items + gap + mainSide
-                //    Solve for mainSide:
-                //    Let thumbH = (mainSide - gap * (items - 1)) / items
-                //    containerW = thumbH + gap + mainSide
-                //    containerW = (mainSide - gap*(items-1))/items + gap + mainSide
-                //    containerW = mainSide/items - gap*(items-1)/items + gap + mainSide
-                //    containerW = mainSide * (1 + 1/items) + gap * (1 - (items-1)/items)
-                //    containerW = mainSide * (items+1)/items + gap * 1/items
-                //    mainSide = (containerW - gap/items) * items / (items + 1)
-                var mainSide = (containerW - gap / thumbsItems) * thumbsItems / (thumbsItems + 1);
+                // Solve: containerW = mainSide + flexGap + thumbW
+                //        thumbW = thumbH = (mainSide - (items-1)*spaceBetween) / items
+                // => mainSide = (containerW - flexGap + (items-1)*spaceBetween/items) * items / (items+1)
+                var mainSide = (containerW - flexGap + (thumbsItems - 1) * spaceBetween / thumbsItems) * thumbsItems / (thumbsItems + 1);
                 mainSide = Math.floor(mainSide);
-                var thumbH = Math.floor((mainSide - gap * (thumbsItems - 1)) / thumbsItems);
+                var thumbH = Math.floor((mainSide - spaceBetween * (thumbsItems - 1)) / thumbsItems);
                 var thumbW = thumbH;
                 // Recalculate mainSide from actual thumbH to avoid rounding mismatch
-                mainSide = thumbH * thumbsItems + gap * (thumbsItems - 1);
+                mainSide = thumbH * thumbsItems + spaceBetween * (thumbsItems - 1);
 
                 // Apply main square
                 var swiperMainEl = swiper.parentElement;
