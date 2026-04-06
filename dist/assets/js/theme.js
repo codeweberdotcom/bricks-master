@@ -609,18 +609,24 @@ var theme = {
             var mainImg = swiper.querySelector(".swiper-slide img");
             if (mainImg && swiperTh) {
               var setHeight = function() {
-                var h = swiper.offsetHeight;
+                var gap = 10;
+                var thumbsW = swiperTh.offsetWidth || 100;
+                // Max height = square thumbs * items + gaps
+                var maxH = thumbsW * thumbsItems + gap * (thumbsItems - 1);
+                var h = Math.min(swiper.offsetHeight, maxH);
                 if (h > 0) {
+                  // Limit main swiper height for square thumbs
+                  swiper.style.maxHeight = maxH + "px";
+                  swiper.style.overflow = "hidden";
+                  h = Math.min(swiper.offsetHeight, maxH);
                   swiperTh.style.height = h + "px";
-                  // Calculate slide height based on visible count and gap
-                  var gap = 10;
                   var slideH = (h - (thumbsItems - 1) * gap) / thumbsItems;
-                  swiperTh.style.width = slideH + "px";
                   var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
                   for (var t = 0; t < thumbSlides.length; t++) {
                     thumbSlides[t].style.height = slideH + "px";
                   }
                   sliderTh.update();
+                  slider.update();
                 }
               };
               if (mainImg.complete) {
@@ -633,11 +639,13 @@ var theme = {
           syncThumbsHeight();
           window.addEventListener("resize", function() {
             if (swiperTh) {
-              var h = swiper.offsetHeight;
-              swiperTh.style.height = h + "px";
               var gap = 10;
+              var thumbsW = swiperTh.offsetWidth || 100;
+              var maxH = thumbsW * thumbsItems + gap * (thumbsItems - 1);
+              swiper.style.maxHeight = maxH + "px";
+              var h = Math.min(swiper.offsetHeight, maxH);
+              swiperTh.style.height = h + "px";
               var slideH = (h - (thumbsItems - 1) * gap) / thumbsItems;
-              swiperTh.style.width = slideH + "px";
               var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
               for (var t = 0; t < thumbSlides.length; t++) {
                 thumbSlides[t].style.height = slideH + "px";
