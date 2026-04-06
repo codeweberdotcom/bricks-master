@@ -611,23 +611,28 @@ var theme = {
               var setHeight = function() {
                 var gap = 10;
                 var thumbsW = swiperTh.offsetWidth || 100;
-                // Max height = square thumbs * items + gaps
-                var maxH = thumbsW * thumbsItems + gap * (thumbsItems - 1);
-                var h = Math.min(swiper.offsetHeight, maxH);
-                if (h > 0) {
-                  // Limit main swiper height for square thumbs
-                  swiper.style.maxHeight = maxH + "px";
-                  swiper.style.overflow = "hidden";
-                  h = Math.min(swiper.offsetHeight, maxH);
-                  swiperTh.style.height = h + "px";
-                  var slideH = (h - (thumbsItems - 1) * gap) / thumbsItems;
-                  var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
-                  for (var t = 0; t < thumbSlides.length; t++) {
-                    thumbSlides[t].style.height = slideH + "px";
-                  }
-                  sliderTh.update();
-                  slider.update();
+                // Square main = thumbWidth * items + gaps
+                var side = thumbsW * thumbsItems + gap * (thumbsItems - 1);
+                // Force main swiper to square
+                swiper.style.height = side + "px";
+                swiper.style.maxHeight = side + "px";
+                swiper.style.overflow = "hidden";
+                // Main slide images: square crop
+                var mainImgs = swiper.querySelectorAll(".swiper-slide img");
+                for (var m = 0; m < mainImgs.length; m++) {
+                  mainImgs[m].style.height = side + "px";
+                  mainImgs[m].style.width = "100%";
+                  mainImgs[m].style.objectFit = "cover";
                 }
+                // Thumbs container same height
+                swiperTh.style.height = side + "px";
+                var slideH = (side - (thumbsItems - 1) * gap) / thumbsItems;
+                var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
+                for (var t = 0; t < thumbSlides.length; t++) {
+                  thumbSlides[t].style.height = slideH + "px";
+                }
+                sliderTh.update();
+                slider.update();
               };
               if (mainImg.complete) {
                 setHeight();
@@ -641,16 +646,21 @@ var theme = {
             if (swiperTh) {
               var gap = 10;
               var thumbsW = swiperTh.offsetWidth || 100;
-              var maxH = thumbsW * thumbsItems + gap * (thumbsItems - 1);
-              swiper.style.maxHeight = maxH + "px";
-              var h = Math.min(swiper.offsetHeight, maxH);
-              swiperTh.style.height = h + "px";
-              var slideH = (h - (thumbsItems - 1) * gap) / thumbsItems;
+              var side = thumbsW * thumbsItems + gap * (thumbsItems - 1);
+              swiper.style.height = side + "px";
+              swiper.style.maxHeight = side + "px";
+              var mainImgs = swiper.querySelectorAll(".swiper-slide img");
+              for (var m = 0; m < mainImgs.length; m++) {
+                mainImgs[m].style.height = side + "px";
+              }
+              swiperTh.style.height = side + "px";
+              var slideH = (side - (thumbsItems - 1) * gap) / thumbsItems;
               var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
               for (var t = 0; t < thumbSlides.length; t++) {
                 thumbSlides[t].style.height = slideH + "px";
               }
               sliderTh.update();
+              slider.update();
             }
           });
         }
