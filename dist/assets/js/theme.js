@@ -613,8 +613,8 @@ var theme = {
             if (mainImg && swiperTh) {
               var calcAndApply = function() {
                 var gap = 10;
-                // 1. Container width — use parent to avoid self-inflated width
-                var containerW = slider1.parentElement ? slider1.parentElement.offsetWidth : slider1.offsetWidth;
+                // 1. Container width — use parent clientWidth (excludes padding)
+                var containerW = slider1.parentElement ? slider1.parentElement.clientWidth : slider1.clientWidth;
                 // 2. Main side = square. Thumb side = (mainSide - gaps) / items
                 //    thumbWidth = thumbHeight. containerW = thumbWidth + gap + mainSide
                 //    mainSide = thumbHeight * items + gap * (items - 1)
