@@ -615,6 +615,7 @@ var theme = {
                   // Calculate slide height based on visible count and gap
                   var gap = 10;
                   var slideH = (h - (thumbsItems - 1) * gap) / thumbsItems;
+                  swiperTh.style.width = slideH + "px";
                   var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
                   for (var t = 0; t < thumbSlides.length; t++) {
                     thumbSlides[t].style.height = slideH + "px";
@@ -636,6 +637,7 @@ var theme = {
               swiperTh.style.height = h + "px";
               var gap = 10;
               var slideH = (h - (thumbsItems - 1) * gap) / thumbsItems;
+              swiperTh.style.width = slideH + "px";
               var thumbSlides = swiperTh.querySelectorAll(".swiper-slide");
               for (var t = 0; t < thumbSlides.length; t++) {
                 thumbSlides[t].style.height = slideH + "px";

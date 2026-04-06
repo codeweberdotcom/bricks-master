@@ -525,10 +525,16 @@
 
     .swiper:not(.swiper-thumbs) {
       margin-bottom: 0;
+
+      .swiper-slide img {
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        width: 100%;
+        display: block;
+      }
     }
 
     .swiper-thumbs {
-      width: 80px;
       flex-shrink: 0;
       overflow: hidden;
 
