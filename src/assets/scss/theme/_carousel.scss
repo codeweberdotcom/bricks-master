@@ -517,6 +517,8 @@
     flex-direction: row-reverse;
     gap: 0.625rem;
     align-items: flex-start;
+    max-width: 100%;
+    overflow: hidden;
 
     .swiper-main {
       flex: 1;
