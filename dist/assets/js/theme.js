@@ -527,6 +527,7 @@ var theme = {
       var thumbsItems = slider1.getAttribute("data-thumbs-items")
         ? Number(slider1.getAttribute("data-thumbs-items"))
         : 5;
+      var thumbsMousewheel = slider1.getAttribute("data-thumbs-mousewheel") === "true";
       var sliderTh = new Swiper(swiperTh, {
         slidesPerView: thumbsItems,
         spaceBetween: 10,
@@ -534,6 +535,8 @@ var theme = {
         threshold: 2,
         slideToClickedSlide: true,
         direction: thumbsDirection,
+        mousewheel: thumbsMousewheel ? { forceToAxis: true } : false,
+        freeMode: thumbsMousewheel,
       });
       if (slider1.getAttribute("data-thumbs") === "true") {
         var thumbsInit = sliderTh;
@@ -614,15 +617,25 @@ var theme = {
                 // Square main = thumbWidth * items + gaps
                 var side = thumbsW * thumbsItems + gap * (thumbsItems - 1);
                 // Force main swiper to square
+                slider1.style.setProperty("--swiper-main-side", side + "px");
                 swiper.style.height = side + "px";
                 swiper.style.maxHeight = side + "px";
                 swiper.style.overflow = "hidden";
-                // Main slide images: square crop
-                var mainImgs = swiper.querySelectorAll(".swiper-slide img");
-                for (var m = 0; m < mainImgs.length; m++) {
-                  mainImgs[m].style.height = side + "px";
-                  mainImgs[m].style.width = "100%";
-                  mainImgs[m].style.objectFit = "cover";
+                // Main slides: force square on slide, figure, and img
+                var mainSlides = swiper.querySelectorAll(".swiper-slide");
+                for (var m = 0; m < mainSlides.length; m++) {
+                  mainSlides[m].style.height = side + "px";
+                  var fig = mainSlides[m].querySelector("figure");
+                  if (fig) {
+                    fig.style.height = "100%";
+                    fig.style.margin = "0";
+                  }
+                  var img = mainSlides[m].querySelector("img");
+                  if (img) {
+                    img.style.height = "100%";
+                    img.style.width = "100%";
+                    img.style.objectFit = "cover";
+                  }
                 }
                 // Thumbs container same height
                 swiperTh.style.height = side + "px";
@@ -647,11 +660,12 @@ var theme = {
               var gap = 10;
               var thumbsW = swiperTh.offsetWidth || 100;
               var side = thumbsW * thumbsItems + gap * (thumbsItems - 1);
+              slider1.style.setProperty("--swiper-main-side", side + "px");
               swiper.style.height = side + "px";
               swiper.style.maxHeight = side + "px";
-              var mainImgs = swiper.querySelectorAll(".swiper-slide img");
-              for (var m = 0; m < mainImgs.length; m++) {
-                mainImgs[m].style.height = side + "px";
+              var mainSlides = swiper.querySelectorAll(".swiper-slide");
+              for (var m = 0; m < mainSlides.length; m++) {
+                mainSlides[m].style.height = side + "px";
               }
               swiperTh.style.height = side + "px";
               var slideH = (side - (thumbsItems - 1) * gap) / thumbsItems;
