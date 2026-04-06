@@ -613,8 +613,8 @@ var theme = {
             if (mainImg && swiperTh) {
               var calcAndApply = function() {
                 var gap = 10;
-                // 1. Container width
-                var containerW = slider1.offsetWidth;
+                // 1. Container width — use parent to avoid self-inflated width
+                var containerW = slider1.parentElement ? slider1.parentElement.offsetWidth : slider1.offsetWidth;
                 // 2. Main side = square. Thumb side = (mainSide - gaps) / items
                 //    thumbWidth = thumbHeight. containerW = thumbWidth + gap + mainSide
                 //    mainSide = thumbHeight * items + gap * (items - 1)
@@ -673,11 +673,6 @@ var theme = {
           window.addEventListener("resize", function() {
             if (swiperTh) {
               clearTimeout(resizeTimer);
-              // Reset widths first
-              var swiperMainEl = swiper.parentElement;
-              if (swiperMainEl) swiperMainEl.style.width = "";
-              swiperTh.style.width = "";
-              // Wait for reflow then recalculate
               resizeTimer = setTimeout(calcAndApply, 100);
             }
           });
