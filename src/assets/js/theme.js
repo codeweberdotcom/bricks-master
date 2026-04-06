@@ -629,10 +629,11 @@ var theme = {
                 //    containerW = mainSide * (items+1)/items + gap * 1/items
                 //    mainSide = (containerW - gap/items) * items / (items + 1)
                 var mainSide = (containerW - gap / thumbsItems) * thumbsItems / (thumbsItems + 1);
-                mainSide = Math.floor(mainSide) - 1;
-                var thumbH = (mainSide - gap * (thumbsItems - 1)) / thumbsItems;
-                thumbH = Math.floor(thumbH);
+                mainSide = Math.floor(mainSide);
+                var thumbH = Math.floor((mainSide - gap * (thumbsItems - 1)) / thumbsItems);
                 var thumbW = thumbH;
+                // Recalculate mainSide from actual thumbH to avoid rounding mismatch
+                mainSide = thumbH * thumbsItems + gap * (thumbsItems - 1);
 
                 // Apply main square
                 var swiperMainEl = swiper.parentElement;
