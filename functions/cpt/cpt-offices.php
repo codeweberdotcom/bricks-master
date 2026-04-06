@@ -167,7 +167,7 @@ function codeweber_office_basic_info_callback($post)
    $street = get_post_meta($post->ID, '_office_street', true);
    $postal_code = get_post_meta($post->ID, '_office_postal_code', true);
    $full_address = get_post_meta($post->ID, '_office_full_address', true);
-   $working_hours = get_post_meta($post->ID, '_office_working_hours', true);
+   $office_hours = codeweber_get_office_hours( $post->ID );
    $manager_id = get_post_meta($post->ID, '_office_manager', true);
 
    // Get selected term from towns taxonomy
@@ -220,8 +220,35 @@ function codeweber_office_basic_info_callback($post)
       <label for="office_full_address"><strong><?php echo esc_html__('Full Address', 'codeweber'); ?>:</strong></label>
       <textarea id="office_full_address" name="office_full_address" rows="3" style="width: 100%; padding: 8px;"><?php echo esc_textarea($full_address); ?></textarea>
 
-      <label for="office_working_hours"><strong><?php echo esc_html__('Working Hours', 'codeweber'); ?>:</strong></label>
-      <textarea id="office_working_hours" name="office_working_hours" rows="3" style="width: 100%; padding: 8px;" placeholder="<?php echo esc_attr__('Mon-Fri: 9:00-18:00', 'codeweber'); ?>"><?php echo esc_textarea($working_hours); ?></textarea>
+      <div style="grid-column: 1 / -1;">
+         <strong><?php echo esc_html__('Working Hours', 'codeweber'); ?>:</strong>
+         <table class="widefat" style="margin-top: 8px;">
+            <thead>
+               <tr>
+                  <th><?php esc_html_e('Day', 'codeweber'); ?></th>
+                  <th><?php esc_html_e('Opens', 'codeweber'); ?></th>
+                  <th><?php esc_html_e('Break start', 'codeweber'); ?></th>
+                  <th><?php esc_html_e('Break end', 'codeweber'); ?></th>
+                  <th><?php esc_html_e('Closes', 'codeweber'); ?></th>
+               </tr>
+            </thead>
+            <tbody>
+               <?php
+               $days = codeweber_opening_hours_days();
+               foreach ( $days as $day_key => $day_label ) :
+                  $h = isset( $office_hours[ $day_key ] ) ? $office_hours[ $day_key ] : [];
+               ?>
+               <tr>
+                  <td><strong><?php echo esc_html( $day_label ); ?></strong></td>
+                  <td><input type="text" name="office_hours[<?php echo esc_attr( $day_key ); ?>][opens_1]" value="<?php echo esc_attr( $h['opens_1'] ?? '' ); ?>" placeholder="09:00" style="width:70px;"></td>
+                  <td><input type="text" name="office_hours[<?php echo esc_attr( $day_key ); ?>][closes_1]" value="<?php echo esc_attr( $h['closes_1'] ?? '' ); ?>" placeholder="13:00" style="width:70px;"></td>
+                  <td><input type="text" name="office_hours[<?php echo esc_attr( $day_key ); ?>][opens_2]" value="<?php echo esc_attr( $h['opens_2'] ?? '' ); ?>" placeholder="14:00" style="width:70px;"></td>
+                  <td><input type="text" name="office_hours[<?php echo esc_attr( $day_key ); ?>][closes_2]" value="<?php echo esc_attr( $h['closes_2'] ?? '' ); ?>" placeholder="18:00" style="width:70px;"></td>
+               </tr>
+               <?php endforeach; ?>
+            </tbody>
+         </table>
+      </div>
 
       <label for="office_manager"><strong><?php echo esc_html__('Manager', 'codeweber'); ?>:</strong></label>
       <select id="office_manager" name="office_manager" style="width: 100%; padding: 8px;">
@@ -711,7 +738,6 @@ function codeweber_save_office_meta($post_id)
       'office_street',
       'office_postal_code',
       'office_full_address',
-      'office_working_hours',
       'office_manager',
       'office_phone',
       'office_phone_2',
@@ -754,6 +780,26 @@ function codeweber_save_office_meta($post_id)
             delete_post_meta($post_id, '_' . $field);
          } else {
             delete_post_meta($post_id, '_' . $field);
+         }
+      }
+   }
+
+   // Save opening hours per day.
+   if ( isset( $_POST['office_hours'] ) && is_array( $_POST['office_hours'] ) ) {
+      $days = codeweber_opening_hours_days();
+      foreach ( array_keys( $days ) as $day_key ) {
+         $day_data = isset( $_POST['office_hours'][ $day_key ] ) ? $_POST['office_hours'][ $day_key ] : [];
+         $clean = [
+            'opens_1'  => sanitize_text_field( $day_data['opens_1'] ?? '' ),
+            'closes_1' => sanitize_text_field( $day_data['closes_1'] ?? '' ),
+            'opens_2'  => sanitize_text_field( $day_data['opens_2'] ?? '' ),
+            'closes_2' => sanitize_text_field( $day_data['closes_2'] ?? '' ),
+         ];
+         // Only save if at least opens_1 is set.
+         if ( ! empty( $clean['opens_1'] ) ) {
+            update_post_meta( $post_id, '_office_hours_' . $day_key, wp_json_encode( $clean ) );
+         } else {
+            delete_post_meta( $post_id, '_office_hours_' . $day_key );
          }
       }
    }
@@ -878,3 +924,81 @@ function codeweber_fill_offices_admin_columns($column, $post_id)
    }
 }
 add_action('manage_offices_posts_custom_column', 'codeweber_fill_offices_admin_columns', 10, 2);
+
+/**
+ * Days of week for opening hours fields.
+ *
+ * @return array Associative array: key => translated label.
+ */
+function codeweber_opening_hours_days(): array {
+	return [
+		'monday'    => __( 'Monday', 'codeweber' ),
+		'tuesday'   => __( 'Tuesday', 'codeweber' ),
+		'wednesday' => __( 'Wednesday', 'codeweber' ),
+		'thursday'  => __( 'Thursday', 'codeweber' ),
+		'friday'    => __( 'Friday', 'codeweber' ),
+		'saturday'  => __( 'Saturday', 'codeweber' ),
+		'sunday'    => __( 'Sunday', 'codeweber' ),
+	];
+}
+
+/**
+ * Get structured opening hours for an office.
+ *
+ * @param int $post_id Office post ID.
+ * @return array Associative array keyed by day, each value has opens_1, closes_1, opens_2, closes_2.
+ */
+function codeweber_get_office_hours( int $post_id ): array {
+	$hours = [];
+	$days  = codeweber_opening_hours_days();
+
+	foreach ( array_keys( $days ) as $day_key ) {
+		$raw = get_post_meta( $post_id, '_office_hours_' . $day_key, true );
+		if ( ! empty( $raw ) ) {
+			$decoded = json_decode( $raw, true );
+			if ( is_array( $decoded ) ) {
+				$hours[ $day_key ] = $decoded;
+			}
+		}
+	}
+
+	return $hours;
+}
+
+/**
+ * Format office hours as human-readable string.
+ *
+ * @param int $post_id Office post ID.
+ * @return string Formatted hours (e.g. "Mon-Fri: 09:00-13:00, 14:00-18:00").
+ */
+function codeweber_format_office_hours( int $post_id ): string {
+	$hours = codeweber_get_office_hours( $post_id );
+	$days  = codeweber_opening_hours_days();
+	$lines = [];
+
+	foreach ( $days as $day_key => $day_label ) {
+		if ( empty( $hours[ $day_key ] ) ) {
+			continue;
+		}
+
+		$h    = $hours[ $day_key ];
+		$time = '';
+
+		if ( ! empty( $h['opens_1'] ) && ! empty( $h['closes_1'] ) ) {
+			$time = $h['opens_1'] . '-' . $h['closes_1'];
+		}
+
+		if ( ! empty( $h['opens_2'] ) && ! empty( $h['closes_2'] ) ) {
+			$time .= ', ' . $h['opens_2'] . '-' . $h['closes_2'];
+		} elseif ( ! empty( $h['opens_1'] ) && ! empty( $h['closes_2'] ) && empty( $h['closes_1'] ) ) {
+			$time = $h['opens_1'] . '-' . $h['closes_2'];
+		}
+
+		if ( ! empty( $time ) ) {
+			$short = mb_substr( $day_label, 0, 2 );
+			$lines[] = $short . ': ' . $time;
+		}
+	}
+
+	return implode( '; ', $lines );
+}

@@ -173,10 +173,13 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		$business['sameAs'] = $website;
 	}
 
-	// Opening hours.
-	$hours = get_post_meta( $post_id, '_office_working_hours', true );
-	if ( ! empty( $hours ) ) {
-		$business['openingHours'] = wp_strip_all_tags( $hours );
+	// Opening hours (structured).
+	$office_hours = codeweber_get_office_hours( $post_id );
+	if ( ! empty( $office_hours ) ) {
+		$specs = codeweber_schema_opening_hours( $office_hours );
+		if ( ! empty( $specs ) ) {
+			$business['openingHoursSpecification'] = $specs;
+		}
 	}
 
 	// Image.

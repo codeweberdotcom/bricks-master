@@ -171,6 +171,12 @@ function codeweber_schema_organization( string $site_url ): ?array {
 		$org['legalName'] = wp_strip_all_tags( $legal_name );
 	}
 
+	// Opening hours.
+	$opening_hours = codeweber_schema_opening_hours_from_redux();
+	if ( ! empty( $opening_hours ) ) {
+		$org['openingHoursSpecification'] = $opening_hours;
+	}
+
 	return $org;
 }
 
@@ -490,4 +496,88 @@ function codeweber_schema_datetime( string $datetime ): string {
 	}
 
 	return wp_date( 'c', $ts );
+}
+
+/**
+ * Build openingHoursSpecification from structured hours data.
+ *
+ * Accepts an array keyed by day (monday..sunday), each value has:
+ * opens_1, closes_1, opens_2, closes_2.
+ *
+ * @param array $hours Structured hours data.
+ * @return array Array of OpeningHoursSpecification nodes (may be empty).
+ */
+function codeweber_schema_opening_hours( array $hours ): array {
+	$day_map = [
+		'monday'    => 'Monday',
+		'tuesday'   => 'Tuesday',
+		'wednesday' => 'Wednesday',
+		'thursday'  => 'Thursday',
+		'friday'    => 'Friday',
+		'saturday'  => 'Saturday',
+		'sunday'    => 'Sunday',
+	];
+
+	$specs = [];
+
+	foreach ( $day_map as $key => $schema_day ) {
+		if ( empty( $hours[ $key ] ) ) {
+			continue;
+		}
+
+		$h = $hours[ $key ];
+
+		// First interval.
+		if ( ! empty( $h['opens_1'] ) ) {
+			$closes = ! empty( $h['closes_1'] ) ? $h['closes_1'] : ( ! empty( $h['closes_2'] ) ? $h['closes_2'] : '' );
+			if ( ! empty( $closes ) ) {
+				$specs[] = [
+					'@type'     => 'OpeningHoursSpecification',
+					'dayOfWeek' => $schema_day,
+					'opens'     => $h['opens_1'],
+					'closes'    => $closes,
+				];
+			}
+		}
+
+		// Second interval (after break).
+		if ( ! empty( $h['opens_2'] ) && ! empty( $h['closes_2'] ) && ! empty( $h['closes_1'] ) ) {
+			$specs[] = [
+				'@type'     => 'OpeningHoursSpecification',
+				'dayOfWeek' => $schema_day,
+				'opens'     => $h['opens_2'],
+				'closes'    => $h['closes_2'],
+			];
+		}
+	}
+
+	return $specs;
+}
+
+/**
+ * Build openingHoursSpecification from Redux opening hours settings.
+ *
+ * @return array Array of OpeningHoursSpecification nodes.
+ */
+function codeweber_schema_opening_hours_from_redux(): array {
+	$day_keys = [ 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday' ];
+	$hours    = [];
+
+	foreach ( $day_keys as $day ) {
+		$opens_1  = Codeweber_Options::get( 'opening_hours_' . $day . '_opens_1', '' );
+		$closes_1 = Codeweber_Options::get( 'opening_hours_' . $day . '_closes_1', '' );
+		$opens_2  = Codeweber_Options::get( 'opening_hours_' . $day . '_opens_2', '' );
+		$closes_2 = Codeweber_Options::get( 'opening_hours_' . $day . '_closes_2', '' );
+
+		if ( ! empty( $opens_1 ) ) {
+			$hours[ $day ] = [
+				'opens_1'  => $opens_1,
+				'closes_1' => $closes_1,
+				'opens_2'  => $opens_2,
+				'closes_2' => $closes_2,
+			];
+		}
+	}
+
+	return codeweber_schema_opening_hours( $hours );
 }

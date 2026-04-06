@@ -57,7 +57,7 @@ get_pageheader();
                       $address = get_post_meta($office_id, '_office_street', true);
                   }
                   $phone         = get_post_meta($office_id, '_office_phone', true);
-                  $working_hours = get_post_meta($office_id, '_office_working_hours', true);
+                  $working_hours = codeweber_format_office_hours( $office_id );
                   $description   = get_post_meta($office_id, '_office_description', true);
 
                   // Город из таксономии towns или метаполя

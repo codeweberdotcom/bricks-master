@@ -19,7 +19,7 @@ $region = get_post_meta($post_id, '_office_region', true);
 $street = get_post_meta($post_id, '_office_street', true);
 $postal_code = get_post_meta($post_id, '_office_postal_code', true);
 $full_address = get_post_meta($post_id, '_office_full_address', true);
-$working_hours = get_post_meta($post_id, '_office_working_hours', true);
+$working_hours = codeweber_format_office_hours( $post_id );
 $description = get_post_meta($post_id, '_office_description', true);
 
 // Получаем город из таксономии
