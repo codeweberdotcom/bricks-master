@@ -603,6 +603,33 @@ var theme = {
         },
       });
       if (thumbsInit !== null) {
+        // Sync vertical thumbs height with main image height
+        if (thumbsDirection === "vertical") {
+          var syncThumbsHeight = function() {
+            var mainImg = swiper.querySelector(".swiper-slide img");
+            if (mainImg && swiperTh) {
+              var setHeight = function() {
+                var h = swiper.offsetHeight;
+                if (h > 0) {
+                  swiperTh.style.height = h + "px";
+                  sliderTh.update();
+                }
+              };
+              if (mainImg.complete) {
+                setHeight();
+              } else {
+                mainImg.addEventListener("load", setHeight);
+              }
+            }
+          };
+          syncThumbsHeight();
+          window.addEventListener("resize", function() {
+            if (swiperTh) {
+              swiperTh.style.height = swiper.offsetHeight + "px";
+              sliderTh.update();
+            }
+          });
+        }
         if (document.querySelector("input.variation_id") !== null) {
           document.querySelector("input.variation_id").onchange = function () {
             document.querySelector(

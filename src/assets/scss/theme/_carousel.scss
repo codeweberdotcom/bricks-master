@@ -516,6 +516,7 @@
     display: flex;
     flex-direction: row-reverse;
     gap: 0.625rem;
+    align-items: flex-start;
 
     .swiper-main {
       flex: 1;
@@ -529,11 +530,9 @@
     .swiper-thumbs {
       width: 80px;
       flex-shrink: 0;
-      height: auto;
+      overflow: hidden;
 
       .swiper-slide {
-        height: auto !important;
-
         img {
           aspect-ratio: 1 / 1;
           object-fit: cover;
