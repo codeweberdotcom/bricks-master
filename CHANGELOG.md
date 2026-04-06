@@ -8,6 +8,34 @@
 
 ### Added
 
+- **Schema.org JSON-LD модуль** (`functions/seo/`): полная генерация структурированных данных для всех CPT
+  - Базовый каркас: WebSite, Organization (из Redux: название, ИНН, ОГРН, адрес, соцсети, лого, часы работы), BreadcrumbList, WebPage
+  - CPT-схемы (single + archive): Article, Event, Person, JobPosting, LocalBusiness, Service, Review + AggregateRating, FAQPage, CreativeWork, DigitalDocument
+  - Подавление Schema у SEO-плагинов (Rank Math, Yoast, SEOPress, AIOSEO) — OG/title/description остаётся за плагином
+  - Хелперы `codeweber_get_seo_title()` / `codeweber_get_seo_description()` — чтение из Rank Math → Yoast → fallback
+  - Фильтр `codeweber_schema_graph` для расширения @graph
+- **Block Schema API**: динамические блоки генерируют Schema через `codeweber_schema_add_block_data()` в render.php
+  - Accordion: FAQPage (custom/faq), ItemList (другие CPT)
+  - Post Grid: FAQPage (faq), ItemList (другие CPT)
+  - Lists: ItemList (post mode)
+  - Множественные блоки на одной странице корректно собираются в единый @graph
+- **SchemaTypeNotice** (`src/components/schema-type/`): компонент Inspector — показывает тип Schema для выбранного CPT
+- **Часы работы**: структурированные поля по дням недели с поддержкой обеденного перерыва
+  - Redux: секция Opening Hours в Company Details → `openingHoursSpecification` в Organization
+  - CPT Offices: замена textarea на 7 структурированных полей → `openingHoursSpecification` в LocalBusiness
+
+### Fixed
+
+- Event schema: убран неправильный `EventPostponed` для прошедших событий, заменён deprecated `current_time('timestamp')`
+- BreadcrumbList `@id` на архивах указывал на первый пост вместо URL архива
+- Event registration count: дублирующая функция с неправильным post_type slug заменена на существующую
+- Testimonial archive: N+1 запросы заменены на один SQL `COUNT+SUM`
+- Testimonial archive: AggregateRating добавляется к основной Organization вместо создания дубля
+- Organization sameAs: дедупликация одинаковых URL
+- Organization address: trim пробелов в полях адреса из Redux
+- FAQ schema: очистка Gutenberg-комментов и HTML-энтити из ответов
+- Logo: не выводить width/height=0 для SVG
+
 - **CPT Events (Мероприятия)**: полный модуль мероприятий — регистрация CPT `events` с таксономиями `event_category` и `event_format`, мета-поля дат (начало/конец события, открытие/закрытие приёма заявок), местоположение, адрес, организатор, цена, внешняя ссылка, количество мест
 - **CPT Event Registrations (Заявки)**: приватный CPT `event_registrations` с кастомными статусами (Новая/Подтверждена/Отменена/Ожидает оплаты), admin-колонки, фильтр по мероприятию, массовые действия, счётчик-бейдж в меню
 - **Event Registration REST API**: `POST codeweber/v1/events/register` — запись на мероприятие с honeypot+nonce, проверкой статуса, дубликатов и уведомлением на email; `GET codeweber/v1/events/calendar` — фид FullCalendar

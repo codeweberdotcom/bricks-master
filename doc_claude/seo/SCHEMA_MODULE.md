@@ -268,8 +268,70 @@ Schema для WooCommerce Product **не генерируется** темой. 
 
 ---
 
-## Расширение: Schema из Gutenberg-блоков
+## Schema из Gutenberg-блоков
 
-**Планируемый подход:** динамические блоки добавляют schema через глобальный массив при рендере в `render.php`, хук в `wp_footer` собирает и выводит.
+Динамические блоки регистрируют schema через `codeweber_schema_add_block_data()` в `render.php`. Данные собираются в глобальный массив и выводятся в `@graph` через `codeweber_schema_graph` фильтр (приоритет 50).
 
-**Статус:** не реализовано. CPT-схемы работают, блоки — следующий этап.
+### API
+
+#### `codeweber_schema_add_block_data( string $type, array $data ): void`
+
+Регистрирует schema данные из блока.
+
+- `$type = 'faq'` — FAQPage, `$data` = массив `[['title' => '...', 'content' => '...'], ...]`
+- `$type = 'itemlist'` — ItemList, `$data` = `['schema_type' => 'Person', 'items' => [['title' => '...', 'url' => '...'], ...]]`
+
+#### `codeweber_schema_type_for_post_type( string $post_type ): ?string`
+
+Маппинг CPT slug → Schema.org тип:
+
+| post_type | Schema.org |
+|-----------|-----------|
+| post | Article |
+| page | WebPage |
+| faq | FAQPage |
+| staff | Person |
+| events | Event |
+| vacancies | JobPosting |
+| offices | LocalBusiness |
+| services | Service |
+| projects | CreativeWork |
+| testimonials | Review |
+| legal | WebPage |
+| documents | DigitalDocument |
+| clients | Organization |
+| product | null (WC handles) |
+
+### Блоки с Schema
+
+| Блок | Файл render.php | Логика |
+|------|----------------|--------|
+| **accordion** | `src/blocks/accordion/render.php` | custom mode → FAQPage; post mode + faq → FAQPage; post mode + другой CPT → ItemList |
+| **post-grid** | `src/blocks/post-grid/render.php` | faq → FAQPage; другой CPT → ItemList |
+| **lists** | `src/blocks/lists/render.php` | post mode → ItemList |
+
+### SchemaTypeNotice — компонент Inspector
+
+Файл: `src/components/schema-type/SchemaTypeNotice.js` (плагин)
+
+Переиспользуемый компонент для отображения типа Schema в Inspector sidebar редактора.
+
+```jsx
+import { SchemaTypeNotice } from '../../components/schema-type';
+
+<SchemaTypeNotice mode={mode} postType={postType} />
+```
+
+Отображает badge:
+- custom mode → `Schema.org: FAQPage (Q&A)`
+- post mode + faq → `Schema.org: FAQPage`
+- post mode + staff → `Schema.org: ItemList → Person`
+- без маппинга → ничего не показывает
+
+### Множественные блоки на одной странице
+
+Несколько блоков на одной странице корректно добавляют свои schema ноды в единый `@graph`. Пример: страница с accordion (FAQ) + post-grid (staff) + lists (vacancies):
+
+```
+@graph: [WebSite, Organization, BreadcrumbList, WebPage, FAQPage, ItemList→Person, ItemList→JobPosting]
+```
