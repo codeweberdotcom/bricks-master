@@ -87,6 +87,136 @@ add_action( 'wp_footer', function (): void {
 	);
 }, 20 );
 
+// ── Block Schema API ─────────────────────────────────────────────────────────
+
+/**
+ * Global storage for schema data registered by Gutenberg blocks during render.
+ */
+global $codeweber_block_schemas;
+$codeweber_block_schemas = [];
+
+/**
+ * Register schema data from a Gutenberg block's render.php.
+ *
+ * @param string $type  Schema type key: 'faq', 'itemlist', etc.
+ * @param array  $data  Schema data (structure depends on type).
+ */
+function codeweber_schema_add_block_data( string $type, array $data ): void {
+	global $codeweber_block_schemas;
+	$codeweber_block_schemas[] = [
+		'type' => $type,
+		'data' => $data,
+	];
+}
+
+/**
+ * Map post type slug to Schema.org type.
+ *
+ * @param string $post_type WordPress post type slug.
+ * @return string|null Schema.org type or null if no mapping.
+ */
+function codeweber_schema_type_for_post_type( string $post_type ): ?string {
+	$map = [
+		'post'         => 'Article',
+		'page'         => 'WebPage',
+		'faq'          => 'FAQPage',
+		'staff'        => 'Person',
+		'events'       => 'Event',
+		'vacancies'    => 'JobPosting',
+		'offices'      => 'LocalBusiness',
+		'services'     => 'Service',
+		'projects'     => 'CreativeWork',
+		'testimonials' => 'Review',
+		'legal'        => 'WebPage',
+		'documents'    => 'DigitalDocument',
+		'clients'      => 'Organization',
+	];
+
+	return $map[ $post_type ] ?? null;
+}
+
+/**
+ * Collect block schema data and append to the @graph.
+ */
+add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
+	global $codeweber_block_schemas;
+
+	if ( empty( $codeweber_block_schemas ) ) {
+		return $graph;
+	}
+
+	foreach ( $codeweber_block_schemas as $entry ) {
+		$type = $entry['type'];
+		$data = $entry['data'];
+
+		if ( $type === 'faq' && ! empty( $data ) ) {
+			// FAQPage from custom items or FAQ CPT posts.
+			$questions = [];
+			foreach ( $data as $item ) {
+				$title   = $item['title'] ?? '';
+				$content = $item['content'] ?? '';
+				if ( empty( $title ) || empty( $content ) ) {
+					continue;
+				}
+				$content = preg_replace( '/<!--.*?-->/s', '', $content );
+				$content = strip_shortcodes( $content );
+				$content = html_entity_decode( $content, ENT_QUOTES, 'UTF-8' );
+				$content = wp_strip_all_tags( $content );
+				$content = preg_replace( '/\s+/', ' ', trim( $content ) );
+
+				if ( ! empty( $content ) ) {
+					$questions[] = [
+						'@type'          => 'Question',
+						'name'           => wp_strip_all_tags( $title ),
+						'acceptedAnswer' => [
+							'@type' => 'Answer',
+							'text'  => $content,
+						],
+					];
+				}
+			}
+
+			if ( ! empty( $questions ) ) {
+				$graph[] = [
+					'@type'      => 'FAQPage',
+					'mainEntity' => $questions,
+				];
+			}
+		} elseif ( $type === 'itemlist' && ! empty( $data['items'] ) ) {
+			// ItemList from CPT posts in accordion/post-grid.
+			$schema_type = $data['schema_type'] ?? null;
+			$items       = [];
+			$pos         = 1;
+
+			foreach ( $data['items'] as $item ) {
+				$node = [
+					'@type'    => 'ListItem',
+					'position' => $pos++,
+					'item'     => [
+						'name' => $item['title'] ?? '',
+						'url'  => $item['url'] ?? '',
+					],
+				];
+
+				if ( $schema_type ) {
+					$node['item']['@type'] = $schema_type;
+				}
+
+				$items[] = $node;
+			}
+
+			if ( ! empty( $items ) ) {
+				$graph[] = [
+					'@type'           => 'ItemList',
+					'itemListElement' => $items,
+				];
+			}
+		}
+	}
+
+	return $graph;
+}, 50 ); // Priority 50 — after CPT-specific schemas.
+
 /**
  * Build Organization schema from Redux settings.
  *
