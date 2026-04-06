@@ -242,12 +242,18 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 | `codeweber_schema_webpage($site_url)` | `seo-schema.php` | WebPage для текущей страницы |
 | `codeweber_schema_current_url()` | `seo-schema.php` | URL для не-singular страниц |
 | `codeweber_schema_datetime($datetime)` | `seo-schema.php` | Конвертация datetime-local в ISO 8601 |
+| `codeweber_schema_archive_itemlist($post_type, $graph, $callback)` | `seo-schema.php` | Универсальный хелпер archive ItemList — обёртка над WP_Query + ListItem |
+| `codeweber_schema_image($post_id)` | `seo-schema.php` | Получение URL миниатюры поста (или null) |
 | `codeweber_schema_opening_hours($hours)` | `seo-schema.php` | Конвертация структурированных часов в `openingHoursSpecification` |
 | `codeweber_schema_opening_hours_from_redux()` | `seo-schema.php` | Чтение часов из Redux и конвертация |
+| `codeweber_schema_type_for_post_type($post_type)` | `seo-schema.php` | Маппинг CPT slug → Schema.org тип |
+| `codeweber_schema_add_block_data($type, $data)` | `seo-schema.php` | Регистрация schema из Gutenberg-блока |
 | `codeweber_opening_hours_days()` | `cpt-offices.php` | Массив дней недели (key → label) |
 | `codeweber_get_office_hours($post_id)` | `cpt-offices.php` | Чтение структурированных часов офиса из meta |
 | `codeweber_format_office_hours($post_id)` | `cpt-offices.php` | Форматирование часов офиса в текст |
 | `codeweber_schema_document_url($post_id)` | `schema-document.php` | Получение URL файла документа |
+
+**Примечание:** `JSON_PRETTY_PRINT` в выводе JSON-LD включён только при `WP_DEBUG === true`.
 
 ---
 
