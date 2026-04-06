@@ -1,4 +1,51 @@
 <?php
+
+/**
+ * Generate the Opening Hours table HTML for the Redux raw field.
+ * Uses standard Redux input names so values are saved automatically.
+ */
+function codeweber_redux_opening_hours_table(): string {
+	$days = array(
+		'monday'    => __( 'Monday', 'codeweber' ),
+		'tuesday'   => __( 'Tuesday', 'codeweber' ),
+		'wednesday' => __( 'Wednesday', 'codeweber' ),
+		'thursday'  => __( 'Thursday', 'codeweber' ),
+		'friday'    => __( 'Friday', 'codeweber' ),
+		'saturday'  => __( 'Saturday', 'codeweber' ),
+		'sunday'    => __( 'Sunday', 'codeweber' ),
+	);
+
+	$opts = get_option( 'redux_demo', array() );
+
+	$html  = '<table class="widefat" style="max-width:600px;">';
+	$html .= '<thead><tr>';
+	$html .= '<th>' . esc_html__( 'Day', 'codeweber' ) . '</th>';
+	$html .= '<th>' . esc_html__( 'Opens', 'codeweber' ) . '</th>';
+	$html .= '<th>' . esc_html__( 'Break start', 'codeweber' ) . '</th>';
+	$html .= '<th>' . esc_html__( 'Break end', 'codeweber' ) . '</th>';
+	$html .= '<th>' . esc_html__( 'Closes', 'codeweber' ) . '</th>';
+	$html .= '</tr></thead><tbody>';
+
+	foreach ( $days as $key => $label ) {
+		$o1 = isset( $opts[ 'opening_hours_' . $key . '_opens_1' ] )  ? $opts[ 'opening_hours_' . $key . '_opens_1' ]  : '';
+		$c1 = isset( $opts[ 'opening_hours_' . $key . '_closes_1' ] ) ? $opts[ 'opening_hours_' . $key . '_closes_1' ] : '';
+		$o2 = isset( $opts[ 'opening_hours_' . $key . '_opens_2' ] )  ? $opts[ 'opening_hours_' . $key . '_opens_2' ]  : '';
+		$c2 = isset( $opts[ 'opening_hours_' . $key . '_closes_2' ] ) ? $opts[ 'opening_hours_' . $key . '_closes_2' ] : '';
+
+		$html .= '<tr>';
+		$html .= '<td><strong>' . esc_html( $label ) . '</strong></td>';
+		$html .= '<td><input type="text" name="redux_demo[opening_hours_' . esc_attr( $key ) . '_opens_1]" value="' . esc_attr( $o1 ) . '" placeholder="09:00" style="width:70px;"></td>';
+		$html .= '<td><input type="text" name="redux_demo[opening_hours_' . esc_attr( $key ) . '_closes_1]" value="' . esc_attr( $c1 ) . '" placeholder="13:00" style="width:70px;"></td>';
+		$html .= '<td><input type="text" name="redux_demo[opening_hours_' . esc_attr( $key ) . '_opens_2]" value="' . esc_attr( $o2 ) . '" placeholder="14:00" style="width:70px;"></td>';
+		$html .= '<td><input type="text" name="redux_demo[opening_hours_' . esc_attr( $key ) . '_closes_2]" value="' . esc_attr( $c2 ) . '" placeholder="18:00" style="width:70px;"></td>';
+		$html .= '</tr>';
+	}
+
+	$html .= '</tbody></table>';
+
+	return $html;
+}
+
 Redux::set_section(
 	$opt_name,
 	array(
@@ -226,219 +273,11 @@ Redux::set_section(
 
 			// Часы работы компании
 			array(
-				'id'     => 'section-opening-hours',
-				'type'   => 'section',
-				'title'  => esc_html__('Opening Hours', 'codeweber'),
-				'subtitle' => esc_html__('Used in Schema.org structured data. Leave empty for days off. Second interval is optional (for lunch break).', 'codeweber'),
-				'indent' => true,
-			),
-			// Monday
-			array(
-				'id'    => 'opening_hours_monday_opens_1',
-				'type'  => 'text',
-				'title' => esc_html__('Monday', 'codeweber') . ' — ' . esc_html__('Opens', 'codeweber'),
-				'placeholder' => '09:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_monday_closes_1',
-				'type'  => 'text',
-				'title' => esc_html__('Monday', 'codeweber') . ' — ' . esc_html__('Closes / Break start', 'codeweber'),
-				'placeholder' => '13:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_monday_opens_2',
-				'type'  => 'text',
-				'title' => esc_html__('Monday', 'codeweber') . ' — ' . esc_html__('Break end', 'codeweber'),
-				'placeholder' => '14:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_monday_closes_2',
-				'type'  => 'text',
-				'title' => esc_html__('Monday', 'codeweber') . ' — ' . esc_html__('Closes', 'codeweber'),
-				'placeholder' => '18:00',
-				'class' => 'mini',
-			),
-			// Tuesday
-			array(
-				'id'    => 'opening_hours_tuesday_opens_1',
-				'type'  => 'text',
-				'title' => esc_html__('Tuesday', 'codeweber') . ' — ' . esc_html__('Opens', 'codeweber'),
-				'placeholder' => '09:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_tuesday_closes_1',
-				'type'  => 'text',
-				'title' => esc_html__('Tuesday', 'codeweber') . ' — ' . esc_html__('Closes / Break start', 'codeweber'),
-				'placeholder' => '13:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_tuesday_opens_2',
-				'type'  => 'text',
-				'title' => esc_html__('Tuesday', 'codeweber') . ' — ' . esc_html__('Break end', 'codeweber'),
-				'placeholder' => '14:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_tuesday_closes_2',
-				'type'  => 'text',
-				'title' => esc_html__('Tuesday', 'codeweber') . ' — ' . esc_html__('Closes', 'codeweber'),
-				'placeholder' => '18:00',
-				'class' => 'mini',
-			),
-			// Wednesday
-			array(
-				'id'    => 'opening_hours_wednesday_opens_1',
-				'type'  => 'text',
-				'title' => esc_html__('Wednesday', 'codeweber') . ' — ' . esc_html__('Opens', 'codeweber'),
-				'placeholder' => '09:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_wednesday_closes_1',
-				'type'  => 'text',
-				'title' => esc_html__('Wednesday', 'codeweber') . ' — ' . esc_html__('Closes / Break start', 'codeweber'),
-				'placeholder' => '13:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_wednesday_opens_2',
-				'type'  => 'text',
-				'title' => esc_html__('Wednesday', 'codeweber') . ' — ' . esc_html__('Break end', 'codeweber'),
-				'placeholder' => '14:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_wednesday_closes_2',
-				'type'  => 'text',
-				'title' => esc_html__('Wednesday', 'codeweber') . ' — ' . esc_html__('Closes', 'codeweber'),
-				'placeholder' => '18:00',
-				'class' => 'mini',
-			),
-			// Thursday
-			array(
-				'id'    => 'opening_hours_thursday_opens_1',
-				'type'  => 'text',
-				'title' => esc_html__('Thursday', 'codeweber') . ' — ' . esc_html__('Opens', 'codeweber'),
-				'placeholder' => '09:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_thursday_closes_1',
-				'type'  => 'text',
-				'title' => esc_html__('Thursday', 'codeweber') . ' — ' . esc_html__('Closes / Break start', 'codeweber'),
-				'placeholder' => '13:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_thursday_opens_2',
-				'type'  => 'text',
-				'title' => esc_html__('Thursday', 'codeweber') . ' — ' . esc_html__('Break end', 'codeweber'),
-				'placeholder' => '14:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_thursday_closes_2',
-				'type'  => 'text',
-				'title' => esc_html__('Thursday', 'codeweber') . ' — ' . esc_html__('Closes', 'codeweber'),
-				'placeholder' => '18:00',
-				'class' => 'mini',
-			),
-			// Friday
-			array(
-				'id'    => 'opening_hours_friday_opens_1',
-				'type'  => 'text',
-				'title' => esc_html__('Friday', 'codeweber') . ' — ' . esc_html__('Opens', 'codeweber'),
-				'placeholder' => '09:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_friday_closes_1',
-				'type'  => 'text',
-				'title' => esc_html__('Friday', 'codeweber') . ' — ' . esc_html__('Closes / Break start', 'codeweber'),
-				'placeholder' => '13:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_friday_opens_2',
-				'type'  => 'text',
-				'title' => esc_html__('Friday', 'codeweber') . ' — ' . esc_html__('Break end', 'codeweber'),
-				'placeholder' => '14:00',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_friday_closes_2',
-				'type'  => 'text',
-				'title' => esc_html__('Friday', 'codeweber') . ' — ' . esc_html__('Closes', 'codeweber'),
-				'placeholder' => '18:00',
-				'class' => 'mini',
-			),
-			// Saturday
-			array(
-				'id'    => 'opening_hours_saturday_opens_1',
-				'type'  => 'text',
-				'title' => esc_html__('Saturday', 'codeweber') . ' — ' . esc_html__('Opens', 'codeweber'),
-				'placeholder' => '',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_saturday_closes_1',
-				'type'  => 'text',
-				'title' => esc_html__('Saturday', 'codeweber') . ' — ' . esc_html__('Closes / Break start', 'codeweber'),
-				'placeholder' => '',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_saturday_opens_2',
-				'type'  => 'text',
-				'title' => esc_html__('Saturday', 'codeweber') . ' — ' . esc_html__('Break end', 'codeweber'),
-				'placeholder' => '',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_saturday_closes_2',
-				'type'  => 'text',
-				'title' => esc_html__('Saturday', 'codeweber') . ' — ' . esc_html__('Closes', 'codeweber'),
-				'placeholder' => '',
-				'class' => 'mini',
-			),
-			// Sunday
-			array(
-				'id'    => 'opening_hours_sunday_opens_1',
-				'type'  => 'text',
-				'title' => esc_html__('Sunday', 'codeweber') . ' — ' . esc_html__('Opens', 'codeweber'),
-				'placeholder' => '',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_sunday_closes_1',
-				'type'  => 'text',
-				'title' => esc_html__('Sunday', 'codeweber') . ' — ' . esc_html__('Closes / Break start', 'codeweber'),
-				'placeholder' => '',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_sunday_opens_2',
-				'type'  => 'text',
-				'title' => esc_html__('Sunday', 'codeweber') . ' — ' . esc_html__('Break end', 'codeweber'),
-				'placeholder' => '',
-				'class' => 'mini',
-			),
-			array(
-				'id'    => 'opening_hours_sunday_closes_2',
-				'type'  => 'text',
-				'title' => esc_html__('Sunday', 'codeweber') . ' — ' . esc_html__('Closes', 'codeweber'),
-				'placeholder' => '',
-				'class' => 'mini',
-			),
-			array(
-				'id'     => 'section-opening-hours-end',
-				'type'   => 'section',
-				'indent' => false,
+				'id'       => 'opening_hours_table',
+				'type'     => 'raw',
+				'title'    => esc_html__( 'Opening Hours', 'codeweber' ),
+				'subtitle' => esc_html__( 'Used in Schema.org structured data. Leave empty for days off. Second pair is optional (lunch break).', 'codeweber' ),
+				'content'  => codeweber_redux_opening_hours_table(),
 			),
 		),
 	)
