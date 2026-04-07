@@ -102,7 +102,7 @@ $thumbs_items = Codeweber_Options::get('woo_gallery_thumbs_items') ?: '5';
 
 ## 5. Фон body по типу страницы (Redux + метабокс)
 
-**Статус:** план согласован, не реализован
+**Статус:** ✅ реализован (commit pending)
 **Актуально на:** 2026-04-07
 
 ### Анализ

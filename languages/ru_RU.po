@@ -17171,3 +17171,51 @@ msgstr "← Назад к подпискам"
 #, fuzzy
 msgid "−% Discount"
 msgstr "−% Скидка"
+
+#: functions/body-bg.php
+msgid "Default (transparent)"
+msgstr "По умолчанию (прозрачный)"
+
+#: functions/body-bg.php
+msgid "Light"
+msgstr "Светлый"
+
+#: functions/body-bg.php
+msgid "Gray"
+msgstr "Серый"
+
+#: functions/body-bg.php
+msgid "Soft Primary"
+msgstr "Мягкий основной"
+
+#: functions/body-bg.php
+msgid "Soft Secondary"
+msgstr "Мягкий вторичный"
+
+#: functions/body-bg.php
+msgid "Soft Leaf"
+msgstr "Мягкий зелёный"
+
+#: functions/body-bg.php
+msgid "Dark"
+msgstr "Тёмный"
+
+#: functions/body-bg.php
+msgid "Page Background"
+msgstr "Фон страницы"
+
+#: functions/body-bg.php
+msgid "Override global Redux setting for this page only."
+msgstr "Переопределить глобальную настройку Redux только для этой страницы."
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php
+msgid "%s Body Background"
+msgstr "Фон: %s"
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php
+msgid "Background for Single %s"
+msgstr "Фон одиночной записи %s"
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php
+msgid "Background for Archive %s"
+msgstr "Фон архива %s"

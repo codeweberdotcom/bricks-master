@@ -626,6 +626,48 @@ if (!empty($custom_post_type_files)) {
 			),
 		);
 
+		// Фон страницы (body background)
+		$bg_options = array(
+			'default'           => esc_html__('Default (transparent)', 'codeweber'),
+			'bg-light'          => esc_html__('Light', 'codeweber'),
+			'bg-gray'           => esc_html__('Gray', 'codeweber'),
+			'bg-soft-primary'   => esc_html__('Soft Primary', 'codeweber'),
+			'bg-soft-secondary' => esc_html__('Soft Secondary', 'codeweber'),
+			'bg-soft-leaf'      => esc_html__('Soft Leaf', 'codeweber'),
+			'bg-dark'           => esc_html__('Dark', 'codeweber'),
+		);
+		$section_fields[] = array(
+			'id'    => 'body_bg_settings_' . $sanitized_id,
+			'type'  => 'tabbed',
+			'title' => sprintf(esc_html__('%s Body Background', 'codeweber'), $translated_label),
+			'tabs'  => array(
+				array(
+					'title'  => esc_html__('Single', 'codeweber'),
+					'fields' => array(
+						array(
+							'id'      => 'body_bg_single_' . $sanitized_id,
+							'type'    => 'select',
+							'title'   => sprintf(esc_html__('Background for Single %s', 'codeweber'), $translated_label),
+							'options' => $bg_options,
+							'default' => 'default',
+						),
+					),
+				),
+				array(
+					'title'  => esc_html__('Archive', 'codeweber'),
+					'fields' => array(
+						array(
+							'id'      => 'body_bg_archive_' . $sanitized_id,
+							'type'    => 'select',
+							'title'   => sprintf(esc_html__('Background for Archive %s', 'codeweber'), $translated_label),
+							'options' => $bg_options,
+							'default' => 'default',
+						),
+					),
+				),
+			),
+		);
+
 		// Регистрируем секцию настроек для этого типа записи
 		Redux::set_section(
 			$opt_name,

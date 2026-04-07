@@ -8,6 +8,7 @@
 
 ### Added
 
+- **Body Background** (`functions/body-bg.php`): управление фоном `.content-wrapper` через Redux (глобально по типу записи) и метабокс (per-post override). Варианты: transparent, bg-light, bg-gray, bg-soft-primary, bg-soft-secondary, bg-soft-leaf, bg-dark. В Redux: табы Single/Archive для каждого CPT. SCSS: `_body-bg.scss` (класс `cw-page-bg-{value}` на body).
 - **Schema.org JSON-LD модуль** (`functions/seo/`): полная генерация структурированных данных для всех CPT
   - Базовый каркас: WebSite, Organization (из Redux: название, ИНН, ОГРН, адрес, соцсети, лого, часы работы), BreadcrumbList, WebPage
   - CPT-схемы (single + archive): Article, Event, Person, JobPosting, LocalBusiness, Service, Review + AggregateRating, FAQPage, CreativeWork, DigitalDocument

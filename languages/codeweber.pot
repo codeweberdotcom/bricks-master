@@ -15744,3 +15744,51 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/woocommerce.php:284
 msgid "−% Discount"
 msgstr ""
+
+#: functions/body-bg.php
+msgid "Default (transparent)"
+msgstr ""
+
+#: functions/body-bg.php
+msgid "Light"
+msgstr ""
+
+#: functions/body-bg.php
+msgid "Gray"
+msgstr ""
+
+#: functions/body-bg.php
+msgid "Soft Primary"
+msgstr ""
+
+#: functions/body-bg.php
+msgid "Soft Secondary"
+msgstr ""
+
+#: functions/body-bg.php
+msgid "Soft Leaf"
+msgstr ""
+
+#: functions/body-bg.php
+msgid "Dark"
+msgstr ""
+
+#: functions/body-bg.php
+msgid "Page Background"
+msgstr ""
+
+#: functions/body-bg.php
+msgid "Override global Redux setting for this page only."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php
+msgid "%s Body Background"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php
+msgid "Background for Single %s"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/cpt-type.php
+msgid "Background for Archive %s"
+msgstr ""

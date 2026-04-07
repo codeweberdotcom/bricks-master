@@ -87,6 +87,9 @@ if ( class_exists( 'WooCommerce' ) ) {
 	require_once get_template_directory() . '/functions/woocommerce/init.php';
 }
 
+// ── Body Background (per-page / per-CPT фон через Redux + метабокс) ──────────
+require_once get_template_directory() . '/functions/body-bg.php';
+
 // ── Уведомления (после Redux, priority 40) ────────────────────────────────────
 add_action( 'after_setup_theme', function () {
 	new CW_Notify();

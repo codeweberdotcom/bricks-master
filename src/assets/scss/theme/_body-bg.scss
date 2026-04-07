@@ -1,0 +1,23 @@
+// ─────────────────────────────────────────────────────────────────
+// Body Background — per-page background via Redux / metabox
+//
+// Класс cw-page-bg-{value} на <body> задаёт фон .content-wrapper.
+// Секции с собственным bg-* не затрагиваются.
+// ─────────────────────────────────────────────────────────────────
+
+$cw-page-bg-map: (
+  "bg-light":          $gray-100,
+  "bg-gray":           $gray-200,
+  "bg-soft-primary":   tint-color($primary, 90%),
+  "bg-soft-secondary": tint-color($secondary, 90%),
+  "bg-soft-leaf":      $leaf-soft,
+  "bg-dark":           $dark,
+);
+
+@each $key, $value in $cw-page-bg-map {
+  body.cw-page-bg-#{$key} {
+    .content-wrapper {
+      background: $value !important;
+    }
+  }
+}
