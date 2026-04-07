@@ -178,3 +178,58 @@
 @keyframes cw-spin {
   to { transform: rotate(360deg); }
 }
+
+// ── Gallery Skeleton ──────────────────────────────────────────────────────────
+// PHP генерирует нужный вариант (horizontal / vertical) по Redux-настройкам.
+// Скрывается через CSS как только оба Swiper инициализируются.
+
+// Swiper до инициализации не должен ломать layout
+.swiper-thumbs-container > .swiper:not(.swiper-initialized) {
+  height: 0;
+  overflow: hidden;
+}
+
+// Скелетон скрывается когда все Swiper внутри контейнера инициализированы
+.swiper-thumbs-container:not(:has(.swiper:not(.swiper-initialized))) .cw-gallery-skeleton {
+  display: none;
+}
+
+// Горизонтальный скелетон (по умолчанию)
+.cw-gallery-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+
+  &__main {
+    aspect-ratio: 1;
+    border-radius: var(--bs-border-radius);
+  }
+
+  &__thumbs {
+    display: flex;
+    gap: .5rem;
+  }
+
+  &__thumb {
+    flex: 1 1 0;
+    aspect-ratio: 1;
+    border-radius: var(--bs-border-radius);
+  }
+
+  // Вертикальный вариант
+  &--v {
+    flex-direction: row;
+
+    .cw-gallery-skeleton__thumbs {
+      flex-direction: column;
+      flex-shrink: 0;
+      width: 80px;
+    }
+
+    .cw-gallery-skeleton__thumb {
+      flex: 1 1 0;
+      width: 100%;
+      aspect-ratio: 1;
+    }
+  }
+}

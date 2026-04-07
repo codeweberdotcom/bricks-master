@@ -93,6 +93,17 @@ while ( have_posts() ) :
 					<?php if ( $has_gallery ) : ?>
 
 					<div class="swiper-container swiper-thumbs-container" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true" data-thumbs-direction="<?php echo esc_attr( $thumbs_dir ); ?>" data-thumbs-items="<?php echo esc_attr( $thumbs_items ); ?>">
+
+						<?php // ── Скелетон галереи (виден до инициализации Swiper) ── ?>
+						<div class="cw-gallery-skeleton<?php echo $thumbs_dir === 'vertical' ? ' cw-gallery-skeleton--v' : ''; ?>">
+							<div class="cw-skeleton-block cw-gallery-skeleton__main"></div>
+							<div class="cw-gallery-skeleton__thumbs">
+								<?php for ( $i = 0; $i < (int) $thumbs_items; $i++ ) : ?>
+								<div class="cw-skeleton-block cw-gallery-skeleton__thumb"></div>
+								<?php endfor; ?>
+							</div>
+						</div>
+
 						<div class="swiper">
 							<div class="swiper-wrapper">
 								<?php foreach ( $all_image_ids as $img_id ) :
