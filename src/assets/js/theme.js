@@ -535,7 +535,7 @@ var theme = {
         threshold: 2,
         slideToClickedSlide: true,
         direction: thumbsDirection,
-        mousewheel: thumbsMousewheel ? { forceToAxis: true } : false,
+        mousewheel: thumbsMousewheel ? { forceToAxis: thumbsDirection === 'vertical' } : false,
         freeMode: thumbsMousewheel,
       });
       if (slider1.getAttribute("data-thumbs") === "true") {
@@ -614,7 +614,7 @@ var theme = {
               var calcAndApply = function() {
                 var spaceBetween = 10; // Swiper spaceBetween for thumbs
                 var flexGap = 10; // CSS gap between thumbs and main
-                var containerW = slider1.parentElement ? slider1.parentElement.clientWidth : slider1.clientWidth;
+                var containerW = slider1.clientWidth;
                 // Solve: containerW = mainSide + flexGap + thumbW
                 //        thumbW = thumbH = (mainSide - (items-1)*spaceBetween) / items
                 // => mainSide = (containerW - flexGap + (items-1)*spaceBetween/items) * items / (items+1)

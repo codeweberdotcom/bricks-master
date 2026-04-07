@@ -3,12 +3,12 @@ msgstr ""
 "Project-Id-Version: Codeweber\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
-"Language-Team: Русский\n"
+"Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-03-26 07:56+0000\n"
+"PO-Revision-Date: 2026-04-06 13:12+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -86,7 +86,7 @@ msgstr[2] "Создано %d демонстрационных отзывов"
 msgid "%d entries deleted"
 msgstr "%d записей удалено"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:777
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:779
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:809
 msgid "%d file"
 msgid_plural "%d files"
@@ -94,7 +94,7 @@ msgstr[0] "%d файл"
 msgstr[1] "%d файла"
 msgstr[2] "%d файлов"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:677
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:679
 msgid "%d file attached"
 msgid_plural "%d files attached"
 msgstr[0] "%d файл прикреплен"
@@ -192,7 +192,7 @@ msgstr "%s Настройки Футера"
 msgid "%s Header Settings"
 msgstr "%s Настройки Хедера"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1066
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1068
 #, php-format
 msgid "%s is required."
 msgstr "%s обязательно"
@@ -974,7 +974,7 @@ msgstr "Все типы занятости"
 msgid "All Events"
 msgstr "Все мероприятия"
 
-#: functions/events/event-registrations.php:210
+#: functions/events/event-registrations.php:219
 msgid "All events"
 msgstr "Все мероприятия"
 
@@ -998,7 +998,7 @@ msgstr "Все поля формы в виде таблицы"
 msgid "All Form Types"
 msgstr "Все типы форм"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:443
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:445
 msgid "All form types"
 msgstr "Все типы форм"
 
@@ -1151,8 +1151,8 @@ msgstr "Амурская область"
 msgid "An error occurred"
 msgstr "Произошла ошибка"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:971
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1001
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:973
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1003
 #: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:617
 #: functions/integrations/codeweber-forms/codeweber-forms-core.php:43
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:166
@@ -1274,7 +1274,7 @@ msgid "Archive Title"
 msgstr "Название архива"
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:281
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:588
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:590
 msgid "Archived"
 msgstr "В архиве"
 
@@ -1321,7 +1321,7 @@ msgid "Are you sure you want to unsubscribe this user?"
 msgstr "Вы уверены, что хотите отписать этого пользователя?"
 
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:331
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:649
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:651
 msgid "Are you sure?"
 msgstr "Вы уверены?"
 
@@ -1451,7 +1451,7 @@ msgstr "Автоматическая задержка скрытия"
 msgid "Auto-Reply"
 msgstr "Автоматический ответ"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1595
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1597
 msgid "Auto-reply is disabled."
 msgstr "Автоматический ответ отключен."
 
@@ -1489,9 +1489,9 @@ msgstr "Аватар URL"
 msgid "Average rating"
 msgstr "Средняя оценка"
 
-#: functions/events/event-registrations.php:161
-#: functions/events/event-registrations.php:380
-#: functions/events/event-registrations.php:462
+#: functions/events/event-registrations.php:170
+#: functions/events/event-registrations.php:399
+#: functions/events/event-registrations.php:481
 msgid "Awaiting Payment"
 msgstr "Ожидает оплаты"
 
@@ -1882,11 +1882,11 @@ msgstr "Календарь"
 
 #: functions/integrations/cf7/cf7.php:496
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:684
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:987
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:989
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:221
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:60
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:540
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:555
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:556
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:352
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:440
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:540
@@ -1901,17 +1901,17 @@ msgstr "Календарь"
 msgid "Callback Request"
 msgstr "Запрос обратного звонка"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:448
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:450
 msgid "Callback request"
 msgstr "Запрос обратного звонка"
 
-#: functions/events/event-registrations.php:259
+#: functions/events/event-registrations.php:268
 msgid "Cancel selected"
 msgstr "Отменить выбранные"
 
-#: functions/events/event-registrations.php:160
-#: functions/events/event-registrations.php:379
-#: functions/events/event-registrations.php:461
+#: functions/events/event-registrations.php:169
+#: functions/events/event-registrations.php:398
+#: functions/events/event-registrations.php:480
 msgid "Cancelled"
 msgstr "Отменена"
 
@@ -2391,7 +2391,7 @@ msgstr "Переключатель столбцов"
 msgid "Comma-separated list of values, e.g. 12,24,48"
 msgstr "Список значений через запятую, например 12,24,48"
 
-#: functions/events/event-registration-api.php:441
+#: functions/events/event-registration-api.php:442
 #: templates/content/loop.php:59
 #, fuzzy
 msgid "Comment"
@@ -2545,7 +2545,7 @@ msgstr "Настройте параметры SMTP для отправки пи�
 msgid "Confirm"
 msgstr "Отправить"
 
-#: functions/events/event-registrations.php:258
+#: functions/events/event-registrations.php:267
 msgid "Confirm selected"
 msgstr "Подтвердить выбранные"
 
@@ -2563,9 +2563,9 @@ msgstr "Уведомление по электронной почте"
 msgid "Confirmation of phone number by SMS"
 msgstr "Подтверждение номера телефона по СМС"
 
-#: functions/events/event-registrations.php:159
-#: functions/events/event-registrations.php:378
-#: functions/events/event-registrations.php:460
+#: functions/events/event-registrations.php:168
+#: functions/events/event-registrations.php:397
+#: functions/events/event-registrations.php:479
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:464
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1395
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1702
@@ -2677,11 +2677,11 @@ msgstr "Тип согласия"
 msgid "Consented Document"
 msgstr "Документ согласия"
 
-#: functions/events/event-registrations.php:342
+#: functions/events/event-registrations.php:361
 #: functions/integrations/cf7/cf7-consents-panel.php:255
 #: functions/integrations/cf7/cf7-consents-panel.php:281
 #: functions/integrations/cf7/cf7-consents-panel.php:860
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:876
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:878
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:784
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-consent-metabox.php:27
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1099
@@ -2697,7 +2697,7 @@ msgstr "Контакт"
 msgid "Contact Details"
 msgstr "Контактные Данные"
 
-#: functions/integrations/cf7/cf7.php:500
+#: functions/integrations/cf7/cf7.php:502
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:160
 #: functions/integrations/codeweber-forms/codeweber-forms-gutenberg-restrictions.php:207
 msgid "Contact Form"
@@ -2843,7 +2843,7 @@ msgid "Coordinates"
 msgstr "Координаты"
 
 #: functions/cpt/cpt-html_blocks.php:125
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:255
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:257
 msgid "Copy shortcode"
 msgstr "Копировать Shortcode"
 
@@ -3509,7 +3509,7 @@ msgstr ""
 "Дата регистрации. <br>[redux_option key=\"legal_ogrnip_date\"  format=\"d.m."
 "Y\"]"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1697
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1699
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:438
 #, fuzzy
 msgid "Date:"
@@ -3701,7 +3701,7 @@ msgstr ""
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:71
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:331
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:84
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:649
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:651
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:708
 #: redux-framework/sample/sections/codeweber/legal.php:864
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:828
@@ -4129,7 +4129,7 @@ msgstr "Категории Документов"
 msgid "Document Category"
 msgstr "Категория Документов"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:840
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:842
 #, fuzzy
 msgid "Document ID: %d"
 msgstr "Документ ID: %d"
@@ -4479,9 +4479,9 @@ msgstr "Образование/Квалификация"
 #: functions/bootstrap/bootstrap_share-page.php:221
 #: functions/bootstrap/bootstrap_share-page.php:263
 #: functions/cpt/cpt-offices.php:283 functions/cpt/cpt-offices.php:805
-#: functions/events/event-registration-api.php:433
+#: functions/events/event-registration-api.php:434
 #: functions/events/event-registrations.php:113
-#: functions/events/event-registrations.php:325
+#: functions/events/event-registrations.php:344
 #: woocommerce/order/order-details-customer.php:40
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:405
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:406
@@ -4494,7 +4494,7 @@ msgstr "Образование/Квалификация"
 #: templates/singles/staff/staff_3.php:125
 #: templates/singles/staff/staff_4.php:141
 #: templates/singles/staff/staff_5.php:155
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:869
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:871
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:93
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:115
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1007
@@ -4551,7 +4551,7 @@ msgstr "Тест доставки электронной почты"
 msgid "Email field"
 msgstr "Поле Email"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1046
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1048
 msgid "Email is required"
 msgstr "Email обязателен"
 
@@ -4572,7 +4572,7 @@ msgstr "Email и телефон обязательны к заполнению"
 msgid "Email preview"
 msgstr "Предварительный просмотр Email"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1485
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1487
 msgid "Email sending failed."
 msgstr "Не удалось отправить Email."
 
@@ -4993,7 +4993,7 @@ msgstr "Ошибка:"
 
 #: functions/cpt/cpt-events.php:25 functions/cpt/cpt-events.php:38
 #: functions/events/event-registrations.php:111
-#: functions/events/event-registrations.php:313
+#: functions/events/event-registrations.php:322
 #: functions/fetch/filterPosts.php:377
 #: templates/archives/events/events_1.php:65
 #: templates/archives/events/events_2.php:41
@@ -5046,10 +5046,19 @@ msgstr "Карта Мероприятий"
 msgid "Event published"
 msgstr "Мероприятие опубликовано"
 
-#: functions/events/event-registration-api.php:278
-#: functions/events/event-registration-api.php:292
+#: functions/events/event-registration-api.php:279
+#: functions/events/event-registration-api.php:293
+#: functions/integrations/cf7/cf7.php:501
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:223
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:542
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:542
 #, fuzzy
 msgid "Event Registration"
+msgstr "Регистрация на мероприятие"
+
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:452
+#, fuzzy
+msgid "Event registration"
 msgstr "Регистрация на мероприятие"
 
 #: functions/events/event-registrations.php:50
@@ -5196,7 +5205,7 @@ msgid "Facebook Pixel Settings"
 msgstr "Настройки Facebook Pixel"
 
 #: functions/cpt/cpt-html_blocks.php:166
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:379
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:381
 msgid "Failed to copy shortcode"
 msgstr "Не удалось скопировать Shortcode"
 
@@ -5248,7 +5257,7 @@ msgstr "Не удалось удалить вложение #%d"
 msgid "Failed to delete file"
 msgstr "Не удалось удалить файл"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1347
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1349
 #, fuzzy
 msgid "Failed to delete file."
 msgstr "Не удалось удалить файл."
@@ -5303,12 +5312,12 @@ msgstr "Не удалось отобразить форму. Пожалуйст�
 msgid "Failed to save consents to user meta"
 msgstr "Не удалось сохранить согласия в метаданные пользователя."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1314
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1316
 #, fuzzy
 msgid "Failed to save file record."
 msgstr "Не удалось сохранить запись файла."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1296
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1298
 #, fuzzy
 msgid "Failed to save file."
 msgstr "Не удалось сохранить файл."
@@ -5387,6 +5396,7 @@ msgstr "Категории"
 msgid "FAQ items not found."
 msgstr "FAQ не найдены."
 
+#: functions/integrations/cf7/cf7.php:500
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:222
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:541
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:541
@@ -5394,7 +5404,7 @@ msgstr "FAQ не найдены."
 msgid "FAQ Question"
 msgstr "Часто задаваемые вопросы"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:449
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:451
 #, fuzzy
 msgid "FAQ question"
 msgstr "Вопрос часто задаваемых вопросов"
@@ -5503,7 +5513,7 @@ msgstr "Файл _user-variables.scss не найден в активном те
 msgid "File deleted successfully"
 msgstr "Файл успешно удален"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1268
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1270
 msgid "File is too large."
 msgstr "Файл слишком большой."
 
@@ -5540,12 +5550,12 @@ msgstr "Размер файла"
 msgid "File Type"
 msgstr "Тип файла"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1262
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1264
 #, fuzzy
 msgid "File type not allowed."
 msgstr "Не поддерживаемый тип файла."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1239
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1241
 #, fuzzy
 msgid "File upload error."
 msgstr "Ошибка загрузки файла."
@@ -5900,7 +5910,7 @@ msgstr "Ошибки формы"
 msgid "Form Fields"
 msgstr "Поля формы"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1700
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1702
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:442
 msgid "Form Fields:"
 msgstr "Поля Формы:"
@@ -6024,7 +6034,7 @@ msgstr "Тип формы"
 msgid "Form type"
 msgstr "Тип формы"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1696
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1698
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:437
 msgid "Form:"
 msgstr "Форма:"
@@ -6103,7 +6113,7 @@ msgstr ""
 "заказы</a>, настроить <a href=\"%2$s\">платежный адрес и адрес доставки</a>, "
 "а также <a href=\"%3$s\">изменить пароль и основную информацию</a>."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1698
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1700
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:439
 #, fuzzy
 msgid "From:"
@@ -6653,6 +6663,7 @@ msgid "HIT"
 msgstr "ХИТ"
 
 #: functions/breadcrumbs.php:192 functions/shortcodes.php:203
+#: functions/seo/seo-schema.php:250
 msgid "Home"
 msgstr "Главная"
 
@@ -7203,7 +7214,7 @@ msgstr "Недействительная ссылка для экспорта"
 msgid "Invalid file format. Please upload a CSV file."
 msgstr "Недопустимый формат файла. Пожалуйста, загрузите файл в формате CSV."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1338
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1340
 #, fuzzy
 msgid "Invalid file ID."
 msgstr "Недействительный идентификатор файла."
@@ -7516,7 +7527,7 @@ msgstr ""
 "Фамилия, имя, отчество, адрес электронной почты, возраст, стаж вождения, "
 "номер телефона, данные водительского удостоверения."
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:873
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:875
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:792
 msgid "Lastname"
 msgstr "Фамилия"
@@ -8136,9 +8147,9 @@ msgid "Menu not found or empty."
 msgstr "Меню не найдено или пусто."
 
 #: functions/cpt/cpt-notifications.php:273
-#: functions/events/event-registrations.php:337
+#: functions/events/event-registrations.php:356
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:356
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:871
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:873
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:806
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:94
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:145
@@ -8352,13 +8363,13 @@ msgid "My Price Lists"
 msgstr "Мои Прайс-листы"
 
 #: functions/cpt/cpt-staff.php:235 functions/cpt/cpt-staff.php:479
-#: functions/events/event-registration-api.php:432
+#: functions/events/event-registration-api.php:433
 #: functions/events/event-registrations.php:112
-#: functions/events/event-registrations.php:321
+#: functions/events/event-registrations.php:340
 #: woocommerce/order/order-details-customer.php:31
 #: woocommerce/order/order-details-customer.php:70
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:347
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:868
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:870
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:790
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:92
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1020
@@ -8413,11 +8424,11 @@ msgstr "Необходимые"
 msgid "Nenets Autonomous Okrug"
 msgstr "Ненецкий автономный округ"
 
-#: functions/events/event-registrations.php:158
-#: functions/events/event-registrations.php:377
-#: functions/events/event-registrations.php:459
+#: functions/events/event-registrations.php:167
+#: functions/events/event-registrations.php:396
+#: functions/events/event-registrations.php:478
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:279
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:586
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:588
 msgid "New"
 msgstr "Новый"
 
@@ -8481,10 +8492,10 @@ msgstr "Новый Футер"
 msgid "New form"
 msgstr "Новая форма"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:961
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:999
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1401
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1693
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:963
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1001
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1403
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1695
 #: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:606
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:433
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:613
@@ -8550,13 +8561,13 @@ msgid "New Project"
 msgstr "Новый проект"
 
 #. %s: event title
-#: functions/events/event-registration-api.php:446
+#: functions/events/event-registration-api.php:447
 #, php-format
 msgid "New registration for event: %s"
 msgstr "Новая заявка на мероприятие: %s"
 
 #. %s: event title
-#: functions/events/event-registration-api.php:422
+#: functions/events/event-registration-api.php:423
 #, php-format
 msgid "New registration: %s"
 msgstr "Новая заявка: %s"
@@ -8593,7 +8604,7 @@ msgid "New Vacancy"
 msgstr "Новая вакансия"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:296
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:875
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:877
 msgid "Newsletter Consents"
 msgstr "Согласия на рассылку"
 
@@ -8608,11 +8619,11 @@ msgstr "Ответ на рассылку"
 
 #: functions/integrations/cf7/cf7.php:497
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:682
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:986
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:988
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:218
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:59
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:537
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:553
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:554
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:349
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:437
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:537
@@ -8630,7 +8641,7 @@ msgstr "Ответ на рассылку"
 msgid "Newsletter Subscription"
 msgstr "Подписка на рассылку"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:445
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:447
 #, fuzzy
 msgid "Newsletter subscription"
 msgstr "Подписка на рассылку"
@@ -8872,7 +8883,7 @@ msgstr "FAQ не найдены в корзине"
 msgid "No FAQs found."
 msgstr "Вопросы и ответы не найдены."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1010
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1012
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:179
 #, fuzzy
 msgid "No fields provided."
@@ -8894,7 +8905,7 @@ msgstr "Файл не выбран"
 msgid "No file uploaded"
 msgstr "Файл не загружен"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1213
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1215
 msgid "No file uploaded."
 msgstr "Файл не загружен."
 
@@ -9885,7 +9896,7 @@ msgstr "Вставьте ссылку YouTube, Vimeo, Rutube или VK Video."
 msgid "Patreon"
 msgstr "Патреон"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:874
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:876
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:794
 msgid "Patronymic"
 msgstr "Отчество"
@@ -10015,9 +10026,9 @@ msgstr "Тест Операторов Персональных данных V2"
 #: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-offices.php:277
 #: functions/cpt/cpt-offices.php:804 functions/cpt/cpt-staff.php:244
 #: functions/cpt/cpt-staff.php:482
-#: functions/events/event-registration-api.php:435
+#: functions/events/event-registration-api.php:436
 #: functions/events/event-registrations.php:114
-#: functions/events/event-registrations.php:329
+#: functions/events/event-registrations.php:348
 #: templates/footer/footer-2.php:98 templates/footer/footer-5.php:133
 #: templates/header/header-center-logo.php:264
 #: templates/header/header-classic.php:311
@@ -10051,7 +10062,7 @@ msgstr "Тест Операторов Персональных данных V2"
 #: templates/singles/staff/staff_3.php:137
 #: templates/singles/staff/staff_4.php:135
 #: templates/singles/staff/staff_5.php:145
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:870
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:872
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:796
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:118
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1026
@@ -10919,8 +10930,8 @@ msgstr "Регион"
 #: functions/admin/events-settings.php:182 functions/cpt/cpt-events.php:389
 #: functions/cpt/cpt-events.php:417 functions/cpt/cpt-events.php:1047
 #: functions/cpt/cpt-events.php:1090
-#: functions/events/event-registration-api.php:486
 #: functions/events/event-registration-api.php:487
+#: functions/events/event-registration-api.php:488
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:256
 msgid "Register"
 msgstr "Записаться"
@@ -10974,7 +10985,7 @@ msgstr "Окончание приёма заявок"
 msgid "Registration closes:"
 msgstr "Регистрация закрывается:"
 
-#: functions/events/event-registrations.php:284
+#: functions/events/event-registrations.php:293
 msgid "Registration Details"
 msgstr "Детали заявки"
 
@@ -10987,7 +10998,7 @@ msgstr "Форма регистрации"
 msgid "Registration form heading"
 msgstr "Форма регистрации"
 
-#: functions/events/event-registration-api.php:483
+#: functions/events/event-registration-api.php:484
 #, fuzzy
 msgid "Registration is not available."
 msgstr "Регистрация недоступна."
@@ -11036,7 +11047,7 @@ msgstr "Заявки"
 msgid "Regular Form"
 msgstr "Стандартная форма"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:444
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:446
 msgid "Regular form"
 msgstr "Обычная форма"
 
@@ -11222,11 +11233,11 @@ msgstr "Результаты для:"
 
 #: functions/integrations/cf7/cf7.php:499
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:683
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:985
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:987
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:220
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:58
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:539
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:554
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:555
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:351
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:439
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:539
@@ -11241,7 +11252,7 @@ msgstr "Результаты для:"
 msgid "Resume Form"
 msgstr "Форма резюме"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:447
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:449
 msgid "Resume form"
 msgstr "Форма резюме"
 
@@ -11268,7 +11279,7 @@ msgstr "Политика возврата"
 msgid "Review this product"
 msgstr "Оцените этот товар"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:849
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:851
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1206
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:319
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:278
@@ -11433,7 +11444,7 @@ msgstr "Саратовская область"
 msgid "Satellite"
 msgstr "Спутник"
 
-#: functions/events/event-registrations.php:388
+#: functions/events/event-registrations.php:407
 msgid "Save changes to update status."
 msgstr "Сохраните для обновления статуса."
 
@@ -11648,7 +11659,7 @@ msgstr "Поисковый запрос сохранен"
 msgid "Search Registrations"
 msgstr "Поиск заявок"
 
-#: functions/breadcrumbs.php:267
+#: functions/breadcrumbs.php:267 functions/seo/seo-schema.php:367
 #, php-format
 msgid "Search results for \"%s\""
 msgstr "Результаты поиска для \"%s\""
@@ -11709,9 +11720,9 @@ msgstr "Поисков на странице"
 msgid "Searching..."
 msgstr "Ищем..."
 
-#: functions/events/event-registration-api.php:438
+#: functions/events/event-registration-api.php:439
 #: functions/events/event-registrations.php:115
-#: functions/events/event-registrations.php:333
+#: functions/events/event-registrations.php:352
 #, fuzzy
 msgid "Seats"
 msgstr "Места"
@@ -12585,7 +12596,7 @@ msgid "Show a Bootstrap progress bar for seat capacity"
 msgstr "Показывать Bootstrap прогресс-бар заполнения мест"
 
 #: functions/integrations/ajax-search-module/ajax-search.php:92
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:717
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:719
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:374
 msgid "Show all"
 msgstr "Показать все"
@@ -13119,7 +13130,7 @@ msgstr ""
 "Извините, ничего не найдено по вашему запросу. Попробуйте ещё раз, используя "
 "другие ключевые слова."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1256
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1258
 #, fuzzy
 msgid "Sorry, this file type is not permitted for security reasons."
 msgstr "Извините, этот тип файла не разрешен по соображениям безопасности."
@@ -13261,7 +13272,7 @@ msgstr "Область / Регион"
 
 #: functions/cpt/cpt-testimonials.php:544
 #: functions/events/event-registrations.php:116
-#: functions/events/event-registrations.php:292
+#: functions/events/event-registrations.php:301
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:572
 #: functions/integrations/personal-data-v2/test-providers.php:108
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:48
@@ -13365,7 +13376,7 @@ msgid "Subitem 2.1.1"
 msgstr "Подпункт 2.1.1"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:358
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:872
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:874
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:124
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:347
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:762
@@ -13829,11 +13840,11 @@ msgstr "Telegram"
 msgid "Template Structure"
 msgstr "Структура шаблона"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1280
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1282
 msgid "Temporary directory is not writable."
 msgstr "Временный каталог не доступен для записи."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1250
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1252
 msgid "Temporary file not found."
 msgstr "Временный файл не найден."
 
@@ -13928,11 +13939,11 @@ msgstr "Атрибуты отзыва"
 #: functions/testimonials/testimonial-form-api.php:1005
 #: functions/integrations/cf7/cf7.php:498
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:681
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:984
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:986
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:219
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:57
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:538
-#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:552
+#: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:553
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:350
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:438
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:538
@@ -13948,7 +13959,7 @@ msgstr "Атрибуты отзыва"
 msgid "Testimonial Form"
 msgstr "Форма отзыва"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:446
+#: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:448
 msgid "Testimonial form"
 msgstr "Форма отзыва"
 
@@ -14078,7 +14089,7 @@ msgid ""
 "Thank you for leaving a testimonial. Your opinion is very important to us!"
 msgstr "Спасибо за оставление отзыва! Ваше мнение очень важно для нас!"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1416
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1418
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:533
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:629
 msgid "Thank you for subscribing"
@@ -14088,7 +14099,7 @@ msgstr "Спасибо за подписку"
 msgid "Thank you for subscribing to our newsletter!"
 msgstr "Спасибо за подписку на нашу рассылку!"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:875
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:877
 msgid "Thank you for subscribing!"
 msgstr "Спасибо за подписку!"
 
@@ -14097,19 +14108,19 @@ msgid ""
 "Thank you for subscribing! A confirmation email has been sent to your email."
 msgstr "Спасибо за подписку!"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1422
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1424
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:471
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:617
 msgid "Thank you for your message"
 msgstr "Спасибо за ваше сообщение!"
 
 #: functions/admin/faq-settings.php:187
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:886
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:888
 #, fuzzy
 msgid "Thank you for your question! We will answer it shortly."
 msgstr "Спасибо за ваш вопрос! Мы ответим на него в ближайшее время."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:879
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:881
 msgid "Thank you for your request"
 msgstr "Спасибо за ваш запрос."
 
@@ -14117,8 +14128,8 @@ msgstr "Спасибо за ваш запрос."
 msgid "Thank you for your submission."
 msgstr "Спасибо за вашу заявку."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:877
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1406
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:879
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1408
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:501
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:621
 msgid "Thank you for your testimonial"
@@ -14128,9 +14139,9 @@ msgstr "Спасибо за ваш отзыв!"
 msgid "Thank you for your testimonial! It will be reviewed and published soon."
 msgstr "Спасибо за ваш отзыв! "
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:889
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:966
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1000
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:891
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:968
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1002
 #: functions/integrations/codeweber-forms/codeweber-forms-cf7-integration.php:612
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:165
 #: functions/integrations/codeweber-forms/codeweber-forms-shortcode.php:196
@@ -14369,7 +14380,7 @@ msgstr ""
 "конфиденциальности. <a href=\"[url_cookie-policy]\">Политика использования "
 "файловых cookie </a>"
 
-#: functions/integrations/cf7/cf7.php:503
+#: functions/integrations/cf7/cf7.php:505
 msgid ""
 "This will add data-form-type=\"...\" attribute to the form element, allowing "
 "JavaScript to identify the form type."
@@ -14565,7 +14576,7 @@ msgid "Transparent"
 msgstr "Прозрачный"
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:282
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:589
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:591
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:661
 msgid "Trash"
 msgstr "Корзина"
@@ -15280,7 +15291,7 @@ msgstr "Подтверждено"
 msgid "Verify"
 msgstr "Проверка"
 
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:845
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:847
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:857
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1213
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:326
@@ -15338,7 +15349,7 @@ msgstr "Ссылка на видео"
 
 #: functions/cpt/cpt-vacancies.php:125
 #: templates/archives/events/events_1.php:40
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:648
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:650
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:631
 msgid "View"
 msgstr "Просмотр"
@@ -15384,7 +15395,7 @@ msgstr "Просмотр типа занятости"
 msgid "View Event"
 msgstr "Просмотр мероприятия"
 
-#: functions/events/event-registration-api.php:453
+#: functions/events/event-registration-api.php:454
 #, fuzzy
 msgid "View event"
 msgstr "Посмотреть событие"
@@ -15528,7 +15539,7 @@ msgstr "Показать Проект"
 msgid "View Registration"
 msgstr "Просмотр заявки"
 
-#: functions/events/event-registration-api.php:451
+#: functions/events/event-registration-api.php:452
 #, fuzzy
 msgid "View registration in admin"
 msgstr "Просмотр регистрации в админке"
@@ -15572,7 +15583,7 @@ msgid "View Vacancy"
 msgstr "Посмотреть вакансию"
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:280
-#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:587
+#: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:589
 msgid "Viewed"
 msgstr "Просмотрено"
 
@@ -16000,7 +16011,7 @@ msgstr "График работы"
 msgid "Would you like to share your thoughts?"
 msgstr "Хотите поделиться своими мыслями?"
 
-#: functions/events/event-registrations.php:360
+#: functions/events/event-registrations.php:379
 #, fuzzy
 msgid "WP User"
 msgstr "Пользователь WP"
@@ -16156,7 +16167,7 @@ msgid "You do not have sufficient permissions to access this page."
 msgstr "У вас нет достаточных прав для доступа к этой странице."
 
 #: functions/admin/events-settings.php:207
-#: functions/events/event-registration-api.php:305
+#: functions/events/event-registration-api.php:306
 msgid ""
 "You have successfully registered for the event. We will contact you shortly."
 msgstr ""
@@ -16250,13 +16261,13 @@ msgstr "Ваш вопрос"
 msgid "Your question *"
 msgstr "Ваш вопрос *"
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1411
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:1413
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:567
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:625
 msgid "Your resume has been received"
 msgstr "Ваше резюме было получено."
 
-#: functions/integrations/codeweber-forms/codeweber-forms-api.php:881
+#: functions/integrations/codeweber-forms/codeweber-forms-api.php:883
 msgid "Your resume has been sent"
 msgstr "Ваш резюме было отправлено."
 

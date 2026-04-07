@@ -32,28 +32,36 @@
 
 ---
 
-## 3. Правила для child темы
+## 3. Правила для child темы ✅
 
-Задокументировать и реализовать паттерны расширения через child тему.
+Документация полностью готова:
+- `doc_claude/architecture/CHILD_THEME_GUIDE.md` — настройка с нуля, Gulp, assets, deploy
+- `doc_claude/architecture/CHILD_THEME_AI_RULES.md` — CPT, шаблоны, WooCommerce, блоки, sidebar
 
 ### CPT (Custom Post Types)
-- [ ] Как добавить новый CPT в child теме (без изменения parent)
-- [ ] Шаблон `archive-{cpt}.php` в child
-- [ ] Шаблон `single-{cpt}.php` в child
-- [ ] Карточки для нового CPT в `templates/post-cards/`
+- [x] Как добавить новый CPT в child теме (без изменения parent)
+- [x] Шаблон `archive-{cpt}.php` в child
+- [x] Шаблон `single-{cpt}.php` в child (два варианта: делегация + самостоятельный)
+- [x] Карточки для нового CPT в `templates/post-cards/`
 
 ### Sidebar
-- [ ] Как зарегистрировать новый sidebar в child теме
-- [ ] Как переопределить шаблон с sidebar
+- [x] Как зарегистрировать новый sidebar в child теме
+- [x] Как переопределить шаблон с sidebar
+- [x] Sidebar-виджеты: добавить/удалить/заменить через хуки
 
 ### Новый функционал
-- [ ] Паттерн подключения новых PHP-модулей через `functions.php` child темы
-- [ ] Переопределение хуков и фильтров parent темы из child
+- [x] Паттерн подключения новых PHP-модулей через `functions.php` child темы
+- [x] Переопределение хуков и фильтров parent темы из child
 
 ### JS-библиотеки
-- [ ] Как правильно подключить новую JS-библиотеку через `functions.php` child темы
-- [ ] Как добавить свой SCSS/JS в сборку (нужно ли менять Gulp или достаточно `_user-variables.scss`)
-- [ ] Паттерн инициализации JS-плагинов в child теме
+- [x] Как правильно подключить новую JS-библиотеку через `functions.php` child темы
+- [x] Как добавить свой SCSS/JS в сборку (Gulp setup для child)
+- [x] Паттерн инициализации JS-плагинов в child теме
+
+### Дополнительно (покрыто)
+- [x] Кастомные Gutenberg-блоки в child (namespace, block.json, register)
+- [x] WooCommerce шаблоны и карточки товаров в child
+- [x] Чеклист перед коммитом
 
 ---
 
