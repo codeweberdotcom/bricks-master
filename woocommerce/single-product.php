@@ -84,6 +84,19 @@ while ( have_posts() ) :
 	$thumbs_mousewheel = class_exists( 'Codeweber_Options' ) && Codeweber_Options::get( 'woo_gallery_thumbs_mousewheel' );
 	$hover_style       = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_hover_style' ) ?: 'style-4' ) : 'style-4';
 	$thumb_hover       = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumb_hover' ) ?: 'none' ) : 'none';
+
+	// Видимость элементов
+	$show_rating  = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_rating', true );
+	$show_excerpt = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_excerpt', true );
+	$show_meta    = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_meta', true );
+	$show_tabs    = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_tabs', true );
+	$show_related = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_related', true );
+	$show_reviews = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_reviews', true );
+
+	// Видео товара
+	$video_url   = get_post_meta( $product->get_id(), '_cw_product_video_url', true );
+	$video_data  = $video_url && function_exists( 'cw_product_video_parse' ) ? cw_product_video_parse( $video_url ) : null;
+	$video_poster_id = (int) get_post_meta( $product->get_id(), '_cw_product_video_poster_id', true );
 	?>
 
 	<section class="wrapper bg-light">
@@ -164,6 +177,31 @@ while ( have_posts() ) :
 									<?php endif; ?>
 								</div>
 								<?php endforeach; ?>
+
+								<?php // ── Видео-слайд (последним) ─────────────────────────── ?>
+								<?php if ( $video_data ) :
+									$v_poster = $video_poster_id ? wp_get_attachment_image_url( $video_poster_id, 'woocommerce_single' ) : '';
+								?>
+								<div class="swiper-slide">
+									<div class="position-relative <?php echo esc_attr( $card_radius ); ?> overflow-hidden<?php echo $v_poster ? '' : ' bg-primary'; ?>" style="<?php echo $v_poster ? '' : 'aspect-ratio:1;'; ?>">
+										<?php if ( $v_poster ) : ?>
+										<img src="<?php echo esc_url( $v_poster ); ?>" class="img-fluid w-100" alt="<?php esc_attr_e( 'Video', 'codeweber' ); ?>">
+										<?php endif; ?>
+										<?php if ( ! empty( $video_data['embed_id'] ) ) : ?>
+										<div id="<?php echo esc_attr( $video_data['embed_id'] ); ?>" class="d-none">
+											<iframe src="<?php echo esc_url( $video_data['embed_url'] ); ?>" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture;"></iframe>
+										</div>
+										<?php endif; ?>
+										<a href="<?php echo esc_url( $video_data['glightbox_href'] ); ?>"
+										   class="btn btn-circle btn-primary btn-play ripple position-absolute top-50 start-50 translate-middle z-3"
+										   <?php echo $video_data['glightbox_attrs']; ?>
+										   data-gallery="product-<?php echo esc_attr( $product->get_id() ); ?>">
+											<i class="icn-caret-right"></i>
+										</a>
+									</div>
+								</div>
+								<?php endif; ?>
+
 							</div>
 							<!-- /.swiper-wrapper -->
 						</div>
@@ -182,6 +220,23 @@ while ( have_posts() ) :
 									<?php endif; ?>
 								</div>
 								<?php endforeach; ?>
+
+								<?php // ── Видео-превью (последним) ─────────────────────────── ?>
+								<?php if ( $video_data ) :
+									$v_thumb = $video_poster_id ? wp_get_attachment_image_url( $video_poster_id, 'thumbnail' ) : '';
+								?>
+								<div class="swiper-slide">
+									<div class="position-relative <?php echo esc_attr( $card_radius ); ?> overflow-hidden<?php echo $v_thumb ? '' : ' bg-primary'; ?>">
+										<?php if ( $v_thumb ) : ?>
+										<img src="<?php echo esc_url( $v_thumb ); ?>" class="<?php echo esc_attr( $card_radius ); ?> w-100" alt="<?php esc_attr_e( 'Video', 'codeweber' ); ?>">
+										<?php endif; ?>
+										<a href="#" class="btn btn-circle btn-primary btn-sm position-absolute top-50 start-50 translate-middle pe-none">
+											<i class="icn-caret-right fs-25"></i>
+										</a>
+									</div>
+								</div>
+								<?php endif; ?>
+
 							</div>
 							<!-- /.swiper-wrapper -->
 						</div>
@@ -222,15 +277,15 @@ while ( have_posts() ) :
 					<div class="post-header mb-5">
 						<?php the_title( '<h1 class="post-title display-5">', '</h1>' ); ?>
 						<?php woocommerce_template_single_price(); ?>
-						<?php woocommerce_template_single_rating(); ?>
+						<?php if ( $show_rating ) : woocommerce_template_single_rating(); endif; ?>
 					</div>
 					<!-- /.post-header -->
 
-					<?php woocommerce_template_single_excerpt(); ?>
+					<?php if ( $show_excerpt ) : woocommerce_template_single_excerpt(); endif; ?>
 
 					<?php woocommerce_template_single_add_to_cart(); ?>
 
-					<?php woocommerce_template_single_meta(); ?>
+					<?php if ( $show_meta ) : woocommerce_template_single_meta(); endif; ?>
 
 				</div>
 				<!-- /col summary -->
@@ -244,7 +299,7 @@ while ( have_posts() ) :
 			unset( $tabs['reviews'] ); // Отзывы выводим в отдельной секции
 			?>
 
-			<?php if ( ! empty( $tabs ) ) : ?>
+			<?php if ( $show_tabs && ! empty( $tabs ) ) : ?>
 
 			<ul class="nav nav-tabs nav-tabs-basic mt-12" role="tablist">
 				<?php $first_tab = true; foreach ( $tabs as $key => $tab ) : ?>
@@ -291,7 +346,7 @@ while ( have_posts() ) :
 	// ── ЭТАП 4: Похожие товары ────────────────────────────────────────────────
 	$related_ids = wc_get_related_products( $product->get_id(), 5 );
 
-	if ( ! empty( $related_ids ) ) :
+	if ( $show_related && ! empty( $related_ids ) ) :
 	?>
 
 	<section class="wrapper bg-gray">
@@ -335,7 +390,7 @@ while ( have_posts() ) :
 
 	<?php
 	// ── ЭТАП 5: Отзывы ────────────────────────────────────────────────────────
-	if ( comments_open() || get_comments_number() ) :
+	if ( $show_reviews && ( comments_open() || get_comments_number() ) ) :
 
 		$rating_counts  = $product->get_rating_counts();
 		$average_rating = (float) $product->get_average_rating();

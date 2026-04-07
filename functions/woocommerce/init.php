@@ -14,6 +14,7 @@ $_woo_dir = get_template_directory() . '/functions/woocommerce/';
 
 // Core
 require_once $_woo_dir . 'core.php';
+require_once $_woo_dir . 'product-video.php';
 require_once $_woo_dir . 'cart-offcanvas.php';
 require_once $_woo_dir . 'checkout.php';
 

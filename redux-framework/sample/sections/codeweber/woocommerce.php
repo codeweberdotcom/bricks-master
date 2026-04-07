@@ -444,6 +444,62 @@ Redux::set_section(
 				'default'  => 'style-4',
 			),
 
+			// ── Видимость элементов страницы ────────────────────────────────
+			array(
+				'id'    => 'woo_single_visibility_section',
+				'type'  => 'info',
+				'style' => 'default',
+				'title' => esc_html__( 'Page Elements Visibility', 'codeweber' ),
+			),
+
+			array(
+				'id'      => 'woo_single_show_rating',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Rating', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show star rating below product title', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'      => 'woo_single_show_excerpt',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Short Description', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show product short description', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'      => 'woo_single_show_meta',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Product Meta', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show SKU, categories, tags', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'      => 'woo_single_show_tabs',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Description Tabs', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show description / attributes tabs', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'      => 'woo_single_show_related',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Related Products', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show related products slider', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'      => 'woo_single_show_reviews',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Reviews', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show ratings distribution and customer reviews', 'codeweber' ),
+				'default' => true,
+			),
+
 		),
 	)
 );
