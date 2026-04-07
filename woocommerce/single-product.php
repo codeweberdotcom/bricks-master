@@ -8,7 +8,7 @@
  * Структура:
  *  - Этап 1: Хлебные крошки (bg-gray)
  *  - Этапы 2+6: Блок товара — правая колонка данных + левая галерея (bg-light)
- *  - Этап 3: Bootstrap-вкладки (описание, атрибуты) — внутри bg-light
+ *  - Этап 3: Bootstrap-вкладки (описание, атрибуты) — внутри
  *  - Этап 4: Похожие товары — Swiper (bg-gray)
  *  - Этап 5: Отзывы — рейтинги + комментарии (bg-light)
  */
@@ -105,7 +105,7 @@ while ( have_posts() ) :
 	$video_poster_id = (int) get_post_meta( $product->get_id(), '_cw_product_video_poster_id', true );
 	?>
 
-	<section class="wrapper bg-light">
+	<section class="wrapper">
 		<div class="container py-14 py-md-16">
 			<div class="row gx-md-8 gx-xl-12 gy-8">
 
@@ -442,7 +442,7 @@ while ( have_posts() ) :
 		$rating_class   = $star_words[ min( 5, max( 1, (int) round( $average_rating ) ) ) ] ?? '';
 	?>
 
-	<section class="wrapper bg-light">
+	<section class="wrapper">
 		<div class="container py-14 py-md-16">
 			<div class="row gx-md-8 gx-xl-12 gy-10">
 

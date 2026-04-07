@@ -140,7 +140,7 @@ if ( ! $is_pjax ) {
 
 	<?php if ( woocommerce_product_loop() ) : ?>
 
-	<section class="wrapper bg-light">
+	<section class="wrapper">
 		<div class="container pb-14 pb-md-16 pt-12">
 			<div class="row gy-10">
 
@@ -314,7 +314,7 @@ if ( ! $is_pjax ) {
 
 	<?php else : ?>
 
-	<section class="wrapper bg-light">
+	<section class="wrapper">
 		<div class="container pb-14 pb-md-16 pt-12">
 			<div class="row gy-10">
 
