@@ -65,10 +65,44 @@
 
 ---
 
+## 4. WooCommerce — слайдер галереи single product (Redux)
+
+**Статус:** план согласован, не реализован  
+**Актуально на:** 2026-04-07
+
+### Анализ
+
+- **Шаблон:** `woocommerce/single-product.php:91` — swiper-container галереи товара захардкожен, нет `data-thumbs-direction` и `data-thumbs-items`
+- **JS:** `src/assets/js/theme.js:526-544` — уже читает `data-thumbs-direction` (horizontal/vertical) и `data-thumbs-items` (число), добавляет класс `swiper-thumbs-v` при vertical. **Новый JS не нужен.**
+- **Redux:** нет ни одной настройки для галереи single product
+
+### Что добавить
+
+**Шаг 1 — Redux** (`redux-framework/sample/sections/codeweber/woocommerce.php`):
+Подсекция "Галерея товара":
+
+- `woo_gallery_thumbs_direction` — `button_set`: `horizontal` / `vertical` (default: `horizontal`)
+- `woo_gallery_thumbs_items` — `slider` или `text`: 3–6 (default: `5`)
+
+**Шаг 2 — Шаблон** (`woocommerce/single-product.php`):
+
+```php
+$thumbs_dir   = Codeweber_Options::get('woo_gallery_thumbs_direction') ?: 'horizontal';
+$thumbs_items = Codeweber_Options::get('woo_gallery_thumbs_items') ?: '5';
+// Добавить в swiper-container:
+// data-thumbs-direction="<?= esc_attr($thumbs_dir) ?>"
+// data-thumbs-items="<?= esc_attr($thumbs_items) ?>"
+```
+
+**Итого:** 2 файла, ~20 строк. Никакого нового JS/CSS.
+
+---
+
 ## Приоритет
 
 | Задача | Приоритет |
 |--------|-----------|
-| Правила child темы (документация) | 🔴 Высокий |
+| WooCommerce галерея: Redux thumbs direction/items | 🔴 Высокий |
+| Правила child темы (документация) | ✅ Готово |
 | WooCommerce карточки товаров | 🟡 Средний |
 | WooCommerce шаблоны (полный набор) | 🟡 Средний |
