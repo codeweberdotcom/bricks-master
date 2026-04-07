@@ -83,6 +83,7 @@ while ( have_posts() ) :
 	$thumbs_items      = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumbs_items' ) ?: 5 ) : 5;
 	$thumbs_mousewheel = class_exists( 'Codeweber_Options' ) && Codeweber_Options::get( 'woo_gallery_thumbs_mousewheel' );
 	$hover_style       = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_hover_style' ) ?: 'style-4' ) : 'style-4';
+	$thumb_hover       = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumb_hover' ) ?: 'none' ) : 'none';
 	?>
 
 	<section class="wrapper bg-light">
@@ -172,7 +173,13 @@ while ( have_posts() ) :
 							<div class="swiper-wrapper">
 								<?php foreach ( $all_image_ids as $img_id ) : ?>
 								<div class="swiper-slide">
+									<?php if ( 'none' === $thumb_hover ) : ?>
 									<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => esc_attr( $card_radius ) ] ); ?>
+									<?php else : ?>
+									<figure class="<?php echo esc_attr( $thumb_hover . ' ' . $card_radius ); ?>">
+										<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => 'img-fluid' ] ); ?>
+									</figure>
+									<?php endif; ?>
 								</div>
 								<?php endforeach; ?>
 							</div>

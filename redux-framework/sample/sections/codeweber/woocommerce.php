@@ -400,6 +400,20 @@ Redux::set_section(
 			),
 
 			array(
+				'id'       => 'woo_gallery_thumb_hover',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Thumbnail Hover Effect', 'codeweber' ),
+				'subtitle' => esc_html__( 'Hover effect on thumbnail images', 'codeweber' ),
+				'options'  => array(
+					'none'              => esc_html__( 'None', 'codeweber' ),
+					'hover-scale'       => esc_html__( 'Scale', 'codeweber' ),
+					'hover-scale-rotate' => esc_html__( 'Scale + Rotate', 'codeweber' ),
+					'lift'              => esc_html__( 'Lift', 'codeweber' ),
+				),
+				'default'  => 'none',
+			),
+
+			array(
 				'id'       => 'woo_gallery_thumbs_mousewheel',
 				'type'     => 'switch',
 				'title'    => esc_html__( 'Thumbnails Mousewheel', 'codeweber' ),
