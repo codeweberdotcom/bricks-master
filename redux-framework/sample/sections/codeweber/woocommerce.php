@@ -366,7 +366,40 @@ Redux::set_section(
 		'title'      => esc_html__( 'Single', 'codeweber' ),
 		'id'         => 'woocommerce-single',
 		'subsection' => true,
-		'fields'     => array(),
+		'fields'     => array(
+
+			// ── Галерея товара ───────────────────────────────────────────────
+			array(
+				'id'    => 'woo_gallery_section',
+				'type'  => 'info',
+				'style' => 'default',
+				'title' => esc_html__( 'Product Gallery', 'codeweber' ),
+			),
+
+			array(
+				'id'       => 'woo_gallery_thumbs_direction',
+				'type'     => 'button_set',
+				'title'    => esc_html__( 'Thumbnails Direction', 'codeweber' ),
+				'subtitle' => esc_html__( 'Horizontal — thumbs below; Vertical — thumbs on the side', 'codeweber' ),
+				'options'  => array(
+					'horizontal' => esc_html__( 'Horizontal', 'codeweber' ),
+					'vertical'   => esc_html__( 'Vertical', 'codeweber' ),
+				),
+				'default'  => 'horizontal',
+			),
+
+			array(
+				'id'       => 'woo_gallery_thumbs_items',
+				'type'     => 'slider',
+				'title'    => esc_html__( 'Thumbnails Count', 'codeweber' ),
+				'subtitle' => esc_html__( 'Number of visible thumbnails (3–8)', 'codeweber' ),
+				'min'      => 3,
+				'max'      => 8,
+				'step'     => 1,
+				'default'  => 5,
+			),
+
+		),
 	)
 );
 

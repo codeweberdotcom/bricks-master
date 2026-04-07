@@ -77,6 +77,10 @@ while ( have_posts() ) :
 		$gallery_ids
 	);
 	$has_gallery = count( $all_image_ids ) > 1;
+
+	// Настройки слайдера галереи из Redux
+	$thumbs_dir   = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumbs_direction' ) ?: 'horizontal' ) : 'horizontal';
+	$thumbs_items = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumbs_items' ) ?: 5 ) : 5;
 	?>
 
 	<section class="wrapper bg-light">
@@ -88,7 +92,7 @@ while ( have_posts() ) :
 
 					<?php if ( $has_gallery ) : ?>
 
-					<div class="swiper-container swiper-thumbs-container" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true">
+					<div class="swiper-container swiper-thumbs-container" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true" data-thumbs-direction="<?php echo esc_attr( $thumbs_dir ); ?>" data-thumbs-items="<?php echo esc_attr( $thumbs_items ); ?>">
 						<div class="swiper">
 							<div class="swiper-wrapper">
 								<?php foreach ( $all_image_ids as $img_id ) :
