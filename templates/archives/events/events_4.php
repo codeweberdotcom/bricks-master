@@ -17,7 +17,7 @@ $grid_gap         = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start' : ( $card_radius ? ' ' . trim( $card_radius ) : '' );
 ?>
 
-<section id="content-wrapper" class="wrapper bg-light">
+<section id="content-wrapper" class="wrapper">
 	<div class="container py-10 py-md-12">
 
 		<?php // ---- Category filter ----------------------------------------- ?>

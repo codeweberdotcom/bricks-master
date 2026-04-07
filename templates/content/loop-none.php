@@ -1,4 +1,4 @@
-<section class="wrapper bg-light">
+<section class="wrapper">
 	<div class="container py-14 py-md-16">
 
 		<p>

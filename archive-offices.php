@@ -10,7 +10,7 @@ get_pageheader();
 ?>
 
 <?php if (have_posts()) : ?>
-<section id="content-wrapper" class="wrapper bg-light">
+<section id="content-wrapper" class="wrapper">
   <div class="container">
       <?php 
       // Получаем выбранный шаблон из настроек Redux
@@ -163,7 +163,7 @@ get_pageheader();
 </section>
 <!-- /section -->
 <?php else : ?>
-<section class="wrapper bg-light">
+<section class="wrapper">
   <div class="container py-14">
       <div class="row">
           <div class="col-12 text-center">

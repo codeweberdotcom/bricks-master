@@ -26,7 +26,7 @@ $self_contained = [ 'staff_1' ];
 <?php if ( in_array( $templateloop, $self_contained, true ) ) : ?>
     <?php get_template_part( "templates/archives/staff/{$templateloop}" ); ?>
 <?php elseif (have_posts()) : ?>
-<section id="content-wrapper" class="wrapper bg-light">
+<section id="content-wrapper" class="wrapper">
   <div class="container">
       <?php
       // Получаем позицию сайдбара

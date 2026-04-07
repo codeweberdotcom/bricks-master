@@ -12,7 +12,7 @@ $grid_gap     = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 
 
 ?>
 
-<section id="content-wrapper" class="wrapper bg-light">
+<section id="content-wrapper" class="wrapper">
 	<div class="container py-10 py-md-12">
 
 		<?php if ( have_posts() ) : ?>

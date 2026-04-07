@@ -16,7 +16,7 @@ $card_radius      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 $avatar_colors = [ 'red', 'green', 'yellow', 'purple', 'orange', 'pink', 'blue', 'grape', 'violet', 'fuchsia' ];
 ?>
 
-<section id="content-wrapper" class="wrapper bg-light">
+<section id="content-wrapper" class="wrapper">
 	<div class="container py-10 py-md-12">
 
 		<?php // ---- Category filter ----------------------------------------- ?>

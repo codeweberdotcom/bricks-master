@@ -14,7 +14,7 @@ $archive_pageheader_id = Redux::get_option($opt_name, 'archive_page_header_selec
 $show_universal_title = ($pageheader_name === '1' && $archive_pageheader_id !== 'disabled');
 ?>
 
-<section id="content-wrapper" class="wrapper bg-light">
+<section id="content-wrapper" class="wrapper">
 	<div class="container">
 		<div class="row gx-lg-8 gx-xl-12">
 

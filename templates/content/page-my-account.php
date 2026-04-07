@@ -31,7 +31,7 @@ if (class_exists('WooCommerce')) :
          </div>
       </section>
 
-      <section class="wrapper bg-light">
+      <section class="wrapper">
          <div class="container pb-14 pb-md-16">
             <div class="row">
                <div class="col mt-n19">
@@ -64,7 +64,7 @@ if (class_exists('WooCommerce')) :
 
 else : // WooCommerce not active
    ?>
-   <section class="wrapper bg-light">
+   <section class="wrapper">
       <div class="container py-20 text-center">
          <h2>WooCommerce не активирован</h2>
          <p>Пожалуйста, установите и активируйте плагин WooCommerce.</p>

@@ -11,7 +11,7 @@ $event_categories = get_terms( [ 'taxonomy' => 'event_category', 'hide_empty' =>
 $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 ?>
 
-<section id="content-wrapper" class="wrapper bg-light">
+<section id="content-wrapper" class="wrapper">
 	<div class="container py-10 py-md-12">
 
 		<?php // ---- Category filter ----------------------------------------- ?>
