@@ -112,6 +112,7 @@ function cw_content_wrapper_bg_attrs(): array {
 	$mode      = 'image';
 	$repeat    = 'repeat';
 	$size      = 'cover';
+	$text      = 'auto';
 
 	$prefix = cw_body_bg_context_prefix();
 
@@ -124,6 +125,10 @@ function cw_content_wrapper_bg_attrs(): array {
 			$mode      = Codeweber_Options::get_post_meta( $post_id, 'page-body-bg-mode' ) ?: 'image';
 			$size      = Codeweber_Options::get_post_meta( $post_id, 'page-body-bg-size' ) ?: 'cover';
 			$repeat    = Codeweber_Options::get_post_meta( $post_id, 'page-body-bg-repeat' ) ?: 'repeat';
+		}
+		$meta_text = Codeweber_Options::get_post_meta( $post_id, 'page-body-bg-text' );
+		if ( $meta_text && $meta_text !== 'auto' ) {
+			$text = sanitize_key( $meta_text );
 		}
 	}
 
@@ -138,6 +143,14 @@ function cw_content_wrapper_bg_attrs(): array {
 		}
 	}
 
+	// Text из per-CPT Redux (если не задан в метабоксе)
+	if ( $text === 'auto' && $prefix ) {
+		$cpt_text = Codeweber_Options::get( 'body_bg_text_' . $prefix );
+		if ( $cpt_text && $cpt_text !== 'auto' ) {
+			$text = sanitize_key( $cpt_text );
+		}
+	}
+
 	// 3. Глобальный Redux
 	if ( empty( $image_url ) ) {
 		$global_image = Codeweber_Options::get( 'body_bg_global_image' );
@@ -149,8 +162,19 @@ function cw_content_wrapper_bg_attrs(): array {
 		}
 	}
 
+	// Text из глобального Redux (если не задан выше)
+	if ( $text === 'auto' ) {
+		$global_text = Codeweber_Options::get( 'body_bg_global_text' );
+		if ( $global_text && $global_text !== 'auto' ) {
+			$text = sanitize_key( $global_text );
+		}
+	}
+
 	if ( empty( $image_url ) ) {
-		return [ 'class' => '', 'data' => '' ];
+		return [
+			'class' => $text === 'inverse' ? 'text-inverse' : '',
+			'data'  => '',
+		];
 	}
 
 	// Строим CSS-классы по аналогии с page-header
@@ -164,6 +188,10 @@ function cw_content_wrapper_bg_attrs(): array {
 		$classes[] = 'image-wrapper';
 		$size_map  = [ 'cover' => 'bg-cover', 'auto' => 'bg-auto', 'full' => 'bg-full' ];
 		$classes[] = $size_map[ $size ] ?? 'bg-cover';
+	}
+
+	if ( $text === 'inverse' ) {
+		$classes[] = 'text-inverse';
 	}
 
 	return [

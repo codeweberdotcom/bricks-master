@@ -680,6 +680,16 @@ if (!empty($custom_post_type_files)) {
 					'default'  => 'repeat',
 					'required' => array( 'body_bg_mode_' . $pfx, '=', 'pattern' ),
 				),
+				array(
+					'id'      => 'body_bg_text_' . $pfx,
+					'type'    => 'button_set',
+					'title'   => esc_html__( 'Text Color', 'codeweber' ),
+					'options' => array(
+						'auto'    => esc_html__( 'Auto', 'codeweber' ),
+						'inverse' => esc_html__( 'Light (inverse)', 'codeweber' ),
+					),
+					'default' => 'auto',
+				),
 			);
 		};
 

@@ -495,6 +495,16 @@ Redux_Metaboxes::set_box(
 						'default'  => 'repeat',
 						'required' => array('page-body-bg-mode', '=', 'pattern'),
 					),
+					array(
+						'id'      => 'page-body-bg-text',
+						'type'    => 'button_set',
+						'title'   => esc_html__('Text Color', 'codeweber'),
+						'options' => array(
+							'auto'    => esc_html__('Auto', 'codeweber'),
+							'inverse' => esc_html__('Light (inverse)', 'codeweber'),
+						),
+						'default' => 'auto',
+					),
 				),
 			),
 
