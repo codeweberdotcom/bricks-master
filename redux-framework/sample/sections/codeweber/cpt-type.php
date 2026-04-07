@@ -636,6 +636,53 @@ if (!empty($custom_post_type_files)) {
 			'bg-soft-leaf'      => esc_html__('Soft Leaf', 'codeweber'),
 			'bg-dark'           => esc_html__('Dark', 'codeweber'),
 		);
+		// Вспомогательная функция: поля image/mode/size/repeat для одного таба (single или archive)
+		$cw_bg_image_fields = function( $pfx ) {
+			return array(
+				array(
+					'id'    => 'body_bg_image_' . $pfx,
+					'type'  => 'media',
+					'title' => esc_html__( 'Background Image / Pattern', 'codeweber' ),
+					'url'   => true,
+				),
+				array(
+					'id'      => 'body_bg_mode_' . $pfx,
+					'type'    => 'button_set',
+					'title'   => esc_html__( 'Mode', 'codeweber' ),
+					'options' => array(
+						'image'   => esc_html__( 'Image', 'codeweber' ),
+						'pattern' => esc_html__( 'Pattern', 'codeweber' ),
+					),
+					'default' => 'image',
+				),
+				array(
+					'id'       => 'body_bg_size_' . $pfx,
+					'type'     => 'button_set',
+					'title'    => esc_html__( 'Image Size', 'codeweber' ),
+					'options'  => array(
+						'cover' => esc_html__( 'Cover', 'codeweber' ),
+						'auto'  => esc_html__( 'Auto', 'codeweber' ),
+						'full'  => esc_html__( 'Full Width', 'codeweber' ),
+					),
+					'default'  => 'cover',
+					'required' => array( 'body_bg_mode_' . $pfx, '=', 'image' ),
+				),
+				array(
+					'id'       => 'body_bg_repeat_' . $pfx,
+					'type'     => 'button_set',
+					'title'    => esc_html__( 'Pattern Repeat', 'codeweber' ),
+					'options'  => array(
+						'repeat'    => esc_html__( 'All', 'codeweber' ),
+						'repeat-x'  => esc_html__( 'Horizontal', 'codeweber' ),
+						'repeat-y'  => esc_html__( 'Vertical', 'codeweber' ),
+						'no-repeat' => esc_html__( 'None', 'codeweber' ),
+					),
+					'default'  => 'repeat',
+					'required' => array( 'body_bg_mode_' . $pfx, '=', 'pattern' ),
+				),
+			);
+		};
+
 		$section_fields[] = array(
 			'id'    => 'body_bg_settings_' . $sanitized_id,
 			'type'  => 'tabbed',
@@ -643,26 +690,32 @@ if (!empty($custom_post_type_files)) {
 			'tabs'  => array(
 				array(
 					'title'  => esc_html__('Single', 'codeweber'),
-					'fields' => array(
+					'fields' => array_merge(
 						array(
-							'id'      => 'body_bg_single_' . $sanitized_id,
-							'type'    => 'select',
-							'title'   => sprintf(esc_html__('Background for Single %s', 'codeweber'), $translated_label),
-							'options' => $bg_options,
-							'default' => 'default',
+							array(
+								'id'      => 'body_bg_single_' . $sanitized_id,
+								'type'    => 'select',
+								'title'   => sprintf(esc_html__('Background for Single %s', 'codeweber'), $translated_label),
+								'options' => $bg_options,
+								'default' => 'default',
+							),
 						),
+						$cw_bg_image_fields( 'single_' . $sanitized_id )
 					),
 				),
 				array(
 					'title'  => esc_html__('Archive', 'codeweber'),
-					'fields' => array(
+					'fields' => array_merge(
 						array(
-							'id'      => 'body_bg_archive_' . $sanitized_id,
-							'type'    => 'select',
-							'title'   => sprintf(esc_html__('Background for Archive %s', 'codeweber'), $translated_label),
-							'options' => $bg_options,
-							'default' => 'default',
+							array(
+								'id'      => 'body_bg_archive_' . $sanitized_id,
+								'type'    => 'select',
+								'title'   => sprintf(esc_html__('Background for Archive %s', 'codeweber'), $translated_label),
+								'options' => $bg_options,
+								'default' => 'default',
+							),
 						),
+						$cw_bg_image_fields( 'archive_' . $sanitized_id )
 					),
 				),
 			),

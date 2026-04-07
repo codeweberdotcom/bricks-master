@@ -416,7 +416,7 @@ Redux_Metaboxes::set_box(
 					array(
 						'id'      => 'page-body-bg',
 						'type'    => 'select',
-						'title'   => esc_html__('Page Background', 'codeweber'),
+						'title'   => esc_html__('Background Color', 'codeweber'),
 						'desc'    => esc_html__('Override the global Redux background for this page only.', 'codeweber'),
 						'options' => array(
 							'default'           => esc_html__('Default (transparent)', 'codeweber'),
@@ -428,6 +428,48 @@ Redux_Metaboxes::set_box(
 							'bg-dark'           => esc_html__('Dark', 'codeweber'),
 						),
 						'default' => 'default',
+					),
+					array(
+						'id'    => 'page-body-bg-image',
+						'type'  => 'media',
+						'title' => esc_html__('Background Image / Pattern', 'codeweber'),
+						'desc'  => esc_html__('Upload an image or a repeating pattern tile.', 'codeweber'),
+						'url'   => true,
+					),
+					array(
+						'id'      => 'page-body-bg-mode',
+						'type'    => 'button_set',
+						'title'   => esc_html__('Mode', 'codeweber'),
+						'options' => array(
+							'image'   => esc_html__('Image', 'codeweber'),
+							'pattern' => esc_html__('Pattern', 'codeweber'),
+						),
+						'default' => 'image',
+					),
+					array(
+						'id'       => 'page-body-bg-size',
+						'type'     => 'button_set',
+						'title'    => esc_html__('Image Size', 'codeweber'),
+						'options'  => array(
+							'cover' => esc_html__('Cover', 'codeweber'),
+							'auto'  => esc_html__('Auto', 'codeweber'),
+							'full'  => esc_html__('Full Width', 'codeweber'),
+						),
+						'default'  => 'cover',
+						'required' => array('page-body-bg-mode', '=', 'image'),
+					),
+					array(
+						'id'       => 'page-body-bg-repeat',
+						'type'     => 'button_set',
+						'title'    => esc_html__('Pattern Repeat', 'codeweber'),
+						'options'  => array(
+							'repeat'    => esc_html__('All', 'codeweber'),
+							'repeat-x'  => esc_html__('Horizontal', 'codeweber'),
+							'repeat-y'  => esc_html__('Vertical', 'codeweber'),
+							'no-repeat' => esc_html__('None', 'codeweber'),
+						),
+						'default'  => 'repeat',
+						'required' => array('page-body-bg-mode', '=', 'pattern'),
 					),
 				),
 			),

@@ -329,6 +329,7 @@ Redux::set_section(
 
 
 require_once Redux_Core::$dir . '../sample/sections/codeweber/cpt-type.php';
+require_once Redux_Core::$dir . '../sample/sections/codeweber/body-bg.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/header.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/page-header.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/footer.php';

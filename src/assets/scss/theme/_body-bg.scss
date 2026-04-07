@@ -21,3 +21,12 @@ $cw-page-bg-map: (
     }
   }
 }
+
+// ── Pattern repeat variants ───────────────────────────────────────────────────
+// .pattern-wrapper по умолчанию repeat (из _wrappers.scss).
+// Варианты override:
+.content-wrapper.pattern-wrapper {
+  &.cw-bg-repeat-x   { background-repeat: repeat-x; }
+  &.cw-bg-repeat-y   { background-repeat: repeat-y; }
+  &.cw-bg-no-repeat  { background-repeat: no-repeat; }
+}
