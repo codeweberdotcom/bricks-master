@@ -444,6 +444,27 @@ Redux::set_section(
 				'default'  => 'style-4',
 			),
 
+			// ── Ширина колонок ───────────────────────────────────────────────
+			array(
+				'id'    => 'woo_single_layout_section',
+				'type'  => 'info',
+				'style' => 'default',
+				'title' => esc_html__( 'Layout', 'codeweber' ),
+			),
+
+			array(
+				'id'       => 'woo_single_cols',
+				'type'     => 'button_set',
+				'title'    => esc_html__( 'Column Width', 'codeweber' ),
+				'subtitle' => esc_html__( 'Gallery / Summary column ratio (Bootstrap 12-grid)', 'codeweber' ),
+				'options'  => array(
+					'5/7' => '5 / 7',
+					'6/6' => '6 / 6',
+					'7/5' => '7 / 5',
+				),
+				'default'  => '6/6',
+			),
+
 			// ── Видимость элементов страницы ────────────────────────────────
 			array(
 				'id'    => 'woo_single_visibility_section',

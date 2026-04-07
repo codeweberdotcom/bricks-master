@@ -85,6 +85,12 @@ while ( have_posts() ) :
 	$hover_style       = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_hover_style' ) ?: 'style-4' ) : 'style-4';
 	$thumb_hover       = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumb_hover' ) ?: 'none' ) : 'none';
 
+	// Ширина колонок
+	$cols_raw    = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_single_cols' ) ?: '6/6' ) : '6/6';
+	$cols        = explode( '/', $cols_raw );
+	$col_gallery = 'col-lg-' . ( isset( $cols[0] ) ? (int) $cols[0] : 6 );
+	$col_summary = 'col-lg-' . ( isset( $cols[1] ) ? (int) $cols[1] : 6 );
+
 	// Видимость элементов
 	$show_rating  = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_rating', true );
 	$show_excerpt = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_excerpt', true );
@@ -104,7 +110,7 @@ while ( have_posts() ) :
 			<div class="row gx-md-8 gx-xl-12 gy-8">
 
 				<?php // ── ЭТАП 6: Галерея (левая колонка) ──────────────────── ?>
-				<div class="col-lg-6 cw-product-gallery">
+				<div class="<?php echo esc_attr( $col_gallery ); ?> cw-product-gallery">
 
 					<?php if ( $has_gallery ) : ?>
 
@@ -272,7 +278,7 @@ while ( have_posts() ) :
 				<!-- /col gallery -->
 
 				<?php // ── ЭТАП 2: Данные товара (правая колонка) ────────────── ?>
-				<div class="col-lg-6">
+				<div class="<?php echo esc_attr( $col_summary ); ?>">
 
 					<div class="post-header mb-5">
 						<?php the_title( '<h1 class="post-title display-5">', '</h1>' ); ?>
