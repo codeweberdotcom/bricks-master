@@ -126,7 +126,7 @@
 
 .comment-form-rating p.stars {
   a::before {
-    color: rgba(#000, .15); // пустые звёзды
+    color: rgba(var(--bs-body-color-rgb), .2); // пустые звёзды — следует за цветом текста
   }
 
   &:hover a::before {
@@ -134,7 +134,7 @@
   }
 
   a:hover ~ a::before {
-    color: rgba(#000, .15); // звёзды после курсора — серые
+    color: rgba(var(--bs-body-color-rgb), .2); // звёзды после курсора
   }
 
   &.selected a.active::before,
@@ -143,7 +143,16 @@
   }
 
   &.selected a.active ~ a::before {
-    color: rgba(#000, .15); // после выбранной — серые
+    color: rgba(var(--bs-body-color-rgb), .2); // после выбранной
+  }
+}
+
+// ── text-inverse: пустые звёзды светлые ────────────────────────────────────────
+.text-inverse .comment-form-rating p.stars {
+  a::before,
+  a:hover ~ a::before,
+  &.selected a.active ~ a::before {
+    color: rgba(var(--bs-white-rgb), .3);
   }
 }
 
