@@ -98,11 +98,58 @@ $thumbs_items = Codeweber_Options::get('woo_gallery_thumbs_items') ?: '5';
 
 ---
 
+---
+
+## 5. Фон body по типу страницы (Redux + метабокс)
+
+**Статус:** план согласован, не реализован
+**Актуально на:** 2026-04-07
+
+### Анализ
+
+- `body_class` filter уже используется в `functions/woocommerce/core.php:658`
+- Per-CPT настройки генерируются циклом в `redux-framework/sample/sections/codeweber/cpt-type.php`
+- Per-page header/footer хранятся в Redux-опциях, не в мета
+- Метабокс-паттерн: `add_meta_box` + `save_post` + `get/update_post_meta` (см. `functions/admin/admin_privacy.php`)
+- В шаблонах `bg-gray` / `bg-light` хардкодом в `<section class="wrapper bg-*">`
+
+**Решение:** CSS-переменная через `<style>` в `<head>` → `.content-wrapper { background: var(--cw-page-bg, transparent) }`. Секции со своим `bg-*` остаются нетронутыми.
+
+### Файлы
+
+**Изменяются:**
+
+| Файл | Что |
+|------|-----|
+| `redux-framework/sample/sections/codeweber/cpt-type.php` | Select `body_bg_single_*` и `body_bg_archive_*` в цикл CPT |
+| `functions.php` | `require_once 'functions/body-bg.php'` |
+| `src/assets/scss/theme/_body-bg.scss` | **Новый** — `.content-wrapper { background: var(--cw-page-bg) }` |
+| `src/assets/scss/style.scss` | Импорт нового `_body-bg.scss` |
+
+**Создаётся:**
+
+| Файл | Что |
+|------|-----|
+| `functions/body-bg.php` | `cw_get_body_bg()`, `wp_head` → `<style>`, метабокс `_cw_body_bg`, `save_post` |
+
+### Варианты фона
+
+`default` (прозрачный), `bg-light`, `bg-gray`, `bg-soft-primary`, `bg-soft-secondary`, `bg-soft-leaf`, `bg-dark`
+
+### Приоритет применения
+
+1. Per-post мета `_cw_body_bg`
+2. Redux `body_bg_single_{post_type}` / `body_bg_archive_{post_type}`
+3. Default (прозрачный)
+
+---
+
 ## Приоритет
 
 | Задача | Приоритет |
 |--------|-----------|
-| WooCommerce галерея: Redux thumbs direction/items | 🔴 Высокий |
+| Фон body по типу страницы | 🔴 Высокий |
+| WooCommerce галерея: Redux thumbs direction/items | ✅ Готово |
 | Правила child темы (документация) | ✅ Готово |
 | WooCommerce карточки товаров | 🟡 Средний |
 | WooCommerce шаблоны (полный набор) | 🟡 Средний |
