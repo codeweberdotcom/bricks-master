@@ -129,7 +129,6 @@ while ( have_posts() ) :
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon text-white"><i class="uil uil-plus"></i></span>
-											<span class="bg"></span>
 										</a>
 									</figure>
 
@@ -138,7 +137,6 @@ while ( have_posts() ) :
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon text-white"><?php echo $svg_plus; ?></span>
-											<span class="bg"></span>
 										</a>
 									</figure>
 
