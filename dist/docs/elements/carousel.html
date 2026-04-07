@@ -663,6 +663,7 @@
                 <li><a class="nav-link scroll" href="#snippet-4">Image Slider</a></li>
                 <li><a class="nav-link scroll" href="#snippet-5">Thumbnail Slider</a></li>
                 <li><a class="nav-link scroll" href="#snippet-6">Vertical Thumbnail Slider</a></li>
+                <li><a class="nav-link scroll" href="#snippet-7">Video Slide</a></li>
                 <li><a class="nav-link scroll" href="#instructions">Instructions</a></li>
               </ul>
             </nav>
@@ -1680,6 +1681,91 @@
                 </div>
               </div>
             </div>
+          </section>
+          <section id="snippet-7" class="wrapper pt-16">
+            <h2 class="mb-5">Video Slide</h2>
+            <p class="mb-6">Add a play button over a poster image. Click opens the video via GLightbox. Supported: YouTube, Vimeo, HTML5 (mp4). Mix video and photo slides freely in the same slider.</p>
+            <div class="card mb-0">
+              <div class="card-body">
+                <div class="swiper-container swiper-thumbs-container dots-over" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true" data-thumbs-items="4">
+                  <div class="swiper overflow-hidden rounded">
+                    <div class="swiper-wrapper">
+                      <!-- Photo slide -->
+                      <div class="swiper-slide">
+                        <figure class="rounded"><img src="../../assets/img/photos/shs1.jpg" srcset="../../assets/img/photos/shs1@2x.jpg 2x" alt="" /><a class="item-link" href="../../assets/img/photos/shs1@2x.jpg" data-glightbox data-gallery="video-slide-demo"><i class="uil uil-focus-add"></i></a></figure>
+                      </div>
+                      <!-- YouTube video slide -->
+                      <div class="swiper-slide">
+                        <figure class="rounded mb-0">
+                          <img src="../../assets/img/photos/shs2.jpg" srcset="../../assets/img/photos/shs2@2x.jpg 2x" alt="" />
+                          <a href="https://www.youtube.com/watch?v=26TbMXXOe0I" class="btn btn-circle btn-primary btn-play ripple position-absolute" style="top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;" data-glightbox data-gallery="video-slide-demo"><i class="icn-caret-right"></i></a>
+                        </figure>
+                      </div>
+                      <!-- Photo slide -->
+                      <div class="swiper-slide">
+                        <figure class="rounded"><img src="../../assets/img/photos/shs3.jpg" srcset="../../assets/img/photos/shs3@2x.jpg 2x" alt="" /><a class="item-link" href="../../assets/img/photos/shs3@2x.jpg" data-glightbox data-gallery="video-slide-demo"><i class="uil uil-focus-add"></i></a></figure>
+                      </div>
+                      <!-- Vimeo video slide -->
+                      <div class="swiper-slide">
+                        <figure class="rounded mb-0">
+                          <img src="../../assets/img/photos/shs4.jpg" srcset="../../assets/img/photos/shs4@2x.jpg 2x" alt="" />
+                          <a href="https://vimeo.com/90355541" class="btn btn-circle btn-primary btn-play ripple position-absolute" style="top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;" data-glightbox data-gallery="video-slide-demo"><i class="icn-caret-right"></i></a>
+                        </figure>
+                      </div>
+                      <!-- Photo slide -->
+                      <div class="swiper-slide">
+                        <figure class="rounded"><img src="../../assets/img/photos/shs1.jpg" srcset="../../assets/img/photos/shs1@2x.jpg 2x" alt="" /><a class="item-link" href="../../assets/img/photos/shs1@2x.jpg" data-glightbox data-gallery="video-slide-demo"><i class="uil uil-focus-add"></i></a></figure>
+                      </div>
+                      <!-- HTML5 video slide -->
+                      <div class="swiper-slide">
+                        <figure class="rounded mb-0">
+                          <img src="../../assets/img/photos/shs2.jpg" srcset="../../assets/img/photos/shs2@2x.jpg 2x" alt="" />
+                          <a href="../../assets/media/movie.mp4" class="btn btn-circle btn-primary btn-play ripple position-absolute" style="top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;" data-glightbox data-gallery="video-slide-demo"><i class="icn-caret-right"></i></a>
+                        </figure>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper swiper-thumbs">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide"><img src="../../assets/img/photos/shs1-th.jpg" srcset="../../assets/img/photos/shs1-th@2x.jpg 2x" class="rounded" alt="" /></div>
+                      <div class="swiper-slide"><img src="../../assets/img/photos/shs2-th.jpg" srcset="../../assets/img/photos/shs2-th@2x.jpg 2x" class="rounded" alt="" /></div>
+                      <div class="swiper-slide"><img src="../../assets/img/photos/shs3-th.jpg" srcset="../../assets/img/photos/shs3-th@2x.jpg 2x" class="rounded" alt="" /></div>
+                      <div class="swiper-slide"><img src="../../assets/img/photos/shs4-th.jpg" srcset="../../assets/img/photos/shs4-th@2x.jpg 2x" class="rounded" alt="" /></div>
+                      <div class="swiper-slide"><img src="../../assets/img/photos/shs1-th.jpg" srcset="../../assets/img/photos/shs1-th@2x.jpg 2x" class="rounded" alt="" /></div>
+                      <div class="swiper-slide"><img src="../../assets/img/photos/shs2-th.jpg" srcset="../../assets/img/photos/shs2-th@2x.jpg 2x" class="rounded" alt="" /></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/.card-body -->
+              <div class="card-footer position-relative">
+                <a class="collapse-link collapsed stretched-link" data-bs-toggle="collapse" href="#collapse-video-slide">Показать примеры кода</a>
+              </div>
+              <div id="collapse-video-slide" class="card-footer bg-dark p-0 accordion-collapse collapse">
+                <div class="code-wrapper">
+                  <div class="code-wrapper-inner">
+                    <pre class="language-html"><code>&lt;!-- YouTube --&gt;
+&lt;figure class=&quot;rounded mb-0&quot;&gt;
+  &lt;img src=&quot;poster.jpg&quot; alt=&quot;&quot; /&gt;
+  &lt;a href=&quot;https://www.youtube.com/watch?v=VIDEO_ID&quot;
+     class=&quot;btn btn-circle btn-primary btn-play ripple position-absolute&quot;
+     style=&quot;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;&quot;
+     data-glightbox data-gallery=&quot;gallery-name&quot;&gt;
+    &lt;i class=&quot;icn-caret-right&quot;&gt;&lt;/i&gt;
+  &lt;/a&gt;
+&lt;/figure&gt;
+
+&lt;!-- Vimeo --&gt;
+&lt;a href=&quot;https://vimeo.com/VIDEO_ID&quot; ...&gt;&lt;/a&gt;
+
+&lt;!-- HTML5 (mp4) --&gt;
+&lt;a href=&quot;video.mp4&quot; ...&gt;&lt;/a&gt;</code></pre>
+                  </div>
+                </div>
+              </div>
+              <!--/.card-footer -->
+            </div>
+            <!--/.card -->
           </section>
           <section id="instructions" class="wrapper py-16">
             <h2 class="mb-5">Instructions</h2>
