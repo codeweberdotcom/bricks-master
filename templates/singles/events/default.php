@@ -55,7 +55,6 @@ $button_style      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::st
 							<a href="<?php echo esc_url( $_gal_full ); ?>" data-glightbox data-gallery="event-gallery-<?php echo esc_attr( $event_id ); ?>">
 								<img src="<?php echo esc_url( $_gal_url ); ?>" class="w-100" alt="<?php echo esc_attr( $_gal_alt ); ?>">
 								<span class="hover-icon text-white"><svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg></span>
-								<span class="bg"></span>
 							</a>
 						</figure>
 					</div>
