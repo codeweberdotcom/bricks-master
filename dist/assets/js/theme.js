@@ -668,6 +668,18 @@ var theme = {
             }
           });
         }
+        // Gallery skeleton: скрыть скелетон и показать swiper после загрузки первого изображения
+        var firstSlideImg = swiper.querySelector(".swiper-slide img");
+        var markGalleryReady = function () {
+          slider1.classList.add("cw-gallery-ready");
+        };
+        if (!firstSlideImg || firstSlideImg.complete) {
+          markGalleryReady();
+        } else {
+          firstSlideImg.addEventListener("load",  markGalleryReady, { once: true });
+          firstSlideImg.addEventListener("error", markGalleryReady, { once: true });
+        }
+
         if (document.querySelector("input.variation_id") !== null) {
           document.querySelector("input.variation_id").onchange = function () {
             document.querySelector(
