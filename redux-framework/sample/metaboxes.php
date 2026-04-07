@@ -91,12 +91,36 @@ if (empty($pageheader_posts)) {
 
 
 
+// Динамически собираем список post_types для метабокса:
+// берём все CPT из get_cpt_files_list() + стандартные типы,
+// исключаем служебные CPT темы.
+$_metabox_post_types = array( 'page', 'post' );
+if ( function_exists( 'get_cpt_files_list' ) ) {
+	$_metabox_exclude = array( 'header', 'footer', 'html', 'modal', 'page-header', 'notifications' );
+	foreach ( get_cpt_files_list() as $_cpt_file ) {
+		$_cpt_slug = str_replace( array( 'cpt-', '.php' ), '', $_cpt_file );
+		$_is_excluded = false;
+		foreach ( $_metabox_exclude as $_ex ) {
+			if ( str_contains( strtolower( $_cpt_slug ), $_ex ) ) {
+				$_is_excluded = true;
+				break;
+			}
+		}
+		if ( ! $_is_excluded && ! in_array( $_cpt_slug, $_metabox_post_types, true ) ) {
+			$_metabox_post_types[] = $_cpt_slug;
+		}
+	}
+}
+if ( class_exists( 'WooCommerce' ) && ! in_array( 'product', $_metabox_post_types, true ) ) {
+	$_metabox_post_types[] = 'product';
+}
+
 Redux_Metaboxes::set_box(
 	$opt_name,
 	array(
 		'id'         => 'opt-metaboxes',
 		'title'      => esc_html__( 'This Post Settings', 'codeweber' ),
-		'post_types' => array( 'page', 'post', 'faq', 'projects', 'services', 'staff', 'clients', 'offices', 'legal', 'product', 'vacancies', 'documents', 'price', 'testimonials' ),
+		'post_types' => $_metabox_post_types,
 		'position'   => 'normal', // normal, advanced, side.
 		'priority'   => 'high', // high, core, default, low.
 		'sections'   => array(
@@ -527,7 +551,7 @@ Redux_Metaboxes::set_box(
 	$opt_name,
 	array(
 		'id'         => 'opt-metaboxes-3',
-		'post_types' => array( 'page', 'post', 'faq', 'projects', 'services', 'staff', 'clients', 'offices', 'legal', 'product', 'vacancies', 'documents', 'price', 'testimonials' ),
+		'post_types' => $_metabox_post_types,
 		'position'   => 'side', // normal, advanced, side.
 		'priority'   => 'high', // high, core, default, low.
 		'sections'   => array(
