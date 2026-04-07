@@ -408,6 +408,31 @@ Redux_Metaboxes::set_box(
 
 
 						array(
+				'title'  => esc_html__('Background', 'codeweber'),
+				'desc'   => '',
+				'icon'   => 'el-icon-adjust-alt',
+				'id'     => 'page-body-bg-settings',
+				'fields' => array(
+					array(
+						'id'      => 'page-body-bg',
+						'type'    => 'select',
+						'title'   => esc_html__('Page Background', 'codeweber'),
+						'desc'    => esc_html__('Override the global Redux background for this page only.', 'codeweber'),
+						'options' => array(
+							'default'           => esc_html__('Default (transparent)', 'codeweber'),
+							'bg-light'          => esc_html__('Light', 'codeweber'),
+							'bg-gray'           => esc_html__('Gray', 'codeweber'),
+							'bg-soft-primary'   => esc_html__('Soft Primary', 'codeweber'),
+							'bg-soft-secondary' => esc_html__('Soft Secondary', 'codeweber'),
+							'bg-soft-leaf'      => esc_html__('Soft Leaf', 'codeweber'),
+							'bg-dark'           => esc_html__('Dark', 'codeweber'),
+						),
+						'default' => 'default',
+					),
+				),
+			),
+
+			array(
 				'title'  => esc_html__('Sidebar Settings', 'codeweber'),
 				'desc'   => '',
 				'icon'   => 'el-icon-pencil',
