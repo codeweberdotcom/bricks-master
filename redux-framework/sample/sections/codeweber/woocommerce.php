@@ -399,6 +399,37 @@ Redux::set_section(
 				'default'  => 5,
 			),
 
+			array(
+				'id'       => 'woo_gallery_thumbs_mousewheel',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Thumbnails Mousewheel', 'codeweber' ),
+				'subtitle' => esc_html__( 'Scroll thumbnails with mouse wheel', 'codeweber' ),
+				'default'  => false,
+			),
+
+			// ── Hover-эффект главного изображения ───────────────────────────
+			array(
+				'id'    => 'woo_gallery_hover_section',
+				'type'  => 'info',
+				'style' => 'default',
+				'title' => esc_html__( 'Image Hover Effect', 'codeweber' ),
+			),
+
+			array(
+				'id'       => 'woo_gallery_hover_style',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Hover Style', 'codeweber' ),
+				'subtitle' => esc_html__( 'Hover effect on the main gallery image', 'codeweber' ),
+				'options'  => array(
+					'none'    => esc_html__( 'None', 'codeweber' ),
+					'style-1' => esc_html__( 'Overlay + uil-plus icon', 'codeweber' ),
+					'style-2' => esc_html__( 'Overlay + SVG plus icon', 'codeweber' ),
+					'style-3' => esc_html__( 'Overlay pale + SVG plus icon', 'codeweber' ),
+					'style-4' => esc_html__( 'Item-link (corner icon)', 'codeweber' ),
+				),
+				'default'  => 'style-4',
+			),
+
 		),
 	)
 );

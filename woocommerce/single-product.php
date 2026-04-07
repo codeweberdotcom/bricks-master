@@ -79,8 +79,10 @@ while ( have_posts() ) :
 	$has_gallery = count( $all_image_ids ) > 1;
 
 	// Настройки слайдера галереи из Redux
-	$thumbs_dir   = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumbs_direction' ) ?: 'horizontal' ) : 'horizontal';
-	$thumbs_items = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumbs_items' ) ?: 5 ) : 5;
+	$thumbs_dir        = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumbs_direction' ) ?: 'horizontal' ) : 'horizontal';
+	$thumbs_items      = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumbs_items' ) ?: 5 ) : 5;
+	$thumbs_mousewheel = class_exists( 'Codeweber_Options' ) && Codeweber_Options::get( 'woo_gallery_thumbs_mousewheel' );
+	$hover_style       = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_hover_style' ) ?: 'style-4' ) : 'style-4';
 	?>
 
 	<section class="wrapper bg-light">
@@ -92,7 +94,7 @@ while ( have_posts() ) :
 
 					<?php if ( $has_gallery ) : ?>
 
-					<div class="swiper-container swiper-thumbs-container" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true" data-thumbs-direction="<?php echo esc_attr( $thumbs_dir ); ?>" data-thumbs-items="<?php echo esc_attr( $thumbs_items ); ?>">
+					<div class="swiper-container swiper-thumbs-container" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true" data-thumbs-direction="<?php echo esc_attr( $thumbs_dir ); ?>" data-thumbs-items="<?php echo esc_attr( $thumbs_items ); ?>"<?php echo $thumbs_mousewheel ? ' data-thumbs-mousewheel="true"' : ''; ?>>
 
 						<?php // ── Скелетон галереи (виден до инициализации Swiper) ── ?>
 						<div class="cw-gallery-skeleton<?php echo $thumbs_dir === 'vertical' ? ' cw-gallery-skeleton--v' : ''; ?>">
@@ -110,17 +112,57 @@ while ( have_posts() ) :
 									$full_url = wp_get_attachment_image_url( $img_id, 'full' );
 								?>
 								<div class="swiper-slide">
-									<figure class="<?php echo esc_attr( $card_radius ); ?>">
-										<?php echo wp_get_attachment_image( $img_id, 'woocommerce_single', false, [ 'class' => 'img-fluid' ] ); ?>
+									<?php
+									$pid       = esc_attr( $product->get_id() );
+									$r         = esc_attr( $card_radius );
+									$img_tag   = wp_get_attachment_image( $img_id, 'woocommerce_single', false, [ 'class' => 'img-fluid' ] );
+									$lb_attrs  = $full_url ? sprintf( ' href="%s" data-glightbox data-gallery="product-%s"', esc_url( $full_url ), $pid ) : ' href="#"';
+									$svg_plus  = '<svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg>';
+
+									if ( 'none' === $hover_style ) : ?>
+									<figure class="<?php echo $r; ?>">
+										<?php echo $img_tag; ?>
+									</figure>
+
+									<?php elseif ( 'style-1' === $hover_style ) : ?>
+									<figure class="overlay overlay-4 hover-scale hover-plus <?php echo $r; ?>">
+										<a<?php echo $lb_attrs; ?>>
+											<?php echo $img_tag; ?>
+											<span class="hover-icon text-white"><i class="uil uil-plus"></i></span>
+											<span class="bg"></span>
+										</a>
+									</figure>
+
+									<?php elseif ( 'style-2' === $hover_style ) : ?>
+									<figure class="overlay overlay-4 hover-scale hover-plus <?php echo $r; ?>">
+										<a<?php echo $lb_attrs; ?>>
+											<?php echo $img_tag; ?>
+											<span class="hover-icon text-white"><?php echo $svg_plus; ?></span>
+											<span class="bg"></span>
+										</a>
+									</figure>
+
+									<?php elseif ( 'style-3' === $hover_style ) : ?>
+									<figure class="hover-scale hover-overlay <?php echo $r; ?>">
+										<a<?php echo $lb_attrs; ?>>
+											<?php echo $img_tag; ?>
+											<span class="hover-icon bg-pale-frost text-white"><?php echo $svg_plus; ?></span>
+										</a>
+									</figure>
+
+									<?php else : // style-4 (default) — item-link ?>
+									<figure class="<?php echo $r; ?>">
+										<?php echo $img_tag; ?>
 										<?php if ( $full_url ) : ?>
 										<a class="item-link"
 										   href="<?php echo esc_url( $full_url ); ?>"
 										   data-glightbox
-										   data-gallery="product-<?php echo esc_attr( $product->get_id() ); ?>">
+										   data-gallery="product-<?php echo $pid; ?>">
 											<i class="uil uil-focus-add"></i>
 										</a>
 										<?php endif; ?>
 									</figure>
+									<?php endif; ?>
 								</div>
 								<?php endforeach; ?>
 							</div>
