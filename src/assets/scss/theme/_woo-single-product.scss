@@ -10,14 +10,31 @@
 // .item-link hover-стили из _projects.scss работают только внутри .item/.swiper-slide.
 // Для одиночного фото на странице товара повторяем паттерн через figure:hover.
 
+// Standalone figure (одно фото без swiper-slide) — повторяем паттерн из _projects.scss
 .cw-product-gallery figure {
   position: relative;
 
   .item-link {
     opacity: 0;
+    position: absolute;
     right: 0;
     bottom: 1rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    line-height: 2.2rem;
+    z-index: 1;
     transition: all .3s ease-in-out;
+    color: $main-dark;
+    background: rgba(var(--#{$prefix}white-rgb), 0.7);
+    box-shadow: $box-shadow-sm;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: rgba(var(--#{$prefix}white-rgb), 0.9);
+    }
   }
 
   &:hover .item-link {
