@@ -189,9 +189,18 @@
   overflow: hidden;
 }
 
-// Скелетон скрывается когда все Swiper внутри контейнера инициализированы
-.swiper-thumbs-container:not(:has(.swiper:not(.swiper-initialized))) .cw-gallery-skeleton {
-  display: none;
+// Swiper невидим пока JS не добавит .cw-gallery-ready (ждём загрузки изображения)
+.swiper-thumbs-container:not(.cw-gallery-ready) {
+  > .swiper,
+  .swiper-main { opacity: 0; }
+}
+
+// После готовности: скелетон скрыть, swiper плавно появляется
+.swiper-thumbs-container.cw-gallery-ready {
+  .cw-gallery-skeleton { display: none; }
+
+  > .swiper,
+  .swiper-main { opacity: 1; transition: opacity .3s ease; }
 }
 
 // Горизонтальный скелетон (по умолчанию)
