@@ -332,6 +332,10 @@ if (!empty($custom_post_type_files)) {
 		$translated_label = __($display_name, 'codeweber');
 		$sanitized_id = sanitize_key($base_name);
 
+		// WooCommerce: файл cpt-woocommerce.php, но реальный post_type = 'product'
+		if ($file === 'cpt-woocommerce.php') {
+			$sanitized_id = 'product';
+		}
 
 		// Для стандартных типов убираем выбор шаблонов, оставляем только остальные настройки
 		$is_standard_type = ($file === 'cpt-post.php');
