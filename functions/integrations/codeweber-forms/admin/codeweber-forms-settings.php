@@ -121,6 +121,22 @@ class CodeweberFormsSettings {
             'codeweber_forms_messages_section'
         );
         
+        // Security Section
+        add_settings_section(
+            'codeweber_forms_security_section',
+            __('Security', 'codeweber'),
+            [$this, 'security_section_callback'],
+            'codeweber-forms-settings'
+        );
+
+        add_settings_field(
+            'token_enabled',
+            __('One-time Form Token', 'codeweber'),
+            [$this, 'token_enabled_field'],
+            'codeweber-forms-settings',
+            'codeweber_forms_security_section'
+        );
+
         // Editor Settings Section
         add_settings_section(
             'codeweber_forms_editor_section',
@@ -182,6 +198,9 @@ class CodeweberFormsSettings {
             $sanitized['error_message'] = sanitize_textarea_field($input['error_message']);
         }
         
+        // Security settings
+        $sanitized['token_enabled'] = !empty($input['token_enabled']);
+
         // Editor settings
         if (isset($input['block_restriction'])) {
             $allowed_modes = ['minimal', 'all'];
@@ -214,6 +233,19 @@ class CodeweberFormsSettings {
         echo '<p>' . __('Set default messages shown to users after form submission.', 'codeweber') . '</p>';
     }
     
+    public function security_section_callback() {
+        echo '<p>' . __('Configure security settings to protect forms from spam.', 'codeweber') . '</p>';
+    }
+
+    public function token_enabled_field() {
+        $value = $this->get_option('token_enabled', true);
+        echo '<label>';
+        echo '<input type="checkbox" name="' . esc_attr($this->option_name) . '[token_enabled]" value="1" ' . checked( true, (bool) $value, false ) . '>';
+        echo ' ' . __('Enable one-time token protection (blocks nonce reuse)', 'codeweber');
+        echo '</label>';
+        echo '<p class="description">' . __('Disable only if forms stop working after a server/cache issue.', 'codeweber') . '</p>';
+    }
+
     public function editor_section_callback() {
         echo '<p>' . __('Configure Gutenberg editor settings for form creation.', 'codeweber') . '</p>';
     }

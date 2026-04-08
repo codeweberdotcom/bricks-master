@@ -387,6 +387,8 @@
             data.message  = formData.get('reg_message') || '';
             data.seats    = parseInt(formData.get('reg_seats') || '1', 10);
             data.honeypot = formData.get('event_reg_honeypot') || '';
+            data.cwf_token = formData.get('cwf_token') || '';
+            console.log('[CWF Token] event-registration token:', data.cwf_token || '(empty!)');
 
             // Collect consent checkboxes (reg_consent_{document_id})
             var eventConsents = {};
@@ -429,13 +431,15 @@
             
             data.honeypot = formData.get('testimonial_honeypot') || '';
             data.form_id = config.formId; // Передаем form_id для CPT форм, чтобы сервер мог получить согласия из блоков
+            data.cwf_token = formData.get('cwf_token') || '';
+            console.log('[CWF Token] testimonial token:', data.cwf_token || '(empty!)');
             // Передаем тип формы из data-form-type атрибута (для правильного определения success message)
             if (formTypeFromAttr) {
                 data.form_type = formTypeFromAttr;
             } else if (config.type) {
                 data.form_type = config.type;
             }
-            
+
             const userId = formData.get('user_id');
             if (userId) {
                 data.user_id = parseInt(userId, 10);
@@ -490,6 +494,8 @@
             }
             data.honeypot = formData.get('form_honeypot') || '';
             data.form_id = config.formId;
+            data.cwf_token = formData.get('cwf_token') || '';
+            console.log('[CWF Token] form token:', data.cwf_token || '(empty!)');
             // Передаем тип формы из data-form-type атрибута (для правильного определения success message)
             // Приоритет: data-form-type из атрибута формы (для newsletter, resume, callback и т.д.)
             if (formTypeFromAttr) {
@@ -504,7 +510,7 @@
             // Collect all fields except system ones
             const fields = {};
             for (let [key, value] of formData.entries()) {
-                if (['form_id', 'form_nonce', '_wp_http_referer', 'form_honeypot'].includes(key)) {
+                if (['form_id', 'form_nonce', '_wp_http_referer', 'form_honeypot', 'cwf_token'].includes(key)) {
                     continue;
                 }
                 
@@ -1458,6 +1464,19 @@
                 return;
             }
 
+            // Validate phone mask fields: mask string (contains '_') counts as empty
+            form.querySelectorAll('input[type="tel"][data-mask]').forEach(function(input) {
+                const value = input.value || '';
+                const hasRealDigits = value.replace(/\D/g, '').length > 0 && !value.includes('_');
+                if (input.required && !hasRealDigits) {
+                    input.setCustomValidity('Введите номер телефона');
+                    console.log('[CWF Phone] tel field invalid (empty or incomplete mask):', input.name, 'value:', JSON.stringify(value));
+                } else {
+                    input.setCustomValidity('');
+                    console.log('[CWF Phone] tel field valid:', input.name, 'value:', JSON.stringify(value));
+                }
+            });
+
             // Validate form with HTML5 validation
             console.log('[Form Submit] Checking HTML5 validation...');
             const isValid = form.checkValidity();
@@ -1988,6 +2007,19 @@
                     return false;
                 }
                 
+                // Validate phone mask fields before checkValidity
+                form.querySelectorAll('input[type="tel"][data-mask]').forEach(function(input) {
+                    const value = input.value || '';
+                    const hasRealDigits = value.replace(/\D/g, '').length > 0 && !value.includes('_');
+                    if (input.required && !hasRealDigits) {
+                        input.setCustomValidity('Введите номер телефона');
+                        console.log('[CWF Phone] btn click — invalid:', input.name, JSON.stringify(value));
+                    } else {
+                        input.setCustomValidity('');
+                        console.log('[CWF Phone] btn click — valid:', input.name, JSON.stringify(value));
+                    }
+                });
+
                 // Проверяем валидность формы перед отправкой
                 if (!form.checkValidity()) {
                     e.preventDefault();

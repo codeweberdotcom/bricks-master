@@ -29,6 +29,7 @@ require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-validator.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-sanitizer.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-mailer.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-rate-limit.php';
+require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-token.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-hooks.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-renderer.php';
 require_once CODEWEBER_FORMS_PATH . '/codeweber-forms-shortcode.php';

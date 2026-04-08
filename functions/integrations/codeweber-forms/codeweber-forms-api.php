@@ -191,6 +191,20 @@ class CodeweberFormsAPI {
             CodeweberFormsHooks::send_error($form_id, [], __('Spam detected.', 'codeweber'));
             return new WP_Error('spam_detected', __('Spam detected.', 'codeweber'), ['status' => 403]);
         }
+
+        // Проверка одноразового токена формы (защита от повторных отправок с одним nonce)
+        $forms_options  = get_option( 'codeweber_forms_options', [] );
+        $token_enabled  = isset( $forms_options['token_enabled'] ) ? (bool) $forms_options['token_enabled'] : true;
+        if ( $token_enabled ) {
+            $cwf_token = $request->get_param('cwf_token');
+            if ( empty( $cwf_token ) ) {
+                $json_params = $request->get_json_params();
+                $cwf_token = $json_params['cwf_token'] ?? '';
+            }
+            if ( ! CodeweberFormsToken::verify( $cwf_token ) ) {
+                return new WP_Error( 'invalid_token', __( 'Form token is invalid or expired. Please reload the page and try again.', 'codeweber' ), [ 'status' => 403 ] );
+            }
+        }
         
         // Получаем IP и User Agent
         $ip_address = $this->get_client_ip();

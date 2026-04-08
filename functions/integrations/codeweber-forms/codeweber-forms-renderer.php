@@ -254,6 +254,7 @@ class CodeweberFormsRenderer {
             <?php echo $honeypot_field; ?>
             
             <input type="hidden" name="form_id" value="<?php echo esc_attr($form_id); ?>">
+            <input type="hidden" name="cwf_token" value="<?php echo esc_attr( CodeweberFormsToken::generate( $form_id ) ); ?>">
             <?php if (!$is_newsletter_form): ?>
                 <input type="hidden" name="form_honeypot" value="">
             <?php endif; ?>
