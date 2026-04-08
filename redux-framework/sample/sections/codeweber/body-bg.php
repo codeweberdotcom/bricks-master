@@ -19,11 +19,12 @@ $_body_bg_color_options = array(
 Redux::set_section(
 	$opt_name,
 	array(
-		'title'  => esc_html__( 'Body Background', 'codeweber' ),
-		'id'     => 'body-bg-global-section',
-		'desc'   => esc_html__( 'Global page background. Overridden by per-CPT and per-post settings.', 'codeweber' ),
-		'icon'   => 'el el-adjust-alt',
-		'fields' => array(
+		'title'      => esc_html__( 'Body Background', 'codeweber' ),
+		'id'         => 'body-bg-global-section',
+		'desc'       => esc_html__( 'Global page background. Overridden by per-CPT and per-post settings.', 'codeweber' ),
+		'subsection' => true,
+		'parent'     => 'themestyle',
+		'fields'     => array(
 
 			// ── Цвет ───────────────────────────────────────────────────────────
 			array(
