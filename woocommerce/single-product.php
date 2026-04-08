@@ -88,8 +88,9 @@ while ( have_posts() ) :
 
 					<?php // ── Скрытый iframe для VK / Rutube (используется GLightbox) ── ?>
 					<?php if ( $video_data && ! empty( $video_data['embed_id'] ) ) : ?>
-					<div id="<?php echo esc_attr( $video_data['embed_id'] ); ?>" class="d-none">
+					<div id="<?php echo esc_attr( $video_data['embed_id'] ); ?>" class="d-none" style="width:100%;height:100%;">
 						<iframe src="<?php echo esc_url( $video_data['embed_url'] ); ?>"
+						        style="width:100%;height:100%;border:0;"
 						        allowfullscreen
 						        allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write;"></iframe>
 					</div>
