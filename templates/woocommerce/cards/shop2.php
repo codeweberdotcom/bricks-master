@@ -54,7 +54,13 @@ $add_to_cart_text = $product->add_to_cart_text();
 $is_simple        = $product->is_type( 'simple' );
 
 // Значок Sale / New — настройки из Redux
-$cw_opts         = get_option( 'redux_demo', [] );
+$cw_opts = get_option( 'redux_demo', [] );
+
+// Видимость элементов карточки
+$show_category = ! isset( $cw_opts['woo_archive_show_category'] ) || (bool) $cw_opts['woo_archive_show_category'];
+$show_rating   = ! isset( $cw_opts['woo_archive_show_rating'] )   || (bool) $cw_opts['woo_archive_show_rating'];
+$show_price    = ! isset( $cw_opts['woo_archive_show_price'] )    || (bool) $cw_opts['woo_archive_show_price'];
+$show_cart     = ! isset( $cw_opts['woo_archive_show_cart'] )     || (bool) $cw_opts['woo_archive_show_cart'];
 $badge_shape_map = array(
 	'1' => 'rounded-pill',
 	'2' => 'rounded',
@@ -204,12 +210,16 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 
 	<div class="post-header">
 
+		<?php if ( $show_category || $show_rating ) : ?>
 		<div class="d-flex flex-row align-items-center justify-content-between mb-2">
+			<?php if ( $show_category ) : ?>
 			<div class="post-category text-ash mb-0"><?php echo esc_html( $category_name ); ?></div>
-			<?php if ( $rating_word ) : ?>
+			<?php endif; ?>
+			<?php if ( $show_rating && $rating_word ) : ?>
 				<span class="ratings <?php echo esc_attr( $rating_word ); ?>"></span>
 			<?php endif; ?>
 		</div>
+		<?php endif; ?>
 
 		<h2 class="post-title h3 fs-22">
 			<a href="<?php echo esc_url( $product_url ); ?>" class="link-dark">
@@ -217,7 +227,9 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 			</a>
 		</h2>
 
+		<?php if ( $show_price ) : ?>
 		<p class="price"><?php echo $product->get_price_html(); ?></p>
+		<?php endif; ?>
 
 	</div>
 	<!-- /.post-header -->

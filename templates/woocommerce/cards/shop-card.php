@@ -54,14 +54,16 @@ if ( ! isset( $product_id ) ) {
 
 		<div class="card-body d-flex flex-column p-5">
 
+			<?php if ( $show_category || $show_rating ) : ?>
 			<div class="d-flex align-items-center justify-content-between mb-2">
-				<?php if ( $category_name ) : ?>
+				<?php if ( $show_category && $category_name ) : ?>
 					<span class="post-category text-ash mb-0"><?php echo esc_html( $category_name ); ?></span>
 				<?php endif; ?>
-				<?php if ( $rating_word ) : ?>
+				<?php if ( $show_rating && $rating_word ) : ?>
 					<span class="ratings <?php echo esc_attr( $rating_word ); ?>"></span>
 				<?php endif; ?>
 			</div>
+			<?php endif; ?>
 
 			<h2 class="post-title h5 mb-2">
 				<a href="<?php echo esc_url( $product_url ); ?>" class="link-dark">
@@ -69,8 +71,11 @@ if ( ! isset( $product_id ) ) {
 				</a>
 			</h2>
 
+			<?php if ( $show_price ) : ?>
 			<p class="price mb-4"><?php echo $product->get_price_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+			<?php endif; ?>
 
+			<?php if ( $show_cart ) : ?>
 			<div class="mt-auto">
 				<?php if ( $is_simple ) : ?>
 					<a href="<?php echo esc_url( $add_to_cart_url ); ?>"
@@ -88,6 +93,7 @@ if ( ! isset( $product_id ) ) {
 					</a>
 				<?php endif; ?>
 			</div>
+			<?php endif; ?>
 
 		</div>
 		<!-- /.card-body -->

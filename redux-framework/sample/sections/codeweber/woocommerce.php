@@ -63,6 +63,45 @@ Redux::set_section(
 			),
 
 			array(
+				'id'    => 'woo_archive_card_visibility_info',
+				'type'  => 'info',
+				'style' => 'default',
+				'title' => esc_html__( 'Product Card Elements', 'codeweber' ),
+			),
+
+			array(
+				'id'      => 'woo_archive_show_category',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Category', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show product category label on card', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'      => 'woo_archive_show_rating',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Rating', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show star rating on card', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'      => 'woo_archive_show_price',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Price', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show product price on card', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
+				'id'      => 'woo_archive_show_cart',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Add to Cart Button', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show add to cart button on card', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
 				'id'       => 'woo_shop_load_more',
 				'type'     => 'button_set',
 				'title'    => esc_html__( 'Shop Navigation Mode', 'codeweber' ),

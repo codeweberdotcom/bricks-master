@@ -51,6 +51,7 @@ if ( ! isset( $product_id ) ) {
 			<?php CW_Compare_UI::render_loop_button( $product_id ); ?>
 		<?php endif; ?>
 
+		<?php if ( $show_cart ) : ?>
 		<?php if ( $is_simple ) : ?>
 			<a href="<?php echo esc_url( $add_to_cart_url ); ?>"
 			   class="item-cart ajax_add_to_cart"
@@ -67,6 +68,7 @@ if ( ! isset( $product_id ) ) {
 				<?php echo esc_html( $add_to_cart_text ); ?>
 			</a>
 		<?php endif; ?>
+		<?php endif; ?>
 
 	</figure>
 
@@ -76,7 +78,9 @@ if ( ! isset( $product_id ) ) {
 		</a>
 	</h2>
 
+	<?php if ( $show_price ) : ?>
 	<p class="price mb-0"><?php echo $product->get_price_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+	<?php endif; ?>
 
 </div>
 <!-- /.item -->

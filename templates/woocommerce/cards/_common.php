@@ -59,6 +59,12 @@ $add_to_cart_text = $product->add_to_cart_text();
 // ── Redux-настройки ───────────────────────────────────────────────────────────
 $cw_opts = get_option( 'redux_demo', [] );
 
+// ── Видимость элементов карточки ─────────────────────────────────────────────
+$show_category = ! isset( $cw_opts['woo_archive_show_category'] ) || (bool) $cw_opts['woo_archive_show_category'];
+$show_rating   = ! isset( $cw_opts['woo_archive_show_rating'] )   || (bool) $cw_opts['woo_archive_show_rating'];
+$show_price    = ! isset( $cw_opts['woo_archive_show_price'] )    || (bool) $cw_opts['woo_archive_show_price'];
+$show_cart     = ! isset( $cw_opts['woo_archive_show_cart'] )     || (bool) $cw_opts['woo_archive_show_cart'];
+
 // ── Значок Sale / New ─────────────────────────────────────────────────────────
 $badge_shape_map = [
 	'1' => 'rounded-pill',
