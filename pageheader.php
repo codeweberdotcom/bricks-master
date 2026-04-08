@@ -98,7 +98,7 @@ if (!is_front_page() && !is_404()) {
          if ($breadcrumbs_bg) {
             $breadcrumbs_bg = ' bg-' . $breadcrumbs_bg;
          } else {
-            $breadcrumbs_bg = ' bg-soft-primary';
+            $breadcrumbs_bg = '';
          }
 
          if ($breadcrumbs_color === '1') {
