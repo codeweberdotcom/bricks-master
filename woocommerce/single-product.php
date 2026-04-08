@@ -175,9 +175,9 @@ while ( have_posts() ) :
 										<img src="<?php echo esc_url( $v_thumb_full ); ?>" class="img-fluid" style="height:100%;width:100%;object-fit:cover;" alt="">
 										<?php endif; ?>
 										<a href="<?php echo esc_url( $video_data['glightbox_href'] ); ?>"
-										   class="position-absolute top-50 start-50 translate-middle text-white"
+										   class="position-absolute top-50 start-50 translate-middle"
 										   <?php echo $video_data['glightbox_attrs']; ?>>
-											<i class="icn-caret-right fs-40"></i>
+											<span class="btn btn-circle btn-soft-primary btn-play ripple"><i class="icn-caret-right"></i></span>
 										</a>
 									</figure>
 								</div>
