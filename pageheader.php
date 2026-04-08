@@ -17,8 +17,10 @@ if (!is_front_page() && !is_404()) {
    $page_header_for_this_page_bool = Redux::get_post_meta($opt_name, $post_id, 'this-page-header-type');
    $page_header_for_this_page = Redux::get_post_meta($opt_name, $post_id, 'this-custom-page-header');
 
-   $single_pageheader_id = Redux::get_option($opt_name, 'single_page_header_select_' . $post_type);
-   $archive_pageheader_id = Redux::get_option($opt_name, 'archive_page_header_select_' . $post_type);
+   // WooCommerce: post_type 'product' → Redux-ключ 'woocommerce' (из имени файла cpt-woocommerce.php)
+   $option_key = ($post_type === 'product') ? 'woocommerce' : $post_type;
+   $single_pageheader_id = Redux::get_option($opt_name, 'single_page_header_select_' . $option_key);
+   $archive_pageheader_id = Redux::get_option($opt_name, 'archive_page_header_select_' . $option_key);
 
    // Флаг для определения, нужно ли выводить заголовок
    $show_page_header = true;

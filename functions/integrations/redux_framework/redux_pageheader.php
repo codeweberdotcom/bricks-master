@@ -18,7 +18,8 @@ function get_pageheader($name = null)
         if (is_singular()) {
             // Для одиночных записей
             $post_type = universal_get_post_type();
-            $sanitized_id = sanitize_title($post_type);
+            // WooCommerce: post_type 'product' → Redux-ключ 'woocommerce'
+            $sanitized_id = ($post_type === 'product') ? 'woocommerce' : sanitize_title($post_type);
             $option_name = 'single_page_header_select_' . $sanitized_id;
         } elseif (is_archive() || is_home() || is_search()) {
             // Для архивных страниц - более надежное определение post_type
@@ -46,7 +47,8 @@ function get_pageheader($name = null)
                 $post_type = $post_type[0];
             }
 
-            $sanitized_id = sanitize_title($post_type);
+            // WooCommerce: post_type 'product' → Redux-ключ 'woocommerce'
+            $sanitized_id = ($post_type === 'product') ? 'woocommerce' : sanitize_title($post_type);
             $option_name = 'archive_page_header_select_' . $sanitized_id;
         } else {
             // Для других страниц (главная, 404 и т.д.)
