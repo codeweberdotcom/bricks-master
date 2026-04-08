@@ -447,19 +447,20 @@ $badge_item_class    = $badge_item_class ?? '';
 			return $html;
 		};
 
+		$navbar_scheme_cls = isset( $navbar_scheme ) && 'navbar-dark' === $navbar_scheme ? 'navbar-dark' : 'navbar-light';
 		if ( '5' === $cl_type ) :
-			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical navbar-vertical-dropdown navbar-light">';
+			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical navbar-vertical-dropdown ' . esc_attr( $navbar_scheme_cls ) . '">';
 			echo '<ul class="navbar-nav flex-column">';
 			echo $render_cat_dropdown5( $cat_tree, 0 ); // phpcs:ignore WordPress.Security.EscapeOutput
 			echo '</ul></nav>';
 		elseif ( '4' === $cl_type ) :
-			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical navbar-light">';
+			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical ' . esc_attr( $navbar_scheme_cls ) . '">';
 			echo '<ul class="list-unstyled menu-list-type-4">';
 			echo $render_cat_list4( $cat_tree, 0 ); // phpcs:ignore WordPress.Security.EscapeOutput
 			echo '</ul></nav>';
 		else :
 			$nav_list_cls = 'navbar-nav list-unstyled menu-collapse-' . $cl_type;
-			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical menu-collapse-nav navbar-light">';
+			echo '<nav id="' . esc_attr( $collapse_wrap_id ) . '" class="navbar-vertical menu-collapse-nav ' . esc_attr( $navbar_scheme_cls ) . '">';
 			echo '<ul class="' . esc_attr( $nav_list_cls ) . '">';
 			echo $render_cat_collapse( $cat_tree, 0, $collapse_wrap_id, $cl_type ); // phpcs:ignore WordPress.Security.EscapeOutput
 			echo '</ul></nav>';

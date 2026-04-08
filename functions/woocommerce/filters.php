@@ -1182,6 +1182,9 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 	$slider_size_raw = $panel_atts['slider_size'] ?? 'lg';
 	$slider_size_px  = $slider_size_map[ array_key_exists( $slider_size_raw, $slider_size_map ) ? $slider_size_raw : 'lg' ];
 
+	$navbar_scheme = in_array( $panel_atts['navbar_scheme'] ?? 'navbar-light', [ 'navbar-light', 'navbar-dark' ], true )
+		? ( $panel_atts['navbar_scheme'] ?? 'navbar-light' ) : 'navbar-light';
+
 	$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
 
 	foreach ( $items as $item ) {
