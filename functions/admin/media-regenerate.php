@@ -52,7 +52,8 @@ function cw_media_regen_ajax_batch() {
 		@unlink( $log_file );
 	}
 
-	@set_time_limit( 120 );
+	@set_time_limit( 300 );
+	wp_raise_memory_limit( 'image' );
 
 	$ids = get_posts( [
 		'post_type'      => 'attachment',
@@ -148,6 +149,9 @@ function cw_media_regen_ajax_batch() {
 				'error'       => '',
 			];
 		}
+
+		// Освобождаем память после каждого изображения
+		gc_collect_cycles();
 	}
 
 	$next_offset = $offset + $attempted;

@@ -84,7 +84,7 @@ Redux::set_section(
 
 	var nonce      = "' . wp_create_nonce( 'cw_media_regen' ) . '";
 	var total      = 0;
-	var batchSize  = 10;
+	var batchSize  = 3;
 	var allLost    = [];
 	var allLog     = [];
 	var running    = false;
