@@ -90,15 +90,17 @@ Server-side form handling:
 ```php
 // REST endpoint: POST /wp-json/codeweber-forms/v1/submit
 
-1. Verify nonce
-2. Fire codeweber_form_before_send hook
-3. Validate & sanitize input
+1. Verify nonce (X-WP-Nonce header)
+2. Check honeypot field
+3. Verify one-time token (cwf_token) — see Security section
 4. Check rate limiting
-5. Save submission to database
-6. Fire codeweber_form_saved hook
-7. Send email notification
-8. Fire codeweber_form_after_send hook
-9. Return success response
+5. Validate & sanitize input
+6. Fire codeweber_form_before_send hook
+7. Save submission to database
+8. Fire codeweber_form_saved hook
+9. Send email notification
+10. Fire codeweber_form_after_send hook
+11. Return success response
 ```
 
 ### Step 5: Response & Confirmation
@@ -515,18 +517,16 @@ if (class_exists('CodeweberFormsRenderer')) {
         'honeypot' => true,
         'honeypotField' => 'website',  // Field name
 
+        // One-time token (see Security section below)
+        'token_enabled' => true,
+
         // Rate limiting
         'rateLimit' => true,
         'rateLimitPerMinute' => 5,     // Submissions per minute per IP
         'rateLimitPerHour' => 50,      // Submissions per hour per IP
 
-        // Nonce verification (automatic, but can be disabled)
+        // Nonce verification (automatic)
         'verifyNonce' => true,
-
-        // reCAPTCHA v3
-        'recaptchaEnabled' => false,
-        'recaptchaKey' => '...',
-        'recaptchaThreshold' => 0.5,
     ]
 ]
 ```
@@ -931,6 +931,7 @@ Access via **Form Submissions → Settings**
 - Email configuration defaults
 - Rate limiting settings
 - Honeypot field configuration
+- One-time token protection (Security section)
 
 ### Email Templates
 
@@ -943,9 +944,103 @@ Access via **Form Submissions → Email Templates**
 
 ---
 
+---
+
+## Security
+
+### Уровни защиты форм
+
+Система использует многоуровневую защиту от спама и ботов:
+
+| Уровень | Механизм | Что блокирует |
+| ------- | -------- | ------------- |
+| 1 | **WP Nonce** (`X-WP-Nonce` header) | Прямые POST-запросы без загрузки страницы |
+| 2 | **Honeypot** | Простых ботов, заполняющих все поля |
+| 3 | **One-time token** | Повторные отправки с одним nonce |
+| 4 | **Rate limiting** | Массовые отправки с одного IP |
+
+### One-time Token (cwf_token)
+
+**Файл:** `functions/integrations/codeweber-forms/codeweber-forms-token.php`  
+**Класс:** `CodeweberFormsToken`
+
+**Механизм:**
+
+```text
+1. PHP рендерит форму → генерирует UUID → set_transient('cwf_token_' . $uuid, $form_id, 1800)
+2. UUID вставляется в <input type="hidden" name="cwf_token">
+3. JS передаёт токен в payload при отправке
+4. API проверяет: get_transient() → delete_transient() → true/false
+5. Повторная отправка с тем же токеном → 403 invalid_token
+```
+
+**Ключевые свойства:**
+
+- TTL: 30 минут
+- One-use: transient удаляется сразу после проверки
+- Формат: UUID v4 (`/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/`)
+- Работает для всех форм: CPT, inline блоки, шорткод
+
+**Отключение (если сбой с transients/кешем):**
+
+`Форма → Настройки → Security → One-time Form Token` — снять галку.
+
+Или программно:
+
+```php
+$options = get_option('codeweber_forms_options', []);
+$options['token_enabled'] = false;
+update_option('codeweber_forms_options', $options);
+```
+
+**API-методы:**
+
+```php
+// Генерация (в render_from_config())
+$token = CodeweberFormsToken::generate($form_id);
+// → UUID, сохранён в transient cwf_token_{uuid}
+
+// Верификация (в submit_form())
+$ok = CodeweberFormsToken::verify($token);
+// → true (и transient удалён) или false
+```
+
+### Phone Mask Validation
+
+Поля `type="tel"` с маской (`data-mask`) имеют особенность: при фокусе маска
+заполняет поле символами `+7 (___) ___-__-__`, что не является пустой строкой.
+HTML5 `required` считает такое поле заполненным.
+
+**Решение:** перед каждым вызовом `form.checkValidity()` JS устанавливает
+`setCustomValidity` для замаскированных телефонных полей:
+
+```javascript
+// form-submit-universal.js — выполняется в двух местах:
+// 1. В обработчике клика кнопки (до checkValidity)
+// 2. В submitHandler (до checkValidity)
+
+form.querySelectorAll('input[type="tel"][data-mask]').forEach(function(input) {
+    const value = input.value || '';
+    const hasRealDigits = value.replace(/\D/g, '').length > 0 && !value.includes('_');
+    if (input.required && !hasRealDigits) {
+        input.setCustomValidity('Введите номер телефона');
+    } else {
+        input.setCustomValidity('');
+    }
+});
+```
+
+Условие `hasRealDigits`:
+
+- `''` → нет цифр → invalid ✓
+- `'+7 (___) ___-__-__'` → содержит `_` → invalid ✓
+- `'+7 (999) 123-45-67'` → цифры есть, нет `_` → valid ✓
+
+---
+
 ## Best Practices
 
-### Security
+### Security Best Practices
 
 1. **Always sanitize user input** - System does this, but verify in hooks
 2. **Validate on both frontend and backend** - Don't trust client-side validation
