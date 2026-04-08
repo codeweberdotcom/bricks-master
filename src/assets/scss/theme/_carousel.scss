@@ -28,6 +28,15 @@
         background: $swiper-arrow-bg-hover;
         color: $swiper-arrow-color-hover;
       }
+
+      .swiper:hover & {
+        background: $swiper-arrow-bg-hover;
+        color: $swiper-arrow-color-hover;
+
+        &.swiper-button-disabled {
+          background: $swiper-arrow-bg-disabled;
+        }
+      }
       
       &:focus {
         outline: 0;
