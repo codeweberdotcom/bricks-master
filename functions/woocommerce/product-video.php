@@ -240,7 +240,7 @@ function cw_product_video_parse( string $url, string $type = '' ): ?array {
 				return [
 					'type'            => 'vk',
 					'glightbox_href'  => '#' . $uid,
-					'glightbox_attrs' => 'data-glightbox="type: iframe; width: 90vw; height: 90vh;"',
+					'glightbox_attrs' => 'data-glightbox="type: inline; width: 90vw; height: 90vh;"',
 					'embed_id'        => $uid,
 					'embed_url'       => $embed,
 				];
@@ -256,7 +256,7 @@ function cw_product_video_parse( string $url, string $type = '' ): ?array {
 				return [
 					'type'            => 'rutube',
 					'glightbox_href'  => '#' . $uid,
-					'glightbox_attrs' => 'data-glightbox="type: iframe; width: 90vw; height: 90vh;"',
+					'glightbox_attrs' => 'data-glightbox="type: inline; width: 90vw; height: 90vh;"',
 					'embed_id'        => $uid,
 					'embed_url'       => $embed,
 				];
@@ -269,7 +269,7 @@ function cw_product_video_parse( string $url, string $type = '' ): ?array {
 				return [
 					'type'            => 'rutube',
 					'glightbox_href'  => '#' . $uid,
-					'glightbox_attrs' => 'data-glightbox="type: iframe; width: 90vw; height: 90vh;"',
+					'glightbox_attrs' => 'data-glightbox="type: inline; width: 90vw; height: 90vh;"',
 					'embed_id'        => $uid,
 					'embed_url'       => $embed,
 				];
