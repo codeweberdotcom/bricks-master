@@ -45,11 +45,15 @@ Redux::set_section(
 	</div>
 	<div id="cw-regen-status" class="notice inline" style="margin-top: 12px; display: none;"></div>
 	<div id="cw-regen-log-wrap" style="display:none; margin-top: 20px;">
-		<div style="display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap;">
-			<h4 style="margin:0;">' . esc_html__( 'Журнал обработки', 'codeweber' ) . ' <span id="cw-log-count" style="font-weight:normal; color:#72777c;"></span></h4>
-			<input type="search" id="cw-log-search" placeholder="' . esc_attr__( 'Поиск по имени файла...', 'codeweber' ) . '" style="flex:1; max-width:300px; padding:4px 8px; font-size:13px; border:1px solid #ddd; border-radius:3px;">
+		<div style="display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap;">
+			<h4 style="margin:0; display:flex; align-items:center; gap:6px;">
+				<i class="uil uil-list-ul" style="font-size:18px;"></i>
+				' . esc_html__( 'Журнал обработки', 'codeweber' ) . '
+				<span id="cw-log-count" style="font-weight:normal; color:#72777c; font-size:13px;"></span>
+			</h4>
+			<input type="search" id="cw-log-search" placeholder="' . esc_attr__( 'Поиск по имени файла...', 'codeweber' ) . '" style="flex:1; min-width:200px; max-width:300px; padding:4px 8px; font-size:13px; border:1px solid #ddd; border-radius:3px;">
 		</div>
-		<div id="cw-regen-log-list" style="max-height:300px; overflow-y:auto; border:1px solid #ddd; border-radius:3px; background:#fafafa; font-family:monospace; font-size:12px; padding:0;"></div>
+		<div id="cw-regen-log-list" class="accordion-wrapper" style="max-height:400px; overflow-y:auto;"></div>
 	</div>
 
 	<div id="cw-regen-lost" style="display:none; margin-top: 20px;">
@@ -131,24 +135,54 @@ Redux::set_section(
 	}
 
 	// ── Log helpers ─────────────────────────────────────────────────────
+	var logUid = 0;
+
 	function renderLogEntry(item) {
-		var icon  = item.ok ? "✓" : (item.error ? "✗" : "⚠");
-		var color = item.ok ? "#2e7d32" : "#b32d2e";
-		var sizes = item.sizes && item.sizes.length
-			? item.sizes.join(", ")
-			: "' . esc_js( __( 'нет размеров', 'codeweber' ) ) . '";
-		var detail = item.ok
-			? "<span style=\"color:#72777c\"> → " + sizes + "</span>"
-			: "<span style=\"color:#b32d2e\"> — " + (item.error || "' . esc_js( __( 'файл не найден', 'codeweber' ) ) . '") + "</span>";
-		var cpt = item.parent_type && item.parent_type !== "default"
-			? " <span style=\"background:#e8f0fe;color:#1a56db;border-radius:2px;padding:0 4px;font-size:11px;\">" + item.parent_type + "</span>"
+		var uid   = "cw-log-acc-" + (++logUid);
+		var ok    = item.ok;
+		var sizes = item.sizes || [];
+		var cptBadge = (item.parent_type && item.parent_type !== "default")
+			? "<span class=\"badge bg-pale-blue text-blue rounded-pill\" style=\"font-size:11px;font-weight:500;\">" + item.parent_type + "</span>"
 			: "";
-		return "<div class=\"cw-log-row\" data-filename=\"" + item.filename + "\" style=\"padding:4px 10px; border-bottom:1px solid #eee; display:flex; gap:6px; align-items:baseline;\">" +
-			"<span style=\"color:" + color + "; flex-shrink:0;\">" + icon + "</span>" +
-			"<span style=\"color:#888; flex-shrink:0;\">[" + item.ext + "]</span>" +
-			"<span style=\"flex-shrink:0; font-weight:500;\">" + item.filename + "</span>" +
-			cpt + detail +
-			"</div>";
+		var extBadge = "<span class=\"badge bg-pale-ash text-dark rounded-pill\" style=\"font-size:11px;\">" + item.ext + "</span>";
+		var statusIcon = ok
+			? "<i class=\"uil uil-check-circle\" style=\"color:#2e7d32; font-size:16px; flex-shrink:0;\"></i>"
+			: "<i class=\"uil uil-times-circle\" style=\"color:#b32d2e; font-size:16px; flex-shrink:0;\"></i>";
+		var countBadge = ok
+			? "<span class=\"badge bg-pale-green text-green rounded-pill\" style=\"font-size:11px;\">" + sizes.length + " ' . esc_js( __( 'размеров', 'codeweber' ) ) . '</span>"
+			: "<span class=\"badge bg-pale-red text-red rounded-pill\" style=\"font-size:11px;\">' . esc_js( __( 'ошибка', 'codeweber' ) ) . '</span>";
+
+		// Тело аккордеона
+		var body = "";
+		if (ok && sizes.length) {
+			body += "<table class=\"table table-striped mb-0\" style=\"font-size:12px;\">" +
+				"<thead><tr><th style=\"width:36px;\">#</th><th>' . esc_js( __( 'Размер', 'codeweber' ) ) . '</th></tr></thead><tbody>";
+			for (var i = 0; i < sizes.length; i++) {
+				body += "<tr><td>" + (i + 1) + "</td><td><code>" + sizes[i] + "</code></td></tr>";
+			}
+			body += "</tbody></table>";
+		} else if (!ok) {
+			body += "<p class=\"mb-0\" style=\"color:#b32d2e; padding:8px 12px;\">" +
+				"<i class=\"uil uil-exclamation-triangle me-1\"></i>" +
+				(item.error || "' . esc_js( __( 'Файл не найден на диске', 'codeweber' ) ) . '") +
+				"</p>";
+		}
+
+		return "<div class=\"card plain accordion-item cw-log-row\" data-filename=\"" + item.filename + "\">" +
+			"<div class=\"card-header\" style=\"padding:6px 12px;\">" +
+				"<button class=\"collapsed\" style=\"display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;cursor:pointer;padding:0;text-align:left;font-size:13px;\" " +
+				"data-bs-toggle=\"collapse\" data-bs-target=\"#" + uid + "\" aria-expanded=\"false\">" +
+					statusIcon +
+					extBadge +
+					"<span style=\"font-weight:500; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;\">" + item.filename + "</span>" +
+					cptBadge +
+					countBadge +
+				"</button>" +
+			"</div>" +
+			"<div id=\"" + uid + "\" class=\"accordion-collapse collapse\">" +
+				"<div class=\"card-body\" style=\"padding:0;\">" + body + "</div>" +
+			"</div>" +
+		"</div>";
 	}
 
 	function appendLog(entries) {
@@ -166,6 +200,7 @@ Redux::set_section(
 
 	function renderFullLog(entries) {
 		allLog = entries || [];
+		logUid = 0;
 		var $list = $("#cw-regen-log-list").empty();
 		var html = "";
 		for (var i = allLog.length - 1; i >= 0; i--) {
