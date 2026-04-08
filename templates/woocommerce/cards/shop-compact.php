@@ -19,7 +19,7 @@ if ( ! isset( $product_id ) ) {
 ?>
 <div id="product-<?php echo esc_attr( $product_id ); ?>" class="project item <?php echo esc_attr( $cw_col ); ?>"<?php echo $cw_wl_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 
-	<figure class="<?php echo esc_attr( $card_radius ); ?> mb-4 position-relative overflow-hidden">
+	<figure class="<?php echo esc_attr( $card_radius ); ?> mb-4 position-relative overflow-hidden text-reset">
 
 		<a href="<?php echo esc_url( $product_url ); ?>">
 			<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

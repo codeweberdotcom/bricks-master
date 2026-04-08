@@ -134,7 +134,7 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 	><i class="uil uil-times"></i></a>
 <?php endif; ?>
 
-	<figure class="<?php echo esc_attr( $card_radius ); ?> mb-6">
+	<figure class="<?php echo esc_attr( $card_radius ); ?> mb-6 text-reset">
 
 		<a href="<?php echo esc_url( $product_url ); ?>"><?php echo $image_html; ?></a>
 
