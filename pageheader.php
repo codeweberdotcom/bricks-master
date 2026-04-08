@@ -44,7 +44,7 @@ if (!is_front_page() && !is_404()) {
          $show_page_header = false;
       } elseif (!empty($page_header_for_this_page) && $page_header_for_this_page_bool == '2') {
          $template_pageheader_id = $page_header_for_this_page;
-      } elseif (!empty($single_pageheader_id) && $single_pageheader_id !== 'default' && $page_header_for_this_page_bool == '1') {
+      } elseif (!empty($single_pageheader_id) && $single_pageheader_id !== 'default' && (empty($page_header_for_this_page_bool) || $page_header_for_this_page_bool == '1')) {
          $template_pageheader_id = $single_pageheader_id;
       } elseif ($global_pagehaeder_type === '2') {
          $template_pageheader_id = $global_custom_template_pageheader;
