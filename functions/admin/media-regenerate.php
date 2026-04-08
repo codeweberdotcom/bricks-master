@@ -42,9 +42,15 @@ function cw_media_regen_ajax_batch() {
 		wp_send_json_error( [ 'message' => __( 'Security error. Please refresh the page and try again.', 'codeweber' ) ] );
 	}
 
-	$offset = isset( $_POST['offset'] ) ? absint( $_POST['offset'] ) : 0;
-	$limit  = isset( $_POST['limit'] )  ? absint( $_POST['limit'] )  : 10;
-	$total  = isset( $_POST['total'] )  ? absint( $_POST['total'] )  : 0;
+	$offset   = isset( $_POST['offset'] ) ? absint( $_POST['offset'] ) : 0;
+	$limit    = isset( $_POST['limit'] )  ? absint( $_POST['limit'] )  : 10;
+	$total    = isset( $_POST['total'] )  ? absint( $_POST['total'] )  : 0;
+	$log_file = get_stylesheet_directory() . '/cw-regen-log.json';
+
+	// Сбрасываем лог при старте нового сканирования
+	if ( $offset === 0 && file_exists( $log_file ) ) {
+		@unlink( $log_file );
+	}
 
 	@set_time_limit( 120 );
 
@@ -62,6 +68,7 @@ function cw_media_regen_ajax_batch() {
 	$attempted = count( $ids );
 	$errors    = [];
 	$lost      = [];
+	$log       = [];
 
 	foreach ( $ids as $id ) {
 		$file = get_attached_file( $id );
@@ -112,27 +119,84 @@ function cw_media_regen_ajax_batch() {
 			remove_filter( 'intermediate_image_sizes_advanced', $size_filter );
 		}
 
+		$ext      = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
+		$filename = basename( $file );
+
 		if ( is_wp_error( $metadata ) ) {
 			/* translators: 1: attachment ID, 2: error message */
 			$msg      = sprintf( __( 'Error for #%d: %s', 'codeweber' ), $id, $metadata->get_error_message() );
 			$errors[] = $msg;
 			error_log( '[CW Media Regen] ' . $msg . ' | file: ' . $file );
+			$log[] = [
+				'id'          => $id,
+				'filename'    => $filename,
+				'ext'         => $ext,
+				'parent_type' => $parent_type,
+				'sizes'       => [],
+				'ok'          => false,
+				'error'       => $metadata->get_error_message(),
+			];
 		} else {
 			wp_update_attachment_metadata( $id, $metadata );
+			$log[] = [
+				'id'          => $id,
+				'filename'    => $filename,
+				'ext'         => $ext,
+				'parent_type' => $parent_type,
+				'sizes'       => isset( $metadata['sizes'] ) ? array_keys( $metadata['sizes'] ) : [],
+				'ok'          => true,
+				'error'       => '',
+			];
 		}
 	}
 
 	$next_offset = $offset + $attempted;
 	$done        = ( $attempted < $limit ) || ( $total > 0 && $next_offset >= $total );
 
+	// Дописываем лог в файл
+	if ( ! empty( $log ) ) {
+		$existing = [];
+		if ( file_exists( $log_file ) ) {
+			$raw = @file_get_contents( $log_file );
+			if ( $raw ) {
+				$existing = json_decode( $raw, true ) ?: [];
+			}
+		}
+		$merged = array_merge( $existing, $log );
+		@file_put_contents( $log_file, wp_json_encode( $merged ), LOCK_EX );
+	}
+
 	wp_send_json_success( [
 		'next_offset' => $next_offset,
 		'done'        => $done,
 		'errors'      => $errors,
 		'lost'        => $lost,
+		'log'         => $log,
 	] );
 }
 add_action( 'wp_ajax_cw_media_regen_batch', 'cw_media_regen_ajax_batch' );
+
+/**
+ * Получить сохранённый лог регенерации
+ */
+function cw_media_regen_ajax_get_log() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Insufficient permissions.', 'codeweber' ) ] );
+	}
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_media_regen' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Security error.', 'codeweber' ) ] );
+	}
+
+	$log_file = get_stylesheet_directory() . '/cw-regen-log.json';
+	if ( ! file_exists( $log_file ) ) {
+		wp_send_json_success( [ 'log' => [] ] );
+	}
+
+	$raw = @file_get_contents( $log_file );
+	$log = $raw ? ( json_decode( $raw, true ) ?: [] ) : [];
+	wp_send_json_success( [ 'log' => $log ] );
+}
+add_action( 'wp_ajax_cw_media_regen_get_log', 'cw_media_regen_ajax_get_log' );
 
 /**
  * Удалить потерянные вложения из базы данных

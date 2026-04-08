@@ -20,7 +20,11 @@ Redux::set_section(
 				'type'    => 'raw',
 				'content' => '
 <div class="cw-media-regen" style="margin: 20px 0;">
-	<h3 style="margin-top: 0;">' . esc_html__( 'Регенерация миниатюр', 'codeweber' ) . '</h3>
+	<h3 style="margin-top: 0;">
+		' . esc_html__( 'Регенерация миниатюр', 'codeweber' ) . '
+		<span class="dashicons dashicons-info" style="font-size:18px;vertical-align:middle;margin-left:6px;cursor:help;color:#72777c;"
+		      title="' . esc_attr__( "Что делает регенерация:\n• Перегенерирует все зарегистрированные размеры изображений для каждого файла в медиатеке.\n• Оригинальный файл НЕ удаляется и НЕ изменяется.\n• Размеры генерируются с учётом типа записи (CPT): для товаров WooCommerce — одни размеры, для событий — другие.\n• Старые миниатюры перезаписываются новыми.\n• Файлы без родительской записи генерируют все размеры без ограничений.\n• Потерянные вложения (файл удалён с диска) — не регенерируются, выводятся в отдельном списке.", 'codeweber' ) . '"></span>
+	</h3>
 	<p class="description">' . esc_html__( 'Перегенерирует все размеры изображений для файлов в медиатеке. Нужно запускать после изменения зарегистрированных размеров.', 'codeweber' ) . '</p>
 	<div style="margin: 15px 0; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
 		<button id="cw-regen-start" class="button button-primary">'
@@ -40,6 +44,14 @@ Redux::set_section(
 		<p id="cw-regen-label" style="margin: 0; font-size: 13px; color: #555;"></p>
 	</div>
 	<div id="cw-regen-status" class="notice inline" style="margin-top: 12px; display: none;"></div>
+	<div id="cw-regen-log-wrap" style="display:none; margin-top: 20px;">
+		<div style="display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap;">
+			<h4 style="margin:0;">' . esc_html__( 'Журнал обработки', 'codeweber' ) . ' <span id="cw-log-count" style="font-weight:normal; color:#72777c;"></span></h4>
+			<input type="search" id="cw-log-search" placeholder="' . esc_attr__( 'Поиск по имени файла...', 'codeweber' ) . '" style="flex:1; max-width:300px; padding:4px 8px; font-size:13px; border:1px solid #ddd; border-radius:3px;">
+		</div>
+		<div id="cw-regen-log-list" style="max-height:300px; overflow-y:auto; border:1px solid #ddd; border-radius:3px; background:#fafafa; font-family:monospace; font-size:12px; padding:0;"></div>
+	</div>
+
 	<div id="cw-regen-lost" style="display:none; margin-top: 20px;">
 		<h4 style="color:#b32d2e; margin-bottom: 8px;">' . esc_html__( 'Потерянные файлы', 'codeweber' ) . ' <span id="cw-lost-count"></span></h4>
 		<p class="description" style="margin-bottom: 10px;">' . esc_html__( 'Записи в базе данных есть, но файлы на диске отсутствуют.', 'codeweber' ) . '</p>
@@ -70,6 +82,7 @@ Redux::set_section(
 	var total      = 0;
 	var batchSize  = 10;
 	var allLost    = [];
+	var allLog     = [];
 	var running    = false;
 	var SS_KEY     = "cw_media_regen_state";
 
@@ -115,6 +128,77 @@ Redux::set_section(
 		running = isRunning;
 		$("#cw-regen-start").prop("disabled", isRunning);
 		$("#cw-regen-resume").prop("disabled", isRunning);
+	}
+
+	// ── Log helpers ─────────────────────────────────────────────────────
+	function renderLogEntry(item) {
+		var icon  = item.ok ? "✓" : (item.error ? "✗" : "⚠");
+		var color = item.ok ? "#2e7d32" : "#b32d2e";
+		var sizes = item.sizes && item.sizes.length
+			? item.sizes.join(", ")
+			: "' . esc_js( __( 'нет размеров', 'codeweber' ) ) . '";
+		var detail = item.ok
+			? "<span style=\"color:#72777c\"> → " + sizes + "</span>"
+			: "<span style=\"color:#b32d2e\"> — " + (item.error || "' . esc_js( __( 'файл не найден', 'codeweber' ) ) . '") + "</span>";
+		var cpt = item.parent_type && item.parent_type !== "default"
+			? " <span style=\"background:#e8f0fe;color:#1a56db;border-radius:2px;padding:0 4px;font-size:11px;\">" + item.parent_type + "</span>"
+			: "";
+		return "<div class=\"cw-log-row\" data-filename=\"" + item.filename + "\" style=\"padding:4px 10px; border-bottom:1px solid #eee; display:flex; gap:6px; align-items:baseline;\">" +
+			"<span style=\"color:" + color + "; flex-shrink:0;\">" + icon + "</span>" +
+			"<span style=\"color:#888; flex-shrink:0;\">[" + item.ext + "]</span>" +
+			"<span style=\"flex-shrink:0; font-weight:500;\">" + item.filename + "</span>" +
+			cpt + detail +
+			"</div>";
+	}
+
+	function appendLog(entries) {
+		if (!entries || !entries.length) return;
+		allLog = allLog.concat(entries);
+		var $list = $("#cw-regen-log-list");
+		var html = "";
+		for (var i = entries.length - 1; i >= 0; i--) {
+			html += renderLogEntry(entries[i]);
+		}
+		$list.prepend(html);
+		$("#cw-log-count").text("(" + allLog.length + ")");
+		$("#cw-regen-log-wrap").show();
+	}
+
+	function renderFullLog(entries) {
+		allLog = entries || [];
+		var $list = $("#cw-regen-log-list").empty();
+		var html = "";
+		for (var i = allLog.length - 1; i >= 0; i--) {
+			html += renderLogEntry(allLog[i]);
+		}
+		$list.html(html);
+		$("#cw-log-count").text("(" + allLog.length + ")");
+		if (allLog.length > 0) {
+			$("#cw-regen-log-wrap").show();
+		}
+	}
+
+	// Поиск по имени файла
+	$("#cw-log-search").on("input", function() {
+		var q = $(this).val().toLowerCase().trim();
+		$("#cw-regen-log-list .cw-log-row").each(function() {
+			var fn = ($(this).data("filename") || "").toLowerCase();
+			$(this).toggle(!q || fn.indexOf(q) !== -1);
+		});
+	});
+
+	// Загрузить лог с сервера при открытии страницы
+	function fetchStoredLog() {
+		$.ajax({
+			url: ajaxurl,
+			type: "POST",
+			data: { action: "cw_media_regen_get_log", nonce: nonce },
+			success: function(r) {
+				if (r.success && r.data.log && r.data.log.length) {
+					renderFullLog(r.data.log);
+				}
+			}
+		});
 	}
 
 	function updateLostCount() {
@@ -190,6 +274,10 @@ Redux::set_section(
 
 				if (r.data.lost && r.data.lost.length > 0) {
 					allLost = allLost.concat(r.data.lost);
+				}
+
+				if (r.data.log && r.data.log.length > 0) {
+					appendLog(r.data.log);
 				}
 
 				if (r.data.done) {
@@ -277,11 +365,14 @@ Redux::set_section(
 		if (!confirm("' . esc_js( __( 'Начать регенерацию сначала? Весь прогресс будет сброшен.', 'codeweber' ) ) . '")) return;
 		clearState();
 		allLost = [];
+		allLog  = [];
 		total   = 0;
 		$("#cw-regen-status").hide();
 		$("#cw-regen-progress").hide();
 		$("#cw-regen-lost").hide();
 		$("#cw-regen-lost-tbody").empty();
+		$("#cw-regen-log-list").empty();
+		$("#cw-regen-log-wrap").hide();
 		$(this).hide();
 		$("#cw-regen-resume").hide();
 		fetchTotalAndStart(0);
@@ -333,6 +424,7 @@ Redux::set_section(
 
 	// ── Восстановление состояния при загрузке страницы ──────────────────
 	$(function() {
+		fetchStoredLog();
 		var state = loadState();
 		if (!state) return;
 		total   = state.total  || 0;
