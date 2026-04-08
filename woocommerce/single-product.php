@@ -60,6 +60,7 @@ while ( have_posts() ) :
 	$col_summary = 'col-lg-' . ( isset( $cols[1] ) ? (int) $cols[1] : 6 );
 
 	// Видимость элементов
+	$show_title   = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_show_single_title', true );
 	$show_rating  = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_rating', true );
 	$show_excerpt = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_excerpt', true );
 	$show_meta    = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_meta', true );
@@ -289,7 +290,7 @@ while ( have_posts() ) :
 				<div class="<?php echo esc_attr( $col_summary ); ?>">
 
 					<div class="post-header mb-5">
-						<?php the_title( '<h1 class="post-title display-5">', '</h1>' ); ?>
+						<?php if ( $show_title ) : the_title( '<h1 class="post-title display-5">', '</h1>' ); endif; ?>
 						<?php woocommerce_template_single_price(); ?>
 						<?php if ( $show_rating ) : woocommerce_template_single_rating(); endif; ?>
 					</div>
