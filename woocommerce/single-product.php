@@ -100,8 +100,9 @@ while ( have_posts() ) :
 	$show_reviews = ! class_exists( 'Codeweber_Options' ) || Codeweber_Options::get( 'woo_single_show_reviews', true );
 
 	// Видео товара
-	$video_url   = get_post_meta( $product->get_id(), '_cw_product_video_url', true );
-	$video_data  = $video_url && function_exists( 'cw_product_video_parse' ) ? cw_product_video_parse( $video_url ) : null;
+	$video_url       = get_post_meta( $product->get_id(), '_cw_product_video_url', true );
+	$video_type      = get_post_meta( $product->get_id(), '_cw_product_video_type', true ) ?: '';
+	$video_data      = $video_url && function_exists( 'cw_product_video_parse' ) ? cw_product_video_parse( $video_url, $video_type ) : null;
 	$video_poster_id = (int) get_post_meta( $product->get_id(), '_cw_product_video_poster_id', true );
 	?>
 
@@ -113,6 +114,15 @@ while ( have_posts() ) :
 				<div class="<?php echo esc_attr( $col_gallery ); ?> cw-product-gallery">
 
 					<?php if ( $has_gallery ) : ?>
+
+					<?php // ── Скрытый iframe для VK / Rutube (используется GLightbox) ── ?>
+					<?php if ( $video_data && ! empty( $video_data['embed_id'] ) ) : ?>
+					<div id="<?php echo esc_attr( $video_data['embed_id'] ); ?>" class="d-none">
+						<iframe src="<?php echo esc_url( $video_data['embed_url'] ); ?>"
+						        allowfullscreen
+						        allow="autoplay; encrypted-media; fullscreen; picture-in-picture; clipboard-write;"></iframe>
+					</div>
+					<?php endif; ?>
 
 					<div class="swiper-container swiper-thumbs-container" data-margin="10" data-dots="false" data-nav="true" data-thumbs="true" data-thumbs-direction="<?php echo esc_attr( $thumbs_dir ); ?>" data-thumbs-items="<?php echo esc_attr( $thumbs_items ); ?>"<?php echo $thumbs_mousewheel ? ' data-thumbs-mousewheel="true"' : ''; ?>>
 
@@ -184,69 +194,58 @@ while ( have_posts() ) :
 								</div>
 								<?php endforeach; ?>
 
-								<?php // ── Видео-слайд (последним) ─────────────────────────── ?>
-								<?php if ( $video_data ) :
-									$v_poster = $video_poster_id ? wp_get_attachment_image_url( $video_poster_id, 'woocommerce_single' ) : '';
-								?>
-								<div class="swiper-slide">
-									<div class="position-relative <?php echo esc_attr( $card_radius ); ?> overflow-hidden<?php echo $v_poster ? '' : ' bg-primary'; ?>" style="<?php echo $v_poster ? '' : 'aspect-ratio:1;'; ?>">
-										<?php if ( $v_poster ) : ?>
-										<img src="<?php echo esc_url( $v_poster ); ?>" class="img-fluid w-100" alt="<?php esc_attr_e( 'Video', 'codeweber' ); ?>">
-										<?php endif; ?>
-										<?php if ( ! empty( $video_data['embed_id'] ) ) : ?>
-										<div id="<?php echo esc_attr( $video_data['embed_id'] ); ?>" class="d-none">
-											<iframe src="<?php echo esc_url( $video_data['embed_url'] ); ?>" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture;"></iframe>
-										</div>
-										<?php endif; ?>
-										<a href="<?php echo esc_url( $video_data['glightbox_href'] ); ?>"
-										   class="btn btn-circle btn-primary btn-play ripple position-absolute top-50 start-50 translate-middle z-3"
-										   <?php echo $video_data['glightbox_attrs']; ?>
-										   data-gallery="product-<?php echo esc_attr( $product->get_id() ); ?>">
-											<i class="icn-caret-right"></i>
-										</a>
-									</div>
-								</div>
-								<?php endif; ?>
-
 							</div>
 							<!-- /.swiper-wrapper -->
 						</div>
 						<!-- /.swiper (main) -->
 
-						<div class="swiper swiper-thumbs">
-							<div class="swiper-wrapper">
-								<?php foreach ( $all_image_ids as $img_id ) : ?>
-								<div class="swiper-slide">
-									<?php if ( 'none' === $thumb_hover ) : ?>
-									<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => esc_attr( $card_radius ) ] ); ?>
-									<?php else : ?>
-									<figure class="<?php echo esc_attr( $thumb_hover . ' ' . $card_radius ); ?>">
-										<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => 'img-fluid' ] ); ?>
-									</figure>
-									<?php endif; ?>
-								</div>
-								<?php endforeach; ?>
+						<?php // ── Thumbs + видео-превью ────────────────────────── ?>
+						<?php
+						$thumbs_area_class = 'cw-thumbs-area';
+						if ( $thumbs_dir === 'vertical' ) {
+							$thumbs_area_class .= ' cw-thumbs-area--v';
+						}
+						// flex-ratio: thumbs берут N частей, видео — 1; итого N+1 частей
+						$thumbs_flex_ratio = (int) $thumbs_items;
+						?>
+						<div class="<?php echo esc_attr( $thumbs_area_class ); ?>"<?php echo $video_data ? ' style="--cw-thumbs-n:' . $thumbs_flex_ratio . ';"' : ''; ?>>
 
-								<?php // ── Видео-превью (последним) ─────────────────────────── ?>
-								<?php if ( $video_data ) :
-									$v_thumb = $video_poster_id ? wp_get_attachment_image_url( $video_poster_id, 'thumbnail' ) : '';
-								?>
-								<div class="swiper-slide">
-									<div class="position-relative <?php echo esc_attr( $card_radius ); ?> overflow-hidden<?php echo $v_thumb ? '' : ' bg-primary'; ?>">
-										<?php if ( $v_thumb ) : ?>
-										<img src="<?php echo esc_url( $v_thumb ); ?>" class="<?php echo esc_attr( $card_radius ); ?> w-100" alt="<?php esc_attr_e( 'Video', 'codeweber' ); ?>">
+							<div class="swiper swiper-thumbs">
+								<div class="swiper-wrapper">
+									<?php foreach ( $all_image_ids as $img_id ) : ?>
+									<div class="swiper-slide">
+										<?php if ( 'none' === $thumb_hover ) : ?>
+										<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => esc_attr( $card_radius ) ] ); ?>
+										<?php else : ?>
+										<figure class="<?php echo esc_attr( $thumb_hover . ' ' . $card_radius ); ?>">
+											<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => 'img-fluid' ] ); ?>
+										</figure>
 										<?php endif; ?>
-										<a href="#" class="btn btn-circle btn-primary btn-sm position-absolute top-50 start-50 translate-middle pe-none">
-											<i class="icn-caret-right fs-25"></i>
-										</a>
 									</div>
+									<?php endforeach; ?>
 								</div>
-								<?php endif; ?>
-
+								<!-- /.swiper-wrapper -->
 							</div>
-							<!-- /.swiper-wrapper -->
+							<!-- /.swiper (thumbs) -->
+
+							<?php // ── Видео-превью — вне swiper-thumbs, не влияет на sync ── ?>
+							<?php if ( $video_data ) :
+								$v_thumb = $video_poster_id ? wp_get_attachment_image_url( $video_poster_id, 'thumbnail' ) : '';
+							?>
+							<div class="cw-video-thumb <?php echo esc_attr( $card_radius ); ?> overflow-hidden<?php echo $v_thumb ? '' : ' bg-primary'; ?>">
+								<?php if ( $v_thumb ) : ?>
+								<img src="<?php echo esc_url( $v_thumb ); ?>" class="w-100 h-100 object-fit-cover" alt="<?php esc_attr_e( 'Video', 'codeweber' ); ?>">
+								<?php endif; ?>
+								<a href="<?php echo esc_url( $video_data['glightbox_href'] ); ?>"
+								   class="cw-video-thumb__play position-absolute top-50 start-50 translate-middle"
+								   <?php echo $video_data['glightbox_attrs']; ?>>
+									<span class="btn btn-circle btn-white btn-sm"><i class="icn-caret-right"></i></span>
+								</a>
+							</div>
+							<?php endif; ?>
+
 						</div>
-						<!-- /.swiper (thumbs) -->
+						<!-- /.cw-thumbs-area -->
 					</div>
 					<!-- /.swiper-container -->
 
