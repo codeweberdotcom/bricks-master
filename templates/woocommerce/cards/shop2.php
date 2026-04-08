@@ -187,6 +187,7 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 		}
 		?>
 
+		<?php if ( $show_cart ) : ?>
 		<?php if ( $is_simple ) : ?>
 			<a href="<?php echo esc_url( $product_url ); ?>"
 			   class="item-cart ajax_add_to_cart"
@@ -202,6 +203,7 @@ $cw_wl_attr  = $cw_wl_mode ? ' data-product-id="' . esc_attr( $product_id ) . '"
 				<i class="uil uil-shopping-bag"></i>
 				<?php echo esc_html( $add_to_cart_text ); ?>
 			</a>
+		<?php endif; ?>
 		<?php endif; ?>
 
 		<?php echo $badge; ?>
