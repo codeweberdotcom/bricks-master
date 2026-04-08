@@ -170,14 +170,14 @@ while ( have_posts() ) :
 								<?php // ── Видео-слайд в main swiper ── ?>
 								<?php if ( $video_data ) : ?>
 								<div class="swiper-slide">
-									<figure class="overflow-hidden <?php echo esc_attr( $card_radius ); ?> position-relative<?php echo $v_thumb_full ? '' : ' bg-dark'; ?>">
+									<figure class="overflow-hidden <?php echo esc_attr( $card_radius ); ?> position-relative<?php echo $v_thumb_full ? '' : ' bg-primary'; ?>">
 										<?php if ( $v_thumb_full ) : ?>
 										<img src="<?php echo esc_url( $v_thumb_full ); ?>" class="img-fluid" style="height:100%;width:100%;object-fit:cover;" alt="">
 										<?php endif; ?>
 										<a href="<?php echo esc_url( $video_data['glightbox_href'] ); ?>"
-										   class="position-absolute top-50 start-50 translate-middle"
+										   class="position-absolute top-50 start-50 translate-middle text-white"
 										   <?php echo $video_data['glightbox_attrs']; ?>>
-											<span class="btn btn-circle btn-soft-primary btn-play ripple"><i class="icn-caret-right"></i></span>
+											<i class="icn-caret-right fs-40"></i>
 										</a>
 									</figure>
 								</div>
@@ -206,12 +206,12 @@ while ( have_posts() ) :
 								<?php // ── Видео-слайд в thumbs ── ?>
 								<?php if ( $video_data ) : ?>
 								<div class="swiper-slide">
-									<div class="position-relative overflow-hidden h-100 <?php echo esc_attr( $card_radius ); ?><?php echo $v_thumb_sm ? '' : ' bg-dark'; ?>">
+									<div class="position-relative overflow-hidden h-100 <?php echo esc_attr( $card_radius ); ?><?php echo $v_thumb_sm ? '' : ' bg-primary'; ?>">
 										<?php if ( $v_thumb_sm ) : ?>
 										<img src="<?php echo esc_url( $v_thumb_sm ); ?>" class="<?php echo esc_attr( $card_radius ); ?>" style="width:100%;height:100%;object-fit:cover;display:block;" alt="">
 										<?php endif; ?>
-										<span class="position-absolute top-50 start-50 translate-middle">
-											<span class="btn btn-circle btn-soft-primary btn-play ripple btn-sm"><i class="icn-caret-right"></i></span>
+										<span class="position-absolute top-50 start-50 translate-middle text-white">
+											<i class="icn-caret-right fs-40"></i>
 										</span>
 									</div>
 								</div>

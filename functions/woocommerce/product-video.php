@@ -119,7 +119,18 @@ function cw_product_video_render_metabox( WP_Post $post ): void {
 			frame.on('select', function() {
 				var att = frame.state().get('selection').first().toJSON();
 				$('#cw_product_video_poster_id').val(att.id);
-				location.reload();
+				var thumb = att.sizes && att.sizes.thumbnail ? att.sizes.thumbnail.url : att.url;
+				var $p = $('#cw_product_video_poster_id').closest('p');
+				$p.find('img').remove();
+				$('<img>').attr({ src: thumb, style: 'max-width:200px;display:block;margin-bottom:8px;' }).prependTo($p);
+				if ( ! $('#cw_product_video_poster_remove').length ) {
+					$('<button type="button" class="button" id="cw_product_video_poster_remove"><?php echo esc_js( __( 'Remove', 'codeweber' ) ); ?></button>').insertAfter('#cw_product_video_poster_btn');
+					$('#cw_product_video_poster_remove').on('click', function() {
+						$('#cw_product_video_poster_id').val('');
+						$p.find('img').remove();
+						$(this).remove();
+					});
+				}
 			});
 			frame.open();
 		});
