@@ -194,7 +194,7 @@ function cw_product_video_parse( string $url, string $type = '' ): ?array {
 			$type = 'youtube';
 		} elseif ( strpos( $url, 'vimeo.com' ) !== false ) {
 			$type = 'vimeo';
-		} elseif ( strpos( $url, 'vkvideo.ru' ) !== false ) {
+		} elseif ( preg_match( '/vkvideo\.ru|vk\.com\/video/', $url ) ) {
 			$type = 'vk';
 		} elseif ( strpos( $url, 'rutube.ru' ) !== false ) {
 			$type = 'rutube';
@@ -231,7 +231,7 @@ function cw_product_video_parse( string $url, string $type = '' ): ?array {
 
 		case 'vk':
 			// Принимает: https://vkvideo.ru/video-OID_ID или https://vkvideo.ru/video_ext.php?oid=OID&id=ID
-			if ( preg_match( '/vkvideo\.ru\/video(-?\d+)_(\d+)/', $url, $m ) ) {
+			if ( preg_match( '/(?:vkvideo\.ru|vk\.com)\/video(-?\d+)_(\d+)/', $url, $m ) ) {
 				$oid   = $m[1];
 				$id    = $m[2];
 				$embed = 'https://vkvideo.ru/video_ext.php?oid=' . $oid . '&id=' . $id
