@@ -28,57 +28,9 @@ while ( have_posts() ) :
 
 	do_action( 'woocommerce_before_single_product' );
 
-	// ── ЭТАП 1: Хлебные крошки ────────────────────────────────────────────────
-	global $opt_name;
-	$bc_enable = class_exists( 'Redux' ) ? Redux::get_option( $opt_name, 'global-page-header-breadcrumb-enable' ) : true;
+	// ── Page Header (хлебные крошки + фон — управляется через Redux) ─────────
+	get_pageheader();
 
-	if ( $bc_enable ) :
-
-		$bc_color_raw = class_exists( 'Redux' ) ? Redux::get_option( $opt_name, 'global-page-header-breadcrumb-color' ) : '3';
-		$bc_bg_raw    = class_exists( 'Redux' ) ? Redux::get_option( $opt_name, 'global-page-header-breadcrumb-bg-color' ) : '';
-		$bc_align_raw = class_exists( 'Redux' ) ? Redux::get_option( $opt_name, 'global-bredcrumbs-aligns' ) : '1';
-
-		$bc_color = ( '2' === $bc_color_raw ) ? 'white' : ( ( '1' === $bc_color_raw ) ? 'dark' : 'muted' );
-		$bc_bg    = $bc_bg_raw ? 'bg-' . sanitize_html_class( $bc_bg_raw ) : 'bg-gray';
-		$bc_align = ( '2' === $bc_align_raw ) ? 'text-center' : ( ( '3' === $bc_align_raw ) ? 'text-end' : '' );
-
-		$breadcrumb_wc = new WC_Breadcrumb();
-		$breadcrumb_wc->add_crumb(
-			_x( 'Главная', 'breadcrumb', 'codeweber' ),
-			apply_filters( 'woocommerce_breadcrumb_home_url', home_url() )
-		);
-		$shop_id = wc_get_page_id( 'shop' );
-		if ( $shop_id > 0 ) {
-			$breadcrumb_wc->add_crumb( get_the_title( $shop_id ), get_permalink( $shop_id ) );
-		}
-		$crumbs = $breadcrumb_wc->generate();
-		?>
-
-	<section class="wrapper text-reset <?php echo esc_attr( $bc_bg ); ?>">
-		<div class="container py-3 py-md-5<?php echo $bc_align ? ' ' . esc_attr( $bc_align ) : ''; ?>">
-			<nav class="d-inline-block" aria-label="breadcrumb">
-				<ol class="breadcrumb mb-0">
-					<?php foreach ( $crumbs as $key => $crumb ) :
-						$is_last = ( $key === count( $crumbs ) - 1 );
-					?>
-					<li class="breadcrumb-item<?php echo $is_last ? ' active text-' . esc_attr( $bc_color ) : ''; ?>"<?php echo $is_last ? ' aria-current="page"' : ''; ?>>
-						<?php if ( ! empty( $crumb[1] ) && ! $is_last ) : ?>
-							<a href="<?php echo esc_url( $crumb[1] ); ?>"><?php echo esc_html( $crumb[0] ); ?></a>
-						<?php else : ?>
-							<?php echo esc_html( $crumb[0] ); ?>
-						<?php endif; ?>
-					</li>
-					<?php endforeach; ?>
-				</ol>
-			</nav>
-		</div>
-		<!-- /.container -->
-	</section>
-	<!-- /section breadcrumb -->
-
-	<?php endif; // $bc_enable ?>
-
-	<?php
 	// ── ЭТАПЫ 2 + 6: Блок товара (галерея + данные) ──────────────────────────
 
 	// Стиль скругления карточек из Redux
