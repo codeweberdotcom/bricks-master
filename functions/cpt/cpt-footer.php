@@ -34,7 +34,7 @@ function cptui_register_my_cpts_footer()
       "rest_controller_class" => "WP_REST_Posts_Controller",
       "has_archive" => false,
       "show_in_menu" => true,
-      "show_in_nav_menus" => true,
+      "show_in_nav_menus" => false,
       "delete_with_user" => false,
       "exclude_from_search" => true,
       "capability_type" => "post",

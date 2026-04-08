@@ -27,22 +27,22 @@ function cptui_register_my_cpts_page_header()
       "labels" => $labels,
       "description" => "",
       "public" => true,
-      "publicly_queryable" => true,
+      "publicly_queryable" => false,
       "show_ui" => true,
       "show_in_rest" => true,
       "rest_base" => "",
       "rest_controller_class" => "WP_REST_Posts_Controller",
       "has_archive" => false, // Disable archive
       "show_in_menu" => true,
-      "show_in_nav_menus" => true,
+      "show_in_nav_menus" => false,
       "delete_with_user" => false,
-      "exclude_from_search" => false,
+      "exclude_from_search" => true,
       "capability_type" => "post",
       "map_meta_cap" => true,
       "hierarchical" => false, // Without parents
       "can_export" => true,
-      "rewrite" => ["slug" => "page-header", "with_front" => true],
-      "query_var" => true,
+      "rewrite" => false,
+      "query_var" => false,
       "supports" => ["title", "editor"],
       "show_in_graphql" => false,
    ];
@@ -51,3 +51,14 @@ function cptui_register_my_cpts_page_header()
 }
 
 add_action('init', 'cptui_register_my_cpts_page_header');
+
+/**
+ * Запрет отображения Single и Archive Page Header на фронтенде — отдаём 404.
+ */
+add_action('template_redirect', function () {
+	if (is_singular('page-header') || is_post_type_archive('page-header')) {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header(404);
+	}
+});
