@@ -303,6 +303,16 @@ Redux::set_section(
 				),
 				'default'  => 'display-1',
 			),
+			array(
+				'id'       => 'global-page-header-title-color',
+				'type'     => 'button_set',
+				'title'    => esc_html__( 'Title Text Color', 'codeweber' ),
+				'options'  => array(
+					'1' => esc_html__( 'Dark', 'codeweber' ),
+					'2' => esc_html__( 'Light', 'codeweber' ),
+				),
+				'default'  => '1',
+			),
 		),
 	)
 );
