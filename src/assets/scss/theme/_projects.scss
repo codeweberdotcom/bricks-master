@@ -236,7 +236,9 @@
 //----------------------------------------------------------//
 .shop figure {
   overflow: hidden;
-  transform: translate3d(0px, 0px, 0px);
+}
+.shop figure img {
+  border-radius: inherit;
 }
 .shop .post-title {
   display: -webkit-box;
