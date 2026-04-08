@@ -172,7 +172,7 @@ while ( have_posts() ) :
 									</figure>
 
 									<?php elseif ( 'style-1' === $hover_style ) : ?>
-									<figure class="overlay overlay-4 hover-scale hover-plus <?php echo $r . $ht; ?>">
+									<figure class="overlay overlay-4 hover-plus <?php echo $r . $ht; ?>">
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon text-white"><i class="uil uil-plus"></i></span>
@@ -180,7 +180,7 @@ while ( have_posts() ) :
 									</figure>
 
 									<?php elseif ( 'style-2' === $hover_style ) : ?>
-									<figure class="overlay overlay-4 hover-scale hover-plus <?php echo $r . $ht; ?>">
+									<figure class="overlay overlay-4 hover-plus <?php echo $r . $ht; ?>">
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon text-white"><?php echo $svg_plus; ?></span>
@@ -188,7 +188,7 @@ while ( have_posts() ) :
 									</figure>
 
 									<?php elseif ( 'style-3' === $hover_style ) : ?>
-									<figure class="hover-scale hover-overlay <?php echo $r . $ht; ?>">
+									<figure class="hover-overlay <?php echo $r . $ht; ?>">
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon bg-pale-frost text-white"><?php echo $svg_plus; ?></span>
