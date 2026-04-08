@@ -249,14 +249,25 @@ if (!is_front_page() && !is_404()) {
       }
    }
 
-   // WooCommerce: если включён заголовок в контенте — принудительно pageheader-1
+   // WooCommerce archive: если включён заголовок в контенте — принудительно pageheader-1 (только крошки)
    if (
       class_exists( 'WooCommerce' ) &&
       ( is_shop() || is_product_category() || is_product_tag() ) &&
       class_exists( 'Redux' ) && ! empty( $opt_name ) &&
       (bool) Redux::get_option( $opt_name, 'woo_show_archive_title', false )
    ) {
-      $template_pageheader_id   = '';
+      $template_pageheader_id     = '';
+      $global_template_pageheader = '1';
+   }
+
+   // WooCommerce single: если заголовок товара в контенте — принудительно pageheader-1 (только крошки)
+   if (
+      class_exists( 'WooCommerce' ) &&
+      is_singular( 'product' ) &&
+      class_exists( 'Redux' ) && ! empty( $opt_name ) &&
+      (bool) Redux::get_option( $opt_name, 'woo_show_single_title', true )
+   ) {
+      $template_pageheader_id     = '';
       $global_template_pageheader = '1';
    }
 

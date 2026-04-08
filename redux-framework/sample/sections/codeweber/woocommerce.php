@@ -63,6 +63,14 @@ Redux::set_section(
 			),
 
 			array(
+				'id'       => 'woo_show_single_title',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Single Product Title in Page Header', 'codeweber' ),
+				'subtitle' => esc_html__( 'When enabled, page header shows only breadcrumbs (title is in the product summary). When disabled, page header follows standard Redux settings.', 'codeweber' ),
+				'default'  => true,
+			),
+
+			array(
 				'id'       => 'woo_shop_load_more',
 				'type'     => 'button_set',
 				'title'    => esc_html__( 'Shop Navigation Mode', 'codeweber' ),
