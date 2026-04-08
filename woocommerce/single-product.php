@@ -72,6 +72,8 @@ while ( have_posts() ) :
 	$video_type      = get_post_meta( $product->get_id(), '_cw_product_video_type', true ) ?: '';
 	$video_data      = $video_url && function_exists( 'cw_product_video_parse' ) ? cw_product_video_parse( $video_url, $video_type ) : null;
 	$video_poster_id = (int) get_post_meta( $product->get_id(), '_cw_product_video_poster_id', true );
+	$v_thumb_full    = ( $video_data && $video_poster_id ) ? wp_get_attachment_image_url( $video_poster_id, 'woocommerce_single' ) : '';
+	$v_thumb_sm      = ( $video_data && $video_poster_id ) ? wp_get_attachment_image_url( $video_poster_id, 'thumbnail' ) : '';
 	?>
 
 	<section class="wrapper">
@@ -119,12 +121,12 @@ while ( have_posts() ) :
 									$ht        = $hover_type ? ' ' . esc_attr( $hover_type ) : '';
 									?>
 									<?php if ( 'none' === $hover_style ) : ?>
-									<figure class="<?php echo $r . $ht; ?>">
+									<figure class="overflow-hidden <?php echo $r . $ht; ?>">
 										<?php echo $img_tag; ?>
 									</figure>
 
 									<?php elseif ( 'style-1' === $hover_style ) : ?>
-									<figure class="overlay overlay-4 hover-plus <?php echo $r . $ht; ?>">
+									<figure class="overflow-hidden overlay overlay-4 hover-plus <?php echo $r . $ht; ?>">
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon text-white"><i class="uil uil-plus"></i></span>
@@ -132,7 +134,7 @@ while ( have_posts() ) :
 									</figure>
 
 									<?php elseif ( 'style-2' === $hover_style ) : ?>
-									<figure class="overlay overlay-4 hover-plus <?php echo $r . $ht; ?>">
+									<figure class="overflow-hidden overlay overlay-4 hover-plus <?php echo $r . $ht; ?>">
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon text-white"><?php echo $svg_plus; ?></span>
@@ -140,7 +142,7 @@ while ( have_posts() ) :
 									</figure>
 
 									<?php elseif ( 'style-3' === $hover_style ) : ?>
-									<figure class="hover-overlay <?php echo $r . $ht; ?>">
+									<figure class="overflow-hidden hover-overlay <?php echo $r . $ht; ?>">
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon bg-pale-frost text-white"><?php echo $svg_plus; ?></span>
@@ -148,7 +150,7 @@ while ( have_posts() ) :
 									</figure>
 
 									<?php else : // style-4 (default) — item-link ?>
-									<figure class="<?php echo $r . $ht; ?>">
+									<figure class="overflow-hidden <?php echo $r . $ht; ?>">
 										<?php echo $img_tag; ?>
 										<?php if ( $full_url ) : ?>
 										<a class="item-link"
@@ -163,58 +165,60 @@ while ( have_posts() ) :
 								</div>
 								<?php endforeach; ?>
 
+								<?php // ── Видео-слайд в main swiper ── ?>
+								<?php if ( $video_data ) : ?>
+								<div class="swiper-slide">
+									<figure class="overflow-hidden <?php echo esc_attr( $card_radius ); ?> position-relative<?php echo $v_thumb_full ? '' : ' bg-dark'; ?>">
+										<?php if ( $v_thumb_full ) : ?>
+										<img src="<?php echo esc_url( $v_thumb_full ); ?>" class="img-fluid" style="height:100%;width:100%;object-fit:cover;" alt="">
+										<?php endif; ?>
+										<a href="<?php echo esc_url( $video_data['glightbox_href'] ); ?>"
+										   class="position-absolute top-50 start-50 translate-middle"
+										   <?php echo $video_data['glightbox_attrs']; ?>>
+											<span class="btn btn-circle btn-white btn-lg"><i class="icn-caret-right"></i></span>
+										</a>
+									</figure>
+								</div>
+								<?php endif; ?>
+
 							</div>
 							<!-- /.swiper-wrapper -->
 						</div>
 						<!-- /.swiper (main) -->
 
-						<?php // ── Thumbs + видео-превью ────────────────────────── ?>
-						<?php
-						$thumbs_area_class = 'cw-thumbs-area';
-						if ( $thumbs_dir === 'vertical' ) {
-							$thumbs_area_class .= ' cw-thumbs-area--v';
-						}
-						// flex-ratio: thumbs берут N частей, видео — 1; итого N+1 частей
-						$thumbs_flex_ratio = (int) $thumbs_items;
-						?>
-						<div class="<?php echo esc_attr( $thumbs_area_class ); ?>"<?php echo $video_data ? ' style="--cw-thumbs-n:' . $thumbs_flex_ratio . ';"' : ''; ?>>
-
-							<div class="swiper swiper-thumbs">
-								<div class="swiper-wrapper">
-									<?php foreach ( $all_image_ids as $img_id ) : ?>
-									<div class="swiper-slide">
-										<?php if ( 'none' === $thumb_hover ) : ?>
-										<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => esc_attr( $card_radius ) ] ); ?>
-										<?php else : ?>
-										<figure class="<?php echo esc_attr( $thumb_hover . ' ' . $card_radius ); ?>">
-											<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => 'img-fluid' ] ); ?>
-										</figure>
-										<?php endif; ?>
-									</div>
-									<?php endforeach; ?>
+						<?php // ── Thumbs swiper ────────────────────────────────── ?>
+						<div class="swiper swiper-thumbs">
+							<div class="swiper-wrapper">
+								<?php foreach ( $all_image_ids as $img_id ) : ?>
+								<div class="swiper-slide">
+									<?php if ( 'none' === $thumb_hover ) : ?>
+									<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => esc_attr( $card_radius ) ] ); ?>
+									<?php else : ?>
+									<figure class="overflow-hidden <?php echo esc_attr( $thumb_hover . ' ' . $card_radius ); ?>">
+										<?php echo wp_get_attachment_image( $img_id, 'thumbnail', false, [ 'class' => 'img-fluid' ] ); ?>
+									</figure>
+									<?php endif; ?>
 								</div>
-								<!-- /.swiper-wrapper -->
-							</div>
-							<!-- /.swiper (thumbs) -->
+								<?php endforeach; ?>
 
-							<?php // ── Видео-превью — вне swiper-thumbs, не влияет на sync ── ?>
-							<?php if ( $video_data ) :
-								$v_thumb = $video_poster_id ? wp_get_attachment_image_url( $video_poster_id, 'thumbnail' ) : '';
-							?>
-							<div class="cw-video-thumb <?php echo esc_attr( $card_radius ); ?> overflow-hidden<?php echo $v_thumb ? '' : ' bg-primary'; ?>">
-								<?php if ( $v_thumb ) : ?>
-								<img src="<?php echo esc_url( $v_thumb ); ?>" class="w-100 h-100 object-fit-cover" alt="<?php esc_attr_e( 'Video', 'codeweber' ); ?>">
+								<?php // ── Видео-слайд в thumbs ── ?>
+								<?php if ( $video_data ) : ?>
+								<div class="swiper-slide">
+									<div class="position-relative overflow-hidden <?php echo esc_attr( $card_radius ); ?><?php echo $v_thumb_sm ? '' : ' bg-dark'; ?>">
+										<?php if ( $v_thumb_sm ) : ?>
+										<img src="<?php echo esc_url( $v_thumb_sm ); ?>" class="<?php echo esc_attr( $card_radius ); ?>" style="width:100%;height:100%;object-fit:cover;display:block;" alt="">
+										<?php endif; ?>
+										<span class="position-absolute top-50 start-50 translate-middle">
+											<i class="uil uil-play-circle text-white" style="font-size:1.5rem;opacity:.85;line-height:1;"></i>
+										</span>
+									</div>
+								</div>
 								<?php endif; ?>
-								<a href="<?php echo esc_url( $video_data['glightbox_href'] ); ?>"
-								   class="cw-video-thumb__play position-absolute top-50 start-50 translate-middle"
-								   <?php echo $video_data['glightbox_attrs']; ?>>
-									<span class="btn btn-circle btn-white btn-sm"><i class="icn-caret-right"></i></span>
-								</a>
-							</div>
-							<?php endif; ?>
 
+							</div>
+							<!-- /.swiper-wrapper -->
 						</div>
-						<!-- /.cw-thumbs-area -->
+						<!-- /.swiper (thumbs) -->
 					</div>
 					<!-- /.swiper-container -->
 
