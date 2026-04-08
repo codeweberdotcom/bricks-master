@@ -161,6 +161,8 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | WooCommerce Cart Page (Bootstrap макет, AJAX удаление, CSS) | `doc_claude/integrations/WC_CART.md` |
 | WooCommerce Checkout (form-floating, select2, CSS) | `doc_claude/integrations/WC_CHECKOUT.md` |
 | Wishlist (архитектура, AJAX, JS, modal, Redux) | `doc_claude/integrations/WISHLIST.md` |
+| WooCommerce Product Video (метабокс, GLightbox, VK/Rutube inline, постер) | `doc_claude/integrations/WC_PRODUCT_VIDEO.md` |
+| WooCommerce Single Product Gallery (Swiper, skeleton, shimmer thumbs, видео-слайд) | `doc_claude/integrations/WC_SINGLE_GALLERY.md` |
 | Events (CPT, регистрации, REST API, FullCalendar, ICS, галерея, карта) | `doc_claude/integrations/EVENTS.md` |
 | Schema.org JSON-LD (модуль, CPT-схемы, фильтр, расширение) | `doc_claude/seo/SCHEMA_MODULE.md` |
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |
