@@ -164,8 +164,8 @@ while ( have_posts() ) :
 									$img_tag   = wp_get_attachment_image( $img_id, 'woocommerce_single', false, [ 'class' => 'img-fluid' ] );
 									$lb_attrs  = $full_url ? sprintf( ' href="%s" data-glightbox data-gallery="product-%s"', esc_url( $full_url ), $pid ) : ' href="#"';
 									$svg_plus  = '<svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg>';
-
-									<?php $ht = $hover_type ? ' ' . esc_attr( $hover_type ) : ''; ?>
+									$ht        = $hover_type ? ' ' . esc_attr( $hover_type ) : '';
+									?>
 									<?php if ( 'none' === $hover_style ) : ?>
 									<figure class="<?php echo $r . $ht; ?>">
 										<?php echo $img_tag; ?>
