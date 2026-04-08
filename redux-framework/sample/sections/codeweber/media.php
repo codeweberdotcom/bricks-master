@@ -53,7 +53,7 @@ Redux::set_section(
 			</h4>
 			<input type="search" id="cw-log-search" placeholder="' . esc_attr__( 'Поиск по имени файла...', 'codeweber' ) . '" style="flex:1; min-width:200px; max-width:300px; padding:4px 8px; font-size:13px; border:1px solid #ddd; border-radius:3px;">
 		</div>
-		<div id="cw-regen-log-list" class="accordion-wrapper" style="max-height:400px; overflow-y:auto;"></div>
+		<div id="cw-regen-log-list" style="max-height:400px; overflow-y:auto; border:1px solid #e5e5e5; border-radius:4px; background:#fff;"></div>
 	</div>
 
 	<div id="cw-regen-lost" style="display:none; margin-top: 20px;">
@@ -137,53 +137,85 @@ Redux::set_section(
 	// ── Log helpers ─────────────────────────────────────────────────────
 	var logUid = 0;
 
+	var S = {
+		row:     "border-bottom:1px solid #e5e5e5; background:#fff;",
+		rowErr:  "border-bottom:1px solid #e5e5e5; background:#fff8f8;",
+		btn:     "display:flex; align-items:center; gap:8px; width:100%; background:none; border:none; cursor:pointer; padding:8px 12px; text-align:left; font-size:13px; line-height:1.4;",
+		chip:    "display:inline-block; border-radius:3px; padding:1px 7px; font-size:11px; font-weight:600; line-height:1.7; flex-shrink:0;",
+		extC:    "background:#f0f0f1; color:#50575e;",
+		cptC:    "background:#dbeafe; color:#1d4ed8;",
+		cntC:    "background:#dcfce7; color:#166534;",
+		errC:    "background:#fee2e2; color:#991b1b;",
+		arrow:   "display:inline-block; transition:transform .2s; flex-shrink:0; color:#999; font-size:16px;",
+		body:    "border-top:1px solid #e5e5e5; background:#f9f9f9; padding:0; display:none;",
+		tbl:     "width:100%; border-collapse:collapse; font-size:12px;",
+		th:      "padding:5px 10px; background:#f0f0f1; color:#50575e; font-weight:600; text-align:left; border-bottom:1px solid #ddd;",
+		td:      "padding:4px 10px; border-bottom:1px solid #eee; vertical-align:top;",
+		code:    "background:#f0f0f1; border-radius:2px; padding:1px 5px; font-family:monospace; font-size:11px; color:#2c3338;",
+		errMsg:  "padding:8px 12px; color:#991b1b; font-size:12px; display:flex; align-items:center; gap:6px;"
+	};
+
+	function chip(text, colorStyle) {
+		return "<span style=\"" + S.chip + colorStyle + "\">" + text + "</span>";
+	}
+
 	function renderLogEntry(item) {
 		var uid   = "cw-log-acc-" + (++logUid);
 		var ok    = item.ok;
 		var sizes = item.sizes || [];
-		var cptBadge = (item.parent_type && item.parent_type !== "default")
-			? "<span class=\"badge bg-pale-blue text-blue rounded-pill\" style=\"font-size:11px;font-weight:500;\">" + item.parent_type + "</span>"
-			: "";
-		var extBadge = "<span class=\"badge bg-pale-ash text-dark rounded-pill\" style=\"font-size:11px;\">" + item.ext + "</span>";
-		var statusIcon = ok
-			? "<i class=\"uil uil-check-circle\" style=\"color:#2e7d32; font-size:16px; flex-shrink:0;\"></i>"
-			: "<i class=\"uil uil-times-circle\" style=\"color:#b32d2e; font-size:16px; flex-shrink:0;\"></i>";
-		var countBadge = ok
-			? "<span class=\"badge bg-pale-green text-green rounded-pill\" style=\"font-size:11px;\">" + sizes.length + " ' . esc_js( __( 'размеров', 'codeweber' ) ) . '</span>"
-			: "<span class=\"badge bg-pale-red text-red rounded-pill\" style=\"font-size:11px;\">' . esc_js( __( 'ошибка', 'codeweber' ) ) . '</span>";
 
-		// Тело аккордеона
+		var statusIcon = ok
+			? "<span class=\"dashicons dashicons-yes-alt\" style=\"color:#166534; font-size:16px; width:16px; height:16px; flex-shrink:0;\"></span>"
+			: "<span class=\"dashicons dashicons-dismiss\" style=\"color:#991b1b; font-size:16px; width:16px; height:16px; flex-shrink:0;\"></span>";
+
+		var extBadge = chip(item.ext, S.extC);
+		var cptBadge = (item.parent_type && item.parent_type !== "default")
+			? chip(item.parent_type, S.cptC) : "";
+		var cntBadge = ok
+			? chip(sizes.length + " ' . esc_js( __( 'размеров', 'codeweber' ) ) . '", S.cntC)
+			: chip("' . esc_js( __( 'ошибка', 'codeweber' ) ) . '", S.errC);
+
+		// Тело
 		var body = "";
 		if (ok && sizes.length) {
-			body += "<table class=\"table table-striped mb-0\" style=\"font-size:12px;\">" +
-				"<thead><tr><th style=\"width:36px;\">#</th><th>' . esc_js( __( 'Размер', 'codeweber' ) ) . '</th></tr></thead><tbody>";
+			var rows = "";
 			for (var i = 0; i < sizes.length; i++) {
-				body += "<tr><td>" + (i + 1) + "</td><td><code>" + sizes[i] + "</code></td></tr>";
+				var bg = i % 2 === 0 ? "#fff" : "#f9f9f9";
+				rows += "<tr style=\"background:" + bg + ";\"><td style=\"" + S.td + " width:36px; color:#999;\">" + (i+1) + "</td>" +
+					"<td style=\"" + S.td + "\"><span style=\"" + S.code + "\">" + sizes[i] + "</span></td></tr>";
 			}
-			body += "</tbody></table>";
+			body = "<table style=\"" + S.tbl + "\">" +
+				"<thead><tr>" +
+				"<th style=\"" + S.th + " width:36px;\">#</th>" +
+				"<th style=\"" + S.th + "\">' . esc_js( __( 'Размер', 'codeweber' ) ) . '</th>" +
+				"</tr></thead><tbody>" + rows + "</tbody></table>";
 		} else if (!ok) {
-			body += "<p class=\"mb-0\" style=\"color:#b32d2e; padding:8px 12px;\">" +
-				"<i class=\"uil uil-exclamation-triangle me-1\"></i>" +
+			body = "<div style=\"" + S.errMsg + "\">" +
+				"<span class=\"dashicons dashicons-warning\" style=\"color:#991b1b;\"></span>" +
 				(item.error || "' . esc_js( __( 'Файл не найден на диске', 'codeweber' ) ) . '") +
-				"</p>";
+				"</div>";
 		}
 
-		return "<div class=\"card plain accordion-item cw-log-row\" data-filename=\"" + item.filename + "\">" +
-			"<div class=\"card-header\" style=\"padding:6px 12px;\">" +
-				"<button class=\"collapsed\" style=\"display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;cursor:pointer;padding:0;text-align:left;font-size:13px;\" " +
-				"data-bs-toggle=\"collapse\" data-bs-target=\"#" + uid + "\" aria-expanded=\"false\">" +
-					statusIcon +
-					extBadge +
-					"<span style=\"font-weight:500; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;\">" + item.filename + "</span>" +
-					cptBadge +
-					countBadge +
-				"</button>" +
-			"</div>" +
-			"<div id=\"" + uid + "\" class=\"accordion-collapse collapse\">" +
-				"<div class=\"card-body\" style=\"padding:0;\">" + body + "</div>" +
-			"</div>" +
+		return "<div class=\"cw-log-row\" data-filename=\"" + item.filename + "\" style=\"" + (ok ? S.row : S.rowErr) + "\">" +
+			"<button class=\"cw-log-toggle\" data-target=\"#" + uid + "\" style=\"" + S.btn + "\">" +
+				statusIcon +
+				extBadge +
+				"<span style=\"font-weight:500; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-family:monospace;\">" + item.filename + "</span>" +
+				cptBadge + cntBadge +
+				"<span class=\"dashicons dashicons-arrow-down-alt2 cw-log-arrow\" style=\"" + S.arrow + "\"></span>" +
+			"</button>" +
+			"<div id=\"" + uid + "\" style=\"" + S.body + "\">" + body + "</div>" +
 		"</div>";
 	}
+
+	// Toggle аккордеона
+	$(document).on("click", ".cw-log-toggle", function() {
+		var $body  = $($(this).data("target"));
+		var $arrow = $(this).find(".cw-log-arrow");
+		var open   = $body.is(":visible");
+		$body.slideToggle(150);
+		$arrow.css("transform", open ? "" : "rotate(180deg)");
+	});
 
 	function appendLog(entries) {
 		if (!entries || !entries.length) return;
