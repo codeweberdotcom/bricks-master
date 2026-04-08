@@ -400,17 +400,17 @@ Redux::set_section(
 			),
 
 			array(
-				'id'       => 'woo_gallery_thumb_hover',
-				'type'     => 'select',
-				'title'    => esc_html__( 'Thumbnail Hover Effect', 'codeweber' ),
+				'id'      => 'woo_gallery_thumb_hover',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'Thumbnail Hover Effect', 'codeweber' ),
 				'subtitle' => esc_html__( 'Hover effect on thumbnail images', 'codeweber' ),
-				'options'  => array(
-					'none'              => esc_html__( 'None', 'codeweber' ),
-					'hover-scale'       => esc_html__( 'Scale', 'codeweber' ),
-					'hover-scale-rotate' => esc_html__( 'Scale + Rotate', 'codeweber' ),
-					'lift'              => esc_html__( 'Lift', 'codeweber' ),
+				'options' => array(
+					'none'               => esc_html__( 'None', 'codeweber' ),
+					'hover-scale'        => esc_html__( 'Scale', 'codeweber' ),
+					'hover-scale-rotate' => esc_html__( 'Scale+Rotate', 'codeweber' ),
+					'lift'               => esc_html__( 'Lift', 'codeweber' ),
 				),
-				'default'  => 'none',
+				'default' => 'none',
 			),
 
 			array(
@@ -430,10 +430,24 @@ Redux::set_section(
 			),
 
 			array(
+				'id'      => 'woo_gallery_hover_type',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'Image Motion Effect', 'codeweber' ),
+				'subtitle' => esc_html__( 'Movement effect on the main gallery image on hover', 'codeweber' ),
+				'options' => array(
+					''                   => esc_html__( 'None', 'codeweber' ),
+					'hover-scale'        => esc_html__( 'Scale', 'codeweber' ),
+					'hover-scale-rotate' => esc_html__( 'Scale+Rotate', 'codeweber' ),
+					'lift'               => esc_html__( 'Lift', 'codeweber' ),
+				),
+				'default' => '',
+			),
+
+			array(
 				'id'       => 'woo_gallery_hover_style',
 				'type'     => 'select',
 				'title'    => esc_html__( 'Hover Style', 'codeweber' ),
-				'subtitle' => esc_html__( 'Hover effect on the main gallery image', 'codeweber' ),
+				'subtitle' => esc_html__( 'Overlay/icon style on the main gallery image', 'codeweber' ),
 				'options'  => array(
 					'none'    => esc_html__( 'None', 'codeweber' ),
 					'style-1' => esc_html__( 'Overlay + uil-plus icon', 'codeweber' ),

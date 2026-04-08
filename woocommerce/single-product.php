@@ -83,6 +83,7 @@ while ( have_posts() ) :
 	$thumbs_items      = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumbs_items' ) ?: 5 ) : 5;
 	$thumbs_mousewheel = class_exists( 'Codeweber_Options' ) && Codeweber_Options::get( 'woo_gallery_thumbs_mousewheel' );
 	$hover_style       = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_hover_style' ) ?: 'style-4' ) : 'style-4';
+	$hover_type        = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_hover_type' ) ?: '' ) : '';
 	$thumb_hover       = class_exists( 'Codeweber_Options' ) ? ( Codeweber_Options::get( 'woo_gallery_thumb_hover' ) ?: 'none' ) : 'none';
 
 	// Ширина колонок
@@ -149,13 +150,14 @@ while ( have_posts() ) :
 									$lb_attrs  = $full_url ? sprintf( ' href="%s" data-glightbox data-gallery="product-%s"', esc_url( $full_url ), $pid ) : ' href="#"';
 									$svg_plus  = '<svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg>';
 
-									if ( 'none' === $hover_style ) : ?>
-									<figure class="<?php echo $r; ?>">
+									<?php $ht = $hover_type ? ' ' . esc_attr( $hover_type ) : ''; ?>
+									<?php if ( 'none' === $hover_style ) : ?>
+									<figure class="<?php echo $r . $ht; ?>">
 										<?php echo $img_tag; ?>
 									</figure>
 
 									<?php elseif ( 'style-1' === $hover_style ) : ?>
-									<figure class="overlay overlay-4 hover-scale hover-plus <?php echo $r; ?>">
+									<figure class="overlay overlay-4 hover-scale hover-plus <?php echo $r . $ht; ?>">
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon text-white"><i class="uil uil-plus"></i></span>
@@ -163,7 +165,7 @@ while ( have_posts() ) :
 									</figure>
 
 									<?php elseif ( 'style-2' === $hover_style ) : ?>
-									<figure class="overlay overlay-4 hover-scale hover-plus <?php echo $r; ?>">
+									<figure class="overlay overlay-4 hover-scale hover-plus <?php echo $r . $ht; ?>">
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon text-white"><?php echo $svg_plus; ?></span>
@@ -171,7 +173,7 @@ while ( have_posts() ) :
 									</figure>
 
 									<?php elseif ( 'style-3' === $hover_style ) : ?>
-									<figure class="hover-scale hover-overlay <?php echo $r; ?>">
+									<figure class="hover-scale hover-overlay <?php echo $r . $ht; ?>">
 										<a<?php echo $lb_attrs; ?>>
 											<?php echo $img_tag; ?>
 											<span class="hover-icon bg-pale-frost text-white"><?php echo $svg_plus; ?></span>
@@ -179,7 +181,7 @@ while ( have_posts() ) :
 									</figure>
 
 									<?php else : // style-4 (default) — item-link ?>
-									<figure class="<?php echo $r; ?>">
+									<figure class="<?php echo $r . $ht; ?>">
 										<?php echo $img_tag; ?>
 										<?php if ( $full_url ) : ?>
 										<a class="item-link"
