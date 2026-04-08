@@ -211,7 +211,7 @@ while ( have_posts() ) :
 										<img src="<?php echo esc_url( $v_thumb_sm ); ?>" class="<?php echo esc_attr( $card_radius ); ?>" style="width:100%;height:100%;object-fit:cover;display:block;" alt="">
 										<?php endif; ?>
 										<span class="position-absolute top-50 start-50 translate-middle">
-											<i class="uil uil-play-circle text-white" style="font-size:1.5rem;opacity:.85;line-height:1;"></i>
+											<span class="btn btn-circle btn-soft-primary btn-play ripple btn-sm"><i class="icn-caret-right"></i></span>
 										</span>
 									</div>
 								</div>
