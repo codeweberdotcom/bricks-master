@@ -22,9 +22,15 @@ Redux::set_section(
 <div class="cw-media-regen" style="margin: 20px 0;">
 	<h3 style="margin-top: 0;">' . esc_html__( 'Регенерация миниатюр', 'codeweber' ) . '</h3>
 	<p class="description">' . esc_html__( 'Перегенерирует все размеры изображений для файлов в медиатеке. Нужно запускать после изменения зарегистрированных размеров.', 'codeweber' ) . '</p>
-	<div style="margin: 15px 0;">
+	<div style="margin: 15px 0; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
 		<button id="cw-regen-start" class="button button-primary">'
 				. esc_html__( 'Регенерировать миниатюры', 'codeweber' ) .
+				'</button>
+		<button id="cw-regen-resume" class="button button-primary" style="display:none;">'
+				. esc_html__( 'Продолжить', 'codeweber' ) .
+				'</button>
+		<button id="cw-regen-restart" class="button button-secondary" style="display:none;">'
+				. esc_html__( 'Начать сначала', 'codeweber' ) .
 				'</button>
 	</div>
 	<div id="cw-regen-progress" style="display:none; margin-top: 15px; max-width: 500px;">
@@ -60,17 +66,55 @@ Redux::set_section(
 (function($) {
 	"use strict";
 
-	var nonce     = "' . wp_create_nonce( 'cw_media_regen' ) . '";
-	var total     = 0;
-	var batchSize = 10;
-	var allLost   = [];
+	var nonce      = "' . wp_create_nonce( 'cw_media_regen' ) . '";
+	var total      = 0;
+	var batchSize  = 10;
+	var allLost    = [];
+	var running    = false;
+	var SS_KEY     = "cw_media_regen_state";
 
+	// ── sessionStorage helpers ──────────────────────────────────────────
+	function saveState(offset, done) {
+		try {
+			sessionStorage.setItem(SS_KEY, JSON.stringify({
+				offset:  offset,
+				total:   total,
+				allLost: allLost,
+				done:    done || false
+			}));
+		} catch(e) {}
+	}
+
+	function loadState() {
+		try {
+			var raw = sessionStorage.getItem(SS_KEY);
+			return raw ? JSON.parse(raw) : null;
+		} catch(e) { return null; }
+	}
+
+	function clearState() {
+		try { sessionStorage.removeItem(SS_KEY); } catch(e) {}
+	}
+
+	// ── UI helpers ──────────────────────────────────────────────────────
 	function setProgress(done, outOf) {
 		var pct = outOf > 0 ? Math.round(done / outOf * 100) : 0;
 		$("#cw-regen-bar").css("width", pct + "%");
 		$("#cw-regen-label").text(
 			"' . esc_js( __( 'Обработано', 'codeweber' ) ) . ' " + done + " ' . esc_js( __( 'из', 'codeweber' ) ) . ' " + outOf + " (" + pct + "%)"
 		);
+	}
+
+	function showStatus(msg, type) {
+		var $s = $("#cw-regen-status");
+		$s.removeClass("notice-success notice-error notice-info notice-warning");
+		$s.addClass("notice-" + type).html("<p>" + msg + "</p>").show();
+	}
+
+	function setRunning(isRunning) {
+		running = isRunning;
+		$("#cw-regen-start").prop("disabled", isRunning);
+		$("#cw-regen-resume").prop("disabled", isRunning);
 	}
 
 	function updateLostCount() {
@@ -106,6 +150,144 @@ Redux::set_section(
 		$("#cw-regen-lost").show();
 	}
 
+	function onFinished() {
+		setRunning(false);
+		saveState(total, true);
+		$("#cw-regen-resume").hide();
+		$("#cw-regen-restart").show();
+		var msg = "' . esc_js( __( 'Готово! Все миниатюры успешно регенерированы.', 'codeweber' ) ) . '";
+		if (allLost.length > 0) {
+			msg += " ' . esc_js( __( 'Потерянных файлов:', 'codeweber' ) ) . ' " + allLost.length + ".";
+		}
+		showStatus(msg, allLost.length > 0 ? "warning" : "success");
+		renderLostReport();
+	}
+
+	// ── AJAX ────────────────────────────────────────────────────────────
+	function runBatch(offset) {
+		$.ajax({
+			url: ajaxurl,
+			type: "POST",
+			timeout: 180000,
+			data: {
+				action: "cw_media_regen_batch",
+				nonce:  nonce,
+				offset: offset,
+				limit:  batchSize,
+				total:  total
+			},
+			success: function(r) {
+				if (!r.success) {
+					showStatus(r.data.message, "error");
+					saveState(offset, false);
+					setRunning(false);
+					$("#cw-regen-resume").show();
+					$("#cw-regen-restart").show();
+					return;
+				}
+				var next = r.data.next_offset;
+				setProgress(Math.min(next, total), total);
+
+				if (r.data.lost && r.data.lost.length > 0) {
+					allLost = allLost.concat(r.data.lost);
+				}
+
+				if (r.data.done) {
+					onFinished();
+				} else {
+					saveState(next, false);
+					runBatch(next);
+				}
+			},
+			error: function() {
+				showStatus("' . esc_js( __( 'Ошибка AJAX-запроса. Попробуйте ещё раз.', 'codeweber' ) ) . '", "error");
+				saveState(offset, false);
+				setRunning(false);
+				$("#cw-regen-resume").show();
+				$("#cw-regen-restart").show();
+			}
+		});
+	}
+
+	function startFromOffset(offset) {
+		setRunning(true);
+		$("#cw-regen-resume").hide();
+		$("#cw-regen-restart").show();
+		$("#cw-regen-progress").show();
+		setProgress(offset, total);
+		showStatus("' . esc_js( __( 'Обработка...', 'codeweber' ) ) . '", "info");
+		runBatch(offset);
+	}
+
+	function fetchTotalAndStart(offset) {
+		showStatus("' . esc_js( __( 'Подсчёт изображений...', 'codeweber' ) ) . '", "info");
+		$.ajax({
+			url: ajaxurl,
+			type: "POST",
+			data: { action: "cw_media_regen_count", nonce: nonce },
+			success: function(r) {
+				if (!r.success) {
+					showStatus(r.data.message, "error");
+					setRunning(false);
+					return;
+				}
+				total = r.data.total;
+				if (total === 0) {
+					showStatus("' . esc_js( __( 'Изображений не найдено.', 'codeweber' ) ) . '", "info");
+					setRunning(false);
+					return;
+				}
+				startFromOffset(offset);
+			},
+			error: function() {
+				showStatus("' . esc_js( __( 'Ошибка AJAX-запроса. Попробуйте ещё раз.', 'codeweber' ) ) . '", "error");
+				setRunning(false);
+			}
+		});
+	}
+
+	// ── Кнопки ─────────────────────────────────────────────────────────
+	$("#cw-regen-start").on("click", function(e) {
+		e.preventDefault();
+		if (!confirm("' . esc_js( __( 'Регенерировать все миниатюры? Это может занять некоторое время.', 'codeweber' ) ) . '")) return;
+		clearState();
+		allLost = [];
+		total   = 0;
+		$("#cw-regen-status").hide();
+		$("#cw-regen-lost").hide();
+		fetchTotalAndStart(0);
+	});
+
+	$("#cw-regen-resume").on("click", function(e) {
+		e.preventDefault();
+		var state = loadState();
+		if (!state) return;
+		allLost = state.allLost || [];
+		total   = state.total  || 0;
+		if (total > 0) {
+			renderLostReport();
+			startFromOffset(state.offset);
+		} else {
+			fetchTotalAndStart(0);
+		}
+	});
+
+	$("#cw-regen-restart").on("click", function(e) {
+		e.preventDefault();
+		if (!confirm("' . esc_js( __( 'Начать регенерацию сначала? Весь прогресс будет сброшен.', 'codeweber' ) ) . '")) return;
+		clearState();
+		allLost = [];
+		total   = 0;
+		$("#cw-regen-status").hide();
+		$("#cw-regen-progress").hide();
+		$("#cw-regen-lost").hide();
+		$("#cw-regen-lost-tbody").empty();
+		$(this).hide();
+		$("#cw-regen-resume").hide();
+		fetchTotalAndStart(0);
+	});
+
+	// ── Удаление потерянных ─────────────────────────────────────────────
 	function deleteLost(ids, $btn, onSuccess) {
 		$btn.prop("disabled", true);
 		$.ajax({
@@ -149,96 +331,37 @@ Redux::set_section(
 		});
 	});
 
-	function showStatus(msg, type) {
-		var $s = $("#cw-regen-status");
-		$s.removeClass("notice-success notice-error notice-info notice-warning");
-		$s.addClass("notice-" + type).html("<p>" + msg + "</p>").show();
-	}
-
-	function runBatch(offset) {
-		$.ajax({
-			url: ajaxurl,
-			type: "POST",
-			timeout: 180000,
-			data: {
-				action: "cw_media_regen_batch",
-				nonce:  nonce,
-				offset: offset,
-				limit:  batchSize,
-				total:  total
-			},
-			success: function(r) {
-				if (!r.success) {
-					showStatus(r.data.message, "error");
-					$("#cw-regen-start").prop("disabled", false);
-					return;
-				}
-				var next = r.data.next_offset;
-				setProgress(Math.min(next, total), total);
-
-				if (r.data.lost && r.data.lost.length > 0) {
-					allLost = allLost.concat(r.data.lost);
-				}
-
-				if (r.data.done) {
-					$("#cw-regen-start").prop("disabled", false);
-					var msg = "' . esc_js( __( 'Готово! Все миниатюры успешно регенерированы.', 'codeweber' ) ) . '";
-					if (allLost.length > 0) {
-						msg += " ' . esc_js( __( 'Потерянных файлов:', 'codeweber' ) ) . ' " + allLost.length + ".";
-					}
-					showStatus(msg, allLost.length > 0 ? "warning" : "success");
-					renderLostReport();
-				} else {
-					runBatch(next);
-				}
-			},
-			error: function() {
-				showStatus("' . esc_js( __( 'Ошибка AJAX-запроса. Попробуйте ещё раз.', 'codeweber' ) ) . '", "error");
-				$("#cw-regen-start").prop("disabled", false);
+	// ── Восстановление состояния при загрузке страницы ──────────────────
+	$(function() {
+		var state = loadState();
+		if (!state) return;
+		total   = state.total  || 0;
+		allLost = state.allLost || [];
+		if (state.done) {
+			// Процесс завершён — показать статистику
+			$("#cw-regen-progress").show();
+			setProgress(total, total);
+			var msg = "' . esc_js( __( 'Готово! Все миниатюры успешно регенерированы.', 'codeweber' ) ) . '";
+			if (allLost.length > 0) {
+				msg += " ' . esc_js( __( 'Потерянных файлов:', 'codeweber' ) ) . ' " + allLost.length + ".";
 			}
-		});
-	}
-
-	$("#cw-regen-start").on("click", function(e) {
-		e.preventDefault();
-		if (!confirm("' . esc_js( __( 'Регенерировать все миниатюры? Это может занять некоторое время.', 'codeweber' ) ) . '")) {
-			return;
+			showStatus(msg, allLost.length > 0 ? "warning" : "success");
+			renderLostReport();
+			$("#cw-regen-restart").show();
+		} else if (state.offset > 0) {
+			// Незавершённый процесс — предложить продолжить
+			$("#cw-regen-progress").show();
+			setProgress(state.offset, total);
+			showStatus(
+				"' . esc_js( __( 'Прерванная регенерация. Обработано:', 'codeweber' ) ) . ' " + state.offset + " ' . esc_js( __( 'из', 'codeweber' ) ) . ' " + total + ". ' . esc_js( __( 'Нажмите «Продолжить».', 'codeweber' ) ) . '",
+				"warning"
+			);
+			renderLostReport();
+			$("#cw-regen-resume").show();
+			$("#cw-regen-restart").show();
 		}
-
-		$(this).prop("disabled", true);
-		allLost = [];
-		$("#cw-regen-status").hide();
-		$("#cw-regen-progress").hide();
-		$("#cw-regen-lost").hide();
-		showStatus("' . esc_js( __( 'Подсчёт изображений...', 'codeweber' ) ) . '", "info");
-
-		$.ajax({
-			url: ajaxurl,
-			type: "POST",
-			data: { action: "cw_media_regen_count", nonce: nonce },
-			success: function(r) {
-				if (!r.success) {
-					showStatus(r.data.message, "error");
-					$("#cw-regen-start").prop("disabled", false);
-					return;
-				}
-				total = r.data.total;
-				if (total === 0) {
-					showStatus("' . esc_js( __( 'Изображений не найдено.', 'codeweber' ) ) . '", "info");
-					$("#cw-regen-start").prop("disabled", false);
-					return;
-				}
-				$("#cw-regen-progress").show();
-				setProgress(0, total);
-				showStatus("' . esc_js( __( 'Обработка...', 'codeweber' ) ) . '", "info");
-				runBatch(0);
-			},
-			error: function() {
-				showStatus("' . esc_js( __( 'Ошибка AJAX-запроса. Попробуйте ещё раз.', 'codeweber' ) ) . '", "error");
-				$("#cw-regen-start").prop("disabled", false);
-			}
-		});
 	});
+
 })(jQuery);
 </script>',
 			],
