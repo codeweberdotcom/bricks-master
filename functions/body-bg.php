@@ -28,11 +28,20 @@ function cw_body_bg_context_prefix(): string {
 	if ( is_singular() || is_page() ) {
 		$post_id   = get_queried_object_id();
 		$post_type = get_post_type( $post_id );
+		// WooCommerce: post_type 'product' → Redux-ключ 'woocommerce'
+		if ( $post_type === 'product' ) {
+			$post_type = 'woocommerce';
+		}
 		return 'single_' . sanitize_key( $post_type );
 	}
 
 	if ( is_post_type_archive() ) {
-		return 'archive_' . sanitize_key( get_query_var( 'post_type' ) );
+		$post_type = get_query_var( 'post_type' );
+		// WooCommerce: post_type 'product' → Redux-ключ 'woocommerce'
+		if ( $post_type === 'product' ) {
+			$post_type = 'woocommerce';
+		}
+		return 'archive_' . sanitize_key( $post_type );
 	}
 
 	if ( is_tax() ) {
@@ -40,7 +49,12 @@ function cw_body_bg_context_prefix(): string {
 		if ( $tax_obj ) {
 			$tax_info = get_taxonomy( $tax_obj->taxonomy );
 			if ( $tax_info && ! empty( $tax_info->object_type ) ) {
-				return 'archive_' . sanitize_key( $tax_info->object_type[0] );
+				$post_type = $tax_info->object_type[0];
+				// WooCommerce: product_cat / product_tag → Redux-ключ 'woocommerce'
+				if ( $post_type === 'product' ) {
+					$post_type = 'woocommerce';
+				}
+				return 'archive_' . sanitize_key( $post_type );
 			}
 		}
 	}
