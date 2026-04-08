@@ -177,7 +177,7 @@ while ( have_posts() ) :
 										<a href="<?php echo esc_url( $video_data['glightbox_href'] ); ?>"
 										   class="position-absolute top-50 start-50 translate-middle"
 										   <?php echo $video_data['glightbox_attrs']; ?>>
-											<span class="btn btn-circle btn-white btn-lg"><i class="icn-caret-right"></i></span>
+											<span class="btn btn-circle btn-soft-primary btn-play ripple"><i class="icn-caret-right"></i></span>
 										</a>
 									</figure>
 								</div>
@@ -206,7 +206,7 @@ while ( have_posts() ) :
 								<?php // ── Видео-слайд в thumbs ── ?>
 								<?php if ( $video_data ) : ?>
 								<div class="swiper-slide">
-									<div class="position-relative overflow-hidden <?php echo esc_attr( $card_radius ); ?><?php echo $v_thumb_sm ? '' : ' bg-dark'; ?>">
+									<div class="position-relative overflow-hidden h-100 <?php echo esc_attr( $card_radius ); ?><?php echo $v_thumb_sm ? '' : ' bg-dark'; ?>">
 										<?php if ( $v_thumb_sm ) : ?>
 										<img src="<?php echo esc_url( $v_thumb_sm ); ?>" class="<?php echo esc_attr( $card_radius ); ?>" style="width:100%;height:100%;object-fit:cover;display:block;" alt="">
 										<?php endif; ?>
