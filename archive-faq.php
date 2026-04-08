@@ -6,11 +6,9 @@
  * @package Codeweber
  */
 
-get_header(); 
+get_header();
 get_pageheader();
-?>
-
-<?php if (have_posts()) : ?>
+if (have_posts()) : ?>
 <section id="content-wrapper" class="wrapper">
   <div class="container">
       <?php 

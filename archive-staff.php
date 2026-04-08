@@ -5,11 +5,8 @@
  * @package Codeweber
  */
 
-get_header(); 
+get_header();
 get_pageheader();
-?>
-
-<?php
 // Получаем выбранный шаблон из настроек Redux
 $post_type = 'staff';
 global $opt_name;
