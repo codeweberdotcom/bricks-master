@@ -54,7 +54,7 @@ while ( have_posts() ) :
 		$crumbs = $breadcrumb_wc->generate();
 		?>
 
-	<section class="wrapper <?php echo esc_attr( $bc_bg ); ?>">
+	<section class="wrapper text-reset <?php echo esc_attr( $bc_bg ); ?>">
 		<div class="container py-3 py-md-5<?php echo $bc_align ? ' ' . esc_attr( $bc_align ) : ''; ?>">
 			<nav class="d-inline-block" aria-label="breadcrumb">
 				<ol class="breadcrumb mb-0">
