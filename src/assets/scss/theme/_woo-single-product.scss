@@ -281,10 +281,13 @@
 }
 
 // Swiper невидим пока JS не добавит .cw-gallery-ready (ждём загрузки изображения)
+// Скелетон остаётся видимым (opacity:1 явно)
 .swiper-thumbs-container:not(.cw-gallery-ready) {
   > .swiper,
   .swiper-main,
   .cw-thumbs-area { opacity: 0; }
+
+  .cw-gallery-skeleton { opacity: 1; }
 }
 
 // После готовности: скелетон скрыть, swiper плавно появляется
@@ -333,5 +336,26 @@
       width: 100%;
       aspect-ratio: 1;
     }
+  }
+}
+
+// Shimmer-заглушка для thumb-слайдов пока img не загружена
+.swiper-thumbs .swiper-slide {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: cw-skeleton-shimmer 1.4s infinite;
+    border-radius: inherit;
+    z-index: 0;
+  }
+
+  img, figure {
+    position: relative;
+    z-index: 1;
   }
 }
