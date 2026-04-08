@@ -314,7 +314,7 @@ $badge_item_class    = $badge_item_class ?? '';
 				$count_html = $show_count ? '<span class="fs-sm text-muted ms-1">(' . (int) $ci['count'] . ')</span>' : '';
 
 				if ( $has_sub ) {
-					$a_cls = array_filter( [ 'nav-link', 'd-block', 'flex-grow-1', 'pjax-link', $is_active ? 'fw-semibold' : '', $is_active ? 'current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					$a_cls = array_filter( [ 'nav-link', 'd-block', 'flex-grow-1', 'pjax-link', $is_active ? 'current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
 					$html .= '<div class="menu-collapse-row d-flex align-items-center justify-content-between">';
 					if ( $is_disabled ) {
 						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
@@ -331,7 +331,7 @@ $badge_item_class    = $badge_item_class ?? '';
 					$html   .= $render_cat_collapse( $tree, $ci['wp_id'], $root_id, $list_type, $lvl + 1 );
 					$html   .= '</ul></div>';
 				} else {
-					$a_cls = array_filter( [ 'nav-link', 'd-block', 'pjax-link', $is_active ? 'fw-semibold' : '', $is_active ? 'current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					$a_cls = array_filter( [ 'nav-link', 'd-block', 'pjax-link', $is_active ? 'current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
 					if ( $is_disabled ) {
 						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
 					} else {
@@ -366,7 +366,7 @@ $badge_item_class    = $badge_item_class ?? '';
 				$is_clickable_muted = ( 'disable_clickable' === $empty_behavior && $is_empty && ! $is_active );
 
 				$count_html = $show_count ? '<span class="fs-sm text-muted ms-1">(' . (int) $ci['count'] . ')</span>' : '';
-				$a_cls      = array_filter( [ 'pjax-link', $is_active ? 'fw-semibold' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+				$a_cls      = array_filter( [ 'pjax-link', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
 
 				$html .= '<li>';
 				if ( $is_disabled ) {
@@ -415,7 +415,7 @@ $badge_item_class    = $badge_item_class ?? '';
 					// Root level
 					$li_cls = array_filter( [ 'nav-item', 'parent-item', $has_sub ? 'dropdown parent-link dropend' : '', $is_active ? 'current-menu-item' : '' ] );
 					$html  .= '<li class="' . esc_attr( implode( ' ', $li_cls ) ) . '">';
-					$a_cls  = array_filter( [ 'nav-link', 'pjax-link', $is_active ? 'fw-semibold current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					$a_cls  = array_filter( [ 'nav-link', 'pjax-link', $is_active ? 'current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
 					if ( $is_disabled ) {
 						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
 					} else {
@@ -426,7 +426,7 @@ $badge_item_class    = $badge_item_class ?? '';
 					// Nested level
 					$li_cls = array_filter( [ 'nav-item', $has_sub ? 'dropdown dropend parent-link dropdown-submenu' : '', $is_active ? 'current-menu-item' : '' ] );
 					$html  .= '<li class="' . esc_attr( implode( ' ', $li_cls ) ) . '">';
-					$a_cls  = array_filter( [ 'dropdown-item', 'pjax-link', $is_active ? 'fw-semibold current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
+					$a_cls  = array_filter( [ 'dropdown-item', 'pjax-link', $is_active ? 'current-menu-item' : '', ( $is_empty && ! $is_active ) ? 'opacity-50' : '', $is_clickable_muted ? 'text-muted' : '' ] );
 					if ( $is_disabled ) {
 						$html .= '<span class="' . esc_attr( implode( ' ', $a_cls ) ) . '">' . esc_html( $ci['term']->name ) . $count_html . '</span>';
 					} else {
@@ -492,7 +492,7 @@ $badge_item_class    = $badge_item_class ?? '';
 					</span>
 				<?php else : ?>
 					<a href="<?php echo esc_url( $item['url'] ); ?>"
-						class="link-body pjax-link<?php echo $is_active ? ' fw-semibold' : ''; ?><?php echo $is_clickable_muted ? ' text-muted' : ''; ?>"
+						class="link-body pjax-link<?php echo $is_clickable_muted ? ' text-muted' : ''; ?>"
 						style="text-decoration:none;">
 						<?php echo esc_html( $term->name ); ?>
 						<?php if ( $show_count ) : ?>
