@@ -267,6 +267,36 @@ Redux::set_section(
 				),
 				'default'  => 'md',
 			),
+			array(
+				'id'      => 'share_button_color',
+				'type'    => 'select',
+				'title'   => esc_html__( 'Share Button Color', 'codeweber' ),
+				'subtitle' => esc_html__( 'Color of the "Share" dropdown button', 'codeweber' ),
+				'options' => call_user_func( function () {
+					$opts = array();
+					$file = get_template_directory() . '/components/colors.json';
+					if ( file_exists( $file ) ) {
+						$data = json_decode( file_get_contents( $file ), true );
+						if ( is_array( $data ) ) {
+							foreach ( $data as $c ) {
+								$opts[ $c['value'] ] = esc_html__( $c['label'], 'codeweber' );
+							}
+						}
+					}
+					return $opts;
+				} ),
+				'default' => 'red',
+			),
+			array(
+				'id'      => 'share_button_type',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'Share Button Type', 'codeweber' ),
+				'options' => array(
+					'solid' => esc_html__( 'Solid', 'codeweber' ),
+					'soft'  => esc_html__( 'Soft', 'codeweber' ),
+				),
+				'default' => 'solid',
+			),
 		),
 	)
 );

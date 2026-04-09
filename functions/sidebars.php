@@ -282,7 +282,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
         $sidebar_hide_author   = !empty($vacancy_data['sidebar_hide_author']);
 ?>
         <div class="widget">
-            <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
+            <div class="card text-dark<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                 <?php
                 if (!$sidebar_disable_image) :
                     $thumbnail_id = get_post_thumbnail_id();
@@ -709,7 +709,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
     $show_any_seats = $show_bar || $show_left || $show_taken;
     ?>
     <div class="widget">
-    <div class="card<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+    <div class="card text-dark<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 
         <?php if ( ! $sidebar_disable_image && has_post_thumbnail() ) :
             $sidebar_img = get_the_post_thumbnail_url( $event_id, 'codeweber_event_383-250' );

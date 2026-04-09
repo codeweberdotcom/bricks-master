@@ -535,6 +535,14 @@ Redux::set_section(
 			),
 
 			array(
+				'id'      => 'woo_single_show_price',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Price', 'codeweber' ),
+				'subtitle' => esc_html__( 'Show product price in the right summary column', 'codeweber' ),
+				'default' => true,
+			),
+
+			array(
 				'id'      => 'woo_single_show_rating',
 				'type'    => 'switch',
 				'title'   => esc_html__( 'Rating', 'codeweber' ),
