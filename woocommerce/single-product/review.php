@@ -31,7 +31,7 @@ $avatar_url  = get_avatar_url( $comment, [ 'size' => 60 ] );
 		<div>
 			<h6 class="comment-author">
 				<?php if ( $author_url ) : ?>
-					<a href="<?php echo esc_url( $author_url ); ?>" class="link-dark"><?php echo esc_html( $author ); ?></a>
+					<a href="<?php echo esc_url( $author_url ); ?>" class="link-dark text-reset"><?php echo esc_html( $author ); ?></a>
 				<?php else : ?>
 					<span class="link-dark"><?php echo esc_html( $author ); ?></span>
 				<?php endif; ?>

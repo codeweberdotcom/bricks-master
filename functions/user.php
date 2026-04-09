@@ -368,7 +368,7 @@ if (!function_exists('codeweber_author_info')) {
 
                 <div>
                     <h6>
-                        <a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="link-dark">
+                        <a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="link-dark text-reset">
                             <?php the_author_meta('first_name'); ?> <?php the_author_meta('last_name'); ?>
                         </a>
                     </h6>
