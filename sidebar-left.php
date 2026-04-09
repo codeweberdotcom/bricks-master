@@ -10,7 +10,7 @@ $sidebar_position = get_sidebar_position($opt_name);
 if ($sidebar_position === 'left') {
    $bp = get_sidebar_breakpoint($opt_name);
    $aside_class = $bp === 'always'
-      ? 'col-12 col-md-4 sidebar mt-md-0 py-14 order-last order-md-first'
+      ? 'col-12 col-md-4 sidebar mt-md-0 py-14'
       : 'col-12 col-' . $bp . '-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-' . $bp . '-block';
    if ($post_type === 'post') {
       // Используем стандартный сайдбар WordPress с нужными классами
