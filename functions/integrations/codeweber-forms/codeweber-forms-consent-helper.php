@@ -398,13 +398,13 @@ function codeweber_forms_get_default_consent_label( int $document_id ): string {
 		}
 		if ( ( strpos( $t, 'согласие' ) !== false && strpos( $t, 'персональн' ) !== false ) ||
 		     ( strpos( $t, 'personal data' ) !== false && strpos( $t, 'consent' ) !== false ) ) {
-			return __( 'I <a href="{document_url}">consent</a> to the processing of my personal data.', 'codeweber' );
+			return __( 'I give my {document_title_url}.', 'codeweber' );
 		}
 	}
 
 	$type_defaults = [
 		'privacy_policy' => __( 'I have read the <a href="{document_url}">personal data processing policy document.</a>', 'codeweber' ),
-		'legal'          => __( 'I <a href="{document_url}">consent</a> to the processing of my personal data.', 'codeweber' ),
+		'legal'          => __( 'I give my {document_title_url}.', 'codeweber' ),
 	];
 	if ( isset( $type_defaults[ $document_type ] ) ) {
 		return $type_defaults[ $document_type ];
