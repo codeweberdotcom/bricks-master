@@ -39,7 +39,7 @@ $show_hit_badge = get_post_meta($post_id, '_vacancy_featured', true) || get_post
 		<span class="position-absolute top-0 start-0 m-2 badge bg-warning text-dark px-2 py-1"><?php _e('HIT', 'codeweber'); ?></span>
 	<?php endif; ?>
 	<div class="row g-0 h-100">
-		<div class="col-3">
+		<div class="col-12 col-md-3">
 			<figure class="mb-0 h-100 overlay overlay-1 hover-scale">
 				<a href="<?php echo esc_url($link); ?>" class="d-block h-100">
 					<img src="<?php echo esc_url($vacancy_image_url); ?>" alt="<?php echo esc_attr($title); ?>" class="w-100 h-100 object-fit-cover">
@@ -49,54 +49,54 @@ $show_hit_badge = get_post_meta($post_id, '_vacancy_featured', true) || get_post
 				</figcaption>
 			</figure>
 		</div>
-		<div class="col-9">
+		<div class="col-12 col-md-9">
 			<div class="card-body">
 		<h2 class="mb-4 display-6"><?php echo esc_html($title); ?></h2>
-		<ul class="list-unstyled cc-2 mb-3">
+		<div class="row g-0 mb-3">
 				<?php if ($location) : ?>
-				<li class="mb-1 d-flex">
+				<div class="col-12 col-md-6 mb-1 d-flex">
 					<i class="uil uil-map-marker-alt text-primary me-2"></i>
 					<span><?php echo esc_html($location); ?></span>
-				</li>
+				</div>
 				<?php endif; ?>
 				<?php if ($category_name) : ?>
-				<li class="mb-1 d-flex">
+				<div class="col-12 col-md-6 mb-1 d-flex">
 					<i class="uil uil-briefcase-alt text-primary me-2"></i>
 					<span><?php echo esc_html($category_name); ?></span>
-				</li>
+				</div>
 				<?php endif; ?>
 				<?php if ($schedule_name) : ?>
-				<li class="mb-1 d-flex">
+				<div class="col-12 col-md-6 mb-1 d-flex">
 					<i class="uil uil-calendar-alt text-primary me-2"></i>
 					<span><?php echo esc_html($schedule_name); ?></span>
-				</li>
+				</div>
 				<?php endif; ?>
 				<?php if ($experience) : ?>
-				<li class="mb-1 d-flex">
+				<div class="col-12 col-md-6 mb-1 d-flex">
 					<i class="uil uil-clock text-primary me-2"></i>
 					<span><?php echo esc_html($experience); ?></span>
-				</li>
+				</div>
 				<?php endif; ?>
 				<?php if ($company) : ?>
-				<li class="mb-1 d-flex">
+				<div class="col-12 col-md-6 mb-1 d-flex">
 					<i class="uil uil-graduation-cap text-primary me-2"></i>
 					<span><?php echo esc_html($company); ?></span>
-				</li>
+				</div>
 				<?php endif; ?>
 				<?php if ($salary) : ?>
-				<li class="mb-1 d-flex">
+				<div class="col-12 col-md-6 mb-1 d-flex">
 					<i class="uil uil-money-stack text-primary me-2"></i>
 					<span><?php echo esc_html($salary); ?></span>
-				</li>
+				</div>
 				<?php endif; ?>
-			</ul>
+			</div>
 		<div data-group="page-title-buttons" class="text-end">
 			<a href="<?php echo esc_url($link); ?>" class="btn btn-primary btn-icon btn-icon-start has-ripple<?php echo class_exists('Codeweber_Options') ? ' ' . esc_attr(trim(Codeweber_Options::style('button'))) : ''; ?>">
 				<i class="uil uil-arrow-right"></i><?php _e('Go', 'codeweber'); ?>
 			</a>
 		</div>
 		</div><!-- /.card-body -->
-		</div><!-- /.col-9 -->
+		</div><!-- /.col-md-9 -->
 	</div><!-- /.row -->
 </div>
 <!-- /.card -->
