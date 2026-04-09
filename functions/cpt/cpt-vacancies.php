@@ -250,6 +250,17 @@ function vacancies_meta_boxes()
       'high'
    );
 
+   if ( post_type_exists( 'offices' ) ) {
+      add_meta_box(
+         'vacancy_office',
+         __('Office', 'codeweber'),
+         'vacancy_office_callback',
+         'vacancies',
+         'side',
+         'default'
+      );
+   }
+
    add_meta_box(
       'vacancy_map',
       __('Yandex Map Location', 'codeweber'),
@@ -717,6 +728,42 @@ function vacancy_pdf_callback($post)
 }
 
 // Callback for vacancy status
+/**
+ * Callback for office selection metabox on vacancy
+ */
+function vacancy_office_callback($post)
+{
+   $selected_office_id = get_post_meta($post->ID, '_vacancy_office', true);
+
+   $offices = get_posts(array(
+      'post_type'      => 'offices',
+      'post_status'    => 'publish',
+      'posts_per_page' => -1,
+      'orderby'        => 'title',
+      'order'          => 'ASC',
+   ));
+?>
+   <div>
+      <select id="vacancy_office" name="vacancy_office" style="width: 100%; padding: 6px;">
+         <option value=""><?php echo esc_html__('— Select Office —', 'codeweber'); ?></option>
+         <?php foreach ($offices as $office) :
+            $town_terms = wp_get_post_terms($office->ID, 'towns', array('fields' => 'names'));
+            $city = (!empty($town_terms) && !is_wp_error($town_terms)) ? ' (' . $town_terms[0] . ')' : '';
+         ?>
+            <option value="<?php echo esc_attr($office->ID); ?>" <?php selected($selected_office_id, $office->ID); ?>>
+               <?php echo esc_html(get_the_title($office->ID) . $city); ?>
+            </option>
+         <?php endforeach; ?>
+      </select>
+      <?php if (empty($offices)) : ?>
+         <p style="margin-top: 5px; color: #666; font-size: 12px;">
+            <?php echo esc_html__('No offices found.', 'codeweber'); ?>
+         </p>
+      <?php endif; ?>
+   </div>
+<?php
+}
+
 function vacancy_status_callback($post)
 {
    $status = get_post_meta($post->ID, '_vacancy_status', true);
@@ -1014,6 +1061,40 @@ function save_vacancy_meta($post_id)
          $values = array_map('sanitize_textarea_field', $_POST[$field]);
          $values = array_filter($values);
          update_post_meta($post_id, '_' . $field, $values);
+      }
+   }
+
+   // Save office + bidirectional sync _office_vacancies.
+   if ( post_type_exists( 'offices' ) ) {
+      $old_office_id = (int) get_post_meta( $post_id, '_vacancy_office', true );
+      $new_office_id = ! empty( $_POST['vacancy_office'] ) ? intval( $_POST['vacancy_office'] ) : 0;
+
+      if ( $new_office_id ) {
+         update_post_meta( $post_id, '_vacancy_office', $new_office_id );
+      } else {
+         delete_post_meta( $post_id, '_vacancy_office' );
+      }
+
+      if ( $old_office_id !== $new_office_id ) {
+         // Remove from old office's _office_vacancies list.
+         if ( $old_office_id ) {
+            $old_list = get_post_meta( $old_office_id, '_office_vacancies', true );
+            if ( is_array( $old_list ) ) {
+               $old_list = array_values( array_diff( $old_list, [ $post_id ] ) );
+               update_post_meta( $old_office_id, '_office_vacancies', $old_list );
+            }
+         }
+         // Add to new office's _office_vacancies list.
+         if ( $new_office_id ) {
+            $new_list = get_post_meta( $new_office_id, '_office_vacancies', true );
+            if ( ! is_array( $new_list ) ) {
+               $new_list = [];
+            }
+            if ( ! in_array( $post_id, $new_list, true ) ) {
+               $new_list[] = $post_id;
+               update_post_meta( $new_office_id, '_office_vacancies', $new_list );
+            }
+         }
       }
    }
 

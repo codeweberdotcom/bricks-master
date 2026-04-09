@@ -127,9 +127,18 @@ function codeweber_add_offices_meta_boxes()
    );
 
    add_meta_box(
-      'office_vacancy',
-      esc_html__('Related Vacancy', 'codeweber'),
-      'codeweber_office_vacancy_callback',
+      'office_vacancies',
+      esc_html__('Related Vacancies', 'codeweber'),
+      'codeweber_office_vacancies_callback',
+      'offices',
+      'side',
+      'default'
+   );
+
+   add_meta_box(
+      'office_staff',
+      esc_html__('Staff Members', 'codeweber'),
+      'codeweber_office_staff_callback',
       'offices',
       'side',
       'default'
@@ -525,43 +534,88 @@ function codeweber_office_location_callback($post)
 }
 
 /**
- * Callback function for related vacancy
+ * Callback function for related vacancies (multiple)
  */
-function codeweber_office_vacancy_callback($post)
+function codeweber_office_vacancies_callback($post)
 {
-   $vacancy_id = get_post_meta($post->ID, '_office_vacancy', true);
+   $selected_vacancies = get_post_meta($post->ID, '_office_vacancies', true);
+   if (!is_array($selected_vacancies)) {
+      $selected_vacancies = [];
+   }
 
-   // Get list of vacancies
    $vacancy_posts = get_posts(array(
-      'post_type' => 'vacancies',
-      'post_status' => 'publish',
+      'post_type'      => 'vacancies',
+      'post_status'    => 'publish',
       'posts_per_page' => -1,
-      'orderby' => 'title',
-      'order' => 'ASC'
+      'orderby'        => 'title',
+      'order'          => 'ASC',
    ));
 ?>
-
    <div>
-      <label for="office_vacancy" style="display: block; margin-bottom: 5px; font-weight: bold;">
-         <?php echo esc_html__('Related Vacancy', 'codeweber'); ?>
-      </label>
-      <select id="office_vacancy" name="office_vacancy" style="width: 100%; padding: 8px;">
-         <option value=""><?php echo esc_html__('— Select Vacancy —', 'codeweber'); ?></option>
-         <?php if (!empty($vacancy_posts)) : ?>
+      <?php if (!empty($vacancy_posts)) : ?>
+         <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #fff;">
             <?php foreach ($vacancy_posts as $vacancy_post) : ?>
-               <option value="<?php echo esc_attr($vacancy_post->ID); ?>" <?php selected($vacancy_id, $vacancy_post->ID); ?>>
+               <label style="display: block; margin-bottom: 8px; padding: 5px; cursor: pointer;">
+                  <input type="checkbox" name="office_vacancies[]" value="<?php echo esc_attr($vacancy_post->ID); ?>" <?php checked(in_array($vacancy_post->ID, $selected_vacancies)); ?> style="margin-right: 8px;">
                   <?php echo esc_html(get_the_title($vacancy_post->ID)); ?>
-               </option>
+               </label>
             <?php endforeach; ?>
-         <?php endif; ?>
-      </select>
-      <?php if (empty($vacancy_posts)) : ?>
-         <p style="margin-top: 5px; color: #666; font-size: 12px;">
+         </div>
+      <?php else : ?>
+         <p style="color: #666; font-size: 12px;">
             <?php echo esc_html__('No vacancies found. Please create vacancies first.', 'codeweber'); ?>
          </p>
       <?php endif; ?>
    </div>
+<?php
+}
 
+/**
+ * Callback function for staff members (multiple)
+ */
+function codeweber_office_staff_callback($post)
+{
+   $selected_staff = get_post_meta($post->ID, '_office_staff', true);
+   if (!is_array($selected_staff)) {
+      $selected_staff = [];
+   }
+
+   $staff_posts = get_posts(array(
+      'post_type'      => 'staff',
+      'post_status'    => 'publish',
+      'posts_per_page' => -1,
+      'orderby'        => 'title',
+      'order'          => 'ASC',
+   ));
+?>
+   <div>
+      <?php if (!empty($staff_posts)) : ?>
+         <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background: #fff;">
+            <?php foreach ($staff_posts as $staff_post) : ?>
+               <?php
+               $name     = get_post_meta($staff_post->ID, '_staff_name', true);
+               $surname  = get_post_meta($staff_post->ID, '_staff_surname', true);
+               $position = get_post_meta($staff_post->ID, '_staff_position', true);
+               $label    = trim($name . ' ' . $surname);
+               if (empty($label)) {
+                  $label = get_the_title($staff_post->ID);
+               }
+               if (!empty($position)) {
+                  $label .= ' (' . $position . ')';
+               }
+               ?>
+               <label style="display: block; margin-bottom: 8px; padding: 5px; cursor: pointer;">
+                  <input type="checkbox" name="office_staff[]" value="<?php echo esc_attr($staff_post->ID); ?>" <?php checked(in_array($staff_post->ID, $selected_staff)); ?> style="margin-right: 8px;">
+                  <?php echo esc_html($label); ?>
+               </label>
+            <?php endforeach; ?>
+         </div>
+      <?php else : ?>
+         <p style="color: #666; font-size: 12px;">
+            <?php echo esc_html__('No staff members found. Please create staff members first.', 'codeweber'); ?>
+         </p>
+      <?php endif; ?>
+   </div>
 <?php
 }
 
@@ -749,7 +803,6 @@ function codeweber_save_office_meta($post_id)
       'office_zoom',
       'office_yandex_address',
       'office_description',
-      'office_vacancy'
    );
 
    foreach ($fields as $field) {
@@ -764,7 +817,7 @@ function codeweber_save_office_meta($post_id)
             update_post_meta($post_id, '_' . $field, esc_url_raw($_POST[$field]));
          } elseif ($field === 'office_email') {
             update_post_meta($post_id, '_' . $field, sanitize_email($_POST[$field]));
-         } elseif ($field === 'office_manager' || $field === 'office_vacancy') {
+         } elseif ($field === 'office_manager') {
             $value = !empty($_POST[$field]) ? intval($_POST[$field]) : '';
             if ($value) {
                update_post_meta($post_id, '_' . $field, $value);
@@ -775,12 +828,7 @@ function codeweber_save_office_meta($post_id)
             update_post_meta($post_id, '_' . $field, sanitize_text_field($_POST[$field]));
          }
       } else {
-         // Для полей manager и vacancy удаляем, если не установлены
-         if ($field === 'office_manager' || $field === 'office_vacancy') {
-            delete_post_meta($post_id, '_' . $field);
-         } else {
-            delete_post_meta($post_id, '_' . $field);
-         }
+         delete_post_meta($post_id, '_' . $field);
       }
    }
 
@@ -810,6 +858,65 @@ function codeweber_save_office_meta($post_id)
       update_post_meta($post_id, '_office_services', $services);
    } else {
       update_post_meta($post_id, '_office_services', []);
+   }
+
+   // Save staff array + bidirectional sync _staff_office.
+   $prev_staff   = get_post_meta($post_id, '_office_staff', true);
+   $prev_staff   = is_array($prev_staff) ? $prev_staff : [];
+   $new_staff    = (isset($_POST['office_staff']) && is_array($_POST['office_staff']))
+      ? array_values(array_filter(array_map('intval', $_POST['office_staff'])))
+      : [];
+   update_post_meta($post_id, '_office_staff', $new_staff);
+
+   // Staff added to this office → set their _staff_office.
+   foreach ($new_staff as $staff_id) {
+      $old_office = get_post_meta($staff_id, '_staff_office', true);
+      if ((int) $old_office !== $post_id) {
+         // Remove from previous office's list.
+         if ($old_office) {
+            $other_list = get_post_meta($old_office, '_office_staff', true);
+            if (is_array($other_list)) {
+               $other_list = array_values(array_diff($other_list, [$staff_id]));
+               update_post_meta($old_office, '_office_staff', $other_list);
+            }
+         }
+         update_post_meta($staff_id, '_staff_office', $post_id);
+      }
+   }
+   // Staff removed from this office → clear their _staff_office if it pointed here.
+   foreach (array_diff($prev_staff, $new_staff) as $staff_id) {
+      if ((int) get_post_meta($staff_id, '_staff_office', true) === $post_id) {
+         delete_post_meta($staff_id, '_staff_office');
+      }
+   }
+
+   // Save vacancies array + bidirectional sync _vacancy_office.
+   $prev_vacancies = get_post_meta($post_id, '_office_vacancies', true);
+   $prev_vacancies = is_array($prev_vacancies) ? $prev_vacancies : [];
+   $new_vacancies  = (isset($_POST['office_vacancies']) && is_array($_POST['office_vacancies']))
+      ? array_values(array_filter(array_map('intval', $_POST['office_vacancies'])))
+      : [];
+   update_post_meta($post_id, '_office_vacancies', $new_vacancies);
+
+   // Vacancies added → set their _vacancy_office.
+   foreach ($new_vacancies as $vacancy_id) {
+      $old_office = get_post_meta($vacancy_id, '_vacancy_office', true);
+      if ((int) $old_office !== $post_id) {
+         if ($old_office) {
+            $other_list = get_post_meta($old_office, '_office_vacancies', true);
+            if (is_array($other_list)) {
+               $other_list = array_values(array_diff($other_list, [$vacancy_id]));
+               update_post_meta($old_office, '_office_vacancies', $other_list);
+            }
+         }
+         update_post_meta($vacancy_id, '_vacancy_office', $post_id);
+      }
+   }
+   // Vacancies removed → clear their _vacancy_office if it pointed here.
+   foreach (array_diff($prev_vacancies, $new_vacancies) as $vacancy_id) {
+      if ((int) get_post_meta($vacancy_id, '_vacancy_office', true) === $post_id) {
+         delete_post_meta($vacancy_id, '_vacancy_office');
+      }
    }
 
    // Save image
@@ -849,9 +956,10 @@ function codeweber_add_offices_admin_columns($columns)
       'office_city' => esc_html__('City', 'codeweber'),
       'office_phone' => esc_html__('Phone', 'codeweber'),
       'office_email' => esc_html__('Email', 'codeweber'),
-      'office_manager' => esc_html__('Manager', 'codeweber'),
-      'office_vacancy' => esc_html__('Vacancy', 'codeweber'),
-      'office_services' => esc_html__('Services', 'codeweber'),
+      'office_manager'   => esc_html__('Manager', 'codeweber'),
+      'office_vacancies' => esc_html__('Vacancies', 'codeweber'),
+      'office_staff'     => esc_html__('Staff', 'codeweber'),
+      'office_services'  => esc_html__('Services', 'codeweber'),
       'date' => $columns['date']
    );
    return $new_columns;
@@ -903,10 +1011,22 @@ function codeweber_fill_offices_admin_columns($column, $post_id)
             echo esc_html($display_name);
          }
          break;
-      case 'office_vacancy':
-         $vacancy_id = get_post_meta($post_id, '_office_vacancy', true);
-         if (!empty($vacancy_id)) {
-            echo esc_html(get_the_title($vacancy_id));
+      case 'office_vacancies':
+         $vacancies = get_post_meta($post_id, '_office_vacancies', true);
+         if (!empty($vacancies) && is_array($vacancies)) {
+            $titles = array_map('get_the_title', $vacancies);
+            echo esc_html(implode(', ', $titles));
+         }
+         break;
+      case 'office_staff':
+         $staff_ids = get_post_meta($post_id, '_office_staff', true);
+         if (!empty($staff_ids) && is_array($staff_ids)) {
+            $names = [];
+            foreach ($staff_ids as $sid) {
+               $n = trim(get_post_meta($sid, '_staff_name', true) . ' ' . get_post_meta($sid, '_staff_surname', true));
+               $names[] = $n ?: get_the_title($sid);
+            }
+            echo esc_html(implode(', ', $names));
          }
          break;
       case 'office_services':

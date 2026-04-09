@@ -368,12 +368,37 @@ function codeweber_save_staff_meta($post_id)
 		return;
 	}
 
-	// Save office selection (only if offices CPT is active)
+	// Save office selection + bidirectional sync _office_staff.
 	if ( post_type_exists( 'offices' ) ) {
-		if ( ! empty( $_POST['staff_office'] ) ) {
-			update_post_meta( $post_id, '_staff_office', intval( $_POST['staff_office'] ) );
+		$old_office_id = (int) get_post_meta( $post_id, '_staff_office', true );
+		$new_office_id = ! empty( $_POST['staff_office'] ) ? intval( $_POST['staff_office'] ) : 0;
+
+		if ( $new_office_id ) {
+			update_post_meta( $post_id, '_staff_office', $new_office_id );
 		} else {
 			delete_post_meta( $post_id, '_staff_office' );
+		}
+
+		if ( $old_office_id !== $new_office_id ) {
+			// Remove from old office's _office_staff list.
+			if ( $old_office_id ) {
+				$old_list = get_post_meta( $old_office_id, '_office_staff', true );
+				if ( is_array( $old_list ) ) {
+					$old_list = array_values( array_diff( $old_list, [ $post_id ] ) );
+					update_post_meta( $old_office_id, '_office_staff', $old_list );
+				}
+			}
+			// Add to new office's _office_staff list.
+			if ( $new_office_id ) {
+				$new_list = get_post_meta( $new_office_id, '_office_staff', true );
+				if ( ! is_array( $new_list ) ) {
+					$new_list = [];
+				}
+				if ( ! in_array( $post_id, $new_list, true ) ) {
+					$new_list[] = $post_id;
+					update_post_meta( $new_office_id, '_office_staff', $new_list );
+				}
+			}
 		}
 	}
 
