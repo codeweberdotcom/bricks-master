@@ -330,7 +330,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
-                        <<?php echo esc_attr($widget_h); ?> class="mb-4"><?php esc_html_e('Details', 'codeweber'); ?></<?php echo esc_attr($widget_h); ?>>
+                        <h3 class="mb-4 <?php echo esc_attr($widget_h); ?>"><?php esc_html_e('Details', 'codeweber'); ?></h3>
 
                         <?php if (!empty($vacancy_data['location'])) : ?>
                             <p class="mb-1 d-flex align-items-baseline">
@@ -477,8 +477,8 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                 );
                 ?>
             <div class="widget">
-                <<?php echo esc_attr($widget_h); ?> class="mb-3"><?php esc_html_e('On the map', 'codeweber'); ?></<?php echo esc_attr($widget_h); ?>>
-                <div class="card rounded-0">
+                <h3 class="mb-3 <?php echo esc_attr($widget_h); ?>"><?php esc_html_e('On the map', 'codeweber'); ?></h3>
+                <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                     <?php echo $yandex_maps->render_map($args, $markers); ?>
                 </div>
             </div>
@@ -527,7 +527,7 @@ function codeweber_sidebar_widget_faq($sidebar_id) {
             echo '<div class="widget">';
             echo '<div class="card' . ( $card_radius ? ' ' . esc_attr( $card_radius ) : '' ) . '">';
             echo '<div class="card-body">';
-            echo '<' . esc_attr( $widget_h ) . ' class="mb-4">' . esc_html__( 'Contents', 'codeweber' ) . '</' . esc_attr( $widget_h ) . '>';
+            echo '<h3 class="mb-4 ' . esc_attr( $widget_h ) . '">' . esc_html__( 'Contents', 'codeweber' ) . '</h3>';
             echo '<nav id="sidebar-nav"><ul class="list-unstyled text-reset">';
 
             $index = 1;
@@ -584,7 +584,7 @@ function codeweber_sidebar_widget_faq($sidebar_id) {
             echo '<div class="widget">';
             echo '<div class="card' . ( $card_radius ? ' ' . esc_attr( $card_radius ) : '' ) . '">';
             echo '<div class="card-body">';
-            echo '<' . esc_attr( $widget_h ) . ' class="mb-4">' . esc_html__( 'Contents', 'codeweber' ) . '</' . esc_attr( $widget_h ) . '>';
+            echo '<h3 class="mb-4 ' . esc_attr( $widget_h ) . '">' . esc_html__( 'Contents', 'codeweber' ) . '</h3>';
             echo '<nav id="sidebar-nav"><ul class="list-unstyled text-reset">';
             echo '<li><a class="nav-link scroll active" href="#faq-all">' . esc_html__('All FAQs', 'codeweber') . '</a></li>';
             echo '</ul></nav>';
@@ -616,7 +616,7 @@ function codeweber_sidebar_widget_faq($sidebar_id) {
                 echo '<div class="widget">';
                 echo '<div class="card mt-4' . ( $card_radius ? ' ' . esc_attr( $card_radius ) : '' ) . '">';
                 echo '<div class="card-body">';
-                echo '<' . esc_attr( $widget_h ) . ' class="mb-4">' . esc_html__( 'Ask a Question', 'codeweber' ) . '</' . esc_attr( $widget_h ) . '>';
+                echo '<h3 class="mb-4 ' . esc_attr( $widget_h ) . '">' . esc_html__( 'Ask a Question', 'codeweber' ) . '</h3>';
                 echo $form_html;
                 echo '</div></div></div>';
             }
@@ -743,7 +743,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
             <?php endif; ?>
 
             <div class="mb-6">
-                <<?php echo esc_attr( $widget_h ); ?> class="mb-2"><?php esc_html_e( 'Event Details', 'codeweber' ); ?></<?php echo esc_attr( $widget_h ); ?>>
+                <h3 class="mb-2 <?php echo esc_attr( $widget_h ); ?>"><?php esc_html_e( 'Event Details', 'codeweber' ); ?></h3>
 
                 <?php if ( $countdown_until ) : ?>
                 <p class="small text-muted mb-2">
@@ -959,7 +959,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
         <div class="card-body">
             <?php $nonce = wp_create_nonce( 'codeweber_event_register' ); ?>
             <div class="event-registration-wrap">
-                <<?php echo esc_attr( $widget_h ); ?> class="mb-4"><?php echo esc_html( __( ! empty( $reg_form_title ) ? $reg_form_title : 'Register', 'codeweber' ) ); ?></<?php echo esc_attr( $widget_h ); ?>>
+                <h3 class="mb-4 <?php echo esc_attr( $widget_h ); ?>"><?php echo esc_html( __( ! empty( $reg_form_title ) ? $reg_form_title : 'Register', 'codeweber' ) ); ?></h3>
                 <form class="event-registration-form needs-validation"
                     data-event-id="<?php echo esc_attr( $event_id ); ?>"
                     novalidate>
@@ -1036,8 +1036,8 @@ function codeweber_sidebar_widget_events($sidebar_id) {
             ]];
         ?>
         <div class="widget mt-4">
-            <<?php echo esc_attr( $widget_h ); ?> class="mb-3"><?php esc_html_e( 'On the map', 'codeweber' ); ?></<?php echo esc_attr( $widget_h ); ?>>
-            <div class="card rounded-0">
+            <h3 class="mb-3 <?php echo esc_attr( $widget_h ); ?>"><?php esc_html_e( 'On the map', 'codeweber' ); ?></h3>
+            <div class="card<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
                 <?php echo $_evt_maps->render_map( $_evt_map_args, $_evt_markers ); ?>
             </div>
         </div>

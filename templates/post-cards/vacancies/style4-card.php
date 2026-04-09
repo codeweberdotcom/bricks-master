@@ -54,37 +54,37 @@ $show_hit_badge = get_post_meta($post_id, '_vacancy_featured', true) || get_post
 		<h2 class="mb-4 display-6"><?php echo esc_html($title); ?></h2>
 		<ul class="list-unstyled cc-2 mb-3">
 				<?php if ($location) : ?>
-				<li class="mb-1 d-flex align-items-center">
+				<li class="mb-1 d-flex">
 					<i class="uil uil-map-marker-alt text-primary me-2"></i>
 					<span><?php echo esc_html($location); ?></span>
 				</li>
 				<?php endif; ?>
 				<?php if ($category_name) : ?>
-				<li class="mb-1 d-flex align-items-center">
+				<li class="mb-1 d-flex">
 					<i class="uil uil-briefcase-alt text-primary me-2"></i>
 					<span><?php echo esc_html($category_name); ?></span>
 				</li>
 				<?php endif; ?>
 				<?php if ($schedule_name) : ?>
-				<li class="mb-1 d-flex align-items-center">
+				<li class="mb-1 d-flex">
 					<i class="uil uil-calendar-alt text-primary me-2"></i>
 					<span><?php echo esc_html($schedule_name); ?></span>
 				</li>
 				<?php endif; ?>
 				<?php if ($experience) : ?>
-				<li class="mb-1 d-flex align-items-center">
+				<li class="mb-1 d-flex">
 					<i class="uil uil-clock text-primary me-2"></i>
 					<span><?php echo esc_html($experience); ?></span>
 				</li>
 				<?php endif; ?>
 				<?php if ($company) : ?>
-				<li class="mb-1 d-flex align-items-center">
+				<li class="mb-1 d-flex">
 					<i class="uil uil-graduation-cap text-primary me-2"></i>
 					<span><?php echo esc_html($company); ?></span>
 				</li>
 				<?php endif; ?>
 				<?php if ($salary) : ?>
-				<li class="mb-1 d-flex align-items-center">
+				<li class="mb-1 d-flex">
 					<i class="uil uil-money-stack text-primary me-2"></i>
 					<span><?php echo esc_html($salary); ?></span>
 				</li>

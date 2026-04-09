@@ -33,19 +33,19 @@ $card_radius  = class_exists('Codeweber_Options') ? Codeweber_Options::style('ca
 			<h2 class="h3 mb-3"><?php echo esc_html($title); ?></h2>
 			<ul class="list-unstyled cc-1 mb-0">
 				<?php if ($location) : ?>
-				<li class="mb-1 d-flex align-items-center">
+				<li class="mb-1 d-flex">
 					<i class="uil uil-map-marker-alt text-primary me-2"></i>
 					<span><?php echo esc_html($location); ?></span>
 				</li>
 				<?php endif; ?>
 				<?php if ($schedule_name) : ?>
-				<li class="mb-1 d-flex align-items-center">
+				<li class="mb-1 d-flex">
 					<i class="uil uil-calendar-alt text-primary me-2"></i>
 					<span><?php echo esc_html($schedule_name); ?></span>
 				</li>
 				<?php endif; ?>
 				<?php if ($salary) : ?>
-				<li class="mb-1 d-flex align-items-center">
+				<li class="mb-1 d-flex">
 					<i class="uil uil-money-stack text-primary me-2"></i>
 					<span><?php echo esc_html($salary); ?></span>
 				</li>
