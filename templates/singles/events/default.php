@@ -100,11 +100,5 @@ $button_style      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::st
 
 <?php // ---- Share -------------------------------------------- ?>
 <div class="event-share-row d-flex align-items-center gap-3 flex-wrap">
-	<?php
-	$share_button_class = 'btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0 has-ripple';
-	if ( class_exists( 'Codeweber_Options' ) ) {
-		$share_button_class .= Codeweber_Options::style( 'button' );
-	}
-	codeweber_share_page( [ 'region' => 'auto', 'button_class' => $share_button_class ] );
-	?>
+	<?php codeweber_share_page( [ 'region' => 'auto' ] ); ?>
 </div>

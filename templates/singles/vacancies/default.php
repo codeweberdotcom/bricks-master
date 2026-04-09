@@ -131,13 +131,7 @@ $social_size = Redux::get_option($opt_name, 'global-social-button-size', 'md');
                </div>
             <?php endif; ?>
             <div class="mb-0 mb-md-2">
-               <?php 
-               $share_button_class = 'btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0 has-ripple';
-               if (class_exists('Codeweber_Options')) {
-                  $share_button_class .= Codeweber_Options::style('button');
-               }
-               codeweber_share_page(['region' => 'auto', 'button_class' => $share_button_class]); 
-               ?>
+               <?php codeweber_share_page(['region' => 'auto']); ?>
             </div>
          </div>
          <!-- /.post-footer -->
