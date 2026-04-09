@@ -1017,7 +1017,7 @@ function codeweber_testimonial_author_info($post_id = null, $args = [])
             </figure>
             <div>
                 <?php if ($args['show_link'] && $author_link): ?>
-                    <div class="h6"><a href="<?php echo $author_link; ?>" class="link-dark"><?php echo $author_name; ?></a></div>
+                    <div class="h6"><a href="<?php echo $author_link; ?>" class="link-dark text-reset"><?php echo $author_name; ?></a></div>
                 <?php else: ?>
                     <div class="h6"><?php echo $author_name; ?></div>
                 <?php endif; ?>

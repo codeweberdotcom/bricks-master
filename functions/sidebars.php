@@ -386,7 +386,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
 
                                 <div>
                                     <h6 class="mb-0">
-                                        <a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="link-dark">
+                                        <a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="link-dark text-reset">
                                             <?php
                                             $first = get_the_author_meta('first_name');
                                             $last  = get_the_author_meta('last_name');
@@ -873,7 +873,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
                     <?php endif; ?>
                     <div>
                         <h6 class="mb-0">
-                            <a href="<?php echo esc_url( get_author_posts_url( $evt_user_id ) ); ?>" class="link-dark">
+                            <a href="<?php echo esc_url( get_author_posts_url( $evt_user_id ) ); ?>" class="link-dark text-reset">
                                 <?php
                             $first = get_the_author_meta( 'first_name' );
                             $last  = get_the_author_meta( 'last_name' );
