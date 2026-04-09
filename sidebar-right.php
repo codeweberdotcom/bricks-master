@@ -10,8 +10,8 @@ $sidebar_position = get_sidebar_position($opt_name);
 if ($sidebar_position === 'right') {
    $bp = get_sidebar_breakpoint($opt_name);
    $aside_class = $bp === 'always'
-      ? 'col-12 col-md-4 sidebar mt-md-0 py-14 order-first order-md-last'
-      : 'col-12 col-' . $bp . '-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-' . $bp . '-block';
+      ? 'col-12 col-md-4 sidebar mt-md-0 py-10 py-md-14 order-first order-md-last'
+      : 'col-12 col-' . $bp . '-4 sidebar sticky-sidebar mt-md-0 py-10 py-md-14 d-none d-' . $bp . '-block';
    if ($post_type === 'post') {
       // Используем стандартный сайдбар WordPress с нужными классами
 ?>

@@ -28,7 +28,7 @@ while (have_posts()) :
 				<?php get_sidebar('left'); ?>
 				<!-- #sidebar-left -->
 
-				<div id="article-wrapper" class="<?php echo $content_class; ?> py-14">
+				<div id="article-wrapper" class="<?php echo $content_class; ?> py-10 py-md-14">
 					<?php if ($show_universal_title) { ?>
 						<h1 class="display-4 mb-10"><?php echo universal_title(); ?></h1>
 					<?php } ?>

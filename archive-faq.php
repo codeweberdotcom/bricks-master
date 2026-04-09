@@ -19,7 +19,7 @@ if (have_posts()) : ?>
       
       // Получаем позицию сайдбара
       $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
-      $content_class = ($sidebar_position === 'none') ? 'col-12 pt-14 pt-md-16' : 'col-xl-8 py-14';
+      $content_class = ($sidebar_position === 'none') ? 'col-12 pt-14 pt-md-16' : 'col-xl-8 py-10 py-md-14';
       
       // Проверяем, есть ли шаблон
       $has_template = !empty($templateloop) && locate_template($template_file);

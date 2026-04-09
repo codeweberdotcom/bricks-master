@@ -23,7 +23,7 @@ if (have_posts()) : ?>
       
       // Получаем позицию сайдбара
       $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
-      $content_class = ($sidebar_position === 'none') ? 'col-12 py-14' : 'col-xl-9 pt-14';
+      $content_class = ($sidebar_position === 'none') ? 'col-12 py-10 py-md-14' : 'col-xl-9 pt-10 pt-md-14';
       ?>
       
       <div class="row">
