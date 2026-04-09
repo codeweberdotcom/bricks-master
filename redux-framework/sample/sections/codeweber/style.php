@@ -115,13 +115,6 @@ Redux::set_section(
 				'default'  => '2',
 			),
 			array(
-				'id'       => 'opt_phone_mask',
-				'type'     => 'text',
-				'title'    => esc_html__('Phone mask', 'codeweber'),
-				'subtitle' => esc_html__('Mask for phone input fields in built-in forms. Use _ for digit positions. Example: +7 (___) ___-__-__', 'codeweber'),
-				'default'  => '+7 (___) ___-__-__',
-			),
-			array(
 				'id'       => 'page-frame',
 				'type'     => 'switch',
 				'title'    => esc_html__('Page-frame', 'codeweber'),
@@ -158,6 +151,41 @@ Redux::set_section(
 				'default'  => 'solid',
 				'required' => array('page-frame', '=', true),
 			),
+		),
+	)
+);
+
+
+// Подсекция: Phone Mask
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Phone Mask', 'codeweber' ),
+		'id'         => 'theme-phone-mask',
+		'subsection' => true,
+		'parent'     => 'themestyle',
+		'fields'     => array(
+			array(
+				'id'       => 'opt_phone_mask',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Phone mask', 'codeweber' ),
+				'subtitle' => esc_html__( 'Mask for phone input fields in built-in forms. Use _ for digit positions. Example: +7 (___) ___-__-__', 'codeweber' ),
+				'default'  => '+7 (___) ___-__-__',
+			),
+		),
+	)
+);
+
+
+// Подсекция: Page Loader
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Page Loader', 'codeweber' ),
+		'id'         => 'theme-page-loader',
+		'subsection' => true,
+		'parent'     => 'themestyle',
+		'fields'     => array(
 			array(
 				'id'       => 'page-loader',
 				'type'     => 'switch',
@@ -212,7 +240,6 @@ Redux::set_section(
 				'default'  => 'white',
 				'required' => array('page-loader', '=', true),
 			),
-
 		),
 	)
 );
