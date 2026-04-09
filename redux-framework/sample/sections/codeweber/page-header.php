@@ -276,6 +276,13 @@ Redux::set_section(
 				),
 			),
 
+			// ── Обычные страницы (записи, CPT, страницы) ──────────────────────────
+			array(
+				'id'   => 'breadcrumb_info_pages',
+				'type' => 'info',
+				'desc' => '<strong>' . esc_html__( 'Posts, pages, CPT', 'codeweber' ) . '</strong>',
+			),
+
 			array(
 				'id'      => 'breadcrumb_show_home',
 				'type'    => 'switch',
@@ -302,13 +309,13 @@ Redux::set_section(
 			),
 
 			array(
-				'id'      => 'breadcrumb_hide_last_single',
-				'type'    => 'switch',
-				'title'   => esc_html__( 'Hide current page on single', 'codeweber' ),
+				'id'       => 'breadcrumb_hide_last_single',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Hide current page on single', 'codeweber' ),
 				'subtitle' => esc_html__( 'Remove the last breadcrumb item (current page title) on single post/page/CPT', 'codeweber' ),
-				'default' => false,
-				'on'      => esc_html__( 'On', 'codeweber' ),
-				'off'     => esc_html__( 'Off', 'codeweber' ),
+				'default'  => false,
+				'on'       => esc_html__( 'On', 'codeweber' ),
+				'off'      => esc_html__( 'Off', 'codeweber' ),
 				'required' => array(
 					array( 'global-page-header-breadcrumb-enable', '=', '1' ),
 				),
@@ -317,3 +324,50 @@ Redux::set_section(
 		),
 	)
 );
+
+if ( class_exists( 'WooCommerce' ) ) {
+// ── Подсекция: Breadcrumbs WooCommerce ───────────────────────────────────────
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Breadcrumbs: WooCommerce', 'codeweber' ),
+		'id'         => 'global-page-header-breadcrumbs-woo-sub',
+		'subsection' => true,
+		'parent'     => 'global-page-header',
+		'fields'     => array(
+
+			array(
+				'id'      => 'breadcrumb_woo_show_home',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Show Home link', 'codeweber' ),
+				'default' => true,
+				'on'      => esc_html__( 'On', 'codeweber' ),
+				'off'     => esc_html__( 'Off', 'codeweber' ),
+			),
+
+			array(
+				'id'          => 'breadcrumb_woo_home_label',
+				'type'        => 'text',
+				'title'       => esc_html__( 'Home link label', 'codeweber' ),
+				'subtitle'    => esc_html__( 'Leave empty to use default translation', 'codeweber' ),
+				'placeholder' => esc_html__( 'Главная', 'codeweber' ),
+				'default'     => '',
+				'required'    => array(
+					array( 'breadcrumb_woo_show_home', '=', '1' ),
+				),
+			),
+
+			array(
+				'id'       => 'breadcrumb_woo_hide_last_single',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Hide current product on single', 'codeweber' ),
+				'subtitle' => esc_html__( 'Remove the last breadcrumb item (product title) on single product page', 'codeweber' ),
+				'default'  => false,
+				'on'       => esc_html__( 'On', 'codeweber' ),
+				'off'      => esc_html__( 'Off', 'codeweber' ),
+			),
+
+		),
+	)
+);
+} // end if WooCommerce

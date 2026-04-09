@@ -22,13 +22,21 @@ if (!function_exists('get_breadcrumbs')) {
    function get_breadcrumbs($align = null, $color = null, $class = null)
    {
       // Redux breadcrumb settings
-      $show_home   = true;
-      $home_label  = '';
-      $hide_last   = false;
+      $is_woo_context = function_exists('is_woocommerce') && is_woocommerce();
+
+      $show_home  = true;
+      $home_label = '';
+      $hide_last  = false;
       if (class_exists('Codeweber_Options')) {
-         $show_home  = (bool) Codeweber_Options::get('breadcrumb_show_home', true);
-         $home_label = (string) Codeweber_Options::get('breadcrumb_home_label', '');
-         $hide_last  = (bool) Codeweber_Options::get('breadcrumb_hide_last_single', false);
+         if ($is_woo_context) {
+            $show_home  = (bool) Codeweber_Options::get('breadcrumb_woo_show_home', true);
+            $home_label = (string) Codeweber_Options::get('breadcrumb_woo_home_label', '');
+            $hide_last  = (bool) Codeweber_Options::get('breadcrumb_woo_hide_last_single', false);
+         } else {
+            $show_home  = (bool) Codeweber_Options::get('breadcrumb_show_home', true);
+            $home_label = (string) Codeweber_Options::get('breadcrumb_home_label', '');
+            $hide_last  = (bool) Codeweber_Options::get('breadcrumb_hide_last_single', false);
+         }
       }
       if (empty($home_label)) {
          $home_label = __('Главная', 'codeweber');
