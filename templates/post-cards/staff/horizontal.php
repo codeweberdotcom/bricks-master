@@ -48,15 +48,15 @@ if ( post_type_exists( 'offices' ) ) {
 ?>
 <a href="<?php echo esc_url( $staff_url ); ?>" class="card card-interactive lift overflow-hidden text-inherit text-decoration-none<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 	<div class="row g-0 h-100">
-		<div class="col-3">
+		<div class="col-12 col-md-3">
 			<?php if ( $image_url ) : ?>
 			<figure class="mb-0 h-100">
 				<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="w-100 h-100 object-fit-cover">
 			</figure>
 			<?php endif; ?>
 		</div>
-		<div class="col-9">
-			<div class="card-body position-relative">
+		<div class="col-12 col-md-9">
+			<div class="card-body h-100 p-12 position-relative">
 				<?php if ( ! empty( $post_data['position'] ) ) : ?>
 				<p class="mb-1 text-muted"><?php echo esc_html( $post_data['position'] ); ?></p>
 				<?php endif; ?>
