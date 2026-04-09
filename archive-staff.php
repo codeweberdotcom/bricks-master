@@ -11,7 +11,7 @@ get_pageheader();
 $post_type = 'staff';
 global $opt_name;
 $templateloop = Redux::get_option($opt_name, 'archive_template_select_' . $post_type);
-if (empty($templateloop)) {
+if ( empty( $templateloop ) || $templateloop === 'default' ) {
     $templateloop = 'staff_1';
 }
 $template_file = "templates/archives/staff/{$templateloop}.php";
