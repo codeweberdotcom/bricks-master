@@ -1112,3 +1112,15 @@ function get_sidebar_position($opt_name)
     // Возвращаем глобальную настройку по умолчанию
     return Redux::get_option($opt_name, 'sidebar_position_single_' . $post_type);
 }
+
+/**
+ * Получает breakpoint для сайдбара текущего типа записи
+ *
+ * @param string $opt_name Имя опции Redux
+ * @return string Breakpoint (md|lg|xl)
+ */
+function get_sidebar_breakpoint( string $opt_name ): string {
+    $post_type = universal_get_post_type();
+    $bp = Redux::get_option( $opt_name, 'sidebar_breakpoint_' . $post_type );
+    return in_array( $bp, [ 'md', 'lg', 'xl' ], true ) ? $bp : 'xl';
+}

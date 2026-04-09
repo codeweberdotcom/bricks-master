@@ -438,6 +438,18 @@ if (!empty($custom_post_type_files)) {
 				),
 				'default'  => 'right',
 			),
+			array(
+				'id'       => 'sidebar_breakpoint_' . $sanitized_id,
+				'type'     => 'button_set',
+				'title'    => sprintf(esc_html__('Sidebar Breakpoint for %s', 'codeweber'), $translated_label),
+				'desc'     => esc_html__('Minimum screen width at which the sidebar becomes visible.', 'codeweber'),
+				'options'  => array(
+					'md' => 'MD (768px)',
+					'lg' => 'LG (992px)',
+					'xl' => 'XL (1200px)',
+				),
+				'default'  => 'xl',
+			),
 		);
 
 		// Получаем все записи header для опций
