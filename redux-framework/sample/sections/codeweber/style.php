@@ -213,6 +213,20 @@ Redux::set_section(
 				'required' => array('page-loader', '=', true),
 			),
 
+		),
+	)
+);
+
+
+// Подсекция: Sidebar Widgets — настройки виджетов сайдбара
+Redux::set_section(
+	$opt_name,
+	array(
+		'title'      => esc_html__( 'Sidebar Widgets', 'codeweber' ),
+		'id'         => 'theme-sidebar-widgets',
+		'subsection' => true,
+		'parent'     => 'themestyle',
+		'fields'     => array(
 			array(
 				'id'       => 'widget_heading_size',
 				'type'     => 'select',
@@ -234,7 +248,6 @@ Redux::set_section(
 				),
 				'default'  => 'h3',
 			),
-
 		),
 	)
 );
