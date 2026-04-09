@@ -9,10 +9,13 @@ $sidebar_position = get_sidebar_position($opt_name);
 // Левый сайдбар
 if ($sidebar_position === 'left') {
    $bp = get_sidebar_breakpoint($opt_name);
+   $aside_class = $bp === 'always'
+      ? 'col-4 sidebar sticky-sidebar mt-md-0 py-14'
+      : 'col-' . $bp . '-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-' . $bp . '-block';
    if ($post_type === 'post') {
       // Используем стандартный сайдбар WordPress с нужными классами
 ?>
-      <aside class="col-<?php echo esc_attr( $bp ); ?>-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-<?php echo esc_attr( $bp ); ?>-block">
+      <aside class="<?php echo esc_attr( $aside_class ); ?>">
          <?php
          do_action('codeweber_before_sidebar', 'sidebar-1');
          get_sidebar();
@@ -23,7 +26,7 @@ if ($sidebar_position === 'left') {
    } else {
       // Используем кастомный сайдбар для других типов записей
 ?>
-         <aside class="col-<?php echo esc_attr( $bp ); ?>-4 sidebar sticky-sidebar mt-md-0 py-14 d-none d-<?php echo esc_attr( $bp ); ?>-block">
+         <aside class="<?php echo esc_attr( $aside_class ); ?>">
             <?php
             do_action('codeweber_before_sidebar', $post_type);
             if (is_active_sidebar($post_type)) {
