@@ -28,7 +28,8 @@ $self_contained = [ 'staff_1' ];
       <?php
       // Получаем позицию сайдбара
       $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
-      $content_class = ($sidebar_position === 'none') ? 'col-12 py-10 py-md-14' : 'col-xl-9 pt-10 pt-md-14';
+      $padding = get_content_padding_classes();
+      $content_class = ($sidebar_position === 'none') ? 'col-12 ' . $padding : 'col-xl-9 ' . str_replace( 'py-', 'pt-', $padding );
 
       // Для staff_3, staff_4, staff_5, staff_6 используем row-cols структуру, для остальных - grid/isotope
       $use_row_cols = in_array( $templateloop, ['staff_3', 'staff_4', 'staff_5', 'staff_6'] );

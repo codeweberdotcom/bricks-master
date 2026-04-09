@@ -214,6 +214,38 @@ Redux::set_section(
 			),
 
 			array(
+				'id'       => 'content_padding_mobile',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Content & Sidebar Padding (mobile)', 'codeweber' ),
+				'subtitle' => esc_html__( 'Vertical padding on screens below md breakpoint.', 'codeweber' ),
+				'options'  => array(
+					'py-4'  => 'py-4',
+					'py-6'  => 'py-6',
+					'py-8'  => 'py-8',
+					'py-10' => 'py-10',
+					'py-12' => 'py-12',
+					'py-14' => 'py-14',
+				),
+				'default'  => 'py-10',
+			),
+
+			array(
+				'id'       => 'content_padding_desktop',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Content & Sidebar Padding (desktop)', 'codeweber' ),
+				'subtitle' => esc_html__( 'Vertical padding from md breakpoint and above.', 'codeweber' ),
+				'options'  => array(
+					'py-8'  => 'py-8',
+					'py-10' => 'py-10',
+					'py-12' => 'py-12',
+					'py-14' => 'py-14',
+					'py-16' => 'py-16',
+					'py-20' => 'py-20',
+				),
+				'default'  => 'py-14',
+			),
+
+			array(
 				'id'       => 'widget_heading_size',
 				'type'     => 'select',
 				'title'    => esc_html__( 'Widget Heading Size', 'codeweber' ),

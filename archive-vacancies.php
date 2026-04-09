@@ -23,7 +23,8 @@ if (have_posts()) : ?>
       
       // Получаем позицию сайдбара
       $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
-      $content_class = ($sidebar_position === 'none') ? 'col-12 py-10 py-md-14' : 'col-xl-9 pt-10 pt-md-14';
+      $padding = get_content_padding_classes();
+      $content_class = ($sidebar_position === 'none') ? 'col-12 ' . $padding : 'col-xl-9 ' . str_replace( 'py-', 'pt-', $padding );
       
       // Для vacancies_1 шаблон содержит всю разметку с фильтрами
       $is_vacancies_1 = ($templateloop === 'vacancies_1');

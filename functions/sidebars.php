@@ -1114,6 +1114,18 @@ function get_sidebar_position($opt_name)
 }
 
 /**
+ * Возвращает классы вертикальных отступов для контента и сайдбара
+ *
+ * @return string Классы Bootstrap, например "py-10 py-md-14"
+ */
+function get_content_padding_classes(): string {
+    $mobile  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'content_padding_mobile', 'py-10' ) : 'py-10';
+    $desktop = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'content_padding_desktop', 'py-14' ) : 'py-14';
+    $desktop_bp = preg_replace( '/^py-/', 'py-md-', $desktop );
+    return $mobile . ' ' . $desktop_bp;
+}
+
+/**
  * Получает breakpoint для сайдбара текущего типа записи
  *
  * @param string $opt_name Имя опции Redux
