@@ -196,6 +196,48 @@ PHP-обработчик: `codeweber_dadata_ajax_suggest_address()`
 
 ---
 
+## Безопасность — защита API-ключей
+
+### Уровни защиты (все уже реализованы)
+
+| Уровень | Место | Проверка |
+| ------- | ----- | -------- |
+| Enqueue | `enqueues.php:481` | `dadata_enabled` из Redux — если выключено, скрипты не грузятся |
+| Токен в JS | `enqueues.php:560-562` | Токен передаётся в JS **только если непустой** |
+| JS runtime | `dadata-address.js:73-76` | `if (!token) return` — виджет не инициализируется без токена |
+| PHP методы | `class-codeweber-dadata.php` | `is_available()` и `is_suggest_available()` перед каждым запросом |
+| Secret | `class-codeweber-dadata.php` | `X-Secret` — только в PHP, **никогда не передаётся в браузер** |
+
+### Что происходит без ключа
+
+```text
+dadata_enabled = false (или не заполнен dadata-токен):
+  → enqueues.php: скрипты не подключаются
+  → браузер не получает токен
+  → виджет автодополнения не инициализируется
+  → кнопка «Проверить» не появляется
+
+dadata_enabled = true, но токен пустой:
+  → enqueues.php: скрипты грузятся (enabled=true)
+  → токен НЕ передаётся в codeweberDadata (условная локализация)
+  → dadata-address.js: if (!token) return → виджет не запускается
+  → AJAX-обработчик: is_suggest_available() = false → ошибка 400
+```
+
+### Токен vs Secret
+
+```
+token  → нужен для suggest/address (автодополнение)
+         → передаётся в JS (только если непустой)
+         → используется в jQuery Suggestions и AJAX suggest
+
+secret → нужен только для clean/address (стандартизация)
+         → НИКОГДА не передаётся в браузер
+         → используется только в PHP: Authorization + X-Secret headers
+```
+
+---
+
 ## Подключение скриптов
 
 **Хук:** `wp_enqueue_scripts` (приоритет 25)

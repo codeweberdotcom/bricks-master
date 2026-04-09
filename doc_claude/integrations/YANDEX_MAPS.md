@@ -305,6 +305,52 @@ $is_block_editor = $screen->is_block_editor();
 
 ---
 
+## Безопасность — защита API-ключа
+
+### Уровни защиты
+
+| Уровень | Метод | Файл | Строка |
+| ------- | ----- | ---- | ------ |
+| Enqueue | Ранний `return` если нет ключа | `class-codeweber-yandex-maps.php` | `enqueue_scripts()` |
+| Admin enqueue | Проверка `has_api_key()` | `class-codeweber-yandex-maps.php` | `enqueue_admin_scripts()` |
+| PHP render | Предупреждение если нет ключа | `class-codeweber-yandex-maps.php` | `render_map()` |
+| Блок render | Ранний `return` с алертом | `build/blocks/yandex-map/render.php` | — |
+| Navbar шаблон | `!empty($yandex_api_key)` перед выводом | `offcanvas-info-panel.php`, `offcanvas-info-simple.php` | — |
+
+### Как работает защита enqueue
+
+```php
+// class-codeweber-yandex-maps.php → enqueue_scripts()
+public function enqueue_scripts(): void {
+    if (!$this->has_api_key()) {
+        return; // Без ключа — не грузится ничего: ни yandex-maps-api, ни наш JS, ни CSS
+    }
+    // ...
+}
+```
+
+`has_api_key()` перепроверяет ключ из Redux на случай отложенной инициализации:
+
+```php
+public function has_api_key(): bool {
+    if (empty($this->api_key) && class_exists('Redux')) {
+        $this->api_key = Redux::get_option($opt_name, 'yandexapi');
+    }
+    return !empty($this->api_key);
+}
+```
+
+### Что происходит без ключа
+
+- Запрос к `api-maps.yandex.ru` — **не отправляется**
+- Скрипт `yandex-maps.js` — **не загружается**
+- CSS — **не загружается**
+- `render_map()` — возвращает `<div class="alert alert-warning">Yandex Maps API key is not configured.</div>`
+- Gutenberg-блок — аналогичный алерт через `render.php`
+- Редактор блоков — скрипт не грузится (нет preview карты)
+
+---
+
 ## Часто задаваемые вопросы
 
 **Карта не отображается — что проверить?**
