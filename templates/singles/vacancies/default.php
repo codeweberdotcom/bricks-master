@@ -36,12 +36,12 @@ $social_size = Redux::get_option($opt_name, 'global-social-button-size', 'md');
                <div class="mb-6">
                   <h3 class="mb-3"><?php esc_html_e('About the vacancy', 'codeweber'); ?></h3>
                   <div class="">
-                     <span class="h6 mb-1"><?php esc_html_e('Position:', 'codeweber'); ?> </span>
+                     <span class="fw-bold mb-1"><?php esc_html_e('Position:', 'codeweber'); ?> </span>
                      <span><?php echo esc_html(get_the_title()); ?></span>
                   </div>
                   <?php if (!empty($vacancy_data['company'])) : ?>
                   <div class="align-self-start">
-                     <span class="h6 mb-1"><?php esc_html_e('Company:', 'codeweber'); ?> </span>
+                     <span class="fw-bold mb-1"><?php esc_html_e('Company:', 'codeweber'); ?> </span>
                      <span><?php echo esc_html($vacancy_data['company']); ?></span>
                   </div>
                   <?php endif; ?>
@@ -49,19 +49,19 @@ $social_size = Redux::get_option($opt_name, 'global-social-button-size', 'md');
                   $schedule_term = !empty($vacancy_data['vacancy_schedules']) && !is_wp_error($vacancy_data['vacancy_schedules']) ? $vacancy_data['vacancy_schedules'][0] : null;
                   if ($schedule_term) : ?>
                   <div class="align-self-start">
-                     <span class="h6 mb-1"><?php esc_html_e('Work schedule:', 'codeweber'); ?> </span>
+                     <span class="fw-bold mb-1"><?php esc_html_e('Work schedule:', 'codeweber'); ?> </span>
                      <span><?php echo esc_html($schedule_term->name); ?></span>
                   </div>
                   <?php endif; ?>
                   <?php if (!empty($vacancy_data['languages']) && is_array($vacancy_data['languages'])) : ?>
                   <div class="align-self-start">
-                     <span class="h6 mb-1"><?php esc_html_e('Languages:', 'codeweber'); ?> </span>
+                     <span class="fw-bold mb-1"><?php esc_html_e('Languages:', 'codeweber'); ?> </span>
                      <span><?php echo esc_html(implode(', ', $vacancy_data['languages'])); ?></span>
                   </div>
                   <?php endif; ?>
                   <?php if (!empty($vacancy_data['status'])) : ?>
                   <div class="align-self-start">
-                     <span class="h6 mb-1"><?php esc_html_e('Status:', 'codeweber'); ?> </span>
+                     <span class="fw-bold mb-1"><?php esc_html_e('Status:', 'codeweber'); ?> </span>
                      <span><?php
                         $status_labels = array(
                            'open'   => __('Open', 'codeweber'),
@@ -73,7 +73,7 @@ $social_size = Redux::get_option($opt_name, 'global-social-button-size', 'md');
                   <?php endif; ?>
                   <?php if (!empty($vacancy_data['salary'])) : ?>
                   <div class="align-self-start">
-                     <span class="h6 mb-1"><?php esc_html_e('Salary:', 'codeweber'); ?> </span>
+                     <span class="fw-bold mb-1"><?php esc_html_e('Salary:', 'codeweber'); ?> </span>
                      <span><?php echo esc_html($vacancy_data['salary']); ?></span>
                   </div>
                   <?php endif; ?>
