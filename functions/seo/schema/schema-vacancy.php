@@ -58,21 +58,22 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 			];
 		}
 
-		// employmentType from vacancy_type taxonomy.
-		$types = get_the_terms( $post->ID, 'vacancy_type' );
-		if ( $types && ! is_wp_error( $types ) ) {
+		// employmentType from _vacancy_employment_type meta.
+		$emp_type = get_post_meta( $post->ID, '_vacancy_employment_type', true );
+		if ( ! empty( $emp_type ) ) {
 			$type_map = [
 				'full-time'  => 'FULL_TIME',
 				'part-time'  => 'PART_TIME',
 				'contract'   => 'CONTRACTOR',
 				'internship' => 'INTERN',
 				'temporary'  => 'TEMPORARY',
+				'seasonal'   => 'SEASONAL',
+				'volunteer'  => 'VOLUNTEER',
 			];
-			$mapped = [];
-			foreach ( $types as $type ) {
-				$mapped[] = $type_map[ $type->slug ] ?? strtoupper( $type->slug );
+			$mapped = $type_map[ $emp_type ] ?? null;
+			if ( $mapped ) {
+				$item['employmentType'] = $mapped;
 			}
-			$item['employmentType'] = count( $mapped ) === 1 ? $mapped[0] : $mapped;
 		}
 
 		// baseSalary — extract first number from free-text salary field.
@@ -195,27 +196,21 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		}
 	}
 
-	// Employment type from vacancy_type taxonomy.
-	$types = get_the_terms( $post_id, 'vacancy_type' );
-	if ( $types && ! is_wp_error( $types ) ) {
+	// Employment type from _vacancy_employment_type meta.
+	$emp_type = get_post_meta( $post_id, '_vacancy_employment_type', true );
+	if ( ! empty( $emp_type ) ) {
 		$type_map = [
 			'full-time'  => 'FULL_TIME',
 			'part-time'  => 'PART_TIME',
 			'contract'   => 'CONTRACTOR',
 			'internship' => 'INTERN',
 			'temporary'  => 'TEMPORARY',
+			'seasonal'   => 'SEASONAL',
+			'volunteer'  => 'VOLUNTEER',
 		];
-
-		$employment_types = [];
-		foreach ( $types as $type ) {
-			$mapped = $type_map[ $type->slug ] ?? strtoupper( $type->slug );
-			$employment_types[] = $mapped;
-		}
-
-		if ( count( $employment_types ) === 1 ) {
-			$job['employmentType'] = $employment_types[0];
-		} elseif ( count( $employment_types ) > 1 ) {
-			$job['employmentType'] = $employment_types;
+		$mapped = $type_map[ $emp_type ] ?? null;
+		if ( $mapped ) {
+			$job['employmentType'] = $mapped;
 		}
 	}
 
