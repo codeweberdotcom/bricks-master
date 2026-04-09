@@ -336,11 +336,13 @@ class Codeweber_Yandex_Maps {
      * Подключение скриптов и стилей на фронтенде
      */
     public function enqueue_scripts(): void {
-        // Гарантированно обновляем ключ из Redux перед подключением скрипта
-        $has_key = $this->has_api_key();
+        // Если API ключ не задан — не грузим ничего
+        if (!$this->has_api_key()) {
+            return;
+        }
 
         // Подключаем Яндекс Maps API только если есть ключ
-        if ($has_key && !empty($this->api_key)) {
+        if (!empty($this->api_key)) {
             wp_enqueue_script(
                 'yandex-maps-api',
                 'https://api-maps.yandex.ru/2.1/?apikey=' . esc_attr($this->api_key) . '&lang=' . esc_attr($this->default_settings['language']),
