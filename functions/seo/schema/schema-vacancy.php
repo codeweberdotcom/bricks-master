@@ -25,16 +25,10 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 			'datePosted' => get_the_date( 'c', $post ),
 		];
 
-		// description — excerpt or stripped content.
-		$excerpt = get_the_excerpt( $post );
-		if ( ! empty( $excerpt ) ) {
-			$item['description'] = wp_strip_all_tags( $excerpt );
-		} else {
-			$content = get_post_field( 'post_content', $post->ID );
-			$content = wp_strip_all_tags( $content );
-			if ( ! empty( $content ) ) {
-				$item['description'] = wp_trim_words( $content, 55 );
-			}
+		// description — SEO meta (Rank Math / Yoast), then excerpt, then content.
+		$desc = codeweber_get_seo_description( $post->ID );
+		if ( ! empty( $desc ) ) {
+			$item['description'] = $desc;
 		}
 
 		// hiringOrganization — company meta or site Organization node.
