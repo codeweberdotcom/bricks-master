@@ -276,6 +276,44 @@ Redux::set_section(
 				),
 			),
 
+			array(
+				'id'      => 'breadcrumb_show_home',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Show Home link', 'codeweber' ),
+				'default' => true,
+				'on'      => esc_html__( 'On', 'codeweber' ),
+				'off'     => esc_html__( 'Off', 'codeweber' ),
+				'required' => array(
+					array( 'global-page-header-breadcrumb-enable', '=', '1' ),
+				),
+			),
+
+			array(
+				'id'          => 'breadcrumb_home_label',
+				'type'        => 'text',
+				'title'       => esc_html__( 'Home link label', 'codeweber' ),
+				'subtitle'    => esc_html__( 'Leave empty to use default translation', 'codeweber' ),
+				'placeholder' => esc_html__( 'Главная', 'codeweber' ),
+				'default'     => '',
+				'required'    => array(
+					array( 'global-page-header-breadcrumb-enable', '=', '1' ),
+					array( 'breadcrumb_show_home', '=', '1' ),
+				),
+			),
+
+			array(
+				'id'      => 'breadcrumb_hide_last_single',
+				'type'    => 'switch',
+				'title'   => esc_html__( 'Hide current page on single', 'codeweber' ),
+				'subtitle' => esc_html__( 'Remove the last breadcrumb item (current page title) on single post/page/CPT', 'codeweber' ),
+				'default' => false,
+				'on'      => esc_html__( 'On', 'codeweber' ),
+				'off'     => esc_html__( 'Off', 'codeweber' ),
+				'required' => array(
+					array( 'global-page-header-breadcrumb-enable', '=', '1' ),
+				),
+			),
+
 		),
 	)
 );

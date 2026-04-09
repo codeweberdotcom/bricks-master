@@ -21,6 +21,20 @@
 if (!function_exists('get_breadcrumbs')) {
    function get_breadcrumbs($align = null, $color = null, $class = null)
    {
+      // Redux breadcrumb settings
+      $show_home   = true;
+      $home_label  = '';
+      $hide_last   = false;
+      if (class_exists('Codeweber_Options')) {
+         $show_home  = (bool) Codeweber_Options::get('breadcrumb_show_home', true);
+         $home_label = (string) Codeweber_Options::get('breadcrumb_home_label', '');
+         $hide_last  = (bool) Codeweber_Options::get('breadcrumb_hide_last_single', false);
+      }
+      if (empty($home_label)) {
+         $home_label = __('Главная', 'codeweber');
+      }
+      $is_single_context = is_single() || is_singular();
+
       // Классы для <ol>
       $ol_classes = ['breadcrumb'];
 
@@ -54,11 +68,17 @@ if (!function_exists('get_breadcrumbs')) {
       if (class_exists('WooCommerce') && function_exists('is_account_page') && is_account_page()) {
          $breadcrumbs = new WC_Breadcrumb();
          $breadcrumbs->add_crumb(
-            _x('Home', 'breadcrumb', 'woocommerce'),
+            $home_label,
             apply_filters('woocommerce_breadcrumb_home_url', home_url())
          );
          $crumbs = $breadcrumbs->generate();
          if (!empty($crumbs)) {
+            if (!$show_home) {
+               array_shift($crumbs);
+            }
+            if ($hide_last && $is_single_context && count($crumbs) > 0) {
+               array_pop($crumbs);
+            }
             echo $wrap_before;
             $total = count($crumbs);
             foreach ($crumbs as $key => $crumb) {
@@ -92,17 +112,25 @@ if (!function_exists('get_breadcrumbs')) {
          if ( ! $rank_math_filters_registered ) {
             $rank_math_filters_registered = true;
 
-            add_filter('rank_math/frontend/breadcrumb/args', function () use ($args) {
-               return $args;
+            add_filter('rank_math/frontend/breadcrumb/args', function ($a) use ($args, $home_label) {
+               $result = $args;
+               $result['home_label'] = $home_label;
+               return $result;
             });
 
             // WooCommerce product tag: крошка содержит "Products tagged «tagname»" — оставляем только название тега
-            add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) {
+            add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) use ($show_home, $hide_last, $is_single_context) {
                if (function_exists('is_product_tag') && is_product_tag()) {
                   $last = count($crumbs) - 1;
                   if (isset($crumbs[$last][0])) {
                      $crumbs[$last][0] = single_term_title('', false);
                   }
+               }
+               if (!$show_home && !empty($crumbs)) {
+                  array_shift($crumbs);
+               }
+               if ($hide_last && $is_single_context && count($crumbs) > 0) {
+                  array_pop($crumbs);
                }
                return $crumbs;
             });
@@ -130,18 +158,31 @@ if (!function_exists('get_breadcrumbs')) {
             return '';
          });
 
-         add_filter('wpseo_breadcrumb_single_link', function ($link_output, $link) {
+         add_filter('wpseo_breadcrumb_single_link', function ($link_output, $link) use ($home_label) {
+            $text = esc_html($link['text']);
             if (!empty($link['url'])) {
-               return '<li class="breadcrumb-item"><a href="' . esc_url($link['url']) . '">' . esc_html($link['text']) . '</a></li>';
+               // Подменяем текст первой крошки (Home) на кастомный label
+               if (trailingslashit($link['url']) === trailingslashit(home_url('/'))) {
+                  $text = esc_html($home_label);
+               }
+               return '<li class="breadcrumb-item"><a href="' . esc_url($link['url']) . '">' . $text . '</a></li>';
             } else {
-               return '<li class="breadcrumb-item active" aria-current="page">' . esc_html($link['text']) . '</li>';
+               return '<li class="breadcrumb-item active" aria-current="page">' . $text . '</li>';
             }
          }, 10, 2);
 
-         add_filter('wpseo_breadcrumb_output', function ($output) {
+         add_filter('wpseo_breadcrumb_output', function ($output) use ($show_home, $hide_last, $is_single_context) {
             // Удаляем обёртки <span> вокруг всей строки
-            $output = preg_replace('#^<span[^>]*>#', '', $output); // открывающий <span>
-            $output = preg_replace('#</span>$#', '', $output);     // закрывающий </span>
+            $output = preg_replace('#^<span[^>]*>#', '', $output);
+            $output = preg_replace('#</span>$#', '', $output);
+            // Скрыть Home
+            if (!$show_home) {
+               $output = preg_replace('#<li class="breadcrumb-item"[^>]*>.*?</li>#s', '', $output, 1);
+            }
+            // Скрыть последнюю крошку на сингле
+            if ($hide_last && $is_single_context) {
+               $output = preg_replace('#<li class="breadcrumb-item active"[^>]*>.*?</li>\s*$#s', '', $output);
+            }
             return $output;
          });
 
@@ -150,7 +191,18 @@ if (!function_exists('get_breadcrumbs')) {
 
       // SEOPress
       elseif (function_exists('seopress_display_breadcrumbs')) {
+         ob_start();
          seopress_display_breadcrumbs();
+         $html = ob_get_clean();
+         // Скрыть Home: убираем первую ссылку-крошку
+         if (!$show_home) {
+            $html = preg_replace('#<li[^>]*>.*?</li>#s', '', $html, 1);
+         }
+         // Скрыть последнюю на сингле
+         if ($hide_last && $is_single_context) {
+            $html = preg_replace('#<li[^>]*>[^<]*</li>\s*$#s', '', $html);
+         }
+         echo $html;
       }
 
       // All in One SEO
@@ -171,9 +223,16 @@ if (!function_exists('get_breadcrumbs')) {
          preg_match_all('/<span class="aioseo-breadcrumb">(.*?)<\/span>/s', $html, $matches);
 
          if (!empty($matches[1])) {
+            $items = $matches[1];
+            if (!$show_home) {
+               array_shift($items);
+            }
+            if ($hide_last && $is_single_context && count($items) > 0) {
+               array_pop($items);
+            }
             echo '<ol class="' . esc_attr($classes_str) . '">';
-            $total = count($matches[1]);
-            foreach ($matches[1] as $index => $crumb) {
+            $total = count($items);
+            foreach ($items as $index => $crumb) {
                $is_last = ($index === $total - 1);
                if ($is_last) {
                   echo '<li class="breadcrumb-item active" aria-current="page">' . $crumb . '</li>';
@@ -189,7 +248,9 @@ if (!function_exists('get_breadcrumbs')) {
       else {
          echo $wrap_before;
 
-         echo '<li class="breadcrumb-item"><a href="' . esc_url(home_url('/')) . '">' . __('Home', 'codeweber') . '</a></li>';
+         if ($show_home) {
+            echo '<li class="breadcrumb-item"><a href="' . esc_url(home_url('/')) . '">' . esc_html($home_label) . '</a></li>';
+         }
 
          if (is_category() || is_single()) {
             if (is_category()) {
@@ -233,7 +294,9 @@ if (!function_exists('get_breadcrumbs')) {
                   }
                }
 
-               echo '<li class="breadcrumb-item active" aria-current="page">' . get_the_title() . '</li>';
+               if (!$hide_last || !$is_single_context) {
+                  echo '<li class="breadcrumb-item active" aria-current="page">' . get_the_title() . '</li>';
+               }
             }
          } elseif (is_category() || is_tag()) {
             // Добавляем "Shop" для категорий и меток
@@ -262,7 +325,9 @@ if (!function_exists('get_breadcrumbs')) {
             }
 
             echo implode('', array_reverse($parents));
-            echo '<li class="breadcrumb-item active" aria-current="page">' . get_the_title() . '</li>';
+            if (!$hide_last || !$is_single_context) {
+               echo '<li class="breadcrumb-item active" aria-current="page">' . get_the_title() . '</li>';
+            }
          } elseif (is_search()) {
             echo '<li class="breadcrumb-item active" aria-current="page">' . sprintf(__('Search results for "%s"', 'codeweber'), get_search_query()) . '</li>';
          } elseif (is_404()) {
