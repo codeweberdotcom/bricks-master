@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 	return codeweber_schema_archive_itemlist( 'vacancies', $graph, function ( WP_Post $post ): ?array {
+		$site_url = trailingslashit( home_url() );
+
 		$item = [
 			'@type'      => 'JobPosting',
 			'title'      => get_the_title( $post ),
@@ -23,6 +25,31 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 			'datePosted' => get_the_date( 'c', $post ),
 		];
 
+		// description — excerpt or stripped content.
+		$excerpt = get_the_excerpt( $post );
+		if ( ! empty( $excerpt ) ) {
+			$item['description'] = wp_strip_all_tags( $excerpt );
+		} else {
+			$content = get_post_field( 'post_content', $post->ID );
+			$content = wp_strip_all_tags( $content );
+			if ( ! empty( $content ) ) {
+				$item['description'] = wp_trim_words( $content, 55 );
+			}
+		}
+
+		// hiringOrganization — company meta or site Organization node.
+		$company = get_post_meta( $post->ID, '_vacancy_company', true );
+		if ( ! empty( $company ) ) {
+			$item['hiringOrganization'] = [
+				'@type'  => 'Organization',
+				'name'   => $company,
+				'sameAs' => $site_url,
+			];
+		} else {
+			$item['hiringOrganization'] = [ '@id' => $site_url . '#organization' ];
+		}
+
+		// jobLocation.
 		$location = get_post_meta( $post->ID, '_vacancy_location', true );
 		if ( ! empty( $location ) ) {
 			$item['jobLocation'] = [
@@ -31,13 +58,39 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 			];
 		}
 
+		// employmentType from vacancy_type taxonomy.
+		$types = get_the_terms( $post->ID, 'vacancy_type' );
+		if ( $types && ! is_wp_error( $types ) ) {
+			$type_map = [
+				'full-time'  => 'FULL_TIME',
+				'part-time'  => 'PART_TIME',
+				'contract'   => 'CONTRACTOR',
+				'internship' => 'INTERN',
+				'temporary'  => 'TEMPORARY',
+			];
+			$mapped = [];
+			foreach ( $types as $type ) {
+				$mapped[] = $type_map[ $type->slug ] ?? strtoupper( $type->slug );
+			}
+			$item['employmentType'] = count( $mapped ) === 1 ? $mapped[0] : $mapped;
+		}
+
+		// baseSalary — extract first number from free-text salary field.
 		$salary = get_post_meta( $post->ID, '_vacancy_salary', true );
 		if ( ! empty( $salary ) ) {
-			$item['baseSalary'] = [
-				'@type'    => 'MonetaryAmount',
-				'currency' => 'RUB',
-				'value'    => $salary,
-			];
+			preg_match( '/[\d\s]+/', $salary, $matches );
+			$num = isset( $matches[0] ) ? (int) preg_replace( '/\s/', '', $matches[0] ) : 0;
+			if ( $num > 0 ) {
+				$item['baseSalary'] = [
+					'@type'    => 'MonetaryAmount',
+					'currency' => 'RUB',
+					'value'    => [
+						'@type'    => 'QuantitativeValue',
+						'minValue' => $num,
+						'unitText' => 'MONTH',
+					],
+				];
+			}
 		}
 
 		return $item;
@@ -82,14 +135,22 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		];
 	}
 
-	// Salary.
+	// Salary — extract first number from free-text field.
 	$salary = get_post_meta( $post_id, '_vacancy_salary', true );
 	if ( ! empty( $salary ) ) {
-		$job['baseSalary'] = [
-			'@type'    => 'MonetaryAmount',
-			'currency' => 'RUB',
-			'value'    => $salary,
-		];
+		preg_match( '/[\d\s]+/', $salary, $matches );
+		$salary_num = isset( $matches[0] ) ? (int) preg_replace( '/\s/', '', $matches[0] ) : 0;
+		if ( $salary_num > 0 ) {
+			$job['baseSalary'] = [
+				'@type'    => 'MonetaryAmount',
+				'currency' => 'RUB',
+				'value'    => [
+					'@type'    => 'QuantitativeValue',
+					'minValue' => $salary_num,
+					'unitText' => 'MONTH',
+				],
+			];
+		}
 	}
 
 	// Location.
