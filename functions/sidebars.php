@@ -278,6 +278,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
         // Получаем стиль кнопок из Redux
         $button_style = class_exists('Codeweber_Options') ? Codeweber_Options::style('button', '') : '';
         $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
+        $widget_h = class_exists('Codeweber_Options') ? Codeweber_Options::get('widget_heading_size', 'h3') : 'h3';
         $sidebar_disable_image = !empty($vacancy_data['sidebar_disable_image']);
         $sidebar_hide_author   = !empty($vacancy_data['sidebar_hide_author']);
 ?>
@@ -329,7 +330,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
-                        <h3 class="mb-4"><?php esc_html_e('Details', 'codeweber'); ?></h3>
+                        <<?php echo esc_attr($widget_h); ?> class="mb-4"><?php esc_html_e('Details', 'codeweber'); ?></<?php echo esc_attr($widget_h); ?>>
 
                         <?php if (!empty($vacancy_data['location'])) : ?>
                             <p class="mb-1 d-flex align-items-baseline">
@@ -476,7 +477,7 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                 );
                 ?>
             <div class="widget">
-                <h3 class="mb-3"><?php esc_html_e('On the map', 'codeweber'); ?></h3>
+                <<?php echo esc_attr($widget_h); ?> class="mb-3"><?php esc_html_e('On the map', 'codeweber'); ?></<?php echo esc_attr($widget_h); ?>>
                 <div class="card rounded-0">
                     <?php echo $yandex_maps->render_map($args, $markers); ?>
                 </div>
@@ -520,12 +521,13 @@ function codeweber_sidebar_widget_faq($sidebar_id) {
         ]);
 
         $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';
+        $widget_h    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'widget_heading_size', 'h3' ) : 'h3';
 
         if (!empty($faq_categories) && !is_wp_error($faq_categories)) {
             echo '<div class="widget">';
             echo '<div class="card' . ( $card_radius ? ' ' . esc_attr( $card_radius ) : '' ) . '">';
             echo '<div class="card-body">';
-            echo '<h3 class="mb-4">' . esc_html__( 'Contents', 'codeweber' ) . '</h3>';
+            echo '<' . esc_attr( $widget_h ) . ' class="mb-4">' . esc_html__( 'Contents', 'codeweber' ) . '</' . esc_attr( $widget_h ) . '>';
             echo '<nav id="sidebar-nav"><ul class="list-unstyled text-reset">';
 
             $index = 1;
@@ -582,7 +584,7 @@ function codeweber_sidebar_widget_faq($sidebar_id) {
             echo '<div class="widget">';
             echo '<div class="card' . ( $card_radius ? ' ' . esc_attr( $card_radius ) : '' ) . '">';
             echo '<div class="card-body">';
-            echo '<h3 class="mb-4">' . esc_html__( 'Contents', 'codeweber' ) . '</h3>';
+            echo '<' . esc_attr( $widget_h ) . ' class="mb-4">' . esc_html__( 'Contents', 'codeweber' ) . '</' . esc_attr( $widget_h ) . '>';
             echo '<nav id="sidebar-nav"><ul class="list-unstyled text-reset">';
             echo '<li><a class="nav-link scroll active" href="#faq-all">' . esc_html__('All FAQs', 'codeweber') . '</a></li>';
             echo '</ul></nav>';
@@ -614,7 +616,7 @@ function codeweber_sidebar_widget_faq($sidebar_id) {
                 echo '<div class="widget">';
                 echo '<div class="card mt-4' . ( $card_radius ? ' ' . esc_attr( $card_radius ) : '' ) . '">';
                 echo '<div class="card-body">';
-                echo '<h3 class="mb-4">' . esc_html__( 'Ask a Question', 'codeweber' ) . '</h3>';
+                echo '<' . esc_attr( $widget_h ) . ' class="mb-4">' . esc_html__( 'Ask a Question', 'codeweber' ) . '</' . esc_attr( $widget_h ) . '>';
                 echo $form_html;
                 echo '</div></div></div>';
             }
@@ -675,6 +677,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
     $event_zoom             = get_post_meta( $event_id, '_event_zoom', true );
     $event_yandex_address   = get_post_meta( $event_id, '_event_yandex_address', true );
     $card_radius      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';
+    $widget_h         = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'widget_heading_size', 'h3' ) : 'h3';
     $button_style     = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button', '' ) : '';
     $form_radius      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'form-radius' ) : '';
     $phone_mask       = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'opt_phone_mask', '' ) : '';
@@ -740,7 +743,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
             <?php endif; ?>
 
             <div class="mb-6">
-                <h3 class="mb-2"><?php esc_html_e( 'Event Details', 'codeweber' ); ?></h3>
+                <<?php echo esc_attr( $widget_h ); ?> class="mb-2"><?php esc_html_e( 'Event Details', 'codeweber' ); ?></<?php echo esc_attr( $widget_h ); ?>>
 
                 <?php if ( $countdown_until ) : ?>
                 <p class="small text-muted mb-2">
@@ -956,7 +959,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
         <div class="card-body">
             <?php $nonce = wp_create_nonce( 'codeweber_event_register' ); ?>
             <div class="event-registration-wrap">
-                <h3 class="mb-4"><?php echo esc_html( __( ! empty( $reg_form_title ) ? $reg_form_title : 'Register', 'codeweber' ) ); ?></h3>
+                <<?php echo esc_attr( $widget_h ); ?> class="mb-4"><?php echo esc_html( __( ! empty( $reg_form_title ) ? $reg_form_title : 'Register', 'codeweber' ) ); ?></<?php echo esc_attr( $widget_h ); ?>>
                 <form class="event-registration-form needs-validation"
                     data-event-id="<?php echo esc_attr( $event_id ); ?>"
                     novalidate>
@@ -1033,7 +1036,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
             ]];
         ?>
         <div class="widget mt-4">
-            <h3 class="mb-3"><?php esc_html_e( 'On the map', 'codeweber' ); ?></h3>
+            <<?php echo esc_attr( $widget_h ); ?> class="mb-3"><?php esc_html_e( 'On the map', 'codeweber' ); ?></<?php echo esc_attr( $widget_h ); ?>>
             <div class="card rounded-0">
                 <?php echo $_evt_maps->render_map( $_evt_map_args, $_evt_markers ); ?>
             </div>

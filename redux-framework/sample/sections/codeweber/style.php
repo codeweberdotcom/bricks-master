@@ -213,6 +213,28 @@ Redux::set_section(
 				'required' => array('page-loader', '=', true),
 			),
 
+			array(
+				'id'       => 'widget_heading_size',
+				'type'     => 'select',
+				'title'    => esc_html__( 'Widget Heading Size', 'codeweber' ),
+				'subtitle' => esc_html__( 'CSS class applied to headings inside sidebar widgets (vacancies, events, FAQ, maps)', 'codeweber' ),
+				'options'  => array(
+					'h1'        => 'h1',
+					'h2'        => 'h2',
+					'h3'        => 'h3',
+					'h4'        => 'h4',
+					'h5'        => 'h5',
+					'h6'        => 'h6',
+					'display-1' => 'display-1',
+					'display-2' => 'display-2',
+					'display-3' => 'display-3',
+					'display-4' => 'display-4',
+					'display-5' => 'display-5',
+					'display-6' => 'display-6',
+				),
+				'default'  => 'h3',
+			),
+
 		),
 	)
 );
