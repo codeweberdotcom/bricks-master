@@ -586,6 +586,10 @@ if (!empty($custom_post_type_files)) {
 					'title'  => esc_html__('Archive', 'codeweber'),
 					'fields' => array($sidebar_settings[1]),
 				),
+				array(
+					'title'  => esc_html__('Breakpoint', 'codeweber'),
+					'fields' => array($sidebar_settings[2]),
+				),
 			),
 		);
 
