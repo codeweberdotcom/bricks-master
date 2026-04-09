@@ -46,46 +46,46 @@ $show_hit_badge = get_post_meta( $post_id, '_vacancy_featured', true ) || get_po
 			</figure>
 		</div>
 		<div class="col-9">
-			<div class="card-body position-relative">
+			<div class="card-body h-100 p-md-12 position-relative">
 				<h2 class="mb-4 display-6"><?php echo esc_html( $title ); ?></h2>
-				<ul class="list-unstyled cc-2 mb-0">
+				<div class="row g-0">
 					<?php if ( $location ) : ?>
-					<li class="mb-1 d-flex align-items-center">
+					<div class="col-12 col-md-6 mb-1 d-flex align-items-center">
 						<i class="uil uil-map-marker-alt text-primary me-2"></i>
 						<span><?php echo esc_html( $location ); ?></span>
-					</li>
+					</div>
 					<?php endif; ?>
 					<?php if ( $category_name ) : ?>
-					<li class="mb-1 d-flex align-items-center">
+					<div class="col-12 col-md-6 mb-1 d-flex align-items-center">
 						<i class="uil uil-briefcase-alt text-primary me-2"></i>
 						<span><?php echo esc_html( $category_name ); ?></span>
-					</li>
+					</div>
 					<?php endif; ?>
 					<?php if ( $schedule_name ) : ?>
-					<li class="mb-1 d-flex align-items-center">
+					<div class="col-12 col-md-6 mb-1 d-flex align-items-center">
 						<i class="uil uil-calendar-alt text-primary me-2"></i>
 						<span><?php echo esc_html( $schedule_name ); ?></span>
-					</li>
+					</div>
 					<?php endif; ?>
 					<?php if ( $experience ) : ?>
-					<li class="mb-1 d-flex align-items-center">
+					<div class="col-12 col-md-6 mb-1 d-flex align-items-center">
 						<i class="uil uil-clock text-primary me-2"></i>
 						<span><?php echo esc_html( $experience ); ?></span>
-					</li>
+					</div>
 					<?php endif; ?>
 					<?php if ( $company ) : ?>
-					<li class="mb-1 d-flex align-items-center">
+					<div class="col-12 col-md-6 mb-1 d-flex align-items-center">
 						<i class="uil uil-graduation-cap text-primary me-2"></i>
 						<span><?php echo esc_html( $company ); ?></span>
-					</li>
+					</div>
 					<?php endif; ?>
 					<?php if ( $salary ) : ?>
-					<li class="mb-1 d-flex align-items-center">
+					<div class="col-12 col-md-6 mb-1 d-flex align-items-center">
 						<i class="uil uil-money-stack text-primary me-2"></i>
 						<span><?php echo esc_html( $salary ); ?></span>
-					</li>
+					</div>
 					<?php endif; ?>
-				</ul>
+				</div>
 				<div class="hover_card_button position-absolute p-7 top-0 end-0">
 					<i class="fs-25 uil uil-arrow-right lh-1"></i>
 				</div>
