@@ -40,12 +40,12 @@ $show_hit_badge = get_post_meta( $post_id, '_vacancy_featured', true ) || get_po
 		<span class="position-absolute top-0 start-0 m-2 badge bg-warning text-dark px-2 py-1"><?php esc_html_e( 'HIT', 'codeweber' ); ?></span>
 	<?php endif; ?>
 	<div class="row g-0">
-		<div class="col-3">
+		<div class="col-md-3">
 			<figure class="mb-0 ratio ratio-1x1">
 				<img src="<?php echo esc_url( $vacancy_image_url ); ?>" alt="<?php echo esc_attr( $title ); ?>" class="object-fit-cover">
 			</figure>
 		</div>
-		<div class="col-9">
+		<div class="col-md-9">
 			<div class="card-body h-100 p-md-12 position-relative">
 				<h2 class="mb-4 display-6"><?php echo esc_html( $title ); ?></h2>
 				<div class="row g-0">
