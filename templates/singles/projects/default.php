@@ -90,7 +90,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 </section>
 
 <?php /* ── 2. Контент ──────────────────────────────────────────────────────── */ ?>
-<section class="wrapper bg-light wrapper-border">
+<section class="wrapper wrapper-border">
 	<div class="container pb-14 pb-md-16">
 		<div class="row">
 			<div class="col-12">
@@ -173,7 +173,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 </section>
 
 <?php /* ── 3. Навигация ──────────────────────────────────────────────────────── */ ?>
-<section class="wrapper bg-light">
+<section class="wrapper">
 	<div class="container py-10">
 		<div class="row gx-md-6 gy-3 gy-md-0">
 			<div class="col-md-8 align-self-center">
