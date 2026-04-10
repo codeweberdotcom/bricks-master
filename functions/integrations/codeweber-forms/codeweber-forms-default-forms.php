@@ -392,8 +392,8 @@ class CodeweberFormsDefaultForms {
             $fid = 'faq-name-' . self::$global_form_instance_counter;
             $fields .= '<div class="form-floating mb-3">
                 <input type="text" name="name" id="' . esc_attr( $fid ) . '" class="form-control' . esc_attr( $form_radius ) . '"
-                    placeholder="' . esc_attr__( 'Your name', 'codeweber' ) . '">
-                <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Your name', 'codeweber' ) . '</label>
+                    placeholder="' . esc_attr__( 'Your name', 'codeweber' ) . '" required>
+                <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Your name', 'codeweber' ) . ' <span class="text-danger">*</span></label>
             </div>';
         }
 
@@ -402,8 +402,8 @@ class CodeweberFormsDefaultForms {
             $fid = 'faq-email-' . self::$global_form_instance_counter;
             $fields .= '<div class="form-floating mb-3">
                 <input type="email" name="email" id="' . esc_attr( $fid ) . '" class="form-control' . esc_attr( $form_radius ) . '"
-                    placeholder="' . esc_attr__( 'Email', 'codeweber' ) . '">
-                <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Email', 'codeweber' ) . '</label>
+                    placeholder="' . esc_attr__( 'Email', 'codeweber' ) . '" required>
+                <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Email', 'codeweber' ) . ' <span class="text-danger">*</span></label>
             </div>';
         }
 
@@ -412,8 +412,8 @@ class CodeweberFormsDefaultForms {
             $fid = 'faq-phone-' . self::$global_form_instance_counter;
             $fields .= '<div class="form-floating mb-3">
                 <input type="tel" name="phone" id="' . esc_attr( $fid ) . '" class="form-control' . esc_attr( $form_radius ) . '"
-                    placeholder="' . esc_attr__( 'Phone', 'codeweber' ) . '"' . $phone_mask_attr . '>
-                <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Phone', 'codeweber' ) . '</label>
+                    placeholder="' . esc_attr__( 'Phone', 'codeweber' ) . '"' . $phone_mask_attr . ' required>
+                <label for="' . esc_attr( $fid ) . '">' . esc_html__( 'Phone', 'codeweber' ) . ' <span class="text-danger">*</span></label>
             </div>';
         }
 
