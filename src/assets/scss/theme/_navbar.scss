@@ -51,7 +51,7 @@ header {
     box-shadow: none;
   }
   &.navbar-bg-dark {
-    background: $gray-800;
+    background: $dark;
   }
   .navbar-other {
     .nav-item .nav-link {
@@ -98,7 +98,7 @@ header {
   }
   &.navbar-dark {
     box-shadow: $box-shadow-md;
-    background: rgba($gray-800, 0.97);
+    background: rgba($dark, 0.97);
     .logo-dark { display: none !important; }
     .logo-light { display: block !important; }
   }

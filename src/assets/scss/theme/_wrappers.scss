@@ -9,7 +9,7 @@
 }
 footer.bg-dark,
 .footer.bg-dark {
-  background: $gray-800 !important;
+  background: $dark !important;
 }
 //----------------------------------------------------------//
 //	BACKGROUND IMAGE
@@ -307,11 +307,11 @@ $value in $colors-pale {
 footer.bg-dark.angled {
   &.lower-end:after,
   &.upper-end:before {
-    border-right-color: $gray-800 !important;
+    border-right-color: $dark !important;
   }
   &.lower-start:after,
   &.upper-start:before {
-    border-left-color: $gray-800 !important;
+    border-left-color: $dark !important;
   }
 }
 //----------------------------------------------------------//
