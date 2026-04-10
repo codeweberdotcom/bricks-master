@@ -116,6 +116,25 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 					</figure>
 					<?php endif; ?>
 
+					<?php /* Выполненные работы */ ?>
+					<?php if ( ! empty( $works_items ) ) : ?>
+					<div class="row mb-8 mb-md-12">
+						<div class="col-lg-10 offset-lg-1">
+
+							<?php if ( $works_title ) : ?>
+							<h2 class="display-6 mb-4"><?php echo esc_html( $works_title ); ?></h2>
+							<?php endif; ?>
+
+							<ul class="icon-list bullet-primary">
+								<?php foreach ( $works_items as $work ) : ?>
+								<li><span><?php echo esc_html( $work ); ?></span></li>
+								<?php endforeach; ?>
+							</ul>
+
+						</div>
+					</div>
+					<?php endif; ?>
+
 					<?php /* Описание + метаполя */ ?>
 					<?php if ( $title_description || $description || ! empty( $meta_items ) || $link ) : ?>
 					<div class="row">
@@ -174,25 +193,6 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 							</figure>
 						</div>
 						<?php endforeach; ?>
-					</div>
-					<?php endif; ?>
-
-					<?php /* Выполненные работы */ ?>
-					<?php if ( ! empty( $works_items ) ) : ?>
-					<div class="row mt-8 mt-md-12">
-						<div class="col-lg-10 offset-lg-1">
-
-							<?php if ( $works_title ) : ?>
-							<h2 class="display-6 mb-4"><?php echo esc_html( $works_title ); ?></h2>
-							<?php endif; ?>
-
-							<ul class="icon-list bullet-primary">
-								<?php foreach ( $works_items as $work ) : ?>
-								<li><span><?php echo esc_html( $work ); ?></span></li>
-								<?php endforeach; ?>
-							</ul>
-
-						</div>
 					</div>
 					<?php endif; ?>
 
