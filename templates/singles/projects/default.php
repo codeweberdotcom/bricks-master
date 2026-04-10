@@ -77,7 +77,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 	<div class="container pb-14 pb-md-16">
 		<div class="row">
 			<div class="col-12">
-				<article class="mt-n21">
+				<article>
 
 					<?php /* Главное фото */ ?>
 					<?php if ( $thumbnail_id ) : ?>
