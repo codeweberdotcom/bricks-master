@@ -95,3 +95,5 @@ function cptui_register_my_taxes_projects_category()
 	register_taxonomy("projects_category", ["projects"], $args);
 }
 add_action('init', 'cptui_register_my_taxes_projects_category');
+
+require_once __DIR__ . '/cpt-projects-meta.php';
