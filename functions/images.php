@@ -48,7 +48,8 @@ if (! function_exists('codeweber_image_settings')) {
 		
 
 		// WooCommerce product gallery (square crop, replaces woocommerce_single in our templates)
-		add_image_size('codeweber_product_600-600', 600, 600, true);
+		add_image_size('codeweber_product_600-600', 600, 600, true); // 2-col grid
+		add_image_size('codeweber_product_400-400', 400, 400, true); // 3-col grid
 
 		//Universal
 		add_image_size('codeweber_extralarge', 1600, 1200, true);
@@ -99,7 +100,7 @@ function codeweber_get_allowed_image_sizes($post_type = '', $post_id = 0)
 		'events'    => ['thumbnail', 'codeweber_event_1070-668', 'codeweber_event_400-267', 'codeweber_event_140-88', 'codeweber_event_383-250', 'codeweber_event_600-600', 'codeweber_avatar'],
 		'clients' => ['thumbnail', 'codeweber_clients_115-60', 'codeweber_clients_200-60', 'codeweber_clients_300-200', 'codeweber_clients_400-267', 'woocommerce_gallery_thumbnail'],
 		'post' => ['thumbnail', 'codeweber_post_960-600', 'codeweber_post_600-600', 'codeweber_post_560-350', 'codeweber_post_100-100', 'codeweber_extralarge', 'woocommerce_gallery_thumbnail'],
-		'product' => ['thumbnail', 'woocommerce_thumbnail', 'woocommerce_single', 'codeweber_product_600-600', 'codeweber_extralarge', 'codeweber_post_100-100'],
+		'product' => ['thumbnail', 'woocommerce_thumbnail', 'woocommerce_single', 'codeweber_product_600-600', 'codeweber_product_400-400', 'codeweber_extralarge', 'codeweber_post_100-100'],
 		'default' => [] // По умолчанию пустой массив - не удаляем никакие размеры
 	];
 
