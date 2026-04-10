@@ -27,6 +27,10 @@ $short_description = get_post_meta( $product_id, 'main_information_short_descrip
 $title_description = get_post_meta( $product_id, 'main_information_title_description', true );
 $description       = get_post_meta( $product_id, 'main_information_description', true );
 
+// ── Стили из Redux ───────────────────────────────────────────────────────────
+$btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
+$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+
 // ── Категория ─────────────────────────────────────────────────────────────────
 $categories    = get_the_terms( $product_id, 'projects_category' );
 $category_name = '';
@@ -94,7 +98,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 
 					<?php /* Главное фото */ ?>
 					<?php if ( $thumbnail_id ) : ?>
-					<figure class="rounded mb-8 mb-md-12">
+					<figure class="<?php echo esc_attr( $card_radius ); ?> mb-8 mb-md-12">
 						<a href="<?php echo esc_url( $main_img_full ); ?>" data-glightbox data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
 							<?php echo wp_get_attachment_image( $thumbnail_id, 'codeweber_extralarge', false, [ 'class' => 'w-100' ] ); ?>
 						</a>
@@ -150,7 +154,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 							if ( ! $thumb_url ) continue;
 						?>
 						<div class="item col-md-6">
-							<figure class="hover-scale rounded cursor-dark">
+							<figure class="hover-scale <?php echo esc_attr( $card_radius ); ?> cursor-dark">
 								<a href="<?php echo esc_url( $full_url ?: $thumb_url ); ?>"
 								   data-glightbox
 								   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
@@ -178,13 +182,13 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 				$next = get_next_post();
 				if ( $prev ) : ?>
 				<a href="<?php echo esc_url( get_permalink( $prev ) ); ?>"
-				   class="btn btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0 me-1">
+				   class="btn btn-soft-ash<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start mb-0 me-1">
 					<i class="uil uil-arrow-left"></i> <?php esc_html_e( 'Предыдущий', 'codeweber' ); ?>
 				</a>
 				<?php endif;
 				if ( $next ) : ?>
 				<a href="<?php echo esc_url( get_permalink( $next ) ); ?>"
-				   class="btn btn-soft-ash rounded-pill btn-icon btn-icon-end mb-0">
+				   class="btn btn-soft-ash<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-end mb-0">
 					<?php esc_html_e( 'Следующий', 'codeweber' ); ?> <i class="uil uil-arrow-right"></i>
 				</a>
 				<?php endif; ?>
