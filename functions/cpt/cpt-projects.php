@@ -96,4 +96,12 @@ function cptui_register_my_taxes_projects_category()
 }
 add_action('init', 'cptui_register_my_taxes_projects_category');
 
+// Отключаем блочный редактор для проектов
+add_filter( 'use_block_editor_for_post_type', function ( bool $enabled, string $post_type ): bool {
+	if ( $post_type === 'projects' ) {
+		return false;
+	}
+	return $enabled;
+}, 10, 2 );
+
 require_once __DIR__ . '/cpt-projects-meta.php';
