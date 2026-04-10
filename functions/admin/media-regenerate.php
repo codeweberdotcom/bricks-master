@@ -238,3 +238,70 @@ function cw_media_delete_lost_ajax() {
 	] );
 }
 add_action( 'wp_ajax_cw_media_delete_lost', 'cw_media_delete_lost_ajax' );
+
+/**
+ * Регенерировать миниатюры одного вложения
+ */
+function cw_media_regen_single_ajax() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Insufficient permissions.', 'codeweber' ) ] );
+	}
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_media_regen' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Security error. Please refresh the page and try again.', 'codeweber' ) ] );
+	}
+
+	$attachment_id = isset( $_POST['attachment_id'] ) ? absint( $_POST['attachment_id'] ) : 0;
+	if ( ! $attachment_id ) {
+		wp_send_json_error( [ 'message' => __( 'No attachment ID provided.', 'codeweber' ) ] );
+	}
+
+	$file = get_attached_file( $attachment_id );
+	if ( ! $file || ! file_exists( $file ) ) {
+		wp_send_json_error( [
+			/* translators: %d: attachment ID */
+			'message' => sprintf( __( 'File not found for attachment #%d', 'codeweber' ), $attachment_id ),
+		] );
+	}
+
+	@set_time_limit( 120 );
+	wp_raise_memory_limit( 'image' );
+
+	// Определяем CPT родителя для фильтрации размеров
+	$attachment  = get_post( $attachment_id );
+	$parent_id   = $attachment ? (int) $attachment->post_parent : 0;
+	$parent_type = $parent_id ? get_post_type( $parent_id ) : 'default';
+	if ( ! $parent_type ) {
+		$parent_type = 'default';
+	}
+
+	$allowed_sizes = codeweber_get_allowed_image_sizes( $parent_type, $parent_id );
+
+	$size_filter = null;
+	if ( ! empty( $allowed_sizes ) ) {
+		$size_filter = static function( array $sizes ) use ( $allowed_sizes ): array {
+			return array_intersect_key( $sizes, array_flip( $allowed_sizes ) );
+		};
+		add_filter( 'intermediate_image_sizes_advanced', $size_filter );
+	}
+
+	$metadata = wp_generate_attachment_metadata( $attachment_id, $file );
+
+	if ( $size_filter ) {
+		remove_filter( 'intermediate_image_sizes_advanced', $size_filter );
+	}
+
+	if ( is_wp_error( $metadata ) ) {
+		wp_send_json_error( [ 'message' => $metadata->get_error_message() ] );
+	}
+
+	wp_update_attachment_metadata( $attachment_id, $metadata );
+
+	$sizes = isset( $metadata['sizes'] ) ? array_keys( $metadata['sizes'] ) : [];
+
+	wp_send_json_success( [
+		'sizes'       => $sizes,
+		'filename'    => basename( $file ),
+		'parent_type' => $parent_type,
+	] );
+}
+add_action( 'wp_ajax_cw_media_regen_single', 'cw_media_regen_single_ajax' );
