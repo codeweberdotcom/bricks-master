@@ -197,7 +197,7 @@ Redux::set_section(
 		}
 
 		return "<div class=\"cw-log-row\" data-filename=\"" + item.filename + "\" style=\"" + (ok ? S.row : S.rowErr) + "\">" +
-			"<button class=\"cw-log-toggle\" data-target=\"#" + uid + "\" style=\"" + S.btn + "\">" +
+			"<button type=\"button\" class=\"cw-log-toggle\" data-target=\"#" + uid + "\" style=\"" + S.btn + "\">" +
 				statusIcon +
 				extBadge +
 				"<span style=\"font-weight:500; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-family:monospace;\">" + item.filename + "</span>" +
@@ -209,7 +209,8 @@ Redux::set_section(
 	}
 
 	// Toggle аккордеона
-	$(document).on("click", ".cw-log-toggle", function() {
+	$(document).on("click", ".cw-log-toggle", function(e) {
+		e.preventDefault();
 		var $body  = $($(this).data("target"));
 		var $arrow = $(this).find(".cw-log-arrow");
 		var open   = $body.is(":visible");
