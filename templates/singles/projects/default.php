@@ -3,9 +3,10 @@
  * Template: Single Projects — Default
  *
  * Структура:
- * 1. Шапка проекта (категория, заголовок, краткое описание) — bg-soft-primary
- * 2. Контент (главное фото, описание + метаполя, галерея, второй блок текста)
- * 3. Навигация prev/next
+ * 1. Page Header
+ * 2. Шапка проекта (категория, заголовок, краткое описание) — bg-soft-primary
+ * 3. Контент (главное фото, выполненные работы + описание + метаполя, галерея)
+ * 4. Навигация prev/next
  *
  * @package Codeweber
  */
@@ -28,7 +29,6 @@ $title_description = get_post_meta( $product_id, 'main_information_title_descrip
 $description       = get_post_meta( $product_id, 'main_information_description', true );
 
 // ── Стили из Redux ───────────────────────────────────────────────────────────
-$btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
 
 // ── Категория ─────────────────────────────────────────────────────────────────
@@ -59,7 +59,6 @@ for ( $i = 0; $i < $works_count; $i++ ) {
 
 // ── Featured image ────────────────────────────────────────────────────────────
 $thumbnail_id  = get_post_thumbnail_id( $product_id );
-$main_img_url  = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_extralarge' ) : '';
 $main_img_full = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_extralarge' ) : '';
 
 // ── Метаполя для сайдбара ─────────────────────────────────────────────────────
@@ -70,6 +69,8 @@ if ( $architector ) $meta_items[] = [ 'label' => __( 'Архитектор', 'co
 if ( $address )     $meta_items[] = [ 'label' => __( 'Адрес', 'codeweber' ),       'value' => esc_html( $address ) ];
 if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),         'value' => esc_html( $cms ) ];
 ?>
+
+<?php get_pageheader(); ?>
 
 <?php /* ── 1. Шапка ─────────────────────────────────────────────────────── */ ?>
 <section class="wrapper bg-soft-primary">
@@ -201,24 +202,6 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 <?php /* ── 3. Навигация ──────────────────────────────────────────────────────── */ ?>
 <section class="wrapper">
 	<div class="container py-10">
-		<div class="row gx-md-6 gy-3 gy-md-0">
-			<div class="col-md-8 align-self-center">
-				<?php
-				$prev = get_previous_post();
-				$next = get_next_post();
-				if ( $prev ) : ?>
-				<a href="<?php echo esc_url( get_permalink( $prev ) ); ?>"
-				   class="btn btn-soft-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start mb-0 me-1">
-					<i class="uil uil-arrow-left"></i> <?php esc_html_e( 'Предыдущий', 'codeweber' ); ?>
-				</a>
-				<?php endif;
-				if ( $next ) : ?>
-				<a href="<?php echo esc_url( get_permalink( $next ) ); ?>"
-				   class="btn btn-soft-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-end mb-0">
-					<?php esc_html_e( 'Следующий', 'codeweber' ); ?> <i class="uil uil-arrow-right"></i>
-				</a>
-				<?php endif; ?>
-			</div>
-		</div>
+		<?php codeweber_posts_nav(); ?>
 	</div>
 </section>
