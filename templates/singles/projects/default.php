@@ -151,7 +151,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 								<div class="col-md-9 text-justify">
 									<?php
 							$desc_output = preg_replace( '/<li>\s*<span>(.*?)<\/span>\s*<\/li>/s', '<li>$1</li>', $description );
-							echo wp_kses_post( wpautop( $desc_output ) );
+							echo wp_kses_post( $desc_output );
 							?>
 								</div>
 								<?php endif; ?>
