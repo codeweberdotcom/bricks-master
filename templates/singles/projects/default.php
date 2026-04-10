@@ -109,9 +109,13 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 
 					<?php /* Главное фото */ ?>
 					<?php if ( $thumbnail_id ) : ?>
-					<figure class="<?php echo esc_attr( $card_radius ); ?> mb-8 mb-md-12">
+					<figure class="overlay overlay-4 hover-scale hover-plus <?php echo esc_attr( $card_radius ); ?> mb-8 mb-md-12">
 						<a href="<?php echo esc_url( $main_img_full ); ?>" data-glightbox data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
 							<?php echo wp_get_attachment_image( $thumbnail_id, 'codeweber_extralarge', false, [ 'class' => 'w-100' ] ); ?>
+							<span class="hover-icon text-white">
+								<svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg>
+							</span>
+							<span class="bg"></span>
 						</a>
 					</figure>
 					<?php endif; ?>
@@ -184,11 +188,15 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 							if ( ! $thumb_url ) continue;
 						?>
 						<div class="item col-md-6">
-							<figure class="hover-scale <?php echo esc_attr( $card_radius ); ?> cursor-dark">
+							<figure class="overlay overlay-4 hover-scale hover-plus <?php echo esc_attr( $card_radius ); ?>">
 								<a href="<?php echo esc_url( $full_url ?: $thumb_url ); ?>"
 								   data-glightbox
 								   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
 									<?php echo wp_get_attachment_image( $img_id, 'codeweber_project_900-900', false, [ 'class' => 'w-100' ] ); ?>
+									<span class="hover-icon text-white">
+										<svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg>
+									</span>
+									<span class="bg"></span>
 								</a>
 							</figure>
 						</div>
