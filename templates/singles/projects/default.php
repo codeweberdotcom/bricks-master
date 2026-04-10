@@ -126,7 +126,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 							<h2 class="display-6 mb-4"><?php echo esc_html( $works_title ); ?></h2>
 							<?php endif; ?>
 
-							<ul class="icon-list bullet-primary">
+							<ul class="unordered-list bullet-primary">
 								<?php foreach ( $works_items as $work ) : ?>
 								<li><?php echo esc_html( $work ); ?></li>
 								<?php endforeach; ?>
