@@ -64,7 +64,7 @@ $per_row = in_array( $per_row, $allowed_per_row, true ) ? $per_row : 0;
 $row_cols_map   = array_intersect_key( $per_row_cols_map, array_flip( $allowed_per_row ) );
 $per_row_icons  = array_intersect_key( $per_row_icons_map, array_flip( $allowed_per_row ) );
 $row_cols_class = $per_row > 0 ? ( $row_cols_map[ $per_row ] ?? $default_row_cols_class ) : $default_row_cols_class;
-$GLOBALS['cw_per_row'] = $per_row > 0 ? $per_row : 3; // передаём в карточки для выбора размера изображения
+$GLOBALS['cw_per_row'] = $per_row > 0 ? $per_row : ( isset( $c_lg ) ? $c_lg : 3 ); // передаём в карточки для выбора размера изображения
 
 
 // ── Количество товаров на странице (per_page) ─────────────────────────────────
