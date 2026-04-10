@@ -407,9 +407,16 @@ Redux::set_section(
 		if (!confirm("' . esc_js( __( 'Регенерировать все миниатюры? Это может занять некоторое время.', 'codeweber' ) ) . '")) return;
 		clearState();
 		allLost = [];
+		allLog  = [];
 		total   = 0;
 		$("#cw-regen-status").hide();
+		$("#cw-regen-progress").hide();
 		$("#cw-regen-lost").hide();
+		$("#cw-regen-lost-tbody").empty();
+		$("#cw-regen-log-list").empty();
+		$("#cw-regen-log-wrap").hide();
+		$("#cw-regen-resume").hide();
+		$("#cw-regen-restart").hide();
 		fetchTotalAndStart(0);
 	});
 
