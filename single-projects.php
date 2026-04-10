@@ -12,7 +12,6 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	get_pageheader();
 
 	global $opt_name;
 	if ( empty( $opt_name ) ) {
