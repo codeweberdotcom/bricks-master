@@ -72,35 +72,6 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 
 <?php get_pageheader(); ?>
 
-<?php /* ── 1. Шапка ─────────────────────────────────────────────────────── */ ?>
-<section class="wrapper bg-soft-primary">
-	<div class="container pt-10 pb-19 pt-md-14 pb-md-22 text-center">
-		<div class="row">
-			<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-				<div class="post-header">
-
-					<?php if ( $category_name ) : ?>
-					<div class="post-category text-line mb-3">
-						<a href="<?php echo esc_url( $category_link ); ?>" class="hover" rel="category">
-							<?php echo esc_html( $category_name ); ?>
-						</a>
-					</div>
-					<?php endif; ?>
-
-					<h1 class="display-1 mb-3"><?php the_title(); ?></h1>
-
-					<?php if ( $short_description ) : ?>
-					<p class="lead px-md-12 px-lg-12 px-xl-15 px-xxl-18">
-						<?php echo esc_html( $short_description ); ?>
-					</p>
-					<?php endif; ?>
-
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
 <?php /* ── 2. Контент ──────────────────────────────────────────────────────── */ ?>
 <section class="wrapper wrapper-border">
 	<div class="container pb-14 pb-md-16">
