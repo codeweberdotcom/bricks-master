@@ -47,7 +47,7 @@ function cptui_register_my_cpts_projects()
 		"can_export" => true,
 		"rewrite" => ["slug" => "projects", "with_front" => true],
 		"query_var" => true,
-		"supports" => ["title", "editor", "thumbnail", "comments", "revisions", "author"],
+		"supports" => ["title", "thumbnail", "comments", "revisions", "author"],
 		"taxonomies" => ["projects_category"],
 		"show_in_graphql" => false,
 	];
