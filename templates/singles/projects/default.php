@@ -212,13 +212,13 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 				$next = get_next_post();
 				if ( $prev ) : ?>
 				<a href="<?php echo esc_url( get_permalink( $prev ) ); ?>"
-				   class="btn btn-soft-ash<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start mb-0 me-1">
+				   class="btn btn-soft-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start mb-0 me-1">
 					<i class="uil uil-arrow-left"></i> <?php esc_html_e( 'Предыдущий', 'codeweber' ); ?>
 				</a>
 				<?php endif;
 				if ( $next ) : ?>
 				<a href="<?php echo esc_url( get_permalink( $next ) ); ?>"
-				   class="btn btn-soft-ash<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-end mb-0">
+				   class="btn btn-soft-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-end mb-0">
 					<?php esc_html_e( 'Следующий', 'codeweber' ); ?> <i class="uil uil-arrow-right"></i>
 				</a>
 				<?php endif; ?>
