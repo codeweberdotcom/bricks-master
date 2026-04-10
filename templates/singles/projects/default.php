@@ -46,6 +46,17 @@ $gallery_ids = function_exists( 'codeweber_get_project_gallery_ids' )
 	? codeweber_get_project_gallery_ids( $product_id )
 	: [];
 
+// ── Выполненные работы ────────────────────────────────────────────────────────
+$works_title = get_post_meta( $product_id, 'main_information_title_works', true );
+$works_count = (int) get_post_meta( $product_id, 'main_information_works', true );
+$works_items = [];
+for ( $i = 0; $i < $works_count; $i++ ) {
+	$w = get_post_meta( $product_id, 'main_information_works_' . $i . '_work', true );
+	if ( $w ) {
+		$works_items[] = $w;
+	}
+}
+
 // ── Featured image ────────────────────────────────────────────────────────────
 $thumbnail_id  = get_post_thumbnail_id( $product_id );
 $main_img_url  = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_extralarge' ) : '';
@@ -163,6 +174,25 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 							</figure>
 						</div>
 						<?php endforeach; ?>
+					</div>
+					<?php endif; ?>
+
+					<?php /* Выполненные работы */ ?>
+					<?php if ( ! empty( $works_items ) ) : ?>
+					<div class="row mt-8 mt-md-12">
+						<div class="col-lg-10 offset-lg-1">
+
+							<?php if ( $works_title ) : ?>
+							<h2 class="display-6 mb-4"><?php echo esc_html( $works_title ); ?></h2>
+							<?php endif; ?>
+
+							<ul class="icon-list bullet-primary">
+								<?php foreach ( $works_items as $work ) : ?>
+								<li><span><?php echo esc_html( $work ); ?></span></li>
+								<?php endforeach; ?>
+							</ul>
+
+						</div>
 					</div>
 					<?php endif; ?>
 
