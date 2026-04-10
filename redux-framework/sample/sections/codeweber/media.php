@@ -160,20 +160,25 @@ Redux::set_section(
 	}
 
 	function renderLogEntry(item) {
-		var uid   = "cw-log-acc-" + (++logUid);
-		var ok    = item.ok;
-		var sizes = item.sizes || [];
+		var uid      = "cw-log-acc-" + (++logUid);
+		var ok       = item.ok;
+		var skipped  = item.parent_type === "skipped";
+		var sizes    = item.sizes || [];
 
-		var statusIcon = ok
-			? "<span class=\"dashicons dashicons-yes-alt\" style=\"color:#166534; font-size:16px; width:16px; height:16px; flex-shrink:0;\"></span>"
-			: "<span class=\"dashicons dashicons-dismiss\" style=\"color:#991b1b; font-size:16px; width:16px; height:16px; flex-shrink:0;\"></span>";
+		var statusIcon = skipped
+			? "<span class=\"dashicons dashicons-minus\" style=\"color:#999; font-size:16px; width:16px; height:16px; flex-shrink:0;\"></span>"
+			: ( ok
+				? "<span class=\"dashicons dashicons-yes-alt\" style=\"color:#166534; font-size:16px; width:16px; height:16px; flex-shrink:0;\"></span>"
+				: "<span class=\"dashicons dashicons-dismiss\" style=\"color:#991b1b; font-size:16px; width:16px; height:16px; flex-shrink:0;\"></span>" );
 
 		var extBadge = chip(item.ext, S.extC);
-		var cptBadge = (item.parent_type && item.parent_type !== "default")
+		var cptBadge = (!skipped && item.parent_type && item.parent_type !== "default")
 			? chip(item.parent_type, S.cptC) : "";
-		var cntBadge = ok
-			? chip(sizes.length + " ' . esc_js( __( 'размеров', 'codeweber' ) ) . '", S.cntC)
-			: chip("' . esc_js( __( 'ошибка', 'codeweber' ) ) . '", S.errC);
+		var cntBadge = skipped
+			? chip("' . esc_js( __( 'пропущено', 'codeweber' ) ) . '", "background:#f0f0f1; color:#72777c;")
+			: ( ok
+				? chip(sizes.length + " ' . esc_js( __( 'размеров', 'codeweber' ) ) . '", S.cntC)
+				: chip("' . esc_js( __( 'ошибка', 'codeweber' ) ) . '", S.errC) );
 
 		// Тело
 		var body = "";

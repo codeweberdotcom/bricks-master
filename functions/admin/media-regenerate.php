@@ -98,10 +98,23 @@ function cw_media_regen_ajax_batch() {
 		// Определяем тип родительской записи для фильтрации размеров
 		$attachment  = get_post( $id );
 		$parent_id   = $attachment ? (int) $attachment->post_parent : 0;
-		$parent_type = $parent_id ? get_post_type( $parent_id ) : 'default';
-		if ( ! $parent_type ) {
-			$parent_type = 'default';
+
+		// Пропускаем изображения без родителя (Redux-логотипы, фоны, WC-заглушки и т.п.)
+		if ( $parent_id === 0 ) {
+			$log[] = [
+				'id'          => $id,
+				'filename'    => basename( $file ),
+				'ext'         => strtolower( pathinfo( $file, PATHINFO_EXTENSION ) ),
+				'parent_type' => 'skipped',
+				'sizes'       => [],
+				'ok'          => true,
+				'error'       => '',
+			];
+			gc_collect_cycles();
+			continue;
 		}
+
+		$parent_type = get_post_type( $parent_id ) ?: 'default';
 
 		$allowed_sizes = codeweber_get_allowed_image_sizes( $parent_type, $parent_id );
 
