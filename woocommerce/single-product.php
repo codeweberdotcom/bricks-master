@@ -112,7 +112,7 @@ while ( have_posts() ) :
 						<div class="swiper">
 							<div class="swiper-wrapper">
 								<?php foreach ( $all_image_ids as $img_id ) :
-									$full_url = wp_get_attachment_image_url( $img_id, 'full' );
+									$full_url = wp_get_attachment_image_url( $img_id, 'codeweber_extralarge' ) ?: wp_get_attachment_image_url( $img_id, 'full' );
 								?>
 								<div class="swiper-slide">
 									<?php
@@ -226,7 +226,7 @@ while ( have_posts() ) :
 					<!-- /.swiper-container -->
 
 					<?php elseif ( $main_image_id ) :
-						$full_url  = wp_get_attachment_image_url( $main_image_id, 'full' );
+						$full_url  = wp_get_attachment_image_url( $main_image_id, 'codeweber_extralarge' ) ?: wp_get_attachment_image_url( $main_image_id, 'full' );
 						$pid       = esc_attr( $product->get_id() );
 						$r         = esc_attr( $card_radius );
 						$img_tag   = wp_get_attachment_image( $main_image_id, 'woocommerce_single', false, [ 'class' => 'img-fluid' ] );
