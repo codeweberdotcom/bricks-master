@@ -117,42 +117,33 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 					</figure>
 					<?php endif; ?>
 
-					<?php /* Выполненные работы */ ?>
-					<?php if ( ! empty( $works_items ) ) : ?>
-					<div class="row mb-8 mb-md-12">
-						<div class="col-lg-10 offset-lg-1">
-
-							<?php if ( $works_title ) : ?>
-							<h2 class="display-6 mb-4"><?php echo esc_html( $works_title ); ?></h2>
-							<?php endif; ?>
-
-							<ul class="unordered-list bullet-primary">
-								<?php foreach ( $works_items as $work ) : ?>
-								<li><?php echo esc_html( $work ); ?></li>
-								<?php endforeach; ?>
-							</ul>
-
-						</div>
-					</div>
-					<?php endif; ?>
-
-					<?php /* Описание + метаполя */ ?>
-					<?php if ( $title_description || $description || ! empty( $meta_items ) || $link ) : ?>
+					<?php /* Описание + выполненные работы + метаполя */ ?>
+					<?php if ( $title_description || $works_title || $description || ! empty( $works_items ) || ! empty( $meta_items ) || $link ) : ?>
 					<div class="row">
 						<div class="col-lg-10 offset-lg-1">
 
-							<?php if ( $title_description ) : ?>
-							<h2 class="display-6 mb-4"><?php echo esc_html( $title_description ); ?></h2>
+							<?php $section_title = $title_description ?: $works_title; ?>
+							<?php if ( $section_title ) : ?>
+							<h2 class="display-6 mb-4"><?php echo esc_html( $section_title ); ?></h2>
 							<?php endif; ?>
 
 							<div class="row gx-0">
 
-								<?php if ( $description ) : ?>
+								<?php if ( $description || ! empty( $works_items ) ) : ?>
 								<div class="col-md-9 text-justify">
+									<?php if ( $description ) : ?>
 									<?php
-							$desc_output = preg_replace( '/<li>\s*<span>(.*?)<\/span>\s*<\/li>/s', '<li>$1</li>', $description );
-							echo wp_kses_post( $desc_output );
-							?>
+									$desc_output = preg_replace( '/<li>\s*<span>(.*?)<\/span>\s*<\/li>/s', '<li>$1</li>', $description );
+									echo wp_kses_post( $desc_output );
+									?>
+									<?php endif; ?>
+									<?php if ( ! empty( $works_items ) ) : ?>
+									<ul class="unordered-list bullet-primary">
+										<?php foreach ( $works_items as $work ) : ?>
+										<li><?php echo esc_html( $work ); ?></li>
+										<?php endforeach; ?>
+									</ul>
+									<?php endif; ?>
 								</div>
 								<?php endif; ?>
 
