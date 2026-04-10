@@ -62,7 +62,7 @@ if ( $total > $range ) {
 }
 ?>
 
-<nav class="d-flex justify-content-center mt-6" aria-label="<?php esc_attr_e( 'Products pagination', 'codeweber' ); ?>">
+<nav class="d-flex justify-content-center text-reset mt-6" aria-label="<?php esc_attr_e( 'Products pagination', 'codeweber' ); ?>">
 	<ul class="pagination">
 
 		<?php if ( $paged > 1 ) : ?>

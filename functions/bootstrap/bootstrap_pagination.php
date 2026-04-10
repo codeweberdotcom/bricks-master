@@ -13,7 +13,7 @@ function codeweber_pagination($args = [])
       'custom_query'    => FALSE,
       'previous_string' => '<span aria-hidden="true"><i class="uil uil-arrow-left"></i></span>',
       'next_string'     => '<span aria-hidden="true"><i class="uil uil-arrow-right"></i></span>',
-      'before_output'   => '<nav class="d-flex justify-content-center" aria-label="pagination"><ul class="pagination">',
+      'before_output'   => '<nav class="d-flex justify-content-center text-reset" aria-label="pagination"><ul class="pagination">',
       'after_output'    => '</ul></nav>'
    );
 
