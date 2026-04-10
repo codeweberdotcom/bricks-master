@@ -96,6 +96,12 @@ header {
     box-shadow: $box-shadow-md;
     background: rgba(var(--#{$prefix}white-rgb), 0.97);
   }
+  &.navbar-dark {
+    box-shadow: $box-shadow-md;
+    background: rgba($gray-800, 0.97);
+    .logo-dark { display: none !important; }
+    .logo-light { display: block !important; }
+  }
 }
 //----------------------------------------------------------//
 //	HAMBURGER ICON
