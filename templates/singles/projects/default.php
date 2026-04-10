@@ -74,7 +74,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 
 <?php /* ── 2. Контент ──────────────────────────────────────────────────────── */ ?>
 <section class="wrapper wrapper-border">
-	<div class="container pb-14 pb-md-16">
+	<div class="container <?php echo esc_attr( get_content_padding_classes() ); ?>">
 		<div class="row">
 			<div class="col-12">
 				<article>
