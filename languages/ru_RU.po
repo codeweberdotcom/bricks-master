@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-04-11 20:28+0000\n"
+"PO-Revision-Date: 2026-04-11 20:44+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -833,6 +833,9 @@ msgstr "Дополнительные Типы"
 #: templates/singles/offices/offices_2.php:227
 #: templates/singles/offices/offices_5.php:167
 #: templates/singles/offices/offices_5.php:254
+#: templates/singles/projects/default.php:95
+#: templates/singles/projects/projects_2.php:100
+#: templates/singles/projects/projects_3.php:92
 #: redux-framework/sample/sections/codeweber/footer.php:302
 #: redux-framework/sample/sections/codeweber/header.php:358
 #: redux-framework/sample/sections/codeweber/map_geo.php:124
@@ -1287,6 +1290,13 @@ msgstr "Одобрено"
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:281
 msgid "Aqua"
 msgstr "Aqua"
+
+#: templates/singles/projects/default.php:87
+#: templates/singles/projects/projects_2.php:92
+#: templates/singles/projects/projects_3.php:84
+#, fuzzy
+msgid "Architect"
+msgstr "Архитектор"
 
 #: functions/cpt/cpt-notifications.php:431
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:82
@@ -3646,6 +3656,9 @@ msgstr "Таблица базы данных:"
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:42
 #: templates/archives/events/events_1.php:64
 #: templates/archives/events/events_2.php:40
+#: templates/singles/projects/default.php:85
+#: templates/singles/projects/projects_2.php:90
+#: templates/singles/projects/projects_3.php:82
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:51
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:594
 msgid "Date"
@@ -4163,6 +4176,13 @@ msgstr "Подробное руководство по созданию и на�
 #: templates/archives/events/events_4.php:116
 msgid "Details"
 msgstr "Детально"
+
+#: templates/singles/projects/default.php:86
+#: templates/singles/projects/projects_2.php:91
+#: templates/singles/projects/projects_3.php:83
+#, fuzzy
+msgid "Developer"
+msgstr "Разработчик"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:291
 #, fuzzy
@@ -6546,6 +6566,11 @@ msgstr "В каталог"
 #: 404.php:18
 msgid "Go to Homepage"
 msgstr "Перейти на главную"
+
+#: functions/bootstrap/bootstrap_post-nav.php:99
+#, fuzzy
+msgid "Go to project"
+msgstr "Перейти к проекту"
 
 #: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:172
 #, fuzzy
@@ -11052,11 +11077,17 @@ msgstr "Категория проекта"
 msgid "Project Gallery"
 msgstr "Галерея проектов"
 
+#: functions/bootstrap/bootstrap_post-nav.php:307
+#, fuzzy
+msgid "Project products"
+msgstr "Продукты проекта"
+
 #: functions/cpt/cpt-projects.php:24
 #, fuzzy
 msgid "Project Updated"
 msgstr "Проект обновлен"
 
+#: functions/bootstrap/bootstrap_post-nav.php:140
 #: functions/cpt/cpt-projects.php:9 functions/cpt/cpt-projects.php:11
 #: functions/cpt/cpt-projects.php:29
 msgid "Projects"
@@ -13300,6 +13331,13 @@ msgstr "Показать поле \"Имя\""
 #, fuzzy
 msgid "Show New Badge"
 msgstr "Показать значок \"Новинка\""
+
+#: templates/singles/projects/default.php:93
+#: templates/singles/projects/projects_2.php:98
+#: templates/singles/projects/projects_3.php:90
+#, fuzzy
+msgid "Show on map"
+msgstr "Показать на карте"
 
 #: functions/admin/faq-settings.php:176
 #, fuzzy
@@ -16320,6 +16358,13 @@ msgstr "Посмотреть Тарифные планы"
 msgid "View Project"
 msgstr "Посмотреть проект"
 
+#: templates/singles/projects/default.php:202
+#: templates/singles/projects/projects_2.php:225
+#: templates/singles/projects/projects_3.php:172
+#, fuzzy
+msgid "View project"
+msgstr "Посмотреть проект"
+
 #: functions/cpt/cpt-projects.php:18
 msgid "View Projects"
 msgstr "Показать Проект"
@@ -17129,17 +17174,11 @@ msgid "°"
 msgstr "°"
 
 #: functions/cpt/cpt-projects-meta.php:32
-#: templates/singles/projects/default.php:95
-#: templates/singles/projects/projects_2.php:100
-#: templates/singles/projects/projects_3.php:92
 #, fuzzy
 msgid "Адрес"
 msgstr "Address"
 
 #: functions/cpt/cpt-projects-meta.php:33
-#: templates/singles/projects/default.php:87
-#: templates/singles/projects/projects_2.php:92
-#: templates/singles/projects/projects_3.php:84
 #, fuzzy
 msgid "Архитектор"
 msgstr "Архитектор"
@@ -17282,13 +17321,6 @@ msgstr "City"
 msgid "Готово! Все миниатюры успешно регенерированы."
 msgstr "Done! All thumbnails have been successfully regenerated."
 
-#: templates/singles/projects/default.php:85
-#: templates/singles/projects/projects_2.php:90
-#: templates/singles/projects/projects_3.php:82
-#, fuzzy
-msgid "Дата"
-msgstr "Дата"
-
 #: redux-framework/sample/sections/codeweber/media.php:68
 #, fuzzy
 msgid "Действия"
@@ -17351,9 +17383,6 @@ msgid "Запись"
 msgstr "Post"
 
 #: functions/cpt/cpt-projects-meta.php:34
-#: templates/singles/projects/default.php:86
-#: templates/singles/projects/projects_2.php:91
-#: templates/singles/projects/projects_3.php:83
 #, fuzzy
 msgid "Застройщик"
 msgstr "Застройщик"
@@ -17604,11 +17633,6 @@ msgstr "Go to cart"
 msgid "Перейти к оформлению"
 msgstr "Proceed to checkout"
 
-#: functions/bootstrap/bootstrap_post-nav.php:99
-#, fuzzy
-msgid "Перейти к проекту"
-msgstr "Go to project"
-
 #: functions/woocommerce/filters.php:219 functions/woocommerce/filters.php:994
 #, fuzzy
 msgid "Под заказ"
@@ -17643,12 +17667,6 @@ msgstr "Search product..."
 #, fuzzy
 msgid "Показать ещё"
 msgstr "Показать ещё"
-
-#: templates/singles/projects/default.php:93
-#: templates/singles/projects/projects_2.php:98
-#: templates/singles/projects/projects_3.php:90
-msgid "Показать на карте"
-msgstr "Show on map"
 
 #: functions/woocommerce/filters.php:1824
 #, fuzzy
@@ -17706,11 +17724,6 @@ msgstr "Checking..."
 #, fuzzy
 msgid "Продолжить"
 msgstr "Continue"
-
-#: functions/bootstrap/bootstrap_post-nav.php:140
-#, fuzzy
-msgid "Проекты"
-msgstr "Projects"
 
 #: functions/cpt/cpt-projects-meta.php:357
 #: functions/cpt/cpt-projects-meta.php:374
@@ -17832,13 +17845,6 @@ msgstr "Address verification service is disabled."
 msgid "Слишком много запросов. Повторите через несколько секунд."
 msgstr "Too many requests. Try again in a few seconds."
 
-#: templates/singles/projects/default.php:202
-#: templates/singles/projects/projects_2.php:222
-#: templates/singles/projects/projects_3.php:172
-#, fuzzy
-msgid "Смотреть проект"
-msgstr "View Project"
-
 #: redux-framework/sample/sections/codeweber/notifications.php:54
 #, fuzzy
 msgid "Снизу слева"
@@ -17891,7 +17897,6 @@ msgstr "Тест SMS.RU"
 msgid "Тест Yandex Maps"
 msgstr "Yandex Maps Test"
 
-#: functions/bootstrap/bootstrap_post-nav.php:307
 #: functions/cpt/cpt-projects-meta.php:442
 #, fuzzy
 msgid "Товары проекта"

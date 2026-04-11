@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-11 20:19+0000\n"
+"POT-Creation-Date: 2026-04-11 20:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: codeweber\n"
@@ -790,6 +790,9 @@ msgstr ""
 #: templates/singles/offices/offices_2.php:227
 #: templates/singles/offices/offices_5.php:167
 #: templates/singles/offices/offices_5.php:254
+#: templates/singles/projects/default.php:95
+#: templates/singles/projects/projects_2.php:100
+#: templates/singles/projects/projects_3.php:92
 #: redux-framework/sample/sections/codeweber/footer.php:302
 #: redux-framework/sample/sections/codeweber/header.php:358
 #: redux-framework/sample/sections/codeweber/map_geo.php:124
@@ -1233,6 +1236,12 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:281
 msgid "Aqua"
+msgstr ""
+
+#: templates/singles/projects/default.php:87
+#: templates/singles/projects/projects_2.php:92
+#: templates/singles/projects/projects_3.php:84
+msgid "Architect"
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:431
@@ -3382,6 +3391,9 @@ msgstr ""
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:42
 #: templates/archives/events/events_1.php:64
 #: templates/archives/events/events_2.php:40
+#: templates/singles/projects/default.php:85
+#: templates/singles/projects/projects_2.php:90
+#: templates/singles/projects/projects_3.php:82
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:51
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:594
 msgid "Date"
@@ -3852,6 +3864,12 @@ msgstr ""
 #: templates/archives/events/events_2.php:104
 #: templates/archives/events/events_4.php:116
 msgid "Details"
+msgstr ""
+
+#: templates/singles/projects/default.php:86
+#: templates/singles/projects/projects_2.php:91
+#: templates/singles/projects/projects_3.php:83
+msgid "Developer"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:291
@@ -6033,6 +6051,10 @@ msgstr ""
 
 #: 404.php:18
 msgid "Go to Homepage"
+msgstr ""
+
+#: functions/bootstrap/bootstrap_post-nav.php:99
+msgid "Go to project"
 msgstr ""
 
 #: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:172
@@ -10134,10 +10156,15 @@ msgstr ""
 msgid "Project Gallery"
 msgstr ""
 
+#: functions/bootstrap/bootstrap_post-nav.php:307
+msgid "Project products"
+msgstr ""
+
 #: functions/cpt/cpt-projects.php:24
 msgid "Project Updated"
 msgstr ""
 
+#: functions/bootstrap/bootstrap_post-nav.php:140
 #: functions/cpt/cpt-projects.php:9 functions/cpt/cpt-projects.php:11
 #: functions/cpt/cpt-projects.php:29
 msgid "Projects"
@@ -12218,6 +12245,12 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:367
 msgid "Show New Badge"
+msgstr ""
+
+#: templates/singles/projects/default.php:93
+#: templates/singles/projects/projects_2.php:98
+#: templates/singles/projects/projects_3.php:90
+msgid "Show on map"
 msgstr ""
 
 #: functions/admin/faq-settings.php:176
@@ -14969,6 +15002,12 @@ msgstr ""
 msgid "View Project"
 msgstr ""
 
+#: templates/singles/projects/default.php:202
+#: templates/singles/projects/projects_2.php:225
+#: templates/singles/projects/projects_3.php:172
+msgid "View project"
+msgstr ""
+
 #: functions/cpt/cpt-projects.php:18
 msgid "View Projects"
 msgstr ""
@@ -15699,16 +15738,10 @@ msgid "°"
 msgstr ""
 
 #: functions/cpt/cpt-projects-meta.php:32
-#: templates/singles/projects/default.php:95
-#: templates/singles/projects/projects_2.php:100
-#: templates/singles/projects/projects_3.php:92
 msgid "Адрес"
 msgstr ""
 
 #: functions/cpt/cpt-projects-meta.php:33
-#: templates/singles/projects/default.php:87
-#: templates/singles/projects/projects_2.php:92
-#: templates/singles/projects/projects_3.php:84
 msgid "Архитектор"
 msgstr ""
 
@@ -15826,12 +15859,6 @@ msgstr ""
 msgid "Готово! Все миниатюры успешно регенерированы."
 msgstr ""
 
-#: templates/singles/projects/default.php:85
-#: templates/singles/projects/projects_2.php:90
-#: templates/singles/projects/projects_3.php:82
-msgid "Дата"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/media.php:68
 msgid "Действия"
 msgstr ""
@@ -15883,9 +15910,6 @@ msgid "Запись"
 msgstr ""
 
 #: functions/cpt/cpt-projects-meta.php:34
-#: templates/singles/projects/default.php:86
-#: templates/singles/projects/projects_2.php:91
-#: templates/singles/projects/projects_3.php:83
 msgid "Застройщик"
 msgstr ""
 
@@ -16086,10 +16110,6 @@ msgstr ""
 msgid "Перейти к оформлению"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_post-nav.php:99
-msgid "Перейти к проекту"
-msgstr ""
-
 #: functions/woocommerce/filters.php:219 functions/woocommerce/filters.php:994
 msgid "Под заказ"
 msgstr ""
@@ -16116,12 +16136,6 @@ msgstr ""
 
 #: functions/woocommerce/filters.php:1253
 msgid "Показать ещё"
-msgstr ""
-
-#: templates/singles/projects/default.php:93
-#: templates/singles/projects/projects_2.php:98
-#: templates/singles/projects/projects_3.php:90
-msgid "Показать на карте"
 msgstr ""
 
 #: functions/woocommerce/filters.php:1824
@@ -16168,10 +16182,6 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/media.php:34
 msgid "Продолжить"
-msgstr ""
-
-#: functions/bootstrap/bootstrap_post-nav.php:140
-msgid "Проекты"
 msgstr ""
 
 #: functions/cpt/cpt-projects-meta.php:357
@@ -16272,12 +16282,6 @@ msgstr ""
 msgid "Слишком много запросов. Повторите через несколько секунд."
 msgstr ""
 
-#: templates/singles/projects/default.php:202
-#: templates/singles/projects/projects_2.php:222
-#: templates/singles/projects/projects_3.php:172
-msgid "Смотреть проект"
-msgstr ""
-
 #: redux-framework/sample/sections/codeweber/notifications.php:54
 msgid "Снизу слева"
 msgstr ""
@@ -16320,7 +16324,6 @@ msgstr ""
 msgid "Тест Yandex Maps"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_post-nav.php:307
 #: functions/cpt/cpt-projects-meta.php:442
 msgid "Товары проекта"
 msgstr ""
