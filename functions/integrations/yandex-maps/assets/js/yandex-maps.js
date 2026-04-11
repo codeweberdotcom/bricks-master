@@ -242,7 +242,7 @@
             const placemark = new ymaps.Placemark(
                 coords,
                 {
-                    balloonContentHeader: markerData.balloonContentHeader || markerData.title || '',
+                    balloonContentHeader: markerData.balloonContentHeader ?? markerData.title ?? '',
                     balloonContentBody: balloonContent,
                     hintContent: markerData.hintContent || markerData.title || ''
                 },
