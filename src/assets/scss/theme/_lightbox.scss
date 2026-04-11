@@ -12,13 +12,13 @@
   .gnext, 
   .gprev {
     border: 0;
-    background: $lightbox-icon-bg;
+    background: $lightbox-icon-bg !important;
     color: $lightbox-icon-color;
     @include font-size(1.2rem);
     width: 2.2rem;
     height: 2.2rem;
     line-height: 2.2rem;
-    border-radius: 100%;
+    border-radius: 100% !important;
     margin-top: 0;
     padding: 0;
     box-shadow: none;
@@ -33,7 +33,7 @@
       font-family: $font-family-unicons;
     }
     &:hover {
-      background: $lightbox-icon-hover-bg;
+      background: $lightbox-icon-hover-bg !important;
     }
     &:after {
       display: none;
@@ -43,7 +43,7 @@
     top: 0.75rem;
     right: 0.75rem;
     &:hover {
-      background: $lightbox-icon-hover-bg;
+      background: $lightbox-icon-hover-bg !important;
     }
     &:after {
       font-family: $font-family-unicons;
