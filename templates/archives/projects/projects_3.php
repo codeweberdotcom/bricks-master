@@ -75,7 +75,7 @@ $projects_query = new WP_Query( [
 							<div class="post-category text-line mb-2"><?php echo esc_html( $cat_name ); ?></div>
 							<?php endif; ?>
 							<h3 class="post-title">
-								<a href="<?php the_permalink(); ?>" class="link-dark"><?php the_title(); ?></a>
+								<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 							</h3>
 						</div>
 					</div>
