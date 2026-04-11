@@ -359,6 +359,17 @@ Redux::set_section(
 				),
 				'default' => 'solid',
 			),
+			array(
+				'id'      => 'projects_nav_type',
+				'type'    => 'button_set',
+				'title'   => esc_html__( 'Projects Navigation Type', 'codeweber' ),
+				'subtitle' => esc_html__( 'Style of prev/next navigation on single project page', 'codeweber' ),
+				'options' => array(
+					'text'    => esc_html__( 'Text Links', 'codeweber' ),
+					'buttons' => esc_html__( 'Buttons + Share', 'codeweber' ),
+				),
+				'default' => 'text',
+			),
 		),
 	)
 );

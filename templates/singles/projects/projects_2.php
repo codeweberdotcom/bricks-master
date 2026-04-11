@@ -225,8 +225,4 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 </section>
 
 <?php /* ── Навигация ──────────────────────────────────────────────────────── */ ?>
-<section class="wrapper">
-	<div class="container py-10">
-		<?php codeweber_posts_nav(); ?>
-	</div>
-</section>
+<?php codeweber_projects_nav(); ?>
