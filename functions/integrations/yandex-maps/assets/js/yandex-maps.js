@@ -352,12 +352,12 @@
             if (!mapElement) return;
 
             const sidebar = document.createElement('div');
-            sidebar.className = `codeweber-map-sidebar codeweber-map-sidebar-${this.config.sidebar.position} bg-white rounded shadow overflow-auto d-none d-md-block`;
+            sidebar.className = `codeweber-map-sidebar codeweber-map-sidebar-${this.config.sidebar.position} bg-white text-dark rounded shadow overflow-auto d-none d-md-block`;
 
             // Заголовок
             if (this.config.sidebar.title) {
                 const title = document.createElement('div');
-                title.className = 'codeweber-map-sidebar-title d-flex justify-content-between align-items-center border-bottom p-3 sticky-top bg-white';
+                title.className = 'codeweber-map-sidebar-title d-flex justify-content-between align-items-center border-bottom p-3 sticky-top bg-white text-reset';
                 title.textContent = this.config.sidebar.title;
                 sidebar.appendChild(title);
             }
@@ -417,22 +417,22 @@
 
             let html = '';
             if (marker.title) {
-                html += `<div class="h6 mb-1">${marker.title}</div>`;
+                html += `<div class="h6 mb-1 text-reset">${marker.title}</div>`;
             }
             if (sidebarFields.showDescription && marker.description && marker.description.trim() !== '') {
-                html += `<p class="fs-sm mb-0">${marker.description}</p>`;
+                html += `<p class="fs-sm mb-0 text-reset">${marker.description}</p>`;
             }
             if (sidebarFields.showCity && marker.city) {
-                html += `<p class="fs-sm mb-0"><i class="uil uil-location-pin-alt me-1"></i> ${marker.city}</p>`;
+                html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-location-pin-alt me-1"></i> ${marker.city}</p>`;
             }
             if (sidebarFields.showAddress && marker.address) {
-                html += `<p class="fs-sm mb-0"><i class="uil uil-map-marker me-1"></i> ${marker.address}</p>`;
+                html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-map-marker me-1"></i> ${marker.address}</p>`;
             }
             if (sidebarFields.showPhone && marker.phone) {
-                html += `<p class="fs-sm mb-0"><i class="uil uil-phone me-1"></i> <a href="tel:${marker.phone.replace(/[^0-9+]/g, '')}">${marker.phone}</a></p>`;
+                html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-phone me-1"></i> <a href="tel:${marker.phone.replace(/[^0-9+]/g, '')}">${marker.phone}</a></p>`;
             }
             if (sidebarFields.showWorkingHours && marker.workingHours) {
-                html += `<p class="fs-sm mb-0"><i class="uil uil-clock me-1"></i> ${marker.workingHours}</p>`;
+                html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-clock me-1"></i> ${marker.workingHours}</p>`;
             }
 
             item.innerHTML = html;
