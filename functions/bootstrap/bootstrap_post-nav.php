@@ -121,6 +121,18 @@ function codeweber_projects_map_modal() {
 	);
 	$map_html = ob_get_clean();
 	?>
+	<script>
+	document.addEventListener('click', function(e) {
+		var trigger = e.target.closest('[data-project-map]');
+		if (!trigger) return;
+		e.preventDefault();
+		var modalEl = document.getElementById('projects-map-modal');
+		if (modalEl && window.bootstrap) {
+			bootstrap.Modal.getOrCreateInstance(modalEl).show();
+		}
+	});
+	</script>
+
 	<div class="modal fade" id="projects-map-modal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">

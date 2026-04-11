@@ -93,7 +93,7 @@ if ( $architector ) $meta_items[] = [ 'label' => __( 'Архитектор', 'co
 if ( $address ) {
 	$addr_value = esc_html( $address );
 	if ( $latitude && $longitude ) {
-		$addr_value .= '<br><a href="#" class="more hover d-inline-block mt-1" data-bs-toggle="modal" data-bs-target="#projects-map-modal">' . esc_html__( 'Показать на карте', 'codeweber' ) . '</a>';
+		$addr_value .= '<br><a href="#" class="more hover d-inline-block mt-1" data-project-map>' . esc_html__( 'Показать на карте', 'codeweber' ) . '</a>';
 	}
 	$meta_items[] = [ 'label' => __( 'Адрес', 'codeweber' ), 'value' => $addr_value ];
 }
