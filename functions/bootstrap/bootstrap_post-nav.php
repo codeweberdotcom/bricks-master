@@ -145,6 +145,7 @@ function codeweber_projects_map_modal() {
 			'clusterer'                => false,
 			'auto_fit_bounds'          => true,
 			'marker_auto_open_balloon' => false,
+			'marker_preset'            => 'islands#redCircleIcon',
 		],
 		$markers
 	);
