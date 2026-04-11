@@ -100,7 +100,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 <?php else : ?>
 
 	<?php /* ── Режим A: pageheader выключен — показываем шапку ────────── */ ?>
-	<section class="wrapper bg-soft-primary">
+	<section class="wrapper text-reset bg-soft-primary">
 		<div class="container pt-10 pb-19 pt-md-14 pb-md-22 text-center">
 			<div class="row">
 				<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
