@@ -186,7 +186,13 @@ function codeweber_projects_map_modal() {
 			inst.map.options.set('maxZoom', 17);
 		}
 		setTimeout(function() {
-			if (typeof inst.fitBounds === 'function') {
+			var currentId = e.target.dataset.currentProject;
+			if (currentId && inst.placemarks && inst.placemarks[currentId]) {
+				var placemark = inst.placemarks[currentId];
+				inst.map.setCenter(placemark.geometry.getCoordinates(), 15, { duration: 400 }).then(function() {
+					placemark.balloon.open();
+				});
+			} else if (typeof inst.fitBounds === 'function') {
 				inst.fitBounds();
 			}
 		}, 150);
