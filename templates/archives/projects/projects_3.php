@@ -19,6 +19,10 @@ $filter_terms = get_terms( [
 	'order'      => 'ASC',
 ] );
 
+$show_map_btn = class_exists( 'Codeweber_Yandex_Maps' ) && function_exists( 'codeweber_projects_settings_get' ) && codeweber_projects_settings_get( 'show_map', '1' ) === '1';
+$map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
+$has_filters  = ! empty( $filter_terms ) && ! is_wp_error( $filter_terms );
+
 // ── Все проекты (для client-side isotope) ─────────────────────────────────────
 $projects_query = new WP_Query( [
 	'post_type'      => 'projects',
@@ -33,14 +37,23 @@ $projects_query = new WP_Query( [
 	<div class="container py-14 py-md-16">
 		<div class="grid grid-view projects-masonry">
 
-			<?php if ( ! empty( $filter_terms ) && ! is_wp_error( $filter_terms ) ) : ?>
+			<?php if ( $has_filters || $show_map_btn ) : ?>
 			<div class="isotope-filter filter mb-10">
+				<?php if ( $show_map_btn ) : ?>
+				<div class="mb-4 d-flex justify-content-end">
+					<a href="#" data-project-map class="btn btn-sm btn-soft-primary<?php echo esc_attr( $map_btn_style ); ?> btn-icon btn-icon-start has-ripple mb-0">
+						<i class="uil uil-map-marker"></i> <?php esc_html_e( 'Map of objects', 'codeweber' ); ?>
+					</a>
+				</div>
+				<?php endif; ?>
+				<?php if ( $has_filters ) : ?>
 				<ul>
 					<li><a class="filter-item active" data-filter="*"><?php esc_html_e( 'All', 'codeweber' ); ?></a></li>
 					<?php foreach ( $filter_terms as $term ) : ?>
 					<li><a class="filter-item" data-filter=".<?php echo esc_attr( $term->slug ); ?>"><?php echo esc_html( $term->name ); ?></a></li>
 					<?php endforeach; ?>
 				</ul>
+				<?php endif; ?>
 			</div>
 			<?php endif; ?>
 
@@ -89,3 +102,5 @@ $projects_query = new WP_Query( [
 		</div>
 	</div>
 </section>
+
+<?php codeweber_projects_map_modal(); ?>
