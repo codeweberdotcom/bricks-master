@@ -168,7 +168,7 @@ $button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('bu
                                     <p class="mb-0"><?php echo esc_html($display_address); ?></p>
                                     <?php 
                                     if ($show_directions_button) : ?>
-                                        <a href="https://yandex.ru/maps/?text=<?php echo urlencode($display_address); ?>" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary mt-2<?php echo esc_attr($button_class); ?>">
+                                        <a href="https://yandex.ru/maps/?text=<?php echo urlencode($display_address); ?>" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary mt-2 has-ripple<?php echo esc_attr($button_class); ?>">
                                             <i class="uil uil-directions me-1"></i> <?php esc_html_e('Get Directions', 'codeweber'); ?>
                                         </a>
                                     <?php 

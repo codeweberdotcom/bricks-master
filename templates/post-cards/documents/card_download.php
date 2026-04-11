@@ -76,7 +76,7 @@ $document_file_name = $document_file_url ? basename($document_file_url) : '';
                         
                         <?php if ($document_file_url) : ?>
                             <a href="javascript:void(0)"
-                               class="btn btn-primary btn-icon btn-icon-start btn-sm d-flex<?php echo Codeweber_Options::style('button'); ?>"
+                               class="btn btn-primary btn-icon btn-icon-start btn-sm d-flex has-ripple<?php echo Codeweber_Options::style('button'); ?>"
                                data-bs-toggle="download"
                                data-value="doc-<?php echo esc_attr($post_data['id']); ?>"
                                data-loading-text="<?php esc_attr_e('Loading...', 'codeweber'); ?>">

@@ -1028,7 +1028,7 @@ function codeweber_testimonial_author_info($post_id = null, $args = [])
         </div>
         <?php if ($args['show_button']): ?>
             <div class="mt-3 mt-md-0 ms-auto">
-                <a href="<?php echo $button_url; ?>" class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0">
+                <a href="<?php echo $button_url; ?>" class="btn btn-sm btn-soft-ash rounded-pill btn-icon btn-icon-start mb-0 has-ripple">
                     <i class="uil uil-file-alt"></i> <?php echo esc_html($args['button_text']); ?>
                 </a>
             </div>

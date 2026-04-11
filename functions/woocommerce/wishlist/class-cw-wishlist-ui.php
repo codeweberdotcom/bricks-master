@@ -168,7 +168,7 @@ class CW_Wishlist_UI {
 			<?php if ( empty( $product_ids ) ) : ?>
 				<div class="cw-wishlist-empty">
 					<p><?php esc_html_e( 'Your wishlist is empty.', 'codeweber' ); ?></p>
-					<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded-pill'; ?>">
+					<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="btn btn-primary has-ripple<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded-pill'; ?>">
 						<?php esc_html_e( 'Go to Shop', 'codeweber' ); ?>
 					</a>
 				</div>

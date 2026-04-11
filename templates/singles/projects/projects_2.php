@@ -40,6 +40,8 @@ $developer         = get_post_meta( $product_id, 'main_information_developer', t
 $date              = get_post_meta( $product_id, 'main_information_date', true );
 $link              = get_post_meta( $product_id, 'main_information_link', true );
 $cms               = get_post_meta( $product_id, 'main_information_cms', true );
+$latitude          = get_post_meta( $product_id, 'main_information_latitude', true );
+$longitude         = get_post_meta( $product_id, 'main_information_longitude', true );
 $short_description = get_post_meta( $product_id, 'main_information_short_description', true );
 $title_description = get_post_meta( $product_id, 'main_information_title_description', true );
 $description       = get_post_meta( $product_id, 'main_information_description', true );
@@ -88,7 +90,13 @@ $meta_items = [];
 if ( $date )        $meta_items[] = [ 'label' => __( 'Дата', 'codeweber' ),        'value' => esc_html( $date ) ];
 if ( $developer )   $meta_items[] = [ 'label' => __( 'Застройщик', 'codeweber' ),  'value' => esc_html( $developer ) ];
 if ( $architector ) $meta_items[] = [ 'label' => __( 'Архитектор', 'codeweber' ),  'value' => esc_html( $architector ) ];
-if ( $address )     $meta_items[] = [ 'label' => __( 'Адрес', 'codeweber' ),       'value' => esc_html( $address ) ];
+if ( $address ) {
+	$addr_value = esc_html( $address );
+	if ( $latitude && $longitude ) {
+		$addr_value .= '<br><a href="#" class="more hover d-inline-block mt-1" data-bs-toggle="modal" data-bs-target="#projects-map-modal">' . esc_html__( 'Показать на карте', 'codeweber' ) . '</a>';
+	}
+	$meta_items[] = [ 'label' => __( 'Адрес', 'codeweber' ), 'value' => $addr_value ];
+}
 if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),         'value' => esc_html( $cms ) ];
 ?>
 
@@ -173,14 +181,14 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 				<div class="col-lg-10 offset-lg-1">
 
 					<?php $section_title = $title_description ?: $works_title; ?>
-					<?php if ( $section_title ) : ?>
-					<h2 class="display-6 mb-4"><?php echo esc_html( $section_title ); ?></h2>
-					<?php endif; ?>
 
 					<div class="row gx-0">
 
 						<?php if ( $description || ! empty( $works_items ) ) : ?>
 						<div class="col-md-9 text-justify">
+							<?php if ( $section_title ) : ?>
+							<h2 class="display-6 mb-4"><?php echo esc_html( $section_title ); ?></h2>
+							<?php endif; ?>
 							<?php if ( $description ) : ?>
 							<?php
 							$desc_output = preg_replace( '/<li>\s*<span>(.*?)<\/span>\s*<\/li>/s', '<li>$1</li>', $description );
@@ -226,3 +234,6 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 
 <?php /* ── Навигация ──────────────────────────────────────────────────────── */ ?>
 <?php codeweber_projects_nav(); ?>
+
+<?php /* ── Модальное окно с картой проектов ───────────────────────────────── */ ?>
+<?php codeweber_projects_map_modal(); ?>

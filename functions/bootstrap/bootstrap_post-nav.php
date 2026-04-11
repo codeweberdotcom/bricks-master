@@ -35,6 +35,106 @@ function codeweber_posts_nav()
 }
 
 /**
+ * Модальное окно с картой всех проектов (только CPT projects с координатами).
+ * Вызывается один раз на странице через static-флаг.
+ */
+function codeweber_projects_map_modal() {
+	static $rendered = false;
+	if ( $rendered ) {
+		return;
+	}
+	$rendered = true;
+
+	if ( ! class_exists( 'Codeweber_Yandex_Maps' ) ) {
+		return;
+	}
+
+	// Запрашиваем все опубликованные проекты с заполненными координатами
+	$projects = get_posts( [
+		'post_type'      => 'projects',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'fields'         => 'ids',
+		'meta_query'     => [
+			'relation' => 'AND',
+			[
+				'key'     => 'main_information_latitude',
+				'value'   => '',
+				'compare' => '!=',
+			],
+			[
+				'key'     => 'main_information_longitude',
+				'value'   => '',
+				'compare' => '!=',
+			],
+		],
+	] );
+
+	if ( empty( $projects ) ) {
+		return;
+	}
+
+	// Формируем маркеры
+	$markers = [];
+	foreach ( $projects as $pid ) {
+		$lat  = get_post_meta( $pid, 'main_information_latitude', true );
+		$lng  = get_post_meta( $pid, 'main_information_longitude', true );
+		$addr = get_post_meta( $pid, 'main_information_address', true );
+
+		$balloon = '';
+		if ( $addr ) {
+			$balloon .= '<div style="margin-bottom:6px;">' . esc_html( $addr ) . '</div>';
+		}
+		$balloon .= '<div><a href="' . esc_url( get_permalink( $pid ) ) . '">' . esc_html__( 'Подробнее', 'codeweber' ) . '</a></div>';
+
+		$markers[] = [
+			'id'                   => $pid,
+			'title'                => get_the_title( $pid ),
+			'link'                 => get_permalink( $pid ),
+			'address'              => $addr,
+			'latitude'             => floatval( $lat ),
+			'longitude'            => floatval( $lng ),
+			'balloonContentHeader' => '<strong style="color:#333;font-size:15px;">' . esc_html( get_the_title( $pid ) ) . '</strong>',
+			'balloonContent'       => $balloon,
+			'hintContent'          => get_the_title( $pid ),
+		];
+	}
+
+	$yandex_maps = Codeweber_Yandex_Maps::get_instance();
+	$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+
+	ob_start();
+	echo $yandex_maps->render_map(
+		[
+			'map_id'                   => 'projects-all-map',
+			'zoom'                     => 10,
+			'height'                   => 500,
+			'width'                    => '100%',
+			'border_radius'            => $card_radius ? 8 : 0,
+			'search_control'           => false,
+			'show_sidebar'             => false,
+			'clusterer'                => true,
+			'auto_fit_bounds'          => true,
+			'marker_auto_open_balloon' => false,
+		],
+		$markers
+	);
+	$map_html = ob_get_clean();
+	?>
+	<div class="modal fade" id="projects-map-modal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+				<div class="modal-body p-0 position-relative">
+					<button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-1" data-bs-dismiss="modal" aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
+					<?php echo $map_html; ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php
+}
+
+/**
  * Навигация для single CPT Projects.
  * Share всегда присутствует.
  * Redux projects_nav_type управляет только стилем вперёд/назад: text (ссылки) или buttons (кнопки с иконками).

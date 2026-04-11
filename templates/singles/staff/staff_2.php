@@ -194,7 +194,7 @@ if (empty($full_name)) {
                 ?>
             </div>
             <div class="col-md-6 d-flex justify-content-md-end">
-                <a href="javascript:void(0)" class="btn btn-primary btn-icon btn-sm btn-icon-start<?php echo class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded'; ?>" data-bs-toggle="download" data-value="staff-<?php echo esc_attr($staff_post_id); ?>">
+                <a href="javascript:void(0)" class="btn btn-primary btn-icon btn-sm btn-icon-start has-ripple<?php echo class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : ' rounded'; ?>" data-bs-toggle="download" data-value="staff-<?php echo esc_attr($staff_post_id); ?>">
                     <i class="uil uil-import"></i> <?php esc_html_e('Save to Contacts', 'codeweber'); ?>
                 </a>
             </div>

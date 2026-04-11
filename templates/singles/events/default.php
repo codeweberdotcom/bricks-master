@@ -91,7 +91,7 @@ $button_style      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::st
 		<h4 class="mb-4"><?php esc_html_e( 'Video', 'codeweber' ); ?></h4>
 		<a href="<?php echo esc_url( $video['href'] ); ?>"
 			data-glightbox="<?php echo esc_attr( $video['glightbox'] ); ?>"
-			class="btn btn-outline-primary btn-icon btn-icon-start<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded-pill'; ?>">
+			class="btn btn-outline-primary btn-icon btn-icon-start has-ripple<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded-pill'; ?>">
 			<i class="uil uil-play-circle"></i>
 			<?php esc_html_e( 'Watch video', 'codeweber' ); ?>
 		</a>

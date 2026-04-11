@@ -52,7 +52,7 @@ $cta_button_url = Redux::get_option($opt_name, 'footer-cta-button-url', '#');
   <div class="container pt-15 pt-md-17 pb-13 pb-md-15">
     <div class="d-lg-flex flex-row align-items-lg-center">
       <div class="h3 display-4 mb-6 mb-lg-0 pe-lg-20 pe-xl-22 pe-xxl-25 text-white"><?= esc_html($cta_text); ?></div>
-      <a href="<?= esc_url($cta_button_url); ?>" class="btn btn-primary<?= class_exists('Codeweber_Options') ? ' ' . esc_attr(trim(Codeweber_Options::style('button'))) : ' rounded-pill'; ?> mb-0 text-nowrap"><?= esc_html($cta_button_text); ?></a>
+      <a href="<?= esc_url($cta_button_url); ?>" class="btn btn-primary<?= class_exists('Codeweber_Options') ? ' ' . esc_attr(trim(Codeweber_Options::style('button'))) : ' rounded-pill'; ?> mb-0 text-nowrap has-ripple"><?= esc_html($cta_button_text); ?></a>
     </div>
     <!--/div -->
     <hr class="mt-11 mb-12" />
