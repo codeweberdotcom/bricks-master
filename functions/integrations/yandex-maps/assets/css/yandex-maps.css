@@ -14,7 +14,7 @@
     position: absolute;
     top: 47px;
     width: calc(100% - 20px);
-    max-width: 300px;
+    max-width: 360px;
     max-height: calc(100% - 103px);
     z-index: 1000;
 }
