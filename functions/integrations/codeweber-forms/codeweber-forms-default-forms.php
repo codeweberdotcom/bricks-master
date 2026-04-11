@@ -382,7 +382,7 @@ class CodeweberFormsDefaultForms {
         $show_phone = ( $settings['show_phone'] ?? '1' ) === '1';
 
         $nonce_value    = wp_create_nonce( 'codeweber_faq_submit' );
-        $btn_class      = 'btn btn-primary has-ripple w-100' . ( $button_style ? ' ' . $button_style : '' );
+        $btn_class      = 'btn btn-primary has-ripple' . ( $button_style ? ' ' . $button_style : '' );
         $phone_mask_attr = $phone_mask ? ' data-mask="' . esc_attr( $phone_mask ) . '"' : '';
 
         $fields = '';
