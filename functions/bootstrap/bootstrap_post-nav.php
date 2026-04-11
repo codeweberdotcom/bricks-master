@@ -94,12 +94,12 @@ function codeweber_projects_map_modal() {
 		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-weight:600;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
 
 		if ( $img_url ) {
-			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;">'
+			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;font-family:inherit;">'
 				. '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:80px;height:80px;object-fit:cover;flex-shrink:0;border-radius:4px;">'
 				. '<div>' . $balloon_text . '</div>'
 				. '</div>';
 		} else {
-			$balloon = $balloon_text;
+			$balloon = '<div style="font-family:inherit;">' . $balloon_text . '</div>';
 		}
 
 		$markers[] = [
