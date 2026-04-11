@@ -201,7 +201,6 @@ function codeweber_projects_map_modal() {
 		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-body position-relative">
-					<button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
 					<?php echo $map_html; ?>
 				</div>
 			</div>
