@@ -358,10 +358,10 @@ blockquote {
 .filter:not(.basic-filter),
 .filter:not(.basic-filter) ul li a {
   text-transform: uppercase;
-  letter-spacing: 0.02rem;
-  @include font-size(0.7rem);
-  font-weight: $font-weight-bold;
-  color: $secondary;
+  letter-spacing: $meta-letter-spacing;
+  @include font-size($meta-font-size);
+  font-weight: $meta-font-weight;
+  color: $meta-color;
 }
 .meta {
   @include font-size(0.65rem);
