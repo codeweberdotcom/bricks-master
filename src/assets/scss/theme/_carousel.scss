@@ -22,20 +22,12 @@
       line-height: inherit;
       border-radius: $swiper-arrow-border-radius;
       text-shadow: none;
+      opacity: 0;
       @include transition($swiper-arrow-transition);
-      
+
       &:hover {
         background: $swiper-arrow-bg-hover;
         color: $swiper-arrow-color-hover;
-      }
-
-      .swiper:hover & {
-        background: $swiper-arrow-bg-hover;
-        color: $swiper-arrow-color-hover;
-
-        &.swiper-button-disabled {
-          background: $swiper-arrow-bg-disabled;
-        }
       }
       
       &:focus {
@@ -108,6 +100,11 @@
       }
     }
   }
+}
+
+// Кнопки навигации появляются при наведении на контейнер
+.swiper-container:hover .swiper-controls .swiper-navigation .swiper-button {
+  opacity: 1;
 }
 
 .swiper-container {
