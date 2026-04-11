@@ -188,7 +188,7 @@ function codeweber_projects_map_modal() {
 		var currentId = e.target.dataset.currentProject;
 		if (currentId && inst.placemarks && inst.placemarks[currentId]) {
 			var placemark = inst.placemarks[currentId];
-			inst.map.panTo(placemark.geometry.getCoordinates(), { duration: 400 }).then(function() {
+			inst.map.setCenter(placemark.geometry.getCoordinates(), 15, { duration: 400 }).then(function() {
 				placemark.balloon.open();
 			});
 		} else if (typeof inst.fitBounds === 'function') {
