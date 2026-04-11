@@ -571,39 +571,33 @@
         filterByCity(city) {
             const visiblePlacemarks = [];
 
-            // Сначала убираем ВСЕ маркеры с карты
-            Object.values(this.placemarks).forEach(p => {
-                try {
-                    if (this.clusterer) {
-                        this.clusterer.remove(p);
-                    } else {
-                        this.map.geoObjects.remove(p);
+            // Обновляем видимость элементов сайдбара
+            if (this.sidebar) {
+                this.sidebar.querySelectorAll('.codeweber-map-sidebar-item').forEach(item => {
+                    const show = city === '' || item.dataset.city === city;
+                    item.style.display = show ? 'block' : 'none';
+                });
+            }
+
+            // Очищаем карту
+            if (this.clusterer) {
+                this.clusterer.removeAll();
+            } else {
+                this.map.geoObjects.removeAll();
+            }
+
+            // Добавляем только видимые маркеры
+            this.config.markers.forEach(marker => {
+                if (city === '' || marker.city === city) {
+                    const placemark = this.placemarks[marker.id];
+                    if (placemark) {
+                        if (this.clusterer) {
+                            this.clusterer.add(placemark);
+                        } else {
+                            this.map.geoObjects.add(placemark);
+                        }
+                        visiblePlacemarks.push(placemark);
                     }
-                } catch(e) {}
-            });
-
-            // Затем добавляем только видимые + управляем сайдбаром
-            const items = this.sidebar
-                ? this.sidebar.querySelectorAll('.codeweber-map-sidebar-item')
-                : document.querySelectorAll('.codeweber-map-sidebar-item');
-
-            items.forEach(item => {
-                const markerId = item.dataset.markerId;
-                const itemCity = item.dataset.city;
-                const placemark = this.placemarks[markerId];
-
-                if (!placemark) return;
-
-                if (city === '' || itemCity === city) {
-                    item.style.display = 'block';
-                    if (this.clusterer) {
-                        this.clusterer.add(placemark);
-                    } else {
-                        this.map.geoObjects.add(placemark);
-                    }
-                    visiblePlacemarks.push(placemark);
-                } else {
-                    item.style.display = 'none';
                 }
             });
 
