@@ -106,3 +106,17 @@ add_filter( 'use_block_editor_for_post_type', function ( bool $enabled, string $
 
 require_once __DIR__ . '/cpt-projects-meta.php';
 require_once get_template_directory() . '/functions/admin/projects-settings.php';
+
+function codeweber_projects_archive_query( $query ) {
+	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'projects' ) ) {
+		global $opt_name;
+		$template = class_exists( 'Redux' ) ? Redux::get_option( $opt_name, 'archive_template_select_projects' ) : '';
+		if ( empty( $template ) || $template === 'default' ) {
+			$template = 'projects_3';
+		}
+		if ( $template === 'projects_2' ) {
+			$query->set( 'posts_per_page', 12 );
+		}
+	}
+}
+add_action( 'pre_get_posts', 'codeweber_projects_archive_query' );
