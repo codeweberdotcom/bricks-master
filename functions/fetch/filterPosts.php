@@ -5,7 +5,7 @@ namespace Codeweber\Functions\Fetch;
 defined( 'ABSPATH' ) || exit;
 
 function filterPosts( $params ) {
-	$allowed_post_types = [ 'post', 'vacancies', 'products', 'staff', 'events' ];
+	$allowed_post_types = [ 'post', 'vacancies', 'products', 'staff', 'events', 'projects' ];
 	$post_type          = sanitize_key( $params['post_type'] ?? 'post' );
 
 	if ( ! in_array( $post_type, $allowed_post_types, true ) ) {
@@ -34,6 +34,8 @@ function filterPosts( $params ) {
 		$args = _fp_apply_staff_filters( $args, $filters );
 	} elseif ( $post_type === 'events' ) {
 		$args = _fp_apply_events_filters( $args, $filters );
+	} elseif ( $post_type === 'projects' ) {
+		$args = _fp_apply_projects_filters( $args, $filters );
 	}
 
 	$query = new \WP_Query( $args );
@@ -56,6 +58,8 @@ function filterPosts( $params ) {
 			_fp_render_events_horizontal( $query, $template );
 		} elseif ( $post_type === 'events' ) {
 			_fp_render_events_table( $query );
+		} elseif ( $post_type === 'projects' ) {
+			_fp_render_projects_grid( $query, $template );
 		} else {
 			while ( $query->have_posts() ) {
 				$query->the_post();
@@ -656,6 +660,60 @@ function _fp_render_events_horizontal( $query, $template ) {
 			echo '</div>';
 		}
 
+		echo '</div>';
+	}
+
+	echo '</div>';
+}
+
+function _fp_apply_projects_filters( $args, $filters ) {
+	if ( ! empty( $filters['projects_category'] ) ) {
+		$args['tax_query'] = [
+			[
+				'taxonomy' => 'projects_category',
+				'field'    => 'term_id',
+				'terms'    => intval( $filters['projects_category'] ),
+			],
+		];
+	}
+
+	$args['orderby'] = 'menu_order date';
+	$args['order']   = 'ASC';
+
+	return $args;
+}
+
+function _fp_render_projects_grid( $query, $template ) {
+	$card_radius = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'card-radius' ) : 'rounded';
+	$col_class   = ( $template === 'projects_4' ) ? 'col-md-6 col-xl-4' : 'col-md-6';
+	$img_size    = ( $template === 'projects_4' ) ? 'codeweber_project_600-600' : 'codeweber_project_900-900';
+	$grid_gap    = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id      = get_the_ID();
+		$cats         = get_the_terms( $post_id, 'projects_category' );
+		$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+		$thumbnail_id = get_post_thumbnail_id( $post_id );
+
+		echo '<div class="project ' . esc_attr( $col_class ) . '">';
+
+		if ( $thumbnail_id ) {
+			echo '<figure class="lift ' . esc_attr( $card_radius ) . ' mb-6">';
+			echo '<a href="' . esc_url( get_permalink() ) . '">';
+			echo wp_get_attachment_image( $thumbnail_id, $img_size, false, [ 'class' => 'w-100', 'alt' => esc_attr( get_the_title() ) ] );
+			echo '</a></figure>';
+		}
+
+		echo '<div class="project-details d-flex justify-content-center flex-column">';
+		echo '<div class="post-header">';
+		if ( $cat_name ) {
+			echo '<div class="post-category text-line mb-2">' . esc_html( $cat_name ) . '</div>';
+		}
+		echo '<h2 class="post-title h3"><a href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a></h2>';
+		echo '</div></div>';
 		echo '</div>';
 	}
 

@@ -1,36 +1,127 @@
-<div class="project grid grid-view">
-   <div class="row g-6 isotope" style="position: relative; height: 937.063px;">
-      <div class="item col-md-6" style="position: absolute; left: 0%; top: 0px;">
-         <div class="project-details d-flex justify-content-center flex-column">
-            <div class="post-header">
-               <div class="post-category text-red mb-3">Ideas</div>
-               <h2 class="post-title mb-3"><?php the_title(); ?></h2>
-            </div>
-            <!-- /.post-header -->
-            <div class="post-content">
-               <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
-               <a href="<?php the_permalink(); ?>" class="more hover link-red">See Project</a>
-            </div>
-            <!-- /.post-content -->
-         </div>
-         <!-- /.project-details -->
-      </div>
-      <!-- /.item -->
-      <div class="item col-md-6" style="position: absolute; left: 50%; top: 0px;">
-         <figure class="itooltip itooltip-light hover-scale rounded" title="&lt;h5 class=&quot;mb-0&quot;&gt;Cursus Inceptos Sit&lt;/h5&gt;"><a href="https://sandbox.elemisthemes.com/assets/img/photos/cs1-full.jpg" data-glightbox="title: Cursus Inceptos Sit" data-gallery="project-1"> <img src="https://sandbox.elemisthemes.com/assets/img/photos/cs1.jpg" alt=""></a>
-         </figure>
-      </div>
-      <!-- /.item -->
-      <div class="item col-md-6" style="position: absolute; left: 0%; top: 280.453px;">
-         <figure class="itooltip itooltip-light hover-scale rounded" title="&lt;h5 class=&quot;mb-0&quot;&gt;Ipsum Egestas Porta&lt;/h5&gt;"><a href="https://sandbox.elemisthemes.com/assets/img/photos/cs2-full.jpg" data-glightbox="title: Ipsum Egestas Porta" data-gallery="project-1"> <img src="https://sandbox.elemisthemes.com/assets/img/photos/cs2.jpg" alt=""></a>
-         </figure>
-      </div>
-      <!-- /.item -->
-      <div class="item col-md-6" style="position: absolute; left: 50%; top: 492.219px;">
-         <figure class="itooltip itooltip-light hover-scale rounded" title="&lt;h5 class=&quot;mb-0&quot;&gt;Ultricies Cras Tortor&lt;/h5&gt;"><a href="https://sandbox.elemisthemes.com/assets/img/photos/cs3-full.jpg" data-glightbox="title: Ultricies Cras Tortor" data-gallery="project-1"> <img src="https://sandbox.elemisthemes.com/assets/img/photos/cs3.jpg" alt=""></a>
-         </figure>
-      </div>
-      <!-- /.item -->
-   </div>
-   <!-- /.row -->
-</div>
+<?php
+/**
+ * Template: Projects Archive — Style 1
+ * AJAX category filter + paginated grid (2-col, square images).
+ *
+ * @package Codeweber
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+$grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+$btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
+
+$filter_terms = get_terms( [
+	'taxonomy'   => 'projects_category',
+	'hide_empty' => true,
+	'orderby'    => 'name',
+	'order'      => 'ASC',
+] );
+?>
+
+<section id="content-wrapper" class="wrapper">
+	<div class="container py-14 py-md-16">
+
+		<?php if ( ! empty( $filter_terms ) && ! is_wp_error( $filter_terms ) ) : ?>
+		<div class="d-flex flex-wrap gap-2 projects-category-filters mb-10">
+			<button type="button" data-cat-id="0"
+				class="btn btn-sm btn-soft-primary has-ripple<?php echo esc_attr( $btn_style ); ?> active">
+				<?php esc_html_e( 'All', 'codeweber' ); ?>
+			</button>
+			<?php foreach ( $filter_terms as $term ) : ?>
+			<button type="button" data-cat-id="<?php echo esc_attr( $term->term_id ); ?>"
+				class="btn btn-sm btn-soft-primary has-ripple<?php echo esc_attr( $btn_style ); ?>">
+				<?php echo esc_html( $term->name ); ?>
+			</button>
+			<?php endforeach; ?>
+		</div>
+		<?php endif; ?>
+
+		<div id="projects-grid-results">
+			<?php if ( have_posts() ) : ?>
+			<div class="row <?php echo esc_attr( $grid_gap ); ?>">
+				<?php while ( have_posts() ) : the_post();
+					$post_id      = get_the_ID();
+					$cats         = get_the_terms( $post_id, 'projects_category' );
+					$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+					$thumbnail_id = get_post_thumbnail_id( $post_id );
+				?>
+				<div class="project col-md-6">
+					<?php if ( $thumbnail_id ) : ?>
+					<figure class="lift <?php echo esc_attr( $card_radius ); ?> mb-6">
+						<a href="<?php the_permalink(); ?>">
+							<?php echo wp_get_attachment_image( $thumbnail_id, 'codeweber_project_900-900', false, [ 'class' => 'w-100', 'alt' => esc_attr( get_the_title() ) ] ); ?>
+						</a>
+					</figure>
+					<?php endif; ?>
+					<div class="project-details d-flex justify-content-center flex-column">
+						<div class="post-header">
+							<?php if ( $cat_name ) : ?>
+							<div class="post-category text-line mb-2"><?php echo esc_html( $cat_name ); ?></div>
+							<?php endif; ?>
+							<h2 class="post-title h3">
+								<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+							</h2>
+						</div>
+					</div>
+				</div>
+				<?php endwhile; ?>
+			</div>
+
+			<?php codeweber_posts_pagination(); ?>
+
+			<?php else : ?>
+			<p class="text-muted"><?php esc_html_e( 'No projects found.', 'codeweber' ); ?></p>
+			<?php endif; ?>
+		</div><!-- #projects-grid-results -->
+
+	</div>
+</section>
+
+<script>
+(function () {
+	var catBtns     = document.querySelectorAll('.projects-category-filters [data-cat-id]');
+	var resultsWrap = document.getElementById('projects-grid-results');
+
+	catBtns.forEach(function (btn) {
+		btn.addEventListener('click', function () {
+			var catId = btn.getAttribute('data-cat-id');
+
+			catBtns.forEach(function (b) { b.classList.remove('active'); });
+			btn.classList.add('active');
+
+			if (!resultsWrap || typeof fetch_vars === 'undefined') return;
+
+			resultsWrap.style.opacity       = '0.5';
+			resultsWrap.style.pointerEvents = 'none';
+
+			var filters = {};
+			if (catId && catId !== '0') {
+				filters.projects_category = catId;
+			}
+
+			var body = new FormData();
+			body.append('action',     'fetch_action');
+			body.append('nonce',      fetch_vars.nonce);
+			body.append('actionType', 'filterPosts');
+			body.append('params',     JSON.stringify({ post_type: 'projects', template: 'projects_1', filters: filters }));
+
+			fetch(fetch_vars.ajaxurl, { method: 'POST', body: body })
+				.then(function (r) { return r.json(); })
+				.then(function (data) {
+					if (data.status === 'success' && resultsWrap) {
+						resultsWrap.innerHTML = data.data.html;
+					}
+				})
+				.catch(function (e) { console.error('Projects filter error:', e); })
+				.finally(function () {
+					if (resultsWrap) {
+						resultsWrap.style.opacity       = '';
+						resultsWrap.style.pointerEvents = '';
+					}
+				});
+		});
+	});
+})();
+</script>
