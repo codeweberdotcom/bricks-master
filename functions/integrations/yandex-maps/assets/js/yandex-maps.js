@@ -660,7 +660,7 @@
                 [Math.max(...lats), Math.max(...lngs)]
             ];
             this.map.setBounds(bounds, {
-                checkZoomRange: true,
+                checkZoomRange: false,
                 duration: 300,
                 margin: [50, 50, 50, 50]
             });
