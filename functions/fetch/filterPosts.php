@@ -685,8 +685,8 @@ function _fp_apply_projects_filters( $args, $filters ) {
 
 function _fp_render_projects_grid( $query, $template ) {
 	$card_radius = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'card-radius' ) : 'rounded';
-	$col_class   = ( $template === 'projects_4' ) ? 'col-md-6 col-xl-4' : 'col-md-6';
-	$img_size    = ( $template === 'projects_4' ) ? 'codeweber_project_600-600' : 'codeweber_project_900-900';
+	$col_class   = in_array( $template, [ 'projects_2', 'projects_4' ], true ) ? 'col-md-6 col-xl-4' : 'col-md-6';
+	$img_size    = in_array( $template, [ 'projects_2', 'projects_4' ], true ) ? 'codeweber_project_600-600' : 'codeweber_project_900-900';
 	$grid_gap    = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
 
 	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
