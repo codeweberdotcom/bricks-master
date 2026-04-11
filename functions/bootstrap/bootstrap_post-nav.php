@@ -87,14 +87,20 @@ function codeweber_projects_map_modal() {
 		$permalink = get_permalink( $pid );
 		$title     = get_the_title( $pid );
 
-		$balloon = '';
-		if ( $img_url ) {
-			$balloon .= '<div style="margin:-10px -10px 10px;"><img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:100%;height:120px;object-fit:cover;display:block;border-radius:4px 4px 0 0;"></div>';
-		}
+		$balloon_body = '';
 		if ( $addr ) {
-			$balloon .= '<div style="margin-bottom:8px;font-size:13px;color:#666;">' . esc_html( $addr ) . '</div>';
+			$balloon_body .= '<div style="font-size:13px;color:#666;margin-bottom:8px;">' . esc_html( $addr ) . '</div>';
 		}
-		$balloon .= '<div><a href="' . esc_url( $permalink ) . '" style="font-size:13px;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a></div>';
+		$balloon_body .= '<a href="' . esc_url( $permalink ) . '" style="font-size:13px;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
+
+		if ( $img_url ) {
+			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;">'
+				. '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:80px;height:80px;object-fit:cover;flex-shrink:0;border-radius:4px;">'
+				. '<div>' . $balloon_body . '</div>'
+				. '</div>';
+		} else {
+			$balloon = $balloon_body;
+		}
 
 		$markers[] = [
 			'id'                   => $pid,
