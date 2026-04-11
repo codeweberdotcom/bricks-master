@@ -95,7 +95,7 @@ function codeweber_projects_map_modal() {
 
 		if ( $img_url ) {
 			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;font-family:inherit;">'
-				. '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:80px;height:80px;object-fit:cover;flex-shrink:0;border-radius:4px;">'
+				. '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:100px;height:100px;object-fit:cover;flex-shrink:0;border-radius:4px;">'
 				. '<div>' . $balloon_text . '</div>'
 				. '</div>';
 		} else {
