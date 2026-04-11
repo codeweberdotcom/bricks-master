@@ -96,7 +96,7 @@ function codeweber_projects_map_modal() {
 		if ( $addr ) {
 			$balloon_text .= '<div style="font-size:13px;font-weight:300;color:inherit;opacity:.65;margin-bottom:8px;font-family:var(--bs-body-font-family);">' . esc_html( $addr ) . '</div>';
 		}
-		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:12px;font-weight:300;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-family:var(--bs-body-font-family);">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
+		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:12px;font-weight:300;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-family:var(--bs-body-font-family);">' . esc_html__( 'Go to project', 'codeweber' ) . ' →</a>';
 
 		$font = 'var(--bs-body-font-family)';
 		if ( $img_url ) {
@@ -137,7 +137,7 @@ function codeweber_projects_map_modal() {
 			'search_control'           => false,
 			'show_sidebar'             => true,
 			'sidebar_position'         => 'left',
-			'sidebar_title'            => __( 'Проекты', 'codeweber' ),
+			'sidebar_title'            => __( 'Projects', 'codeweber' ),
 			'sidebar_fields'           => [
 				'showAddress'      => false,
 				'showCity'         => true,
@@ -304,7 +304,7 @@ function codeweber_projects_related_products() {
 	?>
 	<section class="wrapper bg-light">
 		<div class="container py-10 py-md-12">
-			<h2 class="display-6 mb-8"><?php esc_html_e( 'Товары проекта', 'codeweber' ); ?></h2>
+			<h2 class="display-6 mb-8"><?php esc_html_e( 'Project products', 'codeweber' ); ?></h2>
 			<div class="row <?php echo esc_attr( $grid_gap ); ?>">
 				<?php foreach ( $products as $product ) :
 					global $product;

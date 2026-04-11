@@ -87,17 +87,17 @@ for ( $i = 0; $i < $works_count; $i++ ) {
 
 // ── Метаполя для сайдбара ─────────────────────────────────────────────────────
 $meta_items = [];
-if ( $date )        $meta_items[] = [ 'label' => __( 'Дата', 'codeweber' ),        'value' => esc_html( $date ) ];
-if ( $developer )   $meta_items[] = [ 'label' => __( 'Застройщик', 'codeweber' ),  'value' => esc_html( $developer ) ];
-if ( $architector ) $meta_items[] = [ 'label' => __( 'Архитектор', 'codeweber' ),  'value' => esc_html( $architector ) ];
+if ( $date )        $meta_items[] = [ 'label' => __( 'Date', 'codeweber' ),        'value' => esc_html( $date ) ];
+if ( $developer )   $meta_items[] = [ 'label' => __( 'Developer', 'codeweber' ),  'value' => esc_html( $developer ) ];
+if ( $architector ) $meta_items[] = [ 'label' => __( 'Architect', 'codeweber' ),  'value' => esc_html( $architector ) ];
 $projects_show_map = function_exists( 'codeweber_projects_settings_get' ) && codeweber_projects_settings_get( 'show_map', '1' ) === '1';
 
 if ( $address ) {
 	$addr_value = esc_html( $address );
 	if ( $latitude && $longitude && $projects_show_map ) {
-		$addr_value .= '<br><a href="#" class="more hover d-inline-block mt-1" data-project-map>' . esc_html__( 'Показать на карте', 'codeweber' ) . '</a>';
+		$addr_value .= '<br><a href="#" class="more hover d-inline-block mt-1" data-project-map>' . esc_html__( 'Show on map', 'codeweber' ) . '</a>';
 	}
-	$meta_items[] = [ 'label' => __( 'Адрес', 'codeweber' ), 'value' => $addr_value ];
+	$meta_items[] = [ 'label' => __( 'Address', 'codeweber' ), 'value' => $addr_value ];
 }
 if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),         'value' => esc_html( $cms ) ];
 ?>
@@ -222,7 +222,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 							</ul>
 							<?php if ( $link ) : ?>
 							<a href="<?php echo esc_url( $link ); ?>" class="more hover" target="_blank" rel="noopener">
-								<?php esc_html_e( 'Смотреть проект', 'codeweber' ); ?>
+								<?php esc_html_e( 'View project', 'codeweber' ); ?>
 							</a>
 							<?php endif; ?>
 						</div>
