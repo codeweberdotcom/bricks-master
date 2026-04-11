@@ -1250,9 +1250,6 @@ $hero-slider-height-mobile: 500px !default;
 //	LIGHTBOX
 //----------------------------------------------------------//
 $lightbox-bg: rgba($gray-900, 0.9) !default;
-$lightbox-icon-color: var(--#{$prefix}white) !default;
-$lightbox-icon-bg: rgba($black, 0.3) !default;
-$lightbox-icon-hover-bg: rgba($black, 0.5) !default;
 //----------------------------------------------------------//
 //	TABLE
 //----------------------------------------------------------//
@@ -1431,6 +1428,11 @@ $swiper-arrow-horizontal-offset-lg:       1.5rem !default;
 $swiper-arrow-horizontal-offset-sm:       0.5rem !default;
 $swiper-arrow-vertical-offset:            auto !default;
 $swiper-arrow-transition:                 $link-transition !default;
+
+// GLightbox buttons — same as swiper arrow
+$lightbox-icon-color:                     $swiper-arrow-color !default;
+$lightbox-icon-bg:                        $swiper-arrow-bg !default;
+$lightbox-icon-hover-bg:                  $swiper-arrow-bg-hover !default;
 
 $swiper-pagination-bullet-size:           0.5rem !default;
 $swiper-pagination-bullet-size-lg:        0.7rem !default;
