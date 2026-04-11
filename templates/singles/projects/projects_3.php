@@ -20,17 +20,6 @@ if ( empty( $opt_name ) ) {
 
 $product_id = get_the_ID();
 
-// ── Определяем режим pageheader ───────────────────────────────────────────────
-$_ph_option = class_exists( 'Redux' )
-	? Redux::get_option( $opt_name, 'single_page_header_select_projects' )
-	: '';
-if ( $_ph_option === 'default' || empty( $_ph_option ) ) {
-	$_ph_option = class_exists( 'Redux' )
-		? Redux::get_option( $opt_name, 'global_page_header_model' )
-		: '';
-}
-$has_pageheader = ( $_ph_option !== 'disabled' );
-
 // ── Метаполя ─────────────────────────────────────────────────────────────────
 $address           = get_post_meta( $product_id, 'main_information_address', true );
 $architector       = get_post_meta( $product_id, 'main_information_architector', true );
@@ -105,43 +94,33 @@ if ( $address ) {
 if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),         'value' => esc_html( $cms ) ];
 ?>
 
-<?php if ( $has_pageheader ) : ?>
+<section class="wrapper image-wrapper bg-image bg-overlay text-white"<?php if ( $bg_img_url ) : ?> data-image-src="<?php echo esc_url( $bg_img_url ); ?>"<?php endif; ?>>
+	<div class="container pt-17 pb-12 pt-md-19 pb-md-16 text-center">
+		<div class="row">
+			<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+				<div class="post-header">
 
-	<?php /* ── Режим B: pageheader включён ─────────────────────────────── */ ?>
-	<?php get_pageheader(); ?>
-
-<?php else : ?>
-
-	<?php /* ── Режим A: шапка с featured image как фоном ──────────────── */ ?>
-	<section class="wrapper image-wrapper bg-image bg-overlay text-white"<?php if ( $bg_img_url ) : ?> data-image-src="<?php echo esc_url( $bg_img_url ); ?>"<?php endif; ?>>
-		<div class="container pt-17 pb-12 pt-md-19 pb-md-16 text-center">
-			<div class="row">
-				<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-					<div class="post-header">
-
-						<?php if ( $category_name ) : ?>
-						<div class="post-category text-line text-white mb-3">
-							<a href="<?php echo esc_url( $category_link ); ?>" class="text-reset" rel="category">
-								<?php echo esc_html( $category_name ); ?>
-							</a>
-						</div>
-						<?php endif; ?>
-
-						<h1 class="display-1 mb-3 text-white"><?php the_title(); ?></h1>
-
-						<?php if ( $short_description ) : ?>
-						<p class="lead px-md-12 px-lg-12 px-xl-15 px-xxl-18">
-							<?php echo esc_html( $short_description ); ?>
-						</p>
-						<?php endif; ?>
-
+					<?php if ( $category_name ) : ?>
+					<div class="post-category text-line text-white mb-3">
+						<a href="<?php echo esc_url( $category_link ); ?>" class="text-reset" rel="category">
+							<?php echo esc_html( $category_name ); ?>
+						</a>
 					</div>
+					<?php endif; ?>
+
+					<h1 class="display-1 mb-3 text-white"><?php the_title(); ?></h1>
+
+					<?php if ( $short_description ) : ?>
+					<p class="lead px-md-12 px-lg-12 px-xl-15 px-xxl-18">
+						<?php echo esc_html( $short_description ); ?>
+					</p>
+					<?php endif; ?>
+
 				</div>
 			</div>
 		</div>
-	</section>
-
-<?php endif; ?>
+	</div>
+</section>
 
 <section class="wrapper wrapper-border">
 	<div class="container pt-14 pt-md-16 pb-13 pb-md-15">
