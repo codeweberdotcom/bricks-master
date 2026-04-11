@@ -90,9 +90,11 @@ $meta_items = [];
 if ( $date )        $meta_items[] = [ 'label' => __( 'Дата', 'codeweber' ),        'value' => esc_html( $date ) ];
 if ( $developer )   $meta_items[] = [ 'label' => __( 'Застройщик', 'codeweber' ),  'value' => esc_html( $developer ) ];
 if ( $architector ) $meta_items[] = [ 'label' => __( 'Архитектор', 'codeweber' ),  'value' => esc_html( $architector ) ];
+$projects_show_map = function_exists( 'codeweber_projects_settings_get' ) && codeweber_projects_settings_get( 'show_map', '1' ) === '1';
+
 if ( $address ) {
 	$addr_value = esc_html( $address );
-	if ( $latitude && $longitude ) {
+	if ( $latitude && $longitude && $projects_show_map ) {
 		$addr_value .= '<br><a href="#" class="more hover d-inline-block mt-1" data-project-map>' . esc_html__( 'Показать на карте', 'codeweber' ) . '</a>';
 	}
 	$meta_items[] = [ 'label' => __( 'Адрес', 'codeweber' ), 'value' => $addr_value ];

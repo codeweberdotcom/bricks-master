@@ -45,6 +45,11 @@ function codeweber_projects_map_modal() {
 	}
 	$rendered = true;
 
+	$show_map = codeweber_projects_settings_get( 'show_map', '1' );
+	if ( $show_map !== '1' ) {
+		return;
+	}
+
 	if ( ! class_exists( 'Codeweber_Yandex_Maps' ) ) {
 		return;
 	}
