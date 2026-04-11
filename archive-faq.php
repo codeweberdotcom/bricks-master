@@ -89,6 +89,8 @@ if (have_posts()) : ?>
           ));
           ?>
           
+          <?php $sections_gap = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gy-6'; ?>
+          <div class="row <?php echo esc_attr( $sections_gap ); ?>">
           <?php if ($all_faqs->have_posts()) : ?>
               <?php
               // If we have categories, group by category
@@ -111,10 +113,10 @@ if (have_posts()) : ?>
                       ));
                       
                       if ($category_faqs->have_posts()) :
-                          $section_class = ($category_index === 1) ? 'wrapper' : 'wrapper pt-5';
                           $card_radius = Codeweber_Options::style('card-radius');
               ?>
-                          <section id="<?php echo esc_attr($category_id); ?>" class="<?php echo esc_attr($section_class); ?>">
+                          <div class="col-12">
+                          <section id="<?php echo esc_attr($category_id); ?>" class="wrapper">
                               <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                                   <div class="card-body p-10">
                                       <h2 class="h3 mb-6"><?php echo esc_html($category_index); ?>. <?php echo esc_html($category->name); ?></h2>
@@ -161,6 +163,7 @@ if (have_posts()) : ?>
                               </div>
                               <!--/.card -->
                           </section>
+                          </div>
               <?php
                           $category_index++;
                           wp_reset_postdata();
@@ -184,7 +187,8 @@ if (have_posts()) : ?>
                   if ($uncategorized_faqs->have_posts()) :
                       $card_radius = Codeweber_Options::style('card-radius');
               ?>
-                      <section id="faq-uncategorized" class="wrapper pt-5">
+                      <div class="col-12">
+                      <section id="faq-uncategorized" class="wrapper">
                           <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                               <div class="card-body p-10">
                                   <h2 class="h3 mb-6"><?php echo esc_html($category_index); ?>. <?php esc_html_e('Other Questions', 'codeweber'); ?></h2>
@@ -228,6 +232,7 @@ if (have_posts()) : ?>
                           </div>
                           <!--/.card -->
                       </section>
+                      </div>
               <?php
                       wp_reset_postdata();
                   endif;
@@ -235,6 +240,7 @@ if (have_posts()) : ?>
                   // No categories, show all FAQs in one accordion
                   $card_radius = Codeweber_Options::style('card-radius');
               ?>
+                  <div class="col-12">
                   <section id="faq-all" class="wrapper">
                       <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                           <div class="card-body p-10">
@@ -277,9 +283,11 @@ if (have_posts()) : ?>
                       </div>
                       <!--/.card -->
                   </section>
+                  </div>
               <?php endif; ?>
           <?php else : ?>
               <?php $card_radius = Codeweber_Options::style('card-radius'); ?>
+              <div class="col-12">
               <section class="wrapper">
                   <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                       <div class="card-body p-10">
@@ -287,10 +295,12 @@ if (have_posts()) : ?>
                       </div>
                   </div>
               </section>
+              </div>
           <?php endif; ?>
+          </div><!-- /.row sections -->
       <?php endif; ?>
-      
-      <?php 
+
+      <?php
       // Pagination (только если используется шаблон)
       if ($has_template) {
           codeweber_posts_pagination();
