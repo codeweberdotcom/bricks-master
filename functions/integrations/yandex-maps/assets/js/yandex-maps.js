@@ -569,8 +569,23 @@
          * Фильтрация по городу
          */
         filterByCity(city) {
-            const items = document.querySelectorAll('.codeweber-map-sidebar-item');
             const visiblePlacemarks = [];
+
+            // Сначала убираем ВСЕ маркеры с карты
+            Object.values(this.placemarks).forEach(p => {
+                try {
+                    if (this.clusterer) {
+                        this.clusterer.remove(p);
+                    } else {
+                        this.map.geoObjects.remove(p);
+                    }
+                } catch(e) {}
+            });
+
+            // Затем добавляем только видимые + управляем сайдбаром
+            const items = this.sidebar
+                ? this.sidebar.querySelectorAll('.codeweber-map-sidebar-item')
+                : document.querySelectorAll('.codeweber-map-sidebar-item');
 
             items.forEach(item => {
                 const markerId = item.dataset.markerId;
@@ -582,20 +597,13 @@
                 if (city === '' || itemCity === city) {
                     item.style.display = 'block';
                     if (this.clusterer) {
-                        try { this.clusterer.remove(placemark); } catch(e) {}
                         this.clusterer.add(placemark);
                     } else {
-                        try { this.map.geoObjects.remove(placemark); } catch(e) {}
                         this.map.geoObjects.add(placemark);
                     }
                     visiblePlacemarks.push(placemark);
                 } else {
                     item.style.display = 'none';
-                    if (this.clusterer) {
-                        try { this.clusterer.remove(placemark); } catch(e) {}
-                    } else {
-                        try { this.map.geoObjects.remove(placemark); } catch(e) {}
-                    }
                 }
             });
 
