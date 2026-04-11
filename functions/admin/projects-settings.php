@@ -84,7 +84,10 @@ function codeweber_projects_field_show_map(): void {
 // Sanitize
 // ---------------------------------------------------------------------------
 
-function codeweber_projects_settings_sanitize( array $input ): array {
+function codeweber_projects_settings_sanitize( $input ): array {
+	if ( ! is_array( $input ) ) {
+		$input = [];
+	}
 	return [
 		'show_map' => isset( $input['show_map'] ) ? '1' : '0',
 	];
