@@ -35,7 +35,6 @@ $projects_query = new WP_Query( [
 
 			<?php if ( ! empty( $filter_terms ) && ! is_wp_error( $filter_terms ) ) : ?>
 			<div class="isotope-filter filter mb-10">
-				<p><?php esc_html_e( 'Filter:', 'codeweber' ); ?></p>
 				<ul>
 					<li><a class="filter-item active" data-filter="*"><?php esc_html_e( 'All', 'codeweber' ); ?></a></li>
 					<?php foreach ( $filter_terms as $term ) : ?>
