@@ -153,7 +153,7 @@ function codeweber_projects_map_modal() {
 	?>
 	<style>
 	#projects-map-offcanvas {
-		--bs-offcanvas-width: 66.667vw;
+		--bs-offcanvas-width: 80vw;
 	}
 	#projects-map-offcanvas .offcanvas-body {
 		padding: 0;
