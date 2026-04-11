@@ -93,7 +93,7 @@ add_action('wp_footer', function () {
                <div class="modal-body p-6">
                   <div class="row">
                      <div class="col-md-12 col-lg-10 mb-4 mb-lg-0 my-auto align-items-center">
-                        <div class="cookie-modal-text fs-13"><?php echo $cookietext; ?></div>
+                        <div class="cookie-modal-text fs-sm"><?php echo $cookietext; ?></div>
                      </div>
                      <div class="col-md-5 col-lg-2 text-lg-end my-auto">
                         <a href="#" class="btn btn-primary<?php echo Codeweber_Options::style('button'); ?>" id="acceptCookie" data-bs-dismiss="modal" aria-label="<?php esc_attr_e('Close', 'codeweber'); ?>">
