@@ -179,15 +179,23 @@ function codeweber_projects_map_modal() {
 		var inst = wrapper._cwgbYandexMapInstance;
 		if (!inst) return;
 		if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
-		if (typeof inst.fitBounds === 'function') inst.fitBounds();
 		if (inst.map) {
 			inst.map.options.set('minZoom', 8);
 			inst.map.options.set('maxZoom', 17);
 		}
+		var currentId = e.target.dataset.currentProject;
+		if (currentId && inst.placemarks && inst.placemarks[currentId]) {
+			var placemark = inst.placemarks[currentId];
+			inst.map.setCenter(placemark.geometry.getCoordinates(), 15, { duration: 400 }).then(function() {
+				placemark.balloon.open();
+			});
+		} else if (typeof inst.fitBounds === 'function') {
+			inst.fitBounds();
+		}
 	});
 	</script>
 
-	<div class="modal fade" id="projects-map-modal" tabindex="-1" aria-hidden="true">
+	<div class="modal fade" id="projects-map-modal" tabindex="-1" aria-hidden="true" data-current-project="<?php echo esc_attr( get_the_ID() ); ?>">
 		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-body position-relative">
