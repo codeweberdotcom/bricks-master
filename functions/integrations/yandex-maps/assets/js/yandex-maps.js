@@ -570,38 +570,34 @@
          */
         filterByCity(city) {
             const visiblePlacemarks = [];
+            const showAll = city === '';
 
             // Обновляем видимость элементов сайдбара
             if (this.sidebar) {
                 this.sidebar.querySelectorAll('.codeweber-map-sidebar-item').forEach(item => {
-                    const show = city === '' || item.dataset.city === city;
-                    item.style.display = show ? 'block' : 'none';
+                    item.style.display = (showAll || item.dataset.city === city) ? 'block' : 'none';
                 });
             }
 
-            // Очищаем карту
-            if (this.clusterer) {
-                this.clusterer.removeAll();
-            } else {
-                this.map.geoObjects.removeAll();
-            }
-
-            // Добавляем только видимые маркеры
+            // Для каждого маркера: удаляем, затем добавляем если видимый
             this.config.markers.forEach(marker => {
-                if (city === '' || marker.city === city) {
-                    const placemark = this.placemarks[marker.id];
-                    if (placemark) {
-                        if (this.clusterer) {
-                            this.clusterer.add(placemark);
-                        } else {
-                            this.map.geoObjects.add(placemark);
-                        }
-                        visiblePlacemarks.push(placemark);
-                    }
+                const placemark = this.placemarks[marker.id];
+                if (!placemark) return;
+
+                // Безопасное удаление
+                try {
+                    if (this.clusterer) this.clusterer.remove(placemark);
+                    else this.map.geoObjects.remove(placemark);
+                } catch(e) {}
+
+                if (showAll || marker.city === city) {
+                    if (this.clusterer) this.clusterer.add(placemark);
+                    else this.map.geoObjects.add(placemark);
+                    visiblePlacemarks.push(placemark);
                 }
             });
 
-            // Подгонка границ под видимые маркеры
+            // Центрирование по видимым маркерам
             if (visiblePlacemarks.length > 0) {
                 this.fitBounds(visiblePlacemarks);
             }
