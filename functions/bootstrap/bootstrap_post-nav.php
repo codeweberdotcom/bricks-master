@@ -91,7 +91,7 @@ function codeweber_projects_map_modal() {
 		if ( $addr ) {
 			$balloon_text .= '<div style="font-size:13px;color:#666;margin-bottom:8px;">' . esc_html( $addr ) . '</div>';
 		}
-		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:13px;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
+		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-weight:600;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
 
 		if ( $img_url ) {
 			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;">'
