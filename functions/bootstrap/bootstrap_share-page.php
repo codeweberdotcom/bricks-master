@@ -94,9 +94,8 @@ if (!function_exists('codeweber_share_page')) {
       $dropdown_radius = (class_exists('Codeweber_Options')) ? Codeweber_Options::style('card-radius') : '';
       $dropdown_class  = 'dropdown-menu' . ($dropdown_radius ? ' ' . esc_attr($dropdown_radius) : '');
 
-      $share_color = class_exists('Codeweber_Options') ? ( Codeweber_Options::get('share_button_color') ?: 'red' ) : 'red';
       $share_type  = class_exists('Codeweber_Options') ? ( Codeweber_Options::get('share_button_type') ?: 'solid' ) : 'solid';
-      $share_btn_color_class = $share_type === 'soft' ? 'btn-soft-' . $share_color : 'btn-' . $share_color;
+      $share_btn_color_class = $share_type === 'soft' ? 'btn-soft-primary' : 'btn-red';
 
       $defaults = [
          'button_class'   => 'btn btn-sm ' . $share_btn_color_class . ' btn-icon btn-icon-start dropdown-toggle mb-0 me-0 has-ripple ' . ( class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '' ),
