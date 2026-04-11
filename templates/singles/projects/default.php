@@ -46,6 +46,7 @@ $description       = get_post_meta( $product_id, 'main_information_description',
 
 // ── Стили из Redux ───────────────────────────────────────────────────────────
 $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+$grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gy-6 gx-md-6';
 
 // ── Категория ─────────────────────────────────────────────────────────────────
 $categories    = get_the_terms( $product_id, 'projects_category' );
@@ -201,7 +202,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 
 					<?php /* Галерея */ ?>
 					<?php if ( ! empty( $gallery_ids ) ) : ?>
-					<div class="row mt-5 gx-md-6 gy-6">
+					<div class="row mt-5 <?php echo esc_attr( $grid_gap ); ?>">
 						<?php foreach ( $gallery_ids as $img_id ) :
 							$full_url  = wp_get_attachment_image_url( $img_id, 'codeweber_extralarge' );
 							$thumb_url = wp_get_attachment_image_url( $img_id, 'codeweber_project_900-900' );
