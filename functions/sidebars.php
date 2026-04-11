@@ -1134,5 +1134,5 @@ function get_content_padding_classes(): string {
 function get_sidebar_breakpoint( string $opt_name ): string {
     $post_type = universal_get_post_type();
     $bp = Redux::get_option( $opt_name, 'sidebar_breakpoint_' . $post_type );
-    return in_array( $bp, [ 'always', 'sm', 'md', 'lg', 'xl' ], true ) ? $bp : 'xl';
+    return in_array( $bp, [ 'always', 'xl' ], true ) ? $bp : 'xl';
 }

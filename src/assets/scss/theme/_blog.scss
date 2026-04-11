@@ -54,6 +54,15 @@ footer [class*="col-"] .widget + .widget {
   height: 100%;
 }
 
+// Sidebar breakpoint = "always" (visible on mobile, sticky on desktop)
+@include media-breakpoint-up(xl) {
+  .sidebar.col-md-4:not(.sticky-sidebar) {
+    position: sticky;
+    top: 0;
+    height: 100%;
+  }
+}
+
 //----------------------------------------------------------//
 //	COMMENTS
 //----------------------------------------------------------//

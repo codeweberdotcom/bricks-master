@@ -445,9 +445,6 @@ if (!empty($custom_post_type_files)) {
 				'desc'     => esc_html__('Minimum screen width at which the sidebar becomes visible.', 'codeweber'),
 				'options'  => array(
 					'always' => esc_html__('Always', 'codeweber'),
-					'sm'     => 'SM (576px)',
-					'md'     => 'MD (768px)',
-					'lg'     => 'LG (992px)',
 					'xl'     => 'XL (1200px)',
 				),
 				'default'  => 'xl',
