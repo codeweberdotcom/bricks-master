@@ -34,9 +34,6 @@ function cw_project_main_information_render( WP_Post $post ): void {
 		'main_information_date'               => __( 'Год / Дата', 'codeweber' ),
 		'main_information_link'               => __( 'Ссылка', 'codeweber' ),
 		'main_information_cms'                => __( 'CMS', 'codeweber' ),
-		'main_information_latitude'           => __( 'Широта', 'codeweber' ),
-		'main_information_longitude'          => __( 'Долгота', 'codeweber' ),
-		'main_information_zoom'               => __( 'Масштаб карты (по умолч. 15)', 'codeweber' ),
 		'main_information_short_description'  => __( 'Краткое описание', 'codeweber' ),
 		'main_information_title_description'  => __( 'Заголовок описания', 'codeweber' ),
 		'main_information_description'        => __( 'Описание', 'codeweber' ),
@@ -132,6 +129,124 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		update_post_meta( $post_id, $key, $value );
 	}
 }, 10, 2 );
+
+// ── Метабокс «Карта» ─────────────────────────────────────────────────────────
+
+add_action( 'add_meta_boxes', function () {
+	add_meta_box(
+		'cw_project_map',
+		__( 'Карта', 'codeweber' ),
+		'cw_project_map_render',
+		'projects',
+		'normal',
+		'high'
+	);
+} );
+
+function cw_project_map_render( WP_Post $post ): void {
+	global $opt_name;
+	if ( empty( $opt_name ) ) {
+		$opt_name = 'redux_demo';
+	}
+
+	$yandex_api_key = class_exists( 'Redux' ) ? Redux::get_option( $opt_name, 'yandexapi' ) : '';
+	$latitude       = get_post_meta( $post->ID, 'main_information_latitude', true );
+	$longitude      = get_post_meta( $post->ID, 'main_information_longitude', true );
+	$zoom           = get_post_meta( $post->ID, 'main_information_zoom', true ) ?: '10';
+	?>
+	<div style="margin-bottom:15px;">
+		<div id="project-yandex-map" style="width:100%;height:400px;margin-bottom:15px;"></div>
+
+		<?php if ( ! empty( $yandex_api_key ) ) : ?>
+		<script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr( $yandex_api_key ); ?>&lang=ru_RU"></script>
+		<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			ymaps.ready(function () {
+				var latField  = document.querySelector("input[name='main_information_latitude']");
+				var lngField  = document.querySelector("input[name='main_information_longitude']");
+				var zoomField = document.querySelector("input[name='main_information_zoom']");
+
+				var lat  = parseFloat(latField && latField.value ? latField.value : '55.76');
+				var lng  = parseFloat(lngField && lngField.value ? lngField.value : '37.64');
+				var zoom = parseInt(zoomField && zoomField.value ? zoomField.value : '<?php echo esc_js( $zoom ); ?>') || 10;
+
+				if (isNaN(lat) || isNaN(lng)) { lat = 55.76; lng = 37.64; }
+
+				var map = new ymaps.Map('project-yandex-map', {
+					center: [lat, lng],
+					zoom: zoom,
+					controls: ['zoomControl', 'searchControl']
+				});
+
+				var placemark = new ymaps.Placemark([lat, lng], {}, { draggable: true });
+				map.geoObjects.add(placemark);
+
+				function updateFields(coords) {
+					if (latField)  { latField.value  = coords[0]; latField.dispatchEvent(new Event('input', {bubbles:true})); }
+					if (lngField)  { lngField.value  = coords[1]; lngField.dispatchEvent(new Event('input', {bubbles:true})); }
+					if (zoomField) { zoomField.value = map.getZoom(); zoomField.dispatchEvent(new Event('input', {bubbles:true})); }
+				}
+
+				placemark.events.add('dragend', function () {
+					updateFields(placemark.geometry.getCoordinates());
+				});
+
+				map.events.add('click', function (e) {
+					var coords = e.get('coords');
+					placemark.geometry.setCoordinates(coords);
+					updateFields(coords);
+				});
+
+				map.events.add('boundschange', function () {
+					if (zoomField) { zoomField.value = map.getZoom(); }
+				});
+
+				var searchControl = map.controls.get('searchControl');
+				searchControl.events.add('resultselect', function (e) {
+					var results = searchControl.getResultsArray();
+					var selected = results[e.get('index')];
+					if (selected) {
+						var coords = selected.geometry.getCoordinates();
+						placemark.geometry.setCoordinates(coords);
+						map.setCenter(coords, 16);
+						updateFields(coords);
+					}
+				});
+			});
+		});
+		</script>
+		<?php else : ?>
+		<p style="color:#d63638;padding:10px;background:#fcf0f1;border-left:4px solid #d63638;">
+			<?php esc_html_e( 'API-ключ Яндекс.Карт не настроен. Укажите его в настройках Redux.', 'codeweber' ); ?>
+		</p>
+		<?php endif; ?>
+	</div>
+
+	<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+		<div>
+			<label for="main_information_latitude" style="display:block;margin-bottom:5px;font-weight:bold;">
+				<?php esc_html_e( 'Широта', 'codeweber' ); ?>
+			</label>
+			<input type="number" step="any" id="main_information_latitude" name="main_information_latitude"
+				value="<?php echo esc_attr( $latitude ); ?>" style="width:100%;padding:8px;" placeholder="55.7558">
+		</div>
+		<div>
+			<label for="main_information_longitude" style="display:block;margin-bottom:5px;font-weight:bold;">
+				<?php esc_html_e( 'Долгота', 'codeweber' ); ?>
+			</label>
+			<input type="number" step="any" id="main_information_longitude" name="main_information_longitude"
+				value="<?php echo esc_attr( $longitude ); ?>" style="width:100%;padding:8px;" placeholder="37.6173">
+		</div>
+		<div>
+			<label for="main_information_zoom" style="display:block;margin-bottom:5px;font-weight:bold;">
+				<?php esc_html_e( 'Масштаб (1–19)', 'codeweber' ); ?>
+			</label>
+			<input type="number" id="main_information_zoom" name="main_information_zoom"
+				value="<?php echo esc_attr( $zoom ); ?>" min="1" max="19" style="width:100%;padding:8px;" placeholder="10">
+		</div>
+	</div>
+	<?php
+}
 
 // ── Метабокс «Выполненные работы» ────────────────────────────────────────────
 
