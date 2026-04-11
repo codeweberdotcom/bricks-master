@@ -114,7 +114,7 @@ function codeweber_projects_archive_query( $query ) {
 		if ( empty( $template ) || $template === 'default' ) {
 			$template = 'projects_3';
 		}
-		if ( $template === 'projects_2' ) {
+		if ( in_array( $template, [ 'projects_1', 'projects_2' ], true ) ) {
 			$query->set( 'posts_per_page', 12 );
 		}
 	}
