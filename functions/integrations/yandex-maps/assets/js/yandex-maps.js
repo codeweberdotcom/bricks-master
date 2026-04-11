@@ -597,9 +597,10 @@
                 }
             });
 
-            // Центрирование по видимым маркерам
+            // Центрирование по видимым маркерам (задержка для перерисовки карты)
             if (visiblePlacemarks.length > 0) {
-                this.fitBounds(visiblePlacemarks);
+                const _vp = visiblePlacemarks.slice();
+                setTimeout(() => this.fitBounds(_vp), 50);
             }
         }
 

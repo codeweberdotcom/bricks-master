@@ -182,18 +182,20 @@ function codeweber_projects_map_modal() {
 		if (!inst) return;
 		if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
 		if (inst.map) {
-			inst.map.options.set('minZoom', 8);
+			inst.map.options.set('minZoom', 3);
 			inst.map.options.set('maxZoom', 17);
 		}
-		var currentId = e.target.dataset.currentProject;
-		if (currentId && inst.placemarks && inst.placemarks[currentId]) {
-			var placemark = inst.placemarks[currentId];
-			inst.map.setCenter(placemark.geometry.getCoordinates(), 15, { duration: 400 }).then(function() {
-				placemark.balloon.open();
-			});
-		} else if (typeof inst.fitBounds === 'function') {
-			inst.fitBounds();
-		}
+		setTimeout(function() {
+			var currentId = e.target.dataset.currentProject;
+			if (currentId && inst.placemarks && inst.placemarks[currentId]) {
+				var placemark = inst.placemarks[currentId];
+				inst.map.setCenter(placemark.geometry.getCoordinates(), 15, { duration: 400 }).then(function() {
+					placemark.balloon.open();
+				});
+			} else if (typeof inst.fitBounds === 'function') {
+				inst.fitBounds();
+			}
+		}, 150);
 	});
 	</script>
 
