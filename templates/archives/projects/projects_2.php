@@ -64,7 +64,7 @@ $filter_terms = get_terms( [
 				<?php endwhile; ?>
 			</div>
 
-			<?php codeweber_posts_pagination( [ 'nav_class' => 'd-flex mt-10' ] ); ?>
+			<?php codeweber_posts_pagination( [ 'nav_class' => 'd-flex justify-content-center mt-10' ] ); ?>
 
 			<?php else : ?>
 			<p class="text-muted"><?php esc_html_e( 'No projects found.', 'codeweber' ); ?></p>
