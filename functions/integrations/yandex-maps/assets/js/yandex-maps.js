@@ -246,7 +246,7 @@
                     balloonContentBody: balloonContent,
                     hintContent: markerData.hintContent || markerData.title || ''
                 },
-                Object.assign({}, iconOptions, balloonOptions)
+                Object.assign({}, iconOptions, balloonOptions, { hideIconOnBalloonOpen: false })
             );
 
             // Обработчик клика на маркер
