@@ -340,6 +340,9 @@ if (!function_exists('codeweber_posts_pagination')) {
 
 		// Получаем стиль кнопок из настроек темы
 		$button_style = Codeweber_Options::style('button');
+		if ( trim( $button_style ) === 'rounded-pill' ) {
+			$button_style = ' rounded';
+		}
 
 		$total_pages = $wp_query->max_num_pages;
 		$current_page = max(1, get_query_var('paged'));
