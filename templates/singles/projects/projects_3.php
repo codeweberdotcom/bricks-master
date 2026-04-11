@@ -94,6 +94,8 @@ if ( $address ) {
 if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),         'value' => esc_html( $cms ) ];
 ?>
 
+<?php get_pageheader(); ?>
+
 <section class="wrapper image-wrapper bg-image bg-overlay text-white"<?php if ( $bg_img_url ) : ?> data-image-src="<?php echo esc_url( $bg_img_url ); ?>"<?php endif; ?>>
 	<div class="container pt-17 pb-12 pt-md-19 pb-md-16 text-center">
 		<div class="row">
