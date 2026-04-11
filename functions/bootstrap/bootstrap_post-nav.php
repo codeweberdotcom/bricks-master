@@ -87,19 +87,19 @@ function codeweber_projects_map_modal() {
 		$permalink = get_permalink( $pid );
 		$title     = get_the_title( $pid );
 
-		$balloon_body = '';
+		$balloon_text = '<div style="font-weight:600;font-size:14px;margin-bottom:6px;">' . esc_html( $title ) . '</div>';
 		if ( $addr ) {
-			$balloon_body .= '<div style="font-size:13px;color:#666;margin-bottom:8px;">' . esc_html( $addr ) . '</div>';
+			$balloon_text .= '<div style="font-size:13px;color:#666;margin-bottom:8px;">' . esc_html( $addr ) . '</div>';
 		}
-		$balloon_body .= '<a href="' . esc_url( $permalink ) . '" style="font-size:13px;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
+		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:13px;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
 
 		if ( $img_url ) {
 			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;">'
 				. '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:80px;height:80px;object-fit:cover;flex-shrink:0;border-radius:4px;">'
-				. '<div>' . $balloon_body . '</div>'
+				. '<div>' . $balloon_text . '</div>'
 				. '</div>';
 		} else {
-			$balloon = $balloon_body;
+			$balloon = $balloon_text;
 		}
 
 		$markers[] = [
@@ -111,7 +111,7 @@ function codeweber_projects_map_modal() {
 			'image'                => $img_url,
 			'latitude'             => floatval( $lat ),
 			'longitude'            => floatval( $lng ),
-			'balloonContentHeader' => '<strong style="color:#333;font-size:15px;">' . esc_html( $title ) . '</strong>',
+			'balloonContentHeader' => '',
 			'balloonContent'       => $balloon,
 			'hintContent'          => $title,
 		];
