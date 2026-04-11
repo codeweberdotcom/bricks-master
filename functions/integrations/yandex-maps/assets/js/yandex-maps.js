@@ -462,7 +462,7 @@
             if (!placemark) return;
 
             const coords = placemark.geometry.getCoordinates();
-            this.map.setCenter(coords, 15, { duration: 300 }).then(() => {
+            this.map.panTo(coords, { duration: 500 }).then(() => {
                 placemark.balloon.open();
             });
 
