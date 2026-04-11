@@ -10,8 +10,6 @@ defined( 'ABSPATH' ) || exit;
 
 $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
 $grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
-$btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
-
 $filter_terms = get_terms( [
 	'taxonomy'   => 'projects_category',
 	'hide_empty' => true,
@@ -24,17 +22,13 @@ $filter_terms = get_terms( [
 	<div class="container py-14 py-md-16">
 
 		<?php if ( ! empty( $filter_terms ) && ! is_wp_error( $filter_terms ) ) : ?>
-		<div class="d-flex flex-wrap gap-2 projects-category-filters mb-10">
-			<button type="button" data-cat-id="0"
-				class="btn btn-sm btn-soft-primary has-ripple<?php echo esc_attr( $btn_style ); ?> active">
-				<?php esc_html_e( 'All', 'codeweber' ); ?>
-			</button>
-			<?php foreach ( $filter_terms as $term ) : ?>
-			<button type="button" data-cat-id="<?php echo esc_attr( $term->term_id ); ?>"
-				class="btn btn-sm btn-soft-primary has-ripple<?php echo esc_attr( $btn_style ); ?>">
-				<?php echo esc_html( $term->name ); ?>
-			</button>
-			<?php endforeach; ?>
+		<div class="isotope-filter filter projects-category-filters mb-10">
+			<ul>
+				<li><a class="filter-item active" data-cat-id="0"><?php esc_html_e( 'All', 'codeweber' ); ?></a></li>
+				<?php foreach ( $filter_terms as $term ) : ?>
+				<li><a class="filter-item" data-cat-id="<?php echo esc_attr( $term->term_id ); ?>"><?php echo esc_html( $term->name ); ?></a></li>
+				<?php endforeach; ?>
+			</ul>
 		</div>
 		<?php endif; ?>
 
@@ -81,11 +75,12 @@ $filter_terms = get_terms( [
 
 <script>
 (function () {
-	var catBtns     = document.querySelectorAll('.projects-category-filters [data-cat-id]');
+	var catBtns     = document.querySelectorAll('.projects-category-filters .filter-item');
 	var resultsWrap = document.getElementById('projects-grid-results');
 
 	catBtns.forEach(function (btn) {
-		btn.addEventListener('click', function () {
+		btn.addEventListener('click', function (e) {
+			e.preventDefault();
 			var catId = btn.getAttribute('data-cat-id');
 
 			catBtns.forEach(function (b) { b.classList.remove('active'); });
