@@ -2,11 +2,13 @@
 /**
  * Template: Single Projects — Default
  *
- * Структура:
- * 1. Page Header
- * 2. Шапка проекта (категория, заголовок, краткое описание) — bg-soft-primary
- * 3. Контент (главное фото, выполненные работы + описание + метаполя, галерея)
- * 4. Навигация prev/next
+ * Режим A (pageheader выключен в Redux):
+ *   — выводит шапку bg-soft-primary (категория, заголовок, short_description)
+ *   — article.mt-n21, container.pb-14.pb-md-16
+ *
+ * Режим B (pageheader включён в Redux):
+ *   — get_pageheader()
+ *   — без шапки, без mt-n21, container использует get_content_padding_classes()
  *
  * @package Codeweber
  */
@@ -14,8 +16,22 @@
 defined( 'ABSPATH' ) || exit;
 
 global $post, $opt_name;
+if ( empty( $opt_name ) ) {
+	$opt_name = 'redux_demo';
+}
 
 $product_id = get_the_ID();
+
+// ── Определяем режим pageheader ───────────────────────────────────────────────
+$_ph_option = class_exists( 'Redux' )
+	? Redux::get_option( $opt_name, 'single_page_header_select_projects' )
+	: '';
+if ( $_ph_option === 'default' || empty( $_ph_option ) ) {
+	$_ph_option = class_exists( 'Redux' )
+		? Redux::get_option( $opt_name, 'global_page_header_model' )
+		: '';
+}
+$has_pageheader = ( $_ph_option !== 'disabled' );
 
 // ── Метаполя ─────────────────────────────────────────────────────────────────
 $address           = get_post_meta( $product_id, 'main_information_address', true );
@@ -70,14 +86,55 @@ if ( $address )     $meta_items[] = [ 'label' => __( 'Адрес', 'codeweber' )
 if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),         'value' => esc_html( $cms ) ];
 ?>
 
-<?php get_pageheader(); ?>
+<?php if ( $has_pageheader ) : ?>
 
-<?php /* ── 2. Контент ──────────────────────────────────────────────────────── */ ?>
-<section class="wrapper wrapper-border">
-	<div class="container <?php echo esc_attr( get_content_padding_classes() ); ?>">
-		<div class="row">
-			<div class="col-12">
-				<article>
+	<?php /* ── Режим B: pageheader включён ─────────────────────────────── */ ?>
+	<?php get_pageheader(); ?>
+
+	<section class="wrapper wrapper-border">
+		<div class="container <?php echo esc_attr( get_content_padding_classes() ); ?>">
+			<div class="row">
+				<div class="col-12">
+					<article>
+
+<?php else : ?>
+
+	<?php /* ── Режим A: pageheader выключен — показываем шапку ────────── */ ?>
+	<section class="wrapper bg-soft-primary">
+		<div class="container pt-10 pb-19 pt-md-14 pb-md-22 text-center">
+			<div class="row">
+				<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+					<div class="post-header">
+
+						<?php if ( $category_name ) : ?>
+						<div class="post-category text-line mb-3">
+							<a href="<?php echo esc_url( $category_link ); ?>" class="hover" rel="category">
+								<?php echo esc_html( $category_name ); ?>
+							</a>
+						</div>
+						<?php endif; ?>
+
+						<h1 class="display-1 mb-3"><?php the_title(); ?></h1>
+
+						<?php if ( $short_description ) : ?>
+						<p class="lead px-md-12 px-lg-12 px-xl-15 px-xxl-18">
+							<?php echo esc_html( $short_description ); ?>
+						</p>
+						<?php endif; ?>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="wrapper wrapper-border">
+		<div class="container pb-14 pb-md-16">
+			<div class="row">
+				<div class="col-12">
+					<article class="mt-n21">
+
+<?php endif; ?>
 
 					<?php /* Главное фото */ ?>
 					<?php if ( $thumbnail_id ) : ?>
@@ -170,7 +227,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 	</div>
 </section>
 
-<?php /* ── 3. Навигация ──────────────────────────────────────────────────────── */ ?>
+<?php /* ── Навигация ──────────────────────────────────────────────────────── */ ?>
 <section class="wrapper">
 	<div class="container py-10">
 		<?php codeweber_posts_nav(); ?>
