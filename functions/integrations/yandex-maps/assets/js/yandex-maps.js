@@ -415,27 +415,34 @@
                 showDescription: true,
             };
 
-            let html = '';
-            if (marker.image) {
-                html += `<img src="${marker.image}" alt="${marker.title || ''}" style="width:100%;height:80px;object-fit:cover;display:block;margin-bottom:8px;border-radius:4px;">`;
-            }
+            let textHtml = '';
             if (marker.title) {
-                html += `<div class="h6 mb-1 text-reset">${marker.title}</div>`;
+                textHtml += `<div class="h6 mb-1 text-reset">${marker.title}</div>`;
             }
             if (sidebarFields.showDescription && marker.description && marker.description.trim() !== '') {
-                html += `<p class="fs-sm mb-0 text-reset">${marker.description}</p>`;
+                textHtml += `<p class="fs-sm mb-0 text-reset">${marker.description}</p>`;
             }
             if (sidebarFields.showCity && marker.city) {
-                html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-location-pin-alt me-1"></i> ${marker.city}</p>`;
+                textHtml += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-location-pin-alt me-1"></i> ${marker.city}</p>`;
             }
             if (sidebarFields.showAddress && marker.address) {
-                html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-map-marker me-1"></i> ${marker.address}</p>`;
+                textHtml += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-map-marker me-1"></i> ${marker.address}</p>`;
             }
             if (sidebarFields.showPhone && marker.phone) {
-                html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-phone me-1"></i> <a href="tel:${marker.phone.replace(/[^0-9+]/g, '')}">${marker.phone}</a></p>`;
+                textHtml += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-phone me-1"></i> <a href="tel:${marker.phone.replace(/[^0-9+]/g, '')}">${marker.phone}</a></p>`;
             }
             if (sidebarFields.showWorkingHours && marker.workingHours) {
-                html += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-clock me-1"></i> ${marker.workingHours}</p>`;
+                textHtml += `<p class="fs-sm mb-0 text-reset"><i class="uil uil-clock me-1"></i> ${marker.workingHours}</p>`;
+            }
+
+            let html = '';
+            if (marker.image) {
+                html = `<div style="display:flex;gap:10px;align-items:flex-start;">
+                    <img src="${marker.image}" alt="${marker.title || ''}" style="width:56px;height:56px;object-fit:cover;flex-shrink:0;border-radius:4px;">
+                    <div style="min-width:0;">${textHtml}</div>
+                </div>`;
+            } else {
+                html = textHtml;
             }
 
             item.innerHTML = html;
@@ -455,9 +462,7 @@
             if (!placemark) return;
 
             const coords = placemark.geometry.getCoordinates();
-            this.map.setCenter(coords, 15, {
-                duration: 300
-            }).then(() => {
+            this.map.panTo(coords, { duration: 300 }).then(() => {
                 placemark.balloon.open();
             });
 

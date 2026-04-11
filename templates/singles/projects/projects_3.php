@@ -235,6 +235,9 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 
 </section>
 
+<?php /* ── Товары проекта ──────────────────────────────────────────────── */ ?>
+<?php codeweber_projects_related_products(); ?>
+
 <?php /* ── Навигация ──────────────────────────────────────────────────────── */ ?>
 <?php codeweber_projects_nav(); ?>
 

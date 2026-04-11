@@ -28,15 +28,16 @@ function cw_project_main_information_render( WP_Post $post ): void {
 	wp_nonce_field( 'cw_project_main_information_save', 'cw_project_main_information_nonce' );
 
 	$fields = [
+		'main_information_city'              => __( 'Город', 'codeweber' ),
 		'main_information_address'           => __( 'Адрес', 'codeweber' ),
-		'main_information_architector'        => __( 'Архитектор', 'codeweber' ),
-		'main_information_developer'          => __( 'Застройщик', 'codeweber' ),
-		'main_information_date'               => __( 'Год / Дата', 'codeweber' ),
-		'main_information_link'               => __( 'Ссылка', 'codeweber' ),
-		'main_information_cms'                => __( 'CMS', 'codeweber' ),
-		'main_information_short_description'  => __( 'Краткое описание', 'codeweber' ),
-		'main_information_title_description'  => __( 'Заголовок описания', 'codeweber' ),
-		'main_information_description'        => __( 'Описание', 'codeweber' ),
+		'main_information_architector'       => __( 'Архитектор', 'codeweber' ),
+		'main_information_developer'         => __( 'Застройщик', 'codeweber' ),
+		'main_information_date'              => __( 'Год / Дата', 'codeweber' ),
+		'main_information_link'              => __( 'Ссылка', 'codeweber' ),
+		'main_information_cms'               => __( 'CMS', 'codeweber' ),
+		'main_information_short_description' => __( 'Краткое описание', 'codeweber' ),
+		'main_information_title_description' => __( 'Заголовок описания', 'codeweber' ),
+		'main_information_description'       => __( 'Описание', 'codeweber' ),
 	];
 
 	$textareas = [
@@ -158,6 +159,7 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 	}
 
 	$fields = [
+		'main_information_city',
 		'main_information_address',
 		'main_information_architector',
 		'main_information_developer',
@@ -431,3 +433,177 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 	update_post_meta( $post_id, 'main_information_works', $new_count );
 
 }, 10, 2 );
+
+// ── Метабокс «Товары проекта» ────────────────────────────────────────────────
+
+add_action( 'add_meta_boxes', function () {
+	add_meta_box(
+		'cw_project_products',
+		__( 'Товары проекта', 'codeweber' ),
+		'cw_project_products_render',
+		'projects',
+		'normal',
+		'default'
+	);
+} );
+
+function cw_project_products_render( WP_Post $post ): void {
+	wp_nonce_field( 'cw_project_products_save', 'cw_project_products_nonce' );
+
+	$saved_ids = get_post_meta( $post->ID, 'main_information_products', true );
+	if ( ! is_array( $saved_ids ) ) {
+		$saved_ids = [];
+	}
+
+	$saved_products = [];
+	foreach ( $saved_ids as $pid ) {
+		$pid = (int) $pid;
+		if ( ! $pid ) continue;
+		$p = function_exists( 'wc_get_product' ) ? wc_get_product( $pid ) : null;
+		if ( $p ) {
+			$img_url = $p->get_image_id() ? wp_get_attachment_image_url( $p->get_image_id(), 'thumbnail' ) : '';
+			$saved_products[] = [
+				'id'    => $pid,
+				'title' => $p->get_name(),
+				'thumb' => $img_url,
+			];
+		}
+	}
+	?>
+	<input type="hidden" id="cw-products-ids" name="main_information_products_ids" value="<?php echo esc_attr( implode( ',', array_column( $saved_products, 'id' ) ) ); ?>">
+
+	<div style="margin-bottom:10px;position:relative;">
+		<input type="text" id="cw-products-search" placeholder="<?php esc_attr_e( 'Поиск товара...', 'codeweber' ); ?>" style="width:100%;padding:8px;" autocomplete="off">
+		<div id="cw-products-dropdown" style="display:none;border:1px solid #ddd;background:#fff;max-height:220px;overflow-y:auto;position:absolute;z-index:9999;width:100%;top:100%;left:0;"></div>
+	</div>
+
+	<div id="cw-products-selected" style="display:flex;flex-wrap:wrap;gap:8px;">
+		<?php foreach ( $saved_products as $sp ) : ?>
+		<div class="cw-product-tag" data-id="<?php echo esc_attr( $sp['id'] ); ?>" style="display:flex;align-items:center;gap:6px;background:#f0f0f0;border:1px solid #ddd;border-radius:4px;padding:4px 8px;">
+			<?php if ( $sp['thumb'] ) : ?>
+				<img src="<?php echo esc_url( $sp['thumb'] ); ?>" style="width:28px;height:28px;object-fit:cover;border-radius:3px;">
+			<?php endif; ?>
+			<span><?php echo esc_html( $sp['title'] ); ?></span>
+			<button type="button" class="cw-product-remove" style="background:none;border:none;cursor:pointer;font-size:16px;line-height:1;color:#999;" aria-label="<?php esc_attr_e( 'Удалить', 'codeweber' ); ?>">×</button>
+		</div>
+		<?php endforeach; ?>
+	</div>
+
+	<script>
+	(function() {
+		var searchInput = document.getElementById('cw-products-search');
+		var dropdown    = document.getElementById('cw-products-dropdown');
+		var selected    = document.getElementById('cw-products-selected');
+		var idsInput    = document.getElementById('cw-products-ids');
+		var searchTimer;
+		var nonce       = '<?php echo esc_js( wp_create_nonce( 'cw_search_products_nonce' ) ); ?>';
+
+		function syncIds() {
+			idsInput.value = Array.from(selected.querySelectorAll('.cw-product-tag')).map(function(el) {
+				return el.dataset.id;
+			}).join(',');
+		}
+
+		function addTag(id, title, thumb) {
+			if (selected.querySelector('[data-id="' + id + '"]')) return;
+			var tag = document.createElement('div');
+			tag.className = 'cw-product-tag';
+			tag.dataset.id = id;
+			tag.style.cssText = 'display:flex;align-items:center;gap:6px;background:#f0f0f0;border:1px solid #ddd;border-radius:4px;padding:4px 8px;';
+			tag.innerHTML = (thumb ? '<img src="' + thumb + '" style="width:28px;height:28px;object-fit:cover;border-radius:3px;">' : '')
+				+ '<span>' + title + '</span>'
+				+ '<button type="button" class="cw-product-remove" style="background:none;border:none;cursor:pointer;font-size:16px;line-height:1;color:#999;">×</button>';
+			tag.querySelector('.cw-product-remove').addEventListener('click', function() {
+				tag.remove(); syncIds();
+			});
+			selected.appendChild(tag);
+			syncIds();
+		}
+
+		selected.querySelectorAll('.cw-product-remove').forEach(function(btn) {
+			btn.addEventListener('click', function() { btn.closest('.cw-product-tag').remove(); syncIds(); });
+		});
+
+		searchInput.addEventListener('input', function() {
+			clearTimeout(searchTimer);
+			var q = searchInput.value.trim();
+			if (q.length < 2) { dropdown.style.display = 'none'; return; }
+			searchTimer = setTimeout(function() {
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', ajaxurl + '?action=cw_search_products&nonce=' + nonce + '&term=' + encodeURIComponent(q));
+				xhr.onload = function() {
+					if (xhr.status !== 200) return;
+					var res = JSON.parse(xhr.responseText);
+					if (!res.success || !res.data.length) {
+						dropdown.innerHTML = '<div style="padding:8px;color:#999;"><?php echo esc_js( __( 'Ничего не найдено', 'codeweber' ) ); ?></div>';
+						dropdown.style.display = 'block'; return;
+					}
+					dropdown.innerHTML = '';
+					res.data.forEach(function(item) {
+						var row = document.createElement('div');
+						row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;cursor:pointer;border-bottom:1px solid #eee;';
+						row.onmouseenter = function() { row.style.background = '#f7f7f7'; };
+						row.onmouseleave = function() { row.style.background = ''; };
+						row.innerHTML = (item.thumbnail ? '<img src="' + item.thumbnail + '" style="width:32px;height:32px;object-fit:cover;border-radius:3px;">' : '')
+							+ '<span>' + item.title + '</span>';
+						row.addEventListener('click', function() {
+							addTag(item.id, item.title, item.thumbnail);
+							searchInput.value = '';
+							dropdown.style.display = 'none';
+						});
+						dropdown.appendChild(row);
+					});
+					dropdown.style.display = 'block';
+				};
+				xhr.send();
+			}, 300);
+		});
+
+		document.addEventListener('click', function(e) {
+			if (!dropdown.contains(e.target) && e.target !== searchInput) dropdown.style.display = 'none';
+		});
+	})();
+	</script>
+	<?php
+}
+
+add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
+	if (
+		! isset( $_POST['cw_project_products_nonce'] ) ||
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cw_project_products_nonce'] ) ), 'cw_project_products_save' )
+	) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) { return; }
+	if ( ! current_user_can( 'edit_post', $post_id ) ) { return; }
+
+	$raw = isset( $_POST['main_information_products_ids'] )
+		? sanitize_text_field( wp_unslash( $_POST['main_information_products_ids'] ) )
+		: '';
+	$ids = array_filter( array_map( 'intval', $raw !== '' ? explode( ',', $raw ) : [] ) );
+	update_post_meta( $post_id, 'main_information_products', array_values( $ids ) );
+}, 10, 2 );
+
+// ── AJAX: поиск товаров ───────────────────────────────────────────────────────
+
+add_action( 'wp_ajax_cw_search_products', function () {
+	check_ajax_referer( 'cw_search_products_nonce', 'nonce' );
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		wp_send_json_error( [], 403 );
+	}
+	if ( ! function_exists( 'wc_get_products' ) ) {
+		wp_send_json_error( [] );
+	}
+	$term     = sanitize_text_field( wp_unslash( $_GET['term'] ?? '' ) );
+	$products = wc_get_products( [ 's' => $term, 'status' => 'publish', 'limit' => 12 ] );
+	$results  = [];
+	foreach ( $products as $p ) {
+		$img_id    = $p->get_image_id();
+		$results[] = [
+			'id'        => $p->get_id(),
+			'title'     => $p->get_name(),
+			'thumbnail' => $img_id ? wp_get_attachment_image_url( $img_id, 'thumbnail' ) : '',
+		];
+	}
+	wp_send_json_success( $results );
+} );

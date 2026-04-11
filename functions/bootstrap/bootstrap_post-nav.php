@@ -80,7 +80,8 @@ function codeweber_projects_map_modal() {
 		$lat    = get_post_meta( $pid, 'main_information_latitude', true );
 		$lng    = get_post_meta( $pid, 'main_information_longitude', true );
 		$addr   = get_post_meta( $pid, 'main_information_address', true );
-		$img_id = (int) get_post_meta( $pid, 'main_information_image', true );
+		$city   = get_post_meta( $pid, 'main_information_city', true );
+		$img_id  = (int) get_post_meta( $pid, 'main_information_image', true );
 		$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'thumbnail' ) : '';
 
 		$balloon = '';
@@ -94,6 +95,7 @@ function codeweber_projects_map_modal() {
 			'title'                => get_the_title( $pid ),
 			'link'                 => get_permalink( $pid ),
 			'address'              => $addr,
+			'city'                 => $city,
 			'image'                => $img_url,
 			'latitude'             => floatval( $lat ),
 			'longitude'            => floatval( $lng ),
@@ -120,11 +122,13 @@ function codeweber_projects_map_modal() {
 			'sidebar_title'            => __( 'Проекты', 'codeweber' ),
 			'sidebar_fields'           => [
 				'showAddress'      => true,
-				'showCity'         => false,
+				'showCity'         => true,
 				'showPhone'        => false,
 				'showWorkingHours' => false,
 				'showDescription'  => false,
 			],
+			'show_filters'             => true,
+			'filter_by_city'           => true,
 			'clusterer'                => false,
 			'auto_fit_bounds'          => true,
 			'marker_auto_open_balloon' => false,
@@ -135,14 +139,11 @@ function codeweber_projects_map_modal() {
 	?>
 	<style>
 	#projects-map-modal .modal-body {
-		display: flex;
-		flex-direction: column;
-		overflow: hidden;
 		padding: 0;
+		overflow: hidden;
 	}
 	#projects-map-modal .codeweber-yandex-map-wrapper {
-		flex: 1 1 auto;
-		min-height: 0;
+		height: 70vh;
 		position: relative;
 	}
 	#projects-map-modal .codeweber-yandex-map {
@@ -175,9 +176,9 @@ function codeweber_projects_map_modal() {
 	</script>
 
 	<div class="modal fade" id="projects-map-modal" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog modal-fullscreen">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-body">
+				<div class="modal-body position-relative">
 					<button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
 					<?php echo $map_html; ?>
 				</div>
@@ -236,6 +237,60 @@ function codeweber_projects_nav() {
 			<!--/.row -->
 		</div>
 		<!-- /.container -->
+	</section>
+	<?php
+}
+
+/**
+ * Блок «Товары проекта» для single CPT Projects.
+ * Читает main_information_products (массив product ID), рендерит карточки.
+ */
+function codeweber_projects_related_products() {
+	if ( ! function_exists( 'wc_get_product' ) ) {
+		return;
+	}
+
+	$product_ids = get_post_meta( get_the_ID(), 'main_information_products', true );
+	if ( empty( $product_ids ) || ! is_array( $product_ids ) ) {
+		return;
+	}
+
+	$ids = array_filter( array_map( 'intval', $product_ids ) );
+	if ( empty( $ids ) ) {
+		return;
+	}
+
+	$products = wc_get_products( [
+		'include' => $ids,
+		'status'  => 'publish',
+		'limit'   => -1,
+		'orderby' => 'include',
+	] );
+
+	if ( empty( $products ) ) {
+		return;
+	}
+
+	$grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gy-6 gx-md-6';
+	$card_tpl    = get_theme_file_path( 'templates/woocommerce/cards/shop-card.php' );
+	$GLOBALS['cw_per_row'] = 3;
+
+	?>
+	<section class="wrapper bg-light">
+		<div class="container py-10 py-md-12">
+			<h2 class="display-6 mb-8"><?php esc_html_e( 'Товары проекта', 'codeweber' ); ?></h2>
+			<div class="row <?php echo esc_attr( $grid_gap ); ?>">
+				<?php foreach ( $products as $product ) :
+					global $product;
+					$cw_col = 'col-md-6 col-xl-4';
+					if ( file_exists( $card_tpl ) ) {
+						include $card_tpl;
+					}
+				endforeach;
+				wp_reset_postdata();
+				?>
+			</div>
+		</div>
 	</section>
 	<?php
 }
