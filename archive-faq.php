@@ -111,7 +111,7 @@ if (have_posts()) : ?>
                       ));
                       
                       if ($category_faqs->have_posts()) :
-                          $section_class = ($category_index === 1) ? 'wrapper' : 'wrapper pt-5';
+                          $section_class = ($category_index === 1) ? 'wrapper' : 'wrapper p-5';
                           $card_radius = Codeweber_Options::style('card-radius');
               ?>
                           <section id="<?php echo esc_attr($category_id); ?>" class="<?php echo esc_attr($section_class); ?>">
@@ -184,7 +184,7 @@ if (have_posts()) : ?>
                   if ($uncategorized_faqs->have_posts()) :
                       $card_radius = Codeweber_Options::style('card-radius');
               ?>
-                      <section id="faq-uncategorized" class="wrapper pt-5">
+                      <section id="faq-uncategorized" class="wrapper p-5">
                           <div class="card<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                               <div class="card-body p-10">
                                   <h2 class="h3 mb-6"><?php echo esc_html($category_index); ?>. <?php esc_html_e('Other Questions', 'codeweber'); ?></h2>
