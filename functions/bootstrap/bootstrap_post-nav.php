@@ -87,11 +87,11 @@ function codeweber_projects_map_modal() {
 		$permalink = get_permalink( $pid );
 		$title     = get_the_title( $pid );
 
-		$balloon_text = '<div style="font-weight:600;font-size:14px;margin-bottom:6px;">' . esc_html( $title ) . '</div>';
+		$balloon_text = '<div style="font-weight:600;font-size:inherit;margin-bottom:6px;font-family:inherit;color:inherit;letter-spacing:inherit;">' . esc_html( $title ) . '</div>';
 		if ( $addr ) {
-			$balloon_text .= '<div style="font-size:13px;color:#666;margin-bottom:8px;">' . esc_html( $addr ) . '</div>';
+			$balloon_text .= '<div style="font-size:13px;color:inherit;opacity:.65;margin-bottom:8px;font-family:inherit;">' . esc_html( $addr ) . '</div>';
 		}
-		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-weight:600;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
+		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-weight:600;font-family:inherit;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
 
 		if ( $img_url ) {
 			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;font-family:inherit;">'
