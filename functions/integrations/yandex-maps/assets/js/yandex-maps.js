@@ -582,17 +582,19 @@
                 if (city === '' || itemCity === city) {
                     item.style.display = 'block';
                     if (this.clusterer) {
+                        try { this.clusterer.remove(placemark); } catch(e) {}
                         this.clusterer.add(placemark);
                     } else {
+                        try { this.map.geoObjects.remove(placemark); } catch(e) {}
                         this.map.geoObjects.add(placemark);
                     }
                     visiblePlacemarks.push(placemark);
                 } else {
                     item.style.display = 'none';
                     if (this.clusterer) {
-                        this.clusterer.remove(placemark);
+                        try { this.clusterer.remove(placemark); } catch(e) {}
                     } else {
-                        this.map.geoObjects.remove(placemark);
+                        try { this.map.geoObjects.remove(placemark); } catch(e) {}
                     }
                 }
             });
@@ -652,14 +654,18 @@
                 return;
             }
 
-            const bounds = this.map.geoObjects.getBounds();
-            if (bounds) {
-                this.map.setBounds(bounds, {
-                    checkZoomRange: true,
-                    duration: 300,
-                    margin: [50, 50, 50, 50]
-                });
-            }
+            const allCoords = markers.map(p => p.geometry.getCoordinates());
+            const lats = allCoords.map(c => c[0]);
+            const lngs = allCoords.map(c => c[1]);
+            const bounds = [
+                [Math.min(...lats), Math.min(...lngs)],
+                [Math.max(...lats), Math.max(...lngs)]
+            ];
+            this.map.setBounds(bounds, {
+                checkZoomRange: true,
+                duration: 300,
+                margin: [50, 50, 50, 50]
+            });
         }
 
         /**

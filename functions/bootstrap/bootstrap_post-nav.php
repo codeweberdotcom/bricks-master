@@ -87,16 +87,16 @@ function codeweber_projects_map_modal() {
 		$permalink = get_permalink( $pid );
 		$title     = get_the_title( $pid );
 
-		$balloon_text = '<div style="font-size:14px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;font-family:var(--bs-body-font-family);color:inherit;">' . esc_html( $title ) . '</div>';
+		$balloon_text = '<div style="font-size:14px;font-weight:300;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;font-family:var(--bs-body-font-family);color:inherit;">' . esc_html( $title ) . '</div>';
 		if ( $addr ) {
-			$balloon_text .= '<div style="font-size:13px;color:inherit;opacity:.65;margin-bottom:8px;font-family:var(--bs-body-font-family);">' . esc_html( $addr ) . '</div>';
+			$balloon_text .= '<div style="font-size:13px;font-weight:300;color:inherit;opacity:.65;margin-bottom:8px;font-family:var(--bs-body-font-family);">' . esc_html( $addr ) . '</div>';
 		}
-		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-family:var(--bs-body-font-family);">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
+		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:12px;font-weight:300;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-family:var(--bs-body-font-family);">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a>';
 
 		$font = 'var(--bs-body-font-family)';
 		if ( $img_url ) {
 			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;font-family:' . $font . ';">'
-				. '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:100px;height:100px;object-fit:cover;flex-shrink:0;border-radius:4px;">'
+				. '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:120px;height:120px;object-fit:cover;flex-shrink:0;border-radius:4px;">'
 				. '<div>' . $balloon_text . '</div>'
 				. '</div>';
 		} else {
