@@ -57,7 +57,6 @@
       
       &.swiper-button-disabled {
         background: $swiper-arrow-bg-disabled;
-        opacity: 0.5;
         pointer-events: auto;
         cursor: default;
       }
@@ -106,6 +105,10 @@
 // Кнопки навигации появляются при наведении на контейнер
 .swiper-container:hover .swiper-controls .swiper-navigation .swiper-button {
   opacity: 1;
+
+  &.swiper-button-disabled {
+    opacity: 0.5;
+  }
 }
 
 .swiper-container {
