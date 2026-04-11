@@ -84,24 +84,30 @@ function codeweber_projects_map_modal() {
 		$img_id  = (int) get_post_meta( $pid, 'main_information_image', true );
 		$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'thumbnail' ) : '';
 
+		$permalink = get_permalink( $pid );
+		$title     = get_the_title( $pid );
+
 		$balloon = '';
-		if ( $addr ) {
-			$balloon .= '<div style="margin-bottom:6px;">' . esc_html( $addr ) . '</div>';
+		if ( $img_url ) {
+			$balloon .= '<div style="margin:-10px -10px 10px;"><img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:100%;height:120px;object-fit:cover;display:block;border-radius:4px 4px 0 0;"></div>';
 		}
-		$balloon .= '<div><a href="' . esc_url( get_permalink( $pid ) ) . '">' . esc_html__( 'Подробнее', 'codeweber' ) . '</a></div>';
+		if ( $addr ) {
+			$balloon .= '<div style="margin-bottom:8px;font-size:13px;color:#666;">' . esc_html( $addr ) . '</div>';
+		}
+		$balloon .= '<div><a href="' . esc_url( $permalink ) . '" style="font-size:13px;">' . esc_html__( 'Перейти к проекту', 'codeweber' ) . ' →</a></div>';
 
 		$markers[] = [
 			'id'                   => $pid,
-			'title'                => get_the_title( $pid ),
-			'link'                 => get_permalink( $pid ),
+			'title'                => $title,
+			'link'                 => $permalink,
 			'address'              => $addr,
 			'city'                 => $city,
 			'image'                => $img_url,
 			'latitude'             => floatval( $lat ),
 			'longitude'            => floatval( $lng ),
-			'balloonContentHeader' => '<strong style="color:#333;font-size:15px;">' . esc_html( get_the_title( $pid ) ) . '</strong>',
+			'balloonContentHeader' => '<strong style="color:#333;font-size:15px;">' . esc_html( $title ) . '</strong>',
 			'balloonContent'       => $balloon,
-			'hintContent'          => get_the_title( $pid ),
+			'hintContent'          => $title,
 		];
 	}
 
