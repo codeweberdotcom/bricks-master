@@ -130,6 +130,22 @@ function codeweber_projects_map_modal() {
 	);
 	$map_html = ob_get_clean();
 	?>
+	<style>
+	#projects-map-modal .modal-body {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		padding: 0;
+	}
+	#projects-map-modal .codeweber-yandex-map-wrapper {
+		flex: 1 1 auto;
+		min-height: 0;
+		position: relative;
+	}
+	#projects-map-modal .codeweber-yandex-map {
+		height: 100% !important;
+	}
+	</style>
 	<script>
 	document.addEventListener('click', function(e) {
 		var trigger = e.target.closest('[data-project-map]');
@@ -148,13 +164,17 @@ function codeweber_projects_map_modal() {
 		if (!inst) return;
 		if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
 		if (typeof inst.fitBounds === 'function') inst.fitBounds();
+		if (inst.map) {
+			inst.map.options.set('minZoom', 8);
+			inst.map.options.set('maxZoom', 17);
+		}
 	});
 	</script>
 
 	<div class="modal fade" id="projects-map-modal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-fullscreen">
 			<div class="modal-content">
-				<div class="modal-body p-0 position-relative">
+				<div class="modal-body">
 					<button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
 					<?php echo $map_html; ?>
 				</div>
