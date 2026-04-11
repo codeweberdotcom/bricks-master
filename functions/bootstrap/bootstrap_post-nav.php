@@ -36,38 +36,42 @@ function codeweber_posts_nav()
 
 /**
  * Навигация для single CPT Projects.
- * Тип выбирается в Redux: text (ссылки) или buttons (кнопки + Share).
+ * Share всегда присутствует.
+ * Redux projects_nav_type управляет только стилем вперёд/назад: text (ссылки) или buttons (кнопки с иконками).
  */
 function codeweber_projects_nav() {
-	$nav_type = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'projects_nav_type', 'text' ) : 'text';
-
-	if ( $nav_type !== 'buttons' ) {
-		codeweber_posts_nav();
-		return;
-	}
-
 	$prev_post = get_adjacent_post( false, '', true );
 	$next_post = get_adjacent_post( false, '', false );
 
-	if ( ! $prev_post && ! $next_post ) {
-		return;
-	}
-
+	$nav_type  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::get( 'projects_nav_type', 'text' ) : 'text';
 	$btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 	?>
-	<section class="wrapper bg-light">
+	<section class="wrapper">
 		<div class="container py-10">
 			<div class="row gx-md-6 gy-3 gy-md-0">
 				<div class="col-md-8 align-self-center text-center text-md-start navigation">
-					<?php if ( $prev_post ) : ?>
-					<a href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>" class="btn btn-soft-ash<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start mb-0 me-1">
-						<i class="uil uil-arrow-left"></i> <?php esc_html_e( 'Prev', 'codeweber' ); ?>
-					</a>
-					<?php endif; ?>
-					<?php if ( $next_post ) : ?>
-					<a href="<?php echo esc_url( get_permalink( $next_post->ID ) ); ?>" class="btn btn-soft-ash<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-end mb-0">
-						<?php esc_html_e( 'Next', 'codeweber' ); ?> <i class="uil uil-arrow-right"></i>
-					</a>
+					<?php if ( $nav_type === 'buttons' ) : ?>
+						<?php if ( $prev_post ) : ?>
+						<a href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>" class="btn btn-soft-ash<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start mb-0 me-1">
+							<i class="uil uil-arrow-left"></i> <?php esc_html_e( 'Prev', 'codeweber' ); ?>
+						</a>
+						<?php endif; ?>
+						<?php if ( $next_post ) : ?>
+						<a href="<?php echo esc_url( get_permalink( $next_post->ID ) ); ?>" class="btn btn-soft-ash<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-end mb-0">
+							<?php esc_html_e( 'Next', 'codeweber' ); ?> <i class="uil uil-arrow-right"></i>
+						</a>
+						<?php endif; ?>
+					<?php else : ?>
+						<?php if ( $prev_post ) : ?>
+						<a href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>" class="hover more-left me-4 mb-5">
+							<?php esc_html_e( 'Previous', 'codeweber' ); ?>
+						</a>
+						<?php endif; ?>
+						<?php if ( $next_post ) : ?>
+						<a href="<?php echo esc_url( get_permalink( $next_post->ID ) ); ?>" class="hover more ms-auto mb-5">
+							<?php esc_html_e( 'Next', 'codeweber' ); ?>
+						</a>
+						<?php endif; ?>
 					<?php endif; ?>
 				</div>
 				<!--/column -->

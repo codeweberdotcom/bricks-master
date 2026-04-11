@@ -362,11 +362,11 @@ Redux::set_section(
 			array(
 				'id'      => 'projects_nav_type',
 				'type'    => 'button_set',
-				'title'   => esc_html__( 'Projects Navigation Type', 'codeweber' ),
-				'subtitle' => esc_html__( 'Style of prev/next navigation on single project page', 'codeweber' ),
+				'title'   => esc_html__( 'Projects Prev/Next Style', 'codeweber' ),
+				'subtitle' => esc_html__( 'Style of prev/next links on single project page. Share button is always shown.', 'codeweber' ),
 				'options' => array(
 					'text'    => esc_html__( 'Text Links', 'codeweber' ),
-					'buttons' => esc_html__( 'Buttons + Share', 'codeweber' ),
+					'buttons' => esc_html__( 'Buttons', 'codeweber' ),
 				),
 				'default' => 'text',
 			),
