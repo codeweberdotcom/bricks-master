@@ -25,7 +25,7 @@ if (have_posts()) : ?>
       $has_template = !empty($templateloop) && locate_template($template_file);
       ?>
       
-      <div class="row gx-lg-8 gx-xl-12">
+      <div class="row gy-0 gx-6">
           <?php get_sidebar('left'); ?>
           
           <div class="<?php echo esc_attr($content_class); ?>">
