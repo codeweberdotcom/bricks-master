@@ -57,6 +57,7 @@
       
       &.swiper-button-disabled {
         background: $swiper-arrow-bg-disabled;
+        opacity: 0.5;
         pointer-events: auto;
         cursor: default;
       }
