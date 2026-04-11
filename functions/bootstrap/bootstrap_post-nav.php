@@ -52,12 +52,12 @@ function codeweber_projects_nav() {
 				<div class="col-md-8 align-self-center text-center text-md-start navigation">
 					<?php if ( $nav_type === 'buttons' ) : ?>
 						<?php if ( $prev_post ) : ?>
-						<a href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>" class="btn btn-sm btn-soft-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start mb-0 me-1">
+						<a href="<?php echo esc_url( get_permalink( $prev_post->ID ) ); ?>" class="btn btn-sm btn-soft-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple mb-0 me-1">
 							<i class="uil uil-arrow-left"></i> <?php esc_html_e( 'Prev', 'codeweber' ); ?>
 						</a>
 						<?php endif; ?>
 						<?php if ( $next_post ) : ?>
-						<a href="<?php echo esc_url( get_permalink( $next_post->ID ) ); ?>" class="btn btn-sm btn-soft-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-end mb-0">
+						<a href="<?php echo esc_url( get_permalink( $next_post->ID ) ); ?>" class="btn btn-sm btn-soft-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-end has-ripple mb-0">
 							<?php esc_html_e( 'Next', 'codeweber' ); ?> <i class="uil uil-arrow-right"></i>
 						</a>
 						<?php endif; ?>
