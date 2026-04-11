@@ -157,7 +157,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 								<a href="<?php echo esc_url( $slide_full ?: $slide_url ); ?>"
 								   data-glightbox
 								   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
-									<?php echo wp_get_attachment_image( $slide_id, 'codeweber_extralarge', false, [ 'class' => 'w-100' ] ); ?>
+									<?php echo wp_get_attachment_image( $slide_id, 'codeweber_project_1600-900', false, [ 'class' => 'w-100' ] ); ?>
 								</a>
 							</div>
 							<?php endforeach; ?>
