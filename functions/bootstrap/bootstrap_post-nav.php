@@ -127,7 +127,7 @@ function codeweber_projects_map_modal() {
 			'sidebar_position'         => 'left',
 			'sidebar_title'            => __( 'Проекты', 'codeweber' ),
 			'sidebar_fields'           => [
-				'showAddress'      => true,
+				'showAddress'      => false,
 				'showCity'         => true,
 				'showPhone'        => false,
 				'showWorkingHours' => false,
