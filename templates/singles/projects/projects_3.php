@@ -1,14 +1,12 @@
 <?php
 /**
- * Template: Single Projects — Slider (projects_2)
+ * Template: Single Projects — Full-width Gallery (projects_3)
  *
  * Режим A (pageheader выключен в Redux):
- *   — выводит шапку bg-soft-primary (категория, заголовок, short_description)
- *   — article.mt-n21, container.pb-14.pb-md-16
+ *   — выводит шапку с featured image как фоном (bg-image bg-overlay)
  *
  * Режим B (pageheader включён в Redux):
  *   — get_pageheader()
- *   — без шапки, без mt-n21, container использует get_content_padding_classes()
  *
  * @package Codeweber
  */
@@ -72,6 +70,11 @@ foreach ( $gallery_ids as $gid ) {
 	}
 }
 
+// ── Featured image для фона шапки ─────────────────────────────────────────────
+$bg_img_url = $thumbnail_id
+	? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_project_2560-1440' )
+	: '';
+
 // ── Выполненные работы ────────────────────────────────────────────────────────
 $works_title = get_post_meta( $product_id, 'main_information_title_works', true );
 $works_count = (int) get_post_meta( $product_id, 'main_information_works', true );
@@ -97,28 +100,24 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 	<?php /* ── Режим B: pageheader включён ─────────────────────────────── */ ?>
 	<?php get_pageheader(); ?>
 
-	<section class="wrapper wrapper-border">
-		<div class="container <?php echo esc_attr( get_content_padding_classes() ); ?>">
-			<article>
-
 <?php else : ?>
 
-	<?php /* ── Режим A: pageheader выключен — показываем шапку ────────── */ ?>
-	<section class="wrapper text-reset bg-soft-primary">
-		<div class="container pt-10 pb-19 pt-md-14 pb-md-22 text-center">
+	<?php /* ── Режим A: шапка с featured image как фоном ──────────────── */ ?>
+	<section class="wrapper image-wrapper bg-image bg-overlay text-white"<?php if ( $bg_img_url ) : ?> data-image-src="<?php echo esc_url( $bg_img_url ); ?>"<?php endif; ?>>
+		<div class="container pt-17 pb-12 pt-md-19 pb-md-16 text-center">
 			<div class="row">
 				<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
 					<div class="post-header">
 
 						<?php if ( $category_name ) : ?>
-						<div class="post-category text-line mb-3">
-							<a href="<?php echo esc_url( $category_link ); ?>" class="hover" rel="category">
+						<div class="post-category text-line text-white mb-3">
+							<a href="<?php echo esc_url( $category_link ); ?>" class="text-reset" rel="category">
 								<?php echo esc_html( $category_name ); ?>
 							</a>
 						</div>
 						<?php endif; ?>
 
-						<h1 class="display-1 mb-3"><?php the_title(); ?></h1>
+						<h1 class="display-1 mb-3 text-white"><?php the_title(); ?></h1>
 
 						<?php if ( $short_description ) : ?>
 						<p class="lead px-md-12 px-lg-12 px-xl-15 px-xxl-18">
@@ -132,45 +131,15 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 		</div>
 	</section>
 
-	<section class="wrapper wrapper-border">
-		<div class="container pb-14 pb-md-16">
-			<article class="mt-n21">
-
 <?php endif; ?>
 
-			<?php /* Swiper-слайдер */ ?>
-			<?php if ( ! empty( $slide_ids ) ) : ?>
-			<div class="post-slider mb-8 mb-md-12">
-				<div class="swiper-container dots-over <?php echo esc_attr( $card_radius ); ?>"
-				     data-margin="5"
-				     data-dots="true"
-				     data-nav="true"
-				     data-autoheight="true">
-					<div class="swiper">
-						<div class="swiper-wrapper">
-							<?php foreach ( $slide_ids as $slide_id ) :
-								$slide_url  = wp_get_attachment_image_url( $slide_id, 'codeweber_project_1600-900' );
-								$slide_full = wp_get_attachment_image_url( $slide_id, 'codeweber_project_2560-1440' );
-								if ( ! $slide_url ) continue;
-							?>
-							<div class="swiper-slide <?php echo esc_attr( $card_radius ); ?>">
-								<a href="<?php echo esc_url( $slide_full ?: $slide_url ); ?>"
-								   data-glightbox
-								   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
-									<?php echo wp_get_attachment_image( $slide_id, 'codeweber_project_1600-900', false, [ 'class' => 'w-100' ] ); ?>
-								</a>
-							</div>
-							<?php endforeach; ?>
-						</div>
-					</div>
-				</div>
-			</div>
-			<?php endif; ?>
+<section class="wrapper bg-light wrapper-border">
+	<div class="container pt-14 pt-md-16 pb-13 pb-md-15">
+		<div class="row">
+			<div class="col-lg-10 offset-lg-1">
 
-			<?php /* Описание + выполненные работы + метаполя */ ?>
-			<?php if ( $title_description || $works_title || $description || ! empty( $works_items ) || ! empty( $meta_items ) || $link ) : ?>
-			<div class="row">
-				<div class="col-lg-10 offset-lg-1">
+				<?php if ( $title_description || $works_title || $description || ! empty( $works_items ) || ! empty( $meta_items ) || $link ) : ?>
+				<article>
 
 					<?php $section_title = $title_description ?: $works_title; ?>
 					<?php if ( $section_title ) : ?>
@@ -216,12 +185,46 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 						<?php endif; ?>
 
 					</div>
+				</article>
+				<?php endif; ?>
+
+			</div>
+		</div>
+	</div>
+
+	<?php /* Галерея — container-fluid, мультиколоночный слайдер */ ?>
+	<?php if ( ! empty( $slide_ids ) ) : ?>
+	<div class="container-fluid px-md-6">
+		<div class="swiper-container blog grid-view mb-17 mb-md-19"
+		     data-margin="30"
+		     data-nav="true"
+		     data-dots="true"
+		     data-items-xxl="3"
+		     data-items-md="2"
+		     data-items-xs="1">
+			<div class="swiper">
+				<div class="swiper-wrapper">
+					<?php foreach ( $slide_ids as $slide_id ) :
+						$slide_url  = wp_get_attachment_image_url( $slide_id, 'codeweber_project_1600-900' );
+						$slide_full = wp_get_attachment_image_url( $slide_id, 'codeweber_project_2560-1440' );
+						if ( ! $slide_url ) continue;
+					?>
+					<div class="swiper-slide">
+						<figure class="<?php echo esc_attr( $card_radius ); ?>">
+							<a href="<?php echo esc_url( $slide_full ?: $slide_url ); ?>"
+							   data-glightbox
+							   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
+								<?php echo wp_get_attachment_image( $slide_id, 'codeweber_project_1600-900', false, [ 'class' => 'w-100' ] ); ?>
+							</a>
+						</figure>
+					</div>
+					<?php endforeach; ?>
 				</div>
 			</div>
-			<?php endif; ?>
-
-		</article>
+		</div>
 	</div>
+	<?php endif; ?>
+
 </section>
 
 <?php /* ── Навигация ──────────────────────────────────────────────────────── */ ?>

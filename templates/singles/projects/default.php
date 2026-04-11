@@ -76,7 +76,7 @@ for ( $i = 0; $i < $works_count; $i++ ) {
 
 // ── Featured image ────────────────────────────────────────────────────────────
 $thumbnail_id  = get_post_thumbnail_id( $product_id );
-$main_img_full = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_extralarge' ) : '';
+$main_img_full = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_project_2560-1440' ) : '';
 
 // ── Метаполя для сайдбара ─────────────────────────────────────────────────────
 $meta_items = [];
@@ -204,7 +204,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 					<?php if ( ! empty( $gallery_ids ) ) : ?>
 					<div class="row mt-5 <?php echo esc_attr( $grid_gap ); ?>">
 						<?php foreach ( $gallery_ids as $img_id ) :
-							$full_url  = wp_get_attachment_image_url( $img_id, 'codeweber_extralarge' );
+							$full_url  = wp_get_attachment_image_url( $img_id, 'codeweber_project_2560-1440' );
 							$thumb_url = wp_get_attachment_image_url( $img_id, 'codeweber_project_900-900' );
 							if ( ! $thumb_url ) continue;
 						?>
