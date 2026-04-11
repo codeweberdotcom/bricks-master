@@ -199,6 +199,7 @@ function codeweber_projects_map_modal() {
 				inst.map.setCenter(placemark.geometry.getCoordinates(), 15, { duration: 400 }).then(function() {
 					placemark.balloon.open();
 				});
+				if (typeof inst.highlightSidebarItem === 'function') inst.highlightSidebarItem(currentId);
 			} else if (typeof inst.fitBounds === 'function') {
 				inst.fitBounds();
 			}
