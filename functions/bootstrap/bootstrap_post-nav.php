@@ -108,12 +108,21 @@ function codeweber_projects_map_modal() {
 		[
 			'map_id'                   => 'projects-all-map',
 			'zoom'                     => 10,
-			'height'                   => 500,
+			'height'                   => 600,
 			'width'                    => '100%',
-			'border_radius'            => $card_radius ? 8 : 0,
+			'border_radius'            => 0,
 			'search_control'           => false,
-			'show_sidebar'             => false,
-			'clusterer'                => true,
+			'show_sidebar'             => true,
+			'sidebar_position'         => 'left',
+			'sidebar_title'            => __( 'Проекты', 'codeweber' ),
+			'sidebar_fields'           => [
+				'showAddress'      => true,
+				'showCity'         => false,
+				'showPhone'        => false,
+				'showWorkingHours' => false,
+				'showDescription'  => false,
+			],
+			'clusterer'                => false,
 			'auto_fit_bounds'          => true,
 			'marker_auto_open_balloon' => false,
 		],
@@ -131,13 +140,22 @@ function codeweber_projects_map_modal() {
 			bootstrap.Modal.getOrCreateInstance(modalEl).show();
 		}
 	});
+	document.addEventListener('shown.bs.modal', function(e) {
+		if (e.target.id !== 'projects-map-modal') return;
+		var wrapper = e.target.querySelector('.codeweber-yandex-map-wrapper');
+		if (!wrapper) return;
+		var inst = wrapper._cwgbYandexMapInstance;
+		if (!inst) return;
+		if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
+		if (typeof inst.fitBounds === 'function') inst.fitBounds();
+	});
 	</script>
 
 	<div class="modal fade" id="projects-map-modal" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog modal-xl modal-dialog-centered">
-			<div class="modal-content<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+		<div class="modal-dialog modal-fullscreen">
+			<div class="modal-content">
 				<div class="modal-body p-0 position-relative">
-					<button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-1" data-bs-dismiss="modal" aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
+					<button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
 					<?php echo $map_html; ?>
 				</div>
 			</div>
