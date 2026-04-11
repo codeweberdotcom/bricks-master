@@ -152,15 +152,17 @@ function codeweber_projects_map_modal() {
 	$map_html = ob_get_clean();
 	?>
 	<style>
-	#projects-map-modal .modal-body {
+	#projects-map-offcanvas {
+		--bs-offcanvas-width: 66.667vw;
+	}
+	#projects-map-offcanvas .offcanvas-body {
 		padding: 0;
 		overflow: hidden;
 	}
-	#projects-map-modal .codeweber-yandex-map-wrapper {
-		height: 70vh;
-		position: relative;
+	#projects-map-offcanvas .codeweber-yandex-map-wrapper {
+		height: 100%;
 	}
-	#projects-map-modal .codeweber-yandex-map {
+	#projects-map-offcanvas .codeweber-yandex-map {
 		height: 100% !important;
 	}
 	</style>
@@ -169,13 +171,13 @@ function codeweber_projects_map_modal() {
 		var trigger = e.target.closest('[data-project-map]');
 		if (!trigger) return;
 		e.preventDefault();
-		var modalEl = document.getElementById('projects-map-modal');
-		if (modalEl && window.bootstrap) {
-			bootstrap.Modal.getOrCreateInstance(modalEl).show();
+		var el = document.getElementById('projects-map-offcanvas');
+		if (el && window.bootstrap) {
+			bootstrap.Offcanvas.getOrCreateInstance(el).show();
 		}
 	});
-	document.addEventListener('shown.bs.modal', function(e) {
-		if (e.target.id !== 'projects-map-modal') return;
+	document.addEventListener('shown.bs.offcanvas', function(e) {
+		if (e.target.id !== 'projects-map-offcanvas') return;
 		var wrapper = e.target.querySelector('.codeweber-yandex-map-wrapper');
 		if (!wrapper) return;
 		var inst = wrapper._cwgbYandexMapInstance;
@@ -199,13 +201,9 @@ function codeweber_projects_map_modal() {
 	});
 	</script>
 
-	<div class="modal fade" id="projects-map-modal" tabindex="-1" aria-hidden="true" data-current-project="<?php echo esc_attr( get_the_ID() ); ?>">
-		<div class="modal-dialog modal-xl modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-body position-relative">
-					<?php echo $map_html; ?>
-				</div>
-			</div>
+	<div class="offcanvas offcanvas-end" id="projects-map-offcanvas" tabindex="-1" aria-labelledby="projects-map-offcanvas-label" data-current-project="<?php echo esc_attr( get_the_ID() ); ?>">
+		<div class="offcanvas-body p-0">
+			<?php echo $map_html; ?>
 		</div>
 	</div>
 	<?php
