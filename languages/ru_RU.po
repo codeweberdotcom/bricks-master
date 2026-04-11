@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-04-11 20:20+0000\n"
+"PO-Revision-Date: 2026-04-11 20:28+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -17647,7 +17647,6 @@ msgstr "Показать ещё"
 #: templates/singles/projects/default.php:93
 #: templates/singles/projects/projects_2.php:98
 #: templates/singles/projects/projects_3.php:90
-#, fuzzy
 msgid "Показать на карте"
 msgstr "Show on map"
 
