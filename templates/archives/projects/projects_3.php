@@ -29,7 +29,7 @@ $projects_query = new WP_Query( [
 ] );
 ?>
 
-<section class="wrapper bg-light">
+<section class="wrapper">
 	<div class="container py-14 py-md-16">
 		<div class="grid grid-view projects-masonry">
 
