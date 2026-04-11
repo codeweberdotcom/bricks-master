@@ -416,6 +416,9 @@
             };
 
             let html = '';
+            if (marker.image) {
+                html += `<img src="${marker.image}" alt="${marker.title || ''}" style="width:100%;height:80px;object-fit:cover;display:block;margin-bottom:8px;border-radius:4px;">`;
+            }
             if (marker.title) {
                 html += `<div class="h6 mb-1 text-reset">${marker.title}</div>`;
             }

@@ -77,9 +77,11 @@ function codeweber_projects_map_modal() {
 	// Формируем маркеры
 	$markers = [];
 	foreach ( $projects as $pid ) {
-		$lat  = get_post_meta( $pid, 'main_information_latitude', true );
-		$lng  = get_post_meta( $pid, 'main_information_longitude', true );
-		$addr = get_post_meta( $pid, 'main_information_address', true );
+		$lat    = get_post_meta( $pid, 'main_information_latitude', true );
+		$lng    = get_post_meta( $pid, 'main_information_longitude', true );
+		$addr   = get_post_meta( $pid, 'main_information_address', true );
+		$img_id = (int) get_post_meta( $pid, 'main_information_image', true );
+		$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'thumbnail' ) : '';
 
 		$balloon = '';
 		if ( $addr ) {
@@ -92,6 +94,7 @@ function codeweber_projects_map_modal() {
 			'title'                => get_the_title( $pid ),
 			'link'                 => get_permalink( $pid ),
 			'address'              => $addr,
+			'image'                => $img_url,
 			'latitude'             => floatval( $lat ),
 			'longitude'            => floatval( $lng ),
 			'balloonContentHeader' => '<strong style="color:#333;font-size:15px;">' . esc_html( get_the_title( $pid ) ) . '</strong>',

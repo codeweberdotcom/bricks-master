@@ -77,6 +77,66 @@ function cw_project_main_information_render( WP_Post $post ): void {
 	}
 
 	echo '</table>';
+
+	// Поле загрузки изображения объекта
+	$img_id = (int) get_post_meta( $post->ID, 'main_information_image', true );
+	?>
+	<table class="form-table" style="margin:0;">
+		<tr>
+			<th scope="row" style="width:200px;">
+				<label><?php esc_html_e( 'Изображение объекта', 'codeweber' ); ?></label>
+			</th>
+			<td>
+				<div style="display:flex;align-items:flex-start;gap:12px;">
+					<div id="cw-project-image-preview" style="<?php echo $img_id ? '' : 'display:none;'; ?>">
+						<?php if ( $img_id ) : ?>
+							<?php echo wp_get_attachment_image( $img_id, [ 120, 80 ], false, [ 'style' => 'border-radius:4px;' ] ); ?>
+						<?php endif; ?>
+					</div>
+					<div>
+						<input type="hidden" id="main_information_image" name="main_information_image" value="<?php echo esc_attr( $img_id ?: '' ); ?>">
+						<button type="button" class="button" id="cw-project-image-upload">
+							<?php esc_html_e( 'Выбрать изображение', 'codeweber' ); ?>
+						</button>
+						<button type="button" class="button" id="cw-project-image-remove" style="<?php echo $img_id ? '' : 'display:none;'; ?>margin-left:4px;">
+							<?php esc_html_e( 'Удалить', 'codeweber' ); ?>
+						</button>
+					</div>
+				</div>
+				<script>
+				(function() {
+					var frame;
+					document.getElementById('cw-project-image-upload').addEventListener('click', function(e) {
+						e.preventDefault();
+						if (frame) { frame.open(); return; }
+						frame = wp.media({
+							title: '<?php echo esc_js( __( 'Выбрать изображение объекта', 'codeweber' ) ); ?>',
+							button: { text: '<?php echo esc_js( __( 'Использовать', 'codeweber' ) ); ?>' },
+							multiple: false,
+							library: { type: 'image' }
+						});
+						frame.on('select', function() {
+							var attachment = frame.state().get('selection').first().toJSON();
+							document.getElementById('main_information_image').value = attachment.id;
+							var preview = document.getElementById('cw-project-image-preview');
+							preview.innerHTML = '<img src="' + (attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url) + '" style="border-radius:4px;max-width:120px;max-height:80px;">';
+							preview.style.display = '';
+							document.getElementById('cw-project-image-remove').style.display = '';
+						});
+						frame.open();
+					});
+					document.getElementById('cw-project-image-remove').addEventListener('click', function() {
+						document.getElementById('main_information_image').value = '';
+						document.getElementById('cw-project-image-preview').style.display = 'none';
+						document.getElementById('cw-project-image-preview').innerHTML = '';
+						this.style.display = 'none';
+					});
+				})();
+				</script>
+			</td>
+		</tr>
+	</table>
+	<?php
 }
 
 // ── Сохранение ───────────────────────────────────────────────────────────────
@@ -104,6 +164,7 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		'main_information_date',
 		'main_information_link',
 		'main_information_cms',
+		'main_information_image',
 		'main_information_latitude',
 		'main_information_longitude',
 		'main_information_zoom',
