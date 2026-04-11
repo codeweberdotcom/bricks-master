@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-04-11 20:44+0000\n"
+"PO-Revision-Date: 2026-04-11 23:42+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -955,6 +955,10 @@ msgstr "Выравнивание"
 #: templates/archives/events/events_3.php:27
 #: templates/archives/events/events_4.php:28
 #: templates/archives/events/events_5.php:27
+#: templates/archives/projects/projects_1.php:39
+#: templates/archives/projects/projects_2.php:40
+#: templates/archives/projects/projects_3.php:51
+#: templates/archives/projects/projects_4.php:51
 #: templates/archives/staff/staff_1.php:78
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:278
 #: redux-framework/sample/sections/codeweber/body-bg.php:77
@@ -3652,7 +3656,7 @@ msgid "Database table:"
 msgstr "Таблица базы данных:"
 
 #: functions/cpt/cpt-faq.php:148 functions/events/event-registrations.php:117
-#: functions/fetch/filterPosts.php:376
+#: functions/fetch/filterPosts.php:380
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:42
 #: templates/archives/events/events_1.php:64
 #: templates/archives/events/events_2.php:40
@@ -4169,8 +4173,8 @@ msgstr "уничтожение"
 msgid "Detailed guide for creating and configuring email newsletter forms."
 msgstr "Подробное руководство по созданию и настройке форм email-рассылок."
 
-#: functions/sidebars.php:333 functions/fetch/filterPosts.php:445
-#: functions/fetch/filterPosts.php:653
+#: functions/sidebars.php:333 functions/fetch/filterPosts.php:449
+#: functions/fetch/filterPosts.php:657
 #: templates/archives/events/events_1.php:128
 #: templates/archives/events/events_2.php:104
 #: templates/archives/events/events_4.php:116
@@ -5206,7 +5210,7 @@ msgstr "Ошибка:"
 #: functions/cpt/cpt-events.php:25 functions/cpt/cpt-events.php:38
 #: functions/events/event-registrations.php:111
 #: functions/events/event-registrations.php:322
-#: functions/fetch/filterPosts.php:377
+#: functions/fetch/filterPosts.php:381
 #: templates/archives/events/events_1.php:65
 #: templates/archives/events/events_2.php:41
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1120
@@ -6264,7 +6268,7 @@ msgstr "Тип формы"
 msgid "Form:"
 msgstr "Форма:"
 
-#: functions/fetch/filterPosts.php:379
+#: functions/fetch/filterPosts.php:383
 #: templates/archives/events/events_1.php:67
 #: templates/archives/events/events_2.php:43
 msgid "Format"
@@ -8159,7 +8163,7 @@ msgstr "Тип загрузчика"
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: functions/cpt/cpt-vacancies.php:322 functions/fetch/filterPosts.php:378
+#: functions/cpt/cpt-vacancies.php:322 functions/fetch/filterPosts.php:382
 #: templates/archives/events/events_1.php:66
 #: templates/archives/events/events_2.php:42
 #: templates/archives/vacancies/vacancies_1.php:96
@@ -8336,6 +8340,14 @@ msgid ""
 msgstr ""
 "Карта скрыта на фронтенде. Включите «Показывать карту на фронтенде», чтобы "
 "отобразить ее посетителям."
+
+#: templates/archives/projects/projects_1.php:33
+#: templates/archives/projects/projects_2.php:34
+#: templates/archives/projects/projects_3.php:45
+#: templates/archives/projects/projects_4.php:45
+#, fuzzy
+msgid "Map of objects"
+msgstr "Карта объектов"
 
 #: functions/woocommerce/states-ru.php:52
 msgid "Mari El"
@@ -9034,10 +9046,10 @@ msgstr "Подписка на рассылку новостей: персона�
 msgid "Newsletter Subscriptions"
 msgstr "Подписки на рассылку"
 
-#: functions/global.php:411 functions/global.php:415
+#: functions/global.php:414 functions/global.php:418
 #: functions/bootstrap/bootstrap_post-nav.php:30
-#: functions/bootstrap/bootstrap_post-nav.php:241
-#: functions/bootstrap/bootstrap_post-nav.php:252
+#: functions/bootstrap/bootstrap_post-nav.php:242
+#: functions/bootstrap/bootstrap_post-nav.php:253
 #: woocommerce/loop/pagination.php:94
 msgid "Next"
 msgstr "Следующий"
@@ -9219,8 +9231,8 @@ msgstr "Мероприятия не найдены"
 msgid "No events found in trash"
 msgstr "Мероприятия не найдены в корзине"
 
-#: functions/fetch/filterPosts.php:369 functions/fetch/filterPosts.php:456
-#: functions/fetch/filterPosts.php:556
+#: functions/fetch/filterPosts.php:373 functions/fetch/filterPosts.php:460
+#: functions/fetch/filterPosts.php:560
 #: templates/archives/events/events_1.php:140
 #: templates/archives/events/events_2.php:116
 #: templates/archives/events/events_3.php:128
@@ -9338,7 +9350,7 @@ msgstr "Не найдено Хедера в корзине"
 msgid "No Html Blocks found"
 msgstr "Блоки HTML не найдены."
 
-#: functions/fetch/filterPosts.php:66
+#: functions/fetch/filterPosts.php:70
 #, fuzzy
 msgid "No items found."
 msgstr "Ничего не найдено."
@@ -9450,6 +9462,14 @@ msgstr "В корзине не найдено ни одного Тарифног
 msgid "No product data found."
 msgstr "Данные о товарах не найдены."
 
+#: templates/archives/projects/projects_1.php:82
+#: templates/archives/projects/projects_2.php:83
+#: templates/archives/projects/projects_3.php:99
+#: templates/archives/projects/projects_4.php:99
+#, fuzzy
+msgid "No projects found."
+msgstr "Проекты не найдены."
+
 #: functions/integrations/personal-data-v2/test-providers.php:100
 #, fuzzy
 msgid "No providers registered!"
@@ -9536,7 +9556,7 @@ msgstr "Вакансии не найдены"
 msgid "No Vacancies found in trash"
 msgstr "Вакансий в корзине не найдено"
 
-#: archive-vacancies.php:95 functions/fetch/filterPosts.php:363
+#: archive-vacancies.php:95 functions/fetch/filterPosts.php:367
 #: templates/archives/vacancies/vacancies_1.php:138
 #, fuzzy
 msgid "No vacancies found."
@@ -9981,7 +10001,7 @@ msgstr "Другие документы"
 msgid "Other Questions"
 msgstr "Другие вопросы"
 
-#: functions/fetch/filterPosts.php:347
+#: functions/fetch/filterPosts.php:351
 #: templates/archives/vacancies/vacancies_1.php:122
 #, fuzzy
 msgid "Other Vacancies"
@@ -10862,19 +10882,19 @@ msgstr "Записи, страницы, CPT"
 msgid "Presets"
 msgstr "Пресеты"
 
-#: functions/bootstrap/bootstrap_post-nav.php:236
+#: functions/bootstrap/bootstrap_post-nav.php:237
 msgid "Prev"
 msgstr "Предыдущий"
 
-#: functions/global.php:358 functions/global.php:362
+#: functions/global.php:361 functions/global.php:365
 #: functions/bootstrap/bootstrap_post-nav.php:22
-#: functions/bootstrap/bootstrap_post-nav.php:247
+#: functions/bootstrap/bootstrap_post-nav.php:248
 #: woocommerce/loop/pagination.php:70
 msgid "Previous"
 msgstr "Предыдущий"
 
 #: woocommerce/content-compare-table.php:65 functions/cpt/cpt-events.php:294
-#: functions/fetch/filterPosts.php:380
+#: functions/fetch/filterPosts.php:384
 #: templates/archives/events/events_1.php:68
 #: templates/archives/events/events_2.php:44
 #: redux-framework/sample/sections/codeweber/woocommerce.php:91
@@ -11077,7 +11097,7 @@ msgstr "Категория проекта"
 msgid "Project Gallery"
 msgstr "Галерея проектов"
 
-#: functions/bootstrap/bootstrap_post-nav.php:307
+#: functions/bootstrap/bootstrap_post-nav.php:308
 #, fuzzy
 msgid "Project products"
 msgstr "Продукты проекта"
@@ -11113,7 +11133,7 @@ msgid "Projects Prev/Next Style"
 msgstr "Стиль \"Предыдущий/Следующий\" для проектов"
 
 #: functions/admin/projects-settings.php:22
-#: functions/admin/projects-settings.php:103
+#: functions/admin/projects-settings.php:106
 #, fuzzy
 msgid "Projects Settings"
 msgstr "Настройки проектов"
@@ -11364,7 +11384,7 @@ msgstr "Распределение оценок"
 msgid "Read"
 msgstr "Читать"
 
-#: functions/fetch/filterPosts.php:644 templates/content/loop-legal.php:20
+#: functions/fetch/filterPosts.php:648 templates/content/loop-legal.php:20
 #: templates/content/loop.php:20 templates/archives/events/events_4.php:73
 #: templates/archives/legal/legal_1.php:16
 #: templates/post-cards/post/card-content.php:64
