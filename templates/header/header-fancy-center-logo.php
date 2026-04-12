@@ -173,7 +173,7 @@ if ($config['navbar-transparent'] === true) {
                             ?>
                             </div>
                             <?php
-                            $_fcl_theme = isset( $config['navbar-color'] ) && $config['navbar-color'] === 'dark' ? 'navbar-dark' : 'navbar-light';
+                            $_fcl_theme = Redux::get_option( $opt_name, 'mobile-menu-background' ) === '2' ? 'navbar-dark' : 'navbar-light';
                             wp_nav_menu(
                                 array(
                                     'theme_location'  => $config['mainMenuName'],
