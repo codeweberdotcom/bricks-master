@@ -387,7 +387,7 @@
             closeBtn.className = 'codeweber-map-sidebar-close d-md-none btn btn-link btn-sm p-0 text-secondary';
             closeBtn.innerHTML = '<i class="uil uil-times"></i>';
             closeBtn.addEventListener('click', () => {
-                sidebar.classList.remove('d-block');
+                sidebar.classList.add('d-none');
             });
             sidebar.appendChild(closeBtn);
 
@@ -396,7 +396,7 @@
             toggleBtn.className = 'codeweber-map-sidebar-toggle btn-icon btn-icon-start btn btn-sm btn-primary d-md-none';
             toggleBtn.innerHTML = `<i class="uil uil-list-ul"></i> ${this.config.sidebar.title || codeweberYandexMaps.i18n.offices}`;
             toggleBtn.addEventListener('click', () => {
-                sidebar.classList.add('d-block');
+                sidebar.classList.remove('d-none');
             });
 
             mapElement.parentElement.appendChild(sidebar);
@@ -479,7 +479,7 @@
             // Закрываем сайдбар на мобильных
             if (window.innerWidth < 768 && this.sidebar) {
                 setTimeout(() => {
-                    this.sidebar.classList.remove('d-block');
+                    this.sidebar.classList.add('d-none');
                 }, 500);
             }
         }
