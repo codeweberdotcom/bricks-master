@@ -132,6 +132,7 @@
         .nav-item.parent-link {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           .dropdown-toggle {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
