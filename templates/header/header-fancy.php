@@ -177,6 +177,7 @@ if ($config['navbar-transparent'] === true) {
                         <button type="button" class="btn-close btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body ms-lg-auto d-flex flex-column h-100">
+                        <div class="d-none d-lg-flex align-items-center">
                         <?php
                         wp_nav_menu(
                             array(
@@ -190,6 +191,24 @@ if ($config['navbar-transparent'] === true) {
                                 'walker'            => new WP_Bootstrap_Navwalker(),
                             )
                         )
+                        ?>
+                        </div>
+                        <?php
+                        $_collapse_nav_id = 'offcanvas-collapse-nav';
+                        $_collapse_theme  = isset( $config['navbar-color'] ) && $config['navbar-color'] === 'dark' ? 'navbar-dark' : 'navbar-light';
+                        wp_nav_menu(
+                            array(
+                                'theme_location'  => $config['mainMenuName'],
+                                'depth'           => 4,
+                                'container'       => 'nav',
+                                'container_class' => 'menu-collapse-nav d-lg-none ' . $_collapse_theme,
+                                'container_id'    => $_collapse_nav_id,
+                                'menu_class'      => 'navbar-nav',
+                                'walker'          => new CodeWeber_Menu_Collapse_Walker(),
+                                'wrapper_id'      => $_collapse_nav_id,
+                                'instance_suffix' => 'offcanvas',
+                            )
+                        );
                         ?>
 
                         <?php if (is_active_sidebar('mobile-menu-footer')) { ?>

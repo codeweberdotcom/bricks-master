@@ -152,6 +152,7 @@ if ($config['navbar-transparent'] === true) {
                             <button type="button" class="btn-close d-lg-none <?= $config['btn-close-mobile']; ?>" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="w-100 order-1 order-lg-0 d-lg-flex offcanvas-body">
+                            <div class="d-none d-lg-flex align-items-center w-100">
                             <?php
                             wp_nav_menu(
                                 array(
@@ -166,9 +167,27 @@ if ($config['navbar-transparent'] === true) {
                                 )
                             )
                             ?>
+                            </div>
+                            <?php
+                            $_cl_theme = isset( $config['navbar-color'] ) && $config['navbar-color'] === 'dark' ? 'navbar-dark' : 'navbar-light';
+                            wp_nav_menu(
+                                array(
+                                    'theme_location'  => $config['mainMenuName'],
+                                    'depth'           => 4,
+                                    'container'       => 'nav',
+                                    'container_class' => 'menu-collapse-nav d-lg-none ' . $_cl_theme,
+                                    'container_id'    => 'offcanvas-collapse-nav-left',
+                                    'menu_class'      => 'navbar-nav',
+                                    'walker'          => new CodeWeber_Menu_Collapse_Walker(),
+                                    'wrapper_id'      => 'offcanvas-collapse-nav-left',
+                                    'instance_suffix' => 'offcanvas-left',
+                                )
+                            );
+                            ?>
                             <!-- /.navbar-nav -->
                         </div>
                         <div class="w-100 order-3 order-lg-2 d-lg-flex offcanvas-body">
+                            <div class="d-none d-lg-flex align-items-center w-100">
                             <?php
                             wp_nav_menu(
                                 array(
@@ -182,6 +201,22 @@ if ($config['navbar-transparent'] === true) {
                                     'walker'            => new WP_Bootstrap_Navwalker(),
                                 )
                             )
+                            ?>
+                            </div>
+                            <?php
+                            wp_nav_menu(
+                                array(
+                                    'theme_location'  => $config['mainMenuName1'],
+                                    'depth'           => 4,
+                                    'container'       => 'nav',
+                                    'container_class' => 'menu-collapse-nav d-lg-none ' . $_cl_theme,
+                                    'container_id'    => 'offcanvas-collapse-nav-right',
+                                    'menu_class'      => 'navbar-nav',
+                                    'walker'          => new CodeWeber_Menu_Collapse_Walker(),
+                                    'wrapper_id'      => 'offcanvas-collapse-nav-right',
+                                    'instance_suffix' => 'offcanvas-right',
+                                )
+                            );
                             ?>
                             <!-- /.navbar-nav -->
                         </div>
