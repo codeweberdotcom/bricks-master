@@ -625,6 +625,13 @@ For each registered CPT, Redux creates options:
 // Sidebar position on archive pages
 // Default: 'right'
 
+'sidebar_breakpoint_{post_type}' => 'always' | 'sm' | 'md' | 'lg' | 'xl'
+// Minimum screen width at which sidebar becomes visible
+// 'always' = visible on all screens (no d-none, no sticky-sidebar, Bootstrap order classes)
+// Default: 'xl'
+// Redux: Sidebar Settings → tab Breakpoint
+// Helper: get_sidebar_breakpoint($opt_name) in functions/sidebars.php
+
 // Header/Footer per-post-type (see Header/Footer sections above)
 'single_header_select_{post_type}' => '...'
 'archive_header_select_{post_type}' => '...'
@@ -650,6 +657,68 @@ For `testimonials` CPT:
 'archive_template_select_testimonials' => 'testimonials_2'
 'custom_title_testimonials' => 'Client Reviews'
 'custom_subtitle_testimonials' => 'What our clients say'
+```
+
+---
+
+## Theme Style — Subsections
+
+**Section ID:** `themestyle`
+**File:** `redux-framework/sample/sections/codeweber/style.php`
+
+### Grid Gutters (`theme-grid-gutters`)
+
+Глобальные отступы Bootstrap-сетки и вертикальные отступы контента/сайдбара.
+
+```php
+'content_padding_mobile' => 'py-4' | 'py-6' | 'py-8' | 'py-10' | 'py-12' | 'py-14'
+// Вертикальный отступ контента и сайдбара на мобильных (ниже md)
+// Default: 'py-10'
+
+'content_padding_desktop' => 'py-8' | 'py-10' | 'py-12' | 'py-14' | 'py-16' | 'py-20'
+// Вертикальный отступ контента и сайдбара на десктопе (md и выше)
+// Default: 'py-14'
+```
+
+Хелпер: `get_content_padding_classes(): string` в `functions/sidebars.php` — возвращает строку вида `"py-10 py-md-14"`.
+
+Применяется в: `single.php`, `archive-faq.php`, `archive-offices.php`, `archive-staff.php`, `archive-vacancies.php`, `sidebar-left.php`, `sidebar-right.php`.
+
+### Phone Mask (`theme-phone-mask`)
+
+```php
+'opt_phone_mask' => '+7 (___) ___-__-__'
+// Маска для телефонных полей во встроенных формах
+// _ = позиция для цифры
+```
+
+### Page Loader (`theme-page-loader`)
+
+```php
+'page-loader' => true | false
+// Default: false
+
+'page-loader-type' => 'default' | 'logo-light' | 'logo-dark' | 'custom'
+// Тип лоадера
+// Default: 'default'
+
+'page-loader-custom-logo' => [...] // media (SVG)
+// Только при page-loader-type = 'custom'
+
+'page-loader-custom-class' => ''
+// Кастомный CSS-класс; если заполнен — цвет фона не применяется
+
+'page-loader-bg' => 'white' | ... // из colors.json
+// Цвет фона лоадера
+// Default: 'white'
+```
+
+### Sidebar Widgets (`theme-sidebar-widgets`)
+
+```php
+'widget_heading_size' => 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'display-1' ... 'display-6'
+// CSS-класс заголовков внутри виджетов сайдбара (вакансии, события, FAQ, карты)
+// Default: 'h3'
 ```
 
 ---

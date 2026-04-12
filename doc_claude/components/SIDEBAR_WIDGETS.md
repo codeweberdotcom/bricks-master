@@ -135,16 +135,62 @@ function horizons_sidebar_widget_partners( $sidebar_id ) {
 
 ---
 
-## Позиция сайдбара (Redux)
+## Позиция и видимость сайдбара (Redux)
 
-Позиция управляется через Redux:
+### Позиция
 
-- **Single:** `sidebar_position_single_{post_type}` (left / none / right, default: right)
-- **Archive:** `sidebar_position_archive_{post_type}` (left / none / right, default: right)
+Управляется через Redux → CPT → **Sidebar Settings** → таб **Single** / **Archive**:
+
+- `sidebar_position_single_{post_type}` — left / none / right (default: right)
+- `sidebar_position_archive_{post_type}` — left / none / right (default: right)
 
 Per-post override через метаполя: `custom-page-sidebar-type` + `custom-page-sidebar-position`.
 
 Функция: `get_sidebar_position($opt_name)` в `functions/sidebars.php`.
+
+---
+
+### Breakpoint (с какого экрана виден сайдбар)
+
+Redux → CPT → **Sidebar Settings** → таб **Breakpoint**:
+
+- `sidebar_breakpoint_{post_type}` — always / sm / md / lg / xl (default: xl)
+
+Функция: `get_sidebar_breakpoint($opt_name): string` в `functions/sidebars.php`.
+
+| Значение | Поведение |
+| -------- | --------- |
+| `always` | Виден всегда, `col-12 col-md-4`, без sticky, порядок через Bootstrap order |
+| `sm` | Скрыт до 576px: `col-12 col-sm-4 d-none d-sm-block sticky-sidebar` |
+| `md` | Скрыт до 768px: `col-12 col-md-4 d-none d-md-block sticky-sidebar` |
+| `lg` | Скрыт до 992px: `col-12 col-lg-4 d-none d-lg-block sticky-sidebar` |
+| `xl` | Скрыт до 1200px: `col-12 col-xl-4 d-none d-xl-block sticky-sidebar` (по умолчанию) |
+
+**Режим `always`:**
+
+- `sticky-sidebar` не добавляется
+- Правый сайдбар: `order-first order-md-last` (на мобильном — над контентом)
+- Левый сайдбар: натуральный HTML-порядок (первый в DOM = первый на экране)
+
+Шаблоны: `sidebar-right.php`, `sidebar-left.php`.
+
+---
+
+### Глобальные отступы контента и сайдбара
+
+Redux → **Theme Style → Grid Gutters**:
+
+- `content_padding_mobile` — py-4 / py-6 / py-8 / **py-10** / py-12 / py-14
+- `content_padding_desktop` — py-8 / py-10 / py-12 / **py-14** / py-16 / py-20
+
+Функция-хелпер: `get_content_padding_classes(): string` в `functions/sidebars.php`.
+
+```php
+// Возвращает строку вида "py-10 py-md-14"
+$padding = get_content_padding_classes();
+```
+
+Применяется автоматически в `sidebar-left.php`, `sidebar-right.php`, `single.php` и всех `archive-*.php`.
 
 ---
 
