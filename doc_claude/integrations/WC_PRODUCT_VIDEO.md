@@ -47,7 +47,7 @@ cw_product_video_parse( string $url, string $type = '' ): ?array
 |-----|--------|
 | YouTube | `https://www.youtube.com/watch?v=VIDEO_ID` |
 | Vimeo | `https://vimeo.com/VIDEO_ID` |
-| VK | `https://vkvideo.ru/video-67416969_456241429` |
+| VK | `https://vkvideo.ru/video-67416969_456241429` или `https://vk.com/video-67416969_456241429` |
 | Rutube | `https://rutube.ru/video/HASH32CHARS/` |
 | MP4 | `/wp-content/uploads/video.mp4` |
 
@@ -91,36 +91,36 @@ cw_product_video_parse( string $url, string $type = '' ): ?array
 ### Main swiper слайд
 
 ```html
-<figure class="overflow-hidden rounded position-relative bg-primary">
+<figure class="overflow-hidden rounded position-relative bg-dark">
     <!-- если задан постер: -->
-    <img src="poster.jpg" class="img-fluid" style="height:100%;width:100%;object-fit:cover;">
+    <img src="poster.jpg" class="img-fluid" style="height:100%;width:100%;object-fit:cover;" alt="">
     <!-- кнопка воспроизведения: -->
     <a href="..." class="position-absolute top-50 start-50 translate-middle"
        data-glightbox="...">
-        <span class="btn btn-circle btn-soft-primary btn-play ripple">
+        <span class="btn btn-circle btn-white btn-lg">
             <i class="icn-caret-right"></i>
         </span>
     </a>
 </figure>
 ```
 
-- Без постера — фон `bg-primary`
-- С постером — изображение заполняет слайд
+- Без постера — фон `bg-dark`
+- С постером — изображение заполняет слайд (size `woocommerce_single`)
 
 ### Thumbs swiper слайд
 
 ```html
-<div class="position-relative overflow-hidden h-100 rounded bg-primary">
+<div class="position-relative overflow-hidden rounded bg-dark">
     <!-- если задан постер: -->
-    <img src="poster-thumb.jpg" style="width:100%;height:100%;object-fit:cover;">
-    <span class="position-absolute top-50 start-50 translate-middle text-white">
-        <i class="icn-caret-right fs-40"></i>
+    <img src="poster-thumb.jpg" class="rounded" style="width:100%;height:100%;object-fit:cover;display:block;" alt="">
+    <span class="position-absolute top-50 start-50 translate-middle">
+        <i class="uil uil-play-circle text-white" style="font-size:1.5rem;opacity:.85;line-height:1;"></i>
     </span>
 </div>
 ```
 
-- Main слайд — `btn-circle btn-soft-primary btn-play ripple` (крупная кнопка)
-- Thumbs слайд — голая иконка `icn-caret-right fs-40` без обёртки
+- Видео-слайд находится как обычный `swiper-slide` в конце thumbs swiper — счётчики main и thumbs всегда равны
+- Постер для thumbs использует size `thumbnail`
 
 ---
 
@@ -147,7 +147,7 @@ cw_product_video_parse( string $url, string $type = '' ): ?array
 ```
 youtube.com / youtu.be → youtube
 vimeo.com             → vimeo
-vkvideo.ru / vk.com/video → vk
+vkvideo.ru OR vk.com/video → vk
 rutube.ru             → rutube
 иначе                 → mp4
 ```

@@ -162,6 +162,7 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | WooCommerce Checkout (form-floating, select2, CSS) | `doc_claude/integrations/WC_CHECKOUT.md` |
 | Wishlist (архитектура, AJAX, JS, modal, Redux) | `doc_claude/integrations/WISHLIST.md` |
 | WooCommerce Product Video (метабокс, GLightbox, VK/Rutube inline, постер) | `doc_claude/integrations/WC_PRODUCT_VIDEO.md` |
+| Text Inverse (class text-inverse, приоритеты, $headings-color, header вне main) | `doc_claude/integrations/TEXT_INVERSE.md` |
 | WooCommerce Single Product Gallery (Swiper, skeleton, shimmer thumbs, видео-слайд) | `doc_claude/integrations/WC_SINGLE_GALLERY.md` |
 | Events (CPT, регистрации, REST API, FullCalendar, ICS, галерея, карта) | `doc_claude/integrations/EVENTS.md` |
 | Schema.org JSON-LD (модуль, CPT-схемы, фильтр, расширение) | `doc_claude/seo/SCHEMA_MODULE.md` |

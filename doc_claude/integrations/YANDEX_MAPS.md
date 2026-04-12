@@ -74,6 +74,31 @@
 | `yandex_maps_filter_by_city` | Фильтр по городу |
 | `yandex_maps_filter_by_category` | Фильтр по категории |
 
+#### Мобильное поведение сайдбара
+
+На мобильных устройствах сайдбар скрыт по умолчанию (`d-none`). Управление через кнопку-тогл `.codeweber-map-sidebar-toggle`.
+
+**Кнопка-тогл:**
+- Z-index: `9999` (перекрывает внутренние оверлеи Яндекс Карт)
+- Метка: `this.config.sidebar.title || codeweberYandexMaps.i18n.offices` — берётся из конфига карты, не захардкожена
+- Поведение: true toggle — первый клик открывает (`classList.remove('d-none')`), второй закрывает (`classList.add('d-none')`)
+- Кнопка закрытия (×) внутри сайдбара отсутствует
+
+**Сайдбар закрывается автоматически на мобильных (`window.innerWidth < 768`) при:**
+1. Клик на элемент списка `.codeweber-map-sidebar-item`
+2. Изменение фильтра (`select` → `change`)
+3. Клик на пустую область сайдбара (не на item, select, label, button)
+
+**Важно: `d-none` vs `d-block`**
+
+Bootstrap 5 использует `!important` у обоих классов, но `d-none` в таблице стилей идёт после `d-block`, поэтому выигрывает. Для показа/скрытия использовать:
+```js
+sidebar.classList.remove('d-none'); // показать
+sidebar.classList.add('d-none');    // скрыть
+sidebar.classList.toggle('d-none'); // тогл
+```
+Не использовать `classList.add('d-block')` — не перебивает `d-none`.
+
 ### Маршруты
 
 | Redux-ключ | Описание | Варианты |
@@ -348,6 +373,25 @@ public function has_api_key(): bool {
 - `render_map()` — возвращает `<div class="alert alert-warning">Yandex Maps API key is not configured.</div>`
 - Gutenberg-блок — аналогичный алерт через `render.php`
 - Редактор блоков — скрипт не грузится (нет preview карты)
+
+---
+
+## Поведение балуна
+
+### Закрытие по клику на пустую область карты
+
+При клике на пустое место карты (не на маркер) закрываются все открытые балуны:
+
+```js
+this.map.events.add('click', () => {
+    this.map.balloon.close();
+    Object.values(this.placemarks).forEach(p => {
+        try { if (p.balloon.isOpen()) p.balloon.close(); } catch (e) {}
+    });
+});
+```
+
+Используются оба вызова: `this.map.balloon` (балун карты) и `p.balloon` каждого плейсмарка, т.к. они независимы в Яндекс Maps API 2.1.
 
 ---
 

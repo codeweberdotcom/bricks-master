@@ -139,4 +139,25 @@ if (!firstSlideImg || firstSlideImg.complete) {
 
 Подробнее — в [WC_PRODUCT_VIDEO.md](WC_PRODUCT_VIDEO.md).
 
-Скрытый div с iframe для VK/Rutube рендерится **внутри** `.swiper-thumbs-container` **до** swiper-блока — чтобы не влиять на layout.
+### Принцип равного количества слайдов
+
+Видео добавляется как обычный `swiper-slide` в конец **обоих** swipers — main и thumbs. Счётчики всегда совпадают. Синхронизация Swiper thumbs работает корректно.
+
+```text
+main swiper:   [фото 1] [фото 2] ... [фото N] [видео-слайд]
+thumbs swiper: [thumb 1] [thumb 2] ... [thumb N] [видео-thumb]
+```
+
+### Скрытый iframe VK/Rutube
+
+Рендерится **внутри** `.swiper-thumbs-container` **до** swiper-блоков — вне слайдов, не влияет на счётчик и layout:
+
+```html
+<div id="cw-vv-OID-ID" class="d-none">
+    <iframe src="https://vkvideo.ru/video_ext.php?..." allowfullscreen allow="..."></iframe>
+</div>
+```
+
+### Overflow-hidden на figure
+
+Все `<figure>` в main swiper имеют класс `overflow-hidden` — необходимо для корректного отображения при скруглениях и hover-эффектах. JS добавляет `height:100%; margin:0` через `syncThumbsHeight()` — это нормально, не убирать.

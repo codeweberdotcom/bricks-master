@@ -187,12 +187,6 @@ function universal_title($tag = false, $theme = false)
 		$title = get_bloginfo('name');
 	}
 
-	// Allow blocks to override the title (e.g. page-header block with custom title)
-	$override = apply_filters( 'codeweber_universal_title_override', null );
-	if ( $override !== null ) {
-		$title = wp_kses_post( $override );
-	}
-
 	$title = esc_html($title);
 
 	// Если тег не указан, возвращаем просто текст
