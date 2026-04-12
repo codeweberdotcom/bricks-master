@@ -151,6 +151,74 @@ function codeweber_projects_settings_get( string $key, $default = '' ) {
 	return $options[ $key ] ?? $default;
 }
 
+/**
+ * Список иконок Unicons из font_icon.js плагина.
+ * Возвращает [ 'icon-name' => 'Label' ].
+ */
+function codeweber_projects_get_icon_list(): array {
+	if ( function_exists( 'codeweber_get_unicons_icons' ) ) {
+		return codeweber_get_unicons_icons();
+	}
+
+	$cached = get_transient( 'codeweber_projects_icon_list_v1' );
+	if ( false !== $cached ) {
+		return $cached;
+	}
+
+	$file  = WP_PLUGIN_DIR . '/codeweber-gutenberg-blocks/src/utilities/font_icon.js';
+	$icons = [];
+
+	if ( file_exists( $file ) ) {
+		$content = file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+		if ( preg_match( '/fontIcons\s*=\s*\[(.*?)\];/s', $content, $m ) ) {
+			preg_match_all( "/value:\s*'uil-([^']+)'[^}]*label:\s*'([^']+)'/s", $m[1], $matches, PREG_SET_ORDER );
+			foreach ( $matches as $match ) {
+				$icons[ $match[1] ] = ucwords( str_replace( '-', ' ', $match[2] ) );
+			}
+		}
+	}
+
+	asort( $icons );
+	set_transient( 'codeweber_projects_icon_list_v1', $icons, WEEK_IN_SECONDS );
+	return $icons;
+}
+
+// ---------------------------------------------------------------------------
+// Admin: подключение Unicons на странице настроек
+// ---------------------------------------------------------------------------
+
+add_action( 'admin_enqueue_scripts', function ( string $hook ): void {
+	if ( false === strpos( $hook, 'codeweber-projects-settings' ) ) {
+		return;
+	}
+
+	$css = get_transient( 'codeweber_admin_unicons_css_v1' );
+
+	if ( false === $css ) {
+		$font_url = get_theme_file_uri( 'dist/assets/fonts/unicons/' );
+		$css      = "@font-face{font-family:'Unicons';src:url('{$font_url}Unicons.woff2') format('woff2'),url('{$font_url}Unicons.woff') format('woff');font-weight:normal;font-style:normal;font-display:block}";
+		$css     .= "[class*='uil-']:before,.uil:before{font-family:'Unicons'!important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}";
+
+		$json_file = get_theme_file_path( 'dist/assets/fonts/unicons/selection.json' );
+		if ( file_exists( $json_file ) ) {
+			$data = json_decode( file_get_contents( $json_file ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			foreach ( $data['icons'] ?? [] as $icon ) {
+				$name = $icon['properties']['name'] ?? '';
+				$code = $icon['properties']['code'] ?? 0;
+				if ( $name && $code ) {
+					$css .= ".uil-{$name}:before{content:'\\" . sprintf( '%x', $code ) . "'}";
+				}
+			}
+		}
+
+		set_transient( 'codeweber_admin_unicons_css_v1', $css, WEEK_IN_SECONDS );
+	}
+
+	wp_register_style( 'codeweber-admin-unicons', false, [], null );
+	wp_enqueue_style( 'codeweber-admin-unicons' );
+	wp_add_inline_style( 'codeweber-admin-unicons', $css );
+} );
+
 // ---------------------------------------------------------------------------
 // Field renderers
 // ---------------------------------------------------------------------------
@@ -185,9 +253,87 @@ function codeweber_projects_field_map_float_type(): void {
 }
 
 function codeweber_projects_field_map_float_icon(): void {
-	$val = codeweber_projects_settings_get( 'map_float_icon', 'map-marker' );
-	echo '<input type="text" name="codeweber_projects_settings[map_float_icon]" value="' . esc_attr( $val ) . '" style="width:200px;" placeholder="map-marker">';
-	echo '<p class="description">' . esc_html__( 'Unicons icon name without «uil-» prefix. Used for «Icon only» and «Icon + text» types.', 'codeweber' ) . ' <a href="https://iconscout.com/unicons/explore/line" target="_blank">Browse icons</a></p>';
+	$val   = codeweber_projects_settings_get( 'map_float_icon', 'map-marker' );
+	$icons = codeweber_projects_get_icon_list();
+	?>
+	<div class="cw-icon-picker" style="max-width:560px;">
+
+		<?php /* Превью выбранной иконки */ ?>
+		<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+			<span style="font-size:28px;line-height:1;width:34px;text-align:center;">
+				<i class="uil uil-<?php echo esc_attr( $val ); ?>" id="cw-float-icon-preview"></i>
+			</span>
+			<code id="cw-float-icon-label" style="font-size:13px;color:#50575e;"><?php echo esc_html( $val ); ?></code>
+		</div>
+
+		<?php /* Поиск */ ?>
+		<input type="text"
+		       id="cw-float-icon-search"
+		       placeholder="<?php esc_attr_e( 'Search icons…', 'codeweber' ); ?>"
+		       style="width:100%;max-width:280px;margin-bottom:8px;"
+		       class="regular-text">
+
+		<?php /* Сетка иконок */ ?>
+		<div id="cw-float-icon-grid"
+		     style="display:flex;flex-wrap:wrap;gap:2px;max-height:224px;overflow-y:auto;
+		            border:1px solid #c3c4c7;padding:6px;border-radius:4px;background:#f6f7f7;">
+			<?php foreach ( $icons as $name => $label ) :
+				$is_selected = ( $name === $val );
+				$border_color = $is_selected ? '#3858e9' : 'transparent';
+				$bg_color     = $is_selected ? '#e8edfb' : 'transparent';
+			?>
+			<button type="button"
+			        class="cw-icon-btn<?php echo $is_selected ? ' cw-icon-selected' : ''; ?>"
+			        data-icon="<?php echo esc_attr( $name ); ?>"
+			        title="<?php echo esc_attr( $name ); ?>"
+			        style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+			               border:1px solid <?php echo $border_color; ?>;border-radius:4px;cursor:pointer;
+			               background:<?php echo $bg_color; ?>;font-size:17px;padding:0;">
+				<i class="uil uil-<?php echo esc_attr( $name ); ?>"></i>
+			</button>
+			<?php endforeach; ?>
+		</div>
+
+		<input type="hidden"
+		       name="codeweber_projects_settings[map_float_icon]"
+		       id="cw-float-icon-input"
+		       value="<?php echo esc_attr( $val ); ?>">
+
+	</div>
+	<script>
+	(function () {
+		var grid   = document.getElementById('cw-float-icon-grid');
+		var search = document.getElementById('cw-float-icon-search');
+		var input  = document.getElementById('cw-float-icon-input');
+		var prev   = document.getElementById('cw-float-icon-preview');
+		var label  = document.getElementById('cw-float-icon-label');
+
+		grid.addEventListener('click', function (e) {
+			var btn = e.target.closest('.cw-icon-btn');
+			if (!btn) return;
+
+			grid.querySelectorAll('.cw-icon-btn').forEach(function (b) {
+				b.style.borderColor = 'transparent';
+				b.style.background  = 'transparent';
+			});
+			btn.style.borderColor = '#3858e9';
+			btn.style.background  = '#e8edfb';
+
+			var icon       = btn.dataset.icon;
+			input.value    = icon;
+			prev.className = 'uil uil-' + icon;
+			label.textContent = icon;
+		});
+
+		search.addEventListener('input', function () {
+			var q = this.value.toLowerCase();
+			grid.querySelectorAll('.cw-icon-btn').forEach(function (btn) {
+				btn.style.display = (!q || btn.dataset.icon.indexOf(q) !== -1) ? 'flex' : 'none';
+			});
+		});
+	})();
+	</script>
+	<?php
 }
 
 function codeweber_projects_field_map_float_text(): void {
