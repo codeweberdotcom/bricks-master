@@ -136,6 +136,14 @@
                 }
             }
 
+            // Закрытие балуна по клику на пустом месте карты
+            this.map.events.add('click', () => {
+                this.map.balloon.close();
+                Object.values(this.placemarks).forEach(p => {
+                    try { if (p.balloon.isOpen()) p.balloon.close(); } catch (e) {}
+                });
+            });
+
             // Инициализация кластеризатора
             if (this.config.clusterer && this.config.clusterer.enabled) {
                 this.clusterer = new ymaps.Clusterer({
@@ -386,7 +394,7 @@
             // Кнопка открытия для мобильных
             const toggleBtn = document.createElement('button');
             toggleBtn.className = 'codeweber-map-sidebar-toggle btn-icon btn-icon-start btn btn-sm btn-primary d-md-none';
-            toggleBtn.innerHTML = `<i class="uil uil-list-ul"></i> ${codeweberYandexMaps.i18n.offices}`;
+            toggleBtn.innerHTML = `<i class="uil uil-list-ul"></i> ${this.config.sidebar.title || codeweberYandexMaps.i18n.offices}`;
             toggleBtn.addEventListener('click', () => {
                 sidebar.classList.add('d-block');
             });
