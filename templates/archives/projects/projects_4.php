@@ -40,7 +40,7 @@ $projects_query = new WP_Query( [
 			<?php if ( $has_filters || $show_map_btn ) : ?>
 			<div class="isotope-filter filter mb-10">
 				<?php if ( $show_map_btn ) : ?>
-				<div class="mb-4 d-flex justify-content-end">
+				<div class="mb-4 d-none d-md-flex justify-content-end">
 					<a href="#" data-project-map class="btn btn-sm btn-soft-primary<?php echo esc_attr( $map_btn_style ); ?> btn-icon btn-icon-start has-ripple mb-0">
 						<i class="uil uil-map-marker"></i> <?php esc_html_e( 'Map of objects', 'codeweber' ); ?>
 					</a>
@@ -104,3 +104,4 @@ $projects_query = new WP_Query( [
 </section>
 
 <?php codeweber_projects_map_modal(); ?>
+<?php codeweber_projects_map_float_button(); ?>
