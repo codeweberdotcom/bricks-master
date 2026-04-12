@@ -382,21 +382,20 @@
 
             sidebar.appendChild(list);
 
-            // Кнопка закрытия для мобильных
-            const closeBtn = document.createElement('button');
-            closeBtn.className = 'codeweber-map-sidebar-close d-md-none btn btn-link btn-sm p-0 text-secondary';
-            closeBtn.innerHTML = '<i class="uil uil-times"></i>';
-            closeBtn.addEventListener('click', () => {
-                sidebar.classList.add('d-none');
-            });
-            sidebar.appendChild(closeBtn);
-
-            // Кнопка открытия для мобильных
+            // Кнопка открытия/закрытия для мобильных
             const toggleBtn = document.createElement('button');
             toggleBtn.className = 'codeweber-map-sidebar-toggle btn-icon btn-icon-start btn btn-sm btn-primary d-md-none';
             toggleBtn.innerHTML = `<i class="uil uil-list-ul"></i> ${this.config.sidebar.title || codeweberYandexMaps.i18n.offices}`;
             toggleBtn.addEventListener('click', () => {
-                sidebar.classList.remove('d-none');
+                sidebar.classList.toggle('d-none');
+            });
+
+            // Закрытие по клику на пустой области сайдбара (мобильные)
+            sidebar.addEventListener('click', (e) => {
+                if (window.innerWidth >= 768) return;
+                if (e.target.closest('.codeweber-map-sidebar-item')) return;
+                if (e.target.closest('select, label, button')) return;
+                sidebar.classList.add('d-none');
             });
 
             mapElement.parentElement.appendChild(sidebar);
@@ -565,6 +564,9 @@
 
             select.addEventListener('change', (e) => {
                 this.filterByCity(e.target.value);
+                if (window.innerWidth < 768 && this.sidebar) {
+                    this.sidebar.classList.add('d-none');
+                }
             });
 
             filterContainer.appendChild(label);
