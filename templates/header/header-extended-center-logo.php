@@ -220,7 +220,7 @@ if (isset($config['header-bg-color']) && $config['navbar-transparent'] !== true 
                                 'theme_location'  => $config['mainMenuName'],
                                 'depth'           => 4,
                                 'container'       => 'nav',
-                                'container_class' => 'menu-collapse-nav d-lg-none ' . $_collapse_theme,
+                                'container_class' => 'navbar-vertical menu-collapse-nav d-lg-none ' . $_collapse_theme,
                                 'container_id'    => $_collapse_nav_id,
                                 'menu_class'      => 'navbar-nav',
                                 'walker'          => new CodeWeber_Menu_Collapse_Walker(),
