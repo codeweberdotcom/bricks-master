@@ -246,3 +246,4 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 
 <?php /* ── Модальное окно с картой проектов ───────────────────────────────── */ ?>
 <?php codeweber_projects_map_modal(); ?>
+<?php codeweber_projects_map_float_button(); ?>
