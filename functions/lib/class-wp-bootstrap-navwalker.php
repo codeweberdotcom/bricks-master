@@ -355,7 +355,7 @@ if (!class_exists('WP_Bootstrap_Navwalker')) {
 				$item_output .= '</a>';
 				// Separate dropdown icon (hover opens menu; no data-bs-toggle).
 				if ($has_children) {
-					$item_output .= '<span class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></span>';
+					$item_output .= '<span class="dropdown-toggle" aria-hidden="true"></span>';
 				}
 			}
 

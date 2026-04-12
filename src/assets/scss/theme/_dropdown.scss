@@ -130,15 +130,7 @@
           }
         }
         .nav-item.parent-link {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          .nav-link {
-            flex: 1;
-          }
           .dropdown-toggle {
-            flex-shrink: 0;
-            min-width: 1.5rem;
             padding-top: 0 !important;
             padding-bottom: 0 !important;
           }
