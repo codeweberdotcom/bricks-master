@@ -695,6 +695,27 @@ if (!empty($custom_post_type_files)) {
 					'required' => array( 'body_bg_mode_' . $pfx, '=', 'pattern' ),
 				),
 				array(
+					'id'      => 'body_bg_preload_color_' . $pfx,
+					'type'    => 'select',
+					'title'   => esc_html__( 'Pattern Preload Color', 'codeweber' ),
+					'desc'    => esc_html__( 'Background color shown while the pattern image is loading.', 'codeweber' ),
+					'options' => call_user_func( function () {
+						$opts = array( '' => esc_html__( 'None', 'codeweber' ) );
+						$file = get_template_directory() . '/components/colors.json';
+						if ( file_exists( $file ) ) {
+							$data = json_decode( file_get_contents( $file ), true );
+							if ( is_array( $data ) ) {
+								foreach ( $data as $c ) {
+									$opts[ $c['value'] ] = esc_html__( $c['label'], 'codeweber' );
+								}
+							}
+						}
+						return $opts;
+					} ),
+					'default'  => '',
+					'required' => array( 'body_bg_mode_' . $pfx, '=', 'pattern' ),
+				),
+				array(
 					'id'      => 'body_bg_text_' . $pfx,
 					'type'    => 'button_set',
 					'title'   => esc_html__( 'Text Color', 'codeweber' ),

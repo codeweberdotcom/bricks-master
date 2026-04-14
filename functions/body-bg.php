@@ -122,11 +122,12 @@ function cw_content_wrapper_bg_attrs(): array {
 		return [ 'class' => '', 'data' => '' ];
 	}
 
-	$image_url = '';
-	$mode      = 'image';
-	$repeat    = 'repeat';
-	$size      = 'cover';
-	$text      = 'auto';
+	$image_url     = '';
+	$mode          = 'image';
+	$repeat        = 'repeat';
+	$size          = 'cover';
+	$text          = 'auto';
+	$preload_color = '';
 
 	$prefix = cw_body_bg_context_prefix();
 
@@ -144,6 +145,10 @@ function cw_content_wrapper_bg_attrs(): array {
 		if ( $meta_text && $meta_text !== 'auto' ) {
 			$text = sanitize_key( $meta_text );
 		}
+		$meta_preload = Codeweber_Options::get_post_meta( $post_id, 'page-body-bg-preload-color' );
+		if ( $meta_preload ) {
+			$preload_color = sanitize_key( $meta_preload );
+		}
 	}
 
 	// 2. Per-CPT Redux
@@ -154,6 +159,13 @@ function cw_content_wrapper_bg_attrs(): array {
 			$mode      = Codeweber_Options::get( 'body_bg_mode_' . $prefix ) ?: 'image';
 			$size      = Codeweber_Options::get( 'body_bg_size_' . $prefix ) ?: 'cover';
 			$repeat    = Codeweber_Options::get( 'body_bg_repeat_' . $prefix ) ?: 'repeat';
+		}
+	}
+
+	if ( empty( $preload_color ) && $prefix ) {
+		$cpt_preload = Codeweber_Options::get( 'body_bg_preload_color_' . $prefix );
+		if ( $cpt_preload ) {
+			$preload_color = sanitize_key( $cpt_preload );
 		}
 	}
 
@@ -176,6 +188,13 @@ function cw_content_wrapper_bg_attrs(): array {
 		}
 	}
 
+	if ( empty( $preload_color ) ) {
+		$global_preload = Codeweber_Options::get( 'body_bg_global_pattern_preload_color' );
+		if ( $global_preload ) {
+			$preload_color = sanitize_key( $global_preload );
+		}
+	}
+
 	// Text из глобального Redux (если не задан выше)
 	if ( $text === 'auto' ) {
 		$global_text = Codeweber_Options::get( 'body_bg_global_text' );
@@ -188,6 +207,7 @@ function cw_content_wrapper_bg_attrs(): array {
 		return [
 			'class' => $text === 'inverse' ? 'text-inverse' : '',
 			'data'  => '',
+			'style' => '',
 		];
 	}
 
@@ -211,5 +231,6 @@ function cw_content_wrapper_bg_attrs(): array {
 	return [
 		'class' => implode( ' ', $classes ),
 		'data'  => 'data-image-src="' . esc_url( $image_url ) . '"',
+		'style' => ( $preload_color && $mode === 'pattern' ) ? 'background-color: var(--bs-' . $preload_color . ');' : '',
 	];
 }

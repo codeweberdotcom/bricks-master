@@ -33,9 +33,10 @@
     ?>
 
     <?php
-    $_cw_bg       = function_exists( 'cw_content_wrapper_bg_attrs' ) ? cw_content_wrapper_bg_attrs() : [ 'class' => '', 'data' => '' ];
+    $_cw_bg       = function_exists( 'cw_content_wrapper_bg_attrs' ) ? cw_content_wrapper_bg_attrs() : [ 'class' => '', 'data' => '', 'style' => '' ];
     $_cw_bg_class = $_cw_bg['class'] ? ' ' . esc_attr( $_cw_bg['class'] ) : '';
     $_cw_bg_data  = $_cw_bg['data'] ? ' ' . $_cw_bg['data'] : '';
+    $_cw_bg_style = ! empty( $_cw_bg['style'] ) ? ' style="' . esc_attr( $_cw_bg['style'] ) . '"' : '';
 
         // Получаем тип контента и ID
         $post_type          = universal_get_post_type();
@@ -216,4 +217,4 @@
             }
         }
         ?>
-    <main class="content-wrapper<?php echo $_cw_bg_class; ?>"<?php echo $_cw_bg_data; ?>>
+    <main class="content-wrapper<?php echo $_cw_bg_class; ?>"<?php echo $_cw_bg_data; ?><?php echo $_cw_bg_style; ?>>
