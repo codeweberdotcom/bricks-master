@@ -89,7 +89,7 @@ if ( 'disable' === $empty_behavior ) {
 					}
 				}
 			} elseif ( 'image' === $display_mode && ! empty( $swatch_data['image_id'] ) ) {
-				$img_url = wp_get_attachment_image_url( (int) $swatch_data['image_id'], 'codeweber_post_100-100' );
+				$img_url = wp_get_attachment_image_url( (int) $swatch_data['image_id'], 'codeweber_avatar_100-100' );
 				if ( $img_url ) {
 					$bg_style = 'background-image:url(' . esc_url( $img_url ) . ');background-size:cover;background-position:center';
 				}

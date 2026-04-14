@@ -45,7 +45,6 @@ if (! function_exists('codeweber_image_settings')) {
 		add_image_size('codeweber_post_960-600', 960, 600, true);
 		add_image_size('codeweber_post_600-600', 600, 600, true);
 		add_image_size('codeweber_post_560-350', 560, 350, true);
-		add_image_size('codeweber_post_100-100', 100, 100, true);
 
 		
 		
@@ -55,8 +54,9 @@ if (! function_exists('codeweber_image_settings')) {
 		add_image_size('codeweber_product_400-400', 400, 400, true); // 3-col grid
 
 		//Universal
-		add_image_size('codeweber_extralarge', 1600, 1200, true);
-		add_image_size('codeweber_avatar',     200,  200,  true); // Global: avatar/organizer (1:1)
+		add_image_size('codeweber_extralarge',    1600, 1200, true);
+		add_image_size('codeweber_avatar',          200,  200, true); // Global: avatar/organizer (1:1)
+		add_image_size('codeweber_avatar_100-100', 100,  100,  true); // Global: small square (swatches, widgets)
 		//add_image_size('codeweber_big', 1400, 800, true );
 		//add_image_size('codeweber_square', 400, 400, true );
 		//add_image_size( 'codeweber_single', 800, 500, true );
@@ -102,8 +102,8 @@ function codeweber_get_allowed_image_sizes($post_type = '', $post_id = 0)
 		'vacancies' => ['thumbnail', 'codeweber_vacancy_1070-668', 'codeweber_vacancy_383-250', 'codeweber_vacancy_400-267', 'codeweber_vacancy_600-600', 'codeweber_avatar', 'woocommerce_gallery_thumbnail'],
 		'events'    => ['thumbnail', 'codeweber_event_1070-668', 'codeweber_event_400-267', 'codeweber_event_140-88', 'codeweber_event_383-250', 'codeweber_event_600-600', 'codeweber_avatar'],
 		'clients' => ['thumbnail', 'codeweber_clients_115-60', 'codeweber_clients_200-60', 'codeweber_clients_300-200', 'codeweber_clients_400-267', 'woocommerce_gallery_thumbnail'],
-		'post' => ['thumbnail', 'codeweber_post_960-600', 'codeweber_post_600-600', 'codeweber_post_560-350', 'codeweber_post_100-100', 'codeweber_extralarge', 'woocommerce_gallery_thumbnail'],
-		'product' => ['thumbnail', 'woocommerce_thumbnail', 'woocommerce_single', 'codeweber_product_600-600', 'codeweber_product_400-400', 'codeweber_extralarge', 'codeweber_post_100-100'],
+		'post' => ['thumbnail', 'codeweber_post_960-600', 'codeweber_post_600-600', 'codeweber_post_560-350', 'codeweber_extralarge', 'woocommerce_gallery_thumbnail'],
+		'product' => ['thumbnail', 'woocommerce_thumbnail', 'woocommerce_single', 'codeweber_product_600-600', 'codeweber_product_400-400', 'codeweber_extralarge', 'codeweber_avatar_100-100'],
 		'default' => ['thumbnail', 'medium', 'medium_large', 'large'], // Стандартные WP-размеры для вложений без родителя
 	];
 

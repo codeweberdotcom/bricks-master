@@ -20,6 +20,14 @@
 
 Регистрируются в `codeweber_image_settings()` через `add_image_size()`.
 
+### Глобальные размеры (Universal)
+
+| Slug | Размер | Назначение |
+|------|--------|-----------|
+| `codeweber_extralarge` | 1600×1200 | Полноэкранные изображения |
+| `codeweber_avatar` | 200×200 | Аватары, организаторы (1:1) |
+| `codeweber_avatar_100-100` | 100×100 | Свотчи WooCommerce, виджеты (1:1) |
+
 ### CPT-специфичные размеры
 
 | CPT | Размеры |
@@ -29,7 +37,7 @@
 | `staff` | `codeweber_staff`, `thumbnail` |
 | `projects` | `codeweber_project_900-900`, `codeweber_project_900-718`, `codeweber_project_900-800`, `codeweber_extralarge`, `thumbnail` |
 | `clients` | `codeweber_clients_115-60`, `codeweber_clients_200-60`, `codeweber_clients_300-200`, `codeweber_clients_400-267`, `thumbnail` |
-| `post` | `codeweber_post_960-600`, `codeweber_post_600-600`, `codeweber_post_560-350`, `codeweber_post_100-100`, `codeweber_extralarge`, `thumbnail` |
+| `post` | `codeweber_post_960-600`, `codeweber_post_600-600`, `codeweber_post_560-350`, `codeweber_extralarge`, `thumbnail` |
 
 > **Важно:** `thumbnail` (150×150) присутствует во всех CPT-массивах — без него WP Admin показывает прозрачную PNG-сетку вместо превью загруженного изображения.
 
