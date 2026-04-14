@@ -115,7 +115,8 @@ if (!function_exists('get_breadcrumbs')) {
          is_category() || is_date() ||
          ( is_tag() && ! ( function_exists('is_product_tag') && is_product_tag() ) )
       );
-      $blog_page_id = $needs_blog_crumb ? (int) get_option('page_for_posts') : 0;
+      $blog_page_id = ( $needs_blog_crumb || is_home() ) ? (int) get_option('page_for_posts') : 0;
+      $is_blog_page = is_home() && $blog_page_id > 0;
       $shop_url = ( ! $is_any_woo && function_exists('wc_get_page_id') )
          ? trailingslashit( (string) get_permalink( wc_get_page_id('shop') ) )
          : '';
@@ -143,7 +144,7 @@ if (!function_exists('get_breadcrumbs')) {
             });
 
             // WooCommerce product tag: крошка содержит "Products tagged «tagname»" — оставляем только название тега
-            add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) use ($show_home, $hide_last, $is_single_context, $is_any_woo, $needs_blog_crumb, $blog_page_id, $shop_url) {
+            add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) use ($show_home, $hide_last, $is_single_context, $is_any_woo, $needs_blog_crumb, $blog_page_id, $shop_url, $is_blog_page) {
                if (function_exists('is_product_tag') && is_product_tag()) {
                   $last = count($crumbs) - 1;
                   if (isset($crumbs[$last][0])) {
@@ -162,6 +163,11 @@ if (!function_exists('get_breadcrumbs')) {
                if ( $needs_blog_crumb && $blog_page_id ) {
                   $blog_crumb = [ get_the_title( $blog_page_id ), get_permalink( $blog_page_id ) ];
                   array_splice( $crumbs, 1, 0, [ $blog_crumb ] );
+               }
+
+               // Страница блога — добавляем как активную последнюю крошку
+               if ( $is_blog_page ) {
+                  $crumbs[] = [ get_the_title( $blog_page_id ), '' ];
                }
 
                if (!$show_home && !empty($crumbs)) {
@@ -209,7 +215,7 @@ if (!function_exists('get_breadcrumbs')) {
             }
          }, 10, 2);
 
-         add_filter('wpseo_breadcrumb_output', function ($output) use ($show_home, $hide_last, $is_single_context, $needs_blog_crumb, $blog_page_id, $shop_url) {
+         add_filter('wpseo_breadcrumb_output', function ($output) use ($show_home, $hide_last, $is_single_context, $needs_blog_crumb, $blog_page_id, $shop_url, $is_blog_page) {
             // Удаляем обёртки <span> вокруг всей строки
             $output = preg_replace('#^<span[^>]*>#', '', $output);
             $output = preg_replace('#</span>$#', '', $output);
@@ -225,6 +231,10 @@ if (!function_exists('get_breadcrumbs')) {
             if ( $needs_blog_crumb && $blog_page_id ) {
                $blog_li = '<li class="breadcrumb-item"><a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a></li>';
                $output  = preg_replace( '#(<li[^>]*>.*?</li>)#s', '$1' . $blog_li, $output, 1 );
+            }
+            // Страница блога — добавляем как активную последнюю крошку
+            if ( $is_blog_page ) {
+               $output .= '<li class="breadcrumb-item active" aria-current="page">' . esc_html( get_the_title( $blog_page_id ) ) . '</li>';
             }
             // Скрыть Home
             if (!$show_home) {
@@ -257,6 +267,10 @@ if (!function_exists('get_breadcrumbs')) {
          if ( $needs_blog_crumb && $blog_page_id ) {
             $blog_li = '<li><a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a></li>';
             $html    = preg_replace( '#(<li[^>]*>.*?</li>)#s', '$1' . $blog_li, $html, 1 );
+         }
+         // Страница блога — добавляем как активную последнюю крошку
+         if ( $is_blog_page ) {
+            $html .= '<li class="breadcrumb-item active" aria-current="page">' . esc_html( get_the_title( $blog_page_id ) ) . '</li>';
          }
          // Скрыть Home: убираем первую ссылку-крошку
          if (!$show_home) {
@@ -299,6 +313,10 @@ if (!function_exists('get_breadcrumbs')) {
                $blog_item = '<a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a>';
                array_splice( $items, 1, 0, [ $blog_item ] );
             }
+            // Страница блога — добавляем как активную последнюю крошку
+            if ( $is_blog_page ) {
+               $items[] = esc_html( get_the_title( $blog_page_id ) );
+            }
             if (!$show_home) {
                array_shift($items);
             }
@@ -327,7 +345,9 @@ if (!function_exists('get_breadcrumbs')) {
             echo '<li class="breadcrumb-item"><a href="' . esc_url(home_url('/')) . '">' . esc_html($home_label) . '</a></li>';
          }
 
-         if (is_category() || is_single()) {
+         if ( $is_blog_page ) {
+            echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html( get_the_title( $blog_page_id ) ) . '</li>';
+         } elseif (is_category() || is_single()) {
             if (is_category()) {
                if ( $needs_blog_crumb && $blog_page_id ) {
                   echo '<li class="breadcrumb-item"><a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a></li>';
