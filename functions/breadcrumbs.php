@@ -104,6 +104,22 @@ if (!function_exists('get_breadcrumbs')) {
          return;
       }
 
+      // ── Общий контекст для всех плагинов ─────────────────────────────────────
+      $is_any_woo = function_exists('is_woocommerce') && (
+         is_woocommerce()    ||
+         ( function_exists('is_cart')         && is_cart() )         ||
+         ( function_exists('is_checkout')     && is_checkout() )     ||
+         ( function_exists('is_account_page') && is_account_page() )
+      );
+      $needs_blog_crumb = ! $is_any_woo && (
+         is_category() || is_date() ||
+         ( is_tag() && ! ( function_exists('is_product_tag') && is_product_tag() ) )
+      );
+      $blog_page_id = $needs_blog_crumb ? (int) get_option('page_for_posts') : 0;
+      $shop_url = ( ! $is_any_woo && function_exists('wc_get_page_id') )
+         ? trailingslashit( (string) get_permalink( wc_get_page_id('shop') ) )
+         : '';
+
       // Если доступна Rank Math
       if (function_exists('rank_math_the_breadcrumbs')) {
 
@@ -127,13 +143,27 @@ if (!function_exists('get_breadcrumbs')) {
             });
 
             // WooCommerce product tag: крошка содержит "Products tagged «tagname»" — оставляем только название тега
-            add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) use ($show_home, $hide_last, $is_single_context) {
+            add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) use ($show_home, $hide_last, $is_single_context, $is_any_woo, $needs_blog_crumb, $blog_page_id, $shop_url) {
                if (function_exists('is_product_tag') && is_product_tag()) {
                   $last = count($crumbs) - 1;
                   if (isset($crumbs[$last][0])) {
                      $crumbs[$last][0] = single_term_title('', false);
                   }
                }
+
+               // Убираем Shop-крошку вне WooCommerce-контекста
+               if ( $shop_url ) {
+                  $crumbs = array_values( array_filter( $crumbs, function ( $c ) use ( $shop_url ) {
+                     return trailingslashit( $c[1] ?? '' ) !== $shop_url;
+                  } ) );
+               }
+
+               // Вставляем крошку «Блог» для стандартных архивов WordPress
+               if ( $needs_blog_crumb && $blog_page_id ) {
+                  $blog_crumb = [ get_the_title( $blog_page_id ), get_permalink( $blog_page_id ) ];
+                  array_splice( $crumbs, 1, 0, [ $blog_crumb ] );
+               }
+
                if (!$show_home && !empty($crumbs)) {
                   array_shift($crumbs);
                }
@@ -179,10 +209,23 @@ if (!function_exists('get_breadcrumbs')) {
             }
          }, 10, 2);
 
-         add_filter('wpseo_breadcrumb_output', function ($output) use ($show_home, $hide_last, $is_single_context) {
+         add_filter('wpseo_breadcrumb_output', function ($output) use ($show_home, $hide_last, $is_single_context, $needs_blog_crumb, $blog_page_id, $shop_url) {
             // Удаляем обёртки <span> вокруг всей строки
             $output = preg_replace('#^<span[^>]*>#', '', $output);
             $output = preg_replace('#</span>$#', '', $output);
+            // Убираем Shop-крошку вне WooCommerce-контекста
+            if ( $shop_url ) {
+               $output = preg_replace(
+                  '#<li class="breadcrumb-item">\s*<a[^>]*href="' . preg_quote( rtrim( $shop_url, '/' ), '#' ) . '[/]?"[^>]*>.*?</a>\s*</li>#s',
+                  '',
+                  $output
+               );
+            }
+            // Вставляем крошку «Блог» после первого <li> (Home)
+            if ( $needs_blog_crumb && $blog_page_id ) {
+               $blog_li = '<li class="breadcrumb-item"><a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a></li>';
+               $output  = preg_replace( '#(<li[^>]*>.*?</li>)#s', '$1' . $blog_li, $output, 1 );
+            }
             // Скрыть Home
             if (!$show_home) {
                $output = preg_replace('#<li class="breadcrumb-item"[^>]*>.*?</li>#s', '', $output, 1);
@@ -202,6 +245,19 @@ if (!function_exists('get_breadcrumbs')) {
          ob_start();
          seopress_display_breadcrumbs();
          $html = ob_get_clean();
+         // Убираем Shop-крошку вне WooCommerce-контекста
+         if ( $shop_url ) {
+            $html = preg_replace(
+               '#<li[^>]*>\s*<a[^>]*href="' . preg_quote( rtrim( $shop_url, '/' ), '#' ) . '[/]?"[^>]*>.*?</a>\s*</li>#s',
+               '',
+               $html
+            );
+         }
+         // Вставляем крошку «Блог» после первого <li>
+         if ( $needs_blog_crumb && $blog_page_id ) {
+            $blog_li = '<li><a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a></li>';
+            $html    = preg_replace( '#(<li[^>]*>.*?</li>)#s', '$1' . $blog_li, $html, 1 );
+         }
          // Скрыть Home: убираем первую ссылку-крошку
          if (!$show_home) {
             $html = preg_replace('#<li[^>]*>.*?</li>#s', '', $html, 1);
@@ -232,6 +288,17 @@ if (!function_exists('get_breadcrumbs')) {
 
          if (!empty($matches[1])) {
             $items = $matches[1];
+            // Убираем Shop-элемент вне WooCommerce-контекста
+            if ( $shop_url ) {
+               $items = array_values( array_filter( $items, function( $item ) use ( $shop_url ) {
+                  return strpos( $item, rtrim( $shop_url, '/' ) ) === false;
+               } ) );
+            }
+            // Вставляем Blog-элемент после Home (позиция 1)
+            if ( $needs_blog_crumb && $blog_page_id ) {
+               $blog_item = '<a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a>';
+               array_splice( $items, 1, 0, [ $blog_item ] );
+            }
             if (!$show_home) {
                array_shift($items);
             }
@@ -262,6 +329,9 @@ if (!function_exists('get_breadcrumbs')) {
 
          if (is_category() || is_single()) {
             if (is_category()) {
+               if ( $needs_blog_crumb && $blog_page_id ) {
+                  echo '<li class="breadcrumb-item"><a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a></li>';
+               }
                echo '<li class="breadcrumb-item active" aria-current="page">' . single_cat_title('', false) . '</li>';
             } elseif (is_single()) {
                $post_type = universal_get_post_type();
@@ -306,22 +376,16 @@ if (!function_exists('get_breadcrumbs')) {
                   echo '<li class="breadcrumb-item active" aria-current="page">' . get_the_title() . '</li>';
                }
             }
-         } elseif (is_category() || is_tag()) {
-            // Добавляем "Shop" для категорий и меток
-            if (function_exists('wc_get_page_id')) {
-               $shop_page_url = get_permalink(wc_get_page_id('shop'));
-               echo '<li class="breadcrumb-item"><a href="' . esc_url($shop_page_url) . '">' . esc_html__('Shop', 'woocommerce') . '</a></li>';
+         } elseif (is_tag()) {
+            if ( $blog_page_id ) {
+               echo '<li class="breadcrumb-item"><a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a></li>';
             }
-
-            // Категория
-            if (is_category()) {
-               echo '<li class="breadcrumb-item active" aria-current="page">' . single_cat_title('', false) . '</li>';
+            echo '<li class="breadcrumb-item active" aria-current="page">' . single_tag_title('', false) . '</li>';
+         } elseif (is_date()) {
+            if ( $blog_page_id ) {
+               echo '<li class="breadcrumb-item"><a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a></li>';
             }
-
-            // Метка
-            elseif (is_tag()) {
-               echo '<li class="breadcrumb-item active" aria-current="page">' . single_tag_title('', false) . '</li>';
-            }
+            echo '<li class="breadcrumb-item active" aria-current="page">' . get_the_archive_title() . '</li>';
          } elseif (is_page()) {
             $parents = [];
             $parent_id = wp_get_post_parent_id(get_the_ID());

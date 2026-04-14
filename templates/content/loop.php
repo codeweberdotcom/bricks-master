@@ -51,6 +51,7 @@
 				</li>
 
 
+				<?php if ( comments_open() ) : ?>
 				<li class="post-comments">
 					<a href="<?php comments_link(); ?>">
 						<i class="uil uil-comment"></i>
@@ -60,13 +61,7 @@
 						?>
 					</a>
 				</li>
-
-				<li class="post-likes ms-auto">
-					<a href="#">
-						<i class="uil uil-heart-alt"></i>
-						<?php echo get_post_meta(get_the_ID(), 'likes', true) ?: 0; ?>
-					</a>
-				</li>
+				<?php endif; ?>
 			</ul>
 
 		</div>
