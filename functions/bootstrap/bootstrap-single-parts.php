@@ -16,7 +16,9 @@ if (!defined('ABSPATH')) {
  */
 function codeweber_single_share_args()
 {
-	$button_class = 'has-ripple btn btn-red btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0';
+	$share_type   = class_exists('Codeweber_Options') ? (Codeweber_Options::get('share_button_type') ?: 'solid') : 'solid';
+	$color_class  = $share_type === 'soft' ? 'btn-soft-primary' : 'btn-red';
+	$button_class = 'has-ripple btn ' . $color_class . ' btn-sm btn-icon btn-icon-start dropdown-toggle mb-0 me-0';
 	if (class_exists('Codeweber_Options')) {
 		$button_class .= Codeweber_Options::style('button');
 	}
