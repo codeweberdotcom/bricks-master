@@ -7,7 +7,7 @@ $post_type_lc = strtolower($post_type);
 global $opt_name;
 $sidebar_position = Redux::get_option($opt_name, 'sidebar_position_archive_' . $post_type);
 
-$content_class = ($sidebar_position === 'none') ? 'col-12' : 'col-xl-8';
+$content_class = ($sidebar_position === 'none') ? 'col-12 pt-14 pt-md-16' : 'col-xl-8 ' . get_content_padding_classes();
 $pageheader_name = Redux::get_option($opt_name, 'global_page_header_model');
 
 $archive_pageheader_id = Redux::get_option($opt_name, 'archive_page_header_select_' . $post_type);
@@ -16,11 +16,11 @@ $show_universal_title = ($pageheader_name === '1' && $archive_pageheader_id !== 
 
 <section id="content-wrapper" class="wrapper">
 	<div class="container">
-		<div class="row gx-lg-8 gx-xl-12">
+		<div class="row gx-6">
 
 			<?php get_sidebar('left'); ?>
 
-			<div id="loop-wrapper" class="<?php echo esc_attr( $content_class ); ?> py-14">
+			<div id="loop-wrapper" class="<?php echo esc_attr( $content_class ); ?>">
 				<div class="blog classic-view row">
 					<?php if ($pageheader_name === '1') { ?>
 						<h1 class="display-4 mb-10"><?php echo universal_title(); ?></h1>
