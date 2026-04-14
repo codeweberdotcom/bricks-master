@@ -209,7 +209,7 @@ function cw_swatches_render_term_fields( $term_id, $type ) {
 	$dual_angle = $term_id ? (int) get_term_meta( $term_id, 'dual_color_angle', true ) : 45;
 	$dual_angle = $dual_angle ?: 45;
 	$image_id   = $term_id ? (int) get_term_meta( $term_id, 'product_attribute_image', true ) : 0;
-	$image_url  = $image_id ? wp_get_attachment_image_url( $image_id, 'codeweber_avatar_100-100' ) : '';
+	$image_url  = $image_id ? wp_get_attachment_image_url( $image_id, 'woocommerce_gallery_thumbnail' ) : '';
 
 	if ( 'color' === $type ) {
 		?>
@@ -516,7 +516,7 @@ function cw_swatches_render_dropdown( $html, $args ) {
 					}
 				}
 			} elseif ( 'image' === $type && ! empty( $data['image_id'] ) ) {
-				$img_url = wp_get_attachment_image_url( (int) $data['image_id'], 'codeweber_avatar_100-100' );
+				$img_url = wp_get_attachment_image_url( (int) $data['image_id'], 'woocommerce_gallery_thumbnail' );
 				if ( $img_url ) {
 					$inline_style = 'background-image:url(' . esc_url( $img_url ) . ');background-size:cover;background-position:center';
 				}
