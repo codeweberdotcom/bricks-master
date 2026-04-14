@@ -113,7 +113,8 @@ if (!function_exists('get_breadcrumbs')) {
       );
       $needs_blog_crumb = ! $is_any_woo && (
          is_category() || is_date() ||
-         ( is_tag() && ! ( function_exists('is_product_tag') && is_product_tag() ) )
+         ( is_tag() && ! ( function_exists('is_product_tag') && is_product_tag() ) ) ||
+         ( is_single() && get_post_type() === 'post' )
       );
       $blog_page_id = ( $needs_blog_crumb || is_home() ) ? (int) get_option('page_for_posts') : 0;
       $is_blog_page = is_home() && $blog_page_id > 0;
@@ -385,10 +386,13 @@ if (!function_exists('get_breadcrumbs')) {
                      echo '<li class="breadcrumb-item"><a href="' . get_term_link($term) . '">' . esc_html($term->name) . '</a></li>';
                   }
                } else {
-                  $post_type_obj = get_post_type_object($post_type);
-
-                  if ($post_type_obj && !empty($post_type_obj->has_archive)) {
-                     echo '<li class="breadcrumb-item"><a href="' . get_post_type_archive_link($post_type) . '">' . esc_html($post_type_obj->labels->name) . '</a></li>';
+                  if ( $post_type === 'post' && $blog_page_id ) {
+                     echo '<li class="breadcrumb-item"><a href="' . esc_url( get_permalink( $blog_page_id ) ) . '">' . esc_html( get_the_title( $blog_page_id ) ) . '</a></li>';
+                  } else {
+                     $post_type_obj = get_post_type_object($post_type);
+                     if ($post_type_obj && !empty($post_type_obj->has_archive)) {
+                        echo '<li class="breadcrumb-item"><a href="' . get_post_type_archive_link($post_type) . '">' . esc_html($post_type_obj->labels->name) . '</a></li>';
+                     }
                   }
                }
 
