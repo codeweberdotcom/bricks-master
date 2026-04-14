@@ -74,7 +74,7 @@ if (!empty($display['title_class'])) {
                         <span class="post-date"><?php echo esc_html($post_data['date']); ?></span>
                     <?php endif; ?>
                     
-                    <?php if ($display['show_comments']) : ?>
+                    <?php if ($display['show_comments'] && comments_open($post_data['id'])) : ?>
                         <a href="<?php echo esc_url($post_data['link'] . '#comments'); ?>" class="post-comments">
                             <i class="uil uil-comment"></i>
                             <?php echo esc_html($post_data['comments_count']); ?>

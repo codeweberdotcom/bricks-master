@@ -78,7 +78,7 @@ if ($template_args['enable_lift']) {
                         </li>
                     <?php endif; ?>
                     
-                    <?php if ($display['show_comments']) : ?>
+                    <?php if ($display['show_comments'] && comments_open($post_data['id'])) : ?>
                         <li class="post-comments">
                             <span>
                                 <i class="uil uil-comment"></i>

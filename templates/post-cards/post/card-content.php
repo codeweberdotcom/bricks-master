@@ -103,7 +103,7 @@ if (!empty($template_args['border_radius'])) {
                         </li>
                     <?php endif; ?>
                     
-                    <?php if ($display['show_comments']) : ?>
+                    <?php if ($display['show_comments'] && comments_open($post_data['id'])) : ?>
                         <li class="post-comments">
                             <a href="<?php echo esc_url($post_data['link'] . '#comments'); ?>">
                                 <i class="uil uil-comment"></i>
