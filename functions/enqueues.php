@@ -186,6 +186,10 @@ add_action('wp_enqueue_scripts', 'codeweber_styles_scripts');
 if (! function_exists('codeweber_styles_scripts_gutenberg')) {
 	function codeweber_styles_scripts_gutenberg()
 	{
+		if (!is_admin()) {
+			return; // Frontend styles already loaded via wp_enqueue_scripts
+		}
+
 		$theme_version = wp_get_theme()->get('Version');
 
 		// --- CSS ---
@@ -211,7 +215,7 @@ if (! function_exists('codeweber_styles_scripts_gutenberg')) {
 		}
 	}
 }
-add_action('enqueue_block_editor_assets', 'codeweber_styles_scripts_gutenberg');
+add_action('enqueue_block_assets', 'codeweber_styles_scripts_gutenberg');
 
 
 function codeweber_enqueue_restapi_script()
