@@ -339,16 +339,14 @@
   }
 }
 
-// Shimmer-заглушка для главных слайдов пока img не загружена
-// (аналог thumbs shimmer, независим от JS-механизма скелетона)
-// transform: translate3d(0,0,0) на figure — тот же паттерн что .overlay:
-// создаёт свой compositing layer, чтобы overflow:hidden+border-radius
-// корректно обрезали углы внутри Swiper (у .swiper-wrapper свой transform)
+// Shimmer + border-radius fix для главных слайдов галереи
+// ::before на figure (не на slide) — overflow:hidden figure обрезает шиммер
+// по скруглению, нет белой подложки в углах.
+// transform: translate3d(0,0,0) создаёт compositing layer — то же что .overlay,
+// чтобы overflow:hidden+border-radius корректно работали внутри Swiper.
 .swiper-main .swiper-slide > figure {
   transform: translate3d(0, 0, 0);
-}
 
-.swiper-main .swiper-slide {
   &::before {
     content: '';
     position: absolute;
@@ -356,11 +354,10 @@
     background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
     background-size: 200% 100%;
     animation: cw-skeleton-shimmer 1.4s infinite;
-    border-radius: inherit;
     z-index: 0;
   }
 
-  > figure {
+  img {
     position: relative;
     z-index: 1;
   }
