@@ -435,9 +435,6 @@ iframe.wait-autoplay {
   opacity: 0 !important;
 }
 /*Skin */
-.glightbox-clean .gslide-description {
-  background: #fff;
-}
 .glightbox-clean .gdesc-inner {
   padding: 22px 20px;
 }
