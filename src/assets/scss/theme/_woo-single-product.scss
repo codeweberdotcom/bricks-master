@@ -364,8 +364,11 @@
 }
 
 // Shimmer-заглушка для thumb-слайдов пока img не загружена
+// overflow:hidden + border-radius на слайде обрезает ::before по скруглению
 .swiper-thumbs .swiper-slide {
   position: relative;
+  overflow: hidden;
+  border-radius: var(--bs-border-radius);
 
   &::before {
     content: '';
