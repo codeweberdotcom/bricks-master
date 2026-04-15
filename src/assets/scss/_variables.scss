@@ -1305,6 +1305,13 @@ $unordered-list-dot-top:               -0.15rem !default;
 $unordered-list-dot-left:               0 !default;
 $unordered-list-dot-content:            $icon-dot !default;
 
+// Icon list
+$icon-list-icon-top:                    -0.2rem !default;
+$icon-list-icon-font-size:              1rem !default;
+$icon-list-bg-top:                      0.2rem !default;
+$icon-list-bg-font-size:                0.8rem !default;
+$icon-list-bg-size:                     1rem !default;
+
 $icon-caret-start: "\e92f" !default;
 $icon-caret-end: "\e931" !default;
 $icon-caret-up: "\e932" !default;
