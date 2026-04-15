@@ -693,6 +693,12 @@
   }
 }
 
+// Horizontal menu block (navbar-nav.flex-row без navbar-expand контекста)
+.navbar-nav.flex-row .nav-link {
+  padding-right: var(--#{$prefix}navbar-nav-link-padding-x);
+  padding-left: var(--#{$prefix}navbar-nav-link-padding-x);
+}
+
 @media (min-width: 992px) {
   .navbar-expand-lg.fancy:not(.fixed) .navbar-collapse-wrapper {
       padding: 0 1.5rem 0 1.5rem;
