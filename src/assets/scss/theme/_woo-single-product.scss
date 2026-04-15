@@ -341,6 +341,13 @@
 
 // Shimmer-заглушка для главных слайдов пока img не загружена
 // (аналог thumbs shimmer, независим от JS-механизма скелетона)
+// transform: translate3d(0,0,0) на figure — тот же паттерн что .overlay:
+// создаёт свой compositing layer, чтобы overflow:hidden+border-radius
+// корректно обрезали углы внутри Swiper (у .swiper-wrapper свой transform)
+.swiper-main .swiper-slide > figure {
+  transform: translate3d(0, 0, 0);
+}
+
 .swiper-main .swiper-slide {
   &::before {
     content: '';
