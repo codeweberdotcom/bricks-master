@@ -693,8 +693,8 @@
   }
 }
 
-// Horizontal menu block (navbar-nav.flex-row без navbar-expand контекста)
-.navbar-nav.flex-row .nav-link {
+// Horizontal menu block (navbar-nav.flex-md-row без navbar-expand контекста)
+.navbar-nav.flex-md-row .nav-link {
   padding-right: var(--#{$prefix}navbar-nav-link-padding-x, .5rem);
   padding-left: var(--#{$prefix}navbar-nav-link-padding-x, .5rem);
 }
