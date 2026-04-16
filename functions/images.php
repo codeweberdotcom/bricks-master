@@ -66,6 +66,14 @@ if (! function_exists('codeweber_image_settings')) {
 }
 add_action('after_setup_theme', 'codeweber_image_settings');
 
+// Enable crop for built-in 'large' size
+add_filter('intermediate_image_sizes_advanced', function ($sizes) {
+	if (isset($sizes['large'])) {
+		$sizes['large']['crop'] = true;
+	}
+	return $sizes;
+});
+
 
 // --- Set image compression value ---
 // https://developer.wordpress.org/reference/hooks/jpeg_quality/
