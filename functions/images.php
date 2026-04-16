@@ -66,8 +66,11 @@ if (! function_exists('codeweber_image_settings')) {
 }
 add_action('after_setup_theme', 'codeweber_image_settings');
 
-// Enable crop for built-in 'large' size
+// Enable crop for built-in 'medium' and 'large' sizes
 add_filter('intermediate_image_sizes_advanced', function ($sizes) {
+	if (isset($sizes['medium'])) {
+		$sizes['medium']['crop'] = true;
+	}
 	if (isset($sizes['large'])) {
 		$sizes['large']['crop'] = true;
 	}
