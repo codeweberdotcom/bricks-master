@@ -420,6 +420,7 @@ figure.overlay img {
 .hover-plus .hover-icon svg {
   width: 45px;
   height: 45px;
+  z-index: 5;
 }
 @media (min-width: 1200px) {
   .hover-plus .hover-icon,
