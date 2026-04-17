@@ -27,6 +27,10 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 				<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
 
+			<?php if ( $hover_img_html ) : ?>
+				<?php echo $hover_img_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php endif; ?>
+
 			<?php echo $badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 			<a class="<?php echo esc_attr( $cw_wl_class ); ?>"

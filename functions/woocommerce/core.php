@@ -617,7 +617,8 @@ require_once get_template_directory() . '/functions/woocommerce/filters.php';
  * (магазин, категории, теги, вишлист) для поддержки Quick View.
  */
 add_action( 'wp_enqueue_scripts', function () {
-	if ( ! is_product() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() ) {
+	$has_post_grid = function_exists( 'has_block' ) && has_block( 'codeweber-blocks/post-grid' );
+	if ( ! is_product() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() && ! $has_post_grid ) {
 		return;
 	}
 

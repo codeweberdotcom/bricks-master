@@ -104,7 +104,10 @@ function cw_quick_view_enqueue() {
 	if ( ! function_exists( 'is_woocommerce' ) ) {
 		return;
 	}
-	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() ) {
+	// Загружаем на WC-страницах, странице избранного, и на любой странице/записи,
+	// где размещён блок Post Grid (который может показывать товары).
+	$has_post_grid = function_exists( 'has_block' ) && has_block( 'codeweber-blocks/post-grid' );
+	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() && ! $has_post_grid ) {
 		return;
 	}
 

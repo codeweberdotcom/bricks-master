@@ -40,9 +40,11 @@ class CW_Compare_UI {
 	 * Enqueue compare JS and localize vars.
 	 */
 	public function enqueue_scripts() {
+		$has_post_grid = function_exists( 'has_block' ) && has_block( 'codeweber-blocks/post-grid' );
 		if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag()
 			&& ! cw_is_compare_page()
 			&& ! ( function_exists( 'cw_is_wishlist_page' ) && cw_is_wishlist_page() )
+			&& ! $has_post_grid
 		) {
 			return;
 		}
@@ -143,9 +145,11 @@ class CW_Compare_UI {
 	 * The wrapper stays static; only inner content is replaced via AJAX.
 	 */
 	public function render_bar_container() {
+		$has_post_grid = function_exists( 'has_block' ) && has_block( 'codeweber-blocks/post-grid' );
 		if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag()
 			&& ! cw_is_compare_page()
 			&& ! ( function_exists( 'cw_is_wishlist_page' ) && cw_is_wishlist_page() )
+			&& ! $has_post_grid
 		) {
 			return;
 		}
