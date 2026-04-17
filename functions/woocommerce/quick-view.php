@@ -74,8 +74,10 @@ function cw_quick_view_modal_container() {
 	if ( ! function_exists( 'is_woocommerce' ) ) {
 		return;
 	}
-	$has_post_grid = function_exists( 'has_block' ) && has_block( 'codeweber-blocks/post-grid' );
-	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() && ! $has_post_grid ) {
+	// Пропускаем только админку и feed-ы. На любой фронт-странице с WC
+	// рендерим контейнер — он скрыт, стоимость минимальна, зато QV работает
+	// везде, где может появиться кнопка .item-view (Post Grid, кастомные шорткоды, ...).
+	if ( is_admin() || is_feed() ) {
 		return;
 	}
 	$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
@@ -105,10 +107,10 @@ function cw_quick_view_enqueue() {
 	if ( ! function_exists( 'is_woocommerce' ) ) {
 		return;
 	}
-	// Загружаем на WC-страницах, странице избранного, и на любой странице/записи,
-	// где размещён блок Post Grid (который может показывать товары).
-	$has_post_grid = function_exists( 'has_block' ) && has_block( 'codeweber-blocks/post-grid' );
-	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() && ! $has_post_grid ) {
+	// Грузим JS везде на фронте — кнопка .item-view может быть в Post Grid,
+	// кастомных блоках, шорткодах и т.д. Обнаружение через has_block() ненадёжно
+	// для template parts / FSE-шаблонов.
+	if ( is_admin() || is_feed() ) {
 		return;
 	}
 
