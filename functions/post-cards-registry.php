@@ -249,12 +249,19 @@ function codeweber_get_post_card_templates_registry() {
 function codeweber_get_post_card_templates_for($post_type) {
     $registry = codeweber_get_post_card_templates_registry();
 
-    if (!isset($registry[$post_type]) || empty($registry[$post_type]['templates'])) {
+    // Специфичные шаблоны для CPT — если зарегистрированы
+    if (isset($registry[$post_type]) && !empty($registry[$post_type]['templates'])) {
+        $source = $registry[$post_type]['templates'];
+    } elseif (!empty($registry['post']['templates'])) {
+        // Fallback на post-шаблоны — соответствует поведению cw_render_post_card,
+        // которое для нестандартных CPT использует папку `post/`.
+        $source = $registry['post']['templates'];
+    } else {
         return [];
     }
 
     $result = [];
-    foreach ($registry[$post_type]['templates'] as $slug => $meta) {
+    foreach ($source as $slug => $meta) {
         $result[] = [
             'value' => $slug,
             'label' => isset($meta['label']) ? $meta['label'] : $slug,
