@@ -207,6 +207,36 @@ function codeweber_get_post_card_templates_registry() {
         ],
     ];
 
+    // WooCommerce product — шаблоны лежат в templates/woocommerce/cards/
+    // (не копируем сюда, подключаем через фильтр codeweber_post_card_template_path ниже)
+    if (class_exists('WooCommerce')) {
+        $registry['product'] = [
+            // 'dir' намеренно не задан — путь перехватывается фильтром ниже
+            'templates' => [
+                'shop-card' => [
+                    'label' => __('Shop Card', 'codeweber'),
+                    'description' => __('Bootstrap card with Add to cart, Sale/New badges, hover swap', 'codeweber'),
+                    'supports' => ['title', 'image', 'price', 'button', 'badges'],
+                ],
+                'shop-compact' => [
+                    'label' => __('Shop Compact', 'codeweber'),
+                    'description' => __('Minimalistic card for dense 4-6 column grids', 'codeweber'),
+                    'supports' => ['title', 'image', 'price', 'button'],
+                ],
+                'shop-list' => [
+                    'label' => __('Shop List', 'codeweber'),
+                    'description' => __('Horizontal: image 1/3, content 2/3', 'codeweber'),
+                    'supports' => ['title', 'image', 'price', 'excerpt', 'button'],
+                ],
+                'shop2' => [
+                    'label' => __('Shop 2', 'codeweber'),
+                    'description' => __('Isotope grid style, figure with overlays', 'codeweber'),
+                    'supports' => ['title', 'image', 'price', 'badges'],
+                ],
+            ],
+        ];
+    }
+
     return apply_filters('codeweber_post_card_templates_registry', $registry);
 }
 
@@ -250,3 +280,29 @@ add_filter('codeweber_post_type_template_map', function ($map) {
     }
     return $map;
 });
+
+/**
+ * Перехват пути шаблона для WooCommerce product:
+ * используем существующие карты из templates/woocommerce/cards/, не копируя их
+ * в templates/post-cards/. Также проставляем global $product — WC-карты
+ * рассчитывают на него.
+ */
+add_filter('codeweber_post_card_template_path', function ($path, $template_name, $post_type, $post_data) {
+    if ($post_type !== 'product' || !class_exists('WooCommerce')) {
+        return $path;
+    }
+
+    $wc_path = get_theme_file_path(
+        'templates/woocommerce/cards/' . sanitize_file_name($template_name) . '.php'
+    );
+
+    if ($wc_path && file_exists($wc_path)) {
+        global $product;
+        if (!$product && !empty($post_data['post']->ID)) {
+            $product = wc_get_product($post_data['post']->ID);
+        }
+        return $wc_path;
+    }
+
+    return $path;
+}, 10, 4);

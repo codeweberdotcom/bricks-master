@@ -82,7 +82,10 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
     
     // Путь к шаблону: сначала дочерняя тема, затем родительская (get_theme_file_path)
     $template_path = get_theme_file_path('templates/post-cards/' . $template_dir . '/' . $template_file . '.php');
-    
+
+    // Фильтр для полного переопределения пути (для нестандартных директорий — WC-карты и т.п.)
+    $template_path = apply_filters('codeweber_post_card_template_path', $template_path, $template_name, $post_type, $post_data);
+
     // Fallback: проверяем старую структуру (для обратной совместимости)
     if (!$template_path || !file_exists($template_path)) {
         $old_template_path = get_theme_file_path('templates/post-cards/' . sanitize_file_name($template_name) . '.php');
