@@ -74,7 +74,8 @@ function cw_quick_view_modal_container() {
 	if ( ! function_exists( 'is_woocommerce' ) ) {
 		return;
 	}
-	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() ) {
+	$has_post_grid = function_exists( 'has_block' ) && has_block( 'codeweber-blocks/post-grid' );
+	if ( ! is_woocommerce() && ! is_shop() && ! is_product_category() && ! is_product_tag() && ! cw_is_wishlist_page() && ! $has_post_grid ) {
 		return;
 	}
 	$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
