@@ -77,7 +77,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 			$excerpt = $product->get_short_description();
 			if ( $excerpt ) :
 			?>
-				<p class="mb-3 text-muted fs-15 line-clamp-2"><?php echo wp_kses_post( wp_trim_words( wp_strip_all_tags( $excerpt ), 20 ) ); ?></p>
+				<p class="mb-3 text-muted fs-sm line-clamp-2"><?php echo wp_kses_post( wp_trim_words( wp_strip_all_tags( $excerpt ), 20 ) ); ?></p>
 			<?php endif; ?>
 
 			<?php if ( $show_price ) : ?>
