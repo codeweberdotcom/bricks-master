@@ -124,13 +124,13 @@ $social_size = Redux::get_option($opt_name, 'global-social-button-size', 'md');
          </div>
          <!-- /.post-content -->
 
-         <div class="post-footer d-md-flex flex-md-row justify-content-md-between align-items-center mt-8">
+         <div class="post-footer d-flex flex-column flex-md-row justify-content-md-between align-items-md-center gap-3 mt-8">
             <?php if ($vacancy_data && (function_exists('vacancy_social_links'))) : ?>
                <div class="d-flex">
                   <?php echo vacancy_social_links($vacancy_post_id, '', $social_type, $social_size, 'primary', 'solid', $social_button_style); ?>
                </div>
             <?php endif; ?>
-            <div class="mb-0 mb-md-2">
+            <div>
                <?php codeweber_share_page(['region' => 'auto']); ?>
             </div>
          </div>
