@@ -1,9 +1,11 @@
 <?php
 /**
- * Template: Overlay-5 Post Card
- * 
- * Шаблон с overlay-5 эффектом и bottom-overlay для даты
- * 
+ * Template: Overlay-5 Service Card
+ *
+ * Адаптация post/overlay-5 под CPT services — без даты.
+ * Заголовок поверх картинки на bottom-overlay, excerpt в figcaption на hover,
+ * стрелка hover_card_button_hide и опциональная надпись «Подробнее/Перейти/Читать».
+ *
  * @param array $post_data Данные поста
  * @param array $display_settings Настройки отображения
  * @param array $template_args Дополнительные аргументы
@@ -43,7 +45,6 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
 $excerpt = '';
 if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
     $excerpt = wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...');
-    // Ограничиваем до 116 символов (как в примере)
     if (mb_strlen($excerpt) > 116) {
         $excerpt = mb_substr($excerpt, 0, 113) . '...';
     }
@@ -56,9 +57,6 @@ if (!empty($display['title_class'])) {
 } else {
     $title_class = 'h5 mb-0';
 }
-
-// Форматируем дату для badge
-$date_badge = get_the_date('d M Y', $post_data['id']);
 ?>
 
 <article<?php echo $article_class ? ' class="' . esc_attr($article_class) . '"' : ''; ?>>
@@ -66,12 +64,6 @@ $date_badge = get_the_date('d M Y', $post_data['id']);
         <figure class="<?php echo esc_attr($template_args['hover_classes'] . ' ' . $template_args['border_radius']); ?> card-interactive">
             <a href="<?php echo esc_url($post_data['link']); ?>">
                 <div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
-                    <?php if ($display['show_date']) : ?>
-                        <div class="d-flex w-100 justify-content-end">
-                            <span class="post-date badge bg-primary rounded-pill"><?php echo esc_html($date_badge); ?></span>
-                        </div>
-                    <?php endif; ?>
-
                     <?php if ($display['show_title']) : ?>
                         <div class="mt-auto">
                             <<?php echo esc_attr($title_tag); ?> class="<?php echo esc_attr(trim($title_class)); ?>">

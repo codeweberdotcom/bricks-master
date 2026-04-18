@@ -205,6 +205,17 @@ function codeweber_get_post_card_templates_registry() {
                 ],
             ],
         ],
+
+        'services' => [
+            'dir' => 'services',
+            'templates' => [
+                'overlay-5' => [
+                    'label' => __('Overlay 5', 'codeweber'),
+                    'description' => __('Service card with title on image and optional excerpt on hover', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'image'],
+                ],
+            ],
+        ],
     ];
 
     // WooCommerce product — шаблоны лежат в templates/woocommerce/cards/
