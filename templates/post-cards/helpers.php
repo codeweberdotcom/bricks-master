@@ -34,6 +34,7 @@ function cw_get_post_card_display_settings($args = []) {
         'show_date' => true,
         'show_category' => true,
         'show_comments' => true,
+        'show_excerpt' => true, // Дефолт true сохраняет исторический рендер шаблонов, где excerpt всегда показан при excerpt_length>0
         'title_length' => 0,
         'excerpt_length' => 0,
         'title_tag' => 'h2', // h1, h2, h3, h4, h5, h6, p, div, span

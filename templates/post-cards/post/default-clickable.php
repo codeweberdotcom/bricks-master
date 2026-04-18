@@ -27,6 +27,12 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
     $title = mb_substr($title, 0, $display['title_length']) . '...';
 }
 
+// Excerpt (опционально)
+$excerpt = '';
+if (!empty($display['show_excerpt']) && !empty($display['excerpt_length'])) {
+    $excerpt = wp_trim_words($post_data['excerpt'], (int) $display['excerpt_length'], '...');
+}
+
 // Формируем тег и классы для заголовка
 $title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';
 if (!empty($display['title_class'])) {
@@ -67,7 +73,13 @@ if ($template_args['enable_lift']) {
                 </<?php echo esc_attr($title_tag); ?>>
             <?php endif; ?>
         </div>
-        
+
+        <?php if ($excerpt) : ?>
+            <div class="post-content px-4">
+                <p class="mb-0"><?php echo esc_html($excerpt); ?></p>
+            </div>
+        <?php endif; ?>
+
         <?php if ($display['show_date'] || $display['show_comments']) : ?>
             <div class="post-footer p-4 mt-auto">
                 <ul class="post-meta">

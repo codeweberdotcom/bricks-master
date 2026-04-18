@@ -18,7 +18,10 @@ $template_args = wp_parse_args($template_args ?? [], [
     'hover_classes' => 'overlay overlay-5',
     'border_radius' => Codeweber_Options::style('card-radius') ?: 'rounded',
     'show_figcaption' => true,
+    'enable_lift' => false,
 ]);
+
+$article_class = !empty($template_args['enable_lift']) ? 'lift' : '';
 
 $title = $post_data['title'];
 if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']) {
@@ -26,7 +29,7 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
 }
 
 $excerpt = '';
-if ($display['excerpt_length'] > 0) {
+if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
     $excerpt = wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...');
     // Ограничиваем до 116 символов (как в примере)
     if (mb_strlen($excerpt) > 116) {
@@ -46,7 +49,7 @@ if (!empty($display['title_class'])) {
 $date_badge = get_the_date('d M Y', $post_data['id']);
 ?>
 
-<article>
+<article<?php echo $article_class ? ' class="' . esc_attr($article_class) . '"' : ''; ?>>
     <?php if ($post_data['image_url']) : ?>
         <figure class="<?php echo esc_attr($template_args['hover_classes'] . ' ' . $template_args['border_radius']); ?>">
             <a href="<?php echo esc_url($post_data['link']); ?>">

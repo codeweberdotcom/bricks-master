@@ -19,11 +19,20 @@ $template_args = wp_parse_args($template_args ?? [], [
     'border_radius' => Codeweber_Options::style('card-radius') ?: 'rounded',
     'show_figcaption' => true,
     'enable_hover_scale' => false, // Включить hover-scale эффект
+    'enable_lift' => false,
 ]);
 
 // Добавляем hover-scale класс если включен
 if ($template_args['enable_hover_scale']) {
     $template_args['hover_classes'] .= ' hover-scale';
+}
+
+$article_class = !empty($template_args['enable_lift']) ? 'lift' : '';
+
+// Excerpt (опционально)
+$excerpt = '';
+if (!empty($display['show_excerpt']) && !empty($display['excerpt_length'])) {
+    $excerpt = wp_trim_words($post_data['excerpt'], (int) $display['excerpt_length'], '...');
 }
 
 // Ограничение заголовка
@@ -47,7 +56,7 @@ if (!empty($display['title_class'])) {
 }
 ?>
 
-<article>
+<article<?php echo $article_class ? ' class="' . esc_attr($article_class) . '"' : ''; ?>>
     <?php if ($post_data['image_url']) : ?>
         <figure class="<?php echo esc_attr($template_args['hover_classes'] . ' ' . $template_args['border_radius'] . ' mb-5'); ?>">
             <a href="<?php echo esc_url($post_data['link']); ?>">
@@ -78,7 +87,13 @@ if (!empty($display['title_class'])) {
             </<?php echo esc_attr($title_tag); ?>>
         <?php endif; ?>
     </div>
-    
+
+    <?php if ($excerpt) : ?>
+        <div class="post-content mb-3">
+            <p class="mb-0"><?php echo esc_html($excerpt); ?></p>
+        </div>
+    <?php endif; ?>
+
     <?php if ($display['show_date'] || $display['show_comments']) : ?>
         <div class="post-footer">
             <ul class="post-meta">

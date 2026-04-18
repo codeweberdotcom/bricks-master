@@ -18,7 +18,10 @@ $template_args = wp_parse_args($template_args ?? [], [
     'hover_classes' => 'overlay overlay-1 hover-scale',
     'border_radius' => Codeweber_Options::style('card-radius') ?: '',
     'show_figcaption' => true,
+    'enable_lift' => false,
 ]);
+
+$lift_class = !empty($template_args['enable_lift']) ? ' lift' : '';
 
 // Ограничение заголовка
 $title = $post_data['title'];
@@ -26,9 +29,9 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
     $title = mb_substr($title, 0, $display['title_length']) . '...';
 }
 
-// Формируем excerpt
+// Формируем excerpt (показываем только если разрешено show_excerpt)
 $excerpt = '';
-if ($display['excerpt_length'] > 0) {
+if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
     $excerpt = wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...');
     // Ограничиваем до 116 символов (как в примере Sandbox)
     if (mb_strlen($excerpt) > 116) {
@@ -52,7 +55,7 @@ if (!empty($template_args['border_radius'])) {
 ?>
 
 <article class="h-100 mb-6">
-    <div class="card d-flex flex-column h-100<?php echo $template_args['border_radius'] ? ' ' . esc_attr($template_args['border_radius']) : ''; ?>">
+    <div class="card d-flex flex-column h-100<?php echo $template_args['border_radius'] ? ' ' . esc_attr($template_args['border_radius']) : ''; ?><?php echo esc_attr($lift_class); ?>">
         <?php if ($post_data['image_url']) : ?>
             <figure class="<?php echo esc_attr($figure_classes); ?>">
                 <a href="<?php echo esc_url($post_data['link']); ?>">
