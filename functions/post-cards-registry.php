@@ -61,6 +61,11 @@ function codeweber_get_post_card_templates_registry() {
                     'description' => __('Overlay effect with 90% opacity and bottom overlay for date', 'codeweber'),
                     'supports' => ['title', 'date', 'excerpt', 'image'],
                 ],
+                'overlay-5-primary' => [
+                    'label' => __('Overlay 5 Primary', 'codeweber'),
+                    'description' => __('Primary-colored overlay on hover; title and excerpt slide in from the left', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'image'],
+                ],
             ],
         ],
 
@@ -211,7 +216,12 @@ function codeweber_get_post_card_templates_registry() {
             'templates' => [
                 'overlay-5' => [
                     'label' => __('Overlay 5', 'codeweber'),
-                    'description' => __('Service card with title on image and optional excerpt on hover', 'codeweber'),
+                    'description' => __('Service card: title bottom, category badge top, excerpt on hover', 'codeweber'),
+                    'supports' => ['title', 'category', 'excerpt', 'image'],
+                ],
+                'overlay-5-primary' => [
+                    'label' => __('Overlay 5 Primary', 'codeweber'),
+                    'description' => __('Service card with primary-colored overlay on hover; title and excerpt slide in from the left', 'codeweber'),
                     'supports' => ['title', 'excerpt', 'image'],
                 ],
             ],

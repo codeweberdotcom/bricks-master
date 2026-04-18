@@ -64,6 +64,14 @@ if (!empty($display['title_class'])) {
         <figure class="<?php echo esc_attr($template_args['hover_classes'] . ' ' . $template_args['border_radius']); ?> card-interactive">
             <a href="<?php echo esc_url($post_data['link']); ?>">
                 <div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
+                    <?php if (!empty($display['show_category']) && $post_data['category']) : ?>
+                        <div class="d-flex w-100 justify-content-end">
+                            <span class="post-category badge bg-primary rounded-pill">
+                                <?php echo esc_html($post_data['category']->name); ?>
+                            </span>
+                        </div>
+                    <?php endif; ?>
+
                     <?php if ($display['show_title']) : ?>
                         <div class="mt-auto">
                             <<?php echo esc_attr($title_tag); ?> class="<?php echo esc_attr(trim($title_class)); ?>">
