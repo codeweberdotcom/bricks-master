@@ -15,13 +15,25 @@ if (!isset($post_data) || !$post_data) {
 
 $display = cw_get_post_card_display_settings($display_settings ?? []);
 $template_args = wp_parse_args($template_args ?? [], [
-    'hover_classes' => 'overlay overlay-5',
-    'border_radius' => Codeweber_Options::style('card-radius') ?: 'rounded',
+    'hover_classes'   => 'overlay overlay-5',
+    'border_radius'   => Codeweber_Options::style('card-radius') ?: 'rounded',
     'show_figcaption' => true,
-    'enable_lift' => false,
+    'enable_lift'     => false,
+    'show_card_arrow' => true,
+    'card_read_more'  => 'none', // none | view | more | read
 ]);
 
 $article_class = !empty($template_args['enable_lift']) ? 'lift' : '';
+
+// Build localized read-more label (translatable — no Cyrillic source strings).
+$read_more_labels = [
+    'view' => __('View', 'codeweber'),
+    'more' => __('Read more', 'codeweber'),
+    'read' => __('Read', 'codeweber'),
+];
+$read_more_label = isset($read_more_labels[$template_args['card_read_more']])
+    ? $read_more_labels[$template_args['card_read_more']]
+    : '';
 
 $title = $post_data['title'];
 if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']) {
@@ -75,13 +87,18 @@ $date_badge = get_the_date('d M Y', $post_data['id']);
                         <?php if ($excerpt) : ?>
                             <p class="mb-3"><?php echo esc_html($excerpt); ?></p>
                         <?php endif; ?>
+                        <?php if ($read_more_label) : ?>
+                            <span class="hover more me-4"><?php echo esc_html($read_more_label); ?></span>
+                        <?php endif; ?>
                     </div>
                 </figcaption>
             <?php endif; ?>
 
-            <div class="hover_card_button_hide position-absolute top-0 end-0 p-5 zindex-10">
-                <i class="fs-25 uil uil-arrow-right lh-1"></i>
-            </div>
+            <?php if (!empty($template_args['show_card_arrow'])) : ?>
+                <div class="hover_card_button_hide position-absolute top-0 end-0 p-5 zindex-10">
+                    <i class="fs-25 uil uil-arrow-right lh-1"></i>
+                </div>
+            <?php endif; ?>
         </figure>
     <?php endif; ?>
 </article>
