@@ -1,25 +1,36 @@
 <?php
 /**
- * Template: Vacancies Archive - Style 7 (Horizontal cards, one per row, whole card clickable, square photo)
+ * Template: Vacancies Archive — Style 7 (Avatar cards grid)
  *
- * Same as vacancies_6 but uses square image size (600×600).
+ * Сетка компактных карточек с цветными аватарами (инициалы), badge типа
+ * вакансии, название и локация. 3 колонки на desktop, 2 на tablet, 1 на mobile.
+ *
+ * Использует карточку templates/post-cards/vacancies/avatar-card.php.
  *
  * @package Codeweber
  */
 
-if (have_posts()) :
-?>
-<div class="row <?php echo esc_attr( Codeweber_Options::style( 'grid-gap' ) ); ?> mb-5">
-	<?php
-	while (have_posts()) :
-		the_post();
-		?>
-		<div class="col-12">
-			<?php get_template_part('templates/post-cards/vacancies/style7-card'); ?>
-		</div>
-		<?php
-	endwhile;
+defined( 'ABSPATH' ) || exit;
+
+if ( have_posts() ) :
 	?>
-</div>
-<?php
+	<div class="row gy-6 mb-5">
+		<?php
+		$avatar_index = 0;
+		while ( have_posts() ) :
+			the_post();
+			?>
+			<div class="col-md-6 col-lg-4">
+				<?php
+				get_template_part(
+					'templates/post-cards/vacancies/avatar-card',
+					null,
+					[ 'avatar_index' => $avatar_index ]
+				);
+				$avatar_index++;
+				?>
+			</div>
+		<?php endwhile; ?>
+	</div>
+	<?php
 endif;
