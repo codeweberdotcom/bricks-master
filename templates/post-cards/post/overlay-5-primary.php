@@ -2,12 +2,12 @@
 /**
  * Template: Overlay-5 Primary Post Card
  *
- * Изображение + primary-цветной overlay при hover, заголовок и excerpt
- * появляются слева. Без bottom-overlay — в non-hover видна только картинка.
+ * Полный аналог post/overlay-5.php — отличается только классом .color на figure,
+ * который делает overlay при hover primary-цветным вместо тёмного.
  *
- * @param array $post_data
- * @param array $display_settings
- * @param array $template_args
+ * @param array $post_data Данные поста
+ * @param array $display_settings Настройки отображения
+ * @param array $template_args Дополнительные аргументы
  */
 
 if (!isset($post_data) || !$post_data) {
@@ -16,7 +16,9 @@ if (!isset($post_data) || !$post_data) {
 
 $display = cw_get_post_card_display_settings($display_settings ?? []);
 $template_args = wp_parse_args($template_args ?? [], [
+    'hover_classes'   => 'overlay overlay-5 color',
     'border_radius'   => Codeweber_Options::style('card-radius') ?: 'rounded',
+    'show_figcaption' => true,
     'enable_lift'     => false,
     'show_card_arrow' => true,
     'card_read_more'  => 'none', // none | view | more | read
@@ -24,7 +26,7 @@ $template_args = wp_parse_args($template_args ?? [], [
 
 $article_class = !empty($template_args['enable_lift']) ? 'lift' : '';
 
-// Translatable read-more label.
+// Build localized read-more label (translatable — no Cyrillic source strings).
 $read_more_labels = [
     'view' => __('View', 'codeweber'),
     'more' => __('Read more', 'codeweber'),
@@ -42,40 +44,57 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
 $excerpt = '';
 if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
     $excerpt = wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...');
+    if (mb_strlen($excerpt) > 116) {
+        $excerpt = mb_substr($excerpt, 0, 113) . '...';
+    }
 }
 
-$title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h5';
+// Формируем тег и классы для заголовка
+$title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';
 if (!empty($display['title_class'])) {
     $title_class = esc_attr($display['title_class']);
 } else {
-    $title_class = 'from-left mb-1';
+    $title_class = 'h5 mb-0';
 }
 
-$figure_classes = 'overlay overlay-5 hover-scale color card-interactive ' . esc_attr($template_args['border_radius']);
+// Форматируем дату для badge
+$date_badge = get_the_date('d M Y', $post_data['id']);
 ?>
 
 <article<?php echo $article_class ? ' class="' . esc_attr($article_class) . '"' : ''; ?>>
     <?php if ($post_data['image_url']) : ?>
-        <figure class="<?php echo esc_attr($figure_classes); ?>">
+        <figure class="<?php echo esc_attr($template_args['hover_classes'] . ' ' . $template_args['border_radius']); ?> card-interactive">
             <a href="<?php echo esc_url($post_data['link']); ?>">
-                <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" />
+                <div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
+                    <?php if ($display['show_date']) : ?>
+                        <div class="d-flex w-100 justify-content-end">
+                            <span class="post-date badge bg-primary rounded-pill"><?php echo esc_html($date_badge); ?></span>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($display['show_title']) : ?>
+                        <div class="mt-auto">
+                            <<?php echo esc_attr($title_tag); ?> class="<?php echo esc_attr(trim($title_class)); ?>">
+                                <?php echo esc_html($title); ?>
+                            </<?php echo esc_attr($title_tag); ?>>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>" class="<?php echo esc_attr($template_args['border_radius']); ?>">
             </a>
 
-            <figcaption>
-                <?php if ($display['show_title']) : ?>
-                    <<?php echo esc_attr($title_tag); ?> class="<?php echo esc_attr(trim($title_class)); ?>">
-                        <?php echo esc_html($title); ?>
-                    </<?php echo esc_attr($title_tag); ?>>
-                <?php endif; ?>
-
-                <?php if ($excerpt) : ?>
-                    <p class="from-left mb-0"><?php echo esc_html($excerpt); ?></p>
-                <?php endif; ?>
-
-                <?php if ($read_more_label) : ?>
-                    <span class="hover more from-left mt-3 d-inline-block"><?php echo esc_html($read_more_label); ?></span>
-                <?php endif; ?>
-            </figcaption>
+            <?php if ($template_args['show_figcaption']) : ?>
+                <figcaption class="p-5">
+                    <div class="post-body h-100 d-flex flex-column from-left justify-content-end">
+                        <?php if ($excerpt) : ?>
+                            <p class="mb-3"><?php echo esc_html($excerpt); ?></p>
+                        <?php endif; ?>
+                        <?php if ($read_more_label) : ?>
+                            <span class="hover more me-4"><?php echo esc_html($read_more_label); ?></span>
+                        <?php endif; ?>
+                    </div>
+                </figcaption>
+            <?php endif; ?>
 
             <?php if (!empty($template_args['show_card_arrow'])) : ?>
                 <div class="hover_card_button_hide position-absolute top-0 end-0 p-5 zindex-10">
