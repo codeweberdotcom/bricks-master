@@ -71,13 +71,17 @@ if (!empty($display['title_class'])) {
         <?php endif; ?>
         
         <div class="post-body mt-4">
-            <?php if ($display['show_date'] || $display['show_comments']) : ?>
+            <?php
+            $footer_has_date = !empty($display['show_date']);
+            $footer_has_comments = !empty($display['show_comments']) && comments_open($post_data['id']);
+            ?>
+            <?php if ($footer_has_date || $footer_has_comments) : ?>
                 <div class="post-meta d-flex mb-3 fs-16 justify-content-between">
-                    <?php if ($display['show_date']) : ?>
+                    <?php if ($footer_has_date) : ?>
                         <span class="post-date"><?php echo esc_html($post_data['date']); ?></span>
                     <?php endif; ?>
-                    
-                    <?php if ($display['show_comments'] && comments_open($post_data['id'])) : ?>
+
+                    <?php if ($footer_has_comments) : ?>
                         <a href="<?php echo esc_url($post_data['link'] . '#comments'); ?>" class="post-comments">
                             <i class="uil uil-comment"></i>
                             <?php echo esc_html($post_data['comments_count']); ?>

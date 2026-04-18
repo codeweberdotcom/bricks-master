@@ -94,17 +94,21 @@ if (!empty($display['title_class'])) {
         </div>
     <?php endif; ?>
 
-    <?php if ($display['show_date'] || $display['show_comments']) : ?>
+    <?php
+    $footer_has_date = !empty($display['show_date']);
+    $footer_has_comments = !empty($display['show_comments']) && comments_open($post_data['id']);
+    ?>
+    <?php if ($footer_has_date || $footer_has_comments) : ?>
         <div class="post-footer">
             <ul class="post-meta">
-                <?php if ($display['show_date']) : ?>
+                <?php if ($footer_has_date) : ?>
                     <li class="post-date">
                         <i class="uil uil-calendar-alt"></i>
                         <span><?php echo esc_html($post_data['date']); ?></span>
                     </li>
                 <?php endif; ?>
-                
-                <?php if ($display['show_comments'] && comments_open($post_data['id'])) : ?>
+
+                <?php if ($footer_has_comments) : ?>
                     <li class="post-comments">
                         <a href="<?php echo esc_url($post_data['link'] . '#comments'); ?>">
                             <i class="uil uil-comment"></i>

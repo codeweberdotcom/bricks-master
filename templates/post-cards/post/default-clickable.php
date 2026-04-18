@@ -80,17 +80,21 @@ if ($template_args['enable_lift']) {
             </div>
         <?php endif; ?>
 
-        <?php if ($display['show_date'] || $display['show_comments']) : ?>
+        <?php
+        $footer_has_date = !empty($display['show_date']);
+        $footer_has_comments = !empty($display['show_comments']) && comments_open($post_data['id']);
+        ?>
+        <?php if ($footer_has_date || $footer_has_comments) : ?>
             <div class="post-footer p-4 mt-auto">
                 <ul class="post-meta">
-                    <?php if ($display['show_date']) : ?>
+                    <?php if ($footer_has_date) : ?>
                         <li class="post-date">
                             <i class="uil uil-calendar-alt"></i>
                             <span><?php echo esc_html($post_data['date']); ?></span>
                         </li>
                     <?php endif; ?>
-                    
-                    <?php if ($display['show_comments'] && comments_open($post_data['id'])) : ?>
+
+                    <?php if ($footer_has_comments) : ?>
                         <li class="post-comments">
                             <span>
                                 <i class="uil uil-comment"></i>
