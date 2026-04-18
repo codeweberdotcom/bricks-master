@@ -61,7 +61,7 @@ if (!empty($display['title_class'])) {
 
 <article<?php echo $article_class ? ' class="' . esc_attr($article_class) . '"' : ''; ?>>
     <?php if ($post_data['image_url']) : ?>
-        <figure class="<?php echo esc_attr($template_args['hover_classes'] . ' ' . $template_args['border_radius']); ?> card-interactive">
+        <figure class="<?php echo esc_attr($template_args['hover_classes'] . ' ' . $template_args['border_radius']); ?> card-interactive text-start">
             <a href="<?php echo esc_url($post_data['link']); ?>">
                 <div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
                     <?php if (!empty($display['show_category']) && $post_data['category']) : ?>
