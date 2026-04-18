@@ -76,9 +76,10 @@ endwhile;
 <?php
 $archive_form_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('form-radius') : ' rounded';
 $archive_card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
+$vacancies1_padding  = function_exists('get_content_padding_classes') ? get_content_padding_classes() : '';
 ?>
 <div class="row">
-    <div class="col-12">
+    <div class="col-12<?php echo $vacancies1_padding ? ' ' . esc_attr($vacancies1_padding) : ''; ?>">
     <form class="filter-form mb-10 codeweber-filter-form<?php echo esc_attr($archive_form_radius); ?>" id="vacancy-filter-form" data-post-type="vacancies" data-template="vacancies_1" data-container=".vacancies-results">
         <div class="row">
             <div class="col-md-4 mb-3">
