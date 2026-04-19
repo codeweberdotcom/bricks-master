@@ -27,6 +27,10 @@ $sections = [
 		'title'       => __( 'Prepare for uninstall', 'codeweber' ),
 		'description' => __( 'Download everything back to local and mark the module safe to disable.', 'codeweber' ),
 	],
+	'reapply_cache' => [
+		'title'       => __( 'Re-apply cache headers', 'codeweber' ),
+		'description' => __( 'Update Cache-Control metadata on all offloaded objects using the current max-age setting (uses CopyObject, no file re-upload).', 'codeweber' ),
+	],
 	'wipe'         => [
 		'title'       => __( 'Wipe S3', 'codeweber' ),
 		'description' => __( 'Delete every offloaded object from the bucket. Records stay in the database with is_offloaded=0. Local files are not touched.', 'codeweber' ),

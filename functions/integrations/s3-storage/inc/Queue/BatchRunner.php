@@ -10,6 +10,7 @@ use Codeweber\S3Storage\Tools\Restore;
 use Codeweber\S3Storage\Tools\Sync;
 use Codeweber\S3Storage\Tools\Uninstaller;
 use Codeweber\S3Storage\Tools\Wipe;
+use Codeweber\S3Storage\Tools\ReapplyCacheHeaders;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -157,6 +158,8 @@ class BatchRunner {
 				return new Uninstaller();
 			case 'wipe':
 				return new Wipe();
+			case 'reapply_cache':
+				return new ReapplyCacheHeaders();
 		}
 		return null;
 	}

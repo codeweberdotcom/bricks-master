@@ -26,6 +26,7 @@ class Settings {
 			'rewrite_content' => 1,
 			'log_level'       => 'error',
 			'log_retention'   => 14,
+			'cache_max_age'   => 31536000,
 		];
 	}
 
@@ -136,6 +137,7 @@ class Settings {
 		$out['rewrite_content'] = empty( $input['rewrite_content'] ) ? 0 : 1;
 		$out['log_level']       = in_array( $input['log_level'] ?? '', [ 'off', 'error', 'info', 'debug' ], true ) ? $input['log_level'] : 'error';
 		$out['log_retention']   = max( 1, min( 90, (int) ( $input['log_retention'] ?? 14 ) ) );
+		$out['cache_max_age']   = max( 0, (int) ( $input['cache_max_age'] ?? 31536000 ) );
 		return $out;
 	}
 

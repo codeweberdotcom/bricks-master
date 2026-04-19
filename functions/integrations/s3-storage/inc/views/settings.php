@@ -133,6 +133,13 @@ $sdk_ok = class_exists( 'Aws\\S3\\S3Client' );
 					</label>
 				</td>
 			</tr>
+			<tr>
+				<th scope="row"><label for="cws3-cache_max_age"><?php esc_html_e( 'Cache-Control max-age (seconds)', 'codeweber' ); ?></label></th>
+				<td>
+					<input type="number" id="cws3-cache_max_age" name="cws3_settings[cache_max_age]" value="<?php echo esc_attr( $settings['cache_max_age'] ); ?>" min="0" max="31536000" class="regular-text" />
+					<p class="description"><?php esc_html_e( 'Sent as Cache-Control header on every offloaded object. Default 31536000 = 1 year. 0 disables the header. Existing objects can be updated via Tools → Re-apply cache headers.', 'codeweber' ); ?></p>
+				</td>
+			</tr>
 		</table>
 
 		<h2><?php esc_html_e( 'Logging', 'codeweber' ); ?></h2>
