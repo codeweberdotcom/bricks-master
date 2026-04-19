@@ -42,9 +42,14 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
     $title = mb_substr($title, 0, $display['title_length']) . '...';
 }
 
+// Для услуг: Short Description (meta) используется в приоритете, fallback на excerpt.
+$excerpt_source = !empty($post_data['short_description'])
+    ? $post_data['short_description']
+    : $post_data['excerpt'];
+
 $excerpt = '';
 if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
-    $excerpt = wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...');
+    $excerpt = wp_trim_words($excerpt_source, $display['excerpt_length'], '...');
     if (mb_strlen($excerpt) > 116) {
         $excerpt = mb_substr($excerpt, 0, 113) . '...';
     }

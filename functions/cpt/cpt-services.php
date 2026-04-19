@@ -136,3 +136,7 @@ function cptui_register_my_taxes_types_of_services()
 }
 
 add_action('init', 'cptui_register_my_taxes_types_of_services');
+
+// Meta-поля, относящиеся к services. Подключаются только при активном CPT,
+// чтобы соответствовать Redux-свитчеру `cpt_switch_services`.
+require_once __DIR__ . '/services-meta-fields.php';

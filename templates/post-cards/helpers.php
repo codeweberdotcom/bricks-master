@@ -283,10 +283,18 @@ function cw_get_post_card_data($post, $image_size = 'full', $enable_link = false
         }
     }
     
+    // Для услуг — читаем отдельное meta-поле _service_short_description.
+    // В остальных случаях остаётся пустая строка (шаблоны делают fallback на excerpt).
+    $short_description = '';
+    if ($post->post_type === 'services') {
+        $short_description = (string) get_post_meta($post->ID, '_service_short_description', true);
+    }
+
     return [
         'id' => $post->ID,
         'title' => get_the_title($post->ID),
         'excerpt' => get_the_excerpt($post->ID),
+        'short_description' => $short_description,
         'link' => get_permalink($post->ID),
         'date' => get_the_date('d M Y', $post->ID),
         'date_format' => get_the_date(get_option('date_format'), $post->ID),
