@@ -26,7 +26,6 @@ class BatchRunner {
 		add_action( 'wp_ajax_cws3_start_job', [ $this, 'ajax_start' ] );
 		add_action( 'wp_ajax_cws3_job_status', [ $this, 'ajax_status' ] );
 		add_action( 'wp_ajax_cws3_control_job', [ $this, 'ajax_control' ] );
-		add_action( 'wp_ajax_cws3_tick_job', [ $this, 'ajax_tick' ] );
 	}
 
 	public function ajax_start() {
@@ -99,14 +98,12 @@ class BatchRunner {
 		wp_send_json_success();
 	}
 
-	public function ajax_tick() {
-		$this->guard();
-		$job_id = isset( $_POST['job_id'] ) ? (int) $_POST['job_id'] : 0;
-		$this->run( $job_id );
-		wp_send_json_success();
-	}
-
 	public function run( $job_id ) {
+		@ignore_user_abort( true );
+		if ( function_exists( 'session_write_close' ) ) {
+			@session_write_close();
+		}
+
 		$job_id = (int) $job_id;
 		$job    = JobsTable::get( $job_id );
 		if ( ! $job || $job->status !== JobsTable::STATUS_RUNNING ) {
@@ -140,6 +137,9 @@ class BatchRunner {
 
 	private function schedule_next( int $job_id ) {
 		wp_schedule_single_event( time() + 1, self::CRON_HOOK, [ $job_id ] );
+		if ( function_exists( 'spawn_cron' ) ) {
+			spawn_cron();
+		}
 	}
 
 	private function runner_for( string $type ) {

@@ -74,9 +74,6 @@
 					toggleButtons($section, 'idle');
 				}
 				if (resp.data.status === 'paused') { toggleButtons($section, 'paused'); }
-				if (resp.data.status === 'running') {
-					$.post(cws3.ajaxUrl, { action: 'cws3_tick_job', nonce: cws3.nonce, job_id: jobId });
-				}
 			});
 		}, 2000);
 	}
