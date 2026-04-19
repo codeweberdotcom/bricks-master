@@ -9,6 +9,7 @@ use Codeweber\S3Storage\Tools\Offload;
 use Codeweber\S3Storage\Tools\Restore;
 use Codeweber\S3Storage\Tools\Sync;
 use Codeweber\S3Storage\Tools\Uninstaller;
+use Codeweber\S3Storage\Tools\Wipe;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -154,6 +155,8 @@ class BatchRunner {
 				return new Sync();
 			case 'uninstall':
 				return new Uninstaller();
+			case 'wipe':
+				return new Wipe();
 		}
 		return null;
 	}

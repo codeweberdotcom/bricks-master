@@ -50,6 +50,23 @@
 .cws3-badge-mirror { background: #00794d; }
 .cws3-badge-pending { background: #dba617; }
 
+.cws3-section.cws3-section-danger {
+	border-left: 4px solid #b32d2e;
+}
+.cws3-section.cws3-section-danger h2 {
+	color: #b32d2e;
+}
+.cws3-section.cws3-section-danger .cws3-start.button-primary {
+	background: #b32d2e;
+	border-color: #b32d2e;
+	box-shadow: 0 1px 0 #b32d2e;
+	text-shadow: none;
+}
+.cws3-section.cws3-section-danger .cws3-start.button-primary:hover {
+	background: #8c2122;
+	border-color: #8c2122;
+}
+
 .cws3-log-view {
 	background: #0b0e14;
 	color: #d0d4db;

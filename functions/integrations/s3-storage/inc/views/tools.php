@@ -27,6 +27,11 @@ $sections = [
 		'title'       => __( 'Prepare for uninstall', 'codeweber' ),
 		'description' => __( 'Download everything back to local and mark the module safe to disable.', 'codeweber' ),
 	],
+	'wipe'         => [
+		'title'       => __( 'Wipe S3', 'codeweber' ),
+		'description' => __( 'Delete every offloaded object from the bucket. Records stay in the database with is_offloaded=0. Local files are not touched.', 'codeweber' ),
+		'danger'      => true,
+	],
 ];
 ?>
 <div class="wrap cws3-wrap">
@@ -42,10 +47,20 @@ $sections = [
 		</tbody>
 	</table>
 
-	<?php foreach ( $sections as $key => $section ) : ?>
-		<div class="cws3-section" data-job-type="<?php echo esc_attr( $key ); ?>">
+	<?php foreach ( $sections as $key => $section ) :
+		$is_danger = ! empty( $section['danger'] );
+		?>
+		<div class="cws3-section <?php echo $is_danger ? 'cws3-section-danger' : ''; ?>" data-job-type="<?php echo esc_attr( $key ); ?>" <?php echo $is_danger ? 'data-confirm="1"' : ''; ?>>
 			<h2><?php echo esc_html( $section['title'] ); ?></h2>
 			<p class="description"><?php echo esc_html( $section['description'] ); ?></p>
+			<?php if ( $is_danger && (int) $stats['remote_only'] > 0 ) : ?>
+				<div class="notice notice-error inline" style="padding:8px 12px; margin:8px 0;">
+					<strong><?php
+					/* translators: %d: number of attachments */
+					printf( esc_html__( 'Warning: %d files exist only in S3 (no local copy). Wiping will permanently delete them. Run Restore first if you want to keep them.', 'codeweber' ), (int) $stats['remote_only'] );
+					?></strong>
+				</div>
+			<?php endif; ?>
 			<p>
 				<button type="button" class="button button-primary cws3-start"><?php esc_html_e( 'Start', 'codeweber' ); ?></button>
 				<button type="button" class="button cws3-start" data-dry-run="1"><?php esc_html_e( 'Dry-run', 'codeweber' ); ?></button>

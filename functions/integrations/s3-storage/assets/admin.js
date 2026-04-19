@@ -102,7 +102,17 @@
 		});
 	}
 
-	$(document).on('click', '.cws3-section .cws3-start', function () { startJob($(this).closest('.cws3-section'), $(this).data('dry-run') === 1); });
+	$(document).on('click', '.cws3-section .cws3-start', function () {
+		var $section = $(this).closest('.cws3-section');
+		var dryRun   = $(this).data('dry-run') === 1;
+		if (!dryRun && $section.data('confirm') === 1) {
+			var type = $section.data('job-type');
+			if (!window.confirm('This will permanently delete files from S3 (' + type + '). Continue?')) {
+				return;
+			}
+		}
+		startJob($section, dryRun);
+	});
 	$(document).on('click', '.cws3-section .cws3-pause', function () { control($(this).closest('.cws3-section'), 'pause'); });
 	$(document).on('click', '.cws3-section .cws3-resume', function () { control($(this).closest('.cws3-section'), 'resume'); });
 	$(document).on('click', '.cws3-section .cws3-cancel', function () {
