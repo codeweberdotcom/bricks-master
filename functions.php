@@ -79,6 +79,7 @@ require_once get_template_directory() . '/functions/integrations/ajax-search-mod
 require_once get_template_directory() . '/functions/integrations/codeweber-forms/codeweber-forms-init.php';
 require_once get_template_directory() . '/functions/integrations/yandex-maps/yandex-maps-init.php';
 require_once get_template_directory() . '/functions/integrations/modal/init.php';
+require_once get_template_directory() . '/functions/integrations/s3-storage/s3-storage.php';
 
 if ( class_exists( 'WPCF7' ) ) {
 	require_once get_template_directory() . '/functions/integrations/cf7/cf7.php';

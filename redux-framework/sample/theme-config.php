@@ -353,6 +353,7 @@ require_once Redux_Core::$dir . '../sample/sections/codeweber/childtheme.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/style.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/body-bg.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/media.php';
+require_once Redux_Core::$dir . '../sample/sections/codeweber/s3-storage.php';
 require_once Redux_Core::$dir . '../sample/sections/codeweber/demo.php';
 
 

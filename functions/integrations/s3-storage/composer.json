@@ -1,0 +1,19 @@
+{
+    "name": "codeweber/s3-storage-module",
+    "description": "S3 storage module for the Codeweber theme. Custom S3-compatible server support (MinIO, Ceph, Garage).",
+    "type": "wordpress-theme-module",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=7.4",
+        "aws/aws-sdk-php": "^3.280"
+    },
+    "autoload": {
+        "psr-4": {
+            "Codeweber\\S3Storage\\": "inc/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist"
+    }
+}
