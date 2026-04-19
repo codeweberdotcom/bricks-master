@@ -23,7 +23,7 @@ class Settings {
 			'key_prefix'      => '{year}/{month}/',
 			'storage_mode'    => 'local',
 			'force_https'     => 1,
-			'rewrite_content' => 0,
+			'rewrite_content' => 1,
 			'log_level'       => 'error',
 			'log_retention'   => 14,
 		];

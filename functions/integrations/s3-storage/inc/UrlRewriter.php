@@ -20,6 +20,9 @@ class UrlRewriter {
 		$settings = Settings::get();
 		if ( ! empty( $settings['rewrite_content'] ) ) {
 			add_filter( 'the_content', [ $this, 'filter_content' ], 20 );
+			add_filter( 'widget_text_content', [ $this, 'filter_content' ], 20 );
+			add_filter( 'widget_block_content', [ $this, 'filter_content' ], 20 );
+			add_filter( 'render_block', [ $this, 'filter_content' ], 20 );
 		}
 	}
 
