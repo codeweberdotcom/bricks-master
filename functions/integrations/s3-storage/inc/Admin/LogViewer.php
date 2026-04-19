@@ -17,8 +17,8 @@ class LogViewer {
 
 	public function add_menu() {
 		add_management_page(
-			__( 'S3 Storage Logs', 'codeweber-s3-storage' ),
-			__( 'S3 Storage Logs', 'codeweber-s3-storage' ),
+			__( 'S3 Storage Logs', 'codeweber' ),
+			__( 'S3 Storage Logs', 'codeweber' ),
 			'manage_options',
 			'cws3-logs',
 			[ $this, 'render' ]

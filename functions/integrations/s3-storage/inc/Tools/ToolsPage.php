@@ -17,8 +17,8 @@ class ToolsPage {
 
 	public function add_menu() {
 		add_management_page(
-			__( 'S3 Storage', 'codeweber-s3-storage' ),
-			__( 'S3 Storage', 'codeweber-s3-storage' ),
+			__( 'S3 Storage', 'codeweber' ),
+			__( 'S3 Storage', 'codeweber' ),
 			'manage_options',
 			'cws3-tools',
 			[ $this, 'render' ]

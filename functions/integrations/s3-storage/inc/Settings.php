@@ -75,8 +75,8 @@ class Settings {
 
 	public function add_menu() {
 		add_options_page(
-			__( 'S3 Storage', 'codeweber-s3-storage' ),
-			__( 'S3 Storage', 'codeweber-s3-storage' ),
+			__( 'S3 Storage', 'codeweber' ),
+			__( 'S3 Storage', 'codeweber' ),
 			'manage_options',
 			'cws3-settings',
 			[ $this, 'render_page' ]
@@ -104,18 +104,18 @@ class Settings {
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			'nonce'   => wp_create_nonce( 'cws3_admin' ),
 			'i18n'    => [
-				'testing'       => __( 'Testing...', 'codeweber-s3-storage' ),
-				'test_ok'       => __( 'Connection successful.', 'codeweber-s3-storage' ),
-				'test_fail'     => __( 'Connection failed: ', 'codeweber-s3-storage' ),
-				'confirm_clear' => __( 'Clear the error log?', 'codeweber-s3-storage' ),
-				'running'       => __( 'Running...', 'codeweber-s3-storage' ),
-				'idle'          => __( 'Idle', 'codeweber-s3-storage' ),
-				'completed'     => __( 'Completed.', 'codeweber-s3-storage' ),
-				'cancelled'     => __( 'Cancelled.', 'codeweber-s3-storage' ),
-				'failed'        => __( 'Failed.', 'codeweber-s3-storage' ),
-				'working'       => __( 'Working...', 'codeweber-s3-storage' ),
-				'done'          => __( 'Done', 'codeweber-s3-storage' ),
-				'error'         => __( 'Error', 'codeweber-s3-storage' ),
+				'testing'       => __( 'Testing...', 'codeweber' ),
+				'test_ok'       => __( 'Connection successful.', 'codeweber' ),
+				'test_fail'     => __( 'Connection failed: ', 'codeweber' ),
+				'confirm_clear' => __( 'Clear the error log?', 'codeweber' ),
+				'running'       => __( 'Running...', 'codeweber' ),
+				'idle'          => __( 'Idle', 'codeweber' ),
+				'completed'     => __( 'Completed.', 'codeweber' ),
+				'cancelled'     => __( 'Cancelled.', 'codeweber' ),
+				'failed'        => __( 'Failed.', 'codeweber' ),
+				'working'       => __( 'Working...', 'codeweber' ),
+				'done'          => __( 'Done', 'codeweber' ),
+				'error'         => __( 'Error', 'codeweber' ),
 			],
 		] );
 	}
@@ -160,14 +160,14 @@ class Settings {
 	public function ajax_test_connection() {
 		check_ajax_referer( 'cws3_admin', 'nonce' );
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'codeweber-s3-storage' ) ], 403 );
+			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'codeweber' ) ], 403 );
 		}
 
 		try {
 			$client = Client::factory( self::get() );
 			$bucket = self::get()['bucket'];
 			if ( ! $bucket ) {
-				wp_send_json_error( [ 'message' => __( 'Bucket is not configured.', 'codeweber-s3-storage' ) ] );
+				wp_send_json_error( [ 'message' => __( 'Bucket is not configured.', 'codeweber' ) ] );
 			}
 
 			$client->headBucket( [ 'Bucket' => $bucket ] );
@@ -184,7 +184,7 @@ class Settings {
 			] );
 
 			Logger::info( 'test_connection', 'Connection test OK', [ 'bucket' => $bucket ] );
-			wp_send_json_success( [ 'message' => __( 'Bucket reachable, put/delete OK.', 'codeweber-s3-storage' ) ] );
+			wp_send_json_success( [ 'message' => __( 'Bucket reachable, put/delete OK.', 'codeweber' ) ] );
 		} catch ( \Throwable $e ) {
 			Logger::error( 'test_connection', $e->getMessage() );
 			wp_send_json_error( [ 'message' => $e->getMessage() ] );

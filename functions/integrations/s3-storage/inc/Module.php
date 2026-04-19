@@ -26,8 +26,6 @@ class Module {
 	}
 
 	public function boot() {
-		load_theme_textdomain( 'codeweber-s3-storage', CWS3_MODULE_DIR . '/languages' );
-
 		add_action( 'admin_init', [ Installer::class, 'maybe_install' ] );
 
 		( new Settings() )->register();

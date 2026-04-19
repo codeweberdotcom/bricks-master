@@ -21,10 +21,10 @@ class BulkActions {
 	}
 
 	public function add_bulk_actions( $actions ) {
-		$actions['cws3_offload']      = __( 'Offload to S3', 'codeweber-s3-storage' );
-		$actions['cws3_restore']      = __( 'Restore to local', 'codeweber-s3-storage' );
-		$actions['cws3_delete_local'] = __( 'Delete local copies', 'codeweber-s3-storage' );
-		$actions['cws3_verify']       = __( 'Verify in bucket', 'codeweber-s3-storage' );
+		$actions['cws3_offload']      = __( 'Offload to S3', 'codeweber' );
+		$actions['cws3_restore']      = __( 'Restore to local', 'codeweber' );
+		$actions['cws3_delete_local'] = __( 'Delete local copies', 'codeweber' );
+		$actions['cws3_verify']       = __( 'Verify in bucket', 'codeweber' );
 		return $actions;
 	}
 
@@ -78,10 +78,10 @@ class BulkActions {
 		$done      = (int) ( $_GET['cws3_done'] ?? 0 );
 		$failed    = (int) ( $_GET['cws3_failed'] ?? 0 );
 		$label_map = [
-			'cws3_offload'      => __( 'Offload', 'codeweber-s3-storage' ),
-			'cws3_restore'      => __( 'Restore', 'codeweber-s3-storage' ),
-			'cws3_delete_local' => __( 'Delete local', 'codeweber-s3-storage' ),
-			'cws3_verify'       => __( 'Verify', 'codeweber-s3-storage' ),
+			'cws3_offload'      => __( 'Offload', 'codeweber' ),
+			'cws3_restore'      => __( 'Restore', 'codeweber' ),
+			'cws3_delete_local' => __( 'Delete local', 'codeweber' ),
+			'cws3_verify'       => __( 'Verify', 'codeweber' ),
 		];
 		$label = $label_map[ $action ] ?? $action;
 
@@ -89,7 +89,7 @@ class BulkActions {
 		echo '<div class="notice ' . esc_attr( $class ) . ' is-dismissible"><p>' .
 			sprintf(
 				/* translators: 1: action label, 2: success count, 3: failed count */
-				esc_html__( '%1$s: %2$d succeeded, %3$d failed.', 'codeweber-s3-storage' ),
+				esc_html__( '%1$s: %2$d succeeded, %3$d failed.', 'codeweber' ),
 				esc_html( $label ),
 				$done,
 				$failed
@@ -106,7 +106,7 @@ class BulkActions {
 		$actions['cws3_offload'] = sprintf(
 			'<a href="#" class="cws3-row-action" data-action="offload" data-id="%d">%s</a>',
 			$id,
-			esc_html__( 'Offload', 'codeweber-s3-storage' )
+			esc_html__( 'Offload', 'codeweber' )
 		);
 		return $actions;
 	}

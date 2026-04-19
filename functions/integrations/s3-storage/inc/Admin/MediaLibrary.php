@@ -24,7 +24,7 @@ class MediaLibrary {
 	}
 
 	public function add_column( $columns ) {
-		$columns['cws3_storage'] = __( 'Storage', 'codeweber-s3-storage' );
+		$columns['cws3_storage'] = __( 'Storage', 'codeweber' );
 		return $columns;
 	}
 
@@ -86,9 +86,9 @@ class MediaLibrary {
 				}
 				if ( $row->source_type === 'original' ) {
 					$url = Client::public_url_for_key( $settings, $row->object_key );
-					$html .= '<div class="cws3-kv"><strong>' . esc_html__( 'Bucket', 'codeweber-s3-storage' ) . ':</strong> ' . esc_html( $row->bucket ) . '</div>';
-					$html .= '<div class="cws3-kv"><strong>' . esc_html__( 'Key', 'codeweber-s3-storage' ) . ':</strong> <code>' . esc_html( $row->object_key ) . '</code></div>';
-					$html .= '<div class="cws3-kv"><strong>' . esc_html__( 'S3 URL', 'codeweber-s3-storage' ) . ':</strong> <a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html( $url ) . '</a></div>';
+					$html .= '<div class="cws3-kv"><strong>' . esc_html__( 'Bucket', 'codeweber' ) . ':</strong> ' . esc_html( $row->bucket ) . '</div>';
+					$html .= '<div class="cws3-kv"><strong>' . esc_html__( 'Key', 'codeweber' ) . ':</strong> <code>' . esc_html( $row->object_key ) . '</code></div>';
+					$html .= '<div class="cws3-kv"><strong>' . esc_html__( 'S3 URL', 'codeweber' ) . ':</strong> <a href="' . esc_url( $url ) . '" target="_blank" rel="noopener">' . esc_html( $url ) . '</a></div>';
 					break;
 				}
 			}
@@ -96,7 +96,7 @@ class MediaLibrary {
 		$html .= '</div>';
 
 		$fields['cws3_storage'] = [
-			'label' => __( 'S3 Storage', 'codeweber-s3-storage' ),
+			'label' => __( 'S3 Storage', 'codeweber' ),
 			'input' => 'html',
 			'html'  => $html,
 		];

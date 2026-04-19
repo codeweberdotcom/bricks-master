@@ -21,14 +21,14 @@ class AttachmentController {
 	public function ajax() {
 		check_ajax_referer( 'cws3_admin', 'nonce' );
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'codeweber-s3-storage' ) ], 403 );
+			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'codeweber' ) ], 403 );
 		}
 
 		$attachment_id = isset( $_POST['attachment_id'] ) ? (int) $_POST['attachment_id'] : 0;
 		$action        = isset( $_POST['op'] ) ? sanitize_key( wp_unslash( $_POST['op'] ) ) : '';
 
 		if ( ! $attachment_id || get_post_type( $attachment_id ) !== 'attachment' ) {
-			wp_send_json_error( [ 'message' => __( 'Invalid attachment.', 'codeweber-s3-storage' ) ] );
+			wp_send_json_error( [ 'message' => __( 'Invalid attachment.', 'codeweber' ) ] );
 		}
 
 		$result = null;
@@ -56,7 +56,7 @@ class AttachmentController {
 					$result   = [ 'ok' => $ok ];
 					break;
 				default:
-					wp_send_json_error( [ 'message' => __( 'Unknown action.', 'codeweber-s3-storage' ) ] );
+					wp_send_json_error( [ 'message' => __( 'Unknown action.', 'codeweber' ) ] );
 			}
 		} catch ( \Throwable $e ) {
 			wp_send_json_error( [ 'message' => $e->getMessage() ] );

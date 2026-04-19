@@ -19,7 +19,7 @@ class AttachmentMetabox {
 	public function add_metabox( $post ) {
 		add_meta_box(
 			'cws3-s3-storage',
-			__( 'S3 Storage', 'codeweber-s3-storage' ),
+			__( 'S3 Storage', 'codeweber' ),
 			[ $this, 'render' ],
 			'attachment',
 			'side',
