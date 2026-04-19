@@ -11,7 +11,7 @@ $post_id = absint(get_the_ID());
 $card_html = cw_render_post_card(get_post(), 'default', [], [
     'show_description' => false,
     'enable_link' => false, // На архивных страницах ссылка не нужна
-    'image_size' => 'codeweber_staff',
+    'image_size' => 'cw_square_md',
 ]);
 
 if (empty($card_html)) {

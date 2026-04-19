@@ -180,25 +180,79 @@ Redux::set_section(
 				? chip(sizes.length + " ' . esc_js( __( 'размеров', 'codeweber' ) ) . '", S.cntC)
 				: chip("' . esc_js( __( 'ошибка', 'codeweber' ) ) . '", S.errC) );
 
-		// Тело
-		var body = "";
-		if (ok && sizes.length) {
-			var rows = "";
-			for (var i = 0; i < sizes.length; i++) {
-				var bg = i % 2 === 0 ? "#fff" : "#f9f9f9";
-				rows += "<tr style=\"background:" + bg + ";\"><td style=\"" + S.td + " width:36px; color:#999;\">" + (i+1) + "</td>" +
-					"<td style=\"" + S.td + "\"><span style=\"" + S.code + "\">" + sizes[i] + "</span></td></tr>";
+		// Информация об оригинале
+		var infoBlock = "";
+		if (item.orig_w && item.orig_h) {
+			infoBlock = "<div style=\"padding:8px 12px; background:#eff6ff; border-top:1px solid #e5e5e5; font-size:12px; color:#1e3a8a;\">" +
+				"<span class=\"dashicons dashicons-format-image\" style=\"font-size:14px; width:14px; height:14px; vertical-align:middle; margin-right:4px;\"></span>" +
+				"' . esc_js( __( 'Оригинал:', 'codeweber' ) ) . ' <strong>" + item.orig_w + "×" + item.orig_h + "</strong> px" +
+				"</div>";
+		}
+
+		// Блок пропущенных размеров (причина: больше оригинала)
+		function renderMissedBlock(missed) {
+			if (!missed || !missed.length) return "";
+			var mrows = "";
+			for (var j = 0; j < missed.length; j++) {
+				var mi = missed[j];
+				var reason = mi.reason === "too_large"
+					? "' . esc_js( __( 'Больше оригинала', 'codeweber' ) ) . '"
+					: "' . esc_js( __( 'Другая', 'codeweber' ) ) . '";
+				var bg = j % 2 === 0 ? "#fff" : "#f9f9f9";
+				mrows += "<tr style=\"background:" + bg + ";\">" +
+					"<td style=\"" + S.td + " width:36px; color:#999;\">" + (j+1) + "</td>" +
+					"<td style=\"" + S.td + "\"><span style=\"" + S.code + "\">" + mi.slug + "</span></td>" +
+					"<td style=\"" + S.td + " color:#72777c;\">" + mi.w + "×" + mi.h + (mi.crop ? "" : " <em style=\"color:#999;\">(no crop)</em>") + "</td>" +
+					"<td style=\"" + S.td + " color:#991b1b;\">" + reason + "</td>" +
+				"</tr>";
 			}
-			body = "<table style=\"" + S.tbl + "\">" +
+			return "<div style=\"padding:8px 12px; background:#fffbeb; border-top:1px solid #fde68a; font-size:12px; color:#92400e; font-weight:600;\">" +
+				"<span class=\"dashicons dashicons-warning\" style=\"font-size:14px; width:14px; height:14px; vertical-align:middle; margin-right:4px;\"></span>" +
+				"' . esc_js( __( 'Пропущено:', 'codeweber' ) ) . ' " + missed.length +
+				"</div>" +
+				"<table style=\"" + S.tbl + "\">" +
 				"<thead><tr>" +
 				"<th style=\"" + S.th + " width:36px;\">#</th>" +
 				"<th style=\"" + S.th + "\">' . esc_js( __( 'Размер', 'codeweber' ) ) . '</th>" +
-				"</tr></thead><tbody>" + rows + "</tbody></table>";
-		} else if (!ok) {
+				"<th style=\"" + S.th + "\">' . esc_js( __( 'Параметры', 'codeweber' ) ) . '</th>" +
+				"<th style=\"" + S.th + "\">' . esc_js( __( 'Причина', 'codeweber' ) ) . '</th>" +
+				"</tr></thead><tbody>" + mrows + "</tbody></table>";
+		}
+
+		// Тело
+		var body = "";
+		if (!ok) {
 			body = "<div style=\"" + S.errMsg + "\">" +
 				"<span class=\"dashicons dashicons-warning\" style=\"color:#991b1b;\"></span>" +
 				(item.error || "' . esc_js( __( 'Файл не найден на диске', 'codeweber' ) ) . '") +
 				"</div>";
+		} else if (skipped) {
+			body = infoBlock +
+				"<div style=\"padding:8px 12px; color:#72777c; font-size:12px;\">" +
+				"' . esc_js( __( 'Устаревшая запись журнала. Нажмите «Начать сначала» для обновления.', 'codeweber' ) ) . '" +
+				"</div>";
+		} else if (sizes.length) {
+			var rows = "";
+			for (var i = 0; i < sizes.length; i++) {
+				var bg2 = i % 2 === 0 ? "#fff" : "#f9f9f9";
+				rows += "<tr style=\"background:" + bg2 + ";\"><td style=\"" + S.td + " width:36px; color:#999;\">" + (i+1) + "</td>" +
+					"<td style=\"" + S.td + "\"><span style=\"" + S.code + "\">" + sizes[i] + "</span></td></tr>";
+			}
+			body = infoBlock +
+				"<table style=\"" + S.tbl + "\">" +
+				"<thead><tr>" +
+				"<th style=\"" + S.th + " width:36px;\">#</th>" +
+				"<th style=\"" + S.th + "\">' . esc_js( __( 'Размер', 'codeweber' ) ) . '</th>" +
+				"</tr></thead><tbody>" + rows + "</tbody></table>" +
+				renderMissedBlock(item.missed);
+		} else {
+			// ok && sizes.length === 0 — WP ничего не сгенерировал
+			body = infoBlock +
+				"<div style=\"padding:8px 12px; color:#92400e; background:#fffbeb; border-top:1px solid #fde68a; font-size:12px;\">" +
+				"<span class=\"dashicons dashicons-info\" style=\"font-size:14px; width:14px; height:14px; vertical-align:middle; margin-right:4px;\"></span>" +
+				"' . esc_js( __( 'Ни один размер не сгенерирован. WordPress не увеличивает изображения — вероятно, оригинал меньше всех запрошенных размеров.', 'codeweber' ) ) . '" +
+				"</div>" +
+				renderMissedBlock(item.missed);
 		}
 
 		return "<div class=\"cw-log-row\" data-filename=\"" + item.filename + "\" style=\"" + (ok ? S.row : S.rowErr) + "\">" +

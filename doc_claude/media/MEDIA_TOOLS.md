@@ -18,40 +18,46 @@
 
 ## Размеры изображений
 
-Регистрируются в `codeweber_image_settings()` через `add_image_size()`.
+Регистрируются в `codeweber_image_settings()` через `add_image_size()`. **Набор универсальный** — все размеры доступны любому типу записи без CPT-привязки.
 
-### Глобальные размеры (Universal)
+### Универсальный набор (`cw_*`)
 
-| Slug | Размер | Назначение |
-|------|--------|-----------|
-| `codeweber_extralarge` | 1600×1200 | Полноэкранные изображения |
-| `codeweber_avatar` | 200×200 | Аватары, организаторы (1:1) |
+| Slug | Размер | Crop | Назначение |
+|------|--------|-----|-----------|
+| `cw_square_xs` | 100×100 | ✓ | мини-квадрат (blog widget) |
+| `cw_square_sm` | 200×200 | ✓ | аватар (1:1) |
+| `cw_square_md` | 400×400 | ✓ | карточка staff / product grid 3-col |
+| `cw_square_lg` | 600×600 | ✓ | карточка 2-col grid, vacancy square |
+| `cw_square_xl` | 900×900 | ✓ | projects archive |
+| `cw_landscape_xs` | 140×88 | ✓ | swiper thumbs |
+| `cw_landscape_sm` | 383×250 | ✓ | sidebar image |
+| `cw_landscape_md` | 560×350 | ✓ | related posts |
+| `cw_landscape_lg` | 960×600 | ✓ | post single main |
+| `cw_landscape_xl` | 1070×668 | ✓ | event/vacancy single main |
+| `cw_landscape_hd` | 1600×900 | ✓ | projects hero |
+| `cw_wide_4x3_xl` | 1600×1200 | ✓ | lightbox fullscreen (4:3) |
+| `cw_wide_2k` | 2560×1440 | ✓ | projects 2K hero/lightbox |
+| `cw_card_3x2` | 400×267 | ✓ | archive card 3:2 |
+| `cw_portrait_9x7` | 900×718 | ✓ | projects portrait 9:7 |
+| `cw_portrait_9x8` | 900×800 | ✓ | projects near-square |
+| `cw_client_sm` | 115×60 | ✗ | клиент-логотип (без crop) |
+| `cw_client_md` | 200×60 | ✗ | клиент-логотип (без crop) |
+| `cw_client_lg` | 300×200 | ✗ | клиент-логотип (без crop) |
 
-### CPT-специфичные размеры
+### Legacy-алиасы для horizons
 
-| CPT | Размеры |
-|-----|---------|
-| `events` | `codeweber_event_1070-668`, `codeweber_event_400-267`, `codeweber_event_140-88`, `codeweber_event_383-250`, `codeweber_event_600-600`, `codeweber_avatar`, `thumbnail` |
-| `vacancies` | `codeweber_vacancy_1070-668`, `codeweber_vacancy_383-250`, `codeweber_vacancy_400-267`, `codeweber_vacancy_600-600`, `codeweber_avatar`, `thumbnail` |
-| `staff` | `codeweber_staff`, `thumbnail` |
-| `projects` | `codeweber_project_900-900`, `codeweber_project_900-718`, `codeweber_project_900-800`, `codeweber_extralarge`, `thumbnail` |
-| `clients` | `codeweber_clients_115-60`, `codeweber_clients_200-60`, `codeweber_clients_300-200`, `codeweber_clients_400-267`, `thumbnail` |
-| `post` | `codeweber_post_960-600`, `codeweber_post_600-600`, `codeweber_post_560-350`, `codeweber_post_100-100`, `codeweber_extralarge`, `thumbnail` |
+| Slug | Размер | Зачем |
+|------|--------|-------|
+| `codeweber_extralarge` | 1600×1200 | используется в horizons single-шаблонах (тот же файл, что и `cw_wide_4x3_xl`) |
+| `codeweber_staff` | 400×400 | используется в horizons шорткодах (тот же файл, что и `cw_square_md`) |
 
-> **Важно:** `thumbnail` (150×150) присутствует во всех CPT-массивах — без него WP Admin показывает прозрачную PNG-сетку вместо превью загруженного изображения.
+> **Важно:** `thumbnail` (150×150) WordPress регистрирует автоматически — без него WP Admin показывает прозрачную PNG-сетку вместо превью.
 
 ### Фильтрация при загрузке
 
-`codeweber_filter_attachment_sizes_by_post_type()` (хук `wp_generate_attachment_metadata`) удаляет физические файлы размеров, не входящих в список разрешённых для данного CPT.
+`codeweber_filter_attachment_sizes_by_post_type()` (хук `wp_generate_attachment_metadata`) оставляет для всех CPT единый универсальный набор (`default`) и отдельный расширенный для `product` (добавляет `woocommerce_*`). Привязки размеров к конкретным CPT больше нет — любой шаблон любого CPT может использовать любой `cw_*`-размер.
 
-**Защита от коллизий имён файлов:**
-
-| Файл | Размеры |
-| --- | --- |
-| `*-600x600.jpg` | `codeweber_event_600-600` ↔ `codeweber_post_600-600` |
-| `*-1070x668.jpg` | `codeweber_event_1070-668` ↔ `codeweber_vacancy_1070-668` |
-| `*-383x250.jpg` | `codeweber_event_383-250` ↔ `codeweber_vacancy_383-250` |
-| `*-400x267.jpg` | `codeweber_event_400-267` ↔ `codeweber_vacancy_400-267` |
+**Защита от коллизий имён файлов:** алиасы `codeweber_extralarge`/`codeweber_staff` генерируют те же файлы, что и `cw_wide_4x3_xl`/`cw_square_md`. Фильтр проверяет `$protected_files` перед удалением, чтобы один slug из пары не уничтожил файл второго.
 
 ---
 

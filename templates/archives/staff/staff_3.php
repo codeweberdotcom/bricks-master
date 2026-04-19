@@ -12,7 +12,7 @@ $card_html = cw_render_post_card(get_post(), 'circle', [], [
     'show_description' => true,
     'show_social' => true, // Показываем социальные иконки
     'enable_link' => true, // На архивных страницах ссылка не нужна
-    'image_size' => 'codeweber_staff',
+    'image_size' => 'cw_square_md',
     'avatar_size' => 'w-15',
 ]);
 

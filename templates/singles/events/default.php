@@ -24,7 +24,7 @@ $button_style      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::st
 <?php // Featured image (shown in content when sidebar image is disabled) ?>
 <?php if ( has_post_thumbnail() && $sidebar_disable_image ) : ?>
 	<figure class="mb-6 overflow-hidden<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ' rounded'; ?>">
-		<?php the_post_thumbnail( 'codeweber_event_1070-668', [ 'class' => 'img-fluid w-100' ] ); ?>
+		<?php the_post_thumbnail( 'cw_landscape_xl', [ 'class' => 'img-fluid w-100' ] ); ?>
 	</figure>
 <?php endif; ?>
 
@@ -45,7 +45,7 @@ $button_style      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::st
 			<div class="swiper">
 				<div class="swiper-wrapper">
 					<?php foreach ( $gallery_ids as $i => $aid ) :
-						$_gal_url  = wp_get_attachment_image_url( $aid, 'codeweber_event_1070-668' );
+						$_gal_url  = wp_get_attachment_image_url( $aid, 'cw_landscape_xl' );
 						$_gal_full = wp_get_attachment_image_url( $aid, 'full' );
 						$_gal_alt  = get_post_field( 'post_excerpt', $aid ) ?: get_the_title();
 						if ( ! $_gal_url ) continue;
@@ -67,7 +67,7 @@ $button_style      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::st
 			<div class="swiper swiper-thumbs">
 				<div class="swiper-wrapper">
 					<?php foreach ( $gallery_ids as $i => $aid ) :
-						$_th_url = wp_get_attachment_image_url( $aid, 'codeweber_event_140-88' );
+						$_th_url = wp_get_attachment_image_url( $aid, 'cw_landscape_xs' );
 						if ( ! $_th_url ) continue;
 					?>
 					<div class="swiper-slide">

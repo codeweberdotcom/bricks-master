@@ -95,26 +95,14 @@ function cw_media_regen_ajax_batch() {
 			continue;
 		}
 
-		// Определяем тип родительской записи для фильтрации размеров
+		// Определяем тип родительской записи для фильтрации размеров.
+		// Файлы без родителя обрабатываются с типом 'default' — набор универсальный,
+		// orphan-файлы тоже должны получить cw_* размеры.
 		$attachment  = get_post( $id );
 		$parent_id   = $attachment ? (int) $attachment->post_parent : 0;
-
-		// Пропускаем изображения без родителя (Redux-логотипы, фоны, WC-заглушки и т.п.)
-		if ( $parent_id === 0 ) {
-			$log[] = [
-				'id'          => $id,
-				'filename'    => basename( $file ),
-				'ext'         => strtolower( pathinfo( $file, PATHINFO_EXTENSION ) ),
-				'parent_type' => 'skipped',
-				'sizes'       => [],
-				'ok'          => true,
-				'error'       => '',
-			];
-			gc_collect_cycles();
-			continue;
-		}
-
-		$parent_type = get_post_type( $parent_id ) ?: 'default';
+		$parent_type = $parent_id
+			? ( get_post_type( $parent_id ) ?: 'default' )
+			: 'default';
 
 		$allowed_sizes = codeweber_get_allowed_image_sizes( $parent_type, $parent_id );
 
@@ -147,17 +135,68 @@ function cw_media_regen_ajax_batch() {
 				'ext'         => $ext,
 				'parent_type' => $parent_type,
 				'sizes'       => [],
+				'missed'      => [],
+				'orig_w'      => 0,
+				'orig_h'      => 0,
 				'ok'          => false,
 				'error'       => $metadata->get_error_message(),
 			];
 		} else {
 			wp_update_attachment_metadata( $id, $metadata );
+
+			// Диагностика: какие из запрошенных размеров WP пропустил и почему.
+			// WP не апскейлит: если зарегистрированный размер больше оригинала
+			// хотя бы по одной оси (для crop=true) или в обеих осях (для crop=false),
+			// subsize не создаётся.
+			$orig_w         = isset( $metadata['width'] )  ? (int) $metadata['width']  : 0;
+			$orig_h         = isset( $metadata['height'] ) ? (int) $metadata['height'] : 0;
+			$generated_keys = isset( $metadata['sizes'] ) ? array_keys( $metadata['sizes'] ) : [];
+			$missed         = [];
+			if ( $orig_w > 0 && $orig_h > 0 && ! empty( $allowed_sizes ) ) {
+				$all_registered = wp_get_registered_image_subsizes();
+				foreach ( $allowed_sizes as $size_name ) {
+					if ( in_array( $size_name, $generated_keys, true ) ) {
+						continue;
+					}
+					if ( ! isset( $all_registered[ $size_name ] ) ) {
+						continue;
+					}
+					$reg    = $all_registered[ $size_name ];
+					$sw     = (int) ( $reg['width']  ?? 0 );
+					$sh     = (int) ( $reg['height'] ?? 0 );
+					$crop   = ! empty( $reg['crop'] );
+					$reason = '';
+					if ( $crop ) {
+						if ( $sw > $orig_w || $sh > $orig_h ) {
+							$reason = 'too_large';
+						}
+					} else {
+						if ( $sw >= $orig_w && $sh >= $orig_h ) {
+							$reason = 'too_large';
+						}
+					}
+					if ( $reason === '' ) {
+						$reason = 'other';
+					}
+					$missed[] = [
+						'slug'   => $size_name,
+						'w'      => $sw,
+						'h'      => $sh,
+						'crop'   => $crop,
+						'reason' => $reason,
+					];
+				}
+			}
+
 			$log[] = [
 				'id'          => $id,
 				'filename'    => $filename,
 				'ext'         => $ext,
 				'parent_type' => $parent_type,
-				'sizes'       => isset( $metadata['sizes'] ) ? array_keys( $metadata['sizes'] ) : [],
+				'sizes'       => $generated_keys,
+				'missed'      => $missed,
+				'orig_w'      => $orig_w,
+				'orig_h'      => $orig_h,
 				'ok'          => true,
 				'error'       => '',
 			];

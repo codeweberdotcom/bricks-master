@@ -20,7 +20,7 @@ $template_args = wp_parse_args($template_args ?? [], [
     'show_social' => false, // Показывать социальные ссылки
     'enable_link' => true, // Обернуть в ссылку (для гутенберг блоков), false для архивов
     'enable_lift' => false, // Включить/выключить lift эффект
-    'image_size' => 'codeweber_staff',
+    'image_size' => 'cw_square_md',
     'avatar_size' => 'w-20', // w-15 по умолчанию (как в примере)
 ]);
 

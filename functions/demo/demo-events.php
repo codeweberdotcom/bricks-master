@@ -1264,7 +1264,7 @@ function cw_demo_create_events( int $offset = 0, int $limit = 5, int $total_limi
 	add_filter( 'big_image_size_threshold', '__return_false' );
 
 	// Ограничить генерацию только нужными event-размерами (ускоряет импорт в 3-4 раза)
-	$cw_event_sizes = [ 'thumbnail', 'codeweber_event_1070-668', 'codeweber_event_600-600', 'codeweber_event_400-267', 'codeweber_event_383-250', 'codeweber_event_140-88' ];
+	$cw_event_sizes = [ 'thumbnail', 'cw_landscape_xl', 'cw_square_lg', 'cw_card_3x2', 'cw_landscape_sm', 'cw_landscape_xs' ];
 	$cw_limit_sizes = static function( array $sizes ) use ( $cw_event_sizes ): array {
 		return array_intersect_key( $sizes, array_flip( $cw_event_sizes ) );
 	};

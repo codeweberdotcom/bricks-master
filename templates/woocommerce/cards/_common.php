@@ -27,8 +27,8 @@ $btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 // ── Изображения ───────────────────────────────────────────────────────────────
 // Выбор размера по количеству колонок: 2 → 600, 3 → 400, 4 → woocommerce_thumbnail
 $_per_row  = isset( $GLOBALS['cw_per_row'] ) ? (int) $GLOBALS['cw_per_row'] : 3;
-$_img_size = $_per_row === 2 ? 'codeweber_product_600-600'
-           : ( $_per_row === 4 ? 'woocommerce_thumbnail' : 'codeweber_product_400-400' );
+$_img_size = $_per_row === 2 ? 'cw_square_lg'
+           : ( $_per_row === 4 ? 'woocommerce_thumbnail' : 'cw_square_md' );
 
 $image_html     = $product->get_image( $_img_size, [ 'class' => '' ] );
 $hover_img_html = '';

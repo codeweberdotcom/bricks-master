@@ -63,7 +63,7 @@ foreach ( $gallery_ids as $gid ) {
 
 // ── Featured image для фона шапки ─────────────────────────────────────────────
 $bg_img_url = $thumbnail_id
-	? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_project_2560-1440' )
+	? wp_get_attachment_image_url( $thumbnail_id, 'cw_wide_2k' )
 	: '';
 
 // ── Выполненные работы ────────────────────────────────────────────────────────
@@ -196,8 +196,8 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 			<div class="swiper">
 				<div class="swiper-wrapper">
 					<?php foreach ( $slide_ids as $slide_id ) :
-						$slide_url  = wp_get_attachment_image_url( $slide_id, 'codeweber_project_1600-900' );
-						$slide_full = wp_get_attachment_image_url( $slide_id, 'codeweber_project_2560-1440' );
+						$slide_url  = wp_get_attachment_image_url( $slide_id, 'cw_landscape_hd' );
+						$slide_full = wp_get_attachment_image_url( $slide_id, 'cw_wide_2k' );
 						if ( ! $slide_url ) continue;
 					?>
 					<div class="swiper-slide">
@@ -205,7 +205,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 							<a href="<?php echo esc_url( $slide_full ?: $slide_url ); ?>"
 							   data-glightbox
 							   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
-								<?php echo wp_get_attachment_image( $slide_id, 'codeweber_project_1600-900', false, [ 'class' => 'w-100' ] ); ?>
+								<?php echo wp_get_attachment_image( $slide_id, 'cw_landscape_hd', false, [ 'class' => 'w-100' ] ); ?>
 								<span class="hover-icon text-white"><svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg></span>
 							</a>
 						</figure>

@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
          $thumbnail_id = get_post_thumbnail_id();
 
          // Получаем URL изображения размера 'large'
-         $large_image_url = wp_get_attachment_image_src($thumbnail_id, 'codeweber_extralarge');
+         $large_image_url = wp_get_attachment_image_src($thumbnail_id, 'cw_wide_4x3_xl');
 
          if ($large_image_url) :
             $img_classes = 'img-fluid';
@@ -29,7 +29,7 @@ if (!defined('ABSPATH')) {
             }
          ?>
             <a href="<?php echo esc_url($large_image_url[0]); ?>" data-glightbox data-gallery="g1">
-               <?php the_post_thumbnail('codeweber_extralarge', array('class' => $img_classes)); ?>
+               <?php the_post_thumbnail('cw_wide_4x3_xl', array('class' => $img_classes)); ?>
             </a>
          <?php endif; ?>
       </figure>

@@ -384,7 +384,7 @@ function cw_clients_shortcode($atts) {
         'orderby' => 'menu_order',
         'order' => 'ASC',
         'template' => 'client-simple', // client-simple, client-grid, client-card
-        'image_size' => 'codeweber_clients_300-200',
+        'image_size' => 'cw_client_lg',
         'layout' => 'swiper', // swiper, grid, grid-cards
         'enable_link' => 'false', // Включить ссылки на записи (true/false)
         // Swiper настройки

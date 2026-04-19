@@ -58,7 +58,7 @@ $has_filters  = ! empty( $filter_terms ) && ! is_wp_error( $filter_terms );
 					<?php if ( $thumbnail_id ) : ?>
 					<figure class="lift <?php echo esc_attr( $card_radius ); ?> mb-6">
 						<a href="<?php the_permalink(); ?>">
-							<?php echo wp_get_attachment_image( $thumbnail_id, 'codeweber_project_900-900', false, [ 'class' => 'w-100', 'alt' => esc_attr( get_the_title() ) ] ); ?>
+							<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_square_xl', false, [ 'class' => 'w-100', 'alt' => esc_attr( get_the_title() ) ] ); ?>
 						</a>
 					</figure>
 					<?php endif; ?>

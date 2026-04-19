@@ -94,7 +94,7 @@ if ( ! empty( $all_staff ) ) {
 					$post_id   = get_the_ID();
 					$card_html = cw_render_post_card( get_post(), 'horizontal', [], [
 						'show_description' => true,
-						'image_size'       => 'codeweber_staff',
+						'image_size'       => 'cw_square_md',
 					] );
 					if ( empty( $card_html ) ) {
 						continue;

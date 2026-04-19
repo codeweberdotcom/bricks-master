@@ -542,7 +542,7 @@ function _fp_render_staff_horizontal( $query ) {
 		$post_id   = get_the_ID();
 		$card_html = cw_render_post_card( get_post(), 'horizontal', [], [
 			'show_description' => true,
-			'image_size'       => 'codeweber_staff',
+			'image_size'       => 'cw_square_md',
 		] );
 
 		if ( empty( $card_html ) ) {
@@ -588,7 +588,7 @@ function _fp_render_events_horizontal( $query, $template ) {
 		$formats    = get_the_terms( $post_id, 'event_format' );
 
 		$thumbnail_id = get_post_thumbnail_id( $post_id );
-		$image_url    = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_event_400-267' ) : '';
+		$image_url    = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'cw_card_3x2' ) : '';
 		if ( empty( $image_url ) ) {
 			$image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
 		}
@@ -686,7 +686,7 @@ function _fp_apply_projects_filters( $args, $filters ) {
 function _fp_render_projects_grid( $query, $template ) {
 	$card_radius = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'card-radius' ) : 'rounded';
 	$col_class   = in_array( $template, [ 'projects_2', 'projects_4' ], true ) ? 'col-md-6 col-xl-4' : 'col-md-6';
-	$img_size    = in_array( $template, [ 'projects_2', 'projects_4' ], true ) ? 'codeweber_project_600-600' : 'codeweber_project_900-900';
+	$img_size    = in_array( $template, [ 'projects_2', 'projects_4' ], true ) ? 'cw_square_lg' : 'cw_square_xl';
 	$grid_gap    = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
 
 	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';

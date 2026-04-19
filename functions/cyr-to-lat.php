@@ -27,15 +27,14 @@ function my_cyr_to_lat_filename($filename, $filename_raw = '')
       return $filename;
    }
 
-   $ext    = pathinfo($filename, PATHINFO_EXTENSION);
-   $base   = pathinfo($filename, PATHINFO_FILENAME);
-   $result = cyr_to_lat($base);
-
-   if ($ext) {
-      $result .= '.' . strtolower($ext);
+   // Отделяем расширение через regex — pathinfo() на UTF-8 именах с кириллицей
+   // иногда возвращает пустой PATHINFO_EXTENSION, и после cyr_to_lat()
+   // регексп `[^-a-z0-9_]+ → -` съедает точку, расширение теряется.
+   if (preg_match('~^(.+)\.([a-z0-9]{1,5})$~iu', $filename, $m)) {
+      return cyr_to_lat($m[1]) . '.' . strtolower($m[2]);
    }
 
-   return $result;
+   return cyr_to_lat($filename);
 }
 
 function cyr_to_lat($text)

@@ -74,7 +74,7 @@ while ( have_posts() ) :
 	$video_type      = get_post_meta( $product->get_id(), '_cw_product_video_type', true ) ?: '';
 	$video_data      = $video_url && function_exists( 'cw_product_video_parse' ) ? cw_product_video_parse( $video_url, $video_type ) : null;
 	$video_poster_id = (int) get_post_meta( $product->get_id(), '_cw_product_video_poster_id', true );
-	$v_thumb_full    = ( $video_data && $video_poster_id ) ? wp_get_attachment_image_url( $video_poster_id, 'codeweber_product_600-600' ) : '';
+	$v_thumb_full    = ( $video_data && $video_poster_id ) ? wp_get_attachment_image_url( $video_poster_id, 'cw_square_lg' ) : '';
 	$v_thumb_sm      = ( $video_data && $video_poster_id ) ? wp_get_attachment_image_url( $video_poster_id, 'thumbnail' ) : '';
 	?>
 
@@ -112,13 +112,13 @@ while ( have_posts() ) :
 						<div class="swiper">
 							<div class="swiper-wrapper">
 								<?php foreach ( $all_image_ids as $img_id ) :
-									$full_url = wp_get_attachment_image_url( $img_id, 'codeweber_extralarge' ) ?: wp_get_attachment_image_url( $img_id, 'full' );
+									$full_url = wp_get_attachment_image_url( $img_id, 'cw_wide_4x3_xl' ) ?: wp_get_attachment_image_url( $img_id, 'full' );
 								?>
 								<div class="swiper-slide">
 									<?php
 									$pid       = esc_attr( $product->get_id() );
 									$r         = esc_attr( $card_radius );
-									$img_tag   = wp_get_attachment_image( $img_id, 'codeweber_product_600-600', false, [ 'class' => 'img-fluid' ] );
+									$img_tag   = wp_get_attachment_image( $img_id, 'cw_square_lg', false, [ 'class' => 'img-fluid' ] );
 									$lb_attrs  = $full_url ? sprintf( ' href="%s" data-glightbox data-gallery="product-%s"', esc_url( $full_url ), $pid ) : ' href="#"';
 									$svg_plus  = '<svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg>';
 									$ht        = $hover_type ? ' ' . esc_attr( $hover_type ) : '';
@@ -226,10 +226,10 @@ while ( have_posts() ) :
 					<!-- /.swiper-container -->
 
 					<?php elseif ( $main_image_id ) :
-						$full_url  = wp_get_attachment_image_url( $main_image_id, 'codeweber_extralarge' ) ?: wp_get_attachment_image_url( $main_image_id, 'full' );
+						$full_url  = wp_get_attachment_image_url( $main_image_id, 'cw_wide_4x3_xl' ) ?: wp_get_attachment_image_url( $main_image_id, 'full' );
 						$pid       = esc_attr( $product->get_id() );
 						$r         = esc_attr( $card_radius );
-						$img_tag   = wp_get_attachment_image( $main_image_id, 'codeweber_product_600-600', false, [ 'class' => 'img-fluid' ] );
+						$img_tag   = wp_get_attachment_image( $main_image_id, 'cw_square_lg', false, [ 'class' => 'img-fluid' ] );
 						$lb_attrs  = $full_url ? sprintf( ' href="%s" data-glightbox data-gallery="product-%s"', esc_url( $full_url ), $pid ) : ' href="#"';
 						$svg_plus  = '<svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg>';
 					?>

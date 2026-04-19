@@ -78,7 +78,7 @@ for ( $i = 0; $i < $works_count; $i++ ) {
 
 // ── Featured image ────────────────────────────────────────────────────────────
 $thumbnail_id  = get_post_thumbnail_id( $product_id );
-$main_img_full = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_project_2560-1440' ) : '';
+$main_img_full = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'cw_wide_2k' ) : '';
 
 // ── Метаполя для сайдбара ─────────────────────────────────────────────────────
 $meta_items = [];
@@ -151,7 +151,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 					<?php if ( $thumbnail_id ) : ?>
 					<figure class="hover-scale hover-overlay <?php echo esc_attr( $card_radius ); ?> mb-8 mb-md-12">
 						<a href="<?php echo esc_url( $main_img_full ); ?>" data-glightbox data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
-							<?php echo wp_get_attachment_image( $thumbnail_id, 'codeweber_project_1600-900', false, [ 'class' => 'w-100' ] ); ?>
+							<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_landscape_hd', false, [ 'class' => 'w-100' ] ); ?>
 							<span class="hover-icon text-white"><svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg></span>
 						</a>
 					</figure>
@@ -214,8 +214,8 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 					<?php if ( ! empty( $gallery_ids ) ) : ?>
 					<div class="row mt-5 <?php echo esc_attr( $grid_gap ); ?>">
 						<?php foreach ( $gallery_ids as $img_id ) :
-							$full_url  = wp_get_attachment_image_url( $img_id, 'codeweber_project_2560-1440' );
-							$thumb_url = wp_get_attachment_image_url( $img_id, 'codeweber_project_900-900' );
+							$full_url  = wp_get_attachment_image_url( $img_id, 'cw_wide_2k' );
+							$thumb_url = wp_get_attachment_image_url( $img_id, 'cw_square_xl' );
 							if ( ! $thumb_url ) continue;
 						?>
 						<div class="item col-md-6">
@@ -223,7 +223,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 								<a href="<?php echo esc_url( $full_url ?: $thumb_url ); ?>"
 								   data-glightbox
 								   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
-									<?php echo wp_get_attachment_image( $img_id, 'codeweber_project_900-900', false, [ 'class' => 'w-100' ] ); ?>
+									<?php echo wp_get_attachment_image( $img_id, 'cw_square_xl', false, [ 'class' => 'w-100' ] ); ?>
 									<span class="hover-icon text-white"><svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg></span>
 								</a>
 							</figure>

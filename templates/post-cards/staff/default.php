@@ -19,7 +19,7 @@ $template_args = wp_parse_args($template_args ?? [], [
     'show_description' => false, // Показывать описание (excerpt)
     'enable_link' => true, // Обернуть в ссылку (для гутенберг блоков), false для архивов
     'enable_lift' => false, // Включить/выключить lift эффект
-    'image_size' => 'codeweber_staff',
+    'image_size' => 'cw_square_md',
 ]);
 
 // Для staff всегда используем ссылку и lift эффект

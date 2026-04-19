@@ -27,7 +27,7 @@ $grid_gap     = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 
 					$formats    = get_the_terms( $post_id, 'event_format' );
 
 					$thumbnail_id = get_post_thumbnail_id( $post_id );
-					$image_url    = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'codeweber_event_600-600' ) : '';
+					$image_url    = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'cw_square_lg' ) : '';
 					if ( empty( $image_url ) ) {
 						$image_url = get_template_directory_uri() . '/dist/assets/img/photos/about6.jpg';
 					}

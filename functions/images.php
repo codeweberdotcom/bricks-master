@@ -11,57 +11,39 @@
 if (! function_exists('codeweber_image_settings')) {
 	function codeweber_image_settings()
 	{
-		//CPT Projects
-		add_image_size('codeweber_project_600-600',  600,  600, true); // Archive card (2-col / 3-col)
-		add_image_size('codeweber_project_900-900', 900, 900, true);
-		add_image_size('codeweber_project_900-718', 900, 718, true);
-		add_image_size('codeweber_project_900-800', 900, 800, true);
-		add_image_size('codeweber_project_1600-900', 1600, 900, true);
-		add_image_size('codeweber_project_2560-1440', 2560, 1440, true);
+		// Squares
+		add_image_size('cw_square_xs',     100,  100, true);
+		add_image_size('cw_square_sm',     200,  200, true);
+		add_image_size('cw_square_md',     400,  400, true);
+		add_image_size('cw_square_lg',     600,  600, true);
+		add_image_size('cw_square_xl',     900,  900, true);
 
-		add_image_size('codeweber_staff', 400, 400, true);
+		// Landscape
+		add_image_size('cw_landscape_xs',  140,   88, true);
+		add_image_size('cw_landscape_sm',  383,  250, true);
+		add_image_size('cw_landscape_md',  560,  350, true);
+		add_image_size('cw_landscape_lg',  960,  600, true);
+		add_image_size('cw_landscape_xl', 1070,  668, true);
+		add_image_size('cw_landscape_hd', 1600,  900, true);
 
-		//CPT Vacancies (600x400 - пропорционально увеличенный размер 382x255)
-		//CPT Vacancies
-		add_image_size('codeweber_vacancy_1070-668', 1070, 668, true); // Single main
-		add_image_size('codeweber_vacancy_383-250',  383,  250, true); // Sidebar image
-		add_image_size('codeweber_vacancy_400-267',  400,  267, true); // Archive card
-		add_image_size('codeweber_vacancy_600-600',  600,  600, true); // Square
+		// Wide (4:3 / 16:9 large)
+		add_image_size('cw_wide_4x3_xl',  1600, 1200, true);
+		add_image_size('cw_wide_2k',      2560, 1440, true);
 
-		// CPT Events
-		add_image_size('codeweber_event_1070-668', 1070, 668, true);
-		add_image_size('codeweber_event_140-88',   140, 88,  true); // Swiper gallery thumbs
-		add_image_size('codeweber_event_400-267', 400, 267, true); // Archive card
-		add_image_size('codeweber_event_383-250', 383, 250, true); // Sidebar image
-		add_image_size('codeweber_event_600-600',  600, 600, true); // Square
+		// Card / portrait (specific ratios)
+		add_image_size('cw_card_3x2',      400,  267, true);
+		add_image_size('cw_portrait_9x7',  900,  718, true);
+		add_image_size('cw_portrait_9x8',  900,  800, true);
 
-		//CPT Clients
-		add_image_size('codeweber_clients_115-60', 115, 60, false);
-		add_image_size('codeweber_clients_200-60', 200, 60, false);
-		add_image_size('codeweber_clients_300-200', 300, 200, false);
-		add_image_size('codeweber_clients_400-267', 400, 267, false);
+		// Clients (no crop — preserve logo proportions)
+		add_image_size('cw_client_sm',     115,   60, false);
+		add_image_size('cw_client_md',     200,   60, false);
+		add_image_size('cw_client_lg',     300,  200, false);
 
-		// Post (blog)
-		add_image_size('codeweber_post_960-600', 960, 600, true);
-		add_image_size('codeweber_post_600-600', 600, 600, true);
-		add_image_size('codeweber_post_560-350', 560, 350, true);
-		add_image_size('codeweber_post_100-100', 100, 100, true);
-
-		
-		
-
-		// WooCommerce product gallery (square crop, replaces woocommerce_single in our templates)
-		add_image_size('codeweber_product_600-600', 600, 600, true); // 2-col grid
-		add_image_size('codeweber_product_400-400', 400, 400, true); // 3-col grid
-
-		//Universal
-		add_image_size('codeweber_extralarge',    1600, 1200, true);
-		add_image_size('codeweber_avatar',          200,  200, true); // Global: avatar/organizer (1:1)
-
-		//add_image_size('codeweber_big', 1400, 800, true );
-		//add_image_size('codeweber_square', 400, 400, true );
-		//add_image_size( 'codeweber_single', 800, 500, true );
-
+		// Legacy aliases — required by horizons child theme templates.
+		// Same physical dimensions as cw_wide_4x3_xl / cw_square_md, so WP reuses the generated files.
+		add_image_size('codeweber_extralarge', 1600, 1200, true);
+		add_image_size('codeweber_staff',       400,  400, true);
 	}
 }
 add_action('after_setup_theme', 'codeweber_image_settings');
@@ -107,16 +89,20 @@ function codeweber_get_allowed_image_sizes($post_type = '', $post_id = 0)
 		return $cached_result;
 	}
 
-	// Базовые настройки размеров по типам записей
+	// Универсальный набор: одни и те же размеры доступны любому типу записи.
+	$cw_universal = [
+		'thumbnail', 'medium', 'medium_large', 'large',
+		'cw_square_xs', 'cw_square_sm', 'cw_square_md', 'cw_square_lg', 'cw_square_xl',
+		'cw_landscape_xs', 'cw_landscape_sm', 'cw_landscape_md', 'cw_landscape_lg', 'cw_landscape_xl', 'cw_landscape_hd',
+		'cw_wide_4x3_xl', 'cw_wide_2k',
+		'cw_card_3x2', 'cw_portrait_9x7', 'cw_portrait_9x8',
+		'cw_client_sm', 'cw_client_md', 'cw_client_lg',
+		'codeweber_extralarge', 'codeweber_staff', // legacy aliases for horizons
+	];
+
 	$default_sizes = [
-		'projects' => ['thumbnail', 'codeweber_project_2560-1440', 'codeweber_project_1600-900', 'codeweber_project_900-900', 'codeweber_project_600-600', 'codeweber_project_900-718', 'codeweber_extralarge', 'codeweber_project_900-800', 'woocommerce_gallery_thumbnail'],
-		'staff' => ['thumbnail', 'codeweber_staff', 'woocommerce_gallery_thumbnail'],
-		'vacancies' => ['thumbnail', 'codeweber_vacancy_1070-668', 'codeweber_vacancy_383-250', 'codeweber_vacancy_400-267', 'codeweber_vacancy_600-600', 'codeweber_avatar', 'woocommerce_gallery_thumbnail'],
-		'events'    => ['thumbnail', 'codeweber_event_1070-668', 'codeweber_event_400-267', 'codeweber_event_140-88', 'codeweber_event_383-250', 'codeweber_event_600-600', 'codeweber_avatar'],
-		'clients' => ['thumbnail', 'codeweber_clients_115-60', 'codeweber_clients_200-60', 'codeweber_clients_300-200', 'codeweber_clients_400-267', 'woocommerce_gallery_thumbnail'],
-		'post' => ['thumbnail', 'codeweber_post_960-600', 'codeweber_post_600-600', 'codeweber_post_560-350', 'codeweber_post_100-100', 'codeweber_extralarge', 'woocommerce_gallery_thumbnail'],
-		'product' => ['thumbnail', 'woocommerce_thumbnail', 'woocommerce_single', 'woocommerce_gallery_thumbnail', 'codeweber_product_600-600', 'codeweber_product_400-400', 'codeweber_extralarge'],
-		'default' => ['thumbnail', 'medium', 'medium_large', 'large'], // Стандартные WP-размеры для вложений без родителя
+		'default' => $cw_universal,
+		'product' => array_merge(['woocommerce_thumbnail', 'woocommerce_single', 'woocommerce_gallery_thumbnail'], $cw_universal),
 	];
 
 	// Фильтр для изменения базовых настроек
@@ -251,9 +237,9 @@ function codeweber_filter_attachment_sizes_by_post_type($metadata, $attachment_i
 		$base_dir   = $upload_dir['basedir'] . '/' . dirname($metadata['file']);
 
 		// Список файлов, используемых разрешёнными размерами — их нельзя удалять.
-		// Разные CPT могут регистрировать одинаковые размеры (например, codeweber_event_600-600
-		// и codeweber_post_600-600 оба генерируют *-600x600.jpg). Удаление неразрешённого
-		// размера иначе уничтожит файл, который нужен разрешённому.
+		// Алиас codeweber_extralarge генерирует тот же файл, что и cw_wide_4x3_xl;
+		// codeweber_staff — тот же, что и cw_square_md. Удаление одного из пары
+		// без защиты уничтожит файл, нужный второму.
 		$protected_files = [];
 		foreach ($metadata['sizes'] as $size_name => $size_info) {
 			if (in_array($size_name, $allowed_sizes, true)) {

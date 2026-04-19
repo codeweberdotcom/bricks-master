@@ -21,7 +21,7 @@ $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 
 		<?php if ( has_post_thumbnail() ) : ?>
 			<figure>
-				<?php the_post_thumbnail( 'codeweber_event_400-267', [ 'class' => 'w-100 object-fit-cover' ] ); ?>
+				<?php the_post_thumbnail( 'cw_card_3x2', [ 'class' => 'w-100 object-fit-cover' ] ); ?>
 			</figure>
 		<?php endif; ?>
 

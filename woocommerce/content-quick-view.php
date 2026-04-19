@@ -47,7 +47,7 @@ $has_gallery   = count( $all_image_ids ) > 1;
 						<?php foreach ( $all_image_ids as $img_id ) : ?>
 							<div class="swiper-slide">
 								<figure class="rounded m-0">
-									<?php echo wp_get_attachment_image( $img_id, 'codeweber_product_600-600', false, array( 'class' => 'w-100' ) ); ?>
+									<?php echo wp_get_attachment_image( $img_id, 'cw_square_lg', false, array( 'class' => 'w-100' ) ); ?>
 								</figure>
 							</div>
 						<?php endforeach; ?>
@@ -58,7 +58,7 @@ $has_gallery   = count( $all_image_ids ) > 1;
 
 		<?php else : ?>
 			<div class="cw-qv-no-image d-flex align-items-center justify-content-center">
-				<?php echo wc_placeholder_img( 'codeweber_product_600-600' ); ?>
+				<?php echo wc_placeholder_img( 'cw_square_lg' ); ?>
 			</div>
 		<?php endif; ?>
 

@@ -13,12 +13,12 @@ $figure_class = ($card_radius_class === 'rounded-0') ? '' : 'card-img-top';
 			$thumbnail_id = get_post_thumbnail_id();
 
 			// Lightbox — крупный размер
-			$large_image_url = wp_get_attachment_image_src($thumbnail_id, 'codeweber_extralarge');
+			$large_image_url = wp_get_attachment_image_src($thumbnail_id, 'cw_wide_4x3_xl');
 
 			if ($large_image_url) :
 			?>
 				<a href="<?php echo esc_url($large_image_url[0]); ?>" data-glightbox data-gallery="g1">
-					<?php the_post_thumbnail('codeweber_post_960-600', array('class' => 'img-fluid')); ?>
+					<?php the_post_thumbnail('cw_landscape_lg', array('class' => 'img-fluid')); ?>
 				</a>
 			<?php endif; ?>
 		</figure>

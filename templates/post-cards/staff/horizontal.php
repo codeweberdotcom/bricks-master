@@ -16,7 +16,7 @@ if ( ! isset( $post_data ) || ! $post_data ) {
 
 $template_args = wp_parse_args( $template_args ?? [], [
 	'show_description' => false,
-	'image_size'       => 'codeweber_staff',
+	'image_size'       => 'cw_square_md',
 ] );
 
 $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';

@@ -26,7 +26,7 @@ if (function_exists('cw_blog_posts_slider')) {
 		'show_comments' => true,
 		'title_tag' => 'h3',
 		'title_length' => 50,
-		'image_size' => 'codeweber_post_560-350',
+		'image_size' => 'cw_landscape_md',
 		'items_xl' => '2',
 		'items_lg' => '2',
 		'items_md' => '2',
