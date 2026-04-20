@@ -66,14 +66,15 @@ class Uploader {
 			try {
 				$req_started = microtime( true );
 				$put_args = [
-					'Bucket'     => $settings['bucket'],
-					'Key'        => $key,
-					'SourceFile' => $path,
-					'ACL'        => 'public-read',
+					'Bucket'      => $settings['bucket'],
+					'Key'         => $key,
+					'SourceFile'  => $path,
+					'ACL'         => 'public-read',
+					'ContentType' => \Codeweber\S3Storage\Services\MetadataService::resolve_mime_for_attachment( $attachment_id, $key ),
 				];
-				$max_age = (int) ( $settings['cache_max_age'] ?? 0 );
-				if ( $max_age > 0 ) {
-					$put_args['CacheControl'] = 'public, max-age=' . $max_age . ', immutable';
+				$cache_control = \Codeweber\S3Storage\Services\MetadataService::build_cache_control( $settings );
+				if ( $cache_control ) {
+					$put_args['CacheControl'] = $cache_control;
 				}
 				$client->putObject( $put_args );
 				$duration = round( ( microtime( true ) - $req_started ) * 1000 );

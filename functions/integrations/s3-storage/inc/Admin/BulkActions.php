@@ -3,6 +3,7 @@
 namespace Codeweber\S3Storage\Admin;
 
 use Codeweber\S3Storage\Services\DeleteLocalService;
+use Codeweber\S3Storage\Services\MetadataService;
 use Codeweber\S3Storage\Services\RestoreService;
 use Codeweber\S3Storage\Services\VerifyService;
 use Codeweber\S3Storage\Uploader;
@@ -21,10 +22,11 @@ class BulkActions {
 	}
 
 	public function add_bulk_actions( $actions ) {
-		$actions['cws3_offload']      = __( 'Offload to S3', 'codeweber' );
-		$actions['cws3_restore']      = __( 'Restore to local', 'codeweber' );
-		$actions['cws3_delete_local'] = __( 'Delete local copies', 'codeweber' );
-		$actions['cws3_verify']       = __( 'Verify in bucket', 'codeweber' );
+		$actions['cws3_offload']          = __( 'Offload to S3', 'codeweber' );
+		$actions['cws3_restore']          = __( 'Restore to local', 'codeweber' );
+		$actions['cws3_delete_local']     = __( 'Delete local copies', 'codeweber' );
+		$actions['cws3_reapply_metadata'] = __( 'Re-apply S3 metadata', 'codeweber' );
+		$actions['cws3_verify']           = __( 'Verify in bucket', 'codeweber' );
 		return $actions;
 	}
 
@@ -55,6 +57,10 @@ class BulkActions {
 					$r  = DeleteLocalService::delete_local_for_attachment( $id );
 					$ok = $r['failed'] === 0 && $r['processed'] > 0;
 					break;
+				case 'cws3_reapply_metadata':
+					$r  = MetadataService::reapply_for_attachment( $id );
+					$ok = $r['failed'] === 0 && $r['processed'] > 0;
+					break;
 				case 'cws3_verify':
 					$r  = VerifyService::verify_attachment( $id );
 					$ok = $r['missing'] === 0 && $r['error'] === 0;
@@ -78,10 +84,11 @@ class BulkActions {
 		$done      = (int) ( $_GET['cws3_done'] ?? 0 );
 		$failed    = (int) ( $_GET['cws3_failed'] ?? 0 );
 		$label_map = [
-			'cws3_offload'      => __( 'Offload', 'codeweber' ),
-			'cws3_restore'      => __( 'Restore', 'codeweber' ),
-			'cws3_delete_local' => __( 'Delete local', 'codeweber' ),
-			'cws3_verify'       => __( 'Verify', 'codeweber' ),
+			'cws3_offload'          => __( 'Offload', 'codeweber' ),
+			'cws3_restore'          => __( 'Restore', 'codeweber' ),
+			'cws3_delete_local'     => __( 'Delete local', 'codeweber' ),
+			'cws3_reapply_metadata' => __( 'Re-apply metadata', 'codeweber' ),
+			'cws3_verify'           => __( 'Verify', 'codeweber' ),
 		];
 		$label = $label_map[ $action ] ?? $action;
 

@@ -5,6 +5,7 @@ namespace Codeweber\S3Storage\Tools;
 use Codeweber\S3Storage\Client;
 use Codeweber\S3Storage\DB\ItemsTable;
 use Codeweber\S3Storage\Logger;
+use Codeweber\S3Storage\Services\MetadataService;
 use Codeweber\S3Storage\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -40,8 +41,7 @@ class ReapplyCacheHeaders {
 			throw new \RuntimeException( 'S3 client init failed: ' . $e->getMessage() );
 		}
 
-		$max_age       = (int) ( $settings['cache_max_age'] ?? 31536000 );
-		$cache_control = 'public, max-age=' . $max_age . ', immutable';
+		$cache_control = MetadataService::build_cache_control( $settings );
 		$processed     = 0;
 		$failed        = 0;
 		$last_cursor   = (int) $job->cursor_id;
@@ -54,17 +54,24 @@ class ReapplyCacheHeaders {
 				continue;
 			}
 
+			$mime = MetadataService::resolve_mime_for_attachment( (int) $row->attachment_id, $row->object_key );
+			$args = [
+				'Bucket'            => $row->bucket,
+				'Key'               => $row->object_key,
+				'CopySource'        => $row->bucket . '/' . ltrim( $row->object_key, '/' ),
+				'MetadataDirective' => 'REPLACE',
+				'ContentType'       => $mime,
+				'ACL'               => 'public-read',
+			];
+			if ( $cache_control ) {
+				$args['CacheControl'] = $cache_control;
+			}
+
 			try {
-				$client->copyObject( [
-					'Bucket'            => $row->bucket,
-					'Key'               => $row->object_key,
-					'CopySource'        => $row->bucket . '/' . ltrim( $row->object_key, '/' ),
-					'MetadataDirective' => 'REPLACE',
-					'CacheControl'      => $cache_control,
-					'ACL'               => 'public-read',
-				] );
-				Logger::info( 'reapply_cache', 'Cache-Control updated.', [
-					'object' => $row->object_key,
+				$client->copyObject( $args );
+				Logger::info( 'reapply_cache', 'Metadata refreshed.', [
+					'object'       => $row->object_key,
+					'content_type' => $mime,
 				], (int) $row->attachment_id );
 				$processed++;
 			} catch ( \Throwable $e ) {

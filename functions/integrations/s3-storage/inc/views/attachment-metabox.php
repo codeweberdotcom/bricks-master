@@ -53,6 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</p>
 	<p>
 		<button type="button" class="button cws3-metabox-action" data-op="verify"><?php esc_html_e( 'Verify', 'codeweber' ); ?></button>
+		<button type="button" class="button cws3-metabox-action" data-op="reapply_metadata"><?php esc_html_e( 'Re-apply metadata', 'codeweber' ); ?></button>
 	</p>
 	<p class="cws3-metabox-result" style="min-height:1.5em;"></p>
 </div>

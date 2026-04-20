@@ -4,6 +4,7 @@ namespace Codeweber\S3Storage\Admin;
 
 use Codeweber\S3Storage\DB\ItemsTable;
 use Codeweber\S3Storage\Services\DeleteLocalService;
+use Codeweber\S3Storage\Services\MetadataService;
 use Codeweber\S3Storage\Services\RestoreService;
 use Codeweber\S3Storage\Services\VerifyService;
 use Codeweber\S3Storage\Uploader;
@@ -54,6 +55,9 @@ class AttachmentController {
 					$uploader = new Uploader();
 					$ok       = $uploader->offload_attachment( $attachment_id );
 					$result   = [ 'ok' => $ok ];
+					break;
+				case 'reapply_metadata':
+					$result = MetadataService::reapply_for_attachment( $attachment_id );
 					break;
 				default:
 					wp_send_json_error( [ 'message' => __( 'Unknown action.', 'codeweber' ) ] );
