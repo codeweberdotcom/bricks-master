@@ -941,6 +941,128 @@ Old templates in `templates/post-cards/` root are still found if new location do
 
 ---
 
+## Templates Registry
+
+Since the registry became the **single source of truth** for which templates exist per CPT. It powers:
+
+1. The theme's own rendering (`cw_render_post_card` picks up mapping from registry via filter).
+2. The **Post Grid** block (Gutenberg plugin) via REST endpoint `/codeweber-gutenberg-blocks/v1/post-card-templates`.
+
+The registry lives in `functions/post-cards-registry.php`.
+
+### Structure
+
+```php
+function codeweber_get_post_card_templates_registry(): array {
+    return apply_filters( 'codeweber_post_card_templates_registry', [
+        '<post_type>' => [
+            'dir'       => '<folder in templates/post-cards/>',  // optional
+            'templates' => [
+                '<template_slug>' => [
+                    'label'       => 'Human title',
+                    'description' => 'Short description',
+                    'supports'    => ['title', 'date', 'excerpt', ...],
+                ],
+                ...
+            ],
+        ],
+        ...
+    ] );
+}
+```
+
+### Helpers
+
+| Function | Purpose |
+|---|---|
+| `codeweber_get_post_card_templates_registry()` | Full registry, filtered. |
+| `codeweber_get_post_card_templates_for( $post_type )` | Flat list of templates for one CPT. Falls back to `post` templates if the CPT is not registered. Returned shape: `[{ value, label, description, supports }, ...]`. |
+
+### Filters
+
+#### `codeweber_post_card_templates_registry`
+
+Add/modify templates for any CPT.
+
+```php
+add_filter( 'codeweber_post_card_templates_registry', function ( $registry ) {
+    $registry['projects']['templates']['minimal'] = [
+        'label'       => __( 'Minimal', 'my-text-domain' ),
+        'description' => __( 'Title-only card', 'my-text-domain' ),
+        'supports'    => [ 'title' ],
+    ];
+    return $registry;
+} );
+```
+
+#### `codeweber_post_card_template_path` (full path override)
+
+Replaces the computed `$template_path` before `file_exists()` check. Useful when a CPT's templates live **outside** `templates/post-cards/` (e.g. WooCommerce shop cards).
+
+```php
+add_filter(
+    'codeweber_post_card_template_path',
+    function ( $path, $template_name, $post_type, $post_data ) {
+        if ( $post_type !== 'product' || ! class_exists( 'WooCommerce' ) ) {
+            return $path;
+        }
+        $wc_path = get_theme_file_path(
+            'templates/woocommerce/cards/' . sanitize_file_name( $template_name ) . '.php'
+        );
+        if ( $wc_path && file_exists( $wc_path ) ) {
+            // WC cards expect global $product
+            global $product;
+            if ( ! $product && ! empty( $post_data['post']->ID ) ) {
+                $product = wc_get_product( $post_data['post']->ID );
+            }
+            return $wc_path;
+        }
+        return $path;
+    },
+    10, 4
+);
+```
+
+### WooCommerce products — integration pattern
+
+`post_type = product` is conditionally added to the registry **only when `class_exists('WooCommerce')`**. The registry entry has no `dir` — instead the `codeweber_post_card_template_path` filter redirects to `templates/woocommerce/cards/`:
+
+```php
+if ( class_exists( 'WooCommerce' ) ) {
+    $registry['product'] = [
+        // no 'dir' — path overridden via codeweber_post_card_template_path filter
+        'templates' => [
+            'shop-card'    => [ 'label' => 'Shop Card', ... ],
+            'shop-compact' => [ 'label' => 'Shop Compact', ... ],
+            'shop-list'    => [ 'label' => 'Shop List', ... ],
+            'shop2'        => [ 'label' => 'Shop 2', ... ],
+        ],
+    ];
+}
+```
+
+Benefits: WC cards stay in a single location (`templates/woocommerce/cards/`), no duplicates, and if WooCommerce is deactivated the `product` option disappears from the Post Grid sidebar entirely.
+
+### Auto-mapping CPT → directory
+
+The registry also hooks `codeweber_post_type_template_map` to auto-fill entries from registry's `dir`:
+
+```php
+add_filter( 'codeweber_post_type_template_map', function ( $map ) {
+    $registry = codeweber_get_post_card_templates_registry();
+    foreach ( $registry as $post_type => $config ) {
+        if ( ! isset( $map[ $post_type ] ) && isset( $config['dir'] ) ) {
+            $map[ $post_type ] = $config['dir'];
+        }
+    }
+    return $map;
+} );
+```
+
+That means adding a new CPT to the registry *automatically* teaches `cw_render_post_card()` which folder to look in — you don't have to touch `post_type_to_dir` manually.
+
+---
+
 ## Related Documentation
 
 - **[HOOKS_REFERENCE.md](../api/HOOKS_REFERENCE.md)** — Hooks for customizing post card behavior
