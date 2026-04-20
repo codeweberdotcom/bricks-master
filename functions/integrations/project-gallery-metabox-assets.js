@@ -32,13 +32,24 @@
 		setIds(ids);
 	}
 
+	function buildEditUrl(attachmentId) {
+		var base = settings.editUrlBase || '/wp-admin/post.php';
+		return base + '?post=' + encodeURIComponent(attachmentId) + '&action=edit';
+	}
+
 	function addItemToGrid(attachmentId, imageUrl) {
 		if (!grid) return;
 		var item = document.createElement('div');
 		item.className = 'project-gallery-item';
 		item.setAttribute('data-id', attachmentId);
 		var removeLabel = (settings.i18n && settings.i18n.remove) ? settings.i18n.remove : 'Remove';
+		var editLabel = (settings.i18n && settings.i18n.edit) ? settings.i18n.edit : 'Edit attachment';
+		var editUrl = buildEditUrl(attachmentId);
 		item.innerHTML = '<img src="' + (imageUrl || '') + '" alt="">' +
+			'<a class="project-gallery-edit" href="' + editUrl + '" target="_blank" rel="noopener"' +
+			' aria-label="' + editLabel.replace(/"/g, '&quot;') + '"' +
+			' title="' + editLabel.replace(/"/g, '&quot;') + '">' +
+			'<span class="dashicons dashicons-edit"></span></a>' +
 			'<button type="button" class="project-gallery-remove" aria-label="' + removeLabel.replace(/"/g, '&quot;') + '">&times;</button>';
 		grid.appendChild(item);
 		addId(attachmentId);

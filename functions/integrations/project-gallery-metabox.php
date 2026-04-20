@@ -59,9 +59,20 @@ function codeweber_project_gallery_render_metabox(\WP_Post $post): void {
 				if (!$src) {
 					continue;
 				}
+				$edit_url = get_edit_post_link($aid);
 				?>
 				<div class="project-gallery-item" data-id="<?php echo esc_attr($aid); ?>">
 					<img src="<?php echo esc_url($src); ?>" alt="">
+					<?php if ($edit_url) : ?>
+					<a class="project-gallery-edit"
+					   href="<?php echo esc_url($edit_url); ?>"
+					   target="_blank"
+					   rel="noopener"
+					   aria-label="<?php esc_attr_e('Edit attachment', 'codeweber'); ?>"
+					   title="<?php esc_attr_e('Edit attachment', 'codeweber'); ?>">
+						<span class="dashicons dashicons-edit"></span>
+					</a>
+					<?php endif; ?>
 					<button type="button" class="project-gallery-remove" aria-label="<?php esc_attr_e('Remove', 'codeweber'); ?>">&times;</button>
 				</div>
 				<?php
@@ -131,11 +142,13 @@ function codeweber_project_gallery_admin_scripts(string $hook): void {
 		true
 	);
 	wp_localize_script('codeweber-project-gallery-admin', 'codeweberProjectGallery', [
-		'uploadUrl' => admin_url('admin-ajax.php?action=codeweber_project_gallery_upload'),
-		'nonce'     => wp_create_nonce('codeweber_project_gallery_upload'),
-		'postId'    => get_the_ID() ?: 0,
+		'uploadUrl'      => admin_url('admin-ajax.php?action=codeweber_project_gallery_upload'),
+		'nonce'          => wp_create_nonce('codeweber_project_gallery_upload'),
+		'postId'         => get_the_ID() ?: 0,
+		'editUrlBase'    => admin_url('post.php'),
 		'i18n'      => [
 			'remove'            => __('Remove', 'codeweber'),
+			'edit'              => __('Edit attachment', 'codeweber'),
 			'add'               => __('Add images', 'codeweber'),
 			'labelIdle'         => __('Drag & Drop your files or <span class="filepond--label-action">browse</span>', 'codeweber'),
 			'description'      => __('Add images via the upload area below. Drag items in the grid to reorder.', 'codeweber'),
