@@ -104,6 +104,16 @@ function cw_media_cpt_filter_enqueue(): void {
 
 	wp_enqueue_script( $handle, $src, [ 'media-views', 'jquery' ], $ver, true );
 
+	// Inline-CSS: переносим .media-toolbar-secondary на вторую строку,
+	// чтобы в узких media-фреймах (Gallery Create, Featured Image и т.п.)
+	// селекты CPT/поста/тега не уезжали за правый край и не обрезались.
+	$css = '.media-toolbar-secondary{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;}'
+		. '.media-toolbar-secondary select.attachment-filters{max-width:220px;}'
+		. '.mode-select .media-toolbar-secondary select.attachment-filters{max-width:170px;}';
+	wp_register_style( 'cw-media-cpt-filter', false, [], $ver );
+	wp_enqueue_style( 'cw-media-cpt-filter' );
+	wp_add_inline_style( 'cw-media-cpt-filter', $css );
+
 	$types_data = [];
 	foreach ( cw_media_cpt_filter_types() as $pt ) {
 		$types_data[] = [
