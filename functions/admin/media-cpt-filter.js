@@ -169,59 +169,64 @@
 		},
 	});
 
-	var OriginalBrowser = wp.media.view.AttachmentsBrowser;
+	/**
+	 * Monkey-patch прототипа AttachmentsBrowser.createToolbar.
+	 * Это важно: подкласс MediaFrame.Post (Create Gallery, Featured Image)
+	 * может уже держать reference на конструктор AttachmentsBrowser до того,
+	 * как наш JS загрузится, поэтому `extend` базы не всегда применяется.
+	 * Patch прототипа действует на все существующие и будущие инстансы.
+	 */
+	var originalCreateToolbar = wp.media.view.AttachmentsBrowser.prototype.createToolbar;
 
-	wp.media.view.AttachmentsBrowser = OriginalBrowser.extend({
-		createToolbar: function () {
-			OriginalBrowser.prototype.createToolbar.apply(this, arguments);
+	wp.media.view.AttachmentsBrowser.prototype.createToolbar = function () {
+		originalCreateToolbar.apply(this, arguments);
 
-			if (!this.toolbar) {
-				return;
-			}
-			if (this.toolbar.get('cptTypeFilter')) {
-				return;
-			}
+		if (!this.toolbar) {
+			return;
+		}
+		if (this.toolbar.get('cptTypeFilter')) {
+			return;
+		}
 
-			// 1) Label + select для типа записи.
-			this.toolbar.set(
-				'cptTypeFilterLabel',
-				new wp.media.View({
-					el: $('<label>')
-						.addClass('screen-reader-text')
-						.attr('for', 'media-attachment-cpt-filter')
-						.text(L.filter || 'Filter by post type')[0],
-					priority: -74,
-				}).render()
-			);
-
-			this.toolbar.set(
-				'cptTypeFilter',
-				new CptTypeFilter({
-					controller: this.controller,
-					model: this.collection.props,
-					priority: -75,
-				}).render()
-			);
-
-			// 2) Label + select для конкретной записи (show/hide через CptPostFilter).
-			var postLabel = new wp.media.View({
+		// 1) Label + select для типа записи.
+		this.toolbar.set(
+			'cptTypeFilterLabel',
+			new wp.media.View({
 				el: $('<label>')
 					.addClass('screen-reader-text')
-					.attr('for', 'media-attachment-cpt-post-filter')
-					.text(L.filterPost || 'Filter by post')[0],
-				priority: -73,
-			}).render();
+					.attr('for', 'media-attachment-cpt-filter')
+					.text(L.filter || 'Filter by post type')[0],
+				priority: -74,
+			}).render()
+		);
 
-			var postFilter = new CptPostFilter({
+		this.toolbar.set(
+			'cptTypeFilter',
+			new CptTypeFilter({
 				controller: this.controller,
 				model: this.collection.props,
-				priority: -72,
-			});
-			postFilter.labelView = postLabel;
-			postFilter.render();
+				priority: -75,
+			}).render()
+		);
 
-			this.toolbar.set('cptPostFilterLabel', postLabel);
-			this.toolbar.set('cptPostFilter', postFilter);
-		},
-	});
+		// 2) Label + select для конкретной записи (show/hide через CptPostFilter).
+		var postLabel = new wp.media.View({
+			el: $('<label>')
+				.addClass('screen-reader-text')
+				.attr('for', 'media-attachment-cpt-post-filter')
+				.text(L.filterPost || 'Filter by post')[0],
+			priority: -73,
+		}).render();
+
+		var postFilter = new CptPostFilter({
+			controller: this.controller,
+			model: this.collection.props,
+			priority: -72,
+		});
+		postFilter.labelView = postLabel;
+		postFilter.render();
+
+		this.toolbar.set('cptPostFilterLabel', postLabel);
+		this.toolbar.set('cptPostFilter', postFilter);
+	};
 })(jQuery, window.wp);

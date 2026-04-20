@@ -263,5 +263,115 @@ function cw_media_cpt_filter_bust_cache( $post_id ): void {
 	$pt = get_post_type( $post_id );
 	if ( $pt ) {
 		wp_cache_delete( 'cw_parents_' . $pt, 'cw_media' );
+		wp_cache_delete( 'cw_cpt_posts_' . $pt, 'cw_media' );
 	}
+}
+
+/**
+ * ── List mode (/wp-admin/upload.php?mode=list) ──────────────────────────────
+ *
+ * В List mode используется классический WP_List_Table, а не Backbone —
+ * JS-фильтры не применяются. Добавляем два <select> в toolbar через
+ * restrict_manage_posts и фильтруем через parse_query.
+ */
+add_action( 'restrict_manage_posts', 'cw_media_cpt_filter_list_dropdowns' );
+function cw_media_cpt_filter_list_dropdowns( string $post_type ): void {
+	if ( $post_type !== 'attachment' ) {
+		return;
+	}
+
+	$current_type = isset( $_GET['parent_post_type'] ) ? sanitize_key( $_GET['parent_post_type'] ) : '';
+	$current_post = isset( $_GET['parent_post_id'] )   ? (int) $_GET['parent_post_id']             : 0;
+	$types        = cw_media_cpt_filter_types();
+
+	// CPT dropdown.
+	echo '<label class="screen-reader-text" for="cw-filter-parent-type">' . esc_html__( 'Filter by post type', 'codeweber' ) . '</label>';
+	echo '<select id="cw-filter-parent-type" name="parent_post_type">';
+	echo '<option value="">' . esc_html__( 'All post types', 'codeweber' ) . '</option>';
+	foreach ( $types as $pt ) {
+		printf(
+			'<option value="%s"%s>%s</option>',
+			esc_attr( $pt->name ),
+			selected( $current_type, $pt->name, false ),
+			esc_html( $pt->labels->name ?? $pt->name )
+		);
+	}
+	echo '</select>';
+
+	// Post dropdown — только если CPT выбран и он в whitelist.
+	if ( $current_type !== '' && isset( $types[ $current_type ] ) ) {
+		$q = new \WP_Query(
+			[
+				'post_type'           => $current_type,
+				'post_status'         => [ 'publish', 'private', 'draft', 'pending', 'future' ],
+				'posts_per_page'      => 200,
+				'orderby'             => 'date',
+				'order'               => 'DESC',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+				'suppress_filters'    => true,
+			]
+		);
+
+		echo '<label class="screen-reader-text" for="cw-filter-parent-post">' . esc_html__( 'Filter by post', 'codeweber' ) . '</label>';
+		echo '<select id="cw-filter-parent-post" name="parent_post_id">';
+		echo '<option value="0">' . esc_html__( 'All posts', 'codeweber' ) . '</option>';
+		foreach ( $q->posts as $p ) {
+			$title = get_the_title( $p );
+			printf(
+				'<option value="%d"%s>%s</option>',
+				(int) $p->ID,
+				selected( $current_post, (int) $p->ID, false ),
+				esc_html( $title !== '' ? $title : sprintf( '#%d', $p->ID ) )
+			);
+		}
+		echo '</select>';
+	}
+}
+
+add_action( 'parse_query', 'cw_media_cpt_filter_list_query' );
+function cw_media_cpt_filter_list_query( \WP_Query $query ): void {
+	global $pagenow;
+	if ( ! is_admin() || $pagenow !== 'upload.php' ) {
+		return;
+	}
+	if ( ! $query->is_main_query() ) {
+		return;
+	}
+	if ( ( $query->get( 'post_type' ) ?: 'attachment' ) !== 'attachment' ) {
+		return;
+	}
+
+	$current_post = isset( $_GET['parent_post_id'] )   ? (int) $_GET['parent_post_id']             : 0;
+	$current_type = isset( $_GET['parent_post_type'] ) ? sanitize_key( $_GET['parent_post_type'] ) : '';
+
+	if ( $current_post > 0 && get_post( $current_post ) ) {
+		$query->set( 'post_parent', $current_post );
+		return;
+	}
+
+	if ( $current_type === '' ) {
+		return;
+	}
+	$allowed = array_keys( cw_media_cpt_filter_types() );
+	if ( ! in_array( $current_type, $allowed, true ) ) {
+		return;
+	}
+
+	$cache_key   = 'cw_parents_' . $current_type;
+	$cache_group = 'cw_media';
+	$parents     = wp_cache_get( $cache_key, $cache_group );
+	if ( $parents === false ) {
+		$parents = get_posts(
+			[
+				'post_type'        => $current_type,
+				'post_status'      => 'any',
+				'posts_per_page'   => -1,
+				'fields'           => 'ids',
+				'suppress_filters' => true,
+			]
+		);
+		wp_cache_set( $cache_key, $parents, $cache_group, MINUTE_IN_SECONDS );
+	}
+	$query->set( 'post_parent__in', ! empty( $parents ) ? $parents : [ 0 ] );
 }
