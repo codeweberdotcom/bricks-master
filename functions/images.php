@@ -25,15 +25,21 @@ if (! function_exists('codeweber_image_settings')) {
 		add_image_size('cw_landscape_lg',  960,  600, true);
 		add_image_size('cw_landscape_xl', 1070,  668, true);
 		add_image_size('cw_landscape_hd', 1600,  900, true);
+		// Landscape (specific ratios, near-square but still wider than tall)
+		add_image_size('cw_landscape_9x7',  900,  718, true);
+		add_image_size('cw_landscape_9x8',  900,  800, true);
 
 		// Wide (4:3 / 16:9 large)
 		add_image_size('cw_wide_4x3_xl',  1600, 1200, true);
 		add_image_size('cw_wide_2k',      2560, 1440, true);
 
-		// Card / portrait (specific ratios)
+		// Card (3:2 landscape)
 		add_image_size('cw_card_3x2',      400,  267, true);
-		add_image_size('cw_portrait_9x7',  900,  718, true);
-		add_image_size('cw_portrait_9x8',  900,  800, true);
+
+		// Portrait (H > W, ratio 2:3)
+		add_image_size('cw_portrait_2x3_sm',  400,  600, true);
+		add_image_size('cw_portrait_2x3_md',  600,  900, true);
+		add_image_size('cw_portrait_2x3_lg',  900, 1350, true);
 
 		// Clients (no crop — preserve logo proportions)
 		add_image_size('cw_client_sm',     115,   60, false);
@@ -95,7 +101,8 @@ function codeweber_get_allowed_image_sizes($post_type = '', $post_id = 0)
 		'cw_square_xs', 'cw_square_sm', 'cw_square_md', 'cw_square_lg', 'cw_square_xl',
 		'cw_landscape_xs', 'cw_landscape_sm', 'cw_landscape_md', 'cw_landscape_lg', 'cw_landscape_xl', 'cw_landscape_hd',
 		'cw_wide_4x3_xl', 'cw_wide_2k',
-		'cw_card_3x2', 'cw_portrait_9x7', 'cw_portrait_9x8',
+		'cw_card_3x2', 'cw_landscape_9x7', 'cw_landscape_9x8',
+		'cw_portrait_2x3_sm', 'cw_portrait_2x3_md', 'cw_portrait_2x3_lg',
 		'cw_client_sm', 'cw_client_md', 'cw_client_lg',
 		'codeweber_extralarge', 'codeweber_staff', // legacy aliases for horizons
 	];

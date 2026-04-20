@@ -35,11 +35,14 @@
 | `cw_landscape_lg` | 960×600 | ✓ | post single main |
 | `cw_landscape_xl` | 1070×668 | ✓ | event/vacancy single main |
 | `cw_landscape_hd` | 1600×900 | ✓ | projects hero |
+| `cw_landscape_9x7` | 900×718 | ✓ | projects near-square landscape 9:7 |
+| `cw_landscape_9x8` | 900×800 | ✓ | projects near-square landscape 9:8 |
 | `cw_wide_4x3_xl` | 1600×1200 | ✓ | lightbox fullscreen (4:3) |
 | `cw_wide_2k` | 2560×1440 | ✓ | projects 2K hero/lightbox |
 | `cw_card_3x2` | 400×267 | ✓ | archive card 3:2 |
-| `cw_portrait_9x7` | 900×718 | ✓ | projects portrait 9:7 |
-| `cw_portrait_9x8` | 900×800 | ✓ | projects near-square |
+| `cw_portrait_2x3_sm` | 400×600 | ✓ | портрет (2:3), превью карточки |
+| `cw_portrait_2x3_md` | 600×900 | ✓ | портрет (2:3), grid 2-col |
+| `cw_portrait_2x3_lg` | 900×1350 | ✓ | портрет (2:3), single hero / lightbox |
 | `cw_client_sm` | 115×60 | ✗ | клиент-логотип (без crop) |
 | `cw_client_md` | 200×60 | ✗ | клиент-логотип (без crop) |
 | `cw_client_lg` | 300×200 | ✗ | клиент-логотип (без crop) |
