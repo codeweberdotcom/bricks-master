@@ -51,6 +51,7 @@ require_once get_template_directory() . '/functions/post-cards-registry.php';
 // ── Админка ───────────────────────────────────────────────────────────────────
 require_once get_template_directory() . '/functions/admin/admin_settings.php';
 require_once get_template_directory() . '/functions/admin/media-regenerate.php';
+require_once get_template_directory() . '/functions/admin/media-cpt-filter.php';
 
 // ── Fetch / AJAX ──────────────────────────────────────────────────────────────
 require_once get_template_directory() . '/functions/fetch/fetch-handler.php';

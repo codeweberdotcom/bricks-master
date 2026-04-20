@@ -1,0 +1,186 @@
+<?php
+/**
+ * Media Library: фильтр по типу родительской записи (CPT).
+ *
+ * Добавляет дополнительный dropdown в toolbar медиатеки ("Тип записи")
+ * и расширяет AJAX-запрос query-attachments параметром parent_post_type.
+ *
+ * Работает глобально во всех admin-контекстах, где открывается WP Media Library:
+ * /wp-admin/upload.php, любой MediaUpload в Gutenberg, metabox featured image,
+ * Customizer и т.д.
+ *
+ * @package Codeweber
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Базовый blacklist служебных post_type, которые не показываем в фильтре.
+ *
+ * @return string[]
+ */
+function cw_media_cpt_filter_blacklist(): array {
+	$default = [
+		// WordPress core служебные
+		'attachment', 'revision', 'nav_menu_item',
+		'wp_block', 'wp_template', 'wp_template_part',
+		'wp_navigation', 'wp_global_styles',
+		'wp_font_family', 'wp_font_face',
+		// Служебные нашей темы
+		'header', 'footer', 'modal', 'html_blocks',
+		'page-header', 'notifications', 'codeweber_form',
+	];
+
+	/**
+	 * Позволяет child-теме/плагину расширить blacklist.
+	 *
+	 * @param string[] $default Массив slug-ов служебных CPT.
+	 */
+	return (array) apply_filters( 'codeweber_media_cpt_blacklist', $default );
+}
+
+/**
+ * Возвращает список публичных CPT, доступных для фильтрации в медиатеке.
+ * Результат — массив объектов WP_Post_Type, упорядоченный по label.
+ *
+ * @return \WP_Post_Type[]
+ */
+function cw_media_cpt_filter_types(): array {
+	$cache_key   = 'cw_media_cpt_types';
+	$cache_group = 'cw_media';
+	$cached      = wp_cache_get( $cache_key, $cache_group );
+	if ( is_array( $cached ) ) {
+		return $cached;
+	}
+
+	$types = get_post_types(
+		[
+			'public'  => true,
+			'show_ui' => true,
+		],
+		'objects'
+	);
+
+	$blacklist = cw_media_cpt_filter_blacklist();
+	foreach ( $blacklist as $slug ) {
+		unset( $types[ $slug ] );
+	}
+
+	// Сортировка по видимому label.
+	uasort(
+		$types,
+		static function ( $a, $b ) {
+			return strcmp( $a->labels->name ?? $a->name, $b->labels->name ?? $b->name );
+		}
+	);
+
+	/**
+	 * Итоговый список CPT для фильтра медиатеки.
+	 *
+	 * @param \WP_Post_Type[] $types
+	 */
+	$types = (array) apply_filters( 'codeweber_media_cpt_filter_types', $types );
+
+	wp_cache_set( $cache_key, $types, $cache_group, 5 * MINUTE_IN_SECONDS );
+	return $types;
+}
+
+/**
+ * Enqueue JS-расширение AttachmentFilters в admin.
+ */
+add_action( 'admin_enqueue_scripts', 'cw_media_cpt_filter_enqueue' );
+function cw_media_cpt_filter_enqueue(): void {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	// Нужна media-views (в ней живёт wp.media.view.AttachmentFilters).
+	wp_enqueue_media();
+
+	$handle = 'cw-media-cpt-filter';
+	$src    = get_template_directory_uri() . '/functions/admin/media-cpt-filter.js';
+	$path   = get_template_directory() . '/functions/admin/media-cpt-filter.js';
+	$ver    = file_exists( $path ) ? (string) filemtime( $path ) : '1.0.0';
+
+	wp_enqueue_script( $handle, $src, [ 'media-views', 'jquery' ], $ver, true );
+
+	$types_data = [];
+	foreach ( cw_media_cpt_filter_types() as $pt ) {
+		$types_data[] = [
+			'slug'  => $pt->name,
+			'label' => $pt->labels->name ?? $pt->name,
+		];
+	}
+
+	wp_localize_script(
+		$handle,
+		'CW_MediaCptFilter',
+		[
+			'types' => $types_data,
+			'i18n'  => [
+				'all'    => __( 'All post types', 'codeweber' ),
+				'label'  => __( 'Post type', 'codeweber' ),
+				'filter' => __( 'Filter by post type', 'codeweber' ),
+			],
+		]
+	);
+}
+
+/**
+ * Фильтрует AJAX-выборку attachments по parent_post_type.
+ *
+ * @param array $args Аргументы WP_Query для attachments.
+ * @return array
+ */
+add_filter( 'ajax_query_attachments_args', 'cw_media_cpt_filter_ajax_args' );
+function cw_media_cpt_filter_ajax_args( $args ) {
+	$query = isset( $_REQUEST['query'] ) && is_array( $_REQUEST['query'] ) ? $_REQUEST['query'] : [];
+	if ( empty( $query['parent_post_type'] ) ) {
+		return $args;
+	}
+
+	$pt = sanitize_key( $query['parent_post_type'] );
+	if ( $pt === 'all' || $pt === '' ) {
+		return $args;
+	}
+	if ( ! post_type_exists( $pt ) ) {
+		return $args;
+	}
+
+	// Защита — разрешаем только те CPT, которые реально есть в нашем фильтре.
+	$allowed = array_keys( cw_media_cpt_filter_types() );
+	if ( ! in_array( $pt, $allowed, true ) ) {
+		return $args;
+	}
+
+	$cache_key   = 'cw_parents_' . $pt;
+	$cache_group = 'cw_media';
+	$parents     = wp_cache_get( $cache_key, $cache_group );
+	if ( $parents === false ) {
+		$parents = get_posts(
+			[
+				'post_type'      => $pt,
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'suppress_filters' => true,
+			]
+		);
+		wp_cache_set( $cache_key, $parents, $cache_group, MINUTE_IN_SECONDS );
+	}
+
+	$args['post_parent__in'] = ! empty( $parents ) ? $parents : [ 0 ];
+	return $args;
+}
+
+/**
+ * Сбрасывает кэш parents при публикации/удалении любого поста.
+ */
+add_action( 'save_post', 'cw_media_cpt_filter_bust_cache', 20, 1 );
+add_action( 'deleted_post', 'cw_media_cpt_filter_bust_cache', 20, 1 );
+function cw_media_cpt_filter_bust_cache( $post_id ): void {
+	$pt = get_post_type( $post_id );
+	if ( $pt ) {
+		wp_cache_delete( 'cw_parents_' . $pt, 'cw_media' );
+	}
+}
