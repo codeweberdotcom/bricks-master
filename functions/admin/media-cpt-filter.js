@@ -261,6 +261,17 @@
 			return;
 		}
 
+		// CPT/Post фильтры вставляем ТОЛЬКО в классической Медиатеке
+		// (/wp-admin/upload.php). В gallery-фрейме и других media-модалках
+		// (Featured Image, MediaUpload в редакторе, Customizer) — только тег:
+		// их Backbone-цикл чувствителен к доп. subviews и ломал WP 6.9.4.
+		var isLibraryPage = /\/wp-admin\/upload\.php/i.test(
+			(window.location && window.location.pathname) || ''
+		);
+		if (!isLibraryPage) {
+			return;
+		}
+
 		// 1) Label + select для типа записи.
 		this.toolbar.set(
 			'cptTypeFilterLabel',

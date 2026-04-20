@@ -94,8 +94,10 @@ function cw_media_cpt_filter_enqueue(): void {
 		return;
 	}
 
-	// Нужна media-views (в ней живёт wp.media.view.AttachmentFilters).
-	wp_enqueue_media();
+	// НЕ вызываем wp_enqueue_media() здесь: в WP 6.9.4 это на страницах
+	// Gutenberg-редактора ломает загрузку wordcount.min.js и вешает editor.
+	// media-views тянется как dependency скрипта ниже — этого достаточно
+	// для страниц, где WP и так подгружает media (upload.php, post.php).
 
 	$handle = 'cw-media-cpt-filter';
 	$src    = get_template_directory_uri() . '/functions/admin/media-cpt-filter.js';
