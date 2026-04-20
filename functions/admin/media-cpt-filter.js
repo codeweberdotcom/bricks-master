@@ -90,32 +90,24 @@
 	});
 
 	/**
-	 * Фильтр "Конкретная запись" — extends AttachmentFilters (та же база, что и
-	 * стандартные фильтры типа/даты). wp.media.View в WP 6.9.4 падает в ready()
-	 * с TypeError "can't access property className" при attach, поэтому наследуем
-	 * от AttachmentFilters для гарантированной совместимости.
-	 *
-	 * Populate делается через переприсвоение this.filters + this.render() —
-	 * родительский render() пересоздаёт <option>s из this.filters.
+	 * Фильтр "Конкретная запись" — собственный <select>, без AttachmentFilters-базы,
+	 * чтобы контролировать show/hide и ajax-populate без борьбы с базовым классом.
 	 */
-	var CptPostFilter = wp.media.view.AttachmentFilters.extend({
-		id: 'media-attachment-cpt-post-filter',
+	var CptPostFilter = wp.media.View.extend({
+		tagName: 'select',
 		className: 'attachment-filters cw-cpt-post-filter',
+		attributes: { id: 'media-attachment-cpt-post-filter' },
 
-		createFilters: function () {
-			this.filters = {
-				all: {
-					text: L.allPosts || 'All posts',
-					props: { parent_post_id: '' },
-					priority: 10,
-				},
-			};
+		events: { change: 'onChange' },
+
+		initialize: function (options) {
+			this.controller = options.controller;
+			this.listenTo(this.model, 'change:parent_post_type', this.onTypeChange);
 		},
 
-		initialize: function () {
-			wp.media.view.AttachmentFilters.prototype.initialize.apply(this, arguments);
-			this.listenTo(this.model, 'change:parent_post_type', this.onTypeChange);
+		render: function () {
 			this.onTypeChange();
+			return this;
 		},
 
 		setVisible: function (visible) {
@@ -131,23 +123,15 @@
 
 			if (!postType) {
 				this.setVisible(false);
-				if (this.model.get('parent_post_id')) {
-					this.model.set('parent_post_id', '');
-				}
+				this.model.set('parent_post_id', '');
 				return;
 			}
 
 			this.setVisible(true);
 
-			// Loading-состояние: один <option>.
-			this.filters = {
-				loading: {
-					text: L.loading || 'Loading…',
-					props: { parent_post_id: '' },
-					priority: 10,
-				},
-			};
-			this.render();
+			this.$el.empty().append(
+				$('<option>').val('').text(L.loading || 'Loading…')
+			);
 			this.$el.prop('disabled', true);
 
 			fetchPostsForType(postType).always(function (data) {
@@ -160,70 +144,30 @@
 			var items = (data && data.items) || [];
 			var truncated = !!(data && data.truncated);
 
-			var filters = {
-				all: {
-					text: L.allPosts || 'All posts',
-					props: { parent_post_id: '' },
-					priority: 10,
-				},
-			};
+			this.$el.empty();
+			$('<option>').val('').text(L.allPosts || 'All posts').appendTo(this.$el);
 
 			if (items.length === 0) {
-				filters['_empty'] = {
-					text: L.noPosts || 'No posts found',
-					props: { parent_post_id: '' },
-					priority: 20,
-				};
-				this.filters = filters;
-				this.render();
+				$('<option disabled>').val('').text(L.noPosts || 'No posts found').appendTo(this.$el);
 				this.$el.prop('disabled', true);
-				if (this.model.get('parent_post_id')) {
-					this.model.set('parent_post_id', '');
-				}
+				this.model.set('parent_post_id', '');
 				return;
 			}
 
-			var priority = 20;
 			items.forEach(function (item) {
-				filters['p-' + item.id] = {
-					text: item.title,
-					props: { parent_post_id: String(item.id) },
-					priority: priority,
-				};
-				priority += 10;
-			});
+				$('<option>').val(String(item.id)).text(item.title).appendTo(this.$el);
+			}.bind(this));
 
 			if (truncated) {
-				filters['_truncated'] = {
-					text: '— ' + (L.truncated || 'Showing latest 200') + ' —',
-					props: { parent_post_id: '' },
-					priority: 99999,
-				};
+				$('<option disabled>').val('').text('— ' + (L.truncated || 'Showing latest 200') + ' —').appendTo(this.$el);
 			}
 
-			this.filters = filters;
-			this.render();
-			this.select();
-		},
-
-		change: function () {
-			var filter = this.filters[this.el.value];
-			if (filter) {
-				this.model.set('parent_post_id', filter.props.parent_post_id);
-			}
-		},
-
-		select: function () {
 			var current = String(this.model.get('parent_post_id') || '');
-			var value = 'all';
-			var filters = this.filters;
-			Object.keys(filters).forEach(function (id) {
-				var p = filters[id].props && filters[id].props.parent_post_id;
-				if (String(p || '') === current && p !== '') {
-					value = id;
-				}
-			});
-			this.$el.val(value);
+			this.$el.val(current || '');
+		},
+
+		onChange: function () {
+			this.model.set('parent_post_id', this.el.value);
 		},
 	});
 
