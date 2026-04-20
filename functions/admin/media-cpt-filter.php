@@ -116,11 +116,18 @@ function cw_media_cpt_filter_enqueue(): void {
 		$handle,
 		'CW_MediaCptFilter',
 		[
-			'types' => $types_data,
-			'i18n'  => [
-				'all'    => __( 'All post types', 'codeweber' ),
-				'label'  => __( 'Post type', 'codeweber' ),
-				'filter' => __( 'Filter by post type', 'codeweber' ),
+			'types'   => $types_data,
+			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+			'nonce'   => wp_create_nonce( 'cw_media_cpt_posts' ),
+			'i18n'    => [
+				'all'         => __( 'All post types', 'codeweber' ),
+				'allPosts'    => __( 'All posts', 'codeweber' ),
+				'label'       => __( 'Post type', 'codeweber' ),
+				'filter'      => __( 'Filter by post type', 'codeweber' ),
+				'filterPost'  => __( 'Filter by post', 'codeweber' ),
+				'loading'     => __( 'Loading…', 'codeweber' ),
+				'truncated'   => __( 'Showing latest 200. Refine by post type.', 'codeweber' ),
+				'noPosts'     => __( 'No posts found', 'codeweber' ),
 			],
 		]
 	);
@@ -135,6 +142,16 @@ function cw_media_cpt_filter_enqueue(): void {
 add_filter( 'ajax_query_attachments_args', 'cw_media_cpt_filter_ajax_args' );
 function cw_media_cpt_filter_ajax_args( $args ) {
 	$query = isset( $_REQUEST['query'] ) && is_array( $_REQUEST['query'] ) ? $_REQUEST['query'] : [];
+
+	// Конкретный пост имеет приоритет над типом: если задан parent_post_id — фильтруем по нему.
+	if ( ! empty( $query['parent_post_id'] ) ) {
+		$parent_id = (int) $query['parent_post_id'];
+		if ( $parent_id > 0 && get_post( $parent_id ) ) {
+			$args['post_parent'] = $parent_id;
+			return $args;
+		}
+	}
+
 	if ( empty( $query['parent_post_type'] ) ) {
 		return $args;
 	}
@@ -171,6 +188,70 @@ function cw_media_cpt_filter_ajax_args( $args ) {
 
 	$args['post_parent__in'] = ! empty( $parents ) ? $parents : [ 0 ];
 	return $args;
+}
+
+/**
+ * AJAX: список постов указанного CPT для второго dropdown.
+ */
+add_action( 'wp_ajax_cw_media_cpt_posts', 'cw_media_cpt_filter_posts_ajax' );
+function cw_media_cpt_filter_posts_ajax(): void {
+	if ( ! current_user_can( 'upload_files' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Insufficient permissions.', 'codeweber' ) ], 403 );
+	}
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'cw_media_cpt_posts' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Security error.', 'codeweber' ) ], 403 );
+	}
+
+	$pt = isset( $_POST['post_type'] ) ? sanitize_key( $_POST['post_type'] ) : '';
+	if ( $pt === '' || ! post_type_exists( $pt ) ) {
+		wp_send_json_error( [ 'message' => __( 'Invalid post type.', 'codeweber' ) ], 400 );
+	}
+	$allowed = array_keys( cw_media_cpt_filter_types() );
+	if ( ! in_array( $pt, $allowed, true ) ) {
+		wp_send_json_error( [ 'message' => __( 'Post type not allowed.', 'codeweber' ) ], 400 );
+	}
+
+	$limit = 200;
+	$cache_key   = 'cw_cpt_posts_' . $pt;
+	$cache_group = 'cw_media';
+	$cached      = wp_cache_get( $cache_key, $cache_group );
+	if ( is_array( $cached ) ) {
+		wp_send_json_success( $cached );
+	}
+
+	$q = new \WP_Query(
+		[
+			'post_type'      => $pt,
+			'post_status'    => [ 'publish', 'private', 'draft', 'pending', 'future' ],
+			'posts_per_page' => $limit + 1, // +1 чтобы понять, есть ли ещё.
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'no_found_rows'  => true,
+			'suppress_filters' => true,
+			'ignore_sticky_posts' => true,
+		]
+	);
+
+	$items     = [];
+	$truncated = false;
+	foreach ( $q->posts as $i => $p ) {
+		if ( $i >= $limit ) {
+			$truncated = true;
+			break;
+		}
+		$title   = get_the_title( $p );
+		$items[] = [
+			'id'    => (int) $p->ID,
+			'title' => $title !== '' ? $title : sprintf( '#%d', $p->ID ),
+		];
+	}
+
+	$payload = [
+		'items'     => $items,
+		'truncated' => $truncated,
+	];
+	wp_cache_set( $cache_key, $payload, $cache_group, 2 * MINUTE_IN_SECONDS );
+	wp_send_json_success( $payload );
 }
 
 /**
