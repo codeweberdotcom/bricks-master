@@ -14,10 +14,12 @@
 	var cfg = window.CW_MediaCptFilter || {};
 	var L = cfg.i18n || {};
 	var types = cfg.types || [];
+	var tags = cfg.tags || [];
 	var ajaxUrl = cfg.ajaxUrl || window.ajaxurl;
 	var nonce = cfg.nonce || '';
 
-	if (!types.length) {
+	// Если ни CPT, ни тегов нет — делать нечего.
+	if (!types.length && !tags.length) {
 		return;
 	}
 
@@ -169,6 +171,50 @@
 		},
 	});
 
+	/** Фильтр "Тег изображения" — независим от CPT. */
+	var CptTagFilter = wp.media.view.AttachmentFilters.extend({
+		id: 'media-attachment-image-tag-filter',
+		className: 'attachment-filters',
+
+		createFilters: function () {
+			var filters = {
+				all: {
+					text: L.allTags || 'All image tags',
+					props: { image_tag: '' },
+					priority: 10,
+				},
+			};
+			var priority = 20;
+			tags.forEach(function (t) {
+				filters['tag-' + t.slug] = {
+					text: t.name,
+					props: { image_tag: t.slug },
+					priority: priority,
+				};
+				priority += 10;
+			});
+			this.filters = filters;
+		},
+
+		change: function () {
+			var filter = this.filters[this.el.value];
+			if (filter) {
+				this.model.set('image_tag', filter.props.image_tag);
+			}
+		},
+
+		select: function () {
+			var current = this.model.get('image_tag');
+			var value = 'all';
+			Object.keys(this.filters).forEach(function (id) {
+				if (this.filters[id].props.image_tag === current) {
+					value = id;
+				}
+			}, this);
+			this.$el.val(value);
+		},
+	});
+
 	/**
 	 * Monkey-patch прототипа AttachmentsBrowser.createToolbar.
 	 * Это важно: подкласс MediaFrame.Post (Create Gallery, Featured Image)
@@ -184,7 +230,34 @@
 		if (!this.toolbar) {
 			return;
 		}
-		if (this.toolbar.get('cptTypeFilter')) {
+		if (this.toolbar.get('cptTypeFilter') || this.toolbar.get('cptTagFilter')) {
+			return;
+		}
+
+		// 0) Label + select для тега изображения (независимый фильтр).
+		if (tags.length) {
+			this.toolbar.set(
+				'cptTagFilterLabel',
+				new wp.media.View({
+					el: $('<label>')
+						.addClass('screen-reader-text')
+						.attr('for', 'media-attachment-image-tag-filter')
+						.text(L.filterTag || 'Filter by image tag')[0],
+					priority: -76,
+				}).render()
+			);
+			this.toolbar.set(
+				'cptTagFilter',
+				new CptTagFilter({
+					controller: this.controller,
+					model: this.collection.props,
+					priority: -77,
+				}).render()
+			);
+		}
+
+		// Если CPT нет — дальше ничего не вставляем.
+		if (!types.length) {
 			return;
 		}
 

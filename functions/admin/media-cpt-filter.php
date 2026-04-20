@@ -112,19 +112,42 @@ function cw_media_cpt_filter_enqueue(): void {
 		];
 	}
 
+	// Теги изображений — передаём сразу, список обычно небольшой.
+	$tags_data = [];
+	if ( taxonomy_exists( 'image_tag' ) ) {
+		$terms = get_terms(
+			[
+				'taxonomy'   => 'image_tag',
+				'hide_empty' => false,
+				'orderby'    => 'name',
+			]
+		);
+		if ( ! is_wp_error( $terms ) ) {
+			foreach ( $terms as $t ) {
+				$tags_data[] = [
+					'slug' => $t->slug,
+					'name' => $t->name,
+				];
+			}
+		}
+	}
+
 	wp_localize_script(
 		$handle,
 		'CW_MediaCptFilter',
 		[
 			'types'   => $types_data,
+			'tags'    => $tags_data,
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			'nonce'   => wp_create_nonce( 'cw_media_cpt_posts' ),
 			'i18n'    => [
 				'all'         => __( 'All post types', 'codeweber' ),
 				'allPosts'    => __( 'All posts', 'codeweber' ),
+				'allTags'     => __( 'All image tags', 'codeweber' ),
 				'label'       => __( 'Post type', 'codeweber' ),
 				'filter'      => __( 'Filter by post type', 'codeweber' ),
 				'filterPost'  => __( 'Filter by post', 'codeweber' ),
+				'filterTag'   => __( 'Filter by image tag', 'codeweber' ),
 				'loading'     => __( 'Loading…', 'codeweber' ),
 				'truncated'   => __( 'Showing latest 200. Refine by post type.', 'codeweber' ),
 				'noPosts'     => __( 'No posts found', 'codeweber' ),
@@ -142,6 +165,23 @@ function cw_media_cpt_filter_enqueue(): void {
 add_filter( 'ajax_query_attachments_args', 'cw_media_cpt_filter_ajax_args' );
 function cw_media_cpt_filter_ajax_args( $args ) {
 	$query = isset( $_REQUEST['query'] ) && is_array( $_REQUEST['query'] ) ? $_REQUEST['query'] : [];
+
+	// Фильтр по тегу изображения — применяется независимо от CPT.
+	if ( ! empty( $query['image_tag'] ) && taxonomy_exists( 'image_tag' ) ) {
+		$tag_slug = sanitize_title( $query['image_tag'] );
+		if ( $tag_slug !== '' ) {
+			$args['tax_query'] = array_merge(
+				(array) ( $args['tax_query'] ?? [] ),
+				[
+					[
+						'taxonomy' => 'image_tag',
+						'field'    => 'slug',
+						'terms'    => [ $tag_slug ],
+					],
+				]
+			);
+		}
+	}
 
 	// Конкретный пост имеет приоритет над типом: если задан parent_post_id — фильтруем по нему.
 	if ( ! empty( $query['parent_post_id'] ) ) {
@@ -298,6 +338,32 @@ function cw_media_cpt_filter_list_dropdowns( string $post_type ): void {
 	}
 	echo '</select>';
 
+	// Image Tag dropdown — виден всегда, независим от CPT.
+	if ( taxonomy_exists( 'image_tag' ) ) {
+		$current_tag = isset( $_GET['image_tag'] ) ? sanitize_title( $_GET['image_tag'] ) : '';
+		$terms       = get_terms(
+			[
+				'taxonomy'   => 'image_tag',
+				'hide_empty' => false,
+				'orderby'    => 'name',
+			]
+		);
+		if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+			echo '<label class="screen-reader-text" for="cw-filter-image-tag">' . esc_html__( 'Filter by image tag', 'codeweber' ) . '</label>';
+			echo '<select id="cw-filter-image-tag" name="image_tag">';
+			echo '<option value="">' . esc_html__( 'All image tags', 'codeweber' ) . '</option>';
+			foreach ( $terms as $t ) {
+				printf(
+					'<option value="%s"%s>%s</option>',
+					esc_attr( $t->slug ),
+					selected( $current_tag, $t->slug, false ),
+					esc_html( $t->name )
+				);
+			}
+			echo '</select>';
+		}
+	}
+
 	// Post dropdown — только если CPT выбран и он в whitelist.
 	if ( $current_type !== '' && isset( $types[ $current_type ] ) ) {
 		$q = new \WP_Query(
@@ -344,6 +410,18 @@ function cw_media_cpt_filter_list_query( \WP_Query $query ): void {
 
 	$current_post = isset( $_GET['parent_post_id'] )   ? (int) $_GET['parent_post_id']             : 0;
 	$current_type = isset( $_GET['parent_post_type'] ) ? sanitize_key( $_GET['parent_post_type'] ) : '';
+	$current_tag  = isset( $_GET['image_tag'] )        ? sanitize_title( $_GET['image_tag'] )     : '';
+
+	// Фильтр по тегу изображения — применяется независимо от CPT/поста.
+	if ( $current_tag !== '' && taxonomy_exists( 'image_tag' ) ) {
+		$existing = (array) $query->get( 'tax_query', [] );
+		$existing[] = [
+			'taxonomy' => 'image_tag',
+			'field'    => 'slug',
+			'terms'    => [ $current_tag ],
+		];
+		$query->set( 'tax_query', $existing );
+	}
 
 	if ( $current_post > 0 && get_post( $current_post ) ) {
 		$query->set( 'post_parent', $current_post );
