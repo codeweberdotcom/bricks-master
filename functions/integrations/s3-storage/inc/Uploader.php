@@ -10,9 +10,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Uploader {
 
+	const DEFERRED_HOOK = 'cws3_deferred_offload';
+
 	public function register() {
 		add_filter( 'wp_generate_attachment_metadata', [ $this, 'on_generate_metadata' ], 20, 2 );
 		add_filter( 'wp_update_attachment_metadata', [ $this, 'on_update_metadata' ], 20, 2 );
+		add_action( self::DEFERRED_HOOK, [ $this, 'cron_offload' ], 10, 1 );
 	}
 
 	public function on_generate_metadata( $metadata, $attachment_id ) {
@@ -27,8 +30,25 @@ class Uploader {
 		if ( ! StorageMode::uses_s3() ) {
 			return $metadata;
 		}
-		$this->offload_attachment( (int) $attachment_id, $metadata );
+		// Already on S3 → thumbnails were regenerated; queue deferred re-offload.
+		// Not yet offloaded → on_generate_metadata handles the initial upload.
+		if ( ItemsTable::is_offloaded( (int) $attachment_id ) ) {
+			$this->schedule_deferred_offload( (int) $attachment_id );
+		}
 		return $metadata;
+	}
+
+	private function schedule_deferred_offload( int $attachment_id ) {
+		if ( ! wp_next_scheduled( self::DEFERRED_HOOK, [ $attachment_id ] ) ) {
+			wp_schedule_single_event( time() + 5, self::DEFERRED_HOOK, [ $attachment_id ] );
+			if ( function_exists( 'spawn_cron' ) ) {
+				spawn_cron();
+			}
+		}
+	}
+
+	public function cron_offload( int $attachment_id ) {
+		$this->offload_attachment( $attachment_id );
 	}
 
 	public function offload_attachment( int $attachment_id, $metadata = null, bool $force_remove_local = false ) {

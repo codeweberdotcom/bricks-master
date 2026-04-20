@@ -113,6 +113,14 @@ class ItemsTable {
 		) );
 	}
 
+	public static function is_offloaded( int $attachment_id ): bool {
+		global $wpdb;
+		return (bool) $wpdb->get_var( $wpdb->prepare(
+			'SELECT 1 FROM ' . self::name() . ' WHERE attachment_id = %d AND is_offloaded = 1 LIMIT 1',
+			$attachment_id
+		) );
+	}
+
 	public static function summarize_status( array $rows ) {
 		$rows = array_filter( $rows, function ( $r ) { return (int) $r->is_offloaded === 1; } );
 		if ( empty( $rows ) ) {
