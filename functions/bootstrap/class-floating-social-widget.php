@@ -816,6 +816,9 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					$radius_class = 'rounded';
 				}
 				$icon_style = !empty($this->settings['icon_style']) ? $this->settings['icon_style'] : 'btn-circle';
+				$aria_label = !empty($this->settings['button_text'])
+					? $this->settings['button_text']
+					: __('Contact us', 'codeweber');
 				$main_button = new CodeWeber_Floating_Button(array(
 					'icon' => 'uil uil-' . esc_attr($main_icon),
 					'color' => $button_color,
@@ -825,10 +828,11 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					'type' => 'button',
 					'button_style' => $icon_style,
 					'radius_class' => $radius_class,
+					'aria_label' => $aria_label,
 				));
 				$output .= $main_button->render();
 			}
-			
+
 			// Social network buttons
 			// Обрабатываем массив соцсетей из repeater
 			foreach ($socials as $social_item) {
@@ -1148,6 +1152,9 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					$radius_class = 'rounded';
 				}
 				$icon_style = !empty($this->settings['icon_style']) ? $this->settings['icon_style'] : 'btn-circle';
+				$aria_label = !empty($this->settings['button_text'])
+					? $this->settings['button_text']
+					: __('Contact us', 'codeweber');
 				$main_button = new CodeWeber_Floating_Button(array(
 					'icon' => 'uil uil-' . esc_attr($main_icon),
 					'color' => $button_color,
@@ -1157,10 +1164,11 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 					'type' => 'button',
 					'button_style' => $icon_style,
 					'radius_class' => $radius_class,
+					'aria_label' => $aria_label,
 				));
 				$output .= $main_button->render();
 			}
-			
+
 			// Social network buttons (Icon variant - только иконки)
 			foreach ($socials as $social_item) {
 				// Проверяем разные возможные структуры данных
