@@ -79,7 +79,7 @@ $address           = get_post_meta( $post_data['id'], 'main_information_address'
 				<figcaption class="p-5">
 					<div class="post-body h-100 d-flex flex-column from-left justify-content-end">
 						<?php if ( $title_description ) : ?>
-							<p class="mb-2"><?php echo esc_html( $title_description ); ?></p>
+							<p class="h5 mb-2"><?php echo esc_html( $title_description ); ?></p>
 						<?php endif; ?>
 						<?php if ( $architector ) : ?>
 							<p class="mb-1">
