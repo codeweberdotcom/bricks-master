@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-19 13:36+0000\n"
+"POT-Creation-Date: 2026-04-21 12:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: codeweber\n"
@@ -64,7 +64,7 @@ msgid "%1$s "
 msgstr ""
 
 #. 1: action label, 2: success count, 3: failed count
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:92
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:99
 #, php-format
 msgid "%1$s: %2$d succeeded, %3$d failed."
 msgstr ""
@@ -334,6 +334,10 @@ msgstr ""
 msgid "[Content anonymized]"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:125
+msgid "[dry-run]"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:143
 msgid ""
 "[redux_option key=\"consent_purpose\" list=\"inline\"]<br>[redux_option "
@@ -532,13 +536,13 @@ msgstr ""
 msgid "Add Html Block"
 msgstr ""
 
-#: functions/integrations/project-gallery-metabox.php:139
+#: functions/integrations/project-gallery-metabox.php:152
 msgid "Add images"
 msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:42
 #: functions/integrations/project-gallery-metabox.php:51
-#: functions/integrations/project-gallery-metabox.php:141
+#: functions/integrations/project-gallery-metabox.php:154
 msgid ""
 "Add images via the upload area below. Drag items in the grid to reorder."
 msgstr ""
@@ -615,6 +619,10 @@ msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:14
 msgid "Add New Html Block"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:24
+msgid "Add new image tag"
 msgstr ""
 
 #: functions/cpt/cpt-legal.php:11
@@ -1015,6 +1023,11 @@ msgstr ""
 msgid "All Html Blocks"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:158
+#: functions/admin/media-cpt-filter.php:366
+msgid "All image tags"
+msgstr ""
+
 #: functions/cpt/cpt-legal.php:9
 msgid "All Legal"
 msgstr ""
@@ -1039,9 +1052,19 @@ msgstr ""
 msgid "All Offices"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:156
+#: functions/admin/media-cpt-filter.php:342
+msgid "All post types"
+msgstr ""
+
 #: functions/user.php:382 functions/cpt/cpt-testimonials.php:966
 #: templates/content/single-parts/post-author.php:51
 msgid "All Posts"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:157
+#: functions/admin/media-cpt-filter.php:396
+msgid "All posts"
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:13
@@ -1382,7 +1405,7 @@ msgstr ""
 msgid "Attached Media Files"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:177
+#: functions/integrations/s3-storage/inc/views/settings.php:184
 msgid "Attachment"
 msgstr ""
 
@@ -1867,11 +1890,11 @@ msgstr ""
 msgid "Bucket"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:170
+#: functions/integrations/s3-storage/inc/Settings.php:178
 msgid "Bucket is not configured."
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:187
+#: functions/integrations/s3-storage/inc/Settings.php:195
 msgid "Bucket reachable, put/delete OK."
 msgstr ""
 
@@ -1958,6 +1981,10 @@ msgstr ""
 msgid "By using this comment form you agree with our Privacy Policy"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:137
+msgid "Cache-Control max-age (seconds)"
+msgstr ""
+
 #: templates/archives/events/events_1.php:42
 msgid "Calendar"
 msgstr ""
@@ -1991,12 +2018,16 @@ msgstr ""
 msgid "Callback request"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:54
+#: functions/integrations/s3-storage/inc/views/tools.php:73
 msgid "Cancel"
 msgstr ""
 
 #: functions/events/event-registrations.php:268
 msgid "Cancel selected"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:123
+msgid "Cancel this job?"
 msgstr ""
 
 #: functions/events/event-registrations.php:169
@@ -2012,7 +2043,7 @@ msgid_plural "Cancelled <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:114
+#: functions/integrations/s3-storage/inc/Settings.php:115
 msgid "Cancelled."
 msgstr ""
 
@@ -2319,7 +2350,7 @@ msgid "Clear Data (AJAX)"
 msgstr ""
 
 #. %d: number of log rows
-#: functions/integrations/s3-storage/inc/views/settings.php:167
+#: functions/integrations/s3-storage/inc/views/settings.php:174
 msgid "Clear DB log (%d)"
 msgstr ""
 
@@ -2327,7 +2358,7 @@ msgstr ""
 msgid "Clear LOG"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:110
+#: functions/integrations/s3-storage/inc/Settings.php:111
 msgid "Clear the error log?"
 msgstr ""
 
@@ -2613,7 +2644,7 @@ msgstr ""
 msgid "Compare Products"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:113
+#: functions/integrations/s3-storage/inc/Settings.php:114
 msgid "Completed."
 msgstr ""
 
@@ -2710,7 +2741,7 @@ msgstr ""
 msgid "Connection error"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:109
+#: functions/integrations/s3-storage/inc/Settings.php:110
 #: redux-framework/sample/sections/codeweber/smtp.php:245
 msgid "Connection failed: "
 msgstr ""
@@ -2719,7 +2750,7 @@ msgstr ""
 msgid "Connection successful!"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:108
+#: functions/integrations/s3-storage/inc/Settings.php:109
 msgid "Connection successful."
 msgstr ""
 
@@ -2884,7 +2915,9 @@ msgstr ""
 
 #: functions/bootstrap/class-floating-social-widget.php:243
 #: functions/bootstrap/class-floating-social-widget.php:804
-#: functions/bootstrap/class-floating-social-widget.php:1136
+#: functions/bootstrap/class-floating-social-widget.php:821
+#: functions/bootstrap/class-floating-social-widget.php:1140
+#: functions/bootstrap/class-floating-social-widget.php:1157
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:357
 msgid "Contact us"
 msgstr ""
@@ -3304,7 +3337,7 @@ msgstr ""
 msgid "Current Fonts"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:41
+#: functions/integrations/s3-storage/inc/views/tools.php:50
 msgid "Current mode"
 msgstr ""
 
@@ -3847,11 +3880,17 @@ msgstr ""
 msgid "Delete Demo Vacancies"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:83
+#: functions/integrations/s3-storage/inc/views/tools.php:36
+msgid ""
+"Delete every offloaded object from the bucket. Records stay in the database "
+"with is_offloaded=0. Local files are not touched."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:89
 msgid "Delete local"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:26
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:27
 #: functions/integrations/s3-storage/inc/views/tools.php:19
 msgid "Delete local copies"
 msgstr ""
@@ -4259,7 +4298,7 @@ msgstr ""
 
 #: functions/woocommerce/compare/functions.php:171
 #: functions/woocommerce/wishlist/functions.php:125
-#: functions/integrations/s3-storage/inc/Settings.php:117
+#: functions/integrations/s3-storage/inc/Settings.php:118
 msgid "Done"
 msgstr ""
 
@@ -4293,7 +4332,7 @@ msgid "Download offloaded attachments back to wp-content/uploads."
 msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:123
-#: functions/integrations/project-gallery-metabox.php:140
+#: functions/integrations/project-gallery-metabox.php:153
 msgid ""
 "Drag & Drop your files or <span class=\"filepond--label-action\">"
 "browse</span>"
@@ -4318,7 +4357,7 @@ msgstr ""
 msgid "Dropbox"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:51
+#: functions/integrations/s3-storage/inc/views/tools.php:70
 msgid "Dry-run"
 msgstr ""
 
@@ -4379,6 +4418,12 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+#: functions/integrations/project-gallery-metabox.php:71
+#: functions/integrations/project-gallery-metabox.php:72
+#: functions/integrations/project-gallery-metabox.php:151
+msgid "Edit attachment"
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:73 functions/cpt/cpt-events.php:85
 msgid "Edit Category"
 msgstr ""
@@ -4429,6 +4474,10 @@ msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:16
 msgid "Edit Html Block"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:25
+msgid "Edit image tag"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:319
@@ -4911,7 +4960,7 @@ msgid "Enter your admin password to confirm:"
 msgstr ""
 
 #: functions/enqueues.php:429
-#: functions/integrations/s3-storage/inc/Settings.php:118
+#: functions/integrations/s3-storage/inc/Settings.php:119
 msgid "Error"
 msgstr ""
 
@@ -4958,7 +5007,7 @@ msgstr ""
 msgid "Error for #%d: %s"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:162
+#: functions/integrations/s3-storage/inc/views/settings.php:169
 msgid "Error log (database)"
 msgstr ""
 
@@ -5220,6 +5269,10 @@ msgstr ""
 msgid "Facebook Pixel Settings"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:124
+msgid "failed"
+msgstr ""
+
 #: functions/cpt/cpt-html_blocks.php:166
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:381
 msgid "Failed to copy shortcode"
@@ -5341,11 +5394,15 @@ msgstr ""
 msgid "Failed to send test email."
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:121
+msgid "Failed to start job."
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:65
 msgid "Failed to unsubscribe from the newsletter. The link may have expired."
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:115
+#: functions/integrations/s3-storage/inc/Settings.php:116
 msgid "Failed."
 msgstr ""
 
@@ -5586,6 +5643,21 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:366
 msgid "Filter by form type"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:162
+#: functions/admin/media-cpt-filter.php:364
+msgid "Filter by image tag"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:161
+#: functions/admin/media-cpt-filter.php:394
+msgid "Filter by post"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:160
+#: functions/admin/media-cpt-filter.php:340
+msgid "Filter by post type"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:75
@@ -6824,7 +6896,7 @@ msgstr ""
 msgid "Identifier"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:112
+#: functions/integrations/s3-storage/inc/Settings.php:113
 msgid "Idle"
 msgstr ""
 
@@ -6908,6 +6980,15 @@ msgstr ""
 
 #: functions/woocommerce/swatches.php:37
 msgid "Image swatch"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:22
+msgid "Image Tag"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:21
+#: functions/admin/image-tag-taxonomy.php:23
+msgid "Image Tags"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:92
@@ -7083,6 +7164,7 @@ msgid "Insufficient permissions to perform this action."
 msgstr ""
 
 #: functions/admin/events-settings.php:242
+#: functions/admin/media-cpt-filter.php:251
 #: functions/admin/media-regenerate.php:15
 #: functions/admin/media-regenerate.php:39
 #: functions/admin/media-regenerate.php:240
@@ -7101,7 +7183,7 @@ msgstr ""
 msgid "Introduction / Short Description"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:31
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:32
 msgid "Invalid attachment."
 msgstr ""
 
@@ -7185,6 +7267,10 @@ msgstr ""
 msgid "Invalid post type"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:259
+msgid "Invalid post type."
+msgstr ""
+
 #: functions/woocommerce/compare/class-cw-compare.php:59
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:98
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:141
@@ -7201,8 +7287,8 @@ msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:126
 #: functions/integrations/event-gallery-metabox.php:147
-#: functions/integrations/project-gallery-metabox.php:145
-#: functions/integrations/project-gallery-metabox.php:171
+#: functions/integrations/project-gallery-metabox.php:158
+#: functions/integrations/project-gallery-metabox.php:184
 msgid "Invalid request."
 msgstr ""
 
@@ -7757,6 +7843,10 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:163
+msgid "Loading…"
+msgstr ""
+
 #: functions/integrations/s3-storage/inc/views/settings.php:106
 msgid "Local only — new uploads stay on the server (S3 disabled)."
 msgstr ""
@@ -7781,7 +7871,7 @@ msgstr ""
 msgid "Log file is empty or does not exist."
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:141
+#: functions/integrations/s3-storage/inc/views/settings.php:148
 msgid "Log level"
 msgstr ""
 
@@ -7789,7 +7879,7 @@ msgstr ""
 msgid "Log out"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:138
+#: functions/integrations/s3-storage/inc/views/settings.php:145
 msgid "Logging"
 msgstr ""
 
@@ -7835,7 +7925,7 @@ msgstr ""
 msgid "Logs all Matomo tracking events to WordPress debug log"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:148
+#: functions/integrations/s3-storage/inc/views/settings.php:155
 msgid ""
 "Logs are stored in the module folder: functions/integrations/s3-storage/logs/"
 msgstr ""
@@ -8104,7 +8194,7 @@ msgstr ""
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:145
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:349
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:761
-#: functions/integrations/s3-storage/inc/views/settings.php:178
+#: functions/integrations/s3-storage/inc/views/settings.php:185
 msgid "Message"
 msgstr ""
 
@@ -8760,7 +8850,7 @@ msgstr ""
 msgid "No erasers registered in WordPress Privacy Tools!"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:184
+#: functions/integrations/s3-storage/inc/views/settings.php:191
 msgid "No errors logged."
 msgstr ""
 
@@ -8820,8 +8910,8 @@ msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:127
 #: functions/integrations/event-gallery-metabox.php:178
-#: functions/integrations/project-gallery-metabox.php:146
-#: functions/integrations/project-gallery-metabox.php:203
+#: functions/integrations/project-gallery-metabox.php:159
+#: functions/integrations/project-gallery-metabox.php:216
 msgid "No file received."
 msgstr ""
 
@@ -8885,6 +8975,10 @@ msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:21
 msgid "No Html Blocks found"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:27
+msgid "No image tags found"
 msgstr ""
 
 #: functions/fetch/filterPosts.php:70
@@ -8973,6 +9067,10 @@ msgstr ""
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:694
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:289
 msgid "No personal data found to anonymize"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:165
+msgid "No posts found"
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:21
@@ -9308,8 +9406,8 @@ msgstr ""
 msgid "Offices"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:81
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:109
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:87
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:116
 msgid "Offload"
 msgstr ""
 
@@ -9321,7 +9419,7 @@ msgstr ""
 msgid "Offload now"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:24
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:25
 msgid "Offload to S3"
 msgstr ""
 
@@ -9331,7 +9429,7 @@ msgid ""
 "Garage)."
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:38
+#: functions/integrations/s3-storage/inc/views/tools.php:47
 msgid "Offloaded to S3"
 msgstr ""
 
@@ -9407,7 +9505,7 @@ msgstr ""
 msgid "Only HTML"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:40
+#: functions/integrations/s3-storage/inc/views/tools.php:49
 msgid "Only in S3 (no local copy)"
 msgstr ""
 
@@ -9438,7 +9536,7 @@ msgstr ""
 msgid "Open balloon when marker is clicked"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:170
+#: functions/integrations/s3-storage/inc/views/settings.php:177
 msgid "Open file-based logs →"
 msgstr ""
 
@@ -9475,7 +9573,7 @@ msgstr ""
 msgid "Opens"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:176
+#: functions/integrations/s3-storage/inc/views/settings.php:183
 msgid "Operation"
 msgstr ""
 
@@ -9931,8 +10029,12 @@ msgstr ""
 msgid "Pattern Repeat"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:52
+#: functions/integrations/s3-storage/inc/views/tools.php:71
 msgid "Pause"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:120
+msgid "Paused"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:769
@@ -9983,10 +10085,10 @@ msgstr ""
 msgid "Perm Krai"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:163
+#: functions/integrations/s3-storage/inc/Settings.php:171
 #: redux-framework/sample/sections/codeweber/smtp.php:265
 #: redux-framework/sample/sections/codeweber/smtp.php:322
-#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:24
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:25
 msgid "Permission denied."
 msgstr ""
 
@@ -10366,6 +10468,10 @@ msgstr ""
 msgid "Post Date"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:159
+msgid "Post type"
+msgstr ""
+
 #: functions/cpt/cpt-modals.php:27
 msgid "Post type for modal windows"
 msgstr ""
@@ -10377,6 +10483,10 @@ msgstr ""
 #: functions/integrations/image-licenses/image-licenses.php:49
 msgctxt "Post Type General Name"
 msgid "Media Licenses"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:263
+msgid "Post type not allowed."
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:50
@@ -10880,6 +10990,19 @@ msgstr ""
 msgid "Ratings Distribution"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:31
+msgid "Re-apply cache headers"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:90
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:56
+msgid "Re-apply metadata"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:28
+msgid "Re-apply S3 metadata"
+msgstr ""
+
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:52
 msgid "Re-sync"
 msgstr ""
@@ -11114,8 +11237,8 @@ msgstr ""
 #: functions/cpt/cpt-vacancies.php:531
 #: functions/integrations/event-gallery-metabox.php:55
 #: functions/integrations/event-gallery-metabox.php:122
-#: functions/integrations/project-gallery-metabox.php:65
-#: functions/integrations/project-gallery-metabox.php:138
+#: functions/integrations/project-gallery-metabox.php:76
+#: functions/integrations/project-gallery-metabox.php:150
 #: functions/woocommerce/product-video.php:98
 #: functions/woocommerce/product-video.php:127
 #: functions/woocommerce/swatches.php:273
@@ -11263,7 +11386,7 @@ msgid "Responsive Map"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:641
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:82
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:88
 msgid "Restore"
 msgstr ""
 
@@ -11271,7 +11394,7 @@ msgstr ""
 msgid "Restore from S3 to local"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:25
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:26
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:48
 msgid "Restore to local"
 msgstr ""
@@ -11296,7 +11419,7 @@ msgstr ""
 msgid "Results for:"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:53
+#: functions/integrations/s3-storage/inc/views/tools.php:72
 msgid "Resume"
 msgstr ""
 
@@ -11329,7 +11452,7 @@ msgstr ""
 msgid "Resume Reply"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:152
+#: functions/integrations/s3-storage/inc/views/settings.php:159
 msgid "Retention (days)"
 msgstr ""
 
@@ -11450,7 +11573,7 @@ msgstr ""
 msgid "Row %d: invalid email address: %s"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:111
+#: functions/integrations/s3-storage/inc/Settings.php:112
 msgid "Running..."
 msgstr ""
 
@@ -11468,8 +11591,8 @@ msgstr ""
 msgid "S3 only — upload to S3, remove local copy after success."
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:78
 #: functions/integrations/s3-storage/inc/Settings.php:79
+#: functions/integrations/s3-storage/inc/Settings.php:80
 #: redux-framework/sample/sections/codeweber/s3-storage.php:23
 #: functions/integrations/s3-storage/inc/Admin/AttachmentMetabox.php:22
 #: functions/integrations/s3-storage/inc/Admin/MediaLibrary.php:99
@@ -11488,7 +11611,7 @@ msgstr ""
 msgid "S3 Storage — Logs"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:33
+#: functions/integrations/s3-storage/inc/views/tools.php:42
 msgid "S3 Storage — Tools"
 msgstr ""
 
@@ -11584,7 +11707,7 @@ msgid "Save the license first, or select files and save to attach them."
 msgstr ""
 
 #: functions/integrations/project-gallery-metabox.php:53
-#: functions/integrations/project-gallery-metabox.php:142
+#: functions/integrations/project-gallery-metabox.php:155
 msgid "Save the project as draft first, then you can add gallery images."
 msgstr ""
 
@@ -11729,6 +11852,10 @@ msgstr ""
 
 #: functions/admin/projects-settings.php:272
 msgid "Search icons…"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:26
+msgid "Search image tags"
 msgstr ""
 
 #: functions/cpt/cpt-legal.php:15
@@ -11899,8 +12026,8 @@ msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:125
 #: functions/integrations/event-gallery-metabox.php:142
-#: functions/integrations/project-gallery-metabox.php:144
-#: functions/integrations/project-gallery-metabox.php:167
+#: functions/integrations/project-gallery-metabox.php:157
+#: functions/integrations/project-gallery-metabox.php:180
 msgid "Security check failed. Reload the page and try again."
 msgstr ""
 
@@ -11914,6 +12041,7 @@ msgstr ""
 msgid "Security error"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:254
 #: functions/admin/media-regenerate.php:243
 msgid "Security error."
 msgstr ""
@@ -12359,6 +12487,13 @@ msgstr ""
 msgid "Sent"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:140
+msgid ""
+"Sent as Cache-Control header on every offloaded object. Default 31536000 = 1 "
+"year. 0 disables the header. Existing objects can be updated via Tools → Re-"
+"apply cache headers."
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:82
 msgid "Separate categories with commas"
 msgstr ""
@@ -12369,6 +12504,10 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:80 functions/cpt/cpt-vacancies.php:131
 msgid "Separate items with commas"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:61
+msgid "Separate tags with commas"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:117
@@ -12990,6 +13129,10 @@ msgid ""
 "consent)."
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:164
+msgid "Showing latest 200. Refine by post type."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:361
 msgid "Shown for featured products (WooCommerce \"Featured\" flag)."
 msgstr ""
@@ -13433,7 +13576,7 @@ msgstr ""
 msgid "stars"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:50
+#: functions/integrations/s3-storage/inc/views/tools.php:69
 msgid "Start"
 msgstr ""
 
@@ -13520,7 +13663,7 @@ msgstr ""
 msgid "Storage mode"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:39
+#: functions/integrations/s3-storage/inc/views/tools.php:48
 msgid "Stored locally AND in S3"
 msgstr ""
 
@@ -13968,11 +14111,11 @@ msgstr ""
 msgid "Tambov Oblast"
 msgstr ""
 
-#: functions/integrations/project-gallery-metabox.php:148
+#: functions/integrations/project-gallery-metabox.php:161
 msgid "Tap to cancel"
 msgstr ""
 
-#: functions/integrations/project-gallery-metabox.php:149
+#: functions/integrations/project-gallery-metabox.php:162
 msgid "Tap to undo"
 msgstr ""
 
@@ -14232,7 +14375,7 @@ msgstr ""
 msgid "Testing filter hook!"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:107
+#: functions/integrations/s3-storage/inc/Settings.php:108
 msgid "Testing..."
 msgstr ""
 
@@ -14528,6 +14671,10 @@ msgid ""
 "JavaScript to identify the form type."
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:122
+msgid "This will permanently delete files from S3. Continue?"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:444
 msgid "Thumbnail Hover Effect"
 msgstr ""
@@ -14558,7 +14705,7 @@ msgstr ""
 msgid "TikTok"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/settings.php:175
+#: functions/integrations/s3-storage/inc/views/settings.php:182
 msgid "Time"
 msgstr ""
 
@@ -14678,7 +14825,7 @@ msgstr ""
 msgid "Topbar"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/views/tools.php:37
+#: functions/integrations/s3-storage/inc/views/tools.php:46
 msgid "Total attachments"
 msgstr ""
 
@@ -14914,7 +15061,7 @@ msgstr ""
 msgid "unknown"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:59
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:63
 msgid "Unknown action."
 msgstr ""
 
@@ -14978,6 +15125,12 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:32
+msgid ""
+"Update Cache-Control metadata on all offloaded objects using the current max-"
+"age setting (uses CopyObject, no file re-upload)."
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:75 functions/cpt/cpt-events.php:87
 msgid "Update Category"
 msgstr ""
@@ -15036,12 +15189,12 @@ msgstr ""
 msgid "Upload Avatar"
 msgstr ""
 
-#: functions/integrations/project-gallery-metabox.php:147
+#: functions/integrations/project-gallery-metabox.php:160
 msgid "Upload complete"
 msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:124
-#: functions/integrations/project-gallery-metabox.php:143
+#: functions/integrations/project-gallery-metabox.php:156
 msgid "Upload failed"
 msgstr ""
 
@@ -15435,12 +15588,12 @@ msgid "Verified"
 msgstr ""
 
 #: functions/woocommerce/core.php:180
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:84
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:91
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:55
 msgid "Verify"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:27
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:29
 msgid "Verify in bucket"
 msgstr ""
 
@@ -15836,6 +15989,13 @@ msgstr ""
 msgid "Warning:"
 msgstr ""
 
+#. %d: number of attachments
+#: functions/integrations/s3-storage/inc/views/tools.php:64
+msgid ""
+"Warning: %d files exist only in S3 (no local copy). Wiping will permanently "
+"delete them. Run Restore first if you want to keep them."
+msgstr ""
+
 #: templates/singles/events/default.php:96
 msgid "Watch video"
 msgstr ""
@@ -16065,6 +16225,10 @@ msgstr ""
 msgid "Width"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:35
+msgid "Wipe S3"
+msgstr ""
+
 #: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:223
 #: functions/woocommerce/wishlist/functions.php:67
 #: functions/woocommerce/wishlist/functions.php:169
@@ -16146,7 +16310,7 @@ msgstr ""
 msgid "Working Hours"
 msgstr ""
 
-#: functions/integrations/s3-storage/inc/Settings.php:116
+#: functions/integrations/s3-storage/inc/Settings.php:117
 msgid "Working..."
 msgstr ""
 

@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-04-21 12:02+0000\n"
+"PO-Revision-Date: 2026-04-21 12:09+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -350,6 +350,10 @@ msgstr "7.2. Оператор обрабатывает следующие пер
 msgid "[Content anonymized]"
 msgstr "[Content anonymized]"
 
+#: functions/integrations/s3-storage/inc/Settings.php:125
+msgid "[dry-run]"
+msgstr "[тест]"
+
 #: redux-framework/sample/sections/codeweber/legal.php:143
 msgid ""
 "[redux_option key=\"consent_purpose\" list=\"inline\"]<br>[redux_option "
@@ -657,8 +661,9 @@ msgid "Add New Html Block"
 msgstr "Добавить Html блок"
 
 #: functions/admin/image-tag-taxonomy.php:24
+#, fuzzy
 msgid "Add new image tag"
-msgstr ""
+msgstr "Добавить новый тег изображения"
 
 #: functions/cpt/cpt-legal.php:11
 msgid "Add New Legal"
@@ -1070,8 +1075,9 @@ msgstr "Все блоки HTML"
 
 #: functions/admin/media-cpt-filter.php:158
 #: functions/admin/media-cpt-filter.php:366
+#, fuzzy
 msgid "All image tags"
-msgstr ""
+msgstr "Все теги изображений"
 
 #: functions/cpt/cpt-legal.php:9
 msgid "All Legal"
@@ -1099,8 +1105,9 @@ msgstr "Все Офисы"
 
 #: functions/admin/media-cpt-filter.php:156
 #: functions/admin/media-cpt-filter.php:342
+#, fuzzy
 msgid "All post types"
-msgstr ""
+msgstr "Все типы записей"
 
 #: functions/user.php:382 functions/cpt/cpt-testimonials.php:966
 #: templates/content/single-parts/post-author.php:51
@@ -1109,8 +1116,9 @@ msgstr "Все статьи"
 
 #: functions/admin/media-cpt-filter.php:157
 #: functions/admin/media-cpt-filter.php:396
+#, fuzzy
 msgid "All posts"
-msgstr ""
+msgstr "Все записи"
 
 #: functions/cpt/cpt-price_list.php:13
 msgid "All Price Lists"
@@ -1979,12 +1987,12 @@ msgstr "Брянская область"
 msgid "Bucket"
 msgstr "Корзина"
 
-#: functions/integrations/s3-storage/inc/Settings.php:172
+#: functions/integrations/s3-storage/inc/Settings.php:178
 #, fuzzy
 msgid "Bucket is not configured."
 msgstr "Корзина не настроена."
 
-#: functions/integrations/s3-storage/inc/Settings.php:189
+#: functions/integrations/s3-storage/inc/Settings.php:195
 #, fuzzy
 msgid "Bucket reachable, put/delete OK."
 msgstr "Корзина достижима, добавление/удаление ОК."
@@ -2085,8 +2093,9 @@ msgstr ""
 "Персонлаьных данных."
 
 #: functions/integrations/s3-storage/inc/views/settings.php:137
+#, fuzzy
 msgid "Cache-Control max-age (seconds)"
-msgstr ""
+msgstr "Cache-Control max-age (секунды)"
 
 #: templates/archives/events/events_1.php:42
 msgid "Calendar"
@@ -2130,6 +2139,10 @@ msgstr "Отмена"
 #: functions/events/event-registrations.php:268
 msgid "Cancel selected"
 msgstr "Отменить выбранные"
+
+#: functions/integrations/s3-storage/inc/Settings.php:123
+msgid "Cancel this job?"
+msgstr "Отменить задачу?"
 
 #: functions/events/event-registrations.php:169
 #: functions/events/event-registrations.php:398
@@ -4205,10 +4218,13 @@ msgid "Delete Demo Vacancies"
 msgstr "Удалить Демо Вакансии"
 
 #: functions/integrations/s3-storage/inc/views/tools.php:36
+#, fuzzy
 msgid ""
 "Delete every offloaded object from the bucket. Records stay in the database "
 "with is_offloaded=0. Local files are not touched."
 msgstr ""
+"Удалить все выгруженные объекты из корзины. Записи остаются в базе данных с "
+"is_offloaded=0. Локальные файлы не затрагиваются."
 
 #: functions/integrations/s3-storage/inc/Admin/BulkActions.php:89
 #, fuzzy
@@ -4797,8 +4813,9 @@ msgstr "Редактировать"
 #: functions/integrations/project-gallery-metabox.php:71
 #: functions/integrations/project-gallery-metabox.php:72
 #: functions/integrations/project-gallery-metabox.php:151
+#, fuzzy
 msgid "Edit attachment"
-msgstr ""
+msgstr "Редактировать вложение"
 
 #: functions/cpt/cpt-clients.php:73 functions/cpt/cpt-events.php:85
 #, fuzzy
@@ -4856,8 +4873,9 @@ msgid "Edit Html Block"
 msgstr "Редактировать блок HTML"
 
 #: functions/admin/image-tag-taxonomy.php:25
+#, fuzzy
 msgid "Edit image tag"
-msgstr ""
+msgstr "Редактировать тег изображения"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:319
 #, fuzzy
@@ -5700,6 +5718,10 @@ msgstr "Facebook Pixel"
 msgid "Facebook Pixel Settings"
 msgstr "Настройки Facebook Pixel"
 
+#: functions/integrations/s3-storage/inc/Settings.php:124
+msgid "failed"
+msgstr "ошибок"
+
 #: functions/cpt/cpt-html_blocks.php:166
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:381
 msgid "Failed to copy shortcode"
@@ -5842,6 +5864,10 @@ msgstr "Не удалось отправить письмо. Пожалуйст�
 #, fuzzy
 msgid "Failed to send test email."
 msgstr "Не удалось отправить тестовое письмо."
+
+#: functions/integrations/s3-storage/inc/Settings.php:121
+msgid "Failed to start job."
+msgstr "Не удалось запустить задачу."
 
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:65
 msgid "Failed to unsubscribe from the newsletter. The link may have expired."
@@ -6110,18 +6136,21 @@ msgstr "Фильтровать по типу формы"
 
 #: functions/admin/media-cpt-filter.php:162
 #: functions/admin/media-cpt-filter.php:364
+#, fuzzy
 msgid "Filter by image tag"
-msgstr ""
+msgstr "Фильтровать по тегу изображения"
 
 #: functions/admin/media-cpt-filter.php:161
 #: functions/admin/media-cpt-filter.php:394
+#, fuzzy
 msgid "Filter by post"
-msgstr ""
+msgstr "Фильтровать по записям"
 
 #: functions/admin/media-cpt-filter.php:160
 #: functions/admin/media-cpt-filter.php:340
+#, fuzzy
 msgid "Filter by post type"
-msgstr ""
+msgstr "Фильтровать по типу записи"
 
 #: functions/integrations/image-licenses/image-licenses.php:75
 msgid "Filter licenses list"
@@ -7632,13 +7661,15 @@ msgid "Image swatch"
 msgstr "Образец изображения"
 
 #: functions/admin/image-tag-taxonomy.php:22
+#, fuzzy
 msgid "Image Tag"
-msgstr ""
+msgstr "Тег изображения"
 
 #: functions/admin/image-tag-taxonomy.php:21
 #: functions/admin/image-tag-taxonomy.php:23
+#, fuzzy
 msgid "Image Tags"
-msgstr ""
+msgstr "Теги изображений"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:92
 msgid "Import"
@@ -7955,8 +7986,9 @@ msgid "Invalid post type"
 msgstr "Недопустимый тип записи"
 
 #: functions/admin/media-cpt-filter.php:259
+#, fuzzy
 msgid "Invalid post type."
-msgstr ""
+msgstr "Недопустимый тип записи."
 
 #: functions/woocommerce/compare/class-cw-compare.php:59
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:98
@@ -8564,8 +8596,9 @@ msgid "Loading..."
 msgstr "Загрузка..."
 
 #: functions/admin/media-cpt-filter.php:163
+#, fuzzy
 msgid "Loading…"
-msgstr ""
+msgstr "Загрузка…"
 
 #: functions/integrations/s3-storage/inc/views/settings.php:106
 #, fuzzy
@@ -9815,8 +9848,9 @@ msgid "No Html Blocks found"
 msgstr "Блоки HTML не найдены."
 
 #: functions/admin/image-tag-taxonomy.php:27
+#, fuzzy
 msgid "No image tags found"
-msgstr ""
+msgstr "Теги изображений не найдены"
 
 #: functions/fetch/filterPosts.php:70
 #, fuzzy
@@ -9915,8 +9949,9 @@ msgid "No personal data found to anonymize"
 msgstr "Нет персональных данных для анонимизации."
 
 #: functions/admin/media-cpt-filter.php:165
+#, fuzzy
 msgid "No posts found"
-msgstr ""
+msgstr "Посты не найдены"
 
 #: functions/cpt/cpt-price_list.php:21
 msgid "No Price Lists found"
@@ -10985,6 +11020,10 @@ msgstr "Повтор узора"
 msgid "Pause"
 msgstr "Пауза"
 
+#: functions/integrations/s3-storage/inc/Settings.php:120
+msgid "Paused"
+msgstr "Пауза"
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:769
 #, fuzzy
 msgid "Payment Methods Test Mode"
@@ -11037,7 +11076,7 @@ msgstr "Значения на странице"
 msgid "Perm Krai"
 msgstr "Пермский край"
 
-#: functions/integrations/s3-storage/inc/Settings.php:165
+#: functions/integrations/s3-storage/inc/Settings.php:171
 #: redux-framework/sample/sections/codeweber/smtp.php:265
 #: redux-framework/sample/sections/codeweber/smtp.php:322
 #: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:25
@@ -11455,8 +11494,9 @@ msgid "Post Date"
 msgstr "Дата публикации"
 
 #: functions/admin/media-cpt-filter.php:159
+#, fuzzy
 msgid "Post type"
-msgstr ""
+msgstr "Тип записи"
 
 #: functions/cpt/cpt-modals.php:27
 msgid "Post type for modal windows"
@@ -11473,8 +11513,9 @@ msgid "Media Licenses"
 msgstr "Лицензии на изображения"
 
 #: functions/admin/media-cpt-filter.php:263
+#, fuzzy
 msgid "Post type not allowed."
-msgstr ""
+msgstr "Тип записи не разрешен."
 
 #: functions/integrations/image-licenses/image-licenses.php:50
 #, fuzzy
@@ -12030,17 +12071,20 @@ msgid "Ratings Distribution"
 msgstr "Распределение оценок"
 
 #: functions/integrations/s3-storage/inc/views/tools.php:31
+#, fuzzy
 msgid "Re-apply cache headers"
-msgstr ""
+msgstr "Повторно применить заголовки кэша"
 
 #: functions/integrations/s3-storage/inc/Admin/BulkActions.php:90
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:56
+#, fuzzy
 msgid "Re-apply metadata"
-msgstr ""
+msgstr "Повторно применить метаданные"
 
 #: functions/integrations/s3-storage/inc/Admin/BulkActions.php:28
+#, fuzzy
 msgid "Re-apply S3 metadata"
-msgstr ""
+msgstr "Повторно применить метаданные S3"
 
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:52
 #, fuzzy
@@ -12972,8 +13016,9 @@ msgid "Search icons…"
 msgstr "Иконки поиска…"
 
 #: functions/admin/image-tag-taxonomy.php:26
+#, fuzzy
 msgid "Search image tags"
-msgstr ""
+msgstr "Поиск тегов изображений"
 
 #: functions/cpt/cpt-legal.php:15
 msgid "Search Legal"
@@ -13645,11 +13690,15 @@ msgid "Sent"
 msgstr "Пожалуйста, предоставьте текст для перевода."
 
 #: functions/integrations/s3-storage/inc/views/settings.php:140
+#, fuzzy
 msgid ""
 "Sent as Cache-Control header on every offloaded object. Default 31536000 = 1 "
 "year. 0 disables the header. Existing objects can be updated via Tools → Re-"
 "apply cache headers."
 msgstr ""
+"Отправляется как заголовок Cache-Control для каждого перенесенного объекта. "
+"По умолчанию 31536000 = 1 год. 0 отключает заголовок. Существующие объекты "
+"можно обновить через Инструменты → Повторно применить заголовки кэша."
 
 #: functions/cpt/cpt-clients.php:82
 #, fuzzy
@@ -13665,8 +13714,9 @@ msgid "Separate items with commas"
 msgstr "Разделяйте запятыми"
 
 #: functions/admin/image-tag-taxonomy.php:61
+#, fuzzy
 msgid "Separate tags with commas"
-msgstr ""
+msgstr "Разделяйте теги запятыми"
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:117
 #, fuzzy
@@ -14381,8 +14431,9 @@ msgstr ""
 "согласия)."
 
 #: functions/admin/media-cpt-filter.php:164
+#, fuzzy
 msgid "Showing latest 200. Refine by post type."
-msgstr ""
+msgstr "Показано последние 200. Уточнить по типу записи."
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:361
 #, fuzzy
@@ -16089,6 +16140,10 @@ msgstr ""
 "Это добавит атрибут data-form-type=\"...\" к элементу формы, позволяя "
 "JavaScript определять тип формы."
 
+#: functions/integrations/s3-storage/inc/Settings.php:122
+msgid "This will permanently delete files from S3. Continue?"
+msgstr "Все файлы на S3 будут безвозвратно удалены. Продолжить?"
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:444
 #, fuzzy
 msgid "Thumbnail Hover Effect"
@@ -16572,10 +16627,14 @@ msgid "Update"
 msgstr "Обновить"
 
 #: functions/integrations/s3-storage/inc/views/tools.php:32
+#, fuzzy
 msgid ""
 "Update Cache-Control metadata on all offloaded objects using the current max-"
 "age setting (uses CopyObject, no file re-upload)."
 msgstr ""
+"Обновить метаданные Cache-Control для всех выгруженных объектов с "
+"использованием текущего значения max-age (использует CopyObject, без "
+"повторной загрузки файла)."
 
 #: functions/cpt/cpt-clients.php:75 functions/cpt/cpt-events.php:87
 #, fuzzy
@@ -17503,10 +17562,14 @@ msgstr "Внимание:"
 
 #. %d: number of attachments
 #: functions/integrations/s3-storage/inc/views/tools.php:64
+#, fuzzy
 msgid ""
 "Warning: %d files exist only in S3 (no local copy). Wiping will permanently "
 "delete them. Run Restore first if you want to keep them."
 msgstr ""
+"Предупреждение: %d файлов существуют только в S3 (локальной копии нет). "
+"Очистка безвозвратно удалит их. Запустите Восстановление, если хотите их "
+"сохранить."
 
 #: templates/singles/events/default.php:96
 msgid "Watch video"
@@ -17782,8 +17845,9 @@ msgid "Width"
 msgstr "Ширина"
 
 #: functions/integrations/s3-storage/inc/views/tools.php:35
+#, fuzzy
 msgid "Wipe S3"
-msgstr ""
+msgstr "Очистить S3"
 
 #: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:223
 #: functions/woocommerce/wishlist/functions.php:67
@@ -19300,21 +19364,3 @@ msgstr "← Назад к подпискам"
 #, fuzzy
 msgid "−% Discount"
 msgstr "−% Скидка"
-
-msgid "Failed to start job."
-msgstr "Не удалось запустить задачу."
-
-msgid "This will permanently delete files from S3. Continue?"
-msgstr "Все файлы на S3 будут безвозвратно удалены. Продолжить?"
-
-msgid "Cancel this job?"
-msgstr "Отменить задачу?"
-
-msgid "Paused"
-msgstr "Пауза"
-
-msgid "failed"
-msgstr "ошибок"
-
-msgid "[dry-run]"
-msgstr "[тест]"

@@ -507,7 +507,7 @@ figure.overlay img {
       transparent 100%
     );
     pointer-events: none;
-    z-index: 2;
+    z-index: 3;
   }
   > * {
     position: relative;
@@ -519,6 +519,6 @@ figure.overlay img {
   }
   figcaption {
     position: relative;
-    z-index: 3;
+    z-index: 4;
   }
 }
