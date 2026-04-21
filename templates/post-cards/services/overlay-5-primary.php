@@ -27,9 +27,15 @@ $template_args = wp_parse_args($template_args ?? [], [
 $article_class = !empty($template_args['enable_lift']) ? 'lift' : '';
 
 $read_more_labels = [
-    'view' => __('View', 'codeweber'),
-    'more' => __('Read more', 'codeweber'),
-    'read' => __('Read', 'codeweber'),
+    'view'    => __( 'View',       'codeweber' ),
+    'more'    => __( 'Read more',  'codeweber' ),
+    'read'    => __( 'Read',       'codeweber' ),
+    'go'      => __( 'Go',         'codeweber' ),
+    'open'    => __( 'Open',       'codeweber' ),
+    'details' => __( 'Details',    'codeweber' ),
+    'learn'   => __( 'Learn more', 'codeweber' ),
+    'buy'     => __( 'Buy',        'codeweber' ),
+    'order'   => __( 'Order',      'codeweber' ),
 ];
 $read_more_label = isset($read_more_labels[$template_args['card_read_more']])
     ? $read_more_labels[$template_args['card_read_more']]
