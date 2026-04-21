@@ -21,7 +21,7 @@ $template_args = wp_parse_args($template_args ?? [], [
     'show_figcaption' => true,
     'enable_lift'     => false,
     'show_card_arrow' => true,
-    'card_read_more'  => 'none',
+    'card_read_more'  => 'more',
 ]);
 
 $article_class = !empty($template_args['enable_lift']) ? 'lift' : '';
