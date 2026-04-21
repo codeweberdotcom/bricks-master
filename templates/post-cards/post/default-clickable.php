@@ -59,7 +59,7 @@ if ($template_args['enable_lift']) {
         <div class="post-header p-4">
             <?php if ($display['show_category'] && $post_data['category']) : ?>
                 <div class="post-category text-line">
-                    <span class="hover" rel="category">
+                    <span rel="category">
                         <?php echo esc_html($post_data['category']->name); ?>
                     </span>
                 </div>

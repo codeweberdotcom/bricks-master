@@ -74,7 +74,7 @@ if (!empty($template_args['border_radius'])) {
             <div class="post-header">
                 <?php if ($display['show_category'] && $post_data['category']) : ?>
                     <div class="post-category text-line">
-                        <a href="<?php echo esc_url($post_data['category_link']); ?>" class="hover" rel="category">
+                        <a href="<?php echo esc_url($post_data['category_link']); ?>" rel="category">
                             <?php echo esc_html($post_data['category']->name); ?>
                         </a>
                     </div>
