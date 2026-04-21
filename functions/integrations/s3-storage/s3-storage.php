@@ -20,7 +20,7 @@ define( 'CWS3_MODULE_LOADED', true );
 define( 'CWS3_VERSION', '0.2.0' );
 define( 'CWS3_MODULE_DIR', __DIR__ );
 define( 'CWS3_MODULE_URL', get_template_directory_uri() . '/functions/integrations/s3-storage' );
-define( 'CWS3_LOG_DIR', CWS3_MODULE_DIR . '/logs' );
+define( 'CWS3_LOG_DIR', WP_CONTENT_DIR . '/uploads/cws3-logs' );
 
 ( function () {
 	$forced = defined( 'CWS3_FORCE_ENABLE' ) && CWS3_FORCE_ENABLE;
