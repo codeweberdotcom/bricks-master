@@ -211,6 +211,17 @@ function codeweber_get_post_card_templates_registry() {
             ],
         ],
 
+        'projects' => [
+            'dir' => 'projects',
+            'templates' => [
+                'overlay-5-primary' => [
+                    'label' => __('Overlay 5 Primary', 'codeweber'),
+                    'description' => __('Project card with primary overlay on hover; architect and address in figcaption', 'codeweber'),
+                    'supports' => ['title', 'date', 'image'],
+                ],
+            ],
+        ],
+
         'services' => [
             'dir' => 'services',
             'templates' => [
