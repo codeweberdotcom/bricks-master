@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-21 12:09+0000\n"
+"POT-Creation-Date: 2026-04-21 19:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: codeweber\n"
@@ -799,6 +799,7 @@ msgstr ""
 #: woocommerce/order/order-details-customer.php:72
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:379
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:438
+#: templates/post-cards/projects/overlay-5-primary.php:98
 #: templates/singles/offices/default.php:104
 #: templates/singles/offices/default.php:183
 #: templates/singles/offices/offices_1.php:104
@@ -1280,6 +1281,7 @@ msgstr ""
 msgid "Aqua"
 msgstr ""
 
+#: templates/post-cards/projects/overlay-5-primary.php:92
 #: templates/singles/projects/default.php:87
 #: templates/singles/projects/projects_2.php:92
 #: templates/singles/projects/projects_3.php:84
@@ -1787,7 +1789,7 @@ msgstr ""
 msgid "Book Now"
 msgstr ""
 
-#: functions/post-cards-registry.php:239
+#: functions/post-cards-registry.php:250
 msgid "Bootstrap card with Add to cart, Sale/New badges, hover swap"
 msgstr ""
 
@@ -1969,6 +1971,14 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:369
 msgid "Buttons"
+msgstr ""
+
+#: templates/post-cards/post/overlay-5-primary.php:38
+#: templates/post-cards/post/overlay-5.php:37
+#: templates/post-cards/projects/overlay-5-primary.php:37
+#: templates/post-cards/services/overlay-5-primary.php:37
+#: templates/post-cards/services/overlay-5.php:39
+msgid "Buy"
 msgstr ""
 
 #: functions/admin/events-settings.php:166
@@ -4059,6 +4069,11 @@ msgstr ""
 #: templates/archives/events/events_1.php:128
 #: templates/archives/events/events_2.php:104
 #: templates/archives/events/events_4.php:116
+#: templates/post-cards/post/overlay-5-primary.php:36
+#: templates/post-cards/post/overlay-5.php:35
+#: templates/post-cards/projects/overlay-5-primary.php:35
+#: templates/post-cards/services/overlay-5-primary.php:35
+#: templates/post-cards/services/overlay-5.php:37
 msgid "Details"
 msgstr ""
 
@@ -6330,6 +6345,11 @@ msgid "Gmail"
 msgstr ""
 
 #: templates/content/loop-legal.php:33 templates/archives/legal/legal_1.php:29
+#: templates/post-cards/post/overlay-5-primary.php:34
+#: templates/post-cards/post/overlay-5.php:33
+#: templates/post-cards/projects/overlay-5-primary.php:33
+#: templates/post-cards/services/overlay-5-primary.php:33
+#: templates/post-cards/services/overlay-5.php:35
 #: templates/post-cards/vacancies/style4-card.php:99
 #: templates/post-cards/vacancies/style5-card.php:56
 msgid "Go"
@@ -6704,7 +6724,7 @@ msgstr ""
 msgid "Horizontal — thumbs below; Vertical — thumbs on the side"
 msgstr ""
 
-#: functions/post-cards-registry.php:249
+#: functions/post-cards-registry.php:260
 msgid "Horizontal: image 1/3, content 2/3"
 msgstr ""
 
@@ -7324,7 +7344,7 @@ msgstr ""
 msgid "Irkutsk Oblast"
 msgstr ""
 
-#: functions/post-cards-registry.php:254
+#: functions/post-cards-registry.php:265
 msgid "Isotope grid style, figure with overlays"
 msgstr ""
 
@@ -7568,6 +7588,11 @@ msgid "Leaf"
 msgstr ""
 
 #: functions/fetch/getHotspotContent.php:106
+#: templates/post-cards/post/overlay-5-primary.php:37
+#: templates/post-cards/post/overlay-5.php:36
+#: templates/post-cards/projects/overlay-5-primary.php:36
+#: templates/post-cards/services/overlay-5-primary.php:36
+#: templates/post-cards/services/overlay-5.php:38
 msgid "Learn more"
 msgstr ""
 
@@ -8265,7 +8290,7 @@ msgstr ""
 msgid "Minimal (only form blocks)"
 msgstr ""
 
-#: functions/post-cards-registry.php:244
+#: functions/post-cards-registry.php:255
 msgid "Minimalistic card for dense 4-6 column grids"
 msgstr ""
 
@@ -9518,6 +9543,11 @@ msgid "Oops! Page Not Found."
 msgstr ""
 
 #: functions/sidebars.php:313 functions/cpt/cpt-vacancies.php:777
+#: templates/post-cards/post/overlay-5-primary.php:35
+#: templates/post-cards/post/overlay-5.php:34
+#: templates/post-cards/projects/overlay-5-primary.php:34
+#: templates/post-cards/services/overlay-5-primary.php:34
+#: templates/post-cards/services/overlay-5.php:36
 #: templates/singles/vacancies/default.php:67
 msgid "Open"
 msgstr ""
@@ -9617,6 +9647,14 @@ msgstr ""
 msgid "Orange"
 msgstr ""
 
+#: templates/post-cards/post/overlay-5-primary.php:39
+#: templates/post-cards/post/overlay-5.php:38
+#: templates/post-cards/projects/overlay-5-primary.php:38
+#: templates/post-cards/services/overlay-5-primary.php:38
+#: templates/post-cards/services/overlay-5.php:40
+msgid "Order"
+msgstr ""
+
 #: woocommerce/order/order-details.php:46
 #, php-format
 msgid "Order info #%s"
@@ -9698,12 +9736,13 @@ msgstr ""
 msgid "Overlay + uil-plus icon"
 msgstr ""
 
-#: functions/post-cards-registry.php:60 functions/post-cards-registry.php:218
+#: functions/post-cards-registry.php:60 functions/post-cards-registry.php:229
 #: functions/fetch/getPostCardTemplates.php:100
 msgid "Overlay 5"
 msgstr ""
 
-#: functions/post-cards-registry.php:65 functions/post-cards-registry.php:223
+#: functions/post-cards-registry.php:65 functions/post-cards-registry.php:218
+#: functions/post-cards-registry.php:234
 msgid "Overlay 5 Primary"
 msgstr ""
 
@@ -10712,6 +10751,12 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
+#: functions/post-cards-registry.php:219
+msgid ""
+"Project card with primary overlay on hover; architect and address in "
+"figcaption"
+msgstr ""
+
 #: functions/cpt/cpt-projects.php:70 functions/cpt/cpt-projects.php:75
 msgid "Project Categories"
 msgstr ""
@@ -11010,6 +11055,7 @@ msgstr ""
 #: templates/post-cards/post/overlay-5-primary.php:33
 #: templates/post-cards/post/overlay-5.php:32
 #: templates/post-cards/post/slider.php:67
+#: templates/post-cards/projects/overlay-5-primary.php:32
 #: templates/post-cards/services/overlay-5-primary.php:32
 #: templates/post-cards/services/overlay-5.php:34
 msgid "Read"
@@ -11030,6 +11076,7 @@ msgstr ""
 #: templates/post-cards/post/overlay-5-primary.php:32
 #: templates/post-cards/post/overlay-5.php:31
 #: templates/post-cards/post/slider.php:106
+#: templates/post-cards/projects/overlay-5-primary.php:31
 #: templates/post-cards/services/overlay-5-primary.php:31
 #: templates/post-cards/services/overlay-5.php:33
 #: templates/post-cards/vacancies/card.php:127
@@ -12526,13 +12573,13 @@ msgstr ""
 msgid "Service archive"
 msgstr ""
 
-#: functions/post-cards-registry.php:224
+#: functions/post-cards-registry.php:235
 msgid ""
 "Service card with primary-colored overlay on hover; title and excerpt slide "
 "in from the left"
 msgstr ""
 
-#: functions/post-cards-registry.php:219
+#: functions/post-cards-registry.php:230
 msgid "Service card: title bottom, category badge top, excerpt on hover"
 msgstr ""
 
@@ -12702,19 +12749,19 @@ msgstr ""
 msgid "Shop"
 msgstr ""
 
-#: functions/post-cards-registry.php:253
+#: functions/post-cards-registry.php:264
 msgid "Shop 2"
 msgstr ""
 
-#: functions/post-cards-registry.php:238
+#: functions/post-cards-registry.php:249
 msgid "Shop Card"
 msgstr ""
 
-#: functions/post-cards-registry.php:243
+#: functions/post-cards-registry.php:254
 msgid "Shop Compact"
 msgstr ""
 
-#: functions/post-cards-registry.php:248
+#: functions/post-cards-registry.php:259
 msgid "Shop List"
 msgstr ""
 
@@ -15676,6 +15723,7 @@ msgstr ""
 #: templates/archives/events/events_1.php:40
 #: templates/post-cards/post/overlay-5-primary.php:31
 #: templates/post-cards/post/overlay-5.php:30
+#: templates/post-cards/projects/overlay-5-primary.php:30
 #: templates/post-cards/services/overlay-5-primary.php:30
 #: templates/post-cards/services/overlay-5.php:32
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:650
