@@ -114,9 +114,15 @@ class Settings {
 				'completed'     => __( 'Completed.', 'codeweber' ),
 				'cancelled'     => __( 'Cancelled.', 'codeweber' ),
 				'failed'        => __( 'Failed.', 'codeweber' ),
-				'working'       => __( 'Working...', 'codeweber' ),
-				'done'          => __( 'Done', 'codeweber' ),
-				'error'         => __( 'Error', 'codeweber' ),
+				'working'          => __( 'Working...', 'codeweber' ),
+				'done'             => __( 'Done', 'codeweber' ),
+				'error'            => __( 'Error', 'codeweber' ),
+				'paused'           => __( 'Paused', 'codeweber' ),
+				'failed_to_start'  => __( 'Failed to start job.', 'codeweber' ),
+				'confirm_wipe'     => __( 'This will permanently delete files from S3. Continue?', 'codeweber' ),
+				'confirm_cancel'   => __( 'Cancel this job?', 'codeweber' ),
+				'failed_count'     => __( 'failed', 'codeweber' ),
+				'dry_run_label'    => __( '[dry-run]', 'codeweber' ),
 			],
 		] );
 	}

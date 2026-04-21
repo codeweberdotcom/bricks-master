@@ -45,7 +45,7 @@
 			dry_run: dryRun ? 1 : 0
 		}).done(function (resp) {
 			if (!resp.success) {
-				alert((resp.data && resp.data.message) || 'Failed to start job.');
+				alert((resp.data && resp.data.message) || cws3.i18n.failed_to_start);
 				return;
 			}
 			var jobId = resp.data.job_id;
@@ -86,9 +86,10 @@
 	function renderStatus($section, data) {
 		var pct = data.total > 0 ? Math.min(100, Math.round((data.processed / data.total) * 100)) : 0;
 		$section.find('.cws3-progress-fill').css('width', pct + '%');
-		var text = data.status + ': ' + data.processed + ' / ' + data.total
-			+ (data.failed ? ' (' + data.failed + ' failed)' : '')
-			+ (data.dry_run ? ' [dry-run]' : '');
+		var statusLabel = cws3.i18n[data.status] || data.status;
+		var text = statusLabel + ': ' + data.processed + ' / ' + data.total
+			+ (data.failed ? ' (' + data.failed + ' ' + cws3.i18n.failed_count + ')' : '')
+			+ (data.dry_run ? ' ' + cws3.i18n.dry_run_label : '');
 		if (data.error) { text += ' — ' + data.error; }
 		$section.find('.cws3-progress-text').text(text);
 	}
@@ -106,8 +107,7 @@
 		var $section = $(this).closest('.cws3-section');
 		var dryRun   = $(this).data('dry-run') === 1;
 		if (!dryRun && $section.data('confirm') === 1) {
-			var type = $section.data('job-type');
-			if (!window.confirm('This will permanently delete files from S3 (' + type + '). Continue?')) {
+			if (!window.confirm(cws3.i18n.confirm_wipe)) {
 				return;
 			}
 		}
@@ -116,7 +116,7 @@
 	$(document).on('click', '.cws3-section .cws3-pause', function () { control($(this).closest('.cws3-section'), 'pause'); });
 	$(document).on('click', '.cws3-section .cws3-resume', function () { control($(this).closest('.cws3-section'), 'resume'); });
 	$(document).on('click', '.cws3-section .cws3-cancel', function () {
-		if (!window.confirm('Cancel this job?')) { return; }
+		if (!window.confirm(cws3.i18n.confirm_cancel)) { return; }
 		control($(this).closest('.cws3-section'), 'cancel');
 	});
 

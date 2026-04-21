@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-04-19 13:36+0000\n"
+"PO-Revision-Date: 2026-04-21 12:02+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -63,7 +63,7 @@ msgid "%1$s "
 msgstr "%1$s "
 
 #. 1: action label, 2: success count, 3: failed count
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:92
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:99
 #, fuzzy, php-format
 msgid "%1$s: %2$d succeeded, %3$d failed."
 msgstr "%1$s: %2$d успешно, %3$d не удалось."
@@ -568,13 +568,13 @@ msgstr "Добавить форму"
 msgid "Add Html Block"
 msgstr "Добавить Html блок"
 
-#: functions/integrations/project-gallery-metabox.php:139
+#: functions/integrations/project-gallery-metabox.php:152
 msgid "Add images"
 msgstr "Добавить изображения"
 
 #: functions/integrations/event-gallery-metabox.php:42
 #: functions/integrations/project-gallery-metabox.php:51
-#: functions/integrations/project-gallery-metabox.php:141
+#: functions/integrations/project-gallery-metabox.php:154
 msgid ""
 "Add images via the upload area below. Drag items in the grid to reorder."
 msgstr ""
@@ -655,6 +655,10 @@ msgstr "Добавть Хедер"
 #: functions/cpt/cpt-html_blocks.php:14
 msgid "Add New Html Block"
 msgstr "Добавить Html блок"
+
+#: functions/admin/image-tag-taxonomy.php:24
+msgid "Add new image tag"
+msgstr ""
 
 #: functions/cpt/cpt-legal.php:11
 msgid "Add New Legal"
@@ -1064,6 +1068,11 @@ msgstr "Все формы"
 msgid "All Html Blocks"
 msgstr "Все блоки HTML"
 
+#: functions/admin/media-cpt-filter.php:158
+#: functions/admin/media-cpt-filter.php:366
+msgid "All image tags"
+msgstr ""
+
 #: functions/cpt/cpt-legal.php:9
 msgid "All Legal"
 msgstr "Все Документы"
@@ -1088,10 +1097,20 @@ msgstr "Все уведомления"
 msgid "All Offices"
 msgstr "Все Офисы"
 
+#: functions/admin/media-cpt-filter.php:156
+#: functions/admin/media-cpt-filter.php:342
+msgid "All post types"
+msgstr ""
+
 #: functions/user.php:382 functions/cpt/cpt-testimonials.php:966
 #: templates/content/single-parts/post-author.php:51
 msgid "All Posts"
 msgstr "Все статьи"
+
+#: functions/admin/media-cpt-filter.php:157
+#: functions/admin/media-cpt-filter.php:396
+msgid "All posts"
+msgstr ""
 
 #: functions/cpt/cpt-price_list.php:13
 msgid "All Price Lists"
@@ -1447,7 +1466,7 @@ msgstr "Прикрепленные к формам файлы"
 msgid "Attached Media Files"
 msgstr "Прикрепленные медиа-файлы"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:177
+#: functions/integrations/s3-storage/inc/views/settings.php:184
 #, fuzzy
 msgid "Attachment"
 msgstr "Вложение"
@@ -1960,12 +1979,12 @@ msgstr "Брянская область"
 msgid "Bucket"
 msgstr "Корзина"
 
-#: functions/integrations/s3-storage/inc/Settings.php:170
+#: functions/integrations/s3-storage/inc/Settings.php:172
 #, fuzzy
 msgid "Bucket is not configured."
 msgstr "Корзина не настроена."
 
-#: functions/integrations/s3-storage/inc/Settings.php:187
+#: functions/integrations/s3-storage/inc/Settings.php:189
 #, fuzzy
 msgid "Bucket reachable, put/delete OK."
 msgstr "Корзина достижима, добавление/удаление ОК."
@@ -2065,6 +2084,10 @@ msgstr ""
 "обработки персональных данных  и даете Согласие на обработку ваших "
 "Персонлаьных данных."
 
+#: functions/integrations/s3-storage/inc/views/settings.php:137
+msgid "Cache-Control max-age (seconds)"
+msgstr ""
+
 #: templates/archives/events/events_1.php:42
 msgid "Calendar"
 msgstr "Календарь"
@@ -2099,7 +2122,7 @@ msgstr "Запрос обратного звонка"
 msgid "Callback request"
 msgstr "Запрос обратного звонка"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:54
+#: functions/integrations/s3-storage/inc/views/tools.php:73
 #, fuzzy
 msgid "Cancel"
 msgstr "Отмена"
@@ -2122,7 +2145,7 @@ msgstr[0] "Отменено <span class=\"count\">(%s) </span>"
 msgstr[1] "Отменено <span class=\"count\">(%s) </span>"
 msgstr[2] "Отменено <span class=\"count\">(%s) </span>"
 
-#: functions/integrations/s3-storage/inc/Settings.php:114
+#: functions/integrations/s3-storage/inc/Settings.php:115
 #, fuzzy
 msgid "Cancelled."
 msgstr "Отменено."
@@ -2446,7 +2469,7 @@ msgid "Clear Data (AJAX)"
 msgstr "Очистить данные (AJAX)"
 
 #. %d: number of log rows
-#: functions/integrations/s3-storage/inc/views/settings.php:167
+#: functions/integrations/s3-storage/inc/views/settings.php:174
 #, fuzzy
 msgid "Clear DB log (%d)"
 msgstr "Очистить журнал базы данных (%d)"
@@ -2455,7 +2478,7 @@ msgstr "Очистить журнал базы данных (%d)"
 msgid "Clear LOG"
 msgstr "Очистить Лог"
 
-#: functions/integrations/s3-storage/inc/Settings.php:110
+#: functions/integrations/s3-storage/inc/Settings.php:111
 #, fuzzy
 msgid "Clear the error log?"
 msgstr "Очистить журнал ошибок?"
@@ -2762,7 +2785,7 @@ msgstr "Страница сравнения"
 msgid "Compare Products"
 msgstr "Сравнить товары"
 
-#: functions/integrations/s3-storage/inc/Settings.php:113
+#: functions/integrations/s3-storage/inc/Settings.php:114
 #, fuzzy
 msgid "Completed."
 msgstr "Завершено."
@@ -2876,7 +2899,7 @@ msgstr "Подключение"
 msgid "Connection error"
 msgstr "Ошибка соединения"
 
-#: functions/integrations/s3-storage/inc/Settings.php:109
+#: functions/integrations/s3-storage/inc/Settings.php:110
 #: redux-framework/sample/sections/codeweber/smtp.php:245
 msgid "Connection failed: "
 msgstr "Ошибка подключения:"
@@ -2885,7 +2908,7 @@ msgstr "Ошибка подключения:"
 msgid "Connection successful!"
 msgstr "Подключение успешно установлено!"
 
-#: functions/integrations/s3-storage/inc/Settings.php:108
+#: functions/integrations/s3-storage/inc/Settings.php:109
 #, fuzzy
 msgid "Connection successful."
 msgstr "Соединение установлено."
@@ -3066,7 +3089,9 @@ msgstr "Контактная информация"
 
 #: functions/bootstrap/class-floating-social-widget.php:243
 #: functions/bootstrap/class-floating-social-widget.php:804
-#: functions/bootstrap/class-floating-social-widget.php:1136
+#: functions/bootstrap/class-floating-social-widget.php:821
+#: functions/bootstrap/class-floating-social-widget.php:1140
+#: functions/bootstrap/class-floating-social-widget.php:1157
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:357
 msgid "Contact us"
 msgstr "Связаться с нами"
@@ -3574,7 +3599,7 @@ msgstr "Текущий файл:"
 msgid "Current Fonts"
 msgstr "Текущие шрифты"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:41
+#: functions/integrations/s3-storage/inc/views/tools.php:50
 #, fuzzy
 msgid "Current mode"
 msgstr "Текущий режим"
@@ -4179,12 +4204,18 @@ msgstr "Удалить Демо Отзывы"
 msgid "Delete Demo Vacancies"
 msgstr "Удалить Демо Вакансии"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:83
+#: functions/integrations/s3-storage/inc/views/tools.php:36
+msgid ""
+"Delete every offloaded object from the bucket. Records stay in the database "
+"with is_offloaded=0. Local files are not touched."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:89
 #, fuzzy
 msgid "Delete local"
 msgstr "Удалить локальное"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:26
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:27
 #: functions/integrations/s3-storage/inc/views/tools.php:19
 #, fuzzy
 msgid "Delete local copies"
@@ -4627,7 +4658,7 @@ msgstr "У вас нет учетной записи?"
 
 #: functions/woocommerce/compare/functions.php:171
 #: functions/woocommerce/wishlist/functions.php:125
-#: functions/integrations/s3-storage/inc/Settings.php:117
+#: functions/integrations/s3-storage/inc/Settings.php:118
 #, fuzzy
 msgid "Done"
 msgstr "Готово"
@@ -4666,7 +4697,7 @@ msgid "Download offloaded attachments back to wp-content/uploads."
 msgstr "Скачать выгруженные вложения обратно в wp-content/uploads."
 
 #: functions/integrations/event-gallery-metabox.php:123
-#: functions/integrations/project-gallery-metabox.php:140
+#: functions/integrations/project-gallery-metabox.php:153
 msgid ""
 "Drag & Drop your files or <span class=\"filepond--label-action\">"
 "browse</span>"
@@ -4695,7 +4726,7 @@ msgstr "dripple"
 msgid "Dropbox"
 msgstr "Дропбокс"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:51
+#: functions/integrations/s3-storage/inc/views/tools.php:70
 #, fuzzy
 msgid "Dry-run"
 msgstr "Пробный запуск"
@@ -4763,6 +4794,12 @@ msgstr "Каждый пункт FAQ"
 msgid "Edit"
 msgstr "Редактировать"
 
+#: functions/integrations/project-gallery-metabox.php:71
+#: functions/integrations/project-gallery-metabox.php:72
+#: functions/integrations/project-gallery-metabox.php:151
+msgid "Edit attachment"
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:73 functions/cpt/cpt-events.php:85
 #, fuzzy
 msgid "Edit Category"
@@ -4817,6 +4854,10 @@ msgstr "Редактировать Хедер"
 #, fuzzy
 msgid "Edit Html Block"
 msgstr "Редактировать блок HTML"
+
+#: functions/admin/image-tag-taxonomy.php:25
+msgid "Edit image tag"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:319
 #, fuzzy
@@ -5330,7 +5371,7 @@ msgid "Enter your admin password to confirm:"
 msgstr "Введите пароль администратора для подтверждения:"
 
 #: functions/enqueues.php:429
-#: functions/integrations/s3-storage/inc/Settings.php:118
+#: functions/integrations/s3-storage/inc/Settings.php:119
 msgid "Error"
 msgstr "Ошибка"
 
@@ -5377,7 +5418,7 @@ msgstr "Ошибка загрузки файла. Попробуйте еще р
 msgid "Error for #%d: %s"
 msgstr "Ошибка для #%d: %s"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:162
+#: functions/integrations/s3-storage/inc/views/settings.php:169
 #, fuzzy
 msgid "Error log (database)"
 msgstr "Журнал ошибок (база данных)"
@@ -5807,7 +5848,7 @@ msgid "Failed to unsubscribe from the newsletter. The link may have expired."
 msgstr ""
 "Не удалось отписаться от рассылки. Возможно, срок действия ссылки истёк."
 
-#: functions/integrations/s3-storage/inc/Settings.php:115
+#: functions/integrations/s3-storage/inc/Settings.php:116
 #, fuzzy
 msgid "Failed."
 msgstr "Сбой."
@@ -6066,6 +6107,21 @@ msgstr "Фильтровать по форме"
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:366
 msgid "Filter by form type"
 msgstr "Фильтровать по типу формы"
+
+#: functions/admin/media-cpt-filter.php:162
+#: functions/admin/media-cpt-filter.php:364
+msgid "Filter by image tag"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:161
+#: functions/admin/media-cpt-filter.php:394
+msgid "Filter by post"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:160
+#: functions/admin/media-cpt-filter.php:340
+msgid "Filter by post type"
+msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:75
 msgid "Filter licenses list"
@@ -7467,7 +7523,7 @@ msgstr "ID: %s | Тип: %s"
 msgid "Identifier"
 msgstr "Идентификатор"
 
-#: functions/integrations/s3-storage/inc/Settings.php:112
+#: functions/integrations/s3-storage/inc/Settings.php:113
 #, fuzzy
 msgid "Idle"
 msgstr "Бездействие"
@@ -7574,6 +7630,15 @@ msgstr "Размеры Изображений"
 #, fuzzy
 msgid "Image swatch"
 msgstr "Образец изображения"
+
+#: functions/admin/image-tag-taxonomy.php:22
+msgid "Image Tag"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:21
+#: functions/admin/image-tag-taxonomy.php:23
+msgid "Image Tags"
+msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:92
 msgid "Import"
@@ -7769,6 +7834,7 @@ msgid "Insufficient permissions to perform this action."
 msgstr "Недостаточно прав для выполнения операции"
 
 #: functions/admin/events-settings.php:242
+#: functions/admin/media-cpt-filter.php:251
 #: functions/admin/media-regenerate.php:15
 #: functions/admin/media-regenerate.php:39
 #: functions/admin/media-regenerate.php:240
@@ -7788,7 +7854,7 @@ msgstr "Статус интеграции"
 msgid "Introduction / Short Description"
 msgstr "Введение / Краткое описание"
 
-#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:31
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:32
 #, fuzzy
 msgid "Invalid attachment."
 msgstr "Недопустимое вложение."
@@ -7888,6 +7954,10 @@ msgstr "Неверный пароль!"
 msgid "Invalid post type"
 msgstr "Недопустимый тип записи"
 
+#: functions/admin/media-cpt-filter.php:259
+msgid "Invalid post type."
+msgstr ""
+
 #: functions/woocommerce/compare/class-cw-compare.php:59
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:98
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:141
@@ -7907,8 +7977,8 @@ msgstr "Недопустимые параметры запроса"
 
 #: functions/integrations/event-gallery-metabox.php:126
 #: functions/integrations/event-gallery-metabox.php:147
-#: functions/integrations/project-gallery-metabox.php:145
-#: functions/integrations/project-gallery-metabox.php:171
+#: functions/integrations/project-gallery-metabox.php:158
+#: functions/integrations/project-gallery-metabox.php:184
 msgid "Invalid request."
 msgstr "Недопустимый запрос."
 
@@ -8493,6 +8563,10 @@ msgstr "Тип загрузчика"
 msgid "Loading..."
 msgstr "Загрузка..."
 
+#: functions/admin/media-cpt-filter.php:163
+msgid "Loading…"
+msgstr ""
+
 #: functions/integrations/s3-storage/inc/views/settings.php:106
 #, fuzzy
 msgid "Local only — new uploads stay on the server (S3 disabled)."
@@ -8520,7 +8594,7 @@ msgstr "Название места"
 msgid "Log file is empty or does not exist."
 msgstr "Журнал пуст или не существует."
 
-#: functions/integrations/s3-storage/inc/views/settings.php:141
+#: functions/integrations/s3-storage/inc/views/settings.php:148
 #, fuzzy
 msgid "Log level"
 msgstr "Уровень журнала"
@@ -8529,7 +8603,7 @@ msgstr "Уровень журнала"
 msgid "Log out"
 msgstr "Выйти"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:138
+#: functions/integrations/s3-storage/inc/views/settings.php:145
 #, fuzzy
 msgid "Logging"
 msgstr "Вход"
@@ -8582,7 +8656,7 @@ msgstr "Логотип вместо маркера"
 msgid "Logs all Matomo tracking events to WordPress debug log"
 msgstr "Записывает все события отслеживания Matomo в журнал отладки WordPress."
 
-#: functions/integrations/s3-storage/inc/views/settings.php:148
+#: functions/integrations/s3-storage/inc/views/settings.php:155
 #, fuzzy
 msgid ""
 "Logs are stored in the module folder: functions/integrations/s3-storage/logs/"
@@ -8880,7 +8954,7 @@ msgstr "Меню не найдено или пусто."
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:145
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:349
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:761
-#: functions/integrations/s3-storage/inc/views/settings.php:178
+#: functions/integrations/s3-storage/inc/views/settings.php:185
 #, fuzzy
 msgid "Message"
 msgstr "Сообщение"
@@ -9608,7 +9682,7 @@ msgstr "Нет типов занятости"
 msgid "No erasers registered in WordPress Privacy Tools!"
 msgstr "В WordPress Privacy Tools не зарегистрировано ни одного стеретеля!"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:184
+#: functions/integrations/s3-storage/inc/views/settings.php:191
 #, fuzzy
 msgid "No errors logged."
 msgstr "Ошибки не зафиксированы."
@@ -9671,8 +9745,8 @@ msgstr "Нет предоставленных полей."
 
 #: functions/integrations/event-gallery-metabox.php:127
 #: functions/integrations/event-gallery-metabox.php:178
-#: functions/integrations/project-gallery-metabox.php:146
-#: functions/integrations/project-gallery-metabox.php:203
+#: functions/integrations/project-gallery-metabox.php:159
+#: functions/integrations/project-gallery-metabox.php:216
 msgid "No file received."
 msgstr "Файл не получен."
 
@@ -9739,6 +9813,10 @@ msgstr "Не найдено Хедера в корзине"
 #: functions/cpt/cpt-html_blocks.php:21
 msgid "No Html Blocks found"
 msgstr "Блоки HTML не найдены."
+
+#: functions/admin/image-tag-taxonomy.php:27
+msgid "No image tags found"
+msgstr ""
 
 #: functions/fetch/filterPosts.php:70
 #, fuzzy
@@ -9835,6 +9913,10 @@ msgstr "Не выбран PDF"
 #, fuzzy
 msgid "No personal data found to anonymize"
 msgstr "Нет персональных данных для анонимизации."
+
+#: functions/admin/media-cpt-filter.php:165
+msgid "No posts found"
+msgstr ""
 
 #: functions/cpt/cpt-price_list.php:21
 msgid "No Price Lists found"
@@ -10208,8 +10290,8 @@ msgstr "Офис/Квартира"
 msgid "Offices"
 msgstr "Офисы"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:81
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:109
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:87
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:116
 #, fuzzy
 msgid "Offload"
 msgstr "Разгрузить"
@@ -10224,7 +10306,7 @@ msgstr "Выгрузить существующее медиа"
 msgid "Offload now"
 msgstr "Выгрузить сейчас"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:24
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:25
 #, fuzzy
 msgid "Offload to S3"
 msgstr "Выгрузить в S3"
@@ -10238,7 +10320,7 @@ msgstr ""
 "Перенесите медиафайлы WordPress на настраиваемый S3-совместимый сервер "
 "(MinIO, Ceph, Garage)."
 
-#: functions/integrations/s3-storage/inc/views/tools.php:38
+#: functions/integrations/s3-storage/inc/views/tools.php:47
 #, fuzzy
 msgid "Offloaded to S3"
 msgstr "Выгружено в S3"
@@ -10321,7 +10403,7 @@ msgstr "Только CSS"
 msgid "Only HTML"
 msgstr "Только HTML"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:40
+#: functions/integrations/s3-storage/inc/views/tools.php:49
 #, fuzzy
 msgid "Only in S3 (no local copy)"
 msgstr "Только в S3 (без локальной копии)"
@@ -10357,7 +10439,7 @@ msgstr "Открывать балун по клику"
 msgid "Open balloon when marker is clicked"
 msgstr "Открывать балун при клике на маркер"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:170
+#: functions/integrations/s3-storage/inc/views/settings.php:177
 #, fuzzy
 msgid "Open file-based logs →"
 msgstr "Открыть журналы на основе файлов"
@@ -10402,7 +10484,7 @@ msgstr "Часы работы"
 msgid "Opens"
 msgstr "Открыть"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:176
+#: functions/integrations/s3-storage/inc/views/settings.php:183
 #, fuzzy
 msgid "Operation"
 msgstr "Операция"
@@ -10898,7 +10980,7 @@ msgstr "Цвет предварительной загрузки шаблона"
 msgid "Pattern Repeat"
 msgstr "Повтор узора"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:52
+#: functions/integrations/s3-storage/inc/views/tools.php:71
 #, fuzzy
 msgid "Pause"
 msgstr "Пауза"
@@ -10955,10 +11037,10 @@ msgstr "Значения на странице"
 msgid "Perm Krai"
 msgstr "Пермский край"
 
-#: functions/integrations/s3-storage/inc/Settings.php:163
+#: functions/integrations/s3-storage/inc/Settings.php:165
 #: redux-framework/sample/sections/codeweber/smtp.php:265
 #: redux-framework/sample/sections/codeweber/smtp.php:322
-#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:24
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:25
 #, fuzzy
 msgid "Permission denied."
 msgstr "Доступ запрещен."
@@ -11372,6 +11454,10 @@ msgstr "Публикация"
 msgid "Post Date"
 msgstr "Дата публикации"
 
+#: functions/admin/media-cpt-filter.php:159
+msgid "Post type"
+msgstr ""
+
 #: functions/cpt/cpt-modals.php:27
 msgid "Post type for modal windows"
 msgstr "Тип Записи для Модальных окон"
@@ -11385,6 +11471,10 @@ msgstr "Тип Записи для Уведомлений"
 msgctxt "Post Type General Name"
 msgid "Media Licenses"
 msgstr "Лицензии на изображения"
+
+#: functions/admin/media-cpt-filter.php:263
+msgid "Post type not allowed."
+msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:50
 #, fuzzy
@@ -11939,6 +12029,19 @@ msgstr "Рейтинг:"
 msgid "Ratings Distribution"
 msgstr "Распределение оценок"
 
+#: functions/integrations/s3-storage/inc/views/tools.php:31
+msgid "Re-apply cache headers"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:90
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:56
+msgid "Re-apply metadata"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:28
+msgid "Re-apply S3 metadata"
+msgstr ""
+
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:52
 #, fuzzy
 msgid "Re-sync"
@@ -12192,8 +12295,8 @@ msgstr "Связанные вакансии"
 #: functions/cpt/cpt-vacancies.php:531
 #: functions/integrations/event-gallery-metabox.php:55
 #: functions/integrations/event-gallery-metabox.php:122
-#: functions/integrations/project-gallery-metabox.php:65
-#: functions/integrations/project-gallery-metabox.php:138
+#: functions/integrations/project-gallery-metabox.php:76
+#: functions/integrations/project-gallery-metabox.php:150
 #: functions/woocommerce/product-video.php:98
 #: functions/woocommerce/product-video.php:127
 #: functions/woocommerce/swatches.php:273
@@ -12353,7 +12456,7 @@ msgid "Responsive Map"
 msgstr "Адаптивная карта"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:641
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:82
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:88
 msgid "Restore"
 msgstr "Восстановить"
 
@@ -12362,7 +12465,7 @@ msgstr "Восстановить"
 msgid "Restore from S3 to local"
 msgstr "Восстановить из S3 локально"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:25
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:26
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:48
 #, fuzzy
 msgid "Restore to local"
@@ -12390,7 +12493,7 @@ msgstr "Количество результатов"
 msgid "Results for:"
 msgstr "Результаты для:"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:53
+#: functions/integrations/s3-storage/inc/views/tools.php:72
 #, fuzzy
 msgid "Resume"
 msgstr "Резюме"
@@ -12425,7 +12528,7 @@ msgstr "Форма резюме"
 msgid "Resume Reply"
 msgstr "Восстановить ответ"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:152
+#: functions/integrations/s3-storage/inc/views/settings.php:159
 #, fuzzy
 msgid "Retention (days)"
 msgstr "Удержание (дни)"
@@ -12556,7 +12659,7 @@ msgstr "Ряд %d: неправильное количество столбцо�
 msgid "Row %d: invalid email address: %s"
 msgstr "Ряд %d: недопустимый адрес электронной почты: %s"
 
-#: functions/integrations/s3-storage/inc/Settings.php:111
+#: functions/integrations/s3-storage/inc/Settings.php:112
 #, fuzzy
 msgid "Running..."
 msgstr "Запуск..."
@@ -12578,8 +12681,8 @@ msgid "S3 only — upload to S3, remove local copy after success."
 msgstr ""
 "Только S3 - загрузить в S3, удалить локальную копию после успешной загрузки."
 
-#: functions/integrations/s3-storage/inc/Settings.php:78
 #: functions/integrations/s3-storage/inc/Settings.php:79
+#: functions/integrations/s3-storage/inc/Settings.php:80
 #: redux-framework/sample/sections/codeweber/s3-storage.php:23
 #: functions/integrations/s3-storage/inc/Admin/AttachmentMetabox.php:22
 #: functions/integrations/s3-storage/inc/Admin/MediaLibrary.php:99
@@ -12601,7 +12704,7 @@ msgstr "Журналы хранилища S3"
 msgid "S3 Storage — Logs"
 msgstr "S3 Хранилище - Журналы"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:33
+#: functions/integrations/s3-storage/inc/views/tools.php:42
 #, fuzzy
 msgid "S3 Storage — Tools"
 msgstr "S3 Хранилище - Инструменты"
@@ -12710,7 +12813,7 @@ msgstr ""
 "их."
 
 #: functions/integrations/project-gallery-metabox.php:53
-#: functions/integrations/project-gallery-metabox.php:142
+#: functions/integrations/project-gallery-metabox.php:155
 msgid "Save the project as draft first, then you can add gallery images."
 msgstr ""
 "Сначала сохраните проект как черновик, затем можно добавить изображения в "
@@ -12867,6 +12970,10 @@ msgstr "Поиск HTML-блоков"
 #, fuzzy
 msgid "Search icons…"
 msgstr "Иконки поиска…"
+
+#: functions/admin/image-tag-taxonomy.php:26
+msgid "Search image tags"
+msgstr ""
 
 #: functions/cpt/cpt-legal.php:15
 msgid "Search Legal"
@@ -13048,8 +13155,8 @@ msgstr "Ошибка безопасности. Перезагрузите стр
 
 #: functions/integrations/event-gallery-metabox.php:125
 #: functions/integrations/event-gallery-metabox.php:142
-#: functions/integrations/project-gallery-metabox.php:144
-#: functions/integrations/project-gallery-metabox.php:167
+#: functions/integrations/project-gallery-metabox.php:157
+#: functions/integrations/project-gallery-metabox.php:180
 msgid "Security check failed. Reload the page and try again."
 msgstr ""
 "Ошибка проверки безопасности. Перезагрузите страницу и попробуйте снова."
@@ -13065,6 +13172,7 @@ msgstr ""
 msgid "Security error"
 msgstr "Ошибка безопасности"
 
+#: functions/admin/media-cpt-filter.php:254
 #: functions/admin/media-regenerate.php:243
 #, fuzzy
 msgid "Security error."
@@ -13536,6 +13644,13 @@ msgstr "Старший уровень"
 msgid "Sent"
 msgstr "Пожалуйста, предоставьте текст для перевода."
 
+#: functions/integrations/s3-storage/inc/views/settings.php:140
+msgid ""
+"Sent as Cache-Control header on every offloaded object. Default 31536000 = 1 "
+"year. 0 disables the header. Existing objects can be updated via Tools → Re-"
+"apply cache headers."
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:82
 #, fuzzy
 msgid "Separate categories with commas"
@@ -13548,6 +13663,10 @@ msgstr "Разделяйте отделы запятыми"
 #: functions/cpt/cpt-vacancies.php:80 functions/cpt/cpt-vacancies.php:131
 msgid "Separate items with commas"
 msgstr "Разделяйте запятыми"
+
+#: functions/admin/image-tag-taxonomy.php:61
+msgid "Separate tags with commas"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:117
 #, fuzzy
@@ -14261,6 +14380,10 @@ msgstr ""
 "Показана версия документа от %s (версия, актуальная на момент вашего "
 "согласия)."
 
+#: functions/admin/media-cpt-filter.php:164
+msgid "Showing latest 200. Refine by post type."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:361
 #, fuzzy
 msgid "Shown for featured products (WooCommerce \"Featured\" flag)."
@@ -14751,7 +14874,7 @@ msgstr "звезда"
 msgid "stars"
 msgstr "звезд"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:50
+#: functions/integrations/s3-storage/inc/views/tools.php:69
 #, fuzzy
 msgid "Start"
 msgstr "Начать"
@@ -14844,7 +14967,7 @@ msgstr "Срок хранения"
 msgid "Storage mode"
 msgstr "Режим хранения"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:39
+#: functions/integrations/s3-storage/inc/views/tools.php:48
 #, fuzzy
 msgid "Stored locally AND in S3"
 msgstr "Хранится локально И в S3"
@@ -15343,11 +15466,11 @@ msgstr "Теги"
 msgid "Tambov Oblast"
 msgstr "Тамбовская область"
 
-#: functions/integrations/project-gallery-metabox.php:148
+#: functions/integrations/project-gallery-metabox.php:161
 msgid "Tap to cancel"
 msgstr "Нажмите, чтобы отменить"
 
-#: functions/integrations/project-gallery-metabox.php:149
+#: functions/integrations/project-gallery-metabox.php:162
 msgid "Tap to undo"
 msgstr "Нажмите, чтобы отменить действие"
 
@@ -15616,7 +15739,7 @@ msgstr "Настройки отзывов"
 msgid "Testing filter hook!"
 msgstr "Проверка работы фильтрующего хука!"
 
-#: functions/integrations/s3-storage/inc/Settings.php:107
+#: functions/integrations/s3-storage/inc/Settings.php:108
 #, fuzzy
 msgid "Testing..."
 msgstr "Тестирование..."
@@ -16001,7 +16124,7 @@ msgstr "Tik-Tok"
 msgid "TikTok"
 msgstr "TikTok"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:175
+#: functions/integrations/s3-storage/inc/views/settings.php:182
 #, fuzzy
 msgid "Time"
 msgstr "Время"
@@ -16136,7 +16259,7 @@ msgstr "Верхний правый угол"
 msgid "Topbar"
 msgstr "ТопХедер"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:37
+#: functions/integrations/s3-storage/inc/views/tools.php:46
 #, fuzzy
 msgid "Total attachments"
 msgstr "Все вложения"
@@ -16381,7 +16504,7 @@ msgstr "Неизвестно"
 msgid "unknown"
 msgstr "неизвестно"
 
-#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:59
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:63
 #, fuzzy
 msgid "Unknown action."
 msgstr "Неизвестное действие."
@@ -16448,6 +16571,12 @@ msgstr "Отписался через страницу"
 msgid "Update"
 msgstr "Обновить"
 
+#: functions/integrations/s3-storage/inc/views/tools.php:32
+msgid ""
+"Update Cache-Control metadata on all offloaded objects using the current max-"
+"age setting (uses CopyObject, no file re-upload)."
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:75 functions/cpt/cpt-events.php:87
 #, fuzzy
 msgid "Update Category"
@@ -16511,12 +16640,12 @@ msgstr ""
 msgid "Upload Avatar"
 msgstr "Загрузить аватар"
 
-#: functions/integrations/project-gallery-metabox.php:147
+#: functions/integrations/project-gallery-metabox.php:160
 msgid "Upload complete"
 msgstr "Загрузка завершена"
 
 #: functions/integrations/event-gallery-metabox.php:124
-#: functions/integrations/project-gallery-metabox.php:143
+#: functions/integrations/project-gallery-metabox.php:156
 msgid "Upload failed"
 msgstr "Ошибка загрузки"
 
@@ -16941,12 +17070,12 @@ msgid "Verified"
 msgstr "Подтверждено"
 
 #: functions/woocommerce/core.php:180
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:84
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:91
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:55
 msgid "Verify"
 msgstr "Проверка"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:27
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:29
 #, fuzzy
 msgid "Verify in bucket"
 msgstr "Проверить в корзине"
@@ -17372,6 +17501,13 @@ msgstr "Предупреждение"
 msgid "Warning:"
 msgstr "Внимание:"
 
+#. %d: number of attachments
+#: functions/integrations/s3-storage/inc/views/tools.php:64
+msgid ""
+"Warning: %d files exist only in S3 (no local copy). Wiping will permanently "
+"delete them. Run Restore first if you want to keep them."
+msgstr ""
+
 #: templates/singles/events/default.php:96
 msgid "Watch video"
 msgstr "Смотреть видео"
@@ -17645,6 +17781,10 @@ msgstr "Ширина виджета в пикселях"
 msgid "Width"
 msgstr "Ширина"
 
+#: functions/integrations/s3-storage/inc/views/tools.php:35
+msgid "Wipe S3"
+msgstr ""
+
 #: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:223
 #: functions/woocommerce/wishlist/functions.php:67
 #: functions/woocommerce/wishlist/functions.php:169
@@ -17731,7 +17871,7 @@ msgstr "График работы:"
 msgid "Working Hours"
 msgstr "График работы"
 
-#: functions/integrations/s3-storage/inc/Settings.php:116
+#: functions/integrations/s3-storage/inc/Settings.php:117
 #, fuzzy
 msgid "Working..."
 msgstr "Работаем..."
@@ -19160,3 +19300,21 @@ msgstr "← Назад к подпискам"
 #, fuzzy
 msgid "−% Discount"
 msgstr "−% Скидка"
+
+msgid "Failed to start job."
+msgstr "Не удалось запустить задачу."
+
+msgid "This will permanently delete files from S3. Continue?"
+msgstr "Все файлы на S3 будут безвозвратно удалены. Продолжить?"
+
+msgid "Cancel this job?"
+msgstr "Отменить задачу?"
+
+msgid "Paused"
+msgstr "Пауза"
+
+msgid "failed"
+msgstr "ошибок"
+
+msgid "[dry-run]"
+msgstr "[тест]"
