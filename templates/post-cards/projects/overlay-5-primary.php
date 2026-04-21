@@ -78,14 +78,14 @@ $address      = get_post_meta( $post_data['id'], 'main_information_address', tru
 				<figcaption class="p-5">
 					<div class="post-body h-100 d-flex flex-column from-left justify-content-end">
 						<?php if ( $architector ) : ?>
-							<p class="mb-1 fs-15">
-								<span class="opacity-50"><?php esc_html_e( 'Architect', 'codeweber' ); ?></span><br>
+							<p class="mb-1">
+								<span><?php esc_html_e( 'Architect', 'codeweber' ); ?></span><br>
 								<?php echo esc_html( $architector ); ?>
 							</p>
 						<?php endif; ?>
 						<?php if ( $address ) : ?>
-							<p class="mb-0 fs-15">
-								<span class="opacity-50"><?php esc_html_e( 'Address', 'codeweber' ); ?></span><br>
+							<p class="mb-0">
+								<span><?php esc_html_e( 'Address', 'codeweber' ); ?></span><br>
 								<?php echo esc_html( $address ); ?>
 							</p>
 						<?php endif; ?>
