@@ -181,6 +181,16 @@ Work выполняется в отдельных WP-Cron процессах, **
 
 Основная упаковка: `Uploader::offload_attachment($id, $metadata)` — заливка одного attachment'а (используется и из `wp_generate_attachment_metadata` hook, и из bulk Offload).
 
+### Отложенная выгрузка при регенерации миниатюр
+
+`Uploader` слушает два хука:
+- `wp_generate_attachment_metadata` → **синхронная** выгрузка (первичная загрузка файла, пользователь ждёт)
+- `wp_update_attachment_metadata` → **отложенная** (через WP-Cron) если attachment уже offloaded
+
+При regenerate thumbnails (плагин «Regenerate Thumbnails» или AJAX из медиатеки) `wp_update_attachment_metadata` срабатывает на уже offloaded вложении. Вместо синхронной блокировки планируется `wp_schedule_single_event(time()+5, 'cws3_deferred_offload', [$attachment_id])` + `spawn_cron()`. Дедупликация через `wp_next_scheduled` — если событие уже стоит в очереди, повторно не планируется.
+
+Это устраняет двойную выгрузку при первой загрузке (раньше оба хука вызывали `offload_attachment`) и делает регенерацию миниатюр быстрой.
+
 ---
 
 ## DB tables
@@ -218,13 +228,9 @@ Work выполняется в отдельных WP-Cron процессах, **
 
 Два канала:
 1. **БД** — таблица `wp_cws3_errors` (только error/warning)
-2. **Файлы** — дневная ротация в `functions/integrations/s3-storage/logs/cws3-YYYY-MM-DD.log`
+2. **Файлы** — дневная ротация в `wp-content/uploads/cws3-logs/cws3-YYYY-MM-DD.log`
 
-Папка защищена `.htaccess`:
-```
-Require all denied
-```
-+ `index.php` пустой (anti-listing).
+Директория создаётся автоматически при первой записи через `wp_mkdir_p`. Выбрана `uploads/` (а не папка модуля) потому что веб-сервер на проде не имеет прав на запись внутрь темы — `uploads/` всегда writable.
 
 **Уровни** (Settings → Logging):
 - `off` — не пишем
@@ -267,6 +273,39 @@ Require all denied
 - `<video>`, `<audio>` sources
 
 Не покрывает (не критично): REST API ответы для блок-редактора, featured-image-серверный-рендер-в-эмбеде.
+
+---
+
+## JS локализация (i18n)
+
+Все строки в `assets/admin.js` передаются через `wp_localize_script('cws3-admin', 'cws3', [...])` в `Settings::enqueue_admin_assets()`. Ключи объекта `cws3.i18n`:
+
+| Ключ | Назначение |
+|------|-----------|
+| `testing`, `test_ok`, `test_fail` | Test connection кнопка |
+| `confirm_clear` | Подтверждение очистки лога |
+| `running`, `idle`, `completed`, `cancelled`, `failed`, `paused` | Статусы job'а в progress bar |
+| `working`, `done`, `error` | Row/metabox actions |
+| `failed_to_start` | Если `cws3_start_job` вернул ошибку |
+| `confirm_wipe` | Confirm перед Wipe S3 |
+| `confirm_cancel` | Confirm перед Cancel job |
+| `failed_count` | «N failed» в progress text |
+| `dry_run_label` | «[dry-run]» в progress text |
+
+Для перевода — синхронизировать через Loco Translate (Theme: codeweber → ru_RU → Sync). Домен `codeweber`.
+
+---
+
+## Настройки бакета (Beget Cloud Storage)
+
+**Бакет должен быть публичным** — иначе все объекты отдают 403 Forbidden, даже если при загрузке передавался `ACL: public-read`.
+
+Beget управляет доступом на уровне бакета, не объекта:
+- **Beget панель** → Cloud Storage → выбрать бакет → «Настройки доступа» → включить **«Сделать все материалы публичными»**
+
+`ACL: public-read` в коде (Uploader, ReapplyCacheHeaders) оставляем — это не вредит и является правильной практикой для S3-совместимых серверов.
+
+**Приватные документы** в том же бакете станут публично доступны по прямой ссылке. Для приватных файлов — отдельный закрытый бакет + PHP-прокси или presigned URLs (expires 1–604800 сек).
 
 ---
 
@@ -313,6 +352,9 @@ git pull origin main
 | «AWS SDK is missing» в Settings | vendor/ не попал в репо | composer install локально → commit vendor → push |
 | Картинки в блоках — локальные URL | `rewrite_content=0` | Settings → S3 Storage → ✓ Rewrite post content |
 | SVG не рендерятся после Re-apply | Content-Type сброшен на binary/octet-stream | Re-apply cache headers (после фикса v0.3+ сохраняет MIME) |
+| Картинки отдают 403 Forbidden | Бакет приватный | Beget/MinIO панель → Настройки доступа → «Сделать все материалы публичными» |
+| Регенерация миниатюр очень медленная | До фикса — синхронная выгрузка на S3 при каждом thumb | После фикса — выгрузка идёт в фоне через WP-Cron |
+| Логи не появляются в Tools → S3 Logs | `logs/` внутри темы не writable веб-сервером | Исправлено: логи перенесены в `uploads/cws3-logs/` |
 | Админка виснет при Offload | Inline AJAX runner (до v0.2.1) | Обновить — работа делается в WP-Cron в фоне |
 | WP-Cron не стартует | Фаервол режет self-HTTP от spawn_cron | Реальный cron на сервере + `DISABLE_WP_CRON=true` |
 | Menu S3 Storage не появляется | Redux флаг OFF | Theme Options → S3 Storage → Enable → Save |
@@ -326,7 +368,7 @@ functions/integrations/s3-storage/
 ├── s3-storage.php                      Точка входа, Redux gate
 ├── composer.json                       AWS SDK зависимость
 ├── vendor/                             Закоммичен в git
-├── logs/                               .htaccess + index.php + cws3-YYYY-MM-DD.log
+│                                       (logs/ перенесены → wp-content/uploads/cws3-logs/)
 ├── assets/
 │   ├── admin.css                       Бейджи, progress bar, danger section
 │   └── admin.js                        Test connection, job polling, row actions
@@ -335,12 +377,12 @@ functions/integrations/s3-storage/
     ├── Settings.php                    Страница Settings + AJAX test_connection/clear_errors
     ├── Client.php                      Фабрика AWS S3Client
     ├── StorageMode.php                 Local/S3/Mirror helpers
-    ├── Uploader.php                    wp_generate_attachment_metadata + offload_attachment
+    ├── Uploader.php                    on_generate_metadata (sync) + on_update_metadata (deferred cron) + offload_attachment
     ├── UrlRewriter.php                 Все filters для URL rewriting
     ├── Deleter.php                     delete_attachment → S3 deleteObjects
     ├── Logger.php                      БД + файлы + маскировка
     ├── DB/
-    │   ├── ItemsTable.php              Schema + queries для wp_cws3_items
+    │   ├── ItemsTable.php              Schema + queries; is_offloaded($id) → bool
     │   ├── ErrorsTable.php             wp_cws3_errors
     │   ├── JobsTable.php               wp_cws3_jobs
     │   └── Installer.php               Runtime DB migration
