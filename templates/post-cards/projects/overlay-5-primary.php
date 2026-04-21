@@ -48,8 +48,9 @@ if ( ! empty( $display['title_class'] ) ) {
 }
 
 $date_badge   = get_the_date( 'd M Y', $post_data['id'] );
-$architector  = get_post_meta( $post_data['id'], 'main_information_architector', true );
-$address      = get_post_meta( $post_data['id'], 'main_information_address', true );
+$title_description = get_post_meta( $post_data['id'], 'main_information_title_description', true );
+$architector       = get_post_meta( $post_data['id'], 'main_information_architector', true );
+$address           = get_post_meta( $post_data['id'], 'main_information_address', true );
 ?>
 
 <article<?php echo $article_class ? ' class="' . esc_attr( $article_class ) . '"' : ''; ?>>
@@ -77,6 +78,9 @@ $address      = get_post_meta( $post_data['id'], 'main_information_address', tru
 			<?php if ( $template_args['show_figcaption'] && ! empty( $display['show_excerpt'] ) ) : ?>
 				<figcaption class="p-5">
 					<div class="post-body h-100 d-flex flex-column from-left justify-content-end">
+						<?php if ( $title_description ) : ?>
+							<p class="mb-2"><?php echo esc_html( $title_description ); ?></p>
+						<?php endif; ?>
 						<?php if ( $architector ) : ?>
 							<p class="mb-1">
 								<span><?php esc_html_e( 'Architect', 'codeweber' ); ?></span><br>
