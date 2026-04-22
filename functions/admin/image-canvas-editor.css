@@ -182,6 +182,50 @@
 	box-sizing: border-box;
 }
 
+/* ── Mode toggle ── */
+
+.cwice-mode-toggle {
+	display: flex;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+.cwice-mode-btn {
+	flex: 1;
+	border: none;
+	background: #f6f7f7;
+	padding: 5px 0;
+	font-size: 12px;
+	font-weight: 500;
+	cursor: pointer;
+	color: #50575e;
+}
+
+.cwice-mode-btn + .cwice-mode-btn {
+	border-left: 1px solid #c3c4c7;
+}
+
+.cwice-mode-btn.cwice-mode-active {
+	background: #2271b1;
+	color: #fff;
+}
+
+/* ── Crop hint ── */
+
+.cwice-crop-only {
+	display: none;
+}
+
+.cwice-hint {
+	font-size: 11px;
+	color: #646970;
+	line-height: 1.5;
+	margin: 0;
+}
+
+/* ── Info ── */
+
 .cwice-info {
 	font-size: 10px;
 	color: #787c82;
