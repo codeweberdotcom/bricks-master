@@ -76,6 +76,29 @@
   }
 }
 
+// Горизонтальная карточка без мобильного стака
+.card-horizontal.card-horizontal-always {
+  @media (max-width: 767.98px) {
+    flex-direction: row;
+    > .card-img {
+      flex: 0 0 33.333%;
+      max-width: 33.333%;
+      display: flex;
+      > a {
+        display: flex;
+      }
+      img {
+        height: 100%;
+        flex: 1;
+      }
+      &.rounded-start img {
+        border-top-right-radius: 0;
+        border-bottom-left-radius: $card-inner-border-radius;
+      }
+    }
+  }
+}
+
 // hover_card_button — иконка всегда видна, меняет цвет при наведении
 .hover_card_button i {
   color: $gray-400;
