@@ -5,10 +5,20 @@
 	var dialog, canvas, ctx, img, currentId, currentMime;
 	var mode = 'pad'; // 'pad' | 'crop'
 
-	// Crop state (in image pixel coordinates)
-	var cropX = 0, cropY = 0;
-	var drag = null; // { startMX, startMY, startCX, startCY }
-	var dispScale = 1; // image px → canvas display px (crop mode only)
+	// Crop state — all in IMAGE pixel coordinates
+	var cropX = 0, cropY = 0, cropSize = 800;
+
+	// Drag state
+	var drag = null;
+	// { type: 'move'|'resize', corner: 'tl'|'tr'|'bl'|'br',
+	//   startMX, startMY, startCX, startCY, startSZ }
+
+	// Last rendered crop rect in CANVAS display pixels (for hit-testing)
+	var dispCrop = { cx: 0, cy: 0, cw: 0, ch: 0 };
+	var dispScale = 1;
+	var dispOffX = 0, dispOffY = 0; // image offset on canvas (crop extends beyond image)
+
+	var HANDLE_R = 6; // handle hit radius in px
 
 	// ── Dialog template ───────────────────────────────────────────────────
 	function createDialog() {
@@ -30,7 +40,7 @@
 			'      <div class="cwice-control-group">',
 			'        <label for="cwice-size" id="cwice-size-label">Canvas size (px)</label>',
 			'        <div class="cwice-row">',
-			'          <input type="number" id="cwice-size" min="100" max="6000" step="10">',
+			'          <input type="number" id="cwice-size" min="50" max="8000" step="10">',
 			'          <button type="button" class="button" id="cwice-make-square">Square</button>',
 			'        </div>',
 			'      </div>',
@@ -42,8 +52,8 @@
 			'        <label for="cwice-padding">Padding (px)</label>',
 			'        <input type="number" id="cwice-padding" min="0" max="1000" step="5" value="0">',
 			'      </div>',
-			'      <div class="cwice-control-group cwice-crop-only">',
-			'        <p class="cwice-hint">Drag the bright area to reposition the crop.</p>',
+			'      <div class="cwice-control-group cwice-crop-only" style="display:none">',
+			'        <p class="cwice-hint">Drag inside to move.<br>Drag corners to resize.</p>',
 			'      </div>',
 			'      <div class="cwice-info" id="cwice-dimensions"></div>',
 			'    </div>',
@@ -55,7 +65,6 @@
 			'  </div>',
 			'</dialog>',
 		].join( '\n' );
-
 		document.body.insertAdjacentHTML( 'beforeend', tpl );
 	}
 
@@ -73,66 +82,66 @@
 		document.getElementById( 'cwice-make-square' ).addEventListener( 'click', makeSquare );
 
 		[ 'cwice-size', 'cwice-bg-color', 'cwice-padding' ].forEach( function ( id ) {
-			document.getElementById( id ).addEventListener( 'input', render );
+			document.getElementById( id ).addEventListener( 'input', function () {
+				if ( mode === 'crop' ) {
+					cropSize = Math.max( 50, parseInt( document.getElementById( 'cwice-size' ).value, 10 ) || 50 );
+				}
+				render();
+			} );
 		} );
 
-		// Mode toggle (delegated)
-		document.addEventListener( 'click', function ( e ) {
-			var btn = e.target.closest( '.cwice-mode-btn' );
-			if ( btn ) setMode( btn.dataset.mode );
-		} );
-
-		// Crop drag
-		canvas.addEventListener( 'mousedown', onMouseDown );
-		canvas.addEventListener( 'mousemove', onMouseMove );
-		canvas.addEventListener( 'mouseup',   onMouseUp );
+		canvas.addEventListener( 'mousedown',  onMouseDown );
+		canvas.addEventListener( 'mousemove',  onMouseMove );
+		canvas.addEventListener( 'mouseup',    onMouseUp );
 		canvas.addEventListener( 'mouseleave', onMouseUp );
 
-		// Backdrop close
 		dialog.addEventListener( 'click', function ( e ) {
 			if ( e.target === dialog ) closeDialog();
 		} );
 
-		// Delegate edit button clicks
+		// Delegated clicks
 		document.addEventListener( 'click', function ( e ) {
-			var btn = e.target.closest( '.cwice-open-btn' );
-			if ( ! btn ) return;
-			openEditor(
-				btn.dataset.id,
-				btn.dataset.url,
-				parseInt( btn.dataset.w, 10 ),
-				parseInt( btn.dataset.h, 10 )
-			);
+			var modeBtn = e.target.closest( '.cwice-mode-btn' );
+			if ( modeBtn ) { setMode( modeBtn.dataset.mode ); return; }
+
+			var openBtn = e.target.closest( '.cwice-open-btn' );
+			if ( openBtn ) {
+				openEditor(
+					openBtn.dataset.id,
+					openBtn.dataset.url,
+					parseInt( openBtn.dataset.w, 10 ),
+					parseInt( openBtn.dataset.h, 10 )
+				);
+			}
 		} );
 	}
 
-	// ── Mode switch ───────────────────────────────────────────────────────
+	// ── Mode ─────────────────────────────────────────────────────────────
 	function setMode( m ) {
 		mode = m;
 
-		document.querySelectorAll( '.cwice-mode-btn' ).forEach( function ( btn ) {
-			btn.classList.toggle( 'cwice-mode-active', btn.dataset.mode === m );
+		document.querySelectorAll( '.cwice-mode-btn' ).forEach( function ( b ) {
+			b.classList.toggle( 'cwice-mode-active', b.dataset.mode === m );
 		} );
 
-		var padOnly  = document.querySelectorAll( '.cwice-pad-only' );
-		var cropOnly = document.querySelectorAll( '.cwice-crop-only' );
-		var label    = document.getElementById( 'cwice-size-label' );
+		document.querySelectorAll( '.cwice-pad-only' ).forEach( function ( el ) {
+			el.style.display = m === 'pad' ? '' : 'none';
+		} );
+		document.querySelectorAll( '.cwice-crop-only' ).forEach( function ( el ) {
+			el.style.display = m === 'crop' ? 'block' : 'none';
+		} );
 
-		padOnly.forEach( function ( el )  { el.style.display = m === 'pad'  ? 'flex' : 'none'; } );
-		cropOnly.forEach( function ( el ) { el.style.display = m === 'crop' ? 'block' : 'none'; } );
+		document.getElementById( 'cwice-size-label' ).textContent =
+			m === 'crop' ? 'Crop size (px)' : 'Canvas size (px)';
 
-		label.textContent = m === 'crop' ? 'Output size (px)' : 'Canvas size (px)';
-
-		canvas.style.cursor = m === 'crop' ? 'grab' : 'default';
-
-		if ( m === 'crop' ) {
-			// Auto-set size to 80% of the smaller dimension so crop rect is visible
-			if ( img && img.naturalWidth ) {
-				var maxSq = Math.min( img.naturalWidth, img.naturalHeight );
-				document.getElementById( 'cwice-size' ).value = Math.round( maxSq * 0.8 );
-			}
-			initCropCenter();
+		if ( m === 'crop' && img && img.naturalWidth ) {
+			// Default crop = 80% of smaller dimension, centered
+			cropSize = Math.round( Math.min( img.naturalWidth, img.naturalHeight ) * 0.8 );
+			document.getElementById( 'cwice-size' ).value = cropSize;
+			centerCrop();
 		}
+
+		canvas.style.cursor = m === 'crop' ? 'default' : 'default';
 		render();
 	}
 
@@ -149,13 +158,12 @@
 		statusEl.textContent = '';
 		statusEl.style.color = '';
 
-		// Start in pad mode each time
 		setMode( 'pad' );
 
 		img = new Image();
 		img.onload  = function () { render(); dialog.showModal(); };
 		img.onerror = function () { alert( cwImgEditorData.i18n.noImage ); };
-		img.src = url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'nocache=' + Date.now();
+		img.src = url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'nc=' + Date.now();
 	}
 
 	// ── Render dispatcher ─────────────────────────────────────────────────
@@ -164,7 +172,7 @@
 		else renderPad();
 	}
 
-	// ── Pad mode render ───────────────────────────────────────────────────
+	// ── Pad render ────────────────────────────────────────────────────────
 	function renderPad() {
 		var size    = Math.max( 1, parseInt( document.getElementById( 'cwice-size' ).value, 10 ) || 800 );
 		var bgColor = document.getElementById( 'cwice-bg-color' ).value;
@@ -172,18 +180,17 @@
 
 		canvas.width  = size;
 		canvas.height = size;
-
 		ctx.fillStyle = bgColor;
 		ctx.fillRect( 0, 0, size, size );
 
 		if ( ! img || ! img.naturalWidth ) return;
 
 		var available = Math.max( 1, size - padding * 2 );
-		var ratio = Math.min( available / img.naturalWidth, available / img.naturalHeight );
-		var drawW = img.naturalWidth  * ratio;
-		var drawH = img.naturalHeight * ratio;
-		var drawX = ( size - drawW ) / 2;
-		var drawY = ( size - drawH ) / 2;
+		var ratio     = Math.min( available / img.naturalWidth, available / img.naturalHeight );
+		var drawW     = img.naturalWidth  * ratio;
+		var drawH     = img.naturalHeight * ratio;
+		var drawX     = ( size - drawW ) / 2;
+		var drawY     = ( size - drawH ) / 2;
 
 		ctx.drawImage( img, drawX, drawY, drawW, drawH );
 
@@ -193,113 +200,207 @@
 			' | Pad: ' + padding + 'px';
 	}
 
-	// ── Crop mode render ──────────────────────────────────────────────────
+	// ── Crop render ───────────────────────────────────────────────────────
 	function renderCrop() {
 		if ( ! img || ! img.naturalWidth ) return;
 
-		// Scale image to fit the preview area
+		// Canvas covers cropSize + any overflow beyond image bounds
+		var padL = Math.max( 0, -cropX );
+		var padT = Math.max( 0, -cropY );
+		var padR = Math.max( 0, cropX + cropSize - img.naturalWidth );
+		var padB = Math.max( 0, cropY + cropSize - img.naturalHeight );
+
+		// Display scale: fit the whole canvas in ~680×460
+		var totalW = cropSize + padL + padR;
+		var totalH = cropSize + padT + padB;
+		// But minimum shows the image
+		var viewW  = Math.max( img.naturalWidth, totalW );
+		var viewH  = Math.max( img.naturalHeight, totalH );
+
 		var MAX_W = 680, MAX_H = 460;
-		var scale = Math.min( MAX_W / img.naturalWidth, MAX_H / img.naturalHeight, 1 );
+		var scale = Math.min( MAX_W / viewW, MAX_H / viewH, 1 );
 		dispScale = scale;
 
-		var dW = Math.round( img.naturalWidth  * scale );
-		var dH = Math.round( img.naturalHeight * scale );
-		canvas.width  = dW;
-		canvas.height = dH;
+		var canvasW = Math.round( viewW  * scale );
+		var canvasH = Math.round( viewH  * scale );
+		canvas.width  = canvasW;
+		canvas.height = canvasH;
 
-		// Draw full image
-		ctx.drawImage( img, 0, 0, dW, dH );
+		// Image offset on display canvas (image top-left in display px)
+		// Image is placed so that region [cropX, cropY] maps to the canvas
+		// The canvas top-left is: imageOrigin - padL, - padT (in image px)
+		dispOffX = Math.round( padL * scale );
+		dispOffY = Math.round( padT * scale );
+		// But we need offset for the image itself relative to canvas:
+		// canvas origin in image coords = -padL, -padT
+		// image origin in canvas coords = padL*scale, padT*scale
+		var imgDispX = dispOffX;
+		var imgDispY = dispOffY;
+		var imgDispW = Math.round( img.naturalWidth  * scale );
+		var imgDispH = Math.round( img.naturalHeight * scale );
+
+		// Hatch (gray) background for area outside image
+		ctx.fillStyle = '#d0d0d0';
+		ctx.fillRect( 0, 0, canvasW, canvasH );
+
+		// Draw image
+		ctx.drawImage( img, imgDispX, imgDispY, imgDispW, imgDispH );
 
 		// Crop rect in display coords
-		var csz = getCropSizePx();
-		cropX = clamp( cropX, 0, img.naturalWidth  - csz );
-		cropY = clamp( cropY, 0, img.naturalHeight - csz );
+		var cx = Math.round( ( cropX + padL ) * scale );
+		var cy = Math.round( ( cropY + padT ) * scale );
+		var cw = Math.round( cropSize * scale );
+		var ch = Math.round( cropSize * scale );
 
-		var cx = Math.round( cropX * scale );
-		var cy = Math.round( cropY * scale );
-		var cw = Math.round( csz   * scale );
-		var ch = Math.round( csz   * scale );
+		// Store for hit testing
+		dispCrop = { cx: cx, cy: cy, cw: cw, ch: ch };
 
-		// Dark overlay on areas outside crop rect (4 rectangles)
-		ctx.fillStyle = 'rgba(0,0,0,0.55)';
-		ctx.fillRect( 0,       0,        cx,          dH        ); // left
-		ctx.fillRect( cx + cw, 0,        dW - cx - cw, dH       ); // right
-		ctx.fillRect( cx,      0,        cw,           cy        ); // top
-		ctx.fillRect( cx,      cy + ch,  cw,           dH - cy - ch ); // bottom
+		// Dark overlay — 4 rectangles outside crop rect
+		ctx.fillStyle = 'rgba(0,0,0,0.52)';
+		if ( cx > 0 )          ctx.fillRect( 0,      0,      cx,              canvasH );
+		if ( cx + cw < canvasW ) ctx.fillRect( cx + cw, 0,    canvasW - cx - cw, canvasH );
+		if ( cy > 0 )          ctx.fillRect( cx,     0,      cw,              cy );
+		if ( cy + ch < canvasH ) ctx.fillRect( cx,     cy + ch, cw,            canvasH - cy - ch );
 
-		// Crop border
+		// Crop rect border
 		ctx.strokeStyle = '#fff';
 		ctx.lineWidth   = 2;
 		ctx.strokeRect( cx, cy, cw, ch );
-		ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+		ctx.strokeStyle = 'rgba(0,0,0,0.5)';
 		ctx.lineWidth   = 1;
 		ctx.strokeRect( cx - 1, cy - 1, cw + 2, ch + 2 );
 
 		// Corner handles
-		drawHandle( cx,      cy );
-		drawHandle( cx + cw, cy );
-		drawHandle( cx,      cy + ch );
-		drawHandle( cx + cw, cy + ch );
+		[
+			[ cx,      cy      ],
+			[ cx + cw, cy      ],
+			[ cx,      cy + ch ],
+			[ cx + cw, cy + ch ],
+		].forEach( function ( p ) {
+			ctx.fillStyle = '#fff';
+			ctx.fillRect( p[0] - HANDLE_R, p[1] - HANDLE_R, HANDLE_R * 2, HANDLE_R * 2 );
+			ctx.strokeStyle = '#333';
+			ctx.lineWidth = 1;
+			ctx.strokeRect( p[0] - HANDLE_R, p[1] - HANDLE_R, HANDLE_R * 2, HANDLE_R * 2 );
+		} );
 
-		var outputSize = parseInt( document.getElementById( 'cwice-size' ).value, 10 ) || 800;
 		document.getElementById( 'cwice-dimensions' ).textContent =
-			'Crop area: ' + csz + '×' + csz + 'px' +
-			( outputSize !== csz ? ' → output: ' + outputSize + 'px (scaled)' : '' );
-	}
-
-	function drawHandle( x, y ) {
-		ctx.fillStyle = '#fff';
-		ctx.fillRect( x - 4, y - 4, 8, 8 );
+			'Crop: ' + Math.round( cropSize ) + '×' + Math.round( cropSize ) + 'px' +
+			( cropX < 0 || cropY < 0 || cropX + cropSize > img.naturalWidth || cropY + cropSize > img.naturalHeight
+				? ' (extends beyond image — white fill)' : '' );
 	}
 
 	// ── Crop helpers ──────────────────────────────────────────────────────
-	function getCropSizePx() {
-		if ( ! img ) return 800;
-		var requested = parseInt( document.getElementById( 'cwice-size' ).value, 10 ) || 800;
-		// Crop area in the source image cannot be larger than the image itself
-		return Math.min( requested, img.naturalWidth, img.naturalHeight );
-	}
-
-	function initCropCenter() {
+	function centerCrop() {
 		if ( ! img ) return;
-		var csz = getCropSizePx();
-		cropX = Math.max( 0, ( img.naturalWidth  - csz ) / 2 );
-		cropY = Math.max( 0, ( img.naturalHeight - csz ) / 2 );
+		cropX = ( img.naturalWidth  - cropSize ) / 2;
+		cropY = ( img.naturalHeight - cropSize ) / 2;
 	}
 
-	function clamp( val, min, max ) {
-		return Math.max( min, Math.min( max, val ) );
+	function hitCorner( mx, my ) {
+		var d = dispCrop;
+		var corners = {
+			tl: [ d.cx,        d.cy        ],
+			tr: [ d.cx + d.cw, d.cy        ],
+			bl: [ d.cx,        d.cy + d.ch ],
+			br: [ d.cx + d.cw, d.cy + d.ch ],
+		};
+		var found = null;
+		Object.keys( corners ).forEach( function ( k ) {
+			if ( Math.abs( mx - corners[ k ][ 0 ] ) <= HANDLE_R + 4 &&
+			     Math.abs( my - corners[ k ][ 1 ] ) <= HANDLE_R + 4 ) {
+				found = k;
+			}
+		} );
+		return found;
 	}
 
-	// ── Crop drag ─────────────────────────────────────────────────────────
+	function insideCrop( mx, my ) {
+		var d = dispCrop;
+		return mx >= d.cx && mx <= d.cx + d.cw && my >= d.cy && my <= d.cy + d.ch;
+	}
+
+	function cornerCursor( corner ) {
+		return { tl: 'nw-resize', tr: 'ne-resize', bl: 'sw-resize', br: 'se-resize' }[ corner ] || 'default';
+	}
+
+	// ── Mouse events ──────────────────────────────────────────────────────
 	function onMouseDown( e ) {
 		if ( mode !== 'crop' ) return;
-		drag = { startMX: e.offsetX, startMY: e.offsetY, startCX: cropX, startCY: cropY };
-		canvas.style.cursor = 'grabbing';
+		var mx = e.offsetX, my = e.offsetY;
+		var corner = hitCorner( mx, my );
+		if ( corner ) {
+			drag = { type: 'resize', corner: corner,
+				startMX: mx, startMY: my,
+				startSZ: cropSize, startCX: cropX, startCY: cropY };
+			canvas.style.cursor = cornerCursor( corner );
+		} else if ( insideCrop( mx, my ) ) {
+			drag = { type: 'move',
+				startMX: mx, startMY: my,
+				startCX: cropX, startCY: cropY };
+			canvas.style.cursor = 'grabbing';
+		}
 	}
 
 	function onMouseMove( e ) {
+		var mx = e.offsetX, my = e.offsetY;
+
+		if ( mode === 'crop' && ! drag ) {
+			var c = hitCorner( mx, my );
+			canvas.style.cursor = c ? cornerCursor( c )
+				: insideCrop( mx, my ) ? 'grab' : 'default';
+			return;
+		}
+
 		if ( ! drag ) return;
-		cropX = drag.startCX + ( e.offsetX - drag.startMX ) / dispScale;
-		cropY = drag.startCY + ( e.offsetY - drag.startMY ) / dispScale;
+
+		var dx = ( mx - drag.startMX ) / dispScale;
+		var dy = ( my - drag.startMY ) / dispScale;
+
+		if ( drag.type === 'move' ) {
+			cropX = drag.startCX + dx;
+			cropY = drag.startCY + dy;
+
+		} else {
+			// Resize — maintain square by using the axis that gives bigger delta
+			var delta;
+			if ( drag.corner === 'br' ) {
+				delta = Math.max( dx, dy );
+				cropX = drag.startCX;
+				cropY = drag.startCY;
+			} else if ( drag.corner === 'bl' ) {
+				delta = Math.max( -dx, dy );
+				cropX = drag.startCX + drag.startSZ - ( drag.startSZ + delta );
+				cropY = drag.startCY;
+			} else if ( drag.corner === 'tr' ) {
+				delta = Math.max( dx, -dy );
+				cropX = drag.startCX;
+				cropY = drag.startCY + drag.startSZ - ( drag.startSZ + delta );
+			} else { // tl
+				delta = Math.max( -dx, -dy );
+				cropX = drag.startCX + drag.startSZ - ( drag.startSZ + delta );
+				cropY = drag.startCY + drag.startSZ - ( drag.startSZ + delta );
+			}
+			cropSize = Math.max( 50, drag.startSZ + delta );
+			document.getElementById( 'cwice-size' ).value = Math.round( cropSize );
+		}
+
 		render();
 	}
 
 	function onMouseUp() {
-		if ( ! drag ) return;
 		drag = null;
-		canvas.style.cursor = 'grab';
+		if ( mode === 'crop' ) canvas.style.cursor = 'default';
 	}
 
 	// ── Make square ───────────────────────────────────────────────────────
 	function makeSquare() {
 		if ( ! img ) return;
 		if ( mode === 'crop' ) {
-			// Crop: use the smaller dimension (max square that fits without padding)
-			document.getElementById( 'cwice-size' ).value = Math.min( img.naturalWidth, img.naturalHeight );
-			initCropCenter();
+			cropSize = Math.min( img.naturalWidth, img.naturalHeight );
+			document.getElementById( 'cwice-size' ).value = cropSize;
+			centerCrop();
 		} else {
-			// Pad: use the larger dimension
 			document.getElementById( 'cwice-size' ).value = Math.max( img.naturalWidth, img.naturalHeight );
 		}
 		render();
@@ -319,20 +420,36 @@
 	}
 
 	function savePad() {
-		// Canvas already contains the final output — just send it
 		sendToServer( canvas.toDataURL( currentMime, currentMime === 'image/png' ? 1 : 0.92 ) );
 	}
 
 	function saveCrop() {
-		var outputSize = Math.max( 1, parseInt( document.getElementById( 'cwice-size' ).value, 10 ) || 800 );
-		var csz = getCropSizePx();
-		cropX = clamp( cropX, 0, img.naturalWidth  - csz );
-		cropY = clamp( cropY, 0, img.naturalHeight - csz );
+		var outSize = Math.round( cropSize );
 
-		// Render final crop to output size
-		canvas.width  = outputSize;
-		canvas.height = outputSize;
-		ctx.drawImage( img, cropX, cropY, csz, csz, 0, 0, outputSize, outputSize );
+		// Build output canvas
+		canvas.width  = outSize;
+		canvas.height = outSize;
+
+		// Fill white for areas outside the image
+		ctx.fillStyle = '#ffffff';
+		ctx.fillRect( 0, 0, outSize, outSize );
+
+		// Source: portion of image that intersects crop rect
+		var srcX = Math.max( 0, cropX );
+		var srcY = Math.max( 0, cropY );
+		var srcX2 = Math.min( img.naturalWidth,  cropX + cropSize );
+		var srcY2 = Math.min( img.naturalHeight, cropY + cropSize );
+		var srcW  = srcX2 - srcX;
+		var srcH  = srcY2 - srcY;
+
+		if ( srcW > 0 && srcH > 0 ) {
+			// Destination: proportional position within output canvas
+			var dstX = ( srcX - cropX ) / cropSize * outSize;
+			var dstY = ( srcY - cropY ) / cropSize * outSize;
+			var dstW = srcW / cropSize * outSize;
+			var dstH = srcH / cropSize * outSize;
+			ctx.drawImage( img, srcX, srcY, srcW, srcH, dstX, dstY, dstW, dstH );
+		}
 
 		sendToServer( canvas.toDataURL( currentMime, currentMime === 'image/png' ? 1 : 0.92 ) );
 	}
@@ -369,9 +486,7 @@
 				statusEl.style.color = '#c62828';
 				statusEl.textContent = data.i18n.error;
 			} )
-			.finally( function () {
-				saveBtn.disabled = false;
-			} );
+			.finally( function () { saveBtn.disabled = false; } );
 	}
 
 	// ── Boot ──────────────────────────────────────────────────────────────
