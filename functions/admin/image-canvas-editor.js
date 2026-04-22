@@ -147,7 +147,6 @@
 		setMode( 'pad' );
 
 		img = new Image();
-		img.crossOrigin = 'anonymous';
 		img.onload  = function () { render(); dialog.showModal(); };
 		img.onerror = function () { alert( cwImgEditorData.i18n.noImage ); };
 		img.src = url + ( url.indexOf( '?' ) === -1 ? '?' : '&' ) + 'nocache=' + Date.now();
@@ -202,35 +201,33 @@
 		canvas.width  = dW;
 		canvas.height = dH;
 
-		// Draw dimmed full image
-		ctx.globalAlpha = 0.35;
+		// Draw full image
 		ctx.drawImage( img, 0, 0, dW, dH );
-		ctx.globalAlpha = 1;
 
-		// Crop rect
+		// Crop rect in display coords
 		var csz = getCropSizePx();
 		cropX = clamp( cropX, 0, img.naturalWidth  - csz );
 		cropY = clamp( cropY, 0, img.naturalHeight - csz );
 
-		var cx = cropX * scale;
-		var cy = cropY * scale;
-		var cw = csz   * scale;
-		var ch = csz   * scale;
+		var cx = Math.round( cropX * scale );
+		var cy = Math.round( cropY * scale );
+		var cw = Math.round( csz   * scale );
+		var ch = Math.round( csz   * scale );
 
-		// Bright image clipped to crop rect
-		ctx.save();
-		ctx.beginPath();
-		ctx.rect( cx, cy, cw, ch );
-		ctx.clip();
-		ctx.drawImage( img, 0, 0, dW, dH );
-		ctx.restore();
+		// Dark overlay on areas outside crop rect (4 rectangles)
+		ctx.fillStyle = 'rgba(0,0,0,0.55)';
+		ctx.fillRect( 0,       0,        cx,          dH        ); // left
+		ctx.fillRect( cx + cw, 0,        dW - cx - cw, dH       ); // right
+		ctx.fillRect( cx,      0,        cw,           cy        ); // top
+		ctx.fillRect( cx,      cy + ch,  cw,           dH - cy - ch ); // bottom
 
-		// Dashed border
+		// Crop border
 		ctx.strokeStyle = '#fff';
 		ctx.lineWidth   = 2;
-		ctx.setLineDash( [ 6, 3 ] );
-		ctx.strokeRect( cx + 1, cy + 1, cw - 2, ch - 2 );
-		ctx.setLineDash( [] );
+		ctx.strokeRect( cx, cy, cw, ch );
+		ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+		ctx.lineWidth   = 1;
+		ctx.strokeRect( cx - 1, cy - 1, cw + 2, ch + 2 );
 
 		// Corner handles
 		drawHandle( cx,      cy );
