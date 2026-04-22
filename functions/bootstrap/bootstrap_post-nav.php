@@ -299,17 +299,17 @@ function codeweber_projects_related_products() {
 	}
 
 	$grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gy-6 gx-md-6';
-	$card_tpl    = get_theme_file_path( 'templates/woocommerce/cards/shop-card.php' );
-	$GLOBALS['cw_per_row'] = 3;
+	$card_tpl    = get_theme_file_path( 'templates/woocommerce/cards/shop-list.php' );
+	$GLOBALS['cw_per_row'] = 1;
 
 	?>
-	<section class="wrapper bg-light">
+	<section class="wrapper">
 		<div class="container py-10 py-md-12">
 			<h2 class="display-6 mb-8"><?php esc_html_e( 'Project products', 'codeweber' ); ?></h2>
 			<div class="row <?php echo esc_attr( $grid_gap ); ?>">
 				<?php foreach ( $products as $product ) :
 					global $product;
-					$cw_col = 'col-md-6 col-xl-4';
+					$cw_col = 'col-12';
 					if ( file_exists( $card_tpl ) ) {
 						include $card_tpl;
 					}
