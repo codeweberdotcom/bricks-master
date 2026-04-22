@@ -104,13 +104,22 @@ class CW_Image_Canvas_Editor {
 		$filename = basename( (string) get_attached_file( $attachment_id ) );
 
 		if ( ! $thumb || ! $full ) return;
+
+		// Use local uploads URL to avoid S3 CORS restrictions on canvas.
+		$file_path  = get_attached_file( $attachment_id );
+		$upload_dir = wp_upload_dir();
+		$local_url  = str_replace(
+			wp_normalize_path( $upload_dir['basedir'] ),
+			$upload_dir['baseurl'],
+			wp_normalize_path( $file_path )
+		);
 		?>
 		<div class="cwice-thumb-item">
 			<img src="<?php echo esc_url( $thumb[0] ); ?>" width="60" height="60" alt="">
 			<span class="cwice-filename" title="<?php echo esc_attr( $filename ); ?>"><?php echo esc_html( $filename ); ?></span>
 			<button type="button" class="button cwice-open-btn"
 				data-id="<?php echo esc_attr( $attachment_id ); ?>"
-				data-url="<?php echo esc_url( $full[0] ); ?>"
+				data-url="<?php echo esc_url( $local_url ); ?>"
 				data-w="<?php echo esc_attr( $full[1] ); ?>"
 				data-h="<?php echo esc_attr( $full[2] ); ?>">
 				<?php esc_html_e( 'Edit', 'codeweber' ); ?>
