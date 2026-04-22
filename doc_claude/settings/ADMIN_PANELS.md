@@ -206,6 +206,85 @@ codeweber_projects_map_float_button(): void
 
 ---
 
+## Image Canvas Editor — редактор изображений
+
+**Файлы:**
+- `functions/admin/image-canvas-editor.php` — PHP-класс `CW_Image_Canvas_Editor`
+- `functions/admin/image-canvas-editor.js` — Canvas-редактор (vanilla JS)
+- `functions/admin/image-canvas-editor.css` — стили диалога и метабокса
+
+**Подключение:** `functions.php` → `require_once .../image-canvas-editor.php`
+
+### Точки входа
+
+| Где | Метабокс | Позиция |
+|-----|---------|--------|
+| Страница товара WooCommerce (`product`) | «Image Canvas Editor» | side / low |
+| Страница редактирования вложения (`attachment`) | «Image Canvas Editor» | side / low |
+
+Метабокс показывает миниатюры (60×60) всех изображений товара (главное + галерея `_product_image_gallery`). Кнопка «Edit» рядом с каждой.
+
+### UI редактора
+
+Открывается нативным `<dialog>` (без Bootstrap, без jQuery). Два режима переключаются кнопками **Pad / Crop**:
+
+#### Режим Pad
+- **Canvas size** — итоговый размер квадратного холста в px. «Square» подставляет `max(imgW, imgH)`.
+- **Background** — цвет фона (color picker). По умолчанию белый.
+- **Padding** — отступ от краёв в px. Изображение масштабируется и центрируется.
+- Canvas является финальным output'ом — отправляется на сервер напрямую.
+
+#### Режим Crop
+- **Crop size** — размер квадратной рамки в px. «Square» ставит `min(imgW, imgH)` и центрирует.
+- Автоматически инициализируется на **80% от меньшей стороны**, центрируется.
+- **Перетаскивание внутри рамки** — позиционирование (курсор `grab`).
+- **Перетаскивание за угловые маркеры** — изменение размера (курсоры `nw-resize` и т.д.), квадрат сохраняется.
+- Рамка может **выходить за границы изображения** — серая зона; при сохранении заполняется белым.
+
+### Отображение на canvas (crop)
+
+Поверх изображения рисуются:
+- Тёмный оверлей (`rgba(0,0,0,0.52)`) в 4 прямоугольниках вне рамки
+- Белая рамка + тёмная обводка
+- 4 белых квадратных маркера (6px) в углах
+
+### AJAX-обработчик `cw_img_editor_save`
+
+| Параметр | Тип | Описание |
+|---------|-----|---------|
+| `attachment_id` | int | ID вложения |
+| `image_data` | string | base64 data URI (`data:image/jpeg;base64,...`) |
+| `mime_type` | string | `image/jpeg` или `image/png` |
+| `nonce` | string | `cw_img_editor` |
+
+**Права:** `upload_files`
+
+**Алгоритм:**
+1. Если S3 активен (`Codeweber\S3Storage\Services\RestoreService`) и файл отсутствует локально — `RestoreService::restore_attachment($id)`
+2. Декодирует base64, перезаписывает оригинальный файл (`file_put_contents`)
+3. `wp_generate_attachment_metadata()` — регенерирует все thumbnail-размеры
+4. `wp_update_attachment_metadata()` — триггерит S3 deferred offload автоматически через хук `Uploader`
+
+**Ответ при успехе:** `{ url: 'новый URL', message: '...' }`
+
+### URL изображения в метабоксе
+
+`data-url` кнопки всегда содержит **локальный uploads URL** (обходит S3 URL rewriting):
+```php
+$local_url = str_replace(
+    wp_normalize_path( $upload_dir['basedir'] ),
+    $upload_dir['baseurl'],
+    wp_normalize_path( $file_path )
+);
+```
+Это предотвращает CORS-ошибки при загрузке изображения в `<canvas>` (S3 Beget не возвращает `Access-Control-Allow-Origin`).
+
+### Enqueue
+
+Скрипт и стиль подключаются только на `post.php` / `post-new.php` при `post_type === 'product'` или `'attachment'`. Версия = `filemtime()` файла.
+
+---
+
 ## Быстрый доступ к ключевым страницам
 
 | Задача | URL в Admin |
@@ -217,3 +296,5 @@ codeweber_projects_map_float_button(): void
 | Экспорт персональных данных | `wp-admin/tools.php?page=export_personal_data` |
 | Удаление персональных данных | `wp-admin/tools.php?page=remove_personal_data` |
 | Тест GDPR-провайдеров | `wp-admin/tools.php?page=pd-providers-test` |
+| Canvas Editor (товар) | `wp-admin/post.php?post=ID&action=edit` → метабокс «Image Canvas Editor» |
+| Canvas Editor (медиа) | `wp-admin/post.php?post=ATTACH_ID&action=edit` → метабокс «Image Canvas Editor» |
