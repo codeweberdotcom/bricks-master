@@ -125,7 +125,14 @@
 
 		canvas.style.cursor = m === 'crop' ? 'grab' : 'default';
 
-		if ( m === 'crop' ) initCropCenter();
+		if ( m === 'crop' ) {
+			// Auto-set size to 80% of the smaller dimension so crop rect is visible
+			if ( img && img.naturalWidth ) {
+				var maxSq = Math.min( img.naturalWidth, img.naturalHeight );
+				document.getElementById( 'cwice-size' ).value = Math.round( maxSq * 0.8 );
+			}
+			initCropCenter();
+		}
 		render();
 	}
 
