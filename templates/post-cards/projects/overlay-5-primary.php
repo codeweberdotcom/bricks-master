@@ -64,10 +64,21 @@ $address           = get_post_meta( $post_data['id'], 'main_information_address'
 		<figure class="<?php echo esc_attr( $template_args['hover_classes'] . ' ' . $template_args['border_radius'] ); ?> card-interactive">
 			<a href="<?php echo esc_url( $post_data['link'] ); ?>">
 				<div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
-					<?php if ( $display['show_date'] ) : ?>
-						<div class="d-flex w-100 justify-content-end">
+					<?php
+					$project_cats = get_the_terms( $post_data['id'], 'projects_category' );
+					$show_top = $display['show_date'] || ( $display['show_category'] && ! empty( $project_cats ) && ! is_wp_error( $project_cats ) );
+					if ( $show_top ) :
+					?>
+					<div class="d-flex w-100 justify-content-end gap-1 flex-wrap">
+						<?php if ( $display['show_category'] && ! empty( $project_cats ) && ! is_wp_error( $project_cats ) ) : ?>
+							<?php foreach ( $project_cats as $project_cat ) : ?>
+								<span class="badge bg-primary rounded-pill"><?php echo esc_html( $project_cat->name ); ?></span>
+							<?php endforeach; ?>
+						<?php endif; ?>
+						<?php if ( $display['show_date'] ) : ?>
 							<span class="post-date badge bg-primary rounded-pill"><?php echo esc_html( $date_badge ); ?></span>
-						</div>
+						<?php endif; ?>
+					</div>
 					<?php endif; ?>
 
 					<?php if ( $display['show_title'] ) : ?>
