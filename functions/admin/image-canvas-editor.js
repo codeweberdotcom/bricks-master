@@ -76,11 +76,10 @@
 			document.getElementById( id ).addEventListener( 'input', render );
 		} );
 
-		// Mode toggle
-		document.querySelectorAll( '.cwice-mode-btn' ).forEach( function ( btn ) {
-			btn.addEventListener( 'click', function () {
-				setMode( btn.dataset.mode );
-			} );
+		// Mode toggle (delegated)
+		document.addEventListener( 'click', function ( e ) {
+			var btn = e.target.closest( '.cwice-mode-btn' );
+			if ( btn ) setMode( btn.dataset.mode );
 		} );
 
 		// Crop drag
@@ -119,8 +118,8 @@
 		var cropOnly = document.querySelectorAll( '.cwice-crop-only' );
 		var label    = document.getElementById( 'cwice-size-label' );
 
-		padOnly.forEach( function ( el ) { el.style.display  = m === 'pad'  ? '' : 'none'; } );
-		cropOnly.forEach( function ( el ) { el.style.display = m === 'crop' ? '' : 'none'; } );
+		padOnly.forEach( function ( el )  { el.style.display = m === 'pad'  ? 'flex' : 'none'; } );
+		cropOnly.forEach( function ( el ) { el.style.display = m === 'crop' ? 'block' : 'none'; } );
 
 		label.textContent = m === 'crop' ? 'Output size (px)' : 'Canvas size (px)';
 
