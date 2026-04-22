@@ -299,7 +299,7 @@ function codeweber_projects_related_products() {
 	}
 
 	$grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gy-6 gx-md-6';
-	$card_tpl    = get_theme_file_path( 'templates/woocommerce/cards/shop-list.php' );
+	$card_tpl    = get_theme_file_path( 'templates/woocommerce/cards/shop-list-sm.php' );
 	$GLOBALS['cw_per_row'] = 1;
 
 	?>
