@@ -1,0 +1,204 @@
+/* ── Image Canvas Editor — metabox thumbnails ─────────────────────────── */
+
+.cwice-thumbs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 4px 0;
+}
+
+.cwice-thumb-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	text-align: center;
+	max-width: 72px;
+}
+
+.cwice-thumb-item img {
+	width: 60px;
+	height: 60px;
+	object-fit: cover;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	display: block;
+}
+
+.cwice-filename {
+	font-size: 10px;
+	color: #646970;
+	max-width: 70px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: block;
+}
+
+.cwice-open-btn.button {
+	font-size: 11px !important;
+	padding: 1px 8px !important;
+	height: auto !important;
+	line-height: 1.8 !important;
+	min-height: 0 !important;
+}
+
+/* ── Dialog ───────────────────────────────────────────────────────────── */
+
+#cwice-dialog {
+	border: none;
+	border-radius: 6px;
+	padding: 0;
+	width: min( 920px, 92vw );
+	max-height: 92vh;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 12px 48px rgba( 0, 0, 0, 0.35 );
+}
+
+#cwice-dialog::backdrop {
+	background: rgba( 0, 0, 0, 0.6 );
+}
+
+/* ── Header ── */
+
+.cwice-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 16px;
+	background: #1d2327;
+	color: #fff;
+	flex-shrink: 0;
+}
+
+.cwice-title {
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+}
+
+.cwice-close {
+	background: none;
+	border: none;
+	color: #fff;
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+	padding: 0 2px;
+	opacity: 0.8;
+}
+
+.cwice-close:hover {
+	opacity: 1;
+}
+
+/* ── Body ── */
+
+.cwice-body {
+	display: flex;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.cwice-canvas-wrap {
+	flex: 1;
+	overflow: auto;
+	background: #f0f0f1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+}
+
+#cwice-canvas {
+	display: block;
+	max-width: 100%;
+	max-height: 62vh;
+	box-shadow: 0 2px 16px rgba( 0, 0, 0, 0.18 );
+}
+
+/* ── Controls sidebar ── */
+
+.cwice-controls {
+	width: 200px;
+	flex-shrink: 0;
+	padding: 14px 14px 10px;
+	background: #fff;
+	border-left: 1px solid #dcdcde;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.cwice-control-group {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.cwice-control-group > label {
+	font-size: 11px;
+	font-weight: 600;
+	color: #1d2327;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.cwice-row {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+}
+
+.cwice-row input[type="number"] {
+	flex: 1;
+	min-width: 0;
+}
+
+.cwice-control-group input[type="number"] {
+	width: 100%;
+	padding: 4px 8px;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	font-size: 13px;
+	box-sizing: border-box;
+}
+
+.cwice-control-group input[type="color"] {
+	width: 100%;
+	height: 34px;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	padding: 2px 4px;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+
+.cwice-info {
+	font-size: 10px;
+	color: #787c82;
+	line-height: 1.6;
+	margin-top: auto;
+}
+
+/* ── Footer ── */
+
+.cwice-footer {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 14px;
+	border-top: 1px solid #dcdcde;
+	background: #f6f7f7;
+	flex-shrink: 0;
+}
+
+.cwice-status {
+	flex: 1;
+	font-size: 13px;
+	font-weight: 500;
+}
