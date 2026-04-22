@@ -45,6 +45,10 @@
 
 /* ── Dialog ───────────────────────────────────────────────────────────── */
 
+#cwice-dialog:not( [open] ) {
+	display: none;
+}
+
 #cwice-dialog {
 	border: none;
 	border-radius: 6px;

@@ -84,7 +84,8 @@
 		currentId   = id;
 		currentMime = /\.png$/i.test( url ) ? 'image/png' : 'image/jpeg';
 
-		document.getElementById( 'cwice-size' ).value    = Math.max( origW, origH );
+		var size = Math.max( origW || 0, origH || 0 );
+		document.getElementById( 'cwice-size' ).value    = size > 0 ? size : 800;
 		document.getElementById( 'cwice-padding' ).value = 0;
 
 		var statusEl = document.getElementById( 'cwice-status' );
