@@ -39,6 +39,7 @@ function cw_get_post_card_display_settings($args = []) {
         'excerpt_length' => 0,
         'title_tag' => 'h2', // h1, h2, h3, h4, h5, h6, p, div, span
         'title_class' => '', // Дополнительный класс для заголовка
+        'use_html_title' => false, // When true: output title with wp_kses_post instead of esc_html
     ];
     return wp_parse_args($args, $defaults);
 }

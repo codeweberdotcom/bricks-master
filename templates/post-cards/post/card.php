@@ -72,7 +72,7 @@ if (!empty($display['title_class'])) {
                 <?php if ($display['show_title']) : ?>
                     <<?php echo esc_attr($title_tag); ?> class="<?php echo esc_attr(trim($title_class)); ?>">
                         <a class="link-dark" href="<?php echo esc_url($post_data['link']); ?>">
-                            <?php echo esc_html($title); ?>
+                            <?php echo empty($display['use_html_title']) ? esc_html($title) : wp_kses_post($title); ?>
                         </a>
                     </<?php echo esc_attr($title_tag); ?>>
                 <?php endif; ?>

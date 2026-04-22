@@ -84,7 +84,7 @@ $address           = get_post_meta( $post_data['id'], 'main_information_address'
 					<?php if ( $display['show_title'] ) : ?>
 						<div class="mt-auto">
 							<<?php echo esc_attr( $title_tag ); ?> class="<?php echo esc_attr( trim( $title_class ) ); ?>">
-								<?php echo esc_html( $title ); ?>
+								<?php echo empty( $display['use_html_title'] ) ? esc_html( $title ) : wp_kses_post( $title ); ?>
 							</<?php echo esc_attr( $title_tag ); ?>>
 						</div>
 					<?php endif; ?>

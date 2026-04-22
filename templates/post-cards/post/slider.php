@@ -91,8 +91,8 @@ if (!empty($display['title_class'])) {
             <?php endif; ?>
             
             <?php if ($display['show_title']) : ?>
-                <<?php echo esc_attr($title_tag); ?> class="<?php echo esc_attr(trim($title_class)); ?>" title="<?php echo esc_attr($post_data['title']); ?>">
-                    <?php echo esc_html($title); ?>
+                <<?php echo esc_attr($title_tag); ?> class="<?php echo esc_attr(trim($title_class)); ?>" title="<?php echo esc_attr(wp_strip_all_tags($post_data['title'])); ?>">
+                    <?php echo empty($display['use_html_title']) ? esc_html($title) : wp_kses_post($title); ?>
                 </<?php echo esc_attr($title_tag); ?>>
             <?php endif; ?>
             
