@@ -68,7 +68,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 			<?php endif; ?>
 
 			<h2 class="post-title h4 mb-2">
-				<a href="<?php echo esc_url( $product_url ); ?>" class="link-dark">
+				<a href="<?php echo esc_url( $product_url ); ?>" class="link-dark text-dark">
 					<?php echo esc_html( $product->get_name() ); ?>
 				</a>
 			</h2>
