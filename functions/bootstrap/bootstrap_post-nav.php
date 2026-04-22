@@ -302,10 +302,20 @@ function codeweber_projects_related_products() {
 	$card_tpl    = get_theme_file_path( 'templates/woocommerce/cards/shop-list-sm.php' );
 	$GLOBALS['cw_per_row'] = 1;
 
+	$products_title = function_exists( 'codeweber_projects_settings_get' )
+		? codeweber_projects_settings_get( 'products_title', '' )
+		: '';
+	$products_bg    = function_exists( 'codeweber_projects_settings_get' )
+		? codeweber_projects_settings_get( 'products_bg', '' )
+		: '';
+
+	$section_class = 'wrapper' . ( $products_bg ? ' ' . $products_bg : '' );
+	$heading       = $products_title ?: __( 'Project products', 'codeweber' );
+
 	?>
-	<section class="wrapper">
+	<section class="<?php echo esc_attr( $section_class ); ?>">
 		<div class="container py-10 py-md-12">
-			<h2 class="display-6 mb-8"><?php esc_html_e( 'Project products', 'codeweber' ); ?></h2>
+			<h2 class="display-6 mb-8"><?php echo esc_html( $heading ); ?></h2>
 			<div class="row <?php echo esc_attr( $grid_gap ); ?>">
 				<?php foreach ( $products as $product ) :
 					global $product;

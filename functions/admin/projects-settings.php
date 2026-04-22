@@ -139,6 +139,30 @@ function codeweber_projects_settings_register(): void {
 		'codeweber-projects-settings',
 		'codeweber_projects_map_float'
 	);
+
+	// ── Секция: Блок товаров ──────────────────────────────────────────────────
+	add_settings_section(
+		'codeweber_projects_products',
+		__( 'Products block', 'codeweber' ),
+		null,
+		'codeweber-projects-settings'
+	);
+
+	add_settings_field(
+		'products_title',
+		__( 'Section title', 'codeweber' ),
+		'codeweber_projects_field_products_title',
+		'codeweber-projects-settings',
+		'codeweber_projects_products'
+	);
+
+	add_settings_field(
+		'products_bg',
+		__( 'Background color', 'codeweber' ),
+		'codeweber_projects_field_products_bg',
+		'codeweber-projects-settings',
+		'codeweber_projects_products'
+	);
 }
 add_action( 'admin_init', 'codeweber_projects_settings_register' );
 
@@ -389,6 +413,31 @@ function codeweber_projects_field_map_float_offset_left(): void {
 	echo '<input type="number" name="codeweber_projects_settings[map_float_offset_left]" value="' . esc_attr( $val ) . '" style="width:100px;" min="0" max="500"> <span>px</span>';
 }
 
+function codeweber_projects_field_products_title(): void {
+	$val = codeweber_projects_settings_get( 'products_title', '' );
+	echo '<input type="text" name="codeweber_projects_settings[products_title]" value="' . esc_attr( $val ) . '" class="regular-text" placeholder="' . esc_attr__( 'Project products', 'codeweber' ) . '">';
+	echo '<p class="description">' . esc_html__( 'Leave empty to use the default title «Project products».', 'codeweber' ) . '</p>';
+}
+
+function codeweber_projects_field_products_bg(): void {
+	$val     = codeweber_projects_settings_get( 'products_bg', '' );
+	$options = [
+		''                  => __( 'None (transparent)', 'codeweber' ),
+		'bg-white'          => 'bg-white',
+		'bg-light'          => 'bg-light',
+		'bg-soft-primary'   => 'bg-soft-primary',
+		'bg-soft-secondary' => 'bg-soft-secondary',
+		'bg-pale-primary'   => 'bg-pale-primary',
+		'bg-dark'           => 'bg-dark',
+	];
+	echo '<select name="codeweber_projects_settings[products_bg]">';
+	foreach ( $options as $k => $label ) {
+		echo '<option value="' . esc_attr( $k ) . '" ' . selected( $val, $k, false ) . '>' . esc_html( $label ) . '</option>';
+	}
+	echo '</select>';
+	echo '<p class="description">' . esc_html__( 'CSS class added to the section wrapper. Default: no background (inherits page color).', 'codeweber' ) . '</p>';
+}
+
 // ---------------------------------------------------------------------------
 // Sanitize
 // ---------------------------------------------------------------------------
@@ -398,9 +447,10 @@ function codeweber_projects_settings_sanitize( $input ): array {
 		$input = [];
 	}
 
-	$allowed_types  = [ 'icon', 'text', 'icon_text' ];
-	$allowed_colors = [ 'primary', 'soft-primary', 'secondary', 'soft-secondary', 'dark', 'white' ];
-	$allowed_shapes = [ 'rounded-pill', 'rounded', 'rounded-0' ];
+	$allowed_types      = [ 'icon', 'text', 'icon_text' ];
+	$allowed_colors     = [ 'primary', 'soft-primary', 'secondary', 'soft-secondary', 'dark', 'white' ];
+	$allowed_shapes     = [ 'rounded-pill', 'rounded', 'rounded-0' ];
+	$allowed_products_bg = [ '', 'bg-white', 'bg-light', 'bg-soft-primary', 'bg-soft-secondary', 'bg-pale-primary', 'bg-dark' ];
 
 	return [
 		'show_map'          => isset( $input['show_map'] ) ? '1' : '0',
@@ -419,6 +469,10 @@ function codeweber_projects_settings_sanitize( $input ): array {
 		'map_float_zindex'         => min( 9999, max( 1, (int) ( $input['map_float_zindex'] ?? 1040 ) ) ),
 		'map_float_offset_bottom'  => min( 500, max( 0, (int) ( $input['map_float_offset_bottom'] ?? 24 ) ) ),
 		'map_float_offset_left'    => min( 500, max( 0, (int) ( $input['map_float_offset_left'] ?? 16 ) ) ),
+		'products_title'           => sanitize_text_field( $input['products_title'] ?? '' ),
+		'products_bg'              => in_array( $input['products_bg'] ?? '', $allowed_products_bg, true )
+			? $input['products_bg']
+			: '',
 	];
 }
 
