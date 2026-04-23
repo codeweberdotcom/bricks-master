@@ -257,7 +257,12 @@ function codeweber_get_post_card_templates_registry() {
                 ],
                 'shop-list' => [
                     'label' => __('Shop List', 'codeweber'),
-                    'description' => __('Horizontal: image 1/3, content 2/3', 'codeweber'),
+                    'description' => __('Horizontal: image 1/3, content 2/3 (stacks on mobile)', 'codeweber'),
+                    'supports' => ['title', 'image', 'price', 'excerpt', 'button'],
+                ],
+                'shop-list-sm' => [
+                    'label' => __('Shop List SM', 'codeweber'),
+                    'description' => __('Horizontal card that stays horizontal on all screen sizes', 'codeweber'),
                     'supports' => ['title', 'image', 'price', 'excerpt', 'button'],
                 ],
                 'shop2' => [
