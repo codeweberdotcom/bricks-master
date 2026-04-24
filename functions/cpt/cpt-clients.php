@@ -47,7 +47,7 @@ function cptui_register_my_cpts_clients()
 		"can_export" => true,
 		"rewrite" => ["slug" => "clients", "with_front" => true],
 		"query_var" => true,
-		"supports" => ["title"],
+		"supports" => ["title", "thumbnail"],
 		"show_in_graphql" => false,
 	];
 
