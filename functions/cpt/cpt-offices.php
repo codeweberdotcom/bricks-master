@@ -55,11 +55,6 @@ function cptui_register_my_offices()
 
 add_action('init', 'cptui_register_my_offices');
 
-// Disable Gutenberg for offices — traditional metaboxes + wp_editor() require classic editor.
-add_filter('use_block_editor_for_post_type', function(bool $enabled, string $post_type): bool {
-	return $post_type === 'offices' ? false : $enabled;
-}, 10, 2);
-
 function cptui_register_my_taxes_towns()
 {
 
