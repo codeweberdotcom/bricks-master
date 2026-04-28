@@ -172,6 +172,11 @@ function codeweber_get_post_card_templates_registry() {
                     'description' => __('Office card with address and contacts', 'codeweber'),
                     'supports' => ['title', 'image'],
                 ],
+                'list-sm' => [
+                    'label' => __('Office List SM', 'codeweber'),
+                    'description' => __('Horizontal card: image left, address/contacts right. Stays horizontal on all screen sizes.', 'codeweber'),
+                    'supports' => ['title', 'image', 'address', 'phone', 'email'],
+                ],
             ],
         ],
 
