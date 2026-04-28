@@ -32,7 +32,7 @@ $phone        = get_post_meta( $post_id, '_office_phone', true );
 $email        = get_post_meta( $post_id, '_office_email', true );
 $working_hours = get_post_meta( $post_id, '_office_working_hours', true );
 
-// Image: featured → _office_image meta → site logo fallback
+// Image: featured → _office_image meta → placeholder (from $post_data)
 $image_url = get_the_post_thumbnail_url( $post_id, 'medium' );
 if ( ! $image_url ) {
 	$image_id = get_post_meta( $post_id, '_office_image', true );
@@ -41,16 +41,7 @@ if ( ! $image_url ) {
 	}
 }
 if ( ! $image_url ) {
-	global $opt_name;
-	$options     = get_option( $opt_name );
-	$custom_logo = get_post_meta( $post_id, 'custom-logo-dark-header', true );
-	$image_url   = codeweber_get_media_url( $custom_logo );
-	if ( empty( $image_url ) && ! empty( $options['opt-dark-logo'] ) ) {
-		$image_url = codeweber_get_media_url( $options['opt-dark-logo'] );
-	}
-	if ( empty( $image_url ) ) {
-		$image_url = get_template_directory_uri() . '/dist/assets/img/logo-dark.png';
-	}
+	$image_url = $post_data['image_url']; // plugin placeholder.jpg
 }
 
 $is_svg = strtolower( pathinfo( parse_url( $image_url, PHP_URL_PATH ), PATHINFO_EXTENSION ) ) === 'svg';
