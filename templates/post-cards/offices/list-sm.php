@@ -18,6 +18,12 @@ $post_id = $post->ID;
 $title   = $post_data['title'];
 $link    = $post_data['link'];
 
+// Display toggles from Post Grid block
+$show_address = isset( $display_settings['show_office_address'] ) ? (bool) $display_settings['show_office_address'] : true;
+$show_phone   = isset( $display_settings['show_office_phone'] )   ? (bool) $display_settings['show_office_phone']   : true;
+$show_email   = isset( $display_settings['show_office_email'] )   ? (bool) $display_settings['show_office_email']   : true;
+$show_hours   = isset( $display_settings['show_office_hours'] )   ? (bool) $display_settings['show_office_hours']   : true;
+
 // Address fields
 $city         = '';
 $town_terms   = wp_get_post_terms( $post_id, 'towns', array( 'fields' => 'names' ) );
@@ -70,7 +76,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 			</a>
 		</h4>
 
-		<?php if ( $full_address || $street ) : ?>
+		<?php if ( $show_address && ( $full_address || $street ) ) : ?>
 			<div class="d-flex align-items-center mb-1">
 				<i class="uil uil-map-marker fs-18 text-primary me-2 flex-shrink-0"></i>
 				<span class="text-body fs-sm">
@@ -79,7 +85,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 			</div>
 		<?php endif; ?>
 
-		<?php if ( $phone ) : ?>
+		<?php if ( $show_phone && $phone ) : ?>
 			<div class="d-flex align-items-center mb-1">
 				<i class="uil uil-phone fs-18 text-primary me-2 flex-shrink-0"></i>
 				<a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>" class="text-body fs-sm text-decoration-none">
@@ -88,7 +94,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 			</div>
 		<?php endif; ?>
 
-		<?php if ( $email ) : ?>
+		<?php if ( $show_email && $email ) : ?>
 			<div class="d-flex align-items-center mb-1">
 				<i class="uil uil-envelope fs-18 text-primary me-2 flex-shrink-0"></i>
 				<a href="mailto:<?php echo esc_attr( $email ); ?>" class="text-body fs-sm text-decoration-none">
@@ -97,7 +103,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 			</div>
 		<?php endif; ?>
 
-		<?php if ( $working_hours ) : ?>
+		<?php if ( $show_hours && $working_hours ) : ?>
 			<div class="d-flex align-items-start mt-auto pt-3">
 				<i class="uil uil-clock fs-18 text-primary me-2 flex-shrink-0 mt-1"></i>
 				<span class="text-muted fs-sm"><?php echo esc_html( $working_hours ); ?></span>
