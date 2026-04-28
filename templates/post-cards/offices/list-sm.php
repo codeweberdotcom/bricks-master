@@ -19,10 +19,12 @@ $title   = $post_data['title'];
 $link    = $post_data['link'];
 
 // Display toggles from Post Grid block
-$show_address = isset( $display_settings['show_office_address'] ) ? (bool) $display_settings['show_office_address'] : true;
-$show_phone   = isset( $display_settings['show_office_phone'] )   ? (bool) $display_settings['show_office_phone']   : true;
-$show_email   = isset( $display_settings['show_office_email'] )   ? (bool) $display_settings['show_office_email']   : true;
-$show_hours   = isset( $display_settings['show_office_hours'] )   ? (bool) $display_settings['show_office_hours']   : true;
+$show_address      = isset( $display_settings['show_office_address'] )     ? (bool) $display_settings['show_office_address']     : true;
+$show_phone        = isset( $display_settings['show_office_phone'] )       ? (bool) $display_settings['show_office_phone']       : true;
+$show_email        = isset( $display_settings['show_office_email'] )       ? (bool) $display_settings['show_office_email']       : true;
+$show_hours        = isset( $display_settings['show_office_hours'] )       ? (bool) $display_settings['show_office_hours']       : true;
+$show_description  = isset( $display_settings['show_office_description'] ) ? (bool) $display_settings['show_office_description'] : true;
+$show_map          = isset( $display_settings['show_office_map'] )         ? (bool) $display_settings['show_office_map']         : true;
 
 // Address fields
 $city         = '';
@@ -37,6 +39,10 @@ $full_address = get_post_meta( $post_id, '_office_full_address', true );
 $phone        = get_post_meta( $post_id, '_office_phone', true );
 $email        = get_post_meta( $post_id, '_office_email', true );
 $working_hours = get_post_meta( $post_id, '_office_working_hours', true );
+$description  = get_post_meta( $post_id, '_office_description', true );
+$latitude     = get_post_meta( $post_id, '_office_latitude', true );
+$longitude    = get_post_meta( $post_id, '_office_longitude', true );
+$has_map      = $latitude && $longitude && class_exists( 'Codeweber_Yandex_Maps' );
 
 // Image: featured → _office_image meta → placeholder (from $post_data)
 $image_url = get_the_post_thumbnail_url( $post_id, 'medium' );
@@ -103,10 +109,24 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 			</div>
 		<?php endif; ?>
 
+		<?php if ( $show_description && $description ) : ?>
+			<p class="text-muted fs-sm mt-2"><?php echo esc_html( $description ); ?></p>
+		<?php endif; ?>
+
 		<?php if ( $show_hours && $working_hours ) : ?>
-			<div class="d-flex align-items-start mt-auto pt-3">
+			<div class="d-flex align-items-start<?php echo ( ! $show_map || ! $has_map ) ? ' mt-auto pt-3' : ' pt-3'; ?>">
 				<i class="uil uil-clock fs-18 text-primary me-2 flex-shrink-0 mt-1"></i>
 				<span class="text-muted fs-sm"><?php echo esc_html( $working_hours ); ?></span>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( $show_map && $has_map ) : ?>
+			<div class="mt-auto pt-3">
+				<a href="#" class="btn btn-sm btn-soft-primary btn-icon btn-icon-start has-ripple"
+					data-office-map
+					data-office-id="<?php echo esc_attr( $post_id ); ?>">
+					<i class="uil uil-map-marker"></i> <?php esc_html_e( 'Show on Map', 'codeweber' ); ?>
+				</a>
 			</div>
 		<?php endif; ?>
 
