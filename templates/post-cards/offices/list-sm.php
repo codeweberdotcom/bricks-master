@@ -135,13 +135,13 @@ $title_class_attr = isset( $display_settings['title_class'] ) && $display_settin
 					<a href="#" class="hover more"
 						data-office-map
 						data-office-id="<?php echo esc_attr( $post_id ); ?>">
-						<i class="uil uil-map-marker me-1"></i><?php esc_html_e( 'Show on Map', 'codeweber' ); ?>
+						<i class="uil uil-map-marker me-1"></i><?php esc_html_e( 'Show on map', 'codeweber' ); ?>
 					</a>
 				<?php else : ?>
 					<a href="#" class="btn btn-sm btn-soft-primary btn-icon btn-icon-start has-ripple"
 						data-office-map
 						data-office-id="<?php echo esc_attr( $post_id ); ?>">
-						<i class="uil uil-map-marker"></i> <?php esc_html_e( 'Show on Map', 'codeweber' ); ?>
+						<i class="uil uil-map-marker"></i> <?php esc_html_e( 'Show on map', 'codeweber' ); ?>
 					</a>
 				<?php endif; ?>
 			</div>
