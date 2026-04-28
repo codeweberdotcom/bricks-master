@@ -25,6 +25,7 @@ $show_email        = isset( $display_settings['show_office_email'] )       ? (bo
 $show_hours        = isset( $display_settings['show_office_hours'] )       ? (bool) $display_settings['show_office_hours']       : true;
 $show_description  = isset( $display_settings['show_office_description'] ) ? (bool) $display_settings['show_office_description'] : true;
 $show_map          = isset( $display_settings['show_office_map'] )         ? (bool) $display_settings['show_office_map']         : true;
+$map_style         = isset( $display_settings['office_map_style'] )        ? $display_settings['office_map_style']               : 'button';
 
 // Address fields
 $city         = '';
@@ -122,11 +123,19 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 
 		<?php if ( $show_map && $has_map ) : ?>
 			<div class="mt-auto pt-3">
-				<a href="#" class="btn btn-sm btn-soft-primary btn-icon btn-icon-start has-ripple"
-					data-office-map
-					data-office-id="<?php echo esc_attr( $post_id ); ?>">
-					<i class="uil uil-map-marker"></i> <?php esc_html_e( 'Show on Map', 'codeweber' ); ?>
-				</a>
+				<?php if ( $map_style === 'text' ) : ?>
+					<a href="#" class="hover more"
+						data-office-map
+						data-office-id="<?php echo esc_attr( $post_id ); ?>">
+						<i class="uil uil-map-marker me-1"></i><?php esc_html_e( 'Show on Map', 'codeweber' ); ?>
+					</a>
+				<?php else : ?>
+					<a href="#" class="btn btn-sm btn-soft-primary btn-icon btn-icon-start has-ripple"
+						data-office-map
+						data-office-id="<?php echo esc_attr( $post_id ); ?>">
+						<i class="uil uil-map-marker"></i> <?php esc_html_e( 'Show on Map', 'codeweber' ); ?>
+					</a>
+				<?php endif; ?>
 			</div>
 		<?php endif; ?>
 
