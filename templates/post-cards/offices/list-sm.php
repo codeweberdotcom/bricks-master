@@ -61,8 +61,14 @@ $is_svg = strtolower( pathinfo( parse_url( $image_url, PHP_URL_PATH ), PATHINFO_
 
 $card_radius   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : '';
 $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start' : ( $card_radius ? ' ' . trim( $card_radius ) : '' );
+
+$show_title       = isset( $display_settings['show_title'] )  ? (bool) $display_settings['show_title'] : true;
+$title_tag        = isset( $display_settings['title_tag'] )   ? $display_settings['title_tag']          : 'h4';
+$title_class_attr = isset( $display_settings['title_class'] ) && $display_settings['title_class']
+	? ' ' . $display_settings['title_class']
+	: '';
 ?>
-<div class="card card-horizontal card-horizontal-always<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
+<div class="card card-horizontal card-horizontal-always h-100<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 
 	<figure class="card-img position-relative text-reset<?php echo $figure_radius ? ' ' . esc_attr( trim( $figure_radius ) ) : ''; ?>">
 		<a href="<?php echo esc_url( $link ); ?>">
@@ -77,11 +83,13 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 
 	<div class="card-body p-5 d-flex flex-column">
 
-		<h4 class="post-title mb-2">
+		<?php if ( $show_title ) : ?>
+		<<?php echo esc_attr( $title_tag ); ?> class="post-title mb-2<?php echo esc_attr( $title_class_attr ); ?>">
 			<a href="<?php echo esc_url( $link ); ?>" class="link-dark">
 				<?php echo esc_html( $title ); ?>
 			</a>
-		</h4>
+		</<?php echo esc_attr( $title_tag ); ?>>
+		<?php endif; ?>
 
 		<?php if ( $show_address && ( $full_address || $street ) ) : ?>
 			<div class="d-flex align-items-center mb-1">
