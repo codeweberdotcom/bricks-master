@@ -164,6 +164,14 @@ function codeweber_add_offices_meta_boxes()
 }
 add_action('add_meta_boxes', 'codeweber_add_offices_meta_boxes');
 
+// Force-load TinyMCE scripts for wp_editor() inside Gutenberg meta boxes.
+add_action('admin_enqueue_scripts', function(string $hook): void {
+	global $post;
+	if (in_array($hook, ['post.php', 'post-new.php'], true) && isset($post) && $post->post_type === 'offices') {
+		wp_enqueue_editor();
+	}
+});
+
 /**
  * Callback function for basic office information
  */
