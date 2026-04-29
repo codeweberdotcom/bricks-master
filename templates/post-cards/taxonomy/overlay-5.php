@@ -106,22 +106,49 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 			<?php endif; ?>
 		</figure>
 	<?php else : ?>
-		<figure class="<?php echo esc_attr( $template_args['border_radius'] ); ?> card-interactive overflow-hidden h-100">
-			<a href="<?php echo esc_url( $term_link ); ?>" class="d-block text-decoration-none h-100">
-				<div
-					class="bg-light d-flex align-items-center justify-content-center <?php echo esc_attr( $template_args['border_radius'] ); ?>"
-					style="min-height: 220px;"
-				>
-					<div class="text-center text-muted px-4 py-5">
-						<i class="uil uil-image d-block mb-3 opacity-50" style="font-size: 3rem; line-height: 1;"></i>
-						<?php if ( $display['show_title'] ) : ?>
-							<<?php echo esc_attr( $title_tag ); ?> class="<?php echo esc_attr( $title_class ); ?> mb-0">
+		<figure class="<?php echo esc_attr( $template_args['hover_classes'] . ' ' . $template_args['border_radius'] ); ?> card-interactive h-100">
+			<a href="<?php echo esc_url( $term_link ); ?>">
+				<div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
+					<?php if ( $display['show_title'] ) : ?>
+						<div class="mt-auto">
+							<<?php echo esc_attr( $title_tag ); ?> class="<?php echo esc_attr( $title_class ); ?>">
 								<?php echo esc_html( $title ); ?>
 							</<?php echo esc_attr( $title_tag ); ?>>
-						<?php endif; ?>
-					</div>
+						</div>
+					<?php endif; ?>
+				</div>
+				<div class="bg-light w-100 d-flex align-items-center justify-content-center <?php echo esc_attr( $template_args['border_radius'] ); ?>" style="min-height: 220px;">
+					<i class="uil uil-image opacity-25" style="font-size: 4rem; line-height: 1;"></i>
 				</div>
 			</a>
+
+			<?php if ( $template_args['show_figcaption'] && ( $excerpt || $read_more_label || $template_args['show_term_count'] ) ) : ?>
+				<figcaption class="p-5">
+					<div class="post-body h-100 d-flex flex-column from-left justify-content-end">
+						<?php if ( $excerpt ) : ?>
+							<p class="mb-3"><?php echo esc_html( $excerpt ); ?></p>
+						<?php endif; ?>
+						<?php if ( $template_args['show_term_count'] ) : ?>
+							<p class="mb-3 small opacity-75">
+								<?php echo esc_html( sprintf(
+									/* translators: %d: number of posts */
+									_n( '%d item', '%d items', $term->count, 'codeweber' ),
+									$term->count
+								) ); ?>
+							</p>
+						<?php endif; ?>
+						<?php if ( $read_more_label ) : ?>
+							<span class="hover more me-4"><?php echo esc_html( $read_more_label ); ?></span>
+						<?php endif; ?>
+					</div>
+				</figcaption>
+			<?php endif; ?>
+
+			<?php if ( ! empty( $template_args['show_card_arrow'] ) ) : ?>
+				<div class="hover_card_button_hide position-absolute top-0 end-0 p-5 zindex-10">
+					<i class="fs-25 uil uil-arrow-right lh-1"></i>
+				</div>
+			<?php endif; ?>
 		</figure>
 	<?php endif; ?>
 </article>
