@@ -105,5 +105,23 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 				</div>
 			<?php endif; ?>
 		</figure>
+	<?php else : ?>
+		<figure class="<?php echo esc_attr( $template_args['border_radius'] ); ?> card-interactive overflow-hidden">
+			<a href="<?php echo esc_url( $term_link ); ?>" class="d-block text-decoration-none">
+				<div
+					class="bg-light d-flex align-items-center justify-content-center <?php echo esc_attr( $template_args['border_radius'] ); ?>"
+					style="min-height: 220px;"
+				>
+					<div class="text-center text-muted px-4 py-5">
+						<i class="uil uil-image d-block mb-3 opacity-50" style="font-size: 3rem; line-height: 1;"></i>
+						<?php if ( $display['show_title'] ) : ?>
+							<<?php echo esc_attr( $title_tag ); ?> class="<?php echo esc_attr( $title_class ); ?> mb-0">
+								<?php echo esc_html( $title ); ?>
+							</<?php echo esc_attr( $title_tag ); ?>>
+						<?php endif; ?>
+					</div>
+				</div>
+			</a>
+		</figure>
 	<?php endif; ?>
 </article>
