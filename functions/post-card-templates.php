@@ -162,10 +162,11 @@ function cw_render_term_card( $term, $template_name = 'overlay-5', $display_sett
         return '';
     }
 
+    $ob_level = ob_get_level();
     ob_start();
     include $template_path;
     $output = '';
-    while ( ob_get_level() > 0 ) {
+    while ( ob_get_level() > $ob_level ) {
         $output = ob_get_clean() . $output;
     }
     return $output;
