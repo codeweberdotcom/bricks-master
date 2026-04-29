@@ -235,9 +235,9 @@ function cw_term_thumbnail_enqueue( string $hook ): void {
 }(jQuery));
 JS;
 
-	wp_add_inline_script( 'media-upload', $js );
-
-	wp_localize_script( 'media-upload', 'cwTermThumbnail', [
+	wp_register_script( 'cw-term-thumbnail', false, [ 'jquery', 'media-editor' ], false, true );
+	wp_enqueue_script( 'cw-term-thumbnail' );
+	wp_localize_script( 'cw-term-thumbnail', 'cwTermThumbnail', [
 		'l10n' => [
 			'select' => __( 'Select image', 'codeweber' ),
 			'use'    => __( 'Use this image', 'codeweber' ),
@@ -245,6 +245,7 @@ JS;
 			'upload' => __( 'Upload image', 'codeweber' ),
 		],
 	] );
+	wp_add_inline_script( 'cw-term-thumbnail', $js );
 }
 
 // ---------------------------------------------------------------------------
