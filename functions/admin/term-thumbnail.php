@@ -19,6 +19,8 @@ defined( 'ABSPATH' ) || exit;
  * Дочерняя тема может расширить список через фильтр cw_term_thumbnail_taxonomies.
  */
 const CW_TERM_THUMBNAIL_TAXONOMIES = [
+	'category',
+	'post_tag',
 	'faq_categories',
 	'faq_tag',
 	'projects_category',
@@ -116,7 +118,7 @@ function cw_term_thumbnail_edit_field( \WP_Term $term, string $taxonomy ): void 
 // Сохранение
 // ---------------------------------------------------------------------------
 
-function cw_term_thumbnail_save( int $term_id, int $tt_id, string $taxonomy ): void {
+function cw_term_thumbnail_save( int $term_id, int $_tt_id, string $taxonomy ): void {
 	if ( ! in_array( $taxonomy, cw_term_thumbnail_get_taxonomies(), true ) ) {
 		return;
 	}
