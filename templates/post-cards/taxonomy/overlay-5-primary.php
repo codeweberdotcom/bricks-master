@@ -43,9 +43,13 @@ $read_more_labels = [
 ];
 $read_more_label = $read_more_labels[ $template_args['card_read_more'] ] ?? '';
 
-$title = $term->name;
-if ( $display['title_length'] > 0 && mb_strlen( $title ) > $display['title_length'] ) {
-	$title = mb_substr( $title, 0, $display['title_length'] ) . '…';
+if ( ! empty( $display['use_html_title'] ) && ! empty( $display['html_title'] ) ) {
+	$title = $display['html_title'];
+} else {
+	$title = $term->name;
+	if ( $display['title_length'] > 0 && mb_strlen( $title ) > $display['title_length'] ) {
+		$title = mb_substr( $title, 0, $display['title_length'] ) . '…';
+	}
 }
 
 $excerpt = '';
@@ -70,7 +74,7 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 					<?php if ( $display['show_title'] ) : ?>
 						<div class="mt-auto">
 							<<?php echo esc_attr( $title_tag ); ?> class="<?php echo esc_attr( $title_class ); ?>">
-								<?php echo esc_html( $title ); ?>
+								<?php echo empty( $display['use_html_title'] ) ? esc_html( $title ) : wp_kses_post( $title ); ?>
 							</<?php echo esc_attr( $title_tag ); ?>>
 						</div>
 					<?php endif; ?>
@@ -113,7 +117,7 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 					<?php if ( $display['show_title'] ) : ?>
 						<div class="mt-auto">
 							<<?php echo esc_attr( $title_tag ); ?> class="<?php echo esc_attr( $title_class ); ?>">
-								<?php echo esc_html( $title ); ?>
+								<?php echo empty( $display['use_html_title'] ) ? esc_html( $title ) : wp_kses_post( $title ); ?>
 							</<?php echo esc_attr( $title_tag ); ?>>
 						</div>
 					<?php endif; ?>

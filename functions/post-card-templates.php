@@ -154,6 +154,16 @@ function cw_render_term_card( $term, $template_name = 'overlay-5', $display_sett
             'title_class'    => '',
         ] );
 
+    // Alt title from term meta (_alt_title), same meta key as posts.
+    if ( ! empty( $display_settings['use_alt_title'] ) ) {
+        $alt_title_val = get_term_meta( $term->term_id, '_alt_title', true );
+        if ( ! empty( $alt_title_val ) ) {
+            $display['use_html_title'] = true;
+            $display['html_title']     = wp_kses_post( $alt_title_val );
+            $display['title_length']   = 0;
+        }
+    }
+
     $template_path = get_theme_file_path( 'templates/post-cards/taxonomy/' . sanitize_file_name( $template_name ) . '.php' );
     if ( ! $template_path || ! file_exists( $template_path ) ) {
         $template_path = get_theme_file_path( 'templates/post-cards/taxonomy/overlay-5.php' );
