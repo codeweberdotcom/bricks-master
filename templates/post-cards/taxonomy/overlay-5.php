@@ -117,9 +117,7 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 						</div>
 					<?php endif; ?>
 				</div>
-				<div class="bg-light w-100 d-flex align-items-center justify-content-center <?php echo esc_attr( $template_args['border_radius'] ); ?>" style="min-height: 220px;">
-					<i class="uil uil-image opacity-25" style="font-size: 4rem; line-height: 1;"></i>
-				</div>
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/dist/assets/img/image-placeholder.jpg' ); ?>" alt="" class="<?php echo esc_attr( $template_args['border_radius'] ); ?>">
 			</a>
 
 			<?php if ( $template_args['show_figcaption'] && ( $excerpt || $read_more_label || $template_args['show_term_count'] ) ) : ?>
