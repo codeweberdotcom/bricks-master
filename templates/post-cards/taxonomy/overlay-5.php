@@ -106,8 +106,8 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 			<?php endif; ?>
 		</figure>
 	<?php else : ?>
-		<figure class="<?php echo esc_attr( $template_args['border_radius'] ); ?> card-interactive overflow-hidden">
-			<a href="<?php echo esc_url( $term_link ); ?>" class="d-block text-decoration-none">
+		<figure class="<?php echo esc_attr( $template_args['border_radius'] ); ?> card-interactive overflow-hidden h-100">
+			<a href="<?php echo esc_url( $term_link ); ?>" class="d-block text-decoration-none h-100">
 				<div
 					class="bg-light d-flex align-items-center justify-content-center <?php echo esc_attr( $template_args['border_radius'] ); ?>"
 					style="min-height: 220px;"
