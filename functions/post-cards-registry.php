@@ -242,6 +242,22 @@ function codeweber_get_post_card_templates_registry() {
                 ],
             ],
         ],
+
+        'taxonomy' => [
+            'dir' => 'taxonomy',
+            'templates' => [
+                'overlay-5' => [
+                    'label' => __('Overlay 5', 'codeweber'),
+                    'description' => __('Term card: title on bottom overlay, description and count on hover', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'image'],
+                ],
+                'overlay-5-primary' => [
+                    'label' => __('Overlay 5 Primary', 'codeweber'),
+                    'description' => __('Term card with primary-colored overlay on hover', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'image'],
+                ],
+            ],
+        ],
     ];
 
     // WooCommerce product — шаблоны лежат в templates/woocommerce/cards/

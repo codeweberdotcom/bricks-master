@@ -112,6 +112,66 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
 }
 
 /**
+ * Render a taxonomy term card using a theme template.
+ *
+ * @param WP_Term $term          Term object.
+ * @param string  $template_name Template slug (e.g. 'overlay-5').
+ * @param array   $display_settings Display settings (show_title, show_excerpt, excerpt_length, title_length, title_tag, title_class).
+ * @param array   $template_args    Extra args passed to template (image_size, border_radius, show_card_arrow, card_read_more, enable_lift, show_term_count).
+ * @return string Rendered HTML.
+ */
+function cw_render_term_card( $term, $template_name = 'overlay-5', $display_settings = [], $template_args = [] ) {
+    $helpers_path = get_theme_file_path( 'templates/post-cards/helpers.php' );
+    if ( $helpers_path && file_exists( $helpers_path ) ) {
+        require_once $helpers_path;
+    }
+
+    $term_link = get_term_link( $term );
+    if ( is_wp_error( $term_link ) ) {
+        return '';
+    }
+
+    $image_size   = $template_args['image_size'] ?? 'full';
+    $thumbnail_id = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
+    $image_url    = '';
+    $image_alt    = '';
+    if ( $thumbnail_id > 0 ) {
+        $src = wp_get_attachment_image_src( $thumbnail_id, $image_size );
+        if ( $src ) {
+            $image_url = $src[0];
+            $image_alt = get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true ) ?: $term->name;
+        }
+    }
+
+    $display = function_exists( 'cw_get_post_card_display_settings' )
+        ? cw_get_post_card_display_settings( $display_settings )
+        : wp_parse_args( $display_settings, [
+            'show_title'     => true,
+            'show_excerpt'   => false,
+            'excerpt_length' => 0,
+            'title_length'   => 0,
+            'title_tag'      => 'h2',
+            'title_class'    => '',
+        ] );
+
+    $template_path = get_theme_file_path( 'templates/post-cards/taxonomy/' . sanitize_file_name( $template_name ) . '.php' );
+    if ( ! $template_path || ! file_exists( $template_path ) ) {
+        $template_path = get_theme_file_path( 'templates/post-cards/taxonomy/overlay-5.php' );
+    }
+    if ( ! $template_path || ! file_exists( $template_path ) ) {
+        return '';
+    }
+
+    ob_start();
+    include $template_path;
+    $output = '';
+    while ( ob_get_level() > 0 ) {
+        $output = ob_get_clean() . $output;
+    }
+    return $output;
+}
+
+/**
  * Нормализация булева значения (строка/число из шорткода или bool из PHP).
  *
  * @param mixed $v
