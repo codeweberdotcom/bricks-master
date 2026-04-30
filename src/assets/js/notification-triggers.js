@@ -14,7 +14,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const triggerType = modalElement.getAttribute('data-trigger-type');
     const triggerInactivity = modalElement.getAttribute('data-trigger-inactivity');
     const triggerViewport = modalElement.getAttribute('data-trigger-viewport');
+    const triggerUtmParam = modalElement.getAttribute('data-trigger-utm-param') || '';
+    const triggerUtmValue = modalElement.getAttribute('data-trigger-utm-value') || '';
     const waitDelay = modalElement.getAttribute('data-wait') || 200;
+
+    function checkUtmMatch() {
+        if (!triggerUtmParam || !triggerUtmValue) return false;
+        const params = new URLSearchParams(window.location.search);
+        return params.get(triggerUtmParam) === triggerUtmValue;
+    }
 
     // --- CW Notify (Toast) type ---
     const notificationType = modalElement.getAttribute('data-notification-type');
@@ -83,6 +91,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.addEventListener('woocommerce_order_success', showCwNotify);
             } else if (triggerType === 'page') {
                 setTimeout(showCwNotify, parseInt(waitDelay));
+            } else if (triggerType === 'utm_param') {
+                if (checkUtmMatch()) { showCwNotify(); }
             }
         }
 
@@ -179,6 +189,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.addEventListener('woocommerce_order_success', sendTelegramNotification);
             } else if (triggerType === 'page') {
                 setTimeout(sendTelegramNotification, parseInt(waitDelay));
+            } else if (triggerType === 'utm_param') {
+                if (checkUtmMatch()) { sendTelegramNotification(); }
             }
         }
 
@@ -437,6 +449,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
     else if (triggerType === 'page') {
         showNotificationModal();
+    }
+    else if (triggerType === 'utm_param') {
+        if (checkUtmMatch()) { showNotificationModal(); }
     }
         else {
         }

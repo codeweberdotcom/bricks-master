@@ -19710,3 +19710,19 @@ msgstr "браузер / ОС"
 #: functions/cpt/cpt-notifications.php
 msgid "date and time"
 msgstr "дата и время"
+
+#: functions/cpt/cpt-notifications.php
+msgid "UTM Parameter"
+msgstr "UTM параметр"
+
+#: functions/cpt/cpt-notifications.php
+msgid "UTM Value"
+msgstr "Значение UTM"
+
+#: functions/cpt/cpt-notifications.php
+msgid "UTM parameter to check"
+msgstr "UTM параметр для проверки"
+
+#: functions/cpt/cpt-notifications.php
+msgid "Required. Trigger fires only when this exact value matches."
+msgstr "Обязательно. Срабатывает только при точном совпадении значения."

@@ -120,6 +120,8 @@ function codeweber_notifications_meta_box_callback($post) {
 	$trigger_viewport_id = get_post_meta($post->ID, '_notification_trigger_viewport_id', true);
 	$trigger_page_type = get_post_meta($post->ID, '_notification_trigger_page_type', true);
 	$trigger_page_id = get_post_meta($post->ID, '_notification_trigger_page_id', true);
+	$trigger_utm_param = get_post_meta($post->ID, '_notification_trigger_utm_param', true);
+	$trigger_utm_value = get_post_meta($post->ID, '_notification_trigger_utm_value', true);
 	
 	// Convert stored values to datetime-local format (YYYY-MM-DDTHH:mm)
 	$start_date_display = '';
@@ -395,6 +397,9 @@ function codeweber_notifications_meta_box_callback($post) {
 					<option value="page" <?php selected($trigger_type, 'page'); ?>>
 						<?php esc_html_e('Page/Post/Archive', 'codeweber'); ?>
 					</option>
+					<option value="utm_param" <?php selected($trigger_type, 'utm_param'); ?>>
+						<?php esc_html_e('UTM Parameter', 'codeweber'); ?>
+					</option>
 				</select>
 				<p class="description">
 					<?php esc_html_e('Select the trigger type for opening the modal', 'codeweber'); ?>
@@ -538,6 +543,37 @@ function codeweber_notifications_meta_box_callback($post) {
 				</p>
 			</td>
 		</tr>
+		<tr class="trigger-field trigger-utm-param" style="<?php echo ($trigger_type !== 'utm_param') ? 'display:none;' : ''; ?>">
+			<th scope="row">
+				<label for="notification_trigger_utm_param"><?php esc_html_e('UTM Parameter', 'codeweber'); ?></label>
+			</th>
+			<td>
+				<select id="notification_trigger_utm_param" name="notification_trigger_utm_param" class="regular-text">
+					<option value="utm_source"   <?php selected($trigger_utm_param, 'utm_source');   ?>><?php esc_html_e('utm_source', 'codeweber'); ?></option>
+					<option value="utm_medium"   <?php selected($trigger_utm_param, 'utm_medium');   ?>><?php esc_html_e('utm_medium', 'codeweber'); ?></option>
+					<option value="utm_campaign" <?php selected($trigger_utm_param, 'utm_campaign'); ?>><?php esc_html_e('utm_campaign', 'codeweber'); ?></option>
+					<option value="utm_term"     <?php selected($trigger_utm_param, 'utm_term');     ?>><?php esc_html_e('utm_term', 'codeweber'); ?></option>
+					<option value="utm_content"  <?php selected($trigger_utm_param, 'utm_content');  ?>><?php esc_html_e('utm_content', 'codeweber'); ?></option>
+				</select>
+				<p class="description"><?php esc_html_e('UTM parameter to check', 'codeweber'); ?></p>
+			</td>
+		</tr>
+		<tr class="trigger-field trigger-utm-param" style="<?php echo ($trigger_type !== 'utm_param') ? 'display:none;' : ''; ?>">
+			<th scope="row">
+				<label for="notification_trigger_utm_value"><?php esc_html_e('UTM Value', 'codeweber'); ?></label>
+			</th>
+			<td>
+				<input
+					type="text"
+					id="notification_trigger_utm_value"
+					name="notification_trigger_utm_value"
+					value="<?php echo esc_attr($trigger_utm_value); ?>"
+					class="regular-text"
+					placeholder="e.g. google"
+				/>
+				<p class="description"><?php esc_html_e('Required. Trigger fires only when this exact value matches.', 'codeweber'); ?></p>
+			</td>
+		</tr>
 	</table>
 	
 	<script>
@@ -565,6 +601,8 @@ function codeweber_notifications_meta_box_callback($post) {
 				$('.trigger-page').show();
 				// Load page items when type is selected
 				loadPageItems();
+			} else if (triggerType === 'utm_param') {
+				$('.trigger-utm-param').show();
 			}
 		}
 		
@@ -770,6 +808,13 @@ function codeweber_save_notifications_meta_box($post_id) {
 	} else {
 		delete_post_meta($post_id, '_notification_trigger_page_id');
 	}
+
+	// Save trigger UTM param + value
+	$valid_utm_params = array('utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content');
+	$utm_param_val = isset($_POST['notification_trigger_utm_param']) ? sanitize_text_field($_POST['notification_trigger_utm_param']) : '';
+	update_post_meta($post_id, '_notification_trigger_utm_param', in_array($utm_param_val, $valid_utm_params) ? $utm_param_val : 'utm_source');
+	$utm_value_val = isset($_POST['notification_trigger_utm_value']) ? sanitize_text_field($_POST['notification_trigger_utm_value']) : '';
+	update_post_meta($post_id, '_notification_trigger_utm_value', $utm_value_val);
 
 	// Save notification type
 	$notif_type = isset($_POST['notification_type']) ? sanitize_text_field($_POST['notification_type']) : 'modal';
@@ -987,7 +1032,9 @@ function codeweber_get_active_notification_modal() {
 			// Get trigger settings
 			$trigger_inactivity_delay = get_post_meta($notification->ID, '_notification_trigger_inactivity_delay', true);
 			$trigger_viewport_id = get_post_meta($notification->ID, '_notification_trigger_viewport_id', true);
-			
+			$trigger_utm_param = get_post_meta($notification->ID, '_notification_trigger_utm_param', true);
+			$trigger_utm_value = get_post_meta($notification->ID, '_notification_trigger_utm_value', true);
+
 			$result = array(
 				'notification_id'          => $notification->ID,
 				'notification_type'        => $notification_type,
@@ -995,6 +1042,8 @@ function codeweber_get_active_notification_modal() {
 				'trigger_type'             => $trigger_type,
 				'trigger_inactivity_delay' => !empty($trigger_inactivity_delay) ? absint($trigger_inactivity_delay) : 30000,
 				'trigger_viewport_id'      => $trigger_viewport_id,
+				'trigger_utm_param'        => $trigger_utm_param ?: 'utm_source',
+				'trigger_utm_value'        => $trigger_utm_value,
 			);
 
 			if ($notification_type === 'modal') {

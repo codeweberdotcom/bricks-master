@@ -17834,3 +17834,19 @@ msgstr ""
 #: functions/cpt/cpt-notifications.php
 msgid "date and time"
 msgstr ""
+
+#: functions/cpt/cpt-notifications.php
+msgid "UTM Parameter"
+msgstr ""
+
+#: functions/cpt/cpt-notifications.php
+msgid "UTM Value"
+msgstr ""
+
+#: functions/cpt/cpt-notifications.php
+msgid "UTM parameter to check"
+msgstr ""
+
+#: functions/cpt/cpt-notifications.php
+msgid "Required. Trigger fires only when this exact value matches."
+msgstr ""
