@@ -81,7 +81,7 @@ function codeweber_telegram_on_mail_failed( WP_Error $error ): void {
 
 	$lines   = array();
 	$lines[] = '⚠️ <b>' . esc_html( $site ) . '</b>';
-	$lines[] = __( 'SMTP error', 'codeweber' );
+	$lines[] = __( 'SMTP error', 'codeweber' ) . ' — ' . __( 'email was not delivered', 'codeweber' );
 	$lines[] = '';
 	if ( $to ) {
 		$lines[] = '<b>To:</b> ' . esc_html( $to );

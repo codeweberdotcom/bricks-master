@@ -19665,3 +19665,7 @@ msgstr "−% Скидка"
 #: functions/integrations/telegram/telegram-init.php
 msgid "Question"
 msgstr "Вопрос"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "email was not delivered"
+msgstr "письмо не доставлено"
