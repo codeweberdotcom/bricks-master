@@ -11,9 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // ─── AJAX handlers ───────────────────────────────────────────────────────────
 
-add_action( 'wp_ajax_codeweber_api_test_dadata',  'codeweber_api_test_dadata' );
-add_action( 'wp_ajax_codeweber_api_test_yandex',  'codeweber_api_test_yandex' );
-add_action( 'wp_ajax_codeweber_api_test_smsru',   'codeweber_api_test_smsru' );
+add_action( 'wp_ajax_codeweber_api_test_dadata',    'codeweber_api_test_dadata' );
+add_action( 'wp_ajax_codeweber_api_test_yandex',    'codeweber_api_test_yandex' );
+add_action( 'wp_ajax_codeweber_api_test_smsru',     'codeweber_api_test_smsru' );
+add_action( 'wp_ajax_codeweber_api_test_telegram',  'codeweber_api_test_telegram' );
 
 function codeweber_api_test_dadata() {
 	check_ajax_referer( 'codeweber_api_test', 'nonce' );
@@ -135,6 +136,56 @@ function codeweber_api_test_smsru() {
 	} else {
 		$status_text = isset( $body['status_text'] ) ? $body['status_text'] : 'Неизвестная ошибка';
 		wp_send_json_error( array( 'message' => 'Ошибка: ' . $status_text ) );
+	}
+}
+
+function codeweber_api_test_telegram() {
+	check_ajax_referer( 'codeweber_api_test', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => 'Нет доступа' ) );
+	}
+
+	$token   = sanitize_text_field( wp_unslash( $_POST['token'] ?? '' ) );
+	$chat_id = sanitize_text_field( wp_unslash( $_POST['chat_id'] ?? '' ) );
+
+	if ( ! $token ) {
+		wp_send_json_error( array( 'message' => esc_html__( 'Enter Bot Token and save settings, or enter the key in the field', 'codeweber' ) ) );
+	}
+
+	if ( ! $chat_id ) {
+		wp_send_json_error( array( 'message' => esc_html__( 'Enter Chat / Channel ID', 'codeweber' ) ) );
+	}
+
+	$url = 'https://api.telegram.org/bot' . $token . '/sendMessage';
+
+	$response = wp_remote_post(
+		$url,
+		array(
+			'headers' => array( 'Content-Type' => 'application/json' ),
+			'body'    => wp_json_encode(
+				array(
+					'chat_id'                  => $chat_id,
+					'text'                     => '✅ ' . esc_html__( 'Test CodeWeber — bot connected!', 'codeweber' ),
+					'parse_mode'               => 'HTML',
+					'disable_web_page_preview' => true,
+				)
+			),
+			'timeout' => 10,
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		wp_send_json_error( array( 'message' => 'Ошибка соединения: ' . $response->get_error_message() ) );
+	}
+
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( ! empty( $body['ok'] ) ) {
+		wp_send_json_success( array( 'message' => esc_html__( 'Message sent successfully', 'codeweber' ) ) );
+	} else {
+		$description = isset( $body['description'] ) ? $body['description'] : esc_html__( 'Unknown error', 'codeweber' );
+		wp_send_json_error( array( 'message' => 'Telegram: ' . $description ) );
 	}
 }
 

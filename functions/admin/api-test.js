@@ -4,11 +4,13 @@
 	$( document ).on( 'click', '.cw-api-test-btn', function ( e ) {
 		e.preventDefault();
 
-		var $btn    = $( this );
-		var $result = $btn.next( '.cw-api-test-result' );
-		var action  = $btn.data( 'action' );
-		var fieldId = $btn.data( 'field' );
-		var value   = $( '#' + fieldId ).val();
+		var $btn     = $( this );
+		var $result  = $btn.next( '.cw-api-test-result' );
+		var action   = $btn.data( 'action' );
+		var fieldId  = $btn.data( 'field' );
+		var field2Id = $btn.data( 'field2' );
+		var value    = $( '#' + fieldId ).val();
+		var value2   = field2Id ? $( '#' + field2Id ).val() : '';
 
 		if ( ! value ) {
 			$result.html( '<span class="cw-api-test-error">&#x26A0; Введите ключ в поле выше</span>' );
@@ -29,6 +31,9 @@
 			data.key = value;
 		} else if ( 'codeweber_api_test_smsru' === action ) {
 			data.api_id = value;
+		} else if ( 'codeweber_api_test_telegram' === action ) {
+			data.token   = value;
+			data.chat_id = value2;
 		}
 
 		$.post( codeweberApiTest.ajaxUrl, data )

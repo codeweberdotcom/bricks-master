@@ -83,6 +83,19 @@ class CW_Notify {
 	}
 
 	/**
+	 * Отправить server-side уведомление по всем подключённым каналам.
+	 *
+	 * Channels (Telegram и др.) подключаются через хук:
+	 * add_action( 'cw_notify_server_notification', function( $event, $text ) { ... }, 10, 2 );
+	 *
+	 * @param string $event Событие: 'form', 'order', 'newsletter', ...
+	 * @param string $text  Текст уведомления (plain или HTML Telegram).
+	 */
+	public static function send_server_notification( string $event, string $text ): void {
+		do_action( 'cw_notify_server_notification', $event, $text );
+	}
+
+	/**
 	 * Helper: получить опцию Redux.
 	 *
 	 * @param  string $key     Ключ.

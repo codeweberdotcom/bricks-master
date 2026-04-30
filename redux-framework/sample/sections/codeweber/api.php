@@ -93,6 +93,53 @@ Redux::set_section(
 				'content'   => '<button type="button" class="button cw-api-test-btn" data-action="codeweber_api_test_smsru" data-field="smsruapi">' . esc_html__( 'Тест', 'codeweber' ) . '</button><span class="cw-api-test-result"></span>',
 			),
 
+
+			// ── Telegram Bot ─────────────────────────────────────────────────────
+			array(
+				'id'       => 'telegram_bot_enabled',
+				'type'     => 'switch',
+				'title'    => esc_html__( 'Telegram Bot: enable notifications', 'codeweber' ),
+				'subtitle' => esc_html__( 'Send form submissions to a Telegram chat or channel', 'codeweber' ),
+				'default'  => false,
+			),
+			array(
+				'id'       => 'telegram_bot_token',
+				'type'     => 'password',
+				'title'    => esc_html__( 'Telegram Bot Token', 'codeweber' ),
+				'subtitle' => esc_html__( 'Get token from @BotFather: /newbot', 'codeweber' ),
+				'desc'     => '<a href="https://t.me/BotFather" target="_blank">@BotFather</a>',
+				'required' => array( 'telegram_bot_enabled', '=', true ),
+			),
+			array(
+				'id'       => 'telegram_bot_chat_id',
+				'type'     => 'text',
+				'title'    => esc_html__( 'Chat / Channel ID', 'codeweber' ),
+				'subtitle' => esc_html__( 'Numeric ID (-100…) or @channel_username. The bot must be added to the chat.', 'codeweber' ),
+				'required' => array( 'telegram_bot_enabled', '=', true ),
+			),
+			array(
+				'id'       => 'telegram_bot_events',
+				'type'     => 'checkbox',
+				'title'    => esc_html__( 'Events to notify', 'codeweber' ),
+				'subtitle' => esc_html__( 'Which events trigger a Telegram notification', 'codeweber' ),
+				'required' => array( 'telegram_bot_enabled', '=', true ),
+				'options'  => array(
+					'form'       => esc_html__( 'Form submissions (CodeWeber Forms)', 'codeweber' ),
+					'order'      => esc_html__( 'New WooCommerce orders', 'codeweber' ),
+					'newsletter' => esc_html__( 'New newsletter subscriptions', 'codeweber' ),
+				),
+				'default'  => array( 'form' => true, 'order' => false, 'newsletter' => false ),
+			),
+			array(
+				'id'         => 'telegram_bot_test_btn',
+				'type'       => 'raw',
+				'full_width' => false,
+				'title'      => esc_html__( 'Test Telegram', 'codeweber' ),
+				'subtitle'   => esc_html__( 'Send a test message to the configured chat', 'codeweber' ),
+				'required'   => array( 'telegram_bot_enabled', '=', true ),
+				'content'    => '<button type="button" class="button cw-api-test-btn" data-action="codeweber_api_test_telegram" data-field="telegram_bot_token" data-field2="telegram_bot_chat_id">' . esc_html__( 'Test', 'codeweber' ) . '</button><span class="cw-api-test-result"></span>',
+			),
+
 		),
 	)
 );
