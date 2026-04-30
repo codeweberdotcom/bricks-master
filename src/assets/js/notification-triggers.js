@@ -24,6 +24,128 @@ document.addEventListener("DOMContentLoaded", function() {
         return params.get(triggerUtmParam) === triggerUtmValue;
     }
 
+    // --- Composite Chain Mode ---
+    const chainNotifId      = modalElement.getAttribute('data-notification-id') || '';
+    const compositeRaw      = modalElement.getAttribute('data-composite') || '';
+    const compositeLifetime = parseFloat(modalElement.getAttribute('data-composite-lifetime') || '24');
+    let   compositeSteps    = null;
+    try { if (compositeRaw) compositeSteps = JSON.parse(compositeRaw); } catch(e) {}
+
+    if (compositeSteps && compositeSteps.length > 0 && chainNotifId) {
+        const cookieName     = 'cw_notif_' + chainNotifId + '_chain';
+        const chainNotifType = modalElement.getAttribute('data-notification-type') || '';
+
+        function chainGetCookie() {
+            const m = document.cookie.match(new RegExp('(?:^|; )' + cookieName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
+            return m ? parseInt(decodeURIComponent(m[1]), 10) : 0;
+        }
+        function chainSetCookie(val) {
+            const exp = new Date(Date.now() + compositeLifetime * 3600000).toUTCString();
+            document.cookie = cookieName + '=' + encodeURIComponent(val) + '; expires=' + exp + '; path=/; SameSite=Lax';
+        }
+
+        function chainFire() {
+            if (chainNotifType === 'cw_notify') {
+                if (typeof window.CWNotify === 'undefined') return;
+                window.CWNotify.show(
+                    modalElement.getAttribute('data-cw-message') || '',
+                    {
+                        type:     modalElement.getAttribute('data-cw-type')     || 'info',
+                        position: modalElement.getAttribute('data-cw-position') || 'bottom-end',
+                        delay:    parseInt(modalElement.getAttribute('data-cw-delay') || '5000', 10)
+                    }
+                );
+            } else if (chainNotifType === 'telegram') {
+                const fd   = new FormData();
+                const utmP = new URLSearchParams(window.location.search);
+                fd.append('action', 'codeweber_notification_telegram');
+                fd.append('nonce', modalElement.getAttribute('data-nonce') || '');
+                fd.append('notification_id', chainNotifId);
+                fd.append('page_url', window.location.href);
+                ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k) {
+                    fd.append(k, utmP.get(k) || '');
+                });
+                const aj = (typeof theme_scripts_ajax !== 'undefined') ? theme_scripts_ajax.ajax_url : '/wp-admin/admin-ajax.php';
+                fetch(aj, { method: 'POST', body: fd });
+            } else {
+                if (typeof bootstrap !== 'undefined') {
+                    try { new bootstrap.Modal(modalElement).show(); } catch(e) {}
+                }
+            }
+        }
+
+        let chainStep = chainGetCookie();
+
+        function chainAdvance() {
+            chainStep++;
+            chainSetCookie(chainStep);
+            if (chainStep >= compositeSteps.length) {
+                chainFire();
+            } else {
+                chainInitStep(chainStep);
+            }
+        }
+
+        function chainInitStep(idx) {
+            if (idx >= compositeSteps.length) return;
+            const step = compositeSteps[idx];
+
+            if (step.type === 'page') {
+                var val = step.value || '';
+                var hit = false;
+                if (val === 'home' || val === 'front-page') {
+                    hit = document.body.classList.contains('home') || document.body.classList.contains('front-page');
+                } else if (val) {
+                    hit = document.body.classList.contains('page-id-' + val) ||
+                          document.body.classList.contains('postid-' + val);
+                }
+                if (hit) chainAdvance();
+
+            } else if (step.type === 'utm_param') {
+                var p = new URLSearchParams(window.location.search);
+                if (step.utm_param && step.utm_value && p.get(step.utm_param) === step.utm_value) {
+                    chainAdvance();
+                }
+
+            } else if (step.type === 'codeweber_form') {
+                document.addEventListener('codeweber_form_success', chainAdvance, { once: true });
+
+            } else if (step.type === 'cf7_form') {
+                document.addEventListener('wpcf7mailsent', chainAdvance, { once: true });
+                document.addEventListener('cf7_form_success', chainAdvance, { once: true });
+
+            } else if (step.type === 'woocommerce_order') {
+                if (document.body.classList.contains('woocommerce-order-received')) { chainAdvance(); return; }
+                document.addEventListener('woocommerce_order_success', chainAdvance, { once: true });
+
+            } else if (step.type === 'scroll_middle') {
+                var smDone = false;
+                function smCheck() {
+                    if (smDone) return;
+                    if ((window.pageYOffset + window.innerHeight) / document.documentElement.scrollHeight >= 0.5) {
+                        smDone = true; chainAdvance();
+                    }
+                }
+                smCheck();
+                window.addEventListener('scroll', smCheck, { passive: true });
+
+            } else if (step.type === 'scroll_end') {
+                var seDone = false;
+                function seCheck() {
+                    if (seDone) return;
+                    if ((window.pageYOffset + window.innerHeight) / document.documentElement.scrollHeight >= 0.95) {
+                        seDone = true; chainAdvance();
+                    }
+                }
+                seCheck();
+                window.addEventListener('scroll', seCheck, { passive: true });
+            }
+        }
+
+        chainInitStep(chainStep);
+        return; // skip single-trigger logic
+    }
+
     // --- CW Notify (Toast) type ---
     const notificationType = modalElement.getAttribute('data-notification-type');
     if (notificationType === 'cw_notify') {

@@ -32,6 +32,15 @@ function codeweber_universal_modal_container()
     $data_trigger_utm_param = ($active_notification && !empty($active_notification['trigger_utm_param'])) ? ' data-trigger-utm-param="' . esc_attr($active_notification['trigger_utm_param']) . '"' : '';
     $data_trigger_utm_value = ($active_notification && !empty($active_notification['trigger_utm_value'])) ? ' data-trigger-utm-value="' . esc_attr($active_notification['trigger_utm_value']) . '"' : '';
 
+    // Composite chain
+    $data_notification_id    = $active_notification ? ' data-notification-id="' . esc_attr( $active_notification['notification_id'] ) . '"' : '';
+    $data_composite          = ( $active_notification && ! empty( $active_notification['composite_enabled'] ) && $active_notification['composite_steps'] !== '[]' )
+        ? ' data-composite="' . esc_attr( $active_notification['composite_steps'] ) . '"'
+        : '';
+    $data_composite_lifetime = ( $active_notification && ! empty( $active_notification['composite_enabled'] ) )
+        ? ' data-composite-lifetime="' . esc_attr( $active_notification['composite_lifetime'] ) . '"'
+        : '';
+
     // Переменные только для типа modal
     $modal_popup_class    = ($notif_type === 'modal') ? ' modal-popup' : '';
     $position_class       = ($notif_type === 'modal' && isset($active_notification['position'])) ? ' ' . esc_attr($active_notification['position']) : '';
@@ -75,7 +84,7 @@ function codeweber_universal_modal_container()
     <!-- Universal Modal Container -->
     <?php if ($active_notification && $notif_type === 'modal'): ?>
         <!-- Notification Modal -->
-        <div class="modal fade<?php echo esc_attr($modal_popup_class . $position_class); ?>" id="notification-modal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true"<?php echo $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport . $data_trigger_utm_param . $data_trigger_utm_value; ?>>
+        <div class="modal fade<?php echo esc_attr($modal_popup_class . $position_class); ?>" id="notification-modal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true"<?php echo $data_notification_id . $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport . $data_trigger_utm_param . $data_trigger_utm_value . $data_composite . $data_composite_lifetime; ?>>
             <div class="modal-dialog<?php echo esc_attr($dialog_centered_class . $modal_size_class); ?>">
                 <div class="modal-content<?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
                     <!-- Notification modal content (without modal-body) -->
@@ -94,14 +103,14 @@ function codeweber_universal_modal_container()
             data-cw-type="<?php echo esc_attr($active_notification['cw_type']); ?>"
             data-cw-position="<?php echo esc_attr($active_notification['cw_position']); ?>"
             data-cw-delay="<?php echo esc_attr($active_notification['cw_delay']); ?>"
-            <?php echo $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport . $data_trigger_utm_param . $data_trigger_utm_value; ?>></div>
+            <?php echo $data_notification_id . $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport . $data_trigger_utm_param . $data_trigger_utm_value . $data_composite . $data_composite_lifetime; ?>></div>
     <?php elseif ($active_notification && $notif_type === 'telegram'): ?>
         <!-- Telegram Notification (hidden data carrier) -->
         <div id="notification-modal" class="d-none"
             data-notification-type="telegram"
             data-notification-id="<?php echo esc_attr($active_notification['notification_id']); ?>"
             data-nonce="<?php echo esc_attr(wp_create_nonce('codeweber_notification_telegram')); ?>"
-            <?php echo $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport . $data_trigger_utm_param . $data_trigger_utm_value; ?>></div>
+            <?php echo $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport . $data_trigger_utm_param . $data_trigger_utm_value . $data_composite . $data_composite_lifetime; ?>></div>
     <?php endif; ?>
     
     <!-- Universal REST API modal — статично в DOM, Bootstrap не крашит делегированный обработчик.

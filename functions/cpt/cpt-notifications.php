@@ -108,6 +108,14 @@ function codeweber_notifications_meta_box_callback($post) {
 
 	$telegram_message = get_post_meta($post->ID, '_notification_telegram_message', true);
 
+	// Composite trigger
+	$composite_enabled   = get_post_meta($post->ID, '_notification_composite_enabled', true);
+	$composite_steps_raw = get_post_meta($post->ID, '_notification_composite_steps', true) ?: '[]';
+	$composite_lifetime  = get_post_meta($post->ID, '_notification_composite_lifetime', true);
+	if ( empty( $composite_lifetime ) ) {
+		$composite_lifetime = 24;
+	}
+
 	// Trigger settings
 	$trigger_type = get_post_meta($post->ID, '_notification_trigger_type', true);
 	if (empty($trigger_type)) {
@@ -575,7 +583,30 @@ function codeweber_notifications_meta_box_callback($post) {
 			</td>
 		</tr>
 	</table>
-	
+
+	<!-- ── Составной триггер ──────────────────────────────────────────────── -->
+	<div style="margin-top:18px;padding:14px 16px;border:1px solid #c3c4c7;background:#f6f7f7;border-radius:3px;">
+		<label style="display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer;">
+			<input type="checkbox" id="notification_composite_enabled" name="notification_composite_enabled" value="1" <?php checked( $composite_enabled, '1' ); ?> style="margin:0;" />
+			<?php esc_html_e( 'Composite Trigger Chain', 'codeweber' ); ?>
+		</label>
+		<p class="description" style="margin:4px 0 0 24px;"><?php esc_html_e( 'Replace single trigger with a sequential chain. Steps must fire in order. Cookie remembers completed steps.', 'codeweber' ); ?></p>
+
+		<div id="composite-fields" style="margin-top:14px;<?php echo $composite_enabled ? '' : 'display:none;'; ?>">
+			<div id="composite-steps-list" style="margin-bottom:8px;"></div>
+			<button type="button" id="composite-add-step" class="button button-secondary">
+				+ <?php esc_html_e( 'Add Step', 'codeweber' ); ?>
+			</button>
+			<input type="hidden" id="notification_composite_steps" name="notification_composite_steps" value="<?php echo esc_attr( $composite_steps_raw ); ?>" />
+			<p style="margin-top:12px;display:flex;align-items:center;gap:8px;">
+				<strong><?php esc_html_e( 'Cookie Lifetime', 'codeweber' ); ?>:</strong>
+				<input type="number" id="notification_composite_lifetime" name="notification_composite_lifetime" value="<?php echo esc_attr( $composite_lifetime ); ?>" min="1" class="small-text" />
+				<?php esc_html_e( 'hours', 'codeweber' ); ?>
+				<span class="description"><?php esc_html_e( '(how long to remember completed steps)', 'codeweber' ); ?></span>
+			</p>
+		</div>
+	</div>
+
 	<script>
 	jQuery(document).ready(function($) {
 		// Show/hide fields based on notification type
@@ -651,10 +682,105 @@ function codeweber_notifications_meta_box_callback($post) {
 		
 		$('#notification_trigger_type').on('change', toggleTriggerFields);
 		$('#notification_trigger_page_type').on('change', loadPageItems);
-		
+
 		// Initialize on page load
 		toggleNotificationType();
 		toggleTriggerFields();
+
+		// ── Composite Trigger Repeater ──────────────────────────────────────
+		var compositeStepTypes = {
+			'page':              '<?php echo esc_js( __( 'Page / Post Visit', 'codeweber' ) ); ?>',
+			'utm_param':         '<?php echo esc_js( __( 'UTM Parameter', 'codeweber' ) ); ?>',
+			'codeweber_form':    '<?php echo esc_js( __( 'CodeWeber Form Submit', 'codeweber' ) ); ?>',
+			'cf7_form':          '<?php echo esc_js( __( 'CF7 Form Submit', 'codeweber' ) ); ?>',
+			'woocommerce_order': '<?php echo esc_js( __( 'WooCommerce Order', 'codeweber' ) ); ?>',
+			'scroll_middle':     '<?php echo esc_js( __( 'Scroll to Middle', 'codeweber' ) ); ?>',
+			'scroll_end':        '<?php echo esc_js( __( 'Scroll to End', 'codeweber' ) ); ?>',
+		};
+
+		var compositeData = [];
+		try { compositeData = JSON.parse($('#notification_composite_steps').val() || '[]'); } catch(e) {}
+
+		function serializeSteps() {
+			compositeData = [];
+			$('#composite-steps-list .cw-step-row').each(function() {
+				var $r = $(this), type = $r.find('.step-type').val();
+				var step = { type: type };
+				if (type === 'page')      { step.value = $r.find('.step-page-val').val(); }
+				if (type === 'utm_param') { step.utm_param = $r.find('.step-utm-param').val(); step.utm_value = $r.find('.step-utm-val').val(); }
+				compositeData.push(step);
+			});
+			$('#notification_composite_steps').val(JSON.stringify(compositeData));
+		}
+
+		function buildStepRow(step, idx) {
+			var utmParams = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+			var typeOpts = Object.entries(compositeStepTypes).map(function(e) {
+				return '<option value="' + e[0] + '"' + (step.type === e[0] ? ' selected' : '') + '>' + e[1] + '</option>';
+			}).join('');
+			var utmOpts = utmParams.map(function(p) {
+				return '<option value="' + p + '"' + ((step.utm_param || 'utm_source') === p ? ' selected' : '') + '>' + p + '</option>';
+			}).join('');
+
+			var $row = $('<div class="cw-step-row" style="display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;padding:10px 12px;background:#fff;border:1px solid #ddd;border-radius:3px;">' +
+				'<span style="font-weight:700;min-width:22px;padding-top:5px;color:#666;">' + (idx + 1) + '.</span>' +
+				'<div style="flex:1;">' +
+					'<select class="step-type regular-text" style="margin-bottom:6px;">' + typeOpts + '</select>' +
+					'<div class="step-extra-page" style="' + (step.type === 'page' ? '' : 'display:none;') + '">' +
+						'<input type="text" class="step-page-val regular-text" value="' + (step.value || '') + '" placeholder="<?php echo esc_js( __( 'Page ID or «home»', 'codeweber' ) ); ?>" />' +
+					'</div>' +
+					'<div class="step-extra-utm" style="' + (step.type === 'utm_param' ? '' : 'display:none;') + '">' +
+						'<select class="step-utm-param regular-text" style="margin-bottom:4px;">' + utmOpts + '</select>' +
+						'<input type="text" class="step-utm-val regular-text" value="' + (step.utm_value || '') + '" placeholder="e.g. google" />' +
+					'</div>' +
+				'</div>' +
+				'<button type="button" class="button step-remove" style="flex-shrink:0;"><?php echo esc_js( __( 'Remove', 'codeweber' ) ); ?></button>' +
+			'</div>');
+
+			$row.find('.step-type').on('change', function() {
+				var t = $(this).val();
+				$row.find('.step-extra-page').toggle(t === 'page');
+				$row.find('.step-extra-utm').toggle(t === 'utm_param');
+				serializeSteps();
+			});
+			$row.find('input, select').on('change input', serializeSteps);
+			$row.find('.step-remove').on('click', function() {
+				serializeSteps();
+				compositeData.splice(idx, 1);
+				renderSteps();
+			});
+			return $row;
+		}
+
+		function renderSteps() {
+			var $list = $('#composite-steps-list');
+			$list.empty();
+			compositeData.forEach(function(step, idx) { $list.append(buildStepRow(step, idx)); });
+			serializeSteps();
+		}
+
+		$('#composite-add-step').on('click', function() {
+			compositeData.push({ type: 'page', value: '' });
+			renderSteps();
+		});
+
+		function toggleSingleTriggerRows(hide) {
+			$('#notification_wait_delay').closest('tr').toggle(!hide);
+			$('#notification_trigger_type').closest('tr').toggle(!hide);
+			$('.trigger-field').toggle(!hide);
+		}
+
+		$('#notification_composite_enabled').on('change', function() {
+			var on = $(this).is(':checked');
+			$('#composite-fields').toggle(on);
+			toggleSingleTriggerRows(on);
+		});
+
+		// Init
+		renderSteps();
+		if ($('#notification_composite_enabled').is(':checked')) {
+			toggleSingleTriggerRows(true);
+		}
 	});
 	</script>
 	<?php
@@ -843,6 +969,37 @@ function codeweber_save_notifications_meta_box($post_id) {
 	if (isset($_POST['notification_telegram_message'])) {
 		update_post_meta($post_id, '_notification_telegram_message', sanitize_textarea_field($_POST['notification_telegram_message']));
 	}
+
+	// Save composite trigger
+	$composite_enabled_val = isset( $_POST['notification_composite_enabled'] ) ? '1' : '';
+	update_post_meta( $post_id, '_notification_composite_enabled', $composite_enabled_val );
+
+	$composite_steps_input = isset( $_POST['notification_composite_steps'] ) ? wp_unslash( $_POST['notification_composite_steps'] ) : '[]';
+	$decoded_steps = json_decode( $composite_steps_input, true );
+	if ( is_array( $decoded_steps ) ) {
+		$valid_step_types = array( 'page', 'utm_param', 'codeweber_form', 'cf7_form', 'woocommerce_order', 'scroll_middle', 'scroll_end' );
+		$valid_utm_params = array( 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content' );
+		$clean_steps = array();
+		foreach ( $decoded_steps as $step ) {
+			if ( ! isset( $step['type'] ) || ! in_array( $step['type'], $valid_step_types, true ) ) {
+				continue;
+			}
+			$cs = array( 'type' => $step['type'] );
+			if ( $step['type'] === 'page' ) {
+				$cs['value'] = sanitize_text_field( $step['value'] ?? '' );
+			} elseif ( $step['type'] === 'utm_param' ) {
+				$cs['utm_param'] = in_array( $step['utm_param'] ?? '', $valid_utm_params, true ) ? $step['utm_param'] : 'utm_source';
+				$cs['utm_value'] = sanitize_text_field( $step['utm_value'] ?? '' );
+			}
+			$clean_steps[] = $cs;
+		}
+		update_post_meta( $post_id, '_notification_composite_steps', wp_json_encode( $clean_steps ) );
+	} else {
+		update_post_meta( $post_id, '_notification_composite_steps', '[]' );
+	}
+
+	$composite_lifetime_val = isset( $_POST['notification_composite_lifetime'] ) ? max( 1, absint( $_POST['notification_composite_lifetime'] ) ) : 24;
+	update_post_meta( $post_id, '_notification_composite_lifetime', $composite_lifetime_val );
 }
 add_action('save_post', 'codeweber_save_notifications_meta_box');
 
@@ -1035,6 +1192,11 @@ function codeweber_get_active_notification_modal() {
 			$trigger_utm_param = get_post_meta($notification->ID, '_notification_trigger_utm_param', true);
 			$trigger_utm_value = get_post_meta($notification->ID, '_notification_trigger_utm_value', true);
 
+			// Composite trigger
+			$comp_enabled  = get_post_meta( $notification->ID, '_notification_composite_enabled', true );
+			$comp_steps    = get_post_meta( $notification->ID, '_notification_composite_steps', true ) ?: '[]';
+			$comp_lifetime = absint( get_post_meta( $notification->ID, '_notification_composite_lifetime', true ) ?: 24 );
+
 			$result = array(
 				'notification_id'          => $notification->ID,
 				'notification_type'        => $notification_type,
@@ -1044,6 +1206,9 @@ function codeweber_get_active_notification_modal() {
 				'trigger_viewport_id'      => $trigger_viewport_id,
 				'trigger_utm_param'        => $trigger_utm_param ?: 'utm_source',
 				'trigger_utm_value'        => $trigger_utm_value,
+				'composite_enabled'        => ! empty( $comp_enabled ),
+				'composite_steps'          => $comp_steps,
+				'composite_lifetime'       => $comp_lifetime,
 			);
 
 			if ($notification_type === 'modal') {
