@@ -19524,3 +19524,7 @@ msgstr "Сумма"
 #: functions/integrations/telegram/telegram-init.php
 msgid "Page"
 msgstr "Страница"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "SMTP error"
+msgstr "Ошибка SMTP"

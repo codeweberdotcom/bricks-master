@@ -60,6 +60,39 @@ function codeweber_telegram_on_form_saved( int $submission_id, $form_id, array $
 	CW_Notify::send_server_notification( 'form', $text );
 }
 
+// ── SMTP: ошибка отправки почты ──────────────────────────────────────────────
+
+add_action( 'wp_mail_failed', 'codeweber_telegram_on_mail_failed' );
+
+function codeweber_telegram_on_mail_failed( WP_Error $error ): void {
+	$bot = CW_Telegram_Bot::from_redux();
+	if ( ! $bot ) {
+		return;
+	}
+
+	$data    = $error->get_error_data();
+	$to      = is_array( $data['to'] ?? null ) ? implode( ', ', $data['to'] ) : ( $data['to'] ?? '' );
+	$subject = $data['subject'] ?? '';
+	$message = $error->get_error_message();
+	$site    = get_bloginfo( 'name' );
+
+	$lines   = array();
+	$lines[] = '⚠️ <b>' . esc_html( $site ) . '</b>';
+	$lines[] = __( 'SMTP error', 'codeweber' );
+	$lines[] = '';
+	if ( $to ) {
+		$lines[] = '<b>To:</b> ' . esc_html( $to );
+	}
+	if ( $subject ) {
+		$lines[] = '<b>' . __( 'Subject', 'codeweber' ) . ':</b> ' . esc_html( $subject );
+	}
+	$lines[] = '<b>' . __( 'Error', 'codeweber' ) . ':</b> ' . esc_html( $message );
+	$lines[] = '';
+	$lines[] = '🕐 ' . wp_date( 'd.m.Y H:i' );
+
+	$bot->send_message( implode( "\n", $lines ) );
+}
+
 // ── WooCommerce: новый заказ ──────────────────────────────────────────────────
 
 add_action( 'woocommerce_checkout_order_created', 'codeweber_telegram_on_order', 20, 1 );
