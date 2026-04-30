@@ -123,6 +123,17 @@ class CodeweberFormsMailer {
             
             return $mail->send();
         } catch (\Exception $e) {
+            do_action(
+                'wp_mail_failed',
+                new WP_Error(
+                    'wp_mail_failed',
+                    $e->getMessage(),
+                    array(
+                        'to'      => $recipient,
+                        'subject' => $subject,
+                    )
+                )
+            );
             return false;
         }
     }
