@@ -250,6 +250,7 @@ function codeweber_telegram_format_form(
 	$skip = array( '_utm_data', 'newsletter_consents', 'form_name', 'form_type' );
 
 	foreach ( $fields as $key => $value ) {
+		$key = trim( (string) $key );
 		if ( in_array( $key, $skip, true ) ) {
 			continue;
 		}
