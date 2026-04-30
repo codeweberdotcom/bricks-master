@@ -42,10 +42,14 @@ function codeweber_telegram_on_form_saved( int $submission_id, $form_id, array $
 		}
 	}
 	if ( ! $form_name ) {
-		$form_name = esc_html__( 'Form', 'codeweber' );
+		$form_name = __( 'Form', 'codeweber' );
 	}
 
-	$text = codeweber_telegram_format_form( $submission_id, $form_name, $fields );
+	// IP из БД, URL страницы из заголовка AJAX-запроса.
+	$ip       = codeweber_telegram_get_submission_ip( $submission_id );
+	$page_url = wp_get_referer() ?: '';
+
+	$text = codeweber_telegram_format_form( $submission_id, $form_name, $fields, $ip, $page_url );
 	CW_Notify::send_server_notification( 'form', $text );
 }
 
@@ -67,18 +71,18 @@ function codeweber_telegram_on_order( $order ): void {
 
 	$lines   = array();
 	$lines[] = '🛒 <b>' . esc_html( $site ) . '</b>';
-	$lines[] = esc_html__( 'New order', 'codeweber' ) . ' <b>#' . $order_id . '</b>';
+	$lines[] = __( 'New order', 'codeweber' ) . ' <b>#' . $order_id . '</b>';
 	$lines[] = '';
 	if ( $name ) {
-		$lines[] = '<b>' . esc_html__( 'Name', 'codeweber' ) . ':</b> ' . esc_html( $name );
+		$lines[] = '<b>' . __( 'Name', 'codeweber' ) . ':</b> ' . esc_html( $name );
 	}
 	if ( $phone ) {
-		$lines[] = '<b>' . esc_html__( 'Phone', 'codeweber' ) . ':</b> ' . esc_html( $phone );
+		$lines[] = '<b>' . __( 'Phone', 'codeweber' ) . ':</b> ' . esc_html( $phone );
 	}
 	if ( $email ) {
-		$lines[] = '<b>' . esc_html__( 'Email', 'codeweber' ) . ':</b> ' . esc_html( $email );
+		$lines[] = '<b>' . __( 'Email', 'codeweber' ) . ':</b> ' . esc_html( $email );
 	}
-	$lines[] = '<b>' . esc_html__( 'Total', 'codeweber' ) . ':</b> ' . wp_strip_all_tags( $total );
+	$lines[] = '<b>' . __( 'Total', 'codeweber' ) . ':</b> ' . wp_strip_all_tags( $total );
 	$lines[] = '';
 	$lines[] = '🕐 ' . wp_date( 'd.m.Y H:i' );
 
@@ -93,7 +97,7 @@ function codeweber_telegram_on_newsletter( string $email ): void {
 	$site    = get_bloginfo( 'name' );
 	$lines   = array();
 	$lines[] = '📧 <b>' . esc_html( $site ) . '</b>';
-	$lines[] = esc_html__( 'New newsletter subscription', 'codeweber' );
+	$lines[] = __( 'New newsletter subscription', 'codeweber' );
 	$lines[] = esc_html( $email );
 	$lines[] = '';
 	$lines[] = '🕐 ' . wp_date( 'd.m.Y H:i' );
@@ -118,19 +122,38 @@ function codeweber_telegram_event_enabled( string $event ): bool {
 }
 
 /**
+ * Получает IP-адрес из записи сабмита в БД.
+ */
+function codeweber_telegram_get_submission_ip( int $submission_id ): string {
+	if ( ! $submission_id || ! class_exists( 'CodeweberFormsDatabase' ) ) {
+		return '';
+	}
+	$db  = new CodeweberFormsDatabase();
+	$row = $db->get_submission( $submission_id );
+	return $row ? (string) ( $row->ip_address ?? '' ) : '';
+}
+
+/**
  * Форматирует текст уведомления формы для Telegram.
  */
-function codeweber_telegram_format_form( int $submission_id, string $form_name, array $fields ): string {
+function codeweber_telegram_format_form(
+	int $submission_id,
+	string $form_name,
+	array $fields,
+	string $ip = '',
+	string $page_url = ''
+): string {
 	$site    = get_bloginfo( 'name' );
 	$lines   = array();
 	$lines[] = '📬 <b>' . esc_html( $site ) . '</b>';
-	$lines[] = esc_html__( 'New form submission', 'codeweber' ) . ': <b>' . esc_html( $form_name ) . '</b>';
+	$lines[] = __( 'New form submission', 'codeweber' ) . ': <b>' . esc_html( $form_name ) . '</b>';
 	if ( $submission_id ) {
 		$lines[] = '#' . $submission_id;
 	}
 	$lines[] = '';
 
-	$skip = array( '_utm_data', 'newsletter_consents' );
+	// Системные и служебные поля — не выводить.
+	$skip = array( '_utm_data', 'newsletter_consents', 'form_name', 'form_type' );
 
 	foreach ( $fields as $key => $value ) {
 		if ( in_array( $key, $skip, true ) ) {
@@ -148,6 +171,14 @@ function codeweber_telegram_format_form( int $submission_id, string $form_name, 
 	}
 
 	$lines[] = '';
+
+	if ( $page_url ) {
+		$lines[] = '🌐 <b>' . __( 'Page', 'codeweber' ) . ':</b> ' . esc_url( $page_url );
+	}
+	if ( $ip ) {
+		$lines[] = '🔎 <b>IP:</b> ' . esc_html( $ip );
+	}
+
 	$lines[] = '🕐 ' . wp_date( 'd.m.Y H:i' );
 
 	return implode( "\n", $lines );

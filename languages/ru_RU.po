@@ -19504,3 +19504,23 @@ msgstr "← Назад к подпискам"
 #, fuzzy
 msgid "−% Discount"
 msgstr "−% Скидка"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "New form submission"
+msgstr "Новая заявка"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "New order"
+msgstr "Новый заказ"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "New newsletter subscription"
+msgstr "Новая подписка на рассылку"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "Total"
+msgstr "Сумма"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "Page"
+msgstr "Страница"
