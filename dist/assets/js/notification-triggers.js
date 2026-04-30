@@ -14,7 +14,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const triggerType = modalElement.getAttribute('data-trigger-type');
     const triggerInactivity = modalElement.getAttribute('data-trigger-inactivity');
     const triggerViewport = modalElement.getAttribute('data-trigger-viewport');
+    const triggerUtmParam = modalElement.getAttribute('data-trigger-utm-param') || '';
+    const triggerUtmValue = modalElement.getAttribute('data-trigger-utm-value') || '';
     const waitDelay = modalElement.getAttribute('data-wait') || 200;
+
+    function checkUtmMatch() {
+        if (!triggerUtmParam || !triggerUtmValue) return false;
+        const params = new URLSearchParams(window.location.search);
+        return params.get(triggerUtmParam) === triggerUtmValue;
+    }
 
     // --- CW Notify (Toast) type ---
     const notificationType = modalElement.getAttribute('data-notification-type');
@@ -83,11 +91,111 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.addEventListener('woocommerce_order_success', showCwNotify);
             } else if (triggerType === 'page') {
                 setTimeout(showCwNotify, parseInt(waitDelay));
+            } else if (triggerType === 'utm_param') {
+                if (checkUtmMatch()) { showCwNotify(); }
             }
         }
 
         initCwNotifyTriggers();
         return; // не инициализируем Bootstrap Modal
+    }
+
+    // --- Telegram Notification type ---
+    if (notificationType === 'telegram') {
+        if (!triggerType) return;
+        const notificationId = modalElement.getAttribute('data-notification-id');
+        const nonce = modalElement.getAttribute('data-nonce');
+
+        function getUtmParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                utm_source:   params.get('utm_source')   || '',
+                utm_medium:   params.get('utm_medium')   || '',
+                utm_campaign: params.get('utm_campaign') || '',
+                utm_term:     params.get('utm_term')     || '',
+                utm_content:  params.get('utm_content')  || '',
+            };
+        }
+
+        let tgSent = false;
+
+        function sendTelegramNotification() {
+            if (tgSent) return;
+            tgSent = true;
+            const utm = getUtmParams();
+            const formData = new FormData();
+            formData.append('action', 'codeweber_notification_telegram');
+            formData.append('nonce', nonce);
+            formData.append('notification_id', notificationId);
+            formData.append('page_url', window.location.href);
+            Object.entries(utm).forEach(function([k, v]) { formData.append(k, v); });
+            const ajaxUrl = (typeof theme_scripts_ajax !== 'undefined' && theme_scripts_ajax.ajax_url)
+                ? theme_scripts_ajax.ajax_url
+                : '/wp-admin/admin-ajax.php';
+            fetch(ajaxUrl, { method: 'POST', body: formData })
+                .catch(function() { tgSent = false; });
+        }
+
+        function initTelegramTriggers() {
+            if (triggerType === 'delay') {
+                setTimeout(sendTelegramNotification, parseInt(waitDelay));
+            } else if (triggerType === 'inactivity') {
+                var inactivityDelay = triggerInactivity ? parseInt(triggerInactivity) : 30000;
+                var inactivityTimer;
+                function resetTimerTg() {
+                    clearTimeout(inactivityTimer);
+                    inactivityTimer = setTimeout(sendTelegramNotification, inactivityDelay);
+                }
+                ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(function(evt) {
+                    document.addEventListener(evt, resetTimerTg, true);
+                });
+                resetTimerTg();
+            } else if (triggerType === 'viewport' && triggerViewport) {
+                var elementId = triggerViewport.replace('#', '');
+                var targetEl = document.getElementById(elementId) || document.querySelector(triggerViewport);
+                if (targetEl) {
+                    var obs = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) { sendTelegramNotification(); obs.disconnect(); }
+                        });
+                    }, { threshold: 0.1 });
+                    obs.observe(targetEl);
+                }
+            } else if (triggerType === 'scroll_middle') {
+                var triggeredMid = false;
+                function checkMidTg() {
+                    if (triggeredMid) return;
+                    var pct = (window.pageYOffset + window.innerHeight) / document.documentElement.scrollHeight;
+                    if (pct >= 0.5) { triggeredMid = true; sendTelegramNotification(); }
+                }
+                checkMidTg();
+                window.addEventListener('scroll', checkMidTg, { passive: true });
+            } else if (triggerType === 'scroll_end') {
+                var triggeredEnd = false;
+                function checkEndTg() {
+                    if (triggeredEnd) return;
+                    var pct = (window.pageYOffset + window.innerHeight) / document.documentElement.scrollHeight;
+                    if (pct >= 0.95) { triggeredEnd = true; sendTelegramNotification(); }
+                }
+                checkEndTg();
+                window.addEventListener('scroll', checkEndTg, { passive: true });
+            } else if (triggerType === 'codeweber_form') {
+                document.addEventListener('codeweber_form_success', sendTelegramNotification);
+            } else if (triggerType === 'cf7_form') {
+                document.addEventListener('wpcf7mailsent', sendTelegramNotification);
+                document.addEventListener('cf7_form_success', sendTelegramNotification);
+            } else if (triggerType === 'woocommerce_order') {
+                if (document.body.classList.contains('woocommerce-order-received')) { sendTelegramNotification(); }
+                document.addEventListener('woocommerce_order_success', sendTelegramNotification);
+            } else if (triggerType === 'page') {
+                setTimeout(sendTelegramNotification, parseInt(waitDelay));
+            } else if (triggerType === 'utm_param') {
+                if (checkUtmMatch()) { sendTelegramNotification(); }
+            }
+        }
+
+        initTelegramTriggers();
+        return;
     }
 
     // --- Modal type ---
@@ -341,6 +449,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
     else if (triggerType === 'page') {
         showNotificationModal();
+    }
+    else if (triggerType === 'utm_param') {
+        if (checkUtmMatch()) { showNotificationModal(); }
     }
         else {
         }

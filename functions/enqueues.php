@@ -274,7 +274,12 @@ add_action('wp_enqueue_scripts', 'codeweber_enqueue_restapi_script', 20);
  */
 function codeweber_enqueue_notification_triggers()
 {
-	// Load on all pages (needed for notification triggers)
+	// Only enqueue when at least one notification is published.
+	$counts = wp_count_posts('notifications');
+	if ( empty( $counts->publish ) || (int) $counts->publish === 0 ) {
+		return;
+	}
+
 	$notification_triggers_url = codeweber_get_dist_file_url('dist/assets/js/notification-triggers.js');
 	if (!$notification_triggers_url) {
 		return; // File doesn't exist
