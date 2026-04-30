@@ -108,6 +108,12 @@ function codeweber_notifications_meta_box_callback($post) {
 
 	$telegram_message = get_post_meta($post->ID, '_notification_telegram_message', true);
 
+	// Max firings
+	$max_firings_raw = get_post_meta($post->ID, '_notification_max_firings', true);
+	$max_firings     = ($max_firings_raw === '' || $max_firings_raw === false) ? 1 : absint($max_firings_raw);
+	$count_reset_raw = get_post_meta($post->ID, '_notification_count_reset', true);
+	$count_reset     = ($count_reset_raw === '' || $count_reset_raw === false) ? 720 : absint($count_reset_raw);
+
 	// Composite trigger
 	$composite_enabled   = get_post_meta($post->ID, '_notification_composite_enabled', true);
 	$composite_steps_raw = get_post_meta($post->ID, '_notification_composite_steps', true) ?: '[]';
@@ -582,6 +588,41 @@ function codeweber_notifications_meta_box_callback($post) {
 				<p class="description"><?php esc_html_e('Required. Trigger fires only when this exact value matches.', 'codeweber'); ?></p>
 			</td>
 		</tr>
+	<tr>
+		<th scope="row">
+			<label for="notification_max_firings"><?php esc_html_e('Max Firings', 'codeweber'); ?></label>
+		</th>
+		<td>
+			<input
+				type="number"
+				id="notification_max_firings"
+				name="notification_max_firings"
+				value="<?php echo esc_attr($max_firings); ?>"
+				class="small-text"
+				min="0"
+				step="1"
+			/>
+			<p class="description"><?php esc_html_e('How many times this notification can fire per visitor. 0 = unlimited. Default: 1', 'codeweber'); ?></p>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">
+			<label for="notification_count_reset"><?php esc_html_e('Count Reset', 'codeweber'); ?></label>
+		</th>
+		<td>
+			<input
+				type="number"
+				id="notification_count_reset"
+				name="notification_count_reset"
+				value="<?php echo esc_attr($count_reset); ?>"
+				class="small-text"
+				min="0"
+				step="1"
+			/>
+			<span><?php esc_html_e('hours', 'codeweber'); ?></span>
+			<p class="description"><?php esc_html_e('Hours before the firing counter resets. 0 = session cookie (resets on browser close). Default: 720 (30 days)', 'codeweber'); ?></p>
+		</td>
+	</tr>
 	</table>
 
 	<!-- ── Составной триггер ──────────────────────────────────────────────── -->
@@ -1000,6 +1041,16 @@ function codeweber_save_notifications_meta_box($post_id) {
 
 	$composite_lifetime_val = isset( $_POST['notification_composite_lifetime'] ) ? max( 1, absint( $_POST['notification_composite_lifetime'] ) ) : 24;
 	update_post_meta( $post_id, '_notification_composite_lifetime', $composite_lifetime_val );
+
+	// Save max firings (0 = unlimited, default 1; use empty-string check to allow saving 0)
+	$mf_raw = isset( $_POST['notification_max_firings'] ) ? $_POST['notification_max_firings'] : '';
+	$mf_val = ($mf_raw === '') ? 1 : absint( $mf_raw );
+	update_post_meta( $post_id, '_notification_max_firings', $mf_val );
+
+	// Save count reset hours (0 = session cookie, default 720)
+	$cr_raw = isset( $_POST['notification_count_reset'] ) ? $_POST['notification_count_reset'] : '';
+	$cr_val = ($cr_raw === '') ? 720 : absint( $cr_raw );
+	update_post_meta( $post_id, '_notification_count_reset', $cr_val );
 }
 add_action('save_post', 'codeweber_save_notifications_meta_box');
 
@@ -1197,6 +1248,12 @@ function codeweber_get_active_notification_modal() {
 			$comp_steps    = get_post_meta( $notification->ID, '_notification_composite_steps', true ) ?: '[]';
 			$comp_lifetime = absint( get_post_meta( $notification->ID, '_notification_composite_lifetime', true ) ?: 24 );
 
+			// Max firings
+			$mf_raw_result = get_post_meta( $notification->ID, '_notification_max_firings', true );
+			$max_firings_result = ($mf_raw_result === '' || $mf_raw_result === false) ? 1 : absint( $mf_raw_result );
+			$cr_raw_result = get_post_meta( $notification->ID, '_notification_count_reset', true );
+			$count_reset_result = ($cr_raw_result === '' || $cr_raw_result === false) ? 720 : absint( $cr_raw_result );
+
 			$result = array(
 				'notification_id'          => $notification->ID,
 				'notification_type'        => $notification_type,
@@ -1209,6 +1266,8 @@ function codeweber_get_active_notification_modal() {
 				'composite_enabled'        => ! empty( $comp_enabled ),
 				'composite_steps'          => $comp_steps,
 				'composite_lifetime'       => $comp_lifetime,
+				'max_firings'              => $max_firings_result,
+				'count_reset'              => $count_reset_result,
 			);
 
 			if ($notification_type === 'modal') {

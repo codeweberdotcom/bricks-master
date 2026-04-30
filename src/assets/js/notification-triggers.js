@@ -17,6 +17,34 @@ document.addEventListener("DOMContentLoaded", function() {
     const triggerUtmParam = modalElement.getAttribute('data-trigger-utm-param') || '';
     const triggerUtmValue = modalElement.getAttribute('data-trigger-utm-value') || '';
     const waitDelay = modalElement.getAttribute('data-wait') || 200;
+    const notifId    = modalElement.getAttribute('data-notification-id') || '';
+    const maxFirings = parseInt(modalElement.getAttribute('data-max-firings') || '1', 10);
+    const countReset = parseFloat(modalElement.getAttribute('data-count-reset') || '720');
+
+    // --- Firing counter (cookie-based) ---
+    const countCookieName = notifId ? 'cw_notif_' + notifId + '_count' : '';
+
+    function getCookieVal(name) {
+        var m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
+        return m ? parseInt(decodeURIComponent(m[1]), 10) : 0;
+    }
+    function setCookieVal(name, val, hours) {
+        var cookie = name + '=' + encodeURIComponent(val) + '; path=/; SameSite=Lax';
+        if (hours > 0) {
+            cookie += '; expires=' + new Date(Date.now() + hours * 3600000).toUTCString();
+        }
+        document.cookie = cookie;
+    }
+
+    function canFire() {
+        if (!notifId || maxFirings === 0) return true;
+        return getCookieVal(countCookieName) < maxFirings;
+    }
+    function recordFire() {
+        if (!notifId || maxFirings === 0) return;
+        var current = getCookieVal(countCookieName);
+        setCookieVal(countCookieName, current + 1, countReset);
+    }
 
     function checkUtmMatch() {
         if (!triggerUtmParam || !triggerUtmValue) return false;
@@ -25,14 +53,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // --- Composite Chain Mode ---
-    const chainNotifId      = modalElement.getAttribute('data-notification-id') || '';
     const compositeRaw      = modalElement.getAttribute('data-composite') || '';
     const compositeLifetime = parseFloat(modalElement.getAttribute('data-composite-lifetime') || '24');
     let   compositeSteps    = null;
     try { if (compositeRaw) compositeSteps = JSON.parse(compositeRaw); } catch(e) {}
 
-    if (compositeSteps && compositeSteps.length > 0 && chainNotifId) {
-        const cookieName     = 'cw_notif_' + chainNotifId + '_chain';
+    if (compositeSteps && compositeSteps.length > 0 && notifId) {
+        const cookieName     = 'cw_notif_' + notifId + '_chain';
         const chainNotifType = modalElement.getAttribute('data-notification-type') || '';
 
         function chainGetCookie() {
@@ -45,6 +72,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         function chainFire() {
+            if (!canFire()) return;
+            recordFire();
             if (chainNotifType === 'cw_notify') {
                 if (typeof window.CWNotify === 'undefined') return;
                 window.CWNotify.show(
@@ -60,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const utmP = new URLSearchParams(window.location.search);
                 fd.append('action', 'codeweber_notification_telegram');
                 fd.append('nonce', modalElement.getAttribute('data-nonce') || '');
-                fd.append('notification_id', chainNotifId);
+                fd.append('notification_id', notifId);
                 fd.append('page_url', window.location.href);
                 ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k) {
                     fd.append(k, utmP.get(k) || '');
@@ -156,7 +185,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const cwDelay    = parseInt(modalElement.getAttribute('data-cw-delay') || '5000', 10);
 
         function showCwNotify() {
+            if (!canFire()) return;
             if (typeof window.CWNotify === 'undefined') return;
+            recordFire();
             window.CWNotify.show(cwMessage, { type: cwType, position: cwPosition, delay: cwDelay });
         }
 
@@ -239,11 +270,9 @@ document.addEventListener("DOMContentLoaded", function() {
             };
         }
 
-        let tgSent = false;
-
         function sendTelegramNotification() {
-            if (tgSent) return;
-            tgSent = true;
+            if (!canFire()) return;
+            recordFire();
             const utm = getUtmParams();
             const formData = new FormData();
             formData.append('action', 'codeweber_notification_telegram');
@@ -254,8 +283,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const ajaxUrl = (typeof theme_scripts_ajax !== 'undefined' && theme_scripts_ajax.ajax_url)
                 ? theme_scripts_ajax.ajax_url
                 : '/wp-admin/admin-ajax.php';
-            fetch(ajaxUrl, { method: 'POST', body: formData })
-                .catch(function() { tgSent = false; });
+            fetch(ajaxUrl, { method: 'POST', body: formData });
         }
 
         function initTelegramTriggers() {
@@ -382,18 +410,23 @@ document.addEventListener("DOMContentLoaded", function() {
         if (triggerHandled) {
             return;
         }
-        
+
+        if (!canFire()) {
+            return;
+        }
+
         if (isHigherPriorityModalOpen()) {
             return;
         }
-        
+
         triggerHandled = true;
-        
+
         setTimeout(function() {
             if (isHigherPriorityModalOpen()) {
                 triggerHandled = false;
                 return;
             }
+            recordFire();
             modal.show();
         }, parseInt(waitDelay));
     }
