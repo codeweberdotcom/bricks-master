@@ -106,6 +106,8 @@ function codeweber_notifications_meta_box_callback($post) {
 		$cw_delay = 5000;
 	}
 
+	$telegram_message = get_post_meta($post->ID, '_notification_telegram_message', true);
+
 	// Trigger settings
 	$trigger_type = get_post_meta($post->ID, '_notification_trigger_type', true);
 	if (empty($trigger_type)) {
@@ -159,6 +161,9 @@ function codeweber_notifications_meta_box_callback($post) {
 					</option>
 					<option value="cw_notify" <?php selected($notification_type, 'cw_notify'); ?>>
 						<?php esc_html_e('CW Notify (Toast)', 'codeweber'); ?>
+					</option>
+					<option value="telegram" <?php selected($notification_type, 'telegram'); ?>>
+						<?php esc_html_e('Telegram Notification', 'codeweber'); ?>
 					</option>
 				</select>
 			</td>
@@ -327,6 +332,30 @@ function codeweber_notifications_meta_box_callback($post) {
 				/>
 				<span><?php esc_html_e('ms', 'codeweber'); ?></span>
 				<p class="description"><?php esc_html_e('Time before toast auto-hides (ms). 0 = do not auto-hide. Default: 5000ms', 'codeweber'); ?></p>
+			</td>
+		</tr>
+		<tr class="notification-type-field notification-type-telegram" style="<?php echo ($notification_type !== 'telegram') ? 'display:none;' : ''; ?>">
+			<th scope="row">
+				<label for="notification_telegram_message"><?php esc_html_e('Telegram Message', 'codeweber'); ?></label>
+			</th>
+			<td>
+				<textarea
+					id="notification_telegram_message"
+					name="notification_telegram_message"
+					class="large-text"
+					rows="6"
+				><?php echo esc_textarea($telegram_message); ?></textarea>
+				<p class="description">
+					<?php esc_html_e('Message template. Available variables:', 'codeweber'); ?><br>
+					<code>{title}</code> — <?php esc_html_e('notification title', 'codeweber'); ?>,
+					<code>{site_name}</code> — <?php esc_html_e('site name', 'codeweber'); ?>,
+					<code>{site_url}</code> — <?php esc_html_e('site URL', 'codeweber'); ?>,
+					<code>{page_url}</code> — <?php esc_html_e('page URL', 'codeweber'); ?>,
+					<code>{ip}</code> — <?php esc_html_e('visitor IP', 'codeweber'); ?>,
+					<code>{user_agent}</code> — <?php esc_html_e('browser / OS', 'codeweber'); ?>,
+					<code>{date}</code> — <?php esc_html_e('date and time', 'codeweber'); ?><br>
+					<b>UTM:</b> <code>{utm_source}</code>, <code>{utm_medium}</code>, <code>{utm_campaign}</code>, <code>{utm_term}</code>, <code>{utm_content}</code>
+				</p>
 			</td>
 		</tr>
 		<tr>
@@ -518,6 +547,7 @@ function codeweber_notifications_meta_box_callback($post) {
 			var notifType = $('#notification_type').val();
 			$('.notification-type-modal').toggle(notifType === 'modal');
 			$('.notification-type-cw-notify').toggle(notifType === 'cw_notify');
+			$('.notification-type-telegram').toggle(notifType === 'telegram');
 		}
 
 		$('#notification_type').on('change', toggleNotificationType);
@@ -743,7 +773,7 @@ function codeweber_save_notifications_meta_box($post_id) {
 
 	// Save notification type
 	$notif_type = isset($_POST['notification_type']) ? sanitize_text_field($_POST['notification_type']) : 'modal';
-	if (!in_array($notif_type, array('modal', 'cw_notify'))) {
+	if (!in_array($notif_type, array('modal', 'cw_notify', 'telegram'))) {
 		$notif_type = 'modal';
 	}
 	update_post_meta($post_id, '_notification_type', $notif_type);
@@ -763,6 +793,11 @@ function codeweber_save_notifications_meta_box($post_id) {
 
 	$cw_delay_val = isset($_POST['notification_cw_delay']) ? absint($_POST['notification_cw_delay']) : 5000;
 	update_post_meta($post_id, '_notification_cw_delay', $cw_delay_val);
+
+	// Save telegram fields
+	if (isset($_POST['notification_telegram_message'])) {
+		update_post_meta($post_id, '_notification_telegram_message', sanitize_textarea_field($_POST['notification_telegram_message']));
+	}
 }
 add_action('save_post', 'codeweber_save_notifications_meta_box');
 
@@ -887,6 +922,15 @@ function codeweber_get_active_notification_modal() {
 				continue;
 			}
 		}
+		if ($notification_type === 'telegram') {
+			$tg_msg_check = get_post_meta($notification->ID, '_notification_telegram_message', true);
+			if (empty($tg_msg_check)) {
+				if ($debug_mode) {
+					error_log('DEBUG Notification #' . $notification->ID . ': telegram type but message is empty, skipping');
+				}
+				continue;
+			}
+		}
 		
 		// Проверяем даты
 		$start_timestamp = 0;
@@ -958,11 +1002,13 @@ function codeweber_get_active_notification_modal() {
 				$result['modal_content'] = get_post_field('post_content', $modal_id);
 				$result['position']      = $position;
 				$result['size']          = $modal_size;
-			} else {
+			} elseif ($notification_type === 'cw_notify') {
 				$result['cw_message']  = get_post_meta($notification->ID, '_notification_cw_message', true);
 				$result['cw_type']     = get_post_meta($notification->ID, '_notification_cw_type', true) ?: 'info';
 				$result['cw_position'] = get_post_meta($notification->ID, '_notification_cw_position', true) ?: 'bottom-end';
 				$result['cw_delay']    = absint(get_post_meta($notification->ID, '_notification_cw_delay', true) ?: 5000);
+			} elseif ($notification_type === 'telegram') {
+				$result['telegram_message'] = get_post_meta($notification->ID, '_notification_telegram_message', true);
 			}
 
 			return $result;

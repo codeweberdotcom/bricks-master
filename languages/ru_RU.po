@@ -19669,3 +19669,44 @@ msgstr "Вопрос"
 #: functions/integrations/telegram/telegram-init.php
 msgid "email was not delivered"
 msgstr "письмо не доставлено"
+
+
+#: functions/cpt/cpt-notifications.php
+msgid "Telegram Notification"
+msgstr "Уведомление в Telegram"
+
+#: functions/cpt/cpt-notifications.php
+msgid "Telegram Message"
+msgstr "Сообщение в Telegram"
+
+#: functions/cpt/cpt-notifications.php
+msgid "Message template. Available variables:"
+msgstr "Шаблон сообщения. Доступные переменные:"
+
+#: functions/cpt/cpt-notifications.php
+msgid "notification title"
+msgstr "заголовок уведомления"
+
+#: functions/cpt/cpt-notifications.php
+msgid "site name"
+msgstr "название сайта"
+
+#: functions/cpt/cpt-notifications.php
+msgid "site URL"
+msgstr "URL сайта"
+
+#: functions/cpt/cpt-notifications.php
+msgid "page URL"
+msgstr "URL страницы"
+
+#: functions/cpt/cpt-notifications.php
+msgid "visitor IP"
+msgstr "IP посетителя"
+
+#: functions/cpt/cpt-notifications.php
+msgid "browser / OS"
+msgstr "браузер / ОС"
+
+#: functions/cpt/cpt-notifications.php
+msgid "date and time"
+msgstr "дата и время"

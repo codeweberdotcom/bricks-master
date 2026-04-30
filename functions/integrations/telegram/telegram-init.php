@@ -36,6 +36,60 @@ function codeweber_telegram_send_async_handler( string $text ): void {
 	}
 }
 
+// ── CPT Notifications → Telegram ─────────────────────────────────────────────
+
+add_action( 'wp_ajax_nopriv_codeweber_notification_telegram', 'codeweber_notification_telegram_handler' );
+add_action( 'wp_ajax_codeweber_notification_telegram', 'codeweber_notification_telegram_handler' );
+
+function codeweber_notification_telegram_handler(): void {
+	check_ajax_referer( 'codeweber_notification_telegram', 'nonce' );
+
+	$notification_id = isset( $_POST['notification_id'] ) ? absint( $_POST['notification_id'] ) : 0;
+	if ( ! $notification_id ) {
+		wp_send_json_error( 'invalid_id' );
+	}
+
+	$template = get_post_meta( $notification_id, '_notification_telegram_message', true );
+	if ( empty( $template ) ) {
+		wp_send_json_error( 'empty_template' );
+	}
+
+	$page_url    = isset( $_POST['page_url'] ) ? esc_url_raw( wp_unslash( $_POST['page_url'] ) ) : '';
+	$utm_source   = isset( $_POST['utm_source'] )   ? sanitize_text_field( wp_unslash( $_POST['utm_source'] ) )   : '';
+	$utm_medium   = isset( $_POST['utm_medium'] )   ? sanitize_text_field( wp_unslash( $_POST['utm_medium'] ) )   : '';
+	$utm_campaign = isset( $_POST['utm_campaign'] ) ? sanitize_text_field( wp_unslash( $_POST['utm_campaign'] ) ) : '';
+	$utm_term     = isset( $_POST['utm_term'] )     ? sanitize_text_field( wp_unslash( $_POST['utm_term'] ) )     : '';
+	$utm_content  = isset( $_POST['utm_content'] )  ? sanitize_text_field( wp_unslash( $_POST['utm_content'] ) )  : '';
+
+	$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+	$ua_raw = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
+	$ua  = $ua_raw ? codeweber_telegram_parse_ua( $ua_raw ) : '';
+
+	$replacements = array(
+		'{title}'        => esc_html( get_the_title( $notification_id ) ),
+		'{site_name}'    => esc_html( get_bloginfo( 'name' ) ),
+		'{site_url}'     => esc_url( home_url() ),
+		'{page_url}'     => esc_url( $page_url ),
+		'{ip}'           => esc_html( $ip ),
+		'{user_agent}'   => esc_html( $ua ),
+		'{date}'         => wp_date( 'd.m.Y H:i' ),
+		'{utm_source}'   => esc_html( $utm_source ),
+		'{utm_medium}'   => esc_html( $utm_medium ),
+		'{utm_campaign}' => esc_html( $utm_campaign ),
+		'{utm_term}'     => esc_html( $utm_term ),
+		'{utm_content}'  => esc_html( $utm_content ),
+	);
+
+	$text = str_replace( array_keys( $replacements ), array_values( $replacements ), $template );
+
+	$bot = CW_Telegram_Bot::from_redux();
+	if ( $bot ) {
+		$bot->send_message( $text );
+	}
+
+	wp_send_json_success();
+}
+
 // ── CodeWeber Forms ───────────────────────────────────────────────────────────
 
 add_action( 'codeweber_form_saved', 'codeweber_telegram_on_form_saved', 20, 3 );

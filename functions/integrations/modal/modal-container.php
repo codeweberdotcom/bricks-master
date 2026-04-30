@@ -93,6 +93,13 @@ function codeweber_universal_modal_container()
             data-cw-position="<?php echo esc_attr($active_notification['cw_position']); ?>"
             data-cw-delay="<?php echo esc_attr($active_notification['cw_delay']); ?>"
             <?php echo $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport; ?>></div>
+    <?php elseif ($active_notification && $notif_type === 'telegram'): ?>
+        <!-- Telegram Notification (hidden data carrier) -->
+        <div id="notification-modal" class="d-none"
+            data-notification-type="telegram"
+            data-notification-id="<?php echo esc_attr($active_notification['notification_id']); ?>"
+            data-nonce="<?php echo esc_attr(wp_create_nonce('codeweber_notification_telegram')); ?>"
+            <?php echo $data_wait . $data_trigger_type . $data_trigger_inactivity . $data_trigger_viewport; ?>></div>
     <?php endif; ?>
     
     <!-- Universal REST API modal — статично в DOM, Bootstrap не крашит делегированный обработчик.
