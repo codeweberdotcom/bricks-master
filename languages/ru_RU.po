@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-04-28 12:22+0000\n"
+"PO-Revision-Date: 2026-04-30 12:48+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -118,6 +118,17 @@ msgstr "%d форм удалено"
 #: functions/demo/demo-header.php:185
 msgid "%d headers deleted"
 msgstr "%d хедеров удалено"
+
+#. %d: number of posts
+#: templates/post-cards/taxonomy/overlay-5-primary.php:95
+#: templates/post-cards/taxonomy/overlay-5-primary.php:138
+#: templates/post-cards/taxonomy/overlay-5.php:94
+#: templates/post-cards/taxonomy/overlay-5.php:137
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:220
 msgid "%d item(s) found"
@@ -1880,7 +1891,7 @@ msgstr "Фон страницы"
 msgid "Book Now"
 msgstr "Забронировать сейчас"
 
-#: functions/post-cards-registry.php:255
+#: functions/post-cards-registry.php:271
 #, fuzzy
 msgid "Bootstrap card with Add to cart, Sale/New badges, hover swap"
 msgstr ""
@@ -2089,6 +2100,8 @@ msgstr "Кнопки"
 #: templates/post-cards/projects/overlay-5-primary.php:37
 #: templates/post-cards/services/overlay-5-primary.php:37
 #: templates/post-cards/services/overlay-5.php:39
+#: templates/post-cards/taxonomy/overlay-5-primary.php:41
+#: templates/post-cards/taxonomy/overlay-5.php:40
 #, fuzzy
 msgid "Buy"
 msgstr "Купить"
@@ -2295,6 +2308,15 @@ msgstr "Успешная отправка формы CF7"
 #: redux-framework/sample/sections/codeweber/demo.php:732
 msgid "CF7 Forms"
 msgstr "Формы CF7"
+
+#: functions/admin/term-thumbnail.php:105
+#: functions/admin/term-thumbnail.php:244
+msgid "Change image"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:116
+msgid "Chat / Channel ID"
+msgstr ""
 
 #: functions/woocommerce/states-ru.php:23
 msgid "Chechnya"
@@ -4440,6 +4462,8 @@ msgstr "Подробное руководство по созданию и на�
 #: templates/post-cards/projects/overlay-5-primary.php:35
 #: templates/post-cards/services/overlay-5-primary.php:35
 #: templates/post-cards/services/overlay-5.php:37
+#: templates/post-cards/taxonomy/overlay-5-primary.php:39
+#: templates/post-cards/taxonomy/overlay-5.php:38
 msgid "Details"
 msgstr "Детально"
 
@@ -4992,6 +5016,7 @@ msgstr "Образование/Квалификация"
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:406
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:499
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:348
+#: functions/integrations/telegram/telegram-init.php:123
 #: templates/singles/offices/offices_1.php:227
 #: templates/singles/offices/offices_2.php:186
 #: templates/singles/offices/offices_5.php:138
@@ -5357,6 +5382,14 @@ msgstr ""
 "Введите адрес электронной почты, чтобы проверить, есть ли у поставщиков "
 "данные для него:"
 
+#: functions/admin/api-test.php:153
+msgid "Enter Bot Token and save settings, or enter the key in the field"
+msgstr ""
+
+#: functions/admin/api-test.php:157
+msgid "Enter Chat / Channel ID"
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:156
 msgid "Enter company name"
 msgstr "Введите название компании"
@@ -5416,6 +5449,7 @@ msgid "Enter your admin password to confirm:"
 msgstr "Введите пароль администратора для подтверждения:"
 
 #: functions/enqueues.php:429
+#: functions/integrations/telegram/telegram-init.php:89
 #: functions/integrations/s3-storage/inc/Settings.php:119
 msgid "Error"
 msgstr "Ошибка"
@@ -5662,6 +5696,10 @@ msgstr "Список событий"
 #: functions/admin/events-settings.php:320
 msgid "Events Settings"
 msgstr "Настройки мероприятий"
+
+#: redux-framework/sample/sections/codeweber/api.php:123
+msgid "Events to notify"
+msgstr ""
 
 #: functions/cpt/cpt-faq.php:574
 msgid "Example"
@@ -6457,6 +6495,7 @@ msgstr "Принудительное использование HTTPS"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:46
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:107
+#: functions/integrations/telegram/telegram-init.php:52
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:43
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:550
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:759
@@ -6616,6 +6655,10 @@ msgstr "Отправка формы"
 #, fuzzy
 msgid "Form Submissions"
 msgstr "Заполнение форм"
+
+#: redux-framework/sample/sections/codeweber/api.php:127
+msgid "Form submissions (CodeWeber Forms)"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-core.php:42
 msgid "Form submitted successfully!"
@@ -6889,6 +6932,10 @@ msgstr "Получить направления"
 msgid "Get in Touch"
 msgstr "Связаться с нами"
 
+#: redux-framework/sample/sections/codeweber/api.php:109
+msgid "Get token from @BotFather: /newbot"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:158
 #: redux-framework/sample/sections/codeweber/socials.php:247
 #: redux-framework/sample/sections/extensions/users.php:257
@@ -6949,6 +6996,8 @@ msgstr "Гmailл"
 #: templates/post-cards/projects/overlay-5-primary.php:33
 #: templates/post-cards/services/overlay-5-primary.php:33
 #: templates/post-cards/services/overlay-5.php:35
+#: templates/post-cards/taxonomy/overlay-5-primary.php:37
+#: templates/post-cards/taxonomy/overlay-5.php:36
 #: templates/post-cards/vacancies/style4-card.php:99
 #: templates/post-cards/vacancies/style5-card.php:56
 msgid "Go"
@@ -7348,7 +7397,7 @@ msgstr "Ярлык ссылки \"Главная\""
 msgid "Horizontal"
 msgstr "Горизонтальный"
 
-#: functions/post-cards-registry.php:270
+#: functions/post-cards-registry.php:286
 msgid "Horizontal card that stays horizontal on all screen sizes"
 msgstr ""
 
@@ -7383,7 +7432,7 @@ msgstr "Горизонтальный макет отзывов"
 msgid "Horizontal — thumbs below; Vertical — thumbs on the side"
 msgstr "Горизонтальный - миниатюры снизу; Вертикальный - миниатюры сбоку"
 
-#: functions/post-cards-registry.php:265
+#: functions/post-cards-registry.php:281
 msgid "Horizontal: image 1/3, content 2/3 (stacks on mobile)"
 msgstr ""
 
@@ -7671,6 +7720,7 @@ msgid "If your candidacy interests us, we will contact you soon."
 msgstr ""
 "Если ваша кандидатура нас интересует, мы свяжемся с вами в ближайшее время."
 
+#: functions/admin/term-thumbnail.php:68 functions/admin/term-thumbnail.php:96
 #: redux-framework/sample/metaboxes.php:468
 #: redux-framework/sample/sections/codeweber/body-bg.php:53
 #: redux-framework/sample/sections/codeweber/cpt-type.php:667
@@ -8100,7 +8150,7 @@ msgstr "IP-адрес"
 msgid "Irkutsk Oblast"
 msgstr "Иркутская область"
 
-#: functions/post-cards-registry.php:275
+#: functions/post-cards-registry.php:291
 #, fuzzy
 msgid "Isotope grid style, figure with overlays"
 msgstr "Стиль сетки Isotope, фигура с наложениями"
@@ -8366,6 +8416,8 @@ msgstr "Лист"
 #: templates/post-cards/projects/overlay-5-primary.php:36
 #: templates/post-cards/services/overlay-5-primary.php:36
 #: templates/post-cards/services/overlay-5.php:38
+#: templates/post-cards/taxonomy/overlay-5-primary.php:40
+#: templates/post-cards/taxonomy/overlay-5.php:39
 msgid "Learn more"
 msgstr "Подробнее"
 
@@ -9059,6 +9111,10 @@ msgstr "Меню не найдено или пусто."
 msgid "Message"
 msgstr "Сообщение"
 
+#: functions/admin/api-test.php:185
+msgid "Message sent successfully"
+msgstr ""
+
 #: functions/integrations/modal/success-message-template.php:25
 msgid "Message sent successfully."
 msgstr "Сообщение успешно отправлено."
@@ -9132,7 +9188,7 @@ msgstr "Мин. ширина:"
 msgid "Minimal (only form blocks)"
 msgstr "Минимальный (только блоки форм)"
 
-#: functions/post-cards-registry.php:260
+#: functions/post-cards-registry.php:276
 #, fuzzy
 msgid "Minimalistic card for dense 4-6 column grids"
 msgstr "Минималистичная карточка для плотных сеток с 4-6 колонками"
@@ -9315,6 +9371,7 @@ msgstr "Мои Прайс-листы"
 #: woocommerce/order/order-details-customer.php:31
 #: woocommerce/order/order-details-customer.php:70
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:347
+#: functions/integrations/telegram/telegram-init.php:117
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:870
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:790
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:92
@@ -9450,6 +9507,10 @@ msgstr "Новая форма"
 msgid "New Form Submission"
 msgstr "Новая отправка формы"
 
+#: functions/integrations/telegram/telegram-init.php:244
+msgid "New form submission"
+msgstr "Новая заявка"
+
 #: functions/cpt/cpt-events.php:128
 #, fuzzy
 msgid "New Format Name"
@@ -9480,6 +9541,14 @@ msgstr "Имя нового лицензиара Автора"
 msgid "New Modal"
 msgstr "Новое Модальное окно"
 
+#: functions/integrations/telegram/telegram-init.php:140
+msgid "New newsletter subscription"
+msgstr "Новая подписка на рассылку"
+
+#: redux-framework/sample/sections/codeweber/api.php:129
+msgid "New newsletter subscriptions"
+msgstr ""
+
 #: functions/cpt/cpt-notifications.php:17
 msgid "New Notification"
 msgstr "Новое Уведомление"
@@ -9488,6 +9557,10 @@ msgstr "Новое Уведомление"
 #, fuzzy
 msgid "New Office"
 msgstr "Новый офис"
+
+#: functions/integrations/telegram/telegram-init.php:114
+msgid "New order"
+msgstr "Новый заказ"
 
 #: functions/cpt/cpt-page-header.php:16
 msgid "New Page Header"
@@ -9548,6 +9621,10 @@ msgstr "Новый цвет текста"
 #: functions/cpt/cpt-vacancies.php:17
 msgid "New Vacancy"
 msgstr "Новая вакансия"
+
+#: redux-framework/sample/sections/codeweber/api.php:128
+msgid "New WooCommerce orders"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:296
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:877
@@ -10327,6 +10404,11 @@ msgstr "Количество подписчиков:"
 msgid "Number of visible thumbnails (3–8)"
 msgstr "Количество видимых миниатюр (3-8)"
 
+#: redux-framework/sample/sections/codeweber/api.php:117
+msgid ""
+"Numeric ID (-100…) or @channel_username. The bot must be added to the chat."
+msgstr ""
+
 #: functions/bootstrap/bootstrap_share-page.php:257
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:125
 #: redux-framework/sample/sections/codeweber/socials.php:45
@@ -10538,6 +10620,8 @@ msgstr "Страница не найдена."
 #: templates/post-cards/projects/overlay-5-primary.php:34
 #: templates/post-cards/services/overlay-5-primary.php:34
 #: templates/post-cards/services/overlay-5.php:36
+#: templates/post-cards/taxonomy/overlay-5-primary.php:38
+#: templates/post-cards/taxonomy/overlay-5.php:37
 #: templates/singles/vacancies/default.php:67
 msgid "Open"
 msgstr "Открыта"
@@ -10639,6 +10723,10 @@ msgstr "Оптимизировать карту для мобильных уст
 msgid "Optimize map for touch interactions"
 msgstr "Оптимизировать карту для сенсорных взаимодействий"
 
+#: functions/admin/term-thumbnail.php:81 functions/admin/term-thumbnail.php:111
+msgid "Optional thumbnail for this term."
+msgstr ""
+
 #: functions/cpt/cpt-testimonials.php:277
 msgid "Optional: Override company name for this testimonial"
 msgstr "Необязательно: Переопределить название компании для этого отзыва"
@@ -10656,6 +10744,8 @@ msgstr "Orange"
 #: templates/post-cards/projects/overlay-5-primary.php:38
 #: templates/post-cards/services/overlay-5-primary.php:38
 #: templates/post-cards/services/overlay-5.php:40
+#: templates/post-cards/taxonomy/overlay-5-primary.php:42
+#: templates/post-cards/taxonomy/overlay-5.php:41
 #, fuzzy
 msgid "Order"
 msgstr "Заказ"
@@ -10751,13 +10841,14 @@ msgid "Overlay + uil-plus icon"
 msgstr "Наложение + значок uil-plus"
 
 #: functions/post-cards-registry.php:60 functions/post-cards-registry.php:234
+#: functions/post-cards-registry.php:250
 #: functions/fetch/getPostCardTemplates.php:100
 #, fuzzy
 msgid "Overlay 5"
 msgstr "Поверхность 5"
 
 #: functions/post-cards-registry.php:65 functions/post-cards-registry.php:223
-#: functions/post-cards-registry.php:239
+#: functions/post-cards-registry.php:239 functions/post-cards-registry.php:255
 #, fuzzy
 msgid "Overlay 5 Primary"
 msgstr "Наложение 5 Основной"
@@ -10788,6 +10879,7 @@ msgstr "Назначение"
 
 #: functions/cpt/cpt-notifications.php:425
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:45
+#: functions/integrations/telegram/telegram-init.php:270
 msgid "Page"
 msgstr "Страница"
 
@@ -11261,6 +11353,7 @@ msgstr "Тест Операторов Персональных данных V2"
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:415
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:416
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:357
+#: functions/integrations/telegram/telegram-init.php:120
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:380
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:439
 #: templates/singles/offices/default.php:107
@@ -11560,7 +11653,7 @@ msgstr "Порт"
 #: functions/cpt/cpt-staff.php:503
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:516
 msgid "Position"
-msgstr "Позиция"
+msgstr "Должность"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:264
 msgid "Position of sidebar on map"
@@ -12208,6 +12301,8 @@ msgstr "Синхронизировать заново"
 #: templates/post-cards/projects/overlay-5-primary.php:32
 #: templates/post-cards/services/overlay-5-primary.php:32
 #: templates/post-cards/services/overlay-5.php:34
+#: templates/post-cards/taxonomy/overlay-5-primary.php:36
+#: templates/post-cards/taxonomy/overlay-5.php:35
 msgid "Read"
 msgstr "Читать"
 
@@ -12229,6 +12324,8 @@ msgstr "Подробнее"
 #: templates/post-cards/projects/overlay-5-primary.php:31
 #: templates/post-cards/services/overlay-5-primary.php:31
 #: templates/post-cards/services/overlay-5.php:33
+#: templates/post-cards/taxonomy/overlay-5-primary.php:35
+#: templates/post-cards/taxonomy/overlay-5.php:34
 #: templates/post-cards/vacancies/card.php:127
 #: templates/post-cards/vacancies/style3-card.php:108
 msgid "Read more"
@@ -12444,6 +12541,7 @@ msgstr "Связанные вакансии"
 #: woocommerce/content-compare-bar.php:58
 #: woocommerce/content-compare-table.php:53
 #: functions/admin/faq-settings.php:203 functions/admin/faq-settings.php:259
+#: functions/admin/term-thumbnail.php:78 functions/admin/term-thumbnail.php:108
 #: functions/admin/testimonials-settings.php:94
 #: functions/admin/testimonials-settings.php:150
 #: functions/cpt/cpt-events.php:478 functions/cpt/cpt-events.php:527
@@ -13526,6 +13624,10 @@ msgstr "Выберите иконку из библиотеки Unicons"
 msgid "Select Image"
 msgstr "Выберите изображение"
 
+#: functions/admin/term-thumbnail.php:242
+msgid "Select image"
+msgstr ""
+
 #: functions/cpt/cpt-notifications.php:454
 msgid "Select Item"
 msgstr "Выберите элемент"
@@ -13717,6 +13819,10 @@ msgstr ""
 "Отправить тестовое письмо на %s, чтобы проверить правильность настройки "
 "вашего почтового сервера."
 
+#: redux-framework/sample/sections/codeweber/api.php:138
+msgid "Send a test message to the configured chat"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:718
 msgid "Send automatic reply emails for newsletter subscriptions"
 msgstr ""
@@ -13755,6 +13861,10 @@ msgstr "Отправлять уведомления по электронной 
 #, fuzzy
 msgid "Send form events to Matomo"
 msgstr "Отправить события формы в Matomo"
+
+#: redux-framework/sample/sections/codeweber/api.php:102
+msgid "Send form submissions to a Telegram chat or channel"
+msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:161
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:188
@@ -14058,27 +14168,27 @@ msgstr "Адрес доставки"
 msgid "Shop"
 msgstr "Магазин"
 
-#: functions/post-cards-registry.php:274
+#: functions/post-cards-registry.php:290
 #, fuzzy
 msgid "Shop 2"
 msgstr "Магазин 2"
 
-#: functions/post-cards-registry.php:254
+#: functions/post-cards-registry.php:270
 #, fuzzy
 msgid "Shop Card"
 msgstr "Карточка товара"
 
-#: functions/post-cards-registry.php:259
+#: functions/post-cards-registry.php:275
 #, fuzzy
 msgid "Shop Compact"
 msgstr "Магазин Компакт"
 
-#: functions/post-cards-registry.php:264
+#: functions/post-cards-registry.php:280
 #, fuzzy
 msgid "Shop List"
 msgstr "Список магазинов"
 
-#: functions/post-cards-registry.php:269
+#: functions/post-cards-registry.php:285
 msgid "Shop List SM"
 msgstr ""
 
@@ -14379,9 +14489,6 @@ msgstr "Показать значок \"Новинка\""
 #: templates/post-cards/offices/list-sm-text.php:117
 #: templates/post-cards/offices/list-sm.php:138
 #: templates/post-cards/offices/list-sm.php:144
-msgid "Show on Map"
-msgstr "Показать на карте"
-
 #: templates/singles/projects/default.php:93
 #: templates/singles/projects/projects_2.php:98
 #: templates/singles/projects/projects_3.php:90
@@ -14791,6 +14898,10 @@ msgstr "SMS RU Настройки"
 #: redux-framework/sample/sections/codeweber/woocommerce.php:753
 msgid "SMS.RU API"
 msgstr "API SMS.RU"
+
+#: functions/integrations/telegram/telegram-init.php:81
+msgid "SMTP error"
+msgstr "Ошибка SMTP"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:125
 msgid "SMTP Host"
@@ -15226,6 +15337,7 @@ msgid "Subitem 2.1.1"
 msgstr "Подпункт 2.1.1"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:358
+#: functions/integrations/telegram/telegram-init.php:87
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:874
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:124
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:347
@@ -15697,6 +15809,14 @@ msgstr "Команда"
 msgid "Telegram"
 msgstr "Telegram"
 
+#: redux-framework/sample/sections/codeweber/api.php:108
+msgid "Telegram Bot Token"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:101
+msgid "Telegram Bot: enable notifications"
+msgstr ""
+
 #: functions/cpt/cpt-faq.php:641
 msgid "Template Structure"
 msgstr "Структура шаблона"
@@ -15709,15 +15829,31 @@ msgstr "Временный каталог не доступен для запи�
 msgid "Temporary file not found."
 msgstr "Временный файл не найден."
 
+#: functions/post-cards-registry.php:256
+msgid "Term card with primary-colored overlay on hover"
+msgstr ""
+
+#: functions/post-cards-registry.php:251
+msgid "Term card: title on bottom overlay, description and count on hover"
+msgstr ""
+
 #: functions/admin/admin_privacy.php:1103
 #, fuzzy
 msgid "Terms of Use"
 msgstr "Условия использования"
 
+#: redux-framework/sample/sections/codeweber/api.php:140
+msgid "Test"
+msgstr ""
+
 #: functions/woocommerce/gateway-test.php:20
 #, fuzzy
 msgid "Test (no registration)"
 msgstr "Тест (без регистрации)"
+
+#: functions/admin/api-test.php:169
+msgid "Test CodeWeber — bot connected!"
+msgstr ""
 
 #: functions/integrations/s3-storage/inc/views/settings.php:93
 #, fuzzy
@@ -15780,6 +15916,10 @@ msgstr "Тестовый платеж"
 #: redux-framework/sample/sections/codeweber/smtp.php:223
 msgid "Test SMTP Connection"
 msgstr "Тестовое SMTP-соединение"
+
+#: redux-framework/sample/sections/codeweber/api.php:137
+msgid "Test Telegram"
+msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:11
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:82
@@ -16454,6 +16594,10 @@ msgstr "Верхний правый угол"
 msgid "Topbar"
 msgstr "ТопХедер"
 
+#: functions/integrations/telegram/telegram-init.php:125
+msgid "Total"
+msgstr "Сумма"
+
 #: functions/integrations/s3-storage/inc/views/tools.php:46
 #, fuzzy
 msgid "Total attachments"
@@ -16704,6 +16848,10 @@ msgstr "неизвестно"
 msgid "Unknown action."
 msgstr "Неизвестное действие."
 
+#: functions/admin/api-test.php:187
+msgid "Unknown error"
+msgstr ""
+
 #: functions/cpt/redux_cpt.php:16
 #, fuzzy
 msgid "Unnamed"
@@ -16852,6 +17000,8 @@ msgstr "Ошибка загрузки"
 msgid "Upload Font"
 msgstr "Загрузить шрифт"
 
+#: functions/admin/term-thumbnail.php:75 functions/admin/term-thumbnail.php:105
+#: functions/admin/term-thumbnail.php:245
 #: functions/woocommerce/swatches.php:268
 #, fuzzy
 msgid "Upload image"
@@ -16998,7 +17148,8 @@ msgstr "Используйте следующий шорткод для отоб
 msgid "Use this file"
 msgstr "Используйте этот файл."
 
-#: functions/cpt/cpt-offices.php:729 functions/cpt/cpt-testimonials.php:346
+#: functions/admin/term-thumbnail.php:243 functions/cpt/cpt-offices.php:729
+#: functions/cpt/cpt-testimonials.php:346
 #: functions/woocommerce/product-video.php:116
 #: functions/woocommerce/swatches.php:97
 msgid "Use this image"
@@ -17373,6 +17524,8 @@ msgstr "Ссылка на видео"
 #: templates/post-cards/projects/overlay-5-primary.php:30
 #: templates/post-cards/services/overlay-5-primary.php:30
 #: templates/post-cards/services/overlay-5.php:32
+#: templates/post-cards/taxonomy/overlay-5-primary.php:34
+#: templates/post-cards/taxonomy/overlay-5.php:33
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:650
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:631
 #: functions/integrations/s3-storage/inc/views/log-viewer.php:34
@@ -17865,6 +18018,10 @@ msgstr ""
 #, fuzzy
 msgid "Which column options to display"
 msgstr "Какие параметры столбца отображать"
+
+#: redux-framework/sample/sections/codeweber/api.php:124
+msgid "Which events trigger a Telegram notification"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:220
 #, fuzzy
@@ -19506,25 +19663,5 @@ msgid "−% Discount"
 msgstr "−% Скидка"
 
 #: functions/integrations/telegram/telegram-init.php
-msgid "New form submission"
-msgstr "Новая заявка"
-
-#: functions/integrations/telegram/telegram-init.php
-msgid "New order"
-msgstr "Новый заказ"
-
-#: functions/integrations/telegram/telegram-init.php
-msgid "New newsletter subscription"
-msgstr "Новая подписка на рассылку"
-
-#: functions/integrations/telegram/telegram-init.php
-msgid "Total"
-msgstr "Сумма"
-
-#: functions/integrations/telegram/telegram-init.php
-msgid "Page"
-msgstr "Страница"
-
-#: functions/integrations/telegram/telegram-init.php
-msgid "SMTP error"
-msgstr "Ошибка SMTP"
+msgid "Question"
+msgstr "Вопрос"

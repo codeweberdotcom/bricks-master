@@ -265,7 +265,7 @@ function codeweber_telegram_format_form(
 		if ( ! $value || preg_match( '/^[a-f0-9\-]{36}$/i', $value ) ) {
 			continue;
 		}
-		$label   = ucfirst( str_replace( array( '_', '-' ), ' ', $key ) );
+		$label   = codeweber_telegram_field_label( $key_norm );
 		$lines[] = '<b>' . esc_html( $label ) . ':</b> ' . esc_html( $value );
 	}
 
@@ -284,4 +284,30 @@ function codeweber_telegram_format_form(
 	$lines[] = '🕐 ' . wp_date( 'd.m.Y H:i' );
 
 	return implode( "\n", $lines );
+}
+
+/**
+ * Переводит нормализованный ключ поля в читаемую метку.
+ */
+function codeweber_telegram_field_label( string $key ): string {
+	$map = array(
+		'name'            => __( 'Name', 'codeweber' ),
+		'first_name'      => __( 'First name', 'codeweber' ),
+		'last_name'       => __( 'Last name', 'codeweber' ),
+		'email'           => __( 'Email', 'codeweber' ),
+		'phone'           => __( 'Phone', 'codeweber' ),
+		'message'         => __( 'Message', 'codeweber' ),
+		'subject'         => __( 'Subject', 'codeweber' ),
+		'company'         => __( 'Company', 'codeweber' ),
+		'city'            => __( 'City', 'codeweber' ),
+		'address'         => __( 'Address', 'codeweber' ),
+		'rating'          => __( 'Rating', 'codeweber' ),
+		'comment'         => __( 'Comment', 'codeweber' ),
+		'question'        => __( 'Question', 'codeweber' ),
+		'website'         => __( 'Website', 'codeweber' ),
+		'position'        => __( 'Position', 'codeweber' ),
+		'vacancy'         => __( 'Vacancy', 'codeweber' ),
+	);
+
+	return $map[ $key ] ?? ucfirst( str_replace( array( '_', '-' ), ' ', $key ) );
 }
