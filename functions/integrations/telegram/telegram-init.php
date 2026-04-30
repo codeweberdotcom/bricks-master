@@ -3,7 +3,7 @@
  * Telegram Bot — инициализация и подключение к хукам.
  *
  * Telegram подключается как канал CW_Notify через хук cw_notify_server_notification.
- * Другие каналы (email, Slack и т.д.) могут подключиться туда же.
+ * Отправка — асинхронно через WP Cron, не блокирует ответ пользователю.
  *
  * @package Codeweber
  */
@@ -22,7 +22,14 @@ function codeweber_telegram_channel( string $event, string $text ): void {
 	if ( ! codeweber_telegram_event_enabled( $event ) ) {
 		return;
 	}
+	// Ставим в очередь WP Cron — не блокирует текущий запрос.
+	wp_schedule_single_event( time(), 'codeweber_telegram_send_async', array( $text ) );
+}
 
+// WP Cron handler — вызывается в фоне.
+add_action( 'codeweber_telegram_send_async', 'codeweber_telegram_send_async_handler' );
+
+function codeweber_telegram_send_async_handler( string $text ): void {
 	$bot = CW_Telegram_Bot::from_redux();
 	if ( $bot ) {
 		$bot->send_message( $text );
@@ -45,7 +52,6 @@ function codeweber_telegram_on_form_saved( int $submission_id, $form_id, array $
 		$form_name = __( 'Form', 'codeweber' );
 	}
 
-	// IP из БД, URL страницы из заголовка AJAX-запроса.
 	$ip       = codeweber_telegram_get_submission_ip( $submission_id );
 	$page_url = wp_get_referer() ?: '';
 
@@ -152,7 +158,6 @@ function codeweber_telegram_format_form(
 	}
 	$lines[] = '';
 
-	// Системные и служебные поля — не выводить.
 	$skip = array( '_utm_data', 'newsletter_consents', 'form_name', 'form_type' );
 
 	foreach ( $fields as $key => $value ) {
