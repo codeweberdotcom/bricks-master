@@ -53,9 +53,10 @@ function codeweber_telegram_on_form_saved( int $submission_id, $form_id, array $
 	}
 
 	$ip       = codeweber_telegram_get_submission_ip( $submission_id );
+	$ua       = codeweber_telegram_get_submission_ua( $submission_id );
 	$page_url = wp_get_referer() ?: '';
 
-	$text = codeweber_telegram_format_form( $submission_id, $form_name, $fields, $ip, $page_url );
+	$text = codeweber_telegram_format_form( $submission_id, $form_name, $fields, $ip, $page_url, $ua );
 	CW_Notify::send_server_notification( 'form', $text );
 }
 
@@ -140,6 +141,60 @@ function codeweber_telegram_get_submission_ip( int $submission_id ): string {
 }
 
 /**
+ * Получает User-Agent из записи сабмита в БД.
+ */
+function codeweber_telegram_get_submission_ua( int $submission_id ): string {
+	if ( ! $submission_id || ! class_exists( 'CodeweberFormsDatabase' ) ) {
+		return '';
+	}
+	$db  = new CodeweberFormsDatabase();
+	$row = $db->get_submission( $submission_id );
+	$ua  = $row ? (string) ( $row->user_agent ?? '' ) : '';
+	return $ua ? codeweber_telegram_parse_ua( $ua ) : '';
+}
+
+/**
+ * Парсит UA-строку в краткий вид «Browser Ver / OS».
+ */
+function codeweber_telegram_parse_ua( string $ua ): string {
+	$browser = 'Unknown';
+	$os      = 'Unknown';
+
+	// Браузер — порядок важен: Edge перед Chrome, OPR перед Chrome.
+	if ( preg_match( '/Edg(?:e|)\/([\d]+)/', $ua, $m ) ) {
+		$browser = 'Edge ' . $m[1];
+	} elseif ( preg_match( '/OPR\/([\d]+)/', $ua, $m ) ) {
+		$browser = 'Opera ' . $m[1];
+	} elseif ( preg_match( '/YaBrowser\/([\d]+)/', $ua, $m ) ) {
+		$browser = 'Yandex ' . $m[1];
+	} elseif ( preg_match( '/Chrome\/([\d]+)/', $ua, $m ) ) {
+		$browser = 'Chrome ' . $m[1];
+	} elseif ( preg_match( '/Firefox\/([\d]+)/', $ua, $m ) ) {
+		$browser = 'Firefox ' . $m[1];
+	} elseif ( preg_match( '/Safari\/([\d]+)/', $ua, $m ) && preg_match( '/Version\/([\d]+)/', $ua, $mv ) ) {
+		$browser = 'Safari ' . $mv[1];
+	}
+
+	// ОС.
+	if ( preg_match( '/Windows NT ([\d.]+)/', $ua, $m ) ) {
+		$map = array( '10.0' => 'Windows 10/11', '6.3' => 'Windows 8.1', '6.2' => 'Windows 8', '6.1' => 'Windows 7' );
+		$os  = $map[ $m[1] ] ?? 'Windows';
+	} elseif ( preg_match( '/Android ([\d.]+)/', $ua, $m ) ) {
+		$os = 'Android ' . $m[1];
+	} elseif ( strpos( $ua, 'iPhone' ) !== false ) {
+		$os = 'iPhone';
+	} elseif ( strpos( $ua, 'iPad' ) !== false ) {
+		$os = 'iPad';
+	} elseif ( preg_match( '/Mac OS X ([\d_]+)/', $ua, $m ) ) {
+		$os = 'macOS ' . str_replace( '_', '.', $m[1] );
+	} elseif ( strpos( $ua, 'Linux' ) !== false ) {
+		$os = 'Linux';
+	}
+
+	return $browser . ' / ' . $os;
+}
+
+/**
  * Форматирует текст уведомления формы для Telegram.
  */
 function codeweber_telegram_format_form(
@@ -147,7 +202,8 @@ function codeweber_telegram_format_form(
 	string $form_name,
 	array $fields,
 	string $ip = '',
-	string $page_url = ''
+	string $page_url = '',
+	string $ua = ''
 ): string {
 	$site    = get_bloginfo( 'name' );
 	$lines   = array();
@@ -182,6 +238,9 @@ function codeweber_telegram_format_form(
 	}
 	if ( $ip ) {
 		$lines[] = '🔎 <b>IP:</b> ' . esc_html( $ip );
+	}
+	if ( $ua ) {
+		$lines[] = '💻 <b>UA:</b> ' . esc_html( $ua );
 	}
 
 	$lines[] = '🕐 ' . wp_date( 'd.m.Y H:i' );
