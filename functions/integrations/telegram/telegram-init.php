@@ -250,11 +250,12 @@ function codeweber_telegram_format_form(
 	}
 	$lines[] = '';
 
-	$skip = array( '_utm_data', 'newsletter_consents', 'form_name', 'form_type' );
+	$skip = array( '_utm_data', 'newsletter_consents', 'form_name', 'form_type', '_form_name' );
 
 	foreach ( $fields as $key => $value ) {
-		$key = trim( (string) $key );
-		if ( in_array( $key, $skip, true ) ) {
+		$key          = trim( (string) $key );
+		$key_norm     = str_replace( array( ' ', '-' ), '_', strtolower( $key ) );
+		if ( in_array( $key, $skip, true ) || in_array( $key_norm, $skip, true ) ) {
 			continue;
 		}
 		if ( is_array( $value ) ) {
