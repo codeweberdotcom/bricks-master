@@ -166,6 +166,7 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | WooCommerce Single Product Gallery (Swiper, skeleton, shimmer thumbs, видео-слайд) | `doc_claude/integrations/WC_SINGLE_GALLERY.md` |
 | Events (CPT, регистрации, REST API, FullCalendar, ICS, галерея, карта) | `doc_claude/integrations/EVENTS.md` |
 | S3 Storage модуль (кастомный S3-сервер, Redux gate, offload/restore/wipe, Content-Type, логи) | `doc_claude/integrations/S3_STORAGE.md` |
+| Telegram Bot (уведомления, CW_Notify-канал, Redux API, форматирование, gotchas) | `doc_claude/integrations/TELEGRAM_BOT.md` |
 | Schema.org JSON-LD (модуль, CPT-схемы, фильтр, расширение) | `doc_claude/seo/SCHEMA_MODULE.md` |
 | Безопасность, чеклист | `doc_claude/security/SECURITY_CHECKLIST.md` |
 | Sidebar-виджеты CPT (архитектура, хуки, управление из child theme) | `doc_claude/components/SIDEBAR_WIDGETS.md` |
