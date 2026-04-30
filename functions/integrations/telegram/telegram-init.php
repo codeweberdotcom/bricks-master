@@ -47,6 +47,9 @@ function codeweber_telegram_on_form_saved( int $submission_id, $form_id, array $
 		if ( $post ) {
 			$form_name = $post->post_title;
 		}
+	} elseif ( $form_id && is_string( $form_id ) ) {
+		// Встроенные формы передают строковый ключ (напр. 'testimonial').
+		$form_name = ucfirst( str_replace( array( '_', '-' ), ' ', $form_id ) );
 	}
 	if ( ! $form_name ) {
 		$form_name = __( 'Form', 'codeweber' );
