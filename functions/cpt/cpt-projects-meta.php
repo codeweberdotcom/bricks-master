@@ -584,6 +584,54 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 	update_post_meta( $post_id, 'main_information_products', array_values( $ids ) );
 }, 10, 2 );
 
+// ── Hotspot Annotation Editor для Projects ────────────────────────────────────
+
+add_filter( 'cw_hotspot_extra_post_types', function ( array $types ) {
+	$types['projects'] = [
+		'image_meta_key'    => 'main_information_image',
+		'data_meta_key'     => '_project_hotspot_data',
+		'settings_meta_key' => '_project_hotspot_settings',
+		'show_image_upload' => false,
+		'nonce_action'      => 'save_project_hotspot',
+		'nonce_field'       => 'cw_project_hotspot_nonce',
+		'metabox_title'     => __( 'Hotspot Annotation', 'codeweber' ),
+	];
+	return $types;
+} );
+
+add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
+	if (
+		! isset( $_POST['cw_project_hotspot_nonce'] ) ||
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cw_project_hotspot_nonce'] ) ), 'save_project_hotspot' )
+	) {
+		return;
+	}
+
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+
+	if ( isset( $_POST['_project_hotspot_data'] ) ) {
+		$data    = stripslashes( $_POST['_project_hotspot_data'] );
+		$decoded = json_decode( $data, true );
+		if ( json_last_error() === JSON_ERROR_NONE ) {
+			update_post_meta( $post_id, '_project_hotspot_data', wp_slash( $data ) );
+		}
+	}
+
+	if ( isset( $_POST['_project_hotspot_settings'] ) ) {
+		$settings = stripslashes( $_POST['_project_hotspot_settings'] );
+		$decoded  = json_decode( $settings, true );
+		if ( json_last_error() === JSON_ERROR_NONE ) {
+			update_post_meta( $post_id, '_project_hotspot_settings', wp_slash( $settings ) );
+		}
+	}
+}, 10, 2 );
+
 // ── AJAX: поиск товаров ───────────────────────────────────────────────────────
 
 add_action( 'wp_ajax_cw_search_products', function () {
