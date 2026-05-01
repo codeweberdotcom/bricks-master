@@ -268,7 +268,12 @@ function codeweber_get_post_card_templates_registry() {
             'templates' => [
                 'shop-card' => [
                     'label' => __('Shop Card', 'codeweber'),
-                    'description' => __('Bootstrap card with Add to cart, Sale/New badges, hover swap', 'codeweber'),
+                    'description' => __('Bootstrap card, no overlay icons on image', 'codeweber'),
+                    'supports' => ['title', 'image', 'price', 'button'],
+                ],
+                'shop-card-md' => [
+                    'label' => __('Shop Card MD', 'codeweber'),
+                    'description' => __('Bootstrap card with wishlist, quick view, compare, Sale/New badges', 'codeweber'),
                     'supports' => ['title', 'image', 'price', 'button', 'badges'],
                 ],
                 'shop-compact' => [

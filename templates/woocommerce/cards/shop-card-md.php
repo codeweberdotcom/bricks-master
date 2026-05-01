@@ -1,11 +1,11 @@
 <?php
 /**
- * Product Card: shop-card
+ * Product Card: shop-card-md
  *
  * Bootstrap .card с явной кнопкой «В корзину» внизу.
- * Фото сверху — без оверлей-иконок (wishlist / quick view / compare / badge).
- * Hover-swap второго изображения.
- * Версия с иконками: shop-card-md.
+ * Фото сверху — hover-иконки wishlist / quick view / compare.
+ * Hover-swap второго изображения. Значок Sale/New.
+ * Полная копия shop-card (с оверлей-кнопками на фото).
  *
  * @package Codeweber
  */
@@ -28,6 +28,28 @@ if ( ! isset( $product_id ) ) {
 
 			<?php if ( $hover_img_html ) : ?>
 				<?php echo $hover_img_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php endif; ?>
+
+			<?php echo $badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+
+			<a class="<?php echo esc_attr( $cw_wl_class ); ?>"
+			   href="<?php echo $cw_wl_href; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"
+			   data-product-id="<?php echo esc_attr( $product_id ); ?>"
+			   data-bs-toggle="white-tooltip"
+			   title="<?php echo esc_attr( $cw_wl_title ); ?>"
+			   aria-label="<?php echo esc_attr( $cw_wl_title ); ?>">
+				<span class="cw-wishlist-icon"><i class="uil uil-heart"></i></span>
+			</a>
+
+			<a class="item-view" href="<?php echo esc_url( $product_url ); ?>"
+			   data-product-id="<?php echo esc_attr( $product_id ); ?>"
+			   data-bs-toggle="white-tooltip"
+			   title="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
+				<i class="uil uil-eye"></i>
+			</a>
+
+			<?php if ( $cw_compare_on ) : ?>
+				<?php CW_Compare_UI::render_loop_button( $product_id ); ?>
 			<?php endif; ?>
 		</figure>
 
