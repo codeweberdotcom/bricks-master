@@ -69,11 +69,12 @@ function getHotspotContent($params) {
         if ($post && $post->post_status === 'publish') {
             // Используем функцию рендеринга PostCard из темы
             if (function_exists('cw_render_post_card')) {
-                // Вызываем функцию напрямую (она уже использует ob_start/ob_get_clean внутри)
+                $GLOBALS['cw_shop_col_class'] = 'col-12';
                 $post_content = cw_render_post_card($post, $post_template, [], [
-                    'enable_link' => true, // Включаем ссылку в popover
+                    'enable_link' => true,
                     'image_size' => 'medium'
                 ]);
+                unset($GLOBALS['cw_shop_col_class']);
 
                 if ($point['contentType'] === 'hybrid' && !empty($point['content'])) {
                     // Hybrid: текст + пост
