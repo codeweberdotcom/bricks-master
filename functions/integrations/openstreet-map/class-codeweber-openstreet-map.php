@@ -38,6 +38,10 @@ class Codeweber_OpenStreet_Map {
 	}
 
 	public function enqueue_scripts(): void {
+		if ( ! $this->page_has_block() ) {
+			return;
+		}
+
 		$this->register_leaflet();
 
 		wp_enqueue_style( 'leaflet' );
@@ -51,6 +55,22 @@ class Codeweber_OpenStreet_Map {
 			$this->version,
 			true
 		);
+	}
+
+	private function page_has_block(): bool {
+		global $post;
+
+		if ( is_a( $post, 'WP_Post' ) && has_block( 'codeweber-blocks/openstreet-map', $post ) ) {
+			return true;
+		}
+
+		// Also check queried object for archives/templates.
+		$queried = get_queried_object();
+		if ( is_a( $queried, 'WP_Post' ) && has_block( 'codeweber-blocks/openstreet-map', $queried ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public function enqueue_admin_scripts( string $hook_suffix ): void {
