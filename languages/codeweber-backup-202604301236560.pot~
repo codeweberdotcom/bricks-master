@@ -10,11 +10,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-19 11:48+0000\n"
+"POT-Creation-Date: 2026-04-28 12:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: codeweber\n"
-"\n"
 "Language: \n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;"
 
@@ -62,6 +61,12 @@ msgstr ""
 #: functions/lib/comments-helper.php:38
 #, php-format
 msgid "%1$s "
+msgstr ""
+
+#. 1: action label, 2: success count, 3: failed count
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:99
+#, php-format
+msgid "%1$s: %2$d succeeded, %3$d failed."
 msgstr ""
 
 #: functions/demo/demo-offices.php:314
@@ -329,6 +334,10 @@ msgstr ""
 msgid "[Content anonymized]"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:125
+msgid "[dry-run]"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:143
 msgid ""
 "[redux_option key=\"consent_purpose\" list=\"inline\"]<br>[redux_option "
@@ -390,6 +399,10 @@ msgstr ""
 #: functions/integrations/redux_framework/redux_cookie.php:100
 #: functions/integrations/redux_framework/redux_cookie.php:123
 msgid "Accept"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:36
+msgid "Access Key"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:736
@@ -523,13 +536,13 @@ msgstr ""
 msgid "Add Html Block"
 msgstr ""
 
-#: functions/integrations/project-gallery-metabox.php:139
+#: functions/integrations/project-gallery-metabox.php:152
 msgid "Add images"
 msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:42
 #: functions/integrations/project-gallery-metabox.php:51
-#: functions/integrations/project-gallery-metabox.php:141
+#: functions/integrations/project-gallery-metabox.php:154
 msgid ""
 "Add images via the upload area below. Drag items in the grid to reorder."
 msgstr ""
@@ -606,6 +619,10 @@ msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:14
 msgid "Add New Html Block"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:24
+msgid "Add new image tag"
 msgstr ""
 
 #: functions/cpt/cpt-legal.php:11
@@ -782,6 +799,7 @@ msgstr ""
 #: woocommerce/order/order-details-customer.php:72
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:379
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:438
+#: templates/post-cards/projects/overlay-5-primary.php:109
 #: templates/singles/offices/default.php:104
 #: templates/singles/offices/default.php:183
 #: templates/singles/offices/offices_1.php:104
@@ -802,7 +820,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:835 functions/cpt/cpt-offices.php:524
+#: functions/cpt/cpt-events.php:835 functions/cpt/cpt-offices.php:532
 #: functions/cpt/cpt-vacancies.php:932
 msgid "Address (from map)"
 msgstr ""
@@ -816,7 +834,7 @@ msgstr ""
 msgid "Address is automatically detected when you click on the map"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:528
+#: functions/cpt/cpt-offices.php:536
 msgid "Address is automatically determined from the map"
 msgstr ""
 
@@ -917,6 +935,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:278
 #: redux-framework/sample/sections/codeweber/body-bg.php:77
 #: redux-framework/sample/sections/codeweber/cpt-type.php:689
+#: functions/integrations/s3-storage/inc/views/log-viewer.php:29
 msgid "All"
 msgstr ""
 
@@ -1005,6 +1024,11 @@ msgstr ""
 msgid "All Html Blocks"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:158
+#: functions/admin/media-cpt-filter.php:366
+msgid "All image tags"
+msgstr ""
+
 #: functions/cpt/cpt-legal.php:9
 msgid "All Legal"
 msgstr ""
@@ -1029,9 +1053,19 @@ msgstr ""
 msgid "All Offices"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:156
+#: functions/admin/media-cpt-filter.php:342
+msgid "All post types"
+msgstr ""
+
 #: functions/user.php:382 functions/cpt/cpt-testimonials.php:966
 #: templates/content/single-parts/post-author.php:51
 msgid "All Posts"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:157
+#: functions/admin/media-cpt-filter.php:396
+msgid "All posts"
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:13
@@ -1104,6 +1138,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:447
 msgid "Always"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:123
+msgid "Always output HTTPS URLs for offloaded media."
 msgstr ""
 
 #: functions/woocommerce/states-ru.php:16
@@ -1243,6 +1281,7 @@ msgstr ""
 msgid "Aqua"
 msgstr ""
 
+#: templates/post-cards/projects/overlay-5-primary.php:103
 #: templates/singles/projects/default.php:87
 #: templates/singles/projects/projects_2.php:92
 #: templates/singles/projects/projects_3.php:84
@@ -1368,6 +1407,10 @@ msgstr ""
 msgid "Attached Media Files"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:184
+msgid "Attachment"
+msgstr ""
+
 #: functions/sidebars.php:858 functions/cpt/cpt-testimonials.php:541
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1096
 #: redux-framework/sample/sections/codeweber/childtheme.php:35
@@ -1460,7 +1503,7 @@ msgstr ""
 msgid "Availability"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:149 functions/cpt/cpt-offices.php:644
+#: functions/cpt/cpt-offices.php:149 functions/cpt/cpt-offices.php:652
 msgid "Available Services"
 msgstr ""
 
@@ -1494,6 +1537,10 @@ msgid_plural "Awaiting Payment <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:17
+msgid "AWS SDK is missing. Run `composer install` inside the module directory."
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:89
 msgid "Back to Categories"
 msgstr ""
@@ -1510,6 +1557,10 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:443
 #: redux-framework/sample/sections/codeweber/body-bg.php:33
 msgid "Background Color"
+msgstr ""
+
+#: functions/admin/projects-settings.php:161
+msgid "Background color"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:502
@@ -1628,7 +1679,7 @@ msgstr ""
 msgid "Basic media uploader with disabled URL input field."
 msgstr ""
 
-#: functions/post-cards-registry.php:183
+#: functions/post-cards-registry.php:188
 #: functions/fetch/getPostCardTemplates.php:70
 msgid "Basic staff card with image, name and position"
 msgstr ""
@@ -1742,7 +1793,7 @@ msgstr ""
 msgid "Book Now"
 msgstr ""
 
-#: functions/post-cards-registry.php:239
+#: functions/post-cards-registry.php:255
 msgid "Bootstrap card with Add to cart, Sale/New badges, hover swap"
 msgstr ""
 
@@ -1802,12 +1853,12 @@ msgstr ""
 msgid "Breadcrumbs: WooCommerce"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:240
+#: functions/cpt/cpt-offices.php:248
 #: redux-framework/sample/sections/codeweber/company-details.php:25
 msgid "Break end"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:239
+#: functions/cpt/cpt-offices.php:247
 #: redux-framework/sample/sections/codeweber/company-details.php:24
 msgid "Break start"
 msgstr ""
@@ -1837,6 +1888,20 @@ msgstr ""
 
 #: functions/woocommerce/states-ru.php:21
 msgid "Bryansk Oblast"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/MediaLibrary.php:89
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:20
+#: functions/integrations/s3-storage/inc/views/settings.php:38
+msgid "Bucket"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:178
+msgid "Bucket is not configured."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:195
+msgid "Bucket reachable, put/delete OK."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:503
@@ -1912,6 +1977,14 @@ msgstr ""
 msgid "Buttons"
 msgstr ""
 
+#: templates/post-cards/post/overlay-5-primary.php:38
+#: templates/post-cards/post/overlay-5.php:37
+#: templates/post-cards/projects/overlay-5-primary.php:37
+#: templates/post-cards/services/overlay-5-primary.php:37
+#: templates/post-cards/services/overlay-5.php:39
+msgid "Buy"
+msgstr ""
+
 #: functions/admin/events-settings.php:166
 #: functions/admin/events-settings.php:188 functions/cpt/cpt-events.php:395
 #: functions/cpt/cpt-events.php:423
@@ -1920,6 +1993,10 @@ msgstr ""
 
 #: comments.php:140
 msgid "By using this comment form you agree with our Privacy Policy"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:137
+msgid "Cache-Control max-age (seconds)"
 msgstr ""
 
 #: templates/archives/events/events_1.php:42
@@ -1955,8 +2032,16 @@ msgstr ""
 msgid "Callback request"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:73
+msgid "Cancel"
+msgstr ""
+
 #: functions/events/event-registrations.php:268
 msgid "Cancel selected"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:123
+msgid "Cancel this job?"
 msgstr ""
 
 #: functions/events/event-registrations.php:169
@@ -1972,13 +2057,17 @@ msgid_plural "Cancelled <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:115
+msgid "Cancelled."
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1472
 #: functions/integrations/newsletter-subscription/admin/newsletter-import-export.php:122
 msgid "Cannot open uploaded file"
 msgstr ""
 
 #: functions/post-cards-registry.php:40 functions/post-cards-registry.php:102
-#: functions/post-cards-registry.php:187
+#: functions/post-cards-registry.php:192
 #: functions/fetch/getPostCardTemplates.php:46
 #: functions/fetch/getPostCardTemplates.php:71
 #: functions/fetch/getPostCardTemplates.php:81
@@ -2011,7 +2100,7 @@ msgstr ""
 msgid "Card layout with shadow and card body"
 msgstr ""
 
-#: functions/post-cards-registry.php:103 functions/post-cards-registry.php:188
+#: functions/post-cards-registry.php:103 functions/post-cards-registry.php:193
 #: functions/fetch/getPostCardTemplates.php:46
 #: functions/fetch/getPostCardTemplates.php:71
 msgid "Card with colored backgrounds (Sandbox style)"
@@ -2202,7 +2291,7 @@ msgstr ""
 msgid "Chuvashia"
 msgstr ""
 
-#: functions/post-cards-registry.php:192
+#: functions/post-cards-registry.php:197
 #: functions/fetch/getPostCardTemplates.php:72
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:393
 #: redux-framework/sample/sections/codeweber/footer.php:170
@@ -2212,32 +2301,32 @@ msgstr ""
 msgid "Circle"
 msgstr ""
 
-#: functions/post-cards-registry.php:197
+#: functions/post-cards-registry.php:202
 #: functions/fetch/getPostCardTemplates.php:73
 msgid "Circle Center"
 msgstr ""
 
-#: functions/post-cards-registry.php:202
+#: functions/post-cards-registry.php:207
 #: functions/fetch/getPostCardTemplates.php:74
 msgid "Circle Center Alt"
 msgstr ""
 
-#: functions/post-cards-registry.php:203
+#: functions/post-cards-registry.php:208
 #: functions/fetch/getPostCardTemplates.php:74
 msgid "Circular avatar centered with link on image and social links"
 msgstr ""
 
-#: functions/post-cards-registry.php:198
+#: functions/post-cards-registry.php:203
 #: functions/fetch/getPostCardTemplates.php:73
 msgid "Circular avatar centered with social links"
 msgstr ""
 
-#: functions/post-cards-registry.php:193
+#: functions/post-cards-registry.php:198
 #: functions/fetch/getPostCardTemplates.php:72
 msgid "Circular avatar with social links"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:211 functions/cpt/cpt-offices.php:956
+#: functions/cpt/cpt-offices.php:219 functions/cpt/cpt-offices.php:964
 #: functions/cpt/cpt-staff.php:271
 #: woocommerce/order/order-details-customer.php:35
 #: woocommerce/order/order-details-customer.php:74
@@ -2274,8 +2363,17 @@ msgstr ""
 msgid "Clear Data (AJAX)"
 msgstr ""
 
+#. %d: number of log rows
+#: functions/integrations/s3-storage/inc/views/settings.php:174
+msgid "Clear DB log (%d)"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:527
 msgid "Clear LOG"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:111
+msgid "Clear the error log?"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:367
@@ -2346,7 +2444,7 @@ msgstr ""
 msgid "Closed"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:241
+#: functions/cpt/cpt-offices.php:249
 #: redux-framework/sample/sections/codeweber/company-details.php:26
 msgid "Closes"
 msgstr ""
@@ -2560,6 +2658,10 @@ msgstr ""
 msgid "Compare Products"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:114
+msgid "Completed."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/legal.php:725
 msgid "Compliance Mode"
 msgstr ""
@@ -2645,16 +2747,25 @@ msgstr[1] ""
 msgid "Confirming your subscription to the newsletter"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:30
+msgid "Connection"
+msgstr ""
+
 #: functions/integrations/ajax-search-module/ajax-search.php:80
 msgid "Connection error"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:110
 #: redux-framework/sample/sections/codeweber/smtp.php:245
 msgid "Connection failed: "
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:243
 msgid "Connection successful!"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:109
+msgid "Connection successful."
 msgstr ""
 
 #: functions/admin/faq-settings.php:202 functions/admin/faq-settings.php:258
@@ -2818,7 +2929,9 @@ msgstr ""
 
 #: functions/bootstrap/class-floating-social-widget.php:243
 #: functions/bootstrap/class-floating-social-widget.php:804
-#: functions/bootstrap/class-floating-social-widget.php:1136
+#: functions/bootstrap/class-floating-social-widget.php:821
+#: functions/bootstrap/class-floating-social-widget.php:1140
+#: functions/bootstrap/class-floating-social-widget.php:1157
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:357
 msgid "Contact us"
 msgstr ""
@@ -2918,7 +3031,7 @@ msgstr ""
 msgid "Could not read file."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:205 functions/cpt/cpt-staff.php:265
+#: functions/cpt/cpt-offices.php:213 functions/cpt/cpt-staff.php:265
 #: woocommerce/order/order-details-customer.php:38
 #: woocommerce/order/order-details-customer.php:77
 #: redux-framework/sample/sections/codeweber/company-details.php:98
@@ -3207,6 +3320,12 @@ msgstr ""
 msgid "CSS"
 msgstr ""
 
+#: functions/admin/projects-settings.php:438
+msgid ""
+"CSS class added to the section wrapper. Default: no background (inherits "
+"page color)."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/style.php:261
 msgid ""
 "CSS class applied to headings inside sidebar widgets (vacancies, events, FAQ,"
@@ -3236,6 +3355,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1117
 msgid "Current Fonts"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:50
+msgid "Current mode"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:589
@@ -3480,7 +3603,7 @@ msgstr ""
 msgid "Date:"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:237
+#: functions/cpt/cpt-offices.php:245
 #: redux-framework/sample/sections/codeweber/company-details.php:22
 msgid "Day"
 msgstr ""
@@ -3496,7 +3619,7 @@ msgstr ""
 
 #: functions/post-cards-registry.php:35 functions/post-cards-registry.php:97
 #: functions/post-cards-registry.php:144 functions/post-cards-registry.php:160
-#: functions/post-cards-registry.php:182 functions/cpt/cpt-faq.php:573
+#: functions/post-cards-registry.php:187 functions/cpt/cpt-faq.php:573
 #: functions/fetch/getPostCardTemplates.php:45
 #: functions/fetch/getPostCardTemplates.php:63
 #: functions/fetch/getPostCardTemplates.php:70
@@ -3654,8 +3777,12 @@ msgstr ""
 msgid "Default zoom level"
 msgstr ""
 
-#: functions/admin/projects-settings.php:379
+#: functions/admin/projects-settings.php:403
 msgid "Default: 1040 (above most UI, below modals/offcanvas at 1045)."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:59
+msgid "Defined in wp-config.php (read-only)."
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:236
@@ -3721,6 +3848,10 @@ msgstr ""
 msgid "Delete all demo vacancy entries? This action cannot be undone."
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/log-viewer.php:35
+msgid "Delete all log files"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/demo.php:739
 msgid "Delete CF7 Forms"
 msgstr ""
@@ -3767,6 +3898,25 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:503
 msgid "Delete Demo Vacancies"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:36
+msgid ""
+"Delete every offloaded object from the bucket. Records stay in the database "
+"with is_offloaded=0. Local files are not touched."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:89
+msgid "Delete local"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:27
+#: functions/integrations/s3-storage/inc/views/tools.php:19
+msgid "Delete local copies"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:51
+msgid "Delete local copy"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:647
@@ -3892,7 +4042,7 @@ msgstr ""
 msgid "Departments list navigation"
 msgstr ""
 
-#: functions/cpt/cpt-faq.php:572 functions/cpt/cpt-offices.php:680
+#: functions/cpt/cpt-faq.php:572 functions/cpt/cpt-offices.php:688
 #: functions/integrations/personal-data-v2/test-providers.php:107
 #: templates/singles/offices/offices_2.php:269
 #: templates/singles/offices/offices_5.php:207
@@ -3929,6 +4079,11 @@ msgstr ""
 #: templates/archives/events/events_1.php:128
 #: templates/archives/events/events_2.php:104
 #: templates/archives/events/events_4.php:116
+#: templates/post-cards/post/overlay-5-primary.php:36
+#: templates/post-cards/post/overlay-5.php:35
+#: templates/post-cards/projects/overlay-5-primary.php:35
+#: templates/post-cards/services/overlay-5-primary.php:35
+#: templates/post-cards/services/overlay-5.php:37
 msgid "Details"
 msgstr ""
 
@@ -4168,6 +4323,7 @@ msgstr ""
 
 #: functions/woocommerce/compare/functions.php:171
 #: functions/woocommerce/wishlist/functions.php:125
+#: functions/integrations/s3-storage/inc/Settings.php:118
 msgid "Done"
 msgstr ""
 
@@ -4188,12 +4344,20 @@ msgstr ""
 msgid "Download document"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:28
+msgid "Download everything back to local and mark the module safe to disable."
+msgstr ""
+
 #: functions/cpt/cpt-documents.php:1146
 msgid "Download link:"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:16
+msgid "Download offloaded attachments back to wp-content/uploads."
+msgstr ""
+
 #: functions/integrations/event-gallery-metabox.php:123
-#: functions/integrations/project-gallery-metabox.php:140
+#: functions/integrations/project-gallery-metabox.php:153
 msgid ""
 "Drag & Drop your files or <span class=\"filepond--label-action\">"
 "browse</span>"
@@ -4216,6 +4380,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/socials.php:99
 #: redux-framework/sample/sections/extensions/users.php:109
 msgid "Dropbox"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:70
+msgid "Dry-run"
 msgstr ""
 
 #: functions/woocommerce/swatches.php:231
@@ -4271,8 +4439,15 @@ msgstr ""
 msgid "Each FAQ item"
 msgstr ""
 
+#: functions/admin/image-canvas-editor.php:125
 #: functions/cpt/cpt-vacancies.php:124 functions/lib/comments-helper.php:49
 msgid "Edit"
+msgstr ""
+
+#: functions/integrations/project-gallery-metabox.php:71
+#: functions/integrations/project-gallery-metabox.php:72
+#: functions/integrations/project-gallery-metabox.php:151
+msgid "Edit attachment"
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:73 functions/cpt/cpt-events.php:85
@@ -4325,6 +4500,10 @@ msgstr ""
 
 #: functions/cpt/cpt-html_blocks.php:16
 msgid "Edit Html Block"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:25
+msgid "Edit image tag"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:319
@@ -4402,7 +4581,7 @@ msgstr ""
 
 #: functions/bootstrap/bootstrap_share-page.php:225
 #: functions/bootstrap/bootstrap_share-page.php:267
-#: functions/cpt/cpt-offices.php:319 functions/cpt/cpt-offices.php:958
+#: functions/cpt/cpt-offices.php:327 functions/cpt/cpt-offices.php:966
 #: functions/events/event-registration-api.php:434
 #: functions/events/event-registrations.php:113
 #: functions/events/event-registrations.php:344
@@ -4721,6 +4900,10 @@ msgstr ""
 msgid "End:"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:34
+msgid "Endpoint URL"
+msgstr ""
+
 #: functions/admin/events-settings.php:167 functions/cpt/cpt-events.php:396
 msgid "Enroll"
 msgstr ""
@@ -4803,6 +4986,7 @@ msgid "Enter your admin password to confirm:"
 msgstr ""
 
 #: functions/enqueues.php:429
+#: functions/integrations/s3-storage/inc/Settings.php:119
 msgid "Error"
 msgstr ""
 
@@ -4849,12 +5033,20 @@ msgstr ""
 msgid "Error for #%d: %s"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:169
+msgid "Error log (database)"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:118
 msgid "Error Message"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:143
 msgid "Error saving fonts: "
+msgstr ""
+
+#: functions/admin/image-canvas-editor.php:67
+msgid "Error saving image"
 msgstr ""
 
 #: functions/enqueues.php:265
@@ -5107,6 +5299,10 @@ msgstr ""
 msgid "Facebook Pixel Settings"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:124
+msgid "failed"
+msgstr ""
+
 #: functions/cpt/cpt-html_blocks.php:166
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:381
 msgid "Failed to copy shortcode"
@@ -5182,6 +5378,10 @@ msgstr ""
 msgid "Failed to load avatar for \"%s\""
 msgstr ""
 
+#: functions/admin/image-canvas-editor.php:69
+msgid "Failed to load image"
+msgstr ""
+
 #: functions/woocommerce/quick-view.php:140
 msgid "Failed to load product. Please try again."
 msgstr ""
@@ -5228,8 +5428,16 @@ msgstr ""
 msgid "Failed to send test email."
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:121
+msgid "Failed to start job."
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:65
 msgid "Failed to unsubscribe from the newsletter. The link may have expired."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:116
+msgid "Failed."
 msgstr ""
 
 #: functions/cpt/cpt-events.php:366
@@ -5319,7 +5527,7 @@ msgstr ""
 msgid "FAQs"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:322 templates/singles/offices/default.php:237
+#: functions/cpt/cpt-offices.php:330 templates/singles/offices/default.php:237
 #: templates/singles/offices/offices_1.php:264
 #: templates/singles/offices/offices_5.php:194
 msgid "Fax"
@@ -5375,6 +5583,7 @@ msgstr ""
 #: functions/cpt/cpt-documents.php:406
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:788
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:764
+#: functions/integrations/s3-storage/inc/views/log-viewer.php:17
 msgid "File"
 msgstr ""
 
@@ -5470,6 +5679,21 @@ msgstr ""
 msgid "Filter by form type"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:162
+#: functions/admin/media-cpt-filter.php:364
+msgid "Filter by image tag"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:161
+#: functions/admin/media-cpt-filter.php:394
+msgid "Filter by post"
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:160
+#: functions/admin/media-cpt-filter.php:340
+msgid "Filter by post type"
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:75
 msgid "Filter licenses list"
 msgstr ""
@@ -5492,6 +5716,10 @@ msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:208
 msgid "Financial Analyst"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:24
+msgid "Find local attachments missing from S3 and upload them."
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:116
@@ -5704,6 +5932,10 @@ msgstr ""
 msgid ""
 "For this function to work, you must have a working API key from SMS.RU, it "
 "must be entered and saved in the API tab"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:119
+msgid "Force HTTPS"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:46
@@ -5925,7 +6157,7 @@ msgstr ""
 msgid "Found"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1059
+#: functions/cpt/cpt-offices.php:1067
 #: redux-framework/sample/sections/codeweber/company-details.php:13
 msgid "Friday"
 msgstr ""
@@ -5973,7 +6205,7 @@ msgstr ""
 msgid "Full"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:229
+#: functions/cpt/cpt-offices.php:237
 msgid "Full Address"
 msgstr ""
 
@@ -6063,7 +6295,7 @@ msgstr ""
 msgid "Generate QR code"
 msgstr ""
 
-#: functions/admin/projects-settings.php:360
+#: functions/admin/projects-settings.php:384
 msgid "Generates class btn-{color}, e.g. btn-primary, btn-soft-primary."
 msgstr ""
 
@@ -6132,6 +6364,11 @@ msgid "Gmail"
 msgstr ""
 
 #: templates/content/loop-legal.php:33 templates/archives/legal/legal_1.php:29
+#: templates/post-cards/post/overlay-5-primary.php:34
+#: templates/post-cards/post/overlay-5.php:33
+#: templates/post-cards/projects/overlay-5-primary.php:33
+#: templates/post-cards/services/overlay-5-primary.php:33
+#: templates/post-cards/services/overlay-5.php:35
 #: templates/post-cards/vacancies/style4-card.php:99
 #: templates/post-cards/vacancies/style5-card.php:56
 msgid "Go"
@@ -6477,13 +6714,23 @@ msgstr ""
 msgid "Home link label"
 msgstr ""
 
-#: functions/post-cards-registry.php:117 functions/post-cards-registry.php:207
+#: functions/post-cards-registry.php:117 functions/post-cards-registry.php:212
 #: redux-framework/sample/metaboxes.php:491
 #: redux-framework/sample/sections/codeweber/body-bg.php:78
 #: redux-framework/sample/sections/codeweber/cpt-type.php:690
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:406
 #: redux-framework/sample/sections/codeweber/woocommerce.php:424
 msgid "Horizontal"
+msgstr ""
+
+#: functions/post-cards-registry.php:270
+msgid "Horizontal card that stays horizontal on all screen sizes"
+msgstr ""
+
+#: functions/post-cards-registry.php:172
+msgid ""
+"Horizontal card: image left, address/contacts right. Stays horizontal on all "
+"screen sizes."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:477
@@ -6494,7 +6741,7 @@ msgstr ""
 msgid "Horizontal Gap (xs)"
 msgstr ""
 
-#: functions/post-cards-registry.php:208
+#: functions/post-cards-registry.php:213
 msgid "Horizontal staff layout"
 msgstr ""
 
@@ -6506,8 +6753,8 @@ msgstr ""
 msgid "Horizontal — thumbs below; Vertical — thumbs on the side"
 msgstr ""
 
-#: functions/post-cards-registry.php:249
-msgid "Horizontal: image 1/3, content 2/3"
+#: functions/post-cards-registry.php:265
+msgid "Horizontal: image 1/3, content 2/3 (stacks on mobile)"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:79
@@ -6662,11 +6909,11 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: functions/admin/projects-settings.php:246
+#: functions/admin/projects-settings.php:270
 msgid "Icon + text"
 msgstr ""
 
-#: functions/admin/projects-settings.php:244
+#: functions/admin/projects-settings.php:268
 msgid "Icon only"
 msgstr ""
 
@@ -6696,6 +6943,10 @@ msgstr ""
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:150
 #: redux-framework/sample/sections/codeweber/legal.php:864
 msgid "Identifier"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:113
+msgid "Idle"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:958
@@ -6754,6 +7005,11 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
+#: functions/admin/image-canvas-editor.php:16
+#: functions/admin/image-canvas-editor.php:26
+msgid "Image Canvas Editor"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:778
 msgid "Image for Login Page"
 msgstr ""
@@ -6778,6 +7034,15 @@ msgstr ""
 
 #: functions/woocommerce/swatches.php:37
 msgid "Image swatch"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:22
+msgid "Image Tag"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:21
+#: functions/admin/image-tag-taxonomy.php:23
+msgid "Image Tags"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:92
@@ -6953,6 +7218,7 @@ msgid "Insufficient permissions to perform this action."
 msgstr ""
 
 #: functions/admin/events-settings.php:242
+#: functions/admin/media-cpt-filter.php:251
 #: functions/admin/media-regenerate.php:15
 #: functions/admin/media-regenerate.php:39
 #: functions/admin/media-regenerate.php:240
@@ -6969,6 +7235,10 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:460
 msgid "Introduction / Short Description"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:32
+msgid "Invalid attachment."
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-user-consents.php:214
@@ -7051,6 +7321,10 @@ msgstr ""
 msgid "Invalid post type"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:259
+msgid "Invalid post type."
+msgstr ""
+
 #: functions/woocommerce/compare/class-cw-compare.php:59
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:98
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:141
@@ -7067,8 +7341,8 @@ msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:126
 #: functions/integrations/event-gallery-metabox.php:147
-#: functions/integrations/project-gallery-metabox.php:145
-#: functions/integrations/project-gallery-metabox.php:171
+#: functions/integrations/project-gallery-metabox.php:158
+#: functions/integrations/project-gallery-metabox.php:184
 msgid "Invalid request."
 msgstr ""
 
@@ -7104,7 +7378,7 @@ msgstr ""
 msgid "Irkutsk Oblast"
 msgstr ""
 
-#: functions/post-cards-registry.php:254
+#: functions/post-cards-registry.php:275
 msgid "Isotope grid style, figure with overlays"
 msgstr ""
 
@@ -7205,6 +7479,15 @@ msgstr ""
 
 #: functions/woocommerce/states-ru.php:38
 msgid "Kemerovo Oblast"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/MediaLibrary.php:90
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:24
+msgid "Key"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:84
+msgid "Key prefix"
 msgstr ""
 
 #: functions/woocommerce/states-ru.php:39
@@ -7321,7 +7604,7 @@ msgstr ""
 msgid "Latest"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:811 functions/cpt/cpt-offices.php:503
+#: functions/cpt/cpt-events.php:811 functions/cpt/cpt-offices.php:511
 #: functions/cpt/cpt-vacancies.php:911
 msgid "Latitude"
 msgstr ""
@@ -7339,6 +7622,11 @@ msgid "Leaf"
 msgstr ""
 
 #: functions/fetch/getHotspotContent.php:106
+#: templates/post-cards/post/overlay-5-primary.php:37
+#: templates/post-cards/post/overlay-5.php:36
+#: templates/post-cards/projects/overlay-5-primary.php:36
+#: templates/post-cards/services/overlay-5-primary.php:36
+#: templates/post-cards/services/overlay-5.php:38
 msgid "Learn more"
 msgstr ""
 
@@ -7357,6 +7645,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/page-header.php:302
 #: redux-framework/sample/sections/codeweber/page-header.php:352
 msgid "Leave empty to use default translation"
+msgstr ""
+
+#: functions/admin/projects-settings.php:419
+msgid "Leave empty to use the default title «Project products»."
 msgstr ""
 
 #: functions/testimonials/testimonial-form-api.php:167
@@ -7437,6 +7729,10 @@ msgstr ""
 
 #: functions/woocommerce/states-ru.php:49
 msgid "Leningrad Oblast"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/log-viewer.php:27
+msgid "Level"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:171
@@ -7610,6 +7906,14 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:163
+msgid "Loading…"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:106
+msgid "Local only — new uploads stay on the server (S3 disabled)."
+msgstr ""
+
 #: functions/cpt/cpt-vacancies.php:322 functions/fetch/filterPosts.php:382
 #: templates/archives/events/events_1.php:66
 #: templates/archives/events/events_2.php:42
@@ -7626,8 +7930,20 @@ msgstr ""
 msgid "Location Name"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/log-viewer.php:42
+msgid "Log file is empty or does not exist."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:148
+msgid "Log level"
+msgstr ""
+
 #: woocommerce/myaccount/dashboard.php:37
 msgid "Log out"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:145
+msgid "Logging"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:145
@@ -7672,7 +7988,12 @@ msgstr ""
 msgid "Logs all Matomo tracking events to WordPress debug log"
 msgstr ""
 
-#: functions/cpt/cpt-events.php:819 functions/cpt/cpt-offices.php:510
+#: functions/integrations/s3-storage/inc/views/settings.php:155
+msgid ""
+"Logs are stored in the module folder: functions/integrations/s3-storage/logs/"
+msgstr ""
+
+#: functions/cpt/cpt-events.php:819 functions/cpt/cpt-offices.php:518
 #: functions/cpt/cpt-vacancies.php:918
 msgid "Longitude"
 msgstr ""
@@ -7731,6 +8052,10 @@ msgstr ""
 msgid "Main wrapper"
 msgstr ""
 
+#: functions/admin/image-canvas-editor.php:68
+msgid "Make square"
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:269
 msgid "Manage authors"
 msgstr ""
@@ -7739,15 +8064,15 @@ msgstr ""
 msgid "Manage licenses for images and videos"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:262 functions/cpt/cpt-offices.php:959
+#: functions/cpt/cpt-offices.php:270 functions/cpt/cpt-offices.php:967
 msgid "Manager"
 msgstr ""
 
 #: functions/admin/projects-settings.php:48
-#: functions/admin/projects-settings.php:340
-#: functions/admin/projects-settings.php:412
-#: functions/admin/projects-settings.php:461 functions/cpt/cpt-events.php:738
-#: functions/cpt/cpt-offices.php:365 functions/cpt/cpt-vacancies.php:820
+#: functions/admin/projects-settings.php:364
+#: functions/admin/projects-settings.php:462
+#: functions/admin/projects-settings.php:515 functions/cpt/cpt-events.php:738
+#: functions/cpt/cpt-offices.php:373 functions/cpt/cpt-vacancies.php:820
 #: redux-framework/sample/sections/codeweber/footer.php:297
 #: redux-framework/sample/sections/codeweber/header.php:353
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:63
@@ -7936,6 +8261,7 @@ msgstr ""
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:145
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:349
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:761
+#: functions/integrations/s3-storage/inc/views/settings.php:185
 msgid "Message"
 msgstr ""
 
@@ -8006,7 +8332,7 @@ msgstr ""
 msgid "Minimal (only form blocks)"
 msgstr ""
 
-#: functions/post-cards-registry.php:244
+#: functions/post-cards-registry.php:260
 msgid "Minimalistic card for dense 4-6 column grids"
 msgstr ""
 
@@ -8016,6 +8342,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:445
 msgid "Minimum screen width at which the sidebar becomes visible."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:108
+msgid "Mirror — keep a local copy AND upload to S3 (safest)."
 msgstr ""
 
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:92
@@ -8083,6 +8413,7 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:466
 #: redux-framework/sample/sections/codeweber/body-bg.php:51
 #: redux-framework/sample/sections/codeweber/cpt-type.php:665
+#: functions/integrations/s3-storage/inc/views/settings.php:102
 msgid "Mode"
 msgstr ""
 
@@ -8102,7 +8433,7 @@ msgstr ""
 msgid "Module Settings"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1055
+#: functions/cpt/cpt-offices.php:1063
 #: redux-framework/sample/sections/codeweber/company-details.php:9
 msgid "Monday"
 msgstr ""
@@ -8113,6 +8444,10 @@ msgstr ""
 
 #: templates/archives/testimonials/testimonials_5.php:17
 msgid "More"
+msgstr ""
+
+#: functions/cpt/cpt-offices.php:1196
+msgid "More details"
 msgstr ""
 
 #: functions/woocommerce/states-ru.php:55
@@ -8586,6 +8921,10 @@ msgstr ""
 msgid "No erasers registered in WordPress Privacy Tools!"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:191
+msgid "No errors logged."
+msgstr ""
+
 #: functions/cpt/cpt-events.php:35
 msgid "No events found"
 msgstr ""
@@ -8642,8 +8981,8 @@ msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:127
 #: functions/integrations/event-gallery-metabox.php:178
-#: functions/integrations/project-gallery-metabox.php:146
-#: functions/integrations/project-gallery-metabox.php:203
+#: functions/integrations/project-gallery-metabox.php:159
+#: functions/integrations/project-gallery-metabox.php:216
 msgid "No file received."
 msgstr ""
 
@@ -8709,6 +9048,10 @@ msgstr ""
 msgid "No Html Blocks found"
 msgstr ""
 
+#: functions/admin/image-tag-taxonomy.php:27
+msgid "No image tags found"
+msgstr ""
+
 #: functions/fetch/filterPosts.php:70
 msgid "No items found."
 msgstr ""
@@ -8719,6 +9062,10 @@ msgstr ""
 
 #: functions/cpt/cpt-legal.php:17
 msgid "No Legal documents in Trash"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/log-viewer.php:23
+msgid "No log files yet"
 msgstr ""
 
 #: functions/shortcodes.php:136
@@ -8793,6 +9140,10 @@ msgstr ""
 msgid "No personal data found to anonymize"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:165
+msgid "No posts found"
+msgstr ""
+
 #: functions/cpt/cpt-price_list.php:21
 msgid "No Price Lists found"
 msgstr ""
@@ -8811,6 +9162,10 @@ msgstr ""
 
 #: functions/demo/demo-products.php:1688
 msgid "No product data found."
+msgstr ""
+
+#: functions/admin/image-canvas-editor.php:82
+msgid "No product images found."
 msgstr ""
 
 #: templates/archives/projects/projects_1.php:82
@@ -8849,7 +9204,7 @@ msgstr ""
 msgid "No seats available"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:657
+#: functions/cpt/cpt-offices.php:665
 msgid "No services found. Please create services first."
 msgstr ""
 
@@ -8861,7 +9216,7 @@ msgstr ""
 msgid "No staff found."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:292 functions/cpt/cpt-offices.php:615
+#: functions/cpt/cpt-offices.php:300 functions/cpt/cpt-offices.php:623
 msgid "No staff members found. Please create staff members first."
 msgstr ""
 
@@ -8903,7 +9258,7 @@ msgstr ""
 msgid "No vacancies found."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:566
+#: functions/cpt/cpt-offices.php:574
 msgid "No vacancies found. Please create vacancies first."
 msgstr ""
 
@@ -8931,6 +9286,10 @@ msgstr ""
 msgid "none"
 msgstr ""
 
+#: functions/admin/projects-settings.php:425
+msgid "None (transparent)"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/style.php:441
 msgid "Normal — g-6 (30px)"
 msgstr ""
@@ -8943,7 +9302,11 @@ msgstr ""
 msgid "Not Active"
 msgstr ""
 
-#: functions/admin/projects-settings.php:373
+#: functions/admin/image-canvas-editor.php:95
+msgid "Not an image."
+msgstr ""
+
+#: functions/admin/projects-settings.php:397
 msgid "Not applied to «Icon only» type (always circle)."
 msgstr ""
 
@@ -8963,6 +9326,10 @@ msgstr ""
 
 #: functions/admin/admin_user_profil.php:17
 msgid "Not verified"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:41
+msgid "Not yet offloaded."
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:191
@@ -9085,24 +9452,24 @@ msgstr ""
 msgid "Office"
 msgstr ""
 
-#: functions/post-cards-registry.php:171
-msgid "Office Card"
-msgstr ""
-
 #: functions/fetch/getPostCardTemplates.php:81
 msgid "Office card template"
 msgstr ""
 
-#: functions/post-cards-registry.php:172
-msgid "Office card with address and contacts"
-msgstr ""
-
-#: functions/cpt/cpt-offices.php:694
+#: functions/cpt/cpt-offices.php:702
 msgid "Office Image"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:104
 msgid "Office Information"
+msgstr ""
+
+#: functions/post-cards-registry.php:171
+msgid "Office List SM"
+msgstr ""
+
+#: functions/post-cards-registry.php:176
+msgid "Office List SM Text"
 msgstr ""
 
 #: templates/singles/offices/offices_2.php:251
@@ -9115,17 +9482,38 @@ msgid "Office/Apartment"
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:11 functions/cpt/cpt-offices.php:13
-#: functions/cpt/cpt-offices.php:28
+#: functions/cpt/cpt-offices.php:28 functions/cpt/cpt-offices.php:1241
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:377
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:436
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:278
 msgid "Offices"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:87
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:116
+msgid "Offload"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:11
+msgid "Offload existing media"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:47
+msgid "Offload now"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:25
+msgid "Offload to S3"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/s3-storage.php:25
 msgid ""
 "Offload WordPress media to a custom S3-compatible server (MinIO, Ceph, "
 "Garage)."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:47
+msgid "Offloaded to S3"
 msgstr ""
 
 #: functions/admin/projects-settings.php:129
@@ -9200,6 +9588,10 @@ msgstr ""
 msgid "Only HTML"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:49
+msgid "Only in S3 (no local copy)"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:518
 msgid "Only JS"
 msgstr ""
@@ -9209,6 +9601,11 @@ msgid "Oops! Page Not Found."
 msgstr ""
 
 #: functions/sidebars.php:313 functions/cpt/cpt-vacancies.php:777
+#: templates/post-cards/post/overlay-5-primary.php:35
+#: templates/post-cards/post/overlay-5.php:34
+#: templates/post-cards/projects/overlay-5-primary.php:34
+#: templates/post-cards/services/overlay-5-primary.php:34
+#: templates/post-cards/services/overlay-5.php:36
 #: templates/singles/vacancies/default.php:67
 msgid "Open"
 msgstr ""
@@ -9227,8 +9624,16 @@ msgstr ""
 msgid "Open balloon when marker is clicked"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:177
+msgid "Open file-based logs →"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/s3-storage.php:17
 msgid "Open Logs"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:24
+msgid "Open Logs →"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/s3-storage.php:15
@@ -9243,13 +9648,21 @@ msgstr ""
 msgid "Open Tools"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:23
+msgid "Open Tools →"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/company-details.php:278
 msgid "Opening Hours"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:238
+#: functions/cpt/cpt-offices.php:246
 #: redux-framework/sample/sections/codeweber/company-details.php:23
 msgid "Opens"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:183
+msgid "Operation"
 msgstr ""
 
 #: redux-framework/sample-config.php:577
@@ -9290,6 +9703,14 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:274
 msgid "Orange"
+msgstr ""
+
+#: templates/post-cards/post/overlay-5-primary.php:39
+#: templates/post-cards/post/overlay-5.php:38
+#: templates/post-cards/projects/overlay-5-primary.php:38
+#: templates/post-cards/services/overlay-5-primary.php:38
+#: templates/post-cards/services/overlay-5.php:40
+msgid "Order"
 msgstr ""
 
 #: woocommerce/order/order-details.php:46
@@ -9373,12 +9794,13 @@ msgstr ""
 msgid "Overlay + uil-plus icon"
 msgstr ""
 
-#: functions/post-cards-registry.php:60 functions/post-cards-registry.php:218
+#: functions/post-cards-registry.php:60 functions/post-cards-registry.php:234
 #: functions/fetch/getPostCardTemplates.php:100
 msgid "Overlay 5"
 msgstr ""
 
 #: functions/post-cards-registry.php:65 functions/post-cards-registry.php:223
+#: functions/post-cards-registry.php:239
 msgid "Overlay 5 Primary"
 msgstr ""
 
@@ -9666,6 +10088,10 @@ msgstr ""
 msgid "Paste a YouTube, Vimeo, Rutube or VK Video URL."
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:66
+msgid "Path-style URLs"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:138
 #: redux-framework/sample/sections/codeweber/socials.php:123
 #: redux-framework/sample/sections/extensions/users.php:133
@@ -9698,6 +10124,14 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/body-bg.php:75
 #: redux-framework/sample/sections/codeweber/cpt-type.php:687
 msgid "Pattern Repeat"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:71
+msgid "Pause"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:120
+msgid "Paused"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:769
@@ -9748,8 +10182,10 @@ msgstr ""
 msgid "Perm Krai"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:171
 #: redux-framework/sample/sections/codeweber/smtp.php:265
 #: redux-framework/sample/sections/codeweber/smtp.php:322
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:25
 msgid "Permission denied."
 msgstr ""
 
@@ -9810,8 +10246,8 @@ msgstr ""
 
 #: functions/sidebars.php:992 functions/sidebars.php:994
 #: functions/admin/admin_user_profil.php:24
-#: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-offices.php:313
-#: functions/cpt/cpt-offices.php:957 functions/cpt/cpt-staff.php:244
+#: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-offices.php:321
+#: functions/cpt/cpt-offices.php:965 functions/cpt/cpt-staff.php:244
 #: functions/cpt/cpt-staff.php:507
 #: functions/events/event-registration-api.php:436
 #: functions/events/event-registrations.php:114
@@ -9889,7 +10325,7 @@ msgstr ""
 msgid "Phone 05"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:316 templates/singles/offices/default.php:209
+#: functions/cpt/cpt-offices.php:324 templates/singles/offices/default.php:209
 #: templates/singles/offices/offices_1.php:241
 #: templates/singles/offices/offices_2.php:210
 #: templates/singles/offices/offices_5.php:128
@@ -9955,7 +10391,7 @@ msgid ""
 "key=\"storage_address\"]"
 msgstr ""
 
-#: functions/admin/projects-settings.php:366
+#: functions/admin/projects-settings.php:390
 msgid "Pill"
 msgstr ""
 
@@ -9968,6 +10404,10 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/socials.php:153
 #: redux-framework/sample/sections/extensions/users.php:163
 msgid "Pinterest"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:87
+msgid "Placeholders: {year}, {month}, {day}. Default: {year}/{month}/"
 msgstr ""
 
 #: functions/events/event-registration-api.php:166
@@ -10125,6 +10565,10 @@ msgstr ""
 msgid "Post Date"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:159
+msgid "Post type"
+msgstr ""
+
 #: functions/cpt/cpt-modals.php:27
 msgid "Post type for modal windows"
 msgstr ""
@@ -10138,12 +10582,16 @@ msgctxt "Post Type General Name"
 msgid "Media Licenses"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:263
+msgid "Post type not allowed."
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:50
 msgctxt "Post Type Singular Name"
 msgid "Media License"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:226 functions/cpt/cpt-staff.php:277
+#: functions/cpt/cpt-offices.php:234 functions/cpt/cpt-staff.php:277
 #: redux-framework/sample/sections/codeweber/company-details.php:140
 #: redux-framework/sample/sections/codeweber/company-details.php:202
 msgid "Postal Code"
@@ -10161,6 +10609,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:283
 msgid "Posts, pages, CPT"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:27
+msgid "Prepare for uninstall"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:23
@@ -10345,6 +10797,10 @@ msgstr ""
 msgid "Product Video"
 msgstr ""
 
+#: functions/admin/projects-settings.php:146
+msgid "Products block"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:920
 msgid "Products Limit"
 msgstr ""
@@ -10355,6 +10811,12 @@ msgstr ""
 
 #: functions/cpt/cpt-projects.php:10
 msgid "Project"
+msgstr ""
+
+#: functions/post-cards-registry.php:224
+msgid ""
+"Project card with primary overlay on hover; architect and address in "
+"figcaption"
 msgstr ""
 
 #: functions/cpt/cpt-projects.php:70 functions/cpt/cpt-projects.php:75
@@ -10369,7 +10831,8 @@ msgstr ""
 msgid "Project Gallery"
 msgstr ""
 
-#: functions/bootstrap/bootstrap_post-nav.php:308
+#: functions/admin/projects-settings.php:418
+#: functions/bootstrap/bootstrap_post-nav.php:313
 msgid "Project products"
 msgstr ""
 
@@ -10400,7 +10863,7 @@ msgid "Projects Prev/Next Style"
 msgstr ""
 
 #: functions/admin/projects-settings.php:22
-#: functions/admin/projects-settings.php:508
+#: functions/admin/projects-settings.php:562
 msgid "Projects Settings"
 msgstr ""
 
@@ -10428,6 +10891,10 @@ msgstr ""
 
 #: functions/woocommerce/states-ru.php:67
 msgid "Pskov Oblast"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:39
+msgid "Public / CDN URL (optional)"
 msgstr ""
 
 #: functions/admin/admin_privacy.php:1721
@@ -10578,6 +11045,7 @@ msgstr ""
 #: functions/woocommerce/quick-view.php:85
 #: templates/woocommerce/cards/shop-card.php:46
 #: templates/woocommerce/cards/shop-compact.php:46
+#: templates/woocommerce/cards/shop-list-sm.php:47
 #: templates/woocommerce/cards/shop-list.php:48
 #: templates/woocommerce/cards/shop2.php:180
 msgid "Quick view"
@@ -10631,9 +11099,27 @@ msgstr ""
 msgid "Ratings Distribution"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:31
+msgid "Re-apply cache headers"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:90
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:56
+msgid "Re-apply metadata"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:28
+msgid "Re-apply S3 metadata"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:52
+msgid "Re-sync"
+msgstr ""
+
 #: templates/post-cards/post/overlay-5-primary.php:33
 #: templates/post-cards/post/overlay-5.php:32
 #: templates/post-cards/post/slider.php:67
+#: templates/post-cards/projects/overlay-5-primary.php:32
 #: templates/post-cards/services/overlay-5-primary.php:32
 #: templates/post-cards/services/overlay-5.php:34
 msgid "Read"
@@ -10654,6 +11140,7 @@ msgstr ""
 #: templates/post-cards/post/overlay-5-primary.php:32
 #: templates/post-cards/post/overlay-5.php:31
 #: templates/post-cards/post/slider.php:106
+#: templates/post-cards/projects/overlay-5-primary.php:31
 #: templates/post-cards/services/overlay-5-primary.php:31
 #: templates/post-cards/services/overlay-5.php:33
 #: templates/post-cards/vacancies/card.php:127
@@ -10712,9 +11199,10 @@ msgstr ""
 msgid "Regenerate thumbnails"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:208 functions/cpt/cpt-staff.php:268
+#: functions/cpt/cpt-offices.php:216 functions/cpt/cpt-staff.php:268
 #: redux-framework/sample/sections/codeweber/company-details.php:105
 #: redux-framework/sample/sections/codeweber/company-details.php:167
+#: functions/integrations/s3-storage/inc/views/settings.php:35
 msgid "Region"
 msgstr ""
 
@@ -10860,8 +11348,8 @@ msgstr ""
 #: functions/cpt/cpt-vacancies.php:531
 #: functions/integrations/event-gallery-metabox.php:55
 #: functions/integrations/event-gallery-metabox.php:122
-#: functions/integrations/project-gallery-metabox.php:65
-#: functions/integrations/project-gallery-metabox.php:138
+#: functions/integrations/project-gallery-metabox.php:76
+#: functions/integrations/project-gallery-metabox.php:150
 #: functions/woocommerce/product-video.php:98
 #: functions/woocommerce/product-video.php:127
 #: functions/woocommerce/swatches.php:273
@@ -10913,8 +11401,12 @@ msgstr ""
 msgid "Remove from Wishlist?"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:706
+#: functions/cpt/cpt-offices.php:714
 msgid "Remove Image"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:20
+msgid "Remove local files that are already safely stored in S3."
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:683
@@ -10972,7 +11464,7 @@ msgstr ""
 msgid "Requirements"
 msgstr ""
 
-#: functions/admin/projects-settings.php:231
+#: functions/admin/projects-settings.php:255
 msgid "Requires latitude and longitude to be filled in project settings."
 msgstr ""
 
@@ -11005,7 +11497,17 @@ msgid "Responsive Map"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:641
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:88
 msgid "Restore"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:15
+msgid "Restore from S3 to local"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:26
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:48
+msgid "Restore to local"
 msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:84
@@ -11026,6 +11528,10 @@ msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:203
 msgid "Results for:"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:72
+msgid "Resume"
 msgstr ""
 
 #: functions/integrations/cf7/cf7.php:499
@@ -11055,6 +11561,10 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:36
 msgid "Resume Reply"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:159
+msgid "Retention (days)"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:72
@@ -11094,6 +11604,14 @@ msgstr ""
 msgid "Revoked consents"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:132
+msgid "Rewrite hard-coded URLs in post_content (heavier on large sites)."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:128
+msgid "Rewrite post content"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/cpt-type.php:426
 #: redux-framework/sample/sections/codeweber/cpt-type.php:437
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:420
@@ -11122,7 +11640,7 @@ msgstr ""
 msgid "Rostov Oblast"
 msgstr ""
 
-#: functions/admin/projects-settings.php:367
+#: functions/admin/projects-settings.php:391
 msgid "Rounded"
 msgstr ""
 
@@ -11166,6 +11684,10 @@ msgstr ""
 msgid "Row %d: invalid email address: %s"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:112
+msgid "Running..."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:126
 #: redux-framework/sample/sections/codeweber/socials.php:51
 #: redux-framework/sample/sections/extensions/users.php:64
@@ -11176,8 +11698,36 @@ msgstr ""
 msgid "Ryazan Oblast"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:107
+msgid "S3 only — upload to S3, remove local copy after success."
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:79
+#: functions/integrations/s3-storage/inc/Settings.php:80
 #: redux-framework/sample/sections/codeweber/s3-storage.php:23
+#: functions/integrations/s3-storage/inc/Admin/AttachmentMetabox.php:22
+#: functions/integrations/s3-storage/inc/Admin/MediaLibrary.php:99
+#: functions/integrations/s3-storage/inc/Tools/ToolsPage.php:20
+#: functions/integrations/s3-storage/inc/Tools/ToolsPage.php:21
+#: functions/integrations/s3-storage/inc/views/settings.php:13
 msgid "S3 Storage"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/LogViewer.php:20
+#: functions/integrations/s3-storage/inc/Admin/LogViewer.php:21
+msgid "S3 Storage Logs"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/log-viewer.php:12
+msgid "S3 Storage — Logs"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:42
+msgid "S3 Storage — Tools"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/MediaLibrary.php:91
+msgid "S3 URL"
 msgstr ""
 
 #: functions/woocommerce/states-ru.php:73
@@ -11241,7 +11791,7 @@ msgstr ""
 msgid "Satellite"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1060
+#: functions/cpt/cpt-offices.php:1068
 #: redux-framework/sample/sections/codeweber/company-details.php:14
 msgid "Saturday"
 msgstr ""
@@ -11268,7 +11818,7 @@ msgid "Save the license first, or select files and save to attach them."
 msgstr ""
 
 #: functions/integrations/project-gallery-metabox.php:53
-#: functions/integrations/project-gallery-metabox.php:142
+#: functions/integrations/project-gallery-metabox.php:155
 msgid "Save the project as draft first, then you can add gallery images."
 msgstr ""
 
@@ -11291,6 +11841,14 @@ msgstr ""
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:87
 #, php-format
 msgid "Saved to components/%s"
+msgstr ""
+
+#: functions/admin/image-canvas-editor.php:66
+msgid "Saved!"
+msgstr ""
+
+#: functions/admin/image-canvas-editor.php:65
+msgid "Saving..."
 msgstr ""
 
 #: functions/lib/comments-helper.php:32
@@ -11411,8 +11969,12 @@ msgstr ""
 msgid "Search Html Blocks"
 msgstr ""
 
-#: functions/admin/projects-settings.php:272
+#: functions/admin/projects-settings.php:296
 msgid "Search icons…"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:26
+msgid "Search image tags"
 msgstr ""
 
 #: functions/cpt/cpt-legal.php:15
@@ -11541,6 +12103,14 @@ msgstr ""
 msgid "Second color"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:37
+msgid "Secret Key"
+msgstr ""
+
+#: functions/admin/projects-settings.php:153
+msgid "Section title"
+msgstr ""
+
 #: redux-framework/sample-config.php:689
 msgid "Section via hook"
 msgstr ""
@@ -11579,8 +12149,8 @@ msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:125
 #: functions/integrations/event-gallery-metabox.php:142
-#: functions/integrations/project-gallery-metabox.php:144
-#: functions/integrations/project-gallery-metabox.php:167
+#: functions/integrations/project-gallery-metabox.php:157
+#: functions/integrations/project-gallery-metabox.php:180
 msgid "Security check failed. Reload the page and try again."
 msgstr ""
 
@@ -11594,6 +12164,7 @@ msgstr ""
 msgid "Security error"
 msgstr ""
 
+#: functions/admin/media-cpt-filter.php:254
 #: functions/admin/media-regenerate.php:243
 msgid "Security error."
 msgstr ""
@@ -11767,7 +12338,7 @@ msgstr ""
 msgid "Select icon from Unicons library"
 msgstr ""
 
-#: functions/user.php:26 functions/cpt/cpt-offices.php:703
+#: functions/user.php:26 functions/cpt/cpt-offices.php:711
 #: functions/woocommerce/product-video.php:96
 msgid "Select Image"
 msgstr ""
@@ -11788,7 +12359,7 @@ msgstr ""
 msgid "Select media files to attach to this license"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:720
+#: functions/cpt/cpt-offices.php:728
 msgid "Select Office Image"
 msgstr ""
 
@@ -12039,6 +12610,13 @@ msgstr ""
 msgid "Sent"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:140
+msgid ""
+"Sent as Cache-Control header on every offloaded object. Default 31536000 = 1 "
+"year. 0 disables the header. Existing objects can be updated via Tools → Re-"
+"apply cache headers."
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:82
 msgid "Separate categories with commas"
 msgstr ""
@@ -12049,6 +12627,10 @@ msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:80 functions/cpt/cpt-vacancies.php:131
 msgid "Separate items with commas"
+msgstr ""
+
+#: functions/admin/image-tag-taxonomy.php:61
+msgid "Separate tags with commas"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:117
@@ -12067,13 +12649,13 @@ msgstr ""
 msgid "Service archive"
 msgstr ""
 
-#: functions/post-cards-registry.php:224
+#: functions/post-cards-registry.php:240
 msgid ""
 "Service card with primary-colored overlay on hover; title and excerpt slide "
 "in from the left"
 msgstr ""
 
-#: functions/post-cards-registry.php:219
+#: functions/post-cards-registry.php:235
 msgid "Service card: title bottom, category badge top, excerpt on hover"
 msgstr ""
 
@@ -12105,7 +12687,7 @@ msgstr ""
 msgid "Service updated"
 msgstr ""
 
-#: functions/shortcodes.php:211 functions/cpt/cpt-offices.php:962
+#: functions/shortcodes.php:211 functions/cpt/cpt-offices.php:970
 #: functions/cpt/cpt-services.php:9 functions/cpt/cpt-services.php:11
 #: functions/cpt/cpt-services.php:12 functions/cpt/cpt-services.php:38
 msgid "Services"
@@ -12243,28 +12825,39 @@ msgstr ""
 msgid "Shop"
 msgstr ""
 
-#: functions/post-cards-registry.php:253
+#: functions/post-cards-registry.php:274
 msgid "Shop 2"
 msgstr ""
 
-#: functions/post-cards-registry.php:238
+#: functions/post-cards-registry.php:254
 msgid "Shop Card"
 msgstr ""
 
-#: functions/post-cards-registry.php:243
+#: functions/post-cards-registry.php:259
 msgid "Shop Compact"
 msgstr ""
 
-#: functions/post-cards-registry.php:248
+#: functions/post-cards-registry.php:264
 msgid "Shop List"
+msgstr ""
+
+#: functions/post-cards-registry.php:269
+msgid "Shop List SM"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:107
 msgid "Shop Navigation Mode"
 msgstr ""
 
+#: functions/cpt/services-meta-fields.php:43
 #: redux-framework/sample/sections/codeweber/woocommerce.php:556
 msgid "Short Description"
+msgstr ""
+
+#: functions/cpt/services-meta-fields.php:61
+msgid ""
+"Short description for service cards. Falls back to the standard excerpt if "
+"left empty."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/legal.php:41
@@ -12467,7 +13060,7 @@ msgstr ""
 msgid "Show filters in sidebar"
 msgstr ""
 
-#: functions/admin/projects-settings.php:237
+#: functions/admin/projects-settings.php:261
 msgid "Show floating map button on mobile devices"
 msgstr ""
 
@@ -12514,6 +13107,13 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:367
 msgid "Show New Badge"
+msgstr ""
+
+#: templates/post-cards/offices/list-sm-text.php:111
+#: templates/post-cards/offices/list-sm-text.php:117
+#: templates/post-cards/offices/list-sm.php:138
+#: templates/post-cards/offices/list-sm.php:144
+msgid "Show on Map"
 msgstr ""
 
 #: templates/singles/projects/default.php:93
@@ -12643,7 +13243,7 @@ msgid ""
 "variable products the selected variation ID is used."
 msgstr ""
 
-#: functions/admin/projects-settings.php:229
+#: functions/admin/projects-settings.php:253
 msgid "Show «Show on map» button and map offcanvas on single project pages"
 msgstr ""
 
@@ -12661,6 +13261,10 @@ msgstr ""
 msgid ""
 "Showing document version from %s (version current at the time of your "
 "consent)."
+msgstr ""
+
+#: functions/admin/media-cpt-filter.php:164
+msgid "Showing latest 200. Refine by post type."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:361
@@ -12789,6 +13393,12 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:191
 msgid "Size of logo in marker (pixels)"
+msgstr ""
+
+#. 1: offloaded sizes count, 2: total sizes count
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:36
+#, php-format
+msgid "Sizes: %1$d / %2$d offloaded"
 msgstr ""
 
 #: functions/cpt/cpt-vacancies.php:634 templates/singles/staff/staff_2.php:215
@@ -13041,11 +13651,11 @@ msgstr ""
 msgid "Spinner on card"
 msgstr ""
 
-#: functions/admin/projects-settings.php:368
+#: functions/admin/projects-settings.php:392
 msgid "Square"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:961 functions/cpt/cpt-staff.php:12
+#: functions/cpt/cpt-offices.php:969 functions/cpt/cpt-staff.php:12
 #: functions/cpt/cpt-staff.php:13 functions/cpt/cpt-staff.php:14
 #: functions/cpt/cpt-staff.php:32 functions/cpt/cpt-staff.php:41
 msgid "Staff"
@@ -13098,6 +13708,10 @@ msgstr ""
 #: functions/cpt/cpt-testimonials.php:289
 #: functions/cpt/cpt-testimonials.php:601
 msgid "stars"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:69
+msgid "Start"
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:188
@@ -13165,6 +13779,10 @@ msgstr ""
 msgid "Steam"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Admin/MediaLibrary.php:27
+msgid "Storage"
+msgstr ""
+
 #: functions/integrations/redux_framework/redux_framework.php:92
 #: redux-framework/sample/sections/codeweber/legal.php:149
 msgid "Storage Data"
@@ -13173,6 +13791,14 @@ msgstr ""
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:152
 #: redux-framework/sample/sections/codeweber/legal.php:864
 msgid "Storage duration"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:99
+msgid "Storage mode"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:48
+msgid "Stored locally AND in S3"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/company-details.php:119
@@ -13184,7 +13810,7 @@ msgstr ""
 msgid "Street, House Number and Office"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:223
+#: functions/cpt/cpt-offices.php:231
 msgid "Street, House, Office"
 msgstr ""
 
@@ -13555,7 +14181,7 @@ msgstr ""
 msgid "Successful form submission"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1061
+#: functions/cpt/cpt-offices.php:1069
 #: redux-framework/sample/sections/codeweber/company-details.php:15
 msgid "Sunday"
 msgstr ""
@@ -13579,6 +14205,10 @@ msgstr ""
 #: functions/woocommerce/swatches.php:293
 #: functions/woocommerce/swatches.php:313
 msgid "Swatch"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:23
+msgid "Sync"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_framework.php:90
@@ -13615,11 +14245,11 @@ msgstr ""
 msgid "Tambov Oblast"
 msgstr ""
 
-#: functions/integrations/project-gallery-metabox.php:148
+#: functions/integrations/project-gallery-metabox.php:161
 msgid "Tap to cancel"
 msgstr ""
 
-#: functions/integrations/project-gallery-metabox.php:149
+#: functions/integrations/project-gallery-metabox.php:162
 msgid "Tap to undo"
 msgstr ""
 
@@ -13677,6 +14307,10 @@ msgstr ""
 
 #: functions/woocommerce/gateway-test.php:20
 msgid "Test (no registration)"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:93
+msgid "Test connection"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:249
@@ -13875,6 +14509,10 @@ msgstr ""
 msgid "Testing filter hook!"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:108
+msgid "Testing..."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:322
 msgid "Text"
 msgstr ""
@@ -13901,12 +14539,16 @@ msgstr ""
 msgid "Text of the toast notification"
 msgstr ""
 
-#: functions/admin/projects-settings.php:245
+#: functions/admin/projects-settings.php:269
 msgid "Text only"
 msgstr ""
 
 #: functions/admin/events-settings.php:95
 msgid "Text when no seats available"
+msgstr ""
+
+#: functions/post-cards-registry.php:177
+msgid "Text-only card: title + contacts, no image."
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:505
@@ -14167,6 +14809,10 @@ msgid ""
 "JavaScript to identify the form type."
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Settings.php:122
+msgid "This will permanently delete files from S3. Continue?"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:444
 msgid "Thumbnail Hover Effect"
 msgstr ""
@@ -14183,7 +14829,7 @@ msgstr ""
 msgid "Thumbnails Mousewheel"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1058
+#: functions/cpt/cpt-offices.php:1066
 #: redux-framework/sample/sections/codeweber/company-details.php:12
 msgid "Thursday"
 msgstr ""
@@ -14195,6 +14841,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:132
 msgid "TikTok"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:182
+msgid "Time"
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:329
@@ -14313,6 +14963,10 @@ msgstr ""
 msgid "Topbar"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:46
+msgid "Total attachments"
+msgstr ""
+
 #: functions/integrations/ajax-search-module/ajax-search.php:82
 msgid "Total found"
 msgstr ""
@@ -14379,7 +15033,7 @@ msgstr ""
 msgid "Trigger Type"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1056
+#: functions/cpt/cpt-offices.php:1064
 #: redux-framework/sample/sections/codeweber/company-details.php:10
 msgid "Tuesday"
 msgstr ""
@@ -14545,6 +15199,10 @@ msgstr ""
 msgid "unknown"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:63
+msgid "Unknown action."
+msgstr ""
+
 #: functions/cpt/redux_cpt.php:16
 msgid "Unnamed"
 msgstr ""
@@ -14605,6 +15263,12 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:32
+msgid ""
+"Update Cache-Control metadata on all offloaded objects using the current max-"
+"age setting (uses CopyObject, no file re-upload)."
+msgstr ""
+
 #: functions/cpt/cpt-clients.php:75 functions/cpt/cpt-events.php:87
 msgid "Update Category"
 msgstr ""
@@ -14663,12 +15327,12 @@ msgstr ""
 msgid "Upload Avatar"
 msgstr ""
 
-#: functions/integrations/project-gallery-metabox.php:147
+#: functions/integrations/project-gallery-metabox.php:160
 msgid "Upload complete"
 msgstr ""
 
 #: functions/integrations/event-gallery-metabox.php:124
-#: functions/integrations/project-gallery-metabox.php:143
+#: functions/integrations/project-gallery-metabox.php:156
 msgid "Upload failed"
 msgstr ""
 
@@ -14678,6 +15342,10 @@ msgstr ""
 
 #: functions/woocommerce/swatches.php:268
 msgid "Upload image"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/tools.php:12
+msgid "Upload local attachments that are not yet in S3."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:774
@@ -14747,6 +15415,7 @@ msgstr ""
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:290
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:349
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:339
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:29
 msgid "URL"
 msgstr ""
 
@@ -14789,6 +15458,11 @@ msgstr ""
 msgid "Use as Featured Image for this Price Package"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/settings.php:70
+msgid ""
+"Use path-style endpoint (required for MinIO and most S3-compatible servers)."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/company-details.php:79
 msgid "Use the [address] shortcode to output the full address."
 msgstr ""
@@ -14801,7 +15475,7 @@ msgstr ""
 msgid "Use this file"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:721 functions/cpt/cpt-testimonials.php:346
+#: functions/cpt/cpt-offices.php:729 functions/cpt/cpt-testimonials.php:346
 #: functions/woocommerce/product-video.php:116
 #: functions/woocommerce/swatches.php:97
 msgid "Use this image"
@@ -14834,7 +15508,7 @@ msgid ""
 "Example: I agree to the {document_title_url}."
 msgstr ""
 
-#: functions/admin/projects-settings.php:342
+#: functions/admin/projects-settings.php:366
 msgid "Used for «Text only» and «Icon + text» types."
 msgstr ""
 
@@ -14975,7 +15649,7 @@ msgstr ""
 msgid "UTM Term"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:960 functions/cpt/cpt-vacancies.php:10
+#: functions/cpt/cpt-offices.php:968 functions/cpt/cpt-vacancies.php:10
 #: functions/cpt/cpt-vacancies.php:12 functions/cpt/cpt-vacancies.php:30
 msgid "Vacancies"
 msgstr ""
@@ -15052,7 +15726,21 @@ msgid "Verified"
 msgstr ""
 
 #: functions/woocommerce/core.php:180
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:91
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:55
 msgid "Verify"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:29
+msgid "Verify in bucket"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:75
+msgid "Verify SSL"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/views/settings.php:79
+msgid "Verify TLS certificate (disable for self-signed dev servers)."
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:847
@@ -15126,10 +15814,12 @@ msgstr ""
 #: templates/archives/events/events_1.php:40
 #: templates/post-cards/post/overlay-5-primary.php:31
 #: templates/post-cards/post/overlay-5.php:30
+#: templates/post-cards/projects/overlay-5-primary.php:30
 #: templates/post-cards/services/overlay-5-primary.php:30
 #: templates/post-cards/services/overlay-5.php:32
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:650
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:631
+#: functions/integrations/s3-storage/inc/views/log-viewer.php:34
 msgid "View"
 msgstr ""
 
@@ -15438,6 +16128,13 @@ msgstr ""
 msgid "Warning:"
 msgstr ""
 
+#. %d: number of attachments
+#: functions/integrations/s3-storage/inc/views/tools.php:64
+msgid ""
+"Warning: %d files exist only in S3 (no local copy). Wiping will permanently "
+"delete them. Run Restore first if you want to keep them."
+msgstr ""
+
 #: templates/singles/events/default.php:96
 msgid "Watch video"
 msgstr ""
@@ -15460,7 +16157,7 @@ msgid ""
 "improve and helps others make better decisions."
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:325
+#: functions/cpt/cpt-offices.php:333
 #: templates/singles/offices/offices_1.php:254
 #: templates/singles/offices/offices_5.php:151
 #: templates/singles/staff/staff_2.php:159
@@ -15483,7 +16180,7 @@ msgstr ""
 msgid "WeChat"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:1057
+#: functions/cpt/cpt-offices.php:1065
 #: redux-framework/sample/sections/codeweber/company-details.php:11
 msgid "Wednesday"
 msgstr ""
@@ -15667,6 +16364,10 @@ msgstr ""
 msgid "Width"
 msgstr ""
 
+#: functions/integrations/s3-storage/inc/views/tools.php:35
+msgid "Wipe S3"
+msgstr ""
+
 #: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:223
 #: functions/woocommerce/wishlist/functions.php:67
 #: functions/woocommerce/wishlist/functions.php:169
@@ -15732,10 +16433,9 @@ msgstr ""
 msgid "Work schedule:"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:233
+#: functions/cpt/cpt-offices.php:241
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:381
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:440
-#: templates/post-cards/offices/card.php:135
 #: templates/singles/offices/default.php:110
 #: templates/singles/offices/default.php:249
 #: templates/singles/offices/offices_1.php:110
@@ -15746,6 +16446,10 @@ msgstr ""
 #: templates/singles/offices/offices_5.php:184
 #: templates/singles/offices/offices_5.php:260
 msgid "Working Hours"
+msgstr ""
+
+#: functions/integrations/s3-storage/inc/Settings.php:117
+msgid "Working..."
 msgstr ""
 
 #: comments.php:158
@@ -15818,7 +16522,7 @@ msgstr ""
 msgid "Yandex Maps API key is not configured."
 msgstr ""
 
-#: archive-offices.php:124 functions/cpt/cpt-offices.php:492
+#: archive-offices.php:124 functions/cpt/cpt-offices.php:500
 msgid ""
 "Yandex Maps API key is not configured. Please set it in Redux Framework "
 "settings."
@@ -16030,7 +16734,7 @@ msgstr ""
 msgid "Zoom"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:517
+#: functions/cpt/cpt-offices.php:525
 #: redux-framework/sample/sections/codeweber/map_geo.php:117
 msgid "Zoom Level"
 msgstr ""
@@ -16878,7 +17582,7 @@ msgstr ""
 msgid "— Select Author —"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:213
+#: functions/cpt/cpt-offices.php:221
 msgid "— Select City —"
 msgstr ""
 
@@ -16890,7 +17594,7 @@ msgstr ""
 msgid "— Select Item —"
 msgstr ""
 
-#: functions/cpt/cpt-offices.php:264
+#: functions/cpt/cpt-offices.php:272
 msgid "— Select Manager —"
 msgstr ""
 

@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-04-19 13:36+0000\n"
+"PO-Revision-Date: 2026-04-28 12:22+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -63,7 +63,7 @@ msgid "%1$s "
 msgstr "%1$s "
 
 #. 1: action label, 2: success count, 3: failed count
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:92
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:99
 #, fuzzy, php-format
 msgid "%1$s: %2$d succeeded, %3$d failed."
 msgstr "%1$s: %2$d успешно, %3$d не удалось."
@@ -350,6 +350,10 @@ msgstr "7.2. Оператор обрабатывает следующие пер
 msgid "[Content anonymized]"
 msgstr "[Content anonymized]"
 
+#: functions/integrations/s3-storage/inc/Settings.php:125
+msgid "[dry-run]"
+msgstr "[тест]"
+
 #: redux-framework/sample/sections/codeweber/legal.php:143
 msgid ""
 "[redux_option key=\"consent_purpose\" list=\"inline\"]<br>[redux_option "
@@ -568,13 +572,13 @@ msgstr "Добавить форму"
 msgid "Add Html Block"
 msgstr "Добавить Html блок"
 
-#: functions/integrations/project-gallery-metabox.php:139
+#: functions/integrations/project-gallery-metabox.php:152
 msgid "Add images"
 msgstr "Добавить изображения"
 
 #: functions/integrations/event-gallery-metabox.php:42
 #: functions/integrations/project-gallery-metabox.php:51
-#: functions/integrations/project-gallery-metabox.php:141
+#: functions/integrations/project-gallery-metabox.php:154
 msgid ""
 "Add images via the upload area below. Drag items in the grid to reorder."
 msgstr ""
@@ -655,6 +659,11 @@ msgstr "Добавть Хедер"
 #: functions/cpt/cpt-html_blocks.php:14
 msgid "Add New Html Block"
 msgstr "Добавить Html блок"
+
+#: functions/admin/image-tag-taxonomy.php:24
+#, fuzzy
+msgid "Add new image tag"
+msgstr "Добавить новый тег изображения"
 
 #: functions/cpt/cpt-legal.php:11
 msgid "Add New Legal"
@@ -835,6 +844,7 @@ msgstr "Дополнительные Типы"
 #: woocommerce/order/order-details-customer.php:72
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:379
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:438
+#: templates/post-cards/projects/overlay-5-primary.php:109
 #: templates/singles/offices/default.php:104
 #: templates/singles/offices/default.php:183
 #: templates/singles/offices/offices_1.php:104
@@ -855,7 +865,7 @@ msgstr "Дополнительные Типы"
 msgid "Address"
 msgstr "Адрес"
 
-#: functions/cpt/cpt-events.php:835 functions/cpt/cpt-offices.php:524
+#: functions/cpt/cpt-events.php:835 functions/cpt/cpt-offices.php:532
 #: functions/cpt/cpt-vacancies.php:932
 msgid "Address (from map)"
 msgstr "Адрес (с карты)"
@@ -870,7 +880,7 @@ msgstr "Адрес 2"
 msgid "Address is automatically detected when you click on the map"
 msgstr "Адрес определяется автоматически при клике по карте"
 
-#: functions/cpt/cpt-offices.php:528
+#: functions/cpt/cpt-offices.php:536
 msgid "Address is automatically determined from the map"
 msgstr "Адрес автоматически определяется с карты."
 
@@ -1064,6 +1074,12 @@ msgstr "Все формы"
 msgid "All Html Blocks"
 msgstr "Все блоки HTML"
 
+#: functions/admin/media-cpt-filter.php:158
+#: functions/admin/media-cpt-filter.php:366
+#, fuzzy
+msgid "All image tags"
+msgstr "Все теги изображений"
+
 #: functions/cpt/cpt-legal.php:9
 msgid "All Legal"
 msgstr "Все Документы"
@@ -1088,10 +1104,22 @@ msgstr "Все уведомления"
 msgid "All Offices"
 msgstr "Все Офисы"
 
+#: functions/admin/media-cpt-filter.php:156
+#: functions/admin/media-cpt-filter.php:342
+#, fuzzy
+msgid "All post types"
+msgstr "Все типы записей"
+
 #: functions/user.php:382 functions/cpt/cpt-testimonials.php:966
 #: templates/content/single-parts/post-author.php:51
 msgid "All Posts"
 msgstr "Все статьи"
+
+#: functions/admin/media-cpt-filter.php:157
+#: functions/admin/media-cpt-filter.php:396
+#, fuzzy
+msgid "All posts"
+msgstr "Все записи"
 
 #: functions/cpt/cpt-price_list.php:13
 msgid "All Price Lists"
@@ -1312,6 +1340,7 @@ msgstr "Одобрено"
 msgid "Aqua"
 msgstr "Aqua"
 
+#: templates/post-cards/projects/overlay-5-primary.php:103
 #: templates/singles/projects/default.php:87
 #: templates/singles/projects/projects_2.php:92
 #: templates/singles/projects/projects_3.php:84
@@ -1447,7 +1476,7 @@ msgstr "Прикрепленные к формам файлы"
 msgid "Attached Media Files"
 msgstr "Прикрепленные медиа-файлы"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:177
+#: functions/integrations/s3-storage/inc/views/settings.php:184
 #, fuzzy
 msgid "Attachment"
 msgstr "Вложение"
@@ -1545,7 +1574,7 @@ msgstr "Автоматически перемещать карту при отк
 msgid "Availability"
 msgstr "Наличие"
 
-#: functions/cpt/cpt-offices.php:149 functions/cpt/cpt-offices.php:644
+#: functions/cpt/cpt-offices.php:149 functions/cpt/cpt-offices.php:652
 msgid "Available Services"
 msgstr "Доступные услуги"
 
@@ -1605,6 +1634,10 @@ msgstr "Фон"
 #, fuzzy
 msgid "Background Color"
 msgstr "Цвет фона"
+
+#: functions/admin/projects-settings.php:161
+msgid "Background color"
+msgstr ""
 
 #: redux-framework/sample/metaboxes.php:502
 #: redux-framework/sample/sections/codeweber/body-bg.php:90
@@ -1730,7 +1763,7 @@ msgstr "Базовая карточка события"
 msgid "Basic media uploader with disabled URL input field."
 msgstr "Обычный загрузчик мультимедиа с отключенным полем ввода URL-адреса."
 
-#: functions/post-cards-registry.php:183
+#: functions/post-cards-registry.php:188
 #: functions/fetch/getPostCardTemplates.php:70
 msgid "Basic staff card with image, name and position"
 msgstr "Базовая визитная карточка с изображением, именем и должностью."
@@ -1847,7 +1880,7 @@ msgstr "Фон страницы"
 msgid "Book Now"
 msgstr "Забронировать сейчас"
 
-#: functions/post-cards-registry.php:239
+#: functions/post-cards-registry.php:255
 #, fuzzy
 msgid "Bootstrap card with Add to cart, Sale/New badges, hover swap"
 msgstr ""
@@ -1913,13 +1946,13 @@ msgstr "Цвет хлебных крошек"
 msgid "Breadcrumbs: WooCommerce"
 msgstr "Хлебные крошки: WooCommerce"
 
-#: functions/cpt/cpt-offices.php:240
+#: functions/cpt/cpt-offices.php:248
 #: redux-framework/sample/sections/codeweber/company-details.php:25
 #, fuzzy
 msgid "Break end"
 msgstr "Перерыв окончен"
 
-#: functions/cpt/cpt-offices.php:239
+#: functions/cpt/cpt-offices.php:247
 #: redux-framework/sample/sections/codeweber/company-details.php:24
 #, fuzzy
 msgid "Break start"
@@ -1960,12 +1993,12 @@ msgstr "Брянская область"
 msgid "Bucket"
 msgstr "Корзина"
 
-#: functions/integrations/s3-storage/inc/Settings.php:170
+#: functions/integrations/s3-storage/inc/Settings.php:178
 #, fuzzy
 msgid "Bucket is not configured."
 msgstr "Корзина не настроена."
 
-#: functions/integrations/s3-storage/inc/Settings.php:187
+#: functions/integrations/s3-storage/inc/Settings.php:195
 #, fuzzy
 msgid "Bucket reachable, put/delete OK."
 msgstr "Корзина достижима, добавление/удаление ОК."
@@ -2051,6 +2084,15 @@ msgstr "Тип кнопки"
 msgid "Buttons"
 msgstr "Кнопки"
 
+#: templates/post-cards/post/overlay-5-primary.php:38
+#: templates/post-cards/post/overlay-5.php:37
+#: templates/post-cards/projects/overlay-5-primary.php:37
+#: templates/post-cards/services/overlay-5-primary.php:37
+#: templates/post-cards/services/overlay-5.php:39
+#, fuzzy
+msgid "Buy"
+msgstr "Купить"
+
 #: functions/admin/events-settings.php:166
 #: functions/admin/events-settings.php:188 functions/cpt/cpt-events.php:395
 #: functions/cpt/cpt-events.php:423
@@ -2064,6 +2106,11 @@ msgstr ""
 "Оставляя свой комментарий, вы соглашаетесь с нашей Политикой в отношении "
 "обработки персональных данных  и даете Согласие на обработку ваших "
 "Персонлаьных данных."
+
+#: functions/integrations/s3-storage/inc/views/settings.php:137
+#, fuzzy
+msgid "Cache-Control max-age (seconds)"
+msgstr "Cache-Control max-age (секунды)"
 
 #: templates/archives/events/events_1.php:42
 msgid "Calendar"
@@ -2099,7 +2146,7 @@ msgstr "Запрос обратного звонка"
 msgid "Callback request"
 msgstr "Запрос обратного звонка"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:54
+#: functions/integrations/s3-storage/inc/views/tools.php:73
 #, fuzzy
 msgid "Cancel"
 msgstr "Отмена"
@@ -2107,6 +2154,10 @@ msgstr "Отмена"
 #: functions/events/event-registrations.php:268
 msgid "Cancel selected"
 msgstr "Отменить выбранные"
+
+#: functions/integrations/s3-storage/inc/Settings.php:123
+msgid "Cancel this job?"
+msgstr "Отменить задачу?"
 
 #: functions/events/event-registrations.php:169
 #: functions/events/event-registrations.php:398
@@ -2122,7 +2173,7 @@ msgstr[0] "Отменено <span class=\"count\">(%s) </span>"
 msgstr[1] "Отменено <span class=\"count\">(%s) </span>"
 msgstr[2] "Отменено <span class=\"count\">(%s) </span>"
 
-#: functions/integrations/s3-storage/inc/Settings.php:114
+#: functions/integrations/s3-storage/inc/Settings.php:115
 #, fuzzy
 msgid "Cancelled."
 msgstr "Отменено."
@@ -2133,7 +2184,7 @@ msgid "Cannot open uploaded file"
 msgstr "Невозможно открыть загруженный файл"
 
 #: functions/post-cards-registry.php:40 functions/post-cards-registry.php:102
-#: functions/post-cards-registry.php:187
+#: functions/post-cards-registry.php:192
 #: functions/fetch/getPostCardTemplates.php:46
 #: functions/fetch/getPostCardTemplates.php:71
 #: functions/fetch/getPostCardTemplates.php:81
@@ -2166,7 +2217,7 @@ msgstr "Card формат с кнопкой отправки по E-Mail для 
 msgid "Card layout with shadow and card body"
 msgstr "Card формат с тенью и контентом карточки"
 
-#: functions/post-cards-registry.php:103 functions/post-cards-registry.php:188
+#: functions/post-cards-registry.php:103 functions/post-cards-registry.php:193
 #: functions/fetch/getPostCardTemplates.php:46
 #: functions/fetch/getPostCardTemplates.php:71
 msgid "Card with colored backgrounds (Sandbox style)"
@@ -2370,7 +2421,7 @@ msgstr "Чукотский автономный округ"
 msgid "Chuvashia"
 msgstr "Чувашская Республика"
 
-#: functions/post-cards-registry.php:192
+#: functions/post-cards-registry.php:197
 #: functions/fetch/getPostCardTemplates.php:72
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:393
 #: redux-framework/sample/sections/codeweber/footer.php:170
@@ -2380,34 +2431,34 @@ msgstr "Чувашская Республика"
 msgid "Circle"
 msgstr "Круг"
 
-#: functions/post-cards-registry.php:197
+#: functions/post-cards-registry.php:202
 #: functions/fetch/getPostCardTemplates.php:73
 msgid "Circle Center"
 msgstr "Центр Круга"
 
-#: functions/post-cards-registry.php:202
+#: functions/post-cards-registry.php:207
 #: functions/fetch/getPostCardTemplates.php:74
 msgid "Circle Center Alt"
 msgstr "Центр круга Alt"
 
-#: functions/post-cards-registry.php:203
+#: functions/post-cards-registry.php:208
 #: functions/fetch/getPostCardTemplates.php:74
 msgid "Circular avatar centered with link on image and social links"
 msgstr ""
 "Круглый аватар, центрированный с ссылкой на изображении и социальными "
 "ссылками"
 
-#: functions/post-cards-registry.php:198
+#: functions/post-cards-registry.php:203
 #: functions/fetch/getPostCardTemplates.php:73
 msgid "Circular avatar centered with social links"
 msgstr "Круглый аватар, центрированный с социальными ссылками"
 
-#: functions/post-cards-registry.php:193
+#: functions/post-cards-registry.php:198
 #: functions/fetch/getPostCardTemplates.php:72
 msgid "Circular avatar with social links"
 msgstr "Круглый аватар с социальными ссылками"
 
-#: functions/cpt/cpt-offices.php:211 functions/cpt/cpt-offices.php:956
+#: functions/cpt/cpt-offices.php:219 functions/cpt/cpt-offices.php:964
 #: functions/cpt/cpt-staff.php:271
 #: woocommerce/order/order-details-customer.php:35
 #: woocommerce/order/order-details-customer.php:74
@@ -2446,7 +2497,7 @@ msgid "Clear Data (AJAX)"
 msgstr "Очистить данные (AJAX)"
 
 #. %d: number of log rows
-#: functions/integrations/s3-storage/inc/views/settings.php:167
+#: functions/integrations/s3-storage/inc/views/settings.php:174
 #, fuzzy
 msgid "Clear DB log (%d)"
 msgstr "Очистить журнал базы данных (%d)"
@@ -2455,7 +2506,7 @@ msgstr "Очистить журнал базы данных (%d)"
 msgid "Clear LOG"
 msgstr "Очистить Лог"
 
-#: functions/integrations/s3-storage/inc/Settings.php:110
+#: functions/integrations/s3-storage/inc/Settings.php:111
 #, fuzzy
 msgid "Clear the error log?"
 msgstr "Очистить журнал ошибок?"
@@ -2534,7 +2585,7 @@ msgstr "Закрыть"
 msgid "Closed"
 msgstr "Закрыто"
 
-#: functions/cpt/cpt-offices.php:241
+#: functions/cpt/cpt-offices.php:249
 #: redux-framework/sample/sections/codeweber/company-details.php:26
 #, fuzzy
 msgid "Closes"
@@ -2762,7 +2813,7 @@ msgstr "Страница сравнения"
 msgid "Compare Products"
 msgstr "Сравнить товары"
 
-#: functions/integrations/s3-storage/inc/Settings.php:113
+#: functions/integrations/s3-storage/inc/Settings.php:114
 #, fuzzy
 msgid "Completed."
 msgstr "Завершено."
@@ -2876,7 +2927,7 @@ msgstr "Подключение"
 msgid "Connection error"
 msgstr "Ошибка соединения"
 
-#: functions/integrations/s3-storage/inc/Settings.php:109
+#: functions/integrations/s3-storage/inc/Settings.php:110
 #: redux-framework/sample/sections/codeweber/smtp.php:245
 msgid "Connection failed: "
 msgstr "Ошибка подключения:"
@@ -2885,7 +2936,7 @@ msgstr "Ошибка подключения:"
 msgid "Connection successful!"
 msgstr "Подключение успешно установлено!"
 
-#: functions/integrations/s3-storage/inc/Settings.php:108
+#: functions/integrations/s3-storage/inc/Settings.php:109
 #, fuzzy
 msgid "Connection successful."
 msgstr "Соединение установлено."
@@ -3066,7 +3117,9 @@ msgstr "Контактная информация"
 
 #: functions/bootstrap/class-floating-social-widget.php:243
 #: functions/bootstrap/class-floating-social-widget.php:804
-#: functions/bootstrap/class-floating-social-widget.php:1136
+#: functions/bootstrap/class-floating-social-widget.php:821
+#: functions/bootstrap/class-floating-social-widget.php:1140
+#: functions/bootstrap/class-floating-social-widget.php:1157
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:357
 msgid "Contact us"
 msgstr "Связаться с нами"
@@ -3178,7 +3231,7 @@ msgstr "Не удалось создать каталог темы."
 msgid "Could not read file."
 msgstr "Не удалось прочитать файл."
 
-#: functions/cpt/cpt-offices.php:205 functions/cpt/cpt-staff.php:265
+#: functions/cpt/cpt-offices.php:213 functions/cpt/cpt-staff.php:265
 #: woocommerce/order/order-details-customer.php:38
 #: woocommerce/order/order-details-customer.php:77
 #: redux-framework/sample/sections/codeweber/company-details.php:98
@@ -3540,6 +3593,12 @@ msgstr "Создание…"
 msgid "CSS"
 msgstr "CSS"
 
+#: functions/admin/projects-settings.php:438
+msgid ""
+"CSS class added to the section wrapper. Default: no background (inherits "
+"page color)."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/style.php:261
 #, fuzzy
 msgid ""
@@ -3574,7 +3633,7 @@ msgstr "Текущий файл:"
 msgid "Current Fonts"
 msgstr "Текущие шрифты"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:41
+#: functions/integrations/s3-storage/inc/views/tools.php:50
 #, fuzzy
 msgid "Current mode"
 msgstr "Текущий режим"
@@ -3846,7 +3905,7 @@ msgstr ""
 msgid "Date:"
 msgstr "Дата:"
 
-#: functions/cpt/cpt-offices.php:237
+#: functions/cpt/cpt-offices.php:245
 #: redux-framework/sample/sections/codeweber/company-details.php:22
 #, fuzzy
 msgid "Day"
@@ -3865,7 +3924,7 @@ msgstr "Режим отладки"
 
 #: functions/post-cards-registry.php:35 functions/post-cards-registry.php:97
 #: functions/post-cards-registry.php:144 functions/post-cards-registry.php:160
-#: functions/post-cards-registry.php:182 functions/cpt/cpt-faq.php:573
+#: functions/post-cards-registry.php:187 functions/cpt/cpt-faq.php:573
 #: functions/fetch/getPostCardTemplates.php:45
 #: functions/fetch/getPostCardTemplates.php:63
 #: functions/fetch/getPostCardTemplates.php:70
@@ -4039,7 +4098,7 @@ msgstr "Масштаб по умолчанию"
 msgid "Default zoom level"
 msgstr "Уровень масштаба по умолчанию"
 
-#: functions/admin/projects-settings.php:379
+#: functions/admin/projects-settings.php:403
 #, fuzzy
 msgid "Default: 1040 (above most UI, below modals/offcanvas at 1045)."
 msgstr ""
@@ -4179,12 +4238,21 @@ msgstr "Удалить Демо Отзывы"
 msgid "Delete Demo Vacancies"
 msgstr "Удалить Демо Вакансии"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:83
+#: functions/integrations/s3-storage/inc/views/tools.php:36
+#, fuzzy
+msgid ""
+"Delete every offloaded object from the bucket. Records stay in the database "
+"with is_offloaded=0. Local files are not touched."
+msgstr ""
+"Удалить все выгруженные объекты из корзины. Записи остаются в базе данных с "
+"is_offloaded=0. Локальные файлы не затрагиваются."
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:89
 #, fuzzy
 msgid "Delete local"
 msgstr "Удалить локальное"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:26
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:27
 #: functions/integrations/s3-storage/inc/views/tools.php:19
 #, fuzzy
 msgid "Delete local copies"
@@ -4329,7 +4397,7 @@ msgstr "Список отделов"
 msgid "Departments list navigation"
 msgstr "Навигация по списку отделов"
 
-#: functions/cpt/cpt-faq.php:572 functions/cpt/cpt-offices.php:680
+#: functions/cpt/cpt-faq.php:572 functions/cpt/cpt-offices.php:688
 #: functions/integrations/personal-data-v2/test-providers.php:107
 #: templates/singles/offices/offices_2.php:269
 #: templates/singles/offices/offices_5.php:207
@@ -4367,6 +4435,11 @@ msgstr "Подробное руководство по созданию и на�
 #: templates/archives/events/events_1.php:128
 #: templates/archives/events/events_2.php:104
 #: templates/archives/events/events_4.php:116
+#: templates/post-cards/post/overlay-5-primary.php:36
+#: templates/post-cards/post/overlay-5.php:35
+#: templates/post-cards/projects/overlay-5-primary.php:35
+#: templates/post-cards/services/overlay-5-primary.php:35
+#: templates/post-cards/services/overlay-5.php:37
 msgid "Details"
 msgstr "Детально"
 
@@ -4627,7 +4700,7 @@ msgstr "У вас нет учетной записи?"
 
 #: functions/woocommerce/compare/functions.php:171
 #: functions/woocommerce/wishlist/functions.php:125
-#: functions/integrations/s3-storage/inc/Settings.php:117
+#: functions/integrations/s3-storage/inc/Settings.php:118
 #, fuzzy
 msgid "Done"
 msgstr "Готово"
@@ -4666,7 +4739,7 @@ msgid "Download offloaded attachments back to wp-content/uploads."
 msgstr "Скачать выгруженные вложения обратно в wp-content/uploads."
 
 #: functions/integrations/event-gallery-metabox.php:123
-#: functions/integrations/project-gallery-metabox.php:140
+#: functions/integrations/project-gallery-metabox.php:153
 msgid ""
 "Drag & Drop your files or <span class=\"filepond--label-action\">"
 "browse</span>"
@@ -4695,7 +4768,7 @@ msgstr "dripple"
 msgid "Dropbox"
 msgstr "Дропбокс"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:51
+#: functions/integrations/s3-storage/inc/views/tools.php:70
 #, fuzzy
 msgid "Dry-run"
 msgstr "Пробный запуск"
@@ -4759,9 +4832,17 @@ msgstr ""
 msgid "Each FAQ item"
 msgstr "Каждый пункт FAQ"
 
+#: functions/admin/image-canvas-editor.php:125
 #: functions/cpt/cpt-vacancies.php:124 functions/lib/comments-helper.php:49
 msgid "Edit"
 msgstr "Редактировать"
+
+#: functions/integrations/project-gallery-metabox.php:71
+#: functions/integrations/project-gallery-metabox.php:72
+#: functions/integrations/project-gallery-metabox.php:151
+#, fuzzy
+msgid "Edit attachment"
+msgstr "Редактировать вложение"
 
 #: functions/cpt/cpt-clients.php:73 functions/cpt/cpt-events.php:85
 #, fuzzy
@@ -4817,6 +4898,11 @@ msgstr "Редактировать Хедер"
 #, fuzzy
 msgid "Edit Html Block"
 msgstr "Редактировать блок HTML"
+
+#: functions/admin/image-tag-taxonomy.php:25
+#, fuzzy
+msgid "Edit image tag"
+msgstr "Редактировать тег изображения"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:319
 #, fuzzy
@@ -4897,7 +4983,7 @@ msgstr "Образование/Квалификация"
 
 #: functions/bootstrap/bootstrap_share-page.php:225
 #: functions/bootstrap/bootstrap_share-page.php:267
-#: functions/cpt/cpt-offices.php:319 functions/cpt/cpt-offices.php:958
+#: functions/cpt/cpt-offices.php:327 functions/cpt/cpt-offices.php:966
 #: functions/events/event-registration-api.php:434
 #: functions/events/event-registrations.php:113
 #: functions/events/event-registrations.php:344
@@ -5330,7 +5416,7 @@ msgid "Enter your admin password to confirm:"
 msgstr "Введите пароль администратора для подтверждения:"
 
 #: functions/enqueues.php:429
-#: functions/integrations/s3-storage/inc/Settings.php:118
+#: functions/integrations/s3-storage/inc/Settings.php:119
 msgid "Error"
 msgstr "Ошибка"
 
@@ -5377,7 +5463,7 @@ msgstr "Ошибка загрузки файла. Попробуйте еще р
 msgid "Error for #%d: %s"
 msgstr "Ошибка для #%d: %s"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:162
+#: functions/integrations/s3-storage/inc/views/settings.php:169
 #, fuzzy
 msgid "Error log (database)"
 msgstr "Журнал ошибок (база данных)"
@@ -5390,6 +5476,10 @@ msgstr "Сообщение об ошибке"
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:143
 msgid "Error saving fonts: "
 msgstr "Ошибка при сохранении шрифтов:"
+
+#: functions/admin/image-canvas-editor.php:67
+msgid "Error saving image"
+msgstr ""
 
 #: functions/enqueues.php:265
 msgid "Error sending email. Please try again."
@@ -5659,6 +5749,10 @@ msgstr "Facebook Pixel"
 msgid "Facebook Pixel Settings"
 msgstr "Настройки Facebook Pixel"
 
+#: functions/integrations/s3-storage/inc/Settings.php:124
+msgid "failed"
+msgstr "ошибок"
+
 #: functions/cpt/cpt-html_blocks.php:166
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:381
 msgid "Failed to copy shortcode"
@@ -5746,6 +5840,10 @@ msgstr "Не удалось создать QR-код"
 msgid "Failed to load avatar for \"%s\""
 msgstr "Не удалось загрузить аватар для \"%s\""
 
+#: functions/admin/image-canvas-editor.php:69
+msgid "Failed to load image"
+msgstr ""
+
 #: functions/woocommerce/quick-view.php:140
 #, fuzzy
 msgid "Failed to load product. Please try again."
@@ -5802,12 +5900,16 @@ msgstr "Не удалось отправить письмо. Пожалуйст�
 msgid "Failed to send test email."
 msgstr "Не удалось отправить тестовое письмо."
 
+#: functions/integrations/s3-storage/inc/Settings.php:121
+msgid "Failed to start job."
+msgstr "Не удалось запустить задачу."
+
 #: functions/integrations/newsletter-subscription/frontend/newsletter-frontend.php:65
 msgid "Failed to unsubscribe from the newsletter. The link may have expired."
 msgstr ""
 "Не удалось отписаться от рассылки. Возможно, срок действия ссылки истёк."
 
-#: functions/integrations/s3-storage/inc/Settings.php:115
+#: functions/integrations/s3-storage/inc/Settings.php:116
 #, fuzzy
 msgid "Failed."
 msgstr "Сбой."
@@ -5907,7 +6009,7 @@ msgstr "Теги FAQ (слэги, разделённые запятыми). Та
 msgid "FAQs"
 msgstr "Вопросы и ответы"
 
-#: functions/cpt/cpt-offices.php:322 templates/singles/offices/default.php:237
+#: functions/cpt/cpt-offices.php:330 templates/singles/offices/default.php:237
 #: templates/singles/offices/offices_1.php:264
 #: templates/singles/offices/offices_5.php:194
 msgid "Fax"
@@ -6066,6 +6168,24 @@ msgstr "Фильтровать по форме"
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:366
 msgid "Filter by form type"
 msgstr "Фильтровать по типу формы"
+
+#: functions/admin/media-cpt-filter.php:162
+#: functions/admin/media-cpt-filter.php:364
+#, fuzzy
+msgid "Filter by image tag"
+msgstr "Фильтровать по тегу изображения"
+
+#: functions/admin/media-cpt-filter.php:161
+#: functions/admin/media-cpt-filter.php:394
+#, fuzzy
+msgid "Filter by post"
+msgstr "Фильтровать по записям"
+
+#: functions/admin/media-cpt-filter.php:160
+#: functions/admin/media-cpt-filter.php:340
+#, fuzzy
+msgid "Filter by post type"
+msgstr "Фильтровать по типу записи"
 
 #: functions/integrations/image-licenses/image-licenses.php:75
 msgid "Filter licenses list"
@@ -6573,7 +6693,7 @@ msgstr "Формы:"
 msgid "Found"
 msgstr "Найдено"
 
-#: functions/cpt/cpt-offices.php:1059
+#: functions/cpt/cpt-offices.php:1067
 #: redux-framework/sample/sections/codeweber/company-details.php:13
 #, fuzzy
 msgid "Friday"
@@ -6628,7 +6748,7 @@ msgstr "Fuchsia"
 msgid "Full"
 msgstr "Полный"
 
-#: functions/cpt/cpt-offices.php:229
+#: functions/cpt/cpt-offices.php:237
 #, fuzzy
 msgid "Full Address"
 msgstr "Полный адрес"
@@ -6737,7 +6857,7 @@ msgstr "Общие настройки"
 msgid "Generate QR code"
 msgstr "Сгенерировать QR-код"
 
-#: functions/admin/projects-settings.php:360
+#: functions/admin/projects-settings.php:384
 #, fuzzy
 msgid "Generates class btn-{color}, e.g. btn-primary, btn-soft-primary."
 msgstr "Генерирует класс btn-{color}, например, btn-primary, btn-soft-primary."
@@ -6824,6 +6944,11 @@ msgid "Gmail"
 msgstr "Гmailл"
 
 #: templates/content/loop-legal.php:33 templates/archives/legal/legal_1.php:29
+#: templates/post-cards/post/overlay-5-primary.php:34
+#: templates/post-cards/post/overlay-5.php:33
+#: templates/post-cards/projects/overlay-5-primary.php:33
+#: templates/post-cards/services/overlay-5-primary.php:33
+#: templates/post-cards/services/overlay-5.php:35
 #: templates/post-cards/vacancies/style4-card.php:99
 #: templates/post-cards/vacancies/style5-card.php:56
 msgid "Go"
@@ -7213,7 +7338,7 @@ msgstr "Главная"
 msgid "Home link label"
 msgstr "Ярлык ссылки \"Главная\""
 
-#: functions/post-cards-registry.php:117 functions/post-cards-registry.php:207
+#: functions/post-cards-registry.php:117 functions/post-cards-registry.php:212
 #: redux-framework/sample/metaboxes.php:491
 #: redux-framework/sample/sections/codeweber/body-bg.php:78
 #: redux-framework/sample/sections/codeweber/cpt-type.php:690
@@ -7222,6 +7347,16 @@ msgstr "Ярлык ссылки \"Главная\""
 #, fuzzy
 msgid "Horizontal"
 msgstr "Горизонтальный"
+
+#: functions/post-cards-registry.php:270
+msgid "Horizontal card that stays horizontal on all screen sizes"
+msgstr ""
+
+#: functions/post-cards-registry.php:172
+msgid ""
+"Horizontal card: image left, address/contacts right. Stays horizontal on all "
+"screen sizes."
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:477
 #, fuzzy
@@ -7233,7 +7368,7 @@ msgstr "Горизонтальный отступ (md+)"
 msgid "Horizontal Gap (xs)"
 msgstr "Горизонтальный отступ (xs)"
 
-#: functions/post-cards-registry.php:208
+#: functions/post-cards-registry.php:213
 #, fuzzy
 msgid "Horizontal staff layout"
 msgstr "Горизонтальное расположение персонала"
@@ -7248,10 +7383,9 @@ msgstr "Горизонтальный макет отзывов"
 msgid "Horizontal — thumbs below; Vertical — thumbs on the side"
 msgstr "Горизонтальный - миниатюры снизу; Вертикальный - миниатюры сбоку"
 
-#: functions/post-cards-registry.php:249
-#, fuzzy
-msgid "Horizontal: image 1/3, content 2/3"
-msgstr "Горизонтально: изображение 1/3, контент 2/3"
+#: functions/post-cards-registry.php:265
+msgid "Horizontal: image 1/3, content 2/3 (stacks on mobile)"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:79
 msgid "Hotjar"
@@ -7427,12 +7561,12 @@ msgstr "iCloud"
 msgid "Icon"
 msgstr "Иконка"
 
-#: functions/admin/projects-settings.php:246
+#: functions/admin/projects-settings.php:270
 #, fuzzy
 msgid "Icon + text"
 msgstr "Иконка + текст"
 
-#: functions/admin/projects-settings.php:244
+#: functions/admin/projects-settings.php:268
 #, fuzzy
 msgid "Icon only"
 msgstr "Только значок"
@@ -7467,7 +7601,7 @@ msgstr "ID: %s | Тип: %s"
 msgid "Identifier"
 msgstr "Идентификатор"
 
-#: functions/integrations/s3-storage/inc/Settings.php:112
+#: functions/integrations/s3-storage/inc/Settings.php:113
 #, fuzzy
 msgid "Idle"
 msgstr "Бездействие"
@@ -7544,6 +7678,11 @@ msgstr ""
 msgid "Image"
 msgstr "Изображение"
 
+#: functions/admin/image-canvas-editor.php:16
+#: functions/admin/image-canvas-editor.php:26
+msgid "Image Canvas Editor"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:778
 #, fuzzy
 msgid "Image for Login Page"
@@ -7574,6 +7713,17 @@ msgstr "Размеры Изображений"
 #, fuzzy
 msgid "Image swatch"
 msgstr "Образец изображения"
+
+#: functions/admin/image-tag-taxonomy.php:22
+#, fuzzy
+msgid "Image Tag"
+msgstr "Тег изображения"
+
+#: functions/admin/image-tag-taxonomy.php:21
+#: functions/admin/image-tag-taxonomy.php:23
+#, fuzzy
+msgid "Image Tags"
+msgstr "Теги изображений"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:92
 msgid "Import"
@@ -7769,6 +7919,7 @@ msgid "Insufficient permissions to perform this action."
 msgstr "Недостаточно прав для выполнения операции"
 
 #: functions/admin/events-settings.php:242
+#: functions/admin/media-cpt-filter.php:251
 #: functions/admin/media-regenerate.php:15
 #: functions/admin/media-regenerate.php:39
 #: functions/admin/media-regenerate.php:240
@@ -7788,7 +7939,7 @@ msgstr "Статус интеграции"
 msgid "Introduction / Short Description"
 msgstr "Введение / Краткое описание"
 
-#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:31
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:32
 #, fuzzy
 msgid "Invalid attachment."
 msgstr "Недопустимое вложение."
@@ -7888,6 +8039,11 @@ msgstr "Неверный пароль!"
 msgid "Invalid post type"
 msgstr "Недопустимый тип записи"
 
+#: functions/admin/media-cpt-filter.php:259
+#, fuzzy
+msgid "Invalid post type."
+msgstr "Недопустимый тип записи."
+
 #: functions/woocommerce/compare/class-cw-compare.php:59
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:98
 #: functions/woocommerce/wishlist/class-cw-wishlist.php:141
@@ -7907,8 +8063,8 @@ msgstr "Недопустимые параметры запроса"
 
 #: functions/integrations/event-gallery-metabox.php:126
 #: functions/integrations/event-gallery-metabox.php:147
-#: functions/integrations/project-gallery-metabox.php:145
-#: functions/integrations/project-gallery-metabox.php:171
+#: functions/integrations/project-gallery-metabox.php:158
+#: functions/integrations/project-gallery-metabox.php:184
 msgid "Invalid request."
 msgstr "Недопустимый запрос."
 
@@ -7944,7 +8100,7 @@ msgstr "IP-адрес"
 msgid "Irkutsk Oblast"
 msgstr "Иркутская область"
 
-#: functions/post-cards-registry.php:254
+#: functions/post-cards-registry.php:275
 #, fuzzy
 msgid "Isotope grid style, figure with overlays"
 msgstr "Стиль сетки Isotope, фигура с наложениями"
@@ -8185,7 +8341,7 @@ msgstr "Фамилия"
 msgid "Latest"
 msgstr "Последние"
 
-#: functions/cpt/cpt-events.php:811 functions/cpt/cpt-offices.php:503
+#: functions/cpt/cpt-events.php:811 functions/cpt/cpt-offices.php:511
 #: functions/cpt/cpt-vacancies.php:911
 msgid "Latitude"
 msgstr "Широта"
@@ -8205,6 +8361,11 @@ msgid "Leaf"
 msgstr "Лист"
 
 #: functions/fetch/getHotspotContent.php:106
+#: templates/post-cards/post/overlay-5-primary.php:37
+#: templates/post-cards/post/overlay-5.php:36
+#: templates/post-cards/projects/overlay-5-primary.php:36
+#: templates/post-cards/services/overlay-5-primary.php:36
+#: templates/post-cards/services/overlay-5.php:38
 msgid "Learn more"
 msgstr "Подробнее"
 
@@ -8225,6 +8386,10 @@ msgstr "Оставьте пустым для использования email а
 #, fuzzy
 msgid "Leave empty to use default translation"
 msgstr "Оставить пустым для использования перевода по умолчанию"
+
+#: functions/admin/projects-settings.php:419
+msgid "Leave empty to use the default title «Project products»."
+msgstr ""
 
 #: functions/testimonials/testimonial-form-api.php:167
 #: functions/testimonials/testimonial-form-api.php:208
@@ -8493,6 +8658,11 @@ msgstr "Тип загрузчика"
 msgid "Loading..."
 msgstr "Загрузка..."
 
+#: functions/admin/media-cpt-filter.php:163
+#, fuzzy
+msgid "Loading…"
+msgstr "Загрузка…"
+
 #: functions/integrations/s3-storage/inc/views/settings.php:106
 #, fuzzy
 msgid "Local only — new uploads stay on the server (S3 disabled)."
@@ -8520,7 +8690,7 @@ msgstr "Название места"
 msgid "Log file is empty or does not exist."
 msgstr "Журнал пуст или не существует."
 
-#: functions/integrations/s3-storage/inc/views/settings.php:141
+#: functions/integrations/s3-storage/inc/views/settings.php:148
 #, fuzzy
 msgid "Log level"
 msgstr "Уровень журнала"
@@ -8529,7 +8699,7 @@ msgstr "Уровень журнала"
 msgid "Log out"
 msgstr "Выйти"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:138
+#: functions/integrations/s3-storage/inc/views/settings.php:145
 #, fuzzy
 msgid "Logging"
 msgstr "Вход"
@@ -8582,13 +8752,13 @@ msgstr "Логотип вместо маркера"
 msgid "Logs all Matomo tracking events to WordPress debug log"
 msgstr "Записывает все события отслеживания Matomo в журнал отладки WordPress."
 
-#: functions/integrations/s3-storage/inc/views/settings.php:148
+#: functions/integrations/s3-storage/inc/views/settings.php:155
 #, fuzzy
 msgid ""
 "Logs are stored in the module folder: functions/integrations/s3-storage/logs/"
 msgstr "Логи хранятся в папке модуля: functions/integrations/s3-storage/logs/"
 
-#: functions/cpt/cpt-events.php:819 functions/cpt/cpt-offices.php:510
+#: functions/cpt/cpt-events.php:819 functions/cpt/cpt-offices.php:518
 #: functions/cpt/cpt-vacancies.php:918
 #, fuzzy
 msgid "Longitude"
@@ -8650,6 +8820,10 @@ msgstr "Главный сайдбар"
 msgid "Main wrapper"
 msgstr "Основная обертка"
 
+#: functions/admin/image-canvas-editor.php:68
+msgid "Make square"
+msgstr ""
+
 #: functions/integrations/image-licenses/image-licenses.php:269
 msgid "Manage authors"
 msgstr "Управление авторами"
@@ -8658,16 +8832,16 @@ msgstr "Управление авторами"
 msgid "Manage licenses for images and videos"
 msgstr "Управляйте лицензиями на изображения и видео"
 
-#: functions/cpt/cpt-offices.php:262 functions/cpt/cpt-offices.php:959
+#: functions/cpt/cpt-offices.php:270 functions/cpt/cpt-offices.php:967
 #, fuzzy
 msgid "Manager"
 msgstr "Менеджер"
 
 #: functions/admin/projects-settings.php:48
-#: functions/admin/projects-settings.php:340
-#: functions/admin/projects-settings.php:412
-#: functions/admin/projects-settings.php:461 functions/cpt/cpt-events.php:738
-#: functions/cpt/cpt-offices.php:365 functions/cpt/cpt-vacancies.php:820
+#: functions/admin/projects-settings.php:364
+#: functions/admin/projects-settings.php:462
+#: functions/admin/projects-settings.php:515 functions/cpt/cpt-events.php:738
+#: functions/cpt/cpt-offices.php:373 functions/cpt/cpt-vacancies.php:820
 #: redux-framework/sample/sections/codeweber/footer.php:297
 #: redux-framework/sample/sections/codeweber/header.php:353
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:63
@@ -8880,7 +9054,7 @@ msgstr "Меню не найдено или пусто."
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:145
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:349
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:761
-#: functions/integrations/s3-storage/inc/views/settings.php:178
+#: functions/integrations/s3-storage/inc/views/settings.php:185
 #, fuzzy
 msgid "Message"
 msgstr "Сообщение"
@@ -8958,7 +9132,7 @@ msgstr "Мин. ширина:"
 msgid "Minimal (only form blocks)"
 msgstr "Минимальный (только блоки форм)"
 
-#: functions/post-cards-registry.php:244
+#: functions/post-cards-registry.php:260
 #, fuzzy
 msgid "Minimalistic card for dense 4-6 column grids"
 msgstr "Минималистичная карточка для плотных сеток с 4-6 колонками"
@@ -9077,7 +9251,7 @@ msgstr "Модуль загружен"
 msgid "Module Settings"
 msgstr "Настройки"
 
-#: functions/cpt/cpt-offices.php:1055
+#: functions/cpt/cpt-offices.php:1063
 #: redux-framework/sample/sections/codeweber/company-details.php:9
 #, fuzzy
 msgid "Monday"
@@ -9091,6 +9265,10 @@ msgstr "Республика Мордовия"
 #, fuzzy
 msgid "More"
 msgstr "Больше"
+
+#: functions/cpt/cpt-offices.php:1196
+msgid "More details"
+msgstr ""
 
 #: functions/woocommerce/states-ru.php:55
 msgid "Moscow"
@@ -9608,7 +9786,7 @@ msgstr "Нет типов занятости"
 msgid "No erasers registered in WordPress Privacy Tools!"
 msgstr "В WordPress Privacy Tools не зарегистрировано ни одного стеретеля!"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:184
+#: functions/integrations/s3-storage/inc/views/settings.php:191
 #, fuzzy
 msgid "No errors logged."
 msgstr "Ошибки не зафиксированы."
@@ -9671,8 +9849,8 @@ msgstr "Нет предоставленных полей."
 
 #: functions/integrations/event-gallery-metabox.php:127
 #: functions/integrations/event-gallery-metabox.php:178
-#: functions/integrations/project-gallery-metabox.php:146
-#: functions/integrations/project-gallery-metabox.php:203
+#: functions/integrations/project-gallery-metabox.php:159
+#: functions/integrations/project-gallery-metabox.php:216
 msgid "No file received."
 msgstr "Файл не получен."
 
@@ -9739,6 +9917,11 @@ msgstr "Не найдено Хедера в корзине"
 #: functions/cpt/cpt-html_blocks.php:21
 msgid "No Html Blocks found"
 msgstr "Блоки HTML не найдены."
+
+#: functions/admin/image-tag-taxonomy.php:27
+#, fuzzy
+msgid "No image tags found"
+msgstr "Теги изображений не найдены"
 
 #: functions/fetch/filterPosts.php:70
 #, fuzzy
@@ -9836,6 +10019,11 @@ msgstr "Не выбран PDF"
 msgid "No personal data found to anonymize"
 msgstr "Нет персональных данных для анонимизации."
 
+#: functions/admin/media-cpt-filter.php:165
+#, fuzzy
+msgid "No posts found"
+msgstr "Посты не найдены"
+
 #: functions/cpt/cpt-price_list.php:21
 msgid "No Price Lists found"
 msgstr "Прайс-листы не найдены"
@@ -9856,6 +10044,10 @@ msgstr "В корзине не найдено ни одного Тарифног
 #, fuzzy
 msgid "No product data found."
 msgstr "Данные о товарах не найдены."
+
+#: functions/admin/image-canvas-editor.php:82
+msgid "No product images found."
+msgstr ""
 
 #: templates/archives/projects/projects_1.php:82
 #: templates/archives/projects/projects_2.php:83
@@ -9895,7 +10087,7 @@ msgstr "Нет вариантов графика"
 msgid "No seats available"
 msgstr "Мест нет"
 
-#: functions/cpt/cpt-offices.php:657
+#: functions/cpt/cpt-offices.php:665
 msgid "No services found. Please create services first."
 msgstr "Услуги не найдены. Создайте услугу."
 
@@ -9909,7 +10101,7 @@ msgstr "Нет размеров"
 msgid "No staff found."
 msgstr "Сотрудники не найдены."
 
-#: functions/cpt/cpt-offices.php:292 functions/cpt/cpt-offices.php:615
+#: functions/cpt/cpt-offices.php:300 functions/cpt/cpt-offices.php:623
 #, fuzzy
 msgid "No staff members found. Please create staff members first."
 msgstr ""
@@ -9957,7 +10149,7 @@ msgstr "Вакансий в корзине не найдено"
 msgid "No vacancies found."
 msgstr "Нет найденных вакансий."
 
-#: functions/cpt/cpt-offices.php:566
+#: functions/cpt/cpt-offices.php:574
 #, fuzzy
 msgid "No vacancies found. Please create vacancies first."
 msgstr "Нет вакансий, найдены...ожуйте создать вакансии сначала."
@@ -9987,6 +10179,10 @@ msgstr "Нет"
 msgid "none"
 msgstr "Нет"
 
+#: functions/admin/projects-settings.php:425
+msgid "None (transparent)"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/style.php:441
 #, fuzzy
 msgid "Normal — g-6 (30px)"
@@ -10001,7 +10197,11 @@ msgstr "Республика Северная Осетия — Алания"
 msgid "Not Active"
 msgstr "Не активен"
 
-#: functions/admin/projects-settings.php:373
+#: functions/admin/image-canvas-editor.php:95
+msgid "Not an image."
+msgstr ""
+
+#: functions/admin/projects-settings.php:397
 #, fuzzy
 msgid "Not applied to «Icon only» type (always circle)."
 msgstr "Не применяется к типу «Только значок» (всегда круглый)."
@@ -10166,21 +10366,11 @@ msgstr "Правый меню в футере"
 msgid "Office"
 msgstr "Офис"
 
-#: functions/post-cards-registry.php:171
-#, fuzzy
-msgid "Office Card"
-msgstr "Офисная карта"
-
 #: functions/fetch/getPostCardTemplates.php:81
 msgid "Office card template"
 msgstr "Шаблон карточки офиса"
 
-#: functions/post-cards-registry.php:172
-#, fuzzy
-msgid "Office card with address and contacts"
-msgstr "Визитная карточка офиса с адресом и контактами"
-
-#: functions/cpt/cpt-offices.php:694
+#: functions/cpt/cpt-offices.php:702
 #, fuzzy
 msgid "Office Image"
 msgstr "Изображение офиса"
@@ -10189,6 +10379,14 @@ msgstr "Изображение офиса"
 #, fuzzy
 msgid "Office Information"
 msgstr "Информация о офисе"
+
+#: functions/post-cards-registry.php:171
+msgid "Office List SM"
+msgstr ""
+
+#: functions/post-cards-registry.php:176
+msgid "Office List SM Text"
+msgstr ""
 
 #: templates/singles/offices/offices_2.php:251
 #, fuzzy
@@ -10201,15 +10399,15 @@ msgid "Office/Apartment"
 msgstr "Офис/Квартира"
 
 #: functions/cpt/cpt-offices.php:11 functions/cpt/cpt-offices.php:13
-#: functions/cpt/cpt-offices.php:28
+#: functions/cpt/cpt-offices.php:28 functions/cpt/cpt-offices.php:1241
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:377
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:436
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:278
 msgid "Offices"
 msgstr "Офисы"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:81
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:109
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:87
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:116
 #, fuzzy
 msgid "Offload"
 msgstr "Разгрузить"
@@ -10224,7 +10422,7 @@ msgstr "Выгрузить существующее медиа"
 msgid "Offload now"
 msgstr "Выгрузить сейчас"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:24
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:25
 #, fuzzy
 msgid "Offload to S3"
 msgstr "Выгрузить в S3"
@@ -10238,7 +10436,7 @@ msgstr ""
 "Перенесите медиафайлы WordPress на настраиваемый S3-совместимый сервер "
 "(MinIO, Ceph, Garage)."
 
-#: functions/integrations/s3-storage/inc/views/tools.php:38
+#: functions/integrations/s3-storage/inc/views/tools.php:47
 #, fuzzy
 msgid "Offloaded to S3"
 msgstr "Выгружено в S3"
@@ -10321,7 +10519,7 @@ msgstr "Только CSS"
 msgid "Only HTML"
 msgstr "Только HTML"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:40
+#: functions/integrations/s3-storage/inc/views/tools.php:49
 #, fuzzy
 msgid "Only in S3 (no local copy)"
 msgstr "Только в S3 (без локальной копии)"
@@ -10335,6 +10533,11 @@ msgid "Oops! Page Not Found."
 msgstr "Страница не найдена."
 
 #: functions/sidebars.php:313 functions/cpt/cpt-vacancies.php:777
+#: templates/post-cards/post/overlay-5-primary.php:35
+#: templates/post-cards/post/overlay-5.php:34
+#: templates/post-cards/projects/overlay-5-primary.php:34
+#: templates/post-cards/services/overlay-5-primary.php:34
+#: templates/post-cards/services/overlay-5.php:36
 #: templates/singles/vacancies/default.php:67
 msgid "Open"
 msgstr "Открыта"
@@ -10357,7 +10560,7 @@ msgstr "Открывать балун по клику"
 msgid "Open balloon when marker is clicked"
 msgstr "Открывать балун при клике на маркер"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:170
+#: functions/integrations/s3-storage/inc/views/settings.php:177
 #, fuzzy
 msgid "Open file-based logs →"
 msgstr "Открыть журналы на основе файлов"
@@ -10396,13 +10599,13 @@ msgstr "Открыть Инструменты →"
 msgid "Opening Hours"
 msgstr "Часы работы"
 
-#: functions/cpt/cpt-offices.php:238
+#: functions/cpt/cpt-offices.php:246
 #: redux-framework/sample/sections/codeweber/company-details.php:23
 #, fuzzy
 msgid "Opens"
 msgstr "Открыть"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:176
+#: functions/integrations/s3-storage/inc/views/settings.php:183
 #, fuzzy
 msgid "Operation"
 msgstr "Операция"
@@ -10447,6 +10650,15 @@ msgstr "Или скопируйте и вставьте следующую сс�
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:274
 msgid "Orange"
 msgstr "Orange"
+
+#: templates/post-cards/post/overlay-5-primary.php:39
+#: templates/post-cards/post/overlay-5.php:38
+#: templates/post-cards/projects/overlay-5-primary.php:38
+#: templates/post-cards/services/overlay-5-primary.php:38
+#: templates/post-cards/services/overlay-5.php:40
+#, fuzzy
+msgid "Order"
+msgstr "Заказ"
 
 #: woocommerce/order/order-details.php:46
 #, php-format
@@ -10538,13 +10750,14 @@ msgstr "Наложение + значок SVG с плюсом"
 msgid "Overlay + uil-plus icon"
 msgstr "Наложение + значок uil-plus"
 
-#: functions/post-cards-registry.php:60 functions/post-cards-registry.php:218
+#: functions/post-cards-registry.php:60 functions/post-cards-registry.php:234
 #: functions/fetch/getPostCardTemplates.php:100
 #, fuzzy
 msgid "Overlay 5"
 msgstr "Поверхность 5"
 
 #: functions/post-cards-registry.php:65 functions/post-cards-registry.php:223
+#: functions/post-cards-registry.php:239
 #, fuzzy
 msgid "Overlay 5 Primary"
 msgstr "Наложение 5 Основной"
@@ -10898,9 +11111,13 @@ msgstr "Цвет предварительной загрузки шаблона"
 msgid "Pattern Repeat"
 msgstr "Повтор узора"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:52
+#: functions/integrations/s3-storage/inc/views/tools.php:71
 #, fuzzy
 msgid "Pause"
+msgstr "Пауза"
+
+#: functions/integrations/s3-storage/inc/Settings.php:120
+msgid "Paused"
 msgstr "Пауза"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:769
@@ -10955,10 +11172,10 @@ msgstr "Значения на странице"
 msgid "Perm Krai"
 msgstr "Пермский край"
 
-#: functions/integrations/s3-storage/inc/Settings.php:163
+#: functions/integrations/s3-storage/inc/Settings.php:171
 #: redux-framework/sample/sections/codeweber/smtp.php:265
 #: redux-framework/sample/sections/codeweber/smtp.php:322
-#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:24
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:25
 #, fuzzy
 msgid "Permission denied."
 msgstr "Доступ запрещен."
@@ -11023,8 +11240,8 @@ msgstr "Тест Операторов Персональных данных V2"
 
 #: functions/sidebars.php:992 functions/sidebars.php:994
 #: functions/admin/admin_user_profil.php:24
-#: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-offices.php:313
-#: functions/cpt/cpt-offices.php:957 functions/cpt/cpt-staff.php:244
+#: functions/admin/admin_user_profil.php:76 functions/cpt/cpt-offices.php:321
+#: functions/cpt/cpt-offices.php:965 functions/cpt/cpt-staff.php:244
 #: functions/cpt/cpt-staff.php:507
 #: functions/events/event-registration-api.php:436
 #: functions/events/event-registrations.php:114
@@ -11102,7 +11319,7 @@ msgstr "Телефон 04"
 msgid "Phone 05"
 msgstr "Телефон 05"
 
-#: functions/cpt/cpt-offices.php:316 templates/singles/offices/default.php:209
+#: functions/cpt/cpt-offices.php:324 templates/singles/offices/default.php:209
 #: templates/singles/offices/offices_1.php:241
 #: templates/singles/offices/offices_2.php:210
 #: templates/singles/offices/offices_5.php:128
@@ -11176,7 +11393,7 @@ msgstr ""
 "Фактический или юридический адрес, по которому хранятся и обрабатываются "
 "персональные данные.<br>[redux_option key=\"storage_address\"]"
 
-#: functions/admin/projects-settings.php:366
+#: functions/admin/projects-settings.php:390
 #, fuzzy
 msgid "Pill"
 msgstr "Таблетка"
@@ -11372,6 +11589,11 @@ msgstr "Публикация"
 msgid "Post Date"
 msgstr "Дата публикации"
 
+#: functions/admin/media-cpt-filter.php:159
+#, fuzzy
+msgid "Post type"
+msgstr "Тип записи"
+
 #: functions/cpt/cpt-modals.php:27
 msgid "Post type for modal windows"
 msgstr "Тип Записи для Модальных окон"
@@ -11386,13 +11608,18 @@ msgctxt "Post Type General Name"
 msgid "Media Licenses"
 msgstr "Лицензии на изображения"
 
+#: functions/admin/media-cpt-filter.php:263
+#, fuzzy
+msgid "Post type not allowed."
+msgstr "Тип записи не разрешен."
+
 #: functions/integrations/image-licenses/image-licenses.php:50
 #, fuzzy
 msgctxt "Post Type Singular Name"
 msgid "Media License"
 msgstr "Лицензия на изображение"
 
-#: functions/cpt/cpt-offices.php:226 functions/cpt/cpt-staff.php:277
+#: functions/cpt/cpt-offices.php:234 functions/cpt/cpt-staff.php:277
 #: redux-framework/sample/sections/codeweber/company-details.php:140
 #: redux-framework/sample/sections/codeweber/company-details.php:202
 msgid "Postal Code"
@@ -11616,6 +11843,10 @@ msgstr "Название товара"
 msgid "Product Video"
 msgstr "Видео о товаре"
 
+#: functions/admin/projects-settings.php:146
+msgid "Products block"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:920
 #, fuzzy
 msgid "Products Limit"
@@ -11630,6 +11861,15 @@ msgstr "Пагинация товаров"
 #, fuzzy
 msgid "Project"
 msgstr "Проект"
+
+#: functions/post-cards-registry.php:224
+#, fuzzy
+msgid ""
+"Project card with primary overlay on hover; architect and address in "
+"figcaption"
+msgstr ""
+"Карточка проекта с основным наложением при наведении; архитектор и адрес в "
+"figcaption"
 
 #: functions/cpt/cpt-projects.php:70 functions/cpt/cpt-projects.php:75
 #, fuzzy
@@ -11646,7 +11886,8 @@ msgstr "Категория проекта"
 msgid "Project Gallery"
 msgstr "Галерея проектов"
 
-#: functions/bootstrap/bootstrap_post-nav.php:308
+#: functions/admin/projects-settings.php:418
+#: functions/bootstrap/bootstrap_post-nav.php:313
 #, fuzzy
 msgid "Project products"
 msgstr "Продукты проекта"
@@ -11682,7 +11923,7 @@ msgid "Projects Prev/Next Style"
 msgstr "Стиль \"Предыдущий/Следующий\" для проектов"
 
 #: functions/admin/projects-settings.php:22
-#: functions/admin/projects-settings.php:508
+#: functions/admin/projects-settings.php:562
 #, fuzzy
 msgid "Projects Settings"
 msgstr "Настройки проектов"
@@ -11880,6 +12121,7 @@ msgstr "Быстрый просмотр"
 #: functions/woocommerce/quick-view.php:85
 #: templates/woocommerce/cards/shop-card.php:46
 #: templates/woocommerce/cards/shop-compact.php:46
+#: templates/woocommerce/cards/shop-list-sm.php:47
 #: templates/woocommerce/cards/shop-list.php:48
 #: templates/woocommerce/cards/shop2.php:180
 #, fuzzy
@@ -11939,6 +12181,22 @@ msgstr "Рейтинг:"
 msgid "Ratings Distribution"
 msgstr "Распределение оценок"
 
+#: functions/integrations/s3-storage/inc/views/tools.php:31
+#, fuzzy
+msgid "Re-apply cache headers"
+msgstr "Повторно применить заголовки кэша"
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:90
+#: functions/integrations/s3-storage/inc/views/attachment-metabox.php:56
+#, fuzzy
+msgid "Re-apply metadata"
+msgstr "Повторно применить метаданные"
+
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:28
+#, fuzzy
+msgid "Re-apply S3 metadata"
+msgstr "Повторно применить метаданные S3"
+
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:52
 #, fuzzy
 msgid "Re-sync"
@@ -11947,6 +12205,7 @@ msgstr "Синхронизировать заново"
 #: templates/post-cards/post/overlay-5-primary.php:33
 #: templates/post-cards/post/overlay-5.php:32
 #: templates/post-cards/post/slider.php:67
+#: templates/post-cards/projects/overlay-5-primary.php:32
 #: templates/post-cards/services/overlay-5-primary.php:32
 #: templates/post-cards/services/overlay-5.php:34
 msgid "Read"
@@ -11967,6 +12226,7 @@ msgstr "Подробнее"
 #: templates/post-cards/post/overlay-5-primary.php:32
 #: templates/post-cards/post/overlay-5.php:31
 #: templates/post-cards/post/slider.php:106
+#: templates/post-cards/projects/overlay-5-primary.php:31
 #: templates/post-cards/services/overlay-5-primary.php:31
 #: templates/post-cards/services/overlay-5.php:33
 #: templates/post-cards/vacancies/card.php:127
@@ -12031,7 +12291,7 @@ msgstr "Перегенерировать"
 msgid "Regenerate thumbnails"
 msgstr "Пересоздать миниатюры"
 
-#: functions/cpt/cpt-offices.php:208 functions/cpt/cpt-staff.php:268
+#: functions/cpt/cpt-offices.php:216 functions/cpt/cpt-staff.php:268
 #: redux-framework/sample/sections/codeweber/company-details.php:105
 #: redux-framework/sample/sections/codeweber/company-details.php:167
 #: functions/integrations/s3-storage/inc/views/settings.php:35
@@ -12192,8 +12452,8 @@ msgstr "Связанные вакансии"
 #: functions/cpt/cpt-vacancies.php:531
 #: functions/integrations/event-gallery-metabox.php:55
 #: functions/integrations/event-gallery-metabox.php:122
-#: functions/integrations/project-gallery-metabox.php:65
-#: functions/integrations/project-gallery-metabox.php:138
+#: functions/integrations/project-gallery-metabox.php:76
+#: functions/integrations/project-gallery-metabox.php:150
 #: functions/woocommerce/product-video.php:98
 #: functions/woocommerce/product-video.php:127
 #: functions/woocommerce/swatches.php:273
@@ -12246,7 +12506,7 @@ msgstr "Убрать из сравнения"
 msgid "Remove from Wishlist?"
 msgstr "Удалить из списка желаний?"
 
-#: functions/cpt/cpt-offices.php:706
+#: functions/cpt/cpt-offices.php:714
 msgid "Remove Image"
 msgstr "Удалить изображение"
 
@@ -12318,7 +12578,7 @@ msgstr "Обязательно (форма не может быть отправ
 msgid "Requirements"
 msgstr "Требования"
 
-#: functions/admin/projects-settings.php:231
+#: functions/admin/projects-settings.php:255
 #, fuzzy
 msgid "Requires latitude and longitude to be filled in project settings."
 msgstr "Требуется заполнить широту и долготу в настройках проекта."
@@ -12353,7 +12613,7 @@ msgid "Responsive Map"
 msgstr "Адаптивная карта"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:641
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:82
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:88
 msgid "Restore"
 msgstr "Восстановить"
 
@@ -12362,7 +12622,7 @@ msgstr "Восстановить"
 msgid "Restore from S3 to local"
 msgstr "Восстановить из S3 локально"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:25
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:26
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:48
 #, fuzzy
 msgid "Restore to local"
@@ -12390,7 +12650,7 @@ msgstr "Количество результатов"
 msgid "Results for:"
 msgstr "Результаты для:"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:53
+#: functions/integrations/s3-storage/inc/views/tools.php:72
 #, fuzzy
 msgid "Resume"
 msgstr "Резюме"
@@ -12425,7 +12685,7 @@ msgstr "Форма резюме"
 msgid "Resume Reply"
 msgstr "Восстановить ответ"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:152
+#: functions/integrations/s3-storage/inc/views/settings.php:159
 #, fuzzy
 msgid "Retention (days)"
 msgstr "Удержание (дни)"
@@ -12510,7 +12770,7 @@ msgstr "Роль"
 msgid "Rostov Oblast"
 msgstr "Ростовская область"
 
-#: functions/admin/projects-settings.php:367
+#: functions/admin/projects-settings.php:391
 #, fuzzy
 msgid "Rounded"
 msgstr "Скругленный"
@@ -12556,7 +12816,7 @@ msgstr "Ряд %d: неправильное количество столбцо�
 msgid "Row %d: invalid email address: %s"
 msgstr "Ряд %d: недопустимый адрес электронной почты: %s"
 
-#: functions/integrations/s3-storage/inc/Settings.php:111
+#: functions/integrations/s3-storage/inc/Settings.php:112
 #, fuzzy
 msgid "Running..."
 msgstr "Запуск..."
@@ -12578,8 +12838,8 @@ msgid "S3 only — upload to S3, remove local copy after success."
 msgstr ""
 "Только S3 - загрузить в S3, удалить локальную копию после успешной загрузки."
 
-#: functions/integrations/s3-storage/inc/Settings.php:78
 #: functions/integrations/s3-storage/inc/Settings.php:79
+#: functions/integrations/s3-storage/inc/Settings.php:80
 #: redux-framework/sample/sections/codeweber/s3-storage.php:23
 #: functions/integrations/s3-storage/inc/Admin/AttachmentMetabox.php:22
 #: functions/integrations/s3-storage/inc/Admin/MediaLibrary.php:99
@@ -12601,7 +12861,7 @@ msgstr "Журналы хранилища S3"
 msgid "S3 Storage — Logs"
 msgstr "S3 Хранилище - Журналы"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:33
+#: functions/integrations/s3-storage/inc/views/tools.php:42
 #, fuzzy
 msgid "S3 Storage — Tools"
 msgstr "S3 Хранилище - Инструменты"
@@ -12679,7 +12939,7 @@ msgstr "Саратовская область"
 msgid "Satellite"
 msgstr "Спутник"
 
-#: functions/cpt/cpt-offices.php:1060
+#: functions/cpt/cpt-offices.php:1068
 #: redux-framework/sample/sections/codeweber/company-details.php:14
 #, fuzzy
 msgid "Saturday"
@@ -12710,7 +12970,7 @@ msgstr ""
 "их."
 
 #: functions/integrations/project-gallery-metabox.php:53
-#: functions/integrations/project-gallery-metabox.php:142
+#: functions/integrations/project-gallery-metabox.php:155
 msgid "Save the project as draft first, then you can add gallery images."
 msgstr ""
 "Сначала сохраните проект как черновик, затем можно добавить изображения в "
@@ -12736,6 +12996,14 @@ msgstr "Сохранить в файл"
 #, fuzzy, php-format
 msgid "Saved to components/%s"
 msgstr "Сохранено в компонентах/%s"
+
+#: functions/admin/image-canvas-editor.php:66
+msgid "Saved!"
+msgstr ""
+
+#: functions/admin/image-canvas-editor.php:65
+msgid "Saving..."
+msgstr ""
 
 #: functions/lib/comments-helper.php:32
 #, fuzzy
@@ -12863,10 +13131,15 @@ msgstr "Найти Хедер"
 msgid "Search Html Blocks"
 msgstr "Поиск HTML-блоков"
 
-#: functions/admin/projects-settings.php:272
+#: functions/admin/projects-settings.php:296
 #, fuzzy
 msgid "Search icons…"
 msgstr "Иконки поиска…"
+
+#: functions/admin/image-tag-taxonomy.php:26
+#, fuzzy
+msgid "Search image tags"
+msgstr "Поиск тегов изображений"
 
 #: functions/cpt/cpt-legal.php:15
 msgid "Search Legal"
@@ -13005,6 +13278,10 @@ msgstr "Второй цвет"
 msgid "Secret Key"
 msgstr "Секретный ключ"
 
+#: functions/admin/projects-settings.php:153
+msgid "Section title"
+msgstr ""
+
 #: redux-framework/sample-config.php:689
 #, fuzzy
 msgid "Section via hook"
@@ -13048,8 +13325,8 @@ msgstr "Ошибка безопасности. Перезагрузите стр
 
 #: functions/integrations/event-gallery-metabox.php:125
 #: functions/integrations/event-gallery-metabox.php:142
-#: functions/integrations/project-gallery-metabox.php:144
-#: functions/integrations/project-gallery-metabox.php:167
+#: functions/integrations/project-gallery-metabox.php:157
+#: functions/integrations/project-gallery-metabox.php:180
 msgid "Security check failed. Reload the page and try again."
 msgstr ""
 "Ошибка проверки безопасности. Перезагрузите страницу и попробуйте снова."
@@ -13065,6 +13342,7 @@ msgstr ""
 msgid "Security error"
 msgstr "Ошибка безопасности"
 
+#: functions/admin/media-cpt-filter.php:254
 #: functions/admin/media-regenerate.php:243
 #, fuzzy
 msgid "Security error."
@@ -13243,7 +13521,7 @@ msgstr "Выберите тип Заголовка для этой страни�
 msgid "Select icon from Unicons library"
 msgstr "Выберите иконку из библиотеки Unicons"
 
-#: functions/user.php:26 functions/cpt/cpt-offices.php:703
+#: functions/user.php:26 functions/cpt/cpt-offices.php:711
 #: functions/woocommerce/product-video.php:96
 msgid "Select Image"
 msgstr "Выберите изображение"
@@ -13264,7 +13542,7 @@ msgstr "Выбрать медиафайлы"
 msgid "Select media files to attach to this license"
 msgstr "Выберите медиафайлы для прикрепления к этой лицензии"
 
-#: functions/cpt/cpt-offices.php:720
+#: functions/cpt/cpt-offices.php:728
 msgid "Select Office Image"
 msgstr "Выберите изображение офиса"
 
@@ -13536,6 +13814,17 @@ msgstr "Старший уровень"
 msgid "Sent"
 msgstr "Пожалуйста, предоставьте текст для перевода."
 
+#: functions/integrations/s3-storage/inc/views/settings.php:140
+#, fuzzy
+msgid ""
+"Sent as Cache-Control header on every offloaded object. Default 31536000 = 1 "
+"year. 0 disables the header. Existing objects can be updated via Tools → Re-"
+"apply cache headers."
+msgstr ""
+"Отправляется как заголовок Cache-Control для каждого перенесенного объекта. "
+"По умолчанию 31536000 = 1 год. 0 отключает заголовок. Существующие объекты "
+"можно обновить через Инструменты → Повторно применить заголовки кэша."
+
 #: functions/cpt/cpt-clients.php:82
 #, fuzzy
 msgid "Separate categories with commas"
@@ -13548,6 +13837,11 @@ msgstr "Разделяйте отделы запятыми"
 #: functions/cpt/cpt-vacancies.php:80 functions/cpt/cpt-vacancies.php:131
 msgid "Separate items with commas"
 msgstr "Разделяйте запятыми"
+
+#: functions/admin/image-tag-taxonomy.php:61
+#, fuzzy
+msgid "Separate tags with commas"
+msgstr "Разделяйте теги запятыми"
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:117
 #, fuzzy
@@ -13566,7 +13860,7 @@ msgstr "Услуга"
 msgid "Service archive"
 msgstr "Архив услуг"
 
-#: functions/post-cards-registry.php:224
+#: functions/post-cards-registry.php:240
 #, fuzzy
 msgid ""
 "Service card with primary-colored overlay on hover; title and excerpt slide "
@@ -13575,7 +13869,7 @@ msgstr ""
 "Карточка услуги с наложением основного цвета при наведении; заголовок и "
 "краткое описание появляются слева"
 
-#: functions/post-cards-registry.php:219
+#: functions/post-cards-registry.php:235
 #, fuzzy
 msgid "Service card: title bottom, category badge top, excerpt on hover"
 msgstr ""
@@ -13612,7 +13906,7 @@ msgstr "Услуга запланирована"
 msgid "Service updated"
 msgstr "Сервис обновлен"
 
-#: functions/shortcodes.php:211 functions/cpt/cpt-offices.php:962
+#: functions/shortcodes.php:211 functions/cpt/cpt-offices.php:970
 #: functions/cpt/cpt-services.php:9 functions/cpt/cpt-services.php:11
 #: functions/cpt/cpt-services.php:12 functions/cpt/cpt-services.php:38
 msgid "Services"
@@ -13764,25 +14058,29 @@ msgstr "Адрес доставки"
 msgid "Shop"
 msgstr "Магазин"
 
-#: functions/post-cards-registry.php:253
+#: functions/post-cards-registry.php:274
 #, fuzzy
 msgid "Shop 2"
 msgstr "Магазин 2"
 
-#: functions/post-cards-registry.php:238
+#: functions/post-cards-registry.php:254
 #, fuzzy
 msgid "Shop Card"
 msgstr "Карточка товара"
 
-#: functions/post-cards-registry.php:243
+#: functions/post-cards-registry.php:259
 #, fuzzy
 msgid "Shop Compact"
 msgstr "Магазин Компакт"
 
-#: functions/post-cards-registry.php:248
+#: functions/post-cards-registry.php:264
 #, fuzzy
 msgid "Shop List"
 msgstr "Список магазинов"
+
+#: functions/post-cards-registry.php:269
+msgid "Shop List SM"
+msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:107
 #, fuzzy
@@ -14022,7 +14320,7 @@ msgstr "Показать поле email"
 msgid "Show filters in sidebar"
 msgstr "Показать фильтры в боковой панели"
 
-#: functions/admin/projects-settings.php:237
+#: functions/admin/projects-settings.php:261
 #, fuzzy
 msgid "Show floating map button on mobile devices"
 msgstr "Показывать плавающую кнопку карты на мобильных устройствах"
@@ -14076,6 +14374,13 @@ msgstr "Показать поле \"Имя\""
 #, fuzzy
 msgid "Show New Badge"
 msgstr "Показать значок \"Новинка\""
+
+#: templates/post-cards/offices/list-sm-text.php:111
+#: templates/post-cards/offices/list-sm-text.php:117
+#: templates/post-cards/offices/list-sm.php:138
+#: templates/post-cards/offices/list-sm.php:144
+msgid "Show on Map"
+msgstr "Показать на карте"
 
 #: templates/singles/projects/default.php:93
 #: templates/singles/projects/projects_2.php:98
@@ -14236,7 +14541,7 @@ msgstr ""
 "Показывать кнопку «Сравнить» на странице отдельного товара (после кнопки «В "
 "корзину»). Для вариативных товаров используется ID выбранной вариации."
 
-#: functions/admin/projects-settings.php:229
+#: functions/admin/projects-settings.php:253
 #, fuzzy
 msgid "Show «Show on map» button and map offcanvas on single project pages"
 msgstr ""
@@ -14260,6 +14565,11 @@ msgid ""
 msgstr ""
 "Показана версия документа от %s (версия, актуальная на момент вашего "
 "согласия)."
+
+#: functions/admin/media-cpt-filter.php:164
+#, fuzzy
+msgid "Showing latest 200. Refine by post type."
+msgstr "Показано последние 200. Уточнить по типу записи."
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:361
 #, fuzzy
@@ -14688,12 +14998,12 @@ msgstr "Спиннер на кнопке"
 msgid "Spinner on card"
 msgstr "Спиннер на карточке"
 
-#: functions/admin/projects-settings.php:368
+#: functions/admin/projects-settings.php:392
 #, fuzzy
 msgid "Square"
 msgstr "Квадрат"
 
-#: functions/cpt/cpt-offices.php:961 functions/cpt/cpt-staff.php:12
+#: functions/cpt/cpt-offices.php:969 functions/cpt/cpt-staff.php:12
 #: functions/cpt/cpt-staff.php:13 functions/cpt/cpt-staff.php:14
 #: functions/cpt/cpt-staff.php:32 functions/cpt/cpt-staff.php:41
 msgid "Staff"
@@ -14751,7 +15061,7 @@ msgstr "звезда"
 msgid "stars"
 msgstr "звезд"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:50
+#: functions/integrations/s3-storage/inc/views/tools.php:69
 #, fuzzy
 msgid "Start"
 msgstr "Начать"
@@ -14844,7 +15154,7 @@ msgstr "Срок хранения"
 msgid "Storage mode"
 msgstr "Режим хранения"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:39
+#: functions/integrations/s3-storage/inc/views/tools.php:48
 #, fuzzy
 msgid "Stored locally AND in S3"
 msgstr "Хранится локально И в S3"
@@ -14858,7 +15168,7 @@ msgstr "Улица"
 msgid "Street, House Number and Office"
 msgstr "Улица, Номер дома и Офис"
 
-#: functions/cpt/cpt-offices.php:223
+#: functions/cpt/cpt-offices.php:231
 msgid "Street, House, Office"
 msgstr "Улица, Дом, Офис"
 
@@ -15273,7 +15583,7 @@ msgstr "Сообщение об успешной регистрации"
 msgid "Successful form submission"
 msgstr "Успешная отправка формы"
 
-#: functions/cpt/cpt-offices.php:1061
+#: functions/cpt/cpt-offices.php:1069
 #: redux-framework/sample/sections/codeweber/company-details.php:15
 #, fuzzy
 msgid "Sunday"
@@ -15343,11 +15653,11 @@ msgstr "Теги"
 msgid "Tambov Oblast"
 msgstr "Тамбовская область"
 
-#: functions/integrations/project-gallery-metabox.php:148
+#: functions/integrations/project-gallery-metabox.php:161
 msgid "Tap to cancel"
 msgstr "Нажмите, чтобы отменить"
 
-#: functions/integrations/project-gallery-metabox.php:149
+#: functions/integrations/project-gallery-metabox.php:162
 msgid "Tap to undo"
 msgstr "Нажмите, чтобы отменить действие"
 
@@ -15616,7 +15926,7 @@ msgstr "Настройки отзывов"
 msgid "Testing filter hook!"
 msgstr "Проверка работы фильтрующего хука!"
 
-#: functions/integrations/s3-storage/inc/Settings.php:107
+#: functions/integrations/s3-storage/inc/Settings.php:108
 #, fuzzy
 msgid "Testing..."
 msgstr "Тестирование..."
@@ -15652,7 +15962,7 @@ msgstr "Текстовые ссылки"
 msgid "Text of the toast notification"
 msgstr "Текст уведомления (тоста)"
 
-#: functions/admin/projects-settings.php:245
+#: functions/admin/projects-settings.php:269
 #, fuzzy
 msgid "Text only"
 msgstr "Текст только"
@@ -15660,6 +15970,10 @@ msgstr "Текст только"
 #: functions/admin/events-settings.php:95
 msgid "Text when no seats available"
 msgstr "Текст при отсутствии мест"
+
+#: functions/post-cards-registry.php:177
+msgid "Text-only card: title + contacts, no image."
+msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:505
 #, fuzzy
@@ -15966,6 +16280,10 @@ msgstr ""
 "Это добавит атрибут data-form-type=\"...\" к элементу формы, позволяя "
 "JavaScript определять тип формы."
 
+#: functions/integrations/s3-storage/inc/Settings.php:122
+msgid "This will permanently delete files from S3. Continue?"
+msgstr "Все файлы на S3 будут безвозвратно удалены. Продолжить?"
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:444
 #, fuzzy
 msgid "Thumbnail Hover Effect"
@@ -15986,7 +16304,7 @@ msgstr "Направление миниатюр"
 msgid "Thumbnails Mousewheel"
 msgstr "Миниатюры Колесо мыши"
 
-#: functions/cpt/cpt-offices.php:1058
+#: functions/cpt/cpt-offices.php:1066
 #: redux-framework/sample/sections/codeweber/company-details.php:12
 #, fuzzy
 msgid "Thursday"
@@ -16001,7 +16319,7 @@ msgstr "Tik-Tok"
 msgid "TikTok"
 msgstr "TikTok"
 
-#: functions/integrations/s3-storage/inc/views/settings.php:175
+#: functions/integrations/s3-storage/inc/views/settings.php:182
 #, fuzzy
 msgid "Time"
 msgstr "Время"
@@ -16136,7 +16454,7 @@ msgstr "Верхний правый угол"
 msgid "Topbar"
 msgstr "ТопХедер"
 
-#: functions/integrations/s3-storage/inc/views/tools.php:37
+#: functions/integrations/s3-storage/inc/views/tools.php:46
 #, fuzzy
 msgid "Total attachments"
 msgstr "Все вложения"
@@ -16210,7 +16528,7 @@ msgstr "Корзина была очищена."
 msgid "Trigger Type"
 msgstr "Тип триггера"
 
-#: functions/cpt/cpt-offices.php:1056
+#: functions/cpt/cpt-offices.php:1064
 #: redux-framework/sample/sections/codeweber/company-details.php:10
 #, fuzzy
 msgid "Tuesday"
@@ -16381,7 +16699,7 @@ msgstr "Неизвестно"
 msgid "unknown"
 msgstr "неизвестно"
 
-#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:59
+#: functions/integrations/s3-storage/inc/Admin/AttachmentController.php:63
 #, fuzzy
 msgid "Unknown action."
 msgstr "Неизвестное действие."
@@ -16448,6 +16766,16 @@ msgstr "Отписался через страницу"
 msgid "Update"
 msgstr "Обновить"
 
+#: functions/integrations/s3-storage/inc/views/tools.php:32
+#, fuzzy
+msgid ""
+"Update Cache-Control metadata on all offloaded objects using the current max-"
+"age setting (uses CopyObject, no file re-upload)."
+msgstr ""
+"Обновить метаданные Cache-Control для всех выгруженных объектов с "
+"использованием текущего значения max-age (использует CopyObject, без "
+"повторной загрузки файла)."
+
 #: functions/cpt/cpt-clients.php:75 functions/cpt/cpt-events.php:87
 #, fuzzy
 msgid "Update Category"
@@ -16511,12 +16839,12 @@ msgstr ""
 msgid "Upload Avatar"
 msgstr "Загрузить аватар"
 
-#: functions/integrations/project-gallery-metabox.php:147
+#: functions/integrations/project-gallery-metabox.php:160
 msgid "Upload complete"
 msgstr "Загрузка завершена"
 
 #: functions/integrations/event-gallery-metabox.php:124
-#: functions/integrations/project-gallery-metabox.php:143
+#: functions/integrations/project-gallery-metabox.php:156
 msgid "Upload failed"
 msgstr "Ошибка загрузки"
 
@@ -16670,7 +16998,7 @@ msgstr "Используйте следующий шорткод для отоб
 msgid "Use this file"
 msgstr "Используйте этот файл."
 
-#: functions/cpt/cpt-offices.php:721 functions/cpt/cpt-testimonials.php:346
+#: functions/cpt/cpt-offices.php:729 functions/cpt/cpt-testimonials.php:346
 #: functions/woocommerce/product-video.php:116
 #: functions/woocommerce/swatches.php:97
 msgid "Use this image"
@@ -16710,7 +17038,7 @@ msgid ""
 "Example: I agree to the {document_title_url}."
 msgstr "Я ознакомлен с {document_title_url}."
 
-#: functions/admin/projects-settings.php:342
+#: functions/admin/projects-settings.php:366
 #, fuzzy
 msgid "Used for «Text only» and «Icon + text» types."
 msgstr "Используется для типов «Только текст» и «Значок + текст»."
@@ -16860,7 +17188,7 @@ msgstr "Utm source"
 msgid "UTM Term"
 msgstr "UTM Term"
 
-#: functions/cpt/cpt-offices.php:960 functions/cpt/cpt-vacancies.php:10
+#: functions/cpt/cpt-offices.php:968 functions/cpt/cpt-vacancies.php:10
 #: functions/cpt/cpt-vacancies.php:12 functions/cpt/cpt-vacancies.php:30
 msgid "Vacancies"
 msgstr "Вакансии"
@@ -16941,12 +17269,12 @@ msgid "Verified"
 msgstr "Подтверждено"
 
 #: functions/woocommerce/core.php:180
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:84
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:91
 #: functions/integrations/s3-storage/inc/views/attachment-metabox.php:55
 msgid "Verify"
 msgstr "Проверка"
 
-#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:27
+#: functions/integrations/s3-storage/inc/Admin/BulkActions.php:29
 #, fuzzy
 msgid "Verify in bucket"
 msgstr "Проверить в корзине"
@@ -17042,6 +17370,7 @@ msgstr "Ссылка на видео"
 #: templates/archives/events/events_1.php:40
 #: templates/post-cards/post/overlay-5-primary.php:31
 #: templates/post-cards/post/overlay-5.php:30
+#: templates/post-cards/projects/overlay-5-primary.php:30
 #: templates/post-cards/services/overlay-5-primary.php:30
 #: templates/post-cards/services/overlay-5.php:32
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:650
@@ -17372,6 +17701,17 @@ msgstr "Предупреждение"
 msgid "Warning:"
 msgstr "Внимание:"
 
+#. %d: number of attachments
+#: functions/integrations/s3-storage/inc/views/tools.php:64
+#, fuzzy
+msgid ""
+"Warning: %d files exist only in S3 (no local copy). Wiping will permanently "
+"delete them. Run Restore first if you want to keep them."
+msgstr ""
+"Предупреждение: %d файлов существуют только в S3 (локальной копии нет). "
+"Очистка безвозвратно удалит их. Запустите Восстановление, если хотите их "
+"сохранить."
+
 #: templates/singles/events/default.php:96
 msgid "Watch video"
 msgstr "Смотреть видео"
@@ -17398,7 +17738,7 @@ msgstr ""
 "Ваш отзыв помогает нам улучшаться и помогает другим принимать более "
 "обоснованные решения."
 
-#: functions/cpt/cpt-offices.php:325
+#: functions/cpt/cpt-offices.php:333
 #: templates/singles/offices/offices_1.php:254
 #: templates/singles/offices/offices_5.php:151
 #: templates/singles/staff/staff_2.php:159
@@ -17424,7 +17764,7 @@ msgstr "Правила использования сайта"
 msgid "WeChat"
 msgstr "ВChatат"
 
-#: functions/cpt/cpt-offices.php:1057
+#: functions/cpt/cpt-offices.php:1065
 #: redux-framework/sample/sections/codeweber/company-details.php:11
 #, fuzzy
 msgid "Wednesday"
@@ -17645,6 +17985,11 @@ msgstr "Ширина виджета в пикселях"
 msgid "Width"
 msgstr "Ширина"
 
+#: functions/integrations/s3-storage/inc/views/tools.php:35
+#, fuzzy
+msgid "Wipe S3"
+msgstr "Очистить S3"
+
 #: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:223
 #: functions/woocommerce/wishlist/functions.php:67
 #: functions/woocommerce/wishlist/functions.php:169
@@ -17715,10 +18060,9 @@ msgstr "График работы"
 msgid "Work schedule:"
 msgstr "График работы:"
 
-#: functions/cpt/cpt-offices.php:233
+#: functions/cpt/cpt-offices.php:241
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:381
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:440
-#: templates/post-cards/offices/card.php:135
 #: templates/singles/offices/default.php:110
 #: templates/singles/offices/default.php:249
 #: templates/singles/offices/offices_1.php:110
@@ -17731,7 +18075,7 @@ msgstr "График работы:"
 msgid "Working Hours"
 msgstr "График работы"
 
-#: functions/integrations/s3-storage/inc/Settings.php:116
+#: functions/integrations/s3-storage/inc/Settings.php:117
 #, fuzzy
 msgid "Working..."
 msgstr "Работаем..."
@@ -17813,7 +18157,7 @@ msgstr "Местоположение на карте Яндекса"
 msgid "Yandex Maps API key is not configured."
 msgstr "Ключ API Yandex Maps не настроен."
 
-#: archive-offices.php:124 functions/cpt/cpt-offices.php:492
+#: archive-offices.php:124 functions/cpt/cpt-offices.php:500
 #, fuzzy
 msgid ""
 "Yandex Maps API key is not configured. Please set it in Redux Framework "
@@ -18047,7 +18391,7 @@ msgstr "Zoho"
 msgid "Zoom"
 msgstr "Масштаб"
 
-#: functions/cpt/cpt-offices.php:517
+#: functions/cpt/cpt-offices.php:525
 #: redux-framework/sample/sections/codeweber/map_geo.php:117
 msgid "Zoom Level"
 msgstr "Уровень увеличения"
@@ -19101,7 +19445,7 @@ msgstr "- нет -"
 msgid "— Select Author —"
 msgstr "— Выберите автора —"
 
-#: functions/cpt/cpt-offices.php:213
+#: functions/cpt/cpt-offices.php:221
 msgid "— Select City —"
 msgstr "— Выберите город —"
 
@@ -19113,7 +19457,7 @@ msgstr "— Выбрать форму —"
 msgid "— Select Item —"
 msgstr "- Выберите Элемент -"
 
-#: functions/cpt/cpt-offices.php:264
+#: functions/cpt/cpt-offices.php:272
 msgid "— Select Manager —"
 msgstr "— Выберите менеджера —"
 
@@ -19160,3 +19504,27 @@ msgstr "← Назад к подпискам"
 #, fuzzy
 msgid "−% Discount"
 msgstr "−% Скидка"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "New form submission"
+msgstr "Новая заявка"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "New order"
+msgstr "Новый заказ"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "New newsletter subscription"
+msgstr "Новая подписка на рассылку"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "Total"
+msgstr "Сумма"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "Page"
+msgstr "Страница"
+
+#: functions/integrations/telegram/telegram-init.php
+msgid "SMTP error"
+msgstr "Ошибка SMTP"
