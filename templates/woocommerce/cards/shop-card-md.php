@@ -2,10 +2,10 @@
 /**
  * Product Card: shop-card-md
  *
- * Bootstrap .card с явной кнопкой «В корзину» внизу.
- * Фото сверху — hover-иконки wishlist / quick view / compare.
- * Hover-swap второго изображения. Значок Sale/New.
- * Полная копия shop-card (с оверлей-кнопками на фото).
+ * Горизонтальная карточка: фото слева (1/3), контент справа (2/3).
+ * Остаётся горизонтальной на всех экранах (без мобильного стака).
+ * Полная копия shop-list-sm (с wishlist / quick view / compare / badge).
+ * Версия без иконок: shop-list-sm.
  *
  * @package Codeweber
  */
@@ -17,11 +17,13 @@ require __DIR__ . '/_common.php';
 if ( ! isset( $product_id ) ) {
 	return;
 }
+
+$figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start' : ( $card_radius ? ' ' . trim( $card_radius ) : '' );
 ?>
 <div id="product-<?php echo esc_attr( $product_id ); ?>" class="project item <?php echo esc_attr( $cw_col ); ?>"<?php echo $cw_wl_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<div class="card<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?> h-100 d-flex flex-column">
+	<div class="card card-horizontal card-horizontal-always<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) : ''; ?>">
 
-		<figure class="mb-0 position-relative overflow-hidden text-reset<?php echo $card_radius ? ' ' . esc_attr( $card_radius ) . '-top' : ''; ?>">
+		<figure class="card-img position-relative text-reset<?php echo $figure_radius ? ' ' . esc_attr( trim( $figure_radius ) ) : ''; ?>">
 			<a href="<?php echo esc_url( $product_url ); ?>">
 				<?php echo $image_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
@@ -53,7 +55,7 @@ if ( ! isset( $product_id ) ) {
 			<?php endif; ?>
 		</figure>
 
-		<div class="card-body d-flex flex-column p-5">
+		<div class="card-body p-5 d-flex flex-column">
 
 			<?php if ( $show_category || $show_rating ) : ?>
 			<div class="d-flex align-items-center justify-content-between mb-2">
@@ -66,11 +68,18 @@ if ( ! isset( $product_id ) ) {
 			</div>
 			<?php endif; ?>
 
-			<h2 class="post-title h5 mb-2">
-				<a href="<?php echo esc_url( $product_url ); ?>" class="link-dark">
+			<h2 class="post-title h4 mb-2">
+				<a href="<?php echo esc_url( $product_url ); ?>" class="link-dark text-dark">
 					<?php echo esc_html( $product->get_name() ); ?>
 				</a>
 			</h2>
+
+			<?php
+			$excerpt = $product->get_short_description();
+			if ( $excerpt ) :
+			?>
+				<p class="mb-3 text-muted fs-md line-clamp-2"><?php echo wp_kses_post( wp_trim_words( wp_strip_all_tags( $excerpt ), 20 ) ); ?></p>
+			<?php endif; ?>
 
 			<?php if ( $show_price ) : ?>
 			<p class="price mb-4"><?php echo $product->get_price_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
@@ -80,16 +89,18 @@ if ( ! isset( $product_id ) ) {
 			<div class="mt-auto">
 				<?php if ( $is_simple ) : ?>
 					<a href="<?php echo esc_url( $add_to_cart_url ); ?>"
-					   class="btn btn-primary w-100 has-ripple ajax_add_to_cart<?php echo esc_attr( $btn_style ); ?>"
+					   class="btn btn-primary btn-sm btn-icon btn-icon-start has-ripple ajax_add_to_cart<?php echo esc_attr( $btn_style ); ?>"
 					   data-product_id="<?php echo esc_attr( $product_id ); ?>"
 					   data-product_sku="<?php echo esc_attr( $product->get_sku() ); ?>"
 					   data-quantity="1"
 					   rel="nofollow">
+						<i class="uil uil-shopping-bag"></i>
 						<?php echo esc_html( $add_to_cart_text ); ?>
 					</a>
 				<?php else : ?>
 					<a href="<?php echo esc_url( $product_url ); ?>"
-					   class="btn btn-outline-primary w-100 has-ripple<?php echo esc_attr( $btn_style ); ?>">
+					   class="btn btn-primary btn-sm btn-icon btn-icon-start has-ripple<?php echo esc_attr( $btn_style ); ?>">
+						<i class="uil uil-arrow-right"></i>
 						<?php echo esc_html( $add_to_cart_text ); ?>
 					</a>
 				<?php endif; ?>

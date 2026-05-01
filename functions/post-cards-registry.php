@@ -273,7 +273,7 @@ function codeweber_get_post_card_templates_registry() {
                 ],
                 'shop-card-md' => [
                     'label' => __('Shop Card MD', 'codeweber'),
-                    'description' => __('Bootstrap card with wishlist, quick view, compare, Sale/New badges', 'codeweber'),
+                    'description' => __('Horizontal card (copy of shop-list-sm) with wishlist, quick view, compare, badges', 'codeweber'),
                     'supports' => ['title', 'image', 'price', 'button', 'badges'],
                 ],
                 'shop-compact' => [

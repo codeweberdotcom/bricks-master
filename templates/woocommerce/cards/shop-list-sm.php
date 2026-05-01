@@ -4,6 +4,7 @@
  *
  * Горизонтальная карточка: фото слева (1/3), контент справа (2/3).
  * Остаётся горизонтальной на всех экранах (без мобильного стака).
+ * Без оверлей-иконок на фото. Версия с иконками: shop-card-md.
  *
  * @package Codeweber
  */
@@ -28,28 +29,6 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 
 			<?php if ( $hover_img_html ) : ?>
 				<?php echo $hover_img_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			<?php endif; ?>
-
-			<?php echo $badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-
-			<a class="<?php echo esc_attr( $cw_wl_class ); ?>"
-			   href="<?php echo $cw_wl_href; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"
-			   data-product-id="<?php echo esc_attr( $product_id ); ?>"
-			   data-bs-toggle="white-tooltip"
-			   title="<?php echo esc_attr( $cw_wl_title ); ?>"
-			   aria-label="<?php echo esc_attr( $cw_wl_title ); ?>">
-				<span class="cw-wishlist-icon"><i class="uil uil-heart"></i></span>
-			</a>
-
-			<a class="item-view" href="<?php echo esc_url( $product_url ); ?>"
-			   data-product-id="<?php echo esc_attr( $product_id ); ?>"
-			   data-bs-toggle="white-tooltip"
-			   title="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
-				<i class="uil uil-eye"></i>
-			</a>
-
-			<?php if ( $cw_compare_on ) : ?>
-				<?php CW_Compare_UI::render_loop_button( $product_id ); ?>
 			<?php endif; ?>
 		</figure>
 
