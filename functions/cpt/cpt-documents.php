@@ -1143,69 +1143,21 @@ function send_document_email($request) {
 		);
 	}
 	
-	$file_name = basename($file_url);
 	$document_title = get_the_title($post_id);
-	
-	// Получаем путь к файлу для вложения
-	$upload_dir = wp_upload_dir();
-	$file_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $file_url);
-	
-	// Проверяем, существует ли файл
-	if (!file_exists($file_path)) {
-		// Пробуем альтернативный способ получения пути
-		$file_path = get_attached_file(get_post_meta($post_id, '_document_file_id', true));
-		if (!$file_path || !file_exists($file_path)) {
-			// Если файл не найден, отправляем ссылку на файл
-			$file_path = null;
-		}
-	}
-	
-	// Отправляем email с вложением файла
-	// Используем прямые переводы для гарантии русского языка
-	$locale = get_locale();
-	$is_russian = ($locale === 'ru_RU' || strpos($locale, 'ru') === 0);
-	
+	$locale         = get_locale();
+	$is_russian     = ($locale === 'ru_RU' || strpos($locale, 'ru') === 0);
+
 	if ($is_russian) {
-		$subject = sprintf('Документ: %s', $document_title);
-		$email_message = sprintf(
-			"Здравствуйте,\n\nВы запросили получить документ: %s\n\n",
-			$document_title
-		);
-		
-		if ($file_path && file_exists($file_path)) {
-			$email_message .= "Пожалуйста, найдите документ во вложении к этому письму.\n\n";
-		} else {
-			$email_message .= "Ссылка для скачивания:\n" . $file_url . "\n\n";
-		}
-		
-		$email_message .= "С уважением";
+		$subject       = sprintf('Документ: %s', $document_title);
+		$email_message = sprintf("Здравствуйте,\n\nВы запросили получить документ: %s\n\nСсылка для скачивания:\n%s\n\nС уважением", $document_title, $file_url);
 	} else {
-		// Английская версия для других языков
-		$subject = sprintf(__('Document: %s', 'codeweber'), $document_title);
-		$email_message = sprintf(
-			__("Hello,\n\nYou requested to receive the document: %s\n\n", 'codeweber'),
-			$document_title
-		);
-		
-		if ($file_path && file_exists($file_path)) {
-			$email_message .= __("Please find the document attached to this email.\n\n", 'codeweber');
-		} else {
-			$email_message .= __("Download link:", 'codeweber') . "\n" . $file_url . "\n\n";
-		}
-		
-		$email_message .= __("Best regards", 'codeweber');
+		$subject       = sprintf(__('Document: %s', 'codeweber'), $document_title);
+		$email_message = sprintf(__("Hello,\n\nYou requested to receive the document: %s\n\nDownload link:\n%s\n\nBest regards", 'codeweber'), $document_title, $file_url);
 	}
-	
+
 	$headers = array('Content-Type: text/html; charset=UTF-8');
-	
-	// Если файл существует, добавляем его как вложение
-	$attachments = [];
-	if ($file_path && file_exists($file_path)) {
-		$attachments[] = $file_path;
-	}
-	
-	// Отправляем email
-	$sent = wp_mail($email, $subject, nl2br(esc_html($email_message)), $headers, $attachments);
+
+	$sent = wp_mail($email, $subject, nl2br(esc_html($email_message)), $headers);
 	
 	// Логируем результат для отладки
 	if (!$sent) {
