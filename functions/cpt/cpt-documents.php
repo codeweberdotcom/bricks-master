@@ -299,9 +299,37 @@ function render_documents_file_meta_box($post)
       }
    }
 
-   echo '<input type="file" name="document_file" id="document_file" accept=".' . esc_attr(implode(',.', array_keys(get_allowed_document_types()))) . '">';
-   echo '<p class="description">Загрузите файл документа (' . esc_html($allowed_extensions) . ')</p>';
+   echo '<p style="margin-top:10px;">';
+   echo '<input type="file" name="document_file" id="document_file" accept=".' . esc_attr(implode(',.', array_keys(get_allowed_document_types()))) . '" style="margin-right:8px;">';
+   echo '<button type="button" class="button" id="document_file_media_btn">' . esc_html__('Select from Media Library', 'codeweber') . '</button>';
+   echo '</p>';
+   echo '<input type="hidden" name="document_file_media_url" id="document_file_media_url" value="">';
+   echo '<p id="document_file_media_name" style="margin-top:4px;color:#2271b1;display:none;"></p>';
+   echo '<p class="description">' . esc_html__('Upload a new file or select an existing one from the media library', 'codeweber') . ' (' . esc_html($allowed_extensions) . ')</p>';
    echo '</div>';
+   ?>
+   <script>
+   jQuery(document).ready(function($) {
+      var mediaFrame;
+      $('#document_file_media_btn').on('click', function(e) {
+         e.preventDefault();
+         if (mediaFrame) { mediaFrame.open(); return; }
+         mediaFrame = wp.media({
+            title: '<?php echo esc_js(__('Select Document File', 'codeweber')); ?>',
+            button: { text: '<?php echo esc_js(__('Use this file', 'codeweber')); ?>' },
+            multiple: false
+         });
+         mediaFrame.on('select', function() {
+            var attachment = mediaFrame.state().get('selection').first().toJSON();
+            $('#document_file_media_url').val(attachment.url);
+            $('#document_file_media_name').text(attachment.filename).show();
+            $('#document_file').val('');
+         });
+         mediaFrame.open();
+      });
+   });
+   </script>
+   <?php
 }
 
 /**
@@ -327,6 +355,15 @@ function save_documents_file_meta($post_id)
    if (isset($_POST['remove_document_file']) && $_POST['remove_document_file'] == '1') {
       delete_post_meta($post_id, '_document_file');
       return;
+   }
+
+   // Обработка выбора из медиатеки
+   if (!empty($_POST['document_file_media_url'])) {
+      $media_url = esc_url_raw($_POST['document_file_media_url']);
+      if ($media_url) {
+         update_post_meta($post_id, '_document_file', $media_url);
+         return;
+      }
    }
 
    // Обработка загрузки файла
