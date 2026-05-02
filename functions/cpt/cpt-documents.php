@@ -1143,8 +1143,10 @@ function send_document_email($request) {
 		);
 	}
 	
-	// Rate limit: один адрес — одно письмо за 10 минут на документ
-	$rate_key = 'doc_email_' . md5($email) . '_' . $post_id;
+	// Rate limit: один адрес — одно письмо за N минут на документ
+	$forms_options    = get_option('codeweber_forms_options', []);
+	$rl_minutes       = isset($forms_options['doc_email_rate_limit_period']) ? absint($forms_options['doc_email_rate_limit_period']) : 10;
+	$rate_key         = 'doc_email_' . md5($email) . '_' . $post_id;
 	if (get_transient($rate_key)) {
 		return new WP_Error(
 			'rate_limit',
@@ -1152,7 +1154,7 @@ function send_document_email($request) {
 			['status' => 429]
 		);
 	}
-	set_transient($rate_key, 1, 10 * MINUTE_IN_SECONDS);
+	set_transient($rate_key, 1, $rl_minutes * MINUTE_IN_SECONDS);
 
 	$document_title = get_the_title($post_id);
 	$locale         = get_locale();

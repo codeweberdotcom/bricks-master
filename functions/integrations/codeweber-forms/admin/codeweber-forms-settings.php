@@ -96,7 +96,15 @@ class CodeweberFormsSettings {
             'codeweber-forms-settings',
             'codeweber_forms_rate_limit_section'
         );
-        
+
+        add_settings_field(
+            'doc_email_rate_limit_period',
+            __('Document Email Rate Limit (minutes)', 'codeweber'),
+            [$this, 'doc_email_rate_limit_period_field'],
+            'codeweber-forms-settings',
+            'codeweber_forms_rate_limit_section'
+        );
+
         // Messages Section
         add_settings_section(
             'codeweber_forms_messages_section',
@@ -188,6 +196,10 @@ class CodeweberFormsSettings {
         
         if (isset($input['rate_limit_period'])) {
             $sanitized['rate_limit_period'] = absint($input['rate_limit_period']);
+        }
+
+        if (isset($input['doc_email_rate_limit_period'])) {
+            $sanitized['doc_email_rate_limit_period'] = absint($input['doc_email_rate_limit_period']);
         }
         
         if (isset($input['success_message'])) {
@@ -293,6 +305,12 @@ class CodeweberFormsSettings {
         $value = $this->get_option('rate_limit_period', 60);
         echo '<input type="number" name="' . $this->option_name . '[rate_limit_period]" value="' . esc_attr($value) . '" min="1" class="small-text">';
         echo '<p class="description">' . __('Time period in minutes for rate limiting.', 'codeweber') . '</p>';
+    }
+
+    public function doc_email_rate_limit_period_field() {
+        $value = $this->get_option('doc_email_rate_limit_period', 10);
+        echo '<input type="number" name="' . $this->option_name . '[doc_email_rate_limit_period]" value="' . esc_attr($value) . '" min="1" class="small-text"> ' . __('min.', 'codeweber');
+        echo '<p class="description">' . __('How long (minutes) before the same email address can request the same document again. Default: 10.', 'codeweber') . '</p>';
     }
     
     public function success_message_field() {
