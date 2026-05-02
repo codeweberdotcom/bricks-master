@@ -1160,17 +1160,19 @@ function send_document_email($request) {
 	$locale         = get_locale();
 	$is_russian     = ($locale === 'ru_RU' || strpos($locale, 'ru') === 0);
 
+	$doc_link = '<a href="' . esc_url($file_url) . '">' . esc_html($document_title) . '</a>';
+
 	if ($is_russian) {
 		$subject       = sprintf('Документ: %s', $document_title);
-		$email_message = sprintf("Здравствуйте,\n\nВы запросили получить документ: %s\n\nСсылка для скачивания:\n%s\n\nС уважением", $document_title, $file_url);
+		$email_message = sprintf("Здравствуйте,<br><br>Вы запросили получить документ: %s<br><br>Ссылка для скачивания: %s<br><br>С уважением", esc_html($document_title), $doc_link);
 	} else {
 		$subject       = sprintf(__('Document: %s', 'codeweber'), $document_title);
-		$email_message = sprintf(__("Hello,\n\nYou requested to receive the document: %s\n\nDownload link:\n%s\n\nBest regards", 'codeweber'), $document_title, $file_url);
+		$email_message = sprintf(__("Hello,<br><br>You requested to receive the document: %s<br><br>Download link: %s<br><br>Best regards", 'codeweber'), esc_html($document_title), $doc_link);
 	}
 
 	$headers = array('Content-Type: text/html; charset=UTF-8');
 
-	$sent = wp_mail($email, $subject, nl2br(esc_html($email_message)), $headers);
+	$sent = wp_mail($email, $subject, $email_message, $headers);
 	
 	// Логируем результат для отладки
 	if (!$sent) {
