@@ -362,6 +362,14 @@ function save_documents_file_meta($post_id)
       $media_url = esc_url_raw($_POST['document_file_media_url']);
       if ($media_url) {
          update_post_meta($post_id, '_document_file', $media_url);
+         $ext = strtolower(pathinfo($media_url, PATHINFO_EXTENSION));
+         if ($ext === 'pdf') {
+            $upload_dir = wp_upload_dir();
+            $file_path  = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $media_url);
+            if (file_exists($file_path)) {
+               codeweber_generate_document_pdf_thumbnail($post_id, $file_path);
+            }
+         }
          return;
       }
    }
