@@ -311,13 +311,15 @@ function render_documents_file_meta_box($post)
    <script>
    jQuery(document).ready(function($) {
       var mediaFrame;
+      var allowedMimeTypes = <?php echo wp_json_encode(array_values(get_allowed_document_types())); ?>;
       $('#document_file_media_btn').on('click', function(e) {
          e.preventDefault();
          if (mediaFrame) { mediaFrame.open(); return; }
          mediaFrame = wp.media({
             title: '<?php echo esc_js(__('Select Document File', 'codeweber')); ?>',
             button: { text: '<?php echo esc_js(__('Use this file', 'codeweber')); ?>' },
-            multiple: false
+            multiple: false,
+            library: { type: allowedMimeTypes }
          });
          mediaFrame.on('select', function() {
             var attachment = mediaFrame.state().get('selection').first().toJSON();
