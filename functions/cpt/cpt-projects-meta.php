@@ -602,20 +602,28 @@ add_filter( 'cw_hotspot_extra_post_types', function ( array $types ) {
 } );
 
 add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
+	// DEBUG — временно, удалить после диагностики
+	error_log( '[HOTSPOT DEBUG] save_post_projects fired. post_id=' . $post_id );
+	error_log( '[HOTSPOT DEBUG] nonce present: ' . ( isset( $_POST['cw_project_hotspot_nonce'] ) ? 'YES' : 'NO' ) );
+
 	if (
 		! isset( $_POST['cw_project_hotspot_nonce'] ) ||
 		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cw_project_hotspot_nonce'] ) ), 'save_project_hotspot' )
 	) {
+		error_log( '[HOTSPOT DEBUG] nonce FAILED — exiting.' );
 		return;
 	}
 
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		error_log( '[HOTSPOT DEBUG] autosave — skipping.' );
 		return;
 	}
 
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
 	}
+
+	error_log( '[HOTSPOT DEBUG] _project_hotspot_settings POST value: ' . ( isset( $_POST['_project_hotspot_settings'] ) ? $_POST['_project_hotspot_settings'] : 'NOT SET' ) );
 
 	update_post_meta( $post_id, '_project_hotspot_enabled', isset( $_POST['_project_hotspot_enabled'] ) ? 1 : 0 );
 
@@ -632,6 +640,9 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		json_decode( $settings );
 		if ( json_last_error() === JSON_ERROR_NONE ) {
 			update_post_meta( $post_id, '_project_hotspot_settings', wp_slash( $settings ) );
+			error_log( '[HOTSPOT DEBUG] settings SAVED OK: ' . $settings );
+		} else {
+			error_log( '[HOTSPOT DEBUG] settings JSON invalid: ' . json_last_error_msg() );
 		}
 	}
 }, 10, 2 );
