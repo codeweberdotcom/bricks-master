@@ -1,8 +1,9 @@
 <?php
 /**
- * Template: Overlay-5 Primary Service Card (p-10)
+ * Template: Overlay-5 Primary Service Card
  *
- * Аналог services/overlay-5-primary.php с увеличенным padding p-10.
+ * Полный аналог services/overlay-5.php — отличается только классом .color
+ * на figure: overlay при hover становится primary-цветным вместо тёмного.
  *
  * @param array $post_data
  * @param array $display_settings
@@ -45,6 +46,7 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
     $title = mb_substr($title, 0, $display['title_length']) . '...';
 }
 
+// Для услуг: Short Description (meta) используется в приоритете, fallback на excerpt.
 $excerpt_source = !empty($post_data['short_description'])
     ? $post_data['short_description']
     : $post_data['excerpt'];

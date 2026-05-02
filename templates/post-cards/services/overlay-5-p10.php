@@ -1,12 +1,14 @@
 <?php
 /**
- * Template: Overlay-5 Service Card (p-10)
+ * Template: Overlay-5 Service Card
  *
- * Аналог services/overlay-5.php с увеличенным padding p-10.
+ * Адаптация post/overlay-5 под CPT services — без даты.
+ * Заголовок поверх картинки на bottom-overlay, excerpt в figcaption на hover,
+ * стрелка hover_card_button_hide и опциональная надпись «Подробнее/Перейти/Читать».
  *
- * @param array $post_data
- * @param array $display_settings
- * @param array $template_args
+ * @param array $post_data Данные поста
+ * @param array $display_settings Настройки отображения
+ * @param array $template_args Дополнительные аргументы
  */
 
 if (!isset($post_data) || !$post_data) {
@@ -20,11 +22,12 @@ $template_args = wp_parse_args($template_args ?? [], [
     'show_figcaption' => true,
     'enable_lift'     => false,
     'show_card_arrow' => true,
-    'card_read_more'  => 'more',
+    'card_read_more'  => 'more', // none | view | more | read
 ]);
 
 $article_class = !empty($template_args['enable_lift']) ? 'lift' : '';
 
+// Build localized read-more label (translatable — no Cyrillic source strings).
 $read_more_labels = [
     'view'    => __( 'View',       'codeweber' ),
     'more'    => __( 'Read more',  'codeweber' ),
@@ -45,6 +48,7 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
     $title = mb_substr($title, 0, $display['title_length']) . '...';
 }
 
+// Для услуг: Short Description (meta) используется в приоритете, fallback на excerpt.
 $excerpt_source = !empty($post_data['short_description'])
     ? $post_data['short_description']
     : $post_data['excerpt'];
@@ -57,6 +61,7 @@ if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
     }
 }
 
+// Формируем тег и классы для заголовка
 $title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';
 if (!empty($display['title_class'])) {
     $title_class = esc_attr($display['title_class']);
