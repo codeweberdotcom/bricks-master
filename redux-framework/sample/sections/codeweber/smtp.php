@@ -383,3 +383,46 @@ function redux_smtp_send_test_email_callback()
 
 	wp_die();
 }
+
+add_action('phpmailer_init', 'codeweber_phpmailer_init');
+function codeweber_phpmailer_init($phpmailer) {
+	global $opt_name;
+
+	$enabled = class_exists('Redux') ? Redux::get_option($opt_name, 'smtp_enabled') : false;
+	if (!$enabled) {
+		return;
+	}
+
+	$host       = Redux::get_option($opt_name, 'smtp_host');
+	$port       = Redux::get_option($opt_name, 'smtp_port');
+	$encryption = Redux::get_option($opt_name, 'smtp_encryption');
+	$username   = Redux::get_option($opt_name, 'smtp_username');
+	$password   = Redux::get_option($opt_name, 'smtp_password');
+	$from_email = Redux::get_option($opt_name, 'smtp_from_email');
+	$from_name  = Redux::get_option($opt_name, 'smtp_from_name');
+
+	if (!$host || !$username || !$password) {
+		return;
+	}
+
+	$phpmailer->isSMTP();
+	$phpmailer->Host     = $host;
+	$phpmailer->Port     = (int) $port;
+	$phpmailer->SMTPAuth = true;
+	$phpmailer->Username = $username;
+	$phpmailer->Password = $password;
+
+	if ($encryption === 'ssl') {
+		$phpmailer->SMTPSecure = 'ssl';
+	} elseif ($encryption === 'tls') {
+		$phpmailer->SMTPSecure = 'tls';
+	} else {
+		$phpmailer->SMTPSecure = false;
+		$phpmailer->SMTPAutoTLS = false;
+	}
+
+	if ($from_email) {
+		$phpmailer->From     = $from_email;
+		$phpmailer->FromName = $from_name ?: get_bloginfo('name');
+	}
+}
