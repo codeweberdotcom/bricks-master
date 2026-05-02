@@ -588,7 +588,7 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 
 add_filter( 'cw_hotspot_extra_post_types', function ( array $types ) {
 	$types['projects'] = [
-		'image_meta_key'    => 'main_information_image',
+		'image_meta_key'    => '_thumbnail_id',
 		'data_meta_key'     => '_project_hotspot_data',
 		'settings_meta_key' => '_project_hotspot_settings',
 		'show_image_upload' => false,
