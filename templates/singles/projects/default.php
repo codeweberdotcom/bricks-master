@@ -156,7 +156,11 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 							$thumbnail_id,
 							get_post_meta( $product_id, '_project_hotspot_data', true ),
 							get_post_meta( $product_id, '_project_hotspot_settings', true ),
-							'mb-8 mb-md-12 ' . $card_radius
+							'mb-8 mb-md-12 ' . $card_radius,
+							[
+								'url'     => $main_img_full,
+								'gallery' => 'project-' . $product_id,
+							]
 						);
 					else : ?>
 					<figure class="hover-scale hover-overlay <?php echo esc_attr( $card_radius ); ?> mb-8 mb-md-12">
