@@ -220,6 +220,14 @@ templates/post-cards/
 │   └── style6-card.php
 ├── offices/
 │   └── card.php
+├── services/
+│   ├── overlay-5.php               # Dark overlay, title bottom, excerpt on hover
+│   ├── overlay-5-primary.php       # Primary-colored overlay on hover
+│   ├── overlay-5-p10.php           # overlay-5 with p-10 padding
+│   └── overlay-5-primary-p10.php   # overlay-5-primary with p-10 padding
+├── taxonomy/
+│   ├── overlay-5.php               # Term card: dark overlay, placeholder if no image
+│   └── overlay-5-primary.php       # Term card: primary overlay on hover
 └── faq/
     └── default.php
 ```
