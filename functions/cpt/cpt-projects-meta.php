@@ -595,6 +595,8 @@ add_filter( 'cw_hotspot_extra_post_types', function ( array $types ) {
 		'nonce_action'      => 'save_project_hotspot',
 		'nonce_field'       => 'cw_project_hotspot_nonce',
 		'metabox_title'     => __( 'Hotspot Annotation', 'codeweber' ),
+		'enable_toggle'     => true,
+		'enable_meta_key'   => '_project_hotspot_enabled',
 	];
 	return $types;
 } );
@@ -615,9 +617,11 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		return;
 	}
 
+	update_post_meta( $post_id, '_project_hotspot_enabled', isset( $_POST['_project_hotspot_enabled'] ) ? 1 : 0 );
+
 	if ( isset( $_POST['_project_hotspot_data'] ) ) {
-		$data    = stripslashes( $_POST['_project_hotspot_data'] );
-		$decoded = json_decode( $data, true );
+		$data = stripslashes( $_POST['_project_hotspot_data'] );
+		json_decode( $data );
 		if ( json_last_error() === JSON_ERROR_NONE ) {
 			update_post_meta( $post_id, '_project_hotspot_data', wp_slash( $data ) );
 		}
@@ -625,7 +629,7 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 
 	if ( isset( $_POST['_project_hotspot_settings'] ) ) {
 		$settings = stripslashes( $_POST['_project_hotspot_settings'] );
-		$decoded  = json_decode( $settings, true );
+		json_decode( $settings );
 		if ( json_last_error() === JSON_ERROR_NONE ) {
 			update_post_meta( $post_id, '_project_hotspot_settings', wp_slash( $settings ) );
 		}
