@@ -240,6 +240,16 @@ function codeweber_get_post_card_templates_registry() {
                     'description' => __('Service card with primary-colored overlay on hover; title and excerpt slide in from the left', 'codeweber'),
                     'supports' => ['title', 'excerpt', 'image'],
                 ],
+                'overlay-5-p10' => [
+                    'label' => __('Overlay 5 (p-10)', 'codeweber'),
+                    'description' => __('Service card: title bottom, category badge top, excerpt on hover. Large padding p-10.', 'codeweber'),
+                    'supports' => ['title', 'category', 'excerpt', 'image'],
+                ],
+                'overlay-5-primary-p10' => [
+                    'label' => __('Overlay 5 Primary (p-10)', 'codeweber'),
+                    'description' => __('Service card with primary-colored overlay on hover. Large padding p-10.', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'image'],
+                ],
             ],
         ],
 
