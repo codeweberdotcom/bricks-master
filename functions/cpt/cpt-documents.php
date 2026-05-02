@@ -1143,6 +1143,17 @@ function send_document_email($request) {
 		);
 	}
 	
+	// Rate limit: один адрес — одно письмо за 10 минут на документ
+	$rate_key = 'doc_email_' . md5($email) . '_' . $post_id;
+	if (get_transient($rate_key)) {
+		return new WP_Error(
+			'rate_limit',
+			__('Please wait before requesting this document again.', 'codeweber'),
+			['status' => 429]
+		);
+	}
+	set_transient($rate_key, 1, 10 * MINUTE_IN_SECONDS);
+
 	$document_title = get_the_title($post_id);
 	$locale         = get_locale();
 	$is_russian     = ($locale === 'ru_RU' || strpos($locale, 'ru') === 0);
