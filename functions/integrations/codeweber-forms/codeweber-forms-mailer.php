@@ -175,16 +175,7 @@ class CodeweberFormsMailer {
         if (!$site_name) {
             $site_name = get_bloginfo('name');
         }
-        // 1. Email-specific logo from template settings (PNG/JPG, highest priority)
-        $opts        = get_option('codeweber_forms_email_templates', []);
-        $logo_id     = !empty($opts['wrapper_logo_id']) ? (int) $opts['wrapper_logo_id'] : 0;
-        if ($logo_id) {
-            $logo_url = wp_get_attachment_url($logo_id);
-            if ($logo_url) {
-                return '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr($site_name) . '" style="max-height:60px;max-width:200px;display:block;margin:0 auto;">';
-            }
-        }
-        // 2. Redux dark/light logo
+        // Redux dark/light logo
         $redux     = get_option('redux_demo', []);
         $dark_url  = !empty($redux['opt-dark-logo']['url'])  ? $redux['opt-dark-logo']['url']  : '';
         $light_url = !empty($redux['opt-light-logo']['url']) ? $redux['opt-light-logo']['url'] : '';
