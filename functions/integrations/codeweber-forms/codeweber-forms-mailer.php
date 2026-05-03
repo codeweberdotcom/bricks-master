@@ -169,6 +169,70 @@ class CodeweberFormsMailer {
     }
 
     /**
+     * Replace site-level variables (contacts, requisites, offices) in any email content.
+     */
+    public static function replace_site_variables($content) {
+        $redux = get_option('redux_demo', []);
+
+        $replacements = [
+            '{contact_email}'      => esc_html(!empty($redux['e-mail'])    ? $redux['e-mail']    : ''),
+            '{contact_phone_1}'    => esc_html(!empty($redux['phone_01'])  ? $redux['phone_01']  : ''),
+            '{contact_phone_2}'    => esc_html(!empty($redux['phone_02'])  ? $redux['phone_02']  : ''),
+            '{contact_phone_3}'    => esc_html(!empty($redux['phone_03'])  ? $redux['phone_03']  : ''),
+            '{contact_phone_4}'    => esc_html(!empty($redux['phone_04'])  ? $redux['phone_04']  : ''),
+            '{contact_phone_5}'    => esc_html(!empty($redux['phone_05'])  ? $redux['phone_05']  : ''),
+            '{legal_entity}'       => esc_html(!empty($redux['legal_entity'])       ? $redux['legal_entity']       : ''),
+            '{legal_entity_short}' => esc_html(!empty($redux['legal_entity_short']) ? $redux['legal_entity_short'] : ''),
+            '{legal_inn}'          => esc_html(!empty($redux['taxpayer_identification_number']) ? $redux['taxpayer_identification_number'] : ''),
+            '{legal_ogrn}'         => esc_html(!empty($redux['legal_ogrnip']) ? $redux['legal_ogrnip'] : ''),
+            '{legal_kpp}'          => esc_html(!empty($redux['legal_kpp'])    ? $redux['legal_kpp']    : ''),
+            '{offices_contacts}'   => self::build_offices_contacts_html(),
+        ];
+
+        return str_replace(array_keys($replacements), array_values($replacements), $content);
+    }
+
+    /**
+     * Build HTML table of all published offices (name, phone, address) for emails.
+     */
+    private static function build_offices_contacts_html() {
+        if (!post_type_exists('offices')) {
+            return '';
+        }
+        $offices = get_posts([
+            'post_type'      => 'offices',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'orderby'        => 'menu_order',
+            'order'          => 'ASC',
+        ]);
+        if (empty($offices)) {
+            return '';
+        }
+        $rows = '';
+        foreach ($offices as $office) {
+            $name    = esc_html(get_the_title($office->ID));
+            $phone   = esc_html(get_post_meta($office->ID, '_office_phone', true));
+            $phone2  = esc_html(get_post_meta($office->ID, '_office_phone_2', true));
+            $address = esc_html(get_post_meta($office->ID, '_office_full_address', true));
+            $phones  = implode(', ', array_filter([$phone, $phone2]));
+            $rows .= '<tr>'
+                . '<td style="padding:6px 12px;border:1px solid #ddd;">' . $name . '</td>'
+                . '<td style="padding:6px 12px;border:1px solid #ddd;">' . $phones . '</td>'
+                . '<td style="padding:6px 12px;border:1px solid #ddd;">' . $address . '</td>'
+                . '</tr>';
+        }
+        return '<table style="width:100%;border-collapse:collapse;font-size:13px;">'
+            . '<thead><tr style="background:#f5f5f5;">'
+            . '<th style="padding:6px 12px;border:1px solid #ddd;text-align:left;">' . __('Office', 'codeweber') . '</th>'
+            . '<th style="padding:6px 12px;border:1px solid #ddd;text-align:left;">' . __('Phone', 'codeweber') . '</th>'
+            . '<th style="padding:6px 12px;border:1px solid #ddd;text-align:left;">' . __('Address', 'codeweber') . '</th>'
+            . '</tr></thead>'
+            . '<tbody>' . $rows . '</tbody>'
+            . '</table>';
+    }
+
+    /**
      * Returns logo <img> tag for the given type (dark/light), with fallbacks.
      */
     private static function get_logo_html($type = 'dark', $site_name = '') {

@@ -242,6 +242,10 @@ class CodeweberFormsEmailTemplates {
         foreach ($replacements as $key => $value) {
             $content = str_replace($key, $value, $content);
         }
+        // Site-level variables (contacts, requisites, offices)
+        if (class_exists('CodeweberFormsMailer')) {
+            $content = CodeweberFormsMailer::replace_site_variables($content);
+        }
         return $content;
     }
     
@@ -947,6 +951,23 @@ class CodeweberFormsEmailTemplates {
         $event_notification_subject  = $this->get_option('event_notification_subject', __('New registration: {event_title}', 'codeweber'));
         $event_notification_template = $this->get_option('event_notification_template', $this->get_default_event_notification_template());
 
+        $site_vars = [
+            '{site_name}'          => __('Site name', 'codeweber'),
+            '{site_url}'           => __('Site URL', 'codeweber'),
+            '{contact_email}'      => __('Email', 'codeweber'),
+            '{contact_phone_1}'    => __('Phone 1', 'codeweber'),
+            '{contact_phone_2}'    => __('Phone 2', 'codeweber'),
+            '{contact_phone_3}'    => __('Phone 3', 'codeweber'),
+            '{contact_phone_4}'    => __('Phone 4', 'codeweber'),
+            '{contact_phone_5}'    => __('Phone 5', 'codeweber'),
+            '{legal_entity}'       => __('Company name', 'codeweber'),
+            '{legal_entity_short}' => __('Company short', 'codeweber'),
+            '{legal_inn}'          => __('INN', 'codeweber'),
+            '{legal_ogrn}'         => __('OGRN', 'codeweber'),
+            '{legal_kpp}'          => __('KPP', 'codeweber'),
+            '{offices_contacts}'   => __('Offices', 'codeweber'),
+        ];
+
         $variables = $this->get_available_variables();
         $template_items = $this->get_template_items();
         $current_template = isset($_GET['template']) && isset($template_items[$_GET['template']]) ? sanitize_key($_GET['template']) : array_key_first($template_items);
@@ -999,6 +1020,15 @@ class CodeweberFormsEmailTemplates {
                                 'enable_label' => __('Enable Admin Notifications', 'codeweber'),
                                 'enable_help'  => __('Send email notifications to administrators', 'codeweber'),
                                 'subject_help' => __('Subject line for admin notification emails. You can use variables like {form_name}.', 'codeweber'),
+                                'vars' => array_merge([
+                                    '{form_name}'       => __('Form name', 'codeweber'),
+                                    '{form_fields}'     => __('Form fields', 'codeweber'),
+                                    '{user_name}'       => __('User name', 'codeweber'),
+                                    '{user_email}'      => __('User email', 'codeweber'),
+                                    '{submission_date}' => __('Date', 'codeweber'),
+                                    '{submission_time}' => __('Time', 'codeweber'),
+                                    '{user_ip}'         => __('IP', 'codeweber'),
+                                ], $site_vars),
                             ],
                             'auto_reply' => [
                                 'enabled'  => $auto_reply_enabled,
@@ -1008,6 +1038,11 @@ class CodeweberFormsEmailTemplates {
                                 'enable_label' => __('Enable Auto-Reply', 'codeweber'),
                                 'enable_help'  => __('Send automatic reply emails to users', 'codeweber') . ' ' . __('Note: Auto-reply will only be sent if the form contains an email field.', 'codeweber'),
                                 'subject_help' => __('Subject line for auto-reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'),
+                                'vars' => array_merge([
+                                    '{form_name}'  => __('Form name', 'codeweber'),
+                                    '{user_name}'  => __('User name', 'codeweber'),
+                                    '{user_email}' => __('User email', 'codeweber'),
+                                ], $site_vars),
                             ],
                             'testimonial_reply' => [
                                 'enabled'  => $testimonial_reply_enabled,
@@ -1017,6 +1052,11 @@ class CodeweberFormsEmailTemplates {
                                 'enable_label' => __('Enable Testimonial Reply', 'codeweber'),
                                 'enable_help'  => __('Send automatic reply emails for testimonials', 'codeweber') . ' ' . __('Note: Reply will be sent if form name contains "testimonial" or "отзыв".', 'codeweber'),
                                 'subject_help' => __('Subject line for testimonial reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'),
+                                'vars' => array_merge([
+                                    '{form_name}'  => __('Form name', 'codeweber'),
+                                    '{user_name}'  => __('User name', 'codeweber'),
+                                    '{user_email}' => __('User email', 'codeweber'),
+                                ], $site_vars),
                             ],
                             'resume_reply' => [
                                 'enabled'  => $resume_reply_enabled,
@@ -1026,6 +1066,11 @@ class CodeweberFormsEmailTemplates {
                                 'enable_label' => __('Enable Resume Reply', 'codeweber'),
                                 'enable_help'  => __('Send automatic reply emails for resumes', 'codeweber') . ' ' . __('Note: Reply will be sent if form name contains "resume", "резюме", "cv" or "вакансия".', 'codeweber'),
                                 'subject_help' => __('Subject line for resume reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'),
+                                'vars' => array_merge([
+                                    '{form_name}'  => __('Form name', 'codeweber'),
+                                    '{user_name}'  => __('User name', 'codeweber'),
+                                    '{user_email}' => __('User email', 'codeweber'),
+                                ], $site_vars),
                             ],
                             'newsletter_reply' => [
                                 'enabled'  => $newsletter_reply_enabled,
@@ -1035,15 +1080,25 @@ class CodeweberFormsEmailTemplates {
                                 'enable_label' => __('Enable Newsletter Reply', 'codeweber'),
                                 'enable_help'  => __('Send automatic reply emails for newsletter subscriptions', 'codeweber') . ' ' . __('Note: Reply will be sent if form name contains "newsletter" or "подписк".', 'codeweber'),
                                 'subject_help' => __('Subject line for newsletter reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'),
+                                'vars' => array_merge([
+                                    '{user_name}'       => __('User name', 'codeweber'),
+                                    '{user_email}'      => __('User email', 'codeweber'),
+                                    '{unsubscribe_url}' => __('Unsubscribe URL', 'codeweber'),
+                                ], $site_vars),
                             ],
                             'document_email' => [
                                 'enabled'      => $document_email_enabled,
                                 'subject'      => $document_email_subject,
                                 'template'     => $document_email_template,
-                                'desc'         => __('Email sent to the user when they request a document. Available variables: {document_title}, {document_link}, {site_name}, {site_url}.', 'codeweber'),
+                                'desc'         => __('Email sent to the user when they request a document. Available variables: {document_title}, {document_link}, {document_image}, {site_name}, {site_url}.', 'codeweber'),
                                 'enable_label' => __('Use Custom Document Email Template', 'codeweber'),
                                 'enable_help'  => __('Use this template instead of the default hardcoded email.', 'codeweber'),
                                 'subject_help' => __('Subject line. You can use {site_name}, {document_title}.', 'codeweber'),
+                                'vars' => array_merge([
+                                    '{document_title}' => __('Doc title', 'codeweber'),
+                                    '{document_link}'  => __('Doc link', 'codeweber'),
+                                    '{document_image}' => __('Doc image', 'codeweber'),
+                                ], $site_vars),
                             ],
                             'event_notification' => [
                                 'enabled'      => $event_notification_enabled,
@@ -1053,6 +1108,14 @@ class CodeweberFormsEmailTemplates {
                                 'enable_label' => __('Use Custom Event Notification Template', 'codeweber'),
                                 'enable_help'  => __('Use this template instead of the default hardcoded email.', 'codeweber'),
                                 'subject_help' => __('Subject line. You can use {event_title}, {site_name}.', 'codeweber'),
+                                'vars' => array_merge([
+                                    '{event_title}'     => __('Event title', 'codeweber'),
+                                    '{reg_details}'     => __('Reg details', 'codeweber'),
+                                    '{reg_name}'        => __('Reg name', 'codeweber'),
+                                    '{reg_email}'       => __('Reg email', 'codeweber'),
+                                    '{reg_admin_url}'   => __('Reg admin URL', 'codeweber'),
+                                    '{event_admin_url}' => __('Event admin URL', 'codeweber'),
+                                ], $site_vars),
                             ],
                             'email_wrapper' => [
                                 'enabled'      => $wrapper_enabled,
@@ -1156,15 +1219,15 @@ class CodeweberFormsEmailTemplates {
                                         <span class="description" style="margin-left:10px;"><?php _e('Apply a preset design — overwrites current template.', 'codeweber'); ?></span>
                                     </div>
                                     <?php endif; ?>
-                                    <?php if (!empty($p['use_textarea'])) : ?>
                                     <?php if (!empty($p['vars'])) : ?>
                                     <div style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
                                         <span style="font-size:12px;color:#666;margin-right:4px;"><?php _e('Insert:', 'codeweber'); ?></span>
-                                        <?php foreach ($p['vars'] as $var => $label) : ?>
-                                        <button type="button" class="button button-small codeweber-email-var-btn" data-var="<?php echo esc_attr($var); ?>" title="<?php echo esc_attr($var); ?>"><?php echo esc_html($label); ?></button>
+                                        <?php foreach ($p['vars'] as $var => $var_label) : ?>
+                                        <button type="button" class="button button-small codeweber-email-var-btn" data-var="<?php echo esc_attr($var); ?>" title="<?php echo esc_attr($var); ?>"><?php echo esc_html($var_label); ?></button>
                                         <?php endforeach; ?>
                                     </div>
                                     <?php endif; ?>
+                                    <?php if (!empty($p['use_textarea'])) : ?>
                                     <textarea
                                         id="<?php echo esc_attr($k['template']); ?>"
                                         name="<?php echo esc_attr($option_name); ?>[<?php echo esc_attr($k['template']); ?>]"

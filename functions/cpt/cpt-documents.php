@@ -1196,6 +1196,7 @@ function send_document_email($request) {
 	}
 
 	if (class_exists('CodeweberFormsMailer')) {
+		$email_message = CodeweberFormsMailer::replace_site_variables($email_message);
 		$email_message = CodeweberFormsMailer::apply_wrapper($email_message);
 	}
 
