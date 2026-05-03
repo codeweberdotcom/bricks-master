@@ -980,8 +980,15 @@ document.addEventListener("DOMContentLoaded", () => {
     newForm.addEventListener("submit", function(e) {
       e.preventDefault();
       e.stopPropagation();
-      
-      
+
+      if (!newForm.checkValidity()) {
+        newForm.classList.add("was-validated");
+        const firstInvalid = newForm.querySelector(":invalid");
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+      newForm.classList.remove("was-validated");
+
       const formData = new FormData(newForm);
       const submitButton = newForm.querySelector('button[type="submit"]');
       const originalButtonHTML = submitButton ? submitButton.innerHTML : '';

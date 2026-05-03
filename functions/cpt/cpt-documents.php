@@ -960,9 +960,9 @@ function get_document_email_modal($request) {
 
 	ob_start();
 	?>
-	<div class="document-email-form text-start">
+	<div class="document-email-modal-wrap text-start">
 		<h5 class="modal-title mb-4"><?php esc_html_e('Send Document by Email', 'codeweber'); ?></h5>
-		<form id="document-email-form" class="document-email-form">
+		<form id="document-email-form" class="document-email-form needs-validation" novalidate>
 			<input type="hidden" name="document_id" value="<?php echo esc_attr($post_id); ?>">
 
 			<div class="mb-4">
@@ -979,6 +979,7 @@ function get_document_email_modal($request) {
 					required
 				>
 				<label for="document_email"><?php esc_html_e('Your Email *', 'codeweber'); ?></label>
+				<div class="invalid-feedback"><?php esc_html_e('Please enter a valid email address.', 'codeweber'); ?></div>
 			</div>
 
 			<?php if (!empty($doc_consents) && function_exists('codeweber_forms_render_consent_checkbox')) : ?>
