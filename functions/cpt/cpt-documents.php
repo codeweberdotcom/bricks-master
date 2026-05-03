@@ -1172,6 +1172,10 @@ function send_document_email($request) {
 		$email_message = sprintf(__('You requested %s on %s', 'codeweber') . '<br><br>' . __('Best regards,', 'codeweber') . '<br>%s', $doc_link, esc_html($site_name), esc_html($site_name));
 	}
 
+	if (class_exists('CodeweberFormsMailer')) {
+		$email_message = CodeweberFormsMailer::apply_wrapper($email_message);
+	}
+
 	$headers = array('Content-Type: text/html; charset=UTF-8');
 
 	$sent = wp_mail($email, $subject, $email_message, $headers);

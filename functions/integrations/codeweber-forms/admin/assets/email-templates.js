@@ -49,6 +49,24 @@
         if (panel) updatePreview(panel);
     });
 
+    $(document).on('click', '.codeweber-email-preset-btn', function() {
+        var preset = $(this).data('preset');
+        if (!config.wrapperPresets || !config.wrapperPresets[preset]) return;
+        if (config.presetConfirm && !window.confirm(config.presetConfirm)) return;
+        var panel = $(this).closest('.codeweber-email-templates-panel')[0];
+        if (!panel) return;
+        var templateId = panel.getAttribute('data-template');
+        var editorId = config.editorIds[templateId];
+        if (!editorId) return;
+        var html = config.wrapperPresets[preset];
+        if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
+            tinymce.get(editorId).setContent(html);
+        } else {
+            var el = document.getElementById(editorId);
+            if (el) el.value = html;
+        }
+    });
+
     // Optional: auto-load preview for the active panel on load
     $(function() {
         var active = document.querySelector('.codeweber-email-templates-panel.is-active');

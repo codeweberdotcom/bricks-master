@@ -139,6 +139,34 @@ class CodeweberFormsMailer {
     }
     
     /**
+     * Apply email wrapper if enabled. Extracts body content from full HTML documents.
+     */
+    public static function apply_wrapper($message) {
+        if (!class_exists('CodeweberFormsEmailTemplates')) {
+            return $message;
+        }
+        if (!CodeweberFormsEmailTemplates::is_wrapper_enabled()) {
+            return $message;
+        }
+        $wrapper_html = CodeweberFormsEmailTemplates::get_wrapper_html();
+        if (empty($wrapper_html) || strpos($wrapper_html, '{content}') === false) {
+            return $message;
+        }
+        // Extract body content if message is a full HTML document
+        $content = $message;
+        if (preg_match('/<body[^>]*>(.*?)<\/body>/is', $message, $m)) {
+            $content = trim($m[1]);
+        }
+        $social_html = CodeweberFormsEmailTemplates::get_social_links_html();
+        $site_name   = get_bloginfo('name');
+        return str_replace(
+            ['{content}', '{social_links}', '{site_name}', '{site_url}'],
+            [$content, $social_html, esc_html($site_name), esc_url(home_url())],
+            $wrapper_html
+        );
+    }
+
+    /**
      * Process email template
      */
     public static function process_template($template, $data) {
@@ -178,8 +206,8 @@ class CodeweberFormsMailer {
         foreach ($replacements as $key => $value) {
             $content = str_replace($key, $value, $content);
         }
-        
-        return $content;
+
+        return self::apply_wrapper($content);
     }
     
     /**
