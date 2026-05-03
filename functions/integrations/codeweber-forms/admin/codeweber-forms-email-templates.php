@@ -131,7 +131,23 @@ class CodeweberFormsEmailTemplates {
             $html = $this->get_option($option_key, $this->get_default_template_by_id($template_id));
         }
         $preview_html = $this->replace_variables_for_preview($html);
+        if ($template_id !== 'email_wrapper' && self::is_wrapper_enabled()) {
+            $preview_html = $this->apply_wrapper_for_preview($preview_html);
+        }
         wp_send_json_success(['html' => $preview_html]);
+    }
+
+    /**
+     * Wrap inner HTML with the email wrapper template (for preview only).
+     */
+    private function apply_wrapper_for_preview($inner_html) {
+        $wrapper = self::get_wrapper_html();
+        if (!$wrapper || strpos($wrapper, '{content}') === false) {
+            return $inner_html;
+        }
+        $wrapped = str_replace('{content}', $inner_html, $wrapper);
+        $wrapped = $this->replace_variables_for_preview($wrapped);
+        return $wrapped;
     }
 
     /**
@@ -211,7 +227,11 @@ class CodeweberFormsEmailTemplates {
             '{site_logo_light}' => $sample_logo_light,
             '{document_title}'  => __('Sample Document', 'codeweber'),
             '{document_link}'   => '<a href="#">' . __('Sample Document', 'codeweber') . '</a>',
-            '{document_image}'  => '<a href="#" style="display:block;text-align:center;margin:16px 15% 16px;"><img src="https://via.placeholder.com/400x280/e9ecef/6c757d?text=Document+Preview" alt="' . esc_attr__('Sample Document', 'codeweber') . '" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:4px;display:inline-block;"></a>',
+            '{document_image}'  => (function() {
+                $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280"><rect width="400" height="280" fill="#e9ecef"/><text x="200" y="140" font-family="Arial,Helvetica,sans-serif" font-size="16" fill="#6c757d" text-anchor="middle" dominant-baseline="middle">Document Preview</text></svg>';
+                $src = 'data:image/svg+xml;base64,' . base64_encode($svg);
+                return '<a href="#" style="display:block;text-align:center;margin:16px 15% 16px;"><img src="' . $src . '" alt="' . esc_attr__('Sample Document', 'codeweber') . '" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:4px;display:inline-block;"></a>';
+            })(),
             '{event_title}'     => __('Sample Event', 'codeweber'),
             '{reg_details}'     => $sample_reg_details,
             '{reg_name}'        => __('Sample User', 'codeweber'),
