@@ -175,14 +175,24 @@ class CodeweberFormsMailer {
         if (!$site_name) {
             $site_name = get_bloginfo('name');
         }
+        // 1. Email-specific logo from template settings (PNG/JPG, highest priority)
+        $opts        = get_option('codeweber_forms_email_templates', []);
+        $logo_id     = !empty($opts['wrapper_logo_id']) ? (int) $opts['wrapper_logo_id'] : 0;
+        if ($logo_id) {
+            $logo_url = wp_get_attachment_url($logo_id);
+            if ($logo_url) {
+                return '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr($site_name) . '" style="max-height:60px;max-width:200px;display:block;margin:0 auto;">';
+            }
+        }
+        // 2. Redux dark/light logo
         $redux     = get_option('redux_demo', []);
         $dark_url  = !empty($redux['opt-dark-logo']['url'])  ? $redux['opt-dark-logo']['url']  : '';
         $light_url = !empty($redux['opt-light-logo']['url']) ? $redux['opt-light-logo']['url'] : '';
-        // Fallback: WP custom_logo
+        // 3. WP custom_logo
         if (!$dark_url && !$light_url) {
-            $logo_id = get_theme_mod('custom_logo');
-            if ($logo_id) {
-                $src = wp_get_attachment_image_src($logo_id, 'full');
+            $wp_logo_id = get_theme_mod('custom_logo');
+            if ($wp_logo_id) {
+                $src = wp_get_attachment_image_src($wp_logo_id, 'full');
                 if ($src) {
                     $dark_url = $light_url = $src[0];
                 }

@@ -100,6 +100,37 @@
         $(el).trigger('input');
     });
 
+    // Email logo upload via WP Media Library
+    var logoMediaFrame;
+    $(document).on('click', '.codeweber-email-logo-upload-btn', function(e) {
+        e.preventDefault();
+        if (logoMediaFrame) {
+            logoMediaFrame.open();
+            return;
+        }
+        logoMediaFrame = wp.media({
+            title: 'Select Email Logo',
+            button: { text: 'Use this logo' },
+            multiple: false,
+            library: { type: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'] }
+        });
+        logoMediaFrame.on('select', function() {
+            var attachment = logoMediaFrame.state().get('selection').first().toJSON();
+            $('#wrapper_logo_id').val(attachment.id);
+            var img = attachment.sizes && attachment.sizes.thumbnail
+                ? attachment.sizes.thumbnail.url
+                : attachment.url;
+            $('#codeweber-email-logo-preview').html('<img src="' + img + '" style="max-height:48px;max-width:160px;border:1px solid #ddd;padding:4px;background:#fff;border-radius:3px;">');
+        });
+        logoMediaFrame.open();
+    });
+
+    $(document).on('click', '.codeweber-email-logo-remove-btn', function(e) {
+        e.preventDefault();
+        $('#wrapper_logo_id').val('0');
+        $('#codeweber-email-logo-preview').html('');
+    });
+
     // Insert variable at cursor position in a textarea
     $(document).on('click', '.codeweber-email-var-btn', function() {
         var variable = $(this).data('var');

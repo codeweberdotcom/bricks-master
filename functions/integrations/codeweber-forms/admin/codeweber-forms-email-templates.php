@@ -171,21 +171,30 @@ class CodeweberFormsEmailTemplates {
         $sample_fields .= '<tr><td style="padding:10px;border:1px solid #ddd;">' . __('Message', 'codeweber') . '</td><td style="padding:10px;border:1px solid #ddd;">' . __('Sample message text.', 'codeweber') . '</td></tr></tbody></table>';
         $sample_content = '<p style="font-size:15px;color:#333;line-height:1.6;">' . __('Sample email content goes here.', 'codeweber') . '</p>';
         $sample_socials = '<div style="margin:10px 0 0;text-align:center;"><a href="#" style="display:inline-block;margin:2px 3px;padding:4px 10px;background-color:#4a76a8;color:#fff;text-decoration:none;font-size:11px;font-family:Arial,sans-serif;border-radius:3px;">VK</a><a href="#" style="display:inline-block;margin:2px 3px;padding:4px 10px;background-color:#2ca5e0;color:#fff;text-decoration:none;font-size:11px;font-family:Arial,sans-serif;border-radius:3px;">Telegram</a></div>';
-        $site_name = get_bloginfo('name');
-        $redux     = get_option('redux_demo', []);
-        $dark_url  = !empty($redux['opt-dark-logo']['url'])  ? $redux['opt-dark-logo']['url']  : '';
-        $light_url = !empty($redux['opt-light-logo']['url']) ? $redux['opt-light-logo']['url'] : '';
-        if (!$dark_url && !$light_url) {
-            $logo_id = get_theme_mod('custom_logo');
-            if ($logo_id) {
-                $src = wp_get_attachment_image_src($logo_id, 'full');
-                if ($src) { $dark_url = $light_url = $src[0]; }
-            }
-        }
+        $site_name   = get_bloginfo('name');
         $img_style   = 'max-height:60px;max-width:200px;display:block;margin:0 auto;';
         $text_logo   = '<span style="color:#fff;font-size:22px;font-weight:bold;font-family:Arial,sans-serif;">' . esc_html($site_name) . '</span>';
-        $sample_logo_dark  = $dark_url  ? '<img src="' . esc_url($dark_url)  . '" alt="' . esc_attr($site_name) . '" style="' . $img_style . '">' : $text_logo;
-        $sample_logo_light = $light_url ? '<img src="' . esc_url($light_url) . '" alt="' . esc_attr($site_name) . '" style="' . $img_style . '">' : $sample_logo_dark;
+        // 1. Email-specific logo (PNG/JPG) from template settings
+        $opts           = get_option('codeweber_forms_email_templates', []);
+        $email_logo_id  = !empty($opts['wrapper_logo_id']) ? (int) $opts['wrapper_logo_id'] : 0;
+        $email_logo_url = $email_logo_id ? wp_get_attachment_url($email_logo_id) : '';
+        if ($email_logo_url) {
+            $sample_logo_dark = $sample_logo_light = '<img src="' . esc_url($email_logo_url) . '" alt="' . esc_attr($site_name) . '" style="' . $img_style . '">';
+        } else {
+            // 2. Redux logos
+            $redux     = get_option('redux_demo', []);
+            $dark_url  = !empty($redux['opt-dark-logo']['url'])  ? $redux['opt-dark-logo']['url']  : '';
+            $light_url = !empty($redux['opt-light-logo']['url']) ? $redux['opt-light-logo']['url'] : '';
+            if (!$dark_url && !$light_url) {
+                $logo_id = get_theme_mod('custom_logo');
+                if ($logo_id) {
+                    $src = wp_get_attachment_image_src($logo_id, 'full');
+                    if ($src) { $dark_url = $light_url = $src[0]; }
+                }
+            }
+            $sample_logo_dark  = $dark_url  ? '<img src="' . esc_url($dark_url)  . '" alt="' . esc_attr($site_name) . '" style="' . $img_style . '">' : $text_logo;
+            $sample_logo_light = $light_url ? '<img src="' . esc_url($light_url) . '" alt="' . esc_attr($site_name) . '" style="' . $img_style . '">' : $sample_logo_dark;
+        }
         $sample_logo = $sample_logo_dark;
         $sample_reg_details = '<table style="border-collapse:collapse;width:100%;margin:12px 0;">'
             . '<tr><th align="left" style="padding:4px 12px 4px 0;">' . __('Name', 'codeweber') . ':</th><td>' . __('Sample User', 'codeweber') . '</td></tr>'
@@ -339,6 +348,9 @@ class CodeweberFormsEmailTemplates {
             $template = preg_replace('/<script[^>]*>.*?<\/script>/is', '', $template);
             $template = preg_replace('/<iframe[^>]*>.*?<\/iframe>/is', '', $template);
             $sanitized['wrapper_template'] = $template;
+        }
+        if (isset($input['wrapper_logo_id'])) {
+            $sanitized['wrapper_logo_id'] = absint($input['wrapper_logo_id']);
         }
         $valid_colors = array_keys($this->get_theme_colors());
         foreach (['wrapper_header_color', 'wrapper_footer_color'] as $color_key) {
@@ -916,6 +928,8 @@ class CodeweberFormsEmailTemplates {
         $wrapper_template     = self::get_wrapper_html();
         $wrapper_header_color = $this->get_option('wrapper_header_color', '#3f78e0');
         $wrapper_footer_color = $this->get_option('wrapper_footer_color', '#343f52');
+        $wrapper_logo_id      = (int) $this->get_option('wrapper_logo_id', 0);
+        $wrapper_logo_url     = $wrapper_logo_id ? wp_get_attachment_url($wrapper_logo_id) : '';
 
         $document_email_enabled  = $this->get_option('document_email_enabled', false);
         $document_email_subject  = $this->get_option('document_email_subject', '{site_name} — {document_title}');
@@ -1041,6 +1055,8 @@ class CodeweberFormsEmailTemplates {
                                 'no_subject'   => true,
                                 'has_presets'  => true,
                                 'use_textarea' => true,
+                                'logo_id'      => $wrapper_logo_id,
+                                'logo_url'     => $wrapper_logo_url,
                                 'color_fields' => [
                                     'wrapper_header_color' => [
                                         'label'   => __('Header Background', 'codeweber'),
@@ -1106,6 +1122,22 @@ class CodeweberFormsEmailTemplates {
                             <tr>
                                         <th scope="row"><label for="<?php echo esc_attr($k['template']); ?>"><?php _e('Email Template', 'codeweber'); ?></label></th>
                                 <td>
+                                    <?php if (isset($p['logo_id'])) : ?>
+                                    <div style="margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                                        <strong style="font-size:13px;"><?php _e('Email Logo (PNG/JPG):', 'codeweber'); ?></strong>
+                                        <div id="codeweber-email-logo-preview" style="line-height:0;">
+                                            <?php if (!empty($p['logo_url'])) : ?>
+                                            <img src="<?php echo esc_url($p['logo_url']); ?>" style="max-height:48px;max-width:160px;border:1px solid #ddd;padding:4px;background:#fff;border-radius:3px;">
+                                            <?php endif; ?>
+                                        </div>
+                                        <input type="hidden" name="<?php echo esc_attr($option_name); ?>[wrapper_logo_id]" id="wrapper_logo_id" value="<?php echo esc_attr($p['logo_id']); ?>">
+                                        <button type="button" class="button codeweber-email-logo-upload-btn"><?php _e('Upload / Select', 'codeweber'); ?></button>
+                                        <?php if (!empty($p['logo_id'])) : ?>
+                                        <button type="button" class="button codeweber-email-logo-remove-btn"><?php _e('Remove', 'codeweber'); ?></button>
+                                        <?php endif; ?>
+                                        <span class="description"><?php _e('Use PNG or JPG — SVG is not supported by most email clients.', 'codeweber'); ?></span>
+                                    </div>
+                                    <?php endif; ?>
                                     <?php if (!empty($p['color_fields'])) : ?>
                                     <div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
                                         <?php foreach ($p['color_fields'] as $cf_key => $cf) : ?>
@@ -1200,6 +1232,7 @@ class CodeweberFormsEmailTemplates {
         if ( ! $is_email_templates ) {
             return;
         }
+        wp_enqueue_media();
         wp_enqueue_style('codeweber-forms-email-templates', CODEWEBER_FORMS_URL . '/admin/assets/email-templates.css', [], CODEWEBER_FORMS_VERSION);
         wp_enqueue_script('codeweber-forms-email-templates', CODEWEBER_FORMS_URL . '/admin/assets/email-templates.js', ['jquery'], CODEWEBER_FORMS_VERSION, true);
 
