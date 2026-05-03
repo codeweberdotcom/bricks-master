@@ -6,12 +6,7 @@
         return;
     }
 
-    var cmInstances = {};
-
     function getEditorContent(editorId) {
-        if (cmInstances[editorId]) {
-            return cmInstances[editorId].getValue();
-        }
         if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
             return tinymce.get(editorId).getContent();
         }
@@ -64,27 +59,59 @@
         var editorId = config.editorIds[templateId];
         if (!editorId) return;
         var html = config.wrapperPresets[preset];
-        if (cmInstances[editorId]) {
-            cmInstances[editorId].setValue(html);
-        } else if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
+        if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
             tinymce.get(editorId).setContent(html);
         } else {
             var el = document.getElementById(editorId);
-            if (el) el.value = html;
+            if (el) {
+                el.value = html;
+                $(el).trigger('input');
+            }
         }
     });
 
-    $(function() {
-        // Initialize CodeMirror on wrapper_template textarea
-        var wrapperTextarea = document.getElementById('wrapper_template');
-        if (wrapperTextarea && window.wp && wp.codeEditor && window.codeweberCodeMirrorSettings) {
-            var editor = wp.codeEditor.initialize(wrapperTextarea, codeweberCodeMirrorSettings);
-            if (editor && editor.codemirror) {
-                cmInstances['wrapper_template'] = editor.codemirror;
-            }
+    // Insert variable at cursor position in a textarea
+    $(document).on('click', '.codeweber-email-var-btn', function() {
+        var variable = $(this).data('var');
+        if (!variable) return;
+        var panel = $(this).closest('.codeweber-email-templates-panel')[0];
+        if (!panel) return;
+        var templateId = panel.getAttribute('data-template');
+        var editorId = config.editorIds[templateId];
+        if (!editorId) return;
+
+        if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
+            tinymce.get(editorId).insertContent(variable);
+            return;
         }
 
-        // Auto-load preview for the active panel on load
+        var el = document.getElementById(editorId);
+        if (!el) return;
+        var start = el.selectionStart;
+        var end = el.selectionEnd;
+        var before = el.value.substring(0, start);
+        var after = el.value.substring(end);
+        el.value = before + variable + after;
+        var pos = start + variable.length;
+        el.selectionStart = pos;
+        el.selectionEnd = pos;
+        el.focus();
+        $(el).trigger('input');
+    });
+
+    // Auto-preview on textarea input (debounced)
+    var debounceTimers = {};
+    $(document).on('input', 'textarea.codeweber-email-template-textarea', function() {
+        var panel = $(this).closest('.codeweber-email-templates-panel')[0];
+        if (!panel) return;
+        var templateId = panel.getAttribute('data-template');
+        clearTimeout(debounceTimers[templateId]);
+        debounceTimers[templateId] = setTimeout(function() {
+            updatePreview(panel);
+        }, 800);
+    });
+
+    $(function() {
         var active = document.querySelector('.codeweber-email-templates-panel.is-active');
         if (active) {
             updatePreview(active);

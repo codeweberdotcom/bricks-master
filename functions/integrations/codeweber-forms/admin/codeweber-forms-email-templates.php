@@ -985,6 +985,13 @@ class CodeweberFormsEmailTemplates {
                                 'no_subject'   => true,
                                 'has_presets'  => true,
                                 'use_textarea' => true,
+                                'vars'         => [
+                                    '{content}'      => __('Email body', 'codeweber'),
+                                    '{site_logo}'    => __('Site logo', 'codeweber'),
+                                    '{site_name}'    => __('Site name', 'codeweber'),
+                                    '{site_url}'     => __('Site URL', 'codeweber'),
+                                    '{social_links}' => __('Social links', 'codeweber'),
+                                ],
                             ],
                         ];
                         $field_keys = [
@@ -1036,10 +1043,19 @@ class CodeweberFormsEmailTemplates {
                                     </div>
                                     <?php endif; ?>
                                     <?php if (!empty($p['use_textarea'])) : ?>
+                                    <?php if (!empty($p['vars'])) : ?>
+                                    <div style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+                                        <span style="font-size:12px;color:#666;margin-right:4px;"><?php _e('Insert:', 'codeweber'); ?></span>
+                                        <?php foreach ($p['vars'] as $var => $label) : ?>
+                                        <button type="button" class="button button-small codeweber-email-var-btn" data-var="<?php echo esc_attr($var); ?>" title="<?php echo esc_attr($var); ?>"><?php echo esc_html($label); ?></button>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <?php endif; ?>
                                     <textarea
                                         id="<?php echo esc_attr($k['template']); ?>"
                                         name="<?php echo esc_attr($option_name); ?>[<?php echo esc_attr($k['template']); ?>]"
                                         rows="22"
+                                        class="codeweber-email-template-textarea"
                                         style="width:100%;font-family:monospace;font-size:12px;resize:vertical;"
                                     ><?php echo esc_textarea($p['template']); ?></textarea>
                                     <p class="description" style="margin-top:4px;"><?php _e('Full HTML document. Saved as-is — TinyMCE is not used here.', 'codeweber'); ?></p>
@@ -1095,11 +1111,6 @@ class CodeweberFormsEmailTemplates {
         wp_enqueue_style('codeweber-forms-email-templates', CODEWEBER_FORMS_URL . '/admin/assets/email-templates.css', [], CODEWEBER_FORMS_VERSION);
         wp_enqueue_script('codeweber-forms-email-templates', CODEWEBER_FORMS_URL . '/admin/assets/email-templates.js', ['jquery'], CODEWEBER_FORMS_VERSION, true);
 
-        // CodeMirror for Email Wrapper raw HTML editor
-        $cm_settings = wp_enqueue_code_editor(['type' => 'text/html']);
-        if ($cm_settings) {
-            wp_localize_script('codeweber-forms-email-templates', 'codeweberCodeMirrorSettings', $cm_settings);
-        }
     }
 
     private function localize_email_templates_script($current_template) {
