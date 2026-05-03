@@ -1167,7 +1167,7 @@ function send_document_email($request) {
 	// Document thumbnail linked to file download
 	$thumb_url   = get_the_post_thumbnail_url($post_id, 'large');
 	$doc_image   = $thumb_url
-		? '<a href="' . esc_url($file_url) . '" style="display:block;text-align:center;margin:0 0 16px;"><img src="' . esc_url($thumb_url) . '" alt="' . esc_attr($document_title) . '" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:4px;display:inline-block;"></a>'
+		? '<a href="' . esc_url($file_url) . '" style="display:block;text-align:center;margin:16px 15% 16px;"><img src="' . esc_url($thumb_url) . '" alt="' . esc_attr($document_title) . '" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:4px;display:inline-block;"></a>'
 		: '';
 
 	$tpl_options = get_option('codeweber_forms_email_templates', []);

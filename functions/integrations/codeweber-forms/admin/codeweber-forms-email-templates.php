@@ -211,7 +211,7 @@ class CodeweberFormsEmailTemplates {
             '{site_logo_light}' => $sample_logo_light,
             '{document_title}'  => __('Sample Document', 'codeweber'),
             '{document_link}'   => '<a href="#">' . __('Sample Document', 'codeweber') . '</a>',
-            '{document_image}'  => '<a href="#" style="display:block;text-align:center;"><img src="https://via.placeholder.com/400x280/e9ecef/6c757d?text=Document+Preview" alt="' . esc_attr__('Sample Document', 'codeweber') . '" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:4px;display:inline-block;"></a>',
+            '{document_image}'  => '<a href="#" style="display:block;text-align:center;margin:16px 15% 16px;"><img src="https://via.placeholder.com/400x280/e9ecef/6c757d?text=Document+Preview" alt="' . esc_attr__('Sample Document', 'codeweber') . '" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:4px;display:inline-block;"></a>',
             '{event_title}'     => __('Sample Event', 'codeweber'),
             '{reg_details}'     => $sample_reg_details,
             '{reg_name}'        => __('Sample User', 'codeweber'),
