@@ -1184,6 +1184,27 @@ function send_document_email($request) {
 			$email_count = (int) get_transient($email_key);
 			set_transient($email_key, $email_count + 1, $rl_ttl);
 		}
+
+		// Log submission
+		if ( class_exists( 'CodeweberFormsDatabase' ) ) {
+			$db = new CodeweberFormsDatabase();
+			$db->save_submission( [
+				'form_id'         => 'document-email',
+				'form_name'       => __( 'Document Email', 'codeweber' ),
+				'form_type'       => 'document-email',
+				'submission_data' => wp_json_encode( [
+					'email'          => $email,
+					'document_id'    => $post_id,
+					'document_title' => $document_title,
+					'document_url'   => $file_url,
+					'consents'       => $submitted_consents,
+				] ),
+				'ip_address'      => sanitize_text_field( $_SERVER['REMOTE_ADDR'] ?? '' ),
+				'user_agent'      => sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] ?? '' ),
+				'email_sent'      => 1,
+			] );
+		}
+
 		$success_msg = function_exists('codeweber_documents_settings_get')
 			? codeweber_documents_settings_get('success_message', '')
 			: '';
