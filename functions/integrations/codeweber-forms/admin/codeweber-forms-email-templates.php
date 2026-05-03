@@ -362,8 +362,8 @@ class CodeweberFormsEmailTemplates {
         $options = get_option($this->option_name, []);
         $value = isset($options[$key]) ? $options[$key] : $default;
         
-        // Очищаем &nbsp; и нормализуем HTML для шаблонов
-        if (strpos($key, '_template') !== false && is_string($value)) {
+        // Очищаем &nbsp; и нормализуем HTML для шаблонов (кроме wrapper — он хранится как полный HTML-документ)
+        if (strpos($key, '_template') !== false && $key !== 'wrapper_template' && is_string($value)) {
             $value = $this->clean_template_html($value);
         }
         
@@ -975,6 +975,7 @@ class CodeweberFormsEmailTemplates {
                                 'enable_help'  => __('Wrap all outgoing emails in this template. The inner content replaces {content}.', 'codeweber'),
                                 'no_subject'   => true,
                                 'has_presets'  => true,
+                                'use_textarea' => true,
                             ],
                         ];
                         $field_keys = [
@@ -1025,6 +1026,15 @@ class CodeweberFormsEmailTemplates {
                                         <span class="description" style="margin-left:10px;"><?php _e('Apply a preset design — overwrites current template.', 'codeweber'); ?></span>
                                     </div>
                                     <?php endif; ?>
+                                    <?php if (!empty($p['use_textarea'])) : ?>
+                                    <textarea
+                                        id="<?php echo esc_attr($k['template']); ?>"
+                                        name="<?php echo esc_attr($option_name); ?>[<?php echo esc_attr($k['template']); ?>]"
+                                        rows="22"
+                                        style="width:100%;font-family:monospace;font-size:12px;resize:vertical;"
+                                    ><?php echo esc_textarea($p['template']); ?></textarea>
+                                    <p class="description" style="margin-top:4px;"><?php _e('Full HTML document. Saved as-is — TinyMCE is not used here.', 'codeweber'); ?></p>
+                                    <?php else : ?>
                                     <?php
                                             wp_editor($p['template'], $k['template'], [
                                                 'textarea_name' => $option_name . '[' . $k['template'] . ']',
@@ -1041,6 +1051,7 @@ class CodeweberFormsEmailTemplates {
                                             ],
                                             ]);
                                     ?>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         </table>
