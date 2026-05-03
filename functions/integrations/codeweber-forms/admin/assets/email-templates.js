@@ -59,6 +59,18 @@
         var editorId = config.editorIds[templateId];
         if (!editorId) return;
         var html = config.wrapperPresets[preset];
+        // For Branded preset: apply currently selected colors (overriding server-generated defaults)
+        if (preset === 'branded' && config.wrapperColorDefaults) {
+            $(panel).find('.codeweber-email-color-select').each(function() {
+                var target = $(this).data('color-target');
+                var defaultColor = config.wrapperColorDefaults[target];
+                var selectedColor = $(this).val();
+                if (defaultColor && selectedColor && selectedColor !== defaultColor) {
+                    html = html.split('background-color:' + defaultColor).join('background-color:' + selectedColor);
+                }
+                $(this).data('prev-color', selectedColor);
+            });
+        }
         if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
             tinymce.get(editorId).setContent(html);
         } else {
@@ -68,6 +80,24 @@
                 $(el).trigger('input');
             }
         }
+    });
+
+    // Color select: update background-color in textarea + swatch + trigger preview
+    $(document).on('change', '.codeweber-email-color-select', function() {
+        var oldColor = $(this).data('prev-color');
+        var newColor = $(this).val();
+        if (!oldColor || oldColor === newColor) return;
+        $(this).data('prev-color', newColor);
+        // Update swatch
+        $('.codeweber-color-swatch[data-for="' + $(this).attr('id') + '"]').css('background', newColor);
+        var panel = $(this).closest('.codeweber-email-templates-panel')[0];
+        if (!panel) return;
+        var templateId = panel.getAttribute('data-template');
+        var editorId = config.editorIds[templateId];
+        var el = document.getElementById(editorId);
+        if (!el) return;
+        el.value = el.value.split('background-color:' + oldColor).join('background-color:' + newColor);
+        $(el).trigger('input');
     });
 
     // Insert variable at cursor position in a textarea
@@ -112,6 +142,11 @@
     });
 
     $(function() {
+        // Store initial color for each color select (used for background-color replacement on change)
+        $('.codeweber-email-color-select').each(function() {
+            $(this).data('prev-color', $(this).val());
+        });
+
         var active = document.querySelector('.codeweber-email-templates-panel.is-active');
         if (active) {
             updatePreview(active);

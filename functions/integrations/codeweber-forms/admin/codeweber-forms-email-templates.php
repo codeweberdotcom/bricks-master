@@ -330,6 +330,12 @@ class CodeweberFormsEmailTemplates {
             $template = preg_replace('/<iframe[^>]*>.*?<\/iframe>/is', '', $template);
             $sanitized['wrapper_template'] = $template;
         }
+        $valid_colors = array_keys($this->get_theme_colors());
+        foreach (['wrapper_header_color', 'wrapper_footer_color'] as $color_key) {
+            if (isset($input[$color_key]) && in_array($input[$color_key], $valid_colors, true)) {
+                $sanitized[$color_key] = $input[$color_key];
+            }
+        }
 
         if (isset($input['document_email_enabled'])) {
             $sanitized['document_email_enabled'] = (bool) $input['document_email_enabled'];
@@ -727,6 +733,33 @@ class CodeweberFormsEmailTemplates {
     }
     
     /**
+     * Theme color palette for email color selectors.
+     */
+    private function get_theme_colors() {
+        return [
+            '#3f78e0' => 'Blue (Primary)',
+            '#5eb9f0' => 'Sky',
+            '#605dba' => 'Grape',
+            '#747ed1' => 'Purple',
+            '#a07cc5' => 'Violet',
+            '#d16b86' => 'Pink',
+            '#e668b3' => 'Fuchsia',
+            '#e2626b' => 'Red',
+            '#f78b77' => 'Orange',
+            '#fab758' => 'Yellow',
+            '#45c4a0' => 'Green',
+            '#7cb798' => 'Leaf',
+            '#54a8c7' => 'Aqua',
+            '#343f52' => 'Navy',
+            '#262b32' => 'Dark',
+            '#9499a3' => 'Ash',
+            '#ffffff' => 'White',
+            '#f6f7f9' => 'Light Gray',
+            '#333333' => 'Charcoal',
+        ];
+    }
+
+    /**
      * Get default Simple email wrapper template (inline styles — TinyMCE-safe).
      */
     public function get_default_simple_wrapper_template() {
@@ -750,21 +783,30 @@ class CodeweberFormsEmailTemplates {
 
     /**
      * Get default Branded email wrapper template (inline styles + site logo).
+     *
+     * @param string|null $header_color Hex color for header bg. Null = read from saved options.
+     * @param string|null $footer_color Hex color for footer bg. Null = read from saved options.
      */
-    public function get_default_branded_wrapper_template() {
+    public function get_default_branded_wrapper_template($header_color = null, $footer_color = null) {
+        if ($header_color === null) {
+            $header_color = $this->get_option('wrapper_header_color', '#3f78e0');
+        }
+        if ($footer_color === null) {
+            $footer_color = $this->get_option('wrapper_footer_color', '#343f52');
+        }
         $site_name = esc_html(get_bloginfo('name'));
         return '<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
 <body style="margin:0;padding:20px 0;background-color:#f4f4f4;font-family:Arial,Helvetica,sans-serif;">
 <div style="max-width:600px;margin:0 auto;background:#ffffff;overflow:hidden;">
-<div style="background-color:#0073aa;padding:24px 40px;text-align:center;">
-{site_logo}
+<div style="background-color:' . esc_attr($header_color) . ';padding:24px 40px;text-align:center;">
+{site_logo_dark}
 </div>
 <div style="padding:32px 40px;background-color:#f9f9f9;color:#333333;line-height:1.6;font-size:15px;">
 {content}
 </div>
-<div style="background-color:#333333;padding:20px 40px;text-align:center;color:#cccccc;font-size:12px;font-family:Arial,Helvetica,sans-serif;">
+<div style="background-color:' . esc_attr($footer_color) . ';padding:20px 40px;text-align:center;color:#cccccc;font-size:12px;font-family:Arial,Helvetica,sans-serif;">
 <p style="margin:0 0 4px;">&copy; ' . $site_name . '</p>
 <p style="margin:0 0 10px;"><a href="{site_url}" style="color:#cccccc;text-decoration:none;">{site_url}</a></p>
 {social_links}
@@ -813,7 +855,9 @@ class CodeweberFormsEmailTemplates {
             '{unsubscribe_url}' => __('Unsubscribe link for newsletter subscriptions', 'codeweber'),
             '{content}'         => __('Email body content (Email Wrapper only)', 'codeweber'),
             '{social_links}'    => __('Social links from theme settings (Email Wrapper only)', 'codeweber'),
-            '{site_logo}'       => __('Site logo image, or site name if no logo set (Email Wrapper only)', 'codeweber'),
+            '{site_logo}'       => __('Dark logo (or site name fallback) — Email Wrapper only', 'codeweber'),
+            '{site_logo_dark}'  => __('Dark logo (or site name fallback) — Email Wrapper only', 'codeweber'),
+            '{site_logo_light}' => __('Light logo (or dark logo fallback) — Email Wrapper only', 'codeweber'),
             '{document_title}'  => __('Document title (Document Email only)', 'codeweber'),
             '{document_link}'   => __('Document download link (Document Email only)', 'codeweber'),
             '{event_title}'     => __('Event title (Event Notification only)', 'codeweber'),
@@ -858,8 +902,10 @@ class CodeweberFormsEmailTemplates {
         $newsletter_reply_subject = $this->get_option('newsletter_reply_subject', __('Thank you for subscribing', 'codeweber'));
         $newsletter_reply_template = $this->get_option('newsletter_reply_template', $this->get_default_newsletter_reply_template());
 
-        $wrapper_enabled  = $this->get_option('wrapper_enabled', false);
-        $wrapper_template = self::get_wrapper_html();
+        $wrapper_enabled      = $this->get_option('wrapper_enabled', false);
+        $wrapper_template     = self::get_wrapper_html();
+        $wrapper_header_color = $this->get_option('wrapper_header_color', '#3f78e0');
+        $wrapper_footer_color = $this->get_option('wrapper_footer_color', '#343f52');
 
         $document_email_enabled  = $this->get_option('document_email_enabled', false);
         $document_email_subject  = $this->get_option('document_email_subject', '{site_name} — {document_title}');
@@ -979,18 +1025,33 @@ class CodeweberFormsEmailTemplates {
                             'email_wrapper' => [
                                 'enabled'      => $wrapper_enabled,
                                 'template'     => $wrapper_template,
-                                'desc'         => __('Universal email wrapper applied to all outgoing emails. Use {content} for the inner content, {social_links} for social links from theme settings, {site_logo} for site logo.', 'codeweber'),
+                                'desc'         => __('Universal email wrapper applied to all outgoing emails. Use {content} for the inner content, {social_links} for social links from theme settings, {site_logo_dark} / {site_logo_light} for logos.', 'codeweber'),
                                 'enable_label' => __('Use Email Wrapper', 'codeweber'),
                                 'enable_help'  => __('Wrap all outgoing emails in this template. The inner content replaces {content}.', 'codeweber'),
                                 'no_subject'   => true,
                                 'has_presets'  => true,
                                 'use_textarea' => true,
+                                'color_fields' => [
+                                    'wrapper_header_color' => [
+                                        'label'   => __('Header Background', 'codeweber'),
+                                        'value'   => $wrapper_header_color,
+                                        'default' => '#3f78e0',
+                                        'target'  => 'header',
+                                    ],
+                                    'wrapper_footer_color' => [
+                                        'label'   => __('Footer Background', 'codeweber'),
+                                        'value'   => $wrapper_footer_color,
+                                        'default' => '#343f52',
+                                        'target'  => 'footer',
+                                    ],
+                                ],
                                 'vars'         => [
-                                    '{content}'      => __('Email body', 'codeweber'),
-                                    '{site_logo}'    => __('Site logo', 'codeweber'),
-                                    '{site_name}'    => __('Site name', 'codeweber'),
-                                    '{site_url}'     => __('Site URL', 'codeweber'),
-                                    '{social_links}' => __('Social links', 'codeweber'),
+                                    '{content}'         => __('Email body', 'codeweber'),
+                                    '{site_logo_dark}'  => __('Logo (dark)', 'codeweber'),
+                                    '{site_logo_light}' => __('Logo (light)', 'codeweber'),
+                                    '{site_name}'       => __('Site name', 'codeweber'),
+                                    '{site_url}'        => __('Site URL', 'codeweber'),
+                                    '{social_links}'    => __('Social links', 'codeweber'),
                                 ],
                             ],
                         ];
@@ -1035,6 +1096,27 @@ class CodeweberFormsEmailTemplates {
                             <tr>
                                         <th scope="row"><label for="<?php echo esc_attr($k['template']); ?>"><?php _e('Email Template', 'codeweber'); ?></label></th>
                                 <td>
+                                    <?php if (!empty($p['color_fields'])) : ?>
+                                    <div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+                                        <?php foreach ($p['color_fields'] as $cf_key => $cf) : ?>
+                                        <label style="display:flex;align-items:center;gap:6px;font-size:13px;">
+                                            <span><?php echo esc_html($cf['label']); ?>:</span>
+                                            <select
+                                                name="<?php echo esc_attr($option_name); ?>[<?php echo esc_attr($cf_key); ?>]"
+                                                id="<?php echo esc_attr($cf_key); ?>"
+                                                class="codeweber-email-color-select"
+                                                data-color-target="<?php echo esc_attr($cf['target']); ?>"
+                                                data-default-color="<?php echo esc_attr($cf['default']); ?>"
+                                            >
+                                                <?php foreach ($this->get_theme_colors() as $hex => $cname) : ?>
+                                                <option value="<?php echo esc_attr($hex); ?>" <?php selected($cf['value'], $hex); ?> style="background:<?php echo esc_attr($hex); ?>;"><?php echo esc_html($cname); ?> (<?php echo esc_html($hex); ?>)</option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <span style="display:inline-block;width:18px;height:18px;border-radius:3px;border:1px solid #ccc;background:<?php echo esc_attr($cf['value']); ?>;vertical-align:middle;" class="codeweber-color-swatch" data-for="<?php echo esc_attr($cf_key); ?>"></span>
+                                        </label>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <?php endif; ?>
                                     <?php if (!empty($p['has_presets'])) : ?>
                                     <div style="margin-bottom:12px;">
                                         <button type="button" class="button codeweber-email-preset-btn" data-preset="simple"><?php _e('Simple', 'codeweber'); ?></button>
@@ -1131,6 +1213,10 @@ class CodeweberFormsEmailTemplates {
             'wrapperPresets' => [
                 'simple'   => $this->get_default_simple_wrapper_template(),
                 'branded'  => $this->get_default_branded_wrapper_template(),
+            ],
+            'wrapperColorDefaults' => [
+                'header' => '#3f78e0',
+                'footer' => '#343f52',
             ],
             'presetConfirm'  => __('This will replace the current template with the preset. Continue?', 'codeweber'),
         ]);

@@ -159,37 +159,36 @@ class CodeweberFormsMailer {
         }
         $social_html = CodeweberFormsEmailTemplates::get_social_links_html();
         $site_name   = get_bloginfo('name');
-        $logo_html   = self::get_site_logo_html($site_name);
+        $dark_logo   = self::get_logo_html('dark', $site_name);
+        $light_logo  = self::get_logo_html('light', $site_name);
         return str_replace(
-            ['{content}', '{social_links}', '{site_logo}', '{site_name}', '{site_url}'],
-            [$content, $social_html, $logo_html, esc_html($site_name), esc_url(home_url())],
+            ['{content}', '{social_links}', '{site_logo}', '{site_logo_dark}', '{site_logo_light}', '{site_name}', '{site_url}'],
+            [$content, $social_html, $dark_logo, $dark_logo, $light_logo, esc_html($site_name), esc_url(home_url())],
             $wrapper_html
         );
     }
 
     /**
-     * Returns site logo <img> tag, or styled site name link as fallback.
+     * Returns logo <img> tag for the given type (dark/light), with fallbacks.
      */
-    private static function get_site_logo_html($site_name = '') {
+    private static function get_logo_html($type = 'dark', $site_name = '') {
         if (!$site_name) {
             $site_name = get_bloginfo('name');
         }
-        // Try Redux dark logo first, then light logo, then WP custom_logo
-        $logo_url = '';
-        $redux = get_option('redux_demo', []);
-        if (!empty($redux['opt-dark-logo']['url'])) {
-            $logo_url = $redux['opt-dark-logo']['url'];
-        } elseif (!empty($redux['opt-light-logo']['url'])) {
-            $logo_url = $redux['opt-light-logo']['url'];
-        } else {
+        $redux     = get_option('redux_demo', []);
+        $dark_url  = !empty($redux['opt-dark-logo']['url'])  ? $redux['opt-dark-logo']['url']  : '';
+        $light_url = !empty($redux['opt-light-logo']['url']) ? $redux['opt-light-logo']['url'] : '';
+        // Fallback: WP custom_logo
+        if (!$dark_url && !$light_url) {
             $logo_id = get_theme_mod('custom_logo');
             if ($logo_id) {
                 $src = wp_get_attachment_image_src($logo_id, 'full');
                 if ($src) {
-                    $logo_url = $src[0];
+                    $dark_url = $light_url = $src[0];
                 }
             }
         }
+        $logo_url = ($type === 'light') ? ($light_url ?: $dark_url) : ($dark_url ?: $light_url);
         if ($logo_url) {
             return '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr($site_name) . '" style="max-height:60px;max-width:200px;display:block;margin:0 auto;">';
         }
