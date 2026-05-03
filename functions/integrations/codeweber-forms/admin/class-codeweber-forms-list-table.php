@@ -434,10 +434,11 @@ class Codeweber_Forms_List_Table extends WP_List_Table
         // Для встроенных форм (строковые ID) показываем ID без ссылки
         if (is_string($form_id) && !is_numeric($form_id)) {
             $builtin_labels = array(
-                'newsletter'  => __('Newsletter Subscription', 'codeweber'),
-                'testimonial' => __('Testimonial Form', 'codeweber'),
-                'resume'      => __('Resume Form', 'codeweber'),
-                'callback'    => __('Callback Request', 'codeweber'),
+                'newsletter'     => __('Newsletter Subscription', 'codeweber'),
+                'testimonial'    => __('Testimonial Form', 'codeweber'),
+                'resume'         => __('Resume Form', 'codeweber'),
+                'callback'       => __('Callback Request', 'codeweber'),
+                'document-email' => __('Document Email', 'codeweber'),
             );
             if (isset($builtin_labels[$form_id])) {
                 return '<strong>' . esc_html($form_id) . '</strong>';
