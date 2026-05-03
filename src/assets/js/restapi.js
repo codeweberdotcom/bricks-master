@@ -1118,19 +1118,6 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
         
-        // Показываем ошибку в модальном окне, не закрывая его
-        const errorText = typeof codeweberDocumentEmail !== 'undefined' ? codeweberDocumentEmail.errorText : 'Error sending email. Please try again.';
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'alert alert-danger mt-3';
-        errorDiv.textContent = error.message || errorText;
-        newForm.appendChild(errorDiv);
-        
-        // Убираем сообщение об ошибке через 5 секунд
-        setTimeout(function() {
-          if (errorDiv.parentNode) {
-            errorDiv.parentNode.removeChild(errorDiv);
-          }
-        }, 5000);
       });
     });
   }

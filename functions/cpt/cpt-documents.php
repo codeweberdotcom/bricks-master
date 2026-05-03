@@ -979,7 +979,6 @@ function get_document_email_modal($request) {
 					required
 				>
 				<label for="document_email"><?php esc_html_e('Your Email *', 'codeweber'); ?></label>
-				<div class="invalid-feedback"><?php esc_html_e('Please enter a valid email address.', 'codeweber'); ?></div>
 			</div>
 
 			<?php if (!empty($doc_consents) && function_exists('codeweber_forms_render_consent_checkbox')) : ?>
