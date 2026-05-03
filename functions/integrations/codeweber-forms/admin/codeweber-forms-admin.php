@@ -515,11 +515,15 @@ class CodeweberFormsAdmin {
         }
         
         $submission = $this->db->get_submission($submission_id);
-        
+
         if (!$submission) {
             wp_die(__('Submission not found.', 'codeweber'));
         }
-        
+
+        if ( $submission->status === 'new' ) {
+            $this->db->update_submission_status( $submission_id, 'read' );
+        }
+
         $data = json_decode($submission->submission_data, true);
         $files_data = !empty($submission->files_data) ? json_decode($submission->files_data, true) : null;
         
