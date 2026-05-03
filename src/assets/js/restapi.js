@@ -1051,9 +1051,12 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .then(function(response) {
         if (!response.ok) {
+          var httpStatus = response.status;
           return response.json().then(function(err) {
             const serverErrorText = typeof codeweberDocumentEmail !== 'undefined' ? codeweberDocumentEmail.serverError : 'Server error';
-            throw new Error(err.message || serverErrorText + ': ' + response.status);
+            var error = new Error(err.message || serverErrorText + ': ' + httpStatus);
+            error.httpStatus = httpStatus;
+            throw error;
           });
         }
         return response.json();
@@ -1106,18 +1109,27 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(function(error) {
         console.error('[Document Email] Error:', error);
-        
+
         if (submitButton) {
           submitButton.disabled = originalButtonDisabled;
           submitButton.innerHTML = originalButtonHTML;
-          // Восстанавливаем оригинальный minHeight или очищаем
           if (originalMinHeight) {
             submitButton.style.minHeight = originalMinHeight;
           } else {
             submitButton.style.minHeight = '';
           }
         }
-        
+
+        var messagesDiv = newForm.querySelector('.document-email-form-messages');
+        if (messagesDiv) {
+          var isRateLimit = error.httpStatus === 429;
+          var rateLimitText = typeof codeweberDocumentEmail !== 'undefined' && codeweberDocumentEmail.rateLimitText
+            ? codeweberDocumentEmail.rateLimitText
+            : 'File already sent. Check your Spam folder or use a different email address.';
+          messagesDiv.textContent = isRateLimit ? rateLimitText : (error.message || '');
+          messagesDiv.style.display = 'block';
+          setTimeout(function() { messagesDiv.style.display = 'none'; }, 7000);
+        }
       });
     });
   }

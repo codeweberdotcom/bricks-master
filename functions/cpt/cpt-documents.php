@@ -989,6 +989,8 @@ function get_document_email_modal($request) {
 			</div>
 			<?php endif; ?>
 
+			<div class="document-email-form-messages text-danger small mt-2" style="display:none;"></div>
+
 			<div class="modal-footer text-center justify-content-center mt-4 pt-0 pb-0">
 				<button type="submit" class="btn btn-primary<?php echo Codeweber_Options::style('button'); ?>" data-loading-text="<?php esc_attr_e('Sending...', 'codeweber'); ?>">
 					<?php esc_html_e('Send Document', 'codeweber'); ?>

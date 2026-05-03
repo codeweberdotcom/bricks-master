@@ -260,10 +260,11 @@ function codeweber_enqueue_restapi_script()
 		
 		// Локализация для отправки документов на email
 		wp_localize_script('codeweber-restapi', 'codeweberDocumentEmail', array(
-			'sendingText' => __('Sending...', 'codeweber'),
-			'successText' => __('Document sent successfully!', 'codeweber'),
-			'errorText' => __('Error sending email. Please try again.', 'codeweber'),
-			'serverError' => __('Server error', 'codeweber')
+			'sendingText'   => __('Sending...', 'codeweber'),
+			'successText'   => __('Document sent successfully!', 'codeweber'),
+			'errorText'     => __('Error sending email. Please try again.', 'codeweber'),
+			'serverError'   => __('Server error', 'codeweber'),
+			'rateLimitText' => __('File already sent. Check your Spam folder or use a different email address.', 'codeweber'),
 		));
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_restapi_script', 20);
