@@ -423,6 +423,20 @@ Redux::set_section(
                 'default'  => true,
             ),
             array(
+                'id'      => 'yandex_maps_color_scheme',
+                'type'    => 'select',
+                'title'   => esc_html__('Default Color Scheme', 'codeweber'),
+                'subtitle' => esc_html__('Global map color scheme. Can be overridden per block in the editor.', 'codeweber'),
+                'default' => 'none',
+                'options' => [
+                    'none'      => esc_html__('Default', 'codeweber'),
+                    'grayscale' => esc_html__('Grayscale', 'codeweber'),
+                    'pale'      => esc_html__('Pale', 'codeweber'),
+                    'dark'      => esc_html__('Dark', 'codeweber'),
+                    'sepia'     => esc_html__('Sepia', 'codeweber'),
+                ],
+            ),
+            array(
                 'id'       => 'yandex_maps_custom_style',
                 'type'     => 'textarea',
                 'title'    => esc_html__('Custom Style (CSS)', 'codeweber'),
