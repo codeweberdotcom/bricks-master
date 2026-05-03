@@ -172,13 +172,21 @@ class CodeweberFormsEmailTemplates {
         $sample_content = '<p style="font-size:15px;color:#333;line-height:1.6;">' . __('Sample email content goes here.', 'codeweber') . '</p>';
         $sample_socials = '<div style="margin:10px 0 0;text-align:center;"><a href="#" style="display:inline-block;margin:2px 3px;padding:4px 10px;background-color:#4a76a8;color:#fff;text-decoration:none;font-size:11px;font-family:Arial,sans-serif;border-radius:3px;">VK</a><a href="#" style="display:inline-block;margin:2px 3px;padding:4px 10px;background-color:#2ca5e0;color:#fff;text-decoration:none;font-size:11px;font-family:Arial,sans-serif;border-radius:3px;">Telegram</a></div>';
         $site_name = get_bloginfo('name');
-        $logo_id   = get_theme_mod('custom_logo');
-        if ($logo_id) {
-            $logo_src = wp_get_attachment_image_src($logo_id, 'full');
-            $sample_logo = $logo_src ? '<img src="' . esc_url($logo_src[0]) . '" alt="' . esc_attr($site_name) . '" style="max-height:60px;max-width:200px;display:block;margin:0 auto;">' : '<span style="color:#fff;font-size:22px;font-weight:bold;font-family:Arial,sans-serif;">' . esc_html($site_name) . '</span>';
-        } else {
-            $sample_logo = '<span style="color:#fff;font-size:22px;font-weight:bold;font-family:Arial,sans-serif;">' . esc_html($site_name) . '</span>';
+        $redux     = get_option('redux_demo', []);
+        $dark_url  = !empty($redux['opt-dark-logo']['url'])  ? $redux['opt-dark-logo']['url']  : '';
+        $light_url = !empty($redux['opt-light-logo']['url']) ? $redux['opt-light-logo']['url'] : '';
+        if (!$dark_url && !$light_url) {
+            $logo_id = get_theme_mod('custom_logo');
+            if ($logo_id) {
+                $src = wp_get_attachment_image_src($logo_id, 'full');
+                if ($src) { $dark_url = $light_url = $src[0]; }
+            }
         }
+        $img_style   = 'max-height:60px;max-width:200px;display:block;margin:0 auto;';
+        $text_logo   = '<span style="color:#fff;font-size:22px;font-weight:bold;font-family:Arial,sans-serif;">' . esc_html($site_name) . '</span>';
+        $sample_logo_dark  = $dark_url  ? '<img src="' . esc_url($dark_url)  . '" alt="' . esc_attr($site_name) . '" style="' . $img_style . '">' : $text_logo;
+        $sample_logo_light = $light_url ? '<img src="' . esc_url($light_url) . '" alt="' . esc_attr($site_name) . '" style="' . $img_style . '">' : $sample_logo_dark;
+        $sample_logo = $sample_logo_dark;
         $sample_reg_details = '<table style="border-collapse:collapse;width:100%;margin:12px 0;">'
             . '<tr><th align="left" style="padding:4px 12px 4px 0;">' . __('Name', 'codeweber') . ':</th><td>' . __('Sample User', 'codeweber') . '</td></tr>'
             . '<tr><th align="left" style="padding:4px 12px 4px 0;">' . __('Email', 'codeweber') . ':</th><td>sample@example.com</td></tr>'
@@ -199,6 +207,8 @@ class CodeweberFormsEmailTemplates {
             '{content}'         => $sample_content,
             '{social_links}'    => $sample_socials,
             '{site_logo}'       => $sample_logo,
+            '{site_logo_dark}'  => $sample_logo_dark,
+            '{site_logo_light}' => $sample_logo_light,
             '{document_title}'  => __('Sample Document', 'codeweber'),
             '{document_link}'   => '<a href="#">' . __('Sample Document', 'codeweber') . '</a>',
             '{event_title}'     => __('Sample Event', 'codeweber'),
