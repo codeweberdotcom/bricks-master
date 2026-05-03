@@ -859,7 +859,7 @@ class CodeweberFormsEmailTemplates {
         $newsletter_reply_template = $this->get_option('newsletter_reply_template', $this->get_default_newsletter_reply_template());
 
         $wrapper_enabled  = $this->get_option('wrapper_enabled', false);
-        $wrapper_template = $this->get_option('wrapper_template', $this->get_default_simple_wrapper_template());
+        $wrapper_template = self::get_wrapper_html();
 
         $document_email_enabled  = $this->get_option('document_email_enabled', false);
         $document_email_subject  = $this->get_option('document_email_subject', '{site_name} — {document_title}');

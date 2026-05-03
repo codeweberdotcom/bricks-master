@@ -174,12 +174,24 @@ class CodeweberFormsMailer {
         if (!$site_name) {
             $site_name = get_bloginfo('name');
         }
-        $logo_id = get_theme_mod('custom_logo');
-        if ($logo_id) {
-            $logo_src = wp_get_attachment_image_src($logo_id, 'full');
-            if ($logo_src) {
-                return '<img src="' . esc_url($logo_src[0]) . '" alt="' . esc_attr($site_name) . '" style="max-height:60px;max-width:200px;display:block;margin:0 auto;">';
+        // Try Redux dark logo first, then light logo, then WP custom_logo
+        $logo_url = '';
+        $redux = get_option('redux_demo', []);
+        if (!empty($redux['opt-dark-logo']['url'])) {
+            $logo_url = $redux['opt-dark-logo']['url'];
+        } elseif (!empty($redux['opt-light-logo']['url'])) {
+            $logo_url = $redux['opt-light-logo']['url'];
+        } else {
+            $logo_id = get_theme_mod('custom_logo');
+            if ($logo_id) {
+                $src = wp_get_attachment_image_src($logo_id, 'full');
+                if ($src) {
+                    $logo_url = $src[0];
+                }
             }
+        }
+        if ($logo_url) {
+            return '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr($site_name) . '" style="max-height:60px;max-width:200px;display:block;margin:0 auto;">';
         }
         return '<a href="' . esc_url(home_url()) . '" style="color:#ffffff;text-decoration:none;font-size:22px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;">' . esc_html($site_name) . '</a>';
     }
