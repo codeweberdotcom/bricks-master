@@ -952,7 +952,6 @@ function get_document_email_modal($request) {
 		);
 	}
 	
-	$file_name = basename($file_url);
 	$document_title = get_the_title($post_id);
 	
 	$doc_consents = function_exists('codeweber_documents_settings_get')
@@ -968,7 +967,6 @@ function get_document_email_modal($request) {
 
 			<div class="mb-4">
 				<p class="mb-2"><strong><?php esc_html_e('Document:', 'codeweber'); ?></strong> <?php echo esc_html($document_title); ?></p>
-				<p class="text-muted small mb-0"><?php echo esc_html($file_name); ?></p>
 			</div>
 
 			<div class="form-floating mb-4">
@@ -1142,8 +1140,7 @@ function send_document_email($request) {
 	// Rate limits
 	$rl_period    = function_exists('codeweber_documents_settings_get') ? (int) codeweber_documents_settings_get('rl_period', 10)    : 10;
 	$rl_per_email = function_exists('codeweber_documents_settings_get') ? (int) codeweber_documents_settings_get('rl_per_email', 0) : 0;
-	$rl_per_doc   = function_exists('codeweber_documents_settings_get') ? (int) codeweber_documents_settings_get('rl_per_doc', 0)   : 0;
-	$rl_ttl       = $rl_period * MINUTE_IN_SECONDS;
+	$rl_ttl = $rl_period * MINUTE_IN_SECONDS;
 
 	if ($rl_per_email > 0) {
 		$email_key   = 'doc_rl_em_' . md5($email);
@@ -1157,17 +1154,6 @@ function send_document_email($request) {
 		}
 	}
 
-	if ($rl_per_doc > 0) {
-		$doc_key   = 'doc_rl_dc_' . $post_id;
-		$doc_count = (int) get_transient($doc_key);
-		if ($doc_count >= $rl_per_doc) {
-			return new WP_Error(
-				'rate_limit',
-				__('This document has reached its sending limit. Please try again later.', 'codeweber'),
-				['status' => 429]
-			);
-		}
-	}
 
 	$document_title = get_the_title($post_id);
 	$locale         = get_locale();
@@ -1198,12 +1184,6 @@ function send_document_email($request) {
 			$email_count = (int) get_transient($email_key);
 			set_transient($email_key, $email_count + 1, $rl_ttl);
 		}
-		if ($rl_per_doc > 0) {
-			$doc_key   = 'doc_rl_dc_' . $post_id;
-			$doc_count = (int) get_transient($doc_key);
-			set_transient($doc_key, $doc_count + 1, $rl_ttl);
-		}
-
 		$success_msg = function_exists('codeweber_documents_settings_get')
 			? codeweber_documents_settings_get('success_message', '')
 			: '';

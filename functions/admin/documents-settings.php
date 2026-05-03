@@ -90,13 +90,6 @@ function codeweber_documents_settings_register(): void {
 		'codeweber_documents_rate_limits'
 	);
 
-	add_settings_field(
-		'rl_per_doc',
-		__( 'Max sends per document', 'codeweber' ),
-		'codeweber_documents_field_rl_per_doc',
-		'codeweber-documents-settings',
-		'codeweber_documents_rate_limits'
-	);
 
 	// Section: Messages
 	add_settings_section(
@@ -264,11 +257,6 @@ function codeweber_documents_field_rl_per_email(): void {
 	echo '<p class="description">' . esc_html__( 'Max documents sent to one email address per time window. 0 = unlimited.', 'codeweber' ) . '</p>';
 }
 
-function codeweber_documents_field_rl_per_doc(): void {
-	$val = (int) codeweber_documents_settings_get( 'rl_per_doc', 0 );
-	echo '<input type="number" name="codeweber_documents_settings[rl_per_doc]" value="' . esc_attr( $val ) . '" min="0" class="small-text">';
-	echo '<p class="description">' . esc_html__( 'Max total sends of one document per time window (all recipients combined). 0 = unlimited.', 'codeweber' ) . '</p>';
-}
 
 function codeweber_documents_field_success_message(): void {
 	$val = codeweber_documents_settings_get( 'success_message', '' );
@@ -285,7 +273,6 @@ function codeweber_documents_settings_sanitize( array $input ): array {
 
 	$clean['rl_period']       = max( 1, absint( $input['rl_period'] ?? 10 ) );
 	$clean['rl_per_email']    = absint( $input['rl_per_email'] ?? 0 );
-	$clean['rl_per_doc']      = absint( $input['rl_per_doc'] ?? 0 );
 	$clean['success_message'] = sanitize_text_field( $input['success_message'] ?? '' );
 
 	$consents = [];
