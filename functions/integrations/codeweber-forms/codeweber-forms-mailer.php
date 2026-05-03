@@ -159,11 +159,29 @@ class CodeweberFormsMailer {
         }
         $social_html = CodeweberFormsEmailTemplates::get_social_links_html();
         $site_name   = get_bloginfo('name');
+        $logo_html   = self::get_site_logo_html($site_name);
         return str_replace(
-            ['{content}', '{social_links}', '{site_name}', '{site_url}'],
-            [$content, $social_html, esc_html($site_name), esc_url(home_url())],
+            ['{content}', '{social_links}', '{site_logo}', '{site_name}', '{site_url}'],
+            [$content, $social_html, $logo_html, esc_html($site_name), esc_url(home_url())],
             $wrapper_html
         );
+    }
+
+    /**
+     * Returns site logo <img> tag, or styled site name link as fallback.
+     */
+    private static function get_site_logo_html($site_name = '') {
+        if (!$site_name) {
+            $site_name = get_bloginfo('name');
+        }
+        $logo_id = get_theme_mod('custom_logo');
+        if ($logo_id) {
+            $logo_src = wp_get_attachment_image_src($logo_id, 'full');
+            if ($logo_src) {
+                return '<img src="' . esc_url($logo_src[0]) . '" alt="' . esc_attr($site_name) . '" style="max-height:60px;max-width:200px;display:block;margin:0 auto;">';
+            }
+        }
+        return '<a href="' . esc_url(home_url()) . '" style="color:#ffffff;text-decoration:none;font-size:22px;font-weight:bold;font-family:Arial,Helvetica,sans-serif;">' . esc_html($site_name) . '</a>';
     }
 
     /**

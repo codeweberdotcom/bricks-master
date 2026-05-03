@@ -1164,7 +1164,24 @@ function send_document_email($request) {
 	$doc_link  = '<a href="' . esc_url($file_url) . '">' . esc_html($document_title) . '</a>';
 	$site_name = get_bloginfo('name');
 
-	if ($is_russian) {
+	$tpl_options = get_option('codeweber_forms_email_templates', []);
+	$use_custom  = !empty($tpl_options['document_email_enabled']);
+
+	if ($use_custom && !empty($tpl_options['document_email_template'])) {
+		$tpl_subject = !empty($tpl_options['document_email_subject'])
+			? $tpl_options['document_email_subject']
+			: '{site_name} — {document_title}';
+		$subject = str_replace(
+			['{site_name}', '{document_title}'],
+			[$site_name, $document_title],
+			$tpl_subject
+		);
+		$email_message = str_replace(
+			['{document_title}', '{document_link}', '{site_name}', '{site_url}'],
+			[$document_title, $doc_link, esc_html($site_name), esc_url(home_url())],
+			$tpl_options['document_email_template']
+		);
+	} elseif ($is_russian) {
 		$subject       = sprintf('%s — %s', $site_name, $document_title);
 		$email_message = sprintf('Вы запросили %s на сайте %s<br><br>С уважением,<br>%s', $doc_link, esc_html($site_name), esc_html($site_name));
 	} else {

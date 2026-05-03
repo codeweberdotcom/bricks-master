@@ -419,16 +419,7 @@ class Codeweber_Event_Registration_API {
 		$event_url   = get_edit_post_link( $event_id, 'raw' );
 		$reg_url     = get_edit_post_link( $reg_id, 'raw' );
 
-		/* translators: %s: event title */
-		$subject = sprintf( __( 'New registration: %s', 'codeweber' ), $event_title );
-
-		$from_name  = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
-		$from_email = get_option( 'admin_email' );
-		$headers    = [
-			'Content-Type: text/html; charset=UTF-8',
-			'From: ' . $from_name . ' <' . $from_email . '>',
-		];
-
+		// Build reg_details table (used both for default and custom templates)
 		$rows = '';
 		$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0">' . esc_html__( 'Name', 'codeweber' ) . ':</th><td>' . esc_html( $name ) . '</td></tr>';
 		$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0">' . esc_html__( 'Email', 'codeweber' ) . ':</th><td><a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a></td></tr>';
@@ -441,18 +432,44 @@ class Codeweber_Event_Registration_API {
 		if ( $msg ) {
 			$rows .= '<tr><th align="left" style="padding:4px 12px 4px 0;vertical-align:top">' . esc_html__( 'Comment', 'codeweber' ) . ':</th><td>' . nl2br( esc_html( $msg ) ) . '</td></tr>';
 		}
+		$reg_details_html = '<table style="border-collapse:collapse">' . $rows . '</table>';
 
-		$body  = '<p>' . sprintf(
+		$tpl_options = get_option( 'codeweber_forms_email_templates', [] );
+		$use_custom  = ! empty( $tpl_options['event_notification_enabled'] ) && ! empty( $tpl_options['event_notification_template'] );
+
+		if ( $use_custom ) {
+			$tpl_subject = ! empty( $tpl_options['event_notification_subject'] )
+				? $tpl_options['event_notification_subject']
+				: __( 'New registration: {event_title}', 'codeweber' );
 			/* translators: %s: event title */
-			esc_html__( 'New registration for event: %s', 'codeweber' ),
-			'<strong>' . esc_html( $event_title ) . '</strong>'
-		) . '</p>';
-		$body .= '<table style="border-collapse:collapse">' . $rows . '</table>';
-		$body .= '<p style="margin-top:16px">';
-		$body .= '<a href="' . esc_url( $reg_url ) . '">' . esc_html__( 'View registration in admin', 'codeweber' ) . '</a>';
-		$body .= ' &nbsp;|&nbsp; ';
-		$body .= '<a href="' . esc_url( $event_url ) . '">' . esc_html__( 'View event', 'codeweber' ) . '</a>';
-		$body .= '</p>';
+			$subject = str_replace( '{event_title}', $event_title, $tpl_subject );
+			$body    = str_replace(
+				[ '{event_title}', '{reg_details}', '{reg_name}', '{reg_email}', '{reg_admin_url}', '{event_admin_url}', '{site_name}', '{site_url}' ],
+				[ esc_html( $event_title ), $reg_details_html, esc_html( $name ), esc_html( $email ), esc_url( $reg_url ), esc_url( $event_url ), esc_html( get_bloginfo( 'name' ) ), esc_url( home_url() ) ],
+				$tpl_options['event_notification_template']
+			);
+		} else {
+			/* translators: %s: event title */
+			$subject = sprintf( __( 'New registration: %s', 'codeweber' ), $event_title );
+			$body    = '<p>' . sprintf(
+				/* translators: %s: event title */
+				esc_html__( 'New registration for event: %s', 'codeweber' ),
+				'<strong>' . esc_html( $event_title ) . '</strong>'
+			) . '</p>';
+			$body .= $reg_details_html;
+			$body .= '<p style="margin-top:16px">';
+			$body .= '<a href="' . esc_url( $reg_url ) . '">' . esc_html__( 'View registration in admin', 'codeweber' ) . '</a>';
+			$body .= ' &nbsp;|&nbsp; ';
+			$body .= '<a href="' . esc_url( $event_url ) . '">' . esc_html__( 'View event', 'codeweber' ) . '</a>';
+			$body .= '</p>';
+		}
+
+		$from_name  = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+		$from_email = get_option( 'admin_email' );
+		$headers    = [
+			'Content-Type: text/html; charset=UTF-8',
+			'From: ' . $from_name . ' <' . $from_email . '>',
+		];
 
 		// Log failures (both via return value and wp_mail_failed hook).
 		$mail_error = null;

@@ -35,6 +35,8 @@ class CodeweberFormsEmailTemplates {
             'testimonial_reply'    => __('Testimonial Reply', 'codeweber'),
             'resume_reply'         => __('Resume Reply', 'codeweber'),
             'newsletter_reply'     => __('Newsletter Reply', 'codeweber'),
+            'document_email'       => __('Document Email', 'codeweber'),
+            'event_notification'   => __('Event Notification', 'codeweber'),
             'email_wrapper'        => __('Email Wrapper', 'codeweber'),
         ];
     }
@@ -137,6 +139,8 @@ class CodeweberFormsEmailTemplates {
             'resume_reply'       => 'get_default_resume_reply_template',
             'newsletter_reply'   => 'get_default_newsletter_reply_template',
             'email_wrapper'      => 'get_default_simple_wrapper_template',
+            'document_email'     => 'get_default_document_email_template',
+            'event_notification' => 'get_default_event_notification_template',
         ];
         $method = isset($map[$template_id]) ? $map[$template_id] : '';
         if ($method && is_callable([$this, $method])) {
@@ -158,6 +162,19 @@ class CodeweberFormsEmailTemplates {
         $sample_fields .= '<tr><td style="padding:10px;border:1px solid #ddd;">' . __('Message', 'codeweber') . '</td><td style="padding:10px;border:1px solid #ddd;">' . __('Sample message text.', 'codeweber') . '</td></tr></tbody></table>';
         $sample_content = '<p style="font-size:15px;color:#333;line-height:1.6;">' . __('Sample email content goes here.', 'codeweber') . '</p>';
         $sample_socials = '<div style="margin:10px 0 0;text-align:center;"><a href="#" style="display:inline-block;margin:2px 3px;padding:4px 10px;background-color:#4a76a8;color:#fff;text-decoration:none;font-size:11px;font-family:Arial,sans-serif;border-radius:3px;">VK</a><a href="#" style="display:inline-block;margin:2px 3px;padding:4px 10px;background-color:#2ca5e0;color:#fff;text-decoration:none;font-size:11px;font-family:Arial,sans-serif;border-radius:3px;">Telegram</a></div>';
+        $site_name = get_bloginfo('name');
+        $logo_id   = get_theme_mod('custom_logo');
+        if ($logo_id) {
+            $logo_src = wp_get_attachment_image_src($logo_id, 'full');
+            $sample_logo = $logo_src ? '<img src="' . esc_url($logo_src[0]) . '" alt="' . esc_attr($site_name) . '" style="max-height:60px;max-width:200px;display:block;margin:0 auto;">' : '<span style="color:#fff;font-size:22px;font-weight:bold;font-family:Arial,sans-serif;">' . esc_html($site_name) . '</span>';
+        } else {
+            $sample_logo = '<span style="color:#fff;font-size:22px;font-weight:bold;font-family:Arial,sans-serif;">' . esc_html($site_name) . '</span>';
+        }
+        $sample_reg_details = '<table style="border-collapse:collapse;width:100%;margin:12px 0;">'
+            . '<tr><th align="left" style="padding:4px 12px 4px 0;">' . __('Name', 'codeweber') . ':</th><td>' . __('Sample User', 'codeweber') . '</td></tr>'
+            . '<tr><th align="left" style="padding:4px 12px 4px 0;">' . __('Email', 'codeweber') . ':</th><td>sample@example.com</td></tr>'
+            . '<tr><th align="left" style="padding:4px 12px 4px 0;">' . __('Phone', 'codeweber') . ':</th><td>+7 900 000-00-00</td></tr>'
+            . '</table>';
         $replacements = [
             '{form_name}'       => __('Contact form', 'codeweber'),
             '{form_fields}'     => $sample_fields,
@@ -167,11 +184,20 @@ class CodeweberFormsEmailTemplates {
             '{submission_time}' => date('H:i', time()),
             '{user_ip}'         => '127.0.0.1',
             '{user_agent}'      => 'Mozilla/5.0 (Preview)',
-            '{site_name}'       => get_bloginfo('name'),
+            '{site_name}'       => $site_name,
             '{site_url}'        => home_url(),
             '{unsubscribe_url}' => home_url('/unsubscribe/?token=sample'),
             '{content}'         => $sample_content,
             '{social_links}'    => $sample_socials,
+            '{site_logo}'       => $sample_logo,
+            '{document_title}'  => __('Sample Document', 'codeweber'),
+            '{document_link}'   => '<a href="#">' . __('Sample Document', 'codeweber') . '</a>',
+            '{event_title}'     => __('Sample Event', 'codeweber'),
+            '{reg_details}'     => $sample_reg_details,
+            '{reg_name}'        => __('Sample User', 'codeweber'),
+            '{reg_email}'       => 'sample@example.com',
+            '{reg_admin_url}'   => '#',
+            '{event_admin_url}' => '#',
         ];
         foreach ($replacements as $key => $value) {
             $content = str_replace($key, $value, $content);
@@ -296,6 +322,36 @@ class CodeweberFormsEmailTemplates {
             $sanitized['wrapper_template'] = $template;
         }
 
+        if (isset($input['document_email_enabled'])) {
+            $sanitized['document_email_enabled'] = (bool) $input['document_email_enabled'];
+        } else {
+            $sanitized['document_email_enabled'] = false;
+        }
+        if (isset($input['document_email_subject'])) {
+            $sanitized['document_email_subject'] = sanitize_text_field($input['document_email_subject']);
+        }
+        if (isset($input['document_email_template'])) {
+            $template = $input['document_email_template'];
+            $template = preg_replace('/<script[^>]*>.*?<\/script>/is', '', $template);
+            $template = preg_replace('/<iframe[^>]*>.*?<\/iframe>/is', '', $template);
+            $sanitized['document_email_template'] = $template;
+        }
+
+        if (isset($input['event_notification_enabled'])) {
+            $sanitized['event_notification_enabled'] = (bool) $input['event_notification_enabled'];
+        } else {
+            $sanitized['event_notification_enabled'] = false;
+        }
+        if (isset($input['event_notification_subject'])) {
+            $sanitized['event_notification_subject'] = sanitize_text_field($input['event_notification_subject']);
+        }
+        if (isset($input['event_notification_template'])) {
+            $template = $input['event_notification_template'];
+            $template = preg_replace('/<script[^>]*>.*?<\/script>/is', '', $template);
+            $template = preg_replace('/<iframe[^>]*>.*?<\/iframe>/is', '', $template);
+            $sanitized['event_notification_template'] = $template;
+        }
+
         return $sanitized;
     }
     
@@ -405,6 +461,8 @@ class CodeweberFormsEmailTemplates {
             'resume_reply_template',
             'newsletter_reply_template',
             'email_wrapper_template',
+            'document_email_template',
+            'event_notification_template',
         ];
         
         if (!in_array($editor_id, $template_fields)) {
@@ -660,74 +718,72 @@ class CodeweberFormsEmailTemplates {
     }
     
     /**
-     * Get default Simple email wrapper template.
+     * Get default Simple email wrapper template (inline styles — TinyMCE-safe).
      */
     public function get_default_simple_wrapper_template() {
-        $site_name = get_bloginfo('name');
+        $site_name = esc_html(get_bloginfo('name'));
         return '<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { margin: 0; padding: 20px 0; background-color: #f4f4f4; font-family: Arial, Helvetica, sans-serif; }
-        .wrapper { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
-        .content { padding: 32px 40px; color: #333333; line-height: 1.6; font-size: 15px; }
-        .footer { padding: 20px 40px; text-align: center; border-top: 1px solid #eeeeee; color: #999999; font-size: 12px; }
-        a { color: #0073aa; }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
-        <div class="content">
-            {content}
-        </div>
-        <div class="footer">
-            <p style="margin:0 0 8px;">' . esc_html($site_name) . ' &bull; <a href="{site_url}" style="color:#999999;">{site_url}</a></p>
-            {social_links}
-        </div>
-    </div>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:20px 0;background-color:#f4f4f4;font-family:Arial,Helvetica,sans-serif;">
+<div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:4px;overflow:hidden;">
+<div style="padding:32px 40px;color:#333333;line-height:1.6;font-size:15px;">
+{content}
+</div>
+<div style="padding:20px 40px;text-align:center;border-top:1px solid #eeeeee;color:#999999;font-size:12px;font-family:Arial,Helvetica,sans-serif;">
+<p style="margin:0 0 8px;">' . $site_name . ' &bull; <a href="{site_url}" style="color:#999999;text-decoration:none;">{site_url}</a></p>
+{social_links}
+</div>
+</div>
 </body>
 </html>';
     }
 
     /**
-     * Get default Branded email wrapper template.
+     * Get default Branded email wrapper template (inline styles + site logo).
      */
     public function get_default_branded_wrapper_template() {
-        $site_name = get_bloginfo('name');
+        $site_name = esc_html(get_bloginfo('name'));
         return '<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { margin: 0; padding: 20px 0; background-color: #f4f4f4; font-family: Arial, Helvetica, sans-serif; }
-        .wrapper { max-width: 600px; margin: 0 auto; background: #ffffff; overflow: hidden; }
-        .header { background-color: #0073aa; padding: 24px 40px; text-align: center; }
-        .header a { color: #ffffff; text-decoration: none; font-size: 22px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; }
-        .content { padding: 32px 40px; background-color: #f9f9f9; color: #333333; line-height: 1.6; font-size: 15px; }
-        .footer { background-color: #333333; padding: 20px 40px; text-align: center; color: #cccccc; font-size: 12px; }
-        .footer a { color: #cccccc; text-decoration: none; }
-        a { color: #0073aa; }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
-        <div class="header">
-            <a href="{site_url}">' . esc_html($site_name) . '</a>
-        </div>
-        <div class="content">
-            {content}
-        </div>
-        <div class="footer">
-            <p style="margin:0 0 4px;">&copy; ' . esc_html($site_name) . '</p>
-            <p style="margin:0 0 10px;"><a href="{site_url}">{site_url}</a></p>
-            {social_links}
-        </div>
-    </div>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:20px 0;background-color:#f4f4f4;font-family:Arial,Helvetica,sans-serif;">
+<div style="max-width:600px;margin:0 auto;background:#ffffff;overflow:hidden;">
+<div style="background-color:#0073aa;padding:24px 40px;text-align:center;">
+{site_logo}
+</div>
+<div style="padding:32px 40px;background-color:#f9f9f9;color:#333333;line-height:1.6;font-size:15px;">
+{content}
+</div>
+<div style="background-color:#333333;padding:20px 40px;text-align:center;color:#cccccc;font-size:12px;font-family:Arial,Helvetica,sans-serif;">
+<p style="margin:0 0 4px;">&copy; ' . $site_name . '</p>
+<p style="margin:0 0 10px;"><a href="{site_url}" style="color:#cccccc;text-decoration:none;">{site_url}</a></p>
+{social_links}
+</div>
+</div>
 </body>
 </html>';
+    }
+
+    /**
+     * Get default Document Email template.
+     */
+    public function get_default_document_email_template() {
+        return '<p>' . __('You requested {document_link} on {site_name}.', 'codeweber') . '</p>'
+            . '<p>' . __('Best regards,', 'codeweber') . '<br>{site_name}</p>';
+    }
+
+    /**
+     * Get default Event Notification template (admin email on new registration).
+     */
+    public function get_default_event_notification_template() {
+        return '<p>' . __('New registration for event:', 'codeweber') . ' <strong>{event_title}</strong></p>'
+            . '{reg_details}'
+            . '<p style="margin-top:16px;">'
+            . '<a href="{reg_admin_url}">' . __('View registration in admin', 'codeweber') . '</a>'
+            . ' &nbsp;|&nbsp; '
+            . '<a href="{event_admin_url}">' . __('View event', 'codeweber') . '</a>'
+            . '</p>';
     }
 
     /**
@@ -748,6 +804,15 @@ class CodeweberFormsEmailTemplates {
             '{unsubscribe_url}' => __('Unsubscribe link for newsletter subscriptions', 'codeweber'),
             '{content}'         => __('Email body content (Email Wrapper only)', 'codeweber'),
             '{social_links}'    => __('Social links from theme settings (Email Wrapper only)', 'codeweber'),
+            '{site_logo}'       => __('Site logo image, or site name if no logo set (Email Wrapper only)', 'codeweber'),
+            '{document_title}'  => __('Document title (Document Email only)', 'codeweber'),
+            '{document_link}'   => __('Document download link (Document Email only)', 'codeweber'),
+            '{event_title}'     => __('Event title (Event Notification only)', 'codeweber'),
+            '{reg_details}'     => __('Registration details table: name, email, phone, seats, message (Event Notification only)', 'codeweber'),
+            '{reg_name}'        => __('Registrant name (Event Notification only)', 'codeweber'),
+            '{reg_email}'       => __('Registrant email (Event Notification only)', 'codeweber'),
+            '{reg_admin_url}'   => __('Admin link to registration record (Event Notification only)', 'codeweber'),
+            '{event_admin_url}' => __('Admin link to event (Event Notification only)', 'codeweber'),
         ];
     }
     
@@ -786,6 +851,14 @@ class CodeweberFormsEmailTemplates {
 
         $wrapper_enabled  = $this->get_option('wrapper_enabled', false);
         $wrapper_template = $this->get_option('wrapper_template', $this->get_default_simple_wrapper_template());
+
+        $document_email_enabled  = $this->get_option('document_email_enabled', false);
+        $document_email_subject  = $this->get_option('document_email_subject', '{site_name} — {document_title}');
+        $document_email_template = $this->get_option('document_email_template', $this->get_default_document_email_template());
+
+        $event_notification_enabled  = $this->get_option('event_notification_enabled', false);
+        $event_notification_subject  = $this->get_option('event_notification_subject', __('New registration: {event_title}', 'codeweber'));
+        $event_notification_template = $this->get_option('event_notification_template', $this->get_default_event_notification_template());
 
         $variables = $this->get_available_variables();
         $template_items = $this->get_template_items();
@@ -876,10 +949,28 @@ class CodeweberFormsEmailTemplates {
                                 'enable_help'  => __('Send automatic reply emails for newsletter subscriptions', 'codeweber') . ' ' . __('Note: Reply will be sent if form name contains "newsletter" or "подписк".', 'codeweber'),
                                 'subject_help' => __('Subject line for newsletter reply emails. You can use variables like {form_name}, {user_name}.', 'codeweber'),
                             ],
+                            'document_email' => [
+                                'enabled'      => $document_email_enabled,
+                                'subject'      => $document_email_subject,
+                                'template'     => $document_email_template,
+                                'desc'         => __('Email sent to the user when they request a document. Available variables: {document_title}, {document_link}, {site_name}, {site_url}.', 'codeweber'),
+                                'enable_label' => __('Use Custom Document Email Template', 'codeweber'),
+                                'enable_help'  => __('Use this template instead of the default hardcoded email.', 'codeweber'),
+                                'subject_help' => __('Subject line. You can use {site_name}, {document_title}.', 'codeweber'),
+                            ],
+                            'event_notification' => [
+                                'enabled'      => $event_notification_enabled,
+                                'subject'      => $event_notification_subject,
+                                'template'     => $event_notification_template,
+                                'desc'         => __('Admin notification email sent when someone registers for an event. Available variables: {event_title}, {reg_details}, {reg_name}, {reg_email}, {reg_admin_url}, {event_admin_url}.', 'codeweber'),
+                                'enable_label' => __('Use Custom Event Notification Template', 'codeweber'),
+                                'enable_help'  => __('Use this template instead of the default hardcoded email.', 'codeweber'),
+                                'subject_help' => __('Subject line. You can use {event_title}, {site_name}.', 'codeweber'),
+                            ],
                             'email_wrapper' => [
                                 'enabled'      => $wrapper_enabled,
                                 'template'     => $wrapper_template,
-                                'desc'         => __('Universal email wrapper applied to all outgoing emails. Use {content} for the inner content and {social_links} for social links from theme settings.', 'codeweber'),
+                                'desc'         => __('Universal email wrapper applied to all outgoing emails. Use {content} for the inner content, {social_links} for social links from theme settings, {site_logo} for site logo.', 'codeweber'),
                                 'enable_label' => __('Use Email Wrapper', 'codeweber'),
                                 'enable_help'  => __('Wrap all outgoing emails in this template. The inner content replaces {content}.', 'codeweber'),
                                 'no_subject'   => true,
@@ -892,6 +983,8 @@ class CodeweberFormsEmailTemplates {
                             'testimonial_reply'    => ['enabled' => 'testimonial_reply_enabled', 'subject' => 'testimonial_reply_subject', 'template' => 'testimonial_reply_template'],
                             'resume_reply'         => ['enabled' => 'resume_reply_enabled', 'subject' => 'resume_reply_subject', 'template' => 'resume_reply_template'],
                             'newsletter_reply'     => ['enabled' => 'newsletter_reply_enabled', 'subject' => 'newsletter_reply_subject', 'template' => 'newsletter_reply_template'],
+                            'document_email'       => ['enabled' => 'document_email_enabled', 'subject' => 'document_email_subject', 'template' => 'document_email_template'],
+                            'event_notification'   => ['enabled' => 'event_notification_enabled', 'subject' => 'event_notification_subject', 'template' => 'event_notification_template'],
                             'email_wrapper'        => ['enabled' => 'wrapper_enabled', 'template' => 'wrapper_template'],
                         ];
                         foreach ($template_items as $id => $label) :
@@ -994,6 +1087,8 @@ class CodeweberFormsEmailTemplates {
                 'testimonial_reply'  => 'testimonial_reply_template',
                 'resume_reply'       => 'resume_reply_template',
                 'newsletter_reply'   => 'newsletter_reply_template',
+                'document_email'     => 'document_email_template',
+                'event_notification' => 'event_notification_template',
                 'email_wrapper'      => 'email_wrapper_template',
             ],
             'wrapperPresets' => [
