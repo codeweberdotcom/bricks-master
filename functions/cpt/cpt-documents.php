@@ -1164,6 +1164,12 @@ function send_document_email($request) {
 	$doc_link  = '<a href="' . esc_url($file_url) . '">' . esc_html($document_title) . '</a>';
 	$site_name = get_bloginfo('name');
 
+	// Document thumbnail linked to file download
+	$thumb_url   = get_the_post_thumbnail_url($post_id, 'large');
+	$doc_image   = $thumb_url
+		? '<a href="' . esc_url($file_url) . '" style="display:block;text-align:center;margin:0 0 16px;"><img src="' . esc_url($thumb_url) . '" alt="' . esc_attr($document_title) . '" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:4px;display:inline-block;"></a>'
+		: '';
+
 	$tpl_options = get_option('codeweber_forms_email_templates', []);
 	$use_custom  = !empty($tpl_options['document_email_enabled']);
 
@@ -1177,8 +1183,8 @@ function send_document_email($request) {
 			$tpl_subject
 		);
 		$email_message = str_replace(
-			['{document_title}', '{document_link}', '{site_name}', '{site_url}'],
-			[$document_title, $doc_link, esc_html($site_name), esc_url(home_url())],
+			['{document_title}', '{document_link}', '{document_image}', '{site_name}', '{site_url}'],
+			[$document_title, $doc_link, $doc_image, esc_html($site_name), esc_url(home_url())],
 			$tpl_options['document_email_template']
 		);
 	} elseif ($is_russian) {
