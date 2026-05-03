@@ -24,7 +24,6 @@ require_once get_template_directory() . '/plugins/tgm/plugins_autoinstall.php';
 require_once get_template_directory() . '/functions/class-codeweber-options.php';
 require_once get_template_directory() . '/functions/enqueues.php';
 require_once get_template_directory() . '/functions/images.php';
-require_once get_template_directory() . '/functions/lib/pdf-thumbnail/init.php';
 require_once get_template_directory() . '/functions/navmenus.php';
 require_once get_template_directory() . '/functions/sidebars.php';
 require_once get_template_directory() . '/functions/documentation.php';

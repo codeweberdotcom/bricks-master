@@ -39,7 +39,7 @@ function register_my_cpt_documents()
       "show_in_rest" => true,
       "rest_base" => "",
       "rest_controller_class" => "WP_REST_Posts_Controller",
-      "has_archive" => true,
+      "has_archive" => false,
       "show_in_menu" => true,
       "show_in_nav_menus" => true,
       "delete_with_user" => false,
@@ -300,12 +300,11 @@ function render_documents_file_meta_box($post)
    }
 
    echo '<p style="margin-top:10px;">';
-   echo '<input type="file" name="document_file" id="document_file" accept=".' . esc_attr(implode(',.', array_keys(get_allowed_document_types()))) . '" style="margin-right:8px;">';
    echo '<button type="button" class="button" id="document_file_media_btn">' . esc_html__('Select from Media Library', 'codeweber') . '</button>';
    echo '</p>';
    echo '<input type="hidden" name="document_file_media_url" id="document_file_media_url" value="">';
    echo '<p id="document_file_media_name" style="margin-top:4px;color:#2271b1;display:none;"></p>';
-   echo '<p class="description">' . esc_html__('Upload a new file or select an existing one from the media library', 'codeweber') . ' (' . esc_html($allowed_extensions) . ')</p>';
+   echo '<p class="description">' . esc_html__('Select a file from the media library', 'codeweber') . ' (' . esc_html($allowed_extensions) . ')</p>';
    echo '</div>';
    ?>
    <script>
@@ -364,47 +363,9 @@ function save_documents_file_meta($post_id)
       $media_url = esc_url_raw($_POST['document_file_media_url']);
       if ($media_url) {
          update_post_meta($post_id, '_document_file', $media_url);
-         $ext = strtolower(pathinfo($media_url, PATHINFO_EXTENSION));
-         if ($ext === 'pdf') {
-            $upload_dir = wp_upload_dir();
-            $file_path  = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $media_url);
-            if (file_exists($file_path)) {
-               codeweber_generate_document_pdf_thumbnail($post_id, $file_path);
-            }
-         }
          return;
       }
    }
-
-   // Обработка загрузки файла
-   if (!empty($_FILES['document_file']['name'])) {
-      $allowed_types = get_allowed_document_types();
-      $file_type = wp_check_filetype($_FILES['document_file']['name']);
-
-      if (!in_array($file_type['type'], $allowed_types)) {
-         $allowed_extensions = get_allowed_document_extensions();
-         wp_die(esc_html__('Invalid file type. Allowed:', 'codeweber') . ' ' . $allowed_extensions);
-      }
-
-      require_once(ABSPATH . 'wp-admin/includes/file.php');
-
-      $upload = wp_handle_upload($_FILES['document_file'], array('test_form' => false));
-
-      if (isset($upload['error'])) {
-         wp_die($upload['error']);
-      }
-
-      update_post_meta($post_id, '_document_file', $upload['url']);
-      
-      // Генерируем превью для PDF файлов и устанавливаем как featured image
-      // Примечание: для новых постов превью будет создано через JavaScript при сохранении
-      if ($file_type['type'] === 'application/pdf' && $post_id && $post_id > 0) {
-         codeweber_generate_document_pdf_thumbnail($post_id, $upload['file']);
-      }
-   }
-   
-   // Проверяем, есть ли отложенное превью из localStorage (обрабатывается через AJAX)
-   // Это обрабатывается в pdf-thumbnail-js.php через JavaScript
 }
 add_action('save_post_documents', 'save_documents_file_meta');
 
@@ -433,12 +394,6 @@ function allow_file_upload_in_admin()
    .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title .tabulator-title-editor { background: #666; color: #fff; }
     </style>';
 
-   echo '<script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $("form#post").attr("enctype", "multipart/form-data");
-            $("form#post").attr("encoding", "multipart/form-data");
-        });
-    </script>';
 }
 add_action('admin_head', 'allow_file_upload_in_admin');
 
@@ -1234,80 +1189,12 @@ function get_document_download_url($request) {
 	], 200);
 }
 
-/**
- * Генерирует превью PDF файла и устанавливает его как featured image для документа
- * 
- * @param int $post_id ID поста документа
- * @param string $pdf_file_path Полный путь к загруженному PDF файлу
- * @return int|false ID вложения превью или false при ошибке
- */
-function codeweber_generate_document_pdf_thumbnail($post_id, $pdf_file_path)
-{
-   if (!file_exists($pdf_file_path)) {
-      return false;
-   }
-   
-   // Проверяем, что это PDF
-   $file_type = wp_check_filetype($pdf_file_path);
-   if ($file_type['type'] !== 'application/pdf') {
-      return false;
-   }
-   
-   // Генерируем превью используя функцию из pdf-thumbnail.php
-   if (!function_exists('codeweber_generate_pdf_thumbnail')) {
-      return false;
-   }
-   
-   // Создаем превью среднего размера
-   $thumbnail_url = codeweber_generate_pdf_thumbnail($pdf_file_path, 'jpg', 90, 800, 0);
-   
-   if (!$thumbnail_url) {
-      return false;
-   }
-   
-   // Получаем путь к файлу превью
-   $upload_dir = wp_upload_dir();
-   $thumbnail_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $thumbnail_url);
-   
-   if (!file_exists($thumbnail_path)) {
-      return false;
-   }
-   
-   // Создаем вложение для превью
-   $file_name = basename($thumbnail_path);
-   $file_type = wp_check_filetype($file_name, null);
-   
-   $attachment = array(
-      'guid'           => $thumbnail_url,
-      'post_mime_type' => $file_type['type'],
-      'post_title'     => get_the_title($post_id) . ' - PDF Preview',
-      'post_content'   => '',
-      'post_status'    => 'inherit'
-   );
-   
-   // Вставляем вложение в базу данных
-   $attachment_id = wp_insert_attachment($attachment, $thumbnail_path, $post_id);
-   
-   if (is_wp_error($attachment_id)) {
-      return false;
-   }
-   
-   // Генерируем метаданные для вложения
-   require_once(ABSPATH . 'wp-admin/includes/image.php');
-   $attachment_data = wp_generate_attachment_metadata($attachment_id, $thumbnail_path);
-   wp_update_attachment_metadata($attachment_id, $attachment_data);
-   
-   // Устанавливаем превью как featured image
-   set_post_thumbnail($post_id, $attachment_id);
-   
-   return $attachment_id;
-}
 
 /**
  * Отключаем single Documents страницы - возвращаем 404
  */
 add_action('template_redirect', function() {
-	if (is_singular('documents')) {
+	if (is_singular('documents') || is_post_type_archive('documents')) {
 		global $wp_query;
 		$wp_query->set_404();
 		status_header(404);
