@@ -1159,14 +1159,15 @@ function send_document_email($request) {
 	$locale         = get_locale();
 	$is_russian     = ($locale === 'ru_RU' || strpos($locale, 'ru') === 0);
 
-	$doc_link = '<a href="' . esc_url($file_url) . '">' . esc_html($document_title) . '</a>';
+	$doc_link  = '<a href="' . esc_url($file_url) . '">' . esc_html($document_title) . '</a>';
+	$site_name = get_bloginfo('name');
 
 	if ($is_russian) {
-		$subject       = sprintf('Документ: %s', $document_title);
-		$email_message = sprintf("Здравствуйте,<br><br>Вы запросили получить документ: %s<br><br>Ссылка для скачивания: %s<br><br>С уважением", esc_html($document_title), $doc_link);
+		$subject       = sprintf('%s — %s', $site_name, $document_title);
+		$email_message = sprintf('Вы запросили %s на сайте %s<br><br>С уважением,<br>%s', $doc_link, esc_html($site_name), esc_html($site_name));
 	} else {
-		$subject       = sprintf(__('Document: %s', 'codeweber'), $document_title);
-		$email_message = sprintf(__("Hello,<br><br>You requested to receive the document: %s<br><br>Download link: %s<br><br>Best regards", 'codeweber'), esc_html($document_title), $doc_link);
+		$subject       = sprintf('%s — %s', $site_name, $document_title);
+		$email_message = sprintf(__('You requested %s on %s', 'codeweber') . '<br><br>' . __('Best regards,', 'codeweber') . '<br>%s', $doc_link, esc_html($site_name), esc_html($site_name));
 	}
 
 	$headers = array('Content-Type: text/html; charset=UTF-8');
