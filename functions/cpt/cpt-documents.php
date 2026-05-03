@@ -1200,9 +1200,10 @@ function send_document_email($request) {
 					'document_url'   => $file_url,
 					'consents'       => $submitted_consents,
 				] ),
-				'ip_address'      => sanitize_text_field( $_SERVER['REMOTE_ADDR'] ?? '' ),
-				'user_agent'      => sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] ?? '' ),
-				'email_sent'      => 1,
+				'ip_address'       => sanitize_text_field( $_SERVER['REMOTE_ADDR'] ?? '' ),
+				'user_agent'       => sanitize_text_field( $_SERVER['HTTP_USER_AGENT'] ?? '' ),
+				'email_sent'       => 0,
+				'auto_reply_sent'  => 1,
 			] );
 		}
 
