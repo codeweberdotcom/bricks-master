@@ -6,7 +6,12 @@
         return;
     }
 
+    var cmInstances = {};
+
     function getEditorContent(editorId) {
+        if (cmInstances[editorId]) {
+            return cmInstances[editorId].getValue();
+        }
         if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
             return tinymce.get(editorId).getContent();
         }
@@ -59,7 +64,9 @@
         var editorId = config.editorIds[templateId];
         if (!editorId) return;
         var html = config.wrapperPresets[preset];
-        if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
+        if (cmInstances[editorId]) {
+            cmInstances[editorId].setValue(html);
+        } else if (typeof tinymce !== 'undefined' && tinymce.get(editorId)) {
             tinymce.get(editorId).setContent(html);
         } else {
             var el = document.getElementById(editorId);
@@ -67,8 +74,17 @@
         }
     });
 
-    // Optional: auto-load preview for the active panel on load
     $(function() {
+        // Initialize CodeMirror on wrapper_template textarea
+        var wrapperTextarea = document.getElementById('wrapper_template');
+        if (wrapperTextarea && window.wp && wp.codeEditor && window.codeweberCodeMirrorSettings) {
+            var editor = wp.codeEditor.initialize(wrapperTextarea, codeweberCodeMirrorSettings);
+            if (editor && editor.codemirror) {
+                cmInstances['wrapper_template'] = editor.codemirror;
+            }
+        }
+
+        // Auto-load preview for the active panel on load
         var active = document.querySelector('.codeweber-email-templates-panel.is-active');
         if (active) {
             updatePreview(active);

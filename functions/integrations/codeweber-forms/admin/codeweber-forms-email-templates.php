@@ -51,11 +51,18 @@ class CodeweberFormsEmailTemplates {
 
     /**
      * Get wrapper template HTML (from options or default Simple design).
+     * Returns false/empty if saved template is the legacy CSS-class version.
      */
     public static function get_wrapper_html() {
         $options = get_option('codeweber_forms_email_templates', []);
         if (!empty($options['wrapper_template'])) {
-            return $options['wrapper_template'];
+            $tpl = $options['wrapper_template'];
+            // Detect legacy template (CSS classes, not inline styles) — fall back to default
+            if (strpos($tpl, 'class="wrapper"') !== false || strpos($tpl, '.wrapper {') !== false) {
+                $inst = new self();
+                return $inst->get_default_simple_wrapper_template();
+            }
+            return $tpl;
         }
         $inst = new self();
         return $inst->get_default_simple_wrapper_template();
@@ -118,7 +125,9 @@ class CodeweberFormsEmailTemplates {
         }
         $html = isset($_POST['html']) ? wp_unslash($_POST['html']) : '';
         if ($html === '') {
-            $option_key = $template_id . '_template';
+            // Map template_id to option key (some use different key names)
+            $option_key_map = ['email_wrapper' => 'wrapper_template'];
+            $option_key = $option_key_map[$template_id] ?? ($template_id . '_template');
             $html = $this->get_option($option_key, $this->get_default_template_by_id($template_id));
         }
         $preview_html = $this->replace_variables_for_preview($html);
@@ -1085,6 +1094,12 @@ class CodeweberFormsEmailTemplates {
         }
         wp_enqueue_style('codeweber-forms-email-templates', CODEWEBER_FORMS_URL . '/admin/assets/email-templates.css', [], CODEWEBER_FORMS_VERSION);
         wp_enqueue_script('codeweber-forms-email-templates', CODEWEBER_FORMS_URL . '/admin/assets/email-templates.js', ['jquery'], CODEWEBER_FORMS_VERSION, true);
+
+        // CodeMirror for Email Wrapper raw HTML editor
+        $cm_settings = wp_enqueue_code_editor(['type' => 'text/html']);
+        if ($cm_settings) {
+            wp_localize_script('codeweber-forms-email-templates', 'codeweberCodeMirrorSettings', $cm_settings);
+        }
     }
 
     private function localize_email_templates_script($current_template) {
@@ -1100,7 +1115,7 @@ class CodeweberFormsEmailTemplates {
                 'newsletter_reply'   => 'newsletter_reply_template',
                 'document_email'     => 'document_email_template',
                 'event_notification' => 'event_notification_template',
-                'email_wrapper'      => 'email_wrapper_template',
+                'email_wrapper'      => 'wrapper_template',
             ],
             'wrapperPresets' => [
                 'simple'   => $this->get_default_simple_wrapper_template(),
