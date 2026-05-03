@@ -1021,6 +1021,16 @@ document.addEventListener("DOMContentLoaded", () => {
         document_id: parseInt(formData.get('document_id')),
         email: formData.get('email')
       };
+
+      // Collect consent checkboxes
+      const consents = {};
+      newForm.querySelectorAll('input[type="checkbox"][name^="form_consents_"]').forEach(function(cb) {
+        const key = cb.name.replace('form_consents_', '');
+        consents[key] = cb.checked ? '1' : '0';
+      });
+      if (Object.keys(consents).length > 0) {
+        requestData.consents = consents;
+      }
       
       
       fetch(wpApiSettings.root + 'codeweber/v1/documents/send-email', {

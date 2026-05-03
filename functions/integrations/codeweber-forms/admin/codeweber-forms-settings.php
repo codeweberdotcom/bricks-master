@@ -97,14 +97,6 @@ class CodeweberFormsSettings {
             'codeweber_forms_rate_limit_section'
         );
 
-        add_settings_field(
-            'doc_email_rate_limit_period',
-            __('Document Email Rate Limit (minutes)', 'codeweber'),
-            [$this, 'doc_email_rate_limit_period_field'],
-            'codeweber-forms-settings',
-            'codeweber_forms_rate_limit_section'
-        );
-
         // Messages Section
         add_settings_section(
             'codeweber_forms_messages_section',

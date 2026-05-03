@@ -955,30 +955,42 @@ function get_document_email_modal($request) {
 	$file_name = basename($file_url);
 	$document_title = get_the_title($post_id);
 	
+	$doc_consents = function_exists('codeweber_documents_settings_get')
+		? (array) codeweber_documents_settings_get('consents', [])
+		: [];
+
 	ob_start();
 	?>
 	<div class="document-email-form text-start">
 		<h5 class="modal-title mb-4"><?php esc_html_e('Send Document by Email', 'codeweber'); ?></h5>
 		<form id="document-email-form" class="document-email-form">
 			<input type="hidden" name="document_id" value="<?php echo esc_attr($post_id); ?>">
-			
+
 			<div class="mb-4">
 				<p class="mb-2"><strong><?php esc_html_e('Document:', 'codeweber'); ?></strong> <?php echo esc_html($document_title); ?></p>
 				<p class="text-muted small mb-0"><?php echo esc_html($file_name); ?></p>
 			</div>
-			
+
 			<div class="form-floating mb-4">
-				<input 
-					type="email" 
-					class="form-control<?php echo Codeweber_Options::style('form-radius'); ?>" 
-					name="email" 
-					id="document_email" 
+				<input
+					type="email"
+					class="form-control<?php echo Codeweber_Options::style('form-radius'); ?>"
+					name="email"
+					id="document_email"
 					placeholder="<?php esc_attr_e('Your email', 'codeweber'); ?>"
 					required
 				>
 				<label for="document_email"><?php esc_html_e('Your Email *', 'codeweber'); ?></label>
 			</div>
-			
+
+			<?php if (!empty($doc_consents) && function_exists('codeweber_forms_render_consent_checkbox')) : ?>
+			<div class="mb-4">
+				<?php foreach ($doc_consents as $consent) : ?>
+					<?php echo codeweber_forms_render_consent_checkbox($consent, 'form_consents', 0); ?>
+				<?php endforeach; ?>
+			</div>
+			<?php endif; ?>
+
 			<div class="modal-footer text-center justify-content-center mt-4 pt-0 pb-0">
 				<button type="submit" class="btn btn-primary<?php echo Codeweber_Options::style('button'); ?>" data-loading-text="<?php esc_attr_e('Sending...', 'codeweber'); ?>">
 					<?php esc_html_e('Send Document', 'codeweber'); ?>
@@ -1020,7 +1032,12 @@ function register_document_email_send_endpoint() {
 				'validate_callback' => function($param) {
 					return is_email($param);
 				}
-			]
+			],
+			'consents' => [
+				'required' => false,
+				'type'     => 'object',
+				'default'  => [],
+			],
 		]
 	]);
 }
@@ -1098,18 +1115,59 @@ function send_document_email($request) {
 		);
 	}
 	
-	// Rate limit: один адрес — одно письмо за N минут на документ
-	$forms_options    = get_option('codeweber_forms_options', []);
-	$rl_minutes       = isset($forms_options['doc_email_rate_limit_period']) ? absint($forms_options['doc_email_rate_limit_period']) : 10;
-	$rate_key         = 'doc_email_' . md5($email) . '_' . $post_id;
-	if (get_transient($rate_key)) {
-		return new WP_Error(
-			'rate_limit',
-			__('Please wait before requesting this document again.', 'codeweber'),
-			['status' => 429]
-		);
+	// Validate required consents
+	$submitted_consents = (array) $request->get_param('consents');
+	$doc_consents = function_exists('codeweber_documents_settings_get')
+		? (array) codeweber_documents_settings_get('consents', [])
+		: [];
+	if (!empty($doc_consents) && function_exists('codeweber_forms_validate_consents')) {
+		$required_ids = [];
+		foreach ($doc_consents as $c) {
+			if (!empty($c['required'])) {
+				$required_ids[] = (int) $c['document_id'];
+			}
+		}
+		if (!empty($required_ids)) {
+			$validation = codeweber_forms_validate_consents($submitted_consents, $required_ids);
+			if (!$validation['valid']) {
+				return new WP_Error(
+					'consent_required',
+					__('Please accept all required consents.', 'codeweber'),
+					['status' => 400]
+				);
+			}
+		}
 	}
-	set_transient($rate_key, 1, $rl_minutes * MINUTE_IN_SECONDS);
+
+	// Rate limits
+	$rl_period    = function_exists('codeweber_documents_settings_get') ? (int) codeweber_documents_settings_get('rl_period', 10)    : 10;
+	$rl_per_email = function_exists('codeweber_documents_settings_get') ? (int) codeweber_documents_settings_get('rl_per_email', 0) : 0;
+	$rl_per_doc   = function_exists('codeweber_documents_settings_get') ? (int) codeweber_documents_settings_get('rl_per_doc', 0)   : 0;
+	$rl_ttl       = $rl_period * MINUTE_IN_SECONDS;
+
+	if ($rl_per_email > 0) {
+		$email_key   = 'doc_rl_em_' . md5($email);
+		$email_count = (int) get_transient($email_key);
+		if ($email_count >= $rl_per_email) {
+			return new WP_Error(
+				'rate_limit',
+				__('Please wait before requesting more documents.', 'codeweber'),
+				['status' => 429]
+			);
+		}
+	}
+
+	if ($rl_per_doc > 0) {
+		$doc_key   = 'doc_rl_dc_' . $post_id;
+		$doc_count = (int) get_transient($doc_key);
+		if ($doc_count >= $rl_per_doc) {
+			return new WP_Error(
+				'rate_limit',
+				__('This document has reached its sending limit. Please try again later.', 'codeweber'),
+				['status' => 429]
+			);
+		}
+	}
 
 	$document_title = get_the_title($post_id);
 	$locale         = get_locale();
@@ -1128,16 +1186,31 @@ function send_document_email($request) {
 	$headers = array('Content-Type: text/html; charset=UTF-8');
 
 	$sent = wp_mail($email, $subject, $email_message, $headers);
-	
-	// Логируем результат для отладки
+
 	if (!$sent) {
 		error_log('Document email send failed. Post ID: ' . $post_id . ', Email: ' . $email);
 	}
-	
+
 	if ($sent) {
+		// Increment rate limit counters
+		if ($rl_per_email > 0) {
+			$email_key   = 'doc_rl_em_' . md5($email);
+			$email_count = (int) get_transient($email_key);
+			set_transient($email_key, $email_count + 1, $rl_ttl);
+		}
+		if ($rl_per_doc > 0) {
+			$doc_key   = 'doc_rl_dc_' . $post_id;
+			$doc_count = (int) get_transient($doc_key);
+			set_transient($doc_key, $doc_count + 1, $rl_ttl);
+		}
+
+		$success_msg = function_exists('codeweber_documents_settings_get')
+			? codeweber_documents_settings_get('success_message', '')
+			: '';
+
 		return new WP_REST_Response([
 			'success' => true,
-			'message' => __('Document sent successfully to your email.', 'codeweber')
+			'message' => $success_msg ?: __('Document sent successfully to your email.', 'codeweber'),
 		], 200);
 	} else {
 		return new WP_Error(
