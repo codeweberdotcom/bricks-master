@@ -97,11 +97,15 @@ function codeweber_projects_map_modal() {
 	// Формируем маркеры для v3
 	$markers = [];
 	foreach ( $projects as $pid ) {
-		$lat   = get_post_meta( $pid, 'main_information_latitude', true );
-		$lng   = get_post_meta( $pid, 'main_information_longitude', true );
-		$addr  = get_post_meta( $pid, 'main_information_address', true );
-		$city  = get_post_meta( $pid, 'main_information_city', true );
-		$desc  = get_post_meta( $pid, 'main_information_short_description', true );
+		$lat     = get_post_meta( $pid, 'main_information_latitude', true );
+		$lng     = get_post_meta( $pid, 'main_information_longitude', true );
+		$addr    = get_post_meta( $pid, 'main_information_address', true );
+		$city    = get_post_meta( $pid, 'main_information_city', true );
+		$desc    = get_post_meta( $pid, 'main_information_short_description', true );
+		$img_id  = (int) get_post_meta( $pid, 'main_information_image', true );
+		$img_url = $img_id
+			? wp_get_attachment_image_url( $img_id, 'thumbnail' )
+			: get_the_post_thumbnail_url( $pid, 'thumbnail' );
 
 		$markers[] = [
 			'id'          => $pid,
@@ -110,6 +114,7 @@ function codeweber_projects_map_modal() {
 			'address'     => $addr,
 			'city'        => $city,
 			'description' => $desc,
+			'image'       => $img_url ? $img_url : '',
 			'latitude'    => floatval( $lat ),
 			'longitude'   => floatval( $lng ),
 		];

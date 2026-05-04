@@ -256,10 +256,19 @@
 			const div = document.createElement( 'div' );
 			div.className = 'cwgb-balloon-v3';
 			div.style.cssText = `position:absolute;bottom:22px;left:7px;transform:translateX(-50%);background:#fff;color:#333;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.18);padding:12px 16px;min-width:280px;max-width:${ maxWidth }px;z-index:100;white-space:normal;`;
+
+			const titleHtml = markerData.title ? `<div style="font-weight:600;margin-bottom:8px;padding-right:20px;font-size:14px;">${ markerData.title }</div>` : '';
+			const textHtml  = `${ titleHtml }<div style="font-size:13px;">${ body }</div>`;
+
 			div.innerHTML = `
 				<button class="cwgb-balloon-close" style="position:absolute;top:6px;right:8px;background:none;border:none;font-size:18px;cursor:pointer;color:#999;line-height:1;padding:0;" aria-label="Close">&times;</button>
-				${ markerData.title ? `<div style="font-weight:600;margin-bottom:8px;padding-right:20px;font-size:14px;">${ markerData.title }</div>` : '' }
-				<div style="font-size:13px;">${ body }</div>
+				${ markerData.image
+					? `<div style="display:flex;gap:10px;align-items:flex-start;">`
+						+ `<img src="${ markerData.image }" alt="${ markerData.title || '' }" style="width:120px;height:120px;object-fit:cover;flex-shrink:0;border-radius:4px;">`
+						+ `<div style="min-width:0;">${ textHtml }</div>`
+						+ `</div>`
+					: textHtml
+				}
 			`;
 
 			div.querySelector( '.cwgb-balloon-close' ).addEventListener( 'click', ( e ) => {

@@ -706,6 +706,7 @@ class Codeweber_Yandex_Maps {
                 'phone' => isset($marker['phone']) ? $marker['phone'] : '',
                 'workingHours' => isset($marker['workingHours']) ? $marker['workingHours'] : '',
                 'description' => isset($marker['description']) ? $marker['description'] : '',
+                'image' => isset($marker['image']) ? $marker['image'] : '',
             );
             
             // Если используется кастомный маркер или логотип
