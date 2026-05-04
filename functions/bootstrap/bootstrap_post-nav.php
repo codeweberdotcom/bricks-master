@@ -153,7 +153,7 @@ function codeweber_projects_map_modal() {
 				'showLink'         => true,
 				'showDescription'  => false,
 			],
-			'balloon_max_width'  => 420,
+			'balloon_max_width'  => 460,
 			'color_scheme'       => 'light',
 			'color_scheme_custom' => '',
 		],
