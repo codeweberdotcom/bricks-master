@@ -187,7 +187,19 @@
 			this.activeMarkerId = String( markerData.id );
 
 			this.highlightSidebarItem( markerData.id );
-			this.map.update( { location: { center: [ markerData.longitude, markerData.latitude ] } } );
+			const center = this.calcCenterWithBalloonOffset( markerData.longitude, markerData.latitude );
+			this.map.update( { location: { center } } );
+		}
+
+		calcCenterWithBalloonOffset( lng, lat ) {
+			const balloonH   = 260;
+			let currentZoom  = this.config.zoom || 10;
+			try {
+				if ( this.map && this.map.zoom != null ) currentZoom = this.map.zoom;
+			} catch ( e ) {}
+			const degPerPx  = 360 / ( 256 * Math.pow( 2, currentZoom ) );
+			const latOffset = balloonH * degPerPx;
+			return [ lng, lat + latOffset ];
 		}
 
 		closeBalloon() {

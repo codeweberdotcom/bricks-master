@@ -399,34 +399,16 @@ class Codeweber_Yandex_Maps {
      * Подключение скриптов и стилей в админке (в т.ч. в редакторе блоков для превью карты)
      */
     public function enqueue_admin_scripts(string $hook_suffix): void {
-        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
-        $is_block_editor = $screen && method_exists($screen, 'is_block_editor') && $screen->is_block_editor();
-        if (!$is_block_editor || !$this->has_api_key() || empty($this->api_key)) {
+        if ( ! $this->has_api_key() || empty( $this->api_key ) ) {
             return;
         }
-        wp_enqueue_script(
-            'yandex-maps-api',
-            'https://api-maps.yandex.ru/2.1/?apikey=' . esc_attr($this->api_key) . '&lang=' . esc_attr($this->default_settings['language']),
-            [],
-            null,
-            true
-        );
-        wp_enqueue_script(
-            'codeweber-yandex-maps',
-            $this->url . '/assets/js/yandex-maps.js',
-            array('yandex-maps-api'),
-            $this->version,
-            true
-        );
-        wp_enqueue_style(
-            'codeweber-yandex-maps',
-            $this->url . '/assets/css/yandex-maps.css',
-            [],
-            $this->version
-        );
-        wp_localize_script( 'codeweber-yandex-maps', 'codeweberYandexMaps', $this->get_i18n_data() );
 
-        // Регистрируем v3 скрипты для редактора
+        // Inject config for Gutenberg blocks — wp-blocks is always enqueued in the block editor,
+        // so this inline script fires only there, without relying on is_block_editor() check.
+        $json = wp_json_encode( $this->get_i18n_data() );
+        wp_add_inline_script( 'wp-blocks', 'window.codeweberYandexMaps = ' . $json . ';', 'before' );
+
+        // Register v3 scripts so they can be enqueued on demand (render_map or block preview)
         wp_register_script(
             'yandex-maps-api-v3',
             'https://api-maps.yandex.ru/v3/?apikey=' . urlencode( $this->api_key ) . '&lang=' . urlencode( $this->default_settings['language'] ),
@@ -441,6 +423,35 @@ class Codeweber_Yandex_Maps {
             $this->version,
             true
         );
+
+        // v2 scripts — only needed when the block editor is actually open
+        $screen          = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+        $is_block_editor = $screen && method_exists( $screen, 'is_block_editor' ) && $screen->is_block_editor();
+        if ( ! $is_block_editor ) {
+            return;
+        }
+
+        wp_enqueue_script(
+            'yandex-maps-api',
+            'https://api-maps.yandex.ru/2.1/?apikey=' . esc_attr( $this->api_key ) . '&lang=' . esc_attr( $this->default_settings['language'] ),
+            [],
+            null,
+            true
+        );
+        wp_enqueue_script(
+            'codeweber-yandex-maps',
+            $this->url . '/assets/js/yandex-maps.js',
+            array( 'yandex-maps-api' ),
+            $this->version,
+            true
+        );
+        wp_enqueue_style(
+            'codeweber-yandex-maps',
+            $this->url . '/assets/css/yandex-maps.css',
+            [],
+            $this->version
+        );
+        wp_localize_script( 'codeweber-yandex-maps', 'codeweberYandexMaps', $this->get_i18n_data() );
     }
     
     /**
