@@ -98,45 +98,22 @@ $button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('bu
                 'longitude' => floatval($longitude),
             );
             
-            // Формируем содержимое балуна
-            $balloon_content = '';
-            if ($display_address) {
-                $balloon_content .= '<div style="margin-bottom: 8px;"><strong>' . esc_html__('Address', 'codeweber') . ':</strong><br>' . esc_html($display_address) . '</div>';
-            }
-            if ($phone) {
-                $balloon_content .= '<div style="margin-bottom: 8px;"><strong>' . esc_html__('Phone', 'codeweber') . ':</strong><br><a href="tel:' . esc_attr(preg_replace('/[^0-9+]/', '', $phone)) . '">' . esc_html($phone) . '</a></div>';
-            }
-            if ($working_hours) {
-                $balloon_content .= '<div style="margin-bottom: 8px;"><strong>' . esc_html__('Working Hours', 'codeweber') . ':</strong><br>' . esc_html($working_hours) . '</div>';
-            }
-            $marker['balloonContentHeader'] = '<strong style="color: #333; font-size: 16px;">' . esc_html(get_the_title()) . '</strong>';
-            $marker['balloonContent'] = $balloon_content;
-            $marker['hintContent'] = get_the_title();
-            
-            // Получаем настройки search_control из Redux
-            $search_control_enabled = true;
-            if (class_exists('Redux')) {
-                $search_control_option = Redux::get_option($opt_name, 'yandex_maps_search_control');
-                $search_control_enabled = (bool) $search_control_option;
-            }
-            
             $figure_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : 'rounded';
             $card_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : '';
             echo '<div class="card h-100' . ($card_radius ? ' ' . esc_attr($card_radius) : '') . '">';
             echo '<div class="card-body p-0 h-100 d-flex flex-column">';
             echo '<div class="flex-grow-1">';
-            echo '<style>#office-single-map-1, .codeweber-yandex-map-wrapper { height: 100% !important; min-height: 400px; }</style>';
+            echo '<style>#office-single-map-1 { height: 100% !important; min-height: 400px; }</style>';
             echo $yandex_maps->render_map(
                 array(
-                    'map_id' => 'office-single-map-1',
-                    'center' => array(floatval($latitude), floatval($longitude)),
-                    'zoom' => !empty($zoom) ? intval($zoom) : 15,
-                    'height' => 500, // Будет переопределено через CSS
-                    'width' => '100%',
+                    'api_version'  => 3,
+                    'map_id'       => 'office-single-map-1',
+                    'center'       => array(floatval($latitude), floatval($longitude)),
+                    'zoom'         => !empty($zoom) ? intval($zoom) : 15,
+                    'height'       => 500,
+                    'width'        => '100%',
                     'border_radius' => $figure_radius ? 8 : 0,
-                    'search_control' => $search_control_enabled,
-                    'show_sidebar' => false, // Сайдбар отключен на single страницах
-                    'marker_auto_open_balloon' => false,
+                    'show_sidebar' => false,
                 ),
                 array($marker)
             );
@@ -288,52 +265,4 @@ $button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('bu
     </div>
 <?php endif; ?>
 
-<?php if (!empty($yandex_api_key) && !empty($latitude) && !empty($longitude)) : ?>
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr($yandex_api_key); ?>&lang=ru_RU"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            ymaps.ready(function() {
-                var lat = parseFloat(<?php echo esc_js($latitude); ?>);
-                var lon = parseFloat(<?php echo esc_js($longitude); ?>);
-                var zoom = parseInt(<?php echo esc_js($zoom ? $zoom : 15); ?>);
-                
-                if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-                    console.error('Invalid coordinates for office map');
-                    return;
-                }
-                
-                var map = new ymaps.Map("office-single-map-5", {
-                    center: [lat, lon],
-                    zoom: zoom,
-                    controls: ["zoomControl", "searchControl", "typeSelector", "fullscreenControl"]
-                });
-                
-                var balloonContent = '';
-                <?php if ($display_address) : ?>
-                    balloonContent += '<div style="margin-bottom: 8px;"><strong><?php echo esc_js(__('Address', 'codeweber')); ?>:</strong><br><?php echo esc_js($display_address); ?></div>';
-                <?php endif; ?>
-                <?php if ($phone) : ?>
-                    balloonContent += '<div style="margin-bottom: 8px;"><strong><?php echo esc_js(__('Phone', 'codeweber')); ?>:</strong><br><a href="tel:<?php echo esc_js(preg_replace('/[^0-9+]/', '', $phone)); ?>"><?php echo esc_js($phone); ?></a></div>';
-                <?php endif; ?>
-                <?php if ($working_hours) : ?>
-                    balloonContent += '<div style="margin-bottom: 8px;"><strong><?php echo esc_js(__('Working Hours', 'codeweber')); ?>:</strong><br><?php echo esc_js($working_hours); ?></div>';
-                <?php endif; ?>
-                
-                var placemark = new ymaps.Placemark(
-                    [lat, lon],
-                    {
-                        balloonContentHeader: '<strong style="color: #333; font-size: 16px;"><?php echo esc_js(get_the_title()); ?></strong>',
-                        balloonContentBody: balloonContent,
-                        hintContent: '<?php echo esc_js(get_the_title()); ?>'
-                    },
-                    {
-                        preset: 'islands#redDotIcon'
-                    }
-                );
-                
-                map.geoObjects.add(placemark);
-            });
-        });
-    </script>
-<?php endif; ?>
 

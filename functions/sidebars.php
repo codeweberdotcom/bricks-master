@@ -456,23 +456,20 @@ function codeweber_sidebar_widget_vacancies($sidebar_id) {
                 $lat = floatval($latitude);
                 $lon = floatval($longitude);
                 $args = array(
+                    'api_version'      => 3,
                     'map_id'           => 'vacancy-sidebar-map',
                     'center'           => array($lat, $lon),
                     'zoom'             => $zoom,
                     'height'           => 250,
                     'width'            => '100%',
-                    'controls'         => array('zoomControl'),
                     'enable_scroll_zoom' => false,
                     'show_sidebar'     => false,
-                    'show_route'       => false,
-                    'clusterer'        => false,
-                    'marker_auto_open_balloon' => false,
                 );
                 $markers = array(
                     array(
                         'latitude'  => $lat,
                         'longitude' => $lon,
-                        'hintContent' => !empty($yandex_address) ? $yandex_address : '',
+                        'address'   => !empty($yandex_address) ? $yandex_address : '',
                     ),
                 );
                 ?>
@@ -1020,19 +1017,18 @@ function codeweber_sidebar_widget_events($sidebar_id) {
         if ( $_evt_maps->has_api_key() ) :
             $_evt_zoom    = ! empty( $event_zoom ) ? absint( $event_zoom ) : 15;
             $_evt_map_args = [
-                'map_id'                   => 'event-sidebar-map-' . $event_id,
-                'center'                   => [ floatval( $event_latitude ), floatval( $event_longitude ) ],
-                'zoom'                     => $_evt_zoom,
-                'height'                   => 250,
-                'show_sidebar'             => false,
-                'show_route'               => false,
-                'clusterer'                => false,
-                'marker_auto_open_balloon' => false,
+                'api_version'  => 3,
+                'map_id'       => 'event-sidebar-map-' . $event_id,
+                'center'       => [ floatval( $event_latitude ), floatval( $event_longitude ) ],
+                'zoom'         => $_evt_zoom,
+                'height'       => 250,
+                'show_sidebar' => false,
+                'enable_scroll_zoom' => false,
             ];
             $_evt_markers = [[
-                'latitude'    => floatval( $event_latitude ),
-                'longitude'   => floatval( $event_longitude ),
-                'hintContent' => ! empty( $event_yandex_address ) ? $event_yandex_address : '',
+                'latitude'  => floatval( $event_latitude ),
+                'longitude' => floatval( $event_longitude ),
+                'address'   => ! empty( $event_yandex_address ) ? $event_yandex_address : '',
             ]];
         ?>
         <div class="widget mt-4">

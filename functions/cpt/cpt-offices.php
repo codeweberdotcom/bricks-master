@@ -1176,33 +1176,7 @@ function codeweber_offices_map_offcanvas() {
 		$lng   = get_post_meta( $pid, '_office_longitude', true );
 		$addr  = get_post_meta( $pid, '_office_full_address', true ) ?: get_post_meta( $pid, '_office_street', true );
 		$phone = get_post_meta( $pid, '_office_phone', true );
-		$title = get_the_title( $pid );
-		$link  = get_permalink( $pid );
-
-		$img_id  = (int) get_post_thumbnail_id( $pid );
-		if ( ! $img_id ) {
-			$img_id = (int) get_post_meta( $pid, '_office_image', true );
-		}
-		$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'thumbnail' ) : '';
-
-		$font         = 'var(--bs-body-font-family)';
-		$balloon_text = '<div style="font-size:14px;font-weight:300;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;font-family:' . $font . ';color:inherit;">' . esc_html( $title ) . '</div>';
-		if ( $addr ) {
-			$balloon_text .= '<div style="font-size:13px;font-weight:300;color:inherit;opacity:.65;margin-bottom:8px;font-family:' . $font . ';">' . esc_html( $addr ) . '</div>';
-		}
-		if ( $phone ) {
-			$balloon_text .= '<div style="font-size:13px;font-weight:300;color:inherit;opacity:.65;margin-bottom:8px;font-family:' . $font . ';">' . esc_html( $phone ) . '</div>';
-		}
-		$balloon_text .= '<a href="' . esc_url( $link ) . '" style="font-size:12px;font-weight:300;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-family:' . $font . ';">' . esc_html__( 'More details', 'codeweber' ) . ' →</a>';
-
-		if ( $img_url ) {
-			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;font-family:' . $font . ';">'
-				. '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:100px;height:100px;object-fit:cover;flex-shrink:0;border-radius:4px;">'
-				. '<div>' . $balloon_text . '</div>'
-				. '</div>';
-		} else {
-			$balloon = '<div style="font-family:' . $font . ';">' . $balloon_text . '</div>';
-		}
+		$hours = get_post_meta( $pid, '_office_working_hours', true );
 
 		$city = '';
 		$town_terms = wp_get_post_terms( $pid, 'towns', [ 'fields' => 'names' ] );
@@ -1211,17 +1185,15 @@ function codeweber_offices_map_offcanvas() {
 		}
 
 		$markers[] = [
-			'id'                   => $pid,
-			'title'                => $title,
-			'link'                 => $link,
-			'address'              => $addr,
-			'city'                 => $city,
-			'image'                => $img_url,
-			'latitude'             => floatval( $lat ),
-			'longitude'            => floatval( $lng ),
-			'balloonContentHeader' => '',
-			'balloonContent'       => $balloon,
-			'hintContent'          => $title,
+			'id'           => $pid,
+			'title'        => get_the_title( $pid ),
+			'link'         => get_permalink( $pid ),
+			'address'      => $addr,
+			'city'         => $city,
+			'phone'        => $phone,
+			'workingHours' => $hours,
+			'latitude'     => floatval( $lat ),
+			'longitude'    => floatval( $lng ),
 		];
 	}
 
@@ -1230,28 +1202,36 @@ function codeweber_offices_map_offcanvas() {
 	ob_start();
 	echo $yandex_maps->render_map(
 		[
-			'map_id'                   => 'offices-all-map',
-			'zoom'                     => 10,
-			'height'                   => 600,
-			'width'                    => '100%',
-			'border_radius'            => 0,
-			'search_control'           => false,
-			'show_sidebar'             => true,
-			'sidebar_position'         => 'left',
-			'sidebar_title'            => __( 'Offices', 'codeweber' ),
-			'sidebar_fields'           => [
-				'showAddress'      => true,
+			'api_version'      => 3,
+			'map_id'           => 'offices-all-map',
+			'zoom'             => 10,
+			'height'           => 600,
+			'border_radius'    => 0,
+			'auto_fit_bounds'  => true,
+			'enable_drag'      => true,
+			'enable_scroll_zoom' => true,
+			'show_sidebar'     => true,
+			'sidebar_position' => 'left',
+			'sidebar_title'    => __( 'Offices', 'codeweber' ),
+			'sidebar_fields'   => [
 				'showCity'         => true,
+				'showAddress'      => true,
 				'showPhone'        => true,
 				'showWorkingHours' => false,
 				'showDescription'  => false,
 			],
-			'show_filters'             => false,
-			'filter_by_city'           => false,
-			'clusterer'                => false,
-			'auto_fit_bounds'          => true,
-			'marker_auto_open_balloon' => false,
-			'marker_preset'            => 'islands#blueCircleIcon',
+			'show_filters'     => true,
+			'filter_by_city'   => true,
+			'balloon_fields'   => [
+				'showCity'         => true,
+				'showAddress'      => true,
+				'showPhone'        => true,
+				'showWorkingHours' => true,
+				'showLink'         => true,
+				'showDescription'  => false,
+			],
+			'color_scheme'       => 'light',
+			'color_scheme_custom' => '',
 		],
 		$markers
 	);
@@ -1268,7 +1248,7 @@ function codeweber_offices_map_offcanvas() {
 	#offices-map-offcanvas .codeweber-yandex-map-wrapper {
 		height: 100%;
 	}
-	#offices-map-offcanvas .codeweber-yandex-map {
+	#offices-map-offcanvas #offices-all-map {
 		height: 100% !important;
 	}
 	</style>
@@ -1291,22 +1271,16 @@ function codeweber_offices_map_offcanvas() {
 		var inst = wrapper._cwgbYandexMapInstance;
 		if (!inst) return;
 		if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
-		if (inst.map) {
-			inst.map.options.set('minZoom', 3);
-			inst.map.options.set('maxZoom', 17);
-		}
 		setTimeout(function() {
 			var currentId = e.target.dataset.currentOffice;
-			if (currentId && inst.placemarks && inst.placemarks[currentId]) {
-				var placemark = inst.placemarks[currentId];
-				inst.map.setCenter(placemark.geometry.getCoordinates(), 15, { duration: 400 }).then(function() {
-					placemark.balloon.open();
-				});
+			if (currentId && inst.markerEls && inst.markerEls[currentId]) {
+				var entry = inst.markerEls[currentId];
+				inst.onMarkerClick(entry.data, entry.el);
 				if (typeof inst.highlightSidebarItem === 'function') inst.highlightSidebarItem(currentId);
 			} else if (typeof inst.fitBounds === 'function') {
 				inst.fitBounds();
 			}
-		}, 150);
+		}, 300);
 	});
 	</script>
 

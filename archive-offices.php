@@ -110,12 +110,12 @@ if (have_posts()) : ?>
                   echo '<div class="mb-10">';
                   echo $yandex_maps->render_map(
                       array(
+                          'api_version'      => 3,
                           'show_sidebar'     => !empty($sidebar_enabled),
                           'show_filters'     => !empty($filters_enabled),
                           'filter_by_city'   => !empty($filter_by_city_on),
                           'sidebar_position' => $sidebar_position,
                           'sidebar_title'    => !empty($sidebar_title_opt) ? $sidebar_title_opt : '',
-                          'search_control'   => (bool) $search_control_opt,
                       ),
                       $markers
                   );

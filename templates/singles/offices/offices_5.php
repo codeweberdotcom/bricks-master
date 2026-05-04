@@ -84,14 +84,39 @@ $button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('bu
 
 <div class="row g-3">
     <div class="col-md-5">
-        <?php if (!empty($yandex_api_key) && !empty($latitude) && !empty($longitude)) : ?>
-            <?php 
+        <?php if (!empty($latitude) && !empty($longitude) && class_exists('Codeweber_Yandex_Maps')) :
+            $_off5_maps = Codeweber_Yandex_Maps::get_instance();
+            if ($_off5_maps->has_api_key()) :
             $figure_radius = class_exists('Codeweber_Options') ? Codeweber_Options::style('card-radius') : 'rounded';
             $figure_radius = $figure_radius ?: 'rounded';
             ?>
             <div class="mb-8 mb-md-0 <?php echo esc_attr($figure_radius); ?>">
-                <div id="office-single-map-5" style="width: 100%; height: 400px; border-radius: <?php echo $figure_radius ? '8px' : '0'; ?>;"></div>
+                <style>#office-single-map-5 { height: 400px; }</style>
+                <?php echo $_off5_maps->render_map(
+                    array(
+                        'api_version'  => 3,
+                        'map_id'       => 'office-single-map-5',
+                        'center'       => array(floatval($latitude), floatval($longitude)),
+                        'zoom'         => !empty($zoom) ? intval($zoom) : 15,
+                        'height'       => 400,
+                        'width'        => '100%',
+                        'border_radius' => $figure_radius ? 8 : 0,
+                        'show_sidebar' => false,
+                    ),
+                    array(array(
+                        'id'           => $post_id,
+                        'latitude'     => floatval($latitude),
+                        'longitude'    => floatval($longitude),
+                        'title'        => get_the_title(),
+                        'address'      => $display_address,
+                        'phone'        => $phone ?: '',
+                        'workingHours' => $working_hours ?: '',
+                        'city'         => $city ?: '',
+                        'link'         => get_permalink(),
+                    ))
+                ); ?>
             </div>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
     <!--/column -->
@@ -229,52 +254,4 @@ $button_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('bu
     </div>
 <?php endif; ?>
 
-<?php if (!empty($yandex_api_key) && !empty($latitude) && !empty($longitude)) : ?>
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr($yandex_api_key); ?>&lang=ru_RU"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            ymaps.ready(function() {
-                var lat = parseFloat(<?php echo esc_js($latitude); ?>);
-                var lon = parseFloat(<?php echo esc_js($longitude); ?>);
-                var zoom = parseInt(<?php echo esc_js($zoom ? $zoom : 15); ?>);
-                
-                if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-                    console.error('Invalid coordinates for office map');
-                    return;
-                }
-                
-                var map = new ymaps.Map("office-single-map-5", {
-                    center: [lat, lon],
-                    zoom: zoom,
-                    controls: ["zoomControl", "searchControl", "typeSelector", "fullscreenControl"]
-                });
-                
-                var balloonContent = '';
-                <?php if ($display_address) : ?>
-                    balloonContent += '<div style="margin-bottom: 8px;"><strong><?php echo esc_js(__('Address', 'codeweber')); ?>:</strong><br><?php echo esc_js($display_address); ?></div>';
-                <?php endif; ?>
-                <?php if ($phone) : ?>
-                    balloonContent += '<div style="margin-bottom: 8px;"><strong><?php echo esc_js(__('Phone', 'codeweber')); ?>:</strong><br><a href="tel:<?php echo esc_js(preg_replace('/[^0-9+]/', '', $phone)); ?>"><?php echo esc_js($phone); ?></a></div>';
-                <?php endif; ?>
-                <?php if ($working_hours) : ?>
-                    balloonContent += '<div style="margin-bottom: 8px;"><strong><?php echo esc_js(__('Working Hours', 'codeweber')); ?>:</strong><br><?php echo esc_js($working_hours); ?></div>';
-                <?php endif; ?>
-                
-                var placemark = new ymaps.Placemark(
-                    [lat, lon],
-                    {
-                        balloonContentHeader: '<strong style="color: #333; font-size: 16px;"><?php echo esc_js(get_the_title()); ?></strong>',
-                        balloonContentBody: balloonContent,
-                        hintContent: '<?php echo esc_js(get_the_title()); ?>'
-                    },
-                    {
-                        preset: 'islands#redDotIcon'
-                    }
-                );
-                
-                map.geoObjects.add(placemark);
-            });
-        });
-    </script>
-<?php endif; ?>
 

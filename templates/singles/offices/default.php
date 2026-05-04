@@ -98,44 +98,21 @@ $display_location = implode(', ', $location_parts);
                     'longitude' => floatval($longitude),
                 );
                 
-                // Формируем содержимое балуна
-                $balloon_content = '';
-                if ($display_address) {
-                    $balloon_content .= '<div style="margin-bottom: 8px;"><strong>' . esc_html__('Address', 'codeweber') . ':</strong><br>' . esc_html($display_address) . '</div>';
-                }
-                if ($phone) {
-                    $balloon_content .= '<div style="margin-bottom: 8px;"><strong>' . esc_html__('Phone', 'codeweber') . ':</strong><br><a href="tel:' . esc_attr(preg_replace('/[^0-9+]/', '', $phone)) . '">' . esc_html($phone) . '</a></div>';
-                }
-                if ($working_hours) {
-                    $balloon_content .= '<div style="margin-bottom: 8px;"><strong>' . esc_html__('Working Hours', 'codeweber') . ':</strong><br>' . esc_html($working_hours) . '</div>';
-                }
-                $marker['balloonContentHeader'] = '<strong style="color: #333; font-size: 16px;">' . esc_html(get_the_title()) . '</strong>';
-                $marker['balloonContent'] = $balloon_content;
-                $marker['hintContent'] = get_the_title();
-                
-                // Получаем настройки search_control из Redux
-                $search_control_enabled = true;
-                if (class_exists('Redux')) {
-                    $search_control_option = Redux::get_option($opt_name, 'yandex_maps_search_control');
-                    $search_control_enabled = (bool) $search_control_option;
-                }
-                
                 // Выводим карту через класс
                 echo '<div class="card h-100' . ($card_radius ? ' ' . esc_attr($card_radius) : '') . '">';
                 echo '<div class="card-body p-0 h-100 d-flex flex-column">';
                 echo '<div class="flex-grow-1">';
-                echo '<style>#office-single-map-default, .codeweber-yandex-map-wrapper { height: 100% !important; min-height: 400px; }</style>';
+                echo '<style>#office-single-map-default { height: 100% !important; min-height: 400px; }</style>';
                 echo $yandex_maps->render_map(
                     array(
-                        'map_id' => 'office-single-map-default',
-                        'center' => array(floatval($latitude), floatval($longitude)),
-                        'zoom' => !empty($zoom) ? intval($zoom) : 15,
-                        'height' => 500, // Будет переопределено через CSS
-                        'width' => '100%',
+                        'api_version'  => 3,
+                        'map_id'       => 'office-single-map-default',
+                        'center'       => array(floatval($latitude), floatval($longitude)),
+                        'zoom'         => !empty($zoom) ? intval($zoom) : 15,
+                        'height'       => 500,
+                        'width'        => '100%',
                         'border_radius' => $card_radius ? 8 : 0,
-                        'search_control' => $search_control_enabled,
-                        'show_sidebar' => false, // Сайдбар отключен на single страницах
-                        'marker_auto_open_balloon' => false,
+                        'show_sidebar' => false,
                     ),
                     array($marker)
                 );

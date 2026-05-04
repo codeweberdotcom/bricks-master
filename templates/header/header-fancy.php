@@ -346,32 +346,36 @@ if ($config['navbar-transparent'] === true) {
                                 break;
 
                             case 'map':
-
-                                if (!empty($coordinates)) : ?>
+                                if (!empty($coordinates) && class_exists('Codeweber_Yandex_Maps')) :
+                                    $_hdr_maps = Codeweber_Yandex_Maps::get_instance();
+                                    if ($_hdr_maps->has_api_key()) :
+                                        $_hdr_coords = array_map('floatval', explode(',', $coordinates));
+                                        $_hdr_lat = isset($_hdr_coords[0]) ? $_hdr_coords[0] : 55.76;
+                                        $_hdr_lng = isset($_hdr_coords[1]) ? $_hdr_coords[1] : 37.64;
+                                        $_hdr_zoom = !empty($zoom_level) ? intval($zoom_level) : 10;
+                                        ?>
                                     <div class="widget mb-5">
                                         <div class="widget-title mb-3 h4"><?= esc_html__('On Map', 'codeweber'); ?></div>
-                                        <div id="frontend-yandex-map" style="width: 100%; height: 200px;"></div>
+                                        <?php echo $_hdr_maps->render_map(
+                                            array(
+                                                'api_version'        => 3,
+                                                'map_id'             => 'frontend-yandex-map',
+                                                'center'             => array($_hdr_lat, $_hdr_lng),
+                                                'zoom'               => $_hdr_zoom,
+                                                'height'             => 200,
+                                                'width'              => '100%',
+                                                'show_sidebar'       => false,
+                                                'enable_scroll_zoom' => false,
+                                            ),
+                                            array(array(
+                                                'latitude'  => $_hdr_lat,
+                                                'longitude' => $_hdr_lng,
+                                            ))
+                                        ); ?>
                                     </div>
-                                    <script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr($yandex_api_key); ?>&lang=ru_RU"></script>
-                                    <script>
-                                        document.addEventListener("DOMContentLoaded", function() {
-                                            ymaps.ready(function() {
-                                                var coords = "<?php echo esc_js($coordinates); ?>".split(",").map(function(coord) {
-                                                    return parseFloat(coord.trim());
-                                                });
-                                                var zoom = parseInt("<?php echo esc_js($zoom_level); ?>") || 10;
-
-                                                var map = new ymaps.Map("frontend-yandex-map", {
-                                                    center: coords,
-                                                    zoom: zoom
-                                                });
-
-                                                var placemark = new ymaps.Placemark(coords);
-                                                map.geoObjects.add(placemark);
-                                            });
-                                        });
-                                    </script>
-                <?php endif;
+                                    <?php
+                                    endif;
+                                endif;
                                 break;
 
                             case 'socials':
