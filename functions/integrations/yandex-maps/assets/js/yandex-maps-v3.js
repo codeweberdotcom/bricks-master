@@ -250,9 +250,10 @@
 			if ( fields.showDescription && markerData.description ) {
 				body += `<div class="mb-2">${ markerData.description }</div>`;
 			}
-			if ( fields.showLink && markerData.link ) {
-				body += `<div class="mt-2"><a href="${ markerData.link }" class="btn btn-primary btn-xs">${ i18n.viewDetails || 'View Details' }</a></div>`;
-			}
+
+			const linkHtml = ( fields.showLink && markerData.link )
+				? `<div class="mt-2"><a href="${ markerData.link }" class="btn btn-primary btn-xs">${ i18n.viewDetails || 'View Details' }</a></div>`
+				: '';
 
 			const div = document.createElement( 'div' );
 			div.className = 'cwgb-balloon-v3';
@@ -270,6 +271,7 @@
 						+ `</div>`
 					: textHtml
 				}
+				${ linkHtml }
 			`;
 
 			div.querySelector( '.cwgb-balloon-close' ).addEventListener( 'click', ( e ) => {
