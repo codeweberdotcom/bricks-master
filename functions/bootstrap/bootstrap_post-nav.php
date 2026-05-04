@@ -175,19 +175,23 @@ function codeweber_projects_map_modal() {
 		if (e.target.id !== 'projects-map-offcanvas') return;
 		var wrapper = e.target.querySelector('.codeweber-yandex-map-wrapper');
 		if (!wrapper) return;
-		var inst = wrapper._cwgbYandexMapInstance;
-		if (!inst) return;
-		if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
+		var offcanvasEl = e.target;
+		// Defer past lazy-init microtask (map initialises async via ymaps3.ready.then)
 		setTimeout(function() {
-			var currentId = e.target.dataset.currentProject;
-			if (currentId && inst.markerEls && inst.markerEls[currentId]) {
-				var entry = inst.markerEls[currentId];
-				inst.onMarkerClick(entry.data, entry.el);
-				if (typeof inst.highlightSidebarItem === 'function') inst.highlightSidebarItem(currentId);
-			} else if (typeof inst.fitBounds === 'function') {
-				inst.fitBounds();
-			}
-		}, 300);
+			var inst = wrapper._cwgbYandexMapInstance;
+			if (!inst) return;
+			if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
+			setTimeout(function() {
+				var currentId = offcanvasEl.dataset.currentProject;
+				if (currentId && inst.markerEls && inst.markerEls[currentId]) {
+					var entry = inst.markerEls[currentId];
+					inst.onMarkerClick(entry.data, entry.el);
+					if (typeof inst.highlightSidebarItem === 'function') inst.highlightSidebarItem(currentId);
+				} else if (typeof inst.fitBounds === 'function') {
+					inst.fitBounds();
+				}
+			}, 300);
+		}, 0);
 	});
 	</script>
 

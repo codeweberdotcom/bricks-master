@@ -534,13 +534,22 @@
 	}
 
 	function initMaps() {
-		document.querySelectorAll( '.codeweber-yandex-map-wrapper' ).forEach( initWrapper );
+		document.querySelectorAll( '.codeweber-yandex-map-wrapper' ).forEach( function ( w ) {
+			// Skip maps inside closed offcanvases — init lazily on shown.bs.offcanvas
+			var offcanvas = w.closest( '.offcanvas' );
+			if ( offcanvas && ! offcanvas.classList.contains( 'show' ) ) return;
+			initWrapper( w );
+		} );
 
 		document.addEventListener( 'shown.bs.offcanvas', function ( e ) {
 			if ( ! e.target || ! e.target.querySelectorAll ) return;
 			e.target.querySelectorAll( '.codeweber-yandex-map-wrapper' ).forEach( function ( w ) {
-				if ( w._cwgbYandexMapInstance && typeof w._cwgbYandexMapInstance.invalidateSize === 'function' ) {
-					w._cwgbYandexMapInstance.invalidateSize();
+				if ( w._cwgbYandexMapInstance ) {
+					if ( typeof w._cwgbYandexMapInstance.invalidateSize === 'function' ) {
+						w._cwgbYandexMapInstance.invalidateSize();
+					}
+				} else {
+					initWrapper( w );
 				}
 			} );
 		} );

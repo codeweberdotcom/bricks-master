@@ -6,6 +6,7 @@
  */
 
 .codeweber-yandex-map-wrapper {
+    position: relative;
     min-height: 200px;
 }
 
