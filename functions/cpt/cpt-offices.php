@@ -485,11 +485,10 @@ function codeweber_office_location_callback($post)
                      var q = input.value.trim();
                      if (q.length < 2) { hide(); return; }
                      timer = setTimeout(function() {
-                        fetch('https://suggest-maps.yandex.ru/v1/suggest?apikey=' + encodeURIComponent(apiKey) + '&text=' + encodeURIComponent(q) + '&lang=ru_RU&results=5&types=house,street,locality')
-                           .then(function(r) { return r.json(); })
-                           .then(function(d) {
+                        ymaps3.suggest({ text: q, lang: 'ru_RU', results: 5 })
+                           .then(function(items) {
                               drop.innerHTML = '';
-                              var items = (d.results || []).filter(function(r) { return r.title && r.title.text; });
+                              items = (items || []).filter(function(r) { return r.title && r.title.text; });
                               if (!items.length) { hide(); return; }
                               items.forEach(function(r, i) {
                                  var t = r.title.text, s = r.subtitle && r.subtitle.text ? r.subtitle.text : '';
