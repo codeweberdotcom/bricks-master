@@ -200,10 +200,13 @@
 		}
 
 		calcCenterWithBalloonOffset( lng, lat, zoom ) {
-			const balloonH  = 260;
-			const degPerPx  = 360 / ( 256 * Math.pow( 2, zoom != null ? zoom : ( this.config.zoom || 10 ) ) );
-			const latOffset = balloonH * degPerPx;
-			return [ lng, lat + latOffset ];
+			const containerH  = this.container.offsetHeight || 500;
+			// Position marker at 65% from top so balloon (above marker) fits within the map.
+			// pixelOffset > 0 → center shifts north → marker appears lower in viewport.
+			const pixelOffset = containerH * 0.65 - containerH * 0.5; // = containerH * 0.15
+			const z           = zoom != null ? zoom : ( this.config.zoom || 10 );
+			const degPerPx    = 360 / ( 256 * Math.pow( 2, z ) );
+			return [ lng, lat + pixelOffset * degPerPx ];
 		}
 
 		closeBalloon() {
