@@ -146,7 +146,7 @@ function codeweber_projects_map_modal() {
 			'show_filters'       => true,
 			'filter_by_city'     => true,
 			'balloon_fields'     => [
-				'showCity'         => true,
+				'showCity'         => false,
 				'showAddress'      => true,
 				'showPhone'        => false,
 				'showWorkingHours' => false,
