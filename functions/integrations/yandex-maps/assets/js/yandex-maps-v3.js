@@ -255,7 +255,7 @@
 
 			const div = document.createElement( 'div' );
 			div.className = 'cwgb-balloon-v3';
-			div.style.cssText = `position:absolute;bottom:22px;left:7px;transform:translateX(-50%);background:#fff;color:#333;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.18);padding:12px 16px;min-width:280px;max-width:${ maxWidth }px;z-index:100;white-space:normal;`;
+			div.style.cssText = `position:absolute;bottom:22px;left:7px;transform:translateX(-50%);background:#fff;color:#333;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.18);padding:12px 16px;min-width:460px;max-width:${ maxWidth }px;z-index:100;white-space:normal;`;
 
 			const titleHtml = markerData.title ? `<div style="font-weight:600;margin-bottom:4px;padding-right:20px;font-size:14px;">${ markerData.title }</div>` : '';
 			const textHtml  = `${ titleHtml }<div style="font-size:13px;">${ body }</div>`;
