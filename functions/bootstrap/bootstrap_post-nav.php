@@ -79,78 +79,62 @@ function codeweber_projects_map_modal() {
 		return;
 	}
 
-	// Формируем маркеры
+	// Формируем маркеры для v3
 	$markers = [];
 	foreach ( $projects as $pid ) {
-		$lat    = get_post_meta( $pid, 'main_information_latitude', true );
-		$lng    = get_post_meta( $pid, 'main_information_longitude', true );
-		$addr   = get_post_meta( $pid, 'main_information_address', true );
-		$city   = get_post_meta( $pid, 'main_information_city', true );
-		$img_id  = (int) get_post_meta( $pid, 'main_information_image', true );
-		$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'thumbnail' ) : '';
-
-		$permalink = get_permalink( $pid );
-		$title     = get_the_title( $pid );
-
-		$balloon_text = '<div style="font-size:14px;font-weight:300;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;font-family:var(--bs-body-font-family);color:inherit;">' . esc_html( $title ) . '</div>';
-		if ( $addr ) {
-			$balloon_text .= '<div style="font-size:13px;font-weight:300;color:inherit;opacity:.65;margin-bottom:8px;font-family:var(--bs-body-font-family);">' . esc_html( $addr ) . '</div>';
-		}
-		$balloon_text .= '<a href="' . esc_url( $permalink ) . '" style="font-size:12px;font-weight:300;text-transform:uppercase;letter-spacing:.04em;color:var(--bs-primary);font-family:var(--bs-body-font-family);">' . esc_html__( 'Go to project', 'codeweber' ) . ' →</a>';
-
-		$font = 'var(--bs-body-font-family)';
-		if ( $img_url ) {
-			$balloon = '<div style="display:flex;gap:10px;align-items:flex-start;font-family:' . $font . ';">'
-				. '<img src="' . esc_url( $img_url ) . '" alt="' . esc_attr( $title ) . '" style="width:120px;height:120px;object-fit:cover;flex-shrink:0;border-radius:4px;">'
-				. '<div>' . $balloon_text . '</div>'
-				. '</div>';
-		} else {
-			$balloon = '<div style="font-family:' . $font . ';">' . $balloon_text . '</div>';
-		}
+		$lat   = get_post_meta( $pid, 'main_information_latitude', true );
+		$lng   = get_post_meta( $pid, 'main_information_longitude', true );
+		$addr  = get_post_meta( $pid, 'main_information_address', true );
+		$city  = get_post_meta( $pid, 'main_information_city', true );
+		$desc  = get_post_meta( $pid, 'main_information_short_description', true );
 
 		$markers[] = [
-			'id'                   => $pid,
-			'title'                => $title,
-			'link'                 => $permalink,
-			'address'              => $addr,
-			'city'                 => $city,
-			'image'                => $img_url,
-			'latitude'             => floatval( $lat ),
-			'longitude'            => floatval( $lng ),
-			'balloonContentHeader' => '',
-			'balloonContent'       => $balloon,
-			'hintContent'          => $title,
+			'id'          => $pid,
+			'title'       => get_the_title( $pid ),
+			'link'        => get_permalink( $pid ),
+			'address'     => $addr,
+			'city'        => $city,
+			'description' => $desc,
+			'latitude'    => floatval( $lat ),
+			'longitude'   => floatval( $lng ),
 		];
 	}
 
 	$yandex_maps = Codeweber_Yandex_Maps::get_instance();
-	$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
 
 	ob_start();
 	echo $yandex_maps->render_map(
 		[
-			'map_id'                   => 'projects-all-map',
-			'zoom'                     => 10,
-			'height'                   => 600,
-			'width'                    => '100%',
-			'border_radius'            => 0,
-			'search_control'           => false,
-			'show_sidebar'             => true,
-			'sidebar_position'         => 'left',
-			'sidebar_title'            => __( 'Projects', 'codeweber' ),
-			'sidebar_fields'           => [
-				'showAddress'      => false,
+			'api_version'      => 3,
+			'map_id'           => 'projects-all-map',
+			'zoom'             => 10,
+			'height'           => 600,
+			'border_radius'    => 0,
+			'auto_fit_bounds'  => true,
+			'enable_drag'      => true,
+			'enable_scroll_zoom' => true,
+			'show_sidebar'     => true,
+			'sidebar_position' => 'left',
+			'sidebar_title'    => __( 'Projects', 'codeweber' ),
+			'sidebar_fields'   => [
 				'showCity'         => true,
+				'showAddress'      => false,
 				'showPhone'        => false,
 				'showWorkingHours' => false,
-				'showDescription'  => false,
+				'showDescription'  => true,
 			],
-			'show_filters'             => true,
-			'filter_by_city'           => true,
-			'clusterer'                => false,
-			'auto_fit_bounds'          => true,
-			'marker_auto_open_balloon' => false,
-			'marker_preset'            => 'islands#redCircleIcon',
+			'show_filters'       => true,
+			'filter_by_city'     => true,
+			'balloon_fields'     => [
+				'showCity'         => true,
+				'showAddress'      => true,
+				'showPhone'        => false,
+				'showWorkingHours' => false,
+				'showLink'         => true,
+				'showDescription'  => true,
+			],
+			'color_scheme'       => 'light',
+			'color_scheme_custom' => '',
 		],
 		$markers
 	);
@@ -167,7 +151,7 @@ function codeweber_projects_map_modal() {
 	#projects-map-offcanvas .codeweber-yandex-map-wrapper {
 		height: 100%;
 	}
-	#projects-map-offcanvas .codeweber-yandex-map {
+	#projects-map-offcanvas #projects-all-map {
 		height: 100% !important;
 	}
 	</style>
@@ -188,26 +172,20 @@ function codeweber_projects_map_modal() {
 		var inst = wrapper._cwgbYandexMapInstance;
 		if (!inst) return;
 		if (typeof inst.invalidateSize === 'function') inst.invalidateSize();
-		if (inst.map) {
-			inst.map.options.set('minZoom', 3);
-			inst.map.options.set('maxZoom', 17);
-		}
 		setTimeout(function() {
 			var currentId = e.target.dataset.currentProject;
-			if (currentId && inst.placemarks && inst.placemarks[currentId]) {
-				var placemark = inst.placemarks[currentId];
-				inst.map.setCenter(placemark.geometry.getCoordinates(), 15, { duration: 400 }).then(function() {
-					placemark.balloon.open();
-				});
+			if (currentId && inst.markerEls && inst.markerEls[currentId]) {
+				var entry = inst.markerEls[currentId];
+				inst.onMarkerClick(entry.data, entry.el);
 				if (typeof inst.highlightSidebarItem === 'function') inst.highlightSidebarItem(currentId);
 			} else if (typeof inst.fitBounds === 'function') {
 				inst.fitBounds();
 			}
-		}, 150);
+		}, 300);
 	});
 	</script>
 
-	<div class="offcanvas offcanvas-end" id="projects-map-offcanvas" tabindex="-1" aria-labelledby="projects-map-offcanvas-label" data-current-project="<?php echo esc_attr( get_the_ID() ); ?>">
+	<div class="offcanvas offcanvas-end" id="projects-map-offcanvas" tabindex="-1" aria-labelledby="projects-map-offcanvas-label" data-current-project="<?php echo esc_attr( is_singular( 'projects' ) ? get_the_ID() : '' ); ?>">
 		<div class="offcanvas-body p-0">
 			<?php echo $map_html; ?>
 		</div>

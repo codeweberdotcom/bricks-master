@@ -499,6 +499,14 @@
 			setTimeout( () => { if ( loader.parentNode ) loader.remove(); }, 300 );
 		}
 
+		fitBounds() {
+			const markers = this.config.markers || [];
+			if ( ! markers.length ) return;
+			const center = this.calcBoundsCenter( markers );
+			const zoom   = this.calcBoundsZoom( markers, this.container.offsetWidth, this.container.offsetHeight );
+			this.map.update( { location: { center, zoom: zoom || this.config.zoom, duration: 400 } } );
+		}
+
 		invalidateSize() {
 			// ymaps3 handles container resize via ResizeObserver automatically
 			this.hideLoader();
