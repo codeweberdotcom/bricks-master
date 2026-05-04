@@ -641,6 +641,8 @@ class Codeweber_Yandex_Maps {
             $map_data['apiVersion']        = 3;
             $map_data['colorScheme']       = isset( $settings['color_scheme'] ) ? $settings['color_scheme'] : 'light';
             $map_data['colorSchemeCustom'] = isset( $settings['color_scheme_custom'] ) ? $settings['color_scheme_custom'] : '';
+            $marker_click_zoom = Redux::get_option( 'redux_demo', 'yandex_maps_marker_zoom' );
+            $map_data['markerClickZoom'] = $marker_click_zoom ? (int) $marker_click_zoom : 15;
         }
 
         // Подключаем нужные скрипты
