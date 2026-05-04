@@ -151,7 +151,7 @@ function codeweber_projects_map_modal() {
 				'showPhone'        => false,
 				'showWorkingHours' => false,
 				'showLink'         => true,
-				'showDescription'  => true,
+				'showDescription'  => false,
 			],
 			'color_scheme'       => 'light',
 			'color_scheme_custom' => '',
