@@ -74,7 +74,7 @@ class Codeweber_Yandex_Maps {
         'clusterer' => false,
         'clusterer_preset' => 'islands#invertedVioletClusterIcons',
         'balloon_template' => 'default',
-        'balloon_max_width' => 300,
+        'balloon_max_width' => 460,
         'map_type' => 'yandex#map', // yandex#map, yandex#satellite, yandex#hybrid
         'height' => 500,
         'width' => '100%',
