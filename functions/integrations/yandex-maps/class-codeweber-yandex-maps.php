@@ -485,7 +485,7 @@ class Codeweber_Yandex_Maps {
                 'address'       => __( 'Address', 'codeweber' ),
                 'phone'         => __( 'Phone', 'codeweber' ),
                 'workingHours'  => __( 'Working Hours', 'codeweber' ),
-                'viewDetails'   => __( 'View Details', 'codeweber' ),
+                'viewDetails'   => __( 'Go', 'codeweber' ),
             ),
         );
     }
