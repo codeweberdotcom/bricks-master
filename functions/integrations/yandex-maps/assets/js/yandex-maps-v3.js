@@ -229,7 +229,7 @@
 				showCity: true, showAddress: true, showPhone: true,
 				showWorkingHours: true, showLink: true, showDescription: false,
 			};
-			const maxWidth = balloonCfg.maxWidth || 280;
+			const maxWidth = balloonCfg.maxWidth || 340;
 			const i18n     = ( typeof codeweberYandexMaps !== 'undefined' && codeweberYandexMaps.i18n ) ? codeweberYandexMaps.i18n : {};
 
 			let body = '';
@@ -255,7 +255,7 @@
 
 			const div = document.createElement( 'div' );
 			div.className = 'cwgb-balloon-v3';
-			div.style.cssText = `position:absolute;bottom:22px;left:7px;transform:translateX(-50%);background:#fff;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.18);padding:12px 16px;min-width:200px;max-width:${ maxWidth }px;z-index:100;white-space:normal;`;
+			div.style.cssText = `position:absolute;bottom:22px;left:7px;transform:translateX(-50%);background:#fff;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.18);padding:12px 16px;min-width:260px;max-width:${ maxWidth }px;z-index:100;white-space:normal;`;
 			div.innerHTML = `
 				<button class="cwgb-balloon-close" style="position:absolute;top:6px;right:8px;background:none;border:none;font-size:18px;cursor:pointer;color:#999;line-height:1;padding:0;" aria-label="Close">&times;</button>
 				${ markerData.title ? `<div style="font-weight:600;margin-bottom:8px;padding-right:20px;font-size:14px;">${ markerData.title }</div>` : '' }
