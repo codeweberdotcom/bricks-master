@@ -154,6 +154,7 @@ function codeweber_projects_map_modal() {
 				'showDescription'  => false,
 			],
 			'balloon_max_width'  => 460,
+			'balloon_min_width'  => 460,
 			'color_scheme'       => 'light',
 			'color_scheme_custom' => '',
 		],

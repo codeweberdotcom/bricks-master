@@ -603,6 +603,7 @@ class Codeweber_Yandex_Maps {
             'balloon' => array(
                 'template' => $settings['balloon_template'],
                 'maxWidth' => $settings['balloon_max_width'],
+                'minWidth' => isset($settings['balloon_min_width']) ? intval($settings['balloon_min_width']) : 0,
                 'closeButton' => $settings['balloon_close_button'],
                 'autoPan' => $settings['balloon_auto_pan'],
                 'layout' => $settings['balloon_layout'],
