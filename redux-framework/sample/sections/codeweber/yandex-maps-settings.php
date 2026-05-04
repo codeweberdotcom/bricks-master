@@ -434,14 +434,8 @@ Redux::set_section(
                     'pale'      => esc_html__('Pale', 'codeweber'),
                     'dark'      => esc_html__('Dark', 'codeweber'),
                     'sepia'     => esc_html__('Sepia', 'codeweber'),
+                    'custom'    => esc_html__('Custom (JSON)', 'codeweber'),
                 ],
-            ),
-            array(
-                'id'       => 'yandex_maps_custom_style',
-                'type'     => 'textarea',
-                'title'    => esc_html__('Custom Style (CSS)', 'codeweber'),
-                'subtitle' => esc_html__('Custom CSS styles for map wrapper', 'codeweber'),
-                'default'  => '',
             ),
             array(
                 'id'       => 'yandex_maps_style_json',

@@ -119,10 +119,15 @@
 
 		buildSchemeOptions() {
 			const scheme = this.config.colorScheme || 'light';
-			if ( scheme === 'custom' && this.config.colorSchemeCustom ) {
-				try {
-					return { customization: JSON.parse( this.config.colorSchemeCustom ) };
-				} catch ( e ) {}
+			if ( scheme === 'custom' ) {
+				const jsonStr = this.config.colorSchemeCustom || this.config.styleJson || '';
+				if ( jsonStr ) {
+					try {
+						return { customization: JSON.parse( jsonStr ) };
+					} catch ( e ) {
+						console.warn( '[yandex-maps-v3] Invalid custom style JSON', e );
+					}
+				}
 			}
 			return COLOR_PRESETS[ scheme ] || { theme: 'light' };
 		}

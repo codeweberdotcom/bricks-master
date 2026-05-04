@@ -93,7 +93,6 @@ class Codeweber_Yandex_Maps {
         // Оптимизация и адаптивность
         'lazy_load' => false,
         'screen_reader_support' => true,
-        'custom_style' => '',
         'style_json' => '',
         'responsive' => true,
         'mobile_optimized' => true,
@@ -313,10 +312,6 @@ class Codeweber_Yandex_Maps {
         $desktop_optimized = Redux::get_option($opt_name, 'yandex_maps_desktop_optimized');
         if ($desktop_optimized !== null) {
             $this->default_settings['desktop_optimized'] = (bool) $desktop_optimized;
-        }
-        $custom_style = Redux::get_option($opt_name, 'yandex_maps_custom_style');
-        if (!empty($custom_style)) {
-            $this->default_settings['custom_style'] = $custom_style;
         }
         $style_json = Redux::get_option($opt_name, 'yandex_maps_style_json');
         if (!empty($style_json)) {
@@ -636,9 +631,8 @@ class Codeweber_Yandex_Maps {
                 'desktopOptimized' => $settings['desktop_optimized'],
                 'screenReaderSupport' => $settings['screen_reader_support'],
             ),
-            'lazyLoad'    => $settings['lazy_load'],
-            'customStyle' => $settings['custom_style'],
-            'styleJson'   => $settings['style_json'],
+            'lazyLoad'  => $settings['lazy_load'],
+            'styleJson' => $settings['style_json'],
         );
 
         // v3-специфичные поля
