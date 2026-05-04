@@ -155,8 +155,6 @@ function codeweber_projects_map_modal() {
 			],
 			'balloon_max_width'  => 460,
 			'balloon_min_width'  => 400,
-			'color_scheme'       => 'light',
-			'color_scheme_custom' => '',
 		],
 		$markers
 	);

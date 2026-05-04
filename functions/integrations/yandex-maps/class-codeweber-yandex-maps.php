@@ -322,6 +322,10 @@ class Codeweber_Yandex_Maps {
         if (!empty($style_json)) {
             $this->default_settings['style_json'] = $style_json;
         }
+        $color_scheme = Redux::get_option($opt_name, 'yandex_maps_color_scheme');
+        if (!empty($color_scheme)) {
+            $this->default_settings['color_scheme'] = $color_scheme;
+        }
     }
     
     /**
