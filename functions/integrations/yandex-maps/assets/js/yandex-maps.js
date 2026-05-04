@@ -720,8 +720,9 @@
             const configData = wrapper.getAttribute('data-map-config');
             if (!configData) return;
             try {
-                wrapper.setAttribute('data-cwgb-map-inited', '1');
                 const config = JSON.parse(configData);
+                if (config.apiVersion === 3) return;
+                wrapper.setAttribute('data-cwgb-map-inited', '1');
                 if (config.lazyLoad) {
                     const observer = new IntersectionObserver((entries, obs) => {
                         entries.forEach(entry => {
