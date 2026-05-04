@@ -187,7 +187,7 @@
 			this.activeMarkerId = String( markerData.id );
 
 			this.highlightSidebarItem( markerData.id );
-			const zoom   = this.getCurrentZoom();
+			const zoom   = this.config.zoom || 10;
 			const center = this.calcCenterWithBalloonOffset( markerData.longitude, markerData.latitude, zoom );
 			this.map.update( { location: { center, zoom, duration: 400 } } );
 		}
