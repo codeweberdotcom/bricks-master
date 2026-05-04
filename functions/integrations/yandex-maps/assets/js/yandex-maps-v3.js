@@ -187,17 +187,21 @@
 			this.activeMarkerId = String( markerData.id );
 
 			this.highlightSidebarItem( markerData.id );
-			const center = this.calcCenterWithBalloonOffset( markerData.longitude, markerData.latitude );
-			this.map.update( { location: { center } } );
+			const zoom   = this.getCurrentZoom();
+			const center = this.calcCenterWithBalloonOffset( markerData.longitude, markerData.latitude, zoom );
+			this.map.update( { location: { center, zoom, duration: 400 } } );
 		}
 
-		calcCenterWithBalloonOffset( lng, lat ) {
-			const balloonH   = 260;
-			let currentZoom  = this.config.zoom || 10;
+		getCurrentZoom() {
 			try {
-				if ( this.map && this.map.zoom != null ) currentZoom = this.map.zoom;
+				if ( this.map && this.map.zoom != null ) return this.map.zoom;
 			} catch ( e ) {}
-			const degPerPx  = 360 / ( 256 * Math.pow( 2, currentZoom ) );
+			return this.config.zoom || 10;
+		}
+
+		calcCenterWithBalloonOffset( lng, lat, zoom ) {
+			const balloonH  = 260;
+			const degPerPx  = 360 / ( 256 * Math.pow( 2, zoom != null ? zoom : ( this.config.zoom || 10 ) ) );
 			const latOffset = balloonH * degPerPx;
 			return [ lng, lat + latOffset ];
 		}
