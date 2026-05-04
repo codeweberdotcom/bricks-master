@@ -372,6 +372,12 @@ function codeweber_office_location_callback($post)
       <label style="display: block; margin-bottom: 5px; font-weight: bold;">
          <?php echo esc_html__('Map', 'codeweber'); ?>
       </label>
+      <?php if (!empty($yandex_api_key)) : ?>
+      <div style="position:relative;margin-bottom:12px;">
+         <input type="text" id="office-map-search" placeholder="<?php esc_attr_e( 'Search address...', 'codeweber' ); ?>"
+            style="width:100%;padding:8px;border:1px solid #8c8f94;border-radius:4px;box-sizing:border-box;">
+      </div>
+      <?php endif; ?>
       <div id="office-yandex-map" style="width: 100%; height: 400px; margin-bottom: 15px;"></div>
 
       <?php if (!empty($yandex_api_key)) : ?>
@@ -379,6 +385,7 @@ function codeweber_office_location_callback($post)
          <script>
          (function() {
             var apiKey = '<?php echo esc_js($yandex_api_key); ?>';
+            var geocodeUrl = 'https://geocode-maps.yandex.ru/1.x/?apikey=' + encodeURIComponent(apiKey) + '&format=json&lang=ru_RU';
             ymaps3.ready.then(function() {
                var YMap = ymaps3.YMap, YMapDefaultSchemeLayer = ymaps3.YMapDefaultSchemeLayer,
                    YMapDefaultFeaturesLayer = ymaps3.YMapDefaultFeaturesLayer,
@@ -389,6 +396,7 @@ function codeweber_office_location_callback($post)
                var lngField     = document.querySelector("input[name='office_longitude']");
                var zoomField    = document.querySelector("input[name='office_zoom']");
                var addressField = document.querySelector("input[name='office_yandex_address']");
+               var searchInput  = document.getElementById('office-map-search');
 
                var lat = 55.76, lng = 37.64, zoom = <?php echo (int) ($zoom ?: 10); ?>;
                if (coordField && coordField.value) {
@@ -417,7 +425,9 @@ function codeweber_office_location_callback($post)
                map.addChild(marker);
 
                map.addChild(new YMapListener({
-                  onClick: function(obj, coords) {
+                  onClick: function(obj, event) {
+                     var coords = event && event.coordinates ? event.coordinates : null;
+                     if (!coords) return;
                      marker.update({ coordinates: coords });
                      syncFields(coords[1], coords[0]);
                   }
@@ -435,7 +445,7 @@ function codeweber_office_location_callback($post)
                   if (lngField)     { lngField.value = lngVal;                   lngField.dispatchEvent(new Event('input',{bubbles:true})); }
                   if (zoomField)    { zoomField.value = Math.round(map.zoom);    zoomField.dispatchEvent(new Event('input',{bubbles:true})); }
                   if (addressField) {
-                     fetch('https://geocode-maps.yandex.ru/1.x/?apikey=' + encodeURIComponent(apiKey) + '&format=json&geocode=' + lngVal + ',' + latVal + '&results=1&lang=ru_RU')
+                     fetch(geocodeUrl + '&geocode=' + lngVal + ',' + latVal + '&results=1')
                         .then(function(r) { return r.json(); })
                         .then(function(d) {
                            var fm = d.response && d.response.GeoObjectCollection && d.response.GeoObjectCollection.featureMember;
@@ -443,6 +453,71 @@ function codeweber_office_location_callback($post)
                         });
                   }
                }
+
+               function geocodeAndMove(query) {
+                  if (!query) return;
+                  fetch(geocodeUrl + '&geocode=' + encodeURIComponent(query) + '&results=1')
+                     .then(function(r) { return r.json(); })
+                     .then(function(d) {
+                        var fm = d.response && d.response.GeoObjectCollection && d.response.GeoObjectCollection.featureMember;
+                        if (!fm || !fm.length) return;
+                        var pos = fm[0].GeoObject.Point.pos.split(' ');
+                        var fLng = parseFloat(pos[0]), fLat = parseFloat(pos[1]);
+                        if (isNaN(fLat) || isNaN(fLng)) return;
+                        marker.update({ coordinates: [fLng, fLat] });
+                        map.update({ location: { center: [fLng, fLat], zoom: 15 } });
+                        syncFields(fLat, fLng);
+                     }).catch(function() {});
+               }
+
+               function initSuggest(input) {
+                  var wrap = input.parentNode;
+                  var drop = document.createElement('div');
+                  drop.style.cssText = 'display:none;position:absolute;z-index:99999;left:0;right:0;top:100%;background:#fff;border:1px solid #c3c4c7;border-top:none;border-radius:0 0 4px 4px;box-shadow:0 4px 8px rgba(0,0,0,.12);max-height:220px;overflow-y:auto;font-size:13px;';
+                  wrap.appendChild(drop);
+                  var timer, active = -1;
+                  function hide() { drop.style.display = 'none'; active = -1; }
+                  function hl(i) { active = i; Array.from(drop.children).forEach(function(c,j){c.style.background=j===i?'#f0f7ff':'';}); }
+                  function pick(t, s) { input.value = t + (s ? ', '+s : ''); hide(); geocodeAndMove(input.value); }
+                  function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+                  input.addEventListener('input', function() {
+                     clearTimeout(timer);
+                     var q = input.value.trim();
+                     if (q.length < 2) { hide(); return; }
+                     timer = setTimeout(function() {
+                        fetch('https://suggest-maps.yandex.ru/v1/suggest?apikey=' + encodeURIComponent(apiKey) + '&text=' + encodeURIComponent(q) + '&lang=ru_RU&results=5&types=house,street,locality')
+                           .then(function(r) { return r.json(); })
+                           .then(function(d) {
+                              drop.innerHTML = '';
+                              var items = (d.results || []).filter(function(r) { return r.title && r.title.text; });
+                              if (!items.length) { hide(); return; }
+                              items.forEach(function(r, i) {
+                                 var t = r.title.text, s = r.subtitle && r.subtitle.text ? r.subtitle.text : '';
+                                 var div = document.createElement('div');
+                                 div.style.cssText = 'padding:7px 12px;cursor:pointer;border-bottom:1px solid #f0f0f1;line-height:1.3;';
+                                 div.innerHTML = '<span style="font-weight:600">'+esc(t)+'</span>'+(s?'<br><span style="color:#777;font-size:12px">'+esc(s)+'</span>':'');
+                                 div.addEventListener('mousedown', function(e) { e.preventDefault(); pick(t, s); });
+                                 div.addEventListener('mouseover', function() { hl(i); });
+                                 drop.appendChild(div);
+                              });
+                              drop.style.display = 'block';
+                           }).catch(function() {});
+                     }, 250);
+                  });
+                  input.addEventListener('keydown', function(e) {
+                     if (e.key === 'ArrowDown') { e.preventDefault(); hl(Math.min(active+1, drop.children.length-1)); }
+                     else if (e.key === 'ArrowUp') { e.preventDefault(); hl(Math.max(active-1, 0)); }
+                     else if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (active >= 0 && drop.children[active]) drop.children[active].dispatchEvent(new MouseEvent('mousedown',{bubbles:true}));
+                        else geocodeAndMove(input.value.trim());
+                        hide();
+                     } else if (e.key === 'Escape') { hide(); }
+                  });
+                  input.addEventListener('blur', function() { setTimeout(hide, 200); });
+               }
+
+               if (searchInput) initSuggest(searchInput);
             });
          })();
          </script>
