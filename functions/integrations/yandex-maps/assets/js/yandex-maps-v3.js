@@ -36,8 +36,18 @@
 
 		async init() {
 			if ( typeof ymaps3 === 'undefined' ) {
-				console.error( '[yandex-maps-v3] ymaps3 not loaded' );
-				return;
+				await new Promise( ( resolve, reject ) => {
+					const start = Date.now();
+					const check = setInterval( () => {
+						if ( typeof ymaps3 !== 'undefined' ) {
+							clearInterval( check );
+							resolve();
+						} else if ( Date.now() - start > 10000 ) {
+							clearInterval( check );
+							reject( new Error( 'ymaps3 load timeout' ) );
+						}
+					}, 200 );
+				} );
 			}
 			await ymaps3.ready;
 			try {
