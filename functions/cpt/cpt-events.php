@@ -740,63 +740,69 @@ function codeweber_events_render_map_metabox( WP_Post $post ): void {
 		<div id="event-yandex-map" style="width: 100%; height: 400px; margin-bottom: 15px;"></div>
 
 		<?php if ( ! empty( $yandex_api_key ) ) : ?>
-		<script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr( $yandex_api_key ); ?>&lang=ru_RU"></script>
+		<script src="https://api-maps.yandex.ru/v3/?apikey=<?php echo esc_attr( $yandex_api_key ); ?>&lang=ru_RU"></script>
 		<script>
-		jQuery(document).ready(function($) {
-			ymaps.ready(function() {
-				var lat  = parseFloat($('#_event_latitude').val()) || 55.7558;
-				var lon  = parseFloat($('#_event_longitude').val()) || 37.6173;
-				var zoom = parseInt($('#_event_zoom').val()) || 15;
+		(function() {
+			var apiKey = '<?php echo esc_js( $yandex_api_key ); ?>';
+			ymaps3.ready.then(function() {
+				var YMap = ymaps3.YMap, YMapDefaultSchemeLayer = ymaps3.YMapDefaultSchemeLayer,
+				    YMapDefaultFeaturesLayer = ymaps3.YMapDefaultFeaturesLayer,
+				    YMapMarker = ymaps3.YMapMarker, YMapListener = ymaps3.YMapListener;
 
-				var map = new ymaps.Map('event-yandex-map', {
-					center: [lat, lon],
-					zoom: zoom
+				var latField     = document.getElementById('_event_latitude');
+				var lngField     = document.getElementById('_event_longitude');
+				var zoomField    = document.getElementById('_event_zoom');
+				var addressField = document.getElementById('_event_yandex_address');
+
+				var lat  = parseFloat(latField  && latField.value  ? latField.value  : '55.7558') || 55.7558;
+				var lng  = parseFloat(lngField  && lngField.value  ? lngField.value  : '37.6173') || 37.6173;
+				var zoom = parseInt(zoomField && zoomField.value ? zoomField.value : '15') || 15;
+
+				var map = new YMap(document.getElementById('event-yandex-map'), {
+					location: { center: [lng, lat], zoom: zoom }
 				});
+				map.addChild(new YMapDefaultSchemeLayer());
+				map.addChild(new YMapDefaultFeaturesLayer());
 
-				var placemark = new ymaps.Placemark([lat, lon], {}, { draggable: true });
-				map.geoObjects.add(placemark);
+				var el = document.createElement('div');
+				el.style.cssText = 'cursor:grab;width:28px;height:28px;transform:translate(-50%,-100%)';
+				el.innerHTML = '<svg viewBox="0 0 24 24" fill="#d63638" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
 
-				function updateFields(coords) {
-					$('#_event_latitude').val(coords[0].toFixed(6));
-					$('#_event_longitude').val(coords[1].toFixed(6));
-					ymaps.geocode(coords).then(function(res) {
-						var first = res.geoObjects.get(0);
-						if (first) {
-							$('#_event_yandex_address').val(first.properties.get('name'));
-						}
-					});
+				var marker = new YMapMarker({
+					coordinates: [lng, lat],
+					draggable: true,
+					onDragEnd: function(coords) { syncFields(coords[1], coords[0]); }
+				}, el);
+				map.addChild(marker);
+
+				map.addChild(new YMapListener({
+					onClick: function(obj, coords) {
+						marker.update({ coordinates: coords });
+						syncFields(coords[1], coords[0]);
+					}
+				}));
+
+				map.addChild(new YMapListener({
+					onActionEnd: function() {
+						if (zoomField) { zoomField.value = Math.round(map.zoom); }
+					}
+				}));
+
+				function syncFields(latVal, lngVal) {
+					if (latField)  { latField.value  = latVal.toFixed(6); }
+					if (lngField)  { lngField.value  = lngVal.toFixed(6); }
+					if (zoomField) { zoomField.value = Math.round(map.zoom); }
+					if (addressField) {
+						fetch('https://geocode-maps.yandex.ru/1.x/?apikey=' + encodeURIComponent(apiKey) + '&format=json&geocode=' + lngVal + ',' + latVal + '&results=1&lang=ru_RU')
+							.then(function(r) { return r.json(); })
+							.then(function(d) {
+								var fm = d.response && d.response.GeoObjectCollection && d.response.GeoObjectCollection.featureMember;
+								if (fm && fm.length) { addressField.value = fm[0].GeoObject.metaDataProperty.GeocoderMetaData.text; }
+							});
+					}
 				}
-
-				placemark.events.add('dragend', function() {
-					updateFields(placemark.geometry.getCoordinates());
-				});
-
-				map.events.add('click', function(e) {
-					var coords = e.get('coords');
-					placemark.geometry.setCoordinates(coords);
-					updateFields(coords);
-				});
-
-				var searchControl = map.controls.get('searchControl');
-				if (searchControl) {
-					searchControl.events.add('resultselect', function(e) {
-						var index = e.get('index');
-						searchControl.getResult(index).then(function(res) {
-							var coords = res.geometry.getCoordinates();
-							placemark.geometry.setCoordinates(coords);
-							$('#_event_latitude').val(coords[0].toFixed(6));
-							$('#_event_longitude').val(coords[1].toFixed(6));
-							$('#_event_yandex_address').val(res.properties.get('name'));
-							map.setCenter(coords, 16);
-						});
-					});
-				}
-
-				map.events.add('boundschange', function() {
-					$('#_event_zoom').val(map.getZoom());
-				});
 			});
-		});
+		})();
 		</script>
 		<?php else : ?>
 		<p style="color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 4px;">

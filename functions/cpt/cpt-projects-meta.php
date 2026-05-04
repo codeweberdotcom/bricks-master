@@ -221,62 +221,59 @@ function cw_project_map_render( WP_Post $post ): void {
 		<div id="project-yandex-map" style="width:100%;height:400px;margin-bottom:15px;"></div>
 
 		<?php if ( ! empty( $yandex_api_key ) ) : ?>
-		<script src="https://api-maps.yandex.ru/2.1/?apikey=<?php echo esc_attr( $yandex_api_key ); ?>&lang=ru_RU"></script>
+		<script src="https://api-maps.yandex.ru/v3/?apikey=<?php echo esc_attr( $yandex_api_key ); ?>&lang=ru_RU"></script>
 		<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			ymaps.ready(function () {
+		(function() {
+			ymaps3.ready.then(function() {
+				var YMap = ymaps3.YMap, YMapDefaultSchemeLayer = ymaps3.YMapDefaultSchemeLayer,
+				    YMapDefaultFeaturesLayer = ymaps3.YMapDefaultFeaturesLayer,
+				    YMapMarker = ymaps3.YMapMarker, YMapListener = ymaps3.YMapListener;
+
 				var latField  = document.querySelector("input[name='main_information_latitude']");
 				var lngField  = document.querySelector("input[name='main_information_longitude']");
 				var zoomField = document.querySelector("input[name='main_information_zoom']");
 
-				var lat  = parseFloat(latField && latField.value ? latField.value : '55.76');
-				var lng  = parseFloat(lngField && lngField.value ? lngField.value : '37.64');
+				var lat  = parseFloat(latField && latField.value ? latField.value : '55.76') || 55.76;
+				var lng  = parseFloat(lngField && lngField.value ? lngField.value : '37.64') || 37.64;
 				var zoom = parseInt(zoomField && zoomField.value ? zoomField.value : '<?php echo esc_js( $zoom ); ?>') || 10;
 
-				if (isNaN(lat) || isNaN(lng)) { lat = 55.76; lng = 37.64; }
-
-				var map = new ymaps.Map('project-yandex-map', {
-					center: [lat, lng],
-					zoom: zoom,
-					controls: ['zoomControl', 'searchControl']
+				var map = new YMap(document.getElementById('project-yandex-map'), {
+					location: { center: [lng, lat], zoom: zoom }
 				});
+				map.addChild(new YMapDefaultSchemeLayer());
+				map.addChild(new YMapDefaultFeaturesLayer());
 
-				var placemark = new ymaps.Placemark([lat, lng], {}, { draggable: true });
-				map.geoObjects.add(placemark);
+				var el = document.createElement('div');
+				el.style.cssText = 'cursor:grab;width:28px;height:28px;transform:translate(-50%,-100%)';
+				el.innerHTML = '<svg viewBox="0 0 24 24" fill="#d63638" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>';
 
-				function updateFields(coords) {
-					if (latField)  { latField.value  = coords[0]; latField.dispatchEvent(new Event('input', {bubbles:true})); }
-					if (lngField)  { lngField.value  = coords[1]; lngField.dispatchEvent(new Event('input', {bubbles:true})); }
-					if (zoomField) { zoomField.value = map.getZoom(); zoomField.dispatchEvent(new Event('input', {bubbles:true})); }
-				}
+				var marker = new YMapMarker({
+					coordinates: [lng, lat],
+					draggable: true,
+					onDragEnd: function(coords) { syncFields(coords[1], coords[0]); }
+				}, el);
+				map.addChild(marker);
 
-				placemark.events.add('dragend', function () {
-					updateFields(placemark.geometry.getCoordinates());
-				});
-
-				map.events.add('click', function (e) {
-					var coords = e.get('coords');
-					placemark.geometry.setCoordinates(coords);
-					updateFields(coords);
-				});
-
-				map.events.add('boundschange', function () {
-					if (zoomField) { zoomField.value = map.getZoom(); }
-				});
-
-				var searchControl = map.controls.get('searchControl');
-				searchControl.events.add('resultselect', function (e) {
-					var results = searchControl.getResultsArray();
-					var selected = results[e.get('index')];
-					if (selected) {
-						var coords = selected.geometry.getCoordinates();
-						placemark.geometry.setCoordinates(coords);
-						map.setCenter(coords, 16);
-						updateFields(coords);
+				map.addChild(new YMapListener({
+					onClick: function(obj, coords) {
+						marker.update({ coordinates: coords });
+						syncFields(coords[1], coords[0]);
 					}
-				});
+				}));
+
+				map.addChild(new YMapListener({
+					onActionEnd: function() {
+						if (zoomField) { zoomField.value = Math.round(map.zoom); zoomField.dispatchEvent(new Event('input',{bubbles:true})); }
+					}
+				}));
+
+				function syncFields(latVal, lngVal) {
+					if (latField)  { latField.value  = latVal; latField.dispatchEvent(new Event('input',{bubbles:true})); }
+					if (lngField)  { lngField.value  = lngVal; lngField.dispatchEvent(new Event('input',{bubbles:true})); }
+					if (zoomField) { zoomField.value = Math.round(map.zoom); zoomField.dispatchEvent(new Event('input',{bubbles:true})); }
+				}
 			});
-		});
+		})();
 		</script>
 		<?php else : ?>
 		<p style="color:#d63638;padding:10px;background:#fcf0f1;border-left:4px solid #d63638;">
