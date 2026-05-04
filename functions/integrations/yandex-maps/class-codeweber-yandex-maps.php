@@ -452,6 +452,16 @@ class Codeweber_Yandex_Maps {
             $this->version
         );
         wp_localize_script( 'codeweber-yandex-maps', 'codeweberYandexMaps', $this->get_i18n_data() );
+
+        // Enqueue v3 scripts for ServerSideRender preview in block editor
+        wp_enqueue_script( 'yandex-maps-api-v3' );
+        wp_enqueue_script( 'codeweber-yandex-maps-v3' );
+        wp_enqueue_style(
+            'codeweber-yandex-maps-v3',
+            $this->url . '/assets/css/yandex-maps.css',
+            [],
+            $this->version
+        );
     }
     
     /**
