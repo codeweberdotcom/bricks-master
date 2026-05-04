@@ -252,7 +252,7 @@
 			}
 
 			const linkHtml = ( fields.showLink && markerData.link )
-				? `<div style="margin-top:8px;"><a href="${ markerData.link }" class="btn btn-primary btn-xs">${ i18n.viewDetails || 'View Details' }</a></div>`
+				? `<div><a href="${ markerData.link }" class="btn btn-primary btn-xs">${ i18n.viewDetails || 'View Details' }</a></div>`
 				: '';
 
 			const div = document.createElement( 'div' );
@@ -267,7 +267,7 @@
 				${ markerData.image
 					? `<div style="display:flex;gap:10px;align-items:flex-start;">`
 						+ `<img src="${ markerData.image }" alt="${ markerData.title || '' }" style="width:120px;height:120px;object-fit:cover;flex-shrink:0;border-radius:4px;">`
-						+ `<div style="min-width:0;">${ textHtml }${ linkHtml }</div>`
+						+ `<div style="min-width:0;display:flex;flex-direction:column;justify-content:space-between;height:120px;">${ textHtml }${ linkHtml }</div>`
 						+ `</div>`
 					: `${ textHtml }${ linkHtml }`
 				}
