@@ -23,7 +23,7 @@ class Codeweber_Yandex_Maps {
     /**
      * @var string Версия модуля
      */
-    private $version = '1.0.7';
+    private $version = '1.1.0';
     
     /**
      * @var string Путь к модулю
@@ -99,6 +99,10 @@ class Codeweber_Yandex_Maps {
         'mobile_optimized' => true,
         'touch_optimized' => true,
         'desktop_optimized' => true,
+        // v3-only
+        'api_version' => 2,
+        'color_scheme' => 'light',
+        'color_scheme_custom' => '',
     );
     
     /**
@@ -362,26 +366,7 @@ class Codeweber_Yandex_Maps {
         );
         
         // Локализация скрипта
-        wp_localize_script('codeweber-yandex-maps', 'codeweberYandexMaps', array(
-            'apiKey' => $this->api_key,
-            'language' => $this->default_settings['language'],
-            'defaultCenter' => $this->default_settings['center'],
-            'defaultZoom' => $this->default_settings['zoom'],
-            'i18n' => array(
-                'route' => __('Route', 'codeweber'),
-                'buildRoute' => __('Build Route', 'codeweber'),
-                'from' => __('From', 'codeweber'),
-                'to' => __('To', 'codeweber'),
-                'filterByCity' => __('Filter by City', 'codeweber'),
-                'allCities' => __('All Cities', 'codeweber'),
-                'offices' => __('Offices', 'codeweber'),
-                'city' => __('City', 'codeweber'),
-                'address' => __('Address', 'codeweber'),
-                'phone' => __('Phone', 'codeweber'),
-                'workingHours' => __('Working Hours', 'codeweber'),
-                'viewDetails' => __('View Details', 'codeweber'),
-            ),
-        ));
+        wp_localize_script( 'codeweber-yandex-maps', 'codeweberYandexMaps', $this->get_i18n_data() );
         
         // Подключаем стили
         wp_enqueue_style(
@@ -390,6 +375,24 @@ class Codeweber_Yandex_Maps {
             [],
             $this->version
         );
+
+        // Регистрируем v3 скрипты (enqueue происходит в render_map при api_version=3)
+        if ( $this->has_api_key() ) {
+            wp_register_script(
+                'yandex-maps-api-v3',
+                'https://api-maps.yandex.ru/v3/?apikey=' . urlencode( $this->api_key ) . '&lang=' . urlencode( $this->default_settings['language'] ),
+                [],
+                null,
+                true
+            );
+            wp_register_script(
+                'codeweber-yandex-maps-v3',
+                $this->url . '/assets/js/yandex-maps-v3.js',
+                [ 'yandex-maps-api-v3' ],
+                $this->version,
+                true
+            );
+        }
     }
     
     /**
@@ -421,28 +424,51 @@ class Codeweber_Yandex_Maps {
             [],
             $this->version
         );
-        wp_localize_script('codeweber-yandex-maps', 'codeweberYandexMaps', array(
-            'apiKey' => $this->api_key,
-            'language' => $this->default_settings['language'],
-            'defaultCenter' => $this->default_settings['center'],
-            'defaultZoom' => $this->default_settings['zoom'],
-            'i18n' => array(
-                'route' => __('Route', 'codeweber'),
-                'buildRoute' => __('Build Route', 'codeweber'),
-                'from' => __('From', 'codeweber'),
-                'to' => __('To', 'codeweber'),
-                'filterByCity' => __('Filter by City', 'codeweber'),
-                'allCities' => __('All Cities', 'codeweber'),
-                'offices' => __('Offices', 'codeweber'),
-                'city' => __('City', 'codeweber'),
-                'address' => __('Address', 'codeweber'),
-                'phone' => __('Phone', 'codeweber'),
-                'workingHours' => __('Working Hours', 'codeweber'),
-                'viewDetails' => __('View Details', 'codeweber'),
-            ),
-        ));
+        wp_localize_script( 'codeweber-yandex-maps', 'codeweberYandexMaps', $this->get_i18n_data() );
+
+        // Регистрируем v3 скрипты для редактора
+        wp_register_script(
+            'yandex-maps-api-v3',
+            'https://api-maps.yandex.ru/v3/?apikey=' . urlencode( $this->api_key ) . '&lang=' . urlencode( $this->default_settings['language'] ),
+            [],
+            null,
+            true
+        );
+        wp_register_script(
+            'codeweber-yandex-maps-v3',
+            $this->url . '/assets/js/yandex-maps-v3.js',
+            [ 'yandex-maps-api-v3' ],
+            $this->version,
+            true
+        );
     }
     
+    /**
+     * i18n данные для wp_localize_script (используется обоими JS-скриптами)
+     */
+    private function get_i18n_data(): array {
+        return array(
+            'apiKey'        => $this->api_key,
+            'language'      => $this->default_settings['language'],
+            'defaultCenter' => $this->default_settings['center'],
+            'defaultZoom'   => $this->default_settings['zoom'],
+            'i18n'          => array(
+                'route'         => __( 'Route', 'codeweber' ),
+                'buildRoute'    => __( 'Build Route', 'codeweber' ),
+                'from'          => __( 'From', 'codeweber' ),
+                'to'            => __( 'To', 'codeweber' ),
+                'filterByCity'  => __( 'Filter by City', 'codeweber' ),
+                'allCities'     => __( 'All Cities', 'codeweber' ),
+                'offices'       => __( 'Offices', 'codeweber' ),
+                'city'          => __( 'City', 'codeweber' ),
+                'address'       => __( 'Address', 'codeweber' ),
+                'phone'         => __( 'Phone', 'codeweber' ),
+                'workingHours'  => __( 'Working Hours', 'codeweber' ),
+                'viewDetails'   => __( 'View Details', 'codeweber' ),
+            ),
+        );
+    }
+
     /**
      * Получить API ключ
      * 
@@ -482,28 +508,35 @@ class Codeweber_Yandex_Maps {
         }
         
         // Объединяем настройки с дефолтными
-        $settings = wp_parse_args($args, $this->default_settings);
-        
+        $settings    = wp_parse_args( $args, $this->default_settings );
+        $api_version = isset( $settings['api_version'] ) ? intval( $settings['api_version'] ) : 2;
+
         // Генерируем уникальный ID для карты (или используем переданный)
-        $map_id = !empty($settings['map_id']) ? $settings['map_id'] : 'yandex-map-' . uniqid();
+        $map_id = ! empty( $settings['map_id'] ) ? $settings['map_id'] : 'yandex-map-' . uniqid();
 
         // Удаляем searchControl из массива controls, если опция отключена
         $controls = $settings['controls'];
-        if (!$settings['search_control']) {
-            $key = array_search('searchControl', $controls);
-            if ($key !== false) {
-                unset($controls[$key]);
-                $controls = array_values($controls); // Переиндексируем массив
+        if ( ! $settings['search_control'] ) {
+            $key = array_search( 'searchControl', $controls );
+            if ( $key !== false ) {
+                unset( $controls[ $key ] );
+                $controls = array_values( $controls );
             }
         }
 
         // Подготавливаем маркеры
-        $prepared_markers = $this->prepare_markers($markers, $settings);
-        
+        $prepared_markers = $this->prepare_markers( $markers, $settings );
+
+        // Центр карты: v3 использует [longitude, latitude], v2 — [latitude, longitude]
+        $center = $settings['center'];
+        if ( $api_version === 3 ) {
+            $center = array( $settings['center'][1], $settings['center'][0] );
+        }
+
         // Подготавливаем данные для JavaScript
         $map_data = array(
             'id' => $map_id,
-            'center' => $settings['center'],
+            'center' => $center,
             'zoom' => $settings['zoom'],
             'mapType' => $settings['map_type'],
             'controls' => $controls,
@@ -577,19 +610,37 @@ class Codeweber_Yandex_Maps {
                 'desktopOptimized' => $settings['desktop_optimized'],
                 'screenReaderSupport' => $settings['screen_reader_support'],
             ),
-            'lazyLoad' => $settings['lazy_load'],
+            'lazyLoad'    => $settings['lazy_load'],
             'customStyle' => $settings['custom_style'],
-            'styleJson' => $settings['style_json'],
+            'styleJson'   => $settings['style_json'],
         );
+
+        // v3-специфичные поля
+        if ( $api_version === 3 ) {
+            $map_data['apiVersion']        = 3;
+            $map_data['colorScheme']       = isset( $settings['color_scheme'] ) ? $settings['color_scheme'] : 'light';
+            $map_data['colorSchemeCustom'] = isset( $settings['color_scheme_custom'] ) ? $settings['color_scheme_custom'] : '';
+        }
+
+        // Подключаем нужные скрипты
+        if ( $api_version === 3 ) {
+            wp_enqueue_script( 'yandex-maps-api-v3' );
+            wp_enqueue_script( 'codeweber-yandex-maps-v3' );
+            wp_localize_script( 'codeweber-yandex-maps-v3', 'codeweberYandexMaps', $this->get_i18n_data() );
+            wp_enqueue_style( 'codeweber-yandex-maps' );
+        } else {
+            wp_enqueue_script( 'yandex-maps-api' );
+            wp_enqueue_script( 'codeweber-yandex-maps' );
+        }
 
         // Стили для карты
         $map_style = sprintf(
             'width: %s; height: %spx; border-radius: %spx;',
-            esc_attr($settings['width']),
-            esc_attr($settings['height']),
-            esc_attr($settings['border_radius'])
+            esc_attr( $settings['width'] ),
+            esc_attr( $settings['height'] ),
+            esc_attr( $settings['border_radius'] )
         );
-        
+
         ob_start();
         ?>
         <div class="codeweber-yandex-map-wrapper position-relative w-100" data-map-config="<?php echo esc_attr(wp_json_encode($map_data)); ?>">
