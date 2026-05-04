@@ -216,22 +216,40 @@ function cw_project_map_render( WP_Post $post ): void {
 	$latitude       = get_post_meta( $post->ID, 'main_information_latitude', true );
 	$longitude      = get_post_meta( $post->ID, 'main_information_longitude', true );
 	$zoom           = get_post_meta( $post->ID, 'main_information_zoom', true ) ?: '10';
+	$address        = get_post_meta( $post->ID, 'main_information_address', true );
 	?>
 	<div style="margin-bottom:15px;">
+		<?php if ( ! empty( $yandex_api_key ) ) : ?>
+		<div style="display:flex;gap:8px;margin-bottom:12px;">
+			<input type="text" id="cw-project-map-search" placeholder="<?php esc_attr_e( 'Search address...', 'codeweber' ); ?>"
+				style="flex:1;padding:8px;border:1px solid #8c8f94;border-radius:4px;">
+			<button type="button" id="cw-project-map-search-btn"
+				style="padding:8px 14px;background:#2271b1;color:#fff;border:none;border-radius:4px;cursor:pointer;">
+				<?php esc_html_e( 'Find', 'codeweber' ); ?>
+			</button>
+		</div>
+		<?php endif; ?>
+
 		<div id="project-yandex-map" style="width:100%;height:400px;margin-bottom:15px;"></div>
 
 		<?php if ( ! empty( $yandex_api_key ) ) : ?>
 		<script src="https://api-maps.yandex.ru/v3/?apikey=<?php echo esc_attr( $yandex_api_key ); ?>&lang=ru_RU"></script>
 		<script>
 		(function() {
+			var apiKey    = '<?php echo esc_js( $yandex_api_key ); ?>';
+			var geocodeUrl = 'https://geocode-maps.yandex.ru/1.x/?apikey=' + encodeURIComponent(apiKey) + '&format=json&lang=ru_RU';
+
 			ymaps3.ready.then(function() {
 				var YMap = ymaps3.YMap, YMapDefaultSchemeLayer = ymaps3.YMapDefaultSchemeLayer,
 				    YMapDefaultFeaturesLayer = ymaps3.YMapDefaultFeaturesLayer,
 				    YMapMarker = ymaps3.YMapMarker, YMapListener = ymaps3.YMapListener;
 
-				var latField  = document.querySelector("input[name='main_information_latitude']");
-				var lngField  = document.querySelector("input[name='main_information_longitude']");
-				var zoomField = document.querySelector("input[name='main_information_zoom']");
+				var latField     = document.querySelector("input[name='main_information_latitude']");
+				var lngField     = document.querySelector("input[name='main_information_longitude']");
+				var zoomField    = document.querySelector("input[name='main_information_zoom']");
+				var addressField = document.querySelector("input[name='main_information_address']");
+				var searchInput  = document.getElementById('cw-project-map-search');
+				var searchBtn    = document.getElementById('cw-project-map-search-btn');
 
 				var lat  = parseFloat(latField && latField.value ? latField.value : '55.76') || 55.76;
 				var lng  = parseFloat(lngField && lngField.value ? lngField.value : '37.64') || 37.64;
@@ -267,39 +285,94 @@ function cw_project_map_render( WP_Post $post ): void {
 					}
 				}));
 
+				function reverseGeocode(latVal, lngVal) {
+					if (!addressField) return;
+					fetch(geocodeUrl + '&geocode=' + encodeURIComponent(lngVal + ',' + latVal) + '&results=1')
+						.then(function(r) { return r.json(); })
+						.then(function(d) {
+							var fm = d.response && d.response.GeoObjectCollection && d.response.GeoObjectCollection.featureMember;
+							if (fm && fm.length) {
+								addressField.value = fm[0].GeoObject.metaDataProperty.GeocoderMetaData.text;
+								addressField.dispatchEvent(new Event('input', {bubbles:true}));
+							}
+						}).catch(function() {});
+				}
+
 				function syncFields(latVal, lngVal) {
 					if (latField)  { latField.value  = latVal; latField.dispatchEvent(new Event('input',{bubbles:true})); }
 					if (lngField)  { lngField.value  = lngVal; lngField.dispatchEvent(new Event('input',{bubbles:true})); }
 					if (zoomField) { zoomField.value = Math.round(map.zoom); zoomField.dispatchEvent(new Event('input',{bubbles:true})); }
+					reverseGeocode(latVal, lngVal);
+				}
+
+				function forwardGeocode(query) {
+					if (!query) return;
+					fetch(geocodeUrl + '&geocode=' + encodeURIComponent(query) + '&results=1')
+						.then(function(r) { return r.json(); })
+						.then(function(d) {
+							var fm = d.response && d.response.GeoObjectCollection && d.response.GeoObjectCollection.featureMember;
+							if (!fm || !fm.length) return;
+							var pos = fm[0].GeoObject.Point.pos.split(' ');
+							var foundLng = parseFloat(pos[0]), foundLat = parseFloat(pos[1]);
+							if (isNaN(foundLat) || isNaN(foundLng)) return;
+							marker.update({ coordinates: [foundLng, foundLat] });
+							map.update({ location: { center: [foundLng, foundLat], zoom: 15 } });
+							if (addressField) {
+								addressField.value = fm[0].GeoObject.metaDataProperty.GeocoderMetaData.text;
+								addressField.dispatchEvent(new Event('input', {bubbles:true}));
+							}
+							if (latField)  { latField.value  = foundLat; latField.dispatchEvent(new Event('input',{bubbles:true})); }
+							if (lngField)  { lngField.value  = foundLng; lngField.dispatchEvent(new Event('input',{bubbles:true})); }
+							if (zoomField) { zoomField.value = 15; zoomField.dispatchEvent(new Event('input',{bubbles:true})); }
+						}).catch(function() {});
+				}
+
+				if (searchBtn) {
+					searchBtn.addEventListener('click', function() {
+						forwardGeocode(searchInput ? searchInput.value.trim() : '');
+					});
+				}
+				if (searchInput) {
+					searchInput.addEventListener('keydown', function(e) {
+						if (e.key === 'Enter') { e.preventDefault(); forwardGeocode(searchInput.value.trim()); }
+					});
 				}
 			});
 		})();
 		</script>
 		<?php else : ?>
 		<p style="color:#d63638;padding:10px;background:#fcf0f1;border-left:4px solid #d63638;">
-			<?php esc_html_e( 'API-ключ Яндекс.Карт не настроен. Укажите его в настройках Redux.', 'codeweber' ); ?>
+			<?php esc_html_e( 'Yandex Maps API key is not configured. Set it in Redux settings.', 'codeweber' ); ?>
 		</p>
 		<?php endif; ?>
+	</div>
+
+	<div style="margin-bottom:12px;">
+		<label for="main_information_address" style="display:block;margin-bottom:5px;font-weight:bold;">
+			<?php esc_html_e( 'Address', 'codeweber' ); ?>
+		</label>
+		<input type="text" id="main_information_address" name="main_information_address"
+			value="<?php echo esc_attr( $address ); ?>" style="width:100%;padding:8px;">
 	</div>
 
 	<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
 		<div>
 			<label for="main_information_latitude" style="display:block;margin-bottom:5px;font-weight:bold;">
-				<?php esc_html_e( 'Широта', 'codeweber' ); ?>
+				<?php esc_html_e( 'Latitude', 'codeweber' ); ?>
 			</label>
 			<input type="number" step="any" id="main_information_latitude" name="main_information_latitude"
 				value="<?php echo esc_attr( $latitude ); ?>" style="width:100%;padding:8px;" placeholder="55.7558">
 		</div>
 		<div>
 			<label for="main_information_longitude" style="display:block;margin-bottom:5px;font-weight:bold;">
-				<?php esc_html_e( 'Долгота', 'codeweber' ); ?>
+				<?php esc_html_e( 'Longitude', 'codeweber' ); ?>
 			</label>
 			<input type="number" step="any" id="main_information_longitude" name="main_information_longitude"
 				value="<?php echo esc_attr( $longitude ); ?>" style="width:100%;padding:8px;" placeholder="37.6173">
 		</div>
 		<div>
 			<label for="main_information_zoom" style="display:block;margin-bottom:5px;font-weight:bold;">
-				<?php esc_html_e( 'Масштаб (1–19)', 'codeweber' ); ?>
+				<?php esc_html_e( 'Zoom (1-19)', 'codeweber' ); ?>
 			</label>
 			<input type="number" id="main_information_zoom" name="main_information_zoom"
 				value="<?php echo esc_attr( $zoom ); ?>" min="1" max="19" style="width:100%;padding:8px;" placeholder="10">

@@ -50,6 +50,21 @@ function codeweber_projects_map_modal() {
 		return;
 	}
 
+	// Click handler is always output so href="#" doesn't fire when no projects have coordinates yet.
+	?>
+	<script>
+	document.addEventListener('click', function(e) {
+		var trigger = e.target.closest('[data-project-map]');
+		if (!trigger) return;
+		e.preventDefault();
+		var el = document.getElementById('projects-map-offcanvas');
+		if (el && window.bootstrap) {
+			bootstrap.Offcanvas.getOrCreateInstance(el).show();
+		}
+	});
+	</script>
+	<?php
+
 	if ( ! class_exists( 'Codeweber_Yandex_Maps' ) ) {
 		return;
 	}
@@ -156,15 +171,6 @@ function codeweber_projects_map_modal() {
 	}
 	</style>
 	<script>
-	document.addEventListener('click', function(e) {
-		var trigger = e.target.closest('[data-project-map]');
-		if (!trigger) return;
-		e.preventDefault();
-		var el = document.getElementById('projects-map-offcanvas');
-		if (el && window.bootstrap) {
-			bootstrap.Offcanvas.getOrCreateInstance(el).show();
-		}
-	});
 	document.addEventListener('shown.bs.offcanvas', function(e) {
 		if (e.target.id !== 'projects-map-offcanvas') return;
 		var wrapper = e.target.querySelector('.codeweber-yandex-map-wrapper');
