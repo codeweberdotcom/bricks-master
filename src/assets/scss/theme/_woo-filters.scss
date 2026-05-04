@@ -31,12 +31,6 @@
   }
 }
 
-// ── Two-column checkbox list ───────────────────────────────────────────────────
-
-.cc-2 {
-  column-count: 2;
-  column-gap: .5rem;
-}
 
 // ── form-check как PJAX-ссылка (.cw-filter-check) ─────────────────────────────
 // Структура: div.form-check.cw-filter-check > input.form-check-input + a.form-check-label.pjax-link
