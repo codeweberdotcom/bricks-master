@@ -50,9 +50,6 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
 $excerpt = '';
 if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
     $excerpt = wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...');
-    if (mb_strlen($excerpt) > 116) {
-        $excerpt = mb_substr($excerpt, 0, 113) . '...';
-    }
 }
 
 // Формируем тег и классы для заголовка
