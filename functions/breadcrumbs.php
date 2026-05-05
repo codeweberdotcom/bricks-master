@@ -41,7 +41,7 @@ if (!function_exists('get_breadcrumbs')) {
       if (empty($home_label)) {
          $home_label = __('Главная', 'codeweber');
       }
-      $is_single_context = is_single() || is_singular();
+      $is_single_context = is_singular() && ! is_page();
 
       // Классы для <ol>
       $ol_classes = ['breadcrumb'];
@@ -181,6 +181,8 @@ if (!function_exists('get_breadcrumbs')) {
             });
 
             add_filter('rank_math/frontend/breadcrumb/html', function ($html, $crumbs, $class) use ($color) {
+               $html = str_replace( '<span class="last text-muted">', '<li class="breadcrumb-item active" aria-current="page">', $html );
+               $html = str_replace( '<span class="last">', '<li class="breadcrumb-item active" aria-current="page">', $html );
                $html = str_replace(['<span class="separator">', '</span>', '<span class="text-muted">'], '', $html);
 
                // Применяем стили только если цвет указан
