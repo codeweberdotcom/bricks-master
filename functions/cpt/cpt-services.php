@@ -91,7 +91,7 @@ function cptui_register_my_taxes_service_category()
 		"show_tagcloud" => false,
 		"rest_base" => "service_category",
 		"rest_controller_class" => "WP_REST_Terms_Controller",
-		"show_in_quick_edit" => false,
+		"show_in_quick_edit" => true,
 		"sort" => false,
 		"show_in_graphql" => false,
 	];
@@ -127,7 +127,7 @@ function cptui_register_my_taxes_types_of_services()
 		"show_tagcloud" => false,
 		"rest_base" => "types_of_services",
 		"rest_controller_class" => "WP_REST_Terms_Controller",
-		"show_in_quick_edit" => false,
+		"show_in_quick_edit" => true,
 		"sort" => false,
 		"show_in_graphql" => false,
 	];
