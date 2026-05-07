@@ -34,7 +34,7 @@ $placeholder = get_template_directory_uri() . '/dist/assets/img/image-placeholde
 							</div>
 						</div>
 						<?php if ( $thumb_id ) : ?>
-							<?php echo wp_get_attachment_image( $thumb_id, 'cw_square_xl', false, [
+							<?php echo wp_get_attachment_image( $thumb_id, 'cw_square_lg', false, [
 								'class' => 'w-100 ' . esc_attr( $card_radius ),
 								'alt'   => esc_attr( get_the_title() ),
 							] ); ?>
