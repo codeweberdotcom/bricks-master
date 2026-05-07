@@ -72,7 +72,7 @@ $all_services = new WP_Query( [
 						<figcaption class="p-5">
 							<div class="post-body h-100 d-flex flex-column from-left justify-content-end">
 								<?php if ( $short_desc ) : ?>
-									<p class="mb-3"><?php echo esc_html( $short_desc ); ?></p>
+									<p class="mb-3 d-none d-md-block"><?php echo esc_html( $short_desc ); ?></p>
 								<?php endif; ?>
 								<span class="hover more me-4"><?php esc_html_e( 'More details', 'codeweber' ); ?></span>
 							</div>

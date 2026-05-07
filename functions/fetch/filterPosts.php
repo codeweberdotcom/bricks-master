@@ -784,7 +784,8 @@ function _fp_render_services_grid( $query, $template ) {
 		echo '<figcaption class="p-5">';
 		echo '<div class="post-body h-100 d-flex flex-column from-left justify-content-end">';
 		if ( $short_desc ) {
-			echo '<p class="mb-3">' . esc_html( $short_desc ) . '</p>';
+			$desc_class = ( $template === 'services_5' ) ? 'mb-3 d-none d-md-block' : 'mb-3';
+			echo '<p class="' . esc_attr( $desc_class ) . '">' . esc_html( $short_desc ) . '</p>';
 		}
 		echo '<span class="hover more me-4">' . $read_more . '</span>';
 		echo '</div></figcaption>';
