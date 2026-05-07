@@ -750,8 +750,9 @@ function _fp_apply_services_filters( $args, $filters ) {
 
 function _fp_render_services_grid( $query, $template ) {
 	$card_radius = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'card-radius' ) : 'rounded';
-	$col_class   = ( $template === 'services_4' ) ? 'col-12 col-md-3' : 'col-12 col-md-4';
-	$img_size    = ( $template === 'services_4' ) ? 'cw_square_md' : 'cw_square_lg';
+	$is_4col   = in_array( $template, [ 'services_4', 'services_5' ], true );
+	$col_class = ( $template === 'services_5' ) ? 'col-6 col-md-3' : ( $is_4col ? 'col-12 col-md-3' : 'col-12 col-md-4' );
+	$img_size  = $is_4col ? 'cw_square_md' : 'cw_square_lg';
 	$grid_gap    = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'g-6';
 	$placeholder = get_template_directory_uri() . '/dist/assets/img/image-placeholder.jpg';
 	$read_more   = esc_html__( 'More details', 'codeweber' );
