@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-01-03 10:35+0000\n"
-"PO-Revision-Date: 2026-05-07 12:36+0000\n"
+"PO-Revision-Date: 2026-05-07 14:55+0000\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
 "n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
@@ -124,11 +124,12 @@ msgstr "%d хедеров удалено"
 #: templates/post-cards/taxonomy/overlay-5-primary.php:138
 #: templates/post-cards/taxonomy/overlay-5.php:94
 #: templates/post-cards/taxonomy/overlay-5.php:137
+#, fuzzy
 msgid "%d item"
 msgid_plural "%d items"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d товар"
+msgstr[1] "%d товаров"
+msgstr[2] "%d товаров"
 
 #: functions/integrations/personal-data-v2/test-providers.php:220
 msgid "%d item(s) found"
@@ -275,8 +276,9 @@ msgid "(Email)"
 msgstr "(Email)"
 
 #: functions/cpt/cpt-notifications.php:646
+#, fuzzy
 msgid "(how long to remember completed steps)"
-msgstr ""
+msgstr "(как долго запоминать выполненные шаги)"
 
 #: functions/admin/media-regenerate.php:85
 #, fuzzy
@@ -792,8 +794,9 @@ msgid "Add Staff"
 msgstr "Добавить Сотрудника"
 
 #: functions/cpt/cpt-notifications.php:639
+#, fuzzy
 msgid "Add Step"
-msgstr ""
+msgstr "Добавить шаг"
 
 #: functions/cpt/cpt-faq.php:300
 msgid "Add tags separated by commas"
@@ -905,23 +908,30 @@ msgid "Address Shortcode"
 msgstr "Адрес шорткод"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:904
+#, fuzzy
 msgid "Admin link to event (Event Notification only)"
-msgstr ""
+msgstr "Ссылка администратора на событие (только уведомление о событии)"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:903
+#, fuzzy
 msgid "Admin link to registration record (Event Notification only)"
 msgstr ""
+"Ссылка администратора на запись регистрации (только уведомление о событии)"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:33
 msgid "Admin Notification"
 msgstr "Уведомление администратора"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1107
+#, fuzzy
 msgid ""
 "Admin notification email sent when someone registers for an event. Available "
 "variables: {event_title}, {reg_details}, {reg_name}, {reg_email}, "
 "{reg_admin_url}, {event_admin_url}."
 msgstr ""
+"Административное уведомление по электронной почте отправляется при "
+"регистрации на мероприятие. Доступные переменные: {event_title}, "
+"{reg_details}, {reg_name}, {reg_email}, {reg_admin_url}, {event_admin_url}."
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:874
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:921
@@ -1348,8 +1358,9 @@ msgid "Apply"
 msgstr "Применить"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1219
+#, fuzzy
 msgid "Apply a preset design — overwrites current template."
-msgstr ""
+msgstr "Применить предустановленный дизайн - перезаписывает текущий шаблон."
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:848
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:991
@@ -1667,8 +1678,9 @@ msgid "Background Color"
 msgstr "Цвет фона"
 
 #: functions/admin/projects-settings.php:161
+#, fuzzy
 msgid "Background color"
-msgstr ""
+msgstr "Цвет фона"
 
 #: redux-framework/sample/metaboxes.php:502
 #: redux-framework/sample/sections/codeweber/body-bg.php:90
@@ -1859,8 +1871,9 @@ msgid "Block"
 msgstr "Блок"
 
 #: functions/admin/admin-gutenberg.php:9
+#, fuzzy
 msgid "Block Patterns"
-msgstr ""
+msgstr "Блочные шаблоны"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:150
 msgid "Block Restriction Mode"
@@ -1910,8 +1923,9 @@ msgid "Book Now"
 msgstr "Забронировать сейчас"
 
 #: functions/post-cards-registry.php:281
+#, fuzzy
 msgid "Bootstrap card, no overlay icons on image"
-msgstr ""
+msgstr "Карточка Bootstrap, без значков наложения на изображении"
 
 #: redux-framework/sample/metaboxes.php:618
 msgid "Bootstrap Modal Options"
@@ -1955,8 +1969,9 @@ msgid "Bottombar"
 msgstr "Нижняя панель"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1218
+#, fuzzy
 msgid "Branded"
-msgstr ""
+msgstr "Фирменный"
 
 #: redux-framework/sample/sections/codeweber/page-header.php:270
 msgid "Breadcrumb Background Color"
@@ -2314,8 +2329,9 @@ msgid "CF7"
 msgstr "CF7"
 
 #: functions/cpt/cpt-notifications.php:736
+#, fuzzy
 msgid "CF7 Form Submit"
-msgstr ""
+msgstr "Отправка формы CF7"
 
 #: functions/cpt/cpt-notifications.php:406
 msgid "CF7 Form Success"
@@ -2327,12 +2343,14 @@ msgstr "Формы CF7"
 
 #: functions/admin/term-thumbnail.php:105
 #: functions/admin/term-thumbnail.php:244
+#, fuzzy
 msgid "Change image"
-msgstr ""
+msgstr "Изменить изображение"
 
 #: redux-framework/sample/sections/codeweber/api.php:116
+#, fuzzy
 msgid "Chat / Channel ID"
-msgstr ""
+msgstr "Чат / ID канала"
 
 #: functions/woocommerce/states-ru.php:23
 msgid "Chechnya"
@@ -2663,8 +2681,9 @@ msgid "Codeweber form not found."
 msgstr "Форма Codeweber не найдена."
 
 #: functions/cpt/cpt-notifications.php:735
+#, fuzzy
 msgid "CodeWeber Form Submit"
-msgstr ""
+msgstr "Отправка формы CodeWeber"
 
 #: functions/cpt/cpt-notifications.php:403
 msgid "Codeweber Form Success"
@@ -2819,8 +2838,9 @@ msgid "Company Name (optional)"
 msgstr "Название компании (необязательно)"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:964
+#, fuzzy
 msgid "Company short"
-msgstr ""
+msgstr "Краткое название компании"
 
 #: functions/cpt/cpt-clients.php:163 functions/cpt/cpt-clients.php:240
 msgid "Company URL"
@@ -2864,8 +2884,9 @@ msgid "Compliance Mode"
 msgstr "Режим соответствия"
 
 #: functions/cpt/cpt-notifications.php:632
+#, fuzzy
 msgid "Composite Trigger Chain"
-msgstr ""
+msgstr "Составная цепочка триггеров"
 
 #: functions/integrations/cf7/cf7-consents-panel.php:284
 #, fuzzy
@@ -3012,8 +3033,9 @@ msgstr ""
 "\"Оставить отзыв\")."
 
 #: functions/admin/documents-settings.php:51
+#, fuzzy
 msgid "Consent checkboxes shown in the document email form."
-msgstr ""
+msgstr "Флажки согласия, отображаемые в форме электронной почты документа."
 
 #: functions/admin/faq-settings.php:96
 #, fuzzy
@@ -3227,8 +3249,9 @@ msgid "Cookie Expiration Date"
 msgstr "Срок действия Cookie-файла*"
 
 #: functions/cpt/cpt-notifications.php:643
+#, fuzzy
 msgid "Cookie Lifetime"
-msgstr ""
+msgstr "Срок действия файлов cookie"
 
 #: functions/admin/admin_privacy.php:1379
 #, fuzzy
@@ -3286,8 +3309,9 @@ msgid "Could not read file."
 msgstr "Не удалось прочитать файл."
 
 #: functions/cpt/cpt-notifications.php:610
+#, fuzzy
 msgid "Count Reset"
-msgstr ""
+msgstr "Сброс счетчика"
 
 #: functions/cpt/cpt-offices.php:213 functions/cpt/cpt-staff.php:265
 #: woocommerce/order/order-details-customer.php:38
@@ -3652,10 +3676,13 @@ msgid "CSS"
 msgstr "CSS"
 
 #: functions/admin/projects-settings.php:438
+#, fuzzy
 msgid ""
 "CSS class added to the section wrapper. Default: no background (inherits "
 "page color)."
 msgstr ""
+"CSS-класс, добавленный к обертке секции. По умолчанию: нет фона (наследует "
+"цвет страницы)."
 
 #: redux-framework/sample/sections/codeweber/style.php:261
 #, fuzzy
@@ -3710,8 +3737,9 @@ msgid "Custom"
 msgstr "Пользовательский"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:437
+#, fuzzy
 msgid "Custom (JSON)"
-msgstr ""
+msgstr "Пользовательский (JSON)"
 
 #: functions/cpt/cpt-testimonials.php:190
 msgid "Custom (Manual Entry)"
@@ -3893,8 +3921,11 @@ msgstr "Темный Логотип"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:893
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:894
+#, fuzzy
 msgid "Dark logo (or site name fallback) — Email Wrapper only"
 msgstr ""
+"Темный логотип (или резервное отображение названия сайта) - Только обертка "
+"электронной почты"
 
 #: functions/integrations/ajax-search-module/search-statistics.php:368
 msgid "Data cleared successfully"
@@ -4030,8 +4061,9 @@ msgid "Default Clickable"
 msgstr "По умолчанию кликабельный"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:428
+#, fuzzy
 msgid "Default Color Scheme"
-msgstr ""
+msgstr "Цветовая схема по умолчанию"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:140
 #, fuzzy
@@ -4641,16 +4673,19 @@ msgid "Distance from top edge (enter number in px or \"auto\")"
 msgstr "Расстояние от верхнего края (введите число в px или \"auto\")"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1100
+#, fuzzy
 msgid "Doc image"
-msgstr ""
+msgstr "Изображение документа"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1099
+#, fuzzy
 msgid "Doc link"
-msgstr ""
+msgstr "Ссылка на документ"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1098
+#, fuzzy
 msgid "Doc title"
-msgstr ""
+msgstr "Название документа"
 
 #: functions/admin/documents-settings.php:149
 #: functions/admin/documents-settings.php:201
@@ -4685,14 +4720,16 @@ msgid "Document Category"
 msgstr "Категория Документов"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:897
+#, fuzzy
 msgid "Document download link (Document Email only)"
-msgstr ""
+msgstr "Ссылка для скачивания документа (только по электронной почте)"
 
 #: functions/cpt/cpt-documents.php:1224
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:441
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:38
+#, fuzzy
 msgid "Document Email"
-msgstr ""
+msgstr "Документ Электронная почта"
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:843
 #, fuzzy
@@ -4739,12 +4776,16 @@ msgstr "Документ успешно отправлен!"
 
 #: functions/admin/documents-settings.php:22
 #: functions/admin/documents-settings.php:308
+#, fuzzy
 msgid "Document Settings"
-msgstr ""
+msgstr "Настройки документа"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:898
+#, fuzzy
 msgid "Document thumbnail linked to download (Document Email only)"
 msgstr ""
+"Миниатюра документа, связанная со скачиванием (только для электронной почты "
+"с документом)"
 
 #: functions/integrations/personal-data-v2/providers/class-consent-provider.php:541
 #, fuzzy
@@ -4752,8 +4793,9 @@ msgid "Document Title"
 msgstr "Заголовок документа"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:896
+#, fuzzy
 msgid "Document title (Document Email only)"
-msgstr ""
+msgstr "Название документа (только для электронного письма с документом)"
 
 #: functions/cpt/cpt-documents.php:94
 msgid "Document Type"
@@ -5146,12 +5188,14 @@ msgid "Email Admin"
 msgstr "Электронная почта администратору"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1144
+#, fuzzy
 msgid "Email body"
-msgstr ""
+msgstr "Тело письма"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:891
+#, fuzzy
 msgid "Email body content (Email Wrapper only)"
-msgstr ""
+msgstr "Содержимое тела письма (только оболочка письма)"
 
 #: functions/admin/events-settings.php:330
 #, fuzzy
@@ -5189,10 +5233,14 @@ msgid "Email sending failed."
 msgstr "Не удалось отправить Email."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1093
+#, fuzzy
 msgid ""
 "Email sent to the user when they request a document. Available variables: "
 "{document_title}, {document_link}, {document_image}, {site_name}, {site_url}."
 msgstr ""
+"Электронное письмо, отправляемое пользователю при запросе документа. "
+"Доступные переменные: {document_title}, {document_link}, {document_image}, "
+"{site_name}, {site_url}."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:31
 msgid "Email Settings"
@@ -5235,8 +5283,9 @@ msgid "email was not delivered"
 msgstr "письмо не доставлено"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:40
+#, fuzzy
 msgid "Email Wrapper"
-msgstr ""
+msgstr "Обертка для электронной почты"
 
 #: functions/cpt/cpt-events.php:446
 #, fuzzy
@@ -5480,12 +5529,14 @@ msgstr ""
 "данные для него:"
 
 #: functions/admin/api-test.php:153
+#, fuzzy
 msgid "Enter Bot Token and save settings, or enter the key in the field"
-msgstr ""
+msgstr "Введите токен бота и сохраните настройки, или введите ключ в поле"
 
 #: functions/admin/api-test.php:157
+#, fuzzy
 msgid "Enter Chat / Channel ID"
-msgstr ""
+msgstr "Введите ID чата / канала"
 
 #: functions/cpt/cpt-clients.php:156
 msgid "Enter company name"
@@ -5609,8 +5660,9 @@ msgid "Error saving fonts: "
 msgstr "Ошибка при сохранении шрифтов:"
 
 #: functions/admin/image-canvas-editor.php:67
+#, fuzzy
 msgid "Error saving image"
-msgstr ""
+msgstr "Ошибка сохранения изображения"
 
 #: functions/enqueues.php:265
 msgid "Error sending email. Please try again."
@@ -5668,8 +5720,9 @@ msgid "Event"
 msgstr "Событие"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1117
+#, fuzzy
 msgid "Event admin URL"
-msgstr ""
+msgstr "URL администратора события"
 
 #: functions/post-cards-registry.php:150
 #, fuzzy
@@ -5718,8 +5771,9 @@ msgid "Event Map"
 msgstr "Карта Мероприятий"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:39
+#, fuzzy
 msgid "Event Notification"
-msgstr ""
+msgstr "Уведомление о событии"
 
 #: functions/cpt/cpt-events.php:39
 msgid "Event published"
@@ -5770,12 +5824,14 @@ msgid "Event Report Text"
 msgstr "Отчет о событии"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1112
+#, fuzzy
 msgid "Event title"
-msgstr ""
+msgstr "Название события"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:899
+#, fuzzy
 msgid "Event title (Event Notification only)"
-msgstr ""
+msgstr "Название события (только для уведомления о событии)"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1092
 msgid "Event Type"
@@ -5811,8 +5867,9 @@ msgid "Events Settings"
 msgstr "Настройки мероприятий"
 
 #: redux-framework/sample/sections/codeweber/api.php:123
+#, fuzzy
 msgid "Events to notify"
-msgstr ""
+msgstr "События для уведомления"
 
 #: functions/cpt/cpt-faq.php:574
 msgid "Example"
@@ -5992,8 +6049,9 @@ msgid "Failed to load avatar for \"%s\""
 msgstr "Не удалось загрузить аватар для \"%s\""
 
 #: functions/admin/image-canvas-editor.php:69
+#, fuzzy
 msgid "Failed to load image"
-msgstr ""
+msgstr "Не удалось загрузить изображение"
 
 #: functions/woocommerce/quick-view.php:140
 #, fuzzy
@@ -6467,8 +6525,9 @@ msgid "Footer 4"
 msgstr "Футер 4"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1137
+#, fuzzy
 msgid "Footer Background"
-msgstr ""
+msgstr "Фон подвала"
 
 #: redux-framework/sample/sections/codeweber/footer.php:322
 #, fuzzy
@@ -6676,8 +6735,9 @@ msgid "Form Fields"
 msgstr "Поля формы"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1025
+#, fuzzy
 msgid "Form fields"
-msgstr ""
+msgstr "Поля формы"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:1716
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:632
@@ -6788,8 +6848,9 @@ msgid "Form Submissions"
 msgstr "Заполнение форм"
 
 #: redux-framework/sample/sections/codeweber/api.php:127
+#, fuzzy
 msgid "Form submissions (CodeWeber Forms)"
-msgstr ""
+msgstr "Отправки форм (CodeWeber Forms)"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-core.php:42
 msgid "Form submitted successfully!"
@@ -6932,8 +6993,10 @@ msgid "Full address"
 msgstr "Полный адрес"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1238
+#, fuzzy
 msgid "Full HTML document. Saved as-is — TinyMCE is not used here."
 msgstr ""
+"Полный HTML-документ. Сохранен как есть - TinyMCE здесь не используется."
 
 #: redux-framework/sample/sections/codeweber/legal.php:50
 msgid ""
@@ -7066,8 +7129,9 @@ msgid "Get in Touch"
 msgstr "Связаться с нами"
 
 #: redux-framework/sample/sections/codeweber/api.php:109
+#, fuzzy
 msgid "Get token from @BotFather: /newbot"
-msgstr ""
+msgstr "Получите токен от @BotFather: /newbot"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:158
 #: redux-framework/sample/sections/codeweber/socials.php:247
@@ -7107,8 +7171,11 @@ msgstr ""
 "переопределения."
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:429
+#, fuzzy
 msgid "Global map color scheme. Can be overridden per block in the editor."
 msgstr ""
+"Цветовая схема глобальной карты. Может быть переопределена для каждого блока "
+"в редакторе."
 
 #: redux-framework/sample/sections/codeweber/body-bg.php:24
 #, fuzzy
@@ -7227,8 +7294,9 @@ msgid "Gray Dot"
 msgstr "Серый точка"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:433
+#, fuzzy
 msgid "Grayscale"
-msgstr ""
+msgstr "Оттенки серого"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:283
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:238
@@ -7322,8 +7390,9 @@ msgid "Header"
 msgstr "Хедер"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1131
+#, fuzzy
 msgid "Header Background"
-msgstr ""
+msgstr "Фон заголовка"
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:487
 #, php-format
@@ -7529,20 +7598,29 @@ msgid "Horizontal"
 msgstr "Горизонтальный"
 
 #: functions/post-cards-registry.php:286
+#, fuzzy
 msgid ""
 "Horizontal card (copy of shop-list-sm) with wishlist, quick view, compare, "
 "badges"
 msgstr ""
+"Горизонтальная карточка (копия shop-list-sm) с вишлистом, быстрым просмотром,"
+" сравнением, бейджами"
 
 #: functions/post-cards-registry.php:301
+#, fuzzy
 msgid "Horizontal card that stays horizontal on all screen sizes"
 msgstr ""
+"Горизонтальная карточка, которая остается горизонтальной на всех размерах "
+"экрана"
 
 #: functions/post-cards-registry.php:172
+#, fuzzy
 msgid ""
 "Horizontal card: image left, address/contacts right. Stays horizontal on all "
 "screen sizes."
 msgstr ""
+"Горизонтальная карточка: изображение слева, адрес/контакты справа. Остается "
+"горизонтальной на всех размерах экрана."
 
 #: redux-framework/sample/sections/codeweber/style.php:477
 #, fuzzy
@@ -7570,8 +7648,11 @@ msgid "Horizontal — thumbs below; Vertical — thumbs on the side"
 msgstr "Горизонтальный - миниатюры снизу; Вертикальный - миниатюры сбоку"
 
 #: functions/post-cards-registry.php:296
+#, fuzzy
 msgid "Horizontal: image 1/3, content 2/3 (stacks on mobile)"
 msgstr ""
+"Горизонтально: изображение 1/3, контент 2/3 (переносится на мобильных "
+"устройствах)"
 
 #: redux-framework/sample/sections/codeweber/tracking-metrics.php:79
 msgid "Hotjar"
@@ -7583,19 +7664,24 @@ msgid "Hotjar Settings"
 msgstr "Настройки Hotjar"
 
 #: functions/cpt/cpt-projects-meta.php:695
+#, fuzzy
 msgid "Hotspot Annotation"
-msgstr ""
+msgstr "Аннотация точки доступа"
 
 #: functions/cpt/cpt-notifications.php:622
 #: functions/cpt/cpt-notifications.php:645
+#, fuzzy
 msgid "hours"
-msgstr ""
+msgstr "часы работы"
 
 #: functions/cpt/cpt-notifications.php:623
+#, fuzzy
 msgid ""
 "Hours before the firing counter resets. 0 = session cookie (resets on "
 "browser close). Default: 720 (30 days)"
 msgstr ""
+"Часы до сброса счетчика блокировок. 0 = сессионное cookie (сбрасывается при "
+"закрытии браузера). По умолчанию: 720 (30 дней)"
 
 #: redux-framework/sample/sections/codeweber/company-details.php:126
 #: redux-framework/sample/sections/codeweber/company-details.php:188
@@ -7618,16 +7704,22 @@ msgid "How it works"
 msgstr "Как это работает"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:305
+#, fuzzy
 msgid ""
 "How long (minutes) before the same email address can request the same "
 "document again. Default: 10."
 msgstr ""
+"Через сколько минут (в минутах) один и тот же адрес электронной почты сможет "
+"снова запросить тот же документ. По умолчанию: 10."
 
 #: functions/cpt/cpt-notifications.php:605
+#, fuzzy
 msgid ""
 "How many times this notification can fire per visitor. 0 = unlimited. "
 "Default: 1"
 msgstr ""
+"Сколько раз это уведомление может сработать на одного посетителя. 0 = "
+"неограниченно. По умолчанию: 1"
 
 #: functions/integrations/personal-data-v2/test-providers.php:261
 #, fuzzy
@@ -7895,8 +7987,9 @@ msgstr "Изображение"
 
 #: functions/admin/image-canvas-editor.php:16
 #: functions/admin/image-canvas-editor.php:26
+#, fuzzy
 msgid "Image Canvas Editor"
-msgstr ""
+msgstr "Редактор холста изображения"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:778
 #, fuzzy
@@ -8045,8 +8138,9 @@ msgid "Inline (in sidebar)"
 msgstr "Встроенный (в боковой панели)"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:965
+#, fuzzy
 msgid "INN"
-msgstr ""
+msgstr "ИНН"
 
 #: functions/integrations/cf7/cf7-consents-panel.php:852
 msgid "Insert consent checkboxes shortcode"
@@ -8083,8 +8177,9 @@ msgstr ""
 "cookies-found.json или их варианты -ru)."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1224
+#, fuzzy
 msgid "Insert:"
-msgstr ""
+msgstr "Вставить:"
 
 #: templates/singles/staff/staff_4.php:193
 #: templates/singles/staff/staff_5.php:216
@@ -8288,8 +8383,9 @@ msgid "Invalid user ID"
 msgstr "Неверный ID пользователя"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1030
+#, fuzzy
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:602
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:120
@@ -8613,12 +8709,15 @@ msgid "Leave empty to use default translation"
 msgstr "Оставить пустым для использования перевода по умолчанию"
 
 #: functions/admin/documents-settings.php:264
+#, fuzzy
 msgid "Leave empty to use the default message."
-msgstr ""
+msgstr "Оставьте пустым, чтобы использовать сообщение по умолчанию."
 
 #: functions/admin/projects-settings.php:419
+#, fuzzy
 msgid "Leave empty to use the default title «Project products»."
 msgstr ""
+"Оставьте пустым, чтобы использовать заголовок по умолчанию «Товары проекта»."
 
 #: functions/testimonials/testimonial-form-api.php:167
 #: functions/testimonials/testimonial-form-api.php:208
@@ -8808,13 +8907,19 @@ msgid "Light Logo"
 msgstr "Светлый Логотип"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:895
+#, fuzzy
 msgid "Light logo (or dark logo fallback) — Email Wrapper only"
 msgstr ""
+"Светлый логотип (или темный логотип в качестве запасного) - Только обертка "
+"электронной почты"
 
 #: functions/admin/documents-settings.php:71
+#, fuzzy
 msgid ""
 "Limit how often documents can be sent by email. Set 0 to disable a limit."
 msgstr ""
+"Ограничьте частоту отправки документов по электронной почте. Установите 0 "
+"для отключения лимита."
 
 #: redux-framework/sample/sections/codeweber/api.php:85
 msgid "Link to SMS RU Documentation"
@@ -8948,12 +9053,14 @@ msgid "Logo"
 msgstr "Логотип"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1145
+#, fuzzy
 msgid "Logo (dark)"
-msgstr ""
+msgstr "Логотип (темный)"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1146
+#, fuzzy
 msgid "Logo (light)"
-msgstr ""
+msgstr "Логотип (светлый)"
 
 #: redux-framework/sample/metaboxes.php:382
 msgid "Logo Dark Footer w/ URL"
@@ -9065,8 +9172,9 @@ msgid "Main wrapper"
 msgstr "Основная обертка"
 
 #: functions/admin/image-canvas-editor.php:68
+#, fuzzy
 msgid "Make square"
-msgstr ""
+msgstr "Сделать квадратным"
 
 #: functions/integrations/image-licenses/image-licenses.php:269
 msgid "Manage authors"
@@ -9151,8 +9259,9 @@ msgid "marked as unread"
 msgstr "помечено как непрочитанное"
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:178
+#, fuzzy
 msgid "Marker Click Zoom"
-msgstr ""
+msgstr "Маркер Клик Масштаб"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:173
 msgid "Marker Color"
@@ -9219,20 +9328,25 @@ msgid "Max"
 msgstr "Макс"
 
 #: functions/admin/documents-settings.php:257
+#, fuzzy
 msgid "Max documents sent to one email address per time window. 0 = unlimited."
 msgstr ""
+"Максимальное количество документов, отправленных на один адрес электронной "
+"почты за временной интервал. 0 = неограниченно."
 
 #: functions/cpt/cpt-notifications.php:593
+#, fuzzy
 msgid "Max Firings"
-msgstr ""
+msgstr "Максимальное количество увольнений"
 
 #: functions/cpt/cpt-events.php:358
 msgid "Max Participants"
 msgstr "Максимальное число участников"
 
 #: functions/admin/documents-settings.php:87
+#, fuzzy
 msgid "Max sends per email address"
-msgstr ""
+msgstr "Макс. отправлений на адрес электронной почты"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:86
 #, fuzzy
@@ -9321,8 +9435,9 @@ msgid "Message"
 msgstr "Сообщение"
 
 #: functions/admin/api-test.php:185
+#, fuzzy
 msgid "Message sent successfully"
-msgstr ""
+msgstr "Сообщение успешно отправлено"
 
 #: functions/integrations/modal/success-message-template.php:25
 msgid "Message sent successfully."
@@ -9347,8 +9462,9 @@ msgid "Message template. Available variables:"
 msgstr "Шаблон сообщения. Доступные переменные:"
 
 #: functions/admin/documents-settings.php:97
+#, fuzzy
 msgid "Messages"
-msgstr ""
+msgstr "Сообщения"
 
 #: redux-framework/sample/sections/codeweber/legal.php:277
 #: redux-framework/sample/sections/codeweber/legal.php:338
@@ -9393,8 +9509,9 @@ msgid "min"
 msgstr "мин"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:304
+#, fuzzy
 msgid "min."
-msgstr ""
+msgstr "мин."
 
 #: functions/cpt/cpt-documents.php:293
 msgid "min. px"
@@ -9426,8 +9543,9 @@ msgstr ""
 "Минимальная ширина экрана, при которой становится видимой боковая панель."
 
 #: functions/admin/documents-settings.php:250
+#, fuzzy
 msgid "minutes"
-msgstr ""
+msgstr "минут"
 
 #: functions/integrations/s3-storage/inc/views/settings.php:108
 #, fuzzy
@@ -9778,8 +9896,9 @@ msgid "New newsletter subscription"
 msgstr "Новая подписка на рассылку"
 
 #: redux-framework/sample/sections/codeweber/api.php:129
+#, fuzzy
 msgid "New newsletter subscriptions"
-msgstr ""
+msgstr "Новые подписки на рассылку"
 
 #: functions/cpt/cpt-notifications.php:17
 msgid "New Notification"
@@ -9812,8 +9931,9 @@ msgid "New Project"
 msgstr "Новый проект"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:866
+#, fuzzy
 msgid "New registration for event:"
-msgstr ""
+msgstr "Новая регистрация на мероприятие:"
 
 #. %s: event title
 #: functions/events/event-registration-api.php:456
@@ -9829,8 +9949,9 @@ msgstr "Новая заявка: %s"
 
 #: functions/events/event-registration-api.php:443
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:951
+#, fuzzy
 msgid "New registration: {event_title}"
-msgstr ""
+msgstr "Новая регистрация: {event_title}"
 
 #: functions/cpt/cpt-services.php:16
 msgid "New Service"
@@ -9864,8 +9985,9 @@ msgid "New Vacancy"
 msgstr "Новая вакансия"
 
 #: redux-framework/sample/sections/codeweber/api.php:128
+#, fuzzy
 msgid "New WooCommerce orders"
-msgstr ""
+msgstr "Новые заказы WooCommerce"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:429
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:878
@@ -10364,8 +10486,9 @@ msgid "No product data found."
 msgstr "Данные о товарах не найдены."
 
 #: functions/admin/image-canvas-editor.php:82
+#, fuzzy
 msgid "No product images found."
-msgstr ""
+msgstr "Изображения товаров не найдены."
 
 #: templates/archives/projects/projects_1.php:83
 #: templates/archives/projects/projects_2.php:84
@@ -10410,8 +10533,9 @@ msgstr "Мест нет"
 #: templates/archives/services/services_3.php:92
 #: templates/archives/services/services_4.php:92
 #: templates/archives/services/services_5.php:92
+#, fuzzy
 msgid "No services found."
-msgstr ""
+msgstr "Услуги не найдены."
 
 #: functions/cpt/cpt-offices.php:690
 msgid "No services found. Please create services first."
@@ -10506,8 +10630,9 @@ msgid "none"
 msgstr "Нет"
 
 #: functions/admin/projects-settings.php:425
+#, fuzzy
 msgid "None (transparent)"
-msgstr ""
+msgstr "Нет (прозрачный)"
 
 #: redux-framework/sample/sections/codeweber/style.php:441
 #, fuzzy
@@ -10524,8 +10649,9 @@ msgid "Not Active"
 msgstr "Не активен"
 
 #: functions/admin/image-canvas-editor.php:95
+#, fuzzy
 msgid "Not an image."
-msgstr ""
+msgstr "Не изображение."
 
 #: functions/admin/projects-settings.php:397
 #, fuzzy
@@ -10658,9 +10784,12 @@ msgid "Number of visible thumbnails (3–8)"
 msgstr "Количество видимых миниатюр (3-8)"
 
 #: redux-framework/sample/sections/codeweber/api.php:117
+#, fuzzy
 msgid ""
 "Numeric ID (-100…) or @channel_username. The bot must be added to the chat."
 msgstr ""
+"Числовой ID (-100…) или @имя_пользователя_канала. Бот должен быть добавлен в "
+"чат."
 
 #: functions/bootstrap/bootstrap_share-page.php:257
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:125
@@ -10713,12 +10842,14 @@ msgid "Office Information"
 msgstr "Информация о офисе"
 
 #: functions/post-cards-registry.php:171
+#, fuzzy
 msgid "Office List SM"
-msgstr ""
+msgstr "Список офисов СМ"
 
 #: functions/post-cards-registry.php:176
+#, fuzzy
 msgid "Office List SM Text"
-msgstr ""
+msgstr "Список офисов СМ Текст"
 
 #: templates/singles/offices/offices_2.php:228
 #, fuzzy
@@ -10796,8 +10927,9 @@ msgid "Offset settings for tablet devices (≥768px and <992px)"
 msgstr "Настройки отступов для планшетов (≥768px и <992px)"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:966
+#, fuzzy
 msgid "OGRN"
-msgstr ""
+msgstr "ОГРН"
 
 #: redux-framework/sample/sections/codeweber/legal.php:56
 msgid "OGRN/OGRNIP"
@@ -10980,8 +11112,9 @@ msgid "Optimize map for touch interactions"
 msgstr "Оптимизировать карту для сенсорных взаимодействий"
 
 #: functions/admin/term-thumbnail.php:81 functions/admin/term-thumbnail.php:111
+#, fuzzy
 msgid "Optional thumbnail for this term."
-msgstr ""
+msgstr "Необязательная миниатюра для этого термина."
 
 #: functions/cpt/cpt-testimonials.php:277
 msgid "Optional: Override company name for this testimonial"
@@ -11105,8 +11238,9 @@ msgid "Overlay 5"
 msgstr "Поверхность 5"
 
 #: functions/post-cards-registry.php:244
+#, fuzzy
 msgid "Overlay 5 (p-10)"
-msgstr ""
+msgstr "Наложение 5 (p-10)"
 
 #: functions/post-cards-registry.php:65 functions/post-cards-registry.php:223
 #: functions/post-cards-registry.php:239 functions/post-cards-registry.php:265
@@ -11115,8 +11249,9 @@ msgid "Overlay 5 Primary"
 msgstr "Наложение 5 Основной"
 
 #: functions/post-cards-registry.php:249
+#, fuzzy
 msgid "Overlay 5 Primary (p-10)"
-msgstr ""
+msgstr "Наложение 5 Основной (p-10)"
 
 #: functions/post-cards-registry.php:61
 msgid "Overlay effect with 90% opacity and bottom overlay for date"
@@ -11153,8 +11288,9 @@ msgid "Page %d"
 msgstr "Страница %d"
 
 #: functions/cpt/cpt-notifications.php:733
+#, fuzzy
 msgid "Page / Post Visit"
-msgstr ""
+msgstr "Посещение страницы / записи"
 
 #: functions/woocommerce/compare/functions.php:172
 #: functions/woocommerce/wishlist/functions.php:126
@@ -11232,8 +11368,9 @@ msgid "Page Headers"
 msgstr "Заголовки"
 
 #: functions/cpt/cpt-notifications.php:771
+#, fuzzy
 msgid "Page ID or «home»"
-msgstr ""
+msgstr "ID страницы или «главная»"
 
 #: redux-framework/sample/sections/codeweber/style.php:184
 #: redux-framework/sample/sections/codeweber/style.php:192
@@ -11309,8 +11446,9 @@ msgid "Pagination"
 msgstr "Пагинация"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:434
+#, fuzzy
 msgid "Pale"
-msgstr ""
+msgstr "Бледный"
 
 #: functions/cpt/cpt-faq.php:571
 #: functions/integrations/codeweber-forms/codeweber-forms-utm.php:108
@@ -11484,8 +11622,9 @@ msgid "Pattern Repeat"
 msgstr "Повтор узора"
 
 #: functions/admin/admin-gutenberg.php:7
+#, fuzzy
 msgid "Patterns"
-msgstr ""
+msgstr "Шаблоны"
 
 #: functions/integrations/s3-storage/inc/views/tools.php:71
 #, fuzzy
@@ -11694,8 +11833,9 @@ msgid "Phone 05"
 msgstr "Телефон 05"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:958
+#, fuzzy
 msgid "Phone 1"
-msgstr ""
+msgstr "Телефон 1"
 
 #: functions/cpt/cpt-offices.php:324 templates/singles/offices/default.php:186
 #: templates/singles/offices/offices_1.php:218
@@ -11706,16 +11846,19 @@ msgid "Phone 2"
 msgstr "Телефон 2"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:960
+#, fuzzy
 msgid "Phone 3"
-msgstr ""
+msgstr "Телефон 3"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:961
+#, fuzzy
 msgid "Phone 4"
-msgstr ""
+msgstr "Телефон 4"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:962
+#, fuzzy
 msgid "Phone 5"
-msgstr ""
+msgstr "Телефон 5"
 
 #: functions/admin/faq-settings.php:84
 #, fuzzy
@@ -11918,8 +12061,9 @@ msgstr ""
 "вид» > «Виджеты»."
 
 #: functions/cpt/cpt-documents.php:1153
+#, fuzzy
 msgid "Please wait before requesting more documents."
-msgstr ""
+msgstr "Пожалуйста, подождите, прежде чем запрашивать больше документов."
 
 #: functions/cpt/cpt-clients.php:81
 #, fuzzy
@@ -12233,8 +12377,9 @@ msgid "Product Video"
 msgstr "Видео о товаре"
 
 #: functions/admin/projects-settings.php:146
+#, fuzzy
 msgid "Products block"
-msgstr ""
+msgstr "Блок товаров"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:920
 #, fuzzy
@@ -12679,20 +12824,24 @@ msgid "Referrer"
 msgstr "Реферер"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1116
+#, fuzzy
 msgid "Reg admin URL"
-msgstr ""
+msgstr "URL администратора"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1113
+#, fuzzy
 msgid "Reg details"
-msgstr ""
+msgstr "Регистрационные данные"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1115
+#, fuzzy
 msgid "Reg email"
-msgstr ""
+msgstr "Рег. эл. почта"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1114
+#, fuzzy
 msgid "Reg name"
-msgstr ""
+msgstr "Имя регистрации"
 
 #: redux-framework/sample/sections/codeweber/smtp.php:33
 #, fuzzy
@@ -12761,12 +12910,14 @@ msgid "Registered User"
 msgstr "Зарегистрированный пользователь"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:902
+#, fuzzy
 msgid "Registrant email (Event Notification only)"
-msgstr ""
+msgstr "Email регистранта (только уведомления о событии)"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:901
+#, fuzzy
 msgid "Registrant name (Event Notification only)"
-msgstr ""
+msgstr "Имя регистранта (только уведомление о событии)"
 
 #: functions/events/event-registrations.php:67
 msgid "Registration"
@@ -12790,10 +12941,13 @@ msgid "Registration Details"
 msgstr "Детали заявки"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:900
+#, fuzzy
 msgid ""
 "Registration details table: name, email, phone, seats, message (Event "
 "Notification only)"
 msgstr ""
+"Таблица сведений о регистрации: имя, email, телефон, места, сообщение "
+"(только уведомление о событии)"
 
 #: functions/admin/events-settings.php:72
 msgid "Registration Form"
@@ -12985,10 +13139,13 @@ msgstr ""
 "Заменить существующий текст метки на текст по умолчанию для этого документа?"
 
 #: functions/cpt/cpt-notifications.php:634
+#, fuzzy
 msgid ""
 "Replace single trigger with a sequential chain. Steps must fire in order. "
 "Cookie remembers completed steps."
 msgstr ""
+"Замените одиночный триггер на последовательную цепочку. Шаги должны "
+"срабатывать по порядку. Файл cookie запоминает выполненные шаги."
 
 #: functions/cpt/cpt-events.php:668
 msgid "Replace Video"
@@ -13369,16 +13526,19 @@ msgstr "Самарская область"
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:228
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:229
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:233
+#, fuzzy
 msgid "Sample Document"
-msgstr ""
+msgstr "Образец документа"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:188
+#, fuzzy
 msgid "Sample email content goes here."
-msgstr ""
+msgstr "Пример содержимого электронной почты."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:235
+#, fuzzy
 msgid "Sample Event"
-msgstr ""
+msgstr "Пример мероприятия"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:187
 #, fuzzy
@@ -13460,12 +13620,14 @@ msgid "Saved to components/%s"
 msgstr "Сохранено в компонентах/%s"
 
 #: functions/admin/image-canvas-editor.php:66
+#, fuzzy
 msgid "Saved!"
-msgstr ""
+msgstr "Сохранено!"
 
 #: functions/admin/image-canvas-editor.php:65
+#, fuzzy
 msgid "Saving..."
-msgstr ""
+msgstr "Сохранение..."
 
 #: functions/lib/comments-helper.php:32
 #, fuzzy
@@ -13531,8 +13693,9 @@ msgstr "Искать"
 
 #: functions/cpt/cpt-events.php:742 functions/cpt/cpt-offices.php:377
 #: functions/cpt/cpt-projects-meta.php:224 functions/cpt/cpt-vacancies.php:821
+#, fuzzy
 msgid "Search address..."
-msgstr ""
+msgstr "Искать адрес..."
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:479
 msgid "Search by email or name"
@@ -13748,8 +13911,9 @@ msgid "Secret Key"
 msgstr "Секретный ключ"
 
 #: functions/admin/projects-settings.php:153
+#, fuzzy
 msgid "Section title"
-msgstr ""
+msgstr "Заголовок раздела"
 
 #: redux-framework/sample-config.php:689
 #, fuzzy
@@ -13846,8 +14010,9 @@ msgid "Select a CSV file to import. Maximum file size:"
 msgstr "Выберите CSV-файл для импорта. Максимальный размер файла:"
 
 #: functions/cpt/cpt-documents.php:307
+#, fuzzy
 msgid "Select a file from the media library"
-msgstr ""
+msgstr "Выберите файл из медиабиблиотеки"
 
 #: functions/cpt/cpt-notifications.php:204
 msgid "Select a modal to display for this notification"
@@ -13911,8 +14076,9 @@ msgid "Select Document"
 msgstr "Выберите документ"
 
 #: functions/cpt/cpt-documents.php:318
+#, fuzzy
 msgid "Select Document File"
-msgstr ""
+msgstr "Выберите файл документа"
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:378
 msgid "Select dropdown items display type"
@@ -13964,8 +14130,9 @@ msgid "Select form to display"
 msgstr "Выберите форму для отображения"
 
 #: functions/cpt/cpt-documents.php:303
+#, fuzzy
 msgid "Select from Media Library"
-msgstr ""
+msgstr "Выбрать из Медиабиблиотеки"
 
 #: redux-framework/sample/metaboxes.php:171
 msgid "Select Header"
@@ -14008,8 +14175,9 @@ msgid "Select Image"
 msgstr "Выберите изображение"
 
 #: functions/admin/term-thumbnail.php:242
+#, fuzzy
 msgid "Select image"
-msgstr ""
+msgstr "Выберите изображение"
 
 #: functions/cpt/cpt-notifications.php:502
 msgid "Select Item"
@@ -14203,8 +14371,9 @@ msgstr ""
 "вашего почтового сервера."
 
 #: redux-framework/sample/sections/codeweber/api.php:138
+#, fuzzy
 msgid "Send a test message to the configured chat"
-msgstr ""
+msgstr "Отправить тестовое сообщение в настроенный чат"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1081
 msgid "Send automatic reply emails for newsletter subscriptions"
@@ -14228,12 +14397,14 @@ msgid "Send automatic reply emails to users"
 msgstr "Отправлять автоматические ответные письма пользователям"
 
 #: functions/admin/documents-settings.php:48
+#, fuzzy
 msgid "Send by Email — Consents"
-msgstr ""
+msgstr "Отправить по электронной почте - Согласия"
 
 #: functions/admin/documents-settings.php:68
+#, fuzzy
 msgid "Send by Email — Rate Limits"
-msgstr ""
+msgstr "Отправить по электронной почте - Ограничения скорости"
 
 #: functions/cpt/cpt-documents.php:996
 msgid "Send Document"
@@ -14254,8 +14425,9 @@ msgid "Send form events to Matomo"
 msgstr "Отправить события формы в Matomo"
 
 #: redux-framework/sample/sections/codeweber/api.php:102
+#, fuzzy
 msgid "Send form submissions to a Telegram chat or channel"
-msgstr ""
+msgstr "Отправлять отправления форм в чат или канал Telegram"
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:161
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:188
@@ -14345,8 +14517,9 @@ msgid "Separate tags with commas"
 msgstr "Разделяйте теги запятыми"
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:436
+#, fuzzy
 msgid "Sepia"
-msgstr ""
+msgstr "Сепия"
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:117
 #, fuzzy
@@ -14366,8 +14539,11 @@ msgid "Service archive"
 msgstr "Архив услуг"
 
 #: functions/post-cards-registry.php:250
+#, fuzzy
 msgid "Service card with primary-colored overlay on hover. Large padding p-10."
 msgstr ""
+"Карточка услуги с наложением основного цвета при наведении. Большой отступ p-"
+"10."
 
 #: functions/post-cards-registry.php:240
 #, fuzzy
@@ -14386,10 +14562,13 @@ msgstr ""
 "при наведении"
 
 #: functions/post-cards-registry.php:245
+#, fuzzy
 msgid ""
 "Service card: title bottom, category badge top, excerpt on hover. Large "
 "padding p-10."
 msgstr ""
+"Карточка услуги: заголовок снизу, метка категории сверху, краткое описание "
+"при наведении. Большой отступ p-10."
 
 #: functions/cpt/cpt-services.php:74 functions/cpt/cpt-services.php:79
 msgid "Service Categories"
@@ -14585,8 +14764,9 @@ msgid "Shop Card"
 msgstr "Карточка товара"
 
 #: functions/post-cards-registry.php:285
+#, fuzzy
 msgid "Shop Card MD"
-msgstr ""
+msgstr "Карточка магазина МД"
 
 #: functions/post-cards-registry.php:290
 #, fuzzy
@@ -14599,8 +14779,9 @@ msgid "Shop List"
 msgstr "Список магазинов"
 
 #: functions/post-cards-registry.php:300
+#, fuzzy
 msgid "Shop List SM"
-msgstr ""
+msgstr "Список магазинов СМ"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:107
 #, fuzzy
@@ -15176,8 +15357,9 @@ msgid "Signal"
 msgstr "Сигнал"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1217
+#, fuzzy
 msgid "Simple"
-msgstr ""
+msgstr "Простой"
 
 #: functions/roles.php:8
 #, fuzzy
@@ -15383,12 +15565,15 @@ msgid "Social Icon Type Mobile Menu"
 msgstr "Тип Иконок соцсетей Мобильное меню"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1149
+#, fuzzy
 msgid "Social links"
-msgstr ""
+msgstr "Социальные ссылки"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:892
+#, fuzzy
 msgid "Social links from theme settings (Email Wrapper only)"
 msgstr ""
+"Социальные ссылки из настроек темы (только для обертки электронной почты)"
 
 #: functions/cpt/cpt-staff.php:283 templates/header/header-center-logo.php:380
 #: templates/header/header-classic.php:412
@@ -15820,12 +16005,14 @@ msgstr ""
 "такие как {form_name}, {user_name}."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1110
+#, fuzzy
 msgid "Subject line. You can use {event_title}, {site_name}."
-msgstr ""
+msgstr "Тема письма. Вы можете использовать {event_title}, {site_name}."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1096
+#, fuzzy
 msgid "Subject line. You can use {site_name}, {document_title}."
-msgstr ""
+msgstr "Тема письма. Вы можете использовать {site_name}, {document_title}."
 
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:29
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:579
@@ -16249,12 +16436,14 @@ msgid "Telegram"
 msgstr "Telegram"
 
 #: redux-framework/sample/sections/codeweber/api.php:108
+#, fuzzy
 msgid "Telegram Bot Token"
-msgstr ""
+msgstr "Токен Telegram-бота"
 
 #: redux-framework/sample/sections/codeweber/api.php:101
+#, fuzzy
 msgid "Telegram Bot: enable notifications"
-msgstr ""
+msgstr "Telegram Бот: включить уведомления"
 
 #: functions/cpt/cpt-notifications.php:355
 msgid "Telegram Message"
@@ -16277,12 +16466,16 @@ msgid "Temporary file not found."
 msgstr "Временный файл не найден."
 
 #: functions/post-cards-registry.php:266
+#, fuzzy
 msgid "Term card with primary-colored overlay on hover"
-msgstr ""
+msgstr "Карточка термина с наложением основного цвета при наведении"
 
 #: functions/post-cards-registry.php:261
+#, fuzzy
 msgid "Term card: title on bottom overlay, description and count on hover"
 msgstr ""
+"Карточка термина: заголовок в нижней накладке, описание и количество при "
+"наведении"
 
 #: functions/admin/admin_privacy.php:1103
 #, fuzzy
@@ -16290,8 +16483,9 @@ msgid "Terms of Use"
 msgstr "Условия использования"
 
 #: redux-framework/sample/sections/codeweber/api.php:140
+#, fuzzy
 msgid "Test"
-msgstr ""
+msgstr "Тест"
 
 #: functions/woocommerce/gateway-test.php:20
 #, fuzzy
@@ -16299,8 +16493,9 @@ msgid "Test (no registration)"
 msgstr "Тест (без регистрации)"
 
 #: functions/admin/api-test.php:169
+#, fuzzy
 msgid "Test CodeWeber — bot connected!"
-msgstr ""
+msgstr "Тестовый кодВебер - бот подключен!"
 
 #: functions/integrations/s3-storage/inc/views/settings.php:93
 #, fuzzy
@@ -16365,8 +16560,9 @@ msgid "Test SMTP Connection"
 msgstr "Тестовое SMTP-соединение"
 
 #: redux-framework/sample/sections/codeweber/api.php:137
+#, fuzzy
 msgid "Test Telegram"
-msgstr ""
+msgstr "Тест Telegram"
 
 #: functions/cpt/cpt-testimonials.php:11
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:82
@@ -16559,8 +16755,9 @@ msgid "Text when no seats available"
 msgstr "Текст при отсутствии мест"
 
 #: functions/post-cards-registry.php:177
+#, fuzzy
 msgid "Text-only card: title + contacts, no image."
-msgstr ""
+msgstr "Карточка только с текстом: заголовок + контакты, без изображения."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:695
 #, fuzzy
@@ -16872,8 +17069,9 @@ msgid "This will permanently delete files from S3. Continue?"
 msgstr "Все файлы на S3 будут безвозвратно удалены. Продолжить?"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1316
+#, fuzzy
 msgid "This will replace the current template with the preset. Continue?"
-msgstr ""
+msgstr "Это заменит текущий шаблон предустановленным. Продолжить?"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:444
 #, fuzzy
@@ -16937,12 +17135,14 @@ msgid "Time period in minutes for rate limiting."
 msgstr "Время в минутах для ограничения действий."
 
 #: functions/admin/documents-settings.php:79
+#, fuzzy
 msgid "Time window (minutes)"
-msgstr ""
+msgstr "Временное окно (минуты)"
 
 #: functions/admin/documents-settings.php:251
+#, fuzzy
 msgid "Time window applied to all rate limit checks below."
-msgstr ""
+msgstr "Окно времени применяется ко всем проверкам ограничения скорости ниже."
 
 #: functions/integrations/ajax-search-module/ajax-search.php:90
 #: redux-framework/sample/sections/codeweber/repeater.php:32
@@ -17286,11 +17486,15 @@ msgid "Unique Queries"
 msgstr "Уникальные запросы"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1123
+#, fuzzy
 msgid ""
 "Universal email wrapper applied to all outgoing emails. Use {content} for "
 "the inner content, {social_links} for social links from theme settings, "
 "{site_logo_dark} / {site_logo_light} for logos."
 msgstr ""
+"Универсальный шаблон для всех исходящих писем. Используйте {content} для "
+"основного содержимого, {social_links} для ссылок на социальные сети из "
+"настроек темы, {site_logo_dark} / {site_logo_light} для логотипов."
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:528
 #, fuzzy
@@ -17315,8 +17519,9 @@ msgid "Unknown action."
 msgstr "Неизвестное действие."
 
 #: functions/admin/api-test.php:187
+#, fuzzy
 msgid "Unknown error"
-msgstr ""
+msgstr "Неизвестная ошибка"
 
 #: functions/cpt/redux_cpt.php:16
 #, fuzzy
@@ -17358,8 +17563,9 @@ msgid "Unsubscribe page"
 msgstr "Страница отписки"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1086
+#, fuzzy
 msgid "Unsubscribe URL"
-msgstr ""
+msgstr "URL для отписки"
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:465
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1396
@@ -17597,16 +17803,19 @@ msgid "Use as Featured Image for this Price Package"
 msgstr "Используйте как изображение для этого Тарифного плана"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1094
+#, fuzzy
 msgid "Use Custom Document Email Template"
-msgstr ""
+msgstr "Использовать настраиваемый шаблон электронного письма документа"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1108
+#, fuzzy
 msgid "Use Custom Event Notification Template"
-msgstr ""
+msgstr "Использовать шаблон уведомления о пользовательском событии"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1124
+#, fuzzy
 msgid "Use Email Wrapper"
-msgstr ""
+msgstr "Использовать обертку электронной почты"
 
 #: functions/integrations/s3-storage/inc/views/settings.php:70
 #, fuzzy
@@ -17644,8 +17853,9 @@ msgstr "Использовать этот PDF"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1095
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1109
+#, fuzzy
 msgid "Use this template instead of the default hardcoded email."
-msgstr ""
+msgstr "Использовать этот шаблон вместо стандартного встроенного письма."
 
 #: functions/cpt/cpt-events.php:659
 msgid "Use this video"
@@ -17752,8 +17962,9 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1058
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1072
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1085
+#, fuzzy
 msgid "User email"
-msgstr ""
+msgstr "Email пользователя"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:882
 msgid "User email from form"
@@ -17782,8 +17993,9 @@ msgstr "IP пользователя"
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1057
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1071
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1084
+#, fuzzy
 msgid "User name"
-msgstr ""
+msgstr "Имя пользователя"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:881
 #, fuzzy
@@ -17859,24 +18071,29 @@ msgid "UTM Value"
 msgstr "Значение UTM"
 
 #: functions/cpt/cpt-notifications.php:568
+#, fuzzy
 msgid "utm_campaign"
-msgstr ""
+msgstr "utm_кампания"
 
 #: functions/cpt/cpt-notifications.php:570
+#, fuzzy
 msgid "utm_content"
-msgstr ""
+msgstr "utm_content"
 
 #: functions/cpt/cpt-notifications.php:567
+#, fuzzy
 msgid "utm_medium"
-msgstr ""
+msgstr "utm_средство"
 
 #: functions/cpt/cpt-notifications.php:566
+#, fuzzy
 msgid "utm_source"
-msgstr ""
+msgstr "utm_источник"
 
 #: functions/cpt/cpt-notifications.php:569
+#, fuzzy
 msgid "utm_term"
-msgstr ""
+msgstr "utm_term"
 
 #: functions/cpt/cpt-offices.php:993 functions/cpt/cpt-vacancies.php:10
 #: functions/cpt/cpt-vacancies.php:12 functions/cpt/cpt-vacancies.php:30
@@ -18563,8 +18780,9 @@ msgid "Which column options to display"
 msgstr "Какие параметры столбца отображать"
 
 #: redux-framework/sample/sections/codeweber/api.php:124
+#, fuzzy
 msgid "Which events trigger a Telegram notification"
-msgstr ""
+msgstr "Какие события вызывают уведомление в Telegram"
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:220
 #, fuzzy
@@ -18732,8 +18950,9 @@ msgid "WooCommerce is not active."
 msgstr "WooCommerce не активен."
 
 #: functions/cpt/cpt-notifications.php:737
+#, fuzzy
 msgid "WooCommerce Order"
-msgstr ""
+msgstr "Заказ WooCommerce"
 
 #: functions/cpt/cpt-notifications.php:409
 msgid "WooCommerce Order Success"
@@ -18788,10 +19007,13 @@ msgid "WP User"
 msgstr "Пользователь WP"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1125
+#, fuzzy
 msgid ""
 "Wrap all outgoing emails in this template. The inner content replaces "
 "{content}."
 msgstr ""
+"Оборачивать все исходящие письма в этот шаблон. Внутреннее содержимое "
+"заменяет {content}."
 
 #: woocommerce/single-product.php:474
 #, fuzzy
@@ -18871,8 +19093,9 @@ msgstr ""
 "Redux Framework."
 
 #: functions/cpt/cpt-projects-meta.php:373
+#, fuzzy
 msgid "Yandex Maps API key is not configured. Set it in Redux settings."
-msgstr ""
+msgstr "Ключ API Яндекс Карт не настроен. Установите его в настройках Redux."
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:154
 msgid "Yandex Maps marker preset"
@@ -18977,13 +19200,14 @@ msgstr ""
 "старых браузерах."
 
 #: functions/cpt/cpt-documents.php:1195
-#, php-format
+#, fuzzy, php-format
 msgid "You requested %s on %s"
-msgstr ""
+msgstr "Вы запросили %s на %s"
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:858
+#, fuzzy
 msgid "You requested {document_link} on {site_name}."
-msgstr ""
+msgstr "Вы запросили {document_link} на {site_name}."
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:728
 msgid "You will now receive our latest news, updates, and special offers."
@@ -19109,8 +19333,9 @@ msgid "Zoom"
 msgstr "Масштаб"
 
 #: functions/cpt/cpt-projects-meta.php:403
+#, fuzzy
 msgid "Zoom (1-19)"
-msgstr ""
+msgstr "Масштаб (1-19)"
 
 #: functions/cpt/cpt-offices.php:550
 #: redux-framework/sample/sections/codeweber/map_geo.php:171
@@ -19122,8 +19347,9 @@ msgid "Zoom level of the map"
 msgstr "Уровень увеличения на карте"
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:179
+#, fuzzy
 msgid "Zoom level when clicking on a marker (v3 maps)"
-msgstr ""
+msgstr "Уровень масштабирования при нажатии на маркер (карты v3)"
 
 #: functions/woocommerce/swatches.php:250
 #, fuzzy
