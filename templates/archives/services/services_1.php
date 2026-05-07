@@ -13,14 +13,22 @@ defined( 'ABSPATH' ) || exit;
 $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
 $grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'g-6';
 $placeholder = get_template_directory_uri() . '/dist/assets/img/image-placeholder.jpg';
+
+$all_services = new WP_Query( [
+	'post_type'      => 'services',
+	'post_status'    => 'publish',
+	'posts_per_page' => -1,
+	'orderby'        => 'menu_order date',
+	'order'          => 'ASC',
+] );
 ?>
 
 <section class="wrapper">
 	<div class="container py-14 py-md-16">
 
-		<?php if ( have_posts() ) : ?>
+		<?php if ( $all_services->have_posts() ) : ?>
 		<div class="row <?php echo esc_attr( $grid_gap ); ?>">
-			<?php while ( have_posts() ) : the_post();
+			<?php while ( $all_services->have_posts() ) : $all_services->the_post();
 				$post_id    = get_the_ID();
 				$thumb_id   = get_post_thumbnail_id( $post_id );
 				$short_desc = get_post_meta( $post_id, '_service_short_description', true );
@@ -58,11 +66,9 @@ $placeholder = get_template_directory_uri() . '/dist/assets/img/image-placeholde
 				</figure>
 			</div>
 			<!--/column -->
-			<?php endwhile; ?>
+			<?php endwhile; wp_reset_postdata(); ?>
 		</div>
 		<!--/.row -->
-
-		<?php codeweber_posts_pagination( [ 'nav_class' => 'd-flex justify-content-center mt-10' ] ); ?>
 
 		<?php else : ?>
 		<p class="text-muted"><?php esc_html_e( 'No services found.', 'codeweber' ); ?></p>
