@@ -38,7 +38,7 @@ function get_custom_logo_type($type = 'both')
    global $opt_name;
    $options = get_option($opt_name);
 
-   $post_id = get_the_ID(); // ID текущего поста или страницы
+   $post_id = get_queried_object_id();
    $custom_dark_logo = get_post_meta($post_id, 'custom-logo-dark-header', true);
    $custom_light_logo = get_post_meta($post_id, 'custom-logo-light-header', true);
 
