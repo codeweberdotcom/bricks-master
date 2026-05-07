@@ -21,9 +21,9 @@ $placeholder = get_template_directory_uri() . '/dist/assets/img/image-placeholde
 		<?php if ( have_posts() ) : ?>
 		<div class="row <?php echo esc_attr( $grid_gap ); ?>">
 			<?php while ( have_posts() ) : the_post();
-				$post_id     = get_the_ID();
-				$thumb_id    = get_post_thumbnail_id( $post_id );
-				$short_desc  = get_post_meta( $post_id, 'service_description_short', true );
+				$post_id    = get_the_ID();
+				$thumb_id   = get_post_thumbnail_id( $post_id );
+				$short_desc = get_post_meta( $post_id, '_service_short_description', true );
 			?>
 			<div class="col-12 col-md-4">
 				<figure class="overlay overlay-5 <?php echo esc_attr( $card_radius ); ?> card-interactive mb-0">
@@ -43,13 +43,14 @@ $placeholder = get_template_directory_uri() . '/dist/assets/img/image-placeholde
 						<?php endif; ?>
 					</a>
 
-					<?php if ( $short_desc ) : ?>
 					<figcaption class="p-5">
 						<div class="post-body h-100 d-flex flex-column from-left justify-content-end">
-							<p class="mb-0"><?php echo esc_html( $short_desc ); ?></p>
+							<?php if ( $short_desc ) : ?>
+								<p class="mb-3"><?php echo esc_html( $short_desc ); ?></p>
+							<?php endif; ?>
+							<span class="hover more me-4"><?php esc_html_e( 'More details', 'codeweber' ); ?></span>
 						</div>
 					</figcaption>
-					<?php endif; ?>
 
 					<div class="hover_card_button_hide position-absolute top-0 end-0 p-5 zindex-10">
 						<i class="fs-25 uil uil-arrow-right lh-1"></i>
