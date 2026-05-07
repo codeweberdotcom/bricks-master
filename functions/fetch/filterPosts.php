@@ -5,7 +5,7 @@ namespace Codeweber\Functions\Fetch;
 defined( 'ABSPATH' ) || exit;
 
 function filterPosts( $params ) {
-	$allowed_post_types = [ 'post', 'vacancies', 'products', 'staff', 'events', 'projects' ];
+	$allowed_post_types = [ 'post', 'vacancies', 'products', 'staff', 'events', 'projects', 'services' ];
 	$post_type          = sanitize_key( $params['post_type'] ?? 'post' );
 
 	if ( ! in_array( $post_type, $allowed_post_types, true ) ) {
@@ -36,6 +36,8 @@ function filterPosts( $params ) {
 		$args = _fp_apply_events_filters( $args, $filters );
 	} elseif ( $post_type === 'projects' ) {
 		$args = _fp_apply_projects_filters( $args, $filters );
+	} elseif ( $post_type === 'services' ) {
+		$args = _fp_apply_services_filters( $args, $filters );
 	}
 
 	$query = new \WP_Query( $args );
@@ -60,6 +62,8 @@ function filterPosts( $params ) {
 			_fp_render_events_table( $query );
 		} elseif ( $post_type === 'projects' ) {
 			_fp_render_projects_grid( $query, $template );
+		} elseif ( $post_type === 'services' ) {
+			_fp_render_services_grid( $query, $template );
 		} else {
 			while ( $query->have_posts() ) {
 				$query->the_post();
@@ -714,6 +718,68 @@ function _fp_render_projects_grid( $query, $template ) {
 		}
 		echo '<h2 class="post-title h3"><a href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a></h2>';
 		echo '</div></div>';
+		echo '</div>';
+	}
+
+	echo '</div>';
+}
+
+function _fp_apply_services_filters( $args, $filters ) {
+	if ( ! empty( $filters['service_category'] ) ) {
+		$args['tax_query'] = [
+			[
+				'taxonomy' => 'service_category',
+				'field'    => 'term_id',
+				'terms'    => intval( $filters['service_category'] ),
+			],
+		];
+	}
+
+	$args['orderby'] = 'menu_order date';
+	$args['order']   = 'ASC';
+
+	return $args;
+}
+
+function _fp_render_services_grid( $query, $template ) {
+	$card_radius = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'card-radius' ) : 'rounded';
+	$col_class   = ( $template === 'services_4' ) ? 'col-12 col-md-3' : 'col-12 col-md-4';
+	$img_size    = ( $template === 'services_4' ) ? 'cw_square_md' : 'cw_square_lg';
+	$grid_gap    = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'g-6';
+	$placeholder = get_template_directory_uri() . '/dist/assets/img/image-placeholder.jpg';
+	$read_more   = esc_html__( 'More details', 'codeweber' );
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id    = get_the_ID();
+		$thumb_id   = get_post_thumbnail_id( $post_id );
+		$short_desc = get_post_meta( $post_id, '_service_short_description', true );
+
+		echo '<div class="' . esc_attr( $col_class ) . '">';
+		echo '<figure class="overlay overlay-5 ' . esc_attr( $card_radius ) . ' card-interactive mb-0">';
+		echo '<a href="' . esc_url( get_permalink() ) . '">';
+		echo '<div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">';
+		echo '<div class="mt-auto"><h3 class="h5 text-white mb-0">' . esc_html( get_the_title() ) . '</h3></div>';
+		echo '</div>';
+
+		if ( $thumb_id ) {
+			echo wp_get_attachment_image( $thumb_id, $img_size, false, [ 'class' => 'w-100 ' . esc_attr( $card_radius ), 'alt' => esc_attr( get_the_title() ) ] );
+		} else {
+			echo '<img src="' . esc_url( $placeholder ) . '" alt="" class="w-100 ' . esc_attr( $card_radius ) . '">';
+		}
+
+		echo '</a>';
+		echo '<figcaption class="p-5">';
+		echo '<div class="post-body h-100 d-flex flex-column from-left justify-content-end">';
+		if ( $short_desc ) {
+			echo '<p class="mb-3">' . esc_html( $short_desc ) . '</p>';
+		}
+		echo '<span class="hover more me-4">' . $read_more . '</span>';
+		echo '</div></figcaption>';
+		echo '<div class="hover_card_button_hide position-absolute top-0 end-0 p-5 zindex-10"><i class="fs-25 uil uil-arrow-right lh-1"></i></div>';
+		echo '</figure>';
 		echo '</div>';
 	}
 
