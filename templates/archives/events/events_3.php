@@ -40,13 +40,15 @@ $avatar_colors = [ 'red', 'green', 'yellow', 'purple', 'orange', 'pink', 'blue',
 			<?php if ( have_posts() ) : ?>
 
 				<?php while ( have_posts() ) : the_post();
-					$date_start = get_post_meta( get_the_ID(), '_event_date_start', true );
-					$date_end   = get_post_meta( get_the_ID(), '_event_date_end', true );
-					$location   = get_post_meta( get_the_ID(), '_event_location', true );
-					$price      = get_post_meta( get_the_ID(), '_event_price', true );
-					$reg_status = codeweber_events_get_registration_status( get_the_ID() );
-					$formats    = get_the_terms( get_the_ID(), 'event_format' );
-					$cats       = get_the_terms( get_the_ID(), 'event_category' );
+					$post_id    = get_the_ID();
+					$alt_title  = get_post_meta( $post_id, '_alt_title', true );
+					$date_start = get_post_meta( $post_id, '_event_date_start', true );
+					$date_end   = get_post_meta( $post_id, '_event_date_end', true );
+					$location   = get_post_meta( $post_id, '_event_location', true );
+					$price      = get_post_meta( $post_id, '_event_price', true );
+					$reg_status = codeweber_events_get_registration_status( $post_id );
+					$formats    = get_the_terms( $post_id, 'event_format' );
+					$cats       = get_the_terms( $post_id, 'event_category' );
 
 					// Avatar color — pick by first category term_id
 					$cat_index    = ( $cats && ! is_wp_error( $cats ) ) ? ( $cats[0]->term_id % count( $avatar_colors ) ) : 0;
@@ -77,7 +79,7 @@ $avatar_colors = [ 'red', 'green', 'yellow', 'purple', 'orange', 'pink', 'blue',
 									<?php echo esc_html( $avatar_label ); ?>
 								</span>
 								<span>
-									<?php the_title(); ?>
+									<?php echo $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() ); ?>
 									<?php if ( $month_label ) : ?>
 										<small class="text-muted ms-1"><?php echo esc_html( $month_label ); ?></small>
 									<?php endif; ?>

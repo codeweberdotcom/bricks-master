@@ -1,14 +1,15 @@
 <?php
 /**
  * Template: Offices Archive - Style 3 (Card Grid with Map)
- * 
+ *
  * Карточка офиса с изображением, адресом, контактами и часами работы
  * Использует: templates/post-cards/offices/card.php
- * 
+ *
  * @package Codeweber
  */
 
 $post_id = absint(get_the_ID());
+$alt_title_val = get_post_meta( $post_id, '_alt_title', true );
 ?>
 <div class="col-md-6 col-lg-4">
     <?php
@@ -17,7 +18,7 @@ $post_id = absint(get_the_ID());
         get_template_part('templates/post-cards/offices/card');
     } else {
         // Fallback: простая карточка если post card не найден
-        $title = get_the_title($post_id);
+        $title = $alt_title_val ? wp_kses_post( $alt_title_val ) : esc_html( get_the_title( $post_id ) );
         $link = get_permalink($post_id);
         $city = '';
         $town_terms = wp_get_post_terms($post_id, 'towns', array('fields' => 'names'));
@@ -31,7 +32,7 @@ $post_id = absint(get_the_ID());
             <div class="card-body">
                 <h4 class="mb-3">
                     <a href="<?php echo esc_url($link); ?>" class="link-dark">
-                        <?php echo esc_html($title); ?>
+                        <?php echo $title; ?>
                     </a>
                 </h4>
                 <?php if ($city) : ?>
@@ -47,4 +48,3 @@ $post_id = absint(get_the_ID());
     ?>
 </div>
 <!--/column -->
-

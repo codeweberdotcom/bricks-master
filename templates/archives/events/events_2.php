@@ -47,12 +47,14 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 						</thead>
 						<tbody>
 							<?php while ( have_posts() ) : the_post();
-								$date_start = get_post_meta( get_the_ID(), '_event_date_start', true );
-								$date_end   = get_post_meta( get_the_ID(), '_event_date_end', true );
-								$location   = get_post_meta( get_the_ID(), '_event_location', true );
-								$price      = get_post_meta( get_the_ID(), '_event_price', true );
-								$reg_status = codeweber_events_get_registration_status( get_the_ID() );
-								$formats    = get_the_terms( get_the_ID(), 'event_format' );
+								$post_id    = get_the_ID();
+								$alt_title  = get_post_meta( $post_id, '_alt_title', true );
+								$date_start = get_post_meta( $post_id, '_event_date_start', true );
+								$date_end   = get_post_meta( $post_id, '_event_date_end', true );
+								$location   = get_post_meta( $post_id, '_event_location', true );
+								$price      = get_post_meta( $post_id, '_event_price', true );
+								$reg_status = codeweber_events_get_registration_status( $post_id );
+								$formats    = get_the_terms( $post_id, 'event_format' );
 							?>
 							<tr>
 								<td class="event-date-cell">
@@ -67,7 +69,7 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 								</td>
 								<td>
 									<a href="<?php the_permalink(); ?>" class="fw-semibold text-reset text-decoration-none">
-										<?php the_title(); ?>
+										<?php echo $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() ); ?>
 									</a>
 									<?php
 									$status_class = [

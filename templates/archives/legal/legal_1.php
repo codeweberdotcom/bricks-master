@@ -19,7 +19,11 @@
 
       <div class="card-body">
          <div class="post-header">
-            <h2 class="post-title mt-1 mb-0"><a class="link-dark" href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+            <?php
+            $post_id   = get_the_ID();
+            $alt_title = get_post_meta( $post_id, '_alt_title', true );
+            ?>
+            <h2 class="post-title mt-1 mb-0"><a class="link-dark" href="<?php the_permalink(); ?>"><?php echo $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() ); ?></a></h2>
          </div>
          <!-- /.post-header -->
          <div class="post-content">

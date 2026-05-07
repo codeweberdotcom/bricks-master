@@ -30,6 +30,7 @@ $all_services = new WP_Query( [
 		<div class="row <?php echo esc_attr( $grid_gap ); ?>">
 			<?php while ( $all_services->have_posts() ) : $all_services->the_post();
 				$post_id    = get_the_ID();
+				$alt_title  = get_post_meta( $post_id, '_alt_title', true );
 				$thumb_id   = get_post_thumbnail_id( $post_id );
 				$short_desc = get_post_meta( $post_id, '_service_short_description', true );
 			?>
@@ -38,7 +39,7 @@ $all_services = new WP_Query( [
 					<a href="<?php the_permalink(); ?>">
 						<div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
 							<div class="mt-auto">
-								<h3 class="h5 text-white mb-0"><?php the_title(); ?></h3>
+								<h3 class="h5 text-white mb-0"><?php echo $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() ); ?></h3>
 							</div>
 						</div>
 						<?php if ( $thumb_id ) : ?>

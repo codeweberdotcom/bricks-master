@@ -18,6 +18,7 @@ $grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 			<div class="row <?php echo esc_attr( $grid_gap ); ?> mb-5">
 				<?php while ( have_posts() ) : the_post();
 					$post_id    = get_the_ID();
+					$alt_title  = get_post_meta( $post_id, '_alt_title', true );
 					$date_start = get_post_meta( $post_id, '_event_date_start', true );
 					$date_end   = get_post_meta( $post_id, '_event_date_end', true );
 					$location   = get_post_meta( $post_id, '_event_location', true );
@@ -68,7 +69,7 @@ $grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( '
 								</p>
 							<?php endif; ?>
 
-							<h5 class="card-title mb-2"><?php the_title(); ?></h5>
+							<h5 class="card-title mb-2"><?php echo $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() ); ?></h5>
 
 							<div class="mt-auto pt-3 d-flex flex-wrap align-items-center gap-2">
 

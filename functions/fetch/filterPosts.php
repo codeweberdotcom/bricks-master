@@ -401,6 +401,7 @@ function _fp_render_events_table( $query ) {
 	while ( $query->have_posts() ) {
 		$query->the_post();
 		$post_id    = get_the_ID();
+		$alt_title  = get_post_meta( $post_id, '_alt_title', true );
 		$date_start = get_post_meta( $post_id, '_event_date_start', true );
 		$date_end   = get_post_meta( $post_id, '_event_date_end', true );
 		$location   = get_post_meta( $post_id, '_event_location', true );
@@ -409,6 +410,7 @@ function _fp_render_events_table( $query ) {
 		$formats    = get_the_terms( $post_id, 'event_format' );
 
 		$status_class = isset( $status_map[ $reg_status['status'] ] ) ? $status_map[ $reg_status['status'] ] : '';
+		$title_output = $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() );
 
 		echo '<tr>';
 
@@ -424,7 +426,7 @@ function _fp_render_events_table( $query ) {
 		echo '</td>';
 
 		echo '<td>';
-		echo '<a href="' . esc_url( get_permalink() ) . '" class="fw-semibold text-reset text-decoration-none">' . esc_html( get_the_title() ) . '</a>';
+		echo '<a href="' . esc_url( get_permalink() ) . '" class="fw-semibold text-reset text-decoration-none">' . $title_output . '</a>';
 		if ( $status_class && ! empty( $reg_status['label'] ) ) {
 			echo '<br><span class="event-status-badge ' . esc_attr( $status_class ) . ' mt-1">' . esc_html( $reg_status['label'] ) . '</span>';
 		}
@@ -479,6 +481,7 @@ function _fp_render_events_cards( $query ) {
 	while ( $query->have_posts() ) {
 		$query->the_post();
 		$post_id    = get_the_ID();
+		$alt_title  = get_post_meta( $post_id, '_alt_title', true );
 		$date_start = get_post_meta( $post_id, '_event_date_start', true );
 		$date_end   = get_post_meta( $post_id, '_event_date_end', true );
 		$location   = get_post_meta( $post_id, '_event_location', true );
@@ -493,6 +496,7 @@ function _fp_render_events_cards( $query ) {
 		$month_label  = $date_start ? date_i18n( 'M', strtotime( $date_start ) ) : '';
 		$status_class = isset( $status_map[ $reg_status['status'] ] ) ? $status_map[ $reg_status['status'] ] : '';
 		$format_str   = ( $formats && ! is_wp_error( $formats ) ) ? implode( ', ', wp_list_pluck( $formats, 'name' ) ) : '';
+		$title_output = $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() );
 		?>
 		<a href="<?php echo esc_url( get_permalink() ); ?>" class="card mb-4 lift<?php echo $card_radius ? ' ' . esc_attr( trim( $card_radius ) ) : ''; ?>">
 			<div class="card-body p-5">
@@ -502,7 +506,7 @@ function _fp_render_events_cards( $query ) {
 							<?php echo esc_html( $avatar_label ); ?>
 						</span>
 						<span>
-							<?php echo esc_html( get_the_title() ); ?>
+							<?php echo $title_output; ?>
 							<?php if ( $month_label ) : ?>
 								<small class="text-muted ms-1"><?php echo esc_html( $month_label ); ?></small>
 							<?php endif; ?>
@@ -584,6 +588,7 @@ function _fp_render_events_horizontal( $query, $template ) {
 	while ( $query->have_posts() ) {
 		$query->the_post();
 		$post_id    = get_the_ID();
+		$alt_title  = get_post_meta( $post_id, '_alt_title', true );
 		$date_start = get_post_meta( $post_id, '_event_date_start', true );
 		$date_end   = get_post_meta( $post_id, '_event_date_end', true );
 		$location   = get_post_meta( $post_id, '_event_location', true );
@@ -600,7 +605,7 @@ function _fp_render_events_horizontal( $query, $template ) {
 		$status_class = isset( $status_map[ $reg_status['status'] ] ) ? $status_map[ $reg_status['status'] ] : '';
 		$format_str   = ( $formats && ! is_wp_error( $formats ) ) ? implode( ', ', wp_list_pluck( $formats, 'name' ) ) : '';
 		$link         = esc_url( get_permalink() );
-		$title        = esc_html( get_the_title() );
+		$title        = $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() );
 		$radius_cls   = $card_radius ? ' ' . esc_attr( $card_radius ) : '';
 		$fig_cls      = $figure_radius ? ' ' . esc_attr( trim( $figure_radius ) ) : '';
 		$img_cls      = 'img-fluid' . $radius_cls;
@@ -635,7 +640,7 @@ function _fp_render_events_horizontal( $query, $template ) {
 		if ( $is_style5 ) {
 			echo '<a href="' . $link . '" class="card card-horizontal lift text-inherit text-decoration-none' . $radius_cls . '">';
 			echo '<figure class="card-img mb-0' . $fig_cls . '">';
-			echo '<img src="' . esc_url( $image_url ) . '" alt="' . $title . '" class="' . esc_attr( trim( $img_cls ) ) . '">';
+			echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( get_the_title() ) . '" class="' . esc_attr( trim( $img_cls ) ) . '">';
 			echo '</figure>';
 			echo '<div class="card-body position-relative">';
 			echo $date_html;
@@ -648,7 +653,7 @@ function _fp_render_events_horizontal( $query, $template ) {
 		} else {
 			echo '<div class="card card-horizontal' . $radius_cls . '">';
 			echo '<figure class="card-img overlay overlay-1 hover-scale' . $fig_cls . '">';
-			echo '<a href="' . $link . '"><img src="' . esc_url( $image_url ) . '" alt="' . $title . '" class="' . esc_attr( trim( $img_cls ) ) . '"></a>';
+			echo '<a href="' . $link . '"><img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( get_the_title() ) . '" class="' . esc_attr( trim( $img_cls ) ) . '"></a>';
 			echo '<figcaption><h5 class="from-top mb-0">' . esc_html__( 'Read More', 'codeweber' ) . '</h5></figcaption>';
 			echo '</figure>';
 			echo '<div class="card-body">';
@@ -698,6 +703,7 @@ function _fp_render_projects_grid( $query, $template ) {
 	while ( $query->have_posts() ) {
 		$query->the_post();
 		$post_id      = get_the_ID();
+		$alt_title    = get_post_meta( $post_id, '_alt_title', true );
 		$cats         = get_the_terms( $post_id, 'projects_category' );
 		$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
 		$thumbnail_id = get_post_thumbnail_id( $post_id );
@@ -716,7 +722,8 @@ function _fp_render_projects_grid( $query, $template ) {
 		if ( $cat_name ) {
 			echo '<div class="post-category text-line mb-2">' . esc_html( $cat_name ) . '</div>';
 		}
-		echo '<h2 class="post-title h3"><a href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a></h2>';
+		$title_output = $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() );
+		echo '<h2 class="post-title h3"><a href="' . esc_url( get_permalink() ) . '">' . $title_output . '</a></h2>';
 		echo '</div></div>';
 		echo '</div>';
 	}
@@ -753,15 +760,17 @@ function _fp_render_services_grid( $query, $template ) {
 
 	while ( $query->have_posts() ) {
 		$query->the_post();
-		$post_id    = get_the_ID();
-		$thumb_id   = get_post_thumbnail_id( $post_id );
-		$short_desc = get_post_meta( $post_id, '_service_short_description', true );
+		$post_id      = get_the_ID();
+		$alt_title    = get_post_meta( $post_id, '_alt_title', true );
+		$thumb_id     = get_post_thumbnail_id( $post_id );
+		$short_desc   = get_post_meta( $post_id, '_service_short_description', true );
+		$title_output = $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() );
 
 		echo '<div class="' . esc_attr( $col_class ) . '">';
 		echo '<figure class="overlay overlay-5 ' . esc_attr( $card_radius ) . ' card-interactive mb-0">';
 		echo '<a href="' . esc_url( get_permalink() ) . '">';
 		echo '<div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">';
-		echo '<div class="mt-auto"><h3 class="h5 text-white mb-0">' . esc_html( get_the_title() ) . '</h3></div>';
+		echo '<div class="mt-auto"><h3 class="h5 text-white mb-0">' . $title_output . '</h3></div>';
 		echo '</div>';
 
 		if ( $thumb_id ) {

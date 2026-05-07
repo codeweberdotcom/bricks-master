@@ -42,6 +42,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 				<div class="row <?php echo esc_attr( $grid_gap ); ?> mb-5">
 					<?php while ( have_posts() ) : the_post();
 						$post_id    = get_the_ID();
+						$alt_title  = get_post_meta( $post_id, '_alt_title', true );
 						$date_start = get_post_meta( $post_id, '_event_date_start', true );
 						$date_end   = get_post_meta( $post_id, '_event_date_end', true );
 						$location   = get_post_meta( $post_id, '_event_location', true );
@@ -83,7 +84,7 @@ $figure_radius = $card_radius && $card_radius !== 'rounded-0' ? ' rounded-start'
 										<?php endif; ?>
 									</p>
 								<?php endif; ?>
-								<h2 class="mb-3 display-6"><?php the_title(); ?></h2>
+								<h2 class="mb-3 display-6"><?php echo $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() ); ?></h2>
 								<?php if ( $status_class && $reg_status['label'] ) : ?>
 									<p class="mb-3">
 										<span class="event-status-badge <?php echo esc_attr( $status_class ); ?>">

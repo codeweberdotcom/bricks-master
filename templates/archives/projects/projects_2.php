@@ -51,6 +51,7 @@ $has_filters  = ! empty( $filter_terms ) && ! is_wp_error( $filter_terms );
 			<div class="row <?php echo esc_attr( $grid_gap ); ?>">
 				<?php while ( have_posts() ) : the_post();
 					$post_id      = get_the_ID();
+					$alt_title    = get_post_meta( $post_id, '_alt_title', true );
 					$cats         = get_the_terms( $post_id, 'projects_category' );
 					$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
 					$thumbnail_id = get_post_thumbnail_id( $post_id );
@@ -69,7 +70,7 @@ $has_filters  = ! empty( $filter_terms ) && ! is_wp_error( $filter_terms );
 							<div class="post-category text-line mb-2"><?php echo esc_html( $cat_name ); ?></div>
 							<?php endif; ?>
 							<h2 class="post-title h3">
-								<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+								<a href="<?php the_permalink(); ?>"><?php echo $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() ); ?></a>
 							</h2>
 						</div>
 					</div>

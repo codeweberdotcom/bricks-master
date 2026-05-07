@@ -60,8 +60,9 @@ $projects_query = new WP_Query( [
 			<?php if ( $projects_query->have_posts() ) : ?>
 			<div class="row <?php echo esc_attr( $grid_gap ); ?> isotope">
 				<?php while ( $projects_query->have_posts() ) : $projects_query->the_post();
-					$post_id = get_the_ID();
-					$cats    = get_the_terms( $post_id, 'projects_category' );
+					$post_id   = get_the_ID();
+					$alt_title = get_post_meta( $post_id, '_alt_title', true );
+					$cats      = get_the_terms( $post_id, 'projects_category' );
 
 					$item_classes = 'project item col-md-6';
 					if ( $cats && ! is_wp_error( $cats ) ) {
@@ -87,7 +88,7 @@ $projects_query = new WP_Query( [
 							<div class="post-category text-line mb-2"><?php echo esc_html( $cat_name ); ?></div>
 							<?php endif; ?>
 							<h3 class="post-title">
-								<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+								<a href="<?php the_permalink(); ?>"><?php echo $alt_title ? wp_kses_post( $alt_title ) : esc_html( get_the_title() ); ?></a>
 							</h3>
 						</div>
 					</div>
