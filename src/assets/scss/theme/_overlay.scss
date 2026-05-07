@@ -524,3 +524,7 @@ figure.overlay img {
 .card-interactive .bottom-overlay > div {
   z-index: 4;
 }
+
+.col-6 .bottom-overlay::after {
+  height: 100%;
+}
