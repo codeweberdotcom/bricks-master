@@ -93,6 +93,28 @@ add_filter( 'attachment_fields_to_edit', function ( $form_fields, $post ) {
 }, 10, 2 );
 
 /**
+ * Checkered background for transparent images in media library and media modal.
+ */
+add_action( 'admin_head', function () {
+	?>
+	<style>
+	.attachment .thumbnail,
+	.attachment-details .thumbnail,
+	.attachment-preview .thumbnail {
+		background-color: #fff;
+		background-image:
+			linear-gradient(45deg, #ccc 25%, transparent 25%),
+			linear-gradient(-45deg, #ccc 25%, transparent 25%),
+			linear-gradient(45deg, transparent 75%, #ccc 75%),
+			linear-gradient(-45deg, transparent 75%, #ccc 75%);
+		background-size: 12px 12px;
+		background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+	}
+	</style>
+	<?php
+} );
+
+/**
  * Enqueue inline JS + nonce для кнопок регенерации на странице медиатеки.
  */
 add_action( 'admin_enqueue_scripts', function ( $hook ) {
