@@ -86,7 +86,7 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 				<figcaption class="p-5">
 					<div class="post-body h-100 d-flex flex-column from-left justify-content-end">
 						<?php if ( $excerpt ) : ?>
-							<p class="mb-3"><?php echo esc_html( $excerpt ); ?></p>
+							<p class="mb-3"><?php echo wp_kses( $excerpt, ['br' => []] ); ?></p>
 						<?php endif; ?>
 						<?php if ( $template_args['show_term_count'] ) : ?>
 							<p class="mb-3 small opacity-75">
@@ -129,7 +129,7 @@ $title_class = ! empty( $display['title_class'] ) ? esc_attr( $display['title_cl
 				<figcaption class="p-5">
 					<div class="post-body h-100 d-flex flex-column from-left justify-content-end">
 						<?php if ( $excerpt ) : ?>
-							<p class="mb-3"><?php echo esc_html( $excerpt ); ?></p>
+							<p class="mb-3"><?php echo wp_kses( $excerpt, ['br' => []] ); ?></p>
 						<?php endif; ?>
 						<?php if ( $template_args['show_term_count'] ) : ?>
 							<p class="mb-3 small opacity-75">
