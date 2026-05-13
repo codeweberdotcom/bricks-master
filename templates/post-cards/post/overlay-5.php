@@ -48,9 +48,13 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
 
 $excerpt = '';
 if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
-    $excerpt_for_trim = str_replace(['<br>', '<br/>', '<br />'], "\n", $post_data['excerpt']);
-    $excerpt = wp_trim_words($excerpt_for_trim, $display['excerpt_length'], '...');
-    $excerpt = str_replace("\n", '<br>', $excerpt);
+    $excerpt_plain = wp_strip_all_tags($post_data['excerpt']);
+    $word_count = count(preg_split('/\s+/', trim($excerpt_plain), -1, PREG_SPLIT_NO_EMPTY));
+    if ($word_count <= $display['excerpt_length']) {
+        $excerpt = $post_data['excerpt'];
+    } else {
+        $excerpt = wp_trim_words($excerpt_plain, $display['excerpt_length'], '...');
+    }
 }
 
 // Формируем тег и классы для заголовка
