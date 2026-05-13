@@ -53,9 +53,11 @@ $excerpt_source = !empty($post_data['short_description'])
 
 $excerpt = '';
 if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
-    $excerpt = wp_trim_words($excerpt_source, $display['excerpt_length'], '...');
-    if (mb_strlen($excerpt) > 116) {
-        $excerpt = mb_substr($excerpt, 0, 113) . '...';
+    $excerpt_for_trim = str_replace(['<br>', '<br/>', '<br />'], "\n", $excerpt_source);
+    $excerpt = wp_trim_words($excerpt_for_trim, $display['excerpt_length'], '...');
+    $excerpt = str_replace("\n", '<br>', $excerpt);
+    if (mb_strlen(strip_tags($excerpt)) > 116) {
+        $excerpt = mb_substr(strip_tags($excerpt), 0, 113) . '...';
     }
 }
 

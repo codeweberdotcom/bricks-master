@@ -48,7 +48,9 @@ if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']
 
 $excerpt = '';
 if (!empty($display['show_excerpt']) && $display['excerpt_length'] > 0) {
-    $excerpt = wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...');
+    $excerpt_for_trim = str_replace(['<br>', '<br/>', '<br />'], "\n", $post_data['excerpt']);
+    $excerpt = wp_trim_words($excerpt_for_trim, $display['excerpt_length'], '...');
+    $excerpt = str_replace("\n", '<br>', $excerpt);
 }
 
 // Формируем тег и классы для заголовка
