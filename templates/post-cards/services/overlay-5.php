@@ -98,7 +98,7 @@ if (!empty($display['title_class'])) {
                 <figcaption class="p-5">
                     <div class="post-body h-100 d-flex flex-column from-left justify-content-end">
                         <?php if ($excerpt) : ?>
-                            <p class="mb-3"><?php echo wp_kses($excerpt, ['br' => []]); ?></p>
+                            <p class="mb-3<?php echo !empty($display['excerpt_hide_mobile']) ? ' d-none d-md-block' : ''; ?>"><?php echo wp_kses($excerpt, ['br' => []]); ?></p>
                         <?php endif; ?>
                         <?php if ($read_more_label) : ?>
                             <span class="hover more me-4"><?php echo esc_html($read_more_label); ?></span>
