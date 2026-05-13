@@ -29,7 +29,7 @@ add_action('init', function () {
         'auth_callback'     => function () {
             return current_user_can('edit_posts');
         },
-        'sanitize_callback' => 'sanitize_textarea_field',
+        'sanitize_callback' => function ( $value ) { return wp_kses( $value, [ 'br' => [] ] ); },
     ]);
 });
 
@@ -92,7 +92,7 @@ add_action('save_post_services', function ($post_id) {
     }
 
     if (isset($_POST[CODEWEBER_SERVICES_SHORT_DESC_KEY])) {
-        $value = sanitize_textarea_field(wp_unslash($_POST[CODEWEBER_SERVICES_SHORT_DESC_KEY]));
+        $value = wp_kses( wp_unslash( $_POST[ CODEWEBER_SERVICES_SHORT_DESC_KEY ] ), [ 'br' => [] ] );
         update_post_meta($post_id, CODEWEBER_SERVICES_SHORT_DESC_KEY, $value);
     } else {
         delete_post_meta($post_id, CODEWEBER_SERVICES_SHORT_DESC_KEY);
