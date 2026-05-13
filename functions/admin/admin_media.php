@@ -100,17 +100,27 @@ add_action( 'admin_head', function () {
 	<style>
 	.attachment .thumbnail,
 	.attachment-details .thumbnail,
-	.attachment-preview .thumbnail,
-	#set-post-thumbnail {
-		display: inline-block;
-		background-color: #fff;
+	.attachment-preview .thumbnail {
+		background-color: #f0f0f0;
 		background-image:
-			linear-gradient(45deg, #ccc 25%, transparent 25%),
-			linear-gradient(-45deg, #ccc 25%, transparent 25%),
-			linear-gradient(45deg, transparent 75%, #ccc 75%),
-			linear-gradient(-45deg, transparent 75%, #ccc 75%);
-		background-size: 12px 12px;
-		background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+			linear-gradient(45deg, #ddd 25%, transparent 25%),
+			linear-gradient(-45deg, #ddd 25%, transparent 25%),
+			linear-gradient(45deg, transparent 75%, #ddd 75%),
+			linear-gradient(-45deg, transparent 75%, #ddd 75%);
+		background-size: 20px 20px;
+		background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+	}
+	#postimagediv #set-post-thumbnail {
+		display: inline-block;
+		line-height: 0;
+		background-color: #f0f0f0;
+		background-image:
+			linear-gradient(45deg, #ddd 25%, transparent 25%),
+			linear-gradient(-45deg, #ddd 25%, transparent 25%),
+			linear-gradient(45deg, transparent 75%, #ddd 75%),
+			linear-gradient(-45deg, transparent 75%, #ddd 75%);
+		background-size: 20px 20px;
+		background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 	}
 	</style>
 	<?php
