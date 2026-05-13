@@ -101,12 +101,14 @@ add_action( 'admin_head', function () {
 	.attachment .thumbnail,
 	.attachment-details .thumbnail,
 	.attachment-preview .thumbnail {
-		background-color: #888;
+		background-color: #888 !important;
+		background-image: none !important;
 	}
 	#postimagediv #set-post-thumbnail {
 		display: inline-block;
 		line-height: 0;
-		background-color: #888;
+		background-color: #888 !important;
+		background-image: none !important;
 	}
 	</style>
 	<?php
