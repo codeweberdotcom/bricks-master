@@ -100,7 +100,9 @@ add_action( 'admin_head', function () {
 	<style>
 	.attachment .thumbnail,
 	.attachment-details .thumbnail,
-	.attachment-preview .thumbnail {
+	.attachment-preview .thumbnail,
+	#set-post-thumbnail {
+		display: inline-block;
 		background-color: #fff;
 		background-image:
 			linear-gradient(45deg, #ccc 25%, transparent 25%),
