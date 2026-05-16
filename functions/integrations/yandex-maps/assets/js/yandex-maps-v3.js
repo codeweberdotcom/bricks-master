@@ -204,7 +204,7 @@
 			this.highlightSidebarItem( markerData.id );
 			const zoom   = this.config.markerClickZoom || this.config.zoom || 15;
 			const center = this.calcCenterWithBalloonOffset( markerData.longitude, markerData.latitude, zoom );
-			this.map.update( { location: { center, zoom }, duration: 400 } );
+			this.map.update( { location: { center, zoom, duration: 400 } } );
 		}
 
 		getCurrentZoom() {
@@ -530,7 +530,7 @@
 			if ( ! markers.length ) return;
 			const center = this.calcBoundsCenter( markers );
 			const zoom   = this.calcBoundsZoom( markers, this.container.offsetWidth, this.container.offsetHeight );
-			this.map.update( { location: { center, zoom: zoom || this.config.zoom }, duration: 400 } );
+			this.map.update( { location: { center, zoom: zoom || this.config.zoom, duration: 400 } } );
 		}
 
 		invalidateSize() {
