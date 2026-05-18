@@ -1340,5 +1340,6 @@ add_action( 'wp_enqueue_scripts', 'codeweber_enqueue_events_assets', 20 );
 require_once get_template_directory() . '/functions/events/event-registrations.php';
 require_once get_template_directory() . '/functions/events/event-registration-api.php';
 require_once get_template_directory() . '/functions/events/event-ics.php';
+require_once get_template_directory() . '/functions/events/event-qr.php';
 require_once get_template_directory() . '/functions/admin/events-settings.php';
 require_once get_template_directory() . '/functions/integrations/event-gallery-metabox.php';
