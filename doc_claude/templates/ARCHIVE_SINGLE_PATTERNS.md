@@ -197,6 +197,20 @@ templates/
 
 ---
 
+## Особый случай: events archive
+
+`archive-events.php` следует стандартному паттерну с сайдбаром, **но** шаблон `events_1.php` не содержит `<section>/<container>` — только внутренний контент. Обёртка целиком в диспетчере.
+
+```
+archive-events.php          ← section + container + row + get_sidebar()
+└── events_1.php            ← фильтры, таблица, calendar, <script> (без section/container)
+```
+
+Ключи Redux сайдбара: `sidebar_position_archive_events`, `sidebar_breakpoint_events`.
+Чтобы сайдбар был виден на мобильном — breakpoint должен быть `always`.
+
+---
+
 ## Добавление нового варианта архива
 
 ### Шаг 1: Создать шаблон
