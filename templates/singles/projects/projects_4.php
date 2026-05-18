@@ -31,8 +31,9 @@ $title_description = get_post_meta( $product_id, 'main_information_title_descrip
 $description       = get_post_meta( $product_id, 'main_information_description', true );
 
 // ── Стили из Redux ───────────────────────────────────────────────────────────
-$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
-$grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gy-6 gx-md-6';
+$card_radius      = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+$grid_gap         = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gy-6 gx-md-6';
+$title_size_class = class_exists( 'Redux' ) ? ( Redux::get_option( $opt_name, 'opt-select-title-size' ) ?? 'display-1' ) : 'display-1';
 
 // ── Категория ─────────────────────────────────────────────────────────────────
 $categories    = get_the_terms( $product_id, 'projects_category' );
@@ -98,7 +99,7 @@ if ( $cms ) $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ), 'value' => es
 					</div>
 					<?php endif; ?>
 
-					<h1 class="display-1 mb-3 text-white"><?php the_title(); ?></h1>
+					<h1 class="<?php echo esc_attr( $title_size_class ); ?> mb-3 text-white"><?php the_title(); ?></h1>
 
 					<?php if ( $short_description ) : ?>
 					<p class="lead px-md-12 px-lg-12 px-xl-15 px-xxl-18">
