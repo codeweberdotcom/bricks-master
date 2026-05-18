@@ -906,10 +906,20 @@ class CodeweberFormsAPI {
             }
         }
         
+        $file_urls = [];
+        if (!empty($files_data) && is_array($files_data)) {
+            foreach ($files_data as $f) {
+                if (!empty($f['file_url'])) {
+                    $file_urls[] = $f['file_url'];
+                }
+            }
+        }
+
         return new WP_REST_Response([
-            'success' => true,
-            'message' => $success_message,
+            'success'      => true,
+            'message'      => $success_message,
             'submission_id' => $submission_id,
+            'file_urls'    => $file_urls,
         ], 200);
     }
     
