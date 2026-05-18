@@ -85,7 +85,7 @@ if ( $cms ) $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ), 'value' => es
 
 <?php /* ── Hero: featured image as bg-overlay ─────────────────────────────── */ ?>
 <section class="wrapper image-wrapper bg-image bg-overlay text-white"<?php if ( $bg_img_url ) : ?> data-image-src="<?php echo esc_url( $bg_img_url ); ?>"<?php endif; ?>>
-	<div class="container pt-17 pb-12 pt-md-19 pb-md-16 text-center">
+	<div class="container py-17 py-md-19 text-center">
 		<div class="row">
 			<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
 				<div class="post-header">
