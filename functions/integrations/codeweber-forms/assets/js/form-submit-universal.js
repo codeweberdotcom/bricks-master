@@ -1372,7 +1372,8 @@
                     form: form,
                     formData: new FormData(form)
                 },
-                cancelable: true
+                cancelable: true,
+                bubbles: true
             });
             const submittingResult = form.dispatchEvent(submittingEvent);
             console.log('[Form Submit] submittingResult:', submittingResult);
