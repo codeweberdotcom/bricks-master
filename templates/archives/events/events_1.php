@@ -14,10 +14,7 @@ $calendar_api_url = rest_url( 'codeweber/v1/events/calendar' );
 $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 ?>
 
-<section id="content-wrapper" class="wrapper">
-	<div class="container py-10 py-md-12">
-
-		<?php // ---- Filter + View Toggle ---------------------------------------- ?>
+<?php // ---- Filter + View Toggle ---------------------------------------- ?>
 		<div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-6">
 
 			<?php // Category filter ?>
@@ -143,9 +140,6 @@ $btn_style        = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 				<?php endif; ?>
 			</div><!-- #events-table-results -->
 		</div>
-
-	</div>
-</section>
 
 <script>
 (function () {
