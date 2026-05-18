@@ -1,0 +1,207 @@
+<?php
+/**
+ * Template: Single Projects — Hero bg-image + Grid Gallery (projects_4)
+ *
+ * Hero: featured image as full-width bg-overlay (from projects_3).
+ * Gallery: 2-column col-md-6 grid with square thumbnails (from default).
+ *
+ * @package Codeweber
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+global $post, $opt_name;
+if ( empty( $opt_name ) ) {
+	$opt_name = 'redux_demo';
+}
+
+$product_id = get_the_ID();
+
+// ── Метаполя ─────────────────────────────────────────────────────────────────
+$address           = get_post_meta( $product_id, 'main_information_address', true );
+$architector       = get_post_meta( $product_id, 'main_information_architector', true );
+$developer         = get_post_meta( $product_id, 'main_information_developer', true );
+$date              = get_post_meta( $product_id, 'main_information_date', true );
+$link              = get_post_meta( $product_id, 'main_information_link', true );
+$cms               = get_post_meta( $product_id, 'main_information_cms', true );
+$latitude          = get_post_meta( $product_id, 'main_information_latitude', true );
+$longitude         = get_post_meta( $product_id, 'main_information_longitude', true );
+$short_description = get_post_meta( $product_id, 'main_information_short_description', true );
+$title_description = get_post_meta( $product_id, 'main_information_title_description', true );
+$description       = get_post_meta( $product_id, 'main_information_description', true );
+
+// ── Стили из Redux ───────────────────────────────────────────────────────────
+$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+$grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gy-6 gx-md-6';
+
+// ── Категория ─────────────────────────────────────────────────────────────────
+$categories    = get_the_terms( $product_id, 'projects_category' );
+$category_name = '';
+$category_link = '';
+if ( $categories && ! is_wp_error( $categories ) ) {
+	$cat           = $categories[0];
+	$category_name = $cat->name;
+	$category_link = get_term_link( $cat );
+}
+
+// ── Featured image для фона шапки ─────────────────────────────────────────────
+$thumbnail_id = get_post_thumbnail_id( $product_id );
+$bg_img_url   = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'cw_wide_2k' ) : '';
+
+// ── Галерея ───────────────────────────────────────────────────────────────────
+$gallery_ids = function_exists( 'codeweber_get_project_gallery_ids' )
+	? codeweber_get_project_gallery_ids( $product_id )
+	: [];
+
+// ── Выполненные работы ────────────────────────────────────────────────────────
+$works_title = get_post_meta( $product_id, 'main_information_title_works', true );
+$works_count = (int) get_post_meta( $product_id, 'main_information_works', true );
+$works_items = [];
+for ( $i = 0; $i < $works_count; $i++ ) {
+	$w = get_post_meta( $product_id, 'main_information_works_' . $i . '_work', true );
+	if ( $w ) {
+		$works_items[] = $w;
+	}
+}
+
+// ── Метаполя для сайдбара ─────────────────────────────────────────────────────
+$meta_items = [];
+if ( $date )        $meta_items[] = [ 'label' => __( 'Date', 'codeweber' ),       'value' => esc_html( $date ) ];
+if ( $developer )   $meta_items[] = [ 'label' => __( 'Developer', 'codeweber' ), 'value' => esc_html( $developer ) ];
+if ( $architector ) $meta_items[] = [ 'label' => __( 'Architect', 'codeweber' ), 'value' => esc_html( $architector ) ];
+$projects_show_map = function_exists( 'codeweber_projects_settings_get' ) && codeweber_projects_settings_get( 'show_map', '1' ) === '1';
+
+if ( $address ) {
+	$addr_value = esc_html( $address );
+	if ( $latitude && $longitude && $projects_show_map ) {
+		$addr_value .= '<br><a href="#" class="more hover d-inline-block mt-1" data-project-map>' . esc_html__( 'Show on map', 'codeweber' ) . '</a>';
+	}
+	$meta_items[] = [ 'label' => __( 'Address', 'codeweber' ), 'value' => $addr_value ];
+}
+if ( $cms ) $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ), 'value' => esc_html( $cms ) ];
+?>
+
+<?php get_pageheader(); ?>
+
+<?php /* ── Hero: featured image as bg-overlay ─────────────────────────────── */ ?>
+<section class="wrapper image-wrapper bg-image bg-overlay text-white"<?php if ( $bg_img_url ) : ?> data-image-src="<?php echo esc_url( $bg_img_url ); ?>"<?php endif; ?>>
+	<div class="container pt-17 pb-12 pt-md-19 pb-md-16 text-center">
+		<div class="row">
+			<div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+				<div class="post-header">
+
+					<?php if ( $category_name ) : ?>
+					<div class="post-category text-line text-white mb-3">
+						<a href="<?php echo esc_url( $category_link ); ?>" class="text-reset" rel="category">
+							<?php echo esc_html( $category_name ); ?>
+						</a>
+					</div>
+					<?php endif; ?>
+
+					<h1 class="display-1 mb-3 text-white"><?php the_title(); ?></h1>
+
+					<?php if ( $short_description ) : ?>
+					<p class="lead px-md-12 px-lg-12 px-xl-15 px-xxl-18">
+						<?php echo esc_html( $short_description ); ?>
+					</p>
+					<?php endif; ?>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<?php /* ── Content + Grid Gallery ──────────────────────────────────────────── */ ?>
+<section class="wrapper wrapper-border">
+	<div class="container pt-14 pt-md-16 pb-13 pb-md-15">
+		<div class="row">
+			<div class="col-lg-10 offset-lg-1">
+
+				<?php if ( $title_description || $works_title || $description || ! empty( $works_items ) || ! empty( $meta_items ) || $link ) : ?>
+				<article>
+
+					<?php $section_title = $title_description ?: $works_title; ?>
+
+					<div class="row gx-0">
+
+						<?php if ( $description || ! empty( $works_items ) ) : ?>
+						<div class="col-md-9 text-justify">
+							<?php if ( $section_title ) : ?>
+							<h2 class="display-6 mb-4"><?php echo esc_html( $section_title ); ?></h2>
+							<?php endif; ?>
+							<?php if ( $description ) : ?>
+							<?php
+							$desc_output = preg_replace( '/<li>\s*<span>(.*?)<\/span>\s*<\/li>/s', '<li>$1</li>', $description );
+							echo wp_kses_post( $desc_output );
+							?>
+							<?php endif; ?>
+							<?php if ( ! empty( $works_items ) ) : ?>
+							<ul class="unordered-list bullet-primary">
+								<?php foreach ( $works_items as $work ) : ?>
+								<li><?php echo esc_html( $work ); ?></li>
+								<?php endforeach; ?>
+							</ul>
+							<?php endif; ?>
+						</div>
+						<?php endif; ?>
+
+						<?php if ( ! empty( $meta_items ) || $link ) : ?>
+						<div class="col-md-2 ms-auto">
+							<ul class="list-unstyled">
+								<?php foreach ( $meta_items as $item ) : ?>
+								<li>
+									<h5 class="mb-1"><?php echo esc_html( $item['label'] ); ?></h5>
+									<p><?php echo $item['value']; ?></p>
+								</li>
+								<?php endforeach; ?>
+							</ul>
+							<?php if ( $link ) : ?>
+							<a href="<?php echo esc_url( $link ); ?>" class="more hover" target="_blank" rel="noopener">
+								<?php esc_html_e( 'View project', 'codeweber' ); ?>
+							</a>
+							<?php endif; ?>
+						</div>
+						<?php endif; ?>
+
+					</div>
+
+					<?php /* Grid Gallery */ ?>
+					<?php if ( ! empty( $gallery_ids ) ) : ?>
+					<div class="row mt-5 <?php echo esc_attr( $grid_gap ); ?>">
+						<?php foreach ( $gallery_ids as $img_id ) :
+							$full_url  = wp_get_attachment_image_url( $img_id, 'cw_wide_2k' );
+							$thumb_url = wp_get_attachment_image_url( $img_id, 'cw_square_xl' );
+							if ( ! $thumb_url ) continue;
+						?>
+						<div class="item col-md-6">
+							<figure class="hover-scale hover-overlay <?php echo esc_attr( $card_radius ); ?>">
+								<a href="<?php echo esc_url( $full_url ?: $thumb_url ); ?>"
+								   data-glightbox
+								   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
+									<?php echo wp_get_attachment_image( $img_id, 'cw_square_xl', false, [ 'class' => 'w-100' ] ); ?>
+									<span class="hover-icon text-white"><svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg></span>
+								</a>
+							</figure>
+						</div>
+						<?php endforeach; ?>
+					</div>
+					<?php endif; ?>
+
+				</article>
+				<?php endif; ?>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<?php /* ── Товары проекта ──────────────────────────────────────────────── */ ?>
+<?php codeweber_projects_related_products(); ?>
+
+<?php /* ── Навигация ──────────────────────────────────────────────────────── */ ?>
+<?php codeweber_projects_nav(); ?>
+
+<?php /* ── Модальное окно с картой проектов ───────────────────────────────── */ ?>
+<?php codeweber_projects_map_modal(); ?>
+<?php codeweber_projects_map_float_button(); ?>
