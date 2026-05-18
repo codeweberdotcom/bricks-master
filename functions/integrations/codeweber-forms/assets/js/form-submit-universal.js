@@ -1788,16 +1788,7 @@
                 if (responseData.success) {
                     // Reset form first
                     form.reset();
-
-                    // Clear FilePond files directly via stored instance references
-                    form.querySelectorAll('input[type="file"][data-filepond="true"]').forEach(function(fpInput) {
-                        try {
-                            if (fpInput.filepondInstance && typeof fpInput.filepondInstance.removeFiles === 'function') {
-                                fpInput.filepondInstance.removeFiles();
-                            }
-                        } catch (e) { /* ignore */ }
-                    });
-
+                    
                     // Очистка FilePond выполняется в универсальном обработчике с задержкой
                     // Здесь только диспатчим событие, чтобы не мешать показу модального окна
                     
