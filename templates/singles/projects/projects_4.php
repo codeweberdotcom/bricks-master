@@ -45,6 +45,10 @@ if ( $categories && ! is_wp_error( $categories ) ) {
 	$category_link = get_term_link( $cat );
 }
 
+$lightbox_size = function_exists( 'codeweber_projects_settings_get' )
+	? codeweber_projects_settings_get( 'lightbox_image_size', 'cw_wide_2k' )
+	: 'cw_wide_2k';
+
 // ── Featured image для фона шапки ─────────────────────────────────────────────
 $thumbnail_id = get_post_thumbnail_id( $product_id );
 $bg_img_url   = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'cw_wide_2k' ) : '';
@@ -171,7 +175,7 @@ if ( $cms ) $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ), 'value' => es
 					<?php if ( ! empty( $gallery_ids ) ) : ?>
 					<div class="row mt-5 <?php echo esc_attr( $grid_gap ); ?>">
 						<?php foreach ( $gallery_ids as $img_id ) :
-							$full_url  = wp_get_attachment_image_url( $img_id, 'cw_wide_2k' );
+							$full_url  = wp_get_attachment_image_url( $img_id, $lightbox_size );
 							$thumb_url = wp_get_attachment_image_url( $img_id, 'cw_square_xl' );
 							if ( ! $thumb_url ) continue;
 						?>

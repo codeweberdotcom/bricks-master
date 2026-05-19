@@ -61,6 +61,10 @@ foreach ( $gallery_ids as $gid ) {
 	}
 }
 
+$lightbox_size = function_exists( 'codeweber_projects_settings_get' )
+	? codeweber_projects_settings_get( 'lightbox_image_size', 'cw_wide_2k' )
+	: 'cw_wide_2k';
+
 // ── Featured image для фона шапки ─────────────────────────────────────────────
 $bg_img_url = $thumbnail_id
 	? wp_get_attachment_image_url( $thumbnail_id, 'cw_wide_2k' )
@@ -197,7 +201,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 				<div class="swiper-wrapper">
 					<?php foreach ( $slide_ids as $slide_id ) :
 						$slide_url  = wp_get_attachment_image_url( $slide_id, 'cw_landscape_hd' );
-						$slide_full = wp_get_attachment_image_url( $slide_id, 'cw_wide_2k' );
+						$slide_full = wp_get_attachment_image_url( $slide_id, $lightbox_size );
 						if ( ! $slide_url ) continue;
 					?>
 					<div class="swiper-slide">

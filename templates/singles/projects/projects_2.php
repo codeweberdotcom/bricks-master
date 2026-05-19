@@ -59,6 +59,10 @@ if ( $categories && ! is_wp_error( $categories ) ) {
 	$category_link = get_term_link( $cat );
 }
 
+$lightbox_size = function_exists( 'codeweber_projects_settings_get' )
+	? codeweber_projects_settings_get( 'lightbox_image_size', 'cw_wide_2k' )
+	: 'cw_wide_2k';
+
 // ── Слайды: главное фото + галерея ───────────────────────────────────────────
 $thumbnail_id = get_post_thumbnail_id( $product_id );
 $slide_ids    = [];
@@ -160,7 +164,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 						<div class="swiper-wrapper">
 							<?php foreach ( $slide_ids as $slide_id ) :
 								$slide_url  = wp_get_attachment_image_url( $slide_id, 'cw_landscape_hd' );
-								$slide_full = wp_get_attachment_image_url( $slide_id, 'cw_wide_2k' );
+								$slide_full = wp_get_attachment_image_url( $slide_id, $lightbox_size );
 								if ( ! $slide_url ) continue;
 							?>
 							<div class="swiper-slide <?php echo esc_attr( $card_radius ); ?>">

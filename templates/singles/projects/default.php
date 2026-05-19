@@ -78,7 +78,10 @@ for ( $i = 0; $i < $works_count; $i++ ) {
 
 // ── Featured image ────────────────────────────────────────────────────────────
 $thumbnail_id  = get_post_thumbnail_id( $product_id );
-$main_img_full = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'cw_wide_2k' ) : '';
+$lightbox_size = function_exists( 'codeweber_projects_settings_get' )
+	? codeweber_projects_settings_get( 'lightbox_image_size', 'cw_wide_2k' )
+	: 'cw_wide_2k';
+$main_img_full = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, $lightbox_size ) : '';
 
 // ── Метаполя для сайдбара ─────────────────────────────────────────────────────
 $meta_items = [];
@@ -229,7 +232,7 @@ if ( $cms )         $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ),      
 					<?php if ( ! empty( $gallery_ids ) ) : ?>
 					<div class="row mt-5 <?php echo esc_attr( $grid_gap ); ?>">
 						<?php foreach ( $gallery_ids as $img_id ) :
-							$full_url  = wp_get_attachment_image_url( $img_id, 'cw_wide_2k' );
+							$full_url  = wp_get_attachment_image_url( $img_id, $lightbox_size );
 							$thumb_url = wp_get_attachment_image_url( $img_id, 'cw_square_xl' );
 							if ( ! $thumb_url ) continue;
 						?>
