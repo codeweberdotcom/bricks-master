@@ -171,29 +171,29 @@ if ( $cms ) $meta_items[] = [ 'label' => __( 'CMS', 'codeweber' ), 'value' => es
 
 					</div>
 
-					<?php /* Grid Gallery */ ?>
-					<?php if ( ! empty( $gallery_ids ) ) : ?>
-					<div class="row mt-5 <?php echo esc_attr( $grid_gap ); ?>">
-						<?php foreach ( $gallery_ids as $img_id ) :
-							$full_url  = wp_get_attachment_image_url( $img_id, $lightbox_size );
-							$thumb_url = wp_get_attachment_image_url( $img_id, 'cw_square_xl' );
-							if ( ! $thumb_url ) continue;
-						?>
-						<div class="item col-md-6">
-							<figure class="hover-scale hover-overlay <?php echo esc_attr( $card_radius ); ?>">
-								<a href="<?php echo esc_url( $full_url ?: $thumb_url ); ?>"
-								   data-glightbox
-								   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
-									<?php echo wp_get_attachment_image( $img_id, 'cw_square_xl', false, [ 'class' => 'w-100' ] ); ?>
-									<span class="hover-icon text-white"><svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg></span>
-								</a>
-							</figure>
-						</div>
-						<?php endforeach; ?>
-					</div>
-					<?php endif; ?>
-
 				</article>
+				<?php endif; ?>
+
+				<?php /* Grid Gallery */ ?>
+				<?php if ( ! empty( $gallery_ids ) ) : ?>
+				<div class="row mt-5 <?php echo esc_attr( $grid_gap ); ?>">
+					<?php foreach ( $gallery_ids as $img_id ) :
+						$full_url  = wp_get_attachment_image_url( $img_id, $lightbox_size );
+						$thumb_url = wp_get_attachment_image_url( $img_id, 'cw_square_xl' );
+						if ( ! $thumb_url ) continue;
+					?>
+					<div class="item col-md-6">
+						<figure class="hover-scale hover-overlay <?php echo esc_attr( $card_radius ); ?>">
+							<a href="<?php echo esc_url( $full_url ?: $thumb_url ); ?>"
+							   data-glightbox
+							   data-gallery="project-<?php echo esc_attr( $product_id ); ?>">
+								<?php echo wp_get_attachment_image( $img_id, 'cw_square_xl', false, [ 'class' => 'w-100' ] ); ?>
+								<span class="hover-icon text-white"><svg fill="currentColor" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M220,128a4.0002,4.0002,0,0,1-4,4H132v84a4,4,0,0,1-8,0V132H40a4,4,0,0,1,0-8h84V40a4,4,0,0,1,8,0v84h84A4.0002,4.0002,0,0,1,220,128Z"></path></svg></span>
+							</a>
+						</figure>
+					</div>
+					<?php endforeach; ?>
+				</div>
 				<?php endif; ?>
 
 			</div>
