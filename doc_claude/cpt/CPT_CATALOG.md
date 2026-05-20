@@ -164,20 +164,36 @@ echo $modal->post_content;
 | Property | Value |
 |----------|-------|
 | **Slug** | `notifications` |
-| **Public** | ✅ true |
+| **Public** | ❌ false |
 | **Publicly Queryable** | ❌ false |
 | **Has Archive** | ❌ false |
-| **Supports** | title, editor |
+| **Supports** | title |
 | **Hierarchical** | ❌ false |
 | **REST API** | ✅ yes |
 
-**Purpose:** Store system notifications (alerts, announcements) displayed via JavaScript on specific pages.
+**Purpose:** Visitor-triggered notifications. One active notification fires when a trigger condition is met. Three output types: modal window, CW Notify toast, or Telegram message.
 
-**Custom Meta Fields:**
-- `notification_type` — error, success, info, warning
-- `notification_display_pages` — array of page IDs or post types
-- `notification_schedule_start` / `notification_schedule_end` — Date-time stamps
-- `notification_icon` — Icon class (e.g., `bi-exclamation-circle`)
+**Notification Types (`_notification_type`):**
+- `modal` — Bootstrap modal, content from Modal CPT
+- `cw_notify` — Toast notification via CWNotify JS
+- `telegram` — Server-side AJAX → Telegram Bot API (visitor info + UTM)
+
+**Trigger Types (`_notification_trigger_type`):**
+`delay` | `inactivity` | `viewport` | `scroll_middle` | `scroll_end` | `codeweber_form` | `cf7_form` | `woocommerce_order` | `page` | `utm_param`
+
+**Key Meta Fields:**
+- `_notification_type` — modal / cw_notify / telegram
+- `_notification_start_date` / `_notification_end_date` — schedule (Y-m-d H:i:s)
+- `_notification_wait_delay` — ms before trigger fires
+- `_notification_trigger_type` — trigger type
+- `_notification_trigger_utm_param` / `_notification_trigger_utm_value` — UTM match (both required)
+- `_notification_composite_enabled` / `_notification_composite_steps` / `_notification_composite_lifetime` — sequential chain mode
+- `_notification_max_firings` — how many times fires per visitor (0=unlimited, default 1)
+- `_notification_count_reset` — hours before counter resets (0=session, default 720)
+
+**Frontend Script:** `src/assets/js/notification-triggers.js` — compiled to `dist/`, enqueued only when `wp_count_posts('notifications')->publish > 0`. Cookie keys: `cw_notif_{id}_count` (firings), `cw_notif_{id}_chain` (composite step).
+
+**See also:** `doc_claude/integrations/NOTIFICATIONS.md`
 
 ---
 
@@ -399,28 +415,37 @@ echo $modal->post_content;
 | **Public** | ✅ true |
 | **Publicly Queryable** | ✅ true |
 | **Has Archive** | ✅ true (`/documents/`) |
-| **Supports** | title, editor, thumbnail, revisions |
-| **Hierarchical** | ❌ false |
+| **Supports** | title, thumbnail, revisions, author |
+| **Hierarchical** | ✅ true |
 
 **Taxonomies:**
-- `document_category` (Contracts, Reports, Guides, etc.)
-- `document_type` (PDF, Word, Spreadsheet, etc.)
+- `document_category`
+- `document_type`
 
 **Custom Meta Fields:**
-- `document_file_url` — Direct link to PDF/file
-- `document_file_size` — File size in MB
-- `document_file_type` — MIME type
-- `document_version` — Version number
-- `document_published_date` — Publication date (separate from post date)
+- `_document_file` — URL (direct upload) or attachment ID (media library). Resolved via `wp_get_attachment_url()` when numeric.
 
-**Related Files:**
-- `templates/post-cards/card-documents.php` — Document card with download button
-- REST endpoint: `POST /wp-json/codeweber-forms/v1/documents/send-email` — Email document to user
+**File Upload (meta box):**
+- `<input type="file">` — uploads new file from local computer, PDF thumbnail auto-generated
+- **Select from Media Library** (`wp.media()`) — picks existing file from server; PDF thumbnail also auto-generated; filtered to allowed MIME types from `get_allowed_document_types()`
+- Allowed types: pdf, doc, docx, xls, xlsx, csv, ppt, pptx, txt, zip, rar (filterable via `allowed_document_types` filter)
 
-**Special Features:**
-- File versioning
-- Email document via form submission
-- Archive by category and type
+**REST Endpoints:**
+- `GET /wp-json/codeweber/v1/documents/{id}/download-url` — get file URL
+- `POST /wp-json/codeweber/v1/documents/send-email` — email download link to user (NOT attachment)
+- `GET /wp-json/wp/v2/modal/doc-{id}` — HTML form for email modal
+- `GET /wp-json/codeweber-gutenberg-blocks/v1/documents/{id}/csv` — spreadsheet data for Tabulator
+- `POST /wp-json/codeweber-gutenberg-blocks/v1/documents/{id}/spreadsheet` — save spreadsheet data
+
+**Email sending:**
+- Sends download link only (no file attachment)
+- Rate limit: 1 request per email per document per N minutes (configured in **CodeWeber Forms → Settings → Rate Limiting → Document Email Rate Limit**)
+- Failed send triggers Telegram notification via `wp_mail_failed` hook (automatic)
+
+**Spreadsheet editor (Tabulator):**
+- Inline editor in admin meta box for CSV/XLSX files
+- Read-only for XLS
+- Requires `codeweber-gutenberg-blocks` plugin active
 
 ---
 
