@@ -1123,7 +1123,7 @@ class CodeweberFormsRenderer {
                         endforeach; ?>
                     </div>
 
-                    <div class="cwgb-form-step-nav">
+                    <div class="cwgb-form-step-nav d-flex gap-2 mt-4 align-items-center">
                         <?php if (!$is_first && $show_back): ?>
                             <button type="button" class="cwgb-form-back <?php echo esc_attr($back_class . ' ' . $button_radius_class); ?>">
                                 <span><?php echo esc_html($back_text); ?></span>
@@ -1140,14 +1140,11 @@ class CodeweberFormsRenderer {
                             foreach ($page_btns as $btn_attrs):
                                 $btn_text  = $btn_attrs['buttonText'] ?? __('Send Message', 'codeweber');
                                 $btn_class = trim(($btn_attrs['buttonClass'] ?? 'btn btn-primary') . ' ' . $button_radius_class);
-                                $btn_wrap  = $btn_attrs['blockClass'] ?? '';
                                 ?>
-                                <div class="form-submit-wrapper <?php echo esc_attr($btn_wrap); ?>">
-                                    <button type="submit" class="<?php echo esc_attr($btn_class); ?> btn-icon btn-icon-start"
-                                        data-loading-text="<?php echo esc_attr(__('Sending', 'codeweber')); ?>">
-                                        <span><?php echo esc_html($btn_text); ?></span>
-                                    </button>
-                                </div>
+                                <button type="submit" class="<?php echo esc_attr($btn_class); ?> btn-icon btn-icon-start"
+                                    data-loading-text="<?php echo esc_attr(__('Sending', 'codeweber')); ?>">
+                                    <span><?php echo esc_html($btn_text); ?></span>
+                                </button>
                             <?php endforeach;
                         endif; ?>
                     </div>
