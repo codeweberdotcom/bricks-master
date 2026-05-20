@@ -162,14 +162,46 @@ class CodeweberFormsShortcode {
                 
                 // Извлекаем поля и кнопки из innerBlocks
                 if (!empty($form_block['innerBlocks'])) {
+                    $has_pages = false;
                     foreach ($form_block['innerBlocks'] as $inner_block) {
-                        if ($inner_block['blockName'] === 'codeweber-blocks/form-field') {
-                            $config['fields'][] = $inner_block['attrs'];
-                        } elseif ($inner_block['blockName'] === 'codeweber-blocks/submit-button') {
-                            if (!isset($config['submit_buttons'])) {
-                                $config['submit_buttons'] = [];
+                        if ($inner_block['blockName'] === 'codeweber-blocks/form-page') {
+                            $has_pages = true;
+                            break;
+                        }
+                    }
+
+                    if ($has_pages) {
+                        $pages = [];
+                        foreach ($form_block['innerBlocks'] as $inner_block) {
+                            if ($inner_block['blockName'] !== 'codeweber-blocks/form-page') {
+                                continue;
                             }
-                            $config['submit_buttons'][] = $inner_block['attrs'];
+                            $page_attrs   = $inner_block['attrs'] ?? [];
+                            $page_fields  = [];
+                            $page_submits = [];
+                            foreach ($inner_block['innerBlocks'] ?? [] as $page_child) {
+                                if ($page_child['blockName'] === 'codeweber-blocks/form-field') {
+                                    $page_fields[] = $page_child['attrs'];
+                                } elseif ($page_child['blockName'] === 'codeweber-blocks/submit-button') {
+                                    $page_submits[] = $page_child['attrs'];
+                                }
+                            }
+                            $pages[] = array_merge($page_attrs, [
+                                'fields'         => $page_fields,
+                                'submit_buttons' => $page_submits,
+                            ]);
+                        }
+                        $config['pages'] = $pages;
+                    } else {
+                        foreach ($form_block['innerBlocks'] as $inner_block) {
+                            if ($inner_block['blockName'] === 'codeweber-blocks/form-field') {
+                                $config['fields'][] = $inner_block['attrs'];
+                            } elseif ($inner_block['blockName'] === 'codeweber-blocks/submit-button') {
+                                if (!isset($config['submit_buttons'])) {
+                                    $config['submit_buttons'] = [];
+                                }
+                                $config['submit_buttons'][] = $inner_block['attrs'];
+                            }
                         }
                     }
                 }
