@@ -48,23 +48,56 @@ class CodeweberFormsRenderer {
             return '<p>' . __('Form block not found.', 'codeweber') . '</p>';
         }
         
+        // Определяем режим: multi-page (есть form-page блоки) или single-page
+        $has_pages = false;
+        if (!empty($form_block['innerBlocks'])) {
+            foreach ($form_block['innerBlocks'] as $inner_block) {
+                if (($inner_block['blockName'] ?? '') === 'codeweber-blocks/form-page') {
+                    $has_pages = true;
+                    break;
+                }
+            }
+        }
+
         // Извлекаем поля и кнопки из innerBlocks
         // Также рендерим другие блоки (например, heading-subtitle)
         $fields = [];
+        $pages = [];
         $submit_buttons = [];
         $other_blocks_html = '';
         $has_filepond = false;
         if (!empty($form_block['innerBlocks'])) {
             foreach ($form_block['innerBlocks'] as $inner_block) {
-                if ($inner_block['blockName'] === 'codeweber-blocks/form-field') {
+                $block_name = $inner_block['blockName'] ?? '';
+
+                if ($has_pages && $block_name === 'codeweber-blocks/form-page') {
+                    // Multi-page: собираем поля каждой страницы
+                    $page_attrs   = $inner_block['attrs'] ?? [];
+                    $page_fields  = [];
+                    $page_buttons = [];
+                    foreach ($inner_block['innerBlocks'] ?? [] as $page_block) {
+                        $pbn = $page_block['blockName'] ?? '';
+                        if ($pbn === 'codeweber-blocks/form-field') {
+                            $fa = $page_block['attrs'] ?? [];
+                            if (($fa['fieldType'] ?? '') === 'file') {
+                                $has_filepond = true;
+                            }
+                            $page_fields[] = $fa;
+                        } elseif ($pbn === 'codeweber-blocks/submit-button') {
+                            $page_buttons[] = $page_block['attrs'] ?? [];
+                        }
+                    }
+                    $pages[] = array_merge($page_attrs, [
+                        'fields'         => $page_fields,
+                        'submit_buttons' => $page_buttons,
+                    ]);
+                } elseif (!$has_pages && $block_name === 'codeweber-blocks/form-field') {
                     $field_attrs = $inner_block['attrs'] ?? [];
-                    // Проверяем, есть ли file поле с FilePond
-                    // FilePond всегда используется для полей типа file
                     if (($field_attrs['fieldType'] ?? '') === 'file') {
                         $has_filepond = true;
                     }
                     $fields[] = $field_attrs;
-                } elseif ($inner_block['blockName'] === 'codeweber-blocks/submit-button') {
+                } elseif (!$has_pages && $block_name === 'codeweber-blocks/submit-button') {
                     $submit_buttons[] = $inner_block['attrs'];
                 } else {
                     // Рендерим все остальные блоки (например, heading-subtitle)
@@ -72,27 +105,28 @@ class CodeweberFormsRenderer {
                 }
             }
         }
-        
+
         // Enqueue FilePond if needed
         if ($has_filepond) {
             if (class_exists('\Codeweber\Blocks\Plugin')) {
                 \Codeweber\Blocks\Plugin::enqueue_filepond();
             }
         }
-        
+
         // Извлекаем все атрибуты блока (включая formGap*)
         $block_attrs = $form_block['attrs'] ?? [];
-        
+
         $form_config = [
-            'fields' => $fields,
+            'fields'         => $fields,
+            'pages'          => $pages,
             'submit_buttons' => $submit_buttons,
-            'settings' => array_merge(
-                $block_attrs, // Все атрибуты блока, включая formGap*, formGapType, и т.д.
+            'settings'       => array_merge(
+                $block_attrs,
                 [
                     'recipientEmail' => get_post_meta($post->ID, '_form_recipient_email', true),
-                    'senderEmail' => get_post_meta($post->ID, '_form_sender_email', true),
-                    'senderName' => get_post_meta($post->ID, '_form_sender_name', true),
-                    'subject' => get_post_meta($post->ID, '_form_subject', true),
+                    'senderEmail'    => get_post_meta($post->ID, '_form_sender_email', true),
+                    'senderName'     => get_post_meta($post->ID, '_form_sender_name', true),
+                    'subject'        => get_post_meta($post->ID, '_form_subject', true),
                 ]
             ),
         ];
@@ -124,7 +158,13 @@ class CodeweberFormsRenderer {
      */
     private function render_from_config($form_id, $config) {
         $fields = $config['fields'] ?? [];
+        $pages  = $config['pages']  ?? [];
         $settings = $config['settings'] ?? [];
+
+        // Multi-page mode
+        if (!empty($pages)) {
+            return $this->render_multipage($form_id, $config);
+        }
         
         // Check for FilePond fields and enqueue scripts if needed
         // FilePond всегда используется для полей типа file
@@ -959,6 +999,187 @@ class CodeweberFormsRenderer {
         </div>
         <?php
         return ob_get_clean();
+    }
+
+    /**
+     * Render multi-page form
+     */
+    private function render_multipage($form_id, $config) {
+        $pages    = $config['pages']    ?? [];
+        $settings = $config['settings'] ?? [];
+
+        $total_steps = count($pages);
+        if ($total_steps === 0) {
+            return '';
+        }
+
+        static $form_instance_counter = 0;
+        $form_instance_counter++;
+        $form_unique_id = 'form-' . ($form_id ?: uniqid()) . '-' . $form_instance_counter;
+
+        $form_type     = CodeweberFormsCore::get_form_type($form_id, $config);
+        $block_class   = $settings['blockClass'] ?? '';
+        $block_data    = $settings['blockData']  ?? '';
+        $block_id      = $settings['blockId']    ?? '';
+        $success_msg   = $settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
+        $error_msg     = $settings['errorMessage']   ?? __('An error occurred. Please try again.', 'codeweber');
+
+        $form_element_id = $block_id ?: $form_unique_id;
+
+        $form_classes = ['codeweber-form', 'needs-validation', 'cwgb-form-multipage'];
+        if ($block_class) {
+            $form_classes[] = $block_class;
+        }
+
+        // Gap classes (same logic as single-page)
+        $gap_classes = $this->get_gap_classes($settings);
+        $row_classes = ['row'];
+        if (!empty($gap_classes)) {
+            $row_classes = array_merge($row_classes, $gap_classes);
+        } else {
+            $form_gap_value = $settings['formGap'] ?? '';
+            $row_classes[] = ($form_gap_value !== '' && $form_gap_value !== null)
+                ? "g-{$form_gap_value}"
+                : 'g-4';
+        }
+        $row_class = implode(' ', array_filter($row_classes));
+
+        $button_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
+
+        // Collect page titles for progress indicator
+        $page_titles = array_map(function ($p) {
+            return $p['pageTitle'] ?? '';
+        }, $pages);
+
+        ob_start();
+        ?>
+        <form
+            id="<?php echo esc_attr($form_element_id); ?>"
+            class="<?php echo esc_attr(implode(' ', $form_classes)); ?>"
+            data-form-id="<?php echo esc_attr($form_id); ?>"
+            data-form-type="<?php echo esc_attr($form_type); ?>"
+            data-form-name="<?php echo esc_attr($settings['internalName'] ?? ($settings['formTitle'] ?? 'Form')); ?>"
+            data-handled-by="codeweber-forms-universal"
+            data-total-steps="<?php echo esc_attr($total_steps); ?>"
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+        >
+            <?php wp_nonce_field('codeweber_form_submit', 'form_nonce'); ?>
+            <input type="hidden" name="form_id" value="<?php echo esc_attr($form_id); ?>">
+            <input type="hidden" name="cwf_token" value="<?php echo esc_attr(CodeweberFormsToken::generate($form_id)); ?>">
+            <input type="hidden" name="form_honeypot" value="">
+            <div class="form-messages" style="display: none;"></div>
+
+            <?php // Progress indicator ?>
+            <div class="cwgb-form-progress mb-4" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
+                <div class="cwgb-form-progress-text small text-muted mb-2">
+                    <span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <?php echo esc_html($total_steps); ?>
+                    <?php
+                    $first_title = $page_titles[0] ?? '';
+                    if ($first_title): ?>
+                        &mdash; <span class="cwgb-form-progress-title"><?php echo esc_html($first_title); ?></span>
+                    <?php endif; ?>
+                </div>
+                <div class="progress" style="height:4px">
+                    <div
+                        class="progress-bar"
+                        role="progressbar"
+                        style="width:<?php echo esc_attr(round(100 / $total_steps)); ?>%"
+                        data-step-width="<?php echo esc_attr(round(100 / $total_steps)); ?>"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="<?php echo esc_attr(round(100 / $total_steps)); ?>"
+                    ></div>
+                </div>
+            </div>
+
+            <?php // Hidden page titles for JS ?>
+            <script type="application/json" class="cwgb-form-page-titles">
+                <?php echo wp_json_encode($page_titles); ?>
+            </script>
+
+            <?php foreach ($pages as $step_idx => $page):
+                $step_num    = $step_idx + 1;
+                $is_last     = ($step_num === $total_steps);
+                $is_first    = ($step_num === 1);
+                $page_fields = $page['fields']         ?? [];
+                $page_btns   = $page['submit_buttons'] ?? [];
+
+                $next_text  = !empty($page['nextButtonText']) ? $page['nextButtonText'] : __('Next', 'codeweber');
+                $next_class = !empty($page['nextButtonClass']) ? $page['nextButtonClass'] : 'btn btn-primary';
+                $back_text  = !empty($page['backButtonText']) ? $page['backButtonText'] : __('Back', 'codeweber');
+                $back_class = !empty($page['backButtonClass']) ? $page['backButtonClass'] : 'btn btn-outline-secondary';
+                $show_back  = isset($page['showBackButton']) ? (bool) $page['showBackButton'] : true;
+                ?>
+                <div
+                    class="cwgb-form-step<?php echo $is_first ? ' cwgb-form-step--active' : ''; ?>"
+                    data-step="<?php echo esc_attr($step_num); ?>"
+                    <?php if (!$is_first): ?>style="display:none"<?php endif; ?>
+                >
+                    <div class="<?php echo esc_attr($row_class); ?>">
+                        <?php foreach ($page_fields as $field):
+                            echo $this->render_field($field, $form_id);
+                        endforeach; ?>
+                    </div>
+
+                    <div class="cwgb-form-step-nav">
+                        <?php if (!$is_first && $show_back): ?>
+                            <button type="button" class="cwgb-form-back <?php echo esc_attr($back_class . ' ' . $button_radius_class); ?>">
+                                <span><?php echo esc_html($back_text); ?></span>
+                            </button>
+                        <?php endif; ?>
+
+                        <?php if (!$is_last): ?>
+                            <button type="button" class="cwgb-form-next <?php echo esc_attr($next_class . ' ' . $button_radius_class); ?>">
+                                <span><?php echo esc_html($next_text); ?></span>
+                            </button>
+                        <?php endif; ?>
+
+                        <?php if ($is_last && !empty($page_btns)):
+                            foreach ($page_btns as $btn_attrs):
+                                $btn_text  = $btn_attrs['buttonText'] ?? __('Send Message', 'codeweber');
+                                $btn_class = trim(($btn_attrs['buttonClass'] ?? 'btn btn-primary') . ' ' . $button_radius_class);
+                                $btn_wrap  = $btn_attrs['blockClass'] ?? '';
+                                ?>
+                                <div class="form-submit-wrapper <?php echo esc_attr($btn_wrap); ?>">
+                                    <button type="submit" class="<?php echo esc_attr($btn_class); ?> btn-icon btn-icon-start"
+                                        data-loading-text="<?php echo esc_attr(__('Sending', 'codeweber')); ?>">
+                                        <span><?php echo esc_html($btn_text); ?></span>
+                                    </button>
+                                </div>
+                            <?php endforeach;
+                        endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </form>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Build Bootstrap gap classes from form settings (shared between single/multi page)
+     */
+    private function get_gap_classes($settings) {
+        $classes = [];
+        $types   = ['g' => '', 'gx' => 'X', 'gy' => 'Y'];
+        $bps     = ['Xs' => '', 'Sm' => 'sm', 'Md' => 'md', 'Lg' => 'lg', 'Xl' => 'xl', 'Xxl' => 'xxl'];
+
+        foreach ($types as $prefix => $suffix) {
+            $base = $settings["formGap{$suffix}"] ?? '';
+            if ($base !== '' && $base !== null) {
+                $classes[] = "{$prefix}-{$base}";
+            }
+            foreach ($bps as $bp_key => $bp_str) {
+                $val = $settings["formGap{$suffix}{$bp_key}"] ?? '';
+                if ($val !== '' && $val !== null) {
+                    $classes[] = $bp_str ? "{$prefix}-{$bp_str}-{$val}" : "{$prefix}-{$val}";
+                }
+            }
+        }
+
+        return $classes;
     }
 }
 

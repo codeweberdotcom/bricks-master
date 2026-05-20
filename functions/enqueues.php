@@ -367,6 +367,19 @@ function codeweber_enqueue_testimonial_form() {
 		'nonce' => wp_create_nonce('wp_rest'),
 	]);
 	// wpApiSettings уже передаётся в codeweber_enqueue_restapi_script() — дублировать не нужно.
+
+	// Multi-page form navigation script
+	$multipage_script_path = get_template_directory() . '/functions/integrations/codeweber-forms/assets/js/form-multipage.js';
+	$multipage_script_url  = get_template_directory_uri() . '/functions/integrations/codeweber-forms/assets/js/form-multipage.js';
+	if (file_exists($multipage_script_path)) {
+		wp_enqueue_script(
+			'codeweber-form-multipage',
+			$multipage_script_url,
+			['codeweber'],
+			codeweber_asset_version($multipage_script_path),
+			true
+		);
+	}
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_testimonial_form', 20); // Priority 20 to run after codeweber-forms-core
 
