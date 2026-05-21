@@ -171,8 +171,14 @@
 
         updateProgress(form, targetStep, totalSteps, pageTitles);
 
-        // Scroll form into view smoothly
-        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Scroll only if form is not already fully visible (account for fixed header)
+        var rect = form.getBoundingClientRect();
+        var headerEl = document.querySelector('.site-header') || document.querySelector('header');
+        var headerH = headerEl ? headerEl.offsetHeight : 0;
+        if (rect.top < headerH || rect.bottom > window.innerHeight) {
+            var scrollTarget = window.scrollY + rect.top - headerH - 16;
+            window.scrollTo({ top: Math.max(0, scrollTarget), behavior: 'smooth' });
+        }
     }
 
     // ── Init ─────────────────────────────────────────────────────────────────
