@@ -1069,6 +1069,103 @@ add_filter( 'codeweber_post_type_template_map', function ( $map ) {
 
 That means adding a new CPT to the registry *automatically* teaches `cw_render_post_card()` which folder to look in — you don't have to touch `post_type_to_dir` manually.
 
+### Child theme: adding card templates for a new CPT
+
+This is the standard pattern when a child theme has its own CPT and needs cards to appear in the Post Grid block's Template selector.
+
+`cw_render_post_card()` resolves all template paths via `get_theme_file_path()` — which checks the child theme first at every step of the fallback chain. So a template file in the child theme is picked up automatically without any extra configuration. The only extra step needed is registering the CPT in the registry so the Post Grid sidebar knows which templates to show.
+
+**Step 1 — Create the template file in the child theme:**
+
+```
+wp-content/themes/my-child/templates/post-cards/awards/card.php
+```
+
+**Step 2 — Register in the registry** (in child theme `functions.php`):
+
+```php
+add_filter( 'codeweber_post_card_templates_registry', function ( $registry ) {
+    $registry['awards'] = [
+        'dir'       => 'awards',
+        'templates' => [
+            'card' => [
+                'label'       => __( 'Card', 'my-child' ),
+                'description' => '',
+                'supports'    => [ 'title', 'excerpt' ],
+            ],
+        ],
+    ];
+    return $registry;
+} );
+```
+
+Result:
+- `awards/card` appears in the Post Grid **Template** dropdown when CPT `awards` is selected
+- `cw_render_post_card()` learns to look in `templates/post-cards/awards/` (via auto-map from `dir`)
+- No changes to the parent theme or plugin required
+
+**Step 3 — Write the template file:**
+
+Variables are available directly in scope (via `extract`):
+
+```php
+<?php
+if ( ! isset( $post_data ) || ! $post_data ) {
+    return;
+}
+$display      = cw_get_post_card_display_settings( $display_settings ?? [] );
+$template_args = wp_parse_args( $template_args ?? [], [
+    'image_size' => 'codeweber_single',
+] );
+?>
+<article class="card h-100">
+    <?php if ( $post_data['image_url'] ) : ?>
+        <figure class="card-img-top overflow-hidden mb-0">
+            <a href="<?php echo esc_url( $post_data['link'] ); ?>">
+                <img src="<?php echo esc_url( $post_data['image_url'] ); ?>"
+                     alt="<?php echo esc_attr( $post_data['image_alt'] ); ?>"
+                     class="img-fluid w-100">
+            </a>
+        </figure>
+    <?php endif; ?>
+    <div class="card-body">
+        <?php if ( $display['show_title'] && $post_data['title'] ) : ?>
+            <<?php echo esc_attr( $display['title_tag'] ); ?> class="<?php echo esc_attr( $display['title_class'] ); ?>">
+                <a href="<?php echo esc_url( $post_data['link'] ); ?>" class="link-dark">
+                    <?php echo esc_html( $post_data['title'] ); ?>
+                </a>
+            </<?php echo esc_attr( $display['title_tag'] ); ?>>
+        <?php endif; ?>
+        <?php if ( $display['excerpt_length'] > 0 && $post_data['excerpt'] ) : ?>
+            <p class="card-text"><?php echo wp_kses_post( $post_data['excerpt'] ); ?></p>
+        <?php endif; ?>
+    </div>
+</article>
+```
+
+**To override an existing parent-theme template** — just copy the file to the same path in the child theme, no registration needed:
+
+```
+Parent:     codeweber/templates/post-cards/staff/circle.php
+Child:      my-child/templates/post-cards/staff/circle.php
+```
+
+**To add a template to an existing parent CPT** — add to the registry without replacing the existing entry:
+
+```php
+add_filter( 'codeweber_post_card_templates_registry', function ( $registry ) {
+    $registry['staff']['templates']['horizontal-alt'] = [
+        'label'   => __( 'Horizontal Alt', 'my-child' ),
+        'supports' => [ 'title' ],
+    ];
+    return $registry;
+} );
+```
+
+File: `my-child/templates/post-cards/staff/horizontal-alt.php`
+
+> Full child-theme patterns including CPT registration and archive/single templates — see [CHILD_THEME_AI_RULES.md](../architecture/CHILD_THEME_AI_RULES.md).
+
 ---
 
 ## Related Documentation

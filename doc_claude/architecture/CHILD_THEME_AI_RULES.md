@@ -15,6 +15,8 @@
 | Шаблон archive/single для нового CPT | Корень дочерней темы (`archive-*.php`, `single-*.php`) |
 | Переопределить шаблон из родительской темы | Дублировать путь в дочерней (см. ниже) |
 | Переопределить WooCommerce-шаблон | `woocommerce/` в дочерней теме |
+| Карточка Post Grid для нового CPT дочерней темы | Файл в `templates/post-cards/<cpt>/` + фильтр реестра (см. ниже) |
+| Переопределить существующую карточку Post Grid | Тот же путь в дочерней теме — `get_theme_file_path()` найдёт первой |
 | PHP-утилиты, хелперы, метабоксы | `includes/` в дочерней теме |
 | Кастомный Gutenberg-блок для этого сайта | `blocks/<name>/` в дочерней теме |
 | Изменить настройку в родителе | Фильтр в `functions.php` дочерней, **не трогать файлы родителя** |
@@ -455,6 +457,147 @@ get_template_part( 'templates/woocommerce/cards/mycard' );
 - AJAX добавление в корзину (`ajax_add_to_cart`)
 - `$card_radius` из Redux
 - Режим вишлиста (`$GLOBALS['cw_wishlist_render']`)
+
+---
+
+## Карточки Post Grid для CPT дочерней темы
+
+Post Grid block делегирует весь рендер карточек функции `cw_render_post_card()`. Та ищет шаблоны через `get_theme_file_path()` — **дочерняя тема проверяется первой** на каждом шаге fallback-цепочки.
+
+### Переопределить существующую карточку
+
+Достаточно скопировать файл с тем же путём в дочернюю тему — никакой регистрации не нужно:
+
+```
+Родитель: codeweber/templates/post-cards/staff/circle.php
+Дочерняя: my-child/templates/post-cards/staff/circle.php   ← тот же путь
+```
+
+### Добавить шаблоны для нового CPT дочерней темы
+
+Нужны два действия: файл шаблона + запись в реестре.
+
+**Шаг 1.** Создать файл шаблона в дочерней теме:
+
+```
+my-child/templates/post-cards/awards/card.php
+```
+
+**Шаг 2.** Зарегистрировать CPT в реестре через фильтр в `functions.php` дочерней темы:
+
+```php
+add_filter( 'codeweber_post_card_templates_registry', function ( $registry ) {
+    $registry['awards'] = [
+        'dir'       => 'awards',   // папка внутри templates/post-cards/
+        'templates' => [
+            'card' => [
+                'label'       => __( 'Card', 'horizons' ),
+                'description' => '',
+                'supports'    => [ 'title', 'excerpt' ],
+            ],
+            // сюда можно добавить ещё шаблоны: 'list', 'overlay-5' и т.д.
+        ],
+    ];
+    return $registry;
+} );
+```
+
+Регистрация в реестре делает сразу две вещи:
+- Шаблон появляется в **Template-селекторе** Post Grid при выборе CPT `awards`
+- `cw_render_post_card()` автоматически узнаёт, в какой папке искать файлы (`dir` → `codeweber_post_type_template_map`)
+
+### Структура файла шаблона
+
+Переменные доступны в scope файла напрямую (extract):
+
+```php
+<?php
+// templates/post-cards/awards/card.php
+
+if ( ! isset( $post_data ) || ! $post_data ) {
+    return;
+}
+
+$display      = cw_get_post_card_display_settings( $display_settings ?? [] );
+$template_args = wp_parse_args( $template_args ?? [], [
+    'image_size' => 'codeweber_single',
+] );
+?>
+
+<article class="card h-100">
+    <?php if ( $post_data['image_url'] ) : ?>
+        <figure class="card-img-top overflow-hidden mb-0">
+            <a href="<?php echo esc_url( $post_data['link'] ); ?>">
+                <img src="<?php echo esc_url( $post_data['image_url'] ); ?>"
+                     alt="<?php echo esc_attr( $post_data['image_alt'] ); ?>"
+                     class="img-fluid w-100">
+            </a>
+        </figure>
+    <?php endif; ?>
+
+    <div class="card-body">
+        <?php if ( $display['show_date'] && $post_data['date'] ) : ?>
+            <p class="text-muted small mb-1"><?php echo esc_html( $post_data['date'] ); ?></p>
+        <?php endif; ?>
+
+        <?php if ( $display['show_title'] && $post_data['title'] ) : ?>
+            <<?php echo esc_attr( $display['title_tag'] ); ?> class="<?php echo esc_attr( $display['title_class'] ); ?>">
+                <a href="<?php echo esc_url( $post_data['link'] ); ?>" class="link-dark">
+                    <?php echo esc_html( $post_data['title'] ); ?>
+                </a>
+            </<?php echo esc_attr( $display['title_tag'] ); ?>>
+        <?php endif; ?>
+
+        <?php if ( $display['excerpt_length'] > 0 && $post_data['excerpt'] ) : ?>
+            <p class="card-text"><?php echo wp_kses_post( $post_data['excerpt'] ); ?></p>
+        <?php endif; ?>
+    </div>
+</article>
+```
+
+**Доступные переменные:**
+
+| Переменная | Тип | Содержимое |
+|---|---|---|
+| `$post_data` | array | Данные поста: `id`, `title`, `link`, `image_url`, `image_alt`, `excerpt`, `date`, `category`, `post_type` |
+| `$display_settings` | array | Сырые настройки из блока (использовать через `cw_get_post_card_display_settings()`) |
+| `$display` | array | Нормализованные настройки: `show_title`, `show_date`, `show_category`, `show_comments`, `excerpt_length`, `title_tag`, `title_class` |
+| `$template_args` | array | Дополнительные аргументы: `image_size`, `hover_classes`, `border_radius`, `enable_lift` и кастомные |
+
+### Несколько шаблонов для одного CPT
+
+Можно добавить любое количество вариантов — все появятся в выпадашке блока:
+
+```php
+$registry['awards'] = [
+    'dir'       => 'awards',
+    'templates' => [
+        'card'      => [ 'label' => __( 'Card', 'horizons' ),      'supports' => [ 'title', 'excerpt' ] ],
+        'overlay-5' => [ 'label' => __( 'Overlay', 'horizons' ),   'supports' => [ 'title' ] ],
+        'list'      => [ 'label' => __( 'List item', 'horizons' ),  'supports' => [ 'title', 'date' ] ],
+    ],
+];
+```
+
+Для каждого — создать отдельный файл: `awards/card.php`, `awards/overlay-5.php`, `awards/list.php`.
+
+### Добавить шаблон к существующему CPT родителя
+
+Чтобы добавить новый шаблон к CPT из родительской темы (не заменяя существующие):
+
+```php
+add_filter( 'codeweber_post_card_templates_registry', function ( $registry ) {
+    // Добавляем новый шаблон к CPT 'staff' из родительской темы
+    $registry['staff']['templates']['horizontal-alt'] = [
+        'label'       => __( 'Horizontal Alt', 'horizons' ),
+        'description' => '',
+        'supports'    => [ 'title' ],
+    ];
+    return $registry;
+} );
+```
+
+Файл: `my-child/templates/post-cards/staff/horizontal-alt.php`
 
 ---
 
