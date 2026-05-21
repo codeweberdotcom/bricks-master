@@ -688,3 +688,11 @@ add_action(
 	},
 	99
 );
+
+/**
+ * Override Gutenberg editor block max-width.
+ * :where(.wp-block) has zero specificity, so a plain class selector wins.
+ */
+add_action( 'enqueue_block_editor_assets', function () {
+	wp_add_inline_style( 'wp-edit-blocks', '.wp-block { max-width: 100%; }' );
+} );
