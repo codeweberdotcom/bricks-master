@@ -616,8 +616,10 @@ class CodeweberFormsRenderer {
         // Conditional logic data attributes
         $cond_attrs = '';
         if (!empty($field['conditionalLogic']) && !empty($field['conditionalRules']) && is_array($field['conditionalRules']) && count($field['conditionalRules']) > 0) {
-            $cond_action = in_array($field['conditionalAction'] ?? 'show', ['show', 'hide'], true) ? $field['conditionalAction'] : 'show';
-            $cond_match  = in_array($field['conditionalMatch'] ?? 'all', ['all', 'any'], true) ? $field['conditionalMatch'] : 'all';
+            $raw_action  = $field['conditionalAction'] ?? 'show';
+            $raw_match   = $field['conditionalMatch'] ?? 'all';
+            $cond_action = in_array($raw_action, ['show', 'hide'], true) ? $raw_action : 'show';
+            $cond_match  = in_array($raw_match, ['all', 'any'], true) ? $raw_match : 'all';
             $cond_rules  = wp_json_encode($field['conditionalRules']);
             $cond_attrs  = ' data-cond-action="' . esc_attr($cond_action) . '"'
                          . ' data-cond-match="' . esc_attr($cond_match) . '"'
