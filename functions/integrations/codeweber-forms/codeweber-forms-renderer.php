@@ -623,7 +623,7 @@ class CodeweberFormsRenderer {
             $cond_rules  = wp_json_encode($field['conditionalRules']);
             $cond_attrs  = ' data-cond-action="' . esc_attr($cond_action) . '"'
                          . ' data-cond-match="' . esc_attr($cond_match) . '"'
-                         . ' data-cond-rules=\'' . esc_js($cond_rules) . '\'';
+                         . ' data-cond-rules="' . esc_attr($cond_rules) . '"';
         }
         
         // Специальный тип поля: блок согласий, основанный на настройках блока (атрибут consents)
