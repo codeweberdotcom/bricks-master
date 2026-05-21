@@ -85,6 +85,8 @@ class CodeweberFormsMailer {
             $mail->Subject = $subject;
             $mail->Body = $message;
             $mail->isHTML(true);
+            $mail->CharSet  = 'UTF-8';
+            $mail->Encoding = 'base64';
             
             // Прикрепляем файлы если есть
             // files_data может быть массивом файлов или JSON строкой
