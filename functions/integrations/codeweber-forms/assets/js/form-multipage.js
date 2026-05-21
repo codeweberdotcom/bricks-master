@@ -246,6 +246,9 @@
         document.addEventListener('codeweberFormSubmitted', function (e) {
             if (e.detail && String(e.detail.formId) === String(formId)) {
                 clearState(formId);
+                currentStep = 1;
+                form.reset();
+                goToStep(form, 1, totalSteps, pageTitles);
             }
         });
     }
