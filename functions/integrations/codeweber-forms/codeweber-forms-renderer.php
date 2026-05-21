@@ -1127,12 +1127,12 @@ class CodeweberFormsRenderer {
 
             <?php // Progress indicator ?>
             <div class="cwgb-form-progress mb-4" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
-                <div class="cwgb-form-progress-text small text-muted mb-2">
-                    <span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <?php echo esc_html($total_steps); ?>
+                <div class="cwgb-form-progress-text mb-2">
+                    <div class="text-muted"><span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <?php echo esc_html($total_steps); ?></div>
                     <?php
                     $first_title = $page_titles[0] ?? '';
                     if ($first_title): ?>
-                        &mdash; <span class="cwgb-form-progress-title"><?php echo esc_html($first_title); ?></span>
+                        <h5 class="mb-0 text-primary"><span class="cwgb-form-progress-title"><?php echo esc_html($first_title); ?></span></h5>
                     <?php endif; ?>
                 </div>
                 <div class="progress" style="height:4px">

@@ -143,7 +143,8 @@
         if (titleEl) {
             var title = (pageTitles && pageTitles[currentStep - 1]) ? pageTitles[currentStep - 1] : '';
             titleEl.textContent = title;
-            titleEl.style.display = title ? '' : 'none';
+            var titleWrap = titleEl.parentElement !== form.querySelector('.cwgb-form-progress-text') ? titleEl.parentElement : titleEl;
+            titleWrap.style.display = title ? '' : 'none';
         }
 
         var ariaLabel = form.querySelector('.cwgb-form-progress');
