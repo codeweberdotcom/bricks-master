@@ -380,6 +380,18 @@ function codeweber_enqueue_testimonial_form() {
 			true
 		);
 	}
+
+	$conditional_script_path = get_template_directory() . '/functions/integrations/codeweber-forms/assets/js/form-conditional.js';
+	$conditional_script_url  = get_template_directory_uri() . '/functions/integrations/codeweber-forms/assets/js/form-conditional.js';
+	if (file_exists($conditional_script_path)) {
+		wp_enqueue_script(
+			'codeweber-form-conditional',
+			$conditional_script_url,
+			[],
+			codeweber_asset_version($conditional_script_path),
+			true
+		);
+	}
 }
 add_action('wp_enqueue_scripts', 'codeweber_enqueue_testimonial_form', 20); // Priority 20 to run after codeweber-forms-core
 

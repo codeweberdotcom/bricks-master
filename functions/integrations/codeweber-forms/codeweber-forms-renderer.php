@@ -609,9 +609,20 @@ class CodeweberFormsRenderer {
         };
         
         $width_classes = $get_col_classes($field);
-        
+
         // Получаем blockClass из атрибутов поля
         $block_class = !empty($field['blockClass']) ? esc_attr($field['blockClass']) : '';
+
+        // Conditional logic data attributes
+        $cond_attrs = '';
+        if (!empty($field['conditionalLogic']) && !empty($field['conditionalRules']) && is_array($field['conditionalRules']) && count($field['conditionalRules']) > 0) {
+            $cond_action = in_array($field['conditionalAction'] ?? 'show', ['show', 'hide'], true) ? $field['conditionalAction'] : 'show';
+            $cond_match  = in_array($field['conditionalMatch'] ?? 'all', ['all', 'any'], true) ? $field['conditionalMatch'] : 'all';
+            $cond_rules  = wp_json_encode($field['conditionalRules']);
+            $cond_attrs  = ' data-cond-action="' . esc_attr($cond_action) . '"'
+                         . ' data-cond-match="' . esc_attr($cond_match) . '"'
+                         . ' data-cond-rules=\'' . esc_js($cond_rules) . '\'';
+        }
         
         // Специальный тип поля: блок согласий, основанный на настройках блока (атрибут consents)
         // Для consents_block не требуется fieldName, поэтому проверяем его первым
@@ -641,7 +652,7 @@ class CodeweberFormsRenderer {
                 $numeric_form_id = is_numeric($form_id) ? (int) $form_id : 0;
                 ob_start();
                 ?>
-                <div class="<?php echo esc_attr($width_classes); ?>">
+                <div class="<?php echo esc_attr($width_classes); ?>"<?php echo $cond_attrs; ?>>
                     <div class="form-consents-block<?php echo $block_class ? ' ' . $block_class : ''; ?>">
                         <?php
                         foreach ($consents as $consent) {
@@ -686,7 +697,7 @@ class CodeweberFormsRenderer {
         
         ob_start();
         ?>
-        <div class="<?php echo esc_attr($width_classes); ?>">
+        <div class="<?php echo esc_attr($width_classes); ?>"<?php echo $cond_attrs; ?>>
             <?php
             switch ($field_type) {
                 case 'textarea':
