@@ -745,12 +745,31 @@ class CodeweberFormsRenderer {
                 
                 case 'radio':
                     $options = $field['options'] ?? [];
+                    $options_columns = $field['optionsColumns'] ?? '';
                     ?>
                     <div<?php echo $block_class ? ' class="' . $block_class . '"' : ''; ?>>
                         <label class="form-label">
                             <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>
                         </label>
+                        <?php if ($options_columns): ?><div class="row"><?php endif; ?>
                         <?php foreach ($options as $idx => $option): ?>
+                            <?php if ($options_columns): ?>
+                            <div class="<?php echo esc_attr($options_columns); ?>">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input<?php echo esc_attr($form_radius_class); ?>"
+                                        type="radio"
+                                        id="<?php echo esc_attr($field_id . '-' . $idx); ?>"
+                                        name="<?php echo esc_attr($field_name); ?>"
+                                        value="<?php echo esc_attr($option['value'] ?? ''); ?>"
+                                        <?php echo $required_attr; ?>
+                                    />
+                                    <label class="form-check-label" for="<?php echo esc_attr($field_id . '-' . $idx); ?>">
+                                        <?php echo esc_html($option['label'] ?? ''); ?>
+                                    </label>
+                                </div>
+                            </div>
+                            <?php else: ?>
                             <div class="form-check">
                                 <input
                                     class="form-check-input<?php echo esc_attr($form_radius_class); ?>"
@@ -764,13 +783,16 @@ class CodeweberFormsRenderer {
                                     <?php echo esc_html($option['label'] ?? ''); ?>
                                 </label>
                             </div>
+                            <?php endif; ?>
                         <?php endforeach; ?>
+                        <?php if ($options_columns): ?></div><?php endif; ?>
                     </div>
                     <?php
                     break;
                 
                 case 'checkbox':
                     $options = $field['options'] ?? [];
+                    $options_columns = $field['optionsColumns'] ?? '';
                     if (!empty($options)) {
                         // Множественные чекбоксы
                         ?>
@@ -778,7 +800,24 @@ class CodeweberFormsRenderer {
                             <label class="form-label">
                                 <?php echo esc_html($field_label); ?><?php echo $required_mark; ?>
                             </label>
+                            <?php if ($options_columns): ?><div class="row"><?php endif; ?>
                             <?php foreach ($options as $idx => $option): ?>
+                                <?php if ($options_columns): ?>
+                                <div class="<?php echo esc_attr($options_columns); ?>">
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input<?php echo esc_attr($form_radius_class); ?>"
+                                            type="checkbox"
+                                            id="<?php echo esc_attr($field_id . '-' . $idx); ?>"
+                                            name="<?php echo esc_attr($field_name); ?>[]"
+                                            value="<?php echo esc_attr($option['value'] ?? ''); ?>"
+                                        />
+                                        <label class="form-check-label" for="<?php echo esc_attr($field_id . '-' . $idx); ?>">
+                                            <?php echo esc_html($option['label'] ?? ''); ?>
+                                        </label>
+                                    </div>
+                                </div>
+                                <?php else: ?>
                                 <div class="form-check">
                                     <input
                                         class="form-check-input<?php echo esc_attr($form_radius_class); ?>"
@@ -791,7 +830,9 @@ class CodeweberFormsRenderer {
                                         <?php echo esc_html($option['label'] ?? ''); ?>
                                     </label>
                                 </div>
+                                <?php endif; ?>
                             <?php endforeach; ?>
+                            <?php if ($options_columns): ?></div><?php endif; ?>
                         </div>
                         <?php
                     } else {
