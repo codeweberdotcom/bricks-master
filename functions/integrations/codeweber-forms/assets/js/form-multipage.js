@@ -77,21 +77,27 @@
         if (!values) return;
         Object.keys(values).forEach(function (name) {
             var val = values[name];
-            var els = form.querySelectorAll('[name="' + CSS.escape(name) + '"]');
-            if (!els.length) return;
+            var escaped = CSS.escape(name);
 
-            var first = els[0];
-            if (first.type === 'checkbox') {
-                els.forEach(function (cb) {
+            // Radio — explicit type selector to avoid false-positive on first element
+            var radios = form.querySelectorAll('input[type="radio"][name="' + escaped + '"]');
+            if (radios.length > 0) {
+                radios.forEach(function (rb) { rb.checked = rb.value === val; });
+                return;
+            }
+
+            // Checkbox — explicit type selector (name may include [] suffix)
+            var checkboxes = form.querySelectorAll('input[type="checkbox"][name="' + escaped + '"]');
+            if (checkboxes.length > 0) {
+                checkboxes.forEach(function (cb) {
                     cb.checked = Array.isArray(val) && val.indexOf(cb.value) !== -1;
                 });
-            } else if (first.type === 'radio') {
-                els.forEach(function (rb) {
-                    rb.checked = rb.value === val;
-                });
-            } else if (first.type !== 'file') {
-                first.value = val;
+                return;
             }
+
+            // Other inputs (text, email, select, textarea…) — skip file
+            var el = form.querySelector('[name="' + escaped + '"]:not([type="file"])');
+            if (el) el.value = val;
         });
     }
 
@@ -318,6 +324,8 @@
         // ── Persist on any field change ─────────────────────────────────────
         form.addEventListener('change', function () {
             saveState(formId, currentStep, collectFieldValues(form));
+            var visibleSteps = getVisibleSteps(form, totalSteps);
+            updateProgress(form, currentStep, totalSteps, pageTitles, visibleSteps);
         });
 
         // ── Clear state on successful submit ────────────────────────────────
