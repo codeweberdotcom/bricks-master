@@ -1128,7 +1128,7 @@ class CodeweberFormsRenderer {
             <?php // Progress indicator ?>
             <div class="cwgb-form-progress mb-4" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
                 <div class="cwgb-form-progress-text mb-2">
-                    <div class="text-muted"><span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <?php echo esc_html($total_steps); ?></div>
+                    <div class="text-muted"><span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <span class="cwgb-form-progress-total"><?php echo esc_html($total_steps); ?></span></div>
                     <?php
                     $first_title = $page_titles[0] ?? '';
                     if ($first_title): ?>
@@ -1165,11 +1165,24 @@ class CodeweberFormsRenderer {
                 $back_text  = !empty($page['backButtonText']) ? $page['backButtonText'] : __('Back', 'codeweber');
                 $back_class = !empty($page['backButtonClass']) ? $page['backButtonClass'] : 'btn btn-outline-secondary';
                 $show_back  = isset($page['showBackButton']) ? (bool) $page['showBackButton'] : true;
+
+                $page_cond_attrs = '';
+                if (!empty($page['pageConditionalLogic']) && !empty($page['pageConditionalRules']) && is_array($page['pageConditionalRules']) && count($page['pageConditionalRules']) > 0) {
+                    $raw_action      = $page['pageConditionalAction'] ?? 'show';
+                    $raw_match       = $page['pageConditionalMatch'] ?? 'all';
+                    $cond_action     = in_array($raw_action, ['show', 'skip'], true) ? $raw_action : 'show';
+                    $cond_match      = in_array($raw_match, ['all', 'any'], true) ? $raw_match : 'all';
+                    $cond_rules      = wp_json_encode($page['pageConditionalRules']);
+                    $page_cond_attrs = ' data-page-cond-action="' . esc_attr($cond_action) . '"'
+                                     . ' data-page-cond-match="' . esc_attr($cond_match) . '"'
+                                     . ' data-page-cond-rules="' . esc_attr($cond_rules) . '"';
+                }
                 ?>
                 <div
                     class="cwgb-form-step<?php echo $is_first ? ' cwgb-form-step--active' : ''; ?>"
                     data-step="<?php echo esc_attr($step_num); ?>"
                     <?php if (!$is_first): ?>style="display:none"<?php endif; ?>
+                    <?php echo $page_cond_attrs; // Already escaped via esc_attr above ?>
                 >
                     <div class="<?php echo esc_attr($row_class); ?>">
                         <?php foreach ($page_fields as $field):

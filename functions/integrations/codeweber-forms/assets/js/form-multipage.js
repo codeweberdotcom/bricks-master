@@ -128,16 +128,22 @@
 
     // ── Progress indicator ───────────────────────────────────────────────────
 
-    function updateProgress(form, currentStep, totalSteps, pageTitles) {
+    function updateProgress(form, currentStep, totalSteps, pageTitles, visibleSteps) {
+        var dispCurrent = visibleSteps ? (visibleSteps.indexOf(currentStep) + 1) : currentStep;
+        var dispTotal   = visibleSteps ? visibleSteps.length : totalSteps;
+
         var bar = form.querySelector('.cwgb-form-progress .progress-bar');
         if (bar) {
-            var pct = Math.round((currentStep / totalSteps) * 100);
+            var pct = Math.round((dispCurrent / dispTotal) * 100);
             bar.style.width = pct + '%';
             bar.setAttribute('aria-valuenow', pct);
         }
 
         var currentEl = form.querySelector('.cwgb-form-progress-current');
-        if (currentEl) currentEl.textContent = currentStep;
+        if (currentEl) currentEl.textContent = dispCurrent;
+
+        var totalEl = form.querySelector('.cwgb-form-progress-total');
+        if (totalEl) totalEl.textContent = dispTotal;
 
         var titleEl = form.querySelector('.cwgb-form-progress-title');
         if (titleEl) {
@@ -156,6 +162,76 @@
         }
     }
 
+    // ── Page conditional logic helpers ───────────────────────────────────────
+
+    function getPageFieldValues(form, fieldName) {
+        var escaped = CSS.escape(fieldName);
+        var checkboxes = form.querySelectorAll(
+            'input[type="checkbox"][name="' + escaped + '[]"], input[type="checkbox"][name="' + escaped + '"]'
+        );
+        if (checkboxes.length > 0) {
+            var vals = [];
+            checkboxes.forEach(function (cb) { if (cb.checked) vals.push(cb.value); });
+            return vals;
+        }
+        var radios = form.querySelectorAll('input[type="radio"][name="' + escaped + '"]');
+        if (radios.length > 0) {
+            var checked = null;
+            radios.forEach(function (r) { if (r.checked) checked = r.value; });
+            return checked !== null ? [checked] : [];
+        }
+        var el = form.querySelector('[name="' + escaped + '"]');
+        return el ? [el.value] : [];
+    }
+
+    function testPageRule(form, rule) {
+        var values = getPageFieldValues(form, rule.field || '');
+        var val = (rule.value || '').toLowerCase();
+        switch (rule.operator) {
+            case 'is':          return values.some(function (v) { return v.toLowerCase() === val; });
+            case 'is_not':      return !values.some(function (v) { return v.toLowerCase() === val; });
+            case 'contains':    return values.some(function (v) { return v.toLowerCase().indexOf(val) !== -1; });
+            case 'not_contains':return !values.some(function (v) { return v.toLowerCase().indexOf(val) !== -1; });
+            case 'is_empty':    return values.length === 0 || values.every(function (v) { return v === ''; });
+            case 'is_not_empty':return values.some(function (v) { return v !== ''; });
+            default:            return false;
+        }
+    }
+
+    function shouldSkipPage(form, stepEl) {
+        var rulesJson = stepEl.dataset.pageCondRules;
+        if (!rulesJson) return false;
+        var action = stepEl.dataset.pageCondAction || 'show';
+        var match  = stepEl.dataset.pageCondMatch  || 'all';
+        var rules;
+        try { rules = JSON.parse(rulesJson); } catch (e) { return false; }
+        if (!rules || !rules.length) return false;
+        var results = rules.map(function (rule) { return testPageRule(form, rule); });
+        var conditionMet = match === 'all' ? results.every(Boolean) : results.some(Boolean);
+        // 'show': display page only when condition met → skip if NOT met
+        // 'skip': skip page when condition met
+        return action === 'show' ? !conditionMet : conditionMet;
+    }
+
+    function getVisibleSteps(form, totalSteps) {
+        var visible = [];
+        for (var i = 1; i <= totalSteps; i++) {
+            var stepEl = form.querySelector('.cwgb-form-step[data-step="' + i + '"]');
+            if (stepEl && !shouldSkipPage(form, stepEl)) visible.push(i);
+        }
+        return visible.length > 0 ? visible : [1];
+    }
+
+    function findNextStep(form, from, direction, totalSteps) {
+        var step = from + direction;
+        while (step >= 1 && step <= totalSteps) {
+            var stepEl = form.querySelector('.cwgb-form-step[data-step="' + step + '"]');
+            if (stepEl && !shouldSkipPage(form, stepEl)) return step;
+            step += direction;
+        }
+        return from;
+    }
+
     // ── Show/hide step ───────────────────────────────────────────────────────
 
     function goToStep(form, targetStep, totalSteps, pageTitles) {
@@ -170,7 +246,8 @@
             }
         });
 
-        updateProgress(form, targetStep, totalSteps, pageTitles);
+        var visibleSteps = getVisibleSteps(form, totalSteps);
+        updateProgress(form, targetStep, totalSteps, pageTitles, visibleSteps);
 
         // Scroll only if form is not already fully visible (account for fixed header)
         var rect = form.getBoundingClientRect();
@@ -223,7 +300,7 @@
 
             if (!validateStep(activeStep)) return;
 
-            currentStep = Math.min(currentStep + 1, totalSteps);
+            currentStep = findNextStep(form, currentStep, +1, totalSteps);
             saveState(formId, currentStep, collectFieldValues(form));
             goToStep(form, currentStep, totalSteps, pageTitles);
         });
@@ -233,7 +310,7 @@
             var backBtn = e.target.closest('.cwgb-form-back');
             if (!backBtn || !form.contains(backBtn)) return;
 
-            currentStep = Math.max(currentStep - 1, 1);
+            currentStep = findNextStep(form, currentStep, -1, totalSteps);
             saveState(formId, currentStep, collectFieldValues(form));
             goToStep(form, currentStep, totalSteps, pageTitles);
         });
