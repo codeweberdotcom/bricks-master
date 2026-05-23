@@ -221,6 +221,8 @@ class CodeweberFormsCPT {
                 'callback' => __('Callback Request', 'codeweber'),
                 'faq' => __('FAQ Question', 'codeweber'),
                 'event-registration' => __('Event Registration', 'codeweber'),
+                'questionnaire' => __('Questionnaire', 'codeweber'),
+                'brief' => __('Brief', 'codeweber'),
             ];
 
             $type_label = $type_labels[$form_type] ?? $form_type;
@@ -232,6 +234,8 @@ class CodeweberFormsCPT {
                 'callback' => '#826eb4',
                 'faq' => '#e65100',
                 'event-registration' => '#0277bd',
+                'questionnaire' => '#00897b',
+                'brief' => '#6a1b9a',
             ];
 
             $badge_color = $type_badge_color[$form_type] ?? '#666';
@@ -450,6 +454,8 @@ class CodeweberFormsCPT {
             'callback' => __('Callback request', 'codeweber'),
             'faq' => __('FAQ question', 'codeweber'),
             'event-registration' => __('Event registration', 'codeweber'),
+            'questionnaire' => __('Questionnaire', 'codeweber'),
+            'brief' => __('Brief', 'codeweber'),
         );
 
         ?>
