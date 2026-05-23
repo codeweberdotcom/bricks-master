@@ -167,8 +167,13 @@ if (!function_exists('get_breadcrumbs')) {
                }
 
                // Страница блога — добавляем как активную последнюю крошку
+               // только если Rank Math ещё не добавил её самостоятельно
                if ( $is_blog_page ) {
-                  $crumbs[] = [ get_the_title( $blog_page_id ), '' ];
+                  $blog_title = get_the_title( $blog_page_id );
+                  $last_crumb = end( $crumbs );
+                  if ( ! $last_crumb || $last_crumb[0] !== $blog_title ) {
+                     $crumbs[] = [ $blog_title, '' ];
+                  }
                }
 
                if (!$show_home && !empty($crumbs)) {
