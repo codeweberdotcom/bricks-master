@@ -7,14 +7,16 @@
  * Если установлен Yoast SEO, используются его стандартные функции для вывода навигации.
  * Если установлен Rank Math, применяется фильтр для настройки отображения хлебных крошек.
  */
-// Fix "Undefined array key width/height" warning when SVG is used as RankMath logo.
+// Fix "Undefined array key width/height" warning in RankMath schema module.
 add_filter( 'wp_get_attachment_metadata', function ( $metadata, $attachment_id ) {
-	if ( empty( $metadata['width'] ) || empty( $metadata['height'] ) ) {
-		$file = get_attached_file( $attachment_id );
-		if ( $file && preg_match( '/\.svg$/i', $file ) ) {
-			$metadata['width']  = $metadata['width']  ?? 0;
-			$metadata['height'] = $metadata['height'] ?? 0;
-		}
+	if ( ! is_array( $metadata ) ) {
+		return $metadata;
+	}
+	if ( ! array_key_exists( 'width', $metadata ) ) {
+		$metadata['width'] = 0;
+	}
+	if ( ! array_key_exists( 'height', $metadata ) ) {
+		$metadata['height'] = 0;
 	}
 	return $metadata;
 }, 10, 2 );
