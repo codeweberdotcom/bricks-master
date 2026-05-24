@@ -144,34 +144,36 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 					<div class="card lift h-100 overflow-hidden <?php echo esc_attr( $card_radius ); ?>">
 
 						<!-- Browser bar + screenshot -->
-						<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
-							<div class="cw-browser-bar">
-								<span class="cw-browser-dot cw-browser-dot--red"></span>
-								<span class="cw-browser-dot cw-browser-dot--yellow"></span>
-								<span class="cw-browser-dot cw-browser-dot--green"></span>
-								<?php if ( $url_display ) : ?>
-									<span class="cw-browser-url"><?php echo esc_html( $url_display ); ?></span>
-								<?php endif; ?>
-							</div>
-							<div class="cw-it-screen position-relative">
-								<?php if ( $thumbnail_id ) : ?>
-									<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
-										'class' => 'cw-it-screenshot',
-										'alt'   => esc_attr( $title ),
-									] ); ?>
-								<?php else : ?>
-									<div class="cw-it-screenshot-placeholder"></div>
-								<?php endif; ?>
-								<button type="button"
-									class="cw-it-qv btn btn-sm btn-white<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
-									data-bs-toggle="modal"
-									data-value="project-<?php echo esc_attr( $post_id ); ?>"
-									aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
-									<i class="uil uil-eye"></i>
-									<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
-								</button>
-							</div>
-						</a>
+						<div class="position-relative">
+							<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
+								<div class="cw-browser-bar">
+									<span class="cw-browser-dot cw-browser-dot--red"></span>
+									<span class="cw-browser-dot cw-browser-dot--yellow"></span>
+									<span class="cw-browser-dot cw-browser-dot--green"></span>
+									<?php if ( $url_display ) : ?>
+										<span class="cw-browser-url"><?php echo esc_html( $url_display ); ?></span>
+									<?php endif; ?>
+								</div>
+								<div class="cw-it-screen">
+									<?php if ( $thumbnail_id ) : ?>
+										<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
+											'class' => 'cw-it-screenshot',
+											'alt'   => esc_attr( $title ),
+										] ); ?>
+									<?php else : ?>
+										<div class="cw-it-screenshot-placeholder"></div>
+									<?php endif; ?>
+								</div>
+							</a>
+							<button type="button"
+								class="cw-it-qv btn btn-sm btn-white<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
+								data-bs-toggle="modal"
+								data-value="project-<?php echo esc_attr( $post_id ); ?>"
+								aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
+								<i class="uil uil-eye"></i>
+								<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
+							</button>
+						</div>
 
 						<!-- Card body -->
 						<div class="card-body p-4">
