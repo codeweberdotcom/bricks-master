@@ -168,6 +168,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 							<button type="button"
 								class="cw-it-qv btn btn-sm btn-white<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
 								data-bs-toggle="modal"
+								data-bs-target="#modal"
 								data-value="project-<?php echo esc_attr( $post_id ); ?>"
 								aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
 								<i class="uil uil-eye"></i>
