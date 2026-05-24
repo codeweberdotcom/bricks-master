@@ -228,6 +228,24 @@ function codeweber_projects_settings_register(): void {
 		'codeweber_projects_map_types_section'
 	);
 
+	// ── Секция: Archive (IT / Web) ───────────────────────────────────────────────
+	add_settings_section(
+		'codeweber_projects_it_archive',
+		__( 'Archive: IT / Web', 'codeweber' ),
+		function () {
+			echo '<p class="description">' . esc_html__( 'Applied only when Default project type is set to «IT / Web». Overrides the Redux archive template setting.', 'codeweber' ) . '</p>';
+		},
+		'codeweber-projects-settings'
+	);
+
+	add_settings_field(
+		'it_archive_template',
+		__( 'Archive template', 'codeweber' ),
+		'codeweber_projects_field_it_archive_template',
+		'codeweber-projects-settings',
+		'codeweber_projects_it_archive'
+	);
+
 	// ── Секция: Блок товаров ──────────────────────────────────────────────────
 	add_settings_section(
 		'codeweber_projects_products',
@@ -579,6 +597,19 @@ function codeweber_projects_field_map_types(): void {
 	}
 }
 
+function codeweber_projects_field_it_archive_template(): void {
+	$val     = codeweber_projects_settings_get( 'it_archive_template', 'projects_it_1' );
+	$options = [
+		'projects_it_1' => __( 'Website Portfolio — grid with browser mockup', 'codeweber' ),
+	];
+	echo '<select name="codeweber_projects_settings[it_archive_template]">';
+	foreach ( $options as $k => $label ) {
+		echo '<option value="' . esc_attr( $k ) . '" ' . selected( $val, $k, false ) . '>' . esc_html( $label ) . '</option>';
+	}
+	echo '</select>';
+	echo '<p class="description">' . esc_html__( 'Visible only when Default project type = IT / Web.', 'codeweber' ) . '</p>';
+}
+
 function codeweber_projects_field_products_title(): void {
 	$val = codeweber_projects_settings_get( 'products_title', '' );
 	echo '<input type="text" name="codeweber_projects_settings[products_title]" value="' . esc_attr( $val ) . '" class="regular-text" placeholder="' . esc_attr__( 'Project products', 'codeweber' ) . '">';
@@ -665,6 +696,7 @@ function codeweber_projects_settings_sanitize( $input ): array {
 		'gutenberg_types'          => $gutenberg_types,
 		'map_types'                => $map_types,
 		'hotspot_types'            => $hotspot_types,
+		'it_archive_template'      => sanitize_key( $input['it_archive_template'] ?? 'projects_it_1' ) ?: 'projects_it_1',
 	];
 }
 
