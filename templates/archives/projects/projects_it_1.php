@@ -28,6 +28,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 ?>
 
 <style>
+/* ── Card: browser bar ── */
 .cw-browser-bar {
 	display: flex;
 	align-items: center;
@@ -59,7 +60,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	line-height: 1.6;
 	margin-left: 6px;
 }
-/* Screenshot scroll on hover */
+/* ── Card: screenshot scroll on hover ── */
 .cw-it-screen {
 	overflow: hidden;
 	height: 220px;
@@ -77,7 +78,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	height: 220px;
 	background: #f1f3f5;
 }
-/* Quick view button */
+/* ── Card: quick view button ── */
 .cw-it-qv {
 	position: absolute;
 	bottom: 10px;
@@ -90,6 +91,135 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 .card:hover .cw-it-qv {
 	opacity: 1;
 	transform: translateY(0);
+}
+/* ── Fullscreen preview modal ── */
+#cw-preview-modal .modal-dialog {
+	margin: 0;
+	max-width: 100%;
+	height: 100%;
+}
+#cw-preview-modal .modal-content {
+	height: 100%;
+	border: 0;
+	border-radius: 0;
+	background: #111;
+}
+#cw-preview-modal .modal-body {
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
+}
+.cw-preview-bar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 0 16px;
+	height: 60px;
+	background: #2b2b2b;
+	color: #fff;
+	flex-shrink: 0;
+}
+.cw-preview-title {
+	flex: 1;
+	min-width: 0;
+	font-size: 14px;
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.cw-preview-devices {
+	display: flex;
+	gap: 4px;
+}
+.cw-preview-devices button {
+	background: transparent;
+	border: 1px solid rgba(255,255,255,.2);
+	color: rgba(255,255,255,.55);
+	border-radius: 5px;
+	width: 34px;
+	height: 34px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	cursor: pointer;
+	transition: background .15s, color .15s, border-color .15s;
+	padding: 0;
+}
+.cw-preview-devices button.active,
+.cw-preview-devices button:hover {
+	background: rgba(255,255,255,.12);
+	color: #fff;
+	border-color: rgba(255,255,255,.4);
+}
+.cw-preview-bar-end {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+}
+.cw-preview-ext-link {
+	color: rgba(255,255,255,.6);
+	font-size: 20px;
+	line-height: 1;
+	text-decoration: none;
+	transition: color .15s;
+}
+.cw-preview-ext-link:hover { color: #fff; }
+.cw-preview-close-btn {
+	background: transparent;
+	border: 0;
+	color: rgba(255,255,255,.6);
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+	padding: 4px;
+	display: flex;
+	align-items: center;
+	transition: color .15s;
+}
+.cw-preview-close-btn:hover { color: #fff; }
+/* ── Iframe area ── */
+.cw-preview-content {
+	flex: 1;
+	overflow: auto;
+	background: #111;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+}
+.cw-preview-frame-wrap {
+	width: 100%;
+	height: 100%;
+	transition: width .3s ease, border-radius .3s ease;
+}
+.cw-preview-frame-wrap[data-device="tablet"] {
+	width: 768px;
+	max-width: calc(100% - 40px);
+	margin: 24px auto;
+	height: calc(100% - 48px);
+	border-radius: 18px;
+	overflow: hidden;
+	box-shadow: 0 0 0 8px #333, 0 0 0 10px #444;
+}
+.cw-preview-frame-wrap[data-device="mobile"] {
+	width: 375px;
+	max-width: calc(100% - 40px);
+	margin: 24px auto;
+	height: calc(100% - 48px);
+	border-radius: 32px;
+	overflow: hidden;
+	box-shadow: 0 0 0 8px #333, 0 0 0 10px #444;
+}
+.cw-preview-frame-wrap iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	background: #fff;
 }
 </style>
 
@@ -165,13 +295,16 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 									<?php endif; ?>
 								</div>
 							</a>
+							<?php if ( $website_url ) : ?>
 							<button type="button"
 								class="cw-it-qv btn btn-sm btn-white<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
-								data-value="project-<?php echo esc_attr( $post_id ); ?>"
+								data-website-url="<?php echo esc_url( $website_url ); ?>"
+								data-website-title="<?php echo esc_attr( $title ); ?>"
 								aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
 								<i class="uil uil-eye"></i>
 								<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
 							</button>
+							<?php endif; ?>
 						</div>
 
 						<!-- Card body -->
@@ -229,6 +362,45 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 
 <?php codeweber_projects_map_modal(); ?>
 <?php codeweber_projects_map_float_button(); ?>
+
+<!-- Fullscreen website preview modal -->
+<div class="modal fade" id="cw-preview-modal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="cw-preview-bar">
+					<span class="cw-preview-title" id="cw-preview-title"></span>
+					<div class="cw-preview-devices">
+						<button class="active" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'codeweber' ); ?>">
+							<i class="uil uil-desktop"></i>
+						</button>
+						<button data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'codeweber' ); ?>">
+							<i class="uil uil-tablet"></i>
+						</button>
+						<button data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'codeweber' ); ?>">
+							<i class="uil uil-mobile-android"></i>
+						</button>
+					</div>
+					<div class="cw-preview-bar-end">
+						<a href="#" id="cw-preview-ext-link" target="_blank" rel="noopener noreferrer"
+						   class="cw-preview-ext-link" title="<?php esc_attr_e( 'Open website', 'codeweber' ); ?>">
+							<i class="uil uil-external-link-alt"></i>
+						</a>
+						<button type="button" class="cw-preview-close-btn" data-bs-dismiss="modal"
+								aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>">
+							<i class="uil uil-times"></i>
+						</button>
+					</div>
+				</div>
+				<div class="cw-preview-content">
+					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
+						<iframe id="cw-preview-frame" src="" title="" loading="lazy"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script>
 (function () {
@@ -302,93 +474,59 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 		});
 	});
 
-	// ── Quick View delegated handler ──────────────────────────────────
+	// ── Fullscreen preview modal ──────────────────────────────────────
+	var previewModal    = document.getElementById('cw-preview-modal');
+	var previewTitle    = document.getElementById('cw-preview-title');
+	var previewExtLink  = document.getElementById('cw-preview-ext-link');
+	var previewFrame    = document.getElementById('cw-preview-frame');
+	var previewFrameWrap= document.getElementById('cw-preview-frame-wrap');
+	var previewDeviceBtns = previewModal ? previewModal.querySelectorAll('.cw-preview-devices button') : [];
+	var bsPreviewModal  = null;
+
+	if (previewModal && typeof bootstrap !== 'undefined') {
+		bsPreviewModal = new bootstrap.Modal(previewModal);
+
+		// Reset iframe on close to stop loading / free resources
+		previewModal.addEventListener('hidden.bs.modal', function () {
+			previewFrame.src = '';
+			if (previewTitle)   previewTitle.textContent = '';
+			if (previewExtLink) previewExtLink.href = '#';
+			// Reset to desktop
+			previewFrameWrap.dataset.device = 'desktop';
+			previewDeviceBtns.forEach(function (b) {
+				b.classList.toggle('active', b.dataset.device === 'desktop');
+			});
+		});
+
+		// Device switcher
+		previewDeviceBtns.forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				var device = btn.dataset.device;
+				previewFrameWrap.dataset.device = device;
+				previewDeviceBtns.forEach(function (b) {
+					b.classList.toggle('active', b === btn);
+				});
+			});
+		});
+	}
+
+	// Quick View click (delegated — works for AJAX-loaded cards too)
 	document.addEventListener('click', function (e) {
-		var btn = e.target.closest('.cw-it-qv[data-value]');
-		if (!btn) return;
-		if (typeof bootstrap === 'undefined' || typeof wpApiSettings === 'undefined') return;
+		var btn = e.target.closest('.cw-it-qv[data-website-url]');
+		if (!btn || !bsPreviewModal) return;
 
 		e.preventDefault();
 		e.stopPropagation();
 
-		var dataValue = btn.getAttribute('data-value'); // "project-123"
+		var url   = btn.getAttribute('data-website-url');
+		var title = btn.getAttribute('data-website-title') || '';
 
-		// Create or reuse #modal
-		var el = document.getElementById('modal');
-		if (!el) {
-			var cfg    = document.getElementById('cw-modal-config');
-			var radius = cfg ? (cfg.dataset.cardRadius || '') : '';
-			var lbl    = cfg ? (cfg.dataset.closeLabel  || 'Close') : 'Close';
+		if (previewTitle)   previewTitle.textContent = title;
+		if (previewExtLink) previewExtLink.href = url;
+		previewFrame.src  = url;
+		previewFrame.title = title;
 
-			el = document.createElement('div');
-			el.className = 'modal fade';
-			el.id        = 'modal';
-			el.tabIndex  = -1;
-			el.setAttribute('aria-hidden', 'true');
-			el.innerHTML =
-				'<div class="modal-dialog modal-dialog-centered">' +
-					'<div class="modal-content' + (radius ? ' ' + radius : '') + '">' +
-						'<div class="modal-body">' +
-							'<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' + lbl + '"></button>' +
-							'<div id="modal-content"></div>' +
-						'</div>' +
-					'</div>' +
-				'</div>';
-			document.body.appendChild(el);
-
-			el.addEventListener('hidden.bs.modal', function () {
-				var mc = el.querySelector('#modal-content');
-				if (mc) mc.innerHTML = '';
-				['modal-sm','modal-lg','modal-xl','modal-fullscreen'].forEach(function (c) {
-					el.querySelector('.modal-dialog').classList.remove(c);
-				});
-			});
-		}
-
-		var mc      = el.querySelector('#modal-content');
-		var md      = el.querySelector('.modal-dialog');
-		var bsModal = bootstrap.Modal.getOrCreateInstance(el);
-
-		// Skeleton
-		mc.innerHTML =
-			'<div class="p-2">' +
-				'<div class="cw-skeleton-block mb-3" style="height:180px;width:100%;border-radius:6px"></div>' +
-				'<div class="cw-skeleton-block mb-3" style="height:1.4em;width:65%"></div>' +
-				'<div class="cw-skeleton-block mb-2" style="height:.8em;width:100%"></div>' +
-				'<div class="cw-skeleton-block mb-2" style="height:.8em;width:85%"></div>' +
-				'<div class="cw-skeleton-block mb-4" style="height:.8em;width:60%"></div>' +
-				'<div class="cw-skeleton-block" style="height:2.6em;width:40%"></div>' +
-			'</div>';
-
-		['modal-sm','modal-lg','modal-xl','modal-fullscreen'].forEach(function (c) {
-			md.classList.remove(c);
-		});
-
-		bsModal.show();
-
-		fetch(wpApiSettings.root + 'wp/v2/modal/' + dataValue, { credentials: 'include' })
-			.then(function (r) {
-				if (!r.ok) throw new Error('HTTP ' + r.status);
-				return r.json();
-			})
-			.then(function (data) {
-				if (data && data.content && data.content.rendered) {
-					if (data.modal_size) md.classList.add(data.modal_size);
-					mc.innerHTML = data.content.rendered;
-					// Init Swiper slides if present
-					mc.querySelectorAll('[data-swiper]').forEach(function (sw) {
-						if (typeof Swiper !== 'undefined') {
-							try { new Swiper(sw, JSON.parse(sw.dataset.swiper || '{}')); } catch (ex) {}
-						}
-					});
-				} else {
-					mc.innerHTML = '<p class="text-muted p-4">Content not found.</p>';
-				}
-			})
-			.catch(function (err) {
-				console.error('Quick view error:', err);
-				mc.innerHTML = '<p class="text-danger p-4">Error loading content.</p>';
-			});
+		bsPreviewModal.show();
 	});
 })();
 </script>
