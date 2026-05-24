@@ -99,6 +99,9 @@ function cw_project_main_information_render( WP_Post $post ): void {
 				'main_information_client'       => __( 'Client', 'codeweber' ),
 				'main_information_cms'          => __( 'CMS / Framework', 'codeweber' ),
 				'main_information_technologies' => __( 'Technologies', 'codeweber' ),
+				'project_website_url'           => __( 'Website URL', 'codeweber' ),
+				'project_website_open'          => __( 'Open behavior', 'codeweber' ),
+				'project_website_cta'           => __( 'CTA button text', 'codeweber' ),
 			];
 			break;
 		case 'project-design':
@@ -135,12 +138,24 @@ function cw_project_main_information_render( WP_Post $post ): void {
 		'main_information_technologies',
 	];
 
+	$url_fields = [ 'project_website_url' ];
+
+	$select_fields = [
+		'project_website_open' => [
+			'new-tab'  => __( 'New tab', 'codeweber' ),
+			'iframe'   => __( 'Iframe preview on site', 'codeweber' ),
+			'same-tab' => __( 'Same tab', 'codeweber' ),
+		],
+	];
+
 	$all_fields = array_merge( $common, $specific, $description );
 
 	echo '<table class="form-table" style="margin:0;">';
 	foreach ( $all_fields as $key => $label ) {
 		$value       = get_post_meta( $post->ID, $key, true );
 		$is_textarea = in_array( $key, $textareas, true );
+		$is_url      = in_array( $key, $url_fields, true );
+		$is_select   = isset( $select_fields[ $key ] );
 		?>
 		<tr>
 			<th scope="row" style="width:200px;">
@@ -154,6 +169,23 @@ function cw_project_main_information_render( WP_Post $post ): void {
 						rows="4"
 						style="width:100%;"
 					><?php echo esc_textarea( $value ); ?></textarea>
+				<?php elseif ( $is_select ) : ?>
+					<select id="<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( $key ); ?>" style="width:100%;">
+						<?php foreach ( $select_fields[ $key ] as $opt_val => $opt_label ) : ?>
+							<option value="<?php echo esc_attr( $opt_val ); ?>" <?php selected( $value, $opt_val ); ?>>
+								<?php echo esc_html( $opt_label ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				<?php elseif ( $is_url ) : ?>
+					<input
+						type="url"
+						id="<?php echo esc_attr( $key ); ?>"
+						name="<?php echo esc_attr( $key ); ?>"
+						value="<?php echo esc_attr( $value ); ?>"
+						style="width:100%;"
+						placeholder="https://"
+					>
 				<?php else : ?>
 					<input
 						type="text"
@@ -274,16 +306,26 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		// Photography
 		'main_information_location',
 		'main_information_equipment',
+		// IT / Web — website preview
+		'project_website_url',
+		'project_website_open',
+		'project_website_cta',
 	];
+
+	$url_fields = [ 'project_website_url' ];
 
 	foreach ( $all_fields as $key ) {
 		if ( ! isset( $_POST[ $key ] ) ) {
 			continue;
 		}
-		$raw   = wp_unslash( $_POST[ $key ] );
-		$value = in_array( $key, $textareas, true )
-			? sanitize_textarea_field( $raw )
-			: sanitize_text_field( $raw );
+		$raw = wp_unslash( $_POST[ $key ] );
+		if ( in_array( $key, $textareas, true ) ) {
+			$value = sanitize_textarea_field( $raw );
+		} elseif ( in_array( $key, $url_fields, true ) ) {
+			$value = esc_url_raw( $raw );
+		} else {
+			$value = sanitize_text_field( $raw );
+		}
 		update_post_meta( $post_id, $key, $value );
 	}
 }, 10, 2 );
