@@ -2,17 +2,16 @@
 /**
  * Template: Projects Archive — IT / Web (Website Portfolio)
  *
- * AJAX category filter + grid with browser mockup cards.
- * Shows website URL, CMS/tech, CTA button.
+ * AJAX category filter + 3-col grid with browser mockup cards.
  *
  * @package Codeweber
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$card_radius  = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
-$grid_gap     = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
-$btn_style    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
+$card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+$grid_gap    = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+$btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 
 $filter_terms = get_terms( [
 	'taxonomy'   => 'projects_category',
@@ -21,13 +20,71 @@ $filter_terms = get_terms( [
 	'order'      => 'ASC',
 ] );
 $has_filters = ! empty( $filter_terms ) && ! is_wp_error( $filter_terms );
+
+$show_map_btn = class_exists( 'Codeweber_Yandex_Maps' )
+	&& function_exists( 'codeweber_projects_settings_get' )
+	&& codeweber_projects_settings_get( 'show_map', '1' ) === '1';
+$map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 ?>
+
+<style>
+.cw-browser-bar {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	height: 32px;
+	padding: 0 12px;
+	background: #e9ecef;
+}
+.cw-browser-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+.cw-browser-dot--red    { background: #ff5f57; }
+.cw-browser-dot--yellow { background: #ffbd2e; }
+.cw-browser-dot--green  { background: #28c840; }
+.cw-browser-url {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	background: #fff;
+	border-radius: 3px;
+	padding: 2px 8px;
+	font-size: 11px;
+	color: #6c757d;
+	line-height: 1.6;
+	margin-left: 6px;
+}
+.cw-it-screenshot {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+}
+.cw-it-screenshot-placeholder {
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	background: #f1f3f5;
+}
+</style>
 
 <section id="content-wrapper" class="wrapper">
 	<div class="container py-14 py-md-16">
 
-		<?php if ( $has_filters ) : ?>
+		<?php if ( $has_filters || $show_map_btn ) : ?>
 		<div class="isotope-filter filter projects-category-filters mb-10">
+			<?php if ( $show_map_btn ) : ?>
+			<div class="mb-4 d-none d-md-flex justify-content-end">
+				<a href="#" data-project-map class="btn btn-sm btn-soft-primary<?php echo esc_attr( $map_btn_style ); ?> btn-icon btn-icon-start has-ripple mb-0">
+					<i class="uil uil-map-marker"></i> <?php esc_html_e( 'Map of objects', 'codeweber' ); ?>
+				</a>
+			</div>
+			<?php endif; ?>
+			<?php if ( $has_filters ) : ?>
 			<ul>
 				<li><a class="filter-item active" data-cat-id="0"><?php esc_html_e( 'All', 'codeweber' ); ?></a></li>
 				<?php foreach ( $filter_terms as $term ) : ?>
@@ -38,6 +95,7 @@ $has_filters = ! empty( $filter_terms ) && ! is_wp_error( $filter_terms );
 				</li>
 				<?php endforeach; ?>
 			</ul>
+			<?php endif; ?>
 		</div>
 		<?php endif; ?>
 
@@ -58,50 +116,47 @@ $has_filters = ! empty( $filter_terms ) && ! is_wp_error( $filter_terms );
 					$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
 
 					$link_target = $website_open === 'same-tab' ? '_self' : '_blank';
-					$link_rel    = $website_open !== 'same-tab' ? ' rel="noopener noreferrer"' : '';
+					$link_rel    = $website_open !== 'same-tab' ? 'noopener noreferrer' : '';
+					$url_display  = $website_url ? preg_replace( '#^https?://#', '', rtrim( $website_url, '/' ) ) : '';
 				?>
 				<div class="col-md-6 col-xl-4">
-					<div class="cw-it-card card h-100 border-0 shadow-sm <?php echo esc_attr( $card_radius ); ?>">
+					<div class="card lift h-100 overflow-hidden <?php echo esc_attr( $card_radius ); ?>">
 
-						<!-- Browser mockup -->
-						<a href="<?php the_permalink(); ?>" class="cw-it-card__browser d-block text-decoration-none">
-							<div class="cw-it-card__bar d-flex align-items-center gap-1 px-3" style="height:32px;background:#e9ecef;border-radius:inherit;border-bottom-left-radius:0;border-bottom-right-radius:0;">
-								<span style="width:10px;height:10px;border-radius:50%;background:#ff5f57;flex-shrink:0;"></span>
-								<span style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;flex-shrink:0;"></span>
-								<span style="width:10px;height:10px;border-radius:50%;background:#28c840;flex-shrink:0;"></span>
-								<?php if ( $website_url ) : ?>
-								<span class="ms-2 flex-grow-1 text-truncate" style="background:#fff;border-radius:3px;padding:2px 8px;font-size:11px;color:#6c757d;line-height:1.6;">
-									<?php echo esc_html( preg_replace( '#^https?://#', '', rtrim( $website_url, '/' ) ) ); ?>
-								</span>
+						<!-- Browser bar + screenshot -->
+						<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
+							<div class="cw-browser-bar">
+								<span class="cw-browser-dot cw-browser-dot--red"></span>
+								<span class="cw-browser-dot cw-browser-dot--yellow"></span>
+								<span class="cw-browser-dot cw-browser-dot--green"></span>
+								<?php if ( $url_display ) : ?>
+									<span class="cw-browser-url"><?php echo esc_html( $url_display ); ?></span>
 								<?php endif; ?>
 							</div>
-							<div class="overflow-hidden" style="border-bottom-left-radius:inherit;border-bottom-right-radius:inherit;">
-								<?php if ( $thumbnail_id ) : ?>
-									<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
-										'class' => 'w-100 d-block cw-it-card__img',
-										'alt'   => esc_attr( $title ),
-										'style' => 'aspect-ratio:16/9;object-fit:cover;',
-									] ); ?>
-								<?php else : ?>
-									<div style="aspect-ratio:16/9;background:#f1f3f5;"></div>
-								<?php endif; ?>
-							</div>
+							<?php if ( $thumbnail_id ) : ?>
+								<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
+									'class' => 'cw-it-screenshot',
+									'alt'   => esc_attr( $title ),
+								] ); ?>
+							<?php else : ?>
+								<div class="cw-it-screenshot-placeholder"></div>
+							<?php endif; ?>
 						</a>
 
 						<!-- Card body -->
 						<div class="card-body p-4">
-							<?php if ( $cat_name ) : ?>
-							<div class="post-category text-line mb-2 fs-sm"><?php echo esc_html( $cat_name ); ?></div>
-							<?php endif; ?>
-
-							<h2 class="h5 mb-2">
-								<a href="<?php the_permalink(); ?>" class="link-dark stretched-link text-decoration-none">
-									<?php echo wp_kses_post( $title ); ?>
-								</a>
-							</h2>
+							<div class="post-header">
+								<?php if ( $cat_name ) : ?>
+								<div class="post-category text-line mb-2"><?php echo esc_html( $cat_name ); ?></div>
+								<?php endif; ?>
+								<h2 class="post-title h5 mb-2">
+									<a href="<?php the_permalink(); ?>" class="link-dark text-decoration-none">
+										<?php echo wp_kses_post( $title ); ?>
+									</a>
+								</h2>
+							</div>
 
 							<?php if ( $client || $cms ) : ?>
-							<p class="text-muted fs-sm mb-3" style="font-size:.8125rem;">
+							<p class="fs-15 text-muted mb-3">
 								<?php if ( $client ) : ?>
 									<span><?php echo esc_html( $client ); ?></span>
 								<?php endif; ?>
@@ -117,10 +172,10 @@ $has_filters = ! empty( $filter_terms ) && ! is_wp_error( $filter_terms );
 							<?php if ( $website_url ) : ?>
 							<a href="<?php echo esc_url( $website_url ); ?>"
 							   target="<?php echo esc_attr( $link_target ); ?>"
-							   <?php echo $link_rel; // Already escaped ?>
-							   class="btn btn-sm btn-outline-primary<?php echo esc_attr( $btn_style ); ?> position-relative"
-							   style="z-index:2;">
-								<?php echo esc_html( $website_cta ); ?> <i class="uil uil-external-link-alt ms-1"></i>
+							   <?php if ( $link_rel ) : ?>rel="<?php echo esc_attr( $link_rel ); ?>"<?php endif; ?>
+							   class="btn btn-sm btn-outline-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple">
+								<i class="uil uil-external-link-alt"></i>
+								<?php echo esc_html( $website_cta ); ?>
 							</a>
 							<?php endif; ?>
 						</div>
@@ -139,6 +194,9 @@ $has_filters = ! empty( $filter_terms ) && ! is_wp_error( $filter_terms );
 
 	</div>
 </section>
+
+<?php codeweber_projects_map_modal(); ?>
+<?php codeweber_projects_map_float_button(); ?>
 
 <script>
 (function () {
