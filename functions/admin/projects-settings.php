@@ -600,7 +600,7 @@ function codeweber_projects_field_map_types(): void {
 function codeweber_projects_field_it_archive_template(): void {
 	$val  = codeweber_projects_settings_get( 'it_archive_template', 'projects_it_1' );
 	$dir  = get_template_directory() . '/templates/archives/projects/';
-	$files = glob( $dir . 'projects_it_*.php' ) ?: [];
+	$files = glob( $dir . 'projects_*.php' ) ?: [];
 
 	$options = [];
 	foreach ( $files as $file ) {
