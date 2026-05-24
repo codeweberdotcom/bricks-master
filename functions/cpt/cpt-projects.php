@@ -151,6 +151,28 @@ add_action( 'manage_projects_posts_custom_column', function ( string $column, in
 	echo esc_html( $labels[ $type ] ?? $type );
 }, 10, 2 );
 
+// Two-column grid for normal metaboxes on projects edit screen
+add_action( 'admin_enqueue_scripts', function ( string $hook ): void {
+	if ( ! in_array( $hook, [ 'post.php', 'post-new.php' ], true ) ) {
+		return;
+	}
+	$screen = get_current_screen();
+	if ( ! $screen || $screen->post_type !== 'projects' ) {
+		return;
+	}
+	wp_add_inline_style( 'wp-admin', '
+		#normal-sortables {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 0 16px;
+			align-items: start;
+		}
+		#normal-sortables .postbox {
+			min-width: 0;
+		}
+	' );
+} );
+
 require_once __DIR__ . '/cpt-projects-meta.php';
 require_once get_template_directory() . '/functions/admin/projects-settings.php';
 

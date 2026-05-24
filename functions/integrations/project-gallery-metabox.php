@@ -33,8 +33,8 @@ function codeweber_project_gallery_add_metabox(): void {
 		__('Project Gallery', 'codeweber'),
 		'codeweber_project_gallery_render_metabox',
 		'projects',
-		'side',
-		'default'
+		'normal',
+		'high'
 	);
 }
 
