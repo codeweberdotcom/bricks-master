@@ -370,6 +370,11 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	<div class="modal-dialog modal-fullscreen">
 		<div class="modal-content">
 			<div class="modal-body">
+				<div class="cw-preview-content">
+					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
+						<iframe id="cw-preview-frame" src="" title="" loading="lazy"></iframe>
+					</div>
+				</div>
 				<div class="cw-preview-bar">
 					<span class="cw-preview-title" id="cw-preview-title"></span>
 					<div class="cw-preview-devices">
@@ -392,11 +397,6 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 								aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>">
 							<i class="uil uil-times"></i>
 						</button>
-					</div>
-				</div>
-				<div class="cw-preview-content">
-					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
-						<iframe id="cw-preview-frame" src="" title="" loading="lazy"></iframe>
 					</div>
 				</div>
 			</div>
