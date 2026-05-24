@@ -298,6 +298,8 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 							<?php if ( $website_url ) : ?>
 							<button type="button"
 								class="cw-it-qv btn btn-sm btn-white<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
+								data-bs-toggle="modal"
+								data-bs-target="#cw-preview-modal"
 								data-website-url="<?php echo esc_url( $website_url ); ?>"
 								data-website-title="<?php echo esc_attr( $title ); ?>"
 								aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
@@ -475,24 +477,34 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	});
 
 	// ── Fullscreen preview modal ──────────────────────────────────────
-	var previewModal    = document.getElementById('cw-preview-modal');
-	var previewTitle    = document.getElementById('cw-preview-title');
-	var previewExtLink  = document.getElementById('cw-preview-ext-link');
-	var previewFrame    = document.getElementById('cw-preview-frame');
-	var previewFrameWrap= document.getElementById('cw-preview-frame-wrap');
+	var previewModal     = document.getElementById('cw-preview-modal');
+	var previewTitle     = document.getElementById('cw-preview-title');
+	var previewExtLink   = document.getElementById('cw-preview-ext-link');
+	var previewFrame     = document.getElementById('cw-preview-frame');
+	var previewFrameWrap = document.getElementById('cw-preview-frame-wrap');
 	var previewDeviceBtns = previewModal ? previewModal.querySelectorAll('.cw-preview-devices button') : [];
-	var bsPreviewModal  = null;
 
-	if (previewModal && typeof bootstrap !== 'undefined') {
-		bsPreviewModal = new bootstrap.Modal(previewModal);
+	if (previewModal) {
+		// Populate iframe from trigger button before modal opens
+		previewModal.addEventListener('show.bs.modal', function (e) {
+			var trigger = e.relatedTarget;
+			if (!trigger) return;
+			var url   = trigger.getAttribute('data-website-url') || '';
+			var title = trigger.getAttribute('data-website-title') || '';
+			if (previewTitle)   previewTitle.textContent = title;
+			if (previewExtLink) previewExtLink.href = url;
+			if (previewFrame) {
+				previewFrame.src   = url;
+				previewFrame.title = title;
+			}
+		});
 
 		// Reset iframe on close to stop loading / free resources
 		previewModal.addEventListener('hidden.bs.modal', function () {
-			previewFrame.src = '';
-			if (previewTitle)   previewTitle.textContent = '';
-			if (previewExtLink) previewExtLink.href = '#';
-			// Reset to desktop
-			previewFrameWrap.dataset.device = 'desktop';
+			if (previewFrame)    previewFrame.src = '';
+			if (previewTitle)    previewTitle.textContent = '';
+			if (previewExtLink)  previewExtLink.href = '#';
+			if (previewFrameWrap) previewFrameWrap.dataset.device = 'desktop';
 			previewDeviceBtns.forEach(function (b) {
 				b.classList.toggle('active', b.dataset.device === 'desktop');
 			});
@@ -501,32 +513,12 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 		// Device switcher
 		previewDeviceBtns.forEach(function (btn) {
 			btn.addEventListener('click', function () {
-				var device = btn.dataset.device;
-				previewFrameWrap.dataset.device = device;
+				if (previewFrameWrap) previewFrameWrap.dataset.device = btn.dataset.device;
 				previewDeviceBtns.forEach(function (b) {
 					b.classList.toggle('active', b === btn);
 				});
 			});
 		});
 	}
-
-	// Quick View click (delegated — works for AJAX-loaded cards too)
-	document.addEventListener('click', function (e) {
-		var btn = e.target.closest('.cw-it-qv[data-website-url]');
-		if (!btn || !bsPreviewModal) return;
-
-		e.preventDefault();
-		e.stopPropagation();
-
-		var url   = btn.getAttribute('data-website-url');
-		var title = btn.getAttribute('data-website-title') || '';
-
-		if (previewTitle)   previewTitle.textContent = title;
-		if (previewExtLink) previewExtLink.href = url;
-		previewFrame.src  = url;
-		previewFrame.title = title;
-
-		bsPreviewModal.show();
-	});
 })();
 </script>
