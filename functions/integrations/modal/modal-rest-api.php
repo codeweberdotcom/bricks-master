@@ -259,6 +259,157 @@ if (class_exists('WPCF7')) {
     add_filter('rest_pre_dispatch', 'codeweber_intercept_cf7_modal_requests', 10, 3);
 }
 
+// ── Project Quick View REST endpoint ─────────────────────────────────────────
+
+add_action( 'rest_api_init', function () {
+    register_rest_route( 'wp/v2', '/modal/project-(?P<id>\d+)', [
+        'methods'             => 'GET',
+        'callback'            => function ( WP_REST_Request $request ) {
+            return codeweber_project_quick_view_response( (int) $request->get_param( 'id' ) );
+        },
+        'permission_callback' => '__return_true',
+        'args'                => [
+            'id' => [
+                'required'          => true,
+                'validate_callback' => function ( $v ) { return is_numeric( $v ) && $v > 0; },
+            ],
+        ],
+    ] );
+} );
+
+/**
+ * Build the REST response for project quick view.
+ *
+ * @param int $post_id Project post ID.
+ * @return WP_REST_Response|WP_Error
+ */
+function codeweber_project_quick_view_response( int $post_id ) {
+    $post = get_post( $post_id );
+    if ( ! $post || $post->post_type !== 'projects' || $post->post_status !== 'publish' ) {
+        return new WP_Error( 'project_not_found', __( 'Project not found.', 'codeweber' ), [ 'status' => 404 ] );
+    }
+
+    $title        = get_post_meta( $post_id, '_alt_title', true ) ?: get_the_title( $post );
+    $client       = get_post_meta( $post_id, 'main_information_client', true );
+    $cms          = get_post_meta( $post_id, 'main_information_cms', true );
+    $technologies = get_post_meta( $post_id, 'main_information_technologies', true );
+    $description  = get_post_meta( $post_id, 'main_information_short_description', true );
+    $website_url  = get_post_meta( $post_id, 'project_website_url', true );
+    $website_open = get_post_meta( $post_id, 'project_website_open', true ) ?: 'new-tab';
+    $website_cta  = get_post_meta( $post_id, 'project_website_cta', true ) ?: __( 'View website', 'codeweber' );
+    $date         = get_post_meta( $post_id, 'main_information_date', true );
+
+    $cats     = get_the_terms( $post_id, 'projects_category' );
+    $cat_name = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+
+    $link_target = $website_open === 'same-tab' ? '_self' : '_blank';
+    $link_rel    = $website_open !== 'same-tab' ? 'noopener noreferrer' : '';
+
+    $btn_style   = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
+    $card_radius = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'card-radius' ) : 'rounded';
+
+    // Gallery: use _project_gallery first, fall back to featured image
+    $gallery_ids = function_exists( 'codeweber_get_project_gallery_ids' )
+        ? codeweber_get_project_gallery_ids( $post_id )
+        : [];
+    if ( empty( $gallery_ids ) ) {
+        $thumb_id = get_post_thumbnail_id( $post_id );
+        if ( $thumb_id ) {
+            $gallery_ids = [ $thumb_id ];
+        }
+    }
+
+    ob_start();
+    ?>
+    <div class="cw-project-qv">
+
+        <?php if ( ! empty( $gallery_ids ) ) : ?>
+        <div class="cw-project-qv__gallery <?php echo esc_attr( $card_radius ); ?> overflow-hidden mb-4">
+            <?php if ( count( $gallery_ids ) > 1 ) : ?>
+            <div class="swiper" data-swiper='{"loop":true,"navigation":true,"pagination":{"clickable":true}}'>
+                <div class="swiper-wrapper">
+                    <?php foreach ( $gallery_ids as $aid ) : ?>
+                    <div class="swiper-slide">
+                        <?php echo wp_get_attachment_image( $aid, 'cw_wide_xl', false, [ 'class' => 'w-100 d-block', 'style' => 'max-height:420px;object-fit:cover;' ] ); ?>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <?php else : ?>
+                <?php echo wp_get_attachment_image( $gallery_ids[0], 'cw_wide_xl', false, [ 'class' => 'w-100 d-block', 'style' => 'max-height:420px;object-fit:cover;' ] ); ?>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <div class="row g-0">
+            <div class="col-12">
+
+                <?php if ( $cat_name ) : ?>
+                <div class="post-category text-line mb-2"><?php echo esc_html( $cat_name ); ?></div>
+                <?php endif; ?>
+
+                <h3 class="h4 mb-3">
+                    <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="link-dark text-decoration-none">
+                        <?php echo wp_kses_post( $title ); ?>
+                    </a>
+                </h3>
+
+                <?php if ( $client || $cms || $date ) : ?>
+                <ul class="list-unstyled fs-15 text-muted mb-3">
+                    <?php if ( $client ) : ?>
+                    <li><strong><?php esc_html_e( 'Client', 'codeweber' ); ?>:</strong> <?php echo esc_html( $client ); ?></li>
+                    <?php endif; ?>
+                    <?php if ( $cms ) : ?>
+                    <li><strong><?php esc_html_e( 'CMS / Framework', 'codeweber' ); ?>:</strong> <?php echo esc_html( $cms ); ?></li>
+                    <?php endif; ?>
+                    <?php if ( $date ) : ?>
+                    <li><strong><?php esc_html_e( 'Year', 'codeweber' ); ?>:</strong> <?php echo esc_html( $date ); ?></li>
+                    <?php endif; ?>
+                </ul>
+                <?php endif; ?>
+
+                <?php if ( $technologies ) : ?>
+                <p class="fs-15 mb-3"><strong><?php esc_html_e( 'Technologies', 'codeweber' ); ?>:</strong><br>
+                    <?php echo nl2br( esc_html( $technologies ) ); ?>
+                </p>
+                <?php endif; ?>
+
+                <?php if ( $description ) : ?>
+                <p class="mb-4"><?php echo nl2br( esc_html( $description ) ); ?></p>
+                <?php endif; ?>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="btn btn-primary<?php echo esc_attr( $btn_style ); ?> has-ripple">
+                        <?php esc_html_e( 'View project', 'codeweber' ); ?>
+                    </a>
+                    <?php if ( $website_url ) : ?>
+                    <a href="<?php echo esc_url( $website_url ); ?>"
+                       target="<?php echo esc_attr( $link_target ); ?>"
+                       <?php if ( $link_rel ) : ?>rel="<?php echo esc_attr( $link_rel ); ?>"<?php endif; ?>
+                       class="btn btn-outline-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple">
+                        <i class="uil uil-external-link-alt"></i>
+                        <?php echo esc_html( $website_cta ); ?>
+                    </a>
+                    <?php endif; ?>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <?php
+    $html = ob_get_clean();
+
+    return rest_ensure_response( [
+        'id'         => $post_id,
+        'content'    => [ 'rendered' => $html ],
+        'modal_size' => 'modal-lg',
+    ] );
+}
+
 /**
  * Get CF7 form HTML for modal window
  * 

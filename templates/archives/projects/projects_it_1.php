@@ -59,16 +59,37 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	line-height: 1.6;
 	margin-left: 6px;
 }
+/* Screenshot scroll on hover */
+.cw-it-screen {
+	overflow: hidden;
+	height: 220px;
+	position: relative;
+}
 .cw-it-screenshot {
 	display: block;
 	width: 100%;
-	aspect-ratio: 16 / 9;
-	object-fit: cover;
+	height: auto;
+	transition: transform 4s linear;
+	transform: translateY(0);
 }
 .cw-it-screenshot-placeholder {
 	width: 100%;
-	aspect-ratio: 16 / 9;
+	height: 220px;
 	background: #f1f3f5;
+}
+/* Quick view button */
+.cw-it-qv {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	opacity: 0;
+	transform: translateY(6px);
+	transition: opacity .2s ease, transform .2s ease;
+	z-index: 2;
+}
+.card:hover .cw-it-qv {
+	opacity: 1;
+	transform: translateY(0);
 }
 </style>
 
@@ -132,14 +153,24 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 									<span class="cw-browser-url"><?php echo esc_html( $url_display ); ?></span>
 								<?php endif; ?>
 							</div>
-							<?php if ( $thumbnail_id ) : ?>
-								<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
-									'class' => 'cw-it-screenshot',
-									'alt'   => esc_attr( $title ),
-								] ); ?>
-							<?php else : ?>
-								<div class="cw-it-screenshot-placeholder"></div>
-							<?php endif; ?>
+							<div class="cw-it-screen position-relative">
+								<?php if ( $thumbnail_id ) : ?>
+									<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
+										'class' => 'cw-it-screenshot',
+										'alt'   => esc_attr( $title ),
+									] ); ?>
+								<?php else : ?>
+									<div class="cw-it-screenshot-placeholder"></div>
+								<?php endif; ?>
+								<button type="button"
+									class="cw-it-qv btn btn-sm btn-white<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
+									data-bs-toggle="modal"
+									data-value="project-<?php echo esc_attr( $post_id ); ?>"
+									aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
+									<i class="uil uil-eye"></i>
+									<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
+								</button>
+							</div>
 						</a>
 
 						<!-- Card body -->
@@ -202,6 +233,29 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 (function () {
 	var catBtns     = document.querySelectorAll('.projects-category-filters .filter-item');
 	var resultsWrap = document.getElementById('projects-grid-results');
+
+	// Screenshot scroll on card hover
+	document.querySelectorAll('.cw-it-screen').forEach(function (wrap) {
+		var img = wrap.querySelector('.cw-it-screenshot');
+		if (!img) return;
+		var card = wrap.closest('.card');
+		if (!card) return;
+
+		function getScrollDist() {
+			var imgH = img.naturalHeight * (img.offsetWidth / img.naturalWidth);
+			return Math.max(0, imgH - wrap.offsetHeight);
+		}
+
+		card.addEventListener('mouseenter', function () {
+			var dist = getScrollDist();
+			if (dist > 0) {
+				img.style.transform = 'translateY(-' + dist + 'px)';
+			}
+		});
+		card.addEventListener('mouseleave', function () {
+			img.style.transform = 'translateY(0)';
+		});
+	});
 
 	catBtns.forEach(function (btn) {
 		btn.addEventListener('click', function (e) {
