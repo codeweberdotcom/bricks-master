@@ -167,8 +167,6 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 							</a>
 							<button type="button"
 								class="cw-it-qv btn btn-sm btn-white<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
-								data-bs-toggle="modal"
-								data-bs-target="#modal"
 								data-value="project-<?php echo esc_attr( $post_id ); ?>"
 								aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
 								<i class="uil uil-eye"></i>
@@ -237,29 +235,33 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	var catBtns     = document.querySelectorAll('.projects-category-filters .filter-item');
 	var resultsWrap = document.getElementById('projects-grid-results');
 
-	// Screenshot scroll on card hover
-	document.querySelectorAll('.cw-it-screen').forEach(function (wrap) {
-		var img = wrap.querySelector('.cw-it-screenshot');
-		if (!img) return;
-		var card = wrap.closest('.card');
-		if (!card) return;
+	// ── Screenshot scroll on card hover ──────────────────────────────
+	function initScreenScroll(root) {
+		(root || document).querySelectorAll('.cw-it-screen').forEach(function (wrap) {
+			if (wrap.dataset.cwScrollInit) return;
+			wrap.dataset.cwScrollInit = '1';
 
-		function getScrollDist() {
-			var imgH = img.naturalHeight * (img.offsetWidth / img.naturalWidth);
-			return Math.max(0, imgH - wrap.offsetHeight);
-		}
+			var img  = wrap.querySelector('.cw-it-screenshot');
+			if (!img) return;
+			var card = wrap.closest('.card');
+			if (!card) return;
 
-		card.addEventListener('mouseenter', function () {
-			var dist = getScrollDist();
-			if (dist > 0) {
-				img.style.transform = 'translateY(-' + dist + 'px)';
+			function getScrollDist() {
+				var imgH = img.naturalHeight * (img.offsetWidth / img.naturalWidth);
+				return Math.max(0, imgH - wrap.offsetHeight);
 			}
+			card.addEventListener('mouseenter', function () {
+				var dist = getScrollDist();
+				if (dist > 0) img.style.transform = 'translateY(-' + dist + 'px)';
+			});
+			card.addEventListener('mouseleave', function () {
+				img.style.transform = 'translateY(0)';
+			});
 		});
-		card.addEventListener('mouseleave', function () {
-			img.style.transform = 'translateY(0)';
-		});
-	});
+	}
+	initScreenScroll();
 
+	// ── Category filter ───────────────────────────────────────────────
 	catBtns.forEach(function (btn) {
 		btn.addEventListener('click', function (e) {
 			e.preventDefault();
@@ -274,9 +276,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 			resultsWrap.style.pointerEvents = 'none';
 
 			var filters = {};
-			if (catId && catId !== '0') {
-				filters.projects_category = catId;
-			}
+			if (catId && catId !== '0') filters.projects_category = catId;
 
 			var body = new FormData();
 			body.append('action',     'fetch_action');
@@ -289,6 +289,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 				.then(function (data) {
 					if (data.status === 'success' && resultsWrap) {
 						resultsWrap.innerHTML = data.data.html;
+						initScreenScroll(resultsWrap);
 					}
 				})
 				.catch(function (err) { console.error('Projects filter error:', err); })
@@ -299,6 +300,95 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 					}
 				});
 		});
+	});
+
+	// ── Quick View delegated handler ──────────────────────────────────
+	document.addEventListener('click', function (e) {
+		var btn = e.target.closest('.cw-it-qv[data-value]');
+		if (!btn) return;
+		if (typeof bootstrap === 'undefined' || typeof wpApiSettings === 'undefined') return;
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		var dataValue = btn.getAttribute('data-value'); // "project-123"
+
+		// Create or reuse #modal
+		var el = document.getElementById('modal');
+		if (!el) {
+			var cfg    = document.getElementById('cw-modal-config');
+			var radius = cfg ? (cfg.dataset.cardRadius || '') : '';
+			var lbl    = cfg ? (cfg.dataset.closeLabel  || 'Close') : 'Close';
+
+			el = document.createElement('div');
+			el.className = 'modal fade';
+			el.id        = 'modal';
+			el.tabIndex  = -1;
+			el.setAttribute('aria-hidden', 'true');
+			el.innerHTML =
+				'<div class="modal-dialog modal-dialog-centered">' +
+					'<div class="modal-content' + (radius ? ' ' + radius : '') + '">' +
+						'<div class="modal-body">' +
+							'<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="' + lbl + '"></button>' +
+							'<div id="modal-content"></div>' +
+						'</div>' +
+					'</div>' +
+				'</div>';
+			document.body.appendChild(el);
+
+			el.addEventListener('hidden.bs.modal', function () {
+				var mc = el.querySelector('#modal-content');
+				if (mc) mc.innerHTML = '';
+				['modal-sm','modal-lg','modal-xl','modal-fullscreen'].forEach(function (c) {
+					el.querySelector('.modal-dialog').classList.remove(c);
+				});
+			});
+		}
+
+		var mc      = el.querySelector('#modal-content');
+		var md      = el.querySelector('.modal-dialog');
+		var bsModal = bootstrap.Modal.getOrCreateInstance(el);
+
+		// Skeleton
+		mc.innerHTML =
+			'<div class="p-2">' +
+				'<div class="cw-skeleton-block mb-3" style="height:180px;width:100%;border-radius:6px"></div>' +
+				'<div class="cw-skeleton-block mb-3" style="height:1.4em;width:65%"></div>' +
+				'<div class="cw-skeleton-block mb-2" style="height:.8em;width:100%"></div>' +
+				'<div class="cw-skeleton-block mb-2" style="height:.8em;width:85%"></div>' +
+				'<div class="cw-skeleton-block mb-4" style="height:.8em;width:60%"></div>' +
+				'<div class="cw-skeleton-block" style="height:2.6em;width:40%"></div>' +
+			'</div>';
+
+		['modal-sm','modal-lg','modal-xl','modal-fullscreen'].forEach(function (c) {
+			md.classList.remove(c);
+		});
+
+		bsModal.show();
+
+		fetch(wpApiSettings.root + 'wp/v2/modal/' + dataValue, { credentials: 'include' })
+			.then(function (r) {
+				if (!r.ok) throw new Error('HTTP ' + r.status);
+				return r.json();
+			})
+			.then(function (data) {
+				if (data && data.content && data.content.rendered) {
+					if (data.modal_size) md.classList.add(data.modal_size);
+					mc.innerHTML = data.content.rendered;
+					// Init Swiper slides if present
+					mc.querySelectorAll('[data-swiper]').forEach(function (sw) {
+						if (typeof Swiper !== 'undefined') {
+							try { new Swiper(sw, JSON.parse(sw.dataset.swiper || '{}')); } catch (ex) {}
+						}
+					});
+				} else {
+					mc.innerHTML = '<p class="text-muted p-4">Content not found.</p>';
+				}
+			})
+			.catch(function (err) {
+				console.error('Quick view error:', err);
+				mc.innerHTML = '<p class="text-danger p-4">Error loading content.</p>';
+			});
 	});
 })();
 </script>
