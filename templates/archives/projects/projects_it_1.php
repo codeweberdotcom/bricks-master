@@ -247,92 +247,147 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	border-radius: 0 0 4px 4px;
 	margin: 0 auto;
 }
-/* === Tablet: iPad Pro === */
+/* === Tablet: iPad Pro 11" === */
 .cw-preview-frame-wrap[data-device="tablet"] {
-	width: 590px;
-	max-width: calc(100% - 40px);
-	height: calc(100% - 40px);
-	margin: 20px auto;
+	/* height-driven sizing → correct iPad portrait proportions */
+	height: min(calc(100% - 60px), 1180px);
+	width: auto;
+	aspect-ratio: 820 / 1180;
+	max-width: calc(100% - 60px);
+	margin: 30px auto;
 	position: relative;
-	background: #1d1d1f;
-	border-radius: 26px;
+	background: #1c1c1e;
+	border-radius: 24px;
 	box-shadow:
-		0 0 0 1.5px #3a3a3c,
-		0 0 0 3px #0a0a0a,
-		0 24px 80px rgba(0,0,0,.8);
-	padding: 24px 18px;
+		0 0 0 1px #3a3a3c,
+		0 0 0 2.5px #0a0a0a,
+		inset 0 0 0 1px #2c2c2e,
+		0 30px 80px rgba(0,0,0,.9);
+	padding: 22px 16px;
 	flex-shrink: 0;
 }
 /* Camera */
 .cw-preview-frame-wrap[data-device="tablet"]::before {
 	content: '';
 	position: absolute;
-	top: 11px; left: 50%;
+	top: 10px; left: 50%;
 	transform: translateX(-50%);
 	width: 8px; height: 8px;
 	background: #3a3a3c;
 	border-radius: 50%;
 }
-/* Side button */
+/* Power button (right) */
 .cw-preview-frame-wrap[data-device="tablet"]::after {
 	content: '';
 	position: absolute;
-	top: 28%; right: -3px;
-	width: 3px; height: 68px;
+	top: 22%; right: -3.5px;
+	width: 3.5px; height: 52px;
 	background: #2c2c2e;
 	border-radius: 0 2px 2px 0;
 }
 .cw-preview-frame-wrap[data-device="tablet"] iframe {
-	width: 100%;
-	height: 100%;
-	border: 0;
-	border-radius: 6px;
+	width: 100%; height: 100%;
+	border: 0; border-radius: 6px;
 	display: block;
+}
+/* iPad left volume buttons */
+.cw-preview-frame-wrap[data-device="tablet"] .cw-device-btn-l {
+	display: block;
+	position: absolute;
+	left: -3.5px; top: 22%;
+	width: 3.5px; height: 42px;
+	background: #2c2c2e;
+	border-radius: 2px 0 0 2px;
+}
+.cw-preview-frame-wrap[data-device="tablet"] .cw-device-btn-l::after {
+	content: '';
+	position: absolute;
+	left: 0; top: 58px;
+	width: 3.5px; height: 42px;
+	background: #2c2c2e;
+	border-radius: 2px 0 0 2px;
 }
 /* === Mobile: iPhone 14 Pro === */
 .cw-preview-frame-wrap[data-device="mobile"] {
-	width: 430px;
-	max-width: calc(100% - 40px);
-	height: calc(100% - 40px);
-	margin: 20px auto;
+	/* height-driven sizing → correct iPhone portrait proportions */
+	height: min(calc(100% - 60px), 852px);
+	width: auto;
+	aspect-ratio: 393 / 852;
+	max-width: calc(100% - 60px);
+	margin: 30px auto;
 	position: relative;
-	background: #1d1d1f;
-	border-radius: 54px;
+	background: #000;
+	border-radius: 56px;
 	box-shadow:
-		0 0 0 1.5px #3a3a3c,
-		0 0 0 3px #0a0a0a,
-		0 24px 80px rgba(0,0,0,.8);
-	padding: 60px 22px 38px;
+		0 0 0 1px #3a3a3c,
+		0 0 0 2.5px #1a1a1a,
+		inset 0 0 0 1px #1c1c1e,
+		0 30px 80px rgba(0,0,0,.9);
+	padding: 58px 18px 34px;
 	flex-shrink: 0;
 }
 /* Dynamic Island */
 .cw-preview-frame-wrap[data-device="mobile"]::before {
 	content: '';
 	position: absolute;
-	top: 15px; left: 50%;
+	top: 12px; left: 50%;
 	transform: translateX(-50%);
-	width: 126px; height: 37px;
+	width: 120px; height: 34px;
 	background: #000;
-	border-radius: 20px;
+	border-radius: 18px;
 	z-index: 2;
 }
 /* Home indicator */
 .cw-preview-frame-wrap[data-device="mobile"]::after {
 	content: '';
 	position: absolute;
-	bottom: 10px; left: 50%;
+	bottom: 9px; left: 50%;
 	transform: translateX(-50%);
-	width: 134px; height: 5px;
-	background: rgba(255,255,255,.25);
+	width: 130px; height: 5px;
+	background: rgba(255,255,255,.3);
 	border-radius: 3px;
 }
 .cw-preview-frame-wrap[data-device="mobile"] iframe {
-	width: 100%;
-	height: 100%;
-	border: 0;
-	border-radius: 30px;
-	display: block;
+	width: 100%; height: 100%;
+	border: 0; border-radius: 38px;
+	display: block; background: #fff;
 }
+/* iPhone left buttons: mute switch + vol up + vol down */
+.cw-preview-frame-wrap[data-device="mobile"] .cw-device-btn-l {
+	display: block;
+	position: absolute;
+	left: -4px; top: 108px;
+	width: 4px; height: 28px; /* mute */
+	background: #2c2c2e;
+	border-radius: 2px 0 0 2px;
+}
+.cw-preview-frame-wrap[data-device="mobile"] .cw-device-btn-l::before {
+	content: '';
+	position: absolute;
+	left: 0; top: 52px;
+	width: 4px; height: 62px; /* vol up */
+	background: #2c2c2e;
+	border-radius: 2px 0 0 2px;
+}
+.cw-preview-frame-wrap[data-device="mobile"] .cw-device-btn-l::after {
+	content: '';
+	position: absolute;
+	left: 0; top: 130px;
+	width: 4px; height: 62px; /* vol down */
+	background: #2c2c2e;
+	border-radius: 2px 0 0 2px;
+}
+/* iPhone right button: power */
+.cw-preview-frame-wrap[data-device="mobile"] .cw-device-btn-r {
+	display: block;
+	position: absolute;
+	right: -4px; top: 160px;
+	width: 4px; height: 80px;
+	background: #2c2c2e;
+	border-radius: 0 2px 2px 0;
+}
+/* Hide buttons for other device modes */
+.cw-device-btn-l, .cw-device-btn-r { display: none; }
 </style>
 
 <section id="content-wrapper" class="wrapper">
@@ -484,6 +539,8 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 			<div class="modal-body">
 				<div class="cw-preview-content">
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
+						<span class="cw-device-btn-l" aria-hidden="true"></span>
+						<span class="cw-device-btn-r" aria-hidden="true"></span>
 						<iframe id="cw-preview-frame" src="" title="" loading="lazy"></iframe>
 					</div>
 					<div class="cw-device-base" id="cw-device-base"></div>
