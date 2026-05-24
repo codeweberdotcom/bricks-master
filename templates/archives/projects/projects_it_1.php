@@ -185,41 +185,152 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 /* ── Iframe area ── */
 .cw-preview-content {
 	flex: 1;
+	min-height: 0;
 	overflow: auto;
 	background: #111;
 	display: flex;
-	align-items: flex-start;
-	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
 }
-.cw-preview-frame-wrap {
-	width: 100%;
-	height: 100%;
-	transition: width .3s ease, border-radius .3s ease;
+/* === Desktop: MacBook Pro === */
+.cw-preview-frame-wrap[data-device="desktop"] {
+	width: 90%;
+	max-width: 1400px;
+	flex: 1;
+	min-height: 0;
+	margin: 28px auto 0;
+	position: relative;
+	background: #1d1d1f;
+	border-radius: 12px 12px 0 0;
+	box-shadow: 0 0 0 1.5px #3a3a3c, 0 0 0 3px #0a0a0a;
+	padding: 14px 12px 0;
 }
-.cw-preview-frame-wrap[data-device="tablet"] {
-	width: 768px;
-	max-width: calc(100% - 40px);
-	margin: 24px auto;
-	height: calc(100% - 48px);
-	border-radius: 18px;
-	overflow: hidden;
-	box-shadow: 0 0 0 8px #333, 0 0 0 10px #444;
+/* Camera */
+.cw-preview-frame-wrap[data-device="desktop"]::before {
+	content: '';
+	position: absolute;
+	top: 5px; left: 50%;
+	transform: translateX(-50%);
+	width: 7px; height: 7px;
+	background: #3a3a3c;
+	border-radius: 50%;
 }
-.cw-preview-frame-wrap[data-device="mobile"] {
-	width: 375px;
-	max-width: calc(100% - 40px);
-	margin: 24px auto;
-	height: calc(100% - 48px);
-	border-radius: 32px;
-	overflow: hidden;
-	box-shadow: 0 0 0 8px #333, 0 0 0 10px #444;
-}
-.cw-preview-frame-wrap iframe {
-	display: block;
+.cw-preview-frame-wrap[data-device="desktop"] iframe {
 	width: 100%;
 	height: 100%;
 	border: 0;
-	background: #fff;
+	border-radius: 3px 3px 0 0;
+	display: block;
+}
+/* MacBook base — shown via sibling selector */
+.cw-device-base { display: none; }
+.cw-preview-frame-wrap[data-device="desktop"] ~ .cw-device-base {
+	display: block;
+	width: 90%;
+	max-width: 1400px;
+	height: 26px;
+	background: linear-gradient(180deg, #1d1d1f 0%, #131315 100%);
+	border-radius: 0 0 6px 6px;
+	box-shadow: 0 0 0 1.5px #3a3a3c, 0 0 0 3px #0a0a0a, 0 12px 40px rgba(0,0,0,.7);
+	margin: 0 auto;
+	flex-shrink: 0;
+	position: relative;
+}
+.cw-preview-frame-wrap[data-device="desktop"] ~ .cw-device-base::after {
+	content: '';
+	display: block;
+	width: 14%;
+	height: 5px;
+	background: #0a0a0a;
+	border-radius: 0 0 4px 4px;
+	margin: 0 auto;
+}
+/* === Tablet: iPad Pro === */
+.cw-preview-frame-wrap[data-device="tablet"] {
+	width: 590px;
+	max-width: calc(100% - 40px);
+	height: calc(100% - 40px);
+	margin: 20px auto;
+	position: relative;
+	background: #1d1d1f;
+	border-radius: 26px;
+	box-shadow:
+		0 0 0 1.5px #3a3a3c,
+		0 0 0 3px #0a0a0a,
+		0 24px 80px rgba(0,0,0,.8);
+	padding: 24px 18px;
+	flex-shrink: 0;
+}
+/* Camera */
+.cw-preview-frame-wrap[data-device="tablet"]::before {
+	content: '';
+	position: absolute;
+	top: 11px; left: 50%;
+	transform: translateX(-50%);
+	width: 8px; height: 8px;
+	background: #3a3a3c;
+	border-radius: 50%;
+}
+/* Side button */
+.cw-preview-frame-wrap[data-device="tablet"]::after {
+	content: '';
+	position: absolute;
+	top: 28%; right: -3px;
+	width: 3px; height: 68px;
+	background: #2c2c2e;
+	border-radius: 0 2px 2px 0;
+}
+.cw-preview-frame-wrap[data-device="tablet"] iframe {
+	width: 100%;
+	height: 100%;
+	border: 0;
+	border-radius: 6px;
+	display: block;
+}
+/* === Mobile: iPhone 14 Pro === */
+.cw-preview-frame-wrap[data-device="mobile"] {
+	width: 430px;
+	max-width: calc(100% - 40px);
+	height: calc(100% - 40px);
+	margin: 20px auto;
+	position: relative;
+	background: #1d1d1f;
+	border-radius: 54px;
+	box-shadow:
+		0 0 0 1.5px #3a3a3c,
+		0 0 0 3px #0a0a0a,
+		0 24px 80px rgba(0,0,0,.8);
+	padding: 60px 22px 38px;
+	flex-shrink: 0;
+}
+/* Dynamic Island */
+.cw-preview-frame-wrap[data-device="mobile"]::before {
+	content: '';
+	position: absolute;
+	top: 15px; left: 50%;
+	transform: translateX(-50%);
+	width: 126px; height: 37px;
+	background: #000;
+	border-radius: 20px;
+	z-index: 2;
+}
+/* Home indicator */
+.cw-preview-frame-wrap[data-device="mobile"]::after {
+	content: '';
+	position: absolute;
+	bottom: 10px; left: 50%;
+	transform: translateX(-50%);
+	width: 134px; height: 5px;
+	background: rgba(255,255,255,.25);
+	border-radius: 3px;
+}
+.cw-preview-frame-wrap[data-device="mobile"] iframe {
+	width: 100%;
+	height: 100%;
+	border: 0;
+	border-radius: 30px;
+	display: block;
 }
 </style>
 
@@ -374,6 +485,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
 						<iframe id="cw-preview-frame" src="" title="" loading="lazy"></iframe>
 					</div>
+					<div class="cw-device-base" id="cw-device-base"></div>
 				</div>
 				<div class="cw-preview-bar">
 					<span class="cw-preview-title" id="cw-preview-title"></span>
