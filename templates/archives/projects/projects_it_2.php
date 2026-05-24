@@ -2,7 +2,8 @@
 /**
  * Template: Projects Archive — IT / Web (Overlay Cards)
  *
- * Isotope grid with bottom-overlay cards — category + title always visible at bottom.
+ * Isotope grid with browser-mockup cards and bottom-overlay title.
+ * Screenshot scrolls on card hover; category + title always visible at bottom.
  *
  * @package Codeweber
  */
@@ -34,6 +35,60 @@ $projects_query = new WP_Query( [
 ] );
 ?>
 
+<style>
+/* ── Browser bar ── */
+.cw-it2-browser-bar {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	height: 32px;
+	padding: 0 12px;
+	background: #e9ecef;
+	flex-shrink: 0;
+}
+.cw-it2-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+.cw-it2-dot--red    { background: #ff5f57; }
+.cw-it2-dot--yellow { background: #ffbd2e; }
+.cw-it2-dot--green  { background: #28c840; }
+.cw-it2-url {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	background: #fff;
+	border-radius: 3px;
+	padding: 2px 8px;
+	font-size: 11px;
+	color: #6c757d;
+	line-height: 1.6;
+	margin-left: 6px;
+}
+/* ── Screenshot scroll on hover ── */
+.cw-it2-screen {
+	overflow: hidden;
+	height: 220px;
+	position: relative;
+}
+.cw-it2-screenshot {
+	display: block;
+	width: 100%;
+	height: auto;
+	transition: transform 4s linear;
+	transform: translateY(0);
+}
+.cw-it2-screenshot-placeholder {
+	width: 100%;
+	height: 220px;
+	background: #f1f3f5;
+}
+</style>
+
 <section class="wrapper">
 	<div class="container py-14 py-md-16">
 		<div class="grid grid-view projects-masonry">
@@ -61,9 +116,11 @@ $projects_query = new WP_Query( [
 			<?php if ( $projects_query->have_posts() ) : ?>
 			<div class="row <?php echo esc_attr( $grid_gap ); ?> isotope">
 				<?php while ( $projects_query->have_posts() ) : $projects_query->the_post();
-					$post_id   = get_the_ID();
-					$alt_title = get_post_meta( $post_id, '_alt_title', true );
-					$cats      = get_the_terms( $post_id, 'projects_category' );
+					$post_id      = get_the_ID();
+					$alt_title    = get_post_meta( $post_id, '_alt_title', true );
+					$website_url  = get_post_meta( $post_id, 'project_website_url', true );
+					$cats         = get_the_terms( $post_id, 'projects_category' );
+					$thumbnail_id = get_post_thumbnail_id( $post_id );
 
 					$item_classes = 'project item col-md-6 col-xl-4';
 					if ( $cats && ! is_wp_error( $cats ) ) {
@@ -73,32 +130,51 @@ $projects_query = new WP_Query( [
 					}
 
 					$cat_name      = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
-					$thumbnail_id  = get_post_thumbnail_id( $post_id );
 					$display_title = $alt_title ?: get_the_title();
+					$url_display   = $website_url ? preg_replace( '#^https?://#', '', rtrim( $website_url, '/' ) ) : '';
 				?>
 				<div class="<?php echo esc_attr( $item_classes ); ?>">
-					<figure class="bottom-overlay hover-scale <?php echo esc_attr( $card_radius ); ?> position-relative mb-0">
-						<a href="<?php the_permalink(); ?>">
-							<?php if ( $thumbnail_id ) : ?>
-								<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_square_xl', false, [
-									'class' => 'w-100',
-									'alt'   => esc_attr( $display_title ),
-								] ); ?>
-							<?php else : ?>
-								<div class="w-100" style="aspect-ratio:1/1;background:#e9ecef;"></div>
-							<?php endif; ?>
+					<div class="overflow-hidden <?php echo esc_attr( $card_radius ); ?>">
+
+						<!-- Browser bar -->
+						<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
+							<div class="cw-it2-browser-bar">
+								<span class="cw-it2-dot cw-it2-dot--red"></span>
+								<span class="cw-it2-dot cw-it2-dot--yellow"></span>
+								<span class="cw-it2-dot cw-it2-dot--green"></span>
+								<?php if ( $url_display ) : ?>
+									<span class="cw-it2-url"><?php echo esc_html( $url_display ); ?></span>
+								<?php endif; ?>
+							</div>
 						</a>
-						<figcaption class="position-absolute bottom-0 start-0 end-0 p-4 text-white">
-							<?php if ( $cat_name ) : ?>
-							<div class="post-category text-line mb-1"><?php echo esc_html( $cat_name ); ?></div>
-							<?php endif; ?>
-							<h3 class="post-title h5 mb-0">
-								<a href="<?php the_permalink(); ?>" class="text-white">
-									<?php echo wp_kses_post( $display_title ); ?>
-								</a>
-							</h3>
-						</figcaption>
-					</figure>
+
+						<!-- Screenshot + bottom overlay -->
+						<figure class="bottom-overlay position-relative mb-0">
+							<a href="<?php the_permalink(); ?>" class="d-block">
+								<div class="cw-it2-screen">
+									<?php if ( $thumbnail_id ) : ?>
+										<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
+											'class' => 'cw-it2-screenshot',
+											'alt'   => esc_attr( $display_title ),
+										] ); ?>
+									<?php else : ?>
+										<div class="cw-it2-screenshot-placeholder"></div>
+									<?php endif; ?>
+								</div>
+							</a>
+							<figcaption class="position-absolute bottom-0 start-0 end-0 p-4 text-white">
+								<?php if ( $cat_name ) : ?>
+								<div class="post-category text-line mb-1"><?php echo esc_html( $cat_name ); ?></div>
+								<?php endif; ?>
+								<h3 class="post-title h5 mb-0">
+									<a href="<?php the_permalink(); ?>" class="text-white">
+										<?php echo wp_kses_post( $display_title ); ?>
+									</a>
+								</h3>
+							</figcaption>
+						</figure>
+
+					</div>
 				</div>
 				<?php endwhile; wp_reset_postdata(); ?>
 			</div>
@@ -113,3 +189,32 @@ $projects_query = new WP_Query( [
 
 <?php codeweber_projects_map_modal(); ?>
 <?php codeweber_projects_map_float_button(); ?>
+
+<script>
+(function () {
+	function initScreenScroll(root) {
+		(root || document).querySelectorAll('.cw-it2-screen').forEach(function (wrap) {
+			if (wrap.dataset.cwScrollInit) return;
+			wrap.dataset.cwScrollInit = '1';
+
+			var img  = wrap.querySelector('.cw-it2-screenshot');
+			if (!img) return;
+			var card = wrap.closest('.overflow-hidden');
+			if (!card) return;
+
+			function getScrollDist() {
+				var imgH = img.naturalHeight * (img.offsetWidth / img.naturalWidth);
+				return Math.max(0, imgH - wrap.offsetHeight);
+			}
+			card.addEventListener('mouseenter', function () {
+				var dist = getScrollDist();
+				if (dist > 0) img.style.transform = 'translateY(-' + dist + 'px)';
+			});
+			card.addEventListener('mouseleave', function () {
+				img.style.transform = 'translateY(0)';
+			});
+		});
+	}
+	initScreenScroll();
+})();
+</script>
