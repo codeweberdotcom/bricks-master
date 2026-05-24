@@ -1,7 +1,8 @@
 <?php
 /**
- * Template: Projects Archive — Style 5
- * Isotope grid with overlay-5 cards (title + category revealed at bottom on hover).
+ * Template: Projects Archive — IT / Web (Overlay Cards)
+ *
+ * Isotope grid with bottom-overlay cards — category + title always visible at bottom.
  *
  * @package Codeweber
  */
@@ -71,12 +72,12 @@ $projects_query = new WP_Query( [
 						}
 					}
 
-					$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
-					$thumbnail_id = get_post_thumbnail_id( $post_id );
+					$cat_name      = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+					$thumbnail_id  = get_post_thumbnail_id( $post_id );
 					$display_title = $alt_title ?: get_the_title();
 				?>
 				<div class="<?php echo esc_attr( $item_classes ); ?>">
-					<figure class="overlay overlay-5 hover-scale <?php echo esc_attr( $card_radius ); ?> mb-0">
+					<figure class="bottom-overlay hover-scale <?php echo esc_attr( $card_radius ); ?> position-relative mb-0">
 						<a href="<?php the_permalink(); ?>">
 							<?php if ( $thumbnail_id ) : ?>
 								<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_square_xl', false, [
@@ -87,19 +88,15 @@ $projects_query = new WP_Query( [
 								<div class="w-100" style="aspect-ratio:1/1;background:#e9ecef;"></div>
 							<?php endif; ?>
 						</a>
-						<figcaption>
-							<div>
-								<?php if ( $cat_name ) : ?>
-								<div class="post-category text-line from-left mb-1">
-									<?php echo esc_html( $cat_name ); ?>
-								</div>
-								<?php endif; ?>
-								<h3 class="post-title from-left mb-0">
-									<a href="<?php the_permalink(); ?>">
-										<?php echo wp_kses_post( $display_title ); ?>
-									</a>
-								</h3>
-							</div>
+						<figcaption class="position-absolute bottom-0 start-0 end-0 p-4 text-white">
+							<?php if ( $cat_name ) : ?>
+							<div class="post-category text-line mb-1"><?php echo esc_html( $cat_name ); ?></div>
+							<?php endif; ?>
+							<h3 class="post-title h5 mb-0">
+								<a href="<?php the_permalink(); ?>" class="text-white">
+									<?php echo wp_kses_post( $display_title ); ?>
+								</a>
+							</h3>
 						</figcaption>
 					</figure>
 				</div>
