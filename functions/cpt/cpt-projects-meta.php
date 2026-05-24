@@ -57,7 +57,7 @@ add_action( 'add_meta_boxes_projects', function ( WP_Post $post ): void {
 			'cw_project_works',
 			__( 'Completed Works', 'codeweber' ),
 			'cw_project_works_render',
-			'projects', 'normal', 'high'
+			'projects', 'side', 'default'
 		);
 	}
 
@@ -66,7 +66,7 @@ add_action( 'add_meta_boxes_projects', function ( WP_Post $post ): void {
 			'cw_project_products',
 			__( 'Project Products', 'codeweber' ),
 			'cw_project_products_render',
-			'projects', 'normal', 'default'
+			'projects', 'side', 'default'
 		);
 	}
 } );
