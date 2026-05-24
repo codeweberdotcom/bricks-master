@@ -196,8 +196,8 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 /* === Desktop: MacBook Pro (16:9) === */
 .cw-preview-frame-wrap[data-device="desktop"] {
 	/* fits both viewport width and height while staying 16:9 */
-	width: min(88vw, calc((100vh - 140px) * 16 / 9));
-	max-width: 1400px;
+	width: min(96vw, calc((100vh - 100px) * 16 / 9));
+	max-width: 1600px;
 	aspect-ratio: 16 / 9;
 	margin: 0 auto;
 	position: relative;
@@ -228,8 +228,8 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 .cw-device-base { display: none; }
 .cw-preview-frame-wrap[data-device="desktop"] ~ .cw-device-base {
 	display: block;
-	width: 90%;
-	max-width: 1400px;
+	width: min(96vw, calc((100vh - 100px) * 16 / 9));
+	max-width: 1600px;
 	height: 26px;
 	background: linear-gradient(180deg, #1d1d1f 0%, #131315 100%);
 	border-radius: 0 0 6px 6px;
