@@ -59,14 +59,17 @@ $projects_query = new WP_Query( [
 	display: inline-flex;
 	align-items: center;
 	padding: 2px 10px;
-	background: rgba(255,255,255,.18);
-	border: 1px solid rgba(255,255,255,.25);
 	border-radius: 50px;
 	font-size: 11px;
-	color: rgba(255,255,255,.9);
+	font-weight: 500;
 	line-height: 1.6;
 	white-space: nowrap;
+	color: #fff;
 }
+.cw-it2-chip:nth-child(1) { background: rgba(99,102,241,.85); }
+.cw-it2-chip:nth-child(2) { background: rgba(16,185,129,.85); }
+.cw-it2-chip:nth-child(3) { background: rgba(245,158,11,.85); }
+.cw-it2-chip:nth-child(4) { background: rgba(239,68,68,.85); }
 </style>
 
 <section class="wrapper">
@@ -127,17 +130,17 @@ $projects_query = new WP_Query( [
 								<?php endif; ?>
 							</div>
 						</a>
-						<figcaption class="position-absolute bottom-0 start-0 end-0 p-4 text-white">
-							<?php if ( $cms || $client ) : ?>
-							<div class="d-flex flex-wrap gap-1 mb-2">
-								<?php if ( $cms ) : ?>
-								<span class="cw-it2-chip"><?php echo esc_html( $cms ); ?></span>
-								<?php endif; ?>
-								<?php if ( $client ) : ?>
-								<span class="cw-it2-chip"><?php echo esc_html( $client ); ?></span>
-								<?php endif; ?>
-							</div>
+						<?php if ( $cms || $client ) : ?>
+						<div class="position-absolute top-0 start-0 end-0 p-3 d-flex flex-wrap gap-1" style="z-index:5;">
+							<?php if ( $cms ) : ?>
+							<span class="cw-it2-chip"><?php echo esc_html( $cms ); ?></span>
 							<?php endif; ?>
+							<?php if ( $client ) : ?>
+							<span class="cw-it2-chip"><?php echo esc_html( $client ); ?></span>
+							<?php endif; ?>
+						</div>
+						<?php endif; ?>
+						<figcaption class="position-absolute bottom-0 start-0 end-0 p-4 text-white">
 							<?php if ( $cat_name ) : ?>
 							<div class="post-category text-line mb-1"><?php echo esc_html( $cat_name ); ?></div>
 							<?php endif; ?>
