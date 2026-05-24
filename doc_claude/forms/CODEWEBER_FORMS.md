@@ -178,7 +178,7 @@ Admins review submissions:
 3. Search for and add **"Form"** block (Codeweber Gutenberg Blocks category)
 4. Configure form properties in sidebar:
    - **Form ID**: Unique identifier (auto-generated)
-   - **Form Type**: form | newsletter | testimonial | callback | resume
+   - **Form Type**: form | newsletter | testimonial | callback | resume | faq | event-registration | questionnaire | brief
    - **Email Settings:**
      - Email to (recipient)
      - Email from (sender)
@@ -203,6 +203,28 @@ Admins review submissions:
    - **Field Name**: Identifier (auto-generated from label)
 
 8. **Publish** form
+
+### Form Types
+
+All available form type values, admin labels, and badge colours:
+
+| Value | Admin Label | Badge Colour |
+|-------|-------------|--------------|
+| `form` | Form | `#607d8b` (blue-grey) |
+| `newsletter` | Newsletter | `#00897b` (teal) |
+| `testimonial` | Testimonial | `#8e24aa` (purple) |
+| `callback` | Callback | `#e53935` (red) |
+| `resume` | Resume | `#1e88e5` (blue) |
+| `faq` | FAQ | `#f4511e` (orange) |
+| `event-registration` | Event | `#43a047` (green) |
+| `questionnaire` | Questionnaire | `#00897b` (teal) |
+| `brief` | Brief | `#6a1b9a` (deep purple) |
+
+Type is set in the **Form** block Inspector sidebar → "Form Type" select. The value is stored in the `formType` block attribute and rendered in:
+
+- Admin list column **"Type"** (`codeweber-forms-cpt.php` → `cwf_form_type_column`)
+- Admin filter dropdown above the list (`restrict_manage_posts`)
+- Email notification metadata
 
 ### Method 2: Shortcode (Simple)
 
@@ -612,6 +634,324 @@ document.addEventListener('codeweberFormSubmitting', function(event) {
     }
 });
 ```
+
+---
+
+## Multipage Forms
+
+### Overview
+
+A multipage form splits a long form into sequential pages (steps). Each page is a separate **Form Page** block nested inside the **Form** block. Navigation is handled by JavaScript (`form-multipage.js`), which shows one step at a time, validates each step before advancing, and persists progress in `localStorage`.
+
+**Architecture:**
+
+```
+Form block (cwgb-form-multipage data-total-steps="N")
+├── Form Page block (cwgb-form-step data-step="1")
+│   ├── Form Field blocks…
+│   └── Navigation: Next button (.cwgb-form-next)
+├── Form Page block (cwgb-form-step data-step="2")
+│   ├── Form Field blocks…
+│   └── Navigation: Back + Next buttons
+└── Form Page block (cwgb-form-step data-step="N")
+    ├── Form Field blocks…
+    └── Navigation: Back + Submit button
+```
+
+The PHP renderer (`codeweber-forms-renderer.php`) generates all pages in one pass. Only the active step is `display:block`; others are `display:none`. This means the entire form is submitted as one `<form>` element — **no AJAX between steps**.
+
+### Form Page Block Attributes (`block.json`)
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `pageTitle` | string | `''` | Step title shown in progress indicator |
+| `nextButtonText` | string | `'Next'` | Label for the Next button |
+| `backButtonText` | string | `'Back'` | Label for the Back button |
+| `nextButtonClass` | string | `'btn btn-primary'` | CSS classes for Next button |
+| `backButtonClass` | string | `'btn btn-outline-secondary'` | CSS classes for Back button |
+| `pageConditionalLogic` | boolean | `false` | Enable page-level conditional logic |
+| `pageConditionalAction` | string | `'show'` | `show` or `skip` |
+| `pageConditionalMatch` | string | `'all'` | `all` (AND) or `any` (OR) |
+| `pageConditionalRules` | array | `[]` | Array of rule objects (see Page Conditional Logic) |
+
+### Progress Indicator
+
+The renderer outputs a progress indicator block when `totalSteps > 1`:
+
+```html
+<div class="cwgb-form-progress" aria-label="Step 1 of 3">
+    <div class="progress mb-2">
+        <div class="progress-bar" role="progressbar"
+             style="width: 33%"
+             aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">
+        </div>
+    </div>
+    <div class="cwgb-form-progress-text mb-2">
+        <div class="text-muted">
+            <span class="cwgb-form-progress-current">1</span> of
+            <span class="cwgb-form-progress-total">3</span>
+        </div>
+        <h5 class="mb-0 text-primary">
+            <span class="cwgb-form-progress-title">Step Title</span>
+        </h5>
+    </div>
+</div>
+```
+
+**JS-updatable elements:**
+
+| Selector | What JS writes |
+|----------|----------------|
+| `.progress-bar` | `style.width` + `aria-valuenow` |
+| `.cwgb-form-progress-current` | Current visible step number |
+| `.cwgb-form-progress-total` | Total visible step count |
+| `.cwgb-form-progress-title` | `pageTitle` of current step |
+| `.cwgb-form-progress` | `aria-label` = "Step N of M" |
+
+The step title wrapper (`<h5>`) is hidden via `display:none` when the current page has no title.
+
+Page titles are embedded as JSON in a hidden element:
+
+```html
+<script type="application/json" class="cwgb-form-page-titles">
+    ["Step 1 Title","","Step 3 Title"]
+</script>
+```
+
+### localStorage Persistence
+
+`form-multipage.js` saves form state to `localStorage` after every field change and step navigation. State is restored on page reload.
+
+**Storage key:** `cwf_mp_{formId}`
+
+**Stored payload:**
+```json
+{
+    "step": 2,
+    "fields": { "name": "John", "subject": "sales" },
+    "expires": 1716921600000
+}
+```
+
+**TTL:** 24 hours from last save. Expired data is discarded on load.
+
+**Excluded from storage:**
+- `form_nonce`, `_wpnonce`, `cwf_token`, `form_id`, `form_honeypot` — security tokens
+- `type="file"` — file inputs cannot be serialised
+
+**Restore logic** (`restoreFieldValues`):
+1. Radio buttons — matched by `input[type="radio"][name="…"]`, sets `checked` on matching value
+2. Checkboxes — matched by `input[type="checkbox"][name="…"]`, array comparison
+3. Everything else — `el.value = val`, skipping `type="file"`
+
+> Using explicit type selectors (not `querySelector('[name="…"]')`) prevents a radio being detected as a generic input when `radio.type` is not checked.
+
+### Navigation Flow
+
+```
+Next click
+  → validateStep(activeStep)   // HTML5 + phone-mask custom validity
+  → findNextStep(+1)           // skips pages with shouldSkipPage() === true
+  → saveState()
+  → goToStep(targetStep)
+
+Back click
+  → findNextStep(-1)           // same skip logic in reverse
+  → saveState()
+  → goToStep(targetStep)
+
+Field change
+  → saveState()
+  → getVisibleSteps()          // recalculate for progress bar
+  → updateProgress()
+```
+
+### Per-step Validation
+
+Before advancing, `validateStep(stepEl)` runs:
+
+1. Phone mask fields (`input[type="tel"][data-mask]`) — sets `setCustomValidity` based on whether the value has real digits and no `_` placeholders
+2. All fields — `el.reportValidity()` on first invalid element, returns `false`
+
+Back navigation never validates (users can go back freely).
+
+### Reset After Successful Submit
+
+On `codeweberFormSubmitted` event (dispatched by `form-submit-universal.js`):
+
+```javascript
+document.addEventListener('codeweberFormSubmitted', function (e) {
+    if (String(e.detail.formId) === String(formId)) {
+        clearState(formId);   // remove localStorage entry
+        currentStep = 1;
+        form.reset();         // clear all field values
+        goToStep(form, 1, totalSteps, pageTitles);
+    }
+});
+```
+
+This ensures users who submit a form inside a modal see a clean first step if they open the modal again.
+
+### Dynamic Init (Modal Support)
+
+Forms added to the DOM after initial load (e.g. loaded into a modal) are initialised on the `codeweberFormOpened` event:
+
+```javascript
+document.addEventListener('codeweberFormOpened', function () {
+    document.querySelectorAll('.cwgb-form-multipage').forEach(function (form) {
+        if (!form.dataset.cwgbMpInit) {
+            form.dataset.cwgbMpInit = '1';
+            initForm(form);
+        }
+    });
+});
+```
+
+The `data-cwgb-mp-init` flag prevents double-initialisation if the event fires multiple times.
+
+---
+
+## Field Conditional Logic
+
+Field-level conditional logic shows or hides individual **Form Field** blocks based on values of other fields within the same form page.
+
+### Data Attributes
+
+The PHP renderer writes these attributes on the field wrapper `.cwgb-form-field-wrapper`:
+
+| Attribute | Values | Description |
+|-----------|--------|-------------|
+| `data-cond-action` | `show` \| `hide` | Show the field when rules match; or hide it |
+| `data-cond-match` | `all` \| `any` | AND logic (all rules must match) or OR logic |
+| `data-cond-rules` | JSON string | Array of rule objects |
+
+**Rule object structure:**
+```json
+{ "field": "subject", "operator": "is", "value": "support" }
+```
+
+### Operators
+
+| Operator | Matches when |
+|----------|-------------|
+| `is` | field value equals `value` (case-insensitive) |
+| `is_not` | field value does not equal `value` |
+| `contains` | field value includes `value` as substring |
+| `not_contains` | field value does not include `value` |
+| `is_empty` | field value is empty / unchecked |
+| `is_not_empty` | field value is not empty |
+
+### JavaScript Engine (`form-conditional.js`)
+
+- Listens to `change` and `input` events on the form
+- On each event, re-evaluates all `[data-cond-action]` wrappers
+- Sets `display:none` / `display:''` and `disabled` on fields inside hidden wrappers (so disabled fields are excluded from submission)
+
+### Gutenberg Editor
+
+In the **Form Field** block Inspector sidebar → **Conditional Logic** panel:
+
+1. Toggle "Enable Conditional Logic"
+2. Choose action: **Show** or **Hide** this field
+3. Choose match: **All** / **Any**
+4. Add rules:
+   - Select field (dropdown lists all `fieldName` values in the same form)
+   - Select operator
+   - Enter value (or leave empty for `is_empty`/`is_not_empty`)
+
+---
+
+## Page Conditional Logic
+
+Page-level conditional logic shows or skips entire **Form Page** blocks based on values of any fields filled in previous steps.
+
+### Data Attributes
+
+Written on the `.cwgb-form-step` div by the PHP renderer (`codeweber-forms-renderer.php`):
+
+| Attribute | Values | Description |
+|-----------|--------|-------------|
+| `data-page-cond-action` | `show` \| `skip` | `show`: display page only when rules match; `skip`: skip page when rules match |
+| `data-page-cond-match` | `all` \| `any` | AND / OR logic |
+| `data-page-cond-rules` | JSON string | Same rule object format as field conditional logic |
+
+Only written when `pageConditionalLogic === true` and `pageConditionalRules` is non-empty.
+
+### Logic in `form-multipage.js`
+
+**`shouldSkipPage(form, stepEl)`** — returns `true` if the page should be hidden:
+
+```javascript
+// action = 'show': page is shown only when condition is met
+//   → skip if condition is NOT met
+// action = 'skip': page is skipped when condition is met
+//   → skip if condition IS met
+
+return action === 'show' ? !conditionMet : conditionMet;
+```
+
+**`getVisibleSteps(form, totalSteps)`** — returns array of step numbers that are NOT skipped:
+
+```javascript
+// e.g. [1, 3, 4] if step 2 is skipped
+var visible = [];
+for (var i = 1; i <= totalSteps; i++) {
+    var stepEl = form.querySelector('.cwgb-form-step[data-step="' + i + '"]');
+    if (stepEl && !shouldSkipPage(form, stepEl)) visible.push(i);
+}
+return visible.length > 0 ? visible : [1];
+```
+
+**`findNextStep(form, from, direction, totalSteps)`** — finds next non-skipped step:
+
+```javascript
+// direction: +1 (Next) or -1 (Back)
+var step = from + direction;
+while (step >= 1 && step <= totalSteps) {
+    var stepEl = form.querySelector('.cwgb-form-step[data-step="' + step + '"]');
+    if (stepEl && !shouldSkipPage(form, stepEl)) return step;
+    step += direction;
+}
+return from; // no valid step found — stay on current
+```
+
+### Progress Bar Recalculation
+
+`getVisibleSteps()` is called on every field `change` event and every navigation. `updateProgress()` receives the result:
+
+```javascript
+function updateProgress(form, currentStep, totalSteps, pageTitles, visibleSteps) {
+    var dispCurrent = visibleSteps.indexOf(currentStep) + 1; // position in visible list
+    var dispTotal   = visibleSteps.length;                   // count of visible steps
+    // updates .cwgb-form-progress-current, .cwgb-form-progress-total, progress-bar width
+}
+```
+
+This means the progress bar always reflects only the pages the user will actually see, and updates live as the user fills in the fields that control visibility.
+
+### Supported Operators
+
+Same as field-level conditional logic (see table above): `is`, `is_not`, `contains`, `not_contains`, `is_empty`, `is_not_empty`.
+
+Multi-value fields (checkbox groups, radio buttons) are handled in `getPageFieldValues()`:
+- **Checkbox** — returns array of all checked values
+- **Radio** — returns array with single checked value, or empty array
+- **Text/select/textarea** — returns array with single string value
+
+### Gutenberg Editor
+
+In the **Form Page** block Inspector sidebar → **Conditional Logic** panel:
+
+1. Toggle "Enable Conditional Logic"
+2. Choose action: **Show** (show this page only when rules match) or **Skip** (skip this page when rules match)
+3. Choose match: **All** / **Any**
+4. Add rules:
+   - Select field — dropdown lists all `form-field` blocks from **all pages** in the parent form (via `useSelect` traversal)
+   - Select operator
+   - For select / radio / checkbox fields: value is a dropdown of the field's own options
+   - For other field types: free-text value input
+
+> **Important:** Rules can reference fields from any page, including later pages. Evaluate rules only after the user has visited the relevant page, otherwise the condition may be evaluated against an empty value.
 
 ---
 
