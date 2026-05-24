@@ -191,20 +191,21 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: flex-start;
+	justify-content: center;
 }
-/* === Desktop: MacBook Pro === */
+/* === Desktop: MacBook Pro (16:9) === */
 .cw-preview-frame-wrap[data-device="desktop"] {
-	width: 90%;
+	/* fits both viewport width and height while staying 16:9 */
+	width: min(88vw, calc((100vh - 140px) * 16 / 9));
 	max-width: 1400px;
-	flex: 1;
-	min-height: 0;
-	margin: 28px auto 0;
+	aspect-ratio: 16 / 9;
+	margin: 0 auto;
 	position: relative;
 	background: #1d1d1f;
 	border-radius: 12px 12px 0 0;
 	box-shadow: 0 0 0 1.5px #3a3a3c, 0 0 0 3px #0a0a0a;
 	padding: 14px 12px 0;
+	flex-shrink: 0;
 }
 /* Camera */
 .cw-preview-frame-wrap[data-device="desktop"]::before {
