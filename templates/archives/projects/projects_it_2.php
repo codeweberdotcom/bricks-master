@@ -36,39 +36,6 @@ $projects_query = new WP_Query( [
 ?>
 
 <style>
-/* ── Browser bar ── */
-.cw-it2-browser-bar {
-	display: flex;
-	align-items: center;
-	gap: 5px;
-	height: 32px;
-	padding: 0 12px;
-	background: #e9ecef;
-	flex-shrink: 0;
-}
-.cw-it2-dot {
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	flex-shrink: 0;
-}
-.cw-it2-dot--red    { background: #ff5f57; }
-.cw-it2-dot--yellow { background: #ffbd2e; }
-.cw-it2-dot--green  { background: #28c840; }
-.cw-it2-url {
-	flex: 1;
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	background: #fff;
-	border-radius: 3px;
-	padding: 2px 8px;
-	font-size: 11px;
-	color: #6c757d;
-	line-height: 1.6;
-	margin-left: 6px;
-}
 /* ── Screenshot scroll on hover ── */
 .cw-it2-screen {
 	overflow: hidden;
@@ -86,6 +53,19 @@ $projects_query = new WP_Query( [
 	width: 100%;
 	height: 220px;
 	background: #f1f3f5;
+}
+/* ── Chips ── */
+.cw-it2-chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px 10px;
+	background: rgba(255,255,255,.18);
+	border: 1px solid rgba(255,255,255,.25);
+	border-radius: 50px;
+	font-size: 11px;
+	color: rgba(255,255,255,.9);
+	line-height: 1.6;
+	white-space: nowrap;
 }
 </style>
 
@@ -118,7 +98,8 @@ $projects_query = new WP_Query( [
 				<?php while ( $projects_query->have_posts() ) : $projects_query->the_post();
 					$post_id      = get_the_ID();
 					$alt_title    = get_post_meta( $post_id, '_alt_title', true );
-					$website_url  = get_post_meta( $post_id, 'project_website_url', true );
+					$cms          = get_post_meta( $post_id, 'main_information_cms', true );
+					$client       = get_post_meta( $post_id, 'main_information_client', true );
 					$cats         = get_the_terms( $post_id, 'projects_category' );
 					$thumbnail_id = get_post_thumbnail_id( $post_id );
 
@@ -131,50 +112,42 @@ $projects_query = new WP_Query( [
 
 					$cat_name      = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
 					$display_title = $alt_title ?: get_the_title();
-					$url_display   = $website_url ? preg_replace( '#^https?://#', '', rtrim( $website_url, '/' ) ) : '';
 				?>
 				<div class="<?php echo esc_attr( $item_classes ); ?>">
-					<div class="overflow-hidden <?php echo esc_attr( $card_radius ); ?>">
-
-						<!-- Browser bar -->
-						<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
-							<div class="cw-it2-browser-bar">
-								<span class="cw-it2-dot cw-it2-dot--red"></span>
-								<span class="cw-it2-dot cw-it2-dot--yellow"></span>
-								<span class="cw-it2-dot cw-it2-dot--green"></span>
-								<?php if ( $url_display ) : ?>
-									<span class="cw-it2-url"><?php echo esc_html( $url_display ); ?></span>
+					<figure class="bottom-overlay position-relative mb-0 overflow-hidden <?php echo esc_attr( $card_radius ); ?>">
+						<a href="<?php the_permalink(); ?>" class="d-block">
+							<div class="cw-it2-screen">
+								<?php if ( $thumbnail_id ) : ?>
+									<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
+										'class' => 'cw-it2-screenshot',
+										'alt'   => esc_attr( $display_title ),
+									] ); ?>
+								<?php else : ?>
+									<div class="cw-it2-screenshot-placeholder"></div>
 								<?php endif; ?>
 							</div>
 						</a>
-
-						<!-- Screenshot + bottom overlay -->
-						<figure class="bottom-overlay position-relative mb-0">
-							<a href="<?php the_permalink(); ?>" class="d-block">
-								<div class="cw-it2-screen">
-									<?php if ( $thumbnail_id ) : ?>
-										<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
-											'class' => 'cw-it2-screenshot',
-											'alt'   => esc_attr( $display_title ),
-										] ); ?>
-									<?php else : ?>
-										<div class="cw-it2-screenshot-placeholder"></div>
-									<?php endif; ?>
-								</div>
-							</a>
-							<figcaption class="position-absolute bottom-0 start-0 end-0 p-4 text-white">
-								<?php if ( $cat_name ) : ?>
-								<div class="post-category text-line mb-1"><?php echo esc_html( $cat_name ); ?></div>
+						<figcaption class="position-absolute bottom-0 start-0 end-0 p-4 text-white">
+							<?php if ( $cms || $client ) : ?>
+							<div class="d-flex flex-wrap gap-1 mb-2">
+								<?php if ( $cms ) : ?>
+								<span class="cw-it2-chip"><?php echo esc_html( $cms ); ?></span>
 								<?php endif; ?>
-								<h3 class="post-title h5 mb-0">
-									<a href="<?php the_permalink(); ?>" class="text-white">
-										<?php echo wp_kses_post( $display_title ); ?>
-									</a>
-								</h3>
-							</figcaption>
-						</figure>
-
-					</div>
+								<?php if ( $client ) : ?>
+								<span class="cw-it2-chip"><?php echo esc_html( $client ); ?></span>
+								<?php endif; ?>
+							</div>
+							<?php endif; ?>
+							<?php if ( $cat_name ) : ?>
+							<div class="post-category text-line mb-1"><?php echo esc_html( $cat_name ); ?></div>
+							<?php endif; ?>
+							<h3 class="post-title h5 mb-0">
+								<a href="<?php the_permalink(); ?>" class="text-white">
+									<?php echo wp_kses_post( $display_title ); ?>
+								</a>
+							</h3>
+						</figcaption>
+					</figure>
 				</div>
 				<?php endwhile; wp_reset_postdata(); ?>
 			</div>
@@ -199,7 +172,7 @@ $projects_query = new WP_Query( [
 
 			var img  = wrap.querySelector('.cw-it2-screenshot');
 			if (!img) return;
-			var card = wrap.closest('.overflow-hidden');
+			var card = wrap.closest('figure');
 			if (!card) return;
 
 			function getScrollDist() {
