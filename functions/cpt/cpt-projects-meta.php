@@ -90,7 +90,8 @@ function cw_project_main_information_render( WP_Post $post ): void {
 
 	$common = [
 		'main_information_date' => __( 'Date / Year', 'codeweber' ),
-		'main_information_link' => __( 'Link', 'codeweber' ),
+		'project_website_url'   => __( 'Website URL', 'codeweber' ),
+		'project_website_cta'   => __( 'CTA button text', 'codeweber' ),
 	];
 
 	switch ( $type ) {
@@ -99,9 +100,7 @@ function cw_project_main_information_render( WP_Post $post ): void {
 				'main_information_client'       => __( 'Client', 'codeweber' ),
 				'main_information_cms'          => __( 'CMS / Framework', 'codeweber' ),
 				'main_information_technologies' => __( 'Technologies', 'codeweber' ),
-				'project_website_url'           => __( 'Website URL', 'codeweber' ),
 				'project_website_open'          => __( 'Open behavior', 'codeweber' ),
-				'project_website_cta'           => __( 'CTA button text', 'codeweber' ),
 			];
 			break;
 		case 'project-design':
@@ -109,12 +108,14 @@ function cw_project_main_information_render( WP_Post $post ): void {
 				'main_information_client'   => __( 'Client', 'codeweber' ),
 				'main_information_software' => __( 'Software', 'codeweber' ),
 				'main_information_format'   => __( 'Format', 'codeweber' ),
+				'project_website_open'      => __( 'Open behavior', 'codeweber' ),
 			];
 			break;
 		case 'project-photo':
 			$specific = [
 				'main_information_location'  => __( 'Location', 'codeweber' ),
 				'main_information_equipment' => __( 'Equipment', 'codeweber' ),
+				'project_website_open'       => __( 'Open behavior', 'codeweber' ),
 			];
 			break;
 		default: // project-construction (fallback)
@@ -122,6 +123,7 @@ function cw_project_main_information_render( WP_Post $post ): void {
 				'main_information_city'        => __( 'City', 'codeweber' ),
 				'main_information_architector' => __( 'Architect', 'codeweber' ),
 				'main_information_developer'   => __( 'Developer', 'codeweber' ),
+				'project_website_open'         => __( 'Open behavior', 'codeweber' ),
 			];
 			break;
 	}
@@ -140,12 +142,19 @@ function cw_project_main_information_render( WP_Post $post ): void {
 
 	$url_fields = [ 'project_website_url' ];
 
-	$select_fields = [
-		'project_website_open' => [
+	$open_options = $type === 'project-it'
+		? [
 			'new-tab'  => __( 'New tab', 'codeweber' ),
 			'iframe'   => __( 'Iframe preview on site', 'codeweber' ),
 			'same-tab' => __( 'Same tab', 'codeweber' ),
-		],
+		]
+		: [
+			'new-tab'  => __( 'New tab', 'codeweber' ),
+			'same-tab' => __( 'Same tab', 'codeweber' ),
+		];
+
+	$select_fields = [
+		'project_website_open' => $open_options,
 	];
 
 	$all_fields = array_merge( $common, $specific, $description );
