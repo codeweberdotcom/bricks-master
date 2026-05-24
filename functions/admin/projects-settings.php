@@ -598,16 +598,32 @@ function codeweber_projects_field_map_types(): void {
 }
 
 function codeweber_projects_field_it_archive_template(): void {
-	$val     = codeweber_projects_settings_get( 'it_archive_template', 'projects_it_1' );
-	$options = [
-		'projects_it_1' => __( 'Website Portfolio — grid with browser mockup', 'codeweber' ),
-	];
+	$val  = codeweber_projects_settings_get( 'it_archive_template', 'projects_it_1' );
+	$dir  = get_template_directory() . '/templates/archives/projects/';
+	$files = glob( $dir . 'projects_it_*.php' ) ?: [];
+
+	$options = [];
+	foreach ( $files as $file ) {
+		$slug    = basename( $file, '.php' );
+		$label   = $slug;
+		$content = file_get_contents( $file, false, null, 0, 512 ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+		if ( $content && preg_match( '/\*\s*Template:\s*(.+)/u', $content, $m ) ) {
+			$label = trim( $m[1] );
+		}
+		$options[ $slug ] = $label;
+	}
+	ksort( $options );
+
+	if ( empty( $options ) ) {
+		$options['projects_it_1'] = 'projects_it_1';
+	}
+
 	echo '<select name="codeweber_projects_settings[it_archive_template]">';
 	foreach ( $options as $k => $label ) {
 		echo '<option value="' . esc_attr( $k ) . '" ' . selected( $val, $k, false ) . '>' . esc_html( $label ) . '</option>';
 	}
 	echo '</select>';
-	echo '<p class="description">' . esc_html__( 'Visible only when Default project type = IT / Web.', 'codeweber' ) . '</p>';
+	echo '<p class="description">' . esc_html__( 'Visible only when Default project type = IT / Web. Templates are auto-discovered from templates/archives/projects/projects_it_*.php.', 'codeweber' ) . '</p>';
 }
 
 function codeweber_projects_field_products_title(): void {
