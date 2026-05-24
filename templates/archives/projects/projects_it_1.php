@@ -134,54 +134,21 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	display: flex;
 	gap: 4px;
 }
-.cw-preview-devices button {
-	background: transparent;
-	border: 1px solid rgba(255,255,255,.2);
-	color: rgba(255,255,255,.55);
-	border-radius: 5px;
-	width: 34px;
-	height: 34px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 18px;
-	cursor: pointer;
-	transition: background .15s, color .15s, border-color .15s;
-	padding: 0;
-}
-.cw-preview-devices button.active,
-.cw-preview-devices button:hover {
-	background: rgba(255,255,255,.12);
+.cw-preview-devices .btn { color: rgba(255,255,255,.6); }
+.cw-preview-devices .btn:hover { color: #fff; }
+.cw-preview-devices .btn.active {
+	background: rgba(255,255,255,.18);
 	color: #fff;
-	border-color: rgba(255,255,255,.4);
+	border-color: rgba(255,255,255,.35);
 }
 .cw-preview-bar-end {
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 6px;
 	flex-shrink: 0;
 }
-.cw-preview-ext-link {
-	color: rgba(255,255,255,.6);
-	font-size: 20px;
-	line-height: 1;
-	text-decoration: none;
-	transition: color .15s;
-}
-.cw-preview-ext-link:hover { color: #fff; }
-.cw-preview-close-btn {
-	background: transparent;
-	border: 0;
-	color: rgba(255,255,255,.6);
-	font-size: 22px;
-	line-height: 1;
-	cursor: pointer;
-	padding: 4px;
-	display: flex;
-	align-items: center;
-	transition: color .15s;
-}
-.cw-preview-close-btn:hover { color: #fff; }
+.cw-preview-bar-end .btn { color: rgba(255,255,255,.6); }
+.cw-preview-bar-end .btn:hover { color: #fff; }
 /* ── Iframe area ── */
 .cw-preview-content {
 	flex: 1;
@@ -548,22 +515,22 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 				<div class="cw-preview-bar">
 					<span class="cw-preview-title" id="cw-preview-title"></span>
 					<div class="cw-preview-devices">
-						<button class="active" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'codeweber' ); ?>">
+						<button class="btn btn-circle btn-sm btn-frost has-ripple active" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'codeweber' ); ?>">
 							<i class="uil uil-desktop"></i>
 						</button>
-						<button data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'codeweber' ); ?>">
+						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'codeweber' ); ?>">
 							<i class="uil uil-tablet"></i>
 						</button>
-						<button data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'codeweber' ); ?>">
+						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'codeweber' ); ?>">
 							<i class="uil uil-mobile-android"></i>
 						</button>
 					</div>
 					<div class="cw-preview-bar-end">
 						<a href="#" id="cw-preview-ext-link" target="_blank" rel="noopener noreferrer"
-						   class="cw-preview-ext-link" title="<?php esc_attr_e( 'Open website', 'codeweber' ); ?>">
+						   class="btn btn-circle btn-sm btn-frost has-ripple" title="<?php esc_attr_e( 'Open website', 'codeweber' ); ?>">
 							<i class="uil uil-external-link-alt"></i>
 						</a>
-						<button type="button" class="cw-preview-close-btn" data-bs-dismiss="modal"
+						<button type="button" class="btn btn-circle btn-sm btn-frost has-ripple" data-bs-dismiss="modal"
 								aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>">
 							<i class="uil uil-times"></i>
 						</button>
