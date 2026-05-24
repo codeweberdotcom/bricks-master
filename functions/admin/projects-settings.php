@@ -156,6 +156,78 @@ function codeweber_projects_settings_register(): void {
 		'codeweber_projects_gallery'
 	);
 
+	// ── Секция: Default template ──────────────────────────────────────────────────
+	add_settings_section(
+		'codeweber_projects_default_template',
+		__( 'Default template', 'codeweber' ),
+		function () {
+			echo '<p class="description">' . esc_html__( 'Template applied to projects that have no template selected (e.g. existing posts).', 'codeweber' ) . '</p>';
+		},
+		'codeweber-projects-settings'
+	);
+
+	add_settings_field(
+		'default_template',
+		__( 'Default project type', 'codeweber' ),
+		'codeweber_projects_field_default_template',
+		'codeweber-projects-settings',
+		'codeweber_projects_default_template'
+	);
+
+	// ── Секция: Hotspot Annotation ─────────────────────────────────────────────
+	add_settings_section(
+		'codeweber_projects_hotspot_section',
+		__( 'Hotspot Annotation', 'codeweber' ),
+		function () {
+			echo '<p class="description">' . esc_html__( 'Show the hotspot annotation metabox for selected project types.', 'codeweber' ) . '</p>';
+		},
+		'codeweber-projects-settings'
+	);
+
+	add_settings_field(
+		'hotspot_types',
+		__( 'Show hotspot for', 'codeweber' ),
+		'codeweber_projects_field_hotspot_types',
+		'codeweber-projects-settings',
+		'codeweber_projects_hotspot_section'
+	);
+
+	// ── Секция: Gutenberg Editor ──────────────────────────────────────────────────
+	add_settings_section(
+		'codeweber_projects_gutenberg',
+		__( 'Gutenberg Editor', 'codeweber' ),
+		function () {
+			echo '<p class="description">' . esc_html__( 'Enable block editor for selected project types. Unchecked types use the classic metabox editor.', 'codeweber' ) . '</p>';
+		},
+		'codeweber-projects-settings'
+	);
+
+	add_settings_field(
+		'gutenberg_types',
+		__( 'Enable Gutenberg for', 'codeweber' ),
+		'codeweber_projects_field_gutenberg_types',
+		'codeweber-projects-settings',
+		'codeweber_projects_gutenberg'
+	);
+
+	// ── Секция: Map per type ───────────────────────────────────────────────────
+	add_settings_section(
+		'codeweber_projects_map_types_section',
+		__( 'Map metabox', 'codeweber' ),
+		function () {
+			echo '<p class="description">' . esc_html__( 'Show the map metabox for selected project types.', 'codeweber' ) . '</p>';
+		},
+		'codeweber-projects-settings'
+	);
+
+	add_settings_field(
+		'map_types',
+		__( 'Show map for', 'codeweber' ),
+		'codeweber_projects_field_map_types',
+		'codeweber-projects-settings',
+		'codeweber_projects_map_types_section'
+	);
+
 	// ── Секция: Блок товаров ──────────────────────────────────────────────────
 	add_settings_section(
 		'codeweber_projects_products',
@@ -451,6 +523,62 @@ function codeweber_projects_field_lightbox_image_size(): void {
 	echo '<p class="description">' . esc_html__( 'Image size opened in the lightbox on single project pages. Default: cw_wide_2k (2560×1440).', 'codeweber' ) . '</p>';
 }
 
+function codeweber_projects_field_default_template(): void {
+	$val   = codeweber_projects_settings_get( 'default_template', 'project-construction' );
+	$types = [
+		'project-it'           => __( 'IT / Web', 'codeweber' ),
+		'project-design'       => __( 'Design Studio', 'codeweber' ),
+		'project-construction' => __( 'Construction', 'codeweber' ),
+		'project-photo'        => __( 'Photography', 'codeweber' ),
+	];
+	echo '<select name="codeweber_projects_settings[default_template]">';
+	foreach ( $types as $key => $label ) {
+		echo '<option value="' . esc_attr( $key ) . '" ' . selected( $val, $key, false ) . '>' . esc_html( $label ) . '</option>';
+	}
+	echo '</select>';
+	echo '<p class="description">' . esc_html__( 'Used as a fallback for posts without a template set.', 'codeweber' ) . '</p>';
+}
+
+function codeweber_projects_field_hotspot_types(): void {
+	$all_types = [ 'project-it', 'project-design', 'project-construction', 'project-photo' ];
+	$val       = (array) codeweber_projects_settings_get( 'hotspot_types', $all_types );
+	$types     = [
+		'project-it'           => __( 'IT / Web', 'codeweber' ),
+		'project-design'       => __( 'Design Studio', 'codeweber' ),
+		'project-construction' => __( 'Construction', 'codeweber' ),
+		'project-photo'        => __( 'Photography', 'codeweber' ),
+	];
+	foreach ( $types as $key => $label ) {
+		echo '<label style="display:block;margin-bottom:4px;"><input type="checkbox" name="codeweber_projects_settings[hotspot_types][]" value="' . esc_attr( $key ) . '" ' . checked( in_array( $key, $val, true ), true, false ) . '> ' . esc_html( $label ) . '</label>';
+	}
+}
+
+function codeweber_projects_field_gutenberg_types(): void {
+	$val   = (array) codeweber_projects_settings_get( 'gutenberg_types', [] );
+	$types = [
+		'project-it'           => __( 'IT / Web', 'codeweber' ),
+		'project-design'       => __( 'Design Studio', 'codeweber' ),
+		'project-construction' => __( 'Construction', 'codeweber' ),
+		'project-photo'        => __( 'Photography', 'codeweber' ),
+	];
+	foreach ( $types as $key => $label ) {
+		echo '<label style="display:block;margin-bottom:4px;"><input type="checkbox" name="codeweber_projects_settings[gutenberg_types][]" value="' . esc_attr( $key ) . '" ' . checked( in_array( $key, $val, true ), true, false ) . '> ' . esc_html( $label ) . '</label>';
+	}
+}
+
+function codeweber_projects_field_map_types(): void {
+	$val   = (array) codeweber_projects_settings_get( 'map_types', [ 'project-construction' ] );
+	$types = [
+		'project-it'           => __( 'IT / Web', 'codeweber' ),
+		'project-design'       => __( 'Design Studio', 'codeweber' ),
+		'project-construction' => __( 'Construction', 'codeweber' ),
+		'project-photo'        => __( 'Photography', 'codeweber' ),
+	];
+	foreach ( $types as $key => $label ) {
+		echo '<label style="display:block;margin-bottom:4px;"><input type="checkbox" name="codeweber_projects_settings[map_types][]" value="' . esc_attr( $key ) . '" ' . checked( in_array( $key, $val, true ), true, false ) . '> ' . esc_html( $label ) . '</label>';
+	}
+}
+
 function codeweber_projects_field_products_title(): void {
 	$val = codeweber_projects_settings_get( 'products_title', '' );
 	echo '<input type="text" name="codeweber_projects_settings[products_title]" value="' . esc_attr( $val ) . '" class="regular-text" placeholder="' . esc_attr__( 'Project products', 'codeweber' ) . '">';
@@ -485,14 +613,31 @@ function codeweber_projects_settings_sanitize( $input ): array {
 		$input = [];
 	}
 
-	$allowed_types      = [ 'icon', 'text', 'icon_text' ];
-	$allowed_colors     = [ 'primary', 'soft-primary', 'secondary', 'soft-secondary', 'dark', 'white' ];
-	$allowed_shapes     = [ 'rounded-pill', 'rounded', 'rounded-0' ];
-	$allowed_products_bg = [ '', 'bg-white', 'bg-light', 'bg-soft-primary', 'bg-soft-secondary', 'bg-pale-primary', 'bg-dark' ];
+	$allowed_types        = [ 'icon', 'text', 'icon_text' ];
+	$allowed_colors       = [ 'primary', 'soft-primary', 'secondary', 'soft-secondary', 'dark', 'white' ];
+	$allowed_shapes       = [ 'rounded-pill', 'rounded', 'rounded-0' ];
+	$allowed_products_bg  = [ '', 'bg-white', 'bg-light', 'bg-soft-primary', 'bg-soft-secondary', 'bg-pale-primary', 'bg-dark' ];
+	$allowed_project_types = [ 'project-it', 'project-design', 'project-construction', 'project-photo' ];
 
 	$submitted_size      = sanitize_key( $input['lightbox_image_size'] ?? 'cw_wide_2k' );
 	$allowed_sizes       = array_merge( [ 'full' ], get_intermediate_image_sizes() );
 	$safe_lightbox_size  = in_array( $submitted_size, $allowed_sizes, true ) ? $submitted_size : 'cw_wide_2k';
+
+	$default_template = in_array( $input['default_template'] ?? '', $allowed_project_types, true )
+		? $input['default_template']
+		: 'project-construction';
+
+	$gutenberg_types = isset( $input['gutenberg_types'] )
+		? array_values( array_intersect( (array) $input['gutenberg_types'], $allowed_project_types ) )
+		: [];
+
+	$map_types = isset( $input['map_types'] )
+		? array_values( array_intersect( (array) $input['map_types'], $allowed_project_types ) )
+		: [ 'project-construction' ];
+
+	$hotspot_types = isset( $input['hotspot_types'] )
+		? array_values( array_intersect( (array) $input['hotspot_types'], $allowed_project_types ) )
+		: $allowed_project_types;
 
 	return [
 		'show_map'          => isset( $input['show_map'] ) ? '1' : '0',
@@ -516,6 +661,10 @@ function codeweber_projects_settings_sanitize( $input ): array {
 		'products_bg'              => in_array( $input['products_bg'] ?? '', $allowed_products_bg, true )
 			? $input['products_bg']
 			: '',
+		'default_template'         => $default_template,
+		'gutenberg_types'          => $gutenberg_types,
+		'map_types'                => $map_types,
+		'hotspot_types'            => $hotspot_types,
 	];
 }
 

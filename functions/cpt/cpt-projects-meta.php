@@ -1,54 +1,145 @@
 <?php
 /**
- * Projects — Main Information Metabox
- *
- * Поля для миграции с ACF. Ключи мета совпадают с ACF-ключами.
+ * Projects — Meta Boxes
  *
  * @package Codeweber
  */
 
 defined( 'ABSPATH' ) || exit;
 
-// ── Регистрация метабокса ─────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
-add_action( 'add_meta_boxes', function () {
+/**
+ * Returns the project type slug for a given post.
+ * Falls back to 'project-construction' for existing posts without a template set.
+ */
+function cw_project_get_type( int $post_id ): string {
+	$type = get_post_meta( $post_id, '_wp_page_template', true );
+	if ( empty( $type ) || $type === 'default' ) {
+		$type = codeweber_projects_settings_get( 'default_template', 'project-construction' );
+	}
+	return $type;
+}
+
+function cw_project_type_labels(): array {
+	return [
+		'project-it'           => __( 'IT / Web', 'codeweber' ),
+		'project-design'       => __( 'Design Studio', 'codeweber' ),
+		'project-construction' => __( 'Construction', 'codeweber' ),
+		'project-photo'        => __( 'Photography', 'codeweber' ),
+	];
+}
+
+// ── Metabox registration (conditional by type) ────────────────────────────────
+
+add_action( 'add_meta_boxes_projects', function ( WP_Post $post ): void {
+	$type      = cw_project_get_type( $post->ID );
+	$map_types = (array) codeweber_projects_settings_get( 'map_types', [ 'project-construction' ] );
+
 	add_meta_box(
 		'cw_project_main_information',
 		__( 'Main Information', 'codeweber' ),
 		'cw_project_main_information_render',
-		'projects',
-		'normal',
-		'high'
+		'projects', 'normal', 'high'
 	);
+
+	if ( in_array( $type, $map_types, true ) ) {
+		add_meta_box(
+			'cw_project_map',
+			__( 'Map', 'codeweber' ),
+			'cw_project_map_render',
+			'projects', 'normal', 'high'
+		);
+	}
+
+	if ( in_array( $type, [ 'project-construction', 'project-it' ], true ) ) {
+		add_meta_box(
+			'cw_project_works',
+			__( 'Completed Works', 'codeweber' ),
+			'cw_project_works_render',
+			'projects', 'normal', 'high'
+		);
+	}
+
+	if ( $type === 'project-it' ) {
+		add_meta_box(
+			'cw_project_products',
+			__( 'Project Products', 'codeweber' ),
+			'cw_project_products_render',
+			'projects', 'normal', 'default'
+		);
+	}
 } );
 
-// ── Рендер ───────────────────────────────────────────────────────────────────
+// Remove hotspot metabox for types not in settings (late priority — after hotspot system registers it)
+add_action( 'add_meta_boxes_projects', function ( WP_Post $post ): void {
+	$all_types     = [ 'project-it', 'project-design', 'project-construction', 'project-photo' ];
+	$hotspot_types = (array) codeweber_projects_settings_get( 'hotspot_types', $all_types );
+	$type          = cw_project_get_type( $post->ID );
+	if ( ! in_array( $type, $hotspot_types, true ) ) {
+		remove_meta_box( 'cw_hotspot_extra_projects', 'projects', 'normal' );
+	}
+}, 20 );
+
+// ── Main Information: render ──────────────────────────────────────────────────
 
 function cw_project_main_information_render( WP_Post $post ): void {
 	wp_nonce_field( 'cw_project_main_information_save', 'cw_project_main_information_nonce' );
 
-	$fields = [
-		'main_information_city'              => __( 'Город', 'codeweber' ),
-		'main_information_address'           => __( 'Адрес', 'codeweber' ),
-		'main_information_architector'       => __( 'Архитектор', 'codeweber' ),
-		'main_information_developer'         => __( 'Застройщик', 'codeweber' ),
-		'main_information_date'              => __( 'Год / Дата', 'codeweber' ),
-		'main_information_link'              => __( 'Ссылка', 'codeweber' ),
-		'main_information_cms'               => __( 'CMS', 'codeweber' ),
-		'main_information_short_description' => __( 'Краткое описание', 'codeweber' ),
-		'main_information_title_description' => __( 'Заголовок описания', 'codeweber' ),
-		'main_information_description'       => __( 'Описание', 'codeweber' ),
+	$type = cw_project_get_type( $post->ID );
+
+	$common = [
+		'main_information_date' => __( 'Date / Year', 'codeweber' ),
+		'main_information_link' => __( 'Link', 'codeweber' ),
+	];
+
+	switch ( $type ) {
+		case 'project-it':
+			$specific = [
+				'main_information_client'       => __( 'Client', 'codeweber' ),
+				'main_information_cms'          => __( 'CMS / Framework', 'codeweber' ),
+				'main_information_technologies' => __( 'Technologies', 'codeweber' ),
+			];
+			break;
+		case 'project-design':
+			$specific = [
+				'main_information_client'   => __( 'Client', 'codeweber' ),
+				'main_information_software' => __( 'Software', 'codeweber' ),
+				'main_information_format'   => __( 'Format', 'codeweber' ),
+			];
+			break;
+		case 'project-photo':
+			$specific = [
+				'main_information_location'  => __( 'Location', 'codeweber' ),
+				'main_information_equipment' => __( 'Equipment', 'codeweber' ),
+			];
+			break;
+		default: // project-construction (fallback)
+			$specific = [
+				'main_information_city'        => __( 'City', 'codeweber' ),
+				'main_information_architector' => __( 'Architect', 'codeweber' ),
+				'main_information_developer'   => __( 'Developer', 'codeweber' ),
+			];
+			break;
+	}
+
+	$description = [
+		'main_information_short_description' => __( 'Short description', 'codeweber' ),
+		'main_information_title_description' => __( 'Description title', 'codeweber' ),
+		'main_information_description'       => __( 'Description', 'codeweber' ),
 	];
 
 	$textareas = [
 		'main_information_short_description',
 		'main_information_description',
+		'main_information_technologies',
 	];
 
-	echo '<table class="form-table" style="margin:0;">';
+	$all_fields = array_merge( $common, $specific, $description );
 
-	foreach ( $fields as $key => $label ) {
-		$value = get_post_meta( $post->ID, $key, true );
+	echo '<table class="form-table" style="margin:0;">';
+	foreach ( $all_fields as $key => $label ) {
+		$value       = get_post_meta( $post->ID, $key, true );
 		$is_textarea = in_array( $key, $textareas, true );
 		?>
 		<tr>
@@ -76,16 +167,15 @@ function cw_project_main_information_render( WP_Post $post ): void {
 		</tr>
 		<?php
 	}
-
 	echo '</table>';
 
-	// Поле загрузки изображения объекта
+	// Image upload
 	$img_id = (int) get_post_meta( $post->ID, 'main_information_image', true );
 	?>
 	<table class="form-table" style="margin:0;">
 		<tr>
 			<th scope="row" style="width:200px;">
-				<label><?php esc_html_e( 'Изображение объекта', 'codeweber' ); ?></label>
+				<label><?php esc_html_e( 'Object image', 'codeweber' ); ?></label>
 			</th>
 			<td>
 				<div style="display:flex;align-items:flex-start;gap:12px;">
@@ -97,10 +187,10 @@ function cw_project_main_information_render( WP_Post $post ): void {
 					<div>
 						<input type="hidden" id="main_information_image" name="main_information_image" value="<?php echo esc_attr( $img_id ?: '' ); ?>">
 						<button type="button" class="button" id="cw-project-image-upload">
-							<?php esc_html_e( 'Выбрать изображение', 'codeweber' ); ?>
+							<?php esc_html_e( 'Select image', 'codeweber' ); ?>
 						</button>
 						<button type="button" class="button" id="cw-project-image-remove" style="<?php echo $img_id ? '' : 'display:none;'; ?>margin-left:4px;">
-							<?php esc_html_e( 'Удалить', 'codeweber' ); ?>
+							<?php esc_html_e( 'Remove', 'codeweber' ); ?>
 						</button>
 					</div>
 				</div>
@@ -111,8 +201,8 @@ function cw_project_main_information_render( WP_Post $post ): void {
 						e.preventDefault();
 						if (frame) { frame.open(); return; }
 						frame = wp.media({
-							title: '<?php echo esc_js( __( 'Выбрать изображение объекта', 'codeweber' ) ); ?>',
-							button: { text: '<?php echo esc_js( __( 'Использовать', 'codeweber' ) ); ?>' },
+							title: '<?php echo esc_js( __( 'Select object image', 'codeweber' ) ); ?>',
+							button: { text: '<?php echo esc_js( __( 'Use', 'codeweber' ) ); ?>' },
 							multiple: false,
 							library: { type: 'image' }
 						});
@@ -140,7 +230,7 @@ function cw_project_main_information_render( WP_Post $post ): void {
 	<?php
 }
 
-// ── Сохранение ───────────────────────────────────────────────────────────────
+// ── Main Information: save ────────────────────────────────────────────────────
 
 add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 	if (
@@ -149,64 +239,60 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 	) {
 		return;
 	}
-
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
-
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
 	}
 
-	$fields = [
-		'main_information_city',
-		'main_information_address',
-		'main_information_architector',
-		'main_information_developer',
-		'main_information_date',
-		'main_information_link',
-		'main_information_cms',
-		'main_information_image',
-		'main_information_latitude',
-		'main_information_longitude',
-		'main_information_zoom',
-		'main_information_short_description',
-		'main_information_title_description',
-		'main_information_description',
-	];
-
 	$textareas = [
 		'main_information_short_description',
 		'main_information_description',
+		'main_information_technologies',
 	];
 
-	foreach ( $fields as $key ) {
+	$all_fields = [
+		// Common
+		'main_information_date',
+		'main_information_link',
+		'main_information_image',
+		'main_information_short_description',
+		'main_information_title_description',
+		'main_information_description',
+		// IT / Web
+		'main_information_client',
+		'main_information_cms',
+		'main_information_technologies',
+		// Design Studio
+		'main_information_software',
+		'main_information_format',
+		// Construction
+		'main_information_city',
+		'main_information_architector',
+		'main_information_developer',
+		// Photography
+		'main_information_location',
+		'main_information_equipment',
+	];
+
+	foreach ( $all_fields as $key ) {
 		if ( ! isset( $_POST[ $key ] ) ) {
 			continue;
 		}
-		$raw = wp_unslash( $_POST[ $key ] );
+		$raw   = wp_unslash( $_POST[ $key ] );
 		$value = in_array( $key, $textareas, true )
 			? sanitize_textarea_field( $raw )
 			: sanitize_text_field( $raw );
-
 		update_post_meta( $post_id, $key, $value );
 	}
 }, 10, 2 );
 
-// ── Метабокс «Карта» ─────────────────────────────────────────────────────────
-
-add_action( 'add_meta_boxes', function () {
-	add_meta_box(
-		'cw_project_map',
-		__( 'Карта', 'codeweber' ),
-		'cw_project_map_render',
-		'projects',
-		'normal',
-		'high'
-	);
-} );
+// ── Map: render ───────────────────────────────────────────────────────────────
 
 function cw_project_map_render( WP_Post $post ): void {
+	wp_nonce_field( 'cw_project_map_save', 'cw_project_map_nonce' );
+
 	global $opt_name;
 	if ( empty( $opt_name ) ) {
 		$opt_name = 'redux_demo';
@@ -409,18 +495,37 @@ function cw_project_map_render( WP_Post $post ): void {
 	<?php
 }
 
-// ── Метабокс «Выполненные работы» ────────────────────────────────────────────
+// ── Map: save ─────────────────────────────────────────────────────────────────
 
-add_action( 'add_meta_boxes', function () {
-	add_meta_box(
-		'cw_project_works',
-		__( 'Выполненные работы', 'codeweber' ),
-		'cw_project_works_render',
-		'projects',
-		'normal',
-		'high'
-	);
-} );
+add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
+	if (
+		! isset( $_POST['cw_project_map_nonce'] ) ||
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cw_project_map_nonce'] ) ), 'cw_project_map_save' )
+	) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+
+	$fields = [
+		'main_information_address',
+		'main_information_latitude',
+		'main_information_longitude',
+		'main_information_zoom',
+	];
+
+	foreach ( $fields as $key ) {
+		if ( isset( $_POST[ $key ] ) ) {
+			update_post_meta( $post_id, $key, sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) );
+		}
+	}
+}, 10, 2 );
+
+// ── Completed Works: render ───────────────────────────────────────────────────
 
 function cw_project_works_render( WP_Post $post ): void {
 	wp_nonce_field( 'cw_project_works_save', 'cw_project_works_nonce' );
@@ -438,7 +543,7 @@ function cw_project_works_render( WP_Post $post ): void {
 	<table class="form-table" style="margin:0;">
 		<tr>
 			<th scope="row" style="width:200px;">
-				<label for="main_information_title_works"><?php esc_html_e( 'Заголовок', 'codeweber' ); ?></label>
+				<label for="main_information_title_works"><?php esc_html_e( 'Title', 'codeweber' ); ?></label>
 			</th>
 			<td>
 				<input type="text" id="main_information_title_works" name="main_information_title_works"
@@ -452,14 +557,14 @@ function cw_project_works_render( WP_Post $post ): void {
 		<div class="cw-work-item" style="display:flex;gap:8px;margin-bottom:6px;">
 			<input type="text" name="main_information_works_items[]"
 				value="<?php echo esc_attr( $item ); ?>"
-				style="flex:1;" placeholder="<?php esc_attr_e( 'Пункт работ', 'codeweber' ); ?>">
+				style="flex:1;" placeholder="<?php esc_attr_e( 'Work item', 'codeweber' ); ?>">
 			<button type="button" class="button cw-work-remove">–</button>
 		</div>
 		<?php endforeach; ?>
 	</div>
 
 	<button type="button" class="button button-secondary" id="cw-work-add" style="margin-top:6px;">
-		<?php esc_html_e( '+ Добавить пункт', 'codeweber' ); ?>
+		<?php esc_html_e( '+ Add item', 'codeweber' ); ?>
 	</button>
 
 	<script>
@@ -469,7 +574,7 @@ function cw_project_works_render( WP_Post $post ): void {
 			var row = document.createElement('div');
 			row.className = 'cw-work-item';
 			row.style.cssText = 'display:flex;gap:8px;margin-bottom:6px;';
-			row.innerHTML = '<input type="text" name="main_information_works_items[]" style="flex:1;" placeholder="<?php echo esc_js( __( 'Пункт работ', 'codeweber' ) ); ?>">'
+			row.innerHTML = '<input type="text" name="main_information_works_items[]" style="flex:1;" placeholder="<?php echo esc_js( __( 'Work item', 'codeweber' ) ); ?>">'
 				+ '<button type="button" class="button cw-work-remove">–</button>';
 			list.appendChild(row);
 			bindRemove(row.querySelector('.cw-work-remove'));
@@ -485,6 +590,8 @@ function cw_project_works_render( WP_Post $post ): void {
 	<?php
 }
 
+// ── Completed Works: save ─────────────────────────────────────────────────────
+
 add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 	if (
 		! isset( $_POST['cw_project_works_nonce'] ) ||
@@ -499,18 +606,15 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		return;
 	}
 
-	// Title
 	$title = isset( $_POST['main_information_title_works'] )
 		? sanitize_text_field( wp_unslash( $_POST['main_information_title_works'] ) )
 		: '';
 	update_post_meta( $post_id, 'main_information_title_works', $title );
 
-	// Works list
 	$raw_items = isset( $_POST['main_information_works_items'] )
 		? (array) wp_unslash( $_POST['main_information_works_items'] )
 		: [];
 
-	// Remove old keys beyond new count
 	$old_count = (int) get_post_meta( $post_id, 'main_information_works', true );
 	$new_count  = 0;
 
@@ -523,7 +627,6 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		$new_count++;
 	}
 
-	// Delete extra old keys
 	for ( $i = $new_count; $i < $old_count; $i++ ) {
 		delete_post_meta( $post_id, 'main_information_works_' . $i . '_work' );
 	}
@@ -532,18 +635,7 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 
 }, 10, 2 );
 
-// ── Метабокс «Товары проекта» ────────────────────────────────────────────────
-
-add_action( 'add_meta_boxes', function () {
-	add_meta_box(
-		'cw_project_products',
-		__( 'Товары проекта', 'codeweber' ),
-		'cw_project_products_render',
-		'projects',
-		'normal',
-		'default'
-	);
-} );
+// ── Project Products: render ──────────────────────────────────────────────────
 
 function cw_project_products_render( WP_Post $post ): void {
 	wp_nonce_field( 'cw_project_products_save', 'cw_project_products_nonce' );
@@ -571,7 +663,7 @@ function cw_project_products_render( WP_Post $post ): void {
 	<input type="hidden" id="cw-products-ids" name="main_information_products_ids" value="<?php echo esc_attr( implode( ',', array_column( $saved_products, 'id' ) ) ); ?>">
 
 	<div style="margin-bottom:10px;position:relative;">
-		<input type="text" id="cw-products-search" placeholder="<?php esc_attr_e( 'Поиск товара...', 'codeweber' ); ?>" style="width:100%;padding:8px;" autocomplete="off">
+		<input type="text" id="cw-products-search" placeholder="<?php esc_attr_e( 'Search product...', 'codeweber' ); ?>" style="width:100%;padding:8px;" autocomplete="off">
 		<div id="cw-products-dropdown" style="display:none;border:1px solid #ddd;background:#fff;max-height:220px;overflow-y:auto;position:absolute;z-index:9999;width:100%;top:100%;left:0;"></div>
 	</div>
 
@@ -582,7 +674,7 @@ function cw_project_products_render( WP_Post $post ): void {
 				<img src="<?php echo esc_url( $sp['thumb'] ); ?>" style="width:28px;height:28px;object-fit:cover;border-radius:3px;">
 			<?php endif; ?>
 			<span><?php echo esc_html( $sp['title'] ); ?></span>
-			<button type="button" class="cw-product-remove" style="background:none;border:none;cursor:pointer;font-size:16px;line-height:1;color:#999;" aria-label="<?php esc_attr_e( 'Удалить', 'codeweber' ); ?>">×</button>
+			<button type="button" class="cw-product-remove" style="background:none;border:none;cursor:pointer;font-size:16px;line-height:1;color:#999;" aria-label="<?php esc_attr_e( 'Remove', 'codeweber' ); ?>">×</button>
 		</div>
 		<?php endforeach; ?>
 	</div>
@@ -633,7 +725,7 @@ function cw_project_products_render( WP_Post $post ): void {
 					if (xhr.status !== 200) return;
 					var res = JSON.parse(xhr.responseText);
 					if (!res.success || !res.data.length) {
-						dropdown.innerHTML = '<div style="padding:8px;color:#999;"><?php echo esc_js( __( 'Ничего не найдено', 'codeweber' ) ); ?></div>';
+						dropdown.innerHTML = '<div style="padding:8px;color:#999;"><?php echo esc_js( __( 'Nothing found', 'codeweber' ) ); ?></div>';
 						dropdown.style.display = 'block'; return;
 					}
 					dropdown.innerHTML = '';
@@ -665,6 +757,8 @@ function cw_project_products_render( WP_Post $post ): void {
 	<?php
 }
 
+// ── Project Products: save ────────────────────────────────────────────────────
+
 add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 	if (
 		! isset( $_POST['cw_project_products_nonce'] ) ||
@@ -682,7 +776,7 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 	update_post_meta( $post_id, 'main_information_products', array_values( $ids ) );
 }, 10, 2 );
 
-// ── Hotspot Annotation Editor для Projects ────────────────────────────────────
+// ── Hotspot Annotation Editor ─────────────────────────────────────────────────
 
 add_filter( 'cw_hotspot_extra_post_types', function ( array $types ) {
 	$types['projects'] = [
@@ -700,28 +794,20 @@ add_filter( 'cw_hotspot_extra_post_types', function ( array $types ) {
 } );
 
 add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
-	// DEBUG — временно, удалить после диагностики
-	error_log( '[HOTSPOT DEBUG] save_post_projects fired. post_id=' . $post_id );
-	error_log( '[HOTSPOT DEBUG] nonce present: ' . ( isset( $_POST['cw_project_hotspot_nonce'] ) ? 'YES' : 'NO' ) );
-
 	if (
 		! isset( $_POST['cw_project_hotspot_nonce'] ) ||
 		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cw_project_hotspot_nonce'] ) ), 'save_project_hotspot' )
 	) {
-		error_log( '[HOTSPOT DEBUG] nonce FAILED — exiting.' );
 		return;
 	}
 
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-		error_log( '[HOTSPOT DEBUG] autosave — skipping.' );
 		return;
 	}
 
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		return;
 	}
-
-	error_log( '[HOTSPOT DEBUG] _project_hotspot_settings POST value: ' . ( isset( $_POST['_project_hotspot_settings'] ) ? $_POST['_project_hotspot_settings'] : 'NOT SET' ) );
 
 	update_post_meta( $post_id, '_project_hotspot_enabled', isset( $_POST['_project_hotspot_enabled'] ) ? 1 : 0 );
 
@@ -738,14 +824,11 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		json_decode( $settings );
 		if ( json_last_error() === JSON_ERROR_NONE ) {
 			update_post_meta( $post_id, '_project_hotspot_settings', wp_slash( $settings ) );
-			error_log( '[HOTSPOT DEBUG] settings SAVED OK: ' . $settings );
-		} else {
-			error_log( '[HOTSPOT DEBUG] settings JSON invalid: ' . json_last_error_msg() );
 		}
 	}
 }, 10, 2 );
 
-// ── AJAX: поиск товаров ───────────────────────────────────────────────────────
+// ── AJAX: product search ──────────────────────────────────────────────────────
 
 add_action( 'wp_ajax_cw_search_products', function () {
 	check_ajax_referer( 'cw_search_products_nonce', 'nonce' );

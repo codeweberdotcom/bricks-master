@@ -47,7 +47,7 @@ function cptui_register_my_cpts_projects()
 		"can_export" => true,
 		"rewrite" => ["slug" => "projects", "with_front" => true],
 		"query_var" => true,
-		"supports" => ["title", "thumbnail", "comments", "revisions", "author"],
+		"supports" => ["title", "thumbnail", "comments", "revisions", "author", "page-attributes"],
 		"taxonomies" => ["projects_category"],
 		"show_in_graphql" => false,
 	];
@@ -96,12 +96,59 @@ function cptui_register_my_taxes_projects_category()
 }
 add_action('init', 'cptui_register_my_taxes_projects_category');
 
-// Отключаем блочный редактор для проектов
-add_filter( 'use_block_editor_for_post_type', function ( bool $enabled, string $post_type ): bool {
-	if ( $post_type === 'projects' ) {
+// Project type templates (registered programmatically, no PHP files needed)
+add_filter( 'theme_projects_templates', function ( array $templates ): array {
+	return [
+		'project-it'           => __( 'IT / Web', 'codeweber' ),
+		'project-design'       => __( 'Design Studio', 'codeweber' ),
+		'project-construction' => __( 'Construction', 'codeweber' ),
+		'project-photo'        => __( 'Photography', 'codeweber' ),
+	];
+} );
+
+// Block editor per type (based on settings + _wp_page_template meta)
+add_filter( 'use_block_editor_for_post', function ( bool $enabled, WP_Post $post ): bool {
+	if ( $post->post_type !== 'projects' ) {
+		return $enabled;
+	}
+	$gutenberg_types = (array) codeweber_projects_settings_get( 'gutenberg_types', [] );
+	if ( empty( $gutenberg_types ) ) {
 		return false;
 	}
-	return $enabled;
+	$type = get_post_meta( $post->ID, '_wp_page_template', true );
+	if ( empty( $type ) || $type === 'default' ) {
+		$type = 'project-construction';
+	}
+	return in_array( $type, $gutenberg_types, true );
+}, 10, 2 );
+
+// Admin column: Type
+add_filter( 'manage_projects_posts_columns', function ( array $columns ): array {
+	$new = [];
+	foreach ( $columns as $key => $label ) {
+		$new[ $key ] = $label;
+		if ( $key === 'title' ) {
+			$new['project_type'] = __( 'Type', 'codeweber' );
+		}
+	}
+	return $new;
+} );
+
+add_action( 'manage_projects_posts_custom_column', function ( string $column, int $post_id ): void {
+	if ( $column !== 'project_type' ) {
+		return;
+	}
+	$type   = get_post_meta( $post_id, '_wp_page_template', true );
+	$labels = [
+		'project-it'           => __( 'IT / Web', 'codeweber' ),
+		'project-design'       => __( 'Design Studio', 'codeweber' ),
+		'project-construction' => __( 'Construction', 'codeweber' ),
+		'project-photo'        => __( 'Photography', 'codeweber' ),
+	];
+	if ( empty( $type ) || $type === 'default' ) {
+		$type = codeweber_projects_settings_get( 'default_template', 'project-construction' );
+	}
+	echo esc_html( $labels[ $type ] ?? $type );
 }, 10, 2 );
 
 require_once __DIR__ . '/cpt-projects-meta.php';
