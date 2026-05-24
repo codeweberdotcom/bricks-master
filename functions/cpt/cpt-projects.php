@@ -47,7 +47,7 @@ function cptui_register_my_cpts_projects()
 		"can_export" => true,
 		"rewrite" => ["slug" => "projects", "with_front" => true],
 		"query_var" => true,
-		"supports" => ["title", "thumbnail", "comments", "revisions", "author", "page-attributes"],
+		"supports" => ["title", "editor", "thumbnail", "comments", "revisions", "author", "page-attributes"],
 		"taxonomies" => ["projects_category"],
 		"show_in_graphql" => false,
 	];
@@ -151,7 +151,7 @@ add_action( 'manage_projects_posts_custom_column', function ( string $column, in
 	echo esc_html( $labels[ $type ] ?? $type );
 }, 10, 2 );
 
-// Two-column grid for normal metaboxes on projects edit screen
+// Two-column grid + hide classic editor textarea when Gutenberg is off
 add_action( 'admin_enqueue_scripts', function ( string $hook ): void {
 	if ( ! in_array( $hook, [ 'post.php', 'post-new.php' ], true ) ) {
 		return;
@@ -160,7 +160,15 @@ add_action( 'admin_enqueue_scripts', function ( string $hook ): void {
 	if ( ! $screen || $screen->post_type !== 'projects' ) {
 		return;
 	}
-	wp_add_inline_style( 'wp-admin', '
+
+	$post_id         = isset( $_GET['post'] ) ? (int) $_GET['post'] : 0;
+	$type            = $post_id
+		? cw_project_get_type( $post_id )
+		: codeweber_projects_settings_get( 'default_template', 'project-construction' );
+	$gutenberg_types = (array) codeweber_projects_settings_get( 'gutenberg_types', [] );
+	$gutenberg_on    = in_array( $type, $gutenberg_types, true );
+
+	$css = '
 		#normal-sortables {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
@@ -170,7 +178,13 @@ add_action( 'admin_enqueue_scripts', function ( string $hook ): void {
 		#normal-sortables .postbox {
 			min-width: 0;
 		}
-	' );
+	';
+
+	if ( ! $gutenberg_on ) {
+		$css .= '#postdivrich, #wp-content-wrap { display: none !important; }';
+	}
+
+	wp_add_inline_style( 'wp-admin', $css );
 } );
 
 require_once __DIR__ . '/cpt-projects-meta.php';
