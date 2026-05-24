@@ -438,7 +438,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 					$url_display  = $website_url ? preg_replace( '#^https?://#', '', rtrim( $website_url, '/' ) ) : '';
 				?>
 				<div class="col-md-6 col-xl-4">
-					<div class="card lift h-100 overflow-hidden <?php echo esc_attr( $card_radius ); ?>">
+					<div class="card h-100 overflow-hidden <?php echo esc_attr( $card_radius ); ?>">
 
 						<!-- Browser bar + screenshot -->
 						<div class="position-relative">
