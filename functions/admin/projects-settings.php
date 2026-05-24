@@ -605,11 +605,8 @@ function codeweber_projects_field_it_archive_template(): void {
 	$options = [];
 	foreach ( $files as $file ) {
 		$slug    = basename( $file, '.php' );
-		$label   = $slug;
-		$content = file_get_contents( $file, false, null, 0, 512 ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-		if ( $content && preg_match( '/\*\s*Template:\s*(.+)/u', $content, $m ) ) {
-			$label = trim( $m[1] );
-		}
+		$headers = get_file_data( $file, [ 'template' => 'Template' ] );
+		$label   = ! empty( $headers['template'] ) ? $headers['template'] : $slug;
 		$options[ $slug ] = $label;
 	}
 	ksort( $options );
