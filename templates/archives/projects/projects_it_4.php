@@ -118,7 +118,6 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	height: 100%;
 	border: 0;
 	border-radius: 0;
-	background: #111;
 }
 #cw-preview-modal .modal-body {
 	padding: 0;
@@ -170,7 +169,6 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	flex: 1;
 	min-height: 0;
 	overflow: auto;
-	background: #111;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
