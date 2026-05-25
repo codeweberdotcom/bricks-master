@@ -251,12 +251,8 @@ defined( 'ABSPATH' ) || exit;
 				</div>
 
 				<div class="cw-preview-bar d-flex flex-column align-items-center py-3 px-2 text-white flex-shrink-0">
-					<div class="mb-2">
-						<button type="button" class="btn btn-circle btn-sm btn-frost has-ripple" data-bs-dismiss="modal"
-								aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>">
-							<i class="uil uil-times"></i>
-						</button>
-					</div>
+					<button type="button" class="btn-close btn-close-white mb-2" data-bs-dismiss="modal"
+						aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
 					<div class="d-flex flex-column align-items-center justify-content-center flex-fill gap-2">
 						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center active" data-device="desktop">
 							<i class="uil uil-desktop"></i>
