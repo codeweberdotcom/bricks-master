@@ -39,12 +39,7 @@ $palettes = [
 .cw-it7-figure {
 	overflow: hidden;
 	position: relative;
-}
-.cw-it7-figure--top {
-	/* left column: show top of page first */
-}
-.cw-it7-figure--bottom {
-	/* right column: pre-scrolled to mid-page */
+	height: 280px;
 }
 .cw-it7-img {
 	display: block;
