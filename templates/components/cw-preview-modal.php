@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 #cw-preview-modal .modal-content { height: 100%; border: 0; border-radius: 0; background: transparent; }
 #cw-preview-modal .modal-body { padding: 0; display: flex; flex-direction: row; height: 100%; overflow: hidden; }
 /* ── Iframe area ── */
-.cw-preview-content { flex: 1; min-height: 0; overflow: auto; }
+.cw-preview-content { flex: 1; min-height: 0; overflow: auto; position: relative; }
 /* ── Right sidebar ── */
 .cw-preview-bar { width: 88px; background: #2b2b2b; }
 /* ── Device thumb buttons ── */
@@ -241,6 +241,7 @@ defined( 'ABSPATH' ) || exit;
 			<div class="modal-body">
 
 				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center">
+					<div class="spinner spinner-overlay" id="cw-preview-loader"></div>
 					<h2 class="h5 fw-bold text-white text-center text-truncate px-4 pt-3 pb-2 flex-shrink-0" id="cw-preview-title"></h2>
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
 						<span class="cw-device-btn-l" aria-hidden="true"></span>
@@ -280,9 +281,19 @@ defined( 'ABSPATH' ) || exit;
 	var previewTitle      = document.getElementById('cw-preview-title');
 	var previewFrame      = document.getElementById('cw-preview-frame');
 	var previewFrameWrap  = document.getElementById('cw-preview-frame-wrap');
+	var previewLoader     = document.getElementById('cw-preview-loader');
 	var previewDeviceBtns = previewModal ? previewModal.querySelectorAll('[data-device]') : [];
 
 	if (!previewModal) return;
+
+	function showLoader() {
+		if (previewLoader) previewLoader.classList.remove('done');
+	}
+	function hideLoader() {
+		if (!previewLoader) return;
+		previewLoader.classList.add('done');
+		setTimeout(function () { previewLoader.classList.remove('done'); }, 400);
+	}
 
 	previewModal.addEventListener('show.bs.modal', function (e) {
 		var trigger = e.relatedTarget;
@@ -290,11 +301,17 @@ defined( 'ABSPATH' ) || exit;
 		var url   = trigger.getAttribute('data-website-url') || '';
 		var title = trigger.getAttribute('data-website-title') || '';
 		if (previewTitle) previewTitle.textContent = title;
-		if (previewFrame) { previewFrame.src = url; previewFrame.title = title; }
+		showLoader();
+		if (previewFrame) {
+			previewFrame.src = '';
+			previewFrame.onload = hideLoader;
+			previewFrame.src = url;
+			previewFrame.title = title;
+		}
 	});
 
 	previewModal.addEventListener('hidden.bs.modal', function () {
-		if (previewFrame)     previewFrame.src = '';
+		if (previewFrame)     { previewFrame.onload = null; previewFrame.src = ''; }
 		if (previewTitle)     previewTitle.textContent = '';
 		if (previewFrameWrap) previewFrameWrap.dataset.device = 'desktop';
 		previewDeviceBtns.forEach(function (b) {
