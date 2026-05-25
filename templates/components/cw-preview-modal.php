@@ -10,6 +10,10 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$switcher = function_exists( 'codeweber_projects_settings_get' )
+	? codeweber_projects_settings_get( 'it_preview_switcher', 'icons' )
+	: 'icons';
 ?>
 <style>
 /* ── Fullscreen preview modal ── */
@@ -44,22 +48,69 @@ defined( 'ABSPATH' ) || exit;
 .cw-preview-bar-end .btn:hover { color: #fff; }
 /* ── Iframe area ── */
 .cw-preview-content { flex: 1; min-height: 0; overflow: auto; background: #1a1a1a; }
+/* ── Side icon buttons (variant: icons) ── */
 .cw-preview-side-devices {
 	position: absolute;
-	left: 16px;
+	right: 16px;
 	top: 50%;
 	transform: translateY(-50%);
 	z-index: 10;
 }
 .cw-preview-side-devices .btn {
-	color: rgba(0,0,0,.5) !important;
-	background-color: rgba(0,0,0,.06) !important;
-	border-color: rgba(0,0,0,.1) !important;
+	width: 44px;
+	height: 44px;
+	font-size: 20px;
+	color: rgba(255,255,255,.55) !important;
+	background-color: rgba(255,255,255,.1) !important;
+	border-color: rgba(255,255,255,.15) !important;
 }
 .cw-preview-side-devices .btn:hover,
 .cw-preview-side-devices .btn.active {
-	color: rgba(0,0,0,.9) !important;
-	background-color: rgba(0,0,0,.14) !important;
+	color: #fff !important;
+	background-color: rgba(255,255,255,.22) !important;
+	border-color: rgba(255,255,255,.4) !important;
+}
+/* ── Large thumbnail device buttons (variant: thumbnails) ── */
+.cw-preview-thumb-devices {
+	position: absolute;
+	right: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+.cw-preview-thumb-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	width: 72px;
+	height: 80px;
+	background: rgba(255,255,255,.1);
+	border: 1px solid rgba(255,255,255,.15);
+	border-radius: 8px;
+	color: rgba(255,255,255,.55);
+	cursor: pointer;
+	padding: 0;
+	transition: background .15s, border-color .15s, color .15s;
+}
+.cw-preview-thumb-btn i {
+	font-size: 28px;
+	line-height: 1;
+}
+.cw-preview-thumb-btn span {
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: .02em;
+}
+.cw-preview-thumb-btn:hover,
+.cw-preview-thumb-btn.active {
+	background: rgba(255,255,255,.22);
+	border-color: rgba(255,255,255,.4);
+	color: #fff;
 }
 /* === Desktop: MacBook Pro (16:9) === */
 .cw-preview-frame-wrap[data-device="desktop"] {
@@ -248,11 +299,30 @@ defined( 'ABSPATH' ) || exit;
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center position-relative">
-					<div class="cw-preview-side-devices d-none d-md-flex flex-column gap-2">
-						<button class="btn btn-circle btn-sm btn-frost has-ripple active" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'codeweber' ); ?>"><i class="uil uil-desktop"></i></button>
-						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'codeweber' ); ?>"><i class="uil uil-tablet"></i></button>
-						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'codeweber' ); ?>"><i class="uil uil-mobile-android"></i></button>
+
+					<?php if ( $switcher === 'thumbnails' ) : ?>
+					<div class="cw-preview-thumb-devices d-none d-md-flex">
+						<button class="cw-preview-thumb-btn active" data-device="desktop">
+							<i class="uil uil-desktop"></i>
+							<span><?php esc_html_e( 'Desktop', 'codeweber' ); ?></span>
+						</button>
+						<button class="cw-preview-thumb-btn" data-device="tablet">
+							<i class="uil uil-tablet"></i>
+							<span><?php esc_html_e( 'Tablet', 'codeweber' ); ?></span>
+						</button>
+						<button class="cw-preview-thumb-btn" data-device="mobile">
+							<i class="uil uil-mobile-android"></i>
+							<span><?php esc_html_e( 'Mobile', 'codeweber' ); ?></span>
+						</button>
 					</div>
+					<?php else : ?>
+					<div class="cw-preview-side-devices d-none d-md-flex flex-column gap-2">
+						<button class="btn btn-circle btn-sm has-ripple active" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'codeweber' ); ?>"><i class="uil uil-desktop"></i></button>
+						<button class="btn btn-circle btn-sm has-ripple" data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'codeweber' ); ?>"><i class="uil uil-tablet"></i></button>
+						<button class="btn btn-circle btn-sm has-ripple" data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'codeweber' ); ?>"><i class="uil uil-mobile-android"></i></button>
+					</div>
+					<?php endif; ?>
+
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
 						<span class="cw-device-btn-l" aria-hidden="true"></span>
 						<span class="cw-device-btn-r" aria-hidden="true"></span>

@@ -246,6 +246,14 @@ function codeweber_projects_settings_register(): void {
 		'codeweber_projects_it_archive'
 	);
 
+	add_settings_field(
+		'it_preview_switcher',
+		__( 'Quick view device switcher', 'codeweber' ),
+		'codeweber_projects_field_it_preview_switcher',
+		'codeweber-projects-settings',
+		'codeweber_projects_it_archive'
+	);
+
 	// ── Секция: Блок товаров ──────────────────────────────────────────────────
 	add_settings_section(
 		'codeweber_projects_products',
@@ -623,6 +631,18 @@ function codeweber_projects_field_it_archive_template(): void {
 	echo '<p class="description">' . esc_html__( 'Visible only when Default project type = IT / Web. Templates are auto-discovered from templates/archives/projects/projects_it_*.php.', 'codeweber' ) . '</p>';
 }
 
+function codeweber_projects_field_it_preview_switcher(): void {
+	$val = codeweber_projects_settings_get( 'it_preview_switcher', 'icons' );
+	$options = [
+		'icons'      => __( 'Icon buttons on the right', 'codeweber' ),
+		'thumbnails' => __( 'Large device previews on the right', 'codeweber' ),
+	];
+	foreach ( $options as $k => $label ) {
+		echo '<label style="display:block;margin-bottom:6px;"><input type="radio" name="codeweber_projects_settings[it_preview_switcher]" value="' . esc_attr( $k ) . '" ' . checked( $val, $k, false ) . '> ' . esc_html( $label ) . '</label>';
+	}
+	echo '<p class="description">' . esc_html__( 'Controls the device switcher displayed inside the fullscreen Quick View modal.', 'codeweber' ) . '</p>';
+}
+
 function codeweber_projects_field_products_title(): void {
 	$val = codeweber_projects_settings_get( 'products_title', '' );
 	echo '<input type="text" name="codeweber_projects_settings[products_title]" value="' . esc_attr( $val ) . '" class="regular-text" placeholder="' . esc_attr__( 'Project products', 'codeweber' ) . '">';
@@ -710,6 +730,9 @@ function codeweber_projects_settings_sanitize( $input ): array {
 		'map_types'                => $map_types,
 		'hotspot_types'            => $hotspot_types,
 		'it_archive_template'      => sanitize_key( $input['it_archive_template'] ?? 'projects_it_1' ) ?: 'projects_it_1',
+		'it_preview_switcher'      => in_array( $input['it_preview_switcher'] ?? '', [ 'icons', 'thumbnails' ], true )
+			? $input['it_preview_switcher']
+			: 'icons',
 	];
 }
 
