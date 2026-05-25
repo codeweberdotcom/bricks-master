@@ -10,77 +10,43 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-
-$switcher = function_exists( 'codeweber_projects_settings_get' )
-	? codeweber_projects_settings_get( 'it_preview_switcher', 'icons' )
-	: 'icons';
 ?>
 <style>
 /* ── Fullscreen preview modal ── */
 #cw-preview-modal .modal-dialog { margin: 0; max-width: 100%; height: 100%; }
 #cw-preview-modal .modal-content { height: 100%; border: 0; border-radius: 0; background: transparent; }
-#cw-preview-modal .modal-body { padding: 0; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+#cw-preview-modal .modal-body { padding: 0; display: flex; flex-direction: row; height: 100%; overflow: hidden; }
+/* ── Iframe area ── */
+.cw-preview-content { flex: 1; min-height: 0; overflow: auto; }
+/* ── Right sidebar ── */
 .cw-preview-bar {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	gap: 12px;
-	padding: 0 16px;
-	height: 60px;
+	gap: 8px;
+	padding: 12px 8px;
+	width: 88px;
 	background: #2b2b2b;
 	color: #fff;
 	flex-shrink: 0;
 }
 .cw-preview-title {
-	flex: 1;
-	min-width: 0;
-	font-size: 14px;
-	font-weight: 500;
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: #fff;
+	text-align: center;
+	padding: 16px 20px 8px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	max-width: 100%;
+	flex-shrink: 0;
 }
-.cw-preview-devices { display: flex; gap: 4px; }
-.cw-preview-devices .btn { color: rgba(255,255,255,.6); }
-.cw-preview-devices .btn:hover { color: #fff; }
-.cw-preview-devices .btn.active { background: rgba(255,255,255,.18); color: #fff; border-color: rgba(255,255,255,.35); }
-.cw-preview-bar-end { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.cw-preview-devices { display: flex; flex-direction: column; gap: 6px; }
+.cw-preview-bar-end { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
 .cw-preview-bar-end .btn { color: rgba(255,255,255,.6); }
 .cw-preview-bar-end .btn:hover { color: #fff; }
-/* ── Iframe area ── */
-.cw-preview-content { flex: 1; min-height: 0; overflow: auto; }
-/* ── Side icon buttons (variant: icons) ── */
-.cw-preview-side-devices {
-	position: absolute;
-	right: 16px;
-	top: 50%;
-	transform: translateY(-50%);
-	z-index: 10;
-}
-.cw-preview-side-devices .btn {
-	width: 44px;
-	height: 44px;
-	font-size: 20px;
-	color: rgba(255,255,255,.55) !important;
-	background-color: rgba(255,255,255,.1) !important;
-	border-color: rgba(255,255,255,.15) !important;
-}
-.cw-preview-side-devices .btn:hover,
-.cw-preview-side-devices .btn.active {
-	color: #fff !important;
-	background-color: rgba(255,255,255,.22) !important;
-	border-color: rgba(255,255,255,.4) !important;
-}
-/* ── Large thumbnail device buttons (variant: thumbnails) ── */
-.cw-preview-thumb-devices {
-	position: absolute;
-	right: 16px;
-	top: 50%;
-	transform: translateY(-50%);
-	z-index: 10;
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-}
+/* ── Device thumb buttons ── */
 .cw-preview-thumb-btn {
 	display: flex;
 	flex-direction: column;
@@ -303,10 +269,19 @@ $switcher = function_exists( 'codeweber_projects_settings_get' )
 	<div class="modal-dialog modal-fullscreen">
 		<div class="modal-content">
 			<div class="modal-body">
-				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center position-relative">
 
-					<?php if ( $switcher === 'thumbnails' ) : ?>
-					<div class="cw-preview-thumb-devices d-none d-md-flex">
+				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center">
+					<h2 class="cw-preview-title" id="cw-preview-title"></h2>
+					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
+						<span class="cw-device-btn-l" aria-hidden="true"></span>
+						<span class="cw-device-btn-r" aria-hidden="true"></span>
+						<iframe id="cw-preview-frame" src="" title="" loading="lazy"></iframe>
+					</div>
+					<div class="cw-device-base" id="cw-device-base"></div>
+				</div>
+
+				<div class="cw-preview-bar">
+					<div class="cw-preview-devices">
 						<button class="cw-preview-thumb-btn active" data-device="desktop">
 							<i class="uil uil-desktop"></i>
 							<span><?php esc_html_e( 'Desktop', 'codeweber' ); ?></span>
@@ -320,34 +295,6 @@ $switcher = function_exists( 'codeweber_projects_settings_get' )
 							<span><?php esc_html_e( 'Mobile', 'codeweber' ); ?></span>
 						</button>
 					</div>
-					<?php else : ?>
-					<div class="cw-preview-side-devices d-none d-md-flex flex-column gap-2">
-						<button class="btn btn-circle btn-sm has-ripple active" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'codeweber' ); ?>"><i class="uil uil-desktop"></i></button>
-						<button class="btn btn-circle btn-sm has-ripple" data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'codeweber' ); ?>"><i class="uil uil-tablet"></i></button>
-						<button class="btn btn-circle btn-sm has-ripple" data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'codeweber' ); ?>"><i class="uil uil-mobile-android"></i></button>
-					</div>
-					<?php endif; ?>
-
-					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
-						<span class="cw-device-btn-l" aria-hidden="true"></span>
-						<span class="cw-device-btn-r" aria-hidden="true"></span>
-						<iframe id="cw-preview-frame" src="" title="" loading="lazy"></iframe>
-					</div>
-					<div class="cw-device-base" id="cw-device-base"></div>
-				</div>
-				<div class="cw-preview-bar">
-					<span class="cw-preview-title" id="cw-preview-title"></span>
-					<div class="cw-preview-devices">
-						<button class="btn btn-circle btn-sm btn-frost has-ripple active" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'codeweber' ); ?>">
-							<i class="uil uil-desktop"></i>
-						</button>
-						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'codeweber' ); ?>">
-							<i class="uil uil-tablet"></i>
-						</button>
-						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'codeweber' ); ?>">
-							<i class="uil uil-mobile-android"></i>
-						</button>
-					</div>
 					<div class="cw-preview-bar-end">
 						<a href="#" id="cw-preview-ext-link" target="_blank" rel="noopener noreferrer"
 						   class="btn btn-circle btn-sm btn-frost has-ripple" title="<?php esc_attr_e( 'Open website', 'codeweber' ); ?>">
@@ -359,6 +306,7 @@ $switcher = function_exists( 'codeweber_projects_settings_get' )
 						</button>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
