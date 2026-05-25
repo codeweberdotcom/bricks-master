@@ -37,18 +37,6 @@ defined( 'ABSPATH' ) || exit;
 	justify-content: center;
 	gap: 6px;
 }
-.cw-preview-title {
-	font-size: 1.25rem;
-	font-weight: 600;
-	color: #fff;
-	text-align: center;
-	padding: 16px 20px 8px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 100%;
-	flex-shrink: 0;
-}
 .cw-preview-bar-close .btn { color: rgba(255,255,255,.6); flex-shrink: 0; }
 .cw-preview-bar-close .btn:hover { color: #fff; }
 /* ── Device thumb buttons ── */
@@ -276,7 +264,7 @@ defined( 'ABSPATH' ) || exit;
 			<div class="modal-body">
 
 				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center">
-					<h2 class="cw-preview-title" id="cw-preview-title"></h2>
+					<h2 class="h5 fw-semibold text-white text-center text-truncate px-4 pt-3 pb-2 flex-shrink-0" id="cw-preview-title"></h2>
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
 						<span class="cw-device-btn-l" aria-hidden="true"></span>
 						<span class="cw-device-btn-r" aria-hidden="true"></span>
