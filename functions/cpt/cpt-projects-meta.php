@@ -63,6 +63,12 @@ add_action( 'add_meta_boxes_projects', function ( WP_Post $post ): void {
 
 	if ( $type === 'project-it' ) {
 		add_meta_box(
+			'cw_project_it_preview',
+			__( 'IT Archive Preview', 'codeweber' ),
+			'cw_project_it_preview_render',
+			'projects', 'normal', 'high'
+		);
+		add_meta_box(
 			'cw_project_products',
 			__( 'Project Products', 'codeweber' ),
 			'cw_project_products_render',
@@ -825,6 +831,122 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		: '';
 	$ids = array_filter( array_map( 'intval', $raw !== '' ? explode( ',', $raw ) : [] ) );
 	update_post_meta( $post_id, 'main_information_products', array_values( $ids ) );
+}, 10, 2 );
+
+// ── IT Archive Preview: render ───────────────────────────────────────────────
+
+function cw_project_it_preview_render( WP_Post $post ): void {
+	wp_nonce_field( 'cw_project_it_preview_save', 'cw_project_it_preview_nonce' );
+
+	$fields = [
+		'project_it_preview_1' => __( 'Preview image 1 (left)', 'codeweber' ),
+		'project_it_preview_2' => __( 'Preview image 2 (right)', 'codeweber' ),
+	];
+
+	echo '<table class="form-table" style="margin:0;">';
+	foreach ( $fields as $key => $label ) {
+		$img_id = (int) get_post_meta( $post->ID, $key, true );
+		?>
+		<tr>
+			<th scope="row" style="width:200px;">
+				<label><?php echo esc_html( $label ); ?></label>
+			</th>
+			<td>
+				<div style="display:flex;align-items:flex-start;gap:12px;">
+					<div id="<?php echo esc_attr( $key ); ?>-preview" style="<?php echo $img_id ? '' : 'display:none;'; ?>">
+						<?php if ( $img_id ) : ?>
+							<?php echo wp_get_attachment_image( $img_id, [ 120, 80 ], false, [ 'style' => 'border-radius:4px;' ] ); ?>
+						<?php endif; ?>
+					</div>
+					<div>
+						<input type="hidden"
+							id="<?php echo esc_attr( $key ); ?>"
+							name="<?php echo esc_attr( $key ); ?>"
+							value="<?php echo esc_attr( $img_id ?: '' ); ?>">
+						<button type="button" class="button cw-it-preview-upload"
+							data-field="<?php echo esc_attr( $key ); ?>">
+							<?php esc_html_e( 'Select image', 'codeweber' ); ?>
+						</button>
+						<button type="button" class="button cw-it-preview-remove"
+							data-field="<?php echo esc_attr( $key ); ?>"
+							style="<?php echo $img_id ? '' : 'display:none;'; ?>margin-left:4px;">
+							<?php esc_html_e( 'Remove', 'codeweber' ); ?>
+						</button>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<?php
+	}
+	echo '</table>';
+	?>
+	<script>
+	(function () {
+		var frames = {};
+		document.querySelectorAll('#cw_project_it_preview .cw-it-preview-upload').forEach(function (btn) {
+			btn.addEventListener('click', function (e) {
+				e.preventDefault();
+				var field = btn.dataset.field;
+				if (frames[field]) { frames[field].open(); return; }
+				frames[field] = wp.media({
+					title: '<?php echo esc_js( __( 'Select preview image', 'codeweber' ) ); ?>',
+					button: { text: '<?php echo esc_js( __( 'Use', 'codeweber' ) ); ?>' },
+					multiple: false,
+					library: { type: 'image' }
+				});
+				frames[field].on('select', function () {
+					var att = frames[field].state().get('selection').first().toJSON();
+					document.getElementById(field).value = att.id;
+					var preview = document.getElementById(field + '-preview');
+					preview.innerHTML = '<img src="' + (att.sizes && att.sizes.thumbnail ? att.sizes.thumbnail.url : att.url) + '" style="border-radius:4px;max-width:120px;max-height:80px;">';
+					preview.style.display = '';
+					document.querySelector('#cw_project_it_preview [data-field="' + field + '"].cw-it-preview-remove').style.display = '';
+				});
+				frames[field].open();
+			});
+		});
+		document.querySelectorAll('#cw_project_it_preview .cw-it-preview-remove').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				var field = btn.dataset.field;
+				document.getElementById(field).value = '';
+				var preview = document.getElementById(field + '-preview');
+				preview.style.display = 'none';
+				preview.innerHTML = '';
+				btn.style.display = 'none';
+			});
+		});
+	})();
+	</script>
+	<?php
+}
+
+// ── IT Archive Preview: save ──────────────────────────────────────────────────
+
+add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
+	if (
+		! isset( $_POST['cw_project_it_preview_nonce'] ) ||
+		! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['cw_project_it_preview_nonce'] ) ), 'cw_project_it_preview_save' )
+	) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+
+	foreach ( [ 'project_it_preview_1', 'project_it_preview_2' ] as $key ) {
+		if ( ! isset( $_POST[ $key ] ) ) {
+			continue;
+		}
+		$val = (int) $_POST[ $key ];
+		if ( $val > 0 ) {
+			update_post_meta( $post_id, $key, $val );
+		} else {
+			delete_post_meta( $post_id, $key );
+		}
+	}
 }, 10, 2 );
 
 // ── Hotspot Annotation Editor ─────────────────────────────────────────────────

@@ -98,7 +98,7 @@ $card_colors = [ 'bg-soft-primary', 'bg-soft-leaf', 'bg-soft-yellow', 'bg-soft-o
 					$website_url  = get_post_meta( $post_id, 'project_website_url', true );
 					$website_open = get_post_meta( $post_id, 'project_website_open', true ) ?: 'new-tab';
 					$website_cta  = get_post_meta( $post_id, 'project_website_cta', true ) ?: __( 'View website', 'codeweber' );
-					$thumbnail_id = get_post_thumbnail_id( $post_id );
+					$thumbnail_id = (int) get_post_meta( $post_id, 'project_it_preview_1', true );
 					$cats         = get_the_terms( $post_id, 'projects_category' );
 					$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
 

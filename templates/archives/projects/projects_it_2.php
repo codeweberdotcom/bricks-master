@@ -104,7 +104,7 @@ $projects_query = new WP_Query( [
 					$cms          = get_post_meta( $post_id, 'main_information_cms', true );
 					$client       = get_post_meta( $post_id, 'main_information_client', true );
 					$cats         = get_the_terms( $post_id, 'projects_category' );
-					$thumbnail_id = get_post_thumbnail_id( $post_id );
+					$thumbnail_id = (int) get_post_meta( $post_id, 'project_it_preview_1', true );
 
 					$item_classes = 'project item col-md-6 col-xl-4';
 					if ( $cats && ! is_wp_error( $cats ) ) {
