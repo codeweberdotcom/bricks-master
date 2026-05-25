@@ -2,8 +2,8 @@
 /**
  * Template: Projects Archive — IT / Web (Staggered rows)
  *
- * Each project: colored card with two staggered screenshot columns (col-6 each),
- * one elevated (mt-9). Both scroll on hover. Text beside card alternates sides.
+ * Each project: colored card, two staggered screenshot columns, text on the right.
+ * Screenshot scrolls on card hover. Based on portfolio snippet-11.
  *
  * @package Codeweber
  */
@@ -26,63 +26,31 @@ $show_map_btn = class_exists( 'Codeweber_Yandex_Maps' )
 	&& codeweber_projects_settings_get( 'show_map', '1' ) === '1';
 $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 
-$card_colors = [ 'bg-soft-primary', 'bg-soft-leaf', 'bg-soft-yellow', 'bg-soft-orange' ];
+$palettes = [
+	[ 'card' => 'bg-soft-primary', 'bullet' => 'bullet-primary', 'btn' => 'btn-primary' ],
+	[ 'card' => 'bg-soft-leaf',    'bullet' => 'bullet-leaf',    'btn' => 'btn-leaf'    ],
+	[ 'card' => 'bg-soft-yellow',  'bullet' => 'bullet-yellow',  'btn' => 'btn-yellow'  ],
+	[ 'card' => 'bg-soft-orange',  'bullet' => 'bullet-orange',  'btn' => 'btn-orange'  ],
+];
 ?>
 
 <style>
-/* ── Staggered screenshots ── */
-.cw-it7-screen {
+/* ── Screenshot scroll ── */
+.cw-it7-figure {
 	overflow: hidden;
 	position: relative;
-	border-radius: 6px 6px 0 0;
 }
-.cw-it7-screen--top {
-	height: 260px;
+.cw-it7-figure--top {
+	/* left column: show top of page first */
 }
-.cw-it7-screen--bottom {
-	height: 260px;
-	border-radius: 0 0 6px 6px;
+.cw-it7-figure--bottom {
+	/* right column: pre-scrolled to mid-page */
 }
-.cw-it7-screenshot {
+.cw-it7-img {
 	display: block;
 	width: 100%;
 	height: auto;
 	transition: transform 5s linear;
-	transform: translateY(0);
-}
-.cw-it7-screenshot-placeholder {
-	width: 100%;
-	height: 260px;
-	background: rgba(0,0,0,.06);
-}
-/* ── Row divider ── */
-.cw-it7-row + .cw-it7-row {
-	padding-top: 5rem;
-}
-@media (min-width: 768px) {
-	.cw-it7-row + .cw-it7-row {
-		padding-top: 6rem;
-	}
-}
-/* ── Tags list ── */
-.cw-it7-tags {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
-	list-style: none;
-	padding: 0;
-	margin: 0 0 1.25rem;
-}
-.cw-it7-tags li {
-	display: flex;
-	align-items: center;
-	gap: 5px;
-	font-size: 14px;
-	color: var(--bs-body-color);
-}
-.cw-it7-tags li i {
-	font-size: 16px;
-	color: var(--bs-primary);
 }
 </style>
 
@@ -114,7 +82,9 @@ $card_colors = [ 'bg-soft-primary', 'bg-soft-leaf', 'bg-soft-yellow', 'bg-soft-o
 		<?php endif; ?>
 
 		<div id="projects-grid-results">
-			<?php if ( have_posts() ) :
+			<?php if ( have_posts() ) : ?>
+			<div class="demos-wrapper">
+				<?php
 				$index = 0;
 				while ( have_posts() ) : the_post();
 					$post_id      = get_the_ID();
@@ -132,94 +102,91 @@ $card_colors = [ 'bg-soft-primary', 'bg-soft-leaf', 'bg-soft-yellow', 'bg-soft-o
 					$link_target = $website_open === 'same-tab' ? '_self' : '_blank';
 					$link_rel    = $website_open !== 'same-tab' ? 'noopener noreferrer' : '';
 
-					$is_even    = ( $index % 2 === 1 );
-					$card_color = $card_colors[ $index % count( $card_colors ) ];
+					$palette = $palettes[ $index % count( $palettes ) ];
 					$index++;
-			?>
-			<div class="cw-it7-row row gx-md-8 gx-xl-12 gy-10 align-items-center">
 
-				<!-- Screenshot card with two staggered columns -->
-				<div class="col-lg-7<?php echo $is_even ? ' order-lg-2' : ''; ?>">
-					<div class="card <?php echo esc_attr( $card_color ); ?> <?php echo esc_attr( $card_radius ); ?>">
-						<div class="card-body px-9 py-0 overflow-hidden">
-							<div class="row gx-4 gx-md-7">
+					$tags = array_filter( [ $cat_name, $cms, $client ] );
+				?>
+				<div class="project mb-10">
+					<div class="card <?php echo esc_attr( $palette['card'] ); ?> <?php echo esc_attr( $card_radius ); ?>">
+						<div class="card-body ps-xl-12 py-0 overflow-hidden">
+							<div class="row gx-md-8 gx-xl-12 d-flex align-items-center">
 
-								<!-- Left column: elevated (mt-9) -->
-								<div class="col-6">
-									<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none mt-9">
-										<div class="cw-it7-screen cw-it7-screen--top shadow-lg">
-											<?php if ( $thumbnail_id ) : ?>
-												<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
-													'class' => 'cw-it7-screenshot',
-													'alt'   => esc_attr( $title ),
-												] ); ?>
-											<?php else : ?>
-												<div class="cw-it7-screenshot-placeholder"></div>
-											<?php endif; ?>
+								<!-- Screenshots -->
+								<div class="col-lg-7">
+									<div class="row gx-7">
+
+										<div class="col-6">
+											<figure class="cw-it7-figure cw-it7-figure--top mt-9">
+												<a href="<?php the_permalink(); ?>">
+													<?php if ( $thumbnail_id ) : ?>
+													<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
+														'class' => 'cw-it7-img shadow-lg rounded-top',
+														'alt'   => esc_attr( $title ),
+													] ); ?>
+													<?php else : ?>
+													<div class="shadow-lg rounded-top" style="height:240px;background:#dee2e6;"></div>
+													<?php endif; ?>
+												</a>
+											</figure>
 										</div>
-									</a>
+
+										<div class="col-6">
+											<figure class="cw-it7-figure cw-it7-figure--bottom">
+												<a href="<?php the_permalink(); ?>">
+													<?php if ( $thumbnail_id ) : ?>
+													<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
+														'class' => 'cw-it7-img cw-it7-img--offset shadow-lg rounded-bottom',
+														'alt'   => esc_attr( $title ),
+													] ); ?>
+													<?php else : ?>
+													<div class="shadow-lg rounded-bottom" style="height:240px;background:#dee2e6;"></div>
+													<?php endif; ?>
+												</a>
+											</figure>
+										</div>
+
+									</div>
 								</div>
 
-								<!-- Right column: flush bottom -->
-								<div class="col-6">
-									<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
-										<div class="cw-it7-screen cw-it7-screen--bottom shadow-lg">
-											<?php if ( $thumbnail_id ) : ?>
-												<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
-													'class' => 'cw-it7-screenshot cw-it7-screenshot--offset',
-													'alt'   => esc_attr( $title ),
-												] ); ?>
-											<?php else : ?>
-												<div class="cw-it7-screenshot-placeholder"></div>
-											<?php endif; ?>
-										</div>
+								<!-- Project info -->
+								<div class="col-lg-5 d-none d-lg-block">
+									<h2 class="post-title fs-30 mb-4">
+										<a href="<?php the_permalink(); ?>" class="link-dark text-decoration-none">
+											<?php echo wp_kses_post( $title ); ?>
+										</a>
+									</h2>
+									<?php if ( ! empty( $tags ) ) : ?>
+									<ul class="icon-list <?php echo esc_attr( $palette['bullet'] ); ?> row ms-0 gy-2 mb-5">
+										<?php foreach ( $tags as $tag ) : ?>
+										<li class="col-md-6">
+											<span><i class="uil uil-check"></i></span>
+											<span><?php echo esc_html( $tag ); ?></span>
+										</li>
+										<?php endforeach; ?>
+									</ul>
+									<?php endif; ?>
+									<a href="<?php the_permalink(); ?>"
+									   class="btn btn-sm <?php echo esc_attr( $palette['btn'] ); ?> rounded-pill mt-1">
+										<?php esc_html_e( 'View project', 'codeweber' ); ?>
 									</a>
+									<?php if ( $website_url ) : ?>
+									<a href="<?php echo esc_url( $website_url ); ?>"
+									   target="<?php echo esc_attr( $link_target ); ?>"
+									   <?php if ( $link_rel ) : ?>rel="<?php echo esc_attr( $link_rel ); ?>"<?php endif; ?>
+									   class="btn btn-sm btn-outline-primary rounded-pill mt-1 ms-2 btn-icon btn-icon-start has-ripple">
+										<i class="uil uil-external-link-alt"></i>
+										<?php echo esc_html( $website_cta ); ?>
+									</a>
+									<?php endif; ?>
 								</div>
 
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<!-- Project info -->
-				<div class="col-lg-5 d-none d-lg-block<?php echo $is_even ? '' : ''; ?>">
-					<?php if ( $cat_name ) : ?>
-					<div class="post-category text-line mb-3"><?php echo esc_html( $cat_name ); ?></div>
-					<?php endif; ?>
-					<h2 class="post-title display-6 ls-sm mb-4">
-						<a href="<?php the_permalink(); ?>" class="link-dark text-decoration-none">
-							<?php echo wp_kses_post( $title ); ?>
-						</a>
-					</h2>
-					<?php if ( $client || $cms ) : ?>
-					<ul class="cw-it7-tags mb-4">
-						<?php if ( $client ) : ?>
-						<li><i class="uil uil-building"></i><?php echo esc_html( $client ); ?></li>
-						<?php endif; ?>
-						<?php if ( $cms ) : ?>
-						<li><i class="uil uil-layers"></i><?php echo esc_html( $cms ); ?></li>
-						<?php endif; ?>
-					</ul>
-					<?php endif; ?>
-					<a href="<?php the_permalink(); ?>"
-					   class="btn btn-primary<?php echo esc_attr( $btn_style ); ?> has-ripple">
-						<?php esc_html_e( 'View project', 'codeweber' ); ?>
-					</a>
-					<?php if ( $website_url ) : ?>
-					<a href="<?php echo esc_url( $website_url ); ?>"
-					   target="<?php echo esc_attr( $link_target ); ?>"
-					   <?php if ( $link_rel ) : ?>rel="<?php echo esc_attr( $link_rel ); ?>"<?php endif; ?>
-					   class="btn btn-outline-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple ms-2">
-						<i class="uil uil-external-link-alt"></i>
-						<?php echo esc_html( $website_cta ); ?>
-					</a>
-					<?php endif; ?>
-				</div>
-
+				<?php endwhile; ?>
 			</div>
-			<?php
-				endwhile;
-			?>
 
 			<?php codeweber_posts_pagination( [ 'nav_class' => 'd-flex justify-content-center mt-14' ] ); ?>
 
@@ -239,47 +206,50 @@ $card_colors = [ 'bg-soft-primary', 'bg-soft-leaf', 'bg-soft-yellow', 'bg-soft-o
 	var catBtns     = document.querySelectorAll('.projects-category-filters .filter-item');
 	var resultsWrap = document.getElementById('projects-grid-results');
 
-	// ── Screenshot scroll on hover ────────────────────────────────────
+	// ── Screenshot scroll on project hover ───────────────────────────
 	function initScreenScroll(root) {
-		(root || document).querySelectorAll('.cw-it7-screen').forEach(function (wrap) {
-			if (wrap.dataset.cwScrollInit) return;
-			wrap.dataset.cwScrollInit = '1';
+		(root || document).querySelectorAll('.demos-wrapper .project').forEach(function (project) {
+			if (project.dataset.cwScrollInit) return;
+			project.dataset.cwScrollInit = '1';
 
-			var img = wrap.querySelector('.cw-it7-screenshot');
-			if (!img) return;
+			var figures = project.querySelectorAll('.cw-it7-figure');
 
-			// Right column starts mid-page (offset ~40% down)
-			var isOffset = img.classList.contains('cw-it7-screenshot--offset');
+			figures.forEach(function (fig) {
+				var img = fig.querySelector('.cw-it7-img');
+				if (!img) return;
 
-			function getScrollDist() {
-				var imgH = img.naturalHeight * (img.offsetWidth / img.naturalWidth);
-				return Math.max(0, imgH - wrap.offsetHeight);
-			}
+				var isOffset = img.classList.contains('cw-it7-img--offset');
 
-			if (isOffset && img.complete) {
-				var dist = getScrollDist();
-				if (dist > 0) img.style.transform = 'translateY(-' + Math.round(dist * 0.4) + 'px)';
-			}
-			img.addEventListener('load', function () {
-				if (isOffset) {
+				function getScrollDist() {
+					var imgH = img.naturalHeight * (img.offsetWidth / img.naturalWidth);
+					return Math.max(0, imgH - fig.offsetHeight);
+				}
+
+				// Pre-scroll the right column to mid-page on load
+				function applyInitialOffset() {
+					if (!isOffset) return;
 					var dist = getScrollDist();
 					if (dist > 0) img.style.transform = 'translateY(-' + Math.round(dist * 0.4) + 'px)';
 				}
-			});
+				if (img.complete && img.naturalWidth) {
+					applyInitialOffset();
+				} else {
+					img.addEventListener('load', applyInitialOffset, { once: true });
+				}
 
-			wrap.addEventListener('mouseenter', function () {
-				var dist = getScrollDist();
-				if (dist <= 0) return;
-				var target = isOffset
-					? Math.round(dist * 0.1)   // right col: scroll back up slightly
-					: Math.round(dist * 0.85);  // left col: scroll most of the way down
-				img.style.transform = 'translateY(-' + target + 'px)';
-			});
-			wrap.addEventListener('mouseleave', function () {
-				var dist = getScrollDist();
-				img.style.transform = isOffset && dist > 0
-					? 'translateY(-' + Math.round(dist * 0.4) + 'px)'
-					: 'translateY(0)';
+				project.addEventListener('mouseenter', function () {
+					var dist = getScrollDist();
+					if (dist <= 0) return;
+					// Left: scroll down; Right: scroll back toward top
+					var target = isOffset ? Math.round(dist * 0.05) : Math.round(dist * 0.85);
+					img.style.transform = 'translateY(-' + target + 'px)';
+				});
+				project.addEventListener('mouseleave', function () {
+					var dist = getScrollDist();
+					img.style.transform = isOffset && dist > 0
+						? 'translateY(-' + Math.round(dist * 0.4) + 'px)'
+						: 'translateY(0)';
+				});
 			});
 		});
 	}
