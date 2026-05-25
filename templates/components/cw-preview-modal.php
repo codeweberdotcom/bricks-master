@@ -18,7 +18,7 @@ $switcher = function_exists( 'codeweber_projects_settings_get' )
 <style>
 /* ── Fullscreen preview modal ── */
 #cw-preview-modal .modal-dialog { margin: 0; max-width: 100%; height: 100%; }
-#cw-preview-modal .modal-content { height: 100%; border: 0; border-radius: 0; }
+#cw-preview-modal .modal-content { height: 100%; border: 0; border-radius: 0; background: transparent; }
 #cw-preview-modal .modal-body { padding: 0; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
 .cw-preview-bar {
 	display: flex;
