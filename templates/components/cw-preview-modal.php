@@ -100,6 +100,11 @@ $switcher = function_exists( 'codeweber_projects_settings_get' )
 .cw-preview-thumb-btn i {
 	font-size: 28px;
 	line-height: 1;
+	width: 28px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .cw-preview-thumb-btn span {
 	font-size: 11px;
