@@ -23,12 +23,19 @@ defined( 'ABSPATH' ) || exit;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 8px;
 	padding: 12px 8px;
 	width: 88px;
 	background: #2b2b2b;
 	color: #fff;
 	flex-shrink: 0;
+}
+.cw-preview-devices {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
 }
 .cw-preview-title {
 	font-size: 1.25rem;
@@ -42,10 +49,8 @@ defined( 'ABSPATH' ) || exit;
 	max-width: 100%;
 	flex-shrink: 0;
 }
-.cw-preview-devices { display: flex; flex-direction: column; gap: 6px; }
-.cw-preview-bar-end { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
-.cw-preview-bar-end .btn { color: rgba(255,255,255,.6); }
-.cw-preview-bar-end .btn:hover { color: #fff; }
+.cw-preview-bar-close .btn { color: rgba(255,255,255,.6); flex-shrink: 0; }
+.cw-preview-bar-close .btn:hover { color: #fff; }
 /* ── Device thumb buttons ── */
 .cw-preview-thumb-btn {
 	display: flex;
@@ -281,6 +286,12 @@ defined( 'ABSPATH' ) || exit;
 				</div>
 
 				<div class="cw-preview-bar">
+					<div class="cw-preview-bar-close">
+						<button type="button" class="btn btn-circle btn-sm btn-frost has-ripple" data-bs-dismiss="modal"
+								aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>">
+							<i class="uil uil-times"></i>
+						</button>
+					</div>
 					<div class="cw-preview-devices">
 						<button class="cw-preview-thumb-btn active" data-device="desktop">
 							<i class="uil uil-desktop"></i>
@@ -295,16 +306,6 @@ defined( 'ABSPATH' ) || exit;
 							<span><?php esc_html_e( 'Mobile', 'codeweber' ); ?></span>
 						</button>
 					</div>
-					<div class="cw-preview-bar-end">
-						<a href="#" id="cw-preview-ext-link" target="_blank" rel="noopener noreferrer"
-						   class="btn btn-circle btn-sm btn-frost has-ripple" title="<?php esc_attr_e( 'Open website', 'codeweber' ); ?>">
-							<i class="uil uil-external-link-alt"></i>
-						</a>
-						<button type="button" class="btn btn-circle btn-sm btn-frost has-ripple" data-bs-dismiss="modal"
-								aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>">
-							<i class="uil uil-times"></i>
-						</button>
-					</div>
 				</div>
 
 			</div>
@@ -316,7 +317,6 @@ defined( 'ABSPATH' ) || exit;
 (function () {
 	var previewModal      = document.getElementById('cw-preview-modal');
 	var previewTitle      = document.getElementById('cw-preview-title');
-	var previewExtLink    = document.getElementById('cw-preview-ext-link');
 	var previewFrame      = document.getElementById('cw-preview-frame');
 	var previewFrameWrap  = document.getElementById('cw-preview-frame-wrap');
 	var previewDeviceBtns = previewModal ? previewModal.querySelectorAll('[data-device]') : [];
@@ -328,15 +328,13 @@ defined( 'ABSPATH' ) || exit;
 		if (!trigger) return;
 		var url   = trigger.getAttribute('data-website-url') || '';
 		var title = trigger.getAttribute('data-website-title') || '';
-		if (previewTitle)   previewTitle.textContent = title;
-		if (previewExtLink) previewExtLink.href = url;
-		if (previewFrame)   { previewFrame.src = url; previewFrame.title = title; }
+		if (previewTitle) previewTitle.textContent = title;
+		if (previewFrame) { previewFrame.src = url; previewFrame.title = title; }
 	});
 
 	previewModal.addEventListener('hidden.bs.modal', function () {
 		if (previewFrame)     previewFrame.src = '';
 		if (previewTitle)     previewTitle.textContent = '';
-		if (previewExtLink)   previewExtLink.href = '#';
 		if (previewFrameWrap) previewFrameWrap.dataset.device = 'desktop';
 		previewDeviceBtns.forEach(function (b) {
 			b.classList.toggle('active', b.dataset.device === 'desktop');
