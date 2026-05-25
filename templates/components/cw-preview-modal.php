@@ -47,7 +47,7 @@ $switcher = function_exists( 'codeweber_projects_settings_get' )
 .cw-preview-bar-end .btn { color: rgba(255,255,255,.6); }
 .cw-preview-bar-end .btn:hover { color: #fff; }
 /* ── Iframe area ── */
-.cw-preview-content { flex: 1; min-height: 0; overflow: auto; background: #1a1a1a; }
+.cw-preview-content { flex: 1; min-height: 0; overflow: auto; }
 /* ── Side icon buttons (variant: icons) ── */
 .cw-preview-side-devices {
 	position: absolute;
