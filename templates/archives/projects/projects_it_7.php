@@ -62,6 +62,8 @@ $palettes = [
 .cw-preview-bar-end .btn:hover { color: #fff; }
 .cw-preview-content { flex: 1; min-height: 0; overflow: auto; }
 .cw-preview-side-devices { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); z-index: 10; }
+.cw-preview-side-devices .btn { color: rgba(0,0,0,.5) !important; background-color: rgba(0,0,0,.06) !important; border-color: rgba(0,0,0,.1) !important; }
+.cw-preview-side-devices .btn:hover, .cw-preview-side-devices .btn.active { color: rgba(0,0,0,.9) !important; background-color: rgba(0,0,0,.14) !important; }
 .cw-preview-frame-wrap[data-device="desktop"] { width: min(96vw, calc((100vh - 100px) * 16 / 9)); max-width: 1600px; aspect-ratio: 16 / 9; margin: 0 auto; position: relative; background: #1d1d1f; border-radius: 12px 12px 0 0; box-shadow: 0 0 0 1.5px #3a3a3c, 0 0 0 3px #0a0a0a; padding: 14px 12px 0; flex-shrink: 0; }
 .cw-preview-frame-wrap[data-device="desktop"]::before { content: ''; position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 7px; height: 7px; background: #3a3a3c; border-radius: 50%; }
 .cw-preview-frame-wrap[data-device="desktop"] iframe { width: 100%; height: 100%; border: 0; border-radius: 3px 3px 0 0; display: block; }

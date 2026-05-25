@@ -177,6 +177,16 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	transform: translateY(-50%);
 	z-index: 10;
 }
+.cw-preview-side-devices .btn {
+	color: rgba(0,0,0,.5) !important;
+	background-color: rgba(0,0,0,.06) !important;
+	border-color: rgba(0,0,0,.1) !important;
+}
+.cw-preview-side-devices .btn:hover,
+.cw-preview-side-devices .btn.active {
+	color: rgba(0,0,0,.9) !important;
+	background-color: rgba(0,0,0,.14) !important;
+}
 /* === Desktop: MacBook Pro (16:9) === */
 .cw-preview-frame-wrap[data-device="desktop"] {
 	width: min(96vw, calc((100vh - 100px) * 16 / 9));
