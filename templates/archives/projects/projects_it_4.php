@@ -169,10 +169,13 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	flex: 1;
 	min-height: 0;
 	overflow: auto;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+}
+.cw-preview-side-devices {
+	position: absolute;
+	left: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
 }
 /* === Desktop: MacBook Pro (16:9) === */
 .cw-preview-frame-wrap[data-device="desktop"] {
@@ -504,7 +507,12 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	<div class="modal-dialog modal-fullscreen">
 		<div class="modal-content">
 			<div class="modal-body">
-				<div class="cw-preview-content">
+				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center position-relative">
+					<div class="cw-preview-side-devices d-none d-md-flex flex-column gap-2">
+						<button class="btn btn-circle btn-sm btn-frost has-ripple active" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'codeweber' ); ?>"><i class="uil uil-desktop"></i></button>
+						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'codeweber' ); ?>"><i class="uil uil-tablet"></i></button>
+						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'codeweber' ); ?>"><i class="uil uil-mobile-android"></i></button>
+					</div>
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
 						<span class="cw-device-btn-l" aria-hidden="true"></span>
 						<span class="cw-device-btn-r" aria-hidden="true"></span>
@@ -619,7 +627,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	var previewExtLink   = document.getElementById('cw-preview-ext-link');
 	var previewFrame     = document.getElementById('cw-preview-frame');
 	var previewFrameWrap = document.getElementById('cw-preview-frame-wrap');
-	var previewDeviceBtns = previewModal ? previewModal.querySelectorAll('.cw-preview-devices button') : [];
+	var previewDeviceBtns = previewModal ? previewModal.querySelectorAll('[data-device]') : [];
 
 	if (previewModal) {
 		previewModal.addEventListener('show.bs.modal', function (e) {
@@ -649,7 +657,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 			btn.addEventListener('click', function () {
 				if (previewFrameWrap) previewFrameWrap.dataset.device = btn.dataset.device;
 				previewDeviceBtns.forEach(function (b) {
-					b.classList.toggle('active', b === btn);
+					b.classList.toggle('active', b.dataset.device === btn.dataset.device);
 				});
 			});
 		});

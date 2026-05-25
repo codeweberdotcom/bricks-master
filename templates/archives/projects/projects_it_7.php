@@ -60,7 +60,8 @@ $palettes = [
 .cw-preview-bar-end { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .cw-preview-bar-end .btn { color: rgba(255,255,255,.6); }
 .cw-preview-bar-end .btn:hover { color: #fff; }
-.cw-preview-content { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.cw-preview-content { flex: 1; min-height: 0; overflow: auto; }
+.cw-preview-side-devices { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); z-index: 10; }
 .cw-preview-frame-wrap[data-device="desktop"] { width: min(96vw, calc((100vh - 100px) * 16 / 9)); max-width: 1600px; aspect-ratio: 16 / 9; margin: 0 auto; position: relative; background: #1d1d1f; border-radius: 12px 12px 0 0; box-shadow: 0 0 0 1.5px #3a3a3c, 0 0 0 3px #0a0a0a; padding: 14px 12px 0; flex-shrink: 0; }
 .cw-preview-frame-wrap[data-device="desktop"]::before { content: ''; position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 7px; height: 7px; background: #3a3a3c; border-radius: 50%; }
 .cw-preview-frame-wrap[data-device="desktop"] iframe { width: 100%; height: 100%; border: 0; border-radius: 3px 3px 0 0; display: block; }
@@ -248,7 +249,12 @@ $palettes = [
 	<div class="modal-dialog modal-fullscreen">
 		<div class="modal-content">
 			<div class="modal-body">
-				<div class="cw-preview-content">
+				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center position-relative">
+					<div class="cw-preview-side-devices d-none d-md-flex flex-column gap-2">
+						<button class="btn btn-circle btn-sm btn-frost has-ripple active" data-device="desktop" title="<?php esc_attr_e( 'Desktop', 'codeweber' ); ?>"><i class="uil uil-desktop"></i></button>
+						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="tablet" title="<?php esc_attr_e( 'Tablet', 'codeweber' ); ?>"><i class="uil uil-tablet"></i></button>
+						<button class="btn btn-circle btn-sm btn-frost has-ripple" data-device="mobile" title="<?php esc_attr_e( 'Mobile', 'codeweber' ); ?>"><i class="uil uil-mobile-android"></i></button>
+					</div>
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
 						<span class="cw-device-btn-l" aria-hidden="true"></span>
 						<span class="cw-device-btn-r" aria-hidden="true"></span>
@@ -349,7 +355,7 @@ $palettes = [
 	var previewExtLink    = document.getElementById('cw-preview-ext-link');
 	var previewFrame      = document.getElementById('cw-preview-frame');
 	var previewFrameWrap  = document.getElementById('cw-preview-frame-wrap');
-	var previewDeviceBtns = previewModal ? previewModal.querySelectorAll('.cw-preview-devices button') : [];
+	var previewDeviceBtns = previewModal ? previewModal.querySelectorAll('[data-device]') : [];
 
 	if (previewModal) {
 		previewModal.addEventListener('show.bs.modal', function (e) {
@@ -373,7 +379,7 @@ $palettes = [
 		previewDeviceBtns.forEach(function (btn) {
 			btn.addEventListener('click', function () {
 				if (previewFrameWrap) previewFrameWrap.dataset.device = btn.dataset.device;
-				previewDeviceBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+				previewDeviceBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.device === btn.dataset.device); });
 			});
 		});
 	}
