@@ -19,32 +19,9 @@ defined( 'ABSPATH' ) || exit;
 /* ── Iframe area ── */
 .cw-preview-content { flex: 1; min-height: 0; overflow: auto; }
 /* ── Right sidebar ── */
-.cw-preview-bar {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 12px 8px;
-	width: 88px;
-	background: #2b2b2b;
-	color: #fff;
-	flex-shrink: 0;
-}
-.cw-preview-devices {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 6px;
-}
-.cw-preview-bar-close .btn { color: rgba(255,255,255,.6); flex-shrink: 0; }
-.cw-preview-bar-close .btn:hover { color: #fff; }
+.cw-preview-bar { width: 88px; background: #2b2b2b; }
 /* ── Device thumb buttons ── */
 .cw-preview-thumb-btn {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
 	gap: 4px;
 	width: 72px;
 	height: 80px;
@@ -264,7 +241,7 @@ defined( 'ABSPATH' ) || exit;
 			<div class="modal-body">
 
 				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center">
-					<h2 class="h5 fw-semibold text-white text-center text-truncate px-4 pt-3 pb-2 flex-shrink-0" id="cw-preview-title"></h2>
+					<h2 class="h5 fw-bold text-white text-center text-truncate px-4 pt-3 pb-2 flex-shrink-0" id="cw-preview-title"></h2>
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
 						<span class="cw-device-btn-l" aria-hidden="true"></span>
 						<span class="cw-device-btn-r" aria-hidden="true"></span>
@@ -273,23 +250,23 @@ defined( 'ABSPATH' ) || exit;
 					<div class="cw-device-base" id="cw-device-base"></div>
 				</div>
 
-				<div class="cw-preview-bar">
-					<div class="cw-preview-bar-close">
+				<div class="cw-preview-bar d-flex flex-column align-items-center py-3 px-2 text-white flex-shrink-0">
+					<div class="mb-2">
 						<button type="button" class="btn btn-circle btn-sm btn-frost has-ripple" data-bs-dismiss="modal"
 								aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>">
 							<i class="uil uil-times"></i>
 						</button>
 					</div>
-					<div class="cw-preview-devices">
-						<button class="cw-preview-thumb-btn active" data-device="desktop">
+					<div class="d-flex flex-column align-items-center justify-content-center flex-fill gap-2">
+						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center active" data-device="desktop">
 							<i class="uil uil-desktop"></i>
 							<span><?php esc_html_e( 'Desktop', 'codeweber' ); ?></span>
 						</button>
-						<button class="cw-preview-thumb-btn" data-device="tablet">
+						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center" data-device="tablet">
 							<i class="uil uil-tablet"></i>
 							<span><?php esc_html_e( 'Tablet', 'codeweber' ); ?></span>
 						</button>
-						<button class="cw-preview-thumb-btn" data-device="mobile">
+						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center" data-device="mobile">
 							<i class="uil uil-mobile-android"></i>
 							<span><?php esc_html_e( 'Mobile', 'codeweber' ); ?></span>
 						</button>
