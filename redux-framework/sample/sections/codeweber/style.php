@@ -416,6 +416,18 @@ Redux::set_section(
 				),
 				'default'  => '1',
 			),
+			array(
+				'id'       => 'custom_title_color_woocommerce',
+				'type'     => 'button_set',
+				'title'    => esc_html__( 'WooCommerce Archive Title Color', 'codeweber' ),
+				'subtitle' => esc_html__( 'Override title color for WooCommerce shop/archive. Default = use global.', 'codeweber' ),
+				'options'  => array(
+					'global' => esc_html__( 'Global', 'codeweber' ),
+					'1'      => esc_html__( 'Dark', 'codeweber' ),
+					'2'      => esc_html__( 'Light', 'codeweber' ),
+				),
+				'default'  => 'global',
+			),
 		),
 	)
 );

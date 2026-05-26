@@ -414,21 +414,6 @@ if (!empty($custom_post_type_files)) {
 			),
 		);
 
-		if ($file === 'cpt-woocommerce.php') {
-			$section_fields[] = array(
-				'id'       => 'custom_title_color_woocommerce',
-				'type'     => 'button_set',
-				'title'    => esc_html__('Archive Title Color', 'codeweber'),
-				'subtitle' => esc_html__('Override global title color for WooCommerce archive. Empty = use global.', 'codeweber'),
-				'options'  => array(
-					'global' => esc_html__('Global', 'codeweber'),
-					'1'      => esc_html__('Dark', 'codeweber'),
-					'2'      => esc_html__('Light', 'codeweber'),
-				),
-				'default'  => 'global',
-			);
-		}
-
 		// Настройки сайдбара
 		$sidebar_settings = array(
 			array(
