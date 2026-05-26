@@ -135,6 +135,20 @@ All settings stored under `redux_demo` option key. Grouped in sections:
 // For archive pages of this type
 ```
 
+**Title color configuration:**
+```php
+'global-page-header-title-color' => '1' | '2' | ''
+// '1' = Dark (text-dark)
+// '2' = Light (text-white)
+// ''  = Default (text-dark)
+
+'custom_title_color_woocommerce' => 'global' | '1' | '2'
+// 'global' = Inherit from global-page-header-title-color
+// '1'      = Force Dark (text-dark)
+// '2'      = Force Light (text-white)
+// Applies to: WooCommerce shop/archive h1 + CPT page-header wrapper
+```
+
 **Breadcrumb configuration:**
 ```php
 'global-page-header-breadcrumb-enable' => '1' | '0'
@@ -289,6 +303,42 @@ Implementation in `pageheader.php` (lines 2-70)
    ```php
    if (is_front_page()) return;
    ```
+
+### Title Color in CPT Page Headers
+
+When a **CPT page-header** (Gutenberg block post) is selected instead of a base model, `pageheader.php` wraps the rendered block content in a `<div>` carrying the resolved color class so headings inside the block inherit the correct color:
+
+```php
+// pageheader.php — CPT rendering path
+$title_class = $pageheader_vars['title_class'] ?? [];  // already computed by get_pageheader_vars()
+$color_class = '';
+foreach ($title_class as $cls) {
+    if ($cls === 'text-white' || $cls === 'text-dark') {
+        $color_class = $cls;
+        break;
+    }
+}
+echo $color_class
+    ? '<div class="' . esc_attr($color_class) . '">' . $content . '</div>'
+    : $content;
+```
+
+`get_pageheader_vars()` resolves the color in this priority order:
+1. **WooCommerce page** (`is_shop()`) + `custom_title_color_woocommerce` ≠ `'global'` → use WooCommerce override
+2. **Global** `global-page-header-title-color` → `'1'` = `text-dark`, `'2'` = `text-white`
+
+### WooCommerce Archive h1 Color
+
+`woocommerce/archive-product.php` applies the same logic to the in-content `<h1>` shown when `woo_show_archive_title = true`:
+
+```php
+$woo_color = Redux::get_option($opt_name, 'custom_title_color_woocommerce');
+if (empty($woo_color) || $woo_color === 'global') {
+    $woo_color = Redux::get_option($opt_name, 'global-page-header-title-color');
+}
+$woo_h1_color_class = ($woo_color === '2') ? ' text-white' : (($woo_color === '1') ? ' text-dark' : '');
+// Applied to: <h1 class="display-6 mb-1<?= $woo_h1_color_class ?>">
+```
 
 ---
 
