@@ -302,7 +302,17 @@ if (!is_front_page() && !is_404()) {
          $content = $post->post_content;
          $content = apply_filters('the_content', $content);
          $content = do_shortcode($content); // Обрабатываем шорткоды
-         echo $content;
+         $title_class = $pageheader_vars['title_class'] ?? [];
+         $color_class = '';
+         foreach ($title_class as $cls) {
+            if ($cls === 'text-white' || $cls === 'text-dark') {
+               $color_class = $cls;
+               break;
+            }
+         }
+         echo $color_class
+            ? '<div class="' . esc_attr($color_class) . '">' . $content . '</div>'
+            : $content;
       }
    } else {
       if (!empty($global_template_pageheader)) {

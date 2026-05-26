@@ -114,8 +114,14 @@ if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
 $show_load_more     = in_array( $shop_nav_mode, [ 'load_more', 'both' ], true );
 $show_pagination    = in_array( $shop_nav_mode, [ 'pagination', 'both' ], true );
 $show_archive_title = false;
+$woo_h1_color_class = '';
 if ( class_exists( 'Redux' ) && ! empty( $opt_name ) ) {
 	$show_archive_title = (bool) Redux::get_option( $opt_name, 'woo_show_archive_title', false );
+	$woo_color          = Redux::get_option( $opt_name, 'custom_title_color_woocommerce' );
+	if ( empty( $woo_color ) || $woo_color === 'global' ) {
+		$woo_color = Redux::get_option( $opt_name, 'global-page-header-title-color' );
+	}
+	$woo_h1_color_class = ( $woo_color === '2' ) ? ' text-white' : ( ( $woo_color === '1' ) ? ' text-dark' : '' );
 }
 
 // Текущий orderby из URL
@@ -153,7 +159,7 @@ if ( ! $is_pjax ) {
 
 						<?php if ( $show_archive_title ) : ?>
 						<div class="col-md-7 col-xl-6 pe-xl-10">
-							<h1 class="display-6 mb-1"><?php echo esc_html( is_product_tag() || is_product_category() ? single_term_title( '', false ) : woocommerce_page_title( false ) ); ?></h1>
+							<h1 class="display-6 mb-1<?php echo esc_attr( $woo_h1_color_class ); ?>"><?php echo esc_html( is_product_tag() || is_product_category() ? single_term_title( '', false ) : woocommerce_page_title( false ) ); ?></h1>
 							<?php woocommerce_result_count(); ?>
 						</div>
 						<?php else : ?>
@@ -327,7 +333,7 @@ if ( ! $is_pjax ) {
 
 						<?php if ( $show_archive_title ) : ?>
 						<div class="col-md-7 col-xl-6 pe-xl-10">
-							<h1 class="display-6 mb-1"><?php echo esc_html( is_product_tag() || is_product_category() ? single_term_title( '', false ) : woocommerce_page_title( false ) ); ?></h1>
+							<h1 class="display-6 mb-1<?php echo esc_attr( $woo_h1_color_class ); ?>"><?php echo esc_html( is_product_tag() || is_product_category() ? single_term_title( '', false ) : woocommerce_page_title( false ) ); ?></h1>
 							<?php woocommerce_result_count(); ?>
 						</div>
 						<?php else : ?>
