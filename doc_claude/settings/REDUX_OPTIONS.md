@@ -723,6 +723,120 @@ For `testimonials` CPT:
 
 ---
 
+## Body Background (`body-bg-global-section`)
+
+**Section ID:** `body-bg-global-section`
+**File:** `redux-framework/sample/sections/codeweber/body-bg.php`
+**Logic:** `functions/body-bg.php`
+**Subsection of:** `themestyle`
+
+Глобальный фон страницы. Переопределяется per-CPT и per-post настройками.
+
+### Приоритет применения
+
+```
+per-post метабокс → per-CPT Redux → глобальный Redux
+```
+
+Для CSS (HEX/градиент) внутри глобального уровня:
+```
+custom_css > custom_hex > bootstrap color class
+```
+
+### Глобальные настройки
+
+#### Цвет фона
+
+```php
+'body_bg_global_color' => 'default' | 'bg-light' | 'bg-gray' | 'bg-soft-primary'
+                        | 'bg-soft-secondary' | 'bg-soft-leaf' | 'bg-dark'
+// Bootstrap CSS-класс фона. Игнорируется если задан custom_hex или custom_css.
+// Default: 'default' (прозрачный)
+// Применяется: класс cw-page-bg-{value} на <body>
+//   → SCSS задаёт background на .content-wrapper
+
+'body_bg_global_custom_hex' => '#rrggbb' | '' | 'transparent'
+// HEX-пикер (Redux color). Inline background-color на <main class="content-wrapper">.
+// Перекрывает body_bg_global_color.
+// Default: '' (не задан)
+
+'body_bg_global_custom_css' => 'linear-gradient(135deg, #0a1628 0%, #0d2347 50%, #0a1628 100%)'
+// Произвольное CSS-значение для свойства background.
+// Перекрывает custom_hex и color class.
+// Inline-стиль на <main class="content-wrapper">.
+// Default: '' (не задан)
+```
+
+#### Изображение / паттерн
+
+```php
+'body_bg_global_image' => [ 'url' => '...', 'id' => 123 ]
+// Фоновое изображение или паттерн (Redux media).
+// Применяется через data-image-src JS-механизмом.
+
+'body_bg_global_mode' => 'image' | 'pattern'
+// Default: 'image'
+
+'body_bg_global_size' => 'cover' | 'auto' | 'full'
+// Только при mode = 'image'. CSS-класс: bg-cover / bg-auto / bg-full.
+// Default: 'cover'
+
+'body_bg_global_repeat' => 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat'
+// Только при mode = 'pattern'.
+// Default: 'repeat'
+
+'body_bg_global_pattern_preload_color' => 'primary' | 'secondary' | ... | ''
+// Цвет фона пока паттерн загружается (из colors.json).
+// Default: '' (нет preload)
+```
+
+#### Цвет текста
+
+```php
+'body_bg_global_text' => 'auto' | 'inverse'
+// 'inverse' → добавляет класс text-inverse на <main class="content-wrapper">
+// Default: 'auto'
+```
+
+### Per-CPT Redux ключи
+
+Паттерн: `body_bg_{context}`, где context = `single_{post_type}` или `archive_{post_type}`.
+
+```php
+'body_bg_single_post'          // Фон на single записях
+'body_bg_archive_post'         // Фон на архиве записей
+'body_bg_single_woocommerce'   // Фон на single товарах (product → 'woocommerce')
+'body_bg_image_single_staff'   // Изображение фона для single staff
+'body_bg_mode_archive_events'  // Режим (image/pattern) для архива events
+'body_bg_text_single_projects' // Цвет текста для single projects
+```
+
+### Per-post метабокс (Redux)
+
+```php
+'page-body-bg'              => 'default' | 'bg-light' | ...  // Bootstrap класс
+'page-body-bg-image'        => [ 'url' => '...' ]             // Изображение
+'page-body-bg-mode'         => 'image' | 'pattern'
+'page-body-bg-size'         => 'cover' | 'auto' | 'full'
+'page-body-bg-repeat'       => 'repeat' | 'repeat-x' | ...
+'page-body-bg-text'         => 'auto' | 'inverse'
+'page-body-bg-preload-color' => '' | 'primary' | ...
+```
+
+### Вывод в шаблон
+
+```php
+// В header.php:
+$_cw_bg = cw_content_wrapper_bg_attrs();
+// Возвращает: [ 'class' => '...', 'data' => '...', 'style' => '...' ]
+// Применяется на: <main class="content-wrapper {class}" {data} style="{style}">
+
+// Класс Bootstrap-цвета добавляется через body_class фильтр:
+// <body class="... cw-page-bg-{value}">
+```
+
+---
+
 ## Additional Sections
 
 ### Legal Settings
