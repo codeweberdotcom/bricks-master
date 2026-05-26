@@ -1413,6 +1413,45 @@ form.querySelectorAll('input[type="tel"][data-mask]').forEach(function(input) {
 
 ---
 
+## Form Name & Analytics Tracking
+
+### How `data-form-name` is set
+
+Every rendered form gets a `data-form-name` attribute on the `<form>` element. This attribute is used by:
+
+- **UIS/Comagic** — `form_name` field in `addOfflineRequest()`
+- **Database** — `form_name` column in `wp_codeweber_forms_submissions`
+- **Email templates** — `{form_name}` placeholder
+
+**Priority chain (renderer):**
+
+```
+internalName (shortcode attr) → cptTitle (CPT post_title) → formTitle (block visual title) → 'Contact Form'
+```
+
+**CPT forms** (`codeweber_form` post type): `post_title` of the CPT record is always used as the form name. This is passed via `settings['cptTitle']` in `render_from_cpt()` → `render_from_config()`.
+
+**Built-in forms** (event registration, callback, etc.): set `data-form-name` directly on the `<form>` element in PHP (see `codeweber-forms-default-forms.php`).
+
+**Document email form** (Gutenberg button block): sets `data-form-name` in JS inside `initDocumentEmailForm()` in `restapi.js`.
+
+### How the name reaches the database
+
+1. JS (`form-submit-universal.js:308`): `config.formName = form.dataset.formName || ''`
+2. JS sends `form_name` field in POST body to REST API
+3. API (`api.php`): Priority 1 — uses `form_name` from request if non-empty; Priority 2 — falls back to CPT `post_title` by `form_id` if Priority 1 empty
+
+> **Gotcha:** If `data-form-name` renders as `"Contact Form"`, JS sends that string and API Priority 2 (CPT post_title) is **never reached**. Always verify that `data-form-name` on the rendered `<form>` element contains the actual form name.
+
+### How the name reaches UIS (Comagic)
+
+Child-theme file `functions/integrations/uis-forms.js` listens to:
+
+- `codeweberFormSubmitting` → captures `form.dataset.formName`
+- `codeweberFormSubmitted` → calls `Comagic.addOfflineRequest({ form_name: ... })`
+
+---
+
 ## Troubleshooting
 
 ### Form Not Appearing
