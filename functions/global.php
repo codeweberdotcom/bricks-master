@@ -165,10 +165,9 @@ function universal_title($tag = false, $theme = false)
 			$title = get_the_archive_title();
 			// Убираем префикс "Архив: " если он есть
 			$title = preg_replace('/^.*:\s*/', '', $title);
+			// Убираем служебный <span>, который WordPress оборачивает вокруг типа архива
+			$title = strip_tags($title);
 		}
-
-		// Убираем тег <span>, если он есть, для архивных страниц
-		$title = strip_tags($title);
 	} elseif (is_home()) {
 		// Для страницы блога - получаем заголовок страницы блога
 		$blog_page_id = get_option('page_for_posts');
@@ -187,7 +186,7 @@ function universal_title($tag = false, $theme = false)
 		$title = get_bloginfo('name');
 	}
 
-	$title = esc_html($title);
+	$title = wp_kses_post($title);
 
 	// Если тег не указан, возвращаем просто текст
 	if ($tag === false) {
