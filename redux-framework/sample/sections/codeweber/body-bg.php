@@ -31,9 +31,26 @@ Redux::set_section(
 				'id'      => 'body_bg_global_color',
 				'type'    => 'select',
 				'title'   => esc_html__( 'Background Color', 'codeweber' ),
-				'desc'    => esc_html__( 'Fallback color when no image is set.', 'codeweber' ),
+				'desc'    => esc_html__( 'Bootstrap color class. Ignored when Custom HEX or Custom CSS is set.', 'codeweber' ),
 				'options' => $_body_bg_color_options,
 				'default' => 'default',
+			),
+
+			array(
+				'id'          => 'body_bg_global_custom_hex',
+				'type'        => 'color',
+				'title'       => esc_html__( 'Custom HEX Color', 'codeweber' ),
+				'desc'        => esc_html__( 'Overrides the color class above. Applied as inline background-color.', 'codeweber' ),
+				'transparent' => true,
+				'default'     => '',
+			),
+
+			array(
+				'id'      => 'body_bg_global_custom_css',
+				'type'    => 'text',
+				'title'   => esc_html__( 'Custom CSS Background', 'codeweber' ),
+				'desc'    => esc_html__( 'Overrides HEX. Any valid CSS value, e.g.: linear-gradient(135deg, #0a1628 0%, #0d2347 50%, #0a1628 100%)', 'codeweber' ),
+				'default' => '',
 			),
 
 			// ── Изображение / паттерн ───────────────────────────────────────────

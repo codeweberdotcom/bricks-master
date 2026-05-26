@@ -203,11 +203,21 @@ function cw_content_wrapper_bg_attrs(): array {
 		}
 	}
 
+	// ── Custom HEX / CSS background ──────────────────────────────────────────
+	$custom_bg_style = '';
+	$custom_css      = Codeweber_Options::get( 'body_bg_global_custom_css', '' );
+	$custom_hex      = Codeweber_Options::get( 'body_bg_global_custom_hex', '' );
+	if ( ! empty( $custom_css ) ) {
+		$custom_bg_style = 'background: ' . $custom_css . ';';
+	} elseif ( ! empty( $custom_hex ) && $custom_hex !== 'transparent' ) {
+		$custom_bg_style = 'background-color: ' . $custom_hex . ';';
+	}
+
 	if ( empty( $image_url ) ) {
 		return [
 			'class' => $text === 'inverse' ? 'text-inverse' : '',
 			'data'  => '',
-			'style' => '',
+			'style' => $custom_bg_style,
 		];
 	}
 
@@ -228,9 +238,12 @@ function cw_content_wrapper_bg_attrs(): array {
 		$classes[] = 'text-inverse';
 	}
 
+	$image_style = ( $preload_color && $mode === 'pattern' ) ? 'background-color: var(--bs-' . $preload_color . ');' : '';
+	$merged_style = $custom_bg_style ?: $image_style;
+
 	return [
 		'class' => implode( ' ', $classes ),
 		'data'  => 'data-image-src="' . esc_url( $image_url ) . '"',
-		'style' => ( $preload_color && $mode === 'pattern' ) ? 'background-color: var(--bs-' . $preload_color . ');' : '',
+		'style' => $merged_style,
 	];
 }
