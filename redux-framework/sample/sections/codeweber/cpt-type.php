@@ -421,11 +421,11 @@ if (!empty($custom_post_type_files)) {
 				'title'    => esc_html__('Archive Title Color', 'codeweber'),
 				'subtitle' => esc_html__('Override global title color for WooCommerce archive. Empty = use global.', 'codeweber'),
 				'options'  => array(
-					''  => esc_html__('Global', 'codeweber'),
-					'1' => esc_html__('Dark', 'codeweber'),
-					'2' => esc_html__('Light', 'codeweber'),
+					'global' => esc_html__('Global', 'codeweber'),
+					'1'      => esc_html__('Dark', 'codeweber'),
+					'2'      => esc_html__('Light', 'codeweber'),
 				),
-				'default'  => '',
+				'default'  => 'global',
 			);
 		}
 

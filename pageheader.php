@@ -190,7 +190,7 @@ if (!is_front_page() && !is_404()) {
          // WooCommerce: override title color if set per-archive
          if (function_exists('is_shop') && is_shop() && class_exists('WooCommerce')) {
             $woo_title_color = Redux::get_option($opt_name, 'custom_title_color_woocommerce');
-            if (!empty($woo_title_color)) {
+            if (!empty($woo_title_color) && $woo_title_color !== 'global') {
                $title_class    = [];
                $subtitle_class = [];
                if ($woo_title_color === '2') {
