@@ -338,6 +338,7 @@ class CodeweberFormsDefaultForms {
             class="codeweber-form needs-validation"
             data-form-id="0"
             data-form-type="event-registration"
+            data-form-name="' . esc_attr( sprintf( __( 'Event Registration: %s', 'codeweber' ), get_the_title( $event_id ) ) ) . '"
             data-event-id="' . esc_attr( $event_id ) . '"
             data-handled-by="codeweber-forms-universal"
             method="post"
