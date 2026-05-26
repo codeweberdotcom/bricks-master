@@ -272,14 +272,26 @@ add_shortcode('subtitle', 'subtitle_shortcode');
  * @return string Новый заголовок архива.
  */
 add_filter('get_the_archive_title', function ($title) {
-   if (is_post_type_archive() && !is_admin()) {
+   if (is_admin()) {
+      return $title;
+   }
+
+   global $opt_name;
+
+   if (function_exists('is_shop') && is_shop() && class_exists('WooCommerce')) {
+      $custom_title = Redux::get_option($opt_name, 'custom_title_woocommerce');
+      if (!empty($custom_title)) {
+         return $custom_title;
+      }
+      return $title;
+   }
+
+   if (is_post_type_archive()) {
       $post_type = universal_get_post_type();
 
       if ($post_type) {
-         global $opt_name;
-
-         $custom_title_id = 'custom_title_' . $post_type;
-         $custom_title = Redux::get_option($opt_name, $custom_title_id);
+         $sanitized_id = ($post_type === 'product') ? 'woocommerce' : $post_type;
+         $custom_title = Redux::get_option($opt_name, 'custom_title_' . $sanitized_id);
 
          if (!empty($custom_title)) {
             return $custom_title;
@@ -304,9 +316,8 @@ add_filter('get_the_archive_title', function ($title) {
 add_filter('post_type_archive_title', function ($title, $post_type) {
     if (!is_admin()) {
         global $opt_name;
-
-        $custom_title_id = 'custom_title_' . $post_type;
-        $custom_title = Redux::get_option($opt_name, $custom_title_id);
+        $sanitized_id = ($post_type === 'product') ? 'woocommerce' : sanitize_key($post_type);
+        $custom_title = Redux::get_option($opt_name, 'custom_title_' . $sanitized_id);
 
         if (!empty($custom_title)) {
             return $custom_title;

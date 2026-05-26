@@ -153,14 +153,16 @@ function universal_title($tag = false, $theme = false)
 			$title = get_the_date();
 		} elseif (is_tax()) {
 			$title = single_term_title('', false);
-		} elseif (is_post_type_archive()) {
-			$title = post_type_archive_title('', false);
-			// Применяем фильтр для кастомного заголовка CPT
-			$post_type = get_query_var('post_type');
-			$title = apply_filters('post_type_archive_title', $title, $post_type);
 		} elseif (function_exists('is_shop') && is_shop() && class_exists('WooCommerce')) {
-			// Для страницы архива магазина WooCommerce
-			$title = function_exists('woocommerce_page_title') ? woocommerce_page_title(false) : __('Shop', 'codeweber');
+			global $opt_name;
+			$woo_custom_title = class_exists('Redux') && ! empty($opt_name) ? Redux::get_option($opt_name, 'custom_title_woocommerce') : '';
+			$title = ! empty($woo_custom_title)
+				? $woo_custom_title
+				: (function_exists('woocommerce_page_title') ? woocommerce_page_title(false) : __('Shop', 'codeweber'));
+		} elseif (is_post_type_archive()) {
+			$post_type = get_query_var('post_type');
+			$title = post_type_archive_title('', false);
+			$title = apply_filters('post_type_archive_title', $title, $post_type);
 		} else {
 			$title = get_the_archive_title();
 			// Убираем префикс "Архив: " если он есть

@@ -187,6 +187,23 @@ if (!is_front_page() && !is_404()) {
             $subtitle_class[] = 'text-dark';
          }
 
+         // WooCommerce: override title color if set per-archive
+         if (function_exists('is_shop') && is_shop() && class_exists('WooCommerce')) {
+            $woo_title_color = Redux::get_option($opt_name, 'custom_title_color_woocommerce');
+            if (!empty($woo_title_color)) {
+               $title_class    = [];
+               $subtitle_class = [];
+               if ($woo_title_color === '2') {
+                  $title_class[]    = 'text-white';
+                  $subtitle_class[] = 'text-white';
+               } else {
+                  $title_class[]    = 'text-dark';
+                  $subtitle_class[] = 'text-dark';
+               }
+               $title_class[] = $page_header_title_size;
+            }
+         }
+
          // Выравнивание и классы для колонок
          $col_class = [];
          if ($page_header_align === '1') {
