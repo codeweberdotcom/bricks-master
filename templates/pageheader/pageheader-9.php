@@ -61,7 +61,7 @@ if (!empty($pageheader_vars) && is_array($pageheader_vars)) {
                <?php if ($breadcrumbs_enable): ?>
                   <?php get_breadcrumbs($breadcrumbs_align, $breadcrumbs_color, 'mb-0'); ?>
                <?php endif; ?>
-               <h1 class="mb-2 <?= $title_class_str; ?>"><?= esc_html(universal_title(false, false)); ?></h1>
+               <h1 class="mb-2 <?= $title_class_str; ?>"><?= wp_kses_post(universal_title(false, false)); ?></h1>
                <?= $subtitle_html; ?>
             </div>
          </div>
