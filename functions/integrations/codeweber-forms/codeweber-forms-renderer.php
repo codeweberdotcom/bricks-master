@@ -123,6 +123,7 @@ class CodeweberFormsRenderer {
             'settings'       => array_merge(
                 $block_attrs,
                 [
+                    'cptTitle'       => $post->post_title,
                     'recipientEmail' => get_post_meta($post->ID, '_form_recipient_email', true),
                     'senderEmail'    => get_post_meta($post->ID, '_form_sender_email', true),
                     'senderName'     => get_post_meta($post->ID, '_form_sender_name', true),
@@ -200,7 +201,7 @@ class CodeweberFormsRenderer {
         // Настройки формы
         // internalName — логическое имя формы (если задано через шорткод name).
         // formTitle — заголовок формы (берётся из CPT title / настроек).
-        $form_name = $settings['internalName'] ?? ($settings['formTitle'] ?? 'Contact Form');
+        $form_name = $settings['internalName'] ?? ($settings['cptTitle'] ?? ($settings['formTitle'] ?? 'Contact Form'));
         $recipient_email = $settings['recipientEmail'] ?? get_option('admin_email');
         $success_message = $settings['successMessage'] ?? __('Thank you! Your message has been sent.', 'codeweber');
         $error_message = $settings['errorMessage'] ?? __('An error occurred. Please try again.', 'codeweber');
