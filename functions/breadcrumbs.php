@@ -456,7 +456,7 @@ if (!function_exists('get_breadcrumbs')) {
             echo '<li class="breadcrumb-item"><a href="' . esc_url( $shop_url ) . '">' . esc_html( $shop_title ) . '</a></li>';
             echo '<li class="breadcrumb-item active" aria-current="page">' . esc_html( single_term_title( '', false ) ) . '</li>';
          } elseif (is_archive()) {
-            echo '<li class="breadcrumb-item active" aria-current="page">' . get_the_archive_title() . '</li>';
+            echo '<li class="breadcrumb-item active" aria-current="page">' . wp_strip_all_tags( get_the_archive_title() ) . '</li>';
          }
 
          echo $wrap_after;
