@@ -13,38 +13,26 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <style>
 /* ── Fullscreen preview modal ── */
-#cw-preview-modal .modal-dialog { margin: 0; max-width: 100%; height: 100%; }
-#cw-preview-modal .modal-content { height: 100%; border: 0; border-radius: 0; background: transparent; }
-#cw-preview-modal .modal-body { padding: 0; display: flex; flex-direction: row; height: 100%; overflow: hidden; }
+#cw-preview-modal .modal-content { border: 0; }
 /* ── Iframe area ── */
-.cw-preview-content { flex: 1; min-height: 0; overflow: auto; position: relative; }
+.cw-preview-content { min-height: 0; }
 /* ── Right sidebar ── */
 .cw-preview-bar { width: 88px; background: #2b2b2b; }
 /* ── Device thumb buttons ── */
 .cw-preview-thumb-btn {
-	gap: 4px;
 	width: 72px;
 	height: 80px;
 	background: rgba(255,255,255,.1);
 	border: 1px solid rgba(255,255,255,.15);
-	border-radius: 8px;
 	color: rgba(255,255,255,.55);
-	cursor: pointer;
-	padding: 0;
-	transition: background .15s, border-color .15s, color .15s;
 }
 .cw-preview-thumb-btn i {
 	font-size: 28px;
-	line-height: 1;
 	width: 28px;
 	height: 28px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 .cw-preview-thumb-btn span {
 	font-size: 11px;
-	font-weight: 500;
 	letter-spacing: .02em;
 }
 .cw-preview-thumb-btn:hover,
@@ -237,12 +225,12 @@ defined( 'ABSPATH' ) || exit;
 <!-- Fullscreen website preview modal -->
 <div class="modal fade" id="cw-preview-modal" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog modal-fullscreen">
-		<div class="modal-content">
-			<div class="modal-body">
+		<div class="modal-content h-100 rounded-0 bg-transparent">
+			<div class="modal-body p-0 d-flex flex-row h-100 overflow-hidden">
 
-				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center">
+				<div class="cw-preview-content d-flex flex-column align-items-center justify-content-center flex-grow-1 overflow-auto position-relative">
 					<div class="spinner spinner-overlay" id="cw-preview-loader"></div>
-					<h2 class="h5 fw-bold text-white text-center text-truncate px-4 pt-3 pb-2 flex-shrink-0" id="cw-preview-title"></h2>
+					<h2 class="h5 text-white text-center px-4 pt-3 pb-2 flex-shrink-0" id="cw-preview-title"></h2>
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
 						<span class="cw-device-btn-l" aria-hidden="true"></span>
 						<span class="cw-device-btn-r" aria-hidden="true"></span>
@@ -255,17 +243,17 @@ defined( 'ABSPATH' ) || exit;
 					<button type="button" class="btn-close btn-close-white mb-2" data-bs-dismiss="modal"
 						aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>"></button>
 					<div class="d-flex flex-column align-items-center justify-content-center flex-fill gap-2">
-						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center active" data-device="desktop">
-							<i class="uil uil-desktop"></i>
-							<span><?php esc_html_e( 'Desktop', 'codeweber' ); ?></span>
+						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center gap-1 rounded-2 p-0 has-ripple active" data-device="desktop">
+							<i class="uil uil-desktop d-flex align-items-center justify-content-center lh-1"></i>
+							<span class="fw-medium"><?php esc_html_e( 'Desktop', 'codeweber' ); ?></span>
 						</button>
-						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center" data-device="tablet">
-							<i class="uil uil-tablet"></i>
-							<span><?php esc_html_e( 'Tablet', 'codeweber' ); ?></span>
+						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center gap-1 rounded-2 p-0 has-ripple" data-device="tablet">
+							<i class="uil uil-tablet d-flex align-items-center justify-content-center lh-1"></i>
+							<span class="fw-medium"><?php esc_html_e( 'Tablet', 'codeweber' ); ?></span>
 						</button>
-						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center" data-device="mobile">
-							<i class="uil uil-mobile-android"></i>
-							<span><?php esc_html_e( 'Mobile', 'codeweber' ); ?></span>
+						<button class="cw-preview-thumb-btn d-flex flex-column align-items-center justify-content-center gap-1 rounded-2 p-0 has-ripple" data-device="mobile">
+							<i class="uil uil-mobile-android d-flex align-items-center justify-content-center lh-1"></i>
+							<span class="fw-medium"><?php esc_html_e( 'Mobile', 'codeweber' ); ?></span>
 						</button>
 					</div>
 				</div>
@@ -292,7 +280,6 @@ defined( 'ABSPATH' ) || exit;
 	function hideLoader() {
 		if (!previewLoader) return;
 		previewLoader.classList.add('done');
-		setTimeout(function () { previewLoader.classList.remove('done'); }, 400);
 	}
 
 	previewModal.addEventListener('show.bs.modal', function (e) {
