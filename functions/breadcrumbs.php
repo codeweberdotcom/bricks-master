@@ -161,9 +161,14 @@ if (!function_exists('get_breadcrumbs')) {
                }
 
                // Вставляем крошку «Блог» для стандартных архивов WordPress
+               // (Rank Math уже добавляет её на сингле поста, поэтому проверяем дубль)
                if ( $needs_blog_crumb && $blog_page_id ) {
-                  $blog_crumb = [ get_the_title( $blog_page_id ), get_permalink( $blog_page_id ) ];
-                  array_splice( $crumbs, 1, 0, [ $blog_crumb ] );
+                  $blog_url = trailingslashit( (string) get_permalink( $blog_page_id ) );
+                  $already  = array_filter( $crumbs, fn( $c ) => trailingslashit( $c[1] ?? '' ) === $blog_url );
+                  if ( empty( $already ) ) {
+                     $blog_crumb = [ get_the_title( $blog_page_id ), get_permalink( $blog_page_id ) ];
+                     array_splice( $crumbs, 1, 0, [ $blog_crumb ] );
+                  }
                }
 
                // Страница блога — добавляем как активную последнюю крошку
