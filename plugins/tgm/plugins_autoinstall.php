@@ -42,3 +42,10 @@ function my_theme_register_required_plugins()
 
    tgmpa($plugins, $config);
 }
+
+// Show TGMPA notice only on the Plugins admin page.
+add_action( 'current_screen', function ( WP_Screen $screen ) {
+   if ( 'plugins' !== $screen->id && class_exists( 'TGM_Plugin_Activation' ) ) {
+      remove_action( 'admin_notices', [ TGM_Plugin_Activation::$instance, 'notices' ] );
+   }
+} );
