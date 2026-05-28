@@ -178,13 +178,6 @@ $palettes = [
 										<i class="uil uil-eye"></i>
 										<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
 									</button>
-									<a href="<?php echo esc_url( $website_url ); ?>"
-									   target="<?php echo esc_attr( $link_target ); ?>"
-									   <?php if ( $link_rel ) : ?>rel="<?php echo esc_attr( $link_rel ); ?>"<?php endif; ?>
-									   class="btn btn-sm btn-outline-primary rounded-pill mt-1 ms-2 btn-icon btn-icon-start has-ripple">
-										<i class="uil uil-external-link-alt"></i>
-										<?php echo $url_display ? esc_html( $url_display ) : esc_html( $website_cta ); ?>
-									</a>
 									<?php endif; ?>
 								</div>
 
@@ -255,10 +248,12 @@ $palettes = [
 					if (dist <= 0) return;
 					// Left: scroll down; Right: scroll back toward top
 					var target = isOffset ? Math.round(dist * 0.05) : Math.round(dist * 0.85);
+					img.style.transition = 'transform 5s linear';
 					img.style.transform = 'translateY(-' + target + 'px)';
 				});
 				project.addEventListener('mouseleave', function () {
 					var dist = getScrollDist();
+					img.style.transition = 'transform 0.5s linear';
 					img.style.transform = isOffset && dist > 0
 						? 'translateY(-' + Math.round(dist * 0.4) + 'px)'
 						: 'translateY(0)';

@@ -158,15 +158,6 @@ $card_colors = [ 'bg-soft-primary', 'bg-soft-leaf', 'bg-soft-yellow', 'bg-soft-o
 					   class="btn btn-primary<?php echo esc_attr( $btn_style ); ?> has-ripple">
 						<?php esc_html_e( 'View project', 'codeweber' ); ?>
 					</a>
-					<?php if ( $website_url ) : ?>
-					<a href="<?php echo esc_url( $website_url ); ?>"
-					   target="<?php echo esc_attr( $link_target ); ?>"
-					   <?php if ( $link_rel ) : ?>rel="<?php echo esc_attr( $link_rel ); ?>"<?php endif; ?>
-					   class="btn btn-outline-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple ms-2">
-						<i class="uil uil-external-link-alt"></i>
-						<?php echo esc_html( $website_cta ); ?>
-					</a>
-					<?php endif; ?>
 				</div>
 
 			</div>

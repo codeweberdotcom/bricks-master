@@ -207,15 +207,6 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 							</p>
 							<?php endif; ?>
 
-							<?php if ( $website_url ) : ?>
-							<a href="<?php echo esc_url( $website_url ); ?>"
-							   target="<?php echo esc_attr( $link_target ); ?>"
-							   <?php if ( $link_rel ) : ?>rel="<?php echo esc_attr( $link_rel ); ?>"<?php endif; ?>
-							   class="btn btn-sm btn-outline-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple">
-								<i class="uil uil-external-link-alt"></i>
-								<?php echo esc_html( $website_cta ); ?>
-							</a>
-							<?php endif; ?>
 						</div>
 
 					</div>
