@@ -90,8 +90,8 @@ $palettes = [
 					$website_url  = get_post_meta( $post_id, 'project_website_url', true );
 					$website_open = get_post_meta( $post_id, 'project_website_open', true ) ?: 'new-tab';
 					$website_cta  = get_post_meta( $post_id, 'project_website_cta', true ) ?: __( 'View website', 'codeweber' );
-					$thumbnail_id  = (int) get_post_meta( $post_id, 'project_it_preview_1', true );
-					$thumbnail_id2 = (int) get_post_meta( $post_id, 'project_it_preview_2', true ) ?: $thumbnail_id;
+					$thumbnail_id  = get_post_thumbnail_id( $post_id );
+					$thumbnail_id2 = (int) get_post_meta( $post_id, 'project_it_preview_1', true );
 					$cats          = get_the_terms( $post_id, 'projects_category' );
 					$cat_name      = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
 
@@ -118,7 +118,7 @@ $palettes = [
 												<a href="<?php the_permalink(); ?>">
 													<?php if ( $thumbnail_id ) : ?>
 													<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
-														'class' => 'cw-it7-img shadow-lg rounded-top',
+														'class' => 'shadow-lg rounded-top w-100 h-auto d-block',
 														'alt'   => esc_attr( $title ),
 													] ); ?>
 													<?php else : ?>
@@ -227,36 +227,15 @@ $palettes = [
 					return Math.max(0, imgH - fig.offsetHeight);
 				}
 
-				// Pre-scroll the right column without animation
-				function applyInitialOffset() {
-					if (!isOffset) return;
-					var dist = getScrollDist();
-					if (dist <= 0) return;
-					img.style.transition = 'none';
-					img.style.transform = 'translateY(-' + Math.round(dist * 0.4) + 'px)';
-					img.getBoundingClientRect(); // force reflow
-					img.style.transition = '';
-				}
-				if (img.complete && img.naturalWidth) {
-					applyInitialOffset();
-				} else {
-					img.addEventListener('load', applyInitialOffset, { once: true });
-				}
-
 				project.addEventListener('mouseenter', function () {
 					var dist = getScrollDist();
 					if (dist <= 0) return;
-					// Left: scroll down; Right: scroll back toward top
-					var target = isOffset ? Math.round(dist * 0.05) : Math.round(dist * 0.85);
 					img.style.transition = 'transform 5s linear';
-					img.style.transform = 'translateY(-' + target + 'px)';
+					img.style.transform = 'translateY(-' + Math.round(dist * 0.9) + 'px)';
 				});
 				project.addEventListener('mouseleave', function () {
-					var dist = getScrollDist();
 					img.style.transition = 'transform 0.5s linear';
-					img.style.transform = isOffset && dist > 0
-						? 'translateY(-' + Math.round(dist * 0.4) + 'px)'
-						: 'translateY(0)';
+					img.style.transform = 'translateY(0)';
 				});
 			});
 		});

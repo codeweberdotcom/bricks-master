@@ -839,8 +839,7 @@ function cw_project_it_preview_render( WP_Post $post ): void {
 	wp_nonce_field( 'cw_project_it_preview_save', 'cw_project_it_preview_nonce' );
 
 	$fields = [
-		'project_it_preview_1' => __( 'Preview image 1 (left)', 'codeweber' ),
-		'project_it_preview_2' => __( 'Preview image 2 (right)', 'codeweber' ),
+		'project_it_preview_1' => __( 'Scroll preview image', 'codeweber' ),
 	];
 
 	echo '<table class="form-table" style="margin:0;">';
@@ -936,7 +935,7 @@ add_action( 'save_post_projects', function ( int $post_id, WP_Post $post ) {
 		return;
 	}
 
-	foreach ( [ 'project_it_preview_1', 'project_it_preview_2' ] as $key ) {
+	foreach ( [ 'project_it_preview_1' ] as $key ) {
 		if ( ! isset( $_POST[ $key ] ) ) {
 			continue;
 		}
