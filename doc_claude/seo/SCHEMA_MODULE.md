@@ -349,3 +349,5 @@ import { SchemaTypeNotice } from '../../components/schema-type';
 ```
 @graph: [WebSite, Organization, BreadcrumbList, WebPage, FAQPage, ItemList→Person, ItemList→JobPosting]
 ```
+
+**FAQPage — всегда один узел на URL.** Агрегатор в `seo-schema.php` собирает вопросы из **всех** `faq`-блоков в единственный узел `FAQPage` (с `@id … #faqpage`) и дедуплицирует вопросы по `name`. Это требование Google (на один URL допускается только один `FAQPage`) и защита от повторной регистрации, когда `the_content` обрабатывается несколько раз за запрос (SEO-плагин + основной вывод → `do_blocks` запускает `render.php` повторно). `ItemList` при этом остаётся по узлу на блок — Google допускает несколько.

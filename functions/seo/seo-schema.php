@@ -158,13 +158,19 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 		return $graph;
 	}
 
+	// Google allows only one FAQPage per URL. Accumulate questions from ALL
+	// faq blocks into a single node and dedupe by question name, so multiple
+	// FAQ blocks (or a block re-rendered via repeated the_content filtering)
+	// never produce duplicate FAQPage nodes.
+	$faq_questions = [];
+	$faq_seen      = [];
+
 	foreach ( $codeweber_block_schemas as $entry ) {
 		$type = $entry['type'];
 		$data = $entry['data'];
 
 		if ( $type === 'faq' && ! empty( $data ) ) {
 			// FAQPage from custom items or FAQ CPT posts.
-			$questions = [];
 			foreach ( $data as $item ) {
 				$title   = $item['title'] ?? '';
 				$content = $item['content'] ?? '';
@@ -177,22 +183,24 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 				$content = wp_strip_all_tags( $content );
 				$content = preg_replace( '/\s+/', ' ', trim( $content ) );
 
-				if ( ! empty( $content ) ) {
-					$questions[] = [
-						'@type'          => 'Question',
-						'name'           => wp_strip_all_tags( $title ),
-						'acceptedAnswer' => [
-							'@type' => 'Answer',
-							'text'  => $content,
-						],
-					];
+				if ( empty( $content ) ) {
+					continue;
 				}
-			}
 
-			if ( ! empty( $questions ) ) {
-				$graph[] = [
-					'@type'      => 'FAQPage',
-					'mainEntity' => $questions,
+				$name = wp_strip_all_tags( $title );
+				$key  = mb_strtolower( trim( $name ) );
+				if ( isset( $faq_seen[ $key ] ) ) {
+					continue;
+				}
+				$faq_seen[ $key ] = true;
+
+				$faq_questions[] = [
+					'@type'          => 'Question',
+					'name'           => $name,
+					'acceptedAnswer' => [
+						'@type' => 'Answer',
+						'text'  => $content,
+					],
 				];
 			}
 		} elseif ( $type === 'itemlist' && ! empty( $data['items'] ) ) {
@@ -225,6 +233,16 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 				];
 			}
 		}
+	}
+
+	// Single FAQPage node aggregating every faq block on the page.
+	if ( ! empty( $faq_questions ) ) {
+		$faq_url = is_singular() ? get_permalink() : codeweber_schema_current_url();
+		$graph[] = [
+			'@type'      => 'FAQPage',
+			'@id'        => $faq_url . '#faqpage',
+			'mainEntity' => $faq_questions,
+		];
 	}
 
 	return $graph;
