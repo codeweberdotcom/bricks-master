@@ -92,11 +92,14 @@
 		$footer_vars = get_footer_vars();
 
 		if ( $template_footer_id ) {
-			$post    = get_post( $template_footer_id );
-			$content = $post->post_content;
-			$content = apply_filters( 'the_content', $content );
-			$content = do_shortcode( $content );
+			$footer_post = get_post( $template_footer_id );
+			$content     = $footer_post->post_content;
+			$content     = apply_filters( 'the_content', $content );
+			$content     = do_shortcode( $content );
 			echo $content;
+			// Restore the global $post so code running later in wp_footer
+			// (e.g. schema JSON-LD) does not pick up the footer CPT post.
+			wp_reset_postdata();
 		} else {
 			if ( ! empty( $global_template_footer ) ) {
 				$template_part = get_theme_file_path( "templates/footer/footer-{$global_template_footer}.php" );

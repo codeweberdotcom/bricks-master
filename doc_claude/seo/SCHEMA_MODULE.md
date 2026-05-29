@@ -126,11 +126,19 @@ OG, Twitter Cards, title, description, canonical, robots — **не затраг
 
 Собирает хлебные крошки из контекста: Home → CPT archive → Parent pages → Current.
 
-Поддержка: singular (CPT, post, page), post type archive, taxonomy, category, tag, search, WooCommerce (shop → product_cat → product).
+Поддержка: singular (CPT, post, page), post type archive, taxonomy, category, tag, search, **blog posts page (`is_home()`)**, WooCommerce (shop → product_cat → product).
+
+Возвращает `null`, если крошек меньше двух (главная, а также любые контексты, где собралась только крошка «Home»).
 
 ### WebPage (все страницы)
 
 `name`, `url`, `description`, `primaryImageOfPage`, `datePublished`, `dateModified`, `isPartOf → WebSite`, `breadcrumb`.
+
+**`breadcrumb` добавляется только если узел `BreadcrumbList` реально присутствует** в `@graph` (флаг `$has_breadcrumb` передаётся в `codeweber_schema_webpage()`). Иначе ссылка указывала бы на несуществующий `@id` → Google Search Console: «Отсутствует поле itemListElement».
+
+### Защита от затёртого `$post`
+
+Схема выводится в `wp_footer` (приоритет 20) — **после** рендера футера. Шаблон [`footer.php`] при выводе кастомного футера загружает CPT-запись footer, что может перезаписать глобальный `$GLOBALS['post']`. Поэтому в начале `wp_footer`-замыкания на singular-страницах `$GLOBALS['post']` принудительно восстанавливается из `get_queried_object_id()` — иначе `@id`/`url`/`datePublished` бы брались из футер-записи (`?post_type=footer&p=...`). Дополнительно сам `footer.php` вызывает `wp_reset_postdata()` после вывода футера.
 
 ---
 

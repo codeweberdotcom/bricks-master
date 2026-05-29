@@ -20,6 +20,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  * can add CPT-specific schemas via the codeweber_schema_graph filter.
  */
 add_action( 'wp_footer', function (): void {
+	// Restore the global $post to the queried object. Footer/modal/header
+	// rendering (e.g. footer.php loading a footer CPT post) may have clobbered
+	// $GLOBALS['post'] before wp_footer fires, which would make get_permalink(),
+	// get_the_date() etc. below return the wrong post's data.
+	if ( is_singular() ) {
+		$queried_id = get_queried_object_id();
+		if ( $queried_id && ( empty( $GLOBALS['post'] ) || (int) $GLOBALS['post']->ID !== $queried_id ) ) {
+			$GLOBALS['post'] = get_post( $queried_id );
+			setup_postdata( $GLOBALS['post'] );
+		}
+	}
+
 	$graph = [];
 
 	$site_url  = trailingslashit( home_url() );
@@ -52,13 +64,14 @@ add_action( 'wp_footer', function (): void {
 	}
 
 	// ── BreadcrumbList ────────────────────────────────────────────────────────
-	$breadcrumbs = codeweber_schema_breadcrumblist();
+	$breadcrumbs    = codeweber_schema_breadcrumblist();
+	$has_breadcrumb = ! empty( $breadcrumbs );
 	if ( $breadcrumbs ) {
 		$graph[] = $breadcrumbs;
 	}
 
 	// ── WebPage ───────────────────────────────────────────────────────────────
-	$webpage = codeweber_schema_webpage( $site_url );
+	$webpage = codeweber_schema_webpage( $site_url, $has_breadcrumb );
 	if ( $webpage ) {
 		$graph[] = $webpage;
 	}
@@ -520,6 +533,15 @@ function codeweber_schema_breadcrumblist(): ?array {
 			'position' => $pos,
 			'name'     => sprintf( __( 'Search results for "%s"', 'codeweber' ), get_search_query() ),
 		];
+
+	} elseif ( is_home() ) {
+		// Blog posts page (when a static front page is set).
+		$blog_id = (int) get_option( 'page_for_posts' );
+		$crumbs[] = [
+			'@type'    => 'ListItem',
+			'position' => $pos,
+			'name'     => $blog_id ? get_the_title( $blog_id ) : __( 'Blog', 'codeweber' ),
+		];
 	}
 
 	if ( count( $crumbs ) < 2 ) {
@@ -538,10 +560,11 @@ function codeweber_schema_breadcrumblist(): ?array {
 /**
  * Build WebPage schema for the current page.
  *
- * @param string $site_url Site URL with trailing slash.
+ * @param string $site_url       Site URL with trailing slash.
+ * @param bool   $has_breadcrumb Whether a BreadcrumbList node exists in the graph.
  * @return array|null WebPage schema node or null.
  */
-function codeweber_schema_webpage( string $site_url ): ?array {
+function codeweber_schema_webpage( string $site_url, bool $has_breadcrumb = false ): ?array {
 	$url = is_singular() ? get_permalink() : codeweber_schema_current_url();
 
 	if ( empty( $url ) ) {
@@ -580,8 +603,11 @@ function codeweber_schema_webpage( string $site_url ): ?array {
 		$page['dateModified']  = get_the_modified_date( 'c' );
 	}
 
-	// Breadcrumb reference.
-	$page['breadcrumb'] = [ '@id' => ( $url ?: $site_url ) . '#breadcrumb' ];
+	// Breadcrumb reference — only when a BreadcrumbList node actually exists,
+	// otherwise this points to a non-existent @id (Google: "Missing itemListElement").
+	if ( $has_breadcrumb ) {
+		$page['breadcrumb'] = [ '@id' => ( $url ?: $site_url ) . '#breadcrumb' ];
+	}
 
 	return $page;
 }
