@@ -107,6 +107,13 @@ function codeweber_nav_build_tree_cpt( $name, array $args ) {
 		'orderby'        => array( 'menu_order' => 'ASC', 'title' => 'ASC' ),
 		'order'          => 'ASC',
 		'post_status'    => 'publish',
+		// Скрываем записи, помеченные «Скрыть из архива» (_hide_from_archive = '1').
+		// Записи без меты остаются в меню (NOT EXISTS) — поведение остальных CPT не меняется.
+		'meta_query'     => array(
+			'relation' => 'OR',
+			array( 'key' => '_hide_from_archive', 'value' => '1', 'compare' => '!=' ),
+			array( 'key' => '_hide_from_archive', 'compare' => 'NOT EXISTS' ),
+		),
 	) );
 	if ( empty( $posts ) ) {
 		return [];
