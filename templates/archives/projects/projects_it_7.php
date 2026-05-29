@@ -230,7 +230,7 @@ $palettes = [
 				project.addEventListener('mouseenter', function () {
 					var dist = getScrollDist();
 					if (dist <= 0) return;
-					img.style.transition = 'transform 40s linear';
+					img.style.transition = 'transform 10s linear';
 					img.style.transform = 'translateY(-' + Math.round(dist * 0.9) + 'px)';
 				});
 				project.addEventListener('mouseleave', function () {
