@@ -40,7 +40,7 @@ $card_colors = [ 'bg-soft-primary', 'bg-soft-leaf', 'bg-soft-yellow', 'bg-soft-o
 	display: block;
 	width: 100%;
 	height: auto;
-	transition: transform 5s linear;
+	transition: transform 10s linear;
 	transform: translateY(0);
 }
 .cw-it6-screenshot-placeholder {

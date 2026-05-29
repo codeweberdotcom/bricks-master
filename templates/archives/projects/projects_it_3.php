@@ -71,7 +71,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 	display: block;
 	width: 100%;
 	height: auto;
-	transition: transform 4s linear;
+	transition: transform 10s linear;
 	transform: translateY(0);
 }
 .cw-it-screenshot-placeholder {

@@ -45,7 +45,7 @@ $palettes = [
 	display: block;
 	width: 100%;
 	height: auto;
-	transition: transform 5s linear;
+	transition: transform 10s linear;
 }
 </style>
 

@@ -46,7 +46,7 @@ $projects_query = new WP_Query( [
 	display: block;
 	width: 100%;
 	height: auto;
-	transition: transform 4s linear;
+	transition: transform 10s linear;
 	transform: translateY(0);
 }
 .cw-it2-screenshot-placeholder {
