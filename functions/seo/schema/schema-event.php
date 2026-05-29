@@ -163,8 +163,9 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 	$reg_enabled = get_post_meta( $post_id, '_event_registration_enabled', true );
 
 	$offer = [
-		'@type' => 'Offer',
-		'url'   => $url,
+		'@type'        => 'Offer',
+		'url'          => $url,
+		'availability' => 'https://schema.org/InStock', // Default; may become SoldOut below.
 	];
 
 	if ( ! empty( $price ) ) {
@@ -205,12 +206,9 @@ add_filter( 'codeweber_schema_graph', function ( array $graph ): array {
 
 	$event['offers'] = $offer;
 
-	// Event status — only set for future events.
-	$start_ts = ! empty( $date_start ) ? strtotime( $date_start ) : 0;
-
-	if ( $start_ts && time() < $start_ts ) {
-		$event['eventStatus'] = 'https://schema.org/EventScheduled';
-	}
+	// Event status — Google recommends it always be present. Defaults to
+	// EventScheduled (we have no postponed/cancelled meta to derive otherwise).
+	$event['eventStatus'] = 'https://schema.org/EventScheduled';
 
 	// Image.
 	$image = codeweber_schema_image( $post_id );
