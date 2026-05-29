@@ -129,30 +129,36 @@ function universal_title($tag = false, $theme = false)
 	if (is_singular()) {
 		// Для одиночных записей и страниц
 		$post_id = get_the_ID();
-		$post_type = get_post_type($post_id);
 
-		// Проверяем, какой тип записи и выводим соответствующий заголовок
-		if ('post' === $post_type) {
-			$title = get_the_title($post_id);
-		} elseif ('page' === $post_type) {
-			$title = get_the_title($post_id);
-		} elseif ('product' === $post_type) {
-			$title = get_the_title($post_id);
+		// Альтернативный заголовок (_alt_title) имеет приоритет над обычным,
+		// если задан. Работает для записей, страниц, CPT и товаров.
+		$alt_title = get_post_meta($post_id, '_alt_title', true);
+		if (!empty($alt_title)) {
+			$title = $alt_title;
 		} else {
 			$title = get_the_title($post_id);
 		}
 	} elseif (is_archive()) {
+		// Для архивов терминов alt-заголовок берётся из меты термина (_alt_title).
+		$term_alt_title = '';
+		if (is_category() || is_tag() || is_tax()) {
+			$queried_term = get_queried_object();
+			if ($queried_term instanceof WP_Term) {
+				$term_alt_title = get_term_meta($queried_term->term_id, '_alt_title', true);
+			}
+		}
+
 		// Для архивов
 		if (is_category()) {
-			$title = single_cat_title('', false);
+			$title = !empty($term_alt_title) ? $term_alt_title : single_cat_title('', false);
 		} elseif (is_tag()) {
-			$title = single_tag_title('', false);
+			$title = !empty($term_alt_title) ? $term_alt_title : single_tag_title('', false);
 		} elseif (is_author()) {
 			$title = get_the_author_meta('display_name');
 		} elseif (is_date()) {
 			$title = get_the_date();
 		} elseif (is_tax()) {
-			$title = single_term_title('', false);
+			$title = !empty($term_alt_title) ? $term_alt_title : single_term_title('', false);
 		} elseif (function_exists('is_shop') && is_shop() && class_exists('WooCommerce')) {
 			global $opt_name;
 			$woo_custom_title = class_exists('Redux') && ! empty($opt_name) ? Redux::get_option($opt_name, 'custom_title_woocommerce') : '';
