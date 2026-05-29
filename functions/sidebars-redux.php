@@ -40,7 +40,16 @@ function codeweber_register_cpt_redux_sidebars()
 
       // Проверка состояния CPT
       $option_id = 'cpt_switch_' . sanitize_key($base_name);
-      if (!Redux::get_option($opt_name, $option_id)) {
+      $is_enabled = Redux::get_option($opt_name, $option_id);
+
+      // Legal CPT принудительно включён (как в functions/cpt/redux_cpt.php),
+      // поэтому область его виджета регистрируем всегда, независимо от тумблера —
+      // иначе область не появится в widgets.php и дефолтный nav нельзя перекрыть.
+      if ($file === 'cpt-legal.php') {
+         $is_enabled = true;
+      }
+
+      if (!$is_enabled) {
          continue;
       }
 

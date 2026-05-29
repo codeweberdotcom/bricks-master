@@ -133,6 +133,8 @@ function horizons_sidebar_widget_partners( $sidebar_id ) {
 
 **Важно:** sidebar area для CPT регистрируется автоматически через `sidebars-redux.php`, если CPT включён в Redux (`cpt_switch_{slug}`).
 
+**Исключение — `legal`:** CPT `legal` принудительно включён в `functions/cpt/redux_cpt.php` независимо от тумблера, поэтому его sidebar area регистрируется **всегда** (в `sidebars-redux.php` есть отдельное условие на `cpt-legal.php`). Благодаря этому область **Legal** всегда доступна в `widgets.php`: пока она пуста — выводится дефолтный программный nav-виджет `codeweber_sidebar_widget_legal`; как только в неё добавлен виджет, дефолт скрывается (через `is_active_sidebar('legal')`) и выводится пользовательский контент.
+
 ---
 
 ## Позиция и видимость сайдбара (Redux)
