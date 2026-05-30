@@ -726,7 +726,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
             <?php if ( $is_ended || ( $categories && ! is_wp_error( $categories ) ) || ( $formats && ! is_wp_error( $formats ) ) ) : ?>
                 <div class="mb-3">
                     <?php if ( $is_ended ) : ?>
-                        <span class="badge bg-soft-ash text-muted rounded-pill me-1"><?php esc_html_e( 'Event completed', 'codeweber' ); ?></span>
+                        <span class="badge bg-red rounded-pill me-1"><?php esc_html_e( 'Event completed', 'codeweber' ); ?></span>
                     <?php endif; ?>
                     <?php if ( $categories && ! is_wp_error( $categories ) ) : ?>
                         <?php foreach ( $categories as $cat ) : ?>
