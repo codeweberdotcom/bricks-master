@@ -145,7 +145,13 @@ if (!function_exists('get_breadcrumbs')) {
             });
 
             // WooCommerce product tag: крошка содержит "Products tagged «tagname»" — оставляем только название тега
-            add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) use ($show_home, $hide_last, $is_single_context, $is_any_woo, $needs_blog_crumb, $blog_page_id, $shop_url, $is_blog_page) {
+            add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs) use ($show_home, $home_label, $hide_last, $is_single_context, $is_any_woo, $needs_blog_crumb, $blog_page_id, $shop_url, $is_blog_page) {
+               // Перебиваем текст первой (Home) крошки — Rank Math игнорирует
+               // home_label из args и подставляет свой «Home».
+               if ($show_home && ! empty($crumbs) && ! empty($crumbs[0][1])) {
+                  $crumbs[0][0] = $home_label;
+               }
+
                if (function_exists('is_product_tag') && is_product_tag()) {
                   $last = count($crumbs) - 1;
                   if (isset($crumbs[$last][0])) {
@@ -184,13 +190,20 @@ if (!function_exists('get_breadcrumbs')) {
                if (!$show_home && !empty($crumbs)) {
                   array_shift($crumbs);
                }
-               if ($hide_last && $is_single_context && count($crumbs) > 0) {
-                  array_pop($crumbs);
-               }
+               // Скрытие последней крошки выполняется на уровне HTML (фильтр ниже),
+               // чтобы предыдущая крошка осталась ссылкой: при array_pop Rank Math
+               // помечает новую последнюю крошку как текущую и убирает у неё ссылку.
                return $crumbs;
             });
 
-            add_filter('rank_math/frontend/breadcrumb/html', function ($html, $crumbs, $class) use ($color) {
+            add_filter('rank_math/frontend/breadcrumb/html', function ($html, $crumbs, $class) use ($color, $hide_last, $is_single_context) {
+               // Скрыть последнюю крошку (заголовок текущей страницы) на сингле.
+               // Делаем это на готовом HTML (до замены цвета, пока class="last" цел),
+               // чтобы предыдущая крошка осталась ссылкой <a>.
+               if ($hide_last && $is_single_context) {
+                  $html = preg_replace('#<li class="breadcrumb-item">\s*<(span|a)\b[^>]*\bclass="[^"]*\blast\b[^"]*"[^>]*>.*?</\1>\s*</li>(\s*</ol>)#s', '$2', $html, 1);
+               }
+
                $html = str_replace(['<span class="separator">', '</span>', '<span class="text-muted">'], '', $html);
 
                // Применяем стили только если цвет указан
