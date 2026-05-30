@@ -55,40 +55,6 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 		}
 		
 		/**
-		 * Get demo data for testing
-		 * 
-		 * @return array Demo settings
-		 */
-		private function get_demo_data() {
-			return array(
-				'enabled' => true,
-				'socials' => array(
-					array('social_network' => 'max'),
-					array('social_network' => 'telegram'),
-					array('social_network' => 'whatsapp'),
-				),
-				'icon' => 'uil-comment-dots',
-				'width' => '180px',
-				// Desktop offsets
-				'right_offset_desktop' => '30px',
-				'left_offset_desktop' => 'auto',
-				'top_offset_desktop' => 'auto',
-				'bottom_offset_desktop' => '30px',
-				// Tablet offsets
-				'right_offset_tablet' => '20px',
-				'left_offset_tablet' => 'auto',
-				'top_offset_tablet' => 'auto',
-				'bottom_offset_tablet' => '20px',
-				// Mobile offsets
-				'right_offset_mobile' => '15px',
-				'left_offset_mobile' => 'auto',
-				'top_offset_mobile' => 'auto',
-				'bottom_offset_mobile' => '15px',
-				'z_index' => 9999,
-			);
-		}
-		
-		/**
 		 * Load settings from Redux
 		 * 
 		 * @return void
@@ -287,21 +253,8 @@ if (!class_exists('CodeWeber_Floating_Social_Widget')) {
 				'bottom_offset_mobile' => $opts['floating_widget_bottom_offset_mobile'] ?? null,
 				'z_index' => $opts['floating_widget_z_index'] ?? null,
 			);
-			
-
-			
-			// Используем демоданные ТОЛЬКО если Redux данные полностью отсутствуют (для тестирования)
-			// Если enabled включен, но socials пустые - это ошибка конфигурации, не используем демо
-			$use_demo = (empty($this->settings['enabled']) && empty($this->settings['socials']));
-			if ($use_demo) {
-				$demo_data = $this->get_demo_data();
-				$this->settings = array_merge($this->settings, $demo_data);
-
-			}
-			
-
 		}
-		
+
 		/**
 		 * Check if widget is enabled
 		 * 
