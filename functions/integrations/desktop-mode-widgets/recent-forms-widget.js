@@ -5,28 +5,57 @@
  * по контракту desktop-mode v0.8.9:
  *   window.desktopModeWidgets[ id ] = (container, ctx) => teardown
  *
- * Рендер — только Bootstrap-классы темы (list-group, badge, text-*).
+ * ВАЖНО: виджет рендерится в wp-admin (desktop-shell), где Bootstrap-CSS
+ * темы НЕ подключён. Поэтому стили — самодостаточные (префикс cwdm-),
+ * завязаны на CSS-переменные desktop-mode (--desktop-mode-fg и т.д.)
+ * с фолбэками, чтобы подхватывать светлую/тёмную тему shell.
+ *
  * Данные приходят из codeweberDmRecentForms (wp_localize_script).
  */
 ( function () {
 	'use strict';
 
 	var WIDGET_ID = 'codeweber/recent-forms';
+	var STYLE_ID = 'cwdm-recent-forms-style';
 	var cfg = window.codeweberDmRecentForms || {};
 	var i18n = cfg.i18n || {};
 
-	// Цвет бейджа по типу формы (значения form_type из CodeweberFormsDatabase).
+	// Цвета бейджей по типу формы (hex из CODEWEBER_FORMS.md → admin badge colours).
 	var TYPE_COLORS = {
-		form: 'secondary',
-		newsletter: 'info',
-		testimonial: 'primary',
-		callback: 'danger',
-		resume: 'primary',
-		faq: 'warning',
-		'event-registration': 'success',
-		questionnaire: 'info',
-		brief: 'dark'
+		form: '#607d8b',
+		newsletter: '#00897b',
+		testimonial: '#8e24aa',
+		callback: '#e53935',
+		resume: '#1e88e5',
+		faq: '#f4511e',
+		'event-registration': '#43a047',
+		questionnaire: '#00897b',
+		brief: '#6a1b9a'
 	};
+
+	var CSS =
+		'.cwdm-rf{font:13px/1.4 var(--desktop-mode-font,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif);color:var(--desktop-mode-fg,#1e1e1e)}' +
+		'.cwdm-rf-list{display:flex;flex-direction:column}' +
+		'.cwdm-rf-item{display:block;padding:8px 10px;text-decoration:none;color:inherit;border-bottom:1px solid var(--desktop-mode-border,rgba(0,0,0,.08));transition:background .12s ease}' +
+		'.cwdm-rf-item:hover{background:var(--desktop-mode-hover,rgba(0,0,0,.04))}' +
+		'.cwdm-rf-head{display:flex;align-items:center;justify-content:space-between;gap:8px}' +
+		'.cwdm-rf-name{font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}' +
+		'.cwdm-rf-badge{flex:0 0 auto;font-size:11px;line-height:1;padding:3px 7px;border-radius:4px;color:#fff;white-space:nowrap}' +
+		'.cwdm-rf-preview{margin-top:3px;font-size:12px;color:var(--desktop-mode-fg-muted,#6b6b6b);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}' +
+		'.cwdm-rf-date{margin-top:3px;font-size:11px;color:var(--desktop-mode-fg-muted,#9a9a9a)}' +
+		'.cwdm-rf-footer{display:block;padding:9px;text-align:center;font-size:12px;font-weight:500;text-decoration:none;color:var(--desktop-mode-link,var(--desktop-mode-accent,#2271b1))}' +
+		'.cwdm-rf-footer:hover{text-decoration:underline}' +
+		'.cwdm-rf-msg{padding:14px 10px;font-size:12px;color:var(--desktop-mode-fg-muted,#6b6b6b);text-align:center}';
+
+	function injectStyleOnce() {
+		if ( document.getElementById( STYLE_ID ) ) {
+			return;
+		}
+		var style = document.createElement( 'style' );
+		style.id = STYLE_ID;
+		style.textContent = CSS;
+		document.head.appendChild( style );
+	}
 
 	window.desktopModeWidgets = window.desktopModeWidgets || {};
 
@@ -36,22 +65,24 @@
 			? new AbortController()
 			: null;
 
+		injectStyleOnce();
+
 		var root = document.createElement( 'div' );
-		root.className = 'p-2';
+		root.className = 'cwdm-rf';
 		container.appendChild( root );
 
 		function setMessage( text ) {
 			root.innerHTML = '';
 			var msg = document.createElement( 'div' );
-			msg.className = 'text-muted small p-2';
+			msg.className = 'cwdm-rf-msg';
 			msg.textContent = text;
 			root.appendChild( msg );
 		}
 
 		function buildBadge( type ) {
-			var color = TYPE_COLORS[ type ] || 'secondary';
 			var badge = document.createElement( 'span' );
-			badge.className = 'badge bg-' + color + ' ms-2 flex-shrink-0';
+			badge.className = 'cwdm-rf-badge';
+			badge.style.background = TYPE_COLORS[ type ] || '#607d8b';
 			badge.textContent = type;
 			return badge;
 		}
@@ -59,27 +90,27 @@
 		function buildItem( item ) {
 			var link = document.createElement( 'a' );
 			link.href = item.viewUrl;
-			link.className = 'list-group-item list-group-item-action px-2 py-2';
+			link.className = 'cwdm-rf-item';
 
-			var top = document.createElement( 'div' );
-			top.className = 'd-flex align-items-center justify-content-between';
+			var head = document.createElement( 'div' );
+			head.className = 'cwdm-rf-head';
 
 			var name = document.createElement( 'span' );
-			name.className = 'fw-semibold text-truncate';
+			name.className = 'cwdm-rf-name';
 			name.textContent = item.formName;
-			top.appendChild( name );
-			top.appendChild( buildBadge( item.formType ) );
-			link.appendChild( top );
+			head.appendChild( name );
+			head.appendChild( buildBadge( item.formType ) );
+			link.appendChild( head );
 
 			if ( item.preview ) {
 				var preview = document.createElement( 'div' );
-				preview.className = 'small text-muted text-truncate';
+				preview.className = 'cwdm-rf-preview';
 				preview.textContent = item.preview;
 				link.appendChild( preview );
 			}
 
 			var date = document.createElement( 'div' );
-			date.className = 'small text-muted';
+			date.className = 'cwdm-rf-date';
 			date.textContent = item.date;
 			link.appendChild( date );
 
@@ -95,7 +126,7 @@
 			}
 
 			var list = document.createElement( 'div' );
-			list.className = 'list-group list-group-flush';
+			list.className = 'cwdm-rf-list';
 			items.forEach( function ( item ) {
 				list.appendChild( buildItem( item ) );
 			} );
@@ -104,7 +135,7 @@
 			if ( cfg.adminUrl ) {
 				var footer = document.createElement( 'a' );
 				footer.href = cfg.adminUrl;
-				footer.className = 'd-block text-center small mt-2';
+				footer.className = 'cwdm-rf-footer';
 				footer.textContent = i18n.viewAll || 'All submissions';
 				root.appendChild( footer );
 			}

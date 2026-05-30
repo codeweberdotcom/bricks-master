@@ -88,11 +88,31 @@ window.desktopModeWidgets['codeweber/recent-forms'] = function (container, ctx) 
 
 ---
 
+## Стили
+
+> ⚠️ Виджет рендерится в **wp-admin** (desktop-shell), где Bootstrap-CSS темы **не подключён** (`enqueues.php` грузит Bootstrap только на фронте). Поэтому Bootstrap-классы (`list-group`, `badge`, `d-flex`…) здесь **не работают**.
+
+Виджет **самодостаточен по стилям**: JS инжектит `<style id="cwdm-recent-forms-style">` один раз на mount. Классы с префиксом `cwdm-`, цвета завязаны на CSS-переменные desktop-mode (с фолбэками), чтобы подхватывать тему shell:
+
+| Переменная | Назначение |
+|------------|-----------|
+| `--desktop-mode-fg` | основной текст |
+| `--desktop-mode-fg-muted` | превью, дата |
+| `--desktop-mode-border` | разделители строк |
+| `--desktop-mode-hover` | подсветка строки на hover |
+| `--desktop-mode-link` / `--desktop-mode-accent` | футер-ссылка |
+| `--desktop-mode-font` | шрифт |
+
+Бейдж типа формы окрашивается inline по hex-карте `TYPE_COLORS` (значения из таблицы типов в `CODEWEBER_FORMS.md`).
+
+---
+
 ## Gotchas
 
 - **`is_admin()`-гейт.** Виджет регистрируется только в админке — в WP-CLI / на фронте `desktop_mode_desktop_widget_registry()` его не покажет. Это норма.
 - **Версия API.** Код написан под v0.8.9. При обновлении плагина сверять контракт (`includes/registries/widgets.php` + глобал `window.desktopModeWidgets` в `assets/js/desktop.js`).
-- **Цвета бейджей** типов форм в JS (`TYPE_COLORS`) дублируют логику типов из `CODEWEBER_FORMS.md` — при добавлении нового `form_type` обновить и здесь.
+- **Никаких Bootstrap-классов в JS виджета** — в админке их стили отсутствуют. Только собственные `cwdm-*` + CSS-переменные shell.
+- **Цвета бейджей** типов форм в JS (`TYPE_COLORS`) дублируют таблицу типов из `CODEWEBER_FORMS.md` — при добавлении нового `form_type` обновить и здесь.
 
 ---
 
