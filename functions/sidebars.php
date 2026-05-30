@@ -686,6 +686,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
     $countdown_label = '';
     $countdown_date  = '';
     $now = current_time( 'timestamp' );
+    $is_ended = $date_end && strtotime( $date_end ) < $now;
     if ( $reg_status['status'] === 'open' && $reg_close ) {
         $ts = strtotime( $reg_close );
         if ( $ts && $ts > $now ) {
@@ -722,8 +723,11 @@ function codeweber_sidebar_widget_events($sidebar_id) {
 
         <div class="card-body">
 
-            <?php if ( ( $categories && ! is_wp_error( $categories ) ) || ( $formats && ! is_wp_error( $formats ) ) ) : ?>
+            <?php if ( $is_ended || ( $categories && ! is_wp_error( $categories ) ) || ( $formats && ! is_wp_error( $formats ) ) ) : ?>
                 <div class="mb-3">
+                    <?php if ( $is_ended ) : ?>
+                        <span class="badge bg-soft-ash text-muted rounded-pill me-1"><?php esc_html_e( 'Event completed', 'codeweber' ); ?></span>
+                    <?php endif; ?>
                     <?php if ( $categories && ! is_wp_error( $categories ) ) : ?>
                         <?php foreach ( $categories as $cat ) : ?>
                             <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>" class="badge bg-soft-primary text-primary rounded-pill me-1">
@@ -812,7 +816,7 @@ function codeweber_sidebar_widget_events($sidebar_id) {
                     </p>
                 <?php endif; ?>
 
-                <?php if ( $date_start && ! get_post_meta( $event_id, '_event_hide_add_to_calendar', true ) ) :
+                <?php if ( $date_start && ! $is_ended && ! get_post_meta( $event_id, '_event_hide_add_to_calendar', true ) ) :
                     $tz       = wp_timezone();
                     $_ics_fmt = static function ( string $d ) use ( $tz ): string {
                         return ( new DateTime( $d, $tz ) )->setTimezone( new DateTimeZone( 'UTC' ) )->format( 'Ymd\THis\Z' );

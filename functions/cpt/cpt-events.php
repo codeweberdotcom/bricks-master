@@ -1122,16 +1122,8 @@ function codeweber_events_get_registration_status( int $event_id ): array {
 		return [ 'status' => 'disabled', 'label' => '', 'show_form' => false, 'seats_left' => null ];
 	}
 
-	// Внешняя ссылка — всегда показываем кнопку
-	if ( $external_url ) {
-		return [ 'status' => 'external', 'label' => __( 'Register', 'codeweber' ), 'show_form' => false, 'seats_left' => null ];
-	}
-
-	// Кнопка открывает модальное окно
-	if ( $enabled === 'modal' ) {
-		$modal_value = get_post_meta( $event_id, '_event_modal_value', true );
-		return [ 'status' => 'modal', 'label' => '', 'show_form' => false, 'seats_left' => null, 'modal_value' => $modal_value ];
-	}
+	// Проверки дат идут ПЕРЕД режимами external/modal: завершённое или закрытое
+	// мероприятие не должно показывать кнопку регистрации ни в одном режиме.
 
 	// Мероприятие завершено
 	if ( $date_end && strtotime( $date_end ) < $now ) {
@@ -1154,6 +1146,17 @@ function codeweber_events_get_registration_status( int $event_id ): array {
 	// Приём заявок закрыт
 	if ( $reg_close && strtotime( $reg_close ) < $now ) {
 		return [ 'status' => 'registration_closed', 'label' => __( 'Registration closed', 'codeweber' ), 'show_form' => false, 'seats_left' => null ];
+	}
+
+	// Внешняя ссылка — показываем кнопку (даты в норме)
+	if ( $external_url ) {
+		return [ 'status' => 'external', 'label' => __( 'Register', 'codeweber' ), 'show_form' => false, 'seats_left' => null ];
+	}
+
+	// Кнопка открывает модальное окно
+	if ( $enabled === 'modal' ) {
+		$modal_value = get_post_meta( $event_id, '_event_modal_value', true );
+		return [ 'status' => 'modal', 'label' => '', 'show_form' => false, 'seats_left' => null, 'modal_value' => $modal_value ];
 	}
 
 	// Считаем занятые места
