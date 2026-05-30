@@ -66,7 +66,7 @@ $avatar_colors = [ 'red', 'green', 'yellow', 'purple', 'orange', 'pink', 'blue',
 						'not_open_yet'         => 'badge bg-soft-yellow text-yellow rounded-pill',
 						'registration_closed'  => 'badge bg-soft-ash text-muted rounded-pill',
 						'no_seats'             => 'badge bg-soft-red text-red rounded-pill',
-						'event_ended'          => 'badge bg-soft-ash text-muted rounded-pill',
+						'event_ended'          => 'badge bg-red rounded-pill',
 					][ $reg_status['status'] ] ?? '';
 				?>
 				<a href="<?php the_permalink(); ?>" class="card mb-4 lift<?php echo $card_radius ? ' ' . esc_attr( trim( $card_radius ) ) : ''; ?>">

@@ -395,7 +395,7 @@ function _fp_render_events_table( $query ) {
 		'not_open_yet'        => 'badge bg-soft-yellow text-yellow rounded-pill',
 		'registration_closed' => 'badge bg-soft-ash text-muted rounded-pill',
 		'no_seats'            => 'badge bg-soft-red text-red rounded-pill',
-		'event_ended'         => 'badge bg-soft-ash text-muted rounded-pill',
+		'event_ended'         => 'badge bg-red rounded-pill',
 	];
 
 	while ( $query->have_posts() ) {
@@ -475,7 +475,7 @@ function _fp_render_events_cards( $query ) {
 		'not_open_yet'        => 'badge bg-soft-yellow text-yellow rounded-pill',
 		'registration_closed' => 'badge bg-soft-ash text-muted rounded-pill',
 		'no_seats'            => 'badge bg-soft-red text-red rounded-pill',
-		'event_ended'         => 'badge bg-soft-ash text-muted rounded-pill',
+		'event_ended'         => 'badge bg-red rounded-pill',
 	];
 
 	while ( $query->have_posts() ) {
@@ -580,7 +580,7 @@ function _fp_render_events_horizontal( $query, $template ) {
 		'not_open_yet'        => 'badge bg-soft-yellow text-yellow rounded-pill',
 		'registration_closed' => 'badge bg-soft-ash text-muted rounded-pill',
 		'no_seats'            => 'badge bg-soft-red text-red rounded-pill',
-		'event_ended'         => 'badge bg-soft-ash text-muted rounded-pill',
+		'event_ended'         => 'badge bg-red rounded-pill',
 	];
 
 	echo '<div class="row ' . esc_attr( $grid_gap ) . ' mb-5">';

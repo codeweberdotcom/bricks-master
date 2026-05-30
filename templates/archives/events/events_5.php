@@ -60,7 +60,7 @@ $grid_gap         = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::sty
 							'not_open_yet'         => 'badge bg-soft-yellow text-yellow rounded-pill',
 							'registration_closed'  => 'badge bg-soft-ash text-muted rounded-pill',
 							'no_seats'             => 'badge bg-soft-red text-red rounded-pill',
-							'event_ended'          => 'badge bg-soft-ash text-muted rounded-pill',
+							'event_ended'          => 'badge bg-red rounded-pill',
 						][ $reg_status['status'] ] ?? '';
 					?>
 					<div class="col-12">
