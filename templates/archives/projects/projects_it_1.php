@@ -29,55 +29,16 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 
 <style>
 /* ── Card: browser bar ── */
-.cw-browser-bar {
-	display: flex;
-	align-items: center;
-	gap: 5px;
-	height: 32px;
-	padding: 0 12px;
-	background: #e9ecef;
-}
-.cw-browser-dot {
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	flex-shrink: 0;
-}
+.cw-browser-bar { height: 32px; background: #e9ecef; }
+.cw-browser-dot { width: 10px; height: 10px; }
 .cw-browser-dot--red    { background: #ff5f57; }
 .cw-browser-dot--yellow { background: #ffbd2e; }
 .cw-browser-dot--green  { background: #28c840; }
-.cw-browser-url {
-	flex: 1;
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	background: #fff;
-	border-radius: 3px;
-	padding: 2px 8px;
-	font-size: 11px;
-	color: #6c757d;
-	line-height: 1.6;
-	margin-left: 6px;
-}
+.cw-browser-url { min-width: 0; font-size: 11px; line-height: 1.6; }
 /* ── Card: screenshot scroll on hover ── */
-.cw-it-screen {
-	overflow: hidden;
-	height: 220px;
-	position: relative;
-}
-.cw-it-screenshot {
-	display: block;
-	width: 100%;
-	height: auto;
-	transition: transform 10s linear;
-	transform: translateY(0);
-}
-.cw-it-screenshot-placeholder {
-	width: 100%;
-	height: 220px;
-	background: #f1f3f5;
-}
+.cw-it-screen { height: 220px; }
+.cw-it-screenshot { transition: transform 10s linear; transform: translateY(0); }
+.cw-it-screenshot-placeholder { height: 220px; background: #f1f3f5; }
 /* ── Card: quick view button ── */
 .cw-it-qv {
 	position: absolute;
@@ -147,22 +108,22 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 						<!-- Browser bar + screenshot -->
 						<div class="position-relative">
 							<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
-								<div class="cw-browser-bar">
-									<span class="cw-browser-dot cw-browser-dot--red"></span>
-									<span class="cw-browser-dot cw-browser-dot--yellow"></span>
-									<span class="cw-browser-dot cw-browser-dot--green"></span>
+								<div class="cw-browser-bar d-flex align-items-center gap-1 px-3 py-0">
+									<span class="cw-browser-dot cw-browser-dot--red rounded-circle flex-shrink-0"></span>
+									<span class="cw-browser-dot cw-browser-dot--yellow rounded-circle flex-shrink-0"></span>
+									<span class="cw-browser-dot cw-browser-dot--green rounded-circle flex-shrink-0"></span>
 									<?php if ( $url_display ) : ?>
-										<span class="cw-browser-url"><?php echo esc_html( $url_display ); ?></span>
+										<span class="cw-browser-url flex-grow-1 text-truncate bg-white rounded-1 px-2 text-muted ms-2"><?php echo esc_html( $url_display ); ?></span>
 									<?php endif; ?>
 								</div>
-								<div class="cw-it-screen">
+								<div class="cw-it-screen overflow-hidden position-relative">
 									<?php if ( $thumbnail_id ) : ?>
 										<?php echo wp_get_attachment_image( $thumbnail_id, 'cw_wide_xl', false, [
-											'class' => 'cw-it-screenshot',
+											'class' => 'cw-it-screenshot d-block w-100 h-auto',
 											'alt'   => esc_attr( $title ),
 										] ); ?>
 									<?php else : ?>
-										<div class="cw-it-screenshot-placeholder"></div>
+										<div class="cw-it-screenshot-placeholder w-100"></div>
 									<?php endif; ?>
 								</div>
 							</a>

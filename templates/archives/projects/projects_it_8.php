@@ -38,50 +38,16 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 @media (min-width: 768px) { .cw-it8-row + .cw-it8-row { padding-top: 7rem; } }
 
 /* ── Browser mockup ── */
-.cw-it8-browser {
-	background: #1e1e20;
-	border-radius: 12px;
-	overflow: hidden;
-	box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 32px 80px rgba(0,0,0,.6);
-}
-.cw-it8-bar {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	padding: 10px 16px;
-	background: #2a2a2e;
-}
-.cw-it8-dots { display: flex; gap: 6px; flex-shrink: 0; }
-.cw-it8-dot { width: 11px; height: 11px; border-radius: 50%; }
+.cw-it8-browser { background: #1e1e20; box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 32px 80px rgba(0,0,0,.6); }
+.cw-it8-bar { padding: 10px 16px; background: #2a2a2e; }
+.cw-it8-dot { width: 11px; height: 11px; }
 .cw-it8-dot:nth-child(1) { background: #ff5f57; }
 .cw-it8-dot:nth-child(2) { background: #febc2e; }
 .cw-it8-dot:nth-child(3) { background: #28c840; }
-.cw-it8-url-bar {
-	flex: 1;
-	background: #3a3a3e;
-	border-radius: 6px;
-	padding: 4px 12px;
-	font-size: 12px;
-	color: #999;
-	text-align: center;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 320px;
-	margin: 0 auto;
-}
+.cw-it8-url-bar { background: #3a3a3e; font-size: 12px; color: #999; max-width: 320px; }
 /* ── Screenshot area ── */
-.cw-it8-screen {
-	overflow: hidden;
-	max-height: 440px;
-	background: #fff;
-}
-.cw-it8-img {
-	display: block;
-	width: 100%;
-	height: auto;
-	transition: transform 10s linear;
-	transform: translateY(0);
+.cw-it8-screen { max-height: 440px; }
+.cw-it8-img { transition: transform 10s linear; transform: translateY(0);
 }
 
 /* ── Text column ── */
@@ -169,26 +135,26 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 
 				<!-- Browser mockup -->
 				<div class="col-lg-7<?php echo $is_even ? ' order-lg-2' : ''; ?>">
-					<div class="cw-it8-browser">
-						<div class="cw-it8-bar">
-							<div class="cw-it8-dots">
-								<span class="cw-it8-dot"></span>
-								<span class="cw-it8-dot"></span>
-								<span class="cw-it8-dot"></span>
+					<div class="cw-it8-browser rounded-3 overflow-hidden">
+						<div class="cw-it8-bar d-flex align-items-center gap-2">
+							<div class="d-flex gap-1 flex-shrink-0">
+								<span class="cw-it8-dot rounded-circle"></span>
+								<span class="cw-it8-dot rounded-circle"></span>
+								<span class="cw-it8-dot rounded-circle"></span>
 							</div>
 							<?php if ( $url_display ) : ?>
-							<span class="cw-it8-url-bar"><?php echo esc_html( $url_display ); ?></span>
+							<span class="cw-it8-url-bar flex-grow-1 text-truncate text-center rounded-2 px-3 py-1 mx-auto"><?php echo esc_html( $url_display ); ?></span>
 							<?php endif; ?>
 						</div>
 						<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
-							<div class="cw-it8-screen">
+							<div class="cw-it8-screen overflow-hidden bg-white">
 								<?php if ( $img_id ) : ?>
 								<?php echo wp_get_attachment_image( $img_id, 'cw_wide_xl', false, [
-									'class' => 'cw-it8-img',
+									'class' => 'cw-it8-img d-block w-100 h-auto',
 									'alt'   => esc_attr( $title ),
 								] ); ?>
 								<?php else : ?>
-								<div style="height:360px;background:#e9ecef;"></div>
+								<div class="bg-light" style="height:360px;"></div>
 								<?php endif; ?>
 							</div>
 						</a>

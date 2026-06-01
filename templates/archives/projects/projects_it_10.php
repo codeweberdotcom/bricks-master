@@ -34,41 +34,15 @@ $palettes = [
 ?>
 <style>
 /* ── Browser bar ── */
-.cw-browser-bar {
-	display: flex;
-	align-items: center;
-	gap: 5px;
-	height: 32px;
-	padding: 0 12px;
-	background: #e9ecef;
-	border-radius: 4px 4px 0 0;
-}
-.cw-browser-dot {
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	flex-shrink: 0;
-}
+.cw-browser-bar { height: 32px; background: #e9ecef; }
+.cw-browser-dot { width: 10px; height: 10px; }
 .cw-browser-dot--red    { background: #ff5f57; }
 .cw-browser-dot--yellow { background: #ffbd2e; }
 .cw-browser-dot--green  { background: #28c840; }
-.cw-browser-url {
-	flex: 1;
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	background: #fff;
-	border-radius: 3px;
-	padding: 2px 8px;
-	font-size: 11px;
-	color: #6c757d;
-	line-height: 1.6;
-	margin-left: 6px;
-}
+.cw-browser-url { min-width: 0; font-size: 11px; line-height: 1.6; }
 /* ── Screenshot scroll ── */
-.cw-it10-screen { overflow: hidden; max-height: 380px; }
-.cw-it10-screen img { transition: transform 10s linear; transform: translateY(0); display: block; }
+.cw-it10-screen { max-height: 380px; }
+.cw-it10-screen img { transition: transform 10s linear; transform: translateY(0); }
 </style>
 
 <section class="wrapper">
@@ -141,15 +115,15 @@ $palettes = [
 						<div class="card-body px-5 px-md-9 py-0 overflow-hidden">
 							<div class="mt-5 mt-md-9 position-relative">
 								<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
-									<div class="cw-browser-bar">
-										<span class="cw-browser-dot cw-browser-dot--red"></span>
-										<span class="cw-browser-dot cw-browser-dot--yellow"></span>
-										<span class="cw-browser-dot cw-browser-dot--green"></span>
+									<div class="cw-browser-bar d-flex align-items-center gap-1 px-3 py-0 rounded-top">
+										<span class="cw-browser-dot cw-browser-dot--red rounded-circle flex-shrink-0"></span>
+										<span class="cw-browser-dot cw-browser-dot--yellow rounded-circle flex-shrink-0"></span>
+										<span class="cw-browser-dot cw-browser-dot--green rounded-circle flex-shrink-0"></span>
 										<?php if ( $url_display ) : ?>
-										<span class="cw-browser-url"><?php echo esc_html( $url_display ); ?></span>
+										<span class="cw-browser-url flex-grow-1 text-truncate bg-white rounded-1 px-2 text-muted ms-2"><?php echo esc_html( $url_display ); ?></span>
 										<?php endif; ?>
 									</div>
-									<div class="cw-it10-screen shadow-lg">
+									<div class="cw-it10-screen shadow-lg overflow-hidden">
 										<?php if ( $img_id ) : ?>
 										<?php echo wp_get_attachment_image( $img_id, 'cw_wide_xl', false, [
 											'class' => 'w-100',
