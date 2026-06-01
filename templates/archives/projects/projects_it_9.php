@@ -98,7 +98,7 @@ $palettes = [
 				<div class="col-lg-7<?php echo $is_even ? ' order-lg-2' : ''; ?>">
 					<div class="card <?php echo esc_attr( $palette['card'] ); ?>">
 						<div class="card-body px-5 px-md-9 py-0 overflow-hidden">
-							<figure class="mt-9 mb-0">
+							<figure class="mt-5 mt-md-9 mb-0">
 								<a href="<?php the_permalink(); ?>">
 									<div class="cw-it9-screen shadow-lg rounded-top">
 										<?php if ( $img_id ) : ?>
