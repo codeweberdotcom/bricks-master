@@ -320,6 +320,72 @@ add_action('after_single_content', function($post_type) {
 
 ---
 
+## Архив IT/Web проектов (archive-projects.php)
+
+### Routing
+
+```
+Redux archive_template_select_projects = 'project-it'
+    → Projects Settings (it_archive_template) → конкретный шаблон projects_it_*.php
+Redux = 'projects_1' / 'projects_3' / etc.
+    → используется напрямую
+```
+
+### Активные IT-шаблоны
+
+| Файл | Название в UI | Особенности |
+|------|--------------|-------------|
+| `projects_it_1.php` | Website Portfolio | 3-col grid, browser bar bg-navy, scroll on hover, quick view |
+| `projects_it_6.php` | Featured rows | Полноширинные строки, чередование, scroll 10s |
+| `projects_it_7.php` | Staggered rows | Лев: featured image (статика); Прав: project_it_preview_1 (scroll) |
+| `projects_it_9.php` | Soft-card scroll rows | Sandbox-паттерн: bg-soft-* карточка, icon-list, short_description |
+| `projects_it_10.php` | Soft-card + browser bar | Как it_9 + browser bar (bg-navy) над скриншотом |
+
+### Метаполя IT-проекта
+
+| Ключ | Назначение |
+|------|-----------|
+| `project_it_preview_1` | Scroll preview image (скроллируется при hover) |
+| `main_information_short_description` | Краткое описание → `<p>` в архиве |
+| `main_information_cms` | CMS/Framework → icon-list |
+| `main_information_technologies` | Технологии → icon-list |
+| `main_information_client` | Клиент (в архиве НЕ показываем — убрано из tags) |
+| `project_website_url` | URL для browser bar + quick view modal |
+
+### Browser bar
+
+```html
+<div class="cw-browser-bar d-flex align-items-center bg-navy gap-1 px-3 py-0 rounded-top">
+    <span class="cw-browser-dot cw-browser-dot--red rounded-circle flex-shrink-0"></span>
+    <span class="cw-browser-dot cw-browser-dot--yellow rounded-circle flex-shrink-0"></span>
+    <span class="cw-browser-dot cw-browser-dot--green rounded-circle flex-shrink-0"></span>
+    <span class="cw-browser-url flex-grow-1 text-truncate bg-white rounded-1 px-2 text-muted ms-2">...</span>
+</div>
+```
+CSS: только `height: 32px` на `.cw-browser-bar`, `width/height: 10px` на `.cw-browser-dot`, цвета точек.
+
+### Quick view modal
+
+```php
+// Триггер (в шаблоне):
+data-bs-toggle="modal"
+data-bs-target="#cw-preview-modal"
+data-website-url="<?php echo esc_url( $website_url ); ?>"
+data-website-title="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>"
+
+// Подключение (в конце шаблона):
+get_template_part( 'templates/components/cw-preview-modal' );
+```
+
+**Важно:** всегда использовать `wp_strip_all_tags($title)` — иначе HTML-теги из заголовка попадают в модал.
+
+### cw_project_get_type() — определение типа проекта
+
+Используется для показа/скрытия метабоксов (hotspot, карта, Gutenberg editor).
+Fallback (если `_wp_page_template` не задан) читает Redux `archive_template_select_projects`.
+
+---
+
 ## Полезные функции в шаблонах
 
 ```php
