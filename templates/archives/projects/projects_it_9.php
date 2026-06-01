@@ -23,10 +23,10 @@ $show_map_btn = class_exists( 'Codeweber_Yandex_Maps' )
 $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 
 $palettes = [
-	[ 'card' => 'bg-soft-grape',   'btn' => 'btn-grape',   'bullet' => 'bullet-grape' ],
-	[ 'card' => 'bg-soft-primary', 'btn' => 'btn-primary', 'bullet' => 'bullet-primary' ],
-	[ 'card' => 'bg-soft-yellow',  'btn' => 'btn-yellow',  'bullet' => 'bullet-yellow' ],
-	[ 'card' => 'bg-soft-leaf',    'btn' => 'btn-leaf',    'bullet' => 'bullet-leaf' ],
+	[ 'card' => 'bg-soft-grape',   'btn' => 'btn-grape',   'soft' => 'btn-soft-grape',   'bullet' => 'bullet-grape' ],
+	[ 'card' => 'bg-soft-primary', 'btn' => 'btn-primary', 'soft' => 'btn-soft-primary', 'bullet' => 'bullet-primary' ],
+	[ 'card' => 'bg-soft-yellow',  'btn' => 'btn-yellow',  'soft' => 'btn-soft-yellow',  'bullet' => 'bullet-yellow' ],
+	[ 'card' => 'bg-soft-leaf',    'btn' => 'btn-leaf',    'soft' => 'btn-soft-leaf',    'bullet' => 'bullet-leaf' ],
 ];
 ?>
 <style>
@@ -143,7 +143,7 @@ $palettes = [
 					</a>
 					<?php if ( $website_url ) : ?>
 					<button type="button"
-						class="btn btn-sm btn-outline-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple ms-2"
+						class="btn <?php echo esc_attr( $palette['soft'] ); ?><?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple ms-2"
 						data-bs-toggle="modal"
 						data-bs-target="#cw-preview-modal"
 						data-website-url="<?php echo esc_url( $website_url ); ?>"
