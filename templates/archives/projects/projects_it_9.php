@@ -2,10 +2,6 @@
 /**
  * Template: Projects Archive — IT / Web (Soft-card scroll rows)
  *
- * Alternating full-width rows: colored soft card (col-lg-7) with a single
- * scrollable screenshot + text column (col-lg-4) with h1 title, comma-separated
- * categories, excerpt and a palette-matched CTA button.
- *
  * @package Codeweber
  */
 
@@ -27,35 +23,15 @@ $show_map_btn = class_exists( 'Codeweber_Yandex_Maps' )
 $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 
 $palettes = [
-	[ 'card' => 'bg-soft-grape',    'btn' => 'btn-grape' ],
-	[ 'card' => 'bg-soft-primary',  'btn' => 'btn-primary' ],
-	[ 'card' => 'bg-soft-yellow',   'btn' => 'btn-yellow' ],
-	[ 'card' => 'bg-soft-leaf',     'btn' => 'btn-leaf' ],
+	[ 'card' => 'bg-soft-grape',   'btn' => 'btn-grape' ],
+	[ 'card' => 'bg-soft-primary', 'btn' => 'btn-primary' ],
+	[ 'card' => 'bg-soft-yellow',  'btn' => 'btn-yellow' ],
+	[ 'card' => 'bg-soft-leaf',    'btn' => 'btn-leaf' ],
 ];
 ?>
-
 <style>
-/* ── Screenshot scroll ── */
-.cw-it9-screen {
-	overflow: hidden;
-	position: relative;
-}
-.cw-it9-img {
-	display: block;
-	width: 100%;
-	height: auto;
-	transition: transform 10s linear;
-	transform: translateY(0);
-}
-/* ── Row divider ── */
-.cw-it9-row + .cw-it9-row {
-	padding-top: 5rem;
-}
-@media (min-width: 768px) {
-	.cw-it9-row + .cw-it9-row {
-		padding-top: 7rem;
-	}
-}
+.cw-it9-screen { overflow: hidden; max-height: 380px; }
+.cw-it9-screen img { transition: transform 10s linear; transform: translateY(0); display: block; }
 </style>
 
 <section class="wrapper">
@@ -100,45 +76,45 @@ $palettes = [
 					$palette   = $palettes[ $index % count( $palettes ) ];
 					$index++;
 
-					$cat_labels = [];
+					$cat_spans = [];
 					if ( $cats && ! is_wp_error( $cats ) ) {
 						foreach ( $cats as $cat ) {
-							$cat_labels[] = esc_html( $cat->name );
+							$cat_spans[] = '<span>' . esc_html( $cat->name ) . '</span>';
 						}
 					}
 			?>
-			<div class="cw-it9-row row gy-10 align-items-center">
+			<div class="row gy-10 align-items-center mb-15 mb-md-17">
 
 				<!-- Screenshot card -->
 				<div class="col-lg-7<?php echo $is_even ? ' order-lg-2' : ''; ?>">
-					<div class="card <?php echo esc_attr( $palette['card'] ); ?> rounded">
+					<div class="card <?php echo esc_attr( $palette['card'] ); ?>">
 						<div class="card-body px-9 py-0 overflow-hidden">
-							<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none mt-9">
-								<div class="cw-it9-screen shadow-lg rounded-top">
-									<?php if ( $img_id ) : ?>
-									<?php echo wp_get_attachment_image( $img_id, 'cw_wide_xl', false, [
-										'class' => 'cw-it9-img',
-										'alt'   => esc_attr( $title ),
-									] ); ?>
-									<?php else : ?>
-									<div style="height:320px;background:#dee2e6;"></div>
-									<?php endif; ?>
-								</div>
-							</a>
+							<figure class="mt-9 mb-0">
+								<a href="<?php the_permalink(); ?>">
+									<div class="cw-it9-screen shadow-lg rounded-top">
+										<?php if ( $img_id ) : ?>
+										<?php echo wp_get_attachment_image( $img_id, 'cw_wide_xl', false, [
+											'class' => 'w-100 rounded-top',
+											'alt'   => esc_attr( $title ),
+										] ); ?>
+										<?php endif; ?>
+									</div>
+								</a>
+							</figure>
 						</div>
 					</div>
 				</div>
 
 				<!-- Project info -->
 				<div class="col-lg-4<?php echo $is_even ? ' me-auto' : ' ms-auto'; ?>">
-					<h2 class="h1 post-title ls-sm mb-2">
+					<h3 class="h1 post-title ls-sm mb-2">
 						<a href="<?php the_permalink(); ?>" class="link-dark text-decoration-none">
 							<?php echo wp_kses_post( $title ); ?>
 						</a>
-					</h2>
-					<?php if ( ! empty( $cat_labels ) ) : ?>
+					</h3>
+					<?php if ( ! empty( $cat_spans ) ) : ?>
 					<div class="post-category text-muted mb-4">
-						<?php echo implode( ', ', $cat_labels ); ?>
+						<?php echo implode( ', ', $cat_spans ); ?>
 					</div>
 					<?php endif; ?>
 					<?php if ( $excerpt ) : ?>
@@ -151,9 +127,7 @@ $palettes = [
 				</div>
 
 			</div>
-			<?php
-				endwhile;
-			?>
+			<?php endwhile; ?>
 
 			<?php codeweber_posts_pagination( [ 'nav_class' => 'd-flex justify-content-center mt-14' ] ); ?>
 
@@ -173,13 +147,12 @@ $palettes = [
 	var catBtns     = document.querySelectorAll('.projects-category-filters .filter-item');
 	var resultsWrap = document.getElementById('projects-grid-results');
 
-	// ── Screenshot scroll on hover ────────────────────────────────────────
 	function initScreenScroll(root) {
 		(root || document).querySelectorAll('.cw-it9-screen').forEach(function (wrap) {
 			if (wrap.dataset.cwScrollInit) return;
 			wrap.dataset.cwScrollInit = '1';
 
-			var img = wrap.querySelector('.cw-it9-img');
+			var img = wrap.querySelector('img');
 			if (!img) return;
 
 			function getScrollDist() {
@@ -201,7 +174,6 @@ $palettes = [
 	}
 	initScreenScroll();
 
-	// ── Category AJAX filter ──────────────────────────────────────────────
 	catBtns.forEach(function (btn) {
 		btn.addEventListener('click', function (e) {
 			e.preventDefault();
