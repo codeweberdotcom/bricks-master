@@ -83,7 +83,7 @@ $palettes = [
 					$palette            = $palettes[ $index % count( $palettes ) ];
 					$index++;
 
-					$tags = array_filter( [ $cat_name, $cms, $client, $technologies, $year ] );
+					$tags = array_filter( [ $cat_name, $cms, $technologies, $year ] );
 
 					$cat_spans = [];
 					if ( $cats && ! is_wp_error( $cats ) ) {
