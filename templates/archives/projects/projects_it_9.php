@@ -137,7 +137,7 @@ $palettes = [
 					</ul>
 					<?php endif; ?>
 					<?php if ( $short_description ) : ?>
-					<p class="mb-6"><?php echo esc_html( $short_description ); ?></p>
+					<p class="lead fs-lg mb-6"><?php echo esc_html( $short_description ); ?></p>
 					<?php endif; ?>
 					<a href="<?php the_permalink(); ?>"
 					   class="btn <?php echo esc_attr( $palette['btn'] ); ?><?php echo esc_attr( $btn_style ); ?> has-ripple">
