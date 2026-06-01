@@ -126,7 +126,7 @@ $palettes = [
 									<div class="cw-it10-screen shadow-lg overflow-hidden">
 										<?php if ( $img_id ) : ?>
 										<?php echo wp_get_attachment_image( $img_id, 'cw_wide_xl', false, [
-											'class' => 'w-100',
+											'class' => 'w-100 h-100',
 											'alt'   => esc_attr( $title ),
 										] ); ?>
 										<?php endif; ?>
