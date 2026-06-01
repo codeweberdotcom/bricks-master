@@ -116,11 +116,11 @@ $palettes = [
 
 				<!-- Project info -->
 				<div class="col-lg-4<?php echo $is_even ? ' me-auto' : ' ms-auto'; ?>">
-					<h3 class="h1 post-title ls-sm mb-2">
+					<h2 class="h1 post-title ls-sm mb-2">
 						<a href="<?php the_permalink(); ?>" class="link-dark text-decoration-none">
 							<?php echo wp_kses_post( $title ); ?>
 						</a>
-					</h3>
+					</h2>
 					<?php if ( ! empty( $cat_spans ) ) : ?>
 					<div class="post-category text-muted mb-4">
 						<?php echo implode( ', ', $cat_spans ); ?>
