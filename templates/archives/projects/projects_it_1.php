@@ -133,7 +133,7 @@ $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style(
 								data-bs-toggle="modal"
 								data-bs-target="#cw-preview-modal"
 								data-website-url="<?php echo esc_url( $website_url ); ?>"
-								data-website-title="<?php echo esc_attr( $title ); ?>"
+								data-website-title="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>"
 								aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
 								<i class="uil uil-eye"></i>
 								<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
