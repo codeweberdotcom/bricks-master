@@ -387,6 +387,14 @@ if (!empty($custom_post_type_files)) {
 		}
 
 		// Основные поля секции
+		$archive_template_desc = $template_folder_name === 'projects'
+			? sprintf(
+				/* translators: %s: URL to Projects Settings */
+				esc_html__( 'When "IT / Web" is selected, the specific template is chosen in %s.', 'codeweber' ),
+				'<a href="' . esc_url( admin_url( 'edit.php?post_type=projects&page=codeweber-projects-settings' ) ) . '">' . esc_html__( 'Projects Settings', 'codeweber' ) . '</a>'
+			)
+			: '';
+
 		$section_fields = array(
 			// Выбор шаблона архива
 			array(
@@ -394,6 +402,7 @@ if (!empty($custom_post_type_files)) {
 				'type'     => 'select',
 				'title'    => sprintf(esc_html__('Archive Template for %s', 'codeweber'), $translated_label),
 				'subtitle' => esc_html__('Select template for archive page', 'codeweber'),
+				'desc'     => $archive_template_desc,
 				'options'  => $archive_template_options,
 				'default'  => 'default',
 			),
