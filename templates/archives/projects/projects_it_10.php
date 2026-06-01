@@ -34,7 +34,7 @@ $palettes = [
 ?>
 <style>
 /* ── Browser bar ── */
-.cw-browser-bar { height: 32px; background: #e9ecef; }
+.cw-browser-bar { height: 32px; }
 .cw-browser-dot { width: 10px; height: 10px; }
 .cw-browser-dot--red    { background: #ff5f57; }
 .cw-browser-dot--yellow { background: #ffbd2e; }
@@ -115,7 +115,7 @@ $palettes = [
 						<div class="card-body px-5 px-md-9 py-0 overflow-hidden">
 							<div class="mt-5 mt-md-9 position-relative">
 								<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
-									<div class="cw-browser-bar d-flex align-items-center gap-1 px-3 py-0 rounded-top">
+									<div class="cw-browser-bar d-flex align-items-center bg-navy gap-1 px-3 py-0 rounded-top">
 										<span class="cw-browser-dot cw-browser-dot--red rounded-circle flex-shrink-0"></span>
 										<span class="cw-browser-dot cw-browser-dot--yellow rounded-circle flex-shrink-0"></span>
 										<span class="cw-browser-dot cw-browser-dot--green rounded-circle flex-shrink-0"></span>
