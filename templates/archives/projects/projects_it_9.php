@@ -126,6 +126,9 @@ $palettes = [
 						<?php echo implode( ', ', $cat_spans ); ?>
 					</div>
 					<?php endif; ?>
+					<?php if ( $short_description ) : ?>
+					<p class="lead fs-lg mb-6"><?php echo esc_html( $short_description ); ?></p>
+					<?php endif; ?>
 					<?php if ( ! empty( $tags ) ) : ?>
 					<ul class="icon-list <?php echo esc_attr( $palette['bullet'] ); ?> row ms-0 gy-2 mb-5">
 						<?php foreach ( $tags as $tag ) : ?>
@@ -135,9 +138,6 @@ $palettes = [
 						</li>
 						<?php endforeach; ?>
 					</ul>
-					<?php endif; ?>
-					<?php if ( $short_description ) : ?>
-					<p class="lead fs-lg mb-6"><?php echo esc_html( $short_description ); ?></p>
 					<?php endif; ?>
 					<a href="<?php the_permalink(); ?>"
 					   class="btn <?php echo esc_attr( $palette['btn'] ); ?><?php echo esc_attr( $btn_style ); ?> has-ripple">
