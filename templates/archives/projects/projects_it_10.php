@@ -69,20 +69,6 @@ $palettes = [
 /* ── Screenshot scroll ── */
 .cw-it10-screen { overflow: hidden; max-height: 380px; }
 .cw-it10-screen img { transition: transform 10s linear; transform: translateY(0); display: block; }
-/* ── Quick view button over image ── */
-.cw-it10-qv {
-	position: absolute;
-	bottom: 10px;
-	right: 10px;
-	opacity: 0;
-	transform: translateY(6px);
-	transition: opacity .2s ease, transform .2s ease;
-	z-index: 2;
-}
-.card:hover .cw-it10-qv {
-	opacity: 1;
-	transform: translateY(0);
-}
 </style>
 
 <section class="wrapper">
@@ -172,18 +158,6 @@ $palettes = [
 										<?php endif; ?>
 									</div>
 								</a>
-								<?php if ( $website_url ) : ?>
-								<button type="button"
-									class="cw-it10-qv btn btn-sm btn-white<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
-									data-bs-toggle="modal"
-									data-bs-target="#cw-preview-modal"
-									data-website-url="<?php echo esc_url( $website_url ); ?>"
-									data-website-title="<?php echo esc_attr( $title ); ?>"
-									aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
-									<i class="uil uil-eye"></i>
-									<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
-								</button>
-								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -219,6 +193,18 @@ $palettes = [
 						   class="btn <?php echo esc_attr( $palette['btn'] ); ?><?php echo esc_attr( $btn_style ); ?> has-ripple">
 							<?php esc_html_e( 'View project', 'codeweber' ); ?>
 						</a>
+						<?php if ( $website_url ) : ?>
+						<button type="button"
+							class="btn <?php echo esc_attr( $palette['soft'] ); ?><?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
+							data-bs-toggle="modal"
+							data-bs-target="#cw-preview-modal"
+							data-website-url="<?php echo esc_url( $website_url ); ?>"
+							data-website-title="<?php echo esc_attr( $title ); ?>"
+							aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
+							<i class="uil uil-eye"></i>
+							<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
+						</button>
+						<?php endif; ?>
 					</div>
 				</div>
 
