@@ -14,14 +14,13 @@ if ( empty( $templateloop ) || $templateloop === 'default' ) {
 	$templateloop = 'projects_3';
 }
 
-// IT override: if site is configured as IT/Web, use IT-specific archive template if set
-if ( function_exists( 'codeweber_projects_settings_get' ) ) {
-	$default_type = codeweber_projects_settings_get( 'default_template', 'project-construction' );
-	if ( $default_type === 'project-it' ) {
-		$it_template = codeweber_projects_settings_get( 'it_archive_template', '' );
-		if ( $it_template && locate_template( "templates/archives/projects/{$it_template}.php" ) ) {
-			$templateloop = $it_template;
-		}
+// If IT / Web is selected in Redux, delegate to Projects Settings for the specific template
+if ( $templateloop === 'project-it' && function_exists( 'codeweber_projects_settings_get' ) ) {
+	$it_template = codeweber_projects_settings_get( 'it_archive_template', 'projects_it_1' );
+	if ( $it_template && locate_template( "templates/archives/projects/{$it_template}.php" ) ) {
+		$templateloop = $it_template;
+	} else {
+		$templateloop = 'projects_it_1';
 	}
 }
 

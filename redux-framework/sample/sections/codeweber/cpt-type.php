@@ -357,6 +357,16 @@ if (!empty($custom_post_type_files)) {
 			}
 		}
 
+		// For projects: group all projects_it_* templates under a single 'project-it' option
+		if ( $template_folder_name === 'projects' ) {
+			foreach ( array_keys( $archive_template_options ) as $key ) {
+				if ( strpos( $key, 'projects_it' ) === 0 ) {
+					unset( $archive_template_options[ $key ] );
+				}
+			}
+			$archive_template_options['project-it'] = esc_html__( 'IT / Web', 'codeweber' );
+		}
+
 		// Получаем список доступных шаблонов для single
 		$single_template_options = array('default' => esc_html__('Default Template', 'codeweber'));
 		if (is_dir($single_template_directory)) {

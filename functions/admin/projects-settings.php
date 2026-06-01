@@ -156,24 +156,6 @@ function codeweber_projects_settings_register(): void {
 		'codeweber_projects_gallery'
 	);
 
-	// ── Секция: Default template ──────────────────────────────────────────────────
-	add_settings_section(
-		'codeweber_projects_default_template',
-		__( 'Default template', 'codeweber' ),
-		function () {
-			echo '<p class="description">' . esc_html__( 'Template applied to projects that have no template selected (e.g. existing posts).', 'codeweber' ) . '</p>';
-		},
-		'codeweber-projects-settings'
-	);
-
-	add_settings_field(
-		'default_template',
-		__( 'Default project type', 'codeweber' ),
-		'codeweber_projects_field_default_template',
-		'codeweber-projects-settings',
-		'codeweber_projects_default_template'
-	);
-
 	// ── Секция: Hotspot Annotation ─────────────────────────────────────────────
 	add_settings_section(
 		'codeweber_projects_hotspot_section',
@@ -541,21 +523,6 @@ function codeweber_projects_field_lightbox_image_size(): void {
 	echo '<p class="description">' . esc_html__( 'Image size opened in the lightbox on single project pages. Default: cw_wide_2k (2560×1440).', 'codeweber' ) . '</p>';
 }
 
-function codeweber_projects_field_default_template(): void {
-	$val   = codeweber_projects_settings_get( 'default_template', 'project-construction' );
-	$types = [
-		'project-it'           => __( 'IT / Web', 'codeweber' ),
-		'project-design'       => __( 'Design Studio', 'codeweber' ),
-		'project-construction' => __( 'Construction', 'codeweber' ),
-		'project-photo'        => __( 'Photography', 'codeweber' ),
-	];
-	echo '<select name="codeweber_projects_settings[default_template]">';
-	foreach ( $types as $key => $label ) {
-		echo '<option value="' . esc_attr( $key ) . '" ' . selected( $val, $key, false ) . '>' . esc_html( $label ) . '</option>';
-	}
-	echo '</select>';
-	echo '<p class="description">' . esc_html__( 'Used as a fallback for posts without a template set.', 'codeweber' ) . '</p>';
-}
 
 function codeweber_projects_field_hotspot_types(): void {
 	$all_types = [ 'project-it', 'project-design', 'project-construction', 'project-photo' ];
@@ -667,10 +634,6 @@ function codeweber_projects_settings_sanitize( $input ): array {
 	$allowed_sizes       = array_merge( [ 'full' ], get_intermediate_image_sizes() );
 	$safe_lightbox_size  = in_array( $submitted_size, $allowed_sizes, true ) ? $submitted_size : 'cw_wide_2k';
 
-	$default_template = in_array( $input['default_template'] ?? '', $allowed_project_types, true )
-		? $input['default_template']
-		: 'project-construction';
-
 	$gutenberg_types = isset( $input['gutenberg_types'] )
 		? array_values( array_intersect( (array) $input['gutenberg_types'], $allowed_project_types ) )
 		: [];
@@ -705,7 +668,6 @@ function codeweber_projects_settings_sanitize( $input ): array {
 		'products_bg'              => in_array( $input['products_bg'] ?? '', $allowed_products_bg, true )
 			? $input['products_bg']
 			: '',
-		'default_template'         => $default_template,
 		'gutenberg_types'          => $gutenberg_types,
 		'map_types'                => $map_types,
 		'hotspot_types'            => $hotspot_types,
