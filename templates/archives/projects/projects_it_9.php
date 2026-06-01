@@ -23,10 +23,10 @@ $show_map_btn = class_exists( 'Codeweber_Yandex_Maps' )
 $map_btn_style = class_exists( 'Codeweber_Options' ) ? Codeweber_Options::style( 'button' ) : ' rounded-pill';
 
 $palettes = [
-	[ 'card' => 'bg-soft-grape',   'btn' => 'btn-grape' ],
-	[ 'card' => 'bg-soft-primary', 'btn' => 'btn-primary' ],
-	[ 'card' => 'bg-soft-yellow',  'btn' => 'btn-yellow' ],
-	[ 'card' => 'bg-soft-leaf',    'btn' => 'btn-leaf' ],
+	[ 'card' => 'bg-soft-grape',   'btn' => 'btn-grape',   'bullet' => 'bullet-grape' ],
+	[ 'card' => 'bg-soft-primary', 'btn' => 'btn-primary', 'bullet' => 'bullet-primary' ],
+	[ 'card' => 'bg-soft-yellow',  'btn' => 'btn-yellow',  'bullet' => 'bullet-yellow' ],
+	[ 'card' => 'bg-soft-leaf',    'btn' => 'btn-leaf',    'bullet' => 'bullet-leaf' ],
 ];
 ?>
 <style>
@@ -68,13 +68,20 @@ $palettes = [
 					$post_id   = get_the_ID();
 					$alt_title = get_post_meta( $post_id, '_alt_title', true );
 					$title     = $alt_title ?: get_the_title();
-					$scroll_id = (int) get_post_meta( $post_id, 'project_it_preview_1', true );
-					$img_id    = $scroll_id ?: get_post_thumbnail_id( $post_id );
-					$cats      = get_the_terms( $post_id, 'projects_category' );
-					$excerpt   = get_the_excerpt();
-					$is_even   = ( $index % 2 === 1 );
-					$palette   = $palettes[ $index % count( $palettes ) ];
+					$scroll_id    = (int) get_post_meta( $post_id, 'project_it_preview_1', true );
+					$img_id       = $scroll_id ?: get_post_thumbnail_id( $post_id );
+					$cats         = get_the_terms( $post_id, 'projects_category' );
+					$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+					$cms          = get_post_meta( $post_id, 'main_information_cms', true );
+					$client       = get_post_meta( $post_id, 'main_information_client', true );
+					$website_url  = get_post_meta( $post_id, 'project_website_url', true );
+					$website_open = get_post_meta( $post_id, 'project_website_open', true ) ?: 'new-tab';
+					$excerpt      = get_the_excerpt();
+					$is_even      = ( $index % 2 === 1 );
+					$palette      = $palettes[ $index % count( $palettes ) ];
 					$index++;
+
+					$tags = array_filter( [ $cat_name, $cms, $client ] );
 
 					$cat_spans = [];
 					if ( $cats && ! is_wp_error( $cats ) ) {
@@ -117,6 +124,16 @@ $palettes = [
 						<?php echo implode( ', ', $cat_spans ); ?>
 					</div>
 					<?php endif; ?>
+					<?php if ( ! empty( $tags ) ) : ?>
+					<ul class="icon-list <?php echo esc_attr( $palette['bullet'] ); ?> row ms-0 gy-2 mb-5">
+						<?php foreach ( $tags as $tag ) : ?>
+						<li class="col-md-6">
+							<span><i class="uil uil-check"></i></span>
+							<span><?php echo esc_html( $tag ); ?></span>
+						</li>
+						<?php endforeach; ?>
+					</ul>
+					<?php endif; ?>
 					<?php if ( $excerpt ) : ?>
 					<p class="mb-6"><?php echo esc_html( $excerpt ); ?></p>
 					<?php endif; ?>
@@ -124,6 +141,18 @@ $palettes = [
 					   class="btn <?php echo esc_attr( $palette['btn'] ); ?><?php echo esc_attr( $btn_style ); ?> has-ripple">
 						<?php esc_html_e( 'View project', 'codeweber' ); ?>
 					</a>
+					<?php if ( $website_url ) : ?>
+					<button type="button"
+						class="btn btn-sm btn-outline-primary<?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple ms-2"
+						data-bs-toggle="modal"
+						data-bs-target="#cw-preview-modal"
+						data-website-url="<?php echo esc_url( $website_url ); ?>"
+						data-website-title="<?php echo esc_attr( $title ); ?>"
+						aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
+						<i class="uil uil-eye"></i>
+						<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
+					</button>
+					<?php endif; ?>
 				</div>
 
 			</div>
@@ -141,6 +170,7 @@ $palettes = [
 
 <?php codeweber_projects_map_modal(); ?>
 <?php codeweber_projects_map_float_button(); ?>
+<?php get_template_part( 'templates/components/cw-preview-modal' ); ?>
 
 <script>
 (function () {
