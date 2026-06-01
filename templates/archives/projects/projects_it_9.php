@@ -74,17 +74,16 @@ $palettes = [
 					$cat_name     = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
 					$cms          = get_post_meta( $post_id, 'main_information_cms', true );
 					$client       = get_post_meta( $post_id, 'main_information_client', true );
-					$technologies = get_post_meta( $post_id, 'main_information_technologies', true );
-					$description  = get_post_meta( $post_id, 'main_information_description', true );
-					$website_url  = get_post_meta( $post_id, 'project_website_url', true );
-					$website_open = get_post_meta( $post_id, 'project_website_open', true ) ?: 'new-tab';
-					$year         = get_the_date( 'Y' );
-					$excerpt      = get_the_excerpt();
-					$is_even      = ( $index % 2 === 1 );
-					$palette      = $palettes[ $index % count( $palettes ) ];
+					$technologies       = get_post_meta( $post_id, 'main_information_technologies', true );
+					$short_description  = get_post_meta( $post_id, 'main_information_short_description', true );
+					$website_url        = get_post_meta( $post_id, 'project_website_url', true );
+					$website_open       = get_post_meta( $post_id, 'project_website_open', true ) ?: 'new-tab';
+					$year               = get_the_date( 'Y' );
+					$is_even            = ( $index % 2 === 1 );
+					$palette            = $palettes[ $index % count( $palettes ) ];
 					$index++;
 
-					$tags = array_filter( [ $cat_name, $cms, $client, $technologies, $description, $year ] );
+					$tags = array_filter( [ $cat_name, $cms, $client, $technologies, $year ] );
 
 					$cat_spans = [];
 					if ( $cats && ! is_wp_error( $cats ) ) {
@@ -137,8 +136,8 @@ $palettes = [
 						<?php endforeach; ?>
 					</ul>
 					<?php endif; ?>
-					<?php if ( $excerpt ) : ?>
-					<p class="mb-6"><?php echo esc_html( $excerpt ); ?></p>
+					<?php if ( $short_description ) : ?>
+					<p class="mb-6"><?php echo esc_html( $short_description ); ?></p>
 					<?php endif; ?>
 					<a href="<?php the_permalink(); ?>"
 					   class="btn <?php echo esc_attr( $palette['btn'] ); ?><?php echo esc_attr( $btn_style ); ?> has-ripple">
