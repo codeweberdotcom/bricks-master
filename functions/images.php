@@ -75,6 +75,9 @@ function codeweber_image_quality()
 }
 add_filter('jpeg_quality', 'codeweber_image_quality');
 
+// Increase big image auto-scale threshold from 2560px to 5120px
+add_filter( 'big_image_size_threshold', function () { return 5120; } );
+
 
 /**
  * Универсальная функция для получения разрешённых размеров изображений с кэшированием
