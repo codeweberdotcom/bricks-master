@@ -139,22 +139,24 @@ $palettes = [
 						<?php endforeach; ?>
 					</ul>
 					<?php endif; ?>
-					<a href="<?php the_permalink(); ?>"
-					   class="btn <?php echo esc_attr( $palette['btn'] ); ?><?php echo esc_attr( $btn_style ); ?> has-ripple">
-						<?php esc_html_e( 'View project', 'codeweber' ); ?>
-					</a>
-					<?php if ( $website_url ) : ?>
-					<button type="button"
-						class="btn <?php echo esc_attr( $palette['soft'] ); ?><?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple ms-2"
-						data-bs-toggle="modal"
-						data-bs-target="#cw-preview-modal"
-						data-website-url="<?php echo esc_url( $website_url ); ?>"
-						data-website-title="<?php echo esc_attr( $title ); ?>"
-						aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
-						<i class="uil uil-eye"></i>
-						<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
-					</button>
-					<?php endif; ?>
+					<div class="d-flex flex-column flex-md-row justify-content-center justify-content-lg-start gap-2">
+						<a href="<?php the_permalink(); ?>"
+						   class="btn <?php echo esc_attr( $palette['btn'] ); ?><?php echo esc_attr( $btn_style ); ?> has-ripple">
+							<?php esc_html_e( 'View project', 'codeweber' ); ?>
+						</a>
+						<?php if ( $website_url ) : ?>
+						<button type="button"
+							class="btn <?php echo esc_attr( $palette['soft'] ); ?><?php echo esc_attr( $btn_style ); ?> btn-icon btn-icon-start has-ripple"
+							data-bs-toggle="modal"
+							data-bs-target="#cw-preview-modal"
+							data-website-url="<?php echo esc_url( $website_url ); ?>"
+							data-website-title="<?php echo esc_attr( $title ); ?>"
+							aria-label="<?php esc_attr_e( 'Quick view', 'codeweber' ); ?>">
+							<i class="uil uil-eye"></i>
+							<?php esc_html_e( 'Quick view', 'codeweber' ); ?>
+						</button>
+						<?php endif; ?>
+					</div>
 				</div>
 
 			</div>
