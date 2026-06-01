@@ -16,7 +16,11 @@ defined( 'ABSPATH' ) || exit;
 function cw_project_get_type( int $post_id ): string {
 	$type = get_post_meta( $post_id, '_wp_page_template', true );
 	if ( empty( $type ) || $type === 'default' ) {
-		$type = codeweber_projects_settings_get( 'default_template', 'project-construction' );
+		global $opt_name;
+		$archive = class_exists( 'Redux' )
+			? (string) Redux::get_option( $opt_name, 'archive_template_select_projects' )
+			: '';
+		$type = $archive ?: 'project-construction';
 	}
 	return $type;
 }
