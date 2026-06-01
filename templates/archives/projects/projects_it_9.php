@@ -200,7 +200,7 @@ $palettes = [
 				}
 			});
 			wrap.addEventListener('mouseleave', function () {
-				img.style.transition = 'transform 0.5s linear';
+				img.style.transition = 'transform 10s linear';
 				img.style.transform  = 'translateY(0)';
 			});
 		});
