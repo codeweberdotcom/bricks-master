@@ -41,8 +41,8 @@ $palettes = [
 .cw-browser-dot--green  { background: #28c840; }
 .cw-browser-url { min-width: 0; font-size: 11px; line-height: 1.6; }
 /* ── Screenshot scroll ── */
-.cw-it10-screen { max-height: 380px; }
-.cw-it10-screen img { transition: transform 10s linear; transform: translateY(0); }
+.cw-it10-screen { max-height: 380px; cursor: pointer; }
+.cw-it10-screen img { transform: translateY(0); display: block; }
 </style>
 
 <section class="wrapper">
@@ -114,24 +114,22 @@ $palettes = [
 					<div class="card <?php echo esc_attr( $palette['card'] ); ?>">
 						<div class="card-body px-5 px-md-9 py-0 overflow-hidden">
 							<div class="mt-5 mt-md-9 position-relative">
-								<a href="<?php the_permalink(); ?>" class="d-block text-decoration-none">
-									<div class="cw-browser-bar d-flex align-items-center bg-navy gap-1 px-3 py-0 rounded-top">
-										<span class="cw-browser-dot cw-browser-dot--red rounded-circle flex-shrink-0"></span>
-										<span class="cw-browser-dot cw-browser-dot--yellow rounded-circle flex-shrink-0"></span>
-										<span class="cw-browser-dot cw-browser-dot--green rounded-circle flex-shrink-0"></span>
-										<?php if ( $url_display ) : ?>
-										<span class="cw-browser-url flex-grow-1 text-truncate bg-white rounded-1 px-2 text-muted ms-2"><?php echo esc_html( $url_display ); ?></span>
-										<?php endif; ?>
-									</div>
-									<div class="cw-it10-screen shadow-lg overflow-hidden">
-										<?php if ( $img_id ) : ?>
-										<?php echo wp_get_attachment_image( $img_id, 'cw_wide_xl', false, [
-											'class' => 'w-100 h-100',
-											'alt'   => esc_attr( $title ),
-										] ); ?>
-										<?php endif; ?>
-									</div>
-								</a>
+							<div class="cw-browser-bar d-flex align-items-center bg-navy gap-1 px-3 py-0 rounded-top">
+								<span class="cw-browser-dot cw-browser-dot--red rounded-circle flex-shrink-0"></span>
+								<span class="cw-browser-dot cw-browser-dot--yellow rounded-circle flex-shrink-0"></span>
+								<span class="cw-browser-dot cw-browser-dot--green rounded-circle flex-shrink-0"></span>
+								<?php if ( $url_display ) : ?>
+								<span class="cw-browser-url flex-grow-1 text-truncate bg-white rounded-1 px-2 text-muted ms-2"><?php echo esc_html( $url_display ); ?></span>
+								<?php endif; ?>
+							</div>
+							<div class="cw-it10-screen shadow-lg overflow-hidden">
+								<?php if ( $img_id ) : ?>
+								<?php echo wp_get_attachment_image( $img_id, 'cw_wide_xl', false, [
+									'class' => 'w-100 h-100',
+									'alt'   => esc_attr( $title ),
+								] ); ?>
+								<?php endif; ?>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -204,28 +202,60 @@ $palettes = [
 	var catBtns     = document.querySelectorAll('.projects-category-filters .filter-item');
 	var resultsWrap = document.getElementById('projects-grid-results');
 
+	var SCROLL_SPEED = 150; // px per second
+
+	function getCurrentY(img) {
+		var m = window.getComputedStyle(img).transform;
+		if (!m || m === 'none') return 0;
+		var v = m.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,[^,]+,\s*([-\d.]+)\)/);
+		return v ? parseFloat(v[1]) : 0;
+	}
+
+	function scrollTo(img, targetY) {
+		var fromY = getCurrentY(img);
+		var dist  = Math.abs(targetY - fromY);
+		if (dist < 1) return;
+		img.style.transition = 'transform ' + (dist / SCROLL_SPEED).toFixed(2) + 's linear';
+		img.style.transform  = 'translateY(' + targetY + 'px)';
+	}
+
 	function initScreenScroll(root) {
 		(root || document).querySelectorAll('.cw-it10-screen').forEach(function (wrap) {
 			if (wrap.dataset.cwScrollInit) return;
 			wrap.dataset.cwScrollInit = '1';
 
-			var img = wrap.querySelector('img');
+			var img    = wrap.querySelector('img');
 			if (!img) return;
+
+			var paused = false;
+			var target = 0;
 
 			function getScrollDist() {
 				var imgH = img.naturalHeight * (img.offsetWidth / img.naturalWidth);
 				return Math.max(0, imgH - wrap.offsetHeight);
 			}
+
 			wrap.addEventListener('mouseenter', function () {
+				if (paused) return;
 				var dist = getScrollDist();
-				if (dist > 0) {
-					img.style.transition = 'transform 10s linear';
-					img.style.transform  = 'translateY(-' + dist + 'px)';
-				}
+				if (dist <= 0) return;
+				target = -Math.round(dist * 0.9);
+				scrollTo(img, target);
 			});
 			wrap.addEventListener('mouseleave', function () {
-				img.style.transition = 'transform 10s linear';
-				img.style.transform  = 'translateY(0)';
+				if (paused) return;
+				target = 0;
+				scrollTo(img, 0);
+			});
+			wrap.addEventListener('click', function () {
+				paused = !paused;
+				if (paused) {
+					var y = getCurrentY(img);
+					img.style.transition = 'none';
+					img.style.transform  = 'translateY(' + y + 'px)';
+				} else {
+					scrollTo(img, target);
+				}
 			});
 		});
 	}

@@ -30,8 +30,8 @@ $palettes = [
 ];
 ?>
 <style>
-.cw-it9-screen { overflow: hidden; max-height: 380px; }
-.cw-it9-screen img { transition: transform 10s linear; transform: translateY(0); display: block; }
+.cw-it9-screen { overflow: hidden; max-height: 380px; cursor: pointer; }
+.cw-it9-screen img { transform: translateY(0); display: block; }
 </style>
 
 <section class="wrapper">
@@ -99,16 +99,14 @@ $palettes = [
 					<div class="card <?php echo esc_attr( $palette['card'] ); ?>">
 						<div class="card-body px-5 px-md-9 py-0 overflow-hidden">
 							<figure class="mt-5 mt-md-9 mb-0">
-								<a href="<?php the_permalink(); ?>">
-									<div class="cw-it9-screen shadow-lg rounded-top">
-										<?php if ( $img_id ) : ?>
-										<?php echo wp_get_attachment_image( $img_id, 'cw_wide_xl', false, [
-											'class' => 'w-100 rounded-top',
-											'alt'   => esc_attr( $title ),
-										] ); ?>
-										<?php endif; ?>
-									</div>
-								</a>
+								<div class="cw-it9-screen shadow-lg rounded-top">
+									<?php if ( $img_id ) : ?>
+									<?php echo wp_get_attachment_image( $img_id, 'cw_wide_xl', false, [
+										'class' => 'w-100 rounded-top',
+										'alt'   => esc_attr( $title ),
+									] ); ?>
+									<?php endif; ?>
+								</div>
 							</figure>
 						</div>
 					</div>
@@ -181,28 +179,60 @@ $palettes = [
 	var catBtns     = document.querySelectorAll('.projects-category-filters .filter-item');
 	var resultsWrap = document.getElementById('projects-grid-results');
 
+	var SCROLL_SPEED = 150; // px per second
+
+	function getCurrentY(img) {
+		var m = window.getComputedStyle(img).transform;
+		if (!m || m === 'none') return 0;
+		var v = m.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,[^,]+,\s*([-\d.]+)\)/);
+		return v ? parseFloat(v[1]) : 0;
+	}
+
+	function scrollTo(img, targetY) {
+		var fromY = getCurrentY(img);
+		var dist  = Math.abs(targetY - fromY);
+		if (dist < 1) return;
+		img.style.transition = 'transform ' + (dist / SCROLL_SPEED).toFixed(2) + 's linear';
+		img.style.transform  = 'translateY(' + targetY + 'px)';
+	}
+
 	function initScreenScroll(root) {
 		(root || document).querySelectorAll('.cw-it9-screen').forEach(function (wrap) {
 			if (wrap.dataset.cwScrollInit) return;
 			wrap.dataset.cwScrollInit = '1';
 
-			var img = wrap.querySelector('img');
+			var img    = wrap.querySelector('img');
 			if (!img) return;
+
+			var paused = false;
+			var target = 0;
 
 			function getScrollDist() {
 				var imgH = img.naturalHeight * (img.offsetWidth / img.naturalWidth);
 				return Math.max(0, imgH - wrap.offsetHeight);
 			}
+
 			wrap.addEventListener('mouseenter', function () {
+				if (paused) return;
 				var dist = getScrollDist();
-				if (dist > 0) {
-					img.style.transition = 'transform 10s linear';
-					img.style.transform  = 'translateY(-' + dist + 'px)';
-				}
+				if (dist <= 0) return;
+				target = -Math.round(dist * 0.9);
+				scrollTo(img, target);
 			});
 			wrap.addEventListener('mouseleave', function () {
-				img.style.transition = 'transform 10s linear';
-				img.style.transform  = 'translateY(0)';
+				if (paused) return;
+				target = 0;
+				scrollTo(img, 0);
+			});
+			wrap.addEventListener('click', function () {
+				paused = !paused;
+				if (paused) {
+					var y = getCurrentY(img);
+					img.style.transition = 'none';
+					img.style.transform  = 'translateY(' + y + 'px)';
+				} else {
+					scrollTo(img, target);
+				}
 			});
 		});
 	}
