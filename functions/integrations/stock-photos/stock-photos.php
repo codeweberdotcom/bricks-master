@@ -51,26 +51,39 @@ function cw_stock_photos_providers() {
 	$selected = is_array( $selected ) ? $selected : array();
 
 	$registry = array(
-		'unsplash' => array(
+		'unsplash'  => array(
 			'label'   => 'Unsplash',
 			'key'     => trim( (string) cw_stock_photos_option( 'unsplash_access_key', '' ) ),
+			'keyless' => false,
 			'license' => __( 'Free to use. Attribution to the photographer is appreciated.', 'codeweber' ),
 		),
-		'pexels'   => array(
+		'pexels'    => array(
 			'label'   => 'Pexels',
 			'key'     => trim( (string) cw_stock_photos_option( 'pexels_api_key', '' ) ),
+			'keyless' => false,
 			'license' => __( 'Free to use. Attribution is appreciated but not required.', 'codeweber' ),
 		),
-		'pixabay'  => array(
+		'pixabay'   => array(
 			'label'   => 'Pixabay',
 			'key'     => trim( (string) cw_stock_photos_option( 'pixabay_api_key', '' ) ),
+			'keyless' => false,
 			'license' => __( 'Free to use. No attribution required.', 'codeweber' ),
+		),
+		'openverse' => array(
+			'label'   => 'Openverse',
+			'key'     => '',
+			'keyless' => true,
+			'license' => __( 'Creative Commons / Public Domain. Check each item\'s license; attribution often required.', 'codeweber' ),
 		),
 	);
 
 	$out = array();
 	foreach ( $registry as $slug => $data ) {
-		if ( ! empty( $selected[ $slug ] ) && '' !== $data['key'] ) {
+		if ( empty( $selected[ $slug ] ) ) {
+			continue;
+		}
+		// Keyless providers (Openverse) are available without a key; others need one.
+		if ( ! empty( $data['keyless'] ) || '' !== $data['key'] ) {
 			$out[ $slug ] = $data;
 		}
 	}

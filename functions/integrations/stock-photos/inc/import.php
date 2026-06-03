@@ -22,9 +22,12 @@ add_action( 'wp_ajax_cw_stock_photos_import', 'cw_stock_photos_ajax_import' );
  */
 function cw_stock_photos_allowed_hosts() {
 	return array(
-		'unsplash' => array( 'images.unsplash.com', 'plus.unsplash.com' ),
-		'pexels'   => array( 'images.pexels.com', 'www.pexels.com' ),
-		'pixabay'  => array( 'pixabay.com', 'cdn.pixabay.com', 'i.pixabay.com' ),
+		'unsplash'  => array( 'images.unsplash.com', 'plus.unsplash.com' ),
+		'pexels'    => array( 'images.pexels.com', 'www.pexels.com' ),
+		'pixabay'   => array( 'pixabay.com', 'cdn.pixabay.com', 'i.pixabay.com' ),
+		// Openverse previews are served from its own host; full files live on
+		// arbitrary source hosts and are validated via wp_http_validate_url().
+		'openverse' => array( 'api.openverse.org' ),
 	);
 }
 
@@ -55,11 +58,21 @@ function cw_stock_photos_ajax_import() {
 		wp_send_json_error( array( 'message' => __( 'No image URL', 'codeweber' ) ) );
 	}
 
-	// Validate host against the provider allowlist.
-	$host    = wp_parse_url( $url, PHP_URL_HOST );
-	$allowed = cw_stock_photos_allowed_hosts();
-	if ( ! $host || empty( $allowed[ $provider ] ) || ! in_array( strtolower( $host ), $allowed[ $provider ], true ) ) {
-		wp_send_json_error( array( 'message' => __( 'Image host is not allowed', 'codeweber' ) ) );
+	// Validate the download URL.
+	if ( 'openverse' === $provider ) {
+		// Openverse full files live on arbitrary source hosts — guard against
+		// SSRF (blocks localhost / private / reserved ranges) instead of an
+		// impossible host allowlist.
+		if ( ! wp_http_validate_url( $url ) ) {
+			wp_send_json_error( array( 'message' => __( 'Image URL is not allowed', 'codeweber' ) ) );
+		}
+	} else {
+		// Host must belong to the provider's CDN allowlist.
+		$host    = wp_parse_url( $url, PHP_URL_HOST );
+		$allowed = cw_stock_photos_allowed_hosts();
+		if ( ! $host || empty( $allowed[ $provider ] ) || ! in_array( strtolower( $host ), $allowed[ $provider ], true ) ) {
+			wp_send_json_error( array( 'message' => __( 'Image host is not allowed', 'codeweber' ) ) );
+		}
 	}
 
 	// Unsplash: trigger the download endpoint (API guidelines).

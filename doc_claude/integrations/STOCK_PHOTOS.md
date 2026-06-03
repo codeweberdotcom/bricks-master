@@ -1,6 +1,8 @@
 # Stock Photos — поиск и импорт бесплатных изображений
 
-Модуль интеграции с фотостоками **Unsplash**, **Pexels** и **Pixabay**. Позволяет искать бесплатные фото прямо в админке и импортировать их в медиатеку (sideload) с сохранением атрибуции автора.
+Модуль интеграции с фотостоками **Unsplash**, **Pexels**, **Pixabay** и агрегатором **Openverse**. Позволяет искать бесплатные фото прямо в админке и импортировать их в медиатеку (sideload) с сохранением атрибуции автора.
+
+**Openverse** — без API-ключа (rate-limit), CC/Public Domain контент, превью отдаются через собственный хост `api.openverse.org` (надёжнее для РФ, чем чужие CDN). Активируется одной галочкой в `stock_photos_providers`, поле ключа не требуется.
 
 **Расположение:** `functions/integrations/stock-photos/`
 **Подключение:** `functions.php` → `require_once .../stock-photos/stock-photos.php`
@@ -35,7 +37,15 @@
 Кнопки «Тест» для каждого ключа обрабатываются в `functions/admin/api-test.php`
 (`codeweber_api_test_unsplash` / `_pexels` / `_pixabay`).
 
-**Провайдер активен, только если он отмечен в `stock_photos_providers` И его ключ заполнен** — см. `cw_stock_photos_providers()`.
+**Провайдер активен, если он отмечен в `stock_photos_providers` И (его ключ заполнен ИЛИ он keyless)** — см. `cw_stock_photos_providers()`. Openverse — `keyless`, ключ не нужен.
+
+### Openverse: особенности
+
+- Эндпоинт поиска: `https://api.openverse.org/v1/images/` (без ключа, rate-limit).
+- `thumb` = `thumbnail` (хост `api.openverse.org` → в allowlist прокси превью).
+- `full`/`source_url` указывают на **первоисточник** (Flickr и др., произвольный хост).
+- Импорт Openverse валидируется через **`wp_http_validate_url()`** (WP-щит от SSRF: блок localhost/приватных IP) вместо хост-allowlist.
+- В meta дополнительно полезен `license` (CC-код), приходит из API.
 
 ---
 

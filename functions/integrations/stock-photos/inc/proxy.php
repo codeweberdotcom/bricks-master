@@ -123,6 +123,9 @@ function cw_stock_photos_ajax_search() {
 		case 'pixabay':
 			$result = cw_stock_photos_fetch_pixabay( $key, $query, $page, $per_page );
 			break;
+		case 'openverse':
+			$result = cw_stock_photos_fetch_openverse( $query, $page, $per_page );
+			break;
 		default:
 			$result = new WP_Error( 'cw_stock', __( 'Unknown provider', 'codeweber' ) );
 	}
@@ -303,5 +306,73 @@ function cw_stock_photos_fetch_pixabay( $key, $query, $page, $per_page ) {
 		'items'    => $items,
 		'total'    => $total,
 		'has_more' => ( $page * $per_page ) < $total,
+	);
+}
+
+/**
+ * Openverse search → normalized. No API key required (rate-limited).
+ *
+ * Previews come from api.openverse.org (proxied); the full file points at the
+ * original source host, so import uses an SSRF-validated download.
+ */
+function cw_stock_photos_fetch_openverse( $query, $page, $per_page ) {
+	// Anonymous Openverse requests cap page_size at 20.
+	$page_size = min( 20, max( 1, (int) $per_page ) );
+
+	$url = add_query_arg(
+		array(
+			'q'         => rawurlencode( $query ),
+			'page'      => $page,
+			'page_size' => $page_size,
+			'mature'    => 'false',
+		),
+		'https://api.openverse.org/v1/images/'
+	);
+
+	$response = wp_remote_get(
+		$url,
+		array(
+			'timeout' => 15,
+			'headers' => array( 'User-Agent' => 'CodeWeber-StockPhotos/1.0 (WordPress)' ),
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		return $response;
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 !== $code || ! isset( $body['results'] ) ) {
+		$msg = isset( $body['detail'] ) ? $body['detail'] : ( 'HTTP ' . $code );
+		return new WP_Error( 'cw_stock', 'Openverse: ' . $msg );
+	}
+
+	$items = array();
+	foreach ( $body['results'] as $p ) {
+		// Openverse thumbnail is served by api.openverse.org (reliable for RU).
+		$thumb = (string) ( $p['thumbnail'] ?? ( $p['url'] ?? '' ) );
+		$lic   = trim( strtoupper( (string) ( $p['license'] ?? '' ) ) . ' ' . (string) ( $p['license_version'] ?? '' ) );
+		$items[] = array(
+			'provider'   => 'openverse',
+			'id'         => (string) ( $p['id'] ?? '' ),
+			'thumb'      => $thumb,
+			'preview'    => (string) ( $p['url'] ?? $thumb ),
+			'full'       => (string) ( $p['url'] ?? $thumb ),
+			'width'      => (int) ( $p['width'] ?? 0 ),
+			'height'     => (int) ( $p['height'] ?? 0 ),
+			'alt'        => (string) ( $p['title'] ?? $query ),
+			'author'     => (string) ( $p['creator'] ?? '' ),
+			'author_url' => (string) ( $p['creator_url'] ?? '' ),
+			'source_url' => (string) ( $p['foreign_landing_url'] ?? ( $p['url'] ?? '' ) ),
+			'license'    => $lic,
+		);
+	}
+
+	return array(
+		'items'    => $items,
+		'total'    => (int) ( $body['result_count'] ?? 0 ),
+		'has_more' => ! empty( $body['page_count'] ) && $page < (int) $body['page_count'],
 	);
 }

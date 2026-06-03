@@ -162,11 +162,12 @@ Redux::set_section(
 				'subtitle' => esc_html__( 'Which sources to show in the search UI', 'codeweber' ),
 				'required' => array( 'stock_photos_enabled', '=', true ),
 				'options'  => array(
-					'unsplash' => esc_html__( 'Unsplash', 'codeweber' ),
-					'pexels'   => esc_html__( 'Pexels', 'codeweber' ),
-					'pixabay'  => esc_html__( 'Pixabay', 'codeweber' ),
+					'unsplash'  => esc_html__( 'Unsplash', 'codeweber' ),
+					'pexels'    => esc_html__( 'Pexels', 'codeweber' ),
+					'pixabay'   => esc_html__( 'Pixabay', 'codeweber' ),
+					'openverse' => esc_html__( 'Openverse (no key, CC content)', 'codeweber' ),
 				),
-				'default'  => array( 'unsplash' => true, 'pexels' => true, 'pixabay' => true ),
+				'default'  => array( 'unsplash' => true, 'pexels' => true, 'pixabay' => true, 'openverse' => true ),
 			),
 			array(
 				'id'       => 'unsplash_access_key',
