@@ -16,11 +16,7 @@ defined( 'ABSPATH' ) || exit;
 function cw_project_get_type( int $post_id ): string {
 	$type = get_post_meta( $post_id, '_wp_page_template', true );
 	if ( empty( $type ) || $type === 'default' ) {
-		global $opt_name;
-		$archive = class_exists( 'Redux' )
-			? (string) Redux::get_option( $opt_name, 'archive_template_select_projects' )
-			: '';
-		$type = $archive ?: 'project-construction';
+		return 'default';
 	}
 	return $type;
 }
@@ -47,7 +43,7 @@ add_action( 'add_meta_boxes_projects', function ( WP_Post $post ): void {
 		'projects', 'normal', 'high'
 	);
 
-	if ( in_array( $type, $map_types, true ) ) {
+	if ( $type === 'default' || in_array( $type, $map_types, true ) ) {
 		add_meta_box(
 			'cw_project_map',
 			__( 'Map', 'codeweber' ),
@@ -56,7 +52,7 @@ add_action( 'add_meta_boxes_projects', function ( WP_Post $post ): void {
 		);
 	}
 
-	if ( in_array( $type, [ 'project-construction', 'project-it' ], true ) ) {
+	if ( $type === 'default' || in_array( $type, [ 'project-construction', 'project-it' ], true ) ) {
 		add_meta_box(
 			'cw_project_works',
 			__( 'Completed Works', 'codeweber' ),
@@ -65,7 +61,7 @@ add_action( 'add_meta_boxes_projects', function ( WP_Post $post ): void {
 		);
 	}
 
-	if ( $type === 'project-it' ) {
+	if ( $type === 'default' || $type === 'project-it' ) {
 		add_meta_box(
 			'cw_project_it_preview',
 			__( 'IT Archive Preview', 'codeweber' ),
@@ -86,7 +82,7 @@ add_action( 'add_meta_boxes_projects', function ( WP_Post $post ): void {
 	$all_types     = [ 'project-it', 'project-design', 'project-construction', 'project-photo' ];
 	$hotspot_types = (array) codeweber_projects_settings_get( 'hotspot_types', $all_types );
 	$type          = cw_project_get_type( $post->ID );
-	if ( ! in_array( $type, $hotspot_types, true ) ) {
+	if ( $type !== 'default' && ! in_array( $type, $hotspot_types, true ) ) {
 		remove_meta_box( 'cw_hotspot_extra_projects', 'projects', 'normal' );
 	}
 }, 20 );
