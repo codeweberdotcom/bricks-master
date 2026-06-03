@@ -1,0 +1,162 @@
+/* Stock Photos — admin UI styles */
+
+.cw-stock-ui {
+	margin-top: 12px;
+}
+
+.cw-stock-providers {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-bottom: 12px;
+}
+
+.cw-stock-prov.is-active {
+	background: #2271b1;
+	border-color: #2271b1;
+	color: #fff;
+}
+
+.cw-stock-searchbar {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.cw-stock-input {
+	flex: 1 1 auto;
+	max-width: 480px;
+}
+
+.cw-stock-status {
+	min-height: 20px;
+	margin-bottom: 8px;
+	color: #50575e;
+	font-size: 13px;
+}
+
+.cw-stock-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	gap: 10px;
+}
+
+.cw-stock-item {
+	position: relative;
+	overflow: hidden;
+	border-radius: 4px;
+	background: #f0f0f1;
+	aspect-ratio: 1 / 1;
+}
+
+.cw-stock-item img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.cw-stock-ov {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 8px;
+	background: rgba( 0, 0, 0, 0.45 );
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+.cw-stock-item:hover .cw-stock-ov,
+.cw-stock-item.is-imported .cw-stock-ov {
+	opacity: 1;
+}
+
+.cw-stock-credit {
+	color: #fff;
+	font-size: 11px;
+	text-align: center;
+	text-shadow: 0 1px 2px rgba( 0, 0, 0, 0.6 );
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+a.cw-stock-credit:hover {
+	color: #fff;
+	text-decoration: underline;
+}
+
+.cw-stock-item.is-imported {
+	outline: 3px solid #46b450;
+	outline-offset: -3px;
+}
+
+.cw-stock-done {
+	background: #46b450 !important;
+	border-color: #46b450 !important;
+}
+
+.cw-stock-more {
+	margin: 16px 0;
+	text-align: center;
+}
+
+/* Media Library toolbar button spacing */
+.wrap .page-title-action + .cw-stock-open {
+	margin-left: 6px;
+}
+
+/* Overlay (Media Library / standalone trigger) */
+.cw-stock-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 160000;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 5vh 16px;
+	background: rgba( 0, 0, 0, 0.7 );
+}
+
+.cw-stock-dialog {
+	position: relative;
+	width: 100%;
+	max-width: 900px;
+	max-height: 90vh;
+	overflow: auto;
+	padding: 24px;
+	background: #fff;
+	border-radius: 6px;
+	box-shadow: 0 10px 40px rgba( 0, 0, 0, 0.3 );
+}
+
+.cw-stock-close {
+	position: absolute;
+	top: 10px;
+	right: 12px;
+	border: 0;
+	background: none;
+	font-size: 26px;
+	line-height: 1;
+	cursor: pointer;
+	color: #50575e;
+}
+
+.cw-stock-title {
+	margin: 0 0 4px;
+}
+
+/* Inside the wp.media frame */
+.cw-stock-frame {
+	padding: 16px 16px 60px;
+	overflow: auto;
+	position: absolute;
+	inset: 0;
+}

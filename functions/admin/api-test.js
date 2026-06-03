@@ -34,6 +34,12 @@
 		} else if ( 'codeweber_api_test_telegram' === action ) {
 			data.token   = value;
 			data.chat_id = value2;
+		} else if (
+			'codeweber_api_test_unsplash' === action ||
+			'codeweber_api_test_pexels' === action ||
+			'codeweber_api_test_pixabay' === action
+		) {
+			data.key = value;
 		}
 
 		$.post( codeweberApiTest.ajaxUrl, data )

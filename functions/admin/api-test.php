@@ -15,6 +15,9 @@ add_action( 'wp_ajax_codeweber_api_test_dadata',    'codeweber_api_test_dadata' 
 add_action( 'wp_ajax_codeweber_api_test_yandex',    'codeweber_api_test_yandex' );
 add_action( 'wp_ajax_codeweber_api_test_smsru',     'codeweber_api_test_smsru' );
 add_action( 'wp_ajax_codeweber_api_test_telegram',  'codeweber_api_test_telegram' );
+add_action( 'wp_ajax_codeweber_api_test_unsplash',  'codeweber_api_test_unsplash' );
+add_action( 'wp_ajax_codeweber_api_test_pexels',    'codeweber_api_test_pexels' );
+add_action( 'wp_ajax_codeweber_api_test_pixabay',   'codeweber_api_test_pixabay' );
 
 function codeweber_api_test_dadata() {
 	check_ajax_referer( 'codeweber_api_test', 'nonce' );
@@ -189,6 +192,128 @@ function codeweber_api_test_telegram() {
 	}
 }
 
+function codeweber_api_test_unsplash() {
+	check_ajax_referer( 'codeweber_api_test', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => 'Нет доступа' ) );
+	}
+
+	$key = sanitize_text_field( wp_unslash( $_POST['key'] ?? '' ) );
+
+	if ( empty( $key ) ) {
+		wp_send_json_error( array( 'message' => 'Введите Access Key' ) );
+	}
+
+	$url = add_query_arg(
+		array( 'query' => 'nature', 'per_page' => 1 ),
+		'https://api.unsplash.com/search/photos'
+	);
+
+	$response = wp_remote_get(
+		$url,
+		array(
+			'headers' => array( 'Authorization' => 'Client-ID ' . $key ),
+			'timeout' => 10,
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		wp_send_json_error( array( 'message' => 'Ошибка соединения: ' . $response->get_error_message() ) );
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 === $code && isset( $body['total'] ) ) {
+		wp_send_json_success( array( 'message' => 'Ключ действителен — найдено ' . (int) $body['total'] . ' фото' ) );
+	} elseif ( 401 === $code ) {
+		wp_send_json_error( array( 'message' => 'Неверный Access Key (401 Unauthorized)' ) );
+	} else {
+		$msg = isset( $body['errors'][0] ) ? $body['errors'][0] : wp_remote_retrieve_body( $response );
+		wp_send_json_error( array( 'message' => 'Ошибка ' . $code . ': ' . $msg ) );
+	}
+}
+
+function codeweber_api_test_pexels() {
+	check_ajax_referer( 'codeweber_api_test', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => 'Нет доступа' ) );
+	}
+
+	$key = sanitize_text_field( wp_unslash( $_POST['key'] ?? '' ) );
+
+	if ( empty( $key ) ) {
+		wp_send_json_error( array( 'message' => 'Введите API ключ' ) );
+	}
+
+	$url = add_query_arg(
+		array( 'query' => 'nature', 'per_page' => 1 ),
+		'https://api.pexels.com/v1/search'
+	);
+
+	$response = wp_remote_get(
+		$url,
+		array(
+			'headers' => array( 'Authorization' => $key ),
+			'timeout' => 10,
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		wp_send_json_error( array( 'message' => 'Ошибка соединения: ' . $response->get_error_message() ) );
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 === $code && isset( $body['total_results'] ) ) {
+		wp_send_json_success( array( 'message' => 'Ключ действителен — найдено ' . (int) $body['total_results'] . ' фото' ) );
+	} elseif ( 401 === $code ) {
+		wp_send_json_error( array( 'message' => 'Неверный ключ (401 Unauthorized)' ) );
+	} else {
+		$msg = isset( $body['error'] ) ? $body['error'] : wp_remote_retrieve_body( $response );
+		wp_send_json_error( array( 'message' => 'Ошибка ' . $code . ': ' . $msg ) );
+	}
+}
+
+function codeweber_api_test_pixabay() {
+	check_ajax_referer( 'codeweber_api_test', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => 'Нет доступа' ) );
+	}
+
+	$key = sanitize_text_field( wp_unslash( $_POST['key'] ?? '' ) );
+
+	if ( empty( $key ) ) {
+		wp_send_json_error( array( 'message' => 'Введите API ключ' ) );
+	}
+
+	$url = add_query_arg(
+		array( 'key' => $key, 'q' => 'nature', 'per_page' => 3 ),
+		'https://pixabay.com/api/'
+	);
+
+	$response = wp_remote_get( $url, array( 'timeout' => 10 ) );
+
+	if ( is_wp_error( $response ) ) {
+		wp_send_json_error( array( 'message' => 'Ошибка соединения: ' . $response->get_error_message() ) );
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 === $code && isset( $body['totalHits'] ) ) {
+		wp_send_json_success( array( 'message' => 'Ключ действителен — найдено ' . (int) $body['totalHits'] . ' фото' ) );
+	} else {
+		// Pixabay returns plain text like "[ERROR 400] ..." on bad key.
+		$msg = wp_remote_retrieve_body( $response );
+		wp_send_json_error( array( 'message' => 'Ошибка ' . $code . ': ' . $msg ) );
+	}
+}
+
 // ─── Enqueue JS ──────────────────────────────────────────────────────────────
 
 add_action( 'admin_enqueue_scripts', 'codeweber_api_test_enqueue' );
@@ -211,7 +336,7 @@ function codeweber_api_test_enqueue( $hook ) {
 		'codeweber-api-test',
 		get_template_directory_uri() . '/functions/admin/api-test.js',
 		array( 'jquery' ),
-		'1.0.0',
+		'1.1.0',
 		true
 	);
 
