@@ -3,11 +3,22 @@
 	the_post();
 	get_pageheader();
 	global $opt_name;
-	$pageheader_name = Redux::get_option($opt_name, 'global_page_header_model');
+
+	// Per-post тип заголовка ('1' standard / '2' custom / '3' disable).
+	$ph_type = Redux::get_post_meta($opt_name, get_the_ID(), 'this-page-header-type');
+
+	// Эффективная модель заголовка: single → fallback global.
+	$pageheader_name = Redux::get_option($opt_name, 'single_page_header_select_page');
+	if ($pageheader_name === 'default' || empty($pageheader_name)) {
+		$pageheader_name = Redux::get_option($opt_name, 'global_page_header_model');
+	}
 ?>
 
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-		<?php if ($pageheader_name === '1' && !is_front_page()) { ?>
+		<?php
+		// Заголовок выводим в контенте только для модели «1» (только крошки),
+		// и не при Custom ('2') или Disable ('3') — иначе будет дубль или лишний тайтл.
+		if ($pageheader_name === '1' && !is_front_page() && $ph_type !== '2' && $ph_type !== '3') { ?>
 			<div class="container py-14">
 				<div class="row align-items-center mb-10 position-relative zindex-1">
 					<div class="col-md-8 col-lg-9 col-xl-8 col-xxl-7">
