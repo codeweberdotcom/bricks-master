@@ -155,7 +155,8 @@ WP-CLI доступен. Условие в `wp-config.php` (`if (!defined('WP_CL
 | Contact Form 7 | `doc_claude/forms/CF7_INTEGRATION.md` |
 | Куки-баннер (архитектура, GDPR/РФ, версионирование) | `doc_claude/integrations/COOKIE_BANNER.md` |
 | DaData, Яндекс Карты, SMS.ru и др. | `doc_claude/integrations/` |
-| Stock Photos (Unsplash/Pexels/Pixabay: поиск, sideload-импорт, атрибуция, медиа-таб) | `doc_claude/integrations/STOCK_PHOTOS.md` |
+| Stock Photos (Unsplash/Pexels/Pixabay/Openverse: поиск, sideload-импорт, атрибуция, медиа-таб) | `doc_claude/integrations/STOCK_PHOTOS.md` |
+| Outbound Proxy (серверный прокси для запросов, Redux scope, http_api_curl, тест egress IP) | `doc_claude/integrations/PROXY.md` |
 | WooCommerce фильтры (функции, шаблоны, JS, CSS) | `doc_claude/integrations/WC_FILTERS.md` |
 | WooCommerce Quick View (AJAX, Modal, Swiper, вариации, свотчи) | `doc_claude/integrations/WC_QUICK_VIEW.md` |
 | WooCommerce Offcanvas Cart (AJAX, fragments, двойное добавление, CSS) | `doc_claude/integrations/WC_CART_OFFCANVAS.md` |

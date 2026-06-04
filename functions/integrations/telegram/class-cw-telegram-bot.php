@@ -47,21 +47,25 @@ class CW_Telegram_Bot {
 	public function send_message( string $text, string $parse_mode = 'HTML' ): bool {
 		$url = 'https://api.telegram.org/bot' . $this->token . '/sendMessage';
 
-		$response = wp_remote_post(
-			$url,
-			array(
-				'headers' => array( 'Content-Type' => 'application/json' ),
-				'body'    => wp_json_encode(
-					array(
-						'chat_id'                  => $this->chat_id,
-						'text'                     => $text,
-						'parse_mode'               => $parse_mode,
-						'disable_web_page_preview' => true,
-					)
-				),
-				'timeout' => 10,
-			)
+		$args = array(
+			'headers' => array( 'Content-Type' => 'application/json' ),
+			'body'    => wp_json_encode(
+				array(
+					'chat_id'                  => $this->chat_id,
+					'text'                     => $text,
+					'parse_mode'               => $parse_mode,
+					'disable_web_page_preview' => true,
+				)
+			),
+			'timeout' => 10,
 		);
+
+		// Route through the configured proxy when the Telegram scope is enabled.
+		if ( function_exists( 'cw_proxy_request_args' ) ) {
+			$args = cw_proxy_request_args( 'telegram', $args );
+		}
+
+		$response = wp_remote_post( $url, $args );
 
 		if ( is_wp_error( $response ) ) {
 			return false;

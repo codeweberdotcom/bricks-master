@@ -81,10 +81,12 @@ function cw_stock_photos_ajax_import() {
 		if ( 'api.unsplash.com' === strtolower( (string) $dl_host ) ) {
 			wp_remote_get(
 				$dl_loc,
-				array(
-					'headers'  => array( 'Authorization' => 'Client-ID ' . $providers['unsplash']['key'] ),
-					'timeout'  => 8,
-					'blocking' => false,
+				cw_stock_photos_request_args(
+					array(
+						'headers'  => array( 'Authorization' => 'Client-ID ' . $providers['unsplash']['key'] ),
+						'timeout'  => 8,
+						'blocking' => false,
+					)
 				)
 			);
 		}
@@ -94,10 +96,33 @@ function cw_stock_photos_ajax_import() {
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 
-	// Download to a temp file.
-	$tmp = download_url( $url, 30 );
-	if ( is_wp_error( $tmp ) ) {
-		wp_send_json_error( array( 'message' => __( 'Download failed: ', 'codeweber' ) . $tmp->get_error_message() ) );
+	// Download to a temp file (stream) so the request can go through the proxy.
+	$tmp = wp_tempnam( $url );
+	if ( ! $tmp ) {
+		wp_send_json_error( array( 'message' => __( 'Could not create temp file', 'codeweber' ) ) );
+	}
+
+	$download = wp_remote_get(
+		$url,
+		cw_stock_photos_request_args(
+			array(
+				'timeout'  => 30,
+				'stream'   => true,
+				'filename' => $tmp,
+				'headers'  => array( 'User-Agent' => 'Mozilla/5.0' ),
+			)
+		)
+	);
+
+	if ( is_wp_error( $download ) ) {
+		wp_delete_file( $tmp );
+		wp_send_json_error( array( 'message' => __( 'Download failed: ', 'codeweber' ) . $download->get_error_message() ) );
+	}
+
+	$dl_code = (int) wp_remote_retrieve_response_code( $download );
+	if ( 200 !== $dl_code ) {
+		wp_delete_file( $tmp );
+		wp_send_json_error( array( 'message' => __( 'Download failed: HTTP ', 'codeweber' ) . $dl_code ) );
 	}
 
 	// Build a friendly filename (provider extensions sometimes hide behind query args).

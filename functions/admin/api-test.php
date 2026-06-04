@@ -18,6 +18,41 @@ add_action( 'wp_ajax_codeweber_api_test_telegram',  'codeweber_api_test_telegram
 add_action( 'wp_ajax_codeweber_api_test_unsplash',  'codeweber_api_test_unsplash' );
 add_action( 'wp_ajax_codeweber_api_test_pexels',    'codeweber_api_test_pexels' );
 add_action( 'wp_ajax_codeweber_api_test_pixabay',   'codeweber_api_test_pixabay' );
+add_action( 'wp_ajax_codeweber_api_test_proxy',     'codeweber_api_test_proxy' );
+
+function codeweber_api_test_proxy() {
+	check_ajax_referer( 'codeweber_api_test', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => 'Нет доступа' ) );
+	}
+
+	if ( ! function_exists( 'cw_proxy_config' ) || ! cw_proxy_config() ) {
+		wp_send_json_error( array( 'message' => 'Включите прокси и сохраните host/port' ) );
+	}
+
+	// Force the request through the proxy regardless of module scope.
+	$response = wp_remote_get(
+		'https://api.ipify.org/?format=json',
+		array(
+			'timeout'      => 12,
+			'cw_use_proxy' => true,
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		wp_send_json_error( array( 'message' => 'Ошибка через прокси: ' . $response->get_error_message() ) );
+	}
+
+	$code = (int) wp_remote_retrieve_response_code( $response );
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 === $code && ! empty( $body['ip'] ) ) {
+		wp_send_json_success( array( 'message' => 'Прокси работает. Внешний IP: ' . $body['ip'] ) );
+	}
+
+	wp_send_json_error( array( 'message' => 'Прокси ответил, но IP не получен (код ' . $code . ')' ) );
+}
 
 function codeweber_api_test_dadata() {
 	check_ajax_referer( 'codeweber_api_test', 'nonce' );
@@ -162,21 +197,24 @@ function codeweber_api_test_telegram() {
 
 	$url = 'https://api.telegram.org/bot' . $token . '/sendMessage';
 
-	$response = wp_remote_post(
-		$url,
-		array(
-			'headers' => array( 'Content-Type' => 'application/json' ),
-			'body'    => wp_json_encode(
-				array(
-					'chat_id'                  => $chat_id,
-					'text'                     => '✅ ' . esc_html__( 'Test CodeWeber — bot connected!', 'codeweber' ),
-					'parse_mode'               => 'HTML',
-					'disable_web_page_preview' => true,
-				)
-			),
-			'timeout' => 10,
-		)
+	$tg_args = array(
+		'headers' => array( 'Content-Type' => 'application/json' ),
+		'body'    => wp_json_encode(
+			array(
+				'chat_id'                  => $chat_id,
+				'text'                     => '✅ ' . esc_html__( 'Test CodeWeber — bot connected!', 'codeweber' ),
+				'parse_mode'               => 'HTML',
+				'disable_web_page_preview' => true,
+			)
+		),
+		'timeout' => 10,
 	);
+
+	if ( function_exists( 'cw_proxy_request_args' ) ) {
+		$tg_args = cw_proxy_request_args( 'telegram', $tg_args );
+	}
+
+	$response = wp_remote_post( $url, $tg_args );
 
 	if ( is_wp_error( $response ) ) {
 		wp_send_json_error( array( 'message' => 'Ошибка соединения: ' . $response->get_error_message() ) );

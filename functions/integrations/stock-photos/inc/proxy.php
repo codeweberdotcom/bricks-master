@@ -53,9 +53,8 @@ function cw_stock_photos_ajax_thumb() {
 
 	$response = wp_remote_get(
 		$url,
-		array(
-			'timeout' => 15,
-			'headers' => array( 'User-Agent' => 'Mozilla/5.0' ),
+		cw_stock_photos_request_args(
+			array( 'headers' => array( 'User-Agent' => 'Mozilla/5.0' ) )
 		)
 	);
 
@@ -152,9 +151,8 @@ function cw_stock_photos_fetch_unsplash( $key, $query, $page, $per_page ) {
 
 	$response = wp_remote_get(
 		$url,
-		array(
-			'headers' => array( 'Authorization' => 'Client-ID ' . $key ),
-			'timeout' => 15,
+		cw_stock_photos_request_args(
+			array( 'headers' => array( 'Authorization' => 'Client-ID ' . $key ) )
 		)
 	);
 
@@ -211,9 +209,8 @@ function cw_stock_photos_fetch_pexels( $key, $query, $page, $per_page ) {
 
 	$response = wp_remote_get(
 		$url,
-		array(
-			'headers' => array( 'Authorization' => $key ),
-			'timeout' => 15,
+		cw_stock_photos_request_args(
+			array( 'headers' => array( 'Authorization' => $key ) )
 		)
 	);
 
@@ -269,7 +266,7 @@ function cw_stock_photos_fetch_pixabay( $key, $query, $page, $per_page ) {
 		'https://pixabay.com/api/'
 	);
 
-	$response = wp_remote_get( $url, array( 'timeout' => 15 ) );
+	$response = wp_remote_get( $url, cw_stock_photos_request_args() );
 
 	if ( is_wp_error( $response ) ) {
 		return $response;
@@ -331,9 +328,8 @@ function cw_stock_photos_fetch_openverse( $query, $page, $per_page ) {
 
 	$response = wp_remote_get(
 		$url,
-		array(
-			'timeout' => 15,
-			'headers' => array( 'User-Agent' => 'CodeWeber-StockPhotos/1.0 (WordPress)' ),
+		cw_stock_photos_request_args(
+			array( 'headers' => array( 'User-Agent' => 'CodeWeber-StockPhotos/1.0 (WordPress)' ) )
 		)
 	);
 

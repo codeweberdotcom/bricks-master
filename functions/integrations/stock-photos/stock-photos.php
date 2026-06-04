@@ -91,6 +91,22 @@ function cw_stock_photos_providers() {
 }
 
 /**
+ * Default request args for the module's outbound HTTP calls.
+ *
+ * Delegates to the shared proxy helper so requests are routed through the
+ * configured proxy when the "Stock Photos" scope is enabled.
+ *
+ * @param array $extra Extra args to merge.
+ * @return array
+ */
+function cw_stock_photos_request_args( $extra = array() ) {
+	if ( function_exists( 'cw_proxy_request_args' ) ) {
+		return cw_proxy_request_args( 'stock_photos', $extra );
+	}
+	return array_merge( array( 'timeout' => 15 ), $extra );
+}
+
+/**
  * Register the dedicated admin page under the Media menu.
  */
 function cw_stock_photos_admin_menu() {

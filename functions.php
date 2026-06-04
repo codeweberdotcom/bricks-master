@@ -84,6 +84,7 @@ require_once get_template_directory() . '/functions/integrations/codeweber-forms
 require_once get_template_directory() . '/functions/integrations/yandex-maps/yandex-maps-init.php';
 require_once get_template_directory() . '/functions/integrations/modal/init.php';
 require_once get_template_directory() . '/functions/integrations/s3-storage/s3-storage.php';
+require_once get_template_directory() . '/functions/integrations/proxy/proxy.php';
 require_once get_template_directory() . '/functions/integrations/telegram/telegram-init.php';
 require_once get_template_directory() . '/functions/integrations/stock-photos/stock-photos.php';
 
