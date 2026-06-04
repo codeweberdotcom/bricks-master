@@ -14,6 +14,29 @@ function get_pageheader($name = null)
     if (empty($name) && class_exists('Redux')) {
         global $opt_name;
 
+        // На главной (статическая фронт-страница) учитываем индивидуальную настройку
+        // заголовка записи, т.к. pageheader.php исключает фронт-страницу из своей
+        // per-post логики (обёрнут в if (!is_front_page())).
+        if (is_front_page() && is_singular()) {
+            $front_id   = get_queried_object_id();
+            $front_type = $front_id ? Redux::get_post_meta($opt_name, $front_id, 'this-page-header-type') : '';
+
+            if ($front_type === '3') {
+                return; // «Отключить» — заголовок не выводим
+            }
+            if ($front_type === '2') {
+                $front_custom = Redux::get_post_meta($opt_name, $front_id, 'this-custom-page-header');
+                if (!empty($front_custom) && is_numeric($front_custom)) {
+                    $ph = get_post((int) $front_custom);
+                    if ($ph && $ph->post_type === 'page-header' && $ph->post_status === 'publish') {
+                        echo apply_filters('the_content', $ph->post_content);
+                        return;
+                    }
+                }
+            }
+            // '1' или пусто — продолжаем обычную глобальную логику ниже
+        }
+
         // Определяем тип страницы и получаем соответствующую опцию
         if (is_singular()) {
             // Для одиночных записей
