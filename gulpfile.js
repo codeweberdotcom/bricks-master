@@ -1112,7 +1112,7 @@ gulp.task(
       "html:dist",
       "css:dist",
       "fontcss:dist",
-      //"colorcss:dist",
+      "colorcss:dist",
       "vendorcss:dist",
       "pluginsjs:dist",
       "restapijs:dist",
