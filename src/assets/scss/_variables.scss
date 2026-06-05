@@ -147,6 +147,10 @@ $colors: (
 ) !default;
 
 
+// Light colors that should still use white text on solid buttons,
+// overriding the automatic color-contrast() choice.
+$btn-force-white-text: ('aqua',) !default;
+
 $custom-theme-colors: () !default;
 
 $secondary: $gray-400 !default;

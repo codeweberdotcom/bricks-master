@@ -15,10 +15,14 @@ $prefix:                      $variable-prefix !default;
   --#{$prefix}border-soft-primary: var(--#{$prefix}border-soft-#{$primary-color-name});
 }
 // Solid primary buttons: pick readable text color for light/dark theme color
+// (colors in $btn-force-white-text keep white text regardless of contrast)
+// Interpolate the name to a string: some palette names (e.g. "aqua") are CSS
+// color keywords and would otherwise be parsed as a color, breaking index().
+$primary-btn-text: if(index($btn-force-white-text, '#{$primary-color-name}'), var(--#{$prefix}white), color-contrast($primary));
 .btn-primary {
-  --#{$prefix}btn-color: #{color-contrast($primary)};
-  --#{$prefix}btn-hover-color: #{color-contrast($primary)};
-  --#{$prefix}btn-active-color: #{color-contrast($primary)};
+  --#{$prefix}btn-color: #{$primary-btn-text};
+  --#{$prefix}btn-hover-color: #{$primary-btn-text};
+  --#{$prefix}btn-active-color: #{$primary-btn-text};
 }
 .underline-3.primary {
   &.style-2:after {

@@ -236,10 +236,11 @@ button:focus {
 }
 @each $color,
 $value in $colors {
+  $btn-text: if(index($btn-force-white-text, $color), var(--#{$prefix}white), color-contrast($value));
   .btn-#{$color} {
-    --bs-btn-color: #{color-contrast($value)};
-    --bs-btn-hover-color: #{color-contrast($value)};
-    --bs-btn-active-color: #{color-contrast($value)};
+    --bs-btn-color: #{$btn-text};
+    --bs-btn-hover-color: #{$btn-text};
+    --bs-btn-active-color: #{$btn-text};
     &.btn-expand {
       color: var(--#{$prefix}#{$color});
       &:before {
