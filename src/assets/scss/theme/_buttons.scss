@@ -237,9 +237,9 @@ button:focus {
 @each $color,
 $value in $colors {
   .btn-#{$color} {
-    --bs-btn-color: var(--#{$prefix}white);
-    --bs-btn-hover-color: var(--#{$prefix}white);
-    --bs-btn-active-color: var(--#{$prefix}white);
+    --bs-btn-color: #{color-contrast($value)};
+    --bs-btn-hover-color: #{color-contrast($value)};
+    --bs-btn-active-color: #{color-contrast($value)};
     &.btn-expand {
       color: var(--#{$prefix}#{$color});
       &:before {
