@@ -14,6 +14,12 @@ $prefix:                      $variable-prefix !default;
   --#{$prefix}icon-solid-fill-primary: var(--#{$prefix}icon-solid-fill-#{$primary-color-name});
   --#{$prefix}border-soft-primary: var(--#{$prefix}border-soft-#{$primary-color-name});
 }
+// Solid primary buttons: pick readable text color for light/dark theme color
+.btn-primary {
+  --#{$prefix}btn-color: #{color-contrast($primary)};
+  --#{$prefix}btn-hover-color: #{color-contrast($primary)};
+  --#{$prefix}btn-active-color: #{color-contrast($primary)};
+}
 .underline-3.primary {
   &.style-2:after {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 208.01 8.3'%3E%3Cpath fill='#{url-color($main-color)}' d='M64.42,2.42Q42.78,1.46,21.19,0c-2.8-.19-4.09.89-3.87,2L3.92,1.87c-5.13-.05-5.28,3.87-.12,3.92l60.49.55c46.63,2.08,93.34,2.51,139.81,1.27,5-.13,5.39-3.87.13-3.92Z'/%3E%3C/svg%3E");

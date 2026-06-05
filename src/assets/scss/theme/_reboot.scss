@@ -660,7 +660,7 @@ h6 {
   @each $color,
   $value in $colors {
     &.text-#{$color}:before {
-      background-color: $value;
+      background-color: var(--#{$prefix}#{$color});
     }
   }
   &.text-muted:before {
