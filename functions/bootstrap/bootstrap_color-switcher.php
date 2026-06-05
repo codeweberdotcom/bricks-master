@@ -60,10 +60,7 @@ if (!function_exists('codeweber_color_switcher_colors')) {
 	 * @return array
 	 */
 	function codeweber_color_switcher_colors() {
-		$colors = array();
-
-		// "Default" first — no CSS file, reverts to the base theme color (blue).
-		$colors[] = array('name' => 'default', 'url' => '', 'var' => 'blue');
+		$palette = codeweber_color_switcher_palette();
 
 		$rel  = 'dist/assets/css/colors';
 		$dirs = array();
@@ -80,6 +77,7 @@ if (!function_exists('codeweber_color_switcher_colors')) {
 			}
 		}
 
+		$swatches = array();
 		if ($dir) {
 			$files = scandir($dir);
 			foreach ($files as $file) {
@@ -93,11 +91,117 @@ if (!function_exists('codeweber_color_switcher_colors')) {
 				if (!$url) {
 					continue;
 				}
-				$colors[] = array('name' => $name, 'url' => $url, 'var' => $name);
+				$swatches[] = array(
+					'name' => $name,
+					'url'  => $url,
+					'var'  => $name,
+					'hex'  => isset($palette[$name]) ? $palette[$name] : '#999999',
+				);
 			}
 		}
 
-		return $colors;
+		// Sort by hue so similar shades sit together; near-neutral colors go last.
+		usort($swatches, function ($a, $b) {
+			list($ha, $sa, $la) = codeweber_color_hsl($a['hex']);
+			list($hb, $sb, $lb) = codeweber_color_hsl($b['hex']);
+			$na = $sa < 0.18; // treat as neutral / grayscale
+			$nb = $sb < 0.18;
+			if ($na !== $nb) {
+				return $na ? 1 : -1; // neutrals last
+			}
+			if ($na && $nb) {
+				return $la <=> $lb; // neutrals by lightness
+			}
+			if (abs($ha - $hb) > 0.001) {
+				return $ha <=> $hb; // colored by hue
+			}
+			return $la <=> $lb;
+		});
+
+		// "Default" first — no CSS file, reverts to the base theme color (blue).
+		array_unshift($swatches, array('name' => 'default', 'url' => '', 'var' => 'blue', 'hex' => $palette['blue']));
+
+		return $swatches;
+	}
+}
+
+if (!function_exists('codeweber_color_switcher_palette')) {
+	/**
+	 * Theme palette: color slug => hex. Mirrors _theme-colors.scss. Used only to
+	 * sort the swatches by hue (the swatch fill itself uses the live --bs-* var).
+	 *
+	 * @return array
+	 */
+	function codeweber_color_switcher_palette() {
+		return array(
+			'sky'         => '#5eb9f0',
+			'blue'        => '#3f78e0',
+			'grape'       => '#605dba',
+			'purple'      => '#747ed1',
+			'violet'      => '#a07cc5',
+			'pink'        => '#d16b86',
+			'fuchsia'     => '#e668b3',
+			'red'         => '#e2626b',
+			'orange'      => '#f78b77',
+			'yellow'      => '#fab758',
+			'green'       => '#45c4a0',
+			'leaf'        => '#7cb798',
+			'aqua'        => '#54a8c7',
+			'navy'        => '#343f52',
+			'ash'         => '#9499a3',
+			'telegram'    => '#2aabee',
+			'whatsapp'    => '#00a859',
+			'vk'          => '#4f7db3',
+			'facebook'    => '#4470cf',
+			'pinterest'   => '#e60023',
+			'youtube'     => '#c8312b',
+			'dewalt'      => '#fdb813',
+			'max'         => '#6c5dd3',
+			'bronze'      => '#c0883c',
+			'coffee'      => '#6f4628',
+			'flame'       => '#e0552f',
+		);
+	}
+}
+
+if (!function_exists('codeweber_color_hsl')) {
+	/**
+	 * Convert a hex color to [hue (0-360), saturation (0-1), lightness (0-1)].
+	 *
+	 * @param string $hex
+	 * @return array
+	 */
+	function codeweber_color_hsl($hex) {
+		$hex = ltrim((string) $hex, '#');
+		if (strlen($hex) === 3) {
+			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+		}
+		if (strlen($hex) < 6) {
+			return array(0.0, 0.0, 0.0);
+		}
+		$r = hexdec(substr($hex, 0, 2)) / 255;
+		$g = hexdec(substr($hex, 2, 2)) / 255;
+		$b = hexdec(substr($hex, 4, 2)) / 255;
+		$max = max($r, $g, $b);
+		$min = min($r, $g, $b);
+		$d   = $max - $min;
+		$l   = ($max + $min) / 2;
+		if ($d == 0) {
+			return array(0.0, 0.0, $l);
+		}
+		if ($max == $r) {
+			$h = fmod((($g - $b) / $d), 6);
+		} elseif ($max == $g) {
+			$h = (($b - $r) / $d) + 2;
+		} else {
+			$h = (($r - $g) / $d) + 4;
+		}
+		$h *= 60;
+		if ($h < 0) {
+			$h += 360;
+		}
+		$s = $d / (1 - abs(2 * $l - 1));
+		return array($h, $s, $l);
 	}
 }
 
