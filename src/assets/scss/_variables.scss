@@ -141,6 +141,8 @@ $colors: (
   "bronze": $bronze,
   "coffee": $coffee,
   "flame": $flame,
+  "emerald": $emerald,
+  "crimson": $crimson,
   "primary": $primary
 ) !default;
 
@@ -410,6 +412,8 @@ $max-soft:           tint-color($max, 90.5%) !default;
 $bronze-soft:        tint-color($bronze, 90%) !default;
 $coffee-soft:        tint-color($coffee, 90%) !default;
 $flame-soft:         tint-color($flame, 90%) !default;
+$emerald-soft:       tint-color($emerald, 90%) !default;
+$crimson-soft:       tint-color($crimson, 90%) !default;
 $facebook-soft:      tint-color($facebook, 90.5%) !default;
 $pinterest-soft:     tint-color($pinterest, 90.5%) !default;
 $telegram-soft:      tint-color($telegram, 90.5%) !default;
@@ -441,6 +445,8 @@ $max-pale:             tint-color($max, 84%) !default;
 $bronze-pale:          tint-color($bronze, 84%) !default;
 $coffee-pale:          tint-color($coffee, 84%) !default;
 $flame-pale:           tint-color($flame, 84%) !default;
+$emerald-pale:         tint-color($emerald, 84%) !default;
+$crimson-pale:         tint-color($crimson, 84%) !default;
 $facebook-pale:        tint-color($facebook, 84%) !default;
 $pinterest-pale:       tint-color($pinterest, 84%) !default;
 $telegram-pale:        tint-color($telegram, 84%) !default;
@@ -469,6 +475,8 @@ $max-bullet-soft:             tint-color($max, 82%) !default;
 $bronze-bullet-soft:          tint-color($bronze, 77%) !default;
 $coffee-bullet-soft:          tint-color($coffee, 77%) !default;
 $flame-bullet-soft:           tint-color($flame, 77%) !default;
+$emerald-bullet-soft:         tint-color($emerald, 77%) !default;
+$crimson-bullet-soft:         tint-color($crimson, 77%) !default;
 $facebook-bullet-soft:        tint-color($facebook, 82%) !default;
 $pinterest-bullet-soft:       tint-color($pinterest, 82%) !default;
 $telegram-bullet-soft:        tint-color($telegram, 82%) !default;
@@ -497,6 +505,8 @@ $max-icon-fill:             tint-color($max, 40%) !default;
 $bronze-icon-fill:          tint-color($bronze, 40%) !default;
 $coffee-icon-fill:          tint-color($coffee, 40%) !default;
 $flame-icon-fill:           tint-color($flame, 40%) !default;
+$emerald-icon-fill:         tint-color($emerald, 40%) !default;
+$crimson-icon-fill:         tint-color($crimson, 40%) !default;
 $facebook-icon-fill:        tint-color($facebook, 40%) !default;
 $pinterest-icon-fill:       tint-color($pinterest, 40%) !default;
 $telegram-icon-fill:        tint-color($telegram, 40%) !default;
@@ -525,6 +535,8 @@ $max-icon-solid-fill:             tint-color($max, 60%) !default;
 $bronze-icon-solid-fill:          tint-color($bronze, 60%) !default;
 $coffee-icon-solid-fill:          tint-color($coffee, 60%) !default;
 $flame-icon-solid-fill:           tint-color($flame, 60%) !default;
+$emerald-icon-solid-fill:         tint-color($emerald, 60%) !default;
+$crimson-icon-solid-fill:         tint-color($crimson, 60%) !default;
 $facebook-icon-solid-fill:        tint-color($facebook, 60%) !default;
 $pinterest-icon-solid-fill:       tint-color($pinterest, 60%) !default;
 $telegram-icon-solid-fill:        tint-color($telegram, 60%) !default;
@@ -563,6 +575,8 @@ $max-border-soft:       tint-color($max, 70%) !default;
 $bronze-border-soft:    tint-color($bronze, 70%) !default;
 $coffee-border-soft:    tint-color($coffee, 70%) !default;
 $flame-border-soft:     tint-color($flame, 70%) !default;
+$emerald-border-soft:   tint-color($emerald, 70%) !default;
+$crimson-border-soft:   tint-color($crimson, 70%) !default;
 $facebook-border-soft:  tint-color($facebook, 70%) !default;
 $pinterest-border-soft: tint-color($pinterest, 70%) !default;
 $telegram-border-soft:  tint-color($telegram, 70%) !default;

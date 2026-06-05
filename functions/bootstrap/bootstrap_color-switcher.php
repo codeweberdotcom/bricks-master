@@ -152,7 +152,6 @@ if (!function_exists('codeweber_color_switcher_palette')) {
 			'telegram'    => '#2aabee',
 			'whatsapp'    => '#00a859',
 			'vk'          => '#4f7db3',
-			'facebook'    => '#4470cf',
 			'pinterest'   => '#e60023',
 			'youtube'     => '#c8312b',
 			'dewalt'      => '#fdb813',
@@ -160,6 +159,8 @@ if (!function_exists('codeweber_color_switcher_palette')) {
 			'bronze'      => '#c0883c',
 			'coffee'      => '#6f4628',
 			'flame'       => '#e0552f',
+			'emerald'     => '#2f9a5f',
+			'crimson'     => '#a32f3a',
 		);
 	}
 }
