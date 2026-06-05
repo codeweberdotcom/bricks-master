@@ -37,6 +37,24 @@ Redux::set_section(
 				'default'  => 'default',
 			),
 			array(
+				'id'       => 'opt-color-switcher-enabled',
+				'type'     => 'switch',
+				'title'    => esc_html__('Floating color switcher', 'codeweber'),
+				'subtitle' => esc_html__('Show a floating widget for visitors to preview theme colors (for demo / sites for sale). Client-side only (sessionStorage), not saved to settings.', 'codeweber'),
+				'default'  => false,
+			),
+			array(
+				'id'       => 'opt-color-switcher-position',
+				'type'     => 'button_set',
+				'title'    => esc_html__('Color switcher position', 'codeweber'),
+				'options'  => array(
+					'left'  => esc_html__('Left', 'codeweber'),
+					'right' => esc_html__('Right', 'codeweber'),
+				),
+				'default'  => 'left',
+				'required' => array('opt-color-switcher-enabled', '=', true),
+			),
+			array(
 				'id'       => 'opt-dark-logo',
 				'type'     => 'media',
 				'title'    => esc_html__('Dark Logo', 'codeweber'),

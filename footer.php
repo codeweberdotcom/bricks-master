@@ -15,6 +15,11 @@
 	} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 		echo '<!-- Floating Social Widget: функции не найдены -->';
 	}
+
+	// Плавающий переключатель цвета темы (демо / сайты на продажу) — только при включённом тумблере
+	if ( function_exists( 'codeweber_color_switcher_widget' ) ) {
+		echo codeweber_color_switcher_widget();
+	}
 	?>
 
 	<div class="progress-wrap active-progress">

@@ -13,6 +13,7 @@ require 'bootstrap/bootstrap_share-page.php';
 require 'bootstrap/bootstrap-single-parts.php';
 require 'bootstrap/bootstrap_nav-menu.php';
 require 'bootstrap/bootstrap_floating-social-widget.php';
+require 'bootstrap/bootstrap_color-switcher.php';
 
 /**
  *  Shortcodes
