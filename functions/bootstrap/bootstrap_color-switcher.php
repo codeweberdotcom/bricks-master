@@ -299,7 +299,14 @@ if (!function_exists('codeweber_color_switcher_widget')) {
 	var swatches = wrap.querySelectorAll('.cwgb-color-swatch');
 	var KEY = 'cwThemeColor', LINKID = 'theme-color-style-css';
 
-	toggle.addEventListener('click', function(){ panel.classList.toggle('d-none'); });
+	toggle.addEventListener('click', function(e){ e.stopPropagation(); panel.classList.toggle('d-none'); });
+
+	// Close the panel when clicking outside the widget.
+	document.addEventListener('click', function(e){
+		if (!panel.classList.contains('d-none') && !wrap.contains(e.target)) {
+			panel.classList.add('d-none');
+		}
+	});
 
 	function markActive(name){
 		swatches.forEach(function(s){
