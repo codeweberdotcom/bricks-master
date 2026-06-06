@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-06 11:23+0000\n"
+"POT-Creation-Date: 2026-06-06 16:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: codeweber\n"
@@ -1132,6 +1132,10 @@ msgstr ""
 msgid "All Registrations"
 msgstr ""
 
+#: templates/footer/footer-4.php:155
+msgid "All rights reserved."
+msgstr ""
+
 #: functions/cpt/cpt-vacancies.php:123
 msgid "All Schedule Options"
 msgstr ""
@@ -1820,7 +1824,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:171
 #: redux-framework/sample/sections/codeweber/header.php:249
 #: redux-framework/sample/sections/codeweber/header.php:324
-#: redux-framework/sample/sections/codeweber/style.php:335
+#: redux-framework/sample/sections/codeweber/style.php:390
 msgid "Block"
 msgstr ""
 
@@ -2052,7 +2056,7 @@ msgstr ""
 msgid "Button opens modal window"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:74
+#: redux-framework/sample/sections/codeweber/style.php:129
 msgid "Button Style"
 msgstr ""
 
@@ -2068,7 +2072,7 @@ msgstr ""
 msgid "Button type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:387
+#: redux-framework/sample/sections/codeweber/style.php:442
 msgid "Buttons"
 msgstr ""
 
@@ -2174,7 +2178,7 @@ msgstr ""
 msgid "Card"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:98
+#: redux-framework/sample/sections/codeweber/style.php:153
 msgid "Card and Image rounded corners"
 msgstr ""
 
@@ -2365,7 +2369,7 @@ msgstr ""
 msgid "Choose a point on the map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:468
+#: redux-framework/sample/sections/codeweber/style.php:523
 msgid "Choose a preset or set custom values below."
 msgstr ""
 
@@ -2413,7 +2417,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:170
 #: redux-framework/sample/sections/codeweber/header.php:248
 #: redux-framework/sample/sections/codeweber/header.php:323
-#: redux-framework/sample/sections/codeweber/style.php:334
+#: redux-framework/sample/sections/codeweber/style.php:389
 msgid "Circle"
 msgstr ""
 
@@ -2651,7 +2655,7 @@ msgstr ""
 msgid "Color for custom markers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:354
+#: redux-framework/sample/sections/codeweber/style.php:409
 msgid "Color of the \"Share\" dropdown button"
 msgstr ""
 
@@ -2714,7 +2718,7 @@ msgctxt "comments title"
 msgid "One reply on &ldquo;%s&rdquo;"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:470
+#: redux-framework/sample/sections/codeweber/style.php:525
 msgid "Compact — g-3 (15px)"
 msgstr ""
 
@@ -3090,6 +3094,7 @@ msgstr ""
 msgid "Contact us"
 msgstr ""
 
+#: templates/footer/footer-4.php:136
 #: redux-framework/sample/sections/codeweber/contacts.php:6
 msgid "Contacts"
 msgstr ""
@@ -3106,11 +3111,11 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:598
+#: redux-framework/sample/sections/codeweber/style.php:653
 msgid "Content & Sidebar Padding (desktop)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:582
+#: redux-framework/sample/sections/codeweber/style.php:637
 msgid "Content & Sidebar Padding (mobile)"
 msgstr ""
 
@@ -3502,7 +3507,7 @@ msgid ""
 "page color)."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:279
+#: redux-framework/sample/sections/codeweber/style.php:334
 msgid ""
 "CSS class applied to headings inside sidebar widgets (vacancies, events, FAQ,"
 " maps)"
@@ -3549,7 +3554,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:82
 #: redux-framework/sample/sections/codeweber/header.php:78
 #: redux-framework/sample/sections/codeweber/page-header.php:88
-#: redux-framework/sample/sections/codeweber/style.php:474
+#: redux-framework/sample/sections/codeweber/style.php:529
 #: redux-framework/sample/sections/codeweber/woocommerce.php:260
 msgid "Custom"
 msgstr ""
@@ -3562,7 +3567,7 @@ msgstr ""
 msgid "Custom (Manual Entry)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:236
+#: redux-framework/sample/sections/codeweber/style.php:291
 msgid "Custom Class"
 msgstr ""
 
@@ -3594,11 +3599,11 @@ msgid ""
 "[{\"color\":\"#404040\"}]}]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:229
+#: redux-framework/sample/sections/codeweber/style.php:284
 msgid "Custom Loader Logo (SVG)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:221
+#: redux-framework/sample/sections/codeweber/style.php:276
 msgid "Custom Logo"
 msgstr ""
 
@@ -3711,8 +3716,8 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/header.php:115
 #: redux-framework/sample/sections/codeweber/header.php:273
 #: redux-framework/sample/sections/codeweber/page-header.php:256
-#: redux-framework/sample/sections/codeweber/style.php:432
-#: redux-framework/sample/sections/codeweber/style.php:444
+#: redux-framework/sample/sections/codeweber/style.php:487
+#: redux-framework/sample/sections/codeweber/style.php:499
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:435
 msgid "Dark"
 msgstr ""
@@ -3826,7 +3831,7 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:405
 #: redux-framework/sample/metaboxes.php:547
 #: redux-framework/sample/metaboxes.php:629
-#: redux-framework/sample/sections/codeweber/style.php:218
+#: redux-framework/sample/sections/codeweber/style.php:273
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:432
 msgid "Default"
 msgstr ""
@@ -3936,7 +3941,7 @@ msgstr ""
 msgid "Default Status"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:315
+#: redux-framework/sample/sections/codeweber/style.php:370
 msgid "Default style for social/contact icons across the theme."
 msgstr ""
 
@@ -6138,7 +6143,7 @@ msgstr ""
 msgid "Font uploaded successfully!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:619
+#: redux-framework/sample/sections/codeweber/style.php:674
 msgid "Fonts"
 msgstr ""
 
@@ -6519,7 +6524,7 @@ msgstr ""
 msgid "Forms Count"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:118
+#: redux-framework/sample/sections/codeweber/style.php:173
 msgid "Forms rounded corners"
 msgstr ""
 
@@ -6753,17 +6758,17 @@ msgstr ""
 msgid "Gladkov Denis"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:443
+#: redux-framework/sample/sections/codeweber/style.php:498
 msgid "Global"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:461
+#: redux-framework/sample/sections/codeweber/style.php:516
 msgid ""
 "Global Bootstrap grid gap used in shop, archives and Gutenberg blocks with "
 "\"Theme\" gap type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:309
+#: redux-framework/sample/sections/codeweber/style.php:364
 msgid ""
 "Global icon settings (social links, vacancy sidebar, etc.). Header and "
 "footer can have their own overrides."
@@ -6777,7 +6782,7 @@ msgstr ""
 msgid "Global page background. Overridden by per-CPT and per-post settings."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:305
+#: redux-framework/sample/sections/codeweber/style.php:360
 msgid "Global Social Style"
 msgstr ""
 
@@ -6890,11 +6895,11 @@ msgstr ""
 msgid "Green Icon"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:467
+#: redux-framework/sample/sections/codeweber/style.php:522
 msgid "Grid Gap Preset"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:457
+#: redux-framework/sample/sections/codeweber/style.php:512
 msgid "Grid Gutters"
 msgstr ""
 
@@ -6912,7 +6917,7 @@ msgid ""
 "after login."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:630
+#: redux-framework/sample/sections/codeweber/style.php:685
 msgid "Gulp"
 msgstr ""
 
@@ -6928,19 +6933,19 @@ msgstr ""
 msgid "Gutenberg Editor Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:483
+#: redux-framework/sample/sections/codeweber/style.php:538
 msgid "gx-* — all breakpoints. Leave empty to skip."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:508
+#: redux-framework/sample/sections/codeweber/style.php:563
 msgid "gx-md-* — overrides horizontal gap from ≥768px."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:533
+#: redux-framework/sample/sections/codeweber/style.php:588
 msgid "gy-* — vertical gap at all breakpoints."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:558
+#: redux-framework/sample/sections/codeweber/style.php:613
 msgid "gy-md-* — overrides vertical gap from ≥768px."
 msgstr ""
 
@@ -7166,11 +7171,11 @@ msgid ""
 "screen sizes."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:507
+#: redux-framework/sample/sections/codeweber/style.php:562
 msgid "Horizontal Gap (md+)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:482
+#: redux-framework/sample/sections/codeweber/style.php:537
 msgid "Horizontal Gap (xs)"
 msgstr ""
 
@@ -7421,7 +7426,7 @@ msgstr ""
 msgid "If disabled, the map is not displayed on the frontend."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:237
+#: redux-framework/sample/sections/codeweber/style.php:292
 msgid "If filled, the background color below will not be applied"
 msgstr ""
 
@@ -7469,6 +7474,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/body-bg.php:70
 #: redux-framework/sample/sections/codeweber/cpt-type.php:686
 #: redux-framework/sample/sections/codeweber/page-header.php:159
+#: redux-framework/sample/sections/codeweber/style.php:77
 msgid "Image"
 msgstr ""
 
@@ -7625,6 +7631,18 @@ msgstr ""
 
 #: functions/admin/faq-settings.php:153
 msgid "Inline (in sidebar)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:108
+msgid ""
+"Inline SVG markup shown on dark backgrounds. Use currentColor to inherit "
+"text color."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:86
+msgid ""
+"Inline SVG markup shown on light backgrounds. Use currentColor to inherit "
+"text color."
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:965
@@ -8081,7 +8099,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:185
 #: redux-framework/sample/sections/codeweber/header.php:262
 #: redux-framework/sample/sections/codeweber/header.php:337
-#: redux-framework/sample/sections/codeweber/style.php:346
+#: redux-framework/sample/sections/codeweber/style.php:401
 msgid "Large"
 msgstr ""
 
@@ -8344,8 +8362,8 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/header.php:116
 #: redux-framework/sample/sections/codeweber/header.php:274
 #: redux-framework/sample/sections/codeweber/page-header.php:257
-#: redux-framework/sample/sections/codeweber/style.php:433
-#: redux-framework/sample/sections/codeweber/style.php:445
+#: redux-framework/sample/sections/codeweber/style.php:488
+#: redux-framework/sample/sections/codeweber/style.php:500
 msgid "Light"
 msgstr ""
 
@@ -8437,11 +8455,11 @@ msgstr ""
 msgid "Load more"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:244
+#: redux-framework/sample/sections/codeweber/style.php:299
 msgid "Loader Background Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:216
+#: redux-framework/sample/sections/codeweber/style.php:271
 msgid "Loader Type"
 msgstr ""
 
@@ -8533,8 +8551,28 @@ msgstr ""
 msgid "Logo Size"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/style.php:85
+msgid "Logo SVG — Dark"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:107
+msgid "Logo SVG — Light"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:99
+msgid "Logo Text — Dark"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:121
+msgid "Logo Text — Light"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:183
 msgid "Logo to use instead of marker"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:74
+msgid "Logo type"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:555
@@ -8717,7 +8755,7 @@ msgstr ""
 msgid "Marketing"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:190
+#: redux-framework/sample/sections/codeweber/style.php:245
 msgid ""
 "Mask for phone input fields in built-in forms. Use _ for digit positions. "
 "Example: +7 (___) ___-__-__"
@@ -8812,7 +8850,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:184
 #: redux-framework/sample/sections/codeweber/header.php:261
 #: redux-framework/sample/sections/codeweber/header.php:336
-#: redux-framework/sample/sections/codeweber/style.php:345
+#: redux-framework/sample/sections/codeweber/style.php:400
 msgid "Medium"
 msgstr ""
 
@@ -9966,7 +10004,7 @@ msgstr ""
 msgid "None (transparent)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:471
+#: redux-framework/sample/sections/codeweber/style.php:526
 msgid "Normal — g-6 (30px)"
 msgstr ""
 
@@ -10568,7 +10606,7 @@ msgstr ""
 msgid "Override the global Redux background for this page only."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:441
+#: redux-framework/sample/sections/codeweber/style.php:496
 msgid ""
 "Override title color for WooCommerce shop/archive. Default = use global."
 msgstr ""
@@ -10612,7 +10650,7 @@ msgstr ""
 
 #: functions/cpt/cpt-page-header.php:11 functions/cpt/cpt-page-header.php:26
 #: redux-framework/sample/sections/codeweber/page-header.php:56
-#: redux-framework/sample/sections/codeweber/style.php:399
+#: redux-framework/sample/sections/codeweber/style.php:454
 msgid "Page Header"
 msgstr ""
 
@@ -10678,8 +10716,8 @@ msgstr ""
 msgid "Page ID or «home»"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:202
-#: redux-framework/sample/sections/codeweber/style.php:210
+#: redux-framework/sample/sections/codeweber/style.php:257
+#: redux-framework/sample/sections/codeweber/style.php:265
 msgid "Page Loader"
 msgstr ""
 
@@ -10722,15 +10760,15 @@ msgid ""
 "to generate it automatically."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:138
+#: redux-framework/sample/sections/codeweber/style.php:193
 msgid "Page-frame"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:144
+#: redux-framework/sample/sections/codeweber/style.php:199
 msgid "Page-frame Background Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:164
+#: redux-framework/sample/sections/codeweber/style.php:219
 msgid "Page-frame Color Type"
 msgstr ""
 
@@ -11151,11 +11189,11 @@ msgstr ""
 msgid "Phone field"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:181
+#: redux-framework/sample/sections/codeweber/style.php:236
 msgid "Phone Mask"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:189
+#: redux-framework/sample/sections/codeweber/style.php:244
 msgid "Phone mask"
 msgstr ""
 
@@ -11706,7 +11744,7 @@ msgstr ""
 msgid "Projects Not Found in Trash"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:383
+#: redux-framework/sample/sections/codeweber/style.php:438
 msgid "Projects Prev/Next Style"
 msgstr ""
 
@@ -13899,11 +13937,11 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:353
+#: redux-framework/sample/sections/codeweber/style.php:408
 msgid "Share Button Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:373
+#: redux-framework/sample/sections/codeweber/style.php:428
 msgid "Share Button Type"
 msgstr ""
 
@@ -14442,7 +14480,7 @@ msgstr ""
 msgid "Sidebar Title"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:270
+#: redux-framework/sample/sections/codeweber/style.php:325
 msgid "Sidebar Widgets"
 msgstr ""
 
@@ -14575,7 +14613,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:183
 #: redux-framework/sample/sections/codeweber/header.php:260
 #: redux-framework/sample/sections/codeweber/header.php:335
-#: redux-framework/sample/sections/codeweber/style.php:344
+#: redux-framework/sample/sections/codeweber/style.php:399
 msgid "Small"
 msgstr ""
 
@@ -14623,7 +14661,7 @@ msgstr ""
 msgid "Social Button Size"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:342
+#: redux-framework/sample/sections/codeweber/style.php:397
 msgid "Social Button Size (global)"
 msgstr ""
 
@@ -14633,7 +14671,7 @@ msgstr ""
 msgid "Social Button Style"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:332
+#: redux-framework/sample/sections/codeweber/style.php:387
 msgid "Social Button Style (global)"
 msgstr ""
 
@@ -14641,7 +14679,7 @@ msgstr ""
 msgid "Social Icon Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:314
+#: redux-framework/sample/sections/codeweber/style.php:369
 msgid "Social Icon Type (global)"
 msgstr ""
 
@@ -14687,8 +14725,8 @@ msgid "Socials"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:158
-#: redux-framework/sample/sections/codeweber/style.php:167
-#: redux-framework/sample/sections/codeweber/style.php:376
+#: redux-framework/sample/sections/codeweber/style.php:222
+#: redux-framework/sample/sections/codeweber/style.php:431
 msgid "Soft"
 msgstr ""
 
@@ -14725,8 +14763,8 @@ msgid "Software"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:157
-#: redux-framework/sample/sections/codeweber/style.php:166
-#: redux-framework/sample/sections/codeweber/style.php:375
+#: redux-framework/sample/sections/codeweber/style.php:221
+#: redux-framework/sample/sections/codeweber/style.php:430
 msgid "Solid"
 msgstr ""
 
@@ -14770,7 +14808,7 @@ msgstr ""
 msgid "Sorting Options"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:473
+#: redux-framework/sample/sections/codeweber/style.php:528
 msgid "Spacious — gy-10 gy-md-13 gx-md-8"
 msgstr ""
 
@@ -14987,7 +15025,7 @@ msgstr ""
 msgid "Style of cluster icons"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:384
+#: redux-framework/sample/sections/codeweber/style.php:439
 msgid ""
 "Style of prev/next links on single project page. Share button is always "
 "shown."
@@ -15766,6 +15804,10 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/style.php:78
+msgid "Text + SVG"
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:522
 #: redux-framework/sample/sections/codeweber/body-bg.php:129
 #: redux-framework/sample/sections/codeweber/cpt-type.php:740
@@ -15780,7 +15822,7 @@ msgstr ""
 msgid "Text for paragraph 5.3 of the personal data processing policy"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:386
+#: redux-framework/sample/sections/codeweber/style.php:441
 msgid "Text Links"
 msgstr ""
 
@@ -15790,6 +15832,14 @@ msgstr ""
 
 #: functions/admin/projects-settings.php:357
 msgid "Text only"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:122
+msgid "Text shown on dark backgrounds."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:100
+msgid "Text shown on light backgrounds."
 msgstr ""
 
 #: functions/admin/events-settings.php:95
@@ -15927,11 +15977,11 @@ msgstr ""
 msgid "Theme Information 2"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:220
+#: redux-framework/sample/sections/codeweber/style.php:275
 msgid "Theme Logo Dark"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:219
+#: redux-framework/sample/sections/codeweber/style.php:274
 msgid "Theme Logo Light"
 msgstr ""
 
@@ -16150,11 +16200,11 @@ msgstr ""
 msgid "Title Purpose of processing"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:407
+#: redux-framework/sample/sections/codeweber/style.php:462
 msgid "Title size"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:430
+#: redux-framework/sample/sections/codeweber/style.php:485
 msgid "Title Text Color"
 msgstr ""
 
@@ -16346,63 +16396,63 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:150
 #: redux-framework/sample/sections/codeweber/header.php:229
 #: redux-framework/sample/sections/codeweber/header.php:304
-#: redux-framework/sample/sections/codeweber/style.php:317
+#: redux-framework/sample/sections/codeweber/style.php:372
 msgid "Type 1"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:151
 #: redux-framework/sample/sections/codeweber/header.php:230
 #: redux-framework/sample/sections/codeweber/header.php:305
-#: redux-framework/sample/sections/codeweber/style.php:318
+#: redux-framework/sample/sections/codeweber/style.php:373
 msgid "Type 2"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:152
 #: redux-framework/sample/sections/codeweber/header.php:231
 #: redux-framework/sample/sections/codeweber/header.php:306
-#: redux-framework/sample/sections/codeweber/style.php:319
+#: redux-framework/sample/sections/codeweber/style.php:374
 msgid "Type 3"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:153
 #: redux-framework/sample/sections/codeweber/header.php:232
 #: redux-framework/sample/sections/codeweber/header.php:307
-#: redux-framework/sample/sections/codeweber/style.php:320
+#: redux-framework/sample/sections/codeweber/style.php:375
 msgid "Type 4"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:154
 #: redux-framework/sample/sections/codeweber/header.php:233
 #: redux-framework/sample/sections/codeweber/header.php:308
-#: redux-framework/sample/sections/codeweber/style.php:321
+#: redux-framework/sample/sections/codeweber/style.php:376
 msgid "Type 5"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:155
 #: redux-framework/sample/sections/codeweber/header.php:234
 #: redux-framework/sample/sections/codeweber/header.php:309
-#: redux-framework/sample/sections/codeweber/style.php:322
+#: redux-framework/sample/sections/codeweber/style.php:377
 msgid "Type 6"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:156
 #: redux-framework/sample/sections/codeweber/header.php:235
 #: redux-framework/sample/sections/codeweber/header.php:310
-#: redux-framework/sample/sections/codeweber/style.php:323
+#: redux-framework/sample/sections/codeweber/style.php:378
 msgid "Type 7"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:157
 #: redux-framework/sample/sections/codeweber/header.php:236
 #: redux-framework/sample/sections/codeweber/header.php:311
-#: redux-framework/sample/sections/codeweber/style.php:324
+#: redux-framework/sample/sections/codeweber/style.php:379
 msgid "Type 8"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:158
 #: redux-framework/sample/sections/codeweber/header.php:237
 #: redux-framework/sample/sections/codeweber/header.php:312
-#: redux-framework/sample/sections/codeweber/style.php:325
+#: redux-framework/sample/sections/codeweber/style.php:380
 msgid "Type 9"
 msgstr ""
 
@@ -16656,7 +16706,7 @@ msgstr ""
 msgid "Upload PDF"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:230
+#: redux-framework/sample/sections/codeweber/style.php:285
 msgid "Upload SVG image"
 msgstr ""
 
@@ -16747,6 +16797,10 @@ msgstr ""
 #: functions/cpt/cpt-projects-meta.php:252
 #: functions/cpt/cpt-projects-meta.php:892
 msgid "Use"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:75
+msgid "Use an uploaded image or an inline SVG icon with text."
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:23 functions/cpt/cpt-services.php:26
@@ -17143,19 +17197,19 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:557
+#: redux-framework/sample/sections/codeweber/style.php:612
 msgid "Vertical Gap (md+)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:532
+#: redux-framework/sample/sections/codeweber/style.php:587
 msgid "Vertical Gap (xs)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:599
+#: redux-framework/sample/sections/codeweber/style.php:654
 msgid "Vertical padding from md breakpoint and above."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:583
+#: redux-framework/sample/sections/codeweber/style.php:638
 msgid "Vertical padding on screens below md breakpoint."
 msgstr ""
 
@@ -17702,7 +17756,7 @@ msgstr ""
 msgid "White"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:472
+#: redux-framework/sample/sections/codeweber/style.php:527
 msgid "Wide — gy-10 gx-md-8"
 msgstr ""
 
@@ -17756,7 +17810,7 @@ msgstr ""
 msgid "Widget area on the right side of the Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:278
+#: redux-framework/sample/sections/codeweber/style.php:333
 msgid "Widget Heading Size"
 msgstr ""
 
@@ -17837,7 +17891,7 @@ msgstr ""
 msgid "Woocommerce"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:440
+#: redux-framework/sample/sections/codeweber/style.php:495
 msgid "WooCommerce Archive Title Color"
 msgstr ""
 
@@ -17889,6 +17943,10 @@ msgstr ""
 #: templates/singles/offices/offices_2.php:216
 #: templates/singles/offices/offices_5.php:209
 msgid "Working Hours"
+msgstr ""
+
+#: templates/footer/footer-4.php:103
+msgid "Working hours"
 msgstr ""
 
 #: functions/integrations/s3-storage/inc/Settings.php:117
@@ -18950,10 +19008,10 @@ msgstr ""
 msgid "— No License —"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:485
-#: redux-framework/sample/sections/codeweber/style.php:510
-#: redux-framework/sample/sections/codeweber/style.php:535
-#: redux-framework/sample/sections/codeweber/style.php:560
+#: redux-framework/sample/sections/codeweber/style.php:540
+#: redux-framework/sample/sections/codeweber/style.php:565
+#: redux-framework/sample/sections/codeweber/style.php:590
+#: redux-framework/sample/sections/codeweber/style.php:615
 msgid "— none —"
 msgstr ""
 
