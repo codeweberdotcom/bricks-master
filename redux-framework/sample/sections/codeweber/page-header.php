@@ -300,7 +300,7 @@ Redux::set_section(
 				'type'        => 'text',
 				'title'       => esc_html__( 'Home link label', 'codeweber' ),
 				'subtitle'    => esc_html__( 'Leave empty to use default translation', 'codeweber' ),
-				'placeholder' => esc_html__( 'Главная', 'codeweber' ),
+				'placeholder' => esc_html__( 'Home', 'codeweber' ),
 				'default'     => '',
 				'required'    => array(
 					array( 'global-page-header-breadcrumb-enable', '=', '1' ),
@@ -350,7 +350,7 @@ Redux::set_section(
 				'type'        => 'text',
 				'title'       => esc_html__( 'Home link label', 'codeweber' ),
 				'subtitle'    => esc_html__( 'Leave empty to use default translation', 'codeweber' ),
-				'placeholder' => esc_html__( 'Главная', 'codeweber' ),
+				'placeholder' => esc_html__( 'Home', 'codeweber' ),
 				'default'     => '',
 				'required'    => array(
 					array( 'breadcrumb_woo_show_home', '=', '1' ),

@@ -167,7 +167,7 @@ function cw_get_active_filter_params() {
 		if ( $show ) {
 			$label = sprintf(
 				/* translators: 1: min price, 2: max price */
-				__( 'Цена: %1$s — %2$s', 'codeweber' ),
+				__( 'Price: %1$s — %2$s', 'codeweber' ),
 				wc_price( $min_price ?? $range['min'] ),
 				wc_price( $max_price ?? $range['max'] )
 			);
@@ -188,7 +188,7 @@ function cw_get_active_filter_params() {
 			$active[] = [
 				'param'      => 'rating_filter',
 				'value'      => (string) $rating,
-				'label'      => sprintf( _n( '%d звезда', '%d звёзд', $rating, 'codeweber' ), $rating ),
+				'label'      => sprintf( _n( '%d star', '%d stars', $rating, 'codeweber' ), $rating ),
 				'remove_url' => cw_get_filter_url( 'rating_filter', (string) $rating ),
 			];
 		}
@@ -214,9 +214,9 @@ function cw_get_active_filter_params() {
 	// Stock filter
 	if ( ! empty( $_GET['filter_stock_status'] ) ) {
 		$stock_labels = [
-			'instock'    => __( 'В наличии', 'codeweber' ),
-			'outofstock' => __( 'Нет в наличии', 'codeweber' ),
-			'onbackorder' => __( 'Под заказ', 'codeweber' ),
+			'instock'    => __( 'In stock', 'codeweber' ),
+			'outofstock' => __( 'Out of stock', 'codeweber' ),
+			'onbackorder' => __( 'On backorder', 'codeweber' ),
 		];
 		$val = sanitize_text_field( wp_unslash( $_GET['filter_stock_status'] ) );
 		if ( isset( $stock_labels[ $val ] ) ) {
@@ -989,9 +989,9 @@ function cw_get_stock_filter_options() {
 	$counts = cw_get_filtered_stock_counts();
 
 	$statuses = [
-		'instock'     => __( 'В наличии', 'codeweber' ),
-		'outofstock'  => __( 'Нет в наличии', 'codeweber' ),
-		'onbackorder' => __( 'Под заказ', 'codeweber' ),
+		'instock'     => __( 'In stock', 'codeweber' ),
+		'outofstock'  => __( 'Out of stock', 'codeweber' ),
+		'onbackorder' => __( 'On backorder', 'codeweber' ),
 	];
 
 	$options = [];
@@ -1197,7 +1197,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		// ── Reset button ──────────────────────────────────────────────────────
 		if ( 'reset_button' === $item_type ) {
 			if ( function_exists( 'cw_has_active_filters' ) && cw_has_active_filters() ) {
-				$reset_text = $reset_label ?: __( 'Сбросить все фильтры', 'codeweber' );
+				$reset_text = $reset_label ?: __( 'Reset all filters', 'codeweber' );
 				echo '<div class="' . esc_attr( $wrapper_class . ( $item_class ? ' ' . $item_class : '' ) ) . '">';
 				echo '<a href="' . esc_url( cw_get_clear_filters_url() ) . '" class="btn btn-sm btn-outline-secondary w-100 pjax-link">';
 				echo esc_html( $reset_text );
@@ -1250,8 +1250,8 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 		$item_class        = isset( $item['itemClass'] ) ? sanitize_text_field( $item['itemClass'] ) : '';
 		$limit_type        = in_array( $item['limitType'] ?? 'none', [ 'none', 'count', 'height' ], true ) ? ( $item['limitType'] ?? 'none' ) : 'none';
 		$limit_value       = isset( $item['limitValue'] ) ? max( 1, (int) $item['limitValue'] ) : 5;
-		$show_more_text    = isset( $item['showMoreText'] ) && '' !== trim( $item['showMoreText'] ) ? sanitize_text_field( $item['showMoreText'] ) : __( 'Показать ещё', 'codeweber' );
-		$show_less_text    = isset( $item['showLessText'] ) && '' !== trim( $item['showLessText'] ) ? sanitize_text_field( $item['showLessText'] ) : __( 'Свернуть', 'codeweber' );
+		$show_more_text    = isset( $item['showMoreText'] ) && '' !== trim( $item['showMoreText'] ) ? sanitize_text_field( $item['showMoreText'] ) : __( 'Show more', 'codeweber' );
+		$show_less_text    = isset( $item['showLessText'] ) && '' !== trim( $item['showLessText'] ) ? sanitize_text_field( $item['showLessText'] ) : __( 'Show less', 'codeweber' );
 
 		$collapse_list_type  = preg_replace( '/[^1-5]/', '', (string) ( $item['collapseListType'] ?? '1' ) );
 		if ( '' === $collapse_list_type ) {
@@ -1269,14 +1269,14 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 			case 'price':
 				if ( ! $section_label ) {
-					$section_label = __( 'Цена', 'codeweber' );
+					$section_label = __( 'Price', 'codeweber' );
 				}
 				include $filters_dir . 'filter-price.php';
 				break;
 
 			case 'categories':
 				if ( ! $section_label ) {
-					$section_label = __( 'Категории', 'codeweber' );
+					$section_label = __( 'Categories', 'codeweber' );
 				}
 				$terms_data = cw_get_category_filter_terms( 0, $show_count, $count_unfiltered );
 				$radio_name = 'cw_filter_radio_cat';
@@ -1294,7 +1294,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 			case 'tags':
 				if ( ! $section_label ) {
-					$section_label = __( 'Метки', 'codeweber' );
+					$section_label = __( 'Tags', 'codeweber' );
 				}
 				$terms_data = cw_get_tag_filter_terms( $show_count );
 				$radio_name = 'cw_filter_radio_tags';
@@ -1312,7 +1312,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 			case 'rating':
 				if ( ! $section_label ) {
-					$section_label = __( 'Рейтинг', 'codeweber' );
+					$section_label = __( 'Rating', 'codeweber' );
 				}
 				$options = cw_get_rating_filter_options();
 				if ( 'hide_block' === $empty_behavior ) {
@@ -1325,7 +1325,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 			case 'stock':
 				if ( ! $section_label ) {
-					$section_label = __( 'Наличие', 'codeweber' );
+					$section_label = __( 'Availability', 'codeweber' );
 				}
 				$options = cw_get_stock_filter_options();
 				if ( 'hide_block' === $empty_behavior ) {
@@ -1338,7 +1338,7 @@ function cw_render_filter_items( $items, $panel_atts = [] ) {
 
 			case 'brands':
 				if ( ! $section_label ) {
-					$section_label = __( 'Бренды', 'codeweber' );
+					$section_label = __( 'Brands', 'codeweber' );
 				}
 				if ( ! taxonomy_exists( 'product_brand' ) ) {
 					$has_content = false;
@@ -1516,8 +1516,8 @@ class CW_Widget_Price_Filter extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'cw_price_filter',
-			__( 'CW: Фильтр по цене', 'codeweber' ),
-			[ 'description' => __( 'Ценовой слайдер для страниц каталога WooCommerce.', 'codeweber' ) ]
+			__( 'CW: Price filter', 'codeweber' ),
+			[ 'description' => __( 'Price slider for WooCommerce catalog pages.', 'codeweber' ) ]
 		);
 	}
 
@@ -1526,7 +1526,7 @@ class CW_Widget_Price_Filter extends WP_Widget {
 			return;
 		}
 
-		$title = apply_filters( 'widget_title', $instance['title'] ?? __( 'Цена', 'codeweber' ) );
+		$title = apply_filters( 'widget_title', $instance['title'] ?? __( 'Price', 'codeweber' ) );
 
 		$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
 
@@ -1539,10 +1539,10 @@ class CW_Widget_Price_Filter extends WP_Widget {
 	}
 
 	public function form( $instance ) {
-		$title = $instance['title'] ?? __( 'Цена', 'codeweber' );
+		$title = $instance['title'] ?? __( 'Price', 'codeweber' );
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Заголовок:', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'codeweber' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>"
 				type="text" value="<?php echo esc_attr( $title ); ?>">
@@ -1562,8 +1562,8 @@ class CW_Widget_Attribute_Filter extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'cw_attribute_filter',
-			__( 'CW: Фильтр по атрибуту', 'codeweber' ),
-			[ 'description' => __( 'Фильтр по атрибуту товаров WooCommerce (цвет, размер и др.).', 'codeweber' ) ]
+			__( 'CW: Attribute filter', 'codeweber' ),
+			[ 'description' => __( 'Filter products by WooCommerce attribute (color, size, etc.).', 'codeweber' ) ]
 		);
 	}
 
@@ -1610,16 +1610,16 @@ class CW_Widget_Attribute_Filter extends WP_Widget {
 		$attribute_taxonomies = wc_get_attribute_taxonomies();
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Заголовок:', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'codeweber' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>"
 				type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'attribute' ) ); ?>"><?php esc_html_e( 'Атрибут:', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'attribute' ) ); ?>"><?php esc_html_e( 'Attribute:', 'codeweber' ); ?></label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'attribute' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'attribute' ) ); ?>">
-				<option value=""><?php esc_html_e( '— выберите —', 'codeweber' ); ?></option>
+				<option value=""><?php esc_html_e( '— select —', 'codeweber' ); ?></option>
 				<?php foreach ( $attribute_taxonomies as $tax ) : ?>
 					<option value="pa_<?php echo esc_attr( $tax->attribute_name ); ?>"
 						<?php selected( $attribute, 'pa_' . $tax->attribute_name ); ?>>
@@ -1629,19 +1629,19 @@ class CW_Widget_Attribute_Filter extends WP_Widget {
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'display_mode' ) ); ?>"><?php esc_html_e( 'Отображение:', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'display_mode' ) ); ?>"><?php esc_html_e( 'Display:', 'codeweber' ); ?></label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'display_mode' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'display_mode' ) ); ?>">
-				<option value="checkbox" <?php selected( $display_mode, 'checkbox' ); ?>><?php esc_html_e( 'Чекбоксы', 'codeweber' ); ?></option>
-				<option value="list"     <?php selected( $display_mode, 'list' ); ?>><?php esc_html_e( 'Список ссылок', 'codeweber' ); ?></option>
-				<option value="button"   <?php selected( $display_mode, 'button' ); ?>><?php esc_html_e( 'Кнопки', 'codeweber' ); ?></option>
+				<option value="checkbox" <?php selected( $display_mode, 'checkbox' ); ?>><?php esc_html_e( 'Checkboxes', 'codeweber' ); ?></option>
+				<option value="list"     <?php selected( $display_mode, 'list' ); ?>><?php esc_html_e( 'Link list', 'codeweber' ); ?></option>
+				<option value="button"   <?php selected( $display_mode, 'button' ); ?>><?php esc_html_e( 'Buttons', 'codeweber' ); ?></option>
 			</select>
 		</p>
 		<p>
 			<input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_count' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'show_count' ) ); ?>"
 				value="1" <?php echo esc_attr( $show_count ); ?>>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'show_count' ) ); ?>"><?php esc_html_e( 'Показывать кол-во товаров', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'show_count' ) ); ?>"><?php esc_html_e( 'Show product count', 'codeweber' ); ?></label>
 		</p>
 		<?php
 	}
@@ -1664,8 +1664,8 @@ class CW_Widget_Category_Filter extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'cw_category_filter',
-			__( 'CW: Фильтр по категории', 'codeweber' ),
-			[ 'description' => __( 'Список категорий товаров для фильтрации.', 'codeweber' ) ]
+			__( 'CW: Category filter', 'codeweber' ),
+			[ 'description' => __( 'List of product categories for filtering.', 'codeweber' ) ]
 		);
 	}
 
@@ -1674,7 +1674,7 @@ class CW_Widget_Category_Filter extends WP_Widget {
 			return;
 		}
 
-		$title      = apply_filters( 'widget_title', $instance['title'] ?? __( 'Категории', 'codeweber' ) );
+		$title      = apply_filters( 'widget_title', $instance['title'] ?? __( 'Categories', 'codeweber' ) );
 		$show_count = ! empty( $instance['show_count'] );
 		$terms_data = cw_get_category_filter_terms( 0, $show_count );
 
@@ -1693,11 +1693,11 @@ class CW_Widget_Category_Filter extends WP_Widget {
 	}
 
 	public function form( $instance ) {
-		$title      = $instance['title'] ?? __( 'Категории', 'codeweber' );
+		$title      = $instance['title'] ?? __( 'Categories', 'codeweber' );
 		$show_count = ! empty( $instance['show_count'] ) ? 'checked' : '';
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Заголовок:', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'codeweber' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>"
 				type="text" value="<?php echo esc_attr( $title ); ?>">
@@ -1706,7 +1706,7 @@ class CW_Widget_Category_Filter extends WP_Widget {
 			<input type="checkbox" id="<?php echo esc_attr( $this->get_field_id( 'show_count' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'show_count' ) ); ?>"
 				value="1" <?php echo esc_attr( $show_count ); ?>>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'show_count' ) ); ?>"><?php esc_html_e( 'Показывать кол-во товаров', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'show_count' ) ); ?>"><?php esc_html_e( 'Show product count', 'codeweber' ); ?></label>
 		</p>
 		<?php
 	}
@@ -1726,8 +1726,8 @@ class CW_Widget_Rating_Filter extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'cw_rating_filter',
-			__( 'CW: Фильтр по рейтингу', 'codeweber' ),
-			[ 'description' => __( 'Фильтр товаров по звёздному рейтингу.', 'codeweber' ) ]
+			__( 'CW: Rating filter', 'codeweber' ),
+			[ 'description' => __( 'Filter products by star rating.', 'codeweber' ) ]
 		);
 	}
 
@@ -1736,7 +1736,7 @@ class CW_Widget_Rating_Filter extends WP_Widget {
 			return;
 		}
 
-		$title   = apply_filters( 'widget_title', $instance['title'] ?? __( 'Рейтинг', 'codeweber' ) );
+		$title   = apply_filters( 'widget_title', $instance['title'] ?? __( 'Rating', 'codeweber' ) );
 		$options = cw_get_rating_filter_options();
 
 		$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
@@ -1750,10 +1750,10 @@ class CW_Widget_Rating_Filter extends WP_Widget {
 	}
 
 	public function form( $instance ) {
-		$title = $instance['title'] ?? __( 'Рейтинг', 'codeweber' );
+		$title = $instance['title'] ?? __( 'Rating', 'codeweber' );
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Заголовок:', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'codeweber' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>"
 				type="text" value="<?php echo esc_attr( $title ); ?>">
@@ -1773,8 +1773,8 @@ class CW_Widget_Stock_Filter extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'cw_stock_filter',
-			__( 'CW: Фильтр по наличию', 'codeweber' ),
-			[ 'description' => __( 'Фильтр товаров по статусу наличия.', 'codeweber' ) ]
+			__( 'CW: Availability filter', 'codeweber' ),
+			[ 'description' => __( 'Filter products by stock status.', 'codeweber' ) ]
 		);
 	}
 
@@ -1783,7 +1783,7 @@ class CW_Widget_Stock_Filter extends WP_Widget {
 			return;
 		}
 
-		$title   = apply_filters( 'widget_title', $instance['title'] ?? __( 'Наличие', 'codeweber' ) );
+		$title   = apply_filters( 'widget_title', $instance['title'] ?? __( 'Availability', 'codeweber' ) );
 		$options = cw_get_stock_filter_options();
 
 		$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
@@ -1797,10 +1797,10 @@ class CW_Widget_Stock_Filter extends WP_Widget {
 	}
 
 	public function form( $instance ) {
-		$title = $instance['title'] ?? __( 'Наличие', 'codeweber' );
+		$title = $instance['title'] ?? __( 'Availability', 'codeweber' );
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Заголовок:', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'codeweber' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>"
 				type="text" value="<?php echo esc_attr( $title ); ?>">
@@ -1820,8 +1820,8 @@ class CW_Widget_Active_Filters extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'cw_active_filters',
-			__( 'CW: Активные фильтры', 'codeweber' ),
-			[ 'description' => __( 'Показывает применённые фильтры с кнопкой сброса.', 'codeweber' ) ]
+			__( 'CW: Active filters', 'codeweber' ),
+			[ 'description' => __( 'Shows applied filters with a reset button.', 'codeweber' ) ]
 		);
 	}
 
@@ -1830,7 +1830,7 @@ class CW_Widget_Active_Filters extends WP_Widget {
 			return;
 		}
 
-		$title  = apply_filters( 'widget_title', $instance['title'] ?? __( 'Выбрано', 'codeweber' ) );
+		$title  = apply_filters( 'widget_title', $instance['title'] ?? __( 'Selected', 'codeweber' ) );
 		$active = cw_get_active_filter_params();
 
 		$filters_dir = get_template_directory() . '/templates/woocommerce/filters/';
@@ -1844,10 +1844,10 @@ class CW_Widget_Active_Filters extends WP_Widget {
 	}
 
 	public function form( $instance ) {
-		$title = $instance['title'] ?? __( 'Выбрано', 'codeweber' );
+		$title = $instance['title'] ?? __( 'Selected', 'codeweber' );
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Заголовок:', 'codeweber' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'codeweber' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
 				name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>"
 				type="text" value="<?php echo esc_attr( $title ); ?>">

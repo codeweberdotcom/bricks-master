@@ -10,9 +10,9 @@ defined( 'ABSPATH' ) || exit;
 Redux::set_section(
 	$opt_name,
 	[
-		'title'  => esc_html__( 'Медиа', 'codeweber' ),
+		'title'  => esc_html__( 'Media', 'codeweber' ),
 		'id'     => 'media-tools',
-		'desc'   => esc_html__( 'Инструменты для работы с медиафайлами', 'codeweber' ),
+		'desc'   => esc_html__( 'Tools for working with media files', 'codeweber' ),
 		'icon'   => 'el el-picture',
 		'fields' => [
 			[
@@ -21,20 +21,20 @@ Redux::set_section(
 				'content' => '
 <div class="cw-media-regen" style="margin: 20px 0;">
 	<h3 style="margin-top: 0;">
-		' . esc_html__( 'Регенерация миниатюр', 'codeweber' ) . '
+		' . esc_html__( 'Thumbnail regeneration', 'codeweber' ) . '
 		<span class="dashicons dashicons-info" style="font-size:18px;vertical-align:middle;margin-left:6px;cursor:help;color:#72777c;"
-		      title="' . esc_attr__( "Что делает регенерация:\n• Перегенерирует все зарегистрированные размеры изображений для каждого файла в медиатеке.\n• Оригинальный файл НЕ удаляется и НЕ изменяется.\n• Размеры генерируются с учётом типа записи (CPT): для товаров WooCommerce — одни размеры, для событий — другие.\n• Старые миниатюры перезаписываются новыми.\n• Файлы без родительской записи генерируют все размеры без ограничений.\n• Потерянные вложения (файл удалён с диска) — не регенерируются, выводятся в отдельном списке.", 'codeweber' ) . '"></span>
+		      title="' . esc_attr__( "What regeneration does:\n• Regenerates all registered image sizes for each file in the media library.\n• The original file is NOT deleted and NOT modified.\n• Sizes are generated according to the post type (CPT): WooCommerce products get one set of sizes, events another.\n• Old thumbnails are overwritten with new ones.\n• Files without a parent post generate all sizes without restrictions.\n• Orphaned attachments (file deleted from disk) are not regenerated and are listed separately.", 'codeweber' ) . '"></span>
 	</h3>
-	<p class="description">' . esc_html__( 'Перегенерирует все размеры изображений для файлов в медиатеке. Нужно запускать после изменения зарегистрированных размеров.', 'codeweber' ) . '</p>
+	<p class="description">' . esc_html__( 'Regenerates all image sizes for files in the media library. Run it after changing the registered image sizes.', 'codeweber' ) . '</p>
 	<div style="margin: 15px 0; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
 		<button id="cw-regen-start" class="button button-primary">'
-				. esc_html__( 'Регенерировать миниатюры', 'codeweber' ) .
+				. esc_html__( 'Regenerate thumbnails', 'codeweber' ) .
 				'</button>
 		<button id="cw-regen-resume" class="button button-primary" style="display:none;">'
-				. esc_html__( 'Продолжить', 'codeweber' ) .
+				. esc_html__( 'Continue', 'codeweber' ) .
 				'</button>
 		<button id="cw-regen-restart" class="button button-secondary" style="display:none;">'
-				. esc_html__( 'Начать сначала', 'codeweber' ) .
+				. esc_html__( 'Start over', 'codeweber' ) .
 				'</button>
 	</div>
 	<div id="cw-regen-progress" style="display:none; margin-top: 15px; max-width: 500px;">
@@ -48,31 +48,31 @@ Redux::set_section(
 		<div style="display:flex; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap;">
 			<h4 style="margin:0; display:flex; align-items:center; gap:6px;">
 				<i class="uil uil-list-ul" style="font-size:18px;"></i>
-				' . esc_html__( 'Журнал обработки', 'codeweber' ) . '
+				' . esc_html__( 'Processing log', 'codeweber' ) . '
 				<span id="cw-log-count" style="font-weight:normal; color:#72777c; font-size:13px;"></span>
 			</h4>
-			<input type="search" id="cw-log-search" placeholder="' . esc_attr__( 'Поиск по имени файла...', 'codeweber' ) . '" style="flex:1; min-width:200px; max-width:300px; padding:4px 8px; font-size:13px; border:1px solid #ddd; border-radius:3px;">
+			<input type="search" id="cw-log-search" placeholder="' . esc_attr__( 'Search by file name...', 'codeweber' ) . '" style="flex:1; min-width:200px; max-width:300px; padding:4px 8px; font-size:13px; border:1px solid #ddd; border-radius:3px;">
 		</div>
 		<div id="cw-regen-log-list" style="max-height:400px; overflow-y:auto; border:1px solid #e5e5e5; border-radius:4px; background:#fff;"></div>
 	</div>
 
 	<div id="cw-regen-lost" style="display:none; margin-top: 20px;">
-		<h4 style="color:#b32d2e; margin-bottom: 8px;">' . esc_html__( 'Потерянные файлы', 'codeweber' ) . ' <span id="cw-lost-count"></span></h4>
-		<p class="description" style="margin-bottom: 10px;">' . esc_html__( 'Записи в базе данных есть, но файлы на диске отсутствуют.', 'codeweber' ) . '</p>
+		<h4 style="color:#b32d2e; margin-bottom: 8px;">' . esc_html__( 'Orphaned files', 'codeweber' ) . ' <span id="cw-lost-count"></span></h4>
+		<p class="description" style="margin-bottom: 10px;">' . esc_html__( 'Records exist in the database, but the files are missing on disk.', 'codeweber' ) . '</p>
 		<table class="widefat striped" style="max-width: 900px;">
 			<thead>
 				<tr>
 					<th style="width:40px;">#</th>
-					<th>' . esc_html__( 'Файл', 'codeweber' ) . '</th>
-					<th>' . esc_html__( 'Запись', 'codeweber' ) . '</th>
-					<th style="width:140px;">' . esc_html__( 'Действия', 'codeweber' ) . '</th>
+					<th>' . esc_html__( 'File', 'codeweber' ) . '</th>
+					<th>' . esc_html__( 'Record', 'codeweber' ) . '</th>
+					<th style="width:140px;">' . esc_html__( 'Actions', 'codeweber' ) . '</th>
 				</tr>
 			</thead>
 			<tbody id="cw-regen-lost-tbody"></tbody>
 		</table>
 		<div style="margin-top: 10px;">
 			<button id="cw-delete-all-lost" class="button button-secondary" style="color:#b32d2e; border-color:#b32d2e;">
-				' . esc_html__( 'Удалить все потерянные из БД', 'codeweber' ) . '
+				' . esc_html__( 'Delete all orphaned from DB', 'codeweber' ) . '
 			</button>
 			<span id="cw-delete-status" style="margin-left: 10px; font-size: 13px;"></span>
 		</div>
@@ -118,7 +118,7 @@ Redux::set_section(
 		var pct = outOf > 0 ? Math.round(done / outOf * 100) : 0;
 		$("#cw-regen-bar").css("width", pct + "%");
 		$("#cw-regen-label").text(
-			"' . esc_js( __( 'Обработано', 'codeweber' ) ) . ' " + done + " ' . esc_js( __( 'из', 'codeweber' ) ) . ' " + outOf + " (" + pct + "%)"
+			"' . esc_js( __( 'Processed', 'codeweber' ) ) . ' " + done + " ' . esc_js( __( 'of', 'codeweber' ) ) . ' " + outOf + " (" + pct + "%)"
 		);
 	}
 
@@ -175,17 +175,17 @@ Redux::set_section(
 		var cptBadge = (!skipped && item.parent_type && item.parent_type !== "default")
 			? chip(item.parent_type, S.cptC) : "";
 		var cntBadge = skipped
-			? chip("' . esc_js( __( 'пропущено', 'codeweber' ) ) . '", "background:#f0f0f1; color:#72777c;")
+			? chip("' . esc_js( __( 'skipped', 'codeweber' ) ) . '", "background:#f0f0f1; color:#72777c;")
 			: ( ok
-				? chip(sizes.length + " ' . esc_js( __( 'размеров', 'codeweber' ) ) . '", S.cntC)
-				: chip("' . esc_js( __( 'ошибка', 'codeweber' ) ) . '", S.errC) );
+				? chip(sizes.length + " ' . esc_js( __( 'sizes', 'codeweber' ) ) . '", S.cntC)
+				: chip("' . esc_js( __( 'error', 'codeweber' ) ) . '", S.errC) );
 
 		// Информация об оригинале
 		var infoBlock = "";
 		if (item.orig_w && item.orig_h) {
 			infoBlock = "<div style=\"padding:8px 12px; background:#eff6ff; border-top:1px solid #e5e5e5; font-size:12px; color:#1e3a8a;\">" +
 				"<span class=\"dashicons dashicons-format-image\" style=\"font-size:14px; width:14px; height:14px; vertical-align:middle; margin-right:4px;\"></span>" +
-				"' . esc_js( __( 'Оригинал:', 'codeweber' ) ) . ' <strong>" + item.orig_w + "×" + item.orig_h + "</strong> px" +
+				"' . esc_js( __( 'Original:', 'codeweber' ) ) . ' <strong>" + item.orig_w + "×" + item.orig_h + "</strong> px" +
 				"</div>";
 		}
 
@@ -196,8 +196,8 @@ Redux::set_section(
 			for (var j = 0; j < missed.length; j++) {
 				var mi = missed[j];
 				var reason = mi.reason === "too_large"
-					? "' . esc_js( __( 'Больше оригинала', 'codeweber' ) ) . '"
-					: "' . esc_js( __( 'Другая', 'codeweber' ) ) . '";
+					? "' . esc_js( __( 'Larger than original', 'codeweber' ) ) . '"
+					: "' . esc_js( __( 'Other', 'codeweber' ) ) . '";
 				var bg = j % 2 === 0 ? "#fff" : "#f9f9f9";
 				mrows += "<tr style=\"background:" + bg + ";\">" +
 					"<td style=\"" + S.td + " width:36px; color:#999;\">" + (j+1) + "</td>" +
@@ -208,14 +208,14 @@ Redux::set_section(
 			}
 			return "<div style=\"padding:8px 12px; background:#fffbeb; border-top:1px solid #fde68a; font-size:12px; color:#92400e; font-weight:600;\">" +
 				"<span class=\"dashicons dashicons-warning\" style=\"font-size:14px; width:14px; height:14px; vertical-align:middle; margin-right:4px;\"></span>" +
-				"' . esc_js( __( 'Пропущено:', 'codeweber' ) ) . ' " + missed.length +
+				"' . esc_js( __( 'Skipped:', 'codeweber' ) ) . ' " + missed.length +
 				"</div>" +
 				"<table style=\"" + S.tbl + "\">" +
 				"<thead><tr>" +
 				"<th style=\"" + S.th + " width:36px;\">#</th>" +
-				"<th style=\"" + S.th + "\">' . esc_js( __( 'Размер', 'codeweber' ) ) . '</th>" +
-				"<th style=\"" + S.th + "\">' . esc_js( __( 'Параметры', 'codeweber' ) ) . '</th>" +
-				"<th style=\"" + S.th + "\">' . esc_js( __( 'Причина', 'codeweber' ) ) . '</th>" +
+				"<th style=\"" + S.th + "\">' . esc_js( __( 'Size', 'codeweber' ) ) . '</th>" +
+				"<th style=\"" + S.th + "\">' . esc_js( __( 'Parameters', 'codeweber' ) ) . '</th>" +
+				"<th style=\"" + S.th + "\">' . esc_js( __( 'Reason', 'codeweber' ) ) . '</th>" +
 				"</tr></thead><tbody>" + mrows + "</tbody></table>";
 		}
 
@@ -224,12 +224,12 @@ Redux::set_section(
 		if (!ok) {
 			body = "<div style=\"" + S.errMsg + "\">" +
 				"<span class=\"dashicons dashicons-warning\" style=\"color:#991b1b;\"></span>" +
-				(item.error || "' . esc_js( __( 'Файл не найден на диске', 'codeweber' ) ) . '") +
+				(item.error || "' . esc_js( __( 'File not found on disk', 'codeweber' ) ) . '") +
 				"</div>";
 		} else if (skipped) {
 			body = infoBlock +
 				"<div style=\"padding:8px 12px; color:#72777c; font-size:12px;\">" +
-				"' . esc_js( __( 'Устаревшая запись журнала. Нажмите «Начать сначала» для обновления.', 'codeweber' ) ) . '" +
+				"' . esc_js( __( 'Outdated log entry. Click "Start over" to refresh.', 'codeweber' ) ) . '" +
 				"</div>";
 		} else if (sizes.length) {
 			var rows = "";
@@ -242,7 +242,7 @@ Redux::set_section(
 				"<table style=\"" + S.tbl + "\">" +
 				"<thead><tr>" +
 				"<th style=\"" + S.th + " width:36px;\">#</th>" +
-				"<th style=\"" + S.th + "\">' . esc_js( __( 'Размер', 'codeweber' ) ) . '</th>" +
+				"<th style=\"" + S.th + "\">' . esc_js( __( 'Size', 'codeweber' ) ) . '</th>" +
 				"</tr></thead><tbody>" + rows + "</tbody></table>" +
 				renderMissedBlock(item.missed);
 		} else {
@@ -250,7 +250,7 @@ Redux::set_section(
 			body = infoBlock +
 				"<div style=\"padding:8px 12px; color:#92400e; background:#fffbeb; border-top:1px solid #fde68a; font-size:12px;\">" +
 				"<span class=\"dashicons dashicons-info\" style=\"font-size:14px; width:14px; height:14px; vertical-align:middle; margin-right:4px;\"></span>" +
-				"' . esc_js( __( 'Ни один размер не сгенерирован. WordPress не увеличивает изображения — вероятно, оригинал меньше всех запрошенных размеров.', 'codeweber' ) ) . '" +
+				"' . esc_js( __( 'No sizes were generated. WordPress does not upscale images — the original is probably smaller than all requested sizes.', 'codeweber' ) ) . '" +
 				"</div>" +
 				renderMissedBlock(item.missed);
 		}
@@ -345,9 +345,9 @@ Redux::set_section(
 				? "<a href=\"" + item.parent_url + "\" target=\"_blank\">" + $("<span>").text(item.parent_title).html() + "</a>"
 				: $("<span>").text(item.parent_title).html();
 			var editLink = item.edit_url
-				? "<a href=\"" + item.edit_url + "\" target=\"_blank\">' . esc_js( __( 'Изменить', 'codeweber' ) ) . '</a> "
+				? "<a href=\"" + item.edit_url + "\" target=\"_blank\">' . esc_js( __( 'Edit', 'codeweber' ) ) . '</a> "
 				: "";
-			var delBtn = "<button class=\"button button-small cw-del-one\" data-id=\"" + item.attachment_id + "\" style=\"color:#b32d2e;\">' . esc_js( __( 'Удалить', 'codeweber' ) ) . '</button>";
+			var delBtn = "<button class=\"button button-small cw-del-one\" data-id=\"" + item.attachment_id + "\" style=\"color:#b32d2e;\">' . esc_js( __( 'Delete', 'codeweber' ) ) . '</button>";
 			$tbody.append(
 				"<tr id=\"cw-lost-row-" + item.attachment_id + "\">" +
 				"<td>" + (i + 1) + "</td>" +
@@ -366,9 +366,9 @@ Redux::set_section(
 		saveState(total, true);
 		$("#cw-regen-resume").hide();
 		$("#cw-regen-restart").show();
-		var msg = "' . esc_js( __( 'Готово! Все миниатюры успешно регенерированы.', 'codeweber' ) ) . '";
+		var msg = "' . esc_js( __( 'Done! All thumbnails were successfully regenerated.', 'codeweber' ) ) . '";
 		if (allLost.length > 0) {
-			msg += " ' . esc_js( __( 'Потерянных файлов:', 'codeweber' ) ) . ' " + allLost.length + ".";
+			msg += " ' . esc_js( __( 'Orphaned files:', 'codeweber' ) ) . ' " + allLost.length + ".";
 		}
 		showStatus(msg, allLost.length > 0 ? "warning" : "success");
 		renderLostReport();
@@ -415,7 +415,7 @@ Redux::set_section(
 				}
 			},
 			error: function() {
-				showStatus("' . esc_js( __( 'Ошибка AJAX-запроса. Попробуйте ещё раз.', 'codeweber' ) ) . '", "error");
+				showStatus("' . esc_js( __( 'AJAX request error. Please try again.', 'codeweber' ) ) . '", "error");
 				saveState(offset, false);
 				setRunning(false);
 				$("#cw-regen-resume").show();
@@ -430,12 +430,12 @@ Redux::set_section(
 		$("#cw-regen-restart").show();
 		$("#cw-regen-progress").show();
 		setProgress(offset, total);
-		showStatus("' . esc_js( __( 'Обработка...', 'codeweber' ) ) . '", "info");
+		showStatus("' . esc_js( __( 'Processing...', 'codeweber' ) ) . '", "info");
 		runBatch(offset);
 	}
 
 	function fetchTotalAndStart(offset) {
-		showStatus("' . esc_js( __( 'Подсчёт изображений...', 'codeweber' ) ) . '", "info");
+		showStatus("' . esc_js( __( 'Counting images...', 'codeweber' ) ) . '", "info");
 		$.ajax({
 			url: ajaxurl,
 			type: "POST",
@@ -448,14 +448,14 @@ Redux::set_section(
 				}
 				total = r.data.total;
 				if (total === 0) {
-					showStatus("' . esc_js( __( 'Изображений не найдено.', 'codeweber' ) ) . '", "info");
+					showStatus("' . esc_js( __( 'No images found.', 'codeweber' ) ) . '", "info");
 					setRunning(false);
 					return;
 				}
 				startFromOffset(offset);
 			},
 			error: function() {
-				showStatus("' . esc_js( __( 'Ошибка AJAX-запроса. Попробуйте ещё раз.', 'codeweber' ) ) . '", "error");
+				showStatus("' . esc_js( __( 'AJAX request error. Please try again.', 'codeweber' ) ) . '", "error");
 				setRunning(false);
 			}
 		});
@@ -464,7 +464,7 @@ Redux::set_section(
 	// ── Кнопки ─────────────────────────────────────────────────────────
 	$("#cw-regen-start").on("click", function(e) {
 		e.preventDefault();
-		if (!confirm("' . esc_js( __( 'Регенерировать все миниатюры? Это может занять некоторое время.', 'codeweber' ) ) . '")) return;
+		if (!confirm("' . esc_js( __( 'Regenerate all thumbnails? This may take a while.', 'codeweber' ) ) . '")) return;
 		clearState();
 		allLost = [];
 		allLog  = [];
@@ -496,7 +496,7 @@ Redux::set_section(
 
 	$("#cw-regen-restart").on("click", function(e) {
 		e.preventDefault();
-		if (!confirm("' . esc_js( __( 'Начать регенерацию сначала? Весь прогресс будет сброшен.', 'codeweber' ) ) . '")) return;
+		if (!confirm("' . esc_js( __( 'Start regeneration over? All progress will be reset.', 'codeweber' ) ) . '")) return;
 		clearState();
 		allLost = [];
 		allLog  = [];
@@ -526,11 +526,11 @@ Redux::set_section(
 					return;
 				}
 				onSuccess(r.data.deleted);
-				$("#cw-delete-status").text("' . esc_js( __( 'Удалено:', 'codeweber' ) ) . ' " + r.data.deleted).css("color", "#2e7d32");
+				$("#cw-delete-status").text("' . esc_js( __( 'Deleted:', 'codeweber' ) ) . ' " + r.data.deleted).css("color", "#2e7d32");
 			},
 			error: function() {
 				$btn.prop("disabled", false);
-				$("#cw-delete-status").text("' . esc_js( __( 'Ошибка AJAX-запроса.', 'codeweber' ) ) . '").css("color", "#b32d2e");
+				$("#cw-delete-status").text("' . esc_js( __( 'AJAX request error.', 'codeweber' ) ) . '").css("color", "#b32d2e");
 			}
 		});
 	}
@@ -538,7 +538,7 @@ Redux::set_section(
 	$(document).on("click", ".cw-del-one", function() {
 		var $btn = $(this);
 		var id   = parseInt($btn.data("id"), 10);
-		if (!confirm("' . esc_js( __( 'Удалить эту запись из базы данных?', 'codeweber' ) ) . '")) return;
+		if (!confirm("' . esc_js( __( 'Delete this record from the database?', 'codeweber' ) ) . '")) return;
 		deleteLost([id], $btn, function() {
 			$("#cw-lost-row-" + id).remove();
 			allLost = allLost.filter(function(item) { return item.attachment_id !== id; });
@@ -547,7 +547,7 @@ Redux::set_section(
 	});
 
 	$("#cw-delete-all-lost").on("click", function() {
-		if (!confirm("' . esc_js( __( 'Удалить все потерянные записи из базы данных? Это действие необратимо.', 'codeweber' ) ) . '")) return;
+		if (!confirm("' . esc_js( __( 'Delete all orphaned records from the database? This action cannot be undone.', 'codeweber' ) ) . '")) return;
 		var ids = allLost.map(function(item) { return item.attachment_id; });
 		deleteLost(ids, $(this), function() {
 			$("#cw-regen-lost-tbody tr").remove();
@@ -567,9 +567,9 @@ Redux::set_section(
 			// Процесс завершён — показать статистику
 			$("#cw-regen-progress").show();
 			setProgress(total, total);
-			var msg = "' . esc_js( __( 'Готово! Все миниатюры успешно регенерированы.', 'codeweber' ) ) . '";
+			var msg = "' . esc_js( __( 'Done! All thumbnails were successfully regenerated.', 'codeweber' ) ) . '";
 			if (allLost.length > 0) {
-				msg += " ' . esc_js( __( 'Потерянных файлов:', 'codeweber' ) ) . ' " + allLost.length + ".";
+				msg += " ' . esc_js( __( 'Orphaned files:', 'codeweber' ) ) . ' " + allLost.length + ".";
 			}
 			showStatus(msg, allLost.length > 0 ? "warning" : "success");
 			renderLostReport();
@@ -579,7 +579,7 @@ Redux::set_section(
 			$("#cw-regen-progress").show();
 			setProgress(state.offset, total);
 			showStatus(
-				"' . esc_js( __( 'Прерванная регенерация. Обработано:', 'codeweber' ) ) . ' " + state.offset + " ' . esc_js( __( 'из', 'codeweber' ) ) . ' " + total + ". ' . esc_js( __( 'Нажмите «Продолжить».', 'codeweber' ) ) . '",
+				"' . esc_js( __( 'Interrupted regeneration. Processed:', 'codeweber' ) ) . ' " + state.offset + " ' . esc_js( __( 'of', 'codeweber' ) ) . ' " + total + ". ' . esc_js( __( 'Click "Continue".', 'codeweber' ) ) . '",
 				"warning"
 			);
 			renderLostReport();

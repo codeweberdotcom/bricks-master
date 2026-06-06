@@ -19,10 +19,10 @@ $cart_items = WC()->cart ? WC()->cart->get_cart() : [];
 
 		<div class="text-center py-10">
 			<i class="uil uil-shopping-cart fs-48 text-muted mb-3 d-block"></i>
-			<p class="text-muted mb-4"><?php esc_html_e( 'Ваша корзина пуста', 'codeweber' ); ?></p>
+			<p class="text-muted mb-4"><?php esc_html_e( 'Your cart is empty', 'codeweber' ); ?></p>
 			<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"
 			   class="btn btn-primary btn-sm<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded'; ?> has-ripple">
-				<?php esc_html_e( 'В каталог', 'codeweber' ); ?>
+				<?php esc_html_e( 'Browse catalog', 'codeweber' ); ?>
 			</a>
 		</div>
 
@@ -81,7 +81,7 @@ $cart_items = WC()->cart ? WC()->cart->get_cart() : [];
 							</p>
 
 							<p class="text-muted fs-sm mb-0">
-								<?php echo esc_html__( 'Кол-во:', 'codeweber' ) . ' ' . esc_html( $cart_item['quantity'] ); ?>
+								<?php echo esc_html__( 'Qty:', 'codeweber' ) . ' ' . esc_html( $cart_item['quantity'] ); ?>
 							</p>
 						</div>
 					</div>
@@ -90,7 +90,7 @@ $cart_items = WC()->cart ? WC()->cart->get_cart() : [];
 						<a href="<?php echo $remove_url; // phpcs:ignore WordPress.Security.EscapeOutput ?>"
 						   class="cw-cart-remove link-dark"
 						   data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
-						   aria-label="<?php esc_attr_e( 'Удалить из корзины', 'codeweber' ); ?>">
+						   aria-label="<?php esc_attr_e( 'Remove from cart', 'codeweber' ); ?>">
 							<i class="uil uil-trash-alt"></i>
 						</a>
 					</div>
@@ -104,7 +104,7 @@ $cart_items = WC()->cart ? WC()->cart->get_cart() : [];
 
 		<div class="offcanvas-footer flex-column text-center">
 			<div class="d-flex w-100 justify-content-between mb-4">
-				<span><?php esc_html_e( 'Итого:', 'codeweber' ); ?></span>
+				<span><?php esc_html_e( 'Total:', 'codeweber' ); ?></span>
 				<span class="h6 mb-0">
 					<?php echo WC()->cart->get_cart_subtotal(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 				</span>
@@ -113,12 +113,12 @@ $cart_items = WC()->cart ? WC()->cart->get_cart() : [];
 			<a href="<?php echo esc_url( wc_get_checkout_url() ); ?>"
 			   class="btn btn-primary btn-icon btn-icon-start<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded'; ?> w-100 mb-3 has-ripple">
 				<i class="uil uil-credit-card fs-18"></i>
-				<?php esc_html_e( 'Оформить заказ', 'codeweber' ); ?>
+				<?php esc_html_e( 'Checkout', 'codeweber' ); ?>
 			</a>
 
 			<a href="<?php echo esc_url( wc_get_cart_url() ); ?>"
 			   class="btn btn-outline-primary<?php echo class_exists( 'Codeweber_Options' ) ? esc_attr( Codeweber_Options::style( 'button' ) ) : ' rounded'; ?> w-100 has-ripple">
-				<?php esc_html_e( 'Перейти в корзину', 'codeweber' ); ?>
+				<?php esc_html_e( 'Go to cart', 'codeweber' ); ?>
 			</a>
 		</div>
 		<!-- /.offcanvas-footer -->

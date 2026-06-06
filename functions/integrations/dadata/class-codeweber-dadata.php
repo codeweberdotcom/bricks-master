@@ -97,7 +97,7 @@ class Codeweber_Dadata {
 		if ( ! $this->is_available() ) {
 			return array(
 				'success' => false,
-				'error'   => __( 'Сервис проверки адреса временно недоступен.', 'codeweber' ),
+				'error'   => __( 'The address verification service is temporarily unavailable.', 'codeweber' ),
 				'code'    => 0,
 			);
 		}
@@ -106,7 +106,7 @@ class Codeweber_Dadata {
 		if ( $address_string === '' ) {
 			return array(
 				'success' => false,
-				'error'   => __( 'Введите адрес для проверки.', 'codeweber' ),
+				'error'   => __( 'Enter an address to verify.', 'codeweber' ),
 				'code'    => 400,
 			);
 		}
@@ -138,7 +138,7 @@ class Codeweber_Dadata {
 			}
 			return array(
 				'success' => false,
-				'error'   => __( 'Сервис проверки адреса временно недоступен.', 'codeweber' ),
+				'error'   => __( 'The address verification service is temporarily unavailable.', 'codeweber' ),
 				'code'    => 0,
 			);
 		}
@@ -150,7 +150,7 @@ class Codeweber_Dadata {
 			}
 			return array(
 				'success' => false,
-				'error'   => __( 'Сервис проверки адреса временно недоступен.', 'codeweber' ),
+				'error'   => __( 'The address verification service is temporarily unavailable.', 'codeweber' ),
 				'code'    => $code,
 			);
 		}
@@ -158,7 +158,7 @@ class Codeweber_Dadata {
 		if ( 429 === $code ) {
 			return array(
 				'success' => false,
-				'error'   => __( 'Слишком много запросов. Повторите через несколько секунд.', 'codeweber' ),
+				'error'   => __( 'Too many requests. Try again in a few seconds.', 'codeweber' ),
 				'code'    => 429,
 			);
 		}
@@ -166,7 +166,7 @@ class Codeweber_Dadata {
 		if ( 200 !== $code ) {
 			return array(
 				'success' => false,
-				'error'   => __( 'Сервис проверки адреса временно недоступен.', 'codeweber' ),
+				'error'   => __( 'The address verification service is temporarily unavailable.', 'codeweber' ),
 				'code'    => $code,
 			);
 		}
@@ -175,7 +175,7 @@ class Codeweber_Dadata {
 		if ( ! is_array( $decoded ) || empty( $decoded[0] ) ) {
 			return array(
 				'success' => false,
-				'error'   => __( 'Не удалось разобрать адрес. Проверьте ввод или введите адрес вручную.', 'codeweber' ),
+				'error'   => __( 'Could not parse the address. Check your input or enter the address manually.', 'codeweber' ),
 				'code'    => 200,
 			);
 		}
@@ -255,7 +255,7 @@ class Codeweber_Dadata {
 		if ( ! $this->is_suggest_available() ) {
 			return array(
 				'success' => false,
-				'error'   => __( 'Сервис подсказок адресов временно недоступен.', 'codeweber' ),
+				'error'   => __( 'The address suggestions service is temporarily unavailable.', 'codeweber' ),
 				'code'    => 0,
 			);
 		}
@@ -297,7 +297,7 @@ class Codeweber_Dadata {
 			}
 			return array(
 				'success' => false,
-				'error'   => __( 'Сервис подсказок адресов временно недоступен.', 'codeweber' ),
+				'error'   => __( 'The address suggestions service is temporarily unavailable.', 'codeweber' ),
 				'code'    => 0,
 			);
 		}
@@ -310,8 +310,8 @@ class Codeweber_Dadata {
 			return array(
 				'success' => false,
 				'error'   => 429 === $code
-					? __( 'Слишком много запросов. Повторите через несколько секунд.', 'codeweber' )
-					: __( 'Сервис подсказок адресов временно недоступен.', 'codeweber' ),
+					? __( 'Too many requests. Try again in a few seconds.', 'codeweber' )
+					: __( 'The address suggestions service is temporarily unavailable.', 'codeweber' ),
 				'code'    => $code,
 			);
 		}
@@ -319,7 +319,7 @@ class Codeweber_Dadata {
 		if ( 200 !== $code ) {
 			return array(
 				'success' => false,
-				'error'   => __( 'Сервис подсказок адресов временно недоступен.', 'codeweber' ),
+				'error'   => __( 'The address suggestions service is temporarily unavailable.', 'codeweber' ),
 				'code'    => $code,
 			);
 		}

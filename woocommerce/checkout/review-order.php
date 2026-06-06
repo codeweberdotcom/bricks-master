@@ -112,7 +112,7 @@ defined( 'ABSPATH' ) || exit;
 			<?php do_action( 'woocommerce_review_order_before_order_total' ); ?>
 
 			<tr class="order-total">
-				<td class="ps-0"><strong class="text-dark"><?php esc_html_e( 'Итого', 'codeweber' ); ?></strong></td>
+				<td class="ps-0"><strong class="text-dark"><?php esc_html_e( 'Total', 'codeweber' ); ?></strong></td>
 				<td class="pe-0 text-end"><p class="price text-dark fw-bold mb-0"><?php wc_cart_totals_order_total_html(); ?></p></td>
 			</tr>
 

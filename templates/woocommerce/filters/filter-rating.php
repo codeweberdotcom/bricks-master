@@ -31,7 +31,7 @@ $rating_words = [ 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five'
 	$uid      = 'cw-rating-' . $val;
 	$word     = $rating_words[ $val ] ?? '';
 	$is_empty = $opt['is_empty'] ?? false;
-	$aria_lbl = esc_attr( sprintf( _n( '%d звезда и выше', '%d звёзды и выше', $val, 'codeweber' ), $val ) );
+	$aria_lbl = esc_attr( sprintf( _n( '%d star and up', '%d stars and up', $val, 'codeweber' ), $val ) );
 
 	if ( 'default' === $empty_behavior ) { $is_empty = false; }
 	elseif ( 'hide' === $empty_behavior && $is_empty ) { continue; }

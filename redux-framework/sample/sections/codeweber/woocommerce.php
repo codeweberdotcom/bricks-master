@@ -330,7 +330,7 @@ Redux::set_section(
 				'id'       => 'woo_badge_sale_text',
 				'type'     => 'text',
 				'title'    => esc_html__( 'Sale Text', 'codeweber' ),
-				'default'  => esc_html__( 'Распродажа!', 'codeweber' ),
+				'default'  => esc_html__( 'Sale!', 'codeweber' ),
 				'required' => array( 'woo_badge_sale_type', '=', 'text' ),
 			),
 
@@ -372,7 +372,7 @@ Redux::set_section(
 				'id'       => 'woo_badge_new_text',
 				'type'     => 'text',
 				'title'    => esc_html__( 'New Text', 'codeweber' ),
-				'default'  => esc_html__( 'Новинка!', 'codeweber' ),
+				'default'  => esc_html__( 'New!', 'codeweber' ),
 				'required' => array( 'woo_badge_new_enable', '=', true ),
 			),
 

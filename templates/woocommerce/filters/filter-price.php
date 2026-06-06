@@ -48,7 +48,7 @@ $slider_size_style = ( 18 !== $slider_thumb_px ) ? ' style="--cw-thumb-size:' . 
 			max="<?php echo esc_attr( $range['max'] ); ?>"
 			value="<?php echo esc_attr( $current_min ); ?>"
 			step="1"
-			aria-label="<?php esc_attr_e( 'Минимальная цена', 'codeweber' ); ?>">
+			aria-label="<?php esc_attr_e( 'Minimum price', 'codeweber' ); ?>">
 
 		<input
 			type="range"
@@ -57,7 +57,7 @@ $slider_size_style = ( 18 !== $slider_thumb_px ) ? ' style="--cw-thumb-size:' . 
 			max="<?php echo esc_attr( $range['max'] ); ?>"
 			value="<?php echo esc_attr( $current_max ); ?>"
 			step="1"
-			aria-label="<?php esc_attr_e( 'Максимальная цена', 'codeweber' ); ?>">
+			aria-label="<?php esc_attr_e( 'Maximum price', 'codeweber' ); ?>">
 	</div>
 
 	<div class="cw-price-inputs d-flex align-items-center gap-2 mt-2">
@@ -67,7 +67,7 @@ $slider_size_style = ( 18 !== $slider_thumb_px ) ? ' style="--cw-thumb-size:' . 
 			max="<?php echo esc_attr( $range['max'] ); ?>"
 			value="<?php echo esc_attr( $current_min ); ?>"
 			step="1"
-			aria-label="<?php esc_attr_e( 'Цена от', 'codeweber' ); ?>">
+			aria-label="<?php esc_attr_e( 'Price from', 'codeweber' ); ?>">
 		<span class="text-muted flex-shrink-0">—</span>
 		<input type="number"
 			class="form-control form-control-sm cw-price-input cw-price-input--max"
@@ -75,7 +75,7 @@ $slider_size_style = ( 18 !== $slider_thumb_px ) ? ' style="--cw-thumb-size:' . 
 			max="<?php echo esc_attr( $range['max'] ); ?>"
 			value="<?php echo esc_attr( $current_max ); ?>"
 			step="1"
-			aria-label="<?php esc_attr_e( 'Цена до', 'codeweber' ); ?>">
+			aria-label="<?php esc_attr_e( 'Price to', 'codeweber' ); ?>">
 	</div>
 
 </div><!-- .cw-filter-price -->

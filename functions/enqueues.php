@@ -587,9 +587,9 @@ function codeweber_enqueue_dadata_address() {
 		'isCheckout'        => $on_checkout,
 		'checkoutPhoneMask' => $checkout_phone_mask,
 		'messages'          => array(
-			'enterAddress' => __( 'Введите адрес в поле «Адрес» и нажмите кнопку проверки.', 'codeweber' ),
-			'loading'      => __( 'Проверка…', 'codeweber' ),
-			'error'        => __( 'Ошибка сети. Попробуйте позже.', 'codeweber' ),
+			'enterAddress' => __( 'Enter an address in the "Address" field and click the verify button.', 'codeweber' ),
+			'loading'      => __( 'Checking…', 'codeweber' ),
+			'error'        => __( 'Network error. Please try again later.', 'codeweber' ),
 		),
 	);
 	if ( ! empty( $token ) ) {

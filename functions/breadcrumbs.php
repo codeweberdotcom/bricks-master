@@ -39,7 +39,7 @@ if (!function_exists('get_breadcrumbs')) {
          }
       }
       if (empty($home_label)) {
-         $home_label = __('Главная', 'codeweber');
+         $home_label = __('Home', 'codeweber');
       }
       $is_single_context = is_singular() && ! is_page();
 

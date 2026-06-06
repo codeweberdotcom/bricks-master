@@ -32,7 +32,7 @@ function codeweber_dadata_ajax_clean_address() {
 	if ( ! wp_verify_nonce( $nonce, 'codeweber_dadata_clean' ) ) {
 		wp_send_json( array(
 			'success' => false,
-			'error'   => __( 'Ошибка безопасности. Обновите страницу и попробуйте снова.', 'codeweber' ),
+			'error'   => __( 'Security error. Refresh the page and try again.', 'codeweber' ),
 		) );
 	}
 
@@ -40,15 +40,15 @@ function codeweber_dadata_ajax_clean_address() {
 
 	global $opt_name;
 	if ( ! class_exists( 'Redux' ) ) {
-		wp_send_json( array( 'success' => false, 'error' => __( 'Сервис проверки адреса временно недоступен.', 'codeweber' ) ) );
+		wp_send_json( array( 'success' => false, 'error' => __( 'The address verification service is temporarily unavailable.', 'codeweber' ) ) );
 	}
 	if ( ! Redux::get_option( $opt_name, 'dadata_enabled' ) ) {
-		wp_send_json( array( 'success' => false, 'error' => __( 'Сервис проверки адреса отключён.', 'codeweber' ) ) );
+		wp_send_json( array( 'success' => false, 'error' => __( 'The address verification service is disabled.', 'codeweber' ) ) );
 	}
 
 	$address = isset( $_POST['address'] ) ? sanitize_text_field( wp_unslash( $_POST['address'] ) ) : '';
 	if ( $address === '' ) {
-		wp_send_json( array( 'success' => false, 'error' => __( 'Введите адрес для проверки.', 'codeweber' ) ) );
+		wp_send_json( array( 'success' => false, 'error' => __( 'Enter an address to verify.', 'codeweber' ) ) );
 	}
 
 	require_once dirname( __FILE__ ) . '/class-codeweber-dadata.php';

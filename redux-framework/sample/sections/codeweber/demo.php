@@ -1201,7 +1201,7 @@ Redux::set_section(
 			'type'    => 'raw',
 			'content' => '
 				<div class="demo-controls" style="margin: 20px 0;">
-					<h3>' . esc_html__( 'Demo Events (Мероприятия)', 'codeweber' ) . '</h3>
+					<h3>' . esc_html__( 'Demo Events', 'codeweber' ) . '</h3>
 					<p class="description">' . esc_html__( 'Create 50 demo events spread across different months with different statuses: past, registration open, registration closed, not opened yet. Uses photos from src/assets/img/photos/.', 'codeweber' ) . '</p>
 					<div style="margin: 15px 0;">
 						<button id="cw-demo-create-events" class="button button-primary" style="margin-right: 10px;">

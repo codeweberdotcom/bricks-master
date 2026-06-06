@@ -45,7 +45,7 @@ $has_active   = function_exists( 'cw_has_active_filters' ) && cw_has_active_filt
 				data-bs-target="#cw-filter-price"
 				aria-expanded="true"
 				aria-controls="cw-filter-price">
-				<?php esc_html_e( 'Цена', 'codeweber' ); ?>
+				<?php esc_html_e( 'Price', 'codeweber' ); ?>
 			</button>
 			<div id="cw-filter-price" class="collapse show">
 				<div class="pb-3">
@@ -66,7 +66,7 @@ $has_active   = function_exists( 'cw_has_active_filters' ) && cw_has_active_filt
 				data-bs-target="#cw-filter-categories"
 				aria-expanded="true"
 				aria-controls="cw-filter-categories">
-				<?php esc_html_e( 'Категории', 'codeweber' ); ?>
+				<?php esc_html_e( 'Categories', 'codeweber' ); ?>
 			</button>
 			<div id="cw-filter-categories" class="collapse show">
 				<div class="pb-3">
@@ -120,7 +120,7 @@ $has_active   = function_exists( 'cw_has_active_filters' ) && cw_has_active_filt
 				data-bs-target="#cw-filter-rating"
 				aria-expanded="true"
 				aria-controls="cw-filter-rating">
-				<?php esc_html_e( 'Рейтинг', 'codeweber' ); ?>
+				<?php esc_html_e( 'Rating', 'codeweber' ); ?>
 			</button>
 			<div id="cw-filter-rating" class="collapse show">
 				<div class="pb-3">
@@ -142,7 +142,7 @@ $has_active   = function_exists( 'cw_has_active_filters' ) && cw_has_active_filt
 				data-bs-target="#cw-filter-stock"
 				aria-expanded="true"
 				aria-controls="cw-filter-stock">
-				<?php esc_html_e( 'Наличие', 'codeweber' ); ?>
+				<?php esc_html_e( 'Availability', 'codeweber' ); ?>
 			</button>
 			<div id="cw-filter-stock" class="collapse show">
 				<div class="pb-3">

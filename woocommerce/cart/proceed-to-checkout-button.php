@@ -13,5 +13,5 @@ $btn_shape = class_exists( 'Codeweber_Options' ) ? ' ' . esc_attr( trim( Codeweb
 ?>
 
 <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="checkout-button btn btn-primary<?php echo $btn_shape; ?> w-100 wc-forward has-ripple">
-	<?php esc_html_e( 'Перейти к оформлению', 'codeweber' ); ?>
+	<?php esc_html_e( 'Proceed to checkout', 'codeweber' ); ?>
 </a>

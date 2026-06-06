@@ -106,16 +106,16 @@ if ( $sale_badge_on && $product->is_on_sale() ) {
 				$percent = round( ( $regular - $sale ) / $regular * 100 );
 			}
 		}
-		$text = $percent > 0 ? '−' . $percent . '%' : ( ! empty( $cw_opts['woo_badge_sale_text'] ) ? $cw_opts['woo_badge_sale_text'] : __( 'Распродажа!', 'codeweber' ) );
+		$text = $percent > 0 ? '−' . $percent . '%' : ( ! empty( $cw_opts['woo_badge_sale_text'] ) ? $cw_opts['woo_badge_sale_text'] : __( 'Sale!', 'codeweber' ) );
 	} else {
-		$text = ! empty( $cw_opts['woo_badge_sale_text'] ) ? $cw_opts['woo_badge_sale_text'] : __( 'Распродажа!', 'codeweber' );
+		$text = ! empty( $cw_opts['woo_badge_sale_text'] ) ? $cw_opts['woo_badge_sale_text'] : __( 'Sale!', 'codeweber' );
 	}
 
 	$badge = '<span class="' . esc_attr( $badge_shape ) . ' w-10 h-10 position-absolute text-uppercase fs-13 d-flex align-items-center justify-content-center text-center lh-sm" style="' . esc_attr( $badge_position ) . 'background-color:' . esc_attr( $bg ) . ';color:' . esc_attr( $color ) . ';"><span>' . esc_html( $text ) . '</span></span>';
 } elseif ( $new_badge_on && $product->is_featured() ) {
 	$bg    = ! empty( $cw_opts['woo_badge_new_bg'] ) ? $cw_opts['woo_badge_new_bg'] : '#54a8c7';
 	$color = ! empty( $cw_opts['woo_badge_new_color'] ) ? $cw_opts['woo_badge_new_color'] : '#ffffff';
-	$text  = ! empty( $cw_opts['woo_badge_new_text'] ) ? $cw_opts['woo_badge_new_text'] : __( 'Новинка!', 'codeweber' );
+	$text  = ! empty( $cw_opts['woo_badge_new_text'] ) ? $cw_opts['woo_badge_new_text'] : __( 'New!', 'codeweber' );
 	$badge = '<span class="' . esc_attr( $badge_shape ) . ' w-10 h-10 position-absolute text-uppercase fs-13 d-flex align-items-center justify-content-center text-center lh-sm" style="' . esc_attr( $badge_position ) . 'background-color:' . esc_attr( $bg ) . ';color:' . esc_attr( $color ) . ';"><span>' . esc_html( $text ) . '</span></span>';
 }
 ?>

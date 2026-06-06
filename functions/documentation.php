@@ -16,16 +16,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 function codeweber_documentation_admin_menu() {
 	add_submenu_page(
 		'themes.php',
-		__( 'Документация Сайта', 'codeweber' ),
-		__( 'Документация Сайта', 'codeweber' ),
+		__( 'Site Documentation', 'codeweber' ),
+		__( 'Site Documentation', 'codeweber' ),
 		'manage_options',
 		'codeweber-documentation',
 		'codeweber_documentation_admin_page'
 	);
 	add_submenu_page(
 		'themes.php',
-		__( 'Функционал Сайта', 'codeweber' ),
-		__( 'Функционал Сайта', 'codeweber' ),
+		__( 'Site Functionality', 'codeweber' ),
+		__( 'Site Functionality', 'codeweber' ),
 		'manage_options',
 		'codeweber-functionality',
 		'codeweber_functionality_admin_page'
@@ -39,7 +39,7 @@ add_action( 'admin_menu', 'codeweber_documentation_admin_menu' );
  */
 function codeweber_documentation_admin_page() {
 	$doc_dir = get_template_directory() . '/doc';
-	codeweber_doc_render_page( $doc_dir, 'themes.php?page=codeweber-documentation', __( 'Документация Сайта', 'codeweber' ), __( 'Документация темы Codeweber', 'codeweber' ) );
+	codeweber_doc_render_page( $doc_dir, 'themes.php?page=codeweber-documentation', __( 'Site Documentation', 'codeweber' ), __( 'Codeweber theme documentation', 'codeweber' ) );
 }
 
 /**
@@ -47,7 +47,7 @@ function codeweber_documentation_admin_page() {
  */
 function codeweber_functionality_admin_page() {
 	$doc_dir = get_template_directory() . '/doc-theme';
-	codeweber_doc_render_page( $doc_dir, 'themes.php?page=codeweber-functionality', __( 'Функционал Сайта', 'codeweber' ), __( 'Функционал Сайта', 'codeweber' ) );
+	codeweber_doc_render_page( $doc_dir, 'themes.php?page=codeweber-functionality', __( 'Site Functionality', 'codeweber' ), __( 'Site Functionality', 'codeweber' ) );
 }
 
 /**
@@ -89,7 +89,7 @@ function codeweber_doc_render_page( $doc_dir, $page_query, $sidebar_title, $defa
 					<h2 class="card-title" style="margin: 0 0 12px; font-size: 14px;"><?php echo esc_html( $sidebar_title ); ?></h2>
 					<ul style="list-style: none; margin: 0; padding: 0; font-size: 13px;">
 						<li style="margin-bottom: 6px;">
-							<a href="<?php echo esc_url( $page_url ); ?>"><?php esc_html_e( 'Начало', 'codeweber' ); ?></a>
+							<a href="<?php echo esc_url( $page_url ); ?>"><?php esc_html_e( 'Home', 'codeweber' ); ?></a>
 						</li>
 						<?php foreach ( $doc_tree as $group ) : ?>
 							<?php if ( empty( $group['children'] ) ) continue; ?>

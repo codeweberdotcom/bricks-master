@@ -119,7 +119,7 @@ function cw_ajax_add_to_cart() {
 	}
 
 	if ( ! $product_id ) {
-		wp_send_json_error( array( 'message' => esc_html__( 'Неверный товар.', 'codeweber' ) ) );
+		wp_send_json_error( array( 'message' => esc_html__( 'Invalid product.', 'codeweber' ) ) );
 	}
 
 	$cart_item_key = WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation );
@@ -129,7 +129,7 @@ function cw_ajax_add_to_cart() {
 		wc_clear_notices();
 		$message = ! empty( $notices )
 			? wp_strip_all_tags( $notices[0]['notice'] )
-			: esc_html__( 'Не удалось добавить товар в корзину.', 'codeweber' );
+			: esc_html__( 'Could not add the product to the cart.', 'codeweber' );
 		wp_send_json_error( array( 'message' => $message ) );
 	}
 
@@ -203,12 +203,12 @@ function cw_cart_offcanvas_container() {
 
 		<div class="offcanvas-header">
 			<h3 class="mb-0" id="offcanvas-cart-label">
-				<?php esc_html_e( 'Корзина', 'codeweber' ); ?>
+				<?php esc_html_e( 'Cart', 'codeweber' ); ?>
 			</h3>
 			<button type="button"
 			        class="btn-close"
 			        data-bs-dismiss="offcanvas"
-			        aria-label="<?php esc_attr_e( 'Закрыть', 'codeweber' ); ?>">
+			        aria-label="<?php esc_attr_e( 'Close', 'codeweber' ); ?>">
 			</button>
 		</div>
 
@@ -259,7 +259,7 @@ function cw_cart_offcanvas_enqueue() {
 			'action'   => 'cw_add_to_cart',
 			'autoOpen' => $auto_open,
 			'i18n'     => array(
-				'error' => esc_html__( 'Не удалось добавить товар в корзину.', 'codeweber' ),
+				'error' => esc_html__( 'Could not add the product to the cart.', 'codeweber' ),
 			),
 		)
 	);
