@@ -11,6 +11,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Реестр стилевых пресетов карты (общий источник для select ниже).
+if ( ! function_exists( 'codeweber_yandex_map_preset_options' ) ) {
+    require_once get_template_directory() . '/functions/integrations/yandex-maps/presets.php';
+}
+
 // Получение API ключа из настроек Redux
 $yandex_api_key = Redux::get_option($opt_name, 'yandexapi');
 
@@ -426,16 +431,24 @@ Redux::set_section(
                 'id'      => 'yandex_maps_color_scheme',
                 'type'    => 'select',
                 'title'   => esc_html__('Default Color Scheme', 'codeweber'),
-                'subtitle' => esc_html__('Global map color scheme. Can be overridden per block in the editor.', 'codeweber'),
+                'subtitle' => esc_html__('Global map color scheme. Applies to all maps (offices, projects, headers). Can be overridden per block in the editor.', 'codeweber'),
                 'default' => 'none',
-                'options' => [
-                    'none'      => esc_html__('Default', 'codeweber'),
-                    'grayscale' => esc_html__('Grayscale', 'codeweber'),
-                    'pale'      => esc_html__('Pale', 'codeweber'),
-                    'dark'      => esc_html__('Dark', 'codeweber'),
-                    'sepia'     => esc_html__('Sepia', 'codeweber'),
-                    'custom'    => esc_html__('Custom (JSON)', 'codeweber'),
-                ],
+                'options' => array_merge(
+                    [
+                        'none'      => esc_html__('Default', 'codeweber'),
+                        'grayscale' => esc_html__('Grayscale', 'codeweber'),
+                        'pale'      => esc_html__('Pale', 'codeweber'),
+                        'dark'      => esc_html__('Dark', 'codeweber'),
+                        'sepia'     => esc_html__('Sepia', 'codeweber'),
+                    ],
+                    // Именованные пресеты из общего реестра (presets.php).
+                    function_exists('codeweber_yandex_map_preset_options')
+                        ? codeweber_yandex_map_preset_options()
+                        : [],
+                    [
+                        'custom'    => esc_html__('Custom (JSON)', 'codeweber'),
+                    ]
+                ),
             ),
             array(
                 'id'       => 'yandex_maps_style_json',

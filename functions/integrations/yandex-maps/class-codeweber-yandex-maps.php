@@ -472,6 +472,11 @@ class Codeweber_Yandex_Maps {
             'language'      => $this->default_settings['language'],
             'defaultCenter' => $this->default_settings['center'],
             'defaultZoom'   => $this->default_settings['zoom'],
+            // Lightweight preset list (slug + label + swatch) for the block
+            // editor — the full customization arrays are resolved server-side.
+            'stylePresets'  => function_exists( 'codeweber_yandex_map_style_presets' )
+                ? codeweber_yandex_map_style_presets()
+                : array(),
             'i18n'          => array(
                 'route'         => __( 'Route', 'codeweber' ),
                 'buildRoute'    => __( 'Build Route', 'codeweber' ),
@@ -637,9 +642,25 @@ class Codeweber_Yandex_Maps {
 
         // v3-специфичные поля
         if ( $api_version === 3 ) {
-            $map_data['apiVersion']        = 3;
-            $map_data['colorScheme']       = isset( $settings['color_scheme'] ) ? $settings['color_scheme'] : 'light';
-            $map_data['colorSchemeCustom'] = isset( $settings['color_scheme_custom'] ) ? $settings['color_scheme_custom'] : '';
+            $map_data['apiVersion'] = 3;
+
+            $scheme = isset( $settings['color_scheme'] ) ? $settings['color_scheme'] : 'light';
+            $custom = isset( $settings['color_scheme_custom'] ) ? $settings['color_scheme_custom'] : '';
+
+            // Приоритет: ручной JSON > именованный пресет из реестра.
+            // Если схема — слаг пресета и ручной JSON не задан, подставляем
+            // полный customization-массив пресета через существующий путь
+            // colorSchemeCustom (scheme = 'custom') в yandex-maps-v3.js.
+            if ( empty( $custom ) && function_exists( 'codeweber_yandex_map_load_preset' ) ) {
+                $preset = codeweber_yandex_map_load_preset( (string) $scheme );
+                if ( ! empty( $preset ) ) {
+                    $scheme = 'custom';
+                    $custom = wp_json_encode( $preset );
+                }
+            }
+
+            $map_data['colorScheme']       = $scheme;
+            $map_data['colorSchemeCustom'] = $custom;
             $marker_click_zoom = class_exists( 'Redux' ) ? Redux::get_option( 'redux_demo', 'yandex_maps_marker_zoom' ) : null;
             $map_data['markerClickZoom'] = $marker_click_zoom ? (int) $marker_click_zoom : 15;
         }
