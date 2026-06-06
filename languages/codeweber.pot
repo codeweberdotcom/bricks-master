@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-06 16:35+0000\n"
+"POT-Creation-Date: 2026-06-06 18:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: codeweber\n"
@@ -137,6 +137,18 @@ msgstr ""
 msgid "%d offices deleted"
 msgstr ""
 
+#: functions/woocommerce/filters.php:191
+msgid "%d star"
+msgid_plural "%d stars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/woocommerce/filters/filter-rating.php:34
+msgid "%d star and up"
+msgid_plural "%d stars and up"
+msgstr[0] ""
+msgstr[1] ""
+
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:136
 msgid "%d stars"
 msgstr ""
@@ -168,18 +180,6 @@ msgstr ""
 #: functions/demo/demo-testimonials.php:532
 msgid "%d testimonial entry deleted"
 msgid_plural "%d testimonial entries deleted"
-msgstr[0] ""
-msgstr[1] ""
-
-#: functions/woocommerce/filters.php:191
-msgid "%d звезда"
-msgid_plural "%d звёзд"
-msgstr[0] ""
-msgstr[1] ""
-
-#: templates/woocommerce/filters/filter-rating.php:34
-msgid "%d звезда и выше"
-msgid_plural "%d звёзды и выше"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -432,6 +432,7 @@ msgstr ""
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:46
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:52
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:126
+#: redux-framework/sample/sections/codeweber/media.php:68
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:799
 msgid "Actions"
 msgstr ""
@@ -862,6 +863,10 @@ msgstr ""
 msgid "Address Shortcode"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:17
+msgid "Address verification and autocomplete via DaData (Russia only)"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/api.php:155
 msgid ""
 "Adds a \"Free Photos\" tab to the media modal, a button on the Media Library "
@@ -955,6 +960,15 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/woocommerce.php:1025
 #: redux-framework/sample/sections/codeweber/woocommerce.php:1035
 msgid "AJAX request error"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:533
+msgid "AJAX request error."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:418
+#: redux-framework/sample/sections/codeweber/media.php:458
+msgid "AJAX request error. Please try again."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:96
@@ -1289,12 +1303,12 @@ msgstr ""
 msgid "API key from the Pixabay API docs page"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:193
-msgid "API key from your Pexels account"
+#: redux-framework/sample/sections/codeweber/api.php:24
+msgid "API key from your DaData account"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/api.php:24
-msgid "API ключ из кабинета DaData"
+#: redux-framework/sample/sections/codeweber/api.php:193
+msgid "API key from your Pexels account"
 msgstr ""
 
 #: functions/sidebars.php:841
@@ -1492,6 +1506,10 @@ msgstr ""
 msgid "Attachment"
 msgstr ""
 
+#: functions/woocommerce/filters.php:1619
+msgid "Attribute:"
+msgstr ""
+
 #: functions/sidebars.php:859 functions/cpt/cpt-testimonials.php:541
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:1096
 #: redux-framework/sample/sections/codeweber/childtheme.php:35
@@ -1581,6 +1599,10 @@ msgid "Automatically pan map when balloon is opened"
 msgstr ""
 
 #: woocommerce/content-compare-table.php:94
+#: functions/woocommerce/filters.php:1328
+#: functions/woocommerce/filters.php:1786
+#: functions/woocommerce/filters.php:1800
+#: templates/woocommerce/filters/filter-panel.php:145
 msgid "Availability"
 msgstr ""
 
@@ -1824,7 +1846,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:171
 #: redux-framework/sample/sections/codeweber/header.php:249
 #: redux-framework/sample/sections/codeweber/header.php:324
-#: redux-framework/sample/sections/codeweber/style.php:390
+#: redux-framework/sample/sections/codeweber/style.php:422
 msgid "Block"
 msgstr ""
 
@@ -1905,6 +1927,10 @@ msgstr ""
 msgid "Bottom Left"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:54
+msgid "Bottom left"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:544
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:596
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:648
@@ -1913,6 +1939,10 @@ msgstr ""
 
 #: functions/cpt/cpt-notifications.php:278
 msgid "Bottom Right"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:53
+msgid "Bottom right"
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:327
@@ -1925,6 +1955,10 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1218
 msgid "Branded"
+msgstr ""
+
+#: functions/woocommerce/filters.php:1341
+msgid "Brands"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:270
@@ -1969,6 +2003,10 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:920
 msgid "Browse"
+msgstr ""
+
+#: templates/woocommerce/offcanvas-cart-items.php:25
+msgid "Browse catalog"
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:371
@@ -2056,7 +2094,7 @@ msgstr ""
 msgid "Button opens modal window"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:129
+#: redux-framework/sample/sections/codeweber/style.php:161
 msgid "Button Style"
 msgstr ""
 
@@ -2072,7 +2110,8 @@ msgstr ""
 msgid "Button type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:442
+#: functions/woocommerce/filters.php:1637
+#: redux-framework/sample/sections/codeweber/style.php:474
 msgid "Buttons"
 msgstr ""
 
@@ -2178,7 +2217,7 @@ msgstr ""
 msgid "Card"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:153
+#: redux-framework/sample/sections/codeweber/style.php:185
 msgid "Card and Image rounded corners"
 msgstr ""
 
@@ -2206,13 +2245,22 @@ msgstr ""
 msgid "Card with excerpt and footer"
 msgstr ""
 
+#: functions/woocommerce/cart-offcanvas.php:206
 #: redux-framework/sample/sections/codeweber/woocommerce.php:601
 msgid "Cart"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:100
+msgid "Cart (Add to cart)"
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:69 functions/cpt/cpt-clients.php:71
 #: functions/cpt/cpt-clients.php:93 functions/cpt/cpt-events.php:83
 #: functions/cpt/cpt-faq.php:141 functions/cpt/cpt-faq.php:269
+#: functions/woocommerce/filters.php:1279
+#: functions/woocommerce/filters.php:1677
+#: functions/woocommerce/filters.php:1696
+#: templates/woocommerce/filters/filter-panel.php:69
 msgid "Categories"
 msgstr ""
 
@@ -2298,6 +2346,10 @@ msgstr ""
 msgid "Check Data"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:92
+msgid "Check SMS.RU API authorization"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:225
 msgid "Check SMTP Connection"
 msgstr ""
@@ -2319,14 +2371,35 @@ msgstr ""
 msgid "Check the API key via a search request"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:76
+msgid "Check the API key via the Geocoder API"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:59
+msgid "Check the connection to the DaData API (Suggest)"
+msgstr ""
+
 #: functions/bootstrap/bootstrap_share-page.php:228
 #: functions/bootstrap/bootstrap_share-page.php:270
 #, php-format
 msgid "Check this out: %s"
 msgstr ""
 
+#: functions/woocommerce/filters.php:1635
+msgid "Checkboxes"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:231
 msgid "Checking..."
+msgstr ""
+
+#: functions/enqueues.php:591
+msgid "Checking…"
+msgstr ""
+
+#: templates/woocommerce/offcanvas-cart-items.php:116
+#: redux-framework/sample/sections/codeweber/api.php:42
+msgid "Checkout"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:723
@@ -2335,6 +2408,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:681
 msgid "Checkout: Billing"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:49
+msgid "Checkout: phone mask"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:711
@@ -2369,7 +2446,7 @@ msgstr ""
 msgid "Choose a point on the map"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:523
+#: redux-framework/sample/sections/codeweber/style.php:555
 msgid "Choose a preset or set custom values below."
 msgstr ""
 
@@ -2391,6 +2468,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:108
 msgid "Choose how products are navigated on shop pages"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:84
+msgid "Choose which actions trigger notifications."
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:332
@@ -2417,7 +2498,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:170
 #: redux-framework/sample/sections/codeweber/header.php:248
 #: redux-framework/sample/sections/codeweber/header.php:323
-#: redux-framework/sample/sections/codeweber/style.php:389
+#: redux-framework/sample/sections/codeweber/style.php:421
 msgid "Circle"
 msgstr ""
 
@@ -2505,6 +2586,10 @@ msgid ""
 "Click \"Add payment method\" below to save a test card. No real payment."
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:582
+msgid "Click \"Continue\"."
+msgstr ""
+
 #: functions/cpt/cpt-events.php:735
 msgid "Click on the map to set the location or use the search field."
 msgstr ""
@@ -2545,7 +2630,9 @@ msgstr ""
 msgid "Clients list"
 msgstr ""
 
-#: functions/cpt/cpt-documents.php:831 functions/woocommerce/quick-view.php:88
+#: functions/cpt/cpt-documents.php:831
+#: functions/woocommerce/cart-offcanvas.php:211
+#: functions/woocommerce/quick-view.php:88
 #: templates/components/cw-preview-modal.php:244
 #: functions/integrations/modal/modal-container.php:95
 #: functions/integrations/modal/modal-container.php:126
@@ -2642,6 +2729,10 @@ msgstr ""
 msgid "Codeweber Forms submission data anonymized"
 msgstr ""
 
+#: functions/documentation.php:42
+msgid "Codeweber theme documentation"
+msgstr ""
+
 #: functions/integrations/redux_framework/redux_framework.php:88
 #: redux-framework/sample/sections/codeweber/legal.php:145
 msgid "Collection Data"
@@ -2655,7 +2746,7 @@ msgstr ""
 msgid "Color for custom markers"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:409
+#: redux-framework/sample/sections/codeweber/style.php:441
 msgid "Color of the \"Share\" dropdown button"
 msgstr ""
 
@@ -2718,7 +2809,7 @@ msgctxt "comments title"
 msgid "One reply on &ldquo;%s&rdquo;"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:525
+#: redux-framework/sample/sections/codeweber/style.php:557
 msgid "Compact — g-3 (15px)"
 msgstr ""
 
@@ -3111,16 +3202,20 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:653
+#: redux-framework/sample/sections/codeweber/style.php:685
 msgid "Content & Sidebar Padding (desktop)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:637
+#: redux-framework/sample/sections/codeweber/style.php:669
 msgid "Content & Sidebar Padding (mobile)"
 msgstr ""
 
 #: functions/sidebars.php:527 functions/sidebars.php:584
 msgid "Contents"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:34
+msgid "Continue"
 msgstr ""
 
 #: functions/woocommerce/wishlist/class-cw-wishlist-ui.php:93
@@ -3165,6 +3260,10 @@ msgstr ""
 msgid "Coordinates"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:140
+msgid "Copy (Image Licenses, etc.)"
+msgstr ""
+
 #: functions/cpt/cpt-html_blocks.php:125
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:261
 msgid "Copy shortcode"
@@ -3172,6 +3271,11 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/company-details.php:236
 msgid "Corr. Account"
+msgstr ""
+
+#: functions/woocommerce/cart-offcanvas.php:132
+#: functions/woocommerce/cart-offcanvas.php:262
+msgid "Could not add the product to the cart."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:305
@@ -3194,12 +3298,21 @@ msgstr ""
 msgid "Could not create theme directory"
 msgstr ""
 
+#: functions/integrations/dadata/class-codeweber-dadata.php:178
+msgid ""
+"Could not parse the address. Check your input or enter the address manually."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/theme_gulp.php:100
 msgid "Could not read file."
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:610
 msgid "Count Reset"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:438
+msgid "Counting images..."
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:213 functions/cpt/cpt-staff.php:265
@@ -3507,7 +3620,7 @@ msgid ""
 "page color)."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:334
+#: redux-framework/sample/sections/codeweber/style.php:366
 msgid ""
 "CSS class applied to headings inside sidebar widgets (vacancies, events, FAQ,"
 " maps)"
@@ -3554,7 +3667,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:82
 #: redux-framework/sample/sections/codeweber/header.php:78
 #: redux-framework/sample/sections/codeweber/page-header.php:88
-#: redux-framework/sample/sections/codeweber/style.php:529
+#: redux-framework/sample/sections/codeweber/style.php:561
 #: redux-framework/sample/sections/codeweber/woocommerce.php:260
 msgid "Custom"
 msgstr ""
@@ -3567,7 +3680,7 @@ msgstr ""
 msgid "Custom (Manual Entry)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:291
+#: redux-framework/sample/sections/codeweber/style.php:323
 msgid "Custom Class"
 msgstr ""
 
@@ -3599,11 +3712,11 @@ msgid ""
 "[{\"color\":\"#404040\"}]}]"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:284
+#: redux-framework/sample/sections/codeweber/style.php:316
 msgid "Custom Loader Logo (SVG)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:276
+#: redux-framework/sample/sections/codeweber/style.php:308
 msgid "Custom Logo"
 msgstr ""
 
@@ -3659,31 +3772,31 @@ msgid "CW Notify (Toast)"
 msgstr ""
 
 #: functions/woocommerce/filters.php:1823
-msgid "CW: Активные фильтры"
+msgid "CW: Active filters"
 msgstr ""
 
 #: functions/woocommerce/filters.php:1565
-msgid "CW: Фильтр по атрибуту"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1667
-msgid "CW: Фильтр по категории"
+msgid "CW: Attribute filter"
 msgstr ""
 
 #: functions/woocommerce/filters.php:1776
-msgid "CW: Фильтр по наличию"
+msgid "CW: Availability filter"
 msgstr ""
 
-#: functions/woocommerce/filters.php:1729
-msgid "CW: Фильтр по рейтингу"
+#: functions/woocommerce/filters.php:1667
+msgid "CW: Category filter"
 msgstr ""
 
 #: functions/woocommerce/filters.php:1519
-msgid "CW: Фильтр по цене"
+msgid "CW: Price filter"
+msgstr ""
+
+#: functions/woocommerce/filters.php:1729
+msgid "CW: Rating filter"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/notifications.php:130
-msgid "DaData (ошибки стандартизации)"
+msgid "DaData (standardization errors)"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:23
@@ -3695,7 +3808,7 @@ msgid "DaData Secret (X-Secret)"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:16
-msgid "DaData: включить стандартизацию адресов"
+msgid "DaData: enable address standardization"
 msgstr ""
 
 #: functions/woocommerce/states-ru.php:27
@@ -3716,8 +3829,8 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/header.php:115
 #: redux-framework/sample/sections/codeweber/header.php:273
 #: redux-framework/sample/sections/codeweber/page-header.php:256
-#: redux-framework/sample/sections/codeweber/style.php:487
-#: redux-framework/sample/sections/codeweber/style.php:499
+#: redux-framework/sample/sections/codeweber/style.php:519
+#: redux-framework/sample/sections/codeweber/style.php:531
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:435
 msgid "Dark"
 msgstr ""
@@ -3831,7 +3944,7 @@ msgstr ""
 #: redux-framework/sample/metaboxes.php:405
 #: redux-framework/sample/metaboxes.php:547
 #: redux-framework/sample/metaboxes.php:629
-#: redux-framework/sample/sections/codeweber/style.php:273
+#: redux-framework/sample/sections/codeweber/style.php:305
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:432
 msgid "Default"
 msgstr ""
@@ -3941,7 +4054,7 @@ msgstr ""
 msgid "Default Status"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:370
+#: redux-framework/sample/sections/codeweber/style.php:402
 msgid "Default style for social/contact icons across the theme."
 msgstr ""
 
@@ -4002,6 +4115,7 @@ msgstr ""
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:652
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:712
 #: redux-framework/sample/sections/codeweber/legal.php:864
+#: redux-framework/sample/sections/codeweber/media.php:350
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:828
 msgid "Delete"
 msgstr ""
@@ -4056,6 +4170,15 @@ msgstr ""
 
 #: functions/integrations/s3-storage/inc/views/log-viewer.php:35
 msgid "Delete all log files"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:75
+msgid "Delete all orphaned from DB"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:550
+msgid ""
+"Delete all orphaned records from the database? This action cannot be undone."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:739
@@ -4133,6 +4256,10 @@ msgstr ""
 msgid "Delete QR code"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:541
+msgid "Delete this record from the database?"
+msgstr ""
+
 #. %d: number of deleted events
 #: functions/demo/demo-events.php:1494
 msgid "Deleted %d demo events."
@@ -4140,6 +4267,10 @@ msgstr ""
 
 #: functions/demo/demo-products.php:1832
 msgid "Deleted %d products."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:529
+msgid "Deleted:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:102
@@ -4184,7 +4315,7 @@ msgid "Demo Clients"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:1204
-msgid "Demo Events (Мероприятия)"
+msgid "Demo Events"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/demo.php:142
@@ -4382,6 +4513,14 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/socials.php:235
 #: redux-framework/sample/sections/extensions/users.php:245
 msgid "Discord"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:63
+msgid "Display time (ms)"
+msgstr ""
+
+#: functions/woocommerce/filters.php:1632
+msgid "Display:"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:637
@@ -4587,6 +4726,11 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:369
+#: redux-framework/sample/sections/codeweber/media.php:570
+msgid "Done! All thumbnails were successfully regenerated."
+msgstr ""
+
 #: functions/woocommerce/states-ru.php:98
 msgid "Donetsk People's Republic"
 msgstr ""
@@ -4713,7 +4857,12 @@ msgstr ""
 
 #: functions/admin/image-canvas-editor.php:125
 #: functions/cpt/cpt-vacancies.php:124 functions/lib/comments-helper.php:49
+#: redux-framework/sample/sections/codeweber/media.php:348
 msgid "Edit"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:41
+msgid "Edit address (My Account)"
 msgstr ""
 
 #: functions/integrations/project-gallery-metabox.php:71
@@ -5124,6 +5273,10 @@ msgstr ""
 msgid "Enable Newsletter Reply"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:38
+msgid "Enable notifications"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-settings.php:248
 msgid "Enable one-time token protection (blocks nonce reuse)"
 msgstr ""
@@ -5242,6 +5395,15 @@ msgstr ""
 msgid "Enter amount or \"Free\". Shown on archive and single pages."
 msgstr ""
 
+#: functions/enqueues.php:590
+msgid "Enter an address in the \"Address\" field and click the verify button."
+msgstr ""
+
+#: functions/integrations/dadata/class-codeweber-dadata.php:109
+#: functions/integrations/dadata/dadata-ajax.php:51
+msgid "Enter an address to verify."
+msgstr ""
+
 #: functions/integrations/personal-data-v2/test-providers.php:265
 msgid "Enter an email address that has data in one of the modules"
 msgstr ""
@@ -5321,6 +5483,10 @@ msgstr ""
 #: functions/integrations/telegram/telegram-init.php:146
 #: functions/integrations/s3-storage/inc/Settings.php:119
 msgid "Error"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:181
+msgid "error"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/redux-fonts.php:1006
@@ -5555,6 +5721,7 @@ msgstr ""
 #: functions/cpt/cpt-events.php:24 functions/cpt/cpt-events.php:26
 #: functions/cpt/cpt-events.php:44
 #: functions/integrations/personal-data-v2/providers/class-newsletter-provider.php:359
+#: redux-framework/sample/sections/codeweber/notifications.php:81
 msgid "Events"
 msgstr ""
 
@@ -5628,6 +5795,14 @@ msgstr ""
 
 #: functions/cpt/cpt-events.php:374
 msgid "External Registration URL"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:116
+msgid "Extra classes for the dark-variant text (Bootstrap / theme)."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:154
+msgid "Extra classes for the light-variant text (Bootstrap / theme)."
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:632
@@ -5936,6 +6111,7 @@ msgstr ""
 #: functions/cpt/cpt-documents.php:408
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:792
 #: functions/integrations/personal-data-v2/providers/class-codeweber-forms-provider.php:764
+#: redux-framework/sample/sections/codeweber/media.php:66
 #: functions/integrations/s3-storage/inc/views/log-viewer.php:17
 msgid "File"
 msgstr ""
@@ -5976,6 +6152,10 @@ msgstr ""
 #: functions/cpt/cpt-documents.php:950 functions/cpt/cpt-documents.php:1113
 #: functions/cpt/cpt-documents.php:1282
 msgid "File not found for this document"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:227
+msgid "File not found on disk"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:495
@@ -6063,6 +6243,18 @@ msgstr ""
 msgid "Filter Price Packages"
 msgstr ""
 
+#: functions/woocommerce/filters.php:1730
+msgid "Filter products by star rating."
+msgstr ""
+
+#: functions/woocommerce/filters.php:1777
+msgid "Filter products by stock status."
+msgstr ""
+
+#: functions/woocommerce/filters.php:1566
+msgid "Filter products by WooCommerce attribute (color, size, etc.)."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:286
 msgid "Filter Settings"
 msgstr ""
@@ -6143,7 +6335,7 @@ msgstr ""
 msgid "Font uploaded successfully!"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:674
+#: redux-framework/sample/sections/codeweber/style.php:706
 msgid "Fonts"
 msgstr ""
 
@@ -6520,11 +6712,15 @@ msgstr ""
 msgid "Forms"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:110
+msgid "Forms (CodeWeber Forms)"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/matomo-forms-integration.php:571
 msgid "Forms Count"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:173
+#: redux-framework/sample/sections/codeweber/style.php:205
 msgid "Forms rounded corners"
 msgstr ""
 
@@ -6689,6 +6885,10 @@ msgstr ""
 msgid "GDPR (EU)"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:30
+msgid "General"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:48
 msgid "General Module Settings"
 msgstr ""
@@ -6758,17 +6958,17 @@ msgstr ""
 msgid "Gladkov Denis"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:498
+#: redux-framework/sample/sections/codeweber/style.php:530
 msgid "Global"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:516
+#: redux-framework/sample/sections/codeweber/style.php:548
 msgid ""
 "Global Bootstrap grid gap used in shop, archives and Gutenberg blocks with "
 "\"Theme\" gap type."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:364
+#: redux-framework/sample/sections/codeweber/style.php:396
 msgid ""
 "Global icon settings (social links, vacancy sidebar, etc.). Header and "
 "footer can have their own overrides."
@@ -6782,8 +6982,12 @@ msgstr ""
 msgid "Global page background. Overridden by per-CPT and per-post settings."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:360
+#: redux-framework/sample/sections/codeweber/style.php:392
 msgid "Global Social Style"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:39
+msgid "Globally enable / disable all notifications."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:27
@@ -6805,6 +7009,10 @@ msgstr ""
 #: templates/post-cards/vacancies/style4-card.php:99
 #: templates/post-cards/vacancies/style5-card.php:56
 msgid "Go"
+msgstr ""
+
+#: templates/woocommerce/offcanvas-cart-items.php:121
+msgid "Go to cart"
 msgstr ""
 
 #: functions/woocommerce/compare/class-cw-compare-ui.php:197
@@ -6895,11 +7103,11 @@ msgstr ""
 msgid "Green Icon"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:522
+#: redux-framework/sample/sections/codeweber/style.php:554
 msgid "Grid Gap Preset"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:512
+#: redux-framework/sample/sections/codeweber/style.php:544
 msgid "Grid Gutters"
 msgstr ""
 
@@ -6917,7 +7125,7 @@ msgid ""
 "after login."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:685
+#: redux-framework/sample/sections/codeweber/style.php:717
 msgid "Gulp"
 msgstr ""
 
@@ -6933,19 +7141,19 @@ msgstr ""
 msgid "Gutenberg Editor Settings"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:538
+#: redux-framework/sample/sections/codeweber/style.php:570
 msgid "gx-* — all breakpoints. Leave empty to skip."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:563
+#: redux-framework/sample/sections/codeweber/style.php:595
 msgid "gx-md-* — overrides horizontal gap from ≥768px."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:588
+#: redux-framework/sample/sections/codeweber/style.php:620
 msgid "gy-* — vertical gap at all breakpoints."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:613
+#: redux-framework/sample/sections/codeweber/style.php:645
 msgid "gy-md-* — overrides vertical gap from ≥768px."
 msgstr ""
 
@@ -7137,7 +7345,10 @@ msgstr ""
 msgid "HIT"
 msgstr ""
 
+#: functions/breadcrumbs.php:42 functions/documentation.php:92
 #: functions/shortcodes.php:203 functions/seo/seo-schema.php:435
+#: redux-framework/sample/sections/codeweber/page-header.php:303
+#: redux-framework/sample/sections/codeweber/page-header.php:353
 msgid "Home"
 msgstr ""
 
@@ -7171,11 +7382,11 @@ msgid ""
 "screen sizes."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:562
+#: redux-framework/sample/sections/codeweber/style.php:594
 msgid "Horizontal Gap (md+)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:537
+#: redux-framework/sample/sections/codeweber/style.php:569
 msgid "Horizontal Gap (xs)"
 msgstr ""
 
@@ -7426,7 +7637,7 @@ msgstr ""
 msgid "If disabled, the map is not displayed on the frontend."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:292
+#: redux-framework/sample/sections/codeweber/style.php:324
 msgid "If filled, the background color below will not be applied"
 msgstr ""
 
@@ -7583,6 +7794,7 @@ msgid "In compare"
 msgstr ""
 
 #: woocommerce/content-compare-table.php:103
+#: functions/woocommerce/filters.php:217 functions/woocommerce/filters.php:992
 msgid "In stock"
 msgstr ""
 
@@ -7605,6 +7817,12 @@ msgstr ""
 
 #: functions/cpt/cpt-notifications.php:425
 msgid "Inactivity Delay"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/legal.php:738
+msgid ""
+"Increase the value to show the banner again to all visitors (e.g., when the "
+"policy is updated)."
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:312
@@ -7633,7 +7851,7 @@ msgstr ""
 msgid "Inline (in sidebar)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:108
+#: redux-framework/sample/sections/codeweber/style.php:124
 msgid ""
 "Inline SVG markup shown on dark backgrounds. Use currentColor to inherit "
 "text color."
@@ -7745,6 +7963,10 @@ msgstr ""
 msgid "Integration Status"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:582
+msgid "Interrupted regeneration. Processed:"
+msgstr ""
+
 #: functions/cpt/cpt-vacancies.php:460
 msgid "Introduction / Short Description"
 msgstr ""
@@ -7831,6 +8053,10 @@ msgstr ""
 
 #: functions/admin/media-cpt-filter.php:259
 msgid "Invalid post type."
+msgstr ""
+
+#: functions/woocommerce/cart-offcanvas.php:122
+msgid "Invalid product."
 msgstr ""
 
 #: functions/woocommerce/compare/class-cw-compare.php:59
@@ -8099,12 +8325,16 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:185
 #: redux-framework/sample/sections/codeweber/header.php:262
 #: redux-framework/sample/sections/codeweber/header.php:337
-#: redux-framework/sample/sections/codeweber/style.php:401
+#: redux-framework/sample/sections/codeweber/style.php:433
 msgid "Large"
 msgstr ""
 
 #: redux-framework/sample/metaboxes.php:631
 msgid "Large (modal-lg)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:199
+msgid "Larger than original"
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:117
@@ -8362,8 +8592,8 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/header.php:116
 #: redux-framework/sample/sections/codeweber/header.php:274
 #: redux-framework/sample/sections/codeweber/page-header.php:257
-#: redux-framework/sample/sections/codeweber/style.php:488
-#: redux-framework/sample/sections/codeweber/style.php:500
+#: redux-framework/sample/sections/codeweber/style.php:520
+#: redux-framework/sample/sections/codeweber/style.php:532
 msgid "Light"
 msgstr ""
 
@@ -8388,6 +8618,10 @@ msgstr ""
 #: functions/admin/documents-settings.php:71
 msgid ""
 "Limit how often documents can be sent by email. Set 0 to disable a limit."
+msgstr ""
+
+#: functions/woocommerce/filters.php:1636
+msgid "Link list"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:85
@@ -8438,6 +8672,10 @@ msgstr ""
 msgid "List of personal data processed:"
 msgstr ""
 
+#: functions/woocommerce/filters.php:1668
+msgid "List of product categories for filtering."
+msgstr ""
+
 #: woocommerce/archive-product.php:199 woocommerce/archive-product.php:371
 #: templates/archives/events/events_1.php:41
 msgid "List view"
@@ -8455,11 +8693,11 @@ msgstr ""
 msgid "Load more"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:299
+#: redux-framework/sample/sections/codeweber/style.php:331
 msgid "Loader Background Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:271
+#: redux-framework/sample/sections/codeweber/style.php:303
 msgid "Loader Type"
 msgstr ""
 
@@ -8551,19 +8789,35 @@ msgstr ""
 msgid "Logo Size"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/style.php:99
+msgid "Logo SVG color class — Dark"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:137
+msgid "Logo SVG color class — Light"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/style.php:85
 msgid "Logo SVG — Dark"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:107
+#: redux-framework/sample/sections/codeweber/style.php:123
 msgid "Logo SVG — Light"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:99
+#: redux-framework/sample/sections/codeweber/style.php:115
+msgid "Logo Text CSS classes — Dark"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:153
+msgid "Logo Text CSS classes — Light"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:107
 msgid "Logo Text — Dark"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:121
+#: redux-framework/sample/sections/codeweber/style.php:145
 msgid "Logo Text — Light"
 msgstr ""
 
@@ -8653,6 +8907,10 @@ msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:80
 msgid "Manage licenses for images and videos"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:19
+msgid "Manage pop-up notifications on the site."
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:270 functions/cpt/cpt-offices.php:992
@@ -8755,7 +9013,7 @@ msgstr ""
 msgid "Marketing"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:245
+#: redux-framework/sample/sections/codeweber/style.php:277
 msgid ""
 "Mask for phone input fields in built-in forms. Use _ for digit positions. "
 "Example: +7 (___) ___-__-__"
@@ -8829,12 +9087,20 @@ msgstr ""
 msgid "Maximum number of submissions allowed per period."
 msgstr ""
 
+#: templates/woocommerce/filters/filter-price.php:60
+msgid "Maximum price"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:358
 msgid "Maximum width of balloon in pixels"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:163
 msgid "MD (≥ 768px)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:13
+msgid "Media"
 msgstr ""
 
 #: functions/integrations/image-licenses/image-licenses.php:52
@@ -8850,7 +9116,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:184
 #: redux-framework/sample/sections/codeweber/header.php:261
 #: redux-framework/sample/sections/codeweber/header.php:336
-#: redux-framework/sample/sections/codeweber/style.php:400
+#: redux-framework/sample/sections/codeweber/style.php:432
 msgid "Medium"
 msgstr ""
 
@@ -8972,6 +9238,10 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-validator.php:26
 msgid "Minimum length is %d characters."
+msgstr ""
+
+#: templates/woocommerce/filters/filter-price.php:51
+msgid "Minimum price"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/cpt-type.php:464
@@ -9189,6 +9459,10 @@ msgstr ""
 msgid "Nenets Autonomous Okrug"
 msgstr ""
 
+#: functions/enqueues.php:592
+msgid "Network error. Please try again later."
+msgstr ""
+
 #: functions/events/event-registrations.php:167
 #: functions/events/event-registrations.php:396
 #: functions/events/event-registrations.php:478
@@ -9390,6 +9664,12 @@ msgstr ""
 msgid "New WooCommerce orders"
 msgstr ""
 
+#: templates/woocommerce/cards/shop2.php:118
+#: templates/woocommerce/cards/_common.php:122
+#: redux-framework/sample/sections/codeweber/woocommerce.php:375
+msgid "New!"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:431
 #: functions/integrations/codeweber-forms/admin/class-codeweber-forms-list-table.php:878
 msgid "Newsletter Consents"
@@ -9428,6 +9708,7 @@ msgid "Newsletter Subscription"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-cpt.php:451
+#: redux-framework/sample/sections/codeweber/notifications.php:120
 msgid "Newsletter subscription"
 msgstr ""
 
@@ -9745,6 +10026,10 @@ msgstr ""
 msgid "No image URL"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:451
+msgid "No images found."
+msgstr ""
+
 #: functions/fetch/filterPosts.php:74
 msgid "No items found."
 msgstr ""
@@ -9926,6 +10211,12 @@ msgstr ""
 msgid "No sizes"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:253
+msgid ""
+"No sizes were generated. WordPress does not upscale images — the original is "
+"probably smaller than all requested sizes."
+msgstr ""
+
 #: templates/archives/staff/staff_1.php:112
 msgid "No staff found."
 msgstr ""
@@ -10004,7 +10295,7 @@ msgstr ""
 msgid "None (transparent)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:526
+#: redux-framework/sample/sections/codeweber/style.php:558
 msgid "Normal — g-6 (30px)"
 msgstr ""
 
@@ -10086,12 +10377,24 @@ msgstr ""
 msgid "Notification"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:111
+msgid "Notification after a form is submitted."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:121
+msgid "Notification after subscribing to the newsletter."
+msgstr ""
+
 #: functions/admin/faq-settings.php:120
 msgid "Notification email"
 msgstr ""
 
 #: functions/admin/events-settings.php:119
 msgid "Notification email for new registrations"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:131
+msgid "Notification on address standardization error."
 msgstr ""
 
 #: functions/cpt/cpt-notifications.php:61
@@ -10106,10 +10409,23 @@ msgstr ""
 msgid "Notification Type"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:141
+msgid "Notification when a link is copied to the clipboard."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:101
+msgid "Notification when a product is added to the cart."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:91
+msgid "Notification when a product is added to the wishlist."
+msgstr ""
+
 #: functions/admin/events-settings.php:112 functions/admin/faq-settings.php:113
 #: functions/cpt/cpt-notifications.php:10
 #: functions/cpt/cpt-notifications.php:12
 #: functions/cpt/cpt-notifications.php:25
+#: redux-framework/sample/sections/codeweber/notifications.php:17
 msgid "Notifications"
 msgstr ""
 
@@ -10159,9 +10475,18 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/ajax-search.php:94
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:1183
+#: redux-framework/sample/sections/codeweber/media.php:121
+#: redux-framework/sample/sections/codeweber/media.php:582
 msgid "of"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:42
+#: redux-framework/sample/sections/codeweber/notifications.php:94
+#: redux-framework/sample/sections/codeweber/notifications.php:104
+#: redux-framework/sample/sections/codeweber/notifications.php:114
+#: redux-framework/sample/sections/codeweber/notifications.php:124
+#: redux-framework/sample/sections/codeweber/notifications.php:134
+#: redux-framework/sample/sections/codeweber/notifications.php:144
 #: redux-framework/sample/sections/codeweber/page-header.php:231
 #: redux-framework/sample/sections/codeweber/page-header.php:292
 #: redux-framework/sample/sections/codeweber/page-header.php:318
@@ -10285,6 +10610,13 @@ msgstr ""
 msgid "Omsk Oblast"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:41
+#: redux-framework/sample/sections/codeweber/notifications.php:93
+#: redux-framework/sample/sections/codeweber/notifications.php:103
+#: redux-framework/sample/sections/codeweber/notifications.php:113
+#: redux-framework/sample/sections/codeweber/notifications.php:123
+#: redux-framework/sample/sections/codeweber/notifications.php:133
+#: redux-framework/sample/sections/codeweber/notifications.php:143
 #: redux-framework/sample/sections/codeweber/page-header.php:230
 #: redux-framework/sample/sections/codeweber/page-header.php:291
 #: redux-framework/sample/sections/codeweber/page-header.php:317
@@ -10295,6 +10627,10 @@ msgstr ""
 
 #: functions/integrations/stock-photos/stock-photos.php:218
 msgid "on"
+msgstr ""
+
+#: functions/woocommerce/filters.php:219 functions/woocommerce/filters.php:994
+msgid "On backorder"
 msgstr ""
 
 #: templates/header/header-center-logo.php:355
@@ -10507,12 +10843,26 @@ msgstr ""
 msgid "Organizer"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:188
+msgid "Original:"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:60
+msgid "Orphaned files"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:371
+#: redux-framework/sample/sections/codeweber/media.php:572
+msgid "Orphaned files:"
+msgstr ""
+
 #: functions/woocommerce/states-ru.php:63
 msgid "Oryol Oblast"
 msgstr ""
 
 #: functions/integrations/redux_framework/redux_scanner_cookie.php:145
 #: redux-framework/sample/sections/codeweber/legal.php:864
+#: redux-framework/sample/sections/codeweber/media.php:200
 msgid "Other"
 msgstr ""
 
@@ -10546,6 +10896,10 @@ msgstr ""
 msgid "out of 5"
 msgstr ""
 
+#: functions/woocommerce/filters.php:218 functions/woocommerce/filters.php:993
+msgid "Out of stock"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/proxy.php:29
 msgid "Outbound proxy"
 msgstr ""
@@ -10554,6 +10908,10 @@ msgstr ""
 msgid ""
 "Outbound proxy for server-side requests (e.g. reaching image stocks through "
 "a VPS)."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:232
+msgid "Outdated log entry. Click \"Start over\" to refresh."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/smtp.php:29
@@ -10606,7 +10964,7 @@ msgstr ""
 msgid "Override the global Redux background for this page only."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:496
+#: redux-framework/sample/sections/codeweber/style.php:528
 msgid ""
 "Override title color for WooCommerce shop/archive. Default = use global."
 msgstr ""
@@ -10650,7 +11008,7 @@ msgstr ""
 
 #: functions/cpt/cpt-page-header.php:11 functions/cpt/cpt-page-header.php:26
 #: redux-framework/sample/sections/codeweber/page-header.php:56
-#: redux-framework/sample/sections/codeweber/style.php:454
+#: redux-framework/sample/sections/codeweber/style.php:486
 msgid "Page Header"
 msgstr ""
 
@@ -10716,8 +11074,8 @@ msgstr ""
 msgid "Page ID or «home»"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:257
-#: redux-framework/sample/sections/codeweber/style.php:265
+#: redux-framework/sample/sections/codeweber/style.php:289
+#: redux-framework/sample/sections/codeweber/style.php:297
 msgid "Page Loader"
 msgstr ""
 
@@ -10760,15 +11118,15 @@ msgid ""
 "to generate it automatically."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:193
+#: redux-framework/sample/sections/codeweber/style.php:225
 msgid "Page-frame"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:199
+#: redux-framework/sample/sections/codeweber/style.php:231
 msgid "Page-frame Background Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:219
+#: redux-framework/sample/sections/codeweber/style.php:251
 msgid "Page-frame Color Type"
 msgstr ""
 
@@ -10791,6 +11149,7 @@ msgid "Parameter"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:567
+#: redux-framework/sample/sections/codeweber/media.php:217
 msgid "Parameters"
 msgstr ""
 
@@ -11189,11 +11548,15 @@ msgstr ""
 msgid "Phone field"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:236
+#: redux-framework/sample/sections/codeweber/api.php:50
+msgid "Phone field formatting: +7 (xxx) xxx-xx-xx"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:268
 msgid "Phone Mask"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:244
+#: redux-framework/sample/sections/codeweber/style.php:276
 msgid "Phone mask"
 msgstr ""
 
@@ -11509,12 +11872,19 @@ msgid "Previous"
 msgstr ""
 
 #: woocommerce/content-compare-table.php:65 functions/cpt/cpt-events.php:294
-#: functions/fetch/filterPosts.php:388
+#: functions/fetch/filterPosts.php:388 functions/woocommerce/filters.php:1272
+#: functions/woocommerce/filters.php:1529
+#: functions/woocommerce/filters.php:1542
 #: templates/archives/events/events_1.php:65
 #: templates/archives/events/events_2.php:44
+#: templates/woocommerce/filters/filter-panel.php:48
 #: redux-framework/sample/sections/codeweber/woocommerce.php:91
 #: redux-framework/sample/sections/codeweber/woocommerce.php:540
 msgid "Price"
+msgstr ""
+
+#: templates/woocommerce/filters/filter-price.php:70
+msgid "Price from"
 msgstr ""
 
 #: functions/cpt/cpt-price_list.php:11 functions/cpt/cpt-price_list.php:35
@@ -11608,6 +11978,20 @@ msgstr ""
 msgid "Price Packages Navigation"
 msgstr ""
 
+#: functions/woocommerce/filters.php:1520
+msgid "Price slider for WooCommerce catalog pages."
+msgstr ""
+
+#: templates/woocommerce/filters/filter-price.php:78
+msgid "Price to"
+msgstr ""
+
+#. 1: min price, 2: max price
+#: functions/woocommerce/filters.php:170
+#, php-format
+msgid "Price: %1$s — %2$s"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:227
 msgid "Price: high to low"
 msgstr ""
@@ -11645,6 +12029,22 @@ msgstr ""
 #: functions/admin/admin_privacy.php:553
 #: functions/integrations/cf7/cf7-consents-panel.php:423
 msgid "Privacy Policy"
+msgstr ""
+
+#: woocommerce/cart/proceed-to-checkout-button.php:16
+msgid "Proceed to checkout"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:121
+msgid "Processed"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:51
+msgid "Processing log"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:433
+msgid "Processing..."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:69
@@ -11744,7 +12144,7 @@ msgstr ""
 msgid "Projects Not Found in Trash"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:438
+#: redux-framework/sample/sections/codeweber/style.php:470
 msgid "Projects Prev/Next Style"
 msgstr ""
 
@@ -11936,6 +12336,10 @@ msgstr ""
 msgid "QRencode class not available."
 msgstr ""
 
+#: templates/woocommerce/offcanvas-cart-items.php:84
+msgid "Qty:"
+msgstr ""
+
 #: functions/integrations/ajax-search-module/class-search-statistics-list-table.php:40
 msgid "Query"
 msgstr ""
@@ -12007,11 +12411,15 @@ msgstr ""
 
 #: woocommerce/content-compare-table.php:74
 #: functions/cpt/cpt-testimonials.php:543
+#: functions/woocommerce/filters.php:1315
+#: functions/woocommerce/filters.php:1739
+#: functions/woocommerce/filters.php:1753
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:88
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:96
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:108
 #: functions/integrations/codeweber-forms/codeweber-forms-mailer.php:487
 #: functions/integrations/telegram/telegram-init.php:358
+#: templates/woocommerce/filters/filter-panel.php:123
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:808
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:135
 #: functions/integrations/personal-data-v2/providers/class-testimonials-provider.php:335
@@ -12099,8 +12507,16 @@ msgstr ""
 msgid "Read more"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:218
+msgid "Reason"
+msgstr ""
+
 #: functions/integrations/ajax-search-module/search-statistics.php:615
 msgid "Recent Searches"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:67
+msgid "Record"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/providers/class-cf7-provider.php:202
@@ -12113,6 +12529,10 @@ msgstr ""
 #: functions/integrations/redux_framework/redux_framework.php:89
 #: redux-framework/sample/sections/codeweber/legal.php:146
 msgid "Recording Data"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:61
+msgid "Records exist in the database, but the files are missing on disk."
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:275
@@ -12162,8 +12582,19 @@ msgstr ""
 msgid "Regenerate"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:467
+msgid "Regenerate all thumbnails? This may take a while."
+msgstr ""
+
 #: functions/admin/admin_media.php:88
+#: redux-framework/sample/sections/codeweber/media.php:31
 msgid "Regenerate thumbnails"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:28
+msgid ""
+"Regenerates all image sizes for files in the media library. Run it after "
+"changing the registered image sizes."
 msgstr ""
 
 #: functions/cpt/cpt-offices.php:216 functions/cpt/cpt-staff.php:268
@@ -12379,6 +12810,14 @@ msgstr ""
 msgid "Remove file"
 msgstr ""
 
+#: templates/woocommerce/filters/filter-active.php:26
+msgid "Remove filter"
+msgstr ""
+
+#: templates/woocommerce/offcanvas-cart-items.php:93
+msgid "Remove from cart"
+msgstr ""
+
 #: woocommerce/content-compare-bar.php:57
 #: woocommerce/content-compare-table.php:51
 msgid "Remove from compare"
@@ -12484,6 +12923,14 @@ msgstr ""
 #: functions/integrations/ajax-search-module/search-statistics.php:642
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:485
 msgid "Reset"
+msgstr ""
+
+#: templates/woocommerce/filters/filter-active.php:36
+msgid "Reset all"
+msgstr ""
+
+#: functions/woocommerce/filters.php:1200
+msgid "Reset all filters"
 msgstr ""
 
 #: functions/cpt/cpt-documents.php:291 functions/cpt/cpt-documents.php:837
@@ -12699,6 +13146,16 @@ msgstr ""
 msgid "Running..."
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/legal.php:728
+msgid "Russia (152-FZ)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/legal.php:726
+msgid ""
+"Russia — the banner is informational, tracking works immediately. GDPR — "
+"tracking is blocked until the user consents."
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:126
 #: redux-framework/sample/sections/codeweber/socials.php:51
 #: redux-framework/sample/sections/extensions/users.php:64
@@ -12779,6 +13236,14 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:349
 msgid "Sale Text Color"
+msgstr ""
+
+#: templates/woocommerce/cards/shop2.php:109
+#: templates/woocommerce/cards/shop2.php:111
+#: templates/woocommerce/cards/_common.php:114
+#: templates/woocommerce/cards/_common.php:116
+#: redux-framework/sample/sections/codeweber/woocommerce.php:333
+msgid "Sale!"
 msgstr ""
 
 #: functions/woocommerce/states-ru.php:72
@@ -12923,6 +13388,14 @@ msgstr ""
 msgid "Schedule Name"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:49
+msgid "Screen corner where notifications appear."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:48
+msgid "Screen position"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:393
 msgid "Screen Reader Support"
 msgstr ""
@@ -12966,6 +13439,10 @@ msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-admin.php:479
 msgid "Search by email or name"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:54
+msgid "Search by file name..."
 msgstr ""
 
 #: functions/cpt/cpt-clients.php:80 functions/cpt/cpt-events.php:90
@@ -13180,6 +13657,10 @@ msgstr ""
 msgid "Secret Key"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:31
+msgid "Secret key for clean/address (not sent to the browser)"
+msgstr ""
+
 #: functions/admin/projects-settings.php:241
 msgid "Section title"
 msgstr ""
@@ -13259,6 +13740,10 @@ msgstr ""
 #: functions/demo/demo-ajax.php:699 functions/demo/demo-ajax.php:721
 #: functions/demo/demo-ajax.php:749
 msgid "Security error. Please refresh the page and try again."
+msgstr ""
+
+#: functions/integrations/dadata/dadata-ajax.php:35
+msgid "Security error. Refresh the page and try again."
 msgstr ""
 
 #: woocommerce/myaccount/form-edit-address.php:89
@@ -13487,6 +13972,10 @@ msgstr ""
 msgid "Select Page-Header Type"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:38
+msgid "Select pages with an address form"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/childtheme.php:154
 msgid "Select Parent Theme"
 msgstr ""
@@ -13603,6 +14092,11 @@ msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-renderer.php:736
 msgid "Select..."
+msgstr ""
+
+#: functions/woocommerce/filters.php:1833
+#: functions/woocommerce/filters.php:1847
+msgid "Selected"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/map_geo.php:186
@@ -13937,11 +14431,11 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:408
+#: redux-framework/sample/sections/codeweber/style.php:440
 msgid "Share Button Color"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:428
+#: redux-framework/sample/sections/codeweber/style.php:460
 msgid "Share Button Type"
 msgstr ""
 
@@ -14239,6 +14733,10 @@ msgstr ""
 msgid "Show icon type instead of button on mobile devices (<768px)"
 msgstr ""
 
+#: functions/woocommerce/filters.php:1254
+msgid "Show less"
+msgstr ""
+
 #: functions/admin/projects-settings.php:207
 msgid "Show map for"
 msgstr ""
@@ -14253,6 +14751,10 @@ msgstr ""
 
 #: woocommerce/archive-product.php:275
 msgid "Show More"
+msgstr ""
+
+#: functions/woocommerce/filters.php:1253
+msgid "Show more"
 msgstr ""
 
 #: functions/admin/faq-settings.php:162
@@ -14280,6 +14782,11 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:76
 msgid "Show product category label on card"
+msgstr ""
+
+#: functions/woocommerce/filters.php:1644
+#: functions/woocommerce/filters.php:1709
+msgid "Show product count"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/woocommerce.php:541
@@ -14447,6 +14954,10 @@ msgstr ""
 msgid "Shown when product is on sale (WooCommerce)."
 msgstr ""
 
+#: functions/woocommerce/filters.php:1824
+msgid "Shows applied filters with a reset button."
+msgstr ""
+
 #: redux-framework/sample/metaboxes.php:595
 #: redux-framework/sample/sections/codeweber/page-header.php:63
 msgid "Sidebar"
@@ -14480,7 +14991,7 @@ msgstr ""
 msgid "Sidebar Title"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:325
+#: redux-framework/sample/sections/codeweber/style.php:357
 msgid "Sidebar Widgets"
 msgstr ""
 
@@ -14544,6 +15055,16 @@ msgstr ""
 msgid "Single Template for %s"
 msgstr ""
 
+#: functions/documentation.php:19 functions/documentation.php:20
+#: functions/documentation.php:42
+msgid "Site Documentation"
+msgstr ""
+
+#: functions/documentation.php:27 functions/documentation.php:28
+#: functions/documentation.php:50 functions/documentation.php:50
+msgid "Site Functionality"
+msgstr ""
+
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:888
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:955
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-email-templates.php:1147
@@ -14564,8 +15085,17 @@ msgstr ""
 msgid "site URL"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:216
+#: redux-framework/sample/sections/codeweber/media.php:245
+msgid "Size"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:191
 msgid "Size of logo in marker (pixels)"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:180
+msgid "sizes"
 msgstr ""
 
 #. 1: offloaded sizes count, 2: total sizes count
@@ -14580,6 +15110,14 @@ msgstr ""
 #: templates/singles/staff/staff_5.php:254
 #: templates/singles/vacancies/default.php:110
 msgid "Skills"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:178
+msgid "skipped"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:211
+msgid "Skipped:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:282
@@ -14613,7 +15151,7 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:183
 #: redux-framework/sample/sections/codeweber/header.php:260
 #: redux-framework/sample/sections/codeweber/header.php:335
-#: redux-framework/sample/sections/codeweber/style.php:399
+#: redux-framework/sample/sections/codeweber/style.php:431
 msgid "Small"
 msgstr ""
 
@@ -14661,7 +15199,7 @@ msgstr ""
 msgid "Social Button Size"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:397
+#: redux-framework/sample/sections/codeweber/style.php:429
 msgid "Social Button Size (global)"
 msgstr ""
 
@@ -14671,7 +15209,7 @@ msgstr ""
 msgid "Social Button Style"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:387
+#: redux-framework/sample/sections/codeweber/style.php:419
 msgid "Social Button Style (global)"
 msgstr ""
 
@@ -14679,7 +15217,7 @@ msgstr ""
 msgid "Social Icon Type"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:369
+#: redux-framework/sample/sections/codeweber/style.php:401
 msgid "Social Icon Type (global)"
 msgstr ""
 
@@ -14725,8 +15263,8 @@ msgid "Socials"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:158
-#: redux-framework/sample/sections/codeweber/style.php:222
-#: redux-framework/sample/sections/codeweber/style.php:431
+#: redux-framework/sample/sections/codeweber/style.php:254
+#: redux-framework/sample/sections/codeweber/style.php:463
 msgid "Soft"
 msgstr ""
 
@@ -14763,8 +15301,8 @@ msgid "Software"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/page-header.php:157
-#: redux-framework/sample/sections/codeweber/style.php:221
-#: redux-framework/sample/sections/codeweber/style.php:430
+#: redux-framework/sample/sections/codeweber/style.php:253
+#: redux-framework/sample/sections/codeweber/style.php:462
 msgid "Solid"
 msgstr ""
 
@@ -14808,7 +15346,7 @@ msgstr ""
 msgid "Sorting Options"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:528
+#: redux-framework/sample/sections/codeweber/style.php:560
 msgid "Spacious — gy-10 gy-md-13 gx-md-8"
 msgstr ""
 
@@ -14911,6 +15449,14 @@ msgstr ""
 
 #: functions/cpt/cpt-events.php:236
 msgid "Start Date & Time"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:37
+msgid "Start over"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/media.php:499
+msgid "Start regeneration over? All progress will be reset."
 msgstr ""
 
 #: functions/sidebars.php:782
@@ -15025,7 +15571,7 @@ msgstr ""
 msgid "Style of cluster icons"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:439
+#: redux-framework/sample/sections/codeweber/style.php:471
 msgid ""
 "Style of prev/next links on single project page. Share button is always "
 "shown."
@@ -15460,6 +16006,7 @@ msgid "Tag Archives"
 msgstr ""
 
 #: functions/cpt/cpt-faq.php:142 functions/cpt/cpt-faq.php:289
+#: functions/woocommerce/filters.php:1297
 msgid "Tags"
 msgstr ""
 
@@ -15560,6 +16107,9 @@ msgstr ""
 msgid "Terms of Use"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:61
+#: redux-framework/sample/sections/codeweber/api.php:77
+#: redux-framework/sample/sections/codeweber/api.php:93
 #: redux-framework/sample/sections/codeweber/api.php:140
 #: redux-framework/sample/sections/codeweber/api.php:187
 #: redux-framework/sample/sections/codeweber/api.php:204
@@ -15578,6 +16128,10 @@ msgstr ""
 
 #: functions/integrations/s3-storage/inc/views/settings.php:93
 msgid "Test connection"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:58
+msgid "Test DaData"
 msgstr ""
 
 #: functions/integrations/personal-data-v2/test-providers.php:249
@@ -15641,6 +16195,10 @@ msgstr ""
 msgid "Test proxy"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:91
+msgid "Test SMS.RU"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/smtp.php:223
 msgid "Test SMTP Connection"
 msgstr ""
@@ -15651,6 +16209,10 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/api.php:184
 msgid "Test Unsplash"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/api.php:75
+msgid "Test Yandex Maps"
 msgstr ""
 
 #: functions/cpt/cpt-testimonials.php:11
@@ -15822,7 +16384,7 @@ msgstr ""
 msgid "Text for paragraph 5.3 of the personal data processing policy"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:441
+#: redux-framework/sample/sections/codeweber/style.php:473
 msgid "Text Links"
 msgstr ""
 
@@ -15834,11 +16396,11 @@ msgstr ""
 msgid "Text only"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:122
+#: redux-framework/sample/sections/codeweber/style.php:146
 msgid "Text shown on dark backgrounds."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:100
+#: redux-framework/sample/sections/codeweber/style.php:108
 msgid "Text shown on light backgrounds."
 msgstr ""
 
@@ -15915,12 +16477,37 @@ msgstr ""
 msgid "Thank you! Your message has been sent."
 msgstr ""
 
+#: functions/integrations/dadata/class-codeweber-dadata.php:258
+#: functions/integrations/dadata/class-codeweber-dadata.php:300
+#: functions/integrations/dadata/class-codeweber-dadata.php:314
+#: functions/integrations/dadata/class-codeweber-dadata.php:322
+msgid "The address suggestions service is temporarily unavailable."
+msgstr ""
+
+#: functions/integrations/dadata/dadata-ajax.php:46
+msgid "The address verification service is disabled."
+msgstr ""
+
+#: functions/integrations/dadata/class-codeweber-dadata.php:100
+#: functions/integrations/dadata/class-codeweber-dadata.php:141
+#: functions/integrations/dadata/class-codeweber-dadata.php:153
+#: functions/integrations/dadata/class-codeweber-dadata.php:169
+#: functions/integrations/dadata/dadata-ajax.php:43
+msgid "The address verification service is temporarily unavailable."
+msgstr ""
+
 #: functions/cpt/cpt-events.php:343
 msgid "The built-in registration form will open in a modal window."
 msgstr ""
 
 #: redux-framework/sample-config.php:574
 msgid "The field desc is NOT visible in customizer."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:64
+msgid ""
+"The notification closes automatically after the specified time. 0 — do not "
+"close."
 msgstr ""
 
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:191
@@ -15977,11 +16564,11 @@ msgstr ""
 msgid "Theme Information 2"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:275
+#: redux-framework/sample/sections/codeweber/style.php:307
 msgid "Theme Logo Dark"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:274
+#: redux-framework/sample/sections/codeweber/style.php:306
 msgid "Theme Logo Light"
 msgstr ""
 
@@ -16001,6 +16588,16 @@ msgstr ""
 
 #: redux-framework/sample/sections/codeweber/style.php:27
 msgid "Theme style"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:100
+msgid ""
+"Theme/Bootstrap color class for the dark-variant icon (uses currentColor)."
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/style.php:138
+msgid ""
+"Theme/Bootstrap color class for the light-variant icon (uses currentColor)."
 msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:686
@@ -16121,6 +16718,10 @@ msgstr ""
 msgid "Thumbnail Hover Effect"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:24
+msgid "Thumbnail regeneration"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:433
 msgid "Thumbnails Count"
 msgstr ""
@@ -16200,12 +16801,21 @@ msgstr ""
 msgid "Title Purpose of processing"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:462
+#: redux-framework/sample/sections/codeweber/style.php:494
 msgid "Title size"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:485
+#: redux-framework/sample/sections/codeweber/style.php:517
 msgid "Title Text Color"
+msgstr ""
+
+#: functions/woocommerce/filters.php:1545
+#: functions/woocommerce/filters.php:1613
+#: functions/woocommerce/filters.php:1700
+#: functions/woocommerce/filters.php:1756
+#: functions/woocommerce/filters.php:1803
+#: functions/woocommerce/filters.php:1850
+msgid "Title:"
 msgstr ""
 
 #: functions/integrations/yandex-maps/class-codeweber-yandex-maps.php:479
@@ -16246,6 +16856,11 @@ msgstr ""
 msgid "Too many requests. Please try again later."
 msgstr ""
 
+#: functions/integrations/dadata/class-codeweber-dadata.php:161
+#: functions/integrations/dadata/class-codeweber-dadata.php:313
+msgid "Too many requests. Try again in a few seconds."
+msgstr ""
+
 #: functions/integrations/codeweber-forms/codeweber-forms-api.php:267
 msgid "Too many submissions. Please try again in %d minutes."
 msgstr ""
@@ -16254,10 +16869,18 @@ msgstr ""
 msgid "Too many submissions. Please try again later."
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:15
+msgid "Tools for working with media files"
+msgstr ""
+
 #: functions/cpt/cpt-notifications.php:281
 #: functions/cpt/cpt-notifications.php:330
 #: redux-framework/sample/sections/codeweber/woocommerce.php:295
 msgid "Top Left"
+msgstr ""
+
+#: redux-framework/sample/sections/codeweber/notifications.php:56
+msgid "Top left"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/floating-social-widget.php:536
@@ -16272,10 +16895,16 @@ msgstr ""
 msgid "Top Right"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/notifications.php:55
+msgid "Top right"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/header.php:373
 msgid "Topbar"
 msgstr ""
 
+#: woocommerce/cart/cart-totals.php:86
+#: woocommerce/checkout/review-order.php:115
 #: functions/integrations/telegram/telegram-init.php:182
 msgid "Total"
 msgstr ""
@@ -16290,6 +16919,10 @@ msgstr ""
 
 #: functions/integrations/ajax-search-module/search-statistics.php:595
 msgid "Total Searches"
+msgstr ""
+
+#: templates/woocommerce/offcanvas-cart-items.php:107
+msgid "Total:"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/yandex-maps-settings.php:414
@@ -16396,63 +17029,63 @@ msgstr ""
 #: redux-framework/sample/sections/codeweber/footer.php:150
 #: redux-framework/sample/sections/codeweber/header.php:229
 #: redux-framework/sample/sections/codeweber/header.php:304
-#: redux-framework/sample/sections/codeweber/style.php:372
+#: redux-framework/sample/sections/codeweber/style.php:404
 msgid "Type 1"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:151
 #: redux-framework/sample/sections/codeweber/header.php:230
 #: redux-framework/sample/sections/codeweber/header.php:305
-#: redux-framework/sample/sections/codeweber/style.php:373
+#: redux-framework/sample/sections/codeweber/style.php:405
 msgid "Type 2"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:152
 #: redux-framework/sample/sections/codeweber/header.php:231
 #: redux-framework/sample/sections/codeweber/header.php:306
-#: redux-framework/sample/sections/codeweber/style.php:374
+#: redux-framework/sample/sections/codeweber/style.php:406
 msgid "Type 3"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:153
 #: redux-framework/sample/sections/codeweber/header.php:232
 #: redux-framework/sample/sections/codeweber/header.php:307
-#: redux-framework/sample/sections/codeweber/style.php:375
+#: redux-framework/sample/sections/codeweber/style.php:407
 msgid "Type 4"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:154
 #: redux-framework/sample/sections/codeweber/header.php:233
 #: redux-framework/sample/sections/codeweber/header.php:308
-#: redux-framework/sample/sections/codeweber/style.php:376
+#: redux-framework/sample/sections/codeweber/style.php:408
 msgid "Type 5"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:155
 #: redux-framework/sample/sections/codeweber/header.php:234
 #: redux-framework/sample/sections/codeweber/header.php:309
-#: redux-framework/sample/sections/codeweber/style.php:377
+#: redux-framework/sample/sections/codeweber/style.php:409
 msgid "Type 6"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:156
 #: redux-framework/sample/sections/codeweber/header.php:235
 #: redux-framework/sample/sections/codeweber/header.php:310
-#: redux-framework/sample/sections/codeweber/style.php:378
+#: redux-framework/sample/sections/codeweber/style.php:410
 msgid "Type 7"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:157
 #: redux-framework/sample/sections/codeweber/header.php:236
 #: redux-framework/sample/sections/codeweber/header.php:311
-#: redux-framework/sample/sections/codeweber/style.php:379
+#: redux-framework/sample/sections/codeweber/style.php:411
 msgid "Type 8"
 msgstr ""
 
 #: redux-framework/sample/sections/codeweber/footer.php:158
 #: redux-framework/sample/sections/codeweber/header.php:237
 #: redux-framework/sample/sections/codeweber/header.php:312
-#: redux-framework/sample/sections/codeweber/style.php:380
+#: redux-framework/sample/sections/codeweber/style.php:412
 msgid "Type 9"
 msgstr ""
 
@@ -16706,7 +17339,7 @@ msgstr ""
 msgid "Upload PDF"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:285
+#: redux-framework/sample/sections/codeweber/style.php:317
 msgid "Upload SVG image"
 msgstr ""
 
@@ -17197,19 +17830,19 @@ msgstr ""
 msgid "Vertical"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:612
+#: redux-framework/sample/sections/codeweber/style.php:644
 msgid "Vertical Gap (md+)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:587
+#: redux-framework/sample/sections/codeweber/style.php:619
 msgid "Vertical Gap (xs)"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:654
+#: redux-framework/sample/sections/codeweber/style.php:686
 msgid "Vertical padding from md breakpoint and above."
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:638
+#: redux-framework/sample/sections/codeweber/style.php:670
 msgid "Vertical padding on screens below md breakpoint."
 msgstr ""
 
@@ -17655,6 +18288,20 @@ msgstr ""
 msgid "Welcome Text Cookie Banner"
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/media.php:26
+msgid ""
+"What regeneration does:\n"
+"• Regenerates all registered image sizes for each file in the media library."
+"\n"
+"• The original file is NOT deleted and NOT modified.\n"
+"• Sizes are generated according to the post type (CPT): WooCommerce products "
+"get one set of sizes, events another.\n"
+"• Old thumbnails are overwritten with new ones.\n"
+"• Files without a parent post generate all sizes without restrictions.\n"
+"• Orphaned attachments (file deleted from disk) are not regenerated and are "
+"listed separately."
+msgstr ""
+
 #: functions/bootstrap/bootstrap_share-page.php:220
 #: functions/bootstrap/bootstrap_share-page.php:252
 #: templates/singles/staff/staff_4.php:163
@@ -17732,6 +18379,10 @@ msgstr ""
 msgid "When registration stops. Leave empty to close when event starts."
 msgstr ""
 
+#: redux-framework/sample/sections/codeweber/api.php:37
+msgid "Where to show the \"Verify address\" button"
+msgstr ""
+
 #: redux-framework/sample/sections/codeweber/woocommerce.php:197
 msgid "Which column options to display"
 msgstr ""
@@ -17756,7 +18407,7 @@ msgstr ""
 msgid "White"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:527
+#: redux-framework/sample/sections/codeweber/style.php:559
 msgid "Wide — gy-10 gx-md-8"
 msgstr ""
 
@@ -17810,7 +18461,7 @@ msgstr ""
 msgid "Widget area on the right side of the Header"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:333
+#: redux-framework/sample/sections/codeweber/style.php:365
 msgid "Widget Heading Size"
 msgstr ""
 
@@ -17863,6 +18514,7 @@ msgstr ""
 #: functions/woocommerce/wishlist/functions.php:169
 #: functions/woocommerce/wishlist/functions.php:170
 #: functions/woocommerce/wishlist/functions.php:184
+#: redux-framework/sample/sections/codeweber/notifications.php:90
 #: redux-framework/sample/sections/codeweber/woocommerce.php:812
 msgid "Wishlist"
 msgstr ""
@@ -17891,7 +18543,7 @@ msgstr ""
 msgid "Woocommerce"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:495
+#: redux-framework/sample/sections/codeweber/style.php:527
 msgid "WooCommerce Archive Title Color"
 msgstr ""
 
@@ -18145,6 +18797,10 @@ msgstr ""
 msgid "You will now receive our latest news, updates, and special offers."
 msgstr ""
 
+#: templates/woocommerce/offcanvas-cart-items.php:22
+msgid "Your cart is empty"
+msgstr ""
+
 #: functions/integrations/newsletter-subscription/admin/newsletter-settings.php:398
 msgid "Your code for subscription error"
 msgstr ""
@@ -18183,6 +18839,11 @@ msgstr ""
 #: functions/sidebars.php:975 functions/sidebars.php:977
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:353
 msgid "Your name *"
+msgstr ""
+
+#: woocommerce/cart/cart-totals.php:17
+#: woocommerce/checkout/form-checkout.php:43
+msgid "Your order"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/codeweber-forms-default-forms.php:106
@@ -18279,716 +18940,6 @@ msgstr ""
 msgid "°"
 msgstr ""
 
-#: functions/woocommerce/filters.php:1619
-msgid "Атрибут:"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:199
-msgid "Больше оригинала"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1341
-msgid "Бренды"
-msgstr ""
-
-#: templates/woocommerce/offcanvas-cart-items.php:25
-msgid "В каталог"
-msgstr ""
-
-#: functions/woocommerce/filters.php:217 functions/woocommerce/filters.php:992
-msgid "В наличии"
-msgstr ""
-
-#: woocommerce/cart/cart-totals.php:17
-#: woocommerce/checkout/form-checkout.php:43
-msgid "Ваш заказ"
-msgstr ""
-
-#: templates/woocommerce/offcanvas-cart-items.php:22
-msgid "Ваша корзина пуста"
-msgstr ""
-
-#: functions/enqueues.php:590
-msgid "Введите адрес в поле «Адрес» и нажмите кнопку проверки."
-msgstr ""
-
-#: functions/integrations/dadata/class-codeweber-dadata.php:109
-#: functions/integrations/dadata/dadata-ajax.php:51
-msgid "Введите адрес для проверки."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:41
-#: redux-framework/sample/sections/codeweber/notifications.php:93
-#: redux-framework/sample/sections/codeweber/notifications.php:103
-#: redux-framework/sample/sections/codeweber/notifications.php:113
-#: redux-framework/sample/sections/codeweber/notifications.php:123
-#: redux-framework/sample/sections/codeweber/notifications.php:133
-#: redux-framework/sample/sections/codeweber/notifications.php:143
-msgid "Вкл"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:38
-msgid "Включить уведомления"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:63
-msgid "Время показа (мс)"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:38
-msgid "Выберите страницы с формой адреса"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:84
-msgid "Выберите, для каких действий показывать уведомления."
-msgstr ""
-
-#: functions/woocommerce/filters.php:1833
-#: functions/woocommerce/filters.php:1847
-msgid "Выбрано"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:42
-#: redux-framework/sample/sections/codeweber/notifications.php:94
-#: redux-framework/sample/sections/codeweber/notifications.php:104
-#: redux-framework/sample/sections/codeweber/notifications.php:114
-#: redux-framework/sample/sections/codeweber/notifications.php:124
-#: redux-framework/sample/sections/codeweber/notifications.php:134
-#: redux-framework/sample/sections/codeweber/notifications.php:144
-msgid "Выкл"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:37
-msgid "Где показывать кнопку «Проверить адрес»"
-msgstr ""
-
-#: functions/breadcrumbs.php:42
-#: redux-framework/sample/sections/codeweber/page-header.php:303
-#: redux-framework/sample/sections/codeweber/page-header.php:353
-msgid "Главная"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:39
-msgid "Глобальное включение / отключение всех уведомлений."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:369
-#: redux-framework/sample/sections/codeweber/media.php:570
-msgid "Готово! Все миниатюры успешно регенерированы."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:68
-msgid "Действия"
-msgstr ""
-
-#: functions/documentation.php:19 functions/documentation.php:20
-#: functions/documentation.php:42
-msgid "Документация Сайта"
-msgstr ""
-
-#: functions/documentation.php:42
-msgid "Документация темы Codeweber"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:200
-msgid "Другая"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:51
-msgid "Журнал обработки"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1545
-#: functions/woocommerce/filters.php:1613
-#: functions/woocommerce/filters.php:1700
-#: functions/woocommerce/filters.php:1756
-#: functions/woocommerce/filters.php:1803
-#: functions/woocommerce/filters.php:1850
-msgid "Заголовок:"
-msgstr ""
-
-#: functions/woocommerce/cart-offcanvas.php:211
-msgid "Закрыть"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:61
-msgid "Записи в базе данных есть, но файлы на диске отсутствуют."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:67
-msgid "Запись"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:90
-msgid "Избранное (Wishlist)"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:348
-msgid "Изменить"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:451
-msgid "Изображений не найдено."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:15
-msgid "Инструменты для работы с медиафайлами"
-msgstr ""
-
-#: woocommerce/cart/cart-totals.php:86
-#: woocommerce/checkout/review-order.php:115
-msgid "Итого"
-msgstr ""
-
-#: templates/woocommerce/offcanvas-cart-items.php:107
-msgid "Итого:"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1279
-#: functions/woocommerce/filters.php:1677
-#: functions/woocommerce/filters.php:1696
-#: templates/woocommerce/filters/filter-panel.php:69
-msgid "Категории"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1637
-msgid "Кнопки"
-msgstr ""
-
-#: templates/woocommerce/offcanvas-cart-items.php:84
-msgid "Кол-во:"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:140
-msgid "Копирование (Image Licenses и др.)"
-msgstr ""
-
-#: functions/woocommerce/cart-offcanvas.php:206
-msgid "Корзина"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:100
-msgid "Корзина (Add to cart)"
-msgstr ""
-
-#: templates/woocommerce/filters/filter-price.php:60
-msgid "Максимальная цена"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:13
-msgid "Медиа"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1297
-msgid "Метки"
-msgstr ""
-
-#: templates/woocommerce/filters/filter-price.php:51
-msgid "Минимальная цена"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:582
-msgid "Нажмите «Продолжить»."
-msgstr ""
-
-#: functions/woocommerce/filters.php:1328
-#: functions/woocommerce/filters.php:1786
-#: functions/woocommerce/filters.php:1800
-#: templates/woocommerce/filters/filter-panel.php:145
-msgid "Наличие"
-msgstr ""
-
-#: functions/documentation.php:92
-msgid "Начало"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:499
-msgid "Начать регенерацию сначала? Весь прогресс будет сброшен."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:37
-msgid "Начать сначала"
-msgstr ""
-
-#: functions/woocommerce/cart-offcanvas.php:132
-#: functions/woocommerce/cart-offcanvas.php:262
-msgid "Не удалось добавить товар в корзину."
-msgstr ""
-
-#: functions/integrations/dadata/class-codeweber-dadata.php:178
-msgid "Не удалось разобрать адрес. Проверьте ввод или введите адрес вручную."
-msgstr ""
-
-#: functions/woocommerce/cart-offcanvas.php:122
-msgid "Неверный товар."
-msgstr ""
-
-#: functions/woocommerce/filters.php:218 functions/woocommerce/filters.php:993
-msgid "Нет в наличии"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:253
-msgid ""
-"Ни один размер не сгенерирован. WordPress не увеличивает изображения — "
-"вероятно, оригинал меньше всех запрошенных размеров."
-msgstr ""
-
-#: templates/woocommerce/cards/shop2.php:118
-#: templates/woocommerce/cards/_common.php:122
-#: redux-framework/sample/sections/codeweber/woocommerce.php:375
-msgid "Новинка!"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:121
-msgid "Обработано"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:433
-msgid "Обработка..."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:188
-msgid "Оригинал:"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:30
-msgid "Основные"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1632
-msgid "Отображение:"
-msgstr ""
-
-#: templates/woocommerce/offcanvas-cart-items.php:116
-msgid "Оформить заказ"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:42
-msgid "Оформление заказа (чекаут)"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:533
-msgid "Ошибка AJAX-запроса."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:418
-#: redux-framework/sample/sections/codeweber/media.php:458
-msgid "Ошибка AJAX-запроса. Попробуйте ещё раз."
-msgstr ""
-
-#: functions/integrations/dadata/dadata-ajax.php:35
-msgid "Ошибка безопасности. Обновите страницу и попробуйте снова."
-msgstr ""
-
-#: functions/enqueues.php:592
-msgid "Ошибка сети. Попробуйте позже."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:217
-msgid "Параметры"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:28
-msgid ""
-"Перегенерирует все размеры изображений для файлов в медиатеке. Нужно "
-"запускать после изменения зарегистрированных размеров."
-msgstr ""
-
-#: templates/woocommerce/offcanvas-cart-items.php:121
-msgid "Перейти в корзину"
-msgstr ""
-
-#: woocommerce/cart/proceed-to-checkout-button.php:16
-msgid "Перейти к оформлению"
-msgstr ""
-
-#: functions/woocommerce/filters.php:219 functions/woocommerce/filters.php:994
-msgid "Под заказ"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:120
-msgid "Подписка на рассылку"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:438
-msgid "Подсчёт изображений..."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:48
-msgid "Позиция на экране"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:54
-msgid "Поиск по имени файла..."
-msgstr ""
-
-#: functions/woocommerce/filters.php:1253
-msgid "Показать ещё"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1824
-msgid "Показывает применённые фильтры с кнопкой сброса."
-msgstr ""
-
-#: functions/woocommerce/filters.php:1644
-#: functions/woocommerce/filters.php:1709
-msgid "Показывать кол-во товаров"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:60
-msgid "Потерянные файлы"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:371
-#: redux-framework/sample/sections/codeweber/media.php:572
-msgid "Потерянных файлов:"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:582
-msgid "Прерванная регенерация. Обработано:"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:218
-msgid "Причина"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:76
-msgid "Проверить API ключ через Geocoder API"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:92
-msgid "Проверить авторизацию SMS.RU API"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:59
-msgid "Проверить соединение с DaData API (Suggest)"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:17
-msgid "Проверка и автозаполнение адреса через DaData (только Россия)"
-msgstr ""
-
-#: functions/enqueues.php:591
-msgid "Проверка…"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:34
-msgid "Продолжить"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:211
-msgid "Пропущено:"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:728
-msgid "РФ (152-ФЗ)"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:726
-msgid ""
-"РФ — баннер информирует, трекинг работает сразу. GDPR — трекинг блокируется "
-"до согласия пользователя."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:216
-#: redux-framework/sample/sections/codeweber/media.php:245
-msgid "Размер"
-msgstr ""
-
-#: templates/woocommerce/cards/shop2.php:109
-#: templates/woocommerce/cards/shop2.php:111
-#: templates/woocommerce/cards/_common.php:114
-#: templates/woocommerce/cards/_common.php:116
-#: redux-framework/sample/sections/codeweber/woocommerce.php:333
-msgid "Распродажа!"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:24
-msgid "Регенерация миниатюр"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:467
-msgid "Регенерировать все миниатюры? Это может занять некоторое время."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:31
-msgid "Регенерировать миниатюры"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:41
-msgid "Редактирование адреса (Мой аккаунт)"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1315
-#: functions/woocommerce/filters.php:1739
-#: functions/woocommerce/filters.php:1753
-#: templates/woocommerce/filters/filter-panel.php:123
-msgid "Рейтинг"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1200
-msgid "Сбросить все фильтры"
-msgstr ""
-
-#: templates/woocommerce/filters/filter-active.php:36
-msgid "Сбросить всё"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1254
-msgid "Свернуть"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:56
-msgid "Сверху слева"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:55
-msgid "Сверху справа"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:31
-msgid "Секретный ключ для clean/address (не передаётся в браузер)"
-msgstr ""
-
-#: functions/integrations/dadata/class-codeweber-dadata.php:258
-#: functions/integrations/dadata/class-codeweber-dadata.php:300
-#: functions/integrations/dadata/class-codeweber-dadata.php:314
-#: functions/integrations/dadata/class-codeweber-dadata.php:322
-msgid "Сервис подсказок адресов временно недоступен."
-msgstr ""
-
-#: functions/integrations/dadata/class-codeweber-dadata.php:100
-#: functions/integrations/dadata/class-codeweber-dadata.php:141
-#: functions/integrations/dadata/class-codeweber-dadata.php:153
-#: functions/integrations/dadata/class-codeweber-dadata.php:169
-#: functions/integrations/dadata/dadata-ajax.php:43
-msgid "Сервис проверки адреса временно недоступен."
-msgstr ""
-
-#: functions/integrations/dadata/dadata-ajax.php:46
-msgid "Сервис проверки адреса отключён."
-msgstr ""
-
-#: functions/integrations/dadata/class-codeweber-dadata.php:161
-#: functions/integrations/dadata/class-codeweber-dadata.php:313
-msgid "Слишком много запросов. Повторите через несколько секунд."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:54
-msgid "Снизу слева"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:53
-msgid "Снизу справа"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:81
-msgid "События"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1668
-msgid "Список категорий товаров для фильтрации."
-msgstr ""
-
-#: functions/woocommerce/filters.php:1636
-msgid "Список ссылок"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:61
-#: redux-framework/sample/sections/codeweber/api.php:77
-#: redux-framework/sample/sections/codeweber/api.php:93
-msgid "Тест"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:58
-msgid "Тест DaData"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:91
-msgid "Тест SMS.RU"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:75
-msgid "Тест Yandex Maps"
-msgstr ""
-
-#: templates/woocommerce/filters/filter-active.php:26
-msgid "Убрать фильтр"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:64
-msgid ""
-"Уведомление автоматически закрывается через указанное время. 0 — не "
-"закрывать."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:111
-msgid "Уведомление после отправки формы."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:121
-msgid "Уведомление после подписки на рассылку."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:91
-msgid "Уведомление при добавлении товара в избранное."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:101
-msgid "Уведомление при добавлении товара в корзину."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:141
-msgid "Уведомление при копировании ссылки в буфер обмена."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:131
-msgid "Уведомление при ошибке стандартизации адреса."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:17
-msgid "Уведомления"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/legal.php:738
-msgid ""
-"Увеличьте значение, чтобы показать баннер повторно всем посетителям "
-"(например, при обновлении политики)."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:49
-msgid "Угол экрана, в котором появляются уведомления."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:529
-msgid "Удалено:"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:350
-msgid "Удалить"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:550
-msgid "Удалить все потерянные записи из базы данных? Это действие необратимо."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:75
-msgid "Удалить все потерянные из БД"
-msgstr ""
-
-#: templates/woocommerce/offcanvas-cart-items.php:93
-msgid "Удалить из корзины"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:541
-msgid "Удалить эту запись из базы данных?"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:19
-msgid "Управление всплывающими уведомлениями на сайте."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:232
-msgid "Устаревшая запись журнала. Нажмите «Начать сначала» для обновления."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:66
-msgid "Файл"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:227
-msgid "Файл не найден на диске"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1566
-msgid "Фильтр по атрибуту товаров WooCommerce (цвет, размер и др.)."
-msgstr ""
-
-#: functions/woocommerce/filters.php:1730
-msgid "Фильтр товаров по звёздному рейтингу."
-msgstr ""
-
-#: functions/woocommerce/filters.php:1777
-msgid "Фильтр товаров по статусу наличия."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:50
-msgid "Форматирование поля телефона: +7 (xxx) xxx-xx-xx"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/notifications.php:110
-msgid "Формы (CodeWeber Forms)"
-msgstr ""
-
-#: functions/documentation.php:27 functions/documentation.php:28
-#: functions/documentation.php:50 functions/documentation.php:50
-msgid "Функционал Сайта"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1272
-#: functions/woocommerce/filters.php:1529
-#: functions/woocommerce/filters.php:1542
-#: templates/woocommerce/filters/filter-panel.php:48
-msgid "Цена"
-msgstr ""
-
-#: templates/woocommerce/filters/filter-price.php:78
-msgid "Цена до"
-msgstr ""
-
-#: templates/woocommerce/filters/filter-price.php:70
-msgid "Цена от"
-msgstr ""
-
-#. 1: min price, 2: max price
-#: functions/woocommerce/filters.php:170
-#, php-format
-msgid "Цена: %1$s — %2$s"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1520
-msgid "Ценовой слайдер для страниц каталога WooCommerce."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/api.php:49
-msgid "Чекаут: маска телефона"
-msgstr ""
-
-#: functions/woocommerce/filters.php:1635
-msgid "Чекбоксы"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:26
-msgid ""
-"Что делает регенерация:\n"
-"• Перегенерирует все зарегистрированные размеры изображений для каждого "
-"файла в медиатеке.\n"
-"• Оригинальный файл НЕ удаляется и НЕ изменяется.\n"
-"• Размеры генерируются с учётом типа записи (CPT): для товаров WooCommerce — "
-"одни размеры, для событий — другие.\n"
-"• Старые миниатюры перезаписываются новыми.\n"
-"• Файлы без родительской записи генерируют все размеры без ограничений.\n"
-"• Потерянные вложения (файл удалён с диска) — не регенерируются, выводятся в "
-"отдельном списке."
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:121
-#: redux-framework/sample/sections/codeweber/media.php:582
-msgid "из"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:181
-msgid "ошибка"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:178
-msgid "пропущено"
-msgstr ""
-
-#: redux-framework/sample/sections/codeweber/media.php:180
-msgid "размеров"
-msgstr ""
-
 #: functions/cpt/cpt-testimonials.php:576
 #: functions/cpt/cpt-testimonials.php:579
 #: functions/cpt/cpt-testimonials.php:591
@@ -19008,10 +18959,10 @@ msgstr ""
 msgid "— No License —"
 msgstr ""
 
-#: redux-framework/sample/sections/codeweber/style.php:540
-#: redux-framework/sample/sections/codeweber/style.php:565
-#: redux-framework/sample/sections/codeweber/style.php:590
-#: redux-framework/sample/sections/codeweber/style.php:615
+#: redux-framework/sample/sections/codeweber/style.php:572
+#: redux-framework/sample/sections/codeweber/style.php:597
+#: redux-framework/sample/sections/codeweber/style.php:622
+#: redux-framework/sample/sections/codeweber/style.php:647
 msgid "— none —"
 msgstr ""
 
@@ -19063,7 +19014,7 @@ msgid "— Select —"
 msgstr ""
 
 #: functions/woocommerce/filters.php:1622
-msgid "— выберите —"
+msgid "— select —"
 msgstr ""
 
 #: functions/integrations/codeweber-forms/admin/codeweber-forms-admin.php:536
