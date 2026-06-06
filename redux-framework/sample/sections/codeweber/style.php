@@ -102,6 +102,14 @@ Redux::set_section(
 				'required' => array('opt-logo-type', '=', 'text_svg'),
 			),
 			array(
+				'id'       => 'opt-logo-dark-text-class',
+				'type'     => 'text',
+				'title'    => esc_html__('Logo Text CSS classes — Dark', 'codeweber'),
+				'subtitle' => esc_html__('Extra classes for the dark-variant text (Bootstrap / theme).', 'codeweber'),
+				'default'  => 'text-uppercase text-dark ms-2 fw-bold fs-25',
+				'required' => array('opt-logo-type', '=', 'text_svg'),
+			),
+			array(
 				'id'       => 'opt-logo-light-svg',
 				'type'     => 'ace_editor',
 				'title'    => esc_html__('Logo SVG — Light', 'codeweber'),
@@ -121,6 +129,14 @@ Redux::set_section(
 				'title'    => esc_html__('Logo Text — Light', 'codeweber'),
 				'subtitle' => esc_html__('Text shown on dark backgrounds.', 'codeweber'),
 				'default'  => '',
+				'required' => array('opt-logo-type', '=', 'text_svg'),
+			),
+			array(
+				'id'       => 'opt-logo-light-text-class',
+				'type'     => 'text',
+				'title'    => esc_html__('Logo Text CSS classes — Light', 'codeweber'),
+				'subtitle' => esc_html__('Extra classes for the light-variant text (Bootstrap / theme).', 'codeweber'),
+				'default'  => 'text-uppercase text-white ms-2 fw-bold fs-25',
 				'required' => array('opt-logo-type', '=', 'text_svg'),
 			),
 			array(

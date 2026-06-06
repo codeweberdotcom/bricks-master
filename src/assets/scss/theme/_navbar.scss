@@ -150,25 +150,16 @@ button.hamburger {
 //	TEXT + SVG LOGO
 //----------------------------------------------------------//
 .logo-text-svg {
-  gap: 0.5rem;
-  line-height: 1;
-  color: inherit;
-
-  .logo-svg {
-    display: inline-flex;
-    align-items: center;
-
-    svg {
-      display: block;
-      height: 1.875rem;
-      width: auto;
-    }
+  // Только то, чему нет готового класса в теме/Bootstrap.
+  // Раскладка (flex, выравнивание, отступы, размер/толщина текста, цвет)
+  // задаётся классами в разметке и в Redux-полях Logo Text CSS classes.
+  .logo-svg svg {
+    display: block;
+    height: 1.875rem;
+    width: auto;
   }
 
   .logo-text {
-    font-weight: $font-weight-bold;
-    font-size: 1.25rem;
-    white-space: nowrap;
-    color: currentColor;
+    letter-spacing: 4px;
   }
 }

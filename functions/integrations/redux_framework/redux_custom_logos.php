@@ -82,12 +82,13 @@ function codeweber_logo_svg_allowed_tags()
 /**
  * Формирует HTML для логотипа в виде «текст + SVG-иконка».
  *
- * @param string $svg     Inline-SVG разметка (будет очищена через wp_kses).
- * @param string $text    Текст логотипа.
- * @param string $variant CSS-класс варианта: 'logo-dark' или 'logo-light'.
+ * @param string $svg        Inline-SVG разметка (будет очищена через wp_kses).
+ * @param string $text       Текст логотипа.
+ * @param string $variant    CSS-класс варианта: 'logo-dark' или 'logo-light'.
+ * @param string $text_class Доп. CSS-классы для текста логотипа.
  * @return string HTML-код или пустая строка, если оба значения пусты.
  */
-function codeweber_render_logo_textsvg($svg, $text, $variant)
+function codeweber_render_logo_textsvg($svg, $text, $variant, $text_class = '')
 {
    $svg  = is_string($svg) ? trim($svg) : '';
    $text = is_string($text) ? trim($text) : '';
@@ -96,14 +97,17 @@ function codeweber_render_logo_textsvg($svg, $text, $variant)
       return '';
    }
 
-   $html  = sprintf('<span class="logo-text-svg %s d-inline-flex align-items-center">', esc_attr($variant));
+   $html  = sprintf('<span class="logo-text-svg %s">', esc_attr($variant));
+   $html .= '<span class="logo-inner d-inline-flex align-items-center">';
    if ($svg !== '') {
-      $html .= '<span class="logo-svg">' . wp_kses($svg, codeweber_logo_svg_allowed_tags()) . '</span>';
+      $html .= '<span class="logo-svg d-inline-flex align-items-center">' . wp_kses($svg, codeweber_logo_svg_allowed_tags()) . '</span>';
    }
    if ($text !== '') {
-      $html .= '<span class="logo-text">' . esc_html($text) . '</span>';
+      $text_class = is_string($text_class) ? trim($text_class) : '';
+      $class      = 'logo-text' . ($text_class !== '' ? ' ' . $text_class : '');
+      $html .= '<span class="' . esc_attr($class) . '">' . esc_html($text) . '</span>';
    }
-   $html .= '</span>';
+   $html .= '</span></span>';
 
    return $html;
 }
@@ -166,7 +170,8 @@ function get_custom_logo_type($type = 'both')
       $dark_textsvg = codeweber_render_logo_textsvg(
          isset($options['opt-logo-dark-svg']) ? $options['opt-logo-dark-svg'] : '',
          isset($options['opt-logo-dark-text']) ? $options['opt-logo-dark-text'] : '',
-         'logo-dark'
+         'logo-dark',
+         isset($options['opt-logo-dark-text-class']) ? $options['opt-logo-dark-text-class'] : ''
       );
       if ($dark_textsvg !== '') {
          $dark_logo_html = $dark_textsvg;
@@ -175,7 +180,8 @@ function get_custom_logo_type($type = 'both')
       $light_textsvg = codeweber_render_logo_textsvg(
          isset($options['opt-logo-light-svg']) ? $options['opt-logo-light-svg'] : '',
          isset($options['opt-logo-light-text']) ? $options['opt-logo-light-text'] : '',
-         'logo-light'
+         'logo-light',
+         isset($options['opt-logo-light-text-class']) ? $options['opt-logo-light-text-class'] : ''
       );
       if ($light_textsvg !== '') {
          $light_logo_html = $light_textsvg;
