@@ -94,14 +94,6 @@ Redux::set_section(
 				'required' => array('opt-logo-type', '=', 'text_svg'),
 			),
 			array(
-				'id'       => 'opt-logo-dark-svg-class',
-				'type'     => 'text',
-				'title'    => esc_html__('Logo SVG color class — Dark', 'codeweber'),
-				'subtitle' => esc_html__('Theme/Bootstrap color class for the dark-variant icon (uses currentColor).', 'codeweber'),
-				'default'  => 'text-primary',
-				'required' => array('opt-logo-type', '=', 'text_svg'),
-			),
-			array(
 				'id'       => 'opt-logo-dark-text',
 				'type'     => 'text',
 				'title'    => esc_html__('Logo Text — Dark', 'codeweber'),
@@ -129,14 +121,6 @@ Redux::set_section(
 					'minLines' => 6,
 					'maxLines' => 20,
 				),
-				'required' => array('opt-logo-type', '=', 'text_svg'),
-			),
-			array(
-				'id'       => 'opt-logo-light-svg-class',
-				'type'     => 'text',
-				'title'    => esc_html__('Logo SVG color class — Light', 'codeweber'),
-				'subtitle' => esc_html__('Theme/Bootstrap color class for the light-variant icon (uses currentColor).', 'codeweber'),
-				'default'  => 'text-primary',
 				'required' => array('opt-logo-type', '=', 'text_svg'),
 			),
 			array(
