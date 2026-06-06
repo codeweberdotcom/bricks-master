@@ -146,3 +146,29 @@ button.hamburger {
 .navbar.navbar-dark button.hamburger {
   color: $navbar-dark-color;
 }
+//----------------------------------------------------------//
+//	TEXT + SVG LOGO
+//----------------------------------------------------------//
+.logo-text-svg {
+  gap: 0.5rem;
+  line-height: 1;
+  color: inherit;
+
+  .logo-svg {
+    display: inline-flex;
+    align-items: center;
+
+    svg {
+      display: block;
+      height: 1.875rem;
+      width: auto;
+    }
+  }
+
+  .logo-text {
+    font-weight: $font-weight-bold;
+    font-size: 1.25rem;
+    white-space: nowrap;
+    color: currentColor;
+  }
+}

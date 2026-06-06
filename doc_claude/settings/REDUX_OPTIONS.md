@@ -340,7 +340,28 @@ All settings organized by section:
 'opt-light-logo' => [...]
 // Light version of logo (media upload)
 // Default: empty
+
+'opt-logo-type' => 'image' | 'text_svg'
+// Logo render mode. 'image' = uploaded logos above (default).
+// 'text_svg' = inline SVG icon + text instead of an image.
+
+'opt-logo-dark-svg'  => '<svg ...>...</svg>'  // shown on light backgrounds (.logo-dark)
+'opt-logo-dark-text' => 'Brand'
+'opt-logo-light-svg' => '<svg ...>...</svg>'  // shown on dark backgrounds (.logo-light)
+'opt-logo-light-text'=> 'Brand'
+// Only used when opt-logo-type = 'text_svg'. SVG and text are each optional.
+// Use currentColor inside the SVG to inherit the text color per theme.
 ```
+
+**Text + SVG logo.** `get_custom_logo_type($type)`
+(`functions/integrations/redux_framework/redux_custom_logos.php`) is the single
+entry point used by all headers/footers/offcanvas. When `opt-logo-type` is
+`text_svg`, it renders `<span class="logo-text-svg {logo-dark|logo-light}">` with
+the SVG (sanitized via `wp_kses`, allowed tags in `codeweber_logo_svg_allowed_tags()`)
+and text, reusing the same `.logo-dark` / `.logo-light` CSS visibility toggle as
+image logos — so no template changes are needed. If a variant's SVG and text are
+both empty, the uploaded image is used as a fallback. Styling: `.logo-text-svg`
+in `src/assets/scss/theme/_navbar.scss`.
 
 ### Buttons & UI Elements
 

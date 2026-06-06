@@ -25,6 +25,90 @@ function codeweber_get_media_url($media_data)
 }
 
 /**
+ * Список разрешённых SVG-тегов и атрибутов для wp_kses().
+ *
+ * Используется для безопасного вывода inline-SVG, введённого администратором
+ * в настройках логотипа (Theme style → Logo SVG).
+ *
+ * @return array Карта допустимых тегов и их атрибутов.
+ */
+function codeweber_logo_svg_allowed_tags()
+{
+   $common = array(
+      'class'        => true,
+      'id'           => true,
+      'style'        => true,
+      'fill'         => true,
+      'fill-rule'    => true,
+      'clip-rule'    => true,
+      'stroke'       => true,
+      'stroke-width' => true,
+      'stroke-linecap'  => true,
+      'stroke-linejoin' => true,
+      'opacity'      => true,
+      'transform'    => true,
+   );
+
+   return array(
+      'svg'      => array_merge($common, array(
+         'xmlns'   => true,
+         'viewbox' => true,
+         'width'   => true,
+         'height'  => true,
+         'role'    => true,
+         'aria-hidden' => true,
+         'focusable'   => true,
+         'preserveaspectratio' => true,
+      )),
+      'g'        => array_merge($common, array('clip-path' => true)),
+      'path'     => array_merge($common, array('d' => true)),
+      'circle'   => array_merge($common, array('cx' => true, 'cy' => true, 'r' => true)),
+      'ellipse'  => array_merge($common, array('cx' => true, 'cy' => true, 'rx' => true, 'ry' => true)),
+      'rect'     => array_merge($common, array('x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true, 'ry' => true)),
+      'line'     => array_merge($common, array('x1' => true, 'y1' => true, 'x2' => true, 'y2' => true)),
+      'polygon'  => array_merge($common, array('points' => true)),
+      'polyline' => array_merge($common, array('points' => true)),
+      'defs'     => $common,
+      'use'      => array_merge($common, array('href' => true, 'xlink:href' => true)),
+      'title'    => array(),
+      'desc'     => array(),
+      'lineargradient' => array_merge($common, array('x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'gradientunits' => true)),
+      'radialgradient' => array_merge($common, array('cx' => true, 'cy' => true, 'r' => true, 'fx' => true, 'fy' => true, 'gradientunits' => true)),
+      'stop'     => array_merge($common, array('offset' => true, 'stop-color' => true, 'stop-opacity' => true)),
+      'clippath' => array_merge($common, array('clippathunits' => true)),
+   );
+}
+
+/**
+ * Формирует HTML для логотипа в виде «текст + SVG-иконка».
+ *
+ * @param string $svg     Inline-SVG разметка (будет очищена через wp_kses).
+ * @param string $text    Текст логотипа.
+ * @param string $variant CSS-класс варианта: 'logo-dark' или 'logo-light'.
+ * @return string HTML-код или пустая строка, если оба значения пусты.
+ */
+function codeweber_render_logo_textsvg($svg, $text, $variant)
+{
+   $svg  = is_string($svg) ? trim($svg) : '';
+   $text = is_string($text) ? trim($text) : '';
+
+   if ($svg === '' && $text === '') {
+      return '';
+   }
+
+   $html  = sprintf('<span class="logo-text-svg %s d-inline-flex align-items-center">', esc_attr($variant));
+   if ($svg !== '') {
+      $html .= '<span class="logo-svg">' . wp_kses($svg, codeweber_logo_svg_allowed_tags()) . '</span>';
+   }
+   if ($text !== '') {
+      $html .= '<span class="logo-text">' . esc_html($text) . '</span>';
+   }
+   $html .= '</span>';
+
+   return $html;
+}
+
+/**
  * Получает пользовательские логотипы из Redux Framework.
  *
  * Функция возвращает логотип в светлом, темном варианте или оба сразу.
@@ -74,6 +158,29 @@ function get_custom_logo_type($type = 'both')
       '<img class="logo-light" src="%s" alt="">',
       esc_url($light_logo_url)
    );
+
+   // Режим «текст + SVG»: заменяем картинки на inline-SVG с текстом.
+   // Если вариант пуст — остаётся картинка (fallback), чтобы логотип всегда отображался.
+   $logo_type = isset($options['opt-logo-type']) ? $options['opt-logo-type'] : 'image';
+   if ($logo_type === 'text_svg') {
+      $dark_textsvg = codeweber_render_logo_textsvg(
+         isset($options['opt-logo-dark-svg']) ? $options['opt-logo-dark-svg'] : '',
+         isset($options['opt-logo-dark-text']) ? $options['opt-logo-dark-text'] : '',
+         'logo-dark'
+      );
+      if ($dark_textsvg !== '') {
+         $dark_logo_html = $dark_textsvg;
+      }
+
+      $light_textsvg = codeweber_render_logo_textsvg(
+         isset($options['opt-logo-light-svg']) ? $options['opt-logo-light-svg'] : '',
+         isset($options['opt-logo-light-text']) ? $options['opt-logo-light-text'] : '',
+         'logo-light'
+      );
+      if ($light_textsvg !== '') {
+         $light_logo_html = $light_textsvg;
+      }
+   }
 
    if ($type === 'dark') {
       return $light_logo_html;
