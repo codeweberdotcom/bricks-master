@@ -22,7 +22,10 @@
 |------|-----------|
 | `functions/integrations/yandex-maps/yandex-maps-init.php` | Точка входа, инициализация singleton |
 | `functions/integrations/yandex-maps/class-codeweber-yandex-maps.php` | Класс `Codeweber_Yandex_Maps` |
-| `functions/integrations/yandex-maps/assets/js/yandex-maps.js` | JS-логика инициализации карт |
+| `functions/integrations/yandex-maps/presets.php` | Реестр стилевых пресетов v3 (слаги, labels, swatch, загрузчик JSON) |
+| `functions/integrations/yandex-maps/presets/*.json` | Большие `customization`-массивы пресетов (`gray`, `slate`, `sky`, `navy`) |
+| `functions/integrations/yandex-maps/assets/js/yandex-maps.js` | JS-логика инициализации карт (v2) |
+| `functions/integrations/yandex-maps/assets/js/yandex-maps-v3.js` | JS-логика v3 (`COLOR_PRESETS`, `colorSchemeCustom`) |
 | `functions/integrations/yandex-maps/assets/css/yandex-maps.css` | Стили обёртки, сайдбара, спиннера |
 | `functions/integrations/yandex-maps/example-style-json.json` | Пример JSON-стиля для карты |
 
@@ -282,6 +285,52 @@ window.codeweberYandexMaps = {
     },
 };
 ```
+
+---
+
+## Цветовые схемы v3 и пресеты стилей
+
+Карты v3 поддерживают цветовую схему через поле `colorScheme` + опциональный `colorSchemeCustom` (JSON `customization`-массив Yandex Maps v3). В `yandex-maps-v3.js` есть встроенные мелкие схемы `COLOR_PRESETS` (`light`, `dark`, `grayscale`, `pale`, `sepia`) и режим `custom` (парсит `colorSchemeCustom`).
+
+### Реестр пресетов (`presets.php`)
+
+Большие полноценные стили карты хранятся как JSON-файлы в `presets/` и регистрируются в `presets.php` — **единый источник правды** для темы (Redux) и блока (`yandex-map-v3`).
+
+| Слаг | Файл | Label | Swatch |
+|------|------|-------|--------|
+| `gray` | `presets/gray.json` | Silver | `#c7cfd6` |
+| `slate` | `presets/slate.json` | Dark Slate | `#40474f` |
+| `sky` | `presets/sky.json` | Sky | `#a3c6fa` |
+| `navy` | `presets/navy.json` | Navy | `#2d4a76` |
+
+API реестра:
+
+| Функция | Назначение |
+|---------|-----------|
+| `codeweber_yandex_map_style_presets()` | Карта `slug => ['label','swatch']` |
+| `codeweber_yandex_map_is_preset($slug)` | Проверка, что слаг зарегистрирован |
+| `codeweber_yandex_map_load_preset($slug)` | Загрузить `customization`-массив из JSON (с кешем) |
+| `codeweber_yandex_map_preset_options()` | `slug => label` для Redux/select |
+
+### Резолв и приоритет
+
+Резолв централизован в `render_map()` (ветка `api_version === 3`). Если `color_scheme` — слаг пресета **и** ручной `color_scheme_custom` пуст, в `map_data` подставляется `colorScheme = 'custom'` + `colorSchemeCustom = <json пресета>`. Так переиспользуется существующий путь `custom` в JS, и **на фронт уходит только выбранный пресет** (большие массивы не локализуются).
+
+**Приоритет:** ручной JSON → именованный пресет → дефолт темы.
+
+Поскольку все карты темы (офисы, проекты, хедеры) вызывают `render_map(api_version=3)` **без** явного `color_scheme`, они наследуют `default_settings['color_scheme']` из Redux → выбранный глобально пресет применяется ко всем картам автоматически.
+
+### Управление
+
+- **Глобально (тема):** Redux → Yandex Maps → `yandex_maps_color_scheme` (пресеты добавлены из реестра) + `yandex_maps_style_json` (ручной override).
+- **В блоке:** `yandex-map-v3` → вкладка Main → Color Scheme — кнопки-чипы (базовые схемы + пресеты темы + `Theme default` + `Custom JSON`). Поле Custom Style JSON всегда видно и перебивает выбранный пресет. Значение `inherit` (Theme default) отдаёт управление глобальной настройке Redux. Список пресетов приходит в редактор через `window.codeweberYandexMaps.stylePresets`.
+
+### Добавить новый пресет
+
+1. Положить `presets/<slug>.json` (массив `customization` Yandex Maps v3).
+2. Добавить строку в `codeweber_yandex_map_style_presets()` (label + swatch).
+
+Всё остальное (Redux-select, кнопки блока, резолв на фронт) подхватывается автоматически.
 
 ---
 
