@@ -98,7 +98,7 @@ Redux::set_section(
 				'type'     => 'text',
 				'title'    => esc_html__('Logo SVG color class — Dark', 'codeweber'),
 				'subtitle' => esc_html__('Theme/Bootstrap color class for the dark-variant icon (uses currentColor).', 'codeweber'),
-				'default'  => 'text-dark',
+				'default'  => 'text-primary',
 				'required' => array('opt-logo-type', '=', 'text_svg'),
 			),
 			array(
@@ -136,7 +136,7 @@ Redux::set_section(
 				'type'     => 'text',
 				'title'    => esc_html__('Logo SVG color class — Light', 'codeweber'),
 				'subtitle' => esc_html__('Theme/Bootstrap color class for the light-variant icon (uses currentColor).', 'codeweber'),
-				'default'  => 'text-white',
+				'default'  => 'text-primary',
 				'required' => array('opt-logo-type', '=', 'text_svg'),
 			),
 			array(
