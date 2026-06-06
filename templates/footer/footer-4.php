@@ -154,30 +154,12 @@ $link_class   = ($footer_color_text === 'dark') ? 'text-white' : 'link-body';
       <p class="mb-2 mb-lg-0 <?= $text_class; ?>">
         © <?= esc_html(date('Y')); ?> <?= esc_html(get_bloginfo('name')); ?>. <?php esc_html_e('All rights reserved.', 'codeweber'); ?>
       </p>
-      <?php
-      // Меню политик/согласий (location footer_4); fallback — ссылка на политику конфиденциальности
-      if (has_nav_menu('footer_4')) {
-        wp_nav_menu([
-          'theme_location' => 'footer_4',
-          'depth'          => 1,
-          'container'      => false,
-          'menu_class'     => 'nav gap-3 mb-0 text-md-end',
-          'fallback_cb'    => false,
-          'walker'         => new WP_Bootstrap_Navwalker(),
-        ]);
-      } elseif (shortcode_exists('link_privacy_policy')) {
-        $privacy_link = do_shortcode('[link_privacy_policy type_link="title"]');
-        if (!empty(trim($privacy_link))) {
-          echo '<nav class="nav gap-3 mb-0 text-md-end">' . $privacy_link . '</nav>';
-        }
-      }
-      ?>
+      <?php if (is_active_sidebar('bottom-footer')) : ?>
+        <div class="bottom-footer-widgets text-md-end <?= $text_class; ?>">
+          <?php dynamic_sidebar('bottom-footer'); ?>
+        </div>
+      <?php endif; ?>
     </div>
-    <?php if (is_active_sidebar('bottom-footer')) : ?>
-      <div class="mt-4 <?= $text_class; ?>">
-        <?php dynamic_sidebar('bottom-footer'); ?>
-      </div>
-    <?php endif; ?>
   </div>
   <!-- /.container -->
 </footer>
