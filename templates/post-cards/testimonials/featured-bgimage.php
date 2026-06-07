@@ -30,9 +30,14 @@ $name_tag   = (!empty($ds['title_tag']) && in_array($ds['title_tag'], $allowed_t
 $name_class = (isset($ds['title_class']) && $ds['title_class'] !== '') ? $ds['title_class'] : 'mb-1 text-white';
 
 // Use the featured image as background; skip the plugin placeholder.
-$bg_image = (!empty($post_data['image_url']) && strpos($post_data['image_url'], 'placeholder') === false)
-    ? $post_data['image_url']
-    : '';
+// Fall back to the large avatar (selected image size) when there is no
+// featured image, so the background is not a tiny low-res thumbnail.
+$bg_image = '';
+if (!empty($post_data['image_url']) && strpos($post_data['image_url'], 'placeholder') === false) {
+    $bg_image = $post_data['image_url'];
+} elseif (!empty($post_data['avatar_url_full'])) {
+    $bg_image = $post_data['avatar_url_full'];
+}
 
 if ($bg_image) {
     $card_classes = 'card image-wrapper bg-full bg-image bg-overlay bg-overlay-400';

@@ -37,6 +37,9 @@ $photo    = '';
 $photo_2x = '';
 if (!empty($post_data['image_url']) && strpos($post_data['image_url'], 'placeholder') === false) {
     $photo = $post_data['image_url'];
+} elseif (!empty($post_data['avatar_url_full'])) {
+    // Крупный аватар в выбранном размере изображения (не 150×150 thumbnail)
+    $photo = $post_data['avatar_url_full'];
 } elseif (!empty($post_data['avatar_url'])) {
     $photo    = $post_data['avatar_url'];
     $photo_2x = $post_data['avatar_url_2x'] ?? '';

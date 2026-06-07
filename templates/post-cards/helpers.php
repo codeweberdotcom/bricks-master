@@ -162,7 +162,19 @@ function cw_get_post_card_data($post, $image_size = 'full', $enable_link = false
             // Fallback к аватару из пользователя или кастомному URL
             $avatar_url = esc_url($testimonial_data['author_avatar']);
         }
-        
+
+        // Крупная версия аватара в выбранном размере изображения —
+        // для шаблонов с большим фото (featured, featured-bgimage),
+        // когда у отзыва нет featured image. Маленькие круглые аватары
+        // продолжают использовать фиксированные thumbnail/medium выше.
+        $avatar_url_full = '';
+        if ($avatar_id) {
+            $avatar_full_src = wp_get_attachment_image_src($avatar_id, $image_size);
+            if ($avatar_full_src) {
+                $avatar_url_full = esc_url($avatar_full_src[0]);
+            }
+        }
+
         // Получаем рейтинг
         $rating = !empty($testimonial_data['rating']) ? intval($testimonial_data['rating']) : 0;
         $rating_class = '';
@@ -184,6 +196,7 @@ function cw_get_post_card_data($post, $image_size = 'full', $enable_link = false
             'rating_class' => $rating_class,
             'avatar_url' => $avatar_url,
             'avatar_url_2x' => $avatar_url_2x,
+            'avatar_url_full' => $avatar_url_full, // Крупный аватар (size = image_size) для featured-шаблонов
             'link' => get_permalink($post->ID),
             'image_url' => $image_url, // Featured image если есть
             'image_alt' => $image_alt,
