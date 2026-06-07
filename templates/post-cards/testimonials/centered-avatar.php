@@ -30,7 +30,7 @@ ob_start();
     <?php if (!empty($post_data['text'])) : ?>
         <p><?php echo wp_kses_post($post_data['text']); ?></p>
     <?php endif; ?>
-    <div class="blockquote-details justify-content-center text-center">
+    <div class="blockquote-details justify-content-center">
         <?php if (!empty($post_data['avatar_url'])) : ?>
             <img class="rounded-circle w-12" src="<?php echo esc_url($post_data['avatar_url']); ?>"<?php echo !empty($post_data['avatar_url_2x']) ? ' srcset="' . esc_url($post_data['avatar_url_2x']) . ' 2x"' : ''; ?> alt="<?php echo esc_attr($post_data['author_name'] ?? ''); ?>">
         <?php endif; ?>
