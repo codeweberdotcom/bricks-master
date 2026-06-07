@@ -1,12 +1,12 @@
 <?php
 /**
- * Template: Testimonial Card (icon + avatar, no rating)
+ * Template: Testimonial Quote (rating + icon + avatar)
  *
- * Variant 2: simple card, quote with icon and avatar, no rating.
+ * Variant 4: card with rating, quote with icon and avatar.
  *
  * @param array $post_data        Testimonial data (from cw_get_post_card_data)
  * @param array $display_settings Display settings (title_tag, title_class, ...)
- * @param array $template_args    Extra args (show_company, enable_link, enable_lift, ...)
+ * @param array $template_args    Extra args (show_rating, show_company, enable_link, enable_lift, ...)
  */
 
 if (!isset($post_data) || !$post_data) {
@@ -16,6 +16,7 @@ if (!isset($post_data) || !$post_data) {
 $ds = (isset($display_settings) && is_array($display_settings)) ? $display_settings : [];
 
 $template_args = wp_parse_args($template_args ?? [], [
+    'show_rating'  => true,
     'show_company' => false,
     'enable_link'  => true,
     'enable_lift'  => false,
@@ -27,6 +28,8 @@ $allowed_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'span'];
 $name_tag   = (!empty($ds['title_tag']) && in_array($ds['title_tag'], $allowed_tags, true)) ? $ds['title_tag'] : 'h5';
 $name_class = (isset($ds['title_class']) && $ds['title_class'] !== '') ? $ds['title_class'] : 'mb-1';
 
+$show_rating = $template_args['show_rating'] && !empty($post_data['rating']) && $post_data['rating'] > 0;
+
 $card_classes = 'card';
 if ($enable_lift && !$template_args['enable_link']) {
     $card_classes .= ' lift';
@@ -36,6 +39,9 @@ ob_start();
 ?>
 <div class="<?php echo esc_attr($card_classes); ?>">
     <div class="card-body">
+        <?php if ($show_rating) : ?>
+            <span class="ratings <?php echo esc_attr($post_data['rating_class']); ?> mb-3"></span>
+        <?php endif; ?>
         <blockquote class="icon mb-0">
             <?php if (!empty($post_data['text'])) : ?>
                 <p><?php echo wp_kses_post($post_data['text']); ?></p>

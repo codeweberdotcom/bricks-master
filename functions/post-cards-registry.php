@@ -93,29 +93,24 @@ function codeweber_get_post_card_templates_registry() {
         'testimonials' => [
             'dir' => 'testimonials',
             'templates' => [
-                'default' => [
-                    'label' => __('Default', 'codeweber'),
-                    'description' => __('Basic testimonial card with rating, text, avatar and author', 'codeweber'),
-                    'supports' => ['title', 'excerpt', 'image', 'rating'],
-                ],
                 'card' => [
                     'label' => __('Card', 'codeweber'),
-                    'description' => __('Card with colored backgrounds (Sandbox style)', 'codeweber'),
-                    'supports' => ['title', 'excerpt', 'image', 'rating'],
-                ],
-                'blockquote' => [
-                    'label' => __('Blockquote', 'codeweber'),
-                    'description' => __('Block with quote and icon', 'codeweber'),
+                    'description' => __('Card with quote, icon and avatar (no rating)', 'codeweber'),
                     'supports' => ['title', 'excerpt', 'image'],
                 ],
-                'icon' => [
-                    'label' => __('Icon', 'codeweber'),
-                    'description' => __('Simple blockquote with icon, without rating', 'codeweber'),
+                'quote' => [
+                    'label' => __('Quote', 'codeweber'),
+                    'description' => __('Card with rating, quote, icon and avatar', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'image', 'rating'],
+                ],
+                'centered' => [
+                    'label' => __('Centered', 'codeweber'),
+                    'description' => __('Borderless centered quote with top icon (no card)', 'codeweber'),
                     'supports' => ['title', 'excerpt'],
                 ],
-                'horizontal' => [
-                    'label' => __('Horizontal', 'codeweber'),
-                    'description' => __('Horizontal testimonial layout', 'codeweber'),
+                'featured' => [
+                    'label' => __('Featured', 'codeweber'),
+                    'description' => __('Large gray card with rating and a side photo (single column)', 'codeweber'),
                     'supports' => ['title', 'excerpt', 'image', 'rating'],
                 ],
             ],

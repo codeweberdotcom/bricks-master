@@ -3,7 +3,7 @@
  * Template: Testimonials Archive - Style 3 (Blockquote)
  * 
  * Блок отзыва с цитатой и иконкой в стиле Sandbox, с тенью
- * Использует: templates/post-cards/testimonials/blockquote.php
+ * Использует: templates/post-cards/testimonials/quote.php
  */
 
 $testimonial_data = codeweber_get_testimonial_data(get_the_ID());
@@ -15,7 +15,7 @@ if (!$testimonial_data) {
 $post_id = absint(get_the_ID());
 $company = !empty($testimonial_data['company']) ? esc_html($testimonial_data['company']) : '';
 
-$card_html = cw_render_post_card(get_post(), 'blockquote', [], [
+$card_html = cw_render_post_card(get_post(), 'quote', [], [
     'show_rating' => true,
     'show_company' => !empty($company),
     'shadow' => true,

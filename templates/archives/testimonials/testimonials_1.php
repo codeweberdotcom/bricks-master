@@ -3,7 +3,7 @@
  * Template: Testimonials Archive - Style 1 (Default)
  * 
  * Базовая карточка отзыва с рейтингом, текстом, аватаром и автором
- * Использует: templates/post-cards/testimonials/default.php
+ * Использует: templates/post-cards/testimonials/quote.php
  */
 
 $testimonial_data = codeweber_get_testimonial_data(get_the_ID());
@@ -15,7 +15,7 @@ if (!$testimonial_data) {
 $post_id = absint(get_the_ID());
 $company = !empty($testimonial_data['company']) ? esc_html($testimonial_data['company']) : '';
 
-$card_html = cw_render_post_card(get_post(), 'default', [], [
+$card_html = cw_render_post_card(get_post(), 'quote', [], [
     'show_rating' => true,
     'show_company' => !empty($company),
     'enable_link' => false, // На архивных страницах ссылка не нужна
