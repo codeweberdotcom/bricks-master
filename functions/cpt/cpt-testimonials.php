@@ -1339,6 +1339,28 @@ function codeweber_register_testimonial_rest_fields() {
             ],
         ]);
     }
+
+    // Resolved avatar URL — the avatar attachment is not a child of the post,
+    // so it is not available via _embed in the block editor. Expose the URL
+    // directly so the Post Grid editor preview can load it.
+    register_rest_field('testimonials', '_testimonial_avatar_url', [
+        'get_callback' => function ($post) {
+            $avatar_id = get_post_meta($post['id'], '_testimonial_avatar', true);
+            if ($avatar_id) {
+                $src = wp_get_attachment_image_url((int) $avatar_id, 'medium');
+                if ($src) {
+                    return $src;
+                }
+            }
+            return '';
+        },
+        'update_callback' => null,
+        'schema' => [
+            'description' => __('Testimonial resolved avatar URL', 'codeweber'),
+            'type' => 'string',
+            'context' => ['view', 'edit'],
+        ],
+    ]);
 }
 add_action('rest_api_init', 'codeweber_register_testimonial_rest_fields');
 
