@@ -108,6 +108,11 @@ function codeweber_get_post_card_templates_registry() {
                     'description' => __('Borderless centered quote with top icon (no card)', 'codeweber'),
                     'supports' => ['title', 'excerpt'],
                 ],
+                'centered-avatar' => [
+                    'label' => __('Centered with Avatar', 'codeweber'),
+                    'description' => __('Borderless centered quote with top icon and avatar (no card)', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'image'],
+                ],
                 'featured' => [
                     'label' => __('Featured', 'codeweber'),
                     'description' => __('Large gray card with rating and a side photo (single column)', 'codeweber'),
