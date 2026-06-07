@@ -48,3 +48,9 @@
 .ymaps-2-1-79-balloon-content__header {
     font-weight: inherit !important;
 }
+
+/* Hide Yandex Maps v3 built-in "Открыть Яндекс Карты" control (bottom-left).
+   Copyright (© Яндекс / Условия использования) is a separate element and stays. */
+.codeweber-yandex-map .ymaps3--controls_bottom.ymaps3--controls_left {
+    display: none !important;
+}
