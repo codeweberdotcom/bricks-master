@@ -113,6 +113,36 @@ function codeweber_get_post_card_templates_registry() {
                     'description' => __('Large gray card with rating and a side photo (single column)', 'codeweber'),
                     'supports' => ['title', 'excerpt', 'image', 'rating'],
                 ],
+                'quote-avatar' => [
+                    'label' => __('Quote with Avatar', 'codeweber'),
+                    'description' => __('Borderless large quote with avatar, no card and no icon', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'image'],
+                ],
+                'card-pale' => [
+                    'label' => __('Card Pale', 'codeweber'),
+                    'description' => __('Colored pale card with icon, no avatar and no rating', 'codeweber'),
+                    'supports' => ['title', 'excerpt'],
+                ],
+                'card-border-bottom' => [
+                    'label' => __('Card Border Bottom', 'codeweber'),
+                    'description' => __('Card with shadow and colored bottom border, no avatar', 'codeweber'),
+                    'supports' => ['title', 'excerpt'],
+                ],
+                'card-light-rating' => [
+                    'label' => __('Card Light Rating', 'codeweber'),
+                    'description' => __('Translucent light card with rating, for dark backgrounds', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'rating'],
+                ],
+                'quote-name' => [
+                    'label' => __('Quote Name', 'codeweber'),
+                    'description' => __('Extra-large centered quote, author name only', 'codeweber'),
+                    'supports' => ['title', 'excerpt'],
+                ],
+                'featured-bgimage' => [
+                    'label' => __('Featured Background Image', 'codeweber'),
+                    'description' => __('Card over the featured image with overlay and white text', 'codeweber'),
+                    'supports' => ['title', 'excerpt', 'image', 'rating'],
+                ],
             ],
         ],
 

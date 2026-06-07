@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonials — выбор шаблонов по номерам</title>
+  <link rel="stylesheet" href="../../assets/css/plugins.css">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <style>
+    .pick-head { border-top: 3px solid var(--bs-primary); }
+    .pick-num { font-size: 1.5rem; min-width: 2.4rem; height: 2.4rem; display: inline-flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+
+<body>
+  <div class="content-wrapper">
+
+    <section class="wrapper bg-soft-primary">
+      <div class="container py-12 text-center">
+        <h1 class="display-4 mb-3">Testimonials — выбор шаблонов</h1>
+        <p class="lead mb-0">Посмотрите варианты ниже и пришлите номера, которые оставляем. <br>
+          <span class="text-green">Зелёный бейдж</span> = шаблон уже создан, <span class="text-orange">оранжевый</span> = ещё нет.</p>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-6"><span class="badge bg-green text-white rounded-pill pick-num me-2">1</span> card — <code>card.php</code> <span class="text-muted fs-15">карточка + иконка + аватар, без рейтинга</span></h2>
+        <div class="row gx-3 gy-3">
+          <div class="col-md-6 col-xl-4">
+            <div class="card">
+              <div class="card-body">
+                <blockquote class="icon mb-0">
+                  <p>“Команда внедрила всё в срок, результат превзошёл ожидания. Рекомендуем.”</p>
+                  <div class="blockquote-details">
+                    <img class="rounded-circle w-12" src="../../assets/img/avatars/te2.jpg" srcset="../../assets/img/avatars/te2@2x.jpg 2x" alt="">
+                    <div class="info">
+                      <h5 class="mb-1">Cory Zamora</h5>
+                      <p class="mb-0">Marketing Specialist</p>
+                    </div>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-6"><span class="badge bg-green text-white rounded-pill pick-num me-2">2</span> quote — <code>quote.php</code> <span class="text-muted fs-15">карточка + рейтинг + иконка + аватар</span></h2>
+        <div class="row gx-3 gy-3">
+          <div class="col-md-6 col-xl-4">
+            <div class="card">
+              <div class="card-body">
+                <span class="ratings five mb-3"></span>
+                <blockquote class="icon mb-0">
+                  <p>“Команда внедрила всё в срок, результат превзошёл ожидания. Рекомендуем.”</p>
+                  <div class="blockquote-details">
+                    <img class="rounded-circle w-12" src="../../assets/img/avatars/te3.jpg" srcset="../../assets/img/avatars/te3@2x.jpg 2x" alt="">
+                    <div class="info">
+                      <h5 class="mb-1">Nikolas Brooten</h5>
+                      <p class="mb-0">Sales Manager</p>
+                    </div>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-6"><span class="badge bg-green text-white rounded-pill pick-num me-2">3</span> centered — <code>centered.php</code> <span class="text-muted fs-15">по центру, иконка сверху, без карточки/аватара</span></h2>
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <blockquote class="icon icon-top fs-lg text-center">
+              <p>“Команда внедрила всё в срок, результат превзошёл ожидания. Рекомендуем.”</p>
+              <div class="blockquote-details justify-content-center text-center">
+                <div class="info ps-0">
+                  <h5 class="mb-1">Coriss Ambady</h5>
+                  <p class="mb-0">Financial Analyst</p>
+                </div>
+              </div>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-10"><span class="badge bg-green text-white rounded-pill pick-num me-2">4</span> featured — <code>featured.php</code> <span class="text-muted fs-15">большая серая карточка + фото сбоку (одна колонка)</span></h2>
+        <div class="row position-relative">
+          <figure class="rounded position-absolute d-none d-lg-block" style="top:50%; right:0; width:45%; height:auto; transform:translateY(-50%); z-index:2"><img src="../../assets/img/photos/tei1.jpg" srcset="../../assets/img/photos/tei1@2x.jpg 2x" alt=""></figure>
+          <div class="col-lg-9 text-center">
+            <div class="card bg-gray">
+              <div class="card-body p-md-10 py-xxl-16">
+                <div class="row gx-0">
+                  <div class="col-lg-8 ps-xl-10">
+                    <span class="ratings five fs-20 mb-3"></span>
+                    <blockquote class="border-0 fs-lg mb-0">
+                      <p>“Команда внедрила всё в срок, результат превзошёл ожидания. Отдельное спасибо за поддержку на запуске.”</p>
+                      <div class="blockquote-details justify-content-center text-center">
+                        <div class="info p-0">
+                          <h4 class="mb-1">Coriss Ambady</h4>
+                          <p class="mb-0">Financial Analyst</p>
+                        </div>
+                      </div>
+                    </blockquote>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-6"><span class="badge bg-green text-white rounded-pill pick-num me-2">5</span> quote-avatar — <code>quote-avatar.php</code> <span class="text-muted fs-15">цитата без карточки и иконки + аватар (то, что вы прислали)</span></h2>
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <blockquote class="border-0 fs-lg">
+              <p>“Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum ligula porta felis euismod semper.”</p>
+              <div class="blockquote-details justify-content-center">
+                <img class="rounded-circle w-12" src="../../assets/img/avatars/te3.jpg" srcset="../../assets/img/avatars/te3@2x.jpg 2x" alt="">
+                <div class="info">
+                  <h5 class="mb-1">Nikolas Brooten</h5>
+                  <p class="mb-0">Sales Manager</p>
+                </div>
+              </div>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-6"><span class="badge bg-orange text-white rounded-pill pick-num me-2">6</span> card-pale — <span class="text-muted fs-15">цветная карточка (bg-pale-*), иконка, без аватара/рейтинга</span></h2>
+        <div class="row gx-3 gy-3">
+          <div class="col-md-6 col-xl-4">
+            <div class="card bg-pale-yellow">
+              <div class="card-body">
+                <blockquote class="icon mb-0">
+                  <p>“Команда внедрила всё в срок, результат превзошёл ожидания.”</p>
+                  <div class="blockquote-details">
+                    <div class="info p-0">
+                      <h5 class="mb-1">Coriss Ambady</h5>
+                      <p class="mb-0">Financial Analyst</p>
+                    </div>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="card bg-pale-leaf">
+              <div class="card-body">
+                <blockquote class="icon mb-0">
+                  <p>“Отзывчивая поддержка и аккуратный код.”</p>
+                  <div class="blockquote-details">
+                    <div class="info p-0">
+                      <h5 class="mb-1">Barclay Widerski</h5>
+                      <p class="mb-0">Sales Specialist</p>
+                    </div>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-6"><span class="badge bg-orange text-white rounded-pill pick-num me-2">7</span> card-border-bottom — <span class="text-muted fs-15">карточка с тенью и цветной нижней границей, без аватара</span></h2>
+        <div class="row gx-3 gy-3">
+          <div class="col-md-6 col-xl-4">
+            <div class="card shadow-lg card-border-bottom border-soft-primary">
+              <div class="card-body">
+                <blockquote class="icon mb-0">
+                  <p>“Команда внедрила всё в срок, результат превзошёл ожидания.”</p>
+                  <div class="blockquote-details">
+                    <div class="info ps-0">
+                      <h5 class="mb-1">Coriss Ambady</h5>
+                      <p class="mb-0">Financial Analyst</p>
+                    </div>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="wrapper bg-dark wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-6 text-white"><span class="badge bg-orange text-white rounded-pill pick-num me-2">8</span> card-light-rating — <span class="text-muted fs-15">полупрозрачная светлая карточка + рейтинг (для тёмного фона)</span></h2>
+        <div class="row gx-3 gy-3">
+          <div class="col-md-6 col-xl-4">
+            <div class="card border-0 bg-white-900">
+              <div class="card-body">
+                <span class="ratings five mb-3"></span>
+                <blockquote class="border-0 mb-0">
+                  <p>“Команда внедрила всё в срок, результат превзошёл ожидания.”</p>
+                  <div class="blockquote-details">
+                    <div class="info p-0">
+                      <h5 class="mb-0">Coriss Ambady</h5>
+                      <p class="mb-0">Financial Analyst</p>
+                    </div>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-6"><span class="badge bg-orange text-white rounded-pill pick-num me-2">9</span> quote-icon — <span class="text-muted fs-15">иконка + крупный текст, без карточки и аватара</span></h2>
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <blockquote class="icon fs-lg">
+              <p>“Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum ligula porta felis euismod semper.”</p>
+              <div class="blockquote-details">
+                <div class="info ps-0">
+                  <h5 class="mb-1">Coriss Ambady</h5>
+                  <p class="mb-0">Financial Analyst</p>
+                </div>
+              </div>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-6"><span class="badge bg-orange text-white rounded-pill pick-num me-2">10</span> quote-name — <span class="text-muted fs-15">очень крупная цитата по центру, только имя (без должности)</span></h2>
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <blockquote class="border-0 fs-24 mb-0">
+              <p>“Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh fermentum massa, justo sit amet vivamus sagittis lacus.”</p>
+              <div class="blockquote-details justify-content-center">
+                <div class="info p-0">
+                  <h6 class="mb-0">Julia &amp; David</h6>
+                </div>
+              </div>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-8"><span class="badge bg-orange text-white rounded-pill pick-num me-2">11</span> featured-soft — <span class="text-muted fs-15">секция: карточка bg-soft-primary + фото сбоку (одна запись)</span></h2>
+        <div class="card bg-soft-primary">
+          <div class="card-body p-md-10 py-xxl-16 position-relative">
+            <div class="position-absolute d-none d-lg-block" style="bottom:0; left:10%; width:28%; z-index:2">
+              <figure><img src="../../assets/img/photos/co2.png" srcset="../../assets/img/photos/co2@2x.png 2x" alt=""></figure>
+            </div>
+            <div class="row gx-md-0 gx-xl-12 text-center">
+              <div class="col-lg-7 offset-lg-5 col-xl-6">
+                <span class="ratings five mb-3"></span>
+                <blockquote class="border-0 fs-lg mb-0">
+                  <p>“Fusce dapibus tellus ac cursus commodo, tortor mauris condimentum nibh ut fermentum massa, justo sit amet vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.”</p>
+                  <div class="blockquote-details justify-content-center text-center">
+                    <div class="info p-0">
+                      <h5 class="mb-1">Coriss Ambady</h5>
+                      <div class="meta mb-0">Financial Analyst</div>
+                    </div>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-8"><span class="badge bg-orange text-white rounded-pill pick-num me-2">12</span> featured-bgimage — <span class="text-muted fs-15">секция: карточка поверх фонового изображения, белый текст</span></h2>
+        <div class="row text-white text-center">
+          <div class="col-xl-10 mx-auto">
+            <div class="card image-wrapper bg-full bg-image bg-overlay bg-overlay-400" data-image-src="../../assets/img/photos/bg2.jpg">
+              <div class="card-body p-9 p-xl-12">
+                <div class="row gx-0">
+                  <div class="col-xxl-9 mx-auto">
+                    <span class="ratings five mb-3"></span>
+                    <blockquote class="border-0 fs-lg mb-2">
+                      <p>“Vivamus sagittis lacus augue laoreet rutrum faucibus auctor vestibulum ligula porta felis, euismod semper cras justo odio consectetur.”</p>
+                      <div class="blockquote-details justify-content-center text-center">
+                        <div class="info ps-0">
+                          <h5 class="mb-1 text-white">Coriss Ambady</h5>
+                          <p class="mb-0">Financial Analyst</p>
+                        </div>
+                      </div>
+                    </blockquote>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="wrapper bg-light wrapper-border pick-head">
+      <div class="container py-10">
+        <h2 class="fs-20 mb-8"><span class="badge bg-orange text-white rounded-pill pick-num me-2">13</span> featured-imgmask — <span class="text-muted fs-15">секция: карточка bg-soft-primary + изображение в маске сбоку</span></h2>
+        <div class="card bg-soft-primary rounded-4">
+          <div class="card-body py-14 px-lg-0">
+            <div class="row gx-lg-8 gx-xl-12 align-items-center">
+              <div class="col-lg-5 ms-auto col-xl-4 d-none d-lg-flex">
+                <div class="img-mask mask-3"><img src="../../assets/img/photos/about28.jpg" srcset="../../assets/img/photos/about28@2x.jpg 2x" alt=""></div>
+              </div>
+              <div class="col-lg-6 col-xl-6 col-xxl-5 me-auto">
+                <span class="ratings five mb-3"></span>
+                <blockquote class="border-0 fs-lg mb-0">
+                  <p>“Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Vestibulum ligula porta felis euismod semper. Cras justo odio consectetur nulla dapibus.”</p>
+                  <div class="blockquote-details">
+                    <div class="info ps-0">
+                      <h5 class="mb-1">Coriss Ambady</h5>
+                      <p class="mb-0">Financial Analyst</p>
+                    </div>
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <!-- /.content-wrapper -->
+  <script src="../../assets/js/plugins.js"></script>
+  <script src="../../assets/js/theme.js"></script>
+</body>
+
+</html>
