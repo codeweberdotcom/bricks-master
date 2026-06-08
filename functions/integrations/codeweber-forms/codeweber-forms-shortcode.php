@@ -170,6 +170,24 @@ class CodeweberFormsShortcode {
                         }
                     }
 
+                    // Рендерим прочие блоки (например, heading-subtitle), которые
+                    // не являются полями/кнопками/страницами, чтобы они не терялись
+                    // при выводе формы через шорткод / Form Selector.
+                    $other_blocks_html = '';
+                    foreach ($form_block['innerBlocks'] as $inner_block) {
+                        $inner_name = $inner_block['blockName'] ?? '';
+                        if (!in_array($inner_name, [
+                            'codeweber-blocks/form-field',
+                            'codeweber-blocks/submit-button',
+                            'codeweber-blocks/form-page',
+                        ], true)) {
+                            $other_blocks_html .= render_block($inner_block);
+                        }
+                    }
+                    if ($other_blocks_html !== '') {
+                        $config['other_blocks_html'] = $other_blocks_html;
+                    }
+
                     if ($has_pages) {
                         $pages = [];
                         foreach ($form_block['innerBlocks'] as $inner_block) {

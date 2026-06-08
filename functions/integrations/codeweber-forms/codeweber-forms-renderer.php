@@ -162,9 +162,14 @@ class CodeweberFormsRenderer {
         $pages  = $config['pages']  ?? [];
         $settings = $config['settings'] ?? [];
 
+        // Прочие блоки (например, heading-subtitle), переданные через конфиг.
+        // Рендерятся перед формой — так же, как в render_from_cpt().
+        // Ключ отсутствует в конфиге render_from_cpt(), поэтому двойного вывода нет.
+        $other_blocks_html = $config['other_blocks_html'] ?? '';
+
         // Multi-page mode
         if (!empty($pages)) {
-            return $this->render_multipage($form_id, $config);
+            return $other_blocks_html . $this->render_multipage($form_id, $config);
         }
         
         // Check for FilePond fields and enqueue scripts if needed
@@ -280,8 +285,9 @@ class CodeweberFormsRenderer {
         }
         
         ob_start();
+        echo $other_blocks_html;
         ?>
-        <form 
+        <form
             id="<?php echo esc_attr($form_element_id); ?>" 
             class="<?php echo esc_attr(implode(' ', $form_classes)); ?>"
             <?php foreach ($form_data_attrs as $attr_name => $attr_value): ?>
