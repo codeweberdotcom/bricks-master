@@ -85,15 +85,16 @@ if ($template_args['enable_link']) {
 ob_start();
 ?>
 <div class="row position-relative">
-    <?php if ($photo) : ?>
-        <figure class="rounded position-absolute d-none d-lg-block" style="top:50%;right:0;width:45%;height:auto;transform:translateY(-50%);z-index:2">
-            <img src="<?php echo esc_url($photo); ?>"<?php echo $photo_2x ? ' srcset="' . esc_url($photo_2x) . ' 2x"' : ''; ?> alt="<?php echo esc_attr($post_data['author_name'] ?? ''); ?>">
-        </figure>
-    <?php endif; ?>
     <div class="<?php echo esc_attr($col_class); ?> text-center">
         <?php echo $card_box; ?>
     </div>
     <!-- /column -->
+    <?php if ($photo) : ?>
+        <?php // Figure после колонки — рисуется поверх карточки без z-index. Ширина — утилита w-45. ?>
+        <figure class="rounded position-absolute end-0 top-50 translate-middle-y w-45 d-none d-lg-block">
+            <img src="<?php echo esc_url($photo); ?>"<?php echo $photo_2x ? ' srcset="' . esc_url($photo_2x) . ' 2x"' : ''; ?> alt="<?php echo esc_attr($post_data['author_name'] ?? ''); ?>">
+        </figure>
+    <?php endif; ?>
 </div>
 <!-- /.row -->
 <?php
