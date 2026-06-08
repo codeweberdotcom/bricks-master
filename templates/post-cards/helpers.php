@@ -220,15 +220,10 @@ function cw_get_post_card_data($post, $image_size = 'full', $enable_link = false
             $full_name = get_the_title($post->ID);
         }
         
-        // Получаем изображение @2x для retina (используем full для лучшего качества)
+        // @2x НЕ используем full-оригинал: для аватара (w-15/w-20) это грузит
+        // огромное изображение (особенно на ретине-мобиле). src в выбранном
+        // «Размере изображения» уже достаточно крупный для маленького аватара.
         $image_url_2x = '';
-        if ($thumbnail_id && $image_url) {
-            // Для @2x используем full размер или исходный размер изображения
-            $image_2x = wp_get_attachment_image_src($thumbnail_id, 'full');
-            if ($image_2x && $image_2x[0] !== $image_url) {
-                $image_url_2x = esc_url($image_2x[0]);
-            }
-        }
         
         // Получаем отдел из таксономии
         $department_name = '';
