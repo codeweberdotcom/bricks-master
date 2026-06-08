@@ -268,13 +268,13 @@ var theme = {
         let height = sec.offsetHeight; //returns the height of an element, including vertical padding and borders, as an integer
         let id = sec.getAttribute("id"); //gets the value of an attribute of an element
         if (top >= offset && top < offset + height) {
-          navLinks.forEach((links) => {
-            links.classList.remove("active");
-            document
-              .querySelector(`.nav-link.scroll[href*=${id}]`)
-              .classList.add("active");
-            //[att*=val] Represents an element with the att attribute whose value contains at least one instance of the substring "val". If "val" is the empty string then the selector does not represent anything.
-          });
+          let activeLink = document.querySelector(
+            `.nav-link.scroll[href*="${id}"]`
+          );
+          if (!activeLink) return; //no matching nav link for this section — skip
+          navLinks.forEach((links) => links.classList.remove("active"));
+          activeLink.classList.add("active");
+          //[att*=val] Represents an element with the att attribute whose value contains at least one instance of the substring "val". If "val" is the empty string then the selector does not represent anything.
         }
       });
     };
