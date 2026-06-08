@@ -26,7 +26,7 @@ $name_class = (isset($ds['title_class']) && $ds['title_class'] !== '') ? $ds['ti
 
 ob_start();
 ?>
-<blockquote class="border-0 fs-lg">
+<blockquote class="border-0 fs-lg text-center">
     <?php if (!empty($post_data['text'])) : ?>
         <p><?php echo wp_kses_post($post_data['text']); ?></p>
     <?php endif; ?>
