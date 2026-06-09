@@ -23,8 +23,9 @@ add_action( 'wp_ajax_cw_stock_photos_import', 'cw_stock_photos_ajax_import' );
 function cw_stock_photos_allowed_hosts() {
 	return array(
 		'unsplash'  => array( 'images.unsplash.com', 'plus.unsplash.com' ),
-		// videos.pexels.com hosts the downloadable mp4 files.
-		'pexels'    => array( 'images.pexels.com', 'www.pexels.com', 'videos.pexels.com' ),
+		// Pexels mp4 files are served from videos.pexels.com (current API) or
+		// player.vimeo.com (legacy responses); posters live on images.pexels.com.
+		'pexels'    => array( 'images.pexels.com', 'www.pexels.com', 'videos.pexels.com', 'player.vimeo.com' ),
 		// i.vimeocdn.com serves video poster thumbnails (proxied for previews).
 		'pixabay'   => array( 'pixabay.com', 'cdn.pixabay.com', 'i.pixabay.com', 'i.vimeocdn.com' ),
 		// Openverse previews are served from its own host; full files live on
