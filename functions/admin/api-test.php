@@ -250,9 +250,11 @@ function codeweber_api_test_unsplash() {
 
 	$response = wp_remote_get(
 		$url,
-		array(
-			'headers' => array( 'Authorization' => 'Client-ID ' . $key ),
-			'timeout' => 10,
+		cw_stock_photos_request_args(
+			array(
+				'headers' => array( 'Authorization' => 'Client-ID ' . $key ),
+				'timeout' => 10,
+			)
 		)
 	);
 
@@ -293,9 +295,11 @@ function codeweber_api_test_pexels() {
 
 	$response = wp_remote_get(
 		$url,
-		array(
-			'headers' => array( 'Authorization' => $key ),
-			'timeout' => 10,
+		cw_stock_photos_request_args(
+			array(
+				'headers' => array( 'Authorization' => $key ),
+				'timeout' => 10,
+			)
 		)
 	);
 
@@ -334,7 +338,7 @@ function codeweber_api_test_pixabay() {
 		'https://pixabay.com/api/'
 	);
 
-	$response = wp_remote_get( $url, array( 'timeout' => 10 ) );
+	$response = wp_remote_get( $url, cw_stock_photos_request_args( array( 'timeout' => 10 ) ) );
 
 	if ( is_wp_error( $response ) ) {
 		wp_send_json_error( array( 'message' => 'Ошибка соединения: ' . $response->get_error_message() ) );
