@@ -96,12 +96,14 @@ function cw_stock_photos_ajax_search() {
 		wp_send_json_error( array( 'message' => __( 'Permission denied', 'codeweber' ) ), 403 );
 	}
 
-	$provider   = sanitize_key( wp_unslash( $_POST['provider'] ?? '' ) );
-	$query      = sanitize_text_field( wp_unslash( $_POST['query'] ?? '' ) );
-	$media_type = sanitize_key( wp_unslash( $_POST['media_type'] ?? 'photo' ) );
-	$media_type = ( 'video' === $media_type ) ? 'video' : 'photo';
-	$page       = max( 1, (int) ( $_POST['page'] ?? 1 ) );
-	$per_page   = min( 50, max( 1, (int) ( $_POST['per_page'] ?? 24 ) ) );
+	$provider    = sanitize_key( wp_unslash( $_POST['provider'] ?? '' ) );
+	$query       = sanitize_text_field( wp_unslash( $_POST['query'] ?? '' ) );
+	$media_type  = sanitize_key( wp_unslash( $_POST['media_type'] ?? 'photo' ) );
+	$media_type  = ( 'video' === $media_type ) ? 'video' : 'photo';
+	$orientation = sanitize_key( wp_unslash( $_POST['orientation'] ?? '' ) );
+	$orientation = in_array( $orientation, array( 'horizontal', 'vertical', 'square' ), true ) ? $orientation : '';
+	$page        = max( 1, (int) ( $_POST['page'] ?? 1 ) );
+	$per_page    = min( 50, max( 1, (int) ( $_POST['per_page'] ?? 24 ) ) );
 
 	$providers = cw_stock_photos_providers();
 	if ( ! isset( $providers[ $provider ] ) ) {
@@ -118,9 +120,10 @@ function cw_stock_photos_ajax_search() {
 		// Video is available for Pexels and Pixabay only.
 		switch ( $provider ) {
 			case 'pexels':
-				$result = cw_stock_videos_fetch_pexels( $key, $query, $page, $per_page );
+				$result = cw_stock_videos_fetch_pexels( $key, $query, $page, $per_page, $orientation );
 				break;
 			case 'pixabay':
+				// Pixabay has no orientation filter.
 				$result = cw_stock_videos_fetch_pixabay( $key, $query, $page, $per_page );
 				break;
 			default:
@@ -129,16 +132,17 @@ function cw_stock_photos_ajax_search() {
 	} else {
 		switch ( $provider ) {
 			case 'unsplash':
-				$result = cw_stock_photos_fetch_unsplash( $key, $query, $page, $per_page );
+				$result = cw_stock_photos_fetch_unsplash( $key, $query, $page, $per_page, $orientation );
 				break;
 			case 'pexels':
-				$result = cw_stock_photos_fetch_pexels( $key, $query, $page, $per_page );
+				$result = cw_stock_photos_fetch_pexels( $key, $query, $page, $per_page, $orientation );
 				break;
 			case 'pixabay':
+				// Pixabay has no orientation filter.
 				$result = cw_stock_photos_fetch_pixabay( $key, $query, $page, $per_page );
 				break;
 			case 'openverse':
-				$result = cw_stock_photos_fetch_openverse( $query, $page, $per_page );
+				$result = cw_stock_photos_fetch_openverse( $query, $page, $per_page, $orientation );
 				break;
 			default:
 				$result = new WP_Error( 'cw_stock', __( 'Unknown provider', 'codeweber' ) );
@@ -153,17 +157,38 @@ function cw_stock_photos_ajax_search() {
 }
 
 /**
+ * Map a generic orientation (horizontal/vertical/square) to a provider's value.
+ *
+ * @param string $scheme      Provider scheme: 'unsplash' | 'pexels' | 'openverse'.
+ * @param string $orientation Generic orientation, or '' for any.
+ * @return string Provider-specific value, or '' when not applicable.
+ */
+function cw_stock_orientation_value( $scheme, $orientation ) {
+	if ( '' === $orientation ) {
+		return '';
+	}
+	$map = array(
+		'unsplash'  => array( 'horizontal' => 'landscape', 'vertical' => 'portrait', 'square' => 'squarish' ),
+		'pexels'    => array( 'horizontal' => 'landscape', 'vertical' => 'portrait', 'square' => 'square' ),
+		'openverse' => array( 'horizontal' => 'wide', 'vertical' => 'tall', 'square' => 'square' ),
+	);
+	return $map[ $scheme ][ $orientation ] ?? '';
+}
+
+/**
  * Unsplash search → normalized.
  */
-function cw_stock_photos_fetch_unsplash( $key, $query, $page, $per_page ) {
-	$url = add_query_arg(
-		array(
-			'query'    => rawurlencode( $query ),
-			'page'     => $page,
-			'per_page' => $per_page,
-		),
-		'https://api.unsplash.com/search/photos'
+function cw_stock_photos_fetch_unsplash( $key, $query, $page, $per_page, $orientation = '' ) {
+	$args = array(
+		'query'    => rawurlencode( $query ),
+		'page'     => $page,
+		'per_page' => $per_page,
 	);
+	$ori = cw_stock_orientation_value( 'unsplash', $orientation );
+	if ( '' !== $ori ) {
+		$args['orientation'] = $ori;
+	}
+	$url = add_query_arg( $args, 'https://api.unsplash.com/search/photos' );
 
 	$response = wp_remote_get(
 		$url,
@@ -213,15 +238,17 @@ function cw_stock_photos_fetch_unsplash( $key, $query, $page, $per_page ) {
 /**
  * Pexels search → normalized.
  */
-function cw_stock_photos_fetch_pexels( $key, $query, $page, $per_page ) {
-	$url = add_query_arg(
-		array(
-			'query'    => rawurlencode( $query ),
-			'page'     => $page,
-			'per_page' => $per_page,
-		),
-		'https://api.pexels.com/v1/search'
+function cw_stock_photos_fetch_pexels( $key, $query, $page, $per_page, $orientation = '' ) {
+	$args = array(
+		'query'    => rawurlencode( $query ),
+		'page'     => $page,
+		'per_page' => $per_page,
 	);
+	$ori = cw_stock_orientation_value( 'pexels', $orientation );
+	if ( '' !== $ori ) {
+		$args['orientation'] = $ori;
+	}
+	$url = add_query_arg( $args, 'https://api.pexels.com/v1/search' );
 
 	$response = wp_remote_get(
 		$url,
@@ -306,6 +333,8 @@ function cw_stock_photos_fetch_pixabay( $key, $query, $page, $per_page ) {
 			'full'       => $p['largeImageURL'] ?? ( $p['webformatURL'] ?? '' ),
 			'width'      => (int) ( $p['imageWidth'] ?? 0 ),
 			'height'     => (int) ( $p['imageHeight'] ?? 0 ),
+			// imageSize is the original file size; we import largeImageURL, so treat it as approximate.
+			'size'       => (int) ( $p['imageSize'] ?? 0 ),
 			'alt'        => (string) ( $p['tags'] ?? $query ),
 			'author'     => (string) ( $p['user'] ?? '' ),
 			'author_url' => isset( $p['user'] ) ? 'https://pixabay.com/users/' . rawurlencode( $p['user'] ) . '-' . (int) ( $p['user_id'] ?? 0 ) . '/' : '',
@@ -325,15 +354,17 @@ function cw_stock_photos_fetch_pixabay( $key, $query, $page, $per_page ) {
 /**
  * Pexels video search → normalized.
  */
-function cw_stock_videos_fetch_pexels( $key, $query, $page, $per_page ) {
-	$url = add_query_arg(
-		array(
-			'query'    => rawurlencode( $query ),
-			'page'     => $page,
-			'per_page' => $per_page,
-		),
-		'https://api.pexels.com/videos/search'
+function cw_stock_videos_fetch_pexels( $key, $query, $page, $per_page, $orientation = '' ) {
+	$args = array(
+		'query'    => rawurlencode( $query ),
+		'page'     => $page,
+		'per_page' => $per_page,
 	);
+	$ori = cw_stock_orientation_value( 'pexels', $orientation );
+	if ( '' !== $ori ) {
+		$args['orientation'] = $ori;
+	}
+	$url = add_query_arg( $args, 'https://api.pexels.com/videos/search' );
 
 	$response = wp_remote_get(
 		$url,
@@ -479,6 +510,7 @@ function cw_stock_videos_fetch_pixabay( $key, $query, $page, $per_page ) {
 			'full'       => (string) $pick['url'],
 			'width'      => (int) ( $pick['width'] ?? 0 ),
 			'height'     => (int) ( $pick['height'] ?? 0 ),
+			'size'       => (int) ( $pick['size'] ?? 0 ),
 			'alt'        => (string) ( $v['tags'] ?? $query ),
 			'author'     => (string) ( $v['user'] ?? '' ),
 			'author_url' => isset( $v['user'] ) ? 'https://pixabay.com/users/' . rawurlencode( $v['user'] ) . '-' . (int) ( $v['user_id'] ?? 0 ) . '/' : '',
@@ -502,19 +534,21 @@ function cw_stock_videos_fetch_pixabay( $key, $query, $page, $per_page ) {
  * Previews come from api.openverse.org (proxied); the full file points at the
  * original source host, so import uses an SSRF-validated download.
  */
-function cw_stock_photos_fetch_openverse( $query, $page, $per_page ) {
+function cw_stock_photos_fetch_openverse( $query, $page, $per_page, $orientation = '' ) {
 	// Anonymous Openverse requests cap page_size at 20.
 	$page_size = min( 20, max( 1, (int) $per_page ) );
 
-	$url = add_query_arg(
-		array(
-			'q'         => rawurlencode( $query ),
-			'page'      => $page,
-			'page_size' => $page_size,
-			'mature'    => 'false',
-		),
-		'https://api.openverse.org/v1/images/'
+	$args = array(
+		'q'         => rawurlencode( $query ),
+		'page'      => $page,
+		'page_size' => $page_size,
+		'mature'    => 'false',
 	);
+	$ori = cw_stock_orientation_value( 'openverse', $orientation );
+	if ( '' !== $ori ) {
+		$args['aspect_ratio'] = $ori;
+	}
+	$url = add_query_arg( $args, 'https://api.openverse.org/v1/images/' );
 
 	$response = wp_remote_get(
 		$url,
@@ -548,6 +582,7 @@ function cw_stock_photos_fetch_openverse( $query, $page, $per_page ) {
 			'full'       => (string) ( $p['url'] ?? $thumb ),
 			'width'      => (int) ( $p['width'] ?? 0 ),
 			'height'     => (int) ( $p['height'] ?? 0 ),
+			'size'       => (int) ( $p['filesize'] ?? 0 ),
 			'alt'        => (string) ( $p['title'] ?? $query ),
 			'author'     => (string) ( $p['creator'] ?? '' ),
 			'author_url' => (string) ( $p['creator_url'] ?? '' ),

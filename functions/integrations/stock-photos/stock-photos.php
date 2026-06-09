@@ -52,32 +52,37 @@ function cw_stock_photos_providers() {
 
 	$registry = array(
 		'unsplash'  => array(
-			'label'   => 'Unsplash',
-			'key'     => trim( (string) cw_stock_photos_option( 'unsplash_access_key', '' ) ),
-			'keyless' => false,
-			'media'   => array( 'photo' ),
-			'license' => __( 'Free to use. Attribution to the photographer is appreciated.', 'codeweber' ),
+			'label'       => 'Unsplash',
+			'key'         => trim( (string) cw_stock_photos_option( 'unsplash_access_key', '' ) ),
+			'keyless'     => false,
+			'media'       => array( 'photo' ),
+			'orientation' => true,
+			'license'     => __( 'Free to use. Attribution to the photographer is appreciated.', 'codeweber' ),
 		),
 		'pexels'    => array(
-			'label'   => 'Pexels',
-			'key'     => trim( (string) cw_stock_photos_option( 'pexels_api_key', '' ) ),
-			'keyless' => false,
-			'media'   => array( 'photo', 'video' ),
-			'license' => __( 'Free to use. Attribution is appreciated but not required.', 'codeweber' ),
+			'label'       => 'Pexels',
+			'key'         => trim( (string) cw_stock_photos_option( 'pexels_api_key', '' ) ),
+			'keyless'     => false,
+			'media'       => array( 'photo', 'video' ),
+			'orientation' => true,
+			'license'     => __( 'Free to use. Attribution is appreciated but not required.', 'codeweber' ),
 		),
 		'pixabay'   => array(
-			'label'   => 'Pixabay',
-			'key'     => trim( (string) cw_stock_photos_option( 'pixabay_api_key', '' ) ),
-			'keyless' => false,
-			'media'   => array( 'photo', 'video' ),
-			'license' => __( 'Free to use. No attribution required.', 'codeweber' ),
+			'label'       => 'Pixabay',
+			'key'         => trim( (string) cw_stock_photos_option( 'pixabay_api_key', '' ) ),
+			'keyless'     => false,
+			'media'       => array( 'photo', 'video' ),
+			// Pixabay API has no orientation filter.
+			'orientation' => false,
+			'license'     => __( 'Free to use. No attribution required.', 'codeweber' ),
 		),
 		'openverse' => array(
-			'label'   => 'Openverse',
-			'key'     => '',
-			'keyless' => true,
-			'media'   => array( 'photo' ),
-			'license' => __( 'Creative Commons / Public Domain. Check each item\'s license; attribution often required.', 'codeweber' ),
+			'label'       => 'Openverse',
+			'key'         => '',
+			'keyless'     => true,
+			'media'       => array( 'photo' ),
+			'orientation' => true,
+			'license'     => __( 'Creative Commons / Public Domain. Check each item\'s license; attribution often required.', 'codeweber' ),
 		),
 	);
 
@@ -211,10 +216,11 @@ function cw_stock_photos_enqueue( $hook ) {
 			continue; // Provider supports none of the enabled media types.
 		}
 		$provider_cfg[] = array(
-			'slug'    => $slug,
-			'label'   => $data['label'],
-			'license' => $data['license'],
-			'media'   => $supported,
+			'slug'        => $slug,
+			'label'       => $data['label'],
+			'license'     => $data['license'],
+			'media'       => $supported,
+			'orientation' => ! empty( $data['orientation'] ),
 		);
 	}
 
@@ -256,6 +262,10 @@ function cw_stock_photos_enqueue( $hook ) {
 				'videoBy'     => __( 'Video by', 'codeweber' ),
 				'photos'      => __( 'Photos', 'codeweber' ),
 				'videos'      => __( 'Videos', 'codeweber' ),
+				'allOri'      => __( 'All', 'codeweber' ),
+				'horizontal'  => __( 'Horizontal', 'codeweber' ),
+				'vertical'    => __( 'Vertical', 'codeweber' ),
+				'square'      => __( 'Square', 'codeweber' ),
 				'on'          => __( 'on', 'codeweber' ),
 				'openLibrary' => __( 'Open in Media Library', 'codeweber' ),
 				'startHint'   => __( 'Enter a query and press Search to find free photos.', 'codeweber' ),

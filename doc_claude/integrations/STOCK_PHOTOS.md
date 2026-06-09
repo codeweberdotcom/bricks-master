@@ -52,6 +52,23 @@
 
 ---
 
+## Фильтр ориентации + мета-инфо превью
+
+**Мета-строка превью** (в оверлее при наведении, фото и видео): `1920×1080 · Horizontal · 12.4 MB`. Ориентация вычисляется в JS из `width`/`height` (`itemMeta()`), размер — через `fmtSize()` только если `size > 0`.
+
+**Фильтр ориентации** (кнопки All / Horizontal / Vertical над поиском):
+
+| Провайдер | Серверный фильтр | Параметр API |
+|-----------|:----------------:|--------------|
+| Unsplash | ✅ | `orientation=landscape/portrait/squarish` |
+| Pexels (фото и видео) | ✅ | `orientation=landscape/portrait/square` |
+| Openverse | ✅ | `aspect_ratio=wide/tall/square` |
+| **Pixabay** | ❌ | — (нет в API) |
+
+- Маппинг generic→provider в `cw_stock_orientation_value()` (`proxy.php`). Generic-значения: `horizontal` / `vertical` / `square`.
+- Для **Pixabay фильтр скрыт** в UI (флаг `orientation => false` в реестре провайдеров → `_renderFilters()` не рисует контрол). Провайдеры выбираются по одному через табы, поэтому контрол зависит от активного провайдера.
+- `orientation` передаётся в `cw_stock_photos_ajax_search()` и далее в фетчеры поддерживающих провайдеров.
+
 ## Точки входа (3 surface)
 
 1. **Вкладка «Free Photos» в медиа-модале** — `wp.media` фреймы `Post`/`Select` расширяются в JS (`registerFrameTab`). Покрывает вставку в пост, выбор миниатюры, блоки. После импорта вложение добавляется в `selection`, фрейм переключается на «Медиатеку» — далее штатная кнопка Insert/Select.
@@ -91,12 +108,24 @@
 ```
 {
   provider, media_type, id, thumb, preview, full,
-  width, height, alt,
+  width, height, size, alt,
   author, author_url, source_url,
   duration,           // только видео (секунды)
   download_location   // только Unsplash
 }
 ```
+
+**`size` (размер файла, байты) — не у всех:**
+
+| Провайдер | Размер | Поле API | Примечание |
+|-----------|:------:|----------|-----------|
+| Unsplash | ❌ | — | API не отдаёт → `0` |
+| Pexels (фото и видео) | ❌ | — | API не отдаёт → `0` |
+| Pixabay фото | ⚠️ | `imageSize` | размер **оригинала**, а импортируется `largeImageURL` (≤1280) — приблизительно |
+| Pixabay видео | ✅ | `videos.<size>.size` | точный размер выбранного варианта |
+| Openverse | ⚠️ | `filesize` | часто `null` → `0` |
+
+В UI размер показывается только при `size > 0`. `width`/`height` есть у всех (ориентация в превью выводится из них).
 
 `thumb` — превью для сетки (для видео это постер-картинка), `full` — URL для импорта (для видео — mp4-файл). `media_type` = `photo` | `video`.
 

@@ -56,10 +56,11 @@
 	// opts: { mode: 'insert' | 'standalone', onImport: fn(attachment, item) }
 	function SearchUI( opts ) {
 		this.opts      = opts || {};
-		this.mediaType = MEDIA_TYPES[ 0 ];
-		this.provider  = ( this.providersFor( this.mediaType )[ 0 ] || PROVIDERS[ 0 ] ).slug;
-		this.query     = '';
-		this.page      = 1;
+		this.mediaType   = MEDIA_TYPES[ 0 ];
+		this.provider    = ( this.providersFor( this.mediaType )[ 0 ] || PROVIDERS[ 0 ] ).slug;
+		this.orientation = '';
+		this.query       = '';
+		this.page        = 1;
 		this.hasMore   = false;
 		this.loading   = false;
 		this.el        = this._build();
@@ -90,6 +91,9 @@
 		// Provider tabs — rebuilt per media type.
 		var $tabs = $( '<div class="cw-stock-providers"></div>' );
 
+		// Orientation filter — rebuilt per provider (only when supported).
+		var $filters = $( '<div class="cw-stock-filters"></div>' );
+
 		var $form = $(
 			'<div class="cw-stock-searchbar">' +
 				'<input type="search" class="cw-stock-input" placeholder="' + esc( I18N.searchPh ) + '">' +
@@ -101,18 +105,53 @@
 		var $grid   = $( '<div class="cw-stock-grid"></div>' );
 		var $more   = $( '<div class="cw-stock-more"><button type="button" class="button cw-stock-loadmore">' + esc( I18N.loadMore ) + '</button></div>' ).hide();
 
-		$root.append( $types, $tabs, $form, $status, $grid, $more );
+		$root.append( $types, $tabs, $filters, $form, $status, $grid, $more );
 
-		this.$root   = $root;
-		this.$tabs   = $tabs;
-		this.$input  = $form.find( '.cw-stock-input' );
-		this.$status = $status;
-		this.$grid   = $grid;
-		this.$more   = $more;
+		this.$root    = $root;
+		this.$tabs    = $tabs;
+		this.$filters = $filters;
+		this.$input   = $form.find( '.cw-stock-input' );
+		this.$status  = $status;
+		this.$grid    = $grid;
+		this.$more    = $more;
 
 		this._renderProviders();
 
 		return $root;
+	};
+
+	// The currently active provider object (or undefined).
+	SearchUI.prototype.activeProvider = function () {
+		var self = this;
+		return PROVIDERS.filter( function ( p ) {
+			return p.slug === self.provider;
+		} )[ 0 ];
+	};
+
+	// (Re)build the orientation filter for the active provider.
+	SearchUI.prototype._renderFilters = function () {
+		var self = this;
+		var prov = this.activeProvider();
+		this.$filters.empty();
+
+		// Providers without orientation support (e.g. Pixabay) get no filter.
+		if ( ! prov || ! prov.orientation ) {
+			this.orientation = '';
+			return;
+		}
+
+		var opts = [
+			{ v: '', label: I18N.allOri || 'All' },
+			{ v: 'horizontal', label: I18N.horizontal || 'Horizontal' },
+			{ v: 'vertical', label: I18N.vertical || 'Vertical' },
+		];
+		opts.forEach( function ( o ) {
+			$( '<button type="button" class="button cw-stock-ori"></button>' )
+				.text( o.label )
+				.attr( 'data-ori', o.v )
+				.toggleClass( 'is-active', o.v === self.orientation )
+				.appendTo( self.$filters );
+		} );
 	};
 
 	// (Re)build provider tabs for the current media type.
@@ -138,6 +177,8 @@
 					.appendTo( self.$tabs );
 			} );
 		}
+
+		this._renderFilters();
 	};
 
 	SearchUI.prototype._bind = function () {
@@ -157,6 +198,17 @@
 			self.$root.find( '.cw-stock-prov' ).removeClass( 'is-active' );
 			$( this ).addClass( 'is-active' );
 			self.provider = $( this ).data( 'prov' );
+			// Orientation support is per-provider — rebuild the filter.
+			self._renderFilters();
+			if ( self.query ) {
+				self.search( true );
+			}
+		} );
+
+		this.$root.on( 'click', '.cw-stock-ori', function () {
+			self.$root.find( '.cw-stock-ori' ).removeClass( 'is-active' );
+			$( this ).addClass( 'is-active' );
+			self.orientation = $( this ).data( 'ori' ) || '';
 			if ( self.query ) {
 				self.search( true );
 			}
@@ -201,11 +253,12 @@
 		this.$more.hide();
 
 		ajaxSearch( {
-			provider:   this.provider,
-			query:      this.query,
-			media_type: this.mediaType,
-			page:       this.page,
-			per_page:   CFG.perPage || 24,
+			provider:    this.provider,
+			query:       this.query,
+			media_type:  this.mediaType,
+			orientation: this.orientation,
+			page:        this.page,
+			per_page:    CFG.perPage || 24,
 		} )
 			.done( function ( res ) {
 				if ( ! res || ! res.success ) {
@@ -260,6 +313,11 @@
 				$credit.text( credit ).appendTo( $ov );
 			}
 
+			var meta = itemMeta( item );
+			if ( meta ) {
+				$( '<span class="cw-stock-meta"></span>' ).text( meta ).appendTo( $ov );
+			}
+
 			$item.append( $img, $ov );
 			self.$grid.append( $item );
 		} );
@@ -290,6 +348,40 @@
 				window.alert( I18N.error );
 			} );
 	};
+
+	// Bytes → "12.4 MB" / "640 KB".
+	function fmtSize( bytes ) {
+		bytes = parseInt( bytes, 10 ) || 0;
+		if ( bytes <= 0 ) {
+			return '';
+		}
+		if ( bytes >= 1048576 ) {
+			return ( bytes / 1048576 ).toFixed( 1 ) + ' MB';
+		}
+		return Math.round( bytes / 1024 ) + ' KB';
+	}
+
+	// Build the "1920×1080 · Horizontal · 12.4 MB" meta line for an item.
+	function itemMeta( item ) {
+		var parts = [];
+		var w = parseInt( item.width, 10 ) || 0;
+		var h = parseInt( item.height, 10 ) || 0;
+		if ( w > 0 && h > 0 ) {
+			parts.push( w + '×' + h );
+			if ( w > h ) {
+				parts.push( I18N.horizontal || 'Horizontal' );
+			} else if ( h > w ) {
+				parts.push( I18N.vertical || 'Vertical' );
+			} else {
+				parts.push( I18N.square || 'Square' );
+			}
+		}
+		var size = fmtSize( item.size );
+		if ( size ) {
+			parts.push( size );
+		}
+		return parts.join( ' · ' );
+	}
 
 	// Seconds → "m:ss".
 	function fmtDuration( s ) {
