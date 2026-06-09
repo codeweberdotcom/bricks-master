@@ -11,9 +11,10 @@
 ( function ( $ ) {
 	'use strict';
 
-	var CFG       = window.cwStockPhotos || {};
-	var PROVIDERS = CFG.providers || [];
-	var I18N      = CFG.i18n || {};
+	var CFG         = window.cwStockPhotos || {};
+	var PROVIDERS   = CFG.providers || [];
+	var MEDIA_TYPES = ( CFG.mediaTypes && CFG.mediaTypes.length ) ? CFG.mediaTypes : [ 'photo' ];
+	var I18N        = CFG.i18n || {};
 
 	if ( ! CFG.ajaxUrl || ! PROVIDERS.length ) {
 		return;
@@ -41,6 +42,7 @@
 			action:            'cw_stock_photos_import',
 			nonce:             CFG.nonce,
 			provider:          item.provider,
+			media_type:        item.media_type || 'photo',
 			url:               item.full,
 			alt:               item.alt,
 			author:            item.author,
@@ -53,29 +55,40 @@
 	// ─── SearchUI ─────────────────────────────────────────────────────────────
 	// opts: { mode: 'insert' | 'standalone', onImport: fn(attachment, item) }
 	function SearchUI( opts ) {
-		this.opts     = opts || {};
-		this.provider = PROVIDERS[ 0 ].slug;
-		this.query    = '';
-		this.page     = 1;
-		this.hasMore  = false;
-		this.loading  = false;
-		this.el       = this._build();
+		this.opts      = opts || {};
+		this.mediaType = MEDIA_TYPES[ 0 ];
+		this.provider  = ( this.providersFor( this.mediaType )[ 0 ] || PROVIDERS[ 0 ] ).slug;
+		this.query     = '';
+		this.page      = 1;
+		this.hasMore   = false;
+		this.loading   = false;
+		this.el        = this._build();
 		this._bind();
 	}
+
+	// Providers that support the given media type.
+	SearchUI.prototype.providersFor = function ( type ) {
+		return PROVIDERS.filter( function ( p ) {
+			return ( p.media || [ 'photo' ] ).indexOf( type ) !== -1;
+		} );
+	};
 
 	SearchUI.prototype._build = function () {
 		var $root = $( '<div class="cw-stock-ui"></div>' );
 
-		// Provider tabs (only when more than one is active).
-		var $tabs = $( '<div class="cw-stock-providers"></div>' );
-		if ( PROVIDERS.length > 1 ) {
-			PROVIDERS.forEach( function ( p, i ) {
-				$( '<button type="button" class="button cw-stock-prov' + ( 0 === i ? ' is-active' : '' ) + '"></button>' )
-					.text( p.label )
-					.attr( 'data-prov', p.slug )
-					.appendTo( $tabs );
+		// Media-type toggle (Photos / Videos) — only when more than one is enabled.
+		var $types = $( '<div class="cw-stock-types"></div>' );
+		if ( MEDIA_TYPES.length > 1 ) {
+			MEDIA_TYPES.forEach( function ( t, i ) {
+				$( '<button type="button" class="button cw-stock-type' + ( 0 === i ? ' is-active' : '' ) + '"></button>' )
+					.text( 'video' === t ? ( I18N.videos || 'Videos' ) : ( I18N.photos || 'Photos' ) )
+					.attr( 'data-type', t )
+					.appendTo( $types );
 			} );
 		}
+
+		// Provider tabs — rebuilt per media type.
+		var $tabs = $( '<div class="cw-stock-providers"></div>' );
 
 		var $form = $(
 			'<div class="cw-stock-searchbar">' +
@@ -88,19 +101,57 @@
 		var $grid   = $( '<div class="cw-stock-grid"></div>' );
 		var $more   = $( '<div class="cw-stock-more"><button type="button" class="button cw-stock-loadmore">' + esc( I18N.loadMore ) + '</button></div>' ).hide();
 
-		$root.append( $tabs, $form, $status, $grid, $more );
+		$root.append( $types, $tabs, $form, $status, $grid, $more );
 
 		this.$root   = $root;
+		this.$tabs   = $tabs;
 		this.$input  = $form.find( '.cw-stock-input' );
 		this.$status = $status;
 		this.$grid   = $grid;
 		this.$more   = $more;
 
+		this._renderProviders();
+
 		return $root;
+	};
+
+	// (Re)build provider tabs for the current media type.
+	SearchUI.prototype._renderProviders = function () {
+		var self = this;
+		var list = this.providersFor( this.mediaType );
+
+		// Keep the active provider if it supports this media type, else pick the first.
+		var keep = list.some( function ( p ) {
+			return p.slug === self.provider;
+		} );
+		if ( ! keep ) {
+			this.provider = list.length ? list[ 0 ].slug : '';
+		}
+
+		this.$tabs.empty();
+		if ( list.length > 1 ) {
+			list.forEach( function ( p ) {
+				$( '<button type="button" class="button cw-stock-prov"></button>' )
+					.text( p.label )
+					.attr( 'data-prov', p.slug )
+					.toggleClass( 'is-active', p.slug === self.provider )
+					.appendTo( self.$tabs );
+			} );
+		}
 	};
 
 	SearchUI.prototype._bind = function () {
 		var self = this;
+
+		this.$root.on( 'click', '.cw-stock-type', function () {
+			self.$root.find( '.cw-stock-type' ).removeClass( 'is-active' );
+			$( this ).addClass( 'is-active' );
+			self.mediaType = $( this ).data( 'type' );
+			self._renderProviders();
+			if ( self.query ) {
+				self.search( true );
+			}
+		} );
 
 		this.$root.on( 'click', '.cw-stock-prov', function () {
 			self.$root.find( '.cw-stock-prov' ).removeClass( 'is-active' );
@@ -150,10 +201,11 @@
 		this.$more.hide();
 
 		ajaxSearch( {
-			provider: this.provider,
-			query:    this.query,
-			page:     this.page,
-			per_page: CFG.perPage || 24,
+			provider:   this.provider,
+			query:      this.query,
+			media_type: this.mediaType,
+			page:       this.page,
+			per_page:   CFG.perPage || 24,
 		} )
 			.done( function ( res ) {
 				if ( ! res || ! res.success ) {
@@ -182,11 +234,20 @@
 	SearchUI.prototype._render = function ( items ) {
 		var self = this;
 		items.forEach( function ( item ) {
+			var isVideo = ( 'video' === item.media_type );
 			var $item = $( '<div class="cw-stock-item"></div>' ).data( 'item', item );
 			var $img  = $( '<img loading="lazy" alt="">' ).attr( 'src', thumbUrl( item.thumb ) );
+			var byLabel = isVideo ? ( I18N.videoBy || I18N.photoBy ) : I18N.photoBy;
 			var credit = item.author
-				? ( I18N.photoBy + ' ' + item.author )
+				? ( byLabel + ' ' + item.author )
 				: '';
+
+			if ( isVideo ) {
+				$( '<span class="cw-stock-badge" aria-hidden="true">&#9658;</span>' ).appendTo( $item );
+				if ( item.duration ) {
+					$( '<span class="cw-stock-duration"></span>' ).text( fmtDuration( item.duration ) ).appendTo( $item );
+				}
+			}
 
 			var $ov = $( '<div class="cw-stock-ov"></div>' );
 			$( '<button type="button" class="button button-primary cw-stock-import"></button>' )
@@ -229,6 +290,14 @@
 				window.alert( I18N.error );
 			} );
 	};
+
+	// Seconds → "m:ss".
+	function fmtDuration( s ) {
+		s = parseInt( s, 10 ) || 0;
+		var m   = Math.floor( s / 60 );
+		var sec = s % 60;
+		return m + ':' + ( sec < 10 ? '0' : '' ) + sec;
+	}
 
 	function esc( s ) {
 		return String( s == null ? '' : s ).replace( /[&<>"']/g, function ( c ) {

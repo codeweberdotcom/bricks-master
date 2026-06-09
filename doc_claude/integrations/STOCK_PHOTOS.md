@@ -1,6 +1,8 @@
-# Stock Photos — поиск и импорт бесплатных изображений
+# Stock Photos — поиск и импорт бесплатных изображений и видео
 
-Модуль интеграции с фотостоками **Unsplash**, **Pexels**, **Pixabay** и агрегатором **Openverse**. Позволяет искать бесплатные фото прямо в админке и импортировать их в медиатеку (sideload) с сохранением атрибуции автора.
+Модуль интеграции с фотостоками **Unsplash**, **Pexels**, **Pixabay** и агрегатором **Openverse**. Позволяет искать бесплатные фото **и видео** прямо в админке и импортировать их в медиатеку (sideload) с сохранением атрибуции автора.
+
+**Видео** доступно только у **Pexels** (`api.pexels.com/videos/search`) и **Pixabay** (`pixabay.com/api/videos/`) — тем же API-ключом, что и фото. У Unsplash и Openverse видео-API нет. Переключатель «Photos / Videos» в UI появляется, если в Redux включены оба типа медиа.
 
 **Openverse** — без API-ключа (rate-limit), CC/Public Domain контент, превью отдаются через собственный хост `api.openverse.org` (надёжнее для РФ, чем чужие CDN). Активируется одной галочкой в `stock_photos_providers`, поле ключа не требуется.
 
@@ -29,7 +31,8 @@
 | ID | Тип | Назначение |
 |----|-----|-----------|
 | `stock_photos_enabled` | switch | Общий гейт модуля |
-| `stock_photos_providers` | checkbox | Какие провайдеры показывать (`unsplash`/`pexels`/`pixabay`) |
+| `stock_media_types` | checkbox | Типы медиа: `photo` / `video` (видео — только Pexels/Pixabay). По умолчанию оба |
+| `stock_photos_providers` | checkbox | Какие провайдеры показывать (`unsplash`/`pexels`/`pixabay`/`openverse`) |
 | `unsplash_access_key` | password | Access Key приложения Unsplash |
 | `pexels_api_key` | password | API-ключ Pexels |
 | `pixabay_api_key` | password | API-ключ Pixabay |
@@ -87,14 +90,19 @@
 
 ```
 {
-  provider, id, thumb, preview, full,
+  provider, media_type, id, thumb, preview, full,
   width, height, alt,
   author, author_url, source_url,
+  duration,           // только видео (секунды)
   download_location   // только Unsplash
 }
 ```
 
-`thumb` — превью для сетки, `full` — URL для импорта.
+`thumb` — превью для сетки (для видео это постер-картинка), `full` — URL для импорта (для видео — mp4-файл). `media_type` = `photo` | `video`.
+
+**Выбор качества видео:**
+- **Pexels** — из `video_files` выбирается mp4 с шириной ≤ 1280 (наибольшая); если все больше — наименьшая (`cw_stock_pexels_pick_video_file()`).
+- **Pixabay** — берётся `videos.medium.url` (fallback: small → large → tiny). Постер — `videos.*.thumbnail`, fallback на `i.vimeocdn.com/video/{picture_id}_295x166.jpg`.
 
 ---
 
@@ -105,3 +113,11 @@
 - **Pexels** авторизация — ключ в заголовке `Authorization` **без** префикса; **Unsplash** — `Client-ID <key>`.
 - Лимиты: Unsplash demo 50 req/h (5000 после approve), Pexels 200/h · 20k/мес, Pixabay ~100/min.
 - В блочном редакторе вкладка работает через стандартный `wp.media` фрейм, который использует и Gutenberg image-блок.
+
+### Видео: gotchas
+
+- **Allowlist хостов** (`cw_stock_photos_allowed_hosts()`): для Pexels добавлен `videos.pexels.com` (mp4-файлы), для Pixabay — `i.vimeocdn.com` (постеры видео; сами mp4 на `cdn.pixabay.com`, уже был в списке).
+- **MIME/расширение при импорте:** видео получает `mp4` (`import.php` ветвится по `media_type`); `media_handle_sideload` грузит `video/mp4` (стандартно разрешён для админов/редакторов).
+- **Timeout скачивания** для видео поднят до 120 с (видео тяжелее картинок) — может упереться в `upload_max_filesize`/`max_execution_time` PHP при больших файлах.
+- **Атрибуция видео:** в meta `_cw_stock_media_type = video`; поле атрибуции в Edit Media показывает «Photo by …» (строка общая, не критично).
+- Превью видео — постер + бейдж ▶ + длительность (`m:ss`); самого видео в сетке не воспроизводится.

@@ -140,20 +140,32 @@ Redux::set_section(
 				'content'    => '<button type="button" class="button cw-api-test-btn" data-action="codeweber_api_test_telegram" data-field="telegram_bot_token" data-field2="telegram_bot_chat_id">' . esc_html__( 'Test', 'codeweber' ) . '</button><span class="cw-api-test-result"></span>',
 			),
 
-			// ── Stock Photos (Unsplash / Pexels / Pixabay) ──────────────────────
+			// ── Stock Media: Photos & Video (Unsplash / Pexels / Pixabay / Openverse) ──
 			array(
 				'id'    => 'stock_photos_section_info',
 				'type'  => 'info',
 				'style' => 'info',
-				'title' => esc_html__( 'Stock Photos', 'codeweber' ),
-				'desc'  => esc_html__( 'Search and import free photos from Unsplash, Pexels and Pixabay directly into the Media Library.', 'codeweber' ),
+				'title' => esc_html__( 'Stock Media (Photos & Video)', 'codeweber' ),
+				'desc'  => esc_html__( 'Search and import free photos from Unsplash, Pexels, Pixabay and Openverse, and free videos from Pexels and Pixabay, directly into the Media Library.', 'codeweber' ),
 			),
 			array(
 				'id'       => 'stock_photos_enabled',
 				'type'     => 'switch',
-				'title'    => esc_html__( 'Stock Photos: enable', 'codeweber' ),
+				'title'    => esc_html__( 'Stock Media: enable', 'codeweber' ),
 				'subtitle' => esc_html__( 'Adds a "Free Photos" tab to the media modal, a button on the Media Library screen and a dedicated admin page', 'codeweber' ),
 				'default'  => false,
+			),
+			array(
+				'id'       => 'stock_media_types',
+				'type'     => 'checkbox',
+				'title'    => esc_html__( 'Media types', 'codeweber' ),
+				'subtitle' => esc_html__( 'Search photos and/or videos. Video is available for Pexels and Pixabay only.', 'codeweber' ),
+				'required' => array( 'stock_photos_enabled', '=', true ),
+				'options'  => array(
+					'photo' => esc_html__( 'Photos', 'codeweber' ),
+					'video' => esc_html__( 'Videos (Pexels, Pixabay)', 'codeweber' ),
+				),
+				'default'  => array( 'photo' => true, 'video' => true ),
 			),
 			array(
 				'id'       => 'stock_photos_providers',

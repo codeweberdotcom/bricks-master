@@ -55,24 +55,28 @@ function cw_stock_photos_providers() {
 			'label'   => 'Unsplash',
 			'key'     => trim( (string) cw_stock_photos_option( 'unsplash_access_key', '' ) ),
 			'keyless' => false,
+			'media'   => array( 'photo' ),
 			'license' => __( 'Free to use. Attribution to the photographer is appreciated.', 'codeweber' ),
 		),
 		'pexels'    => array(
 			'label'   => 'Pexels',
 			'key'     => trim( (string) cw_stock_photos_option( 'pexels_api_key', '' ) ),
 			'keyless' => false,
+			'media'   => array( 'photo', 'video' ),
 			'license' => __( 'Free to use. Attribution is appreciated but not required.', 'codeweber' ),
 		),
 		'pixabay'   => array(
 			'label'   => 'Pixabay',
 			'key'     => trim( (string) cw_stock_photos_option( 'pixabay_api_key', '' ) ),
 			'keyless' => false,
+			'media'   => array( 'photo', 'video' ),
 			'license' => __( 'Free to use. No attribution required.', 'codeweber' ),
 		),
 		'openverse' => array(
 			'label'   => 'Openverse',
 			'key'     => '',
 			'keyless' => true,
+			'media'   => array( 'photo' ),
 			'license' => __( 'Creative Commons / Public Domain. Check each item\'s license; attribution often required.', 'codeweber' ),
 		),
 	);
@@ -88,6 +92,23 @@ function cw_stock_photos_providers() {
 		}
 	}
 	return $out;
+}
+
+/**
+ * Enabled media types (photo / video) from Redux.
+ *
+ * @return array<string> Ordered subset of array( 'photo', 'video' ); never empty.
+ */
+function cw_stock_photos_media_types() {
+	$types = cw_stock_photos_option( 'stock_media_types', array( 'photo' => true, 'video' => true ) );
+	$types = is_array( $types ) ? $types : array();
+	$out   = array();
+	foreach ( array( 'photo', 'video' ) as $t ) {
+		if ( ! empty( $types[ $t ] ) ) {
+			$out[] = $t;
+		}
+	}
+	return empty( $out ) ? array( 'photo' ) : $out;
 }
 
 /**
@@ -181,23 +202,40 @@ function cw_stock_photos_enqueue( $hook ) {
 		true
 	);
 
-	// Provider config for the browser — labels & licenses only, never keys.
+	// Provider config for the browser — labels, licenses & supported media only, never keys.
+	$media_types  = cw_stock_photos_media_types();
 	$provider_cfg = array();
 	foreach ( $providers as $slug => $data ) {
+		$supported = array_values( array_intersect( $data['media'], $media_types ) );
+		if ( empty( $supported ) ) {
+			continue; // Provider supports none of the enabled media types.
+		}
 		$provider_cfg[] = array(
 			'slug'    => $slug,
 			'label'   => $data['label'],
 			'license' => $data['license'],
+			'media'   => $supported,
 		);
+	}
+
+	// Keep only media types that at least one available provider supports.
+	$available_media = array();
+	foreach ( $provider_cfg as $p ) {
+		$available_media = array_merge( $available_media, $p['media'] );
+	}
+	$media_types = array_values( array_intersect( $media_types, array_unique( $available_media ) ) );
+	if ( empty( $media_types ) ) {
+		$media_types = array( 'photo' );
 	}
 
 	wp_localize_script(
 		'cw-stock-photos',
 		'cwStockPhotos',
 		array(
-			'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
-			'nonce'     => wp_create_nonce( 'cw_stock_photos' ),
-			'providers' => $provider_cfg,
+			'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+			'nonce'      => wp_create_nonce( 'cw_stock_photos' ),
+			'providers'  => $provider_cfg,
+			'mediaTypes' => $media_types,
 			'context'   => array(
 				'editor'  => $is_editor,
 				'library' => $is_library,
@@ -215,6 +253,9 @@ function cw_stock_photos_enqueue( $hook ) {
 				'noResults'   => __( 'Nothing found. Try another query.', 'codeweber' ),
 				'error'       => __( 'Request error. Try again.', 'codeweber' ),
 				'photoBy'     => __( 'Photo by', 'codeweber' ),
+				'videoBy'     => __( 'Video by', 'codeweber' ),
+				'photos'      => __( 'Photos', 'codeweber' ),
+				'videos'      => __( 'Videos', 'codeweber' ),
 				'on'          => __( 'on', 'codeweber' ),
 				'openLibrary' => __( 'Open in Media Library', 'codeweber' ),
 				'startHint'   => __( 'Enter a query and press Search to find free photos.', 'codeweber' ),

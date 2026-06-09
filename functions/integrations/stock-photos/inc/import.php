@@ -23,8 +23,10 @@ add_action( 'wp_ajax_cw_stock_photos_import', 'cw_stock_photos_ajax_import' );
 function cw_stock_photos_allowed_hosts() {
 	return array(
 		'unsplash'  => array( 'images.unsplash.com', 'plus.unsplash.com' ),
-		'pexels'    => array( 'images.pexels.com', 'www.pexels.com' ),
-		'pixabay'   => array( 'pixabay.com', 'cdn.pixabay.com', 'i.pixabay.com' ),
+		// videos.pexels.com hosts the downloadable mp4 files.
+		'pexels'    => array( 'images.pexels.com', 'www.pexels.com', 'videos.pexels.com' ),
+		// i.vimeocdn.com serves video poster thumbnails (proxied for previews).
+		'pixabay'   => array( 'pixabay.com', 'cdn.pixabay.com', 'i.pixabay.com', 'i.vimeocdn.com' ),
 		// Openverse previews are served from its own host; full files live on
 		// arbitrary source hosts and are validated via wp_http_validate_url().
 		'openverse' => array( 'api.openverse.org' ),
@@ -42,6 +44,8 @@ function cw_stock_photos_ajax_import() {
 	}
 
 	$provider   = sanitize_key( wp_unslash( $_POST['provider'] ?? '' ) );
+	$media_type = sanitize_key( wp_unslash( $_POST['media_type'] ?? 'photo' ) );
+	$is_video   = ( 'video' === $media_type );
 	$url        = esc_url_raw( wp_unslash( $_POST['url'] ?? '' ) );
 	$alt        = sanitize_text_field( wp_unslash( $_POST['alt'] ?? '' ) );
 	$author     = sanitize_text_field( wp_unslash( $_POST['author'] ?? '' ) );
@@ -106,7 +110,7 @@ function cw_stock_photos_ajax_import() {
 		$url,
 		cw_stock_photos_request_args(
 			array(
-				'timeout'  => 30,
+				'timeout'  => $is_video ? 120 : 30,
 				'stream'   => true,
 				'filename' => $tmp,
 				'headers'  => array( 'User-Agent' => 'Mozilla/5.0' ),
@@ -127,7 +131,11 @@ function cw_stock_photos_ajax_import() {
 
 	// Build a friendly filename (provider extensions sometimes hide behind query args).
 	$ext = pathinfo( wp_parse_url( $url, PHP_URL_PATH ), PATHINFO_EXTENSION );
-	$ext = preg_match( '/^(jpe?g|png|gif|webp)$/i', $ext ) ? strtolower( $ext ) : 'jpg';
+	if ( $is_video ) {
+		$ext = preg_match( '/^(mp4|webm|mov)$/i', $ext ) ? strtolower( $ext ) : 'mp4';
+	} else {
+		$ext = preg_match( '/^(jpe?g|png|gif|webp)$/i', $ext ) ? strtolower( $ext ) : 'jpg';
+	}
 	$slug = sanitize_title( $alt ? $alt : ( $provider . '-' . wp_generate_password( 6, false ) ) );
 	$slug = $slug ? $slug : $provider;
 
@@ -150,6 +158,7 @@ function cw_stock_photos_ajax_import() {
 		update_post_meta( $attachment_id, '_wp_attachment_image_alt', $alt );
 	}
 	update_post_meta( $attachment_id, '_cw_stock_provider', $provider );
+	update_post_meta( $attachment_id, '_cw_stock_media_type', $is_video ? 'video' : 'photo' );
 	update_post_meta( $attachment_id, '_cw_stock_author', $author );
 	update_post_meta( $attachment_id, '_cw_stock_author_url', $author_url );
 	update_post_meta( $attachment_id, '_cw_stock_source_url', $source_url );
