@@ -144,6 +144,9 @@ function cw_stock_photos_ajax_search() {
 			case 'openverse':
 				$result = cw_stock_photos_fetch_openverse( $query, $page, $per_page, $orientation );
 				break;
+			case 'freepik':
+				$result = cw_stock_photos_fetch_freepik( $key, $query, $page, $per_page, $orientation );
+				break;
 			default:
 				$result = new WP_Error( 'cw_stock', __( 'Unknown provider', 'codeweber' ) );
 		}
@@ -525,6 +528,95 @@ function cw_stock_videos_fetch_pixabay( $key, $query, $page, $per_page ) {
 		'items'    => $items,
 		'total'    => $total,
 		'has_more' => ( $page * $per_page ) < $total,
+	);
+}
+
+/**
+ * Freepik search → normalized.
+ *
+ * Uses the Freepik Resources API v1. Only photos are available.
+ * Orientation is applied via filters[orientation] query params.
+ */
+function cw_stock_photos_fetch_freepik( $key, $query, $page, $per_page, $orientation = '' ) {
+	$params = array(
+		'term'  => $query,
+		'page'  => $page,
+		'limit' => $per_page,
+		'filters' => array(
+			'content_type' => array(
+				'photo'  => 1,
+				'vector' => 0,
+				'psd'    => 0,
+			),
+		),
+	);
+
+	if ( 'horizontal' === $orientation ) {
+		$params['filters']['orientation']['landscape'] = 1;
+	} elseif ( 'vertical' === $orientation ) {
+		$params['filters']['orientation']['portrait'] = 1;
+	} elseif ( 'square' === $orientation ) {
+		$params['filters']['orientation']['square'] = 1;
+	}
+
+	$url = 'https://api.freepik.com/v1/resources?' . http_build_query( $params );
+
+	$response = wp_remote_get(
+		$url,
+		cw_stock_photos_request_args(
+			array(
+				'headers' => array(
+					'x-freepik-api-key' => $key,
+					'Accept-Language'   => 'en-US',
+					'Accept'            => 'application/json',
+				),
+			)
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		return $response;
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 !== $code || ! isset( $body['data'] ) ) {
+		$msg = isset( $body['message'] ) ? $body['message'] : ( isset( $body['error'] ) ? $body['error'] : 'HTTP ' . $code );
+		return new WP_Error( 'cw_stock', 'Freepik: ' . $msg );
+	}
+
+	$items = array();
+	foreach ( $body['data'] as $p ) {
+		$image  = $p['image'] ?? array();
+		$author = $p['author'] ?? array();
+
+		$thumb   = $image['thumb']['url'] ?? ( $image['source']['url'] ?? '' );
+		$preview = $image['source']['url'] ?? $thumb;
+
+		$items[] = array(
+			'provider'   => 'freepik',
+			'id'         => (string) ( $p['id'] ?? '' ),
+			'thumb'      => $thumb,
+			'preview'    => $preview,
+			'full'       => $preview,
+			'width'      => 0,
+			'height'     => 0,
+			'alt'        => (string) ( $p['title'] ?? $query ),
+			'author'     => (string) ( $author['name'] ?? '' ),
+			'author_url' => (string) ( $author['profile_url'] ?? '' ),
+			'source_url' => (string) ( $p['url'] ?? '' ),
+		);
+	}
+
+	$meta      = $body['meta'] ?? array();
+	$total     = (int) ( $meta['total'] ?? 0 );
+	$last_page = (int) ( $meta['last_page'] ?? 1 );
+
+	return array(
+		'items'    => $items,
+		'total'    => $total,
+		'has_more' => $page < $last_page,
 	);
 }
 

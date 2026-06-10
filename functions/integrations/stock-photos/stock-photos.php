@@ -84,6 +84,14 @@ function cw_stock_photos_providers() {
 			'orientation' => true,
 			'license'     => __( 'Creative Commons / Public Domain. Check each item\'s license; attribution often required.', 'codeweber' ),
 		),
+		'freepik'   => array(
+			'label'       => 'Freepik',
+			'key'         => trim( (string) cw_stock_photos_option( 'freepik_api_key', '' ) ),
+			'keyless'     => false,
+			'media'       => array( 'photo' ),
+			'orientation' => true,
+			'license'     => __( 'Free to use with attribution. Link to Freepik and the author in your work.', 'codeweber' ),
+		),
 	);
 
 	$out = array();

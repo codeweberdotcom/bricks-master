@@ -18,6 +18,7 @@ add_action( 'wp_ajax_codeweber_api_test_telegram',  'codeweber_api_test_telegram
 add_action( 'wp_ajax_codeweber_api_test_unsplash',  'codeweber_api_test_unsplash' );
 add_action( 'wp_ajax_codeweber_api_test_pexels',    'codeweber_api_test_pexels' );
 add_action( 'wp_ajax_codeweber_api_test_pixabay',   'codeweber_api_test_pixabay' );
+add_action( 'wp_ajax_codeweber_api_test_freepik',   'codeweber_api_test_freepik' );
 add_action( 'wp_ajax_codeweber_api_test_proxy',     'codeweber_api_test_proxy' );
 
 function codeweber_api_test_proxy() {
@@ -352,6 +353,55 @@ function codeweber_api_test_pixabay() {
 	} else {
 		// Pixabay returns plain text like "[ERROR 400] ..." on bad key.
 		$msg = wp_remote_retrieve_body( $response );
+		wp_send_json_error( array( 'message' => 'Ошибка ' . $code . ': ' . $msg ) );
+	}
+}
+
+function codeweber_api_test_freepik() {
+	check_ajax_referer( 'codeweber_api_test', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => 'Нет доступа' ) );
+	}
+
+	$key = sanitize_text_field( wp_unslash( $_POST['key'] ?? '' ) );
+
+	if ( empty( $key ) ) {
+		wp_send_json_error( array( 'message' => 'Введите API ключ' ) );
+	}
+
+	$url = 'https://api.freepik.com/v1/resources?' . http_build_query( array(
+		'term'  => 'nature',
+		'limit' => 1,
+		'filters' => array( 'content_type' => array( 'photo' => 1 ) ),
+	) );
+
+	$response = wp_remote_get(
+		$url,
+		cw_stock_photos_request_args( array(
+			'headers' => array(
+				'x-freepik-api-key' => $key,
+				'Accept-Language'   => 'en-US',
+				'Accept'            => 'application/json',
+			),
+			'timeout' => 10,
+		) )
+	);
+
+	if ( is_wp_error( $response ) ) {
+		wp_send_json_error( array( 'message' => 'Ошибка соединения: ' . $response->get_error_message() ) );
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 === $code && isset( $body['data'] ) ) {
+		$total = (int) ( $body['meta']['total'] ?? 0 );
+		wp_send_json_success( array( 'message' => 'Ключ действителен — найдено ' . $total . ' фото' ) );
+	} elseif ( 401 === $code || 403 === $code ) {
+		wp_send_json_error( array( 'message' => 'Неверный API ключ (' . $code . ')' ) );
+	} else {
+		$msg = isset( $body['message'] ) ? $body['message'] : wp_remote_retrieve_body( $response );
 		wp_send_json_error( array( 'message' => 'Ошибка ' . $code . ': ' . $msg ) );
 	}
 }

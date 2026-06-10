@@ -1,6 +1,6 @@
 # Stock Photos — поиск и импорт бесплатных изображений и видео
 
-Модуль интеграции с фотостоками **Unsplash**, **Pexels**, **Pixabay** и агрегатором **Openverse**. Позволяет искать бесплатные фото **и видео** прямо в админке и импортировать их в медиатеку (sideload) с сохранением атрибуции автора.
+Модуль интеграции с фотостоками **Unsplash**, **Pexels**, **Pixabay**, агрегатором **Openverse** и **Freepik**. Позволяет искать бесплатные фото **и видео** прямо в админке и импортировать их в медиатеку (sideload) с сохранением атрибуции автора.
 
 **Видео** доступно только у **Pexels** (`api.pexels.com/videos/search`) и **Pixabay** (`pixabay.com/api/videos/`) — тем же API-ключом, что и фото. У Unsplash и Openverse видео-API нет. Переключатель «Photos / Videos» в UI появляется, если в Redux включены оба типа медиа.
 
@@ -32,15 +32,27 @@
 |----|-----|-----------|
 | `stock_photos_enabled` | switch | Общий гейт модуля |
 | `stock_media_types` | checkbox | Типы медиа: `photo` / `video` (видео — только Pexels/Pixabay). По умолчанию оба |
-| `stock_photos_providers` | checkbox | Какие провайдеры показывать (`unsplash`/`pexels`/`pixabay`/`openverse`) |
+| `stock_photos_providers` | checkbox | Какие провайдеры показывать (`unsplash`/`pexels`/`pixabay`/`openverse`/`freepik`) |
 | `unsplash_access_key` | password | Access Key приложения Unsplash |
 | `pexels_api_key` | password | API-ключ Pexels |
 | `pixabay_api_key` | password | API-ключ Pixabay |
+| `freepik_api_key` | password | API-ключ Freepik |
 
 Кнопки «Тест» для каждого ключа обрабатываются в `functions/admin/api-test.php`
-(`codeweber_api_test_unsplash` / `_pexels` / `_pixabay`).
+(`codeweber_api_test_unsplash` / `_pexels` / `_pixabay` / `_freepik`).
 
 **Провайдер активен, если он отмечен в `stock_photos_providers` И (его ключ заполнен ИЛИ он keyless)** — см. `cw_stock_photos_providers()`. Openverse — `keyless`, ключ не нужен.
+
+### Freepik: особенности
+
+- Endpoint: `https://api.freepik.com/v1/resources` (Resources API v1).
+- Auth: заголовок `x-freepik-api-key: {key}`.
+- Только фото (`media: ['photo']`); видео-поиска нет.
+- Ориентация через `filters[orientation][landscape|portrait|square]=1` — передаётся напрямую в `cw_stock_photos_fetch_freepik()`, в `cw_stock_orientation_value()` не добавлялась.
+- `full` = URL из `image.source.url` (превью-размер); оригинал высокого разрешения требует платного плана.
+- CDN-хосты в allowlist: `img.freepik.com`, `cdn.freepik.com`.
+- Бесплатный план: ~100 запросов/день, обязательна атрибуция.
+- Лицензия: `"Free to use with attribution. Link to Freepik and the author in your work."`
 
 ### Openverse: особенности
 
@@ -89,9 +101,21 @@
 
 При импорте в post meta вложения пишутся:
 
+При импорте также автоматически создаётся запись CPT `media_license` (модуль Image Licenses):
+
+| Поле лицензии | Значение |
+|---------------|----------|
+| `post_title` | `"{Provider} — {alt text}"` |
+| `_license_type` | Строка лицензии провайдера |
+| `_item_url` | `source_url` (страница фото у провайдера) |
+| `_download_date` | Дата импорта (`Y-m-d`) |
+| `licensor_author` | Таксономия-термин с именем автора |
+
+Вложение связывается с лицензией через `_media_license_id`. Если CPT `media_license` не зарегистрирован — запись не создаётся (функция `cw_stock_photos_create_license()` в `import.php`).
+
 | Meta | Значение |
 |------|----------|
-| `_cw_stock_provider` | `unsplash` / `pexels` / `pixabay` |
+| `_cw_stock_provider` | `unsplash` / `pexels` / `pixabay` / `freepik` |
 | `_cw_stock_author` | Имя автора |
 | `_cw_stock_author_url` | Профиль автора |
 | `_cw_stock_source_url` | Страница изображения у провайдера |

@@ -31,6 +31,7 @@ function cw_stock_photos_allowed_hosts() {
 		// Openverse previews are served from its own host; full files live on
 		// arbitrary source hosts and are validated via wp_http_validate_url().
 		'openverse' => array( 'api.openverse.org' ),
+		'freepik'   => array( 'img.freepik.com', 'cdn.freepik.com' ),
 	);
 }
 
@@ -164,6 +165,13 @@ function cw_stock_photos_ajax_import() {
 	update_post_meta( $attachment_id, '_cw_stock_author_url', $author_url );
 	update_post_meta( $attachment_id, '_cw_stock_source_url', $source_url );
 
+	// Auto-create a media_license record and link it to the attachment.
+	$license_text = $providers[ $provider ]['license'] ?? '';
+	$license_id   = cw_stock_photos_create_license( $provider, $alt, $author, $author_url, $source_url, $license_text );
+	if ( $license_id ) {
+		update_post_meta( $attachment_id, '_media_license_id', $license_id );
+	}
+
 	$thumb = wp_get_attachment_image_url( $attachment_id, 'thumbnail' );
 	$full  = wp_get_attachment_image_url( $attachment_id, 'full' );
 
@@ -175,6 +183,62 @@ function cw_stock_photos_ajax_import() {
 			'editLink' => get_edit_post_link( $attachment_id, 'raw' ),
 		)
 	);
+}
+
+/**
+ * Auto-create a media_license CPT record for an imported stock photo.
+ *
+ * Creates a licensor_author taxonomy term for the photographer if it doesn't
+ * exist yet, then inserts a media_license post and returns its ID.
+ *
+ * @param string $provider     Provider slug (unsplash, pexels, etc.).
+ * @param string $alt          Photo title / alt text.
+ * @param string $author       Photographer's display name.
+ * @param string $author_url   Photographer's profile URL.
+ * @param string $source_url   Photo page URL on the provider's site.
+ * @param string $license_text Human-readable license description.
+ * @return int|null New post ID, or null on failure.
+ */
+function cw_stock_photos_create_license( $provider, $alt, $author, $author_url, $source_url, $license_text ) {
+	$provider_labels = array(
+		'unsplash'  => 'Unsplash',
+		'pexels'    => 'Pexels',
+		'pixabay'   => 'Pixabay',
+		'openverse' => 'Openverse',
+		'freepik'   => 'Freepik',
+	);
+	$label = $provider_labels[ $provider ] ?? ucfirst( $provider );
+	$title = $alt ? $label . ' — ' . $alt : $label;
+	$title = mb_substr( $title, 0, 200 );
+
+	$license_id = wp_insert_post( array(
+		'post_type'   => 'media_license',
+		'post_title'  => $title,
+		'post_status' => 'publish',
+	) );
+
+	if ( is_wp_error( $license_id ) || ! $license_id ) {
+		return null;
+	}
+
+	update_post_meta( $license_id, '_license_type', $license_text );
+	update_post_meta( $license_id, '_item_url', $source_url );
+	update_post_meta( $license_id, '_download_date', gmdate( 'Y-m-d' ) );
+
+	if ( $author ) {
+		$term = get_term_by( 'name', $author, 'licensor_author' );
+		if ( $term ) {
+			$term_id = (int) $term->term_id;
+		} else {
+			$inserted = wp_insert_term( $author, 'licensor_author', array( 'description' => $author_url ) );
+			$term_id  = is_wp_error( $inserted ) ? null : (int) $inserted['term_id'];
+		}
+		if ( $term_id ) {
+			wp_set_object_terms( $license_id, array( $term_id ), 'licensor_author', false );
+		}
+	}
+
+	return $license_id;
 }
 
 /**
