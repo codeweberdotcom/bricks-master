@@ -290,10 +290,10 @@ var theme = {
       link.addEventListener("click", clickHandler);
     }
     function clickHandler(e) {
-      e.preventDefault();
       this.blur();
       const href = this.getAttribute("href");
       if (!href || !href.startsWith('#')) return;
+      e.preventDefault();
       
       const targetElement = document.querySelector(href);
       if (!targetElement) return;
@@ -319,6 +319,20 @@ var theme = {
         top: Math.max(0, offsetTop),
         behavior: "smooth",
       });
+    }
+
+    // Smooth scroll to hash anchor on page load (for cross-page links like /#section)
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+      if (target) {
+        setTimeout(() => {
+          let headerOffset = 0;
+          const navbar = document.querySelector(".navbar-clone.navbar-stick, .navbar.fixed, .navbar");
+          if (navbar) headerOffset = navbar.offsetHeight || 0;
+          const offsetTop = target.offsetTop - headerOffset - 20;
+          scroll({ top: Math.max(0, offsetTop), behavior: "smooth" });
+        }, 100);
+      }
     }
   },
   /**

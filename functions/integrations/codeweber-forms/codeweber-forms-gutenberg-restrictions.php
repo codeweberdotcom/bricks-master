@@ -36,7 +36,7 @@ class CodeweberFormsGutenbergRestrictions {
             'codeweber-blocks/card',
             'codeweber-blocks/feature',
             'codeweber-blocks/image-simple',
-            'codeweber-blocks/media',
+            'codeweber-blocks/video',
             'codeweber-blocks/lists',
             'codeweber-blocks/accordion',
             'codeweber-blocks/tabs',
