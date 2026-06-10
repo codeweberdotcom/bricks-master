@@ -31,7 +31,6 @@ function cw_stock_photos_allowed_hosts() {
 		// Openverse previews are served from its own host; full files live on
 		// arbitrary source hosts and are validated via wp_http_validate_url().
 		'openverse' => array( 'api.openverse.org' ),
-		'freepik'   => array( 'img.freepik.com', 'cdn.freepik.com' ),
 	);
 }
 
