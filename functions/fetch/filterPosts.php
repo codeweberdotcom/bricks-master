@@ -826,6 +826,7 @@ function _fp_render_cw_websites_overlay( $query ) {
 		$website_url = get_post_meta( $post_id, '_ws_url', true );
 		$screenshot  = (int) get_post_meta( $post_id, '_ws_screenshot', true );
 		$price       = get_post_meta( $post_id, '_ws_price', true );
+		$launch_time = get_post_meta( $post_id, '_ws_launch_time', true );
 		$cms         = get_post_meta( $post_id, '_ws_cms', true );
 		$status      = get_post_meta( $post_id, '_ws_status', true ) ?: 'for_sale';
 		$permalink   = get_permalink();
@@ -841,8 +842,8 @@ function _fp_render_cw_websites_overlay( $query ) {
 		$st = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
 
 		$img_html = $screenshot
-			? wp_get_attachment_image( $screenshot, 'large', false, [ 'class' => 'w-100 rounded', 'alt' => esc_attr( $title ) ] )
-			: '<div class="w-100 rounded bg-soft-ash" style="height:260px;"></div>';
+			? '<div class="cw-it-screen overflow-hidden">' . wp_get_attachment_image( $screenshot, 'full', false, [ 'class' => 'cw-it-screenshot d-block w-100 h-auto', 'alt' => esc_attr( $title ) ] ) . '</div>'
+			: '<div class="cw-it-screen cw-it-screenshot-placeholder overflow-hidden bg-soft-ash"></div>';
 
 		echo '<div class="col-md-6 col-xl-4">';
 		echo '<figure class="overlay overlay-5 rounded card-interactive mb-0">';
@@ -869,8 +870,9 @@ function _fp_render_cw_websites_overlay( $query ) {
 			echo '<button type="button" class="btn btn-sm btn-white rounded-pill btn-icon btn-icon-start has-ripple" data-bs-toggle="modal" data-bs-target="#cw-preview-modal" data-website-url="' . esc_url( $website_url ) . '" data-website-title="' . esc_attr( wp_strip_all_tags( $title ) ) . '"><i class="uil uil-eye"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</button>';
 		}
 		echo '</div></div></figcaption>';
-		echo '<div class="hover_card_button_hide position-absolute top-0 end-0 p-5 zindex-10">';
-		echo '<span class="badge ' . esc_attr( $st['class'] ) . '">' . $st['label'] . '</span>';
+		echo '<div class="hover_card_button_hide position-absolute top-0 end-0 p-4 zindex-10 d-flex flex-column align-items-end gap-1">';
+		if ( $price ) echo '<span class="badge bg-green rounded-pill">' . esc_html( $price ) . '</span>';
+		if ( $launch_time ) echo '<span class="badge bg-pale-yellow text-yellow rounded-pill">' . esc_html( $launch_time ) . '</span>';
 		echo '</div>';
 		echo '</figure></div>';
 	}
