@@ -655,4 +655,10 @@ function codeweber_register_staff_rest_fields() {
 		]);
 	}
 }
+
+add_action( 'pre_get_posts', function ( $query ) {
+	if ( ! is_admin() && $query->is_main_query() && $query->is_post_type_archive( 'staff' ) ) {
+		$query->set( 'posts_per_page', -1 );
+	}
+} );
 add_action('rest_api_init', 'codeweber_register_staff_rest_fields');

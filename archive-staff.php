@@ -80,7 +80,6 @@ $self_contained = [ 'staff_1' ];
           <!-- /.grid -->
       <?php endif; ?>
 
-      <?php codeweber_posts_pagination(); ?>
           </div>
           <!-- /column -->
 

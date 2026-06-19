@@ -106,8 +106,6 @@ if ( ! empty( $all_staff ) ) {
 				<?php endwhile; ?>
 			</div>
 
-			<?php codeweber_pagination(); ?>
-
 			<?php else : ?>
 			<p class="text-muted"><?php esc_html_e( 'No staff found.', 'codeweber' ); ?></p>
 			<?php endif; ?>
