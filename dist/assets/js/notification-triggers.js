@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
 
+    // Do not fire notifications when the page is embedded in an iframe.
+    if (window.self !== window.top) {
+        return;
+    }
+
     // Get trigger data from modal element
     const triggerType = modalElement.getAttribute('data-trigger-type');
     const triggerInactivity = modalElement.getAttribute('data-trigger-inactivity');
