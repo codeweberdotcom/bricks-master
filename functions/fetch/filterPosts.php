@@ -789,6 +789,10 @@ function _fp_render_cw_websites_grid( $query, $template = 'cw_websites_1' ) {
 		_fp_render_cw_websites_rows( $query );
 		return;
 	}
+	if ( $template === 'cw_websites_3' ) {
+		_fp_render_cw_websites_overlay( $query );
+		return;
+	}
 
 	$grid_gap = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
 
@@ -799,6 +803,76 @@ function _fp_render_cw_websites_grid( $query, $template = 'cw_websites_1' ) {
 		if ( function_exists( 'cw_wfs_render_card' ) ) {
 			cw_wfs_render_card( get_the_ID() );
 		}
+	}
+
+	echo '</div>';
+}
+
+function _fp_render_cw_websites_overlay( $query ) {
+	$grid_gap = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+
+	$status_cfg = [
+		'for_sale' => [ 'label' => esc_html__( 'For Sale', 'cw-websites-for-sale' ), 'class' => 'bg-success' ],
+		'sold'     => [ 'label' => esc_html__( 'Sold', 'cw-websites-for-sale' ),      'class' => 'bg-secondary' ],
+		'reserved' => [ 'label' => esc_html__( 'Reserved', 'cw-websites-for-sale' ),  'class' => 'bg-warning text-dark' ],
+	];
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id     = get_the_ID();
+		$title       = get_post_meta( $post_id, '_alt_title', true ) ?: get_the_title();
+		$website_url = get_post_meta( $post_id, '_ws_url', true );
+		$screenshot  = (int) get_post_meta( $post_id, '_ws_screenshot', true );
+		$price       = get_post_meta( $post_id, '_ws_price', true );
+		$cms         = get_post_meta( $post_id, '_ws_cms', true );
+		$status      = get_post_meta( $post_id, '_ws_status', true ) ?: 'for_sale';
+		$permalink   = get_permalink();
+
+		$cats     = get_the_terms( $post_id, 'website_category' );
+		$tags     = get_the_terms( $post_id, 'website_tag' );
+		$cat_name = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+		$excerpt  = get_the_excerpt();
+		if ( ! $excerpt && $cms ) {
+			$excerpt = $cms . ( $price ? ' · ' . $price : '' );
+		}
+
+		$st = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
+
+		$img_html = $screenshot
+			? wp_get_attachment_image( $screenshot, 'large', false, [ 'class' => 'w-100 rounded', 'alt' => esc_attr( $title ) ] )
+			: '<div class="w-100 rounded bg-soft-ash" style="height:260px;"></div>';
+
+		echo '<div class="col-md-6 col-xl-4">';
+		echo '<figure class="overlay overlay-5 rounded card-interactive mb-0">';
+		echo '<a href="' . esc_url( $permalink ) . '">';
+		echo '<div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">';
+		if ( $cat_name ) echo '<div class="post-category text-white opacity-75 small">' . esc_html( $cat_name ) . '</div>';
+		echo '<div class="mt-auto">';
+		echo '<h3 class="h5 text-white mb-1">' . esc_html( $title ) . '</h3>';
+		if ( $price ) echo '<div class="fw-bold text-white opacity-90">' . esc_html( $price ) . '</div>';
+		echo '</div></div>';
+		echo $img_html;
+		echo '</a>';
+		echo '<figcaption class="p-5">';
+		echo '<div class="post-body h-100 d-flex flex-column from-left justify-content-end">';
+		if ( $excerpt ) echo '<p class="mb-3">' . esc_html( $excerpt ) . '</p>';
+		if ( $tags && ! is_wp_error( $tags ) ) {
+			echo '<div class="d-flex flex-wrap gap-1 mb-3">';
+			foreach ( $tags as $tag ) echo '<span class="badge bg-white text-dark opacity-90">' . esc_html( $tag->name ) . '</span>';
+			echo '</div>';
+		}
+		echo '<div class="d-flex align-items-center gap-3">';
+		echo '<a href="' . esc_url( $permalink ) . '" class="hover more me-4">' . esc_html__( 'More details', 'cw-websites-for-sale' ) . '</a>';
+		if ( $website_url ) {
+			echo '<button type="button" class="btn btn-sm btn-white rounded-pill btn-icon btn-icon-start has-ripple" data-bs-toggle="modal" data-bs-target="#cw-preview-modal" data-website-url="' . esc_url( $website_url ) . '" data-website-title="' . esc_attr( wp_strip_all_tags( $title ) ) . '"><i class="uil uil-eye"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</button>';
+		}
+		echo '</div></div></figcaption>';
+		echo '<div class="hover_card_button_hide position-absolute top-0 end-0 p-5 zindex-10">';
+		echo '<span class="badge ' . esc_attr( $st['class'] ) . '">' . $st['label'] . '</span>';
+		echo '</div>';
+		echo '</figure></div>';
 	}
 
 	echo '</div>';
