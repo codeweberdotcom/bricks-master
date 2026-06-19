@@ -528,3 +528,13 @@ figure.overlay img {
 .col-6 .bottom-overlay::after {
   height: 100%;
 }
+
+// Image scroll on hover
+.img-scroll-wrap {
+  overflow: hidden;
+}
+.img-scroll-wrap .img-scroll {
+  transition: transform 10s linear;
+  transform: translateY(0);
+  display: block;
+}

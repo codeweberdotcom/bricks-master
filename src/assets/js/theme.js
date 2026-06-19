@@ -21,6 +21,7 @@ var theme = {
     theme.backgroundImage();
     theme.backgroundImageMobile();
     theme.imageHoverOverlay();
+    theme.imageScrollOnHover();
     theme.rellax();
     theme.scrollCue();
     theme.swiperSlider();
@@ -395,6 +396,32 @@ var theme = {
       overlay_bg.className = "bg";
       overlay[i].appendChild(overlay_bg);
     }
+  },
+  /**
+   * Image Scroll on Hover
+   * Scrolls tall images upward on hover to reveal full content.
+   * Requires .img-scroll-wrap (overflow:hidden container) and .img-scroll on the img.
+   * The hover trigger is the closest figure, .card, or the wrap itself.
+   */
+  imageScrollOnHover: function (root) {
+    (root || document).querySelectorAll(".img-scroll-wrap").forEach(function (wrap) {
+      if (wrap.dataset.cwScrollInit) return;
+      wrap.dataset.cwScrollInit = "1";
+      var img = wrap.querySelector(".img-scroll");
+      if (!img) return;
+      var trigger = wrap.closest("figure, .card") || wrap;
+      function getScrollDist() {
+        var imgH = img.naturalHeight * (img.offsetWidth / img.naturalWidth);
+        return Math.max(0, imgH - wrap.offsetHeight);
+      }
+      trigger.addEventListener("mouseenter", function () {
+        var dist = getScrollDist();
+        if (dist > 0) img.style.transform = "translateY(-" + dist + "px)";
+      });
+      trigger.addEventListener("mouseleave", function () {
+        img.style.transform = "translateY(0)";
+      });
+    });
   },
   /**
    * Rellax.js
