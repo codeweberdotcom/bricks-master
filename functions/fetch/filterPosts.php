@@ -5,7 +5,7 @@ namespace Codeweber\Functions\Fetch;
 defined( 'ABSPATH' ) || exit;
 
 function filterPosts( $params ) {
-	$allowed_post_types = [ 'post', 'vacancies', 'products', 'staff', 'events', 'projects', 'services' ];
+	$allowed_post_types = [ 'post', 'vacancies', 'products', 'staff', 'events', 'projects', 'services', 'cw_website' ];
 	$post_type          = sanitize_key( $params['post_type'] ?? 'post' );
 
 	if ( ! in_array( $post_type, $allowed_post_types, true ) ) {
@@ -38,6 +38,8 @@ function filterPosts( $params ) {
 		$args = _fp_apply_projects_filters( $args, $filters );
 	} elseif ( $post_type === 'services' ) {
 		$args = _fp_apply_services_filters( $args, $filters );
+	} elseif ( $post_type === 'cw_website' ) {
+		$args = _fp_apply_cw_website_filters( $args, $filters );
 	}
 
 	$query = new \WP_Query( $args );
@@ -64,6 +66,8 @@ function filterPosts( $params ) {
 			_fp_render_projects_grid( $query, $template );
 		} elseif ( $post_type === 'services' ) {
 			_fp_render_services_grid( $query, $template );
+		} elseif ( $post_type === 'cw_website' ) {
+			_fp_render_cw_websites_grid( $query, $template );
 		} else {
 			while ( $query->have_posts() ) {
 				$query->the_post();
@@ -746,6 +750,141 @@ function _fp_apply_services_filters( $args, $filters ) {
 	$args['order']   = 'ASC';
 
 	return $args;
+}
+
+function _fp_apply_cw_website_filters( $args, $filters ) {
+	$tax_query = [];
+
+	if ( ! empty( $filters['website_category'] ) ) {
+		$tax_query[] = [
+			'taxonomy' => 'website_category',
+			'field'    => 'term_id',
+			'terms'    => intval( $filters['website_category'] ),
+		];
+	}
+
+	if ( ! empty( $filters['website_tag'] ) ) {
+		$tax_query[] = [
+			'taxonomy' => 'website_tag',
+			'field'    => 'term_id',
+			'terms'    => intval( $filters['website_tag'] ),
+		];
+	}
+
+	if ( ! empty( $tax_query ) ) {
+		if ( count( $tax_query ) > 1 ) {
+			$tax_query['relation'] = 'AND';
+		}
+		$args['tax_query'] = $tax_query;
+	}
+
+	$args['orderby'] = 'date';
+	$args['order']   = 'DESC';
+
+	return $args;
+}
+
+function _fp_render_cw_websites_grid( $query, $template = 'cw_websites_1' ) {
+	if ( $template === 'cw_websites_2' ) {
+		_fp_render_cw_websites_rows( $query );
+		return;
+	}
+
+	$grid_gap = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		if ( function_exists( 'cw_wfs_render_card' ) ) {
+			cw_wfs_render_card( get_the_ID() );
+		}
+	}
+
+	echo '</div>';
+}
+
+function _fp_render_cw_websites_rows( $query ) {
+	$index     = 0;
+	$btn_style = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'button' ) : ' rounded-pill';
+	$card_radius = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'card-radius' ) : 'rounded';
+
+	$status_cfg = [
+		'for_sale' => [ 'label' => esc_html__( 'For Sale', 'cw-websites-for-sale' ),  'class' => 'bg-success' ],
+		'sold'     => [ 'label' => esc_html__( 'Sold', 'cw-websites-for-sale' ),       'class' => 'bg-secondary' ],
+		'reserved' => [ 'label' => esc_html__( 'Reserved', 'cw-websites-for-sale' ),   'class' => 'bg-warning text-dark' ],
+	];
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id     = get_the_ID();
+		$title       = get_post_meta( $post_id, '_alt_title', true ) ?: get_the_title();
+		$website_url = get_post_meta( $post_id, '_ws_url', true );
+		$screenshot  = (int) get_post_meta( $post_id, '_ws_screenshot', true );
+		$price       = get_post_meta( $post_id, '_ws_price', true );
+		$cms         = get_post_meta( $post_id, '_ws_cms', true );
+		$launch_time = get_post_meta( $post_id, '_ws_launch_time', true );
+		$status      = get_post_meta( $post_id, '_ws_status', true ) ?: 'for_sale';
+		$url_display = $website_url ? preg_replace( '#^https?://#', '', rtrim( $website_url, '/' ) ) : '';
+		$permalink   = get_permalink();
+		$is_even     = ( $index % 2 === 1 );
+		$index++;
+
+		$cats     = get_the_terms( $post_id, 'website_category' );
+		$tags     = get_the_terms( $post_id, 'website_tag' );
+		$cat_name = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+		$st       = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
+
+		echo '<div class="row gy-10 align-items-center mb-15 mb-md-17">';
+
+		// Screenshot column
+		echo '<div class="col-lg-7' . ( $is_even ? ' order-lg-2' : '' ) . '">';
+		echo '<div class="card shadow-sm ' . esc_attr( $card_radius ) . ' overflow-hidden">';
+		echo '<div class="cw-browser-bar d-flex align-items-center bg-navy gap-1 px-3 py-0">';
+		echo '<span class="cw-browser-dot cw-browser-dot--red rounded-circle flex-shrink-0"></span>';
+		echo '<span class="cw-browser-dot cw-browser-dot--yellow rounded-circle flex-shrink-0"></span>';
+		echo '<span class="cw-browser-dot cw-browser-dot--green rounded-circle flex-shrink-0"></span>';
+		if ( $url_display ) {
+			echo '<span class="cw-browser-url flex-grow-1 text-truncate bg-white rounded-1 px-2 text-muted ms-2">' . esc_html( $url_display ) . '</span>';
+		}
+		echo '</div>';
+		echo '<div class="cw2-screen position-relative">';
+		echo '<span class="badge ' . esc_attr( $st['class'] ) . ' position-absolute top-0 start-0 m-2" style="z-index:2;">' . $st['label'] . '</span>';
+		if ( $screenshot ) {
+			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'class' => 'w-100 d-block', 'alt' => esc_attr( $title ) ] );
+		} else {
+			echo '<div style="height:320px;background:#f1f3f5;"></div>';
+		}
+		echo '</div></div></div>';
+
+		// Info column
+		echo '<div class="col-lg-4' . ( $is_even ? ' me-auto' : ' ms-auto' ) . '">';
+		if ( $cat_name ) echo '<div class="post-category text-line mb-3">' . esc_html( $cat_name ) . '</div>';
+		echo '<h2 class="h2 post-title ls-sm mb-4"><a href="' . esc_url( $permalink ) . '" class="link-dark text-decoration-none">' . esc_html( $title ) . '</a></h2>';
+
+		if ( $price || $cms || $launch_time ) {
+			echo '<ul class="list-unstyled mb-5">';
+			if ( $price ) echo '<li class="d-flex justify-content-between border-bottom py-2"><span class="text-muted">' . esc_html__( 'Price', 'cw-websites-for-sale' ) . '</span><strong class="text-primary">' . esc_html( $price ) . '</strong></li>';
+			if ( $cms ) echo '<li class="d-flex justify-content-between border-bottom py-2"><span class="text-muted">' . esc_html__( 'Platform', 'cw-websites-for-sale' ) . '</span><strong>' . esc_html( $cms ) . '</strong></li>';
+			if ( $launch_time ) echo '<li class="d-flex justify-content-between border-bottom py-2"><span class="text-muted">' . esc_html__( 'Launch time', 'cw-websites-for-sale' ) . '</span><strong>' . esc_html( $launch_time ) . '</strong></li>';
+			echo '</ul>';
+		}
+
+		if ( $tags && ! is_wp_error( $tags ) ) {
+			echo '<div class="d-flex flex-wrap gap-1 mb-5">';
+			foreach ( $tags as $tag ) echo '<span class="badge bg-soft-ash text-ash">' . esc_html( $tag->name ) . '</span>';
+			echo '</div>';
+		}
+
+		echo '<div class="d-flex flex-wrap gap-2">';
+		echo '<a href="' . esc_url( $permalink ) . '" class="btn btn-primary' . esc_attr( $btn_style ) . ' has-ripple">' . esc_html__( 'View details', 'cw-websites-for-sale' ) . '</a>';
+		if ( $website_url ) {
+			echo '<button type="button" class="btn btn-outline-primary' . esc_attr( $btn_style ) . ' btn-icon btn-icon-start has-ripple" data-bs-toggle="modal" data-bs-target="#cw-preview-modal" data-website-url="' . esc_url( $website_url ) . '" data-website-title="' . esc_attr( wp_strip_all_tags( $title ) ) . '"><i class="uil uil-eye"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</button>';
+		}
+		echo '</div></div>';
+
+		echo '</div>';
+	}
 }
 
 function _fp_render_services_grid( $query, $template ) {
