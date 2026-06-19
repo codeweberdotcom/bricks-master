@@ -842,16 +842,16 @@ function _fp_render_cw_websites_overlay( $query ) {
 		$st = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
 
 		$img_html = $screenshot
-			? '<div class="cw-it-screen overflow-hidden">' . wp_get_attachment_image( $screenshot, 'full', false, [ 'class' => 'cw-it-screenshot d-block w-100 h-auto', 'alt' => esc_attr( $title ) ] ) . '</div>'
-			: '<div class="cw-it-screen cw-it-screenshot-placeholder overflow-hidden bg-soft-ash"></div>';
+			? '<div class="cw-it-screen overflow-hidden" data-h="340">' . wp_get_attachment_image( $screenshot, 'full', false, [ 'class' => 'cw-it-screenshot d-block w-100 h-auto', 'alt' => esc_attr( $title ) ] ) . '</div>'
+			: '<div class="cw-it-screen cw-it-screenshot-placeholder overflow-hidden bg-soft-ash" data-h="340"></div>';
 
 		echo '<div class="col-md-6 col-xl-4">';
 		echo '<figure class="overlay overlay-5 rounded card-interactive mb-0">';
 		echo '<a href="' . esc_url( $permalink ) . '">';
 		echo '<div class="bottom-overlay post-meta fs-16 position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">';
-		if ( $cat_name ) echo '<div class="post-category text-white opacity-75 small">' . esc_html( $cat_name ) . '</div>';
 		echo '<div class="mt-auto">';
 		echo '<h3 class="h5 text-white mb-1">' . esc_html( $title ) . '</h3>';
+		if ( $cat_name ) echo '<div class="post-category text-white opacity-75 small mb-1">' . esc_html( $cat_name ) . '</div>';
 		if ( $price ) echo '<div class="fw-bold text-white opacity-90">' . esc_html( $price ) . '</div>';
 		echo '</div></div>';
 		echo $img_html;
