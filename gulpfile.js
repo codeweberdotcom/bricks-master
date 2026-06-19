@@ -252,16 +252,8 @@ var path = {
     woocomparejs: srcPrefix + "/assets/js/woo-compare.js",
     style: srcPrefix + "/assets/scss/style.scss",
     fontcss: srcPrefix + "/assets/scss/fonts/*.*",
-    // When building for child theme: use child's style.scss if it exists (ensures child's _user-variables with correct fonts)
-    styleEntry: (function() {
-      if (isChild) {
-        var childStyle = path_module.join(currentThemePath, 'src', 'assets', 'scss', 'style.scss');
-        if (fs.existsSync(childStyle)) {
-          return childStyle;
-        }
-      }
-      return path_module.join(parentThemePath, 'src', 'assets', 'scss', 'style.scss');
-    })(),
+    // Always use parent's style.scss as entry; child overrides come via sassChildImporter
+    styleEntry: path_module.join(parentThemePath, 'src', 'assets', 'scss', 'style.scss'),
     colorcss: [
       srcPrefix + "/assets/scss/colors/*.scss",
       srcPrefix + "/assets/scss/theme/_colors.scss",
@@ -327,11 +319,14 @@ var path = {
   },
 };
 
-/* SASS includePaths: активная тема первая, чтобы @import 'user-variables' брал _user-variables из неё */
+/* SASS includePaths */
 var sassIncludePaths = [path_module.join(currentThemePath, 'src', 'assets', 'scss')];
 if (isChild) {
   sassIncludePaths.push(path_module.join(parentThemePath, 'src', 'assets', 'scss'));
 }
+
+/* Unified sass options */
+var sassOptions = { includePaths: sassIncludePaths };
 
 /* Include gulp and plugins */
 var gulp = require('gulp'),
@@ -356,8 +351,32 @@ var gulp = require('gulp'),
     jsImport = require('gulp-js-import'),
     newer = require('gulp-newer'),
     replace = require('gulp-replace'),
+    through2 = require('through2'),
     touch = require('gulp-touch-cmd');
-    
+
+/* For child themes: rewrite @import 'user-variables' / @import 'user' to absolute child paths.
+ * This ensures child's _user-variables.scss and _user.scss override parent's,
+ * without requiring a style.scss in the child theme. */
+var childVarsFile = isChild ? path_module.join(currentThemePath, 'src', 'assets', 'scss', '_user-variables.scss') : null;
+var childUserFile = isChild ? path_module.join(currentThemePath, 'src', 'assets', 'scss', '_user.scss') : null;
+function childImportReplace() {
+  if (!isChild) return through2.obj();
+  return through2.obj(function(file, enc, cb) {
+    if (!file.isBuffer()) return cb(null, file);
+    var content = file.contents.toString(enc);
+    if (childVarsFile && fs.existsSync(childVarsFile)) {
+      var absVars = childVarsFile.replace(/\\/g, '/');
+      content = content.replace(/@import\s+['"][^'"]*user-variables['"]/g, "@import '" + absVars + "'");
+    }
+    if (childUserFile && fs.existsSync(childUserFile)) {
+      var absUser = childUserFile.replace(/\\/g, '/');
+      content = content.replace(/@import\s+['"]user['"]/g, "@import '" + absUser + "'");
+    }
+    file.contents = Buffer.from(content, enc);
+    cb(null, file);
+  });
+}
+
 /* Server */
 var config = {
     server: {
@@ -815,7 +834,8 @@ gulp.task('css:dev', function () {
   return gulp.src(path.src.styleEntry)
     .pipe(newer(path.dev.style))
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(childImportReplace())
+    .pipe(sass(sassOptions)
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -832,7 +852,8 @@ gulp.task('css:dist', function () {
     .pipe(newer(path.dist.style))
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(childImportReplace())
+    .pipe(sass(sassOptions)
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -867,7 +888,8 @@ gulp.task('fontcss:dev', function () {
   return gulp.src(path.src.fontcss)
     .pipe(newer(path.dev.fontcss))
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(childImportReplace())
+    .pipe(sass(sassOptions)
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -884,7 +906,8 @@ gulp.task('fontcss:dist', function () {
   return gulp.src(path.src.fontcss)
     .pipe(newer(path.dist.fontcss))
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(childImportReplace())
+    .pipe(sass(sassOptions)
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -903,7 +926,8 @@ gulp.task('fontcss:dist', function () {
 gulp.task('colorcss:dev', function () {
   return gulp.src(path.src.colorcss)
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(childImportReplace())
+    .pipe(sass(sassOptions)
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');
@@ -918,7 +942,8 @@ gulp.task('colorcss:dev', function () {
 gulp.task('colorcss:dist', function () {
   return gulp.src(path.src.colorcss)
     .pipe(plumber())
-    .pipe(sass({ includePaths: sassIncludePaths })
+    .pipe(childImportReplace())
+    .pipe(sass(sassOptions)
       .on('error', function (err) {
         sass.logError(err);
         this.emit('end');

@@ -177,144 +177,84 @@ my-awesome-site/
 - Parent theme's `functions.php` (instead, add filters/actions in child's `functions.php`)
 - Redux Framework configuration (modify via filters instead)
 
-## Step 6: Setup Gulp for Child Theme
+## Step 6: Create SCSS Source Files
 
-Copy Gulp configuration from parent and adapt for child:
+Child theme uses the **parent's Gulp** — no separate `gulpfile.js` needed. Gulp detects the active child theme via WordPress and compiles assets into `child-theme/dist/`.
 
-**File**: `/wp-content/themes/my-awesome-site/gulpfile.js`
+### ⚠️ Critical: style.scss MUST exist in child theme
 
-```javascript
-const gulp = require('gulp');
-const sass = require('gulp-sass')(require('sass'));
-const browserSync = require('browser-sync').create();
-const uglify = require('gulp-uglify');
-const cleanCSS = require('gulp-clean-css');
-const autoprefixer = require('gulp-autoprefixer');
-const rename = require('gulp-rename');
+SASS resolves `@import 'user-variables'` **relative to the current file first** (before checking includePaths).
+If the child theme has no `style.scss`, Gulp falls back to the parent's `style.scss`, which resolves `_user-variables.scss` from the **parent's** scss directory — your child's overrides are silently ignored.
 
-const DIST = './dist';
-const SRC = './src';
+**Solution**: create `src/assets/scss/style.scss` in the child theme that mirrors the parent's import chain.
 
-// SCSS Compilation
-gulp.task('scss', function() {
-    return gulp.src(`${SRC}/scss/**/*.scss`)
-        .pipe(sass().on('error', sass.logError))
-        .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
-        .pipe(cleanCSS())
-        .pipe(gulp.dest(`${DIST}/assets/css`))
-        .pipe(browserSync.stream());
-});
-
-// JavaScript Bundling
-gulp.task('js', function() {
-    return gulp.src(`${SRC}/js/**/*.js`)
-        .pipe(uglify())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest(`${DIST}/assets/js`))
-        .pipe(browserSync.stream());
-});
-
-// Image optimization
-gulp.task('images', function() {
-    return gulp.src(`${SRC}/images/**/*`)
-        .pipe(gulp.dest(`${DIST}/assets/images`));
-});
-
-// Watch files
-gulp.task('watch', function() {
-    gulp.watch(`${SRC}/scss/**/*.scss`, gulp.series('scss'));
-    gulp.watch(`${SRC}/js/**/*.js`, gulp.series('js'));
-    gulp.watch(`${SRC}/images/**/*`, gulp.series('images'));
-});
-
-// BrowserSync
-gulp.task('serve', function() {
-    browserSync.init({
-        proxy: 'localhost/codeweber2026',
-        port: 3000,
-        open: false
-    });
-
-    gulp.watch(`${SRC}/scss/**/*.scss`, gulp.series('scss'));
-    gulp.watch(`${SRC}/js/**/*.js`, gulp.series('js'));
-});
-
-// Build task
-gulp.task('build', gulp.parallel('scss', 'js', 'images'));
-
-// Default task
-gulp.task('default', gulp.series('build', 'serve'));
-```
-
-**Setup npm for child theme:**
-
-```bash
-cd /wp-content/themes/my-awesome-site
-npm init -y
-npm install --save-dev gulp gulp-sass gulp-uglify gulp-clean-css gulp-autoprefixer gulp-rename browser-sync sass
-```
-
-**Create src directory:**
-
-```bash
-mkdir -p src/scss src/js src/images
-mkdir -p dist/assets/{css,js,images}
-```
-
-**Create initial SCSS file** (`src/scss/style.scss`):
+**File**: `my-awesome-site/src/assets/scss/style.scss`
 
 ```scss
-// Child theme custom styles
-// Override parent theme variables and styles here
+/*!
+Theme Name: my-awesome-site (child of codeweber)
+*/
 
-// Example: customize Bootstrap colors
-// $primary: #003366;
-// $secondary: #ff6600;
+// sassIncludePaths: [child/src/assets/scss, parent/src/assets/scss]
+// So @import 'user-variables' resolves to THIS theme's _user-variables.scss
 
-// Import parent styles if needed
-// @import "../../codeweber/src/scss/style.scss";
+@import "../../../../codeweber/node_modules/bootstrap/scss/functions";
 
-// Add child-specific styles
-body {
-    // custom body styles
-}
+@import "theme-colors";        // from parent via includePaths
+@import 'user-variables';      // ← resolves to child's _user-variables.scss (this file's dir)
+@import "variables";           // from parent via includePaths
+
+@import "../../../../codeweber/node_modules/bootstrap/scss/variables";
+@import "../../../../codeweber/node_modules/bootstrap/scss/variables-dark";
+@import "theme/maps";
+@import "../../../../codeweber/node_modules/bootstrap/scss/mixins";
+@import "../../../../codeweber/node_modules/bootstrap/scss/utilities";
+
+@import "theme/functions";
+@import "theme/mixins";
+@import "theme/utilities";
+@import "theme/root";
+
+@import "bootstrap";
+@import "theme/theme";
+@import 'user';
 ```
 
-## Step 7: package.json Scripts
+> **Why copy the full import chain?** Because SCSS `@import` resolution is relative to the file containing the import. If parent's `style.scss` is the entry point, `@import 'user-variables'` finds parent's file. Child's `style.scss` with this same chain makes SASS start in the child directory, so `@import 'user-variables'` finds the child's `_user-variables.scss` first.
 
-Update `package.json` for convenient development:
+### Create _user-variables.scss
 
-```json
-{
-  "name": "my-awesome-site",
-  "version": "1.0.0",
-  "description": "Child theme of CodeWeber",
-  "scripts": {
-    "start": "gulp serve",
-    "build": "gulp build",
-    "watch": "gulp watch"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "gulp": "^4.0.0",
-    "gulp-sass": "^5.0.0",
-    "gulp-uglify": "^3.0.0",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-rename": "^2.0.0",
-    "browser-sync": "^2.27.0",
-    "sass": "^1.50.0"
-  }
-}
+**File**: `my-awesome-site/src/assets/scss/_user-variables.scss`
+
+```scss
+// IMPORTANT: $primary and $white are NOT available here (defined later in _variables.scss)
+// Use $blue instead of $primary, #ffffff instead of $white
+
+$blue: #ff5500;   // → $primary
+$body-bg: #ffffff;
+$body-color: #1a1a2e;
+
+$font-size-root: 16px;       // parent default: 20px
+$font-size-base: 1rem;       // 16px
+$font-weight-normal: 400;    // parent default: 500
+
+//START IMPORT FONTS
+// @import url('https://fonts.googleapis.com/css2?family=YourFont:wght@300;400;600&display=swap');
+//END IMPORT FONTS
 ```
 
-**Usage:**
+**Import order**: `_theme-colors.scss` → `_user-variables.scss` → `_variables.scss`
+
+### Run the build
 
 ```bash
-npm start      # Run Gulp with BrowserSync
-npm run build  # Production build
-npm run watch  # Watch files without BrowserSync
+cd wp-content/themes/codeweber   # Always from PARENT directory
+npm run build                    # Gulp auto-detects active child theme
 ```
+
+Gulp outputs to `my-awesome-site/dist/` automatically.
+
+## Step 7: Activate in WordPress
 
 ## Step 8: Activate in WordPress
 
@@ -568,9 +508,12 @@ If parent adds new CPTs or features:
 | Issue | Solution |
 |-------|----------|
 | Child styles not loading | Verify `style.css` header has correct `Template:` field |
+| `_user-variables.scss` ignored | **Child theme MUST have `src/assets/scss/style.scss`** — without it Gulp uses parent's entry point and parent's variables win |
+| CSS variables show parent defaults (wrong colors/sizes) | See above — create `style.scss` in child copying the import chain from `hoger` or another child theme |
+| `--bs-primary` correct in source but wrong in browser | Redux → Appearance → Color Scheme is set to e.g. "aqua" — it loads `aqua.css` after `style.css` and overrides `--bs-primary`. Set to **Default** (no scheme) to let compiled primary win |
 | Functions not executing | Ensure `functions.php` is in child theme root, not subfolder |
 | Templates not overriding | Check path matches exactly: `templates/post-cards/staff/default.php` |
-| Assets 404 errors | Run `npm run build` to generate `dist/` files |
+| Assets 404 errors | Run `npm run build` from the **parent** theme directory to generate `dist/` |
 | Parent updates break child | Use filters instead of copying functions |
 
 ## Example: Complete Child Theme
