@@ -872,7 +872,7 @@ function _fp_render_cw_websites_overlay( $query ) {
 		echo '</div></div></figcaption>';
 		echo '<div class="hover_card_button_hide position-absolute top-0 end-0 p-4 zindex-10 d-flex flex-column align-items-end gap-1">';
 		if ( $price ) echo '<span class="badge bg-green rounded-pill">' . esc_html( $price ) . '</span>';
-		if ( $launch_time ) echo '<span class="badge bg-pale-yellow text-yellow rounded-pill">' . esc_html( $launch_time ) . '</span>';
+		if ( $launch_time ) echo '<span class="badge bg-yellow text-yellow rounded-pill">' . esc_html( $launch_time ) . '</span>';
 		echo '</div>';
 		echo '</figure></div>';
 	}
