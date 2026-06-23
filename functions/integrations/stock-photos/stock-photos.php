@@ -84,11 +84,29 @@ function cw_stock_photos_providers() {
 			'orientation' => true,
 			'license'     => __( 'Creative Commons / Public Domain. Check each item\'s license; attribution often required.', 'codeweber' ),
 		),
+		'vecteezy'  => array(
+			'label'       => 'Vecteezy',
+			'key'         => trim( (string) cw_stock_photos_option( 'vecteezy_secret_key', '' ) ),
+			'account'     => trim( (string) cw_stock_photos_option( 'vecteezy_account_id', '' ) ),
+			'keyless'     => false,
+			'media'       => array( 'photo', 'video' ),
+			'orientation' => true,
+			// Each import calls the metered /download endpoint (500/month).
+			'quota'       => true,
+			'license'     => __( 'Vecteezy Free License. Attribution is required and is stored automatically.', 'codeweber' ),
+		),
 	);
 
 	$out = array();
 	foreach ( $registry as $slug => $data ) {
 		if ( empty( $selected[ $slug ] ) ) {
+			continue;
+		}
+		// Vecteezy needs both an account id and a secret key.
+		if ( 'vecteezy' === $slug ) {
+			if ( '' !== $data['key'] && '' !== $data['account'] ) {
+				$out[ $slug ] = $data;
+			}
 			continue;
 		}
 		// Keyless providers (Openverse) are available without a key; others need one.
@@ -221,6 +239,7 @@ function cw_stock_photos_enqueue( $hook ) {
 			'license'     => $data['license'],
 			'media'       => $supported,
 			'orientation' => ! empty( $data['orientation'] ),
+			'quota'       => ! empty( $data['quota'] ),
 		);
 	}
 
@@ -266,6 +285,7 @@ function cw_stock_photos_enqueue( $hook ) {
 				'horizontal'  => __( 'Horizontal', 'codeweber' ),
 				'vertical'    => __( 'Vertical', 'codeweber' ),
 				'square'      => __( 'Square', 'codeweber' ),
+				'quotaNote'   => __( 'Import uses 1 of your monthly Vecteezy downloads.', 'codeweber' ),
 				'on'          => __( 'on', 'codeweber' ),
 				'openLibrary' => __( 'Open in Media Library', 'codeweber' ),
 				'startHint'   => __( 'Enter a query and press Search to find free photos.', 'codeweber' ),

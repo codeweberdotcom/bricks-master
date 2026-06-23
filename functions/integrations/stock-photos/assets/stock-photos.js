@@ -43,6 +43,7 @@
 			nonce:             CFG.nonce,
 			provider:          item.provider,
 			media_type:        item.media_type || 'photo',
+			id:                item.id || '',
 			url:               item.full,
 			alt:               item.alt,
 			author:            item.author,
@@ -94,6 +95,9 @@
 		// Orientation filter — rebuilt per provider (only when supported).
 		var $filters = $( '<div class="cw-stock-filters"></div>' );
 
+		// Per-provider note (e.g. Vecteezy download-quota warning).
+		var $note = $( '<div class="cw-stock-note"></div>' );
+
 		var $form = $(
 			'<div class="cw-stock-searchbar">' +
 				'<input type="search" class="cw-stock-input" placeholder="' + esc( I18N.searchPh ) + '">' +
@@ -105,11 +109,12 @@
 		var $grid   = $( '<div class="cw-stock-grid"></div>' );
 		var $more   = $( '<div class="cw-stock-more"><button type="button" class="button cw-stock-loadmore">' + esc( I18N.loadMore ) + '</button></div>' ).hide();
 
-		$root.append( $types, $tabs, $filters, $form, $status, $grid, $more );
+		$root.append( $types, $tabs, $filters, $note, $form, $status, $grid, $more );
 
 		this.$root    = $root;
 		this.$tabs    = $tabs;
 		this.$filters = $filters;
+		this.$note    = $note;
 		this.$input   = $form.find( '.cw-stock-input' );
 		this.$status  = $status;
 		this.$grid    = $grid;
@@ -179,6 +184,17 @@
 		}
 
 		this._renderFilters();
+		this._renderNote();
+	};
+
+	// Show a per-provider note (e.g. Vecteezy quota warning) when applicable.
+	SearchUI.prototype._renderNote = function () {
+		var prov = this.activeProvider();
+		if ( prov && prov.quota && I18N.quotaNote ) {
+			this.$note.text( I18N.quotaNote ).show();
+		} else {
+			this.$note.empty().hide();
+		}
 	};
 
 	SearchUI.prototype._bind = function () {
@@ -198,8 +214,9 @@
 			self.$root.find( '.cw-stock-prov' ).removeClass( 'is-active' );
 			$( this ).addClass( 'is-active' );
 			self.provider = $( this ).data( 'prov' );
-			// Orientation support is per-provider — rebuild the filter.
+			// Orientation support + notes are per-provider — rebuild them.
 			self._renderFilters();
+			self._renderNote();
 			if ( self.query ) {
 				self.search( true );
 			}

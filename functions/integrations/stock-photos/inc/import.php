@@ -28,6 +28,8 @@ function cw_stock_photos_allowed_hosts() {
 		'pexels'    => array( 'images.pexels.com', 'www.pexels.com', 'videos.pexels.com', 'player.vimeo.com' ),
 		// i.vimeocdn.com serves video poster thumbnails (proxied for previews).
 		'pixabay'   => array( 'pixabay.com', 'cdn.pixabay.com', 'i.pixabay.com', 'i.vimeocdn.com' ),
+		// Vecteezy: previews on api.vecteezy.com, signed download files on files.vecteezy.com.
+		'vecteezy'  => array( 'api.vecteezy.com', 'files.vecteezy.com' ),
 		// Openverse previews are served from its own host; full files live on
 		// arbitrary source hosts and are validated via wp_http_validate_url().
 		'openverse' => array( 'api.openverse.org' ),
@@ -57,6 +59,33 @@ function cw_stock_photos_ajax_import() {
 	$providers = cw_stock_photos_providers();
 	if ( ! isset( $providers[ $provider ] ) ) {
 		wp_send_json_error( array( 'message' => __( 'Provider not available', 'codeweber' ) ) );
+	}
+
+	// Vecteezy: the search result has no direct file URL. Resolve the metered
+	// download URL (and required attribution) server-side from the resource id.
+	$vecteezy_attr_url = '';
+	if ( 'vecteezy' === $provider ) {
+		$resource_id = (int) ( $_POST['id'] ?? 0 );
+		if ( $resource_id <= 0 ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid Vecteezy resource id', 'codeweber' ) ) );
+		}
+		$dl = cw_stock_vecteezy_resolve_download(
+			$providers['vecteezy']['account'] ?? '',
+			$providers['vecteezy']['key'] ?? '',
+			$resource_id
+		);
+		if ( is_wp_error( $dl ) ) {
+			wp_send_json_error( array( 'message' => $dl->get_error_message() ) );
+		}
+		$url               = esc_url_raw( $dl['url'] );
+		$vecteezy_attr_url = $dl['attribution_url'];
+		if ( '' === $source_url && '' !== $vecteezy_attr_url ) {
+			$source_url = $vecteezy_attr_url;
+		}
+		// Vecteezy gives no photographer — use "Vecteezy" as the licensor author.
+		if ( '' === $author ) {
+			$author = 'Vecteezy';
+		}
 	}
 
 	if ( empty( $url ) ) {
@@ -185,6 +214,57 @@ function cw_stock_photos_ajax_import() {
 }
 
 /**
+ * Vecteezy: resolve the signed download URL + attribution for a resource.
+ *
+ * Calls the metered /download endpoint (counts as 1 of the monthly quota).
+ *
+ * @param string $account     Numeric account id.
+ * @param string $secret      Secret key (Bearer).
+ * @param int    $resource_id Vecteezy resource id.
+ * @return array|WP_Error array{url:string, attribution_url:string, requires:bool}
+ */
+function cw_stock_vecteezy_resolve_download( $account, $secret, $resource_id ) {
+	$account = trim( (string) $account );
+	$secret  = trim( (string) $secret );
+	if ( '' === $account || '' === $secret ) {
+		return new WP_Error( 'cw_stock', __( 'Vecteezy credentials are missing', 'codeweber' ) );
+	}
+
+	$url = 'https://api.vecteezy.com/v2/' . rawurlencode( $account ) . '/resources/' . (int) $resource_id . '/download';
+
+	$response = wp_remote_get(
+		$url,
+		cw_stock_photos_request_args(
+			array(
+				'timeout' => 30,
+				'headers' => array(
+					'Authorization' => 'Bearer ' . $secret,
+					'Accept'        => 'application/json',
+				),
+			)
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		return $response;
+	}
+
+	$code = (int) wp_remote_retrieve_response_code( $response );
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 !== $code || empty( $body['url'] ) ) {
+		$msg = isset( $body['errors'][0]['message'] ) ? $body['errors'][0]['message'] : ( 'HTTP ' . $code );
+		return new WP_Error( 'cw_stock', 'Vecteezy: ' . $msg );
+	}
+
+	return array(
+		'url'             => (string) $body['url'],
+		'attribution_url' => (string) ( $body['required_attribution_url'] ?? '' ),
+		'requires'        => ! empty( $body['requires_attribution'] ),
+	);
+}
+
+/**
  * Auto-create a media_license CPT record for an imported stock photo.
  *
  * Creates a licensor_author taxonomy term for the photographer if it doesn't
@@ -205,6 +285,7 @@ function cw_stock_photos_create_license( $provider, $alt, $author, $author_url, 
 		'pixabay'   => 'Pixabay',
 		'openverse' => 'Openverse',
 		'freepik'   => 'Freepik',
+		'vecteezy'  => 'Vecteezy',
 	);
 	$label = $provider_labels[ $provider ] ?? ucfirst( $provider );
 	$title = $alt ? $label . ' — ' . $alt : $label;

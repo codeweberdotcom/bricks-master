@@ -114,10 +114,11 @@ function cw_stock_photos_ajax_search() {
 		wp_send_json_error( array( 'message' => __( 'Empty query', 'codeweber' ) ) );
 	}
 
-	$key = $providers[ $provider ]['key'];
+	$key     = $providers[ $provider ]['key'];
+	$account = $providers[ $provider ]['account'] ?? '';
 
 	if ( 'video' === $media_type ) {
-		// Video is available for Pexels and Pixabay only.
+		// Video is available for Pexels, Pixabay and Vecteezy.
 		switch ( $provider ) {
 			case 'pexels':
 				$result = cw_stock_videos_fetch_pexels( $key, $query, $page, $per_page, $orientation );
@@ -125,6 +126,9 @@ function cw_stock_photos_ajax_search() {
 			case 'pixabay':
 				// Pixabay has no orientation filter.
 				$result = cw_stock_videos_fetch_pixabay( $key, $query, $page, $per_page );
+				break;
+			case 'vecteezy':
+				$result = cw_stock_photos_fetch_vecteezy( $key, $account, $query, $page, $per_page, $orientation, 'video' );
 				break;
 			default:
 				$result = new WP_Error( 'cw_stock', __( 'This provider has no video search', 'codeweber' ) );
@@ -143,6 +147,9 @@ function cw_stock_photos_ajax_search() {
 				break;
 			case 'openverse':
 				$result = cw_stock_photos_fetch_openverse( $query, $page, $per_page, $orientation );
+				break;
+			case 'vecteezy':
+				$result = cw_stock_photos_fetch_vecteezy( $key, $account, $query, $page, $per_page, $orientation, 'photo' );
 				break;
 			default:
 				$result = new WP_Error( 'cw_stock', __( 'Unknown provider', 'codeweber' ) );
@@ -525,6 +532,116 @@ function cw_stock_videos_fetch_pixabay( $key, $query, $page, $per_page ) {
 		'items'    => $items,
 		'total'    => $total,
 		'has_more' => ( $page * $per_page ) < $total,
+	);
+}
+
+/**
+ * Vecteezy search → normalized (photos and videos share one endpoint).
+ *
+ * Auth: Bearer secret key. The path includes the numeric account id. The search
+ * response carries no direct file URL — import resolves it via the metered
+ * /download endpoint, so `full` is empty and `id` is carried for that step.
+ *
+ * @param string $key          Secret key (Bearer).
+ * @param string $account      Numeric account id.
+ * @param string $query        Search term.
+ * @param int    $page         Page number.
+ * @param int    $per_page     Results per page.
+ * @param string $orientation  horizontal|vertical|square or ''.
+ * @param string $content_type 'photo' | 'video' (Vecteezy content_type).
+ * @return array|WP_Error
+ */
+function cw_stock_photos_fetch_vecteezy( $key, $account, $query, $page, $per_page, $orientation, $content_type ) {
+	if ( '' === $account ) {
+		return new WP_Error( 'cw_stock', 'Vecteezy: missing account id' );
+	}
+
+	$args = array(
+		'term'         => rawurlencode( $query ),
+		'content_type' => ( 'video' === $content_type ) ? 'video' : 'photo',
+		'page'         => $page,
+		'per_page'     => $per_page,
+	);
+	// Vecteezy orientation values match our generic ones directly.
+	if ( in_array( $orientation, array( 'horizontal', 'vertical', 'square' ), true ) ) {
+		$args['orientation'] = $orientation;
+	}
+
+	$url = add_query_arg( $args, 'https://api.vecteezy.com/v2/' . rawurlencode( $account ) . '/resources' );
+
+	$response = wp_remote_get(
+		$url,
+		cw_stock_photos_request_args(
+			array(
+				'headers' => array(
+					'Authorization' => 'Bearer ' . $key,
+					'Accept'        => 'application/json',
+				),
+			)
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		return $response;
+	}
+
+	$code = wp_remote_retrieve_response_code( $response );
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	if ( 200 !== $code || ! isset( $body['resources'] ) ) {
+		$msg = isset( $body['errors'][0]['message'] ) ? $body['errors'][0]['message'] : ( 'HTTP ' . $code );
+		return new WP_Error( 'cw_stock', 'Vecteezy: ' . $msg );
+	}
+
+	$is_video = ( 'video' === $content_type );
+	$items    = array();
+	foreach ( $body['resources'] as $r ) {
+		// Real dimensions: prefer the "original" download size, else the first.
+		$w     = 0;
+		$h     = 0;
+		$sizes = $r['file_metadata']['available_download_sizes'] ?? array();
+		foreach ( $sizes as $s ) {
+			if ( 'original' === ( $s['id'] ?? '' ) ) {
+				$w = (int) ( $s['width'] ?? 0 );
+				$h = (int) ( $s['height'] ?? 0 );
+				break;
+			}
+		}
+		if ( ! $w && ! empty( $sizes[0] ) ) {
+			$w = (int) ( $sizes[0]['width'] ?? 0 );
+			$h = (int) ( $sizes[0]['height'] ?? 0 );
+		}
+		// File size: first available file type (the original source file).
+		$size  = 0;
+		$types = $r['file_metadata']['available_file_types'] ?? array();
+		if ( ! empty( $types[0]['size_in_bytes'] ) ) {
+			$size = (int) $types[0]['size_in_bytes'];
+		}
+
+		$thumb = (string) ( $r['thumbnail_url'] ?? '' );
+		$items[] = array(
+			'provider'   => 'vecteezy',
+			'media_type' => $is_video ? 'video' : 'photo',
+			'id'         => (string) ( $r['id'] ?? '' ),
+			'thumb'      => $thumb,
+			'preview'    => (string) ( $r['preview_url'] ?? $thumb ),
+			'full'       => '', // Resolved at import time via /download.
+			'width'      => $w,
+			'height'     => $h,
+			'size'       => $size,
+			'alt'        => (string) ( $r['title'] ?? $query ),
+			'author'     => '', // Not provided by the search response.
+			'author_url' => '',
+			'source_url' => '', // Attribution URL is returned by /download.
+			'duration'   => 0,
+		);
+	}
+
+	$last_page = (int) ( $body['last_page'] ?? 0 );
+	return array(
+		'items'    => $items,
+		'total'    => (int) ( $body['total_resources'] ?? 0 ),
+		'has_more' => $page < $last_page,
 	);
 }
 

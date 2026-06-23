@@ -2,7 +2,9 @@
 
 Модуль интеграции с фотостоками **Unsplash**, **Pexels**, **Pixabay** и агрегатором **Openverse**. Позволяет искать бесплатные фото **и видео** прямо в админке и импортировать их в медиатеку (sideload) с сохранением атрибуции автора.
 
-**Видео** доступно только у **Pexels** (`api.pexels.com/videos/search`) и **Pixabay** (`pixabay.com/api/videos/`) — тем же API-ключом, что и фото. У Unsplash и Openverse видео-API нет. Переключатель «Photos / Videos» в UI появляется, если в Redux включены оба типа медиа.
+**Видео** доступно у **Pexels** (`api.pexels.com/videos/search`), **Pixabay** (`pixabay.com/api/videos/`) и **Vecteezy** — тем же ключом, что и фото. У Unsplash и Openverse видео-API нет. Переключатель «Photos / Videos» в UI появляется, если в Redux включены оба типа медиа.
+
+**Vecteezy** — отдельный провайдер с двухшаговым импортом и метрируемой квотой (500 скачиваний/мес). Подробности — в разделе [«Vecteezy»](#vecteezy) ниже.
 
 **Openverse** — без API-ключа (rate-limit), CC/Public Domain контент, превью отдаются через собственный хост `api.openverse.org` (надёжнее для РФ, чем чужие CDN). Активируется одной галочкой в `stock_photos_providers`, поле ключа не требуется.
 
@@ -36,6 +38,8 @@
 | `unsplash_access_key` | password | Access Key приложения Unsplash |
 | `pexels_api_key` | password | API-ключ Pexels |
 | `pixabay_api_key` | password | API-ключ Pixabay |
+| `vecteezy_account_id` | text | Числовой Account ID Vecteezy |
+| `vecteezy_secret_key` | password | Secret Key (Bearer) Vecteezy — активен только вместе с Account ID |
 
 Кнопки «Тест» для каждого ключа обрабатываются в `functions/admin/api-test.php`
 (`codeweber_api_test_unsplash` / `_pexels` / `_pixabay`).
@@ -154,6 +158,24 @@
 - **Pexels** авторизация — ключ в заголовке `Authorization` **без** префикса; **Unsplash** — `Client-ID <key>`.
 - Лимиты: Unsplash demo 50 req/h (5000 после approve), Pexels 200/h · 20k/мес, Pixabay ~100/min.
 - В блочном редакторе вкладка работает через стандартный `wp.media` фрейм, который использует и Gutenberg image-блок.
+
+### Vecteezy
+
+Провайдер с другой архитектурой, чем Pexels/Pixabay.
+
+- **API V2**, base `https://api.vecteezy.com`. Аккаунту выдают доступ только к V2 (V1 запрещён).
+- **Авторизация:** `Authorization: Bearer <secret_key>`. Путь включает **account_id**: `GET /v2/{account_id}/resources?term=&content_type=photo|video&page=&per_page=&orientation=`.
+- **`content_type` обязателен** — модуль шлёт `photo`/`video` по media_type.
+- **`orientation`** нативный, значения совпадают с generic (`horizontal|vertical|square`) — маппинг не нужен.
+- **Превью сетки** — `thumbnail_url` (чистый, публичный, host `api.vecteezy.com`). `preview_url` — с вотермаркой, **не используется**.
+- **Размеры/размер файла:** `dimensions`=null; берём из `available_download_sizes` (id `original`) и `available_file_types[].size_in_bytes`.
+- **Двухшаговый импорт:** поиск НЕ даёт прямой URL файла. При импорте `import.php` вызывает `GET /v2/{account_id}/resources/{id}/download` (Bearer) → `url` (подписанный, host `files.vecteezy.com`) + `required_attribution_url`. JS шлёт `id`, URL резолвится на сервере.
+- **Квота:** каждый `/download` = 1 из 500/мес. Поиск и превью — бесплатны. В UI у Vecteezy показывается жёлтая подсказка (`quotaNote`).
+- **Free-аккаунт:** ресайз запрещён (`file_size` не передаём) — качается оригинал. ⚠️ **Видео в оригинале бывает очень большим** (4K, сотни МБ) → импорт может упереться в `upload_max_filesize`/`max_execution_time`. Фото (~10 МБ) — норм.
+- **Атрибуция обязательна** (`requires_attribution: true`). При импорте `required_attribution_url` идёт в `source_url` → `_item_url` лицензии.
+- **Media License:** Vecteezy проходит через общий `cw_stock_photos_create_license()`. Автор не приходит из API → подставляется `author = 'Vecteezy'`, поэтому терм `licensor_author` = «Vecteezy». Лицензия привязывается к вложению через `_media_license_id`.
+- **Allowlist хостов:** `api.vecteezy.com` (превью) + `files.vecteezy.com` (файл).
+- **Тест ключа** (`codeweber_api_test_vecteezy`) шлёт `key`=secret + `account_id`; идёт через прокси.
 
 ### Видео: gotchas
 

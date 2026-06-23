@@ -44,6 +44,15 @@
 	color: #fff;
 }
 
+.cw-stock-note {
+	margin-bottom: 12px;
+	padding: 6px 10px;
+	border-left: 3px solid #dba617;
+	background: #fcf9e8;
+	color: #674e00;
+	font-size: 12px;
+}
+
 .cw-stock-prov.is-active {
 	background: #2271b1;
 	border-color: #2271b1;

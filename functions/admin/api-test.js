@@ -40,6 +40,9 @@
 			'codeweber_api_test_pixabay' === action
 		) {
 			data.key = value;
+		} else if ( 'codeweber_api_test_vecteezy' === action ) {
+			data.key        = value;  // secret key
+			data.account_id = value2;
 		}
 
 		$.post( codeweberApiTest.ajaxUrl, data )
