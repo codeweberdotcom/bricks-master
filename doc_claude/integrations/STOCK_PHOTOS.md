@@ -172,10 +172,16 @@
 - **Двухшаговый импорт:** поиск НЕ даёт прямой URL файла. При импорте `import.php` вызывает `GET /v2/{account_id}/resources/{id}/download` (Bearer) → `url` (подписанный, host `files.vecteezy.com`) + `required_attribution_url`. JS шлёт `id`, URL резолвится на сервере.
 - **Квота:** каждый `/download` = 1 из 500/мес. Поиск и превью — бесплатны. В UI у Vecteezy показывается жёлтая подсказка (`quotaNote`).
 - **Free-аккаунт:** ресайз запрещён (`file_size` не передаём) — качается оригинал. ⚠️ **Видео в оригинале бывает очень большим** (4K, сотни МБ) → импорт может упереться в `upload_max_filesize`/`max_execution_time`. Фото (~10 МБ) — норм.
-- **Атрибуция обязательна** (`requires_attribution: true`). При импорте `required_attribution_url` идёт в `source_url` → `_item_url` лицензии.
+- **Атрибуция обязательна** (`requires_attribution: true`). `required_attribution_url` приходит на хост `api.vecteezy.com` — при импорте нормализуется в `www.vecteezy.com` и идёт в `source_url` → `_item_url` лицензии.
 - **Media License:** Vecteezy проходит через общий `cw_stock_photos_create_license()`. Автор не приходит из API → подставляется `author = 'Vecteezy'`, поэтому терм `licensor_author` = «Vecteezy». Лицензия привязывается к вложению через `_media_license_id`.
+- **Доп. поля лицензии** (модуль `image-licenses`): `_license_provider`, `_license_resource_id` заполняются для всех провайдеров; для Vecteezy дополнительно — `_license_guid` и `_license_ai_generated`, получаемые **доп. бесплатным** вызовом `/v2/{account}/account/licenses` (поиск записи по `resource.id`). Текст лицензии/PDF Vecteezy не отдаёт — поле PDF остаётся пустым (это норма).
+- **Остаток квоты — только показ, не в БД.** AJAX `cw_stock_vecteezy_quota` → `/v2/{account}/account/info` → `download.call_count`/`call_limit`. В UI у активного Vecteezy подсказка: «Import uses 1 download · Remaining: X/500». Обновляется после каждого импорта.
 - **Allowlist хостов:** `api.vecteezy.com` (превью) + `files.vecteezy.com` (файл).
 - **Тест ключа** (`codeweber_api_test_vecteezy`) шлёт `key`=secret + `account_id`; идёт через прокси.
+
+**Прочие эндпоинты V2** (на будущее, на тех же Bearer-кредах): `/resources/{id}` (детальная карточка, есть `license_type`), `/resources/{id}/similar_images`, `/resources/{id}/download_info`, `/resource_feed`.
+
+**Поведение медиа-модала:** после импорта вкладка «Free Photos» **остаётся открытой** (раньше переключалась на «Медиатеку») — можно импортировать несколько подряд; файл добавляется в библиотеку и выбор, Insert/Select работает после переключения на «Медиатеку».
 
 ### Видео: gotchas
 

@@ -286,6 +286,7 @@ function cw_stock_photos_enqueue( $hook ) {
 				'vertical'    => __( 'Vertical', 'codeweber' ),
 				'square'      => __( 'Square', 'codeweber' ),
 				'quotaNote'   => __( 'Import uses 1 of your monthly Vecteezy downloads.', 'codeweber' ),
+				'remaining'   => __( 'Remaining', 'codeweber' ),
 				'on'          => __( 'on', 'codeweber' ),
 				'openLibrary' => __( 'Open in Media Library', 'codeweber' ),
 				'startHint'   => __( 'Enter a query and press Search to find free photos.', 'codeweber' ),

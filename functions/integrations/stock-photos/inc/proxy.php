@@ -14,6 +14,58 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 add_action( 'wp_ajax_cw_stock_photos_search', 'cw_stock_photos_ajax_search' );
 add_action( 'wp_ajax_cw_stock_photos_thumb', 'cw_stock_photos_ajax_thumb' );
+add_action( 'wp_ajax_cw_stock_vecteezy_quota', 'cw_stock_vecteezy_ajax_quota' );
+
+/**
+ * AJAX: report Vecteezy monthly download quota (display only — never stored).
+ */
+function cw_stock_vecteezy_ajax_quota() {
+	check_ajax_referer( 'cw_stock_photos', 'nonce' );
+
+	if ( ! current_user_can( 'upload_files' ) ) {
+		wp_send_json_error( array( 'message' => __( 'Permission denied', 'codeweber' ) ), 403 );
+	}
+
+	$providers = cw_stock_photos_providers();
+	if ( ! isset( $providers['vecteezy'] ) ) {
+		wp_send_json_error( array( 'message' => __( 'Vecteezy not available', 'codeweber' ) ) );
+	}
+
+	$account = $providers['vecteezy']['account'] ?? '';
+	$secret  = $providers['vecteezy']['key'] ?? '';
+	if ( '' === $account || '' === $secret ) {
+		wp_send_json_error( array( 'message' => __( 'Vecteezy credentials missing', 'codeweber' ) ) );
+	}
+
+	$response = wp_remote_get(
+		'https://api.vecteezy.com/v2/' . rawurlencode( $account ) . '/account/info',
+		cw_stock_photos_request_args(
+			array(
+				'timeout' => 15,
+				'headers' => array(
+					'Authorization' => 'Bearer ' . $secret,
+					'Accept'        => 'application/json',
+				),
+			)
+		)
+	);
+
+	if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+		wp_send_json_error( array( 'message' => __( 'Could not read quota', 'codeweber' ) ) );
+	}
+
+	$body  = json_decode( wp_remote_retrieve_body( $response ), true );
+	$used  = (int) ( $body['current']['download']['call_count'] ?? 0 );
+	$limit = (int) ( $body['current']['download']['call_limit'] ?? 0 );
+
+	wp_send_json_success(
+		array(
+			'used'      => $used,
+			'limit'     => $limit,
+			'remaining' => max( 0, $limit - $used ),
+		)
+	);
+}
 
 /**
  * AJAX: stream a provider thumbnail through the server.

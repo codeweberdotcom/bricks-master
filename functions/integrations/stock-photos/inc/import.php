@@ -79,6 +79,11 @@ function cw_stock_photos_ajax_import() {
 		}
 		$url               = esc_url_raw( $dl['url'] );
 		$vecteezy_attr_url = $dl['attribution_url'];
+		// Vecteezy returns the attribution link on the api. host; normalize to the
+		// public www. host so the stored source URL is user-facing.
+		if ( '' !== $vecteezy_attr_url ) {
+			$vecteezy_attr_url = str_ireplace( '://api.vecteezy.com/', '://www.vecteezy.com/', $vecteezy_attr_url );
+		}
 		if ( '' === $source_url && '' !== $vecteezy_attr_url ) {
 			$source_url = $vecteezy_attr_url;
 		}
@@ -198,6 +203,28 @@ function cw_stock_photos_ajax_import() {
 	$license_id   = cw_stock_photos_create_license( $provider, $alt, $author, $author_url, $source_url, $license_text );
 	if ( $license_id ) {
 		update_post_meta( $attachment_id, '_media_license_id', $license_id );
+
+		// Provider + resource id apply to every stock import.
+		update_post_meta( $license_id, '_license_provider', ucfirst( $provider ) );
+		$resource_id_meta = sanitize_text_field( wp_unslash( $_POST['id'] ?? '' ) );
+		if ( '' !== $resource_id_meta ) {
+			update_post_meta( $license_id, '_license_resource_id', $resource_id_meta );
+		}
+
+		// Vecteezy: enrich with license GUID and AI flag (free /account/licenses call).
+		if ( 'vecteezy' === $provider && ! empty( $resource_id ) ) {
+			$rec = cw_stock_vecteezy_fetch_license_record(
+				$providers['vecteezy']['account'] ?? '',
+				$providers['vecteezy']['key'] ?? '',
+				$resource_id
+			);
+			if ( is_array( $rec ) ) {
+				if ( '' !== $rec['license_guid'] ) {
+					update_post_meta( $license_id, '_license_guid', $rec['license_guid'] );
+				}
+				update_post_meta( $license_id, '_license_ai_generated', $rec['ai_generated'] ? '1' : '' );
+			}
+		}
 	}
 
 	$thumb = wp_get_attachment_image_url( $attachment_id, 'thumbnail' );
@@ -262,6 +289,63 @@ function cw_stock_vecteezy_resolve_download( $account, $secret, $resource_id ) {
 		'attribution_url' => (string) ( $body['required_attribution_url'] ?? '' ),
 		'requires'        => ! empty( $body['requires_attribution'] ),
 	);
+}
+
+/**
+ * Vecteezy: find the acquired-license record for a resource (GUID, type, AI flag).
+ *
+ * Reads /account/licenses (a free, non-metered call) and matches by resource id.
+ *
+ * @param string $account     Numeric account id.
+ * @param string $secret      Secret key (Bearer).
+ * @param int    $resource_id Vecteezy resource id.
+ * @return array|null array{license_guid,license_type,ai_generated,last_updated} or null.
+ */
+function cw_stock_vecteezy_fetch_license_record( $account, $secret, $resource_id ) {
+	$account = trim( (string) $account );
+	$secret  = trim( (string) $secret );
+	if ( '' === $account || '' === $secret ) {
+		return null;
+	}
+
+	$url = add_query_arg(
+		array( 'per_page' => 20 ),
+		'https://api.vecteezy.com/v2/' . rawurlencode( $account ) . '/account/licenses'
+	);
+
+	$response = wp_remote_get(
+		$url,
+		cw_stock_photos_request_args(
+			array(
+				'timeout' => 20,
+				'headers' => array(
+					'Authorization' => 'Bearer ' . $secret,
+					'Accept'        => 'application/json',
+				),
+			)
+		)
+	);
+
+	if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+		return null;
+	}
+
+	$body = json_decode( wp_remote_retrieve_body( $response ), true );
+	if ( empty( $body['results'] ) || ! is_array( $body['results'] ) ) {
+		return null;
+	}
+
+	foreach ( $body['results'] as $row ) {
+		if ( (int) ( $row['resource']['id'] ?? 0 ) === (int) $resource_id ) {
+			return array(
+				'license_guid' => (string) ( $row['license_guid'] ?? '' ),
+				'license_type' => (string) ( $row['license_type'] ?? '' ),
+				'ai_generated' => ! empty( $row['resource']['ai_generated'] ),
+				'last_updated' => (string) ( $row['last_updated'] ?? '' ),
+			);
+		}
+	}
+	return null;
 }
 
 /**

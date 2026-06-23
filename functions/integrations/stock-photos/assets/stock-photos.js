@@ -37,6 +37,11 @@
 			'&url=' + encodeURIComponent( u );
 	}
 
+	// Vecteezy download quota — display only, never stored.
+	function ajaxQuota() {
+		return $.post( CFG.ajaxUrl, { action: 'cw_stock_vecteezy_quota', nonce: CFG.nonce } );
+	}
+
 	function ajaxImport( item ) {
 		return $.post( CFG.ajaxUrl, {
 			action:            'cw_stock_photos_import',
@@ -189,9 +194,17 @@
 
 	// Show a per-provider note (e.g. Vecteezy quota warning) when applicable.
 	SearchUI.prototype._renderNote = function () {
+		var self = this;
 		var prov = this.activeProvider();
 		if ( prov && prov.quota && I18N.quotaNote ) {
-			this.$note.text( I18N.quotaNote ).show();
+			var base = I18N.quotaNote;
+			this.$note.text( base ).show();
+			// Append live remaining quota (display only, not persisted).
+			ajaxQuota().done( function ( res ) {
+				if ( res && res.success && res.data && res.data.limit ) {
+					self.$note.text( base + ' · ' + ( I18N.remaining || 'Remaining' ) + ': ' + res.data.remaining + '/' + res.data.limit );
+				}
+			} );
 		} else {
 			this.$note.empty().hide();
 		}
@@ -355,6 +368,11 @@
 					if ( typeof self.opts.onImport === 'function' ) {
 						self.opts.onImport( res.data, item );
 					}
+					// Refresh the live quota for metered providers (Vecteezy).
+					var prov = self.activeProvider();
+					if ( prov && prov.quota ) {
+						self._renderNote();
+					}
 				} else {
 					$btn.prop( 'disabled', false ).text( I18N.import );
 					window.alert( ( res && res.data && res.data.message ) ? res.data.message : I18N.error );
@@ -517,8 +535,9 @@
 					if ( sel ) {
 						sel.reset( [ model ] );
 					}
-					// Jump to the library so the selection + Insert button show.
-					ctrl.content.mode( 'browse' );
+					// Stay on the "Free Photos" tab after import so several items can
+					// be imported in a row; the item is added to the library and
+					// selection, so Insert/Select still works once the user switches.
 				} );
 			},
 		} );
