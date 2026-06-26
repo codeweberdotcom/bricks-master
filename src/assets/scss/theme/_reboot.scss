@@ -632,7 +632,7 @@ h6 {
 .lead {
   line-height: 1.65;
   &.fs-lg {
-    @include font-size(1.05rem !important);
+    @include font-size($lead-fs-lg !important);
     line-height: 1.6;
   }
 }
