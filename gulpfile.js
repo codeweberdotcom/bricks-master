@@ -183,6 +183,11 @@ if (srcBasePath === '') {
 }
 var srcPrefix = srcBasePath === '.' ? 'src' : srcBasePath + '/src';
 
+// Relative path from parent (gulp cwd) to child's src/ — used for child HTML
+var childSrcPath = isChild
+  ? path_module.relative(parentThemePath, path_module.join(currentThemePath, 'src')).replace(/\\/g, '/')
+  : null;
+
 // Убеждаемся, что директория dist существует в дочерней теме
 if (isChild) {
   var distDir = path_module.join(currentThemePath, 'dist');
@@ -226,7 +231,9 @@ var path = {
     html: [
       srcPrefix + "/**/*.html",
       "!" + srcPrefix + "/partials/**/*.html",
-      "!" + srcPrefix + "/assets/php/**/*.html"
+      "!" + srcPrefix + "/assets/php/**/*.html",
+      // Include root-level HTML from child theme's src/ (child-specific pages)
+      ...(isChild && childSrcPath ? [childSrcPath + '/*.html'] : [])
     ],
     partials: srcPrefix + "/partials/",
     js: srcPrefix + "/assets/js/",
