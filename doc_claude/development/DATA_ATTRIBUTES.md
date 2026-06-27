@@ -148,6 +148,34 @@
 | `data-items-xl` | — | xl (`≥ 1200px`) |
 | `data-items-xxl` | — | xxl (`≥ 1400px`) |
 
+### Сетка (несколько рядов) — Swiper Grid
+
+Раскладывает слайды в несколько рядов (модуль Swiper Grid). Включается при `data-rows > 1`.
+
+| Атрибут | По умолчанию | Описание |
+|---------|-------------|----------|
+| `data-rows` | `1` | Число рядов (все breakpoints) |
+| `data-fill` | `"row"` | Порядок заполнения: `row` (по рядам) или `column` (по колонкам) |
+| `data-rows-xs` | = `data-rows` | xs (`< 576px`) |
+| `data-rows-sm` | каскад от xs | sm (`≥ 576px`) |
+| `data-rows-md` | каскад от sm | md (`≥ 768px`) |
+| `data-rows-lg` | каскад от md | lg (`≥ 992px`) |
+| `data-rows-xl` | каскад от lg | xl (`≥ 1200px`) |
+| `data-rows-xxl` | каскад от xl | xxl (`≥ 1400px`) |
+| `data-rows-xxxl` | каскад от xxl | xxxl (`≥ 1921px`) |
+
+```html
+<div class="swiper-container" data-rows="2" data-rows-xs="1" data-items="3" data-margin="30">
+  <div class="swiper"><div class="swiper-wrapper">
+    <div class="swiper-slide">…</div>
+  </div></div>
+</div>
+```
+
+**Ограничения Swiper Grid:**
+- Несовместим с `data-loop="true"` — при `data-rows > 1` loop принудительно отключается.
+- Не сочетается с `data-items-auto="true"` (нужна фиксированная ширина слайда / `slidesPerView`).
+
 ### Поведение
 
 | Атрибут | По умолчанию | Описание |
