@@ -877,6 +877,54 @@ function register_document_file_rest_field() {
 			'context' => ['view', 'edit'],
 		],
 	]);
+
+	// Расширение файла (например "PDF") — для превью карточки в редакторе.
+	register_rest_field('documents', '_document_file_ext', [
+		'get_callback' => function($post) {
+			$file = get_post_meta($post['id'], '_document_file', true);
+			if (!$file) {
+				return '';
+			}
+			$url = is_numeric($file) ? wp_get_attachment_url((int) $file) : $file;
+			if (!$url) {
+				return '';
+			}
+			return strtoupper(pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION));
+		},
+		'schema' => ['type' => 'string', 'context' => ['view', 'edit']],
+	]);
+
+	// Размер файла в человекочитаемом виде (например "1,8 МБ") — для превью в редакторе.
+	register_rest_field('documents', '_document_file_size', [
+		'get_callback' => function($post) {
+			$file = get_post_meta($post['id'], '_document_file', true);
+			if (!$file) {
+				return '';
+			}
+			$attachment_id = is_numeric($file) ? (int) $file : attachment_url_to_postid($file);
+			if (!$attachment_id) {
+				return '';
+			}
+			$path = get_attached_file($attachment_id);
+			if ($path && file_exists($path)) {
+				return size_format(filesize($path), 1);
+			}
+			return '';
+		},
+		'schema' => ['type' => 'string', 'context' => ['view', 'edit']],
+	]);
+
+	// Название первого термина таксономии document_type — для превью в редакторе.
+	register_rest_field('documents', '_document_type_name', [
+		'get_callback' => function($post) {
+			$terms = get_the_terms($post['id'], 'document_type');
+			if ($terms && !is_wp_error($terms)) {
+				return $terms[0]->name;
+			}
+			return '';
+		},
+		'schema' => ['type' => 'string', 'context' => ['view', 'edit']],
+	]);
 }
 add_action('rest_api_init', 'register_document_file_rest_field');
 

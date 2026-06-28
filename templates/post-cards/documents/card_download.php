@@ -1,10 +1,10 @@
 <?php
 /**
  * Template: Document Card Download
- * 
- * Шаблон карточки документа с кнопкой AJAX загрузки
- * Используется только для типа записи 'documents'
- * 
+ *
+ * Шаблон карточки документа с кнопкой AJAX загрузки.
+ * Используется только для типа записи 'documents'.
+ *
  * @param array $post_data Данные поста
  * @param array $display_settings Настройки отображения
  * @param array $template_args Дополнительные аргументы
@@ -15,83 +15,64 @@ if (!isset($post_data) || !$post_data) {
 }
 
 $display = cw_get_post_card_display_settings($display_settings ?? []);
-$card_radius = Codeweber_Options::style('card-radius');
-$template_args = wp_parse_args($template_args ?? [], [
-    'hover_classes' => 'overlay overlay-5',
-    'show_figcaption' => true,
-]);
 
 $title = $post_data['title'];
 if ($display['title_length'] > 0 && mb_strlen($title) > $display['title_length']) {
     $title = mb_substr($title, 0, $display['title_length']) . '...';
 }
 
-$excerpt = '';
-if ($display['excerpt_length'] > 0) {
-    $excerpt = wp_trim_words($post_data['excerpt'], $display['excerpt_length'], '...');
-    // Ограничиваем до 116 символов (как в примере)
-    if (mb_strlen($excerpt) > 116) {
-        $excerpt = mb_substr($excerpt, 0, 113) . '...';
+// Файл документа: URL, расширение, размер
+$document_file = get_post_meta($post_data['id'], '_document_file', true);
+$file_url      = '';
+$file_ext      = '';
+$file_size     = '';
+$attachment_id = 0;
+
+if ($document_file) {
+    if (is_numeric($document_file)) {
+        $attachment_id = (int) $document_file;
+        $file_url      = wp_get_attachment_url($attachment_id);
+    } else {
+        $file_url      = $document_file;
+        $attachment_id = attachment_url_to_postid($document_file);
+    }
+
+    if ($file_url) {
+        $file_ext = strtoupper(pathinfo(parse_url($file_url, PHP_URL_PATH), PATHINFO_EXTENSION));
+    }
+
+    if ($attachment_id) {
+        $path = get_attached_file($attachment_id);
+        if ($path && file_exists($path)) {
+            $file_size = size_format(filesize($path), 1);
+        }
     }
 }
 
-// Формируем тег и классы для заголовка
-$title_tag = isset($display['title_tag']) ? sanitize_html_class($display['title_tag']) : 'h2';
-$title_class = 'h5 mb-0';
-if (!empty($display['title_class'])) {
-    $title_class .= ' ' . esc_attr($display['title_class']);
+$file_meta = trim($file_ext . ($file_size ? ' · ' . $file_size : ''));
+
+// Тип документа (таксономия document_type)
+$type_label = '';
+$terms      = get_the_terms($post_data['id'], 'document_type');
+if ($terms && !is_wp_error($terms)) {
+    $type_label = $terms[0]->name;
 }
-
-// Форматируем дату для badge
-$date_badge = get_the_date('d M Y', $post_data['id']);
-
-// Получаем URL файла документа
-$document_file_url = get_post_meta($post_data['id'], '_document_file', true);
-$document_file_name = $document_file_url ? basename($document_file_url) : '';
 ?>
-
-<article>
-    <?php if ($post_data['image_url']) : ?>
-        <figure class="<?php echo esc_attr($template_args['hover_classes']); ?><?php echo $card_radius ? ' ' . esc_attr($card_radius) : ''; ?>">
-            <div class="bottom-overlay post-meta fs-16 justify-content-between position-absolute zindex-1 d-flex flex-column h-100 w-100 p-5">
-                <?php if ($display['show_date']) : ?>
-                    <div class="d-flex w-100 justify-content-end">
-                    </div>
-                <?php endif; ?>
-                
-                <?php if ($display['show_title']) : ?>
-                    <<?php echo esc_attr($title_tag); ?> class="<?php echo esc_attr(trim($title_class)); ?>">
-                        <?php echo esc_html($title); ?>
-                    </<?php echo esc_attr($title_tag); ?>>
-                <?php endif; ?>
-            </div>
-            <img src="<?php echo esc_url($post_data['image_url']); ?>" alt="<?php echo esc_attr($post_data['image_alt']); ?>">
-            
-            <?php if ($template_args['show_figcaption']) : ?>
-                <figcaption class="p-5">
-                    <div class="post-body from-left">
-                        <?php if ($excerpt) : ?>
-                            <p class="mb-3"><?php echo esc_html($excerpt); ?></p>
-                        <?php endif; ?>
-                        
-                        <?php if ($document_file_url) : ?>
-                            <a href="javascript:void(0)"
-                               class="btn btn-primary btn-icon btn-icon-start btn-sm d-flex has-ripple<?php echo Codeweber_Options::style('button'); ?>"
-                               data-bs-toggle="download"
-                               data-value="doc-<?php echo esc_attr($post_data['id']); ?>"
-                               data-loading-text="<?php esc_attr_e('Loading...', 'codeweber'); ?>">
-                                <i class="uil uil-import fs-13"></i>
-                                <span class="ms-1"><?php esc_html_e('Download', 'codeweber'); ?></span>
-                            </a>
-                        <?php else : ?>
-                            <a href="<?php echo esc_url($post_data['link']); ?>" class="hover-8 link-body label-s text-charcoal-blue me-4 post-read-more">
-                                <?php esc_html_e('Read more', 'codeweber'); ?>
-                            </a>
-                        <?php endif; ?>
-                    </div>
-                </figcaption>
-            <?php endif; ?>
-        </figure>
+<div class="card p-6 card-lift rounded h-100">
+  <div class="d-flex align-items-center gap-3">
+    <div class="bg-primary bg-opacity-10 rounded-2 text-center p-3 flex-shrink-0 text-primary lh-1">
+      <i class="uil uil-file fs-30 d-block"></i>
+      <?php if ($file_ext) : ?><span class="cw-subtitle fs-11"><?php echo esc_html($file_ext); ?></span><?php endif; ?>
+    </div>
+    <div class="flex-grow-1">
+      <?php if ($type_label) : ?><p class="cw-subtitle mb-0"><?php echo esc_html($type_label); ?></p><?php endif; ?>
+      <h5 class="mb-1"><?php echo esc_html($title); ?></h5>
+      <?php if ($file_meta) : ?><p class="mb-0 text-muted fs-sm"><?php echo esc_html($file_meta); ?></p><?php endif; ?>
+    </div>
+    <?php if ($file_url) : ?>
+    <a href="javascript:void(0)" data-value="doc-<?php echo esc_attr($post_data['id']); ?>" data-bs-toggle="download" class="btn btn-sm btn-outline-primary rounded-pill flex-shrink-0"><span><?php esc_html_e('Download', 'codeweber'); ?></span> <i class="uil uil-import ms-1"></i></a>
+    <?php else : ?>
+    <a href="<?php echo esc_url($post_data['link']); ?>" class="btn btn-sm btn-outline-primary rounded-pill flex-shrink-0"><?php esc_html_e('Read more', 'codeweber'); ?></a>
     <?php endif; ?>
-</article>
-
+  </div>
+</div>
