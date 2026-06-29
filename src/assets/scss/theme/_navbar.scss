@@ -103,6 +103,18 @@ header {
     .logo-light { display: block !important; }
   }
 }
+.navbar-dark.navbar-stick.sticky-light {
+  background: rgba($white, 0.97) !important;
+  box-shadow: $box-shadow-md;
+  .nav-link {
+    color: $navbar-light-color !important;
+    &:hover, &:focus { color: $navbar-light-hover-color !important; }
+    &.active { color: $navbar-light-active-color !important; }
+  }
+  .logo-dark  { display: block !important; }
+  .logo-light { display: none  !important; }
+  button.hamburger { color: $navbar-light-color; }
+}
 //----------------------------------------------------------//
 //	HAMBURGER ICON
 //----------------------------------------------------------//

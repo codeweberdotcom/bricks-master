@@ -663,7 +663,7 @@ var theme = {
         centeredSlides: sliderCentered,
         spaceBetween: Number(sliderMargin),
         effect: sliderEffect,
-        grid: sliderRows > 1 ? { rows: sliderRows, fill: sliderFill } : undefined,
+        ...(sliderRows > 1 ? { grid: { rows: sliderRows, fill: sliderFill } } : {}),
         autoHeight: sliderAutoHeight,
         grabCursor: true,
         resizeObserver: false,
