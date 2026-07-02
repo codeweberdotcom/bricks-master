@@ -79,6 +79,7 @@ class Codeweber_Yandex_Maps {
         'balloon_max_width' => 460,
         'map_type' => 'yandex#map', // yandex#map, yandex#satellite, yandex#hybrid
         'height' => 500,
+        'height_mobile' => 0, // 0 = как на десктопе; >0 — высота (px) на экранах < 768px
         'width' => '100%',
         'border_radius' => 8,
         'enable_scroll_zoom' => true,
@@ -688,7 +689,17 @@ class Codeweber_Yandex_Maps {
             esc_attr( $settings['border_radius'] )
         );
 
+        // Мобильная высота: перебивает инлайн-высоту на экранах < 768px (Bootstrap md)
+        $height_mobile = isset($settings['height_mobile']) ? intval($settings['height_mobile']) : 0;
+
         ob_start();
+        if ($height_mobile > 0) {
+            printf(
+                '<style>@media (max-width: 767.98px){#%s{height:%dpx !important;}}</style>',
+                esc_attr($map_id),
+                $height_mobile
+            );
+        }
         ?>
         <div class="codeweber-yandex-map-wrapper position-relative w-100" data-map-config="<?php echo esc_attr(wp_json_encode($map_data)); ?>">
             <div class="spinner spinner-overlay" id="<?php echo esc_attr($map_id); ?>-loader"></div>
