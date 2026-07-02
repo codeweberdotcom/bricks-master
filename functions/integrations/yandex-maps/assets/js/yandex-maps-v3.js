@@ -161,20 +161,11 @@
 		addMarkers() {
 			const { YMapMarker } = ymaps3;
 			const markers = this.config.markers || [];
-			const color   = ( this.config.markerSettings && this.config.markerSettings.color ) ? this.config.markerSettings.color : '#FF0000';
 
 			markers.forEach( ( markerData ) => {
-				const el = document.createElement( 'div' );
+				const built = this.buildMarkerElement();
+				const el    = built.el;
 				el.dataset.markerId = markerData.id;
-				el.style.cssText = [
-					'width:14px', 'height:14px',
-					'background:' + color,
-					'border:2px solid #fff',
-					'border-radius:50%',
-					'cursor:pointer',
-					'box-shadow:0 1px 3px rgba(0,0,0,.4)',
-					'position:relative',
-				].join( ';' );
 
 				el.addEventListener( 'click', ( e ) => {
 					e.stopPropagation();
@@ -186,8 +177,63 @@
 					el
 				);
 				this.map.addChild( marker );
-				this.markerEls[ markerData.id ] = { el, marker, data: markerData };
+				this.markerEls[ markerData.id ] = { el, marker, data: markerData, w: built.w, h: built.h };
 			} );
+		}
+
+		/**
+		 * Строит DOM-элемент маркера по глобальным настройкам markerSettings.
+		 * Типы: dot (кружок), pin (SVG-пин), icon (своя картинка), logo (логотип из настроек темы).
+		 * @return {{el: HTMLElement, w: number, h: number}}
+		 */
+		buildMarkerElement() {
+			const ms    = this.config.markerSettings || {};
+			const color = ms.color || '#FF0000';
+			const size  = parseInt( ms.size, 10 ) > 0 ? parseInt( ms.size, 10 ) : 0;
+			let type    = ms.type || 'dot';
+
+			// Фолбэки: нет картинки → рисуем точку
+			if ( type === 'icon' && ! ms.icon ) type = 'dot';
+			if ( type === 'logo' && ! ms.logo ) type = 'dot';
+
+			const el = document.createElement( 'div' );
+
+			if ( type === 'pin' ) {
+				const w = size || 32;
+				const h = Math.round( w * 34 / 24 );
+				el.style.cssText = 'width:' + w + 'px;height:' + h + 'px;cursor:pointer;position:relative;transform:translate(-50%,-100%);';
+				el.innerHTML =
+					'<svg width="' + w + '" height="' + h + '" viewBox="0 0 24 34" xmlns="http://www.w3.org/2000/svg" style="display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));">' +
+					'<path d="M12 0C5.373 0 0 5.373 0 12c0 8.75 12 22 12 22s12-13.25 12-22C24 5.373 18.627 0 12 0z" fill="' + color + '"/>' +
+					'<circle cx="12" cy="12" r="4.5" fill="#fff"/>' +
+					'</svg>';
+				return { el, w, h };
+			}
+
+			if ( type === 'icon' || type === 'logo' ) {
+				const url = type === 'icon' ? ms.icon : ms.logo;
+				const w   = size || ( type === 'logo' ? ( parseInt( ms.logoSize, 10 ) || 40 ) : 40 );
+				el.style.cssText = 'width:' + w + 'px;height:' + w + 'px;cursor:pointer;position:relative;transform:translate(-50%,-50%);';
+				const img = document.createElement( 'img' );
+				img.src = url;
+				img.alt = '';
+				img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;';
+				el.appendChild( img );
+				return { el, w, h: w };
+			}
+
+			// dot — как раньше (без transform, чтобы не менять существующие карты)
+			const d = size || 14;
+			el.style.cssText = [
+				'width:' + d + 'px', 'height:' + d + 'px',
+				'background:' + color,
+				'border:2px solid #fff',
+				'border-radius:50%',
+				'cursor:pointer',
+				'box-shadow:0 1px 3px rgba(0,0,0,.4)',
+				'position:relative',
+			].join( ';' );
+			return { el, w: d, h: d };
 		}
 
 		onMarkerClick( markerData, el ) {
@@ -198,6 +244,12 @@
 			this.closeBalloon();
 
 			const balloon = this.buildBalloon( markerData );
+			// Позиция балуна зависит от размера маркера: над маркером, по центру
+			const entry = this.markerEls[ markerData.id ];
+			if ( entry && entry.w ) {
+				balloon.style.bottom = ( entry.h + 8 ) + 'px';
+				balloon.style.left   = ( entry.w / 2 ) + 'px';
+			}
 			el.appendChild( balloon );
 			this.activeMarkerId = String( markerData.id );
 

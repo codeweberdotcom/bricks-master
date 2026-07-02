@@ -23,7 +23,7 @@ class Codeweber_Yandex_Maps {
     /**
      * @var string Версия модуля
      */
-    private $version = '1.1.0';
+    private $version = '1.2.0';
     
     /**
      * @var string Путь к модулю
@@ -56,11 +56,13 @@ class Codeweber_Yandex_Maps {
         'geolocation_control' => false,
         'route_button' => false,
         'search_control' => false, // По умолчанию скрыт
-        'marker_type' => 'default', // default, custom, logo
+        'marker_type' => 'default', // v2: default, custom, logo; v3: dot, pin, icon, logo
         'marker_preset' => 'islands#redDotIcon',
         'marker_color' => '#FF0000',
         'marker_logo' => '',
         'marker_logo_size' => 40,
+        'marker_icon' => '',   // v3: URL кастомной картинки маркера
+        'marker_size' => 0,    // v3: 0 = авторазмер по типу маркера
         'show_sidebar' => false,
         'sidebar_position' => 'left', // left, right
         'sidebar_title' => '',
@@ -579,6 +581,8 @@ class Codeweber_Yandex_Maps {
                 'color' => $settings['marker_color'],
                 'logo' => $settings['marker_logo'],
                 'logoSize' => $settings['marker_logo_size'],
+                'icon' => $settings['marker_icon'],
+                'size' => intval($settings['marker_size']),
             ),
             'sidebar' => array(
                 'show' => $settings['show_sidebar'],
