@@ -40,6 +40,9 @@ function cw_stock_photos_allowed_hosts() {
  * AJAX: import the selected photo.
  */
 function cw_stock_photos_ajax_import() {
+	// Large originals (Vecteezy, Pixabay) through a proxy can be slow to download.
+	@set_time_limit( 180 );
+
 	check_ajax_referer( 'cw_stock_photos', 'nonce' );
 
 	if ( ! current_user_can( 'upload_files' ) ) {
@@ -145,7 +148,7 @@ function cw_stock_photos_ajax_import() {
 		$url,
 		cw_stock_photos_request_args(
 			array(
-				'timeout'  => $is_video ? 120 : 30,
+				'timeout'  => $is_video ? 120 : 90,
 				'stream'   => true,
 				'filename' => $tmp,
 				'headers'  => array( 'User-Agent' => 'Mozilla/5.0' ),
