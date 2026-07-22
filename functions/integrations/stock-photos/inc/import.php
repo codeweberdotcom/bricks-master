@@ -43,6 +43,12 @@ function cw_stock_photos_ajax_import() {
 	// Large originals (Vecteezy, Pixabay) through a proxy can be slow to download.
 	@set_time_limit( 180 );
 
+	// Temporary debug log — remove after diagnosing the "request error" issue.
+	$cw_log = static function ( $msg ) {
+		error_log( '[CW Stock Import] ' . $msg );
+	};
+	$cw_log( 'import start, provider=' . ( $_POST['provider'] ?? '?' ) . ' id=' . ( $_POST['id'] ?? '?' ) );
+
 	check_ajax_referer( 'cw_stock_photos', 'nonce' );
 
 	if ( ! current_user_can( 'upload_files' ) ) {
@@ -78,9 +84,11 @@ function cw_stock_photos_ajax_import() {
 			$resource_id
 		);
 		if ( is_wp_error( $dl ) ) {
+			$cw_log( 'vecteezy resolve error: ' . $dl->get_error_message() );
 			wp_send_json_error( array( 'message' => $dl->get_error_message() ) );
 		}
 		$url               = esc_url_raw( $dl['url'] );
+		$cw_log( 'vecteezy resolved url host=' . wp_parse_url( $url, PHP_URL_HOST ) );
 		$vecteezy_attr_url = $dl['attribution_url'];
 		// Vecteezy returns the attribution link on the api. host; normalize to the
 		// public www. host so the stored source URL is user-facing.
@@ -113,9 +121,11 @@ function cw_stock_photos_ajax_import() {
 		$host    = wp_parse_url( $url, PHP_URL_HOST );
 		$allowed = cw_stock_photos_allowed_hosts();
 		if ( ! $host || empty( $allowed[ $provider ] ) || ! in_array( strtolower( $host ), $allowed[ $provider ], true ) ) {
+			$cw_log( 'host not allowed: ' . $host . ' provider=' . $provider );
 			wp_send_json_error( array( 'message' => __( 'Image host is not allowed', 'codeweber' ) ) );
 		}
 	}
+	$cw_log( 'host ok, downloading from ' . $url );
 
 	// Unsplash: trigger the download endpoint (API guidelines).
 	if ( 'unsplash' === $provider && ! empty( $dl_loc ) ) {
@@ -157,11 +167,13 @@ function cw_stock_photos_ajax_import() {
 	);
 
 	if ( is_wp_error( $download ) ) {
+		$cw_log( 'download wp_error: ' . $download->get_error_message() );
 		wp_delete_file( $tmp );
 		wp_send_json_error( array( 'message' => __( 'Download failed: ', 'codeweber' ) . $download->get_error_message() ) );
 	}
 
 	$dl_code = (int) wp_remote_retrieve_response_code( $download );
+	$cw_log( 'download http code=' . $dl_code . ' file=' . $tmp . ' size=' . filesize( $tmp ) );
 	if ( 200 !== $dl_code ) {
 		wp_delete_file( $tmp );
 		wp_send_json_error( array( 'message' => __( 'Download failed: HTTP ', 'codeweber' ) . $dl_code ) );
@@ -182,7 +194,9 @@ function cw_stock_photos_ajax_import() {
 		'tmp_name' => $tmp,
 	);
 
+	$cw_log( 'calling media_handle_sideload, file=' . $file_array['name'] );
 	$attachment_id = media_handle_sideload( $file_array, 0, $alt );
+	$cw_log( 'media_handle_sideload result=' . ( is_wp_error( $attachment_id ) ? 'error:' . $attachment_id->get_error_message() : 'id=' . $attachment_id ) );
 
 	if ( is_wp_error( $attachment_id ) ) {
 		if ( file_exists( $tmp ) ) {
