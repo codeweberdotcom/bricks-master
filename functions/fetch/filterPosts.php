@@ -842,8 +842,8 @@ function _fp_render_cw_websites_overlay( $query ) {
 		$st = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
 
 		$img_html = $screenshot
-			? '<div class="cw-it-screen overflow-hidden" data-h="340">' . wp_get_attachment_image( $screenshot, 'full', false, [ 'class' => 'cw-it-screenshot d-block w-100 h-auto', 'alt' => esc_attr( $title ) ] ) . '</div>'
-			: '<div class="cw-it-screen cw-it-screenshot-placeholder overflow-hidden bg-soft-ash" data-h="340"></div>';
+			? '<div class="cw-it-screen overflow-hidden" data-h="300">' . wp_get_attachment_image( $screenshot, 'full', false, [ 'class' => 'cw-it-screenshot d-block w-100 h-auto', 'alt' => esc_attr( $title ) ] ) . '</div>'
+			: '<div class="cw-it-screen cw-it-screenshot-placeholder overflow-hidden bg-soft-ash" data-h="300"></div>';
 
 		echo '<div class="col-md-6 col-xl-4">';
 		echo '<figure class="overlay overlay-5 rounded card-interactive mb-0">';
