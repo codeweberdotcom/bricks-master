@@ -1317,7 +1317,7 @@ function _fp_render_cw_websites_3b( $query ) {
 		echo '</div>';
 		echo '<div class="card-body p-4">';
 		echo '<div class="post-header">';
-		echo '<h3 class="post-title h5 mb-2 text-white"><a href="' . esc_url( $permalink ) . '" class="link-inverse">' . esc_html( $title ) . '</a></h3>';
+		echo '<h3 class="post-title h5 mb-0 text-white"><a href="' . esc_url( $permalink ) . '" class="link-inverse">' . esc_html( $title ) . '</a></h3>';
 		echo '<p class="price text-primary fs-22 fw-bold mb-0">';
 		if ( $price ) echo '<ins><span class="amount">' . esc_html( $price ) . ' ₽</span></ins>';
 		if ( $launch_time ) echo '<span class="text-muted fs-sm ms-2">· ' . esc_html( $launch_time ) . '</span>';
