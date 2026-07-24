@@ -1277,8 +1277,10 @@ function _fp_render_cw_websites_3b( $query ) {
 	$grid_gap    = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
 	$card_radius = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'card-radius' ) : 'rounded';
 	$btn_style   = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'button' ) : '';
-	$cols_map    = [ '2' => 'col-md-6', '3' => 'col-md-6 col-xl-4', '4' => 'col-md-6 col-xl-3' ];
-	$col_class   = function_exists( 'cw_wfs_setting' ) ? ( $cols_map[ cw_wfs_setting( 'archive_columns', '3' ) ] ?? 'col-md-6 col-xl-4' ) : 'col-md-6 col-xl-4';
+	$cols_setting = function_exists( 'cw_wfs_setting' ) ? cw_wfs_setting( 'archive_columns', '3' ) : '3';
+	$cols_map     = [ '2' => 'col-md-6', '3' => 'col-md-6 col-xl-4', '4' => 'col-md-6 col-xl-3' ];
+	$col_class    = $cols_map[ $cols_setting ] ?? 'col-md-6 col-xl-4';
+	$screen_h     = $cols_setting === '4' ? 210 : 285;
 	$status_cfg  = [
 		'for_sale' => [ 'label' => esc_html__( 'For Sale', 'cw-websites-for-sale' ), 'class' => 'bg-success' ],
 		'sold'     => [ 'label' => esc_html__( 'Sold', 'cw-websites-for-sale' ),     'class' => 'bg-secondary' ],
@@ -1304,7 +1306,7 @@ function _fp_render_cw_websites_3b( $query ) {
 
 		echo '<div class="' . esc_attr( $col_class ) . '">';
 		echo '<div class="card h-100 bg-dark shadow-lg ' . esc_attr( $card_radius ) . '">';
-		echo '<div class="cw-it-screen position-relative overflow-hidden mx-2 mt-2 ' . esc_attr( $card_radius ) . '" style="height:285px">';
+		echo '<div class="cw-it-screen position-relative overflow-hidden mx-2 mt-2 ' . esc_attr( $card_radius ) . '" style="height:' . $screen_h . 'px">';
 		if ( $screenshot ) {
 			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'class' => 'w-100 cw-it-screenshot', 'style' => 'height:auto' ] );
 		} else {
