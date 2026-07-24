@@ -793,6 +793,26 @@ function _fp_render_cw_websites_grid( $query, $template = 'cw_websites_1' ) {
 		_fp_render_cw_websites_overlay( $query );
 		return;
 	}
+	if ( $template === 'cw_websites_1a' ) {
+		_fp_render_cw_websites_1a( $query );
+		return;
+	}
+	if ( $template === 'cw_websites_1c' ) {
+		_fp_render_cw_websites_1c( $query );
+		return;
+	}
+	if ( $template === 'cw_websites_2a' ) {
+		_fp_render_cw_websites_2a( $query );
+		return;
+	}
+	if ( $template === 'cw_websites_3a' ) {
+		_fp_render_cw_websites_3a( $query );
+		return;
+	}
+	if ( $template === 'cw_websites_3b' ) {
+		_fp_render_cw_websites_3b( $query );
+		return;
+	}
 
 	$grid_gap = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
 
@@ -961,6 +981,351 @@ function _fp_render_cw_websites_rows( $query ) {
 
 		echo '</div>';
 	}
+}
+
+function _fp_render_cw_websites_1a( $query ) {
+	$cat_colors = [
+		[ 'bg' => '#dbeafe', 'fg' => '#1d4ed8' ],
+		[ 'bg' => '#dcfce7', 'fg' => '#15803d' ],
+		[ 'bg' => '#fce7f3', 'fg' => '#9d174d' ],
+		[ 'bg' => '#fef3c7', 'fg' => '#92400e' ],
+		[ 'bg' => '#ede9fe', 'fg' => '#6d28d9' ],
+		[ 'bg' => '#fee2e2', 'fg' => '#991b1b' ],
+	];
+	$grid_gap   = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+	$status_cfg = [
+		'for_sale' => [ 'label' => esc_html__( 'For Sale', 'cw-websites-for-sale' ), 'class' => 'bg-success' ],
+		'sold'     => [ 'label' => esc_html__( 'Sold', 'cw-websites-for-sale' ),     'class' => 'bg-secondary' ],
+		'reserved' => [ 'label' => esc_html__( 'Reserved', 'cw-websites-for-sale' ), 'class' => 'bg-warning text-dark' ],
+	];
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id     = get_the_ID();
+		$title       = get_post_meta( $post_id, '_alt_title', true ) ?: get_the_title();
+		$website_url = get_post_meta( $post_id, '_ws_url', true );
+		$screenshot  = (int) get_post_meta( $post_id, '_ws_screenshot', true );
+		$price       = get_post_meta( $post_id, '_ws_price', true );
+		$launch_time = get_post_meta( $post_id, '_ws_launch_time', true );
+		$cms         = get_post_meta( $post_id, '_ws_cms', true ) ?: 'WordPress';
+		$status      = get_post_meta( $post_id, '_ws_status', true ) ?: 'for_sale';
+		$permalink   = get_permalink();
+		$url_display = $website_url ? preg_replace( '#^https?://#', '', rtrim( $website_url, '/' ) ) : '';
+		$cats        = get_the_terms( $post_id, 'website_category' );
+		$cat_name    = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+		$cat_c       = ( $cats && ! is_wp_error( $cats ) ) ? $cat_colors[ $cats[0]->term_id % 6 ] : $cat_colors[0];
+		$st          = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
+
+		echo '<div class="col-md-6 col-xl-4">';
+		echo '<div class="card shadow-sm border rounded-3 overflow-hidden h-100">';
+		echo '<div class="cw-wfs-browser d-flex align-items-center gap-2 px-3" style="height:30px;background:#f8fafc;border-bottom:1px solid #eef2f7;">';
+		echo '<span class="rounded-circle flex-shrink-0" style="width:9px;height:9px;background:#f87171;"></span>';
+		echo '<span class="rounded-circle flex-shrink-0" style="width:9px;height:9px;background:#fbbf24;"></span>';
+		echo '<span class="rounded-circle flex-shrink-0" style="width:9px;height:9px;background:#34d399;"></span>';
+		if ( $url_display ) {
+			echo '<span class="flex-grow-1 text-truncate ms-2 text-muted" style="font-family:ui-monospace,monospace;font-size:11px;">' . esc_html( $url_display ) . '</span>';
+		}
+		echo '</div>';
+		echo '<div style="position:relative;height:168px;overflow:hidden;">';
+		if ( $screenshot ) {
+			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'style' => 'width:100%;height:100%;object-fit:cover;object-position:top center;display:block;' ] );
+		} else {
+			echo '<div class="w-100 h-100 bg-soft-ash"></div>';
+		}
+		echo '<span class="badge ' . esc_attr( $st['class'] ) . ' position-absolute top-0 start-0 m-2" style="z-index:2;">' . $st['label'] . '</span>';
+		echo '</div>';
+		echo '<div class="card-body d-flex flex-column gap-3 p-4">';
+		echo '<div class="d-flex align-items-center gap-2">';
+		if ( $cat_name ) {
+			echo '<span style="display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:6px;font-size:12px;font-weight:700;background:' . esc_attr( $cat_c['bg'] ) . ';color:' . esc_attr( $cat_c['fg'] ) . ';">' . esc_html( $cat_name ) . '</span>';
+		}
+		echo '<span class="small text-muted">' . esc_html( $cms ) . '</span>';
+		echo '</div>';
+		echo '<h3 class="h6 fw-bold text-dark mb-0">' . esc_html( $title ) . '</h3>';
+		echo '<div class="mt-auto pt-3 border-top">';
+		if ( $price ) echo '<div class="fw-bold text-dark" style="font-size:22px;">' . esc_html( $price ) . ' <span class="text-muted" style="font-size:15px;">₽</span></div>';
+		if ( $launch_time ) echo '<div class="small text-muted mt-1">' . esc_html__( 'Term:', 'cw-websites-for-sale' ) . ' ' . esc_html( $launch_time ) . '</div>';
+		echo '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px;">';
+		echo '<a href="' . esc_url( $permalink ) . '" class="btn rounded-2 fw-bold" style="background:#4f46e5;color:#fff;border-color:#4f46e5;height:42px;display:flex;align-items:center;justify-content:center;">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
+		if ( $website_url ) {
+			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" class="btn btn-outline-secondary rounded-2 fw-bold px-3" style="height:42px;display:flex;align-items:center;justify-content:center;">' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</a>';
+		}
+		echo '</div></div></div></div></div>';
+	}
+
+	echo '</div>';
+}
+
+function _fp_render_cw_websites_1c( $query ) {
+	$cat_colors = [
+		[ 'fg' => '#1d4ed8', 'dot' => '#60a5fa' ],
+		[ 'fg' => '#15803d', 'dot' => '#4ade80' ],
+		[ 'fg' => '#9d174d', 'dot' => '#f472b6' ],
+		[ 'fg' => '#92400e', 'dot' => '#fbbf24' ],
+		[ 'fg' => '#6d28d9', 'dot' => '#a78bfa' ],
+		[ 'fg' => '#991b1b', 'dot' => '#f87171' ],
+	];
+	$grid_gap   = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+	$status_cfg = [
+		'for_sale' => [ 'label' => esc_html__( 'For Sale', 'cw-websites-for-sale' ), 'class' => 'bg-success' ],
+		'sold'     => [ 'label' => esc_html__( 'Sold', 'cw-websites-for-sale' ),     'class' => 'bg-secondary' ],
+		'reserved' => [ 'label' => esc_html__( 'Reserved', 'cw-websites-for-sale' ), 'class' => 'bg-warning text-dark' ],
+	];
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id     = get_the_ID();
+		$title       = get_post_meta( $post_id, '_alt_title', true ) ?: get_the_title();
+		$website_url = get_post_meta( $post_id, '_ws_url', true );
+		$screenshot  = (int) get_post_meta( $post_id, '_ws_screenshot', true );
+		$price       = get_post_meta( $post_id, '_ws_price', true );
+		$launch_time = get_post_meta( $post_id, '_ws_launch_time', true );
+		$cms         = get_post_meta( $post_id, '_ws_cms', true ) ?: 'WordPress';
+		$status      = get_post_meta( $post_id, '_ws_status', true ) ?: 'for_sale';
+		$permalink   = get_permalink();
+		$cats        = get_the_terms( $post_id, 'website_category' );
+		$cat_name    = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+		$cat_c       = ( $cats && ! is_wp_error( $cats ) ) ? $cat_colors[ $cats[0]->term_id % 6 ] : $cat_colors[0];
+		$st          = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
+
+		echo '<div class="col-md-6 col-xl-4">';
+		echo '<div class="card shadow-sm border-0 rounded-4 overflow-hidden h-100">';
+		echo '<div style="position:relative;height:176px;overflow:hidden;">';
+		if ( $screenshot ) {
+			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'style' => 'width:100%;height:100%;object-fit:cover;object-position:top center;display:block;' ] );
+		} else {
+			echo '<div class="w-100 h-100 bg-soft-ash"></div>';
+		}
+		if ( $price ) {
+			echo '<span style="position:absolute;top:12px;right:12px;display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:800;background:#fff;color:#0f172a;box-shadow:0 3px 10px rgba(15,23,42,.2);z-index:2;">' . esc_html( $price ) . ' ₽</span>';
+		}
+		echo '<span class="badge ' . esc_attr( $st['class'] ) . ' position-absolute top-0 start-0 m-2" style="z-index:2;">' . $st['label'] . '</span>';
+		echo '</div>';
+		echo '<div class="card-body d-flex flex-column gap-3 p-4">';
+		echo '<div class="d-flex align-items-center gap-2">';
+		if ( $cat_name ) {
+			echo '<span style="width:8px;height:8px;border-radius:50%;background:' . esc_attr( $cat_c['dot'] ) . ';flex-shrink:0;"></span>';
+			echo '<span class="small fw-bold" style="color:' . esc_attr( $cat_c['fg'] ) . ';">' . esc_html( $cat_name ) . '</span>';
+			echo '<span class="text-muted small">·</span>';
+		}
+		echo '<span class="small text-muted fw-semibold">' . esc_html( $cms ) . ( $launch_time ? ' · ' . esc_html( $launch_time ) : '' ) . '</span>';
+		echo '</div>';
+		echo '<h3 class="h6 fw-bold text-dark mb-0" style="font-size:20px;letter-spacing:-.02em;">' . esc_html( $title ) . '</h3>';
+		echo '</div>';
+		echo '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#1e293b;margin-top:auto;">';
+		echo '<a href="' . esc_url( $permalink ) . '" style="display:flex;align-items:center;justify-content:center;height:48px;background:#0f172a;color:#fff;font-weight:700;font-size:14px;text-decoration:none;">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
+		if ( $website_url ) {
+			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;height:48px;background:#0f172a;color:#cbd5e1;font-weight:700;font-size:14px;text-decoration:none;"><i class="uil uil-play-circle me-1"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</a>';
+		} else {
+			echo '<span></span>';
+		}
+		echo '</div>';
+		echo '</div></div>';
+	}
+
+	echo '</div>';
+}
+
+function _fp_render_cw_websites_2a( $query ) {
+	$cat_colors = [
+		[ 'fg' => '#1d4ed8', 'dot' => '#60a5fa' ],
+		[ 'fg' => '#15803d', 'dot' => '#4ade80' ],
+		[ 'fg' => '#9d174d', 'dot' => '#f472b6' ],
+		[ 'fg' => '#92400e', 'dot' => '#fbbf24' ],
+		[ 'fg' => '#6d28d9', 'dot' => '#a78bfa' ],
+		[ 'fg' => '#991b1b', 'dot' => '#f87171' ],
+	];
+	$grid_gap   = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+	$status_cfg = [
+		'for_sale' => [ 'label' => esc_html__( 'For Sale', 'cw-websites-for-sale' ), 'class' => 'bg-success' ],
+		'sold'     => [ 'label' => esc_html__( 'Sold', 'cw-websites-for-sale' ),     'class' => 'bg-secondary' ],
+		'reserved' => [ 'label' => esc_html__( 'Reserved', 'cw-websites-for-sale' ), 'class' => 'bg-warning text-dark' ],
+	];
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id     = get_the_ID();
+		$title       = get_post_meta( $post_id, '_alt_title', true ) ?: get_the_title();
+		$website_url = get_post_meta( $post_id, '_ws_url', true );
+		$screenshot  = (int) get_post_meta( $post_id, '_ws_screenshot', true );
+		$price       = get_post_meta( $post_id, '_ws_price', true );
+		$launch_time = get_post_meta( $post_id, '_ws_launch_time', true );
+		$cms         = get_post_meta( $post_id, '_ws_cms', true ) ?: 'WordPress';
+		$status      = get_post_meta( $post_id, '_ws_status', true ) ?: 'for_sale';
+		$permalink   = get_permalink();
+		$cats        = get_the_terms( $post_id, 'website_category' );
+		$cat_name    = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+		$cat_c       = ( $cats && ! is_wp_error( $cats ) ) ? $cat_colors[ $cats[0]->term_id % 6 ] : $cat_colors[0];
+		$st          = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
+
+		echo '<div class="col-md-6 col-xl-4">';
+		echo '<div class="card shadow-sm border rounded-4 overflow-hidden h-100">';
+		echo '<div style="position:relative;height:180px;overflow:hidden;">';
+		if ( $screenshot ) {
+			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'style' => 'width:100%;height:100%;object-fit:cover;object-position:top center;display:block;' ] );
+		} else {
+			echo '<div class="w-100 h-100 bg-soft-ash"></div>';
+		}
+		if ( $price ) {
+			echo '<span style="position:absolute;top:12px;right:12px;display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:800;background:#fff;color:#0f172a;box-shadow:0 3px 10px rgba(15,23,42,.2);z-index:2;">' . esc_html( $price ) . ' ₽</span>';
+		}
+		echo '<span class="badge ' . esc_attr( $st['class'] ) . ' position-absolute top-0 start-0 m-2" style="z-index:2;">' . $st['label'] . '</span>';
+		echo '</div>';
+		echo '<div class="card-body d-flex flex-column gap-3 p-4">';
+		echo '<div class="d-flex align-items-center gap-2">';
+		if ( $cat_name ) {
+			echo '<span style="width:8px;height:8px;border-radius:50%;background:' . esc_attr( $cat_c['dot'] ) . ';flex-shrink:0;"></span>';
+			echo '<span class="small fw-bold" style="color:' . esc_attr( $cat_c['fg'] ) . ';">' . esc_html( $cat_name ) . '</span>';
+			echo '<span class="text-muted small">·</span>';
+		}
+		echo '<span class="small text-muted fw-semibold">' . esc_html( $cms ) . ( $launch_time ? ' · ' . esc_html( $launch_time ) : '' ) . '</span>';
+		echo '</div>';
+		echo '<h3 class="h6 fw-bold text-dark mb-0" style="font-size:20px;letter-spacing:-.02em;">' . esc_html( $title ) . '</h3>';
+		echo '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:auto;">';
+		echo '<a href="' . esc_url( $permalink ) . '" class="btn rounded-3 fw-bold" style="background:#4f46e5;color:#fff;border-color:#4f46e5;height:46px;display:flex;align-items:center;justify-content:center;">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
+		if ( $website_url ) {
+			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" class="btn btn-outline-secondary rounded-3 fw-bold" style="width:46px;height:46px;display:flex;align-items:center;justify-content:center;" title="' . esc_attr__( 'Preview', 'cw-websites-for-sale' ) . '"><i class="uil uil-play-circle" style="font-size:18px;"></i></a>';
+		}
+		echo '</div></div></div></div>';
+	}
+
+	echo '</div>';
+}
+
+function _fp_render_cw_websites_3a( $query ) {
+	$cat_colors = [
+		[ 'dot' => '#60a5fa', 'fg' => '#60a5fa' ],
+		[ 'dot' => '#4ade80', 'fg' => '#4ade80' ],
+		[ 'dot' => '#f472b6', 'fg' => '#f472b6' ],
+		[ 'dot' => '#fbbf24', 'fg' => '#fbbf24' ],
+		[ 'dot' => '#a78bfa', 'fg' => '#a78bfa' ],
+		[ 'dot' => '#f87171', 'fg' => '#f87171' ],
+	];
+	$grid_gap   = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+	$status_cfg = [
+		'for_sale' => [ 'label' => esc_html__( 'For Sale', 'cw-websites-for-sale' ), 'class' => 'bg-success' ],
+		'sold'     => [ 'label' => esc_html__( 'Sold', 'cw-websites-for-sale' ),     'class' => 'bg-secondary' ],
+		'reserved' => [ 'label' => esc_html__( 'Reserved', 'cw-websites-for-sale' ), 'class' => 'bg-warning text-dark' ],
+	];
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id     = get_the_ID();
+		$title       = get_post_meta( $post_id, '_alt_title', true ) ?: get_the_title();
+		$website_url = get_post_meta( $post_id, '_ws_url', true );
+		$screenshot  = (int) get_post_meta( $post_id, '_ws_screenshot', true );
+		$price       = get_post_meta( $post_id, '_ws_price', true );
+		$launch_time = get_post_meta( $post_id, '_ws_launch_time', true );
+		$cms         = get_post_meta( $post_id, '_ws_cms', true ) ?: 'WordPress';
+		$status      = get_post_meta( $post_id, '_ws_status', true ) ?: 'for_sale';
+		$permalink   = get_permalink();
+		$cats        = get_the_terms( $post_id, 'website_category' );
+		$cat_name    = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+		$cat_c       = ( $cats && ! is_wp_error( $cats ) ) ? $cat_colors[ $cats[0]->term_id % 6 ] : $cat_colors[0];
+		$st          = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
+
+		echo '<div class="col-md-6 col-xl-4">';
+		echo '<div style="background:#1a2234;border:1px solid #26324a;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;height:100%;">';
+		echo '<div style="position:relative;height:178px;overflow:hidden;">';
+		if ( $screenshot ) {
+			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'style' => 'width:100%;height:100%;object-fit:cover;object-position:top center;display:block;' ] );
+		} else {
+			echo '<div class="w-100 h-100" style="background:#26324a;"></div>';
+		}
+		echo '<span class="badge ' . esc_attr( $st['class'] ) . ' position-absolute top-0 start-0 m-2" style="z-index:2;">' . $st['label'] . '</span>';
+		echo '</div>';
+		echo '<div style="padding:18px;display:flex;flex-direction:column;gap:12px;flex:1;">';
+		echo '<div class="d-flex align-items-center gap-2">';
+		if ( $cat_name ) {
+			echo '<span style="width:8px;height:8px;border-radius:50%;background:' . esc_attr( $cat_c['dot'] ) . ';flex-shrink:0;"></span>';
+			echo '<span class="small fw-bold" style="color:' . esc_attr( $cat_c['fg'] ) . ';">' . esc_html( $cat_name ) . '</span>';
+			echo '<span style="color:#3f4a63;font-size:12px;">•</span>';
+		}
+		echo '<span class="small fw-semibold" style="color:#64748b;">' . esc_html( $cms ) . ( $launch_time ? ' · ' . esc_html( $launch_time ) : '' ) . '</span>';
+		echo '</div>';
+		echo '<h3 class="mb-0 fw-bold" style="font-size:20px;color:#f1f5f9;letter-spacing:-.02em;line-height:1.2;">' . esc_html( $title ) . '</h3>';
+		if ( $price ) echo '<div style="font-size:22px;font-weight:800;color:#a5b4fc;line-height:1;margin-top:auto;">' . esc_html( $price ) . ' ₽</div>';
+		echo '</div>';
+		echo '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;padding:0 18px 18px;">';
+		echo '<a href="' . esc_url( $permalink ) . '" class="btn rounded-3 fw-bold" style="background:#818cf8;color:#0b1120;border-color:#818cf8;height:46px;display:flex;align-items:center;justify-content:center;">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
+		if ( $website_url ) {
+			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:11px;background:#26324a;color:#cbd5e1;font-size:18px;text-decoration:none;" title="' . esc_attr__( 'Preview', 'cw-websites-for-sale' ) . '"><i class="uil uil-play-circle"></i></a>';
+		}
+		echo '</div></div></div>';
+	}
+
+	echo '</div>';
+}
+
+function _fp_render_cw_websites_3b( $query ) {
+	$cat_colors = [
+		[ 'bg' => '#dbeafe', 'fg' => '#1d4ed8' ],
+		[ 'bg' => '#dcfce7', 'fg' => '#15803d' ],
+		[ 'bg' => '#fce7f3', 'fg' => '#9d174d' ],
+		[ 'bg' => '#fef3c7', 'fg' => '#92400e' ],
+		[ 'bg' => '#ede9fe', 'fg' => '#6d28d9' ],
+		[ 'bg' => '#fee2e2', 'fg' => '#991b1b' ],
+	];
+	$grid_gap   = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+	$status_cfg = [
+		'for_sale' => [ 'label' => esc_html__( 'For Sale', 'cw-websites-for-sale' ), 'class' => 'bg-success' ],
+		'sold'     => [ 'label' => esc_html__( 'Sold', 'cw-websites-for-sale' ),     'class' => 'bg-secondary' ],
+		'reserved' => [ 'label' => esc_html__( 'Reserved', 'cw-websites-for-sale' ), 'class' => 'bg-warning text-dark' ],
+	];
+
+	echo '<div class="row ' . esc_attr( $grid_gap ) . '">';
+
+	while ( $query->have_posts() ) {
+		$query->the_post();
+		$post_id     = get_the_ID();
+		$title       = get_post_meta( $post_id, '_alt_title', true ) ?: get_the_title();
+		$website_url = get_post_meta( $post_id, '_ws_url', true );
+		$screenshot  = (int) get_post_meta( $post_id, '_ws_screenshot', true );
+		$price       = get_post_meta( $post_id, '_ws_price', true );
+		$launch_time = get_post_meta( $post_id, '_ws_launch_time', true );
+		$status      = get_post_meta( $post_id, '_ws_status', true ) ?: 'for_sale';
+		$permalink   = get_permalink();
+		$cats        = get_the_terms( $post_id, 'website_category' );
+		$cat_name    = ( $cats && ! is_wp_error( $cats ) ) ? $cats[0]->name : '';
+		$cat_c       = ( $cats && ! is_wp_error( $cats ) ) ? $cat_colors[ $cats[0]->term_id % 6 ] : $cat_colors[0];
+		$st          = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
+
+		echo '<div class="col-md-6 col-xl-4">';
+		echo '<div style="background:#171f30;border:1px solid #26324a;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;height:100%;">';
+		echo '<div style="margin:10px 10px 0;border-radius:12px;overflow:hidden;position:relative;height:176px;">';
+		if ( $screenshot ) {
+			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'style' => 'width:100%;height:100%;object-fit:cover;object-position:top center;display:block;' ] );
+		} else {
+			echo '<div class="w-100 h-100" style="background:#26324a;"></div>';
+		}
+		if ( $cat_name ) {
+			echo '<span style="position:absolute;top:10px;left:10px;display:inline-flex;align-items:center;height:26px;padding:0 11px;border-radius:7px;font-size:12px;font-weight:700;background:' . esc_attr( $cat_c['bg'] ) . ';color:' . esc_attr( $cat_c['fg'] ) . ';box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:2;">' . esc_html( $cat_name ) . '</span>';
+		}
+		echo '<span class="badge ' . esc_attr( $st['class'] ) . ' position-absolute top-0 end-0 m-2" style="z-index:3;">' . $st['label'] . '</span>';
+		echo '</div>';
+		echo '<div style="padding:16px 16px 8px;display:flex;flex-direction:column;gap:10px;flex:1;">';
+		echo '<h3 class="mb-0 fw-bold" style="font-size:19px;color:#f1f5f9;letter-spacing:-.02em;line-height:1.2;">' . esc_html( $title ) . '</h3>';
+		echo '<div style="display:flex;align-items:baseline;gap:8px;">';
+		if ( $price ) echo '<span style="font-size:22px;font-weight:800;color:#a5b4fc;line-height:1;">' . esc_html( $price ) . ' ₽</span>';
+		if ( $launch_time ) echo '<span class="small fw-semibold" style="color:#64748b;">· ' . esc_html( $launch_time ) . '</span>';
+		echo '</div></div>';
+		echo '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 16px 16px;">';
+		echo '<a href="' . esc_url( $permalink ) . '" style="display:flex;align-items:center;justify-content:center;height:46px;border-radius:11px;background:#fff;color:#0f172a;font-weight:700;font-size:15px;text-decoration:none;">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
+		if ( $website_url ) {
+			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;height:46px;padding:0 16px;border-radius:11px;border:1px solid #334155;color:#cbd5e1;font-weight:700;font-size:15px;text-decoration:none;white-space:nowrap;"><i class="uil uil-play-circle me-1"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</a>';
+		}
+		echo '</div></div></div>';
+	}
+
+	echo '</div>';
 }
 
 function _fp_render_services_grid( $query, $template ) {
