@@ -82,8 +82,11 @@ add_action('wp_footer', function () {
    $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
    $is_bot = preg_match('/bot|crawl|slurp|spider|yandex|google|bing|baidu|duckduckgo/i', $user_agent);
 
+   // Не показывать баннер внутри iframe (превью сайта)
+   $is_iframe = ( isset( $_SERVER['HTTP_SEC_FETCH_DEST'] ) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe' );
+
    // Условия показа баннера
-   if ($cookieBool && !$is_bot && !isset($_COOKIE[$cookie_name]) && $current_url !== $cookie_policy_url) {
+   if ($cookieBool && !$is_bot && !$is_iframe && !isset($_COOKIE[$cookie_name]) && $current_url !== $cookie_policy_url) {
 ?>
       <?php $card_radius = Codeweber_Options::style('card-radius'); ?>
       <!-- Cookie Modal -->
