@@ -1306,7 +1306,7 @@ function _fp_render_cw_websites_3b( $query ) {
 		echo '<div class="card h-100 bg-dark shadow-lg ' . esc_attr( $card_radius ) . '">';
 		echo '<div class="cw-it-screen position-relative overflow-hidden mx-2 mt-2 ' . esc_attr( $card_radius ) . '" style="height:285px">';
 		if ( $screenshot ) {
-			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'class' => 'w-100 cw-it-screenshot' ] );
+			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'class' => 'w-100 cw-it-screenshot', 'style' => 'height:auto' ] );
 		} else {
 			echo '<div class="w-100 h-100 bg-ash"></div>';
 		}
