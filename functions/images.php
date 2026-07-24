@@ -75,8 +75,25 @@ function codeweber_image_quality()
 }
 add_filter('jpeg_quality', 'codeweber_image_quality');
 
-// Increase big image auto-scale threshold from 2560px to 5120px
-add_filter( 'big_image_size_threshold', function () { return 5120; } );
+// Big image auto-scale threshold (WP default is 2560px).
+// Long screenshots (aspect ratio 3:1 or more) keep their original size — returning
+// false disables the -scaled copy. Regular photos are still capped at 5120px.
+add_filter(
+	'big_image_size_threshold',
+	function ( $threshold, $imagesize ) {
+		if ( ! empty( $imagesize[0] ) && ! empty( $imagesize[1] ) ) {
+			$ratio = max( $imagesize[0], $imagesize[1] ) / min( $imagesize[0], $imagesize[1] );
+
+			if ( $ratio >= 3 ) {
+				return false;
+			}
+		}
+
+		return 5120;
+	},
+	10,
+	2
+);
 
 
 /**
