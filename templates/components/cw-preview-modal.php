@@ -234,7 +234,7 @@ defined( 'ABSPATH' ) || exit;
 					<div class="cw-preview-frame-wrap" id="cw-preview-frame-wrap" data-device="desktop">
 						<span class="cw-device-btn-l" aria-hidden="true"></span>
 						<span class="cw-device-btn-r" aria-hidden="true"></span>
-						<iframe id="cw-preview-frame" src="" title="" loading="lazy"></iframe>
+						<iframe id="cw-preview-frame" src="" title=""></iframe>
 					</div>
 					<div class="cw-device-base" id="cw-device-base"></div>
 				</div>
@@ -290,7 +290,6 @@ defined( 'ABSPATH' ) || exit;
 		if (previewTitle) previewTitle.textContent = title;
 		showLoader();
 		if (previewFrame) {
-			previewFrame.src = '';
 			previewFrame.onload = hideLoader;
 			previewFrame.src = url;
 			previewFrame.title = title;
