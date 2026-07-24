@@ -1316,14 +1316,14 @@ function _fp_render_cw_websites_3b( $query ) {
 		echo '<div class="card-body p-4">';
 		echo '<div class="post-header">';
 		echo '<h3 class="post-title h5 mb-2 text-white"><a href="' . esc_url( $permalink ) . '" class="link-inverse">' . esc_html( $title ) . '</a></h3>';
-		echo '<p class="price text-primary mb-0">';
+		echo '<p class="price text-primary fs-22 fw-bold mb-0">';
 		if ( $price ) echo '<ins><span class="amount">' . esc_html( $price ) . ' ₽</span></ins>';
 		if ( $launch_time ) echo '<span class="text-muted fs-sm ms-2">· ' . esc_html( $launch_time ) . '</span>';
 		echo '</p></div></div>';
 		echo '<div class="card-footer d-flex gap-2 bg-transparent border-0 pt-0 px-4 pb-4">';
-		echo '<a href="' . esc_url( $permalink ) . '" class="btn btn-white' . esc_attr( $btn_style ) . ' has-ripple flex-grow-1">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
+		echo '<a href="' . esc_url( $permalink ) . '" class="btn btn-outline-white' . esc_attr( $btn_style ) . ' has-ripple flex-grow-1">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
 		if ( $website_url ) {
-			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" class="btn btn-ash' . esc_attr( $btn_style ) . ' has-ripple"><i class="uil uil-play-circle me-1"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</a>';
+			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" class="btn btn-primary' . esc_attr( $btn_style ) . ' has-ripple"><i class="uil uil-play-circle me-1"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</a>';
 		}
 		echo '</div></div></div>';
 	}
