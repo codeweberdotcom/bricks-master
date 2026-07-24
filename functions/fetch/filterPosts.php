@@ -1299,28 +1299,28 @@ function _fp_render_cw_websites_3b( $query ) {
 		$st          = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
 
 		echo '<div class="col-md-6 col-xl-4">';
-		echo '<div style="background:#171f30;border:1px solid #26324a;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;height:100%;">';
-		echo '<div style="margin:10px 10px 0;border-radius:12px;overflow:hidden;position:relative;height:176px;">';
+		echo '<div class="rounded-3 overflow-hidden d-flex flex-column h-100 shadow-lg bg-dark">';
+		echo '<div class="position-relative overflow-hidden mx-2 mt-2 rounded-3" style="height:285px">';
 		if ( $screenshot ) {
-			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'style' => 'width:100%;height:100%;object-fit:cover;object-position:top center;display:block;' ] );
+			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'class' => 'w-100 h-100 object-fit-cover object-position-top' ] );
 		} else {
-			echo '<div class="w-100 h-100" style="background:#26324a;"></div>';
+			echo '<div class="w-100 h-100 bg-secondary opacity-25"></div>';
 		}
 		if ( $cat_name ) {
-			echo '<span style="position:absolute;top:10px;left:10px;display:inline-flex;align-items:center;height:26px;padding:0 11px;border-radius:7px;font-size:12px;font-weight:700;background:' . esc_attr( $cat_c['bg'] ) . ';color:' . esc_attr( $cat_c['fg'] ) . ';box-shadow:0 2px 8px rgba(0,0,0,.35);z-index:2;">' . esc_html( $cat_name ) . '</span>';
+			echo '<span class="badge position-absolute top-0 start-0 m-2 fw-bold" style="background:' . esc_attr( $cat_c['bg'] ) . ';color:' . esc_attr( $cat_c['fg'] ) . ';">' . esc_html( $cat_name ) . '</span>';
 		}
-		echo '<span class="badge ' . esc_attr( $st['class'] ) . ' position-absolute top-0 end-0 m-2" style="z-index:3;">' . $st['label'] . '</span>';
+		echo '<span class="badge ' . esc_attr( $st['class'] ) . ' position-absolute top-0 end-0 m-2">' . $st['label'] . '</span>';
 		echo '</div>';
-		echo '<div style="padding:16px 16px 8px;display:flex;flex-direction:column;gap:10px;flex:1;">';
-		echo '<h3 class="mb-0 fw-bold" style="font-size:19px;color:#f1f5f9;letter-spacing:-.02em;line-height:1.2;">' . esc_html( $title ) . '</h3>';
-		echo '<div style="display:flex;align-items:baseline;gap:8px;">';
-		if ( $price ) echo '<span style="font-size:22px;font-weight:800;color:#a5b4fc;line-height:1;">' . esc_html( $price ) . ' ₽</span>';
-		if ( $launch_time ) echo '<span class="small fw-semibold" style="color:#64748b;">· ' . esc_html( $launch_time ) . '</span>';
+		echo '<div class="d-flex flex-column gap-3 p-4 flex-grow-1">';
+		echo '<h3 class="mb-0 fw-bold fs-5 text-white">' . esc_html( $title ) . '</h3>';
+		echo '<div class="d-flex align-items-baseline gap-2">';
+		if ( $price ) echo '<span class="fw-bold fs-4 text-primary">' . esc_html( $price ) . ' ₽</span>';
+		if ( $launch_time ) echo '<span class="small fw-semibold text-muted">· ' . esc_html( $launch_time ) . '</span>';
 		echo '</div></div>';
-		echo '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 16px 16px;">';
-		echo '<a href="' . esc_url( $permalink ) . '" style="display:flex;align-items:center;justify-content:center;height:46px;border-radius:11px;background:#fff;color:#0f172a;font-weight:700;font-size:15px;text-decoration:none;">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
+		echo '<div class="d-flex gap-2 px-4 pb-4">';
+		echo '<a href="' . esc_url( $permalink ) . '" class="btn btn-light flex-grow-1">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
 		if ( $website_url ) {
-			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;height:46px;padding:0 16px;border-radius:11px;border:1px solid #334155;color:#cbd5e1;font-weight:700;font-size:15px;text-decoration:none;white-space:nowrap;"><i class="uil uil-play-circle me-1"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</a>';
+			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" class="btn btn-outline-secondary"><i class="uil uil-play-circle me-1"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</a>';
 		}
 		echo '</div></div></div>';
 	}
