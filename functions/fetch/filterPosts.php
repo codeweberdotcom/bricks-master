@@ -1274,8 +1274,10 @@ function _fp_render_cw_websites_3b( $query ) {
 		[ 'bg' => '#ede9fe', 'fg' => '#6d28d9' ],
 		[ 'bg' => '#fee2e2', 'fg' => '#991b1b' ],
 	];
-	$grid_gap   = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
-	$status_cfg = [
+	$grid_gap    = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'grid-gap' ) : 'gx-md-8 gy-10 gy-md-13';
+	$card_radius = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'card-radius' ) : 'rounded';
+	$btn_style   = class_exists( 'Codeweber_Options' ) ? \Codeweber_Options::style( 'button' ) : '';
+	$status_cfg  = [
 		'for_sale' => [ 'label' => esc_html__( 'For Sale', 'cw-websites-for-sale' ), 'class' => 'bg-success' ],
 		'sold'     => [ 'label' => esc_html__( 'Sold', 'cw-websites-for-sale' ),     'class' => 'bg-secondary' ],
 		'reserved' => [ 'label' => esc_html__( 'Reserved', 'cw-websites-for-sale' ), 'class' => 'bg-warning text-dark' ],
@@ -1299,28 +1301,29 @@ function _fp_render_cw_websites_3b( $query ) {
 		$st          = $status_cfg[ $status ] ?? $status_cfg['for_sale'];
 
 		echo '<div class="col-md-6 col-xl-4">';
-		echo '<div class="rounded-3 overflow-hidden d-flex flex-column h-100 shadow-lg bg-dark">';
-		echo '<div class="position-relative overflow-hidden mx-2 mt-2 rounded-3" style="height:285px">';
+		echo '<div class="card h-100 bg-dark shadow-lg ' . esc_attr( $card_radius ) . '">';
+		echo '<div class="position-relative overflow-hidden mx-2 mt-2 ' . esc_attr( $card_radius ) . '" style="height:285px">';
 		if ( $screenshot ) {
 			echo wp_get_attachment_image( $screenshot, 'full', false, [ 'alt' => esc_attr( $title ), 'class' => 'w-100 h-100 object-fit-cover object-position-top' ] );
 		} else {
-			echo '<div class="w-100 h-100 bg-secondary opacity-25"></div>';
+			echo '<div class="w-100 h-100 bg-ash"></div>';
 		}
 		if ( $cat_name ) {
-			echo '<span class="badge position-absolute top-0 start-0 m-2 fw-bold" style="background:' . esc_attr( $cat_c['bg'] ) . ';color:' . esc_attr( $cat_c['fg'] ) . ';">' . esc_html( $cat_name ) . '</span>';
+			echo '<span class="badge position-absolute top-0 start-0 m-2" style="background:' . esc_attr( $cat_c['bg'] ) . ';color:' . esc_attr( $cat_c['fg'] ) . ';">' . esc_html( $cat_name ) . '</span>';
 		}
 		echo '<span class="badge ' . esc_attr( $st['class'] ) . ' position-absolute top-0 end-0 m-2">' . $st['label'] . '</span>';
 		echo '</div>';
-		echo '<div class="d-flex flex-column gap-3 p-4 flex-grow-1">';
-		echo '<h3 class="mb-0 fw-bold fs-5 text-white">' . esc_html( $title ) . '</h3>';
-		echo '<div class="d-flex align-items-baseline gap-2">';
-		if ( $price ) echo '<span class="fw-bold fs-4 text-primary">' . esc_html( $price ) . ' ₽</span>';
-		if ( $launch_time ) echo '<span class="small fw-semibold text-muted">· ' . esc_html( $launch_time ) . '</span>';
-		echo '</div></div>';
-		echo '<div class="d-flex gap-2 px-4 pb-4">';
-		echo '<a href="' . esc_url( $permalink ) . '" class="btn btn-light flex-grow-1">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
+		echo '<div class="card-body p-4">';
+		echo '<div class="post-header">';
+		echo '<h3 class="post-title h5 mb-2 text-white"><a href="' . esc_url( $permalink ) . '" class="link-inverse">' . esc_html( $title ) . '</a></h3>';
+		echo '<p class="price text-primary mb-0">';
+		if ( $price ) echo '<ins><span class="amount">' . esc_html( $price ) . ' ₽</span></ins>';
+		if ( $launch_time ) echo '<span class="text-muted fs-sm ms-2">· ' . esc_html( $launch_time ) . '</span>';
+		echo '</p></div></div>';
+		echo '<div class="card-footer d-flex gap-2 bg-transparent border-0 pt-0 px-4 pb-4">';
+		echo '<a href="' . esc_url( $permalink ) . '" class="btn btn-white' . esc_attr( $btn_style ) . ' has-ripple flex-grow-1">' . esc_html__( 'Details', 'cw-websites-for-sale' ) . '</a>';
 		if ( $website_url ) {
-			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" class="btn btn-outline-secondary"><i class="uil uil-play-circle me-1"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</a>';
+			echo '<a href="' . esc_url( $website_url ) . '" target="_blank" rel="noopener" class="btn btn-ash' . esc_attr( $btn_style ) . ' has-ripple"><i class="uil uil-play-circle me-1"></i>' . esc_html__( 'Preview', 'cw-websites-for-sale' ) . '</a>';
 		}
 		echo '</div></div></div>';
 	}
