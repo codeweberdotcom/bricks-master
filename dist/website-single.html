@@ -9,45 +9,6 @@
   <link rel="stylesheet" href="./assets/css/plugins.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <style>
-    /* Only what's genuinely not in the theme */
-    .cw-dot { display:inline-block; width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-    .cw-dot-r { background:#f87171; }
-    .cw-dot-y { background:#fbbf24; }
-    .cw-dot-g { background:#34d399; }
-    .cw-browser-bar { height:34px; background:#f2f4f8; border-bottom:1px solid #e2e6ef; }
-    .cw-browser-url { background:#fff; border:1px solid #dde2ee; border-radius:4px; height:22px; padding:0 8px; font-size:11px; color:#8896b3; max-width:260px; }
-    /* Fake screenshot */
-    .fk-nav { height:34px; background:#fff; border-bottom:1px solid #eef0f6; display:flex; align-items:center; padding:0 12px; gap:8px; }
-    .fk-logo { width:80px; height:10px; background:#3f78e0; border-radius:3px; }
-    .fk-links { display:flex; gap:6px; margin-left:auto; }
-    .fk-link { width:34px; height:8px; background:#e0e5f0; border-radius:2px; }
-    .fk-cta { width:52px; height:20px; background:#3f78e0; border-radius:10px; margin-left:6px; }
-    .fk-hero { background:linear-gradient(120deg,#edf1fb,#dfe7f8); padding:20px 14px 16px; }
-    .fk-h1 { height:11px; background:#243060; border-radius:3px; width:72%; margin-bottom:6px; }
-    .fk-h2 { height:11px; background:#243060; border-radius:3px; width:52%; margin-bottom:10px; opacity:.5; }
-    .fk-p { height:7px; background:#a0aec0; border-radius:2px; margin-bottom:4px; }
-    .fk-p.w55 { width:55%; }
-    .fk-btns { display:flex; gap:6px; margin-top:10px; }
-    .fk-btn { width:72px; height:22px; background:#3f78e0; border-radius:10px; }
-    .fk-btn-o { width:72px; height:22px; border:1.5px solid #3f78e0; border-radius:10px; }
-    .fk-section { padding:14px 12px; }
-    .fk-stitle { height:9px; background:#c0cce0; border-radius:2px; width:45%; margin-bottom:10px; }
-    .fk-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
-    .fk-card { background:#f7f9fc; border:1px solid #e8ecf5; border-radius:5px; padding:8px; }
-    .fk-ci { width:22px; height:22px; background:#dce6ff; border-radius:50%; margin-bottom:5px; }
-    .fk-cl { height:6px; background:#e0e6f0; border-radius:2px; margin-bottom:3px; }
-    .fk-cl.w70 { width:70%; }
-    .fk-form-row { display:grid; grid-template-columns:1fr 1fr auto; gap:6px; align-items:center; }
-    .fk-input { height:22px; background:#f2f4f8; border:1px solid #dde2ee; border-radius:4px; }
-    .fk-price-bar { background:#1a2540; padding:12px 14px; display:flex; align-items:center; gap:10px; }
-    .fk-price-val { height:9px; background:#4e7fe8; border-radius:2px; width:38%; }
-    .fk-price-btn { margin-left:auto; width:80px; height:24px; background:#3f78e0; border-radius:10px; flex-shrink:0; }
-    /* Sidebar sticky */
-    .ws-sidebar-sticky { position:sticky; top:80px; }
-    /* meta list inside price card */
-    .ws-meta-row { display:flex; justify-content:space-between; align-items:center; padding:.5rem 0; border-bottom:1px solid var(--bs-border-color,#e7eaf3); font-size:.8125rem; }
-    .ws-meta-row:last-child { border-bottom:0; }
-    /* Expand modules cloud */
     .ws-mod-chip { display:inline-flex; align-items:center; padding:.25rem .75rem; background:#f0f4ff; color:#3f78e0; border-radius:500px; font-size:.75rem; font-weight:600; white-space:nowrap; }
   </style>
 </head>
@@ -106,635 +67,307 @@
     </section>
 
     <!-- HERO -->
-    <section class="wrapper bg-light">
-      <div class="container py-12 py-md-14">
-        <div class="row gx-md-8 gx-xl-12 gy-10 gy-lg-0 align-items-start">
-
-          <!-- Left: browser mockup -->
-          <div class="col-lg-7">
-            <div class="card shadow rounded">
-              <!-- browser bar -->
-              <div class="cw-browser-bar d-flex align-items-center gap-2 px-3">
-                <span class="cw-dot cw-dot-r"></span>
-                <span class="cw-dot cw-dot-y"></span>
-                <span class="cw-dot cw-dot-g"></span>
-                <div class="flex-grow-1 d-flex justify-content-center">
-                  <div class="cw-browser-url d-flex align-items-center gap-1">
-                    <i class="uil uil-lock" style="font-size:10px;opacity:.6;flex-shrink:0;"></i>
-                    autoelec.codeweber.ru
-                  </div>
-                </div>
+    <section class="wrapper bg-white">
+      <div class="container py-16 py-md-20">
+        <div class="row justify-content-center">
+          <div class="col-lg-7 text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-5">
+              <span class="badge rounded-pill bg-success"><i class="uil uil-check-circle"></i> Продаётся</span>
+              <span class="badge rounded-pill bg-soft-ash text-muted">Авто / Детейлинг</span>
+            </div>
+            <h1 class="display-2 mb-4" style="letter-spacing:-.03em; line-height:1.1;">Сайт для<br>Детейлинг-студии</h1>
+            <p class="lead text-muted mb-8">Готовый WordPress-сайт для детейлинг-бизнеса. Устанавливаем на ваш домен и передаём с 14-дневной поддержкой.</p>
+            <div class="d-flex justify-content-center align-items-center gap-3 mb-10 flex-wrap">
+              <span class="display-4 fw-bold text-primary">85 000 ₽</span>
+              <a href="#" class="btn btn-primary btn-lg rounded-pill has-ripple"><i class="uil uil-shopping-cart"></i> Купить сайт</a>
+              <button type="button" class="btn btn-outline-primary btn-lg rounded-pill has-ripple"><i class="uil uil-play-circle"></i> Открыть превью</button>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="row gx-0 gy-0 border rounded overflow-hidden text-center">
+              <div class="col-6 col-md-3 py-4 border-end">
+                <div class="fw-bold mb-1">WordPress</div>
+                <div class="fs-sm text-muted">Платформа</div>
               </div>
-              <!-- fake screenshot -->
-              <div style="overflow:hidden; background:#f2f4f8;">
-                <div class="fk-nav">
-                  <div class="fk-logo"></div>
-                  <div class="fk-links"><div class="fk-link"></div><div class="fk-link"></div><div class="fk-link"></div></div>
-                  <div class="fk-cta"></div>
-                </div>
-                <div class="fk-hero">
-                  <div class="fk-h1"></div><div class="fk-h2"></div>
-                  <div class="fk-p"></div><div class="fk-p w55"></div>
-                  <div class="fk-btns"><div class="fk-btn"></div><div class="fk-btn-o"></div></div>
-                </div>
-                <div class="fk-section">
-                  <div class="fk-stitle"></div>
-                  <div class="fk-cards">
-                    <div class="fk-card"><div class="fk-ci"></div><div class="fk-cl"></div><div class="fk-cl w70"></div></div>
-                    <div class="fk-card"><div class="fk-ci"></div><div class="fk-cl"></div><div class="fk-cl w70"></div></div>
-                    <div class="fk-card"><div class="fk-ci"></div><div class="fk-cl"></div><div class="fk-cl w70"></div></div>
-                  </div>
-                </div>
-                <div class="fk-section" style="background:rgba(63,120,224,.04)">
-                  <div class="fk-stitle"></div>
-                  <div class="fk-form-row">
-                    <div class="fk-input"></div><div class="fk-input"></div>
-                    <div style="height:22px;background:#3f78e0;border-radius:4px;width:60px"></div>
-                  </div>
-                </div>
-                <div class="fk-section">
-                  <div class="fk-stitle"></div>
-                  <div class="fk-cards" style="grid-template-columns:1fr 1fr">
-                    <div class="fk-card" style="height:55px"></div><div class="fk-card" style="height:55px"></div>
-                  </div>
-                </div>
-                <div class="fk-price-bar">
-                  <div>
-                    <div style="height:7px;width:100px;background:rgba(255,255,255,.16);border-radius:2px;margin-bottom:5px;"></div>
-                    <div class="fk-price-val"></div>
-                  </div>
-                  <div class="fk-price-btn"></div>
-                </div>
-                <div class="fk-section">
-                  <div class="fk-stitle"></div>
-                  <div class="fk-cards">
-                    <div class="fk-card"><div class="fk-ci"></div><div class="fk-cl"></div><div class="fk-cl w70"></div></div>
-                    <div class="fk-card"><div class="fk-ci"></div><div class="fk-cl"></div><div class="fk-cl w70"></div></div>
-                    <div class="fk-card"><div class="fk-ci"></div><div class="fk-cl"></div><div class="fk-cl w70"></div></div>
-                  </div>
-                </div>
+              <div class="col-6 col-md-3 py-4 border-end">
+                <div class="fw-bold mb-1">3–5 дней</div>
+                <div class="fs-sm text-muted">Срок запуска</div>
+              </div>
+              <div class="col-6 col-md-3 py-4 border-end">
+                <div class="fw-bold mb-1">14 дней</div>
+                <div class="fs-sm text-muted">Поддержка</div>
+              </div>
+              <div class="col-6 col-md-3 py-4">
+                <div class="fw-bold text-green mb-1">Продаётся</div>
+                <div class="fs-sm text-muted">Статус</div>
               </div>
             </div>
           </div>
-
-          <!-- Right: purchase card -->
-          <div class="col-lg-5">
-            <div class="card shadow-lg rounded ws-sidebar-sticky">
-              <div class="card-body p-5">
-                <div class="d-flex gap-2 flex-wrap mb-3">
-                  <span class="badge rounded-pill bg-success"><i class="uil uil-check-circle"></i> Продаётся</span>
-                  <span class="badge rounded-pill bg-soft-ash">Авто / Детейлинг</span>
-                </div>
-                <h1 class="h4 mb-2" style="letter-spacing:-.02em;line-height:1.3;">Сайт для Детейлинг-студии</h1>
-                <p class="text-muted mb-4">Полноценный сайт с возможностью масштабирования до крупного проекта — интернет-магазина, CRM-системы или многостраничного портала.</p>
-                <p class="post-category mb-1">Стоимость</p>
-                <p class="price display-5 fw-bold text-primary mb-1"><ins><span class="amount">85 000 ₽</span></ins></p>
-                <p class="fs-sm text-muted mb-5">Продаётся в единственном экземпляре</p>
-
-                <div class="d-flex flex-wrap gap-2 mb-5">
-                  <span class="badge bg-soft-ash">Детейлинг</span>
-                  <span class="badge bg-soft-ash">Авто</span>
-                  <span class="badge bg-soft-ash">WordPress</span>
-                  <span class="badge bg-soft-ash">Услуги</span>
-                </div>
-
-                <a href="#" class="btn btn-primary w-100 rounded-pill has-ripple mb-2">
-                  <i class="uil uil-shopping-cart"></i> Купить сайт
-                </a>
-                <button type="button" class="btn btn-outline-primary w-100 rounded-pill has-ripple">
-                  <i class="uil uil-play-circle"></i> Открыть превью
-                </button>
-
-                <div class="mt-5">
-                  <div class="ws-meta-row">
-                    <span class="text-muted">Платформа</span><span class="fw-medium">WordPress</span>
-                  </div>
-                  <div class="ws-meta-row">
-                    <span class="text-muted">Срок запуска</span><span class="fw-medium">3–5 дней</span>
-                  </div>
-                  <div class="ws-meta-row">
-                    <span class="text-muted">Поддержка</span><span class="fw-medium text-green">14 дней включено</span>
-                  </div>
-                  <div class="ws-meta-row" style="border-bottom:0">
-                    <span class="text-muted">Статус</span>
-                    <span class="badge rounded-pill bg-success"><i class="uil uil-check-circle"></i> Продаётся</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </section>
 
-    <!-- PLATFORM -->
+    <!-- В КОМПЛЕКТЕ -->
+    <section class="wrapper bg-soft">
+      <div class="container py-14 py-md-16">
+        <p class="post-category text-line text-center">В комплекте</p>
+        <h2 class="display-5 text-center mb-12">Что вы получаете при покупке</h2>
+        <div class="row gx-md-8 gy-8 justify-content-center text-center">
+          <div class="col-sm-6 col-lg-3">
+            <i class="uil uil-server fs-36 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Установка на домен</h5>
+            <p class="text-muted mb-0">Разворачиваем сайт сами — хостинг, домен, запуск. От вас ничего технического.</p>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <i class="uil uil-globe fs-36 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Помощь с доменом</h5>
+            <p class="text-muted mb-0">Нет домена или хостинга — помогаем выбрать и зарегистрировать.</p>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <i class="uil uil-bolt fs-36 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Запуск за 3–5 дней</h5>
+            <p class="text-muted mb-0">От оплаты до работающего сайта — не более пяти рабочих дней.</p>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <i class="uil uil-headphones fs-36 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Поддержка 14 дней</h5>
+            <p class="text-muted mb-0">Ответы на вопросы, помощь с настройкой и работой с редактором блоков.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- О САЙТЕ -->
+    <section class="wrapper bg-white">
+      <div class="container py-14 py-md-16">
+        <div class="row gx-md-12 align-items-center gy-10 gy-md-0">
+          <div class="col-md-5">
+            <p class="post-category text-line">О сайте</p>
+            <h2 class="display-5 mb-4">Готовый сайт для детейлинг-студии</h2>
+            <p class="text-muted mb-0">Профессиональный сайт с каталогом услуг, онлайн-записью, галереей работ и Яндекс.Картами. Контент уже наполнен — остаётся заменить на ваши данные. Построен на теме CodeWeber с 47 кастомными блоками Gutenberg.</p>
+          </div>
+          <div class="col-md-7">
+            <div class="row gx-4 gy-3">
+              <div class="col-6"><div class="d-flex align-items-center gap-2"><i class="uil uil-check-circle text-primary fs-18 flex-shrink-0"></i><span>Главная с Hero-блоком и CTA</span></div></div>
+              <div class="col-6"><div class="d-flex align-items-center gap-2"><i class="uil uil-check-circle text-primary fs-18 flex-shrink-0"></i><span>Каталог услуг с ценами</span></div></div>
+              <div class="col-6"><div class="d-flex align-items-center gap-2"><i class="uil uil-check-circle text-primary fs-18 flex-shrink-0"></i><span>Галерея работ (Swiper)</span></div></div>
+              <div class="col-6"><div class="d-flex align-items-center gap-2"><i class="uil uil-check-circle text-primary fs-18 flex-shrink-0"></i><span>Онлайн-запись на услугу</span></div></div>
+              <div class="col-6"><div class="d-flex align-items-center gap-2"><i class="uil uil-check-circle text-primary fs-18 flex-shrink-0"></i><span>Страница «О студии»</span></div></div>
+              <div class="col-6"><div class="d-flex align-items-center gap-2"><i class="uil uil-check-circle text-primary fs-18 flex-shrink-0"></i><span>Контакты с Яндекс.Картой</span></div></div>
+              <div class="col-6"><div class="d-flex align-items-center gap-2"><i class="uil uil-check-circle text-primary fs-18 flex-shrink-0"></i><span>Блог / Новости</span></div></div>
+              <div class="col-6"><div class="d-flex align-items-center gap-2"><i class="uil uil-check-circle text-primary fs-18 flex-shrink-0"></i><span>Форма обратной связи</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ПЛАТФОРМА -->
     <section class="wrapper bg-soft">
       <div class="container py-14 py-md-16">
         <p class="post-category text-line">Платформа</p>
-        <h2 class="display-5 mb-3">Это не просто сайт —<br>это управляемая платформа</h2>
-        <p class="lead text-muted mb-10">Вы получаете не HTML-страницу, а полноценную CMS: редактор блоков, готовые интеграции и инфраструктуру для роста бизнеса.</p>
-        <div class="row gx-md-6 gy-6">
+        <h2 class="display-5 mb-10">Управляемая платформа, а не просто сайт</h2>
+        <div class="row gx-md-8 gy-8">
           <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-primary pe-none flex-shrink-0"><i class="uil uil-cog"></i></div>
-              <div>
-                <h4 class="mb-1">WordPress CMS</h4>
-                <p class="mb-0">Управляйте страницами и обновляйте контент самостоятельно — без разработчика и технических знаний.</p>
-              </div>
-            </div>
+            <i class="uil uil-cog fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">WordPress CMS</h5>
+            <p class="text-muted mb-0">Управляйте страницами и контентом самостоятельно — без разработчика и технических знаний.</p>
           </div>
           <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-blue pe-none flex-shrink-0"><i class="uil uil-layers"></i></div>
-              <div>
-                <h4 class="mb-1">47 готовых блоков</h4>
-                <p class="mb-0">Gutenberg с кастомными блоками: Swiper-галереи, формы, Яндекс.Карты, аккордеоны, таймлайны.</p>
-              </div>
-            </div>
+            <i class="uil uil-layers fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">47 готовых блоков</h5>
+            <p class="text-muted mb-0">Gutenberg с кастомными блоками: Swiper-галереи, формы, Яндекс.Карты, аккордеоны, таймлайны.</p>
           </div>
           <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-green pe-none flex-shrink-0"><i class="uil uil-shopping-cart"></i></div>
-              <div>
-                <h4 class="mb-1">WooCommerce-ready</h4>
-                <p class="mb-0">Один шаг — и сайт превращается в интернет-магазин с каталогом, корзиной и онлайн-оплатой.</p>
-              </div>
-            </div>
+            <i class="uil uil-shopping-cart fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">WooCommerce-ready</h5>
+            <p class="text-muted mb-0">Один шаг — и сайт превращается в интернет-магазин с каталогом, корзиной и онлайн-оплатой.</p>
           </div>
           <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-orange pe-none flex-shrink-0"><i class="uil uil-plug"></i></div>
-              <div>
-                <h4 class="mb-1">Экосистема интеграций</h4>
-                <p class="mb-0">DaData, Яндекс.Карты, SMS.ru, Telegram-уведомления, S3-хранилище — без программирования.</p>
-              </div>
-            </div>
+            <i class="uil uil-plug fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Экосистема интеграций</h5>
+            <p class="text-muted mb-0">DaData, SMS.ru, Telegram, S3-хранилище, REST API — без программирования.</p>
           </div>
           <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-violet pe-none flex-shrink-0"><i class="uil uil-globe"></i></div>
-              <div>
-                <h4 class="mb-1">Мультиязычность</h4>
-                <p class="mb-0">WPML или Polylang — сайт заговорит на любом языке без переработки структуры и архитектуры.</p>
-              </div>
-            </div>
+            <i class="uil uil-globe fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Мультиязычность</h5>
+            <p class="text-muted mb-0">WPML или Polylang — сайт заговорит на любом языке без переработки структуры.</p>
           </div>
           <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-navy pe-none flex-shrink-0"><i class="uil uil-analytics"></i></div>
-              <div>
-                <h4 class="mb-1">Аналитика и реклама</h4>
-                <p class="mb-0">Сайт подготовлен для подключения Яндекс.Метрики, пикселей ретаргетинга и Schema.org — устанавливаются при запуске сайта.</p>
-              </div>
-            </div>
+            <i class="uil uil-expand-arrows fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Масштабируемость</h5>
+            <p class="text-muted mb-0">WordPress позволяет расширить сайт до интернет-магазина, CRM или LMS — в любой момент.</p>
+          </div>
+        </div>
+        <div class="mt-10">
+          <p class="fs-sm text-uppercase letter-spacing-2 text-muted mb-3">Что можно подключить дополнительно</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="ws-mod-chip">WooCommerce</span>
+            <span class="ws-mod-chip">ЮKassa</span>
+            <span class="ws-mod-chip">amoCRM</span>
+            <span class="ws-mod-chip">Битрикс24</span>
+            <span class="ws-mod-chip">REST API</span>
+            <span class="ws-mod-chip">Webhook</span>
+            <span class="ws-mod-chip">Zapier</span>
+            <span class="ws-mod-chip">Make</span>
+            <span class="ws-mod-chip">SendPulse</span>
+            <span class="ws-mod-chip">UniSender</span>
+            <span class="ws-mod-chip">Telegram Bot</span>
+            <span class="ws-mod-chip">СДЭК</span>
+            <span class="ws-mod-chip">Робокасса</span>
+            <span class="ws-mod-chip">WPML</span>
+            <span class="ws-mod-chip">Polylang</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PARAMS + ABOUT -->
+    <!-- КОММУНИКАЦИИ -->
     <section class="wrapper bg-white">
-      <div class="container py-14 py-md-16">
-        <!-- Stats strip -->
-        <div class="row gx-0 gy-0 mb-12 text-center border rounded overflow-hidden">
-          <div class="col-6 col-md-3 py-5 border-end">
-            <div class="d-flex justify-content-center mb-2"><i class="uil uil-laptop fs-24 text-primary"></i></div>
-            <div class="fw-bold mb-1">WordPress</div>
-            <div class="fs-sm text-muted">Платформа</div>
-          </div>
-          <div class="col-6 col-md-3 py-5 border-end">
-            <div class="d-flex justify-content-center mb-2"><i class="uil uil-rocket fs-24 text-primary"></i></div>
-            <div class="fw-bold mb-1">3–5 дней</div>
-            <div class="fs-sm text-muted">Срок запуска</div>
-          </div>
-          <div class="col-6 col-md-3 py-5 border-end">
-            <div class="d-flex justify-content-center mb-2"><i class="uil uil-tag-alt fs-24 text-primary"></i></div>
-            <div class="fw-bold mb-1">Авто</div>
-            <div class="fs-sm text-muted">Категория</div>
-          </div>
-          <div class="col-6 col-md-3 py-5">
-            <div class="d-flex justify-content-center mb-2"><i class="uil uil-check-circle fs-24 text-green"></i></div>
-            <div class="fw-bold text-green mb-1">Продаётся</div>
-            <div class="fs-sm text-muted">Статус</div>
-          </div>
-        </div>
-
-        <!-- About -->
-        <div class="row gx-md-8 gx-xl-12 gy-10 gy-md-0 align-items-start">
-          <div class="col-md-7">
-            <p class="post-category text-line">О сайте</p>
-            <h2 class="display-5 mb-4">Готовый сайт для детейлинг-студии с онлайн-записью</h2>
-            <p>Профессиональный сайт для детейлинг-студии или автомоечного комплекса: каталог услуг, онлайн-запись, галерея работ. Современный дизайн, адаптированный под любые устройства.</p>
-            <p>Включает все необходимые страницы: главная, услуги, галерея, цены, контакты с Яндекс.Картами и формой обратной связи. Контент уже наполнен — остаётся только заменить на ваши данные.</p>
-            <p class="mb-0">Построен на теме CodeWeber с 47 кастомными блоками Gutenberg, что делает редактирование простым и интуитивным даже без технических знаний.</p>
-          </div>
-          <div class="col-md-5">
-            <div class="card bg-soft-ash rounded p-5">
-              <h5 class="mb-4">Разделы сайта</h5>
-              <ul class="icon-list bullet-bg bullet-soft-primary mb-0">
-                <li><i class="uil uil-arrow-right"></i> Главная с Hero-блоком и CTA</li>
-                <li><i class="uil uil-arrow-right"></i> Каталог услуг с ценами</li>
-                <li><i class="uil uil-arrow-right"></i> Галерея работ</li>
-                <li><i class="uil uil-arrow-right"></i> Онлайн-запись на услугу</li>
-                <li><i class="uil uil-arrow-right"></i> Страница «О студии»</li>
-                <li><i class="uil uil-arrow-right"></i> Контакты с Яндекс.Картой</li>
-                <li><i class="uil uil-arrow-right"></i> Блог / Новости</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- INCLUDES -->
-    <section class="wrapper bg-soft">
-      <div class="container py-14 py-md-16">
-        <p class="post-category text-line">В комплекте</p>
-        <h2 class="display-5 mb-3">Что вы получаете при покупке</h2>
-        <p class="lead text-muted mb-10">Всё необходимое для запуска — без скрытых доплат.</p>
-        <div class="row gx-md-6 gy-6">
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-green pe-none flex-shrink-0"><i class="uil uil-server"></i></div>
-              <div>
-                <h4 class="mb-1">Установка на ваш домен</h4>
-                <p class="mb-0">Разворачиваем сайт самостоятельно — настраиваем хостинг, подключаем домен, запускаем. От вас ничего технического не требуется.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-green pe-none flex-shrink-0"><i class="uil uil-globe"></i></div>
-              <div>
-                <h4 class="mb-1">Помощь с доменом и хостингом</h4>
-                <p class="mb-0">Если домена и хостинга ещё нет — поможем выбрать регистратора и тариф, объясним как оплатить и зарегистрировать.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-green pe-none flex-shrink-0"><i class="uil uil-check-circle"></i></div>
-              <div>
-                <h4 class="mb-1">Готовый к работе сайт</h4>
-                <p class="mb-0">Сайт подготовлен под SEO-продвижение — принимает клиентов с первого дня.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-green pe-none flex-shrink-0"><i class="uil uil-bolt"></i></div>
-              <div>
-                <h4 class="mb-1">Запуск за 3–5 дней</h4>
-                <p class="mb-0">От оплаты до работающего сайта на вашем домене — не более пяти рабочих дней.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-blue pe-none flex-shrink-0"><i class="uil uil-headphones"></i></div>
-              <div>
-                <h4 class="mb-1">Бесплатная поддержка 14 дней</h4>
-                <p class="mb-0">Отвечаем на вопросы по управлению контентом, помогаем с первичными настройками и работой с редактором блоков.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SUPPORT -->
-    <section class="wrapper bg-white">
-      <div class="container py-14 py-md-16">
-        <p class="post-category text-line">Поддержка</p>
-        <h2 class="display-5 mb-3">Не остаётесь один на один с сайтом</h2>
-        <p class="lead text-muted mb-10">Помогаем разобраться и поддерживаем в дальнейшем.</p>
-        <div class="row gx-md-6 gy-6">
-          <div class="col-md-6">
-            <div class="card bg-soft-green rounded h-100 p-6">
-              <span class="badge rounded-pill bg-success mb-4 align-self-start">Включено</span>
-              <h3 class="display-6 mb-1">14 дней</h3>
-              <p class="fw-medium mb-5">Бесплатная поддержка после передачи</p>
-              <ul class="icon-list bullet-bg bullet-soft-green mb-0">
-                <li><i class="uil uil-check"></i> Ответы на вопросы по управлению</li>
-                <li><i class="uil uil-check"></i> Помощь с первичными настройками</li>
-                <li><i class="uil uil-check"></i> Консультации по редактору блоков</li>
-                <li><i class="uil uil-check"></i> Сопровождение переноса на хостинг</li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card bg-dark text-inverse rounded h-100 p-6">
-              <span class="badge rounded-pill bg-soft-ash mb-4 align-self-start">Расширенная</span>
-              <h3 class="display-6 mb-1 text-white">Ежемесячно</h3>
-              <p class="fw-medium mb-5">Постоянное сопровождение сайта</p>
-              <ul class="icon-list mb-5">
-                <li class="text-white d-flex gap-2"><i class="uil uil-check text-primary"></i> Приоритетные ответы в течение часа</li>
-                <li class="text-white d-flex gap-2"><i class="uil uil-check text-primary"></i> Обновление плагинов и темы</li>
-                <li class="text-white d-flex gap-2"><i class="uil uil-check text-primary"></i> Мелкие доработки и правки контента</li>
-                <li class="text-white d-flex gap-2"><i class="uil uil-check text-primary"></i> Мониторинг работоспособности сайта</li>
-              </ul>
-              <a href="#" class="btn btn-white btn-sm rounded-pill has-ripple align-self-start">Узнать стоимость</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FEATURES -->
-    <section class="wrapper bg-soft">
-      <div class="container py-14 py-md-16">
-        <p class="post-category text-line">Функциональность</p>
-        <h2 class="display-5 mb-3">Технологии и возможности</h2>
-        <p class="lead text-muted mb-10">Всё уже настроено и готово к работе с первого дня</p>
-        <div class="row gx-4 gy-2">
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Адаптивный дизайн (Mobile First)</span></div></div>
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Форма обратной связи с уведомлением</span></div></div>
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Онлайн-запись на услугу</span></div></div>
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Галерея работ (Swiper)</span></div></div>
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Яндекс.Карты с меткой студии</span></div></div>
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Калькулятор стоимости услуг</span></div></div>
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Всплывающие модальные окна</span></div></div>
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Анимации при прокрутке страницы</span></div></div>
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Telegram-уведомления о заявках</span></div></div>
-          <div class="col-md-6"><div class="d-flex align-items-center gap-2 py-2"><i class="uil uil-check-circle fs-18 text-green flex-shrink-0"></i><span>Яндекс.Метрика + настроенные цели</span></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- COMMUNICATIONS -->
-    <section class="wrapper bg-soft">
       <div class="container py-14 py-md-16">
         <p class="post-category text-line">Коммуникации</p>
-        <h2 class="display-5 mb-3">Встроенные инструменты для работы с клиентами</h2>
-        <p class="lead text-muted mb-10">Все модули коммуникации работают из коробки — настраиваются из панели управления без программирования.</p>
-        <div class="row gx-md-6 gy-6">
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-blue pe-none mb-4"><i class="uil uil-envelope-alt"></i></div>
-              <h4 class="mb-3">Приём заявок</h4>
-              <ul class="icon-list bullet-bg bullet-soft-blue mb-0">
-                <li><i class="uil uil-check"></i> Каждая заявка сохраняется в базе данных — данные клиента не теряются даже при сбое SMTP сервера</li>
-                <li><i class="uil uil-check"></i> Страница в панели управления со всеми заявками — фильтрация по форме и дате, экспорт в CSV</li>
-                <li><i class="uil uil-check"></i> Возможность уведомлений на email и в Telegram при каждой новой заявке</li>
-                <li><i class="uil uil-check"></i> Защита от спама без капчи — ловушка для ботов и лимит отправок</li>
-                <li><i class="uil uil-check"></i> Полная интеграция с модулем защиты персональных данных — чекбокс согласия в каждой форме, отправка без отметки заблокирована</li>
-              </ul>
-            </div>
+        <h2 class="display-5 mb-10">Инструменты для работы с клиентами</h2>
+        <div class="row gx-md-8 gy-8">
+          <div class="col-md-6 col-lg-4">
+            <i class="uil uil-envelope-alt fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Приём заявок</h5>
+            <p class="text-muted mb-0">Заявки сохраняются в базе данных. Фильтрация, экспорт в CSV, защита от спама без капчи.</p>
           </div>
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-blue pe-none mb-4"><i class="uil uil-telegram-alt"></i></div>
-              <h4 class="mb-3">Telegram-уведомления</h4>
-              <ul class="icon-list bullet-bg bullet-soft-blue mb-0">
-                <li><i class="uil uil-check"></i> При каждой заявке с сайта в Telegram мгновенно приходит сообщение: имя, телефон, что хочет клиент</li>
-              </ul>
-            </div>
+          <div class="col-md-6 col-lg-4">
+            <i class="uil uil-telegram-alt fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Telegram-уведомления</h5>
+            <p class="text-muted mb-0">При каждой новой заявке в Telegram приходит сообщение с данными клиента.</p>
           </div>
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-green pe-none mb-4"><i class="uil uil-comment-alt-message"></i></div>
-              <h4 class="mb-3">SMS-уведомления (SMS.ru)</h4>
-              <ul class="icon-list bullet-bg bullet-soft-green mb-0">
-                <li><i class="uil uil-check"></i> Отправка SMS клиенту или сотруднику при новой заявке или любом событии на сайте</li>
-                <li><i class="uil uil-check"></i> Верификация номера телефона покупателя в личном кабинете через SMS-код (WooCommerce)</li>
-                <li><i class="uil uil-check"></i> 5 автоматических повторных попыток при недоступности сервера</li>
-              </ul>
-            </div>
+          <div class="col-md-6 col-lg-4">
+            <i class="uil uil-comment-alt-message fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">SMS-уведомления</h5>
+            <p class="text-muted mb-0">SMS клиенту или сотруднику при заявке. Верификация номера телефона в личном кабинете.</p>
           </div>
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-yellow pe-none mb-4"><i class="uil uil-bell"></i></div>
-              <h4 class="mb-3">Система триггерных уведомлений</h4>
-              <ul class="icon-list bullet-bg bullet-soft-yellow mb-0">
-                <li><i class="uil uil-check"></i> Автоматические сообщения посетителю по заданному условию: через N секунд на странице, при скролле до конца, при переходе с конкретной рекламной кампании (UTM), после отправки заявки</li>
-                <li><i class="uil uil-check"></i> Три формата: всплывающее окно, тост-уведомление в углу экрана, сообщение в Telegram</li>
-                <li><i class="uil uil-check"></i> Цепочки: несколько уведомлений последовательно с задержками</li>
-                <li><i class="uil uil-check"></i> Ограничение показов на одного посетителя</li>
-              </ul>
-            </div>
+          <div class="col-md-6 col-lg-4">
+            <i class="uil uil-bell fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Триггерные уведомления</h5>
+            <p class="text-muted mb-0">Автосообщения посетителю по условию: время на странице, скролл, UTM-метка. Форматы: попап, тост, Telegram.</p>
           </div>
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-pink pe-none mb-4"><i class="uil uil-envelope-heart"></i></div>
-              <h4 class="mb-3">Подписка на рассылку</h4>
-              <ul class="icon-list bullet-bg bullet-soft-pink mb-0">
-                <li><i class="uil uil-check"></i> Форма подписки по email в любом месте сайта</li>
-                <li><i class="uil uil-check"></i> Все подписчики сохраняются в базе данных</li>
-                <li><i class="uil uil-check"></i> Отписка через ссылку в письме — автоматически, без участия администратора</li>
-                <li><i class="uil uil-check"></i> Страница со всеми подписчиками в панели управления: фильтры по статусу, поиск по email</li>
-                <li><i class="uil uil-check"></i> Экспорт базы подписчиков в CSV</li>
-              </ul>
-            </div>
+          <div class="col-md-6 col-lg-4">
+            <i class="uil uil-envelope-heart fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Подписка на рассылку</h5>
+            <p class="text-muted mb-0">База подписчиков в панели управления. Отписка через ссылку, фильтры, экспорт в CSV.</p>
           </div>
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-purple pe-none mb-4"><i class="uil uil-share-alt"></i></div>
-              <h4 class="mb-3">Плавающий виджет соцсетей</h4>
-              <ul class="icon-list bullet-bg bullet-soft-purple mb-0">
-                <li><i class="uil uil-check"></i> Кнопка или панель с иконками мессенджеров, закреплённая сбоку страницы — видна на любом разделе сайта</li>
-                <li><i class="uil uil-check"></i> Поддерживает Telegram, WhatsApp, ВКонтакте, Instagram и другие</li>
-                <li><i class="uil uil-check"></i> Настраивается из панели управления: какие сети показывать, позиция (лево/право), цвет, размер</li>
-                <li><i class="uil uil-check"></i> Несколько вариантов оформления на выбор</li>
-              </ul>
-            </div>
+          <div class="col-md-6 col-lg-4">
+            <i class="uil uil-share-alt fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Виджет соцсетей</h5>
+            <p class="text-muted mb-0">Панель мессенджеров сбоку страницы. Telegram, WhatsApp, ВКонтакте. Настройка из панели управления.</p>
           </div>
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-red pe-none mb-4"><i class="uil uil-map-marker"></i></div>
-              <h4 class="mb-3">Яндекс.Карты v3</h4>
-              <ul class="icon-list bullet-bg bullet-soft-red mb-0">
-                <li><i class="uil uil-check"></i> Интерактивная карта с адресом студии на странице контактов</li>
-                <li><i class="uil uil-check"></i> Возможность показать несколько точек / филиалов на одной карте</li>
-                <li><i class="uil uil-check"></i> Гибкая стилизация — цвет и стиль карты подбираются под дизайн сайта</li>
-              </ul>
-            </div>
+          <div class="col-md-6 col-lg-4">
+            <i class="uil uil-map-marker fs-30 text-primary mb-3 d-block"></i>
+            <h5 class="mb-2">Яндекс.Карты v3</h5>
+            <p class="text-muted mb-0">Карта с адресом студии на странице контактов. Несколько точек, гибкая стилизация под дизайн.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- EXPANSION -->
-    <section class="wrapper bg-white">
-      <div class="container py-14 py-md-16">
-        <p class="post-category text-line">Расширение</p>
-        <h2 class="display-5 mb-3">Что можно подключить</h2>
-        <p class="lead text-muted mb-10">WordPress позволяет расширить функциональность без переработки сайта — в любой момент после покупки.</p>
-        <div class="row gx-md-6 gy-6 mb-10">
-          <div class="col-6 col-md-4 col-lg-20p">
-            <div class="card border text-center p-5 h-100 rounded">
-              <div class="mb-3"><i class="uil uil-shopping-bag fs-30 text-primary d-block"></i></div>
-              <h5 class="mb-1">Интернет-магазин</h5>
-              <p class="fs-sm text-muted mb-0">Каталог, корзина, онлайн-оплата</p>
-            </div>
-          </div>
-          <div class="col-6 col-md-4 col-lg-20p">
-            <div class="card border text-center p-5 h-100 rounded">
-              <div class="mb-3"><i class="uil uil-users-alt fs-30 text-blue d-block"></i></div>
-              <h5 class="mb-1">Личный кабинет</h5>
-              <p class="fs-sm text-muted mb-0">Регистрация, история, LMS</p>
-            </div>
-          </div>
-          <div class="col-6 col-md-4 col-lg-20p">
-            <div class="card border text-center p-5 h-100 rounded">
-              <div class="mb-3"><i class="uil uil-chart-growth fs-30 text-green d-block"></i></div>
-              <h5 class="mb-1">CRM и аналитика</h5>
-              <p class="fs-sm text-muted mb-0">amoCRM, Битрикс24, REST API</p>
-            </div>
-          </div>
-          <div class="col-6 col-md-4 col-lg-20p">
-            <div class="card border text-center p-5 h-100 rounded">
-              <div class="mb-3"><i class="uil uil-envelope-star fs-30 text-orange d-block"></i></div>
-              <h5 class="mb-1">Email-рассылки</h5>
-              <p class="fs-sm text-muted mb-0">Цепочки, триггеры, SendPulse</p>
-            </div>
-          </div>
-          <div class="col-6 col-md-4 col-lg-20p">
-            <div class="card border text-center p-5 h-100 rounded">
-              <div class="mb-3"><i class="uil uil-globe fs-30 text-violet d-block"></i></div>
-              <h5 class="mb-1">Мультиязычность</h5>
-              <p class="fs-sm text-muted mb-0">WPML, Polylang, TranslatePress</p>
-            </div>
-          </div>
-        </div>
-        <h5 class="text-muted fs-sm text-uppercase letter-spacing-2 mb-4">Конкретные модули и интеграции</h5>
-        <div class="d-flex flex-wrap gap-2">
-          <span class="ws-mod-chip">WooCommerce</span>
-          <span class="ws-mod-chip">ЮKassa</span>
-          <span class="ws-mod-chip">amoCRM</span>
-          <span class="ws-mod-chip">Битрикс24</span>
-          <span class="ws-mod-chip">REST API</span>
-          <span class="ws-mod-chip">Webhook</span>
-          <span class="ws-mod-chip">Zapier</span>
-          <span class="ws-mod-chip">Make</span>
-          <span class="ws-mod-chip">SendPulse</span>
-          <span class="ws-mod-chip">UniSender</span>
-          <span class="ws-mod-chip">Telegram Bot</span>
-          <span class="ws-mod-chip">Яндекс.Метрика</span>
-          <span class="ws-mod-chip">VK Pixel</span>
-          <span class="ws-mod-chip">Google Analytics</span>
-          <span class="ws-mod-chip">СДЭК</span>
-          <span class="ws-mod-chip">Робокасса</span>
-          <span class="ws-mod-chip">WPML</span>
-          <span class="ws-mod-chip">Polylang</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- RKN / 152-ФЗ -->
+    <!-- ТЕХНИЧЕСКИЕ ВОЗМОЖНОСТИ -->
     <section class="wrapper bg-soft">
       <div class="container py-14 py-md-16">
-        <p class="post-category text-line">Законодательство РФ</p>
-        <h2 class="display-5 mb-3">Работает в правовом поле — сразу, без доработок</h2>
-        <p class="lead text-muted mb-10">Все необходимые элементы для защиты персональных данных ваших клиентов уже встроены в сайт.</p>
-        <div class="row gx-md-6 gy-6">
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-green pe-none mb-4"><i class="uil uil-check-circle"></i></div>
-              <h4 class="mb-3">Cookie-баннер</h4>
-              <p class="mb-3">Каждый новый посетитель видит уведомление об использовании файлов cookies и принимает его одним кликом. Пока клиент не нажал «Принять» — аналитика не запускается.</p>
-              <p class="mb-0">Если вы обновили правила работы с данными — баннер автоматически появится снова у всех посетителей. Поисковые роботы его не видят и спокойно индексируют сайт.</p>
+        <p class="post-category text-line">Технические возможности</p>
+        <h2 class="display-5 mb-3">SEO, реклама и соответствие законодательству</h2>
+        <p class="lead text-muted mb-12">Всё настроено до передачи — начинайте продвижение с первого дня.</p>
+        <div class="row gx-md-8 gx-xl-12 gy-10">
+
+          <div class="col-md-4">
+            <h6 class="text-uppercase letter-spacing-2 text-muted mb-5">SEO</h6>
+            <div class="vstack gap-4">
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Микроразметка Schema.org</div><p class="fs-sm text-muted mb-0">Структурированные данные для расширенных сниппетов в поиске.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Человекочитаемые URL</div><p class="fs-sm text-muted mb-0">ЧПУ настроены и оптимизированы для каждой страницы.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">XML-карта сайта</div><p class="fs-sm text-muted mb-0">Sitemap обновляется автоматически при публикации контента.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">SEO-мета для каждой страницы</div><p class="fs-sm text-muted mb-0">Title, Description и Open Graph — правильное отображение в поиске и соцсетях.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Быстрая загрузка</div><p class="fs-sm text-muted mb-0">Кэширование, минификация, оптимизация изображений — высокие Core Web Vitals.</p></div>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-green pe-none mb-4"><i class="uil uil-file-check"></i></div>
-              <h4 class="mb-3">Согласие на обработку данных</h4>
-              <p class="mb-3">В каждой форме уже стоит чекбокс с текстом о согласии на обработку персональных данных. Без его отметки форма не отправится.</p>
-              <p class="mb-0">Текст согласия и ссылка на Политику конфиденциальности настраиваются из панели управления — без обращения к разработчику.</p>
+
+          <div class="col-md-4">
+            <h6 class="text-uppercase letter-spacing-2 text-muted mb-5">Законодательство РФ</h6>
+            <div class="vstack gap-4">
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Cookie-баннер</div><p class="fs-sm text-muted mb-0">Аналитика не запускается до принятия. При обновлении политики баннер появится снова.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Согласие в каждой форме</div><p class="fs-sm text-muted mb-0">Чекбокс с текстом о согласии. Без отметки форма не отправится.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Политика конфиденциальности</div><p class="fs-sm text-muted mb-0">Отдельная страница, редактируется из панели управления. Ссылка в подвале.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Публичная оферта</div><p class="fs-sm text-muted mb-0">Страница с условиями оказания услуг. Ссылка в подвале сайта.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Экспорт персональных данных</div><p class="fs-sm text-muted mb-0">Возможность выдать клиенту все его данные по запросу.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Удаление персональных данных</div><p class="fs-sm text-muted mb-0">Возможность удалить данные клиента по его запросу.</p></div>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-green pe-none mb-4"><i class="uil uil-shield-check"></i></div>
-              <h4 class="mb-3">Политика конфиденциальности</h4>
-              <p class="mb-3">На сайте есть отдельная страница с описанием того, какие данные вы собираете и как с ними работаете. Ссылка на неё автоматически появляется в подвале сайта.</p>
-              <p class="mb-0">Текст редактируется прямо в панели управления — вы сами обновляете его при необходимости, без разработчика.</p>
+
+          <div class="col-md-4">
+            <h6 class="text-uppercase letter-spacing-2 text-muted mb-5">Аналитика и реклама</h6>
+            <div class="vstack gap-4">
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Яндекс.Метрика</div><p class="fs-sm text-muted mb-0">Счётчик подключён, цели настроены — с первого дня видите откуда приходят клиенты.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Яндекс.Директ</div><p class="fs-sm text-muted mb-0">Пиксель Яндекс.Аудиторий для ретаргетинга и look-alike аудиторий.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">VK Реклама</div><p class="fs-sm text-muted mb-0">Пиксель ВКонтакте для ретаргетинга и сбора пользовательских аудиторий.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">Google Ads</div><p class="fs-sm text-muted mb-0">Тег конверсий для отслеживания эффективности рекламных кампаний.</p></div>
+              </div>
+              <div class="d-flex gap-3">
+                <i class="uil uil-check-circle text-green fs-18 flex-shrink-0 mt-1"></i>
+                <div><div class="fw-medium mb-1">MyTarget</div><p class="fs-sm text-muted mb-0">Счётчик Top.Mail.Ru для таргетированной рекламы в экосистеме VK.</p></div>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="card h-100 rounded p-6">
-              <div class="icon btn btn-circle btn-soft-green pe-none mb-4"><i class="uil uil-file-alt"></i></div>
-              <h4 class="mb-3">Публичная оферта</h4>
-              <p class="mb-3">Страница с условиями оказания ваших услуг — описывает правила работы с клиентами и защищает вас как исполнителя. Ссылка в подвале сайта.</p>
-              <p class="mb-0">Текст заполняется один раз при запуске сайта — редактируете самостоятельно из панели управления.</p>
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- SEO -->
+    <!-- КАК ПРОХОДИТ ЗАПУСК -->
     <section class="wrapper bg-white">
-      <div class="container py-14 py-md-16">
-        <p class="post-category text-line">SEO и продвижение</p>
-        <h2 class="display-5 mb-3">Готов к продвижению с первого дня</h2>
-        <p class="lead text-muted mb-10">Поисковая оптимизация настроена — начинайте продвижение сразу после запуска.</p>
-        <div class="row gx-md-8 gy-6">
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-primary pe-none flex-shrink-0"><i class="uil uil-sitemap"></i></div>
-              <div>
-                <h4 class="mb-1">Микроразметка Schema.org</h4>
-                <p class="mb-0">Структурированные данные для поисковиков — расширенные сниппеты в результатах поиска.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-primary pe-none flex-shrink-0"><i class="uil uil-link"></i></div>
-              <div>
-                <h4 class="mb-1">Человекочитаемые URL</h4>
-                <p class="mb-0">ЧПУ настроены и оптимизированы — каждая страница имеет понятный адрес.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-primary pe-none flex-shrink-0"><i class="uil uil-search"></i></div>
-              <div>
-                <h4 class="mb-1">XML-карта сайта</h4>
-                <p class="mb-0">Sitemap автоматически обновляется при публикации нового контента.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-primary pe-none flex-shrink-0"><i class="uil uil-bolt"></i></div>
-              <div>
-                <h4 class="mb-1">Быстрая загрузка</h4>
-                <p class="mb-0">Оптимизированные изображения, кэширование, минификация — высокие Core Web Vitals.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-primary pe-none flex-shrink-0"><i class="uil uil-chart-line"></i></div>
-              <div>
-                <h4 class="mb-1">Яндекс.Метрика</h4>
-                <p class="mb-0">Счётчик подключён, цели настроены — с первого дня видите откуда приходят клиенты.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4">
-            <div class="d-flex flex-row gap-4">
-              <div class="icon btn btn-circle btn-soft-primary pe-none flex-shrink-0"><i class="uil uil-robot"></i></div>
-              <div>
-                <h4 class="mb-1">SEO-мета для каждой страницы</h4>
-                <p class="mb-0">Title, Description и Open Graph настроены — правильное отображение в поиске и соцсетях.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TIMELINE -->
-    <section class="wrapper bg-soft">
       <div class="container py-14 py-md-16">
         <p class="post-category text-line">Процесс передачи</p>
-        <h2 class="display-5 mb-3">От покупки до запуска за 3–5 дней</h2>
-        <p class="lead text-muted mb-10">Чёткий процесс передачи — без неожиданностей.</p>
+        <h2 class="display-5 mb-10">От покупки до запуска за 3–5 дней</h2>
         <div class="row gx-md-6 gy-6">
           <div class="col-6 col-md-3 text-center">
             <div class="icon btn btn-circle btn-primary pe-none mx-auto mb-4 d-flex"><i class="uil uil-shopping-cart"></i></div>
@@ -760,39 +393,37 @@
       </div>
     </section>
 
-    <!-- ADS -->
-    <section class="wrapper bg-white">
+    <!-- ПОДДЕРЖКА -->
+    <section class="wrapper bg-soft">
       <div class="container py-14 py-md-16">
-        <p class="post-category text-line">Реклама</p>
-        <h2 class="display-5 mb-3">Готов к запуску рекламных кампаний</h2>
-        <p class="lead text-muted mb-10">Пиксели и счётчики настроены — подключите ваши аккаунты и сразу запускайте рекламу.</p>
+        <p class="post-category text-line">Поддержка</p>
+        <h2 class="display-5 mb-10">Не остаётесь один на один с сайтом</h2>
         <div class="row gx-md-6 gy-6">
-          <div class="col-sm-6 col-lg-3">
-            <div class="card border rounded p-5 h-100 text-center">
-              <span class="fs-30 mb-3 d-block">🎯</span>
-              <h4 class="mb-2">Яндекс.Директ</h4>
-              <p class="fs-sm text-muted mb-0">Пиксель Яндекс.Аудиторий для ретаргетинга и look-alike аудиторий</p>
+          <div class="col-md-6">
+            <div class="card bg-soft-green rounded h-100 p-6">
+              <span class="badge rounded-pill bg-success mb-4 align-self-start">Включено</span>
+              <h3 class="display-6 mb-1">14 дней</h3>
+              <p class="fw-medium mb-5">Бесплатная поддержка после передачи</p>
+              <div class="vstack gap-2">
+                <div class="d-flex gap-2"><i class="uil uil-check text-green fs-18 flex-shrink-0"></i><span>Ответы на вопросы по управлению</span></div>
+                <div class="d-flex gap-2"><i class="uil uil-check text-green fs-18 flex-shrink-0"></i><span>Помощь с первичными настройками</span></div>
+                <div class="d-flex gap-2"><i class="uil uil-check text-green fs-18 flex-shrink-0"></i><span>Консультации по редактору блоков</span></div>
+                <div class="d-flex gap-2"><i class="uil uil-check text-green fs-18 flex-shrink-0"></i><span>Сопровождение переноса на хостинг</span></div>
+              </div>
             </div>
           </div>
-          <div class="col-sm-6 col-lg-3">
-            <div class="card border rounded p-5 h-100 text-center">
-              <span class="fs-30 mb-3 d-block">📘</span>
-              <h4 class="mb-2">VK Реклама</h4>
-              <p class="fs-sm text-muted mb-0">Пиксель ВКонтакте для ретаргетинга и сбора пользовательских аудиторий</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <div class="card border rounded p-5 h-100 text-center">
-              <span class="fs-30 mb-3 d-block">📈</span>
-              <h4 class="mb-2">Google Ads</h4>
-              <p class="fs-sm text-muted mb-0">Тег конверсий для отслеживания эффективности рекламных кампаний</p>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <div class="card border rounded p-5 h-100 text-center">
-              <span class="fs-30 mb-3 d-block">📊</span>
-              <h4 class="mb-2">MyTarget</h4>
-              <p class="fs-sm text-muted mb-0">Счётчик Top.Mail.Ru для таргетированной рекламы в экосистеме VK</p>
+          <div class="col-md-6">
+            <div class="card bg-dark text-inverse rounded h-100 p-6">
+              <span class="badge rounded-pill bg-soft-ash mb-4 align-self-start">Расширенная</span>
+              <h3 class="display-6 mb-1 text-white">Ежемесячно</h3>
+              <p class="fw-medium mb-5">Постоянное сопровождение сайта</p>
+              <div class="vstack gap-2 mb-6">
+                <div class="d-flex gap-2"><i class="uil uil-check text-primary fs-18 flex-shrink-0"></i><span class="text-white">Приоритетные ответы в течение часа</span></div>
+                <div class="d-flex gap-2"><i class="uil uil-check text-primary fs-18 flex-shrink-0"></i><span class="text-white">Обновление плагинов и темы</span></div>
+                <div class="d-flex gap-2"><i class="uil uil-check text-primary fs-18 flex-shrink-0"></i><span class="text-white">Мелкие доработки и правки контента</span></div>
+                <div class="d-flex gap-2"><i class="uil uil-check text-primary fs-18 flex-shrink-0"></i><span class="text-white">Мониторинг работоспособности сайта</span></div>
+              </div>
+              <a href="#" class="btn btn-white btn-sm rounded-pill has-ripple align-self-start">Узнать стоимость</a>
             </div>
           </div>
         </div>
