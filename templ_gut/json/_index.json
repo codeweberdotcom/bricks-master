@@ -1,0 +1,543 @@
+{
+  "schema": "codeweber-site-index",
+  "count": 67,
+  "generated": "2026-06-10",
+  "sites": [
+    {
+      "num": 1,
+      "key": "barber",
+      "name": "BARBER",
+      "group": "Красота и уход",
+      "domain": "barber.ru",
+      "file": "01-barber.json"
+    },
+    {
+      "num": 2,
+      "key": "beauty",
+      "name": "LUMIÈRE",
+      "group": "Красота и уход",
+      "domain": "lumiere.ru",
+      "file": "02-beauty.json"
+    },
+    {
+      "num": 3,
+      "key": "hair",
+      "name": "СТИЛЬ",
+      "group": "Красота и уход",
+      "domain": "stil.ru",
+      "file": "03-hair.json"
+    },
+    {
+      "num": 4,
+      "key": "nails",
+      "name": "NAILS",
+      "group": "Красота и уход",
+      "domain": "nails-studio.ru",
+      "file": "04-nails.json"
+    },
+    {
+      "num": 5,
+      "key": "tanning",
+      "name": "SUNKISS",
+      "group": "Красота и уход",
+      "domain": "sunkiss.ru",
+      "file": "05-tanning.json"
+    },
+    {
+      "num": 6,
+      "key": "spa",
+      "name": "SERENITY",
+      "group": "Красота и уход",
+      "domain": "serenity-spa.ru",
+      "file": "06-spa.json"
+    },
+    {
+      "num": 7,
+      "key": "dental",
+      "name": "ДЕНТА",
+      "group": "Тело и здоровье",
+      "domain": "denta-clinic.ru",
+      "file": "07-dental.json"
+    },
+    {
+      "num": 8,
+      "key": "massage",
+      "name": "РЕЛАКС",
+      "group": "Тело и здоровье",
+      "domain": "relax-massage.ru",
+      "file": "08-massage.json"
+    },
+    {
+      "num": 9,
+      "key": "psy",
+      "name": "ОПОРА",
+      "group": "Тело и здоровье",
+      "domain": "opora-psy.ru",
+      "file": "09-psy.json"
+    },
+    {
+      "num": 10,
+      "key": "pharmacy",
+      "name": "ВИТА",
+      "group": "Тело и здоровье",
+      "domain": "vita-apteka.ru",
+      "file": "10-pharmacy.json"
+    },
+    {
+      "num": 11,
+      "key": "gym",
+      "name": "FORMA",
+      "group": "Спорт",
+      "domain": "forma-gym.ru",
+      "file": "11-gym.json"
+    },
+    {
+      "num": 12,
+      "key": "yoga",
+      "name": "ПРАНА",
+      "group": "Спорт",
+      "domain": "prana-yoga.ru",
+      "file": "12-yoga.json"
+    },
+    {
+      "num": 13,
+      "key": "dance",
+      "name": "РИТМ",
+      "group": "Спорт",
+      "domain": "ritm-dance.ru",
+      "file": "13-dance.json"
+    },
+    {
+      "num": 14,
+      "key": "box",
+      "name": "РИНГ",
+      "group": "Спорт",
+      "domain": "ring-box.ru",
+      "file": "14-box.json"
+    },
+    {
+      "num": 15,
+      "key": "pool",
+      "name": "AQUA",
+      "group": "Спорт",
+      "domain": "aqua-pool.ru",
+      "file": "15-pool.json"
+    },
+    {
+      "num": 16,
+      "key": "auto",
+      "name": "МОТОР",
+      "group": "Авто",
+      "domain": "motor-service.ru",
+      "file": "16-auto.json"
+    },
+    {
+      "num": 17,
+      "key": "detail",
+      "name": "GLANZ",
+      "group": "Авто",
+      "domain": "glanz-detailing.ru",
+      "file": "17-detail.json"
+    },
+    {
+      "num": 18,
+      "key": "carwash",
+      "name": "АКВА",
+      "group": "Авто",
+      "domain": "akva-wash.ru",
+      "file": "18-carwash.json"
+    },
+    {
+      "num": 19,
+      "key": "tires",
+      "name": "КОЛЕСО",
+      "group": "Авто",
+      "domain": "koleso-service.ru",
+      "file": "19-tires.json"
+    },
+    {
+      "num": 20,
+      "key": "autoelec",
+      "name": "ВОЛЬТ",
+      "group": "Авто",
+      "domain": "volt-auto.ru",
+      "file": "20-autoelec.json"
+    },
+    {
+      "num": 21,
+      "key": "rental",
+      "name": "DRIVE",
+      "group": "Авто",
+      "domain": "drive-rent.ru",
+      "file": "21-rental.json"
+    },
+    {
+      "num": 22,
+      "key": "towing",
+      "name": "ЭВАК24",
+      "group": "Авто",
+      "domain": "evak24.ru",
+      "file": "22-towing.json"
+    },
+    {
+      "num": 23,
+      "key": "cargo",
+      "name": "ГРУЗОВОЗ",
+      "group": "Авто",
+      "domain": "gruzovoz.ru",
+      "file": "23-cargo.json"
+    },
+    {
+      "num": 24,
+      "key": "cardealer",
+      "name": "АВТОДОМ",
+      "group": "Авто",
+      "domain": "avtodom.ru",
+      "file": "24-cardealer.json"
+    },
+    {
+      "num": 25,
+      "key": "tattoo",
+      "name": "INKHAUS",
+      "group": "Творчество и услуги",
+      "domain": "inkhaus.ru",
+      "file": "25-tattoo.json"
+    },
+    {
+      "num": 26,
+      "key": "piercing",
+      "name": "STEEL",
+      "group": "Творчество и услуги",
+      "domain": "steel-piercing.ru",
+      "file": "26-piercing.json"
+    },
+    {
+      "num": 27,
+      "key": "photo",
+      "name": "KADR",
+      "group": "Творчество и услуги",
+      "domain": "kadr-studio.ru",
+      "file": "27-photo.json"
+    },
+    {
+      "num": 28,
+      "key": "wedding",
+      "name": "MON AMOUR",
+      "group": "Творчество и услуги",
+      "domain": "monamour.ru",
+      "file": "28-wedding.json"
+    },
+    {
+      "num": 29,
+      "key": "flowers",
+      "name": "FLORA",
+      "group": "Творчество и услуги",
+      "domain": "flora-studio.ru",
+      "file": "29-flowers.json"
+    },
+    {
+      "num": 30,
+      "key": "coffee",
+      "name": "ZERNO",
+      "group": "Еда",
+      "domain": "zerno-coffee.ru",
+      "file": "30-coffee.json"
+    },
+    {
+      "num": 31,
+      "key": "bakery",
+      "name": "SLADKO",
+      "group": "Еда",
+      "domain": "sladko.ru",
+      "file": "31-bakery.json"
+    },
+    {
+      "num": 32,
+      "key": "pizza",
+      "name": "FORNO",
+      "group": "Еда",
+      "domain": "forno-pizza.ru",
+      "file": "32-pizza.json"
+    },
+    {
+      "num": 33,
+      "key": "sushi",
+      "name": "SAKURA",
+      "group": "Еда",
+      "domain": "sakura-sushi.ru",
+      "file": "33-sushi.json"
+    },
+    {
+      "num": 34,
+      "key": "catering",
+      "name": "BANKET",
+      "group": "Еда",
+      "domain": "banket-catering.ru",
+      "file": "34-catering.json"
+    },
+    {
+      "num": 35,
+      "key": "kids",
+      "name": "ИГРОГРАД",
+      "group": "Дети и обучение",
+      "domain": "igrograd.ru",
+      "file": "35-kids.json"
+    },
+    {
+      "num": 36,
+      "key": "driving",
+      "name": "СТАРТ",
+      "group": "Дети и обучение",
+      "domain": "start-avto.ru",
+      "file": "36-driving.json"
+    },
+    {
+      "num": 37,
+      "key": "language",
+      "name": "LINGUA",
+      "group": "Дети и обучение",
+      "domain": "lingua-school.ru",
+      "file": "37-language.json"
+    },
+    {
+      "num": 38,
+      "key": "robotics",
+      "name": "РОБОТ",
+      "group": "Дети и обучение",
+      "domain": "robot-school.ru",
+      "file": "38-robotics.json"
+    },
+    {
+      "num": 39,
+      "key": "tutor",
+      "name": "УМНИКА",
+      "group": "Дети и обучение",
+      "domain": "umnika.ru",
+      "file": "39-tutor.json"
+    },
+    {
+      "num": 40,
+      "key": "construction",
+      "name": "ОСНОВА",
+      "group": "Дом и быт",
+      "domain": "osnova-stroy.ru",
+      "file": "40-construction.json"
+    },
+    {
+      "num": 41,
+      "key": "reno",
+      "name": "РЕМОНТ+",
+      "group": "Дом и быт",
+      "domain": "remont-plus.ru",
+      "file": "41-reno.json"
+    },
+    {
+      "num": 42,
+      "key": "appliance",
+      "name": "РЕМБЫТ",
+      "group": "Дом и быт",
+      "domain": "rembyt.ru",
+      "file": "42-appliance.json"
+    },
+    {
+      "num": 43,
+      "key": "cleaning",
+      "name": "ЧИСТО",
+      "group": "Дом и быт",
+      "domain": "chisto-clean.ru",
+      "file": "43-cleaning.json"
+    },
+    {
+      "num": 44,
+      "key": "drycleaning",
+      "name": "СВЕЖЕСТЬ",
+      "group": "Дом и быт",
+      "domain": "svezhest.ru",
+      "file": "44-drycleaning.json"
+    },
+    {
+      "num": 45,
+      "key": "handyman",
+      "name": "МАСТЕР+",
+      "group": "Дом и быт",
+      "domain": "master-plus.ru",
+      "file": "45-handyman.json"
+    },
+    {
+      "num": 46,
+      "key": "plumber",
+      "name": "АКВАМАСТЕР",
+      "group": "Дом и быт",
+      "domain": "akvamaster.ru",
+      "file": "46-plumber.json"
+    },
+    {
+      "num": 47,
+      "key": "windows",
+      "name": "СВЕТОКНО",
+      "group": "Дом и быт",
+      "domain": "svetokno.ru",
+      "file": "47-windows.json"
+    },
+    {
+      "num": 48,
+      "key": "furniture",
+      "name": "ВЕРСТАК",
+      "group": "Дом и быт",
+      "domain": "verstak-mebel.ru",
+      "file": "48-furniture.json"
+    },
+    {
+      "num": 49,
+      "key": "landscape",
+      "name": "ГРИН",
+      "group": "Дом и быт",
+      "domain": "green-land.ru",
+      "file": "49-landscape.json"
+    },
+    {
+      "num": 50,
+      "key": "atelier",
+      "name": "STITCH",
+      "group": "Дом и быт",
+      "domain": "stitch-atelier.ru",
+      "file": "50-atelier.json"
+    },
+    {
+      "num": 51,
+      "key": "phonerepair",
+      "name": "iФИКС",
+      "group": "Дом и быт",
+      "domain": "ifix.ru",
+      "file": "51-phonerepair.json"
+    },
+    {
+      "num": 52,
+      "key": "vet",
+      "name": "ДОБРОВЕТ",
+      "group": "Питомцы и животные",
+      "domain": "dobrovet.ru",
+      "file": "52-vet.json"
+    },
+    {
+      "num": 53,
+      "key": "grooming",
+      "name": "PUSHISTIK",
+      "group": "Питомцы и животные",
+      "domain": "pushistik.ru",
+      "file": "53-grooming.json"
+    },
+    {
+      "num": 54,
+      "key": "petshop",
+      "name": "ЗООМИР",
+      "group": "Питомцы и животные",
+      "domain": "zoomir.ru",
+      "file": "54-petshop.json"
+    },
+    {
+      "num": 55,
+      "key": "travel",
+      "name": "VOYAGE",
+      "group": "Досуг и события",
+      "domain": "voyage-travel.ru",
+      "file": "55-travel.json"
+    },
+    {
+      "num": 56,
+      "key": "hotel",
+      "name": "GRANDE",
+      "group": "Досуг и события",
+      "domain": "grande-hotel.ru",
+      "file": "56-hotel.json"
+    },
+    {
+      "num": 57,
+      "key": "insurance",
+      "name": "ГАРАНТ",
+      "group": "Бизнес-услуги",
+      "domain": "garant-ins.ru",
+      "file": "57-insurance.json"
+    },
+    {
+      "num": 58,
+      "key": "consulting",
+      "name": "ВЕКТОР",
+      "group": "Бизнес-услуги",
+      "domain": "vector-consult.ru",
+      "file": "58-consulting.json"
+    },
+    {
+      "num": 59,
+      "key": "accounting",
+      "name": "БАЛАНС",
+      "group": "Бизнес-услуги",
+      "domain": "balans-buh.ru",
+      "file": "59-accounting.json"
+    },
+    {
+      "num": 60,
+      "key": "legal",
+      "name": "ПРАВО",
+      "group": "Бизнес-услуги",
+      "domain": "pravo-law.ru",
+      "file": "60-legal.json"
+    },
+    {
+      "num": 61,
+      "key": "webstudio",
+      "name": "PIXEL",
+      "group": "Бизнес-услуги",
+      "domain": "pixel-studio.ru",
+      "file": "61-webstudio.json"
+    },
+    {
+      "num": 62,
+      "key": "designstudio",
+      "name": "FORMA",
+      "group": "Бизнес-услуги",
+      "domain": "forma-design.ru",
+      "file": "62-designstudio.json"
+    },
+    {
+      "num": 63,
+      "key": "printing",
+      "name": "ОТТИСК",
+      "group": "Бизнес-услуги",
+      "domain": "ottisk.ru",
+      "file": "63-printing.json"
+    },
+    {
+      "num": 64,
+      "key": "realty",
+      "name": "ДОМ.РФ",
+      "group": "Бизнес-услуги",
+      "domain": "dom-realty.ru",
+      "file": "64-realty.json"
+    },
+    {
+      "num": 65,
+      "key": "notary",
+      "name": "ЛЕКС",
+      "group": "Бизнес-услуги",
+      "domain": "lex-notary.ru",
+      "file": "65-notary.json"
+    },
+    {
+      "num": 66,
+      "key": "translation",
+      "name": "LINGVO",
+      "group": "Бизнес-услуги",
+      "domain": "lingvo-perevod.ru",
+      "file": "66-translation.json"
+    },
+    {
+      "num": 67,
+      "key": "pawnshop",
+      "name": "ЗАЛОГ",
+      "group": "Бизнес-услуги",
+      "domain": "zalog-lombard.ru",
+      "file": "67-pawnshop.json"
+    }
+  ]
+}
