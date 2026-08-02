@@ -293,10 +293,13 @@ var theme = {
     function clickHandler(e) {
       this.blur();
       const href = this.getAttribute("href");
-      if (!href || !href.startsWith('#')) return;
+      if (!href) return;
+      const hashIndex = href.indexOf('#');
+      if (hashIndex === -1) return;
+      const anchor = href.slice(hashIndex);
       e.preventDefault();
-      
-      const targetElement = document.querySelector(href);
+
+      const targetElement = document.querySelector(anchor);
       if (!targetElement) return;
       
       // Получаем высоту фиксированного header, если он есть
@@ -513,28 +516,61 @@ var theme = {
         var sliderItemsXxxl = slider1.getAttribute("data-items-xxxl")
           ? slider1.getAttribute("data-items-xxxl")
           : Number(sliderItemsXxl); // 1921 - end
+        // Grid rows per breakpoint — cascade up from xs like items
+        var sliderRowsXs = slider1.getAttribute("data-rows-xs")
+          ? Number(slider1.getAttribute("data-rows-xs"))
+          : sliderRows; // start - 575
+        var sliderRowsSm = slider1.getAttribute("data-rows-sm")
+          ? Number(slider1.getAttribute("data-rows-sm"))
+          : sliderRowsXs; // 576 - 767
+        var sliderRowsMd = slider1.getAttribute("data-rows-md")
+          ? Number(slider1.getAttribute("data-rows-md"))
+          : sliderRowsSm; // 768 - 991
+        var sliderRowsLg = slider1.getAttribute("data-rows-lg")
+          ? Number(slider1.getAttribute("data-rows-lg"))
+          : sliderRowsMd; // 992 - 1199
+        var sliderRowsXl = slider1.getAttribute("data-rows-xl")
+          ? Number(slider1.getAttribute("data-rows-xl"))
+          : sliderRowsLg; // 1200 - 1399
+        var sliderRowsXxl = slider1.getAttribute("data-rows-xxl")
+          ? Number(slider1.getAttribute("data-rows-xxl"))
+          : sliderRowsXl; // 1400 - 1920
+        var sliderRowsXxxl = slider1.getAttribute("data-rows-xxxl")
+          ? Number(slider1.getAttribute("data-rows-xxxl"))
+          : sliderRowsXxl; // 1921 - end
+        // Build a Swiper grid config for a given rows value (or undefined for single row)
+        var gridFor = function (rows) {
+          return rows > 1 ? { rows: rows, fill: sliderFill } : undefined;
+        };
         var slidesPerViewInit = sliderItems;
         var breakpointsInit = {
           0: {
             slidesPerView: Number(sliderItemsXs),
+            grid: gridFor(sliderRowsXs),
           },
           576: {
             slidesPerView: Number(sliderItemsSm),
+            grid: gridFor(sliderRowsSm),
           },
           768: {
             slidesPerView: Number(sliderItemsMd),
+            grid: gridFor(sliderRowsMd),
           },
           992: {
             slidesPerView: Number(sliderItemsLg),
+            grid: gridFor(sliderRowsLg),
           },
           1200: {
             slidesPerView: Number(sliderItemsXl),
+            grid: gridFor(sliderRowsXl),
           },
           1400: {
             slidesPerView: Number(sliderItemsXxl),
+            grid: gridFor(sliderRowsXxl),
           },
           1921: {
             slidesPerView: Number(sliderItemsXxxl),
+            grid: gridFor(sliderRowsXxxl),
           },
         };
       }
@@ -556,6 +592,12 @@ var theme = {
         : 30;
       var sliderLoop = slider1.getAttribute("data-loop") === "true";
       var sliderCentered = slider1.getAttribute("data-centered") === "true";
+      // Swiper Grid (multi-row) — base rows + fill direction
+      var sliderRows = slider1.getAttribute("data-rows")
+        ? Number(slider1.getAttribute("data-rows"))
+        : 1;
+      var sliderFill =
+        slider1.getAttribute("data-fill") === "column" ? "column" : "row";
       let swiper = slider1.querySelector(".swiper:not(.swiper-thumbs)");
       let swiperTh = slider1.querySelector(".swiper-thumbs");
       let thumbsDirection = slider1.getAttribute("data-thumbs-direction") || "horizontal";
@@ -619,10 +661,12 @@ var theme = {
         allowTouchMove: sliderAllowTouchMove,
         speed: parseInt(sliderSpeed),
         slidesPerView: slidesPerViewInit,
-        loop: sliderLoop,
+        // Swiper Grid is incompatible with loop — force loop off when rows > 1
+        loop: sliderRows > 1 ? false : sliderLoop,
         centeredSlides: sliderCentered,
         spaceBetween: Number(sliderMargin),
         effect: sliderEffect,
+        ...(sliderRows > 1 ? { grid: { rows: sliderRows, fill: sliderFill } } : {}),
         autoHeight: sliderAutoHeight,
         grabCursor: true,
         resizeObserver: false,
