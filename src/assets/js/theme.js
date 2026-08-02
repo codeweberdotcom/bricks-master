@@ -293,10 +293,13 @@ var theme = {
     function clickHandler(e) {
       this.blur();
       const href = this.getAttribute("href");
-      if (!href || !href.startsWith('#')) return;
+      if (!href) return;
+      const hashIndex = href.indexOf('#');
+      if (hashIndex === -1) return;
+      const anchor = href.slice(hashIndex);
       e.preventDefault();
-      
-      const targetElement = document.querySelector(href);
+
+      const targetElement = document.querySelector(anchor);
       if (!targetElement) return;
       
       // Получаем высоту фиксированного header, если он есть
