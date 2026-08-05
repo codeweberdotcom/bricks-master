@@ -1321,13 +1321,14 @@ class CodeweberFormsRenderer {
             return '';
         }
 
-        $accent_class = $accent_class !== '' ? $accent_class : 'text-primary';
-        $is_dark      = $theme === 'dark';
-        $muted_class  = $is_dark ? 'text-white-50' : 'text-muted';
+        $accent_class    = $accent_class !== '' ? $accent_class : 'text-primary';
+        $accent_bg_class = preg_replace('/^text-/', 'bg-', $accent_class);
+        $is_dark         = $theme === 'dark';
+        $muted_class     = $is_dark ? 'text-white-50' : 'text-muted';
 
         $wrapper_class = 'cwgb-form-sidebar';
         if ($is_dark) {
-            $wrapper_class .= ' cwgb-form-sidebar--dark bg-dark text-white p-3 p-lg-4 rounded-3';
+            $wrapper_class .= ' cwgb-form-sidebar--dark';
         }
 
         $pct = round(100 / $total_steps);
@@ -1342,7 +1343,7 @@ class CodeweberFormsRenderer {
                     </div>
                     <div class="progress" style="height:4px">
                         <div
-                            class="progress-bar"
+                            class="progress-bar <?php echo esc_attr($accent_bg_class); ?>"
                             role="progressbar"
                             style="width:<?php echo esc_attr($pct); ?>%"
                             data-step-width="<?php echo esc_attr($pct); ?>"

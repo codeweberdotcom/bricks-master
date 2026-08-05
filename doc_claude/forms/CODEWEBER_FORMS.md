@@ -733,8 +733,8 @@ A second attribute, `sidebarStepNavMode` (`'inline'` default | `'shortcode'`), c
 
 Two more attributes style the panel, independent of placement mode:
 
-- **`sidebarTheme`** (`'light'` default | `'dark'`) — dark adds a `bg-dark text-white p-3 p-lg-4 rounded-3` panel treatment and swaps muted/done text colors (`text-white-50` / `text-white` instead of `text-muted` / `text-dark`) so the panel reads correctly on its own, self-contained dark background — it does **not** rely on the theme's page-level `text-inverse` mechanism ([TEXT_INVERSE.md](../integrations/TEXT_INVERSE.md)), which is scoped to `<main>`, not a single block.
-- **`sidebarAccentColor`** / **`sidebarAccentColorType`** (`solid` default | `soft` | `pale`) — reuses the plugin's existing theme color palette (`src/utilities/colors.js`: primary, aqua, green, navy, orange, …) via the same `ColorTypeControl` pattern used for block backgrounds elsewhere. Empty color falls back to `primary`.
+- **`sidebarTheme`** (`'light'` default | `'dark'`) — **text-color only**, no background/padding of its own. It swaps muted/done text colors (`text-white-50` / `text-white` instead of `text-muted` / `text-dark`) for when the panel is placed on a dark background *elsewhere* (e.g. a `card` block with `backgroundColor: primary`) — it does not paint its own dark box. Does not rely on the theme's page-level `text-inverse` mechanism ([TEXT_INVERSE.md](../integrations/TEXT_INVERSE.md)), which is scoped to `<main>`, not a single block.
+- **`sidebarAccentColor`** / **`sidebarAccentColorType`** (`solid` default | `soft` | `pale`) — reuses the plugin's existing theme color palette (`src/utilities/colors.js`: primary, aqua, green, navy, orange, …) via the same `ColorTypeControl` pattern used for block backgrounds elsewhere. Empty color falls back to `primary`. Colors the active step, the `%` text, **and** the progress-bar fill (`bg-{color}` — derived from the text class by swapping the `text-`/`bg-` prefix).
 
 #### Shared rendering: `render_sidebar_steps_html()`
 
@@ -751,10 +751,12 @@ public function generate_color_class($color, $color_type, $prefix = 'text')
 // solid → "{prefix}-{color}", soft → "{prefix}-soft-{color}", pale → "{prefix}-pale-{color}"
 ```
 
+The progress-bar fill reuses the same color as a `bg-*` class: `preg_replace('/^text-/', 'bg-', $accent_class)`.
+
 Output (dark theme, custom accent):
 
 ```html
-<div class="cwgb-form-sidebar cwgb-form-sidebar--dark bg-dark text-white p-3 p-lg-4 rounded-3"
+<div class="cwgb-form-sidebar cwgb-form-sidebar--dark"
      data-cwgb-step-target="{step_target}" data-cwgb-accent-class="text-orange">
     <div class="cwgb-form-progress mb-3" aria-label="Step 1 of 3">
         <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
@@ -762,7 +764,7 @@ Output (dark theme, custom accent):
             <span class="cwgb-form-sidebar-percent small fw-semibold text-orange">33%</span>
         </div>
         <div class="progress" style="height:4px">
-            <div class="progress-bar" role="progressbar" style="width:33%" ...></div>
+            <div class="progress-bar bg-orange" role="progressbar" style="width:33%" ...></div>
         </div>
     </div>
     <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
