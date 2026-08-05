@@ -183,6 +183,14 @@
 
         var sidebarSteps = scope.querySelectorAll('.cwgb-form-sidebar-step');
         if (sidebarSteps.length) {
+            var sidebarEl = scope.classList.contains('cwgb-form-sidebar')
+                ? scope
+                : scope.querySelector('.cwgb-form-sidebar');
+            var accentClass = (sidebarEl && sidebarEl.getAttribute('data-cwgb-accent-class')) || 'text-primary';
+            var isDark = !!(sidebarEl && sidebarEl.classList.contains('cwgb-form-sidebar--dark'));
+            var mutedClass = isDark ? 'text-white-50' : 'text-muted';
+            var doneClass = isDark ? 'text-white' : 'text-dark';
+
             sidebarSteps.forEach(function (li) {
                 var n = parseInt(li.getAttribute('data-step'), 10);
                 var badge = li.querySelector('.cwgb-form-sidebar-step-num');
@@ -199,15 +207,15 @@
 
                 if (n === currentStep) {
                     li.classList.add('cwgb-form-sidebar-step--active');
-                    if (badge) badge.classList.add('text-primary', 'fw-semibold');
-                    if (title) title.classList.add('fw-semibold', 'text-primary');
+                    if (badge) badge.classList.add(accentClass, 'fw-semibold');
+                    if (title) title.classList.add('fw-semibold', accentClass);
                 } else if (visibleSteps && visibleSteps.indexOf(n) < visibleSteps.indexOf(currentStep)) {
                     li.classList.add('cwgb-form-sidebar-step--done');
-                    if (badge) badge.classList.add('text-dark');
-                    if (title) title.classList.add('text-dark');
+                    if (badge) badge.classList.add(doneClass);
+                    if (title) title.classList.add(doneClass);
                 } else {
-                    if (badge) badge.classList.add('text-muted');
-                    if (title) title.classList.add('text-muted');
+                    if (badge) badge.classList.add(mutedClass);
+                    if (title) title.classList.add(mutedClass);
                 }
             });
         }

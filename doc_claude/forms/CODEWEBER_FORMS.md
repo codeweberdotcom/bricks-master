@@ -729,22 +729,37 @@ A second attribute, `sidebarStepNavMode` (`'inline'` default | `'shortcode'`), c
 - **`inline`** — panel renders next to the form, in a `col-lg-4 col-xl-3` / `col-lg-8 col-xl-9` row (same `<form>` element).
 - **`shortcode`** — panel is **not** rendered with the form at all. Instead, the Inspector shows a ready-to-copy `[codeweber_form_steps id="{blockId}"]` shortcode that can be pasted anywhere else on the page (e.g. a different Gutenberg column). Requires the form's **Block ID** (Settings tab → Advanced) to be set — the shortcode uses it to find the form and as the linking key for JS sync.
 
+#### Theme & accent color
+
+Two more attributes style the panel, independent of placement mode:
+
+- **`sidebarTheme`** (`'light'` default | `'dark'`) — dark adds a `bg-dark text-white p-3 p-lg-4 rounded-3` panel treatment and swaps muted/done text colors (`text-white-50` / `text-white` instead of `text-muted` / `text-dark`) so the panel reads correctly on its own, self-contained dark background — it does **not** rely on the theme's page-level `text-inverse` mechanism ([TEXT_INVERSE.md](../integrations/TEXT_INVERSE.md)), which is scoped to `<main>`, not a single block.
+- **`sidebarAccentColor`** / **`sidebarAccentColorType`** (`solid` default | `soft` | `pale`) — reuses the plugin's existing theme color palette (`src/utilities/colors.js`: primary, aqua, green, navy, orange, …) via the same `ColorTypeControl` pattern used for block backgrounds elsewhere. Empty color falls back to `primary`.
+
 #### Shared rendering: `render_sidebar_steps_html()`
 
 Both placement modes render through one public method on `CodeweberFormsRenderer`:
 
 ```php
-public function render_sidebar_steps_html($page_titles, $total_steps, $step_target)
+public function render_sidebar_steps_html($page_titles, $total_steps, $step_target, $theme = 'light', $accent_class = '')
 ```
 
-Output:
+`$accent_class` (e.g. `text-primary`, `text-soft-orange`) is built by a small public helper that mirrors the plugin's JS `generateColorClass()`:
+
+```php
+public function generate_color_class($color, $color_type, $prefix = 'text')
+// solid → "{prefix}-{color}", soft → "{prefix}-soft-{color}", pale → "{prefix}-pale-{color}"
+```
+
+Output (dark theme, custom accent):
 
 ```html
-<div class="cwgb-form-sidebar" data-cwgb-step-target="{step_target}">
+<div class="cwgb-form-sidebar cwgb-form-sidebar--dark bg-dark text-white p-3 p-lg-4 rounded-3"
+     data-cwgb-step-target="{step_target}" data-cwgb-accent-class="text-orange">
     <div class="cwgb-form-progress mb-3" aria-label="Step 1 of 3">
         <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
-            <span class="text-muted small"><span class="cwgb-form-progress-current">1</span> of <span class="cwgb-form-progress-total">3</span></span>
-            <span class="cwgb-form-sidebar-percent small fw-semibold text-primary">33%</span>
+            <span class="text-white-50 small"><span class="cwgb-form-progress-current">1</span> of <span class="cwgb-form-progress-total">3</span></span>
+            <span class="cwgb-form-sidebar-percent small fw-semibold text-orange">33%</span>
         </div>
         <div class="progress" style="height:4px">
             <div class="progress-bar" role="progressbar" style="width:33%" ...></div>
@@ -752,21 +767,23 @@ Output:
     </div>
     <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
         <li class="cwgb-form-sidebar-step cwgb-form-sidebar-step--active" data-step="1">
-            <span class="cwgb-form-sidebar-step-num text-primary fw-semibold">01.</span>
-            <span class="cwgb-form-sidebar-step-title fw-semibold text-primary">Step 1 Title</span>
+            <span class="cwgb-form-sidebar-step-num fw-semibold text-orange">01.</span>
+            <span class="cwgb-form-sidebar-step-title fw-semibold text-orange">Step 1 Title</span>
         </li>
         <!-- ...one <li> per Form Page, data-step matches .cwgb-form-step[data-step] -->
     </ul>
 </div>
 ```
 
-No card/badge wrapper — just plain text, zero-padded step number (`01.`, `02.`...) followed by the title. Only Bootstrap text-color utilities are used, no custom SCSS.
+No card/badge wrapper — plain text, zero-padded step number (`01.`, `02.`...) followed by the title. Only Bootstrap/theme color utility classes are used, no custom SCSS.
 
-Step text color states: default/pending `text-muted`; active `text-primary fw-semibold`; done (already-passed, still-visible step) `text-dark`.
+Step text color states — light theme: pending `text-muted`, active `{accent} fw-semibold`, done `text-dark`. Dark theme: pending `text-white-50`, active `{accent} fw-semibold`, done `text-white`.
 
 **`$step_target`** is the value written to `data-cwgb-step-target`, used by JS to find the panel regardless of where it lives in the DOM:
 - Inline mode: the form's own element id (`$form_element_id`) — the panel is nested inside `<form>` anyway, so this is mostly redundant but keeps the two modes structurally identical.
 - Shortcode mode: the Block ID passed to `[codeweber_form_steps id="..."]`, which must equal the form's actual `<form id="...">` (already true, since `$form_element_id = $block_id ?: $form_unique_id`).
+
+**`data-cwgb-accent-class`** on the same wrapper lets `form-multipage.js` re-apply the correct accent class when it re-marks a step active after navigation, instead of hardcoding `text-primary`. It also reads `cwgb-form-sidebar--dark` off the wrapper to pick `text-white-50`/`text-white` vs `text-muted`/`text-dark` for the muted/done states.
 
 #### `[codeweber_form_steps]` shortcode
 
@@ -776,14 +793,14 @@ Registered in `CodeweberFormsShortcode` (`codeweber-forms-shortcode.php`), along
 add_shortcode('codeweber_form_steps', [$this, 'render_steps_shortcode']);
 ```
 
-`render_steps_shortcode($atts)`:
-1. Reads `id` (the target form's Block ID).
-2. `parse_blocks(get_post()->post_content)`, recursively searches for a `codeweber-blocks/form` block whose `attrs.blockId` matches.
-3. Bails (returns `''`) if not found, or `attrs.sidebarStepNav` isn't enabled.
-4. Collects `pageTitle` from the form's `codeweber-blocks/form-page` inner blocks.
-5. Calls `CodeweberFormsRenderer::render_sidebar_steps_html($page_titles, count($pages), $block_id)`.
+`render_steps_shortcode($atts)` looks for the Form block whose `blockId` matches `id`, in order:
+1. **Fast path** — if `id` matches `form-{cptId}` (the auto-generated pattern), fetches that `codeweber_form` CPT post directly and searches its content.
+2. **Current page** — `parse_blocks(get_post()->post_content)`, recursive search for a `codeweber-blocks/form` block.
+3. **CPT scan** — as a last resort, loops over all published `codeweber_form` posts searching for a matching `blockId` (covers a manually-overridden Block ID on a CPT form).
 
-Only searches the **current post's** content — the shortcode and the form must be on the same page.
+This matters because a CPT-backed form is usually embedded via `[codeweber_form id="128"]` / the **Form Selector** block, which only stores a `formId` reference on the page — the actual Form block (pages, `blockId`, `sidebarStepNav`, theme/accent attrs) lives in the CPT post's own `post_content`, not the page embedding it. Searching only the current page (step 2 alone) would silently return `''` for the common case.
+
+Once found: bails if `sidebarStepNav` isn't enabled, else collects `pageTitle` + `sidebarTheme`/`sidebarAccentColor`/`sidebarAccentColorType` from the block's attrs and calls `render_sidebar_steps_html()`.
 
 #### Per-step heading
 

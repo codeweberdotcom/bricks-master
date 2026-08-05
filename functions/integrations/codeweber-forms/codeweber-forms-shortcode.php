@@ -103,8 +103,17 @@ class CodeweberFormsShortcode {
             return '';
         }
 
+        $attrs  = $form_block['attrs'] ?? [];
+        $theme  = $attrs['sidebarTheme'] ?? 'light';
+
         $renderer = new CodeweberFormsRenderer();
-        return $renderer->render_sidebar_steps_html($page_titles, count($pages), $block_id);
+        $accent_class = $renderer->generate_color_class(
+            ($attrs['sidebarAccentColor'] ?? '') ?: 'primary',
+            $attrs['sidebarAccentColorType'] ?? 'solid',
+            'text'
+        );
+
+        return $renderer->render_sidebar_steps_html($page_titles, count($pages), $block_id, $theme, $accent_class);
     }
 
     /**

@@ -1167,6 +1167,12 @@ class CodeweberFormsRenderer {
         $sidebar_nav    = !empty($settings['sidebarStepNav']);
         $sidebar_mode   = $settings['sidebarStepNavMode'] ?? 'inline';
         $sidebar_inline = $sidebar_nav && $sidebar_mode !== 'shortcode';
+        $sidebar_theme  = $settings['sidebarTheme'] ?? 'light';
+        $sidebar_accent = $this->generate_color_class(
+            ($settings['sidebarAccentColor'] ?? '') ?: 'primary',
+            $settings['sidebarAccentColorType'] ?? 'solid',
+            'text'
+        );
 
         ob_start();
         ?>
@@ -1191,7 +1197,7 @@ class CodeweberFormsRenderer {
             <?php if ($sidebar_inline): ?>
             <div class="row">
                 <div class="col-lg-4 col-xl-3 mb-4 mb-lg-0">
-                    <?php echo $this->render_sidebar_steps_html($page_titles, $total_steps, $form_element_id); ?>
+                    <?php echo $this->render_sidebar_steps_html($page_titles, $total_steps, $form_element_id, $sidebar_theme, $sidebar_accent); ?>
                 </div>
 
                 <div class="col-lg-8 col-xl-9">
@@ -1310,20 +1316,29 @@ class CodeweberFormsRenderer {
      * form's id attribute — this works whether the panel is nested inside
      * the <form> or placed elsewhere on the page.
      */
-    public function render_sidebar_steps_html($page_titles, $total_steps, $step_target) {
+    public function render_sidebar_steps_html($page_titles, $total_steps, $step_target, $theme = 'light', $accent_class = '') {
         if ($total_steps <= 0) {
             return '';
+        }
+
+        $accent_class = $accent_class !== '' ? $accent_class : 'text-primary';
+        $is_dark      = $theme === 'dark';
+        $muted_class  = $is_dark ? 'text-white-50' : 'text-muted';
+
+        $wrapper_class = 'cwgb-form-sidebar';
+        if ($is_dark) {
+            $wrapper_class .= ' cwgb-form-sidebar--dark bg-dark text-white p-3 p-lg-4 rounded-3';
         }
 
         $pct = round(100 / $total_steps);
 
         ob_start();
         ?>
-        <div class="cwgb-form-sidebar" data-cwgb-step-target="<?php echo esc_attr($step_target); ?>">
+        <div class="<?php echo esc_attr($wrapper_class); ?>" data-cwgb-step-target="<?php echo esc_attr($step_target); ?>" data-cwgb-accent-class="<?php echo esc_attr($accent_class); ?>">
                 <div class="cwgb-form-progress mb-3" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
                     <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
-                        <span class="text-muted small"><span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <span class="cwgb-form-progress-total"><?php echo esc_html($total_steps); ?></span></span>
-                        <span class="cwgb-form-sidebar-percent small fw-semibold text-primary"><?php echo esc_html($pct); ?>%</span>
+                        <span class="<?php echo esc_attr($muted_class); ?> small"><span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <span class="cwgb-form-progress-total"><?php echo esc_html($total_steps); ?></span></span>
+                        <span class="cwgb-form-sidebar-percent small fw-semibold <?php echo esc_attr($accent_class); ?>"><?php echo esc_html($pct); ?>%</span>
                     </div>
                     <div class="progress" style="height:4px">
                         <div
@@ -1339,16 +1354,35 @@ class CodeweberFormsRenderer {
                 </div>
 
                 <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
-                    <?php foreach ($page_titles as $pt_idx => $pt_title): $pt_num = $pt_idx + 1; ?>
-                        <li class="cwgb-form-sidebar-step py-1<?php echo $pt_num === 1 ? ' cwgb-form-sidebar-step--active' : ''; ?>" data-step="<?php echo esc_attr($pt_num); ?>">
-                            <span class="cwgb-form-sidebar-step-num<?php echo $pt_num === 1 ? ' text-primary fw-semibold' : ' text-muted'; ?>"><?php echo esc_html(sprintf('%02d.', $pt_num)); ?></span>
-                            <span class="cwgb-form-sidebar-step-title<?php echo $pt_num === 1 ? ' fw-semibold text-primary' : ' text-muted'; ?>"><?php echo esc_html($pt_title !== '' ? $pt_title : sprintf(__('Step %d', 'codeweber'), $pt_num)); ?></span>
+                    <?php foreach ($page_titles as $pt_idx => $pt_title): $pt_num = $pt_idx + 1; $is_active = $pt_num === 1; ?>
+                        <li class="cwgb-form-sidebar-step py-1<?php echo $is_active ? ' cwgb-form-sidebar-step--active' : ''; ?>" data-step="<?php echo esc_attr($pt_num); ?>">
+                            <span class="cwgb-form-sidebar-step-num<?php echo $is_active ? ' fw-semibold ' . $accent_class : ' ' . $muted_class; ?>"><?php echo esc_html(sprintf('%02d.', $pt_num)); ?></span>
+                            <span class="cwgb-form-sidebar-step-title<?php echo $is_active ? ' fw-semibold ' . $accent_class : ' ' . $muted_class; ?>"><?php echo esc_html($pt_title !== '' ? $pt_title : sprintf(__('Step %d', 'codeweber'), $pt_num)); ?></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>
         </div>
         <?php
         return ob_get_clean();
+    }
+
+    /**
+     * Build a text/bg color class from a theme palette color + type
+     * (solid|soft|pale), mirroring the plugin's generateColorClass() JS
+     * utility (src/utilities/class-generators.js) so PHP and editor stay
+     * in sync.
+     */
+    public function generate_color_class($color, $color_type, $prefix = 'text') {
+        if (empty($color)) {
+            return '';
+        }
+        if ($color_type === 'soft') {
+            return "{$prefix}-soft-{$color}";
+        }
+        if ($color_type === 'pale') {
+            return "{$prefix}-pale-{$color}";
+        }
+        return "{$prefix}-{$color}";
     }
 
     /**
