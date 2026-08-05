@@ -14,6 +14,75 @@ if (!defined('ABSPATH')) {
 class CodeweberFormsShortcode {
     public function __construct() {
         add_shortcode('codeweber_form', [$this, 'render_shortcode']);
+        add_shortcode('codeweber_form_steps', [$this, 'render_steps_shortcode']);
+    }
+
+    /**
+     * Render shortcode: [codeweber_form_steps id="blockId"]
+     *
+     * Standalone step-navigation panel for a multipage Form block whose
+     * "Sidebar Step Navigation" is set to shortcode placement. Finds the
+     * matching Form block (by its Block ID) in the current post's content
+     * and renders the same panel used for inline sidebar mode.
+     */
+    public function render_steps_shortcode($atts) {
+        $atts = shortcode_atts(['id' => ''], $atts, 'codeweber_form_steps');
+        $block_id = sanitize_text_field($atts['id']);
+
+        if ($block_id === '') {
+            return '';
+        }
+
+        global $post;
+        if (!$post || empty($post->post_content)) {
+            return '';
+        }
+
+        $form_block = $this->find_form_block_by_id(parse_blocks($post->post_content), $block_id);
+        if (!$form_block || empty($form_block['attrs']['sidebarStepNav'])) {
+            return '';
+        }
+
+        $pages = [];
+        foreach ($form_block['innerBlocks'] ?? [] as $inner_block) {
+            if (($inner_block['blockName'] ?? '') === 'codeweber-blocks/form-page') {
+                $pages[] = $inner_block['attrs'] ?? [];
+            }
+        }
+        if (empty($pages)) {
+            return '';
+        }
+
+        $page_titles = array_map(function ($p) {
+            return $p['pageTitle'] ?? '';
+        }, $pages);
+
+        if (!class_exists('CodeweberFormsRenderer')) {
+            return '';
+        }
+
+        $renderer = new CodeweberFormsRenderer();
+        return $renderer->render_sidebar_steps_html($page_titles, count($pages), $block_id);
+    }
+
+    /**
+     * Recursively search parsed blocks for a codeweber-blocks/form block
+     * whose blockId attribute matches $block_id.
+     */
+    private function find_form_block_by_id($blocks, $block_id) {
+        foreach ($blocks as $block) {
+            if (($block['blockName'] ?? '') === 'codeweber-blocks/form'
+                && ($block['attrs']['blockId'] ?? '') === $block_id) {
+                return $block;
+            }
+            if (!empty($block['innerBlocks'])) {
+                $found = $this->find_form_block_by_id($block['innerBlocks'], $block_id);
+                if ($found) {
+                    return $found;
+                }
+            }
+        }
+        return null;
     }
     
     /**

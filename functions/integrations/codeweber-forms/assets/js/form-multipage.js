@@ -134,32 +134,41 @@
 
     // ── Progress indicator ───────────────────────────────────────────────────
 
+    // The step panel (top bar or sidebar) usually lives inside the <form>.
+    // In shortcode placement mode it's rendered elsewhere on the page and
+    // linked back via data-cwgb-step-target matching the form's id.
+    function getStepScope(form) {
+        if (form.querySelector('.cwgb-form-progress')) return form;
+        return document.querySelector('[data-cwgb-step-target="' + form.id + '"]') || form;
+    }
+
     function updateProgress(form, currentStep, totalSteps, pageTitles, visibleSteps) {
+        var scope = getStepScope(form);
         var dispCurrent = visibleSteps ? (visibleSteps.indexOf(currentStep) + 1) : currentStep;
         var dispTotal   = visibleSteps ? visibleSteps.length : totalSteps;
 
-        var bar = form.querySelector('.cwgb-form-progress .progress-bar');
+        var bar = scope.querySelector('.cwgb-form-progress .progress-bar');
         if (bar) {
             var pct = Math.round((dispCurrent / dispTotal) * 100);
             bar.style.width = pct + '%';
             bar.setAttribute('aria-valuenow', pct);
         }
 
-        var currentEl = form.querySelector('.cwgb-form-progress-current');
+        var currentEl = scope.querySelector('.cwgb-form-progress-current');
         if (currentEl) currentEl.textContent = dispCurrent;
 
-        var totalEl = form.querySelector('.cwgb-form-progress-total');
+        var totalEl = scope.querySelector('.cwgb-form-progress-total');
         if (totalEl) totalEl.textContent = dispTotal;
 
-        var titleEl = form.querySelector('.cwgb-form-progress-title');
+        var titleEl = scope.querySelector('.cwgb-form-progress-title');
         if (titleEl) {
             var title = (pageTitles && pageTitles[currentStep - 1]) ? pageTitles[currentStep - 1] : '';
             titleEl.textContent = title;
-            var titleWrap = titleEl.parentElement !== form.querySelector('.cwgb-form-progress-text') ? titleEl.parentElement : titleEl;
+            var titleWrap = titleEl.parentElement !== scope.querySelector('.cwgb-form-progress-text') ? titleEl.parentElement : titleEl;
             titleWrap.style.display = title ? '' : 'none';
         }
 
-        var ariaLabel = form.querySelector('.cwgb-form-progress');
+        var ariaLabel = scope.querySelector('.cwgb-form-progress');
         if (ariaLabel) {
             ariaLabel.setAttribute(
                 'aria-label',
@@ -167,17 +176,23 @@
             );
         }
 
-        var percentEl = form.querySelector('.cwgb-form-sidebar-percent');
+        var percentEl = scope.querySelector('.cwgb-form-sidebar-percent');
         if (percentEl) {
             percentEl.textContent = (bar ? bar.getAttribute('aria-valuenow') : Math.round((dispCurrent / dispTotal) * 100)) + '%';
         }
 
-        var sidebarSteps = form.querySelectorAll('.cwgb-form-sidebar-step');
+        var sidebarSteps = scope.querySelectorAll('.cwgb-form-sidebar-step');
         if (sidebarSteps.length) {
             sidebarSteps.forEach(function (li) {
                 var n = parseInt(li.getAttribute('data-step'), 10);
                 var badge = li.querySelector('.cwgb-form-sidebar-step-num');
                 var title = li.querySelector('.cwgb-form-sidebar-step-title');
+
+                // Steps skipped by page conditional logic don't belong in the list
+                var isVisible = !visibleSteps || visibleSteps.indexOf(n) !== -1;
+                li.style.display = isVisible ? '' : 'none';
+                if (!isVisible) return;
+
                 li.classList.remove('cwgb-form-sidebar-step--active', 'cwgb-form-sidebar-step--done');
                 if (badge) badge.className = 'cwgb-form-sidebar-step-num badge rounded-pill';
                 if (title) title.className = 'cwgb-form-sidebar-step-title';
@@ -186,12 +201,12 @@
                     li.classList.add('cwgb-form-sidebar-step--active');
                     if (badge) badge.classList.add('bg-primary');
                     if (title) title.classList.add('fw-semibold', 'text-primary');
-                } else if (visibleSteps && visibleSteps.indexOf(n) !== -1 && visibleSteps.indexOf(n) < visibleSteps.indexOf(currentStep)) {
+                } else if (visibleSteps && visibleSteps.indexOf(n) < visibleSteps.indexOf(currentStep)) {
                     li.classList.add('cwgb-form-sidebar-step--done');
-                    if (badge) badge.classList.add('bg-primary', 'bg-opacity-10', 'text-primary');
+                    if (badge) badge.classList.add('bg-pale-primary', 'text-primary');
                     if (title) title.classList.add('text-muted');
                 } else {
-                    if (badge) badge.classList.add('bg-secondary', 'bg-opacity-10', 'text-secondary', 'border');
+                    if (badge) badge.classList.add('bg-pale-ash', 'text-dark');
                     if (title) title.classList.add('text-muted');
                 }
             });

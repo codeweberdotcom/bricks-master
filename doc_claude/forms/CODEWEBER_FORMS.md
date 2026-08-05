@@ -720,47 +720,94 @@ Page titles are embedded as JSON in a hidden element:
 
 ### Sidebar Step Navigation (Optional)
 
-Alternative to the top progress bar: a left-hand panel listing all steps, with the form content on the right. Toggled per-form via **Form block Inspector → Form tab → "Sidebar Step Navigation"** (`sidebarStepNav` attribute, default `false`). Only takes effect when the form has 2+ **Form Page** blocks — same precondition as the top progress bar (`form-multipage.js` no-ops when `totalSteps <= 1`).
+Alternative to the top progress bar: a panel listing all steps (progress % + numbered step list), toggled per-form via **Form block Inspector → Form tab → "Sidebar Step Navigation"** (`sidebarStepNav` attribute, default `false`). Only takes effect when the form has 2+ **Form Page** blocks — same precondition as the top progress bar (`form-multipage.js` no-ops when `totalSteps <= 1`).
 
-**Markup** (`codeweber-forms-renderer.php`), rendered only when `$settings['sidebarStepNav']` is true:
+#### Placement: Inline vs Shortcode
+
+A second attribute, `sidebarStepNavMode` (`'inline'` default | `'shortcode'`), controls where the panel appears:
+
+- **`inline`** — panel renders next to the form, in a `col-lg-4 col-xl-3` / `col-lg-8 col-xl-9` row (same `<form>` element).
+- **`shortcode`** — panel is **not** rendered with the form at all. Instead, the Inspector shows a ready-to-copy `[codeweber_form_steps id="{blockId}"]` shortcode that can be pasted anywhere else on the page (e.g. a different Gutenberg column). Requires the form's **Block ID** (Settings tab → Advanced) to be set — the shortcode uses it to find the form and as the linking key for JS sync.
+
+#### Shared rendering: `render_sidebar_steps_html()`
+
+Both placement modes render through one public method on `CodeweberFormsRenderer`:
+
+```php
+public function render_sidebar_steps_html($page_titles, $total_steps, $step_target)
+```
+
+Output:
 
 ```html
-<div class="row">
-    <div class="col-lg-4 col-xl-3 mb-4 mb-lg-0">
-        <div class="cwgb-form-sidebar p-3 p-lg-4 rounded-3 border">
-            <div class="cwgb-form-progress mb-3" aria-label="Step 1 of 3">
-                <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
-                    <span class="text-muted small">Step <span class="cwgb-form-progress-current">1</span> of <span class="cwgb-form-progress-total">3</span></span>
-                    <span class="cwgb-form-sidebar-percent small fw-semibold text-primary">33%</span>
-                </div>
-                <div class="progress" style="height:4px">
-                    <div class="progress-bar" role="progressbar" style="width:33%" ...></div>
-                </div>
+<div class="card cwgb-form-sidebar" data-cwgb-step-target="{step_target}">
+    <div class="card-body">
+        <div class="cwgb-form-progress mb-3" aria-label="Step 1 of 3">
+            <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
+                <span class="text-muted small"><span class="cwgb-form-progress-current">1</span> of <span class="cwgb-form-progress-total">3</span></span>
+                <span class="cwgb-form-sidebar-percent small fw-semibold text-primary">33%</span>
             </div>
-            <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
-                <li class="cwgb-form-sidebar-step cwgb-form-sidebar-step--active" data-step="1">
-                    <span class="cwgb-form-sidebar-step-num badge rounded-pill bg-primary">1</span>
-                    <span class="cwgb-form-sidebar-step-title fw-semibold text-primary">Step 1 Title</span>
-                </li>
-                <!-- ...one <li> per Form Page, data-step matches .cwgb-form-step[data-step] -->
-            </ul>
+            <div class="progress" style="height:4px">
+                <div class="progress-bar" role="progressbar" style="width:33%" ...></div>
+            </div>
         </div>
-    </div>
-    <div class="col-lg-8 col-xl-9">
-        <!-- page-titles JSON + .cwgb-form-step elements (unchanged) -->
+        <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
+            <li class="cwgb-form-sidebar-step cwgb-form-sidebar-step--active" data-step="1">
+                <span class="cwgb-form-sidebar-step-num badge rounded-pill bg-primary">1</span>
+                <span class="cwgb-form-sidebar-step-title fw-semibold text-primary">Step 1 Title</span>
+            </li>
+            <!-- ...one <li> per Form Page, data-step matches .cwgb-form-step[data-step] -->
+        </ul>
     </div>
 </div>
 ```
 
-Only Bootstrap utility/component classes are used (`badge`, `rounded-pill`, `bg-opacity-10`, `progress`, grid) — no custom SCSS required.
+Only Bootstrap/theme utility classes are used — `card`, `badge rounded-pill`, the theme's soft-color utilities (`bg-pale-ash`, `bg-pale-primary` — see `doc_claude` badges reference), `progress`, grid. No custom SCSS.
 
-**Per-step heading:** when sidebar mode is active, each `.cwgb-form-step` gets its own `<h5 class="mb-4 text-primary">{pageTitle}</h5>` at the top (shown/hidden automatically along with the step via the existing `display:none` toggling — no extra JS). In the classic (non-sidebar) mode, the title instead appears inside the top progress bar (`.cwgb-form-progress-title`), as before — unchanged.
+Step badge/text states: default `bg-pale-ash text-dark` + `text-muted`; active `bg-primary` + `fw-semibold text-primary`; done (already-passed, still-visible step) `bg-pale-primary text-primary` + `text-muted`.
 
-**JS sync** (`updateProgress()` in `form-multipage.js`): in addition to the existing top-bar updates, when `.cwgb-form-sidebar-step` elements are present it also:
-- Updates `.cwgb-form-sidebar-percent` text
-- Toggles `cwgb-form-sidebar-step--active` / `cwgb-form-sidebar-step--done` classes (and matching badge/title Bootstrap color classes) based on the step's position in `visibleSteps` relative to the current step
+**`$step_target`** is the value written to `data-cwgb-step-target`, used by JS to find the panel regardless of where it lives in the DOM:
+- Inline mode: the form's own element id (`$form_element_id`) — the panel is nested inside `<form>` anyway, so this is mostly redundant but keeps the two modes structurally identical.
+- Shortcode mode: the Block ID passed to `[codeweber_form_steps id="..."]`, which must equal the form's actual `<form id="...">` (already true, since `$form_element_id = $block_id ?: $form_unique_id`).
 
-Steps skipped by page conditional logic remain listed in the sidebar (not hidden) but are never marked active; the percentage still reflects only visible steps, consistent with the top progress bar.
+#### `[codeweber_form_steps]` shortcode
+
+Registered in `CodeweberFormsShortcode` (`codeweber-forms-shortcode.php`), alongside `[codeweber_form]`:
+
+```php
+add_shortcode('codeweber_form_steps', [$this, 'render_steps_shortcode']);
+```
+
+`render_steps_shortcode($atts)`:
+1. Reads `id` (the target form's Block ID).
+2. `parse_blocks(get_post()->post_content)`, recursively searches for a `codeweber-blocks/form` block whose `attrs.blockId` matches.
+3. Bails (returns `''`) if not found, or `attrs.sidebarStepNav` isn't enabled.
+4. Collects `pageTitle` from the form's `codeweber-blocks/form-page` inner blocks.
+5. Calls `CodeweberFormsRenderer::render_sidebar_steps_html($page_titles, count($pages), $block_id)`.
+
+Only searches the **current post's** content — the shortcode and the form must be on the same page.
+
+#### Per-step heading
+
+When `sidebarStepNav` is enabled (either mode), each `.cwgb-form-step` gets its own `<h5 class="mb-4 text-primary">{pageTitle}</h5>` at the top — shown/hidden automatically with the step via the existing `display:none` toggling, no extra JS. In classic (non-sidebar) mode the title instead appears inside the top progress bar (`.cwgb-form-progress-title`), as before — unchanged.
+
+#### JS sync (`form-multipage.js`)
+
+`getStepScope(form)` finds the right root to query for progress/sidebar elements:
+
+```js
+function getStepScope(form) {
+    if (form.querySelector('.cwgb-form-progress')) return form;
+    return document.querySelector('[data-cwgb-step-target="' + form.id + '"]') || form;
+}
+```
+
+- Classic mode and inline sidebar mode: the panel is a descendant of `<form>`, so `form.querySelector('.cwgb-form-progress')` already finds it → scope is the form itself.
+- Shortcode mode: nothing matches inside `<form>`, so it falls back to a page-wide lookup by `data-cwgb-step-target`, matching the standalone panel rendered by the shortcode.
+
+`updateProgress()` uses this `scope` (not `form`) for every lookup, then additionally, for each `.cwgb-form-sidebar-step`:
+- **Hides** the `<li>` (`style.display = 'none'`) when its step number isn't in `visibleSteps` — i.e. it was skipped by page conditional logic. Recalculated on every step navigation and field `change`, same trigger as the progress percentage, so the list never shows a step the user won't actually see.
+- Otherwise toggles `cwgb-form-sidebar-step--active` / `--done` and the matching badge/title classes based on the step's position in `visibleSteps` relative to the current step.
 
 Backward compatibility: when `sidebarStepNav` is `false` (default), renderer output is byte-for-byte identical to before this feature was added.
 

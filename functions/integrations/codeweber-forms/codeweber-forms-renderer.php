@@ -1164,7 +1164,9 @@ class CodeweberFormsRenderer {
         }, $pages);
 
         // Sidebar step navigation (left panel) instead of the top progress bar
-        $sidebar_nav = !empty($settings['sidebarStepNav']);
+        $sidebar_nav    = !empty($settings['sidebarStepNav']);
+        $sidebar_mode   = $settings['sidebarStepNavMode'] ?? 'inline';
+        $sidebar_inline = $sidebar_nav && $sidebar_mode !== 'shortcode';
 
         ob_start();
         ?>
@@ -1186,42 +1188,14 @@ class CodeweberFormsRenderer {
             <input type="hidden" name="form_honeypot" value="">
             <div class="form-messages" style="display: none;"></div>
 
-            <?php if ($sidebar_nav): ?>
+            <?php if ($sidebar_inline): ?>
             <div class="row">
                 <div class="col-lg-4 col-xl-3 mb-4 mb-lg-0">
-                    <div class="cwgb-form-sidebar p-3 p-lg-4 rounded-3 border">
-                        <?php // Progress indicator (sidebar) ?>
-                        <div class="cwgb-form-progress mb-3" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
-                            <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-muted small"><?php esc_html_e('Step', 'codeweber'); ?> <span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <span class="cwgb-form-progress-total"><?php echo esc_html($total_steps); ?></span></span>
-                                <span class="cwgb-form-sidebar-percent small fw-semibold text-primary"><?php echo esc_html(round(100 / $total_steps)); ?>%</span>
-                            </div>
-                            <div class="progress" style="height:4px">
-                                <div
-                                    class="progress-bar"
-                                    role="progressbar"
-                                    style="width:<?php echo esc_attr(round(100 / $total_steps)); ?>%"
-                                    data-step-width="<?php echo esc_attr(round(100 / $total_steps)); ?>"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100"
-                                    aria-valuenow="<?php echo esc_attr(round(100 / $total_steps)); ?>"
-                                ></div>
-                            </div>
-                        </div>
-
-                        <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
-                            <?php foreach ($page_titles as $pt_idx => $pt_title): $pt_num = $pt_idx + 1; ?>
-                                <li class="cwgb-form-sidebar-step d-flex align-items-center gap-2 py-2<?php echo $pt_num === 1 ? ' cwgb-form-sidebar-step--active' : ''; ?>" data-step="<?php echo esc_attr($pt_num); ?>">
-                                    <span class="cwgb-form-sidebar-step-num badge rounded-pill<?php echo $pt_num === 1 ? ' bg-primary' : ' bg-secondary bg-opacity-10 text-secondary border'; ?>"><?php echo esc_html($pt_num); ?></span>
-                                    <span class="cwgb-form-sidebar-step-title<?php echo $pt_num === 1 ? ' fw-semibold text-primary' : ' text-muted'; ?>"><?php echo esc_html($pt_title !== '' ? $pt_title : sprintf(__('Step %d', 'codeweber'), $pt_num)); ?></span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
+                    <?php echo $this->render_sidebar_steps_html($page_titles, $total_steps, $form_element_id); ?>
                 </div>
 
                 <div class="col-lg-8 col-xl-9">
-            <?php else: ?>
+            <?php elseif (!$sidebar_nav): ?>
             <?php // Progress indicator ?>
             <div class="cwgb-form-progress mb-4" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
                 <div class="cwgb-form-progress-text mb-2">
@@ -1244,7 +1218,7 @@ class CodeweberFormsRenderer {
                     ></div>
                 </div>
             </div>
-            <?php endif; ?>
+            <?php endif; // Shortcode mode: nothing rendered here, panel lives wherever [codeweber_form_steps] is placed ?>
 
             <?php // Hidden page titles for JS ?>
             <script type="application/json" class="cwgb-form-page-titles">
@@ -1318,11 +1292,63 @@ class CodeweberFormsRenderer {
                     </div>
                 </div>
             <?php endforeach; ?>
-            <?php if ($sidebar_nav): ?>
+            <?php if ($sidebar_inline): ?>
                 </div>
             </div>
             <?php endif; ?>
         </form>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Render the sidebar step navigation panel (progress % + numbered step list).
+     *
+     * Shared between the inline sidebar (rendered next to the form) and the
+     * standalone [codeweber_form_steps] shortcode. JS (form-multipage.js)
+     * locates it via data-cwgb-step-target, matched against the target
+     * form's id attribute — this works whether the panel is nested inside
+     * the <form> or placed elsewhere on the page.
+     */
+    public function render_sidebar_steps_html($page_titles, $total_steps, $step_target) {
+        if ($total_steps <= 0) {
+            return '';
+        }
+
+        $pct = round(100 / $total_steps);
+
+        ob_start();
+        ?>
+        <div class="card cwgb-form-sidebar" data-cwgb-step-target="<?php echo esc_attr($step_target); ?>">
+            <div class="card-body">
+                <div class="cwgb-form-progress mb-3" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
+                    <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted small"><span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <span class="cwgb-form-progress-total"><?php echo esc_html($total_steps); ?></span></span>
+                        <span class="cwgb-form-sidebar-percent small fw-semibold text-primary"><?php echo esc_html($pct); ?>%</span>
+                    </div>
+                    <div class="progress" style="height:4px">
+                        <div
+                            class="progress-bar"
+                            role="progressbar"
+                            style="width:<?php echo esc_attr($pct); ?>%"
+                            data-step-width="<?php echo esc_attr($pct); ?>"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow="<?php echo esc_attr($pct); ?>"
+                        ></div>
+                    </div>
+                </div>
+
+                <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
+                    <?php foreach ($page_titles as $pt_idx => $pt_title): $pt_num = $pt_idx + 1; ?>
+                        <li class="cwgb-form-sidebar-step d-flex align-items-center gap-2 py-2<?php echo $pt_num === 1 ? ' cwgb-form-sidebar-step--active' : ''; ?>" data-step="<?php echo esc_attr($pt_num); ?>">
+                            <span class="cwgb-form-sidebar-step-num badge rounded-pill<?php echo $pt_num === 1 ? ' bg-primary' : ' bg-pale-ash text-dark'; ?>"><?php echo esc_html($pt_num); ?></span>
+                            <span class="cwgb-form-sidebar-step-title<?php echo $pt_num === 1 ? ' fw-semibold text-primary' : ' text-muted'; ?>"><?php echo esc_html($pt_title !== '' ? $pt_title : sprintf(__('Step %d', 'codeweber'), $pt_num)); ?></span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
         <?php
         return ob_get_clean();
     }
