@@ -740,31 +740,29 @@ public function render_sidebar_steps_html($page_titles, $total_steps, $step_targ
 Output:
 
 ```html
-<div class="card cwgb-form-sidebar" data-cwgb-step-target="{step_target}">
-    <div class="card-body">
-        <div class="cwgb-form-progress mb-3" aria-label="Step 1 of 3">
-            <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
-                <span class="text-muted small"><span class="cwgb-form-progress-current">1</span> of <span class="cwgb-form-progress-total">3</span></span>
-                <span class="cwgb-form-sidebar-percent small fw-semibold text-primary">33%</span>
-            </div>
-            <div class="progress" style="height:4px">
-                <div class="progress-bar" role="progressbar" style="width:33%" ...></div>
-            </div>
+<div class="cwgb-form-sidebar" data-cwgb-step-target="{step_target}">
+    <div class="cwgb-form-progress mb-3" aria-label="Step 1 of 3">
+        <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
+            <span class="text-muted small"><span class="cwgb-form-progress-current">1</span> of <span class="cwgb-form-progress-total">3</span></span>
+            <span class="cwgb-form-sidebar-percent small fw-semibold text-primary">33%</span>
         </div>
-        <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
-            <li class="cwgb-form-sidebar-step cwgb-form-sidebar-step--active" data-step="1">
-                <span class="cwgb-form-sidebar-step-num badge rounded-pill bg-primary">1</span>
-                <span class="cwgb-form-sidebar-step-title fw-semibold text-primary">Step 1 Title</span>
-            </li>
-            <!-- ...one <li> per Form Page, data-step matches .cwgb-form-step[data-step] -->
-        </ul>
+        <div class="progress" style="height:4px">
+            <div class="progress-bar" role="progressbar" style="width:33%" ...></div>
+        </div>
     </div>
+    <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
+        <li class="cwgb-form-sidebar-step cwgb-form-sidebar-step--active" data-step="1">
+            <span class="cwgb-form-sidebar-step-num text-primary fw-semibold">01.</span>
+            <span class="cwgb-form-sidebar-step-title fw-semibold text-primary">Step 1 Title</span>
+        </li>
+        <!-- ...one <li> per Form Page, data-step matches .cwgb-form-step[data-step] -->
+    </ul>
 </div>
 ```
 
-Only Bootstrap/theme utility classes are used — `card`, `badge rounded-pill`, the theme's soft-color utilities (`bg-pale-ash`, `bg-pale-primary` — see `doc_claude` badges reference), `progress`, grid. No custom SCSS.
+No card/badge wrapper — just plain text, zero-padded step number (`01.`, `02.`...) followed by the title. Only Bootstrap text-color utilities are used, no custom SCSS.
 
-Step badge/text states: default `bg-pale-ash text-dark` + `text-muted`; active `bg-primary` + `fw-semibold text-primary`; done (already-passed, still-visible step) `bg-pale-primary text-primary` + `text-muted`.
+Step text color states: default/pending `text-muted`; active `text-primary fw-semibold`; done (already-passed, still-visible step) `text-dark`.
 
 **`$step_target`** is the value written to `data-cwgb-step-target`, used by JS to find the panel regardless of where it lives in the DOM:
 - Inline mode: the form's own element id (`$form_element_id`) — the panel is nested inside `<form>` anyway, so this is mostly redundant but keeps the two modes structurally identical.

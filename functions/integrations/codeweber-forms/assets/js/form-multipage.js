@@ -194,19 +194,19 @@
                 if (!isVisible) return;
 
                 li.classList.remove('cwgb-form-sidebar-step--active', 'cwgb-form-sidebar-step--done');
-                if (badge) badge.className = 'cwgb-form-sidebar-step-num badge rounded-pill';
+                if (badge) badge.className = 'cwgb-form-sidebar-step-num';
                 if (title) title.className = 'cwgb-form-sidebar-step-title';
 
                 if (n === currentStep) {
                     li.classList.add('cwgb-form-sidebar-step--active');
-                    if (badge) badge.classList.add('bg-primary');
+                    if (badge) badge.classList.add('text-primary', 'fw-semibold');
                     if (title) title.classList.add('fw-semibold', 'text-primary');
                 } else if (visibleSteps && visibleSteps.indexOf(n) < visibleSteps.indexOf(currentStep)) {
                     li.classList.add('cwgb-form-sidebar-step--done');
-                    if (badge) badge.classList.add('bg-pale-primary', 'text-primary');
-                    if (title) title.classList.add('text-muted');
+                    if (badge) badge.classList.add('text-dark');
+                    if (title) title.classList.add('text-dark');
                 } else {
-                    if (badge) badge.classList.add('bg-pale-ash', 'text-dark');
+                    if (badge) badge.classList.add('text-muted');
                     if (title) title.classList.add('text-muted');
                 }
             });

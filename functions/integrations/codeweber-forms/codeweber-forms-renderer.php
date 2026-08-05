@@ -1319,8 +1319,7 @@ class CodeweberFormsRenderer {
 
         ob_start();
         ?>
-        <div class="card cwgb-form-sidebar" data-cwgb-step-target="<?php echo esc_attr($step_target); ?>">
-            <div class="card-body">
+        <div class="cwgb-form-sidebar" data-cwgb-step-target="<?php echo esc_attr($step_target); ?>">
                 <div class="cwgb-form-progress mb-3" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
                     <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
                         <span class="text-muted small"><span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <span class="cwgb-form-progress-total"><?php echo esc_html($total_steps); ?></span></span>
@@ -1341,13 +1340,12 @@ class CodeweberFormsRenderer {
 
                 <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
                     <?php foreach ($page_titles as $pt_idx => $pt_title): $pt_num = $pt_idx + 1; ?>
-                        <li class="cwgb-form-sidebar-step d-flex align-items-center gap-2 py-2<?php echo $pt_num === 1 ? ' cwgb-form-sidebar-step--active' : ''; ?>" data-step="<?php echo esc_attr($pt_num); ?>">
-                            <span class="cwgb-form-sidebar-step-num badge rounded-pill<?php echo $pt_num === 1 ? ' bg-primary' : ' bg-pale-ash text-dark'; ?>"><?php echo esc_html($pt_num); ?></span>
+                        <li class="cwgb-form-sidebar-step py-1<?php echo $pt_num === 1 ? ' cwgb-form-sidebar-step--active' : ''; ?>" data-step="<?php echo esc_attr($pt_num); ?>">
+                            <span class="cwgb-form-sidebar-step-num<?php echo $pt_num === 1 ? ' text-primary fw-semibold' : ' text-muted'; ?>"><?php echo esc_html(sprintf('%02d.', $pt_num)); ?></span>
                             <span class="cwgb-form-sidebar-step-title<?php echo $pt_num === 1 ? ' fw-semibold text-primary' : ' text-muted'; ?>"><?php echo esc_html($pt_title !== '' ? $pt_title : sprintf(__('Step %d', 'codeweber'), $pt_num)); ?></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>
-            </div>
         </div>
         <?php
         return ob_get_clean();
