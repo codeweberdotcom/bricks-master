@@ -22,8 +22,17 @@ class CodeweberFormsShortcode {
      *
      * Standalone step-navigation panel for a multipage Form block whose
      * "Sidebar Step Navigation" is set to shortcode placement. Finds the
-     * matching Form block (by its Block ID) in the current post's content
-     * and renders the same panel used for inline sidebar mode.
+     * matching Form block by its Block ID and renders the same panel used
+     * for inline sidebar mode.
+     *
+     * The Form block itself isn't necessarily on the page where this
+     * shortcode is placed — e.g. a CPT form (codeweber_form) embedded via
+     * [codeweber_form id="128"] or the "Form Selector" block only stores a
+     * reference (formId) on the page; the actual Form block with pages /
+     * blockId lives in the CPT post's own content. So the search tries,
+     * in order: (1) the auto-generated "form-{cptId}" pattern → direct CPT
+     * post lookup, (2) the current page's content (inline forms), (3) a
+     * scan of all codeweber_form CPT posts (manually-set custom Block ID).
      */
     public function render_steps_shortcode($atts) {
         $atts = shortcode_atts(['id' => ''], $atts, 'codeweber_form_steps');
@@ -33,12 +42,45 @@ class CodeweberFormsShortcode {
             return '';
         }
 
-        global $post;
-        if (!$post || empty($post->post_content)) {
-            return '';
+        $form_block = null;
+
+        // 1. Fast path: auto-generated id "form-{cptId}" → look up that CPT post directly.
+        if (preg_match('/^form-(\d+)$/', $block_id, $matches)) {
+            $cpt_post = get_post((int) $matches[1]);
+            if ($cpt_post && $cpt_post->post_type === 'codeweber_form' && !empty($cpt_post->post_content)) {
+                $form_block = $this->find_form_block_by_id(parse_blocks($cpt_post->post_content), $block_id);
+            }
         }
 
-        $form_block = $this->find_form_block_by_id(parse_blocks($post->post_content), $block_id);
+        // 2. Current page's own content (inline, non-CPT forms).
+        if (!$form_block) {
+            global $post;
+            if ($post && !empty($post->post_content)) {
+                $form_block = $this->find_form_block_by_id(parse_blocks($post->post_content), $block_id);
+            }
+        }
+
+        // 3. Last resort: scan all codeweber_form CPT posts (custom/manual Block ID).
+        if (!$form_block) {
+            $form_post_ids = get_posts([
+                'post_type'      => 'codeweber_form',
+                'posts_per_page' => -1,
+                'post_status'    => 'publish',
+                'fields'         => 'ids',
+            ]);
+            foreach ($form_post_ids as $form_post_id) {
+                $form_post = get_post($form_post_id);
+                if (!$form_post || empty($form_post->post_content)) {
+                    continue;
+                }
+                $found = $this->find_form_block_by_id(parse_blocks($form_post->post_content), $block_id);
+                if ($found) {
+                    $form_block = $found;
+                    break;
+                }
+            }
+        }
+
         if (!$form_block || empty($form_block['attrs']['sidebarStepNav'])) {
             return '';
         }
