@@ -718,6 +718,52 @@ Page titles are embedded as JSON in a hidden element:
 </script>
 ```
 
+### Sidebar Step Navigation (Optional)
+
+Alternative to the top progress bar: a left-hand panel listing all steps, with the form content on the right. Toggled per-form via **Form block Inspector → Form tab → "Sidebar Step Navigation"** (`sidebarStepNav` attribute, default `false`). Only takes effect when the form has 2+ **Form Page** blocks — same precondition as the top progress bar (`form-multipage.js` no-ops when `totalSteps <= 1`).
+
+**Markup** (`codeweber-forms-renderer.php`), rendered only when `$settings['sidebarStepNav']` is true:
+
+```html
+<div class="row">
+    <div class="col-lg-4 col-xl-3 mb-4 mb-lg-0">
+        <div class="cwgb-form-sidebar p-3 p-lg-4 rounded-3 border">
+            <div class="cwgb-form-progress mb-3" aria-label="Step 1 of 3">
+                <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-muted small">Step <span class="cwgb-form-progress-current">1</span> of <span class="cwgb-form-progress-total">3</span></span>
+                    <span class="cwgb-form-sidebar-percent small fw-semibold text-primary">33%</span>
+                </div>
+                <div class="progress" style="height:4px">
+                    <div class="progress-bar" role="progressbar" style="width:33%" ...></div>
+                </div>
+            </div>
+            <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
+                <li class="cwgb-form-sidebar-step cwgb-form-sidebar-step--active" data-step="1">
+                    <span class="cwgb-form-sidebar-step-num badge rounded-pill bg-primary">1</span>
+                    <span class="cwgb-form-sidebar-step-title fw-semibold text-primary">Step 1 Title</span>
+                </li>
+                <!-- ...one <li> per Form Page, data-step matches .cwgb-form-step[data-step] -->
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-8 col-xl-9">
+        <!-- page-titles JSON + .cwgb-form-step elements (unchanged) -->
+    </div>
+</div>
+```
+
+Only Bootstrap utility/component classes are used (`badge`, `rounded-pill`, `bg-opacity-10`, `progress`, grid) — no custom SCSS required.
+
+**Per-step heading:** when sidebar mode is active, each `.cwgb-form-step` gets its own `<h5 class="mb-4 text-primary">{pageTitle}</h5>` at the top (shown/hidden automatically along with the step via the existing `display:none` toggling — no extra JS). In the classic (non-sidebar) mode, the title instead appears inside the top progress bar (`.cwgb-form-progress-title`), as before — unchanged.
+
+**JS sync** (`updateProgress()` in `form-multipage.js`): in addition to the existing top-bar updates, when `.cwgb-form-sidebar-step` elements are present it also:
+- Updates `.cwgb-form-sidebar-percent` text
+- Toggles `cwgb-form-sidebar-step--active` / `cwgb-form-sidebar-step--done` classes (and matching badge/title Bootstrap color classes) based on the step's position in `visibleSteps` relative to the current step
+
+Steps skipped by page conditional logic remain listed in the sidebar (not hidden) but are never marked active; the percentage still reflects only visible steps, consistent with the top progress bar.
+
+Backward compatibility: when `sidebarStepNav` is `false` (default), renderer output is byte-for-byte identical to before this feature was added.
+
 ### localStorage Persistence
 
 `form-multipage.js` saves form state to `localStorage` after every field change and step navigation. State is restored on page reload.

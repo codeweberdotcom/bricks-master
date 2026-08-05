@@ -1163,6 +1163,9 @@ class CodeweberFormsRenderer {
             return $p['pageTitle'] ?? '';
         }, $pages);
 
+        // Sidebar step navigation (left panel) instead of the top progress bar
+        $sidebar_nav = !empty($settings['sidebarStepNav']);
+
         ob_start();
         ?>
         <form
@@ -1183,6 +1186,42 @@ class CodeweberFormsRenderer {
             <input type="hidden" name="form_honeypot" value="">
             <div class="form-messages" style="display: none;"></div>
 
+            <?php if ($sidebar_nav): ?>
+            <div class="row">
+                <div class="col-lg-4 col-xl-3 mb-4 mb-lg-0">
+                    <div class="cwgb-form-sidebar p-3 p-lg-4 rounded-3 border">
+                        <?php // Progress indicator (sidebar) ?>
+                        <div class="cwgb-form-progress mb-3" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
+                            <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted small"><?php esc_html_e('Step', 'codeweber'); ?> <span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <span class="cwgb-form-progress-total"><?php echo esc_html($total_steps); ?></span></span>
+                                <span class="cwgb-form-sidebar-percent small fw-semibold text-primary"><?php echo esc_html(round(100 / $total_steps)); ?>%</span>
+                            </div>
+                            <div class="progress" style="height:4px">
+                                <div
+                                    class="progress-bar"
+                                    role="progressbar"
+                                    style="width:<?php echo esc_attr(round(100 / $total_steps)); ?>%"
+                                    data-step-width="<?php echo esc_attr(round(100 / $total_steps)); ?>"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    aria-valuenow="<?php echo esc_attr(round(100 / $total_steps)); ?>"
+                                ></div>
+                            </div>
+                        </div>
+
+                        <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
+                            <?php foreach ($page_titles as $pt_idx => $pt_title): $pt_num = $pt_idx + 1; ?>
+                                <li class="cwgb-form-sidebar-step d-flex align-items-center gap-2 py-2<?php echo $pt_num === 1 ? ' cwgb-form-sidebar-step--active' : ''; ?>" data-step="<?php echo esc_attr($pt_num); ?>">
+                                    <span class="cwgb-form-sidebar-step-num badge rounded-pill<?php echo $pt_num === 1 ? ' bg-primary' : ' bg-secondary bg-opacity-10 text-secondary border'; ?>"><?php echo esc_html($pt_num); ?></span>
+                                    <span class="cwgb-form-sidebar-step-title<?php echo $pt_num === 1 ? ' fw-semibold text-primary' : ' text-muted'; ?>"><?php echo esc_html($pt_title !== '' ? $pt_title : sprintf(__('Step %d', 'codeweber'), $pt_num)); ?></span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-xl-9">
+            <?php else: ?>
             <?php // Progress indicator ?>
             <div class="cwgb-form-progress mb-4" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
                 <div class="cwgb-form-progress-text mb-2">
@@ -1205,6 +1244,7 @@ class CodeweberFormsRenderer {
                     ></div>
                 </div>
             </div>
+            <?php endif; ?>
 
             <?php // Hidden page titles for JS ?>
             <script type="application/json" class="cwgb-form-page-titles">
@@ -1242,6 +1282,9 @@ class CodeweberFormsRenderer {
                     <?php if (!$is_first): ?>style="display:none"<?php endif; ?>
                     <?php echo $page_cond_attrs; // Already escaped via esc_attr above ?>
                 >
+                    <?php if ($sidebar_nav && !empty($page['pageTitle'])): ?>
+                        <h5 class="mb-4 text-primary"><?php echo esc_html($page['pageTitle']); ?></h5>
+                    <?php endif; ?>
                     <div class="<?php echo esc_attr($row_class); ?>">
                         <?php foreach ($page_fields as $field):
                             echo $this->render_field($field, $form_id);
@@ -1275,6 +1318,10 @@ class CodeweberFormsRenderer {
                     </div>
                 </div>
             <?php endforeach; ?>
+            <?php if ($sidebar_nav): ?>
+                </div>
+            </div>
+            <?php endif; ?>
         </form>
         <?php
         return ob_get_clean();

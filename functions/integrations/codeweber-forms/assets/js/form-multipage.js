@@ -166,6 +166,36 @@
                 'Step ' + currentStep + ' of ' + totalSteps
             );
         }
+
+        var percentEl = form.querySelector('.cwgb-form-sidebar-percent');
+        if (percentEl) {
+            percentEl.textContent = (bar ? bar.getAttribute('aria-valuenow') : Math.round((dispCurrent / dispTotal) * 100)) + '%';
+        }
+
+        var sidebarSteps = form.querySelectorAll('.cwgb-form-sidebar-step');
+        if (sidebarSteps.length) {
+            sidebarSteps.forEach(function (li) {
+                var n = parseInt(li.getAttribute('data-step'), 10);
+                var badge = li.querySelector('.cwgb-form-sidebar-step-num');
+                var title = li.querySelector('.cwgb-form-sidebar-step-title');
+                li.classList.remove('cwgb-form-sidebar-step--active', 'cwgb-form-sidebar-step--done');
+                if (badge) badge.className = 'cwgb-form-sidebar-step-num badge rounded-pill';
+                if (title) title.className = 'cwgb-form-sidebar-step-title';
+
+                if (n === currentStep) {
+                    li.classList.add('cwgb-form-sidebar-step--active');
+                    if (badge) badge.classList.add('bg-primary');
+                    if (title) title.classList.add('fw-semibold', 'text-primary');
+                } else if (visibleSteps && visibleSteps.indexOf(n) !== -1 && visibleSteps.indexOf(n) < visibleSteps.indexOf(currentStep)) {
+                    li.classList.add('cwgb-form-sidebar-step--done');
+                    if (badge) badge.classList.add('bg-primary', 'bg-opacity-10', 'text-primary');
+                    if (title) title.classList.add('text-muted');
+                } else {
+                    if (badge) badge.classList.add('bg-secondary', 'bg-opacity-10', 'text-secondary', 'border');
+                    if (title) title.classList.add('text-muted');
+                }
+            });
+        }
     }
 
     // ── Page conditional logic helpers ───────────────────────────────────────
