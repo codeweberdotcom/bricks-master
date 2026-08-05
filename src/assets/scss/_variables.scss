@@ -817,7 +817,7 @@ $input-border-width: $input-btn-border-width !default;
 $input-height-border: $input-border-width * 2 !default;
 $input-height: add($input-line-height * 1em, add($input-padding-y * 2, $input-height-border, false)) !default;
 $input-height-sm: add($input-line-height * 1em, add($input-padding-y-sm * 2, $input-height-border, false)) !default;
-$input-border-color: rgba($shadow-border, 0.07) !default;
+$input-border-color: rgba($shadow-border, 0.25) !default;
 $input-box-shadow: $box-shadow !default;
 $input-hover-bg: null !default;                    // фон при hover (null = без изменения)
 $input-focus-border-color: $focus-border !default;
@@ -829,7 +829,7 @@ $input-border-radius-lg: $input-border-radius !default;
 $form-check-input-width: 1.05rem !default;
 $form-check-padding-start: $form-check-input-width + .5rem !default;
 $form-check-input-bg: $body-bg !default;
-$form-check-input-border: 1px solid rgba($shadow-border, 0.1) !default;
+$form-check-input-border: 1px solid rgba($shadow-border, 0.25) !default;
 $form-check-input-checked-color: $component-active-color !default;
 $form-check-input-checked-bg-color: $component-active-bg !default;
 $form-check-input-checked-border-color: $form-check-input-checked-bg-color !default;

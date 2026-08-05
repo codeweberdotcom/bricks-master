@@ -586,7 +586,10 @@ class CodeweberFormsRenderer {
         
         // Получаем класс скругления формы из темы
         $form_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('form-radius') : '';
-        
+
+        // Класс скругления кнопок из темы — для radio/checkbox в режиме "Display as buttons"
+        $button_radius_class = class_exists('Codeweber_Options') ? Codeweber_Options::style('button') : '';
+
         // Генерируем классы col-* из fieldColumns* атрибутов
         $get_col_classes = function($field) {
             $col_classes = [];
@@ -755,6 +758,7 @@ class CodeweberFormsRenderer {
                     $options_columns = $field['optionsColumns'] ?? '';
                     $options_as_buttons = !empty($field['optionsAsButtons']);
                     $option_button_class = !empty($field['optionButtonClass']) ? $field['optionButtonClass'] : 'btn btn-outline-primary';
+                    $option_button_class = trim($option_button_class . ' ' . $button_radius_class);
                     $radio_wrap_class = $options_columns ? 'row' : ($options_as_buttons ? 'd-flex flex-wrap gap-2' : '');
                     $radio_default = $field['defaultValue'] ?? '';
                     ?>
@@ -828,6 +832,7 @@ class CodeweberFormsRenderer {
                     $options_columns = $field['optionsColumns'] ?? '';
                     $options_as_buttons = !empty($field['optionsAsButtons']);
                     $option_button_class = !empty($field['optionButtonClass']) ? $field['optionButtonClass'] : 'btn btn-outline-primary';
+                    $option_button_class = trim($option_button_class . ' ' . $button_radius_class);
                     $checkbox_wrap_class = $options_columns ? 'row' : ($options_as_buttons ? 'd-flex flex-wrap gap-2' : '');
                     $checkbox_defaults = isset($field['defaultValues']) && is_array($field['defaultValues']) ? $field['defaultValues'] : [];
                     if (!empty($options)) {
