@@ -760,7 +760,7 @@ Output (dark theme, custom accent):
      data-cwgb-step-target="{step_target}" data-cwgb-accent-class="text-orange">
     <div class="cwgb-form-progress mb-3" aria-label="Step 1 of 3">
         <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
-            <span class="text-white-50 small"><span class="cwgb-form-progress-current">1</span> of <span class="cwgb-form-progress-total">3</span></span>
+            <span class="text-white small"><span class="cwgb-form-progress-current">1</span> of <span class="cwgb-form-progress-total">3</span></span>
             <span class="cwgb-form-sidebar-percent small fw-semibold text-orange">33%</span>
         </div>
         <div class="progress" style="height:4px">
@@ -779,13 +779,13 @@ Output (dark theme, custom accent):
 
 No card/badge wrapper — plain text, zero-padded step number (`01.`, `02.`...) followed by the title. Only Bootstrap/theme color utility classes are used, no custom SCSS.
 
-Step text color states — light theme: pending `text-muted`, active `{accent} fw-semibold`, done `text-dark`. Dark theme: pending `text-white-50`, active `{accent} fw-semibold`, done `text-white`.
+Step text color states: **active** `{accent} fw-semibold`; **everything else** (pending or already-passed) uses a full-opacity base color — `text-dark` (light theme) / `text-white` (dark theme), never Bootstrap's semi-transparent `text-muted`/`text-white-50`. Those opacity-based "muted" tokens read fine on a plain white/near-black background but wash out badly once the panel sits on a saturated custom background (a yellow/orange card, say) — full opacity keeps every step legible regardless of what's behind it. The `--done` step still gets its own `cwgb-form-sidebar-step--done` class (a hook for custom CSS) even though its color matches pending by default.
 
 **`$step_target`** is the value written to `data-cwgb-step-target`, used by JS to find the panel regardless of where it lives in the DOM:
 - Inline mode: the form's own element id (`$form_element_id`) — the panel is nested inside `<form>` anyway, so this is mostly redundant but keeps the two modes structurally identical.
 - Shortcode mode: the Block ID passed to `[codeweber_form_steps id="..."]`, which must equal the form's actual `<form id="...">` (already true, since `$form_element_id = $block_id ?: $form_unique_id`).
 
-**`data-cwgb-accent-class`** on the same wrapper lets `form-multipage.js` re-apply the correct accent class when it re-marks a step active after navigation, instead of hardcoding `text-primary`. It also reads `cwgb-form-sidebar--dark` off the wrapper to pick `text-white-50`/`text-white` vs `text-muted`/`text-dark` for the muted/done states.
+**`data-cwgb-accent-class`** on the same wrapper lets `form-multipage.js` re-apply the correct accent class when it re-marks a step active after navigation, instead of hardcoding `text-primary`. It also reads `cwgb-form-sidebar--dark` off the wrapper to pick `text-white` vs `text-dark` as the base color for non-active steps.
 
 #### `[codeweber_form_steps]` shortcode
 

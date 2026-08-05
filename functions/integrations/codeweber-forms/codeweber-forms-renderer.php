@@ -1324,7 +1324,9 @@ class CodeweberFormsRenderer {
         $accent_class    = $accent_class !== '' ? $accent_class : 'text-primary';
         $accent_bg_class = preg_replace('/^text-/', 'bg-', $accent_class);
         $is_dark         = $theme === 'dark';
-        $muted_class     = $is_dark ? 'text-white-50' : 'text-muted';
+        // Full-opacity base color (not Bootstrap's semi-transparent "muted")
+        // so pending/done steps stay legible on any background the panel is placed on.
+        $base_class      = $is_dark ? 'text-white' : 'text-dark';
 
         $wrapper_class = 'cwgb-form-sidebar';
         if ($is_dark) {
@@ -1338,7 +1340,7 @@ class CodeweberFormsRenderer {
         <div class="<?php echo esc_attr($wrapper_class); ?>" data-cwgb-step-target="<?php echo esc_attr($step_target); ?>" data-cwgb-accent-class="<?php echo esc_attr($accent_class); ?>">
                 <div class="cwgb-form-progress mb-3" aria-label="<?php echo esc_attr(sprintf(__('Step %d of %d', 'codeweber'), 1, $total_steps)); ?>">
                     <div class="cwgb-form-progress-text d-flex justify-content-between align-items-center mb-2">
-                        <span class="<?php echo esc_attr($muted_class); ?> small"><span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <span class="cwgb-form-progress-total"><?php echo esc_html($total_steps); ?></span></span>
+                        <span class="<?php echo esc_attr($base_class); ?> small"><span class="cwgb-form-progress-current">1</span> <?php esc_html_e('of', 'codeweber'); ?> <span class="cwgb-form-progress-total"><?php echo esc_html($total_steps); ?></span></span>
                         <span class="cwgb-form-sidebar-percent small fw-semibold <?php echo esc_attr($accent_class); ?>"><?php echo esc_html($pct); ?>%</span>
                     </div>
                     <div class="progress" style="height:4px">
@@ -1357,8 +1359,8 @@ class CodeweberFormsRenderer {
                 <ul class="cwgb-form-sidebar-steps list-unstyled mb-0">
                     <?php foreach ($page_titles as $pt_idx => $pt_title): $pt_num = $pt_idx + 1; $is_active = $pt_num === 1; ?>
                         <li class="cwgb-form-sidebar-step py-1<?php echo $is_active ? ' cwgb-form-sidebar-step--active' : ''; ?>" data-step="<?php echo esc_attr($pt_num); ?>">
-                            <span class="cwgb-form-sidebar-step-num<?php echo $is_active ? ' fw-semibold ' . $accent_class : ' ' . $muted_class; ?>"><?php echo esc_html(sprintf('%02d.', $pt_num)); ?></span>
-                            <span class="cwgb-form-sidebar-step-title<?php echo $is_active ? ' fw-semibold ' . $accent_class : ' ' . $muted_class; ?>"><?php echo esc_html($pt_title !== '' ? $pt_title : sprintf(__('Step %d', 'codeweber'), $pt_num)); ?></span>
+                            <span class="cwgb-form-sidebar-step-num<?php echo $is_active ? ' fw-semibold ' . $accent_class : ' ' . $base_class; ?>"><?php echo esc_html(sprintf('%02d.', $pt_num)); ?></span>
+                            <span class="cwgb-form-sidebar-step-title<?php echo $is_active ? ' fw-semibold ' . $accent_class : ' ' . $base_class; ?>"><?php echo esc_html($pt_title !== '' ? $pt_title : sprintf(__('Step %d', 'codeweber'), $pt_num)); ?></span>
                         </li>
                     <?php endforeach; ?>
                 </ul>

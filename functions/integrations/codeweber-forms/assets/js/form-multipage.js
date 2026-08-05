@@ -188,8 +188,9 @@
                 : scope.querySelector('.cwgb-form-sidebar');
             var accentClass = (sidebarEl && sidebarEl.getAttribute('data-cwgb-accent-class')) || 'text-primary';
             var isDark = !!(sidebarEl && sidebarEl.classList.contains('cwgb-form-sidebar--dark'));
-            var mutedClass = isDark ? 'text-white-50' : 'text-muted';
-            var doneClass = isDark ? 'text-white' : 'text-dark';
+            // Full-opacity base color for pending/done steps — no Bootstrap
+            // "muted" opacity tokens, so text stays legible on any background.
+            var baseClass = isDark ? 'text-white' : 'text-dark';
 
             sidebarSteps.forEach(function (li) {
                 var n = parseInt(li.getAttribute('data-step'), 10);
@@ -211,11 +212,11 @@
                     if (title) title.classList.add('fw-semibold', accentClass);
                 } else if (visibleSteps && visibleSteps.indexOf(n) < visibleSteps.indexOf(currentStep)) {
                     li.classList.add('cwgb-form-sidebar-step--done');
-                    if (badge) badge.classList.add(doneClass);
-                    if (title) title.classList.add(doneClass);
+                    if (badge) badge.classList.add(baseClass);
+                    if (title) title.classList.add(baseClass);
                 } else {
-                    if (badge) badge.classList.add(mutedClass);
-                    if (title) title.classList.add(mutedClass);
+                    if (badge) badge.classList.add(baseClass);
+                    if (title) title.classList.add(baseClass);
                 }
             });
         }
