@@ -62,7 +62,7 @@ if (!empty($display['title_class'])) {
         <div class="card-body p-6">
             <div class="post-header">
                 <?php if ($display['show_category'] && $post_data['category']) : ?>
-                    <div class="post-category">
+                    <div class="<?php echo !empty($display['category_class']) ? esc_attr($display['category_class']) : 'post-category'; ?>">
                         <a href="<?php echo esc_url($post_data['category_link']); ?>" rel="category">
                             <?php echo esc_html($post_data['category']->name); ?>
                         </a>

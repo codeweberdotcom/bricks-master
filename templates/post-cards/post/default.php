@@ -72,7 +72,7 @@ if (!empty($display['title_class'])) {
     
     <div class="post-header">
         <?php if ($display['show_category'] && $post_data['category']) : ?>
-            <div class="post-category text-line">
+            <div class="<?php echo !empty($display['category_class']) ? esc_attr($display['category_class']) : 'post-category text-line'; ?>">
                 <a href="<?php echo esc_url($post_data['category_link']); ?>" rel="category">
                     <?php echo esc_html($post_data['category']->name); ?>
                 </a>
@@ -90,7 +90,7 @@ if (!empty($display['title_class'])) {
 
     <?php if ($excerpt) : ?>
         <div class="post-content mb-3">
-            <p class="mb-0"><?php echo esc_html($excerpt); ?></p>
+            <p class="<?php echo !empty($display['excerpt_class']) ? esc_attr($display['excerpt_class']) : 'mb-0'; ?>"><?php echo esc_html($excerpt); ?></p>
         </div>
     <?php endif; ?>
 
