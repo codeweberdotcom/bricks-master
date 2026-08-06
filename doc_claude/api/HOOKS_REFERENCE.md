@@ -122,6 +122,41 @@ add_filter('codeweber_post_card_template_dir', function($dir, $name, $type, $pos
 
 ---
 
+**Hook:** `codeweber_post_card_template_roots`
+
+**File:** `functions/post-cards-scanner.php`
+
+**Purpose:** Register directories that are scanned for card templates. Plugins and
+child themes use this (or the `cw_register_post_card_templates_dir()` helper) to
+add their own cards to the Post Grid template dropdown without touching the registry.
+
+**Parameters:**
+```php
+apply_filters(
+    'codeweber_post_card_template_roots',
+    $roots  // [ absolute_path => [ path, priority, text_domain, post_type, dir, label ] ]
+);
+```
+
+Roots are scanned in ascending `priority`; the last one wins on a file-name collision
+(plugins 20 → parent theme 80 → child theme 90).
+
+**Example:**
+
+```php
+add_action('after_setup_theme', function () {
+    if (function_exists('cw_register_post_card_templates_dir')) {
+        cw_register_post_card_templates_dir(MY_PLUGIN_DIR . 'templates/post-cards/', [
+            'text_domain' => 'my-plugin',
+        ]);
+    }
+});
+```
+
+Full reference — [POST_CARDS_SYSTEM.md](../templates/POST_CARDS_SYSTEM.md#template-auto-discovery).
+
+---
+
 ### Image Size Customization
 
 **Hook:** `codeweber_allowed_image_sizes`

@@ -290,7 +290,16 @@ $template_dir = apply_filters(
 );
 ```
 
-### Step 4: Fallback Chain
+### Step 4: Scanner Map (external sources)
+
+If the theme has no matching file, the resolver falls back to the scanner map —
+templates registered by plugins and child themes through
+`cw_register_post_card_templates_dir()`. See [Template Auto-Discovery](#template-auto-discovery).
+
+The theme is checked **first on purpose**: a file with the same name in the
+theme always wins over a plugin's card.
+
+### Step 5: Fallback Chain
 
 If template not found, try in this order:
 
@@ -298,6 +307,115 @@ If template not found, try in this order:
 2. Old location (backward compat): `templates/post-cards/{name}.php`
 3. Default template: `templates/post-cards/{dir}/default.php`
 4. Ultimate fallback: `templates/post-cards/post/default.php`
+
+---
+
+## Template Auto-Discovery
+
+**File:** `functions/post-cards-scanner.php`
+
+Card templates are discovered on the filesystem — a registry entry per template
+is **not** required. Dropping a `.php` file into a scanned directory is enough
+for it to appear in the Post Grid template dropdown and to be renderable by
+`cw_render_post_card()`.
+
+### Scanned sources
+
+Sources ("roots") are scanned in ascending `priority`; the last one wins when
+file names collide:
+
+| Priority | Source |
+|----------|--------|
+| 20 | directories registered by plugins (default) |
+| 70/75 | `templates/woocommerce/cards/` (parent / child theme) |
+| 80 | parent theme `templates/post-cards/` |
+| 90 | child theme `templates/post-cards/` |
+
+Layout is `<root>/<post_type>/<template>.php` by default. A root registered with
+an explicit `post_type` is treated as flat: every `*.php` inside belongs to that
+post type.
+
+Files named `helpers.php`, `index.php`, `functions.php` and anything starting
+with `_` are skipped.
+
+### File header
+
+All fields are optional:
+
+```php
+<?php
+/**
+ * Card Template: Card 2
+ * Description: Frosted flat card with icon and category subtitle
+ * Post Type: cw_module
+ * Supports: title, excerpt
+ * Order: 20
+ * Hidden: false
+ */
+```
+
+| Field | Meaning |
+|-------|---------|
+| `Card Template` | Label in the dropdown. Without it the slug is humanized (`card-2` → `Card 2`) |
+| `Description` | Help text under the dropdown |
+| `Post Type` | Overrides the post type derived from the directory name |
+| `Supports` | Comma-separated capability hints (`title, excerpt, image`) |
+| `Order` | Sort weight in the dropdown, default `50` |
+| `Hidden` | `true` removes the template from the dropdown (still renderable) |
+
+Header values are translated at runtime via `translate($value, $text_domain)`.
+`wp i18n make-pot` does **not** extract them — add the strings to your `.po`
+manually, or keep an explicit registry entry for that template.
+
+### Registering a directory from a plugin
+
+```php
+add_action( 'after_setup_theme', function () {
+    if ( ! function_exists( 'cw_register_post_card_templates_dir' ) ) {
+        return;
+    }
+
+    cw_register_post_card_templates_dir( MY_PLUGIN_DIR . 'templates/post-cards/', [
+        'text_domain' => 'my-plugin',
+        'priority'    => 20,   // optional
+        'post_type'   => '',   // set to treat the root as flat
+        'dir'         => '',   // template dir name for a flat root
+        'label'       => 'my-plugin',
+    ] );
+} );
+```
+
+`after_setup_theme` matters: plugins load before the theme, so the function does
+not exist yet at `plugins_loaded`.
+
+Live example: `wp-content/plugins/cw-websites-for-sale/src/Plugin.php`
+(`register_card_templates()`), which serves `cw_website` and `cw_module` cards.
+
+### Filter: `codeweber_post_card_template_roots`
+
+Same thing without depending on the helper function:
+
+```php
+add_filter( 'codeweber_post_card_template_roots', function ( $roots ) {
+    $path = trailingslashit( wp_normalize_path( MY_PLUGIN_DIR . 'templates/post-cards/' ) );
+    $roots[ $path ] = [
+        'path'        => $path,
+        'priority'    => 20,
+        'text_domain' => 'my-plugin',
+        'post_type'   => '',
+        'dir'         => '',
+        'label'       => 'my-plugin',
+    ];
+    return $roots;
+} );
+```
+
+### Caching
+
+Scan results are cached in a transient keyed by the root list, a version option
+and the current locale. The cache is bypassed entirely when `WP_DEBUG` is on, and
+invalidated on `switch_theme`, plugin activation/deactivation and updates. To
+flush it manually: `cw_flush_post_card_templates_cache()`.
 
 ---
 
@@ -958,10 +1076,15 @@ Since the registry became the **single source of truth** for which templates exi
 
 The registry lives in `functions/post-cards-registry.php`.
 
+The registry is an **override layer on top of [auto-discovery](#template-auto-discovery)**,
+not the source of truth. Adding a template here is only needed when you want a
+specific label, description, `supports` list or dropdown position that the file
+header cannot express — otherwise just drop the `.php` file in place.
+
 ### Structure
 
 ```php
-function codeweber_get_post_card_templates_registry(): array {
+function codeweber_get_post_card_templates_registry_raw(): array {
     return apply_filters( 'codeweber_post_card_templates_registry', [
         '<post_type>' => [
             'dir'       => '<folder in templates/post-cards/>',  // optional
@@ -970,6 +1093,7 @@ function codeweber_get_post_card_templates_registry(): array {
                     'label'       => 'Human title',
                     'description' => 'Short description',
                     'supports'    => ['title', 'date', 'excerpt', ...],
+                    'file'        => 'actual-file.php',  // optional, see below
                 ],
                 ...
             ],
@@ -979,12 +1103,20 @@ function codeweber_get_post_card_templates_registry(): array {
 }
 ```
 
+`file` is only needed when the template slug does not map to the file name 1:1
+(`document-card-download` → `card_download.php`). Without it the scanner would
+list the same file a second time under its bare slug.
+
 ### Helpers
 
 | Function | Purpose |
 |---|---|
-| `codeweber_get_post_card_templates_registry()` | Full registry, filtered. |
+| `codeweber_get_post_card_templates_registry_raw()` | Explicit entries only, filtered. Use this inside `codeweber_post_type_template_map` callbacks — the full registry calls the scanner and would recurse. |
+| `codeweber_get_post_card_templates_registry()` | Scan results with explicit entries merged on top. Deduplicated by resolved file path. |
 | `codeweber_get_post_card_templates_for( $post_type )` | Flat list of templates for one CPT. Falls back to `post` templates if the CPT is not registered. Returned shape: `[{ value, label, description, supports }, ...]`. |
+| `cw_register_post_card_templates_dir( $path, $args )` | Register an external directory of card templates. |
+| `cw_locate_post_card_template( $template_name, $post_type )` | Absolute path of a template, or `''`. |
+| `cw_flush_post_card_templates_cache()` | Invalidate the scan cache. |
 
 ### Filters
 
@@ -1057,7 +1189,9 @@ The registry also hooks `codeweber_post_type_template_map` to auto-fill entries 
 
 ```php
 add_filter( 'codeweber_post_type_template_map', function ( $map ) {
-    $registry = codeweber_get_post_card_templates_registry();
+    // Raw registry on purpose — the scanner applies this very filter,
+    // so touching the full registry here would recurse.
+    $registry = codeweber_get_post_card_templates_registry_raw();
     foreach ( $registry as $post_type => $config ) {
         if ( ! isset( $map[ $post_type ] ) && isset( $config['dir'] ) ) {
             $map[ $post_type ] = $config['dir'];
@@ -1071,9 +1205,9 @@ That means adding a new CPT to the registry *automatically* teaches `cw_render_p
 
 ### Child theme: adding card templates for a new CPT
 
-This is the standard pattern when a child theme has its own CPT and needs cards to appear in the Post Grid block's Template selector.
-
-`cw_render_post_card()` resolves all template paths via `get_theme_file_path()` — which checks the child theme first at every step of the fallback chain. So a template file in the child theme is picked up automatically without any extra configuration. The only extra step needed is registering the CPT in the registry so the Post Grid sidebar knows which templates to show.
+A child theme's `templates/post-cards/` is a scanned root (priority 90 — the
+highest), so **creating the file is the whole procedure**. No registry entry, no
+filters.
 
 **Step 1 — Create the template file in the child theme:**
 
@@ -1081,30 +1215,28 @@ This is the standard pattern when a child theme has its own CPT and needs cards 
 wp-content/themes/my-child/templates/post-cards/awards/card.php
 ```
 
-**Step 2 — Register in the registry** (in child theme `functions.php`):
+The directory name is the post type. Add a header if you want a proper label:
 
 ```php
-add_filter( 'codeweber_post_card_templates_registry', function ( $registry ) {
-    $registry['awards'] = [
-        'dir'       => 'awards',
-        'templates' => [
-            'card' => [
-                'label'       => __( 'Card', 'my-child' ),
-                'description' => '',
-                'supports'    => [ 'title', 'excerpt' ],
-            ],
-        ],
-    ];
-    return $registry;
-} );
+<?php
+/**
+ * Card Template: Card
+ * Description: Award card with badge and year
+ * Supports: title, excerpt
+ * Order: 10
+ */
 ```
 
 Result:
-- `awards/card` appears in the Post Grid **Template** dropdown when CPT `awards` is selected
-- `cw_render_post_card()` learns to look in `templates/post-cards/awards/` (via auto-map from `dir`)
+- `card` appears in the Post Grid **Template** dropdown when CPT `awards` is selected
+- `cw_render_post_card()` resolves `templates/post-cards/awards/card.php`
 - No changes to the parent theme or plugin required
 
-**Step 3 — Write the template file:**
+Register the CPT in `codeweber_post_card_templates_registry` only if you need
+something the header cannot express (forced ordering across sources, a template
+that must override a same-named file from a plugin, etc.).
+
+**Step 2 — Write the template file:**
 
 Variables are available directly in scope (via `extract`):
 
@@ -1150,19 +1282,22 @@ Parent:     codeweber/templates/post-cards/staff/circle.php
 Child:      my-child/templates/post-cards/staff/circle.php
 ```
 
-**To add a template to an existing parent CPT** — add to the registry without replacing the existing entry:
+**To add a template to an existing parent CPT** — create the file, nothing else:
 
-```php
-add_filter( 'codeweber_post_card_templates_registry', function ( $registry ) {
-    $registry['staff']['templates']['horizontal-alt'] = [
-        'label'   => __( 'Horizontal Alt', 'my-child' ),
-        'supports' => [ 'title' ],
-    ];
-    return $registry;
-} );
+```
+my-child/templates/post-cards/staff/horizontal-alt.php
 ```
 
-File: `my-child/templates/post-cards/staff/horizontal-alt.php`
+```php
+<?php
+/**
+ * Card Template: Horizontal Alt
+ * Supports: title
+ * Order: 70
+ */
+```
+
+It shows up in the dropdown for `staff` alongside the parent theme's templates.
 
 > Full child-theme patterns including CPT registration and archive/single templates — see [CHILD_THEME_AI_RULES.md](../architecture/CHILD_THEME_AI_RULES.md).
 
