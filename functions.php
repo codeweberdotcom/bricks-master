@@ -45,6 +45,7 @@ require_once get_template_directory() . '/functions/cyr-to-lat.php';
 require_once get_template_directory() . '/functions/lib/comments-helper.php';
 require_once get_template_directory() . '/functions/comments-reply.php';
 require_once get_template_directory() . '/functions/post-card-templates.php';
+require_once get_template_directory() . '/functions/post-cards-scanner.php';
 require_once get_template_directory() . '/functions/post-cards-registry.php';
 
 // ── Админка ───────────────────────────────────────────────────────────────────

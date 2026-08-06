@@ -18,15 +18,20 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Реестр card-шаблонов.
+ * «Сырой» реестр card-шаблонов — только явно описанные записи.
  *
  * Ключи массива `templates` — имена, сохраняемые в атрибуте `template`
  * блока Post Grid. Для CPT с префиксом (client-, document-, etc.)
  * тема сама стрипает префикс и ищет файл в соответствующей папке.
  *
+ * Здесь описаны существующие карточки — ради человекочитаемых label,
+ * описаний и порядка в дропдауне. Новые файлы шаблонов сюда добавлять
+ * НЕ обязательно: их подхватит сканер (functions/post-cards-scanner.php),
+ * а метаданные возьмёт из шапки файла.
+ *
  * @return array
  */
-function codeweber_get_post_card_templates_registry() {
+function codeweber_get_post_card_templates_registry_raw() {
     $registry = [
         'post' => [
             'dir' => 'post',
@@ -163,6 +168,9 @@ function codeweber_get_post_card_templates_registry() {
                     'label' => __('Document Card Download', 'codeweber'),
                     'description' => __('Card layout with AJAX download button for documents', 'codeweber'),
                     'supports' => ['title', 'button'],
+                    // Имя шаблона не выводится в имя файла 1:1 — указываем явно,
+                    // иначе сканер покажет этот же файл вторым пунктом.
+                    'file' => 'card_download.php',
                 ],
             ],
         ],
@@ -344,6 +352,79 @@ function codeweber_get_post_card_templates_registry() {
 }
 
 /**
+ * Итоговый реестр: результаты автоскана, поверх которых лежат явные записи.
+ *
+ * Явное описание всегда выигрывает — label/description/supports и порядок
+ * берутся из массива выше. Найденные сканером файлы, которых нет в явном
+ * реестре, добавляются в конец списка своего типа записи.
+ *
+ * @return array
+ */
+function codeweber_get_post_card_templates_registry() {
+    $registry = codeweber_get_post_card_templates_registry_raw();
+
+    if (!function_exists('cw_scan_post_card_templates')) {
+        return $registry;
+    }
+
+    // Файлы, уже описанные явно. Нужно, чтобы одна и та же карточка не
+    // попала в список дважды под разными именами: `clients/simple.php`
+    // исторически зовётся `client-simple`, а сканер нашёл бы её как `simple`.
+    $claimed = [];
+    foreach ($registry as $post_type => $config) {
+        if (empty($config['templates'])) {
+            continue;
+        }
+        foreach ($config['templates'] as $template_name => $meta) {
+            $file = '';
+
+            // Явно указанное имя файла — для случаев, когда имя шаблона
+            // не выводится в имя файла (document-card-download → card_download.php).
+            if (!empty($meta['file']) && !empty($config['dir'])) {
+                $candidate = get_theme_file_path('templates/post-cards/' . $config['dir'] . '/' . $meta['file']);
+                if ($candidate && file_exists($candidate)) {
+                    $file = wp_normalize_path($candidate);
+                }
+            }
+
+            if (!$file) {
+                $file = cw_locate_post_card_template($template_name, $post_type);
+            }
+
+            if ($file) {
+                $claimed[$post_type][$file] = true;
+            }
+        }
+    }
+
+    foreach (cw_scan_post_card_templates() as $post_type => $templates) {
+        foreach ($templates as $slug => $meta) {
+            if (isset($registry[$post_type]['templates'][$slug])) {
+                continue;
+            }
+            if (isset($claimed[$post_type][$meta['file']])) {
+                continue;
+            }
+
+            if (!isset($registry[$post_type])) {
+                $registry[$post_type] = [
+                    'dir'       => $meta['dir'],
+                    'templates' => [],
+                ];
+            }
+
+            $registry[$post_type]['templates'][$slug] = [
+                'label'       => $meta['label'],
+                'description' => $meta['description'],
+                'supports'    => $meta['supports'],
+            ];
+        }
+    }
+
+    return $registry;
+}
+
+/**
  * Получить шаблоны для конкретного post_type (для REST endpoint).
  *
  * @param string $post_type
@@ -380,9 +461,12 @@ function codeweber_get_post_card_templates_for($post_type) {
  * Автоматически дополняем `codeweber_post_type_template_map`
  * записями из реестра — чтобы cw_render_post_card находил папку для CPT,
  * которых нет в базовой карте.
+ *
+ * Здесь намеренно используется «сырой» реестр: сканер сам применяет этот
+ * фильтр, и обращение к полному реестру дало бы бесконечную рекурсию.
  */
 add_filter('codeweber_post_type_template_map', function ($map) {
-    $registry = codeweber_get_post_card_templates_registry();
+    $registry = codeweber_get_post_card_templates_registry_raw();
     foreach ($registry as $post_type => $config) {
         if (!isset($map[$post_type]) && isset($config['dir'])) {
             $map[$post_type] = $config['dir'];
@@ -416,3 +500,36 @@ add_filter('codeweber_post_card_template_path', function ($path, $template_name,
 
     return $path;
 }, 10, 4);
+
+/**
+ * Папка WC-карточек как источник для сканера — новые `shop-*.php`
+ * появляются в дропдауне сами, без правки реестра.
+ *
+ * Путь при рендере всё равно проходит через фильтр выше: он проставляет
+ * global $product, на который рассчитывают WC-карты.
+ */
+if (class_exists('WooCommerce') && function_exists('cw_register_post_card_templates_dir')) {
+    cw_register_post_card_templates_dir(
+        get_template_directory() . '/templates/woocommerce/cards/',
+        [
+            'post_type'   => 'product',
+            'dir'         => 'cards',
+            'text_domain' => 'codeweber',
+            'priority'    => 70,
+            'label'       => 'woocommerce-cards',
+        ]
+    );
+
+    if (get_stylesheet_directory() !== get_template_directory()) {
+        cw_register_post_card_templates_dir(
+            get_stylesheet_directory() . '/templates/woocommerce/cards/',
+            [
+                'post_type'   => 'product',
+                'dir'         => 'cards',
+                'text_domain' => get_stylesheet(),
+                'priority'    => 75,
+                'label'       => 'woocommerce-cards-child',
+            ]
+        );
+    }
+}

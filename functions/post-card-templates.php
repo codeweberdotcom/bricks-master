@@ -83,6 +83,16 @@ function cw_render_post_card($post, $template_name = 'default', $display_setting
     // Путь к шаблону: сначала дочерняя тема, затем родительская (get_theme_file_path)
     $template_path = get_theme_file_path('templates/post-cards/' . $template_dir . '/' . $template_file . '.php');
 
+    // Если в теме такого файла нет — ищем в карте сканера: там лежат шаблоны,
+    // зарегистрированные плагинами через cw_register_post_card_templates_dir().
+    // Тема идёт первой намеренно: одноимённый файл в теме перекрывает плагин.
+    if ((!$template_path || !file_exists($template_path)) && function_exists('cw_locate_post_card_template')) {
+        $scanned_path = cw_locate_post_card_template($template_name, $post_type);
+        if ($scanned_path) {
+            $template_path = $scanned_path;
+        }
+    }
+
     // Фильтр для полного переопределения пути (для нестандартных директорий — WC-карты и т.п.)
     $template_path = apply_filters('codeweber_post_card_template_path', $template_path, $template_name, $post_type, $post_data);
 
