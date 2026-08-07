@@ -1,0 +1,6 @@
+// Extended table color variants for all CodeWeber theme colors.
+// Generates .table-blue, .table-yellow, .table-red, etc. using the
+// $colors-soft palette (same tint level as Bootstrap's table-primary).
+@each $color, $value in $colors-soft {
+  @include table-variant($color, $value);
+}
