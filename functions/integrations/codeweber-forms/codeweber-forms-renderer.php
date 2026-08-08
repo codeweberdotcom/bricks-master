@@ -458,19 +458,82 @@ class CodeweberFormsRenderer {
                 if (!empty($submit_buttons)) {
                     foreach ($submit_buttons as $button_attrs) {
                         $button_text = $button_attrs['buttonText'] ?? __('Send Message', 'codeweber');
-                        $button_class = $button_attrs['buttonClass'] ?? 'btn btn-primary';
                         $block_class = $button_attrs['blockClass'] ?? '';
-                        
-                        // Объединяем классы кнопки с классом скругления из темы
-                        $final_button_class = trim($button_class . ' ' . $button_radius_class);
+
+                        // styleMode 'custom' — свободные классы из buttonClass (легаси-поведение).
+                        // В комменте блока атрибуты с дефолтными значениями опускаются, поэтому
+                        // легаси-блок без пересохранения распознаём по кастомному buttonClass.
+                        $raw_button_class = trim($button_attrs['buttonClass'] ?? '');
+                        $style_mode = $button_attrs['styleMode'] ?? null;
+                        $is_custom = $style_mode === 'custom'
+                            || ($style_mode === null && $raw_button_class !== '' && $raw_button_class !== 'btn btn-primary');
+
+                        $left_icon = '';
+                        $right_icon = '';
+
+                        if ($is_custom) {
+                            $button_class = $raw_button_class !== '' ? $raw_button_class : 'btn btn-primary';
+                            // Легаси: скругление темы + btn-icon btn-icon-start как раньше
+                            $final_button_class = trim($button_class . ' ' . $button_radius_class . ' btn-icon btn-icon-start');
+                        } else {
+                            // PHP-порт getClassNames() из блока Button для подмножества submit
+                            // (solid / icon / expand); классы совпадают с save.js блока
+                            $type     = $button_attrs['ButtonType'] ?? 'solid';
+                            $style    = $button_attrs['ButtonStyle'] ?? 'solid';
+                            $color    = $button_attrs['ButtonColor'] ?? 'primary';
+                            $shape    = $button_attrs['ButtonShape'] ?? 'theme';
+                            $size     = $button_attrs['ButtonSize'] ?? '';
+                            $gradient = $button_attrs['ButtonGradientColor'] ?? '';
+                            $icon_pos = $button_attrs['ButtonIconPosition'] ?? 'left';
+                            $left_icon  = $button_attrs['LeftIcon'] ?? '';
+                            $right_icon = $button_attrs['RightIcon'] ?? '';
+
+                            $classes = ['btn'];
+                            if (in_array($type, ['solid', 'icon'], true)) {
+                                $classes[] = 'has-ripple';
+                                if ($size !== '') {
+                                    $classes[] = $size;
+                                }
+                            }
+                            if ($type === 'expand') {
+                                $classes[] = 'btn-expand';
+                                $classes[] = 'rounded-pill';
+                            }
+                            if ($type === 'icon') {
+                                $classes[] = $icon_pos === 'right' ? 'btn-icon btn-icon-end' : 'btn-icon btn-icon-start';
+                            }
+
+                            if (in_array($style, ['solid', 'outline', 'soft'], true)) {
+                                $prefix    = $style === 'solid' ? 'btn-' : 'btn-' . $style . '-';
+                                $classes[] = $prefix . $color;
+                            } elseif (in_array($style, ['gradient', 'outline-gradient'], true) && $gradient !== '') {
+                                $classes[] = $style === 'gradient' ? 'btn-gradient' : 'btn-outline-gradient';
+                                $classes[] = strpos($gradient, 'gradient-') === 0 ? $gradient : 'gradient-' . $gradient;
+                            }
+
+                            // Форма: theme → скругление из настроек темы; иначе — свой класс
+                            if (in_array($type, ['solid', 'icon'], true)) {
+                                if ($shape === 'theme') {
+                                    if ($button_radius_class !== '') {
+                                        $classes[] = trim($button_radius_class);
+                                    }
+                                } elseif ($shape !== '') {
+                                    $classes[] = $shape;
+                                }
+                            }
+
+                            $final_button_class = implode(' ', array_filter($classes));
+                        }
                         ?>
                         <div class="form-submit-wrapper mt-4 <?php echo esc_attr($block_class); ?>">
                             <button
                                 type="submit"
-                                class="<?php echo esc_attr($final_button_class); ?> btn-icon btn-icon-start"
+                                class="<?php echo esc_attr($final_button_class); ?>"
                                 data-loading-text="<?php echo esc_attr(__('Sending', 'codeweber')); ?>"
                             >
+                                <?php if ($left_icon !== '') : ?><i class="<?php echo esc_attr($left_icon); ?>"></i><?php endif; ?>
                                 <span><?php echo esc_html($button_text); ?></span>
+                                <?php if ($right_icon !== '') : ?><i class="<?php echo esc_attr($right_icon); ?>"></i><?php endif; ?>
                             </button>
                         </div>
                         <?php
