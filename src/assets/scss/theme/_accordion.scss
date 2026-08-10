@@ -509,33 +509,74 @@
 //  ACCORDION DARK STYLE
 //----------------------------------------------------------//
 .accordion-wrapper.accordion-dark {
+  // Simple style
+  .card.plain {
+    border-color: rgba($gray-400, 0.15);
+  }
+
   .plain {
     .card-header {
       button {
-        color: #cacaca;
+        color: $inverse;
+
         &.collapsed {
-          color: #cacaca;
+          color: $inverse;
         }
+
         &:before {
           color: var(--#{$prefix}primary);
         }
       }
     }
   }
-  
+
   .plain.accordion-item {
     .card-body {
-      color: #cacaca;
+      color: $inverse;
     }
   }
-  
+
+  // Card and Icon styles
+  .card:not(.plain) {
+    background: $dark;
+    border-color: rgba($gray-400, 0.1);
+    box-shadow: none;
+
+    &:hover {
+      box-shadow: none;
+      border-color: rgba($gray-400, 0.2);
+    }
+
+    .card-header {
+      button {
+        color: $inverse;
+
+        &.collapsed {
+          color: $inverse;
+        }
+
+        &:before {
+          color: var(--#{$prefix}primary);
+        }
+
+        &:hover {
+          color: var(--#{$prefix}primary);
+        }
+      }
+    }
+
+    .card-body {
+      color: $inverse;
+    }
+  }
+
   .collapse-link {
     color: $inverse;
-    
+
     &.collapsed {
       color: $inverse;
     }
-    
+
     &:hover {
       color: var(--#{$prefix}primary);
     }
