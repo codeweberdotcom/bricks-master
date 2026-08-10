@@ -16,7 +16,7 @@
 
 .accordion-wrapper {
   .card {
-    margin-bottom: $accordion-margin-bottom;
+    margin-bottom: var(--cwgb-accordion-gap, #{$accordion-margin-bottom});
 
     @if $accordion-card-border != 0 {
       border: $accordion-card-border;
