@@ -197,6 +197,13 @@ function get_header_posts()
 
 // Основной код
 $custom_post_type_files = get_cpt_files_list(); // Все файлы из обеих тем
+
+/**
+ * Позволяет плагинам добавлять свои CPT в Redux.
+ * Имя файла: 'cpt-{post_type_slug}.php' (slug совпадает с post_type).
+ */
+$custom_post_type_files = apply_filters( 'codeweber_cpt_registry', $custom_post_type_files );
+
 // Добавляем имитацию файлов для стандартных типов записей
 $custom_post_type_files[] = 'cpt-post.php';
 
