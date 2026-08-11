@@ -2,8 +2,15 @@
 global $opt_name;
 
 // Получаем список всех файлов CPT из обеих тем
-$cpt_files = get_cpt_files_list();
-$child_cpt_files = get_child_cpt_files_list();
+$theme_cpt_files = get_cpt_files_list();
+$child_cpt_files  = get_child_cpt_files_list();
+
+/**
+ * Плагины добавляют свои CPT через 'codeweber_cpt_registry'.
+ * Файлы, добавленные фильтром, считаются «plugin CPT» — они
+ * не ищутся на диске, плагин регистрирует CPT самостоятельно.
+ */
+$cpt_files = apply_filters( 'codeweber_cpt_registry', $theme_cpt_files );
 $cpt_status = [];
 
 // Проверяем, есть ли файлы CPT
@@ -26,6 +33,16 @@ if (!empty($cpt_files)) {
       }
 
       if ($is_enabled) {
+         // Plugin CPTs (добавлены через фильтр) регистрируются самим плагином — файл не ищем.
+         if ( ! in_array( $file, $theme_cpt_files ) ) {
+            $cpt_status[] = [
+               'label'  => $translated_label,
+               'status' => 'Enabled (plugin)',
+               'file'   => $file,
+            ];
+            continue;
+         }
+
          // Определяем путь к файлу: сначала проверяем дочернюю тему, затем родительскую
          $file_path = '';
 
@@ -57,6 +74,9 @@ if (!empty($cpt_files)) {
             error_log("CPT file not found: {$file_path}");
          }
       } else {
+         // Уведомляем плагины об отключении их CPT
+         do_action( 'codeweber_cpt_disabled', $base_name );
+
          $cpt_status[] = [
             'label'  => $translated_label,
             'status' => 'Disabled',
